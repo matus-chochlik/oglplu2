@@ -17,113 +17,112 @@
 
 BOOST_AUTO_TEST_SUITE(enum_opengl_profile_bit_tests)
 
-BOOST_AUTO_TEST_CASE(enum_opengl_profile_bit_values)
-{
-	using namespace eglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	opengl_profile_bit x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_opengl_profile_bit_values) {
+    using namespace eglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    opengl_profile_bit x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT
-	x = ev.context_opengl_compatibility_profile_bit;
-	BOOST_CHECK(x == ev.context_opengl_compatibility_profile_bit);
-# ifdef EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT
-	BOOST_CHECK(x != ev.context_opengl_core_profile_bit);
-# endif
+    x = ev.context_opengl_compatibility_profile_bit;
+    BOOST_CHECK(x == ev.context_opengl_compatibility_profile_bit);
+#ifdef EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT
+    BOOST_CHECK(x != ev.context_opengl_core_profile_bit);
+#endif
 #endif
 
 #ifdef EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT
-	x = ev.context_opengl_core_profile_bit;
-	BOOST_CHECK(x == ev.context_opengl_core_profile_bit);
+    x = ev.context_opengl_core_profile_bit;
+    BOOST_CHECK(x == ev.context_opengl_core_profile_bit);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_opengl_profile_bit_names)
-{
-	using namespace eglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	opengl_profile_bit x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_opengl_profile_bit_names) {
+    using namespace eglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    opengl_profile_bit x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT
-	x = ev.context_opengl_compatibility_profile_bit;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT"
-	) == 0);
+    x = ev.context_opengl_compatibility_profile_bit;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(),
+        "CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT") == 0);
 #endif
 
 #ifdef EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT
-	x = ev.context_opengl_core_profile_bit;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"CONTEXT_OPENGL_CORE_PROFILE_BIT"
-	) == 0);
+    x = ev.context_opengl_core_profile_bit;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(), "CONTEXT_OPENGL_CORE_PROFILE_BIT") == 0);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_opengl_profile_bit_range)
-{
-	using namespace eglplus;
-	auto count = enum_value_range<opengl_profile_bit>().size();
+BOOST_AUTO_TEST_CASE(enum_opengl_profile_bit_range) {
+    using namespace eglplus;
+    auto count = enum_value_range<opengl_profile_bit>().size();
 
 #ifdef EGL_CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT
-{
-	--count;
-	auto r = enum_value_range<opengl_profile_bit>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		opengl_profile_bit(EGL_CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<opengl_profile_bit>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            opengl_profile_bit(EGL_CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT)) !=
+          r.end());
+    }
 #endif
 
 #ifdef EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT
-{
-	--count;
-	auto r = enum_value_range<opengl_profile_bit>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		opengl_profile_bit(EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<opengl_profile_bit>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            opengl_profile_bit(EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT)) !=
+          r.end());
+    }
 #endif
-	BOOST_CHECK_EQUAL(count, 0);
+    BOOST_CHECK_EQUAL(count, 0);
 }
 
-BOOST_AUTO_TEST_CASE(enum_opengl_profile_bit_any)
-{
-	using namespace eglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	opengl_profile_bit x, y;
-	EAGINE_MAYBE_UNUSED(x);
-	EAGINE_MAYBE_UNUSED(y);
-	any_enum_value a;
-	EAGINE_MAYBE_UNUSED(a);
+BOOST_AUTO_TEST_CASE(enum_opengl_profile_bit_any) {
+    using namespace eglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    opengl_profile_bit x, y;
+    EAGINE_MAYBE_UNUSED(x);
+    EAGINE_MAYBE_UNUSED(y);
+    any_enum_value a;
+    EAGINE_MAYBE_UNUSED(a);
 
 #ifdef EGL_CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT
-	x = ev.context_opengl_compatibility_profile_bit;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.context_opengl_compatibility_profile_bit);
+    x = ev.context_opengl_compatibility_profile_bit;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.context_opengl_compatibility_profile_bit);
 #endif
 
 #ifdef EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT
-	x = ev.context_opengl_core_profile_bit;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.context_opengl_core_profile_bit);
+    x = ev.context_opengl_core_profile_bit;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.context_opengl_core_profile_bit);
 #endif
 }
 

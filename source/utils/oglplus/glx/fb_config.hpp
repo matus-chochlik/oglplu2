@@ -16,26 +16,24 @@ namespace glx {
 
 class FBConfigs;
 
-class FBConfig
-{
+class FBConfig {
 private:
-	::GLXFBConfig _handle;
+    ::GLXFBConfig _handle;
 
-	FBConfig(::GLXFBConfig handle)
-	 : _handle(handle)
-	{ }
+    FBConfig(::GLXFBConfig handle)
+      : _handle(handle) {
+    }
 
-	friend class FBConfigs;
+    friend class FBConfigs;
+
 public:
-	::GLXFBConfig Handle(void) const
-	{
-		return _handle;
-	}
+    ::GLXFBConfig Handle() const {
+        return _handle;
+    }
 
-	operator ::GLXFBConfig(void) const
-	{
-		return Handle();
-	}
+    operator ::GLXFBConfig() const {
+        return Handle();
+    }
 };
 
 } // namespace glx

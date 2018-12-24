@@ -7,25 +7,23 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_DIM_MAGNETIC_FIELD_STRENGTH_1512222148_HPP
-#define EAGINE_UNITS_DIM_MAGNETIC_FIELD_STRENGTH_1512222148_HPP
+#ifndef EAGINE_UNITS_DIM_MAGNETIC_FIELD_STRENGTH_HPP
+#define EAGINE_UNITS_DIM_MAGNETIC_FIELD_STRENGTH_HPP
 
-#include "magnetic_flux.hpp"
 #include "area.hpp"
+#include "magnetic_flux.hpp"
 
 namespace eagine {
 namespace units {
 
-typedef decltype(magnetic_flux()/area()) magnetic_field_strength;
+using magnetic_field_strength = decltype(magnetic_flux() / area());
 
 template <>
-struct dim_name<magnetic_field_strength>
-{
-	static constexpr const char mp_str[] = "magnetic field strength";
+struct dim_name<magnetic_field_strength> {
+    static constexpr const char mp_str[] = "magnetic field strength";
 };
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // EAGINE_UNITS_DIM_MAGNETIC_FIELD_STRENGTH_HPP

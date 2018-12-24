@@ -7,24 +7,23 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_DIM_ELECTRICAL_CONDUCTANCE_1512222148_HPP
-#define EAGINE_UNITS_DIM_ELECTRICAL_CONDUCTANCE_1512222148_HPP
+#ifndef EAGINE_UNITS_DIM_ELECTRICAL_CONDUCTANCE_HPP
+#define EAGINE_UNITS_DIM_ELECTRICAL_CONDUCTANCE_HPP
 
 #include "electric_tension.hpp"
 
 namespace eagine {
 namespace units {
 
-typedef decltype(electric_current()/electric_tension()) electrical_conductance;
+using electrical_conductance =
+  decltype(electric_current() / electric_tension());
 
 template <>
-struct dim_name<electrical_conductance>
-{
-	static constexpr const char mp_str[] = "electrical conductance";
+struct dim_name<electrical_conductance> {
+    static constexpr const char mp_str[] = "electrical conductance";
 };
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // EAGINE_UNITS_DIM_ELECTRICAL_CONDUCTANCE_HPP

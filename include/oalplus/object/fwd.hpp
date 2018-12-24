@@ -6,9 +6,10 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OALPLUS_OBJECT_FWD_1509260923_HPP
-#define OALPLUS_OBJECT_FWD_1509260923_HPP
+#ifndef OALPLUS_OBJECT_FWD_HPP
+#define OALPLUS_OBJECT_FWD_HPP
 
+#include "../al.hpp"
 #include <eagine/object/fwd.hpp>
 
 namespace oalplus {
@@ -24,7 +25,7 @@ using eagine::owned;
 using eagine::object_owner;
 
 using any_object_name =
-	eagine::any_object_name<ALuint, ALenum, ~ALuint(0), 200>;
+  eagine::any_object_name<ALuint, ALenum, ~ALuint(0), 200>;
 
 template <typename ObjTag>
 struct obj_gen_del_ops;
@@ -34,4 +35,4 @@ struct obj_member_ops;
 
 } // namespace oalplus
 
-#endif // include guard
+#endif // OALPLUS_OBJECT_FWD_HPP

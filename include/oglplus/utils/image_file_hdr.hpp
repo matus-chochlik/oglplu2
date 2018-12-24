@@ -7,52 +7,40 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_UTILS_IMAGE_FILE_HDR_1509260923_HPP
-#define OGLPLUS_UTILS_IMAGE_FILE_HDR_1509260923_HPP
+#ifndef OGLPLUS_UTILS_IMAGE_FILE_HDR_HPP
+#define OGLPLUS_UTILS_IMAGE_FILE_HDR_HPP
 
 #include <eagine/file_magic_number.hpp>
-#include <eagine/offset_ptr.hpp>
+#include <eagine/memory/offset_span.hpp>
 #include <eagine/valid_if/positive.hpp>
 #include <array>
 
 namespace oglplus {
 
-struct image_data_header
-{
-	eagine::file_magic_number<'o', 'g', 'l', '+', 't', 'e', 'x','i'> magic;
-	GLsizei width, height, depth;
-	GLenum format, internal_format;
-	GLenum data_type;
+struct image_data_header {
+    eagine::file_magic_number<'o', 'g', 'l', '+', 't', 'e', 'x', 'i'> magic;
+    GLsizei width{0}, height{0}, depth{0};
+    GLenum format{GL_NONE}, internal_format{GL_NONE};
+    GLenum data_type{GL_NONE};
 
-	eagine::offset_array<const GLubyte> pixels;
+    eagine::memory::offset_span<const GLubyte> pixels{};
 
-	constexpr
-	image_data_header(void)
-	noexcept
-	 : width(0)
-	 , height(0)
-	 , depth(0)
-	 , format(GL_NONE)
-	 , internal_format(GL_NONE)
-	 , data_type(GL_NONE)
-	 , pixels()
-	{ }
+    constexpr image_data_header() noexcept = default;
 
-	image_data_header(
-		eagine::valid_if_positive<GLsizei> w,
-		eagine::valid_if_positive<GLsizei> h,
-		eagine::valid_if_positive<GLsizei> d
-	) noexcept
-	 : width(w.value())
-	 , height(h.value())
-	 , depth(d.value())
-	 , format(GL_NONE)
-	 , internal_format(GL_NONE)
-	 , data_type(GL_NONE)
-	 , pixels()
-	{ }
+    image_data_header(
+      eagine::valid_if_positive<GLsizei> w,
+      eagine::valid_if_positive<GLsizei> h,
+      eagine::valid_if_positive<GLsizei> d) noexcept
+      : width(w.value())
+      , height(h.value())
+      , depth(d.value())
+      , format(GL_NONE)
+      , internal_format(GL_NONE)
+      , data_type(GL_NONE)
+      , pixels() {
+    }
 };
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_UTILS_IMAGE_FILE_HDR_HPP

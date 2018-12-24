@@ -7,59 +7,48 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_SHAPES_DRAWING_1509260923_HPP
-#define EAGINE_SHAPES_DRAWING_1509260923_HPP
+#ifndef EAGINE_SHAPES_DRAWING_HPP
+#define EAGINE_SHAPES_DRAWING_HPP
 
 #include "../types.hpp"
 
 namespace eagine {
 namespace shapes {
 
-enum class primitive_type
-{
-	points,
-	lines,
-	line_strip,
-	line_loop,
-	triangles,
-	triangle_strip,
-	triangle_fan
+enum class primitive_type {
+    points,
+    lines,
+    line_strip,
+    line_loop,
+    triangles,
+    triangle_strip,
+    triangle_fan
 };
 
-enum class index_data_type
-{
-	none,
-	unsigned_byte,
-	unsigned_short,
-	unsigned_int
+enum class index_data_type {
+    none,
+    unsigned_byte,
+    unsigned_short,
+    unsigned_int
 };
 
-struct draw_operation
-{
-	primitive_type mode;
-	index_data_type idx_type;
-	span_size_t first;
-	span_size_t count;
-	unsigned phase;
-	unsigned primitive_restart_index;
-	bool primitive_restart : 1;
-	bool cw_face_winding : 1;
+struct draw_operation {
+    primitive_type mode{primitive_type::points};
+    index_data_type idx_type{index_data_type::none};
+    span_size_t first{0};
+    span_size_t count{0};
+    unsigned phase{0};
+    unsigned primitive_restart_index{0};
+    bool primitive_restart : 1;
+    bool cw_face_winding : 1;
 
-	constexpr
-	draw_operation(void)
-	noexcept
-	 : mode(primitive_type::points)
-	 , idx_type(index_data_type::none)
-	 , first(0)
-	 , count(0)
-	 , phase(0)
-	 , primitive_restart_index(0)
-	 , primitive_restart(false)
-	 , cw_face_winding(false)
-	{ }
+    constexpr draw_operation() noexcept
+      : primitive_restart(false)
+      , cw_face_winding(false) {
+    }
 };
 
 } // namespace shapes
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_SHAPES_DRAWING_HPP

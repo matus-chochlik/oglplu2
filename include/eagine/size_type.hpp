@@ -7,11 +7,9 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_SIZE_TYPE_1509260923_HPP
-#define EAGINE_SIZE_TYPE_1509260923_HPP
+#ifndef EAGINE_SIZE_TYPE_HPP
+#define EAGINE_SIZE_TYPE_HPP
 
-namespace eagine {
+namespace eagine {} // namespace eagine
 
-} // namespace eagine
-
-#endif // include guard
+#endif // EAGINE_SIZE_TYPE_HPP

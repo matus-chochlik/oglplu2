@@ -7,24 +7,22 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_DIM_AREA_1512222148_HPP
-#define EAGINE_UNITS_DIM_AREA_1512222148_HPP
+#ifndef EAGINE_UNITS_DIM_AREA_HPP
+#define EAGINE_UNITS_DIM_AREA_HPP
 
 #include "../dimension.hpp"
 
 namespace eagine {
 namespace units {
 
-typedef decltype(length()*length()) area;
+using area = decltype(length() * length());
 
 template <>
-struct dim_name<area>
-{
-	static constexpr const char mp_str[] = "area";
+struct dim_name<area> {
+    static constexpr const char mp_str[] = "area";
 };
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // EAGINE_UNITS_DIM_AREA_HPP

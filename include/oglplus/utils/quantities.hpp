@@ -7,26 +7,26 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_UTILS_QUANTITIES_1509260923_HPP
-#define OGLPLUS_UTILS_QUANTITIES_1509260923_HPP
+#ifndef OGLPLUS_UTILS_QUANTITIES_HPP
+#define OGLPLUS_UTILS_QUANTITIES_HPP
 
 #include <eagine/quantities.hpp>
 
 namespace oglplus {
 
-using eagine::seconds_t;
 using eagine::seconds_;
+using eagine::seconds_t;
 
-using eagine::radians_t;
-using eagine::radians_;
-using eagine::turns_;
-using eagine::right_angles_;
-using eagine::right_angle_;
 using eagine::arctan;
+using eagine::radians_;
+using eagine::radians_t;
+using eagine::right_angle_;
+using eagine::right_angles_;
+using eagine::turns_;
 
-using eagine::degrees_t;
 using eagine::degrees_;
+using eagine::degrees_t;
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_UTILS_QUANTITIES_HPP

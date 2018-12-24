@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_PROG_VAR_FWD_1509260923_HPP
-#define OGLPLUS_PROG_VAR_FWD_1509260923_HPP
+#ifndef OGLPLUS_PROG_VAR_FWD_HPP
+#define OGLPLUS_PROG_VAR_FWD_HPP
 
 namespace oglplus {
 
@@ -28,4 +28,4 @@ class prog_var_wrapper;
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_PROG_VAR_FWD_HPP

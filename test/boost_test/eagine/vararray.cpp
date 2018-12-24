@@ -8,69 +8,62 @@
 #define BOOST_TEST_MODULE EAGINE_vararray
 #include "../unit_test_begin.inl"
 
-#include <string>
 #include <cstring>
-
+#include <string>
 
 BOOST_AUTO_TEST_SUITE(vararray_tests)
 
 template <typename T, typename S, S N>
-void test_vararray_1_TSN(void)
-{
-	using namespace eagine;
+void test_vararray_1_TSN() {
+    using namespace eagine;
 
-	basic_vararray_store<T, S, N> vas;
-	basic_vararray<T, S>& va = vas;
+    basic_vararray_store<T, S, N> vas;
+    basic_vararray<T, S>& va = vas;
 
-	BOOST_CHECK_EQUAL(va.instance_size(), sizeof(vas));
+    BOOST_CHECK_EQUAL(va.instance_size(), sizeof(vas));
 
-	BOOST_CHECK_EQUAL(va.size(), N);
+    BOOST_CHECK_EQUAL(va.size(), N);
 
-	int v = 0;
+    int v = 0;
 
-	for(T& x : va)
-	{
-		x = T(v++);
-	}
+    for(T& x : va) {
+        x = T(v++);
+    }
 
-	BOOST_CHECK_EQUAL(va.size(), v);
+    BOOST_CHECK_EQUAL(va.size(), v);
 
-	v = 0;
+    v = 0;
 
-	for(auto i=va.begin(); i!=va.end(); ++i)
-	{
-		BOOST_CHECK_EQUAL(*i, T(v++));
-	}
+    for(auto i = va.begin(); i != va.end(); ++i) {
+        BOOST_CHECK_EQUAL(*i, T(v++));
+    }
 
-	BOOST_CHECK_EQUAL(va.size(), v);
+    BOOST_CHECK_EQUAL(va.size(), v);
 }
 
 template <typename T, typename S>
-void test_vararray_1_TS(void)
-{
-	test_vararray_1_TSN<T, S,  1>();
-	test_vararray_1_TSN<T, S,  2>();
-	test_vararray_1_TSN<T, S,  5>();
-	test_vararray_1_TSN<T, S,  7>();
-	test_vararray_1_TSN<T, S, 11>();
-	test_vararray_1_TSN<T, S, 19>();
-	test_vararray_1_TSN<T, S, 40>();
-	test_vararray_1_TSN<T, S,101>();
+void test_vararray_1_TS() {
+    test_vararray_1_TSN<T, S, 1>();
+    test_vararray_1_TSN<T, S, 2>();
+    test_vararray_1_TSN<T, S, 5>();
+    test_vararray_1_TSN<T, S, 7>();
+    test_vararray_1_TSN<T, S, 11>();
+    test_vararray_1_TSN<T, S, 19>();
+    test_vararray_1_TSN<T, S, 40>();
+    test_vararray_1_TSN<T, S, 101>();
 }
 
 template <typename T>
-void test_vararray_1_T(void)
-{
-	test_vararray_1_TS<T, std::size_t>();
-	test_vararray_1_TS<T, unsigned short>();
+void test_vararray_1_T() {
+    test_vararray_1_TS<T, std::size_t>();
+    test_vararray_1_TS<T, unsigned short>();
 }
 
-BOOST_AUTO_TEST_CASE(vararray_1)
-{
-	test_vararray_1_T<char>();
-	test_vararray_1_T<short>();
-	test_vararray_1_T<int>();
-	test_vararray_1_T<double>();
+BOOST_AUTO_TEST_CASE(vararray_1) {
+    test_vararray_1_T<char>();
+    test_vararray_1_T<short>();
+    test_vararray_1_T<int>();
+    test_vararray_1_T<double>();
 }
 
 // TODO

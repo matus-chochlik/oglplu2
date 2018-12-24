@@ -6,67 +6,57 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_TEXGEN_COMPLEMENT_NODE_1509260923_HPP
-#define OGLPLUS_TEXGEN_COMPLEMENT_NODE_1509260923_HPP
+#ifndef OGLPLUS_TEXGEN_COMPLEMENT_NODE_HPP
+#define OGLPLUS_TEXGEN_COMPLEMENT_NODE_HPP
 
-#include "fallback_input.hpp"
 #include "base_node.hpp"
+#include "fallback_input.hpp"
 
 namespace oglplus {
 namespace texgen {
 
-class complement_input
- : public input_with_const_default<float[4]>
-{
+class complement_input : public input_with_const_default<float[4]> {
 private:
-	typedef input_with_const_default<float[4]> _base;
-public:
-	complement_input(
-		node_intf& parent,
-		const cstr_ref& name,
-		float r, float g, float b, float a
-	): _base(parent, name, r, g, b, a)
-	{ }
+    using _base = input_with_const_default<float[4]>;
 
-	bool accepts_value_type(slot_data_type type)
-	override {
-		return data_type_dims(type) ==
-			data_type_dims(output().value_type());
-	}
+public:
+    complement_input(
+      node_intf& parent, string_view name, float r, float g, float b, float a)
+      : _base(parent, name, r, g, b, a) {
+    }
+
+    bool accepts_value_type(slot_data_type type) override {
+        return data_type_dims(type) == data_type_dims(output().value_type());
+    }
 };
 
-class complement_output
- : public base_output
-{
+class complement_output : public base_output {
 public:
-	input_with_const_default<float[4]> input;
-	input_with_const_default<float[4]> complement;
+    input_with_const_default<float[4]> input;
+    input_with_const_default<float[4]> complement;
 
-	complement_output(node_intf& parent);
+    complement_output(node_intf& parent);
 
-	cstr_ref type_name(void)
-	override;
+    string_view type_name() override;
 
-	slot_data_type value_type(void)
-	override;
+    slot_data_type value_type() override;
 
-	std::ostream& definitions(std::ostream& out, compile_context& ctxt)
-	override;
+    std::ostream& definitions(
+      std::ostream& out, compile_context& ctxt) override;
 };
 
 class complement_node
- : public binary_single_output_node<
-	complement_output,
-	decltype(complement_output::input), &complement_output::input,
-	decltype(complement_output::complement), &complement_output::complement
->
-{
+  : public binary_single_output_node<
+      complement_output,
+      decltype(complement_output::input),
+      &complement_output::input,
+      decltype(complement_output::complement),
+      &complement_output::complement> {
 public:
-	complement_node&
-	set_complement(float r, float g, float b, float a) {
-		_output.complement.fallback().set(r, g, b, a);
-		return *this;
-	}
+    complement_node& set_complement(float r, float g, float b, float a) {
+        _output.complement.fallback().set(r, g, b, a);
+        return *this;
+    }
 };
 
 } // namespace texgen
@@ -76,4 +66,4 @@ public:
 #include <oglplus/texgen/complement_node.inl>
 #endif
 
-#endif // include guard
+#endif // OGLPLUS_TEXGEN_COMPLEMENT_NODE_HPP

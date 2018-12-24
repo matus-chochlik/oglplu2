@@ -33,6 +33,8 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 		-Wall
 		-Wextra
 		-Wshadow
+		-Wno-noexcept-type
+		-Wno-attributes
 	)
 endif()
 

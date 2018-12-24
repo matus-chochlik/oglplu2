@@ -4,32 +4,23 @@
  * See accompanying file LICENSE_1_0.txt or copy at
  *  http://www.boost.org/LICENSE_1_0.txt
  */
-#include <oglplus/gl.hpp>
+#include <oglplus/gl_def.hpp>
 
 #include <iostream>
 
 template <typename Func>
-bool oglplus_config_test_gl_func(Func func)
-{
-	return (func != nullptr);
+bool oglplus_config_test_gl_func(Func func) {
+    return (func != nullptr);
 }
 
-#define OGLPLUS_CONFIG_ASSERT_GL_FUNC(NAME) \
-	if(!oglplus_config_test_gl_func(NAME)) \
-	{ \
-		std::cerr \
-			<< "Required function: " \
-			<< #NAME \
-			<< " not available." \
-			<< std::endl; \
-		++missing_gl_symbols; \
-	}
+#define OGLPLUS_CONFIG_ASSERT_GL_FUNC(NAME)                              \
+    if(!oglplus_config_test_gl_func(NAME)) {                             \
+        std::cerr << "Required function: " << #NAME << " not available." \
+                  << std::endl;                                          \
+        ++missing_gl_symbols;                                            \
+    }
 
-#define OGLPLUS_CONFIG_MISSING_GL_CONST(NAME) \
-		std::cerr \
-			<< "Required constant: " \
-			<< #NAME \
-			<< " not available." \
-			<< std::endl; \
-		++missing_gl_symbols; \
-
+#define OGLPLUS_CONFIG_MISSING_GL_CONST(NAME)                        \
+    std::cerr << "Required constant: " << #NAME << " not available." \
+              << std::endl;                                          \
+    ++missing_gl_symbols;

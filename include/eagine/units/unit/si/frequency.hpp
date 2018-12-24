@@ -7,47 +7,44 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_UNIT_SI_FREQUENCY_1512222148_HPP
-#define EAGINE_UNITS_UNIT_SI_FREQUENCY_1512222148_HPP
+#ifndef EAGINE_UNITS_UNIT_SI_FREQUENCY_HPP
+#define EAGINE_UNITS_UNIT_SI_FREQUENCY_HPP
 
-#include "common.hpp"
 #include "../../dim/frequency.hpp"
+#include "common.hpp"
 
 namespace eagine {
 namespace units {
 namespace base {
 
-struct count_of_cycles : unit<number_of_cycles, count_of_cycles> { };
+struct count_of_cycles : unit<number_of_cycles, count_of_cycles> {};
 
 } // namespace base
 
 // si::base_unit<angle>
 template <>
-struct si::base_unit<base::number_of_cycles> : base::count_of_cycles { };
+struct si::base_unit<base::number_of_cycles> : base::count_of_cycles {};
 
 // hertz
-typedef unit<frequency, si> hertz;
+using hertz = unit<frequency, si>;
 
 template <>
-struct unit_name<hertz>
-{
-	static constexpr const char mp_str[] = "hertz";
+struct unit_name<hertz> {
+    static constexpr const char mp_str[] = "hertz";
 };
 
 template <>
-struct unit_symbol<hertz>
-{
-	static constexpr const char mp_str[] = "Hz";
+struct unit_symbol<hertz> {
+    static constexpr const char mp_str[] = "Hz";
 };
 
 // derived
-typedef make_scaled_unit_t<scales::kilo, hertz> kilohertz;
-typedef make_scaled_unit_t<scales::mega, hertz> megahertz;
-typedef make_scaled_unit_t<scales::giga, hertz> gigahertz;
+using kilohertz = make_scaled_unit_t<scales::kilo, hertz>;
+using megahertz = make_scaled_unit_t<scales::mega, hertz>;
+using gigahertz = make_scaled_unit_t<scales::giga, hertz>;
 // TODO
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // EAGINE_UNITS_UNIT_SI_FREQUENCY_HPP

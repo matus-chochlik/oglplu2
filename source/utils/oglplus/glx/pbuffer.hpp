@@ -18,19 +18,18 @@ namespace oglplus {
 namespace glx {
 
 class Pbuffer
- : public x11::DisplayObject< ::GLXPbuffer, void(::Display*, ::GLXPbuffer)>
-{
+  : public x11::DisplayObject<::GLXPbuffer, void(::Display*, ::GLXPbuffer)> {
 public:
-	Pbuffer(
-		const x11::Display& display,
-		const glx::FBConfig& fbc,
-		const int* attrib_list
-	): x11::DisplayObject< ::GLXPbuffer, void(::Display*, ::GLXPbuffer)>(
-		display,
-		::glXCreatePbuffer(display, fbc, attrib_list),
-		::glXDestroyPbuffer,
-		"Error creating glX Pbuffer"
-	){ }
+    Pbuffer(
+      const x11::Display& display,
+      const glx::FBConfig& fbc,
+      const int* attrib_list)
+      : x11::DisplayObject<::GLXPbuffer, void(::Display*, ::GLXPbuffer)>(
+          display,
+          ::glXCreatePbuffer(display, fbc, attrib_list),
+          ::glXDestroyPbuffer,
+          "Error creating glX Pbuffer") {
+    }
 };
 
 } // namespace glx

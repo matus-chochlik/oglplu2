@@ -7,40 +7,37 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_UNIT_SI_ENERGY_1512222148_HPP
-#define EAGINE_UNITS_UNIT_SI_ENERGY_1512222148_HPP
+#ifndef EAGINE_UNITS_UNIT_SI_ENERGY_HPP
+#define EAGINE_UNITS_UNIT_SI_ENERGY_HPP
 
+#include "../../dim/energy.hpp"
 #include "common.hpp"
+#include "length.hpp"
 #include "mass.hpp"
 #include "time.hpp"
-#include "length.hpp"
-#include "../../dim/energy.hpp"
 
 namespace eagine {
 namespace units {
 
 // joule
-typedef unit<energy, si> joule;
+using joule = unit<energy, si>;
 
 template <>
-struct unit_name<joule>
-{
-	static constexpr const char mp_str[] = "joule";
+struct unit_name<joule> {
+    static constexpr const char mp_str[] = "joule";
 };
 
 template <>
-struct unit_symbol<joule>
-{
-	static constexpr const char mp_str[] = "J";
+struct unit_symbol<joule> {
+    static constexpr const char mp_str[] = "J";
 };
 
 // derived
-typedef make_scaled_unit_t<scales::kilo, joule> kilojoule;
-typedef make_scaled_unit_t<scales::mega, joule> megajoule;
+using kilojoule = make_scaled_unit_t<scales::kilo, joule>;
+using megajoule = make_scaled_unit_t<scales::mega, joule>;
 // TODO
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // EAGINE_UNITS_UNIT_SI_ENERGY_HPP

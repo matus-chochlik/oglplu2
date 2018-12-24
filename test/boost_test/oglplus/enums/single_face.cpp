@@ -17,113 +17,99 @@
 
 BOOST_AUTO_TEST_SUITE(enum_single_face_tests)
 
-BOOST_AUTO_TEST_CASE(enum_single_face_values)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	single_face x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_single_face_values) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    single_face x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_BACK
-	x = ev.back;
-	BOOST_CHECK(x == ev.back);
-# ifdef GL_FRONT
-	BOOST_CHECK(x != ev.front);
-# endif
+    x = ev.back;
+    BOOST_CHECK(x == ev.back);
+#ifdef GL_FRONT
+    BOOST_CHECK(x != ev.front);
+#endif
 #endif
 
 #ifdef GL_FRONT
-	x = ev.front;
-	BOOST_CHECK(x == ev.front);
+    x = ev.front;
+    BOOST_CHECK(x == ev.front);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_single_face_names)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	single_face x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_single_face_names) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    single_face x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_BACK
-	x = ev.back;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"BACK"
-	) == 0);
+    x = ev.back;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "BACK") == 0);
 #endif
 
 #ifdef GL_FRONT
-	x = ev.front;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"FRONT"
-	) == 0);
+    x = ev.front;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "FRONT") == 0);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_single_face_range)
-{
-	using namespace oglplus;
-	auto count = enum_value_range<single_face>().size();
+BOOST_AUTO_TEST_CASE(enum_single_face_range) {
+    using namespace oglplus;
+    auto count = enum_value_range<single_face>().size();
 
 #ifdef GL_BACK
-{
-	--count;
-	auto r = enum_value_range<single_face>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		single_face(GL_BACK)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<single_face>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), single_face(GL_BACK)) != r.end());
+    }
 #endif
 
 #ifdef GL_FRONT
-{
-	--count;
-	auto r = enum_value_range<single_face>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		single_face(GL_FRONT)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<single_face>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), single_face(GL_FRONT)) != r.end());
+    }
 #endif
-	BOOST_CHECK_EQUAL(count, 0);
+    BOOST_CHECK_EQUAL(count, 0);
 }
 
-BOOST_AUTO_TEST_CASE(enum_single_face_any)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	single_face x, y;
-	EAGINE_MAYBE_UNUSED(x);
-	EAGINE_MAYBE_UNUSED(y);
-	any_enum_value a;
-	EAGINE_MAYBE_UNUSED(a);
+BOOST_AUTO_TEST_CASE(enum_single_face_any) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    single_face x, y;
+    EAGINE_MAYBE_UNUSED(x);
+    EAGINE_MAYBE_UNUSED(y);
+    any_enum_value a;
+    EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_BACK
-	x = ev.back;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.back);
+    x = ev.back;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.back);
 #endif
 
 #ifdef GL_FRONT
-	x = ev.front;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.front);
+    x = ev.front;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.front);
 #endif
 }
 

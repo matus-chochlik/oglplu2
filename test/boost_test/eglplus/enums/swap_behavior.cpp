@@ -17,113 +17,103 @@
 
 BOOST_AUTO_TEST_SUITE(enum_swap_behavior_tests)
 
-BOOST_AUTO_TEST_CASE(enum_swap_behavior_values)
-{
-	using namespace eglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	swap_behavior x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_swap_behavior_values) {
+    using namespace eglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    swap_behavior x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_BUFFER_DESTROYED
-	x = ev.buffer_destroyed;
-	BOOST_CHECK(x == ev.buffer_destroyed);
-# ifdef EGL_BUFFER_PRESERVED
-	BOOST_CHECK(x != ev.buffer_preserved);
-# endif
+    x = ev.buffer_destroyed;
+    BOOST_CHECK(x == ev.buffer_destroyed);
+#ifdef EGL_BUFFER_PRESERVED
+    BOOST_CHECK(x != ev.buffer_preserved);
+#endif
 #endif
 
 #ifdef EGL_BUFFER_PRESERVED
-	x = ev.buffer_preserved;
-	BOOST_CHECK(x == ev.buffer_preserved);
+    x = ev.buffer_preserved;
+    BOOST_CHECK(x == ev.buffer_preserved);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_swap_behavior_names)
-{
-	using namespace eglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	swap_behavior x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_swap_behavior_names) {
+    using namespace eglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    swap_behavior x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_BUFFER_DESTROYED
-	x = ev.buffer_destroyed;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"BUFFER_DESTROYED"
-	) == 0);
+    x = ev.buffer_destroyed;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(
+      std::strcmp(enum_value_name(x).data(), "BUFFER_DESTROYED") == 0);
 #endif
 
 #ifdef EGL_BUFFER_PRESERVED
-	x = ev.buffer_preserved;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"BUFFER_PRESERVED"
-	) == 0);
+    x = ev.buffer_preserved;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(
+      std::strcmp(enum_value_name(x).data(), "BUFFER_PRESERVED") == 0);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_swap_behavior_range)
-{
-	using namespace eglplus;
-	auto count = enum_value_range<swap_behavior>().size();
+BOOST_AUTO_TEST_CASE(enum_swap_behavior_range) {
+    using namespace eglplus;
+    auto count = enum_value_range<swap_behavior>().size();
 
 #ifdef EGL_BUFFER_DESTROYED
-{
-	--count;
-	auto r = enum_value_range<swap_behavior>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		swap_behavior(EGL_BUFFER_DESTROYED)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<swap_behavior>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), swap_behavior(EGL_BUFFER_DESTROYED)) !=
+          r.end());
+    }
 #endif
 
 #ifdef EGL_BUFFER_PRESERVED
-{
-	--count;
-	auto r = enum_value_range<swap_behavior>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		swap_behavior(EGL_BUFFER_PRESERVED)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<swap_behavior>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), swap_behavior(EGL_BUFFER_PRESERVED)) !=
+          r.end());
+    }
 #endif
-	BOOST_CHECK_EQUAL(count, 0);
+    BOOST_CHECK_EQUAL(count, 0);
 }
 
-BOOST_AUTO_TEST_CASE(enum_swap_behavior_any)
-{
-	using namespace eglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	swap_behavior x, y;
-	EAGINE_MAYBE_UNUSED(x);
-	EAGINE_MAYBE_UNUSED(y);
-	any_enum_value a;
-	EAGINE_MAYBE_UNUSED(a);
+BOOST_AUTO_TEST_CASE(enum_swap_behavior_any) {
+    using namespace eglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    swap_behavior x, y;
+    EAGINE_MAYBE_UNUSED(x);
+    EAGINE_MAYBE_UNUSED(y);
+    any_enum_value a;
+    EAGINE_MAYBE_UNUSED(a);
 
 #ifdef EGL_BUFFER_DESTROYED
-	x = ev.buffer_destroyed;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.buffer_destroyed);
+    x = ev.buffer_destroyed;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.buffer_destroyed);
 #endif
 
 #ifdef EGL_BUFFER_PRESERVED
-	x = ev.buffer_preserved;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.buffer_preserved);
+    x = ev.buffer_preserved;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.buffer_preserved);
 #endif
 }
 

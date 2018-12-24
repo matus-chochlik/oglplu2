@@ -12,83 +12,74 @@
 
 BOOST_AUTO_TEST_SUITE(mp_string_tests)
 
-BOOST_AUTO_TEST_CASE(mp_string_empty)
-{
-	using namespace eagine;
+BOOST_AUTO_TEST_CASE(mp_string_empty) {
+    using namespace eagine;
 
-	typedef mp_string<> s;
-	BOOST_CHECK_EQUAL(std::strlen(s::value), 0);
-	BOOST_CHECK_EQUAL(mp_strlen<s>::value, 0);
-	BOOST_CHECK(std::strcmp(s::value, "") == 0);
+    using s = mp_string<>;
+    BOOST_CHECK_EQUAL(std::strlen(s::value), 0);
+    BOOST_CHECK_EQUAL(mp_strlen<s>::value, 0);
+    BOOST_CHECK(std::strcmp(s::value, "") == 0);
 }
 
-BOOST_AUTO_TEST_CASE(mp_string_chars)
-{
-	using namespace eagine;
+BOOST_AUTO_TEST_CASE(mp_string_chars) {
+    using namespace eagine;
 
-	typedef mp_string<'m','p','_','s','t','r','i','n','g'> s;
-	BOOST_CHECK_EQUAL(std::strlen(s::value), std::strlen("mp_string"));
-	BOOST_CHECK_EQUAL(mp_strlen<s>::value, std::strlen("mp_string"));
-	BOOST_CHECK(std::strcmp(s::value, "mp_string") == 0);
+    using s = mp_string<'m', 'p', '_', 's', 't', 'r', 'i', 'n', 'g'>;
+    BOOST_CHECK_EQUAL(std::strlen(s::value), std::strlen("mp_string"));
+    BOOST_CHECK_EQUAL(mp_strlen<s>::value, std::strlen("mp_string"));
+    BOOST_CHECK(std::strcmp(s::value, "mp_string") == 0);
 }
 
-struct mp_blah
-{
-	static constexpr const char mp_str[] = "blah";
+struct mp_blah {
+    static constexpr const char mp_str[] = "blah";
 };
 
-BOOST_AUTO_TEST_CASE(mp_string_make)
-{
-	using namespace eagine;
+BOOST_AUTO_TEST_CASE(mp_string_make) {
+    using namespace eagine;
 
-	typedef mp_make_string_t<mp_blah> s;
-	BOOST_CHECK_EQUAL(std::strlen(s::value), std::strlen("blah"));
-	BOOST_CHECK_EQUAL(mp_strlen<s>::value, std::strlen("blah"));
-	BOOST_CHECK(std::strcmp(s::value, "blah") == 0);
+    using s = mp_make_string_t<mp_blah>;
+    BOOST_CHECK_EQUAL(std::strlen(s::value), std::strlen("blah"));
+    BOOST_CHECK_EQUAL(mp_strlen<s>::value, std::strlen("blah"));
+    BOOST_CHECK(std::strcmp(s::value, "blah") == 0);
 }
 
-BOOST_AUTO_TEST_CASE(mp_string_concat)
-{
-	using namespace eagine;
+BOOST_AUTO_TEST_CASE(mp_string_concat) {
+    using namespace eagine;
 
-	typedef mp_string<'f','o','o'> foo;
-	typedef mp_string<'b','a','r'> bar;
-	typedef mp_string<'b','a','z'> baz;
+    using foo = mp_string<'f', 'o', 'o'>;
+    using bar = mp_string<'b', 'a', 'r'>;
+    using baz = mp_string<'b', 'a', 'z'>;
 
-	typedef mp_concat_t<foo, bar, baz> s;
+    using s = mp_concat_t<foo, bar, baz>;
 
-	BOOST_CHECK_EQUAL(std::strlen(s::value), std::strlen("foobarbaz"));
-	BOOST_CHECK_EQUAL(mp_strlen<s>::value, std::strlen("foobarbaz"));
-	BOOST_CHECK(std::strcmp(s::value, "foobarbaz") == 0);
+    BOOST_CHECK_EQUAL(std::strlen(s::value), std::strlen("foobarbaz"));
+    BOOST_CHECK_EQUAL(mp_strlen<s>::value, std::strlen("foobarbaz"));
+    BOOST_CHECK(std::strcmp(s::value, "foobarbaz") == 0);
 }
 
 template <char C>
-struct test_lshift
- : eagine::mp_string<C-1>
-{ };
+struct test_lshift : eagine::mp_string<C - 1> {};
 
-BOOST_AUTO_TEST_CASE(mp_string_translate)
-{
-	using namespace eagine;
+BOOST_AUTO_TEST_CASE(mp_string_translate) {
+    using namespace eagine;
 
-	typedef mp_string<'b','c','d','e','f','g'> bcdefg;
+    using bcdefg = mp_string<'b', 'c', 'd', 'e', 'f', 'g'>;
 
-	typedef mp_translate_t<bcdefg, test_lshift> s;
+    using s = mp_translate_t<bcdefg, test_lshift>;
 
-	BOOST_CHECK_EQUAL(std::strlen(s::value), std::strlen("abcdef"));
-	BOOST_CHECK_EQUAL(mp_strlen<s>::value, std::strlen("abcdef"));
-	BOOST_CHECK(std::strcmp(s::value, "abcdef") == 0);
+    BOOST_CHECK_EQUAL(std::strlen(s::value), std::strlen("abcdef"));
+    BOOST_CHECK_EQUAL(mp_strlen<s>::value, std::strlen("abcdef"));
+    BOOST_CHECK(std::strcmp(s::value, "abcdef") == 0);
 }
 
-BOOST_AUTO_TEST_CASE(mp_int_to_string)
-{
-	using namespace eagine;
+BOOST_AUTO_TEST_CASE(mp_int_to_string) {
+    using namespace eagine;
 
-	typedef mp_int_to_string_t<-1234567890> s;
+    using s = mp_int_to_string_t<-1234567890>;
 
-	BOOST_CHECK_EQUAL(std::strlen(s::value), 11);
-	BOOST_CHECK_EQUAL(mp_strlen<s>::value, 11);
-	BOOST_CHECK(std::strcmp(s::value, "-1234567890") == 0);
+    BOOST_CHECK_EQUAL(std::strlen(s::value), 11);
+    BOOST_CHECK_EQUAL(mp_strlen<s>::value, 11);
+    BOOST_CHECK(std::strcmp(s::value, "-1234567890") == 0);
 }
 
 // TODO

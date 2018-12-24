@@ -8,4 +8,3 @@
  */
 
 #define EAGINE_LINK_LIBRARY 1
-

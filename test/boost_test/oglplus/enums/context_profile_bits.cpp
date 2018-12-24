@@ -17,113 +17,109 @@
 
 BOOST_AUTO_TEST_SUITE(enum_context_profile_bits_tests)
 
-BOOST_AUTO_TEST_CASE(enum_context_profile_bits_values)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	context_profile_bits x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_context_profile_bits_values) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    context_profile_bits x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_CONTEXT_COMPATIBILITY_PROFILE_BIT
-	x = ev.context_compatibility_profile_bit;
-	BOOST_CHECK(x == ev.context_compatibility_profile_bit);
-# ifdef GL_CONTEXT_CORE_PROFILE_BIT
-	BOOST_CHECK(x != ev.context_core_profile_bit);
-# endif
+    x = ev.context_compatibility_profile_bit;
+    BOOST_CHECK(x == ev.context_compatibility_profile_bit);
+#ifdef GL_CONTEXT_CORE_PROFILE_BIT
+    BOOST_CHECK(x != ev.context_core_profile_bit);
+#endif
 #endif
 
 #ifdef GL_CONTEXT_CORE_PROFILE_BIT
-	x = ev.context_core_profile_bit;
-	BOOST_CHECK(x == ev.context_core_profile_bit);
+    x = ev.context_core_profile_bit;
+    BOOST_CHECK(x == ev.context_core_profile_bit);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_context_profile_bits_names)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	context_profile_bits x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_context_profile_bits_names) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    context_profile_bits x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_CONTEXT_COMPATIBILITY_PROFILE_BIT
-	x = ev.context_compatibility_profile_bit;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"CONTEXT_COMPATIBILITY_PROFILE_BIT"
-	) == 0);
+    x = ev.context_compatibility_profile_bit;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(), "CONTEXT_COMPATIBILITY_PROFILE_BIT") == 0);
 #endif
 
 #ifdef GL_CONTEXT_CORE_PROFILE_BIT
-	x = ev.context_core_profile_bit;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"CONTEXT_CORE_PROFILE_BIT"
-	) == 0);
+    x = ev.context_core_profile_bit;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(
+      std::strcmp(enum_value_name(x).data(), "CONTEXT_CORE_PROFILE_BIT") == 0);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_context_profile_bits_range)
-{
-	using namespace oglplus;
-	auto count = enum_value_range<context_profile_bits>().size();
+BOOST_AUTO_TEST_CASE(enum_context_profile_bits_range) {
+    using namespace oglplus;
+    auto count = enum_value_range<context_profile_bits>().size();
 
 #ifdef GL_CONTEXT_COMPATIBILITY_PROFILE_BIT
-{
-	--count;
-	auto r = enum_value_range<context_profile_bits>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		context_profile_bits(GL_CONTEXT_COMPATIBILITY_PROFILE_BIT)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<context_profile_bits>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            context_profile_bits(GL_CONTEXT_COMPATIBILITY_PROFILE_BIT)) !=
+          r.end());
+    }
 #endif
 
 #ifdef GL_CONTEXT_CORE_PROFILE_BIT
-{
-	--count;
-	auto r = enum_value_range<context_profile_bits>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		context_profile_bits(GL_CONTEXT_CORE_PROFILE_BIT)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<context_profile_bits>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            context_profile_bits(GL_CONTEXT_CORE_PROFILE_BIT)) != r.end());
+    }
 #endif
-	BOOST_CHECK_EQUAL(count, 0);
+    BOOST_CHECK_EQUAL(count, 0);
 }
 
-BOOST_AUTO_TEST_CASE(enum_context_profile_bits_any)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	context_profile_bits x, y;
-	EAGINE_MAYBE_UNUSED(x);
-	EAGINE_MAYBE_UNUSED(y);
-	any_enum_value a;
-	EAGINE_MAYBE_UNUSED(a);
+BOOST_AUTO_TEST_CASE(enum_context_profile_bits_any) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    context_profile_bits x, y;
+    EAGINE_MAYBE_UNUSED(x);
+    EAGINE_MAYBE_UNUSED(y);
+    any_enum_value a;
+    EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_CONTEXT_COMPATIBILITY_PROFILE_BIT
-	x = ev.context_compatibility_profile_bit;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.context_compatibility_profile_bit);
+    x = ev.context_compatibility_profile_bit;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.context_compatibility_profile_bit);
 #endif
 
 #ifdef GL_CONTEXT_CORE_PROFILE_BIT
-	x = ev.context_core_profile_bit;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.context_core_profile_bit);
+    x = ev.context_core_profile_bit;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.context_core_profile_bit);
 #endif
 }
 

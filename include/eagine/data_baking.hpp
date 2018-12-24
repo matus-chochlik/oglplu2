@@ -7,30 +7,28 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_DATA_BAKING_1509260923_HPP
-#define EAGINE_DATA_BAKING_1509260923_HPP
+#ifndef EAGINE_DATA_BAKING_HPP
+#define EAGINE_DATA_BAKING_HPP
 
 #include "memory/alloc_arena.hpp"
 #include "memory/stack_alloc.hpp"
 
 namespace eagine {
-
-class data_bake_arena
- : public memory::basic_allocation_arena<
-	memory::stack_byte_allocator_only<
-		memory::byte_alloc_managed_policy
-	>
-> {
+//------------------------------------------------------------------------------
+using data_bake_arena_base = memory::basic_allocation_arena<
+  memory::stack_byte_allocator_only<memory::byte_alloc_managed_policy>>;
+//------------------------------------------------------------------------------
+class data_bake_arena : public data_bake_arena_base {
 public:
-	explicit
-	data_bake_arena(memory::block blk)
-	 : memory::basic_allocation_arena<
-		memory::stack_byte_allocator_only<
-			memory::byte_alloc_managed_policy
-		>
-	>(blk) { }
-};
+    explicit data_bake_arena(memory::block blk)
+      : data_bake_arena_base(blk) {
+    }
 
+    memory::const_block baked_data() const noexcept {
+        return this->allocator().allocated();
+    }
+};
+//------------------------------------------------------------------------------
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_DATA_BAKING_HPP

@@ -7,24 +7,22 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_DIM_ELECTRIC_TENSION_1512222148_HPP
-#define EAGINE_UNITS_DIM_ELECTRIC_TENSION_1512222148_HPP
+#ifndef EAGINE_UNITS_DIM_ELECTRIC_TENSION_HPP
+#define EAGINE_UNITS_DIM_ELECTRIC_TENSION_HPP
 
 #include "power.hpp"
 
 namespace eagine {
 namespace units {
 
-typedef decltype(power()/electric_current()) electric_tension;
+using electric_tension = decltype(power() / electric_current());
 
 template <>
-struct dim_name<electric_tension>
-{
-	static constexpr const char mp_str[] = "electric tension";
+struct dim_name<electric_tension> {
+    static constexpr const char mp_str[] = "electric tension";
 };
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // EAGINE_UNITS_DIM_ELECTRIC_TENSION_HPP

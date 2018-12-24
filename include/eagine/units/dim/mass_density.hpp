@@ -7,24 +7,22 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_DIM_MASS_DENSITY_1512222148_HPP
-#define EAGINE_UNITS_DIM_MASS_DENSITY_1512222148_HPP
+#ifndef EAGINE_UNITS_DIM_MASS_DENSITY_HPP
+#define EAGINE_UNITS_DIM_MASS_DENSITY_HPP
 
 #include "volume.hpp"
 
 namespace eagine {
 namespace units {
 
-typedef decltype(mass()/volume()) mass_density;
+using mass_density = decltype(mass() / volume());
 
 template <>
-struct dim_name<mass_density>
-{
-	static constexpr const char mp_str[] = "mass density";
+struct dim_name<mass_density> {
+    static constexpr const char mp_str[] = "mass density";
 };
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // EAGINE_UNITS_DIM_MASS_DENSITY_HPP

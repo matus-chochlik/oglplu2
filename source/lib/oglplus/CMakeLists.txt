@@ -16,7 +16,16 @@ set(OGLPLUS_LIB_SOURCES
 )
 
 add_library(oglplus EXCLUDE_FROM_ALL ${OGLPLUS_LIB_SOURCES})
-set_property(TARGET oglplus PROPERTY FOLDER "Library/OGLplus")
+set_target_properties(
+	oglplus
+	PROPERTIES FOLDER "Library/OGLplus"
+)
+if(CLANG_TIDY_PROG)
+	set_target_properties(
+		oglplus
+		PROPERTIES CXX_CLANG_TIDY "${CLANG_TIDY_PROG}"
+	)
+endif()
 
 target_link_libraries(oglplus eagine)
 target_link_libraries(oglplus ${OGLPLUS_GL_LIBRARIES})

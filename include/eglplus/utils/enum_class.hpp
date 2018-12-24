@@ -7,11 +7,11 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EGLPLUS_UTILS_ENUM_CLASS_1509260923_HPP
-#define EGLPLUS_UTILS_ENUM_CLASS_1509260923_HPP
+#ifndef EGLPLUS_UTILS_ENUM_CLASS_HPP
+#define EGLPLUS_UTILS_ENUM_CLASS_HPP
 
-#include <eagine/enum_class.hpp>
 #include <eagine/enum_bitfield.hpp>
+#include <eagine/enum_class.hpp>
 
 namespace eglplus {
 
@@ -27,13 +27,11 @@ using eagine::enum_bitfield;
 using any_enum_class = eagine::any_enum_class<100>;
 using any_enum_value = eagine::any_enum_value<100>;
 
-static constexpr inline
-bool same_enum_class(any_enum_class a, any_enum_class b)
-noexcept
-{
-	return ::eagine::same_enum_class(a, b);
+static constexpr inline bool
+same_enum_class(any_enum_class a, any_enum_class b) noexcept {
+    return ::eagine::same_enum_class(a, b);
 }
 
 } // namespace eglplus
 
-#endif // include guard
+#endif // EGLPLUS_UTILS_ENUM_CLASS_HPP

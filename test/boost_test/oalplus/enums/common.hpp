@@ -3,8 +3,10 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *  http://www.boost.org/LICENSE_1_0.txt
  */
-#include <AL/al.h>
+// clang-format off
+#include <oalplus/al.hpp>
 #include <oalplus/enum/values.hpp>
-#include <oalplus/enum/value_defs.inl>
 #include <oalplus/enum/value_names.hpp>
 #include <oalplus/enum/value_range.hpp>
+#include <oalplus/enum/value_defs.inl>
+// clang-format on

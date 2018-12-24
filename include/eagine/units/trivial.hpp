@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_TRIVIAL_1512222148_HPP
-#define EAGINE_UNITS_TRIVIAL_1512222148_HPP
+#ifndef EAGINE_UNITS_TRIVIAL_HPP
+#define EAGINE_UNITS_TRIVIAL_HPP
 
 #include "default.hpp"
 
@@ -38,25 +38,22 @@ struct radian;
 } // namespace base
 
 // dimensions
-typedef dimension<base::time, 1> time;
-typedef dimension<base::angle, 1> angle;
+using time = dimension<base::time, 1>;
+using angle = dimension<base::angle, 1>;
 
 // units
-typedef unit<time, si> second;
+using second = unit<time, si>;
 
-typedef unit<angle, si> radian;
-typedef scaled_dim_unit<
-	angle,
-	bits::unit_scales<
-		bits::uni_sca<
-			base::radian,
-			scales::divided<scales::pi, scales::constant<180>>
-		>, nothing_t
-	>, si
-> degree;
+using radian = unit<angle, si>;
+using degree = scaled_dim_unit<
+  angle,
+  bits::unit_scales<
+    bits::
+      uni_sca<base::radian, scales::divided<scales::pi, scales::constant<180>>>,
+    nothing_t>,
+  si>;
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // EAGINE_UNITS_TRIVIAL_HPP

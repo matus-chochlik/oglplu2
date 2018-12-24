@@ -7,21 +7,18 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_ARRAY_SIZE_1509260923_HPP
-#define EAGINE_ARRAY_SIZE_1509260923_HPP
+#ifndef EAGINE_ARRAY_SIZE_HPP
+#define EAGINE_ARRAY_SIZE_HPP
 
 #include "types.hpp"
 
 namespace eagine {
 
 template <typename T, std::size_t N>
-static constexpr inline
-span_size_t array_size(const T(&)[N])
-noexcept
-{
-	return span_size(N);
+static constexpr inline span_size_t array_size(const T (&)[N]) noexcept {
+    return span_size(N);
 }
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_ARRAY_SIZE_HPP

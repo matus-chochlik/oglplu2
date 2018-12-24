@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_TYPE_NAME_1509260923_HPP
-#define EAGINE_TYPE_NAME_1509260923_HPP
+#ifndef EAGINE_TYPE_NAME_HPP
+#define EAGINE_TYPE_NAME_HPP
 
 #include "config/basic.hpp"
 
@@ -16,23 +16,16 @@
 
 namespace eagine {
 
-std::string demangle_type_name(const char*)
-noexcept;
+std::string demangle_type_name(const char*) noexcept;
 
 template <typename T>
-static inline
-std::string type_name(const T&)
-noexcept
-{
-	return demangle_type_name(typeid(T).name());
+static inline std::string type_name(const T&) noexcept {
+    return demangle_type_name(typeid(T).name());
 }
 
 template <typename T>
-static inline
-std::string type_name(void)
-noexcept
-{
-	return demangle_type_name(typeid(T).name());
+static inline std::string type_name() noexcept {
+    return demangle_type_name(typeid(T).name());
 }
 
 } // namespace eagine
@@ -41,4 +34,4 @@ noexcept
 #include <eagine/type_name.inl>
 #endif
 
-#endif // include guard
+#endif // EAGINE_TYPE_NAME_HPP

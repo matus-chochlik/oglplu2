@@ -8,4 +8,3 @@
  */
 
 #undef OGLPLUS_IMPLEMENTING_LIBRARY
-

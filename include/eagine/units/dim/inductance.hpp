@@ -7,24 +7,22 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_DIM_INDUCTANCE_1512222148_HPP
-#define EAGINE_UNITS_DIM_INDUCTANCE_1512222148_HPP
+#ifndef EAGINE_UNITS_DIM_INDUCTANCE_HPP
+#define EAGINE_UNITS_DIM_INDUCTANCE_HPP
 
 #include "magnetic_flux.hpp"
 
 namespace eagine {
 namespace units {
 
-typedef decltype(magnetic_flux()/electric_current()) inductance;
+using inductance = decltype(magnetic_flux() / electric_current());
 
 template <>
-struct dim_name<inductance>
-{
-	static constexpr const char mp_str[] = "inductance";
+struct dim_name<inductance> {
+    static constexpr const char mp_str[] = "inductance";
 };
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // EAGINE_UNITS_DIM_INDUCTANCE_HPP

@@ -7,24 +7,22 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_DIM_POWER_1512222148_HPP
-#define EAGINE_UNITS_DIM_POWER_1512222148_HPP
+#ifndef EAGINE_UNITS_DIM_POWER_HPP
+#define EAGINE_UNITS_DIM_POWER_HPP
 
 #include "energy.hpp"
 
 namespace eagine {
 namespace units {
 
-typedef decltype(energy()/time()) power;
+using power = decltype(energy() / time());
 
 template <>
-struct dim_name<power>
-{
-	static constexpr const char mp_str[] = "power";
+struct dim_name<power> {
+    static constexpr const char mp_str[] = "power";
 };
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // EAGINE_UNITS_DIM_POWER_HPP

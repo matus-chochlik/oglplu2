@@ -6,57 +6,47 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_GLSL_STRING_REF_1509260923_HPP
-#define OGLPLUS_GLSL_STRING_REF_1509260923_HPP
+#ifndef OGLPLUS_GLSL_STRING_REF_HPP
+#define OGLPLUS_GLSL_STRING_REF_HPP
 
 #include "source_ref.hpp"
 
 namespace oglplus {
-
-class glsl_string_ref
-{
+//------------------------------------------------------------------------------
+class glsl_string_ref {
 private:
-	mutable const GLchar* _src_str;
-	GLint _length;
+    mutable const GLchar* _src_str{};
+    GLint _length{};
+
 public:
-	glsl_string_ref(const char* src_str, span_size_t n)
-	noexcept
-	 : _src_str(static_cast<const GLchar*>(src_str))
-	 , _length(GLint(n==0?0:(src_str[n-1]=='\0'?n-1:n)))
-	{ }
+    glsl_string_ref(const char* src_str, span_size_t n) noexcept
+      : _src_str(static_cast<const GLchar*>(src_str))
+      , _length(GLint(n == 0 ? 0 : (src_str[n - 1] == '\0' ? n - 1 : n))) {
+    }
 
-	template <typename String>
-	explicit
-	glsl_string_ref(const String& str)
-	noexcept
-	 : glsl_string_ref(str.data(), span_size(str.size()))
-	{ }
+    template <typename String>
+    explicit glsl_string_ref(const String& str) noexcept
+      : glsl_string_ref(str.data(), span_size(str.size())) {
+    }
 
-	operator glsl_source_ref (void) const
-	noexcept
-	{
-		return glsl_source_ref(1, &_src_str, &_length);
-	}
+    operator glsl_source_ref() const noexcept {
+        return glsl_source_ref(1, &_src_str, &_length);
+    }
 };
-
-class glsl_literal
- : public glsl_string_ref
-{
+//------------------------------------------------------------------------------
+class glsl_literal : public glsl_string_ref {
 public:
-	template <span_size_t N>
-	glsl_literal(const char (&src_str)[N])
-	noexcept
-	 : glsl_string_ref(src_str, N)
-	{ }
+    template <span_size_t N>
+    glsl_literal(const char (&src_str)[N]) noexcept
+      : glsl_string_ref(src_str, N) {
+    }
 };
-
-static inline
-glsl_string_ref operator "" _glsl(const char* src_str, std::size_t n)
-noexcept
-{
-	return {src_str, span_size(n)};
+//------------------------------------------------------------------------------
+static inline glsl_string_ref operator"" _glsl(
+  const char* src_str, std::size_t n) noexcept {
+    return {src_str, span_size(n)};
 }
-
+//------------------------------------------------------------------------------
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_GLSL_STRING_REF_HPP

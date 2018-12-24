@@ -17,198 +17,177 @@
 
 BOOST_AUTO_TEST_SUITE(enum_rendering_api_tests)
 
-BOOST_AUTO_TEST_CASE(enum_rendering_api_values)
-{
-	using namespace eglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	rendering_api x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_rendering_api_values) {
+    using namespace eglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    rendering_api x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_NONE
-	x = ev.none;
-	BOOST_CHECK(x == ev.none);
-# ifdef EGL_OPENGL_API
-	BOOST_CHECK(x != ev.opengl_api);
-# endif
-# ifdef EGL_OPENGL_ES_API
-	BOOST_CHECK(x != ev.opengl_es_api);
-# endif
-# ifdef EGL_OPENVG_API
-	BOOST_CHECK(x != ev.openvg_api);
-# endif
+    x = ev.none;
+    BOOST_CHECK(x == ev.none);
+#ifdef EGL_OPENGL_API
+    BOOST_CHECK(x != ev.opengl_api);
+#endif
+#ifdef EGL_OPENGL_ES_API
+    BOOST_CHECK(x != ev.opengl_es_api);
+#endif
+#ifdef EGL_OPENVG_API
+    BOOST_CHECK(x != ev.openvg_api);
+#endif
 #endif
 
 #ifdef EGL_OPENGL_API
-	x = ev.opengl_api;
-	BOOST_CHECK(x == ev.opengl_api);
-# ifdef EGL_OPENGL_ES_API
-	BOOST_CHECK(x != ev.opengl_es_api);
-# endif
-# ifdef EGL_OPENVG_API
-	BOOST_CHECK(x != ev.openvg_api);
-# endif
+    x = ev.opengl_api;
+    BOOST_CHECK(x == ev.opengl_api);
+#ifdef EGL_OPENGL_ES_API
+    BOOST_CHECK(x != ev.opengl_es_api);
+#endif
+#ifdef EGL_OPENVG_API
+    BOOST_CHECK(x != ev.openvg_api);
+#endif
 #endif
 
 #ifdef EGL_OPENGL_ES_API
-	x = ev.opengl_es_api;
-	BOOST_CHECK(x == ev.opengl_es_api);
-# ifdef EGL_OPENVG_API
-	BOOST_CHECK(x != ev.openvg_api);
-# endif
+    x = ev.opengl_es_api;
+    BOOST_CHECK(x == ev.opengl_es_api);
+#ifdef EGL_OPENVG_API
+    BOOST_CHECK(x != ev.openvg_api);
+#endif
 #endif
 
 #ifdef EGL_OPENVG_API
-	x = ev.openvg_api;
-	BOOST_CHECK(x == ev.openvg_api);
+    x = ev.openvg_api;
+    BOOST_CHECK(x == ev.openvg_api);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_rendering_api_names)
-{
-	using namespace eglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	rendering_api x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_rendering_api_names) {
+    using namespace eglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    rendering_api x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_NONE
-	x = ev.none;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"NONE"
-	) == 0);
+    x = ev.none;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "NONE") == 0);
 #endif
 
 #ifdef EGL_OPENGL_API
-	x = ev.opengl_api;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"OPENGL_API"
-	) == 0);
+    x = ev.opengl_api;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "OPENGL_API") == 0);
 #endif
 
 #ifdef EGL_OPENGL_ES_API
-	x = ev.opengl_es_api;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"OPENGL_ES_API"
-	) == 0);
+    x = ev.opengl_es_api;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "OPENGL_ES_API") == 0);
 #endif
 
 #ifdef EGL_OPENVG_API
-	x = ev.openvg_api;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"OPENVG_API"
-	) == 0);
+    x = ev.openvg_api;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "OPENVG_API") == 0);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_rendering_api_range)
-{
-	using namespace eglplus;
-	auto count = enum_value_range<rendering_api>().size();
+BOOST_AUTO_TEST_CASE(enum_rendering_api_range) {
+    using namespace eglplus;
+    auto count = enum_value_range<rendering_api>().size();
 
 #ifdef EGL_NONE
-{
-	--count;
-	auto r = enum_value_range<rendering_api>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		rendering_api(EGL_NONE)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<rendering_api>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), rendering_api(EGL_NONE)) != r.end());
+    }
 #endif
 
 #ifdef EGL_OPENGL_API
-{
-	--count;
-	auto r = enum_value_range<rendering_api>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		rendering_api(EGL_OPENGL_API)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<rendering_api>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), rendering_api(EGL_OPENGL_API)) !=
+          r.end());
+    }
 #endif
 
 #ifdef EGL_OPENGL_ES_API
-{
-	--count;
-	auto r = enum_value_range<rendering_api>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		rendering_api(EGL_OPENGL_ES_API)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<rendering_api>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), rendering_api(EGL_OPENGL_ES_API)) !=
+          r.end());
+    }
 #endif
 
 #ifdef EGL_OPENVG_API
-{
-	--count;
-	auto r = enum_value_range<rendering_api>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		rendering_api(EGL_OPENVG_API)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<rendering_api>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), rendering_api(EGL_OPENVG_API)) !=
+          r.end());
+    }
 #endif
-	BOOST_CHECK_EQUAL(count, 0);
+    BOOST_CHECK_EQUAL(count, 0);
 }
 
-BOOST_AUTO_TEST_CASE(enum_rendering_api_any)
-{
-	using namespace eglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	rendering_api x, y;
-	EAGINE_MAYBE_UNUSED(x);
-	EAGINE_MAYBE_UNUSED(y);
-	any_enum_value a;
-	EAGINE_MAYBE_UNUSED(a);
+BOOST_AUTO_TEST_CASE(enum_rendering_api_any) {
+    using namespace eglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    rendering_api x, y;
+    EAGINE_MAYBE_UNUSED(x);
+    EAGINE_MAYBE_UNUSED(y);
+    any_enum_value a;
+    EAGINE_MAYBE_UNUSED(a);
 
 #ifdef EGL_NONE
-	x = ev.none;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.none);
+    x = ev.none;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.none);
 #endif
 
 #ifdef EGL_OPENGL_API
-	x = ev.opengl_api;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.opengl_api);
+    x = ev.opengl_api;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.opengl_api);
 #endif
 
 #ifdef EGL_OPENGL_ES_API
-	x = ev.opengl_es_api;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.opengl_es_api);
+    x = ev.opengl_es_api;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.opengl_es_api);
 #endif
 
 #ifdef EGL_OPENVG_API
-	x = ev.openvg_api;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.openvg_api);
+    x = ev.openvg_api;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.openvg_api);
 #endif
 }
 

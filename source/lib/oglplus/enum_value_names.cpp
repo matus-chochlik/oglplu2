@@ -7,10 +7,11 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+// clang-format off
 #include "prologue.inl"
 #include "predeclare.inl"
 #include "implement.inl"
 #include <oglplus/enum/value_names.hpp>
 #include <oglplus/enum/indexed_value_names.hpp>
 #include "epilogue.inl"
-
+// clang-format on

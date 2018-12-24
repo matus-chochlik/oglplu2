@@ -17,17 +17,15 @@
 namespace oglplus {
 namespace x11 {
 
-class GC
- : public DisplayObject< ::GC>
-{
+class GC : public DisplayObject<::GC> {
 public:
-	GC(const Display& display, const Pixmap& pixmap)
-	 : DisplayObject< ::GC>(
-		display,
-		::XCreateGC(display, pixmap, 0, NULL),
-		::XFreeGC,
-		"Error creating X GC (graphics context)"
-	){ }
+    GC(const Display& display, const Pixmap& pixmap)
+      : DisplayObject<::GC>(
+          display,
+          ::XCreateGC(display, pixmap, 0, nullptr),
+          ::XFreeGC,
+          "Error creating X GC (graphics context)") {
+    }
 };
 
 } // namespace x11

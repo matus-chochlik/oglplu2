@@ -6,73 +6,67 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_MATH_SCALAR_1509260923_HPP
-#define EAGINE_MATH_SCALAR_1509260923_HPP
+#ifndef EAGINE_MATH_SCALAR_HPP
+#define EAGINE_MATH_SCALAR_HPP
 
-#include "fwd.hpp"
+#include "../identity.hpp"
 #include "../vect/data.hpp"
 #include "../vect/fill.hpp"
-#include "../identity.hpp"
-#include "../std/type_traits.hpp"
+#include "fwd.hpp"
+#include <type_traits>
 
 namespace eagine {
 namespace math {
 
 template <typename T, int N, bool V>
-struct scalar
-{
-	typedef scalar type;
+struct scalar {
+    using type = scalar;
 
-	typedef T value_type;
+    using value_type = T;
 
-	typedef vect::has_vect_data_t<T, N, V> is_vectorized;
+    using is_vectorized = vect::has_vect_data_t<T, N, V>;
 
-	typedef std::conditional_t<
-		is_vectorized::value,
-		vect::data_t<T, N, V>,
-		T
-	> data_type;
+    using data_type =
+      std::conditional_t<is_vectorized::value, vect::data_t<T, N, V>, T>;
 
-	data_type _v;
+    data_type _v;
 
-	typedef const scalar& _cpT;
+    using _cpT = const scalar&;
 
-	static constexpr inline
-	scalar _from(data_type v)
-	noexcept { return scalar{v}; }
+    static constexpr inline scalar _from(data_type v) noexcept {
+        return scalar{v};
+    }
 
-	static constexpr inline
-	scalar _make(T v, std::true_type)
-	noexcept { return scalar{vect::fill<T, N, V>::apply(v)}; }
+    static constexpr inline scalar _make(T v, std::true_type) noexcept {
+        return scalar{vect::fill<T, N, V>::apply(v)};
+    }
 
-	static constexpr inline
-	scalar _make(T v, std::false_type)
-	noexcept { return scalar{v}; }
+    static constexpr inline scalar _make(T v, std::false_type) noexcept {
+        return scalar{v};
+    }
 
-	static constexpr inline
-	scalar make(T v)
-	noexcept { return _make(v, is_vectorized()); }
+    static constexpr inline scalar make(T v) noexcept {
+        return _make(v, is_vectorized());
+    }
 
-	constexpr inline
-	T _get(std::true_type) const
-	noexcept { return _v[0]; }
+    constexpr inline T _get(std::true_type) const noexcept {
+        return _v[0];
+    }
 
-	constexpr inline
-	T _get(std::false_type) const
-	noexcept { return _v; }
+    constexpr inline T _get(std::false_type) const noexcept {
+        return _v;
+    }
 
-	constexpr inline
-	operator T (void) const
-	noexcept { return _get(is_vectorized()); }
+    constexpr inline operator T() const noexcept {
+        return _get(is_vectorized());
+    }
 
-	inline
-	scalar& operator = (T v)
-	noexcept { return *this = make(v); }
+    inline scalar& operator=(T v) noexcept {
+        return *this = make(v);
+    }
 };
-
 
 } // namespace math
 } // namespace eagine
 
-#endif //include guard
-
+#endif // EAGINE_MATH_SCALAR_HPP

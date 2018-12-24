@@ -7,24 +7,22 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_DIM_ANGULAR_VELOCITY_1512222148_HPP
-#define EAGINE_UNITS_DIM_ANGULAR_VELOCITY_1512222148_HPP
+#ifndef EAGINE_UNITS_DIM_ANGULAR_VELOCITY_HPP
+#define EAGINE_UNITS_DIM_ANGULAR_VELOCITY_HPP
 
 #include "../dimension.hpp"
 
 namespace eagine {
 namespace units {
 
-typedef decltype(angle()/time()) angular_velocity;
+using angular_velocity = decltype(angle() / time());
 
 template <>
-struct dim_name<angular_velocity>
-{
-	static constexpr const char mp_str[] = "angular velocity";
+struct dim_name<angular_velocity> {
+    static constexpr const char mp_str[] = "angular velocity";
 };
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // EAGINE_UNITS_DIM_ANGULAR_VELOCITY_HPP

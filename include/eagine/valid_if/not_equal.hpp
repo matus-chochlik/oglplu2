@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_VALID_IF_NOT_EQUAL_1509260923_HPP
-#define EAGINE_VALID_IF_NOT_EQUAL_1509260923_HPP
+#ifndef EAGINE_VALID_IF_NOT_EQUAL_HPP
+#define EAGINE_VALID_IF_NOT_EQUAL_HPP
 
 #include "decl.hpp"
 
@@ -16,27 +16,21 @@ namespace eagine {
 
 // not-equal
 template <typename T, T Cmp>
-struct valid_if_ne_policy
-{
-	constexpr
-	bool operator ()(T value) const
-	noexcept {
-		return value != Cmp;
-	}
+struct valid_if_ne_policy {
+    constexpr bool operator()(T value) const noexcept {
+        return value != Cmp;
+    }
 
-	struct do_log
-	{
-		template <typename X>
-		constexpr inline
-		do_log(X&&)
-		noexcept
-		{ }
+    struct do_log {
+        template <typename X>
+        constexpr inline do_log(X&&) noexcept {
+        }
 
-		template <typename Log>
-		void operator ()(Log& log, const T&) const {
-			log << "Value equal to " << Cmp << " is invalid";
-		}
-	};
+        template <typename Log>
+        void operator()(Log& log, const T&) const {
+            log << "Value equal to " << Cmp << " is invalid";
+        }
+    };
 };
 
 template <typename T, T Cmp>
@@ -44,4 +38,4 @@ using valid_if_not = valid_if<T, valid_if_ne_policy<T, Cmp>>;
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_VALID_IF_NOT_EQUAL_HPP

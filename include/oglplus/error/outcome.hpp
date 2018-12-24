@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_ERROR_OUTCOME_1509260923_HPP
-#define OGLPLUS_ERROR_OUTCOME_1509260923_HPP
+#ifndef OGLPLUS_ERROR_OUTCOME_HPP
+#define OGLPLUS_ERROR_OUTCOME_HPP
 
 #include "../utils/outcome.hpp"
 #include "handling.hpp"
@@ -16,12 +16,8 @@
 namespace oglplus {
 
 template <typename T>
-using outcome = basic_outcome<
-	T,
-	error_info,
-	gl_error_handling_policy
->;
+using outcome = basic_outcome<T, error_info, gl_error_handling_policy>;
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_ERROR_OUTCOME_HPP

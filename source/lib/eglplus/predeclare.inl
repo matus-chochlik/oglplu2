@@ -8,4 +8,3 @@
  */
 
 #include <eglplus/egl.hpp>
-

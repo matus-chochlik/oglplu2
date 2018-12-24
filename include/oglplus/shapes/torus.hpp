@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_SHAPES_TORUS_1509260923_HPP
-#define OGLPLUS_SHAPES_TORUS_1509260923_HPP
+#ifndef OGLPLUS_SHAPES_TORUS_HPP
+#define OGLPLUS_SHAPES_TORUS_HPP
 
 #include "adapted_gen.hpp"
 #include <eagine/shapes/torus.hpp>
@@ -16,10 +16,10 @@
 namespace oglplus {
 namespace shapes {
 
-typedef concrete_adapted_generator<eagine::shapes::unit_torus_gen>
-	unit_torus_gen;
+using unit_torus_gen =
+  concrete_adapted_generator<eagine::shapes::unit_torus_gen>;
 
 } // namespace shapes
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_SHAPES_TORUS_HPP

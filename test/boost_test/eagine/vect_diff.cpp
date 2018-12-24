@@ -14,57 +14,51 @@ BOOST_AUTO_TEST_SUITE(vect_diff_tests)
 static eagine::test_random_generator rg;
 
 template <typename T, int N, bool V>
-void test_vect_diff_TNV_1(void)
-{
-	for(int k=0; k<1000; ++k)
-	{
-		T a[N];
+void test_vect_diff_TNV_1() {
+    for(int k = 0; k < 1000; ++k) {
+        T a[N];
 
-		typename eagine::vect::data<T, N, V>::type u = {}, v = {};
+        typename eagine::vect::data<T, N, V>::type u = {}, v = {};
 
-		for(int i=0; i<N; ++i)
-		{
-			a[i] = rg.get(-10000,+10000);
-			u[i] = a[i];
-			v[i] = a[i];
-		}
+        for(int i = 0; i < N; ++i) {
+            a[i] = rg.get(-10000, +10000);
+            u[i] = a[i];
+            v[i] = a[i];
+        }
 
-		typedef eagine::vect::diff<T, N, V> _diff;
-		typedef eagine::vect::esum<T, N, V> _esum;
+        using _diff = eagine::vect::diff<T, N, V>;
+        using _esum = eagine::vect::esum<T, N, V>;
 
-		BOOST_CHECK_EQUAL(_esum::apply(_diff::apply(u, u)), T(0));
-		BOOST_CHECK_EQUAL(_esum::apply(_diff::apply(v, u)), T(0));
-		BOOST_CHECK_EQUAL(_esum::apply(_diff::apply(u, v)), T(0));
-		BOOST_CHECK_EQUAL(_esum::apply(_diff::apply(v, v)), T(0));
-	}
+        BOOST_CHECK_EQUAL(_esum::apply(_diff::apply(u, u)), T(0));
+        BOOST_CHECK_EQUAL(_esum::apply(_diff::apply(v, u)), T(0));
+        BOOST_CHECK_EQUAL(_esum::apply(_diff::apply(u, v)), T(0));
+        BOOST_CHECK_EQUAL(_esum::apply(_diff::apply(v, v)), T(0));
+    }
 }
 
 template <typename T, bool V>
-void test_vect_diff_TV_1(void)
-{
-	test_vect_diff_TNV_1<T, 2, V>();
-	test_vect_diff_TNV_1<T, 3, V>();
-	test_vect_diff_TNV_1<T, 4, V>();
-	test_vect_diff_TNV_1<T, 5, V>();
-	test_vect_diff_TNV_1<T, 7, V>();
-	test_vect_diff_TNV_1<T, 8, V>();
-	test_vect_diff_TNV_1<T,11, V>();
-	test_vect_diff_TNV_1<T,15, V>();
-	test_vect_diff_TNV_1<T,19, V>();
+void test_vect_diff_TV_1() {
+    test_vect_diff_TNV_1<T, 2, V>();
+    test_vect_diff_TNV_1<T, 3, V>();
+    test_vect_diff_TNV_1<T, 4, V>();
+    test_vect_diff_TNV_1<T, 5, V>();
+    test_vect_diff_TNV_1<T, 7, V>();
+    test_vect_diff_TNV_1<T, 8, V>();
+    test_vect_diff_TNV_1<T, 11, V>();
+    test_vect_diff_TNV_1<T, 15, V>();
+    test_vect_diff_TNV_1<T, 19, V>();
 }
 
 template <typename T>
-void test_vect_diff_T_1(void)
-{
-	test_vect_diff_TV_1<T, true>();
-	test_vect_diff_TV_1<T,false>();
+void test_vect_diff_T_1() {
+    test_vect_diff_TV_1<T, true>();
+    test_vect_diff_TV_1<T, false>();
 }
 
-BOOST_AUTO_TEST_CASE(vect_data_diff_TNV_1)
-{
-	test_vect_diff_T_1<int>();
-	test_vect_diff_T_1<float>();
-	test_vect_diff_T_1<double>();
+BOOST_AUTO_TEST_CASE(vect_data_diff_TNV_1) {
+    test_vect_diff_T_1<int>();
+    test_vect_diff_T_1<float>();
+    test_vect_diff_T_1<double>();
 }
 
 // TODO

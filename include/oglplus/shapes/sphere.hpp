@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_SHAPES_SPHERE_1509260923_HPP
-#define OGLPLUS_SHAPES_SPHERE_1509260923_HPP
+#ifndef OGLPLUS_SHAPES_SPHERE_HPP
+#define OGLPLUS_SHAPES_SPHERE_HPP
 
 #include "adapted_gen.hpp"
 #include <eagine/shapes/sphere.hpp>
@@ -16,10 +16,10 @@
 namespace oglplus {
 namespace shapes {
 
-typedef concrete_adapted_generator<eagine::shapes::unit_sphere_gen>
-	unit_sphere_gen;
+using unit_sphere_gen =
+  concrete_adapted_generator<eagine::shapes::unit_sphere_gen>;
 
 } // namespace shapes
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_SHAPES_SPHERE_HPP

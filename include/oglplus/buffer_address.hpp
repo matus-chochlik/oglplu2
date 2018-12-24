@@ -6,34 +6,27 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_BUFFER_ADDRESS_1509260923_HPP
-#define OGLPLUS_BUFFER_ADDRESS_1509260923_HPP
+#ifndef OGLPLUS_BUFFER_ADDRESS_HPP
+#define OGLPLUS_BUFFER_ADDRESS_HPP
 
 #if defined(GL_NV_shader_buffer_load)
 
 namespace oglplus {
 
-struct buffer_address
-{
-	GLuint64EXT _addr;
+struct buffer_address {
+    GLuint64EXT _addr;
 
-	constexpr
-	buffer_address(GLuint64EXT addr)
-	noexcept
-	 : _addr(addr)
-	{ }
+    constexpr buffer_address(GLuint64EXT addr) noexcept
+      : _addr(addr) {
+    }
 };
 
-static inline
-GLuint64EXT
-get_raw_address(buffer_address ba)
-noexcept
-{
-	return ba._addr;
+static inline GLuint64EXT get_raw_address(buffer_address ba) noexcept {
+    return ba._addr;
 }
 
 } // namespace oglplus
 
 #endif // NV_shader_buffer_load
 
-#endif // include guard
+#endif // OGLPLUS_BUFFER_ADDRESS_HPP

@@ -7,24 +7,22 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_DIM_FREQUENCY_1512222148_HPP
-#define EAGINE_UNITS_DIM_FREQUENCY_1512222148_HPP
+#ifndef EAGINE_UNITS_DIM_FREQUENCY_HPP
+#define EAGINE_UNITS_DIM_FREQUENCY_HPP
 
 #include "../dimension.hpp"
 
 namespace eagine {
 namespace units {
 
-typedef decltype(number_of_cycles()/time()) frequency;
+using frequency = decltype(number_of_cycles() / time());
 
 template <>
-struct dim_name<frequency>
-{
-	static constexpr const char mp_str[] = "frequency";
+struct dim_name<frequency> {
+    static constexpr const char mp_str[] = "frequency";
 };
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // EAGINE_UNITS_DIM_FREQUENCY_HPP

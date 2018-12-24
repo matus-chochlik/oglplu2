@@ -7,41 +7,38 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_UNIT_SI_INDUCTANCE_1512222148_HPP
-#define EAGINE_UNITS_UNIT_SI_INDUCTANCE_1512222148_HPP
+#ifndef EAGINE_UNITS_UNIT_SI_INDUCTANCE_HPP
+#define EAGINE_UNITS_UNIT_SI_INDUCTANCE_HPP
 
+#include "../../dim/inductance.hpp"
 #include "common.hpp"
+#include "electric_current.hpp"
+#include "length.hpp"
 #include "mass.hpp"
 #include "time.hpp"
-#include "length.hpp"
-#include "electric_current.hpp"
-#include "../../dim/inductance.hpp"
 
 namespace eagine {
 namespace units {
 
 // henry
-typedef unit<inductance, si> henry;
+using henry = unit<inductance, si>;
 
 template <>
-struct unit_name<henry>
-{
-	static constexpr const char mp_str[] = "henry";
+struct unit_name<henry> {
+    static constexpr const char mp_str[] = "henry";
 };
 
 template <>
-struct unit_symbol<henry>
-{
-	static constexpr const char mp_str[] = "H";
+struct unit_symbol<henry> {
+    static constexpr const char mp_str[] = "H";
 };
 
 // derived
-typedef make_scaled_unit_t<scales::milli, henry> millihenry;
-typedef make_scaled_unit_t<scales::kilo, henry> kilohenry;
+using millihenry = make_scaled_unit_t<scales::milli, henry>;
+using kilohenry = make_scaled_unit_t<scales::kilo, henry>;
 // TODO
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // EAGINE_UNITS_UNIT_SI_INDUCTANCE_HPP

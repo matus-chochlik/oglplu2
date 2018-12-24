@@ -7,24 +7,22 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_DIM_VOLUME_1512222148_HPP
-#define EAGINE_UNITS_DIM_VOLUME_1512222148_HPP
+#ifndef EAGINE_UNITS_DIM_VOLUME_HPP
+#define EAGINE_UNITS_DIM_VOLUME_HPP
 
 #include "../dimension.hpp"
 
 namespace eagine {
 namespace units {
 
-typedef decltype(length()*length()*length()) volume;
+using volume = decltype(length() * length() * length());
 
 template <>
-struct dim_name<volume>
-{
-	static constexpr const char mp_str[] = "volume";
+struct dim_name<volume> {
+    static constexpr const char mp_str[] = "volume";
 };
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // EAGINE_UNITS_DIM_VOLUME_HPP

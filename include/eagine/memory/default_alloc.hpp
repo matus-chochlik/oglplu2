@@ -7,18 +7,17 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MEMORY_DEFAULT_ALLOC_1509260923_HPP
-#define EAGINE_MEMORY_DEFAULT_ALLOC_1509260923_HPP
+#ifndef EAGINE_MEMORY_DEFAULT_ALLOC_HPP
+#define EAGINE_MEMORY_DEFAULT_ALLOC_HPP
 
 #include "c_realloc.hpp"
 
 namespace eagine {
 namespace memory {
 
-typedef c_byte_reallocator<> default_byte_allocator;
+using default_byte_allocator = c_byte_reallocator<>;
 
 } // namespace memory
 } // namespace eagine
 
-#endif //include guard
-
+#endif // EAGINE_MEMORY_DEFAULT_ALLOC_HPP

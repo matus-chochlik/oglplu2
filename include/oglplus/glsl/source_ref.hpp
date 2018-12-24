@@ -6,45 +6,60 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_GLSL_SOURCE_REF_1509260923_HPP
-#define OGLPLUS_GLSL_SOURCE_REF_1509260923_HPP
+#ifndef OGLPLUS_GLSL_SOURCE_REF_HPP
+#define OGLPLUS_GLSL_SOURCE_REF_HPP
 
+#include "../utils/string_span.hpp"
+#include "../utils/types.hpp"
 #include <cassert>
 #include <cstddef>
-#include "../utils/types.hpp"
 
 namespace oglplus {
-
-class glsl_source_ref
-{
+//------------------------------------------------------------------------------
+class glsl_source_ref {
 private:
-	GLsizei _count;
-	const GLchar** _parts;
-	const GLint* _lengths;
+    const GLchar* _part = nullptr;
+    const GLint _length = 0;
+    GLsizei _count = 0;
+    const GLchar** _parts = nullptr;
+    const GLint* _lengths = nullptr;
+
 public:
-	glsl_source_ref(span_size_t n, const GLchar** ps, const GLint* ls)
-	noexcept
-	 : _count(GLsizei(n))
-	 , _parts(ps)
-	 , _lengths(ls)
-	{
-		assert(_count >= 0);
-		assert(_parts != nullptr);
-	}
+    constexpr glsl_source_ref(const GLchar* part, GLint length) noexcept
+      : _part{part}
+      , _length{length}
+      , _count{1}
+      , _parts{&_part}
+      , _lengths{&_length} {
+    }
 
-	inline
-	GLsizei count(void) const
-	noexcept { return _count; }
+    constexpr glsl_source_ref(string_view source_str) noexcept
+      : glsl_source_ref(
+          accomodate<const GLchar>(source_str).data(),
+          eagine::limit_cast<GLint>(source_str.size())) {
+    }
 
-	inline
-	const GLchar** parts(void) const
-	noexcept { return _parts; }
+    glsl_source_ref(span_size_t n, const GLchar** ps, const GLint* ls) noexcept
+      : _count(eagine::limit_cast<GLsizei>(n))
+      , _parts(ps)
+      , _lengths(ls) {
+        assert(_count >= 0);
+        assert(_parts != nullptr);
+    }
 
-	inline
-	const GLint* lengths(void) const
-	noexcept { return _lengths; }
+    inline GLsizei count() const noexcept {
+        return _count;
+    }
+
+    inline const GLchar** parts() const noexcept {
+        return _parts;
+    }
+
+    inline const GLint* lengths() const noexcept {
+        return _lengths;
+    }
 };
-
+//------------------------------------------------------------------------------
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_GLSL_SOURCE_REF_HPP

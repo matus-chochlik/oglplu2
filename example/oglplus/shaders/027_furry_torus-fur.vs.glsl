@@ -11,16 +11,9 @@ out vec3 vertOffset;
 out vec3 vertNormal;
 out vec3 vertColor;
 
-void main(void)
-{
-	gl_Position = 
-		NewModelMatrix * 
-		Position;
-	vertOffset = (
-		gl_Position - 
-		OldModelMatrix * 
-		Position
-	).xyz;
-	vertNormal = mat3(NewModelMatrix) * Normal;
-	vertColor = texture(FurTex, TexCoord).rgb;
+void main() {
+    gl_Position = NewModelMatrix * Position;
+    vertOffset = (gl_Position - OldModelMatrix * Position).xyz;
+    vertNormal = mat3(NewModelMatrix) * Normal;
+    vertColor = texture(FurTex, TexCoord).rgb;
 }

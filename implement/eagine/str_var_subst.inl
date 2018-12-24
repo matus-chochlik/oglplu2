@@ -6,139 +6,104 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/memory/span_algo.hpp>
+#include <eagine/string_span.hpp>
 #include <cstdlib>
 
 namespace eagine {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-std::string
-substitute_variables(
-	const std::string& str,
-	const callable_ref<std::string(const std::string&)>& translate,
-	bool keep_untranslated
-)
-{
-	std::string::size_type p = str.find_first_of('$');
-	if(p < str.size())
-	{
-		std::string res(str.data(), p);
+std::string& substitute_variables_into(
+  std::string& dst,
+  string_view src,
+  const callable_ref<optionally_valid<string_view>(string_view)>& translate,
+  variable_substitution_options opts) {
 
-		while(p < str.size())
-		{
-			std::string::size_type r = p+1;
-			if(str[r] == '{')
-			{
-				int depth = 0;
+    do {
+        if(auto lpos = find_element(src, opts.leading_sign)) {
+            append_to(dst, head(src, lpos.value()));
+            src = skip(src, lpos.value());
 
-				while(r < str.size())
-				{
-					if(str[r] == '{')
-					{
-						++depth;
-					}
-					else if(str[r] == '}')
-					{
-						--depth;
-					}
+            if(
+              auto inner = slice_inside_brackets(
+                src, opts.opening_bracket, opts.closing_bracket)) {
 
-					if(depth == 0)
-					{
-						break;
-					}
-					++r;
-				}
-				if(depth != 0)
-				{
-					res.append(str.data()+p, str.size()-p);
-					break;
-				}
-			}
+                if(auto translation = translate(inner)) {
+                    append_to(dst, translation.value());
+                } else {
+                    if(find_element(inner, opts.leading_sign)) {
+                        std::string temp;
+                        substitute_variables_into(temp, inner, translate, opts);
+                        if(auto translation2 = translate(temp)) {
+                            append_to(dst, translation2.value());
+                        } else if(opts.keep_untranslated) {
+                            append_to(dst, head(src, inner.size() + 3));
+                        }
+                    } else if(opts.keep_untranslated) {
+                        append_to(dst, head(src, inner.size() + 3));
+                    }
+                }
+                src = skip(src, inner.size() + 3);
+            } else {
+                append_to(dst, head(src, 3));
+                src = skip(src, 3);
+            }
 
-			if(p+2 < r)
-			{
-				std::string sub = substitute_variables(
-					std::string(str.data()+p+2, r-p-2),
-					translate,
-					keep_untranslated
-				);
-				std::string tmp = translate(sub);
-				if(!tmp.empty())
-				{
-					res.append(tmp);
-				}
-				else if(keep_untranslated)
-				{
-					res.append(str.data()+p, r-p+1);
-				}
-				p = r+1;
-			}
+        } else {
+            append_to(dst, src);
+            src.reset();
+        }
+    } while(!src.empty());
 
-			r = str.find_first_of('$', r);
-
-			if(r < str.size())
-			{
-				res.append(str.data()+p, r-p);
-			}
-			else
-			{
-				res.append(str.data()+p, str.size()-p);
-			}
-
-			p = r;
-		}
-		return res;
-	}
-	return str;
+    return dst;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-std::string
-substitute_variables(
-	const std::string& str,
-	span<const std::string> strings,
-	bool keep_untranslated
-)
-{
-	callable_ref<std::string(const std::string&)> translate{
-	[&strings](const std::string& key) -> std::string
-	{
-		span_size_t idx = span_size_t(std::stol(key));
-		if((0 < idx) && (idx <= strings.size()))
-		{
-			return strings[idx-1];
-		}
-		return {};
-	}};
-	return substitute_variables(str, translate, keep_untranslated);
+std::string substitute_variables(
+  string_view src,
+  const callable_ref<optionally_valid<string_view>(string_view)>& translate,
+  variable_substitution_options opts) {
+    std::string result;
+    return std::move(substitute_variables_into(result, src, translate, opts));
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-std::string
-substitute_variables(
-	const std::string& str,
-	const std::map<std::string, std::string>& dictionary,
-	bool keep_untranslated
-)
-{
-	callable_ref<std::string(const std::string&)> translate{
-	[&dictionary](const std::string& key) -> std::string
-	{
-		auto i = dictionary.find(key);
-		if(i != dictionary.end())
-		{
-			return i->second;
-		}
-		return {};
-	}};
-	return substitute_variables(str, translate, keep_untranslated);
+std::string substitute_variables(
+  const std::string& str,
+  span<const std::string> strings,
+  variable_substitution_options opts) {
+    auto translate_func =
+      [&strings](string_view key) -> optionally_valid<string_view> {
+        char* e = nullptr;
+        const span_size_t idx = span_size(std::strtol(c_str(key), &e, 10));
+        if((0 < idx) && (idx <= strings.size())) {
+            return {{strings[idx - 1]}, true};
+        }
+        return {};
+    };
+    callable_ref<optionally_valid<string_view>(string_view)> translate{
+      translate_func};
+    return substitute_variables(str, translate, opts);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-std::string
-environment_variable_map::_translate(const std::string& name)
-{
-	const char* ptr = ::getenv(name.c_str());
-	return ptr?std::string(ptr):std::string();
+std::string substitute_variables(
+  const std::string& str,
+  const std::map<std::string, std::string, str_view_less>& dictionary,
+  variable_substitution_options opts) {
+    auto translate_func =
+      [&dictionary](string_view key) -> optionally_valid<string_view> {
+        if(!dictionary.empty()) {
+            auto i = dictionary.find(key);
+            if(i != dictionary.end()) {
+                return {i->second, true};
+            }
+        }
+        return {};
+    };
+    callable_ref<optionally_valid<string_view>(string_view)> translate{
+      translate_func};
+    return substitute_variables(str, translate, opts);
 }
 //------------------------------------------------------------------------------
 } // namespace eagine

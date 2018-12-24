@@ -7,24 +7,22 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_DIM_MAGNETIC_FLUX_1512222148_HPP
-#define EAGINE_UNITS_DIM_MAGNETIC_FLUX_1512222148_HPP
+#ifndef EAGINE_UNITS_DIM_MAGNETIC_FLUX_HPP
+#define EAGINE_UNITS_DIM_MAGNETIC_FLUX_HPP
 
 #include "energy.hpp"
 
 namespace eagine {
 namespace units {
 
-typedef decltype(energy()/electric_current()) magnetic_flux;
+using magnetic_flux = decltype(energy() / electric_current());
 
 template <>
-struct dim_name<magnetic_flux>
-{
-	static constexpr const char mp_str[] = "magnetic flux";
+struct dim_name<magnetic_flux> {
+    static constexpr const char mp_str[] = "magnetic flux";
 };
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // EAGINE_UNITS_DIM_MAGNETIC_FLUX_HPP

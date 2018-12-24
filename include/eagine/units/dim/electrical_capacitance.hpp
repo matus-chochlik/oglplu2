@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_DIM_ELECTRICAL_CAPACITANCE_1512222148_HPP
-#define EAGINE_UNITS_DIM_ELECTRICAL_CAPACITANCE_1512222148_HPP
+#ifndef EAGINE_UNITS_DIM_ELECTRICAL_CAPACITANCE_HPP
+#define EAGINE_UNITS_DIM_ELECTRICAL_CAPACITANCE_HPP
 
 #include "electric_charge.hpp"
 #include "electric_tension.hpp"
@@ -16,16 +16,14 @@
 namespace eagine {
 namespace units {
 
-typedef decltype(electric_charge()/electric_tension()) electrical_capacitance;
+using electrical_capacitance = decltype(electric_charge() / electric_tension());
 
 template <>
-struct dim_name<electrical_capacitance>
-{
-	static constexpr const char mp_str[] = "electrical capacitance";
+struct dim_name<electrical_capacitance> {
+    static constexpr const char mp_str[] = "electrical capacitance";
 };
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // EAGINE_UNITS_DIM_ELECTRICAL_CAPACITANCE_HPP

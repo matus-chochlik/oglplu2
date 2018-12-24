@@ -7,47 +7,37 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_COUNT_1509260923_HPP
-#define EAGINE_COUNT_1509260923_HPP
+#ifndef EAGINE_COUNT_HPP
+#define EAGINE_COUNT_HPP
 
 namespace eagine {
 
 template <typename Int = unsigned>
-class count_t
-{
+class count_t {
 private:
-	Int _c;
+    Int _c;
+
 public:
-	constexpr inline
-	count_t(void)
-	noexcept
-	 : _c(0)
-	{ }
+    using value_type = Int;
 
-	typedef Int value_type;
+    constexpr inline count_t() noexcept
+      : _c(0) {
+    }
 
-	constexpr
-	value_type value(void) const
-	noexcept
-	{
-		return _c;
-	}
+    constexpr value_type value() const noexcept {
+        return _c;
+    }
 
-	constexpr
-	operator value_type (void) const
-	noexcept
-	{
-		return _c;
-	}
+    constexpr operator value_type() const noexcept {
+        return _c;
+    }
 
-	template <typename ... P>
-	void operator()(const P& ...)
-	noexcept
-	{
-		++_c;
-	}
+    template <typename... P>
+    constexpr void operator()(const P&...) noexcept {
+        ++_c;
+    }
 };
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_COUNT_HPP

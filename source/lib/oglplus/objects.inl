@@ -7,8 +7,10 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+// clang-format off
 #include <oglplus/buffer.hpp>
 #include <oglplus/framebuffer.hpp>
 #include <oglplus/renderbuffer.hpp>
 #include <oglplus/transform_feedback.hpp>
 #include <oglplus/texture.hpp>
+// clang-format on

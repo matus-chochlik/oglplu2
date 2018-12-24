@@ -7,7 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+// clang-format off
 #include <oglplus/shapes/init.hpp>
 #include <oglplus/shapes/drawing.hpp>
 #include <oglplus/shapes/adapted_gen.hpp>
-
+// clang-format on

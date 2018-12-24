@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_VECT_DIFF_1509260923_HPP
-#define EAGINE_VECT_DIFF_1509260923_HPP
+#ifndef EAGINE_VECT_DIFF_HPP
+#define EAGINE_VECT_DIFF_HPP
 
 #include "abs.hpp"
 
@@ -15,16 +15,13 @@ namespace eagine {
 namespace vect {
 
 template <typename T, int N, bool V>
-struct diff
-{
-	typedef data_t<T, N, V> _dT;
-	typedef data_param_t<T, N, V> _dpT;
+struct diff {
+    using _dT = data_t<T, N, V>;
+    using _dpT = data_param_t<T, N, V>;
 
-	static
-	_dT apply(_dpT a, _dpT b)
-	noexcept {
-		return vect::abs<T, N, V>::apply(a-b);
-	}
+    static _dT apply(_dpT a, _dpT b) noexcept {
+        return vect::abs<T, N, V>::apply(a - b);
+    }
 };
 
 // TODO: some optimizations ?
@@ -32,5 +29,4 @@ struct diff
 } // namespace vect
 } // namespace eagine
 
-#endif //include guard
-
+#endif // EAGINE_VECT_DIFF_HPP

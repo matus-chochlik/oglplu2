@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_QUANTITY_1512222148_HPP
-#define EAGINE_UNITS_QUANTITY_1512222148_HPP
+#ifndef EAGINE_UNITS_QUANTITY_HPP
+#define EAGINE_UNITS_QUANTITY_HPP
 
 #include "../tagged_quantity.hpp"
 
@@ -16,14 +16,11 @@ namespace eagine {
 namespace units {
 
 template <typename U, typename T>
-static inline
-tagged_quantity<T, U> quantity(const T& value)
-{
-	return tagged_quantity<T, U>(value);
+static inline tagged_quantity<T, U> quantity(const T& value) {
+    return tagged_quantity<T, U>(value);
 }
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // EAGINE_UNITS_QUANTITY_HPP

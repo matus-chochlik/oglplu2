@@ -7,24 +7,22 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_DIM_VELOCITY_1512222148_HPP
-#define EAGINE_UNITS_DIM_VELOCITY_1512222148_HPP
+#ifndef EAGINE_UNITS_DIM_VELOCITY_HPP
+#define EAGINE_UNITS_DIM_VELOCITY_HPP
 
 #include "../dimension.hpp"
 
 namespace eagine {
 namespace units {
 
-typedef decltype(length()/time()) velocity;
+using velocity = decltype(length() / time());
 
 template <>
-struct dim_name<velocity>
-{
-	static constexpr const char mp_str[] = "velocity";
+struct dim_name<velocity> {
+    static constexpr const char mp_str[] = "velocity";
 };
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // EAGINE_UNITS_DIM_VELOCITY_HPP

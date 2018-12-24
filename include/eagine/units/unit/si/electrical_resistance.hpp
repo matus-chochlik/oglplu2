@@ -7,39 +7,36 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_UNIT_SI_ELECTRICAL_RESISTANCE_1512222148_HPP
-#define EAGINE_UNITS_UNIT_SI_ELECTRICAL_RESISTANCE_1512222148_HPP
+#ifndef EAGINE_UNITS_UNIT_SI_ELECTRICAL_RESISTANCE_HPP
+#define EAGINE_UNITS_UNIT_SI_ELECTRICAL_RESISTANCE_HPP
 
+#include "../../dim/electrical_resistance.hpp"
 #include "common.hpp"
 #include "electric_current.hpp"
 #include "electric_tension.hpp"
-#include "../../dim/electrical_resistance.hpp"
 
 namespace eagine {
 namespace units {
 
 // ohm
-typedef unit<electrical_resistance, si> ohm;
+using ohm = unit<electrical_resistance, si>;
 
 template <>
-struct unit_name<ohm>
-{
-	static constexpr const char mp_str[] = "ohm";
+struct unit_name<ohm> {
+    static constexpr const char mp_str[] = "ohm";
 };
 
 template <>
-struct unit_symbol<ohm>
-{
-	static constexpr const char mp_str[] = {char(0xCE),char(0xA9),'\0'};
+struct unit_symbol<ohm> {
+    static constexpr const char mp_str[] = {char(0xCE), char(0xA9), '\0'};
 };
 
 // derived
-typedef make_scaled_unit_t<scales::milli, ohm> milliohm;
-typedef make_scaled_unit_t<scales::kilo, ohm> kiloohm;
+using milliohm = make_scaled_unit_t<scales::milli, ohm>;
+using kiloohm = make_scaled_unit_t<scales::kilo, ohm>;
 // TODO
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // EAGINE_UNITS_UNIT_SI_ELECTRICAL_RESISTANCE_HPP

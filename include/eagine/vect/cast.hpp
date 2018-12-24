@@ -7,11 +7,11 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_VECT_CAST_1509260923_HPP
-#define EAGINE_VECT_CAST_1509260923_HPP
+#ifndef EAGINE_VECT_CAST_HPP
+#define EAGINE_VECT_CAST_HPP
 
 #include "fill.hpp"
-#include "../std/utility.hpp"
+#include <utility>
 
 namespace eagine {
 namespace vect {
@@ -20,69 +20,55 @@ template <typename TF, int NF, bool VF, typename TT, int NT, bool VT>
 struct cast;
 
 template <typename T, int N, bool V>
-struct cast<T, N, V, T, N, V>
-{
-	static constexpr inline
-	data_t<T, N, V>
-	apply(data_param_t<T, N, V> v, T)
-	noexcept { return v; }
+struct cast<T, N, V, T, N, V> {
+    static constexpr inline data_t<T, N, V> apply(
+      data_param_t<T, N, V> v, T) noexcept {
+        return v;
+    }
 };
 
 template <typename TF, int NF, bool VF, typename TT, int NT, bool VT>
-struct cast
-{
+struct cast {
 private:
-	template <int ... I>
-	using _idx_seq = std::integer_sequence<int, I...>;
-	template <int N>
-	using _make_idx_seq = std::make_integer_sequence<int, N>;
+    template <int... I>
+    using _idx_seq = std::integer_sequence<int, I...>;
+    template <int N>
+    using _make_idx_seq = std::make_integer_sequence<int, N>;
 
-	template <int ... I, int ... D>
-	static constexpr inline
-	data_t<TT, NT, VT>
-	_cast(
-		data_param_t<TF, NF, VF> v,
-		data_param_t<TT, sizeof...(D), VT> d,
-		_idx_seq<I...>,
-		_idx_seq<D...>
-	) noexcept {
-		return data_t<TT, NT, VT>{TT(v[I])..., TT(d[D])...};
-	}
+    template <int... I, int... D>
+    static constexpr inline data_t<TT, NT, VT> _cast(
+      data_param_t<TF, NF, VF> v,
+      data_param_t<TT, sizeof...(D), VT> d,
+      _idx_seq<I...>,
+      _idx_seq<D...>) noexcept {
+        return data_t<TT, NT, VT>{TT(v[I])..., TT(d[D])...};
+    }
 
-	template <int ... I>
-	static constexpr inline
-	data_t<TT, NT, VT>
-	_cast(
-		data_param_t<TF, NF, VF> v,
-		data_param_t<TT, 0u, VT>,
-		_idx_seq<I...>,
-		_idx_seq<>
-	) noexcept {
-		return data_t<TT, NT, VT>{TT(v[I])...};
-	}
+    template <int... I>
+    static constexpr inline data_t<TT, NT, VT> _cast(
+      data_param_t<TF, NF, VF> v,
+      data_param_t<TT, 0u, VT>,
+      _idx_seq<I...>,
+      _idx_seq<>) noexcept {
+        return data_t<TT, NT, VT>{TT(v[I])...};
+    }
+
 public:
+    static constexpr inline data_t<TT, NT, VT> apply(
+      data_param_t<TF, NF, VF> v,
+      data_param_t<TT, (NT > NF) ? NT - NF : 0, VT> d) noexcept {
+        using is = _make_idx_seq<(NT > NF) ? NF : NT>;
+        using ds = _make_idx_seq<(NT > NF) ? NT - NF : 0>;
+        return _cast(v, d, is(), ds());
+    }
 
-	static constexpr inline
-	data_t<TT, NT, VT>
-	apply(
-		data_param_t<TF, NF, VF> v,
-		data_param_t<TT, (NT>NF)?NT-NF:0, VT> d
-	) noexcept {
-		typedef _make_idx_seq<(NT>NF)?NF:NT> is;
-		typedef _make_idx_seq<(NT>NF)?NT-NF:0> ds;
-		return _cast(v, d, is(), ds());
-	}
-
-	static constexpr inline
-	data_t<TT, NT, VT>
-	apply(data_param_t<TF, NF, VF> v, TT d)
-	noexcept {
-		return apply(v, fill<TT, (NT>NF)?NT-NF:0, VT>::apply(d));
-	}
+    static constexpr inline data_t<TT, NT, VT> apply(
+      data_param_t<TF, NF, VF> v, TT d) noexcept {
+        return apply(v, fill < TT, (NT > NF) ? NT - NF : 0, VT > ::apply(d));
+    }
 };
 
 } // namespace vect
 } // namespace eagine
 
-#endif //include guard
-
+#endif // EAGINE_VECT_CAST_HPP

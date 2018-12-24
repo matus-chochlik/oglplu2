@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_UNIT_SI_LENGTH_1512222148_HPP
-#define EAGINE_UNITS_UNIT_SI_LENGTH_1512222148_HPP
+#ifndef EAGINE_UNITS_UNIT_SI_LENGTH_HPP
+#define EAGINE_UNITS_UNIT_SI_LENGTH_HPP
 
 #include "common.hpp"
 
@@ -17,51 +17,42 @@ namespace units {
 namespace base {
 
 // meter
-struct meter : unit<length, meter> { };
+struct meter : unit<length, meter> {};
 
 template <>
-struct unit_name<meter>
-{
-	static constexpr const char mp_str[] = "meter";
+struct unit_name<meter> {
+    static constexpr const char mp_str[] = "meter";
 };
 template <>
-struct unit_symbol<meter>
-{
-	static constexpr const char mp_str[] = "m";
+struct unit_symbol<meter> {
+    static constexpr const char mp_str[] = "m";
 };
 
 } // namespace base
 
 // si::base_unit<length>
 template <>
-struct si::base_unit<base::length> : base::meter { };
+struct si::base_unit<base::length> : base::meter {};
 
 // kilometer
-typedef unit<length, si> meter;
+using meter = unit<length, si>;
 
 // derived
-typedef make_scaled_base_dim_unit_t<
-	base::scaled_unit<scales::kilo, base::meter>,
-	si
-> kilometer;
+using kilometer =
+  make_scaled_base_dim_unit_t<base::scaled_unit<scales::kilo, base::meter>, si>;
 
-typedef make_scaled_base_dim_unit_t<
-	base::scaled_unit<scales::deci, base::meter>,
-	si
-> decimeter;
+using decimeter =
+  make_scaled_base_dim_unit_t<base::scaled_unit<scales::deci, base::meter>, si>;
 
-typedef make_scaled_base_dim_unit_t<
-	base::scaled_unit<scales::centi, base::meter>,
-	si
-> centimeter;
+using centimeter = make_scaled_base_dim_unit_t<
+  base::scaled_unit<scales::centi, base::meter>,
+  si>;
 
-typedef make_scaled_base_dim_unit_t<
-	base::scaled_unit<scales::milli, base::meter>,
-	si
-> millimeter;
+using millimeter = make_scaled_base_dim_unit_t<
+  base::scaled_unit<scales::milli, base::meter>,
+  si>;
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // EAGINE_UNITS_UNIT_SI_LENGTH_HPP

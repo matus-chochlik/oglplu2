@@ -7,25 +7,23 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_DIMLESS_1512222148_HPP
-#define EAGINE_UNITS_DIMLESS_1512222148_HPP
+#ifndef EAGINE_UNITS_DIMENSIONLESS_HPP
+#define EAGINE_UNITS_DIMENSIONLESS_HPP
 
-#include "fwd.hpp"
 #include "detail.hpp"
+#include "fwd.hpp"
 
 namespace eagine {
 namespace units {
 
-typedef bits::dimless dimensionless;
+using dimensionless = bits::dimless;
 
 template <>
-struct dim_name<dimensionless>
-{
-	static constexpr const char mp_str[] = "dimensionless";
+struct dim_name<dimensionless> {
+    static constexpr const char mp_str[] = "dimensionless";
 };
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // EAGINE_UNITS_DIMENSIONLESS_HPP

@@ -7,44 +7,58 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_SPAN_1509260923_HPP
-#define EAGINE_SPAN_1509260923_HPP
+#ifndef EAGINE_SPAN_HPP
+#define EAGINE_SPAN_HPP
 
-#include "types.hpp"
-#include "span_fwd.hpp"
-
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunknown-pragmas"
-#pragma clang diagnostic ignored "-Wold-style-cast"
-#pragma clang diagnostic ignored "-Wreserved-id-macro"
-#pragma clang diagnostic ignored "-Wunused-parameter"
-#pragma clang diagnostic ignored "-Wdeprecated"
-#pragma clang diagnostic ignored "-Wshadow"
-#endif
-
-#include <gsl/span>
-
-#ifdef __clang__
-#pragma clang diagnostic pop
-#endif
-
-#include <initializer_list>
+#include "memory/span.hpp"
+#include <iosfwd>
 
 namespace eagine {
-
-using gsl::span;
-using gsl::make_span;
-
-template <typename T>
-static inline
-span<const T>
-make_span(std::initializer_list<T> il)
-noexcept
-{
-	return {il.begin(), span_size_t(il.size())};
+//------------------------------------------------------------------------------
+using memory::span;
+//------------------------------------------------------------------------------
+using memory::cover;
+using memory::cover_one;
+using memory::view;
+using memory::view_one;
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename S, typename Output>
+static inline Output& list_to_stream(
+  Output& out, memory::basic_span<T, P, S> s) {
+    out << '[';
+    bool first = true;
+    for(const auto& e : s) {
+        if(first) {
+            first = false;
+        } else {
+            out << ',';
+        }
+        out << e;
+    }
+    return out << ']';
 }
-
+//------------------------------------------------------------------------------
+template <typename T, typename Output>
+static inline Output& write_to_stream(Output& out, span<T> s) {
+    return out.write(
+      reinterpret_cast<const char*>(s.data()),
+      limit_cast<std::streamsize>(s.size()));
+}
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename S>
+static inline std::
+  enable_if_t<!std::is_same_v<std::remove_const_t<T>, char>, std::ostream&>
+  operator<<(std::ostream& out, memory::basic_span<T, P, S> s) {
+    return list_to_stream(out, s);
+}
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename S>
+static inline std::
+  enable_if_t<std::is_same_v<std::remove_const_t<T>, char>, std::ostream&>
+  operator<<(std::ostream& out, memory::basic_span<T, P, S> s) {
+    return write_to_stream(out, absolute(s));
+}
+//------------------------------------------------------------------------------
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_SPAN_HPP

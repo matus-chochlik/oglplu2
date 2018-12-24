@@ -7,40 +7,37 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_UNIT_SI_FORCE_1512222148_HPP
-#define EAGINE_UNITS_UNIT_SI_FORCE_1512222148_HPP
+#ifndef EAGINE_UNITS_UNIT_SI_FORCE_HPP
+#define EAGINE_UNITS_UNIT_SI_FORCE_HPP
 
+#include "../../dim/force.hpp"
 #include "common.hpp"
+#include "length.hpp"
 #include "mass.hpp"
 #include "time.hpp"
-#include "length.hpp"
-#include "../../dim/force.hpp"
 
 namespace eagine {
 namespace units {
 
 // newton
-typedef unit<force, si> newton;
+using newton = unit<force, si>;
 
 template <>
-struct unit_name<newton>
-{
-	static constexpr const char mp_str[] = "newton";
+struct unit_name<newton> {
+    static constexpr const char mp_str[] = "newton";
 };
 
 template <>
-struct unit_symbol<newton>
-{
-	static constexpr const char mp_str[] = "N";
+struct unit_symbol<newton> {
+    static constexpr const char mp_str[] = "N";
 };
 
 // derived
-typedef make_scaled_unit_t<scales::kilo, newton> kilonewton;
-typedef make_scaled_unit_t<scales::mega, newton> meganewton;
+using kilonewton = make_scaled_unit_t<scales::kilo, newton>;
+using meganewton = make_scaled_unit_t<scales::mega, newton>;
 // TODO
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // EAGINE_UNITS_UNIT_SI_FORCE_HPP

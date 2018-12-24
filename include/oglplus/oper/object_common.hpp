@@ -6,55 +6,37 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_OPER_OBJECT_COMMON_1509260923_HPP
-#define OGLPLUS_OPER_OBJECT_COMMON_1509260923_HPP
+#ifndef OGLPLUS_OPER_OBJECT_COMMON_HPP
+#define OGLPLUS_OPER_OBJECT_COMMON_HPP
 
+#include "../enum/types.hpp"
+#include "../error/outcome.hpp"
 #include "../object/gl_name.hpp"
 #include "../utils/gl_func.hpp"
-#include "../error/outcome.hpp"
-#include "../enum/types.hpp"
 #include "synchronization.hpp"
 
 namespace oglplus {
 namespace oper {
 
-struct object_common_ops
-{
+struct object_common_ops {
 #if defined(GL_VERSION_4_3)
-	static
-	outcome<GLsizei>
-	get_max_label_length(void)
-	noexcept;
+    static outcome<GLsizei> get_max_label_length() noexcept;
 
-	template <GLenum ObjectType>
-	static
-	outcome<void>
-	object_label(
-		object_name<oglplus::tag::gl_obj_tag<ObjectType>> obj,
-		cstring_span label
-	) noexcept;
+    template <GLenum ObjectType>
+    static outcome<void> object_label(
+      object_name<oglplus::tag::gl_obj_tag<ObjectType>> obj,
+      string_view label) noexcept;
 
-	static
-	outcome<void>
-	object_label(
-		const sync_object& obj,
-		cstring_span label
-	) noexcept;
+    static outcome<void> object_label(
+      const sync_object& obj, string_view label) noexcept;
 
-	template <GLenum ObjectType>
-	static
-	outcome<cstring_span>
-	get_object_label(
-		object_name<oglplus::tag::gl_obj_tag<ObjectType>> obj,
-		string_span storage
-	) noexcept;
+    template <GLenum ObjectType>
+    static outcome<string_view> get_object_label(
+      object_name<oglplus::tag::gl_obj_tag<ObjectType>> obj,
+      string_span storage) noexcept;
 
-	static
-	outcome<cstring_span>
-	get_object_label(
-		const sync_object& obj,
-		string_span label
-	) noexcept;
+    static outcome<string_view> get_object_label(
+      const sync_object& obj, string_span label) noexcept;
 #endif
 };
 
@@ -63,4 +45,4 @@ struct object_common_ops
 
 #include <oglplus/oper/object_common.inl>
 
-#endif // include guard
+#endif // OGLPLUS_OPER_OBJECT_COMMON_HPP

@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_UTILS_BUFFER_SIZE_1509260923_HPP
-#define OGLPLUS_UTILS_BUFFER_SIZE_1509260923_HPP
+#ifndef OGLPLUS_UTILS_BUFFER_SIZE_HPP
+#define OGLPLUS_UTILS_BUFFER_SIZE_HPP
 
 #include <eagine/buffer_size.hpp>
 
@@ -17,4 +17,4 @@ using buffer_size = eagine::buffer_size<GLsizeiptr>;
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_UTILS_BUFFER_SIZE_HPP

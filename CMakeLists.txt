@@ -16,6 +16,10 @@ if(POLICY CMP0066)
 	cmake_policy(SET CMP0066 NEW)
 endif()
 
+if(POLICY CMP0067)
+	cmake_policy(SET CMP0067 NEW)
+endif()
+
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(CMAKE_DEBUG_POSTFIX d)
 
@@ -27,9 +31,9 @@ include(config/Defaults.cmake)
 
 if(NOT ${CONFIG_INFO_ONLY})
 	include(config/BuildType.cmake)
+	include(config/StaticAnalysis.cmake)
 	include(config/Compiler.cmake)
 	include(config/CppFeature.cmake)
-	include(config/StdFixes.cmake)
 	include(config/LowProfile.cmake)
 	include(config/Jobs.cmake)
 endif()

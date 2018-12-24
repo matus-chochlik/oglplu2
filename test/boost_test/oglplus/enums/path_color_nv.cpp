@@ -17,113 +17,103 @@
 
 BOOST_AUTO_TEST_SUITE(enum_path_color_nv_tests)
 
-BOOST_AUTO_TEST_CASE(enum_path_color_nv_values)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	path_color_nv x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_path_color_nv_values) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    path_color_nv x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_PRIMARY_COLOR_NV
-	x = ev.primary_color_nv;
-	BOOST_CHECK(x == ev.primary_color_nv);
-# ifdef GL_SECONDARY_COLOR_NV
-	BOOST_CHECK(x != ev.secondary_color_nv);
-# endif
+    x = ev.primary_color_nv;
+    BOOST_CHECK(x == ev.primary_color_nv);
+#ifdef GL_SECONDARY_COLOR_NV
+    BOOST_CHECK(x != ev.secondary_color_nv);
+#endif
 #endif
 
 #ifdef GL_SECONDARY_COLOR_NV
-	x = ev.secondary_color_nv;
-	BOOST_CHECK(x == ev.secondary_color_nv);
+    x = ev.secondary_color_nv;
+    BOOST_CHECK(x == ev.secondary_color_nv);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_path_color_nv_names)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	path_color_nv x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_path_color_nv_names) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    path_color_nv x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_PRIMARY_COLOR_NV
-	x = ev.primary_color_nv;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"PRIMARY_COLOR_NV"
-	) == 0);
+    x = ev.primary_color_nv;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(
+      std::strcmp(enum_value_name(x).data(), "PRIMARY_COLOR_NV") == 0);
 #endif
 
 #ifdef GL_SECONDARY_COLOR_NV
-	x = ev.secondary_color_nv;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"SECONDARY_COLOR_NV"
-	) == 0);
+    x = ev.secondary_color_nv;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(
+      std::strcmp(enum_value_name(x).data(), "SECONDARY_COLOR_NV") == 0);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_path_color_nv_range)
-{
-	using namespace oglplus;
-	auto count = enum_value_range<path_color_nv>().size();
+BOOST_AUTO_TEST_CASE(enum_path_color_nv_range) {
+    using namespace oglplus;
+    auto count = enum_value_range<path_color_nv>().size();
 
 #ifdef GL_PRIMARY_COLOR_NV
-{
-	--count;
-	auto r = enum_value_range<path_color_nv>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		path_color_nv(GL_PRIMARY_COLOR_NV)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<path_color_nv>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), path_color_nv(GL_PRIMARY_COLOR_NV)) !=
+          r.end());
+    }
 #endif
 
 #ifdef GL_SECONDARY_COLOR_NV
-{
-	--count;
-	auto r = enum_value_range<path_color_nv>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		path_color_nv(GL_SECONDARY_COLOR_NV)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<path_color_nv>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), path_color_nv(GL_SECONDARY_COLOR_NV)) !=
+          r.end());
+    }
 #endif
-	BOOST_CHECK_EQUAL(count, 0);
+    BOOST_CHECK_EQUAL(count, 0);
 }
 
-BOOST_AUTO_TEST_CASE(enum_path_color_nv_any)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	path_color_nv x, y;
-	EAGINE_MAYBE_UNUSED(x);
-	EAGINE_MAYBE_UNUSED(y);
-	any_enum_value a;
-	EAGINE_MAYBE_UNUSED(a);
+BOOST_AUTO_TEST_CASE(enum_path_color_nv_any) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    path_color_nv x, y;
+    EAGINE_MAYBE_UNUSED(x);
+    EAGINE_MAYBE_UNUSED(y);
+    any_enum_value a;
+    EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_PRIMARY_COLOR_NV
-	x = ev.primary_color_nv;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.primary_color_nv);
+    x = ev.primary_color_nv;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.primary_color_nv);
 #endif
 
 #ifdef GL_SECONDARY_COLOR_NV
-	x = ev.secondary_color_nv;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.secondary_color_nv);
+    x = ev.secondary_color_nv;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.secondary_color_nv);
 #endif
 }
 

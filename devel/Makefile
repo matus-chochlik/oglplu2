@@ -9,12 +9,15 @@ BINARY_DIR = $(shell cat $(ROOT_DIR)/BINARY_DIR)
 
 all: $(TESTS)
 
+check%: test%
+	./$<
+
 test%: test%.o
-	$(CXX) -std=c++14 -g3 \
+	$(CXX) -std=c++17 -g3 \
 		-o $@ $<
 test%.o: test%.cpp
-	$(CXX) -std=c++14 -g3 \
-		-Wall -Weverything -Werror \
+	$(CXX) -std=c++17 -g3 \
+		-Wall -Wextra -Werror \
 		-Wno-padded \
 		-Wno-weak-vtables \
 		-Wno-c++98-compat \

@@ -14,3 +14,19 @@ endif()
 
 add_executable(bake_shader_source bake_shader_source.cpp)
 add_executable(bake_program_source bake_program_source.cpp)
+
+# clang-tidy
+if(CLANG_TIDY_PROG)
+	foreach(TOOL
+		bake_noise_image
+		bake_checker_image 
+		bake_png_image 
+		bake_shader_source 
+		bake_program_source 
+	)
+		set_target_properties(
+			${TOOL}
+			PROPERTIES CXX_CLANG_TIDY "${CLANG_TIDY_PROG}"
+		)
+	endforeach()
+endif()

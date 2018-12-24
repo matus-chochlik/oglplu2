@@ -7,24 +7,22 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_DIM_MOMENTUM_1512222148_HPP
-#define EAGINE_UNITS_DIM_MOMENTUM_1512222148_HPP
+#ifndef EAGINE_UNITS_DIM_MOMENTUM_HPP
+#define EAGINE_UNITS_DIM_MOMENTUM_HPP
 
 #include "velocity.hpp"
 
 namespace eagine {
 namespace units {
 
-typedef decltype(velocity()*mass()) momentum;
+using momentum = decltype(velocity() * mass());
 
 template <>
-struct dim_name<momentum>
-{
-	static constexpr const char mp_str[] = "momentum";
+struct dim_name<momentum> {
+    static constexpr const char mp_str[] = "momentum";
 };
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // EAGINE_UNITS_DIM_MOMENTUM_HPP

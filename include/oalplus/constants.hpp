@@ -6,15 +6,15 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OALPLUS_CONSTANTS_1509260923_HPP
-#define OALPLUS_CONSTANTS_1509260923_HPP
+#ifndef OALPLUS_CONSTANTS_HPP
+#define OALPLUS_CONSTANTS_HPP
 
 #include "enum/values.hpp"
 
 namespace oalplus {
 
-typedef enum_values constants;
+using constants = enum_values;
 
 } // namespace oalplus
 
-#endif // include guard
+#endif // OALPLUS_CONSTANTS_HPP

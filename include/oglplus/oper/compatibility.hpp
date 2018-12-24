@@ -6,17 +6,17 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_OPER_COMPATIBILITY_1509260923_HPP
-#define OGLPLUS_OPER_COMPATIBILITY_1509260923_HPP
+#ifndef OGLPLUS_OPER_COMPATIBILITY_HPP
+#define OGLPLUS_OPER_COMPATIBILITY_HPP
 
 #ifdef GL_ARB_compatibility
-#include "../utils/gl_func.hpp"
+#include "../enum/types.hpp"
 #include "../error/handling.hpp"
 #include "../error/outcome.hpp"
-#include "../enum/types.hpp"
+#include "../utils/gl_func.hpp"
 
-#include "compat_matrix.hpp"
 #include "compat_drawing.hpp"
+#include "compat_matrix.hpp"
 #endif // ARB_compatibility
 
 namespace oglplus {
@@ -24,15 +24,15 @@ namespace oper {
 
 struct compatibility
 #ifdef GL_ARB_compatibility
- : compatibility_matrix
- , compatibility_drawing
-{
+  : compatibility_matrix
+  , compatibility_drawing {
 };
 #else
-{ };
+{
+};
 #endif // ARB_compatibility
 
 } // namespace oper
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_OPER_COMPATIBILITY_HPP

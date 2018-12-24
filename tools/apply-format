@@ -1,0 +1,10 @@
+#!/bin/bash
+path="${1:-.}"
+
+find "${path}" -type f |
+grep -v -e '/third_party/' |
+xargs file |
+grep -e 'C++ source' -e 'C source' |
+cut -d':' -f1 |
+grep -v -e '\.in$' |
+xargs clang-format -style=file -i

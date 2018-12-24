@@ -7,32 +7,30 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_HEXDUMP_1509260923_HPP
-#define EAGINE_HEXDUMP_1509260923_HPP
+#ifndef EAGINE_HEXDUMP_HPP
+#define EAGINE_HEXDUMP_HPP
 
 #include "config/basic.hpp"
-#include "memory_block.hpp"
+#include "memory/block.hpp"
 #include "types.hpp"
 #include <iosfwd>
 
 namespace eagine {
 
-class hexdump
-{
+class hexdump {
 private:
-	const_memory_block _mb;
-	bool _offs;
+    memory::const_block _mb;
+    bool _offs;
 
-	static void _to_hex_b(std::ostream& out, byte b);
+    static void _to_hex_b(std::ostream& out, byte b);
+
 public:
-	hexdump(const const_memory_block& mb, bool offs = true)
-	noexcept
-	 : _mb(mb)
-	 , _offs(offs)
-	{ }
+    hexdump(memory::const_block mb, bool offs = true) noexcept
+      : _mb(mb)
+      , _offs(offs) {
+    }
 
-	friend
-	std::ostream& operator << (std::ostream&, const hexdump&);
+    friend std::ostream& operator<<(std::ostream&, const hexdump&);
 };
 
 } // namespace eagine
@@ -41,4 +39,4 @@ public:
 #include <eagine/hexdump.inl>
 #endif
 
-#endif // include guard
+#endif // EAGINE_HEXDUMP_HPP

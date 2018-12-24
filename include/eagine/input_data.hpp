@@ -6,19 +6,19 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_INPUT_DATA_1408161720_HPP
-#define EAGINE_INPUT_DATA_1408161720_HPP
+#ifndef EAGINE_INPUT_DATA_HPP
+#define EAGINE_INPUT_DATA_HPP
 
 #include "config/basic.hpp"
 #include "memory/buffer.hpp"
-#include "cstr_ref.hpp"
+#include "string_span.hpp"
 #include <iosfwd>
 #include <vector>
 
 namespace eagine {
 
 void read_stream_data(std::istream&, memory::buffer& dest);
-void read_file_data(const cstr_ref& path, memory::buffer& dest);
+void read_file_data(string_view path, memory::buffer& dest);
 
 } // namespace eagine
 
@@ -26,5 +26,4 @@ void read_file_data(const cstr_ref& path, memory::buffer& dest);
 #include <eagine/input_data.inl>
 #endif
 
-#endif //include guard
-
+#endif // EAGINE_INPUT_DATA_HPP

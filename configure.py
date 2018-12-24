@@ -781,6 +781,7 @@ def main(argv):
 	if(options.debug_lib_error):
 		cmake_options += ["-DDEBUG_LIB_ERROR=1"]
 	if(options.debug_config):
+		cmake_options += ["-DDEBUG_CONFIG=1"]
 		cmake_options += ["--debug-output", "--debug-trycompile"]
 
 	# get the work directory path

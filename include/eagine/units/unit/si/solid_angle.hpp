@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_UNIT_SI_SOLID_ANGLE_1512222148_HPP
-#define EAGINE_UNITS_UNIT_SI_SOLID_ANGLE_1512222148_HPP
+#ifndef EAGINE_UNITS_UNIT_SI_SOLID_ANGLE_HPP
+#define EAGINE_UNITS_UNIT_SI_SOLID_ANGLE_HPP
 
 #include "common.hpp"
 
@@ -17,31 +17,28 @@ namespace units {
 namespace base {
 
 // steradian
-struct steradian : unit<solid_angle, steradian> { };
+struct steradian : unit<solid_angle, steradian> {};
 
 template <>
-struct unit_name<steradian>
-{
-	static constexpr const char mp_str[] = "steradian";
+struct unit_name<steradian> {
+    static constexpr const char mp_str[] = "steradian";
 };
 
 template <>
-struct unit_symbol<steradian>
-{
-	static constexpr const char mp_str[] = "sr";
+struct unit_symbol<steradian> {
+    static constexpr const char mp_str[] = "sr";
 };
 
 } // namespace base
 
 // si::base_unit<solid_angle>
 template <>
-struct si::base_unit<base::solid_angle> : base::steradian { };
+struct si::base_unit<base::solid_angle> : base::steradian {};
 
 // steradian
-typedef unit<solid_angle, si> steradian;
+using steradian = unit<solid_angle, si>;
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // EAGINE_UNITS_UNIT_SI_SOLID_ANGLE_HPP

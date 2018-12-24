@@ -7,24 +7,22 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_DIM_ELECTRIC_CHARGE_1512222148_HPP
-#define EAGINE_UNITS_DIM_ELECTRIC_CHARGE_1512222148_HPP
+#ifndef EAGINE_UNITS_DIM_ELECTRIC_CHARGE_HPP
+#define EAGINE_UNITS_DIM_ELECTRIC_CHARGE_HPP
 
 #include "../dimension.hpp"
 
 namespace eagine {
 namespace units {
 
-typedef decltype(electric_current()*time()) electric_charge;
+using electric_charge = decltype(electric_current() * time());
 
 template <>
-struct dim_name<electric_charge>
-{
-	static constexpr const char mp_str[] = "electric charge";
+struct dim_name<electric_charge> {
+    static constexpr const char mp_str[] = "electric charge";
 };
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // EAGINE_UNITS_DIM_ELECTRIC_CHARGE_HPP

@@ -17,198 +17,177 @@
 
 BOOST_AUTO_TEST_SUITE(enum_string_query_tests)
 
-BOOST_AUTO_TEST_CASE(enum_string_query_values)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	string_query x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_string_query_values) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    string_query x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_RENDERER
-	x = ev.renderer;
-	BOOST_CHECK(x == ev.renderer);
-# ifdef GL_SHADING_LANGUAGE_VERSION
-	BOOST_CHECK(x != ev.shading_language_version);
-# endif
-# ifdef GL_VENDOR
-	BOOST_CHECK(x != ev.vendor);
-# endif
-# ifdef GL_VERSION
-	BOOST_CHECK(x != ev.version);
-# endif
+    x = ev.renderer;
+    BOOST_CHECK(x == ev.renderer);
+#ifdef GL_SHADING_LANGUAGE_VERSION
+    BOOST_CHECK(x != ev.shading_language_version);
+#endif
+#ifdef GL_VENDOR
+    BOOST_CHECK(x != ev.vendor);
+#endif
+#ifdef GL_VERSION
+    BOOST_CHECK(x != ev.version);
+#endif
 #endif
 
 #ifdef GL_SHADING_LANGUAGE_VERSION
-	x = ev.shading_language_version;
-	BOOST_CHECK(x == ev.shading_language_version);
-# ifdef GL_VENDOR
-	BOOST_CHECK(x != ev.vendor);
-# endif
-# ifdef GL_VERSION
-	BOOST_CHECK(x != ev.version);
-# endif
+    x = ev.shading_language_version;
+    BOOST_CHECK(x == ev.shading_language_version);
+#ifdef GL_VENDOR
+    BOOST_CHECK(x != ev.vendor);
+#endif
+#ifdef GL_VERSION
+    BOOST_CHECK(x != ev.version);
+#endif
 #endif
 
 #ifdef GL_VENDOR
-	x = ev.vendor;
-	BOOST_CHECK(x == ev.vendor);
-# ifdef GL_VERSION
-	BOOST_CHECK(x != ev.version);
-# endif
+    x = ev.vendor;
+    BOOST_CHECK(x == ev.vendor);
+#ifdef GL_VERSION
+    BOOST_CHECK(x != ev.version);
+#endif
 #endif
 
 #ifdef GL_VERSION
-	x = ev.version;
-	BOOST_CHECK(x == ev.version);
+    x = ev.version;
+    BOOST_CHECK(x == ev.version);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_string_query_names)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	string_query x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_string_query_names) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    string_query x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_RENDERER
-	x = ev.renderer;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"RENDERER"
-	) == 0);
+    x = ev.renderer;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "RENDERER") == 0);
 #endif
 
 #ifdef GL_SHADING_LANGUAGE_VERSION
-	x = ev.shading_language_version;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"SHADING_LANGUAGE_VERSION"
-	) == 0);
+    x = ev.shading_language_version;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(
+      std::strcmp(enum_value_name(x).data(), "SHADING_LANGUAGE_VERSION") == 0);
 #endif
 
 #ifdef GL_VENDOR
-	x = ev.vendor;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"VENDOR"
-	) == 0);
+    x = ev.vendor;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "VENDOR") == 0);
 #endif
 
 #ifdef GL_VERSION
-	x = ev.version;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"VERSION"
-	) == 0);
+    x = ev.version;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "VERSION") == 0);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_string_query_range)
-{
-	using namespace oglplus;
-	auto count = enum_value_range<string_query>().size();
+BOOST_AUTO_TEST_CASE(enum_string_query_range) {
+    using namespace oglplus;
+    auto count = enum_value_range<string_query>().size();
 
 #ifdef GL_RENDERER
-{
-	--count;
-	auto r = enum_value_range<string_query>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		string_query(GL_RENDERER)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<string_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), string_query(GL_RENDERER)) != r.end());
+    }
 #endif
 
 #ifdef GL_SHADING_LANGUAGE_VERSION
-{
-	--count;
-	auto r = enum_value_range<string_query>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		string_query(GL_SHADING_LANGUAGE_VERSION)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<string_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), string_query(GL_SHADING_LANGUAGE_VERSION)) !=
+          r.end());
+    }
 #endif
 
 #ifdef GL_VENDOR
-{
-	--count;
-	auto r = enum_value_range<string_query>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		string_query(GL_VENDOR)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<string_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), string_query(GL_VENDOR)) != r.end());
+    }
 #endif
 
 #ifdef GL_VERSION
-{
-	--count;
-	auto r = enum_value_range<string_query>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		string_query(GL_VERSION)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<string_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), string_query(GL_VERSION)) != r.end());
+    }
 #endif
-	BOOST_CHECK_EQUAL(count, 0);
+    BOOST_CHECK_EQUAL(count, 0);
 }
 
-BOOST_AUTO_TEST_CASE(enum_string_query_any)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	string_query x, y;
-	EAGINE_MAYBE_UNUSED(x);
-	EAGINE_MAYBE_UNUSED(y);
-	any_enum_value a;
-	EAGINE_MAYBE_UNUSED(a);
+BOOST_AUTO_TEST_CASE(enum_string_query_any) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    string_query x, y;
+    EAGINE_MAYBE_UNUSED(x);
+    EAGINE_MAYBE_UNUSED(y);
+    any_enum_value a;
+    EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_RENDERER
-	x = ev.renderer;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.renderer);
+    x = ev.renderer;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.renderer);
 #endif
 
 #ifdef GL_SHADING_LANGUAGE_VERSION
-	x = ev.shading_language_version;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.shading_language_version);
+    x = ev.shading_language_version;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.shading_language_version);
 #endif
 
 #ifdef GL_VENDOR
-	x = ev.vendor;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.vendor);
+    x = ev.vendor;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.vendor);
 #endif
 
 #ifdef GL_VERSION
-	x = ev.version;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.version);
+    x = ev.version;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.version);
 #endif
 }
 

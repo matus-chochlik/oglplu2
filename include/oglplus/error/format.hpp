@@ -6,51 +6,38 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_ERROR_FORMAT_1509260923_HPP
-#define OGLPLUS_ERROR_FORMAT_1509260923_HPP
+#ifndef OGLPLUS_ERROR_FORMAT_HPP
+#define OGLPLUS_ERROR_FORMAT_HPP
 
+#include "../utils/string_span.hpp"
 #include "fwd.hpp"
 #include "info.hpp"
-#include "../utils/cstr_ref.hpp"
 #include <iosfwd>
 
 namespace oglplus {
 
-cstr_ref error_message(error&);
+string_view error_message(error&);
 
 std::ostream& format_error_info(
-	const error_info& info,
-	const cstr_ref& msg_str,
-	const cstr_ref& fmt_str,
-	const cstr_ref& n_a_str,
- 	std::ostream& out
-);
+  const error_info& info,
+  string_view msg_str,
+  string_view fmt_str,
+  string_view n_a_str,
+  std::ostream& out);
 
 std::ostream& format_error_info(
-	const error_info& info,
-	const cstr_ref& msg_str,
-	const cstr_ref& fmt_str,
- 	std::ostream& out
-);
+  const error_info& info,
+  string_view msg_str,
+  string_view fmt_str,
+  std::ostream& out);
 
 std::ostream& format_error_info(
-	const error_info& info,
-	const cstr_ref& fmt_str,
- 	std::ostream& out
-);
+  const error_info& info, string_view fmt_str, std::ostream& out);
 
 std::ostream& format_error(
-	error& err,
-	const cstr_ref& fmt_str,
-	const cstr_ref& n_a_str,
- 	std::ostream& out
-);
+  error& err, string_view fmt_str, string_view n_a_str, std::ostream& out);
 
-std::ostream& format_error(
-	error& err,
-	const cstr_ref& fmt_str,
- 	std::ostream& out
-);
+std::ostream& format_error(error& err, string_view fmt_str, std::ostream& out);
 
 } // namespace oglplus
 
@@ -58,4 +45,4 @@ std::ostream& format_error(
 #include <oglplus/error/format.inl>
 #endif
 
-#endif // include guard
+#endif // OGLPLUS_ERROR_FORMAT_HPP

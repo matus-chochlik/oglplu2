@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OALPLUS_UTILS_ALFUNC_1509260942_HPP
-#define OALPLUS_UTILS_ALFUNC_1509260942_HPP
+#ifndef OALPLUS_UTILS_AL_FUNC_HPP
+#define OALPLUS_UTILS_AL_FUNC_HPP
 
 #ifndef OALPLUS_ALFUNC
 #define OALPLUS_ALFUNC(FUNCNAME) ::al##FUNCNAME
@@ -18,4 +18,4 @@
 #define OALPLUS_ALCFUNC(FUNCNAME) ::alc##FUNCNAME
 #endif
 
-#endif // include guard
+#endif // OALPLUS_UTILS_AL_FUNC_HPP

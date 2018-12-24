@@ -6,79 +6,69 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_TEXGEN_RENDER_NODE_1509260923_HPP
-#define OGLPLUS_TEXGEN_RENDER_NODE_1509260923_HPP
+#ifndef OGLPLUS_TEXGEN_RENDER_NODE_HPP
+#define OGLPLUS_TEXGEN_RENDER_NODE_HPP
 
-#include "fallback_input.hpp"
-#include "base_node.hpp"
-#include "../program.hpp"
 #include "../buffer.hpp"
-#include "../vertex_array.hpp"
+#include "../program.hpp"
 #include "../uniform.hpp"
+#include "../vertex_array.hpp"
+#include "base_node.hpp"
+#include "fallback_input.hpp"
 #include <eagine/valid_if/positive.hpp>
 
 namespace oglplus {
 namespace texgen {
 
-class render_node
- : public base_node
-{
+class render_node : public base_node {
 private:
-	input_with_const_default<float[4]> _input;
+    input_with_const_default<float[4]> _input;
 
-	owned<program_name> _prog;
-	owned<buffer_name> _data;
-	owned<vertex_array_name> _vao;
+    owned<program_name> _prog;
+    owned<buffer_name> _data;
+    owned<vertex_array_name> _vao;
 
-	uniform_location _voxel_size;
+    uniform_location _voxel_size;
 
-	void _init_screen(void);
-	void _update_program(void);
+    void _init_screen();
+    void _update_program();
 
-	bool _needs_update;
+    bool _needs_update;
 
-	int _xdiv, _ydiv, _tile;
+    int _xdiv{1}, _ydiv{1}, _tile{0};
 
-	unsigned _render_version;
-	render_params _render_params;
+    unsigned _render_version{0};
+    render_params _render_params;
+
 public:
-	render_node(void);
-	render_node(const render_node&) = delete;
-	~render_node(void);
+    render_node();
+    render_node(const render_node&) = delete;
+    ~render_node() override;
 
-	std::ostream&
-	make_fragment_shader_source(std::ostream&, compile_context&);
+    std::ostream& make_fragment_shader_source(std::ostream&, compile_context&);
 
-	void draw_screen(void);
+    void draw_screen();
 
-	cstr_ref type_name(void)
-	override;
+    string_view type_name() override;
 
-	span_size_t input_count(void)
-	override;
+    span_size_t input_count() override;
 
-	input_intf& input(span_size_t index)
-	override;
+    input_intf& input(span_size_t index) override;
 
-	void update_needed(void)
-	override;
+    void update_needed() override;
 
-	void update_if_needed(void);
+    void update_if_needed();
 
-	bool render(const render_params&)
-	override;
+    bool render(const render_params&) override;
 
-	bool render(void);
+    bool render();
 
-	void set_divisions(
-		eagine::valid_if_positive<int> xdiv,
-		eagine::valid_if_positive<int> ydiv
-	);
+    void set_divisions(
+      eagine::valid_if_positive<int> xdiv, eagine::valid_if_positive<int> ydiv);
 
-	void set_dimensions(
-		eagine::valid_if_positive<int> width,
-		eagine::valid_if_positive<int> height
-	);
+    void set_dimensions(
+      eagine::valid_if_positive<int> width,
+      eagine::valid_if_positive<int> height);
 };
 
 } // namespace texgen
@@ -88,4 +78,4 @@ public:
 #include <oglplus/texgen/render_node.inl>
 #endif
 
-#endif // include guard
+#endif // OGLPLUS_TEXGEN_RENDER_NODE_HPP

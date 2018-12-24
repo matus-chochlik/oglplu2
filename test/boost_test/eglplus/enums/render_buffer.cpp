@@ -17,113 +17,101 @@
 
 BOOST_AUTO_TEST_SUITE(enum_render_buffer_tests)
 
-BOOST_AUTO_TEST_CASE(enum_render_buffer_values)
-{
-	using namespace eglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	render_buffer x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_render_buffer_values) {
+    using namespace eglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    render_buffer x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_BACK_BUFFER
-	x = ev.back_buffer;
-	BOOST_CHECK(x == ev.back_buffer);
-# ifdef EGL_SINGLE_BUFFER
-	BOOST_CHECK(x != ev.single_buffer);
-# endif
+    x = ev.back_buffer;
+    BOOST_CHECK(x == ev.back_buffer);
+#ifdef EGL_SINGLE_BUFFER
+    BOOST_CHECK(x != ev.single_buffer);
+#endif
 #endif
 
 #ifdef EGL_SINGLE_BUFFER
-	x = ev.single_buffer;
-	BOOST_CHECK(x == ev.single_buffer);
+    x = ev.single_buffer;
+    BOOST_CHECK(x == ev.single_buffer);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_render_buffer_names)
-{
-	using namespace eglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	render_buffer x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_render_buffer_names) {
+    using namespace eglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    render_buffer x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_BACK_BUFFER
-	x = ev.back_buffer;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"BACK_BUFFER"
-	) == 0);
+    x = ev.back_buffer;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "BACK_BUFFER") == 0);
 #endif
 
 #ifdef EGL_SINGLE_BUFFER
-	x = ev.single_buffer;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"SINGLE_BUFFER"
-	) == 0);
+    x = ev.single_buffer;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "SINGLE_BUFFER") == 0);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_render_buffer_range)
-{
-	using namespace eglplus;
-	auto count = enum_value_range<render_buffer>().size();
+BOOST_AUTO_TEST_CASE(enum_render_buffer_range) {
+    using namespace eglplus;
+    auto count = enum_value_range<render_buffer>().size();
 
 #ifdef EGL_BACK_BUFFER
-{
-	--count;
-	auto r = enum_value_range<render_buffer>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		render_buffer(EGL_BACK_BUFFER)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<render_buffer>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), render_buffer(EGL_BACK_BUFFER)) !=
+          r.end());
+    }
 #endif
 
 #ifdef EGL_SINGLE_BUFFER
-{
-	--count;
-	auto r = enum_value_range<render_buffer>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		render_buffer(EGL_SINGLE_BUFFER)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<render_buffer>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), render_buffer(EGL_SINGLE_BUFFER)) !=
+          r.end());
+    }
 #endif
-	BOOST_CHECK_EQUAL(count, 0);
+    BOOST_CHECK_EQUAL(count, 0);
 }
 
-BOOST_AUTO_TEST_CASE(enum_render_buffer_any)
-{
-	using namespace eglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	render_buffer x, y;
-	EAGINE_MAYBE_UNUSED(x);
-	EAGINE_MAYBE_UNUSED(y);
-	any_enum_value a;
-	EAGINE_MAYBE_UNUSED(a);
+BOOST_AUTO_TEST_CASE(enum_render_buffer_any) {
+    using namespace eglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    render_buffer x, y;
+    EAGINE_MAYBE_UNUSED(x);
+    EAGINE_MAYBE_UNUSED(y);
+    any_enum_value a;
+    EAGINE_MAYBE_UNUSED(a);
 
 #ifdef EGL_BACK_BUFFER
-	x = ev.back_buffer;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.back_buffer);
+    x = ev.back_buffer;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.back_buffer);
 #endif
 
 #ifdef EGL_SINGLE_BUFFER
-	x = ev.single_buffer;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.single_buffer);
+    x = ev.single_buffer;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.single_buffer);
 #endif
 }
 

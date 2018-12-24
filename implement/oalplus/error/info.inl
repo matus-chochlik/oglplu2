@@ -9,101 +9,71 @@
 
 namespace oalplus {
 //------------------------------------------------------------------------------
-constexpr inline
-error_info::
-error_info(ALenum al_err_code)
-noexcept
- : error_info_base<error_info>(al_err_code)
+constexpr inline error_info::error_info(ALenum al_err_code) noexcept
+  : error_info_base<error_info>(al_err_code)
 #if !OALPLUS_ERROR_NO_OBJECT
- , _obj_name()
+  , _obj_name()
 #endif
 #if !OALPLUS_ERROR_NO_INDEX
- , _index(~ALuint(0))
+  , _index(~ALuint(0))
 #endif
 #if !OALPLUS_ERROR_NO_ENUM_VALUE
- , _enum_val()
+  , _enum_val()
 #endif
-{ }
-//------------------------------------------------------------------------------
-inline
-error_info&
-error_info::
-al_object(const any_object_name& obj_name)
-noexcept
 {
+}
+//------------------------------------------------------------------------------
+inline error_info&
+error_info::al_object(const any_object_name& obj_name) noexcept {
 #if !OALPLUS_ERROR_NO_OBJECT
-	_obj_name = obj_name;
+    _obj_name = obj_name;
 #else
-	EAGINE_MAYBE_UNUSED(obj_name);
+    EAGINE_MAYBE_UNUSED(obj_name);
 #endif
-	return *this;
+    return *this;
 }
 //------------------------------------------------------------------------------
-inline
-any_object_name
-error_info::
-al_object(void) const
-noexcept
-{
+inline any_object_name error_info::al_object() const noexcept {
 #if !OALPLUS_ERROR_NO_OBJECT
-	return _obj_name;
+    return _obj_name;
 #else
-	return invalid_al_obj_name();
+    return invalid_al_obj_name();
 #endif
 }
 //------------------------------------------------------------------------------
-inline
-error_info&
-error_info::
-index(ALuint idx)
-noexcept
-{
+inline error_info& error_info::index(ALuint idx) noexcept {
 #if !OALPLUS_ERROR_NO_INDEX
-	_index = idx;
+    _index = idx;
 #else
-	EAGINE_MAYBE_UNUSED(idx);
+    EAGINE_MAYBE_UNUSED(idx);
 #endif
-	return *this;
+    return *this;
 }
 //------------------------------------------------------------------------------
-inline
-ALuint
-error_info::
-index(void) const
-noexcept
-{
+inline ALuint error_info::index() const noexcept {
 #if !OALPLUS_ERROR_NO_INDEX
-	return _index;
+    return _index;
 #else
-	return ~ALuint(0);
+    return ~ALuint(0);
 #endif
 }
 //------------------------------------------------------------------------------
-inline
-error_info&
-error_info::
-al_enum_value(const any_enum_value& enum_val)
-noexcept
-{
+inline error_info&
+error_info::al_enum_value(const any_enum_value& enum_val) noexcept {
 #if !OALPLUS_ERROR_NO_ENUM_VALUE
-	_enum_val = enum_val;
+    _enum_val = enum_val;
 #else
-	EAGINE_MAYBE_UNUSED(enum_val);
+    EAGINE_MAYBE_UNUSED(enum_val);
 #endif
-	return *this;
+    return *this;
 }
 //------------------------------------------------------------------------------
-inline
-const any_enum_value&
-error_info::
-al_enum_value(void) const
-noexcept
-{
+inline const any_enum_value& error_info::al_enum_value() const noexcept {
 #if !OALPLUS_ERROR_NO_ENUM_VALUE
-	return _enum_val;
+    return _enum_val;
 #else
-	static any_enum_value enum_val;
-	return enum_val;
+    static any_enum_value enum_val;
+    return enum_val;
 #endif
 }
 //------------------------------------------------------------------------------

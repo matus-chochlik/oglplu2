@@ -7,9 +7,10 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+// clang-format off
 #include "prologue.inl"
 
 #include "implement.inl"
 #include <eagine/random_bytes.hpp>
 #include "epilogue.inl"
-
+// clang-format on

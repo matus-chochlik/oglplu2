@@ -17,113 +17,101 @@
 
 BOOST_AUTO_TEST_SUITE(enum_path_font_style_nv_tests)
 
-BOOST_AUTO_TEST_CASE(enum_path_font_style_nv_values)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	path_font_style_nv x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_path_font_style_nv_values) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    path_font_style_nv x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_BOLD_BIT_NV
-	x = ev.bold_bit_nv;
-	BOOST_CHECK(x == ev.bold_bit_nv);
-# ifdef GL_ITALIC_BIT_NV
-	BOOST_CHECK(x != ev.italic_bit_nv);
-# endif
+    x = ev.bold_bit_nv;
+    BOOST_CHECK(x == ev.bold_bit_nv);
+#ifdef GL_ITALIC_BIT_NV
+    BOOST_CHECK(x != ev.italic_bit_nv);
+#endif
 #endif
 
 #ifdef GL_ITALIC_BIT_NV
-	x = ev.italic_bit_nv;
-	BOOST_CHECK(x == ev.italic_bit_nv);
+    x = ev.italic_bit_nv;
+    BOOST_CHECK(x == ev.italic_bit_nv);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_path_font_style_nv_names)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	path_font_style_nv x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_path_font_style_nv_names) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    path_font_style_nv x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_BOLD_BIT_NV
-	x = ev.bold_bit_nv;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"BOLD_BIT_NV"
-	) == 0);
+    x = ev.bold_bit_nv;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "BOLD_BIT_NV") == 0);
 #endif
 
 #ifdef GL_ITALIC_BIT_NV
-	x = ev.italic_bit_nv;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"ITALIC_BIT_NV"
-	) == 0);
+    x = ev.italic_bit_nv;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "ITALIC_BIT_NV") == 0);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_path_font_style_nv_range)
-{
-	using namespace oglplus;
-	auto count = enum_value_range<path_font_style_nv>().size();
+BOOST_AUTO_TEST_CASE(enum_path_font_style_nv_range) {
+    using namespace oglplus;
+    auto count = enum_value_range<path_font_style_nv>().size();
 
 #ifdef GL_BOLD_BIT_NV
-{
-	--count;
-	auto r = enum_value_range<path_font_style_nv>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		path_font_style_nv(GL_BOLD_BIT_NV)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<path_font_style_nv>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), path_font_style_nv(GL_BOLD_BIT_NV)) !=
+          r.end());
+    }
 #endif
 
 #ifdef GL_ITALIC_BIT_NV
-{
-	--count;
-	auto r = enum_value_range<path_font_style_nv>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		path_font_style_nv(GL_ITALIC_BIT_NV)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<path_font_style_nv>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), path_font_style_nv(GL_ITALIC_BIT_NV)) !=
+          r.end());
+    }
 #endif
-	BOOST_CHECK_EQUAL(count, 0);
+    BOOST_CHECK_EQUAL(count, 0);
 }
 
-BOOST_AUTO_TEST_CASE(enum_path_font_style_nv_any)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	path_font_style_nv x, y;
-	EAGINE_MAYBE_UNUSED(x);
-	EAGINE_MAYBE_UNUSED(y);
-	any_enum_value a;
-	EAGINE_MAYBE_UNUSED(a);
+BOOST_AUTO_TEST_CASE(enum_path_font_style_nv_any) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    path_font_style_nv x, y;
+    EAGINE_MAYBE_UNUSED(x);
+    EAGINE_MAYBE_UNUSED(y);
+    any_enum_value a;
+    EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_BOLD_BIT_NV
-	x = ev.bold_bit_nv;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.bold_bit_nv);
+    x = ev.bold_bit_nv;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.bold_bit_nv);
 #endif
 
 #ifdef GL_ITALIC_BIT_NV
-	x = ev.italic_bit_nv;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.italic_bit_nv);
+    x = ev.italic_bit_nv;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.italic_bit_nv);
 #endif
 }
 

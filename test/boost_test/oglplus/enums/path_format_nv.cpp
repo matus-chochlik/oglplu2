@@ -17,113 +17,104 @@
 
 BOOST_AUTO_TEST_SUITE(enum_path_format_nv_tests)
 
-BOOST_AUTO_TEST_CASE(enum_path_format_nv_values)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	path_format_nv x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_path_format_nv_values) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    path_format_nv x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_PATH_FORMAT_PS_NV
-	x = ev.path_format_ps_nv;
-	BOOST_CHECK(x == ev.path_format_ps_nv);
-# ifdef GL_PATH_FORMAT_SVG_NV
-	BOOST_CHECK(x != ev.path_format_svg_nv);
-# endif
+    x = ev.path_format_ps_nv;
+    BOOST_CHECK(x == ev.path_format_ps_nv);
+#ifdef GL_PATH_FORMAT_SVG_NV
+    BOOST_CHECK(x != ev.path_format_svg_nv);
+#endif
 #endif
 
 #ifdef GL_PATH_FORMAT_SVG_NV
-	x = ev.path_format_svg_nv;
-	BOOST_CHECK(x == ev.path_format_svg_nv);
+    x = ev.path_format_svg_nv;
+    BOOST_CHECK(x == ev.path_format_svg_nv);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_path_format_nv_names)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	path_format_nv x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_path_format_nv_names) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    path_format_nv x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_PATH_FORMAT_PS_NV
-	x = ev.path_format_ps_nv;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"PATH_FORMAT_PS_NV"
-	) == 0);
+    x = ev.path_format_ps_nv;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(
+      std::strcmp(enum_value_name(x).data(), "PATH_FORMAT_PS_NV") == 0);
 #endif
 
 #ifdef GL_PATH_FORMAT_SVG_NV
-	x = ev.path_format_svg_nv;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"PATH_FORMAT_SVG_NV"
-	) == 0);
+    x = ev.path_format_svg_nv;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(
+      std::strcmp(enum_value_name(x).data(), "PATH_FORMAT_SVG_NV") == 0);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_path_format_nv_range)
-{
-	using namespace oglplus;
-	auto count = enum_value_range<path_format_nv>().size();
+BOOST_AUTO_TEST_CASE(enum_path_format_nv_range) {
+    using namespace oglplus;
+    auto count = enum_value_range<path_format_nv>().size();
 
 #ifdef GL_PATH_FORMAT_PS_NV
-{
-	--count;
-	auto r = enum_value_range<path_format_nv>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		path_format_nv(GL_PATH_FORMAT_PS_NV)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<path_format_nv>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), path_format_nv(GL_PATH_FORMAT_PS_NV)) !=
+          r.end());
+    }
 #endif
 
 #ifdef GL_PATH_FORMAT_SVG_NV
-{
-	--count;
-	auto r = enum_value_range<path_format_nv>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		path_format_nv(GL_PATH_FORMAT_SVG_NV)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<path_format_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), path_format_nv(GL_PATH_FORMAT_SVG_NV)) !=
+          r.end());
+    }
 #endif
-	BOOST_CHECK_EQUAL(count, 0);
+    BOOST_CHECK_EQUAL(count, 0);
 }
 
-BOOST_AUTO_TEST_CASE(enum_path_format_nv_any)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	path_format_nv x, y;
-	EAGINE_MAYBE_UNUSED(x);
-	EAGINE_MAYBE_UNUSED(y);
-	any_enum_value a;
-	EAGINE_MAYBE_UNUSED(a);
+BOOST_AUTO_TEST_CASE(enum_path_format_nv_any) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    path_format_nv x, y;
+    EAGINE_MAYBE_UNUSED(x);
+    EAGINE_MAYBE_UNUSED(y);
+    any_enum_value a;
+    EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_PATH_FORMAT_PS_NV
-	x = ev.path_format_ps_nv;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.path_format_ps_nv);
+    x = ev.path_format_ps_nv;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.path_format_ps_nv);
 #endif
 
 #ifdef GL_PATH_FORMAT_SVG_NV
-	x = ev.path_format_svg_nv;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.path_format_svg_nv);
+    x = ev.path_format_svg_nv;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.path_format_svg_nv);
 #endif
 }
 

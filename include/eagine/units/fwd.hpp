@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_FWD_1512222148_HPP
-#define EAGINE_UNITS_FWD_1512222148_HPP
+#ifndef EAGINE_UNITS_FWD_HPP
+#define EAGINE_UNITS_FWD_HPP
 
 #include "../int_constant.hpp"
 #include "../nothing.hpp"
@@ -36,13 +36,22 @@ namespace base {
 template <typename Derived>
 struct dimension;
 
+template <typename Dimension>
+struct dim_name;
+
 template <typename Dimension, typename Derived>
 struct unit;
 
 template <typename Scale, typename Unit>
 struct scaled_unit;
 
-} // base
+template <typename Unit>
+struct unit_name;
+
+template <typename Unit>
+struct unit_symbol;
+
+} // namespace base
 
 struct si;
 
@@ -50,10 +59,8 @@ template <typename System>
 struct system_id;
 
 template <typename BaseDim, int Pow>
-using dimension = bits::dims<
-	bits::dim_pow<BaseDim, int_constant<Pow>>,
-	nothing_t
->;
+using dimension =
+  bits::dims<bits::dim_pow<BaseDim, int_constant<Pow>>, nothing_t>;
 
 template <typename Dims, typename System>
 struct unit;
@@ -101,17 +108,13 @@ template <typename U1, typename U2>
 using mul_result_t = typename mul_result<U1, U2>::type;
 
 template <typename U1, typename U2>
-struct div_l_operand
- : mul_l_operand<U1, U2>
-{ };
+struct div_l_operand : mul_l_operand<U1, U2> {};
 
 template <typename U1, typename U2>
 using div_l_operand_t = typename div_l_operand<U1, U2>::type;
 
 template <typename U1, typename U2>
-struct div_r_operand
- : mul_r_operand<U1, U2>
-{ };
+struct div_r_operand : mul_r_operand<U1, U2> {};
 
 template <typename U1, typename U2>
 using div_r_operand_t = typename div_r_operand<U1, U2>::type;
@@ -123,14 +126,10 @@ template <typename U1, typename U2>
 using div_result_t = typename div_result<U1, U2>::type;
 
 template <typename X>
-struct dimension_of
- : X::dimension
-{ };
+struct dimension_of : X::dimension {};
 
 template <>
-struct dimension_of<nothing_t>
- : nothing_t
-{ };
+struct dimension_of<nothing_t> : nothing_t {};
 
 template <typename X>
 using dimension_of_t = typename dimension_of<X>::type;
@@ -153,8 +152,10 @@ struct is_convertible;
 template <typename U1, typename U2>
 constexpr bool is_convertible_v = is_convertible<U1, U2>::value;
 
+template <typename Dim>
+struct dim_name;
+
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // EAGINE_UNITS_FWD_HPP

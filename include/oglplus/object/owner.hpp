@@ -6,19 +6,19 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_OBJECT_OWNER_1509260923_HPP
-#define OGLPLUS_OBJECT_OWNER_1509260923_HPP
+#ifndef OGLPLUS_OBJECT_OWNER_HPP
+#define OGLPLUS_OBJECT_OWNER_HPP
 
-#include <eagine/object/owner.hpp>
-#include <eagine/object/array_owner.hpp>
 #include "../utils/span.hpp"
+#include <eagine/object/array_owner.hpp>
+#include <eagine/object/owner.hpp>
 
 namespace oglplus {
 
-using eagine::object_owner;
 using eagine::object_array_owner;
+using eagine::object_owner;
 using eagine::object_vector_owner;
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_OBJECT_OWNER_HPP

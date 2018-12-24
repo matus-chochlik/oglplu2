@@ -6,11 +6,11 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OALPLUS_OBJECT_AL_NAMES_1509260923_HPP
-#define OALPLUS_OBJECT_AL_NAMES_1509260923_HPP
+#ifndef OALPLUS_OBJECT_AL_NAMES_HPP
+#define OALPLUS_OBJECT_AL_NAMES_HPP
 
-#include <eagine/object/names.hpp>
-#include "fwd.hpp"
 #include "al_traits.hpp"
+#include "fwd.hpp"
+#include <eagine/object/names.hpp>
 
-#endif // include guard
+#endif // OALPLUS_OBJECT_AL_NAMES_HPP

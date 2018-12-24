@@ -7,19 +7,19 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_UTILS_OUTCOME_1509260923_HPP
-#define OGLPLUS_UTILS_OUTCOME_1509260923_HPP
+#ifndef OGLPLUS_UTILS_OUTCOME_HPP
+#define OGLPLUS_UTILS_OUTCOME_HPP
 
 #include <eagine/outcome.hpp>
 
 namespace oglplus {
 
 using eagine::basic_outcome;
+using eagine::failure;
 using eagine::outcome_cast;
 using eagine::outcome_conversion;
 using eagine::success;
-using eagine::failure;
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_UTILS_OUTCOME_HPP

@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_SHAPES_ICOSAHEDRON_1509260923_HPP
-#define EAGINE_SHAPES_ICOSAHEDRON_1509260923_HPP
+#ifndef EAGINE_SHAPES_ICOSAHEDRON_HPP
+#define EAGINE_SHAPES_ICOSAHEDRON_HPP
 
 #include "gen_base.hpp"
 #include <eagine/config/basic.hpp>
@@ -17,49 +17,34 @@
 namespace eagine {
 namespace shapes {
 
-class unit_icosahedron_gen
- : public centered_unit_shape_generator_base
-{
+class unit_icosahedron_gen : public centered_unit_shape_generator_base {
 private:
-	typedef centered_unit_shape_generator_base _base;
+    using _base = centered_unit_shape_generator_base;
 
-	static
-	vertex_attrib_bits _attr_mask(void)
-	noexcept;
+    static vertex_attrib_bits _attr_mask() noexcept;
 
-	static
-	vertex_attrib_bits _shared_attrs(void)
-	noexcept;
+    static vertex_attrib_bits _shared_attrs() noexcept;
 
-	bool _only_shared_attribs(void) const
-	noexcept;
+    bool _only_shared_attribs() const noexcept;
+
 public:
-	unit_icosahedron_gen(vertex_attrib_bits attr_bits)
-	noexcept;
+    unit_icosahedron_gen(vertex_attrib_bits attr_bits) noexcept;
 
-	span_size_t vertex_count(void)
-	override;
+    span_size_t vertex_count() override;
 
-	void positions(const span<float>& dest)
-	noexcept;
+    void positions(span<float> dest) noexcept;
 
-	void attrib_values(vertex_attrib_kind attr, const span<float>& dest)
-	override;
+    void attrib_values(vertex_attrib_kind attr, span<float> dest) override;
 
-	index_data_type index_type(void)
-	override;
+    index_data_type index_type() override;
 
-	span_size_t index_count(void)
-	override;
+    span_size_t index_count() override;
 
-	void indices(const span<unsigned>& dest)
-	override;
+    void indices(span<unsigned> dest) override;
 
-	span_size_t operation_count(void)
-	override;
+    span_size_t operation_count() override;
 
-	void instructions(const span<draw_operation>& ops)
-	override;
+    void instructions(span<draw_operation> ops) override;
 };
 
 } // namespace shapes
@@ -69,4 +54,4 @@ public:
 #include <eagine/shapes/icosahedron.inl>
 #endif
 
-#endif // include guard
+#endif // EAGINE_SHAPES_ICOSAHEDRON_HPP

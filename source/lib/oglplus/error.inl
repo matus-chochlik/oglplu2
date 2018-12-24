@@ -7,6 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+// clang-format off
 #include <oglplus/error/error.hpp>
 #include <oglplus/error/format.hpp>
 #include <oglplus/error/info.hpp>
+// clang-format on

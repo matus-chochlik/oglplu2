@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_EXAMPLE_WRAPPER_1512120710_HPP
-#define OGLPLUS_EXAMPLE_WRAPPER_1512120710_HPP
+#ifndef OGLPLUS_EXAMPLE_WRAPPER_HPP
+#define OGLPLUS_EXAMPLE_WRAPPER_HPP
 
 #include "../example.hpp"
 #include <cassert>
@@ -16,45 +16,44 @@
 
 namespace oglplus {
 
-class example_wrapper
-{
+class example_wrapper {
 private:
-	example_params& _params;
-	example_state& _state;
+    example_params& _params;
+    example_state& _state;
 
-	std::unique_ptr<example> _example;
+    std::unique_ptr<example> _example;
 
-	bool _screenshot_done;
+    bool _screenshot_done;
 
-	typedef std::chrono::system_clock clock_type;
-	const std::chrono::time_point<clock_type> _start;
-	std::chrono::time_point<clock_type> _now;
+    using clock_type = std::chrono::system_clock;
+    const std::chrono::time_point<clock_type> _start;
+    std::chrono::time_point<clock_type> _now;
 
-	std::vector<char> _pixel_data;
-	std::vector<char>& pixels(void);
-	std::vector<char> _textbuf;
-	std::vector<char>& textbuf(std::size_t);
+    std::vector<char> _pixel_data;
+    std::vector<char>& pixels();
+    std::vector<char> _textbuf;
+    std::vector<char>& textbuf(std::size_t);
 
 public:
-	example_wrapper(example_args&, example_params&, example_state&);
+    example_wrapper(example_args&, example_params&, example_state&);
 
-	void destroy(void);
+    void destroy();
 
-	bool next_frame(void);
+    bool next_frame();
 
-	void update(void);
+    void update();
 
-	void render(void);
+    void render();
 
-	void set_size(int width, int height);
+    void set_size(int width, int height);
 
-	void set_mouse_btn(int i, bool pressed);
+    void set_mouse_btn(int i, bool pressed);
 
-	void set_mouse_pos(int x, int y);
+    void set_mouse_pos(int x, int y);
 
-	void set_mouse_wheel(int w);
+    void set_mouse_wheel(int w);
 };
 
 } // namespace oglplus
 
-#endif
+#endif // OGLPLUS_EXAMPLE_WRAPPER_HPP

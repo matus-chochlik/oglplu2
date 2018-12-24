@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_VALID_IF_NOT_ZERO_1509260923_HPP
-#define EAGINE_VALID_IF_NOT_ZERO_1509260923_HPP
+#ifndef EAGINE_VALID_IF_NOT_ZERO_HPP
+#define EAGINE_VALID_IF_NOT_ZERO_HPP
 
 #include "decl.hpp"
 
@@ -16,27 +16,21 @@ namespace eagine {
 
 // not-zero
 template <typename T>
-struct valid_if_nz_policy
-{
-	constexpr
-	bool operator ()(T value) const
-	noexcept {
-		return (value > T(0)) || (value < T(0));
-	}
+struct valid_if_nz_policy {
+    constexpr bool operator()(T value) const noexcept {
+        return (value > T(0)) || (value < T(0));
+    }
 
-	struct do_log
-	{
-		template <typename X>
-		constexpr inline
-		do_log(X&&)
-		noexcept
-		{ }
+    struct do_log {
+        template <typename X>
+        constexpr inline do_log(X&&) noexcept {
+        }
 
-		template <typename Log>
-		void operator ()(Log& log, const T&) const {
-			log << "Value zero is invalid";
-		}
-	};
+        template <typename Log>
+        void operator()(Log& log, const T&) const {
+            log << "Value zero is invalid";
+        }
+    };
 };
 
 template <typename T>
@@ -47,12 +41,10 @@ template <typename T>
 using nonzero_t = valid_if_not_zero<T>;
 
 template <typename T>
-static inline
-nonzero_t<T> nonzero(T v)
-noexcept {
-	return {v};
+static inline nonzero_t<T> nonzero(T v) noexcept {
+    return {v};
 }
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_VALID_IF_NOT_ZERO_HPP

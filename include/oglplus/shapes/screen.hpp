@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_SHAPES_SCREEN_1509260923_HPP
-#define OGLPLUS_SHAPES_SCREEN_1509260923_HPP
+#ifndef OGLPLUS_SHAPES_SCREEN_HPP
+#define OGLPLUS_SHAPES_SCREEN_HPP
 
 #include "adapted_gen.hpp"
 #include <eagine/shapes/screen.hpp>
@@ -16,10 +16,10 @@
 namespace oglplus {
 namespace shapes {
 
-typedef concrete_adapted_generator<eagine::shapes::unit_screen_gen>
-	unit_screen_gen;
+using unit_screen_gen =
+  concrete_adapted_generator<eagine::shapes::unit_screen_gen>;
 
 } // namespace shapes
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_SHAPES_SCREEN_HPP

@@ -67,14 +67,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLfloat> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
 		identity<GLfloat[1]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLfloat, N>& v
+		span<const GLfloat> v
 	) noexcept {
 		assert(v.size() >= 1);
 		OGLPLUS_GLFUNC(VertexAttrib1fv)(va.index(), v.data());
@@ -82,14 +81,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLfloat> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
 		identity<GLfloat[2]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLfloat, N>& v
+		span<const GLfloat> v
 	) noexcept {
 		assert(v.size() >= 2);
 		OGLPLUS_GLFUNC(VertexAttrib2fv)(va.index(), v.data());
@@ -97,14 +95,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLfloat> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
 		identity<GLfloat[3]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLfloat, N>& v
+		span<const GLfloat> v
 	) noexcept {
 		assert(v.size() >= 3);
 		OGLPLUS_GLFUNC(VertexAttrib3fv)(va.index(), v.data());
@@ -112,14 +109,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLfloat> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
 		identity<GLfloat[4]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLfloat, N>& v
+		span<const GLfloat> v
 	) noexcept {
 		assert(v.size() >= 4);
 		OGLPLUS_GLFUNC(VertexAttrib4fv)(va.index(), v.data());
@@ -131,14 +127,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLfloat> {
 template <>
 struct prog_var_get_set_ops<tag::vertex_attrib, GLbyte> {
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
 		identity<GLbyte[4]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLbyte, N>& v
+		span<const GLbyte> v
 	) noexcept {
 		assert(v.size() >= 4);
 		OGLPLUS_GLFUNC(VertexAttrib4bv)(va.index(), v.data());
@@ -146,14 +141,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLbyte> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	setI(
 		identity<GLbyte[4]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLbyte, N>& v
+		span<const GLbyte> v
 	) noexcept {
 		assert(v.size() >= 4);
 		OGLPLUS_GLFUNC(VertexAttribI4bv)(va.index(), v.data());
@@ -161,14 +155,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLbyte> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	setN(
 		identity<GLbyte[4]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLbyte, N>& v
+		span<const GLbyte> v
 	) noexcept {
 		assert(v.size() >= 4);
 		OGLPLUS_GLFUNC(VertexAttrib4Nbv)(va.index(), v.data());
@@ -180,14 +173,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLbyte> {
 template <>
 struct prog_var_get_set_ops<tag::vertex_attrib, GLubyte> {
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
 		identity<GLubyte[4]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLubyte, N>& v
+		span<const GLubyte> v
 	) noexcept {
 		assert(v.size() >= 4);
 		OGLPLUS_GLFUNC(VertexAttrib4ubv)(va.index(), v.data());
@@ -195,14 +187,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLubyte> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	setI(
 		identity<GLubyte[4]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLubyte, N>& v
+		span<const GLubyte> v
 	) noexcept {
 		assert(v.size() >= 4);
 		OGLPLUS_GLFUNC(VertexAttribI4ubv)(va.index(), v.data());
@@ -210,14 +201,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLubyte> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	setN(
 		identity<GLubyte[4]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLubyte, N>& v
+		span<const GLubyte> v
 	) noexcept {
 		assert(v.size() >= 4);
 		OGLPLUS_GLFUNC(VertexAttrib4Nubv)(va.index(), v.data());
@@ -281,14 +271,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLshort> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
 		identity<GLshort[1]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLshort, N>& v
+		span<const GLshort> v
 	) noexcept {
 		assert(v.size() >= 1);
 		OGLPLUS_GLFUNC(VertexAttrib1sv)(va.index(), v.data());
@@ -296,14 +285,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLshort> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
 		identity<GLshort[2]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLshort, N>& v
+		span<const GLshort> v
 	) noexcept {
 		assert(v.size() >= 2);
 		OGLPLUS_GLFUNC(VertexAttrib2sv)(va.index(), v.data());
@@ -311,14 +299,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLshort> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
 		identity<GLshort[3]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLshort, N>& v
+		span<const GLshort> v
 	) noexcept {
 		assert(v.size() >= 3);
 		OGLPLUS_GLFUNC(VertexAttrib3sv)(va.index(), v.data());
@@ -326,14 +313,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLshort> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
 		identity<GLshort[4]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLshort, N>& v
+		span<const GLshort> v
 	) noexcept {
 		assert(v.size() >= 4);
 		OGLPLUS_GLFUNC(VertexAttrib4sv)(va.index(), v.data());
@@ -341,14 +327,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLshort> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	setI(
 		identity<GLshort[4]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLshort, N>& v
+		span<const GLshort> v
 	) noexcept {
 		assert(v.size() >= 4);
 		OGLPLUS_GLFUNC(VertexAttribI4sv)(va.index(), v.data());
@@ -356,14 +341,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLshort> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	setN(
 		identity<GLshort[4]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLshort, N>& v
+		span<const GLshort> v
 	) noexcept {
 		assert(v.size() >= 4);
 		OGLPLUS_GLFUNC(VertexAttrib4Nsv)(va.index(), v.data());
@@ -374,14 +358,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLshort> {
 template <>
 struct prog_var_get_set_ops<tag::vertex_attrib, GLushort> {
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
 		identity<GLushort[4]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLushort, N>& v
+		span<const GLushort> v
 	) noexcept {
 		assert(v.size() >= 4);
 		OGLPLUS_GLFUNC(VertexAttrib4usv)(va.index(), v.data());
@@ -389,14 +372,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLushort> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	setI(
 		identity<GLushort[4]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLushort, N>& v
+		span<const GLushort> v
 	) noexcept {
 		assert(v.size() >= 4);
 		OGLPLUS_GLFUNC(VertexAttribI4usv)(va.index(), v.data());
@@ -404,14 +386,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLushort> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	setN(
 		identity<GLushort[4]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLushort, N>& v
+		span<const GLushort> v
 	) noexcept {
 		assert(v.size() >= 4);
 		OGLPLUS_GLFUNC(VertexAttrib4Nusv)(va.index(), v.data());
@@ -423,14 +404,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLushort> {
 template <>
 struct prog_var_get_set_ops<tag::vertex_attrib, GLint> {
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
 		identity<GLint[4]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLint, N>& v
+		span<const GLint> v
 	) noexcept {
 		assert(v.size() >= 4);
 		OGLPLUS_GLFUNC(VertexAttrib4iv)(va.index(), v.data());
@@ -438,14 +418,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLint> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	setI(
 		identity<GLint[1]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLint, N>& v
+		span<const GLint> v
 	) noexcept {
 		assert(v.size() >= 1);
 		OGLPLUS_GLFUNC(VertexAttribI1iv)(va.index(), v.data());
@@ -453,14 +432,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLint> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	setI(
 		identity<GLint[2]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLint, N>& v
+		span<const GLint> v
 	) noexcept {
 		assert(v.size() >= 2);
 		OGLPLUS_GLFUNC(VertexAttribI2iv)(va.index(), v.data());
@@ -468,14 +446,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLint> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	setI(
 		identity<GLint[3]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLint, N>& v
+		span<const GLint> v
 	) noexcept {
 		assert(v.size() >= 3);
 		OGLPLUS_GLFUNC(VertexAttribI3iv)(va.index(), v.data());
@@ -483,14 +460,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLint> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	setI(
 		identity<GLint[4]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLint, N>& v
+		span<const GLint> v
 	) noexcept {
 		assert(v.size() >= 4);
 		OGLPLUS_GLFUNC(VertexAttribI4iv)(va.index(), v.data());
@@ -498,14 +474,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLint> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	setN(
 		identity<GLint[4]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLint, N>& v
+		span<const GLint> v
 	) noexcept {
 		assert(v.size() >= 4);
 		OGLPLUS_GLFUNC(VertexAttrib4Niv)(va.index(), v.data());
@@ -516,14 +491,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLint> {
 template <>
 struct prog_var_get_set_ops<tag::vertex_attrib, GLuint> {
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
 		identity<GLuint[4]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLuint, N>& v
+		span<const GLuint> v
 	) noexcept {
 		assert(v.size() >= 4);
 		OGLPLUS_GLFUNC(VertexAttrib4uiv)(va.index(), v.data());
@@ -531,14 +505,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLuint> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	setI(
 		identity<GLuint[1]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLuint, N>& v
+		span<const GLuint> v
 	) noexcept {
 		assert(v.size() >= 1);
 		OGLPLUS_GLFUNC(VertexAttribI1uiv)(va.index(), v.data());
@@ -546,14 +519,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLuint> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	setI(
 		identity<GLuint[2]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLuint, N>& v
+		span<const GLuint> v
 	) noexcept {
 		assert(v.size() >= 2);
 		OGLPLUS_GLFUNC(VertexAttribI2uiv)(va.index(), v.data());
@@ -561,14 +533,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLuint> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	setI(
 		identity<GLuint[3]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLuint, N>& v
+		span<const GLuint> v
 	) noexcept {
 		assert(v.size() >= 3);
 		OGLPLUS_GLFUNC(VertexAttribI3uiv)(va.index(), v.data());
@@ -576,14 +547,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLuint> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	setI(
 		identity<GLuint[4]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLuint, N>& v
+		span<const GLuint> v
 	) noexcept {
 		assert(v.size() >= 4);
 		OGLPLUS_GLFUNC(VertexAttribI4uiv)(va.index(), v.data());
@@ -591,14 +561,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLuint> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	setN(
 		identity<GLuint[4]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLuint, N>& v
+		span<const GLuint> v
 	) noexcept {
 		assert(v.size() >= 4);
 		OGLPLUS_GLFUNC(VertexAttrib4Nuiv)(va.index(), v.data());
@@ -742,14 +711,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLdouble> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
 		identity<GLdouble[1]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLdouble, N>& v
+		span<const GLdouble> v
 	) noexcept {
 		assert(v.size() >= 1);
 		OGLPLUS_GLFUNC(VertexAttrib1dv)(va.index(), v.data());
@@ -757,14 +725,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLdouble> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
 		identity<GLdouble[2]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLdouble, N>& v
+		span<const GLdouble> v
 	) noexcept {
 		assert(v.size() >= 2);
 		OGLPLUS_GLFUNC(VertexAttrib2dv)(va.index(), v.data());
@@ -772,14 +739,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLdouble> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
 		identity<GLdouble[3]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLdouble, N>& v
+		span<const GLdouble> v
 	) noexcept {
 		assert(v.size() >= 3);
 		OGLPLUS_GLFUNC(VertexAttrib3dv)(va.index(), v.data());
@@ -787,14 +753,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLdouble> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
 		identity<GLdouble[4]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLdouble, N>& v
+		span<const GLdouble> v
 	) noexcept {
 		assert(v.size() >= 4);
 		OGLPLUS_GLFUNC(VertexAttrib4dv)(va.index(), v.data());
@@ -855,14 +820,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLdouble> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	setL(
 		identity<GLdouble[1]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLdouble, N>& v
+		span<const GLdouble> v
 	) noexcept {
 		assert(v.size() >= 1);
 		OGLPLUS_GLFUNC(VertexAttribL1dv)(va.index(), v.data());
@@ -870,14 +834,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLdouble> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	setL(
 		identity<GLdouble[2]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLdouble, N>& v
+		span<const GLdouble> v
 	) noexcept {
 		assert(v.size() >= 2);
 		OGLPLUS_GLFUNC(VertexAttribL2dv)(va.index(), v.data());
@@ -885,14 +848,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLdouble> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	setL(
 		identity<GLdouble[3]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLdouble, N>& v
+		span<const GLdouble> v
 	) noexcept {
 		assert(v.size() >= 3);
 		OGLPLUS_GLFUNC(VertexAttribL3dv)(va.index(), v.data());
@@ -900,14 +862,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLdouble> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	setL(
 		identity<GLdouble[4]>,
 		vertex_attrib_location va,
 		bool ge,
-		const span<const GLdouble, N>& v
+		span<const GLdouble> v
 	) noexcept {
 		assert(v.size() >= 4);
 		OGLPLUS_GLFUNC(VertexAttribL4dv)(va.index(), v.data());

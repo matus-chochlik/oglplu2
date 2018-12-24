@@ -8,8 +8,8 @@
 #ifndef UTILS_OGLPLUS_X11_VISUAL_INFO_1107121519_HPP
 #define UTILS_OGLPLUS_X11_VISUAL_INFO_1107121519_HPP
 
-#include "display.hpp"
 #include "../glx/fb_config.hpp"
+#include "display.hpp"
 
 #include <X11/Xlib.h>
 #include <stdexcept>
@@ -17,32 +17,30 @@
 namespace oglplus {
 namespace x11 {
 
-class VisualInfo
- : public Object< ::XVisualInfo, int(void*)>
-{
+class VisualInfo : public Object<::XVisualInfo, int(void*)> {
 private:
-	static ::XVisualInfo* _from_id(const Display& display, int id)
-	{
-		::XVisualInfo tpl;
-		tpl.visualid = VisualID(id);
-		int num_vis = 0;
+    static ::XVisualInfo* _from_id(const Display& display, int id) {
+        ::XVisualInfo tpl;
+        tpl.visualid = VisualID(id);
+        int num_vis = 0;
 
-		return ::XGetVisualInfo(display, VisualIDMask, &tpl, &num_vis);
-	}
+        return ::XGetVisualInfo(display, VisualIDMask, &tpl, &num_vis);
+    }
+
 public:
-	VisualInfo(const Display& display, const glx::FBConfig& fbc)
-	 : Object< ::XVisualInfo, int(void*)>(
-		::glXGetVisualFromFBConfig(display, fbc),
-		::XFree,
-		"Error Getting X VisualInfo from GLX FB config"
-	){ }
+    VisualInfo(const Display& display, const glx::FBConfig& fbc)
+      : Object<::XVisualInfo, int(void*)>(
+          ::glXGetVisualFromFBConfig(display, fbc),
+          ::XFree,
+          "Error Getting X VisualInfo from GLX FB config") {
+    }
 
-	VisualInfo(const Display& display, int visual_id)
-	 : Object< ::XVisualInfo, int(void*)>(
-		_from_id(display, visual_id),
-		::XFree,
-		"Error Getting X VisualInfo from visual ID"
-	){ }
+    VisualInfo(const Display& display, int visual_id)
+      : Object<::XVisualInfo, int(void*)>(
+          _from_id(display, visual_id),
+          ::XFree,
+          "Error Getting X VisualInfo from visual ID") {
+    }
 };
 
 } // namespace x11

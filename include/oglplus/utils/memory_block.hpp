@@ -7,18 +7,16 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_UTILS_MEMORY_BLOCK_1509260923_HPP
-#define OGLPLUS_UTILS_MEMORY_BLOCK_1509260923_HPP
+#ifndef OGLPLUS_UTILS_MEMORY_BLOCK_HPP
+#define OGLPLUS_UTILS_MEMORY_BLOCK_HPP
 
-#include <eagine/memory_block.hpp>
+#include <eagine/memory/block.hpp>
 
 namespace oglplus {
 
-using eagine::basic_memory_block;
-using eagine::memory_block;
-using eagine::const_memory_block;
-using eagine::memory_block_of;
+using const_memory_block = eagine::memory::const_block;
+using memory_block = eagine::memory::block;
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_UTILS_MEMORY_BLOCK_HPP

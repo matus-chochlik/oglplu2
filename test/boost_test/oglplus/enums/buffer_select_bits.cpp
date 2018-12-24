@@ -17,154 +17,144 @@
 
 BOOST_AUTO_TEST_SUITE(enum_buffer_select_bits_tests)
 
-BOOST_AUTO_TEST_CASE(enum_buffer_select_bits_values)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	buffer_select_bits x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_buffer_select_bits_values) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    buffer_select_bits x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_COLOR_BUFFER_BIT
-	x = ev.color_buffer_bit;
-	BOOST_CHECK(x == ev.color_buffer_bit);
-# ifdef GL_DEPTH_BUFFER_BIT
-	BOOST_CHECK(x != ev.depth_buffer_bit);
-# endif
-# ifdef GL_STENCIL_BUFFER_BIT
-	BOOST_CHECK(x != ev.stencil_buffer_bit);
-# endif
+    x = ev.color_buffer_bit;
+    BOOST_CHECK(x == ev.color_buffer_bit);
+#ifdef GL_DEPTH_BUFFER_BIT
+    BOOST_CHECK(x != ev.depth_buffer_bit);
+#endif
+#ifdef GL_STENCIL_BUFFER_BIT
+    BOOST_CHECK(x != ev.stencil_buffer_bit);
+#endif
 #endif
 
 #ifdef GL_DEPTH_BUFFER_BIT
-	x = ev.depth_buffer_bit;
-	BOOST_CHECK(x == ev.depth_buffer_bit);
-# ifdef GL_STENCIL_BUFFER_BIT
-	BOOST_CHECK(x != ev.stencil_buffer_bit);
-# endif
+    x = ev.depth_buffer_bit;
+    BOOST_CHECK(x == ev.depth_buffer_bit);
+#ifdef GL_STENCIL_BUFFER_BIT
+    BOOST_CHECK(x != ev.stencil_buffer_bit);
+#endif
 #endif
 
 #ifdef GL_STENCIL_BUFFER_BIT
-	x = ev.stencil_buffer_bit;
-	BOOST_CHECK(x == ev.stencil_buffer_bit);
+    x = ev.stencil_buffer_bit;
+    BOOST_CHECK(x == ev.stencil_buffer_bit);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_buffer_select_bits_names)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	buffer_select_bits x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_buffer_select_bits_names) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    buffer_select_bits x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_COLOR_BUFFER_BIT
-	x = ev.color_buffer_bit;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"COLOR_BUFFER_BIT"
-	) == 0);
+    x = ev.color_buffer_bit;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(
+      std::strcmp(enum_value_name(x).data(), "COLOR_BUFFER_BIT") == 0);
 #endif
 
 #ifdef GL_DEPTH_BUFFER_BIT
-	x = ev.depth_buffer_bit;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"DEPTH_BUFFER_BIT"
-	) == 0);
+    x = ev.depth_buffer_bit;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(
+      std::strcmp(enum_value_name(x).data(), "DEPTH_BUFFER_BIT") == 0);
 #endif
 
 #ifdef GL_STENCIL_BUFFER_BIT
-	x = ev.stencil_buffer_bit;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"STENCIL_BUFFER_BIT"
-	) == 0);
+    x = ev.stencil_buffer_bit;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(
+      std::strcmp(enum_value_name(x).data(), "STENCIL_BUFFER_BIT") == 0);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_buffer_select_bits_range)
-{
-	using namespace oglplus;
-	auto count = enum_value_range<buffer_select_bits>().size();
+BOOST_AUTO_TEST_CASE(enum_buffer_select_bits_range) {
+    using namespace oglplus;
+    auto count = enum_value_range<buffer_select_bits>().size();
 
 #ifdef GL_COLOR_BUFFER_BIT
-{
-	--count;
-	auto r = enum_value_range<buffer_select_bits>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		buffer_select_bits(GL_COLOR_BUFFER_BIT)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<buffer_select_bits>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), buffer_select_bits(GL_COLOR_BUFFER_BIT)) !=
+          r.end());
+    }
 #endif
 
 #ifdef GL_DEPTH_BUFFER_BIT
-{
-	--count;
-	auto r = enum_value_range<buffer_select_bits>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		buffer_select_bits(GL_DEPTH_BUFFER_BIT)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<buffer_select_bits>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), buffer_select_bits(GL_DEPTH_BUFFER_BIT)) !=
+          r.end());
+    }
 #endif
 
 #ifdef GL_STENCIL_BUFFER_BIT
-{
-	--count;
-	auto r = enum_value_range<buffer_select_bits>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		buffer_select_bits(GL_STENCIL_BUFFER_BIT)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<buffer_select_bits>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), buffer_select_bits(GL_STENCIL_BUFFER_BIT)) !=
+          r.end());
+    }
 #endif
-	BOOST_CHECK_EQUAL(count, 0);
+    BOOST_CHECK_EQUAL(count, 0);
 }
 
-BOOST_AUTO_TEST_CASE(enum_buffer_select_bits_any)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	buffer_select_bits x, y;
-	EAGINE_MAYBE_UNUSED(x);
-	EAGINE_MAYBE_UNUSED(y);
-	any_enum_value a;
-	EAGINE_MAYBE_UNUSED(a);
+BOOST_AUTO_TEST_CASE(enum_buffer_select_bits_any) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    buffer_select_bits x, y;
+    EAGINE_MAYBE_UNUSED(x);
+    EAGINE_MAYBE_UNUSED(y);
+    any_enum_value a;
+    EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_COLOR_BUFFER_BIT
-	x = ev.color_buffer_bit;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.color_buffer_bit);
+    x = ev.color_buffer_bit;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.color_buffer_bit);
 #endif
 
 #ifdef GL_DEPTH_BUFFER_BIT
-	x = ev.depth_buffer_bit;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.depth_buffer_bit);
+    x = ev.depth_buffer_bit;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.depth_buffer_bit);
 #endif
 
 #ifdef GL_STENCIL_BUFFER_BIT
-	x = ev.stencil_buffer_bit;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.stencil_buffer_bit);
+    x = ev.stencil_buffer_bit;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.stencil_buffer_bit);
 #endif
 }
 

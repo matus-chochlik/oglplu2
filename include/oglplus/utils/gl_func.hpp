@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_UTILS_GLFUNC_1509260942_HPP
-#define OGLPLUS_UTILS_GLFUNC_1509260942_HPP
+#ifndef OGLPLUS_UTILS_GL_FUNC_HPP
+#define OGLPLUS_UTILS_GL_FUNC_HPP
 
 #ifndef OGLPLUS_GLFUNC
 #define OGLPLUS_GLFUNC(FUNCNAME) ::gl##FUNCNAME
@@ -20,15 +20,13 @@
 #define OGLPLUS_WGLFUNC(FUNCNAME) ::wgl##FUNCNAME
 #endif
 
-
 #ifndef OGLPLUS_GL_DSA_FUNC_NAME
-# ifdef GL_VERSION_4_5
-#  define OGLPLUS_GL_DSA_FUNC_NAME(FUNC) #FUNC
-# elif defined(GL_EXT_direct_state_access)
-#  define OGLPLUS_GL_DSA_FUNC_NAME(FUNC) #FUNC "EXT"
-# endif
+#ifdef GL_VERSION_4_5
+#define OGLPLUS_GL_DSA_FUNC_NAME(FUNC) #FUNC
+#elif defined(GL_EXT_direct_state_access)
+#define OGLPLUS_GL_DSA_FUNC_NAME(FUNC) #FUNC "EXT"
 #endif
-
+#endif
 
 #if defined(__GLEW_H__)
 #define OGLPLUS_DYN_LOADED_GL_FUNCTIONS 1
@@ -36,4 +34,4 @@
 #define OGLPLUS_DYN_LOADED_GL_FUNCTIONS 0
 #endif
 
-#endif // include guard
+#endif // OGLPLUS_UTILS_GL_FUNC_HPP

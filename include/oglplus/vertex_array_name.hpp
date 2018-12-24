@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_VERTEX_ARRAY_NAME_1509260923_HPP
-#define OGLPLUS_VERTEX_ARRAY_NAME_1509260923_HPP
+#ifndef OGLPLUS_VERTEX_ARRAY_NAME_HPP
+#define OGLPLUS_VERTEX_ARRAY_NAME_HPP
 
 #include "object/gl_name.hpp"
 
@@ -26,4 +26,4 @@ using vertex_array_name = object_name<tag::vertex_array>;
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_VERTEX_ARRAY_NAME_HPP

@@ -17,154 +17,142 @@
 
 BOOST_AUTO_TEST_SUITE(enum_tess_gen_primitive_spacing_tests)
 
-BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_spacing_values)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	tess_gen_primitive_spacing x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_spacing_values) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    tess_gen_primitive_spacing x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_EQUAL
-	x = ev.equal;
-	BOOST_CHECK(x == ev.equal);
-# ifdef GL_FRACTIONAL_EVEN
-	BOOST_CHECK(x != ev.fractional_even);
-# endif
-# ifdef GL_FRACTIONAL_ODD
-	BOOST_CHECK(x != ev.fractional_odd);
-# endif
+    x = ev.equal;
+    BOOST_CHECK(x == ev.equal);
+#ifdef GL_FRACTIONAL_EVEN
+    BOOST_CHECK(x != ev.fractional_even);
+#endif
+#ifdef GL_FRACTIONAL_ODD
+    BOOST_CHECK(x != ev.fractional_odd);
+#endif
 #endif
 
 #ifdef GL_FRACTIONAL_EVEN
-	x = ev.fractional_even;
-	BOOST_CHECK(x == ev.fractional_even);
-# ifdef GL_FRACTIONAL_ODD
-	BOOST_CHECK(x != ev.fractional_odd);
-# endif
+    x = ev.fractional_even;
+    BOOST_CHECK(x == ev.fractional_even);
+#ifdef GL_FRACTIONAL_ODD
+    BOOST_CHECK(x != ev.fractional_odd);
+#endif
 #endif
 
 #ifdef GL_FRACTIONAL_ODD
-	x = ev.fractional_odd;
-	BOOST_CHECK(x == ev.fractional_odd);
+    x = ev.fractional_odd;
+    BOOST_CHECK(x == ev.fractional_odd);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_spacing_names)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	tess_gen_primitive_spacing x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_spacing_names) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    tess_gen_primitive_spacing x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_EQUAL
-	x = ev.equal;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"EQUAL"
-	) == 0);
+    x = ev.equal;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "EQUAL") == 0);
 #endif
 
 #ifdef GL_FRACTIONAL_EVEN
-	x = ev.fractional_even;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"FRACTIONAL_EVEN"
-	) == 0);
+    x = ev.fractional_even;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "FRACTIONAL_EVEN") == 0);
 #endif
 
 #ifdef GL_FRACTIONAL_ODD
-	x = ev.fractional_odd;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"FRACTIONAL_ODD"
-	) == 0);
+    x = ev.fractional_odd;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "FRACTIONAL_ODD") == 0);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_spacing_range)
-{
-	using namespace oglplus;
-	auto count = enum_value_range<tess_gen_primitive_spacing>().size();
+BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_spacing_range) {
+    using namespace oglplus;
+    auto count = enum_value_range<tess_gen_primitive_spacing>().size();
 
 #ifdef GL_EQUAL
-{
-	--count;
-	auto r = enum_value_range<tess_gen_primitive_spacing>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		tess_gen_primitive_spacing(GL_EQUAL)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<tess_gen_primitive_spacing>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), tess_gen_primitive_spacing(GL_EQUAL)) !=
+          r.end());
+    }
 #endif
 
 #ifdef GL_FRACTIONAL_EVEN
-{
-	--count;
-	auto r = enum_value_range<tess_gen_primitive_spacing>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		tess_gen_primitive_spacing(GL_FRACTIONAL_EVEN)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<tess_gen_primitive_spacing>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            tess_gen_primitive_spacing(GL_FRACTIONAL_EVEN)) != r.end());
+    }
 #endif
 
 #ifdef GL_FRACTIONAL_ODD
-{
-	--count;
-	auto r = enum_value_range<tess_gen_primitive_spacing>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		tess_gen_primitive_spacing(GL_FRACTIONAL_ODD)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<tess_gen_primitive_spacing>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            tess_gen_primitive_spacing(GL_FRACTIONAL_ODD)) != r.end());
+    }
 #endif
-	BOOST_CHECK_EQUAL(count, 0);
+    BOOST_CHECK_EQUAL(count, 0);
 }
 
-BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_spacing_any)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	tess_gen_primitive_spacing x, y;
-	EAGINE_MAYBE_UNUSED(x);
-	EAGINE_MAYBE_UNUSED(y);
-	any_enum_value a;
-	EAGINE_MAYBE_UNUSED(a);
+BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_spacing_any) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    tess_gen_primitive_spacing x, y;
+    EAGINE_MAYBE_UNUSED(x);
+    EAGINE_MAYBE_UNUSED(y);
+    any_enum_value a;
+    EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_EQUAL
-	x = ev.equal;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.equal);
+    x = ev.equal;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.equal);
 #endif
 
 #ifdef GL_FRACTIONAL_EVEN
-	x = ev.fractional_even;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.fractional_even);
+    x = ev.fractional_even;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.fractional_even);
 #endif
 
 #ifdef GL_FRACTIONAL_ODD
-	x = ev.fractional_odd;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.fractional_odd);
+    x = ev.fractional_odd;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.fractional_odd);
 #endif
 }
 

@@ -7,17 +7,17 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_UTILS_VEC_MAT_TRAITS_1509260923_HPP
-#define OGLPLUS_UTILS_VEC_MAT_TRAITS_1509260923_HPP
+#ifndef OGLPLUS_UTILS_VEC_MAT_TRAITS_HPP
+#define OGLPLUS_UTILS_VEC_MAT_TRAITS_HPP
 
 #include <eagine/vec_mat_traits.hpp>
 
 namespace oglplus {
 
-using eagine::is_known_vector_type;
-using eagine::is_known_vector_type_v;
 using eagine::is_known_matrix_type;
 using eagine::is_known_matrix_type_v;
+using eagine::is_known_vector_type;
+using eagine::is_known_vector_type_v;
 
 using eagine::canonical_compound_type;
 using eagine::canonical_compound_type_t;
@@ -30,4 +30,4 @@ using eagine::is_row_major;
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_UTILS_VEC_MAT_TRAITS_HPP

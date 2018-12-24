@@ -15,64 +15,59 @@
 namespace oalplus {
 
 OALPLUS_LIB_FUNC
-std::pair<const void*, span_size_t>
-get_enum_value_range(const any_enum_class_alc& aec)
-noexcept
-{
-	switch(aec._type_id)
-	{
-		case 0: /* alc_error_code */
-		{
-			static const ALCenum vr[] = {
+std::pair<const void*, span_size_t> get_enum_value_range(
+  const any_enum_class_alc& aec) noexcept {
+    switch(aec._type_id) {
+        case 0: /* alc_error_code */
+        {
+            static const ALCenum vr[] = {
 #ifdef ALC_INVALID_CONTEXT
-				ALC_INVALID_CONTEXT,
+              ALC_INVALID_CONTEXT,
 #endif
 #ifdef ALC_INVALID_DEVICE
-				ALC_INVALID_DEVICE,
+              ALC_INVALID_DEVICE,
 #endif
 #ifdef ALC_INVALID_ENUM
-				ALC_INVALID_ENUM,
+              ALC_INVALID_ENUM,
 #endif
 #ifdef ALC_INVALID_VALUE
-				ALC_INVALID_VALUE,
+              ALC_INVALID_VALUE,
 #endif
 #ifdef ALC_NO_ERROR
-				ALC_NO_ERROR,
+              ALC_NO_ERROR,
 #endif
 #ifdef ALC_OUT_OF_MEMORY
-				ALC_OUT_OF_MEMORY,
+              ALC_OUT_OF_MEMORY,
 #endif
-				0
-			};
-			return {vr, sizeof(vr)/sizeof(vr[0])-1};
-		}
-		case 1: /* context_attrib */
-		{
-			static const ALCenum vr[] = {
+              0};
+            return {vr, sizeof(vr) / sizeof(vr[0]) - 1};
+        }
+        case 1: /* context_attrib */
+        {
+            static const ALCenum vr[] = {
 #ifdef ALC_FREQUENCY
-				ALC_FREQUENCY,
+              ALC_FREQUENCY,
 #endif
 #ifdef ALC_MONO_SOURCES
-				ALC_MONO_SOURCES,
+              ALC_MONO_SOURCES,
 #endif
 #ifdef ALC_REFRESH
-				ALC_REFRESH,
+              ALC_REFRESH,
 #endif
 #ifdef ALC_STEREO_SOURCES
-				ALC_STEREO_SOURCES,
+              ALC_STEREO_SOURCES,
 #endif
 #ifdef ALC_SYNC
-				ALC_SYNC,
+              ALC_SYNC,
 #endif
-				0
-			};
-			return {vr, sizeof(vr)/sizeof(vr[0])-1};
-		}
-	default:;
-	}
+              0};
+            return {vr, sizeof(vr) / sizeof(vr[0]) - 1};
+        }
+        default:;
+    }
 
-	EAGINE_MAYBE_UNUSED(aec);
-	return {nullptr, 0};
+    EAGINE_MAYBE_UNUSED(aec);
+    return {nullptr, 0};
 }
 
 } // namespace oalplus

@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_UTILS_DEFERRED_HANDLER_1509260923_HPP
-#define OGLPLUS_UTILS_DEFERRED_HANDLER_1509260923_HPP
+#ifndef OGLPLUS_UTILS_DEFERRED_HANDLER_HPP
+#define OGLPLUS_UTILS_DEFERRED_HANDLER_HPP
 
 #include <eagine/deferred_handler.hpp>
 
@@ -19,4 +19,4 @@ using eagine::make_deferred_handler;
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_UTILS_DEFERRED_HANDLER_HPP

@@ -7,87 +7,69 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_SHAPES_TORUS_1509260923_HPP
-#define EAGINE_SHAPES_TORUS_1509260923_HPP
+#ifndef EAGINE_SHAPES_TORUS_HPP
+#define EAGINE_SHAPES_TORUS_HPP
 
-#include "gen_base.hpp"
 #include "../config/basic.hpp"
-#include "../valid_if/greater_than.hpp"
 #include "../valid_if/ge0_lt1.hpp"
+#include "../valid_if/greater_than.hpp"
+#include "gen_base.hpp"
 #include <cassert>
 
 namespace eagine {
 namespace shapes {
 
-class unit_torus_gen
- : public centered_unit_shape_generator_base
-{
+class unit_torus_gen : public centered_unit_shape_generator_base {
 private:
-	typedef centered_unit_shape_generator_base _base;
+    using _base = centered_unit_shape_generator_base;
 
-	span_size_t _rings;
-	span_size_t _sections;
-	float _radius_ratio;
+    span_size_t _rings;
+    span_size_t _sections;
+    float _radius_ratio;
 
-	static
-	vertex_attrib_bits _attr_mask(void)
-	noexcept;
+    static vertex_attrib_bits _attr_mask() noexcept;
+
 public:
-	unit_torus_gen(
-		vertex_attrib_bits attr_bits,
-		valid_if_greater_than<int, 4> rings,
-		valid_if_greater_than<int, 3> sections,
-		valid_if_ge0_lt1<float> radius_ratio
-	) noexcept;
+    unit_torus_gen(
+      vertex_attrib_bits attr_bits,
+      valid_if_greater_than<int, 4> rings,
+      valid_if_greater_than<int, 3> sections,
+      valid_if_ge0_lt1<float> radius_ratio) noexcept;
 
-	unit_torus_gen(
-		vertex_attrib_bits attr_bits,
-		valid_if_greater_than<int, 4> rings,
-		valid_if_greater_than<int, 3> sections
-	) noexcept
-	 : unit_torus_gen(attr_bits, rings, sections, 0.5f)
-	{ }
+    unit_torus_gen(
+      vertex_attrib_bits attr_bits,
+      valid_if_greater_than<int, 4> rings,
+      valid_if_greater_than<int, 3> sections) noexcept
+      : unit_torus_gen(attr_bits, std::move(rings), std::move(sections), 0.5f) {
+    }
 
-	unit_torus_gen(vertex_attrib_bits attr_bits)
-	noexcept
-	 : unit_torus_gen(attr_bits, 24, 36)
-	{ }
+    unit_torus_gen(vertex_attrib_bits attr_bits) noexcept
+      : unit_torus_gen(attr_bits, 24, 36) {
+    }
 
-	span_size_t vertex_count(void)
-	override;
+    span_size_t vertex_count() override;
 
-	void positions(const span<float>& dest)
-	noexcept;
+    void positions(span<float> dest) noexcept;
 
-	void normals(const span<float>& dest)
-	noexcept;
+    void normals(span<float> dest) noexcept;
 
-	void tangentials(const span<float>& dest)
-	noexcept;
+    void tangentials(span<float> dest) noexcept;
 
-	void bitangentials(const span<float>& dest)
-	noexcept;
+    void bitangentials(span<float> dest) noexcept;
 
-	void wrap_coords(const span<float>& dest)
-	noexcept;
+    void wrap_coords(span<float> dest) noexcept;
 
-	void attrib_values(vertex_attrib_kind attr, const span<float>& dest)
-	override;
+    void attrib_values(vertex_attrib_kind attr, span<float> dest) override;
 
-	index_data_type index_type(void)
-	override;
+    index_data_type index_type() override;
 
-	span_size_t index_count(void)
-	override;
+    span_size_t index_count() override;
 
-	void indices(const span<unsigned>& dest)
-	override;
+    void indices(span<unsigned> dest) override;
 
-	span_size_t operation_count(void)
-	override;
+    span_size_t operation_count() override;
 
-	void instructions(const span<draw_operation>& ops)
-	override;
+    void instructions(span<draw_operation> ops) override;
 };
 
 } // namespace shapes
@@ -95,6 +77,7 @@ public:
 
 #if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
 #include <eagine/shapes/torus.inl>
+#include <utility>
 #endif
 
-#endif // include guard
+#endif // EAGINE_SHAPES_TORUS_HPP

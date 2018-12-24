@@ -69,7 +69,7 @@ struct prog_var_get_set_ops<tag::uniform, GLint> {
 		identity<GLint[1]>,
 		uniform_location u,
 		GLsizei count,
-		const span<const GLint>& v
+		span<const GLint> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(1*count));
@@ -84,7 +84,7 @@ struct prog_var_get_set_ops<tag::uniform, GLint> {
 		identity<GLint[2]>,
 		uniform_location u,
 		GLsizei count,
-		const span<const GLint>& v
+		span<const GLint> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(2*count));
@@ -99,7 +99,7 @@ struct prog_var_get_set_ops<tag::uniform, GLint> {
 		identity<GLint[3]>,
 		uniform_location u,
 		GLsizei count,
-		const span<const GLint>& v
+		span<const GLint> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(3*count));
@@ -114,7 +114,7 @@ struct prog_var_get_set_ops<tag::uniform, GLint> {
 		identity<GLint[4]>,
 		uniform_location u,
 		GLsizei count,
-		const span<const GLint>& v
+		span<const GLint> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(4*count));
@@ -211,7 +211,7 @@ struct prog_var_get_set_ops<tag::uniform, GLint> {
 		identity<GLint[1]>,
 		program_uniform_location pu,
 		GLsizei count,
-		const span<const GLint>& v
+		span<const GLint> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(1*count));
@@ -235,7 +235,7 @@ struct prog_var_get_set_ops<tag::uniform, GLint> {
 		identity<GLint[2]>,
 		program_uniform_location pu,
 		GLsizei count,
-		const span<const GLint>& v
+		span<const GLint> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(2*count));
@@ -259,7 +259,7 @@ struct prog_var_get_set_ops<tag::uniform, GLint> {
 		identity<GLint[3]>,
 		program_uniform_location pu,
 		GLsizei count,
-		const span<const GLint>& v
+		span<const GLint> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(3*count));
@@ -283,7 +283,7 @@ struct prog_var_get_set_ops<tag::uniform, GLint> {
 		identity<GLint[4]>,
 		program_uniform_location pu,
 		GLsizei count,
-		const span<const GLint>& v
+		span<const GLint> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(4*count));
@@ -360,7 +360,7 @@ struct prog_var_get_set_ops<tag::uniform, GLuint> {
 		identity<GLuint[1]>,
 		uniform_location u,
 		GLsizei count,
-		const span<const GLuint>& v
+		span<const GLuint> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(1*count));
@@ -375,7 +375,7 @@ struct prog_var_get_set_ops<tag::uniform, GLuint> {
 		identity<GLuint[2]>,
 		uniform_location u,
 		GLsizei count,
-		const span<const GLuint>& v
+		span<const GLuint> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(2*count));
@@ -390,7 +390,7 @@ struct prog_var_get_set_ops<tag::uniform, GLuint> {
 		identity<GLuint[3]>,
 		uniform_location u,
 		GLsizei count,
-		const span<const GLuint>& v
+		span<const GLuint> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(3*count));
@@ -405,7 +405,7 @@ struct prog_var_get_set_ops<tag::uniform, GLuint> {
 		identity<GLuint[4]>,
 		uniform_location u,
 		GLsizei count,
-		const span<const GLuint>& v
+		span<const GLuint> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(4*count));
@@ -502,7 +502,7 @@ struct prog_var_get_set_ops<tag::uniform, GLuint> {
 		identity<GLuint[1]>,
 		program_uniform_location pu,
 		GLsizei count,
-		const span<const GLuint>& v
+		span<const GLuint> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(1*count));
@@ -526,7 +526,7 @@ struct prog_var_get_set_ops<tag::uniform, GLuint> {
 		identity<GLuint[2]>,
 		program_uniform_location pu,
 		GLsizei count,
-		const span<const GLuint>& v
+		span<const GLuint> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(2*count));
@@ -550,7 +550,7 @@ struct prog_var_get_set_ops<tag::uniform, GLuint> {
 		identity<GLuint[3]>,
 		program_uniform_location pu,
 		GLsizei count,
-		const span<const GLuint>& v
+		span<const GLuint> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(3*count));
@@ -574,7 +574,7 @@ struct prog_var_get_set_ops<tag::uniform, GLuint> {
 		identity<GLuint[4]>,
 		program_uniform_location pu,
 		GLsizei count,
-		const span<const GLuint>& v
+		span<const GLuint> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(4*count));
@@ -651,7 +651,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		identity<GLfloat[1]>,
 		uniform_location u,
 		GLsizei count,
-		const span<const GLfloat>& v
+		span<const GLfloat> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(1*count));
@@ -666,7 +666,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		identity<GLfloat[2]>,
 		uniform_location u,
 		GLsizei count,
-		const span<const GLfloat>& v
+		span<const GLfloat> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(2*count));
@@ -681,7 +681,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		identity<GLfloat[3]>,
 		uniform_location u,
 		GLsizei count,
-		const span<const GLfloat>& v
+		span<const GLfloat> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(3*count));
@@ -696,7 +696,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		identity<GLfloat[4]>,
 		uniform_location u,
 		GLsizei count,
-		const span<const GLfloat>& v
+		span<const GLfloat> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(4*count));
@@ -712,7 +712,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		uniform_location u,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLfloat>& v
+		span<const GLfloat> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(2*2*count));
@@ -728,7 +728,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		uniform_location u,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLfloat>& v
+		span<const GLfloat> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(2*3*count));
@@ -744,7 +744,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		uniform_location u,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLfloat>& v
+		span<const GLfloat> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(2*4*count));
@@ -760,7 +760,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		uniform_location u,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLfloat>& v
+		span<const GLfloat> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(3*2*count));
@@ -776,7 +776,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		uniform_location u,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLfloat>& v
+		span<const GLfloat> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(3*3*count));
@@ -792,7 +792,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		uniform_location u,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLfloat>& v
+		span<const GLfloat> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(3*4*count));
@@ -808,7 +808,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		uniform_location u,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLfloat>& v
+		span<const GLfloat> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(4*2*count));
@@ -824,7 +824,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		uniform_location u,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLfloat>& v
+		span<const GLfloat> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(4*3*count));
@@ -840,7 +840,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		uniform_location u,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLfloat>& v
+		span<const GLfloat> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(4*4*count));
@@ -937,7 +937,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		identity<GLfloat[1]>,
 		program_uniform_location pu,
 		GLsizei count,
-		const span<const GLfloat>& v
+		span<const GLfloat> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(1*count));
@@ -961,7 +961,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		identity<GLfloat[2]>,
 		program_uniform_location pu,
 		GLsizei count,
-		const span<const GLfloat>& v
+		span<const GLfloat> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(2*count));
@@ -985,7 +985,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		identity<GLfloat[3]>,
 		program_uniform_location pu,
 		GLsizei count,
-		const span<const GLfloat>& v
+		span<const GLfloat> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(3*count));
@@ -1009,7 +1009,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		identity<GLfloat[4]>,
 		program_uniform_location pu,
 		GLsizei count,
-		const span<const GLfloat>& v
+		span<const GLfloat> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(4*count));
@@ -1027,7 +1027,6 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -1035,7 +1034,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		program_uniform_location pu,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLfloat, N>& v
+		span<const GLfloat> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(2*2*count));
@@ -1050,7 +1049,6 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -1058,7 +1056,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		program_uniform_location pu,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLfloat, N>& v
+		span<const GLfloat> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(2*3*count));
@@ -1073,7 +1071,6 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -1081,7 +1078,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		program_uniform_location pu,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLfloat, N>& v
+		span<const GLfloat> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(2*4*count));
@@ -1096,7 +1093,6 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -1104,7 +1100,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		program_uniform_location pu,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLfloat, N>& v
+		span<const GLfloat> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(3*2*count));
@@ -1119,7 +1115,6 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -1127,7 +1122,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		program_uniform_location pu,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLfloat, N>& v
+		span<const GLfloat> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(3*3*count));
@@ -1142,7 +1137,6 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -1150,7 +1144,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		program_uniform_location pu,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLfloat, N>& v
+		span<const GLfloat> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(3*4*count));
@@ -1165,7 +1159,6 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -1173,7 +1166,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		program_uniform_location pu,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLfloat, N>& v
+		span<const GLfloat> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(4*2*count));
@@ -1188,7 +1181,6 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -1196,7 +1188,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		program_uniform_location pu,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLfloat, N>& v
+		span<const GLfloat> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(4*3*count));
@@ -1211,7 +1203,6 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -1219,7 +1210,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 		program_uniform_location pu,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLfloat, N>& v
+		span<const GLfloat> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(4*4*count));
@@ -1294,7 +1285,7 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		identity<GLdouble[1]>,
 		uniform_location u,
 		GLsizei count,
-		const span<const GLdouble>& v
+		span<const GLdouble> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(1*count));
@@ -1309,7 +1300,7 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		identity<GLdouble[2]>,
 		uniform_location u,
 		GLsizei count,
-		const span<const GLdouble>& v
+		span<const GLdouble> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(2*count));
@@ -1324,7 +1315,7 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		identity<GLdouble[3]>,
 		uniform_location u,
 		GLsizei count,
-		const span<const GLdouble>& v
+		span<const GLdouble> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(3*count));
@@ -1339,7 +1330,7 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		identity<GLdouble[4]>,
 		uniform_location u,
 		GLsizei count,
-		const span<const GLdouble>& v
+		span<const GLdouble> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(4*count));
@@ -1355,7 +1346,7 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		uniform_location u,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLdouble>& v
+		span<const GLdouble> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(2*2*count));
@@ -1371,7 +1362,7 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		uniform_location u,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLdouble>& v
+		span<const GLdouble> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(2*3*count));
@@ -1387,7 +1378,7 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		uniform_location u,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLdouble>& v
+		span<const GLdouble> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(2*4*count));
@@ -1403,7 +1394,7 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		uniform_location u,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLdouble>& v
+		span<const GLdouble> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(3*2*count));
@@ -1419,7 +1410,7 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		uniform_location u,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLdouble>& v
+		span<const GLdouble> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(3*3*count));
@@ -1435,7 +1426,7 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		uniform_location u,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLdouble>& v
+		span<const GLdouble> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(3*4*count));
@@ -1451,7 +1442,7 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		uniform_location u,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLdouble>& v
+		span<const GLdouble> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(4*2*count));
@@ -1467,7 +1458,7 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		uniform_location u,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLdouble>& v
+		span<const GLdouble> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(4*3*count));
@@ -1483,7 +1474,7 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		uniform_location u,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLdouble>& v
+		span<const GLdouble> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(4*4*count));
@@ -1580,7 +1571,7 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		identity<GLdouble[1]>,
 		program_uniform_location pu,
 		GLsizei count,
-		const span<const GLdouble>& v
+		span<const GLdouble> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(1*count));
@@ -1604,7 +1595,7 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		identity<GLdouble[2]>,
 		program_uniform_location pu,
 		GLsizei count,
-		const span<const GLdouble>& v
+		span<const GLdouble> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(2*count));
@@ -1628,7 +1619,7 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		identity<GLdouble[3]>,
 		program_uniform_location pu,
 		GLsizei count,
-		const span<const GLdouble>& v
+		span<const GLdouble> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(3*count));
@@ -1652,7 +1643,7 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		identity<GLdouble[4]>,
 		program_uniform_location pu,
 		GLsizei count,
-		const span<const GLdouble>& v
+		span<const GLdouble> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(4*count));
@@ -1670,7 +1661,6 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -1678,7 +1668,7 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		program_uniform_location pu,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLdouble, N>& v
+		span<const GLdouble> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(2*2*count));
@@ -1693,7 +1683,6 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -1701,7 +1690,7 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		program_uniform_location pu,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLdouble, N>& v
+		span<const GLdouble> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(2*3*count));
@@ -1716,7 +1705,6 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -1724,7 +1712,7 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		program_uniform_location pu,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLdouble, N>& v
+		span<const GLdouble> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(2*4*count));
@@ -1739,7 +1727,6 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -1747,7 +1734,7 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		program_uniform_location pu,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLdouble, N>& v
+		span<const GLdouble> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(3*2*count));
@@ -1762,7 +1749,6 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -1770,7 +1756,7 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		program_uniform_location pu,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLdouble, N>& v
+		span<const GLdouble> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(3*3*count));
@@ -1785,7 +1771,6 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -1793,7 +1778,7 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		program_uniform_location pu,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLdouble, N>& v
+		span<const GLdouble> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(3*4*count));
@@ -1808,7 +1793,6 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -1816,7 +1800,7 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		program_uniform_location pu,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLdouble, N>& v
+		span<const GLdouble> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(4*2*count));
@@ -1831,7 +1815,6 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -1839,7 +1822,7 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		program_uniform_location pu,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLdouble, N>& v
+		span<const GLdouble> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(4*3*count));
@@ -1854,7 +1837,6 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		return {};
 	}
 
-	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -1862,7 +1844,7 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 		program_uniform_location pu,
 		GLsizei count,
 		GLboolean transpose,
-		const span<const GLdouble, N>& v
+		span<const GLdouble> v
 	) noexcept {
 		assert(count >= 0);
 		assert(v.size() >= span_size_t(4*4*count));

@@ -7,40 +7,37 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_UNIT_SI_PRESSURE_1512222148_HPP
-#define EAGINE_UNITS_UNIT_SI_PRESSURE_1512222148_HPP
+#ifndef EAGINE_UNITS_UNIT_SI_PRESSURE_HPP
+#define EAGINE_UNITS_UNIT_SI_PRESSURE_HPP
 
+#include "../../dim/pressure.hpp"
 #include "common.hpp"
+#include "length.hpp"
 #include "mass.hpp"
 #include "time.hpp"
-#include "length.hpp"
-#include "../../dim/pressure.hpp"
 
 namespace eagine {
 namespace units {
 
 // pascal
-typedef unit<pressure, si> pascal;
+using pascal = unit<pressure, si>;
 
 template <>
-struct unit_name<pascal>
-{
-	static constexpr const char mp_str[] = "pascal";
+struct unit_name<pascal> {
+    static constexpr const char mp_str[] = "pascal";
 };
 
 template <>
-struct unit_symbol<pascal>
-{
-	static constexpr const char mp_str[] = "Pa";
+struct unit_symbol<pascal> {
+    static constexpr const char mp_str[] = "Pa";
 };
 
 // derived
-typedef make_scaled_unit_t<scales::kilo, pascal> kilopascal;
-typedef make_scaled_unit_t<scales::mega, pascal> megapascal;
+using kilopascal = make_scaled_unit_t<scales::kilo, pascal>;
+using megapascal = make_scaled_unit_t<scales::mega, pascal>;
 // TODO
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // EAGINE_UNITS_UNIT_SI_PRESSURE_HPP

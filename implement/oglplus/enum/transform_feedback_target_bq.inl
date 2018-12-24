@@ -12,22 +12,17 @@
 namespace oglplus {
 
 OGLPLUS_LIB_FUNC
-binding_query
-get_binding_query(transform_feedback_target tgt)
-noexcept
-{
-	GLenum result = 0;
-	switch(GLenum(tgt))
-	{
-#if	defined(GL_TRANSFORM_FEEDBACK) && \
-	defined(GL_TRANSFORM_FEEDBACK_BINDING)
-		case GL_TRANSFORM_FEEDBACK:
-			result = GL_TRANSFORM_FEEDBACK_BINDING;
-			break;
+binding_query get_binding_query(transform_feedback_target tgt) noexcept {
+    GLenum result = 0;
+    switch(GLenum(tgt)) {
+#if defined(GL_TRANSFORM_FEEDBACK) && defined(GL_TRANSFORM_FEEDBACK_BINDING)
+        case GL_TRANSFORM_FEEDBACK:
+            result = GL_TRANSFORM_FEEDBACK_BINDING;
+            break;
 #endif
-		default:;
-	}
-	return binding_query(result);
+        default:;
+    }
+    return binding_query(result);
 }
 
 } // namespace oglplus

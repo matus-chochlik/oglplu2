@@ -6,34 +6,30 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_ERROR_ERROR_1509260923_HPP
-#define OGLPLUS_ERROR_ERROR_1509260923_HPP
+#ifndef OGLPLUS_ERROR_ERROR_HPP
+#define OGLPLUS_ERROR_ERROR_HPP
 
 #include "info.hpp"
 #include <stdexcept>
 
 namespace oglplus {
 
-class error
- : public std::runtime_error
-{
+class error : public std::runtime_error {
 private:
-	error_info _info;
+    error_info _info;
 
-	static
-	std::string _make_msg(error_info& info);
+    static std::string _make_msg(error_info& info);
+
 public:
-	error(error_info&& info);
+    error(error_info&& info);
 
-	const error_info& info(void) const
-	noexcept
-	{
-		return _info;
-	}
+    const error_info& info() const noexcept {
+        return _info;
+    }
 };
 
 } // namespace oglplus
 
 #include <oglplus/error/error.inl>
 
-#endif // include guard
+#endif // OGLPLUS_ERROR_ERROR_HPP

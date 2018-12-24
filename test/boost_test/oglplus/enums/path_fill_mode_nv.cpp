@@ -17,198 +17,180 @@
 
 BOOST_AUTO_TEST_SUITE(enum_path_fill_mode_nv_tests)
 
-BOOST_AUTO_TEST_CASE(enum_path_fill_mode_nv_values)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	path_fill_mode_nv x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_path_fill_mode_nv_values) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    path_fill_mode_nv x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_COUNT_DOWN_NV
-	x = ev.count_down_nv;
-	BOOST_CHECK(x == ev.count_down_nv);
-# ifdef GL_COUNT_UP_NV
-	BOOST_CHECK(x != ev.count_up_nv);
-# endif
-# ifdef GL_INVERT
-	BOOST_CHECK(x != ev.invert);
-# endif
-# ifdef GL_PATH_FILL_MODE_NV
-	BOOST_CHECK(x != ev.path_fill_mode_nv);
-# endif
+    x = ev.count_down_nv;
+    BOOST_CHECK(x == ev.count_down_nv);
+#ifdef GL_COUNT_UP_NV
+    BOOST_CHECK(x != ev.count_up_nv);
+#endif
+#ifdef GL_INVERT
+    BOOST_CHECK(x != ev.invert);
+#endif
+#ifdef GL_PATH_FILL_MODE_NV
+    BOOST_CHECK(x != ev.path_fill_mode_nv);
+#endif
 #endif
 
 #ifdef GL_COUNT_UP_NV
-	x = ev.count_up_nv;
-	BOOST_CHECK(x == ev.count_up_nv);
-# ifdef GL_INVERT
-	BOOST_CHECK(x != ev.invert);
-# endif
-# ifdef GL_PATH_FILL_MODE_NV
-	BOOST_CHECK(x != ev.path_fill_mode_nv);
-# endif
+    x = ev.count_up_nv;
+    BOOST_CHECK(x == ev.count_up_nv);
+#ifdef GL_INVERT
+    BOOST_CHECK(x != ev.invert);
+#endif
+#ifdef GL_PATH_FILL_MODE_NV
+    BOOST_CHECK(x != ev.path_fill_mode_nv);
+#endif
 #endif
 
 #ifdef GL_INVERT
-	x = ev.invert;
-	BOOST_CHECK(x == ev.invert);
-# ifdef GL_PATH_FILL_MODE_NV
-	BOOST_CHECK(x != ev.path_fill_mode_nv);
-# endif
+    x = ev.invert;
+    BOOST_CHECK(x == ev.invert);
+#ifdef GL_PATH_FILL_MODE_NV
+    BOOST_CHECK(x != ev.path_fill_mode_nv);
+#endif
 #endif
 
 #ifdef GL_PATH_FILL_MODE_NV
-	x = ev.path_fill_mode_nv;
-	BOOST_CHECK(x == ev.path_fill_mode_nv);
+    x = ev.path_fill_mode_nv;
+    BOOST_CHECK(x == ev.path_fill_mode_nv);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_path_fill_mode_nv_names)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	path_fill_mode_nv x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_path_fill_mode_nv_names) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    path_fill_mode_nv x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_COUNT_DOWN_NV
-	x = ev.count_down_nv;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"COUNT_DOWN_NV"
-	) == 0);
+    x = ev.count_down_nv;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "COUNT_DOWN_NV") == 0);
 #endif
 
 #ifdef GL_COUNT_UP_NV
-	x = ev.count_up_nv;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"COUNT_UP_NV"
-	) == 0);
+    x = ev.count_up_nv;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "COUNT_UP_NV") == 0);
 #endif
 
 #ifdef GL_INVERT
-	x = ev.invert;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"INVERT"
-	) == 0);
+    x = ev.invert;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "INVERT") == 0);
 #endif
 
 #ifdef GL_PATH_FILL_MODE_NV
-	x = ev.path_fill_mode_nv;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"PATH_FILL_MODE_NV"
-	) == 0);
+    x = ev.path_fill_mode_nv;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(
+      std::strcmp(enum_value_name(x).data(), "PATH_FILL_MODE_NV") == 0);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_path_fill_mode_nv_range)
-{
-	using namespace oglplus;
-	auto count = enum_value_range<path_fill_mode_nv>().size();
+BOOST_AUTO_TEST_CASE(enum_path_fill_mode_nv_range) {
+    using namespace oglplus;
+    auto count = enum_value_range<path_fill_mode_nv>().size();
 
 #ifdef GL_COUNT_DOWN_NV
-{
-	--count;
-	auto r = enum_value_range<path_fill_mode_nv>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		path_fill_mode_nv(GL_COUNT_DOWN_NV)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<path_fill_mode_nv>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), path_fill_mode_nv(GL_COUNT_DOWN_NV)) !=
+          r.end());
+    }
 #endif
 
 #ifdef GL_COUNT_UP_NV
-{
-	--count;
-	auto r = enum_value_range<path_fill_mode_nv>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		path_fill_mode_nv(GL_COUNT_UP_NV)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<path_fill_mode_nv>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), path_fill_mode_nv(GL_COUNT_UP_NV)) !=
+          r.end());
+    }
 #endif
 
 #ifdef GL_INVERT
-{
-	--count;
-	auto r = enum_value_range<path_fill_mode_nv>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		path_fill_mode_nv(GL_INVERT)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<path_fill_mode_nv>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), path_fill_mode_nv(GL_INVERT)) !=
+          r.end());
+    }
 #endif
 
 #ifdef GL_PATH_FILL_MODE_NV
-{
-	--count;
-	auto r = enum_value_range<path_fill_mode_nv>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		path_fill_mode_nv(GL_PATH_FILL_MODE_NV)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<path_fill_mode_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), path_fill_mode_nv(GL_PATH_FILL_MODE_NV)) !=
+          r.end());
+    }
 #endif
-	BOOST_CHECK_EQUAL(count, 0);
+    BOOST_CHECK_EQUAL(count, 0);
 }
 
-BOOST_AUTO_TEST_CASE(enum_path_fill_mode_nv_any)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	path_fill_mode_nv x, y;
-	EAGINE_MAYBE_UNUSED(x);
-	EAGINE_MAYBE_UNUSED(y);
-	any_enum_value a;
-	EAGINE_MAYBE_UNUSED(a);
+BOOST_AUTO_TEST_CASE(enum_path_fill_mode_nv_any) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    path_fill_mode_nv x, y;
+    EAGINE_MAYBE_UNUSED(x);
+    EAGINE_MAYBE_UNUSED(y);
+    any_enum_value a;
+    EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_COUNT_DOWN_NV
-	x = ev.count_down_nv;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.count_down_nv);
+    x = ev.count_down_nv;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.count_down_nv);
 #endif
 
 #ifdef GL_COUNT_UP_NV
-	x = ev.count_up_nv;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.count_up_nv);
+    x = ev.count_up_nv;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.count_up_nv);
 #endif
 
 #ifdef GL_INVERT
-	x = ev.invert;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.invert);
+    x = ev.invert;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.invert);
 #endif
 
 #ifdef GL_PATH_FILL_MODE_NV
-	x = ev.path_fill_mode_nv;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.path_fill_mode_nv);
+    x = ev.path_fill_mode_nv;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.path_fill_mode_nv);
 #endif
 }
 

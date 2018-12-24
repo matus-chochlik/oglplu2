@@ -25,22 +25,22 @@
 namespace oglplus {
 
 #if OGLPLUS_USE_GLX
-typedef offscreen_context_glx offscreen_context;
-# define OGLPLUS_HAS_OS_CONTEXT 1
+using offscreen_context = offscreen_context_glx;
+#define OGLPLUS_HAS_OS_CONTEXT 1
 #elif OGLPLUS_USE_GLFW3
-typedef offscreen_context_glfw3 offscreen_context;
-# define OGLPLUS_HAS_OS_CONTEXT 1
+using offscreen_context = offscreen_context_glfw3;
+#define OGLPLUS_HAS_OS_CONTEXT 1
 #elif OGLPLUS_USE_GLFW
-typedef offscreen_context_glfw offscreen_context;
-# define OGLPLUS_HAS_OS_CONTEXT 1
+using offscreen_context = offscreen_context_glfw;
+#define OGLPLUS_HAS_OS_CONTEXT 1
 #elif OGLPLUS_USE_SDL
-typedef offscreen_context_sdl offscreen_context;
-# define OGLPLUS_HAS_OS_CONTEXT 1
+using offscreen_context = offscreen_context_sdl;
+#define OGLPLUS_HAS_OS_CONTEXT 1
 #elif OGLPLUS_USE_GLUT
-typedef offscreen_context_glut offscreen_context;
-# define OGLPLUS_HAS_OS_CONTEXT 1
+using offscreen_context = offscreen_context_glut;
+#define OGLPLUS_HAS_OS_CONTEXT 1
 #else
-# define OGLPLUS_HAS_OS_CONTEXT 0
+#define OGLPLUS_HAS_OS_CONTEXT 0
 #endif
 
 } // namespace oglplus

@@ -6,11 +6,11 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_FRAMEBUFFER_NAME_1509260923_HPP
-#define OGLPLUS_FRAMEBUFFER_NAME_1509260923_HPP
+#ifndef OGLPLUS_FRAMEBUFFER_NAME_HPP
+#define OGLPLUS_FRAMEBUFFER_NAME_HPP
 
-#include "object/gl_name.hpp"
 #include "enum/types.hpp"
+#include "object/gl_name.hpp"
 
 #ifndef GL_FRAMEBUFFER
 #define GL_FRAMEBUFFER 0x8D40
@@ -26,11 +26,10 @@ using framebuffer = gl_obj_tag<GL_FRAMEBUFFER>;
 using framebuffer_name = object_name<tag::framebuffer>;
 
 template <>
-struct get_obj_binding_point<tag::framebuffer>
-{
-	typedef framebuffer_target type;
+struct get_obj_binding_point<tag::framebuffer> {
+    using type = framebuffer_target;
 };
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_FRAMEBUFFER_NAME_HPP

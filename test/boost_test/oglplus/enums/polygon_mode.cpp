@@ -17,198 +17,176 @@
 
 BOOST_AUTO_TEST_SUITE(enum_polygon_mode_tests)
 
-BOOST_AUTO_TEST_CASE(enum_polygon_mode_values)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	polygon_mode x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_polygon_mode_values) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    polygon_mode x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_FILL
-	x = ev.fill;
-	BOOST_CHECK(x == ev.fill);
-# ifdef GL_FILL_RECTANGLE_NV
-	BOOST_CHECK(x != ev.fill_rectangle);
-# endif
-# ifdef GL_LINE
-	BOOST_CHECK(x != ev.line);
-# endif
-# ifdef GL_POINT
-	BOOST_CHECK(x != ev.point);
-# endif
+    x = ev.fill;
+    BOOST_CHECK(x == ev.fill);
+#ifdef GL_FILL_RECTANGLE_NV
+    BOOST_CHECK(x != ev.fill_rectangle);
+#endif
+#ifdef GL_LINE
+    BOOST_CHECK(x != ev.line);
+#endif
+#ifdef GL_POINT
+    BOOST_CHECK(x != ev.point);
+#endif
 #endif
 
 #ifdef GL_FILL_RECTANGLE_NV
-	x = ev.fill_rectangle;
-	BOOST_CHECK(x == ev.fill_rectangle);
-# ifdef GL_LINE
-	BOOST_CHECK(x != ev.line);
-# endif
-# ifdef GL_POINT
-	BOOST_CHECK(x != ev.point);
-# endif
+    x = ev.fill_rectangle;
+    BOOST_CHECK(x == ev.fill_rectangle);
+#ifdef GL_LINE
+    BOOST_CHECK(x != ev.line);
+#endif
+#ifdef GL_POINT
+    BOOST_CHECK(x != ev.point);
+#endif
 #endif
 
 #ifdef GL_LINE
-	x = ev.line;
-	BOOST_CHECK(x == ev.line);
-# ifdef GL_POINT
-	BOOST_CHECK(x != ev.point);
-# endif
+    x = ev.line;
+    BOOST_CHECK(x == ev.line);
+#ifdef GL_POINT
+    BOOST_CHECK(x != ev.point);
+#endif
 #endif
 
 #ifdef GL_POINT
-	x = ev.point;
-	BOOST_CHECK(x == ev.point);
+    x = ev.point;
+    BOOST_CHECK(x == ev.point);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_polygon_mode_names)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	polygon_mode x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_polygon_mode_names) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    polygon_mode x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_FILL
-	x = ev.fill;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"FILL"
-	) == 0);
+    x = ev.fill;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "FILL") == 0);
 #endif
 
 #ifdef GL_FILL_RECTANGLE_NV
-	x = ev.fill_rectangle;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"FILL_RECTANGLE_NV"
-	) == 0);
+    x = ev.fill_rectangle;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(
+      std::strcmp(enum_value_name(x).data(), "FILL_RECTANGLE_NV") == 0);
 #endif
 
 #ifdef GL_LINE
-	x = ev.line;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"LINE"
-	) == 0);
+    x = ev.line;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "LINE") == 0);
 #endif
 
 #ifdef GL_POINT
-	x = ev.point;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"POINT"
-	) == 0);
+    x = ev.point;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "POINT") == 0);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_polygon_mode_range)
-{
-	using namespace oglplus;
-	auto count = enum_value_range<polygon_mode>().size();
+BOOST_AUTO_TEST_CASE(enum_polygon_mode_range) {
+    using namespace oglplus;
+    auto count = enum_value_range<polygon_mode>().size();
 
 #ifdef GL_FILL
-{
-	--count;
-	auto r = enum_value_range<polygon_mode>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		polygon_mode(GL_FILL)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<polygon_mode>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), polygon_mode(GL_FILL)) != r.end());
+    }
 #endif
 
 #ifdef GL_FILL_RECTANGLE_NV
-{
-	--count;
-	auto r = enum_value_range<polygon_mode>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		polygon_mode(GL_FILL_RECTANGLE_NV)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<polygon_mode>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), polygon_mode(GL_FILL_RECTANGLE_NV)) !=
+          r.end());
+    }
 #endif
 
 #ifdef GL_LINE
-{
-	--count;
-	auto r = enum_value_range<polygon_mode>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		polygon_mode(GL_LINE)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<polygon_mode>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), polygon_mode(GL_LINE)) != r.end());
+    }
 #endif
 
 #ifdef GL_POINT
-{
-	--count;
-	auto r = enum_value_range<polygon_mode>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		polygon_mode(GL_POINT)
-	) != r.end());
-}
+    {
+        --count;
+        auto r = enum_value_range<polygon_mode>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), polygon_mode(GL_POINT)) != r.end());
+    }
 #endif
-	BOOST_CHECK_EQUAL(count, 0);
+    BOOST_CHECK_EQUAL(count, 0);
 }
 
-BOOST_AUTO_TEST_CASE(enum_polygon_mode_any)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	polygon_mode x, y;
-	EAGINE_MAYBE_UNUSED(x);
-	EAGINE_MAYBE_UNUSED(y);
-	any_enum_value a;
-	EAGINE_MAYBE_UNUSED(a);
+BOOST_AUTO_TEST_CASE(enum_polygon_mode_any) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    polygon_mode x, y;
+    EAGINE_MAYBE_UNUSED(x);
+    EAGINE_MAYBE_UNUSED(y);
+    any_enum_value a;
+    EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_FILL
-	x = ev.fill;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.fill);
+    x = ev.fill;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.fill);
 #endif
 
 #ifdef GL_FILL_RECTANGLE_NV
-	x = ev.fill_rectangle;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.fill_rectangle);
+    x = ev.fill_rectangle;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.fill_rectangle);
 #endif
 
 #ifdef GL_LINE
-	x = ev.line;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.line);
+    x = ev.line;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.line);
 #endif
 
 #ifdef GL_POINT
-	x = ev.point;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.point);
+    x = ev.point;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.point);
 #endif
 }
 

@@ -12,17 +12,16 @@
 
 BOOST_AUTO_TEST_SUITE(bindump_tests)
 
-BOOST_AUTO_TEST_CASE(bindump_1)
-{
-	using namespace eagine;
+BOOST_AUTO_TEST_CASE(bindump_1) {
+    using namespace eagine;
 
-	const char buf[] = "bindump test 1234567890";
+    const char buf[] = "bindump test 1234567890";
 
-	std::stringstream out;
+    std::stringstream out;
 
-	out << bindump(memory_block_of(buf));
+    out << bindump(as_bytes(view(buf)));
 
-	BOOST_CHECK(!out.str().empty());
+    BOOST_CHECK(!out.str().empty());
 }
 
 BOOST_AUTO_TEST_SUITE_END()

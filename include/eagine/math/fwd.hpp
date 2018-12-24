@@ -6,10 +6,10 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_MATH_FWD_1509260923_HPP
-#define EAGINE_MATH_FWD_1509260923_HPP
+#ifndef EAGINE_MATH_FWD_HPP
+#define EAGINE_MATH_FWD_HPP
 
-#include "../std/type_traits.hpp"
+#include <type_traits>
 
 namespace eagine {
 namespace math {
@@ -33,9 +33,7 @@ template <typename T, int R, int C, bool RM, bool V>
 struct tmat;
 
 template <typename T1, typename T2>
-struct are_multiplicable
- : std::false_type
-{ };
+struct are_multiplicable : std::false_type {};
 
 template <typename T1, typename T2>
 struct multiplication_result;
@@ -43,5 +41,4 @@ struct multiplication_result;
 } // namespace math
 } // namespace eagine
 
-#endif //include guard
-
+#endif // EAGINE_MATH_FWD_HPP
