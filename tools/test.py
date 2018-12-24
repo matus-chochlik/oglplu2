@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # coding=utf-8
 # Copyright Matus Chochlik.
 # Distributed under the Boost Software License, Version 1.0.

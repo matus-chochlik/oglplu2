@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # coding=utf-8
 # Copyright Matus Chochlik.
 # Distributed under the Boost Software License, Version 1.0.
@@ -79,7 +79,7 @@ def execute_ctest(options):
 			["ctest"]+job_params,
 			test_dir
 		);
-	except subprocess.CalledProcessError:
+	except subprocess.CalledProcessError as procError:
 		failed_tests_path = os.path.join(
 			test_dir,
 			"Testing", "Temporary", "LastTestsFailed.log"
@@ -91,15 +91,14 @@ def execute_ctest(options):
 
 				try:
 					cmd_line = ["ctest", "-VV", "-R", test_name];
-					work_dir = os.path.join(test_dir, test_lib)
-					proc = subprocess.Popen(cmd_line, cwd=work_dir)
+					proc = subprocess.Popen(cmd_line, cwd=test_dir)
 					proc.communicate()
 				except subprocess.CalledProcessError:
 					pass
 				except OSError as osError:
 					if osError.errno == os.errno.ENOENT:
 						pass
-		raise
+		sys.stderr.write("%s\n" % (str(procError)))
 
 
 # options for the --gl-apis parameter

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # coding=utf-8
 # Copyright Matus Chochlik.
 # Distributed under the Boost Software License, Version 1.0.
@@ -110,6 +110,8 @@ def git_has_remote_branch(branch_name, root_dir=get_root_dir):
 # Begins a new release
 def action_begin_release():
 	root_dir = get_root_dir()
+	git_command(["checkout", "develop"], root_dir)
+	git_command(["pull", "origin", "develop"], root_dir)
 	next_version = version_string(next_release(root_dir))
 	git_command(["checkout", "-b", "release-"+next_version, "develop"], root_dir)
 	write_file(version_file(root_dir), next_version)
