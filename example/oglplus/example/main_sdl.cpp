@@ -24,9 +24,11 @@ void example_loop(
     int h = state.height();
     int x, y, z = 0;
 
+    example.set_size(w, h);
+
     SDL_Event event;
     while(true) {
-        while(SDL_PollEvent(&event))
+        while(SDL_PollEvent(&event)) {
             switch(event.type) {
                 case SDL_QUIT: {
                     return;
@@ -65,6 +67,7 @@ void example_loop(
                 }
                 default:;
             }
+        }
 
         example.update();
 

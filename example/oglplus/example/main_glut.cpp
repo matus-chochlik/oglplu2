@@ -31,8 +31,6 @@
 
 class single_glut_context {
 private:
-    single_glut_context(const single_glut_context&);
-
     static single_glut_context*& instance_ptr() {
         static single_glut_context* pinst = nullptr;
         return pinst;
@@ -75,7 +73,12 @@ public:
 #endif
     }
 
-    ~single_glut_context() {
+    single_glut_context(single_glut_context&&) = delete;
+    single_glut_context(const single_glut_context&) = delete;
+    single_glut_context& operator=(single_glut_context&&) = delete;
+    single_glut_context& operator=(const single_glut_context&) = delete;
+
+    ~single_glut_context() noexcept {
         assert(instance_ptr());
         instance_ptr() = nullptr;
     }
