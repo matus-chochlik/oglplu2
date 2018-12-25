@@ -21,7 +21,7 @@ EAGINE_LIB_FUNC
 vertex_attrib_bits unit_sphere_gen::_attr_mask() noexcept {
     return vertex_attrib_kind::position | vertex_attrib_kind::normal |
            vertex_attrib_kind::tangential | vertex_attrib_kind::bitangential |
-           vertex_attrib_kind::box_coord | vertex_attrib_kind::wrap_coord;
+           vertex_attrib_kind::box_coord | vertex_attrib_kind::wrap_coord_0;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -133,7 +133,7 @@ void unit_sphere_gen::bitangentials(span<float> dest) noexcept {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void unit_sphere_gen::wrap_coords(span<float> dest) noexcept {
-    assert(has(vertex_attrib_kind::wrap_coord));
+    assert(has(vertex_attrib_kind::wrap_coord_0));
     assert(dest.size() >= vertex_count() * 2);
 
     span_size_t k = 0;
@@ -164,11 +164,16 @@ void unit_sphere_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
         case vertex_attrib_kind::bitangential:
             bitangentials(dest);
             break;
-        case vertex_attrib_kind::wrap_coord:
+        case vertex_attrib_kind::wrap_coord_0:
             wrap_coords(dest);
             break;
         case vertex_attrib_kind::box_coord:
         case vertex_attrib_kind::face_coord:
+        case vertex_attrib_kind::wrap_coord_1:
+        case vertex_attrib_kind::wrap_coord_2:
+        case vertex_attrib_kind::wrap_coord_3:
+        case vertex_attrib_kind::object_id:
+        case vertex_attrib_kind::material_id:
             _base::attrib_values(attr, dest);
             break;
     }

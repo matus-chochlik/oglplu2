@@ -18,7 +18,7 @@
 
 namespace eagine {
 namespace shapes {
-
+//------------------------------------------------------------------------------
 struct generator_params {
     bool allow_strips{true};
     bool allow_fans{true};
@@ -26,7 +26,7 @@ struct generator_params {
 
     generator_params() noexcept = default;
 };
-
+//------------------------------------------------------------------------------
 struct generator_intf {
     generator_intf() = default;
     generator_intf(const generator_intf&) = default;
@@ -48,7 +48,7 @@ struct generator_intf {
 
     virtual void instructions(span<draw_operation> dest) = 0;
 };
-
+//------------------------------------------------------------------------------
 class generator_base : public generator_intf {
 private:
     vertex_attrib_bits _attr_bits;
@@ -97,7 +97,7 @@ public:
           "Generator failed to handle the specified attribute kind.");
     }
 };
-
+//------------------------------------------------------------------------------
 class centered_unit_shape_generator_base : public generator_base {
 protected:
     centered_unit_shape_generator_base(vertex_attrib_bits attr_bits) noexcept
@@ -116,7 +116,7 @@ public:
         }
     }
 };
-
+//------------------------------------------------------------------------------
 } // namespace shapes
 } // namespace eagine
 

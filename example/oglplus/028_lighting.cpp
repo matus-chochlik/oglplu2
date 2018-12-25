@@ -125,7 +125,7 @@ public:
           temp_buffer,
           (shapes::vertex_attrib_kind::position | 0) +
             (shapes::vertex_attrib_kind::normal | 1) +
-            (shapes::vertex_attrib_kind::wrap_coord | 2),
+            (shapes::vertex_attrib_kind::wrap_coord_0 | 2),
           96,
           144)
       , shp_turns(0.0f)

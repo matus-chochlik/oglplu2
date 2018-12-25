@@ -14,7 +14,7 @@
 
 namespace eagine {
 namespace shapes {
-
+//------------------------------------------------------------------------------
 enum class primitive_type {
     points,
     lines,
@@ -24,14 +24,14 @@ enum class primitive_type {
     triangle_strip,
     triangle_fan
 };
-
+//------------------------------------------------------------------------------
 enum class index_data_type {
     none,
     unsigned_byte,
     unsigned_short,
     unsigned_int
 };
-
+//------------------------------------------------------------------------------
 struct draw_operation {
     primitive_type mode{primitive_type::points};
     index_data_type idx_type{index_data_type::none};
@@ -47,7 +47,7 @@ struct draw_operation {
       , cw_face_winding(false) {
     }
 };
-
+//------------------------------------------------------------------------------
 } // namespace shapes
 } // namespace eagine
 
