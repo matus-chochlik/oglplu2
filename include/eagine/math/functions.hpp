@@ -80,6 +80,20 @@ static constexpr inline auto sigmoid01(T x) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename T>
+static inline auto sine_sigmoid01(T x) {
+
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdouble-promotion"
+#endif
+    using std::cos;
+    return (1 - cos(x * pi)) / 2;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+}
+//------------------------------------------------------------------------------
+template <typename T>
 static constexpr inline auto sine_wave01(T x) noexcept {
     using std::sin;
     return (sin(2 * pi * x) + 1) / 2;
