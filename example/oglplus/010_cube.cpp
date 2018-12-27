@@ -17,13 +17,13 @@
 #include <oglplus/shapes/wrapper.hpp>
 #include <oglplus/shapes/cube.hpp>
 
-#include <oglplus/math/sign.hpp>
 #include <oglplus/math/vector.hpp>
 #include <oglplus/math/matrix.hpp>
 #include <oglplus/math/matrix_ctrs.hpp>
 #include <oglplus/math/interpolate.hpp>
 
 #include "example.hpp"
+#include "example/camera.hpp"
 // clang-format on
 
 namespace oglplus {
@@ -93,52 +93,14 @@ public:
 
 class cube_example : public example {
 private:
+    example_orbiting_camera camera;
+
     example_program prog;
 
     shapes::generator_wrapper<shapes::unit_cube_gen, 4> cube;
 
-    float cam_orbit;
-    float cam_turns;
-    float cam_pitch;
-
-    sign cam_dist_dir;
-    sign cam_turn_dir;
-    sign cam_elev_dir;
-
-    void mod_bouncing(sign& dir, float& val, float inc) {
-        val += inc;
-        if(val > 1.f) {
-            val = 1.f;
-            dir.flip();
-        }
-        if(val < 0.f) {
-            val = 0.f;
-            dir.flip();
-        }
-    }
-
-    void mod_cam_orbit(float inc) {
-        mod_bouncing(cam_dist_dir, cam_orbit, inc);
-    }
-
-    void mod_cam_turns(float inc) {
-        cam_turns += inc;
-        cam_turn_dir = (inc > 0) ? sign::plus() : sign::minus();
-    }
-
-    void mod_cam_pitch(float inc) {
-        mod_bouncing(cam_elev_dir, cam_pitch, inc);
-    }
-
     void set_projection(const example_state_view& state) {
-        gl.uniform(
-          prog.projection,
-          matrix_perspective::y(right_angle_(), state.aspect(), 0.5f, 10.f) *
-            matrix_orbiting_y_up(
-              vec3(),
-              smooth_lerp(1.5f, 5.0f, cam_orbit),
-              turns_(cam_turns),
-              smooth_oscillate(radians_(1.5f), cam_pitch)));
+        gl.uniform(prog.projection, camera.matrix(state));
     }
 
 public:
@@ -150,13 +112,10 @@ public:
           shapes::vertex_attrib_kind::position +
             shapes::vertex_attrib_kind::normal +
             shapes::vertex_attrib_kind::box_coord +
-            shapes::vertex_attrib_kind::face_coord)
-      , cam_orbit(0.5)
-      , cam_turns(0.12f)
-      , cam_pitch(0.72f)
-      , cam_dist_dir(sign::minus())
-      , cam_turn_dir(sign::plus())
-      , cam_elev_dir(sign::plus()) {
+            shapes::vertex_attrib_kind::face_coord) {
+
+        camera.set_fov(right_angle_()).set_orbit_min(1.5f).set_orbit_max(5.0f);
+
         gl.clear_color(0.6f, 0.6f, 0.5f, 0);
         gl.clear_depth(1);
         gl.enable(GL.depth_test);
@@ -164,37 +123,31 @@ public:
         set_projection(state);
     }
 
-    void pointer_motion(const example_state_view& state) override {
+    void pointer_motion(const example_state_view& state) final {
         if(state.pointer_dragging()) {
-            mod_cam_turns(-state.norm_pointer_x().delta() * 0.5f);
-            mod_cam_pitch(-state.norm_pointer_y().delta() * 1.0f);
+            camera.pointer_dragging(state);
             set_projection(state);
         }
     }
 
-    void pointer_scrolling(const example_state_view& state) override {
-        mod_cam_orbit(-state.norm_pointer_z().delta());
+    void pointer_scrolling(const example_state_view& state) final {
+        camera.pointer_scrolling(state);
         set_projection(state);
     }
 
-    void resize(const example_state_view& state) override {
+    void resize(const example_state_view& state) final {
         gl.viewport(state.width(), state.height());
         set_projection(state);
     }
 
-    void user_idle(const example_state_view& state) override {
+    void user_idle(const example_state_view& state) final {
         if(state.user_idle_time() > seconds_(1)) {
-            const float s = state.frame_duration().value() / 2;
-
-            mod_cam_orbit(s * cam_dist_dir);
-            mod_cam_turns(s * cam_turn_dir);
-            mod_cam_pitch(s * cam_elev_dir);
-
+            camera.idle_update(state, 2);
             set_projection(state);
         }
     }
 
-    void render(const example_state_view& /*state*/) override {
+    void render(const example_state_view& /*state*/) final {
         gl.clear(GL.color_buffer_bit | GL.depth_buffer_bit);
         cube.draw();
     }
