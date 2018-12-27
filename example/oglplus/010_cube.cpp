@@ -17,6 +17,7 @@
 #include <oglplus/shapes/wrapper.hpp>
 #include <oglplus/shapes/cube.hpp>
 
+#include <oglplus/math/sign.hpp>
 #include <oglplus/math/vector.hpp>
 #include <oglplus/math/matrix.hpp>
 #include <oglplus/math/matrix_ctrs.hpp>
@@ -100,19 +101,19 @@ private:
     float cam_turns;
     float cam_pitch;
 
-    short cam_dist_dir;
-    short cam_turn_dir;
-    short cam_elev_dir;
+    sign cam_dist_dir;
+    sign cam_turn_dir;
+    sign cam_elev_dir;
 
-    void mod_bouncing(short& dir, float& val, float inc) {
+    void mod_bouncing(sign& dir, float& val, float inc) {
         val += inc;
         if(val > 1.f) {
             val = 1.f;
-            dir = -1;
+            dir.flip();
         }
         if(val < 0.f) {
             val = 0.f;
-            dir = +1;
+            dir.flip();
         }
     }
 
@@ -122,7 +123,7 @@ private:
 
     void mod_cam_turns(float inc) {
         cam_turns += inc;
-        cam_turn_dir = (inc > 0) ? 1 : -1;
+        cam_turn_dir = (inc > 0) ? sign::plus() : sign::minus();
     }
 
     void mod_cam_pitch(float inc) {
@@ -153,9 +154,9 @@ public:
       , cam_orbit(0.5)
       , cam_turns(0.12f)
       , cam_pitch(0.72f)
-      , cam_dist_dir(-1)
-      , cam_turn_dir(1)
-      , cam_elev_dir(1) {
+      , cam_dist_dir(sign::minus())
+      , cam_turn_dir(sign::plus())
+      , cam_elev_dir(sign::plus()) {
         gl.clear_color(0.6f, 0.6f, 0.5f, 0);
         gl.clear_depth(1);
         gl.enable(GL.depth_test);

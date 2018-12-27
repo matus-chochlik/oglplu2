@@ -18,7 +18,7 @@ namespace eagine {
 namespace math {
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline auto sign(T x) noexcept {
+static constexpr inline auto signum(T x) noexcept {
     return (x < 0) ? T(-1) : T(1);
 }
 //------------------------------------------------------------------------------

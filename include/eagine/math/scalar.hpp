@@ -17,7 +17,7 @@
 
 namespace eagine {
 namespace math {
-
+//------------------------------------------------------------------------------
 template <typename T, int N, bool V>
 struct scalar {
     using type = scalar;
@@ -65,7 +65,7 @@ struct scalar {
         return *this = make(v);
     }
 };
-
+//------------------------------------------------------------------------------
 } // namespace math
 } // namespace eagine
 
