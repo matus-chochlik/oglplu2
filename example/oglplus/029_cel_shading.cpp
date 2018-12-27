@@ -18,10 +18,9 @@
 
 #include <oglplus/math/vector.hpp>
 #include <oglplus/math/matrix.hpp>
-#include <oglplus/math/matrix_ctrs.hpp>
-#include <oglplus/math/interpolate.hpp>
 
 #include "example.hpp"
+#include "example/camera.hpp"
 #include "example/program.hpp"
 // clang-format on
 
@@ -50,54 +49,15 @@ public:
 
 class icosahedron_example : public example {
 private:
+    example_orbiting_camera camera;
     example_program prog;
 
     shapes::generator_wrapper<shapes::unit_icosahedron_gen, 1> icosahedron;
 
     float shp_turns;
 
-    float cam_orbit;
-    float cam_turns;
-    float cam_pitch;
-
-    short cam_dist_dir;
-    short cam_turn_dir;
-    short cam_elev_dir;
-
-    void mod_bouncing(short& dir, float& val, float inc) {
-        val += inc;
-        if(val > 1.f) {
-            val = 1.f;
-            dir = -1;
-        }
-        if(val < 0.f) {
-            val = 0.f;
-            dir = +1;
-        }
-    }
-
-    void mod_cam_orbit(float inc) {
-        mod_bouncing(cam_dist_dir, cam_orbit, inc);
-    }
-
-    void mod_cam_turns(float inc) {
-        cam_turns += inc;
-        cam_turn_dir = (inc > 0) ? 1 : -1;
-    }
-
-    void mod_cam_pitch(float inc) {
-        mod_bouncing(cam_elev_dir, cam_pitch, inc);
-    }
-
     void set_projection(const example_state_view& state) {
-        gl.uniform(
-          prog.projection,
-          matrix_perspective::y(right_angle_(), state.aspect(), 0.5f, 10.f) *
-            matrix_orbiting_y_up(
-              vec3(),
-              smooth_lerp(1.5f, 4.0f, cam_orbit),
-              turns_(cam_turns),
-              smooth_oscillate(radians_(1.5f), cam_pitch)));
+        gl.uniform(prog.projection, camera.matrix(state));
     }
 
 public:
@@ -106,13 +66,14 @@ public:
       const example_params& params,
       eagine::memory::buffer& temp_buffer)
       : prog(params)
-      , icosahedron(temp_buffer, shapes::vertex_attrib_kind::position | 0)
-      , cam_orbit(0.5)
-      , cam_turns(0.12f)
-      , cam_pitch(0.72f)
-      , cam_dist_dir(-1)
-      , cam_turn_dir(1)
-      , cam_elev_dir(1) {
+      , icosahedron(temp_buffer, shapes::vertex_attrib_kind::position | 0) {
+
+        camera.set_fov(right_angle_())
+          .set_near(0.5f)
+          .set_far(10.f)
+          .set_orbit_min(1.5f)
+          .set_orbit_max(4.0f);
+
         gl.clear_color(0.6f, 0.6f, 0.5f, 0);
         gl.clear_depth(1);
         gl.enable(GL.depth_test);
@@ -124,14 +85,13 @@ public:
 
     void pointer_motion(const example_state_view& state) override {
         if(state.pointer_dragging()) {
-            mod_cam_turns(-state.norm_pointer_x().delta() * 0.5f);
-            mod_cam_pitch(-state.norm_pointer_y().delta() * 1.0f);
+            camera.pointer_dragging(state);
             set_projection(state);
         }
     }
 
     void pointer_scrolling(const example_state_view& state) override {
-        mod_cam_orbit(-state.norm_pointer_z().delta());
+        camera.pointer_scrolling(state);
         set_projection(state);
     }
 
@@ -142,11 +102,7 @@ public:
 
     void user_idle(const example_state_view& state) override {
         if(state.user_idle_time() > seconds_(1)) {
-            const float s = state.frame_duration().value() / 11;
-
-            mod_cam_orbit(s * cam_dist_dir);
-            mod_cam_turns(s * cam_turn_dir);
-            mod_cam_pitch(s * cam_elev_dir);
+            camera.idle_update(state, 11);
 
             set_projection(state);
         }
