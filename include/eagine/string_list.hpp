@@ -51,7 +51,7 @@ static inline span_size_t rev_seek_header_start(string_view elem) {
 static inline string_view front_value(string_view list) noexcept {
     const span_size_t k = element_header_size(list);
     const span_size_t l = element_value_size(list, k);
-    return subspan(list, k, l);
+    return slice(list, k, l);
 }
 //------------------------------------------------------------------------------
 static inline string_view back_value(string_view list) noexcept {
@@ -59,7 +59,7 @@ static inline string_view back_value(string_view list) noexcept {
     string_view header = skip(list, i);
     const span_size_t k = element_header_size(header);
     const span_size_t l = element_value_size(header, k);
-    return subspan(list, i - l, l);
+    return slice(list, i - l, l);
 }
 //------------------------------------------------------------------------------
 static inline string_view pop_back(string_view list) noexcept {

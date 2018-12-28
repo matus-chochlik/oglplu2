@@ -192,11 +192,11 @@ public:
     }
 
     constexpr inline auto rbegin() const noexcept {
-        return reverse_iterator{_addr + _size - 1};
+        return reverse_iterator{end()};
     }
 
     constexpr inline auto rend() const noexcept {
-        return reverse_iterator{_addr - 1};
+        return reverse_iterator{begin()};
     }
 
     constexpr inline address_type addr() const noexcept {
