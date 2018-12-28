@@ -15,7 +15,10 @@
 #include <oglplus/glsl/string_ref.hpp>
 
 #include <oglplus/shapes/wrapper.hpp>
-#include <oglplus/shapes/cube.hpp>
+#include <eagine/shapes/cube.hpp>
+#include <eagine/shapes/array.hpp>
+#include <eagine/shapes/translated.hpp>
+#include <eagine/shapes/scaled.hpp>
 
 #include <oglplus/math/vector.hpp>
 #include <oglplus/math/matrix.hpp>
@@ -97,7 +100,8 @@ private:
 
     example_program prog;
 
-    shapes::generator_wrapper<shapes::unit_cube_gen, 4> cube;
+    shapes::vertex_attribs_and_locations<4> attrs;
+    shapes::adapted_generator_wrapper<4> cube;
 
     void set_projection(const example_state_view& state) {
         gl.uniform(prog.projection, camera.matrix(state));
@@ -107,14 +111,28 @@ public:
     cube_example(
       const example_state_view& state, eagine::memory::buffer& temp_buffer)
       : prog()
+      , attrs(
+          shapes::vertex_attrib_kind::position +
+          shapes::vertex_attrib_kind::normal +
+          shapes::vertex_attrib_kind::box_coord +
+          shapes::vertex_attrib_kind::face_coord)
       , cube(
           temp_buffer,
-          shapes::vertex_attrib_kind::position +
-            shapes::vertex_attrib_kind::normal +
-            shapes::vertex_attrib_kind::box_coord +
-            shapes::vertex_attrib_kind::face_coord) {
+          eagine::shapes::translate(
+            eagine::shapes::ortho_array_xyz(
+              eagine::shapes::scale(
+                eagine::shapes::unit_cube(get_attrib_bits(attrs)),
+                {0.85f, 0.85f, 0.85f}),
+              {1.f, 1.f, 1.f},
+              {3, 3, 3}),
+            {-1.0f, -1.0f, -1.0f}),
+          attrs) {
 
-        camera.set_fov(right_angle_()).set_orbit_min(1.5f).set_orbit_max(5.0f);
+        camera.set_fov(right_angle_())
+          .set_orbit_min(3.0f)
+          .set_orbit_max(8.0f)
+          .set_near(0.5f)
+          .set_far(20.f);
 
         gl.clear_color(0.6f, 0.6f, 0.5f, 0);
         gl.clear_depth(1);

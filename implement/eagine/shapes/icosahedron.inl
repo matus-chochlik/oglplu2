@@ -27,7 +27,7 @@ vertex_attrib_bits unit_icosahedron_gen::_shared_attrs() noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool unit_icosahedron_gen::_only_shared_attribs() const noexcept {
+bool unit_icosahedron_gen::_only_shared_attribs() noexcept {
     return !(attrib_bits() & ~_shared_attrs());
 }
 //------------------------------------------------------------------------------

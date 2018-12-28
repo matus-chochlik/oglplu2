@@ -276,6 +276,20 @@ static inline basic_span<T, P, S> slice_inside_brackets(
 }
 //------------------------------------------------------------------------------
 template <
+  typename TF,
+  typename PF,
+  typename SF,
+  typename TT,
+  typename PT,
+  typename ST>
+static inline basic_span<TT, PT, ST> copy(
+  basic_span<TF, PF, SF> from, basic_span<TT, PT, ST> to) {
+    assert(from.size() <= to.size());
+    std::copy(from.begin(), from.end(), to.begin());
+    return head(to, from.size());
+}
+//------------------------------------------------------------------------------
+template <
   typename T1,
   typename P1,
   typename S1,

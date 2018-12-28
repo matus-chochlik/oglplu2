@@ -59,25 +59,27 @@ static constexpr inline vertex_attrib_and_location operator|(
     return {attrib, location};
 }
 //------------------------------------------------------------------------------
+template <std::size_t N>
+using vertex_attribs_and_locations =
+  std::array<const vertex_attrib_and_location, N>;
+//------------------------------------------------------------------------------
 // vertex_attrib_and_location + vertex_attrib_and_location
-static constexpr inline std::array<const vertex_attrib_and_location, 2>
-operator+(
+static constexpr inline vertex_attribs_and_locations<2> operator+(
   const vertex_attrib_and_location& a,
   const vertex_attrib_and_location& b) noexcept {
     return {{a, b}};
 }
 //------------------------------------------------------------------------------
 // vertex_attrib_kind + vertex_attrib_kind
-static constexpr inline std::array<const vertex_attrib_and_location, 2>
-operator+(vertex_attrib_kind a, vertex_attrib_kind b) noexcept {
+static constexpr inline vertex_attribs_and_locations<2> operator+(
+  vertex_attrib_kind a, vertex_attrib_kind b) noexcept {
     return (a | 0) + (b | 1);
 }
 //------------------------------------------------------------------------------
 // append_attrib
 template <std::size_t N, std::size_t... I>
-static constexpr inline std::array<const vertex_attrib_and_location, N + 1>
-do_append_attrib(
-  const std::array<const vertex_attrib_and_location, N>& a,
+static constexpr inline vertex_attribs_and_locations<N + 1> do_append_attrib(
+  const vertex_attribs_and_locations<N>& a,
   const vertex_attrib_and_location& b,
   std::index_sequence<I...>) noexcept {
     return {{a[I]..., b}};
@@ -85,26 +87,23 @@ do_append_attrib(
 //------------------------------------------------------------------------------
 // array<vertex_attrib_and_location, N> + vertex_attrib_and_location
 template <std::size_t N>
-static constexpr inline std::array<const vertex_attrib_and_location, N + 1>
-operator+(
-  const std::array<const vertex_attrib_and_location, N>& a,
+static constexpr inline vertex_attribs_and_locations<N + 1> operator+(
+  const vertex_attribs_and_locations<N>& a,
   const vertex_attrib_and_location& b) noexcept {
     return do_append_attrib(a, b, std::make_index_sequence<N>());
 }
 //------------------------------------------------------------------------------
 // array<vertex_attrib_kind> + vertex_attrib_kind
 template <std::size_t N>
-static constexpr inline std::array<const vertex_attrib_and_location, N + 1>
-operator+(
-  std::array<const vertex_attrib_and_location, N> a,
-  vertex_attrib_kind b) noexcept {
+static constexpr inline vertex_attribs_and_locations<N + 1> operator+(
+  vertex_attribs_and_locations<N> a, vertex_attrib_kind b) noexcept {
     return a + (b | N);
 }
 //------------------------------------------------------------------------------
 // get_attrib_bits
 template <std::size_t N>
 static inline vertex_attrib_bits get_attrib_bits(
-  const std::array<const vertex_attrib_and_location, N>& vaals) noexcept {
+  const vertex_attribs_and_locations<N>& vaals) noexcept {
     vertex_attrib_bits res;
 
     for(const vertex_attrib_and_location& vaal : vaals) {

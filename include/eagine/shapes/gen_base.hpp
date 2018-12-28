@@ -32,6 +32,26 @@ struct generator_intf {
     generator_intf(const generator_intf&) = default;
     virtual ~generator_intf() = default;
 
+    virtual vertex_attrib_bits attrib_bits() noexcept = 0;
+
+    virtual generator_params& parameters() noexcept = 0;
+
+    bool strips_allowed() noexcept {
+        return parameters().allow_strips;
+    }
+
+    bool fans_allowed() noexcept {
+        return parameters().allow_fans;
+    }
+
+    bool primitive_restart() noexcept {
+        return parameters().allow_primitive_restart;
+    }
+
+    bool has(vertex_attrib_kind attr) noexcept {
+        return bool(attrib_bits() | attr);
+    }
+
     virtual span_size_t vertex_count() = 0;
 
     virtual span_size_t values_per_vertex(vertex_attrib_kind attr) = 0;
@@ -60,28 +80,12 @@ protected:
     }
 
 public:
-    vertex_attrib_bits attrib_bits() const noexcept {
+    vertex_attrib_bits attrib_bits() noexcept final {
         return _attr_bits;
     }
 
-    generator_params& parameters() noexcept {
+    generator_params& parameters() noexcept final {
         return _params;
-    }
-
-    bool strips_allowed() const noexcept {
-        return _params.allow_strips;
-    }
-
-    bool fans_allowed() const noexcept {
-        return _params.allow_fans;
-    }
-
-    bool primitive_restart() const noexcept {
-        return _params.allow_primitive_restart;
-    }
-
-    bool has(vertex_attrib_kind attr) const noexcept {
-        return bool(attrib_bits() | attr);
     }
 
     span_size_t values_per_vertex(vertex_attrib_kind attr) override {
