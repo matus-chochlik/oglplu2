@@ -29,6 +29,9 @@
 #include "example/camera.hpp"
 // clang-format on
 
+#include <eagine/math/matrix_inverse.hpp>
+#include <eagine/math/io.hpp>
+
 namespace oglplus {
 
 static constants GL;
@@ -104,6 +107,12 @@ private:
     shapes::adapted_generator_wrapper<4> cube;
 
     void set_projection(const example_state_view& state) {
+
+        auto a = camera.matrix(state);
+        if(auto i = eagine::math::inverse_matrix(a)) {
+            std::cout << i.value() << std::endl;
+        }
+
         gl.uniform(prog.projection, camera.matrix(state));
     }
 
