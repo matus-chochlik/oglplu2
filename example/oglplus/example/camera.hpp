@@ -12,6 +12,7 @@
 #include "state_view.hpp"
 #include <oglplus/math/interpolate.hpp>
 #include <oglplus/math/matrix_ctrs.hpp>
+#include <oglplus/math/primitives.hpp>
 #include <oglplus/math/sign.hpp>
 #include <oglplus/math/vector.hpp>
 
@@ -72,17 +73,10 @@ public:
     }
 
     example_orbiting_camera& pointer_dragging(
-      const example_state_view& state) noexcept {
-        change_turns(-state.norm_pointer_x().delta() * 0.5f);
-        change_pitch(-state.norm_pointer_y().delta() * 1.0f);
-        return *this;
-    }
+      const example_state_view& state) noexcept;
 
     example_orbiting_camera& pointer_scrolling(
-      const example_state_view& state) noexcept {
-        change_orbit(-state.norm_pointer_z().delta());
-        return *this;
-    }
+      const example_state_view& state) noexcept;
 
     example_orbiting_camera& update_orbit(float inc) noexcept {
         return change_orbit(inc * _dist_dir);
@@ -98,10 +92,7 @@ public:
 
     example_orbiting_camera& idle_update(
       const example_state_view& state,
-      eagine::valid_if_positive<float> divisor) noexcept {
-        const auto s = state.frame_duration().value() / divisor.value();
-        return update_orbit(s).update_turns(s).update_pitch(s);
-    }
+      const eagine::valid_if_positive<float>& divisor) noexcept;
 
     auto orbit() const noexcept {
         return smooth_lerp(_orbit_min, _orbit_max, _orbit);
@@ -148,6 +139,9 @@ public:
     vec3 target_plane_pointer(
       const example_state_view& state, int pointer = 0) const noexcept;
 
+    line pointer_ray(const example_state_view& state, int pointer = 0) const
+      noexcept;
+
 private:
     void _change_bouncing(sign& dir, float& val, float inc) noexcept;
 
@@ -161,10 +155,8 @@ private:
     float _orbit_max = 5.5f;
 
     float _orbit = 0.50f;
-    // float _turns = 0.12f;
-    // float _pitch = 0.72f;
-    float _turns = 0.0f;
-    float _pitch = 0.5f;
+    float _turns = 0.12f;
+    float _pitch = 0.72f;
 
     sign _dist_dir;
     sign _turn_dir;

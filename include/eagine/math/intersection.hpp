@@ -16,6 +16,11 @@
 #include <cmath>
 #include <utility>
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdouble-promotion"
+#endif
+
 namespace eagine {
 namespace math {
 //------------------------------------------------------------------------------
@@ -35,8 +40,8 @@ template <typename T, bool V>
 static constexpr inline valid_if_nonnegative<T> _line_sphere_intersection_b(
   vector<T, 3, V> ld, vector<T, 3, V> oc, T sr) noexcept {
     using std::pow;
-    return pow(T(2) * dot(ld, oc), 2) -
-           T(4) * dot(ld, ld) * (dot(oc, oc) - pow(sr, 2));
+    return T(
+      pow(2 * dot(ld, oc), 2) - 4 * dot(ld, ld) * (dot(oc, oc) - pow(sr, 2)));
 }
 //------------------------------------------------------------------------------
 template <typename T>
@@ -82,5 +87,9 @@ line_sphere_intersection(const line<T, V>& l, const sphere<T, V>& s) noexcept {
 //------------------------------------------------------------------------------
 } // namespace math
 } // namespace eagine
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 #endif // EAGINE_MATH_INTERSECTION_HPP

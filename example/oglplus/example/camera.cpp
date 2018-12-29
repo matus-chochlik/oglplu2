@@ -11,6 +11,7 @@
 // clang-format on
 #include "camera.hpp"
 #include <eagine/math/matrix_inverse.hpp>
+#include <eagine/math/intersection.hpp>
 #include <oglplus/math/coordinates.hpp>
 
 namespace oglplus {
@@ -26,6 +27,19 @@ void example_orbiting_camera::_change_bouncing(
         val = 0.f;
         dir.flip();
     }
+}
+//------------------------------------------------------------------------------
+example_orbiting_camera& example_orbiting_camera::pointer_dragging(
+  const example_state_view& state) noexcept {
+    change_turns(-state.norm_pointer_x().delta() * 0.5f);
+    change_pitch(-state.norm_pointer_y().delta() * 1.0f);
+    return *this;
+}
+//------------------------------------------------------------------------------
+example_orbiting_camera& example_orbiting_camera::pointer_scrolling(
+  const example_state_view& state) noexcept {
+    change_orbit(-state.norm_pointer_z().delta());
+    return *this;
 }
 //------------------------------------------------------------------------------
 vec3 example_orbiting_camera::target_to_camera_direction() const noexcept {
@@ -57,6 +71,18 @@ vec3 example_orbiting_camera::target_plane_pointer(
       state.ndc_pointer_x(pointer).get(),
       state.ndc_pointer_y(pointer).get(),
       state.aspect());
+}
+//------------------------------------------------------------------------------
+line example_orbiting_camera::pointer_ray(
+  const example_state_view& state, int pointer) const noexcept {
+    return line(position(), target_plane_pointer(state, pointer));
+}
+//------------------------------------------------------------------------------
+example_orbiting_camera& example_orbiting_camera::idle_update(
+  const example_state_view& state,
+  const eagine::valid_if_positive<float>& divisor) noexcept {
+    const auto s = state.frame_duration().value() / divisor.value_or(1);
+    return update_orbit(s).update_turns(s).update_pitch(s);
 }
 //------------------------------------------------------------------------------
 } // namespace oglplus

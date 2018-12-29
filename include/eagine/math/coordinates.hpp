@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_MATH_INTERSECTION_HPP
-#define EAGINE_MATH_INTERSECTION_HPP
+#ifndef EAGINE_MATH_COORDINATES_HPP
+#define EAGINE_MATH_COORDINATES_HPP
 
 #include "../quantities.hpp"
 #include "../valid_if/nonnegative.hpp"
@@ -63,4 +63,4 @@ unit_spherical_coordinates<T, V> to_unit_spherical(vector<T, 3, V> v) noexcept {
 } // namespace math
 } // namespace eagine
 
-#endif // EAGINE_MATH_INTERSECTION_HPP
+#endif // EAGINE_MATH_COORDINATES_HPP
