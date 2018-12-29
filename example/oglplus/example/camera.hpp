@@ -10,6 +10,7 @@
 #define OGLPLUS_EXAMPLE_CAMERA_HPP
 
 #include "state_view.hpp"
+#include <oglplus/math/coordinates.hpp>
 #include <oglplus/math/interpolate.hpp>
 #include <oglplus/math/matrix_ctrs.hpp>
 #include <oglplus/math/sign.hpp>
@@ -103,13 +104,36 @@ public:
         return update_orbit(s).update_turns(s).update_pitch(s);
     }
 
+    auto orbit() const noexcept {
+        return smooth_lerp(_orbit_min, _orbit_max, _orbit);
+    }
+
+    auto azimuth() const noexcept {
+        return turns_(_turns);
+    }
+
+    auto elevation() const noexcept {
+        return smooth_oscillate(radians_(1.5f), _pitch);
+    }
+
+    auto target_to_camera_direction() const noexcept {
+        return to_cartesian(unit_spherical_coordinates(azimuth(), elevation()));
+    }
+
+    auto camera_to_target_direction() const noexcept {
+        return -target_to_camera_direction();
+    }
+
+    auto perspective_matrix(const example_state_view& state) const noexcept {
+        return matrix_perspective::y(_fov, state.aspect(), _near, _far);
+    }
+
+    auto projection_matrix(const example_state_view&) const noexcept {
+        return matrix_orbiting_y_up(_target, orbit(), azimuth(), elevation());
+    }
+
     auto matrix(const example_state_view& state) const noexcept {
-        return matrix_perspective::y(_fov, state.aspect(), _near, _far) *
-               matrix_orbiting_y_up(
-                 _target,
-                 smooth_lerp(_orbit_min, _orbit_max, _orbit),
-                 turns_(_turns),
-                 smooth_oscillate(radians_(1.5f), _pitch));
+        return perspective_matrix(state) * projection_matrix(state);
     }
 
 private:
