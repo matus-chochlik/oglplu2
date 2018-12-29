@@ -47,9 +47,8 @@ static inline bool gauss_elimination(
         for(int k = i + 1; k < R; ++k) {
             d = a._v[k][i];
             if(!is_zero(d)) {
-                const auto m = a._v[i] * d;
-                a._v[k] -= m;
-                b._v[k] -= m;
+                a._v[k] -= a._v[i] * d;
+                b._v[k] -= b._v[i] * d;
             }
         }
     }
@@ -96,17 +95,13 @@ static inline bool gauss_jordan_elimination(
   matrix<T, Ca, R, true, V>& a, matrix<T, Cb, R, true, V>& b) noexcept {
 
     if(gauss_elimination(a, b)) {
-        const auto is_zero = [](T x) noexcept {
-            return are_equal(x, T(0));
-        };
 
         for(int i = R - 1; i > 0; --i) {
             for(int k = 0; k < i; ++k) {
                 const T d = a._v[k][i];
-                if(!is_zero(d)) {
-                    const auto m = a._v[i] * d;
-                    a._v[k] -= m;
-                    b._v[k] -= m;
+                if(!are_equal(d, T(0))) {
+                    a._v[k] -= a._v[i] * d;
+                    b._v[k] -= b._v[i] * d;
                 }
             }
         }

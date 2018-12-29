@@ -47,16 +47,16 @@ template <typename T, bool V>
 vector<T, 3, V> to_cartesian(unit_spherical_coordinates<T, V> c) noexcept {
     using std::abs;
     return vector<T, 3, V>::make(
-      sin(c.azimuth()) * abs(cos(c.elevation())),
+      cos(c.azimuth()) * abs(cos(c.elevation())),
       sin(c.elevation()),
-      cos(c.azimuth()) * abs(cos(c.elevation())));
+      -sin(c.azimuth()) * abs(cos(c.elevation())));
 }
 //------------------------------------------------------------------------------
 template <typename T, bool V>
 unit_spherical_coordinates<T, V> to_unit_spherical(vector<T, 3, V> v) noexcept {
     using R = unit_spherical_coordinates<T, V>;
     using std::abs;
-    return abs(v.y()) > T(0) ? R(arctan(v.x(), v.z()), arcsin(v.y()))
+    return abs(v.y()) > T(0) ? R(-arctan(v.z(), v.x()), arcsin(v.y()))
                              : R(radians_t<T>(0), arcsin(v.y()));
 }
 //------------------------------------------------------------------------------

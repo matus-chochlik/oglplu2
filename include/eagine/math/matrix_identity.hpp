@@ -61,7 +61,7 @@ template <
   bool RM,
   bool V,
   typename = std::enable_if_t<
-    is_matrix_constructor<MC>::value &&
+    is_matrix_constructor_v<MC> &&
     are_multiplicable<constructed_matrix_t<MC>, matrix<T, C, R, RM, V>>::value>>
 static constexpr inline MC multiply(
   const MC& mc, const identity<matrix<T, C, R, RM, V>>&) noexcept {
@@ -76,7 +76,7 @@ template <
   bool V,
   typename MC,
   typename = std::enable_if_t<
-    is_matrix_constructor<MC>::value &&
+    is_matrix_constructor_v<MC> &&
     are_multiplicable<matrix<T, C, R, RM, V>, constructed_matrix_t<MC>>::value>>
 static constexpr inline MC multiply(
   const identity<matrix<T, C, R, RM, V>>&, const MC& mc) noexcept {

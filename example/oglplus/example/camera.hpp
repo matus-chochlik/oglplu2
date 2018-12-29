@@ -10,7 +10,6 @@
 #define OGLPLUS_EXAMPLE_CAMERA_HPP
 
 #include "state_view.hpp"
-#include <oglplus/math/coordinates.hpp>
 #include <oglplus/math/interpolate.hpp>
 #include <oglplus/math/matrix_ctrs.hpp>
 #include <oglplus/math/sign.hpp>
@@ -116,38 +115,41 @@ public:
         return smooth_oscillate(radians_(1.5f), _pitch);
     }
 
-    auto target_to_camera_direction() const noexcept {
-        return to_cartesian(unit_spherical_coordinates(azimuth(), elevation()));
+    vec3 target_to_camera_direction() const noexcept;
+    vec3 camera_to_target_direction() const noexcept;
+
+    vec3 target() const noexcept {
+        return _target;
     }
 
-    auto camera_to_target_direction() const noexcept {
-        return -target_to_camera_direction();
+    vec3 position() const noexcept {
+        return target() + target_to_camera_direction() * orbit();
     }
 
-    auto perspective_matrix(const example_state_view& state) const noexcept {
-        return matrix_perspective::y(_fov, state.aspect(), _near, _far);
+    auto perspective_matrix(float aspect) const noexcept {
+        return matrix_perspective::y(_fov, aspect, _near, _far);
     }
 
-    auto projection_matrix(const example_state_view&) const noexcept {
+    auto projection_matrix() const noexcept {
         return matrix_orbiting_y_up(_target, orbit(), azimuth(), elevation());
     }
 
-    auto matrix(const example_state_view& state) const noexcept {
-        return perspective_matrix(state) * projection_matrix(state);
+    auto matrix(float aspect) const noexcept {
+        return perspective_matrix(aspect) * projection_matrix();
     }
 
-private:
-    void _change_bouncing(sign& dir, float& val, float inc) {
-        val += inc;
-        if(val > 1.f) {
-            val = 1.f;
-            dir.flip();
-        }
-        if(val < 0.f) {
-            val = 0.f;
-            dir.flip();
-        }
+    auto matrix(const example_state_view& state) const noexcept {
+        return matrix(state.aspect());
     }
+
+    vec3 target_plane_point(float ndcx, float ndcy, float aspect) const
+      noexcept;
+
+    vec3 target_plane_pointer(
+      const example_state_view& state, int pointer = 0) const noexcept;
+
+private:
+    void _change_bouncing(sign& dir, float& val, float inc) noexcept;
 
     vec3 _target;
     radians_t<float> _fov = right_angle_();
@@ -159,8 +161,10 @@ private:
     float _orbit_max = 5.5f;
 
     float _orbit = 0.50f;
-    float _turns = 0.12f;
-    float _pitch = 0.72f;
+    // float _turns = 0.12f;
+    // float _pitch = 0.72f;
+    float _turns = 0.0f;
+    float _pitch = 0.5f;
 
     sign _dist_dir;
     sign _turn_dir;
