@@ -72,17 +72,48 @@ static constexpr inline auto _line_sphere_intersection_p(
 }
 //------------------------------------------------------------------------------
 template <typename T, bool V>
+std::pair<optionally_valid<T>, optionally_valid<T>>
+line_sphere_intersection_params(
+  const line<T, V>& l, const sphere<T, V>& s) noexcept {
+    return _line_sphere_intersection_t(
+      _line_sphere_intersection_a(l.direction(), l.origin() - s.center()),
+      _line_sphere_intersection_b(
+        l.direction(), l.origin() - s.center(), s.radius()),
+      _line_sphere_intersection_d(l.direction()));
+}
+//------------------------------------------------------------------------------
+template <typename T, bool V>
 static constexpr inline std::pair<
   optionally_valid<vector<T, 3, V>>,
   optionally_valid<vector<T, 3, V>>>
 line_sphere_intersection(const line<T, V>& l, const sphere<T, V>& s) noexcept {
     return _line_sphere_intersection_p(
-      l,
-      _line_sphere_intersection_t(
-        _line_sphere_intersection_a(l.direction(), l.origin() - s.center()),
-        _line_sphere_intersection_b(
-          l.direction(), l.origin() - s.center(), s.radius()),
-        _line_sphere_intersection_d(l.direction())));
+      l, line_sphere_intersection_params(l, s));
+}
+//------------------------------------------------------------------------------
+template <typename T, bool V>
+static constexpr inline auto _line_sphere_intersection_n_p(
+  const line<T, V>& l,
+  const std::pair<optionally_valid<T>, optionally_valid<T>>& ts) {
+    using R = optionally_valid<vector<T, 3, V>>;
+    using std::abs;
+
+    return std::get<0>(ts)
+             ? std::get<1>(ts)
+                 ? abs(std::get<0>(ts).value_anyway()) <
+                       abs(std::get<1>(ts).value_anyway())
+                     ? R{l.point_at(std::get<0>(ts).value_anyway()), true}
+                     : R{l.point_at(std::get<1>(ts).value_anyway()), true}
+                 : R{l.point_at(std::get<0>(ts).value_anyway()), true}
+             : R{};
+}
+//------------------------------------------------------------------------------
+template <typename T, bool V>
+static constexpr inline optionally_valid<vector<T, 3, V>>
+nearest_line_sphere_intersection(
+  const line<T, V>& l, const sphere<T, V>& s) noexcept {
+    return _line_sphere_intersection_n_p(
+      l, line_sphere_intersection_params(l, s));
 }
 //------------------------------------------------------------------------------
 } // namespace math
