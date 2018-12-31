@@ -16,30 +16,55 @@
 
 namespace oglplus {
 //------------------------------------------------------------------------------
-void example_orbiting_camera::_change_bouncing(
-  sign& dir, float& val, float inc) noexcept {
-    val += inc;
-    if(val > 1.f) {
-        val = 1.f;
-        dir.flip();
+bool example_orbiting_camera::apply_pointer_motion(
+  const example_state_view& state) noexcept {
+    if(state.pointer_dragging()) {
+
+        const float radius = orbit() * 0.85f;
+
+        if(
+          const auto intersection =
+            eagine::math::nearest_line_sphere_intersection(
+              pointer_ray(state), eagine::math::sphere(target(), radius))) {
+
+            const auto grab_coords = to_unit_spherical(
+              normalized(intersection.value_anyway() - target()));
+
+            if(!_was_dragging) {
+                _grab_azimuth = grab_coords.azimuth();
+                _grab_elevation = grab_coords.elevation();
+                _was_dragging = true;
+            } else {
+                const auto turn_inc = _grab_azimuth - grab_coords.azimuth();
+
+                _turns += turn_inc * 2.f;
+                _turn_dir = sign(turn_inc);
+
+                const auto elev_max = radians_(1.5f);
+                const auto elev_inc = _grab_elevation - grab_coords.elevation();
+
+                if(!std::isnan(elev_inc.value())) {
+                    _pitch += elev_inc;
+                    _pitch_dir = -sign(elev_inc);
+
+                    if(_pitch >= elev_max) {
+                        _pitch = elev_max;
+                    } else if(_pitch <= -elev_max) {
+                        _pitch -= elev_max;
+                    }
+                }
+            }
+            return true;
+        }
     }
-    if(val < 0.f) {
-        val = 0.f;
-        dir.flip();
-    }
+    _was_dragging = false;
+    return false;
 }
 //------------------------------------------------------------------------------
-example_orbiting_camera& example_orbiting_camera::pointer_dragging(
+bool example_orbiting_camera::apply_pointer_scrolling(
   const example_state_view& state) noexcept {
-    change_turns(-state.norm_pointer_x().delta() * 0.5f);
-    change_pitch(-state.norm_pointer_y().delta() * 1.0f);
-    return *this;
-}
-//------------------------------------------------------------------------------
-example_orbiting_camera& example_orbiting_camera::pointer_scrolling(
-  const example_state_view& state) noexcept {
-    change_orbit(-state.norm_pointer_z().delta());
-    return *this;
+    update_orbit(-state.norm_pointer_z().delta());
+    return true;
 }
 //------------------------------------------------------------------------------
 vec3 example_orbiting_camera::target_to_camera_direction() const noexcept {
@@ -75,7 +100,42 @@ vec3 example_orbiting_camera::target_plane_pointer(
 //------------------------------------------------------------------------------
 line example_orbiting_camera::pointer_ray(
   const example_state_view& state, int pointer) const noexcept {
-    return line(position(), target_plane_pointer(state, pointer));
+    return line(position(), target_plane_pointer(state, pointer) - position());
+}
+//------------------------------------------------------------------------------
+example_orbiting_camera& example_orbiting_camera::update_orbit(
+  float inc) noexcept {
+    _orbit_factor += inc;
+    if(_orbit_factor > 1.f) {
+        _orbit_factor = 1.f;
+        _orbit_dir.flip();
+    }
+    if(_orbit_factor < 0.f) {
+        _orbit_factor = 0.f;
+        _orbit_dir.flip();
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+example_orbiting_camera& example_orbiting_camera::update_turns(
+  float inc) noexcept {
+    _turns += turns_(inc * _turn_dir);
+    return *this;
+}
+//------------------------------------------------------------------------------
+example_orbiting_camera& example_orbiting_camera::update_pitch(
+  float inc) noexcept {
+    const auto max = right_angles_(1.f);
+    _pitch += right_angles_(inc * _pitch_dir);
+    if(_pitch > max) {
+        _pitch = max;
+        _pitch_dir.flip();
+    }
+    if(_pitch < -max) {
+        _pitch = -max;
+        _pitch_dir.flip();
+    }
+    return *this;
 }
 //------------------------------------------------------------------------------
 example_orbiting_camera& example_orbiting_camera::idle_update(

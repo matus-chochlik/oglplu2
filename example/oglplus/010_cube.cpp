@@ -142,15 +142,15 @@ public:
     }
 
     void pointer_motion(const example_state_view& state) final {
-        if(state.pointer_dragging()) {
-            camera.pointer_dragging(state);
+        if(camera.apply_pointer_motion(state)) {
             set_projection(state);
         }
     }
 
     void pointer_scrolling(const example_state_view& state) final {
-        camera.pointer_scrolling(state);
-        set_projection(state);
+        if(camera.apply_pointer_scrolling(state)) {
+            set_projection(state);
+        }
     }
 
     void resize(const example_state_view& state) final {
@@ -159,7 +159,7 @@ public:
     }
 
     void user_idle(const example_state_view& state) final {
-        if(state.user_idle_time() > seconds_(10)) {
+        if(state.user_idle_time() > seconds_(1)) {
             camera.idle_update(state, 2);
             set_projection(state);
         }

@@ -56,54 +56,28 @@ public:
         return *this;
     }
 
-    example_orbiting_camera& change_orbit(float inc) noexcept {
-        _change_bouncing(_dist_dir, _orbit, inc);
-        return *this;
-    }
+    bool apply_pointer_motion(const example_state_view& state) noexcept;
 
-    example_orbiting_camera& change_pitch(float inc) noexcept {
-        _change_bouncing(_elev_dir, _pitch, inc);
-        return *this;
-    }
+    bool apply_pointer_scrolling(const example_state_view& state) noexcept;
 
-    example_orbiting_camera& change_turns(float inc) noexcept {
-        _turns += inc;
-        _turn_dir = (inc > 0) ? sign::plus() : sign::minus();
-        return *this;
-    }
-
-    example_orbiting_camera& pointer_dragging(
-      const example_state_view& state) noexcept;
-
-    example_orbiting_camera& pointer_scrolling(
-      const example_state_view& state) noexcept;
-
-    example_orbiting_camera& update_orbit(float inc) noexcept {
-        return change_orbit(inc * _dist_dir);
-    }
-
-    example_orbiting_camera& update_turns(float inc) noexcept {
-        return change_turns(inc * _turn_dir);
-    }
-
-    example_orbiting_camera& update_pitch(float inc) noexcept {
-        return change_pitch(inc * _elev_dir);
-    }
+    example_orbiting_camera& update_orbit(float inc) noexcept;
+    example_orbiting_camera& update_turns(float inc) noexcept;
+    example_orbiting_camera& update_pitch(float inc) noexcept;
 
     example_orbiting_camera& idle_update(
       const example_state_view& state,
       const eagine::valid_if_positive<float>& divisor) noexcept;
 
     auto orbit() const noexcept {
-        return smooth_lerp(_orbit_min, _orbit_max, _orbit);
+        return smooth_lerp(_orbit_min, _orbit_max, _orbit_factor);
     }
 
     auto azimuth() const noexcept {
-        return turns_(_turns);
+        return _turns;
     }
 
     auto elevation() const noexcept {
-        return smooth_oscillate(radians_(1.5f), _pitch);
+        return _pitch;
     }
 
     vec3 target_to_camera_direction() const noexcept;
@@ -143,9 +117,7 @@ public:
       noexcept;
 
 private:
-    void _change_bouncing(sign& dir, float& val, float inc) noexcept;
-
-    vec3 _target;
+    vec3 _target{};
     radians_t<float> _fov = right_angle_();
 
     float _near = 0.5f;
@@ -153,14 +125,18 @@ private:
 
     float _orbit_min = 1.5f;
     float _orbit_max = 5.5f;
+    float _orbit_factor = 0.50f;
 
-    float _orbit = 0.50f;
-    float _turns = 0.12f;
-    float _pitch = 0.72f;
+    radians_t<float> _turns{};
+    radians_t<float> _pitch{};
 
-    sign _dist_dir;
+    radians_t<float> _grab_azimuth{};
+    radians_t<float> _grab_elevation{};
+
+    sign _orbit_dir;
     sign _turn_dir;
-    sign _elev_dir;
+    sign _pitch_dir;
+    bool _was_dragging{false};
 };
 
 } // namespace oglplus

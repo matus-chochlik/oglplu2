@@ -9,6 +9,8 @@
 #ifndef EAGINE_MATH_SIGN_HPP
 #define EAGINE_MATH_SIGN_HPP
 
+#include <type_traits>
+
 namespace eagine {
 namespace math {
 //------------------------------------------------------------------------------
@@ -20,6 +22,17 @@ public:
     using value_type = T;
 
     constexpr sign() noexcept = default;
+
+    constexpr sign(bool pos) noexcept
+      : _positive{pos} {
+    }
+
+    template <
+      typename X,
+      typename = std::enable_if_t<std::is_same_v<X, sign<T>>>>
+    constexpr sign(const X& value) noexcept
+      : _positive{value >= X(0)} {
+    }
 
     static constexpr inline sign plus() noexcept {
         return {true};
@@ -38,8 +51,12 @@ public:
         return *this;
     }
 
-    sign flipped() noexcept {
+    sign flipped() const noexcept {
         return {!_positive};
+    }
+
+    sign operator-() const noexcept {
+        return flipped();
     }
 
     sign operator!() const noexcept {
@@ -47,10 +64,6 @@ public:
     }
 
 private:
-    constexpr sign(bool pos) noexcept
-      : _positive{pos} {
-    }
-
     bool _positive{true};
 };
 //------------------------------------------------------------------------------

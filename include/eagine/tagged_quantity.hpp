@@ -81,7 +81,7 @@ public:
       typename = std::enable_if_t<
         std::is_convertible_v<X, T> && units::is_convertible_v<UX, U>>>
     tagged_quantity& operator+=(const tagged_quantity<X, UX>& q) noexcept {
-        _v += units::value_conv<UX, U>()(q._v);
+        _v += T(units::value_conv<UX, U>()(q._v));
         return *this;
     }
 
@@ -91,7 +91,7 @@ public:
       typename = std::enable_if_t<
         std::is_convertible_v<X, T> && units::is_convertible_v<UX, U>>>
     tagged_quantity& operator-=(const tagged_quantity<X, UX>& q) noexcept {
-        _v -= units::value_conv<UX, U>()(q._v);
+        _v -= T(units::value_conv<UX, U>()(q._v));
         return *this;
     }
 };

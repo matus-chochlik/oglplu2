@@ -27,11 +27,11 @@ static inline void test_eagine_math_coord_spherical_cartesian_roundtrip() {
         auto calc = to_unit_spherical(to_cartesian(orig));
 
         BOOST_CHECK_CLOSE(
-          orig.elevation().value(), calc.elevation().value(), 0.1);
+          orig.elevation().value(), calc.elevation().value(), 0.2);
         const auto diff = abs(elev.value()) - T(90);
         if(diff > T(0)) {
             BOOST_CHECK_CLOSE(
-              orig.azimuth().value(), calc.azimuth().value(), 0.1);
+              orig.azimuth().value(), calc.azimuth().value(), 0.2);
         }
     }
 }
