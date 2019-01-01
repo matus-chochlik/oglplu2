@@ -7,37 +7,38 @@
 #define OGLPLUS_CONFIG_QUERY_GL_VER_MAJOR 3
 #define OGLPLUS_CONFIG_QUERY_GL_VER_MINOR 0
 
-#include "has_GL_ARB_transform_feedback2.ipp"
+// clang-format off
 #include "decl_GL_test.ipp"
+#include "has_GL_ARB_transform_feedback2.ipp"
+// clang-format on
 
-bool
-do_query_gl(void) {
+bool do_query_gl() {
     if(!does_have_ARB_transform_feedback2()) {
-	return false;
+        return false;
     }
 
     GLuint x = 0;
     glGenTransformFeedbacks(1, &x);
     if(glGetError() != GL_NO_ERROR) {
-	return false;
+        return false;
     }
     glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, x);
     if(glGetError() != GL_NO_ERROR) {
-	return false;
+        return false;
     }
     if(glIsTransformFeedback(x) != GL_TRUE) {
-	return false;
+        return false;
     }
     if(glGetError() != GL_NO_ERROR) {
-	return false;
+        return false;
     }
     glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
     if(glGetError() != GL_NO_ERROR) {
-	return false;
+        return false;
     }
     glDeleteTransformFeedbacks(1, &x);
     if(glGetError() != GL_NO_ERROR) {
-	return false;
+        return false;
     }
     return true;
 }

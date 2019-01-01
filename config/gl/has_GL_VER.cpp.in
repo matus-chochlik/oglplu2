@@ -4,61 +4,50 @@
  * See accompanying file LICENSE_1_0.txt or copy at
  *  http://www.boost.org/LICENSE_1_0.txt
  */
+// clang-format off
 #define OGLPLUS_CONFIG_QUERY_GL_VER_MAJOR @CONFIG_QUERY_GL_VER_MAJOR@
 #define OGLPLUS_CONFIG_QUERY_GL_VER_MINOR @CONFIG_QUERY_GL_VER_MINOR@
 
 #include "decl_GL_test.ipp"
+#include <iostream>
 
-bool do_query_gl(void)
-{
-#if !@CONFIG_STRICT_GL_VERSION_CHECK@
-	std::cout << "Skipping strict version check" << std::endl;
-	return true;
+bool do_query_gl() {
+#if @CONFIG_STRICT_GL_VERSION_CHECK@
+    std::cout << "Skipping strict version check" << std::endl;
+    return true;
 #elif !defined @CONFIG_QUERY_GL_VER@
-	std::cerr << "@CONFIG_QUERY_GL_VER@ not defined!" << std::endl;
-	return false;
+    std::cerr << "@CONFIG_QUERY_GL_VER@ not defined!" << std::endl;
+    return false;
 #elif !@CONFIG_QUERY_GL_VER@
-	std::cerr << "@CONFIG_QUERY_GL_VER@ is zero!" << std::endl;
-	return false;
-#else
-	std::cout
-		<< "Detecting GL version: "
-		<< @CONFIG_QUERY_GL_VER_MAJOR@
-		<< "."
-		<< @CONFIG_QUERY_GL_VER_MINOR@
-		<< std::endl;
+    std::cerr << "@CONFIG_QUERY_GL_VER@ is zero!" << std::endl;
+    return false;
+w#else
+    std::cout << "Detecting GL version: "
+			  << @CONFIG_QUERY_GL_VER_MAJOR@ << "."
+              << @CONFIG_QUERY_GL_VER_MINOR@ << std::endl;
 
-	GLint req_major = @CONFIG_QUERY_GL_VER_MAJOR@;
-	GLint req_minor = @CONFIG_QUERY_GL_VER_MINOR@;
-	GLint sup_major = 0;
-	GLint sup_minor = 0;
-	glGetIntegerv(GL_MAJOR_VERSION, &sup_major);
-	glGetIntegerv(GL_MINOR_VERSION, &sup_minor);
+    GLint req_major = @CONFIG_QUERY_GL_VER_MAJOR@;
+    GLint req_minor = @CONFIG_QUERY_GL_VER_MINOR@;
+    GLint sup_major = 0;
+    GLint sup_minor = 0;
+    glGetIntegerv(GL_MAJOR_VERSION, &sup_major);
+    glGetIntegerv(GL_MINOR_VERSION, &sup_minor);
 
-	if(sup_major <  req_major)
-	{
-		std::cerr
-			<< "Supported major version: "
-			<< sup_major
-			<< " is less than required: "
-			<< req_major
-			<< std::endl;
-		return false;
-	}
-	if((sup_major == req_major) && (sup_minor < req_minor))
-	{
-		std::cerr
-			<< "Supported minor version: "
-			<< sup_major
-			<< " is less than required: "
-			<< req_major
-			<< std::endl;
-		return false;
-	}
-	unsigned missing_gl_symbols = 0;
+    if(sup_major < req_major) {
+        std::cerr << "Supported major version: " << sup_major
+                  << " is less than required: " << req_major << std::endl;
+        return false;
+    }
+    if((sup_major == req_major) && (sup_minor < req_minor)) {
+        std::cerr << "Supported minor version: " << sup_major
+                  << " is less than required: " << req_major << std::endl;
+        return false;
+    }
+    unsigned missing_gl_symbols = 0;
 #include "assert_GL_VER_symbols.ipp"
-	return missing_gl_symbols == 0;
+    return missing_gl_symbols == 0;
 #endif
 }
+// clang-format on
 
 #include "impl_GL_test.ipp"
