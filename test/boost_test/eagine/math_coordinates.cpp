@@ -5,10 +5,10 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/math/coordinates.hpp>
-#define BOOST_TEST_MODULE EAGINE_math_functions
+#define BOOST_TEST_MODULE EAGINE_math_coordinates
 #include "../unit_test_begin.inl"
 
-BOOST_AUTO_TEST_SUITE(math_function_tests)
+BOOST_AUTO_TEST_SUITE(math_coordinate_tests)
 
 static eagine::test_random_generator rg;
 
@@ -27,11 +27,11 @@ static inline void test_eagine_math_coord_spherical_cartesian_roundtrip() {
         auto calc = to_unit_spherical(to_cartesian(orig));
 
         BOOST_CHECK_CLOSE(
-          orig.elevation().value(), calc.elevation().value(), 0.2);
+          orig.elevation().value(), calc.elevation().value(), 1);
         const auto diff = abs(elev.value()) - T(90);
         if(diff > T(0)) {
             BOOST_CHECK_CLOSE(
-              orig.azimuth().value(), calc.azimuth().value(), 0.2);
+              orig.azimuth().value(), calc.azimuth().value(), 1);
         }
     }
 }
@@ -57,9 +57,9 @@ static inline void test_eagine_math_coord_cartesian_spherical_roundtrip() {
         auto orig = normalized(vector<T, 3, V>::make(x, y, z));
         auto calc = to_cartesian(to_unit_spherical(orig));
 
-        BOOST_CHECK_CLOSE(orig.x(), calc.x(), 0.1);
-        BOOST_CHECK_CLOSE(orig.y(), calc.y(), 0.1);
-        BOOST_CHECK_CLOSE(orig.z(), calc.z(), 0.1);
+        BOOST_CHECK_CLOSE(orig.x(), calc.x(), 1);
+        BOOST_CHECK_CLOSE(orig.y(), calc.y(), 1);
+        BOOST_CHECK_CLOSE(orig.z(), calc.z(), 1);
     }
 }
 
