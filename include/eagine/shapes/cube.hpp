@@ -13,10 +13,11 @@
 #include "gen_base.hpp"
 #include <eagine/config/basic.hpp>
 #include <cassert>
+#include <memory>
 
 namespace eagine {
 namespace shapes {
-
+//------------------------------------------------------------------------------
 class unit_cube_gen : public centered_unit_shape_generator_base {
 private:
     using _base = centered_unit_shape_generator_base;
@@ -25,7 +26,7 @@ private:
 
     static vertex_attrib_bits _shared_attrs() noexcept;
 
-    bool _only_shared_attribs() const noexcept;
+    bool _only_shared_attribs() noexcept;
 
     static int _coord_c(span_size_t v, span_size_t c) noexcept;
 
@@ -68,7 +69,11 @@ public:
 
     void instructions(span<draw_operation> ops) override;
 };
-
+//------------------------------------------------------------------------------
+static inline auto unit_cube(vertex_attrib_bits attr_bits) {
+    return std::unique_ptr<generator_intf>{new unit_cube_gen(attr_bits)};
+}
+//------------------------------------------------------------------------------
 } // namespace shapes
 } // namespace eagine
 

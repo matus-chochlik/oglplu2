@@ -18,6 +18,7 @@
 #include <oglplus/math/matrix_ctrs.hpp>
 
 #include "example.hpp"
+#include "example/program.hpp"
 // clang-format on
 
 namespace oglplus {
@@ -25,64 +26,12 @@ namespace oglplus {
 static constants GL;
 static operations gl;
 
-class example_program : public program {
+class example_program : public example_program_base {
 public:
     uniform_location projection, modelview, light_pos, cube_tex;
 
-    example_program() {
-        shader vs(GL.vertex_shader);
-
-        vs.source(
-          glsl_literal("#version 140\n"
-
-                       "uniform mat4 Projection;"
-                       "uniform mat4 Modelview;"
-                       "uniform vec3 LightPos;"
-
-                       "in vec4 Position;\n"
-                       "in vec3 Normal;\n"
-                       "in vec2 TexCoord;\n"
-
-                       "out vec3 vertNormal;\n"
-                       "out vec3 vertLightDir;\n"
-                       "out vec2 vertTexCoord;\n"
-
-                       "void main()\n"
-                       "{\n"
-                       "	gl_Position = Modelview*Position;\n"
-                       "	vertNormal = mat3(Modelview)*Normal;\n"
-                       "	vertLightDir = LightPos - gl_Position.xyz;\n"
-                       "	vertTexCoord = TexCoord;\n"
-                       "	gl_Position = Projection*gl_Position;\n"
-                       "}\n"));
-        vs.compile();
-        vs.report_compile_error();
-
-        shader fs(GL.fragment_shader);
-
-        fs.source(glsl_literal(
-          "#version 140\n"
-
-          "uniform sampler2D CubeTex;"
-          "in vec3 vertNormal;\n"
-          "in vec3 vertLightDir;\n"
-          "in vec2 vertTexCoord;\n"
-          "out vec4 fragColor;\n"
-
-          "void main()\n"
-          "{\n"
-          "	float d=0.3*dot(vertNormal, normalize(vertLightDir));\n"
-          "	float i=0.6 + max(d, 0.0);\n"
-          "	fragColor = texture(CubeTex, vertTexCoord)*i;\n"
-          "}\n"));
-        fs.compile();
-        fs.report_compile_error();
-
-        attach(vs);
-        attach(fs);
-        link();
-        report_link_error();
-
+    example_program(const example_params& params)
+      : example_program_base(params, "030_recursive_cube.oglpprog") {
         gl.use(*this);
 
         gl.query_location(projection, *this, "Projection");
@@ -257,9 +206,10 @@ private:
     radians_t<float> rad;
 
 public:
-    example_recursive_cube()
+    example_recursive_cube(const example_params& params)
       : tex_side(512)
       , rnd_tex(tex_side)
+      , prog(params)
       , cube(prog)
       , current_buf(0)
       , rad(0.0f) {
@@ -326,8 +276,10 @@ public:
 };
 
 std::unique_ptr<example> make_example(
-  const example_args&, const example_params&, const example_state_view&) {
-    return std::unique_ptr<example>(new example_recursive_cube());
+  const example_args&,
+  const example_params& params,
+  const example_state_view&) {
+    return std::unique_ptr<example>(new example_recursive_cube(params));
 }
 
 void adjust_params(example_params& params) {

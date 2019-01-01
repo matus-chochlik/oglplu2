@@ -78,6 +78,18 @@ static constexpr inline auto tan(const Qty& qty) {
 }
 
 template <typename T>
+static constexpr inline auto arcsin(T x) {
+    using std::asin;
+    return make_tagged_quantity<units::radian>(asin(x));
+}
+
+template <typename T>
+static constexpr inline auto arccos(T x) {
+    using std::acos;
+    return make_tagged_quantity<units::radian>(acos(x));
+}
+
+template <typename T>
 static constexpr inline auto arctan(T y, T x) {
     using std::atan2;
     return make_tagged_quantity<units::radian>(atan2(y, x));

@@ -25,7 +25,7 @@ private:
 
     static vertex_attrib_bits _shared_attrs() noexcept;
 
-    bool _only_shared_attribs() const noexcept;
+    bool _only_shared_attribs() noexcept;
 
 public:
     unit_icosahedron_gen(vertex_attrib_bits attr_bits) noexcept;

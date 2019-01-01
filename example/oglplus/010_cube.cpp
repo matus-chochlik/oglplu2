@@ -15,7 +15,10 @@
 #include <oglplus/glsl/string_ref.hpp>
 
 #include <oglplus/shapes/wrapper.hpp>
-#include <oglplus/shapes/cube.hpp>
+#include <eagine/shapes/cube.hpp>
+#include <eagine/shapes/array.hpp>
+#include <eagine/shapes/translated.hpp>
+#include <eagine/shapes/scaled.hpp>
 
 #include <oglplus/math/vector.hpp>
 #include <oglplus/math/matrix.hpp>
@@ -23,6 +26,7 @@
 #include <oglplus/math/interpolate.hpp>
 
 #include "example.hpp"
+#include "example/camera.hpp"
 // clang-format on
 
 namespace oglplus {
@@ -92,70 +96,44 @@ public:
 
 class cube_example : public example {
 private:
+    example_orbiting_camera camera;
+
     example_program prog;
 
-    shapes::generator_wrapper<shapes::unit_cube_gen, 4> cube;
-
-    float cam_orbit;
-    float cam_turns;
-    float cam_pitch;
-
-    short cam_dist_dir;
-    short cam_turn_dir;
-    short cam_elev_dir;
-
-    void mod_bouncing(short& dir, float& val, float inc) {
-        val += inc;
-        if(val > 1.f) {
-            val = 1.f;
-            dir = -1;
-        }
-        if(val < 0.f) {
-            val = 0.f;
-            dir = +1;
-        }
-    }
-
-    void mod_cam_orbit(float inc) {
-        mod_bouncing(cam_dist_dir, cam_orbit, inc);
-    }
-
-    void mod_cam_turns(float inc) {
-        cam_turns += inc;
-        cam_turn_dir = (inc > 0) ? 1 : -1;
-    }
-
-    void mod_cam_pitch(float inc) {
-        mod_bouncing(cam_elev_dir, cam_pitch, inc);
-    }
+    shapes::vertex_attribs_and_locations<4> attrs;
+    shapes::adapted_generator_wrapper<4> cube;
 
     void set_projection(const example_state_view& state) {
-        gl.uniform(
-          prog.projection,
-          matrix_perspective::y(right_angle_(), state.aspect(), 0.5f, 10.f) *
-            matrix_orbiting_y_up(
-              vec3(),
-              smooth_lerp(1.5f, 5.0f, cam_orbit),
-              turns_(cam_turns),
-              smooth_oscillate(radians_(1.5f), cam_pitch)));
+        gl.uniform(prog.projection, camera.matrix(state));
     }
 
 public:
     cube_example(
       const example_state_view& state, eagine::memory::buffer& temp_buffer)
       : prog()
+      , attrs(
+          shapes::vertex_attrib_kind::position +
+          shapes::vertex_attrib_kind::normal +
+          shapes::vertex_attrib_kind::box_coord +
+          shapes::vertex_attrib_kind::face_coord)
       , cube(
           temp_buffer,
-          shapes::vertex_attrib_kind::position +
-            shapes::vertex_attrib_kind::normal +
-            shapes::vertex_attrib_kind::box_coord +
-            shapes::vertex_attrib_kind::face_coord)
-      , cam_orbit(0.5)
-      , cam_turns(0.12f)
-      , cam_pitch(0.72f)
-      , cam_dist_dir(-1)
-      , cam_turn_dir(1)
-      , cam_elev_dir(1) {
+          eagine::shapes::translate(
+            eagine::shapes::ortho_array_xyz(
+              eagine::shapes::scale(
+                eagine::shapes::unit_cube(get_attrib_bits(attrs)),
+                {0.85f, 0.85f, 0.85f}),
+              {1.f, 1.f, 1.f},
+              {3, 3, 3}),
+            {-1.0f, -1.0f, -1.0f}),
+          attrs) {
+
+        camera.set_fov(right_angle_())
+          .set_orbit_min(3.0f)
+          .set_orbit_max(8.0f)
+          .set_near(0.5f)
+          .set_far(20.f);
+
         gl.clear_color(0.6f, 0.6f, 0.5f, 0);
         gl.clear_depth(1);
         gl.enable(GL.depth_test);
@@ -163,37 +141,31 @@ public:
         set_projection(state);
     }
 
-    void pointer_motion(const example_state_view& state) override {
-        if(state.pointer_dragging()) {
-            mod_cam_turns(-state.norm_pointer_x().delta() * 0.5f);
-            mod_cam_pitch(-state.norm_pointer_y().delta() * 1.0f);
+    void pointer_motion(const example_state_view& state) final {
+        if(camera.apply_pointer_motion(state)) {
             set_projection(state);
         }
     }
 
-    void pointer_scrolling(const example_state_view& state) override {
-        mod_cam_orbit(-state.norm_pointer_z().delta());
-        set_projection(state);
+    void pointer_scrolling(const example_state_view& state) final {
+        if(camera.apply_pointer_scrolling(state)) {
+            set_projection(state);
+        }
     }
 
-    void resize(const example_state_view& state) override {
+    void resize(const example_state_view& state) final {
         gl.viewport(state.width(), state.height());
         set_projection(state);
     }
 
-    void user_idle(const example_state_view& state) override {
+    void user_idle(const example_state_view& state) final {
         if(state.user_idle_time() > seconds_(1)) {
-            const float s = state.frame_duration().value() / 2;
-
-            mod_cam_orbit(s * cam_dist_dir);
-            mod_cam_turns(s * cam_turn_dir);
-            mod_cam_pitch(s * cam_elev_dir);
-
+            camera.idle_update(state, 2);
             set_projection(state);
         }
     }
 
-    void render(const example_state_view& /*state*/) override {
+    void render(const example_state_view& /*state*/) final {
         gl.clear(GL.color_buffer_bit | GL.depth_buffer_bit);
         cube.draw();
     }

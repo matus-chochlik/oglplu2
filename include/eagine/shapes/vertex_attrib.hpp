@@ -19,25 +19,30 @@
 
 namespace eagine {
 namespace shapes {
-
+//------------------------------------------------------------------------------
 enum class vertex_attrib_kind : unsigned {
-    position = 1 << 0,
-    normal = 1 << 1,
-    tangential = 1 << 2,
-    bitangential = 1 << 3,
-    box_coord = 1 << 4,
-    wrap_coord = 1 << 5,
-    face_coord = 1 << 6
+    object_id = 1 << 0,
+    position = 1 << 1,
+    normal = 1 << 2,
+    tangential = 1 << 3,
+    bitangential = 1 << 4,
+    box_coord = 1 << 5,
+    face_coord = 1 << 6,
+    wrap_coord_0 = 1 << 7,
+    wrap_coord_1 = 1 << 8,
+    wrap_coord_2 = 1 << 9,
+    wrap_coord_3 = 1 << 10,
+    material_id = 1 << 11
 };
-
+//------------------------------------------------------------------------------
 using vertex_attrib_bits = bitfield<vertex_attrib_kind>;
-
+//------------------------------------------------------------------------------
 // vertex_attrib_kind | vertex_attrib_kind
 static constexpr inline vertex_attrib_bits operator|(
   vertex_attrib_kind a, vertex_attrib_kind b) noexcept {
     return {a, b};
 }
-
+//------------------------------------------------------------------------------
 // vertex_attrib_and_location
 struct vertex_attrib_and_location {
     vertex_attrib_kind attrib;
@@ -47,59 +52,58 @@ struct vertex_attrib_and_location {
         return {{*this}};
     }
 };
-
+//------------------------------------------------------------------------------
 // vertex_attrib_kind | location
 static constexpr inline vertex_attrib_and_location operator|(
   vertex_attrib_kind attrib, int location) noexcept {
     return {attrib, location};
 }
-
+//------------------------------------------------------------------------------
+template <std::size_t N>
+using vertex_attribs_and_locations =
+  std::array<const vertex_attrib_and_location, N>;
+//------------------------------------------------------------------------------
 // vertex_attrib_and_location + vertex_attrib_and_location
-static constexpr inline std::array<const vertex_attrib_and_location, 2>
-operator+(
+static constexpr inline vertex_attribs_and_locations<2> operator+(
   const vertex_attrib_and_location& a,
   const vertex_attrib_and_location& b) noexcept {
     return {{a, b}};
 }
-
+//------------------------------------------------------------------------------
 // vertex_attrib_kind + vertex_attrib_kind
-static constexpr inline std::array<const vertex_attrib_and_location, 2>
-operator+(vertex_attrib_kind a, vertex_attrib_kind b) noexcept {
+static constexpr inline vertex_attribs_and_locations<2> operator+(
+  vertex_attrib_kind a, vertex_attrib_kind b) noexcept {
     return (a | 0) + (b | 1);
 }
-
+//------------------------------------------------------------------------------
 // append_attrib
 template <std::size_t N, std::size_t... I>
-static constexpr inline std::array<const vertex_attrib_and_location, N + 1>
-do_append_attrib(
-  const std::array<const vertex_attrib_and_location, N>& a,
+static constexpr inline vertex_attribs_and_locations<N + 1> do_append_attrib(
+  const vertex_attribs_and_locations<N>& a,
   const vertex_attrib_and_location& b,
   std::index_sequence<I...>) noexcept {
     return {{a[I]..., b}};
 }
-
+//------------------------------------------------------------------------------
 // array<vertex_attrib_and_location, N> + vertex_attrib_and_location
 template <std::size_t N>
-static constexpr inline std::array<const vertex_attrib_and_location, N + 1>
-operator+(
-  const std::array<const vertex_attrib_and_location, N>& a,
+static constexpr inline vertex_attribs_and_locations<N + 1> operator+(
+  const vertex_attribs_and_locations<N>& a,
   const vertex_attrib_and_location& b) noexcept {
     return do_append_attrib(a, b, std::make_index_sequence<N>());
 }
-
+//------------------------------------------------------------------------------
 // array<vertex_attrib_kind> + vertex_attrib_kind
 template <std::size_t N>
-static constexpr inline std::array<const vertex_attrib_and_location, N + 1>
-operator+(
-  std::array<const vertex_attrib_and_location, N> a,
-  vertex_attrib_kind b) noexcept {
+static constexpr inline vertex_attribs_and_locations<N + 1> operator+(
+  vertex_attribs_and_locations<N> a, vertex_attrib_kind b) noexcept {
     return a + (b | N);
 }
-
+//------------------------------------------------------------------------------
 // get_attrib_bits
 template <std::size_t N>
 static inline vertex_attrib_bits get_attrib_bits(
-  const std::array<const vertex_attrib_and_location, N>& vaals) noexcept {
+  const vertex_attribs_and_locations<N>& vaals) noexcept {
     vertex_attrib_bits res;
 
     for(const vertex_attrib_and_location& vaal : vaals) {
@@ -108,7 +112,7 @@ static inline vertex_attrib_bits get_attrib_bits(
 
     return res;
 }
-
+//------------------------------------------------------------------------------
 // attrib_values_per_vertex
 static inline span_size_t attrib_values_per_vertex(
   vertex_attrib_kind attr) noexcept {
@@ -120,12 +124,18 @@ static inline span_size_t attrib_values_per_vertex(
         case vertex_attrib_kind::face_coord:
         case vertex_attrib_kind::box_coord:
             return 3;
-        case vertex_attrib_kind::wrap_coord:
+        case vertex_attrib_kind::wrap_coord_0:
+        case vertex_attrib_kind::wrap_coord_1:
+        case vertex_attrib_kind::wrap_coord_2:
+        case vertex_attrib_kind::wrap_coord_3:
             return 2;
+        case vertex_attrib_kind::object_id:
+        case vertex_attrib_kind::material_id:
+            return 1;
     }
     return 0;
 }
-
+//------------------------------------------------------------------------------
 } // namespace shapes
 } // namespace eagine
 

@@ -10,6 +10,7 @@
 #ifndef EAGINE_VALUE_WITH_HISTORY_HPP
 #define EAGINE_VALUE_WITH_HISTORY_HPP
 
+#include "compare.hpp"
 #include "valid_if/decl.hpp"
 #include <cmath>
 #include <utility>
@@ -19,14 +20,7 @@ namespace eagine {
 template <typename T>
 static constexpr inline bool value_with_history_changed(
   const T& a, const T& b) noexcept {
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wfloat-equal"
-#endif
-    return a != b;
-#ifdef __clang__
-#pragma clang diagnostic pop
-#endif
+    return !are_equal(a, b);
 }
 
 template <typename T>
@@ -50,7 +44,7 @@ static constexpr inline auto value_with_history_distance(
 template <typename T, std::size_t N>
 class value_with_history_storage {
 private:
-    T _values[N];
+    T _values[N] = {};
 
 public:
     constexpr inline value_with_history_storage() = default;
@@ -133,9 +127,9 @@ protected:
     }
 
     bool _update_value(const T& new_value) noexcept {
-        values().make_history();
 
         if(value_with_history_changed(values().get(0), new_value)) {
+            values().make_history();
             values().set(0, new_value);
             return true;
         }
@@ -252,6 +246,8 @@ static inline auto operator/(
 template <typename T, std::size_t N>
 class variable_with_history : public value_with_history<T, N> {
 public:
+    constexpr inline variable_with_history() noexcept = default;
+
     constexpr inline variable_with_history(const T& initial) noexcept
       : value_with_history<T, N>(initial) {
     }

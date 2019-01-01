@@ -23,20 +23,28 @@ namespace shapes {
 using eagine::shapes::vertex_attrib_and_location;
 using eagine::shapes::vertex_attrib_bits;
 using eagine::shapes::vertex_attrib_kind;
+using eagine::shapes::vertex_attribs_and_locations;
 
 class adapted_generator {
 private:
-    std::unique_ptr<eagine::shapes::generator_base> _gen;
+    std::unique_ptr<eagine::shapes::generator_intf> _gen;
 
     template <typename Gen>
-    static inline eagine::shapes::generator_base* _copy_gen(const Gen& gen) {
-        return new Gen(gen);
+    static inline auto _copy_gen(const Gen& gen) {
+        return std::unique_ptr<eagine::shapes::generator_intf>{new Gen(gen)};
     }
 
     static span_size_t _index_type_size(eagine::shapes::index_data_type type);
 
 public:
-    template <typename Gen>
+    adapted_generator(std::unique_ptr<eagine::shapes::generator_intf>&& gen)
+      : _gen{std::move(gen)} {
+    }
+
+    template <
+      typename Gen,
+      typename = std::enable_if_t<
+        std::is_base_of_v<eagine::shapes::generator_intf, Gen>>>
     adapted_generator(const Gen& gen)
       : _gen(_copy_gen(gen)) {
     }
@@ -91,7 +99,7 @@ public:
     }
 
     void instructions(span<draw_operation> ops) const;
-};
+}; // namespace shapes
 
 template <typename Generator>
 class concrete_adapted_generator : public adapted_generator {

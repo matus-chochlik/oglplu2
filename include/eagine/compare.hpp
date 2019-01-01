@@ -53,6 +53,20 @@ using equal_cmp_pick = std::conditional_t<
 template <typename L, typename R>
 struct equal_cmp : equal_cmp_pick<L, R> {};
 //------------------------------------------------------------------------------
+template <>
+struct equal_cmp<float, float> {
+    static constexpr inline bool check(float l, float r) noexcept {
+        return !((l - r) < 0.f || (l - r) > 0.f);
+    }
+};
+//------------------------------------------------------------------------------
+template <>
+struct equal_cmp<double, double> {
+    static constexpr inline bool check(double l, double r) noexcept {
+        return !((l - r) < 0.0 || (l - r) > 0.0);
+    }
+};
+//------------------------------------------------------------------------------
 template <typename L, typename R>
 struct equal_cmp_obj : equal_cmp<L, R> {
     constexpr inline equal_cmp_obj(L l, R r) noexcept

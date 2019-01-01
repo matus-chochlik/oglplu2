@@ -27,7 +27,7 @@ vertex_attrib_bits unit_icosahedron_gen::_shared_attrs() noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool unit_icosahedron_gen::_only_shared_attribs() const noexcept {
+bool unit_icosahedron_gen::_only_shared_attribs() noexcept {
     return !(attrib_bits() & ~_shared_attrs());
 }
 //------------------------------------------------------------------------------
@@ -89,12 +89,17 @@ void unit_icosahedron_gen::attrib_values(
         case vertex_attrib_kind::position:
             positions(dest);
             break;
+        case vertex_attrib_kind::object_id:
+        case vertex_attrib_kind::material_id:
         case vertex_attrib_kind::normal:
         case vertex_attrib_kind::tangential:
         case vertex_attrib_kind::bitangential:
         case vertex_attrib_kind::face_coord:
-        case vertex_attrib_kind::wrap_coord:
         case vertex_attrib_kind::box_coord:
+        case vertex_attrib_kind::wrap_coord_0:
+        case vertex_attrib_kind::wrap_coord_1:
+        case vertex_attrib_kind::wrap_coord_2:
+        case vertex_attrib_kind::wrap_coord_3:
             _base::attrib_values(attr, dest);
             break;
     }

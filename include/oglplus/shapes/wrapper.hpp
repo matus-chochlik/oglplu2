@@ -10,6 +10,7 @@
 #ifndef OGLPLUS_SHAPES_WRAPPER_HPP
 #define OGLPLUS_SHAPES_WRAPPER_HPP
 
+#include "adapted_gen.hpp"
 #include "drawing.hpp"
 #include "init.hpp"
 #include <eagine/make_array.hpp>
@@ -19,8 +20,7 @@
 
 namespace oglplus {
 namespace shapes {
-
-// base_wrapper
+//------------------------------------------------------------------------------
 template <std::size_t N, bool InclElemBuf = true>
 class base_wrapper {
 private:
@@ -48,8 +48,19 @@ public:
         return draw_using_instructions(view(_ops));
     }
 };
-
-// wrapper
+//------------------------------------------------------------------------------
+template <std::size_t N>
+class adapted_generator_wrapper : public base_wrapper<N> {
+public:
+    template <typename... P>
+    adapted_generator_wrapper(
+      eagine::memory::buffer& tmp_buf,
+      std::unique_ptr<eagine::shapes::generator_intf>&& gen,
+      const vertex_attribs_and_locations<N>& vaals)
+      : base_wrapper<N>(tmp_buf, std::move(gen), view(vaals)) {
+    }
+};
+//------------------------------------------------------------------------------
 template <std::size_t N>
 class wrapper : public base_wrapper<N> {
 public:
@@ -57,7 +68,7 @@ public:
     wrapper(
       eagine::identity<Generator>,
       eagine::memory::buffer& tmp_buf,
-      const std::array<const vertex_attrib_and_location, N>& vaals,
+      const vertex_attribs_and_locations<N>& vaals,
       P&&... p)
       : base_wrapper<N>(
           tmp_buf,
@@ -66,15 +77,14 @@ public:
           view(vaals)) {
     }
 };
-
-// generator_wrapper
+//------------------------------------------------------------------------------
 template <typename Generator, std::size_t N>
 class generator_wrapper : public wrapper<N> {
 public:
     template <typename... P>
     generator_wrapper(
       eagine::memory::buffer& tmp_buf,
-      const std::array<const vertex_attrib_and_location, N>& vaals,
+      const vertex_attribs_and_locations<N>& vaals,
       P&&... p)
       : wrapper<N>(
           eagine::identity<Generator>(),
@@ -91,11 +101,11 @@ public:
       : wrapper<N>(
           eagine::identity<Generator>(),
           tmp_buf,
-          std::array<const vertex_attrib_and_location, 1>{{vaal}},
+          vertex_attribs_and_locations<1>{{vaal}},
           std::forward<P>(p)...) {
     }
 };
-
+//------------------------------------------------------------------------------
 } // namespace shapes
 } // namespace oglplus
 

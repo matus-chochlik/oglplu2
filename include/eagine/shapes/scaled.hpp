@@ -1,5 +1,5 @@
 /**
- *  @file eagine/shapes/translated.hpp
+ *  @file eagine/shapes/scaled.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,25 +7,26 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_SHAPES_TRANSLATED_HPP
-#define EAGINE_SHAPES_TRANSLATED_HPP
+#ifndef EAGINE_SHAPES_SCALED_HPP
+#define EAGINE_SHAPES_SCALED_HPP
 
 #include "delegated.hpp"
 #include <eagine/config/basic.hpp>
 #include <array>
+#include <memory>
 
 namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
-class translated_gen : public delegated_gen {
+class scaled_gen : public delegated_gen {
 private:
-    std::array<float, 3> _d;
+    std::array<float, 3> _s;
 
 public:
-    translated_gen(
-      std::unique_ptr<generator_intf>&& gen, std::array<float, 3> d) noexcept
+    scaled_gen(
+      std::unique_ptr<generator_intf>&& gen, std::array<float, 3> s) noexcept
       : delegated_gen(std::move(gen))
-      , _d{d} {
+      , _s{s} {
     }
 
     void attrib_values(vertex_attrib_kind attr, span<float> dest) override {
@@ -35,21 +36,19 @@ public:
             for(span_size_t v = 0, n = vertex_count(); v < n; ++v) {
                 for(span_size_t c = 0, m = values_per_vertex(attr); c < m;
                     ++c) {
-                    dest[v * m + c] += _d[c];
+                    dest[v * m + c] *= _s[c];
                 }
             }
         }
     }
 };
 //------------------------------------------------------------------------------
-static inline auto translate(
-  std::unique_ptr<generator_intf>&& gen, std::array<float, 3> d) noexcept {
-    return std::unique_ptr<generator_intf>(
-      new translated_gen(std::move(gen), d));
+static inline auto scale(
+  std::unique_ptr<generator_intf>&& gen, std::array<float, 3> s) noexcept {
+    return std::unique_ptr<generator_intf>(new scaled_gen(std::move(gen), s));
 }
 //------------------------------------------------------------------------------
-
 } // namespace shapes
 } // namespace eagine
 
-#endif // EAGINE_SHAPES_TRANSLATED_HPP
+#endif // EAGINE_SHAPES_SCALED_HPP

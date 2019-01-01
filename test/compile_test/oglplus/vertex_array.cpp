@@ -28,6 +28,9 @@ void oglplus_vertex_array_test_ops1() {
     buffer_name buf(0);
     buffer_size size;
 
+    EAGINE_MAYBE_UNUSED(buf);
+    EAGINE_MAYBE_UNUSED(size);
+
     gl.bind_vertex_array(vao);
     gl.vertex_array_binding();
     gl.bind_vertex_array(vaos[0]);

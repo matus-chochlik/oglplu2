@@ -18,7 +18,7 @@ namespace eagine {
 namespace math {
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline auto sign(T x) noexcept {
+static constexpr inline auto signum(T x) noexcept {
     return (x < 0) ? T(-1) : T(1);
 }
 //------------------------------------------------------------------------------
@@ -77,6 +77,20 @@ static constexpr inline auto sigmoid01(T x, C c) noexcept {
 template <typename T>
 static constexpr inline auto sigmoid01(T x) noexcept {
     return sigmoid01(x, 2);
+}
+//------------------------------------------------------------------------------
+template <typename T>
+static inline auto sine_sigmoid01(T x) {
+
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdouble-promotion"
+#endif
+    using std::cos;
+    return (1 - cos(x * pi)) / 2;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 }
 //------------------------------------------------------------------------------
 template <typename T>

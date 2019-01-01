@@ -18,7 +18,7 @@ namespace math {
 template <template <class> class MC, typename T, int C, int R, bool RM, bool V>
 struct constructed_matrix<MC<matrix<T, C, R, RM, V>>>
   : std::conditional_t<
-      is_matrix_constructor<MC<matrix<T, C, R, RM, V>>>::value,
+      is_matrix_constructor_v<MC<matrix<T, C, R, RM, V>>>,
       matrix<T, C, R, RM, V>,
       nothing_t> {};
 
@@ -33,15 +33,14 @@ template <
   int I>
 struct constructed_matrix<MC<matrix<T, C, R, RM, V>, I>>
   : std::conditional_t<
-      is_matrix_constructor<MC<matrix<T, C, R, RM, V>, I>>::value,
+      is_matrix_constructor_v<MC<matrix<T, C, R, RM, V>, I>>,
       matrix<T, C, R, RM, V>,
       nothing_t> {};
 
 // construct_matrix (noop)
 template <bool RM, typename MC>
 static constexpr inline std::enable_if_t<
-  is_matrix_constructor<MC>::value &&
-    is_row_major<constructed_matrix_t<MC>>::value == RM,
+  is_matrix_constructor_v<MC> && is_row_major_v<constructed_matrix_t<MC>> == RM,
   constructed_matrix_t<MC>>
 construct_matrix(const MC& c) noexcept {
     return c();
@@ -50,8 +49,7 @@ construct_matrix(const MC& c) noexcept {
 // construct_matrix (reorder)
 template <bool RM, typename MC>
 static constexpr inline std::enable_if_t<
-  is_matrix_constructor<MC>::value &&
-    is_row_major<constructed_matrix_t<MC>>::value != RM,
+  is_matrix_constructor_v<MC> && is_row_major_v<constructed_matrix_t<MC>> != RM,
   reordered_matrix_t<constructed_matrix_t<MC>>>
 construct_matrix(const MC& c) noexcept {
     return reorder_mat_ctr(c)();
@@ -61,7 +59,7 @@ template <
   typename MC1,
   typename MC2,
   typename = std::enable_if_t<
-    is_matrix_constructor<MC1>::value && is_matrix_constructor<MC2>::value &&
+    is_matrix_constructor_v<MC1> && is_matrix_constructor_v<MC2> &&
     are_multiplicable<constructed_matrix_t<MC1>, constructed_matrix_t<MC2>>::
       value>>
 static inline auto multiply(const MC1& mc1, const MC2& mc2) noexcept {
@@ -70,7 +68,7 @@ static inline auto multiply(const MC1& mc1, const MC2& mc2) noexcept {
 
 template <typename MC>
 struct convertible_matrix_constructor : MC {
-    static_assert(is_matrix_constructor<MC>::value);
+    static_assert(is_matrix_constructor_v<MC>);
 
     template <typename... P>
     convertible_matrix_constructor(P&&... p)

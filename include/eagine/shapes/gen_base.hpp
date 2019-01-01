@@ -18,7 +18,7 @@
 
 namespace eagine {
 namespace shapes {
-
+//------------------------------------------------------------------------------
 struct generator_params {
     bool allow_strips{true};
     bool allow_fans{true};
@@ -26,11 +26,31 @@ struct generator_params {
 
     generator_params() noexcept = default;
 };
-
+//------------------------------------------------------------------------------
 struct generator_intf {
     generator_intf() = default;
     generator_intf(const generator_intf&) = default;
     virtual ~generator_intf() = default;
+
+    virtual vertex_attrib_bits attrib_bits() noexcept = 0;
+
+    virtual generator_params& parameters() noexcept = 0;
+
+    bool strips_allowed() noexcept {
+        return parameters().allow_strips;
+    }
+
+    bool fans_allowed() noexcept {
+        return parameters().allow_fans;
+    }
+
+    bool primitive_restart() noexcept {
+        return parameters().allow_primitive_restart;
+    }
+
+    bool has(vertex_attrib_kind attr) noexcept {
+        return bool(attrib_bits() | attr);
+    }
 
     virtual span_size_t vertex_count() = 0;
 
@@ -48,7 +68,7 @@ struct generator_intf {
 
     virtual void instructions(span<draw_operation> dest) = 0;
 };
-
+//------------------------------------------------------------------------------
 class generator_base : public generator_intf {
 private:
     vertex_attrib_bits _attr_bits;
@@ -60,28 +80,12 @@ protected:
     }
 
 public:
-    vertex_attrib_bits attrib_bits() const noexcept {
+    vertex_attrib_bits attrib_bits() noexcept final {
         return _attr_bits;
     }
 
-    generator_params& parameters() noexcept {
+    generator_params& parameters() noexcept final {
         return _params;
-    }
-
-    bool strips_allowed() const noexcept {
-        return _params.allow_strips;
-    }
-
-    bool fans_allowed() const noexcept {
-        return _params.allow_fans;
-    }
-
-    bool primitive_restart() const noexcept {
-        return _params.allow_primitive_restart;
-    }
-
-    bool has(vertex_attrib_kind attr) const noexcept {
-        return bool(attrib_bits() | attr);
     }
 
     span_size_t values_per_vertex(vertex_attrib_kind attr) override {
@@ -97,7 +101,7 @@ public:
           "Generator failed to handle the specified attribute kind.");
     }
 };
-
+//------------------------------------------------------------------------------
 class centered_unit_shape_generator_base : public generator_base {
 protected:
     centered_unit_shape_generator_base(vertex_attrib_bits attr_bits) noexcept
@@ -116,7 +120,7 @@ public:
         }
     }
 };
-
+//------------------------------------------------------------------------------
 } // namespace shapes
 } // namespace eagine
 

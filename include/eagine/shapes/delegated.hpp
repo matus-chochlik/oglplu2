@@ -26,6 +26,14 @@ public:
       : _gen(std::move(gen)) {
     }
 
+    vertex_attrib_bits attrib_bits() noexcept final {
+        return _gen->attrib_bits();
+    }
+
+    generator_params& parameters() noexcept final {
+        return _gen->parameters();
+    }
+
     span_size_t vertex_count() override {
         return _gen->vertex_count();
     }

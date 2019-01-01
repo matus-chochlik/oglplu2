@@ -55,29 +55,29 @@ elseif("${OGLPLUS_EXAMPLE_HARNESS}" STREQUAL "qt5gl")
 	)
 endif()
 
-# build the code common to all the examples into this library
-if(OGLPLUS_EXAMPLE_HARNESS_ADDITIONAL_SOURCES)
-	add_library(
-		oglplus_example_harness STATIC
-		EXCLUDE_FROM_ALL
+set(OGLPLUS_EXAMPLE_HARNESS_COMMON_SOURCES
 		"${CMAKE_CURRENT_SOURCE_DIR}/example/main.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/example/args.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/example/wrapper.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/example/params.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/example/state_view.cpp"
+		"${CMAKE_CURRENT_SOURCE_DIR}/example/camera.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/example/main_${OGLPLUS_EXAMPLE_HARNESS}.cpp"
+)
+
+# build the code common to all the examples into this library
+if(OGLPLUS_EXAMPLE_HARNESS_ADDITIONAL_SOURCES)
+	add_library(
+		oglplus_example_harness STATIC
+		EXCLUDE_FROM_ALL
+		"${OGLPLUS_EXAMPLE_HARNESS_COMMON_SOURCES}"
 		"${OGLPLUS_EXAMPLE_HARNESS_ADDITIONAL_SOURCES}"
 	)
 else()
 	add_library(
 		oglplus_example_harness STATIC
 		EXCLUDE_FROM_ALL
-		"${CMAKE_CURRENT_SOURCE_DIR}/example/main.cpp"
-		"${CMAKE_CURRENT_SOURCE_DIR}/example/args.cpp"
-		"${CMAKE_CURRENT_SOURCE_DIR}/example/wrapper.cpp"
-		"${CMAKE_CURRENT_SOURCE_DIR}/example/params.cpp"
-		"${CMAKE_CURRENT_SOURCE_DIR}/example/state_view.cpp"
-		"${CMAKE_CURRENT_SOURCE_DIR}/example/main_${OGLPLUS_EXAMPLE_HARNESS}.cpp"
+		"${OGLPLUS_EXAMPLE_HARNESS_COMMON_SOURCES}"
 	)
 endif()
 
