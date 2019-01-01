@@ -31,16 +31,18 @@ void oglplus_texture_test_ops1() {
     buffer_size offs, size;
     buffer_data_spec data;
 
-    EAGINE_MAYBE_UNUSED(buf);
-    EAGINE_MAYBE_UNUSED(offs);
-    EAGINE_MAYBE_UNUSED(size);
-
     pixel_data_internal_format ifmt(GL_RGBA);
     pixel_data_format fmt(GL_RGBA);
     pixel_data_type typ(GL_UNSIGNED_BYTE);
     texture_wrap_coord wrap_s(GL_TEXTURE_WRAP_S);
     texture_swizzle_coord swizzle_r(GL_TEXTURE_SWIZZLE_R);
     const_memory_block blk;
+
+    EAGINE_MAYBE_UNUSED(buf);
+    EAGINE_MAYBE_UNUSED(offs);
+    EAGINE_MAYBE_UNUSED(size);
+    EAGINE_MAYBE_UNUSED(wrap_s);
+    EAGINE_MAYBE_UNUSED(swizzle_r);
 
     gl.active_texture(texture_unit(0));
 #if defined(GL_VERSION_4_5)

@@ -44,6 +44,8 @@ void oglplus_framebuffer_test_ops1() {
     texture_target textgt2(GL_TEXTURE_2D);
     texture_name tex(0);
 
+    EAGINE_MAYBE_UNUSED(fbb);
+
     gl.bind_framebuffer(tgt, fbo);
     gl.framebuffer_binding(tgt);
     gl.bind_framebuffer(tgt, fbos[0]);
