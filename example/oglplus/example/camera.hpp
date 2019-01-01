@@ -107,14 +107,18 @@ public:
         return matrix(state.aspect());
     }
 
-    vec3 target_plane_point(float ndcx, float ndcy, float aspect) const
-      noexcept;
+    eagine::optionally_valid<vec3> target_plane_point(
+      float ndcx, float ndcy, float aspect) const noexcept;
 
-    vec3 target_plane_pointer(
+    eagine::optionally_valid<vec3> target_plane_pointer(
       const example_state_view& state, int pointer = 0) const noexcept;
 
-    line pointer_ray(const example_state_view& state, int pointer = 0) const
-      noexcept;
+    eagine::optionally_valid<line> pointer_ray(
+      const example_state_view& state, int pointer = 0) const noexcept;
+
+    float grab_sphere_radius() const noexcept;
+
+    sphere grab_sphere() const noexcept;
 
 private:
     vec3 _target{};
@@ -136,7 +140,7 @@ private:
     sign _orbit_dir;
     sign _turn_dir;
     sign _pitch_dir;
-    bool _was_dragging{false};
+    bool _is_grabbing{false};
 };
 
 } // namespace oglplus

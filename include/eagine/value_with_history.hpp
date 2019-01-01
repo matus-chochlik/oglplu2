@@ -127,9 +127,9 @@ protected:
     }
 
     bool _update_value(const T& new_value) noexcept {
-        values().make_history();
 
         if(value_with_history_changed(values().get(0), new_value)) {
+            values().make_history();
             values().set(0, new_value);
             return true;
         }

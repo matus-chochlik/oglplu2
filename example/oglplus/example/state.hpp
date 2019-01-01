@@ -10,22 +10,12 @@
 #define OGLPLUS_EXAMPLE_STATE_HPP
 
 #include "state_view.hpp"
+#include <eagine/math/functions.hpp>
 #include <cassert>
-#include <cmath>
 
 namespace oglplus {
 
 class example_state : public example_state_view {
-private:
-    template <typename T>
-    T _clamp(T value, T min, T max) noexcept {
-        if(value < min)
-            value = min;
-        if(value > max)
-            value = max;
-        return value;
-    }
-
 public:
     void set_time(float new_time) noexcept {
         assert(new_time >= 0.0f);
@@ -108,9 +98,14 @@ public:
     }
 
     bool set_mouse_pos(int new_mouse_x, int new_mouse_y) noexcept {
-        return _notice_user_activity(
-          _mouse_x.assign(_clamp(new_mouse_x, 0, _width.value())) ||
-          _mouse_y.assign(_clamp(new_mouse_y, 0, _height.value())));
+        using eagine::math::clamp;
+        const bool x_chng =
+          _mouse_x.assign(clamp(new_mouse_x, 0, _width.value()));
+        const bool y_chng =
+          _mouse_y.assign(clamp(new_mouse_y, 0, _height.value()));
+        // the xy_chng variables are required for the assign functions
+        // to be called properly (or short circuit!)
+        return _notice_user_activity(x_chng || y_chng);
     }
 
     bool set_mouse_wheel(int new_mouse_z) noexcept {

@@ -16,57 +16,6 @@
 
 namespace oglplus {
 //------------------------------------------------------------------------------
-bool example_orbiting_camera::apply_pointer_motion(
-  const example_state_view& state) noexcept {
-    if(state.pointer_dragging()) {
-
-        const float radius = orbit() * 0.85f;
-
-        if(
-          const auto intersection =
-            eagine::math::nearest_line_sphere_intersection(
-              pointer_ray(state), eagine::math::sphere(target(), radius))) {
-
-            const auto grab_coords = to_unit_spherical(
-              normalized(intersection.value_anyway() - target()));
-
-            if(!_was_dragging) {
-                _grab_azimuth = grab_coords.azimuth();
-                _grab_elevation = grab_coords.elevation();
-                _was_dragging = true;
-            } else {
-                const auto turn_inc = _grab_azimuth - grab_coords.azimuth();
-
-                _turns += turn_inc * 2.f;
-                _turn_dir = sign(turn_inc);
-
-                const auto elev_max = radians_(1.5f);
-                const auto elev_inc = _grab_elevation - grab_coords.elevation();
-
-                if(!std::isnan(elev_inc.value())) {
-                    _pitch += elev_inc;
-                    _pitch_dir = -sign(elev_inc);
-
-                    if(_pitch >= elev_max) {
-                        _pitch = elev_max;
-                    } else if(_pitch <= -elev_max) {
-                        _pitch -= elev_max;
-                    }
-                }
-            }
-            return true;
-        }
-    }
-    _was_dragging = false;
-    return false;
-}
-//------------------------------------------------------------------------------
-bool example_orbiting_camera::apply_pointer_scrolling(
-  const example_state_view& state) noexcept {
-    update_orbit(-state.norm_pointer_z().delta());
-    return true;
-}
-//------------------------------------------------------------------------------
 vec3 example_orbiting_camera::target_to_camera_direction() const noexcept {
     return to_cartesian(unit_spherical_coordinates(azimuth(), elevation()));
 }
@@ -75,7 +24,7 @@ vec3 example_orbiting_camera::camera_to_target_direction() const noexcept {
     return -target_to_camera_direction();
 }
 //------------------------------------------------------------------------------
-vec3 example_orbiting_camera::target_plane_point(
+eagine::optionally_valid<vec3> example_orbiting_camera::target_plane_point(
   float ndcx, float ndcy, float aspect) const noexcept {
     using eagine::math::inverse_matrix;
     using eagine::math::multiply;
@@ -85,12 +34,12 @@ vec3 example_orbiting_camera::target_plane_point(
     if(auto inv = inverse_matrix(mat)) {
         auto ndct = multiply(mat, vec4(_target, 1.f));
         auto ndc = vec4{ndcx * ndct.w(), ndcy * ndct.w(), ndct.z(), ndct.w()};
-        return vec3(eagine::math::multiply(inv.value(), ndc));
+        return {vec3(eagine::math::multiply(inv.value(), ndc)), true};
     }
     return {};
 }
 //------------------------------------------------------------------------------
-vec3 example_orbiting_camera::target_plane_pointer(
+eagine::optionally_valid<vec3> example_orbiting_camera::target_plane_pointer(
   const example_state_view& state, int pointer) const noexcept {
     return target_plane_point(
       state.ndc_pointer_x(pointer).get(),
@@ -98,9 +47,72 @@ vec3 example_orbiting_camera::target_plane_pointer(
       state.aspect());
 }
 //------------------------------------------------------------------------------
-line example_orbiting_camera::pointer_ray(
+eagine::optionally_valid<line> example_orbiting_camera::pointer_ray(
   const example_state_view& state, int pointer) const noexcept {
-    return line(position(), target_plane_pointer(state, pointer) - position());
+    if(const auto ptr = target_plane_pointer(state, pointer)) {
+        return {line(position(), ptr.value_anyway() - position()), true};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+float example_orbiting_camera::grab_sphere_radius() const noexcept {
+    const auto orb = orbit();
+    return eagine::math::minimum(orb * tan(_fov * 0.5f), orb * 0.75f);
+}
+//------------------------------------------------------------------------------
+sphere example_orbiting_camera::grab_sphere() const noexcept {
+    return sphere(target(), grab_sphere_radius());
+}
+//------------------------------------------------------------------------------
+bool example_orbiting_camera::apply_pointer_motion(
+  const example_state_view& state) noexcept {
+    if(state.pointer_dragging()) {
+
+        if(const auto ray = pointer_ray(state)) {
+
+            if(
+              const auto intersection =
+                eagine::math::nearest_line_sphere_intersection(
+                  ray.value_anyway(), grab_sphere())) {
+                const auto grab_point =
+                  normalized(intersection.value_anyway() - target());
+                const auto grab_coords = to_unit_spherical(grab_point);
+
+                if(!_is_grabbing) {
+                    _grab_azimuth = grab_coords.azimuth();
+                    _grab_elevation = grab_coords.elevation();
+                    _is_grabbing = true;
+                } else {
+                    const auto turn_inc = _grab_azimuth - grab_coords.azimuth();
+
+                    _turns += turn_inc;
+                    _turn_dir = turn_inc;
+
+                    const auto elev_max = radians_(1.5f);
+                    const auto elev_inc =
+                      _grab_elevation - grab_coords.elevation();
+
+                    _pitch += elev_inc;
+                    _pitch_dir = -elev_inc;
+
+                    if(_pitch >= elev_max) {
+                        _pitch = elev_max;
+                    } else if(_pitch <= -elev_max) {
+                        _pitch -= elev_max;
+                    }
+                }
+                return true;
+            }
+        }
+    }
+    _is_grabbing = false;
+    return false;
+}
+//------------------------------------------------------------------------------
+bool example_orbiting_camera::apply_pointer_scrolling(
+  const example_state_view& state) noexcept {
+    update_orbit(-state.norm_pointer_z().delta());
+    return true;
 }
 //------------------------------------------------------------------------------
 example_orbiting_camera& example_orbiting_camera::update_orbit(

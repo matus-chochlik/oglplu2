@@ -17,6 +17,8 @@ namespace math {
 template <typename T, bool V>
 class line {
 public:
+    constexpr line() noexcept = default;
+
     constexpr line(vector<T, 3, V> orig, vector<T, 3, V> dir) noexcept
       : _origin{orig}
       , _direction{dir} {

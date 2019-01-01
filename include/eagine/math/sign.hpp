@@ -23,14 +23,14 @@ public:
 
     constexpr sign() noexcept = default;
 
-    constexpr sign(bool pos) noexcept
+    constexpr explicit sign(bool pos) noexcept
       : _positive{pos} {
     }
 
     template <
       typename X,
-      typename = std::enable_if_t<std::is_same_v<X, sign<T>>>>
-    constexpr sign(const X& value) noexcept
+      typename = std::enable_if_t<!std::is_same_v<X, sign<T>>>>
+    constexpr explicit sign(const X& value) noexcept
       : _positive{value >= X(0)} {
     }
 
@@ -40,6 +40,14 @@ public:
 
     static constexpr inline sign minus() noexcept {
         return {false};
+    }
+
+    template <
+      typename X,
+      typename = std::enable_if_t<!std::is_same_v<X, sign<T>>>>
+    sign& operator=(const X& value) noexcept {
+        _positive = (value >= X(0));
+        return *this;
     }
 
     operator T() const noexcept {
