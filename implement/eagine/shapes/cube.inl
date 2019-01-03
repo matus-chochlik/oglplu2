@@ -5,6 +5,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+#include <eagine/memory/span_algo.hpp>
 #include <cassert>
 
 #ifdef __clang__
@@ -326,6 +327,7 @@ void unit_cube_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
         case vertex_attrib_kind::face_coord:
             face_coords(dest);
             break;
+        case vertex_attrib_kind::pivot:
         case vertex_attrib_kind::object_id:
         case vertex_attrib_kind::material_id:
         case vertex_attrib_kind::box_coord:

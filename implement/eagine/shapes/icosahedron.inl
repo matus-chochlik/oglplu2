@@ -89,6 +89,7 @@ void unit_icosahedron_gen::attrib_values(
         case vertex_attrib_kind::position:
             positions(dest);
             break;
+        case vertex_attrib_kind::pivot:
         case vertex_attrib_kind::object_id:
         case vertex_attrib_kind::material_id:
         case vertex_attrib_kind::normal:

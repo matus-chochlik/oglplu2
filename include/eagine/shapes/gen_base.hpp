@@ -15,6 +15,7 @@
 #include "../types.hpp"
 #include "drawing.hpp"
 #include "vertex_attrib.hpp"
+#include <eagine/config/basic.hpp>
 
 namespace eagine {
 namespace shapes {
@@ -109,19 +110,14 @@ protected:
     }
 
 public:
-    void attrib_values(vertex_attrib_kind attr, span<float> dest) override {
-        if(attr == vertex_attrib_kind::box_coord) {
-            this->attrib_values(vertex_attrib_kind::position, dest);
-            for(float& x : dest) {
-                x += 0.5f;
-            }
-        } else {
-            generator_base::attrib_values(attr, dest);
-        }
-    }
+    void attrib_values(vertex_attrib_kind attr, span<float> dest) override;
 };
 //------------------------------------------------------------------------------
 } // namespace shapes
 } // namespace eagine
+
+#if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
+#include <eagine/shapes/gen_base.inl>
+#endif
 
 #endif // EAGINE_SHAPES_GEN_BASE_HPP

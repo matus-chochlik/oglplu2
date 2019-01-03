@@ -65,7 +65,11 @@ public:
 
         delegated_gen::attrib_values(attr, head(dest, n * m));
 
-        if(attr == vertex_attrib_kind::position) {
+        const bool is_translated_attrib =
+          attr == vertex_attrib_kind::position ||
+          attr == vertex_attrib_kind::pivot;
+
+        if(is_translated_attrib) {
             for(span_size_t i = 1; i < _copies; ++i) {
                 for(span_size_t v = 0; v < n; ++v) {
                     for(span_size_t c = 0; c < m; ++c) {

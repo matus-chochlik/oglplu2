@@ -181,6 +181,7 @@ void unit_torus_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
         case vertex_attrib_kind::wrap_coord_0:
             wrap_coords(dest);
             break;
+        case vertex_attrib_kind::pivot:
         case vertex_attrib_kind::box_coord:
         case vertex_attrib_kind::face_coord:
         case vertex_attrib_kind::wrap_coord_1:

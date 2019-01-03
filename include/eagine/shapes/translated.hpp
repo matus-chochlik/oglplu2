@@ -31,7 +31,11 @@ public:
     void attrib_values(vertex_attrib_kind attr, span<float> dest) override {
         delegated_gen::attrib_values(attr, dest);
 
-        if(attr == vertex_attrib_kind::position) {
+        const bool is_translated_attrib =
+          attr == vertex_attrib_kind::position ||
+          attr == vertex_attrib_kind::pivot;
+
+        if(is_translated_attrib) {
             for(span_size_t v = 0, n = vertex_count(); v < n; ++v) {
                 for(span_size_t c = 0, m = values_per_vertex(attr); c < m;
                     ++c) {
