@@ -17,7 +17,7 @@
 #include <oglplus/shapes/wrapper.hpp>
 #include <eagine/shapes/cube.hpp>
 #include <eagine/shapes/array.hpp>
-#include <eagine/shapes/translated.hpp>
+#include <eagine/shapes/centered.hpp>
 #include <eagine/shapes/scaled.hpp>
 
 #include <oglplus/math/vector.hpp>
@@ -118,14 +118,12 @@ public:
           shapes::vertex_attrib_kind::face_coord)
       , cube(
           temp_buffer,
-          eagine::shapes::translate(
-            eagine::shapes::ortho_array_xyz(
-              eagine::shapes::scale(
-                eagine::shapes::unit_cube(get_attrib_bits(attrs)),
-                {0.85f, 0.85f, 0.85f}),
-              {1.f, 1.f, 1.f},
-              {3, 3, 3}),
-            {-1.0f, -1.0f, -1.0f}),
+          eagine::shapes::center(eagine::shapes::ortho_array_xyz(
+            eagine::shapes::scale(
+              eagine::shapes::unit_cube(get_attrib_bits(attrs)),
+              {0.85f, 0.85f, 0.85f}),
+            {1.f, 1.f, 1.f},
+            {3, 3, 3})),
           attrs) {
 
         camera.set_fov(right_angle_())
