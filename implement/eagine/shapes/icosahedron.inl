@@ -108,7 +108,7 @@ void unit_icosahedron_gen::attrib_values(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 index_data_type unit_icosahedron_gen::index_type() {
-    return index_data_type::unsigned_byte;
+    return index_data_type::unsigned_8;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -116,15 +116,15 @@ span_size_t unit_icosahedron_gen::index_count() {
     return 20 * 3;
 }
 //------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-void unit_icosahedron_gen::indices(span<unsigned> dest) {
+template <typename T>
+void unit_icosahedron_gen::_indices(span<T> dest) noexcept {
     assert(dest.size() >= index_count());
 
     span_size_t k = 0;
 
-    const span_size_t A = 0, B = 1, C = 2, D = 3;
-    const span_size_t E = 4, F = 5, G = 6, H = 7;
-    const span_size_t I = 8, J = 9, K = 10, L = 11;
+    const T A = 0, B = 1, C = 2, D = 3;
+    const T E = 4, F = 5, G = 6, H = 7;
+    const T I = 8, J = 9, K = 10, L = 11;
 
     dest[k++] = E;
     dest[k++] = F;
@@ -194,6 +194,21 @@ void unit_icosahedron_gen::indices(span<unsigned> dest) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+void unit_icosahedron_gen::indices(span<std::uint8_t> dest) {
+    _indices(dest);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void unit_icosahedron_gen::indices(span<std::uint16_t> dest) {
+    _indices(dest);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void unit_icosahedron_gen::indices(span<std::uint32_t> dest) {
+    _indices(dest);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 span_size_t unit_icosahedron_gen::operation_count() {
     return 1;
 }
@@ -204,7 +219,7 @@ void unit_icosahedron_gen::instructions(span<draw_operation> ops) {
 
     draw_operation& op = ops[0];
     op.mode = primitive_type::triangles;
-    op.idx_type = index_data_type::unsigned_byte;
+    op.idx_type = index_data_type::unsigned_8;
     op.first = 0;
     op.count = index_count();
     op.primitive_restart = false;

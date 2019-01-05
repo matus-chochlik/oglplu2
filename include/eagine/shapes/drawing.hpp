@@ -22,15 +22,11 @@ enum class primitive_type {
     line_loop,
     triangles,
     triangle_strip,
-    triangle_fan
+    triangle_fan,
+    patches
 };
 //------------------------------------------------------------------------------
-enum class index_data_type {
-    none,
-    unsigned_byte,
-    unsigned_short,
-    unsigned_int
-};
+enum class index_data_type { none, unsigned_8, unsigned_16, unsigned_32 };
 //------------------------------------------------------------------------------
 struct draw_operation {
     primitive_type mode{primitive_type::points};

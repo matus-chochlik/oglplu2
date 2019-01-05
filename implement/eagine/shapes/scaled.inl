@@ -15,7 +15,7 @@ void scaled_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
     if(attr == vertex_attrib_kind::position) {
         for(span_size_t v = 0, n = vertex_count(); v < n; ++v) {
             for(span_size_t c = 0, m = values_per_vertex(attr); c < m; ++c) {
-                dest[v * m + c] *= _s[c];
+                dest[v * m + c] *= _s[std_size(c)];
             }
         }
     }

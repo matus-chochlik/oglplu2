@@ -16,11 +16,11 @@ span_size_t adapted_generator::_index_type_size(
   eagine::shapes::index_data_type type) {
     switch(type) {
         // TODO currently all indices are GLuint
-        case eagine::shapes::index_data_type::unsigned_byte:
+        case eagine::shapes::index_data_type::unsigned_8:
             // TODO return sizeof(GLubyte);
-        case eagine::shapes::index_data_type::unsigned_short:
+        case eagine::shapes::index_data_type::unsigned_16:
             // TODO return sizeof(GLushort);
-        case eagine::shapes::index_data_type::unsigned_int:
+        case eagine::shapes::index_data_type::unsigned_32:
             return sizeof(GLuint);
         case eagine::shapes::index_data_type::none:
             break;

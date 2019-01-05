@@ -40,12 +40,6 @@ public:
 
     void attrib_values(vertex_attrib_kind attr, span<float> dest) override;
 
-    index_data_type index_type() override;
-
-    span_size_t index_count() override;
-
-    void indices(span<unsigned> dest) override;
-
     span_size_t operation_count() override;
 
     void instructions(span<draw_operation> ops) override;

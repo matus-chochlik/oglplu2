@@ -30,6 +30,8 @@ primitive_type draw_operation::_translate(
             return primitive_type(GL_TRIANGLE_STRIP);
         case eagine::shapes::primitive_type::triangle_fan:
             return primitive_type(GL_TRIANGLE_FAN);
+        case eagine::shapes::primitive_type::patches:
+            return primitive_type(GL_PATCHES);
     }
     return primitive_type(GL_NONE);
 }
@@ -39,11 +41,11 @@ data_type draw_operation::_translate(
   eagine::shapes::index_data_type type) noexcept {
     switch(type) {
         // TODO currently all indices are GLuint
-        case eagine::shapes::index_data_type::unsigned_byte:
+        case eagine::shapes::index_data_type::unsigned_8:
             // TODO return data_type(GL_UNSIGNED_BYTE);
-        case eagine::shapes::index_data_type::unsigned_short:
+        case eagine::shapes::index_data_type::unsigned_16:
             // TODO return data_type(GL_UNSIGNED_SHORT);
-        case eagine::shapes::index_data_type::unsigned_int:
+        case eagine::shapes::index_data_type::unsigned_32:
             return data_type(GL_UNSIGNED_INT);
         case eagine::shapes::index_data_type::none:
             break;
@@ -56,11 +58,11 @@ span_size_t draw_operation::_byte_mult(
   eagine::shapes::index_data_type type) noexcept {
     switch(type) {
         // TODO currently all indices are GLuint
-        case eagine::shapes::index_data_type::unsigned_byte:
+        case eagine::shapes::index_data_type::unsigned_8:
             // TODO return sizeof(GLubyte);
-        case eagine::shapes::index_data_type::unsigned_short:
+        case eagine::shapes::index_data_type::unsigned_16:
             // TODO return sizeof(GLushort);
-        case eagine::shapes::index_data_type::unsigned_int:
+        case eagine::shapes::index_data_type::unsigned_32:
             return span_size(sizeof(GLuint));
         case eagine::shapes::index_data_type::none:
             break;

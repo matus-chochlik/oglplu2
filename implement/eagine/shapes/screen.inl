@@ -180,20 +180,6 @@ void unit_screen_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-index_data_type unit_screen_gen::index_type() {
-    return index_data_type::none;
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-span_size_t unit_screen_gen::index_count() {
-    return 0;
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-void unit_screen_gen::indices(span<unsigned>) {
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
 span_size_t unit_screen_gen::operation_count() {
     return 1;
 }

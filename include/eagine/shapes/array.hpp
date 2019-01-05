@@ -22,6 +22,9 @@ private:
     std::array<float, 3> _d;
     span_size_t _copies;
 
+    template <typename T>
+    void _indices(span<T> dest) noexcept;
+
 public:
     array_gen(
       std::unique_ptr<generator_intf>&& gen,
@@ -48,7 +51,11 @@ public:
 
     void attrib_values(vertex_attrib_kind attr, span<float> dest) override;
 
-    void indices(span<unsigned> dest) override;
+    void indices(span<std::uint8_t> dest) override;
+
+    void indices(span<std::uint16_t> dest) override;
+
+    void indices(span<std::uint32_t> dest) override;
 
     void instructions(span<draw_operation> ops) override;
 };

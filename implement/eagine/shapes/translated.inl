@@ -18,7 +18,7 @@ void translated_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
     if(is_translated_attrib) {
         for(span_size_t v = 0, n = vertex_count(); v < n; ++v) {
             for(span_size_t c = 0, m = values_per_vertex(attr); c < m; ++c) {
-                dest[v * m + c] += _d[c];
+                dest[v * m + c] += _d[std_size(c)];
             }
         }
     }

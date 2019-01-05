@@ -343,7 +343,7 @@ void unit_cube_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
 EAGINE_LIB_FUNC
 index_data_type unit_cube_gen::index_type() {
     if(_only_shared_attribs()) {
-        return index_data_type::unsigned_byte;
+        return index_data_type::unsigned_8;
     }
     return index_data_type::none;
 }
@@ -374,7 +374,17 @@ inline void unit_cube_gen::_indices(span<T> dest) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_cube_gen::indices(span<unsigned> dest) {
+void unit_cube_gen::indices(span<std::uint8_t> dest) {
+    _indices(dest);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void unit_cube_gen::indices(span<std::uint16_t> dest) {
+    _indices(dest);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void unit_cube_gen::indices(span<std::uint32_t> dest) {
     _indices(dest);
 }
 //------------------------------------------------------------------------------
@@ -390,7 +400,7 @@ void unit_cube_gen::instructions(span<draw_operation> ops) {
     if(_only_shared_attribs()) {
         draw_operation& op = ops[0];
         op.mode = primitive_type::triangles;
-        op.idx_type = index_data_type::unsigned_byte;
+        op.idx_type = index_type();
         op.first = 0;
         op.count = index_count();
         op.primitive_restart = false;
