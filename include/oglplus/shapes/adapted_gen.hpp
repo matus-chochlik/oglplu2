@@ -90,8 +90,19 @@ public:
     }
 
     void index_data(eagine::memory::block data) const {
-        // TODO other index data types, see also drawing
-        _gen->indices(accomodate(data, eagine::identity<GLuint>()));
+        switch(_gen->index_type()) {
+            case eagine::shapes::index_data_type::unsigned_32:
+                _gen->indices(accomodate(data, eagine::identity<GLuint>()));
+                break;
+            case eagine::shapes::index_data_type::unsigned_16:
+                _gen->indices(accomodate(data, eagine::identity<GLushort>()));
+                break;
+            case eagine::shapes::index_data_type::unsigned_8:
+                _gen->indices(accomodate(data, eagine::identity<GLubyte>()));
+                break;
+            case eagine::shapes::index_data_type::none:
+                break;
+        }
     }
 
     span_size_t operation_count() const {
@@ -99,7 +110,7 @@ public:
     }
 
     void instructions(span<draw_operation> ops) const;
-}; // namespace shapes
+};
 
 template <typename Generator>
 class concrete_adapted_generator : public adapted_generator {

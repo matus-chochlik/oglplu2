@@ -15,11 +15,10 @@ OGLPLUS_LIB_FUNC
 span_size_t adapted_generator::_index_type_size(
   eagine::shapes::index_data_type type) {
     switch(type) {
-        // TODO currently all indices are GLuint
         case eagine::shapes::index_data_type::unsigned_8:
-            // TODO return sizeof(GLubyte);
+            return sizeof(GLubyte);
         case eagine::shapes::index_data_type::unsigned_16:
-            // TODO return sizeof(GLushort);
+            return sizeof(GLushort);
         case eagine::shapes::index_data_type::unsigned_32:
             return sizeof(GLuint);
         case eagine::shapes::index_data_type::none:

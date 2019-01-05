@@ -40,11 +40,10 @@ OGLPLUS_LIB_FUNC
 data_type draw_operation::_translate(
   eagine::shapes::index_data_type type) noexcept {
     switch(type) {
-        // TODO currently all indices are GLuint
         case eagine::shapes::index_data_type::unsigned_8:
-            // TODO return data_type(GL_UNSIGNED_BYTE);
+            return data_type(GL_UNSIGNED_BYTE);
         case eagine::shapes::index_data_type::unsigned_16:
-            // TODO return data_type(GL_UNSIGNED_SHORT);
+            return data_type(GL_UNSIGNED_SHORT);
         case eagine::shapes::index_data_type::unsigned_32:
             return data_type(GL_UNSIGNED_INT);
         case eagine::shapes::index_data_type::none:
@@ -57,11 +56,10 @@ OGLPLUS_LIB_FUNC
 span_size_t draw_operation::_byte_mult(
   eagine::shapes::index_data_type type) noexcept {
     switch(type) {
-        // TODO currently all indices are GLuint
         case eagine::shapes::index_data_type::unsigned_8:
-            // TODO return sizeof(GLubyte);
+            return span_size(sizeof(GLubyte));
         case eagine::shapes::index_data_type::unsigned_16:
-            // TODO return sizeof(GLushort);
+            return span_size(sizeof(GLushort));
         case eagine::shapes::index_data_type::unsigned_32:
             return span_size(sizeof(GLuint));
         case eagine::shapes::index_data_type::none:
