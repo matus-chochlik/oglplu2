@@ -17,5 +17,9 @@
 #include <eagine/shapes/screen.hpp>
 #include <eagine/shapes/sphere.hpp>
 #include <eagine/shapes/torus.hpp>
+#include <eagine/shapes/array.hpp>
+#include <eagine/shapes/centered.hpp>
+#include <eagine/shapes/translated.hpp>
+#include <eagine/shapes/scaled.hpp>
 #include "epilogue.inl"
 // clang-format on

@@ -12,7 +12,6 @@
 
 #include "delegated.hpp"
 #include <eagine/config/basic.hpp>
-#include <eagine/memory/span_algo.hpp>
 #include <array>
 
 namespace eagine {
@@ -45,107 +44,13 @@ public:
         return delegated_gen::operation_count() * _copies;
     }
 
-    index_data_type index_type() override {
-        if(delegated_gen::index_type() != index_data_type::none) {
-            if(delegated_gen::vertex_count() < span_size(1 << 8)) {
-                return index_data_type::unsigned_byte;
-            }
-            if(delegated_gen::vertex_count() < span_size(1 << 16)) {
-                return index_data_type::unsigned_short;
-            }
-            return index_data_type::unsigned_int;
-        }
-        return index_data_type::none;
-    }
+    index_data_type index_type() override;
 
-    void attrib_values(vertex_attrib_kind attr, span<float> dest) override {
+    void attrib_values(vertex_attrib_kind attr, span<float> dest) override;
 
-        const auto n = delegated_gen::vertex_count();
-        const auto m = values_per_vertex(attr);
+    void indices(span<unsigned> dest) override;
 
-        delegated_gen::attrib_values(attr, head(dest, n * m));
-
-        const bool is_translated_attrib =
-          attr == vertex_attrib_kind::position ||
-          attr == vertex_attrib_kind::pivot;
-
-        if(is_translated_attrib) {
-            for(span_size_t i = 1; i < _copies; ++i) {
-                for(span_size_t v = 0; v < n; ++v) {
-                    for(span_size_t c = 0; c < m; ++c) {
-
-                        const auto k = v * m + c;
-                        dest[(i * n * m) + k] = dest[k] + (_d[c] * float(i));
-                    }
-                }
-            }
-        } else {
-            const auto l = n * m;
-            for(span_size_t i = 1; i < _copies; ++i) {
-                copy(head(dest, l), slice(dest, i * l, l));
-            }
-        }
-    }
-
-    void indices(span<unsigned> dest) override {
-
-        const auto n = delegated_gen::index_count();
-        const auto opri = unsigned(n);
-        const auto npri = unsigned(index_count());
-
-        delegated_gen::indices(head(dest, n));
-
-        for(span_size_t i = 1; i < _copies; ++i) {
-            const auto k = i * n;
-            for(span_size_t j = 0; j < n; ++j) {
-                auto idx = dest[j];
-                if(idx >= opri) {
-                    idx = npri;
-                }
-                dest[k + j] = idx + limit_cast<unsigned>(k);
-            }
-        }
-    }
-
-    void instructions(span<draw_operation> ops) override {
-        const auto n = delegated_gen::operation_count();
-
-        delegated_gen::instructions(head(ops, n));
-
-        if(index_type() != index_data_type::none) {
-            const auto p = delegated_gen::index_count();
-            const auto opri = unsigned(p);
-            const auto npri = unsigned(index_count());
-
-            for(span_size_t o = 0; o < n; ++o) {
-                if(ops[o].primitive_restart_index == opri) {
-                    ops[o].primitive_restart_index = npri;
-                }
-            }
-
-            for(span_size_t i = 1; i < _copies; ++i) {
-                const auto k = i * n;
-                const auto a = i * p;
-                for(span_size_t o = 0; o < n; ++o) {
-                    const auto l = k + o;
-                    ops[l] = ops[o];
-                    ops[l].first = ops[o].first + a;
-                }
-            }
-        } else {
-            const auto p = delegated_gen::vertex_count();
-
-            for(span_size_t i = 1; i < _copies; ++i) {
-                const auto k = i * n;
-                const auto a = i * p;
-                for(span_size_t o = 0; o < n; ++o) {
-                    const auto l = k + o;
-                    ops[l] = ops[o];
-                    ops[l].first = ops[o].first + a;
-                }
-            }
-        }
-    }
+    void instructions(span<draw_operation> ops) override;
 };
 //------------------------------------------------------------------------------
 static inline auto array(
@@ -169,5 +74,9 @@ static inline auto ortho_array_xyz(
 //------------------------------------------------------------------------------
 } // namespace shapes
 } // namespace eagine
+
+#if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
+#include <eagine/shapes/array.inl>
+#endif
 
 #endif // EAGINE_SHAPES_ARRAY_HPP
