@@ -11,12 +11,9 @@ namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void centered_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
+void reboxed_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
 
-    const bool is_centered_attrib =
-      attr == vertex_attrib_kind::position || attr == vertex_attrib_kind::pivot;
-
-    if(is_centered_attrib) {
+    if(attr == vertex_attrib_kind::box_coord) {
 
         delegated_gen::attrib_values(vertex_attrib_kind::position, dest);
 
@@ -39,19 +36,17 @@ void centered_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
             }
         }
 
-        std::array<float, 4> offs{{}};
+        std::array<float, 4> inorm{{}};
         for(span_size_t c = 0, m = values_per_vertex(attr); c < m; ++c) {
             const auto k = std_size(c);
-            offs[k] = (min[k] + max[k]) * 0.5f;
-        }
-
-        if(attr != vertex_attrib_kind::position) {
-            delegated_gen::attrib_values(attr, dest);
+            inorm[k] = 1.0f / (max[k] - min[k]);
         }
 
         for(span_size_t v = 0, n = vertex_count(); v < n; ++v) {
             for(span_size_t c = 0, m = values_per_vertex(attr); c < m; ++c) {
-                dest[v * m + c] -= offs[std_size(c)];
+                const auto l = v * m + c;
+                const auto k = std_size(c);
+                dest[l] = (dest[l] - min[k]) * inorm[k];
             }
         }
     } else {

@@ -25,7 +25,8 @@ vertex_attrib_bits unit_cube_gen::_attr_mask() noexcept {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 vertex_attrib_bits unit_cube_gen::_shared_attrs() noexcept {
-    return vertex_attrib_kind::position | vertex_attrib_kind::box_coord;
+    return vertex_attrib_kind::position | vertex_attrib_kind::pivot |
+           vertex_attrib_kind::box_coord;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

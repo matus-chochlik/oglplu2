@@ -13,12 +13,12 @@ EAGINE_LIB_FUNC
 index_data_type array_gen::index_type() {
     if(delegated_gen::index_type() != index_data_type::none) {
         if(
-          delegated_gen::vertex_count() <
+          vertex_count() <
           span_size(std::numeric_limits<std::uint8_t>::max())) {
             return index_data_type::unsigned_8;
         }
         if(
-          delegated_gen::vertex_count() <
+          vertex_count() <
           span_size(std::numeric_limits<std::uint8_t>::max())) {
             return index_data_type::unsigned_16;
         }
@@ -59,20 +59,22 @@ void array_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
 //------------------------------------------------------------------------------
 template <typename T>
 void array_gen::_indices(span<T> dest) noexcept {
-    const auto n = delegated_gen::index_count();
+    const auto vc = delegated_gen::vertex_count();
+    const auto ic = delegated_gen::index_count();
     const auto opri = limit_cast<T>(delegated_gen::vertex_count());
     const auto npri = limit_cast<T>(vertex_count());
 
-    delegated_gen::indices(head(dest, n));
+    delegated_gen::indices(head(dest, ic));
 
     for(span_size_t i = 1; i < _copies; ++i) {
-        const auto k = i * n;
-        for(span_size_t j = 0; j < n; ++j) {
+        const auto k = i * ic;
+        const auto o = i * vc;
+        for(span_size_t j = 0; j < ic; ++j) {
             auto idx = dest[j];
             if(idx >= opri) {
                 idx = npri;
             }
-            dest[k + j] = idx + limit_cast<T>(k);
+            dest[k + j] = idx + limit_cast<T>(o);
         }
     }
 }
