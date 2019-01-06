@@ -92,6 +92,8 @@ public:
         gl.clear_color(0.7f, 0.7f, 0.6f, 0);
         gl.clear_depth(1);
         gl.enable(GL.depth_test);
+        gl.enable(GL.cull_face);
+        gl.cull_face(GL.back);
 
         set_projection(state);
     }

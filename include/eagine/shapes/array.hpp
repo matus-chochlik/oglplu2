@@ -35,27 +35,21 @@ public:
       , _copies{n} {
     }
 
-    span_size_t vertex_count() override {
-        return delegated_gen::vertex_count() * _copies;
-    }
+    span_size_t vertex_count() override;
 
-    span_size_t index_count() override {
-        return delegated_gen::index_count() * _copies;
-    }
-
-    span_size_t operation_count() override {
-        return delegated_gen::operation_count() * _copies;
-    }
+    void attrib_values(vertex_attrib_kind attr, span<float> dest) override;
 
     index_data_type index_type() override;
 
-    void attrib_values(vertex_attrib_kind attr, span<float> dest) override;
+    span_size_t index_count() override;
 
     void indices(span<std::uint8_t> dest) override;
 
     void indices(span<std::uint16_t> dest) override;
 
     void indices(span<std::uint32_t> dest) override;
+
+    span_size_t operation_count() override;
 
     void instructions(span<draw_operation> ops) override;
 };

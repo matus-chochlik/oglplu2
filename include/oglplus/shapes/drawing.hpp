@@ -33,6 +33,7 @@ private:
     GLsizei _count{0};
     [[maybe_unused]] GLuint _phase{0};
     [[maybe_unused]] GLuint _primitive_restart_index{0};
+    [[maybe_unused]] GLint _patch_vertices{3};
     [[maybe_unused]] bool _primitive_restart : 1;
     bool _cw_face_winding : 1;
 

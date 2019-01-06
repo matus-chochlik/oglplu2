@@ -30,8 +30,10 @@ primitive_type draw_operation::_translate(
             return primitive_type(GL_TRIANGLE_STRIP);
         case eagine::shapes::primitive_type::triangle_fan:
             return primitive_type(GL_TRIANGLE_FAN);
+#if defined(GL_PATCHES)
         case eagine::shapes::primitive_type::patches:
             return primitive_type(GL_PATCHES);
+#endif
     }
     return primitive_type(GL_NONE);
 }
@@ -77,6 +79,7 @@ draw_operation::draw_operation(
   , _count(GLsizei(draw_op.count))
   , _phase(GLuint(draw_op.phase))
   , _primitive_restart_index(draw_op.primitive_restart_index)
+  , _patch_vertices(draw_op.patch_vertices)
   , _primitive_restart(draw_op.primitive_restart)
   , _cw_face_winding(draw_op.cw_face_winding) {
 }
@@ -94,6 +97,12 @@ const void* draw_operation::_idx_ptr() const noexcept {
 OGLPLUS_LIB_FUNC
 outcome<void> draw_operation::draw() const noexcept {
     OGLPLUS_GLFUNC(FrontFace)(_cw_face_winding ? GL_CW : GL_CCW);
+
+#if defined(GL_PATCHES)
+    if(_mode == primitive_type(GL_PATCHES)) {
+        OGLPLUS_GLFUNC(PatchParameteri)(GL_PATCH_VERTICES, _patch_vertices);
+    }
+#endif
 
     if(indexed()) {
         OGLPLUS_GLFUNC(DrawElements)
