@@ -58,6 +58,7 @@ configure_file(
 )
 
 # features
+gl_lib_feat_detection(GL texture_1d)
 gl_lib_feat_detection(GL geometry_shader)
 
 # extensions
