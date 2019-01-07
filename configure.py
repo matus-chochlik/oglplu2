@@ -527,8 +527,8 @@ def get_argument_parser():
 		"""
 	)
 	argparser.add_argument(
-		"--debug-gl-ext-error",
-		dest="debug_gl_ext_error",
+		"--debug-gl-feat-error",
+		dest="debug_gl_feat_error",
 		type=str,
 		default="",
 		action="store",
@@ -776,8 +776,8 @@ def main(argv):
 	# put cmake in debug mode if specified
 	if(options.debug_gl_ver_error):
 		cmake_options += ["-DDEBUG_GL_VER_ERROR=1"]
-	if(options.debug_gl_ext_error):
-		cmake_options += ["-DDEBUG_GL_EXT_ERROR=%s"%options.debug_gl_ext_error]
+	if(options.debug_gl_feat_error):
+		cmake_options += ["-DDEBUG_GL_FEAT_ERROR=%s"%options.debug_gl_feat_error]
 	if(options.debug_lib_error):
 		cmake_options += ["-DDEBUG_LIB_ERROR=1"]
 	if(options.debug_config):

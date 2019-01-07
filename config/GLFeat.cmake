@@ -4,23 +4,38 @@
 #   http://www.boost.org/LICENSE_1_0.txt
 #
 
+macro(gl_lib_feat_detection GL_LIB FEATURE_NAME)
+	gl_feature_detection_helper(${GL_LIB} ${FEATURE_NAME} FEAT)
+
+	if(HAS_${GL_LIB}_${FEATURE_NAME})
+		message(STATUS "Found ${GL_LIB} feature: ${FEATURE_NAME}")
+	else()
+		if(DEBUG_GL_FEAT_ERROR)
+			if("${DEBUG_GL_FEAT_ERROR}" STREQUAL "${FEATURE_NAME}")
+				message(FATAL_ERROR "Error detecting GL feature ${FEATURE_NAME}")
+			endif()
+		endif()
+	endif()
+endmacro()
+
 macro(gl_lib_ext_detection GL_LIB EXTENSION_VENDOR EXTENSION_NAME)
 
-	set(CONFIG_QUERY_GL_EXT ${GL_LIB}_${EXTENSION_VENDOR}_${EXTENSION_NAME})
+	set(CONFIG_EXT_ID ${EXTENSION_VENDOR}_${EXTENSION_NAME})
+	set(CONFIG_QUERY_GL_EXT ${GL_LIB}_${CONFIG_EXT_ID})
 	set(CONFIG_QUERY_GL_EXT_VENDOR ${EXTENSION_VENDOR})
 	set(CONFIG_QUERY_GL_EXT_NAME ${EXTENSION_NAME})
 
-	gl_feature_detection(${GL_LIB} ${EXTENSION_VENDOR}_${EXTENSION_NAME} EXT)
+	gl_feature_detection_helper(${GL_LIB} ${CONFIG_EXT_ID} EXT)
 
-	if(HAS_${GL_LIB}_${EXTENSION_VENDOR}_${EXTENSION_NAME})
-		message(STATUS "Found ${GL_LIB} extension: ${EXTENSION_VENDOR}_${EXTENSION_NAME}")
+	if(HAS_${GL_LIB}_${CONFIG_EXT_ID})
+		message(STATUS "Found ${GL_LIB} extension: ${CONFIG_EXT_ID}")
 	else()
-		file(APPEND ${FIX_GL_EXTENSION_HPP} "#ifdef GL_${EXTENSION_VENDOR}_${EXTENSION_NAME}\n")
-		file(APPEND ${FIX_GL_EXTENSION_HPP} "#undef GL_${EXTENSION_VENDOR}_${EXTENSION_NAME}\n")
-		file(APPEND ${FIX_GL_EXTENSION_HPP} "#endif //GL_${EXTENSION_VENDOR}_${EXTENSION_NAME}\n")
-		if(DEBUG_GL_EXT_ERROR)
-			if("${DEBUG_GL_EXT_ERROR}" STREQUAL "${EXTENSION_VENDOR}_${EXTENSION_NAME}")
-				message(FATAL_ERROR "Error detecting GL extension ${EXTENSION_VENDOR}_${EXTENSION_NAME}")
+		file(APPEND ${FIX_GL_EXTENSION_HPP} "#ifdef GL_${CONFIG_EXT_ID}\n")
+		file(APPEND ${FIX_GL_EXTENSION_HPP} "#undef GL_${CONFIG_EXT_ID}\n")
+		file(APPEND ${FIX_GL_EXTENSION_HPP} "#endif //GL_${CONFIG_EXT_ID}\n")
+		if(DEBUG_GL_FEAT_ERROR)
+			if("${DEBUG_GL_FEAT_ERROR}" STREQUAL "${CONFIG_EXT_ID}")
+				message(FATAL_ERROR "Error detecting GL extension ${CONFIG_EXT_ID}")
 			endif()
 		endif()
 	endif()
@@ -28,6 +43,7 @@ macro(gl_lib_ext_detection GL_LIB EXTENSION_VENDOR EXTENSION_NAME)
 	unset(CONFIG_QUERY_GL_EXT)
 	unset(CONFIG_QUERY_GL_EXT_VENDOR)
 	unset(CONFIG_QUERY_GL_EXT_NAME)
+	unset(CONFIG_EXT_ID)
 
 endmacro()
 
@@ -41,6 +57,10 @@ configure_file(
 	${FIX_GL_EXTENSION_HPP}
 )
 
+# features
+gl_lib_feat_detection(GL geometry_shader)
+
+# extensions
 gl_lib_ext_detection(GL ARB shader_subroutine)
 gl_lib_ext_detection(GL ARB shader_atomic_counters)
 gl_lib_ext_detection(GL ARB geometry_shader4)

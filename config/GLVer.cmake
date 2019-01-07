@@ -16,7 +16,7 @@ macro(gl_version_detection GL_LIB VERSION)
 		set(CONFIG_STRICT_GL_VERSION_CHECK 0)
 	endif()
 
-	gl_feature_detection(${GL_LIB} ${VERSION} VER)
+	gl_feature_detection_helper(${GL_LIB} ${VERSION} VER)
 
 	unset(CONFIG_QUERY_GL_VER)
 	unset(CONFIG_QUERY_GL_VER_MAJOR)
