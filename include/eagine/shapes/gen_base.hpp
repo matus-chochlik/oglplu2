@@ -15,6 +15,7 @@
 #include "../types.hpp"
 #include "drawing.hpp"
 #include "vertex_attrib.hpp"
+#include <eagine/config/basic.hpp>
 
 namespace eagine {
 namespace shapes {
@@ -62,7 +63,11 @@ struct generator_intf {
 
     virtual span_size_t index_count() = 0;
 
-    virtual void indices(span<unsigned> dest) = 0;
+    virtual void indices(span<std::uint8_t> dest) = 0;
+
+    virtual void indices(span<std::uint16_t> dest) = 0;
+
+    virtual void indices(span<std::uint32_t> dest) = 0;
 
     virtual span_size_t operation_count() = 0;
 
@@ -100,6 +105,16 @@ public:
         EAGINE_UNREACHABLE(
           "Generator failed to handle the specified attribute kind.");
     }
+
+    index_data_type index_type() override;
+
+    span_size_t index_count() override;
+
+    void indices(span<std::uint8_t> dest) override;
+
+    void indices(span<std::uint16_t> dest) override;
+
+    void indices(span<std::uint32_t> dest) override;
 };
 //------------------------------------------------------------------------------
 class centered_unit_shape_generator_base : public generator_base {
@@ -109,19 +124,14 @@ protected:
     }
 
 public:
-    void attrib_values(vertex_attrib_kind attr, span<float> dest) override {
-        if(attr == vertex_attrib_kind::box_coord) {
-            this->attrib_values(vertex_attrib_kind::position, dest);
-            for(float& x : dest) {
-                x += 0.5f;
-            }
-        } else {
-            generator_base::attrib_values(attr, dest);
-        }
-    }
+    void attrib_values(vertex_attrib_kind attr, span<float> dest) override;
 };
 //------------------------------------------------------------------------------
 } // namespace shapes
 } // namespace eagine
+
+#if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
+#include <eagine/shapes/gen_base.inl>
+#endif
 
 #endif // EAGINE_SHAPES_GEN_BASE_HPP

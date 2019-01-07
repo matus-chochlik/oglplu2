@@ -22,23 +22,20 @@ enum class primitive_type {
     line_loop,
     triangles,
     triangle_strip,
-    triangle_fan
+    triangle_fan,
+    patches
 };
 //------------------------------------------------------------------------------
-enum class index_data_type {
-    none,
-    unsigned_byte,
-    unsigned_short,
-    unsigned_int
-};
+enum class index_data_type { none, unsigned_8, unsigned_16, unsigned_32 };
 //------------------------------------------------------------------------------
 struct draw_operation {
     primitive_type mode{primitive_type::points};
     index_data_type idx_type{index_data_type::none};
     span_size_t first{0};
     span_size_t count{0};
-    unsigned phase{0};
-    unsigned primitive_restart_index{0};
+    std::uint32_t phase{0};
+    std::uint32_t primitive_restart_index{0};
+    std::uint16_t patch_vertices{3};
     bool primitive_restart : 1;
     bool cw_face_winding : 1;
 
