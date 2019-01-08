@@ -30,9 +30,11 @@ primitive_type draw_operation::_translate(
             return primitive_type(GL_TRIANGLE_STRIP);
         case eagine::shapes::primitive_type::triangle_fan:
             return primitive_type(GL_TRIANGLE_FAN);
-#if defined(GL_PATCHES)
         case eagine::shapes::primitive_type::patches:
+#if defined(GL_PATCHES)
             return primitive_type(GL_PATCHES);
+#else
+            break;
 #endif
     }
     return primitive_type(GL_NONE);
