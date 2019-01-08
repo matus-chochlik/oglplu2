@@ -178,14 +178,14 @@ BOOST_AUTO_TEST_CASE(compat_drawing_vertex_sv) {
         const GLshort v[2] = {get<GLshort>(), get<GLshort>()};
 
         auto test_glVertex2sv = make_aoe_test(mock_glVertex2sv, v);
-        gl.vertex(v);
+        gl.vertex(view(v));
         BOOST_CHECK(test_glVertex2sv);
     }
     {
         const GLshort v[3] = {get<GLshort>(), get<GLshort>(), get<GLshort>()};
 
         auto test_glVertex3sv = make_aoe_test(mock_glVertex3sv, v);
-        gl.vertex(v);
+        gl.vertex(view(v));
         BOOST_CHECK(test_glVertex3sv);
     }
     {
@@ -193,7 +193,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_vertex_sv) {
           get<GLshort>(), get<GLshort>(), get<GLshort>(), get<GLshort>()};
 
         auto test_glVertex4sv = make_aoe_test(mock_glVertex4sv, v);
-        gl.vertex(v);
+        gl.vertex(view(v));
         BOOST_CHECK(test_glVertex4sv);
     }
 
@@ -249,14 +249,14 @@ BOOST_AUTO_TEST_CASE(compat_drawing_vertex_iv) {
         const GLint v[2] = {get<GLint>(), get<GLint>()};
 
         auto test_glVertex2iv = make_aoe_test(mock_glVertex2iv, v);
-        gl.vertex(v);
+        gl.vertex(view(v));
         BOOST_CHECK(test_glVertex2iv);
     }
     {
         const GLint v[3] = {get<GLint>(), get<GLint>(), get<GLint>()};
 
         auto test_glVertex3iv = make_aoe_test(mock_glVertex3iv, v);
-        gl.vertex(v);
+        gl.vertex(view(v));
         BOOST_CHECK(test_glVertex3iv);
     }
     {
@@ -264,7 +264,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_vertex_iv) {
           get<GLint>(), get<GLint>(), get<GLint>(), get<GLint>()};
 
         auto test_glVertex4iv = make_aoe_test(mock_glVertex4iv, v);
-        gl.vertex(v);
+        gl.vertex(view(v));
         BOOST_CHECK(test_glVertex4iv);
     }
 
@@ -320,14 +320,14 @@ BOOST_AUTO_TEST_CASE(compat_drawing_vertex_fv) {
         const GLfloat v[2] = {get<GLfloat>(), get<GLfloat>()};
 
         auto test_glVertex2fv = make_aoe_test(mock_glVertex2fv, v);
-        gl.vertex(v);
+        gl.vertex(view(v));
         BOOST_CHECK(test_glVertex2fv);
     }
     {
         const GLfloat v[3] = {get<GLfloat>(), get<GLfloat>(), get<GLfloat>()};
 
         auto test_glVertex3fv = make_aoe_test(mock_glVertex3fv, v);
-        gl.vertex(v);
+        gl.vertex(view(v));
         BOOST_CHECK(test_glVertex3fv);
     }
     {
@@ -335,7 +335,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_vertex_fv) {
           get<GLfloat>(), get<GLfloat>(), get<GLfloat>(), get<GLfloat>()};
 
         auto test_glVertex4fv = make_aoe_test(mock_glVertex4fv, v);
-        gl.vertex(v);
+        gl.vertex(view(v));
         BOOST_CHECK(test_glVertex4fv);
     }
 
@@ -391,7 +391,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_vertex_dv) {
         const GLdouble v[2] = {get<GLdouble>(), get<GLdouble>()};
 
         auto test_glVertex2dv = make_aoe_test(mock_glVertex2dv, v);
-        gl.vertex(v);
+        gl.vertex(view(v));
         BOOST_CHECK(test_glVertex2dv);
     }
     {
@@ -399,7 +399,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_vertex_dv) {
           get<GLdouble>(), get<GLdouble>(), get<GLdouble>()};
 
         auto test_glVertex3dv = make_aoe_test(mock_glVertex3dv, v);
-        gl.vertex(v);
+        gl.vertex(view(v));
         BOOST_CHECK(test_glVertex3dv);
     }
     {
@@ -407,7 +407,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_vertex_dv) {
           get<GLdouble>(), get<GLdouble>(), get<GLdouble>(), get<GLdouble>()};
 
         auto test_glVertex4dv = make_aoe_test(mock_glVertex4dv, v);
-        gl.vertex(v);
+        gl.vertex(view(v));
         BOOST_CHECK(test_glVertex4dv);
     }
 
@@ -454,7 +454,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_color_ubv) {
         const GLubyte v[3] = {get<GLubyte>(), get<GLubyte>(), get<GLubyte>()};
 
         auto test_glColor3ubv = make_aoe_test(mock_glColor3ubv, v);
-        gl.color(v);
+        gl.color(view(v));
         BOOST_CHECK(test_glColor3ubv);
     }
     {
@@ -462,7 +462,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_color_ubv) {
           get<GLubyte>(), get<GLubyte>(), get<GLubyte>(), get<GLubyte>()};
 
         auto test_glColor4ubv = make_aoe_test(mock_glColor4ubv, v);
-        gl.color(v);
+        gl.color(view(v));
         BOOST_CHECK(test_glColor4ubv);
     }
 
@@ -508,7 +508,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_color_iv) {
         const GLint v[3] = {get<GLint>(), get<GLint>(), get<GLint>()};
 
         auto test_glColor3iv = make_aoe_test(mock_glColor3iv, v);
-        gl.color(v);
+        gl.color(view(v));
         BOOST_CHECK(test_glColor3iv);
     }
     {
@@ -516,7 +516,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_color_iv) {
           get<GLint>(), get<GLint>(), get<GLint>(), get<GLint>()};
 
         auto test_glColor4iv = make_aoe_test(mock_glColor4iv, v);
-        gl.color(v);
+        gl.color(view(v));
         BOOST_CHECK(test_glColor4iv);
     }
 
@@ -562,7 +562,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_color_fv) {
         const GLfloat v[3] = {get<GLfloat>(), get<GLfloat>(), get<GLfloat>()};
 
         auto test_glColor3fv = make_aoe_test(mock_glColor3fv, v);
-        gl.color(v);
+        gl.color(view(v));
         BOOST_CHECK(test_glColor3fv);
     }
     {
@@ -570,7 +570,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_color_fv) {
           get<GLfloat>(), get<GLfloat>(), get<GLfloat>(), get<GLfloat>()};
 
         auto test_glColor4fv = make_aoe_test(mock_glColor4fv, v);
-        gl.color(v);
+        gl.color(view(v));
         BOOST_CHECK(test_glColor4fv);
     }
 
@@ -617,7 +617,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_color_dv) {
           get<GLdouble>(), get<GLdouble>(), get<GLdouble>()};
 
         auto test_glColor3dv = make_aoe_test(mock_glColor3dv, v);
-        gl.color(v);
+        gl.color(view(v));
         BOOST_CHECK(test_glColor3dv);
     }
     {
@@ -625,7 +625,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_color_dv) {
           get<GLdouble>(), get<GLdouble>(), get<GLdouble>(), get<GLdouble>()};
 
         auto test_glColor4dv = make_aoe_test(mock_glColor4dv, v);
-        gl.color(v);
+        gl.color(view(v));
         BOOST_CHECK(test_glColor4dv);
     }
 
@@ -688,21 +688,21 @@ BOOST_AUTO_TEST_CASE(compat_drawing_tex_coord_sv) {
         const GLshort v[1] = {get<GLshort>()};
 
         auto test_glTexCoord1sv = make_aoe_test(mock_glTexCoord1sv, v);
-        gl.tex_coord(v);
+        gl.tex_coord(view(v));
         BOOST_CHECK(test_glTexCoord1sv);
     }
     {
         const GLshort v[2] = {get<GLshort>(), get<GLshort>()};
 
         auto test_glTexCoord2sv = make_aoe_test(mock_glTexCoord2sv, v);
-        gl.tex_coord(v);
+        gl.tex_coord(view(v));
         BOOST_CHECK(test_glTexCoord2sv);
     }
     {
         const GLshort v[3] = {get<GLshort>(), get<GLshort>(), get<GLshort>()};
 
         auto test_glTexCoord3sv = make_aoe_test(mock_glTexCoord3sv, v);
-        gl.tex_coord(v);
+        gl.tex_coord(view(v));
         BOOST_CHECK(test_glTexCoord3sv);
     }
     {
@@ -710,7 +710,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_tex_coord_sv) {
           get<GLshort>(), get<GLshort>(), get<GLshort>(), get<GLshort>()};
 
         auto test_glTexCoord4sv = make_aoe_test(mock_glTexCoord4sv, v);
-        gl.tex_coord(v);
+        gl.tex_coord(view(v));
         BOOST_CHECK(test_glTexCoord4sv);
     }
 
@@ -775,21 +775,21 @@ BOOST_AUTO_TEST_CASE(compat_drawing_tex_coord_iv) {
         const GLint v[1] = {get<GLint>()};
 
         auto test_glTexCoord1iv = make_aoe_test(mock_glTexCoord1iv, v);
-        gl.tex_coord(v);
+        gl.tex_coord(view(v));
         BOOST_CHECK(test_glTexCoord1iv);
     }
     {
         const GLint v[2] = {get<GLint>(), get<GLint>()};
 
         auto test_glTexCoord2iv = make_aoe_test(mock_glTexCoord2iv, v);
-        gl.tex_coord(v);
+        gl.tex_coord(view(v));
         BOOST_CHECK(test_glTexCoord2iv);
     }
     {
         const GLint v[3] = {get<GLint>(), get<GLint>(), get<GLint>()};
 
         auto test_glTexCoord3iv = make_aoe_test(mock_glTexCoord3iv, v);
-        gl.tex_coord(v);
+        gl.tex_coord(view(v));
         BOOST_CHECK(test_glTexCoord3iv);
     }
     {
@@ -797,7 +797,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_tex_coord_iv) {
           get<GLint>(), get<GLint>(), get<GLint>(), get<GLint>()};
 
         auto test_glTexCoord4iv = make_aoe_test(mock_glTexCoord4iv, v);
-        gl.tex_coord(v);
+        gl.tex_coord(view(v));
         BOOST_CHECK(test_glTexCoord4iv);
     }
 
@@ -862,21 +862,21 @@ BOOST_AUTO_TEST_CASE(compat_drawing_tex_coord_fv) {
         const GLfloat v[1] = {get<GLfloat>()};
 
         auto test_glTexCoord1fv = make_aoe_test(mock_glTexCoord1fv, v);
-        gl.tex_coord(v);
+        gl.tex_coord(view(v));
         BOOST_CHECK(test_glTexCoord1fv);
     }
     {
         const GLfloat v[2] = {get<GLfloat>(), get<GLfloat>()};
 
         auto test_glTexCoord2fv = make_aoe_test(mock_glTexCoord2fv, v);
-        gl.tex_coord(v);
+        gl.tex_coord(view(v));
         BOOST_CHECK(test_glTexCoord2fv);
     }
     {
         const GLfloat v[3] = {get<GLfloat>(), get<GLfloat>(), get<GLfloat>()};
 
         auto test_glTexCoord3fv = make_aoe_test(mock_glTexCoord3fv, v);
-        gl.tex_coord(v);
+        gl.tex_coord(view(v));
         BOOST_CHECK(test_glTexCoord3fv);
     }
     {
@@ -884,7 +884,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_tex_coord_fv) {
           get<GLfloat>(), get<GLfloat>(), get<GLfloat>(), get<GLfloat>()};
 
         auto test_glTexCoord4fv = make_aoe_test(mock_glTexCoord4fv, v);
-        gl.tex_coord(v);
+        gl.tex_coord(view(v));
         BOOST_CHECK(test_glTexCoord4fv);
     }
 
@@ -949,14 +949,14 @@ BOOST_AUTO_TEST_CASE(compat_drawing_tex_coord_dv) {
         const GLdouble v[1] = {get<GLdouble>()};
 
         auto test_glTexCoord1dv = make_aoe_test(mock_glTexCoord1dv, v);
-        gl.tex_coord(v);
+        gl.tex_coord(view(v));
         BOOST_CHECK(test_glTexCoord1dv);
     }
     {
         const GLdouble v[2] = {get<GLdouble>(), get<GLdouble>()};
 
         auto test_glTexCoord2dv = make_aoe_test(mock_glTexCoord2dv, v);
-        gl.tex_coord(v);
+        gl.tex_coord(view(v));
         BOOST_CHECK(test_glTexCoord2dv);
     }
     {
@@ -964,7 +964,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_tex_coord_dv) {
           get<GLdouble>(), get<GLdouble>(), get<GLdouble>()};
 
         auto test_glTexCoord3dv = make_aoe_test(mock_glTexCoord3dv, v);
-        gl.tex_coord(v);
+        gl.tex_coord(view(v));
         BOOST_CHECK(test_glTexCoord3dv);
     }
     {
@@ -972,7 +972,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_tex_coord_dv) {
           get<GLdouble>(), get<GLdouble>(), get<GLdouble>(), get<GLdouble>()};
 
         auto test_glTexCoord4dv = make_aoe_test(mock_glTexCoord4dv, v);
-        gl.tex_coord(v);
+        gl.tex_coord(view(v));
         BOOST_CHECK(test_glTexCoord4dv);
     }
 

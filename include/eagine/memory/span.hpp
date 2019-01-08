@@ -353,7 +353,7 @@ template <
   typename C,
   typename =
     std::enable_if_t<has_span_data_member_v<C> && has_span_size_member_v<C>>>
-static constexpr inline auto view(C& container) noexcept {
+static constexpr inline auto view(const C& container) noexcept {
     return view(container.data(), container.size());
 }
 //------------------------------------------------------------------------------
