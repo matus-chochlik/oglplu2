@@ -52,13 +52,13 @@ struct path_nv_ops {
       path_nv_name path, span<const T> coords) noexcept;
 
     static outcome<void> path_string(
-      path_nv_name, path_format_nv format, span<const char> path_str) noexcept;
+      path_nv_name, path_format_nv format, string_view path_str) noexcept;
 
     static outcome<void> path_svg_string(
-      path_nv_name, span<const char> path_str) noexcept;
+      path_nv_name, string_view path_str) noexcept;
 
     static outcome<void> path_ps_string(
-      path_nv_name, span<const char> path_str) noexcept;
+      path_nv_name, string_view path_str) noexcept;
 
     static outcome<boolean> is_point_in_fill_path(
       path_nv_name, GLuint mask, GLfloat x, GLfloat y) noexcept;
@@ -241,15 +241,15 @@ public:
     }
 
     outcome<Derived&> string(
-      path_format_nv format, span<const char> path_str) noexcept {
+      path_format_nv format, string_view path_str) noexcept {
         return {_ops::path_string(*this, format, path_str), _self()};
     }
 
-    outcome<Derived&> svg_string(span<const char> path_str) noexcept {
+    outcome<Derived&> svg_string(string_view path_str) noexcept {
         return {_ops::path_svg_string(*this, path_str), _self()};
     }
 
-    outcome<Derived&> ps_string(span<const char> path_str) noexcept {
+    outcome<Derived&> ps_string(string_view path_str) noexcept {
         return {_ops::path_ps_string(*this, path_str), _self()};
     }
 

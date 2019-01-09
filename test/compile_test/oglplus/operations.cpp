@@ -31,7 +31,8 @@ void oglplus_object_common_test() {
     EAGINE_MAYBE_UNUSED(gl);
 
 #if defined(GL_VERSION_4_3)
-    std::string storage(gl.get_max_label_length().value(), ' ');
+    std::string storage(
+      eagine::std_size(gl.get_max_label_length().value()), ' ');
     string_span dest(storage);
 
     buffer_name buf;
@@ -501,6 +502,7 @@ void oglplus_compatibility_drawing_test() {
 
 #if defined(GL_ARB_compatibility)
     oper::compatibility_drawing gl;
+    using eagine::memory::view;
 
     gl.begin(old_primitive_type(GL_QUADS));
     gl.end();
@@ -509,60 +511,60 @@ void oglplus_compatibility_drawing_test() {
     gl.vertex_s(0, 1);
     gl.vertex_s(0, 1, 2);
     gl.vertex_s(0, 1, 2, 1);
-    gl.vertex(std::array<GLshort, 4>{{0, 1, 2, 1}});
+    gl.vertex(view(std::array<GLshort, 4>{{0, 1, 2, 1}}));
 
     gl.vertex_i(0, 1);
     gl.vertex_i(0, 1, 2);
     gl.vertex_i(0, 1, 2, 1);
-    gl.vertex(std::array<GLint, 4>{{0, 1, 2, 1}});
+    gl.vertex(view(std::array<GLint, 4>{{0, 1, 2, 1}}));
 
     gl.vertex_f(0.f, 1.f);
     gl.vertex_f(0.f, 1.f, 2.f);
     gl.vertex_f(0.f, 1.f, 2.f, 1.f);
-    gl.vertex(std::array<GLfloat, 4>{{0.f, 1.f, 2.f, 1.f}});
+    gl.vertex(view(std::array<GLfloat, 4>{{0.f, 1.f, 2.f, 1.f}}));
 
     gl.vertex_d(0.0, 1.0);
     gl.vertex_d(0.0, 1.0, 2.0);
     gl.vertex_d(0.0, 1.0, 2.0, 1.0);
-    gl.vertex(std::array<GLdouble, 4>{{0.0, 1.0, 2.0, 1.0}});
+    gl.vertex(view(std::array<GLdouble, 4>{{0.0, 1.0, 2.0, 1.0}}));
 
     // color
     gl.color_ub(0x00, 0x00, 0x00);
     gl.color_ub(0x00, 0x00, 0x00, 0x00);
-    gl.color(std::array<GLubyte, 4>{{0x00, 0x00, 0x00, 0x00}});
+    gl.color(view(std::array<GLubyte, 4>{{0x00, 0x00, 0x00, 0x00}}));
 
     gl.color_i(0, 0, 0);
     gl.color_i(0, 0, 0, 1);
-    gl.color(std::array<GLint, 4>{{0, 0, 0, 1}});
+    gl.color(view(std::array<GLint, 4>{{0, 0, 0, 1}}));
 
     gl.color_f(0.f, 0.f, 0.f);
     gl.color_f(0.f, 0.f, 0.f, 0.f);
-    gl.color(std::array<GLfloat, 4>{{0.f, 0.f, 0.f, 0.f}});
+    gl.color(view(std::array<GLfloat, 4>{{0.f, 0.f, 0.f, 0.f}}));
 
     gl.color_d(0.0, 0.0, 0.0);
     gl.color_d(0.0, 0.0, 0.0, 0.0);
-    gl.color(std::array<GLdouble, 4>{{0.0, 0.0, 0.0, 0.0}});
+    gl.color(view(std::array<GLdouble, 4>{{0.0, 0.0, 0.0, 0.0}}));
 
     // tex_coord
     gl.tex_coord_s(0, 1);
     gl.tex_coord_s(0, 1, 2);
     gl.tex_coord_s(0, 1, 2, 1);
-    gl.tex_coord(std::array<GLshort, 4>{{0, 1, 2, 1}});
+    gl.tex_coord(view(std::array<GLshort, 4>{{0, 1, 2, 1}}));
 
     gl.tex_coord_i(0, 1);
     gl.tex_coord_i(0, 1, 2);
     gl.tex_coord_i(0, 1, 2, 1);
-    gl.tex_coord(std::array<GLint, 4>{{0, 1, 2, 1}});
+    gl.tex_coord(view(std::array<GLint, 4>{{0, 1, 2, 1}}));
 
     gl.tex_coord_f(0.f, 1.f);
     gl.tex_coord_f(0.f, 1.f, 2.f);
     gl.tex_coord_f(0.f, 1.f, 2.f, 1.f);
-    gl.tex_coord(std::array<GLfloat, 4>{{0.f, 1.f, 2.f, 1.f}});
+    gl.tex_coord(view(std::array<GLfloat, 4>{{0.f, 1.f, 2.f, 1.f}}));
 
     gl.tex_coord_d(0.0, 1.0);
     gl.tex_coord_d(0.0, 1.0, 2.0);
     gl.tex_coord_d(0.0, 1.0, 2.0, 1.0);
-    gl.tex_coord(std::array<GLdouble, 4>{{0.0, 1.0, 2.0, 1.0}});
+    gl.tex_coord(view(std::array<GLdouble, 4>{{0.0, 1.0, 2.0, 1.0}}));
 
 #endif
 }
@@ -589,7 +591,7 @@ void oglplus_compatibility_matrix_test() {
                                    0.f,
                                    0.f,
                                    1.f}};
-    span<GLfloat> matf = matfa;
+    span<GLfloat> matf = cover(matfa);
 
     std::array<GLdouble, 16> matda{{1.0,
                                     0.0,
@@ -607,7 +609,7 @@ void oglplus_compatibility_matrix_test() {
                                     0.0,
                                     0.0,
                                     1.0}};
-    span<GLdouble> matd = matda;
+    span<GLdouble> matd = cover(matda);
 
     gl.matrix_mode(old_matrix_mode(GL_PROJECTION));
 

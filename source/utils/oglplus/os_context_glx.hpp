@@ -46,8 +46,8 @@ private:
         return vas;
     }
 
-    static const int*
-    pbuffer_attribs(const offscreen_context_params& p) noexcept {
+    static const int* pbuffer_attribs(
+      const offscreen_context_params& p) noexcept {
         static int pbas[] = {
           GLX_PBUFFER_WIDTH, 64, GLX_PBUFFER_HEIGHT, 64, None};
         pbas[1] = p.width;
@@ -68,7 +68,13 @@ public:
       , version(display)
       , fbconfig(glx::FBConfigs(display, visual_attribs()).FindBest(display))
       , visualinfo(display, fbconfig)
-      , context(display, fbconfig, p.version_major, p.version_minor, true, true)
+      , context(
+          display,
+          fbconfig,
+          p.version_major,
+          p.version_minor,
+          p.debugging,
+          p.compatibility)
       , pbuffer(display, fbconfig, pbuffer_attribs(p)) {
         context.MakeCurrent(pbuffer);
     }

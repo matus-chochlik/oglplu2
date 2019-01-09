@@ -61,7 +61,11 @@ inline outcome<void> path_nv_ops::path_sub_commands(
   GLsizei commands_to_delete,
   const path_nv_spec<T>& spec) noexcept {
     return path_sub_commands<T>(
-      path, command_start, commands_to_delete, spec._commands, spec._coords);
+      path,
+      command_start,
+      commands_to_delete,
+      view(spec._commands),
+      view(spec._coords));
 }
 //------------------------------------------------------------------------------
 template <typename T>
@@ -77,9 +81,7 @@ inline outcome<void> path_nv_ops::path_coords(
 }
 //------------------------------------------------------------------------------
 inline outcome<void> path_nv_ops::path_string(
-  path_nv_name path,
-  path_format_nv format,
-  span<const char> path_str) noexcept {
+  path_nv_name path, path_format_nv format, string_view path_str) noexcept {
     OGLPLUS_GLFUNC(PathStringNV)
     (get_raw_name(path),
      GLenum(format),
@@ -90,12 +92,12 @@ inline outcome<void> path_nv_ops::path_string(
 }
 //------------------------------------------------------------------------------
 inline outcome<void> path_nv_ops::path_svg_string(
-  path_nv_name path, span<const char> str) noexcept {
+  path_nv_name path, string_view str) noexcept {
     return path_string(path, path_format_nv(GL_PATH_FORMAT_SVG_NV), str);
 }
 //------------------------------------------------------------------------------
 inline outcome<void> path_nv_ops::path_ps_string(
-  path_nv_name path, span<const char> str) noexcept {
+  path_nv_name path, string_view str) noexcept {
     return path_string(path, path_format_nv(GL_PATH_FORMAT_PS_NV), str);
 }
 //------------------------------------------------------------------------------

@@ -4,7 +4,7 @@
 #   http://www.boost.org/LICENSE_1_0.txt
 #
 
-function(gl_feature_detection GL_LIB QUERY QUERY_KIND)
+function(gl_feature_detection_helper GL_LIB QUERY QUERY_KIND)
 
 	# if there is a specific template for the detection
 	if(EXISTS ${PROJECT_SOURCE_DIR}/config/gl/has_${GL_LIB}_${QUERY}.cpp.in)
@@ -98,7 +98,8 @@ function(gl_feature_detection GL_LIB QUERY QUERY_KIND)
 
 	if(
 		(DEBUG_GL_VER_ERROR AND ("${QUERY_KIND}" STREQUAL "VER")) OR
-		(DEBUG_GL_EXT_ERROR AND ("${QUERY_KIND}" STREQUAL "EXT"))
+		(DEBUG_GL_FEAT_ERROR AND ("${QUERY_KIND}" STREQUAL "EXT")) OR
+		(DEBUG_GL_FEAT_ERROR AND ("${QUERY_KIND}" STREQUAL "FEAT"))
 	)
 		message(STATUS "testing: ${GL_LIB}_${QUERY}")
 		if(NOT COMPILED_WITH_${GL_LIB}_${QUERY})

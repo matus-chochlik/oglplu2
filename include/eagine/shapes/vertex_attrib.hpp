@@ -26,13 +26,14 @@ enum class vertex_attrib_kind : unsigned {
     normal = 1 << 2,
     tangential = 1 << 3,
     bitangential = 1 << 4,
-    box_coord = 1 << 5,
-    face_coord = 1 << 6,
-    wrap_coord_0 = 1 << 7,
-    wrap_coord_1 = 1 << 8,
-    wrap_coord_2 = 1 << 9,
-    wrap_coord_3 = 1 << 10,
-    material_id = 1 << 11
+    pivot = 1 << 5,
+    box_coord = 1 << 6,
+    face_coord = 1 << 7,
+    wrap_coord_0 = 1 << 8,
+    wrap_coord_1 = 1 << 9,
+    wrap_coord_2 = 1 << 10,
+    wrap_coord_3 = 1 << 11,
+    material_id = 1 << 12
 };
 //------------------------------------------------------------------------------
 using vertex_attrib_bits = bitfield<vertex_attrib_kind>;
@@ -121,6 +122,7 @@ static inline span_size_t attrib_values_per_vertex(
         case vertex_attrib_kind::normal:
         case vertex_attrib_kind::tangential:
         case vertex_attrib_kind::bitangential:
+        case vertex_attrib_kind::pivot:
         case vertex_attrib_kind::face_coord:
         case vertex_attrib_kind::box_coord:
             return 3;

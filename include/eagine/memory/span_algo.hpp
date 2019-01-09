@@ -289,6 +289,12 @@ static inline basic_span<TT, PT, ST> copy(
     return head(to, from.size());
 }
 //------------------------------------------------------------------------------
+template <typename T, typename P, typename S, typename V>
+static inline basic_span<T, P, S> fill(basic_span<T, P, S> spn, const V& v) {
+    std::fill(spn.begin(), spn.end(), v);
+    return spn;
+}
+//------------------------------------------------------------------------------
 template <
   typename T1,
   typename P1,

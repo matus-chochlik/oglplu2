@@ -229,7 +229,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_load_f) {
 
     {
         auto test_glLoadMatrixf = make_aoe_test(mock_glLoadMatrixf, v);
-        gl.load_matrix(v);
+        gl.load_matrix(view(v));
         BOOST_CHECK(test_glLoadMatrixf);
     }
 #ifdef GL_EXT_direct_state_access
@@ -237,7 +237,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_load_f) {
         old_matrix_mode m = GL.projection;
         auto test_glMatrixLoadfEXT =
           make_aoe_test(mock_glMatrixLoadfEXT, GLenum(m), v);
-        gl.load_matrix(m, v);
+        gl.load_matrix(m, view(v));
         BOOST_CHECK(test_glMatrixLoadfEXT);
     }
 #endif
@@ -245,7 +245,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_load_f) {
     {
         auto test_glLoadTransposeMatrixf =
           make_aoe_test(mock_glLoadTransposeMatrixf, v);
-        gl.load_transpose_matrix(v);
+        gl.load_transpose_matrix(view(v));
         BOOST_CHECK(test_glLoadTransposeMatrixf);
     }
 #ifdef GL_EXT_direct_state_access
@@ -253,7 +253,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_load_f) {
         old_matrix_mode m = GL.projection;
         auto test_glMatrixLoadTransposefEXT =
           make_aoe_test(mock_glMatrixLoadTransposefEXT, GLenum(m), v);
-        gl.load_transpose_matrix(m, v);
+        gl.load_transpose_matrix(m, view(v));
         BOOST_CHECK(test_glMatrixLoadTransposefEXT);
     }
 #endif
@@ -281,7 +281,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_load_d) {
 
     {
         auto test_glLoadMatrixd = make_aoe_test(mock_glLoadMatrixd, v);
-        gl.load_matrix(v);
+        gl.load_matrix(view(v));
         BOOST_CHECK(test_glLoadMatrixd);
     }
 #ifdef GL_EXT_direct_state_access
@@ -289,7 +289,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_load_d) {
         old_matrix_mode m = GL.projection;
         auto test_glMatrixLoaddEXT =
           make_aoe_test(mock_glMatrixLoaddEXT, GLenum(m), v);
-        gl.load_matrix(m, v);
+        gl.load_matrix(m, view(v));
         BOOST_CHECK(test_glMatrixLoaddEXT);
     }
 #endif
@@ -297,7 +297,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_load_d) {
     {
         auto test_glLoadTransposeMatrixd =
           make_aoe_test(mock_glLoadTransposeMatrixd, v);
-        gl.load_transpose_matrix(v);
+        gl.load_transpose_matrix(view(v));
         BOOST_CHECK(test_glLoadTransposeMatrixd);
     }
 #ifdef GL_EXT_direct_state_access
@@ -305,7 +305,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_load_d) {
         old_matrix_mode m = GL.projection;
         auto test_glMatrixLoadTransposedEXT =
           make_aoe_test(mock_glMatrixLoadTransposedEXT, GLenum(m), v);
-        gl.load_transpose_matrix(m, v);
+        gl.load_transpose_matrix(m, view(v));
         BOOST_CHECK(test_glMatrixLoadTransposedEXT);
     }
 #endif

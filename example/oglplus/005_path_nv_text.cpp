@@ -48,14 +48,14 @@ public:
 
         text_paths.get_spacing(
           GL.accum_adjacent_pairs_nv,
-          span<GLuint>(indices),
+          cover(indices),
           1.0f,
           1.0f,
           GL.translate_x_nv,
-          span<GLfloat>(spacings + 1, spacings + 9));
+          skip(cover(spacings), 1));
 
-        glyph_indices = head(view(indices), 7);
-        glyph_spacings = head(view(spacings), 8);
+        glyph_indices = head(cover(indices), 7);
+        glyph_spacings = head(cover(spacings), 8);
 
         GLfloat text_left = *glyph_spacings.begin();
         GLfloat text_right = *glyph_spacings.rbegin();
@@ -66,7 +66,7 @@ public:
           GL.font_x_min_bounds_bit_nv | GL.font_y_max_bounds_bit_nv,
           1,
           0,
-          font_min_max);
+          cover(font_min_max));
 
         gl.clear_color(1.0f, 1.0f, 1.0f, 0.0f);
         gl.clear_stencil(0);

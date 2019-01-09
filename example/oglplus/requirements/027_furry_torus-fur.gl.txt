@@ -1,1 +1,1 @@
-GL_ARB_geometry_shader4
+GL_geometry_shader

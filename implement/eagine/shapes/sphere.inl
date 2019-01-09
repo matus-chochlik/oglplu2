@@ -167,6 +167,7 @@ void unit_sphere_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
         case vertex_attrib_kind::wrap_coord_0:
             wrap_coords(dest);
             break;
+        case vertex_attrib_kind::pivot:
         case vertex_attrib_kind::box_coord:
         case vertex_attrib_kind::face_coord:
         case vertex_attrib_kind::wrap_coord_1:
@@ -181,7 +182,13 @@ void unit_sphere_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 index_data_type unit_sphere_gen::index_type() {
-    return index_data_type::unsigned_byte;
+    if(index_count() < span_size(std::numeric_limits<std::uint8_t>::max())) {
+        return index_data_type::unsigned_8;
+    }
+    if(index_count() < span_size(std::numeric_limits<std::uint16_t>::max())) {
+        return index_data_type::unsigned_16;
+    }
+    return index_data_type::unsigned_32;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -189,24 +196,39 @@ span_size_t unit_sphere_gen::index_count() {
     return _sections * ((_rings + 1) * 2 + (primitive_restart() ? 1 : 0));
 }
 //------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-void unit_sphere_gen::indices(span<unsigned> dest) {
+template <typename T>
+void unit_sphere_gen::_indices(span<T> dest) noexcept {
     assert(dest.size() >= index_count());
 
-    const auto pri = unsigned(index_count());
+    const auto pri = limit_cast<T>(vertex_count());
     span_size_t k = 0;
     span_size_t step = _rings + 1;
 
     for(span_size_t s = 0; s < _sections; ++s) {
         for(span_size_t r = 0; r < step; ++r) {
-            dest[k++] = unsigned((s + 0) * step + r);
-            dest[k++] = unsigned((s + 1) * step + r);
+            dest[k++] = limit_cast<T>((s + 0) * step + r);
+            dest[k++] = limit_cast<T>((s + 1) * step + r);
         }
 
         if(primitive_restart()) {
             dest[k++] = pri;
         }
     }
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void unit_sphere_gen::indices(span<std::uint8_t> dest) {
+    _indices(dest);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void unit_sphere_gen::indices(span<std::uint16_t> dest) {
+    _indices(dest);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void unit_sphere_gen::indices(span<std::uint32_t> dest) {
+    _indices(dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -225,10 +247,10 @@ void unit_sphere_gen::instructions(span<draw_operation> ops) {
     if(primitive_restart()) {
         draw_operation& op = ops[0];
         op.mode = primitive_type::triangle_strip;
-        op.idx_type = index_data_type::unsigned_int;
+        op.idx_type = index_type();
         op.first = 0;
         op.count = index_count();
-        op.primitive_restart_index = unsigned(index_count());
+        op.primitive_restart_index = unsigned(vertex_count());
         op.primitive_restart = true;
         op.cw_face_winding = true;
     } else {
@@ -236,7 +258,7 @@ void unit_sphere_gen::instructions(span<draw_operation> ops) {
         for(span_size_t s = 0; s < _sections; ++s) {
             draw_operation& op = ops[s];
             op.mode = primitive_type::triangle_strip;
-            op.idx_type = index_data_type::unsigned_int;
+            op.idx_type = index_type();
             op.first = s * step;
             op.count = step;
             op.primitive_restart = false;

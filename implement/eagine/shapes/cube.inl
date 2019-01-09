@@ -5,6 +5,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+#include <eagine/memory/span_algo.hpp>
 #include <cassert>
 
 #ifdef __clang__
@@ -24,7 +25,8 @@ vertex_attrib_bits unit_cube_gen::_attr_mask() noexcept {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 vertex_attrib_bits unit_cube_gen::_shared_attrs() noexcept {
-    return vertex_attrib_kind::position | vertex_attrib_kind::box_coord;
+    return vertex_attrib_kind::position | vertex_attrib_kind::pivot |
+           vertex_attrib_kind::box_coord;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -326,6 +328,7 @@ void unit_cube_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
         case vertex_attrib_kind::face_coord:
             face_coords(dest);
             break;
+        case vertex_attrib_kind::pivot:
         case vertex_attrib_kind::object_id:
         case vertex_attrib_kind::material_id:
         case vertex_attrib_kind::box_coord:
@@ -341,7 +344,7 @@ void unit_cube_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
 EAGINE_LIB_FUNC
 index_data_type unit_cube_gen::index_type() {
     if(_only_shared_attribs()) {
-        return index_data_type::unsigned_byte;
+        return index_data_type::unsigned_8;
     }
     return index_data_type::none;
 }
@@ -372,7 +375,17 @@ inline void unit_cube_gen::_indices(span<T> dest) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_cube_gen::indices(span<unsigned> dest) {
+void unit_cube_gen::indices(span<std::uint8_t> dest) {
+    _indices(dest);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void unit_cube_gen::indices(span<std::uint16_t> dest) {
+    _indices(dest);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void unit_cube_gen::indices(span<std::uint32_t> dest) {
     _indices(dest);
 }
 //------------------------------------------------------------------------------
@@ -388,7 +401,7 @@ void unit_cube_gen::instructions(span<draw_operation> ops) {
     if(_only_shared_attribs()) {
         draw_operation& op = ops[0];
         op.mode = primitive_type::triangles;
-        op.idx_type = index_data_type::unsigned_byte;
+        op.idx_type = index_type();
         op.first = 0;
         op.count = index_count();
         op.primitive_restart = false;

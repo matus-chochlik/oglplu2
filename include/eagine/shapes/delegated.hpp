@@ -54,7 +54,15 @@ public:
         return _gen->index_count();
     }
 
-    void indices(span<unsigned> dest) override {
+    void indices(span<std::uint8_t> dest) override {
+        _gen->indices(dest);
+    }
+
+    void indices(span<std::uint16_t> dest) override {
+        _gen->indices(dest);
+    }
+
+    void indices(span<std::uint32_t> dest) override {
         _gen->indices(dest);
     }
 

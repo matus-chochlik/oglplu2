@@ -28,18 +28,7 @@ public:
       , _d{d} {
     }
 
-    void attrib_values(vertex_attrib_kind attr, span<float> dest) override {
-        delegated_gen::attrib_values(attr, dest);
-
-        if(attr == vertex_attrib_kind::position) {
-            for(span_size_t v = 0, n = vertex_count(); v < n; ++v) {
-                for(span_size_t c = 0, m = values_per_vertex(attr); c < m;
-                    ++c) {
-                    dest[v * m + c] += _d[c];
-                }
-            }
-        }
-    }
+    void attrib_values(vertex_attrib_kind attr, span<float> dest) override;
 };
 //------------------------------------------------------------------------------
 static inline auto translate(
@@ -51,5 +40,9 @@ static inline auto translate(
 
 } // namespace shapes
 } // namespace eagine
+
+#if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
+#include <eagine/shapes/translated.inl>
+#endif
 
 #endif // EAGINE_SHAPES_TRANSLATED_HPP

@@ -7,13 +7,14 @@
 #define OGLPLUS_CONFIG_QUERY_GL_VER_MAJOR 3
 #define OGLPLUS_CONFIG_QUERY_GL_VER_MINOR 2
 
-#include "has_GL_ARB_separate_shader_objects.ipp"
+// clang-format off
 #include "decl_GL_test.ipp"
+#include "has_GL_ARB_separate_shader_objects.ipp"
+// clang-format on
 
-bool
-do_query_gl(void) {
+bool do_query_gl() {
     if(!does_have_ARB_separate_shader_objects()) {
-	return false;
+        return false;
     }
 
     unsigned missing_gl_symbols = 0;

@@ -47,19 +47,33 @@ private:
         const int CONTEXT_CORE_PROFILE_BIT_ARB = 0x00000001;
         const int CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB = 0x00000002;
 
-        int context_attribs[] = {
-          CONTEXT_MAJOR_VERSION_ARB,
-          version_major,
-          CONTEXT_MINOR_VERSION_ARB,
-          version_minor,
-          CONTEXT_FLAGS_ARB,
-          (debugging ? CONTEXT_DEBUG_BIT_ARB : 0),
-          CONTEXT_PROFILE_MASK_ARB,
-          (compatibility ? CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB
-                         : CONTEXT_CORE_PROFILE_BIT_ARB),
-          None};
-        ::GLXContext res = glXCreateContextAttribsARB(
-          display, fbc.Handle(), share_context, True, context_attribs);
+        ::GLXContext res{};
+
+        if(compatibility) {
+            int context_attribs[] = {
+              CONTEXT_MAJOR_VERSION_ARB,
+              version_major,
+              CONTEXT_MINOR_VERSION_ARB,
+              version_minor,
+              CONTEXT_FLAGS_ARB,
+              (debugging ? CONTEXT_DEBUG_BIT_ARB : 0),
+              CONTEXT_PROFILE_MASK_ARB,
+              (compatibility ? CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB
+                             : CONTEXT_CORE_PROFILE_BIT_ARB),
+              None};
+            res = glXCreateContextAttribsARB(
+              display, fbc.Handle(), share_context, True, context_attribs);
+        } else {
+            int context_attribs[] = {CONTEXT_MAJOR_VERSION_ARB,
+                                     version_major,
+                                     CONTEXT_MINOR_VERSION_ARB,
+                                     version_minor,
+                                     CONTEXT_FLAGS_ARB,
+                                     (debugging ? CONTEXT_DEBUG_BIT_ARB : 0),
+                                     None};
+            res = glXCreateContextAttribsARB(
+              display, fbc.Handle(), share_context, True, context_attribs);
+        }
         ::XSync(display, False);
         return res;
     }

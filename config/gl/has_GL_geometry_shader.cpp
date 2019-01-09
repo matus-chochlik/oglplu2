@@ -9,13 +9,20 @@
 
 // clang-format off
 #include "decl_GL_test.ipp"
-#include "has_GL_@CONFIG_QUERY_GL_EXT_VENDOR@_@CONFIG_QUERY_GL_EXT_NAME@.ipp"
-
-bool do_query_gl()
-{
-	return does_have_@CONFIG_QUERY_GL_EXT_VENDOR@_@CONFIG_QUERY_GL_EXT_NAME@();
-}
 // clang-format on
 
-#include "impl_GL_test.ipp"
+bool do_query_gl() {
 
+#if !defined(GL_GEOMETRY_SHADER)
+    return false;
+#endif
+
+    unsigned missing_gl_symbols = 0;
+
+    OGLPLUS_CONFIG_ASSERT_GL_FUNC(glProgramParameteri);
+    // TODO?
+
+    return missing_gl_symbols == 0;
+}
+
+#include "impl_GL_test.ipp"

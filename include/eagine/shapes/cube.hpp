@@ -63,7 +63,11 @@ public:
 
     span_size_t index_count() override;
 
-    void indices(span<unsigned> dest) override;
+    void indices(span<std::uint8_t> dest) override;
+
+    void indices(span<std::uint16_t> dest) override;
+
+    void indices(span<std::uint32_t> dest) override;
 
     span_size_t operation_count() override;
 
