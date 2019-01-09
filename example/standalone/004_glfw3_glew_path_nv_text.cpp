@@ -46,7 +46,7 @@ static void run_loop(GLFWwindow* window, int width, int height) {
       GL.standard_font_name_nv,
       "Sans",
       GL.bold_bit_nv,
-      view(text),
+      string_view(text),
       GL.use_missing_glyph_nv,
       ~0u,
       64);
@@ -60,7 +60,7 @@ static void run_loop(GLFWwindow* window, int width, int height) {
       1.0f,
       1.0f,
       GL.translate_x_nv,
-      slice(cover(spacings), 1, 8));
+      skip(cover(spacings), 1));
 
     const auto glyph_indices = head(view(indices), 7);
     const auto glyph_spacings = head(view(spacings), 8);
@@ -198,6 +198,7 @@ int main() {
           "in GL function: %(gl_function_name)\n"
           "with enum parameter: %(gl_enum_value)\n"
           "from source file: %(source_file)\n"
+          "from source line: %(source_line)\n"
           "%(message)",
           std::cerr)
           << std::endl;
