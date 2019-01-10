@@ -59,7 +59,7 @@ index_data_type array_gen::index_type() {
         }
         if(
           vertex_count() <
-          span_size(std::numeric_limits<std::uint8_t>::max())) {
+          span_size(std::numeric_limits<std::uint16_t>::max())) {
             return index_data_type::unsigned_16;
         }
         return index_data_type::unsigned_32;
