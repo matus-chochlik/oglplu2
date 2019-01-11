@@ -12,5 +12,10 @@ float grid(vec3 c) {
 }
 
 void main() {
-    fragColor = mix(vec3(0.25, 0.25, 0.2), vec3(0), grid(vertCoord));
+    fragColor = mix(
+		vec3(0.25, 0.25, 0.2),
+		vec3(0),
+		grid(vertCoord) +
+		grid(vertCoord*5.0)*0.75
+	);
 }

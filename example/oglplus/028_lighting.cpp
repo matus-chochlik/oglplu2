@@ -82,7 +82,7 @@ public:
       : erase_prog(params)
       , light_prog(params)
       , background(
-          temp_buffer, (shapes::vertex_attrib_kind::position | 0), 36, 72)
+          temp_buffer, (shapes::vertex_attrib_kind::position | 0), 72, 144)
       , shape(
           temp_buffer,
           (shapes::vertex_attrib_kind::position | 0) +
