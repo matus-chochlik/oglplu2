@@ -103,14 +103,14 @@ public:
         }
     }
 
-    void pointer_scrolling(const example_context& ctx) override {
+    void pointer_scrolling(const example_context& ctx) final {
         const auto& state = ctx.state();
         if(camera.apply_pointer_scrolling(state)) {
             set_projection(state);
         }
     }
 
-    void resize(const example_context& ctx) override {
+    void resize(const example_context& ctx) final {
         const auto& state = ctx.state();
         gl.viewport(state.width(), state.height());
         set_projection(state);

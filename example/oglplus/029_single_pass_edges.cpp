@@ -76,27 +76,27 @@ public:
         set_projection(ctx.state());
     }
 
-    void pointer_motion(const example_context& ctx) override {
+    void pointer_motion(const example_context& ctx) final {
         const auto& state = ctx.state();
         if(camera.apply_pointer_motion(state)) {
             set_projection(state);
         }
     }
 
-    void pointer_scrolling(const example_context& ctx) override {
+    void pointer_scrolling(const example_context& ctx) final {
         const auto& state = ctx.state();
         if(camera.apply_pointer_scrolling(state)) {
             set_projection(state);
         }
     }
 
-    void resize(const example_context& ctx) override {
+    void resize(const example_context& ctx) final {
         const auto& state = ctx.state();
         gl.viewport(state.width(), state.height());
         set_projection(state);
     }
 
-    void user_idle(const example_context& ctx) override {
+    void user_idle(const example_context& ctx) final {
         const auto& state = ctx.state();
         if(state.user_idle_time() > seconds_(1)) {
 
@@ -105,7 +105,7 @@ public:
         }
     }
 
-    void render(const example_context&) override {
+    void render(const example_context&) final {
         gl.clear(GL.color_buffer_bit | GL.depth_buffer_bit);
         icosahedron.draw();
     }

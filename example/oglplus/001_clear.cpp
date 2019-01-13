@@ -23,11 +23,11 @@ private:
     operations gl;
 
 public:
-    void resize(const example_context& ctx) override {
+    void resize(const example_context& ctx) final {
         gl.viewport(0, 0, ctx.state().width(), ctx.state().height());
     }
 
-    void render(const example_context& ctx) override {
+    void render(const example_context& ctx) final {
         int sec = int(ctx.state().exec_time());
 
         gl.clear_color(

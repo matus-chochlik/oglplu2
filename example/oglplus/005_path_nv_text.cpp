@@ -89,12 +89,12 @@ public:
         gl.load_identity(GL.modelview);
     }
 
-    void resize(const example_context& ctx) override {
+    void resize(const example_context& ctx) final {
         const auto& state = ctx.state();
         gl.viewport(0, 0, state.width(), state.height());
     }
 
-    void render(const example_context&) override {
+    void render(const example_context&) final {
         gl.clear(GL.color_buffer_bit | GL.stencil_buffer_bit);
 
         gl.color_f(0.2f, 0.2f, 1.0f);

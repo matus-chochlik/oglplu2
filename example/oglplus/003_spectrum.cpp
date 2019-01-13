@@ -27,7 +27,7 @@ public:
         gl.clear_color(0.4f, 0.4f, 0.4f, 0.0f);
     }
 
-    void resize(const example_context& ctx) override {
+    void resize(const example_context& ctx) final {
         const auto& state = ctx.state();
         gl.viewport(0, 0, state.width(), state.height());
 
@@ -38,7 +38,7 @@ public:
         gl.ortho(GL.projection, -w, +w, -h, +h, 0, 1);
     }
 
-    void render(const example_context& ctx) override {
+    void render(const example_context& ctx) final {
         gl.clear(GL.color_buffer_bit);
 
         gl.load_identity(GL.modelview);

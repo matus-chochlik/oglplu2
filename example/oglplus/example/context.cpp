@@ -56,4 +56,12 @@ const example_state_view& example_context::state() const noexcept {
     return _state;
 }
 //------------------------------------------------------------------------------
+const example_context& example_context::debug_notification(
+  string_view message) const {
+    if(_debug) {
+        _debug->set_notification_marker(message);
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
 } // namespace oglplus

@@ -87,7 +87,7 @@ public:
         gl.disable(GL.depth_test);
     }
 
-    void resize(const example_context& ctx) override {
+    void resize(const example_context& ctx) final {
         const auto& state = ctx.state();
         gl.viewport(0, 0, state.width(), state.height());
         erg.set_dimensions(state.width(), state.height());
@@ -95,7 +95,7 @@ public:
         aspect = state.aspect();
     }
 
-    void pointer_scrolling(const example_context& ctx) override {
+    void pointer_scrolling(const example_context& ctx) final {
         const auto& state = ctx.state();
         scale *= float(std::pow(2, -state.norm_pointer_z().delta()));
         if(scale < min_scale)
@@ -106,7 +106,7 @@ public:
         gl.uniform(erg.scale_loc, scale * aspect, scale);
     }
 
-    void user_idle(const example_context& ctx) override {
+    void user_idle(const example_context& ctx) final {
         const auto& state = ctx.state();
         if(state.user_idle_time() > seconds_(1)) {
             using namespace eagine::math;
@@ -119,11 +119,11 @@ public:
         }
     }
 
-    seconds_t<float> default_timeout() override {
+    seconds_t<float> default_timeout() final {
         return seconds_(30);
     }
 
-    void render(const example_context&) override {
+    void render(const example_context&) final {
         erg.render();
     }
 };

@@ -18,6 +18,8 @@
 #include <eagine/shapes/torus.hpp>
 #include <eagine/shapes/to_quads.hpp>
 
+#include <oglplus/math/interpolate.hpp>
+#include <oglplus/math/coordinates.hpp>
 #include <oglplus/math/vector.hpp>
 #include <oglplus/math/matrix.hpp>
 
@@ -34,13 +36,15 @@ static operations gl;
 class example_program : public example_program_base {
 public:
     uniform_location projection;
+    uniform_location light_direction;
     uniform_location time;
 
-    example_program(const example_params& params)
-      : example_program_base(params, "032_extruded.oglpprog") {
+    example_program(const example_context& ctx)
+      : example_program_base(ctx.params(), "032_extruded.oglpprog") {
 
         gl.use(*this);
         gl.query_location(projection, *this, "Projection");
+        gl.query_location(light_direction, *this, "LightDirection");
         gl.query_location(time, *this, "Time");
     }
 };
@@ -61,7 +65,7 @@ private:
 public:
     extruded_example(
       const example_context& ctx, eagine::memory::buffer& temp_buffer)
-      : prog(ctx.params())
+      : prog(ctx)
       , attrs(
           shapes::vertex_attrib_kind::position +
           shapes::vertex_attrib_kind::normal +
@@ -69,12 +73,12 @@ public:
       , shape(
           temp_buffer,
           eagine::shapes::to_quads(
-            eagine::shapes::unit_torus(get_attrib_bits(attrs), 18, 36, 0.5f)),
+            eagine::shapes::unit_torus(get_attrib_bits(attrs), 36, 72, 0.4f)),
           attrs) {
 
         camera.set_fov(right_angle_())
           .set_orbit_min(1.5f)
-          .set_orbit_max(5.0f)
+          .set_orbit_max(3.0f)
           .set_near(0.5f)
           .set_far(10.f);
 
@@ -82,24 +86,27 @@ public:
         gl.clear_depth(1);
         gl.enable(GL.depth_test);
 
+        gl.cull_face(GL.back);
+        gl.enable(GL.cull_face);
+
         set_projection(ctx.state());
     }
 
-    void pointer_motion(const example_context& ctx) override {
+    void pointer_motion(const example_context& ctx) final {
         const auto& state = ctx.state();
         if(camera.apply_pointer_motion(state)) {
             set_projection(state);
         }
     }
 
-    void pointer_scrolling(const example_context& ctx) override {
+    void pointer_scrolling(const example_context& ctx) final {
         const auto& state = ctx.state();
         if(camera.apply_pointer_scrolling(state)) {
             set_projection(state);
         }
     }
 
-    void resize(const example_context& ctx) override {
+    void resize(const example_context& ctx) final {
         const auto& state = ctx.state();
         gl.viewport(state.width(), state.height());
         set_projection(state);
@@ -107,16 +114,29 @@ public:
 
     void user_idle(const example_context& ctx) final {
         const auto& state = ctx.state();
-        if(state.user_idle_time() > seconds_(1)) {
+        if(state.user_idle_time() > seconds_(10)) {
             camera.idle_update(state, 2);
             set_projection(state);
         }
     }
 
     void render(const example_context& ctx) final {
+        const auto t = ctx.state().exec_time().value();
+
         gl.clear(GL.color_buffer_bit | GL.depth_buffer_bit);
+
+        gl.uniform(
+          prog.light_direction,
+          to_cartesian(unit_spherical_coordinates(
+            turns_(t / 3.f),
+            smooth_lerp(right_angles_(1.f), right_angles_(-1.f), t / 5.f))));
         gl.uniform(prog.time, ctx.state().exec_time().value());
+
         shape.draw();
+    }
+
+    seconds_t<float> default_timeout() final {
+        return seconds_(20);
     }
 };
 

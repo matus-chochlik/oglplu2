@@ -295,7 +295,7 @@ void unit_torus_gen::instructions(span<draw_operation> ops) {
         op.count = index_count();
         op.primitive_restart_index = unsigned(vertex_count());
         op.primitive_restart = true;
-        op.cw_face_winding = true;
+        op.cw_face_winding = false;
     } else {
         span_size_t step = 2 * (_rings + 1);
         for(span_size_t s = 0; s < _sections; ++s) {
@@ -305,7 +305,7 @@ void unit_torus_gen::instructions(span<draw_operation> ops) {
             op.first = s * step;
             op.count = step;
             op.primitive_restart = false;
-            op.cw_face_winding = true;
+            op.cw_face_winding = false;
         }
     }
 }

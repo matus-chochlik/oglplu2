@@ -99,30 +99,32 @@ public:
         gl.clear_depth(1);
         gl.disable(GL.cull_face);
 
+        gl.enable(GL.cull_face);
+
         set_projection(ctx.state());
     }
 
-    void pointer_motion(const example_context& ctx) override {
+    void pointer_motion(const example_context& ctx) final {
         const auto& state = ctx.state();
         if(camera.apply_pointer_motion(state)) {
             set_projection(state);
         }
     }
 
-    void pointer_scrolling(const example_context& ctx) override {
+    void pointer_scrolling(const example_context& ctx) final {
         const auto& state = ctx.state();
         if(camera.apply_pointer_scrolling(state)) {
             set_projection(state);
         }
     }
 
-    void resize(const example_context& ctx) override {
+    void resize(const example_context& ctx) final {
         const auto& state = ctx.state();
         gl.viewport(state.width(), state.height());
         set_projection(state);
     }
 
-    void user_idle(const example_context& ctx) override {
+    void user_idle(const example_context& ctx) final {
         const auto& state = ctx.state();
         if(state.user_idle_time() > seconds_(1)) {
             camera.idle_update(state, 5);
@@ -130,9 +132,10 @@ public:
         }
     }
 
-    void render(const example_context& ctx) override {
+    void render(const example_context& ctx) final {
         gl.use(erase_prog);
         gl.disable(GL.depth_test);
+        gl.cull_face(GL.front);
         background.use();
         background.draw();
 
@@ -147,11 +150,12 @@ public:
 
         gl.clear(GL.depth_buffer_bit);
         gl.enable(GL.depth_test);
+        gl.cull_face(GL.back);
         shape.use();
         shape.draw();
     }
 
-    seconds_t<float> default_timeout() override {
+    seconds_t<float> default_timeout() final {
         return seconds_(20);
     }
 };

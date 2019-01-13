@@ -33,6 +33,8 @@ public:
         return _params;
     }
 
+    const example_context& debug_notification(string_view message) const;
+
 private:
     example_params& _params;
     example_state& _state;

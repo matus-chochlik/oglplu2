@@ -145,7 +145,7 @@ public:
         gl.disable(GL.depth_test);
     }
 
-    void pointer_motion(const example_context& ctx) override {
+    void pointer_motion(const example_context& ctx) final {
         const auto& state = ctx.state();
         if(state.pointer_dragging()) {
             offset_x -= 2 * state.norm_pointer_x().delta() * scale;
@@ -155,7 +155,7 @@ public:
         }
     }
 
-    void pointer_scrolling(const example_context& ctx) override {
+    void pointer_scrolling(const example_context& ctx) final {
         const auto& state = ctx.state();
 
         scale *= float(std::pow(2, -state.norm_pointer_z().delta()));
@@ -167,7 +167,7 @@ public:
         gl.uniform(scale_loc, scale * aspect, scale);
     }
 
-    void resize(const example_context& ctx) override {
+    void resize(const example_context& ctx) final {
         const auto& state = ctx.state();
         gl.viewport(0, 0, state.width(), state.height());
 
@@ -175,7 +175,7 @@ public:
         gl.uniform(scale_loc, scale * aspect, scale);
     }
 
-    void user_idle(const example_context& ctx) override {
+    void user_idle(const example_context& ctx) final {
         const auto& state = ctx.state();
         if(state.user_idle_time() > seconds_(1)) {
             const float s = value(state.frame_duration()) * 60;
@@ -195,11 +195,11 @@ public:
         }
     }
 
-    seconds_t<float> default_timeout() override {
+    seconds_t<float> default_timeout() final {
         return seconds_(20);
     }
 
-    void render(const example_context&) override {
+    void render(const example_context&) final {
         gl.draw_arrays(GL.triangle_strip, 0, 4);
     }
 };

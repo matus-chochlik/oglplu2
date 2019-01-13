@@ -222,16 +222,16 @@ public:
         gl.front_face(GL.ccw);
     }
 
-    void resize(const example_context& ctx) override {
+    void resize(const example_context& ctx) final {
         const auto& state = ctx.state();
         gl.viewport(state.width(), state.height());
     }
 
-    seconds_t<float> default_timeout() override {
+    seconds_t<float> default_timeout() final {
         return seconds_(20);
     }
 
-    void render(const example_context& ctx) override {
+    void render(const example_context& ctx) final {
         const auto& state = ctx.state();
         rad += radians_(0.5f * state.frame_duration().value());
 
