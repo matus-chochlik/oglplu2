@@ -20,6 +20,10 @@ primitive_type draw_operation::_translate(
             return primitive_type(GL_POINTS);
         case eagine::shapes::primitive_type::lines:
             return primitive_type(GL_LINES);
+        case eagine::shapes::primitive_type::quads:
+            return primitive_type(GL_LINES_ADJACENCY);
+        case eagine::shapes::primitive_type::tetrahedrons:
+            return primitive_type(GL_LINES_ADJACENCY);
         case eagine::shapes::primitive_type::line_strip:
             return primitive_type(GL_LINE_STRIP);
         case eagine::shapes::primitive_type::line_loop:

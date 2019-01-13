@@ -20,7 +20,7 @@ EAGINE_LIB_FUNC
 vertex_attrib_bits unit_cube_gen::_attr_mask() noexcept {
     return vertex_attrib_kind::position | vertex_attrib_kind::normal |
            vertex_attrib_kind::tangential | vertex_attrib_kind::bitangential |
-           vertex_attrib_kind::box_coord;
+           vertex_attrib_kind::pivot | vertex_attrib_kind::box_coord;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -329,6 +329,7 @@ void unit_cube_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
             face_coords(dest);
             break;
         case vertex_attrib_kind::pivot:
+        case vertex_attrib_kind::vertex_pivot:
         case vertex_attrib_kind::object_id:
         case vertex_attrib_kind::material_id:
         case vertex_attrib_kind::box_coord:

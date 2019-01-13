@@ -12,8 +12,9 @@ EAGINE_LIB_FUNC
 void translated_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
     delegated_gen::attrib_values(attr, dest);
 
-    const bool is_translated_attrib =
-      attr == vertex_attrib_kind::position || attr == vertex_attrib_kind::pivot;
+    const bool is_translated_attrib = attr == vertex_attrib_kind::position ||
+                                      attr == vertex_attrib_kind::pivot ||
+                                      attr == vertex_attrib_kind::vertex_pivot;
 
     if(is_translated_attrib) {
         for(span_size_t v = 0, n = vertex_count(); v < n; ++v) {

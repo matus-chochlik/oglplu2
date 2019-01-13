@@ -23,6 +23,8 @@ enum class primitive_type {
     triangles,
     triangle_strip,
     triangle_fan,
+    quads,
+    tetrahedrons,
     patches
 };
 //------------------------------------------------------------------------------

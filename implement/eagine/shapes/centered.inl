@@ -13,8 +13,9 @@ namespace shapes {
 EAGINE_LIB_FUNC
 void centered_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
 
-    const bool is_centered_attrib =
-      attr == vertex_attrib_kind::position || attr == vertex_attrib_kind::pivot;
+    const bool is_centered_attrib = attr == vertex_attrib_kind::position ||
+                                    attr == vertex_attrib_kind::pivot ||
+                                    attr == vertex_attrib_kind::vertex_pivot;
 
     if(is_centered_attrib) {
 

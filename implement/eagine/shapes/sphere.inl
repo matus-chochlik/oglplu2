@@ -168,6 +168,7 @@ void unit_sphere_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
             wrap_coords(dest);
             break;
         case vertex_attrib_kind::pivot:
+        case vertex_attrib_kind::vertex_pivot:
         case vertex_attrib_kind::box_coord:
         case vertex_attrib_kind::face_coord:
         case vertex_attrib_kind::wrap_coord_1:

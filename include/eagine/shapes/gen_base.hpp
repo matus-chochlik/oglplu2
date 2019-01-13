@@ -23,7 +23,7 @@ namespace shapes {
 struct generator_params {
     bool allow_strips{true};
     bool allow_fans{true};
-    bool allow_primitive_restart{false};
+    bool allow_primitive_restart{true};
 
     generator_params() noexcept = default;
 };

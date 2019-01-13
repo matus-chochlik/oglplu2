@@ -21,6 +21,7 @@ EAGINE_LIB_FUNC
 vertex_attrib_bits unit_torus_gen::_attr_mask() noexcept {
     return vertex_attrib_kind::position | vertex_attrib_kind::normal |
            vertex_attrib_kind::tangential | vertex_attrib_kind::bitangential |
+           vertex_attrib_kind::pivot | vertex_attrib_kind::vertex_pivot |
            vertex_attrib_kind::box_coord | vertex_attrib_kind::wrap_coord_0;
 }
 //------------------------------------------------------------------------------
@@ -67,6 +68,31 @@ void unit_torus_gen::positions(span<float> dest) noexcept {
             dest[k++] = float(vx * (r1 + r2 * (1 + vr)));
             dest[k++] = float(vy * r2);
             dest[k++] = float(vz * (r1 + r2 * (1 + vr)));
+        }
+    }
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void unit_torus_gen::vertex_pivots(span<float> dest) noexcept {
+    assert(has(vertex_attrib_kind::position));
+    assert(dest.size() >= vertex_count() * 3);
+
+    span_size_t k = 0;
+
+    const auto ro = 0.50;
+    const auto ri = ro * _radius_ratio;
+    const auto rc = (ro + ri) / 2;
+
+    const auto s_step = 2 * math::pi / _sections;
+
+    for(span_size_t s = 0; s < (_sections + 1); ++s) {
+        const auto vx = std::cos(s * s_step) * rc;
+        const auto vz = -std::sin(s * s_step) * rc;
+
+        for(span_size_t r = 0; r < (_rings + 1); ++r) {
+            dest[k++] = float(vx);
+            dest[k++] = float(0);
+            dest[k++] = float(vz);
         }
     }
 }
@@ -168,6 +194,9 @@ void unit_torus_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
     switch(attr) {
         case vertex_attrib_kind::position:
             positions(dest);
+            break;
+        case vertex_attrib_kind::vertex_pivot:
+            vertex_pivots(dest);
             break;
         case vertex_attrib_kind::normal:
             normals(dest);
