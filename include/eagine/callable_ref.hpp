@@ -65,13 +65,17 @@ public:
       , _func(reinterpret_cast<_func_t>(func)) {
     }
 
-    template <typename C>
+    template <
+      typename C,
+      typename = std::enable_if_t<!std::is_same_v<C, callable_ref>>>
     explicit callable_ref(C& obj) noexcept
       : _data(static_cast<void*>(&obj))
       , _func(reinterpret_cast<_func_t>(&_cls_fn_call_op<C>)) {
     }
 
-    template <typename C>
+    template <
+      typename C,
+      typename = std::enable_if_t<!std::is_same_v<C, callable_ref>>>
     explicit callable_ref(const C& obj) noexcept
       : _data(static_cast<void*>(const_cast<C*>(&obj)))
       , _func(reinterpret_cast<_func_t>(&_cls_fn_call_op_c<C>)) {

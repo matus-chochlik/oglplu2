@@ -23,12 +23,12 @@ private:
     operations gl;
 
 public:
-    void resize(const example_state_view& state) override {
-        gl.viewport(0, 0, state.width(), state.height());
+    void resize(const example_context& ctx) override {
+        gl.viewport(0, 0, ctx.state().width(), ctx.state().height());
     }
 
-    void render(const example_state_view& state) override {
-        int sec = int(state.exec_time());
+    void render(const example_context& ctx) override {
+        int sec = int(ctx.state().exec_time());
 
         gl.clear_color(
           (sec % 3 == 0) ? 1.f : 0.f,
@@ -41,7 +41,7 @@ public:
 };
 
 std::unique_ptr<example> make_example(
-  const example_args&, const example_params&, const example_state_view&) {
+  const example_args&, const example_context&) {
     return std::unique_ptr<example>(new example_clear());
 }
 

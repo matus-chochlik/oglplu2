@@ -61,6 +61,7 @@ set(OGLPLUS_EXAMPLE_HARNESS_COMMON_SOURCES
 		"${CMAKE_CURRENT_SOURCE_DIR}/example/wrapper.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/example/params.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/example/state_view.cpp"
+		"${CMAKE_CURRENT_SOURCE_DIR}/example/context.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/example/camera.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/example/main_${OGLPLUS_EXAMPLE_HARNESS}.cpp"
 )

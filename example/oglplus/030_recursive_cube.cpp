@@ -206,10 +206,10 @@ private:
     radians_t<float> rad;
 
 public:
-    example_recursive_cube(const example_params& params)
+    example_recursive_cube(const example_context& ctx)
       : tex_side(512)
       , rnd_tex(tex_side)
-      , prog(params)
+      , prog(ctx.params())
       , cube(prog)
       , current_buf(0)
       , rad(0.0f) {
@@ -222,7 +222,8 @@ public:
         gl.front_face(GL.ccw);
     }
 
-    void resize(const example_state_view& state) override {
+    void resize(const example_context& ctx) override {
+        const auto& state = ctx.state();
         gl.viewport(state.width(), state.height());
     }
 
@@ -230,7 +231,8 @@ public:
         return seconds_(20);
     }
 
-    void render(const example_state_view& state) override {
+    void render(const example_context& ctx) override {
+        const auto& state = ctx.state();
         rad += radians_(0.5f * state.frame_duration().value());
 
         current_buf = (current_buf + 1) % 2;
@@ -276,10 +278,8 @@ public:
 };
 
 std::unique_ptr<example> make_example(
-  const example_args&,
-  const example_params& params,
-  const example_state_view&) {
-    return std::unique_ptr<example>(new example_recursive_cube(params));
+  const example_args&, const example_context& ctx) {
+    return std::unique_ptr<example>(new example_recursive_cube(ctx));
 }
 
 void adjust_params(example_params& params) {

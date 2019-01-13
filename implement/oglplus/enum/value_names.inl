@@ -581,6 +581,9 @@ string_view get_enum_value_name(const any_enum_value& aev) noexcept {
 #ifdef GL_DEBUG_GROUP_STACK_DEPTH
     static const char s_DEBUG_GROUP_STACK_DEPTH[24] = "DEBUG_GROUP_STACK_DEPTH";
 #endif
+#ifdef GL_DEBUG_OUTPUT
+    static const char s_DEBUG_OUTPUT[13] = "DEBUG_OUTPUT";
+#endif
 #ifdef GL_DEBUG_OUTPUT_SYNCHRONOUS
     static const char s_DEBUG_OUTPUT_SYNCHRONOUS[25] =
       "DEBUG_OUTPUT_SYNCHRONOUS";
@@ -4862,6 +4865,10 @@ string_view get_enum_value_name(const any_enum_value& aev) noexcept {
 #ifdef GL_CULL_FACE
                 case GL_CULL_FACE:
                     return {s_CULL_FACE, 9};
+#endif
+#ifdef GL_DEBUG_OUTPUT
+                case GL_DEBUG_OUTPUT:
+                    return {s_DEBUG_OUTPUT, 12};
 #endif
 #ifdef GL_DEBUG_OUTPUT_SYNCHRONOUS
                 case GL_DEBUG_OUTPUT_SYNCHRONOUS:

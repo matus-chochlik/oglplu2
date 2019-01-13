@@ -63,10 +63,10 @@ void to_quads_gen::_indices(span<T> dest) noexcept {
         if(op.mode == primitive_type::triangle_strip) {
             if(op.idx_type == index_data_type::none) {
                 for(span_size_t p = 1; p < op.count / 2; ++p) {
-                    dest[i++] = op.first + p * 2 - 2;
-                    dest[i++] = op.first + p * 2 - 1;
-                    dest[i++] = op.first + p * 2 + 0;
-                    dest[i++] = op.first + p * 2 + 1;
+                    dest[i++] = limit_cast<T>(op.first + p * 2 - 2);
+                    dest[i++] = limit_cast<T>(op.first + p * 2 - 1);
+                    dest[i++] = limit_cast<T>(op.first + p * 2 + 0);
+                    dest[i++] = limit_cast<T>(op.first + p * 2 + 1);
                 }
             } else {
                 span_size_t curr{0};
@@ -82,10 +82,14 @@ void to_quads_gen::_indices(span<T> dest) noexcept {
                         }
                     }
                     if(curr + 4 <= op.count) {
-                        dest[i++] = _idx[std_size(op.first + curr + 0)];
-                        dest[i++] = _idx[std_size(op.first + curr + 1)];
-                        dest[i++] = _idx[std_size(op.first + curr + 2)];
-                        dest[i++] = _idx[std_size(op.first + curr + 3)];
+                        dest[i++] =
+                          limit_cast<T>(_idx[std_size(op.first + curr + 0)]);
+                        dest[i++] =
+                          limit_cast<T>(_idx[std_size(op.first + curr + 1)]);
+                        dest[i++] =
+                          limit_cast<T>(_idx[std_size(op.first + curr + 2)]);
+                        dest[i++] =
+                          limit_cast<T>(_idx[std_size(op.first + curr + 3)]);
                         curr += 2;
                     } else {
                         break;
@@ -95,11 +99,11 @@ void to_quads_gen::_indices(span<T> dest) noexcept {
         } else {
             if(op.idx_type == index_data_type::none) {
                 for(span_size_t p = 0; p < op.count; ++p) {
-                    dest[i++] = op.first + p;
+                    dest[i++] = limit_cast<T>(op.first + p);
                 }
             } else {
                 for(span_size_t p = 0; p < op.count; ++p) {
-                    dest[i++] = _idx[op.first + p];
+                    dest[i++] = limit_cast<T>(_idx[op.first + p]);
                 }
             }
         }

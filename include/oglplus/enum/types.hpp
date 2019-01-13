@@ -9,8 +9,8 @@
 //  See accompanying file LICENSE_1_0.txt or copy at
 //   http://www.boost.org/LICENSE_1_0.txt
 //
-#ifndef OGLPLUS_ENUM_TYPES_HPP
-#define OGLPLUS_ENUM_TYPES_HPP
+#ifndef OGLPLUS_GL_ENUM_TYPES_HPP
+#define OGLPLUS_GL_ENUM_TYPES_HPP
 
 #include "../utils/enum_class.hpp"
 
@@ -549,4 +549,4 @@ struct view_compatibility_class
 
 } // namespace oglplus
 
-#endif // OGLPLUS_ENUM_TYPES_HPP
+#endif // OGLPLUS_GL_ENUM_TYPES_HPP

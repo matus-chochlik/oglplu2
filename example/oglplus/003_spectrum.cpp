@@ -27,7 +27,8 @@ public:
         gl.clear_color(0.4f, 0.4f, 0.4f, 0.0f);
     }
 
-    void resize(const example_state_view& state) override {
+    void resize(const example_context& ctx) override {
+        const auto& state = ctx.state();
         gl.viewport(0, 0, state.width(), state.height());
 
         GLdouble h = 2;
@@ -37,12 +38,16 @@ public:
         gl.ortho(GL.projection, -w, +w, -h, +h, 0, 1);
     }
 
-    void render(const example_state_view& state) override {
+    void render(const example_context& ctx) override {
         gl.clear(GL.color_buffer_bit);
 
         gl.load_identity(GL.modelview);
         gl.rotate_f(
-          GL.modelview, degrees_(state.exec_time().value() * 90), 0, 0, 1);
+          GL.modelview,
+          degrees_(ctx.state().exec_time().value() * 90),
+          0,
+          0,
+          1);
 
         gl.begin(GL.triangle_fan);
         gl.color_f(0.5f, 0.5f, 0.5f);
@@ -94,7 +99,7 @@ public:
 };
 
 std::unique_ptr<example> make_example(
-  const example_args&, const example_params&, const example_state_view&) {
+  const example_args&, const example_context&) {
     return std::unique_ptr<example>(new example_clear());
 }
 

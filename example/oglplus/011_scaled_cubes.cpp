@@ -66,10 +66,8 @@ private:
 
 public:
     cube_example(
-      const example_params& params,
-      const example_state_view& state,
-      eagine::memory::buffer& temp_buffer)
-      : prog(params)
+      const example_context& ctx, eagine::memory::buffer& temp_buffer)
+      : prog(ctx.params())
       , attrs(
           shapes::vertex_attrib_kind::position +
           shapes::vertex_attrib_kind::pivot +
@@ -95,37 +93,41 @@ public:
         gl.enable(GL.cull_face);
         gl.cull_face(GL.back);
 
-        set_projection(state);
+        set_projection(ctx.state());
     }
 
-    void pointer_motion(const example_state_view& state) final {
+    void pointer_motion(const example_context& ctx) final {
+        const auto& state = ctx.state();
         if(camera.apply_pointer_motion(state)) {
             set_projection(state);
         }
     }
 
-    void pointer_scrolling(const example_state_view& state) final {
+    void pointer_scrolling(const example_context& ctx) override {
+        const auto& state = ctx.state();
         if(camera.apply_pointer_scrolling(state)) {
             set_projection(state);
         }
     }
 
-    void resize(const example_state_view& state) final {
+    void resize(const example_context& ctx) override {
+        const auto& state = ctx.state();
         gl.viewport(state.width(), state.height());
         set_projection(state);
     }
 
-    void user_idle(const example_state_view& state) final {
+    void user_idle(const example_context& ctx) final {
+        const auto& state = ctx.state();
         if(state.user_idle_time() > seconds_(1)) {
             camera.idle_update(state, 2);
             set_projection(state);
         }
     }
 
-    void render(const example_state_view& state) final {
+    void render(const example_context& ctx) final {
         gl.clear(GL.color_buffer_bit | GL.depth_buffer_bit);
 
-        const auto t = state.exec_time().value();
+        const auto t = ctx.state().exec_time().value();
 
         gl.uniform(
           prog.center,
@@ -140,12 +142,9 @@ public:
 };
 
 std::unique_ptr<example> make_example(
-  const example_args&,
-  const example_params& params,
-  const example_state_view& state) {
+  const example_args&, const example_context& ctx) {
     eagine::memory::buffer temp_buffer;
-    return std::unique_ptr<example>(
-      new cube_example(params, state, temp_buffer));
+    return std::unique_ptr<example>(new cube_example(ctx, temp_buffer));
 }
 
 void adjust_params(example_params& params) {

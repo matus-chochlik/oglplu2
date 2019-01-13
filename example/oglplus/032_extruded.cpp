@@ -1,5 +1,5 @@
 /**
- *  example oglplus/029_single_pass_edges.cpp
+ *  example oglplus/032_extruded.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -12,9 +12,11 @@
 
 #include <oglplus/constants.hpp>
 #include <oglplus/operations.hpp>
+#include <oglplus/glsl/string_ref.hpp>
 
 #include <oglplus/shapes/wrapper.hpp>
-#include <oglplus/shapes/icosahedron.hpp>
+#include <eagine/shapes/torus.hpp>
+#include <eagine/shapes/to_quads.hpp>
 
 #include <oglplus/math/vector.hpp>
 #include <oglplus/math/matrix.hpp>
@@ -32,51 +34,53 @@ static operations gl;
 class example_program : public example_program_base {
 public:
     uniform_location projection;
-    uniform_location modelview;
+    uniform_location time;
 
-    example_program(const example_params& params) {
-        attach(make_shader(params, "029_cel_shading.vert.oglpshdr"));
-        attach(make_shader(params, "029_cel_shading.geom.oglpshdr"));
-        attach(make_shader(params, "029_cel_shading.frag.oglpshdr"));
-        link();
-        report_link_error();
+    example_program(const example_params& params)
+      : example_program_base(params, "032_extruded.oglpprog") {
 
         gl.use(*this);
         gl.query_location(projection, *this, "Projection");
-        gl.query_location(modelview, *this, "Modelview");
+        gl.query_location(time, *this, "Time");
     }
 };
 
-class icosahedron_example : public example {
+class extruded_example : public example {
 private:
     example_orbiting_camera camera;
+
     example_program prog;
 
-    shapes::generator_wrapper<shapes::unit_icosahedron_gen, 1> icosahedron;
-
-    float shp_turns;
+    shapes::vertex_attribs_and_locations<3> attrs;
+    shapes::adapted_generator_wrapper<3> shape;
 
     void set_projection(const example_state_view& state) {
         gl.uniform(prog.projection, camera.matrix(state));
     }
 
 public:
-    icosahedron_example(
+    extruded_example(
       const example_context& ctx, eagine::memory::buffer& temp_buffer)
       : prog(ctx.params())
-      , icosahedron(temp_buffer, shapes::vertex_attrib_kind::position | 0) {
+      , attrs(
+          shapes::vertex_attrib_kind::position +
+          shapes::vertex_attrib_kind::normal +
+          shapes::vertex_attrib_kind::wrap_coord_0)
+      , shape(
+          temp_buffer,
+          eagine::shapes::to_quads(
+            eagine::shapes::unit_torus(get_attrib_bits(attrs), 18, 36, 0.5f)),
+          attrs) {
 
         camera.set_fov(right_angle_())
-          .set_near(0.5f)
-          .set_far(10.f)
           .set_orbit_min(1.5f)
-          .set_orbit_max(4.0f);
+          .set_orbit_max(5.0f)
+          .set_near(0.5f)
+          .set_far(10.f);
 
-        gl.clear_color(0.6f, 0.6f, 0.5f, 0);
+        gl.clear_color(0.5f, 0.5f, 0.4f, 0);
         gl.clear_depth(1);
         gl.enable(GL.depth_test);
-        gl.enable(GL.cull_face);
-        gl.cull_face(GL.back);
 
         set_projection(ctx.state());
     }
@@ -101,37 +105,25 @@ public:
         set_projection(state);
     }
 
-    void user_idle(const example_context& ctx) override {
+    void user_idle(const example_context& ctx) final {
         const auto& state = ctx.state();
         if(state.user_idle_time() > seconds_(1)) {
-            camera.idle_update(state, 11);
-
+            camera.idle_update(state, 2);
             set_projection(state);
         }
     }
 
-    void render(const example_context& ctx) override {
-        shp_turns += 0.1f * ctx.state().frame_duration().value();
-
-        gl.uniform(
-          prog.modelview,
-          matrix_rotation_x(turns_(shp_turns) / 1) *
-            matrix_rotation_y(turns_(shp_turns) / 2) *
-            matrix_rotation_z(turns_(shp_turns) / 3));
-
+    void render(const example_context& ctx) final {
         gl.clear(GL.color_buffer_bit | GL.depth_buffer_bit);
-        icosahedron.draw();
-    }
-
-    seconds_t<float> default_timeout() override {
-        return seconds_(20);
+        gl.uniform(prog.time, ctx.state().exec_time().value());
+        shape.draw();
     }
 };
 
 std::unique_ptr<example> make_example(
   const example_args&, const example_context& ctx) {
     eagine::memory::buffer temp_buffer;
-    return std::unique_ptr<example>(new icosahedron_example(ctx, temp_buffer));
+    return std::unique_ptr<example>(new extruded_example(ctx, temp_buffer));
 }
 
 void adjust_params(example_params& params) {

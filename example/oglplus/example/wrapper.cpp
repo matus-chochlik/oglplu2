@@ -19,10 +19,48 @@
 #include <stdexcept>
 
 namespace oglplus {
+//------------------------------------------------------------------------------
+example_wrapper::example_wrapper(
+  example_args& args, example_params& params, example_state& state)
+  : _context(args, params, state)
+  , _example(make_example(args, _context))
+  , _screenshot_done(false)
+  , _start(clock_type::now())
+  , _now(_start) {
+    assert(_example);
 
+    state.sync_size();
+    _example->resize(_context);
+
+    state.center_mouse();
+    _example->pointer_motion(_context);
+
+    if(params.doing_framedump()) {
+        textbuf(1024);
+        std::cin.getline(_textbuf.data(), std::streamsize(_textbuf.size()));
+
+        if(
+          std::strncmp(
+            c_str(params.framedump_prefix()),
+            _textbuf.data(),
+            _textbuf.size()) != 0) {
+            throw std::runtime_error("Expected frame-dump prefix on stdin");
+        }
+    }
+
+    if(state.multiple_tiles() && params.auto_tiles()) {
+        glEnable(GL_SCISSOR_TEST);
+    }
+}
+//------------------------------------------------------------------------------
+void example_wrapper::destroy() {
+    _example.reset();
+}
+//------------------------------------------------------------------------------
 std::vector<char>& example_wrapper::pixels() {
-    const auto size =
-      std_size(_state.height().get() * _state.width().get() * 4);
+    auto& state = _context.state();
+
+    const auto size = std_size(state.height().get() * state.width().get() * 4);
 
     if(_pixel_data.size() < size) {
         _pixel_data.resize(size);
@@ -30,7 +68,7 @@ std::vector<char>& example_wrapper::pixels() {
 
     return _pixel_data;
 }
-
+//------------------------------------------------------------------------------
 std::vector<char>& example_wrapper::textbuf(std::size_t size) {
     if(_textbuf.size() < size) {
         _textbuf.resize(size);
@@ -38,123 +76,88 @@ std::vector<char>& example_wrapper::textbuf(std::size_t size) {
 
     return _textbuf;
 }
-
-example_wrapper::example_wrapper(
-  example_args& args, example_params& params, example_state& state)
-  : _params(params)
-  , _state(state)
-  , _example(make_example(args, _params, _state))
-  , _screenshot_done(false)
-  , _start(clock_type::now())
-  , _now(_start) {
-    assert(_example);
-
-    _state.sync_size();
-    _example->resize(_state);
-
-    _state.center_mouse();
-    _example->pointer_motion(_state);
-
-    if(_params.doing_framedump()) {
-        textbuf(1024);
-        std::cin.getline(_textbuf.data(), std::streamsize(_textbuf.size()));
-
-        if(
-          std::strncmp(
-            c_str(_params.framedump_prefix()),
-            _textbuf.data(),
-            _textbuf.size()) != 0) {
-            throw std::runtime_error("Expected frame-dump prefix on stdin");
-        }
-    }
-
-    if(_state.multiple_tiles() && _params.auto_tiles()) {
-        glEnable(GL_SCISSOR_TEST);
-    }
-}
-
-void example_wrapper::destroy() {
-    _example.reset();
-}
-
+//------------------------------------------------------------------------------
 bool example_wrapper::next_frame() {
     assert(_example);
+    auto& state = _context.state();
+    auto& params = _context.params();
 
-    _state.advance_frame();
-    if(_params.fixed_framerate()) {
-        _state.advance_time(_params.frame_time());
+    state.advance_frame();
+    if(params.fixed_framerate()) {
+        state.advance_time(params.frame_time());
     } else {
         static const float period =
           float(clock_type::period::num) / float(clock_type::period::den);
         _now = clock_type::now();
-        _state.set_time((_now - _start).count() * period);
+        state.set_time((_now - _start).count() * period);
     }
 
-    if(_params.doing_screenshot()) {
+    if(params.doing_screenshot()) {
         return !_screenshot_done;
     } else {
-        return _params.demo_mode() || _example->continue_running(_state);
+        return params.demo_mode() || _example->continue_running(_context);
     }
 }
-
+//------------------------------------------------------------------------------
 void example_wrapper::update() {
     assert(_example);
 
-    if(_state.user_idle()) {
-        _example->user_idle(_state);
+    if(_context.state().user_idle()) {
+        _example->user_idle(_context);
     }
 }
-
+//------------------------------------------------------------------------------
 void example_wrapper::render() {
     assert(_example);
+    auto& state = _context.state();
+    auto& params = _context.params();
 
-    bool save_frame = _params.doing_framedump();
-    save_frame |= _params.doing_screenshot() &&
-                  (_state.exec_time() >= _params.screenshot_time());
+    bool save_frame = params.doing_framedump();
+    save_frame |= params.doing_screenshot() &&
+                  (state.exec_time() >= params.screenshot_time());
 
-    if(_state.multiple_tiles()) {
-        assert(_state.first_tile());
+    if(state.multiple_tiles()) {
+        assert(state.first_tile());
         do {
-            if(_params.auto_tiles()) {
+            if(params.auto_tiles()) {
                 glScissor(
-                  _state.tile_x(),
-                  _state.tile_y(),
-                  _state.tile_w(),
-                  _state.tile_h());
+                  state.tile_x(),
+                  state.tile_y(),
+                  state.tile_w(),
+                  state.tile_h());
             }
-
-            _example->render(_state);
+            _example->render(_context);
             glFlush();
 
-        } while(!_state.next_tile());
+        } while(!state.next_tile());
     } else {
-        _example->render(_state);
+        _example->render(_context);
     }
 
     if(save_frame) {
         glReadPixels(
           0,
           0,
-          GLsizei(_state.width()),
-          GLsizei(_state.height()),
+          GLsizei(state.width()),
+          GLsizei(state.height()),
           GL_RGBA,
           GL_UNSIGNED_BYTE,
           pixels().data());
 
         std::stringstream filename;
 
-        if(_params.doing_framedump()) {
-            filename << _params.framedump_prefix() << std::setfill('0')
-                     << std::setw(6) << _state.frame_number() << ".rgba";
-        } else if(_params.doing_screenshot()) {
-            filename << _params.screenshot_path();
+        if(params.doing_framedump()) {
+            filename << params.framedump_prefix() << std::setfill('0')
+                     << std::setw(6) << state.frame_number() << ".rgba";
+        } else if(params.doing_screenshot()) {
+            filename << params.screenshot_path();
         }
 
         std::ofstream file(filename.str());
         file.write(pixels().data(), std::streamsize(pixels().size()));
         file.flush();
 
-        if(_params.doing_framedump()) {
+        if(params.doing_framedump()) {
             std::cout << filename.str() << std::endl;
             textbuf(filename.str().size() + 1);
 
@@ -167,14 +170,15 @@ void example_wrapper::render() {
                 throw std::runtime_error(
                   "Expected frame-dump filepath on stdin.");
             }
-        } else if(_params.doing_screenshot()) {
+        } else if(params.doing_screenshot()) {
             _screenshot_done = true;
         }
     }
 }
-
+//------------------------------------------------------------------------------
 void example_wrapper::set_size(int width, int height) {
     assert(_example);
+    auto& state = _context.state();
 
     if(width < 1) {
         width = 1;
@@ -183,34 +187,37 @@ void example_wrapper::set_size(int width, int height) {
         height = 1;
     }
 
-    if(_state.set_size(width, height)) {
-        _example->resize(_state);
+    if(state.set_size(width, height)) {
+        _example->resize(_context);
     }
 }
-
+//------------------------------------------------------------------------------
 void example_wrapper::set_mouse_btn(int i, bool pressed) {
     assert(_example);
+    auto& state = _context.state();
 
-    if(_state.set_mouse_btn(i, pressed)) {
+    if(state.set_mouse_btn(i, pressed)) {
         // TODO
-        //_example->mouse_button(_state);
+        //_example->mouse_button(_context);
     }
 }
-
+//------------------------------------------------------------------------------
 void example_wrapper::set_mouse_pos(int x, int y) {
     assert(_example);
+    auto& state = _context.state();
 
-    if(_state.set_mouse_pos(x, y)) {
-        _example->pointer_motion(_state);
+    if(state.set_mouse_pos(x, y)) {
+        _example->pointer_motion(_context);
     }
 }
-
+//------------------------------------------------------------------------------
 void example_wrapper::set_mouse_wheel(int w) {
     assert(_example);
+    auto& state = _context.state();
 
-    if(_state.set_mouse_wheel(w)) {
-        _example->pointer_scrolling(_state);
+    if(state.set_mouse_wheel(w)) {
+        _example->pointer_scrolling(_context);
     }
 }
-
+//------------------------------------------------------------------------------
 } // namespace oglplus

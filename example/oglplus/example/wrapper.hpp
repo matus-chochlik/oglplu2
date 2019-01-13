@@ -18,8 +18,7 @@ namespace oglplus {
 
 class example_wrapper {
 private:
-    example_params& _params;
-    example_state& _state;
+    example_context _context;
 
     std::unique_ptr<example> _example;
 

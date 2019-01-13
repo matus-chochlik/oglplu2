@@ -119,7 +119,8 @@ public:
         gl.disable(GL.depth_test);
     }
 
-    void pointer_motion(const example_state_view& state) override {
+    void pointer_motion(const example_context& ctx) override {
+        const auto& state = ctx.state();
         if(state.pointer_dragging()) {
             offset_x -= state.norm_pointer_x().delta();
             offset_y -= state.norm_pointer_y().delta();
@@ -127,12 +128,14 @@ public:
         }
     }
 
-    void resize(const example_state_view& state) override {
+    void resize(const example_context& ctx) override {
+        const auto& state = ctx.state();
         gl.viewport(0, 0, state.width(), state.height());
         erg.set_dimensions(state.width(), state.height());
     }
 
-    void user_idle(const example_state_view& state) override {
+    void user_idle(const example_context& ctx) override {
+        const auto& state = ctx.state();
         if(state.user_idle_time() > seconds_(1)) {
             const float s = value(state.frame_duration()) * 60;
             const float t = value(state.exec_time());
@@ -152,13 +155,13 @@ public:
         return seconds_(20);
     }
 
-    void render(const example_state_view& /*state*/) override {
+    void render(const example_context&) override {
         erg.render();
     }
 };
 
 std::unique_ptr<example> make_example(
-  const example_args&, const example_params&, const example_state_view&) {
+  const example_args&, const example_context&) {
     return std::unique_ptr<example>(new example_texgen());
 }
 
