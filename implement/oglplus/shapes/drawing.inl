@@ -104,6 +104,14 @@ OGLPLUS_LIB_FUNC
 outcome<void> draw_operation::draw() const noexcept {
     OGLPLUS_GLFUNC(FrontFace)(_cw_face_winding ? GL_CW : GL_CCW);
 
+#if defined(GL_PRIMITIVE_RESTART)
+    if(_primitive_restart) {
+        OGLPLUS_GLFUNC(Enable)(GL_PRIMITIVE_RESTART);
+        OGLPLUS_GLFUNC(PrimitiveRestartIndex)(_primitive_restart_index);
+    } else {
+        OGLPLUS_GLFUNC(Disable)(GL_PRIMITIVE_RESTART);
+    }
+#endif
 #if defined(GL_PATCHES)
     if(_mode == primitive_type(GL_PATCHES)) {
         OGLPLUS_GLFUNC(PatchParameteri)(GL_PATCH_VERTICES, _patch_vertices);
