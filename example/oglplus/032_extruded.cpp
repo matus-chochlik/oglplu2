@@ -37,7 +37,6 @@ class example_program : public example_program_base {
 public:
     uniform_location projection;
     uniform_location light_direction;
-    uniform_location time;
 
     example_program(const example_context& ctx)
       : example_program_base(ctx.params(), "032_extruded.oglpprog") {
@@ -45,7 +44,6 @@ public:
         gl.use(*this);
         gl.query_location(projection, *this, "Projection");
         gl.query_location(light_direction, *this, "LightDirection");
-        gl.query_location(time, *this, "Time");
     }
 };
 
@@ -73,16 +71,16 @@ public:
       , shape(
           temp_buffer,
           eagine::shapes::to_quads(
-            eagine::shapes::unit_torus(get_attrib_bits(attrs), 36, 72, 0.4f)),
+            eagine::shapes::unit_torus(get_attrib_bits(attrs), 18, 36, 0.4f)),
           attrs) {
 
         camera.set_fov(right_angle_())
-          .set_orbit_min(1.5f)
-          .set_orbit_max(3.0f)
-          .set_near(0.5f)
+          .set_orbit_min(2.0f)
+          .set_orbit_max(4.0f)
+          .set_near(0.1f)
           .set_far(10.f);
 
-        gl.clear_color(0.5f, 0.5f, 0.4f, 0);
+        gl.clear_color(0.2f, 0.2f, 0.2f, 0);
         gl.clear_depth(1);
         gl.enable(GL.depth_test);
 
@@ -128,9 +126,8 @@ public:
         gl.uniform(
           prog.light_direction,
           to_cartesian(unit_spherical_coordinates(
-            turns_(t / 3.f),
-            smooth_lerp(right_angles_(1.f), right_angles_(-1.f), t / 5.f))));
-        gl.uniform(prog.time, ctx.state().exec_time().value());
+            turns_(t / 5.f),
+            smooth_lerp(radians_(1.4f), radians_(-1.4f), t / 7.f))));
 
         shape.draw();
     }
