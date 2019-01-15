@@ -905,6 +905,11 @@ constexpr const enum_value<GLenum, mp_list<oglplus::numeric_query>>
   enum_values::debug_group_stack_depth;
 #endif
 
+#ifdef GL_DEBUG_OUTPUT
+constexpr const enum_value<GLenum, mp_list<oglplus::capability>>
+  enum_values::debug_output;
+#endif
+
 #ifdef GL_DEBUG_OUTPUT_SYNCHRONOUS
 constexpr const enum_value<GLenum, mp_list<oglplus::capability>>
   enum_values::debug_output_synchronous;

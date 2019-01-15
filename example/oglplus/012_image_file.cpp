@@ -153,7 +153,8 @@ public:
         gl.disable(GL.depth_test);
     }
 
-    void pointer_motion(const example_state_view& state) override {
+    void pointer_motion(const example_context& ctx) final {
+        const auto& state = ctx.state();
         if(state.pointer_dragging()) {
             offset_x -= 2 * state.norm_pointer_x().delta() * scale;
             offset_y -= 2 * state.norm_pointer_y().delta() * scale;
@@ -162,7 +163,8 @@ public:
         }
     }
 
-    void pointer_scrolling(const example_state_view& state) override {
+    void pointer_scrolling(const example_context& ctx) final {
+        const auto& state = ctx.state();
 
         scale *= float(std::pow(2, -state.norm_pointer_z().delta()));
         if(scale < min_scale)
@@ -173,14 +175,16 @@ public:
         gl.uniform(prog.scale_loc, scale * aspect, scale);
     }
 
-    void resize(const example_state_view& state) override {
+    void resize(const example_context& ctx) final {
+        const auto& state = ctx.state();
         gl.viewport(state.width(), state.height());
 
         aspect = state.aspect();
         gl.uniform(prog.scale_loc, scale * aspect, scale);
     }
 
-    void user_idle(const example_state_view& state) override {
+    void user_idle(const example_context& ctx) final {
+        const auto& state = ctx.state();
         if(state.user_idle_time() > seconds_(1)) {
             const float t = value(state.frame_duration()) * 60;
 
@@ -206,11 +210,11 @@ public:
         }
     }
 
-    seconds_t<float> default_timeout() override {
+    seconds_t<float> default_timeout() final {
         return seconds_(20);
     }
 
-    void render(const example_state_view& /*state*/) override {
+    void render(const example_context&) final {
         gl.draw_arrays(GL.triangle_strip, 0, 4);
     }
 };
@@ -220,7 +224,7 @@ bool is_example_param(const example_arg& a) {
 }
 
 std::unique_ptr<example> make_example(
-  const example_args& args, const example_params&, const example_state_view&) {
+  const example_args& args, const example_context&) {
     example_string_param image_path("-i", "--image", "image.oglptex");
     args.parse_param(image_path);
 

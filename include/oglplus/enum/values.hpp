@@ -9,8 +9,8 @@
 //  See accompanying file LICENSE_1_0.txt or copy at
 //   http://www.boost.org/LICENSE_1_0.txt
 //
-#ifndef OGLPLUS_ENUM_VALUES_HPP
-#define OGLPLUS_ENUM_VALUES_HPP
+#ifndef OGLPLUS_GL_ENUM_VALUES_HPP
+#define OGLPLUS_GL_ENUM_VALUES_HPP
 
 #include "../utils/mp_list.hpp"
 #include "types.hpp"
@@ -1165,6 +1165,11 @@ struct enum_values {
 #ifdef GL_DEBUG_GROUP_STACK_DEPTH
     static constexpr const enum_value<GLenum, mp_list<oglplus::numeric_query>>
       debug_group_stack_depth = {GL_DEBUG_GROUP_STACK_DEPTH};
+#endif
+
+#ifdef GL_DEBUG_OUTPUT
+    static constexpr const enum_value<GLenum, mp_list<oglplus::capability>>
+      debug_output = {GL_DEBUG_OUTPUT};
 #endif
 
 #ifdef GL_DEBUG_OUTPUT_SYNCHRONOUS
@@ -8125,4 +8130,4 @@ struct enum_values {
 }; // struct enum_values
 } // namespace oglplus
 
-#endif // OGLPLUS_ENUM_VALUES_HPP
+#endif // OGLPLUS_GL_ENUM_VALUES_HPP

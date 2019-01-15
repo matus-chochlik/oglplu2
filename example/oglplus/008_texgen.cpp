@@ -87,14 +87,16 @@ public:
         gl.disable(GL.depth_test);
     }
 
-    void resize(const example_state_view& state) override {
+    void resize(const example_context& ctx) final {
+        const auto& state = ctx.state();
         gl.viewport(0, 0, state.width(), state.height());
         erg.set_dimensions(state.width(), state.height());
 
         aspect = state.aspect();
     }
 
-    void pointer_scrolling(const example_state_view& state) override {
+    void pointer_scrolling(const example_context& ctx) final {
+        const auto& state = ctx.state();
         scale *= float(std::pow(2, -state.norm_pointer_z().delta()));
         if(scale < min_scale)
             scale = min_scale;
@@ -104,7 +106,8 @@ public:
         gl.uniform(erg.scale_loc, scale * aspect, scale);
     }
 
-    void user_idle(const example_state_view& state) override {
+    void user_idle(const example_context& ctx) final {
+        const auto& state = ctx.state();
         if(state.user_idle_time() > seconds_(1)) {
             using namespace eagine::math;
             float new_sc = float(smooth_lerp(
@@ -116,17 +119,17 @@ public:
         }
     }
 
-    seconds_t<float> default_timeout() override {
+    seconds_t<float> default_timeout() final {
         return seconds_(30);
     }
 
-    void render(const example_state_view& /*state*/) override {
+    void render(const example_context&) final {
         erg.render();
     }
 };
 
 std::unique_ptr<example> make_example(
-  const example_args&, const example_params&, const example_state_view&) {
+  const example_args&, const example_context&) {
     return std::unique_ptr<example>(new example_texgen());
 }
 

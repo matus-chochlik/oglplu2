@@ -20,6 +20,18 @@ primitive_type draw_operation::_translate(
             return primitive_type(GL_POINTS);
         case eagine::shapes::primitive_type::lines:
             return primitive_type(GL_LINES);
+        case eagine::shapes::primitive_type::quads:
+#if defined(GL_LINES_ADJACENCY)
+            return primitive_type(GL_LINES_ADJACENCY);
+#else
+            break;
+#endif
+        case eagine::shapes::primitive_type::tetrahedrons:
+#if defined(GL_LINES_ADJACENCY)
+            return primitive_type(GL_LINES_ADJACENCY);
+#else
+            break;
+#endif
         case eagine::shapes::primitive_type::line_strip:
             return primitive_type(GL_LINE_STRIP);
         case eagine::shapes::primitive_type::line_loop:
@@ -100,6 +112,14 @@ OGLPLUS_LIB_FUNC
 outcome<void> draw_operation::draw() const noexcept {
     OGLPLUS_GLFUNC(FrontFace)(_cw_face_winding ? GL_CW : GL_CCW);
 
+#if defined(GL_PRIMITIVE_RESTART)
+    if(_primitive_restart) {
+        OGLPLUS_GLFUNC(Enable)(GL_PRIMITIVE_RESTART);
+        OGLPLUS_GLFUNC(PrimitiveRestartIndex)(_primitive_restart_index);
+    } else {
+        OGLPLUS_GLFUNC(Disable)(GL_PRIMITIVE_RESTART);
+    }
+#endif
 #if defined(GL_PATCHES)
     if(_mode == primitive_type(GL_PATCHES)) {
         OGLPLUS_GLFUNC(PatchParameteri)(GL_PATCH_VERTICES, _patch_vertices);

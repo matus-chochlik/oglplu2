@@ -510,6 +510,9 @@ std::pair<const void*, span_size_t> get_enum_value_range(
 #ifdef GL_CULL_FACE
               GL_CULL_FACE,
 #endif
+#ifdef GL_DEBUG_OUTPUT
+              GL_DEBUG_OUTPUT,
+#endif
 #ifdef GL_DEBUG_OUTPUT_SYNCHRONOUS
               GL_DEBUG_OUTPUT_SYNCHRONOUS,
 #endif

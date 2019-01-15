@@ -89,11 +89,12 @@ public:
         gl.load_identity(GL.modelview);
     }
 
-    void resize(const example_state_view& state) override {
+    void resize(const example_context& ctx) final {
+        const auto& state = ctx.state();
         gl.viewport(0, 0, state.width(), state.height());
     }
 
-    void render(const example_state_view&) override {
+    void render(const example_context&) final {
         gl.clear(GL.color_buffer_bit | GL.stencil_buffer_bit);
 
         gl.color_f(0.2f, 0.2f, 1.0f);
@@ -120,7 +121,7 @@ public:
 };
 
 std::unique_ptr<example> make_example(
-  const example_args&, const example_params&, const example_state_view&) {
+  const example_args&, const example_context&) {
     return std::unique_ptr<example>(new example_clear());
 }
 

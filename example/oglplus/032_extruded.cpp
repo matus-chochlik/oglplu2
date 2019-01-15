@@ -1,5 +1,5 @@
 /**
- *  example oglplus/010_cubes_ssao.cpp
+ *  example oglplus/032_extruded.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -15,10 +15,8 @@
 #include <oglplus/glsl/string_ref.hpp>
 
 #include <oglplus/shapes/wrapper.hpp>
-#include <eagine/shapes/cube.hpp>
-#include <eagine/shapes/array.hpp>
-#include <eagine/shapes/centered.hpp>
-#include <eagine/shapes/reboxed.hpp>
+#include <eagine/shapes/torus.hpp>
+#include <eagine/shapes/to_quads.hpp>
 
 #include <oglplus/math/interpolate.hpp>
 #include <oglplus/math/coordinates.hpp>
@@ -38,60 +36,56 @@ static operations gl;
 class example_program : public example_program_base {
 public:
     uniform_location projection;
-    uniform_location center;
-    uniform_location time;
+    uniform_location light_direction;
 
-    example_program(const example_params& params)
-      : example_program_base(params, "011_scaled_cubes.oglpprog") {
+    example_program(const example_context& ctx)
+      : example_program_base(ctx.params(), "032_extruded.oglpprog") {
 
         gl.use(*this);
         gl.query_location(projection, *this, "Projection");
-        gl.query_location(center, *this, "Center");
-        gl.query_location(time, *this, "Time");
+        gl.query_location(light_direction, *this, "LightDirection");
     }
 };
 
-class cube_example : public example {
+class extruded_example : public example {
 private:
     example_orbiting_camera camera;
 
     example_program prog;
 
     shapes::vertex_attribs_and_locations<3> attrs;
-    shapes::adapted_generator_wrapper<3> cubes;
+    shapes::adapted_generator_wrapper<3> shape;
 
     void set_projection(const example_state_view& state) {
         gl.uniform(prog.projection, camera.matrix(state));
     }
 
 public:
-    cube_example(
+    extruded_example(
       const example_context& ctx, eagine::memory::buffer& temp_buffer)
-      : prog(ctx.params())
+      : prog(ctx)
       , attrs(
           shapes::vertex_attrib_kind::position +
-          shapes::vertex_attrib_kind::pivot +
-          shapes::vertex_attrib_kind::box_coord)
-      , cubes(
+          shapes::vertex_attrib_kind::normal +
+          shapes::vertex_attrib_kind::wrap_coord_0)
+      , shape(
           temp_buffer,
-          eagine::shapes::rebox(
-            eagine::shapes::center(eagine::shapes::ortho_array_xyz(
-              eagine::shapes::unit_cube(get_attrib_bits(attrs)),
-              {1.f, 1.f, 1.f},
-              {10, 10, 10}))),
+          eagine::shapes::to_quads(
+            eagine::shapes::unit_torus(get_attrib_bits(attrs), 18, 36, 0.4f)),
           attrs) {
 
         camera.set_fov(right_angle_())
-          .set_orbit_min(12.0f)
-          .set_orbit_max(15.0f)
-          .set_near(0.5f)
-          .set_far(40.f);
+          .set_orbit_min(2.0f)
+          .set_orbit_max(4.0f)
+          .set_near(0.1f)
+          .set_far(10.f);
 
-        gl.clear_color(0.7f, 0.7f, 0.6f, 0);
+        gl.clear_color(0.2f, 0.2f, 0.2f, 0);
         gl.clear_depth(1);
         gl.enable(GL.depth_test);
-        gl.enable(GL.cull_face);
+
         gl.cull_face(GL.back);
+        gl.enable(GL.cull_face);
 
         set_projection(ctx.state());
     }
@@ -118,33 +112,35 @@ public:
 
     void user_idle(const example_context& ctx) final {
         const auto& state = ctx.state();
-        if(state.user_idle_time() > seconds_(1)) {
+        if(state.user_idle_time() > seconds_(10)) {
             camera.idle_update(state, 2);
             set_projection(state);
         }
     }
 
     void render(const example_context& ctx) final {
-        gl.clear(GL.color_buffer_bit | GL.depth_buffer_bit);
-
         const auto t = ctx.state().exec_time().value();
 
-        gl.uniform(
-          prog.center,
-          to_cartesian(unit_spherical_coordinates(
-            turns_(t / 3.f),
-            smooth_lerp(right_angles_(1.f), right_angles_(-1.f), t / 5.f))) *
-            smooth_lerp(0.f, 10.f, t / 7.f));
-        gl.uniform(prog.time, t);
+        gl.clear(GL.color_buffer_bit | GL.depth_buffer_bit);
 
-        cubes.draw();
+        gl.uniform(
+          prog.light_direction,
+          to_cartesian(unit_spherical_coordinates(
+            turns_(t / 5.f),
+            smooth_lerp(radians_(1.4f), radians_(-1.4f), t / 7.f))));
+
+        shape.draw();
+    }
+
+    seconds_t<float> default_timeout() final {
+        return seconds_(20);
     }
 };
 
 std::unique_ptr<example> make_example(
   const example_args&, const example_context& ctx) {
     eagine::memory::buffer temp_buffer;
-    return std::unique_ptr<example>(new cube_example(ctx, temp_buffer));
+    return std::unique_ptr<example>(new extruded_example(ctx, temp_buffer));
 }
 
 void adjust_params(example_params& params) {

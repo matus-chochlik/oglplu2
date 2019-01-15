@@ -29,4 +29,8 @@
 #define GL_PROGRAM_PIPELINE 0x82E4
 #endif
 
+#ifndef APIENTRY
+#define APIENTRY
+#endif
+
 #endif

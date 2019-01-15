@@ -22,8 +22,9 @@ void array_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
 
     delegated_gen::attrib_values(attr, head(dest, n * m));
 
-    const bool is_translated_attrib =
-      attr == vertex_attrib_kind::position || attr == vertex_attrib_kind::pivot;
+    const bool is_translated_attrib = attr == vertex_attrib_kind::position ||
+                                      attr == vertex_attrib_kind::pivot ||
+                                      attr == vertex_attrib_kind::vertex_pivot;
 
     if(is_translated_attrib) {
         for(span_size_t i = 1; i < _copies; ++i) {
@@ -59,7 +60,7 @@ index_data_type array_gen::index_type() {
         }
         if(
           vertex_count() <
-          span_size(std::numeric_limits<std::uint8_t>::max())) {
+          span_size(std::numeric_limits<std::uint16_t>::max())) {
             return index_data_type::unsigned_16;
         }
         return index_data_type::unsigned_32;

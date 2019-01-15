@@ -36,6 +36,9 @@ BOOST_AUTO_TEST_CASE(enum_capability_values) {
 #ifdef GL_CULL_FACE
     BOOST_CHECK(x != ev.cull_face);
 #endif
+#ifdef GL_DEBUG_OUTPUT
+    BOOST_CHECK(x != ev.debug_output);
+#endif
 #ifdef GL_DEBUG_OUTPUT_SYNCHRONOUS
     BOOST_CHECK(x != ev.debug_output_synchronous);
 #endif
@@ -116,6 +119,9 @@ BOOST_AUTO_TEST_CASE(enum_capability_values) {
 #ifdef GL_CULL_FACE
     BOOST_CHECK(x != ev.cull_face);
 #endif
+#ifdef GL_DEBUG_OUTPUT
+    BOOST_CHECK(x != ev.debug_output);
+#endif
 #ifdef GL_DEBUG_OUTPUT_SYNCHRONOUS
     BOOST_CHECK(x != ev.debug_output_synchronous);
 #endif
@@ -193,6 +199,9 @@ BOOST_AUTO_TEST_CASE(enum_capability_values) {
 #ifdef GL_CULL_FACE
     BOOST_CHECK(x != ev.cull_face);
 #endif
+#ifdef GL_DEBUG_OUTPUT
+    BOOST_CHECK(x != ev.debug_output);
+#endif
 #ifdef GL_DEBUG_OUTPUT_SYNCHRONOUS
     BOOST_CHECK(x != ev.debug_output_synchronous);
 #endif
@@ -267,6 +276,83 @@ BOOST_AUTO_TEST_CASE(enum_capability_values) {
 #ifdef GL_CULL_FACE
     x = ev.cull_face;
     BOOST_CHECK(x == ev.cull_face);
+#ifdef GL_DEBUG_OUTPUT
+    BOOST_CHECK(x != ev.debug_output);
+#endif
+#ifdef GL_DEBUG_OUTPUT_SYNCHRONOUS
+    BOOST_CHECK(x != ev.debug_output_synchronous);
+#endif
+#ifdef GL_DEPTH_TEST
+    BOOST_CHECK(x != ev.depth_test);
+#endif
+#ifdef GL_DITHER
+    BOOST_CHECK(x != ev.dither);
+#endif
+#ifdef GL_FRAGMENT_COVERAGE_TO_COLOR_NV
+    BOOST_CHECK(x != ev.fragment_coverage_to_color);
+#endif
+#ifdef GL_FRAMEBUFFER_SRGB
+    BOOST_CHECK(x != ev.framebuffer_srgb);
+#endif
+#ifdef GL_LINE_SMOOTH
+    BOOST_CHECK(x != ev.line_smooth);
+#endif
+#ifdef GL_MULTISAMPLE
+    BOOST_CHECK(x != ev.multisample);
+#endif
+#ifdef GL_POLYGON_OFFSET_FILL
+    BOOST_CHECK(x != ev.polygon_offset_fill);
+#endif
+#ifdef GL_POLYGON_OFFSET_LINE
+    BOOST_CHECK(x != ev.polygon_offset_line);
+#endif
+#ifdef GL_POLYGON_OFFSET_POINT
+    BOOST_CHECK(x != ev.polygon_offset_point);
+#endif
+#ifdef GL_POLYGON_SMOOTH
+    BOOST_CHECK(x != ev.polygon_smooth);
+#endif
+#ifdef GL_PRIMITIVE_RESTART
+    BOOST_CHECK(x != ev.primitive_restart);
+#endif
+#ifdef GL_PROGRAM_POINT_SIZE
+    BOOST_CHECK(x != ev.program_point_size);
+#endif
+#ifdef GL_RASTERIZER_DISCARD
+    BOOST_CHECK(x != ev.rasterizer_discard);
+#endif
+#ifdef GL_SAMPLE_ALPHA_TO_COVERAGE
+    BOOST_CHECK(x != ev.sample_alpha_to_coverage);
+#endif
+#ifdef GL_SAMPLE_ALPHA_TO_ONE
+    BOOST_CHECK(x != ev.sample_alpha_to_one);
+#endif
+#ifdef GL_SAMPLE_COVERAGE
+    BOOST_CHECK(x != ev.sample_coverage);
+#endif
+#ifdef GL_SAMPLE_MASK
+    BOOST_CHECK(x != ev.sample_mask);
+#endif
+#ifdef GL_SAMPLE_SHADING
+    BOOST_CHECK(x != ev.sample_shading);
+#endif
+#ifdef GL_SCISSOR_TEST
+    BOOST_CHECK(x != ev.scissor_test);
+#endif
+#ifdef GL_STENCIL_TEST
+    BOOST_CHECK(x != ev.stencil_test);
+#endif
+#ifdef GL_STREAM_RASTERIZATION_AMD
+    BOOST_CHECK(x != ev.stream_rasterization);
+#endif
+#ifdef GL_TEXTURE_CUBE_MAP_SEAMLESS
+    BOOST_CHECK(x != ev.texture_cube_map_seamless);
+#endif
+#endif
+
+#ifdef GL_DEBUG_OUTPUT
+    x = ev.debug_output;
+    BOOST_CHECK(x == ev.debug_output);
 #ifdef GL_DEBUG_OUTPUT_SYNCHRONOUS
     BOOST_CHECK(x != ev.debug_output_synchronous);
 #endif
@@ -1246,6 +1332,12 @@ BOOST_AUTO_TEST_CASE(enum_capability_names) {
     BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "CULL_FACE") == 0);
 #endif
 
+#ifdef GL_DEBUG_OUTPUT
+    x = ev.debug_output;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "DEBUG_OUTPUT") == 0);
+#endif
+
 #ifdef GL_DEBUG_OUTPUT_SYNCHRONOUS
     x = ev.debug_output_synchronous;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
@@ -1439,6 +1531,16 @@ BOOST_AUTO_TEST_CASE(enum_capability_range) {
         auto r = enum_value_range<capability>();
         BOOST_CHECK(
           std::find(r.begin(), r.end(), capability(GL_CULL_FACE)) != r.end());
+    }
+#endif
+
+#ifdef GL_DEBUG_OUTPUT
+    {
+        --count;
+        auto r = enum_value_range<capability>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), capability(GL_DEBUG_OUTPUT)) !=
+          r.end());
     }
 #endif
 
@@ -1722,6 +1824,16 @@ BOOST_AUTO_TEST_CASE(enum_capability_any) {
     BOOST_CHECK(same_enum_class(a, y));
     BOOST_CHECK(same_enum_class(x, y));
     BOOST_CHECK(y == ev.cull_face);
+#endif
+
+#ifdef GL_DEBUG_OUTPUT
+    x = ev.debug_output;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.debug_output);
 #endif
 
 #ifdef GL_DEBUG_OUTPUT_SYNCHRONOUS

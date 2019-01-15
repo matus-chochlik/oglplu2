@@ -45,14 +45,14 @@ private:
 
 public:
     example_newton(
-      const example_params& params, eagine::memory::buffer& temp_buffer)
+      const example_context& ctx, eagine::memory::buffer& temp_buffer)
       : prog()
       , screen(temp_buffer, shapes::vertex_attrib_kind::position | 0)
       , offset_x(0.0f)
       , offset_y(0.0f)
       , scale(1.0f)
       , aspect(1.0f) {
-        std::string prog_path = params.get_resource_file_path(
+        std::string prog_path = ctx.params().get_resource_file_path(
           example_resource_type::program_source, "009_newton.oglpprog");
         build_program(prog, program_source_file(prog_path));
 
@@ -85,7 +85,8 @@ public:
         gl.disable(GL.depth_test);
     }
 
-    void pointer_motion(const example_state_view& state) override {
+    void pointer_motion(const example_context& ctx) final {
+        const auto& state = ctx.state();
         if(state.pointer_dragging()) {
             offset_x -= 2 * state.norm_pointer_x().delta() * scale;
             offset_y -= 2 * state.norm_pointer_y().delta() * scale;
@@ -94,7 +95,8 @@ public:
         }
     }
 
-    void pointer_scrolling(const example_state_view& state) override {
+    void pointer_scrolling(const example_context& ctx) final {
+        const auto& state = ctx.state();
 
         scale *= float(std::pow(2, -state.norm_pointer_z().delta()));
         if(scale < min_scale)
@@ -105,14 +107,16 @@ public:
         gl.uniform(scale_loc, scale * aspect, scale);
     }
 
-    void resize(const example_state_view& state) override {
+    void resize(const example_context& ctx) final {
+        const auto& state = ctx.state();
         gl.viewport(0, 0, state.width(), state.height());
 
         aspect = state.aspect();
         gl.uniform(scale_loc, scale * aspect, scale);
     }
 
-    void user_idle(const example_state_view& state) override {
+    void user_idle(const example_context& ctx) final {
+        const auto& state = ctx.state();
         if(state.user_idle_time() > seconds_(1)) {
             const float s = value(state.frame_duration()) * 60;
             const float dest_offset_x = -0.568407f;
@@ -131,21 +135,19 @@ public:
         }
     }
 
-    seconds_t<float> default_timeout() override {
+    seconds_t<float> default_timeout() final {
         return seconds_(20);
     }
 
-    void render(const example_state_view&) override {
+    void render(const example_context&) final {
         screen.draw();
     }
 };
 
 std::unique_ptr<example> make_example(
-  const example_args&,
-  const example_params& params,
-  const example_state_view&) {
+  const example_args&, const example_context& ctx) {
     eagine::memory::buffer temp_buffer;
-    return std::unique_ptr<example>(new example_newton(params, temp_buffer));
+    return std::unique_ptr<example>(new example_newton(ctx, temp_buffer));
 }
 
 void adjust_params(example_params& params) {

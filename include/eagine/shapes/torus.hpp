@@ -15,6 +15,7 @@
 #include "../valid_if/greater_than.hpp"
 #include "gen_base.hpp"
 #include <cassert>
+#include <memory>
 
 namespace eagine {
 namespace shapes {
@@ -54,6 +55,8 @@ public:
 
     void positions(span<float> dest) noexcept;
 
+    void vertex_pivots(span<float> dest) noexcept;
+
     void normals(span<float> dest) noexcept;
 
     void tangentials(span<float> dest) noexcept;
@@ -78,6 +81,16 @@ public:
 
     void instructions(span<draw_operation> ops) override;
 };
+//------------------------------------------------------------------------------
+static inline auto unit_torus(
+  vertex_attrib_bits attr_bits,
+  valid_if_greater_than<int, 4> rings,
+  valid_if_greater_than<int, 3> sections,
+  valid_if_ge0_lt1<float> radius_ratio) {
+    return std::unique_ptr<generator_intf>{
+      new unit_torus_gen(attr_bits, rings, sections, radius_ratio)};
+}
+//------------------------------------------------------------------------------
 
 } // namespace shapes
 } // namespace eagine
