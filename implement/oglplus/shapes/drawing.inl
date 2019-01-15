@@ -21,9 +21,17 @@ primitive_type draw_operation::_translate(
         case eagine::shapes::primitive_type::lines:
             return primitive_type(GL_LINES);
         case eagine::shapes::primitive_type::quads:
+#if defined(GL_LINES_ADJACENCY)
             return primitive_type(GL_LINES_ADJACENCY);
+#else
+            break;
+#endif
         case eagine::shapes::primitive_type::tetrahedrons:
+#if defined(GL_LINES_ADJACENCY)
             return primitive_type(GL_LINES_ADJACENCY);
+#else
+            break;
+#endif
         case eagine::shapes::primitive_type::line_strip:
             return primitive_type(GL_LINE_STRIP);
         case eagine::shapes::primitive_type::line_loop:
