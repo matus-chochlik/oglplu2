@@ -16,7 +16,7 @@
 
 namespace eagine {
 namespace shapes {
-
+//------------------------------------------------------------------------------
 class delegated_gen : public generator_intf {
 private:
     std::unique_ptr<generator_intf> _gen;
@@ -74,7 +74,7 @@ public:
         _gen->instructions(ops);
     }
 };
-
+//------------------------------------------------------------------------------
 } // namespace shapes
 } // namespace eagine
 

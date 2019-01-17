@@ -35,9 +35,14 @@ enum class vertex_attrib_kind : unsigned {
     wrap_coord_2 = 1 << 11,
     wrap_coord_3 = 1 << 12,
     material_id = 1 << 13
+    // also fix all_vertex_attrib_bits
 };
 //------------------------------------------------------------------------------
 using vertex_attrib_bits = bitfield<vertex_attrib_kind>;
+//------------------------------------------------------------------------------
+static constexpr inline auto all_vertex_attrib_bits() noexcept {
+    return vertex_attrib_bits{(1u << 13u) - 1u};
+}
 //------------------------------------------------------------------------------
 // vertex_attrib_kind | vertex_attrib_kind
 static constexpr inline vertex_attrib_bits operator|(
