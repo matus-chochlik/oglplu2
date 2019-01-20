@@ -91,7 +91,6 @@ static inline auto unit_torus(
       new unit_torus_gen(attr_bits, rings, sections, radius_ratio)};
 }
 //------------------------------------------------------------------------------
-
 } // namespace shapes
 } // namespace eagine
 

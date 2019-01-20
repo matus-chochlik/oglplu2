@@ -16,6 +16,8 @@
 #include "drawing.hpp"
 #include "vertex_attrib.hpp"
 #include <eagine/config/basic.hpp>
+#include <array>
+#include <memory>
 
 namespace eagine {
 namespace shapes {
@@ -133,6 +135,28 @@ protected:
 public:
     void attrib_values(vertex_attrib_kind attr, span<float> dest) override;
 };
+//------------------------------------------------------------------------------
+static inline std::array<std::unique_ptr<generator_intf>, 2> operator+(
+  std::unique_ptr<generator_intf>&& l,
+  std::unique_ptr<generator_intf>&& r) noexcept {
+    return {{std::move(l), std::move(r)}};
+}
+//------------------------------------------------------------------------------
+template <std::size_t N, std::size_t... I>
+static inline std::array<std::unique_ptr<generator_intf>, N + 1> _add_to_array(
+  std::array<std::unique_ptr<generator_intf>, N>&& l,
+  std::unique_ptr<generator_intf>&& r,
+  std::index_sequence<I...>) noexcept {
+    return {{std::move(l[I])..., std::move(r)}};
+}
+//------------------------------------------------------------------------------
+template <std::size_t N>
+static inline std::array<std::unique_ptr<generator_intf>, N + 1> operator+(
+  std::array<std::unique_ptr<generator_intf>, N>&& l,
+  std::unique_ptr<generator_intf>&& r) noexcept {
+    return _add_to_array(
+      std::move(l), std::move(r), std::make_index_sequence<N>());
+}
 //------------------------------------------------------------------------------
 } // namespace shapes
 } // namespace eagine

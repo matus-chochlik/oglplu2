@@ -28,7 +28,32 @@ enum class primitive_type {
     patches
 };
 //------------------------------------------------------------------------------
-enum class index_data_type { none, unsigned_8, unsigned_16, unsigned_32 };
+enum class index_data_type {
+    none = 0,
+    unsigned_8 = 8,
+    unsigned_16 = 16,
+    unsigned_32 = 32
+};
+//------------------------------------------------------------------------------
+static inline bool operator<(index_data_type l, index_data_type r) noexcept {
+    using UT = std::underlying_type_t<index_data_type>;
+    return UT(l) < UT(r);
+}
+//------------------------------------------------------------------------------
+static inline bool operator>(index_data_type l, index_data_type r) noexcept {
+    using UT = std::underlying_type_t<index_data_type>;
+    return UT(l) > UT(r);
+}
+//------------------------------------------------------------------------------
+static inline bool operator<=(index_data_type l, index_data_type r) noexcept {
+    using UT = std::underlying_type_t<index_data_type>;
+    return UT(l) <= UT(r);
+}
+//------------------------------------------------------------------------------
+static inline bool operator>=(index_data_type l, index_data_type r) noexcept {
+    using UT = std::underlying_type_t<index_data_type>;
+    return UT(l) >= UT(r);
+}
 //------------------------------------------------------------------------------
 struct draw_operation {
     primitive_type mode{primitive_type::points};
