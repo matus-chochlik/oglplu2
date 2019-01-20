@@ -16,6 +16,8 @@
 #include <oglplus/shapes/wrapper.hpp>
 #include <eagine/shapes/sphere.hpp>
 #include <eagine/shapes/torus.hpp>
+#include <eagine/shapes/translated.hpp>
+#include <eagine/shapes/combined.hpp>
 
 #include <oglplus/math/vector.hpp>
 #include <oglplus/math/matrix.hpp>
@@ -94,11 +96,17 @@ public:
           (shapes::vertex_attrib_kind::wrap_coord_0 | 2))
       , shape(
           temp_buffer,
-          eagine::shapes::unit_torus(
-            get_attrib_bits(shape_attrs), 96, 144, 0.5f),
+          eagine::shapes::combine(
+            eagine::shapes::translate(
+              eagine::shapes::unit_torus(
+                get_attrib_bits(shape_attrs), 96, 144, 0.5f),
+              {0.f, +0.4f, 0.f}) +
+            eagine::shapes::translate(
+              eagine::shapes::unit_torus(
+                get_attrib_bits(shape_attrs), 96, 144, 0.5f),
+              {0.f, -0.4f, 0.f})),
           shape_attrs)
       , shp_turns(0.0f) {
-
         camera.set_near(0.5f)
           .set_far(50.f)
           .set_orbit_min(1.5f)
