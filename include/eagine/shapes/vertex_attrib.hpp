@@ -70,6 +70,12 @@ template <std::size_t N>
 using vertex_attribs_and_locations =
   std::array<const vertex_attrib_and_location, N>;
 //------------------------------------------------------------------------------
+// + vertex_attrib_and_location
+static constexpr inline vertex_attribs_and_locations<1> operator+(
+  const vertex_attrib_and_location& a) noexcept {
+    return {{a}};
+}
+//------------------------------------------------------------------------------
 // vertex_attrib_and_location + vertex_attrib_and_location
 static constexpr inline vertex_attribs_and_locations<2> operator+(
   const vertex_attrib_and_location& a,

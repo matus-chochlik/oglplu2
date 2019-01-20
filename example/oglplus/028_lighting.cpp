@@ -14,8 +14,8 @@
 #include <oglplus/operations.hpp>
 
 #include <oglplus/shapes/wrapper.hpp>
-#include <oglplus/shapes/sphere.hpp>
-#include <oglplus/shapes/torus.hpp>
+#include <eagine/shapes/sphere.hpp>
+#include <eagine/shapes/torus.hpp>
 
 #include <oglplus/math/vector.hpp>
 #include <oglplus/math/matrix.hpp>
@@ -60,8 +60,11 @@ private:
     erase_program erase_prog;
     lighting_program light_prog;
 
-    shapes::generator_wrapper<shapes::unit_sphere_gen, 1> background;
-    shapes::generator_wrapper<shapes::unit_torus_gen, 3> shape;
+    shapes::vertex_attribs_and_locations<1> background_attrs;
+    shapes::adapted_generator_wrapper<1> background;
+
+    shapes::vertex_attribs_and_locations<3> shape_attrs;
+    shapes::adapted_generator_wrapper<3> shape;
 
     float shp_turns;
 
@@ -79,15 +82,21 @@ public:
       const example_context& ctx, eagine::memory::buffer& temp_buffer)
       : erase_prog(ctx.params())
       , light_prog(ctx.params())
+      , background_attrs(+(shapes::vertex_attrib_kind::position | 0))
       , background(
-          temp_buffer, (shapes::vertex_attrib_kind::position | 0), 72, 144)
+          temp_buffer,
+          eagine::shapes::unit_sphere(
+            get_attrib_bits(background_attrs), 72, 144),
+          background_attrs)
+      , shape_attrs(
+          (shapes::vertex_attrib_kind::position | 0) +
+          (shapes::vertex_attrib_kind::normal | 1) +
+          (shapes::vertex_attrib_kind::wrap_coord_0 | 2))
       , shape(
           temp_buffer,
-          (shapes::vertex_attrib_kind::position | 0) +
-            (shapes::vertex_attrib_kind::normal | 1) +
-            (shapes::vertex_attrib_kind::wrap_coord_0 | 2),
-          96,
-          144)
+          eagine::shapes::unit_torus(
+            get_attrib_bits(shape_attrs), 96, 144, 0.5f),
+          shape_attrs)
       , shp_turns(0.0f) {
 
         camera.set_near(0.5f)
