@@ -41,7 +41,7 @@ void main() {
 	faceNormal *= 0.25;
 
 	float Arg = abs(dot(LightDirection, faceNormal));
-	float Occ = 1.0 - exp(-abs(0.5-faceCoord.y)*4.0);
+	float Occ = exp(-abs(0.5-faceCoord.y)*4.0);
 	geomAmbient = Occ * 0.3;
 	float DispStrength = Occ * 0.9;
 	float Displacement = pow(Arg, 32.0);

@@ -16,7 +16,10 @@
 
 #include <oglplus/shapes/wrapper.hpp>
 #include <eagine/shapes/torus.hpp>
+#include <eagine/shapes/sphere.hpp>
 #include <eagine/shapes/to_quads.hpp>
+#include <eagine/shapes/translated.hpp>
+#include <eagine/shapes/combined.hpp>
 
 #include <oglplus/math/interpolate.hpp>
 #include <oglplus/math/coordinates.hpp>
@@ -70,8 +73,15 @@ public:
           shapes::vertex_attrib_kind::wrap_coord_0)
       , shape(
           temp_buffer,
-          eagine::shapes::to_quads(
-            eagine::shapes::unit_torus(get_attrib_bits(attrs), 18, 36, 0.4f)),
+          eagine::shapes::combine(
+            eagine::shapes::translate(
+              eagine::shapes::to_quads(eagine::shapes::unit_torus(
+                get_attrib_bits(attrs), 18, 36, 0.4f)),
+              {0.f, -0.6f, 0.f}) +
+            eagine::shapes::translate(
+              eagine::shapes::to_quads(
+                eagine::shapes::unit_sphere(get_attrib_bits(attrs), 24, 36)),
+              {0.f, +0.6f, 0.f})),
           attrs) {
 
         camera.set_fov(right_angle_())
