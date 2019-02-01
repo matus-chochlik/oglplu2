@@ -19,7 +19,6 @@ namespace shapes {
 class combined_gen : public generator_intf {
 private:
     std::vector<std::unique_ptr<generator_intf>> _gens;
-    generator_params _params;
 
     template <typename T>
     void _indices(span<T> dest);
@@ -33,7 +32,9 @@ public:
 
     vertex_attrib_bits attrib_bits() noexcept final;
 
-    generator_params& parameters() noexcept final;
+    bool enable(generator_capability cap, bool value) noexcept final;
+
+    bool is_enabled(generator_capability cap) noexcept final;
 
     span_size_t vertex_count() override;
 

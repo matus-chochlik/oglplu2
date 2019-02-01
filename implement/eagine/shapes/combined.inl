@@ -25,8 +25,23 @@ vertex_attrib_bits combined_gen::attrib_bits() noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-generator_params& combined_gen::parameters() noexcept {
-    return _params;
+bool combined_gen::enable(generator_capability cap, bool value) noexcept {
+    // TODO: some sort of transation (set all or none)?
+    bool result = true;
+    for(const auto& gen : _gens) {
+        result &= gen->enable(cap, value);
+    }
+    return result;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+bool combined_gen::is_enabled(generator_capability cap) noexcept {
+    for(const auto& gen : _gens) {
+        if(!gen->is_enabled(cap)) {
+            return false;
+        }
+    }
+    return true;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

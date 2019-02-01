@@ -10,7 +10,6 @@
 #ifndef EAGINE_SHAPES_VERTEX_ATTRIB_HPP
 #define EAGINE_SHAPES_VERTEX_ATTRIB_HPP
 
-#include "../all_are_same.hpp"
 #include "../bitfield.hpp"
 #include "../types.hpp"
 #include <array>
