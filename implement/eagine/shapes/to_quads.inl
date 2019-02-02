@@ -4,6 +4,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/math/functions.hpp>
 #include <eagine/memory/span_algo.hpp>
 #include <vector>
 
@@ -23,24 +24,31 @@ span_size_t to_quads_gen::index_count() {
     idx.resize(std_size(delegated_gen::index_count()));
     delegated_gen::indices(cover(idx));
 
+    const auto num_verts = [](auto n) {
+        return n > 0 ? span_size(((n / 2) - 1) * 4) : 0;
+    };
+
     for(const auto& op : ops) {
         if(op.mode == primitive_type::triangle_strip) {
             if(op.idx_type == index_data_type::none) {
-                count += span_size(((op.count / 2) - 1) * 4);
+                count += num_verts(op.count);
             } else {
                 span_size_t prev{0};
                 span_size_t curr{0};
-                while(curr < op.count) {
-                    if(
-                      delegated_gen::primitive_restart() &&
-                      (idx[std_size(op.first + curr)] ==
-                       op.primitive_restart_index)) {
-                        count += span_size((((curr - prev) / 2) - 1) * 4);
-                        prev = curr + 1;
+                if(op.primitive_restart && delegated_gen::primitive_restart()) {
+                    while(curr < op.count) {
+                        if(
+                          idx[std_size(op.first + curr)] ==
+                          op.primitive_restart_index) {
+                            count += num_verts(curr - prev);
+                            prev = curr + 1;
+                        }
+                        ++curr;
                     }
-                    ++curr;
+                } else {
+                    curr = op.count;
                 }
-                count += span_size((((curr - prev) / 2) - 1) * 4);
+                count += num_verts(curr - prev);
             }
         } else {
             count += op.count;
@@ -80,6 +88,7 @@ void to_quads_gen::_indices(span<T> dest) noexcept {
                 while(curr + 4 <= op.count) {
                     for(span_size_t t = 0; t < 4; ++t) {
                         if(
+                          op.primitive_restart &&
                           delegated_gen::primitive_restart() &&
                           (del_idx[std_size(op.first + curr + t)] ==
                            op.primitive_restart_index)) {
@@ -149,6 +158,10 @@ void to_quads_gen::instructions(span<draw_operation> ops) {
 
     const auto it = index_type();
 
+    const auto num_verts = [](auto n) {
+        return n > 0 ? span_size(((n / 2) - 1) * 4) : 0;
+    };
+
     span_size_t offs{0};
 
     for(auto& op : ops) {
@@ -157,18 +170,23 @@ void to_quads_gen::instructions(span<draw_operation> ops) {
             span_size_t count{0};
             span_size_t prev{0};
             span_size_t curr{0};
-            while(curr < op.count) {
-                if(
-                  delegated_gen::primitive_restart() &&
-                  (idx[std_size(op.first + curr)] ==
-                   op.primitive_restart_index)) {
-                    count += span_size((((curr - prev) / 2) - 1) * 4);
-                    prev = curr + 1;
+            if(op.primitive_restart && delegated_gen::primitive_restart()) {
+                while(curr < op.count) {
+                    if(
+                      idx[std_size(op.first + curr)] ==
+                      op.primitive_restart_index) {
+                        count += num_verts(curr - prev);
+                        prev = curr + 1;
+                    }
+                    ++curr;
                 }
-                ++curr;
+            } else {
+                curr = op.count;
             }
-            count += span_size((((curr - prev) / 2) - 1) * 4);
+
+            count += num_verts(curr - prev);
             op.count = count;
+            op.primitive_restart = false;
         }
         op.idx_type = it;
         op.first = offs;
