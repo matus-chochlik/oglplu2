@@ -19,12 +19,13 @@
 
 namespace oglplus {
 namespace shapes {
-
+//------------------------------------------------------------------------------
+using eagine::shapes::generator_capability;
 using eagine::shapes::vertex_attrib_and_location;
 using eagine::shapes::vertex_attrib_bits;
 using eagine::shapes::vertex_attrib_kind;
 using eagine::shapes::vertex_attribs_and_locations;
-
+//------------------------------------------------------------------------------
 class adapted_generator {
 private:
     std::unique_ptr<eagine::shapes::generator_intf> _gen;
@@ -39,6 +40,15 @@ private:
 public:
     adapted_generator(std::unique_ptr<eagine::shapes::generator_intf>&& gen)
       : _gen{std::move(gen)} {
+#if defined(GL_TRIANGLE_FAN)
+        _gen->enable(generator_capability::element_fans);
+#endif
+#if defined(GL_TRIANGLE_STRIP)
+        _gen->enable(generator_capability::element_strips);
+#endif
+#if defined(GL_PRIMITIVE_RESTART)
+        _gen->enable(generator_capability::primitive_restart);
+#endif
     }
 
     template <
@@ -46,7 +56,7 @@ public:
       typename = std::enable_if_t<
         std::is_base_of_v<eagine::shapes::generator_intf, Gen>>>
     adapted_generator(const Gen& gen)
-      : _gen(_copy_gen(gen)) {
+      : adapted_generator(_copy_gen(gen)) {
     }
 
     span_size_t vertex_count() const {
@@ -111,7 +121,7 @@ public:
 
     void instructions(span<draw_operation> ops) const;
 };
-
+//------------------------------------------------------------------------------
 template <typename Generator>
 class concrete_adapted_generator : public adapted_generator {
 public:
@@ -120,7 +130,7 @@ public:
       : adapted_generator(Generator(bits, std::forward<P>(p)...)) {
     }
 };
-
+//------------------------------------------------------------------------------
 } // namespace shapes
 } // namespace oglplus
 

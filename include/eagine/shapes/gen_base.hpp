@@ -14,26 +14,14 @@
 #include "../span.hpp"
 #include "../types.hpp"
 #include "drawing.hpp"
+#include "gen_capabilities.hpp"
 #include "vertex_attrib.hpp"
 #include <eagine/config/basic.hpp>
+#include <array>
+#include <memory>
 
 namespace eagine {
 namespace shapes {
-//------------------------------------------------------------------------------
-struct generator_params {
-    bool allow_strips{true};
-    bool allow_fans{true};
-
-    bool allow_primitive_restart {
-#if defined(GL_PRIMITIVE_RESTART)
-        true
-#else
-        false
-#endif
-    };
-
-    generator_params() noexcept = default;
-};
 //------------------------------------------------------------------------------
 struct generator_intf {
     generator_intf() = default;
@@ -42,22 +30,29 @@ struct generator_intf {
 
     virtual vertex_attrib_bits attrib_bits() noexcept = 0;
 
-    virtual generator_params& parameters() noexcept = 0;
+    bool has(vertex_attrib_kind attr) noexcept {
+        return bool(attrib_bits() | attr);
+    }
+
+    virtual bool enable(
+      generator_capability cap, bool value = true) noexcept = 0;
+
+    bool disable(generator_capability cap) noexcept {
+        return enable(cap, false);
+    }
+
+    virtual bool is_enabled(generator_capability cap) noexcept = 0;
 
     bool strips_allowed() noexcept {
-        return parameters().allow_strips;
+        return is_enabled(generator_capability::element_strips);
     }
 
     bool fans_allowed() noexcept {
-        return parameters().allow_fans;
+        return is_enabled(generator_capability::element_fans);
     }
 
     bool primitive_restart() noexcept {
-        return parameters().allow_primitive_restart;
-    }
-
-    bool has(vertex_attrib_kind attr) noexcept {
-        return bool(attrib_bits() | attr);
+        return is_enabled(generator_capability::primitive_restart);
     }
 
     virtual span_size_t vertex_count() = 0;
@@ -84,7 +79,7 @@ struct generator_intf {
 class generator_base : public generator_intf {
 private:
     vertex_attrib_bits _attr_bits;
-    generator_params _params;
+    generator_capabilities _caps;
 
 protected:
     generator_base(vertex_attrib_bits attr_bits) noexcept
@@ -96,8 +91,17 @@ public:
         return _attr_bits;
     }
 
-    generator_params& parameters() noexcept final {
-        return _params;
+    bool enable(generator_capability cap, bool value) noexcept final {
+        if(value) {
+            _caps |= cap;
+        } else {
+            _caps &= cap;
+        }
+        return true;
+    }
+
+    bool is_enabled(generator_capability cap) noexcept final {
+        return _caps.has(cap);
     }
 
     span_size_t values_per_vertex(vertex_attrib_kind attr) override {
@@ -133,6 +137,28 @@ protected:
 public:
     void attrib_values(vertex_attrib_kind attr, span<float> dest) override;
 };
+//------------------------------------------------------------------------------
+static inline std::array<std::unique_ptr<generator_intf>, 2> operator+(
+  std::unique_ptr<generator_intf>&& l,
+  std::unique_ptr<generator_intf>&& r) noexcept {
+    return {{std::move(l), std::move(r)}};
+}
+//------------------------------------------------------------------------------
+template <std::size_t N, std::size_t... I>
+static inline std::array<std::unique_ptr<generator_intf>, N + 1> _add_to_array(
+  std::array<std::unique_ptr<generator_intf>, N>&& l,
+  std::unique_ptr<generator_intf>&& r,
+  std::index_sequence<I...>) noexcept {
+    return {{std::move(l[I])..., std::move(r)}};
+}
+//------------------------------------------------------------------------------
+template <std::size_t N>
+static inline std::array<std::unique_ptr<generator_intf>, N + 1> operator+(
+  std::array<std::unique_ptr<generator_intf>, N>&& l,
+  std::unique_ptr<generator_intf>&& r) noexcept {
+    return _add_to_array(
+      std::move(l), std::move(r), std::make_index_sequence<N>());
+}
 //------------------------------------------------------------------------------
 } // namespace shapes
 } // namespace eagine

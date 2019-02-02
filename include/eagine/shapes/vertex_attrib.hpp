@@ -10,7 +10,6 @@
 #ifndef EAGINE_SHAPES_VERTEX_ATTRIB_HPP
 #define EAGINE_SHAPES_VERTEX_ATTRIB_HPP
 
-#include "../all_are_same.hpp"
 #include "../bitfield.hpp"
 #include "../types.hpp"
 #include <array>
@@ -35,9 +34,14 @@ enum class vertex_attrib_kind : unsigned {
     wrap_coord_2 = 1 << 11,
     wrap_coord_3 = 1 << 12,
     material_id = 1 << 13
+    // also fix all_vertex_attrib_bits
 };
 //------------------------------------------------------------------------------
 using vertex_attrib_bits = bitfield<vertex_attrib_kind>;
+//------------------------------------------------------------------------------
+static constexpr inline auto all_vertex_attrib_bits() noexcept {
+    return vertex_attrib_bits{(1u << 13u) - 1u};
+}
 //------------------------------------------------------------------------------
 // vertex_attrib_kind | vertex_attrib_kind
 static constexpr inline vertex_attrib_bits operator|(
@@ -64,6 +68,12 @@ static constexpr inline vertex_attrib_and_location operator|(
 template <std::size_t N>
 using vertex_attribs_and_locations =
   std::array<const vertex_attrib_and_location, N>;
+//------------------------------------------------------------------------------
+// + vertex_attrib_and_location
+static constexpr inline vertex_attribs_and_locations<1> operator+(
+  const vertex_attrib_and_location& a) noexcept {
+    return {{a}};
+}
 //------------------------------------------------------------------------------
 // vertex_attrib_and_location + vertex_attrib_and_location
 static constexpr inline vertex_attribs_and_locations<2> operator+(

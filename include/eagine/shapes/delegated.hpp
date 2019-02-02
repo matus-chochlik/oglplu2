@@ -16,7 +16,7 @@
 
 namespace eagine {
 namespace shapes {
-
+//------------------------------------------------------------------------------
 class delegated_gen : public generator_intf {
 private:
     std::unique_ptr<generator_intf> _gen;
@@ -30,8 +30,12 @@ public:
         return _gen->attrib_bits();
     }
 
-    generator_params& parameters() noexcept final {
-        return _gen->parameters();
+    bool enable(generator_capability cap, bool value) noexcept final {
+        return _gen->enable(cap, value);
+    }
+
+    bool is_enabled(generator_capability cap) noexcept final {
+        return _gen->is_enabled(cap);
     }
 
     span_size_t vertex_count() override {
@@ -74,7 +78,7 @@ public:
         _gen->instructions(ops);
     }
 };
-
+//------------------------------------------------------------------------------
 } // namespace shapes
 } // namespace eagine
 

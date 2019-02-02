@@ -62,7 +62,7 @@ void unit_torus_gen::positions(span<float> dest) noexcept {
         const auto vz = -std::sin(s * s_step);
 
         for(span_size_t r = 0; r < (_rings + 1); ++r) {
-            const auto vr = std::cos(r * r_step);
+            const auto vr = -std::cos(r * r_step);
             const auto vy = std::sin(r * r_step);
 
             dest[k++] = float(vx * (r1 + r2 * (1 + vr)));
@@ -112,7 +112,7 @@ void unit_torus_gen::normals(span<float> dest) noexcept {
         const auto nz = -std::sin(s * s_step);
 
         for(span_size_t r = 0; r < (_rings + 1); ++r) {
-            const auto nr = std::cos(r * r_step);
+            const auto nr = -std::cos(r * r_step);
             const auto ny = std::sin(r * r_step);
 
             dest[k++] = float(nx * nr);
@@ -159,7 +159,7 @@ void unit_torus_gen::bitangentials(span<float> dest) noexcept {
         const auto tz = -std::cos(s * s_step);
 
         for(span_size_t r = 0; r < (_rings + 1); ++r) {
-            const auto nr = std::cos(r * r_step);
+            const auto nr = -std::cos(r * r_step);
             const auto ny = std::sin(r * r_step);
             const auto nx = -tz * nr;
             const auto nz = tx * nr;
@@ -295,7 +295,7 @@ void unit_torus_gen::instructions(span<draw_operation> ops) {
         op.count = index_count();
         op.primitive_restart_index = unsigned(vertex_count());
         op.primitive_restart = true;
-        op.cw_face_winding = false;
+        op.cw_face_winding = true;
     } else {
         span_size_t step = 2 * (_rings + 1);
         for(span_size_t s = 0; s < _sections; ++s) {
@@ -305,7 +305,7 @@ void unit_torus_gen::instructions(span<draw_operation> ops) {
             op.first = s * step;
             op.count = step;
             op.primitive_restart = false;
-            op.cw_face_winding = false;
+            op.cw_face_winding = true;
         }
     }
 }

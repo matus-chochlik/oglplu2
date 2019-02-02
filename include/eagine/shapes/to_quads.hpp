@@ -12,7 +12,6 @@
 
 #include "delegated.hpp"
 #include <eagine/config/basic.hpp>
-#include <vector>
 
 namespace eagine {
 namespace shapes {
@@ -22,11 +21,10 @@ private:
     template <typename T>
     void _indices(span<T> dest) noexcept;
 
-    std::vector<draw_operation> _ops;
-    std::vector<std::uint32_t> _idx;
-
 public:
-    to_quads_gen(std::unique_ptr<generator_intf>&& gen) noexcept;
+    to_quads_gen(std::unique_ptr<generator_intf>&& gen) noexcept
+      : delegated_gen(std::move(gen)) {
+    }
 
     span_size_t index_count() override;
 

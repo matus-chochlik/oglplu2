@@ -17,7 +17,7 @@
 
 namespace eagine {
 namespace shapes {
-
+//------------------------------------------------------------------------------
 class unit_sphere_gen : public centered_unit_shape_generator_base {
 private:
     using _base = centered_unit_shape_generator_base;
@@ -68,7 +68,15 @@ public:
 
     void instructions(span<draw_operation> ops) override;
 };
-
+//------------------------------------------------------------------------------
+static inline auto unit_sphere(
+  vertex_attrib_bits attr_bits,
+  valid_if_greater_than<int, 2> rings,
+  valid_if_greater_than<int, 3> sections) {
+    return std::unique_ptr<generator_intf>{
+      new unit_sphere_gen(attr_bits, rings, sections)};
+}
+//------------------------------------------------------------------------------
 } // namespace shapes
 } // namespace eagine
 
