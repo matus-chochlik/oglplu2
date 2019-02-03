@@ -15,6 +15,9 @@
 
 #include <oglplus/shapes/wrapper.hpp>
 #include <eagine/shapes/icosahedron.hpp>
+#include <eagine/shapes/scaled.hpp>
+#include <eagine/shapes/array.hpp>
+#include <eagine/shapes/centered.hpp>
 
 #include <oglplus/math/vector.hpp>
 #include <oglplus/math/matrix.hpp>
@@ -63,14 +66,19 @@ public:
       , attrs(+(shapes::vertex_attrib_kind::position | 0))
       , icosahedron(
           temp_buffer,
-          eagine::shapes::unit_icosahedron(get_attrib_bits(attrs)),
+          eagine::shapes::center(eagine::shapes::ortho_array_xyz(
+            eagine::shapes::scale(
+              eagine::shapes::unit_icosahedron(get_attrib_bits(attrs)),
+              {0.5f, 0.5f, 0.5f}),
+            {1.f, 1.f, 1.f},
+            {3, 3, 3})),
           attrs) {
 
         camera.set_fov(right_angle_())
           .set_near(0.5f)
-          .set_far(10.f)
-          .set_orbit_min(1.5f)
-          .set_orbit_max(9.0f);
+          .set_far(20.f)
+          .set_orbit_min(3.5f)
+          .set_orbit_max(15.0f);
 
         gl.clear_color(0.6f, 0.6f, 0.5f, 0);
         gl.clear_depth(1);
