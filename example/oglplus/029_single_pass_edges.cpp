@@ -14,7 +14,7 @@
 #include <oglplus/operations.hpp>
 
 #include <oglplus/shapes/wrapper.hpp>
-#include <oglplus/shapes/icosahedron.hpp>
+#include <eagine/shapes/icosahedron.hpp>
 
 #include <oglplus/math/vector.hpp>
 #include <oglplus/math/matrix.hpp>
