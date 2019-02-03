@@ -14,7 +14,7 @@
 #include <oglplus/glsl/string_ref.hpp>
 
 #include <oglplus/shapes/wrapper.hpp>
-#include <oglplus/shapes/screen.hpp>
+#include <eagine/shapes/screen.hpp>
 
 #include <oglplus/utils/program.hpp>
 
@@ -33,7 +33,8 @@ private:
     uniform<GLfloat> offset_loc;
     uniform<GLfloat> scale_loc;
 
-    shapes::generator_wrapper<shapes::unit_screen_gen, 1> screen;
+    shapes::vertex_attribs_and_locations<1> attrs;
+    shapes::adapted_generator_wrapper<1> screen;
 
     texture gradient;
 
@@ -47,7 +48,11 @@ public:
     example_newton(
       const example_context& ctx, eagine::memory::buffer& temp_buffer)
       : prog()
-      , screen(temp_buffer, shapes::vertex_attrib_kind::position | 0)
+      , attrs(+(shapes::vertex_attrib_kind::position | 0))
+      , screen(
+          temp_buffer,
+          eagine::shapes::unit_screen(get_attrib_bits(attrs)),
+          attrs)
       , offset_x(0.0f)
       , offset_y(0.0f)
       , scale(1.0f)

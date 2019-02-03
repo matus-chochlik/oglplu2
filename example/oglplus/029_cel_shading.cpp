@@ -14,7 +14,7 @@
 #include <oglplus/operations.hpp>
 
 #include <oglplus/shapes/wrapper.hpp>
-#include <oglplus/shapes/icosahedron.hpp>
+#include <eagine/shapes/icosahedron.hpp>
 
 #include <oglplus/math/vector.hpp>
 #include <oglplus/math/matrix.hpp>
@@ -52,7 +52,8 @@ private:
     example_orbiting_camera camera;
     example_program prog;
 
-    shapes::generator_wrapper<shapes::unit_icosahedron_gen, 1> icosahedron;
+    shapes::vertex_attribs_and_locations<1> attrs;
+    shapes::adapted_generator_wrapper<1> icosahedron;
 
     float shp_turns;
 
@@ -64,8 +65,11 @@ public:
     icosahedron_example(
       const example_context& ctx, eagine::memory::buffer& temp_buffer)
       : prog(ctx.params())
-      , icosahedron(temp_buffer, shapes::vertex_attrib_kind::position | 0) {
-
+      , attrs(+(shapes::vertex_attrib_kind::position | 0))
+      , icosahedron(
+          temp_buffer,
+          eagine::shapes::unit_icosahedron(get_attrib_bits(attrs)),
+          attrs) {
         camera.set_fov(right_angle_())
           .set_near(0.5f)
           .set_far(10.f)

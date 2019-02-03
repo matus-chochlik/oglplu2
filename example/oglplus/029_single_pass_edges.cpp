@@ -48,7 +48,8 @@ private:
     example_orbiting_camera camera;
     example_program prog;
 
-    shapes::generator_wrapper<shapes::unit_icosahedron_gen, 1> icosahedron;
+    shapes::vertex_attribs_and_locations<1> attrs;
+    shapes::adapted_generator_wrapper<1> icosahedron;
 
     void set_projection(const example_state_view& state) {
         gl.uniform(prog.projection, camera.matrix(state));
@@ -59,7 +60,11 @@ public:
     icosahedron_example(
       const example_context& ctx, eagine::memory::buffer& temp_buffer)
       : prog(ctx.params())
-      , icosahedron(temp_buffer, shapes::vertex_attrib_kind::position | 0) {
+      , attrs(+(shapes::vertex_attrib_kind::position | 0))
+      , icosahedron(
+          temp_buffer,
+          eagine::shapes::unit_icosahedron(get_attrib_bits(attrs)),
+          attrs) {
 
         camera.set_fov(right_angle_())
           .set_near(0.5f)
