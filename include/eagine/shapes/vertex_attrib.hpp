@@ -33,7 +33,8 @@ enum class vertex_attrib_kind : unsigned {
     wrap_coord_1 = 1 << 10,
     wrap_coord_2 = 1 << 11,
     wrap_coord_3 = 1 << 12,
-    material_id = 1 << 13
+    occlusion = 1 << 13,
+    material_id = 1 << 14
     // also fix all_vertex_attrib_bits
 };
 //------------------------------------------------------------------------------
@@ -143,6 +144,7 @@ static inline span_size_t attrib_values_per_vertex(
         case vertex_attrib_kind::wrap_coord_2:
         case vertex_attrib_kind::wrap_coord_3:
             return 2;
+        case vertex_attrib_kind::occlusion:
         case vertex_attrib_kind::object_id:
         case vertex_attrib_kind::material_id:
             return 1;

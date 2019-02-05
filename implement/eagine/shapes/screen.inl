@@ -176,6 +176,7 @@ void unit_screen_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
         case vertex_attrib_kind::wrap_coord_3:
         case vertex_attrib_kind::object_id:
         case vertex_attrib_kind::material_id:
+        case vertex_attrib_kind::occlusion:
             _base::attrib_values(attr, dest);
     }
 }
