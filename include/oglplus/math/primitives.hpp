@@ -16,6 +16,7 @@ namespace oglplus {
 
 using line = eagine::math::line<GLfloat, math_use_simd>;
 using sphere = eagine::math::sphere<GLfloat, math_use_simd>;
+using triangle = eagine::math::triangle<GLfloat, math_use_simd>;
 
 } // namespace oglplus
 

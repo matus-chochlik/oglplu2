@@ -9,6 +9,7 @@
 #ifndef EAGINE_MATH_FUNCTIONS_HPP
 #define EAGINE_MATH_FUNCTIONS_HPP
 
+#include "../valid_if/decl.hpp"
 #include "constants.hpp"
 #include <cassert>
 #include <cmath>
@@ -40,6 +41,15 @@ static constexpr inline T maximum(T a, T b) noexcept {
 template <typename T, typename... P>
 static constexpr inline T maximum(T a, T b, T c, P... d) noexcept {
     return maximum(maximum(a, b), c, d...);
+}
+//------------------------------------------------------------------------------
+template <typename T>
+static constexpr inline optionally_valid<T> reciprocal(T x) noexcept {
+    using std::abs;
+    if(abs(x) > std::numeric_limits<T>::epsilon()) {
+        return {T(1) / x, true};
+    }
+    return {};
 }
 //------------------------------------------------------------------------------
 template <typename T, typename Min, typename Max>

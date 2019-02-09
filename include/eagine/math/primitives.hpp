@@ -10,6 +10,7 @@
 #define EAGINE_MATH_PRIMITIVES_HPP
 
 #include "vector.hpp"
+#include <array>
 
 namespace eagine {
 namespace math {
@@ -39,6 +40,52 @@ public:
 private:
     vector<T, 3, V> _origin{};
     vector<T, 3, V> _direction{};
+};
+//------------------------------------------------------------------------------
+template <typename T, bool V>
+class triangle {
+public:
+    constexpr triangle() noexcept = default;
+
+    constexpr triangle(
+      vector<T, 3, V> a, vector<T, 3, V> b, vector<T, 3, V> c) noexcept
+      : _vertices{{a, b, c}} {
+    }
+
+    constexpr vector<T, 3, V> vertex(span_size_t index) const noexcept {
+        return _vertices[index];
+    }
+
+    constexpr vector<T, 3, V> a() const noexcept {
+        return _vertices[0];
+    }
+
+    constexpr vector<T, 3, V> b() const noexcept {
+        return _vertices[1];
+    }
+
+    constexpr vector<T, 3, V> c() const noexcept {
+        return _vertices[2];
+    }
+
+    constexpr vector<T, 3, V> ab() const noexcept {
+        return b() - a();
+    }
+
+    constexpr vector<T, 3, V> ac() const noexcept {
+        return c() - a();
+    }
+
+    constexpr vector<T, 3, V> center() const noexcept {
+        return (a() + b() + c()) / T(3);
+    }
+
+    constexpr vector<T, 3, V> normal(bool ccw) const noexcept {
+        return ccw ? cross(ab(), ac()) : cross(ac(), ab());
+    }
+
+private:
+    std::array<vector<T, 3, V>, 3> _vertices;
 };
 //------------------------------------------------------------------------------
 template <typename T, bool V>
