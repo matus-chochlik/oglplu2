@@ -4,6 +4,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/math/tvec.hpp>
 
 namespace eagine {
 namespace shapes {
@@ -23,6 +24,13 @@ void translated_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
             }
         }
     }
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+math::sphere<float, true> translated_gen::bounding_sphere() {
+    const auto bs = delegated_gen::bounding_sphere();
+    return {bs.center() + math::tvec<float, 3, true>{_d[0], _d[1], _d[2]},
+            bs.radius()};
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

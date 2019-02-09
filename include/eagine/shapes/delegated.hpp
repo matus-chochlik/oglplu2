@@ -77,6 +77,10 @@ public:
     void instructions(span<draw_operation> ops) override {
         _gen->instructions(ops);
     }
+
+    math::sphere<float, true> bounding_sphere() override {
+        return _gen->bounding_sphere();
+    }
 };
 //------------------------------------------------------------------------------
 } // namespace shapes

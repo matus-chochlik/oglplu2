@@ -67,6 +67,8 @@ public:
     span_size_t operation_count() override;
 
     void instructions(span<draw_operation> ops) override;
+
+    math::sphere<float, true> bounding_sphere() override;
 };
 //------------------------------------------------------------------------------
 static inline auto unit_sphere(

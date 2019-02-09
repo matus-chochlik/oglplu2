@@ -11,6 +11,7 @@
 #define EAGINE_SHAPES_GEN_BASE_HPP
 
 #include "../assert.hpp"
+#include "../math/primitives.hpp"
 #include "../span.hpp"
 #include "../types.hpp"
 #include "drawing.hpp"
@@ -74,6 +75,8 @@ struct generator_intf {
     virtual span_size_t operation_count() = 0;
 
     virtual void instructions(span<draw_operation> dest) = 0;
+
+    virtual math::sphere<float, true> bounding_sphere();
 };
 //------------------------------------------------------------------------------
 class generator_base : public generator_intf {

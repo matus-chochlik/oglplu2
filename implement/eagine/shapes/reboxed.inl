@@ -27,8 +27,11 @@ void reboxed_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
                                  std::numeric_limits<float>::lowest(),
                                  std::numeric_limits<float>::lowest()};
 
-        for(span_size_t v = 0, n = vertex_count(); v < n; ++v) {
-            for(span_size_t c = 0, m = values_per_vertex(attr); c < m; ++c) {
+        const auto n = vertex_count();
+        const auto m = values_per_vertex(attr);
+
+        for(span_size_t v = 0; v < n; ++v) {
+            for(span_size_t c = 0; c < m; ++c) {
                 const auto k = std_size(c);
 
                 min[k] = eagine::math::minimum(min[k], dest[v * m + c]);
@@ -37,13 +40,13 @@ void reboxed_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
         }
 
         std::array<float, 4> inorm{{}};
-        for(span_size_t c = 0, m = values_per_vertex(attr); c < m; ++c) {
+        for(span_size_t c = 0; c < m; ++c) {
             const auto k = std_size(c);
             inorm[k] = 1.0f / (max[k] - min[k]);
         }
 
-        for(span_size_t v = 0, n = vertex_count(); v < n; ++v) {
-            for(span_size_t c = 0, m = values_per_vertex(attr); c < m; ++c) {
+        for(span_size_t v = 0; v < n; ++v) {
+            for(span_size_t c = 0; c < m; ++c) {
                 const auto l = v * m + c;
                 const auto k = std_size(c);
                 dest[l] = (dest[l] - min[k]) * inorm[k];

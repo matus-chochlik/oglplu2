@@ -4,28 +4,51 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/math/functions.hpp>
 #include <eagine/memory/span_algo.hpp>
+#include <array>
 #include <cassert>
+#include <limits>
 #include <vector>
 
 namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void centered_unit_shape_generator_base::attrib_values(
-  vertex_attrib_kind attr, span<float> dest) {
-    if(attr == vertex_attrib_kind::box_coord) {
-        this->attrib_values(vertex_attrib_kind::position, dest);
-        for(float& x : dest) {
-            x += 0.5f;
+math::sphere<float, true> generator_intf::bounding_sphere() {
+    std::array<float, 3> min{std::numeric_limits<float>::max(),
+                             std::numeric_limits<float>::max(),
+                             std::numeric_limits<float>::max()};
+
+    std::array<float, 3> max{std::numeric_limits<float>::lowest(),
+                             std::numeric_limits<float>::lowest(),
+                             std::numeric_limits<float>::lowest()};
+
+    const auto attr = vertex_attrib_kind::position;
+    const auto n = vertex_count();
+    const auto m = values_per_vertex(attr);
+
+    std::vector<float> temp(std_size(n));
+    auto pos = cover(temp);
+    attrib_values(attr, pos);
+
+    for(span_size_t v = 0; v < n; ++v) {
+        for(span_size_t c = 0; c < m; ++c) {
+            const auto k = std_size(c);
+
+            min[k] = eagine::math::minimum(min[k], pos[v * m + c]);
+            max[k] = eagine::math::maximum(max[k], pos[v * m + c]);
         }
-    } else if(attr == vertex_attrib_kind::pivot) {
-        fill(head(dest, this->vertex_count() * 3), 0.f);
-    } else if(attr == vertex_attrib_kind::vertex_pivot) {
-        fill(head(dest, this->vertex_count() * 3), 0.f);
-    } else {
-        generator_base::attrib_values(attr, dest);
     }
+
+    math::vector<float, 3, true> center{};
+    float radius{0.f};
+    for(span_size_t c = 0; c < m; ++c) {
+        const auto k = std_size(c);
+        radius = eagine::math::maximum(radius, (max[k] - min[k]) * 0.5f);
+    }
+
+    return {center, radius};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -62,6 +85,23 @@ void generator_base::indices(span<std::uint32_t> dest) {
         std::vector<std::uint16_t> tmp(std_size(index_count()));
         indices(cover(tmp));
         copy(view(tmp), dest);
+    }
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void centered_unit_shape_generator_base::attrib_values(
+  vertex_attrib_kind attr, span<float> dest) {
+    if(attr == vertex_attrib_kind::box_coord) {
+        this->attrib_values(vertex_attrib_kind::position, dest);
+        for(float& x : dest) {
+            x += 0.5f;
+        }
+    } else if(attr == vertex_attrib_kind::pivot) {
+        fill(head(dest, this->vertex_count() * 3), 0.f);
+    } else if(attr == vertex_attrib_kind::vertex_pivot) {
+        fill(head(dest, this->vertex_count() * 3), 0.f);
+    } else {
+        generator_base::attrib_values(attr, dest);
     }
 }
 //------------------------------------------------------------------------------

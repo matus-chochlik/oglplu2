@@ -29,6 +29,8 @@ public:
     }
 
     void attrib_values(vertex_attrib_kind attr, span<float> dest) override;
+
+    math::sphere<float, true> bounding_sphere() override;
 };
 //------------------------------------------------------------------------------
 static inline auto translate(
