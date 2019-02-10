@@ -12,8 +12,6 @@
 #include <limits>
 #include <vector>
 
-#include <iostream>
-
 namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
@@ -64,9 +62,6 @@ optionally_valid<float> generator_intf::ray_intersection(
     const auto params = math::line_sphere_intersection_params(ray, bs);
     const auto& t0 = std::get<0>(params);
     const auto& t1 = std::get<1>(params);
-
-    std::cout << bs.center().x() << "|" << bs.center().y() << "|"
-              << bs.center().z() << "|" << bs.radius() << std::endl;
 
     if(t0 >= 0.f) {
         if(t1 >= 0.f) {
