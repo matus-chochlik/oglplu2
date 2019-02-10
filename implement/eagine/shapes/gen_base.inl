@@ -5,14 +5,19 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/math/functions.hpp>
+#include <eagine/math/intersection.hpp>
 #include <eagine/memory/span_algo.hpp>
 #include <array>
 #include <cassert>
 #include <limits>
 #include <vector>
 
+#include <iostream>
+
 namespace eagine {
 namespace shapes {
+//------------------------------------------------------------------------------
+// generator_intf
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 math::sphere<float, true> generator_intf::bounding_sphere() {
@@ -28,7 +33,7 @@ math::sphere<float, true> generator_intf::bounding_sphere() {
     const auto n = vertex_count();
     const auto m = values_per_vertex(attr);
 
-    std::vector<float> temp(std_size(n));
+    std::vector<float> temp(std_size(n * m));
     auto pos = cover(temp);
     attrib_values(attr, pos);
 
@@ -52,7 +57,39 @@ math::sphere<float, true> generator_intf::bounding_sphere() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-index_data_type generator_base::index_type() {
+optionally_valid<float> generator_intf::ray_intersection(
+  const math::line<float, true>& ray) {
+
+    const auto bs = bounding_sphere();
+    const auto params = math::line_sphere_intersection_params(ray, bs);
+    const auto& t0 = std::get<0>(params);
+    const auto& t1 = std::get<1>(params);
+
+    std::cout << bs.center().x() << "|" << bs.center().y() << "|"
+              << bs.center().z() << "|" << bs.radius() << std::endl;
+
+    if(t0 >= 0.f) {
+        if(t1 >= 0.f) {
+            if(t0 < t1) {
+                return t0;
+            } else {
+                return t1;
+            }
+        } else {
+            return t0;
+        }
+    } else {
+        if(t1 >= 0.f) {
+            return t1;
+        }
+    }
+
+    return {};
+}
+//------------------------------------------------------------------------------
+// generator_base
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC index_data_type generator_base::index_type() {
     return index_data_type::none;
 }
 //------------------------------------------------------------------------------
@@ -87,6 +124,8 @@ void generator_base::indices(span<std::uint32_t> dest) {
         copy(view(tmp), dest);
     }
 }
+//------------------------------------------------------------------------------
+// centered_unit_shape_generator_base
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void centered_unit_shape_generator_base::attrib_values(

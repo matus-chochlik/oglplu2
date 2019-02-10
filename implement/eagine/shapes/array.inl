@@ -4,6 +4,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/math/tvec.hpp>
 #include <eagine/memory/span_algo.hpp>
 
 namespace eagine {
@@ -171,6 +172,19 @@ void array_gen::instructions(span<draw_operation> ops) {
             }
         }
     }
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+math::sphere<float, true> array_gen::bounding_sphere() {
+    using std::pow;
+    using std::sqrt;
+
+    const auto v = math::tvec<float, 3, true>{_d[0], _d[1], _d[2]};
+    const auto c = float(_copies);
+    const auto l = length(v);
+    const auto bs = delegated_gen::bounding_sphere();
+
+    return {bs.center() + c * 0.5f * v, bs.radius() + c * 0.5f * l};
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

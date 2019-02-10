@@ -77,6 +77,9 @@ struct generator_intf {
     virtual void instructions(span<draw_operation> dest) = 0;
 
     virtual math::sphere<float, true> bounding_sphere();
+
+    virtual optionally_valid<float> ray_intersection(
+      const math::line<float, true>& ray);
 };
 //------------------------------------------------------------------------------
 class generator_base : public generator_intf {

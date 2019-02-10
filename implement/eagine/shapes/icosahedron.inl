@@ -6,6 +6,7 @@
  */
 
 #include <eagine/math/constants.hpp>
+#include <eagine/math/tvec.hpp>
 #include <cassert>
 
 #ifdef __clang__
@@ -226,6 +227,11 @@ void unit_icosahedron_gen::instructions(span<draw_operation> ops) {
     op.count = index_count();
     op.primitive_restart = false;
     op.cw_face_winding = false;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+math::sphere<float, true> unit_icosahedron_gen::bounding_sphere() {
+    return {math::tvec<float, 3, true>{0.0f}, 0.5f};
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

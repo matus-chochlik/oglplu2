@@ -10,6 +10,7 @@
 #ifndef OGLPLUS_SHAPES_ADAPTED_GEN_HPP
 #define OGLPLUS_SHAPES_ADAPTED_GEN_HPP
 
+#include "../math/primitives.hpp"
 #include "../utils/span.hpp"
 #include "drawing.hpp"
 #include <eagine/memory/block.hpp>
@@ -120,6 +121,13 @@ public:
     }
 
     void instructions(span<draw_operation> ops) const;
+
+    sphere bounding_sphere() const;
+
+    eagine::optionally_valid<GLfloat> ray_intersection(const line&) const;
+
+    eagine::optionally_valid<GLfloat> ray_intersection(
+      const eagine::optionally_valid<line>&) const;
 };
 //------------------------------------------------------------------------------
 template <typename Generator>

@@ -39,6 +39,26 @@ void adapted_generator::instructions(span<draw_operation> ops) const {
     }
 }
 //------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+sphere adapted_generator::bounding_sphere() const {
+    return _gen->bounding_sphere();
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+eagine::optionally_valid<GLfloat> adapted_generator::ray_intersection(
+  const line& ray) const {
+    return _gen->ray_intersection(ray);
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+eagine::optionally_valid<GLfloat> adapted_generator::ray_intersection(
+  const eagine::optionally_valid<line>& opt_ray) const {
+    if(opt_ray) {
+        return ray_intersection(opt_ray.value_anyway());
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
 } // namespace shapes
 } // namespace oglplus
 //------------------------------------------------------------------------------

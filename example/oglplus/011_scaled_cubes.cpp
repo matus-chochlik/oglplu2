@@ -40,6 +40,7 @@ public:
     uniform_location projection;
     uniform_location center;
     uniform_location time;
+    uniform_location pick;
 
     example_program(const example_params& params)
       : example_program_base(params, "011_scaled_cubes.oglpprog") {
@@ -48,6 +49,7 @@ public:
         gl.query_location(projection, *this, "Projection");
         gl.query_location(center, *this, "Center");
         gl.query_location(time, *this, "Time");
+        gl.query_location(pick, *this, "Pick");
     }
 };
 
@@ -58,6 +60,7 @@ private:
     example_program prog;
 
     shapes::vertex_attribs_and_locations<3> attrs;
+    shapes::adapted_generator cube_gen;
     shapes::adapted_generator_wrapper<3> cubes;
 
     void set_projection(const example_state_view& state) {
@@ -72,14 +75,12 @@ public:
           shapes::vertex_attrib_kind::position +
           shapes::vertex_attrib_kind::pivot +
           shapes::vertex_attrib_kind::box_coord)
-      , cubes(
-          temp_buffer,
-          eagine::shapes::rebox(
-            eagine::shapes::center(eagine::shapes::ortho_array_xyz(
-              eagine::shapes::unit_cube(get_attrib_bits(attrs)),
-              {1.f, 1.f, 1.f},
-              {10, 10, 10}))),
-          attrs) {
+      , cube_gen(eagine::shapes::rebox(
+          eagine::shapes::center(eagine::shapes::ortho_array_xyz(
+            eagine::shapes::unit_cube(get_attrib_bits(attrs)),
+            {1.f, 1.f, 1.f},
+            {10, 10, 10}))))
+      , cubes(temp_buffer, cube_gen, attrs) {
 
         camera.set_fov(right_angle_())
           .set_orbit_min(12.0f)
@@ -100,6 +101,11 @@ public:
         const auto& state = ctx.state();
         if(camera.apply_pointer_motion(state)) {
             set_projection(state);
+        }
+        if(cube_gen.ray_intersection(camera.pointer_ray(state))) {
+            gl.uniform(prog.pick, 1.f);
+        } else {
+            gl.uniform(prog.pick, 0.f);
         }
     }
 

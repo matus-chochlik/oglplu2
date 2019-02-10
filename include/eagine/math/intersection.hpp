@@ -117,7 +117,7 @@ nearest_line_sphere_intersection(
 }
 //------------------------------------------------------------------------------
 template <typename T, bool V>
-static inline optionally_valid<T> _line_triangle_intersection_p(
+static inline optionally_valid<T> line_triangle_intersection_param(
   const line<T, V>& ray, const triangle<T, V>& tri) noexcept {
 
     const vector<T, 3, V> h = cross(ray.direction(), tri.ac());
@@ -144,7 +144,7 @@ static inline optionally_valid<T> _line_triangle_intersection_p(
 template <typename T, bool V>
 static inline optionally_valid<vector<T, 3, V>> line_triangle_intersection(
   const line<T, V>& ray, const triangle<T, V>& tri) noexcept {
-    if(const auto t = _line_triangle_intersection_p(ray, tri)) {
+    if(const auto t = line_triangle_intersection_param(ray, tri)) {
         return {ray.origin() + ray.direction() * t.value_anyway(), true};
     }
     return {};

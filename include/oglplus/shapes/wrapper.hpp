@@ -52,7 +52,13 @@ public:
 template <std::size_t N>
 class adapted_generator_wrapper : public base_wrapper<N> {
 public:
-    template <typename... P>
+    adapted_generator_wrapper(
+      eagine::memory::buffer& tmp_buf,
+      const adapted_generator& gen,
+      const vertex_attribs_and_locations<N>& vaals)
+      : base_wrapper<N>(tmp_buf, gen, view(vaals)) {
+    }
+
     adapted_generator_wrapper(
       eagine::memory::buffer& tmp_buf,
       std::unique_ptr<eagine::shapes::generator_intf>&& gen,
