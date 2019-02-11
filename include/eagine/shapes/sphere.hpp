@@ -69,6 +69,9 @@ public:
     void instructions(span<draw_operation> ops) override;
 
     math::sphere<float, true> bounding_sphere() override;
+
+    optionally_valid<float> ray_intersection(
+      const math::line<float, true>& ray) final;
 };
 //------------------------------------------------------------------------------
 static inline auto unit_sphere(

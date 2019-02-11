@@ -6,6 +6,7 @@
  */
 
 #include <eagine/math/constants.hpp>
+#include <eagine/math/intersection.hpp>
 #include <cassert>
 #include <cmath>
 
@@ -272,6 +273,14 @@ void unit_sphere_gen::instructions(span<draw_operation> ops) {
 EAGINE_LIB_FUNC
 math::sphere<float, true> unit_sphere_gen::bounding_sphere() {
     return {{0.0f}, 0.5f};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+optionally_valid<float> unit_sphere_gen::ray_intersection(
+  const math::line<float, true>& ray) {
+
+    return math::nearest_ray_param(
+      math::line_sphere_intersection_params(ray, bounding_sphere()));
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

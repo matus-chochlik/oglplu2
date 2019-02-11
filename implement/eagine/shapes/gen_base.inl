@@ -58,28 +58,8 @@ EAGINE_LIB_FUNC
 optionally_valid<float> generator_intf::ray_intersection(
   const math::line<float, true>& ray) {
 
-    const auto bs = bounding_sphere();
-    const auto params = math::line_sphere_intersection_params(ray, bs);
-    const auto& t0 = std::get<0>(params);
-    const auto& t1 = std::get<1>(params);
-
-    if(t0 >= 0.f) {
-        if(t1 >= 0.f) {
-            if(t0 < t1) {
-                return t0;
-            } else {
-                return t1;
-            }
-        } else {
-            return t0;
-        }
-    } else {
-        if(t1 >= 0.f) {
-            return t1;
-        }
-    }
-
-    return {};
+    return math::nearest_ray_param(
+      math::line_sphere_intersection_params(ray, bounding_sphere()));
 }
 //------------------------------------------------------------------------------
 // generator_base

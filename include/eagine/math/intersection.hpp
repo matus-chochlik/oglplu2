@@ -24,6 +24,34 @@
 namespace eagine {
 namespace math {
 //------------------------------------------------------------------------------
+// utils
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename L>
+static inline valid_if<T, P, L> nearest_ray_param(
+  const std::pair<valid_if<T, P, L>, valid_if<T, P, L>>& params) {
+    const auto& t0 = std::get<0>(params);
+    const auto& t1 = std::get<1>(params);
+
+    if(t0 >= 0.f) {
+        if(t1 >= 0.f) {
+            if(t0 < t1) {
+                return t0;
+            } else {
+                return t1;
+            }
+        } else {
+            return t0;
+        }
+    } else {
+        if(t1 >= 0.f) {
+            return t1;
+        }
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+// line-sphere
+//------------------------------------------------------------------------------
 template <typename T, bool V>
 static constexpr inline T _line_sphere_intersection_a(
   vector<T, 3, V> ld, vector<T, 3, V> oc) noexcept {
@@ -115,6 +143,8 @@ nearest_line_sphere_intersection(
     return _line_sphere_intersection_n_p(
       ray, line_sphere_intersection_params(ray, sph));
 }
+//------------------------------------------------------------------------------
+// line-triangle
 //------------------------------------------------------------------------------
 template <typename T, bool V>
 static inline optionally_valid<T> line_triangle_intersection_param(
