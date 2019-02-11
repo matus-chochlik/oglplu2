@@ -9,7 +9,7 @@
 #ifndef EAGINE_MATH_PRIMITIVES_HPP
 #define EAGINE_MATH_PRIMITIVES_HPP
 
-#include "vector.hpp"
+#include "tvec.hpp"
 #include <array>
 
 namespace eagine {
@@ -20,7 +20,7 @@ class line {
 public:
     constexpr line() noexcept = default;
 
-    constexpr line(vector<T, 3, V> orig, vector<T, 3, V> dir) noexcept
+    constexpr line(tvec<T, 3, V> orig, tvec<T, 3, V> dir) noexcept
       : _origin{orig}
       , _direction{dir} {
     }
@@ -48,7 +48,7 @@ public:
     constexpr triangle() noexcept = default;
 
     constexpr triangle(
-      vector<T, 3, V> a, vector<T, 3, V> b, vector<T, 3, V> c) noexcept
+      tvec<T, 3, V> a, tvec<T, 3, V> b, tvec<T, 3, V> c) noexcept
       : _vertices{{a, b, c}} {
     }
 
@@ -91,7 +91,7 @@ private:
 template <typename T, bool V>
 class sphere {
 public:
-    constexpr sphere(vector<T, 3, V> cntr, T rad) noexcept
+    constexpr sphere(tvec<T, 3, V> cntr, T rad) noexcept
       : _params{vector<T, 4, V>::from(cntr, rad)} {
     }
 

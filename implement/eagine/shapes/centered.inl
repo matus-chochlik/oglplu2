@@ -5,7 +5,6 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/math/functions.hpp>
-#include <eagine/math/tvec.hpp>
 #include <limits>
 
 namespace eagine {
@@ -64,7 +63,7 @@ void centered_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
 EAGINE_LIB_FUNC
 math::sphere<float, true> centered_gen::bounding_sphere() {
     const auto bs = delegated_gen::bounding_sphere();
-    return {math::tvec<float, 3, true>{0.f}, bs.radius()};
+    return {{0.f}, bs.radius()};
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

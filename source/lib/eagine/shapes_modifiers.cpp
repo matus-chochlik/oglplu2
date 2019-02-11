@@ -7,9 +7,13 @@
 
 // clang-format off
 #include "prologue.inl"
-
-#include "implement.inl"
 #include <eagine/shapes/gen_base.hpp>
-#include <eagine/shapes/screen.hpp>
+#include "implement.inl"
+#include <eagine/shapes/array.hpp>
+#include <eagine/shapes/combined.hpp>
+#include <eagine/shapes/centered.hpp>
+#include <eagine/shapes/translated.hpp>
+#include <eagine/shapes/scaled.hpp>
+#include <eagine/shapes/reboxed.hpp>
 #include "epilogue.inl"
 // clang-format on

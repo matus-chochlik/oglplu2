@@ -5,7 +5,6 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#include <eagine/math/tvec.hpp>
 #include <cassert>
 
 #ifdef __clang__
@@ -203,7 +202,7 @@ void unit_screen_gen::instructions(span<draw_operation> ops) {
 EAGINE_LIB_FUNC
 math::sphere<float, true> unit_screen_gen::bounding_sphere() {
     using std::sqrt;
-    return {math::tvec<float, 3, true>{0.0f}, float(sqrt(2.f))};
+    return {{0.0f}, float(sqrt(2.f))};
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

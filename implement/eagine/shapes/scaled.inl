@@ -5,7 +5,6 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/math/functions.hpp>
-#include <eagine/math/tvec.hpp>
 
 namespace eagine {
 namespace shapes {

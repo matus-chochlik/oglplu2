@@ -6,7 +6,6 @@
  */
 
 #include <eagine/math/constants.hpp>
-#include <eagine/math/tvec.hpp>
 #include <cassert>
 #include <cmath>
 
@@ -272,7 +271,7 @@ void unit_sphere_gen::instructions(span<draw_operation> ops) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 math::sphere<float, true> unit_sphere_gen::bounding_sphere() {
-    return {math::tvec<float, 3, true>{0.0f}, 0.5f};
+    return {{0.0f}, 0.5f};
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

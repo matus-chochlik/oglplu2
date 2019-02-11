@@ -12,6 +12,7 @@
 
 #include "gen_base.hpp"
 #include <eagine/config/basic.hpp>
+#include <vector>
 
 namespace eagine {
 namespace shapes {
