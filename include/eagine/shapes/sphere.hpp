@@ -70,8 +70,9 @@ public:
 
     math::sphere<float, true> bounding_sphere() override;
 
-    optionally_valid<float> ray_intersection(
-      const math::line<float, true>& ray) final;
+    void ray_intersections(
+      span<const math::line<float, true>> rays,
+      span<optionally_valid<float>> intersections) override;
 };
 //------------------------------------------------------------------------------
 static inline auto unit_sphere(

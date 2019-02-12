@@ -78,8 +78,16 @@ struct generator_intf {
 
     virtual math::sphere<float, true> bounding_sphere();
 
-    virtual optionally_valid<float> ray_intersection(
-      const math::line<float, true>& ray);
+    virtual void ray_intersections(
+      span<const math::line<float, true>> rays,
+      span<optionally_valid<float>> intersections);
+
+    optionally_valid<float> ray_intersection(
+      const math::line<float, true>& ray) {
+        optionally_valid<float> result{};
+        ray_intersections(view_one(ray), cover_one(result));
+        return result;
+    }
 };
 //------------------------------------------------------------------------------
 class generator_base : public generator_intf {

@@ -15,5 +15,6 @@
 #include <eagine/shapes/translated.hpp>
 #include <eagine/shapes/scaled.hpp>
 #include <eagine/shapes/reboxed.hpp>
+#include <eagine/shapes/occluded.hpp>
 #include "epilogue.inl"
 // clang-format on

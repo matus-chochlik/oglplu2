@@ -276,11 +276,16 @@ math::sphere<float, true> unit_sphere_gen::bounding_sphere() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-optionally_valid<float> unit_sphere_gen::ray_intersection(
-  const math::line<float, true>& ray) {
+void unit_sphere_gen::ray_intersections(
+  span<const math::line<float, true>> rays,
+  span<optionally_valid<float>> intersections) {
 
-    return math::nearest_ray_param(
-      math::line_sphere_intersection_params(ray, bounding_sphere()));
+    assert(intersections.size() >= rays.size());
+
+    for(span_size_t i = 0; i < intersections.size(); ++i) {
+        intersections[i] = math::nearest_ray_param(
+          math::line_sphere_intersection_params(rays[i], bounding_sphere()));
+    }
 }
 //------------------------------------------------------------------------------
 } // namespace shapes
