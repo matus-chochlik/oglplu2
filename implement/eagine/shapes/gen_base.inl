@@ -61,9 +61,92 @@ void generator_intf::ray_intersections(
 
     assert(intersections.size() >= rays.size());
 
-    for(span_size_t i = 0; i < intersections.size(); ++i) {
-        intersections[i] = math::nearest_ray_param(
-          math::line_sphere_intersection_params(rays[i], bounding_sphere()));
+    std::vector<draw_operation> ops(std_size(operation_count()));
+    instructions(cover(ops));
+
+    std::vector<std::uint32_t> idx(std_size(index_count()));
+    indices(cover(idx));
+
+    const auto pvak = vertex_attrib_kind::position;
+    const auto vpv = values_per_vertex(pvak);
+
+    std::vector<float> pos(std_size(vertex_count() * vpv));
+    attrib_values(pvak, cover(pos));
+
+    for(auto& param : intersections) {
+        param = {};
+    }
+
+    auto intersect = [&rays, &intersections](const auto& fce, bool cw) {
+        for(span_size_t i = 0; i < intersections.size(); ++i) {
+            const auto& ray = rays[i];
+            const auto nparam =
+              math::line_triangle_intersection_param(ray, fce);
+
+            if(nparam) {
+                if(nparam.value_anyway() > 0.0001f) {
+                    const auto fnml = fce.normal(cw);
+                    if(dot(ray.direction(), fnml) < 0.f) {
+                        auto& oparam = intersections[i];
+                        if(!oparam) {
+                            oparam = nparam;
+                        } else if(
+                          nparam.value_anyway() < oparam.value_anyway()) {
+                            oparam = nparam;
+                        }
+                    }
+                }
+            }
+        }
+    };
+
+    auto coord = [&pos, &idx, vpv](auto vx, auto cr, bool idxd) {
+        if(idxd) {
+            return pos[std_size(span_size(idx[std_size(vx)]) * vpv + cr)];
+        } else {
+            return pos[std_size(vx * vpv + cr)];
+        }
+    };
+
+    for(const auto& op : ops) {
+        const bool indexed = op.idx_type != index_data_type::none;
+
+        if(op.mode == primitive_type::triangles) {
+            std::array<std::array<float, 4>, 3> tri{};
+            span_size_t t = 0;
+            for(span_size_t v = op.first; v < op.count; ++v) {
+                for(span_size_t c = 0; c < 3; ++c) {
+                    tri[std_size(t)][std_size(c)] = coord(v, c, indexed);
+                }
+                if(++t >= 3) {
+                    t = 0;
+                    math::triangle<float, true> face{
+                      {tri[0][0], tri[0][1], tri[0][2]},
+                      {tri[1][0], tri[1][1], tri[1][2]},
+                      {tri[2][0], tri[2][1], tri[2][2]}};
+                    intersect(face, op.cw_face_winding);
+                }
+            }
+        } else if(op.mode == primitive_type::triangle_strip) {
+            for(span_size_t v = op.first + 2; v < op.count; ++v) {
+                span_size_t w = v - op.first;
+                span_size_t o0 = -2, o1 = -1, o2 = 0;
+                if(w % 2 != 0) {
+                    o1 = 0;
+                    o2 = -1;
+                }
+                math::triangle<float, true> face{{coord(v + o0, 0, indexed),
+                                                  coord(v + o0, 1, indexed),
+                                                  coord(v + o0, 2, indexed)},
+                                                 {coord(v + o1, 0, indexed),
+                                                  coord(v + o1, 1, indexed),
+                                                  coord(v + o1, 2, indexed)},
+                                                 {coord(v + o2, 0, indexed),
+                                                  coord(v + o2, 1, indexed),
+                                                  coord(v + o2, 2, indexed)}};
+                intersect(face, op.cw_face_winding);
+            }
+        }
     }
 }
 //------------------------------------------------------------------------------

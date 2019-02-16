@@ -27,7 +27,7 @@ public:
     void attrib_values(vertex_attrib_kind attr, span<float> dest) override;
 
 private:
-    span_size_t _samples{1};
+    span_size_t _samples{8};
 };
 //------------------------------------------------------------------------------
 static inline auto occlude(std::unique_ptr<generator_intf>&& gen) noexcept {

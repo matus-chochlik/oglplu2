@@ -4,9 +4,11 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/math/coordinates.hpp>
 #include <eagine/math/functions.hpp>
 #include <eagine/memory/span_algo.hpp>
 #include <cassert>
+#include <random>
 #include <vector>
 
 namespace eagine {
@@ -16,6 +18,11 @@ EAGINE_LIB_FUNC
 void occluded_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
 
     if(attr == vertex_attrib_kind::occlusion) {
+        std::random_device rd;
+        std::mt19937 rho_re(rd());
+        std::mt19937 phi_re(rd());
+        std::uniform_real_distribution<double> dis(0.0, 1.0);
+
         const auto vc = delegated_gen::vertex_count();
         const auto pva = vertex_attrib_kind::position;
         const auto nva = vertex_attrib_kind::normal;
@@ -46,10 +53,23 @@ void occluded_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
                 weights[std_size(v * ns)] = 1.f;
 
                 for(span_size_t s = 1; s < ns; ++s) {
-                    // TODO: generate random vectors
+                    using std::acos;
+
+                    const math::unit_spherical_coordinates<float, true> usc{
+                      turns_(float(dis(rho_re))),
+                      radians_(float(acos(2 * dis(phi_re) - 1)))};
+
+                    auto dir = math::to_cartesian(usc);
+                    auto wght = dot(dir, nml);
+
+                    if(wght < 0.f) {
+                        dir = -dir;
+                        wght = -wght;
+                    }
+
                     rays[std_size(v * ns + s)] =
-                      math::line<float, true>{pos, nml};
-                    weights[std_size(v * ns + s)] = 1.f;
+                      math::line<float, true>{pos, dir};
+                    weights[std_size(v * ns + s)] = wght;
                 }
             }
             std::vector<optionally_valid<float>> params(rays.size());
@@ -63,7 +83,8 @@ void occluded_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
                     const auto l = std_size(v * ns + s);
                     if(params[l] > 0.0f) {
                         using std::exp;
-                        occl += exp(1.f - params[l].value_anyway());
+                        occl +=
+                          exp(1.f - params[l].value_anyway()) * weights[l];
                     }
                     wght += weights[l];
                 }
