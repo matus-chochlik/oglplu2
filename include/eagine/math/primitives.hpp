@@ -80,8 +80,8 @@ public:
         return (a() + b() + c()) / T(3);
     }
 
-    constexpr vector<T, 3, V> normal(bool ccw) const noexcept {
-        return ccw ? cross(ab(), ac()) : cross(ac(), ab());
+    constexpr vector<T, 3, V> normal(bool cw) const noexcept {
+        return cw ? cross(ac(), ab()) : cross(ab(), ac());
     }
 
 private:
