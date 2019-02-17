@@ -12,6 +12,7 @@
 #include <limits>
 #include <vector>
 
+#include <iostream>
 namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
@@ -73,27 +74,31 @@ void generator_intf::ray_intersections(
     std::vector<float> pos(std_size(vertex_count() * vpv));
     attrib_values(pvak, cover(pos));
 
-    for(auto& param : intersections) {
-        param = {};
+    std::vector<std::size_t> ray_idx;
+
+    const auto bs = bounding_sphere();
+
+    for(span_size_t i = 0; i < rays.size(); ++i) {
+        const auto nparam = math::nearest_ray_param(
+          math::line_sphere_intersection_params(rays[i], bs));
+        if(nparam >= 0.f) {
+            ray_idx.push_back(std_size(i));
+        }
     }
 
-    auto intersect = [&rays, &intersections](const auto& fce, bool cw) {
-        for(span_size_t i = 0; i < intersections.size(); ++i) {
+    auto intersect = [&ray_idx, &rays, &intersections](
+                       const auto& fce, bool cw) {
+        for(const auto i : ray_idx) {
             const auto& ray = rays[i];
             const auto nparam =
               math::line_triangle_intersection_param(ray, fce);
 
-            if(nparam) {
-                if(nparam.value_anyway() > 0.0001f) {
-                    const auto fnml = fce.normal(cw);
-                    if(dot(ray.direction(), fnml) < 0.f) {
-                        auto& oparam = intersections[i];
-                        if(!oparam) {
-                            oparam = nparam;
-                        } else if(
-                          nparam.value_anyway() < oparam.value_anyway()) {
-                            oparam = nparam;
-                        }
+            if(nparam > 0.0001f) {
+                const auto fnml = fce.normal(cw);
+                if(dot(ray.direction(), fnml) < 0.f) {
+                    auto& oparam = intersections[i];
+                    if(!oparam || bool(nparam < oparam)) {
+                        oparam = nparam;
                     }
                 }
             }

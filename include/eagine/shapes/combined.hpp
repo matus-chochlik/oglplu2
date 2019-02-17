@@ -56,6 +56,10 @@ public:
     span_size_t operation_count() override;
 
     void instructions(span<draw_operation> ops) override;
+
+    void ray_intersections(
+      span<const math::line<float, true>> rays,
+      span<optionally_valid<float>> intersections) override;
 };
 //------------------------------------------------------------------------------
 static inline auto combine(std::unique_ptr<generator_intf>&& gen) {

@@ -272,7 +272,7 @@ void unit_sphere_gen::instructions(span<draw_operation> ops) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 math::sphere<float, true> unit_sphere_gen::bounding_sphere() {
-    return {{0.0f}, 0.5f};
+    return {{0.f, 0.f, 0.f}, 0.5f};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -282,9 +282,18 @@ void unit_sphere_gen::ray_intersections(
 
     assert(intersections.size() >= rays.size());
 
+    const auto bs = bounding_sphere();
+
     for(span_size_t i = 0; i < intersections.size(); ++i) {
-        intersections[i] = math::nearest_ray_param(
-          math::line_sphere_intersection_params(rays[i], bounding_sphere()));
+        const auto& ray = rays[i];
+        const auto nparam = math::nearest_ray_param(
+          math::line_sphere_intersection_params(ray, bs));
+        if(nparam > 0.0001f) {
+            auto& oparam = intersections[i];
+            if(!oparam || bool(nparam < oparam)) {
+                oparam = nparam;
+            }
+        }
     }
 }
 //------------------------------------------------------------------------------

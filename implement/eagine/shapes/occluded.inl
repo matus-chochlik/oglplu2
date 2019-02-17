@@ -67,9 +67,10 @@ void occluded_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
                         wght = -wght;
                     }
 
-                    rays[std_size(v * ns + s)] =
-                      math::line<float, true>{pos, dir};
-                    weights[std_size(v * ns + s)] = wght;
+                    const auto l = std_size(v * ns + s);
+
+                    rays[l] = math::line<float, true>{pos, dir};
+                    weights[l] = wght;
                 }
             }
             std::vector<optionally_valid<float>> params(rays.size());
