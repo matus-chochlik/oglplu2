@@ -119,9 +119,10 @@ void generator_intf::ray_intersections(
         if(op.mode == primitive_type::triangles) {
             std::array<std::array<float, 4>, 3> tri{};
             span_size_t t = 0;
-            for(span_size_t v = op.first; v < op.count; ++v) {
+            for(span_size_t v = 0; v < op.count; ++v) {
+                const auto w = v + op.first;
                 for(span_size_t c = 0; c < 3; ++c) {
-                    tri[std_size(t)][std_size(c)] = coord(v, c, indexed);
+                    tri[std_size(t)][std_size(c)] = coord(w, c, indexed);
                 }
                 if(++t >= 3) {
                     t = 0;
@@ -133,22 +134,22 @@ void generator_intf::ray_intersections(
                 }
             }
         } else if(op.mode == primitive_type::triangle_strip) {
-            for(span_size_t v = op.first + 2; v < op.count; ++v) {
-                span_size_t w = v - op.first;
+            for(span_size_t v = 2; v < op.count; ++v) {
+                span_size_t w = v + op.first;
                 span_size_t o0 = -2, o1 = -1, o2 = 0;
-                if(w % 2 != 0) {
+                if(v % 2 != 0) {
                     o1 = 0;
                     o2 = -1;
                 }
-                math::triangle<float, true> face{{coord(v + o0, 0, indexed),
-                                                  coord(v + o0, 1, indexed),
-                                                  coord(v + o0, 2, indexed)},
-                                                 {coord(v + o1, 0, indexed),
-                                                  coord(v + o1, 1, indexed),
-                                                  coord(v + o1, 2, indexed)},
-                                                 {coord(v + o2, 0, indexed),
-                                                  coord(v + o2, 1, indexed),
-                                                  coord(v + o2, 2, indexed)}};
+                math::triangle<float, true> face{{coord(w + o0, 0, indexed),
+                                                  coord(w + o0, 1, indexed),
+                                                  coord(w + o0, 2, indexed)},
+                                                 {coord(w + o1, 0, indexed),
+                                                  coord(w + o1, 1, indexed),
+                                                  coord(w + o1, 2, indexed)},
+                                                 {coord(w + o2, 0, indexed),
+                                                  coord(w + o2, 1, indexed),
+                                                  coord(w + o2, 2, indexed)}};
                 intersect(face, op.cw_face_winding);
             }
         }
