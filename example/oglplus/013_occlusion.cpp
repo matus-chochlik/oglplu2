@@ -48,7 +48,7 @@ public:
     }
 };
 
-class icosahedron_example : public example {
+class occlusion_example : public example {
 private:
     example_orbiting_camera camera;
     example_program prog;
@@ -61,7 +61,7 @@ private:
     }
 
 public:
-    icosahedron_example(
+    occlusion_example(
       const example_context& ctx, eagine::memory::buffer& temp_buffer)
       : prog(ctx.params())
       , attrs(
@@ -83,7 +83,7 @@ public:
               eagine::shapes::translate(
                 eagine::shapes::unit_sphere(get_attrib_bits(attrs), 24, 36),
                 {+0.55f, +0.3f, 0.1f})),
-            8),
+            ctx.params().high_quality() ? 64 : 8),
           attrs) {
         camera.set_fov(radians_(1.0f))
           .set_near(0.1f)
@@ -151,7 +151,7 @@ public:
 std::unique_ptr<example> make_example(
   const example_args&, const example_context& ctx) {
     eagine::memory::buffer temp_buffer;
-    return std::unique_ptr<example>(new icosahedron_example(ctx, temp_buffer));
+    return std::unique_ptr<example>(new occlusion_example(ctx, temp_buffer));
 }
 
 void adjust_params(example_params& params) {
