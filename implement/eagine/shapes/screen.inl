@@ -176,6 +176,7 @@ void unit_screen_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
         case vertex_attrib_kind::wrap_coord_3:
         case vertex_attrib_kind::object_id:
         case vertex_attrib_kind::material_id:
+        case vertex_attrib_kind::occlusion:
             _base::attrib_values(attr, dest);
     }
 }
@@ -196,6 +197,12 @@ void unit_screen_gen::instructions(span<draw_operation> ops) {
     op.count = vertex_count();
     op.primitive_restart = false;
     op.cw_face_winding = false;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+math::sphere<float, true> unit_screen_gen::bounding_sphere() {
+    using std::sqrt;
+    return {{0.0f}, float(sqrt(2.f))};
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

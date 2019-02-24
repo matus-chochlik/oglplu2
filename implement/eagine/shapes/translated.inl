@@ -25,5 +25,12 @@ void translated_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
     }
 }
 //------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+math::sphere<float, true> translated_gen::bounding_sphere() {
+    const auto bs = delegated_gen::bounding_sphere();
+    using V = math::tvec<float, 3, true>;
+    return {bs.center() + V{_d[0], _d[1], _d[2]}, bs.radius()};
+}
+//------------------------------------------------------------------------------
 } // namespace shapes
 } // namespace eagine

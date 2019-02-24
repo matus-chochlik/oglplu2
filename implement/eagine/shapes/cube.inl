@@ -5,6 +5,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+#include <eagine/math/tvec.hpp>
 #include <eagine/memory/span_algo.hpp>
 #include <cassert>
 
@@ -337,6 +338,7 @@ void unit_cube_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
         case vertex_attrib_kind::wrap_coord_1:
         case vertex_attrib_kind::wrap_coord_2:
         case vertex_attrib_kind::wrap_coord_3:
+        case vertex_attrib_kind::occlusion:
             _base::attrib_values(attr, dest);
             break;
     }
@@ -416,6 +418,12 @@ void unit_cube_gen::instructions(span<draw_operation> ops) {
         op.primitive_restart = false;
         op.cw_face_winding = false;
     }
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+math::sphere<float, true> unit_cube_gen::bounding_sphere() {
+    using std::sqrt;
+    return {{0.0f}, float(sqrt(2.f))};
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

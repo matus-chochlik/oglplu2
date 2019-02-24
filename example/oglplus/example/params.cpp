@@ -13,7 +13,7 @@
 #include <sstream>
 
 namespace oglplus {
-
+//------------------------------------------------------------------------------
 example_params::example_params() noexcept
   : _rand_seed(0)
   , _screenshot_time(3)
@@ -30,14 +30,15 @@ example_params::example_params() noexcept
   , _compat_ctxt(false)
   , _debug_ctxt(true)
   , _auto_tiles(true)
-  , _demo_mode(false) {
+  , _demo_mode(false)
+  , _high_quality(false) {
 }
-
+//------------------------------------------------------------------------------
 bool example_params::is_readable_file(string_view path) const noexcept {
     // TODO something more efficient?
     return std::ifstream(c_str(path)).good();
 }
-
+//------------------------------------------------------------------------------
 eagine::valid_if_not_empty<std::string> example_params::find_resource_file_path(
   string_view res_group, string_view res_name) const {
     using eagine::filesystem::string_path;
@@ -69,7 +70,7 @@ eagine::valid_if_not_empty<std::string> example_params::find_resource_file_path(
     }
     return {result};
 }
-
+//------------------------------------------------------------------------------
 static inline string_view resource_type_to_desc(
   example_resource_type type) noexcept {
     switch(type) {
@@ -82,6 +83,7 @@ static inline string_view resource_type_to_desc(
     }
     return string_view();
 }
+//------------------------------------------------------------------------------
 static inline string_view resource_type_to_group_name(
   example_resource_type type) noexcept {
     switch(type) {
@@ -94,12 +96,12 @@ static inline string_view resource_type_to_group_name(
     }
     return string_view();
 }
-
+//------------------------------------------------------------------------------
 eagine::valid_if_not_empty<std::string> example_params::find_resource_file_path(
   example_resource_type type, string_view res_name) const {
     return find_resource_file_path(resource_type_to_group_name(type), res_name);
 }
-
+//------------------------------------------------------------------------------
 std::string example_params::get_resource_file_path(
   example_resource_type type, string_view res_name) const {
     auto path = find_resource_file_path(type, res_name);
@@ -113,5 +115,5 @@ std::string example_params::get_resource_file_path(
 
     return path.value();
 }
-
+//------------------------------------------------------------------------------
 } // namespace oglplus

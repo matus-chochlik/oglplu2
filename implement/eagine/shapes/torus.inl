@@ -218,6 +218,7 @@ void unit_torus_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
         case vertex_attrib_kind::wrap_coord_3:
         case vertex_attrib_kind::object_id:
         case vertex_attrib_kind::material_id:
+        case vertex_attrib_kind::occlusion:
             generator_base::attrib_values(attr, dest);
             break;
     }
@@ -308,6 +309,11 @@ void unit_torus_gen::instructions(span<draw_operation> ops) {
             op.cw_face_winding = true;
         }
     }
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+math::sphere<float, true> unit_torus_gen::bounding_sphere() {
+    return {{0.0f}, 0.5f};
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

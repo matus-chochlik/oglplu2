@@ -19,6 +19,7 @@
 #include <eagine/shapes/array.hpp>
 #include <eagine/shapes/centered.hpp>
 #include <eagine/shapes/scaled.hpp>
+#include <eagine/shapes/occluded.hpp>
 
 #include <oglplus/math/vector.hpp>
 #include <oglplus/math/matrix.hpp>
@@ -39,17 +40,20 @@ public:
     example_program() {
         shader vs(GL.vertex_shader);
         vs.source(
-          glsl_literal("#version 140\n"
+          glsl_literal("#version 330\n"
 
                        "uniform mat4 Projection;\n"
 
-                       "in vec4 Position;\n"
-                       "in vec3 Normal;\n"
-                       "in vec3 BoxCoord;\n"
-                       "in vec3 TexCoord;\n"
+                       "layout (location = 0) in vec4 Position;\n"
+                       "layout (location = 1) in vec3 Normal;\n"
+                       "layout (location = 2) in vec3 BoxCoord;\n"
+                       "layout (location = 3) in vec3 TexCoord;\n"
+                       "layout (location = 4) in float Occlusion;\n"
+
                        "out vec2 vertCoord;\n"
                        "out vec3 vertColor1;\n"
                        "out vec3 vertColor2;\n"
+                       "out float vertOcclusion;\n"
 
                        "void main()\n"
                        "{\n"
@@ -57,16 +61,18 @@ public:
                        "	vertColor1 = mix(BoxCoord,abs(Normal),0.5);\n"
                        "	vertColor2 = vertColor1 * 0.3;\n"
                        "	vertCoord = TexCoord.xy*(2+TexCoord.z);\n"
+                       "	vertOcclusion = Occlusion;\n"
                        "}\n"));
         vs.compile();
 
         shader fs(GL.fragment_shader);
         fs.source(
-          glsl_literal("#version 140\n"
+          glsl_literal("#version 330\n"
 
                        "in  vec2 vertCoord;\n"
                        "in  vec3 vertColor1;\n"
                        "in  vec3 vertColor2;\n"
+                       "in  float vertOcclusion;\n"
                        "out vec3 fragColor;\n"
 
                        "float pattern(vec2 tc)\n"
@@ -77,7 +83,8 @@ public:
                        "void main()\n"
                        "{\n"
                        "	float c = pattern(vertCoord);\n"
-                       "	fragColor = mix(vertColor1, vertColor2, c);\n"
+                       "	float l = clamp(1.0-vertOcclusion*0.5, 0.0, 1.0);\n"
+                       "	fragColor = l*mix(vertColor1, vertColor2, c);\n"
                        "}\n"));
         fs.compile();
 
@@ -98,8 +105,8 @@ private:
 
     example_program prog;
 
-    shapes::vertex_attribs_and_locations<4> attrs;
-    shapes::adapted_generator_wrapper<4> cubes;
+    shapes::vertex_attribs_and_locations<5> attrs;
+    shapes::adapted_generator_wrapper<5> cubes;
 
     void set_projection(const example_state_view& state) {
         gl.uniform(prog.projection, camera.matrix(state));
@@ -113,15 +120,18 @@ public:
           shapes::vertex_attrib_kind::position +
           shapes::vertex_attrib_kind::normal +
           shapes::vertex_attrib_kind::box_coord +
-          shapes::vertex_attrib_kind::face_coord)
+          shapes::vertex_attrib_kind::face_coord +
+          shapes::vertex_attrib_kind::occlusion)
       , cubes(
           temp_buffer,
-          eagine::shapes::center(eagine::shapes::ortho_array_xyz(
-            eagine::shapes::scale(
-              eagine::shapes::unit_cube(get_attrib_bits(attrs)),
-              {0.85f, 0.85f, 0.85f}),
-            {1.f, 1.f, 1.f},
-            {3, 3, 3})),
+          eagine::shapes::occlude(
+            eagine::shapes::center(eagine::shapes::ortho_array_xyz(
+              eagine::shapes::scale(
+                eagine::shapes::unit_cube(get_attrib_bits(attrs)),
+                {0.8f, 0.8f, 0.8f}),
+              {1.f, 1.f, 1.f},
+              {3, 3, 3})),
+            16),
           attrs) {
 
         camera.set_fov(right_angle_())

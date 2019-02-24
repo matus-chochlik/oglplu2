@@ -16,7 +16,7 @@
 
 namespace eagine {
 namespace shapes {
-
+//------------------------------------------------------------------------------
 class unit_icosahedron_gen : public centered_unit_shape_generator_base {
 private:
     using _base = centered_unit_shape_generator_base;
@@ -52,8 +52,14 @@ public:
     span_size_t operation_count() override;
 
     void instructions(span<draw_operation> ops) override;
-};
 
+    math::sphere<float, true> bounding_sphere() override;
+};
+//------------------------------------------------------------------------------
+static inline auto unit_icosahedron(vertex_attrib_bits attr_bits) {
+    return std::unique_ptr<generator_intf>{new unit_icosahedron_gen(attr_bits)};
+}
+//------------------------------------------------------------------------------
 } // namespace shapes
 } // namespace eagine
 

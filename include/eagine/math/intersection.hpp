@@ -11,9 +11,9 @@
 
 #include "../valid_if/nonnegative.hpp"
 #include "../valid_if/positive.hpp"
+#include "functions.hpp"
 #include "primitives.hpp"
 #include "vector.hpp"
-#include <cmath>
 #include <utility>
 
 #ifdef __clang__
@@ -23,6 +23,34 @@
 
 namespace eagine {
 namespace math {
+//------------------------------------------------------------------------------
+// utils
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename L>
+static inline valid_if<T, P, L> nearest_ray_param(
+  const std::pair<valid_if<T, P, L>, valid_if<T, P, L>>& params) {
+    const auto& t0 = std::get<0>(params);
+    const auto& t1 = std::get<1>(params);
+
+    if(t0 >= 0.f) {
+        if(t1 >= 0.f) {
+            if(t0 < t1) {
+                return t0;
+            } else {
+                return t1;
+            }
+        } else {
+            return t0;
+        }
+    } else {
+        if(t1 >= 0.f) {
+            return t1;
+        }
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+// line-sphere
 //------------------------------------------------------------------------------
 template <typename T, bool V>
 static constexpr inline T _line_sphere_intersection_a(
@@ -59,14 +87,14 @@ static constexpr inline auto _line_sphere_intersection_t(
 //------------------------------------------------------------------------------
 template <typename T, bool V>
 static constexpr inline auto _line_sphere_intersection_p(
-  const line<T, V>& l,
+  const line<T, V>& ray,
   const std::pair<optionally_valid<T>, optionally_valid<T>>& ts) {
     using E = optionally_valid<vector<T, 3, V>>;
     using R = std::pair<E, E>;
     return R{
-      std::get<0>(ts) ? E{l.point_at(std::get<0>(ts).value_anyway()), true}
+      std::get<0>(ts) ? E{ray.point_at(std::get<0>(ts).value_anyway()), true}
                       : E{},
-      std::get<1>(ts) ? E{l.point_at(std::get<1>(ts).value_anyway()), true}
+      std::get<1>(ts) ? E{ray.point_at(std::get<1>(ts).value_anyway()), true}
                       : E{},
     };
 }
@@ -74,26 +102,26 @@ static constexpr inline auto _line_sphere_intersection_p(
 template <typename T, bool V>
 std::pair<optionally_valid<T>, optionally_valid<T>>
 line_sphere_intersection_params(
-  const line<T, V>& l, const sphere<T, V>& s) noexcept {
+  const line<T, V>& ray, const sphere<T, V>& sph) noexcept {
     return _line_sphere_intersection_t(
-      _line_sphere_intersection_a(l.direction(), l.origin() - s.center()),
+      _line_sphere_intersection_a(ray.direction(), ray.origin() - sph.center()),
       _line_sphere_intersection_b(
-        l.direction(), l.origin() - s.center(), s.radius()),
-      _line_sphere_intersection_d(l.direction()));
+        ray.direction(), ray.origin() - sph.center(), sph.radius()),
+      _line_sphere_intersection_d(ray.direction()));
 }
 //------------------------------------------------------------------------------
 template <typename T, bool V>
-static constexpr inline std::pair<
-  optionally_valid<vector<T, 3, V>>,
-  optionally_valid<vector<T, 3, V>>>
-line_sphere_intersection(const line<T, V>& l, const sphere<T, V>& s) noexcept {
+static constexpr inline std::
+  pair<optionally_valid<vector<T, 3, V>>, optionally_valid<vector<T, 3, V>>>
+  line_sphere_intersection(
+    const line<T, V>& ray, const sphere<T, V>& sph) noexcept {
     return _line_sphere_intersection_p(
-      l, line_sphere_intersection_params(l, s));
+      ray, line_sphere_intersection_params(ray, sph));
 }
 //------------------------------------------------------------------------------
 template <typename T, bool V>
 static constexpr inline auto _line_sphere_intersection_n_p(
-  const line<T, V>& l,
+  const line<T, V>& ray,
   const std::pair<optionally_valid<T>, optionally_valid<T>>& ts) {
     using R = optionally_valid<vector<T, 3, V>>;
     using std::abs;
@@ -102,18 +130,54 @@ static constexpr inline auto _line_sphere_intersection_n_p(
              ? std::get<1>(ts)
                  ? abs(std::get<0>(ts).value_anyway()) <
                        abs(std::get<1>(ts).value_anyway())
-                     ? R{l.point_at(std::get<0>(ts).value_anyway()), true}
-                     : R{l.point_at(std::get<1>(ts).value_anyway()), true}
-                 : R{l.point_at(std::get<0>(ts).value_anyway()), true}
+                     ? R{ray.point_at(std::get<0>(ts).value_anyway()), true}
+                     : R{ray.point_at(std::get<1>(ts).value_anyway()), true}
+                 : R{ray.point_at(std::get<0>(ts).value_anyway()), true}
              : R{};
 }
 //------------------------------------------------------------------------------
 template <typename T, bool V>
 static constexpr inline optionally_valid<vector<T, 3, V>>
 nearest_line_sphere_intersection(
-  const line<T, V>& l, const sphere<T, V>& s) noexcept {
+  const line<T, V>& ray, const sphere<T, V>& sph) noexcept {
     return _line_sphere_intersection_n_p(
-      l, line_sphere_intersection_params(l, s));
+      ray, line_sphere_intersection_params(ray, sph));
+}
+//------------------------------------------------------------------------------
+// line-triangle
+//------------------------------------------------------------------------------
+template <typename T, bool V>
+static inline optionally_valid<T> line_triangle_intersection_param(
+  const line<T, V>& ray, const triangle<T, V>& tri) noexcept {
+
+    const vector<T, 3, V> h = cross(ray.direction(), tri.ac());
+    const T a = dot(tri.ab(), h);
+
+    if(const auto ia = reciprocal(a)) {
+        const T f = ia.value_anyway();
+        const vector<T, 3, V> s = ray.origin() - tri.a();
+        const T u = f * dot(s, h);
+
+        if((u >= T(0)) && (u <= T(1))) {
+            const vector<T, 3, V> q = cross(s, tri.ab());
+            const T v = f * dot(ray.direction(), q);
+
+            if((v >= T(0)) && (u + v <= T(1))) {
+                const T t = f * dot(tri.ac(), q);
+                return {t, t >= T(0)};
+            }
+        }
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+template <typename T, bool V>
+static inline optionally_valid<vector<T, 3, V>> line_triangle_intersection(
+  const line<T, V>& ray, const triangle<T, V>& tri) noexcept {
+    if(const auto t = line_triangle_intersection_param(ray, tri)) {
+        return {ray.origin() + ray.direction() * t.value_anyway(), true};
+    }
+    return {};
 }
 //------------------------------------------------------------------------------
 } // namespace math

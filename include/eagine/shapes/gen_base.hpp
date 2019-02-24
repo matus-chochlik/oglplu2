@@ -11,6 +11,7 @@
 #define EAGINE_SHAPES_GEN_BASE_HPP
 
 #include "../assert.hpp"
+#include "../math/primitives.hpp"
 #include "../span.hpp"
 #include "../types.hpp"
 #include "drawing.hpp"
@@ -74,6 +75,19 @@ struct generator_intf {
     virtual span_size_t operation_count() = 0;
 
     virtual void instructions(span<draw_operation> dest) = 0;
+
+    virtual math::sphere<float, true> bounding_sphere();
+
+    virtual void ray_intersections(
+      span<const math::line<float, true>> rays,
+      span<optionally_valid<float>> intersections);
+
+    optionally_valid<float> ray_intersection(
+      const math::line<float, true>& ray) {
+        optionally_valid<float> result{};
+        ray_intersections(view_one(ray), cover_one(result));
+        return result;
+    }
 };
 //------------------------------------------------------------------------------
 class generator_base : public generator_intf {

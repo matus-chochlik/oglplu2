@@ -6,6 +6,7 @@
  */
 
 #include <eagine/math/constants.hpp>
+#include <eagine/math/intersection.hpp>
 #include <cassert>
 #include <cmath>
 
@@ -176,6 +177,7 @@ void unit_sphere_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
         case vertex_attrib_kind::wrap_coord_3:
         case vertex_attrib_kind::object_id:
         case vertex_attrib_kind::material_id:
+        case vertex_attrib_kind::occlusion:
             _base::attrib_values(attr, dest);
             break;
     }
@@ -264,6 +266,33 @@ void unit_sphere_gen::instructions(span<draw_operation> ops) {
             op.count = step;
             op.primitive_restart = false;
             op.cw_face_winding = true;
+        }
+    }
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+math::sphere<float, true> unit_sphere_gen::bounding_sphere() {
+    return {{0.f, 0.f, 0.f}, 0.5f};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void unit_sphere_gen::ray_intersections(
+  span<const math::line<float, true>> rays,
+  span<optionally_valid<float>> intersections) {
+
+    assert(intersections.size() >= rays.size());
+
+    const auto bs = bounding_sphere();
+
+    for(span_size_t i = 0; i < intersections.size(); ++i) {
+        const auto& ray = rays[i];
+        const auto nparam = math::nearest_ray_param(
+          math::line_sphere_intersection_params(ray, bs));
+        if(nparam > 0.0001f) {
+            auto& oparam = intersections[i];
+            if(!oparam || bool(nparam < oparam)) {
+                oparam = nparam;
+            }
         }
     }
 }

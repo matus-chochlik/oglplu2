@@ -191,6 +191,8 @@ bool parse_arg(
         }
     } else if(a == "--demo") {
         params.demo_mode(true);
+    } else if(a == "--high-quality") {
+        params.high_quality(true);
     } else if(!example_knows_arg(a)) {
         errstr() << "Unknown command-line option '" << a.get() << "'."
                  << std::endl;

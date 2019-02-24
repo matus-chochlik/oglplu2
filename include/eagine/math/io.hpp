@@ -10,15 +10,16 @@
 #define EAGINE_MATH_IO_HPP
 
 #include "matrix.hpp"
+#include "primitives.hpp"
 #include "vector.hpp"
 #include <iostream>
 
 namespace eagine {
 namespace math {
-
+//------------------------------------------------------------------------------
 template <typename T, int N, bool V>
-static inline std::ostream&
-operator<<(std::ostream& o, const vector<T, N, V>& v) {
+static inline std::ostream& operator<<(
+  std::ostream& o, const vector<T, N, V>& v) {
 
     o << "[" << v._v[0];
     for(int i = 1; i < N; ++i) {
@@ -26,10 +27,10 @@ operator<<(std::ostream& o, const vector<T, N, V>& v) {
     }
     return o << "]";
 }
-
+//------------------------------------------------------------------------------
 template <typename T, int C, int R, bool V>
-static inline std::ostream&
-operator<<(std::ostream& o, const matrix<T, C, R, true, V>& m) {
+static inline std::ostream& operator<<(
+  std::ostream& o, const matrix<T, C, R, true, V>& m) {
     o << "|R0[" << m._v[0][0];
 
     for(int c = 1; c < C; ++c) {
@@ -46,10 +47,10 @@ operator<<(std::ostream& o, const matrix<T, C, R, true, V>& m) {
     }
     return o << "|";
 }
-
+//------------------------------------------------------------------------------
 template <typename T, int C, int R, bool V>
-static inline std::ostream&
-operator<<(std::ostream& o, const matrix<T, C, R, false, V>& m) {
+static inline std::ostream& operator<<(
+  std::ostream& o, const matrix<T, C, R, false, V>& m) {
     o << "|C0[" << m._v[0][0];
 
     for(int r = 1; r < R; ++r) {
@@ -66,7 +67,26 @@ operator<<(std::ostream& o, const matrix<T, C, R, false, V>& m) {
     }
     return o << "|";
 }
-
+//------------------------------------------------------------------------------
+template <typename T, bool V>
+static inline std::ostream& operator<<(std::ostream& o, const line<T, V>& l) {
+    o << '[' << l.origin() << " -> " << l.direction() << ']';
+    return o;
+}
+//------------------------------------------------------------------------------
+template <typename T, bool V>
+static inline std::ostream& operator<<(
+  std::ostream& o, const triangle<T, V>& t) {
+    o << '[' << t.a() << '|' << t.b() << '|' << t.c() << ']';
+    return o;
+}
+//------------------------------------------------------------------------------
+template <typename T, bool V>
+static inline std::ostream& operator<<(std::ostream& o, const sphere<T, V>& s) {
+    o << '[' << s.center() << ')' << s.radius() << ']';
+    return o;
+}
+//------------------------------------------------------------------------------
 } // namespace math
 } // namespace eagine
 

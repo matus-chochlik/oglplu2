@@ -102,6 +102,7 @@ void unit_icosahedron_gen::attrib_values(
         case vertex_attrib_kind::wrap_coord_1:
         case vertex_attrib_kind::wrap_coord_2:
         case vertex_attrib_kind::wrap_coord_3:
+        case vertex_attrib_kind::occlusion:
             _base::attrib_values(attr, dest);
             break;
     }
@@ -225,6 +226,11 @@ void unit_icosahedron_gen::instructions(span<draw_operation> ops) {
     op.count = index_count();
     op.primitive_restart = false;
     op.cw_face_winding = false;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+math::sphere<float, true> unit_icosahedron_gen::bounding_sphere() {
+    return {{0.0f}, 0.5f};
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

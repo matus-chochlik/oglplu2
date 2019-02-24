@@ -4,6 +4,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/math/functions.hpp>
 
 namespace eagine {
 namespace shapes {
@@ -19,6 +20,13 @@ void scaled_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
             }
         }
     }
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+math::sphere<float, true> scaled_gen::bounding_sphere() {
+    const auto bs = delegated_gen::bounding_sphere();
+    const auto ms = math::maximum(_s[0], math::maximum(_s[1], _s[2]));
+    return {bs.center(), bs.radius() * ms};
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

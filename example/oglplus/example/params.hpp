@@ -50,6 +50,7 @@ private:
     bool _debug_ctxt;
     bool _auto_tiles;
     bool _demo_mode;
+    bool _high_quality;
 
 public:
     example_params() noexcept;
@@ -208,6 +209,15 @@ public:
 
     bool demo_mode() const noexcept {
         return _demo_mode;
+    }
+
+    example_params& high_quality(bool v) noexcept {
+        _high_quality = v;
+        return *this;
+    }
+
+    bool high_quality() const noexcept {
+        return _high_quality;
     }
 
     example_params& samples(eagine::valid_if_positive<int> n) noexcept {

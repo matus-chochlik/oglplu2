@@ -60,5 +60,11 @@ void centered_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
     }
 }
 //------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+math::sphere<float, true> centered_gen::bounding_sphere() {
+    const auto bs = delegated_gen::bounding_sphere();
+    return {{0.f}, bs.radius()};
+}
+//------------------------------------------------------------------------------
 } // namespace shapes
 } // namespace eagine

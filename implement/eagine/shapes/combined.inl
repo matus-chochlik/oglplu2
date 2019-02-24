@@ -182,5 +182,15 @@ void combined_gen::instructions(span<draw_operation> ops) {
     }
 }
 //------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void combined_gen::ray_intersections(
+  span<const math::line<float, true>> rays,
+  span<optionally_valid<float>> intersections) {
+
+    for(auto& gen : _gens) {
+        gen->ray_intersections(rays, intersections);
+    }
+}
+//------------------------------------------------------------------------------
 } // namespace shapes
 } // namespace eagine
