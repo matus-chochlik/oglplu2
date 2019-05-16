@@ -130,10 +130,6 @@ private:
     template <typename C>
     using _bare_t = std::remove_const_t<std::remove_reference_t<C>>;
 
-    template <typename... P>
-    static inline void _eat(P...) {
-    }
-
     static constexpr inline unsigned _count_true() {
         return 0;
     }
@@ -364,25 +360,27 @@ public:
 
     template <typename... Components>
     basic_manager& show(entity_param ent) {
-        _eat(_do_show(
-          ent,
-          get_component_uid<Components>(),
-          _cmp_name_getter<Components>())...);
+        (...,
+         _do_show(
+           ent,
+           get_component_uid<Components>(),
+           _cmp_name_getter<Components>()));
         return *this;
     }
 
     template <typename... Components>
     basic_manager& hide(entity_param ent) {
-        _eat(_do_hide(
-          ent,
-          get_component_uid<Components>(),
-          _cmp_name_getter<Components>())...);
+        (...,
+         _do_hide(
+           ent,
+           get_component_uid<Components>(),
+           _cmp_name_getter<Components>()));
         return *this;
     }
 
     template <typename... Components>
     basic_manager& add(entity_param ent, Components&&... components) {
-        _eat(_do_add_c(ent, std::move(components))...);
+        (..., _do_add_c(ent, std::move(components)));
         return *this;
     }
 
@@ -405,30 +403,33 @@ public:
 
     template <typename... Components>
     basic_manager& copy(entity_param from, entity_param to) {
-        _eat(_do_cpy(
-          from,
-          to,
-          get_component_uid<Components>(),
-          _cmp_name_getter<Components>())...);
+        (...,
+         _do_cpy(
+           from,
+           to,
+           get_component_uid<Components>(),
+           _cmp_name_getter<Components>()));
         return *this;
     }
 
     template <typename... Components>
     basic_manager& swap(entity_param e1, entity_param e2) {
-        _eat(_do_swp(
-          e1,
-          e2,
-          get_component_uid<Components>(),
-          _cmp_name_getter<Components>())...);
+        (...,
+         _do_swp(
+           e1,
+           e2,
+           get_component_uid<Components>(),
+           _cmp_name_getter<Components>()));
         return *this;
     }
 
     template <typename... Components>
     basic_manager& remove(entity_param ent) {
-        _eat(_do_rem_c(
-          ent,
-          get_component_uid<Components>(),
-          _cmp_name_getter<Components>())...);
+        (...,
+         _do_rem_c(
+           ent,
+           get_component_uid<Components>(),
+           _cmp_name_getter<Components>()));
         return *this;
     }
 
