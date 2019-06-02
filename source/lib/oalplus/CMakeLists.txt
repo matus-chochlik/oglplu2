@@ -11,7 +11,7 @@ if(OPENAL_FOUND)
 	)
 
 	add_library(oalplus EXCLUDE_FROM_ALL ${OALPLUS_LIB_SOURCES})
-	set_properties(
+	set_target_properties(
 		oalplus
 		PROPERTIES FOLDER "Library/OALplus"
 	)

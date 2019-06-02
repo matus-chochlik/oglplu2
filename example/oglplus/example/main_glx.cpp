@@ -146,7 +146,9 @@ int example_main(
       unsigned(state.height()));
 
     win.SelectInput(
+      // NOLINTNEXTLINE(hicpp-signed-bitwise)
       StructureNotifyMask | PointerMotionMask | ButtonMotionMask |
+      // NOLINTNEXTLINE(hicpp-signed-bitwise)
       ButtonPressMask | ButtonReleaseMask | KeyPressMask);
 
     glx::Context ctx(display, fbc, 3, 3);
