@@ -131,6 +131,7 @@ int example_main(
                                    params.samples() / 0,
                                    None};
     glx::FBConfig fbc =
+      // NOLINTNEXTLINE(hicpp-no-array-decay)
       glx::FBConfigs(display, visual_attribs).FindBest(display);
 
     x11::VisualInfo vi(display, fbc);
