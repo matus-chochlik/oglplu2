@@ -80,7 +80,6 @@ std::vector<char>& example_wrapper::textbuf(std::size_t size) {
 //------------------------------------------------------------------------------
 bool example_wrapper::next_frame() {
 
-    assert(_example); // NOLINT(hicpp-no-array-decay)
     auto& state = _context.state();
     auto& params = _context.params();
 
@@ -103,16 +102,12 @@ bool example_wrapper::next_frame() {
 //------------------------------------------------------------------------------
 void example_wrapper::update() {
 
-    assert(_example); // NOLINT(hicpp-no-array-decay)
-
     if(_context.state().user_idle()) {
         _example->user_idle(_context);
     }
 }
 //------------------------------------------------------------------------------
 void example_wrapper::render() {
-
-    assert(_example); // NOLINT(hicpp-no-array-decay)
 
     auto& state = _context.state();
     auto& params = _context.params();
@@ -182,7 +177,6 @@ void example_wrapper::render() {
 }
 //------------------------------------------------------------------------------
 void example_wrapper::set_size(int width, int height) {
-    assert(_example); // NOLINT(hicpp-no-array-decay)
 
     auto& state = _context.state();
 
@@ -199,7 +193,7 @@ void example_wrapper::set_size(int width, int height) {
 }
 //------------------------------------------------------------------------------
 void example_wrapper::set_mouse_btn(int i, bool pressed) {
-    assert(_example); // NOLINT(hicpp-no-array-decay)
+
     auto& state = _context.state();
 
     if(state.set_mouse_btn(i, pressed)) {
@@ -209,7 +203,7 @@ void example_wrapper::set_mouse_btn(int i, bool pressed) {
 }
 //------------------------------------------------------------------------------
 void example_wrapper::set_mouse_pos(int x, int y) {
-    assert(_example); // NOLINT(hicpp-no-array-decay)
+
     auto& state = _context.state();
 
     if(state.set_mouse_pos(x, y)) {
@@ -218,7 +212,7 @@ void example_wrapper::set_mouse_pos(int x, int y) {
 }
 //------------------------------------------------------------------------------
 void example_wrapper::set_mouse_wheel(int w) {
-    assert(_example); // NOLINT(hicpp-no-array-decay)
+
     auto& state = _context.state();
 
     if(state.set_mouse_wheel(w)) {

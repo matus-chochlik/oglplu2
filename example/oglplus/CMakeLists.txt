@@ -95,10 +95,10 @@ set_target_properties(
 	PROPERTIES FOLDER "Example/OGLplus"
 )
 
-if(CLANG_TIDY_PROG)
+if(INVOKE_CLANG_TIDY)
 	set_target_properties(
 		oglplus_example_harness
-		PROPERTIES CXX_CLANG_TIDY "${CLANG_TIDY_PROG}"
+		PROPERTIES CXX_CLANG_TIDY "${INVOKE_CLANG_TIDY}"
 	)
 endif()
 
