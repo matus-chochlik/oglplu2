@@ -55,6 +55,7 @@ include(config/FindGLFW3.cmake)
 include(config/FindGLUT.cmake)
 include(config/FindSDL.cmake)
 include(config/FindWXGL.cmake)
+include(config/FindQT5GL.cmake)
 
 include(config/FindGLM.cmake)
 

@@ -401,7 +401,7 @@ def get_argument_parser():
 		)
 
 	# TODO
-	#gl_init_libs = ["GLUT", "GLFW3", "GLFW", "wxGL", "SDL", "glX", "EGL"]
+	#gl_init_libs = ["GLUT", "GLFW3", "GLFW", "QT5GL", "wxGL", "SDL", "glX", "EGL"]
 	gl_init_libs = ["GLUT", "GLFW3", "GLFW", "SDL", "glX"]
 	argparser_gl_init_lib_group = argparser.add_mutually_exclusive_group()
 	argparser_gl_init_lib_group.add_argument(
