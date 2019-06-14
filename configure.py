@@ -291,6 +291,18 @@ def get_argument_parser():
 			Equivalent to --build-docs=False.
 		"""
 	)
+
+	argparser_build_docs_group.add_argument(
+		"--with-clang-tidy",
+		dest="with_clang_tidy",
+		action="store_true",
+        default=False,
+		help="""
+			Configure with clang-tidy checks.
+		"""
+	)
+
+
 	argparser_make_screenshots_group = argparser.add_mutually_exclusive_group()
 	argparser_make_screenshots_group.add_argument(
 		"--make-screenshots",
@@ -728,6 +740,10 @@ def main(argv):
 	# disable building the examples
 	if(not options.build_examples):
 		cmake_options.append("-DNO_EXAMPLES=On")
+
+	# enable clang-tidy checks
+	if options.with_clang_tidy:
+		cmake_options.append("-DWITH_CLANG_TIDY=On")
 
 	# limit the GL version
 	if(options.max_gl_version):
