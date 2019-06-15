@@ -13,6 +13,16 @@
 namespace oglplus {
 namespace texgen {
 //------------------------------------------------------------------------------
+bool tokenizer::_get_next_char(token_info& token, char chr, token_kind kind) {
+    if(_input.peek() == chr) {
+        token.end(_input.location(1));
+        token.kind(kind);
+        _input.consume();
+        return true;
+    }
+    return false;
+}
+//------------------------------------------------------------------------------
 bool tokenizer::get_next(token_info& token) {
 
     // eat spaces
@@ -26,6 +36,7 @@ bool tokenizer::get_next(token_info& token) {
 
     token.begin(_input.location());
 
+    // string literal
     if(_input.peek() == '"') {
         span_size_t i = 1;
         bool escape = false;
@@ -49,10 +60,13 @@ bool tokenizer::get_next(token_info& token) {
             escape = (_input.peek(i) == '\\') && !escape;
             ++i;
         }
-    } else if(_input.peek() == ';') {
-        token.end(_input.location(1));
-        token.kind(token_kind::semicolon);
-        _input.consume();
+    } else if(_get_next_char(token, '(', token_kind::left_paren)) {
+        return true;
+    } else if(_get_next_char(token, ')', token_kind::right_paren)) {
+        return true;
+    } else if(_get_next_char(token, '=', token_kind::equals)) {
+        return true;
+    } else if(_get_next_char(token, ';', token_kind::semicolon)) {
         return true;
     }
     return false;

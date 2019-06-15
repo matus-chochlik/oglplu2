@@ -18,6 +18,8 @@ namespace texgen {
 enum class token_kind {
     comment,
     keyword,
+    left_paren,
+    right_paren,
     equals,
     semicolon,
     number,

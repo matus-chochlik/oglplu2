@@ -17,6 +17,10 @@ string_view token_description(token_kind kind) {
             return {"comment"};
         case token_kind::keyword:
             return {"keyword"};
+        case token_kind::left_paren:
+            return {"left parenthesis"};
+        case token_kind::right_paren:
+            return {"right parenthesis"};
         case token_kind::equals:
             return {"equals sign"};
         case token_kind::semicolon:
