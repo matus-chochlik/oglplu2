@@ -34,3 +34,5 @@ if(INVOKE_CLANG_TIDY)
 		)
 	endforeach()
 endif()
+
+add_subdirectory(texgen)
