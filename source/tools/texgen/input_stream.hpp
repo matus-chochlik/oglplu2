@@ -9,19 +9,13 @@
 #ifndef TEXGEN_INPUT_STREAM_HPP
 #define TEXGEN_INPUT_STREAM_HPP
 
+#include "input_location.hpp"
 #include <oglplus/utils/string_span.hpp>
 #include <iosfwd>
 #include <memory>
 
 namespace oglplus {
 namespace texgen {
-//------------------------------------------------------------------------------
-class input_location {
-public:
-private:
-    span_size_t _line;
-    span_size_t _column;
-};
 //------------------------------------------------------------------------------
 struct input_stream_intf {
     input_stream_intf() noexcept = default;
@@ -32,8 +26,10 @@ struct input_stream_intf {
 
     virtual ~input_stream_intf() noexcept = default;
 
+    virtual input_location location(span_size_t index) = 0;
     virtual char peek(span_size_t index) = 0;
-    virtual bool pop(span_size_t count) = 0;
+    virtual bool consume(span_size_t count) = 0;
+    virtual string_view head(span_size_t length) = 0;
 };
 //------------------------------------------------------------------------------
 class input_stream {
@@ -44,17 +40,32 @@ public:
 
     input_stream(std::istream& input);
 
+    input_location location(span_size_t index = 0) {
+        if(_pimpl) {
+            return _pimpl->location(index);
+        }
+        return {};
+    }
+
     char peek(span_size_t index = 0) {
         if(_pimpl) {
             return _pimpl->peek(index);
         }
         return char(0);
     }
-    bool pop(span_size_t count = 1) {
+
+    bool consume(span_size_t count = 1) {
         if(_pimpl) {
-            return _pimpl->pop(count);
+            return _pimpl->consume(count);
         }
         return false;
+    }
+
+    string_view head(span_size_t length) {
+        if(_pimpl) {
+            return _pimpl->head(length);
+        }
+        return {};
     }
 
 private:

@@ -1,33 +1,27 @@
 /**
- *  @file texgen/tokenizer.hpp
+ *  @file texgen/input_location.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef TEXGEN_TOKENIZER_HPP
-#define TEXGEN_TOKENIZER_HPP
+#ifndef TEXGEN_INPUT_LOCATION_HPP
+#define TEXGEN_INPUT_LOCATION_HPP
 
-#include "input_stream.hpp"
-#include "token_info.hpp"
+#include <oglplus/utils/string_span.hpp>
 
 namespace oglplus {
 namespace texgen {
 //------------------------------------------------------------------------------
-class tokenizer {
+class input_location {
 public:
-    tokenizer(input_stream input)
-      : _input(std::move(input)) {
-    }
-
-    bool get_next(token_info&);
-
 private:
-    input_stream _input;
+    span_size_t _line;
+    span_size_t _column;
 };
 //------------------------------------------------------------------------------
 } // namespace texgen
 } // namespace oglplus
 
-#endif // TEXGEN_TOKENIZER_HPP
+#endif // TEXGEN_INPUT_LOCATION_HPP

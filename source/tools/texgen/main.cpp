@@ -6,15 +6,31 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include "input_stream.hpp"
+#include "tokenizer.hpp"
+#include <fstream>
 #include <iostream>
 
-int main() {
-    oglplus::texgen::input_stream in(std::cin);
+static void test(std::istream& input) {
+    using namespace oglplus::texgen;
 
-    while(const char c = in.peek()) {
-        std::cout << c;
-        in.pop();
+    tokenizer tzr{input_stream(input)};
+
+    token_info token;
+    while(tzr.get_next(token)) {
+        std::cout << '|' << token.description() << '|' << token.spelling()
+                  << '|' << std::endl;
+        token.clear();
+    }
+}
+
+int main(int argc, const char** argv) {
+    if(argc == 1) {
+        test(std::cin);
+    } else {
+        for(int i = 1; i < argc; ++i) {
+            std::ifstream file(argv[i]);
+            test(file);
+        }
     }
 
     return 0;

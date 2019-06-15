@@ -13,6 +13,8 @@ namespace texgen {
 //------------------------------------------------------------------------------
 string_view token_description(token_kind kind) {
     switch(kind) {
+        case token_kind::comment:
+            return {"comment"};
         case token_kind::keyword:
             return {"keyword"};
         case token_kind::equals:
@@ -20,14 +22,18 @@ string_view token_description(token_kind kind) {
         case token_kind::semicolon:
             return {"semicolon"};
         case token_kind::number:
-            return {"number"};
+            return {"numeric literal"};
+        case token_kind::string:
+            return {"string literal"};
+        case token_kind::unterminated_string:
+            return {"unterminated string literal"};
         case token_kind::identifier:
             return {"identifier"};
         case token_kind::unknown:
             return {"unknown token"};
     }
     return {};
-};
+}
 //------------------------------------------------------------------------------
 } // namespace texgen
 } // namespace oglplus

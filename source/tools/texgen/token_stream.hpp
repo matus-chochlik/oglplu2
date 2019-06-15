@@ -9,9 +9,7 @@
 #ifndef TEXGEN_TOKEN_STREAM_HPP
 #define TEXGEN_TOKEN_STREAM_HPP
 
-#include "input_stream.hpp"
-#include "token_info.hpp"
-#include <utility>
+#include "tokenizer.hpp"
 #include <vector>
 
 namespace oglplus {
@@ -19,8 +17,8 @@ namespace texgen {
 //------------------------------------------------------------------------------
 class token_stream {
 public:
-    token_stream(input_stream input)
-      : _input(std::move(input)) {
+    token_stream(tokenizer a_tokenizer)
+      : _tokenizer(std::move(a_tokenizer)) {
     }
 
     bool empty() noexcept {
@@ -36,8 +34,7 @@ public:
     }
 
 private:
-    input_stream _input;
-
+    tokenizer _tokenizer;
     std::vector<token_info> _tokens;
 };
 //------------------------------------------------------------------------------
