@@ -17,9 +17,13 @@ namespace texgen {
 //------------------------------------------------------------------------------
 enum class token_kind {
     comment,
-    keyword,
+    renderKeyword,
+    dot,
+    comma,
     left_paren,
     right_paren,
+    left_brace,
+    right_brace,
     equals,
     semicolon,
     number,

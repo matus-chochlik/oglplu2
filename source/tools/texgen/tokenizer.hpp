@@ -24,7 +24,8 @@ public:
     bool get_next(token_info&);
 
 private:
-    bool _get_next_char(token_info&, char chr, token_kind);
+    bool _match_char(token_info&, char chr, token_kind);
+    bool _match_str(token_info&, string_view str, token_kind);
 
     input_stream _input;
 };

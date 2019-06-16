@@ -8,18 +8,55 @@
  */
 
 #include "tokenizer.hpp"
+#include <eagine/memory/span_algo.hpp>
 #include <cctype>
 
 namespace oglplus {
 namespace texgen {
 //------------------------------------------------------------------------------
-bool tokenizer::_get_next_char(token_info& token, char chr, token_kind kind) {
+static inline bool is_word_boundary(char c) noexcept {
+
+    return (c == char(0)) || std::isspace(c) ||
+           eagine::memory::find_element(string_view(".,=(){};"), c);
+}
+//------------------------------------------------------------------------------
+static inline bool is_dec_digit(char c) noexcept {
+
+    return bool(eagine::memory::find_element(string_view("0123456789"), c));
+}
+//------------------------------------------------------------------------------
+static inline bool is_ident_start(char c) noexcept {
+
+    return (c == '_') || std::isalpha(c);
+}
+//------------------------------------------------------------------------------
+static inline bool is_ident_cont(char c) noexcept {
+
+    return (c == '_') || std::isalnum(c);
+}
+//------------------------------------------------------------------------------
+bool tokenizer::_match_char(token_info& token, char chr, token_kind kind) {
+
     if(_input.peek() == chr) {
         token.end(_input.location(1));
         token.kind(kind);
         _input.consume();
         return true;
     }
+    return false;
+}
+//------------------------------------------------------------------------------
+bool tokenizer::_match_str(
+  token_info& token, string_view str, token_kind kind) {
+
+    const auto len = str.size();
+    if(are_equal(_input.head(len), str) && is_word_boundary(_input.peek(len))) {
+        token.end(_input.location(len));
+        token.kind(kind);
+        _input.consume(len);
+        return true;
+    }
+
     return false;
 }
 //------------------------------------------------------------------------------
@@ -60,14 +97,41 @@ bool tokenizer::get_next(token_info& token) {
             escape = (_input.peek(i) == '\\') && !escape;
             ++i;
         }
-    } else if(_get_next_char(token, '(', token_kind::left_paren)) {
+    } else if(_match_char(token, '.', token_kind::dot)) {
         return true;
-    } else if(_get_next_char(token, ')', token_kind::right_paren)) {
+    } else if(_match_char(token, ',', token_kind::dot)) {
         return true;
-    } else if(_get_next_char(token, '=', token_kind::equals)) {
+    } else if(_match_char(token, '(', token_kind::left_paren)) {
         return true;
-    } else if(_get_next_char(token, ';', token_kind::semicolon)) {
+    } else if(_match_char(token, ')', token_kind::right_paren)) {
         return true;
+    } else if(_match_char(token, '{', token_kind::left_brace)) {
+        return true;
+    } else if(_match_char(token, '}', token_kind::right_brace)) {
+        return true;
+    } else if(_match_char(token, '=', token_kind::equals)) {
+        return true;
+    } else if(_match_char(token, ';', token_kind::semicolon)) {
+        return true;
+    } else if(_match_str(token, "render", token_kind::renderKeyword)) {
+        return true;
+    } else if(is_ident_start(_input.peek())) {
+        span_size_t i = 1;
+        while(const char c = _input.peek(i)) {
+            if(!is_ident_cont(c)) {
+                break;
+            }
+            ++i;
+        }
+        if(is_word_boundary(_input.peek(i))) {
+            token.end(_input.location(i));
+            token.kind(token_kind::identifier);
+            token.spelling(_input.head(i));
+            _input.consume(i);
+            return true;
+        }
+    } else if(is_dec_digit(_input.peek())) {
+        // TODO
     }
     return false;
 }
