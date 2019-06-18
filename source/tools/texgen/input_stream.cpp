@@ -20,9 +20,12 @@ public:
       : _input(input) {
     }
 
-    char peek(span_size_t index) override {
-        if(_ensure_cached(index + 1)) {
-            return _cache[std_size(index)];
+    char peek(span_size_t index) noexcept override {
+        try {
+            if(_ensure_cached(index + 1)) {
+                return _cache[std_size(index)];
+            }
+        } catch(...) {
         }
         return char(0);
     }
@@ -41,8 +44,11 @@ public:
         return {};
     }
 
-    string_view head(span_size_t length) override {
-        _ensure_cached(length);
+    string_view head(span_size_t length) noexcept override {
+        try {
+            _ensure_cached(length);
+        } catch(...) {
+        }
         return eagine::memory::head(string_view(_cache), length);
     }
 

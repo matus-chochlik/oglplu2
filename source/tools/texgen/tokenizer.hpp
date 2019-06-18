@@ -11,23 +11,26 @@
 
 #include "input_stream.hpp"
 #include "token_info.hpp"
+#include <regex>
 
 namespace oglplus {
 namespace texgen {
 //------------------------------------------------------------------------------
 class tokenizer {
 public:
-    tokenizer(input_stream input)
-      : _input(std::move(input)) {
-    }
+    tokenizer(input_stream input);
 
     bool get_next(token_info&);
 
 private:
     bool _match_char(token_info&, char chr, token_kind);
     bool _match_str(token_info&, string_view str, token_kind);
+    bool _match_re(token_info&, const std::regex&, token_kind);
 
     input_stream _input;
+
+    std::regex _ident_re;
+    std::regex _number_re;
 };
 //------------------------------------------------------------------------------
 } // namespace texgen

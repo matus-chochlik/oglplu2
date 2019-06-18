@@ -12,6 +12,7 @@
 #include "input_location.hpp"
 #include <oglplus/utils/string_span.hpp>
 #include <iosfwd>
+#include <iterator>
 #include <memory>
 
 namespace oglplus {
@@ -27,13 +28,84 @@ struct input_stream_intf {
     virtual ~input_stream_intf() noexcept = default;
 
     virtual input_location location(span_size_t index) = 0;
-    virtual char peek(span_size_t index) = 0;
+    virtual char peek(span_size_t index) noexcept = 0;
     virtual bool consume(span_size_t count) = 0;
-    virtual string_view head(span_size_t length) = 0;
+    virtual string_view head(span_size_t length) noexcept = 0;
+};
+//------------------------------------------------------------------------------
+class input_stream_iter {
+public:
+    using value_type = char;
+    using difference_type = std::ptrdiff_t;
+    using reference = const char&;
+    using pointer = const char*;
+    using iterator_category = std::bidirectional_iterator_tag;
+
+    input_stream_iter() noexcept = default;
+
+    input_stream_iter(input_stream_intf* pimpl, span_size_t index) noexcept
+      : _pimpl{pimpl}
+      , _index{index} {
+        if(_pimpl) {
+            _element = _pimpl->peek(_index);
+        }
+    }
+
+    input_stream_iter& operator++() noexcept {
+        ++_index;
+        _element = _pimpl->peek(_index);
+        return *this;
+    }
+
+    input_stream_iter operator++(int) noexcept {
+        input_stream_iter res(*this);
+        ++_index;
+        _element = _pimpl->peek(_index);
+        return res;
+    }
+
+    input_stream_iter& operator--() noexcept {
+        --_index;
+        _element = _pimpl->peek(_index);
+        return *this;
+    }
+
+    input_stream_iter operator--(int) noexcept {
+        input_stream_iter res(*this);
+        --_index;
+        _element = _pimpl->peek(_index);
+        return res;
+    }
+
+    reference operator*() const noexcept {
+        return _element;
+    }
+
+    friend bool operator==(
+      const input_stream_iter& l, const input_stream_iter& r) noexcept {
+        return (l.at_end() && r.at_end()) ||
+               ((l._index == r._index) && (l._pimpl == r._pimpl));
+    }
+
+    friend bool operator!=(
+      const input_stream_iter& l, const input_stream_iter& r) noexcept {
+        return !(l == r);
+    }
+
+    bool at_end() const noexcept {
+        return !_pimpl || (_index < 0) || !_pimpl->peek(_index);
+    }
+
+private:
+    input_stream_intf* _pimpl{nullptr};
+    span_size_t _index{-1};
+    char _element{};
 };
 //------------------------------------------------------------------------------
 class input_stream {
 public:
+    using iterator = input_stream_iter;
+
     input_stream(std::unique_ptr<input_stream_intf> pimpl)
       : _pimpl(std::move(pimpl)) {
     }
@@ -66,6 +138,14 @@ public:
             return _pimpl->head(length);
         }
         return {};
+    }
+
+    iterator begin() {
+        return iterator(_pimpl.get(), 0);
+    }
+
+    iterator end() {
+        return iterator();
     }
 
 private:

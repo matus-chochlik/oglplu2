@@ -14,6 +14,12 @@
 namespace oglplus {
 namespace texgen {
 //------------------------------------------------------------------------------
+tokenizer::tokenizer(input_stream input)
+  : _input(std::move(input))
+  , _ident_re(R"(^[_[:alpha:]][_[:alnum:]]*\b)")
+  , _number_re(R"(^)") {
+}
+//------------------------------------------------------------------------------
 static inline bool is_word_boundary(char c) noexcept {
 
     return (c == char(0)) || std::isspace(c) ||
@@ -23,16 +29,6 @@ static inline bool is_word_boundary(char c) noexcept {
 static inline bool is_dec_digit(char c) noexcept {
 
     return bool(eagine::memory::find_element(string_view("0123456789"), c));
-}
-//------------------------------------------------------------------------------
-static inline bool is_ident_start(char c) noexcept {
-
-    return (c == '_') || std::isalpha(c);
-}
-//------------------------------------------------------------------------------
-static inline bool is_ident_cont(char c) noexcept {
-
-    return (c == '_') || std::isalnum(c);
 }
 //------------------------------------------------------------------------------
 bool tokenizer::_match_char(token_info& token, char chr, token_kind kind) {
@@ -53,15 +49,28 @@ bool tokenizer::_match_str(
     if(are_equal(_input.head(len), str) && is_word_boundary(_input.peek(len))) {
         token.end(_input.location(len));
         token.kind(kind);
-        _input.consume(len);
-        return true;
+        return _input.consume(len);
     }
 
     return false;
 }
 //------------------------------------------------------------------------------
-bool tokenizer::get_next(token_info& token) {
+bool tokenizer::_match_re(
+  token_info& token, const std::regex& re, token_kind kind) {
 
+    std::match_results<input_stream::iterator, std::allocator<char>> res;
+
+    if(std::regex_search(_input.begin(), _input.end(), res, re)) {
+        const auto len = span_size(res.length(0));
+        token.end(_input.location(len));
+        token.kind(kind);
+        token.spelling(res.str(0));
+        return _input.consume(len);
+    }
+    return false;
+}
+//------------------------------------------------------------------------------
+bool tokenizer::get_next(token_info& token) {
     // eat spaces
     while(const char c = _input.peek()) {
         if(std::isspace(c)) {
@@ -87,10 +96,11 @@ bool tokenizer::get_next(token_info& token) {
                 return true;
             }
             if((c == '"') && !escape) {
-                token.end(_input.location(i + 1));
+                const auto len = i + 1;
+                token.end(_input.location(len));
                 token.kind(token_kind::string);
-                token.spelling(_input.head(i));
-                _input.consume(i + 1);
+                token.spelling(_input.head(len));
+                _input.consume(len);
                 return true;
             }
 
@@ -115,21 +125,8 @@ bool tokenizer::get_next(token_info& token) {
         return true;
     } else if(_match_str(token, "render", token_kind::renderKeyword)) {
         return true;
-    } else if(is_ident_start(_input.peek())) {
-        span_size_t i = 1;
-        while(const char c = _input.peek(i)) {
-            if(!is_ident_cont(c)) {
-                break;
-            }
-            ++i;
-        }
-        if(is_word_boundary(_input.peek(i))) {
-            token.end(_input.location(i));
-            token.kind(token_kind::identifier);
-            token.spelling(_input.head(i));
-            _input.consume(i);
-            return true;
-        }
+    } else if(_match_re(token, _ident_re, token_kind::identifier)) {
+        return true;
     } else if(is_dec_digit(_input.peek())) {
         // TODO
     }
