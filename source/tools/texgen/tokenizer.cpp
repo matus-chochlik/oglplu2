@@ -17,18 +17,13 @@ namespace texgen {
 tokenizer::tokenizer(input_stream input)
   : _input(std::move(input))
   , _ident_re(R"(^[_[:alpha:]][_[:alnum:]]*\b)")
-  , _number_re(R"(^)") {
+  , _number_re(R"(^-?[[:digit:]]+(\.[[:digit:]]+)?)") {
 }
 //------------------------------------------------------------------------------
 static inline bool is_word_boundary(char c) noexcept {
 
     return (c == char(0)) || std::isspace(c) ||
            eagine::memory::find_element(string_view(".,=(){};"), c);
-}
-//------------------------------------------------------------------------------
-static inline bool is_dec_digit(char c) noexcept {
-
-    return bool(eagine::memory::find_element(string_view("0123456789"), c));
 }
 //------------------------------------------------------------------------------
 bool tokenizer::_match_char(token_info& token, char chr, token_kind kind) {
@@ -127,8 +122,8 @@ bool tokenizer::get_next(token_info& token) {
         return true;
     } else if(_match_re(token, _ident_re, token_kind::identifier)) {
         return true;
-    } else if(is_dec_digit(_input.peek())) {
-        // TODO
+    } else if(_match_re(token, _number_re, token_kind::number)) {
+        return true;
     }
     return false;
 }
