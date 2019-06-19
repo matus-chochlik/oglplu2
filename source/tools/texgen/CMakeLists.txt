@@ -9,6 +9,7 @@ add_executable(
 	token_info.cpp
 	token_stream.cpp
 	tokenizer.cpp
+	parser.cpp
 	main.cpp
 )
 
