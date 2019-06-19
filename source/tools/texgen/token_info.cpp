@@ -33,8 +33,10 @@ string_view token_description(token_kind kind) {
             return {"equals sign"};
         case token_kind::semicolon:
             return {"semicolon"};
-        case token_kind::number:
-            return {"numeric literal"};
+        case token_kind::integer_literal:
+            return {"integer literal"};
+        case token_kind::float_literal:
+            return {"floating-point literal"};
         case token_kind::string:
             return {"string literal"};
         case token_kind::unterminated_string:

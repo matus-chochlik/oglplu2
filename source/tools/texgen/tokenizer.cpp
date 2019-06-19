@@ -17,7 +17,9 @@ namespace texgen {
 tokenizer::tokenizer(input_stream input)
   : _input(std::move(input))
   , _ident_re(R"(^[_[:alpha:]][_[:alnum:]]*\b)")
-  , _number_re(R"(^-?[[:digit:]]+(\.[[:digit:]]+)?)") {
+  , _integer_re(
+      R"(((0x[[:xdigit:]]+)|(0b[01]+)|([01234567]+)|(-?[1-9][[:digit:]]*)|0)\b)")
+  , _float_re(R"(^-?[[:digit:]]+(\.[[:digit:]]+)\b)") {
 }
 //------------------------------------------------------------------------------
 static inline bool is_word_boundary(char c) noexcept {
@@ -104,7 +106,7 @@ bool tokenizer::get_next(token_info& token) {
         }
     } else if(_match_char(token, '.', token_kind::dot)) {
         return true;
-    } else if(_match_char(token, ',', token_kind::dot)) {
+    } else if(_match_char(token, ',', token_kind::comma)) {
         return true;
     } else if(_match_char(token, '(', token_kind::left_paren)) {
         return true;
@@ -122,7 +124,9 @@ bool tokenizer::get_next(token_info& token) {
         return true;
     } else if(_match_re(token, _ident_re, token_kind::identifier)) {
         return true;
-    } else if(_match_re(token, _number_re, token_kind::number)) {
+    } else if(_match_re(token, _float_re, token_kind::float_literal)) {
+        return true;
+    } else if(_match_re(token, _integer_re, token_kind::integer_literal)) {
         return true;
     }
     return false;

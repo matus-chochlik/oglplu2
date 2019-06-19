@@ -8,6 +8,7 @@
  */
 
 #include "parser.hpp"
+#include "tokenizer.hpp"
 
 namespace oglplus {
 namespace texgen {

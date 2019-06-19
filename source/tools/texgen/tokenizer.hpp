@@ -30,7 +30,8 @@ private:
     input_stream _input;
 
     std::regex _ident_re;
-    std::regex _number_re;
+    std::regex _integer_re;
+    std::regex _float_re;
 };
 //------------------------------------------------------------------------------
 } // namespace texgen
