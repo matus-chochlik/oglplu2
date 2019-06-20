@@ -8,7 +8,7 @@
  */
 
 #include "parser.hpp"
-#include "tokenizer.hpp"
+#include "token_stream.hpp"
 
 namespace oglplus {
 namespace texgen {
@@ -17,7 +17,29 @@ void parser::begin() {
     _actions.begin();
 }
 //------------------------------------------------------------------------------
-void parser::parse(input_stream) {
+static bool parse_render_expr(token_stream& tokens, semantic_actions&) {
+    if(
+      auto rndr_ident = tokens.follows({token_kind::keyword_render,
+                                        token_kind::left_paren,
+                                        token_kind::identifier,
+                                        token_kind::right_paren})) {
+    }
+    return false;
+}
+//------------------------------------------------------------------------------
+static bool parse_statement(token_stream& tokens, semantic_actions& actions) {
+    if(parse_render_expr(tokens, actions)) {
+    }
+    return false;
+}
+//------------------------------------------------------------------------------
+void parser::parse(input_stream input) {
+    token_stream tokens(std::move(input));
+    while(true) {
+        if(!parse_statement(tokens, _actions)) {
+            break;
+        }
+    }
 }
 //------------------------------------------------------------------------------
 void parser::finish() {

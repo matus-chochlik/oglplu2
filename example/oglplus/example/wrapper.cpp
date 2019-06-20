@@ -28,7 +28,7 @@ example_wrapper::example_wrapper(
   , _start(clock_type::now())
   , _now(_start) {
 
-    assert(_example); // NOLINT(hicpp-no-array-decay)
+    EAGINE_ASSERT(_example);
 
     state.sync_size();
     _example->resize(_context);
@@ -117,7 +117,7 @@ void example_wrapper::render() {
                   (state.exec_time() >= params.screenshot_time());
 
     if(state.multiple_tiles()) {
-        assert(state.first_tile()); // NOLINT(hicpp-no-array-decay)
+        EAGINE_ASSERT(state.first_tile());
         do {
             if(params.auto_tiles()) {
                 glScissor(

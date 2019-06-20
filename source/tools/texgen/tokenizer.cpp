@@ -120,7 +120,7 @@ bool tokenizer::get_next(token_info& token) {
         return true;
     } else if(_match_char(token, ';', token_kind::semicolon)) {
         return true;
-    } else if(_match_str(token, "render", token_kind::renderKeyword)) {
+    } else if(_match_str(token, "render", token_kind::keyword_render)) {
         return true;
     } else if(_match_re(token, _ident_re, token_kind::identifier)) {
         return true;

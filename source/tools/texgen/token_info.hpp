@@ -10,6 +10,7 @@
 #define TEXGEN_TOKEN_INFO_HPP
 
 #include "input_location.hpp"
+#include <eagine/compare.hpp>
 #include <oglplus/utils/string_span.hpp>
 
 namespace oglplus {
@@ -17,7 +18,7 @@ namespace texgen {
 //------------------------------------------------------------------------------
 enum class token_kind {
     comment,
-    renderKeyword,
+    keyword_render,
     dot,
     comma,
     left_paren,
@@ -87,5 +88,28 @@ private:
 //------------------------------------------------------------------------------
 } // namespace texgen
 } // namespace oglplus
+//------------------------------------------------------------------------------
+namespace eagine {
+//------------------------------------------------------------------------------
+template <>
+struct equal_cmp<oglplus::texgen::token_kind, oglplus::texgen::token_info> {
+    static inline bool check(
+      oglplus::texgen::token_kind kind,
+      const oglplus::texgen::token_info& info) noexcept {
+        return kind == info.kind();
+    }
+};
+//------------------------------------------------------------------------------
+template <>
+struct equal_cmp<oglplus::texgen::token_info, oglplus::texgen::token_kind> {
+    static inline bool check(
+      const oglplus::texgen::token_info& info,
+      oglplus::texgen::token_kind kind) noexcept {
+        return info.kind() == kind;
+    }
+};
+//------------------------------------------------------------------------------
+} // namespace eagine
+//------------------------------------------------------------------------------
 
 #endif // TEXGEN_TOKEN_INFO_HPP

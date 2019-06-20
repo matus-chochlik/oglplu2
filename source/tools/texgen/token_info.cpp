@@ -15,7 +15,7 @@ string_view token_description(token_kind kind) {
     switch(kind) {
         case token_kind::comment:
             return {"comment"};
-        case token_kind::renderKeyword:
+        case token_kind::keyword_render:
             return {"'render' keyword"};
         case token_kind::dot:
             return {"dot operator"};

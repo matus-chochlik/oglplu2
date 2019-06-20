@@ -12,5 +12,26 @@
 namespace oglplus {
 namespace texgen {
 //------------------------------------------------------------------------------
+bool token_stream::_ensure_cached(span_size_t count) {
+    while(span_size(_tokens.size()) < count) {
+        token_info token{};
+        if(_tokenizer.get_next(token)) {
+            _tokens.emplace_back(std::move(token));
+        } else {
+            break;
+        }
+    }
+    return span_size(_tokens.size()) >= count;
+}
+//------------------------------------------------------------------------------
+bool token_stream::consume(span_size_t length) {
+    if(_ensure_cached(length)) {
+        _tokens.erase(_tokens.begin(), _tokens.begin() + length);
+        return true;
+    }
+    _tokens.clear();
+    return false;
+}
+//------------------------------------------------------------------------------
 } // namespace texgen
 } // namespace oglplus
