@@ -10,7 +10,8 @@
 #define TEXGEN_SEMANTIC_ACTIONS_HPP
 
 #include "input_location.hpp"
-#include "tokenizer.hpp"
+#include "token_info.hpp"
+#include <memory>
 
 namespace oglplus {
 namespace texgen {

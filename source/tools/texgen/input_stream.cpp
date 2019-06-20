@@ -7,6 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include "input_stream.hpp"
+#include <eagine/assert.hpp>
 #include <eagine/memory/span_algo.hpp>
 #include <istream>
 #include <vector>
@@ -33,14 +34,18 @@ public:
     bool consume(span_size_t count) override {
         if(_ensure_cached(count)) {
             _cache.erase(_cache.begin(), _cache.begin() + count);
+            _locs.erase(_locs.begin(), _locs.begin() + count);
             return true;
         }
         _cache.clear();
+        _locs.clear();
         return false;
     }
 
-    input_location location(span_size_t) override {
-        // TODO
+    input_location location(span_size_t index) override {
+        if(_ensure_cached(index + 1)) {
+            return _locs[std_size(index)];
+        }
         return {};
     }
 
@@ -54,14 +59,22 @@ public:
 
 private:
     bool _ensure_cached(span_size_t count) {
+        EAGINE_ASSERT(_cache.size() == _locs.size());
         while(_input.good() && (span_size(_cache.size()) < count)) {
             _cache.push_back(_input.get());
+            if(_locs.empty()) {
+                _locs.emplace_back();
+            } else {
+                _locs.emplace_back(_locs.back() + _cache.back());
+            }
         }
+        EAGINE_ASSERT(_cache.size() == _locs.size());
         return span_size(_cache.size()) >= count;
     }
 
     std::istream& _input;
     std::vector<char> _cache;
+    std::vector<input_location> _locs;
 };
 //------------------------------------------------------------------------------
 input_stream::input_stream(std::istream& input)
