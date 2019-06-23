@@ -29,8 +29,16 @@ string_view token_description(token_kind kind) {
             return {"left brace"};
         case token_kind::right_brace:
             return {"right brace"};
+        case token_kind::left_bracket:
+            return {"left bracket"};
+        case token_kind::right_bracket:
+            return {"right bracket"};
         case token_kind::equals:
             return {"equals sign"};
+        case token_kind::connect_l2r:
+            return {"connect left-to-right operator"};
+        case token_kind::connect_r2l:
+            return {"connect right-to-leftoperator"};
         case token_kind::semicolon:
             return {"semicolon"};
         case token_kind::integer_literal:

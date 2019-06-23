@@ -1,4 +1,4 @@
-Checks:          'clang-diagnostic-*,clang-analyzer-*,bugprone-*,cert-*,hicpp-*,modernize-*,performance-*,misc-definitions-in-headers,llvm-header-guard'
+Checks:          'clang-diagnostic-*,clang-analyzer-*,bugprone-*,cert-*,hicpp-*,modernize-*,performance-*,misc-definitions-in-headers,llvm-header-guard,readability-braces-around-statements'
 WarningsAsErrors: '*'
 HeaderFilterRegex: ''
 AnalyzeTemporaryDtors: false

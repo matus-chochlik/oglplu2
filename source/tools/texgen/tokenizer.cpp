@@ -110,6 +110,10 @@ bool tokenizer::get_next(token_info& token) {
         return true;
     } else if(_match_char(token, '(', token_kind::left_paren)) {
         return true;
+    } else if(_match_char(token, '[', token_kind::right_bracket)) {
+        return true;
+    } else if(_match_char(token, ']', token_kind::left_bracket)) {
+        return true;
     } else if(_match_char(token, ')', token_kind::right_paren)) {
         return true;
     } else if(_match_char(token, '{', token_kind::left_brace)) {
@@ -119,6 +123,14 @@ bool tokenizer::get_next(token_info& token) {
     } else if(_match_char(token, '=', token_kind::equals)) {
         return true;
     } else if(_match_char(token, ';', token_kind::semicolon)) {
+        return true;
+    } else if(_match_str(token, "~>", token_kind::connect_l2r)) {
+        return true;
+    } else if(_match_str(token, "->", token_kind::connect_l2r)) {
+        return true;
+    } else if(_match_str(token, "<~", token_kind::connect_r2l)) {
+        return true;
+    } else if(_match_str(token, "<-", token_kind::connect_r2l)) {
         return true;
     } else if(_match_str(token, "render", token_kind::keyword_render)) {
         return true;
