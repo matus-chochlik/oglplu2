@@ -76,8 +76,8 @@ namespace oglplus {
 struct api_initializer {
     api_initializer(const api_initializer&) = delete;
 
-    api_initializer(int /*gl_ver_major*/ = 3, int /*gl_ver_minor*/ = 3);
-    ~api_initializer();
+    explicit api_initializer(
+      int /*gl_ver_major*/ = 3, int /*gl_ver_minor*/ = 3);
 };
 
 } // namespace oglplus

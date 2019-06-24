@@ -8,13 +8,15 @@
  *  http://www.boost.org/LICENSE_1_0.txt
  *
  */
-#ifndef EAGINE_SITE_CONFIG_120305_HPP
-#define EAGINE_SITE_CONFIG_120305_HPP
+#ifndef EAGINE_CONFIG_SITE_HPP
+#define EAGINE_CONFIG_SITE_HPP
 
+// clang-format off
 #ifndef EAGINE_LOW_PROFILE
 #if @CONFIG_SET_LOW_PROFILE@
 #define EAGINE_LOW_PROFILE @LOW_PROFILE@
 #endif
 #endif
+// clang-format on
 
 #endif

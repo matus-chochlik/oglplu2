@@ -30,7 +30,10 @@ private:
     pointer _addr = nullptr;
 
 public:
+    ~basic_address() noexcept = default;
     constexpr basic_address() noexcept = default;
+    basic_address(basic_address&&) = delete;
+    basic_address& operator=(basic_address&&) = delete;
 
     constexpr explicit basic_address(std::nullptr_t) noexcept {
     }

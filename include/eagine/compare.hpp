@@ -6,13 +6,13 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#ifndef EAGINE_COMPARE_HPP
+#define EAGINE_COMPARE_HPP
+
 #include "identity.hpp"
 #include <limits>
 #include <type_traits>
 #include <utility>
-
-#ifndef EAGINE_COMPARE_HPP
-#define EAGINE_COMPARE_HPP
 
 namespace eagine {
 //------------------------------------------------------------------------------

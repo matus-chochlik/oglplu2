@@ -9,6 +9,7 @@
 #ifndef EAGINE_PROGRAM_ARGS_HPP
 #define EAGINE_PROGRAM_ARGS_HPP
 
+#include "assert.hpp"
 #include "identity.hpp"
 #include "program_args.hpp"
 #include "range_types.hpp"
@@ -16,7 +17,6 @@
 #include "string_span.hpp"
 #include "type_name.hpp"
 #include "valid_if/in_list.hpp"
-#include <cassert>
 #include <memory>
 #include <sstream>
 #include <type_traits>
@@ -95,20 +95,20 @@ private:
     }
 
     template <typename X, typename P, typename L>
-    static X& _get_value(valid_if<X, P, L>& vi) noexcept {
+    static X& _get_value(valid_if<X, P, L>& vi) {
         return vi.value();
     }
 
     template <typename X, typename P, typename L>
-    static const X& _get_value(const valid_if<X, P, L>& vi) noexcept {
+    static const X& _get_value(const valid_if<X, P, L>& vi) {
         return vi.value();
     }
 
 public:
     program_parameter(
-      string_view short_tag, string_view long_tag, const T& initial) noexcept
+      string_view short_tag, string_view long_tag, T initial) noexcept
       : basic_program_parameter(short_tag, long_tag)
-      , _value(initial) {
+      , _value(std::move(initial)) {
     }
 
     T& ref() noexcept {
@@ -133,7 +133,7 @@ public:
         return true;
     }
 
-    const auto& value() const noexcept {
+    const auto& value() const {
         return _get_value(_value);
     }
 
@@ -148,7 +148,12 @@ private:
     program_parameter<T>& _aliased;
 
 public:
+    ~program_parameter_alias() noexcept = default;
     program_parameter_alias(const program_parameter_alias&) = delete;
+    program_parameter_alias& operator=(const program_parameter_alias&) = delete;
+    program_parameter_alias(program_parameter_alias&&) noexcept = delete;
+    program_parameter_alias& operator=(program_parameter_alias&&) noexcept =
+      delete;
 
     program_parameter_alias(
       string_view short_tag,
@@ -263,8 +268,7 @@ private:
     }
 
 public:
-    program_arg() noexcept {
-    }
+    program_arg() noexcept = default;
 
     using value_type = string_view;
 
@@ -594,6 +598,11 @@ public:
 class program_parameters {
 private:
     struct _intf {
+        _intf() noexcept = default;
+        _intf(_intf&&) noexcept = delete;
+        _intf(const _intf&) noexcept = delete;
+        _intf& operator=(_intf&&) noexcept = delete;
+        _intf& operator=(const _intf&) noexcept = delete;
         virtual ~_intf() = default;
 
         virtual bool parse(program_arg&, std::ostream&) = 0;
@@ -613,12 +622,12 @@ private:
         string_view _plchldr;
 
         program_parameter<T>& _param() noexcept {
-            assert(_pparam != nullptr);
+            EAGINE_ASSERT(_pparam != nullptr);
             return *_pparam;
         }
 
         const program_parameter<T>& _param() const noexcept {
-            assert(_pparam != nullptr);
+            EAGINE_ASSERT(_pparam != nullptr);
             return *_pparam;
         }
 
@@ -696,7 +705,7 @@ private:
       std::vector<std::unique_ptr<_intf>>& dest,
       std::unique_ptr<_intf>&& param,
       std::unique_ptr<Intf>&&... params) noexcept {
-        assert(param != nullptr);
+        EAGINE_ASSERT(param != nullptr);
         dest.push_back(std::move(param));
         return _insert(dest, std::move(params)...);
     }
@@ -721,7 +730,7 @@ public:
 
     bool parse(program_arg& arg, std::ostream& log) {
         for(auto& param : _params) {
-            assert(param != nullptr);
+            EAGINE_ASSERT(param != nullptr);
             if(param->parse(arg, log)) {
                 return true;
             }
@@ -732,7 +741,7 @@ public:
     bool validate(std::ostream& log) const {
         bool all_ok = true;
         for(const auto& param : _params) {
-            assert(param != nullptr);
+            EAGINE_ASSERT(param != nullptr);
             all_ok &= param->validate(log);
         }
         return all_ok;
@@ -745,7 +754,7 @@ public:
         span_size_t ltag_maxl = 0;
 
         for(const auto& param : _params) {
-            assert(param != nullptr);
+            EAGINE_ASSERT(param != nullptr);
 
             out << " ";
 
@@ -796,8 +805,7 @@ private:
     const char** _argv{nullptr};
 
 public:
-    program_args() noexcept {
-    }
+    program_args() noexcept = default;
 
     program_args(span_size_t argn, char** args) noexcept
       : _argc(int(argn))
@@ -833,18 +841,18 @@ public:
         return _argc;
     }
 
-    bool is_valid(valid_index pos) const noexcept {
+    bool is_valid(const valid_index& pos) const noexcept {
         return pos.is_valid(*this) && (_argv != nullptr) &&
-               (_argv[pos.value(*this)] != nullptr);
+               (_argv[pos.value_or(-1, *this)] != nullptr);
     }
 
-    value_type get(valid_index pos) const noexcept {
-        assert(is_valid(pos));
-        return value_type(_argv[pos.value(*this)]);
+    value_type get(const valid_index& pos) const noexcept {
+        EAGINE_ASSERT(is_valid(pos));
+        return value_type(_argv[pos.value_anyway(*this)]);
     }
 
-    value_type operator[](valid_index pos) const noexcept {
-        return get(std::move(pos));
+    value_type operator[](const valid_index& pos) const noexcept {
+        return get(pos);
     }
 
     value_type command() const noexcept {

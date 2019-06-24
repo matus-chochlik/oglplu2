@@ -61,7 +61,8 @@ private:
     }
 
 public:
-    constexpr inline basic_offset_ptr() noexcept = default;
+    constexpr basic_offset_ptr() noexcept = default;
+    ~basic_offset_ptr() noexcept = default;
 
     explicit constexpr inline basic_offset_ptr(offset_type offs) noexcept
       : _offs{offs} {
@@ -76,6 +77,10 @@ public:
     }
 
     basic_offset_ptr(const basic_offset_ptr& that) noexcept
+      : _offs{_get_offs(that)} {
+    }
+
+    basic_offset_ptr(basic_offset_ptr&& that) noexcept
       : _offs{_get_offs(that)} {
     }
 
@@ -98,6 +103,11 @@ public:
     }
 
     basic_offset_ptr& operator=(const basic_offset_ptr& that) noexcept {
+        _offs = _get_offs(that);
+        return *this;
+    }
+
+    basic_offset_ptr& operator=(basic_offset_ptr&& that) noexcept {
         _offs = _get_offs(that);
         return *this;
     }

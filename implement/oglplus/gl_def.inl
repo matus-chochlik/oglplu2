@@ -22,10 +22,6 @@ OGLPLUS_LIB_FUNC
 api_initializer::api_initializer(int, int) {
 }
 //------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-api_initializer::~api_initializer() {
-}
-//------------------------------------------------------------------------------
 #elif OGLPLUS_USE_GLEW
 OGLPLUS_LIB_FUNC
 api_initializer::api_initializer(int, int) {
@@ -35,10 +31,6 @@ api_initializer::api_initializer(int, int) {
     if(init_result != GLEW_OK) {
         throw std::runtime_error("OpenGL/GLEW initialization error.");
     }
-}
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-api_initializer::~api_initializer() {
 }
 //------------------------------------------------------------------------------
 #elif OGLPLUS_USE_GL3W
@@ -52,10 +44,6 @@ api_initializer::api_initializer(int gl_ver_major, int gl_ver_minor) {
     if(!gl3wIsSupported(gl_ver_major, gl_ver_minor)) {
         throw std::runtime_error("Requested OpenGL version not supported");
     }
-}
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-api_initializer::~api_initializer() {
 }
 //------------------------------------------------------------------------------
 #endif

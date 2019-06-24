@@ -3,13 +3,14 @@
 #  See accompanying file LICENSE_1_0.txt or copy at
 #   http://www.boost.org/LICENSE_1_0.txt
 #
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 
 enable_testing()
 
 add_subdirectory(compile_test)
 add_subdirectory(boost_test)
 add_subdirectory(memcheck)
+add_subdirectory(header_test)
 
 find_program(CTEST ctest)
 

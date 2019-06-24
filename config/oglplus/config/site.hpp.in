@@ -8,11 +8,12 @@
  *  http://www.boost.org/LICENSE_1_0.txt
  *
  */
-#ifndef OGLPLUS_SITE_CONFIG_120305_HPP
-#define OGLPLUS_SITE_CONFIG_120305_HPP
+#ifndef OGLPLUS_CONFIG_SITE_HPP
+#define OGLPLUS_CONFIG_SITE_HPP
 
 #include <eagine/config/site.hpp>
 
+// clang-format off
 #define OGLPLUS_GLX_FOUND @GLX_FOUND@
 #define OGLPLUS_GLFW3_FOUND @GLFW3_FOUND@
 #define OGLPLUS_GLFW_FOUND @GLFW_FOUND@
@@ -74,5 +75,6 @@
 #ifndef OGLPLUS_USE_GLUT
 #define OGLPLUS_USE_GLUT @OGLPLUS_USE_GLUT@
 #endif
+// clang-format on
 
 #endif

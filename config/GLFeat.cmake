@@ -78,7 +78,7 @@ gl_lib_ext_detection(GL KHR debug)
 gl_lib_ext_detection(GL NV path_rendering)
 gl_lib_ext_detection(GL NV copy_image)
 
-file(APPEND ${FIX_GL_EXTENSION_HPP} "#endif //include guard\n")
+file(APPEND ${FIX_GL_EXTENSION_HPP} "#endif\n")
 
 macro(glew_ext_detection EXTENSION_VENDOR EXTENSION_NAME)
 	if(GLEW_FOUND)
