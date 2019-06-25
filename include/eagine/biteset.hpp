@@ -10,9 +10,9 @@
 #ifndef EAGINE_BITESET_HPP
 #define EAGINE_BITESET_HPP
 
+#include "assert.hpp"
 #include "byteset.hpp"
 #include "int_constant.hpp"
-#include <cassert>
 #include <climits>
 #include <cstdint>
 #include <iterator>
@@ -69,19 +69,19 @@ public:
     }
 
     value_type get() const noexcept {
-        assert(is_valid());
+        EAGINE_ASSERT(is_valid());
         return _ptr->get(_pos);
     }
 
     void set(value_type val) noexcept {
-        assert(is_valid());
+        EAGINE_ASSERT(is_valid());
         return _ptr->set(_pos, val);
     }
 
     void swap(self& other) noexcept {
         using std::swap;
-        assert(_ptr != nullptr);
-        assert(_ptr == other._ptr);
+        EAGINE_ASSERT(_ptr != nullptr);
+        EAGINE_ASSERT(_ptr == other._ptr);
         value_type a = this->get();
         value_type b = other.get();
         swap(a, b);
@@ -190,7 +190,7 @@ public:
 
     void swap(self& other) noexcept {
         using std::swap;
-        assert(_ptr == other._ptr);
+        EAGINE_ASSERT(_ptr == other._ptr);
         swap(_pos, other._pos);
     }
 
@@ -282,8 +282,8 @@ protected:
     }
 
     static inline difference_type _cmp(const self& a, const self& b) noexcept {
-        assert(a._ptr != nullptr);
-        assert(a._ptr == b._ptr);
+        EAGINE_ASSERT(a._ptr != nullptr);
+        EAGINE_ASSERT(a._ptr == b._ptr);
         return a._pos - b._pos;
     }
 
@@ -324,7 +324,7 @@ public:
     biteset_iterator() = default;
 
     const_proxy operator*() const noexcept {
-        assert(is_valid());
+        EAGINE_ASSERT(is_valid());
         return {*_ptr, _pos};
     }
 };
@@ -363,22 +363,22 @@ public:
     biteset_iterator& operator=(const biteset_iterator&) = default;
 
     proxy operator*() noexcept {
-        assert(is_valid());
+        EAGINE_ASSERT(is_valid());
         return {*_ptr, _pos};
     }
 
     const_proxy operator*() const noexcept {
-        assert(is_valid());
+        EAGINE_ASSERT(is_valid());
         return {*_ptr, _pos};
     }
 
     proxy operator->() noexcept {
-        assert(is_valid());
+        EAGINE_ASSERT(is_valid());
         return {*_ptr, &_pos};
     }
 
     const_proxy operator->() const noexcept {
-        assert(is_valid());
+        EAGINE_ASSERT(is_valid());
         return {*_ptr, &_pos};
     }
 };

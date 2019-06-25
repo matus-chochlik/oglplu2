@@ -10,6 +10,7 @@
 #ifndef EAGINE_FIXED_SIZE_STR_HPP
 #define EAGINE_FIXED_SIZE_STR_HPP
 
+#include "assert.hpp"
 #include "int_constant.hpp"
 #include "string_span.hpp"
 #include "types.hpp"
@@ -39,7 +40,7 @@ public:
 
     fixed_size_string(const char (&s)[N]) noexcept {
         std::strncpy(_str, s, N);
-        assert(_str[N - 1] == '\0');
+        EAGINE_ASSERT(_str[N - 1] == '\0');
     }
 
     template <
@@ -70,7 +71,7 @@ public:
     }
 
     const char* c_str() const noexcept {
-        assert(_str[N - 1] == '\0');
+        EAGINE_ASSERT(_str[N - 1] == '\0');
         return data();
     }
 
