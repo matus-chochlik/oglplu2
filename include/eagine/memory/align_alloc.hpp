@@ -10,12 +10,12 @@
 #ifndef EAGINE_MEMORY_ALIGN_ALLOC_HPP
 #define EAGINE_MEMORY_ALIGN_ALLOC_HPP
 
+#include "../assert.hpp"
 #include "../instead_of.hpp"
 #include "../int_constant.hpp"
 #include "default_alloc.hpp"
 #include "shared_alloc.hpp"
 #include <array>
-#include <cassert>
 #include <utility>
 
 namespace eagine {
@@ -40,7 +40,7 @@ private:
     shared_byte_allocator _fallback_alloc;
 
     shared_byte_allocator& _get_alloc(span_size_t align) {
-        assert(_alignment.size() == _aligned_alloc.size());
+        EAGINE_ASSERT(_alignment.size() == _aligned_alloc.size());
         for(std::size_t i = 0; i < _alignment.size(); ++i) {
             if(_alignment[i] == align) {
                 return _aligned_alloc[i];
@@ -95,7 +95,7 @@ public:
     }
 
     void deallocate(owned_block&& b, size_type a) noexcept override {
-        assert(!!_get_alloc(a).has_allocated(b, a));
+        EAGINE_ASSERT(!!_get_alloc(a).has_allocated(b, a));
         _get_alloc(a).deallocate(std::move(b), a);
     }
 };

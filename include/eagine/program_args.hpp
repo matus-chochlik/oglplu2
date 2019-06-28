@@ -477,7 +477,7 @@ public:
       span<const T> translations,
       MissingFunc handle_missing,
       InvalidFunc handle_invalid) {
-        assert(symbols.size() <= translations.size());
+        EAGINE_ASSERT(symbols.size() <= translations.size());
 
         string_view parsed;
         if(do_consume_next(parsed, symbols, handle_missing, handle_invalid)) {

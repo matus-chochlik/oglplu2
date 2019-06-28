@@ -10,11 +10,11 @@
 #ifndef EAGINE_MEMORY_ALLOC_ARENA_HPP
 #define EAGINE_MEMORY_ALLOC_ARENA_HPP
 
+#include "../assert.hpp"
 #include "../span.hpp"
 #include "../string_span.hpp"
 #include "c_realloc.hpp"
 #include <algorithm>
-#include <cassert>
 #include <utility>
 #include <vector>
 
@@ -61,7 +61,7 @@ public:
     }
 
     bool empty() const noexcept {
-        assert(_blks.empty() == _alns.empty());
+        EAGINE_ASSERT(_blks.empty() == _alns.empty());
         return _blks.empty();
     }
 

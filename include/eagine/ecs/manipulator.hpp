@@ -9,7 +9,7 @@
 #ifndef EAGINE_ECS_MANIPULATOR_HPP
 #define EAGINE_ECS_MANIPULATOR_HPP
 
-#include <cassert>
+#include "../assert.hpp"
 #include <type_traits>
 #include <utility>
 
@@ -43,12 +43,12 @@ public:
     }
 
     const Component& read() const {
-        assert(is_valid());
+        EAGINE_ASSERT(is_valid());
         return *_ptr;
     }
 
     Component& write() {
-        assert(is_valid());
+        EAGINE_ASSERT(is_valid());
         return *_ptr;
     }
 };
@@ -77,7 +77,7 @@ public:
     }
 
     const Component& read() const {
-        assert(_ptr != nullptr);
+        EAGINE_ASSERT(_ptr != nullptr);
         return *_ptr;
     }
 };
@@ -143,8 +143,8 @@ public:
     }
 
     void add(std::remove_const_t<Component>&& cmp) {
-        assert(can_add());
-        assert(_add_place);
+        EAGINE_ASSERT(can_add());
+        EAGINE_ASSERT(_add_place);
         *_add_place = std::move(cmp);
         this->_reset_cmp(*_add_place);
         _added = true;

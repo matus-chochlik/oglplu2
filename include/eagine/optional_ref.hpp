@@ -10,8 +10,8 @@
 #ifndef EAGINE_OPTIONAL_REF_HPP
 #define EAGINE_OPTIONAL_REF_HPP
 
+#include "assert.hpp"
 #include "nothing.hpp"
-#include <cassert>
 #include <memory>
 
 namespace eagine {
@@ -53,7 +53,7 @@ public:
     }
 
     T& get() const noexcept {
-        assert(is_valid());
+        EAGINE_ASSERT(is_valid());
         return *_ptr;
     }
 

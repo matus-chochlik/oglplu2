@@ -10,8 +10,8 @@
 #ifndef EAGINE_MEMORY_NULL_ALLOC_HPP
 #define EAGINE_MEMORY_NULL_ALLOC_HPP
 
+#include "assert.hpp"
 #include "byte_alloc.hpp"
-#include <cassert>
 
 namespace eagine {
 namespace memory {
@@ -39,7 +39,7 @@ public:
     }
 
     void deallocate(owned_block&& b, size_type) noexcept override {
-        assert(b.empty());
+        EAGINE_ASSERT(b.empty());
     }
 };
 

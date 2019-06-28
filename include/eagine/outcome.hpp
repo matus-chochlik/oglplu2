@@ -65,7 +65,7 @@ public:
     }
 
     T& get() const noexcept {
-        assert(_ref != nullptr);
+        EAGINE_ASSERT(_ref != nullptr);
         return *_ref;
     }
 
@@ -139,7 +139,7 @@ public:
     }
 
     T value() {
-        assert(this->succeeded());
+        EAGINE_ASSERT(this->succeeded());
         return _value.get();
     }
 
@@ -148,7 +148,7 @@ public:
     }
 
     T&& rvalue() {
-        assert(this->succeeded());
+        EAGINE_ASSERT(this->succeeded());
         return std::move(_value.ref());
     }
 

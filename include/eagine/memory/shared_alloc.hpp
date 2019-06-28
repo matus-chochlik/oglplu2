@@ -10,6 +10,7 @@
 #ifndef EAGINE_MEMORY_SHARED_ALLOC_HPP
 #define EAGINE_MEMORY_SHARED_ALLOC_HPP
 
+#include "../assert.hpp"
 #include "../nothing.hpp"
 #include "byte_alloc.hpp"
 #include <new>
@@ -126,7 +127,7 @@ public:
         if(_pballoc) {
             _pballoc->deallocate(std::move(b), a);
         }
-        assert(b.empty());
+        EAGINE_ASSERT(b.empty());
     }
 
     bool can_reallocate(
@@ -138,7 +139,7 @@ public:
         if(_pballoc) {
             return _pballoc->reallocate(std::move(b), n, a);
         }
-        assert(n == b.size());
+        EAGINE_ASSERT(n == b.size());
         return std::move(b);
     }
 
@@ -146,7 +147,7 @@ public:
         if(_pballoc) {
             return _pballoc->do_reallocate(b, n, a);
         }
-        assert(n == b.size());
+        EAGINE_ASSERT(n == b.size());
     }
 
     friend bool operator==(

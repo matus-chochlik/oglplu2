@@ -5,9 +5,9 @@
 #ifndef EAGINE_NETWORK_SORTER_HPP
 #define EAGINE_NETWORK_SORTER_HPP
 
+#include "assert.hpp"
 #include "sorting_network.hpp"
 #include <array>
-#include <cassert>
 #include <utility>
 
 namespace eagine {
@@ -30,8 +30,8 @@ private:
         return _before(a, b) ? b : a;
     }
 
-    inline const T&
-    _min_max_cpy(const T& a, const T& b, bool min, bool max) const {
+    inline const T& _min_max_cpy(
+      const T& a, const T& b, bool min, bool max) const {
         return min ? _min(a, b) : max ? _max(a, b) : a;
     }
 
@@ -96,7 +96,7 @@ public:
     }
 
     network_sorter& sort_round() {
-        assert(!done());
+        EAGINE_ASSERT(!done());
         for(span_size_t i = 0; i < span_size(N); ++i) {
             sort_single(i);
         }

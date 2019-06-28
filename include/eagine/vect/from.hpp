@@ -9,10 +9,10 @@
 #ifndef EAGINE_VECT_FROM_HPP
 #define EAGINE_VECT_FROM_HPP
 
+#include "../assert.hpp"
 #include "../maybe_unused.hpp"
 #include "../types.hpp"
 #include "data.hpp"
-#include <cassert>
 
 namespace eagine {
 namespace vect {
@@ -20,7 +20,7 @@ namespace vect {
 template <typename T, int N, bool V>
 struct from_array {
     static data_t<T, N, V> apply(const T* d, span_size_t n) noexcept {
-        assert(N <= int(n));
+        EAGINE_ASSERT(N <= int(n));
         EAGINE_MAYBE_UNUSED(n);
         data_t<T, N, V> r;
         for(int i = 0; i < N; ++i) {
@@ -42,7 +42,7 @@ struct from_array<T, 0, V> {
 template <typename T, bool V>
 struct from_array<T, 1, V> {
     static data_t<T, 1, V> apply(const T* d, span_size_t n) noexcept {
-        assert(1 <= n);
+        EAGINE_ASSERT(1 <= n);
         EAGINE_MAYBE_UNUSED(n);
         return data_t<T, 1, V>{d[0]};
     }
@@ -51,7 +51,7 @@ struct from_array<T, 1, V> {
 template <typename T, bool V>
 struct from_array<T, 2, V> {
     static data_t<T, 2, V> apply(const T* d, span_size_t n) noexcept {
-        assert(2 <= n);
+        EAGINE_ASSERT(2 <= n);
         EAGINE_MAYBE_UNUSED(n);
         return data_t<T, 2, V>{d[0], d[1]};
     }
@@ -60,7 +60,7 @@ struct from_array<T, 2, V> {
 template <typename T, bool V>
 struct from_array<T, 3, V> {
     static data_t<T, 3, V> apply(const T* d, span_size_t n) noexcept {
-        assert(3 <= n);
+        EAGINE_ASSERT(3 <= n);
         EAGINE_MAYBE_UNUSED(n);
         return data_t<T, 3, V>{d[0], d[1], d[2]};
     }
@@ -69,7 +69,7 @@ struct from_array<T, 3, V> {
 template <typename T, bool V>
 struct from_array<T, 4, V> {
     static data_t<T, 4, V> apply(const T* d, span_size_t n) noexcept {
-        assert(4 <= n);
+        EAGINE_ASSERT(4 <= n);
         EAGINE_MAYBE_UNUSED(n);
         return data_t<T, 4, V>{d[0], d[1], d[2], d[3]};
     }
@@ -78,7 +78,7 @@ struct from_array<T, 4, V> {
 template <typename T, bool V>
 struct from_array<T, 8, V> {
     static data_t<T, 8, V> apply(const T* d, span_size_t n) noexcept {
-        assert(8 <= n);
+        EAGINE_ASSERT(8 <= n);
         EAGINE_MAYBE_UNUSED(n);
         return data_t<T, 8, V>{d[0], d[1], d[2], d[3], d[4], d[5], d[6], d[7]};
     }

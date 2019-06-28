@@ -10,6 +10,7 @@
 #ifndef EAGINE_MEMORY_BYTE_ALLOC_HPP
 #define EAGINE_MEMORY_BYTE_ALLOC_HPP
 
+#include "../assert.hpp"
 #include "../tribool.hpp"
 #include "../types.hpp"
 #include "block.hpp"
@@ -97,7 +98,7 @@ public:
     }
 
     ~byte_alloc_ref_count_policy() noexcept {
-        assert(_ref_count == 0);
+        EAGINE_ASSERT(_ref_count == 0);
     }
 
     byte_allocator* duplicate(byte_allocator* that) noexcept {

@@ -51,7 +51,7 @@ protected:
 #pragma clang diagnostic ignored "-Wconversion"
 #pragma clang diagnostic ignored "-Wsign-conversion"
 #endif
-        assert(args_within_limits_of<Params...>(args...));
+        EAGINE_ASSERT(args_within_limits_of<Params...>(args...));
         return callable(std::forward<Args>(args)...);
 #ifdef __clang__
 #pragma clang diagnostic pop

@@ -10,6 +10,7 @@
 #ifndef EAGINE_MEMORY_STD_ALLOC_HPP
 #define EAGINE_MEMORY_STD_ALLOC_HPP
 
+#include "../assert.hpp"
 #include "default_alloc.hpp"
 #include "shared_alloc.hpp"
 #include <memory>
@@ -78,8 +79,8 @@ public:
             throw std::bad_alloc();
         }
 
-        assert(is_aligned_to(b.addr(), span_align_of<T>()));
-        assert(b.size() >= span_size_of<T>(n));
+        EAGINE_ASSERT(is_aligned_to(b.addr(), span_align_of<T>()));
+        EAGINE_ASSERT(b.size() >= span_size_of<T>(n));
 
         T* p = static_cast<T*>(b.addr());
 

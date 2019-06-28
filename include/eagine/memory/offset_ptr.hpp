@@ -10,6 +10,7 @@
 #ifndef EAGINE_MEMORY_OFFSET_PTR_HPP
 #define EAGINE_MEMORY_OFFSET_PTR_HPP
 
+#include "../assert.hpp"
 #include "../extract.hpp"
 #include "../identity.hpp"
 #include "address.hpp"
@@ -169,22 +170,22 @@ public:
     }
 
     reference operator*() noexcept {
-        assert(!is_null());
+        EAGINE_ASSERT(!is_null());
         return *get();
     }
 
     constexpr const_reference operator*() const noexcept {
-        assert(!is_null());
+        EAGINE_ASSERT(!is_null());
         return *get();
     }
 
     pointer operator->() noexcept {
-        assert(!is_null());
+        EAGINE_ASSERT(!is_null());
         return get();
     }
 
     constexpr const_pointer operator->() const noexcept {
-        assert(!is_null());
+        EAGINE_ASSERT(!is_null());
         return get();
     }
 
@@ -197,12 +198,12 @@ public:
     }
 
     reference operator[](offset_type index) noexcept {
-        assert(!is_null());
+        EAGINE_ASSERT(!is_null());
         return get()[index];
     }
 
     constexpr const_reference operator[](offset_type index) const noexcept {
-        assert(!is_null());
+        EAGINE_ASSERT(!is_null());
         return get()[index];
     }
 };

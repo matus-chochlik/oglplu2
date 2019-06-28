@@ -9,6 +9,7 @@
 #ifndef EAGINE_OBJECT_NAMES_HPP
 #define EAGINE_OBJECT_NAMES_HPP
 
+#include "../assert.hpp"
 #include "../iterator.hpp"
 #include "../range_types.hpp"
 #include "name.hpp"
@@ -141,7 +142,7 @@ public:
 
     friend inline constexpr typename _traits::name_type get_raw_name(
       const object_name_container& ctr) noexcept {
-        assert(ctr._names.size() > 0);
+        EAGINE_ASSERT(ctr._names.size() > 0);
         return *ctr._names.data();
     }
 
@@ -169,12 +170,12 @@ public:
     }
 
     NameT base() const noexcept {
-        assert(_pbase);
+        EAGINE_ASSERT(_pbase);
         return *_pbase;
     }
 
     void base(NameT name) noexcept {
-        assert(_pbase);
+        EAGINE_ASSERT(_pbase);
         *_pbase = name;
     }
 
@@ -216,7 +217,7 @@ public:
     }
 
     object_name<ObjTag> operator[](span_size_t index) const noexcept {
-        assert(index < size());
+        EAGINE_ASSERT(index < size());
         return object_name<ObjTag>(_name_type(_base + index));
     }
 
@@ -243,7 +244,7 @@ public:
 
     friend inline constexpr typename _traits::name_type get_raw_name(
       const object_name_fake_array& onfa) noexcept {
-        assert(onfa.size() > 0);
+        EAGINE_ASSERT(onfa.size() > 0);
         return onfa._base;
     }
 

@@ -10,6 +10,7 @@
 #ifndef EAGINE_STRING_PATH_HPP
 #define EAGINE_STRING_PATH_HPP
 
+#include "assert.hpp"
 #include "identifier.hpp"
 #include "memory/block.hpp"
 #include "span.hpp"
@@ -36,7 +37,7 @@ private:
         for(const auto& name : names) {
             push_back(name);
         }
-        assert(span_size(_str.size()) == len);
+        EAGINE_ASSERT(span_size(_str.size()) == len);
     }
 
     static inline string_view _fix(string_view str) noexcept {
@@ -151,7 +152,7 @@ public:
     }
 
     bool empty() const noexcept {
-        assert((size() == 0) == _str.empty());
+        EAGINE_ASSERT((size() == 0) == _str.empty());
         return _str.empty();
     }
 
@@ -178,12 +179,12 @@ public:
     }
 
     str_span front() const noexcept {
-        assert(!empty());
+        EAGINE_ASSERT(!empty());
         return string_list::front_value(_str);
     }
 
     str_span back() const noexcept {
-        assert(!empty());
+        EAGINE_ASSERT(!empty());
         return string_list::back_value(_str);
     }
 
@@ -198,7 +199,7 @@ public:
     }
 
     void pop_back() {
-        assert(!empty());
+        EAGINE_ASSERT(!empty());
         _str.resize(std_size(string_list::pop_back(_str).size()));
         --_size;
     }

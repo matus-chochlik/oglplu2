@@ -23,7 +23,7 @@ struct valid_if_within_limits_policy {
     }
 
     struct do_log {
-        template <typename X>
+        template <typename X, typename = disable_if_same_t<X, do_log>>
         constexpr inline do_log(X&&) noexcept {
         }
 

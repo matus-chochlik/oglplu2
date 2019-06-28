@@ -12,6 +12,7 @@
 
 #include "../assert.hpp"
 #include "../tribool.hpp"
+#include "../type_traits.hpp"
 #include "base.hpp"
 
 namespace eagine {
@@ -131,43 +132,43 @@ public:
 };
 
 template <typename T, typename P1, typename P2>
-static constexpr inline tribool
-operator==(const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) {
+static constexpr inline tribool operator==(
+  const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) {
     return {(v1.value_anyway() == v2.value_anyway()),
             (!v1.is_valid() || !v2.is_valid())};
 }
 
 template <typename T, typename P1, typename P2>
-static constexpr inline tribool
-operator!=(const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) {
+static constexpr inline tribool operator!=(
+  const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) {
     return {(v1.value_anyway() != v2.value_anyway()),
             (!v1.is_valid() || !v2.is_valid())};
 }
 
 template <typename T, typename P1, typename P2>
-static constexpr inline tribool
-operator<(const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) {
+static constexpr inline tribool operator<(
+  const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) {
     return {(v1.value_anyway() < v2.value_anyway()),
             (!v1.is_valid() || !v2.is_valid())};
 }
 
 template <typename T, typename P1, typename P2>
-static constexpr inline tribool
-operator>(const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) {
+static constexpr inline tribool operator>(
+  const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) {
     return {(v1.value_anyway() > v2.value_anyway()),
             (!v1.is_valid() || !v2.is_valid())};
 }
 
 template <typename T, typename P1, typename P2>
-static constexpr inline tribool
-operator<=(const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) {
+static constexpr inline tribool operator<=(
+  const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) {
     return {(v1.value_anyway() <= v2.value_anyway()),
             (!v1.is_valid() || !v2.is_valid())};
 }
 
 template <typename T, typename P1, typename P2>
-static constexpr inline tribool
-operator>=(const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) {
+static constexpr inline tribool operator>=(
+  const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) {
     return {(v1.value_anyway() >= v2.value_anyway()),
             (!v1.is_valid() || !v2.is_valid())};
 }

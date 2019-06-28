@@ -10,8 +10,8 @@
 #ifndef EAGINE_MEMORY_STACK_ALLOC_HPP
 #define EAGINE_MEMORY_STACK_ALLOC_HPP
 
+#include "../assert.hpp"
 #include "byte_alloc.hpp"
-#include <cassert>
 #include <type_traits>
 
 namespace eagine {
@@ -80,9 +80,9 @@ public:
     friend bool operator==(
       const base_stack_allocator& a, const base_stack_allocator& b) noexcept {
         if((a._btm == b._btm) && (a._top == b._top)) {
-            assert(a._pos == b._pos);
-            assert(a._min == b._min);
-            assert(a._dif == b._dif);
+            EAGINE_ASSERT(a._pos == b._pos);
+            EAGINE_ASSERT(a._min == b._min);
+            EAGINE_ASSERT(a._dif == b._dif);
 
             return true;
         }

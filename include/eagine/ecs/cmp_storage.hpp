@@ -9,6 +9,7 @@
 #ifndef EAGINE_ECS_CMP_STORAGE_HPP
 #define EAGINE_ECS_CMP_STORAGE_HPP
 
+#include "../assert.hpp"
 #include "../callable_ref.hpp"
 #include "entity_traits.hpp"
 #include "manipulator.hpp"
@@ -42,7 +43,7 @@ private:
 public:
     storage_iterator(storage_iterator_intf<Entity, false>* i) noexcept
       : _i(i) {
-        assert(_i);
+        EAGINE_ASSERT(_i);
     }
 
     storage_iterator(const storage_iterator&) = delete;
@@ -53,7 +54,7 @@ public:
     }
 
     ~storage_iterator() noexcept {
-        assert(_i == nullptr);
+        EAGINE_ASSERT(_i == nullptr);
     }
 
     storage_iterator_intf<Entity, false>* release() {
@@ -63,12 +64,12 @@ public:
     }
 
     storage_iterator_intf<Entity, false>* ptr() noexcept {
-        assert(_i);
+        EAGINE_ASSERT(_i);
         return _i;
     }
 
     storage_iterator_intf<Entity, false>& get() noexcept {
-        assert(_i);
+        EAGINE_ASSERT(_i);
         return *_i;
     }
 
