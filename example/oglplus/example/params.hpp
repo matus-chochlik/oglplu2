@@ -9,11 +9,11 @@
 #ifndef OGLPLUS_EXAMPLE_PARAMS_HPP
 #define OGLPLUS_EXAMPLE_PARAMS_HPP
 
+#include <eagine/assert.hpp>
 #include <eagine/valid_if/not_empty.hpp>
 #include <eagine/valid_if/positive.hpp>
 #include <oglplus/utils/quantities.hpp>
 #include <oglplus/utils/string_span.hpp>
-#include <cassert>
 
 namespace oglplus {
 
@@ -235,7 +235,7 @@ public:
     }
 
     example_params& color_bits(int n) noexcept {
-        assert(n >= 0);
+        EAGINE_ASSERT(n >= 0);
         _color_bits = n;
         return *this;
     }

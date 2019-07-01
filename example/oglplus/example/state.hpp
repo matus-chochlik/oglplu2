@@ -10,15 +10,15 @@
 #define OGLPLUS_EXAMPLE_STATE_HPP
 
 #include "state_view.hpp"
+#include <eagine/assert.hpp>
 #include <eagine/math/functions.hpp>
-#include <cassert>
 
 namespace oglplus {
 
 class example_state : public example_state_view {
 public:
     void set_time(float new_time) noexcept {
-        assert(new_time >= 0.0f);
+        EAGINE_ASSERT(new_time >= 0.0f);
         _exe_time.assign(new_time);
     }
 

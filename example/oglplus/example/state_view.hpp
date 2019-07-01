@@ -9,10 +9,10 @@
 #ifndef OGLPLUS_EXAMPLE_STATE_VIEW_HPP
 #define OGLPLUS_EXAMPLE_STATE_VIEW_HPP
 
+#include <eagine/assert.hpp>
 #include <eagine/valid_if/positive.hpp>
 #include <eagine/value_with_history.hpp>
 #include <oglplus/utils/quantities.hpp>
-#include <cassert>
 
 namespace oglplus {
 
@@ -117,7 +117,7 @@ public:
     }
 
     int tile_i() const noexcept {
-        assert(_tile_i < _x_tiles);
+        EAGINE_ASSERT(_tile_i < _x_tiles);
         return _tile_i;
     }
 
@@ -134,7 +134,7 @@ public:
     }
 
     int tile_j() const noexcept {
-        assert(_tile_j < _y_tiles);
+        EAGINE_ASSERT(_tile_j < _y_tiles);
         return _tile_j;
     }
 
