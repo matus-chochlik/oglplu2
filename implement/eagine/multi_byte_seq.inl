@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/assert.hpp>
 #include <array>
 
 namespace eagine {
@@ -184,7 +185,7 @@ inline optionally_valid<span_size_t> decoding_code_points_required(
         if(auto len = do_decode_sequence_length(*i)) {
             ++result;
             i += span_size(len.value());
-            assert(!(i > e));
+            EAGINE_ASSERT(!(i > e));
         } else
             return {0, false};
     }

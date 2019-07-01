@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/assert.hpp>
 #include <cstdlib>
 
 namespace eagine {
@@ -20,8 +21,8 @@ inline block basic_allocation_arena<Alloc>::_do_allocate(
         return {};
     }
 
-    assert(is_aligned_to(b.addr(), align));
-    assert(b.size() >= size);
+    EAGINE_ASSERT(is_aligned_to(b.addr(), align));
+    EAGINE_ASSERT(b.size() >= size);
 
     _blks.push_back(std::move(b));
     _alns.push_back(align);
@@ -31,7 +32,7 @@ inline block basic_allocation_arena<Alloc>::_do_allocate(
 //------------------------------------------------------------------------------
 template <typename Alloc>
 inline void basic_allocation_arena<Alloc>::clear() {
-    assert(_blks.size() == _alns.size());
+    EAGINE_ASSERT(_blks.size() == _alns.size());
 
     for(std_size_t i = 0; i < _blks.size(); ++i) {
         _alloc.deallocate(std::move(_blks[i]), _alns[i]);
