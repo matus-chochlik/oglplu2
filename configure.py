@@ -249,6 +249,16 @@ def get_argument_parser():
         """
     )
 
+    argparser.add_argument(
+        "--with-clang-tidy",
+        dest="with_clang_tidy",
+        action="store_true",
+        default=False,
+        help="""
+            Configure with clang-tidy checks.
+        """
+    )
+
     argparser_build_examples_group = argparser.add_mutually_exclusive_group()
     argparser_build_examples_group.add_argument(
         "--build-examples",
@@ -289,16 +299,6 @@ def get_argument_parser():
         help="""
             Do not build the documentation.
             Equivalent to --build-docs=False.
-        """
-    )
-
-    argparser_build_docs_group.add_argument(
-        "--with-clang-tidy",
-        dest="with_clang_tidy",
-        action="store_true",
-        default=False,
-        help="""
-            Configure with clang-tidy checks.
         """
     )
 
