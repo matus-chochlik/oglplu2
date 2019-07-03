@@ -10,7 +10,7 @@
 #ifndef EAGINE_MEMORY_NULL_ALLOC_HPP
 #define EAGINE_MEMORY_NULL_ALLOC_HPP
 
-#include "assert.hpp"
+#include "../assert.hpp"
 #include "byte_alloc.hpp"
 
 namespace eagine {

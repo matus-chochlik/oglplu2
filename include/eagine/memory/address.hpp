@@ -32,8 +32,8 @@ private:
 public:
     ~basic_address() noexcept = default;
     constexpr basic_address() noexcept = default;
-    basic_address(basic_address&&) = delete;
-    basic_address& operator=(basic_address&&) = delete;
+    constexpr basic_address(basic_address&&) noexcept = default;
+    constexpr basic_address& operator=(basic_address&&) noexcept = default;
 
     constexpr explicit basic_address(std::nullptr_t) noexcept {
     }
