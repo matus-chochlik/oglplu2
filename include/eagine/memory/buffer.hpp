@@ -48,7 +48,10 @@ public:
       : buffer(alignof(long double)) {
     }
 
+    buffer(buffer&&) noexcept = default;
     buffer(const buffer&) = delete;
+    buffer& operator=(const buffer&) = delete;
+    buffer& operator=(buffer&&) = delete;
 
     ~buffer() noexcept {
         free();

@@ -56,6 +56,11 @@ public:
       : _alloc(std::move(alloc)) {
     }
 
+    basic_allocation_arena(basic_allocation_arena&&) noexcept = default;
+    basic_allocation_arena(const basic_allocation_arena&) = delete;
+    basic_allocation_arena& operator=(basic_allocation_arena&&) = delete;
+    basic_allocation_arena& operator=(const basic_allocation_arena&) = delete;
+
     ~basic_allocation_arena() {
         clear();
     }

@@ -45,9 +45,10 @@ public:
     using size_type = span_size_t;
     using difference_type = std::ptrdiff_t;
 
-    base_stack_allocator(const base_stack_allocator&) = delete;
-
     base_stack_allocator(base_stack_allocator&& tmp) noexcept;
+    base_stack_allocator(const base_stack_allocator&) = delete;
+    base_stack_allocator& operator=(base_stack_allocator&& tmp) = delete;
+    base_stack_allocator& operator=(const base_stack_allocator&) = delete;
 
     base_stack_allocator() noexcept;
 
@@ -102,7 +103,14 @@ public:
     using value_type = byte;
     using size_type = span_size_t;
 
-    stack_byte_allocator_only(stack_byte_allocator_only&&) = default;
+    stack_byte_allocator_only(stack_byte_allocator_only&&) noexcept = default;
+    stack_byte_allocator_only(const stack_byte_allocator_only&) = delete;
+    stack_byte_allocator_only& operator=(stack_byte_allocator_only&&) = delete;
+    stack_byte_allocator_only& operator=(const stack_byte_allocator_only&) =
+      delete;
+
+    ~stack_byte_allocator_only() noexcept override = default;
+
     stack_byte_allocator_only(const block& blk)
       : _alloc(blk) {
     }
@@ -138,7 +146,12 @@ public:
     using value_type = byte;
     using size_type = span_size_t;
 
-    stack_byte_allocator(stack_byte_allocator&&) = default;
+    stack_byte_allocator(stack_byte_allocator&&) noexcept = default;
+    stack_byte_allocator(const stack_byte_allocator&) = delete;
+    stack_byte_allocator& operator=(stack_byte_allocator&&) = delete;
+    stack_byte_allocator& operator=(const stack_byte_allocator&) = delete;
+    ~stack_byte_allocator() noexcept = default;
+
     stack_byte_allocator(const block& blk)
       : _alloc(blk) {
     }
@@ -173,7 +186,15 @@ public:
     using value_type = byte;
     using size_type = span_size_t;
 
-    stack_aligned_byte_allocator(stack_aligned_byte_allocator&&) = default;
+    stack_aligned_byte_allocator(stack_aligned_byte_allocator&&) noexcept =
+      default;
+    stack_aligned_byte_allocator(const stack_aligned_byte_allocator&) = delete;
+    stack_aligned_byte_allocator& operator=(stack_aligned_byte_allocator&&) =
+      delete;
+    stack_aligned_byte_allocator& operator=(
+      const stack_aligned_byte_allocator&) = delete;
+
+    ~stack_aligned_byte_allocator() noexcept = default;
 
     stack_aligned_byte_allocator(const block& blk, span_size_t align)
       : _align(align)
