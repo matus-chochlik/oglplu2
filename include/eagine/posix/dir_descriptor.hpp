@@ -53,6 +53,8 @@ public:
         return *this;
     }
 
+    ~dir_descriptor() noexcept = default;
+
     constexpr bool is_valid() const noexcept {
         return _dp != nullptr;
     }
@@ -103,13 +105,14 @@ public:
       : dir_descriptor(std::move(fdw)) {
     }
 
-    owned_dir_descriptor(owned_dir_descriptor&&) = default;
-    owned_dir_descriptor& operator=(owned_dir_descriptor&&) = default;
+    owned_dir_descriptor(owned_dir_descriptor&&) noexcept = default;
+    owned_dir_descriptor& operator=(owned_dir_descriptor&&) noexcept = default;
     owned_dir_descriptor(const owned_dir_descriptor&) = delete;
-    owned_dir_descriptor& operator=(const owned_dir_descriptor&&) = delete;
+    owned_dir_descriptor& operator=(const owned_dir_descriptor&) = delete;
+    ~owned_dir_descriptor() noexcept = default;
 
-    friend inline void
-    swap(owned_dir_descriptor& a, owned_dir_descriptor& b) noexcept {
+    friend inline void swap(
+      owned_dir_descriptor& a, owned_dir_descriptor& b) noexcept {
         std::swap(a._dp, b._dp);
     }
 };

@@ -22,8 +22,8 @@ static inline outcome<owned_dir_descriptor> opendir(string_view path) noexcept {
     return error_if(dp == nullptr, -1).add(owned_dir_descriptor(dp));
 }
 
-static inline outcome<owned_dir_descriptor>
-fdopendir(file_descriptor fd) noexcept {
+static inline outcome<owned_dir_descriptor> fdopendir(
+  file_descriptor fd) noexcept {
     DIR* dp = ::fdopendir(get_raw_fd(fd));
     return error_if(dp == nullptr, -1).add(owned_dir_descriptor(dp));
 }
@@ -33,8 +33,9 @@ static inline outcome<file_descriptor> dirfd(dir_descriptor dd) noexcept {
     return error_if_negative(dfd, dfd).add(file_descriptor(dfd));
 }
 
-static inline outcome<owned_file_descriptor>
-openat(file_descriptor dfd, string_view path, int flags) noexcept {
+static inline outcome<owned_file_descriptor> openat(
+  file_descriptor dfd, string_view path, int flags) noexcept {
+    // NOLINTNEXTLINE(hicpp-vararg)
     int fd = ::openat(get_raw_fd(dfd), c_str(path), flags);
     return error_if_negative(fd, fd).add(owned_file_descriptor(fd));
 }

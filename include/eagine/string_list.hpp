@@ -27,7 +27,7 @@ static inline std::string encode_length(span_size_t len) {
 }
 //------------------------------------------------------------------------------
 static inline span_size_t element_header_size(string_view elem) noexcept {
-    return mbs::decode_sequence_length(mbs::make_cbyte_span(elem)).value();
+    return mbs::decode_sequence_length(mbs::make_cbyte_span(elem)).value_or(0);
 }
 //------------------------------------------------------------------------------
 static inline span_size_t element_value_size(
