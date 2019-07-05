@@ -92,7 +92,13 @@ protected:
 
 public:
     basic_outcome() = default;
-    basic_outcome(basic_outcome&&) = default;
+    basic_outcome(basic_outcome&&) noexcept(
+      std::is_nothrow_move_constructible_v<
+        cancelled_handler<ErrorData, HandlerPolicy>>) = default;
+    basic_outcome(const basic_outcome&) = delete;
+    basic_outcome& operator=(basic_outcome&&) = delete;
+    basic_outcome& operator=(const basic_outcome&) = delete;
+    ~basic_outcome() = default;
 
     constexpr basic_outcome(
       cancelled_handler<ErrorData, HandlerPolicy>&& handler) noexcept
@@ -129,7 +135,13 @@ private:
     basic_outcome_storage<T> _value;
 
 public:
-    basic_outcome(basic_outcome&&) = default;
+    basic_outcome(basic_outcome&&) noexcept(
+      std::is_nothrow_move_constructible_v<
+        cancelled_handler<ErrorData, HandlerPolicy>>) = default;
+    basic_outcome(const basic_outcome&) = delete;
+    basic_outcome& operator=(basic_outcome&&) = delete;
+    basic_outcome& operator=(const basic_outcome&) = delete;
+    ~basic_outcome() = default;
 
     basic_outcome(
       cancelled_handler<ErrorData, HandlerPolicy>&& handler,
@@ -171,7 +183,13 @@ protected:
 
 public:
     basic_outcome() = default;
-    basic_outcome(basic_outcome&&) = default;
+    basic_outcome(basic_outcome&&) noexcept(
+      std::is_nothrow_move_constructible_v<
+        cancelled_handler<ErrorData, HandlerPolicy>>) = default;
+    basic_outcome(const basic_outcome&) = delete;
+    basic_outcome& operator=(basic_outcome&&) = delete;
+    basic_outcome& operator=(const basic_outcome&) = delete;
+    ~basic_outcome() = default;
 
     constexpr basic_outcome(
       deferred_handler<ErrorData, HandlerPolicy>&& handler) noexcept
@@ -233,7 +251,13 @@ private:
     basic_outcome_storage<T> _value;
 
 public:
-    basic_outcome(basic_outcome&&) = default;
+    basic_outcome(basic_outcome&&) noexcept(
+      std::is_nothrow_move_constructible_v<
+        cancelled_handler<ErrorData, HandlerPolicy>>) = default;
+    basic_outcome(const basic_outcome&) = delete;
+    basic_outcome& operator=(basic_outcome&&) = delete;
+    basic_outcome& operator=(const basic_outcome&) = delete;
+    ~basic_outcome() = default;
 
     constexpr basic_outcome(
       deferred_handler<ErrorData, HandlerPolicy>&& handler) noexcept

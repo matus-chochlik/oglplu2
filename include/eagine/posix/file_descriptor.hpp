@@ -33,13 +33,15 @@ public:
     }
 
     file_descriptor(const file_descriptor&) = default;
-    file_descriptor& operator=(const file_descriptor&) = default;
 
     file_descriptor& operator=(file_descriptor&& temp) noexcept {
         _fd = temp._fd;
         temp._fd = -1;
         return *this;
     }
+
+    file_descriptor& operator=(const file_descriptor&) = default;
+    ~file_descriptor() noexcept = default;
 
     constexpr bool is_valid() const noexcept {
         return _fd >= 0;
@@ -75,7 +77,8 @@ public:
     owned_file_descriptor(owned_file_descriptor&&) = default;
     owned_file_descriptor& operator=(owned_file_descriptor&&) = default;
     owned_file_descriptor(const owned_file_descriptor&) = delete;
-    owned_file_descriptor& operator=(const owned_file_descriptor&&) = delete;
+    owned_file_descriptor& operator=(const owned_file_descriptor&) = delete;
+    ~owned_file_descriptor() noexcept = default;
 
     friend inline void swap(
       owned_file_descriptor& a, owned_file_descriptor& b) noexcept {

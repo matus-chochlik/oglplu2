@@ -139,7 +139,7 @@ public:
 
     biteset_value_proxy(biteset_value_proxy&&) noexcept = default;
     biteset_value_proxy(const biteset_value_proxy&) = delete;
-    biteset_value_proxy& operator=(biteset_value_proxy&&) = default;
+    biteset_value_proxy& operator=(biteset_value_proxy&&) noexcept = default;
     biteset_value_proxy& operator=(const biteset_value_proxy&) = delete;
 };
 
@@ -159,11 +159,16 @@ public:
       : _base(bs, pos) {
     }
 
-    biteset_value_proxy(biteset_value_proxy&& temp) = default;
+    biteset_value_proxy(biteset_value_proxy&& temp) noexcept = default;
     biteset_value_proxy& operator=(biteset_value_proxy&& temp) noexcept {
         this->set(temp.get());
         return *this;
     }
+
+    biteset_value_proxy(const biteset_value_proxy&) = delete;
+    biteset_value_proxy& operator=(const biteset_value_proxy&) = delete;
+
+    ~biteset_value_proxy() noexcept = default;
 
     self& operator=(const T& v) noexcept {
         this->set(v);

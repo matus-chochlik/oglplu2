@@ -48,6 +48,11 @@ public:
       : _blk(mmap(prot, flags, fdw)) {
     }
 
+    memory_mapped_file(memory_mapped_file&&) noexcept = default;
+    memory_mapped_file(const memory_mapped_file&) = delete;
+    memory_mapped_file& operator=(memory_mapped_file&&) noexcept = default;
+    memory_mapped_file& operator=(const memory_mapped_file&) = delete;
+
     ~memory_mapped_file() noexcept {
         if(_blk) {
             try {
