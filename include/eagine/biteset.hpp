@@ -364,8 +364,12 @@ public:
       : _base() {
     }
 
+    biteset_iterator(biteset_iterator&&) noexcept = default;
     biteset_iterator(const biteset_iterator&) = default;
+    biteset_iterator& operator=(biteset_iterator&&) noexcept = default;
     biteset_iterator& operator=(const biteset_iterator&) = default;
+
+    ~biteset_iterator() noexcept = default;
 
     proxy operator*() noexcept {
         EAGINE_ASSERT(is_valid());
@@ -512,6 +516,7 @@ private:
 
     static constexpr inline _byte_t _extract_init_bits(
       T init, std::size_t ofs, std::size_t len) noexcept {
+        // NOLINTNEXTLINE(hicpp-signed-bitwise)
         return _byte_t(init >> (_bite_s - ofs - len)) & _byte_t((1 << len) - 1);
     }
 
@@ -592,6 +597,7 @@ private:
 
     static constexpr inline T _extract_cell_bits(
       _byte_t by, std::size_t ofs, std::size_t len) noexcept {
+        // NOLINTNEXTLINE(hicpp-signed-bitwise)
         return T(by >> (_byte_s - ofs - len)) & T((1 << len) - 1);
     }
 
@@ -659,6 +665,7 @@ private:
 
     static constexpr inline void _store_cell_bits(
       T v, _byte_t& by, std::size_t ofs, std::size_t len) noexcept {
+        // NOLINTNEXTLINE(hicpp-signed-bitwise)
         _byte_t msk = _byte_t(((1 << len) - 1) << (_byte_s - ofs - len));
         by ^= (by & msk);
         by |= (v << (_byte_s - ofs - len));

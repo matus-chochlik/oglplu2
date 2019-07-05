@@ -32,7 +32,8 @@ static inline span_size_t element_header_size(string_view elem) noexcept {
 //------------------------------------------------------------------------------
 static inline span_size_t element_value_size(
   string_view elem, span_size_t l) noexcept {
-    return mbs::do_decode_code_point(mbs::make_cbyte_span(elem), l);
+    return mbs::do_decode_code_point(mbs::make_cbyte_span(elem), l)
+      .value_or(0U);
 }
 //------------------------------------------------------------------------------
 static inline span_size_t element_value_size(string_view elem) noexcept {
@@ -263,7 +264,8 @@ private:
 
     span_size_t _val_len(span_size_t ll) const noexcept {
         string_view el{_pos, ll};
-        return mbs::do_decode_code_point(mbs::make_cbyte_span(el), ll);
+        return mbs::do_decode_code_point(mbs::make_cbyte_span(el), ll)
+          .value_or(0U);
     }
 
     void _update() const {
@@ -355,7 +357,8 @@ private:
 
     span_size_t _val_len(span_size_t ll) const noexcept {
         string_view el{_pos, ll};
-        return mbs::do_decode_code_point(mbs::make_cbyte_span(el), ll);
+        return mbs::do_decode_code_point(mbs::make_cbyte_span(el), ll)
+          .value_or(0U);
     }
 
     void _update() const {

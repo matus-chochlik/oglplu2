@@ -199,6 +199,7 @@ template <std::size_t M, std::size_t B, typename CharSet, typename UIntT>
 class basic_identifier {
 public:
     static_assert(
+      // NOLINTNEXTLINE(hicpp-signed-bitwise)
       (1 << B) >= mp_strlen<CharSet>::value,
       "B-bits are not sufficient to represent CharSet");
 

@@ -116,10 +116,12 @@ string_path string_path::normalized() const {
 
     auto do_norm = [&result](const string_list::element& elem, bool first) {
         auto val = elem.value();
-        if(are_equal(val, path_curdir()) && !first)
+        if(are_equal(val, path_curdir()) && !first) {
             return;
-        if((val.size() == 0) && !first)
+        }
+        if((val.size() == 0) && !first) {
             return;
+        }
 
         if(result.empty() || (are_equal(result.back(), path_pardir()))) {
             result._p.push_back_elem(elem);
