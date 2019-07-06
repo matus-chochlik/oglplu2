@@ -33,10 +33,12 @@ public:
         obj_lifetime_ops<ObjTag>::gen_objects(*this, subtype);
     }
 
-    object_array_owner(object_array_owner&&) = default;
-    object_array_owner& operator=(object_array_owner&&) = default;
+    object_array_owner(object_array_owner&&) noexcept = default;
+    object_array_owner(const object_array_owner&) = delete;
+    object_array_owner& operator=(object_array_owner&&) noexcept = default;
+    object_array_owner& operator=(const object_array_owner&) = delete;
 
-    ~object_array_owner() {
+    ~object_array_owner() noexcept {
         try {
             obj_lifetime_ops<ObjTag>::delete_objects(*this);
         } catch(...) {
@@ -66,10 +68,12 @@ public:
         obj_lifetime_ops<ObjTag>::gen_objects(*this, subtype);
     }
 
-    object_vector_owner(object_vector_owner&&) = default;
-    object_vector_owner& operator=(object_vector_owner&&) = default;
+    object_vector_owner(object_vector_owner&&) noexcept = default;
+    object_vector_owner(const object_vector_owner&) = delete;
+    object_vector_owner& operator=(object_vector_owner&&) noexcept = default;
+    object_vector_owner& operator=(const object_vector_owner&) = delete;
 
-    ~object_vector_owner() {
+    ~object_vector_owner() noexcept {
         try {
             obj_lifetime_ops<ObjTag>::delete_objects(*this);
         } catch(...) {

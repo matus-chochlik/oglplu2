@@ -11,8 +11,8 @@
 
 #include "../utils/indexed_enum.hpp"
 #include "../utils/limited_value.hpp"
+#include <eagine/assert.hpp>
 #include <eagine/iterator.hpp>
-#include <cassert>
 
 namespace oglplus {
 
@@ -36,7 +36,7 @@ public:
 
     limited_value_range(_lv_t limit) noexcept
       : _limit(GLenum(limit)) {
-        assert(Base <= _limit);
+        EAGINE_ASSERT(Base <= _limit);
     }
 
     limited_value_range()

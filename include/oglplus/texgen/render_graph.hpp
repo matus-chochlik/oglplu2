@@ -92,7 +92,7 @@ public:
     template <typename NodeType, typename... P>
     render_graph_node<NodeType>& add_new_anon(P&&... p) {
         auto* ptr = new render_graph_node<NodeType>(std::forward<P>(p)...);
-        assert(ptr);
+        EAGINE_ASSERT(ptr);
         add_anonymous_node(_node_ptr_t(ptr));
         return *ptr;
     }
@@ -100,7 +100,7 @@ public:
     template <typename NodeType, typename... P>
     render_graph_node<NodeType>& add_new(std::string name, P&&... p) {
         auto* ptr = new render_graph_node<NodeType>(std::forward<P>(p)...);
-        assert(ptr);
+        EAGINE_ASSERT(ptr);
         add_node(std::move(name), _node_ptr_t(ptr));
         return *ptr;
     }

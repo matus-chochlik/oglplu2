@@ -89,8 +89,11 @@ static inline auto unit_torus(
   valid_if_greater_than<int, 4> rings,
   valid_if_greater_than<int, 3> sections,
   valid_if_ge0_lt1<float> radius_ratio) {
-    return std::unique_ptr<generator_intf>{
-      new unit_torus_gen(attr_bits, rings, sections, radius_ratio)};
+    return std::unique_ptr<generator_intf>{new unit_torus_gen(
+      attr_bits,
+      std::move(rings),
+      std::move(sections),
+      std::move(radius_ratio))};
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

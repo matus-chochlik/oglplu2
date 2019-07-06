@@ -58,6 +58,8 @@ public:
         return *this;
     }
 
+    ~object_names() noexcept = default;
+
     constexpr inline bool is_valid() const noexcept {
         return _name != _traits::invalid_name();
     }

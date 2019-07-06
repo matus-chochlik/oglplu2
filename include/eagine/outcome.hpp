@@ -150,21 +150,21 @@ public:
       , _value(std::move(val_stor)) {
     }
 
-    T value() {
+    T value() noexcept {
         EAGINE_ASSERT(this->succeeded());
         return _value.get();
     }
 
-    T value_or(const T& fallback) {
+    T value_or(const T& fallback) noexcept {
         return EAGINE_LIKELY(this->succeeded()) ? _value.get() : fallback;
     }
 
-    T&& rvalue() {
+    T&& rvalue() noexcept {
         EAGINE_ASSERT(this->succeeded());
         return std::move(_value.ref());
     }
 
-    operator T &&() {
+    operator T &&() noexcept {
         return rvalue();
     }
 
@@ -339,20 +339,20 @@ template <typename ErrorData, typename HandlerPolicy>
 
 template <typename T, typename U, typename ErrorData, typename HandlerPolicy>
 static inline basic_outcome<T, ErrorData, HandlerPolicy> outcome_cast(
-  basic_outcome<U, ErrorData, HandlerPolicy>&& that) noexcept {
+  basic_outcome<U, ErrorData, HandlerPolicy>&& that) {
     if(that.failed()) {
         return {that.release_handler()};
     }
-    return {T(that.value())};
+    return {T(that.rvalue())};
 }
 
 template <typename T, typename U, typename ErrorData, typename HandlerPolicy>
 static inline basic_outcome<T, ErrorData, HandlerPolicy> outcome_conversion(
-  basic_outcome<U, ErrorData, HandlerPolicy>&& that, T (*convert)(U)) noexcept {
+  basic_outcome<U, ErrorData, HandlerPolicy>&& that, T (*convert)(U)) {
     if(that.failed()) {
         return {that.release_handler()};
     }
-    return {convert(that.value())};
+    return {convert(that.rvalue())};
 }
 
 template <typename T, typename ErrorData, typename HandlerPolicy, typename Func>

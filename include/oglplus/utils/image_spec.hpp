@@ -14,7 +14,7 @@
 #include "../enum/types.hpp"
 #include "memory_block.hpp"
 #include "span.hpp"
-#include <cassert>
+#include <eagine/assert.hpp>
 
 namespace oglplus {
 
@@ -29,7 +29,7 @@ public:
       : _width(w)
       , _height(h)
       , _depth(d) {
-        assert(_width > 0 && _height > 0 && _depth > 0);
+        EAGINE_ASSERT(_width > 0 && _height > 0 && _depth > 0);
     }
 
     image_dimensions(GLsizei w, GLsizei h) noexcept
@@ -100,7 +100,7 @@ public:
       : _type(pix_type)
       , _pixels(pix_data)
       , _elem_size(type_size) {
-        assert(_elem_size > 0);
+        EAGINE_ASSERT(_elem_size > 0);
     }
 
     pixel_data_type type() const noexcept {

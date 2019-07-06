@@ -219,7 +219,7 @@ void unit_torus_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
         case vertex_attrib_kind::object_id:
         case vertex_attrib_kind::material_id:
         case vertex_attrib_kind::occlusion:
-            generator_base::attrib_values(attr, dest);
+            centered_unit_shape_generator_base::attrib_values(attr, dest);
             break;
     }
 }

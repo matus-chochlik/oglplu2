@@ -14,7 +14,7 @@
 #endif
 
 #include "enum/types.hpp"
-#include <cassert>
+#include <eagine/assert.hpp>
 #include <vector>
 
 namespace oglplus {
@@ -213,7 +213,7 @@ public:
 
 #if defined(GL_NV_path_rendering_shared_edge)
     path_nv_spec& shared_edge() {
-        assert(!_commands.empty());
+        EAGINE_ASSERT(!_commands.empty());
         _commands.back() |= GL_SHARED_EDGE_NV;
         return *this;
     }

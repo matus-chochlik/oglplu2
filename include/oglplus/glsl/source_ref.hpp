@@ -11,7 +11,7 @@
 
 #include "../utils/string_span.hpp"
 #include "../utils/types.hpp"
-#include <cassert>
+#include <eagine/assert.hpp>
 #include <cstddef>
 
 namespace oglplus {
@@ -43,8 +43,8 @@ public:
       : _count(eagine::limit_cast<GLsizei>(n))
       , _parts(ps)
       , _lengths(ls) {
-        assert(_count >= 0);
-        assert(_parts != nullptr);
+        EAGINE_ASSERT(_count >= 0);
+        EAGINE_ASSERT(_parts != nullptr);
     }
 
     inline GLsizei count() const noexcept {

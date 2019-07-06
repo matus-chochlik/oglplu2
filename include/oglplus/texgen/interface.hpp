@@ -12,6 +12,7 @@
 #include "../utils/types.hpp"
 #include "data_type.hpp"
 #include "render_params.hpp"
+#include <eagine/assert.hpp>
 #include <eagine/optional_ref.hpp>
 #include <eagine/valid_if/between.hpp>
 #include <cstddef>
@@ -167,8 +168,8 @@ struct node_intf {
 
     virtual input_intf& input(span_size_t) = 0;
 
-    virtual eagine::optional_reference_wrapper<input_intf>
-      input_by_name(string_view);
+    virtual eagine::optional_reference_wrapper<input_intf> input_by_name(
+      string_view);
 
     virtual bool can_add_input() = 0;
 
@@ -180,8 +181,8 @@ struct node_intf {
 
     virtual output_intf& output(span_size_t) = 0;
 
-    virtual eagine::optional_reference_wrapper<output_intf>
-      output_by_name(string_view);
+    virtual eagine::optional_reference_wrapper<output_intf> output_by_name(
+      string_view);
 
     void disconnect_all();
 
@@ -203,12 +204,12 @@ private:
     input_intf* _pimpl;
 
     input_intf& _impl() noexcept {
-        assert(is_valid());
+        EAGINE_ASSERT(is_valid());
         return *_pimpl;
     }
 
     const input_intf& _impl() const noexcept {
-        assert(is_valid());
+        EAGINE_ASSERT(is_valid());
         return *_pimpl;
     }
 
@@ -263,7 +264,7 @@ private:
     output_intf* _pimpl;
 
     output_intf& _impl() noexcept {
-        assert(is_valid());
+        EAGINE_ASSERT(is_valid());
         return *_pimpl;
     }
 
@@ -286,13 +287,13 @@ public:
         return !is_valid();
     }
 
-    friend bool
-    operator==(const output_slot& a, const output_slot& b) noexcept {
+    friend bool operator==(
+      const output_slot& a, const output_slot& b) noexcept {
         return a.is_valid() && b.is_valid() && (a._pimpl == b._pimpl);
     }
 
-    friend bool
-    operator!=(const output_slot& a, const output_slot& b) noexcept {
+    friend bool operator!=(
+      const output_slot& a, const output_slot& b) noexcept {
         return a.is_valid() && b.is_valid() && (a._pimpl != b._pimpl);
     }
 

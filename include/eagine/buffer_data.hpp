@@ -34,7 +34,7 @@ public:
     template <typename T, span_size_t N>
     buffer_data_spec(const T (&data)[N]) noexcept
       : _size(identity<T>(), N)
-      , _data(data) {
+      , _data(static_cast<const void*>(data)) {
     }
 
     template <typename T>

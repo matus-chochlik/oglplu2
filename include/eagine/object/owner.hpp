@@ -24,13 +24,14 @@ protected:
     }
 
 public:
-    owned() = default;
+    owned() noexcept = default;
 
+    owned(owned&&) noexcept = default;
     owned(const owned&) = delete;
+    owned& operator=(owned&&) noexcept = default;
     owned& operator=(const owned&) = delete;
 
-    owned(owned&&) = default;
-    owned& operator=(owned&&) = default;
+    ~owned() noexcept = default;
 };
 
 template <typename ObjTag>
@@ -38,24 +39,25 @@ class owned<object_name_and_ops<ObjTag>> : public object_name_and_ops<ObjTag> {
 public:
     owned() = default;
 
+    owned(owned&&) noexcept = default;
     owned(const owned&) = delete;
+    owned& operator=(owned&&) noexcept = default;
     owned& operator=(const owned&) = delete;
 
-    owned(owned&&) = default;
-    owned& operator=(owned&&) = default;
+    ~owned() noexcept = default;
 };
 
 template <typename ObjTag>
 class object_owner : public owned<object_name_and_ops<ObjTag>> {
 public:
     template <typename Storage>
-    static inline auto
-    gen_(owned<object_names<ObjTag, Storage>>& names) noexcept {
+    static inline auto gen_(
+      owned<object_names<ObjTag, Storage>>& names) noexcept {
         return obj_lifetime_ops<ObjTag>::gen_objects(names);
     }
 
-    static inline auto
-    gen_(owned<object_name_and_ops<ObjTag>>& names) noexcept {
+    static inline auto gen_(
+      owned<object_name_and_ops<ObjTag>>& names) noexcept {
         return obj_lifetime_ops<ObjTag>::gen_objects(names);
     }
 
@@ -73,13 +75,13 @@ public:
     }
 
     template <typename Storage>
-    static inline auto
-    delete_(owned<object_names<ObjTag, Storage>>& names) noexcept {
+    static inline auto delete_(
+      owned<object_names<ObjTag, Storage>>& names) noexcept {
         return obj_lifetime_ops<ObjTag>::delete_objects(names);
     }
 
-    static inline auto
-    delete_(owned<object_name_and_ops<ObjTag>>& names) noexcept {
+    static inline auto delete_(
+      owned<object_name_and_ops<ObjTag>>& names) noexcept {
         return obj_lifetime_ops<ObjTag>::delete_objects(names);
     }
 
@@ -97,10 +99,12 @@ public:
       : owned<object_name_and_ops<ObjTag>>(std::move(temp)) {
     }
 
-    object_owner(object_owner&&) = default;
-    object_owner& operator=(object_owner&&) = default;
+    object_owner(object_owner&&) noexcept = default;
+    object_owner(const object_owner&) = delete;
+    object_owner& operator=(object_owner&&) noexcept = default;
+    object_owner& operator=(const object_owner&) = delete;
 
-    ~object_owner() {
+    ~object_owner() noexcept {
         try {
             delete_(*this);
         } catch(...) {

@@ -107,6 +107,8 @@ public:
         return *this;
     }
 
+    ~object_name_container() noexcept = default;
+
     void swap(object_name_container& that) noexcept {
         std::swap(this->_names, that._names);
     }
@@ -221,7 +223,7 @@ public:
         return object_name<ObjTag>(_name_type(_base + index));
     }
 
-    object_name<ObjTag> at(span_size_t index) const noexcept {
+    object_name<ObjTag> at(span_size_t index) const {
         if(!(index < size())) {
             throw std::out_of_range(
               "Index exceeds object_name_fake_array bounds.");
