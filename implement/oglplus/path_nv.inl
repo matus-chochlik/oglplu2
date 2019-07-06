@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/assert.hpp>
 #include <oglplus/utils/gl_func.hpp>
 
 namespace oglplus {
@@ -197,7 +198,7 @@ inline outcome<void> path_nv_ops::get_path_parameter_iv(
   path_nv_name path,
   oglplus::path_parameter_nv param,
   span<GLint> values) noexcept {
-    assert(values.size() > 0);
+    EAGINE_ASSERT(values.size() > 0);
     OGLPLUS_GLFUNC(GetPathParameterivNV)
     (get_raw_name(path), GLenum(param), values.data());
     OGLPLUS_VERIFY(
@@ -209,7 +210,7 @@ inline outcome<void> path_nv_ops::get_path_parameter_fv(
   path_nv_name path,
   oglplus::path_parameter_nv param,
   span<GLfloat> values) noexcept {
-    assert(values.size() > 0);
+    EAGINE_ASSERT(values.size() > 0);
     OGLPLUS_GLFUNC(GetPathParameterfvNV)
     (get_raw_name(path), GLenum(param), values.data());
     OGLPLUS_VERIFY(
@@ -329,7 +330,7 @@ path_nv_ops::get_path_dash_offset_reset(path_nv_name path) noexcept {
 //------------------------------------------------------------------------------
 inline outcome<void> path_nv_ops::path_dash_array(
   path_nv_name path, span<const GLfloat> dashes) noexcept {
-    assert(dashes.size() > 0);
+    EAGINE_ASSERT(dashes.size() > 0);
     OGLPLUS_GLFUNC(PathDashArrayNV)
     (get_raw_name(path), GLsizei(dashes.size()), dashes.data());
     OGLPLUS_VERIFY(PathDashArrayNV, gl_object(path), debug);

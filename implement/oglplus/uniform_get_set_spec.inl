@@ -6,7 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <cassert>
+#include <eagine/assert.hpp>
 
 namespace oglplus {
 
@@ -26,8 +26,8 @@ struct prog_var_get_set_ops<tag::uniform, GLuint64> {
       uniform_location u,
       GLsizei count,
       span<const GLuint64EXT> v) noexcept {
-        assert(count >= 0);
-        assert(v.size() >= span_size_t(count));
+        EAGINE_ASSERT(count >= 0);
+        EAGINE_ASSERT(v.size() >= span_size_t(count));
         OGLPLUS_GLFUNC(Uniformui64vNV)(u.location(), count, v.data());
         OGLPLUS_VERIFY_SIMPLE(Uniformui64vNV, debug);
         return {};
@@ -59,8 +59,8 @@ struct prog_var_get_set_ops<tag::uniform, GLuint64> {
       program_uniform_location pu,
       GLsizei count,
       span<const GLuint64EXT> v) noexcept {
-        assert(count >= 0);
-        assert(v.size() >= span_size_t(count));
+        EAGINE_ASSERT(count >= 0);
+        EAGINE_ASSERT(v.size() >= span_size_t(count));
         OGLPLUS_GLFUNC(ProgramUniformui64vNV)
         (get_raw_name(pu.program()), pu.location(), count, v.data());
         OGLPLUS_VERIFY(ProgramUniformui64vNV, gl_object(pu.program()), debug);
@@ -92,8 +92,8 @@ struct prog_var_get_set_ops<tag::uniform, GLuint64> {
       uniform_location u,
       GLsizei count,
       span<const GLuint64> v) noexcept {
-        assert(count >= 0);
-        assert(v.size() >= span_size_t(count));
+        EAGINE_ASSERT(count >= 0);
+        EAGINE_ASSERT(v.size() >= span_size_t(count));
         OGLPLUS_GLFUNC(UniformHandleui64vNV)(u.location(), count, v.data());
         OGLPLUS_VERIFY_SIMPLE(UniformHandleui64vNV, debug);
         return {};
@@ -113,8 +113,8 @@ struct prog_var_get_set_ops<tag::uniform, GLuint64> {
       program_uniform_location pu,
       GLsizei count,
       span<const GLuint64> v) noexcept {
-        assert(count >= 0);
-        assert(v.size() >= span_size_t(count));
+        EAGINE_ASSERT(count >= 0);
+        EAGINE_ASSERT(v.size() >= span_size_t(count));
         OGLPLUS_GLFUNC(ProgramUniformHandleui64vNV)
         (get_raw_name(pu.program()), pu.location(), count, v.data());
         OGLPLUS_VERIFY_SIMPLE(ProgramUniformHandleui64vNV, debug);
