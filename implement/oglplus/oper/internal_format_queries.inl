@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/assert.hpp>
 #include <oglplus/utils/gl_func.hpp>
 
 namespace oglplus {
@@ -18,7 +19,7 @@ inline outcome<void> internal_format_queries::get_internal_format_iv(
   pixel_data_internal_format iformat,
   internal_format_parameter query,
   span<GLint> data) noexcept {
-    assert(data.size() > 0);
+    EAGINE_ASSERT(data.size() > 0);
     OGLPLUS_GLFUNC(GetInternalformativ)
     (GLenum(target),
      GLenum(iformat),
@@ -47,7 +48,7 @@ inline outcome<void> internal_format_queries::get_internal_format_i64v(
   pixel_data_internal_format iformat,
   internal_format_parameter query,
   span<GLint64> data) noexcept {
-    assert(data.size() > 0);
+    EAGINE_ASSERT(data.size() > 0);
     OGLPLUS_GLFUNC(GetInternalformati64v)
     (GLenum(target),
      GLenum(iformat),

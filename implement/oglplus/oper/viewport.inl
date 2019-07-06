@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/assert.hpp>
 #include <oglplus/oper/numeric_queries.hpp>
 #include <oglplus/utils/gl_func.hpp>
 
@@ -60,7 +61,7 @@ inline outcome<void> viewport_state::viewport(
 //------------------------------------------------------------------------------
 inline outcome<void> viewport_state::viewport_array(
   viewport_index first, span<const GLfloat> vpe) noexcept {
-    assert(vpe.size() % 4 == 0);
+    EAGINE_ASSERT(vpe.size() % 4 == 0);
 #if !OGLPLUS_NO_LIMIT_CHECKS
     if(auto invalid_index = failure(check_below_limit(first))) {
         return std::move(invalid_index);

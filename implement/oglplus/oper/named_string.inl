@@ -7,6 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #ifdef GL_ARB_shading_language_include
+#include <eagine/assert.hpp>
 #include <oglplus/utils/gl_func.hpp>
 
 namespace oglplus {
@@ -27,15 +28,15 @@ inline outcome<void> named_string_state::named_string(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-named_string_state::delete_named_string(string_view name) noexcept {
+inline outcome<void> named_string_state::delete_named_string(
+  string_view name) noexcept {
     OGLPLUS_GLFUNC(DeleteNamedStringARB)(GLint(name.size()), name.data());
     OGLPLUS_VERIFY_SIMPLE(DeleteNamedStringARB, always);
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<boolean>
-named_string_state::is_named_string(string_view name) noexcept {
+inline outcome<boolean> named_string_state::is_named_string(
+  string_view name) noexcept {
     GLboolean result =
       OGLPLUS_GLFUNC(IsNamedStringARB)(GLint(name.size()), name.data());
     OGLPLUS_VERIFY_SIMPLE(IsNamedStringARB, always);
@@ -44,23 +45,23 @@ named_string_state::is_named_string(string_view name) noexcept {
 //------------------------------------------------------------------------------
 inline outcome<void> named_string_state::get_named_string_iv(
   string_view name, named_string_param param, span<GLint> values) noexcept {
-    assert(values.size() > 0);
+    EAGINE_ASSERT(values.size() > 0);
     OGLPLUS_GLFUNC(GetNamedStringivARB)
     (GLint(name.size()), name.data(), GLenum(param), values.data());
     OGLPLUS_VERIFY_SIMPLE(GetNamedStringivARB, always);
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<GLint>
-named_string_state::get_named_string_length(string_view name) noexcept {
+inline outcome<GLint> named_string_state::get_named_string_length(
+  string_view name) noexcept {
     GLint result = 0;
     return get_named_string_iv(
              name, named_string_param(GL_NAMED_STRING_LENGTH_ARB), {&result, 1})
       .add(result);
 }
 //------------------------------------------------------------------------------
-inline outcome<named_string_type>
-named_string_state::get_named_string_type(string_view name) noexcept {
+inline outcome<named_string_type> named_string_state::get_named_string_type(
+  string_view name) noexcept {
     GLint result = 0;
     return get_named_string_iv(
              name, named_string_param(GL_NAMED_STRING_TYPE_ARB), {&result, 1})

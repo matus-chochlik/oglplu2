@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/assert.hpp>
 #include <oglplus/utils/gl_func.hpp>
 
 namespace oglplus {
@@ -76,11 +77,11 @@ inline outcome<void> debugging::get_debug_message_log(
   span<debug_output_severity> severities,
   span<GLsizei> lengths,
   span<GLchar> message_log) noexcept {
-    assert(span_size_t(count) <= sources.size());
-    assert(span_size_t(count) <= types.size());
-    assert(span_size_t(count) <= ids.size());
-    assert(span_size_t(count) <= severities.size());
-    assert(span_size_t(count) <= lengths.size());
+    EAGINE_ASSERT(span_size_t(count) <= sources.size());
+    EAGINE_ASSERT(span_size_t(count) <= types.size());
+    EAGINE_ASSERT(span_size_t(count) <= ids.size());
+    EAGINE_ASSERT(span_size_t(count) <= severities.size());
+    EAGINE_ASSERT(span_size_t(count) <= lengths.size());
 
     std::vector<GLenum> dst_sources(count);
     std::vector<GLenum> dst_types(count);
