@@ -4,11 +4,11 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/assert.hpp>
 #include <eagine/math/functions.hpp>
 #include <eagine/math/intersection.hpp>
 #include <eagine/memory/span_algo.hpp>
 #include <array>
-#include <cassert>
 #include <limits>
 #include <vector>
 
@@ -60,7 +60,7 @@ void generator_intf::ray_intersections(
   span<const math::line<float, true>> rays,
   span<optionally_valid<float>> intersections) {
 
-    assert(intersections.size() >= rays.size());
+    EAGINE_ASSERT(intersections.size() >= rays.size());
 
     std::vector<draw_operation> ops(std_size(operation_count()));
     instructions(cover(ops));

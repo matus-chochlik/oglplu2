@@ -68,10 +68,12 @@ public:
       : _size{0} {
     }
 
+    basic_string_path(basic_string_path&&) noexcept = default;
     basic_string_path(const basic_string_path&) = default;
-    basic_string_path(basic_string_path&&) = default;
+    basic_string_path& operator=(basic_string_path&&) noexcept = default;
     basic_string_path& operator=(const basic_string_path&) = default;
-    basic_string_path& operator=(basic_string_path&&) = default;
+
+    ~basic_string_path() noexcept = default;
 
     basic_string_path(const str_span& str, span_size_t size)
       : _size{size}
@@ -165,12 +167,12 @@ public:
         return _size;
     }
 
-    static size_type required_bytes(size_type l) noexcept {
+    static size_type required_bytes(size_type l) {
         using namespace mbs;
         return l + 2 * required_sequence_length(code_point_t(l)).value();
     }
 
-    static size_type required_bytes(str_span str) noexcept {
+    static size_type required_bytes(str_span str) {
         return required_bytes(size_type(str.size()));
     }
 

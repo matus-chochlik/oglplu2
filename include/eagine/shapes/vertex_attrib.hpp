@@ -20,21 +20,21 @@ namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
 enum class vertex_attrib_kind : unsigned {
-    object_id = 1 << 0,
-    position = 1 << 1,
-    normal = 1 << 2,
-    tangential = 1 << 3,
-    bitangential = 1 << 4,
-    pivot = 1 << 5,
-    vertex_pivot = 1 << 6,
-    box_coord = 1 << 7,
-    face_coord = 1 << 8,
-    wrap_coord_0 = 1 << 9,
-    wrap_coord_1 = 1 << 10,
-    wrap_coord_2 = 1 << 11,
-    wrap_coord_3 = 1 << 12,
-    occlusion = 1 << 13,
-    material_id = 1 << 14
+    object_id = 1U << 0U,
+    position = 1U << 1U,
+    normal = 1U << 2U,
+    tangential = 1U << 3U,
+    bitangential = 1U << 4U,
+    pivot = 1U << 5U,
+    vertex_pivot = 1U << 6U,
+    box_coord = 1U << 7U,
+    face_coord = 1U << 8U,
+    wrap_coord_0 = 1U << 9U,
+    wrap_coord_1 = 1U << 10U,
+    wrap_coord_2 = 1U << 11U,
+    wrap_coord_3 = 1U << 12U,
+    occlusion = 1U << 13U,
+    material_id = 1U << 14U
     // also fix all_vertex_attrib_bits
 };
 //------------------------------------------------------------------------------

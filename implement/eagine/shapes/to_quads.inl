@@ -4,6 +4,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/assert.hpp>
 #include <eagine/math/functions.hpp>
 #include <eagine/memory/span_algo.hpp>
 #include <vector>
@@ -61,7 +62,7 @@ span_size_t to_quads_gen::index_count() {
 template <typename T>
 void to_quads_gen::_indices(span<T> dest) noexcept {
 
-    assert(dest.size() >= index_count());
+    EAGINE_ASSERT(dest.size() >= index_count());
 
     span_size_t i = 0;
 
@@ -124,7 +125,7 @@ void to_quads_gen::_indices(span<T> dest) noexcept {
         }
     }
 
-    assert(i == index_count());
+    EAGINE_ASSERT(i == index_count());
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

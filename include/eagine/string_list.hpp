@@ -72,7 +72,7 @@ static inline string_view pop_back(string_view list) noexcept {
     return head(list, i - k - l);
 }
 //------------------------------------------------------------------------------
-static inline void push_back(std::string& list, string_view value) noexcept {
+static inline void push_back(std::string& list, string_view value) {
     const span_size_t vl = value.size();
     const std::string elen = encode_length(vl);
     const std::size_t nl = list.size() + elen.size() * 2 + std_size(vl);
@@ -259,7 +259,7 @@ private:
     span_size_t _len_len() const noexcept {
         byte b = _b();
         EAGINE_ASSERT(mbs::is_valid_head_byte(b));
-        return mbs::do_decode_sequence_length(b).value();
+        return mbs::do_decode_sequence_length(b).value_anyway();
     }
 
     span_size_t _val_len(span_size_t ll) const noexcept {
@@ -352,7 +352,7 @@ private:
     span_size_t _len_len() const noexcept {
         byte b = _b();
         EAGINE_ASSERT(mbs::is_valid_head_byte(b));
-        return mbs::do_decode_sequence_length(b).value();
+        return mbs::do_decode_sequence_length(b).value_anyway();
     }
 
     span_size_t _val_len(span_size_t ll) const noexcept {

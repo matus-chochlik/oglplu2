@@ -4,6 +4,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/assert.hpp>
 #include <eagine/math/functions.hpp>
 
 namespace eagine {
@@ -71,7 +72,7 @@ void combined_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
         const auto gvc = gen->vertex_count();
         auto tmp = head(skip(dest, offset), gvc * vpv);
         gen->attrib_values(attr, tmp);
-        assert(gvpv == vpv);
+        EAGINE_ASSERT(gvpv == vpv);
         // TODO: adjust if gvpv < vpv
         offset += gvc * vpv;
     }

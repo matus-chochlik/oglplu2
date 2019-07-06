@@ -5,7 +5,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#include <cassert>
+#include <eagine/assert.hpp>
 
 #ifdef __clang__
 #pragma clang diagnostic push
@@ -35,7 +35,7 @@ span_size_t unit_screen_gen::vertex_count() {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void unit_screen_gen::positions(span<float> dest) noexcept {
-    assert(dest.size() >= vertex_count() * 3);
+    EAGINE_ASSERT(dest.size() >= vertex_count() * 3);
 
     /*
      * [-1, 1] [ 1, 1]
@@ -65,13 +65,13 @@ void unit_screen_gen::positions(span<float> dest) noexcept {
     dest[k++] = 1.f;
     dest[k++] = 0.f;
 
-    assert(k == vertex_count() * 3);
+    EAGINE_ASSERT(k == vertex_count() * 3);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void unit_screen_gen::normals(span<float> dest) noexcept {
-    assert(has(vertex_attrib_kind::normal));
-    assert(dest.size() >= vertex_count() * 3);
+    EAGINE_ASSERT(has(vertex_attrib_kind::normal));
+    EAGINE_ASSERT(dest.size() >= vertex_count() * 3);
 
     span_size_t k = 0;
     for(span_size_t i = 0; i < 4; ++i) {
@@ -80,13 +80,13 @@ void unit_screen_gen::normals(span<float> dest) noexcept {
         dest[k++] = 1.f;
     }
 
-    assert(k == vertex_count() * 3);
+    EAGINE_ASSERT(k == vertex_count() * 3);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void unit_screen_gen::tangentials(span<float> dest) noexcept {
-    assert(has(vertex_attrib_kind::tangential));
-    assert(dest.size() >= vertex_count() * 3);
+    EAGINE_ASSERT(has(vertex_attrib_kind::tangential));
+    EAGINE_ASSERT(dest.size() >= vertex_count() * 3);
 
     span_size_t k = 0;
     for(span_size_t i = 0; i < 4; ++i) {
@@ -95,13 +95,13 @@ void unit_screen_gen::tangentials(span<float> dest) noexcept {
         dest[k++] = 0.f;
     }
 
-    assert(k == vertex_count() * 3);
+    EAGINE_ASSERT(k == vertex_count() * 3);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void unit_screen_gen::bitangentials(span<float> dest) noexcept {
-    assert(has(vertex_attrib_kind::bitangential));
-    assert(dest.size() >= vertex_count() * 3);
+    EAGINE_ASSERT(has(vertex_attrib_kind::bitangential));
+    EAGINE_ASSERT(dest.size() >= vertex_count() * 3);
 
     span_size_t k = 0;
     for(span_size_t i = 0; i < 4; ++i) {
@@ -110,13 +110,13 @@ void unit_screen_gen::bitangentials(span<float> dest) noexcept {
         dest[k++] = 0.f;
     }
 
-    assert(k == vertex_count() * 3);
+    EAGINE_ASSERT(k == vertex_count() * 3);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void unit_screen_gen::face_coords(span<float> dest) noexcept {
-    assert(has(vertex_attrib_kind::face_coord));
-    assert(dest.size() >= vertex_count() * 3);
+    EAGINE_ASSERT(has(vertex_attrib_kind::face_coord));
+    EAGINE_ASSERT(dest.size() >= vertex_count() * 3);
 
     /*
      *  [0, 1]  [1, 1]
@@ -146,7 +146,7 @@ void unit_screen_gen::face_coords(span<float> dest) noexcept {
     dest[k++] = 1.f;
     dest[k++] = 0.f;
 
-    assert(k == vertex_count() * 3);
+    EAGINE_ASSERT(k == vertex_count() * 3);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -188,7 +188,7 @@ span_size_t unit_screen_gen::operation_count() {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void unit_screen_gen::instructions(span<draw_operation> ops) {
-    assert(ops.size() >= operation_count());
+    EAGINE_ASSERT(ops.size() >= operation_count());
 
     draw_operation& op = ops[0];
     op.mode = primitive_type::triangle_strip;

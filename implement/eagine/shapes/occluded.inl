@@ -4,10 +4,10 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/assert.hpp>
 #include <eagine/math/coordinates.hpp>
 #include <eagine/math/functions.hpp>
 #include <eagine/memory/span_algo.hpp>
-#include <cassert>
 #include <random>
 #include <vector>
 
@@ -31,7 +31,8 @@ void occluded_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
         const auto ns = _samples;
 
         if((pvpv == 3) && (nvpv == 3)) {
-            assert(dest.size() >= vc * delegated_gen::values_per_vertex(attr));
+            EAGINE_ASSERT(
+              dest.size() >= vc * delegated_gen::values_per_vertex(attr));
 
             std::vector<float> positions(std_size(vc * pvpv));
             std::vector<float> normals(std_size(vc * nvpv));
