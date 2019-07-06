@@ -1,6 +1,7 @@
 Checks:          'clang-diagnostic-*,clang-analyzer-*,bugprone-*,cert-*,hicpp-*,-hicpp-explicit-conversions,modernize-*,performance-*,misc-definitions-in-headers,llvm-header-guard,readability-braces-around-statements'
 WarningsAsErrors: '*'
 HeaderFilterRegex: '(include|implement)/eagine'
+HeaderFilterRegex: '*'
 AnalyzeTemporaryDtors: false
 FormatStyle:     file
 CheckOptions:

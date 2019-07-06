@@ -121,7 +121,7 @@ int unit_cube_gen::_coord_c(span_size_t v, span_size_t c) noexcept {
 
     static const unsigned char _coord_bits[3] = {0xAA, 0xCC, 0xF0};
 
-    unsigned char b = static_cast<unsigned char>(1 << v);
+    const auto b = static_cast<unsigned char>(1U << unsigned(v));
     return ((_coord_bits[c] & b) == b) ? 1 : 0;
 }
 //------------------------------------------------------------------------------
@@ -142,14 +142,16 @@ void unit_cube_gen::positions(span<float> dest) noexcept {
     } else {
         EAGINE_ASSERT(dest.size() >= 6 * 2 * 3 * 3);
 
-        for(span_size_t f = 0; f < 6; ++f)
-            for(span_size_t t = 0; t < 2; ++t)
+        for(span_size_t f = 0; f < 6; ++f) {
+            for(span_size_t t = 0; t < 2; ++t) {
                 for(span_size_t i = 0; i < 3; ++i) {
                     span_size_t v = _face_vert(f, t, i);
                     for(span_size_t c = 0; c < 3; ++c) {
                         dest[k++] = _coord_c(v, c) - 0.5f;
                     }
                 }
+            }
+        }
     }
 
     EAGINE_ASSERT(k == vertex_count() * 3);
@@ -172,7 +174,7 @@ int unit_cube_gen::_normal_c(span_size_t f, span_size_t c) noexcept {
     // Z c=2:  1  0  0  0  0  0 = 0x20
     static const unsigned char _vec_sign[3] = {0x02, 0x08, 0x20};
 
-    const unsigned char b = static_cast<unsigned char>(1 << f);
+    const auto b = static_cast<unsigned char>(1U << unsigned(f));
     return (((_vec_bits[c] & b) == b) ? 1 : 0) *
            (((_vec_sign[c] & b) == b) ? 1 : -1);
 }
@@ -185,12 +187,13 @@ void unit_cube_gen::normals(span<float> dest) noexcept {
     span_size_t k = 0;
     span_size_t n = 2 * 3;
 
-    for(span_size_t f = 0; f < 6; ++f)
+    for(span_size_t f = 0; f < 6; ++f) {
         for(span_size_t i = 0; i < n; ++i) {
             for(span_size_t c = 0; c < 3; ++c) {
                 dest[k++] = _normal_c(f, c);
             }
         }
+    }
 
     EAGINE_ASSERT(k == vertex_count() * 3);
 }
@@ -212,7 +215,7 @@ int unit_cube_gen::_tangential_c(span_size_t f, span_size_t c) noexcept {
     // Z c=2:  0  0  0  0  0  1 = 0x01
     static const unsigned char _vec_sign[3] = {0x2C, 0x00, 0x01};
 
-    const unsigned char b = static_cast<unsigned char>(1 << f);
+    const auto b = static_cast<unsigned char>(1U << unsigned(f));
     return (((_vec_bits[c] & b) == b) ? 1 : 0) *
            (((_vec_sign[c] & b) == b) ? 1 : -1);
 }
@@ -225,12 +228,13 @@ void unit_cube_gen::tangentials(span<float> dest) noexcept {
     span_size_t k = 0;
     span_size_t n = 2 * 3;
 
-    for(span_size_t f = 0; f < 6; ++f)
+    for(span_size_t f = 0; f < 6; ++f) {
         for(span_size_t i = 0; i < n; ++i) {
             for(span_size_t c = 0; c < 3; ++c) {
                 dest[k++] = _tangential_c(f, c);
             }
         }
+    }
 
     EAGINE_ASSERT(k == vertex_count() * 3);
 }
@@ -252,7 +256,7 @@ int unit_cube_gen::_bitangential_c(span_size_t f, span_size_t c) noexcept {
     // Z c=2:  0  0  0  1  0  0 = 0x04
     static const unsigned char _vec_sign[3] = {0x00, 0x33, 0x04};
 
-    const unsigned char b = static_cast<unsigned char>(1 << f);
+    const auto b = static_cast<unsigned char>(1U << unsigned(f));
     return (((_vec_bits[c] & b) == b) ? 1 : 0) *
            (((_vec_sign[c] & b) == b) ? 1 : -1);
 }
@@ -265,12 +269,13 @@ void unit_cube_gen::bitangentials(span<float> dest) noexcept {
     span_size_t k = 0;
     span_size_t n = 2 * 3;
 
-    for(span_size_t f = 0; f < 6; ++f)
+    for(span_size_t f = 0; f < 6; ++f) {
         for(span_size_t i = 0; i < n; ++i) {
             for(span_size_t c = 0; c < 3; ++c) {
                 dest[k++] = _bitangential_c(f, c);
             }
         }
+    }
 
     EAGINE_ASSERT(k == vertex_count() * 3);
 }
@@ -300,13 +305,15 @@ void unit_cube_gen::face_coords(span<float> dest) noexcept {
 
     span_size_t k = 0;
 
-    for(span_size_t f = 0; f < 6; ++f)
-        for(span_size_t t = 0; t < 2; ++t)
-            for(span_size_t v = 0; v < 3; ++v) {
-                dest[k++] = uv[ftvi[t][v]][0];
-                dest[k++] = uv[ftvi[t][v]][1];
+    for(span_size_t f = 0; f < 6; ++f) {
+        for(const auto& ftv : ftvi) {
+            for(const auto v : ftv) {
+                dest[k++] = uv[v][0];
+                dest[k++] = uv[v][1];
                 dest[k++] = float(f);
             }
+        }
+    }
 
     EAGINE_ASSERT(k == vertex_count() * 3);
 }
@@ -367,11 +374,13 @@ inline void unit_cube_gen::_indices(span<T> dest) noexcept {
     span_size_t k = 0;
 
     if(_only_shared_attribs()) {
-        for(span_size_t f = 0; f < 6; ++f)
-            for(span_size_t t = 0; t < 2; ++t)
+        for(span_size_t f = 0; f < 6; ++f) {
+            for(span_size_t t = 0; t < 2; ++t) {
                 for(span_size_t v = 0; v < 3; ++v) {
                     dest[k++] = T(_face_vert(f, t, v));
                 }
+            }
+        }
     }
 
     EAGINE_ASSERT(k == index_count());

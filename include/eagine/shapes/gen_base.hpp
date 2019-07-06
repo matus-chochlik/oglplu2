@@ -25,8 +25,12 @@ namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
 struct generator_intf {
+
     generator_intf() = default;
+    generator_intf(generator_intf&&) noexcept = default;
     generator_intf(const generator_intf&) = default;
+    generator_intf& operator=(generator_intf&&) = delete;
+    generator_intf& operator=(const generator_intf&) = delete;
     virtual ~generator_intf() = default;
 
     virtual vertex_attrib_bits attrib_bits() noexcept = 0;

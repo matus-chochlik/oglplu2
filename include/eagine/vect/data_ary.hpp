@@ -26,8 +26,14 @@ struct _ary_data {
     using type = _ary_data;
 
     _ary_data() = default;
-    _ary_data(const _ary_data& that) = default;
-    _ary_data& operator=(const _ary_data& that) = default;
+    _ary_data(_ary_data&&) noexcept(std::is_nothrow_move_constructible_v<T>) =
+      default;
+    _ary_data(const _ary_data&) = default;
+    _ary_data& operator=(_ary_data&&) noexcept(
+      std::is_nothrow_move_constructible_v<T>) = default;
+    _ary_data& operator=(const _ary_data&) = default;
+
+    ~_ary_data() noexcept = default;
 
     template <
       typename P,
@@ -68,7 +74,7 @@ struct _ary_data {
 
     friend _ary_data operator+(
       const _ary_data& a, const _ary_data& b) noexcept {
-        _ary_data c;
+        _ary_data c{};
         for(int i = 0; i < N; ++i) {
             c._v[i] = a._v[i] + b._v[i];
         }
@@ -77,7 +83,7 @@ struct _ary_data {
 
     friend _ary_data operator-(
       const _ary_data& a, const _ary_data& b) noexcept {
-        _ary_data c;
+        _ary_data c{};
         for(int i = 0; i < N; ++i) {
             c._v[i] = a._v[i] - b._v[i];
         }
@@ -86,7 +92,7 @@ struct _ary_data {
 
     friend _ary_data operator*(
       const _ary_data& a, const _ary_data& b) noexcept {
-        _ary_data c;
+        _ary_data c{};
         for(int i = 0; i < N; ++i) {
             c._v[i] = a._v[i] * b._v[i];
         }
@@ -95,7 +101,7 @@ struct _ary_data {
 
     friend _ary_data operator/(
       const _ary_data& a, const _ary_data& b) noexcept {
-        _ary_data c;
+        _ary_data c{};
         for(int i = 0; i < N; ++i) {
             c._v[i] = a._v[i] / b._v[i];
         }

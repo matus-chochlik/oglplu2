@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/assert.hpp>
 #include <oglplus/oper/numeric_queries.hpp>
 #include <oglplus/utils/gl_func.hpp>
 
@@ -25,8 +26,8 @@ inline outcome<void> renderbuffer_ops::bind_renderbuffer(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<renderbuffer_name>
-renderbuffer_ops::renderbuffer_binding(renderbuffer_target target) noexcept {
+inline outcome<renderbuffer_name> renderbuffer_ops::renderbuffer_binding(
+  renderbuffer_target target) noexcept {
     GLint result = 0;
     return numeric_queries::get_integer_v(
              get_binding_query(target), {&result, 1})
@@ -111,7 +112,7 @@ inline outcome<void> renderbuffer_ops::get_renderbuffer_parameter_iv(
   renderbuffer_target target,
   oglplus::renderbuffer_parameter param,
   span<GLint> values) noexcept {
-    assert(values.size() > 0);
+    EAGINE_ASSERT(values.size() > 0);
     OGLPLUS_GLFUNC(GetRenderbufferParameteriv)
     (GLenum(target), GLenum(param), values.data());
     OGLPLUS_VERIFY(
@@ -126,7 +127,7 @@ inline outcome<void> renderbuffer_ops::get_renderbuffer_parameter_iv(
   renderbuffer_name buf,
   oglplus::renderbuffer_parameter param,
   span<GLint> values) noexcept {
-    assert(values.size() > 0);
+    EAGINE_ASSERT(values.size() > 0);
 #ifdef GL_VERSION_4_5
     OGLPLUS_GLFUNC(GetNamedRenderbufferParameteriv)
     (
@@ -152,64 +153,64 @@ inline outcome<R> renderbuffer_ops::return_renderbuffer_parameter_i(
 }
 //------------------------------------------------------------------------------
 template <typename RNT>
-inline outcome<GLsizei>
-renderbuffer_ops::get_renderbuffer_width(const RNT& rnt) noexcept {
+inline outcome<GLsizei> renderbuffer_ops::get_renderbuffer_width(
+  const RNT& rnt) noexcept {
     return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
       rnt, renderbuffer_parameter(GL_RENDERBUFFER_WIDTH));
 }
 //------------------------------------------------------------------------------
 template <typename RNT>
-inline outcome<GLsizei>
-renderbuffer_ops::get_renderbuffer_height(const RNT& rnt) noexcept {
+inline outcome<GLsizei> renderbuffer_ops::get_renderbuffer_height(
+  const RNT& rnt) noexcept {
     return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
       rnt, renderbuffer_parameter(GL_RENDERBUFFER_HEIGHT));
 }
 //------------------------------------------------------------------------------
 template <typename RNT>
-inline outcome<GLsizei>
-renderbuffer_ops::get_renderbuffer_red_size(const RNT& rnt) noexcept {
+inline outcome<GLsizei> renderbuffer_ops::get_renderbuffer_red_size(
+  const RNT& rnt) noexcept {
     return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
       rnt, renderbuffer_parameter(GL_RENDERBUFFER_RED_SIZE));
 }
 //------------------------------------------------------------------------------
 template <typename RNT>
-inline outcome<GLsizei>
-renderbuffer_ops::get_renderbuffer_green_size(const RNT& rnt) noexcept {
+inline outcome<GLsizei> renderbuffer_ops::get_renderbuffer_green_size(
+  const RNT& rnt) noexcept {
     return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
       rnt, renderbuffer_parameter(GL_RENDERBUFFER_GREEN_SIZE));
 }
 //------------------------------------------------------------------------------
 template <typename RNT>
-inline outcome<GLsizei>
-renderbuffer_ops::get_renderbuffer_blue_size(const RNT& rnt) noexcept {
+inline outcome<GLsizei> renderbuffer_ops::get_renderbuffer_blue_size(
+  const RNT& rnt) noexcept {
     return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
       rnt, renderbuffer_parameter(GL_RENDERBUFFER_BLUE_SIZE));
 }
 //------------------------------------------------------------------------------
 template <typename RNT>
-inline outcome<GLsizei>
-renderbuffer_ops::get_renderbuffer_alpha_size(const RNT& rnt) noexcept {
+inline outcome<GLsizei> renderbuffer_ops::get_renderbuffer_alpha_size(
+  const RNT& rnt) noexcept {
     return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
       rnt, renderbuffer_parameter(GL_RENDERBUFFER_ALPHA_SIZE));
 }
 //------------------------------------------------------------------------------
 template <typename RNT>
-inline outcome<GLsizei>
-renderbuffer_ops::get_renderbuffer_depth_size(const RNT& rnt) noexcept {
+inline outcome<GLsizei> renderbuffer_ops::get_renderbuffer_depth_size(
+  const RNT& rnt) noexcept {
     return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
       rnt, renderbuffer_parameter(GL_RENDERBUFFER_DEPTH_SIZE));
 }
 //------------------------------------------------------------------------------
 template <typename RNT>
-inline outcome<GLsizei>
-renderbuffer_ops::get_renderbuffer_stencil_size(const RNT& rnt) noexcept {
+inline outcome<GLsizei> renderbuffer_ops::get_renderbuffer_stencil_size(
+  const RNT& rnt) noexcept {
     return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
       rnt, renderbuffer_parameter(GL_RENDERBUFFER_STENCIL_SIZE));
 }
 //------------------------------------------------------------------------------
 template <typename RNT>
-inline outcome<GLsizei>
-renderbuffer_ops::get_renderbuffer_samples(const RNT& rnt) noexcept {
+inline outcome<GLsizei> renderbuffer_ops::get_renderbuffer_samples(
+  const RNT& rnt) noexcept {
     return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
       rnt, renderbuffer_parameter(GL_RENDERBUFFER_SAMPLES));
 }
@@ -225,8 +226,8 @@ renderbuffer_ops::get_renderbuffer_internal_format(const RNT& rnt) noexcept {
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen
 //------------------------------------------------------------------------------
-inline deferred_error_handler
-obj_gen_del_ops<tag::renderbuffer>::_gen(span<GLuint> names) noexcept {
+inline deferred_error_handler obj_gen_del_ops<tag::renderbuffer>::_gen(
+  span<GLuint> names) noexcept {
     OGLPLUS_GLFUNC(GenRenderbuffers)(GLsizei(names.size()), names.data());
     OGLPLUS_VERIFY_SIMPLE(GenRenderbuffers, debug);
     return {};
@@ -235,8 +236,8 @@ obj_gen_del_ops<tag::renderbuffer>::_gen(span<GLuint> names) noexcept {
 // obj_gen_del_ops::_create
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5)
-inline deferred_error_handler
-obj_gen_del_ops<tag::renderbuffer>::_create(span<GLuint> names) noexcept {
+inline deferred_error_handler obj_gen_del_ops<tag::renderbuffer>::_create(
+  span<GLuint> names) noexcept {
     OGLPLUS_GLFUNC(CreateRenderbuffers)(GLsizei(names.size()), names.data());
     OGLPLUS_VERIFY_SIMPLE(CreateRenderbuffers, debug);
     return {};
@@ -245,8 +246,8 @@ obj_gen_del_ops<tag::renderbuffer>::_create(span<GLuint> names) noexcept {
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_delete
 //------------------------------------------------------------------------------
-inline deferred_error_handler
-obj_gen_del_ops<tag::renderbuffer>::_delete(span<GLuint> names) noexcept {
+inline deferred_error_handler obj_gen_del_ops<tag::renderbuffer>::_delete(
+  span<GLuint> names) noexcept {
     OGLPLUS_GLFUNC(DeleteRenderbuffers)(GLsizei(names.size()), names.data());
     OGLPLUS_VERIFY_SIMPLE(DeleteRenderbuffers, debug);
     return {};
@@ -254,8 +255,8 @@ obj_gen_del_ops<tag::renderbuffer>::_delete(span<GLuint> names) noexcept {
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_is_a
 //------------------------------------------------------------------------------
-inline outcome<boolean>
-obj_gen_del_ops<tag::renderbuffer>::_is_a(GLuint name) noexcept {
+inline outcome<boolean> obj_gen_del_ops<tag::renderbuffer>::_is_a(
+  GLuint name) noexcept {
     GLboolean res = OGLPLUS_GLFUNC(IsRenderbuffer)(name);
     OGLPLUS_VERIFY_SIMPLE(IsRenderbuffer, debug);
     return boolean(res);

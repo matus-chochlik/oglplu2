@@ -47,9 +47,11 @@ private:
     static constexpr inline _dT _do_apply(
       _dpT v, shuffle_mask<I...>, std::true_type) noexcept {
 #if EAGINE_USE_SIMD && defined(__clang__)
+        // NOLINTNEXTLINE(hicpp-vararg)
         return _dT(__builtin_shufflevector(v, v, I...));
 #elif EAGINE_USE_SIMD && defined(__GNUC__)
         using _mT = mask_t<T, N, V>;
+        // NOLINTNEXTLINE(hicpp-vararg)
         return __builtin_shuffle(v, _mT{I...});
 #else
         return _do_apply(v, shuffle_mask<I...>(), std::false_type());
@@ -84,9 +86,11 @@ private:
     static inline _dT _do_apply(
       _dpT v1, _dpT v2, shuffle_mask<I...>, _int<M>, std::true_type) noexcept {
 #if EAGINE_USE_SIMD && defined(__clang__)
+        // NOLINTNEXTLINE(hicpp-vararg)
         return _dT(__builtin_shufflevector(v1, v2, I...));
 #elif EAGINE_USE_SIMD && defined(__GNUC__)
         using _mT = mask_t<T, N, V>;
+        // NOLINTNEXTLINE(hicpp-vararg)
         return __builtin_shuffle(v1, v2, _mT{I...});
 #else
         return _do_apply(
@@ -98,9 +102,11 @@ private:
     static inline _dT _do_apply(
       _dpT v1, _dpT v2, shuffle_mask<I...>, _int<3u>, std::true_type) noexcept {
 #if EAGINE_USE_SIMD && defined(__clang__)
+        // NOLINTNEXTLINE(hicpp-vararg)
         return _dT(__builtin_shufflevector(v1, v2, I >= 3 ? I + 1 : I...));
 #elif EAGINE_USE_SIMD && defined(__GNUC__)
         using _mT = mask_t<T, N, V>;
+        // NOLINTNEXTLINE(hicpp-vararg)
         return __builtin_shuffle(v1, v2, _mT{(I >= 3 ? I + 1 : I)...});
 #else
         return _do_apply(

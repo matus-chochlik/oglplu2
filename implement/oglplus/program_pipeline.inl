@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/assert.hpp>
 #include <oglplus/oper/numeric_queries.hpp>
 #include <oglplus/utils/gl_func.hpp>
 
@@ -76,7 +77,7 @@ inline outcome<void> program_pipeline_ops::get_program_pipeline_iv(
   program_pipeline_name buf,
   oglplus::program_pipeline_parameter param,
   span<GLint> values) noexcept {
-    assert(values.size() > 0);
+    EAGINE_ASSERT(values.size() > 0);
     OGLPLUS_GLFUNC(GetProgramPipelineiv)
     (get_raw_name(buf), GLenum(param), values.data());
     OGLPLUS_VERIFY(
@@ -128,8 +129,8 @@ inline outcome<span<char>> program_pipeline_ops::get_program_pipeline_info_log(
 // obj_gen_del_ops::_gen
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_1) || defined(GL_ARB_separate_shared_objects)
-inline deferred_error_handler
-obj_gen_del_ops<tag::program_pipeline>::_gen(span<GLuint> names) noexcept {
+inline deferred_error_handler obj_gen_del_ops<tag::program_pipeline>::_gen(
+  span<GLuint> names) noexcept {
     OGLPLUS_GLFUNC(GenProgramPipelines)(GLsizei(names.size()), names.data());
     OGLPLUS_VERIFY_SIMPLE(GenProgramPipelines, debug);
     return {};
@@ -138,8 +139,8 @@ obj_gen_del_ops<tag::program_pipeline>::_gen(span<GLuint> names) noexcept {
 // obj_gen_del_ops::_create
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5)
-inline deferred_error_handler
-obj_gen_del_ops<tag::program_pipeline>::_create(span<GLuint> names) noexcept {
+inline deferred_error_handler obj_gen_del_ops<tag::program_pipeline>::_create(
+  span<GLuint> names) noexcept {
     OGLPLUS_GLFUNC(CreateProgramPipelines)(GLsizei(names.size()), names.data());
     OGLPLUS_VERIFY_SIMPLE(CreateProgramPipelines, debug);
     return {};
@@ -148,8 +149,8 @@ obj_gen_del_ops<tag::program_pipeline>::_create(span<GLuint> names) noexcept {
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_delete
 //------------------------------------------------------------------------------
-inline deferred_error_handler
-obj_gen_del_ops<tag::program_pipeline>::_delete(span<GLuint> names) noexcept {
+inline deferred_error_handler obj_gen_del_ops<tag::program_pipeline>::_delete(
+  span<GLuint> names) noexcept {
     OGLPLUS_GLFUNC(DeleteProgramPipelines)(GLsizei(names.size()), names.data());
     OGLPLUS_VERIFY_SIMPLE(DeleteProgramPipelines, debug);
     return {};
@@ -157,8 +158,8 @@ obj_gen_del_ops<tag::program_pipeline>::_delete(span<GLuint> names) noexcept {
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_is_a
 //------------------------------------------------------------------------------
-inline outcome<boolean>
-obj_gen_del_ops<tag::program_pipeline>::_is_a(GLuint name) noexcept {
+inline outcome<boolean> obj_gen_del_ops<tag::program_pipeline>::_is_a(
+  GLuint name) noexcept {
     GLboolean res = OGLPLUS_GLFUNC(IsProgramPipeline)(name);
     OGLPLUS_VERIFY_SIMPLE(IsProgramPipeline, debug);
     return boolean(res);

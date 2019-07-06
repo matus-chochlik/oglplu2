@@ -69,12 +69,11 @@ void unit_icosahedron_gen::positions(span<float> dest) noexcept {
     const float ps = 1.f;
     const float ns = -1.f;
 
-    for(int p = 0; p < 3; ++p) {
+    for(const auto& qip : qi) {
         for(int v = 0; v < 4; ++v) {
             const float sv[3] = {
               0.f, v % 2 == 0 ? ns : ps, v / 2 == 0 ? ns : ps};
-            for(int c = 0; c < 3; ++c) {
-                span_size_t qci = qi[p][c];
+            for(const auto qci : qip) {
                 dest[k++] = float(sv[qci] * q[qci]);
             }
         }
