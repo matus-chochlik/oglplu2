@@ -460,7 +460,7 @@ template <typename T, int M, int N, int K, bool RM1, bool RM2, bool V>
 static inline matrix<T, N, M, RM1, V> multiply(
   const matrix<T, K, M, RM1, V>& m1,
   const matrix<T, N, K, RM2, V>& m2) noexcept {
-    matrix<T, N, M, RM1, V> m3;
+    matrix<T, N, M, RM1, V> m3{};
 
     for(int i = 0; i < M; ++i) {
         for(int j = 0; j < N; ++j) {

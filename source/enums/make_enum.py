@@ -368,7 +368,9 @@ def action_impl_enum_value_names_inl(options):
 	print_newline(options)
 	print_line(options, "%s_LIB_FUNC" % options.library_uc)
 	print_line(options, "string_view")
-	print_line(options, "get_enum_value_name(const any_enum_value%s& aev)" %
+	print_line(options, "get_enum_value_name( // NOLINT(hicpp-function-size)")
+	print_newline(options)
+	print_line(options, "const any_enum_value%s& aev)" %
 		options.lib_suffix
 	)
 	print_line(options, "noexcept")
@@ -379,9 +381,8 @@ def action_impl_enum_value_names_inl(options):
 			options.base_lib_prefix,
 			enum_value_name
 		))
-		print_line(options, '\tstatic const char s_%s[%d] =\n\t\t"%s";' % (
+		print_line(options, '\tstatic const char* s_%s =\n\t\t"%s";' % (
 			enum_value_name,
-			len(enum_value_name)+1,
 			enum_value_name
 		))
 		print_line(options, "#endif")

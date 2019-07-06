@@ -19,4235 +19,4184 @@
 namespace oglplus {
 
 OGLPLUS_LIB_FUNC
-string_view get_enum_value_name(const any_enum_value& aev) noexcept {
+string_view get_enum_value_name( // NOLINT(hicpp-function-size)
+
+  const any_enum_value& aev) noexcept {
 #ifdef GL_ACCUM_ADJACENT_PAIRS_NV
-    static const char s_ACCUM_ADJACENT_PAIRS_NV[24] = "ACCUM_ADJACENT_PAIRS_NV";
+    static const char* s_ACCUM_ADJACENT_PAIRS_NV = "ACCUM_ADJACENT_PAIRS_NV";
 #endif
 #ifdef GL_ACTIVE_ATOMIC_COUNTER_BUFFERS
-    static const char s_ACTIVE_ATOMIC_COUNTER_BUFFERS[30] =
+    static const char* s_ACTIVE_ATOMIC_COUNTER_BUFFERS =
       "ACTIVE_ATOMIC_COUNTER_BUFFERS";
 #endif
 #ifdef GL_ACTIVE_ATTRIBUTES
-    static const char s_ACTIVE_ATTRIBUTES[18] = "ACTIVE_ATTRIBUTES";
+    static const char* s_ACTIVE_ATTRIBUTES = "ACTIVE_ATTRIBUTES";
 #endif
 #ifdef GL_ACTIVE_ATTRIBUTE_MAX_LENGTH
-    static const char s_ACTIVE_ATTRIBUTE_MAX_LENGTH[28] =
+    static const char* s_ACTIVE_ATTRIBUTE_MAX_LENGTH =
       "ACTIVE_ATTRIBUTE_MAX_LENGTH";
 #endif
 #ifdef GL_ACTIVE_PROGRAM
-    static const char s_ACTIVE_PROGRAM[15] = "ACTIVE_PROGRAM";
+    static const char* s_ACTIVE_PROGRAM = "ACTIVE_PROGRAM";
 #endif
 #ifdef GL_ACTIVE_UNIFORMS
-    static const char s_ACTIVE_UNIFORMS[16] = "ACTIVE_UNIFORMS";
+    static const char* s_ACTIVE_UNIFORMS = "ACTIVE_UNIFORMS";
 #endif
 #ifdef GL_ACTIVE_UNIFORM_MAX_LENGTH
-    static const char s_ACTIVE_UNIFORM_MAX_LENGTH[26] =
+    static const char* s_ACTIVE_UNIFORM_MAX_LENGTH =
       "ACTIVE_UNIFORM_MAX_LENGTH";
 #endif
 #ifdef GL_ACTIVE_VARIABLES
-    static const char s_ACTIVE_VARIABLES[17] = "ACTIVE_VARIABLES";
+    static const char* s_ACTIVE_VARIABLES = "ACTIVE_VARIABLES";
 #endif
 #ifdef GL_ADJACENT_PAIRS_NV
-    static const char s_ADJACENT_PAIRS_NV[18] = "ADJACENT_PAIRS_NV";
+    static const char* s_ADJACENT_PAIRS_NV = "ADJACENT_PAIRS_NV";
 #endif
 #ifdef GL_AFFINE_2D_NV
-    static const char s_AFFINE_2D_NV[13] = "AFFINE_2D_NV";
+    static const char* s_AFFINE_2D_NV = "AFFINE_2D_NV";
 #endif
 #ifdef GL_AFFINE_3D_NV
-    static const char s_AFFINE_3D_NV[13] = "AFFINE_3D_NV";
+    static const char* s_AFFINE_3D_NV = "AFFINE_3D_NV";
 #endif
 #ifdef GL_ALIASED_LINE_WIDTH_RANGE
-    static const char s_ALIASED_LINE_WIDTH_RANGE[25] =
-      "ALIASED_LINE_WIDTH_RANGE";
+    static const char* s_ALIASED_LINE_WIDTH_RANGE = "ALIASED_LINE_WIDTH_RANGE";
 #endif
 #ifdef GL_ALL_BARRIER_BITS
-    static const char s_ALL_BARRIER_BITS[17] = "ALL_BARRIER_BITS";
+    static const char* s_ALL_BARRIER_BITS = "ALL_BARRIER_BITS";
 #endif
 #ifdef GL_ALL_SHADER_BITS
-    static const char s_ALL_SHADER_BITS[16] = "ALL_SHADER_BITS";
+    static const char* s_ALL_SHADER_BITS = "ALL_SHADER_BITS";
 #endif
 #ifdef GL_ALPHA
-    static const char s_ALPHA[6] = "ALPHA";
+    static const char* s_ALPHA = "ALPHA";
 #endif
 #ifdef GL_ALPHA_BIAS
-    static const char s_ALPHA_BIAS[11] = "ALPHA_BIAS";
+    static const char* s_ALPHA_BIAS = "ALPHA_BIAS";
 #endif
 #ifdef GL_ALPHA_REF_COMMAND_NV
-    static const char s_ALPHA_REF_COMMAND_NV[21] = "ALPHA_REF_COMMAND_NV";
+    static const char* s_ALPHA_REF_COMMAND_NV = "ALPHA_REF_COMMAND_NV";
 #endif
 #ifdef GL_ALPHA_SCALE
-    static const char s_ALPHA_SCALE[12] = "ALPHA_SCALE";
+    static const char* s_ALPHA_SCALE = "ALPHA_SCALE";
 #endif
 #ifdef GL_ALREADY_SIGNALED
-    static const char s_ALREADY_SIGNALED[17] = "ALREADY_SIGNALED";
+    static const char* s_ALREADY_SIGNALED = "ALREADY_SIGNALED";
 #endif
 #ifdef GL_ALWAYS
-    static const char s_ALWAYS[7] = "ALWAYS";
+    static const char* s_ALWAYS = "ALWAYS";
 #endif
 #ifdef GL_AND
-    static const char s_AND[4] = "AND";
+    static const char* s_AND = "AND";
 #endif
 #ifdef GL_AND_INVERTED
-    static const char s_AND_INVERTED[13] = "AND_INVERTED";
+    static const char* s_AND_INVERTED = "AND_INVERTED";
 #endif
 #ifdef GL_AND_REVERSE
-    static const char s_AND_REVERSE[12] = "AND_REVERSE";
+    static const char* s_AND_REVERSE = "AND_REVERSE";
 #endif
 #ifdef GL_ANY_SAMPLES_PASSED
-    static const char s_ANY_SAMPLES_PASSED[19] = "ANY_SAMPLES_PASSED";
+    static const char* s_ANY_SAMPLES_PASSED = "ANY_SAMPLES_PASSED";
 #endif
 #ifdef GL_ANY_SAMPLES_PASSED_CONSERVATIVE
-    static const char s_ANY_SAMPLES_PASSED_CONSERVATIVE[32] =
+    static const char* s_ANY_SAMPLES_PASSED_CONSERVATIVE =
       "ANY_SAMPLES_PASSED_CONSERVATIVE";
 #endif
 #ifdef GL_ARC_TO_NV
-    static const char s_ARC_TO_NV[10] = "ARC_TO_NV";
+    static const char* s_ARC_TO_NV = "ARC_TO_NV";
 #endif
 #ifdef GL_ARRAY_BUFFER
-    static const char s_ARRAY_BUFFER[13] = "ARRAY_BUFFER";
+    static const char* s_ARRAY_BUFFER = "ARRAY_BUFFER";
 #endif
 #ifdef GL_ARRAY_BUFFER_BINDING
-    static const char s_ARRAY_BUFFER_BINDING[21] = "ARRAY_BUFFER_BINDING";
+    static const char* s_ARRAY_BUFFER_BINDING = "ARRAY_BUFFER_BINDING";
 #endif
 #ifdef GL_ARRAY_SIZE
-    static const char s_ARRAY_SIZE[11] = "ARRAY_SIZE";
+    static const char* s_ARRAY_SIZE = "ARRAY_SIZE";
 #endif
 #ifdef GL_ARRAY_STRIDE
-    static const char s_ARRAY_STRIDE[13] = "ARRAY_STRIDE";
+    static const char* s_ARRAY_STRIDE = "ARRAY_STRIDE";
 #endif
 #ifdef GL_ATOMIC_COUNTER_BARRIER_BIT
-    static const char s_ATOMIC_COUNTER_BARRIER_BIT[27] =
+    static const char* s_ATOMIC_COUNTER_BARRIER_BIT =
       "ATOMIC_COUNTER_BARRIER_BIT";
 #endif
 #ifdef GL_ATOMIC_COUNTER_BUFFER
-    static const char s_ATOMIC_COUNTER_BUFFER[22] = "ATOMIC_COUNTER_BUFFER";
+    static const char* s_ATOMIC_COUNTER_BUFFER = "ATOMIC_COUNTER_BUFFER";
 #endif
 #ifdef GL_ATOMIC_COUNTER_BUFFER_BINDING
-    static const char s_ATOMIC_COUNTER_BUFFER_BINDING[30] =
+    static const char* s_ATOMIC_COUNTER_BUFFER_BINDING =
       "ATOMIC_COUNTER_BUFFER_BINDING";
 #endif
 #ifdef GL_ATOMIC_COUNTER_BUFFER_INDEX
-    static const char s_ATOMIC_COUNTER_BUFFER_INDEX[28] =
+    static const char* s_ATOMIC_COUNTER_BUFFER_INDEX =
       "ATOMIC_COUNTER_BUFFER_INDEX";
 #endif
 #ifdef GL_ATTACHED_SHADERS
-    static const char s_ATTACHED_SHADERS[17] = "ATTACHED_SHADERS";
+    static const char* s_ATTACHED_SHADERS = "ATTACHED_SHADERS";
 #endif
 #ifdef GL_ATTRIBUTE_ADDRESS_COMMAND_NV
-    static const char s_ATTRIBUTE_ADDRESS_COMMAND_NV[29] =
+    static const char* s_ATTRIBUTE_ADDRESS_COMMAND_NV =
       "ATTRIBUTE_ADDRESS_COMMAND_NV";
 #endif
 #ifdef GL_AUTO_GENERATE_MIPMAP
-    static const char s_AUTO_GENERATE_MIPMAP[21] = "AUTO_GENERATE_MIPMAP";
+    static const char* s_AUTO_GENERATE_MIPMAP = "AUTO_GENERATE_MIPMAP";
 #endif
 #ifdef GL_BACK
-    static const char s_BACK[5] = "BACK";
+    static const char* s_BACK = "BACK";
 #endif
 #ifdef GL_BACK_LEFT
-    static const char s_BACK_LEFT[10] = "BACK_LEFT";
+    static const char* s_BACK_LEFT = "BACK_LEFT";
 #endif
 #ifdef GL_BACK_RIGHT
-    static const char s_BACK_RIGHT[11] = "BACK_RIGHT";
+    static const char* s_BACK_RIGHT = "BACK_RIGHT";
 #endif
 #ifdef GL_BEVEL_NV
-    static const char s_BEVEL_NV[9] = "BEVEL_NV";
+    static const char* s_BEVEL_NV = "BEVEL_NV";
 #endif
 #ifdef GL_BGR
-    static const char s_BGR[4] = "BGR";
+    static const char* s_BGR = "BGR";
 #endif
 #ifdef GL_BGRA
-    static const char s_BGRA[5] = "BGRA";
+    static const char* s_BGRA = "BGRA";
 #endif
 #ifdef GL_BGRA_INTEGER
-    static const char s_BGRA_INTEGER[13] = "BGRA_INTEGER";
+    static const char* s_BGRA_INTEGER = "BGRA_INTEGER";
 #endif
 #ifdef GL_BGR_INTEGER
-    static const char s_BGR_INTEGER[12] = "BGR_INTEGER";
+    static const char* s_BGR_INTEGER = "BGR_INTEGER";
 #endif
 #ifdef GL_BLEND
-    static const char s_BLEND[6] = "BLEND";
+    static const char* s_BLEND = "BLEND";
 #endif
 #ifdef GL_BLEND_ADVANCED_COHERENT_KHR
-    static const char s_BLEND_ADVANCED_COHERENT_KHR[28] =
+    static const char* s_BLEND_ADVANCED_COHERENT_KHR =
       "BLEND_ADVANCED_COHERENT_KHR";
 #endif
 #ifdef GL_BLEND_COLOR
-    static const char s_BLEND_COLOR[12] = "BLEND_COLOR";
+    static const char* s_BLEND_COLOR = "BLEND_COLOR";
 #endif
 #ifdef GL_BLEND_COLOR_COMMAND_NV
-    static const char s_BLEND_COLOR_COMMAND_NV[23] = "BLEND_COLOR_COMMAND_NV";
+    static const char* s_BLEND_COLOR_COMMAND_NV = "BLEND_COLOR_COMMAND_NV";
 #endif
 #ifdef GL_BLEND_DST_ALPHA
-    static const char s_BLEND_DST_ALPHA[16] = "BLEND_DST_ALPHA";
+    static const char* s_BLEND_DST_ALPHA = "BLEND_DST_ALPHA";
 #endif
 #ifdef GL_BLEND_DST_RGB
-    static const char s_BLEND_DST_RGB[14] = "BLEND_DST_RGB";
+    static const char* s_BLEND_DST_RGB = "BLEND_DST_RGB";
 #endif
 #ifdef GL_BLEND_EQUATION_ALPHA
-    static const char s_BLEND_EQUATION_ALPHA[21] = "BLEND_EQUATION_ALPHA";
+    static const char* s_BLEND_EQUATION_ALPHA = "BLEND_EQUATION_ALPHA";
 #endif
 #ifdef GL_BLEND_EQUATION_RGB
-    static const char s_BLEND_EQUATION_RGB[19] = "BLEND_EQUATION_RGB";
+    static const char* s_BLEND_EQUATION_RGB = "BLEND_EQUATION_RGB";
 #endif
 #ifdef GL_BLEND_SRC_ALPHA
-    static const char s_BLEND_SRC_ALPHA[16] = "BLEND_SRC_ALPHA";
+    static const char* s_BLEND_SRC_ALPHA = "BLEND_SRC_ALPHA";
 #endif
 #ifdef GL_BLEND_SRC_RGB
-    static const char s_BLEND_SRC_RGB[14] = "BLEND_SRC_RGB";
+    static const char* s_BLEND_SRC_RGB = "BLEND_SRC_RGB";
 #endif
 #ifdef GL_BLOCK_INDEX
-    static const char s_BLOCK_INDEX[12] = "BLOCK_INDEX";
+    static const char* s_BLOCK_INDEX = "BLOCK_INDEX";
 #endif
 #ifdef GL_BLUE
-    static const char s_BLUE[5] = "BLUE";
+    static const char* s_BLUE = "BLUE";
 #endif
 #ifdef GL_BLUE_BIAS
-    static const char s_BLUE_BIAS[10] = "BLUE_BIAS";
+    static const char* s_BLUE_BIAS = "BLUE_BIAS";
 #endif
 #ifdef GL_BLUE_INTEGER
-    static const char s_BLUE_INTEGER[13] = "BLUE_INTEGER";
+    static const char* s_BLUE_INTEGER = "BLUE_INTEGER";
 #endif
 #ifdef GL_BLUE_SCALE
-    static const char s_BLUE_SCALE[11] = "BLUE_SCALE";
+    static const char* s_BLUE_SCALE = "BLUE_SCALE";
 #endif
 #ifdef GL_BOLD_BIT_NV
-    static const char s_BOLD_BIT_NV[12] = "BOLD_BIT_NV";
+    static const char* s_BOLD_BIT_NV = "BOLD_BIT_NV";
 #endif
 #ifdef GL_BOOL
-    static const char s_BOOL[5] = "BOOL";
+    static const char* s_BOOL = "BOOL";
 #endif
 #ifdef GL_BOOL_VEC2
-    static const char s_BOOL_VEC2[10] = "BOOL_VEC2";
+    static const char* s_BOOL_VEC2 = "BOOL_VEC2";
 #endif
 #ifdef GL_BOOL_VEC3
-    static const char s_BOOL_VEC3[10] = "BOOL_VEC3";
+    static const char* s_BOOL_VEC3 = "BOOL_VEC3";
 #endif
 #ifdef GL_BOOL_VEC4
-    static const char s_BOOL_VEC4[10] = "BOOL_VEC4";
+    static const char* s_BOOL_VEC4 = "BOOL_VEC4";
 #endif
 #ifdef GL_BOUNDING_BOX_NV
-    static const char s_BOUNDING_BOX_NV[16] = "BOUNDING_BOX_NV";
+    static const char* s_BOUNDING_BOX_NV = "BOUNDING_BOX_NV";
 #endif
 #ifdef GL_BOUNDING_BOX_OF_BOUNDING_BOXES_NV
-    static const char s_BOUNDING_BOX_OF_BOUNDING_BOXES_NV[34] =
+    static const char* s_BOUNDING_BOX_OF_BOUNDING_BOXES_NV =
       "BOUNDING_BOX_OF_BOUNDING_BOXES_NV";
 #endif
 #ifdef GL_BUFFER
-    static const char s_BUFFER[7] = "BUFFER";
+    static const char* s_BUFFER = "BUFFER";
 #endif
 #ifdef GL_BUFFER_ACCESS
-    static const char s_BUFFER_ACCESS[14] = "BUFFER_ACCESS";
+    static const char* s_BUFFER_ACCESS = "BUFFER_ACCESS";
 #endif
 #ifdef GL_BUFFER_ACCESS_FLAGS
-    static const char s_BUFFER_ACCESS_FLAGS[20] = "BUFFER_ACCESS_FLAGS";
+    static const char* s_BUFFER_ACCESS_FLAGS = "BUFFER_ACCESS_FLAGS";
 #endif
 #ifdef GL_BUFFER_BINDING
-    static const char s_BUFFER_BINDING[15] = "BUFFER_BINDING";
+    static const char* s_BUFFER_BINDING = "BUFFER_BINDING";
 #endif
 #ifdef GL_BUFFER_DATA_SIZE
-    static const char s_BUFFER_DATA_SIZE[17] = "BUFFER_DATA_SIZE";
+    static const char* s_BUFFER_DATA_SIZE = "BUFFER_DATA_SIZE";
 #endif
 #ifdef GL_BUFFER_IMMUTABLE_STORAGE
-    static const char s_BUFFER_IMMUTABLE_STORAGE[25] =
-      "BUFFER_IMMUTABLE_STORAGE";
+    static const char* s_BUFFER_IMMUTABLE_STORAGE = "BUFFER_IMMUTABLE_STORAGE";
 #endif
 #ifdef GL_BUFFER_MAPPED
-    static const char s_BUFFER_MAPPED[14] = "BUFFER_MAPPED";
+    static const char* s_BUFFER_MAPPED = "BUFFER_MAPPED";
 #endif
 #ifdef GL_BUFFER_MAP_LENGTH
-    static const char s_BUFFER_MAP_LENGTH[18] = "BUFFER_MAP_LENGTH";
+    static const char* s_BUFFER_MAP_LENGTH = "BUFFER_MAP_LENGTH";
 #endif
 #ifdef GL_BUFFER_MAP_OFFSET
-    static const char s_BUFFER_MAP_OFFSET[18] = "BUFFER_MAP_OFFSET";
+    static const char* s_BUFFER_MAP_OFFSET = "BUFFER_MAP_OFFSET";
 #endif
 #ifdef GL_BUFFER_SIZE
-    static const char s_BUFFER_SIZE[12] = "BUFFER_SIZE";
+    static const char* s_BUFFER_SIZE = "BUFFER_SIZE";
 #endif
 #ifdef GL_BUFFER_STORAGE_FLAGS
-    static const char s_BUFFER_STORAGE_FLAGS[21] = "BUFFER_STORAGE_FLAGS";
+    static const char* s_BUFFER_STORAGE_FLAGS = "BUFFER_STORAGE_FLAGS";
 #endif
 #ifdef GL_BUFFER_UPDATE_BARRIER_BIT
-    static const char s_BUFFER_UPDATE_BARRIER_BIT[26] =
+    static const char* s_BUFFER_UPDATE_BARRIER_BIT =
       "BUFFER_UPDATE_BARRIER_BIT";
 #endif
 #ifdef GL_BUFFER_USAGE
-    static const char s_BUFFER_USAGE[13] = "BUFFER_USAGE";
+    static const char* s_BUFFER_USAGE = "BUFFER_USAGE";
 #endif
 #ifdef GL_BUFFER_VARIABLE
-    static const char s_BUFFER_VARIABLE[16] = "BUFFER_VARIABLE";
+    static const char* s_BUFFER_VARIABLE = "BUFFER_VARIABLE";
 #endif
 #ifdef GL_BYTE
-    static const char s_BYTE[5] = "BYTE";
+    static const char* s_BYTE = "BYTE";
 #endif
 #ifdef GL_CAVEAT_SUPPORT
-    static const char s_CAVEAT_SUPPORT[15] = "CAVEAT_SUPPORT";
+    static const char* s_CAVEAT_SUPPORT = "CAVEAT_SUPPORT";
 #endif
 #ifdef GL_CCW
-    static const char s_CCW[4] = "CCW";
+    static const char* s_CCW = "CCW";
 #endif
 #ifdef GL_CIRCULAR_CCW_ARC_TO_NV
-    static const char s_CIRCULAR_CCW_ARC_TO_NV[23] = "CIRCULAR_CCW_ARC_TO_NV";
+    static const char* s_CIRCULAR_CCW_ARC_TO_NV = "CIRCULAR_CCW_ARC_TO_NV";
 #endif
 #ifdef GL_CIRCULAR_CW_ARC_TO_NV
-    static const char s_CIRCULAR_CW_ARC_TO_NV[22] = "CIRCULAR_CW_ARC_TO_NV";
+    static const char* s_CIRCULAR_CW_ARC_TO_NV = "CIRCULAR_CW_ARC_TO_NV";
 #endif
 #ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
-    static const char s_CIRCULAR_TANGENT_ARC_TO_NV[27] =
+    static const char* s_CIRCULAR_TANGENT_ARC_TO_NV =
       "CIRCULAR_TANGENT_ARC_TO_NV";
 #endif
 #ifdef GL_CLAMP_READ_COLOR
-    static const char s_CLAMP_READ_COLOR[17] = "CLAMP_READ_COLOR";
+    static const char* s_CLAMP_READ_COLOR = "CLAMP_READ_COLOR";
 #endif
 #ifdef GL_CLAMP_TO_BORDER
-    static const char s_CLAMP_TO_BORDER[16] = "CLAMP_TO_BORDER";
+    static const char* s_CLAMP_TO_BORDER = "CLAMP_TO_BORDER";
 #endif
 #ifdef GL_CLAMP_TO_EDGE
-    static const char s_CLAMP_TO_EDGE[14] = "CLAMP_TO_EDGE";
+    static const char* s_CLAMP_TO_EDGE = "CLAMP_TO_EDGE";
 #endif
 #ifdef GL_CLEAR
-    static const char s_CLEAR[6] = "CLEAR";
+    static const char* s_CLEAR = "CLEAR";
 #endif
 #ifdef GL_CLEAR_BUFFER
-    static const char s_CLEAR_BUFFER[13] = "CLEAR_BUFFER";
+    static const char* s_CLEAR_BUFFER = "CLEAR_BUFFER";
 #endif
 #ifdef GL_CLEAR_TEXTURE
-    static const char s_CLEAR_TEXTURE[14] = "CLEAR_TEXTURE";
+    static const char* s_CLEAR_TEXTURE = "CLEAR_TEXTURE";
 #endif
 #ifdef GL_CLIENT_MAPPED_BUFFER_BARRIER_BIT
-    static const char s_CLIENT_MAPPED_BUFFER_BARRIER_BIT[33] =
+    static const char* s_CLIENT_MAPPED_BUFFER_BARRIER_BIT =
       "CLIENT_MAPPED_BUFFER_BARRIER_BIT";
 #endif
 #ifdef GL_CLIENT_STORAGE_BIT
-    static const char s_CLIENT_STORAGE_BIT[19] = "CLIENT_STORAGE_BIT";
+    static const char* s_CLIENT_STORAGE_BIT = "CLIENT_STORAGE_BIT";
 #endif
 #ifdef GL_CLIPPING_INPUT_PRIMITIVES_ARB
-    static const char s_CLIPPING_INPUT_PRIMITIVES_ARB[30] =
+    static const char* s_CLIPPING_INPUT_PRIMITIVES_ARB =
       "CLIPPING_INPUT_PRIMITIVES_ARB";
 #endif
 #ifdef GL_CLIPPING_OUTPUT_PRIMITIVES_ARB
-    static const char s_CLIPPING_OUTPUT_PRIMITIVES_ARB[31] =
+    static const char* s_CLIPPING_OUTPUT_PRIMITIVES_ARB =
       "CLIPPING_OUTPUT_PRIMITIVES_ARB";
 #endif
 #ifdef GL_CLIP_DISTANCE0
-    static const char s_CLIP_DISTANCE0[15] = "CLIP_DISTANCE0";
+    static const char* s_CLIP_DISTANCE0 = "CLIP_DISTANCE0";
 #endif
 #ifdef GL_CLOSE_PATH_NV
-    static const char s_CLOSE_PATH_NV[14] = "CLOSE_PATH_NV";
+    static const char* s_CLOSE_PATH_NV = "CLOSE_PATH_NV";
 #endif
 #ifdef GL_COLOR
-    static const char s_COLOR[6] = "COLOR";
+    static const char* s_COLOR = "COLOR";
 #endif
 #ifdef GL_COLORBURN_KHR
-    static const char s_COLORBURN_KHR[14] = "COLORBURN_KHR";
+    static const char* s_COLORBURN_KHR = "COLORBURN_KHR";
 #endif
 #ifdef GL_COLORDODGE_KHR
-    static const char s_COLORDODGE_KHR[15] = "COLORDODGE_KHR";
+    static const char* s_COLORDODGE_KHR = "COLORDODGE_KHR";
 #endif
 #ifdef GL_COLOR_ARRAY
-    static const char s_COLOR_ARRAY[12] = "COLOR_ARRAY";
+    static const char* s_COLOR_ARRAY = "COLOR_ARRAY";
 #endif
 #ifdef GL_COLOR_ARRAY_ADDRESS_NV
-    static const char s_COLOR_ARRAY_ADDRESS_NV[23] = "COLOR_ARRAY_ADDRESS_NV";
+    static const char* s_COLOR_ARRAY_ADDRESS_NV = "COLOR_ARRAY_ADDRESS_NV";
 #endif
 #ifdef GL_COLOR_ATTACHMENT0
-    static const char s_COLOR_ATTACHMENT0[18] = "COLOR_ATTACHMENT0";
+    static const char* s_COLOR_ATTACHMENT0 = "COLOR_ATTACHMENT0";
 #endif
 #ifdef GL_COLOR_BUFFER_BIT
-    static const char s_COLOR_BUFFER_BIT[17] = "COLOR_BUFFER_BIT";
+    static const char* s_COLOR_BUFFER_BIT = "COLOR_BUFFER_BIT";
 #endif
 #ifdef GL_COLOR_CLEAR_VALUE
-    static const char s_COLOR_CLEAR_VALUE[18] = "COLOR_CLEAR_VALUE";
+    static const char* s_COLOR_CLEAR_VALUE = "COLOR_CLEAR_VALUE";
 #endif
 #ifdef GL_COLOR_COMPONENTS
-    static const char s_COLOR_COMPONENTS[17] = "COLOR_COMPONENTS";
+    static const char* s_COLOR_COMPONENTS = "COLOR_COMPONENTS";
 #endif
 #ifdef GL_COLOR_ENCODING
-    static const char s_COLOR_ENCODING[15] = "COLOR_ENCODING";
+    static const char* s_COLOR_ENCODING = "COLOR_ENCODING";
 #endif
 #ifdef GL_COLOR_LOGIC_OP
-    static const char s_COLOR_LOGIC_OP[15] = "COLOR_LOGIC_OP";
+    static const char* s_COLOR_LOGIC_OP = "COLOR_LOGIC_OP";
 #endif
 #ifdef GL_COLOR_RENDERABLE
-    static const char s_COLOR_RENDERABLE[17] = "COLOR_RENDERABLE";
+    static const char* s_COLOR_RENDERABLE = "COLOR_RENDERABLE";
 #endif
 #ifdef GL_COLOR_WRITEMASK
-    static const char s_COLOR_WRITEMASK[16] = "COLOR_WRITEMASK";
+    static const char* s_COLOR_WRITEMASK = "COLOR_WRITEMASK";
 #endif
 #ifdef GL_COMMAND_BARRIER_BIT
-    static const char s_COMMAND_BARRIER_BIT[20] = "COMMAND_BARRIER_BIT";
+    static const char* s_COMMAND_BARRIER_BIT = "COMMAND_BARRIER_BIT";
 #endif
 #ifdef GL_COMPARE_REF_TO_TEXTURE
-    static const char s_COMPARE_REF_TO_TEXTURE[23] = "COMPARE_REF_TO_TEXTURE";
+    static const char* s_COMPARE_REF_TO_TEXTURE = "COMPARE_REF_TO_TEXTURE";
 #endif
 #ifdef GL_COMPATIBLE_SUBROUTINES
-    static const char s_COMPATIBLE_SUBROUTINES[23] = "COMPATIBLE_SUBROUTINES";
+    static const char* s_COMPATIBLE_SUBROUTINES = "COMPATIBLE_SUBROUTINES";
 #endif
 #ifdef GL_COMPILE_STATUS
-    static const char s_COMPILE_STATUS[15] = "COMPILE_STATUS";
+    static const char* s_COMPILE_STATUS = "COMPILE_STATUS";
 #endif
 #ifdef GL_COMPRESSED_R11_EAC
-    static const char s_COMPRESSED_R11_EAC[19] = "COMPRESSED_R11_EAC";
+    static const char* s_COMPRESSED_R11_EAC = "COMPRESSED_R11_EAC";
 #endif
 #ifdef GL_COMPRESSED_RED
-    static const char s_COMPRESSED_RED[15] = "COMPRESSED_RED";
+    static const char* s_COMPRESSED_RED = "COMPRESSED_RED";
 #endif
 #ifdef GL_COMPRESSED_RED_RGTC1
-    static const char s_COMPRESSED_RED_RGTC1[21] = "COMPRESSED_RED_RGTC1";
+    static const char* s_COMPRESSED_RED_RGTC1 = "COMPRESSED_RED_RGTC1";
 #endif
 #ifdef GL_COMPRESSED_RG
-    static const char s_COMPRESSED_RG[14] = "COMPRESSED_RG";
+    static const char* s_COMPRESSED_RG = "COMPRESSED_RG";
 #endif
 #ifdef GL_COMPRESSED_RG11_EAC
-    static const char s_COMPRESSED_RG11_EAC[20] = "COMPRESSED_RG11_EAC";
+    static const char* s_COMPRESSED_RG11_EAC = "COMPRESSED_RG11_EAC";
 #endif
 #ifdef GL_COMPRESSED_RGB
-    static const char s_COMPRESSED_RGB[15] = "COMPRESSED_RGB";
+    static const char* s_COMPRESSED_RGB = "COMPRESSED_RGB";
 #endif
 #ifdef GL_COMPRESSED_RGB8_ETC2
-    static const char s_COMPRESSED_RGB8_ETC2[21] = "COMPRESSED_RGB8_ETC2";
+    static const char* s_COMPRESSED_RGB8_ETC2 = "COMPRESSED_RGB8_ETC2";
 #endif
 #ifdef GL_COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2
-    static const char s_COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2[41] =
+    static const char* s_COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2 =
       "COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2";
 #endif
 #ifdef GL_COMPRESSED_RGBA
-    static const char s_COMPRESSED_RGBA[16] = "COMPRESSED_RGBA";
+    static const char* s_COMPRESSED_RGBA = "COMPRESSED_RGBA";
 #endif
 #ifdef GL_COMPRESSED_RGBA8_ETC2_EAC
-    static const char s_COMPRESSED_RGBA8_ETC2_EAC[26] =
+    static const char* s_COMPRESSED_RGBA8_ETC2_EAC =
       "COMPRESSED_RGBA8_ETC2_EAC";
 #endif
 #ifdef GL_COMPRESSED_RGBA_BPTC_UNORM
-    static const char s_COMPRESSED_RGBA_BPTC_UNORM[27] =
+    static const char* s_COMPRESSED_RGBA_BPTC_UNORM =
       "COMPRESSED_RGBA_BPTC_UNORM";
 #endif
 #ifdef GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT
-    static const char s_COMPRESSED_RGB_BPTC_SIGNED_FLOAT[33] =
+    static const char* s_COMPRESSED_RGB_BPTC_SIGNED_FLOAT =
       "COMPRESSED_RGB_BPTC_SIGNED_FLOAT";
 #endif
 #ifdef GL_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT
-    static const char s_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT[35] =
+    static const char* s_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT =
       "COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT";
 #endif
 #ifdef GL_COMPRESSED_RG_RGTC2
-    static const char s_COMPRESSED_RG_RGTC2[20] = "COMPRESSED_RG_RGTC2";
+    static const char* s_COMPRESSED_RG_RGTC2 = "COMPRESSED_RG_RGTC2";
 #endif
 #ifdef GL_COMPRESSED_SIGNED_R11_EAC
-    static const char s_COMPRESSED_SIGNED_R11_EAC[26] =
+    static const char* s_COMPRESSED_SIGNED_R11_EAC =
       "COMPRESSED_SIGNED_R11_EAC";
 #endif
 #ifdef GL_COMPRESSED_SIGNED_RED_RGTC1
-    static const char s_COMPRESSED_SIGNED_RED_RGTC1[28] =
+    static const char* s_COMPRESSED_SIGNED_RED_RGTC1 =
       "COMPRESSED_SIGNED_RED_RGTC1";
 #endif
 #ifdef GL_COMPRESSED_SIGNED_RG11_EAC
-    static const char s_COMPRESSED_SIGNED_RG11_EAC[27] =
+    static const char* s_COMPRESSED_SIGNED_RG11_EAC =
       "COMPRESSED_SIGNED_RG11_EAC";
 #endif
 #ifdef GL_COMPRESSED_SIGNED_RG_RGTC2
-    static const char s_COMPRESSED_SIGNED_RG_RGTC2[27] =
+    static const char* s_COMPRESSED_SIGNED_RG_RGTC2 =
       "COMPRESSED_SIGNED_RG_RGTC2";
 #endif
 #ifdef GL_COMPRESSED_SRGB
-    static const char s_COMPRESSED_SRGB[16] = "COMPRESSED_SRGB";
+    static const char* s_COMPRESSED_SRGB = "COMPRESSED_SRGB";
 #endif
 #ifdef GL_COMPRESSED_SRGB8_ALPHA8_ETC2_EAC
-    static const char s_COMPRESSED_SRGB8_ALPHA8_ETC2_EAC[33] =
+    static const char* s_COMPRESSED_SRGB8_ALPHA8_ETC2_EAC =
       "COMPRESSED_SRGB8_ALPHA8_ETC2_EAC";
 #endif
 #ifdef GL_COMPRESSED_SRGB8_ETC2
-    static const char s_COMPRESSED_SRGB8_ETC2[22] = "COMPRESSED_SRGB8_ETC2";
+    static const char* s_COMPRESSED_SRGB8_ETC2 = "COMPRESSED_SRGB8_ETC2";
 #endif
 #ifdef GL_COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2
-    static const char s_COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2[42] =
+    static const char* s_COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2 =
       "COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2";
 #endif
 #ifdef GL_COMPRESSED_SRGB_ALPHA
-    static const char s_COMPRESSED_SRGB_ALPHA[22] = "COMPRESSED_SRGB_ALPHA";
+    static const char* s_COMPRESSED_SRGB_ALPHA = "COMPRESSED_SRGB_ALPHA";
 #endif
 #ifdef GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM
-    static const char s_COMPRESSED_SRGB_ALPHA_BPTC_UNORM[33] =
+    static const char* s_COMPRESSED_SRGB_ALPHA_BPTC_UNORM =
       "COMPRESSED_SRGB_ALPHA_BPTC_UNORM";
 #endif
 #ifdef GL_COMPRESSED_TEXTURE_FORMATS
-    static const char s_COMPRESSED_TEXTURE_FORMATS[27] =
+    static const char* s_COMPRESSED_TEXTURE_FORMATS =
       "COMPRESSED_TEXTURE_FORMATS";
 #endif
 #ifdef GL_COMPUTE_SHADER
-    static const char s_COMPUTE_SHADER[15] = "COMPUTE_SHADER";
+    static const char* s_COMPUTE_SHADER = "COMPUTE_SHADER";
 #endif
 #ifdef GL_COMPUTE_SHADER_BIT
-    static const char s_COMPUTE_SHADER_BIT[19] = "COMPUTE_SHADER_BIT";
+    static const char* s_COMPUTE_SHADER_BIT = "COMPUTE_SHADER_BIT";
 #endif
 #ifdef GL_COMPUTE_SHADER_INVOCATIONS_ARB
-    static const char s_COMPUTE_SHADER_INVOCATIONS_ARB[31] =
+    static const char* s_COMPUTE_SHADER_INVOCATIONS_ARB =
       "COMPUTE_SHADER_INVOCATIONS_ARB";
 #endif
 #ifdef GL_COMPUTE_SUBROUTINE
-    static const char s_COMPUTE_SUBROUTINE[19] = "COMPUTE_SUBROUTINE";
+    static const char* s_COMPUTE_SUBROUTINE = "COMPUTE_SUBROUTINE";
 #endif
 #ifdef GL_COMPUTE_SUBROUTINE_UNIFORM
-    static const char s_COMPUTE_SUBROUTINE_UNIFORM[27] =
+    static const char* s_COMPUTE_SUBROUTINE_UNIFORM =
       "COMPUTE_SUBROUTINE_UNIFORM";
 #endif
 #ifdef GL_COMPUTE_TEXTURE
-    static const char s_COMPUTE_TEXTURE[16] = "COMPUTE_TEXTURE";
+    static const char* s_COMPUTE_TEXTURE = "COMPUTE_TEXTURE";
 #endif
 #ifdef GL_COMPUTE_WORK_GROUP_SIZE
-    static const char s_COMPUTE_WORK_GROUP_SIZE[24] = "COMPUTE_WORK_GROUP_SIZE";
+    static const char* s_COMPUTE_WORK_GROUP_SIZE = "COMPUTE_WORK_GROUP_SIZE";
 #endif
 #ifdef GL_CONDITION_SATISFIED
-    static const char s_CONDITION_SATISFIED[20] = "CONDITION_SATISFIED";
+    static const char* s_CONDITION_SATISFIED = "CONDITION_SATISFIED";
 #endif
 #ifdef GL_CONSTANT_ALPHA
-    static const char s_CONSTANT_ALPHA[15] = "CONSTANT_ALPHA";
+    static const char* s_CONSTANT_ALPHA = "CONSTANT_ALPHA";
 #endif
 #ifdef GL_CONSTANT_COLOR
-    static const char s_CONSTANT_COLOR[15] = "CONSTANT_COLOR";
+    static const char* s_CONSTANT_COLOR = "CONSTANT_COLOR";
 #endif
 #ifdef GL_CONTEXT_COMPATIBILITY_PROFILE_BIT
-    static const char s_CONTEXT_COMPATIBILITY_PROFILE_BIT[34] =
+    static const char* s_CONTEXT_COMPATIBILITY_PROFILE_BIT =
       "CONTEXT_COMPATIBILITY_PROFILE_BIT";
 #endif
 #ifdef GL_CONTEXT_CORE_PROFILE_BIT
-    static const char s_CONTEXT_CORE_PROFILE_BIT[25] =
-      "CONTEXT_CORE_PROFILE_BIT";
+    static const char* s_CONTEXT_CORE_PROFILE_BIT = "CONTEXT_CORE_PROFILE_BIT";
 #endif
 #ifdef GL_CONTEXT_FLAGS
-    static const char s_CONTEXT_FLAGS[14] = "CONTEXT_FLAGS";
+    static const char* s_CONTEXT_FLAGS = "CONTEXT_FLAGS";
 #endif
 #ifdef GL_CONTEXT_FLAG_DEBUG_BIT
-    static const char s_CONTEXT_FLAG_DEBUG_BIT[23] = "CONTEXT_FLAG_DEBUG_BIT";
+    static const char* s_CONTEXT_FLAG_DEBUG_BIT = "CONTEXT_FLAG_DEBUG_BIT";
 #endif
 #ifdef GL_CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT
-    static const char s_CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT[36] =
+    static const char* s_CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT =
       "CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT";
 #endif
 #ifdef GL_CONTEXT_FLAG_ROBUST_ACCESS_BIT_ARB
-    static const char s_CONTEXT_FLAG_ROBUST_ACCESS_BIT_ARB[35] =
+    static const char* s_CONTEXT_FLAG_ROBUST_ACCESS_BIT_ARB =
       "CONTEXT_FLAG_ROBUST_ACCESS_BIT_ARB";
 #endif
 #ifdef GL_CONTEXT_LOST
-    static const char s_CONTEXT_LOST[13] = "CONTEXT_LOST";
+    static const char* s_CONTEXT_LOST = "CONTEXT_LOST";
 #endif
 #ifdef GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH
-    static const char s_CONTEXT_RELEASE_BEHAVIOR_FLUSH[31] =
+    static const char* s_CONTEXT_RELEASE_BEHAVIOR_FLUSH =
       "CONTEXT_RELEASE_BEHAVIOR_FLUSH";
 #endif
 #ifdef GL_CONVEX_HULL_NV
-    static const char s_CONVEX_HULL_NV[15] = "CONVEX_HULL_NV";
+    static const char* s_CONVEX_HULL_NV = "CONVEX_HULL_NV";
 #endif
 #ifdef GL_COPY
-    static const char s_COPY[5] = "COPY";
+    static const char* s_COPY = "COPY";
 #endif
 #ifdef GL_COPY_INVERTED
-    static const char s_COPY_INVERTED[14] = "COPY_INVERTED";
+    static const char* s_COPY_INVERTED = "COPY_INVERTED";
 #endif
 #ifdef GL_COPY_READ_BUFFER
-    static const char s_COPY_READ_BUFFER[17] = "COPY_READ_BUFFER";
+    static const char* s_COPY_READ_BUFFER = "COPY_READ_BUFFER";
 #endif
 #ifdef GL_COPY_READ_BUFFER_BINDING
-    static const char s_COPY_READ_BUFFER_BINDING[25] =
-      "COPY_READ_BUFFER_BINDING";
+    static const char* s_COPY_READ_BUFFER_BINDING = "COPY_READ_BUFFER_BINDING";
 #endif
 #ifdef GL_COPY_WRITE_BUFFER
-    static const char s_COPY_WRITE_BUFFER[18] = "COPY_WRITE_BUFFER";
+    static const char* s_COPY_WRITE_BUFFER = "COPY_WRITE_BUFFER";
 #endif
 #ifdef GL_COPY_WRITE_BUFFER_BINDING
-    static const char s_COPY_WRITE_BUFFER_BINDING[26] =
+    static const char* s_COPY_WRITE_BUFFER_BINDING =
       "COPY_WRITE_BUFFER_BINDING";
 #endif
 #ifdef GL_COUNT_DOWN_NV
-    static const char s_COUNT_DOWN_NV[14] = "COUNT_DOWN_NV";
+    static const char* s_COUNT_DOWN_NV = "COUNT_DOWN_NV";
 #endif
 #ifdef GL_COUNT_UP_NV
-    static const char s_COUNT_UP_NV[12] = "COUNT_UP_NV";
+    static const char* s_COUNT_UP_NV = "COUNT_UP_NV";
 #endif
 #ifdef GL_CUBIC_CURVE_TO_NV
-    static const char s_CUBIC_CURVE_TO_NV[18] = "CUBIC_CURVE_TO_NV";
+    static const char* s_CUBIC_CURVE_TO_NV = "CUBIC_CURVE_TO_NV";
 #endif
 #ifdef GL_CULL_FACE
-    static const char s_CULL_FACE[10] = "CULL_FACE";
+    static const char* s_CULL_FACE = "CULL_FACE";
 #endif
 #ifdef GL_CURRENT_PROGRAM
-    static const char s_CURRENT_PROGRAM[16] = "CURRENT_PROGRAM";
+    static const char* s_CURRENT_PROGRAM = "CURRENT_PROGRAM";
 #endif
 #ifdef GL_CW
-    static const char s_CW[3] = "CW";
+    static const char* s_CW = "CW";
 #endif
 #ifdef GL_DARKEN_KHR
-    static const char s_DARKEN_KHR[11] = "DARKEN_KHR";
+    static const char* s_DARKEN_KHR = "DARKEN_KHR";
 #endif
 #ifdef GL_DEBUG_GROUP_STACK_DEPTH
-    static const char s_DEBUG_GROUP_STACK_DEPTH[24] = "DEBUG_GROUP_STACK_DEPTH";
+    static const char* s_DEBUG_GROUP_STACK_DEPTH = "DEBUG_GROUP_STACK_DEPTH";
 #endif
 #ifdef GL_DEBUG_OUTPUT
-    static const char s_DEBUG_OUTPUT[13] = "DEBUG_OUTPUT";
+    static const char* s_DEBUG_OUTPUT = "DEBUG_OUTPUT";
 #endif
 #ifdef GL_DEBUG_OUTPUT_SYNCHRONOUS
-    static const char s_DEBUG_OUTPUT_SYNCHRONOUS[25] =
-      "DEBUG_OUTPUT_SYNCHRONOUS";
+    static const char* s_DEBUG_OUTPUT_SYNCHRONOUS = "DEBUG_OUTPUT_SYNCHRONOUS";
 #endif
 #ifdef GL_DEBUG_SEVERITY_HIGH
-    static const char s_DEBUG_SEVERITY_HIGH[20] = "DEBUG_SEVERITY_HIGH";
+    static const char* s_DEBUG_SEVERITY_HIGH = "DEBUG_SEVERITY_HIGH";
 #endif
 #ifdef GL_DEBUG_SEVERITY_LOW
-    static const char s_DEBUG_SEVERITY_LOW[19] = "DEBUG_SEVERITY_LOW";
+    static const char* s_DEBUG_SEVERITY_LOW = "DEBUG_SEVERITY_LOW";
 #endif
 #ifdef GL_DEBUG_SEVERITY_MEDIUM
-    static const char s_DEBUG_SEVERITY_MEDIUM[22] = "DEBUG_SEVERITY_MEDIUM";
+    static const char* s_DEBUG_SEVERITY_MEDIUM = "DEBUG_SEVERITY_MEDIUM";
 #endif
 #ifdef GL_DEBUG_SEVERITY_NOTIFICATION
-    static const char s_DEBUG_SEVERITY_NOTIFICATION[28] =
+    static const char* s_DEBUG_SEVERITY_NOTIFICATION =
       "DEBUG_SEVERITY_NOTIFICATION";
 #endif
 #ifdef GL_DEBUG_SOURCE_API
-    static const char s_DEBUG_SOURCE_API[17] = "DEBUG_SOURCE_API";
+    static const char* s_DEBUG_SOURCE_API = "DEBUG_SOURCE_API";
 #endif
 #ifdef GL_DEBUG_SOURCE_APPLICATION
-    static const char s_DEBUG_SOURCE_APPLICATION[25] =
-      "DEBUG_SOURCE_APPLICATION";
+    static const char* s_DEBUG_SOURCE_APPLICATION = "DEBUG_SOURCE_APPLICATION";
 #endif
 #ifdef GL_DEBUG_SOURCE_OTHER
-    static const char s_DEBUG_SOURCE_OTHER[19] = "DEBUG_SOURCE_OTHER";
+    static const char* s_DEBUG_SOURCE_OTHER = "DEBUG_SOURCE_OTHER";
 #endif
 #ifdef GL_DEBUG_SOURCE_SHADER_COMPILER
-    static const char s_DEBUG_SOURCE_SHADER_COMPILER[29] =
+    static const char* s_DEBUG_SOURCE_SHADER_COMPILER =
       "DEBUG_SOURCE_SHADER_COMPILER";
 #endif
 #ifdef GL_DEBUG_SOURCE_THIRD_PARTY
-    static const char s_DEBUG_SOURCE_THIRD_PARTY[25] =
-      "DEBUG_SOURCE_THIRD_PARTY";
+    static const char* s_DEBUG_SOURCE_THIRD_PARTY = "DEBUG_SOURCE_THIRD_PARTY";
 #endif
 #ifdef GL_DEBUG_SOURCE_WINDOW_SYSTEM
-    static const char s_DEBUG_SOURCE_WINDOW_SYSTEM[27] =
+    static const char* s_DEBUG_SOURCE_WINDOW_SYSTEM =
       "DEBUG_SOURCE_WINDOW_SYSTEM";
 #endif
 #ifdef GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR
-    static const char s_DEBUG_TYPE_DEPRECATED_BEHAVIOR[31] =
+    static const char* s_DEBUG_TYPE_DEPRECATED_BEHAVIOR =
       "DEBUG_TYPE_DEPRECATED_BEHAVIOR";
 #endif
 #ifdef GL_DEBUG_TYPE_ERROR
-    static const char s_DEBUG_TYPE_ERROR[17] = "DEBUG_TYPE_ERROR";
+    static const char* s_DEBUG_TYPE_ERROR = "DEBUG_TYPE_ERROR";
 #endif
 #ifdef GL_DEBUG_TYPE_MARKER
-    static const char s_DEBUG_TYPE_MARKER[18] = "DEBUG_TYPE_MARKER";
+    static const char* s_DEBUG_TYPE_MARKER = "DEBUG_TYPE_MARKER";
 #endif
 #ifdef GL_DEBUG_TYPE_OTHER
-    static const char s_DEBUG_TYPE_OTHER[17] = "DEBUG_TYPE_OTHER";
+    static const char* s_DEBUG_TYPE_OTHER = "DEBUG_TYPE_OTHER";
 #endif
 #ifdef GL_DEBUG_TYPE_PERFORMANCE
-    static const char s_DEBUG_TYPE_PERFORMANCE[23] = "DEBUG_TYPE_PERFORMANCE";
+    static const char* s_DEBUG_TYPE_PERFORMANCE = "DEBUG_TYPE_PERFORMANCE";
 #endif
 #ifdef GL_DEBUG_TYPE_POP_GROUP
-    static const char s_DEBUG_TYPE_POP_GROUP[21] = "DEBUG_TYPE_POP_GROUP";
+    static const char* s_DEBUG_TYPE_POP_GROUP = "DEBUG_TYPE_POP_GROUP";
 #endif
 #ifdef GL_DEBUG_TYPE_PORTABILITY
-    static const char s_DEBUG_TYPE_PORTABILITY[23] = "DEBUG_TYPE_PORTABILITY";
+    static const char* s_DEBUG_TYPE_PORTABILITY = "DEBUG_TYPE_PORTABILITY";
 #endif
 #ifdef GL_DEBUG_TYPE_PUSH_GROUP
-    static const char s_DEBUG_TYPE_PUSH_GROUP[22] = "DEBUG_TYPE_PUSH_GROUP";
+    static const char* s_DEBUG_TYPE_PUSH_GROUP = "DEBUG_TYPE_PUSH_GROUP";
 #endif
 #ifdef GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR
-    static const char s_DEBUG_TYPE_UNDEFINED_BEHAVIOR[30] =
+    static const char* s_DEBUG_TYPE_UNDEFINED_BEHAVIOR =
       "DEBUG_TYPE_UNDEFINED_BEHAVIOR";
 #endif
 #ifdef GL_DECR
-    static const char s_DECR[5] = "DECR";
+    static const char* s_DECR = "DECR";
 #endif
 #ifdef GL_DECR_WRAP
-    static const char s_DECR_WRAP[10] = "DECR_WRAP";
+    static const char* s_DECR_WRAP = "DECR_WRAP";
 #endif
 #ifdef GL_DELETE_STATUS
-    static const char s_DELETE_STATUS[14] = "DELETE_STATUS";
+    static const char* s_DELETE_STATUS = "DELETE_STATUS";
 #endif
 #ifdef GL_DEPTH
-    static const char s_DEPTH[6] = "DEPTH";
+    static const char* s_DEPTH = "DEPTH";
 #endif
 #ifdef GL_DEPTH24_STENCIL8
-    static const char s_DEPTH24_STENCIL8[17] = "DEPTH24_STENCIL8";
+    static const char* s_DEPTH24_STENCIL8 = "DEPTH24_STENCIL8";
 #endif
 #ifdef GL_DEPTH32F_STENCIL8
-    static const char s_DEPTH32F_STENCIL8[18] = "DEPTH32F_STENCIL8";
+    static const char* s_DEPTH32F_STENCIL8 = "DEPTH32F_STENCIL8";
 #endif
 #ifdef GL_DEPTH_ATTACHMENT
-    static const char s_DEPTH_ATTACHMENT[17] = "DEPTH_ATTACHMENT";
+    static const char* s_DEPTH_ATTACHMENT = "DEPTH_ATTACHMENT";
 #endif
 #ifdef GL_DEPTH_BIAS
-    static const char s_DEPTH_BIAS[11] = "DEPTH_BIAS";
+    static const char* s_DEPTH_BIAS = "DEPTH_BIAS";
 #endif
 #ifdef GL_DEPTH_BUFFER_BIT
-    static const char s_DEPTH_BUFFER_BIT[17] = "DEPTH_BUFFER_BIT";
+    static const char* s_DEPTH_BUFFER_BIT = "DEPTH_BUFFER_BIT";
 #endif
 #ifdef GL_DEPTH_CLEAR_VALUE
-    static const char s_DEPTH_CLEAR_VALUE[18] = "DEPTH_CLEAR_VALUE";
+    static const char* s_DEPTH_CLEAR_VALUE = "DEPTH_CLEAR_VALUE";
 #endif
 #ifdef GL_DEPTH_COMPONENT
-    static const char s_DEPTH_COMPONENT[16] = "DEPTH_COMPONENT";
+    static const char* s_DEPTH_COMPONENT = "DEPTH_COMPONENT";
 #endif
 #ifdef GL_DEPTH_COMPONENT16
-    static const char s_DEPTH_COMPONENT16[18] = "DEPTH_COMPONENT16";
+    static const char* s_DEPTH_COMPONENT16 = "DEPTH_COMPONENT16";
 #endif
 #ifdef GL_DEPTH_COMPONENT24
-    static const char s_DEPTH_COMPONENT24[18] = "DEPTH_COMPONENT24";
+    static const char* s_DEPTH_COMPONENT24 = "DEPTH_COMPONENT24";
 #endif
 #ifdef GL_DEPTH_COMPONENT32
-    static const char s_DEPTH_COMPONENT32[18] = "DEPTH_COMPONENT32";
+    static const char* s_DEPTH_COMPONENT32 = "DEPTH_COMPONENT32";
 #endif
 #ifdef GL_DEPTH_COMPONENT32F
-    static const char s_DEPTH_COMPONENT32F[19] = "DEPTH_COMPONENT32F";
+    static const char* s_DEPTH_COMPONENT32F = "DEPTH_COMPONENT32F";
 #endif
 #ifdef GL_DEPTH_COMPONENTS
-    static const char s_DEPTH_COMPONENTS[17] = "DEPTH_COMPONENTS";
+    static const char* s_DEPTH_COMPONENTS = "DEPTH_COMPONENTS";
 #endif
 #ifdef GL_DEPTH_FUNC
-    static const char s_DEPTH_FUNC[11] = "DEPTH_FUNC";
+    static const char* s_DEPTH_FUNC = "DEPTH_FUNC";
 #endif
 #ifdef GL_DEPTH_RANGE
-    static const char s_DEPTH_RANGE[12] = "DEPTH_RANGE";
+    static const char* s_DEPTH_RANGE = "DEPTH_RANGE";
 #endif
 #ifdef GL_DEPTH_RENDERABLE
-    static const char s_DEPTH_RENDERABLE[17] = "DEPTH_RENDERABLE";
+    static const char* s_DEPTH_RENDERABLE = "DEPTH_RENDERABLE";
 #endif
 #ifdef GL_DEPTH_SCALE
-    static const char s_DEPTH_SCALE[12] = "DEPTH_SCALE";
+    static const char* s_DEPTH_SCALE = "DEPTH_SCALE";
 #endif
 #ifdef GL_DEPTH_STENCIL
-    static const char s_DEPTH_STENCIL[14] = "DEPTH_STENCIL";
+    static const char* s_DEPTH_STENCIL = "DEPTH_STENCIL";
 #endif
 #ifdef GL_DEPTH_STENCIL_ATTACHMENT
-    static const char s_DEPTH_STENCIL_ATTACHMENT[25] =
-      "DEPTH_STENCIL_ATTACHMENT";
+    static const char* s_DEPTH_STENCIL_ATTACHMENT = "DEPTH_STENCIL_ATTACHMENT";
 #endif
 #ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
-    static const char s_DEPTH_STENCIL_TEXTURE_MODE[27] =
+    static const char* s_DEPTH_STENCIL_TEXTURE_MODE =
       "DEPTH_STENCIL_TEXTURE_MODE";
 #endif
 #ifdef GL_DEPTH_TEST
-    static const char s_DEPTH_TEST[11] = "DEPTH_TEST";
+    static const char* s_DEPTH_TEST = "DEPTH_TEST";
 #endif
 #ifdef GL_DEPTH_WRITEMASK
-    static const char s_DEPTH_WRITEMASK[16] = "DEPTH_WRITEMASK";
+    static const char* s_DEPTH_WRITEMASK = "DEPTH_WRITEMASK";
 #endif
 #ifdef GL_DIFFERENCE_KHR
-    static const char s_DIFFERENCE_KHR[15] = "DIFFERENCE_KHR";
+    static const char* s_DIFFERENCE_KHR = "DIFFERENCE_KHR";
 #endif
 #ifdef GL_DISPATCH_INDIRECT_BUFFER
-    static const char s_DISPATCH_INDIRECT_BUFFER[25] =
-      "DISPATCH_INDIRECT_BUFFER";
+    static const char* s_DISPATCH_INDIRECT_BUFFER = "DISPATCH_INDIRECT_BUFFER";
 #endif
 #ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
-    static const char s_DISPATCH_INDIRECT_BUFFER_BINDING[33] =
+    static const char* s_DISPATCH_INDIRECT_BUFFER_BINDING =
       "DISPATCH_INDIRECT_BUFFER_BINDING";
 #endif
 #ifdef GL_DITHER
-    static const char s_DITHER[7] = "DITHER";
+    static const char* s_DITHER = "DITHER";
 #endif
 #ifdef GL_DONT_CARE
-    static const char s_DONT_CARE[10] = "DONT_CARE";
+    static const char* s_DONT_CARE = "DONT_CARE";
 #endif
 #ifdef GL_DOUBLE
-    static const char s_DOUBLE[7] = "DOUBLE";
+    static const char* s_DOUBLE = "DOUBLE";
 #endif
 #ifdef GL_DOUBLEBUFFER
-    static const char s_DOUBLEBUFFER[13] = "DOUBLEBUFFER";
+    static const char* s_DOUBLEBUFFER = "DOUBLEBUFFER";
 #endif
 #ifdef GL_DOUBLE_MAT2
-    static const char s_DOUBLE_MAT2[12] = "DOUBLE_MAT2";
+    static const char* s_DOUBLE_MAT2 = "DOUBLE_MAT2";
 #endif
 #ifdef GL_DOUBLE_MAT2x3
-    static const char s_DOUBLE_MAT2x3[14] = "DOUBLE_MAT2x3";
+    static const char* s_DOUBLE_MAT2x3 = "DOUBLE_MAT2x3";
 #endif
 #ifdef GL_DOUBLE_MAT2x4
-    static const char s_DOUBLE_MAT2x4[14] = "DOUBLE_MAT2x4";
+    static const char* s_DOUBLE_MAT2x4 = "DOUBLE_MAT2x4";
 #endif
 #ifdef GL_DOUBLE_MAT3
-    static const char s_DOUBLE_MAT3[12] = "DOUBLE_MAT3";
+    static const char* s_DOUBLE_MAT3 = "DOUBLE_MAT3";
 #endif
 #ifdef GL_DOUBLE_MAT3x2
-    static const char s_DOUBLE_MAT3x2[14] = "DOUBLE_MAT3x2";
+    static const char* s_DOUBLE_MAT3x2 = "DOUBLE_MAT3x2";
 #endif
 #ifdef GL_DOUBLE_MAT3x4
-    static const char s_DOUBLE_MAT3x4[14] = "DOUBLE_MAT3x4";
+    static const char* s_DOUBLE_MAT3x4 = "DOUBLE_MAT3x4";
 #endif
 #ifdef GL_DOUBLE_MAT4
-    static const char s_DOUBLE_MAT4[12] = "DOUBLE_MAT4";
+    static const char* s_DOUBLE_MAT4 = "DOUBLE_MAT4";
 #endif
 #ifdef GL_DOUBLE_MAT4x2
-    static const char s_DOUBLE_MAT4x2[14] = "DOUBLE_MAT4x2";
+    static const char* s_DOUBLE_MAT4x2 = "DOUBLE_MAT4x2";
 #endif
 #ifdef GL_DOUBLE_MAT4x3
-    static const char s_DOUBLE_MAT4x3[14] = "DOUBLE_MAT4x3";
+    static const char* s_DOUBLE_MAT4x3 = "DOUBLE_MAT4x3";
 #endif
 #ifdef GL_DOUBLE_VEC2
-    static const char s_DOUBLE_VEC2[12] = "DOUBLE_VEC2";
+    static const char* s_DOUBLE_VEC2 = "DOUBLE_VEC2";
 #endif
 #ifdef GL_DOUBLE_VEC3
-    static const char s_DOUBLE_VEC3[12] = "DOUBLE_VEC3";
+    static const char* s_DOUBLE_VEC3 = "DOUBLE_VEC3";
 #endif
 #ifdef GL_DOUBLE_VEC4
-    static const char s_DOUBLE_VEC4[12] = "DOUBLE_VEC4";
+    static const char* s_DOUBLE_VEC4 = "DOUBLE_VEC4";
 #endif
 #ifdef GL_DRAW_ARRAYS_COMMAND_NV
-    static const char s_DRAW_ARRAYS_COMMAND_NV[23] = "DRAW_ARRAYS_COMMAND_NV";
+    static const char* s_DRAW_ARRAYS_COMMAND_NV = "DRAW_ARRAYS_COMMAND_NV";
 #endif
 #ifdef GL_DRAW_ARRAYS_INSTANCED_COMMAND_NV
-    static const char s_DRAW_ARRAYS_INSTANCED_COMMAND_NV[33] =
+    static const char* s_DRAW_ARRAYS_INSTANCED_COMMAND_NV =
       "DRAW_ARRAYS_INSTANCED_COMMAND_NV";
 #endif
 #ifdef GL_DRAW_ARRAYS_STRIP_COMMAND_NV
-    static const char s_DRAW_ARRAYS_STRIP_COMMAND_NV[29] =
+    static const char* s_DRAW_ARRAYS_STRIP_COMMAND_NV =
       "DRAW_ARRAYS_STRIP_COMMAND_NV";
 #endif
 #ifdef GL_DRAW_BUFFER
-    static const char s_DRAW_BUFFER[12] = "DRAW_BUFFER";
+    static const char* s_DRAW_BUFFER = "DRAW_BUFFER";
 #endif
 #ifdef GL_DRAW_BUFFER0
-    static const char s_DRAW_BUFFER0[13] = "DRAW_BUFFER0";
+    static const char* s_DRAW_BUFFER0 = "DRAW_BUFFER0";
 #endif
 #ifdef GL_DRAW_ELEMENTS_COMMAND_NV
-    static const char s_DRAW_ELEMENTS_COMMAND_NV[25] =
-      "DRAW_ELEMENTS_COMMAND_NV";
+    static const char* s_DRAW_ELEMENTS_COMMAND_NV = "DRAW_ELEMENTS_COMMAND_NV";
 #endif
 #ifdef GL_DRAW_ELEMENTS_INSTANCED_COMMAND_NV
-    static const char s_DRAW_ELEMENTS_INSTANCED_COMMAND_NV[35] =
+    static const char* s_DRAW_ELEMENTS_INSTANCED_COMMAND_NV =
       "DRAW_ELEMENTS_INSTANCED_COMMAND_NV";
 #endif
 #ifdef GL_DRAW_ELEMENTS_STRIP_COMMAND_NV
-    static const char s_DRAW_ELEMENTS_STRIP_COMMAND_NV[31] =
+    static const char* s_DRAW_ELEMENTS_STRIP_COMMAND_NV =
       "DRAW_ELEMENTS_STRIP_COMMAND_NV";
 #endif
 #ifdef GL_DRAW_FRAMEBUFFER
-    static const char s_DRAW_FRAMEBUFFER[17] = "DRAW_FRAMEBUFFER";
+    static const char* s_DRAW_FRAMEBUFFER = "DRAW_FRAMEBUFFER";
 #endif
 #ifdef GL_DRAW_FRAMEBUFFER_BINDING
-    static const char s_DRAW_FRAMEBUFFER_BINDING[25] =
-      "DRAW_FRAMEBUFFER_BINDING";
+    static const char* s_DRAW_FRAMEBUFFER_BINDING = "DRAW_FRAMEBUFFER_BINDING";
 #endif
 #ifdef GL_DRAW_INDIRECT_BUFFER
-    static const char s_DRAW_INDIRECT_BUFFER[21] = "DRAW_INDIRECT_BUFFER";
+    static const char* s_DRAW_INDIRECT_BUFFER = "DRAW_INDIRECT_BUFFER";
 #endif
 #ifdef GL_DRAW_INDIRECT_BUFFER_BINDING
-    static const char s_DRAW_INDIRECT_BUFFER_BINDING[29] =
+    static const char* s_DRAW_INDIRECT_BUFFER_BINDING =
       "DRAW_INDIRECT_BUFFER_BINDING";
 #endif
 #ifdef GL_DST_ALPHA
-    static const char s_DST_ALPHA[10] = "DST_ALPHA";
+    static const char* s_DST_ALPHA = "DST_ALPHA";
 #endif
 #ifdef GL_DST_COLOR
-    static const char s_DST_COLOR[10] = "DST_COLOR";
+    static const char* s_DST_COLOR = "DST_COLOR";
 #endif
 #ifdef GL_DUP_FIRST_CUBIC_CURVE_TO_NV
-    static const char s_DUP_FIRST_CUBIC_CURVE_TO_NV[28] =
+    static const char* s_DUP_FIRST_CUBIC_CURVE_TO_NV =
       "DUP_FIRST_CUBIC_CURVE_TO_NV";
 #endif
 #ifdef GL_DUP_LAST_CUBIC_CURVE_TO_NV
-    static const char s_DUP_LAST_CUBIC_CURVE_TO_NV[27] =
+    static const char* s_DUP_LAST_CUBIC_CURVE_TO_NV =
       "DUP_LAST_CUBIC_CURVE_TO_NV";
 #endif
 #ifdef GL_DYNAMIC_COPY
-    static const char s_DYNAMIC_COPY[13] = "DYNAMIC_COPY";
+    static const char* s_DYNAMIC_COPY = "DYNAMIC_COPY";
 #endif
 #ifdef GL_DYNAMIC_DRAW
-    static const char s_DYNAMIC_DRAW[13] = "DYNAMIC_DRAW";
+    static const char* s_DYNAMIC_DRAW = "DYNAMIC_DRAW";
 #endif
 #ifdef GL_DYNAMIC_READ
-    static const char s_DYNAMIC_READ[13] = "DYNAMIC_READ";
+    static const char* s_DYNAMIC_READ = "DYNAMIC_READ";
 #endif
 #ifdef GL_DYNAMIC_STORAGE_BIT
-    static const char s_DYNAMIC_STORAGE_BIT[20] = "DYNAMIC_STORAGE_BIT";
+    static const char* s_DYNAMIC_STORAGE_BIT = "DYNAMIC_STORAGE_BIT";
 #endif
 #ifdef GL_EDGE_FLAG_ARRAY
-    static const char s_EDGE_FLAG_ARRAY[16] = "EDGE_FLAG_ARRAY";
+    static const char* s_EDGE_FLAG_ARRAY = "EDGE_FLAG_ARRAY";
 #endif
 #ifdef GL_EDGE_FLAG_ARRAY_ADDRESS_NV
-    static const char s_EDGE_FLAG_ARRAY_ADDRESS_NV[27] =
+    static const char* s_EDGE_FLAG_ARRAY_ADDRESS_NV =
       "EDGE_FLAG_ARRAY_ADDRESS_NV";
 #endif
 #ifdef GL_ELEMENT_ADDRESS_COMMAND_NV
-    static const char s_ELEMENT_ADDRESS_COMMAND_NV[27] =
+    static const char* s_ELEMENT_ADDRESS_COMMAND_NV =
       "ELEMENT_ADDRESS_COMMAND_NV";
 #endif
 #ifdef GL_ELEMENT_ARRAY_ADDRESS_NV
-    static const char s_ELEMENT_ARRAY_ADDRESS_NV[25] =
-      "ELEMENT_ARRAY_ADDRESS_NV";
+    static const char* s_ELEMENT_ARRAY_ADDRESS_NV = "ELEMENT_ARRAY_ADDRESS_NV";
 #endif
 #ifdef GL_ELEMENT_ARRAY_BARRIER_BIT
-    static const char s_ELEMENT_ARRAY_BARRIER_BIT[26] =
+    static const char* s_ELEMENT_ARRAY_BARRIER_BIT =
       "ELEMENT_ARRAY_BARRIER_BIT";
 #endif
 #ifdef GL_ELEMENT_ARRAY_BUFFER
-    static const char s_ELEMENT_ARRAY_BUFFER[21] = "ELEMENT_ARRAY_BUFFER";
+    static const char* s_ELEMENT_ARRAY_BUFFER = "ELEMENT_ARRAY_BUFFER";
 #endif
 #ifdef GL_ELEMENT_ARRAY_BUFFER_BINDING
-    static const char s_ELEMENT_ARRAY_BUFFER_BINDING[29] =
+    static const char* s_ELEMENT_ARRAY_BUFFER_BINDING =
       "ELEMENT_ARRAY_BUFFER_BINDING";
 #endif
 #ifdef GL_ELEMENT_ARRAY_UNIFIED_NV
-    static const char s_ELEMENT_ARRAY_UNIFIED_NV[25] =
-      "ELEMENT_ARRAY_UNIFIED_NV";
+    static const char* s_ELEMENT_ARRAY_UNIFIED_NV = "ELEMENT_ARRAY_UNIFIED_NV";
 #endif
 #ifdef GL_EQUAL
-    static const char s_EQUAL[6] = "EQUAL";
+    static const char* s_EQUAL = "EQUAL";
 #endif
 #ifdef GL_EQUIV
-    static const char s_EQUIV[6] = "EQUIV";
+    static const char* s_EQUIV = "EQUIV";
 #endif
 #ifdef GL_EXCLUSION_KHR
-    static const char s_EXCLUSION_KHR[14] = "EXCLUSION_KHR";
+    static const char* s_EXCLUSION_KHR = "EXCLUSION_KHR";
 #endif
 #ifdef GL_EXTERNAL_VIRTUAL_MEMORY_BUFFER_AMD
-    static const char s_EXTERNAL_VIRTUAL_MEMORY_BUFFER_AMD[35] =
+    static const char* s_EXTERNAL_VIRTUAL_MEMORY_BUFFER_AMD =
       "EXTERNAL_VIRTUAL_MEMORY_BUFFER_AMD";
 #endif
 #ifdef GL_EYE_LINEAR
-    static const char s_EYE_LINEAR[11] = "EYE_LINEAR";
+    static const char* s_EYE_LINEAR = "EYE_LINEAR";
 #endif
 #ifdef GL_FALSE
-    static const char s_FALSE[6] = "FALSE";
+    static const char* s_FALSE = "FALSE";
 #endif
 #ifdef GL_FASTEST
-    static const char s_FASTEST[8] = "FASTEST";
+    static const char* s_FASTEST = "FASTEST";
 #endif
 #ifdef GL_FILE_NAME_NV
-    static const char s_FILE_NAME_NV[13] = "FILE_NAME_NV";
+    static const char* s_FILE_NAME_NV = "FILE_NAME_NV";
 #endif
 #ifdef GL_FILL
-    static const char s_FILL[5] = "FILL";
+    static const char* s_FILL = "FILL";
 #endif
 #ifdef GL_FILL_RECTANGLE_NV
-    static const char s_FILL_RECTANGLE_NV[18] = "FILL_RECTANGLE_NV";
+    static const char* s_FILL_RECTANGLE_NV = "FILL_RECTANGLE_NV";
 #endif
 #ifdef GL_FILTER
-    static const char s_FILTER[7] = "FILTER";
+    static const char* s_FILTER = "FILTER";
 #endif
 #ifdef GL_FIRST_TO_REST_NV
-    static const char s_FIRST_TO_REST_NV[17] = "FIRST_TO_REST_NV";
+    static const char* s_FIRST_TO_REST_NV = "FIRST_TO_REST_NV";
 #endif
 #ifdef GL_FIRST_VERTEX_CONVENTION
-    static const char s_FIRST_VERTEX_CONVENTION[24] = "FIRST_VERTEX_CONVENTION";
+    static const char* s_FIRST_VERTEX_CONVENTION = "FIRST_VERTEX_CONVENTION";
 #endif
 #ifdef GL_FIXED
-    static const char s_FIXED[6] = "FIXED";
+    static const char* s_FIXED = "FIXED";
 #endif
 #ifdef GL_FLAT
-    static const char s_FLAT[5] = "FLAT";
+    static const char* s_FLAT = "FLAT";
 #endif
 #ifdef GL_FLOAT
-    static const char s_FLOAT[6] = "FLOAT";
+    static const char* s_FLOAT = "FLOAT";
 #endif
 #ifdef GL_FLOAT_32_UNSIGNED_INT_24_8_REV
-    static const char s_FLOAT_32_UNSIGNED_INT_24_8_REV[31] =
+    static const char* s_FLOAT_32_UNSIGNED_INT_24_8_REV =
       "FLOAT_32_UNSIGNED_INT_24_8_REV";
 #endif
 #ifdef GL_FLOAT_MAT2
-    static const char s_FLOAT_MAT2[11] = "FLOAT_MAT2";
+    static const char* s_FLOAT_MAT2 = "FLOAT_MAT2";
 #endif
 #ifdef GL_FLOAT_MAT2x3
-    static const char s_FLOAT_MAT2x3[13] = "FLOAT_MAT2x3";
+    static const char* s_FLOAT_MAT2x3 = "FLOAT_MAT2x3";
 #endif
 #ifdef GL_FLOAT_MAT2x4
-    static const char s_FLOAT_MAT2x4[13] = "FLOAT_MAT2x4";
+    static const char* s_FLOAT_MAT2x4 = "FLOAT_MAT2x4";
 #endif
 #ifdef GL_FLOAT_MAT3
-    static const char s_FLOAT_MAT3[11] = "FLOAT_MAT3";
+    static const char* s_FLOAT_MAT3 = "FLOAT_MAT3";
 #endif
 #ifdef GL_FLOAT_MAT3x2
-    static const char s_FLOAT_MAT3x2[13] = "FLOAT_MAT3x2";
+    static const char* s_FLOAT_MAT3x2 = "FLOAT_MAT3x2";
 #endif
 #ifdef GL_FLOAT_MAT3x4
-    static const char s_FLOAT_MAT3x4[13] = "FLOAT_MAT3x4";
+    static const char* s_FLOAT_MAT3x4 = "FLOAT_MAT3x4";
 #endif
 #ifdef GL_FLOAT_MAT4
-    static const char s_FLOAT_MAT4[11] = "FLOAT_MAT4";
+    static const char* s_FLOAT_MAT4 = "FLOAT_MAT4";
 #endif
 #ifdef GL_FLOAT_MAT4x2
-    static const char s_FLOAT_MAT4x2[13] = "FLOAT_MAT4x2";
+    static const char* s_FLOAT_MAT4x2 = "FLOAT_MAT4x2";
 #endif
 #ifdef GL_FLOAT_MAT4x3
-    static const char s_FLOAT_MAT4x3[13] = "FLOAT_MAT4x3";
+    static const char* s_FLOAT_MAT4x3 = "FLOAT_MAT4x3";
 #endif
 #ifdef GL_FLOAT_VEC2
-    static const char s_FLOAT_VEC2[11] = "FLOAT_VEC2";
+    static const char* s_FLOAT_VEC2 = "FLOAT_VEC2";
 #endif
 #ifdef GL_FLOAT_VEC3
-    static const char s_FLOAT_VEC3[11] = "FLOAT_VEC3";
+    static const char* s_FLOAT_VEC3 = "FLOAT_VEC3";
 #endif
 #ifdef GL_FLOAT_VEC4
-    static const char s_FLOAT_VEC4[11] = "FLOAT_VEC4";
+    static const char* s_FLOAT_VEC4 = "FLOAT_VEC4";
 #endif
 #ifdef GL_FOG_COORD_ARRAY
-    static const char s_FOG_COORD_ARRAY[16] = "FOG_COORD_ARRAY";
+    static const char* s_FOG_COORD_ARRAY = "FOG_COORD_ARRAY";
 #endif
 #ifdef GL_FOG_COORD_ARRAY_ADDRESS_NV
-    static const char s_FOG_COORD_ARRAY_ADDRESS_NV[27] =
+    static const char* s_FOG_COORD_ARRAY_ADDRESS_NV =
       "FOG_COORD_ARRAY_ADDRESS_NV";
 #endif
 #ifdef GL_FONT_ASCENDER_BIT_NV
-    static const char s_FONT_ASCENDER_BIT_NV[21] = "FONT_ASCENDER_BIT_NV";
+    static const char* s_FONT_ASCENDER_BIT_NV = "FONT_ASCENDER_BIT_NV";
 #endif
 #ifdef GL_FONT_DESCENDER_BIT_NV
-    static const char s_FONT_DESCENDER_BIT_NV[22] = "FONT_DESCENDER_BIT_NV";
+    static const char* s_FONT_DESCENDER_BIT_NV = "FONT_DESCENDER_BIT_NV";
 #endif
 #ifdef GL_FONT_HAS_KERNING_BIT_NV
-    static const char s_FONT_HAS_KERNING_BIT_NV[24] = "FONT_HAS_KERNING_BIT_NV";
+    static const char* s_FONT_HAS_KERNING_BIT_NV = "FONT_HAS_KERNING_BIT_NV";
 #endif
 #ifdef GL_FONT_HEIGHT_BIT_NV
-    static const char s_FONT_HEIGHT_BIT_NV[19] = "FONT_HEIGHT_BIT_NV";
+    static const char* s_FONT_HEIGHT_BIT_NV = "FONT_HEIGHT_BIT_NV";
 #endif
 #ifdef GL_FONT_MAX_ADVANCE_HEIGHT_BIT_NV
-    static const char s_FONT_MAX_ADVANCE_HEIGHT_BIT_NV[31] =
+    static const char* s_FONT_MAX_ADVANCE_HEIGHT_BIT_NV =
       "FONT_MAX_ADVANCE_HEIGHT_BIT_NV";
 #endif
 #ifdef GL_FONT_MAX_ADVANCE_WIDTH_BIT_NV
-    static const char s_FONT_MAX_ADVANCE_WIDTH_BIT_NV[30] =
+    static const char* s_FONT_MAX_ADVANCE_WIDTH_BIT_NV =
       "FONT_MAX_ADVANCE_WIDTH_BIT_NV";
 #endif
 #ifdef GL_FONT_UNDERLINE_POSITION_BIT_NV
-    static const char s_FONT_UNDERLINE_POSITION_BIT_NV[31] =
+    static const char* s_FONT_UNDERLINE_POSITION_BIT_NV =
       "FONT_UNDERLINE_POSITION_BIT_NV";
 #endif
 #ifdef GL_FONT_UNDERLINE_THICKNESS_BIT_NV
-    static const char s_FONT_UNDERLINE_THICKNESS_BIT_NV[32] =
+    static const char* s_FONT_UNDERLINE_THICKNESS_BIT_NV =
       "FONT_UNDERLINE_THICKNESS_BIT_NV";
 #endif
 #ifdef GL_FONT_UNITS_PER_EM_BIT_NV
-    static const char s_FONT_UNITS_PER_EM_BIT_NV[25] =
-      "FONT_UNITS_PER_EM_BIT_NV";
+    static const char* s_FONT_UNITS_PER_EM_BIT_NV = "FONT_UNITS_PER_EM_BIT_NV";
 #endif
 #ifdef GL_FONT_X_MAX_BOUNDS_BIT_NV
-    static const char s_FONT_X_MAX_BOUNDS_BIT_NV[25] =
-      "FONT_X_MAX_BOUNDS_BIT_NV";
+    static const char* s_FONT_X_MAX_BOUNDS_BIT_NV = "FONT_X_MAX_BOUNDS_BIT_NV";
 #endif
 #ifdef GL_FONT_X_MIN_BOUNDS_BIT_NV
-    static const char s_FONT_X_MIN_BOUNDS_BIT_NV[25] =
-      "FONT_X_MIN_BOUNDS_BIT_NV";
+    static const char* s_FONT_X_MIN_BOUNDS_BIT_NV = "FONT_X_MIN_BOUNDS_BIT_NV";
 #endif
 #ifdef GL_FONT_Y_MAX_BOUNDS_BIT_NV
-    static const char s_FONT_Y_MAX_BOUNDS_BIT_NV[25] =
-      "FONT_Y_MAX_BOUNDS_BIT_NV";
+    static const char* s_FONT_Y_MAX_BOUNDS_BIT_NV = "FONT_Y_MAX_BOUNDS_BIT_NV";
 #endif
 #ifdef GL_FONT_Y_MIN_BOUNDS_BIT_NV
-    static const char s_FONT_Y_MIN_BOUNDS_BIT_NV[25] =
-      "FONT_Y_MIN_BOUNDS_BIT_NV";
+    static const char* s_FONT_Y_MIN_BOUNDS_BIT_NV = "FONT_Y_MIN_BOUNDS_BIT_NV";
 #endif
 #ifdef GL_FRACTIONAL_EVEN
-    static const char s_FRACTIONAL_EVEN[16] = "FRACTIONAL_EVEN";
+    static const char* s_FRACTIONAL_EVEN = "FRACTIONAL_EVEN";
 #endif
 #ifdef GL_FRACTIONAL_ODD
-    static const char s_FRACTIONAL_ODD[15] = "FRACTIONAL_ODD";
+    static const char* s_FRACTIONAL_ODD = "FRACTIONAL_ODD";
 #endif
 #ifdef GL_FRAGMENT_COVERAGE_TO_COLOR_NV
-    static const char s_FRAGMENT_COVERAGE_TO_COLOR_NV[30] =
+    static const char* s_FRAGMENT_COVERAGE_TO_COLOR_NV =
       "FRAGMENT_COVERAGE_TO_COLOR_NV";
 #endif
 #ifdef GL_FRAGMENT_SHADER
-    static const char s_FRAGMENT_SHADER[16] = "FRAGMENT_SHADER";
+    static const char* s_FRAGMENT_SHADER = "FRAGMENT_SHADER";
 #endif
 #ifdef GL_FRAGMENT_SHADER_BIT
-    static const char s_FRAGMENT_SHADER_BIT[20] = "FRAGMENT_SHADER_BIT";
+    static const char* s_FRAGMENT_SHADER_BIT = "FRAGMENT_SHADER_BIT";
 #endif
 #ifdef GL_FRAGMENT_SHADER_DERIVATIVE_HINT
-    static const char s_FRAGMENT_SHADER_DERIVATIVE_HINT[32] =
+    static const char* s_FRAGMENT_SHADER_DERIVATIVE_HINT =
       "FRAGMENT_SHADER_DERIVATIVE_HINT";
 #endif
 #ifdef GL_FRAGMENT_SHADER_INVOCATIONS_ARB
-    static const char s_FRAGMENT_SHADER_INVOCATIONS_ARB[32] =
+    static const char* s_FRAGMENT_SHADER_INVOCATIONS_ARB =
       "FRAGMENT_SHADER_INVOCATIONS_ARB";
 #endif
 #ifdef GL_FRAGMENT_SUBROUTINE
-    static const char s_FRAGMENT_SUBROUTINE[20] = "FRAGMENT_SUBROUTINE";
+    static const char* s_FRAGMENT_SUBROUTINE = "FRAGMENT_SUBROUTINE";
 #endif
 #ifdef GL_FRAGMENT_SUBROUTINE_UNIFORM
-    static const char s_FRAGMENT_SUBROUTINE_UNIFORM[28] =
+    static const char* s_FRAGMENT_SUBROUTINE_UNIFORM =
       "FRAGMENT_SUBROUTINE_UNIFORM";
 #endif
 #ifdef GL_FRAGMENT_TEXTURE
-    static const char s_FRAGMENT_TEXTURE[17] = "FRAGMENT_TEXTURE";
+    static const char* s_FRAGMENT_TEXTURE = "FRAGMENT_TEXTURE";
 #endif
 #ifdef GL_FRAMEBUFFER
-    static const char s_FRAMEBUFFER[12] = "FRAMEBUFFER";
+    static const char* s_FRAMEBUFFER = "FRAMEBUFFER";
 #endif
 #ifdef GL_FRAMEBUFFER_BARRIER_BIT
-    static const char s_FRAMEBUFFER_BARRIER_BIT[24] = "FRAMEBUFFER_BARRIER_BIT";
+    static const char* s_FRAMEBUFFER_BARRIER_BIT = "FRAMEBUFFER_BARRIER_BIT";
 #endif
 #ifdef GL_FRAMEBUFFER_BLEND
-    static const char s_FRAMEBUFFER_BLEND[18] = "FRAMEBUFFER_BLEND";
+    static const char* s_FRAMEBUFFER_BLEND = "FRAMEBUFFER_BLEND";
 #endif
 #ifdef GL_FRAMEBUFFER_COMPLETE
-    static const char s_FRAMEBUFFER_COMPLETE[21] = "FRAMEBUFFER_COMPLETE";
+    static const char* s_FRAMEBUFFER_COMPLETE = "FRAMEBUFFER_COMPLETE";
 #endif
 #ifdef GL_FRAMEBUFFER_DEFAULT_FIXED_SAMPLE_LOCATIONS
-    static const char s_FRAMEBUFFER_DEFAULT_FIXED_SAMPLE_LOCATIONS[43] =
+    static const char* s_FRAMEBUFFER_DEFAULT_FIXED_SAMPLE_LOCATIONS =
       "FRAMEBUFFER_DEFAULT_FIXED_SAMPLE_LOCATIONS";
 #endif
 #ifdef GL_FRAMEBUFFER_DEFAULT_HEIGHT
-    static const char s_FRAMEBUFFER_DEFAULT_HEIGHT[27] =
+    static const char* s_FRAMEBUFFER_DEFAULT_HEIGHT =
       "FRAMEBUFFER_DEFAULT_HEIGHT";
 #endif
 #ifdef GL_FRAMEBUFFER_DEFAULT_LAYERS
-    static const char s_FRAMEBUFFER_DEFAULT_LAYERS[27] =
+    static const char* s_FRAMEBUFFER_DEFAULT_LAYERS =
       "FRAMEBUFFER_DEFAULT_LAYERS";
 #endif
 #ifdef GL_FRAMEBUFFER_DEFAULT_SAMPLES
-    static const char s_FRAMEBUFFER_DEFAULT_SAMPLES[28] =
+    static const char* s_FRAMEBUFFER_DEFAULT_SAMPLES =
       "FRAMEBUFFER_DEFAULT_SAMPLES";
 #endif
 #ifdef GL_FRAMEBUFFER_DEFAULT_WIDTH
-    static const char s_FRAMEBUFFER_DEFAULT_WIDTH[26] =
+    static const char* s_FRAMEBUFFER_DEFAULT_WIDTH =
       "FRAMEBUFFER_DEFAULT_WIDTH";
 #endif
 #ifdef GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT
-    static const char s_FRAMEBUFFER_INCOMPLETE_ATTACHMENT[34] =
+    static const char* s_FRAMEBUFFER_INCOMPLETE_ATTACHMENT =
       "FRAMEBUFFER_INCOMPLETE_ATTACHMENT";
 #endif
 #ifdef GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS
-    static const char s_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS[37] =
+    static const char* s_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS =
       "FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS";
 #endif
 #ifdef GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT
-    static const char s_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT[42] =
+    static const char* s_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT =
       "FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT";
 #endif
 #ifdef GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE
-    static const char s_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE[35] =
+    static const char* s_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE =
       "FRAMEBUFFER_INCOMPLETE_MULTISAMPLE";
 #endif
 #ifdef GL_FRAMEBUFFER_RENDERABLE
-    static const char s_FRAMEBUFFER_RENDERABLE[23] = "FRAMEBUFFER_RENDERABLE";
+    static const char* s_FRAMEBUFFER_RENDERABLE = "FRAMEBUFFER_RENDERABLE";
 #endif
 #ifdef GL_FRAMEBUFFER_RENDERABLE_LAYERED
-    static const char s_FRAMEBUFFER_RENDERABLE_LAYERED[31] =
+    static const char* s_FRAMEBUFFER_RENDERABLE_LAYERED =
       "FRAMEBUFFER_RENDERABLE_LAYERED";
 #endif
 #ifdef GL_FRAMEBUFFER_SRGB
-    static const char s_FRAMEBUFFER_SRGB[17] = "FRAMEBUFFER_SRGB";
+    static const char* s_FRAMEBUFFER_SRGB = "FRAMEBUFFER_SRGB";
 #endif
 #ifdef GL_FRAMEBUFFER_UNDEFINED
-    static const char s_FRAMEBUFFER_UNDEFINED[22] = "FRAMEBUFFER_UNDEFINED";
+    static const char* s_FRAMEBUFFER_UNDEFINED = "FRAMEBUFFER_UNDEFINED";
 #endif
 #ifdef GL_FRAMEBUFFER_UNSUPPORTED
-    static const char s_FRAMEBUFFER_UNSUPPORTED[24] = "FRAMEBUFFER_UNSUPPORTED";
+    static const char* s_FRAMEBUFFER_UNSUPPORTED = "FRAMEBUFFER_UNSUPPORTED";
 #endif
 #ifdef GL_FRONT
-    static const char s_FRONT[6] = "FRONT";
+    static const char* s_FRONT = "FRONT";
 #endif
 #ifdef GL_FRONT_AND_BACK
-    static const char s_FRONT_AND_BACK[15] = "FRONT_AND_BACK";
+    static const char* s_FRONT_AND_BACK = "FRONT_AND_BACK";
 #endif
 #ifdef GL_FRONT_FACE_COMMAND_NV
-    static const char s_FRONT_FACE_COMMAND_NV[22] = "FRONT_FACE_COMMAND_NV";
+    static const char* s_FRONT_FACE_COMMAND_NV = "FRONT_FACE_COMMAND_NV";
 #endif
 #ifdef GL_FRONT_LEFT
-    static const char s_FRONT_LEFT[11] = "FRONT_LEFT";
+    static const char* s_FRONT_LEFT = "FRONT_LEFT";
 #endif
 #ifdef GL_FRONT_RIGHT
-    static const char s_FRONT_RIGHT[12] = "FRONT_RIGHT";
+    static const char* s_FRONT_RIGHT = "FRONT_RIGHT";
 #endif
 #ifdef GL_FULL_SUPPORT
-    static const char s_FULL_SUPPORT[13] = "FULL_SUPPORT";
+    static const char* s_FULL_SUPPORT = "FULL_SUPPORT";
 #endif
 #ifdef GL_FUNC_ADD
-    static const char s_FUNC_ADD[9] = "FUNC_ADD";
+    static const char* s_FUNC_ADD = "FUNC_ADD";
 #endif
 #ifdef GL_FUNC_REVERSE_SUBTRACT
-    static const char s_FUNC_REVERSE_SUBTRACT[22] = "FUNC_REVERSE_SUBTRACT";
+    static const char* s_FUNC_REVERSE_SUBTRACT = "FUNC_REVERSE_SUBTRACT";
 #endif
 #ifdef GL_FUNC_SUBTRACT
-    static const char s_FUNC_SUBTRACT[14] = "FUNC_SUBTRACT";
+    static const char* s_FUNC_SUBTRACT = "FUNC_SUBTRACT";
 #endif
 #ifdef GL_GENERATE_MIPMAP
-    static const char s_GENERATE_MIPMAP[16] = "GENERATE_MIPMAP";
+    static const char* s_GENERATE_MIPMAP = "GENERATE_MIPMAP";
 #endif
 #ifdef GL_GEOMETRY_INPUT_TYPE
-    static const char s_GEOMETRY_INPUT_TYPE[20] = "GEOMETRY_INPUT_TYPE";
+    static const char* s_GEOMETRY_INPUT_TYPE = "GEOMETRY_INPUT_TYPE";
 #endif
 #ifdef GL_GEOMETRY_OUTPUT_TYPE
-    static const char s_GEOMETRY_OUTPUT_TYPE[21] = "GEOMETRY_OUTPUT_TYPE";
+    static const char* s_GEOMETRY_OUTPUT_TYPE = "GEOMETRY_OUTPUT_TYPE";
 #endif
 #ifdef GL_GEOMETRY_SHADER
-    static const char s_GEOMETRY_SHADER[16] = "GEOMETRY_SHADER";
+    static const char* s_GEOMETRY_SHADER = "GEOMETRY_SHADER";
 #endif
 #ifdef GL_GEOMETRY_SHADER_BIT
-    static const char s_GEOMETRY_SHADER_BIT[20] = "GEOMETRY_SHADER_BIT";
+    static const char* s_GEOMETRY_SHADER_BIT = "GEOMETRY_SHADER_BIT";
 #endif
 #ifdef GL_GEOMETRY_SHADER_INVOCATIONS
-    static const char s_GEOMETRY_SHADER_INVOCATIONS[28] =
+    static const char* s_GEOMETRY_SHADER_INVOCATIONS =
       "GEOMETRY_SHADER_INVOCATIONS";
 #endif
 #ifdef GL_GEOMETRY_SHADER_PRIMITIVES_EMITTED_ARB
-    static const char s_GEOMETRY_SHADER_PRIMITIVES_EMITTED_ARB[39] =
+    static const char* s_GEOMETRY_SHADER_PRIMITIVES_EMITTED_ARB =
       "GEOMETRY_SHADER_PRIMITIVES_EMITTED_ARB";
 #endif
 #ifdef GL_GEOMETRY_SUBROUTINE
-    static const char s_GEOMETRY_SUBROUTINE[20] = "GEOMETRY_SUBROUTINE";
+    static const char* s_GEOMETRY_SUBROUTINE = "GEOMETRY_SUBROUTINE";
 #endif
 #ifdef GL_GEOMETRY_SUBROUTINE_UNIFORM
-    static const char s_GEOMETRY_SUBROUTINE_UNIFORM[28] =
+    static const char* s_GEOMETRY_SUBROUTINE_UNIFORM =
       "GEOMETRY_SUBROUTINE_UNIFORM";
 #endif
 #ifdef GL_GEOMETRY_TEXTURE
-    static const char s_GEOMETRY_TEXTURE[17] = "GEOMETRY_TEXTURE";
+    static const char* s_GEOMETRY_TEXTURE = "GEOMETRY_TEXTURE";
 #endif
 #ifdef GL_GEOMETRY_VERTICES_OUT
-    static const char s_GEOMETRY_VERTICES_OUT[22] = "GEOMETRY_VERTICES_OUT";
+    static const char* s_GEOMETRY_VERTICES_OUT = "GEOMETRY_VERTICES_OUT";
 #endif
 #ifdef GL_GEQUAL
-    static const char s_GEQUAL[7] = "GEQUAL";
+    static const char* s_GEQUAL = "GEQUAL";
 #endif
 #ifdef GL_GET_TEXTURE_IMAGE_FORMAT
-    static const char s_GET_TEXTURE_IMAGE_FORMAT[25] =
-      "GET_TEXTURE_IMAGE_FORMAT";
+    static const char* s_GET_TEXTURE_IMAGE_FORMAT = "GET_TEXTURE_IMAGE_FORMAT";
 #endif
 #ifdef GL_GET_TEXTURE_IMAGE_TYPE
-    static const char s_GET_TEXTURE_IMAGE_TYPE[23] = "GET_TEXTURE_IMAGE_TYPE";
+    static const char* s_GET_TEXTURE_IMAGE_TYPE = "GET_TEXTURE_IMAGE_TYPE";
 #endif
 #ifdef GL_GLYPH_HAS_KERNING_BIT_NV
-    static const char s_GLYPH_HAS_KERNING_BIT_NV[25] =
-      "GLYPH_HAS_KERNING_BIT_NV";
+    static const char* s_GLYPH_HAS_KERNING_BIT_NV = "GLYPH_HAS_KERNING_BIT_NV";
 #endif
 #ifdef GL_GLYPH_HEIGHT_BIT_NV
-    static const char s_GLYPH_HEIGHT_BIT_NV[20] = "GLYPH_HEIGHT_BIT_NV";
+    static const char* s_GLYPH_HEIGHT_BIT_NV = "GLYPH_HEIGHT_BIT_NV";
 #endif
 #ifdef GL_GLYPH_HORIZONTAL_BEARING_ADVANCE_BIT_NV
-    static const char s_GLYPH_HORIZONTAL_BEARING_ADVANCE_BIT_NV[40] =
+    static const char* s_GLYPH_HORIZONTAL_BEARING_ADVANCE_BIT_NV =
       "GLYPH_HORIZONTAL_BEARING_ADVANCE_BIT_NV";
 #endif
 #ifdef GL_GLYPH_HORIZONTAL_BEARING_X_BIT_NV
-    static const char s_GLYPH_HORIZONTAL_BEARING_X_BIT_NV[34] =
+    static const char* s_GLYPH_HORIZONTAL_BEARING_X_BIT_NV =
       "GLYPH_HORIZONTAL_BEARING_X_BIT_NV";
 #endif
 #ifdef GL_GLYPH_HORIZONTAL_BEARING_Y_BIT_NV
-    static const char s_GLYPH_HORIZONTAL_BEARING_Y_BIT_NV[34] =
+    static const char* s_GLYPH_HORIZONTAL_BEARING_Y_BIT_NV =
       "GLYPH_HORIZONTAL_BEARING_Y_BIT_NV";
 #endif
 #ifdef GL_GLYPH_VERTICAL_BEARING_ADVANCE_BIT_NV
-    static const char s_GLYPH_VERTICAL_BEARING_ADVANCE_BIT_NV[38] =
+    static const char* s_GLYPH_VERTICAL_BEARING_ADVANCE_BIT_NV =
       "GLYPH_VERTICAL_BEARING_ADVANCE_BIT_NV";
 #endif
 #ifdef GL_GLYPH_VERTICAL_BEARING_X_BIT_NV
-    static const char s_GLYPH_VERTICAL_BEARING_X_BIT_NV[32] =
+    static const char* s_GLYPH_VERTICAL_BEARING_X_BIT_NV =
       "GLYPH_VERTICAL_BEARING_X_BIT_NV";
 #endif
 #ifdef GL_GLYPH_VERTICAL_BEARING_Y_BIT_NV
-    static const char s_GLYPH_VERTICAL_BEARING_Y_BIT_NV[32] =
+    static const char* s_GLYPH_VERTICAL_BEARING_Y_BIT_NV =
       "GLYPH_VERTICAL_BEARING_Y_BIT_NV";
 #endif
 #ifdef GL_GLYPH_WIDTH_BIT_NV
-    static const char s_GLYPH_WIDTH_BIT_NV[19] = "GLYPH_WIDTH_BIT_NV";
+    static const char* s_GLYPH_WIDTH_BIT_NV = "GLYPH_WIDTH_BIT_NV";
 #endif
 #ifdef GL_GREATER
-    static const char s_GREATER[8] = "GREATER";
+    static const char* s_GREATER = "GREATER";
 #endif
 #ifdef GL_GREEN
-    static const char s_GREEN[6] = "GREEN";
+    static const char* s_GREEN = "GREEN";
 #endif
 #ifdef GL_GREEN_BIAS
-    static const char s_GREEN_BIAS[11] = "GREEN_BIAS";
+    static const char* s_GREEN_BIAS = "GREEN_BIAS";
 #endif
 #ifdef GL_GREEN_INTEGER
-    static const char s_GREEN_INTEGER[14] = "GREEN_INTEGER";
+    static const char* s_GREEN_INTEGER = "GREEN_INTEGER";
 #endif
 #ifdef GL_GREEN_SCALE
-    static const char s_GREEN_SCALE[12] = "GREEN_SCALE";
+    static const char* s_GREEN_SCALE = "GREEN_SCALE";
 #endif
 #ifdef GL_GUILTY_CONTEXT_RESET
-    static const char s_GUILTY_CONTEXT_RESET[21] = "GUILTY_CONTEXT_RESET";
+    static const char* s_GUILTY_CONTEXT_RESET = "GUILTY_CONTEXT_RESET";
 #endif
 #ifdef GL_HALF_FLOAT
-    static const char s_HALF_FLOAT[11] = "HALF_FLOAT";
+    static const char* s_HALF_FLOAT = "HALF_FLOAT";
 #endif
 #ifdef GL_HARDLIGHT_KHR
-    static const char s_HARDLIGHT_KHR[14] = "HARDLIGHT_KHR";
+    static const char* s_HARDLIGHT_KHR = "HARDLIGHT_KHR";
 #endif
 #ifdef GL_HIGH_FLOAT
-    static const char s_HIGH_FLOAT[11] = "HIGH_FLOAT";
+    static const char* s_HIGH_FLOAT = "HIGH_FLOAT";
 #endif
 #ifdef GL_HIGH_INT
-    static const char s_HIGH_INT[9] = "HIGH_INT";
+    static const char* s_HIGH_INT = "HIGH_INT";
 #endif
 #ifdef GL_HORIZONTAL_LINE_TO_NV
-    static const char s_HORIZONTAL_LINE_TO_NV[22] = "HORIZONTAL_LINE_TO_NV";
+    static const char* s_HORIZONTAL_LINE_TO_NV = "HORIZONTAL_LINE_TO_NV";
 #endif
 #ifdef GL_HSL_COLOR_KHR
-    static const char s_HSL_COLOR_KHR[14] = "HSL_COLOR_KHR";
+    static const char* s_HSL_COLOR_KHR = "HSL_COLOR_KHR";
 #endif
 #ifdef GL_HSL_HUE_KHR
-    static const char s_HSL_HUE_KHR[12] = "HSL_HUE_KHR";
+    static const char* s_HSL_HUE_KHR = "HSL_HUE_KHR";
 #endif
 #ifdef GL_HSL_LUMINOSITY_KHR
-    static const char s_HSL_LUMINOSITY_KHR[19] = "HSL_LUMINOSITY_KHR";
+    static const char* s_HSL_LUMINOSITY_KHR = "HSL_LUMINOSITY_KHR";
 #endif
 #ifdef GL_HSL_SATURATION_KHR
-    static const char s_HSL_SATURATION_KHR[19] = "HSL_SATURATION_KHR";
+    static const char* s_HSL_SATURATION_KHR = "HSL_SATURATION_KHR";
 #endif
 #ifdef GL_IMAGE_1D
-    static const char s_IMAGE_1D[9] = "IMAGE_1D";
+    static const char* s_IMAGE_1D = "IMAGE_1D";
 #endif
 #ifdef GL_IMAGE_1D_ARRAY
-    static const char s_IMAGE_1D_ARRAY[15] = "IMAGE_1D_ARRAY";
+    static const char* s_IMAGE_1D_ARRAY = "IMAGE_1D_ARRAY";
 #endif
 #ifdef GL_IMAGE_2D
-    static const char s_IMAGE_2D[9] = "IMAGE_2D";
+    static const char* s_IMAGE_2D = "IMAGE_2D";
 #endif
 #ifdef GL_IMAGE_2D_ARRAY
-    static const char s_IMAGE_2D_ARRAY[15] = "IMAGE_2D_ARRAY";
+    static const char* s_IMAGE_2D_ARRAY = "IMAGE_2D_ARRAY";
 #endif
 #ifdef GL_IMAGE_2D_MULTISAMPLE
-    static const char s_IMAGE_2D_MULTISAMPLE[21] = "IMAGE_2D_MULTISAMPLE";
+    static const char* s_IMAGE_2D_MULTISAMPLE = "IMAGE_2D_MULTISAMPLE";
 #endif
 #ifdef GL_IMAGE_2D_MULTISAMPLE_ARRAY
-    static const char s_IMAGE_2D_MULTISAMPLE_ARRAY[27] =
+    static const char* s_IMAGE_2D_MULTISAMPLE_ARRAY =
       "IMAGE_2D_MULTISAMPLE_ARRAY";
 #endif
 #ifdef GL_IMAGE_2D_RECT
-    static const char s_IMAGE_2D_RECT[14] = "IMAGE_2D_RECT";
+    static const char* s_IMAGE_2D_RECT = "IMAGE_2D_RECT";
 #endif
 #ifdef GL_IMAGE_3D
-    static const char s_IMAGE_3D[9] = "IMAGE_3D";
+    static const char* s_IMAGE_3D = "IMAGE_3D";
 #endif
 #ifdef GL_IMAGE_BUFFER
-    static const char s_IMAGE_BUFFER[13] = "IMAGE_BUFFER";
+    static const char* s_IMAGE_BUFFER = "IMAGE_BUFFER";
 #endif
 #ifdef GL_IMAGE_CLASS_10_10_10_2
-    static const char s_IMAGE_CLASS_10_10_10_2[23] = "IMAGE_CLASS_10_10_10_2";
+    static const char* s_IMAGE_CLASS_10_10_10_2 = "IMAGE_CLASS_10_10_10_2";
 #endif
 #ifdef GL_IMAGE_CLASS_11_11_10
-    static const char s_IMAGE_CLASS_11_11_10[21] = "IMAGE_CLASS_11_11_10";
+    static const char* s_IMAGE_CLASS_11_11_10 = "IMAGE_CLASS_11_11_10";
 #endif
 #ifdef GL_IMAGE_CLASS_1_X_16
-    static const char s_IMAGE_CLASS_1_X_16[19] = "IMAGE_CLASS_1_X_16";
+    static const char* s_IMAGE_CLASS_1_X_16 = "IMAGE_CLASS_1_X_16";
 #endif
 #ifdef GL_IMAGE_CLASS_1_X_32
-    static const char s_IMAGE_CLASS_1_X_32[19] = "IMAGE_CLASS_1_X_32";
+    static const char* s_IMAGE_CLASS_1_X_32 = "IMAGE_CLASS_1_X_32";
 #endif
 #ifdef GL_IMAGE_CLASS_1_X_8
-    static const char s_IMAGE_CLASS_1_X_8[18] = "IMAGE_CLASS_1_X_8";
+    static const char* s_IMAGE_CLASS_1_X_8 = "IMAGE_CLASS_1_X_8";
 #endif
 #ifdef GL_IMAGE_CLASS_2_X_16
-    static const char s_IMAGE_CLASS_2_X_16[19] = "IMAGE_CLASS_2_X_16";
+    static const char* s_IMAGE_CLASS_2_X_16 = "IMAGE_CLASS_2_X_16";
 #endif
 #ifdef GL_IMAGE_CLASS_2_X_32
-    static const char s_IMAGE_CLASS_2_X_32[19] = "IMAGE_CLASS_2_X_32";
+    static const char* s_IMAGE_CLASS_2_X_32 = "IMAGE_CLASS_2_X_32";
 #endif
 #ifdef GL_IMAGE_CLASS_2_X_8
-    static const char s_IMAGE_CLASS_2_X_8[18] = "IMAGE_CLASS_2_X_8";
+    static const char* s_IMAGE_CLASS_2_X_8 = "IMAGE_CLASS_2_X_8";
 #endif
 #ifdef GL_IMAGE_CLASS_4_X_16
-    static const char s_IMAGE_CLASS_4_X_16[19] = "IMAGE_CLASS_4_X_16";
+    static const char* s_IMAGE_CLASS_4_X_16 = "IMAGE_CLASS_4_X_16";
 #endif
 #ifdef GL_IMAGE_CLASS_4_X_32
-    static const char s_IMAGE_CLASS_4_X_32[19] = "IMAGE_CLASS_4_X_32";
+    static const char* s_IMAGE_CLASS_4_X_32 = "IMAGE_CLASS_4_X_32";
 #endif
 #ifdef GL_IMAGE_CLASS_4_X_8
-    static const char s_IMAGE_CLASS_4_X_8[18] = "IMAGE_CLASS_4_X_8";
+    static const char* s_IMAGE_CLASS_4_X_8 = "IMAGE_CLASS_4_X_8";
 #endif
 #ifdef GL_IMAGE_COMPATIBILITY_CLASS
-    static const char s_IMAGE_COMPATIBILITY_CLASS[26] =
+    static const char* s_IMAGE_COMPATIBILITY_CLASS =
       "IMAGE_COMPATIBILITY_CLASS";
 #endif
 #ifdef GL_IMAGE_CUBE
-    static const char s_IMAGE_CUBE[11] = "IMAGE_CUBE";
+    static const char* s_IMAGE_CUBE = "IMAGE_CUBE";
 #endif
 #ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
-    static const char s_IMAGE_FORMAT_COMPATIBILITY_TYPE[32] =
+    static const char* s_IMAGE_FORMAT_COMPATIBILITY_TYPE =
       "IMAGE_FORMAT_COMPATIBILITY_TYPE";
 #endif
 #ifdef GL_IMAGE_PIXEL_FORMAT
-    static const char s_IMAGE_PIXEL_FORMAT[19] = "IMAGE_PIXEL_FORMAT";
+    static const char* s_IMAGE_PIXEL_FORMAT = "IMAGE_PIXEL_FORMAT";
 #endif
 #ifdef GL_IMAGE_PIXEL_TYPE
-    static const char s_IMAGE_PIXEL_TYPE[17] = "IMAGE_PIXEL_TYPE";
+    static const char* s_IMAGE_PIXEL_TYPE = "IMAGE_PIXEL_TYPE";
 #endif
 #ifdef GL_IMAGE_TEXEL_SIZE
-    static const char s_IMAGE_TEXEL_SIZE[17] = "IMAGE_TEXEL_SIZE";
+    static const char* s_IMAGE_TEXEL_SIZE = "IMAGE_TEXEL_SIZE";
 #endif
 #ifdef GL_IMPLEMENTATION_COLOR_READ_FORMAT
-    static const char s_IMPLEMENTATION_COLOR_READ_FORMAT[33] =
+    static const char* s_IMPLEMENTATION_COLOR_READ_FORMAT =
       "IMPLEMENTATION_COLOR_READ_FORMAT";
 #endif
 #ifdef GL_IMPLEMENTATION_COLOR_READ_TYPE
-    static const char s_IMPLEMENTATION_COLOR_READ_TYPE[31] =
+    static const char* s_IMPLEMENTATION_COLOR_READ_TYPE =
       "IMPLEMENTATION_COLOR_READ_TYPE";
 #endif
 #ifdef GL_INCR
-    static const char s_INCR[5] = "INCR";
+    static const char* s_INCR = "INCR";
 #endif
 #ifdef GL_INCR_WRAP
-    static const char s_INCR_WRAP[10] = "INCR_WRAP";
+    static const char* s_INCR_WRAP = "INCR_WRAP";
 #endif
 #ifdef GL_INDEX_ARRAY
-    static const char s_INDEX_ARRAY[12] = "INDEX_ARRAY";
+    static const char* s_INDEX_ARRAY = "INDEX_ARRAY";
 #endif
 #ifdef GL_INDEX_ARRAY_ADDRESS_NV
-    static const char s_INDEX_ARRAY_ADDRESS_NV[23] = "INDEX_ARRAY_ADDRESS_NV";
+    static const char* s_INDEX_ARRAY_ADDRESS_NV = "INDEX_ARRAY_ADDRESS_NV";
 #endif
 #ifdef GL_INDEX_OFFSET
-    static const char s_INDEX_OFFSET[13] = "INDEX_OFFSET";
+    static const char* s_INDEX_OFFSET = "INDEX_OFFSET";
 #endif
 #ifdef GL_INDEX_SHIFT
-    static const char s_INDEX_SHIFT[12] = "INDEX_SHIFT";
+    static const char* s_INDEX_SHIFT = "INDEX_SHIFT";
 #endif
 #ifdef GL_INFO_LOG_LENGTH
-    static const char s_INFO_LOG_LENGTH[16] = "INFO_LOG_LENGTH";
+    static const char* s_INFO_LOG_LENGTH = "INFO_LOG_LENGTH";
 #endif
 #ifdef GL_INNOCENT_CONTEXT_RESET
-    static const char s_INNOCENT_CONTEXT_RESET[23] = "INNOCENT_CONTEXT_RESET";
+    static const char* s_INNOCENT_CONTEXT_RESET = "INNOCENT_CONTEXT_RESET";
 #endif
 #ifdef GL_INT
-    static const char s_INT[4] = "INT";
+    static const char* s_INT = "INT";
 #endif
 #ifdef GL_INTENSITY
-    static const char s_INTENSITY[10] = "INTENSITY";
+    static const char* s_INTENSITY = "INTENSITY";
 #endif
 #ifdef GL_INTERLEAVED_ATTRIBS
-    static const char s_INTERLEAVED_ATTRIBS[20] = "INTERLEAVED_ATTRIBS";
+    static const char* s_INTERLEAVED_ATTRIBS = "INTERLEAVED_ATTRIBS";
 #endif
 #ifdef GL_INTERNALFORMAT_ALPHA_SIZE
-    static const char s_INTERNALFORMAT_ALPHA_SIZE[26] =
+    static const char* s_INTERNALFORMAT_ALPHA_SIZE =
       "INTERNALFORMAT_ALPHA_SIZE";
 #endif
 #ifdef GL_INTERNALFORMAT_ALPHA_TYPE
-    static const char s_INTERNALFORMAT_ALPHA_TYPE[26] =
+    static const char* s_INTERNALFORMAT_ALPHA_TYPE =
       "INTERNALFORMAT_ALPHA_TYPE";
 #endif
 #ifdef GL_INTERNALFORMAT_BLUE_SIZE
-    static const char s_INTERNALFORMAT_BLUE_SIZE[25] =
-      "INTERNALFORMAT_BLUE_SIZE";
+    static const char* s_INTERNALFORMAT_BLUE_SIZE = "INTERNALFORMAT_BLUE_SIZE";
 #endif
 #ifdef GL_INTERNALFORMAT_BLUE_TYPE
-    static const char s_INTERNALFORMAT_BLUE_TYPE[25] =
-      "INTERNALFORMAT_BLUE_TYPE";
+    static const char* s_INTERNALFORMAT_BLUE_TYPE = "INTERNALFORMAT_BLUE_TYPE";
 #endif
 #ifdef GL_INTERNALFORMAT_DEPTH_SIZE
-    static const char s_INTERNALFORMAT_DEPTH_SIZE[26] =
+    static const char* s_INTERNALFORMAT_DEPTH_SIZE =
       "INTERNALFORMAT_DEPTH_SIZE";
 #endif
 #ifdef GL_INTERNALFORMAT_DEPTH_TYPE
-    static const char s_INTERNALFORMAT_DEPTH_TYPE[26] =
+    static const char* s_INTERNALFORMAT_DEPTH_TYPE =
       "INTERNALFORMAT_DEPTH_TYPE";
 #endif
 #ifdef GL_INTERNALFORMAT_GREEN_SIZE
-    static const char s_INTERNALFORMAT_GREEN_SIZE[26] =
+    static const char* s_INTERNALFORMAT_GREEN_SIZE =
       "INTERNALFORMAT_GREEN_SIZE";
 #endif
 #ifdef GL_INTERNALFORMAT_GREEN_TYPE
-    static const char s_INTERNALFORMAT_GREEN_TYPE[26] =
+    static const char* s_INTERNALFORMAT_GREEN_TYPE =
       "INTERNALFORMAT_GREEN_TYPE";
 #endif
 #ifdef GL_INTERNALFORMAT_PREFERRED
-    static const char s_INTERNALFORMAT_PREFERRED[25] =
-      "INTERNALFORMAT_PREFERRED";
+    static const char* s_INTERNALFORMAT_PREFERRED = "INTERNALFORMAT_PREFERRED";
 #endif
 #ifdef GL_INTERNALFORMAT_RED_SIZE
-    static const char s_INTERNALFORMAT_RED_SIZE[24] = "INTERNALFORMAT_RED_SIZE";
+    static const char* s_INTERNALFORMAT_RED_SIZE = "INTERNALFORMAT_RED_SIZE";
 #endif
 #ifdef GL_INTERNALFORMAT_RED_TYPE
-    static const char s_INTERNALFORMAT_RED_TYPE[24] = "INTERNALFORMAT_RED_TYPE";
+    static const char* s_INTERNALFORMAT_RED_TYPE = "INTERNALFORMAT_RED_TYPE";
 #endif
 #ifdef GL_INTERNALFORMAT_SHARED_SIZE
-    static const char s_INTERNALFORMAT_SHARED_SIZE[27] =
+    static const char* s_INTERNALFORMAT_SHARED_SIZE =
       "INTERNALFORMAT_SHARED_SIZE";
 #endif
 #ifdef GL_INTERNALFORMAT_STENCIL_SIZE
-    static const char s_INTERNALFORMAT_STENCIL_SIZE[28] =
+    static const char* s_INTERNALFORMAT_STENCIL_SIZE =
       "INTERNALFORMAT_STENCIL_SIZE";
 #endif
 #ifdef GL_INTERNALFORMAT_STENCIL_TYPE
-    static const char s_INTERNALFORMAT_STENCIL_TYPE[28] =
+    static const char* s_INTERNALFORMAT_STENCIL_TYPE =
       "INTERNALFORMAT_STENCIL_TYPE";
 #endif
 #ifdef GL_INTERNALFORMAT_SUPPORTED
-    static const char s_INTERNALFORMAT_SUPPORTED[25] =
-      "INTERNALFORMAT_SUPPORTED";
+    static const char* s_INTERNALFORMAT_SUPPORTED = "INTERNALFORMAT_SUPPORTED";
 #endif
 #ifdef GL_INT_IMAGE_1D
-    static const char s_INT_IMAGE_1D[13] = "INT_IMAGE_1D";
+    static const char* s_INT_IMAGE_1D = "INT_IMAGE_1D";
 #endif
 #ifdef GL_INT_IMAGE_1D_ARRAY
-    static const char s_INT_IMAGE_1D_ARRAY[19] = "INT_IMAGE_1D_ARRAY";
+    static const char* s_INT_IMAGE_1D_ARRAY = "INT_IMAGE_1D_ARRAY";
 #endif
 #ifdef GL_INT_IMAGE_2D
-    static const char s_INT_IMAGE_2D[13] = "INT_IMAGE_2D";
+    static const char* s_INT_IMAGE_2D = "INT_IMAGE_2D";
 #endif
 #ifdef GL_INT_IMAGE_2D_ARRAY
-    static const char s_INT_IMAGE_2D_ARRAY[19] = "INT_IMAGE_2D_ARRAY";
+    static const char* s_INT_IMAGE_2D_ARRAY = "INT_IMAGE_2D_ARRAY";
 #endif
 #ifdef GL_INT_IMAGE_2D_MULTISAMPLE
-    static const char s_INT_IMAGE_2D_MULTISAMPLE[25] =
-      "INT_IMAGE_2D_MULTISAMPLE";
+    static const char* s_INT_IMAGE_2D_MULTISAMPLE = "INT_IMAGE_2D_MULTISAMPLE";
 #endif
 #ifdef GL_INT_IMAGE_2D_MULTISAMPLE_ARRAY
-    static const char s_INT_IMAGE_2D_MULTISAMPLE_ARRAY[31] =
+    static const char* s_INT_IMAGE_2D_MULTISAMPLE_ARRAY =
       "INT_IMAGE_2D_MULTISAMPLE_ARRAY";
 #endif
 #ifdef GL_INT_IMAGE_2D_RECT
-    static const char s_INT_IMAGE_2D_RECT[18] = "INT_IMAGE_2D_RECT";
+    static const char* s_INT_IMAGE_2D_RECT = "INT_IMAGE_2D_RECT";
 #endif
 #ifdef GL_INT_IMAGE_3D
-    static const char s_INT_IMAGE_3D[13] = "INT_IMAGE_3D";
+    static const char* s_INT_IMAGE_3D = "INT_IMAGE_3D";
 #endif
 #ifdef GL_INT_IMAGE_BUFFER
-    static const char s_INT_IMAGE_BUFFER[17] = "INT_IMAGE_BUFFER";
+    static const char* s_INT_IMAGE_BUFFER = "INT_IMAGE_BUFFER";
 #endif
 #ifdef GL_INT_IMAGE_CUBE
-    static const char s_INT_IMAGE_CUBE[15] = "INT_IMAGE_CUBE";
+    static const char* s_INT_IMAGE_CUBE = "INT_IMAGE_CUBE";
 #endif
 #ifdef GL_INT_SAMPLER_1D
-    static const char s_INT_SAMPLER_1D[15] = "INT_SAMPLER_1D";
+    static const char* s_INT_SAMPLER_1D = "INT_SAMPLER_1D";
 #endif
 #ifdef GL_INT_SAMPLER_1D_ARRAY
-    static const char s_INT_SAMPLER_1D_ARRAY[21] = "INT_SAMPLER_1D_ARRAY";
+    static const char* s_INT_SAMPLER_1D_ARRAY = "INT_SAMPLER_1D_ARRAY";
 #endif
 #ifdef GL_INT_SAMPLER_2D
-    static const char s_INT_SAMPLER_2D[15] = "INT_SAMPLER_2D";
+    static const char* s_INT_SAMPLER_2D = "INT_SAMPLER_2D";
 #endif
 #ifdef GL_INT_SAMPLER_2D_ARRAY
-    static const char s_INT_SAMPLER_2D_ARRAY[21] = "INT_SAMPLER_2D_ARRAY";
+    static const char* s_INT_SAMPLER_2D_ARRAY = "INT_SAMPLER_2D_ARRAY";
 #endif
 #ifdef GL_INT_SAMPLER_2D_MULTISAMPLE
-    static const char s_INT_SAMPLER_2D_MULTISAMPLE[27] =
+    static const char* s_INT_SAMPLER_2D_MULTISAMPLE =
       "INT_SAMPLER_2D_MULTISAMPLE";
 #endif
 #ifdef GL_INT_SAMPLER_2D_MULTISAMPLE_ARRAY
-    static const char s_INT_SAMPLER_2D_MULTISAMPLE_ARRAY[33] =
+    static const char* s_INT_SAMPLER_2D_MULTISAMPLE_ARRAY =
       "INT_SAMPLER_2D_MULTISAMPLE_ARRAY";
 #endif
 #ifdef GL_INT_SAMPLER_2D_RECT
-    static const char s_INT_SAMPLER_2D_RECT[20] = "INT_SAMPLER_2D_RECT";
+    static const char* s_INT_SAMPLER_2D_RECT = "INT_SAMPLER_2D_RECT";
 #endif
 #ifdef GL_INT_SAMPLER_3D
-    static const char s_INT_SAMPLER_3D[15] = "INT_SAMPLER_3D";
+    static const char* s_INT_SAMPLER_3D = "INT_SAMPLER_3D";
 #endif
 #ifdef GL_INT_SAMPLER_BUFFER
-    static const char s_INT_SAMPLER_BUFFER[19] = "INT_SAMPLER_BUFFER";
+    static const char* s_INT_SAMPLER_BUFFER = "INT_SAMPLER_BUFFER";
 #endif
 #ifdef GL_INT_SAMPLER_CUBE
-    static const char s_INT_SAMPLER_CUBE[17] = "INT_SAMPLER_CUBE";
+    static const char* s_INT_SAMPLER_CUBE = "INT_SAMPLER_CUBE";
 #endif
 #ifdef GL_INT_SAMPLER_CUBE_MAP_ARRAY
-    static const char s_INT_SAMPLER_CUBE_MAP_ARRAY[27] =
+    static const char* s_INT_SAMPLER_CUBE_MAP_ARRAY =
       "INT_SAMPLER_CUBE_MAP_ARRAY";
 #endif
 #ifdef GL_INT_VEC2
-    static const char s_INT_VEC2[9] = "INT_VEC2";
+    static const char* s_INT_VEC2 = "INT_VEC2";
 #endif
 #ifdef GL_INT_VEC3
-    static const char s_INT_VEC3[9] = "INT_VEC3";
+    static const char* s_INT_VEC3 = "INT_VEC3";
 #endif
 #ifdef GL_INT_VEC4
-    static const char s_INT_VEC4[9] = "INT_VEC4";
+    static const char* s_INT_VEC4 = "INT_VEC4";
 #endif
 #ifdef GL_INVALID_ENUM
-    static const char s_INVALID_ENUM[13] = "INVALID_ENUM";
+    static const char* s_INVALID_ENUM = "INVALID_ENUM";
 #endif
 #ifdef GL_INVALID_FRAMEBUFFER_OPERATION
-    static const char s_INVALID_FRAMEBUFFER_OPERATION[30] =
+    static const char* s_INVALID_FRAMEBUFFER_OPERATION =
       "INVALID_FRAMEBUFFER_OPERATION";
 #endif
 #ifdef GL_INVALID_OPERATION
-    static const char s_INVALID_OPERATION[18] = "INVALID_OPERATION";
+    static const char* s_INVALID_OPERATION = "INVALID_OPERATION";
 #endif
 #ifdef GL_INVALID_VALUE
-    static const char s_INVALID_VALUE[14] = "INVALID_VALUE";
+    static const char* s_INVALID_VALUE = "INVALID_VALUE";
 #endif
 #ifdef GL_INVERT
-    static const char s_INVERT[7] = "INVERT";
+    static const char* s_INVERT = "INVERT";
 #endif
 #ifdef GL_ISOLINES
-    static const char s_ISOLINES[9] = "ISOLINES";
+    static const char* s_ISOLINES = "ISOLINES";
 #endif
 #ifdef GL_IS_PER_PATCH
-    static const char s_IS_PER_PATCH[13] = "IS_PER_PATCH";
+    static const char* s_IS_PER_PATCH = "IS_PER_PATCH";
 #endif
 #ifdef GL_IS_ROW_MAJOR
-    static const char s_IS_ROW_MAJOR[13] = "IS_ROW_MAJOR";
+    static const char* s_IS_ROW_MAJOR = "IS_ROW_MAJOR";
 #endif
 #ifdef GL_ITALIC_BIT_NV
-    static const char s_ITALIC_BIT_NV[14] = "ITALIC_BIT_NV";
+    static const char* s_ITALIC_BIT_NV = "ITALIC_BIT_NV";
 #endif
 #ifdef GL_KEEP
-    static const char s_KEEP[5] = "KEEP";
+    static const char* s_KEEP = "KEEP";
 #endif
 #ifdef GL_LARGE_CCW_ARC_TO_NV
-    static const char s_LARGE_CCW_ARC_TO_NV[20] = "LARGE_CCW_ARC_TO_NV";
+    static const char* s_LARGE_CCW_ARC_TO_NV = "LARGE_CCW_ARC_TO_NV";
 #endif
 #ifdef GL_LARGE_CW_ARC_TO_NV
-    static const char s_LARGE_CW_ARC_TO_NV[19] = "LARGE_CW_ARC_TO_NV";
+    static const char* s_LARGE_CW_ARC_TO_NV = "LARGE_CW_ARC_TO_NV";
 #endif
 #ifdef GL_LAST_VERTEX_CONVENTION
-    static const char s_LAST_VERTEX_CONVENTION[23] = "LAST_VERTEX_CONVENTION";
+    static const char* s_LAST_VERTEX_CONVENTION = "LAST_VERTEX_CONVENTION";
 #endif
 #ifdef GL_LAYER_PROVOKING_VERTEX
-    static const char s_LAYER_PROVOKING_VERTEX[23] = "LAYER_PROVOKING_VERTEX";
+    static const char* s_LAYER_PROVOKING_VERTEX = "LAYER_PROVOKING_VERTEX";
 #endif
 #ifdef GL_LEFT
-    static const char s_LEFT[5] = "LEFT";
+    static const char* s_LEFT = "LEFT";
 #endif
 #ifdef GL_LEQUAL
-    static const char s_LEQUAL[7] = "LEQUAL";
+    static const char* s_LEQUAL = "LEQUAL";
 #endif
 #ifdef GL_LESS
-    static const char s_LESS[5] = "LESS";
+    static const char* s_LESS = "LESS";
 #endif
 #ifdef GL_LIGHTEN_KHR
-    static const char s_LIGHTEN_KHR[12] = "LIGHTEN_KHR";
+    static const char* s_LIGHTEN_KHR = "LIGHTEN_KHR";
 #endif
 #ifdef GL_LINE
-    static const char s_LINE[5] = "LINE";
+    static const char* s_LINE = "LINE";
 #endif
 #ifdef GL_LINEAR
-    static const char s_LINEAR[7] = "LINEAR";
+    static const char* s_LINEAR = "LINEAR";
 #endif
 #ifdef GL_LINEAR_MIPMAP_LINEAR
-    static const char s_LINEAR_MIPMAP_LINEAR[21] = "LINEAR_MIPMAP_LINEAR";
+    static const char* s_LINEAR_MIPMAP_LINEAR = "LINEAR_MIPMAP_LINEAR";
 #endif
 #ifdef GL_LINEAR_MIPMAP_NEAREST
-    static const char s_LINEAR_MIPMAP_NEAREST[22] = "LINEAR_MIPMAP_NEAREST";
+    static const char* s_LINEAR_MIPMAP_NEAREST = "LINEAR_MIPMAP_NEAREST";
 #endif
 #ifdef GL_LINES
-    static const char s_LINES[6] = "LINES";
+    static const char* s_LINES = "LINES";
 #endif
 #ifdef GL_LINES_ADJACENCY
-    static const char s_LINES_ADJACENCY[16] = "LINES_ADJACENCY";
+    static const char* s_LINES_ADJACENCY = "LINES_ADJACENCY";
 #endif
 #ifdef GL_LINE_LOOP
-    static const char s_LINE_LOOP[10] = "LINE_LOOP";
+    static const char* s_LINE_LOOP = "LINE_LOOP";
 #endif
 #ifdef GL_LINE_SMOOTH
-    static const char s_LINE_SMOOTH[12] = "LINE_SMOOTH";
+    static const char* s_LINE_SMOOTH = "LINE_SMOOTH";
 #endif
 #ifdef GL_LINE_SMOOTH_HINT
-    static const char s_LINE_SMOOTH_HINT[17] = "LINE_SMOOTH_HINT";
+    static const char* s_LINE_SMOOTH_HINT = "LINE_SMOOTH_HINT";
 #endif
 #ifdef GL_LINE_STRIP
-    static const char s_LINE_STRIP[11] = "LINE_STRIP";
+    static const char* s_LINE_STRIP = "LINE_STRIP";
 #endif
 #ifdef GL_LINE_STRIP_ADJACENCY
-    static const char s_LINE_STRIP_ADJACENCY[21] = "LINE_STRIP_ADJACENCY";
+    static const char* s_LINE_STRIP_ADJACENCY = "LINE_STRIP_ADJACENCY";
 #endif
 #ifdef GL_LINE_TO_NV
-    static const char s_LINE_TO_NV[11] = "LINE_TO_NV";
+    static const char* s_LINE_TO_NV = "LINE_TO_NV";
 #endif
 #ifdef GL_LINE_WIDTH
-    static const char s_LINE_WIDTH[11] = "LINE_WIDTH";
+    static const char* s_LINE_WIDTH = "LINE_WIDTH";
 #endif
 #ifdef GL_LINE_WIDTH_COMMAND_NV
-    static const char s_LINE_WIDTH_COMMAND_NV[22] = "LINE_WIDTH_COMMAND_NV";
+    static const char* s_LINE_WIDTH_COMMAND_NV = "LINE_WIDTH_COMMAND_NV";
 #endif
 #ifdef GL_LINK_STATUS
-    static const char s_LINK_STATUS[12] = "LINK_STATUS";
+    static const char* s_LINK_STATUS = "LINK_STATUS";
 #endif
 #ifdef GL_LOCATION
-    static const char s_LOCATION[9] = "LOCATION";
+    static const char* s_LOCATION = "LOCATION";
 #endif
 #ifdef GL_LOCATION_COMPONENT
-    static const char s_LOCATION_COMPONENT[19] = "LOCATION_COMPONENT";
+    static const char* s_LOCATION_COMPONENT = "LOCATION_COMPONENT";
 #endif
 #ifdef GL_LOCATION_INDEX
-    static const char s_LOCATION_INDEX[15] = "LOCATION_INDEX";
+    static const char* s_LOCATION_INDEX = "LOCATION_INDEX";
 #endif
 #ifdef GL_LOGIC_OP_MODE
-    static const char s_LOGIC_OP_MODE[14] = "LOGIC_OP_MODE";
+    static const char* s_LOGIC_OP_MODE = "LOGIC_OP_MODE";
 #endif
 #ifdef GL_LOSE_CONTEXT_ON_RESET
-    static const char s_LOSE_CONTEXT_ON_RESET[22] = "LOSE_CONTEXT_ON_RESET";
+    static const char* s_LOSE_CONTEXT_ON_RESET = "LOSE_CONTEXT_ON_RESET";
 #endif
 #ifdef GL_LOWER_LEFT
-    static const char s_LOWER_LEFT[11] = "LOWER_LEFT";
+    static const char* s_LOWER_LEFT = "LOWER_LEFT";
 #endif
 #ifdef GL_LOW_FLOAT
-    static const char s_LOW_FLOAT[10] = "LOW_FLOAT";
+    static const char* s_LOW_FLOAT = "LOW_FLOAT";
 #endif
 #ifdef GL_LOW_INT
-    static const char s_LOW_INT[8] = "LOW_INT";
+    static const char* s_LOW_INT = "LOW_INT";
 #endif
 #ifdef GL_LUMINANCE
-    static const char s_LUMINANCE[10] = "LUMINANCE";
+    static const char* s_LUMINANCE = "LUMINANCE";
 #endif
 #ifdef GL_LUMINANCE_ALPHA
-    static const char s_LUMINANCE_ALPHA[16] = "LUMINANCE_ALPHA";
+    static const char* s_LUMINANCE_ALPHA = "LUMINANCE_ALPHA";
 #endif
 #ifdef GL_MAP_COHERENT_BIT
-    static const char s_MAP_COHERENT_BIT[17] = "MAP_COHERENT_BIT";
+    static const char* s_MAP_COHERENT_BIT = "MAP_COHERENT_BIT";
 #endif
 #ifdef GL_MAP_COLOR
-    static const char s_MAP_COLOR[10] = "MAP_COLOR";
+    static const char* s_MAP_COLOR = "MAP_COLOR";
 #endif
 #ifdef GL_MAP_FLUSH_EXPLICIT_BIT
-    static const char s_MAP_FLUSH_EXPLICIT_BIT[23] = "MAP_FLUSH_EXPLICIT_BIT";
+    static const char* s_MAP_FLUSH_EXPLICIT_BIT = "MAP_FLUSH_EXPLICIT_BIT";
 #endif
 #ifdef GL_MAP_INVALIDATE_BUFFER_BIT
-    static const char s_MAP_INVALIDATE_BUFFER_BIT[26] =
+    static const char* s_MAP_INVALIDATE_BUFFER_BIT =
       "MAP_INVALIDATE_BUFFER_BIT";
 #endif
 #ifdef GL_MAP_INVALIDATE_RANGE_BIT
-    static const char s_MAP_INVALIDATE_RANGE_BIT[25] =
-      "MAP_INVALIDATE_RANGE_BIT";
+    static const char* s_MAP_INVALIDATE_RANGE_BIT = "MAP_INVALIDATE_RANGE_BIT";
 #endif
 #ifdef GL_MAP_PERSISTENT_BIT
-    static const char s_MAP_PERSISTENT_BIT[19] = "MAP_PERSISTENT_BIT";
+    static const char* s_MAP_PERSISTENT_BIT = "MAP_PERSISTENT_BIT";
 #endif
 #ifdef GL_MAP_READ_BIT
-    static const char s_MAP_READ_BIT[13] = "MAP_READ_BIT";
+    static const char* s_MAP_READ_BIT = "MAP_READ_BIT";
 #endif
 #ifdef GL_MAP_STENCIL
-    static const char s_MAP_STENCIL[12] = "MAP_STENCIL";
+    static const char* s_MAP_STENCIL = "MAP_STENCIL";
 #endif
 #ifdef GL_MAP_UNSYNCHRONIZED_BIT
-    static const char s_MAP_UNSYNCHRONIZED_BIT[23] = "MAP_UNSYNCHRONIZED_BIT";
+    static const char* s_MAP_UNSYNCHRONIZED_BIT = "MAP_UNSYNCHRONIZED_BIT";
 #endif
 #ifdef GL_MAP_WRITE_BIT
-    static const char s_MAP_WRITE_BIT[14] = "MAP_WRITE_BIT";
+    static const char* s_MAP_WRITE_BIT = "MAP_WRITE_BIT";
 #endif
 #ifdef GL_MATRIX_STRIDE
-    static const char s_MATRIX_STRIDE[14] = "MATRIX_STRIDE";
+    static const char* s_MATRIX_STRIDE = "MATRIX_STRIDE";
 #endif
 #ifdef GL_MAX
-    static const char s_MAX[4] = "MAX";
+    static const char* s_MAX = "MAX";
 #endif
 #ifdef GL_MAX_3D_TEXTURE_SIZE
-    static const char s_MAX_3D_TEXTURE_SIZE[20] = "MAX_3D_TEXTURE_SIZE";
+    static const char* s_MAX_3D_TEXTURE_SIZE = "MAX_3D_TEXTURE_SIZE";
 #endif
 #ifdef GL_MAX_ARRAY_TEXTURE_LAYERS
-    static const char s_MAX_ARRAY_TEXTURE_LAYERS[25] =
-      "MAX_ARRAY_TEXTURE_LAYERS";
+    static const char* s_MAX_ARRAY_TEXTURE_LAYERS = "MAX_ARRAY_TEXTURE_LAYERS";
 #endif
 #ifdef GL_MAX_ATOMIC_COUNTER_BUFFER_BINDINGS
-    static const char s_MAX_ATOMIC_COUNTER_BUFFER_BINDINGS[35] =
+    static const char* s_MAX_ATOMIC_COUNTER_BUFFER_BINDINGS =
       "MAX_ATOMIC_COUNTER_BUFFER_BINDINGS";
 #endif
 #ifdef GL_MAX_ATOMIC_COUNTER_BUFFER_SIZE
-    static const char s_MAX_ATOMIC_COUNTER_BUFFER_SIZE[31] =
+    static const char* s_MAX_ATOMIC_COUNTER_BUFFER_SIZE =
       "MAX_ATOMIC_COUNTER_BUFFER_SIZE";
 #endif
 #ifdef GL_MAX_CLIP_DISTANCES
-    static const char s_MAX_CLIP_DISTANCES[19] = "MAX_CLIP_DISTANCES";
+    static const char* s_MAX_CLIP_DISTANCES = "MAX_CLIP_DISTANCES";
 #endif
 #ifdef GL_MAX_COLOR_ATTACHMENTS
-    static const char s_MAX_COLOR_ATTACHMENTS[22] = "MAX_COLOR_ATTACHMENTS";
+    static const char* s_MAX_COLOR_ATTACHMENTS = "MAX_COLOR_ATTACHMENTS";
 #endif
 #ifdef GL_MAX_COLOR_TEXTURE_SAMPLES
-    static const char s_MAX_COLOR_TEXTURE_SAMPLES[26] =
+    static const char* s_MAX_COLOR_TEXTURE_SAMPLES =
       "MAX_COLOR_TEXTURE_SAMPLES";
 #endif
 #ifdef GL_MAX_COMBINED_ATOMIC_COUNTERS
-    static const char s_MAX_COMBINED_ATOMIC_COUNTERS[29] =
+    static const char* s_MAX_COMBINED_ATOMIC_COUNTERS =
       "MAX_COMBINED_ATOMIC_COUNTERS";
 #endif
 #ifdef GL_MAX_COMBINED_ATOMIC_COUNTER_BUFFERS
-    static const char s_MAX_COMBINED_ATOMIC_COUNTER_BUFFERS[36] =
+    static const char* s_MAX_COMBINED_ATOMIC_COUNTER_BUFFERS =
       "MAX_COMBINED_ATOMIC_COUNTER_BUFFERS";
 #endif
 #ifdef GL_MAX_COMBINED_CLIP_AND_CULL_DISTANCES
-    static const char s_MAX_COMBINED_CLIP_AND_CULL_DISTANCES[37] =
+    static const char* s_MAX_COMBINED_CLIP_AND_CULL_DISTANCES =
       "MAX_COMBINED_CLIP_AND_CULL_DISTANCES";
 #endif
 #ifdef GL_MAX_COMBINED_DIMENSIONS
-    static const char s_MAX_COMBINED_DIMENSIONS[24] = "MAX_COMBINED_DIMENSIONS";
+    static const char* s_MAX_COMBINED_DIMENSIONS = "MAX_COMBINED_DIMENSIONS";
 #endif
 #ifdef GL_MAX_COMBINED_FRAGMENT_UNIFORM_COMPONENTS
-    static const char s_MAX_COMBINED_FRAGMENT_UNIFORM_COMPONENTS[41] =
+    static const char* s_MAX_COMBINED_FRAGMENT_UNIFORM_COMPONENTS =
       "MAX_COMBINED_FRAGMENT_UNIFORM_COMPONENTS";
 #endif
 #ifdef GL_MAX_COMBINED_GEOMETRY_UNIFORM_COMPONENTS
-    static const char s_MAX_COMBINED_GEOMETRY_UNIFORM_COMPONENTS[41] =
+    static const char* s_MAX_COMBINED_GEOMETRY_UNIFORM_COMPONENTS =
       "MAX_COMBINED_GEOMETRY_UNIFORM_COMPONENTS";
 #endif
 #ifdef GL_MAX_COMBINED_IMAGE_UNIFORMS
-    static const char s_MAX_COMBINED_IMAGE_UNIFORMS[28] =
+    static const char* s_MAX_COMBINED_IMAGE_UNIFORMS =
       "MAX_COMBINED_IMAGE_UNIFORMS";
 #endif
 #ifdef GL_MAX_COMBINED_IMAGE_UNITS_AND_FRAGMENT_OUTPUTS
-    static const char s_MAX_COMBINED_IMAGE_UNITS_AND_FRAGMENT_OUTPUTS[46] =
+    static const char* s_MAX_COMBINED_IMAGE_UNITS_AND_FRAGMENT_OUTPUTS =
       "MAX_COMBINED_IMAGE_UNITS_AND_FRAGMENT_OUTPUTS";
 #endif
 #ifdef GL_MAX_COMBINED_TESS_CONTROL_UNIFORM_COMPONENTS
-    static const char s_MAX_COMBINED_TESS_CONTROL_UNIFORM_COMPONENTS[45] =
+    static const char* s_MAX_COMBINED_TESS_CONTROL_UNIFORM_COMPONENTS =
       "MAX_COMBINED_TESS_CONTROL_UNIFORM_COMPONENTS";
 #endif
 #ifdef GL_MAX_COMBINED_TESS_EVALUATION_UNIFORM_COMPONENTS
-    static const char s_MAX_COMBINED_TESS_EVALUATION_UNIFORM_COMPONENTS[48] =
+    static const char* s_MAX_COMBINED_TESS_EVALUATION_UNIFORM_COMPONENTS =
       "MAX_COMBINED_TESS_EVALUATION_UNIFORM_COMPONENTS";
 #endif
 #ifdef GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS
-    static const char s_MAX_COMBINED_TEXTURE_IMAGE_UNITS[33] =
+    static const char* s_MAX_COMBINED_TEXTURE_IMAGE_UNITS =
       "MAX_COMBINED_TEXTURE_IMAGE_UNITS";
 #endif
 #ifdef GL_MAX_COMBINED_UNIFORM_BLOCKS
-    static const char s_MAX_COMBINED_UNIFORM_BLOCKS[28] =
+    static const char* s_MAX_COMBINED_UNIFORM_BLOCKS =
       "MAX_COMBINED_UNIFORM_BLOCKS";
 #endif
 #ifdef GL_MAX_COMBINED_VERTEX_UNIFORM_COMPONENTS
-    static const char s_MAX_COMBINED_VERTEX_UNIFORM_COMPONENTS[39] =
+    static const char* s_MAX_COMBINED_VERTEX_UNIFORM_COMPONENTS =
       "MAX_COMBINED_VERTEX_UNIFORM_COMPONENTS";
 #endif
 #ifdef GL_MAX_COMPUTE_SHARED_MEMORY_SIZE
-    static const char s_MAX_COMPUTE_SHARED_MEMORY_SIZE[31] =
+    static const char* s_MAX_COMPUTE_SHARED_MEMORY_SIZE =
       "MAX_COMPUTE_SHARED_MEMORY_SIZE";
 #endif
 #ifdef GL_MAX_COMPUTE_WORK_GROUP_COUNT
-    static const char s_MAX_COMPUTE_WORK_GROUP_COUNT[29] =
+    static const char* s_MAX_COMPUTE_WORK_GROUP_COUNT =
       "MAX_COMPUTE_WORK_GROUP_COUNT";
 #endif
 #ifdef GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS
-    static const char s_MAX_COMPUTE_WORK_GROUP_INVOCATIONS[35] =
+    static const char* s_MAX_COMPUTE_WORK_GROUP_INVOCATIONS =
       "MAX_COMPUTE_WORK_GROUP_INVOCATIONS";
 #endif
 #ifdef GL_MAX_COMPUTE_WORK_GROUP_SIZE
-    static const char s_MAX_COMPUTE_WORK_GROUP_SIZE[28] =
+    static const char* s_MAX_COMPUTE_WORK_GROUP_SIZE =
       "MAX_COMPUTE_WORK_GROUP_SIZE";
 #endif
 #ifdef GL_MAX_CUBE_MAP_TEXTURE_SIZE
-    static const char s_MAX_CUBE_MAP_TEXTURE_SIZE[26] =
+    static const char* s_MAX_CUBE_MAP_TEXTURE_SIZE =
       "MAX_CUBE_MAP_TEXTURE_SIZE";
 #endif
 #ifdef GL_MAX_CULL_DISTANCES
-    static const char s_MAX_CULL_DISTANCES[19] = "MAX_CULL_DISTANCES";
+    static const char* s_MAX_CULL_DISTANCES = "MAX_CULL_DISTANCES";
 #endif
 #ifdef GL_MAX_DEPTH
-    static const char s_MAX_DEPTH[10] = "MAX_DEPTH";
+    static const char* s_MAX_DEPTH = "MAX_DEPTH";
 #endif
 #ifdef GL_MAX_DEPTH_TEXTURE_SAMPLES
-    static const char s_MAX_DEPTH_TEXTURE_SAMPLES[26] =
+    static const char* s_MAX_DEPTH_TEXTURE_SAMPLES =
       "MAX_DEPTH_TEXTURE_SAMPLES";
 #endif
 #ifdef GL_MAX_DRAW_BUFFERS
-    static const char s_MAX_DRAW_BUFFERS[17] = "MAX_DRAW_BUFFERS";
+    static const char* s_MAX_DRAW_BUFFERS = "MAX_DRAW_BUFFERS";
 #endif
 #ifdef GL_MAX_DUAL_SOURCE_DRAW_BUFFERS
-    static const char s_MAX_DUAL_SOURCE_DRAW_BUFFERS[29] =
+    static const char* s_MAX_DUAL_SOURCE_DRAW_BUFFERS =
       "MAX_DUAL_SOURCE_DRAW_BUFFERS";
 #endif
 #ifdef GL_MAX_ELEMENTS_INDICES
-    static const char s_MAX_ELEMENTS_INDICES[21] = "MAX_ELEMENTS_INDICES";
+    static const char* s_MAX_ELEMENTS_INDICES = "MAX_ELEMENTS_INDICES";
 #endif
 #ifdef GL_MAX_ELEMENTS_VERTICES
-    static const char s_MAX_ELEMENTS_VERTICES[22] = "MAX_ELEMENTS_VERTICES";
+    static const char* s_MAX_ELEMENTS_VERTICES = "MAX_ELEMENTS_VERTICES";
 #endif
 #ifdef GL_MAX_FRAGMENT_ATOMIC_COUNTERS
-    static const char s_MAX_FRAGMENT_ATOMIC_COUNTERS[29] =
+    static const char* s_MAX_FRAGMENT_ATOMIC_COUNTERS =
       "MAX_FRAGMENT_ATOMIC_COUNTERS";
 #endif
 #ifdef GL_MAX_FRAGMENT_ATOMIC_COUNTER_BUFFERS
-    static const char s_MAX_FRAGMENT_ATOMIC_COUNTER_BUFFERS[36] =
+    static const char* s_MAX_FRAGMENT_ATOMIC_COUNTER_BUFFERS =
       "MAX_FRAGMENT_ATOMIC_COUNTER_BUFFERS";
 #endif
 #ifdef GL_MAX_FRAGMENT_IMAGE_UNIFORMS
-    static const char s_MAX_FRAGMENT_IMAGE_UNIFORMS[28] =
+    static const char* s_MAX_FRAGMENT_IMAGE_UNIFORMS =
       "MAX_FRAGMENT_IMAGE_UNIFORMS";
 #endif
 #ifdef GL_MAX_FRAGMENT_INPUT_COMPONENTS
-    static const char s_MAX_FRAGMENT_INPUT_COMPONENTS[30] =
+    static const char* s_MAX_FRAGMENT_INPUT_COMPONENTS =
       "MAX_FRAGMENT_INPUT_COMPONENTS";
 #endif
 #ifdef GL_MAX_FRAGMENT_INTERPOLATION_OFFSET
-    static const char s_MAX_FRAGMENT_INTERPOLATION_OFFSET[34] =
+    static const char* s_MAX_FRAGMENT_INTERPOLATION_OFFSET =
       "MAX_FRAGMENT_INTERPOLATION_OFFSET";
 #endif
 #ifdef GL_MAX_FRAGMENT_UNIFORM_BLOCKS
-    static const char s_MAX_FRAGMENT_UNIFORM_BLOCKS[28] =
+    static const char* s_MAX_FRAGMENT_UNIFORM_BLOCKS =
       "MAX_FRAGMENT_UNIFORM_BLOCKS";
 #endif
 #ifdef GL_MAX_FRAGMENT_UNIFORM_COMPONENTS
-    static const char s_MAX_FRAGMENT_UNIFORM_COMPONENTS[32] =
+    static const char* s_MAX_FRAGMENT_UNIFORM_COMPONENTS =
       "MAX_FRAGMENT_UNIFORM_COMPONENTS";
 #endif
 #ifdef GL_MAX_FRAGMENT_UNIFORM_VECTORS
-    static const char s_MAX_FRAGMENT_UNIFORM_VECTORS[29] =
+    static const char* s_MAX_FRAGMENT_UNIFORM_VECTORS =
       "MAX_FRAGMENT_UNIFORM_VECTORS";
 #endif
 #ifdef GL_MAX_GEOMETRY_ATOMIC_COUNTERS
-    static const char s_MAX_GEOMETRY_ATOMIC_COUNTERS[29] =
+    static const char* s_MAX_GEOMETRY_ATOMIC_COUNTERS =
       "MAX_GEOMETRY_ATOMIC_COUNTERS";
 #endif
 #ifdef GL_MAX_GEOMETRY_ATOMIC_COUNTER_BUFFERS
-    static const char s_MAX_GEOMETRY_ATOMIC_COUNTER_BUFFERS[36] =
+    static const char* s_MAX_GEOMETRY_ATOMIC_COUNTER_BUFFERS =
       "MAX_GEOMETRY_ATOMIC_COUNTER_BUFFERS";
 #endif
 #ifdef GL_MAX_GEOMETRY_IMAGE_UNIFORMS
-    static const char s_MAX_GEOMETRY_IMAGE_UNIFORMS[28] =
+    static const char* s_MAX_GEOMETRY_IMAGE_UNIFORMS =
       "MAX_GEOMETRY_IMAGE_UNIFORMS";
 #endif
 #ifdef GL_MAX_GEOMETRY_INPUT_COMPONENTS
-    static const char s_MAX_GEOMETRY_INPUT_COMPONENTS[30] =
+    static const char* s_MAX_GEOMETRY_INPUT_COMPONENTS =
       "MAX_GEOMETRY_INPUT_COMPONENTS";
 #endif
 #ifdef GL_MAX_GEOMETRY_OUTPUT_COMPONENTS
-    static const char s_MAX_GEOMETRY_OUTPUT_COMPONENTS[31] =
+    static const char* s_MAX_GEOMETRY_OUTPUT_COMPONENTS =
       "MAX_GEOMETRY_OUTPUT_COMPONENTS";
 #endif
 #ifdef GL_MAX_GEOMETRY_OUTPUT_VERTICES
-    static const char s_MAX_GEOMETRY_OUTPUT_VERTICES[29] =
+    static const char* s_MAX_GEOMETRY_OUTPUT_VERTICES =
       "MAX_GEOMETRY_OUTPUT_VERTICES";
 #endif
 #ifdef GL_MAX_GEOMETRY_SHADER_INVOCATIONS
-    static const char s_MAX_GEOMETRY_SHADER_INVOCATIONS[32] =
+    static const char* s_MAX_GEOMETRY_SHADER_INVOCATIONS =
       "MAX_GEOMETRY_SHADER_INVOCATIONS";
 #endif
 #ifdef GL_MAX_GEOMETRY_TEXTURE_IMAGE_UNITS
-    static const char s_MAX_GEOMETRY_TEXTURE_IMAGE_UNITS[33] =
+    static const char* s_MAX_GEOMETRY_TEXTURE_IMAGE_UNITS =
       "MAX_GEOMETRY_TEXTURE_IMAGE_UNITS";
 #endif
 #ifdef GL_MAX_GEOMETRY_TOTAL_OUTPUT_COMPONENTS
-    static const char s_MAX_GEOMETRY_TOTAL_OUTPUT_COMPONENTS[37] =
+    static const char* s_MAX_GEOMETRY_TOTAL_OUTPUT_COMPONENTS =
       "MAX_GEOMETRY_TOTAL_OUTPUT_COMPONENTS";
 #endif
 #ifdef GL_MAX_GEOMETRY_UNIFORM_BLOCKS
-    static const char s_MAX_GEOMETRY_UNIFORM_BLOCKS[28] =
+    static const char* s_MAX_GEOMETRY_UNIFORM_BLOCKS =
       "MAX_GEOMETRY_UNIFORM_BLOCKS";
 #endif
 #ifdef GL_MAX_GEOMETRY_UNIFORM_COMPONENTS
-    static const char s_MAX_GEOMETRY_UNIFORM_COMPONENTS[32] =
+    static const char* s_MAX_GEOMETRY_UNIFORM_COMPONENTS =
       "MAX_GEOMETRY_UNIFORM_COMPONENTS";
 #endif
 #ifdef GL_MAX_HEIGHT
-    static const char s_MAX_HEIGHT[11] = "MAX_HEIGHT";
+    static const char* s_MAX_HEIGHT = "MAX_HEIGHT";
 #endif
 #ifdef GL_MAX_IMAGE_SAMPLES
-    static const char s_MAX_IMAGE_SAMPLES[18] = "MAX_IMAGE_SAMPLES";
+    static const char* s_MAX_IMAGE_SAMPLES = "MAX_IMAGE_SAMPLES";
 #endif
 #ifdef GL_MAX_IMAGE_UNITS
-    static const char s_MAX_IMAGE_UNITS[16] = "MAX_IMAGE_UNITS";
+    static const char* s_MAX_IMAGE_UNITS = "MAX_IMAGE_UNITS";
 #endif
 #ifdef GL_MAX_INTEGER_SAMPLES
-    static const char s_MAX_INTEGER_SAMPLES[20] = "MAX_INTEGER_SAMPLES";
+    static const char* s_MAX_INTEGER_SAMPLES = "MAX_INTEGER_SAMPLES";
 #endif
 #ifdef GL_MAX_LAYERS
-    static const char s_MAX_LAYERS[11] = "MAX_LAYERS";
+    static const char* s_MAX_LAYERS = "MAX_LAYERS";
 #endif
 #ifdef GL_MAX_PATCH_VERTICES
-    static const char s_MAX_PATCH_VERTICES[19] = "MAX_PATCH_VERTICES";
+    static const char* s_MAX_PATCH_VERTICES = "MAX_PATCH_VERTICES";
 #endif
 #ifdef GL_MAX_PROGRAM_TEXEL_OFFSET
-    static const char s_MAX_PROGRAM_TEXEL_OFFSET[25] =
-      "MAX_PROGRAM_TEXEL_OFFSET";
+    static const char* s_MAX_PROGRAM_TEXEL_OFFSET = "MAX_PROGRAM_TEXEL_OFFSET";
 #endif
 #ifdef GL_MAX_PROGRAM_TEXTURE_GATHER_OFFSET
-    static const char s_MAX_PROGRAM_TEXTURE_GATHER_OFFSET[34] =
+    static const char* s_MAX_PROGRAM_TEXTURE_GATHER_OFFSET =
       "MAX_PROGRAM_TEXTURE_GATHER_OFFSET";
 #endif
 #ifdef GL_MAX_RECTANGLE_TEXTURE_SIZE
-    static const char s_MAX_RECTANGLE_TEXTURE_SIZE[27] =
+    static const char* s_MAX_RECTANGLE_TEXTURE_SIZE =
       "MAX_RECTANGLE_TEXTURE_SIZE";
 #endif
 #ifdef GL_MAX_RENDERBUFFER_SIZE
-    static const char s_MAX_RENDERBUFFER_SIZE[22] = "MAX_RENDERBUFFER_SIZE";
+    static const char* s_MAX_RENDERBUFFER_SIZE = "MAX_RENDERBUFFER_SIZE";
 #endif
 #ifdef GL_MAX_SAMPLES
-    static const char s_MAX_SAMPLES[12] = "MAX_SAMPLES";
+    static const char* s_MAX_SAMPLES = "MAX_SAMPLES";
 #endif
 #ifdef GL_MAX_SAMPLE_MASK_WORDS
-    static const char s_MAX_SAMPLE_MASK_WORDS[22] = "MAX_SAMPLE_MASK_WORDS";
+    static const char* s_MAX_SAMPLE_MASK_WORDS = "MAX_SAMPLE_MASK_WORDS";
 #endif
 #ifdef GL_MAX_SERVER_WAIT_TIMEOUT
-    static const char s_MAX_SERVER_WAIT_TIMEOUT[24] = "MAX_SERVER_WAIT_TIMEOUT";
+    static const char* s_MAX_SERVER_WAIT_TIMEOUT = "MAX_SERVER_WAIT_TIMEOUT";
 #endif
 #ifdef GL_MAX_SUBROUTINES
-    static const char s_MAX_SUBROUTINES[16] = "MAX_SUBROUTINES";
+    static const char* s_MAX_SUBROUTINES = "MAX_SUBROUTINES";
 #endif
 #ifdef GL_MAX_SUBROUTINE_UNIFORM_LOCATIONS
-    static const char s_MAX_SUBROUTINE_UNIFORM_LOCATIONS[33] =
+    static const char* s_MAX_SUBROUTINE_UNIFORM_LOCATIONS =
       "MAX_SUBROUTINE_UNIFORM_LOCATIONS";
 #endif
 #ifdef GL_MAX_TESS_CONTROL_ATOMIC_COUNTERS
-    static const char s_MAX_TESS_CONTROL_ATOMIC_COUNTERS[33] =
+    static const char* s_MAX_TESS_CONTROL_ATOMIC_COUNTERS =
       "MAX_TESS_CONTROL_ATOMIC_COUNTERS";
 #endif
 #ifdef GL_MAX_TESS_CONTROL_ATOMIC_COUNTER_BUFFERS
-    static const char s_MAX_TESS_CONTROL_ATOMIC_COUNTER_BUFFERS[40] =
+    static const char* s_MAX_TESS_CONTROL_ATOMIC_COUNTER_BUFFERS =
       "MAX_TESS_CONTROL_ATOMIC_COUNTER_BUFFERS";
 #endif
 #ifdef GL_MAX_TESS_CONTROL_IMAGE_UNIFORMS
-    static const char s_MAX_TESS_CONTROL_IMAGE_UNIFORMS[32] =
+    static const char* s_MAX_TESS_CONTROL_IMAGE_UNIFORMS =
       "MAX_TESS_CONTROL_IMAGE_UNIFORMS";
 #endif
 #ifdef GL_MAX_TESS_CONTROL_INPUT_COMPONENTS
-    static const char s_MAX_TESS_CONTROL_INPUT_COMPONENTS[34] =
+    static const char* s_MAX_TESS_CONTROL_INPUT_COMPONENTS =
       "MAX_TESS_CONTROL_INPUT_COMPONENTS";
 #endif
 #ifdef GL_MAX_TESS_CONTROL_OUTPUT_COMPONENTS
-    static const char s_MAX_TESS_CONTROL_OUTPUT_COMPONENTS[35] =
+    static const char* s_MAX_TESS_CONTROL_OUTPUT_COMPONENTS =
       "MAX_TESS_CONTROL_OUTPUT_COMPONENTS";
 #endif
 #ifdef GL_MAX_TESS_CONTROL_TEXTURE_IMAGE_UNITS
-    static const char s_MAX_TESS_CONTROL_TEXTURE_IMAGE_UNITS[37] =
+    static const char* s_MAX_TESS_CONTROL_TEXTURE_IMAGE_UNITS =
       "MAX_TESS_CONTROL_TEXTURE_IMAGE_UNITS";
 #endif
 #ifdef GL_MAX_TESS_CONTROL_TOTAL_OUTPUT_COMPONENTS
-    static const char s_MAX_TESS_CONTROL_TOTAL_OUTPUT_COMPONENTS[41] =
+    static const char* s_MAX_TESS_CONTROL_TOTAL_OUTPUT_COMPONENTS =
       "MAX_TESS_CONTROL_TOTAL_OUTPUT_COMPONENTS";
 #endif
 #ifdef GL_MAX_TESS_CONTROL_UNIFORM_BLOCKS
-    static const char s_MAX_TESS_CONTROL_UNIFORM_BLOCKS[32] =
+    static const char* s_MAX_TESS_CONTROL_UNIFORM_BLOCKS =
       "MAX_TESS_CONTROL_UNIFORM_BLOCKS";
 #endif
 #ifdef GL_MAX_TESS_CONTROL_UNIFORM_COMPONENTS
-    static const char s_MAX_TESS_CONTROL_UNIFORM_COMPONENTS[36] =
+    static const char* s_MAX_TESS_CONTROL_UNIFORM_COMPONENTS =
       "MAX_TESS_CONTROL_UNIFORM_COMPONENTS";
 #endif
 #ifdef GL_MAX_TESS_EVALUATION_ATOMIC_COUNTERS
-    static const char s_MAX_TESS_EVALUATION_ATOMIC_COUNTERS[36] =
+    static const char* s_MAX_TESS_EVALUATION_ATOMIC_COUNTERS =
       "MAX_TESS_EVALUATION_ATOMIC_COUNTERS";
 #endif
 #ifdef GL_MAX_TESS_EVALUATION_ATOMIC_COUNTER_BUFFERS
-    static const char s_MAX_TESS_EVALUATION_ATOMIC_COUNTER_BUFFERS[43] =
+    static const char* s_MAX_TESS_EVALUATION_ATOMIC_COUNTER_BUFFERS =
       "MAX_TESS_EVALUATION_ATOMIC_COUNTER_BUFFERS";
 #endif
 #ifdef GL_MAX_TESS_EVALUATION_IMAGE_UNIFORMS
-    static const char s_MAX_TESS_EVALUATION_IMAGE_UNIFORMS[35] =
+    static const char* s_MAX_TESS_EVALUATION_IMAGE_UNIFORMS =
       "MAX_TESS_EVALUATION_IMAGE_UNIFORMS";
 #endif
 #ifdef GL_MAX_TESS_EVALUATION_INPUT_COMPONENTS
-    static const char s_MAX_TESS_EVALUATION_INPUT_COMPONENTS[37] =
+    static const char* s_MAX_TESS_EVALUATION_INPUT_COMPONENTS =
       "MAX_TESS_EVALUATION_INPUT_COMPONENTS";
 #endif
 #ifdef GL_MAX_TESS_EVALUATION_OUTPUT_COMPONENTS
-    static const char s_MAX_TESS_EVALUATION_OUTPUT_COMPONENTS[38] =
+    static const char* s_MAX_TESS_EVALUATION_OUTPUT_COMPONENTS =
       "MAX_TESS_EVALUATION_OUTPUT_COMPONENTS";
 #endif
 #ifdef GL_MAX_TESS_EVALUATION_TEXTURE_IMAGE_UNITS
-    static const char s_MAX_TESS_EVALUATION_TEXTURE_IMAGE_UNITS[40] =
+    static const char* s_MAX_TESS_EVALUATION_TEXTURE_IMAGE_UNITS =
       "MAX_TESS_EVALUATION_TEXTURE_IMAGE_UNITS";
 #endif
 #ifdef GL_MAX_TESS_EVALUATION_UNIFORM_BLOCKS
-    static const char s_MAX_TESS_EVALUATION_UNIFORM_BLOCKS[35] =
+    static const char* s_MAX_TESS_EVALUATION_UNIFORM_BLOCKS =
       "MAX_TESS_EVALUATION_UNIFORM_BLOCKS";
 #endif
 #ifdef GL_MAX_TESS_EVALUATION_UNIFORM_COMPONENTS
-    static const char s_MAX_TESS_EVALUATION_UNIFORM_COMPONENTS[39] =
+    static const char* s_MAX_TESS_EVALUATION_UNIFORM_COMPONENTS =
       "MAX_TESS_EVALUATION_UNIFORM_COMPONENTS";
 #endif
 #ifdef GL_MAX_TESS_GEN_LEVEL
-    static const char s_MAX_TESS_GEN_LEVEL[19] = "MAX_TESS_GEN_LEVEL";
+    static const char* s_MAX_TESS_GEN_LEVEL = "MAX_TESS_GEN_LEVEL";
 #endif
 #ifdef GL_MAX_TESS_PATCH_COMPONENTS
-    static const char s_MAX_TESS_PATCH_COMPONENTS[26] =
+    static const char* s_MAX_TESS_PATCH_COMPONENTS =
       "MAX_TESS_PATCH_COMPONENTS";
 #endif
 #ifdef GL_MAX_TEXTURE_BUFFER_SIZE
-    static const char s_MAX_TEXTURE_BUFFER_SIZE[24] = "MAX_TEXTURE_BUFFER_SIZE";
+    static const char* s_MAX_TEXTURE_BUFFER_SIZE = "MAX_TEXTURE_BUFFER_SIZE";
 #endif
 #ifdef GL_MAX_TEXTURE_IMAGE_UNITS
-    static const char s_MAX_TEXTURE_IMAGE_UNITS[24] = "MAX_TEXTURE_IMAGE_UNITS";
+    static const char* s_MAX_TEXTURE_IMAGE_UNITS = "MAX_TEXTURE_IMAGE_UNITS";
 #endif
 #ifdef GL_MAX_TEXTURE_LOD_BIAS
-    static const char s_MAX_TEXTURE_LOD_BIAS[21] = "MAX_TEXTURE_LOD_BIAS";
+    static const char* s_MAX_TEXTURE_LOD_BIAS = "MAX_TEXTURE_LOD_BIAS";
 #endif
 #ifdef GL_MAX_TEXTURE_SIZE
-    static const char s_MAX_TEXTURE_SIZE[17] = "MAX_TEXTURE_SIZE";
+    static const char* s_MAX_TEXTURE_SIZE = "MAX_TEXTURE_SIZE";
 #endif
 #ifdef GL_MAX_TRANSFORM_FEEDBACK_BUFFERS
-    static const char s_MAX_TRANSFORM_FEEDBACK_BUFFERS[31] =
+    static const char* s_MAX_TRANSFORM_FEEDBACK_BUFFERS =
       "MAX_TRANSFORM_FEEDBACK_BUFFERS";
 #endif
 #ifdef GL_MAX_TRANSFORM_FEEDBACK_INTERLEAVED_COMPONENTS
-    static const char s_MAX_TRANSFORM_FEEDBACK_INTERLEAVED_COMPONENTS[46] =
+    static const char* s_MAX_TRANSFORM_FEEDBACK_INTERLEAVED_COMPONENTS =
       "MAX_TRANSFORM_FEEDBACK_INTERLEAVED_COMPONENTS";
 #endif
 #ifdef GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_ATTRIBS
-    static const char s_MAX_TRANSFORM_FEEDBACK_SEPARATE_ATTRIBS[40] =
+    static const char* s_MAX_TRANSFORM_FEEDBACK_SEPARATE_ATTRIBS =
       "MAX_TRANSFORM_FEEDBACK_SEPARATE_ATTRIBS";
 #endif
 #ifdef GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_COMPONENTS
-    static const char s_MAX_TRANSFORM_FEEDBACK_SEPARATE_COMPONENTS[43] =
+    static const char* s_MAX_TRANSFORM_FEEDBACK_SEPARATE_COMPONENTS =
       "MAX_TRANSFORM_FEEDBACK_SEPARATE_COMPONENTS";
 #endif
 #ifdef GL_MAX_UNIFORM_BLOCK_SIZE
-    static const char s_MAX_UNIFORM_BLOCK_SIZE[23] = "MAX_UNIFORM_BLOCK_SIZE";
+    static const char* s_MAX_UNIFORM_BLOCK_SIZE = "MAX_UNIFORM_BLOCK_SIZE";
 #endif
 #ifdef GL_MAX_UNIFORM_BUFFER_BINDINGS
-    static const char s_MAX_UNIFORM_BUFFER_BINDINGS[28] =
+    static const char* s_MAX_UNIFORM_BUFFER_BINDINGS =
       "MAX_UNIFORM_BUFFER_BINDINGS";
 #endif
 #ifdef GL_MAX_VARYING_COMPONENTS
-    static const char s_MAX_VARYING_COMPONENTS[23] = "MAX_VARYING_COMPONENTS";
+    static const char* s_MAX_VARYING_COMPONENTS = "MAX_VARYING_COMPONENTS";
 #endif
 #ifdef GL_MAX_VARYING_VECTORS
-    static const char s_MAX_VARYING_VECTORS[20] = "MAX_VARYING_VECTORS";
+    static const char* s_MAX_VARYING_VECTORS = "MAX_VARYING_VECTORS";
 #endif
 #ifdef GL_MAX_VERTEX_ATOMIC_COUNTERS
-    static const char s_MAX_VERTEX_ATOMIC_COUNTERS[27] =
+    static const char* s_MAX_VERTEX_ATOMIC_COUNTERS =
       "MAX_VERTEX_ATOMIC_COUNTERS";
 #endif
 #ifdef GL_MAX_VERTEX_ATOMIC_COUNTER_BUFFERS
-    static const char s_MAX_VERTEX_ATOMIC_COUNTER_BUFFERS[34] =
+    static const char* s_MAX_VERTEX_ATOMIC_COUNTER_BUFFERS =
       "MAX_VERTEX_ATOMIC_COUNTER_BUFFERS";
 #endif
 #ifdef GL_MAX_VERTEX_ATTRIBS
-    static const char s_MAX_VERTEX_ATTRIBS[19] = "MAX_VERTEX_ATTRIBS";
+    static const char* s_MAX_VERTEX_ATTRIBS = "MAX_VERTEX_ATTRIBS";
 #endif
 #ifdef GL_MAX_VERTEX_IMAGE_UNIFORMS
-    static const char s_MAX_VERTEX_IMAGE_UNIFORMS[26] =
+    static const char* s_MAX_VERTEX_IMAGE_UNIFORMS =
       "MAX_VERTEX_IMAGE_UNIFORMS";
 #endif
 #ifdef GL_MAX_VERTEX_OUTPUT_COMPONENTS
-    static const char s_MAX_VERTEX_OUTPUT_COMPONENTS[29] =
+    static const char* s_MAX_VERTEX_OUTPUT_COMPONENTS =
       "MAX_VERTEX_OUTPUT_COMPONENTS";
 #endif
 #ifdef GL_MAX_VERTEX_STREAMS
-    static const char s_MAX_VERTEX_STREAMS[19] = "MAX_VERTEX_STREAMS";
+    static const char* s_MAX_VERTEX_STREAMS = "MAX_VERTEX_STREAMS";
 #endif
 #ifdef GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS
-    static const char s_MAX_VERTEX_TEXTURE_IMAGE_UNITS[31] =
+    static const char* s_MAX_VERTEX_TEXTURE_IMAGE_UNITS =
       "MAX_VERTEX_TEXTURE_IMAGE_UNITS";
 #endif
 #ifdef GL_MAX_VERTEX_UNIFORM_BLOCKS
-    static const char s_MAX_VERTEX_UNIFORM_BLOCKS[26] =
+    static const char* s_MAX_VERTEX_UNIFORM_BLOCKS =
       "MAX_VERTEX_UNIFORM_BLOCKS";
 #endif
 #ifdef GL_MAX_VERTEX_UNIFORM_COMPONENTS
-    static const char s_MAX_VERTEX_UNIFORM_COMPONENTS[30] =
+    static const char* s_MAX_VERTEX_UNIFORM_COMPONENTS =
       "MAX_VERTEX_UNIFORM_COMPONENTS";
 #endif
 #ifdef GL_MAX_VERTEX_UNIFORM_VECTORS
-    static const char s_MAX_VERTEX_UNIFORM_VECTORS[27] =
+    static const char* s_MAX_VERTEX_UNIFORM_VECTORS =
       "MAX_VERTEX_UNIFORM_VECTORS";
 #endif
 #ifdef GL_MAX_VIEWPORTS
-    static const char s_MAX_VIEWPORTS[14] = "MAX_VIEWPORTS";
+    static const char* s_MAX_VIEWPORTS = "MAX_VIEWPORTS";
 #endif
 #ifdef GL_MAX_VIEWPORT_DIMS
-    static const char s_MAX_VIEWPORT_DIMS[18] = "MAX_VIEWPORT_DIMS";
+    static const char* s_MAX_VIEWPORT_DIMS = "MAX_VIEWPORT_DIMS";
 #endif
 #ifdef GL_MAX_WIDTH
-    static const char s_MAX_WIDTH[10] = "MAX_WIDTH";
+    static const char* s_MAX_WIDTH = "MAX_WIDTH";
 #endif
 #ifdef GL_MEDIUM_FLOAT
-    static const char s_MEDIUM_FLOAT[13] = "MEDIUM_FLOAT";
+    static const char* s_MEDIUM_FLOAT = "MEDIUM_FLOAT";
 #endif
 #ifdef GL_MEDIUM_INT
-    static const char s_MEDIUM_INT[11] = "MEDIUM_INT";
+    static const char* s_MEDIUM_INT = "MEDIUM_INT";
 #endif
 #ifdef GL_MIN
-    static const char s_MIN[4] = "MIN";
+    static const char* s_MIN = "MIN";
 #endif
 #ifdef GL_MIN_FRAGMENT_INTERPOLATION_OFFSET
-    static const char s_MIN_FRAGMENT_INTERPOLATION_OFFSET[34] =
+    static const char* s_MIN_FRAGMENT_INTERPOLATION_OFFSET =
       "MIN_FRAGMENT_INTERPOLATION_OFFSET";
 #endif
 #ifdef GL_MIN_MAP_BUFFER_ALIGNMENT
-    static const char s_MIN_MAP_BUFFER_ALIGNMENT[25] =
-      "MIN_MAP_BUFFER_ALIGNMENT";
+    static const char* s_MIN_MAP_BUFFER_ALIGNMENT = "MIN_MAP_BUFFER_ALIGNMENT";
 #endif
 #ifdef GL_MIN_PROGRAM_TEXEL_OFFSET
-    static const char s_MIN_PROGRAM_TEXEL_OFFSET[25] =
-      "MIN_PROGRAM_TEXEL_OFFSET";
+    static const char* s_MIN_PROGRAM_TEXEL_OFFSET = "MIN_PROGRAM_TEXEL_OFFSET";
 #endif
 #ifdef GL_MIN_PROGRAM_TEXTURE_GATHER_OFFSET
-    static const char s_MIN_PROGRAM_TEXTURE_GATHER_OFFSET[34] =
+    static const char* s_MIN_PROGRAM_TEXTURE_GATHER_OFFSET =
       "MIN_PROGRAM_TEXTURE_GATHER_OFFSET";
 #endif
 #ifdef GL_MIPMAP
-    static const char s_MIPMAP[7] = "MIPMAP";
+    static const char* s_MIPMAP = "MIPMAP";
 #endif
 #ifdef GL_MIRRORED_REPEAT
-    static const char s_MIRRORED_REPEAT[16] = "MIRRORED_REPEAT";
+    static const char* s_MIRRORED_REPEAT = "MIRRORED_REPEAT";
 #endif
 #ifdef GL_MIRROR_CLAMP_TO_EDGE
-    static const char s_MIRROR_CLAMP_TO_EDGE[21] = "MIRROR_CLAMP_TO_EDGE";
+    static const char* s_MIRROR_CLAMP_TO_EDGE = "MIRROR_CLAMP_TO_EDGE";
 #endif
 #ifdef GL_MITER_REVERT_NV
-    static const char s_MITER_REVERT_NV[16] = "MITER_REVERT_NV";
+    static const char* s_MITER_REVERT_NV = "MITER_REVERT_NV";
 #endif
 #ifdef GL_MITER_TRUNCATE_NV
-    static const char s_MITER_TRUNCATE_NV[18] = "MITER_TRUNCATE_NV";
+    static const char* s_MITER_TRUNCATE_NV = "MITER_TRUNCATE_NV";
 #endif
 #ifdef GL_MODELVIEW
-    static const char s_MODELVIEW[10] = "MODELVIEW";
+    static const char* s_MODELVIEW = "MODELVIEW";
 #endif
 #ifdef GL_MOVE_TO_CONTINUES_NV
-    static const char s_MOVE_TO_CONTINUES_NV[21] = "MOVE_TO_CONTINUES_NV";
+    static const char* s_MOVE_TO_CONTINUES_NV = "MOVE_TO_CONTINUES_NV";
 #endif
 #ifdef GL_MOVE_TO_NV
-    static const char s_MOVE_TO_NV[11] = "MOVE_TO_NV";
+    static const char* s_MOVE_TO_NV = "MOVE_TO_NV";
 #endif
 #ifdef GL_MOVE_TO_RESET_NV
-    static const char s_MOVE_TO_RESET_NV[17] = "MOVE_TO_RESET_NV";
+    static const char* s_MOVE_TO_RESET_NV = "MOVE_TO_RESET_NV";
 #endif
 #ifdef GL_MULTIPLY_KHR
-    static const char s_MULTIPLY_KHR[13] = "MULTIPLY_KHR";
+    static const char* s_MULTIPLY_KHR = "MULTIPLY_KHR";
 #endif
 #ifdef GL_MULTISAMPLE
-    static const char s_MULTISAMPLE[12] = "MULTISAMPLE";
+    static const char* s_MULTISAMPLE = "MULTISAMPLE";
 #endif
 #ifdef GL_NAMED_STRING_LENGTH_ARB
-    static const char s_NAMED_STRING_LENGTH_ARB[24] = "NAMED_STRING_LENGTH_ARB";
+    static const char* s_NAMED_STRING_LENGTH_ARB = "NAMED_STRING_LENGTH_ARB";
 #endif
 #ifdef GL_NAMED_STRING_TYPE_ARB
-    static const char s_NAMED_STRING_TYPE_ARB[22] = "NAMED_STRING_TYPE_ARB";
+    static const char* s_NAMED_STRING_TYPE_ARB = "NAMED_STRING_TYPE_ARB";
 #endif
 #ifdef GL_NAND
-    static const char s_NAND[5] = "NAND";
+    static const char* s_NAND = "NAND";
 #endif
 #ifdef GL_NEAREST
-    static const char s_NEAREST[8] = "NEAREST";
+    static const char* s_NEAREST = "NEAREST";
 #endif
 #ifdef GL_NEAREST_MIPMAP_LINEAR
-    static const char s_NEAREST_MIPMAP_LINEAR[22] = "NEAREST_MIPMAP_LINEAR";
+    static const char* s_NEAREST_MIPMAP_LINEAR = "NEAREST_MIPMAP_LINEAR";
 #endif
 #ifdef GL_NEAREST_MIPMAP_NEAREST
-    static const char s_NEAREST_MIPMAP_NEAREST[23] = "NEAREST_MIPMAP_NEAREST";
+    static const char* s_NEAREST_MIPMAP_NEAREST = "NEAREST_MIPMAP_NEAREST";
 #endif
 #ifdef GL_NEGATIVE_ONE_TO_ONE
-    static const char s_NEGATIVE_ONE_TO_ONE[20] = "NEGATIVE_ONE_TO_ONE";
+    static const char* s_NEGATIVE_ONE_TO_ONE = "NEGATIVE_ONE_TO_ONE";
 #endif
 #ifdef GL_NEVER
-    static const char s_NEVER[6] = "NEVER";
+    static const char* s_NEVER = "NEVER";
 #endif
 #ifdef GL_NICEST
-    static const char s_NICEST[7] = "NICEST";
+    static const char* s_NICEST = "NICEST";
 #endif
 #ifdef GL_NONE
-    static const char s_NONE[5] = "NONE";
+    static const char* s_NONE = "NONE";
 #endif
 #ifdef GL_NOOP
-    static const char s_NOOP[5] = "NOOP";
+    static const char* s_NOOP = "NOOP";
 #endif
 #ifdef GL_NOP_COMMAND_NV
-    static const char s_NOP_COMMAND_NV[15] = "NOP_COMMAND_NV";
+    static const char* s_NOP_COMMAND_NV = "NOP_COMMAND_NV";
 #endif
 #ifdef GL_NOR
-    static const char s_NOR[4] = "NOR";
+    static const char* s_NOR = "NOR";
 #endif
 #ifdef GL_NORMAL_ARRAY
-    static const char s_NORMAL_ARRAY[13] = "NORMAL_ARRAY";
+    static const char* s_NORMAL_ARRAY = "NORMAL_ARRAY";
 #endif
 #ifdef GL_NORMAL_ARRAY_ADDRESS_NV
-    static const char s_NORMAL_ARRAY_ADDRESS_NV[24] = "NORMAL_ARRAY_ADDRESS_NV";
+    static const char* s_NORMAL_ARRAY_ADDRESS_NV = "NORMAL_ARRAY_ADDRESS_NV";
 #endif
 #ifdef GL_NOTEQUAL
-    static const char s_NOTEQUAL[9] = "NOTEQUAL";
+    static const char* s_NOTEQUAL = "NOTEQUAL";
 #endif
 #ifdef GL_NO_ERROR
-    static const char s_NO_ERROR[9] = "NO_ERROR";
+    static const char* s_NO_ERROR = "NO_ERROR";
 #endif
 #ifdef GL_NO_RESET_NOTIFICATION
-    static const char s_NO_RESET_NOTIFICATION[22] = "NO_RESET_NOTIFICATION";
+    static const char* s_NO_RESET_NOTIFICATION = "NO_RESET_NOTIFICATION";
 #endif
 #ifdef GL_NUM_ACTIVE_VARIABLES
-    static const char s_NUM_ACTIVE_VARIABLES[21] = "NUM_ACTIVE_VARIABLES";
+    static const char* s_NUM_ACTIVE_VARIABLES = "NUM_ACTIVE_VARIABLES";
 #endif
 #ifdef GL_NUM_COMPATIBLE_SUBROUTINES
-    static const char s_NUM_COMPATIBLE_SUBROUTINES[27] =
+    static const char* s_NUM_COMPATIBLE_SUBROUTINES =
       "NUM_COMPATIBLE_SUBROUTINES";
 #endif
 #ifdef GL_NUM_COMPRESSED_TEXTURE_FORMATS
-    static const char s_NUM_COMPRESSED_TEXTURE_FORMATS[31] =
+    static const char* s_NUM_COMPRESSED_TEXTURE_FORMATS =
       "NUM_COMPRESSED_TEXTURE_FORMATS";
 #endif
 #ifdef GL_NUM_EXTENSIONS
-    static const char s_NUM_EXTENSIONS[15] = "NUM_EXTENSIONS";
+    static const char* s_NUM_EXTENSIONS = "NUM_EXTENSIONS";
 #endif
 #ifdef GL_NUM_PROGRAM_BINARY_FORMATS
-    static const char s_NUM_PROGRAM_BINARY_FORMATS[27] =
+    static const char* s_NUM_PROGRAM_BINARY_FORMATS =
       "NUM_PROGRAM_BINARY_FORMATS";
 #endif
 #ifdef GL_NUM_SAMPLE_COUNTS
-    static const char s_NUM_SAMPLE_COUNTS[18] = "NUM_SAMPLE_COUNTS";
+    static const char* s_NUM_SAMPLE_COUNTS = "NUM_SAMPLE_COUNTS";
 #endif
 #ifdef GL_NUM_SHADER_BINARY_FORMATS
-    static const char s_NUM_SHADER_BINARY_FORMATS[26] =
+    static const char* s_NUM_SHADER_BINARY_FORMATS =
       "NUM_SHADER_BINARY_FORMATS";
 #endif
 #ifdef GL_OBJECT_LINEAR
-    static const char s_OBJECT_LINEAR[14] = "OBJECT_LINEAR";
+    static const char* s_OBJECT_LINEAR = "OBJECT_LINEAR";
 #endif
 #ifdef GL_OBJECT_TYPE
-    static const char s_OBJECT_TYPE[12] = "OBJECT_TYPE";
+    static const char* s_OBJECT_TYPE = "OBJECT_TYPE";
 #endif
 #ifdef GL_OFFSET
-    static const char s_OFFSET[7] = "OFFSET";
+    static const char* s_OFFSET = "OFFSET";
 #endif
 #ifdef GL_ONE
-    static const char s_ONE[4] = "ONE";
+    static const char* s_ONE = "ONE";
 #endif
 #ifdef GL_ONE_MINUS_CONSTANT_ALPHA
-    static const char s_ONE_MINUS_CONSTANT_ALPHA[25] =
-      "ONE_MINUS_CONSTANT_ALPHA";
+    static const char* s_ONE_MINUS_CONSTANT_ALPHA = "ONE_MINUS_CONSTANT_ALPHA";
 #endif
 #ifdef GL_ONE_MINUS_CONSTANT_COLOR
-    static const char s_ONE_MINUS_CONSTANT_COLOR[25] =
-      "ONE_MINUS_CONSTANT_COLOR";
+    static const char* s_ONE_MINUS_CONSTANT_COLOR = "ONE_MINUS_CONSTANT_COLOR";
 #endif
 #ifdef GL_ONE_MINUS_DST_ALPHA
-    static const char s_ONE_MINUS_DST_ALPHA[20] = "ONE_MINUS_DST_ALPHA";
+    static const char* s_ONE_MINUS_DST_ALPHA = "ONE_MINUS_DST_ALPHA";
 #endif
 #ifdef GL_ONE_MINUS_DST_COLOR
-    static const char s_ONE_MINUS_DST_COLOR[20] = "ONE_MINUS_DST_COLOR";
+    static const char* s_ONE_MINUS_DST_COLOR = "ONE_MINUS_DST_COLOR";
 #endif
 #ifdef GL_ONE_MINUS_SRC1_ALPHA
-    static const char s_ONE_MINUS_SRC1_ALPHA[21] = "ONE_MINUS_SRC1_ALPHA";
+    static const char* s_ONE_MINUS_SRC1_ALPHA = "ONE_MINUS_SRC1_ALPHA";
 #endif
 #ifdef GL_ONE_MINUS_SRC1_COLOR
-    static const char s_ONE_MINUS_SRC1_COLOR[21] = "ONE_MINUS_SRC1_COLOR";
+    static const char* s_ONE_MINUS_SRC1_COLOR = "ONE_MINUS_SRC1_COLOR";
 #endif
 #ifdef GL_ONE_MINUS_SRC_ALPHA
-    static const char s_ONE_MINUS_SRC_ALPHA[20] = "ONE_MINUS_SRC_ALPHA";
+    static const char* s_ONE_MINUS_SRC_ALPHA = "ONE_MINUS_SRC_ALPHA";
 #endif
 #ifdef GL_ONE_MINUS_SRC_COLOR
-    static const char s_ONE_MINUS_SRC_COLOR[20] = "ONE_MINUS_SRC_COLOR";
+    static const char* s_ONE_MINUS_SRC_COLOR = "ONE_MINUS_SRC_COLOR";
 #endif
 #ifdef GL_OR
-    static const char s_OR[3] = "OR";
+    static const char* s_OR = "OR";
 #endif
 #ifdef GL_OR_INVERTED
-    static const char s_OR_INVERTED[12] = "OR_INVERTED";
+    static const char* s_OR_INVERTED = "OR_INVERTED";
 #endif
 #ifdef GL_OR_REVERSE
-    static const char s_OR_REVERSE[11] = "OR_REVERSE";
+    static const char* s_OR_REVERSE = "OR_REVERSE";
 #endif
 #ifdef GL_OUT_OF_MEMORY
-    static const char s_OUT_OF_MEMORY[14] = "OUT_OF_MEMORY";
+    static const char* s_OUT_OF_MEMORY = "OUT_OF_MEMORY";
 #endif
 #ifdef GL_OVERLAY_KHR
-    static const char s_OVERLAY_KHR[12] = "OVERLAY_KHR";
+    static const char* s_OVERLAY_KHR = "OVERLAY_KHR";
 #endif
 #ifdef GL_PACK_ALIGNMENT
-    static const char s_PACK_ALIGNMENT[15] = "PACK_ALIGNMENT";
+    static const char* s_PACK_ALIGNMENT = "PACK_ALIGNMENT";
 #endif
 #ifdef GL_PACK_COMPRESSED_BLOCK_DEPTH
-    static const char s_PACK_COMPRESSED_BLOCK_DEPTH[28] =
+    static const char* s_PACK_COMPRESSED_BLOCK_DEPTH =
       "PACK_COMPRESSED_BLOCK_DEPTH";
 #endif
 #ifdef GL_PACK_COMPRESSED_BLOCK_HEIGHT
-    static const char s_PACK_COMPRESSED_BLOCK_HEIGHT[29] =
+    static const char* s_PACK_COMPRESSED_BLOCK_HEIGHT =
       "PACK_COMPRESSED_BLOCK_HEIGHT";
 #endif
 #ifdef GL_PACK_COMPRESSED_BLOCK_SIZE
-    static const char s_PACK_COMPRESSED_BLOCK_SIZE[27] =
+    static const char* s_PACK_COMPRESSED_BLOCK_SIZE =
       "PACK_COMPRESSED_BLOCK_SIZE";
 #endif
 #ifdef GL_PACK_COMPRESSED_BLOCK_WIDTH
-    static const char s_PACK_COMPRESSED_BLOCK_WIDTH[28] =
+    static const char* s_PACK_COMPRESSED_BLOCK_WIDTH =
       "PACK_COMPRESSED_BLOCK_WIDTH";
 #endif
 #ifdef GL_PACK_IMAGE_HEIGHT
-    static const char s_PACK_IMAGE_HEIGHT[18] = "PACK_IMAGE_HEIGHT";
+    static const char* s_PACK_IMAGE_HEIGHT = "PACK_IMAGE_HEIGHT";
 #endif
 #ifdef GL_PACK_LSB_FIRST
-    static const char s_PACK_LSB_FIRST[15] = "PACK_LSB_FIRST";
+    static const char* s_PACK_LSB_FIRST = "PACK_LSB_FIRST";
 #endif
 #ifdef GL_PACK_ROW_LENGTH
-    static const char s_PACK_ROW_LENGTH[16] = "PACK_ROW_LENGTH";
+    static const char* s_PACK_ROW_LENGTH = "PACK_ROW_LENGTH";
 #endif
 #ifdef GL_PACK_SKIP_IMAGES
-    static const char s_PACK_SKIP_IMAGES[17] = "PACK_SKIP_IMAGES";
+    static const char* s_PACK_SKIP_IMAGES = "PACK_SKIP_IMAGES";
 #endif
 #ifdef GL_PACK_SKIP_PIXELS
-    static const char s_PACK_SKIP_PIXELS[17] = "PACK_SKIP_PIXELS";
+    static const char* s_PACK_SKIP_PIXELS = "PACK_SKIP_PIXELS";
 #endif
 #ifdef GL_PACK_SKIP_ROWS
-    static const char s_PACK_SKIP_ROWS[15] = "PACK_SKIP_ROWS";
+    static const char* s_PACK_SKIP_ROWS = "PACK_SKIP_ROWS";
 #endif
 #ifdef GL_PACK_SWAP_BYTES
-    static const char s_PACK_SWAP_BYTES[16] = "PACK_SWAP_BYTES";
+    static const char* s_PACK_SWAP_BYTES = "PACK_SWAP_BYTES";
 #endif
 #ifdef GL_PARAMETER_BUFFER_ARB
-    static const char s_PARAMETER_BUFFER_ARB[21] = "PARAMETER_BUFFER_ARB";
+    static const char* s_PARAMETER_BUFFER_ARB = "PARAMETER_BUFFER_ARB";
 #endif
 #ifdef GL_PARAMETER_BUFFER_BINDING_ARB
-    static const char s_PARAMETER_BUFFER_BINDING_ARB[29] =
+    static const char* s_PARAMETER_BUFFER_BINDING_ARB =
       "PARAMETER_BUFFER_BINDING_ARB";
 #endif
 #ifdef GL_PATCHES
-    static const char s_PATCHES[8] = "PATCHES";
+    static const char* s_PATCHES = "PATCHES";
 #endif
 #ifdef GL_PATCH_DEFAULT_INNER_LEVEL
-    static const char s_PATCH_DEFAULT_INNER_LEVEL[26] =
+    static const char* s_PATCH_DEFAULT_INNER_LEVEL =
       "PATCH_DEFAULT_INNER_LEVEL";
 #endif
 #ifdef GL_PATCH_DEFAULT_OUTER_LEVEL
-    static const char s_PATCH_DEFAULT_OUTER_LEVEL[26] =
+    static const char* s_PATCH_DEFAULT_OUTER_LEVEL =
       "PATCH_DEFAULT_OUTER_LEVEL";
 #endif
 #ifdef GL_PATCH_VERTICES
-    static const char s_PATCH_VERTICES[15] = "PATCH_VERTICES";
+    static const char* s_PATCH_VERTICES = "PATCH_VERTICES";
 #endif
 #ifdef GL_PATH_CLIENT_LENGTH_NV
-    static const char s_PATH_CLIENT_LENGTH_NV[22] = "PATH_CLIENT_LENGTH_NV";
+    static const char* s_PATH_CLIENT_LENGTH_NV = "PATH_CLIENT_LENGTH_NV";
 #endif
 #ifdef GL_PATH_COMMAND_COUNT_NV
-    static const char s_PATH_COMMAND_COUNT_NV[22] = "PATH_COMMAND_COUNT_NV";
+    static const char* s_PATH_COMMAND_COUNT_NV = "PATH_COMMAND_COUNT_NV";
 #endif
 #ifdef GL_PATH_COMPUTED_LENGTH_NV
-    static const char s_PATH_COMPUTED_LENGTH_NV[24] = "PATH_COMPUTED_LENGTH_NV";
+    static const char* s_PATH_COMPUTED_LENGTH_NV = "PATH_COMPUTED_LENGTH_NV";
 #endif
 #ifdef GL_PATH_COORD_COUNT_NV
-    static const char s_PATH_COORD_COUNT_NV[20] = "PATH_COORD_COUNT_NV";
+    static const char* s_PATH_COORD_COUNT_NV = "PATH_COORD_COUNT_NV";
 #endif
 #ifdef GL_PATH_DASH_ARRAY_COUNT_NV
-    static const char s_PATH_DASH_ARRAY_COUNT_NV[25] =
-      "PATH_DASH_ARRAY_COUNT_NV";
+    static const char* s_PATH_DASH_ARRAY_COUNT_NV = "PATH_DASH_ARRAY_COUNT_NV";
 #endif
 #ifdef GL_PATH_DASH_OFFSET_NV
-    static const char s_PATH_DASH_OFFSET_NV[20] = "PATH_DASH_OFFSET_NV";
+    static const char* s_PATH_DASH_OFFSET_NV = "PATH_DASH_OFFSET_NV";
 #endif
 #ifdef GL_PATH_DASH_OFFSET_RESET_NV
-    static const char s_PATH_DASH_OFFSET_RESET_NV[26] =
+    static const char* s_PATH_DASH_OFFSET_RESET_NV =
       "PATH_DASH_OFFSET_RESET_NV";
 #endif
 #ifdef GL_PATH_FILL_BOUNDING_BOX_NV
-    static const char s_PATH_FILL_BOUNDING_BOX_NV[26] =
+    static const char* s_PATH_FILL_BOUNDING_BOX_NV =
       "PATH_FILL_BOUNDING_BOX_NV";
 #endif
 #ifdef GL_PATH_FILL_COVER_MODE_NV
-    static const char s_PATH_FILL_COVER_MODE_NV[24] = "PATH_FILL_COVER_MODE_NV";
+    static const char* s_PATH_FILL_COVER_MODE_NV = "PATH_FILL_COVER_MODE_NV";
 #endif
 #ifdef GL_PATH_FILL_MASK_NV
-    static const char s_PATH_FILL_MASK_NV[18] = "PATH_FILL_MASK_NV";
+    static const char* s_PATH_FILL_MASK_NV = "PATH_FILL_MASK_NV";
 #endif
 #ifdef GL_PATH_FILL_MODE_NV
-    static const char s_PATH_FILL_MODE_NV[18] = "PATH_FILL_MODE_NV";
+    static const char* s_PATH_FILL_MODE_NV = "PATH_FILL_MODE_NV";
 #endif
 #ifdef GL_PATH_FORMAT_PS_NV
-    static const char s_PATH_FORMAT_PS_NV[18] = "PATH_FORMAT_PS_NV";
+    static const char* s_PATH_FORMAT_PS_NV = "PATH_FORMAT_PS_NV";
 #endif
 #ifdef GL_PATH_FORMAT_SVG_NV
-    static const char s_PATH_FORMAT_SVG_NV[19] = "PATH_FORMAT_SVG_NV";
+    static const char* s_PATH_FORMAT_SVG_NV = "PATH_FORMAT_SVG_NV";
 #endif
 #ifdef GL_PATH_INITIAL_DASH_CAP_NV
-    static const char s_PATH_INITIAL_DASH_CAP_NV[25] =
-      "PATH_INITIAL_DASH_CAP_NV";
+    static const char* s_PATH_INITIAL_DASH_CAP_NV = "PATH_INITIAL_DASH_CAP_NV";
 #endif
 #ifdef GL_PATH_INITIAL_END_CAP_NV
-    static const char s_PATH_INITIAL_END_CAP_NV[24] = "PATH_INITIAL_END_CAP_NV";
+    static const char* s_PATH_INITIAL_END_CAP_NV = "PATH_INITIAL_END_CAP_NV";
 #endif
 #ifdef GL_PATH_JOIN_STYLE_NV
-    static const char s_PATH_JOIN_STYLE_NV[19] = "PATH_JOIN_STYLE_NV";
+    static const char* s_PATH_JOIN_STYLE_NV = "PATH_JOIN_STYLE_NV";
 #endif
 #ifdef GL_PATH_MITER_LIMIT_NV
-    static const char s_PATH_MITER_LIMIT_NV[20] = "PATH_MITER_LIMIT_NV";
+    static const char* s_PATH_MITER_LIMIT_NV = "PATH_MITER_LIMIT_NV";
 #endif
 #ifdef GL_PATH_OBJECT_BOUNDING_BOX_NV
-    static const char s_PATH_OBJECT_BOUNDING_BOX_NV[28] =
+    static const char* s_PATH_OBJECT_BOUNDING_BOX_NV =
       "PATH_OBJECT_BOUNDING_BOX_NV";
 #endif
 #ifdef GL_PATH_STROKE_BOUNDING_BOX_NV
-    static const char s_PATH_STROKE_BOUNDING_BOX_NV[28] =
+    static const char* s_PATH_STROKE_BOUNDING_BOX_NV =
       "PATH_STROKE_BOUNDING_BOX_NV";
 #endif
 #ifdef GL_PATH_STROKE_BOUND_NV
-    static const char s_PATH_STROKE_BOUND_NV[21] = "PATH_STROKE_BOUND_NV";
+    static const char* s_PATH_STROKE_BOUND_NV = "PATH_STROKE_BOUND_NV";
 #endif
 #ifdef GL_PATH_STROKE_COVER_MODE_NV
-    static const char s_PATH_STROKE_COVER_MODE_NV[26] =
+    static const char* s_PATH_STROKE_COVER_MODE_NV =
       "PATH_STROKE_COVER_MODE_NV";
 #endif
 #ifdef GL_PATH_STROKE_MASK_NV
-    static const char s_PATH_STROKE_MASK_NV[20] = "PATH_STROKE_MASK_NV";
+    static const char* s_PATH_STROKE_MASK_NV = "PATH_STROKE_MASK_NV";
 #endif
 #ifdef GL_PATH_STROKE_WIDTH_NV
-    static const char s_PATH_STROKE_WIDTH_NV[21] = "PATH_STROKE_WIDTH_NV";
+    static const char* s_PATH_STROKE_WIDTH_NV = "PATH_STROKE_WIDTH_NV";
 #endif
 #ifdef GL_PATH_TERMINAL_DASH_CAP_NV
-    static const char s_PATH_TERMINAL_DASH_CAP_NV[26] =
+    static const char* s_PATH_TERMINAL_DASH_CAP_NV =
       "PATH_TERMINAL_DASH_CAP_NV";
 #endif
 #ifdef GL_PATH_TERMINAL_END_CAP_NV
-    static const char s_PATH_TERMINAL_END_CAP_NV[25] =
-      "PATH_TERMINAL_END_CAP_NV";
+    static const char* s_PATH_TERMINAL_END_CAP_NV = "PATH_TERMINAL_END_CAP_NV";
 #endif
 #ifdef GL_PIXEL_BUFFER_BARRIER_BIT
-    static const char s_PIXEL_BUFFER_BARRIER_BIT[25] =
-      "PIXEL_BUFFER_BARRIER_BIT";
+    static const char* s_PIXEL_BUFFER_BARRIER_BIT = "PIXEL_BUFFER_BARRIER_BIT";
 #endif
 #ifdef GL_PIXEL_PACK_BUFFER
-    static const char s_PIXEL_PACK_BUFFER[18] = "PIXEL_PACK_BUFFER";
+    static const char* s_PIXEL_PACK_BUFFER = "PIXEL_PACK_BUFFER";
 #endif
 #ifdef GL_PIXEL_PACK_BUFFER_BINDING
-    static const char s_PIXEL_PACK_BUFFER_BINDING[26] =
+    static const char* s_PIXEL_PACK_BUFFER_BINDING =
       "PIXEL_PACK_BUFFER_BINDING";
 #endif
 #ifdef GL_PIXEL_UNPACK_BUFFER
-    static const char s_PIXEL_UNPACK_BUFFER[20] = "PIXEL_UNPACK_BUFFER";
+    static const char* s_PIXEL_UNPACK_BUFFER = "PIXEL_UNPACK_BUFFER";
 #endif
 #ifdef GL_PIXEL_UNPACK_BUFFER_BINDING
-    static const char s_PIXEL_UNPACK_BUFFER_BINDING[28] =
+    static const char* s_PIXEL_UNPACK_BUFFER_BINDING =
       "PIXEL_UNPACK_BUFFER_BINDING";
 #endif
 #ifdef GL_POINT
-    static const char s_POINT[6] = "POINT";
+    static const char* s_POINT = "POINT";
 #endif
 #ifdef GL_POINTS
-    static const char s_POINTS[7] = "POINTS";
+    static const char* s_POINTS = "POINTS";
 #endif
 #ifdef GL_POINT_FADE_THRESHOLD_SIZE
-    static const char s_POINT_FADE_THRESHOLD_SIZE[26] =
+    static const char* s_POINT_FADE_THRESHOLD_SIZE =
       "POINT_FADE_THRESHOLD_SIZE";
 #endif
 #ifdef GL_POINT_SIZE
-    static const char s_POINT_SIZE[11] = "POINT_SIZE";
+    static const char* s_POINT_SIZE = "POINT_SIZE";
 #endif
 #ifdef GL_POINT_SIZE_GRANULARITY
-    static const char s_POINT_SIZE_GRANULARITY[23] = "POINT_SIZE_GRANULARITY";
+    static const char* s_POINT_SIZE_GRANULARITY = "POINT_SIZE_GRANULARITY";
 #endif
 #ifdef GL_POINT_SIZE_MAX
-    static const char s_POINT_SIZE_MAX[15] = "POINT_SIZE_MAX";
+    static const char* s_POINT_SIZE_MAX = "POINT_SIZE_MAX";
 #endif
 #ifdef GL_POINT_SIZE_MIN
-    static const char s_POINT_SIZE_MIN[15] = "POINT_SIZE_MIN";
+    static const char* s_POINT_SIZE_MIN = "POINT_SIZE_MIN";
 #endif
 #ifdef GL_POINT_SIZE_RANGE
-    static const char s_POINT_SIZE_RANGE[17] = "POINT_SIZE_RANGE";
+    static const char* s_POINT_SIZE_RANGE = "POINT_SIZE_RANGE";
 #endif
 #ifdef GL_POINT_SPRITE_COORD_ORIGIN
-    static const char s_POINT_SPRITE_COORD_ORIGIN[26] =
+    static const char* s_POINT_SPRITE_COORD_ORIGIN =
       "POINT_SPRITE_COORD_ORIGIN";
 #endif
 #ifdef GL_POLYGON
-    static const char s_POLYGON[8] = "POLYGON";
+    static const char* s_POLYGON = "POLYGON";
 #endif
 #ifdef GL_POLYGON_OFFSET_COMMAND_NV
-    static const char s_POLYGON_OFFSET_COMMAND_NV[26] =
+    static const char* s_POLYGON_OFFSET_COMMAND_NV =
       "POLYGON_OFFSET_COMMAND_NV";
 #endif
 #ifdef GL_POLYGON_OFFSET_FACTOR
-    static const char s_POLYGON_OFFSET_FACTOR[22] = "POLYGON_OFFSET_FACTOR";
+    static const char* s_POLYGON_OFFSET_FACTOR = "POLYGON_OFFSET_FACTOR";
 #endif
 #ifdef GL_POLYGON_OFFSET_FILL
-    static const char s_POLYGON_OFFSET_FILL[20] = "POLYGON_OFFSET_FILL";
+    static const char* s_POLYGON_OFFSET_FILL = "POLYGON_OFFSET_FILL";
 #endif
 #ifdef GL_POLYGON_OFFSET_LINE
-    static const char s_POLYGON_OFFSET_LINE[20] = "POLYGON_OFFSET_LINE";
+    static const char* s_POLYGON_OFFSET_LINE = "POLYGON_OFFSET_LINE";
 #endif
 #ifdef GL_POLYGON_OFFSET_POINT
-    static const char s_POLYGON_OFFSET_POINT[21] = "POLYGON_OFFSET_POINT";
+    static const char* s_POLYGON_OFFSET_POINT = "POLYGON_OFFSET_POINT";
 #endif
 #ifdef GL_POLYGON_OFFSET_UNITS
-    static const char s_POLYGON_OFFSET_UNITS[21] = "POLYGON_OFFSET_UNITS";
+    static const char* s_POLYGON_OFFSET_UNITS = "POLYGON_OFFSET_UNITS";
 #endif
 #ifdef GL_POLYGON_SMOOTH
-    static const char s_POLYGON_SMOOTH[15] = "POLYGON_SMOOTH";
+    static const char* s_POLYGON_SMOOTH = "POLYGON_SMOOTH";
 #endif
 #ifdef GL_POLYGON_SMOOTH_HINT
-    static const char s_POLYGON_SMOOTH_HINT[20] = "POLYGON_SMOOTH_HINT";
+    static const char* s_POLYGON_SMOOTH_HINT = "POLYGON_SMOOTH_HINT";
 #endif
 #ifdef GL_POST_COLOR_MATRIX_ALPHA_BIAS
-    static const char s_POST_COLOR_MATRIX_ALPHA_BIAS[29] =
+    static const char* s_POST_COLOR_MATRIX_ALPHA_BIAS =
       "POST_COLOR_MATRIX_ALPHA_BIAS";
 #endif
 #ifdef GL_POST_COLOR_MATRIX_ALPHA_SCALE
-    static const char s_POST_COLOR_MATRIX_ALPHA_SCALE[30] =
+    static const char* s_POST_COLOR_MATRIX_ALPHA_SCALE =
       "POST_COLOR_MATRIX_ALPHA_SCALE";
 #endif
 #ifdef GL_POST_COLOR_MATRIX_BLUE_BIAS
-    static const char s_POST_COLOR_MATRIX_BLUE_BIAS[28] =
+    static const char* s_POST_COLOR_MATRIX_BLUE_BIAS =
       "POST_COLOR_MATRIX_BLUE_BIAS";
 #endif
 #ifdef GL_POST_COLOR_MATRIX_BLUE_SCALE
-    static const char s_POST_COLOR_MATRIX_BLUE_SCALE[29] =
+    static const char* s_POST_COLOR_MATRIX_BLUE_SCALE =
       "POST_COLOR_MATRIX_BLUE_SCALE";
 #endif
 #ifdef GL_POST_COLOR_MATRIX_GREEN_BIAS
-    static const char s_POST_COLOR_MATRIX_GREEN_BIAS[29] =
+    static const char* s_POST_COLOR_MATRIX_GREEN_BIAS =
       "POST_COLOR_MATRIX_GREEN_BIAS";
 #endif
 #ifdef GL_POST_COLOR_MATRIX_GREEN_SCALE
-    static const char s_POST_COLOR_MATRIX_GREEN_SCALE[30] =
+    static const char* s_POST_COLOR_MATRIX_GREEN_SCALE =
       "POST_COLOR_MATRIX_GREEN_SCALE";
 #endif
 #ifdef GL_POST_COLOR_MATRIX_RED_BIAS
-    static const char s_POST_COLOR_MATRIX_RED_BIAS[27] =
+    static const char* s_POST_COLOR_MATRIX_RED_BIAS =
       "POST_COLOR_MATRIX_RED_BIAS";
 #endif
 #ifdef GL_POST_COLOR_MATRIX_RED_SCALE
-    static const char s_POST_COLOR_MATRIX_RED_SCALE[28] =
+    static const char* s_POST_COLOR_MATRIX_RED_SCALE =
       "POST_COLOR_MATRIX_RED_SCALE";
 #endif
 #ifdef GL_POST_CONVOLUTION_ALPHA_BIAS
-    static const char s_POST_CONVOLUTION_ALPHA_BIAS[28] =
+    static const char* s_POST_CONVOLUTION_ALPHA_BIAS =
       "POST_CONVOLUTION_ALPHA_BIAS";
 #endif
 #ifdef GL_POST_CONVOLUTION_ALPHA_SCALE
-    static const char s_POST_CONVOLUTION_ALPHA_SCALE[29] =
+    static const char* s_POST_CONVOLUTION_ALPHA_SCALE =
       "POST_CONVOLUTION_ALPHA_SCALE";
 #endif
 #ifdef GL_POST_CONVOLUTION_BLUE_BIAS
-    static const char s_POST_CONVOLUTION_BLUE_BIAS[27] =
+    static const char* s_POST_CONVOLUTION_BLUE_BIAS =
       "POST_CONVOLUTION_BLUE_BIAS";
 #endif
 #ifdef GL_POST_CONVOLUTION_BLUE_SCALE
-    static const char s_POST_CONVOLUTION_BLUE_SCALE[28] =
+    static const char* s_POST_CONVOLUTION_BLUE_SCALE =
       "POST_CONVOLUTION_BLUE_SCALE";
 #endif
 #ifdef GL_POST_CONVOLUTION_GREEN_BIAS
-    static const char s_POST_CONVOLUTION_GREEN_BIAS[28] =
+    static const char* s_POST_CONVOLUTION_GREEN_BIAS =
       "POST_CONVOLUTION_GREEN_BIAS";
 #endif
 #ifdef GL_POST_CONVOLUTION_GREEN_SCALE
-    static const char s_POST_CONVOLUTION_GREEN_SCALE[29] =
+    static const char* s_POST_CONVOLUTION_GREEN_SCALE =
       "POST_CONVOLUTION_GREEN_SCALE";
 #endif
 #ifdef GL_POST_CONVOLUTION_RED_BIAS
-    static const char s_POST_CONVOLUTION_RED_BIAS[26] =
+    static const char* s_POST_CONVOLUTION_RED_BIAS =
       "POST_CONVOLUTION_RED_BIAS";
 #endif
 #ifdef GL_POST_CONVOLUTION_RED_SCALE
-    static const char s_POST_CONVOLUTION_RED_SCALE[27] =
+    static const char* s_POST_CONVOLUTION_RED_SCALE =
       "POST_CONVOLUTION_RED_SCALE";
 #endif
 #ifdef GL_PRIMARY_COLOR_NV
-    static const char s_PRIMARY_COLOR_NV[17] = "PRIMARY_COLOR_NV";
+    static const char* s_PRIMARY_COLOR_NV = "PRIMARY_COLOR_NV";
 #endif
 #ifdef GL_PRIMITIVES_GENERATED
-    static const char s_PRIMITIVES_GENERATED[21] = "PRIMITIVES_GENERATED";
+    static const char* s_PRIMITIVES_GENERATED = "PRIMITIVES_GENERATED";
 #endif
 #ifdef GL_PRIMITIVES_SUBMITTED_ARB
-    static const char s_PRIMITIVES_SUBMITTED_ARB[25] =
-      "PRIMITIVES_SUBMITTED_ARB";
+    static const char* s_PRIMITIVES_SUBMITTED_ARB = "PRIMITIVES_SUBMITTED_ARB";
 #endif
 #ifdef GL_PRIMITIVE_RESTART
-    static const char s_PRIMITIVE_RESTART[18] = "PRIMITIVE_RESTART";
+    static const char* s_PRIMITIVE_RESTART = "PRIMITIVE_RESTART";
 #endif
 #ifdef GL_PRIMITIVE_RESTART_INDEX
-    static const char s_PRIMITIVE_RESTART_INDEX[24] = "PRIMITIVE_RESTART_INDEX";
+    static const char* s_PRIMITIVE_RESTART_INDEX = "PRIMITIVE_RESTART_INDEX";
 #endif
 #ifdef GL_PROGRAM
-    static const char s_PROGRAM[8] = "PROGRAM";
+    static const char* s_PROGRAM = "PROGRAM";
 #endif
 #ifdef GL_PROGRAM_BINARY_FORMATS
-    static const char s_PROGRAM_BINARY_FORMATS[23] = "PROGRAM_BINARY_FORMATS";
+    static const char* s_PROGRAM_BINARY_FORMATS = "PROGRAM_BINARY_FORMATS";
 #endif
 #ifdef GL_PROGRAM_BINARY_LENGTH
-    static const char s_PROGRAM_BINARY_LENGTH[22] = "PROGRAM_BINARY_LENGTH";
+    static const char* s_PROGRAM_BINARY_LENGTH = "PROGRAM_BINARY_LENGTH";
 #endif
 #ifdef GL_PROGRAM_INPUT
-    static const char s_PROGRAM_INPUT[14] = "PROGRAM_INPUT";
+    static const char* s_PROGRAM_INPUT = "PROGRAM_INPUT";
 #endif
 #ifdef GL_PROGRAM_OUTPUT
-    static const char s_PROGRAM_OUTPUT[15] = "PROGRAM_OUTPUT";
+    static const char* s_PROGRAM_OUTPUT = "PROGRAM_OUTPUT";
 #endif
 #ifdef GL_PROGRAM_PIPELINE
-    static const char s_PROGRAM_PIPELINE[17] = "PROGRAM_PIPELINE";
+    static const char* s_PROGRAM_PIPELINE = "PROGRAM_PIPELINE";
 #endif
 #ifdef GL_PROGRAM_POINT_SIZE
-    static const char s_PROGRAM_POINT_SIZE[19] = "PROGRAM_POINT_SIZE";
+    static const char* s_PROGRAM_POINT_SIZE = "PROGRAM_POINT_SIZE";
 #endif
 #ifdef GL_PROJECTION
-    static const char s_PROJECTION[11] = "PROJECTION";
+    static const char* s_PROJECTION = "PROJECTION";
 #endif
 #ifdef GL_PROVOKING_VERTEX
-    static const char s_PROVOKING_VERTEX[17] = "PROVOKING_VERTEX";
+    static const char* s_PROVOKING_VERTEX = "PROVOKING_VERTEX";
 #endif
 #ifdef GL_QUADRATIC_CURVE_TO_NV
-    static const char s_QUADRATIC_CURVE_TO_NV[22] = "QUADRATIC_CURVE_TO_NV";
+    static const char* s_QUADRATIC_CURVE_TO_NV = "QUADRATIC_CURVE_TO_NV";
 #endif
 #ifdef GL_QUADS
-    static const char s_QUADS[6] = "QUADS";
+    static const char* s_QUADS = "QUADS";
 #endif
 #ifdef GL_QUAD_STRIP
-    static const char s_QUAD_STRIP[11] = "QUAD_STRIP";
+    static const char* s_QUAD_STRIP = "QUAD_STRIP";
 #endif
 #ifdef GL_QUERY
-    static const char s_QUERY[6] = "QUERY";
+    static const char* s_QUERY = "QUERY";
 #endif
 #ifdef GL_QUERY_BUFFER
-    static const char s_QUERY_BUFFER[13] = "QUERY_BUFFER";
+    static const char* s_QUERY_BUFFER = "QUERY_BUFFER";
 #endif
 #ifdef GL_QUERY_BUFFER_BINDING
-    static const char s_QUERY_BUFFER_BINDING[21] = "QUERY_BUFFER_BINDING";
+    static const char* s_QUERY_BUFFER_BINDING = "QUERY_BUFFER_BINDING";
 #endif
 #ifdef GL_QUERY_BY_REGION_NO_WAIT
-    static const char s_QUERY_BY_REGION_NO_WAIT[24] = "QUERY_BY_REGION_NO_WAIT";
+    static const char* s_QUERY_BY_REGION_NO_WAIT = "QUERY_BY_REGION_NO_WAIT";
 #endif
 #ifdef GL_QUERY_BY_REGION_NO_WAIT_INVERTED
-    static const char s_QUERY_BY_REGION_NO_WAIT_INVERTED[33] =
+    static const char* s_QUERY_BY_REGION_NO_WAIT_INVERTED =
       "QUERY_BY_REGION_NO_WAIT_INVERTED";
 #endif
 #ifdef GL_QUERY_BY_REGION_WAIT
-    static const char s_QUERY_BY_REGION_WAIT[21] = "QUERY_BY_REGION_WAIT";
+    static const char* s_QUERY_BY_REGION_WAIT = "QUERY_BY_REGION_WAIT";
 #endif
 #ifdef GL_QUERY_BY_REGION_WAIT_INVERTED
-    static const char s_QUERY_BY_REGION_WAIT_INVERTED[30] =
+    static const char* s_QUERY_BY_REGION_WAIT_INVERTED =
       "QUERY_BY_REGION_WAIT_INVERTED";
 #endif
 #ifdef GL_QUERY_NO_WAIT
-    static const char s_QUERY_NO_WAIT[14] = "QUERY_NO_WAIT";
+    static const char* s_QUERY_NO_WAIT = "QUERY_NO_WAIT";
 #endif
 #ifdef GL_QUERY_NO_WAIT_INVERTED
-    static const char s_QUERY_NO_WAIT_INVERTED[23] = "QUERY_NO_WAIT_INVERTED";
+    static const char* s_QUERY_NO_WAIT_INVERTED = "QUERY_NO_WAIT_INVERTED";
 #endif
 #ifdef GL_QUERY_RESULT
-    static const char s_QUERY_RESULT[13] = "QUERY_RESULT";
+    static const char* s_QUERY_RESULT = "QUERY_RESULT";
 #endif
 #ifdef GL_QUERY_RESULT_AVAILABLE
-    static const char s_QUERY_RESULT_AVAILABLE[23] = "QUERY_RESULT_AVAILABLE";
+    static const char* s_QUERY_RESULT_AVAILABLE = "QUERY_RESULT_AVAILABLE";
 #endif
 #ifdef GL_QUERY_WAIT
-    static const char s_QUERY_WAIT[11] = "QUERY_WAIT";
+    static const char* s_QUERY_WAIT = "QUERY_WAIT";
 #endif
 #ifdef GL_QUERY_WAIT_INVERTED
-    static const char s_QUERY_WAIT_INVERTED[20] = "QUERY_WAIT_INVERTED";
+    static const char* s_QUERY_WAIT_INVERTED = "QUERY_WAIT_INVERTED";
 #endif
 #ifdef GL_R11F_G11F_B10F
-    static const char s_R11F_G11F_B10F[15] = "R11F_G11F_B10F";
+    static const char* s_R11F_G11F_B10F = "R11F_G11F_B10F";
 #endif
 #ifdef GL_R16
-    static const char s_R16[4] = "R16";
+    static const char* s_R16 = "R16";
 #endif
 #ifdef GL_R16F
-    static const char s_R16F[5] = "R16F";
+    static const char* s_R16F = "R16F";
 #endif
 #ifdef GL_R16I
-    static const char s_R16I[5] = "R16I";
+    static const char* s_R16I = "R16I";
 #endif
 #ifdef GL_R16UI
-    static const char s_R16UI[6] = "R16UI";
+    static const char* s_R16UI = "R16UI";
 #endif
 #ifdef GL_R16_SNORM
-    static const char s_R16_SNORM[10] = "R16_SNORM";
+    static const char* s_R16_SNORM = "R16_SNORM";
 #endif
 #ifdef GL_R32F
-    static const char s_R32F[5] = "R32F";
+    static const char* s_R32F = "R32F";
 #endif
 #ifdef GL_R32I
-    static const char s_R32I[5] = "R32I";
+    static const char* s_R32I = "R32I";
 #endif
 #ifdef GL_R32UI
-    static const char s_R32UI[6] = "R32UI";
+    static const char* s_R32UI = "R32UI";
 #endif
 #ifdef GL_R3_G3_B2
-    static const char s_R3_G3_B2[9] = "R3_G3_B2";
+    static const char* s_R3_G3_B2 = "R3_G3_B2";
 #endif
 #ifdef GL_R8
-    static const char s_R8[3] = "R8";
+    static const char* s_R8 = "R8";
 #endif
 #ifdef GL_R8I
-    static const char s_R8I[4] = "R8I";
+    static const char* s_R8I = "R8I";
 #endif
 #ifdef GL_R8UI
-    static const char s_R8UI[5] = "R8UI";
+    static const char* s_R8UI = "R8UI";
 #endif
 #ifdef GL_R8_SNORM
-    static const char s_R8_SNORM[9] = "R8_SNORM";
+    static const char* s_R8_SNORM = "R8_SNORM";
 #endif
 #ifdef GL_RASTERIZER_DISCARD
-    static const char s_RASTERIZER_DISCARD[19] = "RASTERIZER_DISCARD";
+    static const char* s_RASTERIZER_DISCARD = "RASTERIZER_DISCARD";
 #endif
 #ifdef GL_READ_BUFFER
-    static const char s_READ_BUFFER[12] = "READ_BUFFER";
+    static const char* s_READ_BUFFER = "READ_BUFFER";
 #endif
 #ifdef GL_READ_FRAMEBUFFER
-    static const char s_READ_FRAMEBUFFER[17] = "READ_FRAMEBUFFER";
+    static const char* s_READ_FRAMEBUFFER = "READ_FRAMEBUFFER";
 #endif
 #ifdef GL_READ_ONLY
-    static const char s_READ_ONLY[10] = "READ_ONLY";
+    static const char* s_READ_ONLY = "READ_ONLY";
 #endif
 #ifdef GL_READ_PIXELS
-    static const char s_READ_PIXELS[12] = "READ_PIXELS";
+    static const char* s_READ_PIXELS = "READ_PIXELS";
 #endif
 #ifdef GL_READ_PIXELS_FORMAT
-    static const char s_READ_PIXELS_FORMAT[19] = "READ_PIXELS_FORMAT";
+    static const char* s_READ_PIXELS_FORMAT = "READ_PIXELS_FORMAT";
 #endif
 #ifdef GL_READ_PIXELS_TYPE
-    static const char s_READ_PIXELS_TYPE[17] = "READ_PIXELS_TYPE";
+    static const char* s_READ_PIXELS_TYPE = "READ_PIXELS_TYPE";
 #endif
 #ifdef GL_READ_WRITE
-    static const char s_READ_WRITE[11] = "READ_WRITE";
+    static const char* s_READ_WRITE = "READ_WRITE";
 #endif
 #ifdef GL_RECT_NV
-    static const char s_RECT_NV[8] = "RECT_NV";
+    static const char* s_RECT_NV = "RECT_NV";
 #endif
 #ifdef GL_RED
-    static const char s_RED[4] = "RED";
+    static const char* s_RED = "RED";
 #endif
 #ifdef GL_RED_BIAS
-    static const char s_RED_BIAS[9] = "RED_BIAS";
+    static const char* s_RED_BIAS = "RED_BIAS";
 #endif
 #ifdef GL_RED_INTEGER
-    static const char s_RED_INTEGER[12] = "RED_INTEGER";
+    static const char* s_RED_INTEGER = "RED_INTEGER";
 #endif
 #ifdef GL_RED_SCALE
-    static const char s_RED_SCALE[10] = "RED_SCALE";
+    static const char* s_RED_SCALE = "RED_SCALE";
 #endif
 #ifdef GL_REFERENCED_BY_COMPUTE_SHADER
-    static const char s_REFERENCED_BY_COMPUTE_SHADER[29] =
+    static const char* s_REFERENCED_BY_COMPUTE_SHADER =
       "REFERENCED_BY_COMPUTE_SHADER";
 #endif
 #ifdef GL_REFERENCED_BY_FRAGMENT_SHADER
-    static const char s_REFERENCED_BY_FRAGMENT_SHADER[30] =
+    static const char* s_REFERENCED_BY_FRAGMENT_SHADER =
       "REFERENCED_BY_FRAGMENT_SHADER";
 #endif
 #ifdef GL_REFERENCED_BY_GEOMETRY_SHADER
-    static const char s_REFERENCED_BY_GEOMETRY_SHADER[30] =
+    static const char* s_REFERENCED_BY_GEOMETRY_SHADER =
       "REFERENCED_BY_GEOMETRY_SHADER";
 #endif
 #ifdef GL_REFERENCED_BY_TESS_CONTROL_SHADER
-    static const char s_REFERENCED_BY_TESS_CONTROL_SHADER[34] =
+    static const char* s_REFERENCED_BY_TESS_CONTROL_SHADER =
       "REFERENCED_BY_TESS_CONTROL_SHADER";
 #endif
 #ifdef GL_REFERENCED_BY_TESS_EVALUATION_SHADER
-    static const char s_REFERENCED_BY_TESS_EVALUATION_SHADER[37] =
+    static const char* s_REFERENCED_BY_TESS_EVALUATION_SHADER =
       "REFERENCED_BY_TESS_EVALUATION_SHADER";
 #endif
 #ifdef GL_REFERENCED_BY_VERTEX_SHADER
-    static const char s_REFERENCED_BY_VERTEX_SHADER[28] =
+    static const char* s_REFERENCED_BY_VERTEX_SHADER =
       "REFERENCED_BY_VERTEX_SHADER";
 #endif
 #ifdef GL_RELATIVE_ARC_TO_NV
-    static const char s_RELATIVE_ARC_TO_NV[19] = "RELATIVE_ARC_TO_NV";
+    static const char* s_RELATIVE_ARC_TO_NV = "RELATIVE_ARC_TO_NV";
 #endif
 #ifdef GL_RELATIVE_CUBIC_CURVE_TO_NV
-    static const char s_RELATIVE_CUBIC_CURVE_TO_NV[27] =
+    static const char* s_RELATIVE_CUBIC_CURVE_TO_NV =
       "RELATIVE_CUBIC_CURVE_TO_NV";
 #endif
 #ifdef GL_RELATIVE_HORIZONTAL_LINE_TO_NV
-    static const char s_RELATIVE_HORIZONTAL_LINE_TO_NV[31] =
+    static const char* s_RELATIVE_HORIZONTAL_LINE_TO_NV =
       "RELATIVE_HORIZONTAL_LINE_TO_NV";
 #endif
 #ifdef GL_RELATIVE_LARGE_CCW_ARC_TO_NV
-    static const char s_RELATIVE_LARGE_CCW_ARC_TO_NV[29] =
+    static const char* s_RELATIVE_LARGE_CCW_ARC_TO_NV =
       "RELATIVE_LARGE_CCW_ARC_TO_NV";
 #endif
 #ifdef GL_RELATIVE_LARGE_CW_ARC_TO_NV
-    static const char s_RELATIVE_LARGE_CW_ARC_TO_NV[28] =
+    static const char* s_RELATIVE_LARGE_CW_ARC_TO_NV =
       "RELATIVE_LARGE_CW_ARC_TO_NV";
 #endif
 #ifdef GL_RELATIVE_LINE_TO_NV
-    static const char s_RELATIVE_LINE_TO_NV[20] = "RELATIVE_LINE_TO_NV";
+    static const char* s_RELATIVE_LINE_TO_NV = "RELATIVE_LINE_TO_NV";
 #endif
 #ifdef GL_RELATIVE_MOVE_TO_NV
-    static const char s_RELATIVE_MOVE_TO_NV[20] = "RELATIVE_MOVE_TO_NV";
+    static const char* s_RELATIVE_MOVE_TO_NV = "RELATIVE_MOVE_TO_NV";
 #endif
 #ifdef GL_RELATIVE_QUADRATIC_CURVE_TO_NV
-    static const char s_RELATIVE_QUADRATIC_CURVE_TO_NV[31] =
+    static const char* s_RELATIVE_QUADRATIC_CURVE_TO_NV =
       "RELATIVE_QUADRATIC_CURVE_TO_NV";
 #endif
 #ifdef GL_RELATIVE_SMALL_CCW_ARC_TO_NV
-    static const char s_RELATIVE_SMALL_CCW_ARC_TO_NV[29] =
+    static const char* s_RELATIVE_SMALL_CCW_ARC_TO_NV =
       "RELATIVE_SMALL_CCW_ARC_TO_NV";
 #endif
 #ifdef GL_RELATIVE_SMALL_CW_ARC_TO_NV
-    static const char s_RELATIVE_SMALL_CW_ARC_TO_NV[28] =
+    static const char* s_RELATIVE_SMALL_CW_ARC_TO_NV =
       "RELATIVE_SMALL_CW_ARC_TO_NV";
 #endif
 #ifdef GL_RELATIVE_SMOOTH_CUBIC_CURVE_TO_NV
-    static const char s_RELATIVE_SMOOTH_CUBIC_CURVE_TO_NV[34] =
+    static const char* s_RELATIVE_SMOOTH_CUBIC_CURVE_TO_NV =
       "RELATIVE_SMOOTH_CUBIC_CURVE_TO_NV";
 #endif
 #ifdef GL_RELATIVE_SMOOTH_QUADRATIC_CURVE_TO_NV
-    static const char s_RELATIVE_SMOOTH_QUADRATIC_CURVE_TO_NV[38] =
+    static const char* s_RELATIVE_SMOOTH_QUADRATIC_CURVE_TO_NV =
       "RELATIVE_SMOOTH_QUADRATIC_CURVE_TO_NV";
 #endif
 #ifdef GL_RELATIVE_VERTICAL_LINE_TO_NV
-    static const char s_RELATIVE_VERTICAL_LINE_TO_NV[29] =
+    static const char* s_RELATIVE_VERTICAL_LINE_TO_NV =
       "RELATIVE_VERTICAL_LINE_TO_NV";
 #endif
 #ifdef GL_RENDERBUFFER
-    static const char s_RENDERBUFFER[13] = "RENDERBUFFER";
+    static const char* s_RENDERBUFFER = "RENDERBUFFER";
 #endif
 #ifdef GL_RENDERBUFFER_ALPHA_SIZE
-    static const char s_RENDERBUFFER_ALPHA_SIZE[24] = "RENDERBUFFER_ALPHA_SIZE";
+    static const char* s_RENDERBUFFER_ALPHA_SIZE = "RENDERBUFFER_ALPHA_SIZE";
 #endif
 #ifdef GL_RENDERBUFFER_BINDING
-    static const char s_RENDERBUFFER_BINDING[21] = "RENDERBUFFER_BINDING";
+    static const char* s_RENDERBUFFER_BINDING = "RENDERBUFFER_BINDING";
 #endif
 #ifdef GL_RENDERBUFFER_BLUE_SIZE
-    static const char s_RENDERBUFFER_BLUE_SIZE[23] = "RENDERBUFFER_BLUE_SIZE";
+    static const char* s_RENDERBUFFER_BLUE_SIZE = "RENDERBUFFER_BLUE_SIZE";
 #endif
 #ifdef GL_RENDERBUFFER_DEPTH_SIZE
-    static const char s_RENDERBUFFER_DEPTH_SIZE[24] = "RENDERBUFFER_DEPTH_SIZE";
+    static const char* s_RENDERBUFFER_DEPTH_SIZE = "RENDERBUFFER_DEPTH_SIZE";
 #endif
 #ifdef GL_RENDERBUFFER_GREEN_SIZE
-    static const char s_RENDERBUFFER_GREEN_SIZE[24] = "RENDERBUFFER_GREEN_SIZE";
+    static const char* s_RENDERBUFFER_GREEN_SIZE = "RENDERBUFFER_GREEN_SIZE";
 #endif
 #ifdef GL_RENDERBUFFER_HEIGHT
-    static const char s_RENDERBUFFER_HEIGHT[20] = "RENDERBUFFER_HEIGHT";
+    static const char* s_RENDERBUFFER_HEIGHT = "RENDERBUFFER_HEIGHT";
 #endif
 #ifdef GL_RENDERBUFFER_INTERNAL_FORMAT
-    static const char s_RENDERBUFFER_INTERNAL_FORMAT[29] =
+    static const char* s_RENDERBUFFER_INTERNAL_FORMAT =
       "RENDERBUFFER_INTERNAL_FORMAT";
 #endif
 #ifdef GL_RENDERBUFFER_RED_SIZE
-    static const char s_RENDERBUFFER_RED_SIZE[22] = "RENDERBUFFER_RED_SIZE";
+    static const char* s_RENDERBUFFER_RED_SIZE = "RENDERBUFFER_RED_SIZE";
 #endif
 #ifdef GL_RENDERBUFFER_SAMPLES
-    static const char s_RENDERBUFFER_SAMPLES[21] = "RENDERBUFFER_SAMPLES";
+    static const char* s_RENDERBUFFER_SAMPLES = "RENDERBUFFER_SAMPLES";
 #endif
 #ifdef GL_RENDERBUFFER_STENCIL_SIZE
-    static const char s_RENDERBUFFER_STENCIL_SIZE[26] =
+    static const char* s_RENDERBUFFER_STENCIL_SIZE =
       "RENDERBUFFER_STENCIL_SIZE";
 #endif
 #ifdef GL_RENDERBUFFER_WIDTH
-    static const char s_RENDERBUFFER_WIDTH[19] = "RENDERBUFFER_WIDTH";
+    static const char* s_RENDERBUFFER_WIDTH = "RENDERBUFFER_WIDTH";
 #endif
 #ifdef GL_RENDERER
-    static const char s_RENDERER[9] = "RENDERER";
+    static const char* s_RENDERER = "RENDERER";
 #endif
 #ifdef GL_REPEAT
-    static const char s_REPEAT[7] = "REPEAT";
+    static const char* s_REPEAT = "REPEAT";
 #endif
 #ifdef GL_REPLACE
-    static const char s_REPLACE[8] = "REPLACE";
+    static const char* s_REPLACE = "REPLACE";
 #endif
 #ifdef GL_RESTART_PATH_NV
-    static const char s_RESTART_PATH_NV[16] = "RESTART_PATH_NV";
+    static const char* s_RESTART_PATH_NV = "RESTART_PATH_NV";
 #endif
 #ifdef GL_RG
-    static const char s_RG[3] = "RG";
+    static const char* s_RG = "RG";
 #endif
 #ifdef GL_RG16
-    static const char s_RG16[5] = "RG16";
+    static const char* s_RG16 = "RG16";
 #endif
 #ifdef GL_RG16F
-    static const char s_RG16F[6] = "RG16F";
+    static const char* s_RG16F = "RG16F";
 #endif
 #ifdef GL_RG16I
-    static const char s_RG16I[6] = "RG16I";
+    static const char* s_RG16I = "RG16I";
 #endif
 #ifdef GL_RG16UI
-    static const char s_RG16UI[7] = "RG16UI";
+    static const char* s_RG16UI = "RG16UI";
 #endif
 #ifdef GL_RG16_SNORM
-    static const char s_RG16_SNORM[11] = "RG16_SNORM";
+    static const char* s_RG16_SNORM = "RG16_SNORM";
 #endif
 #ifdef GL_RG32F
-    static const char s_RG32F[6] = "RG32F";
+    static const char* s_RG32F = "RG32F";
 #endif
 #ifdef GL_RG32I
-    static const char s_RG32I[6] = "RG32I";
+    static const char* s_RG32I = "RG32I";
 #endif
 #ifdef GL_RG32UI
-    static const char s_RG32UI[7] = "RG32UI";
+    static const char* s_RG32UI = "RG32UI";
 #endif
 #ifdef GL_RG8
-    static const char s_RG8[4] = "RG8";
+    static const char* s_RG8 = "RG8";
 #endif
 #ifdef GL_RG8I
-    static const char s_RG8I[5] = "RG8I";
+    static const char* s_RG8I = "RG8I";
 #endif
 #ifdef GL_RG8UI
-    static const char s_RG8UI[6] = "RG8UI";
+    static const char* s_RG8UI = "RG8UI";
 #endif
 #ifdef GL_RG8_SNORM
-    static const char s_RG8_SNORM[10] = "RG8_SNORM";
+    static const char* s_RG8_SNORM = "RG8_SNORM";
 #endif
 #ifdef GL_RGB
-    static const char s_RGB[4] = "RGB";
+    static const char* s_RGB = "RGB";
 #endif
 #ifdef GL_RGB10
-    static const char s_RGB10[6] = "RGB10";
+    static const char* s_RGB10 = "RGB10";
 #endif
 #ifdef GL_RGB10_A2
-    static const char s_RGB10_A2[9] = "RGB10_A2";
+    static const char* s_RGB10_A2 = "RGB10_A2";
 #endif
 #ifdef GL_RGB10_A2UI
-    static const char s_RGB10_A2UI[11] = "RGB10_A2UI";
+    static const char* s_RGB10_A2UI = "RGB10_A2UI";
 #endif
 #ifdef GL_RGB12
-    static const char s_RGB12[6] = "RGB12";
+    static const char* s_RGB12 = "RGB12";
 #endif
 #ifdef GL_RGB16
-    static const char s_RGB16[6] = "RGB16";
+    static const char* s_RGB16 = "RGB16";
 #endif
 #ifdef GL_RGB16F
-    static const char s_RGB16F[7] = "RGB16F";
+    static const char* s_RGB16F = "RGB16F";
 #endif
 #ifdef GL_RGB16I
-    static const char s_RGB16I[7] = "RGB16I";
+    static const char* s_RGB16I = "RGB16I";
 #endif
 #ifdef GL_RGB16UI
-    static const char s_RGB16UI[8] = "RGB16UI";
+    static const char* s_RGB16UI = "RGB16UI";
 #endif
 #ifdef GL_RGB16_SNORM
-    static const char s_RGB16_SNORM[12] = "RGB16_SNORM";
+    static const char* s_RGB16_SNORM = "RGB16_SNORM";
 #endif
 #ifdef GL_RGB32F
-    static const char s_RGB32F[7] = "RGB32F";
+    static const char* s_RGB32F = "RGB32F";
 #endif
 #ifdef GL_RGB32I
-    static const char s_RGB32I[7] = "RGB32I";
+    static const char* s_RGB32I = "RGB32I";
 #endif
 #ifdef GL_RGB32UI
-    static const char s_RGB32UI[8] = "RGB32UI";
+    static const char* s_RGB32UI = "RGB32UI";
 #endif
 #ifdef GL_RGB4
-    static const char s_RGB4[5] = "RGB4";
+    static const char* s_RGB4 = "RGB4";
 #endif
 #ifdef GL_RGB5
-    static const char s_RGB5[5] = "RGB5";
+    static const char* s_RGB5 = "RGB5";
 #endif
 #ifdef GL_RGB5_A1
-    static const char s_RGB5_A1[8] = "RGB5_A1";
+    static const char* s_RGB5_A1 = "RGB5_A1";
 #endif
 #ifdef GL_RGB8
-    static const char s_RGB8[5] = "RGB8";
+    static const char* s_RGB8 = "RGB8";
 #endif
 #ifdef GL_RGB8I
-    static const char s_RGB8I[6] = "RGB8I";
+    static const char* s_RGB8I = "RGB8I";
 #endif
 #ifdef GL_RGB8UI
-    static const char s_RGB8UI[7] = "RGB8UI";
+    static const char* s_RGB8UI = "RGB8UI";
 #endif
 #ifdef GL_RGB8_SNORM
-    static const char s_RGB8_SNORM[11] = "RGB8_SNORM";
+    static const char* s_RGB8_SNORM = "RGB8_SNORM";
 #endif
 #ifdef GL_RGB9_E5
-    static const char s_RGB9_E5[8] = "RGB9_E5";
+    static const char* s_RGB9_E5 = "RGB9_E5";
 #endif
 #ifdef GL_RGBA
-    static const char s_RGBA[5] = "RGBA";
+    static const char* s_RGBA = "RGBA";
 #endif
 #ifdef GL_RGBA12
-    static const char s_RGBA12[7] = "RGBA12";
+    static const char* s_RGBA12 = "RGBA12";
 #endif
 #ifdef GL_RGBA16
-    static const char s_RGBA16[7] = "RGBA16";
+    static const char* s_RGBA16 = "RGBA16";
 #endif
 #ifdef GL_RGBA16F
-    static const char s_RGBA16F[8] = "RGBA16F";
+    static const char* s_RGBA16F = "RGBA16F";
 #endif
 #ifdef GL_RGBA16I
-    static const char s_RGBA16I[8] = "RGBA16I";
+    static const char* s_RGBA16I = "RGBA16I";
 #endif
 #ifdef GL_RGBA16UI
-    static const char s_RGBA16UI[9] = "RGBA16UI";
+    static const char* s_RGBA16UI = "RGBA16UI";
 #endif
 #ifdef GL_RGBA16_SNORM
-    static const char s_RGBA16_SNORM[13] = "RGBA16_SNORM";
+    static const char* s_RGBA16_SNORM = "RGBA16_SNORM";
 #endif
 #ifdef GL_RGBA2
-    static const char s_RGBA2[6] = "RGBA2";
+    static const char* s_RGBA2 = "RGBA2";
 #endif
 #ifdef GL_RGBA32F
-    static const char s_RGBA32F[8] = "RGBA32F";
+    static const char* s_RGBA32F = "RGBA32F";
 #endif
 #ifdef GL_RGBA32I
-    static const char s_RGBA32I[8] = "RGBA32I";
+    static const char* s_RGBA32I = "RGBA32I";
 #endif
 #ifdef GL_RGBA32UI
-    static const char s_RGBA32UI[9] = "RGBA32UI";
+    static const char* s_RGBA32UI = "RGBA32UI";
 #endif
 #ifdef GL_RGBA4
-    static const char s_RGBA4[6] = "RGBA4";
+    static const char* s_RGBA4 = "RGBA4";
 #endif
 #ifdef GL_RGBA8
-    static const char s_RGBA8[6] = "RGBA8";
+    static const char* s_RGBA8 = "RGBA8";
 #endif
 #ifdef GL_RGBA8I
-    static const char s_RGBA8I[7] = "RGBA8I";
+    static const char* s_RGBA8I = "RGBA8I";
 #endif
 #ifdef GL_RGBA8UI
-    static const char s_RGBA8UI[8] = "RGBA8UI";
+    static const char* s_RGBA8UI = "RGBA8UI";
 #endif
 #ifdef GL_RGBA8_SNORM
-    static const char s_RGBA8_SNORM[12] = "RGBA8_SNORM";
+    static const char* s_RGBA8_SNORM = "RGBA8_SNORM";
 #endif
 #ifdef GL_RGBA_INTEGER
-    static const char s_RGBA_INTEGER[13] = "RGBA_INTEGER";
+    static const char* s_RGBA_INTEGER = "RGBA_INTEGER";
 #endif
 #ifdef GL_RGB_INTEGER
-    static const char s_RGB_INTEGER[12] = "RGB_INTEGER";
+    static const char* s_RGB_INTEGER = "RGB_INTEGER";
 #endif
 #ifdef GL_RG_INTEGER
-    static const char s_RG_INTEGER[11] = "RG_INTEGER";
+    static const char* s_RG_INTEGER = "RG_INTEGER";
 #endif
 #ifdef GL_RIGHT
-    static const char s_RIGHT[6] = "RIGHT";
+    static const char* s_RIGHT = "RIGHT";
 #endif
 #ifdef GL_ROUND_NV
-    static const char s_ROUND_NV[9] = "ROUND_NV";
+    static const char* s_ROUND_NV = "ROUND_NV";
 #endif
 #ifdef GL_SAMPLER
-    static const char s_SAMPLER[8] = "SAMPLER";
+    static const char* s_SAMPLER = "SAMPLER";
 #endif
 #ifdef GL_SAMPLER_1D
-    static const char s_SAMPLER_1D[11] = "SAMPLER_1D";
+    static const char* s_SAMPLER_1D = "SAMPLER_1D";
 #endif
 #ifdef GL_SAMPLER_1D_ARRAY
-    static const char s_SAMPLER_1D_ARRAY[17] = "SAMPLER_1D_ARRAY";
+    static const char* s_SAMPLER_1D_ARRAY = "SAMPLER_1D_ARRAY";
 #endif
 #ifdef GL_SAMPLER_1D_ARRAY_SHADOW
-    static const char s_SAMPLER_1D_ARRAY_SHADOW[24] = "SAMPLER_1D_ARRAY_SHADOW";
+    static const char* s_SAMPLER_1D_ARRAY_SHADOW = "SAMPLER_1D_ARRAY_SHADOW";
 #endif
 #ifdef GL_SAMPLER_1D_SHADOW
-    static const char s_SAMPLER_1D_SHADOW[18] = "SAMPLER_1D_SHADOW";
+    static const char* s_SAMPLER_1D_SHADOW = "SAMPLER_1D_SHADOW";
 #endif
 #ifdef GL_SAMPLER_2D
-    static const char s_SAMPLER_2D[11] = "SAMPLER_2D";
+    static const char* s_SAMPLER_2D = "SAMPLER_2D";
 #endif
 #ifdef GL_SAMPLER_2D_ARRAY
-    static const char s_SAMPLER_2D_ARRAY[17] = "SAMPLER_2D_ARRAY";
+    static const char* s_SAMPLER_2D_ARRAY = "SAMPLER_2D_ARRAY";
 #endif
 #ifdef GL_SAMPLER_2D_ARRAY_SHADOW
-    static const char s_SAMPLER_2D_ARRAY_SHADOW[24] = "SAMPLER_2D_ARRAY_SHADOW";
+    static const char* s_SAMPLER_2D_ARRAY_SHADOW = "SAMPLER_2D_ARRAY_SHADOW";
 #endif
 #ifdef GL_SAMPLER_2D_MULTISAMPLE
-    static const char s_SAMPLER_2D_MULTISAMPLE[23] = "SAMPLER_2D_MULTISAMPLE";
+    static const char* s_SAMPLER_2D_MULTISAMPLE = "SAMPLER_2D_MULTISAMPLE";
 #endif
 #ifdef GL_SAMPLER_2D_MULTISAMPLE_ARRAY
-    static const char s_SAMPLER_2D_MULTISAMPLE_ARRAY[29] =
+    static const char* s_SAMPLER_2D_MULTISAMPLE_ARRAY =
       "SAMPLER_2D_MULTISAMPLE_ARRAY";
 #endif
 #ifdef GL_SAMPLER_2D_RECT
-    static const char s_SAMPLER_2D_RECT[16] = "SAMPLER_2D_RECT";
+    static const char* s_SAMPLER_2D_RECT = "SAMPLER_2D_RECT";
 #endif
 #ifdef GL_SAMPLER_2D_RECT_SHADOW
-    static const char s_SAMPLER_2D_RECT_SHADOW[23] = "SAMPLER_2D_RECT_SHADOW";
+    static const char* s_SAMPLER_2D_RECT_SHADOW = "SAMPLER_2D_RECT_SHADOW";
 #endif
 #ifdef GL_SAMPLER_2D_SHADOW
-    static const char s_SAMPLER_2D_SHADOW[18] = "SAMPLER_2D_SHADOW";
+    static const char* s_SAMPLER_2D_SHADOW = "SAMPLER_2D_SHADOW";
 #endif
 #ifdef GL_SAMPLER_3D
-    static const char s_SAMPLER_3D[11] = "SAMPLER_3D";
+    static const char* s_SAMPLER_3D = "SAMPLER_3D";
 #endif
 #ifdef GL_SAMPLER_BINDING
-    static const char s_SAMPLER_BINDING[16] = "SAMPLER_BINDING";
+    static const char* s_SAMPLER_BINDING = "SAMPLER_BINDING";
 #endif
 #ifdef GL_SAMPLER_BUFFER
-    static const char s_SAMPLER_BUFFER[15] = "SAMPLER_BUFFER";
+    static const char* s_SAMPLER_BUFFER = "SAMPLER_BUFFER";
 #endif
 #ifdef GL_SAMPLER_CUBE
-    static const char s_SAMPLER_CUBE[13] = "SAMPLER_CUBE";
+    static const char* s_SAMPLER_CUBE = "SAMPLER_CUBE";
 #endif
 #ifdef GL_SAMPLER_CUBE_MAP_ARRAY
-    static const char s_SAMPLER_CUBE_MAP_ARRAY[23] = "SAMPLER_CUBE_MAP_ARRAY";
+    static const char* s_SAMPLER_CUBE_MAP_ARRAY = "SAMPLER_CUBE_MAP_ARRAY";
 #endif
 #ifdef GL_SAMPLER_CUBE_MAP_ARRAY_SHADOW
-    static const char s_SAMPLER_CUBE_MAP_ARRAY_SHADOW[30] =
+    static const char* s_SAMPLER_CUBE_MAP_ARRAY_SHADOW =
       "SAMPLER_CUBE_MAP_ARRAY_SHADOW";
 #endif
 #ifdef GL_SAMPLER_CUBE_SHADOW
-    static const char s_SAMPLER_CUBE_SHADOW[20] = "SAMPLER_CUBE_SHADOW";
+    static const char* s_SAMPLER_CUBE_SHADOW = "SAMPLER_CUBE_SHADOW";
 #endif
 #ifdef GL_SAMPLES
-    static const char s_SAMPLES[8] = "SAMPLES";
+    static const char* s_SAMPLES = "SAMPLES";
 #endif
 #ifdef GL_SAMPLES_PASSED
-    static const char s_SAMPLES_PASSED[15] = "SAMPLES_PASSED";
+    static const char* s_SAMPLES_PASSED = "SAMPLES_PASSED";
 #endif
 #ifdef GL_SAMPLE_ALPHA_TO_COVERAGE
-    static const char s_SAMPLE_ALPHA_TO_COVERAGE[25] =
-      "SAMPLE_ALPHA_TO_COVERAGE";
+    static const char* s_SAMPLE_ALPHA_TO_COVERAGE = "SAMPLE_ALPHA_TO_COVERAGE";
 #endif
 #ifdef GL_SAMPLE_ALPHA_TO_ONE
-    static const char s_SAMPLE_ALPHA_TO_ONE[20] = "SAMPLE_ALPHA_TO_ONE";
+    static const char* s_SAMPLE_ALPHA_TO_ONE = "SAMPLE_ALPHA_TO_ONE";
 #endif
 #ifdef GL_SAMPLE_BUFFERS
-    static const char s_SAMPLE_BUFFERS[15] = "SAMPLE_BUFFERS";
+    static const char* s_SAMPLE_BUFFERS = "SAMPLE_BUFFERS";
 #endif
 #ifdef GL_SAMPLE_COVERAGE
-    static const char s_SAMPLE_COVERAGE[16] = "SAMPLE_COVERAGE";
+    static const char* s_SAMPLE_COVERAGE = "SAMPLE_COVERAGE";
 #endif
 #ifdef GL_SAMPLE_COVERAGE_INVERT
-    static const char s_SAMPLE_COVERAGE_INVERT[23] = "SAMPLE_COVERAGE_INVERT";
+    static const char* s_SAMPLE_COVERAGE_INVERT = "SAMPLE_COVERAGE_INVERT";
 #endif
 #ifdef GL_SAMPLE_COVERAGE_VALUE
-    static const char s_SAMPLE_COVERAGE_VALUE[22] = "SAMPLE_COVERAGE_VALUE";
+    static const char* s_SAMPLE_COVERAGE_VALUE = "SAMPLE_COVERAGE_VALUE";
 #endif
 #ifdef GL_SAMPLE_MASK
-    static const char s_SAMPLE_MASK[12] = "SAMPLE_MASK";
+    static const char* s_SAMPLE_MASK = "SAMPLE_MASK";
 #endif
 #ifdef GL_SAMPLE_SHADING
-    static const char s_SAMPLE_SHADING[15] = "SAMPLE_SHADING";
+    static const char* s_SAMPLE_SHADING = "SAMPLE_SHADING";
 #endif
 #ifdef GL_SCISSOR_BOX
-    static const char s_SCISSOR_BOX[12] = "SCISSOR_BOX";
+    static const char* s_SCISSOR_BOX = "SCISSOR_BOX";
 #endif
 #ifdef GL_SCISSOR_COMMAND_NV
-    static const char s_SCISSOR_COMMAND_NV[19] = "SCISSOR_COMMAND_NV";
+    static const char* s_SCISSOR_COMMAND_NV = "SCISSOR_COMMAND_NV";
 #endif
 #ifdef GL_SCISSOR_TEST
-    static const char s_SCISSOR_TEST[13] = "SCISSOR_TEST";
+    static const char* s_SCISSOR_TEST = "SCISSOR_TEST";
 #endif
 #ifdef GL_SCREEN_KHR
-    static const char s_SCREEN_KHR[11] = "SCREEN_KHR";
+    static const char* s_SCREEN_KHR = "SCREEN_KHR";
 #endif
 #ifdef GL_SECONDARY_COLOR_ARRAY
-    static const char s_SECONDARY_COLOR_ARRAY[22] = "SECONDARY_COLOR_ARRAY";
+    static const char* s_SECONDARY_COLOR_ARRAY = "SECONDARY_COLOR_ARRAY";
 #endif
 #ifdef GL_SECONDARY_COLOR_ARRAY_ADDRESS_NV
-    static const char s_SECONDARY_COLOR_ARRAY_ADDRESS_NV[33] =
+    static const char* s_SECONDARY_COLOR_ARRAY_ADDRESS_NV =
       "SECONDARY_COLOR_ARRAY_ADDRESS_NV";
 #endif
 #ifdef GL_SECONDARY_COLOR_NV
-    static const char s_SECONDARY_COLOR_NV[19] = "SECONDARY_COLOR_NV";
+    static const char* s_SECONDARY_COLOR_NV = "SECONDARY_COLOR_NV";
 #endif
 #ifdef GL_SEPARATE_ATTRIBS
-    static const char s_SEPARATE_ATTRIBS[17] = "SEPARATE_ATTRIBS";
+    static const char* s_SEPARATE_ATTRIBS = "SEPARATE_ATTRIBS";
 #endif
 #ifdef GL_SET
-    static const char s_SET[4] = "SET";
+    static const char* s_SET = "SET";
 #endif
 #ifdef GL_SHADER
-    static const char s_SHADER[7] = "SHADER";
+    static const char* s_SHADER = "SHADER";
 #endif
 #ifdef GL_SHADER_COMPILER
-    static const char s_SHADER_COMPILER[16] = "SHADER_COMPILER";
+    static const char* s_SHADER_COMPILER = "SHADER_COMPILER";
 #endif
 #ifdef GL_SHADER_GLOBAL_ACCESS_BARRIER_BIT_NV
-    static const char s_SHADER_GLOBAL_ACCESS_BARRIER_BIT_NV[36] =
+    static const char* s_SHADER_GLOBAL_ACCESS_BARRIER_BIT_NV =
       "SHADER_GLOBAL_ACCESS_BARRIER_BIT_NV";
 #endif
 #ifdef GL_SHADER_IMAGE_ACCESS_BARRIER_BIT
-    static const char s_SHADER_IMAGE_ACCESS_BARRIER_BIT[32] =
+    static const char* s_SHADER_IMAGE_ACCESS_BARRIER_BIT =
       "SHADER_IMAGE_ACCESS_BARRIER_BIT";
 #endif
 #ifdef GL_SHADER_IMAGE_ATOMIC
-    static const char s_SHADER_IMAGE_ATOMIC[20] = "SHADER_IMAGE_ATOMIC";
+    static const char* s_SHADER_IMAGE_ATOMIC = "SHADER_IMAGE_ATOMIC";
 #endif
 #ifdef GL_SHADER_IMAGE_LOAD
-    static const char s_SHADER_IMAGE_LOAD[18] = "SHADER_IMAGE_LOAD";
+    static const char* s_SHADER_IMAGE_LOAD = "SHADER_IMAGE_LOAD";
 #endif
 #ifdef GL_SHADER_IMAGE_STORE
-    static const char s_SHADER_IMAGE_STORE[19] = "SHADER_IMAGE_STORE";
+    static const char* s_SHADER_IMAGE_STORE = "SHADER_IMAGE_STORE";
 #endif
 #ifdef GL_SHADER_INCLUDE_ARB
-    static const char s_SHADER_INCLUDE_ARB[19] = "SHADER_INCLUDE_ARB";
+    static const char* s_SHADER_INCLUDE_ARB = "SHADER_INCLUDE_ARB";
 #endif
 #ifdef GL_SHADER_SOURCE_LENGTH
-    static const char s_SHADER_SOURCE_LENGTH[21] = "SHADER_SOURCE_LENGTH";
+    static const char* s_SHADER_SOURCE_LENGTH = "SHADER_SOURCE_LENGTH";
 #endif
 #ifdef GL_SHADER_STORAGE_BARRIER_BIT
-    static const char s_SHADER_STORAGE_BARRIER_BIT[27] =
+    static const char* s_SHADER_STORAGE_BARRIER_BIT =
       "SHADER_STORAGE_BARRIER_BIT";
 #endif
 #ifdef GL_SHADER_STORAGE_BLOCK
-    static const char s_SHADER_STORAGE_BLOCK[21] = "SHADER_STORAGE_BLOCK";
+    static const char* s_SHADER_STORAGE_BLOCK = "SHADER_STORAGE_BLOCK";
 #endif
 #ifdef GL_SHADER_STORAGE_BUFFER
-    static const char s_SHADER_STORAGE_BUFFER[22] = "SHADER_STORAGE_BUFFER";
+    static const char* s_SHADER_STORAGE_BUFFER = "SHADER_STORAGE_BUFFER";
 #endif
 #ifdef GL_SHADER_STORAGE_BUFFER_BINDING
-    static const char s_SHADER_STORAGE_BUFFER_BINDING[30] =
+    static const char* s_SHADER_STORAGE_BUFFER_BINDING =
       "SHADER_STORAGE_BUFFER_BINDING";
 #endif
 #ifdef GL_SHADER_STORAGE_BUFFER_OFFSET_ALIGNMENT
-    static const char s_SHADER_STORAGE_BUFFER_OFFSET_ALIGNMENT[39] =
+    static const char* s_SHADER_STORAGE_BUFFER_OFFSET_ALIGNMENT =
       "SHADER_STORAGE_BUFFER_OFFSET_ALIGNMENT";
 #endif
 #ifdef GL_SHADER_STORAGE_BUFFER_SIZE
-    static const char s_SHADER_STORAGE_BUFFER_SIZE[27] =
+    static const char* s_SHADER_STORAGE_BUFFER_SIZE =
       "SHADER_STORAGE_BUFFER_SIZE";
 #endif
 #ifdef GL_SHADER_STORAGE_BUFFER_START
-    static const char s_SHADER_STORAGE_BUFFER_START[28] =
+    static const char* s_SHADER_STORAGE_BUFFER_START =
       "SHADER_STORAGE_BUFFER_START";
 #endif
 #ifdef GL_SHADER_TYPE
-    static const char s_SHADER_TYPE[12] = "SHADER_TYPE";
+    static const char* s_SHADER_TYPE = "SHADER_TYPE";
 #endif
 #ifdef GL_SHADING_LANGUAGE_VERSION
-    static const char s_SHADING_LANGUAGE_VERSION[25] =
-      "SHADING_LANGUAGE_VERSION";
+    static const char* s_SHADING_LANGUAGE_VERSION = "SHADING_LANGUAGE_VERSION";
 #endif
 #ifdef GL_SHORT
-    static const char s_SHORT[6] = "SHORT";
+    static const char* s_SHORT = "SHORT";
 #endif
 #ifdef GL_SIGNALED
-    static const char s_SIGNALED[9] = "SIGNALED";
+    static const char* s_SIGNALED = "SIGNALED";
 #endif
 #ifdef GL_SIMULTANEOUS_TEXTURE_AND_DEPTH_TEST
-    static const char s_SIMULTANEOUS_TEXTURE_AND_DEPTH_TEST[36] =
+    static const char* s_SIMULTANEOUS_TEXTURE_AND_DEPTH_TEST =
       "SIMULTANEOUS_TEXTURE_AND_DEPTH_TEST";
 #endif
 #ifdef GL_SIMULTANEOUS_TEXTURE_AND_DEPTH_WRITE
-    static const char s_SIMULTANEOUS_TEXTURE_AND_DEPTH_WRITE[37] =
+    static const char* s_SIMULTANEOUS_TEXTURE_AND_DEPTH_WRITE =
       "SIMULTANEOUS_TEXTURE_AND_DEPTH_WRITE";
 #endif
 #ifdef GL_SIMULTANEOUS_TEXTURE_AND_STENCIL_TEST
-    static const char s_SIMULTANEOUS_TEXTURE_AND_STENCIL_TEST[38] =
+    static const char* s_SIMULTANEOUS_TEXTURE_AND_STENCIL_TEST =
       "SIMULTANEOUS_TEXTURE_AND_STENCIL_TEST";
 #endif
 #ifdef GL_SIMULTANEOUS_TEXTURE_AND_STENCIL_WRITE
-    static const char s_SIMULTANEOUS_TEXTURE_AND_STENCIL_WRITE[39] =
+    static const char* s_SIMULTANEOUS_TEXTURE_AND_STENCIL_WRITE =
       "SIMULTANEOUS_TEXTURE_AND_STENCIL_WRITE";
 #endif
 #ifdef GL_SKIP_MISSING_GLYPH_NV
-    static const char s_SKIP_MISSING_GLYPH_NV[22] = "SKIP_MISSING_GLYPH_NV";
+    static const char* s_SKIP_MISSING_GLYPH_NV = "SKIP_MISSING_GLYPH_NV";
 #endif
 #ifdef GL_SMALL_CCW_ARC_TO_NV
-    static const char s_SMALL_CCW_ARC_TO_NV[20] = "SMALL_CCW_ARC_TO_NV";
+    static const char* s_SMALL_CCW_ARC_TO_NV = "SMALL_CCW_ARC_TO_NV";
 #endif
 #ifdef GL_SMALL_CW_ARC_TO_NV
-    static const char s_SMALL_CW_ARC_TO_NV[19] = "SMALL_CW_ARC_TO_NV";
+    static const char* s_SMALL_CW_ARC_TO_NV = "SMALL_CW_ARC_TO_NV";
 #endif
 #ifdef GL_SMOOTH_CUBIC_CURVE_TO_NV
-    static const char s_SMOOTH_CUBIC_CURVE_TO_NV[25] =
-      "SMOOTH_CUBIC_CURVE_TO_NV";
+    static const char* s_SMOOTH_CUBIC_CURVE_TO_NV = "SMOOTH_CUBIC_CURVE_TO_NV";
 #endif
 #ifdef GL_SMOOTH_LINE_WIDTH_GRANULARITY
-    static const char s_SMOOTH_LINE_WIDTH_GRANULARITY[30] =
+    static const char* s_SMOOTH_LINE_WIDTH_GRANULARITY =
       "SMOOTH_LINE_WIDTH_GRANULARITY";
 #endif
 #ifdef GL_SMOOTH_LINE_WIDTH_RANGE
-    static const char s_SMOOTH_LINE_WIDTH_RANGE[24] = "SMOOTH_LINE_WIDTH_RANGE";
+    static const char* s_SMOOTH_LINE_WIDTH_RANGE = "SMOOTH_LINE_WIDTH_RANGE";
 #endif
 #ifdef GL_SMOOTH_QUADRATIC_CURVE_TO_NV
-    static const char s_SMOOTH_QUADRATIC_CURVE_TO_NV[29] =
+    static const char* s_SMOOTH_QUADRATIC_CURVE_TO_NV =
       "SMOOTH_QUADRATIC_CURVE_TO_NV";
 #endif
 #ifdef GL_SOFTLIGHT_KHR
-    static const char s_SOFTLIGHT_KHR[14] = "SOFTLIGHT_KHR";
+    static const char* s_SOFTLIGHT_KHR = "SOFTLIGHT_KHR";
 #endif
 #ifdef GL_SPARSE_STORAGE_BIT_ARB
-    static const char s_SPARSE_STORAGE_BIT_ARB[23] = "SPARSE_STORAGE_BIT_ARB";
+    static const char* s_SPARSE_STORAGE_BIT_ARB = "SPARSE_STORAGE_BIT_ARB";
 #endif
 #ifdef GL_SQUARE_NV
-    static const char s_SQUARE_NV[10] = "SQUARE_NV";
+    static const char* s_SQUARE_NV = "SQUARE_NV";
 #endif
 #ifdef GL_SRC1_ALPHA
-    static const char s_SRC1_ALPHA[11] = "SRC1_ALPHA";
+    static const char* s_SRC1_ALPHA = "SRC1_ALPHA";
 #endif
 #ifdef GL_SRC1_COLOR
-    static const char s_SRC1_COLOR[11] = "SRC1_COLOR";
+    static const char* s_SRC1_COLOR = "SRC1_COLOR";
 #endif
 #ifdef GL_SRC_ALPHA
-    static const char s_SRC_ALPHA[10] = "SRC_ALPHA";
+    static const char* s_SRC_ALPHA = "SRC_ALPHA";
 #endif
 #ifdef GL_SRC_ALPHA_SATURATE
-    static const char s_SRC_ALPHA_SATURATE[19] = "SRC_ALPHA_SATURATE";
+    static const char* s_SRC_ALPHA_SATURATE = "SRC_ALPHA_SATURATE";
 #endif
 #ifdef GL_SRC_COLOR
-    static const char s_SRC_COLOR[10] = "SRC_COLOR";
+    static const char* s_SRC_COLOR = "SRC_COLOR";
 #endif
 #ifdef GL_SRGB8
-    static const char s_SRGB8[6] = "SRGB8";
+    static const char* s_SRGB8 = "SRGB8";
 #endif
 #ifdef GL_SRGB8_ALPHA8
-    static const char s_SRGB8_ALPHA8[13] = "SRGB8_ALPHA8";
+    static const char* s_SRGB8_ALPHA8 = "SRGB8_ALPHA8";
 #endif
 #ifdef GL_SRGB_READ
-    static const char s_SRGB_READ[10] = "SRGB_READ";
+    static const char* s_SRGB_READ = "SRGB_READ";
 #endif
 #ifdef GL_SRGB_WRITE
-    static const char s_SRGB_WRITE[11] = "SRGB_WRITE";
+    static const char* s_SRGB_WRITE = "SRGB_WRITE";
 #endif
 #ifdef GL_STACK_OVERFLOW
-    static const char s_STACK_OVERFLOW[15] = "STACK_OVERFLOW";
+    static const char* s_STACK_OVERFLOW = "STACK_OVERFLOW";
 #endif
 #ifdef GL_STACK_UNDERFLOW
-    static const char s_STACK_UNDERFLOW[16] = "STACK_UNDERFLOW";
+    static const char* s_STACK_UNDERFLOW = "STACK_UNDERFLOW";
 #endif
 #ifdef GL_STANDARD_FONT_NAME_NV
-    static const char s_STANDARD_FONT_NAME_NV[22] = "STANDARD_FONT_NAME_NV";
+    static const char* s_STANDARD_FONT_NAME_NV = "STANDARD_FONT_NAME_NV";
 #endif
 #ifdef GL_STATIC_COPY
-    static const char s_STATIC_COPY[12] = "STATIC_COPY";
+    static const char* s_STATIC_COPY = "STATIC_COPY";
 #endif
 #ifdef GL_STATIC_DRAW
-    static const char s_STATIC_DRAW[12] = "STATIC_DRAW";
+    static const char* s_STATIC_DRAW = "STATIC_DRAW";
 #endif
 #ifdef GL_STATIC_READ
-    static const char s_STATIC_READ[12] = "STATIC_READ";
+    static const char* s_STATIC_READ = "STATIC_READ";
 #endif
 #ifdef GL_STENCIL
-    static const char s_STENCIL[8] = "STENCIL";
+    static const char* s_STENCIL = "STENCIL";
 #endif
 #ifdef GL_STENCIL_ATTACHMENT
-    static const char s_STENCIL_ATTACHMENT[19] = "STENCIL_ATTACHMENT";
+    static const char* s_STENCIL_ATTACHMENT = "STENCIL_ATTACHMENT";
 #endif
 #ifdef GL_STENCIL_BACK_FAIL
-    static const char s_STENCIL_BACK_FAIL[18] = "STENCIL_BACK_FAIL";
+    static const char* s_STENCIL_BACK_FAIL = "STENCIL_BACK_FAIL";
 #endif
 #ifdef GL_STENCIL_BACK_FUNC
-    static const char s_STENCIL_BACK_FUNC[18] = "STENCIL_BACK_FUNC";
+    static const char* s_STENCIL_BACK_FUNC = "STENCIL_BACK_FUNC";
 #endif
 #ifdef GL_STENCIL_BACK_PASS_DEPTH_FAIL
-    static const char s_STENCIL_BACK_PASS_DEPTH_FAIL[29] =
+    static const char* s_STENCIL_BACK_PASS_DEPTH_FAIL =
       "STENCIL_BACK_PASS_DEPTH_FAIL";
 #endif
 #ifdef GL_STENCIL_BACK_PASS_DEPTH_PASS
-    static const char s_STENCIL_BACK_PASS_DEPTH_PASS[29] =
+    static const char* s_STENCIL_BACK_PASS_DEPTH_PASS =
       "STENCIL_BACK_PASS_DEPTH_PASS";
 #endif
 #ifdef GL_STENCIL_BACK_REF
-    static const char s_STENCIL_BACK_REF[17] = "STENCIL_BACK_REF";
+    static const char* s_STENCIL_BACK_REF = "STENCIL_BACK_REF";
 #endif
 #ifdef GL_STENCIL_BACK_VALUE_MASK
-    static const char s_STENCIL_BACK_VALUE_MASK[24] = "STENCIL_BACK_VALUE_MASK";
+    static const char* s_STENCIL_BACK_VALUE_MASK = "STENCIL_BACK_VALUE_MASK";
 #endif
 #ifdef GL_STENCIL_BACK_WRITEMASK
-    static const char s_STENCIL_BACK_WRITEMASK[23] = "STENCIL_BACK_WRITEMASK";
+    static const char* s_STENCIL_BACK_WRITEMASK = "STENCIL_BACK_WRITEMASK";
 #endif
 #ifdef GL_STENCIL_BUFFER_BIT
-    static const char s_STENCIL_BUFFER_BIT[19] = "STENCIL_BUFFER_BIT";
+    static const char* s_STENCIL_BUFFER_BIT = "STENCIL_BUFFER_BIT";
 #endif
 #ifdef GL_STENCIL_CLEAR_VALUE
-    static const char s_STENCIL_CLEAR_VALUE[20] = "STENCIL_CLEAR_VALUE";
+    static const char* s_STENCIL_CLEAR_VALUE = "STENCIL_CLEAR_VALUE";
 #endif
 #ifdef GL_STENCIL_COMPONENTS
-    static const char s_STENCIL_COMPONENTS[19] = "STENCIL_COMPONENTS";
+    static const char* s_STENCIL_COMPONENTS = "STENCIL_COMPONENTS";
 #endif
 #ifdef GL_STENCIL_FAIL
-    static const char s_STENCIL_FAIL[13] = "STENCIL_FAIL";
+    static const char* s_STENCIL_FAIL = "STENCIL_FAIL";
 #endif
 #ifdef GL_STENCIL_FUNC
-    static const char s_STENCIL_FUNC[13] = "STENCIL_FUNC";
+    static const char* s_STENCIL_FUNC = "STENCIL_FUNC";
 #endif
 #ifdef GL_STENCIL_INDEX
-    static const char s_STENCIL_INDEX[14] = "STENCIL_INDEX";
+    static const char* s_STENCIL_INDEX = "STENCIL_INDEX";
 #endif
 #ifdef GL_STENCIL_INDEX8
-    static const char s_STENCIL_INDEX8[15] = "STENCIL_INDEX8";
+    static const char* s_STENCIL_INDEX8 = "STENCIL_INDEX8";
 #endif
 #ifdef GL_STENCIL_PASS_DEPTH_FAIL
-    static const char s_STENCIL_PASS_DEPTH_FAIL[24] = "STENCIL_PASS_DEPTH_FAIL";
+    static const char* s_STENCIL_PASS_DEPTH_FAIL = "STENCIL_PASS_DEPTH_FAIL";
 #endif
 #ifdef GL_STENCIL_PASS_DEPTH_PASS
-    static const char s_STENCIL_PASS_DEPTH_PASS[24] = "STENCIL_PASS_DEPTH_PASS";
+    static const char* s_STENCIL_PASS_DEPTH_PASS = "STENCIL_PASS_DEPTH_PASS";
 #endif
 #ifdef GL_STENCIL_REF
-    static const char s_STENCIL_REF[12] = "STENCIL_REF";
+    static const char* s_STENCIL_REF = "STENCIL_REF";
 #endif
 #ifdef GL_STENCIL_REF_COMMAND_NV
-    static const char s_STENCIL_REF_COMMAND_NV[23] = "STENCIL_REF_COMMAND_NV";
+    static const char* s_STENCIL_REF_COMMAND_NV = "STENCIL_REF_COMMAND_NV";
 #endif
 #ifdef GL_STENCIL_RENDERABLE
-    static const char s_STENCIL_RENDERABLE[19] = "STENCIL_RENDERABLE";
+    static const char* s_STENCIL_RENDERABLE = "STENCIL_RENDERABLE";
 #endif
 #ifdef GL_STENCIL_TEST
-    static const char s_STENCIL_TEST[13] = "STENCIL_TEST";
+    static const char* s_STENCIL_TEST = "STENCIL_TEST";
 #endif
 #ifdef GL_STENCIL_VALUE_MASK
-    static const char s_STENCIL_VALUE_MASK[19] = "STENCIL_VALUE_MASK";
+    static const char* s_STENCIL_VALUE_MASK = "STENCIL_VALUE_MASK";
 #endif
 #ifdef GL_STENCIL_WRITEMASK
-    static const char s_STENCIL_WRITEMASK[18] = "STENCIL_WRITEMASK";
+    static const char* s_STENCIL_WRITEMASK = "STENCIL_WRITEMASK";
 #endif
 #ifdef GL_STEREO
-    static const char s_STEREO[7] = "STEREO";
+    static const char* s_STEREO = "STEREO";
 #endif
 #ifdef GL_STREAM_COPY
-    static const char s_STREAM_COPY[12] = "STREAM_COPY";
+    static const char* s_STREAM_COPY = "STREAM_COPY";
 #endif
 #ifdef GL_STREAM_DRAW
-    static const char s_STREAM_DRAW[12] = "STREAM_DRAW";
+    static const char* s_STREAM_DRAW = "STREAM_DRAW";
 #endif
 #ifdef GL_STREAM_RASTERIZATION_AMD
-    static const char s_STREAM_RASTERIZATION_AMD[25] =
-      "STREAM_RASTERIZATION_AMD";
+    static const char* s_STREAM_RASTERIZATION_AMD = "STREAM_RASTERIZATION_AMD";
 #endif
 #ifdef GL_STREAM_READ
-    static const char s_STREAM_READ[12] = "STREAM_READ";
+    static const char* s_STREAM_READ = "STREAM_READ";
 #endif
 #ifdef GL_SUBPIXEL_BITS
-    static const char s_SUBPIXEL_BITS[14] = "SUBPIXEL_BITS";
+    static const char* s_SUBPIXEL_BITS = "SUBPIXEL_BITS";
 #endif
 #ifdef GL_SYNC_CONDITION
-    static const char s_SYNC_CONDITION[15] = "SYNC_CONDITION";
+    static const char* s_SYNC_CONDITION = "SYNC_CONDITION";
 #endif
 #ifdef GL_SYNC_FENCE
-    static const char s_SYNC_FENCE[11] = "SYNC_FENCE";
+    static const char* s_SYNC_FENCE = "SYNC_FENCE";
 #endif
 #ifdef GL_SYNC_GPU_COMMANDS_COMPLETE
-    static const char s_SYNC_GPU_COMMANDS_COMPLETE[27] =
+    static const char* s_SYNC_GPU_COMMANDS_COMPLETE =
       "SYNC_GPU_COMMANDS_COMPLETE";
 #endif
 #ifdef GL_SYNC_STATUS
-    static const char s_SYNC_STATUS[12] = "SYNC_STATUS";
+    static const char* s_SYNC_STATUS = "SYNC_STATUS";
 #endif
 #ifdef GL_SYSTEM_FONT_NAME_NV
-    static const char s_SYSTEM_FONT_NAME_NV[20] = "SYSTEM_FONT_NAME_NV";
+    static const char* s_SYSTEM_FONT_NAME_NV = "SYSTEM_FONT_NAME_NV";
 #endif
 #ifdef GL_TABLE_TOO_LARGE
-    static const char s_TABLE_TOO_LARGE[16] = "TABLE_TOO_LARGE";
+    static const char* s_TABLE_TOO_LARGE = "TABLE_TOO_LARGE";
 #endif
 #ifdef GL_TERMINATE_SEQUENCE_COMMAND_NV
-    static const char s_TERMINATE_SEQUENCE_COMMAND_NV[30] =
+    static const char* s_TERMINATE_SEQUENCE_COMMAND_NV =
       "TERMINATE_SEQUENCE_COMMAND_NV";
 #endif
 #ifdef GL_TESS_CONTROL_SHADER
-    static const char s_TESS_CONTROL_SHADER[20] = "TESS_CONTROL_SHADER";
+    static const char* s_TESS_CONTROL_SHADER = "TESS_CONTROL_SHADER";
 #endif
 #ifdef GL_TESS_CONTROL_SHADER_BIT
-    static const char s_TESS_CONTROL_SHADER_BIT[24] = "TESS_CONTROL_SHADER_BIT";
+    static const char* s_TESS_CONTROL_SHADER_BIT = "TESS_CONTROL_SHADER_BIT";
 #endif
 #ifdef GL_TESS_CONTROL_SHADER_PATCHES_ARB
-    static const char s_TESS_CONTROL_SHADER_PATCHES_ARB[32] =
+    static const char* s_TESS_CONTROL_SHADER_PATCHES_ARB =
       "TESS_CONTROL_SHADER_PATCHES_ARB";
 #endif
 #ifdef GL_TESS_CONTROL_SUBROUTINE
-    static const char s_TESS_CONTROL_SUBROUTINE[24] = "TESS_CONTROL_SUBROUTINE";
+    static const char* s_TESS_CONTROL_SUBROUTINE = "TESS_CONTROL_SUBROUTINE";
 #endif
 #ifdef GL_TESS_CONTROL_SUBROUTINE_UNIFORM
-    static const char s_TESS_CONTROL_SUBROUTINE_UNIFORM[32] =
+    static const char* s_TESS_CONTROL_SUBROUTINE_UNIFORM =
       "TESS_CONTROL_SUBROUTINE_UNIFORM";
 #endif
 #ifdef GL_TESS_CONTROL_TEXTURE
-    static const char s_TESS_CONTROL_TEXTURE[21] = "TESS_CONTROL_TEXTURE";
+    static const char* s_TESS_CONTROL_TEXTURE = "TESS_CONTROL_TEXTURE";
 #endif
 #ifdef GL_TESS_EVALUATION_SHADER
-    static const char s_TESS_EVALUATION_SHADER[23] = "TESS_EVALUATION_SHADER";
+    static const char* s_TESS_EVALUATION_SHADER = "TESS_EVALUATION_SHADER";
 #endif
 #ifdef GL_TESS_EVALUATION_SHADER_BIT
-    static const char s_TESS_EVALUATION_SHADER_BIT[27] =
+    static const char* s_TESS_EVALUATION_SHADER_BIT =
       "TESS_EVALUATION_SHADER_BIT";
 #endif
 #ifdef GL_TESS_EVALUATION_SHADER_INVOCATIONS_ARB
-    static const char s_TESS_EVALUATION_SHADER_INVOCATIONS_ARB[39] =
+    static const char* s_TESS_EVALUATION_SHADER_INVOCATIONS_ARB =
       "TESS_EVALUATION_SHADER_INVOCATIONS_ARB";
 #endif
 #ifdef GL_TESS_EVALUATION_SUBROUTINE
-    static const char s_TESS_EVALUATION_SUBROUTINE[27] =
+    static const char* s_TESS_EVALUATION_SUBROUTINE =
       "TESS_EVALUATION_SUBROUTINE";
 #endif
 #ifdef GL_TESS_EVALUATION_SUBROUTINE_UNIFORM
-    static const char s_TESS_EVALUATION_SUBROUTINE_UNIFORM[35] =
+    static const char* s_TESS_EVALUATION_SUBROUTINE_UNIFORM =
       "TESS_EVALUATION_SUBROUTINE_UNIFORM";
 #endif
 #ifdef GL_TESS_EVALUATION_TEXTURE
-    static const char s_TESS_EVALUATION_TEXTURE[24] = "TESS_EVALUATION_TEXTURE";
+    static const char* s_TESS_EVALUATION_TEXTURE = "TESS_EVALUATION_TEXTURE";
 #endif
 #ifdef GL_TEXTURE
-    static const char s_TEXTURE[8] = "TEXTURE";
+    static const char* s_TEXTURE = "TEXTURE";
 #endif
 #ifdef GL_TEXTURE0
-    static const char s_TEXTURE0[9] = "TEXTURE0";
+    static const char* s_TEXTURE0 = "TEXTURE0";
 #endif
 #ifdef GL_TEXTURE_1D
-    static const char s_TEXTURE_1D[11] = "TEXTURE_1D";
+    static const char* s_TEXTURE_1D = "TEXTURE_1D";
 #endif
 #ifdef GL_TEXTURE_1D_ARRAY
-    static const char s_TEXTURE_1D_ARRAY[17] = "TEXTURE_1D_ARRAY";
+    static const char* s_TEXTURE_1D_ARRAY = "TEXTURE_1D_ARRAY";
 #endif
 #ifdef GL_TEXTURE_2D
-    static const char s_TEXTURE_2D[11] = "TEXTURE_2D";
+    static const char* s_TEXTURE_2D = "TEXTURE_2D";
 #endif
 #ifdef GL_TEXTURE_2D_ARRAY
-    static const char s_TEXTURE_2D_ARRAY[17] = "TEXTURE_2D_ARRAY";
+    static const char* s_TEXTURE_2D_ARRAY = "TEXTURE_2D_ARRAY";
 #endif
 #ifdef GL_TEXTURE_2D_MULTISAMPLE
-    static const char s_TEXTURE_2D_MULTISAMPLE[23] = "TEXTURE_2D_MULTISAMPLE";
+    static const char* s_TEXTURE_2D_MULTISAMPLE = "TEXTURE_2D_MULTISAMPLE";
 #endif
 #ifdef GL_TEXTURE_2D_MULTISAMPLE_ARRAY
-    static const char s_TEXTURE_2D_MULTISAMPLE_ARRAY[29] =
+    static const char* s_TEXTURE_2D_MULTISAMPLE_ARRAY =
       "TEXTURE_2D_MULTISAMPLE_ARRAY";
 #endif
 #ifdef GL_TEXTURE_3D
-    static const char s_TEXTURE_3D[11] = "TEXTURE_3D";
+    static const char* s_TEXTURE_3D = "TEXTURE_3D";
 #endif
 #ifdef GL_TEXTURE_BASE_LEVEL
-    static const char s_TEXTURE_BASE_LEVEL[19] = "TEXTURE_BASE_LEVEL";
+    static const char* s_TEXTURE_BASE_LEVEL = "TEXTURE_BASE_LEVEL";
 #endif
 #ifdef GL_TEXTURE_BINDING_1D
-    static const char s_TEXTURE_BINDING_1D[19] = "TEXTURE_BINDING_1D";
+    static const char* s_TEXTURE_BINDING_1D = "TEXTURE_BINDING_1D";
 #endif
 #ifdef GL_TEXTURE_BINDING_1D_ARRAY
-    static const char s_TEXTURE_BINDING_1D_ARRAY[25] =
-      "TEXTURE_BINDING_1D_ARRAY";
+    static const char* s_TEXTURE_BINDING_1D_ARRAY = "TEXTURE_BINDING_1D_ARRAY";
 #endif
 #ifdef GL_TEXTURE_BINDING_2D
-    static const char s_TEXTURE_BINDING_2D[19] = "TEXTURE_BINDING_2D";
+    static const char* s_TEXTURE_BINDING_2D = "TEXTURE_BINDING_2D";
 #endif
 #ifdef GL_TEXTURE_BINDING_2D_ARRAY
-    static const char s_TEXTURE_BINDING_2D_ARRAY[25] =
-      "TEXTURE_BINDING_2D_ARRAY";
+    static const char* s_TEXTURE_BINDING_2D_ARRAY = "TEXTURE_BINDING_2D_ARRAY";
 #endif
 #ifdef GL_TEXTURE_BINDING_2D_MULTISAMPLE
-    static const char s_TEXTURE_BINDING_2D_MULTISAMPLE[31] =
+    static const char* s_TEXTURE_BINDING_2D_MULTISAMPLE =
       "TEXTURE_BINDING_2D_MULTISAMPLE";
 #endif
 #ifdef GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY
-    static const char s_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY[37] =
+    static const char* s_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY =
       "TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY";
 #endif
 #ifdef GL_TEXTURE_BINDING_3D
-    static const char s_TEXTURE_BINDING_3D[19] = "TEXTURE_BINDING_3D";
+    static const char* s_TEXTURE_BINDING_3D = "TEXTURE_BINDING_3D";
 #endif
 #ifdef GL_TEXTURE_BINDING_BUFFER
-    static const char s_TEXTURE_BINDING_BUFFER[23] = "TEXTURE_BINDING_BUFFER";
+    static const char* s_TEXTURE_BINDING_BUFFER = "TEXTURE_BINDING_BUFFER";
 #endif
 #ifdef GL_TEXTURE_BINDING_CUBE_MAP
-    static const char s_TEXTURE_BINDING_CUBE_MAP[25] =
-      "TEXTURE_BINDING_CUBE_MAP";
+    static const char* s_TEXTURE_BINDING_CUBE_MAP = "TEXTURE_BINDING_CUBE_MAP";
 #endif
 #ifdef GL_TEXTURE_BINDING_CUBE_MAP_ARRAY
-    static const char s_TEXTURE_BINDING_CUBE_MAP_ARRAY[31] =
+    static const char* s_TEXTURE_BINDING_CUBE_MAP_ARRAY =
       "TEXTURE_BINDING_CUBE_MAP_ARRAY";
 #endif
 #ifdef GL_TEXTURE_BINDING_RECTANGLE
-    static const char s_TEXTURE_BINDING_RECTANGLE[26] =
+    static const char* s_TEXTURE_BINDING_RECTANGLE =
       "TEXTURE_BINDING_RECTANGLE";
 #endif
 #ifdef GL_TEXTURE_BORDER_COLOR
-    static const char s_TEXTURE_BORDER_COLOR[21] = "TEXTURE_BORDER_COLOR";
+    static const char* s_TEXTURE_BORDER_COLOR = "TEXTURE_BORDER_COLOR";
 #endif
 #ifdef GL_TEXTURE_BUFFER
-    static const char s_TEXTURE_BUFFER[15] = "TEXTURE_BUFFER";
+    static const char* s_TEXTURE_BUFFER = "TEXTURE_BUFFER";
 #endif
 #ifdef GL_TEXTURE_BUFFER_BINDING
-    static const char s_TEXTURE_BUFFER_BINDING[23] = "TEXTURE_BUFFER_BINDING";
+    static const char* s_TEXTURE_BUFFER_BINDING = "TEXTURE_BUFFER_BINDING";
 #endif
 #ifdef GL_TEXTURE_BUFFER_OFFSET_ALIGNMENT
-    static const char s_TEXTURE_BUFFER_OFFSET_ALIGNMENT[32] =
+    static const char* s_TEXTURE_BUFFER_OFFSET_ALIGNMENT =
       "TEXTURE_BUFFER_OFFSET_ALIGNMENT";
 #endif
 #ifdef GL_TEXTURE_COMPARE_FUNC
-    static const char s_TEXTURE_COMPARE_FUNC[21] = "TEXTURE_COMPARE_FUNC";
+    static const char* s_TEXTURE_COMPARE_FUNC = "TEXTURE_COMPARE_FUNC";
 #endif
 #ifdef GL_TEXTURE_COMPARE_MODE
-    static const char s_TEXTURE_COMPARE_MODE[21] = "TEXTURE_COMPARE_MODE";
+    static const char* s_TEXTURE_COMPARE_MODE = "TEXTURE_COMPARE_MODE";
 #endif
 #ifdef GL_TEXTURE_COMPRESSED
-    static const char s_TEXTURE_COMPRESSED[19] = "TEXTURE_COMPRESSED";
+    static const char* s_TEXTURE_COMPRESSED = "TEXTURE_COMPRESSED";
 #endif
 #ifdef GL_TEXTURE_COMPRESSED_BLOCK_HEIGHT
-    static const char s_TEXTURE_COMPRESSED_BLOCK_HEIGHT[32] =
+    static const char* s_TEXTURE_COMPRESSED_BLOCK_HEIGHT =
       "TEXTURE_COMPRESSED_BLOCK_HEIGHT";
 #endif
 #ifdef GL_TEXTURE_COMPRESSED_BLOCK_SIZE
-    static const char s_TEXTURE_COMPRESSED_BLOCK_SIZE[30] =
+    static const char* s_TEXTURE_COMPRESSED_BLOCK_SIZE =
       "TEXTURE_COMPRESSED_BLOCK_SIZE";
 #endif
 #ifdef GL_TEXTURE_COMPRESSED_BLOCK_WIDTH
-    static const char s_TEXTURE_COMPRESSED_BLOCK_WIDTH[31] =
+    static const char* s_TEXTURE_COMPRESSED_BLOCK_WIDTH =
       "TEXTURE_COMPRESSED_BLOCK_WIDTH";
 #endif
 #ifdef GL_TEXTURE_COMPRESSION_HINT
-    static const char s_TEXTURE_COMPRESSION_HINT[25] =
-      "TEXTURE_COMPRESSION_HINT";
+    static const char* s_TEXTURE_COMPRESSION_HINT = "TEXTURE_COMPRESSION_HINT";
 #endif
 #ifdef GL_TEXTURE_COORD_ARRAY
-    static const char s_TEXTURE_COORD_ARRAY[20] = "TEXTURE_COORD_ARRAY";
+    static const char* s_TEXTURE_COORD_ARRAY = "TEXTURE_COORD_ARRAY";
 #endif
 #ifdef GL_TEXTURE_COORD_ARRAY_ADDRESS_NV
-    static const char s_TEXTURE_COORD_ARRAY_ADDRESS_NV[31] =
+    static const char* s_TEXTURE_COORD_ARRAY_ADDRESS_NV =
       "TEXTURE_COORD_ARRAY_ADDRESS_NV";
 #endif
 #ifdef GL_TEXTURE_CUBE_MAP
-    static const char s_TEXTURE_CUBE_MAP[17] = "TEXTURE_CUBE_MAP";
+    static const char* s_TEXTURE_CUBE_MAP = "TEXTURE_CUBE_MAP";
 #endif
 #ifdef GL_TEXTURE_CUBE_MAP_ARRAY
-    static const char s_TEXTURE_CUBE_MAP_ARRAY[23] = "TEXTURE_CUBE_MAP_ARRAY";
+    static const char* s_TEXTURE_CUBE_MAP_ARRAY = "TEXTURE_CUBE_MAP_ARRAY";
 #endif
 #ifdef GL_TEXTURE_CUBE_MAP_NEGATIVE_X
-    static const char s_TEXTURE_CUBE_MAP_NEGATIVE_X[28] =
+    static const char* s_TEXTURE_CUBE_MAP_NEGATIVE_X =
       "TEXTURE_CUBE_MAP_NEGATIVE_X";
 #endif
 #ifdef GL_TEXTURE_CUBE_MAP_NEGATIVE_Y
-    static const char s_TEXTURE_CUBE_MAP_NEGATIVE_Y[28] =
+    static const char* s_TEXTURE_CUBE_MAP_NEGATIVE_Y =
       "TEXTURE_CUBE_MAP_NEGATIVE_Y";
 #endif
 #ifdef GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
-    static const char s_TEXTURE_CUBE_MAP_NEGATIVE_Z[28] =
+    static const char* s_TEXTURE_CUBE_MAP_NEGATIVE_Z =
       "TEXTURE_CUBE_MAP_NEGATIVE_Z";
 #endif
 #ifdef GL_TEXTURE_CUBE_MAP_POSITIVE_X
-    static const char s_TEXTURE_CUBE_MAP_POSITIVE_X[28] =
+    static const char* s_TEXTURE_CUBE_MAP_POSITIVE_X =
       "TEXTURE_CUBE_MAP_POSITIVE_X";
 #endif
 #ifdef GL_TEXTURE_CUBE_MAP_POSITIVE_Y
-    static const char s_TEXTURE_CUBE_MAP_POSITIVE_Y[28] =
+    static const char* s_TEXTURE_CUBE_MAP_POSITIVE_Y =
       "TEXTURE_CUBE_MAP_POSITIVE_Y";
 #endif
 #ifdef GL_TEXTURE_CUBE_MAP_POSITIVE_Z
-    static const char s_TEXTURE_CUBE_MAP_POSITIVE_Z[28] =
+    static const char* s_TEXTURE_CUBE_MAP_POSITIVE_Z =
       "TEXTURE_CUBE_MAP_POSITIVE_Z";
 #endif
 #ifdef GL_TEXTURE_CUBE_MAP_SEAMLESS
-    static const char s_TEXTURE_CUBE_MAP_SEAMLESS[26] =
+    static const char* s_TEXTURE_CUBE_MAP_SEAMLESS =
       "TEXTURE_CUBE_MAP_SEAMLESS";
 #endif
 #ifdef GL_TEXTURE_FETCH_BARRIER_BIT
-    static const char s_TEXTURE_FETCH_BARRIER_BIT[26] =
+    static const char* s_TEXTURE_FETCH_BARRIER_BIT =
       "TEXTURE_FETCH_BARRIER_BIT";
 #endif
 #ifdef GL_TEXTURE_GATHER
-    static const char s_TEXTURE_GATHER[15] = "TEXTURE_GATHER";
+    static const char* s_TEXTURE_GATHER = "TEXTURE_GATHER";
 #endif
 #ifdef GL_TEXTURE_GATHER_SHADOW
-    static const char s_TEXTURE_GATHER_SHADOW[22] = "TEXTURE_GATHER_SHADOW";
+    static const char* s_TEXTURE_GATHER_SHADOW = "TEXTURE_GATHER_SHADOW";
 #endif
 #ifdef GL_TEXTURE_IMAGE_FORMAT
-    static const char s_TEXTURE_IMAGE_FORMAT[21] = "TEXTURE_IMAGE_FORMAT";
+    static const char* s_TEXTURE_IMAGE_FORMAT = "TEXTURE_IMAGE_FORMAT";
 #endif
 #ifdef GL_TEXTURE_IMAGE_TYPE
-    static const char s_TEXTURE_IMAGE_TYPE[19] = "TEXTURE_IMAGE_TYPE";
+    static const char* s_TEXTURE_IMAGE_TYPE = "TEXTURE_IMAGE_TYPE";
 #endif
 #ifdef GL_TEXTURE_IMMUTABLE_FORMAT
-    static const char s_TEXTURE_IMMUTABLE_FORMAT[25] =
-      "TEXTURE_IMMUTABLE_FORMAT";
+    static const char* s_TEXTURE_IMMUTABLE_FORMAT = "TEXTURE_IMMUTABLE_FORMAT";
 #endif
 #ifdef GL_TEXTURE_IMMUTABLE_LEVELS
-    static const char s_TEXTURE_IMMUTABLE_LEVELS[25] =
-      "TEXTURE_IMMUTABLE_LEVELS";
+    static const char* s_TEXTURE_IMMUTABLE_LEVELS = "TEXTURE_IMMUTABLE_LEVELS";
 #endif
 #ifdef GL_TEXTURE_LOD_BIAS
-    static const char s_TEXTURE_LOD_BIAS[17] = "TEXTURE_LOD_BIAS";
+    static const char* s_TEXTURE_LOD_BIAS = "TEXTURE_LOD_BIAS";
 #endif
 #ifdef GL_TEXTURE_MAG_FILTER
-    static const char s_TEXTURE_MAG_FILTER[19] = "TEXTURE_MAG_FILTER";
+    static const char* s_TEXTURE_MAG_FILTER = "TEXTURE_MAG_FILTER";
 #endif
 #ifdef GL_TEXTURE_MAX_LEVEL
-    static const char s_TEXTURE_MAX_LEVEL[18] = "TEXTURE_MAX_LEVEL";
+    static const char* s_TEXTURE_MAX_LEVEL = "TEXTURE_MAX_LEVEL";
 #endif
 #ifdef GL_TEXTURE_MAX_LOD
-    static const char s_TEXTURE_MAX_LOD[16] = "TEXTURE_MAX_LOD";
+    static const char* s_TEXTURE_MAX_LOD = "TEXTURE_MAX_LOD";
 #endif
 #ifdef GL_TEXTURE_MIN_FILTER
-    static const char s_TEXTURE_MIN_FILTER[19] = "TEXTURE_MIN_FILTER";
+    static const char* s_TEXTURE_MIN_FILTER = "TEXTURE_MIN_FILTER";
 #endif
 #ifdef GL_TEXTURE_MIN_LOD
-    static const char s_TEXTURE_MIN_LOD[16] = "TEXTURE_MIN_LOD";
+    static const char* s_TEXTURE_MIN_LOD = "TEXTURE_MIN_LOD";
 #endif
 #ifdef GL_TEXTURE_RECTANGLE
-    static const char s_TEXTURE_RECTANGLE[18] = "TEXTURE_RECTANGLE";
+    static const char* s_TEXTURE_RECTANGLE = "TEXTURE_RECTANGLE";
 #endif
 #ifdef GL_TEXTURE_SHADOW
-    static const char s_TEXTURE_SHADOW[15] = "TEXTURE_SHADOW";
+    static const char* s_TEXTURE_SHADOW = "TEXTURE_SHADOW";
 #endif
 #ifdef GL_TEXTURE_SWIZZLE_A
-    static const char s_TEXTURE_SWIZZLE_A[18] = "TEXTURE_SWIZZLE_A";
+    static const char* s_TEXTURE_SWIZZLE_A = "TEXTURE_SWIZZLE_A";
 #endif
 #ifdef GL_TEXTURE_SWIZZLE_B
-    static const char s_TEXTURE_SWIZZLE_B[18] = "TEXTURE_SWIZZLE_B";
+    static const char* s_TEXTURE_SWIZZLE_B = "TEXTURE_SWIZZLE_B";
 #endif
 #ifdef GL_TEXTURE_SWIZZLE_G
-    static const char s_TEXTURE_SWIZZLE_G[18] = "TEXTURE_SWIZZLE_G";
+    static const char* s_TEXTURE_SWIZZLE_G = "TEXTURE_SWIZZLE_G";
 #endif
 #ifdef GL_TEXTURE_SWIZZLE_R
-    static const char s_TEXTURE_SWIZZLE_R[18] = "TEXTURE_SWIZZLE_R";
+    static const char* s_TEXTURE_SWIZZLE_R = "TEXTURE_SWIZZLE_R";
 #endif
 #ifdef GL_TEXTURE_SWIZZLE_RGBA
-    static const char s_TEXTURE_SWIZZLE_RGBA[21] = "TEXTURE_SWIZZLE_RGBA";
+    static const char* s_TEXTURE_SWIZZLE_RGBA = "TEXTURE_SWIZZLE_RGBA";
 #endif
 #ifdef GL_TEXTURE_TARGET
-    static const char s_TEXTURE_TARGET[15] = "TEXTURE_TARGET";
+    static const char* s_TEXTURE_TARGET = "TEXTURE_TARGET";
 #endif
 #ifdef GL_TEXTURE_UPDATE_BARRIER_BIT
-    static const char s_TEXTURE_UPDATE_BARRIER_BIT[27] =
+    static const char* s_TEXTURE_UPDATE_BARRIER_BIT =
       "TEXTURE_UPDATE_BARRIER_BIT";
 #endif
 #ifdef GL_TEXTURE_VIEW
-    static const char s_TEXTURE_VIEW[13] = "TEXTURE_VIEW";
+    static const char* s_TEXTURE_VIEW = "TEXTURE_VIEW";
 #endif
 #ifdef GL_TEXTURE_VIEW_MIN_LAYER
-    static const char s_TEXTURE_VIEW_MIN_LAYER[23] = "TEXTURE_VIEW_MIN_LAYER";
+    static const char* s_TEXTURE_VIEW_MIN_LAYER = "TEXTURE_VIEW_MIN_LAYER";
 #endif
 #ifdef GL_TEXTURE_VIEW_MIN_LEVEL
-    static const char s_TEXTURE_VIEW_MIN_LEVEL[23] = "TEXTURE_VIEW_MIN_LEVEL";
+    static const char* s_TEXTURE_VIEW_MIN_LEVEL = "TEXTURE_VIEW_MIN_LEVEL";
 #endif
 #ifdef GL_TEXTURE_VIEW_NUM_LAYERS
-    static const char s_TEXTURE_VIEW_NUM_LAYERS[24] = "TEXTURE_VIEW_NUM_LAYERS";
+    static const char* s_TEXTURE_VIEW_NUM_LAYERS = "TEXTURE_VIEW_NUM_LAYERS";
 #endif
 #ifdef GL_TEXTURE_VIEW_NUM_LEVELS
-    static const char s_TEXTURE_VIEW_NUM_LEVELS[24] = "TEXTURE_VIEW_NUM_LEVELS";
+    static const char* s_TEXTURE_VIEW_NUM_LEVELS = "TEXTURE_VIEW_NUM_LEVELS";
 #endif
 #ifdef GL_TEXTURE_WRAP_R
-    static const char s_TEXTURE_WRAP_R[15] = "TEXTURE_WRAP_R";
+    static const char* s_TEXTURE_WRAP_R = "TEXTURE_WRAP_R";
 #endif
 #ifdef GL_TEXTURE_WRAP_S
-    static const char s_TEXTURE_WRAP_S[15] = "TEXTURE_WRAP_S";
+    static const char* s_TEXTURE_WRAP_S = "TEXTURE_WRAP_S";
 #endif
 #ifdef GL_TEXTURE_WRAP_T
-    static const char s_TEXTURE_WRAP_T[15] = "TEXTURE_WRAP_T";
+    static const char* s_TEXTURE_WRAP_T = "TEXTURE_WRAP_T";
 #endif
 #ifdef GL_TIMEOUT_EXPIRED
-    static const char s_TIMEOUT_EXPIRED[16] = "TIMEOUT_EXPIRED";
+    static const char* s_TIMEOUT_EXPIRED = "TIMEOUT_EXPIRED";
 #endif
 #ifdef GL_TIMESTAMP
-    static const char s_TIMESTAMP[10] = "TIMESTAMP";
+    static const char* s_TIMESTAMP = "TIMESTAMP";
 #endif
 #ifdef GL_TIME_ELAPSED
-    static const char s_TIME_ELAPSED[13] = "TIME_ELAPSED";
+    static const char* s_TIME_ELAPSED = "TIME_ELAPSED";
 #endif
 #ifdef GL_TOP_LEVEL_ARRAY_SIZE
-    static const char s_TOP_LEVEL_ARRAY_SIZE[21] = "TOP_LEVEL_ARRAY_SIZE";
+    static const char* s_TOP_LEVEL_ARRAY_SIZE = "TOP_LEVEL_ARRAY_SIZE";
 #endif
 #ifdef GL_TOP_LEVEL_ARRAY_STRIDE
-    static const char s_TOP_LEVEL_ARRAY_STRIDE[23] = "TOP_LEVEL_ARRAY_STRIDE";
+    static const char* s_TOP_LEVEL_ARRAY_STRIDE = "TOP_LEVEL_ARRAY_STRIDE";
 #endif
 #ifdef GL_TRANSFORM_FEEDBACK
-    static const char s_TRANSFORM_FEEDBACK[19] = "TRANSFORM_FEEDBACK";
+    static const char* s_TRANSFORM_FEEDBACK = "TRANSFORM_FEEDBACK";
 #endif
 #ifdef GL_TRANSFORM_FEEDBACK_ACTIVE
-    static const char s_TRANSFORM_FEEDBACK_ACTIVE[26] =
+    static const char* s_TRANSFORM_FEEDBACK_ACTIVE =
       "TRANSFORM_FEEDBACK_ACTIVE";
 #endif
 #ifdef GL_TRANSFORM_FEEDBACK_BARRIER_BIT
-    static const char s_TRANSFORM_FEEDBACK_BARRIER_BIT[31] =
+    static const char* s_TRANSFORM_FEEDBACK_BARRIER_BIT =
       "TRANSFORM_FEEDBACK_BARRIER_BIT";
 #endif
 #ifdef GL_TRANSFORM_FEEDBACK_BINDING
-    static const char s_TRANSFORM_FEEDBACK_BINDING[27] =
+    static const char* s_TRANSFORM_FEEDBACK_BINDING =
       "TRANSFORM_FEEDBACK_BINDING";
 #endif
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER
-    static const char s_TRANSFORM_FEEDBACK_BUFFER[26] =
+    static const char* s_TRANSFORM_FEEDBACK_BUFFER =
       "TRANSFORM_FEEDBACK_BUFFER";
 #endif
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_BINDING
-    static const char s_TRANSFORM_FEEDBACK_BUFFER_BINDING[34] =
+    static const char* s_TRANSFORM_FEEDBACK_BUFFER_BINDING =
       "TRANSFORM_FEEDBACK_BUFFER_BINDING";
 #endif
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_INDEX
-    static const char s_TRANSFORM_FEEDBACK_BUFFER_INDEX[32] =
+    static const char* s_TRANSFORM_FEEDBACK_BUFFER_INDEX =
       "TRANSFORM_FEEDBACK_BUFFER_INDEX";
 #endif
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_MODE
-    static const char s_TRANSFORM_FEEDBACK_BUFFER_MODE[31] =
+    static const char* s_TRANSFORM_FEEDBACK_BUFFER_MODE =
       "TRANSFORM_FEEDBACK_BUFFER_MODE";
 #endif
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_SIZE
-    static const char s_TRANSFORM_FEEDBACK_BUFFER_SIZE[31] =
+    static const char* s_TRANSFORM_FEEDBACK_BUFFER_SIZE =
       "TRANSFORM_FEEDBACK_BUFFER_SIZE";
 #endif
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_START
-    static const char s_TRANSFORM_FEEDBACK_BUFFER_START[32] =
+    static const char* s_TRANSFORM_FEEDBACK_BUFFER_START =
       "TRANSFORM_FEEDBACK_BUFFER_START";
 #endif
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_STRIDE
-    static const char s_TRANSFORM_FEEDBACK_BUFFER_STRIDE[33] =
+    static const char* s_TRANSFORM_FEEDBACK_BUFFER_STRIDE =
       "TRANSFORM_FEEDBACK_BUFFER_STRIDE";
 #endif
 #ifdef GL_TRANSFORM_FEEDBACK_OVERFLOW_ARB
-    static const char s_TRANSFORM_FEEDBACK_OVERFLOW_ARB[32] =
+    static const char* s_TRANSFORM_FEEDBACK_OVERFLOW_ARB =
       "TRANSFORM_FEEDBACK_OVERFLOW_ARB";
 #endif
 #ifdef GL_TRANSFORM_FEEDBACK_PAUSED
-    static const char s_TRANSFORM_FEEDBACK_PAUSED[26] =
+    static const char* s_TRANSFORM_FEEDBACK_PAUSED =
       "TRANSFORM_FEEDBACK_PAUSED";
 #endif
 #ifdef GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN
-    static const char s_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN[38] =
+    static const char* s_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN =
       "TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN";
 #endif
 #ifdef GL_TRANSFORM_FEEDBACK_STREAM_OVERFLOW_ARB
-    static const char s_TRANSFORM_FEEDBACK_STREAM_OVERFLOW_ARB[39] =
+    static const char* s_TRANSFORM_FEEDBACK_STREAM_OVERFLOW_ARB =
       "TRANSFORM_FEEDBACK_STREAM_OVERFLOW_ARB";
 #endif
 #ifdef GL_TRANSFORM_FEEDBACK_VARYINGS
-    static const char s_TRANSFORM_FEEDBACK_VARYINGS[28] =
+    static const char* s_TRANSFORM_FEEDBACK_VARYINGS =
       "TRANSFORM_FEEDBACK_VARYINGS";
 #endif
 #ifdef GL_TRANSFORM_FEEDBACK_VARYING_MAX_LENGTH
-    static const char s_TRANSFORM_FEEDBACK_VARYING_MAX_LENGTH[38] =
+    static const char* s_TRANSFORM_FEEDBACK_VARYING_MAX_LENGTH =
       "TRANSFORM_FEEDBACK_VARYING_MAX_LENGTH";
 #endif
 #ifdef GL_TRANSFORM_FEEDEBACK_VARYING
-    static const char s_TRANSFORM_FEEDEBACK_VARYING[28] =
+    static const char* s_TRANSFORM_FEEDEBACK_VARYING =
       "TRANSFORM_FEEDEBACK_VARYING";
 #endif
 #ifdef GL_TRANSLATE_2D_NV
-    static const char s_TRANSLATE_2D_NV[16] = "TRANSLATE_2D_NV";
+    static const char* s_TRANSLATE_2D_NV = "TRANSLATE_2D_NV";
 #endif
 #ifdef GL_TRANSLATE_3D_NV
-    static const char s_TRANSLATE_3D_NV[16] = "TRANSLATE_3D_NV";
+    static const char* s_TRANSLATE_3D_NV = "TRANSLATE_3D_NV";
 #endif
 #ifdef GL_TRANSLATE_X_NV
-    static const char s_TRANSLATE_X_NV[15] = "TRANSLATE_X_NV";
+    static const char* s_TRANSLATE_X_NV = "TRANSLATE_X_NV";
 #endif
 #ifdef GL_TRANSLATE_Y_NV
-    static const char s_TRANSLATE_Y_NV[15] = "TRANSLATE_Y_NV";
+    static const char* s_TRANSLATE_Y_NV = "TRANSLATE_Y_NV";
 #endif
 #ifdef GL_TRANSPOSE_AFFINE_2D_NV
-    static const char s_TRANSPOSE_AFFINE_2D_NV[23] = "TRANSPOSE_AFFINE_2D_NV";
+    static const char* s_TRANSPOSE_AFFINE_2D_NV = "TRANSPOSE_AFFINE_2D_NV";
 #endif
 #ifdef GL_TRANSPOSE_AFFINE_3D_NV
-    static const char s_TRANSPOSE_AFFINE_3D_NV[23] = "TRANSPOSE_AFFINE_3D_NV";
+    static const char* s_TRANSPOSE_AFFINE_3D_NV = "TRANSPOSE_AFFINE_3D_NV";
 #endif
 #ifdef GL_TRIANGLES
-    static const char s_TRIANGLES[10] = "TRIANGLES";
+    static const char* s_TRIANGLES = "TRIANGLES";
 #endif
 #ifdef GL_TRIANGLES_ADJACENCY
-    static const char s_TRIANGLES_ADJACENCY[20] = "TRIANGLES_ADJACENCY";
+    static const char* s_TRIANGLES_ADJACENCY = "TRIANGLES_ADJACENCY";
 #endif
 #ifdef GL_TRIANGLE_FAN
-    static const char s_TRIANGLE_FAN[13] = "TRIANGLE_FAN";
+    static const char* s_TRIANGLE_FAN = "TRIANGLE_FAN";
 #endif
 #ifdef GL_TRIANGLE_STRIP
-    static const char s_TRIANGLE_STRIP[15] = "TRIANGLE_STRIP";
+    static const char* s_TRIANGLE_STRIP = "TRIANGLE_STRIP";
 #endif
 #ifdef GL_TRIANGLE_STRIP_ADJACENCY
-    static const char s_TRIANGLE_STRIP_ADJACENCY[25] =
-      "TRIANGLE_STRIP_ADJACENCY";
+    static const char* s_TRIANGLE_STRIP_ADJACENCY = "TRIANGLE_STRIP_ADJACENCY";
 #endif
 #ifdef GL_TRIANGULAR_NV
-    static const char s_TRIANGULAR_NV[14] = "TRIANGULAR_NV";
+    static const char* s_TRIANGULAR_NV = "TRIANGULAR_NV";
 #endif
 #ifdef GL_TRUE
-    static const char s_TRUE[5] = "TRUE";
+    static const char* s_TRUE = "TRUE";
 #endif
 #ifdef GL_UNIFORM
-    static const char s_UNIFORM[8] = "UNIFORM";
+    static const char* s_UNIFORM = "UNIFORM";
 #endif
 #ifdef GL_UNIFORM_ADDRESS_COMMAND_NV
-    static const char s_UNIFORM_ADDRESS_COMMAND_NV[27] =
+    static const char* s_UNIFORM_ADDRESS_COMMAND_NV =
       "UNIFORM_ADDRESS_COMMAND_NV";
 #endif
 #ifdef GL_UNIFORM_BARRIER_BIT
-    static const char s_UNIFORM_BARRIER_BIT[20] = "UNIFORM_BARRIER_BIT";
+    static const char* s_UNIFORM_BARRIER_BIT = "UNIFORM_BARRIER_BIT";
 #endif
 #ifdef GL_UNIFORM_BLOCK
-    static const char s_UNIFORM_BLOCK[14] = "UNIFORM_BLOCK";
+    static const char* s_UNIFORM_BLOCK = "UNIFORM_BLOCK";
 #endif
 #ifdef GL_UNIFORM_BUFFER
-    static const char s_UNIFORM_BUFFER[15] = "UNIFORM_BUFFER";
+    static const char* s_UNIFORM_BUFFER = "UNIFORM_BUFFER";
 #endif
 #ifdef GL_UNIFORM_BUFFER_ADDRESS_NV
-    static const char s_UNIFORM_BUFFER_ADDRESS_NV[26] =
+    static const char* s_UNIFORM_BUFFER_ADDRESS_NV =
       "UNIFORM_BUFFER_ADDRESS_NV";
 #endif
 #ifdef GL_UNIFORM_BUFFER_BINDING
-    static const char s_UNIFORM_BUFFER_BINDING[23] = "UNIFORM_BUFFER_BINDING";
+    static const char* s_UNIFORM_BUFFER_BINDING = "UNIFORM_BUFFER_BINDING";
 #endif
 #ifdef GL_UNIFORM_BUFFER_OFFSET_ALIGNMENT
-    static const char s_UNIFORM_BUFFER_OFFSET_ALIGNMENT[32] =
+    static const char* s_UNIFORM_BUFFER_OFFSET_ALIGNMENT =
       "UNIFORM_BUFFER_OFFSET_ALIGNMENT";
 #endif
 #ifdef GL_UNIFORM_BUFFER_SIZE
-    static const char s_UNIFORM_BUFFER_SIZE[20] = "UNIFORM_BUFFER_SIZE";
+    static const char* s_UNIFORM_BUFFER_SIZE = "UNIFORM_BUFFER_SIZE";
 #endif
 #ifdef GL_UNIFORM_BUFFER_START
-    static const char s_UNIFORM_BUFFER_START[21] = "UNIFORM_BUFFER_START";
+    static const char* s_UNIFORM_BUFFER_START = "UNIFORM_BUFFER_START";
 #endif
 #ifdef GL_UNIFORM_BUFFER_UNIFIED_NV
-    static const char s_UNIFORM_BUFFER_UNIFIED_NV[26] =
+    static const char* s_UNIFORM_BUFFER_UNIFIED_NV =
       "UNIFORM_BUFFER_UNIFIED_NV";
 #endif
 #ifdef GL_UNKNOWN_CONTEXT_RESET
-    static const char s_UNKNOWN_CONTEXT_RESET[22] = "UNKNOWN_CONTEXT_RESET";
+    static const char* s_UNKNOWN_CONTEXT_RESET = "UNKNOWN_CONTEXT_RESET";
 #endif
 #ifdef GL_UNPACK_ALIGNMENT
-    static const char s_UNPACK_ALIGNMENT[17] = "UNPACK_ALIGNMENT";
+    static const char* s_UNPACK_ALIGNMENT = "UNPACK_ALIGNMENT";
 #endif
 #ifdef GL_UNPACK_COMPRESSED_BLOCK_DEPTH
-    static const char s_UNPACK_COMPRESSED_BLOCK_DEPTH[30] =
+    static const char* s_UNPACK_COMPRESSED_BLOCK_DEPTH =
       "UNPACK_COMPRESSED_BLOCK_DEPTH";
 #endif
 #ifdef GL_UNPACK_COMPRESSED_BLOCK_HEIGHT
-    static const char s_UNPACK_COMPRESSED_BLOCK_HEIGHT[31] =
+    static const char* s_UNPACK_COMPRESSED_BLOCK_HEIGHT =
       "UNPACK_COMPRESSED_BLOCK_HEIGHT";
 #endif
 #ifdef GL_UNPACK_COMPRESSED_BLOCK_SIZE
-    static const char s_UNPACK_COMPRESSED_BLOCK_SIZE[29] =
+    static const char* s_UNPACK_COMPRESSED_BLOCK_SIZE =
       "UNPACK_COMPRESSED_BLOCK_SIZE";
 #endif
 #ifdef GL_UNPACK_COMPRESSED_BLOCK_WIDTH
-    static const char s_UNPACK_COMPRESSED_BLOCK_WIDTH[30] =
+    static const char* s_UNPACK_COMPRESSED_BLOCK_WIDTH =
       "UNPACK_COMPRESSED_BLOCK_WIDTH";
 #endif
 #ifdef GL_UNPACK_IMAGE_HEIGHT
-    static const char s_UNPACK_IMAGE_HEIGHT[20] = "UNPACK_IMAGE_HEIGHT";
+    static const char* s_UNPACK_IMAGE_HEIGHT = "UNPACK_IMAGE_HEIGHT";
 #endif
 #ifdef GL_UNPACK_LSB_FIRST
-    static const char s_UNPACK_LSB_FIRST[17] = "UNPACK_LSB_FIRST";
+    static const char* s_UNPACK_LSB_FIRST = "UNPACK_LSB_FIRST";
 #endif
 #ifdef GL_UNPACK_ROW_LENGTH
-    static const char s_UNPACK_ROW_LENGTH[18] = "UNPACK_ROW_LENGTH";
+    static const char* s_UNPACK_ROW_LENGTH = "UNPACK_ROW_LENGTH";
 #endif
 #ifdef GL_UNPACK_SKIP_IMAGES
-    static const char s_UNPACK_SKIP_IMAGES[19] = "UNPACK_SKIP_IMAGES";
+    static const char* s_UNPACK_SKIP_IMAGES = "UNPACK_SKIP_IMAGES";
 #endif
 #ifdef GL_UNPACK_SKIP_PIXELS
-    static const char s_UNPACK_SKIP_PIXELS[19] = "UNPACK_SKIP_PIXELS";
+    static const char* s_UNPACK_SKIP_PIXELS = "UNPACK_SKIP_PIXELS";
 #endif
 #ifdef GL_UNPACK_SKIP_ROWS
-    static const char s_UNPACK_SKIP_ROWS[17] = "UNPACK_SKIP_ROWS";
+    static const char* s_UNPACK_SKIP_ROWS = "UNPACK_SKIP_ROWS";
 #endif
 #ifdef GL_UNPACK_SWAP_BYTES
-    static const char s_UNPACK_SWAP_BYTES[18] = "UNPACK_SWAP_BYTES";
+    static const char* s_UNPACK_SWAP_BYTES = "UNPACK_SWAP_BYTES";
 #endif
 #ifdef GL_UNSIGNALED
-    static const char s_UNSIGNALED[11] = "UNSIGNALED";
+    static const char* s_UNSIGNALED = "UNSIGNALED";
 #endif
 #ifdef GL_UNSIGNED_BYTE
-    static const char s_UNSIGNED_BYTE[14] = "UNSIGNED_BYTE";
+    static const char* s_UNSIGNED_BYTE = "UNSIGNED_BYTE";
 #endif
 #ifdef GL_UNSIGNED_BYTE_2_3_3_REV
-    static const char s_UNSIGNED_BYTE_2_3_3_REV[24] = "UNSIGNED_BYTE_2_3_3_REV";
+    static const char* s_UNSIGNED_BYTE_2_3_3_REV = "UNSIGNED_BYTE_2_3_3_REV";
 #endif
 #ifdef GL_UNSIGNED_BYTE_3_3_2
-    static const char s_UNSIGNED_BYTE_3_3_2[20] = "UNSIGNED_BYTE_3_3_2";
+    static const char* s_UNSIGNED_BYTE_3_3_2 = "UNSIGNED_BYTE_3_3_2";
 #endif
 #ifdef GL_UNSIGNED_INT
-    static const char s_UNSIGNED_INT[13] = "UNSIGNED_INT";
+    static const char* s_UNSIGNED_INT = "UNSIGNED_INT";
 #endif
 #ifdef GL_UNSIGNED_INT_10F_11F_11F_REV
-    static const char s_UNSIGNED_INT_10F_11F_11F_REV[29] =
+    static const char* s_UNSIGNED_INT_10F_11F_11F_REV =
       "UNSIGNED_INT_10F_11F_11F_REV";
 #endif
 #ifdef GL_UNSIGNED_INT_10_10_10_2
-    static const char s_UNSIGNED_INT_10_10_10_2[24] = "UNSIGNED_INT_10_10_10_2";
+    static const char* s_UNSIGNED_INT_10_10_10_2 = "UNSIGNED_INT_10_10_10_2";
 #endif
 #ifdef GL_UNSIGNED_INT_24_8
-    static const char s_UNSIGNED_INT_24_8[18] = "UNSIGNED_INT_24_8";
+    static const char* s_UNSIGNED_INT_24_8 = "UNSIGNED_INT_24_8";
 #endif
 #ifdef GL_UNSIGNED_INT_2_10_10_10_REV
-    static const char s_UNSIGNED_INT_2_10_10_10_REV[28] =
+    static const char* s_UNSIGNED_INT_2_10_10_10_REV =
       "UNSIGNED_INT_2_10_10_10_REV";
 #endif
 #ifdef GL_UNSIGNED_INT_5_9_9_9_REV
-    static const char s_UNSIGNED_INT_5_9_9_9_REV[25] =
-      "UNSIGNED_INT_5_9_9_9_REV";
+    static const char* s_UNSIGNED_INT_5_9_9_9_REV = "UNSIGNED_INT_5_9_9_9_REV";
 #endif
 #ifdef GL_UNSIGNED_INT_8_8_8_8
-    static const char s_UNSIGNED_INT_8_8_8_8[21] = "UNSIGNED_INT_8_8_8_8";
+    static const char* s_UNSIGNED_INT_8_8_8_8 = "UNSIGNED_INT_8_8_8_8";
 #endif
 #ifdef GL_UNSIGNED_INT_8_8_8_8_REV
-    static const char s_UNSIGNED_INT_8_8_8_8_REV[25] =
-      "UNSIGNED_INT_8_8_8_8_REV";
+    static const char* s_UNSIGNED_INT_8_8_8_8_REV = "UNSIGNED_INT_8_8_8_8_REV";
 #endif
 #ifdef GL_UNSIGNED_INT_ATOMIC_COUNTER
-    static const char s_UNSIGNED_INT_ATOMIC_COUNTER[28] =
+    static const char* s_UNSIGNED_INT_ATOMIC_COUNTER =
       "UNSIGNED_INT_ATOMIC_COUNTER";
 #endif
 #ifdef GL_UNSIGNED_INT_IMAGE_1D
-    static const char s_UNSIGNED_INT_IMAGE_1D[22] = "UNSIGNED_INT_IMAGE_1D";
+    static const char* s_UNSIGNED_INT_IMAGE_1D = "UNSIGNED_INT_IMAGE_1D";
 #endif
 #ifdef GL_UNSIGNED_INT_IMAGE_1D_ARRAY
-    static const char s_UNSIGNED_INT_IMAGE_1D_ARRAY[28] =
+    static const char* s_UNSIGNED_INT_IMAGE_1D_ARRAY =
       "UNSIGNED_INT_IMAGE_1D_ARRAY";
 #endif
 #ifdef GL_UNSIGNED_INT_IMAGE_2D
-    static const char s_UNSIGNED_INT_IMAGE_2D[22] = "UNSIGNED_INT_IMAGE_2D";
+    static const char* s_UNSIGNED_INT_IMAGE_2D = "UNSIGNED_INT_IMAGE_2D";
 #endif
 #ifdef GL_UNSIGNED_INT_IMAGE_2D_ARRAY
-    static const char s_UNSIGNED_INT_IMAGE_2D_ARRAY[28] =
+    static const char* s_UNSIGNED_INT_IMAGE_2D_ARRAY =
       "UNSIGNED_INT_IMAGE_2D_ARRAY";
 #endif
 #ifdef GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE
-    static const char s_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE[34] =
+    static const char* s_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE =
       "UNSIGNED_INT_IMAGE_2D_MULTISAMPLE";
 #endif
 #ifdef GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE_ARRAY
-    static const char s_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE_ARRAY[40] =
+    static const char* s_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE_ARRAY =
       "UNSIGNED_INT_IMAGE_2D_MULTISAMPLE_ARRAY";
 #endif
 #ifdef GL_UNSIGNED_INT_IMAGE_2D_RECT
-    static const char s_UNSIGNED_INT_IMAGE_2D_RECT[27] =
+    static const char* s_UNSIGNED_INT_IMAGE_2D_RECT =
       "UNSIGNED_INT_IMAGE_2D_RECT";
 #endif
 #ifdef GL_UNSIGNED_INT_IMAGE_3D
-    static const char s_UNSIGNED_INT_IMAGE_3D[22] = "UNSIGNED_INT_IMAGE_3D";
+    static const char* s_UNSIGNED_INT_IMAGE_3D = "UNSIGNED_INT_IMAGE_3D";
 #endif
 #ifdef GL_UNSIGNED_INT_IMAGE_BUFFER
-    static const char s_UNSIGNED_INT_IMAGE_BUFFER[26] =
+    static const char* s_UNSIGNED_INT_IMAGE_BUFFER =
       "UNSIGNED_INT_IMAGE_BUFFER";
 #endif
 #ifdef GL_UNSIGNED_INT_IMAGE_CUBE
-    static const char s_UNSIGNED_INT_IMAGE_CUBE[24] = "UNSIGNED_INT_IMAGE_CUBE";
+    static const char* s_UNSIGNED_INT_IMAGE_CUBE = "UNSIGNED_INT_IMAGE_CUBE";
 #endif
 #ifdef GL_UNSIGNED_INT_SAMPLER_1D
-    static const char s_UNSIGNED_INT_SAMPLER_1D[24] = "UNSIGNED_INT_SAMPLER_1D";
+    static const char* s_UNSIGNED_INT_SAMPLER_1D = "UNSIGNED_INT_SAMPLER_1D";
 #endif
 #ifdef GL_UNSIGNED_INT_SAMPLER_1D_ARRAY
-    static const char s_UNSIGNED_INT_SAMPLER_1D_ARRAY[30] =
+    static const char* s_UNSIGNED_INT_SAMPLER_1D_ARRAY =
       "UNSIGNED_INT_SAMPLER_1D_ARRAY";
 #endif
 #ifdef GL_UNSIGNED_INT_SAMPLER_2D
-    static const char s_UNSIGNED_INT_SAMPLER_2D[24] = "UNSIGNED_INT_SAMPLER_2D";
+    static const char* s_UNSIGNED_INT_SAMPLER_2D = "UNSIGNED_INT_SAMPLER_2D";
 #endif
 #ifdef GL_UNSIGNED_INT_SAMPLER_2D_ARRAY
-    static const char s_UNSIGNED_INT_SAMPLER_2D_ARRAY[30] =
+    static const char* s_UNSIGNED_INT_SAMPLER_2D_ARRAY =
       "UNSIGNED_INT_SAMPLER_2D_ARRAY";
 #endif
 #ifdef GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE
-    static const char s_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE[36] =
+    static const char* s_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE =
       "UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE";
 #endif
 #ifdef GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY
-    static const char s_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY[42] =
+    static const char* s_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY =
       "UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY";
 #endif
 #ifdef GL_UNSIGNED_INT_SAMPLER_2D_RECT
-    static const char s_UNSIGNED_INT_SAMPLER_2D_RECT[29] =
+    static const char* s_UNSIGNED_INT_SAMPLER_2D_RECT =
       "UNSIGNED_INT_SAMPLER_2D_RECT";
 #endif
 #ifdef GL_UNSIGNED_INT_SAMPLER_3D
-    static const char s_UNSIGNED_INT_SAMPLER_3D[24] = "UNSIGNED_INT_SAMPLER_3D";
+    static const char* s_UNSIGNED_INT_SAMPLER_3D = "UNSIGNED_INT_SAMPLER_3D";
 #endif
 #ifdef GL_UNSIGNED_INT_SAMPLER_BUFFER
-    static const char s_UNSIGNED_INT_SAMPLER_BUFFER[28] =
+    static const char* s_UNSIGNED_INT_SAMPLER_BUFFER =
       "UNSIGNED_INT_SAMPLER_BUFFER";
 #endif
 #ifdef GL_UNSIGNED_INT_SAMPLER_CUBE
-    static const char s_UNSIGNED_INT_SAMPLER_CUBE[26] =
+    static const char* s_UNSIGNED_INT_SAMPLER_CUBE =
       "UNSIGNED_INT_SAMPLER_CUBE";
 #endif
 #ifdef GL_UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY
-    static const char s_UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY[36] =
+    static const char* s_UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY =
       "UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY";
 #endif
 #ifdef GL_UNSIGNED_INT_VEC2
-    static const char s_UNSIGNED_INT_VEC2[18] = "UNSIGNED_INT_VEC2";
+    static const char* s_UNSIGNED_INT_VEC2 = "UNSIGNED_INT_VEC2";
 #endif
 #ifdef GL_UNSIGNED_INT_VEC3
-    static const char s_UNSIGNED_INT_VEC3[18] = "UNSIGNED_INT_VEC3";
+    static const char* s_UNSIGNED_INT_VEC3 = "UNSIGNED_INT_VEC3";
 #endif
 #ifdef GL_UNSIGNED_INT_VEC4
-    static const char s_UNSIGNED_INT_VEC4[18] = "UNSIGNED_INT_VEC4";
+    static const char* s_UNSIGNED_INT_VEC4 = "UNSIGNED_INT_VEC4";
 #endif
 #ifdef GL_UNSIGNED_SHORT
-    static const char s_UNSIGNED_SHORT[15] = "UNSIGNED_SHORT";
+    static const char* s_UNSIGNED_SHORT = "UNSIGNED_SHORT";
 #endif
 #ifdef GL_UNSIGNED_SHORT_1_5_5_5_REV
-    static const char s_UNSIGNED_SHORT_1_5_5_5_REV[27] =
+    static const char* s_UNSIGNED_SHORT_1_5_5_5_REV =
       "UNSIGNED_SHORT_1_5_5_5_REV";
 #endif
 #ifdef GL_UNSIGNED_SHORT_4_4_4_4
-    static const char s_UNSIGNED_SHORT_4_4_4_4[23] = "UNSIGNED_SHORT_4_4_4_4";
+    static const char* s_UNSIGNED_SHORT_4_4_4_4 = "UNSIGNED_SHORT_4_4_4_4";
 #endif
 #ifdef GL_UNSIGNED_SHORT_4_4_4_4_REV
-    static const char s_UNSIGNED_SHORT_4_4_4_4_REV[27] =
+    static const char* s_UNSIGNED_SHORT_4_4_4_4_REV =
       "UNSIGNED_SHORT_4_4_4_4_REV";
 #endif
 #ifdef GL_UNSIGNED_SHORT_5_5_5_1
-    static const char s_UNSIGNED_SHORT_5_5_5_1[23] = "UNSIGNED_SHORT_5_5_5_1";
+    static const char* s_UNSIGNED_SHORT_5_5_5_1 = "UNSIGNED_SHORT_5_5_5_1";
 #endif
 #ifdef GL_UNSIGNED_SHORT_5_6_5
-    static const char s_UNSIGNED_SHORT_5_6_5[21] = "UNSIGNED_SHORT_5_6_5";
+    static const char* s_UNSIGNED_SHORT_5_6_5 = "UNSIGNED_SHORT_5_6_5";
 #endif
 #ifdef GL_UNSIGNED_SHORT_5_6_5_REV
-    static const char s_UNSIGNED_SHORT_5_6_5_REV[25] =
-      "UNSIGNED_SHORT_5_6_5_REV";
+    static const char* s_UNSIGNED_SHORT_5_6_5_REV = "UNSIGNED_SHORT_5_6_5_REV";
 #endif
 #ifdef GL_UPPER_LEFT
-    static const char s_UPPER_LEFT[11] = "UPPER_LEFT";
+    static const char* s_UPPER_LEFT = "UPPER_LEFT";
 #endif
 #ifdef GL_USE_MISSING_GLYPH_NV
-    static const char s_USE_MISSING_GLYPH_NV[21] = "USE_MISSING_GLYPH_NV";
+    static const char* s_USE_MISSING_GLYPH_NV = "USE_MISSING_GLYPH_NV";
 #endif
 #ifdef GL_UTF16_NV
-    static const char s_UTF16_NV[9] = "UTF16_NV";
+    static const char* s_UTF16_NV = "UTF16_NV";
 #endif
 #ifdef GL_UTF8_NV
-    static const char s_UTF8_NV[8] = "UTF8_NV";
+    static const char* s_UTF8_NV = "UTF8_NV";
 #endif
 #ifdef GL_VALIDATE_STATUS
-    static const char s_VALIDATE_STATUS[16] = "VALIDATE_STATUS";
+    static const char* s_VALIDATE_STATUS = "VALIDATE_STATUS";
 #endif
 #ifdef GL_VENDOR
-    static const char s_VENDOR[7] = "VENDOR";
+    static const char* s_VENDOR = "VENDOR";
 #endif
 #ifdef GL_VERSION
-    static const char s_VERSION[8] = "VERSION";
+    static const char* s_VERSION = "VERSION";
 #endif
 #ifdef GL_VERTEX_ARRAY
-    static const char s_VERTEX_ARRAY[13] = "VERTEX_ARRAY";
+    static const char* s_VERTEX_ARRAY = "VERTEX_ARRAY";
 #endif
 #ifdef GL_VERTEX_ARRAY_ADDRESS_NV
-    static const char s_VERTEX_ARRAY_ADDRESS_NV[24] = "VERTEX_ARRAY_ADDRESS_NV";
+    static const char* s_VERTEX_ARRAY_ADDRESS_NV = "VERTEX_ARRAY_ADDRESS_NV";
 #endif
 #ifdef GL_VERTEX_ARRAY_BINDING
-    static const char s_VERTEX_ARRAY_BINDING[21] = "VERTEX_ARRAY_BINDING";
+    static const char* s_VERTEX_ARRAY_BINDING = "VERTEX_ARRAY_BINDING";
 #endif
 #ifdef GL_VERTEX_ATTRIB_ARRAY_ADDRESS_NV
-    static const char s_VERTEX_ATTRIB_ARRAY_ADDRESS_NV[31] =
+    static const char* s_VERTEX_ATTRIB_ARRAY_ADDRESS_NV =
       "VERTEX_ATTRIB_ARRAY_ADDRESS_NV";
 #endif
 #ifdef GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT
-    static const char s_VERTEX_ATTRIB_ARRAY_BARRIER_BIT[32] =
+    static const char* s_VERTEX_ATTRIB_ARRAY_BARRIER_BIT =
       "VERTEX_ATTRIB_ARRAY_BARRIER_BIT";
 #endif
 #ifdef GL_VERTEX_ATTRIB_ARRAY_UNIFIED_NV
-    static const char s_VERTEX_ATTRIB_ARRAY_UNIFIED_NV[31] =
+    static const char* s_VERTEX_ATTRIB_ARRAY_UNIFIED_NV =
       "VERTEX_ATTRIB_ARRAY_UNIFIED_NV";
 #endif
 #ifdef GL_VERTEX_SHADER
-    static const char s_VERTEX_SHADER[14] = "VERTEX_SHADER";
+    static const char* s_VERTEX_SHADER = "VERTEX_SHADER";
 #endif
 #ifdef GL_VERTEX_SHADER_BIT
-    static const char s_VERTEX_SHADER_BIT[18] = "VERTEX_SHADER_BIT";
+    static const char* s_VERTEX_SHADER_BIT = "VERTEX_SHADER_BIT";
 #endif
 #ifdef GL_VERTEX_SHADER_INVOCATIONS_ARB
-    static const char s_VERTEX_SHADER_INVOCATIONS_ARB[30] =
+    static const char* s_VERTEX_SHADER_INVOCATIONS_ARB =
       "VERTEX_SHADER_INVOCATIONS_ARB";
 #endif
 #ifdef GL_VERTEX_SUBROUTINE
-    static const char s_VERTEX_SUBROUTINE[18] = "VERTEX_SUBROUTINE";
+    static const char* s_VERTEX_SUBROUTINE = "VERTEX_SUBROUTINE";
 #endif
 #ifdef GL_VERTEX_SUBROUTINE_UNIFORM
-    static const char s_VERTEX_SUBROUTINE_UNIFORM[26] =
+    static const char* s_VERTEX_SUBROUTINE_UNIFORM =
       "VERTEX_SUBROUTINE_UNIFORM";
 #endif
 #ifdef GL_VERTEX_TEXTURE
-    static const char s_VERTEX_TEXTURE[15] = "VERTEX_TEXTURE";
+    static const char* s_VERTEX_TEXTURE = "VERTEX_TEXTURE";
 #endif
 #ifdef GL_VERTICAL_LINE_TO_NV
-    static const char s_VERTICAL_LINE_TO_NV[20] = "VERTICAL_LINE_TO_NV";
+    static const char* s_VERTICAL_LINE_TO_NV = "VERTICAL_LINE_TO_NV";
 #endif
 #ifdef GL_VERTICES_SUBMITTED_ARB
-    static const char s_VERTICES_SUBMITTED_ARB[23] = "VERTICES_SUBMITTED_ARB";
+    static const char* s_VERTICES_SUBMITTED_ARB = "VERTICES_SUBMITTED_ARB";
 #endif
 #ifdef GL_VIEWPORT
-    static const char s_VIEWPORT[9] = "VIEWPORT";
+    static const char* s_VIEWPORT = "VIEWPORT";
 #endif
 #ifdef GL_VIEWPORT_BOUNDS_RANGE
-    static const char s_VIEWPORT_BOUNDS_RANGE[22] = "VIEWPORT_BOUNDS_RANGE";
+    static const char* s_VIEWPORT_BOUNDS_RANGE = "VIEWPORT_BOUNDS_RANGE";
 #endif
 #ifdef GL_VIEWPORT_COMMAND_NV
-    static const char s_VIEWPORT_COMMAND_NV[20] = "VIEWPORT_COMMAND_NV";
+    static const char* s_VIEWPORT_COMMAND_NV = "VIEWPORT_COMMAND_NV";
 #endif
 #ifdef GL_VIEWPORT_INDEX_PROVOKING_VERTEX
-    static const char s_VIEWPORT_INDEX_PROVOKING_VERTEX[32] =
+    static const char* s_VIEWPORT_INDEX_PROVOKING_VERTEX =
       "VIEWPORT_INDEX_PROVOKING_VERTEX";
 #endif
 #ifdef GL_VIEWPORT_SUBPIXEL_BITS
-    static const char s_VIEWPORT_SUBPIXEL_BITS[23] = "VIEWPORT_SUBPIXEL_BITS";
+    static const char* s_VIEWPORT_SUBPIXEL_BITS = "VIEWPORT_SUBPIXEL_BITS";
 #endif
 #ifdef GL_VIEW_CLASS_128_BITS
-    static const char s_VIEW_CLASS_128_BITS[20] = "VIEW_CLASS_128_BITS";
+    static const char* s_VIEW_CLASS_128_BITS = "VIEW_CLASS_128_BITS";
 #endif
 #ifdef GL_VIEW_CLASS_16_BITS
-    static const char s_VIEW_CLASS_16_BITS[19] = "VIEW_CLASS_16_BITS";
+    static const char* s_VIEW_CLASS_16_BITS = "VIEW_CLASS_16_BITS";
 #endif
 #ifdef GL_VIEW_CLASS_24_BITS
-    static const char s_VIEW_CLASS_24_BITS[19] = "VIEW_CLASS_24_BITS";
+    static const char* s_VIEW_CLASS_24_BITS = "VIEW_CLASS_24_BITS";
 #endif
 #ifdef GL_VIEW_CLASS_32_BITS
-    static const char s_VIEW_CLASS_32_BITS[19] = "VIEW_CLASS_32_BITS";
+    static const char* s_VIEW_CLASS_32_BITS = "VIEW_CLASS_32_BITS";
 #endif
 #ifdef GL_VIEW_CLASS_48_BITS
-    static const char s_VIEW_CLASS_48_BITS[19] = "VIEW_CLASS_48_BITS";
+    static const char* s_VIEW_CLASS_48_BITS = "VIEW_CLASS_48_BITS";
 #endif
 #ifdef GL_VIEW_CLASS_64_BITS
-    static const char s_VIEW_CLASS_64_BITS[19] = "VIEW_CLASS_64_BITS";
+    static const char* s_VIEW_CLASS_64_BITS = "VIEW_CLASS_64_BITS";
 #endif
 #ifdef GL_VIEW_CLASS_8_BITS
-    static const char s_VIEW_CLASS_8_BITS[18] = "VIEW_CLASS_8_BITS";
+    static const char* s_VIEW_CLASS_8_BITS = "VIEW_CLASS_8_BITS";
 #endif
 #ifdef GL_VIEW_CLASS_96_BITS
-    static const char s_VIEW_CLASS_96_BITS[19] = "VIEW_CLASS_96_BITS";
+    static const char* s_VIEW_CLASS_96_BITS = "VIEW_CLASS_96_BITS";
 #endif
 #ifdef GL_VIEW_CLASS_BPTC_FLOAT
-    static const char s_VIEW_CLASS_BPTC_FLOAT[22] = "VIEW_CLASS_BPTC_FLOAT";
+    static const char* s_VIEW_CLASS_BPTC_FLOAT = "VIEW_CLASS_BPTC_FLOAT";
 #endif
 #ifdef GL_VIEW_CLASS_BPTC_UNORM
-    static const char s_VIEW_CLASS_BPTC_UNORM[22] = "VIEW_CLASS_BPTC_UNORM";
+    static const char* s_VIEW_CLASS_BPTC_UNORM = "VIEW_CLASS_BPTC_UNORM";
 #endif
 #ifdef GL_VIEW_CLASS_RGTC1_RED
-    static const char s_VIEW_CLASS_RGTC1_RED[21] = "VIEW_CLASS_RGTC1_RED";
+    static const char* s_VIEW_CLASS_RGTC1_RED = "VIEW_CLASS_RGTC1_RED";
 #endif
 #ifdef GL_VIEW_CLASS_RGTC2_RG
-    static const char s_VIEW_CLASS_RGTC2_RG[20] = "VIEW_CLASS_RGTC2_RG";
+    static const char* s_VIEW_CLASS_RGTC2_RG = "VIEW_CLASS_RGTC2_RG";
 #endif
 #ifdef GL_VIEW_CLASS_S3TC_DXT1_RGB
-    static const char s_VIEW_CLASS_S3TC_DXT1_RGB[25] =
-      "VIEW_CLASS_S3TC_DXT1_RGB";
+    static const char* s_VIEW_CLASS_S3TC_DXT1_RGB = "VIEW_CLASS_S3TC_DXT1_RGB";
 #endif
 #ifdef GL_VIEW_CLASS_S3TC_DXT1_RGBA
-    static const char s_VIEW_CLASS_S3TC_DXT1_RGBA[26] =
+    static const char* s_VIEW_CLASS_S3TC_DXT1_RGBA =
       "VIEW_CLASS_S3TC_DXT1_RGBA";
 #endif
 #ifdef GL_VIEW_CLASS_S3TC_DXT3_RGBA
-    static const char s_VIEW_CLASS_S3TC_DXT3_RGBA[26] =
+    static const char* s_VIEW_CLASS_S3TC_DXT3_RGBA =
       "VIEW_CLASS_S3TC_DXT3_RGBA";
 #endif
 #ifdef GL_VIEW_CLASS_S3TC_DXT5_RGBA
-    static const char s_VIEW_CLASS_S3TC_DXT5_RGBA[26] =
+    static const char* s_VIEW_CLASS_S3TC_DXT5_RGBA =
       "VIEW_CLASS_S3TC_DXT5_RGBA";
 #endif
 #ifdef GL_VIEW_COMPATIBILITY_CLASS
-    static const char s_VIEW_COMPATIBILITY_CLASS[25] =
-      "VIEW_COMPATIBILITY_CLASS";
+    static const char* s_VIEW_COMPATIBILITY_CLASS = "VIEW_COMPATIBILITY_CLASS";
 #endif
 #ifdef GL_WAIT_FAILED
-    static const char s_WAIT_FAILED[12] = "WAIT_FAILED";
+    static const char* s_WAIT_FAILED = "WAIT_FAILED";
 #endif
 #ifdef GL_WRITE_ONLY
-    static const char s_WRITE_ONLY[11] = "WRITE_ONLY";
+    static const char* s_WRITE_ONLY = "WRITE_ONLY";
 #endif
 #ifdef GL_XOR
-    static const char s_XOR[4] = "XOR";
+    static const char* s_XOR = "XOR";
 #endif
 #ifdef GL_ZERO
-    static const char s_ZERO[5] = "ZERO";
+    static const char* s_ZERO = "ZERO";
 #endif
 #ifdef GL_ZERO_TO_ONE
-    static const char s_ZERO_TO_ONE[12] = "ZERO_TO_ONE";
+    static const char* s_ZERO_TO_ONE = "ZERO_TO_ONE";
 #endif
 
     switch(aev._type_id) {
