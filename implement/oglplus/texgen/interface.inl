@@ -6,7 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <cassert>
+#include <eagine/assert.hpp>
 #include <set>
 #include <string>
 
@@ -49,13 +49,13 @@ public:
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 const compile_context_impl& compile_context::_impl() const noexcept {
-    assert(_pimpl != nullptr);
+    EAGINE_ASSERT(_pimpl != nullptr);
     return *_pimpl;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 compile_context_impl& compile_context::_impl() noexcept {
-    assert(_pimpl != nullptr);
+    EAGINE_ASSERT(_pimpl != nullptr);
     return *_pimpl;
 }
 //------------------------------------------------------------------------------
@@ -109,8 +109,8 @@ bool compile_context::remembers_output(const output_intf& output) const
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-node_intf::input_definitions(std::ostream& out, compile_context& ctxt) {
+std::ostream& node_intf::input_definitions(
+  std::ostream& out, compile_context& ctxt) {
     for(span_size_t i = 0, n = input_count(); i < n; ++i) {
         input(i).definitions(out, ctxt);
     }
@@ -118,8 +118,8 @@ node_intf::input_definitions(std::ostream& out, compile_context& ctxt) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-eagine::optional_reference_wrapper<input_intf>
-node_intf::input_by_name(string_view name) {
+eagine::optional_reference_wrapper<input_intf> node_intf::input_by_name(
+  string_view name) {
     for(span_size_t i = 0, n = input_count(); i < n; ++i) {
         input_intf& inp = input(i);
         if(are_equal(inp.name(), name)) {
@@ -130,8 +130,8 @@ node_intf::input_by_name(string_view name) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-eagine::optional_reference_wrapper<output_intf>
-node_intf::output_by_name(string_view name) {
+eagine::optional_reference_wrapper<output_intf> node_intf::output_by_name(
+  string_view name) {
     for(span_size_t i = 0, n = output_count(); i < n; ++i) {
         output_intf& outp = output(i);
         if(are_equal(outp.name(), name)) {
@@ -197,7 +197,7 @@ bool connect_output_to_input(output_intf& output, input_intf& input) {
 OGLPLUS_LIB_FUNC
 bool disconnect_output_from_input(output_intf& output, input_intf& input) {
     if(input.is_connected(output)) {
-        assert(output.is_connected(input));
+        EAGINE_ASSERT(output.is_connected(input));
         input.disconnect(output);
         output.disconnect(input);
     }

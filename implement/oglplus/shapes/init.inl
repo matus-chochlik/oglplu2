@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/assert.hpp>
 #include <eagine/maybe_unused.hpp>
 #include <oglplus/constants.hpp>
 #include <oglplus/operations.hpp>
@@ -35,7 +36,7 @@ outcome<void> initialize_vao_and_buffers(
     }
 
     while(vaali != vaale) {
-        assert(bufsi != bufse);
+        EAGINE_ASSERT(bufsi != bufse);
 
         vertex_attrib_kind attrib(vaali->attrib);
         vertex_attrib_location location(vaali->location);
@@ -73,7 +74,7 @@ outcome<void> initialize_vao_and_buffers(
     }
 
     if(gen.indexed()) {
-        assert(bufsi != bufse);
+        EAGINE_ASSERT(bufsi != bufse);
 
         data.resize(gen.index_data_block_size());
         gen.index_data(data);

@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/assert.hpp>
 #include <eagine/maybe_unused.hpp>
-#include <cassert>
 #include <iostream>
 
 namespace oglplus {
@@ -200,7 +200,7 @@ span_size_t honeycomb_node::input_count() {
 OGLPLUS_LIB_FUNC
 input_intf& honeycomb_node::input(span_size_t index) {
     EAGINE_MAYBE_UNUSED(index);
-    assert(index < input_count());
+    EAGINE_ASSERT(index < input_count());
     return _cells;
 }
 //------------------------------------------------------------------------------
@@ -215,7 +215,7 @@ output_intf& honeycomb_node::output(span_size_t index) {
         return _cell_coord;
     if(index == 1)
         return _cell_center;
-    assert(index < output_count());
+    EAGINE_ASSERT(index < output_count());
     return _distance;
 }
 //------------------------------------------------------------------------------

@@ -6,7 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <cassert>
+#include <eagine/assert.hpp>
 #include <iostream>
 
 namespace oglplus {
@@ -36,22 +36,23 @@ span_size_t multi_input_node::input_count() {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 input_intf& multi_input_node::input(span_size_t index) {
-    if(index == 0)
+    if(index == 0) {
         return single_output()._input;
-    assert(index < input_count());
+    }
+    EAGINE_ASSERT(index < input_count());
 
     auto p = single_output()._inputs.begin();
     while(--index > 0) {
-        assert(p != single_output()._inputs.end());
+        EAGINE_ASSERT(p != single_output()._inputs.end());
         p++;
     }
-    assert(p != single_output()._inputs.end());
+    EAGINE_ASSERT(p != single_output()._inputs.end());
     return p->second;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-eagine::optional_reference_wrapper<input_intf>
-multi_input_node::input_by_name(string_view name) {
+eagine::optional_reference_wrapper<input_intf> multi_input_node::input_by_name(
+  string_view name) {
     // TODO: string / span compare
     auto p = single_output()._inputs.find(name.to_string());
     if(p != single_output()._inputs.end()) {
@@ -66,8 +67,8 @@ bool multi_input_node::can_add_input() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-input_with_const_default<float[4]>&
-multi_input_node::add_input(string_view name) {
+input_with_const_default<float[4]>& multi_input_node::add_input(
+  string_view name) {
     auto p = single_output()._inputs.emplace(
       name.to_string(),
       input_with_const_default<float[4]>(*this, name, 0.f, 0.f, 0.f, 0.f));

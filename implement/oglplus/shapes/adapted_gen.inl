@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/assert.hpp>
 #include <vector>
 
 namespace oglplus {
@@ -29,7 +30,7 @@ span_size_t adapted_generator::_index_type_size(
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void adapted_generator::instructions(span<draw_operation> ops) const {
-    assert(ops.size() >= operation_count());
+    EAGINE_ASSERT(ops.size() >= operation_count());
     std::vector<eagine::shapes::draw_operation> tmp(
       std_size(operation_count()));
     _gen->instructions(cover(tmp));

@@ -6,7 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <cassert>
+#include <eagine/assert.hpp>
 #include <iostream>
 #include <set>
 #include <string>
@@ -33,8 +33,8 @@ slot_data_type mix_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-mix_output::definitions(std::ostream& out, compile_context& ctxt) {
+std::ostream& mix_output::definitions(
+  std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt))
         return out;
 
@@ -79,7 +79,7 @@ input_intf& mix_node::input(span_size_t index) {
         return _output.zero;
     if(index == 1)
         return _output.one;
-    assert(index < input_count());
+    EAGINE_ASSERT(index < input_count());
     return _output.value;
 }
 //------------------------------------------------------------------------------

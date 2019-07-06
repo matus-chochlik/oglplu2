@@ -87,8 +87,8 @@ string_view voronoi2d_output::name() noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-voronoi2d_output::definitions(std::ostream& out, compile_context& ctxt) {
+std::ostream& voronoi2d_output::definitions(
+  std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt))
         return out;
 
@@ -225,8 +225,8 @@ voronoi2d_output::definitions(std::ostream& out, compile_context& ctxt) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-voronoi2d_output::expression(std::ostream& out, compile_context&) {
+std::ostream& voronoi2d_output::expression(
+  std::ostream& out, compile_context&) {
     append_id(out);
     return out << type_abbr();
 }
@@ -257,9 +257,10 @@ span_size_t voronoi2d_node::input_count() {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 input_intf& voronoi2d_node::input(span_size_t index) {
-    if(index == 0)
+    if(index == 0) {
         return _input;
-    assert(index < input_count());
+    }
+    EAGINE_ASSERT(index < input_count());
     return _cells;
 }
 //------------------------------------------------------------------------------
@@ -270,17 +271,22 @@ span_size_t voronoi2d_node::output_count() {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 output_intf& voronoi2d_node::output(span_size_t index) {
-    if(index == 0)
+    if(index == 0) {
         return _distance1;
-    if(index == 1)
+    }
+    if(index == 1) {
         return _distance2;
-    if(index == 2)
+    }
+    if(index == 2) {
         return _distance3;
-    if(index == 3)
+    }
+    if(index == 3) {
         return _cell_coord;
-    if(index == 4)
+    }
+    if(index == 4) {
         return _cell_center;
-    assert(index < output_count());
+    }
+    EAGINE_ASSERT(index < output_count());
     return _input_cell_center;
 }
 //------------------------------------------------------------------------------
