@@ -54,7 +54,8 @@ inline outcome<void> viewport_state::viewport(
         return std::move(invalid_index);
     }
 #endif
-    OGLPLUS_GLFUNC(ViewportIndexedfv)(GLuint(index), vpe._v);
+    OGLPLUS_GLFUNC(ViewportIndexedfv)
+    (GLuint(index), static_cast<const GLfloat*>(vpe._v));
     OGLPLUS_VERIFY(ViewportIndexedfv, gl_index(GLuint(index)), always);
     return {};
 }

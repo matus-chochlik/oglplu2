@@ -34,7 +34,8 @@ inline outcome<void> buffer_clearing_state::clear_stencil(GLint s) noexcept {
 inline outcome<rgba_value>
 buffer_clearing_state::get_color_clear_value() noexcept {
     rgba_value result;
-    OGLPLUS_GLFUNC(GetFloatv)(GL_COLOR_CLEAR_VALUE, result._v);
+    OGLPLUS_GLFUNC(GetFloatv)
+    (GL_COLOR_CLEAR_VALUE, static_cast<GLfloat*>(result._v));
     OGLPLUS_VERIFY_SIMPLE(GetFloatv, debug);
     return {result};
 }

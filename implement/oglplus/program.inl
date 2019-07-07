@@ -285,7 +285,7 @@ program_ops::get_program_compute_work_group_size(program_name prog) noexcept {
     return get_program_iv(
              prog,
              program_parameter(GL_COMPUTE_WORK_GROUP_SIZE),
-             {result._v, 3})
+             {static_cast<GLint*>(result._v), 3})
       .add(result);
 }
 #endif

@@ -9,7 +9,7 @@
 //  See accompanying file LICENSE_1_0.txt or copy at
 //   http://www.boost.org/LICENSE_1_0.txt
 //
-#ifndef EGLPLUS_EGL_ENUM_VALUES_HPP
+#ifndef EGLPLUS_EGL_ENUM_VALUES_HPP // NOLINT(llvm-header-guard)
 #define EGLPLUS_EGL_ENUM_VALUES_HPP
 
 #include "../utils/mp_list.hpp"

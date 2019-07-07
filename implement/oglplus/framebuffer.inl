@@ -25,16 +25,16 @@ inline outcome<void> framebuffer_ops::bind_framebuffer(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<framebuffer_name>
-framebuffer_ops::framebuffer_binding(framebuffer_target target) noexcept {
+inline outcome<framebuffer_name> framebuffer_ops::framebuffer_binding(
+  framebuffer_target target) noexcept {
     GLint result = 0;
     return numeric_queries::get_integer_v(
              get_binding_query(target), {&result, 1})
       .add(framebuffer_name(GLuint(result)));
 }
 //------------------------------------------------------------------------------
-inline outcome<framebuffer_status>
-framebuffer_ops::check_framebuffer_status(framebuffer_target target) noexcept {
+inline outcome<framebuffer_status> framebuffer_ops::check_framebuffer_status(
+  framebuffer_target target) noexcept {
     GLenum result = OGLPLUS_GLFUNC(CheckFramebufferStatus)(GLenum(target));
     if(result == 0) {
         OGLPLUS_VERIFY(CheckFramebufferStatus, gl_enum_value(target), debug);
@@ -42,10 +42,11 @@ framebuffer_ops::check_framebuffer_status(framebuffer_target target) noexcept {
     return {framebuffer_status(result)};
 }
 //------------------------------------------------------------------------------
-inline outcome<bool>
-framebuffer_ops::is_framebuffer_complete(framebuffer_target target) noexcept {
+inline outcome<bool> framebuffer_ops::is_framebuffer_complete(
+  framebuffer_target target) noexcept {
     return outcome_conversion<bool, framebuffer_status>(
-      check_framebuffer_status(target), [](framebuffer_status status) -> bool {
+      check_framebuffer_status(target),
+      [](framebuffer_status status) noexcept->bool {
           return status == framebuffer_status(GL_FRAMEBUFFER_COMPLETE);
       });
 }
@@ -72,7 +73,7 @@ inline outcome<bool> framebuffer_ops::is_framebuffer_complete(
   framebuffer_name fb, framebuffer_target target) noexcept {
     return outcome_conversion<bool, framebuffer_status>(
       check_framebuffer_status(fb, target),
-      [](framebuffer_status status) -> bool {
+      [](framebuffer_status status) noexcept->bool {
           return status == framebuffer_status(GL_FRAMEBUFFER_COMPLETE);
       });
 }
@@ -356,8 +357,8 @@ inline outcome<void> framebuffer_ops::draw_buffer(color_buffer buf) noexcept {
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-framebuffer_ops::draw_buffers(enum_span<color_buffer> bufs) noexcept {
+inline outcome<void> framebuffer_ops::draw_buffers(
+  enum_span<color_buffer> bufs) noexcept {
     OGLPLUS_GLFUNC(DrawBuffers)(GLsizei(bufs.size()), bufs.data());
     OGLPLUS_VERIFY_SIMPLE(DrawBuffers, debug);
     return {};
@@ -652,8 +653,8 @@ inline outcome<void> framebuffer_ops::blit_framebuffer(
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen
 //------------------------------------------------------------------------------
-inline deferred_error_handler
-obj_gen_del_ops<tag::framebuffer>::_gen(span<GLuint> names) noexcept {
+inline deferred_error_handler obj_gen_del_ops<tag::framebuffer>::_gen(
+  span<GLuint> names) noexcept {
     OGLPLUS_GLFUNC(GenFramebuffers)(GLsizei(names.size()), names.data());
     OGLPLUS_VERIFY_SIMPLE(GenFramebuffers, debug);
     return {};
@@ -662,8 +663,8 @@ obj_gen_del_ops<tag::framebuffer>::_gen(span<GLuint> names) noexcept {
 // obj_gen_del_ops::_create
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5)
-inline deferred_error_handler
-obj_gen_del_ops<tag::framebuffer>::_create(span<GLuint> names) noexcept {
+inline deferred_error_handler obj_gen_del_ops<tag::framebuffer>::_create(
+  span<GLuint> names) noexcept {
     OGLPLUS_GLFUNC(CreateFramebuffers)(GLsizei(names.size()), names.data());
     OGLPLUS_VERIFY_SIMPLE(CreateFramebuffers, debug);
     return {};
@@ -672,8 +673,8 @@ obj_gen_del_ops<tag::framebuffer>::_create(span<GLuint> names) noexcept {
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_delete
 //------------------------------------------------------------------------------
-inline deferred_error_handler
-obj_gen_del_ops<tag::framebuffer>::_delete(span<GLuint> names) noexcept {
+inline deferred_error_handler obj_gen_del_ops<tag::framebuffer>::_delete(
+  span<GLuint> names) noexcept {
     OGLPLUS_GLFUNC(DeleteFramebuffers)(GLsizei(names.size()), names.data());
     OGLPLUS_VERIFY_SIMPLE(DeleteFramebuffers, debug);
     return {};
@@ -681,8 +682,8 @@ obj_gen_del_ops<tag::framebuffer>::_delete(span<GLuint> names) noexcept {
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_is_a
 //------------------------------------------------------------------------------
-inline outcome<boolean>
-obj_gen_del_ops<tag::framebuffer>::_is_a(GLuint name) noexcept {
+inline outcome<boolean> obj_gen_del_ops<tag::framebuffer>::_is_a(
+  GLuint name) noexcept {
     GLboolean res = OGLPLUS_GLFUNC(IsFramebuffer)(name);
     OGLPLUS_VERIFY_SIMPLE(IsFramebuffer, debug);
     return boolean(res);

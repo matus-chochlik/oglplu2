@@ -38,7 +38,7 @@ def print_scr_header(options):
 	print_header(options, "#")
 
 def print_incl_guard(options, name):
-	print_line(options, "#ifndef %s_%s_%s" % (
+	print_line(options, "#ifndef %s_%s_%s // NOLINT(llvm-header-guard)" % (
 		options.library_uc,
 		options.base_lib_prefix,
 		name
@@ -733,7 +733,7 @@ actions = {
 	"impl_enum_value_range_inl": action_impl_enum_value_range_inl,
 	"impl_enum_bq_inl": action_impl_enum_bq_inl,
 	"test_enums_cpp": action_test_enums_cpp,
-	"info":    action_info,
+	"info":	action_info,
 }
 
 def dispatch_action(options):

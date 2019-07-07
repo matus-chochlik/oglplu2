@@ -164,6 +164,11 @@ public:
         return std::move(_value.ref());
     }
 
+    T&& release_value() noexcept {
+        EAGINE_ASSERT(this->succeeded());
+        return std::move(_value.ref());
+    }
+
     operator T &&() noexcept {
         return rvalue();
     }
@@ -316,6 +321,11 @@ public:
         return std::move(_value.ref());
     }
 
+    T&& release_value() noexcept {
+        EAGINE_ASSERT(this->succeeded());
+        return std::move(_value.ref());
+    }
+
     operator T &&() {
         return rvalue();
     }
@@ -338,21 +348,23 @@ template <typename ErrorData, typename HandlerPolicy>
 }
 
 template <typename T, typename U, typename ErrorData, typename HandlerPolicy>
-static inline basic_outcome<T, ErrorData, HandlerPolicy> outcome_cast(
-  basic_outcome<U, ErrorData, HandlerPolicy>&& that) {
+static inline basic_outcome<T, ErrorData, HandlerPolicy>
+outcome_cast(basic_outcome<U, ErrorData, HandlerPolicy>&& that) noexcept(
+  std::is_nothrow_move_constructible_v<T>&& noexcept(T(std::declval<U>()))) {
     if(that.failed()) {
         return {that.release_handler()};
     }
-    return {T(that.rvalue())};
+    return {T(that.release_value())};
 }
 
 template <typename T, typename U, typename ErrorData, typename HandlerPolicy>
 static inline basic_outcome<T, ErrorData, HandlerPolicy> outcome_conversion(
-  basic_outcome<U, ErrorData, HandlerPolicy>&& that, T (*convert)(U)) {
+  basic_outcome<U, ErrorData, HandlerPolicy>&& that,
+  T (*convert)(U) noexcept) noexcept {
     if(that.failed()) {
         return {that.release_handler()};
     }
-    return {convert(that.rvalue())};
+    return {convert(that.release_value())};
 }
 
 template <typename T, typename ErrorData, typename HandlerPolicy, typename Func>

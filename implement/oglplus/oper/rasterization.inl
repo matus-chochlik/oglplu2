@@ -13,8 +13,8 @@ namespace oglplus {
 //------------------------------------------------------------------------------
 namespace oper {
 //------------------------------------------------------------------------------
-inline outcome<void>
-rasterization_state::front_face(face_orientation orientation) noexcept {
+inline outcome<void> rasterization_state::front_face(
+  face_orientation orientation) noexcept {
     OGLPLUS_GLFUNC(FrontFace)(GLenum(orientation));
     OGLPLUS_VERIFY(FrontFace, gl_enum_value(orientation), debug);
     return {};
@@ -22,8 +22,8 @@ rasterization_state::front_face(face_orientation orientation) noexcept {
 //------------------------------------------------------------------------------
 inline outcome<face_orientation>
 rasterization_state::get_front_face() noexcept {
-    return face_orientation(
-      GLenum(numeric_queries::get_integer(numeric_query(GL_FRONT_FACE))));
+    return outcome_cast<face_orientation>(outcome_cast<GLenum>(
+      numeric_queries::get_integer(numeric_query(GL_FRONT_FACE))));
 }
 //------------------------------------------------------------------------------
 inline outcome<void> rasterization_state::cull_face(face mode) noexcept {
@@ -33,8 +33,8 @@ inline outcome<void> rasterization_state::cull_face(face mode) noexcept {
 }
 //------------------------------------------------------------------------------
 inline outcome<face> rasterization_state::get_cull_face_mode() noexcept {
-    return face(
-      GLenum(numeric_queries::get_integer(numeric_query(GL_CULL_FACE_MODE))));
+    return outcome_cast<face>(outcome_cast<GLenum>(
+      numeric_queries::get_integer(numeric_query(GL_CULL_FACE_MODE))));
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5)
@@ -46,8 +46,8 @@ inline outcome<void> rasterization_state::clip_control(
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-rasterization_state::depth_func(compare_function func) noexcept {
+inline outcome<void> rasterization_state::depth_func(
+  compare_function func) noexcept {
     OGLPLUS_GLFUNC(DepthFunc)(GLenum(func));
     OGLPLUS_VERIFY(DepthFunc, gl_enum_value(func), debug);
     return {};
@@ -55,13 +55,13 @@ rasterization_state::depth_func(compare_function func) noexcept {
 //------------------------------------------------------------------------------
 inline outcome<compare_function>
 rasterization_state::get_depth_func() noexcept {
-    return compare_function(
-      GLenum(numeric_queries::get_integer(numeric_query(GL_DEPTH_FUNC))));
+    return outcome_cast<compare_function>(outcome_cast<GLenum>(
+      numeric_queries::get_integer(numeric_query(GL_DEPTH_FUNC))));
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_1)
-inline outcome<void>
-rasterization_state::depth_range_f(GLfloat near, GLfloat far) noexcept {
+inline outcome<void> rasterization_state::depth_range_f(
+  GLfloat near, GLfloat far) noexcept {
     OGLPLUS_GLFUNC(DepthRangef)(near, far);
     OGLPLUS_VERIFY_SIMPLE(DepthRangef, debug);
     return {};
@@ -69,8 +69,8 @@ rasterization_state::depth_range_f(GLfloat near, GLfloat far) noexcept {
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_DOUBLE)
-inline outcome<void>
-rasterization_state::depth_range(GLdouble near, GLdouble far) noexcept {
+inline outcome<void> rasterization_state::depth_range(
+  GLdouble near, GLdouble far) noexcept {
     OGLPLUS_GLFUNC(DepthRange)(near, far);
     OGLPLUS_VERIFY_SIMPLE(DepthRange, debug);
     return {};
@@ -93,8 +93,8 @@ inline outcome<void> rasterization_state::polygon_mode(
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-rasterization_state::polygon_offset(GLfloat factor, GLfloat units) noexcept {
+inline outcome<void> rasterization_state::polygon_offset(
+  GLfloat factor, GLfloat units) noexcept {
     OGLPLUS_GLFUNC(PolygonOffset)(factor, units);
     OGLPLUS_VERIFY_SIMPLE(PolygonOffset, debug);
     return {};
@@ -171,8 +171,8 @@ inline outcome<GLfloat> rasterization_state::get_point_parameter(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_2) || defined(GL_ARB_provoking_vertex)
-inline outcome<void>
-rasterization_state::provoking_vertex(provoke_mode mode) noexcept {
+inline outcome<void> rasterization_state::provoking_vertex(
+  provoke_mode mode) noexcept {
     OGLPLUS_GLFUNC(ProvokingVertex)(GLenum(mode));
     OGLPLUS_VERIFY(ProvokingVertex, gl_enum_value(mode), debug);
     return {};
@@ -180,14 +180,14 @@ rasterization_state::provoking_vertex(provoke_mode mode) noexcept {
 //------------------------------------------------------------------------------
 inline outcome<provoke_mode>
 rasterization_state::get_provoking_vertex() noexcept {
-    return provoke_mode(
-      GLenum(numeric_queries::get_integer(numeric_query(GL_PROVOKING_VERTEX))));
+    return outcome_cast<provoke_mode>(outcome_cast<GLenum>(
+      numeric_queries::get_integer(numeric_query(GL_PROVOKING_VERTEX))));
 }
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_0)
-inline outcome<void>
-rasterization_state::min_sample_shading(GLfloat value) noexcept {
+inline outcome<void> rasterization_state::min_sample_shading(
+  GLfloat value) noexcept {
     OGLPLUS_GLFUNC(MinSampleShading)(value);
     OGLPLUS_VERIFY_SIMPLE(MinSampleShading, debug);
     return {};

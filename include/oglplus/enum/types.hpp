@@ -9,7 +9,7 @@
 //  See accompanying file LICENSE_1_0.txt or copy at
 //   http://www.boost.org/LICENSE_1_0.txt
 //
-#ifndef OGLPLUS_GL_ENUM_TYPES_HPP
+#ifndef OGLPLUS_GL_ENUM_TYPES_HPP // NOLINT(llvm-header-guard)
 #define OGLPLUS_GL_ENUM_TYPES_HPP
 
 #include "../utils/enum_class.hpp"

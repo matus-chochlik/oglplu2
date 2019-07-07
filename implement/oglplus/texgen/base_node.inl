@@ -69,8 +69,9 @@ bool base_node::render(const render_params& params) {
         while(_render_input < n) {
             if(input(_render_input).render_connected(params)) {
                 ++_render_input;
-            } else
+            } else {
                 return false;
+            }
         }
         _render_input = 0;
     }

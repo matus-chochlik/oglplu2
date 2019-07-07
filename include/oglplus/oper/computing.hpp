@@ -36,11 +36,11 @@ struct compute_work_group_size {
     }
 
     span<const GLint> num_groups() const noexcept {
-        return {_v, 3};
+        return {static_cast<const GLint*>(_v), 3};
     }
 
     span<GLint> num_groups() noexcept {
-        return {_v, 3};
+        return {static_cast<GLint*>(_v), 3};
     }
 
     GLint _v[3]{};
