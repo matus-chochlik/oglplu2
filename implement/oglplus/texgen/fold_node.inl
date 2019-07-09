@@ -39,10 +39,11 @@ slot_data_type fold_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-fold_output::definitions(std::ostream& out, compile_context& ctxt) {
-    if(already_defined(ctxt))
+std::ostream& fold_output::definitions(
+  std::ostream& out, compile_context& ctxt) {
+    if(already_defined(ctxt)) {
         return out;
+    }
 
     input_defs(out, ctxt);
     opening_expr(out, ctxt);
@@ -56,8 +57,8 @@ fold_output::definitions(std::ostream& out, compile_context& ctxt) {
     out << expr::conversion_suffix{_input.value_type(), pt};
     out << ";" << std::endl;
 
-    for(auto i = _inputs.begin(); i != _inputs.end(); ++i) {
-        input_with_const_default<float[4]>& input = i->second;
+    for(auto& p : _inputs) {
+        input_with_const_default<float[4]>& input = p.second;
 
         out << "\tr = ";
         switch(_func) {

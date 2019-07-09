@@ -90,41 +90,43 @@ span_size_t data_type_dims(slot_data_type type) noexcept {
 OGLPLUS_LIB_FUNC
 slot_data_type make_data_type(
   scalar_data_type type,
-  eagine::valid_if_between<span_size_t, 1, 4> dims) noexcept {
-    switch(type) {
-        case scalar_data_type::bool_:
-            switch(dims.value()) {
-                case 1:
-                    return slot_data_type::bool_;
-                case 2:
-                    return slot_data_type::bool_2;
-                case 3:
-                    return slot_data_type::bool_3;
-                case 4:
-                    return slot_data_type::bool_4;
-            }
-        case scalar_data_type::int_:
-            switch(dims.value()) {
-                case 1:
-                    return slot_data_type::int_;
-                case 2:
-                    return slot_data_type::int_2;
-                case 3:
-                    return slot_data_type::int_3;
-                case 4:
-                    return slot_data_type::int_4;
-            }
-        case scalar_data_type::float_:
-            switch(dims.value()) {
-                case 1:
-                    return slot_data_type::float_;
-                case 2:
-                    return slot_data_type::float_2;
-                case 3:
-                    return slot_data_type::float_3;
-                case 4:
-                    return slot_data_type::float_4;
-            }
+  const eagine::valid_if_between<span_size_t, 1, 4>& dims) noexcept {
+    if(dims) {
+        switch(type) {
+            case scalar_data_type::bool_:
+                switch(dims.value_anyway()) {
+                    case 1:
+                        return slot_data_type::bool_;
+                    case 2:
+                        return slot_data_type::bool_2;
+                    case 3:
+                        return slot_data_type::bool_3;
+                    case 4:
+                        return slot_data_type::bool_4;
+                }
+            case scalar_data_type::int_:
+                switch(dims.value_anyway()) {
+                    case 1:
+                        return slot_data_type::int_;
+                    case 2:
+                        return slot_data_type::int_2;
+                    case 3:
+                        return slot_data_type::int_3;
+                    case 4:
+                        return slot_data_type::int_4;
+                }
+            case scalar_data_type::float_:
+                switch(dims.value_anyway()) {
+                    case 1:
+                        return slot_data_type::float_;
+                    case 2:
+                        return slot_data_type::float_2;
+                    case 3:
+                        return slot_data_type::float_3;
+                    case 4:
+                        return slot_data_type::float_4;
+                }
+        }
     }
     return slot_data_type();
 }
@@ -145,15 +147,16 @@ span_size_t common_dims(slot_data_type a, slot_data_type b) noexcept {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 slot_data_type common_data_type(slot_data_type a, slot_data_type b) noexcept {
-    if(a == b)
+    if(a == b) {
         return a;
+    }
 
     return make_data_type(common_elem_type(a, b), common_dims(a, b));
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-conversion_prefix(std::ostream& out, slot_data_type from, slot_data_type to) {
+std::ostream& conversion_prefix(
+  std::ostream& out, slot_data_type from, slot_data_type to) {
     if(from != to) {
         out << data_type_name(to) << "(";
     }
@@ -161,8 +164,8 @@ conversion_prefix(std::ostream& out, slot_data_type from, slot_data_type to) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-conversion_suffix(std::ostream& out, slot_data_type from, slot_data_type to) {
+std::ostream& conversion_suffix(
+  std::ostream& out, slot_data_type from, slot_data_type to) {
     if(from != to) {
         span_size_t df = data_type_dims(from);
         span_size_t dt = data_type_dims(to);
@@ -189,14 +192,18 @@ std::ostream& conversion_suffix(
         span_size_t df = data_type_dims(from);
         span_size_t dt = data_type_dims(to);
 
-        if((df < 1) && (dt >= 1))
+        if((df < 1) && (dt >= 1)) {
             out << "," << x;
-        if((df < 2) && (dt >= 2))
+        }
+        if((df < 2) && (dt >= 2)) {
             out << "," << y;
-        if((df < 3) && (dt >= 3))
+        }
+        if((df < 3) && (dt >= 3)) {
             out << "," << z;
-        if((df < 4) && (dt >= 4))
+        }
+        if((df < 4) && (dt >= 4)) {
             out << "," << w;
+        }
 
         out << ")";
     }

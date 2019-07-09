@@ -59,8 +59,9 @@ std::string combine_output::_input_expr(
 OGLPLUS_LIB_FUNC
 std::ostream& combine_output::definitions(
   std::ostream& out, compile_context& ctxt) {
-    if(already_defined(ctxt))
+    if(already_defined(ctxt)) {
         return out;
+    }
 
     input_defs(out, ctxt);
     opening_expr(out, ctxt);

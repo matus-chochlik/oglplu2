@@ -17,6 +17,7 @@
 #include <eagine/valid_if/between.hpp>
 #include <cstddef>
 #include <iosfwd>
+#include <memory>
 
 namespace oglplus {
 namespace texgen {
@@ -30,7 +31,7 @@ class compile_context_impl;
 
 class compile_context {
 private:
-    compile_context_impl* _pimpl;
+    std::unique_ptr<compile_context_impl> _pimpl;
 
     const compile_context_impl& _impl() const noexcept;
 
@@ -38,8 +39,11 @@ private:
 
 public:
     compile_context();
+    compile_context(compile_context&&) noexcept = default;
     compile_context(const compile_context&) = delete;
-    ~compile_context();
+    compile_context& operator=(compile_context&&) = delete;
+    compile_context& operator=(const compile_context&) = delete;
+    ~compile_context() noexcept;
 
     unsigned glsl_version() const;
 
@@ -54,7 +58,12 @@ public:
 };
 
 struct constant_intf {
-    virtual ~constant_intf() = default;
+    constant_intf() noexcept = default;
+    constant_intf(constant_intf&&) noexcept = default;
+    constant_intf(const constant_intf&) = default;
+    constant_intf& operator=(constant_intf&&) = delete;
+    constant_intf& operator=(const constant_intf&) = default;
+    virtual ~constant_intf() noexcept = default;
 
     virtual string_view name() const noexcept = 0;
 
@@ -66,9 +75,11 @@ struct constant_intf {
 };
 
 struct input_intf {
-    input_intf() = default;
-    input_intf(input_intf&&) = default;
+    input_intf() noexcept = default;
+    input_intf(input_intf&&) noexcept = default;
     input_intf(const input_intf&) = default;
+    input_intf& operator=(input_intf&&) = delete;
+    input_intf& operator=(const input_intf&) = delete;
 
     virtual ~input_intf() noexcept = default;
 
@@ -123,9 +134,11 @@ struct input_intf {
 };
 
 struct output_intf {
-    output_intf() = default;
-    output_intf(output_intf&&) = default;
+    output_intf() noexcept = default;
+    output_intf(output_intf&&) noexcept = default;
     output_intf(const output_intf&) = default;
+    output_intf& operator=(output_intf&&) = delete;
+    output_intf& operator=(const output_intf&) = delete;
 
     virtual ~output_intf() noexcept = default;
 
@@ -162,6 +175,11 @@ bool connect_output_to_input(output_intf& output, input_intf& input);
 bool disconnect_output_from_input(output_intf& output, input_intf& input);
 
 struct node_intf {
+    node_intf() noexcept = default;
+    node_intf(node_intf&&) noexcept = default;
+    node_intf(const node_intf&) = default;
+    node_intf& operator=(node_intf&&) = delete;
+    node_intf& operator=(const node_intf&) = default;
     virtual ~node_intf() noexcept = default;
 
     virtual span_size_t input_count() = 0;

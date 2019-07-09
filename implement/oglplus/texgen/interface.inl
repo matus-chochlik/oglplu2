@@ -15,7 +15,7 @@ namespace texgen {
 //------------------------------------------------------------------------------
 class compile_context_impl {
 private:
-    unsigned _glsl_version;
+    unsigned _glsl_version{0};
 
     // TODO: string / string_view compare
     std::set<std::string> _tags;
@@ -61,12 +61,12 @@ compile_context_impl& compile_context::_impl() noexcept {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 compile_context::compile_context()
-  : _pimpl(new compile_context_impl()) {
+  : _pimpl(std::make_unique<compile_context_impl>()) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-compile_context::~compile_context() {
-    delete _pimpl;
+compile_context::~compile_context() noexcept {
+    _pimpl = {};
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

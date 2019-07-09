@@ -100,7 +100,7 @@ span_size_t data_type_dims(slot_data_type) noexcept;
 
 slot_data_type make_data_type(
   scalar_data_type type,
-  eagine::valid_if_between<span_size_t, 1, 4> dims) noexcept;
+  const eagine::valid_if_between<span_size_t, 1, 4>& dims) noexcept;
 
 scalar_data_type common_elem_type(slot_data_type a, slot_data_type b) noexcept;
 
@@ -108,11 +108,11 @@ span_size_t common_dims(slot_data_type a, slot_data_type b) noexcept;
 
 slot_data_type common_data_type(slot_data_type a, slot_data_type b) noexcept;
 
-std::ostream&
-conversion_prefix(std::ostream& out, slot_data_type from, slot_data_type to);
+std::ostream& conversion_prefix(
+  std::ostream& out, slot_data_type from, slot_data_type to);
 
-std::ostream&
-conversion_suffix(std::ostream& out, slot_data_type from, slot_data_type to);
+std::ostream& conversion_suffix(
+  std::ostream& out, slot_data_type from, slot_data_type to);
 
 std::ostream& conversion_suffix(
   std::ostream& out,

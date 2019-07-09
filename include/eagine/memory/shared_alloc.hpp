@@ -127,7 +127,6 @@ public:
         if(_pballoc) {
             _pballoc->deallocate(std::move(b), a);
         }
-        EAGINE_ASSERT(b.empty());
     }
 
     bool can_reallocate(

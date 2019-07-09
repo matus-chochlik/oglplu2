@@ -31,10 +31,11 @@ slot_data_type checker_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-checker_output::definitions(std::ostream& out, compile_context& ctxt) {
-    if(already_defined(ctxt))
+std::ostream& checker_output::definitions(
+  std::ostream& out, compile_context& ctxt) {
+    if(already_defined(ctxt)) {
         return out;
+    }
 
     input_defs(out, ctxt);
     opening_expr(out, ctxt);
@@ -74,10 +75,11 @@ slot_data_type pixel_checker_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-pixel_checker_output::definitions(std::ostream& out, compile_context& ctxt) {
-    if(already_defined(ctxt))
+std::ostream& pixel_checker_output::definitions(
+  std::ostream& out, compile_context& ctxt) {
+    if(already_defined(ctxt)) {
         return out;
+    }
 
     input_defs(out, ctxt);
     opening_expr(out, ctxt);
