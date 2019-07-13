@@ -42,7 +42,10 @@ private:
 
 public:
     render_node();
+    render_node(render_node&&) noexcept = default;
     render_node(const render_node&) = delete;
+    render_node& operator=(render_node&&) = delete;
+    render_node& operator=(const render_node&) = delete;
     ~render_node() override;
 
     std::ostream& make_fragment_shader_source(std::ostream&, compile_context&);
@@ -68,8 +71,8 @@ public:
       const eagine::valid_if_positive<int>& ydiv);
 
     void set_dimensions(
-      eagine::valid_if_positive<int> width,
-      eagine::valid_if_positive<int> height);
+      const eagine::valid_if_positive<int>& width,
+      const eagine::valid_if_positive<int>& height);
 };
 
 } // namespace texgen

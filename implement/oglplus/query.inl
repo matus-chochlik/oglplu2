@@ -129,7 +129,7 @@ inline outcome<void> query_ops::get_query_object_ui64v(
 #if defined(GL_VERSION_3_0)
 inline outcome<boolean> query_ops::query_result_available(
   query_name qry) noexcept {
-    GLint result = GLint(GL_FALSE);
+    auto result = GLint(GL_FALSE);
     return get_query_object_iv(
              qry, query_parameter(GL_QUERY_RESULT_AVAILABLE), {&result, 1})
       .add(boolean(GLboolean(result)));

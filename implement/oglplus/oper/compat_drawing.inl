@@ -122,10 +122,12 @@ inline outcome<void> compatibility_drawing::color(
     EAGINE_ASSERT(n <= 4);
     EAGINE_ASSERT(n <= v.size());
 
-    if(n == 3)
+    if(n == 3) {
         OGLPLUS_GLFUNC(Color3fv)(v.data());
-    if(n == 4)
+    }
+    if(n == 4) {
         OGLPLUS_GLFUNC(Color4fv)(v.data());
+    }
     return {};
 }
 //------------------------------------------------------------------------------

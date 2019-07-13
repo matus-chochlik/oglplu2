@@ -44,7 +44,7 @@ void render_graph::add_anonymous_node(std::unique_ptr<node_intf>&& node) {
 OGLPLUS_LIB_FUNC
 void render_graph::add_node(
   std::string name, std::unique_ptr<node_intf>&& node) {
-    _nodes[name] = std::move(node);
+    _nodes[std::move(name)] = std::move(node);
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -55,7 +55,8 @@ render_node& render_graph::renderer() {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void render_graph::set_dimensions(
-  eagine::valid_if_positive<int> w, eagine::valid_if_positive<int> h) {
+  const eagine::valid_if_positive<int>& w,
+  const eagine::valid_if_positive<int>& h) {
     renderer().set_dimensions(w, h);
 }
 //------------------------------------------------------------------------------

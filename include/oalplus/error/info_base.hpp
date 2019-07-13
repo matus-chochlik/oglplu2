@@ -21,26 +21,26 @@ private:
         return *static_cast<Derived*>(this);
     }
 
-    ALenum _al_err_code;
+    ALenum _al_err_code{AL_NONE};
 
 #if !OALPLUS_ERROR_NO_AL_LIB
-    const char* _al_lb_name;
+    const char* _al_lb_name{nullptr};
 #endif
 
 #if !OALPLUS_ERROR_NO_AL_FUNC
-    const char* _al_fn_name;
+    const char* _al_fn_name{nullptr};
 #endif
 
 #if !OALPLUS_ERROR_NO_SRC_FUNC
-    const char* _src_func;
+    const char* _src_func{nullptr};
 #endif
 
 #if !OALPLUS_ERROR_NO_SRC_FILE
-    const char* _src_file;
+    const char* _src_file{nullptr};
 #endif
 
 #if !OALPLUS_ERROR_NO_SRC_LINE
-    unsigned _src_line;
+    unsigned _src_line{0};
 #endif
 public:
     constexpr error_info_base(ALenum al_err_code) noexcept;

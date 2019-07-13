@@ -20,7 +20,7 @@ std::string error::_make_msg(error_info& info) {
 //------------------------------------------------------------------------------
 inline error::error(error_info&& info)
   : std::runtime_error(_make_msg(info))
-  , _info(std::move(info)) {
+  , _info(info) {
 }
 //------------------------------------------------------------------------------
 } // namespace oalplus

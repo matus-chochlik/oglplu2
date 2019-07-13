@@ -265,7 +265,8 @@ void render_node::set_divisions(
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void render_node::set_dimensions(
-  eagine::valid_if_positive<int> width, eagine::valid_if_positive<int> height) {
+  const eagine::valid_if_positive<int>& width,
+  const eagine::valid_if_positive<int>& height) {
     _render_params.width = width.value_or(1);
     _render_params.height = height.value_or(1);
 }

@@ -81,6 +81,10 @@ private:
 
 public:
     render_graph();
+    render_graph(render_graph&&) noexcept = default;
+    render_graph(const render_graph&) = delete;
+    render_graph& operator=(render_graph&&) noexcept = default;
+    render_graph& operator=(const render_graph&) = delete;
     ~render_graph();
 
     void disconnect_all();
@@ -108,7 +112,8 @@ public:
     render_node& renderer();
 
     void set_dimensions(
-      eagine::valid_if_positive<int> w, eagine::valid_if_positive<int> h);
+      const eagine::valid_if_positive<int>& w,
+      const eagine::valid_if_positive<int>& h);
 
     void render();
 

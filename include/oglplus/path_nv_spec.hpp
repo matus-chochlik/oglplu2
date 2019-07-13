@@ -62,9 +62,12 @@ private:
     }
 
 public:
-    path_nv_spec() = default;
-    path_nv_spec(path_nv_spec&&) = default;
-    path_nv_spec& operator=(path_nv_spec&&) = default;
+    path_nv_spec() noexcept = default;
+    path_nv_spec(path_nv_spec&&) noexcept = default;
+    path_nv_spec(const path_nv_spec&) = default;
+    path_nv_spec& operator=(path_nv_spec&&) noexcept = default;
+    path_nv_spec& operator=(const path_nv_spec&) = default;
+    ~path_nv_spec() noexcept = default;
 
     path_nv_spec(std::size_t cmd_cap, std::size_t coord_cap) {
         _commands.reserve(cmd_cap);

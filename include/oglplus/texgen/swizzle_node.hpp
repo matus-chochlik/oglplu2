@@ -24,14 +24,14 @@ public:
     input_with_const_default<float[4]> input;
 
     swizzle_output(node_intf& parent);
-    swizzle_output(node_intf& parent, const std::string& swizzle);
+    swizzle_output(node_intf& parent, std::string swizzle);
 
     string_view type_name() override;
 
     slot_data_type value_type() override;
 
-    std::ostream&
-    definitions(std::ostream& out, compile_context& ctxt) override;
+    std::ostream& definitions(
+      std::ostream& out, compile_context& ctxt) override;
 };
 
 class swizzle_node

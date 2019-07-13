@@ -126,21 +126,21 @@ std::ostream& conversion_suffix(
 namespace expr {
 
 struct conversion_prefix {
-    slot_data_type from;
-    slot_data_type to;
+    slot_data_type from{};
+    slot_data_type to{};
 };
 std::ostream& operator<<(std::ostream&, conversion_prefix);
 
 struct conversion_suffix {
-    slot_data_type from;
-    slot_data_type to;
+    slot_data_type from{};
+    slot_data_type to{};
 };
 std::ostream& operator<<(std::ostream&, conversion_suffix);
 
 struct conversion_suffix_v {
-    slot_data_type from;
-    slot_data_type to;
-    string_view val[4];
+    slot_data_type from{};
+    slot_data_type to{};
+    string_view val[4]{};
 };
 std::ostream& operator<<(std::ostream&, conversion_suffix_v);
 
