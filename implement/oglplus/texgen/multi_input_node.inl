@@ -22,8 +22,9 @@ OGLPLUS_LIB_FUNC
 slot_data_type multi_input_output::common_param_type() {
     slot_data_type result = _input.value_type();
 
-    for(auto i = _inputs.begin(); i != _inputs.end(); ++i) {
-        result = common_data_type(result, i->second.value_type());
+    for(auto& [unused, input] : _inputs) {
+        EAGINE_MAYBE_UNUSED(unused);
+        result = common_data_type(result, input.value_type());
     }
 
     return result;

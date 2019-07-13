@@ -30,10 +30,11 @@ slot_data_type mandelbrot_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-mandelbrot_output::definitions(std::ostream& result, compile_context& context) {
-    if(already_defined(context))
+std::ostream& mandelbrot_output::definitions(
+  std::ostream& result, compile_context& context) {
+    if(already_defined(context)) {
         return result;
+    }
 
     input_defs(result, context);
 

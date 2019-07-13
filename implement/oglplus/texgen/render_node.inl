@@ -31,10 +31,12 @@ void render_node::_init_screen() {
 
     using eagine::memory::typed_nullptr;
 
-    if(_data)
+    if(_data) {
         buffer::delete_(_data);
-    if(_vao)
+    }
+    if(_vao) {
         vertex_array::delete_(_vao);
+    }
 
     vertex_array::gen_(_vao);
     gl.bind(_vao);
@@ -78,8 +80,9 @@ void render_node::_update_program() {
     operations gl;
     constants GL;
 
-    if(_prog)
+    if(_prog) {
         program::delete_(_prog);
+    }
     program::gen_(_prog);
 
     shader vs(GL.vertex_shader);
@@ -125,12 +128,15 @@ render_node::render_node()
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 render_node::~render_node() {
-    if(_prog)
+    if(_prog) {
         program::delete_(_prog);
-    if(_data)
+    }
+    if(_data) {
         buffer::delete_(_data);
-    if(_vao)
+    }
+    if(_vao) {
         vertex_array::delete_(_vao);
+    }
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -250,7 +256,8 @@ bool render_node::render() {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void render_node::set_divisions(
-  eagine::valid_if_positive<int> xdiv, eagine::valid_if_positive<int> ydiv) {
+  const eagine::valid_if_positive<int>& xdiv,
+  const eagine::valid_if_positive<int>& ydiv) {
     _xdiv = xdiv.value_or(1);
     _ydiv = ydiv.value_or(1);
     _tile = 0;

@@ -32,10 +32,11 @@ slot_data_type scale_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-scale_output::definitions(std::ostream& out, compile_context& ctxt) {
-    if(already_defined(ctxt))
+std::ostream& scale_output::definitions(
+  std::ostream& out, compile_context& ctxt) {
+    if(already_defined(ctxt)) {
         return out;
+    }
 
     input_defs(out, ctxt);
     opening_expr(out, ctxt);

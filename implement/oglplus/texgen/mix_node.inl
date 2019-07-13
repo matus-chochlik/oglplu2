@@ -35,8 +35,9 @@ slot_data_type mix_output::value_type() {
 OGLPLUS_LIB_FUNC
 std::ostream& mix_output::definitions(
   std::ostream& out, compile_context& ctxt) {
-    if(already_defined(ctxt))
+    if(already_defined(ctxt)) {
         return out;
+    }
 
     slot_data_type res_type = value_type();
     slot_data_type val_type = slot_data_type::float_;
@@ -75,10 +76,12 @@ span_size_t mix_node::input_count() {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 input_intf& mix_node::input(span_size_t index) {
-    if(index == 0)
+    if(index == 0) {
         return _output.zero;
-    if(index == 1)
+    }
+    if(index == 1) {
         return _output.one;
+    }
     EAGINE_ASSERT(index < input_count());
     return _output.value;
 }

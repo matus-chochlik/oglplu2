@@ -33,12 +33,12 @@ private:
     void _init_screen();
     void _update_program();
 
-    bool _needs_update;
+    bool _needs_update{false};
 
     int _xdiv{1}, _ydiv{1}, _tile{0};
 
     unsigned _render_version{0};
-    render_params _render_params;
+    render_params _render_params{};
 
 public:
     render_node();
@@ -64,7 +64,8 @@ public:
     bool render();
 
     void set_divisions(
-      eagine::valid_if_positive<int> xdiv, eagine::valid_if_positive<int> ydiv);
+      const eagine::valid_if_positive<int>& xdiv,
+      const eagine::valid_if_positive<int>& ydiv);
 
     void set_dimensions(
       eagine::valid_if_positive<int> width,

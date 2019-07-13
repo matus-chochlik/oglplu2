@@ -35,8 +35,9 @@ slot_data_type random_output::value_type() {
 OGLPLUS_LIB_FUNC
 std::ostream& random_output::definitions(
   std::ostream& out, compile_context& ctxt) {
-    if(already_defined(ctxt))
+    if(already_defined(ctxt)) {
         return out;
+    }
     EAGINE_ASSERT(dims >= 1 && dims <= 4);
 
     input_defs(out, ctxt);
@@ -77,8 +78,9 @@ std::ostream& random_output::definitions(
     for(span_size_t d = 0; d < dims; ++d) {
         out << "\t\tfract(sin(dot(s*c" << d;
         out << ", m)) * 43758.5453)";
-        if(d + 1 < dims)
+        if(d + 1 < dims) {
             out << ",";
+        }
         out << std::endl;
     }
     out << "\t);" << std::endl;

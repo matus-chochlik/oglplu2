@@ -58,8 +58,9 @@ slot_data_type honeycomb_output::value_type() {
 OGLPLUS_LIB_FUNC
 std::ostream& honeycomb_output::definitions(
   std::ostream& out, compile_context& ctxt) {
-    if(already_defined(ctxt))
+    if(already_defined(ctxt)) {
         return out;
+    }
 
     input_defs(out, ctxt);
 
@@ -211,10 +212,12 @@ span_size_t honeycomb_node::output_count() {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 output_intf& honeycomb_node::output(span_size_t index) {
-    if(index == 0)
+    if(index == 0) {
         return _cell_coord;
-    if(index == 1)
+    }
+    if(index == 1) {
         return _cell_center;
+    }
     EAGINE_ASSERT(index < output_count());
     return _distance;
 }
