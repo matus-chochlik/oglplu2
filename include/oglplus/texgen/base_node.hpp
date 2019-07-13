@@ -11,8 +11,8 @@
 
 #include "base_output.hpp"
 #include "interface.hpp"
+#include <eagine/assert.hpp>
 #include <eagine/maybe_unused.hpp>
-#include <cassert>
 
 namespace oglplus {
 namespace texgen {
@@ -81,7 +81,7 @@ public:
 
     input_intf& input(span_size_t index) override {
         EAGINE_MAYBE_UNUSED(index);
-        assert(index < input_count());
+        EAGINE_ASSERT(index < input_count());
         return this->_output.*Input1;
     }
 };
@@ -101,7 +101,7 @@ public:
     }
 
     input_intf& input(span_size_t index) override {
-        assert(index < input_count());
+        EAGINE_ASSERT(index < input_count());
         return (index == 0) ? static_cast<input_intf&>(this->_output.*Input1)
                             : static_cast<input_intf&>(this->_output.*Input2);
     }

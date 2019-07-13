@@ -14,7 +14,7 @@
 #endif
 
 #include "enum/types.hpp"
-#include <cassert>
+#include <eagine/assert.hpp>
 #include <vector>
 
 namespace oglplus {
@@ -62,9 +62,12 @@ private:
     }
 
 public:
-    path_nv_spec() = default;
-    path_nv_spec(path_nv_spec&&) = default;
-    path_nv_spec& operator=(path_nv_spec&&) = default;
+    path_nv_spec() noexcept = default;
+    path_nv_spec(path_nv_spec&&) noexcept = default;
+    path_nv_spec(const path_nv_spec&) = default;
+    path_nv_spec& operator=(path_nv_spec&&) noexcept = default;
+    path_nv_spec& operator=(const path_nv_spec&) = default;
+    ~path_nv_spec() noexcept = default;
 
     path_nv_spec(std::size_t cmd_cap, std::size_t coord_cap) {
         _commands.reserve(cmd_cap);
@@ -213,7 +216,7 @@ public:
 
 #if defined(GL_NV_path_rendering_shared_edge)
     path_nv_spec& shared_edge() {
-        assert(!_commands.empty());
+        EAGINE_ASSERT(!_commands.empty());
         _commands.back() |= GL_SHARED_EDGE_NV;
         return *this;
     }

@@ -10,7 +10,7 @@
 #ifndef EAGINE_DEFERRED_HANDLER_HPP
 #define EAGINE_DEFERRED_HANDLER_HPP
 
-#include <cassert>
+#include "assert.hpp"
 #include <utility>
 
 namespace eagine {
@@ -36,26 +36,28 @@ struct default_deferred_handler_policy {
 
     default_deferred_handler_policy(const default_deferred_handler_policy&) =
       delete;
-    default_deferred_handler_policy&
-    operator=(const default_deferred_handler_policy&) = delete;
+    default_deferred_handler_policy& operator=(
+      const default_deferred_handler_policy&) = delete;
 
     default_deferred_handler_policy(
       default_deferred_handler_policy&& temp) noexcept
       : _handler(temp._release_handler()) {
     }
 
-    default_deferred_handler_policy&
-    operator=(default_deferred_handler_policy&& temp) noexcept {
+    default_deferred_handler_policy& operator=(
+      default_deferred_handler_policy&& temp) noexcept {
         this->_handler = temp._release_handler();
         return *this;
     }
+
+    ~default_deferred_handler_policy() noexcept = default;
 
     inline bool is_valid(const Data&) const noexcept {
         return _handler != nullptr;
     }
 
     inline void invoke(Data& data) const {
-        assert(is_valid(data));
+        EAGINE_ASSERT(is_valid(data));
         _handler(data);
     }
 
@@ -75,8 +77,10 @@ public:
       : _data() {
     }
 
-    cancelled_handler(cancelled_handler&&) = default;
-    cancelled_handler& operator=(cancelled_handler&&) = default;
+    cancelled_handler(cancelled_handler&&) noexcept = default;
+    cancelled_handler& operator=(cancelled_handler&&) noexcept = default;
+    cancelled_handler(const cancelled_handler&) = delete;
+    cancelled_handler& operator=(const cancelled_handler&) = delete;
 
     constexpr inline cancelled_handler(Data&& data, bool had_error) noexcept
       : _data(std::move(data))
@@ -88,6 +92,8 @@ public:
       : _data(data)
       , _error(had_error) {
     }
+
+    ~cancelled_handler() noexcept = default;
 
     explicit operator bool() const noexcept {
         return _error;
@@ -162,6 +168,7 @@ public:
         return *this;
     }
 
+    // NOLINTNEXTLINE(bugprone-exception-escape)
     ~deferred_handler() noexcept(false) {
         if(_handler.is_valid(_data)) {
             _handler.invoke(_data);
@@ -207,8 +214,8 @@ public:
 };
 
 template <typename Data>
-static inline constexpr deferred_handler<Data>
-make_deferred_handler(void (*handler)(Data&), Data data) noexcept {
+static inline constexpr deferred_handler<Data> make_deferred_handler(
+  void (*handler)(Data&), Data data) noexcept {
     return {handler, std::move(data)};
 }
 

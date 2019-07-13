@@ -81,6 +81,10 @@ private:
 
 public:
     render_graph();
+    render_graph(render_graph&&) noexcept = default;
+    render_graph(const render_graph&) = delete;
+    render_graph& operator=(render_graph&&) noexcept = default;
+    render_graph& operator=(const render_graph&) = delete;
     ~render_graph();
 
     void disconnect_all();
@@ -92,7 +96,7 @@ public:
     template <typename NodeType, typename... P>
     render_graph_node<NodeType>& add_new_anon(P&&... p) {
         auto* ptr = new render_graph_node<NodeType>(std::forward<P>(p)...);
-        assert(ptr);
+        EAGINE_ASSERT(ptr);
         add_anonymous_node(_node_ptr_t(ptr));
         return *ptr;
     }
@@ -100,7 +104,7 @@ public:
     template <typename NodeType, typename... P>
     render_graph_node<NodeType>& add_new(std::string name, P&&... p) {
         auto* ptr = new render_graph_node<NodeType>(std::forward<P>(p)...);
-        assert(ptr);
+        EAGINE_ASSERT(ptr);
         add_node(std::move(name), _node_ptr_t(ptr));
         return *ptr;
     }
@@ -108,7 +112,8 @@ public:
     render_node& renderer();
 
     void set_dimensions(
-      eagine::valid_if_positive<int> w, eagine::valid_if_positive<int> h);
+      const eagine::valid_if_positive<int>& w,
+      const eagine::valid_if_positive<int>& h);
 
     void render();
 

@@ -45,7 +45,7 @@ struct object_name_or_target<object_name<ObjTag>, nothing_t> {
     object_name<ObjTag> _name;
 
     constexpr inline object_name_or_target(object_name<ObjTag> name) noexcept
-      : _name(name) {
+      : _name(std::move(name)) {
     }
 };
 
@@ -59,8 +59,8 @@ struct object_name_or_target<object_name<ObjTag>, obj_binding_point<ObjTag>> {
 
     constexpr inline object_name_or_target(
       object_name<ObjTag> name, obj_binding_point<ObjTag> target) noexcept
-      : _name(name)
-      , _target(target) {
+      : _name(std::move(name))
+      , _target(std::move(target)) {
     }
 };
 template <typename ObjTag>

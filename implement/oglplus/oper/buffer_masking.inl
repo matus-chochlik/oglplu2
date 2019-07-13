@@ -20,8 +20,8 @@ inline outcome<void> buffer_masking_state::color_mask(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-buffer_masking_state::color_mask(const rgba_mask& m) noexcept {
+inline outcome<void> buffer_masking_state::color_mask(
+  const rgba_mask& m) noexcept {
     OGLPLUS_GLFUNC(ColorMask)
     (boolean(m._v[0]), boolean(m._v[1]), boolean(m._v[2]), boolean(m._v[3]));
     OGLPLUS_VERIFY_SIMPLE(ColorMask, debug);
@@ -37,8 +37,8 @@ inline outcome<void> buffer_masking_state::color_mask_i(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-buffer_masking_state::color_mask_i(GLuint buffer, const rgba_mask& m) noexcept {
+inline outcome<void> buffer_masking_state::color_mask_i(
+  GLuint buffer, const rgba_mask& m) noexcept {
     OGLPLUS_GLFUNC(ColorMaski)
     (buffer,
      GLboolean(m._v[0]),
@@ -71,7 +71,8 @@ inline outcome<void> buffer_masking_state::stencil_mask_separate(
 //------------------------------------------------------------------------------
 inline outcome<rgba_mask> buffer_masking_state::get_color_writemask() noexcept {
     rgba_mask result;
-    OGLPLUS_GLFUNC(GetBooleanv)(GL_COLOR_WRITEMASK, result._v);
+    OGLPLUS_GLFUNC(GetBooleanv)
+    (GL_COLOR_WRITEMASK, static_cast<GLboolean*>(result._v));
     OGLPLUS_VERIFY_SIMPLE(GetBooleanv, debug);
     return {result};
 }

@@ -6,7 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <cassert>
+#include <eagine/assert.hpp>
 #include <iostream>
 #include <set>
 #include <string>
@@ -15,14 +15,14 @@ namespace oglplus {
 namespace texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-base_output::input_defs(std::ostream& out, compile_context& ctxt) {
+std::ostream& base_output::input_defs(
+  std::ostream& out, compile_context& ctxt) {
     return parent().input_definitions(out, ctxt);
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-base_output::opening_expr(std::ostream& out, compile_context& ctxt) {
+std::ostream& base_output::opening_expr(
+  std::ostream& out, compile_context& ctxt) {
     out << data_type_name(value_type()) << " ";
     out << expr::output_id{*this, ctxt};
     out << expr::render_param_decl{*this} << "{" << std::endl;
@@ -72,7 +72,7 @@ bool base_output::is_connected(input_intf& input) {
 OGLPLUS_LIB_FUNC
 bool base_output::connect(input_intf& input) {
     if(input.accepts_value_type(value_type())) {
-        assert(!is_connected(input));
+        EAGINE_ASSERT(!is_connected(input));
         _inputs.insert(std::addressof(input));
         return true;
     }
@@ -81,7 +81,7 @@ bool base_output::connect(input_intf& input) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 bool base_output::disconnect(input_intf& input) {
-    assert(is_connected(input));
+    EAGINE_ASSERT(is_connected(input));
     _inputs.erase(std::addressof(input));
     return true;
 }
@@ -94,7 +94,7 @@ void base_output::disconnect_all() {
 OGLPLUS_LIB_FUNC
 void base_output::notify_connected() {
     for(auto* input : _inputs) {
-        assert(input != nullptr);
+        EAGINE_ASSERT(input != nullptr);
         input->update_needed();
     }
 }

@@ -11,5 +11,10 @@ option(NO_EXAMPLES "Don't configure examples" Off)
 option(NO_TESTS "Don't configure tests." Off)
 option(NO_ENUM_TESTS "Don't configure enumerations tests." Off)
 
-set(HEADER_SEARCH_PATHS ${HEADER_SEARCH_PATHS};${PROJECT_SOURCE_DIR}/third_party/include)
+option(WITH_CLANG_TIDY "Configure with clang-tidy checks." Off)
+
+set(
+	HEADER_SEARCH_PATHS
+	${HEADER_SEARCH_PATHS};${PROJECT_SOURCE_DIR}/third_party/include
+)
 

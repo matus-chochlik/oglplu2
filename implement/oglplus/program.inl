@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/assert.hpp>
 #include <eagine/memory/span_algo.hpp>
 #include <oglplus/oper/numeric_queries.hpp>
 #include <oglplus/utils/gl_func.hpp>
@@ -14,15 +15,15 @@ namespace oglplus {
 //------------------------------------------------------------------------------
 namespace oper {
 //------------------------------------------------------------------------------
-inline outcome<void>
-program_ops::attach_shader(program_name prog, shader_name shdr) noexcept {
+inline outcome<void> program_ops::attach_shader(
+  program_name prog, shader_name shdr) noexcept {
     OGLPLUS_GLFUNC(AttachShader)(get_raw_name(prog), get_raw_name(shdr));
     OGLPLUS_VERIFY(AttachShader, gl_subject(prog).gl_object(shdr), debug);
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-program_ops::detach_shader(program_name prog, shader_name shdr) noexcept {
+inline outcome<void> program_ops::detach_shader(
+  program_name prog, shader_name shdr) noexcept {
     OGLPLUS_GLFUNC(DetachShader)(get_raw_name(prog), get_raw_name(shdr));
     OGLPLUS_VERIFY(DetachShader, gl_subject(prog).gl_object(shdr), debug);
     return {};
@@ -34,8 +35,8 @@ inline outcome<void> program_ops::link_program(program_name prog) noexcept {
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-program_ops::report_program_link_error(program_name prog) noexcept {
+inline outcome<void> program_ops::report_program_link_error(
+  program_name prog) noexcept {
     if(!get_program_link_status(prog).value()) {
         OGLPLUS_REPORT_ERROR(
           LinkProgram, GL_INVALID_OPERATION, info_log_of(prog), always);
@@ -49,8 +50,8 @@ inline outcome<void> program_ops::validate_program(program_name prog) noexcept {
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-program_ops::report_program_validate_error(program_name prog) noexcept {
+inline outcome<void> program_ops::report_program_validate_error(
+  program_name prog) noexcept {
     if(!get_program_validate_status(prog).value()) {
         OGLPLUS_REPORT_ERROR(
           ValidateProgram, GL_INVALID_OPERATION, info_log_of(prog), always);
@@ -92,14 +93,14 @@ inline outcome<void> program_ops::program_binary_retrievable_hint(
       GLboolean(value));
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-program_ops::program_separable(program_name prog, boolean value) noexcept {
+inline outcome<void> program_ops::program_separable(
+  program_name prog, boolean value) noexcept {
     return program_parameter_i(
       prog, program_parameter(GL_PROGRAM_SEPARABLE), GLboolean(value));
 }
 //------------------------------------------------------------------------------
-inline outcome<GLsizei>
-program_ops::get_program_binary_length(program_name prog) noexcept {
+inline outcome<GLsizei> program_ops::get_program_binary_length(
+  program_name prog) noexcept {
     return return_program_parameter_i<GLsizei, GLsizei>(
       prog, program_parameter(GL_PROGRAM_BINARY_LENGTH));
 }
@@ -125,7 +126,7 @@ inline outcome<void> program_ops::program_binary(
 //------------------------------------------------------------------------------
 inline outcome<void> program_ops::get_program_iv(
   program_name prog, program_parameter para, span<GLint> values) noexcept {
-    assert(values.size() > 0);
+    EAGINE_ASSERT(values.size() > 0);
     OGLPLUS_GLFUNC(GetProgramiv)
     (get_raw_name(prog), GLenum(para), values.data());
     OGLPLUS_VERIFY(GetProgramiv, gl_enum_value(para).gl_object(prog), always);
@@ -139,32 +140,32 @@ inline outcome<R> program_ops::return_program_parameter_i(
     return get_program_iv(prog, parameter, {&result, 1}), R(T(result));
 }
 //------------------------------------------------------------------------------
-inline outcome<boolean>
-program_ops::get_program_delete_status(program_name prog) noexcept {
+inline outcome<boolean> program_ops::get_program_delete_status(
+  program_name prog) noexcept {
     return return_program_parameter_i<boolean, GLboolean>(
       prog, program_parameter(GL_DELETE_STATUS));
 }
 //------------------------------------------------------------------------------
-inline outcome<boolean>
-program_ops::get_program_link_status(program_name prog) noexcept {
+inline outcome<boolean> program_ops::get_program_link_status(
+  program_name prog) noexcept {
     return return_program_parameter_i<boolean, GLboolean>(
       prog, program_parameter(GL_LINK_STATUS));
 }
 //------------------------------------------------------------------------------
-inline outcome<boolean>
-program_ops::get_program_validate_status(program_name prog) noexcept {
+inline outcome<boolean> program_ops::get_program_validate_status(
+  program_name prog) noexcept {
     return return_program_parameter_i<boolean, GLboolean>(
       prog, program_parameter(GL_VALIDATE_STATUS));
 }
 //------------------------------------------------------------------------------
-inline outcome<GLsizei>
-program_ops::get_program_info_log_length(program_name prog) noexcept {
+inline outcome<GLsizei> program_ops::get_program_info_log_length(
+  program_name prog) noexcept {
     return return_program_parameter_i<GLsizei, GLsizei>(
       prog, program_parameter(GL_INFO_LOG_LENGTH));
 }
 //------------------------------------------------------------------------------
-inline outcome<span<char>>
-program_ops::get_program_info_log(program_name prog, span<char> dest) noexcept {
+inline outcome<span<char>> program_ops::get_program_info_log(
+  program_name prog, span<char> dest) noexcept {
     GLsizei reallen = 0;
     OGLPLUS_GLFUNC(GetProgramInfoLog)
     (get_raw_name(prog), GLsizei(dest.size()), &reallen, dest.data());
@@ -172,8 +173,8 @@ program_ops::get_program_info_log(program_name prog, span<char> dest) noexcept {
     return {head(dest, reallen)};
 }
 //------------------------------------------------------------------------------
-inline outcome<GLuint>
-program_ops::get_program_active_attributes(program_name prog) noexcept {
+inline outcome<GLuint> program_ops::get_program_active_attributes(
+  program_name prog) noexcept {
     return return_program_parameter_i<GLuint, GLuint>(
       prog, program_parameter(GL_ACTIVE_ATTRIBUTES));
 }
@@ -205,14 +206,14 @@ inline outcome<GLsizei> program_ops::get_active_attrib(
     return {reallen};
 }
 //------------------------------------------------------------------------------
-inline outcome<GLuint>
-program_ops::get_program_active_uniforms(program_name prog) noexcept {
+inline outcome<GLuint> program_ops::get_program_active_uniforms(
+  program_name prog) noexcept {
     return return_program_parameter_i<GLuint, GLuint>(
       prog, program_parameter(GL_ACTIVE_UNIFORMS));
 }
 //------------------------------------------------------------------------------
-inline outcome<GLsizei>
-program_ops::get_program_active_uniform_max_length(program_name prog) noexcept {
+inline outcome<GLsizei> program_ops::get_program_active_uniform_max_length(
+  program_name prog) noexcept {
     return return_program_parameter_i<GLsizei, GLsizei>(
       prog, program_parameter(GL_ACTIVE_UNIFORM_MAX_LENGTH));
 }
@@ -254,24 +255,24 @@ program_ops::get_program_transform_feedback_buffer_mode(
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_2)
-inline outcome<GLsizei>
-program_ops::get_program_geometry_vertices_out(program_name prog) noexcept {
+inline outcome<GLsizei> program_ops::get_program_geometry_vertices_out(
+  program_name prog) noexcept {
     return return_program_parameter_i<GLsizei, GLsizei>(
       prog, program_parameter(GL_GEOMETRY_VERTICES_OUT));
 }
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_2)
-inline outcome<primitive_type>
-program_ops::get_program_geometry_input_type(program_name prog) noexcept {
+inline outcome<primitive_type> program_ops::get_program_geometry_input_type(
+  program_name prog) noexcept {
     return return_program_parameter_i<primitive_type, GLenum>(
       prog, program_parameter(GL_GEOMETRY_INPUT_TYPE));
 }
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_2)
-inline outcome<primitive_type>
-program_ops::get_program_geometry_output_type(program_name prog) noexcept {
+inline outcome<primitive_type> program_ops::get_program_geometry_output_type(
+  program_name prog) noexcept {
     return return_program_parameter_i<primitive_type, GLenum>(
       prog, program_parameter(GL_GEOMETRY_OUTPUT_TYPE));
 }
@@ -284,7 +285,7 @@ program_ops::get_program_compute_work_group_size(program_name prog) noexcept {
     return get_program_iv(
              prog,
              program_parameter(GL_COMPUTE_WORK_GROUP_SIZE),
-             {result._v, 3})
+             {static_cast<GLint*>(result._v), 3})
       .add(result);
 }
 #endif
@@ -301,8 +302,8 @@ inline outcome<void> program_ops::bind_attrib_location(
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen
 //------------------------------------------------------------------------------
-inline deferred_error_handler
-obj_gen_del_ops<tag::program>::_gen(span<GLuint> names) noexcept {
+inline deferred_error_handler obj_gen_del_ops<tag::program>::_gen(
+  span<GLuint> names) noexcept {
     for(auto b = names.begin(), i = b, e = names.end(); i != e; ++i) {
         *i = OGLPLUS_GLFUNC(CreateProgram)();
         GLenum error_code = OGLPLUS_GLFUNC(GetError)();
@@ -322,15 +323,15 @@ obj_gen_del_ops<tag::program>::_gen(span<GLuint> names) noexcept {
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_create
 //------------------------------------------------------------------------------
-inline deferred_error_handler
-obj_gen_del_ops<tag::program>::_create(span<GLuint> names) noexcept {
+inline deferred_error_handler obj_gen_del_ops<tag::program>::_create(
+  span<GLuint> names) noexcept {
     return _gen(names);
 }
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_delete
 //------------------------------------------------------------------------------
-inline deferred_error_handler
-obj_gen_del_ops<tag::program>::_delete(span<GLuint> names) noexcept {
+inline deferred_error_handler obj_gen_del_ops<tag::program>::_delete(
+  span<GLuint> names) noexcept {
     for(auto& name : names) {
         OGLPLUS_GLFUNC(DeleteProgram)(name);
         OGLPLUS_VERIFY_SIMPLE(DeleteProgram, debug);
@@ -340,8 +341,8 @@ obj_gen_del_ops<tag::program>::_delete(span<GLuint> names) noexcept {
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_is_a
 //------------------------------------------------------------------------------
-inline outcome<boolean>
-obj_gen_del_ops<tag::program>::_is_a(GLuint name) noexcept {
+inline outcome<boolean> obj_gen_del_ops<tag::program>::_is_a(
+  GLuint name) noexcept {
     GLboolean res = OGLPLUS_GLFUNC(IsProgram)(name);
     OGLPLUS_VERIFY_SIMPLE(IsProgram, debug);
     return boolean(res);

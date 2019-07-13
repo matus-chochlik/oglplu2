@@ -10,9 +10,9 @@
 #ifndef EAGINE_BITESET_HPP
 #define EAGINE_BITESET_HPP
 
+#include "assert.hpp"
 #include "byteset.hpp"
 #include "int_constant.hpp"
-#include <cassert>
 #include <climits>
 #include <cstdint>
 #include <iterator>
@@ -69,19 +69,19 @@ public:
     }
 
     value_type get() const noexcept {
-        assert(is_valid());
+        EAGINE_ASSERT(is_valid());
         return _ptr->get(_pos);
     }
 
     void set(value_type val) noexcept {
-        assert(is_valid());
+        EAGINE_ASSERT(is_valid());
         return _ptr->set(_pos, val);
     }
 
     void swap(self& other) noexcept {
         using std::swap;
-        assert(_ptr != nullptr);
-        assert(_ptr == other._ptr);
+        EAGINE_ASSERT(_ptr != nullptr);
+        EAGINE_ASSERT(_ptr == other._ptr);
         value_type a = this->get();
         value_type b = other.get();
         swap(a, b);
@@ -139,7 +139,7 @@ public:
 
     biteset_value_proxy(biteset_value_proxy&&) noexcept = default;
     biteset_value_proxy(const biteset_value_proxy&) = delete;
-    biteset_value_proxy& operator=(biteset_value_proxy&&) = default;
+    biteset_value_proxy& operator=(biteset_value_proxy&&) noexcept = default;
     biteset_value_proxy& operator=(const biteset_value_proxy&) = delete;
 };
 
@@ -159,11 +159,16 @@ public:
       : _base(bs, pos) {
     }
 
-    biteset_value_proxy(biteset_value_proxy&& temp) = default;
+    biteset_value_proxy(biteset_value_proxy&& temp) noexcept = default;
     biteset_value_proxy& operator=(biteset_value_proxy&& temp) noexcept {
         this->set(temp.get());
         return *this;
     }
+
+    biteset_value_proxy(const biteset_value_proxy&) = delete;
+    biteset_value_proxy& operator=(const biteset_value_proxy&) = delete;
+
+    ~biteset_value_proxy() noexcept = default;
 
     self& operator=(const T& v) noexcept {
         this->set(v);
@@ -190,7 +195,7 @@ public:
 
     void swap(self& other) noexcept {
         using std::swap;
-        assert(_ptr == other._ptr);
+        EAGINE_ASSERT(_ptr == other._ptr);
         swap(_pos, other._pos);
     }
 
@@ -282,8 +287,8 @@ protected:
     }
 
     static inline difference_type _cmp(const self& a, const self& b) noexcept {
-        assert(a._ptr != nullptr);
-        assert(a._ptr == b._ptr);
+        EAGINE_ASSERT(a._ptr != nullptr);
+        EAGINE_ASSERT(a._ptr == b._ptr);
         return a._pos - b._pos;
     }
 
@@ -324,7 +329,7 @@ public:
     biteset_iterator() = default;
 
     const_proxy operator*() const noexcept {
-        assert(is_valid());
+        EAGINE_ASSERT(is_valid());
         return {*_ptr, _pos};
     }
 };
@@ -359,26 +364,30 @@ public:
       : _base() {
     }
 
+    biteset_iterator(biteset_iterator&&) noexcept = default;
     biteset_iterator(const biteset_iterator&) = default;
+    biteset_iterator& operator=(biteset_iterator&&) noexcept = default;
     biteset_iterator& operator=(const biteset_iterator&) = default;
 
+    ~biteset_iterator() noexcept = default;
+
     proxy operator*() noexcept {
-        assert(is_valid());
+        EAGINE_ASSERT(is_valid());
         return {*_ptr, _pos};
     }
 
     const_proxy operator*() const noexcept {
-        assert(is_valid());
+        EAGINE_ASSERT(is_valid());
         return {*_ptr, _pos};
     }
 
     proxy operator->() noexcept {
-        assert(is_valid());
+        EAGINE_ASSERT(is_valid());
         return {*_ptr, &_pos};
     }
 
     const_proxy operator->() const noexcept {
-        assert(is_valid());
+        EAGINE_ASSERT(is_valid());
         return {*_ptr, &_pos};
     }
 };
@@ -507,6 +516,7 @@ private:
 
     static constexpr inline _byte_t _extract_init_bits(
       T init, std::size_t ofs, std::size_t len) noexcept {
+        // NOLINTNEXTLINE(hicpp-signed-bitwise)
         return _byte_t(init >> (_bite_s - ofs - len)) & _byte_t((1 << len) - 1);
     }
 
@@ -587,6 +597,7 @@ private:
 
     static constexpr inline T _extract_cell_bits(
       _byte_t by, std::size_t ofs, std::size_t len) noexcept {
+        // NOLINTNEXTLINE(hicpp-signed-bitwise)
         return T(by >> (_byte_s - ofs - len)) & T((1 << len) - 1);
     }
 
@@ -654,6 +665,7 @@ private:
 
     static constexpr inline void _store_cell_bits(
       T v, _byte_t& by, std::size_t ofs, std::size_t len) noexcept {
+        // NOLINTNEXTLINE(hicpp-signed-bitwise)
         _byte_t msk = _byte_t(((1 << len) - 1) << (_byte_s - ofs - len));
         by ^= (by & msk);
         by |= (v << (_byte_s - ofs - len));

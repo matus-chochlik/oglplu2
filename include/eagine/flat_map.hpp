@@ -10,6 +10,7 @@
 #ifndef EAGINE_FLAT_MAP_HPP
 #define EAGINE_FLAT_MAP_HPP
 
+#include "assert.hpp"
 #include "types.hpp"
 #include <algorithm>
 #include <stdexcept>
@@ -83,7 +84,7 @@ struct flat_map_ops {
     template <typename I>
     auto& get(I b, I e, const Key& key) const {
         b = find(b, e, key);
-        assert(b != e);
+        EAGINE_ASSERT(b != e);
         return b->second;
     }
 };

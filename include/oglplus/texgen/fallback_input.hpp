@@ -21,8 +21,6 @@ private:
     FallbackOutput _fallback;
 
 public:
-    fallback_input(fallback_input&&) = default;
-
     fallback_input(node_intf& parent, string_view name)
       : base_input(parent, name)
       , _fallback(parent) {
@@ -59,13 +57,13 @@ public:
         return output().value_type();
     }
 
-    std::ostream&
-    definitions(std::ostream& out, compile_context& ctxt) override {
+    std::ostream& definitions(
+      std::ostream& out, compile_context& ctxt) override {
         return output().definitions(out, ctxt);
     }
 
-    std::ostream&
-    expression(std::ostream& out, compile_context& ctxt) override {
+    std::ostream& expression(
+      std::ostream& out, compile_context& ctxt) override {
         return output().expression(out, ctxt);
     }
 };

@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/assert.hpp>
 #include <oalplus/utils/al_func.hpp>
-#include <cassert>
 
 namespace oalplus {
 namespace oper {
@@ -29,7 +29,7 @@ inline outcome<void> buffer_ops::buffer_data(
 //------------------------------------------------------------------------------
 inline outcome<void> buffer_ops::get_buffer_iv(
   buffer_name buf, buffer_parameter param, span<ALint> values) noexcept {
-    assert(values.size() > 0);
+    EAGINE_ASSERT(values.size() > 0);
     OALPLUS_ALFUNC(GetBufferiv)
     (get_raw_name(buf), ALenum(param), values.data());
     OALPLUS_VERIFY(GetBufferiv, al_enum_value(param).al_object(buf), always);
@@ -38,7 +38,7 @@ inline outcome<void> buffer_ops::get_buffer_iv(
 //------------------------------------------------------------------------------
 inline outcome<void> buffer_ops::get_buffer_fv(
   buffer_name buf, buffer_parameter param, span<ALfloat> values) noexcept {
-    assert(values.size() > 0);
+    EAGINE_ASSERT(values.size() > 0);
     OALPLUS_ALFUNC(GetBufferfv)
     (get_raw_name(buf), ALenum(param), values.data());
     OALPLUS_VERIFY(GetBufferfv, al_enum_value(param).al_object(buf), always);
@@ -71,8 +71,8 @@ inline outcome<ALfloat> buffer_ops::buffer_frequency(buffer_name buf) noexcept {
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen
 //------------------------------------------------------------------------------
-inline deferred_error_handler
-obj_gen_del_ops<tag::buffer>::_gen(span<ALuint> names) noexcept {
+inline deferred_error_handler obj_gen_del_ops<tag::buffer>::_gen(
+  span<ALuint> names) noexcept {
     OALPLUS_ALFUNC(GenBuffers)(ALsizei(names.size()), names.data());
     OALPLUS_VERIFY_SIMPLE(GenBuffers, debug);
     return {};
@@ -80,8 +80,8 @@ obj_gen_del_ops<tag::buffer>::_gen(span<ALuint> names) noexcept {
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_delete
 //------------------------------------------------------------------------------
-inline deferred_error_handler
-obj_gen_del_ops<tag::buffer>::_delete(span<ALuint> names) noexcept {
+inline deferred_error_handler obj_gen_del_ops<tag::buffer>::_delete(
+  span<ALuint> names) noexcept {
     OALPLUS_ALFUNC(DeleteBuffers)(ALsizei(names.size()), names.data());
     OALPLUS_VERIFY_SIMPLE(DeleteBuffers, debug);
     return {};

@@ -32,7 +32,7 @@ OGLPLUS_LIB_FUNC
 extended_error_info& error_info::_ext_info() const noexcept {
     if(!_ext_info_ptr) {
         try {
-            _ext_info_ptr.reset(new extended_error_info());
+            _ext_info_ptr = std::make_unique<extended_error_info>();
         } catch(...) {
         }
     }
@@ -264,8 +264,8 @@ error_info& error_info::gl_enum_value(const any_enum_value& enum_val) noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-error_info&
-error_info::gl_enum_value(const any_indexed_enum_value& enum_val) noexcept {
+error_info& error_info::gl_enum_value(
+  const any_indexed_enum_value& enum_val) noexcept {
 #if !OGLPLUS_ERROR_NO_ENUM_VALUE
     _enum_val = indexed_value_base(enum_val.base());
 #endif

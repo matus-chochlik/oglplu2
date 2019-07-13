@@ -9,6 +9,7 @@
 #ifndef EAGINE_MATH_VECTOR_HPP
 #define EAGINE_MATH_VECTOR_HPP
 
+#include "../assert.hpp"
 #include "../vec_mat_traits.hpp"
 #include "../vect/axis.hpp"
 #include "../vect/cast.hpp"
@@ -20,7 +21,6 @@
 #include "../vect/sqrt.hpp"
 #include "../vect/view.hpp"
 #include "scalar.hpp"
-#include <cassert>
 #include <utility>
 
 namespace eagine {
@@ -61,7 +61,7 @@ struct vector {
     }
 
     static inline vector axis(int i, T v) noexcept {
-        assert(i < N);
+        EAGINE_ASSERT(i < N);
         vector r = zero();
         r._v[i] = v;
         return r;

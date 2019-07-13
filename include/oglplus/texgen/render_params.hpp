@@ -16,11 +16,11 @@ namespace texgen {
 
 struct output_intf;
 
-enum class render_param_bit : int {
-    normalized_coord = 1 << 0,
-    voxel_size = 1 << 1,
-    voxel_offset = 1 << 2,
-    element_offset = 1 << 3
+enum class render_param_bit : unsigned {
+    normalized_coord = 1U << 0U,
+    voxel_size = 1U << 1U,
+    voxel_offset = 1U << 2U,
+    element_offset = 1U << 3U
 };
 
 using render_param_bits = eagine::bitfield<render_param_bit>;

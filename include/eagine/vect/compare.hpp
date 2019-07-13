@@ -21,15 +21,7 @@ struct is_zero {
 
     static bool apply(_dpT v) noexcept {
         for(int i = 0; i < N; ++i) {
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wfloat-equal"
-#endif
-            if(v[i] != 0)
-#ifdef __clang__
-#pragma clang diagnostic pop
-#endif
-            {
+            if(v[i] > T(0) || v[i] < T(0)) {
                 return false;
             }
         }

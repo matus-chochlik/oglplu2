@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/assert.hpp>
 #include <oglplus/utils/gl_func.hpp>
 
 namespace oglplus {
@@ -99,7 +100,7 @@ inline outcome<void> path_nv_array_ops::get_path_spacing(
   GLfloat kerning_scale,
   path_transform_type_nv transform_type,
   span<GLfloat> returned_values) noexcept {
-    assert(indices.size() <= returned_values.size());
+    EAGINE_ASSERT(indices.size() <= returned_values.size());
 
     OGLPLUS_GLFUNC(GetPathSpacingNV)
     (GLenum(list_mode),
@@ -147,7 +148,7 @@ inline outcome<void> path_nv_array_ops::get_path_metrics(
   const object_names<tag::path_nv, S>& paths,
   GLsizei stride,
   span<GLfloat> returned_values) noexcept {
-    assert(indices.size() <= returned_values.size());
+    EAGINE_ASSERT(indices.size() <= returned_values.size());
 
     OGLPLUS_GLFUNC(GetPathMetricsNV)
     (GLbitfield(query_mask),

@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/assert.hpp>
 #include <oglplus/oper/numeric_queries.hpp>
 #include <oglplus/utils/gl_func.hpp>
 
@@ -17,15 +18,15 @@ namespace oglplus {
 //------------------------------------------------------------------------------
 namespace oper {
 //------------------------------------------------------------------------------
-inline outcome<void>
-buffer_ops::bind_buffer(buffer_target target, buffer_name buf) noexcept {
+inline outcome<void> buffer_ops::bind_buffer(
+  buffer_target target, buffer_name buf) noexcept {
     OGLPLUS_GLFUNC(BindBuffer)(GLenum(target), get_raw_name(buf));
     OGLPLUS_VERIFY(BindBuffer, gl_enum_value(target).gl_object(buf), debug);
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<buffer_name>
-buffer_ops::buffer_binding(buffer_target target) noexcept {
+inline outcome<buffer_name> buffer_ops::buffer_binding(
+  buffer_target target) noexcept {
     GLint result = 0;
     return numeric_queries::get_integer_v(
              get_binding_query(target), {&result, 1})
@@ -84,7 +85,7 @@ inline outcome<void> buffer_ops::get_buffer_parameter_iv(
   buffer_target target,
   oglplus::buffer_parameter param,
   span<GLint> values) noexcept {
-    assert(values.size() > 0);
+    EAGINE_ASSERT(values.size() > 0);
     OGLPLUS_GLFUNC(GetBufferParameteriv)
     (GLenum(target), GLenum(param), values.data());
     OGLPLUS_VERIFY(
@@ -98,7 +99,7 @@ inline outcome<void> buffer_ops::get_buffer_parameter_i64v(
   buffer_target target,
   oglplus::buffer_parameter param,
   span<GLint64> values) noexcept {
-    assert(values.size() > 0);
+    EAGINE_ASSERT(values.size() > 0);
     OGLPLUS_GLFUNC(GetBufferParameteri64v)
     (GLenum(target), GLenum(param), values.data());
     OGLPLUS_VERIFY(
@@ -113,7 +114,7 @@ inline outcome<void> buffer_ops::get_buffer_parameter_ui64v(
   buffer_target target,
   oglplus::buffer_parameter param,
   span<GLuint64> values) noexcept {
-    assert(values.size() > 0);
+    EAGINE_ASSERT(values.size() > 0);
     OGLPLUS_GLFUNC(GetBufferParameterui64vNV)
     (GLenum(target), GLenum(param), values.data());
     OGLPLUS_VERIFY(
@@ -129,7 +130,7 @@ inline outcome<void> buffer_ops::get_buffer_parameter_iv(
   buffer_name buf,
   oglplus::buffer_parameter param,
   span<GLint> values) noexcept {
-    assert(values.size() > 0);
+    EAGINE_ASSERT(values.size() > 0);
 #ifdef GL_VERSION_4_5
     OGLPLUS_GLFUNC(GetNamedBufferParameteriv)
     (
@@ -151,7 +152,7 @@ inline outcome<void> buffer_ops::get_buffer_parameter_i64v(
   buffer_name buf,
   oglplus::buffer_parameter param,
   span<GLint64> values) noexcept {
-    assert(values.size() > 0);
+    EAGINE_ASSERT(values.size() > 0);
     OGLPLUS_GLFUNC(GetNamedBufferParameteri64v)
     (get_raw_name(buf), GLenum(param), values.data());
     OGLPLUS_VERIFY(
@@ -165,7 +166,7 @@ inline outcome<void> buffer_ops::get_buffer_parameter_ui64v(
   buffer_name buf,
   oglplus::buffer_parameter param,
   span<GLuint64> values) noexcept {
-    assert(values.size() > 0);
+    EAGINE_ASSERT(values.size() > 0);
     OGLPLUS_GLFUNC(GetNamedBufferParameterui64vNV)
     (get_raw_name(buf), GLenum(param), values.data());
     OGLPLUS_VERIFY(
@@ -197,8 +198,8 @@ inline outcome<boolean> buffer_ops::is_buffer_mapped(const BNT& bnt) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename BNT>
-inline outcome<oglplus::buffer_usage>
-buffer_ops::get_buffer_usage(const BNT& bnt) noexcept {
+inline outcome<oglplus::buffer_usage> buffer_ops::get_buffer_usage(
+  const BNT& bnt) noexcept {
     return return_buffer_parameter_i<oglplus::buffer_usage, GLboolean>(
       bnt, oglplus::buffer_parameter(GL_BUFFER_USAGE));
 }
@@ -236,8 +237,8 @@ inline outcome<void> buffer_ops::buffer_storage(
 #endif
 //------------------------------------------------------------------------------
 template <typename BNT>
-inline outcome<boolean>
-buffer_ops::has_buffer_immutable_storage(const BNT& bnt) noexcept {
+inline outcome<boolean> buffer_ops::has_buffer_immutable_storage(
+  const BNT& bnt) noexcept {
     return return_buffer_parameter_i<boolean, GLboolean>(
       bnt, oglplus::buffer_parameter(GL_BUFFER_IMMUTABLE_STORAGE));
 }
@@ -459,8 +460,8 @@ inline outcome<void> buffer_ops::clear_buffer_sub_data(
 #endif // GL_VERSION_4_3
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_3) || defined(GL_ARB_invalidate_subdata)
-inline outcome<void>
-buffer_ops::invalidate_buffer_data(buffer_name buf) noexcept {
+inline outcome<void> buffer_ops::invalidate_buffer_data(
+  buffer_name buf) noexcept {
     OGLPLUS_GLFUNC(InvalidateBufferData)(get_raw_name(buf));
     OGLPLUS_VERIFY(InvalidateBufferData, gl_object(buf), debug);
     return {};
@@ -497,46 +498,46 @@ inline outcome<void> buffer_ops::make_buffer_resident(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-buffer_ops::make_buffer_non_resident(buffer_target target) noexcept {
+inline outcome<void> buffer_ops::make_buffer_non_resident(
+  buffer_target target) noexcept {
     OGLPLUS_GLFUNC(MakeBufferNonResidentNV)(GLenum(target));
     OGLPLUS_VERIFY(
       MakeBufferNonResidentNV, gl_object_binding(tag::buffer(), target), debug);
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-buffer_ops::make_buffer_non_resident(buffer_name buf) noexcept {
+inline outcome<void> buffer_ops::make_buffer_non_resident(
+  buffer_name buf) noexcept {
     OGLPLUS_GLFUNC(MakeNamedBufferNonResidentNV)(get_raw_name(buf));
     OGLPLUS_VERIFY(MakeNamedBufferNonResidentNV, gl_object(buf), debug);
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<boolean>
-buffer_ops::is_buffer_resident(buffer_target target) noexcept {
+inline outcome<boolean> buffer_ops::is_buffer_resident(
+  buffer_target target) noexcept {
     GLboolean res = OGLPLUS_GLFUNC(IsBufferResidentNV)(GLenum(target));
     OGLPLUS_VERIFY(
       IsBufferResidentNV, gl_object_binding(tag::buffer(), target), debug);
     return {boolean(res)};
 }
 //------------------------------------------------------------------------------
-inline outcome<boolean>
-buffer_ops::is_buffer_resident(buffer_name buf) noexcept {
+inline outcome<boolean> buffer_ops::is_buffer_resident(
+  buffer_name buf) noexcept {
     GLboolean res = OGLPLUS_GLFUNC(IsNamedBufferResidentNV)(get_raw_name(buf));
     OGLPLUS_VERIFY(IsNamedBufferResidentNV, gl_object(buf), debug);
     return {boolean(res)};
 }
 //------------------------------------------------------------------------------
-inline outcome<buffer_address>
-buffer_ops::get_buffer_gpu_address(buffer_target target) noexcept {
+inline outcome<buffer_address> buffer_ops::get_buffer_gpu_address(
+  buffer_target target) noexcept {
     GLuint64EXT result = 0;
     return get_buffer_parameter_ui64v(
              target, buffer_parameter(GL_BUFFER_GPU_ADDRESS_NV), {&result, 1})
       .add(buffer_address(result));
 }
 //------------------------------------------------------------------------------
-inline outcome<buffer_address>
-buffer_ops::get_buffer_gpu_address(buffer_name buf) noexcept {
+inline outcome<buffer_address> buffer_ops::get_buffer_gpu_address(
+  buffer_name buf) noexcept {
     GLuint64EXT result = 0;
     return get_buffer_parameter_ui64v(
              buf, buffer_parameter(GL_BUFFER_GPU_ADDRESS_NV), {&result, 1})
@@ -548,8 +549,8 @@ buffer_ops::get_buffer_gpu_address(buffer_name buf) noexcept {
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen
 //------------------------------------------------------------------------------
-inline deferred_error_handler
-obj_gen_del_ops<tag::buffer>::_gen(span<GLuint> names) noexcept {
+inline deferred_error_handler obj_gen_del_ops<tag::buffer>::_gen(
+  span<GLuint> names) noexcept {
     OGLPLUS_GLFUNC(GenBuffers)(GLsizei(names.size()), names.data());
     OGLPLUS_VERIFY_SIMPLE(GenBuffers, debug);
     return {};
@@ -558,8 +559,8 @@ obj_gen_del_ops<tag::buffer>::_gen(span<GLuint> names) noexcept {
 // obj_gen_del_ops::_create
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5)
-inline deferred_error_handler
-obj_gen_del_ops<tag::buffer>::_create(span<GLuint> names) noexcept {
+inline deferred_error_handler obj_gen_del_ops<tag::buffer>::_create(
+  span<GLuint> names) noexcept {
     OGLPLUS_GLFUNC(CreateBuffers)(GLsizei(names.size()), names.data());
     OGLPLUS_VERIFY_SIMPLE(CreateBuffers, debug);
     return {};
@@ -568,8 +569,8 @@ obj_gen_del_ops<tag::buffer>::_create(span<GLuint> names) noexcept {
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_delete
 //------------------------------------------------------------------------------
-inline deferred_error_handler
-obj_gen_del_ops<tag::buffer>::_delete(span<GLuint> names) noexcept {
+inline deferred_error_handler obj_gen_del_ops<tag::buffer>::_delete(
+  span<GLuint> names) noexcept {
     OGLPLUS_GLFUNC(DeleteBuffers)(GLsizei(names.size()), names.data());
     OGLPLUS_VERIFY_SIMPLE(DeleteBuffers, debug);
     return {};
@@ -577,8 +578,8 @@ obj_gen_del_ops<tag::buffer>::_delete(span<GLuint> names) noexcept {
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_is_a
 //------------------------------------------------------------------------------
-inline outcome<boolean>
-obj_gen_del_ops<tag::buffer>::_is_a(GLuint name) noexcept {
+inline outcome<boolean> obj_gen_del_ops<tag::buffer>::_is_a(
+  GLuint name) noexcept {
     GLboolean res = OGLPLUS_GLFUNC(IsBuffer)(name);
     OGLPLUS_VERIFY_SIMPLE(IsBuffer, debug);
     return boolean(res);

@@ -21,7 +21,7 @@ OGLPLUS_LIB_FUNC
 input_intf& base_node::input(span_size_t) {
     EAGINE_ABORT("Node does not have any inputs");
     input_intf* dummy = nullptr;
-    assert(dummy != nullptr);
+    EAGINE_ASSERT(dummy != nullptr);
     return *dummy;
 }
 //------------------------------------------------------------------------------
@@ -45,7 +45,7 @@ OGLPLUS_LIB_FUNC
 output_intf& base_node::output(span_size_t) {
     EAGINE_ABORT("Node does not have any outputs");
     output_intf* dummy = nullptr;
-    assert(dummy != nullptr);
+    EAGINE_ASSERT(dummy != nullptr);
     return *dummy;
 }
 //------------------------------------------------------------------------------
@@ -69,8 +69,9 @@ bool base_node::render(const render_params& params) {
         while(_render_input < n) {
             if(input(_render_input).render_connected(params)) {
                 ++_render_input;
-            } else
+            } else {
                 return false;
+            }
         }
         _render_input = 0;
     }
@@ -90,7 +91,7 @@ span_size_t base_single_output_node::output_count() {
 OGLPLUS_LIB_FUNC
 output_intf& base_single_output_node::output(span_size_t index) {
     EAGINE_MAYBE_UNUSED(index);
-    assert(index == 0);
+    EAGINE_ASSERT(index == 0);
     return single_output();
 }
 //------------------------------------------------------------------------------

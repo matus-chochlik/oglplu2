@@ -58,7 +58,7 @@ struct options {
 // png_header_validator
 class png_header_validator {
 public:
-    png_header_validator(std::istream& input);
+    explicit png_header_validator(std::istream& input);
 };
 
 class png_read_driver;
@@ -145,7 +145,7 @@ private:
     friend class png_reader;
 
 public:
-    png_read_driver(png_reader& reader);
+    explicit png_read_driver(png_reader& reader);
 };
 
 // png_reader
@@ -159,7 +159,7 @@ private:
     friend class png_read_driver;
 
 public:
-    png_reader(std::istream& input);
+    explicit png_reader(std::istream& input);
 
     void do_read_data(::png_bytep, ::png_size_t);
     void read_row(::png_bytep data) {

@@ -17,7 +17,8 @@ namespace eagine {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void fill_with_random_bytes(span<unsigned char> buffer) {
-    const unsigned mask = ((1 << CHAR_BIT) - 1);
+
+    const unsigned mask = ((1U << unsigned(CHAR_BIT)) - 1U);
 
     std::random_device rd;
     std::mt19937 re(rd());

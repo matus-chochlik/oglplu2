@@ -10,8 +10,8 @@
 #ifndef EAGINE_CALLABLE_REF_HPP
 #define EAGINE_CALLABLE_REF_HPP
 
+#include "assert.hpp"
 #include "mem_func_const.hpp"
-#include <cassert>
 #include <type_traits>
 #include <utility>
 
@@ -32,14 +32,14 @@ private:
 
     template <typename C>
     static RV _cls_fn_call_op(void* that, P... p) {
-        assert(that);
+        EAGINE_ASSERT(that);
         C& obj = *(static_cast<C*>(that));
         return obj(std::forward<P>(p)...);
     }
 
     template <typename C>
     static RV _cls_fn_call_op_c(void* that, P... p) {
-        assert(that);
+        EAGINE_ASSERT(that);
         const C& obj = *(static_cast<const C*>(that));
         return obj(std::forward<P>(p)...);
     }
@@ -56,7 +56,7 @@ public:
     callable_ref(T* data, RV (*func)(T*, P...)) noexcept
       : _data(static_cast<void*>(data))
       , _func(reinterpret_cast<_func_t>(func)) {
-        assert(_data != nullptr);
+        EAGINE_ASSERT(_data != nullptr);
     }
 
     template <typename T>
@@ -90,8 +90,8 @@ public:
     callable_ref(C* obj, member_function_constant<MF, Ptr> mfc) noexcept
       : _data(static_cast<void*>(obj))
       , _func(reinterpret_cast<_func_t>(mfc.make_free())) {
-        assert(_data != nullptr);
-        assert(_func != nullptr);
+        EAGINE_ASSERT(_data != nullptr);
+        EAGINE_ASSERT(_func != nullptr);
     }
 
     constexpr bool is_valid() const noexcept {
@@ -108,7 +108,7 @@ public:
 
     template <typename... A>
     RV operator()(A&&... a) const {
-        assert(is_valid());
+        EAGINE_ASSERT(is_valid());
         if(_data == nullptr) {
             return (reinterpret_cast<_func_pt>(_func))(std::forward<A>(a)...);
         } else {

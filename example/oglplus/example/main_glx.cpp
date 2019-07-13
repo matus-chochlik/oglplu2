@@ -131,6 +131,7 @@ int example_main(
                                    params.samples() / 0,
                                    None};
     glx::FBConfig fbc =
+      // NOLINTNEXTLINE(hicpp-no-array-decay)
       glx::FBConfigs(display, visual_attribs).FindBest(display);
 
     x11::VisualInfo vi(display, fbc);
@@ -146,7 +147,9 @@ int example_main(
       unsigned(state.height()));
 
     win.SelectInput(
+      // NOLINTNEXTLINE(hicpp-signed-bitwise)
       StructureNotifyMask | PointerMotionMask | ButtonMotionMask |
+      // NOLINTNEXTLINE(hicpp-signed-bitwise)
       ButtonPressMask | ButtonReleaseMask | KeyPressMask);
 
     glx::Context ctx(display, fbc, 3, 3);

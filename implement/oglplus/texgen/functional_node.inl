@@ -82,10 +82,11 @@ slot_data_type unary_function_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-unary_function_output::definitions(std::ostream& out, compile_context& ctxt) {
-    if(already_defined(ctxt))
+std::ostream& unary_function_output::definitions(
+  std::ostream& out, compile_context& ctxt) {
+    if(already_defined(ctxt)) {
         return out;
+    }
 
     input_defs(out, ctxt);
     opening_expr(out, ctxt);
@@ -229,10 +230,11 @@ slot_data_type binary_function_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-binary_function_output::definitions(std::ostream& out, compile_context& ctxt) {
-    if(already_defined(ctxt))
+std::ostream& binary_function_output::definitions(
+  std::ostream& out, compile_context& ctxt) {
+    if(already_defined(ctxt)) {
         return out;
+    }
 
     input_defs(out, ctxt);
     opening_expr(out, ctxt);

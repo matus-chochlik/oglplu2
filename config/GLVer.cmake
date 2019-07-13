@@ -64,7 +64,7 @@ foreach(GL_VERSION 4_6 4_5 4_4 4_3 4_2 4_1 4_0 3_3 3_2 3_1)
 	endif()
 endforeach()
 
-file(APPEND ${FIX_GL_VERSION_HPP} "#endif //include guard\n")
+file(APPEND ${FIX_GL_VERSION_HPP} "#endif\n")
 
 if(OGLPLUS_GL_VERSION_MAJOR)
 	message(STATUS "Found GL version ${OGLPLUS_GL_VERSION_MAJOR}.${OGLPLUS_GL_VERSION_MINOR}")

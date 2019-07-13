@@ -34,6 +34,7 @@ void hexdump::_to_hex_b(std::ostream& out, byte b) {
                                 'd',
                                 'e',
                                 'f'};
+    // NOLINTNEXTLINE(hicpp-signed-bitwise)
     out << " " << hd[(b >> 4) & 0x0F] << hd[b & 0x0F];
 }
 //------------------------------------------------------------------------------

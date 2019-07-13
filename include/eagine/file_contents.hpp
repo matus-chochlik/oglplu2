@@ -20,6 +20,11 @@
 namespace eagine {
 
 struct file_contents_intf {
+    file_contents_intf() = default;
+    file_contents_intf(file_contents_intf&&) noexcept = default;
+    file_contents_intf(const file_contents_intf&) = delete;
+    file_contents_intf& operator=(file_contents_intf&&) = delete;
+    file_contents_intf& operator=(const file_contents_intf&) = delete;
     virtual ~file_contents_intf() = default;
 
     virtual memory::const_block block() noexcept = 0;
@@ -31,10 +36,11 @@ private:
 
 public:
     file_contents() = default;
+    file_contents(file_contents&&) noexcept = default;
     file_contents(const file_contents&) = default;
-    file_contents(file_contents&&) = default;
+    file_contents& operator=(file_contents&&) noexcept = default;
     file_contents& operator=(const file_contents&) = default;
-    file_contents& operator=(file_contents&&) = default;
+    ~file_contents() noexcept = default;
 
     file_contents(string_view path);
 

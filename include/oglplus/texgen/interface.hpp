@@ -12,10 +12,12 @@
 #include "../utils/types.hpp"
 #include "data_type.hpp"
 #include "render_params.hpp"
+#include <eagine/assert.hpp>
 #include <eagine/optional_ref.hpp>
 #include <eagine/valid_if/between.hpp>
 #include <cstddef>
 #include <iosfwd>
+#include <memory>
 
 namespace oglplus {
 namespace texgen {
@@ -29,7 +31,7 @@ class compile_context_impl;
 
 class compile_context {
 private:
-    compile_context_impl* _pimpl;
+    std::unique_ptr<compile_context_impl> _pimpl;
 
     const compile_context_impl& _impl() const noexcept;
 
@@ -37,8 +39,11 @@ private:
 
 public:
     compile_context();
+    compile_context(compile_context&&) noexcept = default;
     compile_context(const compile_context&) = delete;
-    ~compile_context();
+    compile_context& operator=(compile_context&&) = delete;
+    compile_context& operator=(const compile_context&) = delete;
+    ~compile_context() noexcept;
 
     unsigned glsl_version() const;
 
@@ -53,7 +58,12 @@ public:
 };
 
 struct constant_intf {
-    virtual ~constant_intf() = default;
+    constant_intf() noexcept = default;
+    constant_intf(constant_intf&&) noexcept = default;
+    constant_intf(const constant_intf&) = default;
+    constant_intf& operator=(constant_intf&&) = delete;
+    constant_intf& operator=(const constant_intf&) = default;
+    virtual ~constant_intf() noexcept = default;
 
     virtual string_view name() const noexcept = 0;
 
@@ -65,9 +75,11 @@ struct constant_intf {
 };
 
 struct input_intf {
-    input_intf() = default;
-    input_intf(input_intf&&) = default;
+    input_intf() noexcept = default;
+    input_intf(input_intf&&) noexcept = default;
     input_intf(const input_intf&) = default;
+    input_intf& operator=(input_intf&&) = delete;
+    input_intf& operator=(const input_intf&) = delete;
 
     virtual ~input_intf() noexcept = default;
 
@@ -122,9 +134,11 @@ struct input_intf {
 };
 
 struct output_intf {
-    output_intf() = default;
-    output_intf(output_intf&&) = default;
+    output_intf() noexcept = default;
+    output_intf(output_intf&&) noexcept = default;
     output_intf(const output_intf&) = default;
+    output_intf& operator=(output_intf&&) = delete;
+    output_intf& operator=(const output_intf&) = delete;
 
     virtual ~output_intf() noexcept = default;
 
@@ -161,14 +175,19 @@ bool connect_output_to_input(output_intf& output, input_intf& input);
 bool disconnect_output_from_input(output_intf& output, input_intf& input);
 
 struct node_intf {
+    node_intf() noexcept = default;
+    node_intf(node_intf&&) noexcept = default;
+    node_intf(const node_intf&) = default;
+    node_intf& operator=(node_intf&&) = delete;
+    node_intf& operator=(const node_intf&) = default;
     virtual ~node_intf() noexcept = default;
 
     virtual span_size_t input_count() = 0;
 
     virtual input_intf& input(span_size_t) = 0;
 
-    virtual eagine::optional_reference_wrapper<input_intf>
-      input_by_name(string_view);
+    virtual eagine::optional_reference_wrapper<input_intf> input_by_name(
+      string_view);
 
     virtual bool can_add_input() = 0;
 
@@ -180,8 +199,8 @@ struct node_intf {
 
     virtual output_intf& output(span_size_t) = 0;
 
-    virtual eagine::optional_reference_wrapper<output_intf>
-      output_by_name(string_view);
+    virtual eagine::optional_reference_wrapper<output_intf> output_by_name(
+      string_view);
 
     void disconnect_all();
 
@@ -203,12 +222,12 @@ private:
     input_intf* _pimpl;
 
     input_intf& _impl() noexcept {
-        assert(is_valid());
+        EAGINE_ASSERT(is_valid());
         return *_pimpl;
     }
 
     const input_intf& _impl() const noexcept {
-        assert(is_valid());
+        EAGINE_ASSERT(is_valid());
         return *_pimpl;
     }
 
@@ -263,7 +282,7 @@ private:
     output_intf* _pimpl;
 
     output_intf& _impl() noexcept {
-        assert(is_valid());
+        EAGINE_ASSERT(is_valid());
         return *_pimpl;
     }
 
@@ -286,13 +305,13 @@ public:
         return !is_valid();
     }
 
-    friend bool
-    operator==(const output_slot& a, const output_slot& b) noexcept {
+    friend bool operator==(
+      const output_slot& a, const output_slot& b) noexcept {
         return a.is_valid() && b.is_valid() && (a._pimpl == b._pimpl);
     }
 
-    friend bool
-    operator!=(const output_slot& a, const output_slot& b) noexcept {
+    friend bool operator!=(
+      const output_slot& a, const output_slot& b) noexcept {
         return a.is_valid() && b.is_valid() && (a._pimpl != b._pimpl);
     }
 

@@ -65,7 +65,7 @@ struct perspective<matrix<T, 4, 4, RM, V>> {
 
     static inline perspective square(
       radians_t<T> fov, T z_near, T z_far) noexcept {
-        assert(T(fov) > T(0));
+        EAGINE_ASSERT(T(fov) > T(0));
 
         T x_right = z_near * tan(fov * T(0.5));
         T x_left = -x_right;
@@ -78,8 +78,8 @@ struct perspective<matrix<T, 4, 4, RM, V>> {
 
     static inline perspective x(
       radians_t<T> xfov, T aspect, T z_near, T z_far) noexcept {
-        assert(aspect > T(0));
-        assert(T(xfov) > T(0));
+        EAGINE_ASSERT(aspect > T(0));
+        EAGINE_ASSERT(T(xfov) > T(0));
 
         T x_right = z_near * tan(xfov * T(0.5));
         T x_left = -x_right;
@@ -92,8 +92,8 @@ struct perspective<matrix<T, 4, 4, RM, V>> {
 
     static inline perspective y(
       radians_t<T> yfov, T aspect, T z_near, T z_far) noexcept {
-        assert(aspect > T(0));
-        assert(T(yfov) > T(0));
+        EAGINE_ASSERT(aspect > T(0));
+        EAGINE_ASSERT(T(yfov) > T(0));
 
         T y_top = z_near * tan(yfov * T(0.5));
         T y_bottom = -y_top;

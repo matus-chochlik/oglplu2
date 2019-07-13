@@ -31,10 +31,11 @@ slot_data_type concentric_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-concentric_output::definitions(std::ostream& out, compile_context& ctxt) {
-    if(already_defined(ctxt))
+std::ostream& concentric_output::definitions(
+  std::ostream& out, compile_context& ctxt) {
+    if(already_defined(ctxt)) {
         return out;
+    }
 
     input_defs(out, ctxt);
     opening_expr(out, ctxt);
@@ -74,10 +75,11 @@ slot_data_type pixel_concentric_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-pixel_concentric_output::definitions(std::ostream& out, compile_context& ctxt) {
-    if(already_defined(ctxt))
+std::ostream& pixel_concentric_output::definitions(
+  std::ostream& out, compile_context& ctxt) {
+    if(already_defined(ctxt)) {
         return out;
+    }
 
     input_defs(out, ctxt);
     opening_expr(out, ctxt);

@@ -19,68 +19,68 @@
 namespace oalplus {
 
 OALPLUS_LIB_FUNC
-string_view get_enum_value_name(const any_enum_value_alut& aev) noexcept {
+string_view get_enum_value_name( // NOLINT(hicpp-function-size)
+
+  const any_enum_value_alut& aev) noexcept {
 #ifdef ALUT_ERROR_ALC_ERROR_ON_ENTRY
-    static const char s_ERROR_ALC_ERROR_ON_ENTRY[25] =
-      "ERROR_ALC_ERROR_ON_ENTRY";
+    static const char* s_ERROR_ALC_ERROR_ON_ENTRY = "ERROR_ALC_ERROR_ON_ENTRY";
 #endif
 #ifdef ALUT_ERROR_AL_ERROR_ON_ENTRY
-    static const char s_ERROR_AL_ERROR_ON_ENTRY[24] = "ERROR_AL_ERROR_ON_ENTRY";
+    static const char* s_ERROR_AL_ERROR_ON_ENTRY = "ERROR_AL_ERROR_ON_ENTRY";
 #endif
 #ifdef ALUT_ERROR_BUFFER_DATA
-    static const char s_ERROR_BUFFER_DATA[18] = "ERROR_BUFFER_DATA";
+    static const char* s_ERROR_BUFFER_DATA = "ERROR_BUFFER_DATA";
 #endif
 #ifdef ALUT_ERROR_CLOSE_DEVICE
-    static const char s_ERROR_CLOSE_DEVICE[19] = "ERROR_CLOSE_DEVICE";
+    static const char* s_ERROR_CLOSE_DEVICE = "ERROR_CLOSE_DEVICE";
 #endif
 #ifdef ALUT_ERROR_CORRUPT_OR_TRUNCATED_DATA
-    static const char s_ERROR_CORRUPT_OR_TRUNCATED_DATA[32] =
+    static const char* s_ERROR_CORRUPT_OR_TRUNCATED_DATA =
       "ERROR_CORRUPT_OR_TRUNCATED_DATA";
 #endif
 #ifdef ALUT_ERROR_CREATE_CONTEXT
-    static const char s_ERROR_CREATE_CONTEXT[21] = "ERROR_CREATE_CONTEXT";
+    static const char* s_ERROR_CREATE_CONTEXT = "ERROR_CREATE_CONTEXT";
 #endif
 #ifdef ALUT_ERROR_DESTROY_CONTEXT
-    static const char s_ERROR_DESTROY_CONTEXT[22] = "ERROR_DESTROY_CONTEXT";
+    static const char* s_ERROR_DESTROY_CONTEXT = "ERROR_DESTROY_CONTEXT";
 #endif
 #ifdef ALUT_ERROR_GEN_BUFFERS
-    static const char s_ERROR_GEN_BUFFERS[18] = "ERROR_GEN_BUFFERS";
+    static const char* s_ERROR_GEN_BUFFERS = "ERROR_GEN_BUFFERS";
 #endif
 #ifdef ALUT_ERROR_INVALID_ENUM
-    static const char s_ERROR_INVALID_ENUM[19] = "ERROR_INVALID_ENUM";
+    static const char* s_ERROR_INVALID_ENUM = "ERROR_INVALID_ENUM";
 #endif
 #ifdef ALUT_ERROR_INVALID_OPERATION
-    static const char s_ERROR_INVALID_OPERATION[24] = "ERROR_INVALID_OPERATION";
+    static const char* s_ERROR_INVALID_OPERATION = "ERROR_INVALID_OPERATION";
 #endif
 #ifdef ALUT_ERROR_INVALID_VALUE
-    static const char s_ERROR_INVALID_VALUE[20] = "ERROR_INVALID_VALUE";
+    static const char* s_ERROR_INVALID_VALUE = "ERROR_INVALID_VALUE";
 #endif
 #ifdef ALUT_ERROR_IO_ERROR
-    static const char s_ERROR_IO_ERROR[15] = "ERROR_IO_ERROR";
+    static const char* s_ERROR_IO_ERROR = "ERROR_IO_ERROR";
 #endif
 #ifdef ALUT_ERROR_MAKE_CONTEXT_CURRENT
-    static const char s_ERROR_MAKE_CONTEXT_CURRENT[27] =
+    static const char* s_ERROR_MAKE_CONTEXT_CURRENT =
       "ERROR_MAKE_CONTEXT_CURRENT";
 #endif
 #ifdef ALUT_ERROR_NO_CURRENT_CONTEXT
-    static const char s_ERROR_NO_CURRENT_CONTEXT[25] =
-      "ERROR_NO_CURRENT_CONTEXT";
+    static const char* s_ERROR_NO_CURRENT_CONTEXT = "ERROR_NO_CURRENT_CONTEXT";
 #endif
 #ifdef ALUT_ERROR_NO_ERROR
-    static const char s_ERROR_NO_ERROR[15] = "ERROR_NO_ERROR";
+    static const char* s_ERROR_NO_ERROR = "ERROR_NO_ERROR";
 #endif
 #ifdef ALUT_ERROR_OPEN_DEVICE
-    static const char s_ERROR_OPEN_DEVICE[18] = "ERROR_OPEN_DEVICE";
+    static const char* s_ERROR_OPEN_DEVICE = "ERROR_OPEN_DEVICE";
 #endif
 #ifdef ALUT_ERROR_OUT_OF_MEMORY
-    static const char s_ERROR_OUT_OF_MEMORY[20] = "ERROR_OUT_OF_MEMORY";
+    static const char* s_ERROR_OUT_OF_MEMORY = "ERROR_OUT_OF_MEMORY";
 #endif
 #ifdef ALUT_ERROR_UNSUPPORTED_FILE_SUBTYPE
-    static const char s_ERROR_UNSUPPORTED_FILE_SUBTYPE[31] =
+    static const char* s_ERROR_UNSUPPORTED_FILE_SUBTYPE =
       "ERROR_UNSUPPORTED_FILE_SUBTYPE";
 #endif
 #ifdef ALUT_ERROR_UNSUPPORTED_FILE_TYPE
-    static const char s_ERROR_UNSUPPORTED_FILE_TYPE[28] =
+    static const char* s_ERROR_UNSUPPORTED_FILE_TYPE =
       "ERROR_UNSUPPORTED_FILE_TYPE";
 #endif
 

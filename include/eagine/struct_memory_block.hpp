@@ -10,6 +10,7 @@
 #ifndef EAGINE_STRUCT_MEMORY_BLOCK_HPP
 #define EAGINE_STRUCT_MEMORY_BLOCK_HPP
 
+#include "assert.hpp"
 #include "memory/block.hpp"
 #include <type_traits>
 
@@ -22,12 +23,12 @@ private:
 
     template <typename X = T, typename = std::enable_if_t<!std::is_const_v<X>>>
     X* _ptr() noexcept {
-        assert(is_valid_block(_blk));
+        EAGINE_ASSERT(is_valid_block(_blk));
         return static_cast<X*>(_blk.addr());
     }
 
     const T* _cptr() const noexcept {
-        assert(is_valid_block(_blk));
+        EAGINE_ASSERT(is_valid_block(_blk));
         return static_cast<const T*>(_blk.addr());
     }
 
@@ -40,7 +41,7 @@ public:
     structured_memory_block(
       memory::basic_block<std::is_const_v<T>> blk) noexcept
       : _blk(blk) {
-        assert(is_valid_block(_blk));
+        EAGINE_ASSERT(is_valid_block(_blk));
     }
 
     template <

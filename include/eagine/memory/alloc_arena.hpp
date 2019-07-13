@@ -10,11 +10,11 @@
 #ifndef EAGINE_MEMORY_ALLOC_ARENA_HPP
 #define EAGINE_MEMORY_ALLOC_ARENA_HPP
 
+#include "../assert.hpp"
 #include "../span.hpp"
 #include "../string_span.hpp"
 #include "c_realloc.hpp"
 #include <algorithm>
-#include <cassert>
 #include <utility>
 #include <vector>
 
@@ -56,12 +56,17 @@ public:
       : _alloc(std::move(alloc)) {
     }
 
+    basic_allocation_arena(basic_allocation_arena&&) noexcept = default;
+    basic_allocation_arena(const basic_allocation_arena&) = delete;
+    basic_allocation_arena& operator=(basic_allocation_arena&&) = delete;
+    basic_allocation_arena& operator=(const basic_allocation_arena&) = delete;
+
     ~basic_allocation_arena() {
         clear();
     }
 
     bool empty() const noexcept {
-        assert(_blks.empty() == _alns.empty());
+        EAGINE_ASSERT(_blks.empty() == _alns.empty());
         return _blks.empty();
     }
 

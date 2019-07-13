@@ -17,7 +17,7 @@ namespace eagine {
 template <typename Bit>
 class bitfield {
 private:
-    using BF = std::underlying_type_t<Bit>;
+    using BF = std::make_unsigned_t<std::underlying_type_t<Bit>>;
     BF _bits;
 
 public:

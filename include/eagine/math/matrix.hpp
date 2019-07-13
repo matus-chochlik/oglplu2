@@ -9,6 +9,7 @@
 #ifndef EAGINE_MATH_MATRIX_HPP
 #define EAGINE_MATH_MATRIX_HPP
 
+#include "../assert.hpp"
 #include "../maybe_unused.hpp"
 #include "vector.hpp"
 #include <utility>
@@ -106,7 +107,7 @@ static constexpr inline std::enable_if_t<(CI < C && RI < R), T> get_cm(
 template <typename T, int C, int R, bool V>
 static constexpr inline T get_cm(
   const matrix<T, C, R, false, V>& m, int ci, int ri) noexcept {
-    assert(ci < C && ri < R);
+    EAGINE_ASSERT(ci < C && ri < R);
     return m._v[ci][ri];
 }
 //------------------------------------------------------------------------------
@@ -114,7 +115,7 @@ static constexpr inline T get_cm(
 template <typename T, int C, int R, bool V>
 static constexpr inline T get_cm(
   const matrix<T, C, R, true, V>& m, int ci, int ri) noexcept {
-    assert(ci < C && ri < R);
+    EAGINE_ASSERT(ci < C && ri < R);
     return m._v[ri][ci];
 }
 //------------------------------------------------------------------------------
@@ -136,7 +137,7 @@ static constexpr inline std::enable_if_t<(CI < C && RI < R), T> get_rm(
 template <typename T, int C, int R, bool V>
 static constexpr inline T get_rm(
   const matrix<T, C, R, false, V>& m, int ri, int ci) noexcept {
-    assert(ci < C && ri < R);
+    EAGINE_ASSERT(ci < C && ri < R);
     return m._v[ci][ri];
 }
 //------------------------------------------------------------------------------
@@ -144,7 +145,7 @@ static constexpr inline T get_rm(
 template <typename T, int C, int R, bool V>
 static constexpr inline T get_rm(
   const matrix<T, C, R, true, V>& m, int ri, int ci) noexcept {
-    assert(ci < C && ri < R);
+    EAGINE_ASSERT(ci < C && ri < R);
     return m._v[ri][ci];
 }
 //------------------------------------------------------------------------------
@@ -166,7 +167,7 @@ static inline std::enable_if_t<(CI < C && RI < R), void> set_cm(
 template <typename T, int C, int R, bool V>
 static inline void set_cm(
   matrix<T, C, R, false, V>& m, int ci, int ri, T v) noexcept {
-    assert(ci < C && ri < R);
+    EAGINE_ASSERT(ci < C && ri < R);
     m._v[ci][ri] = v;
 }
 //------------------------------------------------------------------------------
@@ -174,7 +175,7 @@ static inline void set_cm(
 template <typename T, int C, int R, bool V>
 static inline void set_cm(
   matrix<T, C, R, true, V>& m, int ci, int ri, T v) noexcept {
-    assert(ci < C && ri < R);
+    EAGINE_ASSERT(ci < C && ri < R);
     m._v[ri][ci] = v;
 }
 //------------------------------------------------------------------------------
@@ -196,7 +197,7 @@ static inline std::enable_if_t<(CI < C && RI < R), void> set_rm(
 template <typename T, int C, int R, bool V>
 static inline void set_rm(
   matrix<T, C, R, false, V>& m, int ri, int ci, T v) noexcept {
-    assert(ci < C && ri < R);
+    EAGINE_ASSERT(ci < C && ri < R);
     m._v[ci][ri] = v;
 }
 //------------------------------------------------------------------------------
@@ -204,7 +205,7 @@ static inline void set_rm(
 template <typename T, int C, int R, bool V>
 static inline void set_rm(
   matrix<T, C, R, true, V>& m, int ri, int ci, T v) noexcept {
-    assert(ci < C && ri < R);
+    EAGINE_ASSERT(ci < C && ri < R);
     m._v[ri][ci] = v;
 }
 //------------------------------------------------------------------------------
@@ -347,7 +348,7 @@ static inline vector<T, C, V> row(const matrix<T, C, R, false, V>& m) noexcept {
 template <typename T, int C, int R, bool RM, bool V>
 static inline vector<T, C, V> _row_hlp(
   const matrix<T, C, R, RM, V>& m, int_constant<0u>, int i) noexcept {
-    assert(i == 0u);
+    EAGINE_ASSERT(i == 0u);
     EAGINE_MAYBE_UNUSED(i);
     return row<0u>(m);
 }
@@ -387,7 +388,7 @@ static inline vector<T, R, V> column(
 template <typename T, int C, int R, bool RM, bool V>
 static inline vector<T, R, V> _col_hlp(
   const matrix<T, C, R, RM, V>& m, int_constant<0u>, int i) noexcept {
-    assert(i == 0);
+    EAGINE_ASSERT(i == 0);
     EAGINE_MAYBE_UNUSED(i);
     return column<0>(m);
 }
@@ -459,7 +460,7 @@ template <typename T, int M, int N, int K, bool RM1, bool RM2, bool V>
 static inline matrix<T, N, M, RM1, V> multiply(
   const matrix<T, K, M, RM1, V>& m1,
   const matrix<T, N, K, RM2, V>& m2) noexcept {
-    matrix<T, N, M, RM1, V> m3;
+    matrix<T, N, M, RM1, V> m3{};
 
     for(int i = 0; i < M; ++i) {
         for(int j = 0; j < N; ++j) {

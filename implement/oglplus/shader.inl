@@ -6,9 +6,9 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/assert.hpp>
 #include <eagine/memory/span_algo.hpp>
 #include <oglplus/utils/gl_func.hpp>
-#include <cassert>
 
 namespace oglplus {
 //------------------------------------------------------------------------------
@@ -47,7 +47,7 @@ inline outcome<void> shader_ops::report_shader_compile_error(
 //------------------------------------------------------------------------------
 inline outcome<void> shader_ops::get_shader_iv(
   shader_name shdr, shader_parameter para, span<GLint> values) noexcept {
-    assert(values.size() > 0);
+    EAGINE_ASSERT(values.size() > 0);
     OGLPLUS_GLFUNC(GetShaderiv)
     (get_raw_name(shdr), GLenum(para), values.data());
     OGLPLUS_VERIFY(GetShaderiv, gl_enum_value(para).gl_object(shdr), always);

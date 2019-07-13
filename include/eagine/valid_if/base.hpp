@@ -29,12 +29,16 @@ public:
 
     constexpr basic_valid_if_value() noexcept = default;
 
-    constexpr basic_valid_if_value(basic_valid_if_value&&) = default;
+    constexpr basic_valid_if_value(basic_valid_if_value&&) noexcept(
+      std::is_nothrow_move_constructible_v<T>) = default;
 
-    constexpr basic_valid_if_value(const basic_valid_if_value&) = default;
+    constexpr basic_valid_if_value(const basic_valid_if_value&) noexcept(
+      std::is_nothrow_copy_constructible_v<T>) = default;
 
-    basic_valid_if_value& operator=(basic_valid_if_value&&) = default;
-    basic_valid_if_value& operator=(const basic_valid_if_value&) = default;
+    basic_valid_if_value& operator=(basic_valid_if_value&&) noexcept(
+      std::is_nothrow_move_assignable_v<T>) = default;
+    basic_valid_if_value& operator=(const basic_valid_if_value&) noexcept(
+      std::is_nothrow_copy_assignable_v<T>) = default;
 
     ~basic_valid_if_value() noexcept = default;
 
@@ -102,7 +106,8 @@ public:
       , DoLog(_policy()) {
     }
 
-    basic_valid_if(basic_valid_if&& that) noexcept
+    basic_valid_if(basic_valid_if&& that) noexcept(
+      std::is_nothrow_move_constructible_v<T>)
       : basic_valid_if_value<T>(static_cast<basic_valid_if_value<T>&&>(that))
       , Policy(static_cast<Policy&&>(that))
       , DoLog(_policy()) {
@@ -118,7 +123,8 @@ public:
         return *this;
     }
 
-    basic_valid_if& operator=(basic_valid_if&& that) noexcept {
+    basic_valid_if& operator=(basic_valid_if&& that) noexcept(
+      std::is_nothrow_move_assignable_v<T>) {
         if(this != std::addressof(that)) {
             static_cast<basic_valid_if_value<T>&>(*this) =
               static_cast<basic_valid_if_value<T>&&>(that);
@@ -140,6 +146,8 @@ public:
         return *this;
     }
 
+    ~basic_valid_if() noexcept = default;
+
     constexpr bool is_valid(const T& val, P... p) const noexcept {
         return _policy()(val, p...);
     }
@@ -160,7 +168,7 @@ public:
 
     template <typename Log>
     void log_invalid(Log& log, const T& v, P... p) const {
-        assert(!is_valid(v, p...));
+        EAGINE_ASSERT(!is_valid(v, p...));
         _do_log()(log, v, p...);
     }
 

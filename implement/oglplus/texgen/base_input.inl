@@ -6,7 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <cassert>
+#include <eagine/assert.hpp>
 #include <string>
 
 namespace oglplus {
@@ -19,7 +19,7 @@ string_view base_input::name() noexcept {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 base_input::~base_input() noexcept {
-    assert(!is_connected());
+    EAGINE_ASSERT(!is_connected());
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -40,7 +40,7 @@ bool base_input::can_connect(output_intf& output) {
 OGLPLUS_LIB_FUNC
 bool base_input::do_connect(output_intf& output) {
     if(can_connect(output)) {
-        assert(!is_connected());
+        EAGINE_ASSERT(!is_connected());
         _output = std::addressof(output);
         return true;
     }
@@ -78,7 +78,7 @@ bool base_input::disconnect(output_intf& output) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 output_intf& base_input::connected_output() {
-    assert(is_connected());
+    EAGINE_ASSERT(is_connected());
     return *_output;
 }
 //------------------------------------------------------------------------------

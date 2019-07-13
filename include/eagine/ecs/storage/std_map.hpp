@@ -9,9 +9,9 @@
 #ifndef EAGINE_ECS_STORAGE_STD_MAP_HPP
 #define EAGINE_ECS_STORAGE_STD_MAP_HPP
 
+#include "../../assert.hpp"
 #include "../cmp_storage.hpp"
 #include "../rel_storage.hpp"
-#include <cassert>
 #include <map>
 #include <set>
 
@@ -36,21 +36,21 @@ public:
     std_map_cmp_storage_iterator(_map_t& m) noexcept
       : _map(&m)
       , _i(m.begin()) {
-        assert(_map);
+        EAGINE_ASSERT(_map);
     }
 
     void reset() override {
-        assert(_map);
+        EAGINE_ASSERT(_map);
         _i = _map->begin();
     }
 
     bool done() override {
-        assert(_map);
+        EAGINE_ASSERT(_map);
         return _i == _map->end();
     }
 
     void next() override {
-        assert(!done());
+        EAGINE_ASSERT(!done());
         ++_i;
     }
 
@@ -87,7 +87,7 @@ private:
     using _map_iter_t = std_map_cmp_storage_iterator<Entity, Component>;
 
     _map_iter_t& _iter_cast(component_storage_iterator<Entity>& i) noexcept {
-        assert(dynamic_cast<_map_iter_t*>(i.ptr()) != nullptr);
+        EAGINE_ASSERT(dynamic_cast<_map_iter_t*>(i.ptr()) != nullptr);
         return *static_cast<_map_iter_t*>(i.ptr());
     }
 
@@ -97,7 +97,7 @@ private:
 
     typename std::map<Entity, Component>::iterator _remove(
       typename std::map<Entity, Component>::iterator p) {
-        assert(p != _components.end());
+        EAGINE_ASSERT(p != _components.end());
         _hidden.erase(p->first);
         return _components.erase(p);
     }
@@ -128,7 +128,7 @@ public:
     }
 
     bool is_hidden(iterator_t& i) override {
-        assert(!i.done());
+        EAGINE_ASSERT(!i.done());
         return is_hidden(_iter_entity(i));
     }
 
@@ -141,7 +141,7 @@ public:
     }
 
     void hide(iterator_t& i) override {
-        assert(!i.done());
+        EAGINE_ASSERT(!i.done());
         _hidden.insert(_iter_entity(i));
     }
 
@@ -201,7 +201,7 @@ public:
     }
 
     void remove(iterator_t& i) override {
-        assert(!i.done());
+        EAGINE_ASSERT(!i.done());
         _hidden.erase(_iter_entity(i));
         _iter_cast(i)._i = _components.erase(_iter_cast(i)._i);
     }
@@ -239,9 +239,9 @@ public:
     void for_single(
       callable_ref<void(entity_param, manipulator<const Component>&)> func,
       iterator_t& i) override {
-        assert(!i.done());
+        EAGINE_ASSERT(!i.done());
         auto& p = _iter_cast(i)._i;
-        assert(p != _components.end());
+        EAGINE_ASSERT(p != _components.end());
         if(!is_hidden(p->first)) {
             concrete_manipulator<const Component> m(
               p->second, true /*can_remove*/
@@ -274,9 +274,9 @@ public:
     void for_single(
       callable_ref<void(entity_param, manipulator<Component>&)> func,
       iterator_t& i) override {
-        assert(!i.done());
+        EAGINE_ASSERT(!i.done());
         auto& p = _iter_cast(i)._i;
-        assert(p != _components.end());
+        EAGINE_ASSERT(p != _components.end());
         if(!is_hidden(p->first)) {
             // TODO: modify notification
             concrete_manipulator<Component> m(
@@ -349,21 +349,21 @@ public:
     std_map_rel_storage_iterator(_map_t& m) noexcept
       : _map(&m)
       , _i(m.begin()) {
-        assert(_map);
+        EAGINE_ASSERT(_map);
     }
 
     void reset() override {
-        assert(_map);
+        EAGINE_ASSERT(_map);
         _i = _map->begin();
     }
 
     bool done() override {
-        assert(_map);
+        EAGINE_ASSERT(_map);
         return _i == _map->end();
     }
 
     void next() override {
-        assert(!done());
+        EAGINE_ASSERT(!done());
         ++_i;
     }
 
@@ -385,13 +385,13 @@ private:
     using _map_iter_t = std_map_rel_storage_iterator<Entity, Relation>;
 
     _map_iter_t& _iter_cast(relation_storage_iterator<Entity>& i) noexcept {
-        assert(dynamic_cast<_map_iter_t*>(i.ptr()) != nullptr);
+        EAGINE_ASSERT(dynamic_cast<_map_iter_t*>(i.ptr()) != nullptr);
         return *static_cast<_map_iter_t*>(i.ptr());
     }
 
     typename std::map<_pair_t, Relation>::iterator _remove(
       typename std::map<_pair_t, Relation>::iterator p) {
-        assert(p != _relations.end());
+        EAGINE_ASSERT(p != _relations.end());
         return _relations.erase(p);
     }
 
@@ -431,7 +431,7 @@ public:
     }
 
     void remove(iterator_t& i) override {
-        assert(!i.done());
+        EAGINE_ASSERT(!i.done());
         _iter_cast(i)._i = _relations.erase(_iter_cast(i)._i);
     }
 
@@ -456,9 +456,9 @@ public:
       callable_ref<
         void(entity_param, entity_param, manipulator<const Relation>&)> func,
       iterator_t& i) override {
-        assert(!i.done());
+        EAGINE_ASSERT(!i.done());
         auto& po = _iter_cast(i)._i;
-        assert(po != _relations.end());
+        EAGINE_ASSERT(po != _relations.end());
 
         concrete_manipulator<const Relation> m(
           po->second, true /*can_erase*/
@@ -491,9 +491,9 @@ public:
       callable_ref<void(entity_param, entity_param, manipulator<Relation>&)>
         func,
       iterator_t& i) override {
-        assert(!i.done());
+        EAGINE_ASSERT(!i.done());
         auto& po = _iter_cast(i)._i;
-        assert(po != _relations.end());
+        EAGINE_ASSERT(po != _relations.end());
 
         // TODO: modify notification
         concrete_manipulator<Relation> m(

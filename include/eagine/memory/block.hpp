@@ -10,6 +10,7 @@
 #ifndef EAGINE_MEMORY_BLOCK_HPP
 #define EAGINE_MEMORY_BLOCK_HPP
 
+#include "../assert.hpp"
 #include "span.hpp"
 #include <cstddef>
 #include <utility>
@@ -59,7 +60,7 @@ public:
     owned_block& operator=(const owned_block&) noexcept = delete;
 
     ~owned_block() noexcept {
-        assert(empty());
+        EAGINE_ASSERT(empty());
     }
 };
 //------------------------------------------------------------------------------

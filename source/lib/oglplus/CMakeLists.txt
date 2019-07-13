@@ -20,10 +20,10 @@ set_target_properties(
 	oglplus
 	PROPERTIES FOLDER "Library/OGLplus"
 )
-if(CLANG_TIDY_PROG)
+if(INVOKE_CLANG_TIDY)
 	set_target_properties(
 		oglplus
-		PROPERTIES CXX_CLANG_TIDY "${CLANG_TIDY_PROG}"
+		PROPERTIES CXX_CLANG_TIDY "${INVOKE_CLANG_TIDY}"
 	)
 endif()
 

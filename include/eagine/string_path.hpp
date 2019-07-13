@@ -10,6 +10,7 @@
 #ifndef EAGINE_STRING_PATH_HPP
 #define EAGINE_STRING_PATH_HPP
 
+#include "assert.hpp"
 #include "identifier.hpp"
 #include "memory/block.hpp"
 #include "span.hpp"
@@ -36,7 +37,7 @@ private:
         for(const auto& name : names) {
             push_back(name);
         }
-        assert(span_size(_str.size()) == len);
+        EAGINE_ASSERT(span_size(_str.size()) == len);
     }
 
     static inline string_view _fix(string_view str) noexcept {
@@ -67,10 +68,12 @@ public:
       : _size{0} {
     }
 
+    basic_string_path(basic_string_path&&) noexcept = default;
     basic_string_path(const basic_string_path&) = default;
-    basic_string_path(basic_string_path&&) = default;
+    basic_string_path& operator=(basic_string_path&&) noexcept = default;
     basic_string_path& operator=(const basic_string_path&) = default;
-    basic_string_path& operator=(basic_string_path&&) = default;
+
+    ~basic_string_path() noexcept = default;
 
     basic_string_path(const str_span& str, span_size_t size)
       : _size{size}
@@ -151,7 +154,7 @@ public:
     }
 
     bool empty() const noexcept {
-        assert((size() == 0) == _str.empty());
+        EAGINE_ASSERT((size() == 0) == _str.empty());
         return _str.empty();
     }
 
@@ -164,12 +167,12 @@ public:
         return _size;
     }
 
-    static size_type required_bytes(size_type l) noexcept {
+    static size_type required_bytes(size_type l) {
         using namespace mbs;
         return l + 2 * required_sequence_length(code_point_t(l)).value();
     }
 
-    static size_type required_bytes(str_span str) noexcept {
+    static size_type required_bytes(str_span str) {
         return required_bytes(size_type(str.size()));
     }
 
@@ -178,12 +181,12 @@ public:
     }
 
     str_span front() const noexcept {
-        assert(!empty());
+        EAGINE_ASSERT(!empty());
         return string_list::front_value(_str);
     }
 
     str_span back() const noexcept {
-        assert(!empty());
+        EAGINE_ASSERT(!empty());
         return string_list::back_value(_str);
     }
 
@@ -198,7 +201,7 @@ public:
     }
 
     void pop_back() {
-        assert(!empty());
+        EAGINE_ASSERT(!empty());
         _str.resize(std_size(string_list::pop_back(_str).size()));
         --_size;
     }

@@ -57,10 +57,11 @@ std::string combine_output::_input_expr(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-combine_output::definitions(std::ostream& out, compile_context& ctxt) {
-    if(already_defined(ctxt))
+std::ostream& combine_output::definitions(
+  std::ostream& out, compile_context& ctxt) {
+    if(already_defined(ctxt)) {
         return out;
+    }
 
     input_defs(out, ctxt);
     opening_expr(out, ctxt);
@@ -90,8 +91,9 @@ combine_output::definitions(std::ostream& out, compile_context& ctxt) {
 
     out << "\treturn " << data_type_name(value_type()) << "(";
     for(span_size_t i = 0; i < 4; ++i) {
-        if(i > 0)
+        if(i > 0) {
             out << ", ";
+        }
         out << "value" << component_to_expr[i];
     }
     out << ");" << std::endl;
@@ -106,13 +108,16 @@ span_size_t combine_node::input_count() {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 input_intf& combine_node::input(span_size_t index) {
-    if(index == 0)
+    if(index == 0) {
         return _output.input_r;
-    if(index == 1)
+    }
+    if(index == 1) {
         return _output.input_g;
-    if(index == 2)
+    }
+    if(index == 2) {
         return _output.input_b;
-    assert(index < input_count());
+    }
+    EAGINE_ASSERT(index < input_count());
     return _output.input_a;
 }
 //------------------------------------------------------------------------------

@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/assert.hpp>
 #include <eagine/maybe_unused.hpp>
 #include <eagine/memory/null_ptr.hpp>
 #include <oglplus/buffer.hpp>
@@ -14,7 +15,6 @@
 #include <oglplus/program.hpp>
 #include <oglplus/shader.hpp>
 #include <oglplus/vertex_array.hpp>
-#include <cassert>
 #include <iostream>
 #include <sstream>
 
@@ -31,10 +31,12 @@ void render_node::_init_screen() {
 
     using eagine::memory::typed_nullptr;
 
-    if(_data)
+    if(_data) {
         buffer::delete_(_data);
-    if(_vao)
+    }
+    if(_vao) {
         vertex_array::delete_(_vao);
+    }
 
     vertex_array::gen_(_vao);
     gl.bind(_vao);
@@ -78,8 +80,9 @@ void render_node::_update_program() {
     operations gl;
     constants GL;
 
-    if(_prog)
+    if(_prog) {
         program::delete_(_prog);
+    }
     program::gen_(_prog);
 
     shader vs(GL.vertex_shader);
@@ -125,12 +128,15 @@ render_node::render_node()
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 render_node::~render_node() {
-    if(_prog)
+    if(_prog) {
         program::delete_(_prog);
-    if(_data)
+    }
+    if(_data) {
         buffer::delete_(_data);
-    if(_vao)
+    }
+    if(_vao) {
         vertex_array::delete_(_vao);
+    }
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -182,7 +188,7 @@ span_size_t render_node::input_count() {
 OGLPLUS_LIB_FUNC
 input_intf& render_node::input(span_size_t index) {
     EAGINE_MAYBE_UNUSED(index);
-    assert(index < input_count());
+    EAGINE_ASSERT(index < input_count());
     return _input;
 }
 //------------------------------------------------------------------------------
@@ -250,7 +256,8 @@ bool render_node::render() {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void render_node::set_divisions(
-  eagine::valid_if_positive<int> xdiv, eagine::valid_if_positive<int> ydiv) {
+  const eagine::valid_if_positive<int>& xdiv,
+  const eagine::valid_if_positive<int>& ydiv) {
     _xdiv = xdiv.value_or(1);
     _ydiv = ydiv.value_or(1);
     _tile = 0;
@@ -258,7 +265,8 @@ void render_node::set_divisions(
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void render_node::set_dimensions(
-  eagine::valid_if_positive<int> width, eagine::valid_if_positive<int> height) {
+  const eagine::valid_if_positive<int>& width,
+  const eagine::valid_if_positive<int>& height) {
     _render_params.width = width.value_or(1);
     _render_params.height = height.value_or(1);
 }

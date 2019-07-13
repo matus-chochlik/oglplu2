@@ -149,6 +149,7 @@ private:
     template <typename UInt>
     constexpr inline UInt _push_back_to(UInt state, std::size_t i) const
       noexcept {
+        // NOLINTNEXTLINE(hicpp-signed-bitwise)
         return (i < N) ? _push_back_to((state << CHAR_BIT) | _bytes[i], i + 1)
                        : state;
     }

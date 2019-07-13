@@ -382,7 +382,7 @@ def main():
             exec(info_py) in locals()
             options.config_info = system_config_info;
 
-        for_each_profile(options, ["--clean"])
+        for_each_profile(options, ["--clean", "--with-clang-tidy"])
 
     except RuntimeError as rte:
         print("Runtime error: " + str(rte))

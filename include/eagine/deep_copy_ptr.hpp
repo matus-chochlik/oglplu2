@@ -42,9 +42,11 @@ private:
     }
 
 public:
-    deep_copy_ptr() = default;
-    deep_copy_ptr(deep_copy_ptr&&) = default;
-    deep_copy_ptr& operator=(deep_copy_ptr&&) = default;
+    deep_copy_ptr() noexcept = default;
+    ~deep_copy_ptr() noexcept = default;
+
+    deep_copy_ptr(deep_copy_ptr&&) noexcept = default;
+    deep_copy_ptr& operator=(deep_copy_ptr&&) noexcept = default;
 
     deep_copy_ptr(std::unique_ptr<T>&& temp)
       : _base(std::move(temp)) {

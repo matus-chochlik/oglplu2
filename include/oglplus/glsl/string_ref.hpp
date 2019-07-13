@@ -38,7 +38,7 @@ class glsl_literal : public glsl_string_ref {
 public:
     template <span_size_t N>
     glsl_literal(const char (&src_str)[N]) noexcept
-      : glsl_string_ref(src_str, N) {
+      : glsl_string_ref(static_cast<const char*>(src_str), N) {
     }
 };
 //------------------------------------------------------------------------------

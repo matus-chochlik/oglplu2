@@ -10,6 +10,7 @@
 #include "wrapper.hpp"
 #include <oglplus/gl.hpp>
 
+#include <eagine/assert.hpp>
 #include <eagine/program_args.hpp>
 #include <eagine/scope_exit.hpp>
 
@@ -37,7 +38,7 @@ private:
     }
 
     static single_glut_context& instance() {
-        assert(instance_ptr());
+        EAGINE_ASSERT(instance_ptr());
         return *instance_ptr();
     }
 
@@ -53,7 +54,7 @@ public:
       : example(args, params, state)
       , _height(state.height())
       , _wheel(0) {
-        assert(!instance_ptr());
+        EAGINE_ASSERT(!instance_ptr());
         instance_ptr() = this;
 
         glutDisplayFunc(&display_func);
@@ -79,7 +80,7 @@ public:
     single_glut_context& operator=(const single_glut_context&) = delete;
 
     ~single_glut_context() noexcept {
-        assert(instance_ptr());
+        EAGINE_ASSERT(instance_ptr());
         instance_ptr() = nullptr;
     }
 
@@ -163,8 +164,7 @@ private:
     }
 
     void key_press(unsigned char k) {
-        if(k == 0x1B) // Escape
-        {
+        if(k == 0x1B) {
             quit();
         }
         // TODO
@@ -187,6 +187,7 @@ int example_main(
 #if defined(__APPLE__) && __APPLE__
       GLUT_3_2_CORE_PROFILE |
 #endif
+      // NOLINTNEXTLINE(hicpp-signed-bitwise)
       GLUT_DOUBLE | GLUT_RGBA | (params.depth_buffer() ? GLUT_DEPTH : 0) |
       (params.stencil_buffer() ? GLUT_STENCIL : 0));
 #ifdef FREEGLUT

@@ -21,7 +21,10 @@ private:
     output_intf* _output;
 
 public:
-    base_input(base_input&&) = default;
+    base_input(base_input&&) noexcept = default;
+    base_input(const base_input&) = default;
+    base_input& operator=(base_input&&) = delete;
+    base_input& operator=(const base_input&) = delete;
 
     base_input(node_intf& par_node, string_view name_str) noexcept
       : _parent(par_node)

@@ -31,7 +31,7 @@ inline void write_and_pad_texture_image_data_header(
 
     const span_size_t size = 64;
     span_size_t done = 0;
-    static_assert(size >= span_size(sizeof(image_data_header)), "");
+    static_assert(size >= span_size(sizeof(image_data_header)));
 
     eagine::memory::const_address hdraddr(&header);
 

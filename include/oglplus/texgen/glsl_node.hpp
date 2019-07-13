@@ -24,7 +24,7 @@ private:
     slot_data_type _type;
 
 public:
-    glsl_output(node_intf& parent, const std::string&, slot_data_type);
+    glsl_output(node_intf& parent, std::string, slot_data_type);
 
     glsl_output(node_intf& parent)
       : glsl_output(parent, "vec4(0.0)", slot_data_type::float_4) {
@@ -34,8 +34,8 @@ public:
 
     slot_data_type value_type() override;
 
-    std::ostream&
-    definitions(std::ostream& out, compile_context& ctxt) override;
+    std::ostream& definitions(
+      std::ostream& out, compile_context& ctxt) override;
 };
 
 class glsl_node : public multi_input_node {

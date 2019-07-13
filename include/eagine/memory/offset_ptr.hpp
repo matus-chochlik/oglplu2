@@ -10,6 +10,7 @@
 #ifndef EAGINE_MEMORY_OFFSET_PTR_HPP
 #define EAGINE_MEMORY_OFFSET_PTR_HPP
 
+#include "../assert.hpp"
 #include "../extract.hpp"
 #include "../identity.hpp"
 #include "address.hpp"
@@ -61,7 +62,8 @@ private:
     }
 
 public:
-    constexpr inline basic_offset_ptr() noexcept = default;
+    constexpr basic_offset_ptr() noexcept = default;
+    ~basic_offset_ptr() noexcept = default;
 
     explicit constexpr inline basic_offset_ptr(offset_type offs) noexcept
       : _offs{offs} {
@@ -76,6 +78,10 @@ public:
     }
 
     basic_offset_ptr(const basic_offset_ptr& that) noexcept
+      : _offs{_get_offs(that)} {
+    }
+
+    basic_offset_ptr(basic_offset_ptr&& that) noexcept
       : _offs{_get_offs(that)} {
     }
 
@@ -98,6 +104,11 @@ public:
     }
 
     basic_offset_ptr& operator=(const basic_offset_ptr& that) noexcept {
+        _offs = _get_offs(that);
+        return *this;
+    }
+
+    basic_offset_ptr& operator=(basic_offset_ptr&& that) noexcept {
         _offs = _get_offs(that);
         return *this;
     }
@@ -159,22 +170,22 @@ public:
     }
 
     reference operator*() noexcept {
-        assert(!is_null());
+        EAGINE_ASSERT(!is_null());
         return *get();
     }
 
     constexpr const_reference operator*() const noexcept {
-        assert(!is_null());
+        EAGINE_ASSERT(!is_null());
         return *get();
     }
 
     pointer operator->() noexcept {
-        assert(!is_null());
+        EAGINE_ASSERT(!is_null());
         return get();
     }
 
     constexpr const_pointer operator->() const noexcept {
-        assert(!is_null());
+        EAGINE_ASSERT(!is_null());
         return get();
     }
 
@@ -187,12 +198,12 @@ public:
     }
 
     reference operator[](offset_type index) noexcept {
-        assert(!is_null());
+        EAGINE_ASSERT(!is_null());
         return get()[index];
     }
 
     constexpr const_reference operator[](offset_type index) const noexcept {
-        assert(!is_null());
+        EAGINE_ASSERT(!is_null());
         return get()[index];
     }
 };

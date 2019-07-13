@@ -9,12 +9,12 @@
 #ifndef EAGINE_ECS_REL_STORAGE_HPP
 #define EAGINE_ECS_REL_STORAGE_HPP
 
+#include "../assert.hpp"
 #include "../callable_ref.hpp"
 #include "entity_traits.hpp"
 #include "manipulator.hpp"
 #include "storage_caps.hpp"
 #include "storage_fwd.hpp"
-#include <cassert>
 
 namespace eagine {
 namespace ecs {
@@ -42,7 +42,7 @@ private:
 public:
     storage_iterator(storage_iterator_intf<Entity, true>* i) noexcept
       : _i(i) {
-        assert(_i);
+        EAGINE_ASSERT(_i);
     }
 
     storage_iterator(const storage_iterator&) = delete;
@@ -53,7 +53,7 @@ public:
     }
 
     ~storage_iterator() noexcept {
-        assert(_i == nullptr);
+        EAGINE_ASSERT(_i == nullptr);
     }
 
     storage_iterator_intf<Entity, true>* release() {
@@ -63,12 +63,12 @@ public:
     }
 
     storage_iterator_intf<Entity, true>* ptr() noexcept {
-        assert(_i);
+        EAGINE_ASSERT(_i);
         return _i;
     }
 
     storage_iterator_intf<Entity, true>& get() noexcept {
-        assert(_i);
+        EAGINE_ASSERT(_i);
         return *_i;
     }
 

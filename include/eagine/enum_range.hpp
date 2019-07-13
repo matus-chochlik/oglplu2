@@ -10,10 +10,10 @@
 #ifndef EAGINE_ENUM_RANGE_HPP
 #define EAGINE_ENUM_RANGE_HPP
 
+#include "assert.hpp"
 #include "enum_class.hpp"
 #include "iterator.hpp"
 #include "memory/span.hpp"
-#include <cassert>
 #include <cstdint>
 #include <utility>
 
@@ -41,7 +41,7 @@ public:
     explicit enumerated_value_range(memory::span<const T> v) noexcept
       : _begin(v.data())
       , _end(v.data() + v.size()) {
-        assert(_begin <= _end);
+        EAGINE_ASSERT(_begin <= _end);
     }
 
     explicit enumerated_value_range(

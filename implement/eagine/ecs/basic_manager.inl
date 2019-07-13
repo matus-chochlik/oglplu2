@@ -51,7 +51,7 @@ storage<Entity, Data, IsR>& basic_manager<Entity>::_find_storage() {
         auto& b_storage = *pb_storage;
         if(b_storage) {
             pd_storage = dynamic_cast<S*>(b_storage.get());
-            assert(pd_storage);
+            EAGINE_ASSERT(pd_storage);
         }
     }
     if(!pd_storage) {
@@ -68,7 +68,7 @@ inline void basic_manager<Entity>::_do_reg_stg_type(
   std::unique_ptr<base_storage<Entity, IsRelation>>&& storage,
   component_uid_t cid,
   std::string (*get_name)()) {
-    assert(bool(storage));
+    EAGINE_ASSERT(bool(storage));
 
     auto& storages = _get_storages<IsRelation>();
     auto p_storage = storages.find(cid);
@@ -138,7 +138,7 @@ inline Result basic_manager<Entity>::_apply_on_stg(
           using S = storage<Entity, Component, IsRelation>;
 
           S* ct_storage = dynamic_cast<S*>(b_storage.get());
-          assert(ct_storage);
+          EAGINE_ASSERT(ct_storage);
 
           return func(ct_storage);
       },
@@ -309,7 +309,7 @@ template <typename Entity>
 template <typename T, typename C>
 inline T basic_manager<Entity>::_do_get_c(
   T C::*mvp, entity_param_t<Entity> ent, T res) {
-    assert(mvp);
+    EAGINE_ASSERT(mvp);
 
     using MC = manipulator<const C>;
 
@@ -366,7 +366,8 @@ protected:
       : _storage(storage)
       , _iter(_storage.new_iterator())
       , _curr(_iter.done() ? Entity() : _iter.current()) {
-        assert(std::is_const<C>::value || _storage.capabilities().can_modify());
+        EAGINE_ASSERT(
+          std::is_const<C>::value || _storage.capabilities().can_modify());
     }
 
     ~_manager_for_each_c_m_base() {
@@ -458,7 +459,7 @@ public:
                 this->_store(m, std::move(cadd));
             }
         } else {
-            assert(m == this->_current());
+            EAGINE_ASSERT(m == this->_current());
             callable_ref<void(entity_param_t<Entity>, manipulator<C>&)> hlpr(
               [&clm..., this](entity_param_t<Entity> e, manipulator<C>& cm) {
                   _func(e, clm..., cm);
@@ -499,7 +500,7 @@ public:
 
     Entity min_entity() {
         if(_rest.done()) {
-            assert(!this->_done());
+            EAGINE_ASSERT(!this->_done());
             return this->_current();
         }
 
@@ -524,7 +525,7 @@ public:
                 this->_store(m, std::move(cadd));
             }
         } else {
-            assert(m == this->_current());
+            EAGINE_ASSERT(m == this->_current());
             callable_ref<void(entity_param_t<Entity>, manipulator<C>&)> hlpr(
               [&clm..., this](entity_param_t<Entity> e, manipulator<C>& cm) {
                   _rest.apply(e, clm..., cm);
@@ -535,7 +536,7 @@ public:
 
     void apply() {
         static_assert(sizeof...(CL) == 0, "");
-        assert(!done());
+        EAGINE_ASSERT(!done());
 
         apply(min_entity());
     }
@@ -627,7 +628,7 @@ public:
     }
 
     void apply(entity_param_t<Entity> m, manipulator<CL>&... clm) {
-        assert(m == this->_current());
+        EAGINE_ASSERT(m == this->_current());
         callable_ref<void(entity_param_t<Entity>, manipulator<C>&)> hlpr(
           [&clm..., this](entity_param_t<Entity> e, manipulator<C>& cm) {
               _func(e, clm..., cm);
@@ -680,7 +681,7 @@ public:
     }
 
     void apply(entity_param_t<Entity> m, manipulator<CL>&... clm) {
-        assert(m == this->_current());
+        EAGINE_ASSERT(m == this->_current());
         callable_ref<void(entity_param_t<Entity>, manipulator<C>&)> hlpr(
           [&clm..., this](entity_param_t<Entity> e, manipulator<C>& cm) {
               _rest.apply(e, clm..., cm);
@@ -690,7 +691,7 @@ public:
 
     void apply() {
         static_assert(sizeof...(CL) == 0, "");
-        assert(!done());
+        EAGINE_ASSERT(!done());
 
         apply(max_entity());
     }

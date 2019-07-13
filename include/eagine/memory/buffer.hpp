@@ -10,6 +10,7 @@
 #ifndef EAGINE_MEMORY_BUFFER_HPP
 #define EAGINE_MEMORY_BUFFER_HPP
 
+#include "../assert.hpp"
 #include "block.hpp"
 #include "default_alloc.hpp"
 #include "shared_alloc.hpp"
@@ -47,7 +48,10 @@ public:
       : buffer(alignof(long double)) {
     }
 
+    buffer(buffer&&) noexcept = default;
     buffer(const buffer&) = delete;
+    buffer& operator=(const buffer&) = delete;
+    buffer& operator=(buffer&&) = delete;
 
     ~buffer() noexcept {
         free();
@@ -73,13 +77,13 @@ public:
         if(capacity() < new_size) {
             _reallocate(new_size);
         }
-        assert(_is_ok());
+        EAGINE_ASSERT(_is_ok());
     }
 
     void resize(span_size_t new_size) {
         reserve(new_size);
         _size = new_size;
-        assert(_is_ok());
+        EAGINE_ASSERT(_is_ok());
     }
 
     void free() {
@@ -88,12 +92,12 @@ public:
     }
 
     operator block() noexcept {
-        assert(_is_ok());
+        EAGINE_ASSERT(_is_ok());
         return {_storage.begin(), _size};
     }
 
     operator const_block() const noexcept {
-        assert(_is_ok());
+        EAGINE_ASSERT(_is_ok());
         return {_storage.begin(), _size};
     }
 };

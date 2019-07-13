@@ -10,6 +10,7 @@
 #ifndef EAGINE_OPTIONAL_EXPR_HPP
 #define EAGINE_OPTIONAL_EXPR_HPP
 
+#include "assert.hpp"
 #include "valid_if/decl.hpp"
 
 namespace eagine {
@@ -85,7 +86,7 @@ public:
     }
 
     auto value() const {
-        assert(is_valid());
+        EAGINE_ASSERT(is_valid());
         return _self().evaluate();
     }
 
@@ -115,8 +116,8 @@ public:
 };
 
 template <typename T1, typename T2, typename P2>
-static inline optional_binary_slash_expr<T1, valid_if<T2, P2>>
-operator/(const T1& v1, const valid_if<T2, P2>& v2) noexcept {
+static inline optional_binary_slash_expr<T1, valid_if<T2, P2>> operator/(
+  const T1& v1, const valid_if<T2, P2>& v2) noexcept {
     return {v1, v2};
 }
 

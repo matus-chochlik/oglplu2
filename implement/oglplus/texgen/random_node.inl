@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/assert.hpp>
 #include <eagine/math/constants.hpp>
-#include <cassert>
 #include <iostream>
 #include <string>
 
@@ -28,16 +28,17 @@ string_view random_output::type_name() {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 slot_data_type random_output::value_type() {
-    assert(dims >= 1 && dims <= 4);
+    EAGINE_ASSERT(dims >= 1 && dims <= 4);
     return make_data_type(scalar_data_type::float_, dims);
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-random_output::definitions(std::ostream& out, compile_context& ctxt) {
-    if(already_defined(ctxt))
+std::ostream& random_output::definitions(
+  std::ostream& out, compile_context& ctxt) {
+    if(already_defined(ctxt)) {
         return out;
-    assert(dims >= 1 && dims <= 4);
+    }
+    EAGINE_ASSERT(dims >= 1 && dims <= 4);
 
     input_defs(out, ctxt);
     opening_expr(out, ctxt);
@@ -77,8 +78,9 @@ random_output::definitions(std::ostream& out, compile_context& ctxt) {
     for(span_size_t d = 0; d < dims; ++d) {
         out << "\t\tfract(sin(dot(s*c" << d;
         out << ", m)) * 43758.5453)";
-        if(d + 1 < dims)
+        if(d + 1 < dims) {
             out << ",";
+        }
         out << std::endl;
     }
     out << "\t);" << std::endl;

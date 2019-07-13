@@ -7,15 +7,15 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #ifdef GL_ARB_compatibility
+#include <eagine/assert.hpp>
 #include <oglplus/utils/gl_func.hpp>
-#include <cassert>
 
 namespace oglplus {
 //------------------------------------------------------------------------------
 namespace oper {
 //------------------------------------------------------------------------------
-inline outcome<void>
-compatibility_matrix::matrix_mode(old_matrix_mode mode) noexcept {
+inline outcome<void> compatibility_matrix::matrix_mode(
+  old_matrix_mode mode) noexcept {
     OGLPLUS_GLFUNC(MatrixMode)(GLenum(mode));
     OGLPLUS_VERIFY_SIMPLE(MatrixMode, debug);
     return {};
@@ -28,8 +28,8 @@ inline outcome<void> compatibility_matrix::push_matrix() noexcept {
 }
 //------------------------------------------------------------------------------
 #ifdef GL_EXT_direct_state_access
-inline outcome<void>
-compatibility_matrix::push_matrix(old_matrix_mode mode) noexcept {
+inline outcome<void> compatibility_matrix::push_matrix(
+  old_matrix_mode mode) noexcept {
     OGLPLUS_GLFUNC(MatrixPushEXT)(GLenum(mode));
     OGLPLUS_VERIFY_SIMPLE(MatrixPushEXT, debug);
     return {};
@@ -43,8 +43,8 @@ inline outcome<void> compatibility_matrix::pop_matrix() noexcept {
 }
 //------------------------------------------------------------------------------
 #ifdef GL_EXT_direct_state_access
-inline outcome<void>
-compatibility_matrix::pop_matrix(old_matrix_mode mode) noexcept {
+inline outcome<void> compatibility_matrix::pop_matrix(
+  old_matrix_mode mode) noexcept {
     OGLPLUS_GLFUNC(MatrixPopEXT)(GLenum(mode));
     OGLPLUS_VERIFY_SIMPLE(MatrixPopEXT, debug);
     return {};
@@ -58,17 +58,17 @@ inline outcome<void> compatibility_matrix::load_identity() noexcept {
 }
 //------------------------------------------------------------------------------
 #ifdef GL_EXT_direct_state_access
-inline outcome<void>
-compatibility_matrix::load_identity(old_matrix_mode mode) noexcept {
+inline outcome<void> compatibility_matrix::load_identity(
+  old_matrix_mode mode) noexcept {
     OGLPLUS_GLFUNC(MatrixLoadIdentityEXT)(GLenum(mode));
     OGLPLUS_VERIFY_SIMPLE(MatrixLoadIdentityEXT, debug);
     return {};
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-compatibility_matrix::load_matrix(span<const GLfloat> mat) noexcept {
-    assert(mat.size() >= 16);
+inline outcome<void> compatibility_matrix::load_matrix(
+  span<const GLfloat> mat) noexcept {
+    EAGINE_ASSERT(mat.size() >= 16);
     OGLPLUS_GLFUNC(LoadMatrixf)(mat.data());
     OGLPLUS_VERIFY_SIMPLE(LoadMatrixf, debug);
     return {};
@@ -77,16 +77,16 @@ compatibility_matrix::load_matrix(span<const GLfloat> mat) noexcept {
 #ifdef GL_EXT_direct_state_access
 inline outcome<void> compatibility_matrix::load_matrix(
   old_matrix_mode mode, span<const GLfloat> mat) noexcept {
-    assert(mat.size() >= 16);
+    EAGINE_ASSERT(mat.size() >= 16);
     OGLPLUS_GLFUNC(MatrixLoadfEXT)(GLenum(mode), mat.data());
     OGLPLUS_VERIFY_SIMPLE(MatrixLoadfEXT, debug);
     return {};
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-compatibility_matrix::load_transpose_matrix(span<const GLfloat> mat) noexcept {
-    assert(mat.size() >= 16);
+inline outcome<void> compatibility_matrix::load_transpose_matrix(
+  span<const GLfloat> mat) noexcept {
+    EAGINE_ASSERT(mat.size() >= 16);
     OGLPLUS_GLFUNC(LoadTransposeMatrixf)(mat.data());
     OGLPLUS_VERIFY_SIMPLE(LoadTransposeMatrixf, debug);
     return {};
@@ -95,16 +95,16 @@ compatibility_matrix::load_transpose_matrix(span<const GLfloat> mat) noexcept {
 #ifdef GL_EXT_direct_state_access
 inline outcome<void> compatibility_matrix::load_transpose_matrix(
   old_matrix_mode mode, span<const GLfloat> mat) noexcept {
-    assert(mat.size() >= 16);
+    EAGINE_ASSERT(mat.size() >= 16);
     OGLPLUS_GLFUNC(MatrixLoadTransposefEXT)(GLenum(mode), mat.data());
     OGLPLUS_VERIFY_SIMPLE(MatrixLoadTransposefEXT, debug);
     return {};
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-compatibility_matrix::load_matrix(span<const GLdouble> mat) noexcept {
-    assert(mat.size() >= 16);
+inline outcome<void> compatibility_matrix::load_matrix(
+  span<const GLdouble> mat) noexcept {
+    EAGINE_ASSERT(mat.size() >= 16);
     OGLPLUS_GLFUNC(LoadMatrixd)(mat.data());
     OGLPLUS_VERIFY_SIMPLE(LoadMatrixd, debug);
     return {};
@@ -113,16 +113,16 @@ compatibility_matrix::load_matrix(span<const GLdouble> mat) noexcept {
 #ifdef GL_EXT_direct_state_access
 inline outcome<void> compatibility_matrix::load_matrix(
   old_matrix_mode mode, span<const GLdouble> mat) noexcept {
-    assert(mat.size() >= 16);
+    EAGINE_ASSERT(mat.size() >= 16);
     OGLPLUS_GLFUNC(MatrixLoaddEXT)(GLenum(mode), mat.data());
     OGLPLUS_VERIFY_SIMPLE(MatrixLoaddEXT, debug);
     return {};
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-compatibility_matrix::load_transpose_matrix(span<const GLdouble> mat) noexcept {
-    assert(mat.size() >= 16);
+inline outcome<void> compatibility_matrix::load_transpose_matrix(
+  span<const GLdouble> mat) noexcept {
+    EAGINE_ASSERT(mat.size() >= 16);
     OGLPLUS_GLFUNC(LoadTransposeMatrixd)(mat.data());
     OGLPLUS_VERIFY_SIMPLE(LoadTransposeMatrixd, debug);
     return {};
@@ -137,8 +137,8 @@ inline outcome<void> compatibility_matrix::load_transpose_matrix(
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-compatibility_matrix::translate_f(GLfloat x, GLfloat y, GLfloat z) noexcept {
+inline outcome<void> compatibility_matrix::translate_f(
+  GLfloat x, GLfloat y, GLfloat z) noexcept {
     OGLPLUS_GLFUNC(Translatef)(x, y, z);
     OGLPLUS_VERIFY_SIMPLE(Translatef, debug);
     return {};
@@ -153,8 +153,8 @@ inline outcome<void> compatibility_matrix::translate_f(
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-compatibility_matrix::translate_d(GLdouble x, GLdouble y, GLdouble z) noexcept {
+inline outcome<void> compatibility_matrix::translate_d(
+  GLdouble x, GLdouble y, GLdouble z) noexcept {
     OGLPLUS_GLFUNC(Translated)(x, y, z);
     OGLPLUS_VERIFY_SIMPLE(Translated, debug);
     return {};
@@ -209,8 +209,8 @@ inline outcome<void> compatibility_matrix::rotate_d(
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-compatibility_matrix::scale_f(GLfloat x, GLfloat y, GLfloat z) noexcept {
+inline outcome<void> compatibility_matrix::scale_f(
+  GLfloat x, GLfloat y, GLfloat z) noexcept {
     OGLPLUS_GLFUNC(Scalef)(x, y, z);
     OGLPLUS_VERIFY_SIMPLE(Scalef, debug);
     return {};
@@ -225,8 +225,8 @@ inline outcome<void> compatibility_matrix::scale_f(
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-compatibility_matrix::scale_d(GLdouble x, GLdouble y, GLdouble z) noexcept {
+inline outcome<void> compatibility_matrix::scale_d(
+  GLdouble x, GLdouble y, GLdouble z) noexcept {
     OGLPLUS_GLFUNC(Scaled)(x, y, z);
     OGLPLUS_VERIFY_SIMPLE(Scaled, debug);
     return {};

@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/assert.hpp>
 #include <eagine/maybe_unused.hpp>
-#include <cassert>
 #include <iostream>
 #include <string>
 
@@ -41,8 +41,9 @@ slot_data_type split_output::value_type() {
 OGLPLUS_LIB_FUNC
 std::ostream& split_output::definitions(
   std::ostream& out, compile_context& ctxt) {
-    if(already_defined(ctxt))
+    if(already_defined(ctxt)) {
         return out;
+    }
 
     input_defs(out, ctxt);
     opening_expr(out, ctxt);
@@ -83,7 +84,7 @@ span_size_t split_node::input_count() {
 OGLPLUS_LIB_FUNC
 input_intf& split_node::input(span_size_t index) {
     EAGINE_MAYBE_UNUSED(index);
-    assert(index < input_count());
+    EAGINE_ASSERT(index < input_count());
     return _input;
 }
 //------------------------------------------------------------------------------
@@ -94,13 +95,16 @@ span_size_t split_node::output_count() {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 output_intf& split_node::output(span_size_t index) {
-    if(index == 0)
+    if(index == 0) {
         return _output_r;
-    if(index == 1)
+    }
+    if(index == 1) {
         return _output_g;
-    if(index == 2)
+    }
+    if(index == 2) {
         return _output_b;
-    assert(index < output_count());
+    }
+    EAGINE_ASSERT(index < output_count());
     return _output_a;
 }
 //------------------------------------------------------------------------------

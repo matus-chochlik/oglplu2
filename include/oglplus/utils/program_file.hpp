@@ -16,6 +16,7 @@
 #include "program_file_hdr.hpp"
 #include "span.hpp"
 #include "string_span.hpp"
+#include <eagine/assert.hpp>
 #include <eagine/file_contents.hpp>
 
 namespace oglplus {
@@ -38,18 +39,18 @@ public:
     }
 
     auto shader_type() const noexcept {
-        assert(is_valid());
+        EAGINE_ASSERT(is_valid());
         return oglplus::shader_type(_header->shader_type);
     }
 
     string_view source_text() const noexcept {
-        assert(is_valid());
+        EAGINE_ASSERT(is_valid());
         return {
           _header->source_text.data(), span_size(_header->source_text.size())};
     }
 
     operator glsl_source_ref() const noexcept {
-        assert(is_valid());
+        EAGINE_ASSERT(is_valid());
         return glsl_source_ref(_header->source_text);
     }
 };
@@ -86,26 +87,26 @@ public:
     }
 
     span_size_t shader_source_count() const noexcept {
-        assert(is_valid());
+        EAGINE_ASSERT(is_valid());
         return _header->shader_sources.size();
     }
 
     shader_source_block shader_source(span_size_t index) const noexcept {
-        assert(is_valid());
-        assert(index < _header->shader_sources.size());
+        EAGINE_ASSERT(is_valid());
+        EAGINE_ASSERT(index < _header->shader_sources.size());
         return {_header->shader_sources[index]};
     }
 
     oglplus::shader_type shader_type(span_size_t index) const noexcept {
-        assert(is_valid());
-        assert(index < shader_source_count());
+        EAGINE_ASSERT(is_valid());
+        EAGINE_ASSERT(index < shader_source_count());
         return oglplus::shader_type(
           _header->shader_sources[index]->shader_type);
     }
 
     string_view shader_source_text(span_size_t index) const noexcept {
-        assert(is_valid());
-        assert(index < shader_source_count());
+        EAGINE_ASSERT(is_valid());
+        EAGINE_ASSERT(index < shader_source_count());
         return {_header->shader_sources[index]->source_text};
     }
 };

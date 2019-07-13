@@ -33,16 +33,19 @@ private:
     void _init_screen();
     void _update_program();
 
-    bool _needs_update;
+    bool _needs_update{false};
 
     int _xdiv{1}, _ydiv{1}, _tile{0};
 
     unsigned _render_version{0};
-    render_params _render_params;
+    render_params _render_params{};
 
 public:
     render_node();
+    render_node(render_node&&) noexcept = default;
     render_node(const render_node&) = delete;
+    render_node& operator=(render_node&&) = delete;
+    render_node& operator=(const render_node&) = delete;
     ~render_node() override;
 
     std::ostream& make_fragment_shader_source(std::ostream&, compile_context&);
@@ -64,11 +67,12 @@ public:
     bool render();
 
     void set_divisions(
-      eagine::valid_if_positive<int> xdiv, eagine::valid_if_positive<int> ydiv);
+      const eagine::valid_if_positive<int>& xdiv,
+      const eagine::valid_if_positive<int>& ydiv);
 
     void set_dimensions(
-      eagine::valid_if_positive<int> width,
-      eagine::valid_if_positive<int> height);
+      const eagine::valid_if_positive<int>& width,
+      const eagine::valid_if_positive<int>& height);
 };
 
 } // namespace texgen

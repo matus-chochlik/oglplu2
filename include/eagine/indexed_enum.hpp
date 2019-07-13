@@ -10,6 +10,8 @@
 #ifndef EAGINE_INDEXED_ENUM_HPP
 #define EAGINE_INDEXED_ENUM_HPP
 
+#include "assert.hpp"
+
 namespace eagine {
 
 template <typename T, T Base, unsigned LibId>
@@ -36,7 +38,7 @@ struct indexed_enum_value {
     constexpr indexed_enum_value(
       const any_indexed_enum_value<T, LibId>& aiev) noexcept
       : _index(aiev._index) {
-        assert(aiev._base_id == Base);
+        EAGINE_ASSERT(aiev._base_id == Base);
     }
 
     // this constructor is used by the operator+(indexed_enum_value, index)

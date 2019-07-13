@@ -29,10 +29,11 @@ slot_data_type coord_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-coord_output::definitions(std::ostream& out, compile_context& context) {
-    if(already_defined(context))
+std::ostream& coord_output::definitions(
+  std::ostream& out, compile_context& context) {
+    if(already_defined(context)) {
         return out;
+    }
 
     input_defs(out, context);
     opening_expr(out, context);

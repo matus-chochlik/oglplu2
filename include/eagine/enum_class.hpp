@@ -10,8 +10,8 @@
 #ifndef EAGINE_ENUM_CLASS_HPP
 #define EAGINE_ENUM_CLASS_HPP
 
+#include "assert.hpp"
 #include "mp_list.hpp"
-#include <cassert>
 #include <type_traits>
 
 namespace eagine {
@@ -61,7 +61,7 @@ struct enum_class {
 
     constexpr enum_class(const any_enum_value<LibId>& aev) noexcept
       : _value(static_cast<T>(aev._value)) {
-        assert(aev._type_id == Id);
+        EAGINE_ASSERT(aev._type_id == Id);
     }
 
     explicit constexpr inline enum_class(value_type value) noexcept

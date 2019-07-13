@@ -6,7 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <cassert>
+#include <eagine/assert.hpp>
 #include <iostream>
 
 namespace oglplus {
@@ -25,12 +25,12 @@ render_graph::~render_graph() {
 OGLPLUS_LIB_FUNC
 void render_graph::disconnect_all() {
     for(std::unique_ptr<node_intf>& node : _anon_nodes) {
-        assert(node);
+        EAGINE_ASSERT(node);
         node->disconnect_all();
     }
     for(auto& p : _nodes) {
         std::unique_ptr<node_intf>& node = p.second;
-        assert(node);
+        EAGINE_ASSERT(node);
         node->disconnect_all();
     }
     renderer().disconnect_all();
@@ -44,18 +44,19 @@ void render_graph::add_anonymous_node(std::unique_ptr<node_intf>&& node) {
 OGLPLUS_LIB_FUNC
 void render_graph::add_node(
   std::string name, std::unique_ptr<node_intf>&& node) {
-    _nodes[name] = std::move(node);
+    _nodes[std::move(name)] = std::move(node);
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 render_node& render_graph::renderer() {
-    assert(_render_node);
+    EAGINE_ASSERT(_render_node);
     return *_render_node;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void render_graph::set_dimensions(
-  eagine::valid_if_positive<int> w, eagine::valid_if_positive<int> h) {
+  const eagine::valid_if_positive<int>& w,
+  const eagine::valid_if_positive<int>& h) {
     renderer().set_dimensions(w, h);
 }
 //------------------------------------------------------------------------------
@@ -65,20 +66,20 @@ void render_graph::render() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-eagine::optional_reference_wrapper<node_intf>
-render_graph::find_node(const std::string& node_name) {
+eagine::optional_reference_wrapper<node_intf> render_graph::find_node(
+  const std::string& node_name) {
     auto pos = _nodes.find(node_name);
     if(pos != _nodes.end()) {
         std::unique_ptr<node_intf>& node = pos->second;
-        assert(node);
+        EAGINE_ASSERT(node);
         return *node.get();
     }
     return eagine::nothing;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-eagine::optional_reference_wrapper<input_intf>
-render_graph::find_node_input(node_intf& node, span_size_t index) {
+eagine::optional_reference_wrapper<input_intf> render_graph::find_node_input(
+  node_intf& node, span_size_t index) {
     if(index < node.input_count()) {
         return node.input(index);
     }
@@ -86,8 +87,8 @@ render_graph::find_node_input(node_intf& node, span_size_t index) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-eagine::optional_reference_wrapper<output_intf>
-render_graph::find_node_output(node_intf& node, span_size_t index) {
+eagine::optional_reference_wrapper<output_intf> render_graph::find_node_output(
+  node_intf& node, span_size_t index) {
     if(index < node.output_count()) {
         return node.output(index);
     }
@@ -95,20 +96,20 @@ render_graph::find_node_output(node_intf& node, span_size_t index) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-eagine::optional_reference_wrapper<input_intf>
-render_graph::find_node_input(node_intf& node, string_view iname) {
+eagine::optional_reference_wrapper<input_intf> render_graph::find_node_input(
+  node_intf& node, string_view iname) {
     return node.input_by_name(iname);
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-eagine::optional_reference_wrapper<output_intf>
-render_graph::find_node_output(node_intf& node, string_view oname) {
+eagine::optional_reference_wrapper<output_intf> render_graph::find_node_output(
+  node_intf& node, string_view oname) {
     return node.output_by_name(oname);
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-eagine::optional_reference_wrapper<input_intf>
-render_graph::find_node_input(const std::string& node_name, span_size_t index) {
+eagine::optional_reference_wrapper<input_intf> render_graph::find_node_input(
+  const std::string& node_name, span_size_t index) {
     if(auto node = find_node(node_name)) {
         return find_node_input(node.get(), index);
     }
@@ -125,8 +126,8 @@ eagine::optional_reference_wrapper<output_intf> render_graph::find_node_output(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-eagine::optional_reference_wrapper<input_intf>
-render_graph::find_node_input(const std::string& node_name, string_view iname) {
+eagine::optional_reference_wrapper<input_intf> render_graph::find_node_input(
+  const std::string& node_name, string_view iname) {
     if(auto node = find_node(node_name)) {
         return find_node_input(node.get(), iname);
     }

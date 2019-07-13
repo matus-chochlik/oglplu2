@@ -65,7 +65,7 @@ public:
     }
 
     T& get() const noexcept {
-        assert(_ref != nullptr);
+        EAGINE_ASSERT(_ref != nullptr);
         return *_ref;
     }
 
@@ -92,7 +92,13 @@ protected:
 
 public:
     basic_outcome() = default;
-    basic_outcome(basic_outcome&&) = default;
+    basic_outcome(basic_outcome&&) noexcept(
+      std::is_nothrow_move_constructible_v<
+        cancelled_handler<ErrorData, HandlerPolicy>>) = default;
+    basic_outcome(const basic_outcome&) = delete;
+    basic_outcome& operator=(basic_outcome&&) = delete;
+    basic_outcome& operator=(const basic_outcome&) = delete;
+    ~basic_outcome() = default;
 
     constexpr basic_outcome(
       cancelled_handler<ErrorData, HandlerPolicy>&& handler) noexcept
@@ -129,7 +135,13 @@ private:
     basic_outcome_storage<T> _value;
 
 public:
-    basic_outcome(basic_outcome&&) = default;
+    basic_outcome(basic_outcome&&) noexcept(
+      std::is_nothrow_move_constructible_v<
+        cancelled_handler<ErrorData, HandlerPolicy>>) = default;
+    basic_outcome(const basic_outcome&) = delete;
+    basic_outcome& operator=(basic_outcome&&) = delete;
+    basic_outcome& operator=(const basic_outcome&) = delete;
+    ~basic_outcome() = default;
 
     basic_outcome(
       cancelled_handler<ErrorData, HandlerPolicy>&& handler,
@@ -138,21 +150,26 @@ public:
       , _value(std::move(val_stor)) {
     }
 
-    T value() {
-        assert(this->succeeded());
+    T value() noexcept {
+        EAGINE_ASSERT(this->succeeded());
         return _value.get();
     }
 
-    T value_or(const T& fallback) {
+    T value_or(const T& fallback) noexcept {
         return EAGINE_LIKELY(this->succeeded()) ? _value.get() : fallback;
     }
 
-    T&& rvalue() {
-        assert(this->succeeded());
+    T&& rvalue() noexcept {
+        EAGINE_ASSERT(this->succeeded());
         return std::move(_value.ref());
     }
 
-    operator T &&() {
+    T&& release_value() noexcept {
+        EAGINE_ASSERT(this->succeeded());
+        return std::move(_value.ref());
+    }
+
+    operator T &&() noexcept {
         return rvalue();
     }
 
@@ -171,7 +188,13 @@ protected:
 
 public:
     basic_outcome() = default;
-    basic_outcome(basic_outcome&&) = default;
+    basic_outcome(basic_outcome&&) noexcept(
+      std::is_nothrow_move_constructible_v<
+        cancelled_handler<ErrorData, HandlerPolicy>>) = default;
+    basic_outcome(const basic_outcome&) = delete;
+    basic_outcome& operator=(basic_outcome&&) = delete;
+    basic_outcome& operator=(const basic_outcome&) = delete;
+    ~basic_outcome() = default;
 
     constexpr basic_outcome(
       deferred_handler<ErrorData, HandlerPolicy>&& handler) noexcept
@@ -233,7 +256,13 @@ private:
     basic_outcome_storage<T> _value;
 
 public:
-    basic_outcome(basic_outcome&&) = default;
+    basic_outcome(basic_outcome&&) noexcept(
+      std::is_nothrow_move_constructible_v<
+        cancelled_handler<ErrorData, HandlerPolicy>>) = default;
+    basic_outcome(const basic_outcome&) = delete;
+    basic_outcome& operator=(basic_outcome&&) = delete;
+    basic_outcome& operator=(const basic_outcome&) = delete;
+    ~basic_outcome() = default;
 
     constexpr basic_outcome(
       deferred_handler<ErrorData, HandlerPolicy>&& handler) noexcept
@@ -292,6 +321,11 @@ public:
         return std::move(_value.ref());
     }
 
+    T&& release_value() noexcept {
+        EAGINE_ASSERT(this->succeeded());
+        return std::move(_value.ref());
+    }
+
     operator T &&() {
         return rvalue();
     }
@@ -314,21 +348,23 @@ template <typename ErrorData, typename HandlerPolicy>
 }
 
 template <typename T, typename U, typename ErrorData, typename HandlerPolicy>
-static inline basic_outcome<T, ErrorData, HandlerPolicy> outcome_cast(
-  basic_outcome<U, ErrorData, HandlerPolicy>&& that) noexcept {
+static inline basic_outcome<T, ErrorData, HandlerPolicy>
+outcome_cast(basic_outcome<U, ErrorData, HandlerPolicy>&& that) noexcept(
+  std::is_nothrow_move_constructible_v<T>&& noexcept(T(std::declval<U>()))) {
     if(that.failed()) {
         return {that.release_handler()};
     }
-    return {T(that.value())};
+    return {T(that.release_value())};
 }
 
 template <typename T, typename U, typename ErrorData, typename HandlerPolicy>
 static inline basic_outcome<T, ErrorData, HandlerPolicy> outcome_conversion(
-  basic_outcome<U, ErrorData, HandlerPolicy>&& that, T (*convert)(U)) noexcept {
+  basic_outcome<U, ErrorData, HandlerPolicy>&& that,
+  T (*convert)(U) noexcept) noexcept {
     if(that.failed()) {
         return {that.release_handler()};
     }
-    return {convert(that.value())};
+    return {convert(that.release_value())};
 }
 
 template <typename T, typename ErrorData, typename HandlerPolicy, typename Func>

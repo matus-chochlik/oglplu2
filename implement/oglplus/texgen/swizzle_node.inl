@@ -16,10 +16,12 @@ namespace texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 bool is_valid_swizzle(string_view swizzle) noexcept {
-    if(swizzle.size() < 1)
+    if(swizzle.size() < 1) {
         return false;
-    if(swizzle.size() > 4)
+    }
+    if(swizzle.size() > 4) {
         return false;
+    }
 
     const std::string rgba("rgba");
     const std::string xyzw("xyzw");
@@ -28,12 +30,13 @@ bool is_valid_swizzle(string_view swizzle) noexcept {
     string_view::size_type rgba_c = 0, xyzw_c = 0, stpq_c = 0;
 
     for(char c : swizzle) {
-        if(rgba.find(c) != std::string::npos)
+        if(rgba.find(c) != std::string::npos) {
             ++rgba_c;
-        else if(xyzw.find(c) != std::string::npos)
+        } else if(xyzw.find(c) != std::string::npos) {
             ++xyzw_c;
-        else if(stpq.find(c) != std::string::npos)
+        } else if(stpq.find(c) != std::string::npos) {
             ++stpq_c;
+        }
     }
 
     return (swizzle.size() == rgba_c) || (swizzle.size() == xyzw_c) ||
@@ -41,9 +44,9 @@ bool is_valid_swizzle(string_view swizzle) noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-swizzle_output::swizzle_output(node_intf& parent, const std::string& swiz)
+swizzle_output::swizzle_output(node_intf& parent, std::string swiz)
   : base_output(parent)
-  , swizzle(swiz)
+  , swizzle(std::move(swiz))
   , input(parent, string_view("Input"), 0.5f, 0.5f, 0.5f, 0.5f) {
 }
 //------------------------------------------------------------------------------
@@ -64,10 +67,11 @@ slot_data_type swizzle_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-swizzle_output::definitions(std::ostream& out, compile_context& ctxt) {
-    if(already_defined(ctxt))
+std::ostream& swizzle_output::definitions(
+  std::ostream& out, compile_context& ctxt) {
+    if(already_defined(ctxt)) {
         return out;
+    }
 
     input_defs(out, ctxt);
     opening_expr(out, ctxt);

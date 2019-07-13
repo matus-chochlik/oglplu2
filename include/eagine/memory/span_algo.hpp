@@ -284,7 +284,7 @@ template <
   typename ST>
 static inline basic_span<TT, PT, ST> copy(
   basic_span<TF, PF, SF> from, basic_span<TT, PT, ST> to) {
-    assert(from.size() <= to.size());
+    EAGINE_ASSERT(from.size() <= to.size());
     std::copy(from.begin(), from.end(), to.begin());
     return head(to, from.size());
 }

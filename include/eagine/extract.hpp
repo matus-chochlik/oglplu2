@@ -21,7 +21,7 @@ class extracted {
 public:
     constexpr extracted() noexcept = default;
 
-    constexpr extracted(T* ref) noexcept
+    explicit constexpr extracted(T* ref) noexcept
       : _ref{ref} {
     }
 

@@ -10,11 +10,11 @@
 #ifndef EAGINE_STRING_LIST_HPP
 #define EAGINE_STRING_LIST_HPP
 
+#include "assert.hpp"
 #include "maybe_unused.hpp"
 #include "memory/span_algo.hpp"
 #include "multi_byte_seq.hpp"
 #include "string_span.hpp"
-#include <cassert>
 #include <iterator>
 #include <string>
 #include <tuple>
@@ -27,12 +27,13 @@ static inline std::string encode_length(span_size_t len) {
 }
 //------------------------------------------------------------------------------
 static inline span_size_t element_header_size(string_view elem) noexcept {
-    return mbs::decode_sequence_length(mbs::make_cbyte_span(elem)).value();
+    return mbs::decode_sequence_length(mbs::make_cbyte_span(elem)).value_or(0);
 }
 //------------------------------------------------------------------------------
 static inline span_size_t element_value_size(
   string_view elem, span_size_t l) noexcept {
-    return mbs::do_decode_code_point(mbs::make_cbyte_span(elem), l);
+    return mbs::do_decode_code_point(mbs::make_cbyte_span(elem), l)
+      .value_or(0U);
 }
 //------------------------------------------------------------------------------
 static inline span_size_t element_value_size(string_view elem) noexcept {
@@ -67,11 +68,11 @@ static inline string_view pop_back(string_view list) noexcept {
     string_view header = skip(list, i);
     const span_size_t k = element_header_size(header);
     const span_size_t l = element_value_size(header, k);
-    assert(i >= k + l);
+    EAGINE_ASSERT(i >= k + l);
     return head(list, i - k - l);
 }
 //------------------------------------------------------------------------------
-static inline void push_back(std::string& list, string_view value) noexcept {
+static inline void push_back(std::string& list, string_view value) {
     const span_size_t vl = value.size();
     const std::string elen = encode_length(vl);
     const std::size_t nl = list.size() + elen.size() * 2 + std_size(vl);
@@ -95,7 +96,7 @@ private:
     static inline string_view _fit(string_view s) noexcept {
         span_size_t hs = element_header_size(s);
         span_size_t vs = element_value_size(s, hs);
-        assert(s.size() >= hs + vs + hs);
+        EAGINE_ASSERT(s.size() >= hs + vs + hs);
         return {s.data(), hs + vs + hs};
     }
 
@@ -108,7 +109,7 @@ private:
       string_view s, span_size_t rev_sz) noexcept {
         span_size_t hs = element_header_size(s);
         span_size_t vs = element_value_size(s, hs);
-        assert(rev_sz >= hs + vs);
+        EAGINE_ASSERT(rev_sz >= hs + vs);
         EAGINE_MAYBE_UNUSED(rev_sz);
         return {s.data() - hs - vs, hs + vs + hs};
     }
@@ -181,7 +182,7 @@ static inline void rev_for_each_elem(string_view list, Func func) noexcept {
     bool first = true;
     while(i > 0) {
         while(!mbs::is_valid_head_byte(byte(list[i]))) {
-            assert(i > 0);
+            EAGINE_ASSERT(i > 0);
             --i;
         }
         element elem(list.data() + i, i, list.size() - i);
@@ -235,7 +236,7 @@ static inline std::string join(
     if(trail_sep) {
         res.append(sep.data(), std_size(sep.size()));
     }
-    assert(res.size() == std_size(len));
+    EAGINE_ASSERT(res.size() == std_size(len));
 
     return res;
 }
@@ -251,19 +252,20 @@ private:
     mutable string_view _tmp;
 
     byte _b() const noexcept {
-        assert(_pos != nullptr);
+        EAGINE_ASSERT(_pos != nullptr);
         return byte(*_pos);
     }
 
     span_size_t _len_len() const noexcept {
         byte b = _b();
-        assert(mbs::is_valid_head_byte(b));
-        return mbs::do_decode_sequence_length(b).value();
+        EAGINE_ASSERT(mbs::is_valid_head_byte(b));
+        return mbs::do_decode_sequence_length(b).value_anyway();
     }
 
     span_size_t _val_len(span_size_t ll) const noexcept {
         string_view el{_pos, ll};
-        return mbs::do_decode_code_point(mbs::make_cbyte_span(el), ll);
+        return mbs::do_decode_code_point(mbs::make_cbyte_span(el), ll)
+          .value_or(0U);
     }
 
     void _update() const {
@@ -302,19 +304,19 @@ public:
     }
 
     reference operator*() const noexcept {
-        assert(_pos != nullptr);
+        EAGINE_ASSERT(_pos != nullptr);
         _update();
         return _tmp;
     }
 
     pointer operator->() const noexcept {
-        assert(_pos != nullptr);
+        EAGINE_ASSERT(_pos != nullptr);
         _update();
         return &_tmp;
     }
 
     iterator& operator++() noexcept {
-        assert(_pos != nullptr);
+        EAGINE_ASSERT(_pos != nullptr);
         span_size_t ll = _len_len();
         span_size_t vl = _val_len(ll);
         _pos += ll + vl + ll;
@@ -336,12 +338,12 @@ private:
     mutable string_view _tmp;
 
     byte _b() const noexcept {
-        assert(_pos != nullptr);
+        EAGINE_ASSERT(_pos != nullptr);
         return byte(*_pos);
     }
 
     void _rseek_head() const noexcept {
-        assert(_pos != nullptr);
+        EAGINE_ASSERT(_pos != nullptr);
         while(!mbs::is_valid_head_byte(_b())) {
             --_pos;
         }
@@ -349,13 +351,14 @@ private:
 
     span_size_t _len_len() const noexcept {
         byte b = _b();
-        assert(mbs::is_valid_head_byte(b));
-        return mbs::do_decode_sequence_length(b).value();
+        EAGINE_ASSERT(mbs::is_valid_head_byte(b));
+        return mbs::do_decode_sequence_length(b).value_anyway();
     }
 
     span_size_t _val_len(span_size_t ll) const noexcept {
         string_view el{_pos, ll};
-        return mbs::do_decode_code_point(mbs::make_cbyte_span(el), ll);
+        return mbs::do_decode_code_point(mbs::make_cbyte_span(el), ll)
+          .value_or(0U);
     }
 
     void _update() const {
@@ -395,19 +398,19 @@ public:
     }
 
     reference operator*() const noexcept {
-        assert(_pos != nullptr);
+        EAGINE_ASSERT(_pos != nullptr);
         _update();
         return _tmp;
     }
 
     pointer operator->() const noexcept {
-        assert(_pos != nullptr);
+        EAGINE_ASSERT(_pos != nullptr);
         _update();
         return &_tmp;
     }
 
     rev_iterator& operator++() noexcept {
-        assert(_pos != nullptr);
+        EAGINE_ASSERT(_pos != nullptr);
         _rseek_head();
         span_size_t ll = _len_len();
         span_size_t vl = _val_len(ll);

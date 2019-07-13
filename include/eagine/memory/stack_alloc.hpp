@@ -10,8 +10,8 @@
 #ifndef EAGINE_MEMORY_STACK_ALLOC_HPP
 #define EAGINE_MEMORY_STACK_ALLOC_HPP
 
+#include "../assert.hpp"
 #include "byte_alloc.hpp"
-#include <cassert>
 #include <type_traits>
 
 namespace eagine {
@@ -45,9 +45,10 @@ public:
     using size_type = span_size_t;
     using difference_type = std::ptrdiff_t;
 
-    base_stack_allocator(const base_stack_allocator&) = delete;
-
     base_stack_allocator(base_stack_allocator&& tmp) noexcept;
+    base_stack_allocator(const base_stack_allocator&) = delete;
+    base_stack_allocator& operator=(base_stack_allocator&& tmp) = delete;
+    base_stack_allocator& operator=(const base_stack_allocator&) = delete;
 
     base_stack_allocator() noexcept;
 
@@ -80,9 +81,9 @@ public:
     friend bool operator==(
       const base_stack_allocator& a, const base_stack_allocator& b) noexcept {
         if((a._btm == b._btm) && (a._top == b._top)) {
-            assert(a._pos == b._pos);
-            assert(a._min == b._min);
-            assert(a._dif == b._dif);
+            EAGINE_ASSERT(a._pos == b._pos);
+            EAGINE_ASSERT(a._min == b._min);
+            EAGINE_ASSERT(a._dif == b._dif);
 
             return true;
         }
@@ -102,7 +103,14 @@ public:
     using value_type = byte;
     using size_type = span_size_t;
 
-    stack_byte_allocator_only(stack_byte_allocator_only&&) = default;
+    stack_byte_allocator_only(stack_byte_allocator_only&&) noexcept = default;
+    stack_byte_allocator_only(const stack_byte_allocator_only&) = delete;
+    stack_byte_allocator_only& operator=(stack_byte_allocator_only&&) = delete;
+    stack_byte_allocator_only& operator=(const stack_byte_allocator_only&) =
+      delete;
+
+    ~stack_byte_allocator_only() noexcept override = default;
+
     stack_byte_allocator_only(const block& blk)
       : _alloc(blk) {
     }
@@ -138,7 +146,12 @@ public:
     using value_type = byte;
     using size_type = span_size_t;
 
-    stack_byte_allocator(stack_byte_allocator&&) = default;
+    stack_byte_allocator(stack_byte_allocator&&) noexcept = default;
+    stack_byte_allocator(const stack_byte_allocator&) = delete;
+    stack_byte_allocator& operator=(stack_byte_allocator&&) = delete;
+    stack_byte_allocator& operator=(const stack_byte_allocator&) = delete;
+    ~stack_byte_allocator() noexcept = default;
+
     stack_byte_allocator(const block& blk)
       : _alloc(blk) {
     }
@@ -173,7 +186,15 @@ public:
     using value_type = byte;
     using size_type = span_size_t;
 
-    stack_aligned_byte_allocator(stack_aligned_byte_allocator&&) = default;
+    stack_aligned_byte_allocator(stack_aligned_byte_allocator&&) noexcept =
+      default;
+    stack_aligned_byte_allocator(const stack_aligned_byte_allocator&) = delete;
+    stack_aligned_byte_allocator& operator=(stack_aligned_byte_allocator&&) =
+      delete;
+    stack_aligned_byte_allocator& operator=(
+      const stack_aligned_byte_allocator&) = delete;
+
+    ~stack_aligned_byte_allocator() noexcept = default;
 
     stack_aligned_byte_allocator(const block& blk, span_size_t align)
       : _align(align)

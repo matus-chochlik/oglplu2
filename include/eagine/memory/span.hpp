@@ -123,6 +123,7 @@ public:
     constexpr basic_span(basic_span&&) noexcept = default;
     basic_span& operator=(const basic_span&) noexcept = default;
     basic_span& operator=(basic_span&&) noexcept = default;
+    ~basic_span() noexcept = default;
 
     template <
       typename T,

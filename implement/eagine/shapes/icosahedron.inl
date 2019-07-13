@@ -5,8 +5,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+#include <eagine/assert.hpp>
 #include <eagine/math/constants.hpp>
-#include <cassert>
 
 #ifdef __clang__
 #pragma clang diagnostic push
@@ -44,7 +44,7 @@ span_size_t unit_icosahedron_gen::vertex_count() {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void unit_icosahedron_gen::positions(span<float> dest) noexcept {
-    assert(dest.size() >= vertex_count() * 3);
+    EAGINE_ASSERT(dest.size() >= vertex_count() * 3);
 
     span_size_t k = 0;
 
@@ -69,18 +69,17 @@ void unit_icosahedron_gen::positions(span<float> dest) noexcept {
     const float ps = 1.f;
     const float ns = -1.f;
 
-    for(int p = 0; p < 3; ++p) {
+    for(const auto& qip : qi) {
         for(int v = 0; v < 4; ++v) {
             const float sv[3] = {
               0.f, v % 2 == 0 ? ns : ps, v / 2 == 0 ? ns : ps};
-            for(int c = 0; c < 3; ++c) {
-                span_size_t qci = qi[p][c];
+            for(const auto qci : qip) {
                 dest[k++] = float(sv[qci] * q[qci]);
             }
         }
     }
 
-    assert(k == vertex_count() * 3);
+    EAGINE_ASSERT(k == vertex_count() * 3);
 }
 //------------------------------------------------------------------------------
 void unit_icosahedron_gen::attrib_values(
@@ -120,7 +119,7 @@ span_size_t unit_icosahedron_gen::index_count() {
 //------------------------------------------------------------------------------
 template <typename T>
 void unit_icosahedron_gen::_indices(span<T> dest) noexcept {
-    assert(dest.size() >= index_count());
+    EAGINE_ASSERT(dest.size() >= index_count());
 
     span_size_t k = 0;
 
@@ -192,7 +191,7 @@ void unit_icosahedron_gen::_indices(span<T> dest) noexcept {
     dest[k++] = H;
     dest[k++] = L;
 
-    assert(k == index_count());
+    EAGINE_ASSERT(k == index_count());
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -217,7 +216,7 @@ span_size_t unit_icosahedron_gen::operation_count() {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void unit_icosahedron_gen::instructions(span<draw_operation> ops) {
-    assert(ops.size() >= operation_count());
+    EAGINE_ASSERT(ops.size() >= operation_count());
 
     draw_operation& op = ops[0];
     op.mode = primitive_type::triangles;

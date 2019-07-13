@@ -26,7 +26,7 @@ struct valid_if_lt_size_ge0_policy {
     }
 
     struct do_log {
-        template <typename X>
+        template <typename X, typename = disable_if_same_t<X, do_log>>
         constexpr inline do_log(X&&) noexcept {
         }
 

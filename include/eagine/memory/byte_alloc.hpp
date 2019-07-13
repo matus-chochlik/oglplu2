@@ -10,6 +10,7 @@
 #ifndef EAGINE_MEMORY_BYTE_ALLOC_HPP
 #define EAGINE_MEMORY_BYTE_ALLOC_HPP
 
+#include "../assert.hpp"
 #include "../tribool.hpp"
 #include "../types.hpp"
 #include "block.hpp"
@@ -24,7 +25,9 @@ struct byte_allocator : block_owner {
     using size_type = span_size_t;
 
     byte_allocator() = default;
+    byte_allocator(byte_allocator&&) noexcept = default;
     byte_allocator(const byte_allocator&) = default;
+    byte_allocator& operator=(byte_allocator&&) noexcept = default;
     byte_allocator& operator=(const byte_allocator&) = default;
 
     virtual ~byte_allocator() noexcept = default;
@@ -97,7 +100,7 @@ public:
     }
 
     ~byte_alloc_ref_count_policy() noexcept {
-        assert(_ref_count == 0);
+        EAGINE_ASSERT(_ref_count == 0);
     }
 
     byte_allocator* duplicate(byte_allocator* that) noexcept {
@@ -133,11 +136,15 @@ public:
     using size_type = span_size_t;
 
     byte_allocator_impl() = default;
-    byte_allocator_impl(byte_allocator_impl&&) = default;
+    byte_allocator_impl(byte_allocator_impl&&) noexcept(
+      std::is_nothrow_move_constructible_v<Policy>) = default;
     byte_allocator_impl(const byte_allocator_impl&) = delete;
 
-    byte_allocator_impl& operator=(byte_allocator_impl&&) = default;
+    byte_allocator_impl& operator=(byte_allocator_impl&&) noexcept(
+      std::is_nothrow_move_assignable_v<Policy>) = default;
     byte_allocator_impl& operator=(const byte_allocator_impl&) = delete;
+
+    ~byte_allocator_impl() noexcept override = default;
 
     byte_allocator* duplicate() noexcept override {
         return _policy.duplicate(this);

@@ -9,6 +9,7 @@
 #ifndef EAGINE_OBJECT_NAME_HPP
 #define EAGINE_OBJECT_NAME_HPP
 
+#include "../assert.hpp"
 #include "../span.hpp"
 #include "fwd.hpp"
 #include <cstddef>
@@ -42,7 +43,7 @@ public:
     explicit constexpr object_names(
       const any_object_name<_name_type, TypeT, In, It>& name) noexcept
       : _name(name._name) {
-        assert(name._type == _traits::get_type());
+        EAGINE_ASSERT(name._type == _traits::get_type());
     }
 
     object_names(const object_names&) = default;
@@ -56,6 +57,8 @@ public:
         swap(temp);
         return *this;
     }
+
+    ~object_names() noexcept = default;
 
     constexpr inline bool is_valid() const noexcept {
         return _name != _traits::invalid_name();

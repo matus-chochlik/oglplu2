@@ -50,6 +50,11 @@ public:
           limit_cast<S>(array[N - 1] == C(0) ? N - 1 : N)) {
     }
 
+    template <std::size_t N>
+    constexpr basic_string_span(C (&array)[N], span_size_t n) noexcept
+      : base(static_cast<P>(array), limit_cast<S>(n)) {
+    }
+
     template <
       typename Str,
       typename = std::enable_if_t<

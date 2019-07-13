@@ -5,8 +5,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+#include <eagine/assert.hpp>
 #include <eagine/math/constants.hpp>
-#include <cassert>
 #include <cmath>
 
 #ifdef __clang__
@@ -44,8 +44,8 @@ span_size_t unit_torus_gen::vertex_count() {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void unit_torus_gen::positions(span<float> dest) noexcept {
-    assert(has(vertex_attrib_kind::position));
-    assert(dest.size() >= vertex_count() * 3);
+    EAGINE_ASSERT(has(vertex_attrib_kind::position));
+    EAGINE_ASSERT(dest.size() >= vertex_count() * 3);
 
     span_size_t k = 0;
 
@@ -74,8 +74,8 @@ void unit_torus_gen::positions(span<float> dest) noexcept {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void unit_torus_gen::vertex_pivots(span<float> dest) noexcept {
-    assert(has(vertex_attrib_kind::position));
-    assert(dest.size() >= vertex_count() * 3);
+    EAGINE_ASSERT(has(vertex_attrib_kind::position));
+    EAGINE_ASSERT(dest.size() >= vertex_count() * 3);
 
     span_size_t k = 0;
 
@@ -99,8 +99,8 @@ void unit_torus_gen::vertex_pivots(span<float> dest) noexcept {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void unit_torus_gen::normals(span<float> dest) noexcept {
-    assert(has(vertex_attrib_kind::normal));
-    assert(dest.size() >= vertex_count() * 3);
+    EAGINE_ASSERT(has(vertex_attrib_kind::normal));
+    EAGINE_ASSERT(dest.size() >= vertex_count() * 3);
 
     span_size_t k = 0;
 
@@ -124,8 +124,8 @@ void unit_torus_gen::normals(span<float> dest) noexcept {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void unit_torus_gen::tangentials(span<float> dest) noexcept {
-    assert(has(vertex_attrib_kind::tangential));
-    assert(dest.size() >= vertex_count() * 3);
+    EAGINE_ASSERT(has(vertex_attrib_kind::tangential));
+    EAGINE_ASSERT(dest.size() >= vertex_count() * 3);
 
     span_size_t k = 0;
 
@@ -145,8 +145,8 @@ void unit_torus_gen::tangentials(span<float> dest) noexcept {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void unit_torus_gen::bitangentials(span<float> dest) noexcept {
-    assert(has(vertex_attrib_kind::bitangential));
-    assert(dest.size() >= vertex_count() * 3);
+    EAGINE_ASSERT(has(vertex_attrib_kind::bitangential));
+    EAGINE_ASSERT(dest.size() >= vertex_count() * 3);
 
     span_size_t k = 0;
 
@@ -173,8 +173,8 @@ void unit_torus_gen::bitangentials(span<float> dest) noexcept {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void unit_torus_gen::wrap_coords(span<float> dest) noexcept {
-    assert(has(vertex_attrib_kind::wrap_coord_0));
-    assert(dest.size() >= vertex_count() * 2);
+    EAGINE_ASSERT(has(vertex_attrib_kind::wrap_coord_0));
+    EAGINE_ASSERT(dest.size() >= vertex_count() * 2);
 
     span_size_t k = 0;
 
@@ -219,7 +219,7 @@ void unit_torus_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
         case vertex_attrib_kind::object_id:
         case vertex_attrib_kind::material_id:
         case vertex_attrib_kind::occlusion:
-            generator_base::attrib_values(attr, dest);
+            centered_unit_shape_generator_base::attrib_values(attr, dest);
             break;
     }
 }
@@ -242,7 +242,7 @@ span_size_t unit_torus_gen::index_count() {
 //------------------------------------------------------------------------------
 template <typename T>
 void unit_torus_gen::_indices(span<T> dest) noexcept {
-    assert(dest.size() >= index_count());
+    EAGINE_ASSERT(dest.size() >= index_count());
 
     const auto pri = limit_cast<T>(vertex_count());
     span_size_t k = 0;
@@ -286,7 +286,7 @@ span_size_t unit_torus_gen::operation_count() {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void unit_torus_gen::instructions(span<draw_operation> ops) {
-    assert(ops.size() >= operation_count());
+    EAGINE_ASSERT(ops.size() >= operation_count());
 
     if(primitive_restart()) {
         draw_operation& op = ops[0];

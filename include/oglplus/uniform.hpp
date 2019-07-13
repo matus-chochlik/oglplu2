@@ -14,7 +14,7 @@
 #include "prog_var/wrapper.hpp"
 #include "utils/identity.hpp"
 #include "utils/span.hpp"
-#include <cassert>
+#include <eagine/assert.hpp>
 #include <vector>
 
 namespace oglplus {
@@ -51,7 +51,7 @@ struct prog_var_loc_ops<tag::uniform> {
       program_name prog,
       span<string_view> identifiers,
       span<prog_var_loc<tag>> indices) noexcept {
-        assert(identifiers.size() == indices.size());
+        EAGINE_ASSERT(identifiers.size() == indices.size());
 
         std::vector<const GLchar*> names(identifiers.size());
         std::vector<GLuint> results(indices.size());

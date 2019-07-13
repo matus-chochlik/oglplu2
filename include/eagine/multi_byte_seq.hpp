@@ -27,7 +27,8 @@ namespace eagine {
 namespace mbs {
 //------------------------------------------------------------------------------
 using code_point_t = std::uint32_t;
-using code_point = valid_if_less_than<code_point_t, 0x7FFFFFFF>;
+static constexpr code_point_t invalid_code_point = 0x7FFFFFFFU;
+using code_point = valid_if_less_than<code_point_t, 0x7FFFFFFFU>;
 //------------------------------------------------------------------------------
 using valid_sequence_length = valid_if_between<span_size_t, 1, 6>;
 using valid_byte_span = valid_if_size_gt<span<byte>, span_size_t>;
@@ -107,6 +108,7 @@ static constexpr inline always_valid<byte> tail_data_mask() noexcept {
 template <typename P>
 static constexpr inline optionally_valid<byte> head_code_from_mask(
   const valid_if<byte, P> mask) noexcept {
+    // NOLINTNEXTLINE(hicpp-signed-bitwise)
     return {byte((mask.value_anyway() << 1) & 0xFF), mask.is_valid()};
 }
 //------------------------------------------------------------------------------
@@ -171,23 +173,23 @@ static inline valid_sequence_length decode_sequence_length(
 //------------------------------------------------------------------------------
 bool is_valid_encoding(const valid_cbyte_span& vseq) noexcept;
 //------------------------------------------------------------------------------
-code_point_t do_decode_code_point(
-  const valid_cbyte_span& vsrc, const valid_sequence_length vl) noexcept;
+code_point do_decode_code_point(
+  const valid_cbyte_span& vsrc, const valid_sequence_length& vl) noexcept;
 //------------------------------------------------------------------------------
 static inline code_point decode_code_point(
   const valid_cbyte_span& src) noexcept {
     return do_decode_code_point(src, decode_sequence_length(src));
 }
 //------------------------------------------------------------------------------
-void do_encode_code_point(
-  const code_point cp,
+bool do_encode_code_point(
+  const code_point& cp,
   const valid_byte_span& vdest,
-  const valid_sequence_length vl) noexcept;
+  const valid_sequence_length& vl) noexcept;
 //------------------------------------------------------------------------------
 valid_sequence_length encode_code_point(
-  const code_point cp, const valid_byte_span& dest) noexcept;
+  const code_point& cp, const valid_byte_span& dest) noexcept;
 //------------------------------------------------------------------------------
-valid_if_not_empty<std::string> encode_code_point(code_point cp);
+valid_if_not_empty<std::string> encode_code_point(const code_point& cp);
 //------------------------------------------------------------------------------
 optionally_valid<span_size_t> encoding_bytes_required(
   span<const code_point_t> cps) noexcept;

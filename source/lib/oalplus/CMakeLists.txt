@@ -11,14 +11,14 @@ if(OPENAL_FOUND)
 	)
 
 	add_library(oalplus EXCLUDE_FROM_ALL ${OALPLUS_LIB_SOURCES})
-	set_properties(
+	set_target_properties(
 		oalplus
 		PROPERTIES FOLDER "Library/OALplus"
 	)
-	if(CLANG_TIDY_PROG)
+	if(INVOKE_CLANG_TIDY)
 		set_target_properties(
 			oalplus
-			PROPERTIES CXX_CLANG_TIDY "${CLANG_TIDY_PROG}"
+			PROPERTIES CXX_CLANG_TIDY "${INVOKE_CLANG_TIDY}"
 		)
 	endif()
 

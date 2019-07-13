@@ -101,11 +101,11 @@ public:
         return _p.size();
     }
 
-    inline str_span front() const noexcept {
+    inline str_span front() const {
         return _p.front();
     }
 
-    inline str_span back() const noexcept {
+    inline str_span back() const {
         return _p.back();
     }
 

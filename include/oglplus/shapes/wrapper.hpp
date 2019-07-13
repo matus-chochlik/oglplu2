@@ -13,9 +13,9 @@
 #include "adapted_gen.hpp"
 #include "drawing.hpp"
 #include "init.hpp"
+#include <eagine/assert.hpp>
 #include <eagine/make_array.hpp>
 #include <eagine/memory/buffer.hpp>
-#include <cassert>
 #include <vector>
 
 namespace oglplus {
@@ -35,7 +35,7 @@ public:
       span<const vertex_attrib_and_location> vaals)
       : _bufs()
       , _ops(std_size(gen.operation_count())) {
-        assert(vaals.size() >= span_size(N));
+        EAGINE_ASSERT(vaals.size() >= span_size(N));
         initialize_vao_and_buffers(_vao, _bufs, vaals, cover(_ops), gen, data);
     }
 

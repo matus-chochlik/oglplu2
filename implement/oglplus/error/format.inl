@@ -6,11 +6,11 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/assert.hpp>
 #include <eagine/maybe_unused.hpp>
 #include <oglplus/error/error.hpp>
 #include <oglplus/object/ios.hpp>
 #include <algorithm>
-#include <cassert>
 #include <cstring>
 #include <iostream>
 #include <iterator>
@@ -39,7 +39,7 @@ std::ostream& format_error_info(
             break;
         }
 
-        assert(*p == '%');
+        EAGINE_ASSERT(*p == '%');
         i = p + 1;
 
         if(i == e) {

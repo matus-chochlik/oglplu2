@@ -10,11 +10,11 @@
 #ifndef EAGINE_TYPE_TO_VALUE_HPP
 #define EAGINE_TYPE_TO_VALUE_HPP
 
+#include "assert.hpp"
 #include "identity.hpp"
 #include "instead_of.hpp"
 #include "iterator.hpp"
 #include "types.hpp"
-#include <cassert>
 #include <type_traits>
 #include <utility>
 
@@ -91,12 +91,12 @@ struct type_to_value : type_to_value_unit<Value, Keys>... {
     }
 
     type_to_value_unit_base<Value>& unit(size_type pos) noexcept {
-        assert(pos < size());
+        EAGINE_ASSERT(pos < size());
         return units()[pos];
     }
 
     const type_to_value_unit_base<Value>& unit(size_type pos) const noexcept {
-        assert(pos < size());
+        EAGINE_ASSERT(pos < size());
         return units()[pos];
     }
 

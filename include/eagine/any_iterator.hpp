@@ -10,8 +10,8 @@
 #ifndef EAGINE_ANY_ITERATOR_HPP
 #define EAGINE_ANY_ITERATOR_HPP
 
+#include "assert.hpp"
 #include "deep_copy_ptr.hpp"
-#include <cassert>
 #include <iterator>
 
 namespace eagine {
@@ -56,7 +56,7 @@ private:
 
         bool _equal(_intf* intf) override {
             auto* that = dynamic_cast<_impl*>(intf);
-            assert(that != nullptr);
+            EAGINE_ASSERT(that != nullptr);
             return this->_i == that->_i;
         }
     };

@@ -14,9 +14,9 @@ namespace texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 glsl_output::glsl_output(
-  node_intf& parent, const std::string& glsl, slot_data_type type)
+  node_intf& parent, std::string glsl, slot_data_type type)
   : multi_input_output(parent)
-  , _glsl(glsl)
+  , _glsl(std::move(glsl))
   , _type(type) {
 }
 //------------------------------------------------------------------------------
@@ -33,8 +33,9 @@ slot_data_type glsl_output::value_type() {
 OGLPLUS_LIB_FUNC
 std::ostream& glsl_output::definitions(
   std::ostream& out, compile_context& ctxt) {
-    if(already_defined(ctxt))
+    if(already_defined(ctxt)) {
         return out;
+    }
 
     input_defs(out, ctxt);
     opening_expr(out, ctxt);
@@ -57,16 +58,15 @@ std::ostream& glsl_output::definitions(
     dict["Input"] = "oglptgi";
     dict["^"] = "oglptgi";
 
-    for(auto i = _inputs.begin(); i != _inputs.end(); ++i) {
-        input_with_const_default<float[4]>& input = i->second;
+    for(auto& [id, input] : _inputs) {
 
         out << "\t" << data_type_name(input.value_type());
-        out << " oglptgi_" << i->first << " = ";
+        out << " oglptgi_" << id << " = ";
         out << expr::output_id{input.output(), ctxt};
         out << expr::render_param_pass{input.output()};
         out << ";" << std::endl;
 
-        dict[i->first] = std::string("oglptgi_") + i->first;
+        dict[id] = std::string("oglptgi_") + id;
     }
 
     out << "\treturn ";
