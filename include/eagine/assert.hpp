@@ -22,7 +22,10 @@
 #endif
 #endif
 
-#define EAGINE_ASSERT(EXPR) assert(EXPR) // NOLINT(hicpp-no-array-decay)
+// clang-format off
+#define EAGINE_ASSERT(EXPR) \
+    assert(EXPR) // NOLINT(cert-dcl03-c,hicpp-static-assert,hicpp-no-array-decay)
+// clang-format on
 
 #if EAGINE_CHECK_LIMIT_CAST
 #define EAGINE_CONSTEXPR_ASSERT(UNUSED, RESULT) \
@@ -34,9 +37,7 @@
      RESULT)
 #endif
 
-#define EAGINE_ABORT(MSG) \
-    EAGINE_ASSERT(!bool(MSG)) // NOLINT(cert-dcl03-c,hicpp-static-assert)
-#define EAGINE_UNREACHABLE(MSG) \
-    EAGINE_ABORT(MSG) // NOLINT(cert-dcl03-c,hicpp-static-assert)
+#define EAGINE_ABORT(MSG) EAGINE_ASSERT(!bool(MSG))
+#define EAGINE_UNREACHABLE(MSG) EAGINE_ABORT(MSG)
 
 #endif // EAGINE_ASSERT_HPP
