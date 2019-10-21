@@ -81,7 +81,7 @@ static constexpr inline auto logistic(T x) noexcept {
 //------------------------------------------------------------------------------
 template <typename T, typename C>
 static constexpr inline auto sigmoid01(T x, C c) noexcept {
-    return logistic(c * invLogistic(x));
+    return logistic(c * inverse_logistic(x));
 }
 //------------------------------------------------------------------------------
 template <typename T>
