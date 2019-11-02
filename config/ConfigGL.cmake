@@ -81,7 +81,12 @@ foreach(KIND API INIT)
 			endif()
 		endforeach()
 	endif()
+	file(
+		WRITE "${PROJECT_BINARY_DIR}/cfg-GL_${KIND}_LIB"
+		"${OGLPLUS_GL_${KIND}_LIB}"
+	)
 endforeach()
+
 
 if(NOT OGLPLUS_GL_INIT_LIB)
 	if(NOT NO_EXAMPLES)

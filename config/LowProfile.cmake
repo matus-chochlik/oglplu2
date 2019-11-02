@@ -15,3 +15,8 @@ else()
 	set(LOW_PROFILE 0)
 endif()
 
+file(
+	WRITE "${PROJECT_BINARY_DIR}/cfg-LOW_PROFILE"
+	"${LOW_PROFILE}"
+)
+
