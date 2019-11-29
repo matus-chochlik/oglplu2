@@ -11,6 +11,7 @@
 #define EAGINE_SPAN_HPP
 
 #include "memory/span.hpp"
+#include "valid_if/decl.hpp"
 #include <iosfwd>
 
 namespace eagine {
@@ -57,6 +58,40 @@ static inline std::
   enable_if_t<std::is_same_v<std::remove_const_t<T>, char>, std::ostream&>
   operator<<(std::ostream& out, memory::basic_span<T, P, S> s) {
     return write_to_stream(out, absolute(s));
+}
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename S>
+static inline auto make_span_getter(
+  span_size_t& i, memory::basic_span<T, P, S> spn) {
+    return [&i, spn]() -> optionally_valid<std::remove_const_t<T>> {
+        if(i < spn.size()) {
+            return {spn[i++], true};
+        }
+        return {};
+    };
+}
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename S, typename Transform>
+static inline auto make_span_getter(
+  span_size_t& i, memory::basic_span<T, P, S> spn, Transform transform) {
+    return [&i, spn, transform]() -> optionally_valid<std::remove_const_t<T>> {
+        if(i < spn.size()) {
+            return transform(spn[i++]);
+        }
+        return {};
+    };
+}
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename S>
+static inline auto make_span_putter(
+  span_size_t& i, memory::basic_span<T, P, S> spn) {
+    return [&i, spn](auto value) mutable -> bool {
+        if(i < spn.size()) {
+            spn[i++] = std::move(value);
+            return true;
+        }
+        return false;
+    };
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
