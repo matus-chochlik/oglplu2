@@ -16,7 +16,7 @@ int main(int argc, const char** argv) {
 
     program_args args(argc, argv);
     std::string temp;
-    for(auto arg = args.first(); arg; arg = arg.next()) {
+    for(auto& arg : args) {
         std::cout << arg << '|'
                   << base64_encode(arg.get_block(), temp).value_or("-")
                   << std::endl;
