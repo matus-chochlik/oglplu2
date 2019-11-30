@@ -71,6 +71,11 @@ static inline auto make_span_getter(
     };
 }
 //------------------------------------------------------------------------------
+template <typename Src>
+static inline auto make_span_getter(span_size_t& i, const Src& src) {
+    return make_span_getter(i, view(src));
+}
+//------------------------------------------------------------------------------
 template <typename T, typename P, typename S, typename Transform>
 static inline auto make_span_getter(
   span_size_t& i, memory::basic_span<T, P, S> spn, Transform transform) {
@@ -80,6 +85,12 @@ static inline auto make_span_getter(
         }
         return {};
     };
+}
+//------------------------------------------------------------------------------
+template <typename Src, typename Transform>
+static inline auto make_span_getter(
+  span_size_t& i, const Src& src, Transform transform) {
+    return make_span_getter(i, view(src), std::move(transform));
 }
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S>
@@ -92,6 +103,31 @@ static inline auto make_span_putter(
         }
         return false;
     };
+}
+//------------------------------------------------------------------------------
+template <typename Dst>
+static inline auto make_span_putter(span_size_t& o, Dst& dst) {
+    return make_span_putter(o, cover(dst));
+}
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename S, typename Transform>
+static inline auto make_span_putter(
+  span_size_t& i, memory::basic_span<T, P, S> spn, Transform transform) {
+    return [&i, spn, transform](auto value) mutable -> bool {
+        if(i < spn.size()) {
+            if(auto transformed = transform(value)) {
+                spn[i++] = std::move(transformed.value());
+                return true;
+            }
+        }
+        return false;
+    };
+}
+//------------------------------------------------------------------------------
+template <typename Dst, typename Transform>
+static inline auto make_span_putter(
+  span_size_t& o, Dst& dst, Transform transform) {
+    return make_span_putter(o, cover(dst), std::move(transform));
 }
 //------------------------------------------------------------------------------
 } // namespace eagine

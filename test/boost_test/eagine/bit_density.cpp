@@ -5,7 +5,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/bit_density.hpp>
-#define BOOST_TEST_MODULE EAGINE_biteset
+#define BOOST_TEST_MODULE EAGINE_bit_density
 #include "../unit_test_begin.inl"
 
 #include <eagine/memory/span_algo.hpp>
@@ -25,6 +25,9 @@ BOOST_AUTO_TEST_CASE(bit_density_length_trip) {
             const auto thin_size = dissolved_bits_length(orig_size, bits);
             const auto comp_size = concentrated_bits_length(thin_size, bits);
 
+            BOOST_CHECK(
+              ((thin_size > orig_size) == (bits < byte_bits())) ||
+              ((thin_size == orig_size) == (orig_size == 0)));
             BOOST_CHECK(thin_size >= 0);
             BOOST_CHECK(comp_size - orig_size >= 0);
             BOOST_CHECK(comp_size - orig_size <= 1);

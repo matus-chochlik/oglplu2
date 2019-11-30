@@ -17,6 +17,12 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
+// type at least twice the size of byte
+using double_byte = std::conditional_t<
+  (CHAR_BIT > 8),
+  uint_fast16_t,
+  std::conditional_t<(CHAR_BIT > 16), uint_fast32_t, uint_fast64_t>>;
+//------------------------------------------------------------------------------
 static constexpr inline span_size_t byte_bits() noexcept {
     return span_size_t(CHAR_BIT);
 }
@@ -44,16 +50,13 @@ static inline bool do_dissolve_bits(
     EAGINE_ASSERT(bits >= 1);
     EAGINE_ASSERT(bits <= byte_bits());
 
-    using B = unsigned char;
-    using W = std::uint16_t;
-
     span_size_t r = 0;
-    W w = 0U;
-    const B m = B((1U << bits) - 1U);
+    double_byte w = 0U;
+    const auto m = byte((1U << bits) - 1U);
 
     auto push = [&]() -> bool {
         while(r >= bits) {
-            if(!put(B(w >> W(r - bits)) & m)) {
+            if(!put(byte(w >> double_byte(r - bits)) & m)) {
                 return false;
             }
             r -= bits;
@@ -65,7 +68,7 @@ static inline bool do_dissolve_bits(
         if(r < bits) {
             if(auto src = get()) {
                 w <<= byte_bits();
-                w |= W(src.value());
+                w |= double_byte(src.value());
                 r += byte_bits();
             } else {
                 break;
@@ -78,7 +81,7 @@ static inline bool do_dissolve_bits(
 
     if(r > 0) {
         EAGINE_ASSERT(r < bits);
-        if(!put(B(w << W(bits - r)) & m)) {
+        if(!put(byte(w << double_byte(bits - r)) & m)) {
             return false;
         }
     }
@@ -91,12 +94,9 @@ static inline bool do_concentrate_bits(
     EAGINE_ASSERT(bits >= 1);
     EAGINE_ASSERT(bits <= byte_bits());
 
-    using B = unsigned char;
-    using W = std::uint16_t;
-
     span_size_t r = 0;
-    W w = 0U;
-    const W m = (1U << bits) - 1U;
+    double_byte w = 0U;
+    const double_byte m = (1U << bits) - 1U;
 
     bool done = false;
 
@@ -104,8 +104,8 @@ static inline bool do_concentrate_bits(
         while(r < byte_bits()) {
             if(auto src = get()) {
                 w <<= bits;
-                w = (w & ~m) |
-                    (W(src.value()) & m); // NOLINT(hicpp-signed-bitwise)
+                w = (w & ~m) | (double_byte(src.value()) &
+                                m); // NOLINT(hicpp-signed-bitwise)
                 r += bits;
             } else {
                 done = true;
@@ -113,7 +113,7 @@ static inline bool do_concentrate_bits(
             }
         }
         if(r >= byte_bits()) {
-            if(!put(B(w >> W(r - byte_bits())))) {
+            if(!put(byte(w >> double_byte(r - byte_bits())))) {
                 return false;
             }
             r -= byte_bits();

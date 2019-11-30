@@ -17,7 +17,7 @@
 
 namespace eagine {
 namespace memory {
-
+//------------------------------------------------------------------------------
 class buffer {
 public:
     using size_type = typename block::size_type;
@@ -101,7 +101,7 @@ public:
         return {_storage.begin(), _size};
     }
 };
-
+//------------------------------------------------------------------------------
 } // namespace memory
 } // namespace eagine
 
