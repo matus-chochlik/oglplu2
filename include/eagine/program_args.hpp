@@ -11,6 +11,7 @@
 
 #include "assert.hpp"
 #include "identity.hpp"
+#include "memory/block.hpp"
 #include "program_args.hpp"
 #include "range_types.hpp"
 #include "span.hpp"
@@ -290,6 +291,10 @@ public:
             return value_type(_argv[_argi]);
         }
         return value_type();
+    }
+
+    auto get_block() const noexcept {
+        return memory::as_bytes(get());
     }
 
     std::string get_string() const {

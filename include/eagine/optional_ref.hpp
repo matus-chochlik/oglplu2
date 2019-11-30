@@ -57,6 +57,20 @@ public:
         return *_ptr;
     }
 
+    T& value() const noexcept {
+        EAGINE_ASSERT(is_valid());
+        return *_ptr;
+    }
+
+    template <typename U>
+    std::enable_if_t<std::is_convertible_v<U, T>, T> value_or(
+      U&& fallback) const noexcept {
+        if(is_valid()) {
+            return *_ptr;
+        }
+        return T(std::forward<U>(fallback));
+    }
+
     operator T&() const noexcept {
         return get();
     }

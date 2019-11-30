@@ -178,7 +178,7 @@ template <typename C, typename T, typename A, typename Transform>
 static inline auto make_span_putter(
   span_size_t& i, std::basic_string<C, T, A>& str, Transform transform) {
     return [&i, &str, transform](auto value) mutable -> bool {
-        if(i < str.size()) {
+        if(i < span_size_t(str.size())) {
             if(auto transformed = transform(value)) {
                 str[i++] = std::move(transformed.value());
                 return true;

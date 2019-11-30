@@ -79,7 +79,7 @@ static inline auto make_span_getter(span_size_t& i, const Src& src) {
 template <typename T, typename P, typename S, typename Transform>
 static inline auto make_span_getter(
   span_size_t& i, memory::basic_span<T, P, S> spn, Transform transform) {
-    return [&i, spn, transform]() -> optionally_valid<std::remove_const_t<T>> {
+    return [&i, spn, transform]() -> decltype(transform(std::declval<T>())) {
         if(i < spn.size()) {
             return transform(spn[i++]);
         }
@@ -98,7 +98,7 @@ static inline auto make_span_putter(
   span_size_t& i, memory::basic_span<T, P, S> spn) {
     return [&i, spn](auto value) mutable -> bool {
         if(i < spn.size()) {
-            spn[i++] = std::move(value);
+            spn[i++] = T(std::move(value));
             return true;
         }
         return false;
@@ -116,7 +116,7 @@ static inline auto make_span_putter(
     return [&i, spn, transform](auto value) mutable -> bool {
         if(i < spn.size()) {
             if(auto transformed = transform(value)) {
-                spn[i++] = std::move(transformed.value());
+                spn[i++] = T(std::move(transformed.value()));
                 return true;
             }
         }
