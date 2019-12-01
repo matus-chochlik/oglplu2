@@ -13,4 +13,5 @@ endfunction()
 eagine_example_common(hexdump)
 eagine_example_common(bindump)
 eagine_example_common(base64)
+eagine_example_common(memoized)
 
