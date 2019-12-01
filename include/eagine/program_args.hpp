@@ -12,6 +12,7 @@
 #include "assert.hpp"
 #include "identity.hpp"
 #include "memory/block.hpp"
+#include "memory/span_algo.hpp"
 #include "program_args.hpp"
 #include "range_types.hpp"
 #include "span.hpp"
@@ -295,7 +296,7 @@ public:
         return value_type();
     }
 
-    auto get_block() const noexcept {
+    auto block() const noexcept {
         return memory::as_bytes(get());
     }
 
@@ -305,6 +306,14 @@ public:
 
     operator value_type() const noexcept {
         return get();
+    }
+
+    bool starts_with(string_view str) const noexcept {
+        return memory::starts_with(get(), str);
+    }
+
+    bool ends_with(string_view str) const noexcept {
+        return memory::ends_with(get(), str);
     }
 
     bool is_tag(string_view short_tag, string_view long_tag) const noexcept {

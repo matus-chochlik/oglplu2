@@ -10,5 +10,7 @@ function(eagine_example_common EXAMPLE_NAME)
 	target_link_libraries("${EXAMPLE_NAME}" eagine)
 endfunction()
 
+eagine_example_common(hexdump)
+eagine_example_common(bindump)
 eagine_example_common(base64)
 
