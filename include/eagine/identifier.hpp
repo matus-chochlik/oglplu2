@@ -17,10 +17,10 @@
 #include <iosfwd>
 
 namespace eagine {
-
+//------------------------------------------------------------------------------
 template <typename CharSet>
 class identifier_encoding;
-
+//------------------------------------------------------------------------------
 template <char... C>
 class identifier_encoding<mp_string<C...>> {
 public:
@@ -66,7 +66,7 @@ private:
                  : _do_decode(i, mp_string<T...>{});
     }
 };
-
+//------------------------------------------------------------------------------
 using default_identifier_char_set = mp_string<
   'a',
   'b',
@@ -131,7 +131,7 @@ using default_identifier_char_set = mp_string<
   '8',
   '9',
   '_'>;
-
+//------------------------------------------------------------------------------
 using hex_identifier_char_set = mp_string<
   '0',
   '1',
@@ -149,7 +149,7 @@ using hex_identifier_char_set = mp_string<
   'd',
   'e',
   'f'>;
-
+//------------------------------------------------------------------------------
 template <std::size_t M>
 class identifier_name {
 public:
@@ -188,13 +188,13 @@ private:
     fixed_size_string<M> _str;
     std::uint8_t _len;
 };
-
+//------------------------------------------------------------------------------
 template <std::size_t M>
 static inline std::ostream& operator<<(
   std::ostream& out, const identifier_name<M>& n) {
     return out.write(n.data(), std::streamsize(n.size()));
 }
-
+//------------------------------------------------------------------------------
 template <std::size_t M, std::size_t B, typename CharSet, typename UIntT>
 class basic_identifier {
 public:
@@ -292,16 +292,16 @@ private:
                        : M;
     }
 };
-
+//------------------------------------------------------------------------------
 using identifier =
   basic_identifier<10, 6, default_identifier_char_set, std::uint64_t>;
-
+//------------------------------------------------------------------------------
 #define EAGINE_ID(NAME) ::eagine::identifier(#NAME)
 #define EAGINE_TAG_TYPE(NAME) ::eagine::selector<EAGINE_ID(NAME).value()>
 #define EAGINE_TAG(NAME)    \
     EAGINE_TAG_TYPE(NAME) { \
     }
-
+//------------------------------------------------------------------------------
 } // namespace eagine
 
 #endif // EAGINE_IDENTIFIER_HPP
