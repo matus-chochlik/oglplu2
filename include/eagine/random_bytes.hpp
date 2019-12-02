@@ -10,10 +10,11 @@
 #define EAGINE_RANDOM_BYTES_HPP
 
 #include "span.hpp"
+#include "types.hpp"
 
 namespace eagine {
 
-void fill_with_random_bytes(span<unsigned char> buffer);
+void fill_with_random_bytes(span<byte> buffer);
 
 } // namespace eagine
 

@@ -16,7 +16,7 @@ namespace eagine {
 // demangle_type_name
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void fill_with_random_bytes(span<unsigned char> buffer) {
+void fill_with_random_bytes(span<byte> buffer) {
 
     const unsigned mask = ((1U << unsigned(CHAR_BIT)) - 1U);
 
@@ -24,7 +24,7 @@ void fill_with_random_bytes(span<unsigned char> buffer) {
     std::mt19937 re(rd());
     std::independent_bits_engine<std::mt19937, CHAR_BIT, unsigned> ibe(re);
 
-    auto gen = [&ibe] { return static_cast<unsigned char>(ibe() & mask); };
+    auto gen = [&ibe] { return static_cast<byte>(ibe() & mask); };
 
     std::generate(buffer.begin(), buffer.end(), gen);
 }
