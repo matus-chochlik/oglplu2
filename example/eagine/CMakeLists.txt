@@ -11,6 +11,7 @@ function(eagine_example_common EXAMPLE_NAME)
 endfunction()
 
 eagine_example_common(identifier)
+eagine_example_common(id_tag)
 eagine_example_common(hexdump)
 eagine_example_common(bindump)
 eagine_example_common(base64)

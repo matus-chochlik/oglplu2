@@ -8,7 +8,7 @@
  */
 #include <eagine/identifier.hpp>
 #include <iostream>
-
+//------------------------------------------------------------------------------
 static inline void print_info(eagine::identifier id) {
     std::cout << id.name() << ':' << std::endl;
     std::cout << "  size: " << id.size() << std::endl;
@@ -16,7 +16,7 @@ static inline void print_info(eagine::identifier id) {
     std::cout << "  sizeof: " << sizeof(id) << std::endl;
     std::cout << "  value: " << id.value() << std::endl;
 }
-
+//------------------------------------------------------------------------------
 int main() {
     using namespace eagine;
 
