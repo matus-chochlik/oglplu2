@@ -10,6 +10,7 @@ function(eagine_example_common EXAMPLE_NAME)
 	target_link_libraries("${EXAMPLE_NAME}" eagine)
 endfunction()
 
+eagine_example_common(array_size)
 eagine_example_common(environment)
 eagine_example_common(identifier)
 eagine_example_common(id_tag)
