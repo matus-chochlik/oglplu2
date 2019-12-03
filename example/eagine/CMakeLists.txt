@@ -12,6 +12,7 @@ endfunction()
 
 eagine_example_common(array_size)
 eagine_example_common(limit_cast)
+eagine_example_common(args_within_limits)
 eagine_example_common(environment)
 eagine_example_common(identifier)
 eagine_example_common(id_tag)

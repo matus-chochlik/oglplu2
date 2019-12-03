@@ -9,7 +9,7 @@
 #include <eagine/is_within_limits.hpp>
 #include <iostream>
 
-void foo(short s) {
+static inline void foo(short s) {
     std::cout << s << std::endl;
 }
 
