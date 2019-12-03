@@ -11,6 +11,7 @@
 
 #include "assert.hpp"
 #include "int_constant.hpp"
+#include "valid_if/decl.hpp"
 #include <limits>
 #include <type_traits>
 #include <utility>
@@ -97,6 +98,16 @@ static constexpr inline std::enable_if_t<std::is_convertible_v<Src, Dst>, Dst>
 limit_cast(Src value) noexcept {
     return EAGINE_CONSTEXPR_ASSERT(
       is_within_limits<Dst>(value), Dst(std::move(value)));
+}
+//------------------------------------------------------------------------------
+template <typename Dst, typename Src>
+static constexpr inline std::
+  enable_if_t<std::is_convertible_v<Src, Dst>, optionally_valid<Dst>>
+  convert_if_fits(Src value) noexcept {
+    if(is_within_limits<Dst>(value)) {
+        return {Dst(std::move(value)), true};
+    }
+    return {};
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
