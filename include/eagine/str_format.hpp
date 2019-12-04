@@ -72,7 +72,7 @@ public:
     }
 
     operator std::string() const {
-        return _fmt({_list});
+        return _fmt(view(_list));
     }
 };
 //------------------------------------------------------------------------------
