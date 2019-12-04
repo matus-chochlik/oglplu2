@@ -68,6 +68,10 @@ public:
         return _v;
     }
 
+    static constexpr inline U unit() noexcept {
+        return {};
+    }
+
     template <
       typename X,
       typename = std::enable_if_t<std::is_convertible_v<T, X>>>

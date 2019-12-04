@@ -30,6 +30,11 @@ static inline string_view get_unit_name(unit<Dimension, Derived>) noexcept {
     return mp_make_string<unit_name<Derived>>::value;
 }
 //------------------------------------------------------------------------------
+template <typename Dimension, typename Derived>
+static inline string_view get_unit_symbol(unit<Dimension, Derived>) noexcept {
+    return mp_make_string<unit_symbol<Derived>>::value;
+}
+//------------------------------------------------------------------------------
 } // namespace base
 //------------------------------------------------------------------------------
 namespace scales {
@@ -49,6 +54,31 @@ static inline string_view get_scale_symbol(Scale) noexcept {
 template <typename H, typename T>
 static inline string_view get_dim_name(bits::dims<H, T>) noexcept {
     return mp_make_string<dim_name<bits::dims<H, T>>>::value;
+}
+//------------------------------------------------------------------------------
+template <typename Dim, typename Sys>
+static inline auto get_dim_name(unit<Dim, Sys>) noexcept {
+    return get_dim_name(Dim());
+}
+//------------------------------------------------------------------------------
+template <typename BaseDim, typename Sys>
+struct unit_name<unit<
+  bits::dims<bits::dim_pow<BaseDim, int_constant<1>>, eagine::nothing_t>,
+  Sys>> : base::unit_name<typename Sys::template base_unit<BaseDim>::type> {};
+//------------------------------------------------------------------------------
+template <typename Dim, typename Sys>
+static inline auto get_unit_name(unit<Dim, Sys>) noexcept {
+    return mp_make_string<unit_name<unit<Dim, Sys>>>::value;
+}
+//------------------------------------------------------------------------------
+template <typename BaseDim, typename Sys>
+struct unit_symbol<unit<
+  bits::dims<bits::dim_pow<BaseDim, int_constant<1>>, eagine::nothing_t>,
+  Sys>> : base::unit_symbol<typename Sys::template base_unit<BaseDim>::type> {};
+//------------------------------------------------------------------------------
+template <typename Dim, typename Sys>
+static inline auto get_unit_symbol(unit<Dim, Sys>) noexcept {
+    return mp_make_string<unit_symbol<unit<Dim, Sys>>>::value;
 }
 //------------------------------------------------------------------------------
 } // namespace units

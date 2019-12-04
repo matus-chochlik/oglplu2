@@ -155,6 +155,12 @@ constexpr bool is_convertible_v = is_convertible<U1, U2>::value;
 template <typename Dim>
 struct dim_name;
 
+template <typename Unit>
+struct unit_name;
+
+template <typename Unit>
+struct unit_symbol;
+
 } // namespace units
 } // namespace eagine
 
