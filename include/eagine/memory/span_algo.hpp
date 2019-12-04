@@ -295,6 +295,19 @@ static inline basic_span<T, P, S> fill(basic_span<T, P, S> spn, const V& v) {
     return spn;
 }
 //------------------------------------------------------------------------------
+template <typename T, typename P, typename S, typename Generator>
+static inline basic_span<T, P, S> generate(
+  basic_span<T, P, S> spn, Generator gen) {
+    std::generate(spn.begin(), spn.end(), std::move(gen));
+    return spn;
+}
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename S, typename RandGen>
+static inline basic_span<T, P, S> shuffle(basic_span<T, P, S> spn, RandGen rg) {
+    std::shuffle(spn.begin(), spn.end(), std::move(rg));
+    return spn;
+}
+//------------------------------------------------------------------------------
 template <
   typename T1,
   typename P1,

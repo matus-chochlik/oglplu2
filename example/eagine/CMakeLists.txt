@@ -26,5 +26,6 @@ eagine_example_common(random_bytes)
 eagine_example_common(scope_exit)
 eagine_example_common(zip_ranges)
 eagine_example_common(variable_history)
+eagine_example_common(network_sort)
 eagine_example_common(memoized)
 

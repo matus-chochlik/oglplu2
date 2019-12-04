@@ -29,6 +29,17 @@ void test_network_sorter_1_TNC(int n) {
 
         BOOST_CHECK(std::is_sorted(r.begin(), r.end(), Cmp()));
     }
+
+    for(int i = 0; i < n; ++i) {
+        std::array<T, N> a;
+        for(T& e : a) {
+            e = rg.get_any<T>();
+        }
+
+        network_sort<N, Cmp>(cover(a));
+
+        BOOST_CHECK(std::is_sorted(a.begin(), a.end(), Cmp()));
+    }
 }
 
 template <typename T, std::size_t N>

@@ -12,7 +12,7 @@
 
 namespace eagine {
 
-template <typename Int = unsigned>
+template <typename Int = int>
 class count_t {
 private:
     Int _c;
