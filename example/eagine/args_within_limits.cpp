@@ -13,6 +13,12 @@ static inline auto add(short l, short r) {
     return l + r;
 }
 
+struct mul {
+    inline auto apply(int l, int r) const noexcept {
+        return l * r;
+    }
+};
+
 int main() {
     using namespace eagine;
 
@@ -21,6 +27,14 @@ int main() {
     }
 
     if(!args_within_limits(&add, 123456, 789)) {
+        std::cout << "arguments out of range" << std::endl;
+    }
+
+    if(args_within_limits(&mul::apply, 123456, 789012)) {
+        std::cout << "can call function" << std::endl;
+    }
+
+    if(!args_within_limits(&mul::apply, 12345678901234L, 789012)) {
         std::cout << "arguments out of range" << std::endl;
     }
 

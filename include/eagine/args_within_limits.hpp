@@ -22,20 +22,32 @@ static constexpr inline std::
 }
 //------------------------------------------------------------------------------
 template <typename RV, typename... Params, typename... Args>
-static inline bool args_within_limits(
+static constexpr inline bool args_within_limits(
   RV (*)(Params...), const Args&... args) noexcept {
     return args_within_limits_of<Params...>(args...);
 }
 //------------------------------------------------------------------------------
 template <typename RV, typename Cls, typename... Params, typename... Args>
-static inline bool args_within_limits(
+static constexpr inline bool args_within_limits(
   RV (Cls::*)(Params...), const Args&... args) noexcept {
     return args_within_limits_of<Params...>(args...);
 }
 //------------------------------------------------------------------------------
 template <typename RV, typename Cls, typename... Params, typename... Args>
-static inline bool args_within_limits(
+static constexpr inline bool args_within_limits(
+  RV (Cls::*)(Params...) noexcept, const Args&... args) noexcept {
+    return args_within_limits_of<Params...>(args...);
+}
+//------------------------------------------------------------------------------
+template <typename RV, typename Cls, typename... Params, typename... Args>
+static constexpr inline bool args_within_limits(
   RV (Cls::*)(Params...) const, const Args&... args) noexcept {
+    return args_within_limits_of<Params...>(args...);
+}
+//------------------------------------------------------------------------------
+template <typename RV, typename Cls, typename... Params, typename... Args>
+static constexpr inline bool args_within_limits(
+  RV (Cls::*)(Params...) const noexcept, const Args&... args) noexcept {
     return args_within_limits_of<Params...>(args...);
 }
 //------------------------------------------------------------------------------
