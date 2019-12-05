@@ -18,7 +18,7 @@ test%: test%.o
 test%.o: test%.cpp
 	$(CXX) -std=c++17 -g3 \
 		-Wall -Wextra -Werror \
-		-Wno-unknown-warning \
+		-Wno-unknown-warning-option \
 		-Wno-address \
 		-Wno-padded \
 		-Wno-weak-vtables \

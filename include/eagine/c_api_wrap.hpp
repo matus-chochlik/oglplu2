@@ -21,6 +21,14 @@ template <typename ApiTraits, typename Signature>
 using c_api_function_ptr =
   typename ApiTraits::template function_pointer<Signature>::type;
 //------------------------------------------------------------------------------
+template <typename ApiTraits, typename T>
+using c_api_transform_rv =
+  typename ApiTraits::template transform_return_value<T>::type;
+//------------------------------------------------------------------------------
+template <typename ApiTraits, typename T>
+using c_api_transform_param =
+  typename ApiTraits::template transform_parameter<T>::type;
+//------------------------------------------------------------------------------
 template <typename ApiTraits, typename Signature>
 class unimplemented_c_api_function;
 //------------------------------------------------------------------------------
@@ -70,9 +78,11 @@ public:
     }
 
     template <typename... Args>
-    constexpr std::enable_if_t<sizeof...(Params) == sizeof...(Args), RV>
+    constexpr std::enable_if_t<
+      sizeof...(Params) == sizeof...(Args),
+      c_api_transform_rv<ApiTraits, RV>>
     operator()(Args&&...) const noexcept {
-        return {};
+        return ApiTraits::fallback(identity<RV>());
     }
 };
 //------------------------------------------------------------------------------
@@ -91,9 +101,11 @@ public:
     }
 
     template <typename... Args>
-    constexpr std::enable_if_t<sizeof...(Params) == sizeof...(Args), RV>
+    constexpr std::enable_if_t<
+      sizeof...(Params) == sizeof...(Args),
+      c_api_transform_rv<ApiTraits, RV>>
     operator()(Args&&... args) const noexcept {
-        return function(std::forward<Args>(args)...);
+        return ApiTraits::call(function, std::forward<Args>(args)...);
     }
 };
 //------------------------------------------------------------------------------
@@ -107,7 +119,7 @@ class dynamic_c_api_function<ApiTraits, RV(Params...)>
 public:
     constexpr dynamic_c_api_function(string_view name, ApiTraits& traits)
       : base(name)
-      , _function{traits.load_function(name, identity<function_pointer>())} {
+      , _function{traits.load_function(name, identity<RV(Params...)>())} {
     }
 
     constexpr operator bool() const noexcept {
@@ -118,12 +130,14 @@ public:
     }
 
     template <typename... Args>
-    constexpr std::enable_if_t<sizeof...(Params) == sizeof...(Args), RV>
+    constexpr std::enable_if_t<
+      sizeof...(Params) == sizeof...(Args),
+      c_api_transform_rv<ApiTraits, RV>>
     operator()(Args&&... args) const noexcept {
         if(_function) {
-            return _function(std::forward<Args>(args)...);
+            return ApiTraits::call(_function, std::forward<Args>(args)...);
         }
-        return {};
+        return ApiTraits::fallback(identity<RV>());
     }
 
 private:
