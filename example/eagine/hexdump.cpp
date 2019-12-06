@@ -26,5 +26,19 @@ int main(int argc, const char** argv) {
             }
         }
     }
+
+    span_size_t i = 0;
+    auto get = [&]() -> optionally_valid<byte> {
+        if(i < 256) {
+            return {byte(i++), true};
+        }
+        return {};
+    };
+    auto put = [](char c) {
+        std::cout << c;
+        return true;
+    };
+    hexdump::apply(hexdump::byte_getter(get), hexdump::char_putter(put));
+
     return 0;
 }

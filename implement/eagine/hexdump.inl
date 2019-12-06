@@ -52,6 +52,7 @@ void _hexdump_do_hex_dump(span_size_t bgn, Getter get_byte, Putter put_char) {
 
     while(!done) {
         span_size_t pos = row;
+        bool empty_row = true;
         for(int b = 0; b < 16; ++b) {
             if(pos < bgn || done) {
                 row_none[b] = true;
@@ -59,12 +60,16 @@ void _hexdump_do_hex_dump(span_size_t bgn, Getter get_byte, Putter put_char) {
                 if(auto got = get_byte()) {
                     row_none[b] = false;
                     row_byte[b] = got.value();
+                    empty_row = false;
                 } else {
                     row_none[b] = true;
                     done = true;
                 }
             }
             ++pos;
+        }
+        if(empty_row) {
+            break;
         }
 
         std::stringstream temp;
@@ -116,6 +121,13 @@ void _hexdump_do_hex_dump(span_size_t bgn, Getter get_byte, Putter put_char) {
 }
 //------------------------------------------------------------------------------
 // ostream << hexdump
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void hexdump::apply(
+  hexdump::byte_getter get_byte, hexdump::char_putter put_char) {
+
+    _hexdump_do_hex_dump(0, get_byte, put_char);
+}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 std::ostream& operator<<(std::ostream& out, const hexdump& hd) {

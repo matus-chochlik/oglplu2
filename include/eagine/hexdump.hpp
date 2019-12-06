@@ -10,9 +10,11 @@
 #ifndef EAGINE_HEXDUMP_HPP
 #define EAGINE_HEXDUMP_HPP
 
+#include "callable_ref.hpp"
 #include "config/basic.hpp"
 #include "memory/block.hpp"
 #include "types.hpp"
+#include "valid_if/decl.hpp"
 #include <iosfwd>
 
 namespace eagine {
@@ -25,6 +27,11 @@ public:
     hexdump(memory::const_block mb) noexcept
       : _mb(mb) {
     }
+
+    using byte_getter = callable_ref<optionally_valid<byte>()>;
+    using char_putter = callable_ref<bool(char)>;
+
+    static void apply(byte_getter get_byte, char_putter put_char);
 
     friend std::ostream& operator<<(std::ostream&, const hexdump&);
 };
