@@ -17,28 +17,29 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-template <typename ApiTraits, typename Signature>
+template <typename ApiTraits, typename Tag, typename Signature>
 using c_api_function_ptr =
-  typename ApiTraits::template function_pointer<Signature>::type;
+  typename ApiTraits::template function_pointer<Tag, Signature>::type;
 //------------------------------------------------------------------------------
-template <typename ApiTraits, typename T>
+template <typename ApiTraits, typename Tag, typename T>
 using c_api_transform_rv =
-  typename ApiTraits::template transform_return_value<T>::type;
+  typename ApiTraits::template transform_return_value<Tag, T>::type;
 //------------------------------------------------------------------------------
-template <typename ApiTraits, typename T>
+template <typename ApiTraits, typename Tag, typename T>
 using c_api_transform_param =
-  typename ApiTraits::template transform_parameter<T>::type;
+  typename ApiTraits::template transform_parameter<Tag, T>::type;
 //------------------------------------------------------------------------------
-template <typename ApiTraits, typename Signature>
+template <typename ApiTraits, typename Tag, typename Signature>
 class unimplemented_c_api_function;
 //------------------------------------------------------------------------------
 template <
   typename ApiTraits,
+  typename Tag,
   typename Signature,
-  c_api_function_ptr<ApiTraits, Signature> function>
+  c_api_function_ptr<ApiTraits, Tag, Signature> function>
 class static_c_api_function;
 //------------------------------------------------------------------------------
-template <typename ApiTraits, typename Signature>
+template <typename ApiTraits, typename Tag, typename Signature>
 class dynamic_c_api_function;
 //------------------------------------------------------------------------------
 template <typename ApiTraits, bool IsImplemented>
@@ -67,8 +68,8 @@ private:
     const string_view _name{};
 };
 //------------------------------------------------------------------------------
-template <typename ApiTraits, typename RV, typename... Params>
-class unimplemented_c_api_function<ApiTraits, RV(Params...)>
+template <typename ApiTraits, typename Tag, typename RV, typename... Params>
+class unimplemented_c_api_function<ApiTraits, Tag, RV(Params...)>
   : public c_api_function_base<ApiTraits, false> {
     using base = c_api_function_base<ApiTraits, false>;
 
@@ -80,18 +81,19 @@ public:
     template <typename... Args>
     constexpr std::enable_if_t<
       sizeof...(Params) == sizeof...(Args),
-      c_api_transform_rv<ApiTraits, RV>>
+      c_api_transform_rv<ApiTraits, Tag, RV>>
     operator()(Args&&...) const noexcept {
-        return ApiTraits::fallback(identity<RV>());
+        return ApiTraits::fallback(Tag(), identity<RV>());
     }
 };
 //------------------------------------------------------------------------------
 template <
   typename ApiTraits,
+  typename Tag,
   typename RV,
   typename... Params,
-  c_api_function_ptr<ApiTraits, RV(Params...)> function>
-class static_c_api_function<ApiTraits, RV(Params...), function>
+  c_api_function_ptr<ApiTraits, Tag, RV(Params...)> function>
+class static_c_api_function<ApiTraits, Tag, RV(Params...), function>
   : public c_api_function_base<ApiTraits, true> {
     using base = c_api_function_base<ApiTraits, true>;
 
@@ -103,23 +105,24 @@ public:
     template <typename... Args>
     constexpr std::enable_if_t<
       sizeof...(Params) == sizeof...(Args),
-      c_api_transform_rv<ApiTraits, RV>>
+      c_api_transform_rv<ApiTraits, Tag, RV>>
     operator()(Args&&... args) const noexcept {
-        return ApiTraits::call(function, std::forward<Args>(args)...);
+        return ApiTraits::call(Tag(), function, std::forward<Args>(args)...);
     }
 };
 //------------------------------------------------------------------------------
-template <typename ApiTraits, typename RV, typename... Params>
-class dynamic_c_api_function<ApiTraits, RV(Params...)>
+template <typename ApiTraits, typename Tag, typename RV, typename... Params>
+class dynamic_c_api_function<ApiTraits, Tag, RV(Params...)>
   : public c_api_function_base<ApiTraits, true> {
 
     using base = c_api_function_base<ApiTraits, true>;
-    using function_pointer = c_api_function_ptr<ApiTraits, RV(Params...)>;
+    using function_pointer = c_api_function_ptr<ApiTraits, Tag, RV(Params...)>;
 
 public:
     constexpr dynamic_c_api_function(string_view name, ApiTraits& traits)
       : base(name)
-      , _function{traits.load_function(name, identity<RV(Params...)>())} {
+      , _function{
+          traits.load_function(Tag(), name, identity<RV(Params...)>())} {
     }
 
     constexpr operator bool() const noexcept {
@@ -132,12 +135,13 @@ public:
     template <typename... Args>
     constexpr std::enable_if_t<
       sizeof...(Params) == sizeof...(Args),
-      c_api_transform_rv<ApiTraits, RV>>
+      c_api_transform_rv<ApiTraits, Tag, RV>>
     operator()(Args&&... args) const noexcept {
         if(_function) {
-            return ApiTraits::call(_function, std::forward<Args>(args)...);
+            return ApiTraits::call(
+              Tag(), _function, std::forward<Args>(args)...);
         }
-        return ApiTraits::fallback(identity<RV>());
+        return ApiTraits::fallback(Tag(), identity<RV>());
     }
 
 private:
@@ -146,16 +150,17 @@ private:
 //------------------------------------------------------------------------------
 template <
   typename ApiTraits,
+  typename Tag,
   typename Signature,
-  c_api_function_ptr<ApiTraits, Signature> function,
+  c_api_function_ptr<ApiTraits, Tag, Signature> function,
   bool IsAvailable>
 using opt_c_api_function = std::conditional_t<
   IsAvailable,
   std::conditional_t<
     bool(function),
-    static_c_api_function<ApiTraits, Signature, function>,
-    dynamic_c_api_function<ApiTraits, Signature>>,
-  unimplemented_c_api_function<ApiTraits, Signature>>;
+    static_c_api_function<ApiTraits, Tag, Signature, function>,
+    dynamic_c_api_function<ApiTraits, Tag, Signature>>,
+  unimplemented_c_api_function<ApiTraits, Tag, Signature>>;
 //------------------------------------------------------------------------------
 
 } // namespace eagine
