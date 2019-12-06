@@ -148,6 +148,11 @@ private:
     function_pointer _function{nullptr};
 };
 //------------------------------------------------------------------------------
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Waddress"
+#endif
+
 template <
   typename ApiTraits,
   typename Tag,
@@ -161,6 +166,10 @@ using opt_c_api_function = std::conditional_t<
     static_c_api_function<ApiTraits, Tag, Signature, function>,
     dynamic_c_api_function<ApiTraits, Tag, Signature>>,
   unimplemented_c_api_function<ApiTraits, Tag, Signature>>;
+
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
 //------------------------------------------------------------------------------
 
 } // namespace eagine
