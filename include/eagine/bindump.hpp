@@ -10,9 +10,11 @@
 #ifndef EAGINE_BINDUMP_HPP
 #define EAGINE_BINDUMP_HPP
 
+#include "callable_ref.hpp"
 #include "config/basic.hpp"
 #include "memory/block.hpp"
 #include "types.hpp"
+#include "valid_if/decl.hpp"
 #include <iosfwd>
 
 namespace eagine {
@@ -20,15 +22,16 @@ namespace eagine {
 class bindump {
 private:
     memory::const_block _mb;
-    bool _offs;
-
-    static void _to_bin_b(std::ostream& out, byte b);
 
 public:
-    bindump(memory::const_block mb, bool offs = true) noexcept
-      : _mb(mb)
-      , _offs(offs) {
+    bindump(memory::const_block mb) noexcept
+      : _mb(mb) {
     }
+
+    using byte_getter = callable_ref<optionally_valid<byte>()>;
+    using char_putter = callable_ref<bool(char)>;
+
+    static void apply(byte_getter get_byte, char_putter put_char);
 
     friend std::ostream& operator<<(std::ostream&, const bindump&);
 };

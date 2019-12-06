@@ -36,8 +36,9 @@ void _hexdump_to_hex_b(Putter& put_char, byte b) {
                                 'd',
                                 'e',
                                 'f'};
+    put_char(' ');
     // NOLINTNEXTLINE(hicpp-signed-bitwise)
-    put_char(hd[(b >> 4) & 0x0F]);
+    put_char(hd[(b >> 4U) & 0x0FU]);
     put_char(hd[b & 0x0FU]);
 }
 //------------------------------------------------------------------------------
@@ -91,7 +92,6 @@ void _hexdump_do_hex_dump(span_size_t bgn, Getter get_byte, Putter put_char) {
                 put_char('.');
                 put_char('.');
             } else {
-                put_char(' ');
                 _hexdump_to_hex_b(put_char, row_byte[b]);
             }
             ++pos;
