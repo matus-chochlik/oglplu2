@@ -20,14 +20,10 @@ namespace eagine {
 class hexdump {
 private:
     memory::const_block _mb;
-    bool _offs;
-
-    static void _to_hex_b(std::ostream& out, byte b);
 
 public:
-    hexdump(memory::const_block mb, bool offs = true) noexcept
-      : _mb(mb)
-      , _offs(offs) {
+    hexdump(memory::const_block mb) noexcept
+      : _mb(mb) {
     }
 
     friend std::ostream& operator<<(std::ostream&, const hexdump&);

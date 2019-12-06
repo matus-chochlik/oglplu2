@@ -8,16 +8,18 @@
  */
 
 #include <eagine/memory/address.hpp>
+#include <eagine/span.hpp>
 #include <cctype>
 #include <iomanip>
 #include <iostream>
+#include <sstream>
 
 namespace eagine {
 //------------------------------------------------------------------------------
-// hexdump::_to_hex_b
+// _hexdump_to_hex_b
 //------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-void hexdump::_to_hex_b(std::ostream& out, byte b) {
+template <typename Putter>
+void _hexdump_to_hex_b(Putter& put_char, byte b) {
     static const char hd[16] = {'0',
                                 '1',
                                 '2',
@@ -35,7 +37,82 @@ void hexdump::_to_hex_b(std::ostream& out, byte b) {
                                 'e',
                                 'f'};
     // NOLINTNEXTLINE(hicpp-signed-bitwise)
-    out << " " << hd[(b >> 4) & 0x0F] << hd[b & 0x0F];
+    put_char(hd[(b >> 4) & 0x0F]);
+    put_char(hd[b & 0x0FU]);
+}
+//------------------------------------------------------------------------------
+template <typename Getter, typename Putter>
+void _hexdump_do_hex_dump(span_size_t bgn, Getter get_byte, Putter put_char) {
+
+    bool done = false;
+    span_size_t row = bgn - (bgn % 16);
+
+    bool row_none[16]{};
+    byte row_byte[16]{};
+
+    while(!done) {
+        span_size_t pos = row;
+        for(int b = 0; b < 16; ++b) {
+            if(pos < bgn || done) {
+                row_none[b] = true;
+            } else {
+                if(auto got = get_byte()) {
+                    row_none[b] = false;
+                    row_byte[b] = got.value();
+                } else {
+                    row_none[b] = true;
+                    done = true;
+                }
+            }
+            ++pos;
+        }
+
+        std::stringstream temp;
+        temp << std::setw(20) << std::setfill('.');
+        temp << std::hex << row;
+        for(char c : temp.str()) {
+            put_char(c);
+        }
+        put_char('|');
+
+        pos = row;
+        for(int b = 0; b < 16; ++b) {
+            if(b == 8) {
+                put_char(' ');
+            }
+
+            if(row_none[b]) {
+                put_char(' ');
+                put_char('.');
+                put_char('.');
+            } else {
+                put_char(' ');
+                _hexdump_to_hex_b(put_char, row_byte[b]);
+            }
+            ++pos;
+        }
+
+        put_char(' ');
+        put_char('|');
+
+        pos = row;
+        for(span_size_t b = 0; b < 16; ++b) {
+            if(b == 8) {
+                put_char(' ');
+            }
+
+            if(row_none[b] || !std::isprint(row_byte[b])) {
+                put_char('.');
+            } else {
+                put_char(char(row_byte[b]));
+            }
+            ++pos;
+        }
+
+        row += 16;
+        put_char('|');
+        put_char('\n');
+    }
 }
 //------------------------------------------------------------------------------
 // ostream << hexdump
@@ -44,53 +121,13 @@ EAGINE_LIB_FUNC
 std::ostream& operator<<(std::ostream& out, const hexdump& hd) {
     out << std::endl;
 
-    const byte* bgn = hd._mb.begin();
-    const byte* end = hd._mb.end();
-    const byte* row = memory::align_down(bgn, 16);
+    span_size_t i = 0;
 
-    while(row < end) {
-        const auto adr = hd._offs ? memory::const_address(row)
-                                  : memory::const_address(row - bgn);
-        out << std::setw(20) << std::setfill('.');
-        out << (static_cast<const void*>(adr.ptr()));
-        out << "|";
-
-        const byte* pos = row;
-        for(unsigned b = 0; b < 16; ++b) {
-            if(b == 8) {
-                out << " ";
-            }
-
-            if(pos < bgn || pos >= end) {
-                out << " ..";
-            } else {
-                hexdump::_to_hex_b(out, *pos);
-            }
-            ++pos;
-        }
-
-        out << " |";
-
-        pos = row;
-        for(unsigned b = 0; b < 16; ++b) {
-            if(b == 8) {
-                out << " ";
-            }
-
-            if(pos < bgn || pos >= end || !std::isprint(*pos)) {
-                out << ".";
-            } else {
-                out << char(*pos);
-            }
-            ++pos;
-        }
-
-        row += 16;
-
-        out << "|" << std::endl;
-    }
-
-    return out;
+    _hexdump_do_hex_dump(
+      memory::const_address(hd._mb.begin()).value(),
+      make_span_getter(i, hd._mb),
+      [&out](char c) { out << c; });
+    return out << std::flush;
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
