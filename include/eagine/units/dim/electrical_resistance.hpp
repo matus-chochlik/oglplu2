@@ -18,7 +18,7 @@ namespace units {
 using electrical_resistance = decltype(electric_tension() / electric_current());
 
 template <>
-struct dim_name<electrical_resistance> {
+struct name_of<electrical_resistance> {
     static constexpr const char mp_str[] = "electrical resistance";
 };
 

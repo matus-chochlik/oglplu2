@@ -19,17 +19,17 @@ namespace base {
 // candela
 struct candela : unit<luminous_intensity, candela> {};
 
+} // namespace base
+
 template <>
-struct unit_name<candela> {
+struct name_of<base::candela> {
     static constexpr const char mp_str[] = "candela";
 };
 
 template <>
-struct unit_symbol<candela> {
+struct symbol_of<base::candela> {
     static constexpr const char mp_str[] = "cd";
 };
-
-} // namespace base
 
 // si::base_unit<luminous_intensity>
 template <>

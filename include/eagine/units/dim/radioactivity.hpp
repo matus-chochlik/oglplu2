@@ -18,7 +18,7 @@ namespace units {
 using radioactivity = decltype(number_of_decays() / time());
 
 template <>
-struct dim_name<radioactivity> {
+struct name_of<radioactivity> {
     static constexpr const char mp_str[] = "radioactivity";
 };
 

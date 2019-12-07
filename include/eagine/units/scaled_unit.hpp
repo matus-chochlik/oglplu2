@@ -31,7 +31,7 @@ struct scaled_dim_unit {
         using type = scale;
 
         using _impl = bits::_sc_unit_sc_hlp<Scales, System>;
-        using _ndp = bits::dim_pow<nothing_t, int_constant<0>>;
+        using _ndp = bits::dim_pow<nothing_t, 0>;
 
         template <typename T>
         static constexpr inline auto mul(T v) {

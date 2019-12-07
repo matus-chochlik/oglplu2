@@ -24,12 +24,12 @@ namespace units {
 using henry = unit<inductance, si>;
 
 template <>
-struct unit_name<henry> {
+struct name_of<henry> {
     static constexpr const char mp_str[] = "henry";
 };
 
 template <>
-struct unit_symbol<henry> {
+struct symbol_of<henry> {
     static constexpr const char mp_str[] = "H";
 };
 

@@ -24,12 +24,12 @@ namespace units {
 using volt = unit<electric_tension, si>;
 
 template <>
-struct unit_name<volt> {
+struct name_of<volt> {
     static constexpr const char mp_str[] = "volt";
 };
 
 template <>
-struct unit_symbol<volt> {
+struct symbol_of<volt> {
     static constexpr const char mp_str[] = "V";
 };
 

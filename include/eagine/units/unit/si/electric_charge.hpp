@@ -22,12 +22,12 @@ namespace units {
 using coulomb = unit<electric_charge, si>;
 
 template <>
-struct unit_name<coulomb> {
+struct name_of<coulomb> {
     static constexpr const char mp_str[] = "coulomb";
 };
 
 template <>
-struct unit_symbol<coulomb> {
+struct symbol_of<coulomb> {
     static constexpr const char mp_str[] = "C";
 };
 

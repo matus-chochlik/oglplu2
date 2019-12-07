@@ -7,12 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/tagged_quantity.hpp>
-#include <eagine/units/dim/force.hpp>
-#include <eagine/units/dim/pressure.hpp>
 #include <eagine/units/strings.hpp>
-#include <eagine/units/unit/si/force.hpp>
-#include <eagine/units/unit/si/length.hpp>
-#include <eagine/units/unit/si/pressure.hpp>
+#include <eagine/units/unit/si.hpp>
 #include <iostream>
 
 template <typename Unit>
@@ -20,22 +16,38 @@ using qty = eagine::tagged_quantity<float, Unit>;
 
 template <typename Unit>
 void print(const qty<Unit>& q) {
+    using eagine::units::get_name;
+    using eagine::units::get_name_form;
+    using eagine::units::get_symbol;
 
-    std::cout << get_dim_name(q.unit()) << ": " << q.value() << " ["
-              << get_unit_symbol(q.unit()) << "]\n";
+    const auto dim = get_dimension(q.unit());
+    std::cout << get_name(dim) << " (" << get_name_form(dim)
+              << "): " << q.value() << " [" << get_symbol(q.unit()) << " ("
+              << get_name_form(q.unit()) << ")]\n";
 }
 
 int main() {
     using namespace eagine::units;
 
-    qty<meter> l1{2.f};
-    qty<meter> l2{3.f};
+    qty<meter> x{2.f};
+    qty<meter> y{3.f};
+    qty<meter> z{4.f};
     qty<newton> f{12.f};
-    qty<pascal> p = f / (l1 * l2);
+    qty<second> t{6.f};
+    auto a = x * y;
+    auto v = a * z;
+    auto s = f / a;
+    auto e = v * s;
+    auto p = e / t;
 
-    print(l1);
-    print(l2);
+    print(x);
+    print(y);
+    print(a);
+    print(v);
+    print(t);
     print(f);
+    print(s);
+    print(e);
     print(p);
 
     return 0;

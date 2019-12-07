@@ -101,67 +101,68 @@ static constexpr inline int get_number(dimension<Derived>) noexcept {
     return dim_num_v<Derived>;
 }
 
+} // namespace base
+
 template <>
-struct dim_name<angle> {
+struct name_of<base::angle> {
     static constexpr const char mp_str[] = "angle";
 };
 
 template <>
-struct dim_name<solid_angle> {
+struct name_of<base::solid_angle> {
     static constexpr const char mp_str[] = "solid angle";
 };
 
 template <>
-struct dim_name<mass> {
+struct name_of<base::mass> {
     static constexpr const char mp_str[] = "mass";
 };
 
 template <>
-struct dim_name<length> {
+struct name_of<base::length> {
     static constexpr const char mp_str[] = "length";
 };
 
 template <>
-struct dim_name<time> {
+struct name_of<base::time> {
     static constexpr const char mp_str[] = "time";
 };
 
 template <>
-struct dim_name<temperature> {
+struct name_of<base::temperature> {
     static constexpr const char mp_str[] = "temperature";
 };
 
 template <>
-struct dim_name<electric_current> {
+struct name_of<base::electric_current> {
     static constexpr const char mp_str[] = "electric current";
 };
 
 template <>
-struct dim_name<number_of_cycles> {
+struct name_of<base::number_of_cycles> {
     static constexpr const char mp_str[] = "number of cycles";
 };
 
 template <>
-struct dim_name<number_of_decays> {
+struct name_of<base::number_of_decays> {
     static constexpr const char mp_str[] = "number of decays";
 };
 
 template <>
-struct dim_name<luminous_intensity> {
+struct name_of<base::luminous_intensity> {
     static constexpr const char mp_str[] = "luminous intensity";
 };
 
 template <>
-struct dim_name<amount_of_substance> {
+struct name_of<base::amount_of_substance> {
     static constexpr const char mp_str[] = "amount of substance";
 };
 
 template <>
-struct dim_name<amount_of_information> {
+struct name_of<base::amount_of_information> {
     static constexpr const char mp_str[] = "amount of information";
 };
 
-} // namespace base
 } // namespace units
 } // namespace eagine
 

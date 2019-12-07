@@ -19,73 +19,73 @@ namespace base {
 // radian
 struct radian : unit<angle, radian> {};
 
-template <>
-struct unit_name<radian> {
-    static constexpr const char mp_str[] = "radian";
-};
-
-template <>
-struct unit_symbol<radian> {
-    static constexpr const char mp_str[] = "rad";
-};
-
 // degree
 using degree =
   scaled_unit<scales::divided<scales::pi, scales::constant<180>>, radian>;
-
-template <>
-struct unit_name<degree> {
-    static constexpr const char mp_str[] = "degree";
-};
-
-template <>
-struct unit_symbol<degree> {
-    static constexpr const char mp_str[] = {char(0xC2), char(0xB0), '\0'};
-};
 
 // gradian
 using gradian =
   scaled_unit<scales::divided<scales::pi, scales::constant<200>>, radian>;
 
-template <>
-struct unit_name<gradian> {
-    static constexpr const char mp_str[] = "gradian";
-};
-
-template <>
-struct unit_symbol<gradian> {
-    static constexpr const char mp_str[] = "grad";
-};
-
 // quarter
 using quarter =
   scaled_unit<scales::multiplied<scales::pi, scales::rational<1, 2>>, radian>;
-
-template <>
-struct unit_name<quarter> {
-    static constexpr const char mp_str[] = "quarter";
-};
-
-template <>
-struct unit_symbol<quarter> {
-    static constexpr const char mp_str[] = "Q";
-};
 
 // turn
 using turn =
   scaled_unit<scales::multiplied<scales::constant<2>, scales::pi>, radian>;
 
+} // namespace base
+
 template <>
-struct unit_name<turn> {
+struct name_of<base::radian> {
+    static constexpr const char mp_str[] = "radian";
+};
+
+template <>
+struct symbol_of<base::radian> {
+    static constexpr const char mp_str[] = "rad";
+};
+
+template <>
+struct name_of<base::degree> {
+    static constexpr const char mp_str[] = "degree";
+};
+
+template <>
+struct symbol_of<base::degree> {
+    static constexpr const char mp_str[] = {char(0xC2), char(0xB0), '\0'};
+};
+
+template <>
+struct name_of<base::gradian> {
+    static constexpr const char mp_str[] = "gradian";
+};
+
+template <>
+struct symbol_of<base::gradian> {
+    static constexpr const char mp_str[] = "grad";
+};
+
+template <>
+struct name_of<base::quarter> {
+    static constexpr const char mp_str[] = "quarter";
+};
+
+template <>
+struct symbol_of<base::quarter> {
+    static constexpr const char mp_str[] = "Q";
+};
+
+template <>
+struct name_of<base::turn> {
     static constexpr const char mp_str[] = "turn";
 };
 
 template <>
-struct unit_symbol<turn> {
+struct symbol_of<base::turn> {
     static constexpr const char mp_str[] = "r";
 };
-
-} // namespace base
 
 // si::base_unit<angle>
 template <>

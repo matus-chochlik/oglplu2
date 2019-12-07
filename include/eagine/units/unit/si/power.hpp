@@ -23,12 +23,12 @@ namespace units {
 using watt = unit<power, si>;
 
 template <>
-struct unit_name<watt> {
+struct name_of<watt> {
     static constexpr const char mp_str[] = "watt";
 };
 
 template <>
-struct unit_symbol<watt> {
+struct symbol_of<watt> {
     static constexpr const char mp_str[] = "W";
 };
 

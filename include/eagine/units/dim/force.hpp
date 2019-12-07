@@ -18,7 +18,7 @@ namespace units {
 using force = decltype(acceleration() * mass());
 
 template <>
-struct dim_name<force> {
+struct name_of<force> {
     static constexpr const char mp_str[] = "force";
 };
 

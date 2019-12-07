@@ -22,12 +22,12 @@ namespace units {
 using siemens = unit<electrical_conductance, si>;
 
 template <>
-struct unit_name<siemens> {
+struct name_of<siemens> {
     static constexpr const char mp_str[] = "siemens";
 };
 
 template <>
-struct unit_symbol<siemens> {
+struct symbol_of<siemens> {
     static constexpr const char mp_str[] = "S";
 };
 

@@ -19,17 +19,17 @@ namespace base {
 // steradian
 struct steradian : unit<solid_angle, steradian> {};
 
+} // namespace base
+
 template <>
-struct unit_name<steradian> {
+struct name_of<base::steradian> {
     static constexpr const char mp_str[] = "steradian";
 };
 
 template <>
-struct unit_symbol<steradian> {
+struct symbol_of<base::steradian> {
     static constexpr const char mp_str[] = "sr";
 };
-
-} // namespace base
 
 // si::base_unit<solid_angle>
 template <>

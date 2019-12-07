@@ -24,12 +24,12 @@ namespace units {
 using weber = unit<magnetic_flux, si>;
 
 template <>
-struct unit_name<weber> {
+struct name_of<weber> {
     static constexpr const char mp_str[] = "weber";
 };
 
 template <>
-struct unit_symbol<weber> {
+struct symbol_of<weber> {
     static constexpr const char mp_str[] = "Wb";
 };
 

@@ -20,7 +20,7 @@ namespace bits {
 template <typename Head, typename Tail>
 struct dims;
 
-template <typename Dim, typename Pow>
+template <typename Dim, int Pow>
 struct dim_pow;
 
 template <typename Head, typename Tail>
@@ -36,20 +36,11 @@ namespace base {
 template <typename Derived>
 struct dimension;
 
-template <typename Dimension>
-struct dim_name;
-
 template <typename Dimension, typename Derived>
 struct unit;
 
 template <typename Scale, typename Unit>
 struct scaled_unit;
-
-template <typename Unit>
-struct unit_name;
-
-template <typename Unit>
-struct unit_symbol;
 
 } // namespace base
 
@@ -59,8 +50,7 @@ template <typename System>
 struct system_id;
 
 template <typename BaseDim, int Pow>
-using dimension =
-  bits::dims<bits::dim_pow<BaseDim, int_constant<Pow>>, nothing_t>;
+using dimension = bits::dims<bits::dim_pow<BaseDim, Pow>, nothing_t>;
 
 template <typename Dims, typename System>
 struct unit;
@@ -152,14 +142,15 @@ struct is_convertible;
 template <typename U1, typename U2>
 constexpr bool is_convertible_v = is_convertible<U1, U2>::value;
 
-template <typename Dim>
-struct dim_name;
+template <typename Item>
+struct name_of {
+    static constexpr nothing_t mp_str{};
+};
 
-template <typename Unit>
-struct unit_name;
-
-template <typename Unit>
-struct unit_symbol;
+template <typename Item>
+struct symbol_of {
+    static constexpr nothing_t mp_str{};
+};
 
 } // namespace units
 } // namespace eagine

@@ -18,7 +18,7 @@ namespace units {
 using inductance = decltype(magnetic_flux() / electric_current());
 
 template <>
-struct dim_name<inductance> {
+struct name_of<inductance> {
     static constexpr const char mp_str[] = "inductance";
 };
 

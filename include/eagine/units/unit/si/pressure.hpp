@@ -23,12 +23,12 @@ namespace units {
 using pascal = unit<pressure, si>;
 
 template <>
-struct unit_name<pascal> {
+struct name_of<pascal> {
     static constexpr const char mp_str[] = "pascal";
 };
 
 template <>
-struct unit_symbol<pascal> {
+struct symbol_of<pascal> {
     static constexpr const char mp_str[] = "Pa";
 };
 

@@ -18,7 +18,7 @@ namespace units {
 using volume = decltype(length() * length() * length());
 
 template <>
-struct dim_name<volume> {
+struct name_of<volume> {
     static constexpr const char mp_str[] = "volume";
 };
 

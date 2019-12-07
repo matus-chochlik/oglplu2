@@ -19,7 +19,7 @@ namespace units {
 using magnetic_field_strength = decltype(magnetic_flux() / area());
 
 template <>
-struct dim_name<magnetic_field_strength> {
+struct name_of<magnetic_field_strength> {
     static constexpr const char mp_str[] = "magnetic field strength";
 };
 

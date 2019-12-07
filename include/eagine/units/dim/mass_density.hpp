@@ -18,7 +18,7 @@ namespace units {
 using mass_density = decltype(mass() / volume());
 
 template <>
-struct dim_name<mass_density> {
+struct name_of<mass_density> {
     static constexpr const char mp_str[] = "mass density";
 };
 

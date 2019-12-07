@@ -18,7 +18,7 @@ namespace units {
 using acceleration = decltype(velocity() / time());
 
 template <>
-struct dim_name<acceleration> {
+struct name_of<acceleration> {
     static constexpr const char mp_str[] = "acceleration";
 };
 

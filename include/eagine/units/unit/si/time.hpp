@@ -19,52 +19,52 @@ namespace base {
 // second
 struct second : unit<time, second> {};
 
-template <>
-struct unit_name<second> {
-    static constexpr const char mp_str[] = "second";
-};
-template <>
-struct unit_symbol<second> {
-    static constexpr const char mp_str[] = "s";
-};
-
 // minute
 using minute = scaled_unit<scales::constant<60>, second>;
-
-template <>
-struct unit_name<minute> {
-    static constexpr const char mp_str[] = "minute";
-};
-template <>
-struct unit_symbol<minute> {
-    static constexpr const char mp_str[] = "min";
-};
 
 // hour
 using hour = scaled_unit<scales::constant<3600>, second>;
 
-template <>
-struct unit_name<hour> {
-    static constexpr const char mp_str[] = "hour";
-};
-template <>
-struct unit_symbol<hour> {
-    static constexpr const char mp_str[] = "hr";
-};
-
 // day
 using day = scaled_unit<scales::constant<86400>, second>;
 
+} // namespace base
+
 template <>
-struct unit_name<day> {
+struct name_of<base::second> {
+    static constexpr const char mp_str[] = "second";
+};
+template <>
+struct symbol_of<base::second> {
+    static constexpr const char mp_str[] = "s";
+};
+
+template <>
+struct name_of<base::minute> {
+    static constexpr const char mp_str[] = "minute";
+};
+template <>
+struct symbol_of<base::minute> {
+    static constexpr const char mp_str[] = "min";
+};
+
+template <>
+struct name_of<base::hour> {
+    static constexpr const char mp_str[] = "hour";
+};
+template <>
+struct symbol_of<base::hour> {
+    static constexpr const char mp_str[] = "hr";
+};
+
+template <>
+struct name_of<base::day> {
     static constexpr const char mp_str[] = "day";
 };
 template <>
-struct unit_symbol<day> {
+struct symbol_of<base::day> {
     static constexpr const char mp_str[] = "D";
 };
-
-} // namespace base
 
 // si::base_unit<time>
 template <>

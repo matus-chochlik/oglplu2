@@ -19,7 +19,7 @@ using electrical_conductance =
   decltype(electric_current() / electric_tension());
 
 template <>
-struct dim_name<electrical_conductance> {
+struct name_of<electrical_conductance> {
     static constexpr const char mp_str[] = "electrical conductance";
 };
 

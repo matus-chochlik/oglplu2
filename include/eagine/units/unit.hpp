@@ -26,6 +26,11 @@ struct unit {
     using type = unit;
 };
 
+template <typename X>
+dimension_of_t<X> get_dimension(X) noexcept {
+    return {};
+}
+
 // is_convertible
 template <typename D, typename S>
 struct is_convertible<unit<D, S>, unit<D, S>> : std::true_type {};

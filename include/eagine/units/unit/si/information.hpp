@@ -19,28 +19,28 @@ namespace base {
 // bit
 struct bit : unit<amount_of_information, bit> {};
 
-template <>
-struct unit_name<bit> {
-    static constexpr const char mp_str[] = "bit";
-};
-template <>
-struct unit_symbol<bit> {
-    static constexpr const char mp_str[] = "b";
-};
-
 // byte
 using byte = scaled_unit<scales::constant<8>, bit>;
 
+} // namespace base
+
 template <>
-struct unit_name<byte> {
+struct name_of<base::bit> {
+    static constexpr const char mp_str[] = "bit";
+};
+template <>
+struct symbol_of<base::bit> {
+    static constexpr const char mp_str[] = "b";
+};
+
+template <>
+struct name_of<base::byte> {
     static constexpr const char mp_str[] = "byte";
 };
 template <>
-struct unit_symbol<byte> {
+struct symbol_of<base::byte> {
     static constexpr const char mp_str[] = "B";
 };
-
-} // namespace base
 
 // si::base_unit<amount_of_information>
 template <>

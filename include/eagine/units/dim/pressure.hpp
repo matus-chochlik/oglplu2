@@ -19,7 +19,7 @@ namespace units {
 using pressure = decltype(force() / area());
 
 template <>
-struct dim_name<pressure> {
+struct name_of<pressure> {
     static constexpr const char mp_str[] = "pressure";
 };
 
