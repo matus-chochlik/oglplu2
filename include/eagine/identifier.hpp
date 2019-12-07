@@ -302,6 +302,17 @@ using identifier =
     EAGINE_TAG_TYPE(NAME) { \
     }
 //------------------------------------------------------------------------------
+#if __SIZEOF_INT128__
+using long_identifier =
+  basic_identifier<20, 6, default_identifier_char_set, __uint128_t>;
+//------------------------------------------------------------------------------
+#define EAGINE_HAS_LONG_ID 1
+#define EAGINE_LONG_ID(NAME) ::eagine::long_identifier(#NAME)
+//------------------------------------------------------------------------------
+#else
+#define EAGINE_HAS_LONG_ID 0
+#endif
+//------------------------------------------------------------------------------
 } // namespace eagine
 
 #endif // EAGINE_IDENTIFIER_HPP

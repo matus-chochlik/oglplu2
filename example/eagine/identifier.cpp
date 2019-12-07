@@ -17,6 +17,15 @@ static inline void print_info(eagine::identifier id) {
     std::cout << "  value: " << id.value() << std::endl;
 }
 //------------------------------------------------------------------------------
+#if EAGINE_HAS_LONG_ID
+static inline void print_info(eagine::long_identifier id) {
+    std::cout << id.name() << ':' << std::endl;
+    std::cout << "  size: " << id.size() << std::endl;
+    std::cout << "  max_size: " << id.max_size() << std::endl;
+    std::cout << "  sizeof: " << sizeof(id) << std::endl;
+}
+#endif
+//------------------------------------------------------------------------------
 int main() {
     using namespace eagine;
 
@@ -24,6 +33,10 @@ int main() {
     print_info(EAGINE_ID(bar));
     print_info(EAGINE_ID(foobarbaz));
     print_info(EAGINE_ID(0123456789));
+
+#if EAGINE_HAS_LONG_ID
+    print_info(EAGINE_LONG_ID(ThisIsSomeVeryLongId));
+#endif
 
     return 0;
 }
