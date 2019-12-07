@@ -308,6 +308,59 @@ static inline basic_span<T, P, S> shuffle(basic_span<T, P, S> spn, RandGen rg) {
     return spn;
 }
 //------------------------------------------------------------------------------
+template <typename T, typename P, typename S>
+static inline basic_span<T, P, S> sort(basic_span<T, P, S> spn) {
+    std::sort(spn.begin(), spn.end());
+    return spn;
+}
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename S, typename Compare>
+static inline basic_span<T, P, S> sort(
+  basic_span<T, P, S> spn, Compare compare) {
+    std::sort(spn.begin(), spn.end(), std::move(compare));
+    return spn;
+}
+//------------------------------------------------------------------------------
+template <
+  typename T,
+  typename P,
+  typename S,
+  typename I,
+  typename PI,
+  typename SI,
+  typename Compare>
+static inline bool make_index(
+  basic_span<T, P, S> spn, basic_span<I, PI, SI> idx, Compare compare) {
+    if(spn.size() == idx.size()) {
+        std::sort(idx.begin(), idx.end(), [spn, &compare](auto& l, auto& r) {
+            return compare(spn[l], spn[r]);
+        });
+    }
+    return false;
+}
+//------------------------------------------------------------------------------
+template <
+  typename T,
+  typename P,
+  typename S,
+  typename I,
+  typename PI,
+  typename SI>
+static inline bool make_index(
+  basic_span<T, P, S> spn, basic_span<I, PI, SI> idx) {
+    return make_index(spn, idx, std::less<T>());
+}
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename S>
+static inline bool is_sorted(basic_span<T, P, S> spn) {
+    return std::is_sorted(spn.begin(), spn.end());
+}
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename S, typename Compare>
+static inline bool is_sorted(basic_span<T, P, S> spn, Compare compare) {
+    return std::is_sorted(spn.begin(), spn.end(), std::move(compare));
+}
+//------------------------------------------------------------------------------
 template <
   typename T1,
   typename P1,

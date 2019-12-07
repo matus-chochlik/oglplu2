@@ -1,5 +1,5 @@
 /**
- *  @example eagine/nstwork_sorter.cpp
+ *  @example eagine/network_sorter.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -19,9 +19,11 @@ int main() {
 
     std::vector<int> vec(32);
 
-    shuffle(
-      generate(cover(vec), [i{0}]() mutable { return i++; }),
-      std::random_device());
+    do {
+        shuffle(
+          generate(cover(vec), [i{0}]() mutable { return i++; }),
+          std::random_device());
+    } while(is_sorted(view(vec), std::less<int>()));
 
     std::cout << "shuffled: " << view(vec) << std::endl;
     std::cout << "ascending: " << network_sort<32, std::less<int>>(cover(vec))
