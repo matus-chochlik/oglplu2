@@ -7,6 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/tagged_quantity.hpp>
+#include <eagine/units/dimensions.hpp>
 #include <eagine/units/strings.hpp>
 #include <eagine/units/unit/si.hpp>
 #include <iostream>
