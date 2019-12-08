@@ -15,6 +15,7 @@ int main(int argc, const char** argv) {
     using namespace eagine;
 
     program_args args(argc, argv);
+    std::string na{"-"};
 
     std::string temp;
     for(auto& arg : args) {
@@ -22,11 +23,11 @@ int main(int argc, const char** argv) {
             if(arg.prev().is_tag("-f", "--file")) {
                 file_contents fc(arg.get());
                 std::cout << arg << '|'
-                          << base64_encode(fc.block(), temp).value_or("-")
+                          << extract_or(base64_encode(fc.block(), temp), na)
                           << std::endl;
             } else if(arg.prev().is_tag("-s", "--string")) {
                 std::cout << arg << '|'
-                          << base64_encode(arg.block(), temp).value_or("-")
+                          << extract_or(base64_encode(arg.block(), temp), "-")
                           << std::endl;
             }
         }

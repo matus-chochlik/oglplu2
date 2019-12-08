@@ -212,7 +212,7 @@ template <
   typename S2>
 static inline basic_span<T1, P1, S1> slice_before(
   basic_span<T1, P1, S1> spn, basic_span<T2, P2, S2> what) {
-    return head(spn, find_position(spn, what).value_or(spn.size()));
+    return head(spn, extract_or(find_position(spn, what), spn.size()));
 }
 //------------------------------------------------------------------------------
 template <
@@ -225,7 +225,7 @@ template <
 static inline basic_span<T1, P1, S1> slice_after(
   basic_span<T1, P1, S1> spn, basic_span<T2, P2, S2> what) {
     return skip(
-      spn, find_position(spn, what).value_or(spn.size()) + what.size());
+      spn, extract_or(find_position(spn, what), spn.size()) + what.size());
 }
 //------------------------------------------------------------------------------
 template <
@@ -237,7 +237,7 @@ template <
   typename S2>
 static inline basic_span<T1, P1, S1> slice_before_last(
   basic_span<T1, P1, S1> spn, basic_span<T2, P2, S2> what) {
-    return head(spn, reverse_find_position(spn, what).value_or(spn.size()));
+    return head(spn, extract_or(reverse_find_position(spn, what), spn.size()));
 }
 //------------------------------------------------------------------------------
 template <
@@ -250,7 +250,8 @@ template <
 static inline basic_span<T1, P1, S1> slice_after_last(
   basic_span<T1, P1, S1> spn, basic_span<T2, P2, S2> what) {
     return skip(
-      spn, reverse_find_position(spn, what).value_or(spn.size()) + what.size());
+      spn,
+      extract_or(reverse_find_position(spn, what), spn.size()) + what.size());
 }
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S, typename B>

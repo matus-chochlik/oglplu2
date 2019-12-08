@@ -402,6 +402,18 @@ static constexpr inline T& extract(basic_span<T, P, S> spn) noexcept {
     return EAGINE_CONSTEXPR_ASSERT(spn.size() >= 1, spn.front());
 }
 //------------------------------------------------------------------------------
+template <typename T, typename P, typename S>
+static constexpr inline T& extract_or(
+  basic_span<T, P, S> spn, T& fallback) noexcept {
+    return (spn.size() >= 1) ? spn.front() : fallback;
+}
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename S, typename F>
+static constexpr inline std::enable_if_t<std::is_convertible_v<F, T>, T>
+extract_or(basic_span<T, P, S> spn, F&& fallback) {
+    return (spn.size() >= 1) ? spn.front() : T{std::forward<F>(fallback)};
+}
+//------------------------------------------------------------------------------
 } // namespace memory
 //------------------------------------------------------------------------------
 template <

@@ -64,13 +64,13 @@ static constexpr inline valid_if_not_zero<code_point_t> max_code_point(
 //------------------------------------------------------------------------------
 static constexpr inline valid_span_size head_data_bitshift(
   const valid_sequence_length& len) noexcept {
-    return {len.is_valid() ? (len.value_anyway() - 1) * 6 : -1};
+    return {len.is_valid() ? (extract(len) - 1) * 6 : -1};
 }
 //------------------------------------------------------------------------------
 static constexpr inline valid_span_size tail_data_bitshift(
   const valid_sequence_length& idx, const valid_sequence_length& len) noexcept {
     return {(idx.is_valid() && len.is_valid())
-              ? (len.value_anyway() - idx.value_anyway() - 1) * 6
+              ? (extract(len) - extract(idx) - 1) * 6
               : -1};
 }
 //------------------------------------------------------------------------------
@@ -127,7 +127,7 @@ static constexpr inline bool is_valid_masked_code(
   const valid_if<byte, P1> mask,
   const valid_if<byte, P2> code) noexcept {
     return (mask.is_valid() && code.is_valid())
-             ? (b & mask.value_anyway()) == code.value_anyway()
+             ? (b & extract(mask)) == extract(code)
              : false;
 }
 //------------------------------------------------------------------------------

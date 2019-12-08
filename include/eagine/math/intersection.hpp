@@ -77,12 +77,11 @@ static constexpr inline auto _line_sphere_intersection_t(
   T a, valid_if_nonnegative<T> b, valid_if_positive<T> d) noexcept {
     using std::sqrt;
     using R = std::pair<optionally_valid<T>, optionally_valid<T>>;
-    return (b && d)
-             ? (b.value_anyway() > T(0))
-                 ? R{{(a + sqrt(b.value_anyway())) / d.value_anyway(), true},
-                     {(a - sqrt(b.value_anyway())) / d.value_anyway(), true}}
-                 : R{{a / d.value_anyway(), true}, {}}
-             : R{};
+    return (b && d) ? (extract(b) > T(0))
+                        ? R{{(a + sqrt(extract(b))) / extract(d), true},
+                            {(a - sqrt(extract(b))) / extract(d), true}}
+                        : R{{a / extract(d), true}, {}}
+                    : R{};
 }
 //------------------------------------------------------------------------------
 template <typename T, bool V>
@@ -92,10 +91,8 @@ static constexpr inline auto _line_sphere_intersection_p(
     using E = optionally_valid<vector<T, 3, V>>;
     using R = std::pair<E, E>;
     return R{
-      std::get<0>(ts) ? E{ray.point_at(std::get<0>(ts).value_anyway()), true}
-                      : E{},
-      std::get<1>(ts) ? E{ray.point_at(std::get<1>(ts).value_anyway()), true}
-                      : E{},
+      std::get<0>(ts) ? E{ray.point_at(extract(std::get<0>(ts))), true} : E{},
+      std::get<1>(ts) ? E{ray.point_at(extract(std::get<1>(ts))), true} : E{},
     };
 }
 //------------------------------------------------------------------------------
@@ -128,11 +125,10 @@ static constexpr inline auto _line_sphere_intersection_n_p(
 
     return std::get<0>(ts)
              ? std::get<1>(ts)
-                 ? abs(std::get<0>(ts).value_anyway()) <
-                       abs(std::get<1>(ts).value_anyway())
-                     ? R{ray.point_at(std::get<0>(ts).value_anyway()), true}
-                     : R{ray.point_at(std::get<1>(ts).value_anyway()), true}
-                 : R{ray.point_at(std::get<0>(ts).value_anyway()), true}
+                 ? abs(extract(std::get<0>(ts))) < abs(extract(std::get<1>(ts)))
+                     ? R{ray.point_at(extract(std::get<0>(ts))), true}
+                     : R{ray.point_at(extract(std::get<1>(ts))), true}
+                 : R{ray.point_at(extract(std::get<0>(ts))), true}
              : R{};
 }
 //------------------------------------------------------------------------------
@@ -154,7 +150,7 @@ static inline optionally_valid<T> line_triangle_intersection_param(
     const T a = dot(tri.ab(), h);
 
     if(const auto ia = reciprocal(a)) {
-        const T f = ia.value_anyway();
+        const T f = extract(ia);
         const vector<T, 3, V> s = ray.origin() - tri.a();
         const T u = f * dot(s, h);
 
@@ -175,7 +171,7 @@ template <typename T, bool V>
 static inline optionally_valid<vector<T, 3, V>> line_triangle_intersection(
   const line<T, V>& ray, const triangle<T, V>& tri) noexcept {
     if(const auto t = line_triangle_intersection_param(ray, tri)) {
-        return {ray.origin() + ray.direction() * t.value_anyway(), true};
+        return {ray.origin() + ray.direction() * extract(t), true};
     }
     return {};
 }

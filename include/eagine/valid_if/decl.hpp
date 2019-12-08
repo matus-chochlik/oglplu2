@@ -172,7 +172,7 @@ static constexpr inline tribool operator>=(
     return {(v1.value_anyway() >= v2.value_anyway()),
             (!v1.is_valid() || !v2.is_valid())};
 }
-
+//------------------------------------------------------------------------------
 template <typename T, typename P>
 static constexpr inline T extract(const valid_if<T, P>& opt) noexcept {
     return EAGINE_CONSTEXPR_ASSERT(bool(opt), opt.value_anyway());
@@ -187,10 +187,28 @@ template <typename T, typename P>
 static constexpr inline T&& extract(valid_if<T, P>&& opt) noexcept {
     return EAGINE_CONSTEXPR_ASSERT(bool(opt), std::move(opt.value_anyway()));
 }
-
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename F>
+static constexpr inline std::enable_if_t<std::is_convertible_v<F, T>, T>
+extract_or(const valid_if<T, P>& opt, F&& fallback) noexcept {
+    if(bool(opt)) {
+        return opt.value_anyway();
+    }
+    return T{std::forward<F>(fallback)};
+}
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename F>
+static constexpr inline T& extract_or(
+  valid_if<T, P>& opt, T& fallback) noexcept {
+    if(bool(opt)) {
+        return opt.value_anyway();
+    }
+    return fallback;
+}
+//------------------------------------------------------------------------------
 template <typename T>
 using optionally_valid = valid_if<T, valid_flag_policy>;
-
+//------------------------------------------------------------------------------
 } // namespace eagine
 
 #endif // EAGINE_VALID_IF_DECL_HPP

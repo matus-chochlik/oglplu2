@@ -30,12 +30,12 @@ static inline Range1 find(const Range1& where, const Range2& what) {
 //------------------------------------------------------------------------------
 template <typename Range1, typename Range2>
 static inline Range1 slice_before(const Range1& rng, const Range2& what) {
-    return slice(rng, 0, find_pos(rng, what).value_or(rng.size()));
+    return slice(rng, 0, extract_or(find_pos(rng, what), rng.size()));
 }
 //------------------------------------------------------------------------------
 template <typename Range1, typename Range2>
 static inline Range1 slice_before_last(const Range1& rng, const Range2& what) {
-    return slice(rng, 0, rfind_pos(rng, what).value_or(0));
+    return slice(rng, 0, extract_or(rfind_pos(rng, what), 0));
 }
 //------------------------------------------------------------------------------
 template <typename Range1, typename Range2>

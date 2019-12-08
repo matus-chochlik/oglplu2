@@ -76,6 +76,29 @@ public:
     }
 };
 //------------------------------------------------------------------------------
+template <typename T>
+static inline T& extract(optional_reference_wrapper<T> ref) noexcept {
+    return ref.get();
+}
+//------------------------------------------------------------------------------
+template <typename T>
+static inline T& extract_or(
+  optional_reference_wrapper<T> ref, T& fallback) noexcept {
+    if(ref) {
+        return ref.get();
+    }
+    return fallback;
+}
+//------------------------------------------------------------------------------
+template <typename T, typename F>
+static inline std::enable_if_t<std::is_convertible_v<F, T>, T> extract_or(
+  optional_reference_wrapper<T> ref, F&& fallback) {
+    if(ref) {
+        return ref.get();
+    }
+    return T{std::forward<F>(fallback)};
+}
+//------------------------------------------------------------------------------
 } // namespace eagine
 
 #endif // EAGINE_OPTIONAL_REF_HPP

@@ -27,13 +27,14 @@ static inline std::string encode_length(span_size_t len) {
 }
 //------------------------------------------------------------------------------
 static inline span_size_t element_header_size(string_view elem) noexcept {
-    return mbs::decode_sequence_length(mbs::make_cbyte_span(elem)).value_or(0);
+    return extract_or(
+      mbs::decode_sequence_length(mbs::make_cbyte_span(elem)), 0);
 }
 //------------------------------------------------------------------------------
 static inline span_size_t element_value_size(
   string_view elem, span_size_t l) noexcept {
-    return mbs::do_decode_code_point(mbs::make_cbyte_span(elem), l)
-      .value_or(0U);
+    return extract_or(
+      mbs::do_decode_code_point(mbs::make_cbyte_span(elem), l), 0U);
 }
 //------------------------------------------------------------------------------
 static inline span_size_t element_value_size(string_view elem) noexcept {
@@ -259,13 +260,13 @@ private:
     span_size_t _len_len() const noexcept {
         byte b = _b();
         EAGINE_ASSERT(mbs::is_valid_head_byte(b));
-        return mbs::do_decode_sequence_length(b).value_anyway();
+        return extract(mbs::do_decode_sequence_length(b));
     }
 
     span_size_t _val_len(span_size_t ll) const noexcept {
         string_view el{_pos, ll};
-        return mbs::do_decode_code_point(mbs::make_cbyte_span(el), ll)
-          .value_or(0U);
+        return extract_or(
+          mbs::do_decode_code_point(mbs::make_cbyte_span(el), ll), 0U);
     }
 
     void _update() const {
@@ -352,13 +353,13 @@ private:
     span_size_t _len_len() const noexcept {
         byte b = _b();
         EAGINE_ASSERT(mbs::is_valid_head_byte(b));
-        return mbs::do_decode_sequence_length(b).value_anyway();
+        return extract(mbs::do_decode_sequence_length(b));
     }
 
     span_size_t _val_len(span_size_t ll) const noexcept {
         string_view el{_pos, ll};
-        return mbs::do_decode_code_point(mbs::make_cbyte_span(el), ll)
-          .value_or(0U);
+        return extract_or(
+          mbs::do_decode_code_point(mbs::make_cbyte_span(el), ll), 0U);
     }
 
     void _update() const {
