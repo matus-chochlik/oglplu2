@@ -216,9 +216,7 @@ int main(int, const char** argv) {
     example_api_traits traits;
     auto api(wrap_example_file_api(traits));
 
-    if(
-      api.make_pipe && api.open_file && api.write_block && api.read_block &&
-      api.close_file) {
+    if(api.make_pipe && api.write_block && api.read_block && api.close_file) {
         int pfd[2] = {-1, -1};
 
         api.make_pipe(pfd);
@@ -239,12 +237,16 @@ int main(int, const char** argv) {
             return true;
         };
 
-        int fd = api.open_file(argv[0], 0);
-        if(fd >= 0) {
-            auto getbyte = make_getbyte(fd);
-            while(auto optb = getbyte()) {
-                api.write_block(pfd[1], view_one(optb.value()));
+        if(api.open_file) {
+            int fd = api.open_file(argv[0], 0);
+            if(fd >= 0) {
+                auto getbyte = make_getbyte(fd);
+                while(auto optb = getbyte()) {
+                    api.write_block(pfd[1], view_one(optb.value()));
+                }
             }
+        } else {
+            std::cerr << "open function is not available" << std::endl;
         }
 
         api.write_string(pfd[1], "some test string");
