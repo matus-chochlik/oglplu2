@@ -215,6 +215,10 @@ public:
         return this->_get_value();
     }
 
+    constexpr auto& value_anyway(P...) noexcept {
+        return this->_ref_value();
+    }
+
     template <typename Func>
     std::enable_if_t<std::is_same_v<std::result_of_t<Func(T)>, void>> then(
       const Func& func, P... p) const {

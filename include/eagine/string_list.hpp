@@ -23,7 +23,7 @@ namespace eagine {
 namespace string_list {
 //------------------------------------------------------------------------------
 static inline std::string encode_length(span_size_t len) {
-    return mbs::encode_code_point(mbs::code_point_t(len)).value();
+    return extract(mbs::encode_code_point(mbs::code_point_t(len)));
 }
 //------------------------------------------------------------------------------
 static inline span_size_t element_header_size(string_view elem) noexcept {

@@ -20,11 +20,11 @@ int main() {
     foo(limit_cast<short>(123));
 
     if(auto converted = convert_if_fits<short>(12345)) {
-        std::cout << converted.value() << std::endl;
+        std::cout << extract(converted) << std::endl;
     }
 
     if(auto converted = convert_if_fits<short>(123456)) {
-        std::cout << converted.value() << std::endl;
+        std::cout << extract(converted) << std::endl;
     } else {
         std::cout << "value too big" << std::endl;
     }

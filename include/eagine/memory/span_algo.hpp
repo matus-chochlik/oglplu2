@@ -198,7 +198,7 @@ template <
 static inline basic_span<T1, P1, S1> find(
   basic_span<T1, P1, S1> where, basic_span<T2, P2, S2> what) {
     if(auto pos = find_position(where, what)) {
-        return skip(where, pos.value());
+        return skip(where, extract(pos));
     }
     return {};
 }
@@ -258,7 +258,7 @@ static inline basic_span<T, P, S> slice_inside_brackets(
   basic_span<T, P, S> spn, B left, B right) noexcept {
 
     if(auto found = find_element(spn, left)) {
-        spn = skip(spn, found.value());
+        spn = skip(spn, extract(found));
         int depth = 1;
         auto pos = S(1);
         while((pos < spn.size()) && (depth > 0)) {
@@ -375,8 +375,8 @@ static inline void for_each_delimited(
   UnaryOperation unary_op) {
     basic_span<T1, P1, S1> tmp = spn;
     while(auto pos = find_position(tmp, delim)) {
-        unary_op(head(tmp, pos.value()));
-        tmp = skip(tmp, pos.value() + delim.size());
+        unary_op(head(tmp, extract(pos)));
+        tmp = skip(tmp, extract(pos) + delim.size());
     }
     unary_op(tmp);
 }

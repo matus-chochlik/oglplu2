@@ -116,7 +116,7 @@ static inline auto make_span_putter(
     return [&i, spn, transform](auto value) mutable -> bool {
         if(i < spn.size()) {
             if(auto transformed = transform(value)) {
-                spn[i++] = T(std::move(transformed.value()));
+                spn[i++] = T(std::move(extract(transformed)));
                 return true;
             }
         }

@@ -174,13 +174,18 @@ static constexpr inline tribool operator>=(
 }
 
 template <typename T, typename P>
+static constexpr inline T extract(const valid_if<T, P>& opt) noexcept {
+    return EAGINE_CONSTEXPR_ASSERT(bool(opt), opt.value_anyway());
+}
+
+template <typename T, typename P>
 static constexpr inline T& extract(valid_if<T, P>& opt) noexcept {
-    return opt.value();
+    return EAGINE_CONSTEXPR_ASSERT(bool(opt), opt.value_anyway());
 }
 
 template <typename T, typename P>
 static constexpr inline T&& extract(valid_if<T, P>&& opt) noexcept {
-    return std::move(opt.value());
+    return EAGINE_CONSTEXPR_ASSERT(bool(opt), std::move(opt.value_anyway()));
 }
 
 template <typename T>

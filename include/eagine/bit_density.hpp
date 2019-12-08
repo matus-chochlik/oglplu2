@@ -68,7 +68,7 @@ static inline bool do_dissolve_bits(
         if(r < bits) {
             if(auto src = get()) {
                 w <<= byte_bits();
-                w |= double_byte(src.value());
+                w |= double_byte(extract(src));
                 r += byte_bits();
             } else {
                 break;
@@ -104,8 +104,8 @@ static inline bool do_concentrate_bits(
         while(r < byte_bits()) {
             if(auto src = get()) {
                 w <<= bits;
-                w = (w & ~m) | (double_byte(src.value()) &
-                                m); // NOLINT(hicpp-signed-bitwise)
+                // NOLINTNEXTLINE(hicpp-signed-bitwise)
+                w = (w & ~m) | (double_byte(extract(src)) & m);
                 r += bits;
             } else {
                 done = true;
