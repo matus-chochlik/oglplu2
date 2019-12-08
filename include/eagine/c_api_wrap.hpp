@@ -200,11 +200,11 @@ public:
     }
 
     explicit operator bool() const noexcept {
-        return this->is_implemented(_parent);
+        return FuncImpl::is_implemented(_parent);
     }
 
     bool operator!() const noexcept {
-        return !this->is_implemented(_parent);
+        return !FuncImpl::is_implemented(_parent);
     }
 
     auto operator()(Params... args) const noexcept {

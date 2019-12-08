@@ -9,6 +9,8 @@
 #include <eagine/config/platform.hpp>
 #include <eagine/c_api_wrap.hpp>
 #include <eagine/hexdump.hpp>
+#include <eagine/maybe_unused.hpp>
+#include <eagine/memory/block.hpp>
 #include <iostream>
 
 #if EAGINE_POSIX
@@ -66,6 +68,33 @@ struct example_file_api {
       EAGINE_POSIX>
       make_pipe;
 
+    struct _open_file_impl {
+        using signature = int(const char*, int);
+
+        template <typename Api>
+        static constexpr bool is_implemented(Api&) noexcept {
+            return bool(EAGINE_POSIX);
+        }
+
+        template <typename Api>
+        static ssize_t function(Api&, const char* path, int flags) noexcept {
+            EAGINE_MAYBE_UNUSED(path);
+            EAGINE_MAYBE_UNUSED(flags);
+#if EAGINE_POSIX
+            return ::open(path, flags);
+#else
+            return -1;
+#endif
+        }
+    };
+
+    derived_c_api_function<
+      this_api,
+      Traits,
+      example_sets_errno,
+      _open_file_impl>
+      open_file;
+
     opt_c_api_function<
       Traits,
       example_sets_errno,
@@ -73,6 +102,30 @@ struct example_file_api {
       EXAMPLE_API_STATIC_FUNC(read),
       EAGINE_POSIX>
       read_file;
+
+    struct _read_block_impl {
+        using signature = ssize_t(int, memory::block);
+
+        template <typename Api>
+        static constexpr bool is_implemented(Api& api) noexcept {
+            return bool(api.read_file);
+        }
+
+        template <typename Api>
+        static ssize_t function(Api& api, int fd, memory::block blk) noexcept {
+            return api.read_file(
+              fd,
+              static_cast<void*>(blk.data()),
+              static_cast<size_t>(blk.size()));
+        }
+    };
+
+    derived_c_api_function<
+      this_api,
+      Traits,
+      example_sets_errno,
+      _read_block_impl>
+      read_block;
 
     opt_c_api_function<
       Traits,
@@ -82,12 +135,37 @@ struct example_file_api {
       EAGINE_POSIX>
       write_file;
 
+    struct _write_block_impl {
+        using signature = ssize_t(int, memory::const_block);
+
+        template <typename Api>
+        static constexpr bool is_implemented(Api& api) noexcept {
+            return bool(api.write_file);
+        }
+
+        template <typename Api>
+        static ssize_t function(
+          Api& api, int fd, memory::const_block blk) noexcept {
+            return api.write_file(
+              fd,
+              static_cast<const void*>(blk.data()),
+              static_cast<size_t>(blk.size()));
+        }
+    };
+
+    derived_c_api_function<
+      this_api,
+      Traits,
+      example_sets_errno,
+      _write_block_impl>
+      write_block;
+
     struct _write_string_impl {
         using signature = ssize_t(int, string_view);
 
         template <typename Api>
         static constexpr bool is_implemented(Api& api) noexcept {
-            return bool(api.write_file());
+            return bool(api.write_file);
         }
 
         template <typename Api>
@@ -116,9 +194,12 @@ struct example_file_api {
 
     example_file_api(Traits& traits)
       : make_pipe{"pipe", traits}
+      , open_file{"open", traits, *this}
       , read_file{"read", traits}
+      , read_block("read", traits, *this)
       , write_file{"write", traits}
-      , write_string("write_string", traits, *this)
+      , write_block("write", traits, *this)
+      , write_string("write", traits, *this)
       , close_file{"close", traits} {
     }
 };
@@ -130,35 +211,49 @@ example_file_api<Traits> wrap_example_file_api(Traits& traits) {
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-int main() {
+int main(int, const char** argv) {
     using namespace eagine;
     example_api_traits traits;
     auto api(wrap_example_file_api(traits));
 
-    if(api.make_pipe && api.write_file && api.read_file && api.close_file) {
+    if(
+      api.make_pipe && api.open_file && api.write_block && api.read_block &&
+      api.close_file) {
         int pfd[2] = {-1, -1};
 
         api.make_pipe(pfd);
 
-        auto getbyte = [&api, pfd]() -> optionally_valid<byte> {
-            byte b{};
-            if(api.read_file(pfd[0], static_cast<void*>(&b), 1) > 0) {
-                return {b, true};
-            }
-            api.close_file(pfd[0]);
-            return {};
+        auto make_getbyte = [&api](int fd) {
+            return [&api, fd]() -> optionally_valid<byte> {
+                byte b{};
+                if(api.read_block(fd, cover_one(b)) > 0) {
+                    return {b, true};
+                }
+                api.close_file(fd);
+                return {};
+            };
         };
+
         auto putchar = [](char c) {
             std::cout << c;
             return true;
         };
+
+        int fd = api.open_file(argv[0], 0);
+        if(fd >= 0) {
+            auto getbyte = make_getbyte(fd);
+            while(auto optb = getbyte()) {
+                api.write_block(pfd[1], view_one(optb.value()));
+            }
+        }
 
         api.write_string(pfd[1], "some test string");
         api.write_string(pfd[1], "one other string");
         api.close_file(pfd[1]);
 
         hexdump::apply(
-          hexdump::byte_getter(getbyte), hexdump::char_putter(putchar));
+          hexdump::byte_getter(make_getbyte(pfd[0])),
+          hexdump::char_putter(putchar));
     } else {
         std::cerr << "required API is not available" << std::endl;
     }
