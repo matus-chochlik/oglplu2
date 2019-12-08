@@ -8,6 +8,7 @@
  */
 #include <eagine/config/platform.hpp>
 #include <eagine/c_api_wrap.hpp>
+#include <eagine/hexdump.hpp>
 #include <iostream>
 
 #if EAGINE_POSIX
@@ -55,6 +56,8 @@ struct example_api_traits {
 template <typename Traits>
 struct example_file_api {
 
+    using this_api = example_file_api;
+
     opt_c_api_function<
       Traits,
       example_sets_errno,
@@ -79,6 +82,30 @@ struct example_file_api {
       EAGINE_POSIX>
       write_file;
 
+    struct _write_string_impl {
+        using signature = ssize_t(int, string_view);
+
+        template <typename Api>
+        static constexpr bool is_implemented(Api& api) noexcept {
+            return bool(api.write_file());
+        }
+
+        template <typename Api>
+        static ssize_t function(Api& api, int fd, string_view str) noexcept {
+            return api.write_file(
+              fd,
+              static_cast<const void*>(str.data()),
+              static_cast<size_t>(str.size()));
+        }
+    };
+
+    derived_c_api_function<
+      this_api,
+      Traits,
+      example_sets_errno,
+      _write_string_impl>
+      write_string;
+
     opt_c_api_function<
       Traits,
       example_sets_errno,
@@ -91,6 +118,7 @@ struct example_file_api {
       : make_pipe{"pipe", traits}
       , read_file{"read", traits}
       , write_file{"write", traits}
+      , write_string("write_string", traits, *this)
       , close_file{"close", traits} {
     }
 };
@@ -109,16 +137,28 @@ int main() {
 
     if(api.make_pipe && api.write_file && api.read_file && api.close_file) {
         int pfd[2] = {-1, -1};
-        char buffer[64];
 
         api.make_pipe(pfd);
-        api.write_file(pfd[1], static_cast<const void*>("test data"), 10);
-        api.read_file(pfd[0], static_cast<void*>(buffer), 64);
 
-        std::cout << buffer << std::endl;
+        auto getbyte = [&api, pfd]() -> optionally_valid<byte> {
+            byte b{};
+            if(api.read_file(pfd[0], static_cast<void*>(&b), 1) > 0) {
+                return {b, true};
+            }
+            api.close_file(pfd[0]);
+            return {};
+        };
+        auto putchar = [](char c) {
+            std::cout << c;
+            return true;
+        };
 
-        api.close_file(pfd[0]);
+        api.write_string(pfd[1], "some test string");
+        api.write_string(pfd[1], "one other string");
         api.close_file(pfd[1]);
+
+        hexdump::apply(
+          hexdump::byte_getter(getbyte), hexdump::char_putter(putchar));
     } else {
         std::cerr << "required API is not available" << std::endl;
     }

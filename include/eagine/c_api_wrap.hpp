@@ -33,6 +33,14 @@ template <typename ApiTraits, typename Tag, typename Signature>
 class unimplemented_c_api_function;
 //------------------------------------------------------------------------------
 template <
+  typename Api,
+  typename ApiTraits,
+  typename Tag,
+  typename FuncImpl,
+  typename Signature = typename FuncImpl::signature>
+class derived_c_api_function;
+//------------------------------------------------------------------------------
+template <
   typename ApiTraits,
   typename Tag,
   typename Signature,
@@ -53,7 +61,7 @@ public:
         return IsImplemented;
     }
 
-    constexpr operator bool() const noexcept {
+    constexpr explicit operator bool() const noexcept {
         return IsImplemented;
     }
     constexpr bool operator!() const noexcept {
@@ -125,7 +133,7 @@ public:
           traits.load_function(Tag(), name, identity<RV(Params...)>())} {
     }
 
-    constexpr operator bool() const noexcept {
+    constexpr explicit operator bool() const noexcept {
         return bool(_function);
     }
     constexpr bool operator!() const noexcept {
@@ -170,6 +178,51 @@ using opt_c_api_function = std::conditional_t<
 #ifdef __GNUC__
 #pragma GCC diagnostic pop
 #endif
+//------------------------------------------------------------------------------
+template <
+  typename Api,
+  typename ApiTraits,
+  typename Tag,
+  typename FuncImpl,
+  typename RV,
+  typename... Params>
+class derived_c_api_function<Api, ApiTraits, Tag, FuncImpl, RV(Params...)>
+  : FuncImpl {
+public:
+    constexpr derived_c_api_function(
+      string_view name, ApiTraits&, Api& parent) noexcept
+      : _name{name}
+      , _parent{parent} {
+    }
+
+    constexpr bool is_implemented() const noexcept {
+        return true;
+    }
+
+    explicit operator bool() const noexcept {
+        return this->is_implemented(_parent);
+    }
+
+    bool operator!() const noexcept {
+        return !this->is_implemented(_parent);
+    }
+
+    auto operator()(Params... args) const noexcept {
+        return ApiTraits::call(
+          Tag(),
+          &FuncImpl::template function<Api>,
+          _parent,
+          std::move(args)...);
+    }
+
+    constexpr string_view name() const noexcept {
+        return _name;
+    }
+
+private:
+    const string_view _name{};
+    Api& _parent;
+};
 //------------------------------------------------------------------------------
 
 } // namespace eagine
