@@ -398,8 +398,8 @@ accomodate(basic_span<B, P, S> blk, identity<T> tid = {}) noexcept {
 // extract
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S>
-static constexpr inline extracted<T> extract(basic_span<T, P, S> spn) noexcept {
-    return {spn ? spn.data() : nullptr};
+static constexpr inline T& extract(basic_span<T, P, S> spn) noexcept {
+    return EAGINE_CONSTEXPR_ASSERT(spn.size() >= 1, spn.front());
 }
 //------------------------------------------------------------------------------
 } // namespace memory

@@ -173,6 +173,16 @@ static constexpr inline tribool operator>=(
             (!v1.is_valid() || !v2.is_valid())};
 }
 
+template <typename T, typename P>
+static constexpr inline T& extract(valid_if<T, P>& opt) noexcept {
+    return opt.value();
+}
+
+template <typename T, typename P>
+static constexpr inline T&& extract(valid_if<T, P>&& opt) noexcept {
+    return std::move(opt.value());
+}
+
 template <typename T>
 using optionally_valid = valid_if<T, valid_flag_policy>;
 

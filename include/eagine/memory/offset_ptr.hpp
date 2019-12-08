@@ -211,9 +211,8 @@ public:
 // extract
 //------------------------------------------------------------------------------
 template <typename P, typename O>
-static constexpr inline extracted<P> extract(
-  basic_offset_ptr<P, O> ptr) noexcept {
-    return {ptr.get()};
+static constexpr inline P& extract(basic_offset_ptr<P, O> ptr) noexcept {
+    return EAGINE_CONSTEXPR_ASSERT(!ptr.is_null(), ptr.get());
 }
 //------------------------------------------------------------------------------
 // rebind_pointer

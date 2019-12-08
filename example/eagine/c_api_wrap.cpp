@@ -8,6 +8,7 @@
  */
 #include <eagine/config/platform.hpp>
 #include <eagine/c_api_wrap.hpp>
+#include <eagine/extract.hpp>
 #include <eagine/hexdump.hpp>
 #include <eagine/maybe_unused.hpp>
 #include <eagine/memory/block.hpp>
@@ -242,7 +243,7 @@ int main(int, const char** argv) {
             if(fd >= 0) {
                 auto getbyte = make_getbyte(fd);
                 while(auto optb = getbyte()) {
-                    api.write_block(pfd[1], view_one(optb.value()));
+                    api.write_block(pfd[1], view_one(extract(optb)));
                 }
             }
         } else {
