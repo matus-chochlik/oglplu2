@@ -56,13 +56,13 @@ struct example_api_traits {
     }
 };
 //------------------------------------------------------------------------------
-template <typename Traits>
 struct example_file_api {
 
     using this_api = example_file_api;
+    using api_traits = example_api_traits;
 
     opt_c_api_function<
-      Traits,
+      api_traits,
       example_sets_errno,
       int(int[2]),
       EXAMPLE_API_STATIC_FUNC(pipe),
@@ -91,13 +91,13 @@ struct example_file_api {
 
     derived_c_api_function<
       this_api,
-      Traits,
+      api_traits,
       example_sets_errno,
       _open_file_impl>
       open_file;
 
     opt_c_api_function<
-      Traits,
+      api_traits,
       example_sets_errno,
       ssize_t(int, void*, size_t),
       EXAMPLE_API_STATIC_FUNC(read),
@@ -123,13 +123,13 @@ struct example_file_api {
 
     derived_c_api_function<
       this_api,
-      Traits,
+      api_traits,
       example_sets_errno,
       _read_block_impl>
       read_block;
 
     opt_c_api_function<
-      Traits,
+      api_traits,
       example_sets_errno,
       ssize_t(int, const void*, size_t),
       EXAMPLE_API_STATIC_FUNC(write),
@@ -156,7 +156,7 @@ struct example_file_api {
 
     derived_c_api_function<
       this_api,
-      Traits,
+      api_traits,
       example_sets_errno,
       _write_block_impl>
       write_block;
@@ -180,20 +180,20 @@ struct example_file_api {
 
     derived_c_api_function<
       this_api,
-      Traits,
+      api_traits,
       example_sets_errno,
       _write_string_impl>
       write_string;
 
     opt_c_api_function<
-      Traits,
+      api_traits,
       example_sets_errno,
       int(int),
       EXAMPLE_API_STATIC_FUNC(close),
       EAGINE_POSIX>
       close_file;
 
-    example_file_api(Traits& traits)
+    example_file_api(api_traits& traits)
       : make_pipe{"pipe", traits}
       , open_file{"open", traits, *this}
       , read_file{"read", traits}
@@ -205,17 +205,12 @@ struct example_file_api {
     }
 };
 //------------------------------------------------------------------------------
-template <typename Traits>
-example_file_api<Traits> wrap_example_file_api(Traits& traits) {
-    return {traits};
-}
-//------------------------------------------------------------------------------
 } // namespace eagine
 
 int main(int, const char** argv) {
     using namespace eagine;
     example_api_traits traits;
-    auto api(wrap_example_file_api(traits));
+    example_file_api api(traits);
 
     if(api.make_pipe && api.write_block && api.read_block && api.close_file) {
         int pfd[2] = {-1, -1};
