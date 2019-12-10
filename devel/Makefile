@@ -14,6 +14,7 @@ check%: test%
 
 test%: test%.o
 	$(CXX) -std=c++17 -g3 \
+		$(shell pkg-config --libs openal) \
 		-o $@ $<
 test%.o: test%.cpp
 	$(CXX) -std=c++17 -g3 \
@@ -28,11 +29,11 @@ test%.o: test%.cpp
 		-Wno-documentation \
 		-Wno-documentation-unknown-command \
 		-I$(BINARY_DIR)/include \
-		-I../third_party/GSL/include \
 		-I../third_party/include \
 		-I../include \
 		-I../implement \
 		-I../source/utils \
+		$(shell pkg-config --cflags openal) \
 		-c -o $@ $<
 
 clean:
