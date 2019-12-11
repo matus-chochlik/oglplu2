@@ -14,7 +14,9 @@ check%: test%
 
 test%: test%.o
 	$(CXX) -std=c++17 -g3 \
+		-ldl \
 		$(shell pkg-config --libs openal) \
+		-rdynamic \
 		-o $@ $<
 test%.o: test%.cpp
 	$(CXX) -std=c++17 -g3 \
