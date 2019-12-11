@@ -10,7 +10,6 @@
 #ifndef EAGINE_DYNAMIC_LIBRARY_HPP
 #define EAGINE_DYNAMIC_LIBRARY_HPP
 
-#include "callable_ref.hpp"
 #include "config/platform.hpp"
 #include "nothing.hpp"
 #include "string_span.hpp"
@@ -54,13 +53,14 @@ public:
         return bool(_handle);
     }
 
-    void* find_symbol(string_view name) {
+    optionally_valid<void*> find_symbol(string_view name) {
         ::dlerror();
         void* result = ::dlsym(_handle, c_str(name));
         if(auto error = ::dlerror()) {
             _message.assign(error);
+            return {};
         }
-        return result;
+        return {result, true};
     }
 
     string_view error_message() const noexcept {
@@ -113,12 +113,13 @@ public:
     template <typename Signature>
     std::enable_if_t<
       std::is_function_v<std::remove_pointer_t<Signature>>,
-      callable_ref<Signature>>
+      optionally_valid<std::remove_pointer_t<Signature>*>>
     find(string_view name) const noexcept {
         if(is_open()) {
-            if(void* sym_ptr = _module->find_symbol(name)) {
-                return {
-                  reinterpret_cast<std::remove_pointer_t<Signature>*>(sym_ptr)};
+            if(auto found = _module->find_symbol(name)) {
+                return {reinterpret_cast<std::remove_pointer_t<Signature>*>(
+                          extract(found)),
+                        true};
             }
         }
         return {};
