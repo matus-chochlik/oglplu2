@@ -10,6 +10,7 @@
 #define EAGINE_PROGRAM_ARGS_HPP
 
 #include "assert.hpp"
+#include "from_string.hpp"
 #include "identity.hpp"
 #include "memory/block.hpp"
 #include "memory/span_algo.hpp"
@@ -230,8 +231,11 @@ private:
 
     template <typename T>
     bool _do_parse(T& dest, const std::ostream&) {
-        std::stringstream ss(get_string());
-        return !((ss >> dest).fail() || !ss.eof());
+        if(auto opt_val = from_string<T>(get())) {
+            dest = extract(opt_val);
+            return true;
+        }
+        return false;
     }
 
     bool _do_parse(string_view& dest, const std::ostream&) {
