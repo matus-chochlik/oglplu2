@@ -13,13 +13,14 @@
 #include "identity.hpp"
 #include "is_within_limits.hpp"
 #include "memory/span_algo.hpp"
+#include "mp_string.hpp"
 #include "string_span.hpp"
 #include "valid_if/decl.hpp"
+#include <chrono>
 #include <cstdlib>
-#include <iostream>
 
 namespace eagine {
-
+//------------------------------------------------------------------------------
 static inline optionally_valid<bool> from_string(
   string_view src, identity<bool>) noexcept {
 
@@ -44,7 +45,7 @@ static inline optionally_valid<char> from_string(
     }
     return {};
 }
-
+//------------------------------------------------------------------------------
 template <typename T, typename N>
 optionally_valid<T> convert_from_string_with(
   N (*converter)(const char*, char**), string_view src, identity<T>) noexcept {
@@ -77,7 +78,7 @@ optionally_valid<T> convert_from_string_with(
     }
     return {};
 }
-
+//------------------------------------------------------------------------------
 static inline optionally_valid<short> from_string(
   string_view src, identity<short> id, int base = 10) noexcept {
     return convert_from_string_with(&std::strtol, base, src, id);
@@ -137,12 +138,65 @@ static inline optionally_valid<std::string> from_string(
   string_view src, identity<std::string>) noexcept {
     return to_string(src);
 }
+//------------------------------------------------------------------------------
+template <typename Rep, typename Period, typename Symbol>
+static inline optionally_valid<std::chrono::duration<Rep, Period>>
+convert_from_string(
+  string_view src,
+  identity<std::chrono::duration<Rep, Period>>,
+  Symbol) noexcept {
+    const string_view symbol(Symbol::value);
+    if(memory::ends_with(src, symbol)) {
+        if(
+          auto opt_val =
+            from_string(snip(src, symbol.size()), identity<Rep>())) {
+            return {std::chrono::duration<Rep, Period>(extract(opt_val)), true};
+        }
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+template <typename Rep, typename Period>
+static inline optionally_valid<std::chrono::duration<Rep, Period>> from_string(
+  string_view str, identity<std::chrono::duration<Rep, Period>>) noexcept {
+    using dur_t = std::chrono::duration<Rep, Period>;
 
+    if(
+      auto d = convert_from_string(
+        str,
+        identity<std::chrono::duration<Rep, std::ratio<1>>>(),
+        mp_string<'s'>())) {
+        return {std::chrono::duration_cast<dur_t>(extract(d)), true};
+    }
+    if(
+      auto d = convert_from_string(
+        str,
+        identity<std::chrono::duration<Rep, std::milli>>(),
+        mp_string<'m', 's'>())) {
+        return {std::chrono::duration_cast<dur_t>(extract(d)), true};
+    }
+    if(
+      auto d = convert_from_string(
+        str,
+        identity<std::chrono::duration<Rep, std::nano>>(),
+        mp_string<'n', 's'>())) {
+        return {std::chrono::duration_cast<dur_t>(extract(d)), true};
+    }
+    if(
+      auto d = convert_from_string(
+        str,
+        identity<std::chrono::duration<Rep, std::ratio<60>>>(),
+        mp_string<'m', 'i', 'n'>())) {
+        return {std::chrono::duration_cast<dur_t>(extract(d)), true};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
 template <typename T>
 optionally_valid<T> from_string(string_view src) noexcept {
     return from_string(src, identity<T>());
 }
-
+//------------------------------------------------------------------------------
 } // namespace eagine
 
 #endif // EAGINE_FROM_STRING_HPP

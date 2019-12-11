@@ -6,13 +6,17 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <iostream>
+
 #include <eagine/from_string.hpp>
 #include <eagine/program_args.hpp>
+#include <chrono>
 #include <iomanip>
-#include <iostream>
 
 int main(int argc, const char** argv) {
     using namespace eagine;
+
+    using duration = std::chrono::duration<float, std::milli>;
 
     for(auto& arg : program_args(argc, argv)) {
         if(auto opt_int = from_string<int>(arg)) {
@@ -25,6 +29,9 @@ int main(int argc, const char** argv) {
             std::cout << "character: " << extract(opt_char) << std::endl;
         } else if(auto opt_bool = from_string<bool>(arg)) {
             std::cout << "boolean: " << std::boolalpha << extract(opt_bool)
+                      << std::endl;
+        } else if(auto opt_dur = from_string<duration>(arg)) {
+            std::cout << "duration: " << extract(opt_dur).count() << "ms"
                       << std::endl;
         } else {
             std::cout << "other: " << arg << std::endl;
