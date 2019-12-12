@@ -38,12 +38,6 @@ struct example_api_traits {
         return nullptr;
     }
 
-    template <typename Tag, typename T>
-    using transform_return_value = identity<T>;
-
-    template <typename Tag, typename T>
-    using transform_parameter = identity<T>;
-
     template <typename Tag, typename RV>
     static constexpr RV fallback(Tag, identity<RV>) {
         return {};

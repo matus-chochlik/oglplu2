@@ -21,14 +21,6 @@ template <typename ApiTraits, typename Tag, typename Signature>
 using c_api_function_ptr =
   typename ApiTraits::template function_pointer<Tag, Signature>::type;
 //------------------------------------------------------------------------------
-template <typename ApiTraits, typename Tag, typename T>
-using c_api_transform_rv =
-  typename ApiTraits::template transform_return_value<Tag, T>::type;
-//------------------------------------------------------------------------------
-template <typename ApiTraits, typename Tag, typename T>
-using c_api_transform_param =
-  typename ApiTraits::template transform_parameter<Tag, T>::type;
-//------------------------------------------------------------------------------
 template <typename ApiTraits, typename Tag, typename Signature>
 class unimplemented_c_api_function;
 //------------------------------------------------------------------------------
@@ -87,9 +79,7 @@ public:
     }
 
     template <typename... Args>
-    constexpr std::enable_if_t<
-      sizeof...(Params) == sizeof...(Args),
-      c_api_transform_rv<ApiTraits, Tag, RV>>
+    constexpr std::enable_if_t<sizeof...(Params) == sizeof...(Args), RV>
     operator()(Args&&...) const noexcept {
         return ApiTraits::fallback(Tag(), identity<RV>());
     }
@@ -111,9 +101,7 @@ public:
     }
 
     template <typename... Args>
-    constexpr std::enable_if_t<
-      sizeof...(Params) == sizeof...(Args),
-      c_api_transform_rv<ApiTraits, Tag, RV>>
+    constexpr std::enable_if_t<sizeof...(Params) == sizeof...(Args), RV>
     operator()(Args&&... args) const noexcept {
         return ApiTraits::call(Tag(), function, std::forward<Args>(args)...);
     }
@@ -141,15 +129,11 @@ public:
     }
 
     template <typename... Args>
-    constexpr std::enable_if_t<
-      sizeof...(Params) == sizeof...(Args),
-      c_api_transform_rv<ApiTraits, Tag, RV>>
+    constexpr std::enable_if_t<sizeof...(Params) == sizeof...(Args), RV>
     operator()(Args&&... args) const noexcept {
-        if(_function) {
-            return ApiTraits::call(
-              Tag(), _function, std::forward<Args>(args)...);
-        }
-        return ApiTraits::fallback(Tag(), identity<RV>());
+        return EAGINE_CONSTEXPR_ASSERT(
+          _function,
+          ApiTraits::call(Tag(), _function, std::forward<Args>(args)...));
     }
 
 private:
