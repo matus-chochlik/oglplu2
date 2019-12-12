@@ -55,6 +55,9 @@ struct example_file_api {
     using this_api = example_file_api;
     using api_traits = example_api_traits;
 
+    template <typename Tag = example_sets_errno>
+    using derived_func = derived_c_api_function<this_api, api_traits, Tag>;
+
     opt_c_api_function<
       api_traits,
       example_sets_errno,
@@ -63,16 +66,15 @@ struct example_file_api {
       EAGINE_POSIX>
       make_pipe;
 
-    struct _open_file_impl {
-        using signature = int(const char*, int);
+    struct : derived_func<> {
+        using base = derived_func<>;
+        using base::base;
 
-        template <typename Api>
-        static constexpr bool is_implemented(Api&) noexcept {
+        explicit constexpr operator bool() const noexcept {
             return bool(EAGINE_POSIX);
         }
 
-        template <typename Api>
-        static ssize_t function(Api&, const char* path, int flags) noexcept {
+        ssize_t operator()(const char* path, int flags) noexcept {
             EAGINE_MAYBE_UNUSED(path);
             EAGINE_MAYBE_UNUSED(flags);
 #if EAGINE_POSIX
@@ -81,14 +83,7 @@ struct example_file_api {
             return -1;
 #endif
         }
-    };
-
-    derived_c_api_function<
-      this_api,
-      api_traits,
-      example_sets_errno,
-      _open_file_impl>
-      open_file;
+    } open_file;
 
     opt_c_api_function<
       api_traits,
@@ -98,29 +93,22 @@ struct example_file_api {
       EAGINE_POSIX>
       read_file;
 
-    struct _read_block_impl {
-        using signature = ssize_t(int, memory::block);
+    struct : derived_func<> {
+        using base = derived_func<>;
+        using base::api;
+        using base::base;
 
-        template <typename Api>
-        static constexpr bool is_implemented(Api& api) noexcept {
-            return bool(api.read_file);
+        explicit constexpr operator bool() const noexcept {
+            return bool(api().read_file);
         }
 
-        template <typename Api>
-        static ssize_t function(Api& api, int fd, memory::block blk) noexcept {
-            return api.read_file(
+        ssize_t operator()(int fd, memory::block blk) noexcept {
+            return api().read_file(
               fd,
               static_cast<void*>(blk.data()),
               static_cast<size_t>(blk.size()));
         }
-    };
-
-    derived_c_api_function<
-      this_api,
-      api_traits,
-      example_sets_errno,
-      _read_block_impl>
-      read_block;
+    } read_block;
 
     opt_c_api_function<
       api_traits,
@@ -130,54 +118,39 @@ struct example_file_api {
       EAGINE_POSIX>
       write_file;
 
-    struct _write_block_impl {
-        using signature = ssize_t(int, memory::const_block);
+    struct : derived_func<> {
+        using base = derived_func<>;
+        using base::api;
+        using base::base;
 
-        template <typename Api>
-        static constexpr bool is_implemented(Api& api) noexcept {
-            return bool(api.write_file);
+        explicit constexpr operator bool() const noexcept {
+            return bool(api().write_file);
         }
 
-        template <typename Api>
-        static ssize_t function(
-          Api& api, int fd, memory::const_block blk) noexcept {
-            return api.write_file(
+        ssize_t operator()(int fd, memory::const_block blk) noexcept {
+            return api().write_file(
               fd,
               static_cast<const void*>(blk.data()),
               static_cast<size_t>(blk.size()));
         }
-    };
+    } write_block;
 
-    derived_c_api_function<
-      this_api,
-      api_traits,
-      example_sets_errno,
-      _write_block_impl>
-      write_block;
+    struct : derived_func<> {
+        using base = derived_func<>;
+        using base::api;
+        using base::base;
 
-    struct _write_string_impl {
-        using signature = ssize_t(int, string_view);
-
-        template <typename Api>
-        static constexpr bool is_implemented(Api& api) noexcept {
-            return bool(api.write_file);
+        explicit constexpr operator bool() const noexcept {
+            return bool(api().write_file);
         }
 
-        template <typename Api>
-        static ssize_t function(Api& api, int fd, string_view str) noexcept {
-            return api.write_file(
+        ssize_t operator()(int fd, string_view str) noexcept {
+            return api().write_file(
               fd,
               static_cast<const void*>(str.data()),
               static_cast<size_t>(str.size()));
         }
-    };
-
-    derived_c_api_function<
-      this_api,
-      api_traits,
-      example_sets_errno,
-      _write_string_impl>
-      write_string;
+    } write_string;
 
     opt_c_api_function<
       api_traits,

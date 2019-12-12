@@ -25,14 +25,6 @@ template <typename ApiTraits, typename Tag, typename Signature>
 class unimplemented_c_api_function;
 //------------------------------------------------------------------------------
 template <
-  typename Api,
-  typename ApiTraits,
-  typename Tag,
-  typename FuncImpl,
-  typename Signature = typename FuncImpl::signature>
-class derived_c_api_function;
-//------------------------------------------------------------------------------
-template <
   typename ApiTraits,
   typename Tag,
   typename Signature,
@@ -42,22 +34,21 @@ class static_c_api_function;
 template <typename ApiTraits, typename Tag, typename Signature>
 class dynamic_c_api_function;
 //------------------------------------------------------------------------------
-template <typename ApiTraits, bool IsImplemented>
-class c_api_function_base : public bool_constant<IsImplemented> {
+template <typename Api, typename ApiTraits, typename Tag>
+class derived_c_api_function;
+//------------------------------------------------------------------------------
+template <typename ApiTraits, bool IsAvailable>
+class c_api_function_base : public bool_constant<IsAvailable> {
 public:
     constexpr c_api_function_base(string_view name) noexcept
       : _name{name} {
     }
 
-    constexpr bool is_implemented() const noexcept {
-        return IsImplemented;
-    }
-
     constexpr explicit operator bool() const noexcept {
-        return IsImplemented;
+        return IsAvailable;
     }
     constexpr bool operator!() const noexcept {
-        return !IsImplemented;
+        return !IsAvailable;
     }
 
     constexpr string_view name() const noexcept {
@@ -163,15 +154,8 @@ using opt_c_api_function = std::conditional_t<
 #pragma GCC diagnostic pop
 #endif
 //------------------------------------------------------------------------------
-template <
-  typename Api,
-  typename ApiTraits,
-  typename Tag,
-  typename FuncImpl,
-  typename RV,
-  typename... Params>
-class derived_c_api_function<Api, ApiTraits, Tag, FuncImpl, RV(Params...)>
-  : FuncImpl {
+template <typename Api, typename ApiTraits, typename Tag>
+class derived_c_api_function {
 public:
     constexpr derived_c_api_function(
       string_view name, ApiTraits&, Api& parent) noexcept
@@ -179,28 +163,13 @@ public:
       , _parent{parent} {
     }
 
-    constexpr bool is_implemented() const noexcept {
-        return true;
-    }
-
-    explicit operator bool() const noexcept {
-        return FuncImpl::is_implemented(_parent);
-    }
-
-    bool operator!() const noexcept {
-        return !FuncImpl::is_implemented(_parent);
-    }
-
-    auto operator()(Params... args) const noexcept {
-        return ApiTraits::call(
-          Tag(),
-          &FuncImpl::template function<Api>,
-          _parent,
-          std::move(args)...);
-    }
-
     constexpr string_view name() const noexcept {
         return _name;
+    }
+
+protected:
+    constexpr Api& api() const noexcept {
+        return _parent;
     }
 
 private:
