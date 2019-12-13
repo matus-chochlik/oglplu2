@@ -33,6 +33,7 @@ struct basic_alc_c_api {
     using char_type = ALCchar;
     using bool_type = ALCboolean;
     using int_type = ALCint;
+    using uint_type = ALCuint;
     using size_type = ALCsizei;
     using void_ptr_type = void*;
 
@@ -71,10 +72,27 @@ struct basic_alc_c_api {
     eagine::opt_c_api_function<
       api_traits,
       nothing_t,
+      device_type*(
+        const char_type*, uint_type freq, enum_type format, size_type bufsize),
+      OALPLUS_ALC_STATIC_FUNC(CaptureOpenDevice),
+      has_api>
+      CaptureOpenDevice;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
       bool_type(device_type*),
       OALPLUS_ALC_STATIC_FUNC(CloseDevice),
       has_api>
       CloseDevice;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      bool_type(device_type*),
+      OALPLUS_ALC_STATIC_FUNC(CaptureCloseDevice),
+      has_api>
+      CaptureCloseDevice;
 
     eagine::opt_c_api_function<
       api_traits,
@@ -156,12 +174,38 @@ struct basic_alc_c_api {
       has_api>
       GetContextsDevice;
 
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(device_type*),
+      OALPLUS_ALC_STATIC_FUNC(CaptureStart),
+      has_api>
+      CaptureStart;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(device_type*),
+      OALPLUS_ALC_STATIC_FUNC(CaptureStop),
+      has_api>
+      CaptureStop;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(device_type*, void_ptr_type, size_type),
+      OALPLUS_ALC_STATIC_FUNC(CaptureSamples),
+      has_api>
+      CaptureSamples;
+
     constexpr basic_alc_c_api(api_traits& traits)
       : GetError("GetError", traits, *this)
       , GetProcAddress("GetProcAddress", traits, *this)
       , GetEnumValue("GetEnumValue", traits, *this)
       , OpenDevice("OpenDevice", traits, *this)
+      , CaptureOpenDevice("CaptureOpenDevice", traits, *this)
       , CloseDevice("CloseDevice", traits, *this)
+      , CaptureCloseDevice("CaptureCloseDevice", traits, *this)
       , GetString("GetString", traits, *this)
       , GetIntegerv("GetIntegerv", traits, *this)
       , IsExtensionPresent("IsExtensionPresent", traits, *this)
@@ -171,7 +215,10 @@ struct basic_alc_c_api {
       , DestroyContext("DestroyContext", traits, *this)
       , MakeContextCurrent("MakeContextCurrent", traits, *this)
       , GetCurrentContext("GetCurrentContext", traits, *this)
-      , GetContextsDevice("GetContextsDevice", traits, *this) {
+      , GetContextsDevice("GetContextsDevice", traits, *this)
+      , CaptureStart("CaptureStart", traits, *this)
+      , CaptureStop("CaptureStop", traits, *this)
+      , CaptureSamples("CaptureSamples", traits, *this) {
     }
 };
 //------------------------------------------------------------------------------
