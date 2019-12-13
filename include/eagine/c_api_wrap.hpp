@@ -122,7 +122,9 @@ class unimplemented_c_api_function<ApiTraits, Tag, RV(Params...)>
     using base = c_api_function_base<ApiTraits, false>;
 
 public:
-    constexpr unimplemented_c_api_function(string_view name, const ApiTraits&)
+    template <typename Api>
+    constexpr unimplemented_c_api_function(
+      string_view name, const ApiTraits&, Api&)
       : base(name) {
     }
 
@@ -144,7 +146,8 @@ class static_c_api_function<ApiTraits, Tag, RV(Params...), function>
     using base = c_api_function_base<ApiTraits, true>;
 
 public:
-    constexpr static_c_api_function(string_view name, const ApiTraits&)
+    template <typename Api>
+    constexpr static_c_api_function(string_view name, const ApiTraits&, Api&)
       : base(name) {
     }
 
@@ -163,7 +166,8 @@ class dynamic_c_api_function<ApiTraits, Tag, RV(Params...)>
     using function_pointer = c_api_function_ptr<ApiTraits, Tag, RV(Params...)>;
 
 public:
-    constexpr dynamic_c_api_function(string_view name, ApiTraits& traits)
+    template <typename Api>
+    constexpr dynamic_c_api_function(string_view name, ApiTraits& traits, Api&)
       : base(name)
       , _function{
           traits.load_function(Tag(), name, identity<RV(Params...)>())} {

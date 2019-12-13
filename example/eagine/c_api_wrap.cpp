@@ -161,14 +161,14 @@ struct example_file_api {
       close_file;
 
     example_file_api(api_traits& traits)
-      : make_pipe{"pipe", traits}
+      : make_pipe{"pipe", traits, *this}
       , open_file{"open", traits, *this}
-      , read_file{"read", traits}
+      , read_file{"read", traits, *this}
       , read_block("read", traits, *this)
-      , write_file{"write", traits}
+      , write_file{"write", traits, *this}
       , write_block("write", traits, *this)
       , write_string("write", traits, *this)
-      , close_file{"close", traits} {
+      , close_file{"close", traits, *this} {
     }
 };
 //------------------------------------------------------------------------------
