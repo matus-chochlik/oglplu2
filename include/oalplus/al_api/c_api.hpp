@@ -414,6 +414,86 @@ struct basic_al_c_api {
       has_api>
       GetSourcefv;
 
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(name_type),
+      OALPLUS_AL_STATIC_FUNC(SourcePlay),
+      has_api>
+      SourcePlay;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(name_type),
+      OALPLUS_AL_STATIC_FUNC(SourceStop),
+      has_api>
+      SourceStop;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(name_type),
+      OALPLUS_AL_STATIC_FUNC(SourceRewind),
+      has_api>
+      SourceRewind;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(name_type),
+      OALPLUS_AL_STATIC_FUNC(SourcePause),
+      has_api>
+      SourcePause;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(size_type, const name_type*),
+      OALPLUS_AL_STATIC_FUNC(SourcePlayv),
+      has_api>
+      SourcePlayv;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(size_type, const name_type*),
+      OALPLUS_AL_STATIC_FUNC(SourceStopv),
+      has_api>
+      SourceStopv;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(size_type, const name_type*),
+      OALPLUS_AL_STATIC_FUNC(SourceRewindv),
+      has_api>
+      SourceRewindv;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(size_type, const name_type*),
+      OALPLUS_AL_STATIC_FUNC(SourcePausev),
+      has_api>
+      SourcePausev;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(name_type, size_type, const name_type*),
+      OALPLUS_AL_STATIC_FUNC(SourceQueueBuffers),
+      has_api>
+      SourceQueueBuffers;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(name_type, size_type, name_type*),
+      OALPLUS_AL_STATIC_FUNC(SourceUnqueueBuffers),
+      has_api>
+      SourceUnqueueBuffers;
+
     constexpr basic_al_c_api(api_traits& traits)
       : GetError("GetError", traits, *this)
       , Enable("Enable", traits, *this)
@@ -461,7 +541,17 @@ struct basic_al_c_api {
       , Sourcef("Sourcef", traits, *this)
       , Source3f("Source3f", traits, *this)
       , Sourcefv("Sourcefv", traits, *this)
-      , GetSourcefv("GetSourcefv", traits, *this) {
+      , GetSourcefv("GetSourcefv", traits, *this)
+      , SourcePlay("SourcePlay", traits, *this)
+      , SourceStop("SourceStop", traits, *this)
+      , SourceRewind("SourceRewind", traits, *this)
+      , SourcePause("SourcePause", traits, *this)
+      , SourcePlayv("SourcePlayv", traits, *this)
+      , SourceStopv("SourceStopv", traits, *this)
+      , SourceRewindv("SourceRewindv", traits, *this)
+      , SourcePausev("SourcePausev", traits, *this)
+      , SourceQueueBuffers("SourceQueueBuffers", traits, *this)
+      , SourceUnqueueBuffers("SourceUnqueueBuffers", traits, *this) {
     }
 };
 //------------------------------------------------------------------------------
