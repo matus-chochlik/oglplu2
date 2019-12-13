@@ -10,12 +10,69 @@
 #ifndef EAGINE_C_API_WRAP_HPP
 #define EAGINE_C_API_WRAP_HPP
 
+#include "assert.hpp"
 #include "identity.hpp"
 #include "int_constant.hpp"
 #include "string_span.hpp"
 #include <type_traits>
 
 namespace eagine {
+//------------------------------------------------------------------------------
+template <typename Result>
+class api_no_result_value {
+public:
+    constexpr api_no_result_value() noexcept = default;
+
+    friend constexpr Result& extract(api_no_result_value&) noexcept {
+        EAGINE_UNREACHABLE();
+        return *static_cast<Result*>(nullptr);
+    }
+
+    friend constexpr const Result& extract(
+      const api_no_result_value&) noexcept {
+        EAGINE_UNREACHABLE();
+        return *static_cast<const Result*>(nullptr);
+    }
+
+private:
+    Result _value{};
+};
+//------------------------------------------------------------------------------
+template <>
+class api_no_result_value<void> {
+public:
+    constexpr api_no_result_value() noexcept = default;
+};
+//------------------------------------------------------------------------------
+template <typename Result>
+class api_result_value {
+public:
+    constexpr api_result_value(Result value) noexcept
+      : _value{std::move(value)} {
+    }
+
+    friend constexpr Result extract(api_result_value&& res) noexcept {
+        return std::move(res._value);
+    }
+
+    friend constexpr Result& extract(api_result_value& res) noexcept {
+        return res._value;
+    }
+
+    friend constexpr const Result& extract(
+      const api_result_value& res) noexcept {
+        return res._value;
+    }
+
+private:
+    Result _value{};
+};
+//------------------------------------------------------------------------------
+template <>
+class api_result_value<void> {
+public:
+    constexpr api_result_value() noexcept = default;
+};
 //------------------------------------------------------------------------------
 template <typename ApiTraits, typename Tag, typename Signature>
 using c_api_function_ptr =
