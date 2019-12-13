@@ -33,6 +33,8 @@ struct basic_al_c_api {
     using uint_type = ALuint;
     using name_type = ALuint;
     using size_type = ALsizei;
+    using float_type = ALfloat;
+    using double_type = ALdouble;
     using void_ptr_type = void*;
 
     eagine::opt_c_api_function<
@@ -70,6 +72,102 @@ struct basic_al_c_api {
     eagine::opt_c_api_function<
       api_traits,
       nothing_t,
+      void(enum_type, bool_type*),
+      OALPLUS_AL_STATIC_FUNC(GetBooleanv),
+      has_api>
+      GetBooleanv;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(enum_type, int_type*),
+      OALPLUS_AL_STATIC_FUNC(GetIntegerv),
+      has_api>
+      GetIntegerv;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(enum_type, float_type*),
+      OALPLUS_AL_STATIC_FUNC(GetFloatv),
+      has_api>
+      GetFloatv;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(enum_type, double_type*),
+      OALPLUS_AL_STATIC_FUNC(GetDoublev),
+      has_api>
+      GetDoublev;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      bool_type(enum_type),
+      OALPLUS_AL_STATIC_FUNC(GetBoolean),
+      has_api>
+      GetBoolean;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      int_type(enum_type),
+      OALPLUS_AL_STATIC_FUNC(GetInteger),
+      has_api>
+      GetInteger;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      float_type(enum_type),
+      OALPLUS_AL_STATIC_FUNC(GetFloat),
+      has_api>
+      GetFloat;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      double_type(enum_type),
+      OALPLUS_AL_STATIC_FUNC(GetDouble),
+      has_api>
+      GetDouble;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      const char_type*(enum_type),
+      OALPLUS_AL_STATIC_FUNC(GetString),
+      has_api>
+      GetString;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(enum_type),
+      OALPLUS_AL_STATIC_FUNC(DistanceModel),
+      has_api>
+      DistanceModel;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(float_type),
+      OALPLUS_AL_STATIC_FUNC(DopplerFactor),
+      has_api>
+      DopplerFactor;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(float_type),
+      OALPLUS_AL_STATIC_FUNC(SpeedOfSound),
+      has_api>
+      SpeedOfSound;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
       void(size_type, name_type*),
       OALPLUS_AL_STATIC_FUNC(GenBuffers),
       has_api>
@@ -78,7 +176,7 @@ struct basic_al_c_api {
     eagine::opt_c_api_function<
       api_traits,
       nothing_t,
-      void(size_type, name_type*),
+      void(size_type, const name_type*),
       OALPLUS_AL_STATIC_FUNC(DeleteBuffers),
       has_api>
       DeleteBuffers;
@@ -102,7 +200,7 @@ struct basic_al_c_api {
     eagine::opt_c_api_function<
       api_traits,
       nothing_t,
-      void(size_type, name_type*),
+      void(size_type, const name_type*),
       OALPLUS_AL_STATIC_FUNC(DeleteSources),
       has_api>
       DeleteSources;
@@ -120,8 +218,18 @@ struct basic_al_c_api {
       , Enable("Enable", traits, *this)
       , Disable("Disable", traits, *this)
       , IsEnabled("IsEnabled", traits, *this)
-      , GenBuffers("GenBuffers", traits, *this)
-      , DeleteBuffers("DeleteBuffers", traits, *this)
+      , GetBooleanv("GetBooleanv", traits, *this)
+      , GetIntegerv("GetIntegerv", traits, *this)
+      , GetFloatv("GetFloatv", traits, *this)
+      , GetDoublev("GetDoublev", traits, *this)
+      , GetBoolean("GetBoolean", traits, *this)
+      , GetInteger("GetInteger", traits, *this)
+      , GetFloat("GetFloat", traits, *this)
+      , GetDouble("GetDouble", traits, *this)
+      , GetString("GetString", traits, *this)
+      , DistanceModel("DistanceModel", traits, *this)
+      , DopplerFactor("DopplerFactor", traits, *this)
+      , SpeedOfSound("SpeedOfSound", traits, *this)
       , GenBuffers("GenBuffers", traits, *this)
       , DeleteBuffers("DeleteBuffers", traits, *this)
       , IsBuffer("IsBuffer", traits, *this)
