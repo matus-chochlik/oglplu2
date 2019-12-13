@@ -207,20 +207,22 @@ public:
     }
 
     iterator begin() const noexcept {
-        return empty() ? iterator() : iterator(_str.data());
+        return empty() ? iterator(nullptr) : iterator(_str.data());
     }
 
     iterator end() const noexcept {
-        return empty() ? iterator() : iterator(_str.data() + _str.size());
+        return empty() ? iterator(nullptr)
+                       : iterator(_str.data() + _str.size());
     }
 
     reverse_iterator rbegin() const noexcept {
-        return empty() ? reverse_iterator()
+        return empty() ? reverse_iterator(nullptr)
                        : reverse_iterator(_str.data() + _str.size() - 1);
     }
 
     reverse_iterator rend() const noexcept {
-        return empty() ? reverse_iterator() : reverse_iterator(_str.data() - 1);
+        return empty() ? reverse_iterator(nullptr)
+                       : reverse_iterator(_str.data() - 1);
     }
 
     template <typename Func>
