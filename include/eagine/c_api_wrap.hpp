@@ -23,6 +23,14 @@ class api_no_result_value {
 public:
     constexpr api_no_result_value() noexcept = default;
 
+    explicit constexpr operator bool() const noexcept {
+        return false;
+    }
+
+    constexpr bool operator!() const noexcept {
+        return true;
+    }
+
     friend constexpr Result& extract(api_no_result_value&) noexcept {
         EAGINE_UNREACHABLE();
         return *static_cast<Result*>(nullptr);
@@ -93,6 +101,35 @@ class dynamic_c_api_function;
 //------------------------------------------------------------------------------
 template <typename Api, typename ApiTraits, typename Tag>
 class derived_c_api_function;
+//------------------------------------------------------------------------------
+struct default_c_api_traits {
+    template <typename Tag, typename Signature>
+    using function_pointer = std::add_pointer<Signature>;
+
+    template <typename Tag, typename Signature>
+    std::add_pointer_t<Signature> load_function(
+      Tag, string_view, identity<Signature>) {
+        return nullptr;
+    }
+
+    template <typename Tag, typename RV>
+    static constexpr RV fallback(Tag, identity<RV>) {
+        return {};
+    }
+
+    template <typename Tag>
+    static constexpr void fallback(Tag, identity<void>) {
+    }
+
+    template <typename RV, typename Tag, typename... Params, typename... Args>
+    static constexpr RV call(
+      Tag tag, RV (*function)(Params...), Args&&... args) {
+        if(function) {
+            return function(std::forward<Args>(args)...);
+        }
+        return fallback(tag, identity<RV>());
+    }
+};
 //------------------------------------------------------------------------------
 template <typename ApiTraits, bool IsAvailable>
 class c_api_function_base : public bool_constant<IsAvailable> {

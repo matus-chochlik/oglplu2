@@ -1,13 +1,13 @@
 /**
- *  @file oalplus/alc_api/result.hpp
+ *  @file oalplus/al_api/result.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OALPLUS_ALC_API_RESULT_HPP
-#define OALPLUS_ALC_API_RESULT_HPP
+#ifndef OALPLUS_AL_API_RESULT_HPP
+#define OALPLUS_AL_API_RESULT_HPP
 
 #include <eagine/eat_anything.hpp>
 #include <eagine/string_span.hpp>
@@ -16,9 +16,9 @@ namespace eagine {
 namespace oalp {
 //------------------------------------------------------------------------------
 template <typename Result>
-class alc_no_result : public api_no_result_value<Result> {
+class al_no_result : public api_no_result_value<Result> {
 public:
-    constexpr alc_no_result&& error_code(eat_anything) && noexcept {
+    constexpr al_no_result&& error_code(eat_anything) && noexcept {
         return std::move(*this);
     }
 
@@ -28,22 +28,22 @@ public:
 };
 //------------------------------------------------------------------------------
 template <typename Result>
-class alc_result : public api_result_value<Result> {
+class al_result : public api_result_value<Result> {
     using base = api_result_value<Result>;
 
 public:
-    using enum_type = ALCenum;
+    using enum_type = ALenum;
     using base::base;
 
     explicit constexpr operator bool() const noexcept {
-        return _error_code == ALC_NO_ERROR;
+        return _error_code == AL_NO_ERROR;
     }
 
     constexpr bool operator!() const noexcept {
-        return _error_code != ALC_NO_ERROR;
+        return _error_code != AL_NO_ERROR;
     }
 
-    constexpr alc_result&& error_code(enum_type ec) && noexcept {
+    constexpr al_result&& error_code(enum_type ec) && noexcept {
         _error_code = ec;
         return std::move(*this);
     }
@@ -53,33 +53,36 @@ public:
     }
 
     string_view message() const noexcept {
-        if(_error_code == ALC_INVALID_ENUM) {
+        if(_error_code == AL_INVALID_ENUM) {
             return {"invalid enumeration parameter value"};
         }
-        if(_error_code == ALC_INVALID_VALUE) {
+        if(_error_code == AL_INVALID_NAME) {
+            return {"invalid object name"};
+        }
+        if(_error_code == AL_INVALID_ENUM) {
+            return {"invalid enumeration value"};
+        }
+        if(_error_code == AL_INVALID_VALUE) {
             return {"invalid parameter value"};
         }
-        if(_error_code == ALC_INVALID_CONTEXT) {
-            return {"invalid context"};
+        if(_error_code == AL_INVALID_OPERATION) {
+            return {"invalid operation"};
         }
-        if(_error_code == ALC_INVALID_DEVICE) {
-            return {"invalid device"};
-        }
-        if(_error_code == ALC_NO_ERROR) {
+        if(_error_code == AL_NO_ERROR) {
             return {"no error"};
         }
-        if(_error_code == ALC_OUT_OF_MEMORY) {
+        if(_error_code == AL_OUT_OF_MEMORY) {
             return {"out of memory"};
         }
         return {"unknown error"};
     }
 
 private:
-    enum_type _error_code{ALC_NO_ERROR};
+    enum_type _error_code{AL_NO_ERROR};
 };
 //------------------------------------------------------------------------------
 } // namespace oalp
 } // namespace eagine
 
-#endif // OALPLUS_ALC_API_RESULT_HPP
+#endif // OALPLUS_AL_API_RESULT_HPP
 
