@@ -33,6 +33,8 @@ struct basic_alc_c_api {
     using char_type = ALCchar;
     using bool_type = ALCboolean;
     using int_type = ALCint;
+    using size_type = ALCsizei;
+    using void_ptr_type = void*;
 
     eagine::opt_c_api_function<
       api_traits,
@@ -69,6 +71,38 @@ struct basic_alc_c_api {
     eagine::opt_c_api_function<
       api_traits,
       nothing_t,
+      void(device_type*, enum_type, size_type, int_type*),
+      OALPLUS_ALC_STATIC_FUNC(GetIntegerv),
+      has_api>
+      GetIntegerv;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      bool_type(device_type*, const char_type*),
+      OALPLUS_ALC_STATIC_FUNC(IsExtensionPresent),
+      has_api>
+      IsExtensionPresent;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void_ptr_type(device_type*, const char_type*),
+      OALPLUS_ALC_STATIC_FUNC(GetProcAddress),
+      has_api>
+      GetProcAddress;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      enum_type(device_type*, const char_type*),
+      OALPLUS_ALC_STATIC_FUNC(GetEnumValue),
+      has_api>
+      GetEnumValue;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
       context_type*(device_type*, const int_type*),
       OALPLUS_ALC_STATIC_FUNC(CreateContext),
       has_api>
@@ -78,9 +112,33 @@ struct basic_alc_c_api {
       api_traits,
       nothing_t,
       void(context_type*),
+      OALPLUS_ALC_STATIC_FUNC(ProcessContext),
+      has_api>
+      ProcessContext;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(context_type*),
+      OALPLUS_ALC_STATIC_FUNC(SuspendContext),
+      has_api>
+      SuspendContext;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(context_type*),
       OALPLUS_ALC_STATIC_FUNC(DestroyContext),
       has_api>
       DestroyContext;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      bool_type(context_type*),
+      OALPLUS_ALC_STATIC_FUNC(MakeContextCurrent),
+      has_api>
+      MakeContextCurrent;
 
     eagine::opt_c_api_function<
       api_traits,
@@ -103,8 +161,15 @@ struct basic_alc_c_api {
       , OpenDevice("OpenDevice", traits)
       , CloseDevice("CloseDevice", traits)
       , GetString("GetString", traits)
+      , GetIntegerv("GetIntegerv", traits)
+      , IsExtensionPresent("IsExtensionPresent", traits)
+      , GetProcAddress("GetProcAddress", traits)
+      , GetEnumValue("GetEnumValue", traits)
       , CreateContext("CreateContext", traits)
+      , ProcessContext("ProcessContext", traits)
+      , SuspendContext("SuspendContext", traits)
       , DestroyContext("DestroyContext", traits)
+      , MakeContextCurrent("MakeContextCurrent", traits)
       , GetCurrentContext("GetCurrentContext", traits)
       , GetContextsDevice("GetContextsDevice", traits) {
     }
