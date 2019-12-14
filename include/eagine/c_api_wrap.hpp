@@ -20,10 +20,27 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
+template <typename Result, typename Info>
+class api_no_result;
+template <typename Result, typename Info>
+class api_result;
+template <typename Result, typename Info>
+class api_opt_result;
+//------------------------------------------------------------------------------
 template <typename Result>
 class api_no_result_value {
 public:
     constexpr api_no_result_value() noexcept = default;
+
+protected:
+    template <typename Info, typename Transform>
+    auto _transformed(
+      const api_no_result<Result, Info>& src, Transform& transform) const {
+        using T = decltype(transform(std::declval<Result>()));
+        api_no_result<T, Info> res{};
+        static_cast<Info&>(res) = static_cast<const Info&>(src);
+        return res;
+    }
 };
 
 template <typename Result>
@@ -42,6 +59,15 @@ static constexpr inline const Result& extract(
 template <>
 class api_no_result_value<void> {
 public:
+protected:
+    template <typename Info, typename Transform>
+    auto _transformed(
+      const api_no_result<void, Info>& src, Transform& transform) const {
+        using T = decltype(transform());
+        api_no_result<T, Info> res{};
+        static_cast<Info&>(res) = static_cast<const Info&>(src);
+        return res;
+    }
 };
 //------------------------------------------------------------------------------
 template <typename Result, typename Info>
@@ -60,6 +86,11 @@ public:
     constexpr bool operator!() const noexcept {
         return true;
     }
+
+    template <typename Transform>
+    auto transformed(Transform transform) const {
+        return this->_transformed(*this, transform);
+    }
 };
 //------------------------------------------------------------------------------
 template <typename Result>
@@ -71,6 +102,17 @@ public:
       : _value{std::move(value)} {
     }
 
+protected:
+    template <typename Info, typename Transform>
+    auto _transformed(
+      const api_result<Result, Info>& src, Transform& transform) const {
+        using T = decltype(transform(std::declval<Result>()));
+        api_result<T, Info> res{transform(_value)};
+        static_cast<Info&>(res) = static_cast<const Info&>(src);
+        return res;
+    }
+
+public:
     Result _value{};
 };
 
@@ -92,7 +134,15 @@ static constexpr const Result& extract(
 //------------------------------------------------------------------------------
 template <>
 class api_result_value<void> {
-public:
+protected:
+    template <typename Info, typename Transform>
+    auto _transformed(
+      const api_result<void, Info>& src, Transform& transform) const {
+        using T = decltype(transform());
+        api_result<T, Info> res{transform()};
+        static_cast<Info&>(res) = static_cast<const Info&>(src);
+        return res;
+    }
 };
 //------------------------------------------------------------------------------
 template <typename Result, typename Info>
@@ -111,6 +161,11 @@ public:
     constexpr bool operator!() const noexcept {
         return false;
     }
+
+    template <typename Transform>
+    auto transformed(Transform transform) const {
+        return this->_transformed(*this, transform);
+    }
 };
 //------------------------------------------------------------------------------
 template <typename Result>
@@ -127,6 +182,17 @@ public:
         return _valid;
     }
 
+protected:
+    template <typename Info, typename Transform>
+    auto _transformed(
+      const api_opt_result<Result, Info>& src, Transform& transform) const {
+        using T = decltype(transform(std::declval<Result>()));
+        api_opt_result<T, Info> res{transform(_value), src.is_valid()};
+        static_cast<Info&>(res) = static_cast<const Info&>(src);
+        return res;
+    }
+
+public:
     Result _value{};
     bool _valid{false};
 };
@@ -158,7 +224,17 @@ public:
       : _valid{valid} {
     }
 
-private:
+protected:
+    template <typename Info, typename Transform>
+    auto _transformed(
+      const api_opt_result<void, Info>& src, Transform& transform) const {
+        using T = decltype(transform());
+        api_opt_result<T, Info> res{transform(), src.is_valid()};
+        static_cast<Info&>(res) = static_cast<const Info&>(src);
+        return res;
+    }
+
+public:
     bool _valid{false};
 };
 //------------------------------------------------------------------------------
@@ -177,6 +253,11 @@ public:
 
     constexpr bool operator!() const noexcept {
         return !this->is_valid();
+    }
+
+    template <typename Transform>
+    auto transformed(Transform transform) const {
+        return this->_transformed(*this, transform);
     }
 };
 //------------------------------------------------------------------------------

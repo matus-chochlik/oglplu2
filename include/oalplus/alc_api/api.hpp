@@ -24,6 +24,7 @@ public:
 
     using device_handle = typename c_api::device_type*;
     using context_handle = typename c_api::context_type*;
+    using enum_type = typename c_api::enum_type;
 
     struct derived_func : derived_c_api_function<c_api, api_traits, nothing_t> {
         using base = derived_c_api_function<c_api, api_traits, nothing_t>;
@@ -102,12 +103,27 @@ public:
         return eagine::finally([=]() { this->destroy_context(dev, ctx); });
     }
 
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().GetString);
+        }
+
+        constexpr auto operator()(device_handle dev, enum_type query) const
+          noexcept {
+            return this->_check(
+              this->call(this->api().GetString, dev, query), dev);
+        }
+    } get_string;
+
     constexpr basic_alc_api(api_traits& traits)
       : c_api{traits}
       , open_device("open_device", traits, *this)
       , close_device("close_device", traits, *this)
       , create_context("create_context", traits, *this)
-      , destroy_context("destroy_context", traits, *this) {
+      , destroy_context("destroy_context", traits, *this)
+      , get_string("get_string", traits, *this) {
     }
 };
 //------------------------------------------------------------------------------
