@@ -78,6 +78,9 @@ private:
     enum_type _error_code{ALC_NO_ERROR};
 };
 //------------------------------------------------------------------------------
+template <typename Result>
+using alc_opt_result = api_opt_result_impl<alc_result, Result>;
+//------------------------------------------------------------------------------
 } // namespace oalp
 } // namespace eagine
 

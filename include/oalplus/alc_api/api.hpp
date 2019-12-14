@@ -15,67 +15,32 @@
 namespace eagine {
 namespace oalp {
 //------------------------------------------------------------------------------
-class alc_api : public alc_c_api {
-
-    template <
-      typename ApiTraits,
-      typename Tag,
-      typename RV,
-      typename... Params,
-      typename... Args>
-    static constexpr alc_no_result<RV> _call(
-      const unimplemented_c_api_function<ApiTraits, Tag, RV(Params...)>&,
-      Args&&...) noexcept {
-        return {};
-    }
-
-    template <
-      typename ApiTraits,
-      typename Tag,
-      typename RV,
-      typename... Params,
-      typename... Args,
-      RV (*Func)(Params...)>
-    static constexpr alc_result<RV> _call(
-      static_c_api_function<ApiTraits, Tag, RV(Params...), Func>& function,
-      Args&&... args) noexcept {
-        return {std::move(function(std::forward<Args>(args)...))};
-    }
-
-    template <
-      typename ApiTraits,
-      typename Tag,
-      typename... Params,
-      typename... Args,
-      void (*Func)(Params...)>
-    static constexpr alc_result<void> _call(
-      static_c_api_function<ApiTraits, Tag, void(Params...), Func>& function,
-      Args&&... args) noexcept {
-        function(std::forward<Args>(args)...);
-        return {};
-    }
+template <typename ApiTraits>
+class basic_alc_api : public basic_alc_c_api<ApiTraits> {
 
     template <typename RV>
     constexpr auto _check(
       alc_result<RV>&& res, alc_c_api::device_type* dev = nullptr) const
       noexcept {
-        return std::move(res).error_code(GetError(dev));
+        return std::move(res).error_code(this->GetError(dev));
     }
 
 public:
-    using device_handle = alc_c_api::device_type*;
-    using context_handle = alc_c_api::context_type*;
+    using api_traits = ApiTraits;
+    using c_api = basic_alc_c_api<ApiTraits>;
+
+    using device_handle = typename c_api::device_type*;
+    using context_handle = typename c_api::context_type*;
 
     template <typename Tag = nothing_t>
-    struct derived_func
-      : derived_c_api_function<alc_c_api, alc_c_api_traits, Tag> {
-        using base = derived_c_api_function<alc_c_api, alc_c_api_traits, Tag>;
+    struct derived_func : derived_c_api_function<alc_c_api, api_traits, Tag> {
+        using base = derived_c_api_function<c_api, api_traits, Tag>;
         using base::api;
         using base::base;
 
         template <typename Res>
-        constexpr auto _check(
-          Res&& res, alc_c_api::device_type* dev = nullptr) const noexcept {
+        constexpr auto _check(Res&& res, device_handle dev = nullptr) const
+          noexcept {
             return std::move(res).error_code(api().GetError(dev));
         }
     };
@@ -91,11 +56,11 @@ public:
         }
 
         constexpr auto operator()() const noexcept {
-            return _check(_call(api().OpenDevice, nullptr));
+            return _check(this->call(api().OpenDevice, nullptr));
         }
 
         auto operator()(string_view name) const noexcept {
-            return _check(_call(api().OpenDevice, c_str(name)));
+            return _check(this->call(api().OpenDevice, c_str(name)));
         }
     } open_device;
 
@@ -110,7 +75,7 @@ public:
         }
 
         constexpr auto operator()(device_handle dev) const noexcept {
-            return _check(_call(api().CloseDevice, dev), dev);
+            return _check(this->call(api().CloseDevice, dev), dev);
         }
     } close_device;
 
@@ -130,7 +95,7 @@ public:
 
         constexpr auto operator()(device_handle dev) const noexcept {
             // TODO: attributes
-            return _check(_call(api().CreateContext, dev, nullptr), dev);
+            return _check(this->call(api().CreateContext, dev, nullptr), dev);
         }
     } create_context;
 
@@ -146,7 +111,7 @@ public:
 
         constexpr auto operator()(device_handle dev, context_handle ctx) const
           noexcept {
-            return _check(_call(api().DestroyContext, ctx), dev);
+            return _check(this->call(api().DestroyContext, ctx), dev);
         }
     } destroy_context;
 
@@ -154,14 +119,16 @@ public:
         return eagine::finally([=]() { this->destroy_context(dev, ctx); });
     }
 
-    constexpr alc_api(alc_c_api_traits& traits)
-      : alc_c_api{traits}
+    constexpr basic_alc_api(api_traits& traits)
+      : c_api{traits}
       , open_device("open_device", traits, *this)
       , close_device("close_device", traits, *this)
       , create_context("create_context", traits, *this)
       , destroy_context("destroy_context", traits, *this) {
     }
 };
+//------------------------------------------------------------------------------
+using alc_api = basic_alc_api<alc_api_traits>;
 //------------------------------------------------------------------------------
 } // namespace oalp
 } // namespace eagine

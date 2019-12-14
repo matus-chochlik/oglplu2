@@ -9,7 +9,7 @@
 #ifndef OALPLUS_AL_API_C_API_HPP
 #define OALPLUS_AL_API_C_API_HPP
 
-#include "c_api_traits.hpp"
+#include "api_traits.hpp"
 #include <eagine/preprocessor.hpp>
 
 #ifndef OALPLUS_AL_STATIC_FUNC
@@ -555,7 +555,7 @@ struct basic_al_c_api {
     }
 };
 //------------------------------------------------------------------------------
-using al_c_api = basic_al_c_api<al_c_api_traits>;
+using al_c_api = basic_al_c_api<al_api_traits>;
 //------------------------------------------------------------------------------
 } // namespace oalp
 } // namespace eagine

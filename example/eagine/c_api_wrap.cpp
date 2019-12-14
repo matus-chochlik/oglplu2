@@ -27,28 +27,7 @@ namespace eagine {
 //------------------------------------------------------------------------------
 struct example_sets_errno {};
 //------------------------------------------------------------------------------
-struct example_api_traits {
-
-    template <typename Tag, typename Signature>
-    using function_pointer = std::add_pointer<Signature>;
-
-    template <typename Tag, typename Signature>
-    std::add_pointer_t<Signature> load_function(
-      Tag, string_view, identity<Signature>) {
-        return nullptr;
-    }
-
-    template <typename Tag, typename RV>
-    static constexpr RV fallback(Tag, identity<RV>) {
-        return {};
-    }
-
-    template <typename RV, typename... Params, typename... Args>
-    static constexpr auto call(
-      example_sets_errno, RV (*function)(Params...), Args&&... args) {
-        return function(std::forward<Args>(args)...);
-    }
-};
+struct example_api_traits : default_c_api_traits {};
 //------------------------------------------------------------------------------
 struct example_file_api {
 

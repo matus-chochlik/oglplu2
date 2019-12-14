@@ -14,6 +14,8 @@
 #include "identity.hpp"
 #include "int_constant.hpp"
 #include "string_span.hpp"
+#include "valid_if/always.hpp"
+#include "valid_if/never.hpp"
 #include <type_traits>
 
 namespace eagine {
@@ -55,6 +57,8 @@ public:
 template <typename Result>
 class api_result_value {
 public:
+    constexpr api_result_value() noexcept = default;
+
     constexpr api_result_value(Result value) noexcept
       : _value{std::move(value)} {
     }
@@ -80,6 +84,43 @@ template <>
 class api_result_value<void> {
 public:
     constexpr api_result_value() noexcept = default;
+};
+//------------------------------------------------------------------------------
+template <template <typename> class Wrapper, typename Result>
+class api_opt_result_impl : public Wrapper<Result> {
+    using base = Wrapper<Result>;
+
+public:
+    constexpr api_opt_result_impl() noexcept = default;
+
+    api_opt_result_impl(bool has_value) noexcept
+      : base{}
+      , _has_value{has_value} {
+    }
+
+    template <typename R>
+    api_opt_result_impl(R&& res, bool has_value) noexcept
+      : base{std::forward<R>(res)}
+      , _has_value{has_value} {
+    }
+
+    explicit operator bool() const noexcept {
+        return _has_value && bool(*static_cast<base*>(this));
+    }
+
+    bool operator!() const noexcept {
+        return !bool(*this);
+    }
+
+    string_view message() const noexcept {
+        if(_has_value) {
+            return base::message();
+        }
+        return {"result not available"};
+    }
+
+private:
+    bool _has_value{false};
 };
 //------------------------------------------------------------------------------
 template <typename ApiTraits, typename Tag, typename Signature>
@@ -122,13 +163,28 @@ struct default_c_api_traits {
     }
 
     template <typename RV, typename Tag, typename... Params, typename... Args>
-    static constexpr RV call(
+    static constexpr RV call_static(
+      Tag, RV (*function)(Params...), Args&&... args) {
+        return function(std::forward<Args>(args)...);
+    }
+
+    template <typename RV, typename Tag, typename... Params, typename... Args>
+    static constexpr RV call_dynamic(
       Tag tag, RV (*function)(Params...), Args&&... args) {
         if(function) {
             return function(std::forward<Args>(args)...);
         }
         return fallback(tag, identity<RV>());
     }
+
+    template <typename RV>
+    using no_result = never_valid<RV>;
+
+    template <typename RV>
+    using opt_result = optionally_valid<RV>;
+
+    template <typename RV>
+    using result = always_valid<RV>;
 };
 //------------------------------------------------------------------------------
 template <typename ApiTraits, bool IsAvailable>
@@ -191,7 +247,8 @@ public:
     template <typename... Args>
     constexpr std::enable_if_t<sizeof...(Params) == sizeof...(Args), RV>
     operator()(Args&&... args) const noexcept {
-        return ApiTraits::call(Tag(), function, std::forward<Args>(args)...);
+        return ApiTraits::call_static(
+          Tag(), function, std::forward<Args>(args)...);
     }
 };
 //------------------------------------------------------------------------------
@@ -220,9 +277,8 @@ public:
     template <typename... Args>
     constexpr std::enable_if_t<sizeof...(Params) == sizeof...(Args), RV>
     operator()(Args&&... args) const noexcept {
-        return EAGINE_CONSTEXPR_ASSERT(
-          _function,
-          ApiTraits::call(Tag(), _function, std::forward<Args>(args)...));
+        return ApiTraits::call_dynamic(
+          Tag(), _function, std::forward<Args>(args)...);
     }
 
 private:
@@ -254,6 +310,49 @@ using opt_c_api_function = std::conditional_t<
 //------------------------------------------------------------------------------
 template <typename Api, typename ApiTraits, typename Tag>
 class derived_c_api_function {
+protected:
+    template <typename RV, typename... Params, typename... Args>
+    static constexpr typename ApiTraits::template no_result<RV> call(
+      const unimplemented_c_api_function<ApiTraits, Tag, RV(Params...)>&,
+      Args&&...) noexcept {
+        return {};
+    }
+
+    template <
+      typename RV,
+      typename... Params,
+      typename... Args,
+      RV (*Func)(Params...)>
+    static constexpr typename ApiTraits::template result<RV> call(
+      static_c_api_function<ApiTraits, Tag, RV(Params...), Func>& function,
+      Args&&... args) noexcept {
+        return {std::move(function(std::forward<Args>(args)...))};
+    }
+
+    template <typename... Params, typename... Args, void (*Func)(Params...)>
+    static constexpr typename ApiTraits::template result<void> call(
+      static_c_api_function<ApiTraits, Tag, void(Params...), Func>& function,
+      Args&&... args) noexcept {
+        function(std::forward<Args>(args)...);
+        return {};
+    }
+
+    template <typename RV, typename... Params, typename... Args>
+    static constexpr typename ApiTraits::template opt_result<RV> call(
+      dynamic_c_api_function<ApiTraits, Tag, RV(Params...)>& function,
+      Args&&... args) noexcept {
+        return {
+          std::move(function(std::forward<Args>(args)...)), bool(function)};
+    }
+
+    template <typename... Params, typename... Args>
+    static constexpr typename ApiTraits::template opt_result<void> call(
+      dynamic_c_api_function<ApiTraits, Tag, void(Params...)>& function,
+      Args&&... args) noexcept {
+        function(std::forward<Args>(args)...);
+        return {bool(function)};
+    }
+
 public:
     constexpr derived_c_api_function(
       string_view name, ApiTraits&, Api& parent) noexcept
