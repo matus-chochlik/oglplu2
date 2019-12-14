@@ -9,31 +9,29 @@
 #ifndef OALPLUS_AL_API_RESULT_HPP
 #define OALPLUS_AL_API_RESULT_HPP
 
+#include <eagine/c_api_wrap.hpp>
 #include <eagine/eat_anything.hpp>
 #include <eagine/string_span.hpp>
 
 namespace eagine {
 namespace oalp {
 //------------------------------------------------------------------------------
-template <typename Result>
-class al_no_result : public api_no_result_value<Result> {
+class al_no_result_info {
 public:
-    constexpr al_no_result&& error_code(eat_anything) && noexcept {
-        return std::move(*this);
+    constexpr al_no_result_info& error_code(eat_anything) noexcept {
+        return *this;
     }
 
     constexpr string_view message() const noexcept {
-        return {"function not available"};
+        return {"AL function not available"};
     }
+
+private:
 };
 //------------------------------------------------------------------------------
-template <typename Result>
-class al_result : public api_result_value<Result> {
-    using base = api_result_value<Result>;
-
+class al_result_info {
 public:
-    using enum_type = ALenum;
-    using base::base;
+    using enum_type = ALCenum;
 
     explicit constexpr operator bool() const noexcept {
         return _error_code == AL_NO_ERROR;
@@ -43,13 +41,9 @@ public:
         return _error_code != AL_NO_ERROR;
     }
 
-    constexpr al_result&& error_code(enum_type ec) && noexcept {
+    constexpr al_result_info& error_code(enum_type ec) noexcept {
         _error_code = ec;
-        return std::move(*this);
-    }
-
-    constexpr enum_type error_code() const noexcept {
-        return _error_code;
+        return *this;
     }
 
     string_view message() const noexcept {
@@ -80,6 +74,15 @@ public:
 private:
     enum_type _error_code{AL_NO_ERROR};
 };
+//------------------------------------------------------------------------------
+template <typename Result>
+using al_no_result = api_no_result<Result, al_no_result_info>;
+//------------------------------------------------------------------------------
+template <typename Result>
+using al_result = api_result<Result, al_result_info>;
+//------------------------------------------------------------------------------
+template <typename Result>
+using al_opt_result = api_opt_result<Result, al_result_info>;
 //------------------------------------------------------------------------------
 } // namespace oalp
 } // namespace eagine

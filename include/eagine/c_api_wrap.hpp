@@ -127,23 +127,27 @@ public:
         return _valid;
     }
 
-    friend constexpr Result extract(api_opt_result_value&& res) noexcept {
-        return EAGINE_CONSTEXPR_ASSERT(res._valid, std::move(res._value));
-    }
-
-    friend constexpr Result& extract(api_opt_result_value& res) noexcept {
-        return EAGINE_CONSTEXPR_ASSERT(res._valid, res._value);
-    }
-
-    friend constexpr const Result& extract(
-      const api_opt_result_value& res) noexcept {
-        return EAGINE_CONSTEXPR_ASSERT(res._valid, res._value);
-    }
-
-private:
     Result _value{};
     bool _valid{false};
 };
+
+template <typename Result>
+static constexpr inline Result extract(
+  api_opt_result_value<Result>&& res) noexcept {
+    return EAGINE_CONSTEXPR_ASSERT(res._valid, std::move(res._value));
+}
+
+template <typename Result>
+static constexpr inline Result& extract(
+  api_opt_result_value<Result>& res) noexcept {
+    return EAGINE_CONSTEXPR_ASSERT(res._valid, res._value);
+}
+
+template <typename Result>
+static constexpr inline const Result& extract(
+  const api_opt_result_value<Result>& res) noexcept {
+    return EAGINE_CONSTEXPR_ASSERT(res._valid, res._value);
+}
 //------------------------------------------------------------------------------
 template <>
 class api_opt_result_value<void> {

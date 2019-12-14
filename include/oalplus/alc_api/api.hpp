@@ -25,51 +25,44 @@ public:
     using device_handle = typename c_api::device_type*;
     using context_handle = typename c_api::context_type*;
 
-    template <typename Tag = nothing_t>
-    struct derived_func : derived_c_api_function<c_api, api_traits, Tag> {
-        using base = derived_c_api_function<c_api, api_traits, Tag>;
-        using base::api;
+    struct derived_func : derived_c_api_function<c_api, api_traits, nothing_t> {
+        using base = derived_c_api_function<c_api, api_traits, nothing_t>;
         using base::base;
 
         template <typename Res>
         constexpr auto _check(Res&& res, device_handle dev = nullptr) const
           noexcept {
-            res.error_code(api().GetError(dev));
+            res.error_code(this->api().GetError(dev));
             return std::move(res);
         }
     };
 
-    struct : derived_func<> {
-        using base = derived_func<>;
-        using base::_check;
-        using base::api;
-        using base::base;
+    struct : derived_func {
+        using derived_func::derived_func;
 
         explicit constexpr operator bool() const noexcept {
-            return bool(api().OpenDevice);
+            return bool(this->api().OpenDevice);
         }
 
         constexpr auto operator()() const noexcept {
-            return _check(this->call(api().OpenDevice, nullptr));
+            return this->_check(this->call(this->api().OpenDevice, nullptr));
         }
 
         auto operator()(string_view name) const noexcept {
-            return _check(this->call(api().OpenDevice, c_str(name)));
+            return this->_check(
+              this->call(this->api().OpenDevice, c_str(name)));
         }
     } open_device;
 
-    struct : derived_func<> {
-        using base = derived_func<>;
-        using base::_check;
-        using base::api;
-        using base::base;
+    struct : derived_func {
+        using derived_func::derived_func;
 
         explicit constexpr operator bool() const noexcept {
-            return bool(api().CloseDevice);
+            return bool(this->api().CloseDevice);
         }
 
         constexpr auto operator()(device_handle dev) const noexcept {
-            return _check(this->call(api().CloseDevice, dev), dev);
+            return this->_check(this->call(this->api().CloseDevice, dev), dev);
         }
     } close_device;
 
@@ -77,35 +70,31 @@ public:
         return eagine::finally([=]() { this->close_device(dev); });
     }
 
-    struct : derived_func<> {
-        using base = derived_func<>;
-        using base::_check;
-        using base::api;
-        using base::base;
+    struct : derived_func {
+        using derived_func::derived_func;
 
         explicit constexpr operator bool() const noexcept {
-            return bool(api().CreateContext);
+            return bool(this->api().CreateContext);
         }
 
         constexpr auto operator()(device_handle dev) const noexcept {
             // TODO: attributes
-            return _check(this->call(api().CreateContext, dev, nullptr), dev);
+            return this->_check(
+              this->call(this->api().CreateContext, dev, nullptr), dev);
         }
     } create_context;
 
-    struct : derived_func<> {
-        using base = derived_func<>;
-        using base::_check;
-        using base::api;
-        using base::base;
+    struct : derived_func {
+        using derived_func::derived_func;
 
         explicit constexpr operator bool() const noexcept {
-            return bool(api().DestroyContext);
+            return bool(this->api().DestroyContext);
         }
 
         constexpr auto operator()(device_handle dev, context_handle ctx) const
           noexcept {
-            return _check(this->call(api().DestroyContext, ctx), dev);
+            return this->_check(
+              this->call(this->api().DestroyContext, ctx), dev);
         }
     } destroy_context;
 

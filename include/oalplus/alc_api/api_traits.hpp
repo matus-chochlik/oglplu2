@@ -10,7 +10,6 @@
 #define OALPLUS_ALC_API_API_TRAITS_HPP
 
 #include "result.hpp"
-#include <eagine/c_api_wrap.hpp>
 
 namespace eagine {
 namespace oalp {

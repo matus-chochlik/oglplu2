@@ -23,7 +23,7 @@ public:
     }
 
     constexpr string_view message() const noexcept {
-        return {"function not available"};
+        return {"ALC function not available"};
     }
 
 private:
