@@ -19,9 +19,9 @@ struct alc_api_traits : default_c_api_traits {
     template <typename R>
     using no_result = alc_no_result<R>;
     template <typename R>
-    using opt_result = alc_opt_result<R>;
-    template <typename R>
     using result = alc_result<R>;
+    template <typename R>
+    using opt_result = alc_opt_result<R>;
 };
 //------------------------------------------------------------------------------
 } // namespace oalp

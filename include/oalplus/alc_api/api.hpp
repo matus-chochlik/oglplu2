@@ -18,13 +18,6 @@ namespace oalp {
 template <typename ApiTraits>
 class basic_alc_api : public basic_alc_c_api<ApiTraits> {
 
-    template <typename RV>
-    constexpr auto _check(
-      alc_result<RV>&& res, alc_c_api::device_type* dev = nullptr) const
-      noexcept {
-        return std::move(res).error_code(this->GetError(dev));
-    }
-
 public:
     using api_traits = ApiTraits;
     using c_api = basic_alc_c_api<ApiTraits>;
@@ -33,7 +26,7 @@ public:
     using context_handle = typename c_api::context_type*;
 
     template <typename Tag = nothing_t>
-    struct derived_func : derived_c_api_function<alc_c_api, api_traits, Tag> {
+    struct derived_func : derived_c_api_function<c_api, api_traits, Tag> {
         using base = derived_c_api_function<c_api, api_traits, Tag>;
         using base::api;
         using base::base;
@@ -41,7 +34,8 @@ public:
         template <typename Res>
         constexpr auto _check(Res&& res, device_handle dev = nullptr) const
           noexcept {
-            return std::move(res).error_code(api().GetError(dev));
+            res.error_code(api().GetError(dev));
+            return std::move(res);
         }
     };
 

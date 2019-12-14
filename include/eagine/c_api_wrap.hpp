@@ -24,6 +24,34 @@ template <typename Result>
 class api_no_result_value {
 public:
     constexpr api_no_result_value() noexcept = default;
+};
+
+template <typename Result>
+static constexpr inline Result& extract(api_no_result_value<Result>&) noexcept {
+    EAGINE_UNREACHABLE();
+    return *static_cast<Result*>(nullptr);
+}
+
+template <typename Result>
+static constexpr inline const Result& extract(
+  const api_no_result_value<Result>&) noexcept {
+    EAGINE_UNREACHABLE();
+    return *static_cast<const Result*>(nullptr);
+}
+//------------------------------------------------------------------------------
+template <>
+class api_no_result_value<void> {
+public:
+};
+//------------------------------------------------------------------------------
+template <typename Result, typename Info>
+class api_no_result
+  : public Info
+  , public api_no_result_value<Result> {
+    using base = api_no_result_value<Result>;
+
+public:
+    using base::base;
 
     explicit constexpr operator bool() const noexcept {
         return false;
@@ -32,26 +60,6 @@ public:
     constexpr bool operator!() const noexcept {
         return true;
     }
-
-    friend constexpr Result& extract(api_no_result_value&) noexcept {
-        EAGINE_UNREACHABLE();
-        return *static_cast<Result*>(nullptr);
-    }
-
-    friend constexpr const Result& extract(
-      const api_no_result_value&) noexcept {
-        EAGINE_UNREACHABLE();
-        return *static_cast<const Result*>(nullptr);
-    }
-
-private:
-    Result _value{};
-};
-//------------------------------------------------------------------------------
-template <>
-class api_no_result_value<void> {
-public:
-    constexpr api_no_result_value() noexcept = default;
 };
 //------------------------------------------------------------------------------
 template <typename Result>
@@ -63,64 +71,109 @@ public:
       : _value{std::move(value)} {
     }
 
-    friend constexpr Result extract(api_result_value&& res) noexcept {
-        return std::move(res._value);
-    }
-
-    friend constexpr Result& extract(api_result_value& res) noexcept {
-        return res._value;
-    }
-
-    friend constexpr const Result& extract(
-      const api_result_value& res) noexcept {
-        return res._value;
-    }
-
-private:
     Result _value{};
 };
+
+template <typename Result>
+static constexpr Result extract(api_result_value<Result>&& res) noexcept {
+    return std::move(res._value);
+}
+
+template <typename Result>
+static constexpr Result& extract(api_result_value<Result>& res) noexcept {
+    return res._value;
+}
+
+template <typename Result>
+static constexpr const Result& extract(
+  const api_result_value<Result>& res) noexcept {
+    return res._value;
+}
 //------------------------------------------------------------------------------
 template <>
 class api_result_value<void> {
 public:
-    constexpr api_result_value() noexcept = default;
 };
 //------------------------------------------------------------------------------
-template <template <typename> class Wrapper, typename Result>
-class api_opt_result_impl : public Wrapper<Result> {
-    using base = Wrapper<Result>;
+template <typename Result, typename Info>
+class api_result
+  : public Info
+  , public api_result_value<Result> {
+    using base = api_result_value<Result>;
 
 public:
-    constexpr api_opt_result_impl() noexcept = default;
+    using base::base;
 
-    api_opt_result_impl(bool has_value) noexcept
-      : base{}
-      , _has_value{has_value} {
+    explicit constexpr operator bool() const noexcept {
+        return true;
     }
 
-    template <typename R>
-    api_opt_result_impl(R&& res, bool has_value) noexcept
-      : base{std::forward<R>(res)}
-      , _has_value{has_value} {
+    constexpr bool operator!() const noexcept {
+        return false;
+    }
+};
+//------------------------------------------------------------------------------
+template <typename Result>
+class api_opt_result_value {
+public:
+    constexpr api_opt_result_value() noexcept = default;
+
+    constexpr api_opt_result_value(Result value, bool valid) noexcept
+      : _value{std::move(value)}
+      , _valid{valid} {
     }
 
-    explicit operator bool() const noexcept {
-        return _has_value && bool(*static_cast<base*>(this));
+    constexpr bool is_valid() const noexcept {
+        return _valid;
     }
 
-    bool operator!() const noexcept {
-        return !bool(*this);
+    friend constexpr Result extract(api_opt_result_value&& res) noexcept {
+        return EAGINE_CONSTEXPR_ASSERT(res._valid, std::move(res._value));
     }
 
-    string_view message() const noexcept {
-        if(_has_value) {
-            return base::message();
-        }
-        return {"result not available"};
+    friend constexpr Result& extract(api_opt_result_value& res) noexcept {
+        return EAGINE_CONSTEXPR_ASSERT(res._valid, res._value);
+    }
+
+    friend constexpr const Result& extract(
+      const api_opt_result_value& res) noexcept {
+        return EAGINE_CONSTEXPR_ASSERT(res._valid, res._value);
     }
 
 private:
-    bool _has_value{false};
+    Result _value{};
+    bool _valid{false};
+};
+//------------------------------------------------------------------------------
+template <>
+class api_opt_result_value<void> {
+public:
+    constexpr api_opt_result_value() noexcept = default;
+
+    constexpr api_opt_result_value(bool valid) noexcept
+      : _valid{valid} {
+    }
+
+private:
+    bool _valid{false};
+};
+//------------------------------------------------------------------------------
+template <typename Result, typename Info>
+class api_opt_result
+  : public Info
+  , public api_opt_result_value<Result> {
+    using base = api_opt_result_value<Result>;
+
+public:
+    using base::base;
+
+    explicit constexpr operator bool() const noexcept {
+        return this->is_valid();
+    }
+
+    constexpr bool operator!() const noexcept {
+        return !this->is_valid();
+    }
 };
 //------------------------------------------------------------------------------
 template <typename ApiTraits, typename Tag, typename Signature>
