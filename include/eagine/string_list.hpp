@@ -497,7 +497,7 @@ private:
 };
 //------------------------------------------------------------------------------
 template <typename Range>
-class string_list {
+class basic_string_list {
 public:
     using value_type = string_view;
     using iterator =
@@ -505,7 +505,9 @@ public:
     using reverse_iterator =
       eagine::string_list::rev_iterator<typename Range::const_iterator>;
 
-    string_list(Range range) noexcept
+    basic_string_list() noexcept = default;
+
+    basic_string_list(Range range) noexcept
       : _range{std::move(range)} {
     }
 
@@ -530,6 +532,18 @@ private:
 };
 //------------------------------------------------------------------------------
 } // namespace string_list
+//------------------------------------------------------------------------------
+static inline string_list::basic_string_list<std::string> make_string_list(
+  std::string str) {
+    return {std::move(str)};
+}
+//------------------------------------------------------------------------------
+static inline auto split_c_str_into_string_list(const char* src, char sep) {
+    std::string temp;
+    string_list::split_c_str_into(temp, src, sep);
+    return make_string_list(std::move(temp));
+}
+//------------------------------------------------------------------------------
 } // namespace eagine
 
 #endif // EAGINE_STRING_LIST_HPP
