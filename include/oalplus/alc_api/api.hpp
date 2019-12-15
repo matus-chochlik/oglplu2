@@ -11,6 +11,8 @@
 
 #include "c_api.hpp"
 #include "result.hpp"
+#include <eagine/scope_exit.hpp>
+#include <eagine/string_list.hpp>
 
 namespace eagine {
 namespace oalp {
@@ -25,6 +27,7 @@ public:
     using device_handle = typename c_api::device_type*;
     using context_handle = typename c_api::context_type*;
     using enum_type = typename c_api::enum_type;
+    using char_type = typename c_api::char_type;
 
     struct derived_func : derived_c_api_function<c_api, api_traits, nothing_t> {
         using base = derived_c_api_function<c_api, api_traits, nothing_t>;
@@ -38,6 +41,7 @@ public:
         }
     };
 
+    // open_device
     struct : derived_func {
         using derived_func::derived_func;
 
@@ -55,6 +59,7 @@ public:
         }
     } open_device;
 
+    // close_device
     struct : derived_func {
         using derived_func::derived_func;
 
@@ -67,10 +72,12 @@ public:
         }
     } close_device;
 
+    // close_device_raii
     auto close_device_raii(device_handle dev) noexcept {
         return eagine::finally([=]() { this->close_device(dev); });
     }
 
+    // create_context
     struct : derived_func {
         using derived_func::derived_func;
 
@@ -85,6 +92,7 @@ public:
         }
     } create_context;
 
+    // destroy_context
     struct : derived_func {
         using derived_func::derived_func;
 
@@ -99,10 +107,12 @@ public:
         }
     } destroy_context;
 
+    // destroy_context_raii
     auto destroy_context_raii(device_handle dev, context_handle ctx) noexcept {
         return eagine::finally([=]() { this->destroy_context(dev, ctx); });
     }
 
+    // get_string
     struct : derived_func {
         using derived_func::derived_func;
 
@@ -116,6 +126,14 @@ public:
               this->call(this->api().GetString, dev, query), dev);
         }
     } get_string;
+
+    // get_extensions
+    auto get_extensions(device_handle dev) noexcept {
+        return get_string(dev, ALC_EXTENSIONS)
+          .transformed([](const char_type* src) {
+              return split_c_str_into_string_list(src, ' ');
+          });
+    }
 
     constexpr basic_alc_api(api_traits& traits)
       : c_api{traits}

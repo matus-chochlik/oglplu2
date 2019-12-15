@@ -9,8 +9,8 @@
 #ifndef OALPLUS_ALC_API_RESULT_HPP
 #define OALPLUS_ALC_API_RESULT_HPP
 
+#include <eagine/anything.hpp>
 #include <eagine/c_api_wrap.hpp>
-#include <eagine/eat_anything.hpp>
 #include <eagine/string_span.hpp>
 
 namespace eagine {
@@ -18,7 +18,7 @@ namespace oalp {
 //------------------------------------------------------------------------------
 class alc_no_result_info {
 public:
-    constexpr alc_no_result_info& error_code(eat_anything) noexcept {
+    constexpr alc_no_result_info& error_code(anything) noexcept {
         return *this;
     }
 

@@ -10,6 +10,7 @@
 #define OALPLUS_AL_API_C_API_HPP
 
 #include "api_traits.hpp"
+#include <eagine/nothing.hpp>
 #include <eagine/preprocessor.hpp>
 
 #ifndef OALPLUS_AL_STATIC_FUNC
