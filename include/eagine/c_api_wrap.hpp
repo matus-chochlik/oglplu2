@@ -16,6 +16,7 @@
 #include "string_span.hpp"
 #include "valid_if/always.hpp"
 #include "valid_if/never.hpp"
+#include <tuple>
 #include <type_traits>
 
 namespace eagine {
@@ -285,9 +286,14 @@ struct default_c_api_traits {
     template <typename Tag, typename Signature>
     using function_pointer = std::add_pointer<Signature>;
 
-    template <typename Tag, typename Signature>
-    std::add_pointer_t<Signature> load_function(
-      Tag, string_view, identity<Signature>) {
+    template <typename Api, typename Type>
+    std::tuple<Type, bool> load_constant(Api&, string_view, identity<Type>) {
+        return {{}, false};
+    }
+
+    template <typename Api, typename Tag, typename Signature>
+    std::add_pointer_t<Signature> link_function(
+      Api&, Tag, string_view, identity<Signature>) {
         return nullptr;
     }
 
@@ -399,10 +405,11 @@ class dynamic_c_api_function<ApiTraits, Tag, RV(Params...)>
 
 public:
     template <typename Api>
-    constexpr dynamic_c_api_function(string_view name, ApiTraits& traits, Api&)
+    constexpr dynamic_c_api_function(
+      string_view name, ApiTraits& traits, Api& api)
       : base(name)
       , _function{
-          traits.load_function(Tag(), name, identity<RV(Params...)>())} {
+          traits.link_function(api, Tag(), name, identity<RV(Params...)>())} {
     }
 
     constexpr explicit operator bool() const noexcept {

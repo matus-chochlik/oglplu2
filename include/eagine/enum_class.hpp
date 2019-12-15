@@ -12,6 +12,7 @@
 
 #include "assert.hpp"
 #include "mp_list.hpp"
+#include <tuple>
 #include <type_traits>
 
 namespace eagine {
@@ -41,6 +42,41 @@ struct enum_value<T, mp_list<Classes...>> {
 
     constexpr inline bool operator!() const noexcept {
         return false;
+    }
+};
+
+template <typename T, typename ClassList>
+struct opt_enum_value;
+
+template <typename T, typename... Classes>
+struct opt_enum_value<T, mp_list<Classes...>> {
+    using type = opt_enum_value;
+
+    using value_type = T;
+
+    const T value{};
+    const bool is_valid{false};
+
+    constexpr inline opt_enum_value(T val, bool valid) noexcept
+      : value(val)
+      , is_valid{valid} {
+    }
+
+    constexpr inline opt_enum_value(std::tuple<T, bool> init) noexcept
+      : value(std::get<0>(init))
+      , is_valid{std::get<1>(init)} {
+    }
+
+    explicit constexpr inline operator T() const noexcept {
+        return value;
+    }
+
+    explicit constexpr inline operator bool() const noexcept {
+        return is_valid;
+    }
+
+    constexpr inline bool operator!() const noexcept {
+        return !is_valid;
     }
 };
 
@@ -86,6 +122,14 @@ struct enum_class {
       typename = std::enable_if_t<mp_contains<Classes, Self>::value>>
     constexpr inline enum_class(enum_value<T, Classes> ev) noexcept
       : _value(ev.value) {
+    }
+
+    template <
+      typename Classes,
+      typename = std::enable_if_t<mp_contains<Classes, Self>::value>>
+    constexpr inline enum_class(opt_enum_value<T, Classes> ev) noexcept
+      : _value(ev.value) {
+        EAGINE_ASSERT(ev.is_valid);
     }
 
     constexpr inline enum_class(no_enum_value<T>) noexcept {
