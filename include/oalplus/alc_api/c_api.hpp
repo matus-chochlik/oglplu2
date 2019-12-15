@@ -10,6 +10,7 @@
 #define OALPLUS_ALC_API_C_API_HPP
 
 #include "api_traits.hpp"
+#include "api_types.hpp"
 #include <eagine/nothing.hpp>
 #include <eagine/preprocessor.hpp>
 
@@ -26,16 +27,16 @@ struct basic_alc_c_api {
     using this_api = basic_alc_c_api;
     using api_traits = Traits;
 
-    static constexpr bool has_api = true;
-    using device_type = ALCdevice;
-    using context_type = ALCcontext;
-    using enum_type = ALCenum;
-    using char_type = ALCchar;
-    using bool_type = ALCboolean;
-    using int_type = ALCint;
-    using uint_type = ALCuint;
-    using size_type = ALCsizei;
-    using void_ptr_type = void*;
+    static constexpr bool has_api = api_types::has_api;
+    using device_type = typename api_types::device_type;
+    using context_type = typename api_types::context_type;
+    using enum_type = typename api_types::enum_type;
+    using char_type = typename api_types::char_type;
+    using bool_type = typename api_types::bool_type;
+    using int_type = typename api_types::int_type;
+    using uint_type = typename api_types::uint_type;
+    using size_type = typename api_types::size_type;
+    using void_ptr_type = typename api_types::void_ptr_type;
 
     eagine::opt_c_api_function<
       api_traits,

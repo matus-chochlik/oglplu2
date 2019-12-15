@@ -24,10 +24,10 @@ public:
     using api_traits = ApiTraits;
     using c_api = basic_alc_c_api<ApiTraits>;
 
-    using device_handle = typename c_api::device_type*;
-    using context_handle = typename c_api::context_type*;
-    using enum_type = typename c_api::enum_type;
-    using char_type = typename c_api::char_type;
+    using device_handle = typename api_types::device_type*;
+    using context_handle = typename api_types::context_type*;
+    using enum_type = typename api_types::enum_type;
+    using char_type = typename api_types::char_type;
 
     struct derived_func : derived_c_api_function<c_api, api_traits, nothing_t> {
         using base = derived_c_api_function<c_api, api_traits, nothing_t>;

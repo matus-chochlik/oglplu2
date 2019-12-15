@@ -18,9 +18,9 @@ namespace oglplus {
 namespace oper {
 
 struct stencil_func_args {
-    compare_function _func;
-    GLint _refv;
-    GLuint _mask;
+    compare_function _func{};
+    GLint _refv{};
+    GLuint _mask{};
 
     stencil_func_args() = default;
 

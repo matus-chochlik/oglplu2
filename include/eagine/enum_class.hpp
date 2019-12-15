@@ -34,6 +34,35 @@ struct enum_value<T, mp_list<Classes...>> {
     explicit constexpr inline operator T() const noexcept {
         return value;
     }
+
+    explicit constexpr inline operator bool() const noexcept {
+        return true;
+    }
+
+    constexpr inline bool operator!() const noexcept {
+        return false;
+    }
+};
+
+template <typename T>
+struct no_enum_value {
+    using type = no_enum_value;
+
+    using value_type = T;
+
+    const T value{};
+
+    explicit constexpr inline operator T() const noexcept {
+        return value;
+    }
+
+    explicit constexpr inline operator bool() const noexcept {
+        return false;
+    }
+
+    constexpr inline bool operator!() const noexcept {
+        return true;
+    }
 };
 
 template <unsigned LibId>
@@ -48,7 +77,7 @@ struct enum_class {
     static constexpr const unsigned lib_id = LibId;
     static constexpr const unsigned id = Id;
 
-    value_type _value;
+    value_type _value{};
 
     enum_class() = default;
 
@@ -57,6 +86,10 @@ struct enum_class {
       typename = std::enable_if_t<mp_contains<Classes, Self>::value>>
     constexpr inline enum_class(enum_value<T, Classes> ev) noexcept
       : _value(ev.value) {
+    }
+
+    constexpr inline enum_class(no_enum_value<T>) noexcept {
+        EAGINE_UNREACHABLE();
     }
 
     constexpr enum_class(const any_enum_value<LibId>& aev) noexcept
