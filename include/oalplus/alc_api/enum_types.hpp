@@ -9,6 +9,7 @@
 #ifndef OALPLUS_ALC_API_ENUM_TYPES_HPP
 #define OALPLUS_ALC_API_ENUM_TYPES_HPP
 
+#include "api_types.hpp"
 #include "enum_class.hpp"
 
 namespace eagine {

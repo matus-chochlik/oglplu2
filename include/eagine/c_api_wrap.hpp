@@ -73,6 +73,21 @@ public:
     }
 };
 //------------------------------------------------------------------------------
+template <typename ClassList, typename Constant>
+struct get_opt_c_api_constant;
+
+template <typename ClassList, typename T, T value>
+struct get_opt_c_api_constant<ClassList, std::integral_constant<T, value>>
+  : identity<static_c_api_constant<ClassList, T, value>> {};
+
+template <typename ClassList, typename T>
+struct get_opt_c_api_constant<ClassList, identity<T>>
+  : identity<dynamic_c_api_constant<ClassList, T>> {};
+
+template <typename ClassList, typename Constant>
+using opt_c_api_constant =
+  typename get_opt_c_api_constant<ClassList, Constant>::type;
+//------------------------------------------------------------------------------
 template <typename Result, typename Info>
 class api_no_result;
 template <typename Result, typename Info>
