@@ -11,6 +11,7 @@
 #define EAGINE_C_API_WRAP_HPP
 
 #include "assert.hpp"
+#include "enum_class.hpp"
 #include "identity.hpp"
 #include "int_constant.hpp"
 #include "string_span.hpp"
@@ -20,6 +21,57 @@
 #include <type_traits>
 
 namespace eagine {
+//------------------------------------------------------------------------------
+struct c_api_constant_base {
+public:
+    constexpr c_api_constant_base(string_view name) noexcept
+      : _name{name} {
+    }
+
+    constexpr string_view name() const noexcept {
+        return _name;
+    }
+
+private:
+    string_view _name{};
+};
+//------------------------------------------------------------------------------
+template <typename T>
+struct no_c_api_constant
+  : c_api_constant_base
+  , no_enum_value<T> {
+public:
+    template <typename ApiTraits, typename Api>
+    constexpr no_c_api_constant(string_view name, ApiTraits&, Api&) noexcept
+      : c_api_constant_base{name} {
+    }
+};
+//------------------------------------------------------------------------------
+template <typename ClassList, typename T, T value>
+struct static_c_api_constant
+  : c_api_constant_base
+  , enum_value<T, ClassList> {
+public:
+    template <typename ApiTraits, typename Api>
+    constexpr static_c_api_constant(string_view name, ApiTraits&, Api&) noexcept
+      : c_api_constant_base{name}
+      , enum_value<T, ClassList>{value} {
+    }
+};
+//------------------------------------------------------------------------------
+template <typename ClassList, typename T>
+struct dynamic_c_api_constant
+  : c_api_constant_base
+  , opt_enum_value<T, ClassList> {
+public:
+    template <typename ApiTraits, typename Api>
+    constexpr dynamic_c_api_constant(
+      string_view name, ApiTraits& traits, Api& api) noexcept
+      : c_api_constant_base{name}
+      , opt_enum_value<T, ClassList>{
+          traits.load_constant(api, name, identity<T>())} {
+    }
+};
 //------------------------------------------------------------------------------
 template <typename Result, typename Info>
 class api_no_result;
