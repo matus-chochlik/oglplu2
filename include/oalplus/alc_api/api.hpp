@@ -10,7 +10,7 @@
 #define OALPLUS_ALC_API_API_HPP
 
 #include "c_api.hpp"
-#include "result.hpp"
+#include "enum_types.hpp"
 #include <eagine/scope_exit.hpp>
 #include <eagine/string_list.hpp>
 
@@ -120,19 +120,76 @@ public:
             return bool(this->api().GetString);
         }
 
-        constexpr auto operator()(device_handle dev, enum_type query) const
-          noexcept {
+        constexpr auto operator()(
+          device_handle dev, alc_string_query query) const noexcept {
             return this->_check(
-              this->call(this->api().GetString, dev, query), dev);
+              this->call(this->api().GetString, dev, enum_type(query)), dev);
+        }
+
+        constexpr auto operator()(alc_string_query query) const noexcept {
+            return (*this)(nullptr, query);
+        }
+
+        constexpr auto operator()(device_handle) const noexcept {
+            return this->fake(this->api().GetString, "");
         }
     } get_string;
 
     // get_extensions
     auto get_extensions(device_handle dev) noexcept {
-        return get_string(dev, ALC_EXTENSIONS)
-          .transformed([](const char_type* src) {
-              return split_c_str_into_string_list(src, ' ');
-          });
+#ifdef ALC_EXTENSIONS
+        return get_string(dev, alc_string_query(ALC_EXTENSIONS))
+#else
+        return get_string(dev)
+#endif
+          .transformed(
+            [](auto src) { return split_c_str_into_string_list(src, ' '); });
+    }
+
+    // get_default_device_specifier
+    auto get_default_device_specifier() noexcept {
+#ifdef ALC_DEFAULT_DEVICE_SPECIFIER
+        return get_string(
+                 nullptr, alc_string_query(ALC_DEFAULT_DEVICE_SPECIFIER))
+#else
+        return get_string(nullptr)
+#endif
+          .transformed([](auto src) { return string_view(src); });
+    }
+
+    // get_device_specifiers
+    auto get_device_specifiers() noexcept {
+#ifdef ALC_DEVICE_SPECIFIER
+        return get_string(nullptr, alc_string_query(ALC_DEVICE_SPECIFIER))
+#else
+        return get_string(nullptr)
+#endif
+          .transformed(
+            [](auto src) { return split_c_str_into_string_list(src, '\0'); });
+    }
+
+    // get_capture_default_device_specifier
+    auto get_capture_default_device_specifier() noexcept {
+#ifdef ALC_CAPTURE_DEFAULT_DEVICE_SPECIFIER
+        return get_string(
+                 nullptr,
+                 alc_string_query(ALC_CAPTURE_DEFAULT_DEVICE_SPECIFIER))
+#else
+        return get_string(nullptr)
+#endif
+          .transformed([](auto src) { return string_view(src); });
+    }
+
+    // get_capture_device_specifiers
+    auto get_capture_device_specifiers() noexcept {
+#ifdef ALC_CAPTURE_DEVICE_SPECIFIER
+        return get_string(
+                 nullptr, alc_string_query(ALC_CAPTURE_DEVICE_SPECIFIER))
+#else
+        return get_string(nullptr)
+#endif
+          .transformed(
+            [](auto src) { return split_c_str_into_string_list(src, '\0'); });
     }
 
     constexpr basic_alc_api(api_traits& traits)

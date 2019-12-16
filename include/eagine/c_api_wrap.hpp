@@ -565,6 +565,31 @@ protected:
         return {bool(function)};
     }
 
+    template <typename RV, typename... Params>
+    static constexpr typename ApiTraits::template result<RV> fake(
+      const unimplemented_c_api_function<ApiTraits, Tag, RV(Params...)>&,
+      RV fallback) noexcept {
+        return {std::move(fallback)};
+    }
+
+    template <
+      typename RV,
+      typename... Params,
+      RV (*Func)(Params...),
+      typename F>
+    static constexpr typename ApiTraits::template result<RV> fake(
+      const static_c_api_function<ApiTraits, Tag, RV(Params...), Func>&,
+      F&& fallback) noexcept {
+        return {std::forward<F>(fallback)};
+    }
+
+    template <typename RV, typename... Params, typename F>
+    static constexpr typename ApiTraits::template result<RV> fake(
+      const dynamic_c_api_function<ApiTraits, Tag, RV(Params...)>&,
+      F&& fallback) noexcept {
+        return {std::forward<F>(fallback)};
+    }
+
 public:
     constexpr derived_c_api_function(
       string_view name, ApiTraits&, Api& parent) noexcept

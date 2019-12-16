@@ -538,6 +538,12 @@ static inline string_list::basic_string_list<std::string> make_string_list(
     return {std::move(str)};
 }
 //------------------------------------------------------------------------------
+static inline auto split_into_string_list(string_view src, char sep) {
+    std::string temp;
+    string_list::split_into(temp, src, cover_one(sep));
+    return make_string_list(std::move(temp));
+}
+//------------------------------------------------------------------------------
 static inline auto split_c_str_into_string_list(const char* src, char sep) {
     std::string temp;
     string_list::split_c_str_into(temp, src, sep);
