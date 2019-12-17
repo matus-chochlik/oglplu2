@@ -135,6 +135,15 @@ public:
         }
     } get_string;
 
+    // get_strings
+    auto get_strings(
+      device_handle dev, alc_string_query, char separator) noexcept {
+        return get_string(dev, alc_string_query(ALC_EXTENSIONS))
+          .transformed([separator](auto src) {
+              return split_c_str_into_string_list(src, separator);
+          });
+    }
+
     // get_extensions
     auto get_extensions(device_handle dev) noexcept {
 #ifdef ALC_EXTENSIONS
@@ -201,8 +210,6 @@ public:
       , get_string("get_string", traits, *this) {
     }
 };
-//------------------------------------------------------------------------------
-using alc_api = basic_alc_api<alc_api_traits>;
 //------------------------------------------------------------------------------
 } // namespace oalp
 } // namespace eagine

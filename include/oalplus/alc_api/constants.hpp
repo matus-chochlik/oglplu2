@@ -83,6 +83,15 @@ public:
       all_devices_specifier;
 
     opt_c_api_constant<
+      mp_list<alc_string_query>,
+#ifdef ALC_EXTENSIONS
+      enum_type_c<ALC_EXTENSIONS>>
+#else
+      enum_type_i>
+#endif
+      extensions;
+
+    opt_c_api_constant<
       mp_list<context_attrib>,
 #ifdef ALC_FREQUENCY
       enum_type_c<ALC_FREQUENCY>>
@@ -136,6 +145,7 @@ public:
       , capture_default_device_specifier(
           "DEFAULT_CAPTURE_DEVICE_SPECIFIER", traits, api)
       , all_devices_specifier("ALL_DEVICES_SPECIFIER", traits, api)
+      , extensions("EXTENSIONS", traits, api)
       , frequency("FREQUENCY", traits, api)
       , refresh("REFRESH", traits, api)
       , sync("SYNC", traits, api)
@@ -143,8 +153,6 @@ public:
       , stereo_sources("STEREO_SOURCES", traits, api) {
     }
 };
-//------------------------------------------------------------------------------
-using alc_constants = basic_alc_constants<alc_api_traits>;
 //------------------------------------------------------------------------------
 } // namespace oalp
 } // namespace eagine
