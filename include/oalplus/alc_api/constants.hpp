@@ -18,7 +18,7 @@ namespace oalp {
 template <typename ApiTraits>
 struct basic_alc_constants {
 public:
-    using enum_type = typename api_types::enum_type;
+    using enum_type = typename alc_types::enum_type;
     using enum_type_i = identity<enum_type>;
     template <enum_type value>
     using enum_type_c = std::integral_constant<enum_type, value>;
@@ -77,9 +77,7 @@ public:
 #endif
       capture_default_device_specifier;
 
-    const dynamic_c_api_constant<
-      mp_list<alc_string_query>,
-      api_types::enum_type>
+    const dynamic_c_api_constant<mp_list<alc_string_query>, enum_type>
       all_devices_specifier;
 
     opt_c_api_constant<

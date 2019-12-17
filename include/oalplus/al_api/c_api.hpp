@@ -10,6 +10,7 @@
 #define OALPLUS_AL_API_C_API_HPP
 
 #include "api_traits.hpp"
+#include "api_types.hpp"
 #include <eagine/nothing.hpp>
 #include <eagine/preprocessor.hpp>
 
@@ -26,18 +27,18 @@ struct basic_al_c_api {
     using this_api = basic_al_c_api;
     using api_traits = Traits;
 
-    static constexpr bool has_api = true;
-    using enum_type = ALenum;
-    using char_type = ALchar;
-    using bool_type = ALboolean;
-    using int_type = ALint;
-    using uint_type = ALuint;
-    using name_type = ALuint;
-    using size_type = ALsizei;
-    using float_type = ALfloat;
-    using double_type = ALdouble;
-    using void_ptr_type = void*;
-    using const_void_ptr_type = const void*;
+    static constexpr bool has_api = al_types::has_api;
+    using enum_type = typename al_types::enum_type;
+    using char_type = typename al_types::char_type;
+    using bool_type = typename al_types::bool_type;
+    using int_type = typename al_types::int_type;
+    using uint_type = typename al_types::uint_type;
+    using name_type = typename al_types::name_type;
+    using size_type = typename al_types::size_type;
+    using float_type = typename al_types::float_type;
+    using double_type = typename al_types::double_type;
+    using void_ptr_type = typename al_types::void_ptr_type;
+    using const_void_ptr_type = typename al_types::const_void_ptr_type;
 
     eagine::opt_c_api_function<
       api_traits,

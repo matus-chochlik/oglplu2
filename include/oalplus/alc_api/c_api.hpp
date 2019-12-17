@@ -27,16 +27,16 @@ struct basic_alc_c_api {
     using this_api = basic_alc_c_api;
     using api_traits = Traits;
 
-    static constexpr bool has_api = api_types::has_api;
-    using device_type = typename api_types::device_type;
-    using context_type = typename api_types::context_type;
-    using enum_type = typename api_types::enum_type;
-    using char_type = typename api_types::char_type;
-    using bool_type = typename api_types::bool_type;
-    using int_type = typename api_types::int_type;
-    using uint_type = typename api_types::uint_type;
-    using size_type = typename api_types::size_type;
-    using void_ptr_type = typename api_types::void_ptr_type;
+    static constexpr bool has_api = alc_types::has_api;
+    using device_type = typename alc_types::device_type;
+    using context_type = typename alc_types::context_type;
+    using enum_type = typename alc_types::enum_type;
+    using char_type = typename alc_types::char_type;
+    using bool_type = typename alc_types::bool_type;
+    using int_type = typename alc_types::int_type;
+    using uint_type = typename alc_types::uint_type;
+    using size_type = typename alc_types::size_type;
+    using void_ptr_type = typename alc_types::void_ptr_type;
 
     eagine::opt_c_api_function<
       api_traits,

@@ -24,10 +24,10 @@ public:
     using api_traits = ApiTraits;
     using c_api = basic_alc_c_api<ApiTraits>;
 
-    using device_handle = typename api_types::device_type*;
-    using context_handle = typename api_types::context_type*;
-    using enum_type = typename api_types::enum_type;
-    using char_type = typename api_types::char_type;
+    using device_handle = typename alc_types::device_type*;
+    using context_handle = typename alc_types::context_type*;
+    using enum_type = typename alc_types::enum_type;
+    using char_type = typename alc_types::char_type;
 
     struct derived_func : derived_c_api_function<c_api, api_traits, nothing_t> {
         using base = derived_c_api_function<c_api, api_traits, nothing_t>;
@@ -137,11 +137,10 @@ public:
 
     // get_strings
     auto get_strings(
-      device_handle dev, alc_string_query, char separator) noexcept {
-        return get_string(dev, alc_string_query(ALC_EXTENSIONS))
-          .transformed([separator](auto src) {
-              return split_c_str_into_string_list(src, separator);
-          });
+      device_handle dev, alc_string_query query, char separator) noexcept {
+        return get_string(dev, query).transformed([separator](auto src) {
+            return split_c_str_into_string_list(src, separator);
+        });
     }
 
     // get_extensions
