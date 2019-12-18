@@ -168,6 +168,7 @@ struct basic_al_c_api {
       has_api>
       SpeedOfSound;
 
+    // Listener
     eagine::opt_c_api_function<
       api_traits,
       nothing_t,
@@ -232,6 +233,7 @@ struct basic_al_c_api {
       has_api>
       GetListenerfv;
 
+    // Buffers
     eagine::opt_c_api_function<
       api_traits,
       nothing_t,
@@ -328,6 +330,7 @@ struct basic_al_c_api {
       has_api>
       GetBufferfv;
 
+    // Sources
     eagine::opt_c_api_function<
       api_traits,
       nothing_t,
@@ -496,6 +499,184 @@ struct basic_al_c_api {
       has_api>
       SourceUnqueueBuffers;
 
+    // Effects
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(size_type, name_type*),
+      nullptr,
+      has_api>
+      GenEffects;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(size_type, const name_type*),
+      nullptr,
+      has_api>
+      DeleteEffects;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      bool_type(name_type),
+      nullptr,
+      has_api>
+      IsEffect;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(name_type, enum_type, int_type),
+      nullptr,
+      has_api>
+      Effecti;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(name_type, enum_type, const int_type*),
+      nullptr,
+      has_api>
+      Effectiv;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(name_type, enum_type, float_type),
+      nullptr,
+      has_api>
+      Effectf;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(name_type, enum_type, const float_type*),
+      nullptr,
+      has_api>
+      Effectfv;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(name_type, enum_type, int_type),
+      nullptr,
+      has_api>
+      GetEffecti;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(name_type, enum_type, int_type*),
+      nullptr,
+      has_api>
+      GetEffectiv;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(name_type, enum_type, float_type),
+      nullptr,
+      has_api>
+      GetEffectf;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(name_type, enum_type, float_type*),
+      nullptr,
+      has_api>
+      GetEffectfv;
+
+    // Filters
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(size_type, name_type*),
+      nullptr,
+      has_api>
+      GenFilters;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(size_type, const name_type*),
+      nullptr,
+      has_api>
+      DeleteFilters;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      bool_type(name_type),
+      nullptr,
+      has_api>
+      IsFilter;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(name_type, enum_type, int_type),
+      nullptr,
+      has_api>
+      Filteri;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(name_type, enum_type, const int_type*),
+      nullptr,
+      has_api>
+      Filteriv;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(name_type, enum_type, float_type),
+      nullptr,
+      has_api>
+      Filterf;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(name_type, enum_type, const float_type*),
+      nullptr,
+      has_api>
+      Filterfv;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(name_type, enum_type, int_type),
+      nullptr,
+      has_api>
+      GetFilteri;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(name_type, enum_type, int_type*),
+      nullptr,
+      has_api>
+      GetFilteriv;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(name_type, enum_type, float_type),
+      nullptr,
+      has_api>
+      GetFilterf;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(name_type, enum_type, float_type*),
+      nullptr,
+      has_api>
+      GetFilterfv;
+
     constexpr basic_al_c_api(api_traits& traits)
       : GetError("GetError", traits, *this)
       , Enable("Enable", traits, *this)
@@ -553,7 +734,29 @@ struct basic_al_c_api {
       , SourceRewindv("SourceRewindv", traits, *this)
       , SourcePausev("SourcePausev", traits, *this)
       , SourceQueueBuffers("SourceQueueBuffers", traits, *this)
-      , SourceUnqueueBuffers("SourceUnqueueBuffers", traits, *this) {
+      , SourceUnqueueBuffers("SourceUnqueueBuffers", traits, *this)
+      , GenEffects("GenEffects", traits, *this)
+      , DeleteEffects("DeleteEffects", traits, *this)
+      , IsEffect("IsEffect", traits, *this)
+      , Effecti("Effecti", traits, *this)
+      , Effectiv("Effecti", traits, *this)
+      , Effectf("Effecti", traits, *this)
+      , Effectfv("Effecti", traits, *this)
+      , GetEffecti("GetEffecti", traits, *this)
+      , GetEffectiv("GetEffecti", traits, *this)
+      , GetEffectf("GetEffecti", traits, *this)
+      , GetEffectfv("GetEffecti", traits, *this)
+      , GenFilters("GenFilters", traits, *this)
+      , DeleteFilters("DeleteFilters", traits, *this)
+      , IsFilter("IsFilter", traits, *this)
+      , Filteri("Filteri", traits, *this)
+      , Filteriv("Filteri", traits, *this)
+      , Filterf("Filteri", traits, *this)
+      , Filterfv("Filteri", traits, *this)
+      , GetFilteri("GetFilteri", traits, *this)
+      , GetFilteriv("GetFilteri", traits, *this)
+      , GetFilterf("GetFilteri", traits, *this)
+      , GetFilterfv("GetFilteri", traits, *this) {
     }
 };
 //------------------------------------------------------------------------------
