@@ -48,6 +48,31 @@ struct basic_al_c_api {
       has_api>
       GetError;
 
+    static constexpr bool success(enum_type ec) noexcept {
+#ifdef AL_NO_ERROR
+        return ec == AL_NO_ERROR;
+#else
+        EAGINE_MAYBE_UNUSED(ec);
+        return false;
+#endif
+    }
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void_ptr_type(const char_type*),
+      OALPLUS_AL_STATIC_FUNC(GetProcAddress),
+      has_api>
+      GetProcAddress;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      enum_type(const char_type*),
+      OALPLUS_AL_STATIC_FUNC(GetEnumValue),
+      has_api>
+      GetEnumValue;
+
     eagine::opt_c_api_function<
       api_traits,
       nothing_t,
@@ -679,6 +704,8 @@ struct basic_al_c_api {
 
     constexpr basic_al_c_api(api_traits& traits)
       : GetError("GetError", traits, *this)
+      , GetProcAddress("GetEnumValue", traits, *this)
+      , GetEnumValue("GetEnumValue", traits, *this)
       , Enable("Enable", traits, *this)
       , Disable("Disable", traits, *this)
       , IsEnabled("IsEnabled", traits, *this)
