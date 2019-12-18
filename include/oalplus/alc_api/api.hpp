@@ -12,6 +12,7 @@
 #include "c_api.hpp"
 #include "enum_types.hpp"
 #include <eagine/scope_exit.hpp>
+#include <eagine/span.hpp>
 #include <eagine/string_list.hpp>
 
 namespace eagine {
@@ -27,7 +28,9 @@ public:
     using device_handle = typename alc_types::device_type*;
     using context_handle = typename alc_types::context_type*;
     using enum_type = typename alc_types::enum_type;
+    using size_type = typename alc_types::size_type;
     using char_type = typename alc_types::char_type;
+    using int_type = typename alc_types::int_type;
 
     struct derived_func : derived_c_api_function<c_api, api_traits, nothing_t> {
         using base = derived_c_api_function<c_api, api_traits, nothing_t>;
@@ -111,6 +114,61 @@ public:
     auto destroy_context_raii(device_handle dev, context_handle ctx) noexcept {
         return eagine::finally([=]() { this->destroy_context(dev, ctx); });
     }
+
+    // get_integer
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().GetIntegerv);
+        }
+
+        constexpr auto operator()(
+          device_handle dev, alc_integer_query query) const noexcept {
+            int_type result{};
+            return this
+              ->_check(
+                this->call(
+                  this->api().GetIntegerv,
+                  dev,
+                  enum_type(query),
+                  size_type(1),
+                  &result),
+                dev)
+              .transformed([&result]() { return result; });
+        }
+
+        constexpr auto operator()(alc_integer_query query) const noexcept {
+            return (*this)(nullptr, query);
+        }
+    } get_integer;
+
+    // get_integerv
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().GetIntegerv);
+        }
+
+        constexpr auto operator()(
+          device_handle dev, alc_integer_query query, span<int_type> dst) const
+          noexcept {
+            return this->_check(
+              this->call(
+                this->api().GetIntegerv,
+                dev,
+                enum_type(query),
+                size_type(dst.size()),
+                dst.data()),
+              dev);
+        }
+
+        constexpr auto operator()(
+          alc_integer_query query, span<int_type> dst) const noexcept {
+            return (*this)(nullptr, query, dst);
+        }
+    } get_integerv;
 
     // get_string
     struct : derived_func {
@@ -206,6 +264,8 @@ public:
       , close_device("close_device", traits, *this)
       , create_context("create_context", traits, *this)
       , destroy_context("destroy_context", traits, *this)
+      , get_integer("get_integer", traits, *this)
+      , get_integerv("get_integerv", traits, *this)
       , get_string("get_string", traits, *this) {
     }
 };

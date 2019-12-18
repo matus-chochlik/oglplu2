@@ -29,6 +29,11 @@ struct alc_string_query
   : alc_enum_class<alc_string_query, alc_types::enum_type, 2> {
     using enum_class::enum_class;
 };
+
+struct alc_integer_query
+  : alc_enum_class<alc_integer_query, alc_types::enum_type, 3> {
+    using enum_class::enum_class;
+};
 //------------------------------------------------------------------------------
 } // namespace oalp
 } // namespace eagine

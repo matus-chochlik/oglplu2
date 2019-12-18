@@ -80,6 +80,9 @@ public:
     const dynamic_c_api_constant<mp_list<alc_string_query>, enum_type>
       all_devices_specifier;
 
+    const dynamic_c_api_constant<mp_list<alc_string_query>, enum_type>
+      default_all_devices_specifier;
+
     opt_c_api_constant<
       mp_list<alc_string_query>,
 #ifdef ALC_EXTENSIONS
@@ -88,6 +91,33 @@ public:
       enum_type_i>
 #endif
       extensions;
+
+    opt_c_api_constant<
+      mp_list<alc_integer_query>,
+#ifdef ALC_MAJOR_VERSION
+      enum_type_c<ALC_MAJOR_VERSION>>
+#else
+      enum_type_i>
+#endif
+      major_version;
+
+    opt_c_api_constant<
+      mp_list<alc_integer_query>,
+#ifdef ALC_MINOR_VERSION
+      enum_type_c<ALC_MINOR_VERSION>>
+#else
+      enum_type_i>
+#endif
+      minor_version;
+
+    opt_c_api_constant<
+      mp_list<alc_integer_query>,
+#ifdef ALC_CAPTURE_SAMPLES
+      enum_type_c<ALC_CAPTURE_SAMPLES>>
+#else
+      enum_type_i>
+#endif
+      capture_samples;
 
     opt_c_api_constant<
       mp_list<context_attrib>,
@@ -134,6 +164,14 @@ public:
 #endif
       stereo_sources;
 
+    const dynamic_c_api_constant<mp_list<context_attrib>, enum_type> hrtf_soft;
+
+    const dynamic_c_api_constant<mp_list<context_attrib>, enum_type>
+      hrtf_id_soft;
+
+    const dynamic_c_api_constant<mp_list<alc_string_query>, enum_type>
+      hrtf_specifier_soft;
+
     basic_alc_constants(ApiTraits& traits, basic_alc_c_api<ApiTraits>& api)
       : no_error("NO_ERROR", traits, api)
       , invalid_device("INVALID_DEVICE", traits, api)
@@ -143,12 +181,20 @@ public:
       , capture_default_device_specifier(
           "DEFAULT_CAPTURE_DEVICE_SPECIFIER", traits, api)
       , all_devices_specifier("ALL_DEVICES_SPECIFIER", traits, api)
+      , default_all_devices_specifier(
+          "DEFAULT_ALL_DEVICES_SPECIFIER", traits, api)
       , extensions("EXTENSIONS", traits, api)
+      , major_version("MAJOR_VERSION", traits, api)
+      , minor_version("MINOR_VERSION", traits, api)
+      , capture_samples("CAPTURE_SAMPLES", traits, api)
       , frequency("FREQUENCY", traits, api)
       , refresh("REFRESH", traits, api)
       , sync("SYNC", traits, api)
       , mono_sources("MONO_SOURCES", traits, api)
-      , stereo_sources("STEREO_SOURCES", traits, api) {
+      , stereo_sources("STEREO_SOURCES", traits, api)
+      , hrtf_soft("HRTF_SOFT", traits, api)
+      , hrtf_id_soft("HRTF_ID_SOFT", traits, api)
+      , hrtf_specifier_soft("HRTF_SPECIFIER_SOFT", traits, api) {
     }
 };
 //------------------------------------------------------------------------------
