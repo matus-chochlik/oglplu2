@@ -16,12 +16,21 @@
 namespace eagine {
 namespace oalp {
 //------------------------------------------------------------------------------
-struct alc_api
-  : basic_alc_api<alc_api_traits>
-  , basic_alc_constants<alc_api_traits> {
-    alc_api(alc_api_traits& traits)
-      : basic_alc_api<alc_api_traits>(traits)
-      , basic_alc_constants<alc_api_traits>(traits, *this) {
+class alc_api
+  : protected alc_api_traits
+  , public basic_alc_api<alc_api_traits>
+  , public basic_alc_constants<alc_api_traits> {
+public:
+    alc_api(alc_api_traits traits)
+      : alc_api_traits{std::move(traits)}
+      , basic_alc_api<alc_api_traits>{*static_cast<alc_api_traits*>(this)}
+      , basic_alc_constants<alc_api_traits>{
+          *static_cast<alc_api_traits*>(this),
+          *static_cast<basic_alc_api<alc_api_traits>*>(this)} {
+    }
+
+    alc_api()
+      : alc_api{alc_api_traits{}} {
     }
 };
 //------------------------------------------------------------------------------
