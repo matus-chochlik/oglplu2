@@ -33,6 +33,42 @@ public:
       no_error;
 
     opt_c_api_constant<
+      mp_list<al_error_code>,
+#ifdef AL_INVALID_NAME
+      enum_type_c<AL_INVALID_NAME>>
+#else
+      enum_type_i>
+#endif
+      invalid_name;
+
+    opt_c_api_constant<
+      mp_list<al_error_code>,
+#ifdef AL_INVALID_ENUM
+      enum_type_c<AL_INVALID_ENUM>>
+#else
+      enum_type_i>
+#endif
+      invalid_enum;
+
+    opt_c_api_constant<
+      mp_list<al_error_code>,
+#ifdef AL_INVALID_OPERATION
+      enum_type_c<AL_INVALID_OPERATION>>
+#else
+      enum_type_i>
+#endif
+      invalid_operation;
+
+    opt_c_api_constant<
+      mp_list<al_error_code>,
+#ifdef AL_OUT_OF_MEMORY
+      enum_type_c<AL_OUT_OF_MEMORY>>
+#else
+      enum_type_i>
+#endif
+      out_of_memory;
+
+    opt_c_api_constant<
       mp_list<al_string_query>,
 #ifdef AL_VERSION
       enum_type_c<AL_VERSION>>
@@ -87,7 +123,7 @@ public:
       speed_of_sound;
 
     opt_c_api_constant<
-      mp_list<al_numeric_query>,
+      mp_list<al_integer_query>,
 #ifdef AL_DISTANCE_MODEL
       enum_type_c<AL_DISTANCE_MODEL>>
 #else
@@ -160,6 +196,10 @@ public:
 
     basic_al_constants(ApiTraits& traits, basic_al_c_api<ApiTraits>& api)
       : no_error("NO_ERROR", traits, api)
+      , invalid_name("INVALID_NAME", traits, api)
+      , invalid_enum("INVALID_ENUM", traits, api)
+      , invalid_operation("INVALID_OPERATION", traits, api)
+      , out_of_memory("OUT_OF_MEMORY", traits, api)
       , version("VERSION", traits, api)
       , renderer("RENDERER", traits, api)
       , vendor("VENDOR", traits, api)

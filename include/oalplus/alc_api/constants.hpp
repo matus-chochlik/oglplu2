@@ -42,6 +42,42 @@ public:
       invalid_device;
 
     opt_c_api_constant<
+      mp_list<alc_error_code>,
+#ifdef ALC_INVALID_CONTEXT
+      enum_type_c<ALC_INVALID_CONTEXT>>
+#else
+      enum_type_i>
+#endif
+      invalid_context;
+
+    opt_c_api_constant<
+      mp_list<alc_error_code>,
+#ifdef ALC_INVALID_ENUM
+      enum_type_c<ALC_INVALID_ENUM>>
+#else
+      enum_type_i>
+#endif
+      invalid_enum;
+
+    opt_c_api_constant<
+      mp_list<alc_error_code>,
+#ifdef ALC_INVALID_VALUE
+      enum_type_c<ALC_INVALID_VALUE>>
+#else
+      enum_type_i>
+#endif
+      invalid_value;
+
+    opt_c_api_constant<
+      mp_list<alc_error_code>,
+#ifdef ALC_OUT_OF_MEMORY
+      enum_type_c<ALC_OUT_OF_MEMORY>>
+#else
+      enum_type_i>
+#endif
+      out_of_memory;
+
+    opt_c_api_constant<
       mp_list<alc_string_query>,
 #ifdef ALC_DEVICE_SPECIFIER
       enum_type_c<ALC_DEVICE_SPECIFIER>>
@@ -175,6 +211,10 @@ public:
     basic_alc_constants(ApiTraits& traits, basic_alc_c_api<ApiTraits>& api)
       : no_error("NO_ERROR", traits, api)
       , invalid_device("INVALID_DEVICE", traits, api)
+      , invalid_context("INVALID_CONTEXT", traits, api)
+      , invalid_enum("INVALID_ENUM", traits, api)
+      , invalid_value("INVALID_VALUE", traits, api)
+      , out_of_memory("OUT_OF_MEMORY", traits, api)
       , device_specifier("DEVICE_SPECIFIER", traits, api)
       , capture_device_specifier("CAPTURE_DEVICE_SPECIFIER", traits, api)
       , default_device_specifier("DEFAULT_DEVICE_SPECIFIER", traits, api)

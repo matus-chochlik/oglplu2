@@ -19,17 +19,27 @@ struct al_error_code : al_enum_class<al_error_code, al_types::enum_type, 0> {
     using enum_class::enum_class;
 };
 
+struct al_boolean_query
+  : al_enum_class<al_boolean_query, al_types::enum_type, 1> {
+    using enum_class::enum_class;
+};
+
+struct al_integer_query
+  : al_enum_class<al_integer_query, al_types::enum_type, 2> {
+    using enum_class::enum_class;
+};
+
 struct al_numeric_query
-  : al_enum_class<al_numeric_query, al_types::enum_type, 1> {
+  : al_enum_class<al_numeric_query, al_types::enum_type, 3> {
     using enum_class::enum_class;
 };
 
 struct al_string_query
-  : al_enum_class<al_string_query, al_types::enum_type, 2> {
+  : al_enum_class<al_string_query, al_types::enum_type, 4> {
     using enum_class::enum_class;
 };
 
-struct distance_model : al_enum_class<distance_model, al_types::enum_type, 3> {
+struct distance_model : al_enum_class<distance_model, al_types::enum_type, 5> {
     using enum_class::enum_class;
 };
 //------------------------------------------------------------------------------

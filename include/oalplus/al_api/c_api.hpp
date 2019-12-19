@@ -702,6 +702,95 @@ struct basic_al_c_api {
       has_api>
       GetFilterfv;
 
+    // AuxiliaryEffectSlots
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(size_type, name_type*),
+      nullptr,
+      has_api>
+      GenAuxiliaryEffectSlots;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(size_type, const name_type*),
+      nullptr,
+      has_api>
+      DeleteAuxiliaryEffectSlots;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      bool_type(name_type),
+      nullptr,
+      has_api>
+      IsAuxiliaryEffectSlot;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(name_type, enum_type, int_type),
+      nullptr,
+      has_api>
+      AuxiliaryEffectSloti;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(name_type, enum_type, const int_type*),
+      nullptr,
+      has_api>
+      AuxiliaryEffectSlotiv;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(name_type, enum_type, float_type),
+      nullptr,
+      has_api>
+      AuxiliaryEffectSlotf;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(name_type, enum_type, const float_type*),
+      nullptr,
+      has_api>
+      AuxiliaryEffectSlotfv;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(name_type, enum_type, int_type),
+      nullptr,
+      has_api>
+      GetAuxiliaryEffectSloti;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(name_type, enum_type, int_type*),
+      nullptr,
+      has_api>
+      GetAuxiliaryEffectSlotiv;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(name_type, enum_type, float_type),
+      nullptr,
+      has_api>
+      GetAuxiliaryEffectSlotf;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(name_type, enum_type, float_type*),
+      nullptr,
+      has_api>
+      GetAuxiliaryEffectSlotfv;
+
     constexpr basic_al_c_api(api_traits& traits)
       : GetError("GetError", traits, *this)
       , GetProcAddress("GetEnumValue", traits, *this)
@@ -783,7 +872,18 @@ struct basic_al_c_api {
       , GetFilteri("GetFilteri", traits, *this)
       , GetFilteriv("GetFilteri", traits, *this)
       , GetFilterf("GetFilteri", traits, *this)
-      , GetFilterfv("GetFilteri", traits, *this) {
+      , GetFilterfv("GetFilteri", traits, *this)
+      , GenAuxiliaryEffectSlots("GenEffects", traits, *this)
+      , DeleteAuxiliaryEffectSlots("DeleteEffects", traits, *this)
+      , IsAuxiliaryEffectSlot("IsEffect", traits, *this)
+      , AuxiliaryEffectSloti("Effecti", traits, *this)
+      , AuxiliaryEffectSlotiv("Effecti", traits, *this)
+      , AuxiliaryEffectSlotf("Effecti", traits, *this)
+      , AuxiliaryEffectSlotfv("Effecti", traits, *this)
+      , GetAuxiliaryEffectSloti("GetEffecti", traits, *this)
+      , GetAuxiliaryEffectSlotiv("GetEffecti", traits, *this)
+      , GetAuxiliaryEffectSlotf("GetEffecti", traits, *this)
+      , GetAuxiliaryEffectSlotfv("GetEffecti", traits, *this) {
     }
 };
 //------------------------------------------------------------------------------
