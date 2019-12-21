@@ -156,7 +156,7 @@ public:
       capture_samples;
 
     opt_c_api_constant<
-      mp_list<context_attrib>,
+      mp_list<context_attribute>,
 #ifdef ALC_FREQUENCY
       enum_type_c<ALC_FREQUENCY>>
 #else
@@ -165,7 +165,7 @@ public:
       frequency;
 
     opt_c_api_constant<
-      mp_list<context_attrib>,
+      mp_list<context_attribute>,
 #ifdef ALC_REFRESH
       enum_type_c<ALC_REFRESH>>
 #else
@@ -174,7 +174,7 @@ public:
       refresh;
 
     opt_c_api_constant<
-      mp_list<context_attrib>,
+      mp_list<context_attribute>,
 #ifdef ALC_SYNC
       enum_type_c<ALC_SYNC>>
 #else
@@ -183,7 +183,7 @@ public:
       sync;
 
     opt_c_api_constant<
-      mp_list<context_attrib>,
+      mp_list<context_attribute>,
 #ifdef ALC_MONO_SOURCES
       enum_type_c<ALC_MONO_SOURCES>>
 #else
@@ -192,7 +192,7 @@ public:
       mono_sources;
 
     opt_c_api_constant<
-      mp_list<context_attrib>,
+      mp_list<context_attribute>,
 #ifdef ALC_STEREO_SOURCES
       enum_type_c<ALC_STEREO_SOURCES>>
 #else
@@ -200,9 +200,10 @@ public:
 #endif
       stereo_sources;
 
-    const dynamic_c_api_constant<mp_list<context_attrib>, enum_type> hrtf_soft;
+    const dynamic_c_api_constant<mp_list<context_attribute>, enum_type>
+      hrtf_soft;
 
-    const dynamic_c_api_constant<mp_list<context_attrib>, enum_type>
+    const dynamic_c_api_constant<mp_list<context_attribute>, enum_type>
       hrtf_id_soft;
 
     const dynamic_c_api_constant<mp_list<alc_string_query>, enum_type>

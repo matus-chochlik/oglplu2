@@ -42,6 +42,16 @@ struct al_string_query
 struct distance_model : al_enum_class<distance_model, al_types::enum_type, 5> {
     using enum_class::enum_class;
 };
+
+struct listener_attribute
+  : al_enum_class<listener_attribute, al_types::enum_type, 6> {
+    using enum_class::enum_class;
+};
+
+struct source_attribute
+  : al_enum_class<source_attribute, al_types::enum_type, 7> {
+    using enum_class::enum_class;
+};
 //------------------------------------------------------------------------------
 } // namespace oalp
 } // namespace eagine

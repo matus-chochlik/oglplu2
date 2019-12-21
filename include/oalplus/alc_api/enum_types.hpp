@@ -20,8 +20,8 @@ struct alc_error_code
     using enum_class::enum_class;
 };
 
-struct context_attrib
-  : alc_enum_class<context_attrib, alc_types::enum_type, 1> {
+struct context_attribute
+  : alc_enum_class<context_attribute, alc_types::enum_type, 1> {
     using enum_class::enum_class;
 };
 

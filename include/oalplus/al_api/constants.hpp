@@ -186,6 +186,68 @@ public:
       exponent_distance_clamped;
 
     opt_c_api_constant<
+      mp_list<listener_attribute, source_attribute>,
+#ifdef AL_POSITION
+      enum_type_c<AL_POSITION>>
+#else
+      enum_type_i>
+#endif
+      position;
+
+    opt_c_api_constant<
+      mp_list<listener_attribute, source_attribute>,
+#ifdef AL_VELOCITY
+      enum_type_c<AL_VELOCITY>>
+#else
+      enum_type_i>
+#endif
+      velocity;
+
+    opt_c_api_constant<
+      mp_list<listener_attribute, source_attribute>,
+#ifdef AL_GAIN
+      enum_type_c<AL_GAIN>>
+#else
+      enum_type_i>
+#endif
+      gain;
+
+    opt_c_api_constant<
+      mp_list<listener_attribute>,
+#ifdef AL_ORIENTATION
+      enum_type_c<AL_ORIENTATION>>
+#else
+      enum_type_i>
+#endif
+      orientation;
+
+    dynamic_c_api_constant<mp_list<listener_attribute>, enum_type>
+      meters_per_unit;
+
+    dynamic_c_api_constant<mp_list<source_attribute>, enum_type> direct_filter;
+
+    dynamic_c_api_constant<mp_list<source_attribute>, enum_type>
+      auxiliary_send_filter;
+
+    dynamic_c_api_constant<mp_list<source_attribute>, enum_type>
+      air_absorption_factor;
+
+    dynamic_c_api_constant<mp_list<source_attribute>, enum_type>
+      room_rolloff_factor;
+
+    dynamic_c_api_constant<mp_list<source_attribute>, enum_type>
+      cone_outer_gainhf;
+
+    dynamic_c_api_constant<mp_list<source_attribute>, enum_type>
+      direct_filter_gainhf_auto;
+
+    dynamic_c_api_constant<mp_list<source_attribute>, enum_type>
+      auxiliary_send_filter_gain_auto;
+
+    dynamic_c_api_constant<mp_list<source_attribute>, enum_type>
+      auxiliary_send_filter_gainhf_auto;
+
+    opt_c_api_constant<
       mp_list<oalp::distance_model>,
 #ifdef AL_NONE
       enum_type_c<AL_NONE>>
@@ -213,6 +275,21 @@ public:
       , linear_distance_clamped("LINEAR_DISTANCE_CLAMPED", traits, api)
       , exponent_distance("EXPONENT_DISTANCE", traits, api)
       , exponent_distance_clamped("EXPONENT_DISTANCE_CLAMPED", traits, api)
+      , position("POSITION", traits, api)
+      , velocity("VELOCITY", traits, api)
+      , gain("GAIN", traits, api)
+      , orientation("ORIENTATION", traits, api)
+      , meters_per_unit("METERS_PER_UNIT", traits, api)
+      , direct_filter("DIRECT_FILTER", traits, api)
+      , auxiliary_send_filter("AUXILIARY_SEND_FILTER", traits, api)
+      , air_absorption_factor("AIR_ABSORPTION_FACTOR", traits, api)
+      , room_rolloff_factor("ROOM_ROLLOFF_FACTOR", traits, api)
+      , cone_outer_gainhf("CONE_OUTER_GAINHF", traits, api)
+      , direct_filter_gainhf_auto("DIRECT_FILTER_GAINHF_AUTO", traits, api)
+      , auxiliary_send_filter_gain_auto(
+          "AUXILIARY_SEND_FILTER_GAIN_AUTO", traits, api)
+      , auxiliary_send_filter_gainhf_auto(
+          "AUXILIARY_SEND_FILTER_GAINHF_AUTO", traits, api)
       , none("NONE", traits, api) {
     }
 };
