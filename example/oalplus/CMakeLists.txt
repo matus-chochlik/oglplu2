@@ -39,5 +39,8 @@ function(oalplus_example_common EXAMPLE_NAME)
 	)
 endfunction()
 
-oalplus_example_common(001_list_devices)
+if(OPENAL_FOUND)
+	oalplus_example_common(001_list_devices)
+	oalplus_example_common(002_list_extensions)
+endif()
 

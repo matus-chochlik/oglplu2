@@ -24,11 +24,11 @@ int main() {
                 std::cout << "  " << name << std::endl;
             }
         } else {
-            std::cerr << "failed to list playback devices:"
+            std::cerr << "failed to list playback devices: "
                       << get_result.message() << std::endl;
         }
     } else {
-        std::cout << "missing required API function:" << alc.get_string.name()
+        std::cout << "missing required API function: " << alc.get_string.name()
                   << std::endl;
     }
 
@@ -39,10 +39,10 @@ int main() {
                 std::cout << "  " << name << std::endl;
             }
         } else {
-            std::cerr << "failed to list capture devices:"
+            std::cerr << "failed to list capture devices: "
                       << get_result.message() << std::endl;
         }
-        std::cout << "missing required API function:" << alc.get_string.name()
+        std::cout << "missing required API function: " << alc.get_string.name()
                   << std::endl;
     }
 
