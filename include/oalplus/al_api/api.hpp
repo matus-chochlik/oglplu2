@@ -34,7 +34,7 @@ public:
         template <typename Res>
         constexpr auto _check(Res&& res) const noexcept {
             res.error_code(this->api().GetError());
-            return std::move(res);
+            return std::forward<Res>(res);
         }
     };
 

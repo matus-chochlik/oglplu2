@@ -40,7 +40,7 @@ public:
         constexpr auto _check(Res&& res, device_handle dev = nullptr) const
           noexcept {
             res.error_code(this->api().GetError(dev));
-            return std::move(res);
+            return std::forward<Res>(res);
         }
     };
 
