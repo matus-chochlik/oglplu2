@@ -19,7 +19,26 @@ endif()
 # if found append it to the include directories
 if((OPENAL_AL_H_DIR) AND (EXISTS ${OPENAL_AL_H_DIR}))
 	set(OPENAL_INCLUDE_DIRS ${OPENAL_INCLUDE_DIRS} ${OPENAL_AL_H_DIR})
-	set(OPENAL_AL_H_FOUND true)
+	set(OPENAL_AL_H_FOUND 1)
+endif()
+#
+#
+# try to find AL/alc.h
+find_path(
+	OPENALC_AL_H_DIR AL/alc.h
+	PATHS ${HEADER_SEARCH_PATHS}
+	NO_DEFAULT_PATH
+)
+# if that didn't work try the system directories
+if((NOT OPENAL_ALC_H_DIR) OR (NOT EXISTS ${OPENALC_AL_H_DIR}))
+	find_path(OPENAL_ALC_H_DIR AL/alc.h)
+endif()
+# if found append it to the include directories
+if((OPENAL_ALC_H_DIR) AND (EXISTS ${OPENAL_ALC_H_DIR}))
+	if(NOT (${OPENAL_ALC_H_DIR} STREQUAL ${OPENAL_ALC_H_DIR}))
+		set(OPENAL_INCLUDE_DIRS ${OPENAL_INCLUDE_DIRS} ${OPENAL_ALC_H_DIR})
+	endif()
+	set(OPENAL_ALC_H_FOUND 1)
 endif()
 #
 #
@@ -35,8 +54,10 @@ if((NOT OPENAL_ALUT_H_DIR) OR (NOT EXISTS ${OPENAL_ALUT_H_DIR}))
 endif()
 #
 if((OPENAL_ALUT_H_DIR) AND (EXISTS ${OPENAL_ALUT_H_DIR}))
-	set(OPENAL_INCLUDE_DIRS ${OPENAL_INCLUDE_DIRS} ${OPENAL_ALUT_H_DIR})
-	set(OPENAL_ALUT_H_FOUND true)
+	if(NOT (${OPENAL_ALC_H_DIR} STREQUAL ${OPENAL_ALC_H_DIR}))
+		set(OPENAL_INCLUDE_DIRS ${OPENAL_INCLUDE_DIRS} ${OPENAL_ALUT_H_DIR})
+	endif()
+	set(OPENAL_ALUT_H_FOUND 1)
 endif()
 
 # try to find the AL library

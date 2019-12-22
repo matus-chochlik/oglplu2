@@ -10,12 +10,16 @@
 #define OALPLUS_ALC_API_C_API_HPP
 
 #include "api_traits.hpp"
-#include "api_types.hpp"
+#include "config.hpp"
 #include <eagine/nothing.hpp>
 #include <eagine/preprocessor.hpp>
 
 #ifndef OALPLUS_ALC_STATIC_FUNC
+#if OALPLUS_HAS_ALC
 #define OALPLUS_ALC_STATIC_FUNC(NAME) &EAGINE_JOIN(::alc, NAME)
+#else
+#define OALPLUS_ALC_STATIC_FUNC(NAME) nullptr
+#endif
 #endif
 
 namespace eagine {
