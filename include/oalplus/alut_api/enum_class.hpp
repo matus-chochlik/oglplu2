@@ -29,5 +29,5 @@ static constexpr inline bool same_enum_class(
 } // namespace oalp
 } // namespace eagine
 
-#endif // OALPLUS_ALC_API_ENUM_CLASS_HPP
+#endif // OALPLUS_ALUT_API_ENUM_CLASS_HPP
 

@@ -51,6 +51,20 @@ public:
         }
     } init;
 
+    // create_buffer_hello_world
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().CreateBufferHelloWorld);
+        }
+
+        constexpr auto operator()() const noexcept {
+            // TODO: transform to buffer name wrapper.
+            return this->_check(this->call(this->api().CreateBufferHelloWorld));
+        }
+    } create_buffer_hello_world;
+
     // exit
     struct : derived_func {
         using derived_func::derived_func;
@@ -64,9 +78,15 @@ public:
         }
     } exit;
 
+    // exit_raii
+    auto exit_raii() noexcept {
+        return eagine::finally([=]() { this->exit(); });
+    }
+
     constexpr basic_alut_api(api_traits& traits)
       : c_api{traits}
       , init("init", traits, *this)
+      , create_buffer_hello_world("create_buffer_hello_world", traits, *this)
       , exit("exit", traits, *this) {
     }
 };
