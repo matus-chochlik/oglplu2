@@ -40,7 +40,8 @@ function(oalplus_example_common EXAMPLE_NAME)
 endfunction()
 
 if(OPENAL_FOUND)
-	oalplus_example_common(001_list_devices)
+	oalplus_example_common(001_basic_info)
+	oalplus_example_common(002_list_devices)
 	oalplus_example_common(002_list_extensions)
 endif()
 

@@ -105,9 +105,9 @@ protected:
     auto _transformed(
       const api_no_result<Result, Info>& src, Transform& transform) const {
         using T = decltype(transform(std::declval<Result>()));
-        api_no_result<T, Info> res{};
-        static_cast<Info&>(res) = static_cast<const Info&>(src);
-        return res;
+        api_no_result<T, Info> result{};
+        static_cast<Info&>(result) = static_cast<const Info&>(src);
+        return result;
     }
 };
 
@@ -132,9 +132,9 @@ protected:
     auto _transformed(
       const api_no_result<void, Info>& src, Transform& transform) const {
         using T = decltype(transform());
-        api_no_result<T, Info> res{};
-        static_cast<Info&>(res) = static_cast<const Info&>(src);
-        return res;
+        api_no_result<T, Info> result{};
+        static_cast<Info&>(result) = static_cast<const Info&>(src);
+        return result;
     }
 };
 //------------------------------------------------------------------------------
@@ -161,6 +161,13 @@ public:
     }
 };
 //------------------------------------------------------------------------------
+template <typename Result, typename Info, typename Fallback>
+static constexpr inline Result extract_or(
+  const api_no_result<Result, Info>&, Fallback&& fallback) noexcept {
+    EAGINE_UNREACHABLE();
+    return {std::forward<Fallback>(fallback)};
+}
+//------------------------------------------------------------------------------
 template <typename Result>
 class api_result_value {
 public:
@@ -175,9 +182,9 @@ protected:
     auto _transformed(
       const api_result<Result, Info>& src, Transform& transform) const {
         using T = decltype(transform(std::declval<Result>()));
-        api_result<T, Info> res{transform(_value)};
-        static_cast<Info&>(res) = static_cast<const Info&>(src);
-        return res;
+        api_result<T, Info> result{transform(_value)};
+        static_cast<Info&>(result) = static_cast<const Info&>(src);
+        return result;
     }
 
 public:
@@ -185,19 +192,19 @@ public:
 };
 
 template <typename Result>
-static constexpr Result extract(api_result_value<Result>&& res) noexcept {
-    return std::move(res._value);
+static constexpr Result extract(api_result_value<Result>&& result) noexcept {
+    return std::move(result._value);
 }
 
 template <typename Result>
-static constexpr Result& extract(api_result_value<Result>& res) noexcept {
-    return res._value;
+static constexpr Result& extract(api_result_value<Result>& result) noexcept {
+    return result._value;
 }
 
 template <typename Result>
 static constexpr const Result& extract(
-  const api_result_value<Result>& res) noexcept {
-    return res._value;
+  const api_result_value<Result>& result) noexcept {
+    return result._value;
 }
 //------------------------------------------------------------------------------
 template <>
@@ -207,9 +214,9 @@ protected:
     auto _transformed(
       const api_result<void, Info>& src, Transform& transform) const {
         using T = decltype(transform());
-        api_result<T, Info> res{transform()};
-        static_cast<Info&>(res) = static_cast<const Info&>(src);
-        return res;
+        api_result<T, Info> result{transform()};
+        static_cast<Info&>(result) = static_cast<const Info&>(src);
+        return result;
     }
 };
 //------------------------------------------------------------------------------
@@ -223,11 +230,11 @@ public:
     using base::base;
 
     explicit constexpr operator bool() const noexcept {
-        return true;
+        return bool(*static_cast<const Info*>(this));
     }
 
     constexpr bool operator!() const noexcept {
-        return false;
+        return !(*static_cast<const Info*>(this));
     }
 
     template <typename Transform>
@@ -235,6 +242,15 @@ public:
         return this->_transformed(*this, transform);
     }
 };
+//------------------------------------------------------------------------------
+template <typename Result, typename Info, typename Fallback>
+static constexpr inline Result extract_or(
+  const api_result<Result, Info>& result, Fallback&& fallback) noexcept {
+    if(result) {
+        return extract(result);
+    }
+    return {std::forward<Fallback>(fallback)};
+}
 //------------------------------------------------------------------------------
 template <typename Result>
 class api_opt_result_value {
@@ -255,9 +271,9 @@ protected:
     auto _transformed(
       const api_opt_result<Result, Info>& src, Transform& transform) const {
         using T = decltype(transform(std::declval<Result>()));
-        api_opt_result<T, Info> res{transform(_value), src.is_valid()};
-        static_cast<Info&>(res) = static_cast<const Info&>(src);
-        return res;
+        api_opt_result<T, Info> result{transform(_value), src.is_valid()};
+        static_cast<Info&>(result) = static_cast<const Info&>(src);
+        return result;
     }
 
 public:
@@ -267,20 +283,20 @@ public:
 
 template <typename Result>
 static constexpr inline Result extract(
-  api_opt_result_value<Result>&& res) noexcept {
-    return EAGINE_CONSTEXPR_ASSERT(res._valid, std::move(res._value));
+  api_opt_result_value<Result>&& result) noexcept {
+    return EAGINE_CONSTEXPR_ASSERT(result._valid, std::move(result._value));
 }
 
 template <typename Result>
 static constexpr inline Result& extract(
-  api_opt_result_value<Result>& res) noexcept {
-    return EAGINE_CONSTEXPR_ASSERT(res._valid, res._value);
+  api_opt_result_value<Result>& result) noexcept {
+    return EAGINE_CONSTEXPR_ASSERT(result._valid, result._value);
 }
 
 template <typename Result>
 static constexpr inline const Result& extract(
-  const api_opt_result_value<Result>& res) noexcept {
-    return EAGINE_CONSTEXPR_ASSERT(res._valid, res._value);
+  const api_opt_result_value<Result>& result) noexcept {
+    return EAGINE_CONSTEXPR_ASSERT(result._valid, result._value);
 }
 //------------------------------------------------------------------------------
 template <>
@@ -297,9 +313,9 @@ protected:
     auto _transformed(
       const api_opt_result<void, Info>& src, Transform& transform) const {
         using T = decltype(transform());
-        api_opt_result<T, Info> res{transform(), src.is_valid()};
-        static_cast<Info&>(res) = static_cast<const Info&>(src);
-        return res;
+        api_opt_result<T, Info> result{transform(), src.is_valid()};
+        static_cast<Info&>(result) = static_cast<const Info&>(src);
+        return result;
     }
 
 public:
@@ -316,11 +332,11 @@ public:
     using base::base;
 
     explicit constexpr operator bool() const noexcept {
-        return this->is_valid();
+        return this->is_valid() && bool(*static_cast<const Info*>(this));
     }
 
     constexpr bool operator!() const noexcept {
-        return !this->is_valid();
+        return !this->is_valid() || !(*static_cast<const Info*>(this));
     }
 
     template <typename Transform>
@@ -328,6 +344,15 @@ public:
         return this->_transformed(*this, transform);
     }
 };
+//------------------------------------------------------------------------------
+template <typename Result, typename Info, typename Fallback>
+static constexpr inline Result extract_or(
+  const api_opt_result<Result, Info>& result, Fallback&& fallback) noexcept {
+    if(result) {
+        return extract(result);
+    }
+    return {std::forward<Fallback>(fallback)};
+}
 //------------------------------------------------------------------------------
 template <typename ApiTraits, typename Tag, typename Signature>
 using c_api_function_ptr =

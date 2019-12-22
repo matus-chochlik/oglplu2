@@ -1,5 +1,5 @@
 /**
- *  example oalplus/001_list_devices.cpp
+ *  example oalplus/002_list_devices.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
