@@ -11,6 +11,7 @@
 
 #include "c_api.hpp"
 #include "enum_types.hpp"
+#include "object_name.hpp"
 #include <eagine/scope_exit.hpp>
 #include <eagine/string_list.hpp>
 
@@ -74,9 +75,24 @@ public:
             [](auto src) { return split_c_str_into_string_list(src, ' '); });
     }
 
+    // delete_buffers
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().DeleteBuffers);
+        }
+
+        constexpr auto operator()(owned_buffer_name& name) const noexcept {
+            auto n = name.release();
+            return this->_check(this->call(this->api().DeleteBuffers, 1, &n));
+        }
+    } delete_buffers;
+
     constexpr basic_al_api(api_traits& traits)
       : c_api{traits}
-      , get_string("get_string", traits, *this) {
+      , get_string("get_string", traits, *this)
+      , delete_buffers("delete_buffers", traits, *this) {
     }
 };
 //------------------------------------------------------------------------------

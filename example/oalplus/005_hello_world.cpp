@@ -38,6 +38,8 @@ int main(int argc, char** argv) {
                     // TODO: finish this
                     std::cerr << "this example is work in progress."
                               << std::endl;
+
+                    al.delete_buffers(extract(opt_hello));
                 }
             }
         }

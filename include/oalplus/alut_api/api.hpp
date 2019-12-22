@@ -9,6 +9,7 @@
 #ifndef OALPLUS_ALUT_API_API_HPP
 #define OALPLUS_ALUT_API_API_HPP
 
+#include "../al_api/object_name.hpp"
 #include "c_api.hpp"
 #include "enum_types.hpp"
 #include <eagine/scope_exit.hpp>
@@ -60,8 +61,8 @@ public:
         }
 
         constexpr auto operator()() const noexcept {
-            // TODO: transform to buffer name wrapper.
-            return this->_check(this->call(this->api().CreateBufferHelloWorld));
+            return this->_check(this->call(this->api().CreateBufferHelloWorld))
+              .transformed([](auto n) { return owned_buffer_name(n); });
         }
     } create_buffer_hello_world;
 
