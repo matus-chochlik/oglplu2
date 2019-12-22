@@ -25,8 +25,11 @@ public:
     using api_traits = ApiTraits;
     using c_api = basic_al_c_api<ApiTraits>;
 
-    using enum_type = typename al_types::enum_type;
+    using bool_type = typename al_types::char_type;
     using char_type = typename al_types::char_type;
+    using enum_type = typename al_types::enum_type;
+    using name_type = typename al_types::name_type;
+    using size_type = typename al_types::size_type;
 
     struct derived_func : derived_c_api_function<c_api, api_traits, nothing_t> {
         using base = derived_c_api_function<c_api, api_traits, nothing_t>;
@@ -38,6 +41,83 @@ public:
             return std::forward<Res>(res);
         }
     };
+
+    template <typename ObjTag, typename W, W c_api::*GenObjects>
+    struct gen_object_func : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().*GenObjects);
+        }
+
+        constexpr auto operator()() const noexcept {
+            name_type n{};
+            return this->_check(this->call(this->api().*GenObjects, 1, &n))
+              .transformed(
+                [](auto name) { return al_owned_object_name<ObjTag>(name); });
+        }
+    };
+
+    // gen_sources
+    gen_object_func<source_tag, decltype(c_api::GenSources), &c_api::GenSources>
+      gen_sources;
+
+    // gen_buffers
+    gen_object_func<buffer_tag, decltype(c_api::GenBuffers), &c_api::GenBuffers>
+      gen_buffers;
+
+    // gen_effects
+    gen_object_func<effect_tag, decltype(c_api::GenEffects), &c_api::GenEffects>
+      gen_effects;
+
+    // gen_filters
+    gen_object_func<filter_tag, decltype(c_api::GenFilters), &c_api::GenFilters>
+      gen_filters;
+
+    // gen_auxiliary_effect_slots
+    gen_object_func<
+      auxiliary_effect_slot_tag,
+      decltype(c_api::GenAuxiliaryEffectSlots),
+      &c_api::GenAuxiliaryEffectSlots>
+      gen_auxiliary_effect_slots;
+
+    template <typename ObjTag, typename W, W c_api::*DeleteObjects>
+    struct del_object_func : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().*DeleteObjects);
+        }
+
+        constexpr auto operator()(al_owned_object_name<ObjTag>& name) const
+          noexcept {
+            auto n = name.release();
+            return this->_check(this->call(this->api().*DeleteObjects, 1, &n));
+        }
+    };
+
+    // delete_sources
+    del_object_func<source_tag, decltype(c_api::GenSources), &c_api::GenSources>
+      delete_sources;
+
+    // delete_buffers
+    del_object_func<buffer_tag, decltype(c_api::GenBuffers), &c_api::GenBuffers>
+      delete_buffers;
+
+    // delete_effects
+    del_object_func<effect_tag, decltype(c_api::GenEffects), &c_api::GenEffects>
+      delete_effects;
+
+    // delete_filters
+    del_object_func<filter_tag, decltype(c_api::GenFilters), &c_api::GenFilters>
+      delete_filters;
+
+    // delete_auxiliary_effects
+    del_object_func<
+      auxiliary_effect_slot_tag,
+      decltype(c_api::GenAuxiliaryEffectSlots),
+      &c_api::GenAuxiliaryEffectSlots>
+      delete_auxiliary_effect_slots;
 
     // get_string
     struct : derived_func {
@@ -75,24 +155,20 @@ public:
             [](auto src) { return split_c_str_into_string_list(src, ' '); });
     }
 
-    // delete_buffers
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().DeleteBuffers);
-        }
-
-        constexpr auto operator()(owned_buffer_name& name) const noexcept {
-            auto n = name.release();
-            return this->_check(this->call(this->api().DeleteBuffers, 1, &n));
-        }
-    } delete_buffers;
-
     constexpr basic_al_api(api_traits& traits)
       : c_api{traits}
-      , get_string("get_string", traits, *this)
-      , delete_buffers("delete_buffers", traits, *this) {
+      , gen_sources("gen_sources", traits, *this)
+      , gen_buffers("gen_buffers", traits, *this)
+      , gen_effects("gen_effects", traits, *this)
+      , gen_filters("gen_filters", traits, *this)
+      , gen_auxiliary_effect_slots("gen_auxiliary_effect_slots", traits, *this)
+      , delete_sources("delete_sources", traits, *this)
+      , delete_buffers("delete_buffers", traits, *this)
+      , delete_effects("delete_effects", traits, *this)
+      , delete_filters("delete_filters", traits, *this)
+      , delete_auxiliary_effect_slots(
+          "delete_auxiliary_effect_slots", traits, *this)
+      , get_string("get_string", traits, *this) {
     }
 };
 //------------------------------------------------------------------------------

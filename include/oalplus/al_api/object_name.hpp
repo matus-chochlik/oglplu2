@@ -23,20 +23,20 @@ using al_object_name = basic_handle<Tag, al_types::name_type>;
 template <typename Tag>
 using al_owned_object_name = basic_owned_handle<Tag, al_types::name_type>;
 //------------------------------------------------------------------------------
-using buffer_tag = EAGINE_MSG_TYPE(al, Buffer);
 using source_tag = EAGINE_MSG_TYPE(al, Source);
+using buffer_tag = EAGINE_MSG_TYPE(al, Buffer);
 using effect_tag = EAGINE_MSG_TYPE(al, Effect);
 using filter_tag = EAGINE_MSG_TYPE(al, Filter);
 using auxiliary_effect_slot_tag = EAGINE_MSG_TYPE(al, AuxEffSlot);
 //------------------------------------------------------------------------------
-using buffer_name = al_object_name<buffer_tag>;
 using source_name = al_object_name<buffer_tag>;
+using buffer_name = al_object_name<buffer_tag>;
 using effect_name = al_object_name<effect_tag>;
 using filter_name = al_object_name<filter_tag>;
 using auxiliary_effect_slot_name = al_object_name<auxiliary_effect_slot_tag>;
 //------------------------------------------------------------------------------
-using owned_buffer_name = al_owned_object_name<buffer_tag>;
 using owned_source_name = al_owned_object_name<source_tag>;
+using owned_buffer_name = al_owned_object_name<buffer_tag>;
 using owned_effect_name = al_owned_object_name<effect_tag>;
 using owned_filter_name = al_owned_object_name<filter_tag>;
 using owned_auxiliary_effect_slot_name =
