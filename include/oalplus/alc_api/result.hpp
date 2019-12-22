@@ -9,6 +9,7 @@
 #ifndef OALPLUS_ALC_API_RESULT_HPP
 #define OALPLUS_ALC_API_RESULT_HPP
 
+#include "config.hpp"
 #include <eagine/anything.hpp>
 #include <eagine/c_api_wrap.hpp>
 #include <eagine/string_span.hpp>
@@ -31,7 +32,7 @@ private:
 //------------------------------------------------------------------------------
 class alc_result_info {
 public:
-    using enum_type = ALCenum;
+    using enum_type = alc_types::enum_type;
 
     explicit constexpr operator bool() const noexcept {
 #ifdef ALC_NO_ERROR

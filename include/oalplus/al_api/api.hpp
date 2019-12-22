@@ -47,7 +47,8 @@ public:
         }
 
         constexpr auto operator()(al_string_query query) const noexcept {
-            return (*this)(query);
+            return this->_check(
+              this->call(this->api().GetString, enum_type(query)));
         }
 
         constexpr auto operator()() const noexcept {

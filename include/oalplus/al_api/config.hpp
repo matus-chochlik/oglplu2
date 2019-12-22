@@ -20,7 +20,6 @@
 #endif // OALPLUS_HAS_AL
 
 #if !OALPLUS_HAS_AL
-#include <eagine/nothing.hpp>
 #include <cstdint>
 #endif
 
