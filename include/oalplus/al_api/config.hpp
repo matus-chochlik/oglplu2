@@ -27,6 +27,8 @@ namespace eagine {
 namespace oalp {
 //------------------------------------------------------------------------------
 struct al_types {
+    using void_ptr_type = void*;
+    using const_void_ptr_type = const void*;
 #if OALPLUS_HAS_AL
     static constexpr bool has_api = true;
     using enum_type = ALenum;
@@ -38,8 +40,6 @@ struct al_types {
     using size_type = ALsizei;
     using float_type = ALfloat;
     using double_type = ALdouble;
-    using void_ptr_type = void*;
-    using const_void_ptr_type = const void*;
 #else
     static constexpr bool has_api = false;
     using enum_type = int;
@@ -51,8 +51,6 @@ struct al_types {
     using size_type = std::intptr_t;
     using float_type = float;
     using double_type = double;
-    using void_ptr_type = void*;
-    using const_void_ptr_type = const void*;
 #endif
 };
 //------------------------------------------------------------------------------

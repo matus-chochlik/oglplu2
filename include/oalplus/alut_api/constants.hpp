@@ -25,15 +25,65 @@ public:
 
     opt_c_api_constant<
       mp_list<alut_error_code>,
-#ifdef ALUT_NO_ERROR
+#ifdef ALUT_ERROR_NO_ERROR
       enum_type_c<ALUT_ERROR_NO_ERROR>>
 #else
       enum_type_i>
 #endif
       no_error;
 
+    opt_c_api_constant<
+      mp_list<waveform_function>,
+#ifdef ALUT_WAVEFORM_SINE
+      enum_type_c<ALUT_WAVEFORM_SINE>>
+#else
+      enum_type_i>
+#endif
+      waveform_sine;
+
+    opt_c_api_constant<
+      mp_list<waveform_function>,
+#ifdef ALUT_WAVEFORM_SQUARE
+      enum_type_c<ALUT_WAVEFORM_SQUARE>>
+#else
+      enum_type_i>
+#endif
+      waveform_square;
+
+    opt_c_api_constant<
+      mp_list<waveform_function>,
+#ifdef ALUT_WAVEFORM_SAWTOOTH
+      enum_type_c<ALUT_WAVEFORM_SAWTOOTH>>
+#else
+      enum_type_i>
+#endif
+      waveform_sawtooth;
+
+    opt_c_api_constant<
+      mp_list<waveform_function>,
+#ifdef ALUT_WAVEFORM_WHITENOISE
+      enum_type_c<ALUT_WAVEFORM_WHITENOISE>>
+#else
+      enum_type_i>
+#endif
+      waveform_whitenoise;
+
+    opt_c_api_constant<
+      mp_list<waveform_function>,
+#ifdef ALUT_WAVEFORM_IMPULSE
+      enum_type_c<ALUT_WAVEFORM_IMPULSE>>
+#else
+      enum_type_i>
+#endif
+      waveform_impulse;
+
     basic_alut_constants(ApiTraits& traits, basic_alut_c_api<ApiTraits>& api)
-      : no_error("ERROR_NO_ERROR", traits, api) {
+      : no_error("ERROR_NO_ERROR", traits, api)
+      , waveform_sine("WAVEFORM_SINE", traits, api)
+      , waveform_square("WAVEFORM_SQUARE", traits, api)
+      , waveform_sawtooth("WAVEFORM_SAWTOOTH", traits, api)
+      , waveform_whitenoise("WAVEFORM_WHITENOISE", traits, api)
+      , waveform_impulse("WAVEFORM_IMPULSE", traits, api) {
     }
 };
 //------------------------------------------------------------------------------

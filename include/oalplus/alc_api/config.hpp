@@ -28,6 +28,7 @@ namespace eagine {
 namespace oalp {
 //------------------------------------------------------------------------------
 struct alc_types {
+    using void_ptr_type = void*;
 #if OALPLUS_HAS_ALC
     static constexpr bool has_api = true;
     using device_type = ALCdevice;
@@ -38,7 +39,6 @@ struct alc_types {
     using int_type = ALCint;
     using uint_type = ALCuint;
     using size_type = ALCsizei;
-    using void_ptr_type = void*;
 #else
     static constexpr bool has_api = false;
     using device_type = nothing_t;
@@ -49,7 +49,6 @@ struct alc_types {
     using int_type = int;
     using uint_type = unsigned;
     using size_type = std::intptr_t;
-    using void_ptr_type = void*;
 #endif
 };
 //------------------------------------------------------------------------------

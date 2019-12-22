@@ -41,6 +41,7 @@ struct basic_alut_c_api {
     using size_type = typename alut_types::size_type;
     using float_type = typename alut_types::float_type;
     using void_ptr_type = typename alut_types::void_ptr_type;
+    using const_void_ptr_type = typename alut_types::const_void_ptr_type;
 
     eagine::opt_c_api_function<
       api_traits,
@@ -62,6 +63,14 @@ struct basic_alut_c_api {
     eagine::opt_c_api_function<
       api_traits,
       nothing_t,
+      const char_type*(enum_type),
+      OALPLUS_ALUT_STATIC_FUNC(GetErrorString),
+      has_api>
+      GetErrorString;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
       bool_type(int*, char**),
       OALPLUS_ALUT_STATIC_FUNC(Init),
       has_api>
@@ -78,6 +87,38 @@ struct basic_alut_c_api {
     eagine::opt_c_api_function<
       api_traits,
       nothing_t,
+      name_type(const char*),
+      OALPLUS_ALUT_STATIC_FUNC(CreateBufferFromFile),
+      has_api>
+      CreateBufferFromFile;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      name_type(const_void_ptr_type, size_type),
+      OALPLUS_ALUT_STATIC_FUNC(CreateBufferFromFileImage),
+      has_api>
+      CreateBufferFromFileImage;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      name_type(),
+      OALPLUS_ALUT_STATIC_FUNC(CreateBufferHelloWorld),
+      has_api>
+      CreateBufferHelloWorld;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      name_type(enum_type, float_type, float_type, float_type),
+      OALPLUS_ALUT_STATIC_FUNC(CreateBufferWaveform),
+      has_api>
+      CreateBufferWaveform;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
       bool_type(),
       OALPLUS_ALUT_STATIC_FUNC(Exit),
       has_api>
@@ -85,8 +126,13 @@ struct basic_alut_c_api {
 
     constexpr basic_alut_c_api(api_traits& traits)
       : GetError("GetError", traits, *this)
+      , GetErrorString("GetErrorString", traits, *this)
       , Init("Init", traits, *this)
       , InitWithoutContext("InitWithoutContext", traits, *this)
+      , CreateBufferFromFile("CreateBufferFromFile", traits, *this)
+      , CreateBufferFromFileImage("CreateBufferFromFileImage", traits, *this)
+      , CreateBufferHelloWorld("CreateBufferHelloWorld", traits, *this)
+      , CreateBufferWaveform("CreateBufferWaveform", traits, *this)
       , Exit("Exit", traits, *this) {
     }
 };

@@ -38,6 +38,7 @@ struct alut_types {
     using size_type = al_types::size_type;
     using float_type = al_types::float_type;
     using void_ptr_type = al_types::void_ptr_type;
+    using const_void_ptr_type = al_types::const_void_ptr_type;
 #if OALPLUS_HAS_ALUT
     static constexpr bool has_api = true;
 #else

@@ -19,6 +19,11 @@ struct alut_error_code
   : alut_enum_class<alut_error_code, alut_types::enum_type, 0> {
     using enum_class::enum_class;
 };
+
+struct waveform_function
+  : alut_enum_class<waveform_function, alut_types::enum_type, 1> {
+    using enum_class::enum_class;
+};
 //------------------------------------------------------------------------------
 } // namespace oalp
 } // namespace eagine
