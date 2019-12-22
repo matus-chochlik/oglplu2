@@ -60,6 +60,86 @@ public:
     }
 
     string_view message() const noexcept {
+#ifdef ALUT_ERROR_INVALID_ENUM
+        if(_error_code == ALUT_ERROR_INVALID_ENUM) {
+            return {"invalid enumeration parameter value"};
+        }
+#endif
+#ifdef ALUT_ERROR_INVALID_VALUE
+        if(_error_code == ALUT_ERROR_INVALID_VALUE) {
+            return {"invalid parameter value"};
+        }
+#endif
+#ifdef ALUT_ERROR_INVALID_OPERATION
+        if(_error_code == ALUT_ERROR_INVALID_OPERATION) {
+            return {"invalid operation"};
+        }
+#endif
+#ifdef ALUT_ERROR_NO_CURRENT_CONTEXT
+        if(_error_code == ALUT_ERROR_NO_CURRENT_CONTEXT) {
+            return {"no current context"};
+        }
+#endif
+#ifdef ALUT_ERROR_AL_ERROR_ON_ENTRY
+        if(_error_code == ALUT_ERROR_AL_ERROR_ON_ENTRY) {
+            return {"AL error on entry to function"};
+        }
+#endif
+#ifdef ALUT_ERROR_ALC_ERROR_ON_ENTRY
+        if(_error_code == ALUT_ERROR_ALC_ERROR_ON_ENTRY) {
+            return {"ALC error on entry to function"};
+        }
+#endif
+#ifdef ALUT_ERROR_OPEN_DEVICE
+        if(_error_code == ALUT_ERROR_OPEN_DEVICE) {
+            return {"failed to open device"};
+        }
+#endif
+#ifdef ALUT_ERROR_CLOSE_DEVICE
+        if(_error_code == ALUT_ERROR_CLOSE_DEVICE) {
+            return {"failed to close device"};
+        }
+#endif
+#ifdef ALUT_ERROR_CREATE_CONTEXT
+        if(_error_code == ALUT_ERROR_CREATE_CONTEXT) {
+            return {"failed to create context"};
+        }
+#endif
+#ifdef ALUT_ERROR_DESTROY_CONTEXT
+        if(_error_code == ALUT_ERROR_DESTROY_CONTEXT) {
+            return {"failed to destroy context"};
+        }
+#endif
+#ifdef ALUT_ERROR_GEN_BUFFERS
+        if(_error_code == ALUT_ERROR_GEN_BUFFERS) {
+            return {"failed to generate audio buffers"};
+        }
+#endif
+#ifdef ALUT_ERROR_BUFFER_DATA
+        if(_error_code == ALUT_ERROR_BUFFER_DATA) {
+            return {"failed to store data in buffer"};
+        }
+#endif
+#ifdef ALUT_ERROR_IO_ERROR
+        if(_error_code == ALUT_ERROR_IO_ERROR) {
+            return {"input/output error"};
+        }
+#endif
+#ifdef ALUT_ERROR_UNSUPPORTED_FILE_TYPE
+        if(_error_code == ALUT_ERROR_UNSUPPORTED_FILE_TYPE) {
+            return {"unsupported file type"};
+        }
+#endif
+#ifdef ALUT_ERROR_UNSUPPORTED_FILE_SUBTYPE
+        if(_error_code == ALUT_ERROR_UNSUPPORTED_FILE_SUBTYPE) {
+            return {"unsupported file sub-type"};
+        }
+#endif
+#ifdef ALUT_ERROR_UNSUPPORTED_FILE_SUBTYPE
+        if(_error_code == ALUT_ERROR_CORRUPT_OR_TRUNCATED_DATA) {
+            return {"corrupt or truncated data"};
+        }
+#endif
 #ifdef ALUT_ERROR_NO_ERROR
         if(_error_code == ALUT_ERROR_NO_ERROR) {
             return {"no error"};
