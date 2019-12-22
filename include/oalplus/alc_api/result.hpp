@@ -34,11 +34,19 @@ public:
     using enum_type = ALCenum;
 
     explicit constexpr operator bool() const noexcept {
+#ifdef ALC_NO_ERROR
         return _error_code == ALC_NO_ERROR;
+#else
+        return false;
+#endif
     }
 
     constexpr bool operator!() const noexcept {
+#ifdef ALC_NO_ERROR
         return _error_code != ALC_NO_ERROR;
+#else
+        return true;
+#endif
     }
 
     constexpr alc_result_info& error_code(enum_type ec) noexcept {
@@ -51,29 +59,45 @@ public:
     }
 
     string_view message() const noexcept {
+#ifdef ALC_INVALID_ENUM
         if(_error_code == ALC_INVALID_ENUM) {
             return {"invalid enumeration parameter value"};
         }
+#endif
+#ifdef ALC_INVALID_VALUE
         if(_error_code == ALC_INVALID_VALUE) {
             return {"invalid parameter value"};
         }
+#endif
+#ifdef ALC_INVALID_CONTEXT
         if(_error_code == ALC_INVALID_CONTEXT) {
             return {"invalid context"};
         }
+#endif
+#ifdef ALC_INVALID_DEVICE
         if(_error_code == ALC_INVALID_DEVICE) {
             return {"invalid device"};
         }
+#endif
+#ifdef ALC_NO_ERROR
         if(_error_code == ALC_NO_ERROR) {
             return {"no error"};
         }
+#endif
+#ifdef ALC_OUT_OF_MEMORY
         if(_error_code == ALC_OUT_OF_MEMORY) {
             return {"out of memory"};
         }
+#endif
         return {"unknown error"};
     }
 
 private:
-    enum_type _error_code{ALC_NO_ERROR};
+    enum_type _error_code{
+#ifdef ALC_NO_ERROR
+      ALC_NO_ERROR
+#endif
+    };
 };
 //------------------------------------------------------------------------------
 template <typename Result>
