@@ -73,12 +73,11 @@ public:
         constexpr auto operator()(device_handle dev) const noexcept {
             return this->_check(this->call(this->api().CloseDevice, dev), dev);
         }
-    } close_device;
 
-    // close_device_raii
-    auto close_device_raii(device_handle dev) noexcept {
-        return eagine::finally([=]() { this->close_device(dev); });
-    }
+        auto raii(device_handle dev) noexcept {
+            return eagine::finally([=]() { (*this)(dev); });
+        }
+    } close_device;
 
     // create_context
     struct : derived_func {
@@ -108,12 +107,11 @@ public:
             return this->_check(
               this->call(this->api().DestroyContext, ctx), dev);
         }
-    } destroy_context;
 
-    // destroy_context_raii
-    auto destroy_context_raii(device_handle dev, context_handle ctx) noexcept {
-        return eagine::finally([=]() { this->destroy_context(dev, ctx); });
-    }
+        auto raii(device_handle dev, context_handle ctx) noexcept {
+            return eagine::finally([=]() { (*this)(dev, ctx); });
+        }
+    } destroy_context;
 
     // get_integer
     struct : derived_func {

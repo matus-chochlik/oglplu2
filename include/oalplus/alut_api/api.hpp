@@ -77,12 +77,11 @@ public:
         constexpr auto operator()() const noexcept {
             return this->_check(this->call(this->api().Exit));
         }
-    } exit;
 
-    // exit_raii
-    auto exit_raii() noexcept {
-        return eagine::finally([=]() { this->exit(); });
-    }
+        auto raii() noexcept {
+            return eagine::finally([=]() { (*this)(); });
+        }
+    } exit;
 
     constexpr basic_alut_api(api_traits& traits)
       : c_api{traits}

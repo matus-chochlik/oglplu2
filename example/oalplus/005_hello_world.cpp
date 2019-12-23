@@ -21,11 +21,11 @@ int main(int argc, char** argv) {
 
     if(auto open_dev_res = alc.open_device()) {
         auto& device = eagine::extract(open_dev_res);
-        auto cleanup_dev = alc.close_device_raii(device);
+        auto cleanup_dev = alc.close_device.raii(device);
 
         if(auto crt_ctx_res = alc.create_context(device)) {
             auto& context = extract(crt_ctx_res);
-            auto cleanup_ctx = alc.destroy_context_raii(device, context);
+            auto cleanup_ctx = alc.destroy_context.raii(device, context);
 
             alc.MakeContextCurrent(context);
 
@@ -33,13 +33,16 @@ int main(int argc, char** argv) {
             alut_api alut;
 
             if(alut.init(&argc, argv)) {
-                auto do_exit = alut.exit_raii();
-                if(auto opt_hello = alut.create_buffer_hello_world()) {
+                auto do_exit = alut.exit.raii();
+                auto opt_src = al.gen_sources();
+                auto del_src = al.delete_sources.raii_opt(opt_src);
+                auto opt_buf = alut.create_buffer_hello_world();
+                auto del_buf = al.delete_buffers.raii_opt(opt_buf);
+
+                if(opt_src && opt_buf) {
                     // TODO: finish this
                     std::cerr << "this example is work in progress."
                               << std::endl;
-
-                    al.delete_buffers(extract(opt_hello));
                 }
             }
         }

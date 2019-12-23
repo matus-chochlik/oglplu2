@@ -27,7 +27,7 @@ int main() {
         if(auto open_res = alc.open_device()) {
             auto& device = eagine::extract(open_res);
             // closes the device when going out of scope
-            auto cleanup_dev = alc.close_device_raii(device);
+            auto cleanup_dev = alc.close_device.raii(device);
 
             if(auto get_result = alc.get_extensions(device)) {
                 for(auto name : extract(get_result)) {

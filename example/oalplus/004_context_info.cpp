@@ -20,11 +20,11 @@ int main() {
 
     if(auto open_dev_res = alc.open_device()) {
         auto& device = eagine::extract(open_dev_res);
-        auto cleanup_dev = alc.close_device_raii(device);
+        auto cleanup_dev = alc.close_device.raii(device);
 
         if(auto crt_ctx_res = alc.create_context(device)) {
             auto& context = extract(crt_ctx_res);
-            auto cleanup_ctx = alc.destroy_context_raii(device, context);
+            auto cleanup_ctx = alc.destroy_context.raii(device, context);
 
             alc.MakeContextCurrent(context);
 

@@ -50,11 +50,15 @@ public:
             return bool(this->api().*GenObjects);
         }
 
+        constexpr auto operator()(span<name_type> names) const noexcept {
+            return this->_check(this->call(
+              this->api().*GenObjects, size_type(names.size()), names.data()));
+        }
+
         constexpr auto operator()() const noexcept {
             name_type n{};
             return this->_check(this->call(this->api().*GenObjects, 1, &n))
-              .transformed(
-                [](auto name) { return al_owned_object_name<ObjTag>(name); });
+              .transformed([&n]() { return al_owned_object_name<ObjTag>(n); });
         }
     };
 
@@ -82,11 +86,18 @@ public:
       gen_auxiliary_effect_slots;
 
     template <typename ObjTag, typename W, W c_api::*DeleteObjects>
-    struct del_object_func : derived_func {
+    struct delete_object_func : derived_func {
         using derived_func::derived_func;
 
         explicit constexpr operator bool() const noexcept {
             return bool(this->api().*DeleteObjects);
+        }
+
+        constexpr auto operator()(span<const name_type> names) const noexcept {
+            return this->_check(this->call(
+              this->api().*DeleteObjects,
+              size_type(names.size()),
+              names.data()));
         }
 
         constexpr auto operator()(al_owned_object_name<ObjTag>& name) const
@@ -94,26 +105,51 @@ public:
             auto n = name.release();
             return this->_check(this->call(this->api().*DeleteObjects, 1, &n));
         }
+
+        auto raii(al_owned_object_name<ObjTag>& name) noexcept {
+            return eagine::finally([this, &name]() { (*this)(name); });
+        }
+
+        template <typename Res>
+        auto raii_opt(Res& res) noexcept {
+            return eagine::finally([this, &res]() {
+                if(res) {
+                    (*this)(extract(res));
+                }
+            });
+        }
     };
 
     // delete_sources
-    del_object_func<source_tag, decltype(c_api::GenSources), &c_api::GenSources>
+    delete_object_func<
+      source_tag,
+      decltype(c_api::GenSources),
+      &c_api::GenSources>
       delete_sources;
 
     // delete_buffers
-    del_object_func<buffer_tag, decltype(c_api::GenBuffers), &c_api::GenBuffers>
+    delete_object_func<
+      buffer_tag,
+      decltype(c_api::GenBuffers),
+      &c_api::GenBuffers>
       delete_buffers;
 
     // delete_effects
-    del_object_func<effect_tag, decltype(c_api::GenEffects), &c_api::GenEffects>
+    delete_object_func<
+      effect_tag,
+      decltype(c_api::GenEffects),
+      &c_api::GenEffects>
       delete_effects;
 
     // delete_filters
-    del_object_func<filter_tag, decltype(c_api::GenFilters), &c_api::GenFilters>
+    delete_object_func<
+      filter_tag,
+      decltype(c_api::GenFilters),
+      &c_api::GenFilters>
       delete_filters;
 
     // delete_auxiliary_effects
-    del_object_func<
+    delete_object_func<
       auxiliary_effect_slot_tag,
       decltype(c_api::GenAuxiliaryEffectSlots),
       &c_api::GenAuxiliaryEffectSlots>
