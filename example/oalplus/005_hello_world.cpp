@@ -40,6 +40,7 @@ int main(int argc, char** argv) {
                 auto del_buf = al.delete_buffers.raii_opt(opt_buf);
 
                 if(opt_src && opt_buf) {
+                    al.listener_i(al.position, 0, 0, 1);
                     // TODO: finish this
                     std::cerr << "this example is work in progress."
                               << std::endl;

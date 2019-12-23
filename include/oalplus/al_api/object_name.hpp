@@ -29,7 +29,7 @@ using effect_tag = EAGINE_MSG_TYPE(al, Effect);
 using filter_tag = EAGINE_MSG_TYPE(al, Filter);
 using auxiliary_effect_slot_tag = EAGINE_MSG_TYPE(al, AuxEffSlot);
 //------------------------------------------------------------------------------
-using source_name = al_object_name<buffer_tag>;
+using source_name = al_object_name<source_tag>;
 using buffer_name = al_object_name<buffer_tag>;
 using effect_name = al_object_name<effect_tag>;
 using filter_name = al_object_name<filter_tag>;

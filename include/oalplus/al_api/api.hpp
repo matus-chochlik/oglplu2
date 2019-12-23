@@ -25,11 +25,13 @@ public:
     using api_traits = ApiTraits;
     using c_api = basic_al_c_api<ApiTraits>;
 
+    using int_type = typename al_types::int_type;
     using bool_type = typename al_types::char_type;
     using char_type = typename al_types::char_type;
     using enum_type = typename al_types::enum_type;
     using name_type = typename al_types::name_type;
     using size_type = typename al_types::size_type;
+    using float_type = typename al_types::float_type;
 
     struct derived_func : derived_c_api_function<c_api, api_traits, nothing_t> {
         using base = derived_c_api_function<c_api, api_traits, nothing_t>;
@@ -155,6 +157,150 @@ public:
       &c_api::GenAuxiliaryEffectSlots>
       delete_auxiliary_effect_slots;
 
+    // listener_i
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().Listeneri) &&
+                   bool(this->api().Listener3i) && bool(this->api().Listeneriv);
+        }
+
+        constexpr auto operator()(listener_attribute attr, int_type v0) const
+          noexcept {
+            return this->_check(
+              this->call(this->api().Listeneri, enum_type(attr), v0));
+        }
+
+        constexpr auto operator()(
+          listener_attribute attr, int_type v0, int_type v1, int_type v2) const
+          noexcept {
+            return this->_check(
+              this->call(this->api().Listener3i, enum_type(attr), v0, v1, v2));
+        }
+
+        constexpr auto operator()(
+          listener_attribute attr, span<const int_type> v) const noexcept {
+            return this->_check(
+              this->call(this->api().Listeneriv, enum_type(attr), v.data()));
+        }
+    } listener_i;
+
+    // listener_f
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().Listenerf) &&
+                   bool(this->api().Listener3f) && bool(this->api().Listenerfv);
+        }
+
+        constexpr auto operator()(listener_attribute attr, float_type v0) const
+          noexcept {
+            return this->_check(
+              this->call(this->api().Listenerf, enum_type(attr), v0));
+        }
+
+        constexpr auto operator()(
+          listener_attribute attr,
+          float_type v0,
+          float_type v1,
+          float_type v2) const noexcept {
+            return this->_check(
+              this->call(this->api().Listener3f, enum_type(attr), v0, v1, v2));
+        }
+
+        constexpr auto operator()(
+          listener_attribute attr, span<const float_type> v) const noexcept {
+            return this->_check(
+              this->call(this->api().Listenerfv, enum_type(attr), v.data()));
+        }
+    } listener_f;
+
+    // source_i
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().Sourcei) && bool(this->api().Source3i) &&
+                   bool(this->api().Sourceiv);
+        }
+
+        constexpr auto operator()(
+          source_name name, source_attribute attr, int_type v0) const noexcept {
+            return this->_check(this->call(
+              this->api().Sourcei, name_type(name), enum_type(attr), v0));
+        }
+
+        constexpr auto operator()(
+          source_name name,
+          source_attribute attr,
+          int_type v0,
+          int_type v1,
+          int_type v2) const noexcept {
+            return this->_check(this->call(
+              this->api().Source3i,
+              name_type(name),
+              enum_type(attr),
+              v0,
+              v1,
+              v2));
+        }
+
+        constexpr auto operator()(
+          source_name name, source_attribute attr, span<const int_type> v) const
+          noexcept {
+            return this->_check(this->call(
+              this->api().Sourceiv,
+              name_type(name),
+              enum_type(attr),
+              v.data()));
+        }
+    } source_i;
+
+    // source_f
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().Sourcef) && bool(this->api().Source3f) &&
+                   bool(this->api().Sourcefv);
+        }
+
+        constexpr auto operator()(
+          source_name name, source_attribute attr, float_type v0) const
+          noexcept {
+            return this->_check(this->call(
+              this->api().Sourcef, name_type(name), enum_type(attr), v0));
+        }
+
+        constexpr auto operator()(
+          source_name name,
+          source_attribute attr,
+          float_type v0,
+          float_type v1,
+          float_type v2) const noexcept {
+            return this->_check(this->call(
+              this->api().Source3f,
+              name_type(name),
+              enum_type(attr),
+              v0,
+              v1,
+              v2));
+        }
+
+        constexpr auto operator()(
+          source_name name,
+          source_attribute attr,
+          span<const float_type> v) const noexcept {
+            return this->_check(this->call(
+              this->api().Sourcefv,
+              name_type(name),
+              enum_type(attr),
+              v.data()));
+        }
+    } source_f;
+
     // get_string
     struct : derived_func {
         using derived_func::derived_func;
@@ -204,6 +350,10 @@ public:
       , delete_filters("delete_filters", traits, *this)
       , delete_auxiliary_effect_slots(
           "delete_auxiliary_effect_slots", traits, *this)
+      , listener_i("listener_i", traits, *this)
+      , listener_f("listener_f", traits, *this)
+      , source_i("source_i", traits, *this)
+      , source_f("source_f", traits, *this)
       , get_string("get_string", traits, *this) {
     }
 };

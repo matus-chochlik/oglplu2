@@ -39,6 +39,10 @@ public:
         return _name == invalid;
     }
 
+    explicit constexpr operator Handle() const noexcept {
+        return _name;
+    }
+
 protected:
     Handle _release() noexcept {
         Handle result = _name;
