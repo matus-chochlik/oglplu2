@@ -48,8 +48,17 @@ struct listener_attribute
     using enum_class::enum_class;
 };
 
+struct buffer_attribute
+  : al_enum_class<buffer_attribute, al_types::enum_type, 7> {
+    using enum_class::enum_class;
+};
+
 struct source_attribute
-  : al_enum_class<source_attribute, al_types::enum_type, 7> {
+  : al_enum_class<source_attribute, al_types::enum_type, 8> {
+    using enum_class::enum_class;
+};
+
+struct source_state : al_enum_class<source_state, al_types::enum_type, 9> {
     using enum_class::enum_class;
 };
 //------------------------------------------------------------------------------

@@ -221,6 +221,15 @@ public:
 #endif
       orientation;
 
+    opt_c_api_constant<
+      mp_list<source_attribute>,
+#ifdef AL_SOURCE_STATE
+      enum_type_c<AL_SOURCE_STATE>>
+#else
+      enum_type_i>
+#endif
+      source_state;
+
     dynamic_c_api_constant<mp_list<listener_attribute>, enum_type>
       meters_per_unit;
 
@@ -246,6 +255,78 @@ public:
 
     dynamic_c_api_constant<mp_list<source_attribute>, enum_type>
       auxiliary_send_filter_gainhf_auto;
+
+    opt_c_api_constant<
+      mp_list<buffer_attribute>,
+#ifdef AL_FREQUENCY
+      enum_type_c<AL_FREQUENCY>>
+#else
+      enum_type_i>
+#endif
+      frequency;
+
+    opt_c_api_constant<
+      mp_list<buffer_attribute>,
+#ifdef AL_SIZE
+      enum_type_c<AL_SIZE>>
+#else
+      enum_type_i>
+#endif
+      size;
+
+    opt_c_api_constant<
+      mp_list<buffer_attribute>,
+#ifdef AL_BITS
+      enum_type_c<AL_BITS>>
+#else
+      enum_type_i>
+#endif
+      bits;
+
+    opt_c_api_constant<
+      mp_list<buffer_attribute>,
+#ifdef AL_CHANNELS
+      enum_type_c<AL_CHANNELS>>
+#else
+      enum_type_i>
+#endif
+      channels;
+
+    opt_c_api_constant<
+      mp_list<oalp::source_state>,
+#ifdef AL_INITIAL
+      enum_type_c<AL_INITIAL>>
+#else
+      enum_type_i>
+#endif
+      initial;
+
+    opt_c_api_constant<
+      mp_list<oalp::source_state>,
+#ifdef AL_PLAYING
+      enum_type_c<AL_PLAYING>>
+#else
+      enum_type_i>
+#endif
+      playing;
+
+    opt_c_api_constant<
+      mp_list<oalp::source_state>,
+#ifdef AL_PAUSED
+      enum_type_c<AL_PAUSED>>
+#else
+      enum_type_i>
+#endif
+      paused;
+
+    opt_c_api_constant<
+      mp_list<oalp::source_state>,
+#ifdef AL_STOPPED
+      enum_type_c<AL_STOPPED>>
+#else
+      enum_type_i>
+#endif
+      stopped;
 
     opt_c_api_constant<
       mp_list<oalp::distance_model>,
@@ -279,6 +360,7 @@ public:
       , velocity("VELOCITY", traits, api)
       , gain("GAIN", traits, api)
       , orientation("ORIENTATION", traits, api)
+      , source_state("SOURCE_STATE", traits, api)
       , meters_per_unit("METERS_PER_UNIT", traits, api)
       , direct_filter("DIRECT_FILTER", traits, api)
       , auxiliary_send_filter("AUXILIARY_SEND_FILTER", traits, api)
@@ -290,6 +372,14 @@ public:
           "AUXILIARY_SEND_FILTER_GAIN_AUTO", traits, api)
       , auxiliary_send_filter_gainhf_auto(
           "AUXILIARY_SEND_FILTER_GAINHF_AUTO", traits, api)
+      , frequency("FREQUENCY", traits, api)
+      , size("SIZE", traits, api)
+      , bits("BITS", traits, api)
+      , channels("CHANNELS", traits, api)
+      , initial("INITIAL", traits, api)
+      , playing("PLAYING", traits, api)
+      , paused("PAUSED", traits, api)
+      , stopped("STOPPED", traits, api)
       , none("NONE", traits, api) {
     }
 };
