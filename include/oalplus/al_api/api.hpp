@@ -217,6 +217,36 @@ public:
         }
     } listener_f;
 
+    // get_listener_i
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().GetListeneriv);
+        }
+
+        constexpr auto operator()(
+          listener_attribute attr, span<int_type> v) const noexcept {
+            return this->_check(
+              this->call(this->api().GetListeneriv, enum_type(attr), v.data()));
+        }
+    } get_listener_i;
+
+    // get_listener_f
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().GetListenerfv);
+        }
+
+        constexpr auto operator()(
+          listener_attribute attr, span<float_type> v) const noexcept {
+            return this->_check(
+              this->call(this->api().GetListenerfv, enum_type(attr), v.data()));
+        }
+    } get_listener_f;
+
     // source_i
     struct : derived_func {
         using derived_func::derived_func;
@@ -294,6 +324,44 @@ public:
               this->api().Sourcefv, name_type(src), enum_type(attr), v.data()));
         }
     } source_f;
+
+    // get_source_i
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().GetSourceiv);
+        }
+
+        constexpr auto operator()(
+          source_name src, source_attribute attr, span<int_type> v) const
+          noexcept {
+            return this->_check(this->call(
+              this->api().GetSourceiv,
+              name_type(src),
+              enum_type(attr),
+              v.data()));
+        }
+    } get_source_i;
+
+    // get_source_f
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().GetSourcefv);
+        }
+
+        constexpr auto operator()(
+          source_name src, source_attribute attr, span<float_type> v) const
+          noexcept {
+            return this->_check(this->call(
+              this->api().GetSourcefv,
+              name_type(src),
+              enum_type(attr),
+              v.data()));
+        }
+    } get_source_f;
 
     // source_queue_buffers
     struct : derived_func {
@@ -476,8 +544,12 @@ public:
           "delete_auxiliary_effect_slots", traits, *this)
       , listener_i("listener_i", traits, *this)
       , listener_f("listener_f", traits, *this)
+      , get_listener_i("get_listener_i", traits, *this)
+      , get_listener_f("get_listener_f", traits, *this)
       , source_i("source_i", traits, *this)
       , source_f("source_f", traits, *this)
+      , get_source_i("get_source_i", traits, *this)
+      , get_source_f("get_source_f", traits, *this)
       , source_queue_buffers("source_queue_buffers", traits, *this)
       , source_unqueue_buffers("source_unqueue_buffers", traits, *this)
       , source_play("source_play", traits, *this)
