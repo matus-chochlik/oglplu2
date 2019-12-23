@@ -227,20 +227,20 @@ public:
         }
 
         constexpr auto operator()(
-          source_name name, source_attribute attr, int_type v0) const noexcept {
+          source_name src, source_attribute attr, int_type v0) const noexcept {
             return this->_check(this->call(
-              this->api().Sourcei, name_type(name), enum_type(attr), v0));
+              this->api().Sourcei, name_type(src), enum_type(attr), v0));
         }
 
         constexpr auto operator()(
-          source_name name,
+          source_name src,
           source_attribute attr,
           int_type v0,
           int_type v1,
           int_type v2) const noexcept {
             return this->_check(this->call(
               this->api().Source3i,
-              name_type(name),
+              name_type(src),
               enum_type(attr),
               v0,
               v1,
@@ -248,13 +248,10 @@ public:
         }
 
         constexpr auto operator()(
-          source_name name, source_attribute attr, span<const int_type> v) const
+          source_name src, source_attribute attr, span<const int_type> v) const
           noexcept {
             return this->_check(this->call(
-              this->api().Sourceiv,
-              name_type(name),
-              enum_type(attr),
-              v.data()));
+              this->api().Sourceiv, name_type(src), enum_type(attr), v.data()));
         }
     } source_i;
 
@@ -268,21 +265,21 @@ public:
         }
 
         constexpr auto operator()(
-          source_name name, source_attribute attr, float_type v0) const
+          source_name src, source_attribute attr, float_type v0) const
           noexcept {
             return this->_check(this->call(
-              this->api().Sourcef, name_type(name), enum_type(attr), v0));
+              this->api().Sourcef, name_type(src), enum_type(attr), v0));
         }
 
         constexpr auto operator()(
-          source_name name,
+          source_name src,
           source_attribute attr,
           float_type v0,
           float_type v1,
           float_type v2) const noexcept {
             return this->_check(this->call(
               this->api().Source3f,
-              name_type(name),
+              name_type(src),
               enum_type(attr),
               v0,
               v1,
@@ -290,16 +287,143 @@ public:
         }
 
         constexpr auto operator()(
-          source_name name,
+          source_name src,
           source_attribute attr,
           span<const float_type> v) const noexcept {
             return this->_check(this->call(
-              this->api().Sourcefv,
-              name_type(name),
-              enum_type(attr),
-              v.data()));
+              this->api().Sourcefv, name_type(src), enum_type(attr), v.data()));
         }
     } source_f;
+
+    // source_queue_buffers
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().SourceQueueBuffers);
+        }
+
+        constexpr auto operator()(source_name src, buffer_name buf) const
+          noexcept {
+            const auto n = name_type(buf);
+            return this->_check(this->call(
+              this->api().SourceQueueBuffers, name_type(src), 1, &n));
+        }
+
+        constexpr auto operator()(
+          source_name src, span<const name_type> bufs) const noexcept {
+            return this->_check(this->call(
+              this->api().SourceQueueBuffers,
+              name_type(src),
+              size_type(bufs.size()),
+              bufs.data()));
+        }
+    } source_queue_buffers;
+
+    // source_unqueue_buffers
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().SourceUnqueueBuffers);
+        }
+
+        constexpr auto operator()(source_name src, buffer_name buf) const
+          noexcept {
+            auto n = name_type(buf);
+            return this->_check(this->call(
+              this->api().SourceUnqueueBuffers, name_type(src), 1, &n));
+        }
+
+        constexpr auto operator()(source_name src, span<name_type> bufs) const
+          noexcept {
+            return this->_check(this->call(
+              this->api().SourceUnqueueBuffers,
+              name_type(src),
+              size_type(bufs.size()),
+              bufs.data()));
+        }
+    } source_unqueue_buffers;
+
+    // source_play
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().SourcePlay) &&
+                   bool(this->api().SourcePlayv);
+        }
+
+        constexpr auto operator()(source_name src) const noexcept {
+            return this->_check(
+              this->call(this->api().SourcePlay, name_type(src)));
+        }
+
+        constexpr auto operator()(span<const name_type> srcs) const noexcept {
+            return this->_check(this->call(
+              this->api().SourcePlayv, size_type(srcs.size()), srcs.data()));
+        }
+    } source_play;
+
+    // source_pause
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().SourcePause) &&
+                   bool(this->api().SourcePausev);
+        }
+
+        constexpr auto operator()(source_name src) const noexcept {
+            return this->_check(
+              this->call(this->api().SourcePausev, name_type(src)));
+        }
+
+        constexpr auto operator()(span<const name_type> srcs) const noexcept {
+            return this->_check(this->call(
+              this->api().SourcePausev, size_type(srcs.size()), srcs.data()));
+        }
+    } source_pause;
+
+    // source_stop
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().SourceStop) &&
+                   bool(this->api().SourceStopv);
+        }
+
+        constexpr auto operator()(source_name src) const noexcept {
+            return this->_check(
+              this->call(this->api().SourceStop, name_type(src)));
+        }
+
+        constexpr auto operator()(span<const name_type> srcs) const noexcept {
+            return this->_check(this->call(
+              this->api().SourceStopv, size_type(srcs.size()), srcs.data()));
+        }
+    } source_stop;
+
+    // source_rewind
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().SourceRewind) &&
+                   bool(this->api().SourceRewindv);
+        }
+
+        constexpr auto operator()(source_name src) const noexcept {
+            return this->_check(
+              this->call(this->api().SourceRewind, name_type(src)));
+        }
+
+        constexpr auto operator()(span<const name_type> srcs) const noexcept {
+            return this->_check(this->call(
+              this->api().SourceRewindv, size_type(srcs.size()), srcs.data()));
+        }
+    } source_rewind;
 
     // get_string
     struct : derived_func {
@@ -354,6 +478,12 @@ public:
       , listener_f("listener_f", traits, *this)
       , source_i("source_i", traits, *this)
       , source_f("source_f", traits, *this)
+      , source_queue_buffers("source_queue_buffers", traits, *this)
+      , source_unqueue_buffers("source_unqueue_buffers", traits, *this)
+      , source_play("source_play", traits, *this)
+      , source_pause("source_pause", traits, *this)
+      , source_stop("source_stop", traits, *this)
+      , source_rewind("source_rewind", traits, *this)
       , get_string("get_string", traits, *this) {
     }
 };
