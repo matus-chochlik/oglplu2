@@ -150,12 +150,49 @@ public:
       &c_api::GenFilters>
       delete_filters;
 
-    // delete_auxiliary_effects
+    // delete_auxiliary_effect_slots
     delete_object_func<
       auxiliary_effect_slot_tag,
       decltype(c_api::GenAuxiliaryEffectSlots),
       &c_api::GenAuxiliaryEffectSlots>
       delete_auxiliary_effect_slots;
+
+    template <typename ObjTag, typename W, W c_api::*IsObject>
+    struct is_object_func : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().*IsObject);
+        }
+
+        constexpr auto operator()(al_object_name<ObjTag> name) const noexcept {
+            return this->_check(
+              this->call(this->api().*IsObject, name_type(name)));
+        }
+    };
+
+    // is_source
+    is_object_func<source_tag, decltype(c_api::IsSource), &c_api::IsSource>
+      is_source;
+
+    // is_buffer
+    is_object_func<buffer_tag, decltype(c_api::IsBuffer), &c_api::IsBuffer>
+      is_buffer;
+
+    // is_effect
+    is_object_func<effect_tag, decltype(c_api::IsEffect), &c_api::IsEffect>
+      is_effect;
+
+    // is_filter
+    is_object_func<filter_tag, decltype(c_api::IsFilter), &c_api::IsFilter>
+      is_filter;
+
+    // is_auxiliary_effect_slot
+    is_object_func<
+      auxiliary_effect_slot_tag,
+      decltype(c_api::IsAuxiliaryEffectSlot),
+      &c_api::IsAuxiliaryEffectSlot>
+      is_auxiliary_effect_slot;
 
     // listener_i
     struct : derived_func {
@@ -542,6 +579,11 @@ public:
       , delete_filters("delete_filters", traits, *this)
       , delete_auxiliary_effect_slots(
           "delete_auxiliary_effect_slots", traits, *this)
+      , is_source("is_source", traits, *this)
+      , is_buffer("is_buffer", traits, *this)
+      , is_effect("is_effect", traits, *this)
+      , is_filter("is_filter", traits, *this)
+      , is_auxiliary_effect_slot("is_auxiliary_effect_slot", traits, *this)
       , listener_i("listener_i", traits, *this)
       , listener_f("listener_f", traits, *this)
       , get_listener_i("get_listener_i", traits, *this)
