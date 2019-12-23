@@ -53,12 +53,16 @@ struct buffer_attribute
     using enum_class::enum_class;
 };
 
-struct source_attribute
-  : al_enum_class<source_attribute, al_types::enum_type, 8> {
+struct buffer_format : al_enum_class<buffer_format, al_types::enum_type, 8> {
     using enum_class::enum_class;
 };
 
-struct source_state : al_enum_class<source_state, al_types::enum_type, 9> {
+struct source_attribute
+  : al_enum_class<source_attribute, al_types::enum_type, 9> {
+    using enum_class::enum_class;
+};
+
+struct source_state : al_enum_class<source_state, al_types::enum_type, 10> {
     using enum_class::enum_class;
 };
 //------------------------------------------------------------------------------

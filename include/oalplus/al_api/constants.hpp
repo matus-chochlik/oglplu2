@@ -293,6 +293,42 @@ public:
       channels;
 
     opt_c_api_constant<
+      mp_list<buffer_format>,
+#ifdef AL_FORMAT_MONO8
+      enum_type_c<AL_FORMAT_MONO8>>
+#else
+      enum_type_i>
+#endif
+      format_mono8;
+
+    opt_c_api_constant<
+      mp_list<buffer_format>,
+#ifdef AL_FORMAT_MONO16
+      enum_type_c<AL_FORMAT_MONO16>>
+#else
+      enum_type_i>
+#endif
+      format_mono16;
+
+    opt_c_api_constant<
+      mp_list<buffer_format>,
+#ifdef AL_FORMAT_STEREO8
+      enum_type_c<AL_FORMAT_STEREO8>>
+#else
+      enum_type_i>
+#endif
+      format_stereo8;
+
+    opt_c_api_constant<
+      mp_list<buffer_format>,
+#ifdef AL_FORMAT_STEREO16
+      enum_type_c<AL_FORMAT_STEREO16>>
+#else
+      enum_type_i>
+#endif
+      format_stereo16;
+
+    opt_c_api_constant<
       mp_list<oalp::source_state>,
 #ifdef AL_INITIAL
       enum_type_c<AL_INITIAL>>
@@ -376,6 +412,10 @@ public:
       , size("SIZE", traits, api)
       , bits("BITS", traits, api)
       , channels("CHANNELS", traits, api)
+      , format_mono8("FORMAT_MONO8", traits, api)
+      , format_mono16("FORMAT_MONO16", traits, api)
+      , format_stereo8("FORMAT_STEREO8", traits, api)
+      , format_stereo16("FORMAT_STEREO16", traits, api)
       , initial("INITIAL", traits, api)
       , playing("PLAYING", traits, api)
       , paused("PAUSED", traits, api)

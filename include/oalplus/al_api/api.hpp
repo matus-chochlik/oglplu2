@@ -284,6 +284,122 @@ public:
         }
     } get_listener_f;
 
+    // buffer_i
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().Bufferi) && bool(this->api().Buffer3i) &&
+                   bool(this->api().Bufferiv);
+        }
+
+        constexpr auto operator()(
+          buffer_name src, buffer_attribute attr, int_type v0) const noexcept {
+            return this->_check(this->call(
+              this->api().Bufferi, name_type(src), enum_type(attr), v0));
+        }
+
+        constexpr auto operator()(
+          buffer_name src,
+          buffer_attribute attr,
+          int_type v0,
+          int_type v1,
+          int_type v2) const noexcept {
+            return this->_check(this->call(
+              this->api().Buffer3i,
+              name_type(src),
+              enum_type(attr),
+              v0,
+              v1,
+              v2));
+        }
+
+        constexpr auto operator()(
+          buffer_name src, buffer_attribute attr, span<const int_type> v) const
+          noexcept {
+            return this->_check(this->call(
+              this->api().Bufferiv, name_type(src), enum_type(attr), v.data()));
+        }
+    } buffer_i;
+
+    // buffer_f
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().Bufferf) && bool(this->api().Buffer3f) &&
+                   bool(this->api().Bufferfv);
+        }
+
+        constexpr auto operator()(
+          buffer_name src, buffer_attribute attr, float_type v0) const
+          noexcept {
+            return this->_check(this->call(
+              this->api().Bufferf, name_type(src), enum_type(attr), v0));
+        }
+
+        constexpr auto operator()(
+          buffer_name src,
+          buffer_attribute attr,
+          float_type v0,
+          float_type v1,
+          float_type v2) const noexcept {
+            return this->_check(this->call(
+              this->api().Buffer3f,
+              name_type(src),
+              enum_type(attr),
+              v0,
+              v1,
+              v2));
+        }
+
+        constexpr auto operator()(
+          buffer_name src,
+          buffer_attribute attr,
+          span<const float_type> v) const noexcept {
+            return this->_check(this->call(
+              this->api().Bufferfv, name_type(src), enum_type(attr), v.data()));
+        }
+    } buffer_f;
+
+    // get_buffer_i
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().GetBufferiv);
+        }
+
+        constexpr auto operator()(
+          buffer_name src, buffer_attribute attr, span<int_type> v) const
+          noexcept {
+            return this->_check(this->call(
+              this->api().GetBufferiv,
+              name_type(src),
+              enum_type(attr),
+              v.data()));
+        }
+    } get_buffer_i;
+
+    // get_buffer_f
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().GetBufferfv);
+        }
+
+        constexpr auto operator()(
+          buffer_name src, buffer_attribute attr, span<float_type> v) const
+          noexcept {
+            return this->_check(this->call(
+              this->api().GetBufferfv,
+              name_type(src),
+              enum_type(attr),
+              v.data()));
+        }
+    } get_buffer_f;
+
     // source_i
     struct : derived_func {
         using derived_func::derived_func;
@@ -588,6 +704,10 @@ public:
       , listener_f("listener_f", traits, *this)
       , get_listener_i("get_listener_i", traits, *this)
       , get_listener_f("get_listener_f", traits, *this)
+      , buffer_i("buffer_i", traits, *this)
+      , buffer_f("buffer_f", traits, *this)
+      , get_buffer_i("get_buffer_i", traits, *this)
+      , get_buffer_f("get_buffer_f", traits, *this)
       , source_i("source_i", traits, *this)
       , source_f("source_f", traits, *this)
       , get_source_i("get_source_i", traits, *this)
