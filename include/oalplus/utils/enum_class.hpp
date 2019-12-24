@@ -21,7 +21,7 @@ using eagine::enum_value;
 using eagine::is_enum_class;
 
 // AL
-template <typename Self, typename T, unsigned Id>
+template <typename Self, typename T, eagine::identifier_t Id>
 using enum_class = eagine::enum_class<Self, T, 200, Id>;
 
 using any_enum_class = eagine::any_enum_class<200>;
@@ -33,7 +33,7 @@ static constexpr inline bool same_enum_class(
 }
 
 // ALC
-template <typename Self, typename T, unsigned Id>
+template <typename Self, typename T, eagine::identifier_t Id>
 using enum_class_alc = eagine::enum_class<Self, T, 201, Id>;
 
 using any_enum_class_alc = eagine::any_enum_class<201>;
@@ -45,7 +45,7 @@ static constexpr inline bool same_enum_class(
 }
 
 // ALUT
-template <typename Self, typename T, unsigned Id>
+template <typename Self, typename T, eagine::identifier_t Id>
 using enum_class_alut = eagine::enum_class<Self, T, 202, Id>;
 
 using any_enum_class_alut = eagine::any_enum_class<202>;

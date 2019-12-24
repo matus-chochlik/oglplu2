@@ -18,7 +18,7 @@ namespace oglplus {
 
 using eagine::enum_value;
 
-template <typename Self, typename T, unsigned Id>
+template <typename Self, typename T, eagine::identifier_t Id>
 using enum_class = eagine::enum_class<Self, T, 0, Id>;
 
 using eagine::is_enum_class;

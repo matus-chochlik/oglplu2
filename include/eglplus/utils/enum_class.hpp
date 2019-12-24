@@ -17,7 +17,7 @@ namespace eglplus {
 
 using eagine::enum_value;
 
-template <typename Self, typename T, unsigned Id>
+template <typename Self, typename T, eagine::identifier_t Id>
 using enum_class = eagine::enum_class<Self, T, 100, Id>;
 
 using eagine::is_enum_class;
@@ -27,8 +27,8 @@ using eagine::enum_bitfield;
 using any_enum_class = eagine::any_enum_class<100>;
 using any_enum_value = eagine::any_enum_value<100>;
 
-static constexpr inline bool
-same_enum_class(any_enum_class a, any_enum_class b) noexcept {
+static constexpr inline bool same_enum_class(
+  any_enum_class a, any_enum_class b) noexcept {
     return ::eagine::same_enum_class(a, b);
 }
 

@@ -11,15 +11,16 @@
 
 #include <eagine/enum_bitfield.hpp>
 #include <eagine/enum_class.hpp>
+#include <eagine/identifier.hpp>
 
 namespace eagine {
 namespace oalp {
 //------------------------------------------------------------------------------
-template <typename Self, typename T, unsigned Id>
-using alut_enum_class = enum_class<Self, T, 202, Id>;
+template <typename Self, typename T, identifier_t Id>
+using alut_enum_class = enum_class<Self, T, EAGINE_ID_V(ALUT), Id>;
 
-using alut_any_enum_class = any_enum_class<202>;
-using alut_any_enum_value = any_enum_value<202>;
+using alut_any_enum_class = any_enum_class<EAGINE_ID_V(ALUT)>;
+using alut_any_enum_value = any_enum_value<EAGINE_ID_V(ALUT)>;
 
 static constexpr inline bool same_enum_class(
   alut_any_enum_class a, alut_any_enum_class b) noexcept {

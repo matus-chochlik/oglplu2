@@ -12,6 +12,7 @@
 
 #include "biteset.hpp"
 #include "fixed_size_str.hpp"
+#include "identifier_t.hpp"
 #include "mp_string.hpp"
 #include "selector.hpp"
 #include <iosfwd>
@@ -294,23 +295,21 @@ private:
 };
 //------------------------------------------------------------------------------
 using identifier =
-  basic_identifier<10, 6, default_identifier_char_set, std::uint64_t>;
+  basic_identifier<10, 6, default_identifier_char_set, identifier_t>;
 //------------------------------------------------------------------------------
 #define EAGINE_ID(NAME) ::eagine::identifier(#NAME)
-#define EAGINE_TAG_TYPE(NAME) ::eagine::selector<EAGINE_ID(NAME).value()>
+#define EAGINE_ID_V(NAME) ::eagine::identifier(#NAME).value()
+#define EAGINE_TAG_TYPE(NAME) ::eagine::selector<EAGINE_ID_V(NAME)>
 #define EAGINE_TAG(NAME)    \
     EAGINE_TAG_TYPE(NAME) { \
     }
 //------------------------------------------------------------------------------
-#if __SIZEOF_INT128__
+#if EAGINE_HAS_LONG_ID
 using long_identifier =
-  basic_identifier<20, 6, default_identifier_char_set, __uint128_t>;
+  basic_identifier<20, 6, default_identifier_char_set, long_identifier_t>;
 //------------------------------------------------------------------------------
-#define EAGINE_HAS_LONG_ID 1
 #define EAGINE_LONG_ID(NAME) ::eagine::long_identifier(#NAME)
-//------------------------------------------------------------------------------
-#else
-#define EAGINE_HAS_LONG_ID 0
+#define EAGINE_LONG_ID_V(NAME) ::eagine::long_identifier(#NAME).value()
 #endif
 //------------------------------------------------------------------------------
 } // namespace eagine

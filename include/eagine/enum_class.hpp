@@ -11,6 +11,7 @@
 #define EAGINE_ENUM_CLASS_HPP
 
 #include "assert.hpp"
+#include "identifier_t.hpp"
 #include "mp_list.hpp"
 #include <tuple>
 #include <type_traits>
@@ -101,17 +102,17 @@ struct no_enum_value {
     }
 };
 
-template <unsigned LibId>
+template <identifier_t LibId>
 struct any_enum_value;
 
-template <typename Self, typename T, unsigned LibId, unsigned Id>
+template <typename Self, typename T, identifier_t LibId, identifier_t Id>
 struct enum_class {
     using type = enum_class;
 
     using value_type = T;
 
-    static constexpr const unsigned lib_id = LibId;
-    static constexpr const unsigned id = Id;
+    static constexpr const identifier_t lib_id = LibId;
+    static constexpr const identifier_t id = Id;
 
     value_type _value{};
 
@@ -167,21 +168,21 @@ struct enum_class {
 template <typename T>
 struct is_enum_class : std::false_type {};
 
-template <typename Self, typename T, unsigned LibId, unsigned Id>
+template <typename Self, typename T, identifier_t LibId, identifier_t Id>
 struct is_enum_class<enum_class<Self, T, LibId, Id>> : std::true_type {};
 
 template <typename T>
 constexpr bool is_enum_class_v = is_enum_class<T>::value;
 
-template <unsigned LibId>
+template <identifier_t LibId>
 struct any_enum_class {
-    unsigned _type_id;
+    identifier_t _type_id;
 
     constexpr inline any_enum_class() noexcept
-      : _type_id(~unsigned(0)) {
+      : _type_id(~identifier_t(0)) {
     }
 
-    template <typename Self, typename T, unsigned Id>
+    template <typename Self, typename T, identifier_t Id>
     constexpr inline any_enum_class(
       const enum_class<Self, T, LibId, Id>&) noexcept
       : _type_id(Id) {
@@ -192,11 +193,11 @@ struct any_enum_class {
     }
 
     explicit constexpr inline operator bool() const noexcept {
-        return _type_id != ~unsigned(0);
+        return _type_id != ~identifier_t(0);
     }
 
     constexpr inline bool operator!() const noexcept {
-        return _type_id == ~unsigned(0);
+        return _type_id == ~identifier_t(0);
     }
 
     friend bool operator==(
@@ -210,27 +211,27 @@ struct any_enum_class {
     }
 };
 
-template <unsigned LibId>
+template <identifier_t LibId>
 struct any_enum_value {
     long _value{0};
-    unsigned _type_id;
+    identifier_t _type_id;
 
     constexpr inline any_enum_value() noexcept
-      : _type_id(~unsigned(0)) {
+      : _type_id(~identifier_t(0)) {
     }
 
-    template <typename Self, typename T, unsigned Id>
+    template <typename Self, typename T, identifier_t Id>
     constexpr inline any_enum_value(enum_class<Self, T, LibId, Id> v) noexcept
       : _value(long(v._value))
       , _type_id(Id) {
     }
 
     explicit constexpr inline operator bool() const noexcept {
-        return _type_id != ~unsigned(0);
+        return _type_id != ~identifier_t(0);
     }
 
     constexpr inline bool operator!() const noexcept {
-        return _type_id == ~unsigned(0);
+        return _type_id == ~identifier_t(0);
     }
 
     friend bool operator==(
@@ -244,7 +245,7 @@ struct any_enum_value {
     }
 };
 
-template <unsigned LibId>
+template <identifier_t LibId>
 static constexpr inline bool same_enum_class(
   any_enum_class<LibId> a, any_enum_class<LibId> b) noexcept {
     return a._type_id == b._type_id;

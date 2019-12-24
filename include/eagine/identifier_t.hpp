@@ -1,5 +1,5 @@
 /**
- *  @file eagine/message_id.hpp
+ *  @file eagine/identifier_t.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,24 +7,23 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MESSAGE_ID_HPP
-#define EAGINE_MESSAGE_ID_HPP
+#ifndef EAGINE_IDENTIFIER_T_HPP
+#define EAGINE_IDENTIFIER_T_HPP
 
-#include "identifier.hpp"
+#include <cstdint>
 
 namespace eagine {
 //------------------------------------------------------------------------------
-template <identifier_t, identifier_t Id>
-struct message_id {
-    using type = message_id;
-};
+using identifier_t = std::uint64_t;
 //------------------------------------------------------------------------------
-#define EAGINE_MSG_TYPE(API, NAME) \
-    ::eagine::message_id<EAGINE_ID_V(API), EAGINE_ID_V(NAME)>
-#define EAGINE_MSG_ID(NAME) \
-    EAGINE_MSG_TYPE(NAME) { \
-    }
+#if __SIZEOF_INT128__
+using long_identifier_t = __uint128_t;
+//------------------------------------------------------------------------------
+#define EAGINE_HAS_LONG_ID 1
+#else
+#define EAGINE_HAS_LONG_ID 0
+#endif
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-#endif // EAGINE_MESSAGE_ID_HPP
+#endif // EAGINE_IDENTIFIER_T_HPP

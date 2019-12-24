@@ -22,7 +22,11 @@ namespace eagine {
 template <typename EnumClass>
 class enumerated_value_range;
 //------------------------------------------------------------------------------
-template <typename EnumClass, typename T, unsigned LibId, unsigned EnumId>
+template <
+  typename EnumClass,
+  typename T,
+  identifier_t LibId,
+  identifier_t EnumId>
 class enumerated_value_range<enum_class<EnumClass, T, LibId, EnumId>> {
 private:
     const T* _begin;

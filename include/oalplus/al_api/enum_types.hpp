@@ -15,54 +15,81 @@
 namespace eagine {
 namespace oalp {
 //------------------------------------------------------------------------------
-struct al_error_code : al_enum_class<al_error_code, al_types::enum_type, 0> {
+struct al_error_code
+  : al_enum_class<al_error_code, al_types::enum_type, EAGINE_ID_V(ErrorCode)> {
+    using enum_class::enum_class;
+};
+
+struct al_capability
+  : al_enum_class<al_capability, al_types::enum_type, EAGINE_ID_V(Capability)> {
     using enum_class::enum_class;
 };
 
 struct al_boolean_query
-  : al_enum_class<al_boolean_query, al_types::enum_type, 1> {
+  : al_enum_class<
+      al_boolean_query,
+      al_types::enum_type,
+      EAGINE_ID_V(BoolQuery)> {
     using enum_class::enum_class;
 };
 
 struct al_integer_query
-  : al_enum_class<al_integer_query, al_types::enum_type, 2> {
+  : al_enum_class<
+      al_integer_query,
+      al_types::enum_type,
+      EAGINE_ID_V(IntQuery)> {
     using enum_class::enum_class;
 };
 
 struct al_numeric_query
-  : al_enum_class<al_numeric_query, al_types::enum_type, 3> {
+  : al_enum_class<
+      al_numeric_query,
+      al_types::enum_type,
+      EAGINE_ID_V(NumQuery)> {
     using enum_class::enum_class;
 };
 
 struct al_string_query
-  : al_enum_class<al_string_query, al_types::enum_type, 4> {
+  : al_enum_class<al_string_query, al_types::enum_type, EAGINE_ID_V(StrQuery)> {
     using enum_class::enum_class;
 };
 
-struct distance_model : al_enum_class<distance_model, al_types::enum_type, 5> {
+struct distance_model
+  : al_enum_class<distance_model, al_types::enum_type, EAGINE_ID_V(DistModel)> {
     using enum_class::enum_class;
 };
 
 struct listener_attribute
-  : al_enum_class<listener_attribute, al_types::enum_type, 6> {
+  : al_enum_class<
+      listener_attribute,
+      al_types::enum_type,
+      EAGINE_ID_V(ListenAttr)> {
     using enum_class::enum_class;
 };
 
 struct buffer_attribute
-  : al_enum_class<buffer_attribute, al_types::enum_type, 7> {
+  : al_enum_class<
+      buffer_attribute,
+      al_types::enum_type,
+      EAGINE_ID_V(BufferAttr)> {
     using enum_class::enum_class;
 };
 
-struct buffer_format : al_enum_class<buffer_format, al_types::enum_type, 8> {
+struct buffer_format
+  : al_enum_class<buffer_format, al_types::enum_type, EAGINE_ID_V(BufferFrmt)> {
     using enum_class::enum_class;
 };
 
 struct source_attribute
-  : al_enum_class<source_attribute, al_types::enum_type, 9> {
+  : al_enum_class<
+      source_attribute,
+      al_types::enum_type,
+      EAGINE_ID_V(SourceAttr)> {
     using enum_class::enum_class;
 };
 
-struct source_state : al_enum_class<source_state, al_types::enum_type, 10> {
+struct source_state
+  : al_enum_class<source_state, al_types::enum_type, EAGINE_ID_V(SourceStte)> {
     using enum_class::enum_class;
 };
 //------------------------------------------------------------------------------

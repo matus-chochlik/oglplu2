@@ -17,9 +17,9 @@ namespace oglplus {
 
 string_view get_enum_value_name(const any_enum_value&) noexcept;
 
-template <typename EnumClass, typename T, unsigned EnumId>
-static inline string_view
-enum_value_name(enum_class<EnumClass, T, EnumId> val) noexcept {
+template <typename EnumClass, typename T, eagine::identifier_t EnumId>
+static inline string_view enum_value_name(
+  enum_class<EnumClass, T, EnumId> val) noexcept {
     return ::oglplus::get_enum_value_name(val);
 }
 
