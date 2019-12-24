@@ -16,12 +16,18 @@ namespace eagine {
 namespace oalp {
 //------------------------------------------------------------------------------
 struct alut_error_code
-  : alut_enum_class<alut_error_code, alut_types::enum_type, 0> {
+  : alut_enum_class<
+      alut_error_code,
+      alut_types::enum_type,
+      EAGINE_ID_V(ErrorCode)> {
     using enum_class::enum_class;
 };
 
 struct waveform_function
-  : alut_enum_class<waveform_function, alut_types::enum_type, 1> {
+  : alut_enum_class<
+      waveform_function,
+      alut_types::enum_type,
+      EAGINE_ID_V(WvefrmFunc)> {
     using enum_class::enum_class;
 };
 //------------------------------------------------------------------------------

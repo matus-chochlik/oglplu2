@@ -16,22 +16,34 @@ namespace eagine {
 namespace oalp {
 //------------------------------------------------------------------------------
 struct alc_error_code
-  : alc_enum_class<alc_error_code, alc_types::enum_type, 0> {
+  : alc_enum_class<
+      alc_error_code,
+      alc_types::enum_type,
+      EAGINE_ID_V(ErrorCode)> {
     using enum_class::enum_class;
 };
 
 struct context_attribute
-  : alc_enum_class<context_attribute, alc_types::enum_type, 1> {
+  : alc_enum_class<
+      context_attribute,
+      alc_types::enum_type,
+      EAGINE_ID_V(CntxtAttr)> {
     using enum_class::enum_class;
 };
 
 struct alc_string_query
-  : alc_enum_class<alc_string_query, alc_types::enum_type, 2> {
+  : alc_enum_class<
+      alc_string_query,
+      alc_types::enum_type,
+      EAGINE_ID_V(StrQuery)> {
     using enum_class::enum_class;
 };
 
 struct alc_integer_query
-  : alc_enum_class<alc_integer_query, alc_types::enum_type, 3> {
+  : alc_enum_class<
+      alc_integer_query,
+      alc_types::enum_type,
+      EAGINE_ID_V(IntQuery)> {
     using enum_class::enum_class;
 };
 //------------------------------------------------------------------------------
