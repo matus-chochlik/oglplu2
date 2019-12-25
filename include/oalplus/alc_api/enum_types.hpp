@@ -9,41 +9,27 @@
 #ifndef OALPLUS_ALC_API_ENUM_TYPES_HPP
 #define OALPLUS_ALC_API_ENUM_TYPES_HPP
 
-#include "config.hpp"
 #include "enum_class.hpp"
 
 namespace eagine {
 namespace oalp {
 //------------------------------------------------------------------------------
-struct alc_error_code
-  : alc_enum_class<
-      alc_error_code,
-      alc_types::enum_type,
-      EAGINE_ID_V(ErrorCode)> {
+struct alc_error_code : alc_enum_class<alc_error_code, EAGINE_ID_V(ErrorCode)> {
     using enum_class::enum_class;
 };
 
 struct context_attribute
-  : alc_enum_class<
-      context_attribute,
-      alc_types::enum_type,
-      EAGINE_ID_V(CntxtAttr)> {
+  : alc_enum_class<context_attribute, EAGINE_ID_V(CntxtAttr)> {
     using enum_class::enum_class;
 };
 
 struct alc_string_query
-  : alc_enum_class<
-      alc_string_query,
-      alc_types::enum_type,
-      EAGINE_ID_V(StrQuery)> {
+  : alc_enum_class<alc_string_query, EAGINE_ID_V(StrQuery)> {
     using enum_class::enum_class;
 };
 
 struct alc_integer_query
-  : alc_enum_class<
-      alc_integer_query,
-      alc_types::enum_type,
-      EAGINE_ID_V(IntQuery)> {
+  : alc_enum_class<alc_integer_query, EAGINE_ID_V(IntQuery)> {
     using enum_class::enum_class;
 };
 //------------------------------------------------------------------------------

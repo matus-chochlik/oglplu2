@@ -34,6 +34,10 @@ struct al_types {
     using enum_type = ALenum;
     using char_type = ALchar;
     using bool_type = ALboolean;
+    using byte_type = ALbyte;
+    using ubyte_type = ALubyte;
+    using short_type = ALshort;
+    using ushort_type = ALushort;
     using int_type = ALint;
     using uint_type = ALuint;
     using name_type = ALuint;
@@ -45,6 +49,10 @@ struct al_types {
     using enum_type = int;
     using char_type = char;
     using bool_type = bool;
+    using byte_type = char;
+    using ubyte_type = unsigned char;
+    using short_type = short;
+    using ushort_type = unsigned short;
     using int_type = int;
     using uint_type = unsigned;
     using name_type = unsigned;

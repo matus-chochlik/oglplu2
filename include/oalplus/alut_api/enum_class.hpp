@@ -9,6 +9,7 @@
 #ifndef OALPLUS_ALUT_API_ENUM_CLASS_HPP
 #define OALPLUS_ALUT_API_ENUM_CLASS_HPP
 
+#include "config.hpp"
 #include <eagine/enum_bitfield.hpp>
 #include <eagine/enum_class.hpp>
 #include <eagine/identifier.hpp>
@@ -16,8 +17,9 @@
 namespace eagine {
 namespace oalp {
 //------------------------------------------------------------------------------
-template <typename Self, typename T, identifier_t Id>
-using alut_enum_class = enum_class<Self, T, EAGINE_ID_V(ALUT), Id>;
+template <typename Self, identifier_t Id>
+using alut_enum_class =
+  enum_class<Self, alut_types::enum_type, EAGINE_ID_V(ALUT), Id>;
 
 using alut_any_enum_class = any_enum_class<EAGINE_ID_V(ALUT)>;
 using alut_any_enum_value = any_enum_value<EAGINE_ID_V(ALUT)>;
