@@ -339,6 +339,33 @@ public:
       cone_outer_gain;
 
     opt_c_api_constant<
+      mp_list<source_attribute>,
+#ifdef AL_SEC_OFFSET
+      enum_type_c<AL_SEC_OFFSET>>
+#else
+      enum_type_i>
+#endif
+      sec_offset;
+
+    opt_c_api_constant<
+      mp_list<source_attribute>,
+#ifdef AL_SAMPLE_OFFSET
+      enum_type_c<AL_SAMPLE_OFFSET>>
+#else
+      enum_type_i>
+#endif
+      sample_offset;
+
+    opt_c_api_constant<
+      mp_list<source_attribute>,
+#ifdef AL_BYTE_OFFSET
+      enum_type_c<AL_BYTE_OFFSET>>
+#else
+      enum_type_i>
+#endif
+      byte_offset;
+
+    opt_c_api_constant<
       mp_list<listener_attribute>,
 #ifdef AL_ORIENTATION
       enum_type_c<AL_ORIENTATION>>
@@ -580,6 +607,9 @@ public:
       , cone_inner_angle("CONE_INNER_ANGLE", traits, api)
       , cone_outer_angle("CONE_OUTER_ANGLE", traits, api)
       , cone_outer_gain("CONE_OUTER_GAIN", traits, api)
+      , sec_offset("SEC_OFFSET", traits, api)
+      , sample_offset("SAMPLE_OFFSET", traits, api)
+      , byte_offset("BYTE_OFFSET", traits, api)
       , orientation("ORIENTATION", traits, api)
       , current_buffer("BUFFER", traits, api)
       , buffers_queued("BUFFERS_QUEUED", traits, api)
