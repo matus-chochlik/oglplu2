@@ -67,6 +67,10 @@ struct source_attribute
 struct source_state : al_enum_class<source_state, EAGINE_ID_V(SourceStte)> {
     using enum_class::enum_class;
 };
+
+struct source_type : al_enum_class<source_type, EAGINE_ID_V(SourceType)> {
+    using enum_class::enum_class;
+};
 //------------------------------------------------------------------------------
 } // namespace oalp
 } // namespace eagine

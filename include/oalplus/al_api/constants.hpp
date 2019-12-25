@@ -186,6 +186,42 @@ public:
       exponent_distance_clamped;
 
     opt_c_api_constant<
+      mp_list<source_attribute>,
+#ifdef AL_SOURCE_STATE
+      enum_type_c<AL_SOURCE_STATE>>
+#else
+      enum_type_i>
+#endif
+      source_state;
+
+    opt_c_api_constant<
+      mp_list<source_attribute>,
+#ifdef AL_SOURCE_TYPE
+      enum_type_c<AL_SOURCE_TYPE>>
+#else
+      enum_type_i>
+#endif
+      source_type;
+
+    opt_c_api_constant<
+      mp_list<source_attribute>,
+#ifdef AL_SOURCE_RELATIVE
+      enum_type_c<AL_SOURCE_RELATIVE>>
+#else
+      enum_type_i>
+#endif
+      source_relative;
+
+    opt_c_api_constant<
+      mp_list<source_attribute>,
+#ifdef AL_LOOPING
+      enum_type_c<AL_LOOPING>>
+#else
+      enum_type_i>
+#endif
+      looping;
+
+    opt_c_api_constant<
       mp_list<listener_attribute, source_attribute>,
 #ifdef AL_POSITION
       enum_type_c<AL_POSITION>>
@@ -213,6 +249,96 @@ public:
       gain;
 
     opt_c_api_constant<
+      mp_list<source_attribute>,
+#ifdef AL_MIN_GAIN
+      enum_type_c<AL_MIN_GAIN>>
+#else
+      enum_type_i>
+#endif
+      min_gain;
+
+    opt_c_api_constant<
+      mp_list<source_attribute>,
+#ifdef AL_MAX_GAIN
+      enum_type_c<AL_MAX_GAIN>>
+#else
+      enum_type_i>
+#endif
+      max_gain;
+
+    opt_c_api_constant<
+      mp_list<source_attribute>,
+#ifdef AL_ROLLOFF_FACTOR
+      enum_type_c<AL_ROLLOFF_FACTOR>>
+#else
+      enum_type_i>
+#endif
+      rolloff_factor;
+
+    opt_c_api_constant<
+      mp_list<source_attribute>,
+#ifdef AL_REFERENCE_DISTANCE
+      enum_type_c<AL_REFERENCE_DISTANCE>>
+#else
+      enum_type_i>
+#endif
+      reference_distance;
+
+    opt_c_api_constant<
+      mp_list<source_attribute>,
+#ifdef AL_MIN_DISTANCE
+      enum_type_c<AL_MIN_DISTANCE>>
+#else
+      enum_type_i>
+#endif
+      min_distance;
+
+    opt_c_api_constant<
+      mp_list<source_attribute>,
+#ifdef AL_MAX_DISTANCE
+      enum_type_c<AL_MAX_DISTANCE>>
+#else
+      enum_type_i>
+#endif
+      max_distance;
+
+    opt_c_api_constant<
+      mp_list<source_attribute>,
+#ifdef AL_DIRECTION
+      enum_type_c<AL_DIRECTION>>
+#else
+      enum_type_i>
+#endif
+      direction;
+
+    opt_c_api_constant<
+      mp_list<source_attribute>,
+#ifdef AL_CONE_INNER_ANGLE
+      enum_type_c<AL_CONE_INNER_ANGLE>>
+#else
+      enum_type_i>
+#endif
+      cone_inner_angle;
+
+    opt_c_api_constant<
+      mp_list<source_attribute>,
+#ifdef AL_CONE_OUTER_ANGLE
+      enum_type_c<AL_CONE_OUTER_ANGLE>>
+#else
+      enum_type_i>
+#endif
+      cone_outer_angle;
+
+    opt_c_api_constant<
+      mp_list<source_attribute>,
+#ifdef AL_CONE_OUTER_GAIN
+      enum_type_c<AL_CONE_OUTER_GAIN>>
+#else
+      enum_type_i>
+#endif
+      cone_outer_gain;
+
+    opt_c_api_constant<
       mp_list<listener_attribute>,
 #ifdef AL_ORIENTATION
       enum_type_c<AL_ORIENTATION>>
@@ -223,12 +349,30 @@ public:
 
     opt_c_api_constant<
       mp_list<source_attribute>,
-#ifdef AL_SOURCE_STATE
-      enum_type_c<AL_SOURCE_STATE>>
+#ifdef AL_BUFFER
+      enum_type_c<AL_BUFFER>>
 #else
       enum_type_i>
 #endif
-      source_state;
+      current_buffer;
+
+    opt_c_api_constant<
+      mp_list<source_attribute>,
+#ifdef AL_BUFFERS_QUEUED
+      enum_type_c<AL_BUFFERS_QUEUED>>
+#else
+      enum_type_i>
+#endif
+      buffers_queued;
+
+    opt_c_api_constant<
+      mp_list<source_attribute>,
+#ifdef AL_BUFFERS_PROCESSED
+      enum_type_c<AL_BUFFERS_PROCESSED>>
+#else
+      enum_type_i>
+#endif
+      buffers_processed;
 
     dynamic_c_api_constant<mp_list<listener_attribute>, enum_type>
       meters_per_unit;
@@ -329,6 +473,33 @@ public:
       format_stereo16;
 
     opt_c_api_constant<
+      mp_list<oalp::source_type>,
+#ifdef AL_UNDETERMINED
+      enum_type_c<AL_UNDETERMINED>>
+#else
+      enum_type_i>
+#endif
+      undetermined;
+
+    opt_c_api_constant<
+      mp_list<oalp::source_type>,
+#ifdef AL_STATIC
+      enum_type_c<AL_STATIC>>
+#else
+      enum_type_i>
+#endif
+      static_;
+
+    opt_c_api_constant<
+      mp_list<oalp::source_type>,
+#ifdef AL_STREAMING
+      enum_type_c<AL_STREAMING>>
+#else
+      enum_type_i>
+#endif
+      streaming;
+
+    opt_c_api_constant<
       mp_list<oalp::source_state>,
 #ifdef AL_INITIAL
       enum_type_c<AL_INITIAL>>
@@ -392,11 +563,27 @@ public:
       , linear_distance_clamped("LINEAR_DISTANCE_CLAMPED", traits, api)
       , exponent_distance("EXPONENT_DISTANCE", traits, api)
       , exponent_distance_clamped("EXPONENT_DISTANCE_CLAMPED", traits, api)
+      , source_state("SOURCE_STATE", traits, api)
+      , source_type("SOURCE_TYPE", traits, api)
+      , source_relative("SOURCE_RELATIVE", traits, api)
+      , looping("LOOPING", traits, api)
       , position("POSITION", traits, api)
       , velocity("VELOCITY", traits, api)
       , gain("GAIN", traits, api)
+      , min_gain("MIN_GAIN", traits, api)
+      , max_gain("MAX_GAIN", traits, api)
+      , rolloff_factor("ROLLOFF_FACTOR", traits, api)
+      , reference_distance("REFERENCE_DISTANCE", traits, api)
+      , min_distance("MIN_DISTANCE", traits, api)
+      , max_distance("MAX_DISTANCE", traits, api)
+      , direction("DIRECTION", traits, api)
+      , cone_inner_angle("CONE_INNER_ANGLE", traits, api)
+      , cone_outer_angle("CONE_OUTER_ANGLE", traits, api)
+      , cone_outer_gain("CONE_OUTER_GAIN", traits, api)
       , orientation("ORIENTATION", traits, api)
-      , source_state("SOURCE_STATE", traits, api)
+      , current_buffer("BUFFER", traits, api)
+      , buffers_queued("BUFFERS_QUEUED", traits, api)
+      , buffers_processed("BUFFERS_PROCESSED", traits, api)
       , meters_per_unit("METERS_PER_UNIT", traits, api)
       , direct_filter("DIRECT_FILTER", traits, api)
       , auxiliary_send_filter("AUXILIARY_SEND_FILTER", traits, api)
@@ -416,6 +603,9 @@ public:
       , format_mono16("FORMAT_MONO16", traits, api)
       , format_stereo8("FORMAT_STEREO8", traits, api)
       , format_stereo16("FORMAT_STEREO16", traits, api)
+      , undetermined("UNDETERMINED", traits, api)
+      , static_("STATIC", traits, api)
+      , streaming("STREAMING", traits, api)
       , initial("INITIAL", traits, api)
       , playing("PLAYING", traits, api)
       , paused("PAUSED", traits, api)
