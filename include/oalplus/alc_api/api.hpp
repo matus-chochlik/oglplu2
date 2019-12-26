@@ -88,9 +88,15 @@ public:
         }
 
         constexpr auto operator()(device_handle dev) const noexcept {
-            // TODO: attributes
             return this->_check(
               this->call(this->api().CreateContext, dev, nullptr), dev);
+        }
+
+        constexpr auto operator()(
+          device_handle dev, span<const int_type> attributes) const noexcept {
+            return this->_check(
+              this->call(this->api().CreateContext, dev, attributes.data()),
+              dev);
         }
     } create_context;
 

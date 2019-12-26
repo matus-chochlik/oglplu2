@@ -10,6 +10,7 @@
 #include <oalplus/al.hpp>
 #include <oalplus/al_api.hpp>
 #include <oalplus/alc_api.hpp>
+#include <oalplus/alc_api/context_attribs.hpp>
 #include <oalplus/alut_api.hpp>
 #include <iostream>
 #include <thread>
@@ -24,7 +25,13 @@ int main(int argc, char** argv) {
         auto& device = eagine::extract(open_dev_res);
         auto cleanup_dev = alc.close_device.raii(device);
 
-        if(auto crt_ctx_res = alc.create_context(device)) {
+        const auto context_attribs = (alc.mono_sources | 1) +
+                                     (alc.stereo_sources | 1) +
+                                     (alc.sync | false);
+
+        if(
+          auto crt_ctx_res =
+            alc.create_context(device, context_attribs.get())) {
             auto& context = extract(crt_ctx_res);
             auto cleanup_ctx = alc.destroy_context.raii(device, context);
 
