@@ -19,6 +19,19 @@ namespace eagine {
 namespace math {
 //------------------------------------------------------------------------------
 template <typename T>
+static constexpr inline std::enable_if_t<std::is_integral_v<T>, bool>
+is_positive_power_of_2(T value) noexcept {
+    using U = std::make_unsigned_t<T>;
+    return (value > 0) && ((U(value) & (U(value) - 1)) == 0);
+}
+//------------------------------------------------------------------------------
+template <typename T>
+static constexpr inline std::enable_if_t<std::is_integral_v<T>, T>
+greatest_common_divisor(T l, T r) {
+    return (r == T(0)) ? l : greatest_common_divisor(r, T(l % r));
+}
+//------------------------------------------------------------------------------
+template <typename T>
 static constexpr inline auto signum(T x) noexcept {
     return (x < 0) ? T(-1) : T(1);
 }
