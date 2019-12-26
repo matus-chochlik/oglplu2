@@ -119,6 +119,62 @@ public:
         }
     } destroy_context;
 
+    // make_context_current
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().MakeContextCurrent);
+        }
+
+        constexpr auto operator()(device_handle dev, context_handle ctx) const
+          noexcept {
+            return this->_check(
+              this->call(this->api().MakeContextCurrent, ctx), dev);
+        }
+
+        constexpr auto operator()(device_handle dev) const noexcept {
+            return this->_check(
+              this->call(this->api().MakeContextCurrent, nullptr), dev);
+        }
+
+        constexpr auto operator()(context_handle ctx) const noexcept {
+            return this->_check(
+              this->call(this->api().MakeContextCurrent, ctx), nullptr);
+        }
+
+        constexpr auto operator()() const noexcept {
+            return this->_check(
+              this->call(this->api().MakeContextCurrent, nullptr), nullptr);
+        }
+
+        auto raii(device_handle dev) noexcept {
+            return eagine::finally([=]() { (*this)(dev); });
+        }
+
+        auto raii() noexcept {
+            return eagine::finally([=]() { (*this)(); });
+        }
+    } make_context_current;
+
+    // get_current_context
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().GetCurrentContext);
+        }
+
+        constexpr auto operator()(device_handle dev) const noexcept {
+            return this->_check(this->call(this->api().GetCurrentContext), dev);
+        }
+
+        constexpr auto operator()() const noexcept {
+            return this->_check(
+              this->call(this->api().GetCurrentContext), nullptr);
+        }
+    } get_current_context;
+
     // get_integer
     struct : derived_func {
         using derived_func::derived_func;
@@ -268,6 +324,8 @@ public:
       , close_device("close_device", traits, *this)
       , create_context("create_context", traits, *this)
       , destroy_context("destroy_context", traits, *this)
+      , make_context_current("make_context_current", traits, *this)
+      , get_current_context("get_current_context", traits, *this)
       , get_integer("get_integer", traits, *this)
       , get_integerv("get_integerv", traits, *this)
       , get_string("get_string", traits, *this) {

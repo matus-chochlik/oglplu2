@@ -35,7 +35,8 @@ int main(int argc, char** argv) {
             auto& context = extract(crt_ctx_res);
             auto cleanup_ctx = alc.destroy_context.raii(device, context);
 
-            alc.MakeContextCurrent(context);
+            alc.make_context_current(context);
+            auto reset_ctx = alc.make_context_current.raii();
 
             al_api al;
             alut_api alut;
