@@ -31,6 +31,21 @@ public:
       , _term_handler{std::signal(SIGTERM, &_flip)} {
     }
 
+    ~signal_switch() noexcept {
+        std::signal(SIGINT, _intr_handler);
+        std::signal(SIGTERM, _term_handler);
+    }
+
+    signal_switch(signal_switch&&) = delete;
+    signal_switch(const signal_switch&) = delete;
+    signal_switch& operator=(signal_switch&&) = delete;
+    signal_switch& operator=(const signal_switch&) = delete;
+
+    signal_switch& reset() noexcept {
+        _state() = 0;
+        return *this;
+    }
+
     bool interrupted() const noexcept {
         return _state() == SIGINT;
     }
