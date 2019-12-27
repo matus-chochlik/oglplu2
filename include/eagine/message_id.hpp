@@ -21,8 +21,8 @@ struct message_id {
 //------------------------------------------------------------------------------
 #define EAGINE_MSG_TYPE(API, NAME) \
     ::eagine::message_id<EAGINE_ID_V(API), EAGINE_ID_V(NAME)>
-#define EAGINE_MSG_ID(NAME) \
-    EAGINE_MSG_TYPE(NAME) { \
+#define EAGINE_MSG_ID(API, NAME) \
+    EAGINE_MSG_TYPE(API, NAME) { \
     }
 //------------------------------------------------------------------------------
 } // namespace eagine

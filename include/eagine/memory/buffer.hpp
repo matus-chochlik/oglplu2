@@ -50,8 +50,8 @@ public:
 
     buffer(buffer&&) noexcept = default;
     buffer(const buffer&) = delete;
+    buffer& operator=(buffer&&) noexcept = default;
     buffer& operator=(const buffer&) = delete;
-    buffer& operator=(buffer&&) = delete;
 
     ~buffer() noexcept {
         free();
