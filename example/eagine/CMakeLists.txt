@@ -12,6 +12,7 @@ endfunction()
 
 eagine_example_common(valgrind)
 eagine_example_common(array_size)
+eagine_example_common(signal_switch)
 eagine_example_common(limit_cast)
 eagine_example_common(str_format)
 eagine_example_common(type_name)
