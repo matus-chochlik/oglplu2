@@ -434,6 +434,15 @@ public:
       : _bytes{_make_bytes(T(p)...)} {
     }
 
+    explicit constexpr inline biteset(_bytes_t init) noexcept
+      : _bytes{init} {
+    }
+
+    template <typename UIntT>
+    static constexpr inline auto from_value(UIntT init) noexcept {
+        return biteset{_bytes_t{init}};
+    }
+
     constexpr inline size_type size() const noexcept {
         return N;
     }

@@ -198,6 +198,8 @@ static inline std::ostream& operator<<(
 //------------------------------------------------------------------------------
 template <std::size_t M, std::size_t B, typename CharSet, typename UIntT>
 class basic_identifier {
+    using _bites_t = biteset<M, B, std::uint8_t>;
+
 public:
     static_assert(
       // NOLINTNEXTLINE(hicpp-signed-bitwise)
@@ -214,6 +216,10 @@ public:
     template <std::size_t L, typename = std::enable_if_t<(L <= M + 1)>>
     constexpr inline basic_identifier(const char (&init)[L]) noexcept
       : _bites{_make_bites(init, std::make_index_sequence<M>{})} {
+    }
+
+    explicit constexpr inline basic_identifier(UIntT init) noexcept
+      : _bites{_bites_t::from_value(init)} {
     }
 
     static constexpr inline size_type max_size() noexcept {
@@ -271,7 +277,7 @@ public:
     }
 
 private:
-    biteset<M, B, std::uint8_t> _bites;
+    _bites_t _bites;
 
     template <std::size_t L, std::size_t... I>
     static constexpr inline auto _make_bites(

@@ -11,12 +11,18 @@
 #define EAGINE_MESSAGE_ID_HPP
 
 #include "identifier.hpp"
+#include <tuple>
 
 namespace eagine {
 //------------------------------------------------------------------------------
-template <identifier_t, identifier_t Id>
+template <identifier_t ClassId, identifier_t MethodId>
 struct message_id {
     using type = message_id;
+
+    static constexpr inline std::tuple<identifier_t, identifier_t>
+    as_tuple() noexcept {
+        return {ClassId, MethodId};
+    }
 };
 //------------------------------------------------------------------------------
 #define EAGINE_MSG_TYPE(API, NAME) \
