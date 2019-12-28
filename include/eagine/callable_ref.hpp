@@ -81,14 +81,20 @@ public:
       , _func(reinterpret_cast<_func_t>(&_cls_fn_call_op_c<C>)) {
     }
 
-    template <
-      typename C,
-      typename MF,
-      MF Ptr,
-      typename = std::enable_if_t<
-        std::is_same_v<typename member_function_constant<MF, Ptr>::scope, C>>>
-    callable_ref(C* obj, member_function_constant<MF, Ptr> mfc) noexcept
+    template <typename C, RV (C::*Ptr)(P...)>
+    callable_ref(
+      C* obj, member_function_constant<RV (C::*)(P...), Ptr> mfc) noexcept
       : _data(static_cast<void*>(obj))
+      , _func(reinterpret_cast<_func_t>(mfc.make_free())) {
+        EAGINE_ASSERT(_data != nullptr);
+        EAGINE_ASSERT(_func != nullptr);
+    }
+
+    template <typename C, RV (C::*Ptr)(P...) const>
+    callable_ref(
+      const C* obj,
+      member_function_constant<RV (C::*)(P...) const, Ptr> mfc) noexcept
+      : _data(static_cast<void*>(const_cast<C*>(obj)))
       , _func(reinterpret_cast<_func_t>(mfc.make_free())) {
         EAGINE_ASSERT(_data != nullptr);
         EAGINE_ASSERT(_func != nullptr);
