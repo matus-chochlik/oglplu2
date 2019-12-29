@@ -150,11 +150,22 @@ class message_bus_direct_acceptor : public message_bus_acceptor {
     using shared_state = std::shared_ptr<message_bus_direct_connection_state>;
 
 public:
+    message_bus_direct_acceptor(
+      std::shared_ptr<message_bus_direct_connection_address> address) noexcept
+      : _address{std::move(address)} {
+    }
+
+    message_bus_direct_acceptor()
+      : message_bus_direct_acceptor(
+          std::make_shared<message_bus_direct_connection_address>()) {
+    }
+
     void process_accepted(const accept_handler& handler) final {
         if(_address) {
             auto wrapped_handler = [this, &handler](shared_state& state) {
-                handler(std::make_unique<message_bus_direct_server_connection>(
-                  state));
+                handler(std::unique_ptr<message_bus_connection>{
+                  std::make_unique<message_bus_direct_server_connection>(
+                    state)});
             };
             _address->process_all(
               message_bus_direct_connection_address::process_handler{
@@ -162,9 +173,12 @@ public:
         }
     }
 
-    auto make_connection() {
-        return std::unique_ptr<message_bus_connection>{
-          std::make_unique<message_bus_direct_client_connection>(_address)};
+    std::unique_ptr<message_bus_connection> make_connection() {
+        if(_address) {
+            return std::unique_ptr<message_bus_connection>{
+              std::make_unique<message_bus_direct_client_connection>(_address)};
+        }
+        return {};
     }
 
 private:

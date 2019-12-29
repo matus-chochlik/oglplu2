@@ -75,11 +75,28 @@ public:
     }
 
     void fetch_all(fetch_handler handler) {
+        bool keep_some = false;
         for(auto& [class_id, method_id, message] : _messages) {
-            handler(class_id, method_id, message);
-            _buffers.eat(std::move(message.data));
+            if(handler(class_id, method_id, message)) {
+                class_id = 0;
+                method_id = 0;
+                _buffers.eat(std::move(message.data));
+            } else {
+                keep_some = true;
+            }
         }
-        _messages.clear();
+        if(keep_some) {
+            _messages.erase(
+              std::remove_if(
+                _messages.begin(),
+                _messages.end(),
+                [](auto& t) {
+                    return (std::get<0>(t) == 0) && (std::get<1>(t) == 0);
+                }),
+              _messages.end());
+        } else {
+            _messages.clear();
+        }
     }
 
 private:

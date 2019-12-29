@@ -18,6 +18,7 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 class message_bus_endpoint {
+    identifier_t _id{0};
 
     std::vector<std::unique_ptr<message_bus_connection>> _connections;
 
@@ -45,6 +46,13 @@ class message_bus_endpoint {
       identifier_t class_id,
       identifier_t method_id,
       const message_view& message) {
+        // this is a special message requesting/assigning endpoint id
+        if(EAGINE_UNLIKELY(class_id == 0)) {
+            if(!has_id()) {
+                _id = method_id;
+            }
+            return true;
+        }
         auto pos = _messages.find(_make_key(class_id, method_id));
         if(pos != _messages.end()) {
             _get_queue(pos).push(message);
@@ -72,7 +80,13 @@ public:
         return false;
     }
 
+    bool has_id() const {
+        return _id != 0;
+    }
+
     void update() {
+
+        const bool had_id = has_id();
         message_bus_connection::fetch_handler handler{
           this, EAGINE_MEM_FUNC_C(message_bus_endpoint, _store_message)};
 
@@ -80,6 +94,12 @@ public:
             EAGINE_ASSERT(connection);
             connection->update();
             connection->fetch_messages(handler);
+        }
+
+        // if processing the messages assigned the endpoint id
+        if(EAGINE_UNLIKELY(has_id() && !had_id)) {
+            // send the endpoint id through all connections
+            send(0, _id, {});
         }
     }
 

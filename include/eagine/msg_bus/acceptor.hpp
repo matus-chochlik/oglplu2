@@ -22,8 +22,8 @@ struct message_bus_acceptor {
     message_bus_acceptor& operator=(message_bus_acceptor&&) = delete;
     message_bus_acceptor& operator=(const message_bus_acceptor&) = delete;
 
-    using connection = std::unique_ptr<message_bus_connection>;
-    using accept_handler = callable_ref<void(connection)>;
+    using accept_handler =
+      callable_ref<void(std::unique_ptr<message_bus_connection>)>;
 
     virtual void process_accepted(const accept_handler& handler) = 0;
 };
