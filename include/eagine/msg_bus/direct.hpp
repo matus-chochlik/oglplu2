@@ -88,14 +88,16 @@ public:
         return bool(_state);
     }
 
-    void send(
+    bool send(
       identifier_t class_id,
       identifier_t method_id,
       const message_view& message) {
         _checkup();
         if(EAGINE_LIKELY(_state)) {
             _state->send_to_server(class_id, method_id, message);
+            return true;
         }
+        return false;
     }
 
     void fetch_messages(
@@ -126,13 +128,15 @@ public:
       : _weak_state{state} {
     }
 
-    void send(
+    bool send(
       identifier_t class_id,
       identifier_t method_id,
       const message_view& message) {
         if(auto state = _weak_state.lock()) {
             state->send_to_client(class_id, method_id, message);
+            return true;
         }
+        return false;
     }
 
     void fetch_messages(

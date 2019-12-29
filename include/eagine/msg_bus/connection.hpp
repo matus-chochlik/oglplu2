@@ -39,7 +39,7 @@ struct message_bus_connection {
         return std::numeric_limits<span_size_t>::max();
     }
 
-    virtual void send(
+    virtual bool send(
       identifier_t class_id, identifier_t method_id, const message_view&) = 0;
 
     virtual void fetch_messages(fetch_handler handler) = 0;

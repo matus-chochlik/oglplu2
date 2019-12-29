@@ -17,12 +17,13 @@ namespace eagine {
 //------------------------------------------------------------------------------
 class message_bus_loopback_connection : public message_bus_connection {
 public:
-    void send(
+    bool send(
       identifier_t class_id,
       identifier_t method_id,
       const message_view& message) {
         std::unique_lock lock{_mutex};
         _messages.push(class_id, method_id, message);
+        return true;
     }
 
     void fetch_messages(

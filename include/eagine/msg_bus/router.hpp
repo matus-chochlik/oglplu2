@@ -155,8 +155,10 @@ private:
                         for(auto& conn_out : endpoint_out.connections) {
                             if(EAGINE_LIKELY(
                                  conn_out && conn_out->is_usable())) {
-                                // TODO: if true: break
-                                conn_out->send(class_id, method_id, message);
+                                if(conn_out->send(
+                                     class_id, method_id, message)) {
+                                    break;
+                                }
                             }
                         }
                     }

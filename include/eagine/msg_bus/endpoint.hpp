@@ -137,7 +137,9 @@ public:
       const message_view& message) const {
         for(auto& connection : _connections) {
             EAGINE_ASSERT(connection);
-            connection->send(class_id, method_id, message);
+            if(connection->send(class_id, method_id, message)) {
+                break;
+            }
         }
     }
 
