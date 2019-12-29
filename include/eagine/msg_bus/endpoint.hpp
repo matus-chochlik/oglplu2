@@ -12,6 +12,7 @@
 
 #include "connection.hpp"
 #include <map>
+#include <tuple>
 #include <vector>
 
 namespace eagine {
@@ -84,9 +85,9 @@ public:
 
     void subscribe(identifier_t class_id, identifier_t method_id) {
         auto key = _make_key(class_id, method_id);
-        auto pos = _messages.find(key);
-        if(pos == _messages.end()) {
-            std::get<0>(_messages[key]) = 0;
+        auto [pos, newone] = _messages.try_emplace(key);
+        if(newone) {
+            _get_counter(pos) = 0;
         }
         ++_get_counter(pos);
     }
@@ -110,23 +111,56 @@ public:
         unsubscribe(ClassId, MethodId);
     }
 
-    template <identifier_t ClassId, identifier_t MethodId>
-    void send(message_id<ClassId, MethodId>, const message_view& message) {
+    void send(
+      identifier_t class_id,
+      identifier_t method_id,
+      const message_view& message) const {
         for(auto& connection : _connections) {
             EAGINE_ASSERT(connection);
-            connection->send(ClassId, MethodId, message);
+            connection->send(class_id, method_id, message);
         }
+    }
+
+    template <identifier_t ClassId, identifier_t MethodId>
+    void send(
+      message_id<ClassId, MethodId>, const message_view& message) const {
+        send(ClassId, MethodId, message);
     }
 
     using handler_type = callable_ref<bool(stored_message&)>;
 
-    template <identifier_t ClassId, identifier_t MethodId>
-    void process_one(
-      message_id<ClassId, MethodId>, const handler_type& handler) {
-        auto pos = _messages.find(_make_key(ClassId, MethodId));
+    bool process_one(
+      identifier_t class_id,
+      identifier_t method_id,
+      const handler_type& handler) {
+        auto pos = _messages.find(_make_key(class_id, method_id));
         if(pos != _messages.end()) {
-            _get_queue(pos).fetch_one(handler);
+            return _get_queue(pos).process_one(handler);
         }
+        return false;
+    }
+
+    span_size_t process_all(
+      identifier_t class_id,
+      identifier_t method_id,
+      const handler_type& handler) {
+        auto pos = _messages.find(_make_key(class_id, method_id));
+        if(pos != _messages.end()) {
+            return _get_queue(pos).process_all(handler);
+        }
+        return 0;
+    }
+
+    template <identifier_t ClassId, identifier_t MethodId>
+    inline bool process_one(
+      message_id<ClassId, MethodId>, const handler_type& handler) {
+        return process_one(ClassId, MethodId, handler);
+    }
+
+    template <identifier_t ClassId, identifier_t MethodId>
+    inline span_size_t process_all(
+      message_id<ClassId, MethodId>, const handler_type& handler) {
+        return process_all(ClassId, MethodId, handler);
     }
 
     template <
@@ -134,12 +168,12 @@ public:
       identifier_t MethodId,
       typename Class,
       bool (Class::*MemFnPtr)(stored_message&)>
-    void process_one(
+    inline bool process_one(
       message_id<ClassId, MethodId> mid,
       member_function_constant<bool (Class::*)(stored_message&), MemFnPtr>
         method,
       Class* instance) {
-        process_one(mid, {instance, method});
+        return process_one(mid, {instance, method});
     }
 };
 //------------------------------------------------------------------------------

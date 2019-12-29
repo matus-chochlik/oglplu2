@@ -90,7 +90,7 @@ private:
 //------------------------------------------------------------------------------
 class message_priority_queue {
 public:
-    using fetch_handler = callable_ref<bool(stored_message&)>;
+    using handler_type = callable_ref<bool(stored_message&)>;
 
     void push(const message_view& message) {
         auto pos = std::lower_bound(
@@ -102,13 +102,30 @@ public:
         _messages.emplace(pos, message, _buffers.get(message.data.size()));
     }
 
-    void fetch_one(fetch_handler handler) {
+    bool process_one(handler_type handler) {
         if(!_messages.empty()) {
             if(handler(_messages.back())) {
                 _buffers.eat(std::move(_messages.back().data));
                 _messages.pop_back();
+                return true;
             }
         }
+        return false;
+    }
+
+    span_size_t process_all(handler_type handler) {
+        span_size_t count{0};
+        std::size_t pos = 0;
+        while(pos < _messages.size()) {
+            if(handler(_messages[pos])) {
+                ++count;
+                _buffers.eat(std::move(_messages[pos].data));
+                _messages.erase(_messages.begin() + pos);
+            } else {
+                ++pos;
+            }
+        }
+        return count;
     }
 
 private:
