@@ -15,4 +15,10 @@
 #define EAGINE_LIKELY(EXPR) (!!(EXPR))
 #endif
 
+#if defined __GNUC__
+#define EAGINE_UNLIKELY(EXPR) __builtin_expect(!!(EXPR), 0)
+#else
+#define EAGINE_UNLIKELY(EXPR) (!!(EXPR))
+#endif
+
 #endif // EAGINE_BRANCH_PREDICT_HPP

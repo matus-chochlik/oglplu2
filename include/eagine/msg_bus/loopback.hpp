@@ -11,26 +11,12 @@
 #define EAGINE_MSG_BUS_LOOPBACK_HPP
 
 #include "connection.hpp"
-#include <algorithm>
-#include <limits>
 #include <mutex>
-#include <vector>
 
 namespace eagine {
 //------------------------------------------------------------------------------
 class message_bus_loopback_connection : public message_bus_connection {
 public:
-    void update() final {
-    }
-
-    bool is_usable() final {
-        return true;
-    }
-
-    span_size_t max_data_size() final {
-        return std::numeric_limits<span_size_t>::max();
-    }
-
     void send(
       identifier_t class_id,
       identifier_t method_id,

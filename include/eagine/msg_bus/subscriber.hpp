@@ -20,6 +20,11 @@ namespace eagine {
 template <typename MessageId, typename MemFuncConst>
 struct message_handler_map {};
 //------------------------------------------------------------------------------
+#define EAGINE_MSG_MAP(CLASS_ID, METHOD_ID, CLASS, METHOD) \
+    eagine::message_handler_map<                           \
+      EAGINE_MSG_TYPE(CLASS_ID, METHOD_ID),                \
+      EAGINE_MEM_FUNC_T(CLASS, METHOD)>()
+//------------------------------------------------------------------------------
 template <std::size_t N>
 class message_bus_subscriber {
 public:
@@ -59,6 +64,14 @@ public:
             }
         }
         return false;
+    }
+
+    span_size_t process_all() {
+        span_size_t result{0};
+        for(auto& [class_id, method_id, handler] : _msg_handlers) {
+            result += endpoint().process_all(class_id, method_id, handler);
+        }
+        return result;
     }
 
 protected:

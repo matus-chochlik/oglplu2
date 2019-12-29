@@ -13,6 +13,7 @@
 #include "../callable_ref.hpp"
 #include "../message_id.hpp"
 #include "message.hpp"
+#include <limits>
 
 namespace eagine {
 //------------------------------------------------------------------------------
@@ -27,11 +28,16 @@ struct message_bus_connection {
     using fetch_handler =
       callable_ref<bool(identifier_t, identifier_t, const message_view&)>;
 
-    virtual void update() = 0;
+    virtual void update() {
+    }
 
-    virtual bool is_usable() = 0;
+    virtual bool is_usable() {
+        return true;
+    }
 
-    virtual span_size_t max_data_size() = 0;
+    virtual span_size_t max_data_size() {
+        return std::numeric_limits<span_size_t>::max();
+    }
 
     virtual void send(
       identifier_t class_id, identifier_t method_id, const message_view&) = 0;
