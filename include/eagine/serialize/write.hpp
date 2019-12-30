@@ -163,6 +163,14 @@ private:
     serializer<T> _elem_serializer{};
 };
 //------------------------------------------------------------------------------
+template <typename T, typename Backend>
+void serialize(const T& value, Backend& backend) {
+    backend.start();
+    serializer<T> writer;
+    writer.write(value, backend);
+    backend.finish();
+}
+//------------------------------------------------------------------------------
 } // namespace eagine
 
 #endif // EAGINE_SERIALIZE_WRITE_HPP
