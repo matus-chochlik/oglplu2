@@ -130,7 +130,7 @@ struct serializer<span<const T>> : common_serializer<span<const T>> {
     void write(span<const T> values, Backend& backend) const {
         backend.begin_list(values.size());
         _elem_serializer.write(values, backend);
-        backend.finish_list(values.size());
+        backend.finish_list();
     }
 
 private:
@@ -141,9 +141,9 @@ template <typename T, std::size_t N>
 struct serializer<std::array<T, N>> : common_serializer<std::array<T, N>> {
     template <typename Backend>
     void write(const std::array<T, N>& values, Backend& backend) const {
-        backend.begin_list(N);
+        backend.begin_list(span_size_t(N));
         _elem_serializer.write(view(values), backend);
-        backend.finish_list(N);
+        backend.finish_list();
     }
 
 private:
@@ -156,7 +156,7 @@ struct serializer<std::vector<T, A>> : common_serializer<std::vector<T, A>> {
     void write(const std::vector<T, A>& values, Backend& backend) const {
         backend.begin_list(values.size());
         _elem_serializer.write(view(values), backend);
-        backend.finish_list(values.size());
+        backend.finish_list();
     }
 
 private:
