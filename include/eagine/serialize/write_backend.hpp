@@ -10,31 +10,10 @@
 #ifndef EAGINE_SERIALIZE_WRITE_BACKEND_HPP
 #define EAGINE_SERIALIZE_WRITE_BACKEND_HPP
 
-#include "../memory/block.hpp"
-#include "../span.hpp"
-#include "../string_span.hpp"
+#include "data_sink.hpp"
 #include <cstdint>
 
 namespace eagine {
-//------------------------------------------------------------------------------
-struct serializer_data_sink {
-    serializer_data_sink() noexcept = default;
-    serializer_data_sink(serializer_data_sink&&) noexcept = default;
-    serializer_data_sink(const serializer_data_sink&) = delete;
-    serializer_data_sink& operator=(serializer_data_sink&&) = delete;
-    serializer_data_sink& operator=(const serializer_data_sink&) = delete;
-    virtual ~serializer_data_sink() noexcept = default;
-
-    virtual void write(memory::const_block data) = 0;
-
-    inline void write(char chr) {
-        this->write(as_bytes(view_one(chr)));
-    }
-
-    inline void write(string_view str) {
-        this->write(as_bytes(str));
-    }
-};
 //------------------------------------------------------------------------------
 struct serializer_backend {
     serializer_backend() noexcept = default;
