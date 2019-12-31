@@ -13,6 +13,8 @@
 #include "../memory/block.hpp"
 #include "../span.hpp"
 #include "../string_span.hpp"
+#include "../valid_if/nonnegative.hpp"
+#include "../valid_if/positive.hpp"
 
 namespace eagine {
 //------------------------------------------------------------------------------
@@ -25,7 +27,23 @@ struct deserializer_data_source {
       delete;
     virtual ~deserializer_data_source() noexcept = default;
 
-    virtual span_size_t scan_for(byte what) = 0;
+    valid_if_nonnegative<span_size_t> scan_for(
+      byte what, valid_if_positive<span_size_t> step = {256}) {
+        const auto inc{extract(step)};
+        span_size_t start{0};
+        span_size_t total{inc};
+        while(auto blk = top(total)) {
+            if(auto found = find_element(skip(blk, start), what)) {
+                return {start + extract(found)};
+            }
+            if(blk.size() < total) {
+                break;
+            }
+            start += inc;
+            total += inc;
+        }
+        return {-1};
+    }
 
     virtual memory::const_block top(span_size_t size) = 0;
 
