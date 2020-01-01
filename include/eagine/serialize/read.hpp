@@ -149,21 +149,19 @@ struct deserializer<std::array<T, N>> : common_deserializer<std::array<T, N>> {
     template <typename Backend>
     deserialization_result read(
       std::array<T, N>& values, Backend& backend) const {
-        span_size_t elem_count{0};
         deserialization_result errors{};
+        span_size_t elem_count{0};
+        errors |= backend.begin_list(elem_count);
         if(elem_count < span_size_t(N)) {
             errors |= deserialization_error_code::missing_element;
         } else if(elem_count > span_size_t(N)) {
             errors |= deserialization_error_code::excess_element;
         }
         if(errors.has_at_most(deserialization_error_code::excess_element)) {
-            errors |= backend.begin_list(elem_count);
-            if(!errors) {
-                errors |= _elem_deserializer.read(cover(values), backend);
-                errors |= backend.finish_list();
-            }
-            return errors;
+            errors |= _elem_deserializer.read(cover(values), backend);
+            errors |= backend.finish_list();
         }
+        return errors;
     }
 
 private:
@@ -176,22 +174,15 @@ struct deserializer<std::vector<T, A>>
     template <typename Backend>
     deserialization_result read(
       std::vector<T, A>& values, Backend& backend) const {
-        span_size_t elem_count{0};
         deserialization_result errors{};
-        if(elem_count < span_size_t(values.size())) {
-            errors |= deserialization_error_code::missing_element;
-        } else if(elem_count > span_size_t(values.size())) {
-            errors |= deserialization_error_code::excess_element;
-        }
-        if(errors.has_at_most(deserialization_error_code::excess_element)) {
+        span_size_t elem_count{0};
+        errors |= backend.begin_list(elem_count);
+        if(!errors) {
             values.resize(std::size_t(elem_count));
-            errors |= backend.begin_list(elem_count);
-            if(!errors) {
-                errors |= _elem_deserializer.read(cover(values), backend);
-                errors |= backend.finish_list();
-            }
-            return errors;
+            errors |= _elem_deserializer.read(cover(values), backend);
+            errors |= backend.finish_list();
         }
+        return errors;
     }
 
 private:
