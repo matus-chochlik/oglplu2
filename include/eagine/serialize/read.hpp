@@ -15,6 +15,7 @@
 #include <array>
 #include <string>
 #include <tuple>
+#include <type_traits>
 #include <vector>
 
 namespace eagine {
@@ -136,6 +137,15 @@ struct deserializer<std::vector<T, A>>
 private:
     deserializer<T> _elem_deserializer{};
 };
+//------------------------------------------------------------------------------
+template <typename T, typename Backend>
+std::enable_if_t<std::is_base_of_v<deserializer_backend, Backend>> deserialize(
+  T& value, Backend& backend) {
+    backend.start();
+    deserializer<T> reader;
+    reader.read(value, backend);
+    backend.finish();
+}
 //------------------------------------------------------------------------------
 } // namespace eagine
 

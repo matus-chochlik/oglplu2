@@ -10,6 +10,7 @@
 #ifndef EAGINE_SERIALIZE_FAST_BACKEND_HPP
 #define EAGINE_SERIALIZE_FAST_BACKEND_HPP
 
+#include "read_backend.hpp"
 #include "write_backend.hpp"
 
 namespace eagine {
@@ -32,6 +33,53 @@ public:
             do_write(view_one(str.size()));
             sink(str);
         }
+    }
+
+    void begin_list(span_size_t size) final {
+        do_write(view_one(size));
+    }
+};
+//------------------------------------------------------------------------------
+class fast_deserializer_backend
+  : public common_deserializer_backend<fast_deserializer_backend> {
+    using base = common_deserializer_backend<fast_deserializer_backend>;
+
+public:
+    using base::base;
+    using base::pop;
+    using base::top;
+    using result = deserialization_result;
+
+    template <typename T>
+    result do_read(span<T> values) {
+        auto dst = as_bytes(values);
+        auto src = top(dst.size());
+        if(dst.size() != src.size()) {
+            EAGINE_ASSERT(src.size() < dst.size());
+            return result::not_enough_data;
+        }
+        memory::copy(src, dst);
+        pop(dst.size());
+        return result::no_error;
+    }
+
+    result do_read(span<std::string> values) {
+        for(auto& str : values) {
+            span_size_t size{0};
+            do_read(cover_one(size));
+            auto src = memory::accomodate<const char>(top(size));
+            if(src.size() != size) {
+                EAGINE_ASSERT(src.size() < size);
+                return result::not_enough_data;
+            }
+            str.assign(src.data(), std::size_t(src.size()));
+            pop(size);
+        }
+        return result::no_error;
+    }
+
+    result begin_list(span_size_t& size) final {
+        return do_read(cover_one(size));
     }
 };
 //------------------------------------------------------------------------------

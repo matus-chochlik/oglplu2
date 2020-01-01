@@ -14,6 +14,7 @@
 #include <array>
 #include <string>
 #include <tuple>
+#include <type_traits>
 #include <vector>
 
 namespace eagine {
@@ -110,6 +111,9 @@ private:
     std::tuple<serializer<T>...> _serializers{};
 };
 //------------------------------------------------------------------------------
+template <std::size_t N>
+struct serializer<char[N]> : serializer<string_view> {};
+//------------------------------------------------------------------------------
 template <typename Char, typename Traits, typename Alloc>
 struct serializer<std::basic_string<Char, Traits, Alloc>>
   : common_serializer<std::basic_string<Char, Traits, Alloc>> {
@@ -164,7 +168,8 @@ private:
 };
 //------------------------------------------------------------------------------
 template <typename T, typename Backend>
-void serialize(const T& value, Backend& backend) {
+std::enable_if_t<std::is_base_of_v<serializer_backend, Backend>> serialize(
+  const T& value, Backend& backend) {
     backend.start();
     serializer<T> writer;
     writer.write(value, backend);

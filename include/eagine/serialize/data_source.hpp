@@ -11,7 +11,7 @@
 #define EAGINE_SERIALIZE_DATA_SOURCE_HPP
 
 #include "../memory/block.hpp"
-#include "../span.hpp"
+#include "../memory/span_algo.hpp"
 #include "../string_span.hpp"
 #include "../valid_if/nonnegative.hpp"
 #include "../valid_if/positive.hpp"
