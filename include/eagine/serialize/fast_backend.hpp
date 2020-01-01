@@ -48,6 +48,7 @@ public:
     using base::base;
     using base::pop;
     using base::top;
+    using error_code = deserialization_error_code;
     using result = deserialization_result;
 
     template <typename T>
@@ -56,11 +57,11 @@ public:
         auto src = top(dst.size());
         if(dst.size() != src.size()) {
             EAGINE_ASSERT(src.size() < dst.size());
-            return result::not_enough_data;
+            return {error_code::not_enough_data};
         }
         memory::copy(src, dst);
         pop(dst.size());
-        return result::no_error;
+        return {};
     }
 
     result do_read(span<std::string> values) {
@@ -70,12 +71,12 @@ public:
             auto src = memory::accomodate<const char>(top(size));
             if(src.size() != size) {
                 EAGINE_ASSERT(src.size() < size);
-                return result::not_enough_data;
+                return {error_code::not_enough_data};
             }
             str.assign(src.data(), std::size_t(src.size()));
             pop(size);
         }
-        return result::no_error;
+        return {};
     }
 
     result begin_list(span_size_t& size) final {

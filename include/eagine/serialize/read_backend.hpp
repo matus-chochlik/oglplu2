@@ -10,12 +10,22 @@
 #ifndef EAGINE_SERIALIZE_READ_BACKEND_HPP
 #define EAGINE_SERIALIZE_READ_BACKEND_HPP
 
+#include "../bitfield.hpp"
 #include "data_source.hpp"
 #include <cstdint>
 
 namespace eagine {
 //------------------------------------------------------------------------------
-enum class deserialization_result { no_error, not_enough_data, backend_error };
+enum class deserialization_error_code : std::uint8_t {
+    not_enough_data = 1 << 0,
+    missing_element = 1 << 1,
+    excess_element = 1 << 2,
+    missing_member = 1 << 3,
+    excess_member = 1 << 4,
+    backend_error = 1 << 5
+};
+//------------------------------------------------------------------------------
+using deserialization_result = bitfield<deserialization_error_code>;
 //------------------------------------------------------------------------------
 struct deserializer_backend {
     deserializer_backend() noexcept = default;
@@ -60,10 +70,11 @@ public:
       : _source{&source} {
     }
 
+    using error_code = deserialization_error_code;
     using result = deserialization_result;
 
     result start() override {
-        return result::no_error;
+        return {};
     }
 
     result read(span<bool> values) override {
@@ -115,31 +126,31 @@ public:
     }
 
     result begin_struct() override {
-        return result::no_error;
+        return {};
     }
     result begin_member(string_view) override {
-        return result::no_error;
+        return {};
     }
     result finish_member(string_view) override {
-        return result::no_error;
+        return {};
     }
     result finish_struct() override {
-        return result::no_error;
+        return {};
     }
     result begin_list(span_size_t&) override {
-        return result::no_error;
+        return {};
     }
     result begin_element(span_size_t) override {
-        return result::no_error;
+        return {};
     }
     result finish_element(span_size_t) override {
-        return result::no_error;
+        return {};
     }
     result finish_list() override {
-        return result::no_error;
+        return {};
     }
     result finish() override {
-        return result::no_error;
+        return {};
     }
 
 protected:
