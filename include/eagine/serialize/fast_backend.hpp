@@ -22,25 +22,29 @@ class fast_serializer_backend
 public:
     using base::base;
     using base::sink;
+    using error_code = serialization_error_code;
+    using result = serialization_result;
 
     template <typename T>
-    void do_write(span<const T> values) {
+    result do_write(span<const T> values) {
         sink(as_bytes(values));
+        return {};
     }
 
-    void do_write(span<const string_view> values) {
+    result do_write(span<const string_view> values) {
         for(auto& str : values) {
             do_write(view_one(str.size()));
             sink(str);
         }
+        return {};
     }
 
-    void begin_struct(span_size_t size) final {
-        do_write(view_one(size));
+    result begin_struct(span_size_t size) final {
+        return do_write(view_one(size));
     }
 
-    void begin_list(span_size_t size) final {
-        do_write(view_one(size));
+    result begin_list(span_size_t size) final {
+        return do_write(view_one(size));
     }
 };
 //------------------------------------------------------------------------------

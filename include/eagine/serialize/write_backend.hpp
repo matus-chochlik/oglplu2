@@ -10,10 +10,18 @@
 #ifndef EAGINE_SERIALIZE_WRITE_BACKEND_HPP
 #define EAGINE_SERIALIZE_WRITE_BACKEND_HPP
 
+#include "../bitfield.hpp"
 #include "data_sink.hpp"
 #include <cstdint>
 
 namespace eagine {
+//------------------------------------------------------------------------------
+enum class serialization_error_code : std::uint8_t {
+    too_much_data = 1 << 0,
+    backend_error = 1 << 1
+};
+//------------------------------------------------------------------------------
+using serialization_result = bitfield<serialization_error_code>;
 //------------------------------------------------------------------------------
 struct serializer_backend {
     serializer_backend() noexcept = default;
@@ -24,28 +32,30 @@ struct serializer_backend {
 
     virtual ~serializer_backend() noexcept = default;
 
-    virtual void start() = 0;
-    virtual void write(span<const bool>) = 0;
-    virtual void write(span<const char>) = 0;
-    virtual void write(span<const std::int16_t>) = 0;
-    virtual void write(span<const std::int32_t>) = 0;
-    virtual void write(span<const std::int64_t>) = 0;
-    virtual void write(span<const std::uint8_t>) = 0;
-    virtual void write(span<const std::uint16_t>) = 0;
-    virtual void write(span<const std::uint32_t>) = 0;
-    virtual void write(span<const std::uint64_t>) = 0;
-    virtual void write(span<const float>) = 0;
-    virtual void write(span<const double>) = 0;
-    virtual void write(span<const string_view>) = 0;
-    virtual void begin_struct(span_size_t member_count) = 0;
-    virtual void begin_member(string_view name) = 0;
-    virtual void finish_member(string_view name) = 0;
-    virtual void finish_struct() = 0;
-    virtual void begin_list(span_size_t element_count) = 0;
-    virtual void begin_element(span_size_t index) = 0;
-    virtual void finish_element(span_size_t index) = 0;
-    virtual void finish_list() = 0;
-    virtual void finish() = 0;
+    using result = serialization_result;
+
+    virtual result start() = 0;
+    virtual result write(span<const bool>) = 0;
+    virtual result write(span<const char>) = 0;
+    virtual result write(span<const std::int16_t>) = 0;
+    virtual result write(span<const std::int32_t>) = 0;
+    virtual result write(span<const std::int64_t>) = 0;
+    virtual result write(span<const std::uint8_t>) = 0;
+    virtual result write(span<const std::uint16_t>) = 0;
+    virtual result write(span<const std::uint32_t>) = 0;
+    virtual result write(span<const std::uint64_t>) = 0;
+    virtual result write(span<const float>) = 0;
+    virtual result write(span<const double>) = 0;
+    virtual result write(span<const string_view>) = 0;
+    virtual result begin_struct(span_size_t member_count) = 0;
+    virtual result begin_member(string_view name) = 0;
+    virtual result finish_member(string_view name) = 0;
+    virtual result finish_struct() = 0;
+    virtual result begin_list(span_size_t element_count) = 0;
+    virtual result begin_element(span_size_t index) = 0;
+    virtual result finish_element(span_size_t index) = 0;
+    virtual result finish_list() = 0;
+    virtual result finish() = 0;
 };
 //------------------------------------------------------------------------------
 template <typename Derived, typename Sink = serializer_data_sink>
@@ -56,74 +66,84 @@ public:
       : _sink{&sink} {
     }
 
-    void start() override {
+    result start() override {
+        return {};
     }
 
-    void write(span<const bool> values) override {
-        derived().do_write(values);
+    result write(span<const bool> values) override {
+        return derived().do_write(values);
     }
 
-    void write(span<const char> values) override {
-        derived().do_write(values);
+    result write(span<const char> values) override {
+        return derived().do_write(values);
     }
 
-    void write(span<const std::int16_t> values) override {
-        derived().do_write(values);
+    result write(span<const std::int16_t> values) override {
+        return derived().do_write(values);
     }
 
-    void write(span<const std::int32_t> values) override {
-        derived().do_write(values);
+    result write(span<const std::int32_t> values) override {
+        return derived().do_write(values);
     }
 
-    void write(span<const std::int64_t> values) override {
-        derived().do_write(values);
+    result write(span<const std::int64_t> values) override {
+        return derived().do_write(values);
     }
 
-    void write(span<const std::uint8_t> values) override {
-        derived().do_write(values);
+    result write(span<const std::uint8_t> values) override {
+        return derived().do_write(values);
     }
 
-    void write(span<const std::uint16_t> values) override {
-        derived().do_write(values);
+    result write(span<const std::uint16_t> values) override {
+        return derived().do_write(values);
     }
 
-    void write(span<const std::uint32_t> values) override {
-        derived().do_write(values);
+    result write(span<const std::uint32_t> values) override {
+        return derived().do_write(values);
     }
 
-    void write(span<const std::uint64_t> values) override {
-        derived().do_write(values);
+    result write(span<const std::uint64_t> values) override {
+        return derived().do_write(values);
     }
 
-    void write(span<const float> values) override {
-        derived().do_write(values);
+    result write(span<const float> values) override {
+        return derived().do_write(values);
     }
 
-    void write(span<const double> values) override {
-        derived().do_write(values);
+    result write(span<const double> values) override {
+        return derived().do_write(values);
     }
 
-    void write(span<const string_view> values) override {
-        derived().do_write(values);
+    result write(span<const string_view> values) override {
+        return derived().do_write(values);
     }
 
-    void begin_struct(span_size_t) override {
+    result begin_struct(span_size_t) override {
+        return {};
     }
-    void begin_member(string_view) override {
+    result begin_member(string_view) override {
+        return {};
     }
-    void finish_member(string_view) override {
+    result finish_member(string_view) override {
+        return {};
     }
-    void finish_struct() override {
+    result finish_struct() override {
+        return {};
     }
-    void begin_list(span_size_t) override {
+    result begin_list(span_size_t) override {
+        return {};
     }
-    void begin_element(span_size_t) override {
+    result begin_element(span_size_t) override {
+        return {};
     }
-    void finish_element(span_size_t) override {
+    result finish_element(span_size_t) override {
+        return {};
     }
-    void finish_list() override {
+    result finish_list() override {
+        return {};
     }
-    void finish() override {
+    result finish() override {
+        return {};
     }
 
 protected:
