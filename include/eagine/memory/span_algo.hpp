@@ -296,6 +296,19 @@ static inline basic_span<T, P, S> fill(basic_span<T, P, S> spn, const V& v) {
     return spn;
 }
 //------------------------------------------------------------------------------
+template <typename T, typename P, typename S>
+static inline basic_span<T, P, S> reverse(basic_span<T, P, S> spn) {
+    std::reverse(spn.begin(), spn.end());
+    return spn;
+}
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename S, typename Transform>
+static inline basic_span<T, P, S> transform(
+  basic_span<T, P, S> spn, Transform function) {
+    std::transform(spn.begin(), spn.end(), spn.begin(), std::move(function));
+    return spn;
+}
+//------------------------------------------------------------------------------
 template <typename T, typename P, typename S, typename Generator>
 static inline basic_span<T, P, S> generate(
   basic_span<T, P, S> spn, Generator gen) {
