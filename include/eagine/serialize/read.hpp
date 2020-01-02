@@ -99,6 +99,67 @@ struct deserializer<std::tuple<T...>> : common_deserializer<std::tuple<T...>> {
             errors |= deserialization_error_code::excess_element;
         }
         if(errors.has_at_most(deserialization_error_code::excess_element)) {
+            _read_elements(
+              errors,
+              values,
+              backend,
+              std::make_index_sequence<sizeof...(T)>());
+            errors |= backend.finish_list();
+        }
+        return errors;
+    }
+
+private:
+    template <typename Tuple, typename Backend, std::size_t... I>
+    void _read_elements(
+      deserialization_result& errors,
+      Tuple& values,
+      Backend& backend,
+      std::index_sequence<I...>) {
+        (...,
+         _read_element(
+           errors,
+           I,
+           std::get<I>(values),
+           backend,
+           std::get<I>(_deserializers)));
+    }
+
+    template <typename Elem, typename Backend, typename Serializer>
+    static void _read_element(
+      deserialization_result& errors,
+      std::size_t index,
+      Elem& elem,
+      Backend& backend,
+      Serializer& serial) {
+        if(!errors) {
+            errors |= backend.begin_element(span_size_t(index));
+            if(!errors) {
+                errors |= serial.read(elem, backend);
+                errors |= backend.finish_element(span_size_t(index));
+            }
+        }
+    }
+
+    std::tuple<deserializer<T>...> _deserializers{};
+};
+//------------------------------------------------------------------------------
+template <typename... T>
+struct deserializer<std::tuple<std::pair<string_view, T&>...>>
+  : common_deserializer<std::tuple<std::pair<string_view, T&>...>> {
+
+    template <typename Backend>
+    deserialization_result read(
+      std::tuple<std::pair<string_view, T&>...>& values, Backend& backend) {
+        deserialization_result errors{};
+        span_size_t memb_count{0};
+        errors |= backend.begin_struct(memb_count);
+        if(memb_count < span_size_t(sizeof...(T))) {
+            errors |= deserialization_error_code::missing_member;
+        } else if(memb_count > span_size_t(sizeof...(T))) {
+            errors |= deserialization_error_code::excess_member;
+        }
+        if(errors.has_at_most(deserialization_error_code::excess_member)) {
             _read_members(
               errors,
               values,
@@ -119,24 +180,24 @@ private:
         (...,
          _read_member(
            errors,
-           I,
-           std::get<I>(values),
+           std::get<0>(std::get<I>(values)),
+           std::get<1>(std::get<I>(values)),
            backend,
            std::get<I>(_deserializers)));
     }
 
-    template <typename Elem, typename Backend, typename Serializer>
+    template <typename Memb, typename Backend, typename Serializer>
     static void _read_member(
       deserialization_result& errors,
-      std::size_t index,
-      Elem& elem,
+      string_view name,
+      Memb& value,
       Backend& backend,
       Serializer& serial) {
         if(!errors) {
-            errors |= backend.begin_element(span_size_t(index));
+            errors |= backend.begin_member(name);
             if(!errors) {
-                errors |= serial.read(elem, backend);
-                errors |= backend.finish_element(span_size_t(index));
+                errors |= serial.read(value, backend);
+                errors |= backend.finish_member(name);
             }
         }
     }

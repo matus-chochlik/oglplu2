@@ -35,6 +35,10 @@ public:
         }
     }
 
+    void begin_struct(span_size_t size) final {
+        do_write(view_one(size));
+    }
+
     void begin_list(span_size_t size) final {
         do_write(view_one(size));
     }
@@ -77,6 +81,10 @@ public:
             pop(size);
         }
         return {};
+    }
+
+    result begin_struct(span_size_t& size) final {
+        return do_read(cover_one(size));
     }
 
     result begin_list(span_size_t& size) final {

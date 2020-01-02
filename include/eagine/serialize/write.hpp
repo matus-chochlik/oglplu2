@@ -86,26 +86,62 @@ struct serializer<std::tuple<T...>> : common_serializer<std::tuple<T...>> {
     template <typename Backend>
     void write(const std::tuple<T...>& values, Backend& backend) {
         backend.begin_list(span_size_t(sizeof...(T)));
-        _write_members(
+        _write_elements(
           values, backend, std::make_index_sequence<sizeof...(T)>());
         backend.finish_list();
     }
 
 private:
     template <typename Tuple, typename Backend, std::size_t... I>
-    void _write_members(
+    void _write_elements(
       Tuple& values, Backend& backend, std::index_sequence<I...>) {
         (...,
-         _write_member(
+         _write_element(
            I, std::get<I>(values), backend, std::get<I>(_serializers)));
     }
 
     template <typename Elem, typename Backend, typename Serializer>
-    static void _write_member(
+    static void _write_element(
       std::size_t index, Elem& elem, Backend& backend, Serializer& serial) {
         backend.begin_element(span_size_t(index));
         serial.write(elem, backend);
         backend.finish_element(span_size_t(index));
+    }
+
+    std::tuple<serializer<T>...> _serializers{};
+};
+//------------------------------------------------------------------------------
+template <typename... T>
+struct serializer<std::tuple<std::pair<string_view, T>...>>
+  : common_serializer<std::tuple<std::pair<string_view, T>...>> {
+    template <typename Backend>
+    void write(
+      const std::tuple<std::pair<string_view, T>...>& members,
+      Backend& backend) {
+        backend.begin_struct(span_size_t(sizeof...(T)));
+        _write_members(
+          members, backend, std::make_index_sequence<sizeof...(T)>());
+        backend.finish_struct();
+    }
+
+private:
+    template <typename Tuple, typename Backend, std::size_t... I>
+    void _write_members(
+      Tuple& members, Backend& backend, std::index_sequence<I...>) {
+        (...,
+         _write_member(
+           std::get<0>(std::get<I>(members)),
+           std::get<1>(std::get<I>(members)),
+           backend,
+           std::get<I>(_serializers)));
+    }
+
+    template <typename Memb, typename Backend, typename Serializer>
+    static void _write_member(
+      string_view name, Memb& value, Backend& backend, Serializer& serial) {
+        backend.begin_member(name);
+        serial.write(value, backend);
+        backend.finish_member(name);
     }
 
     std::tuple<serializer<T>...> _serializers{};

@@ -37,11 +37,11 @@ struct serializer_backend {
     virtual void write(span<const float>) = 0;
     virtual void write(span<const double>) = 0;
     virtual void write(span<const string_view>) = 0;
-    virtual void begin_struct() = 0;
+    virtual void begin_struct(span_size_t member_count) = 0;
     virtual void begin_member(string_view name) = 0;
     virtual void finish_member(string_view name) = 0;
     virtual void finish_struct() = 0;
-    virtual void begin_list(span_size_t count) = 0;
+    virtual void begin_list(span_size_t element_count) = 0;
     virtual void begin_element(span_size_t index) = 0;
     virtual void finish_element(span_size_t index) = 0;
     virtual void finish_list() = 0;
@@ -107,7 +107,7 @@ public:
         derived().do_write(values);
     }
 
-    void begin_struct() override {
+    void begin_struct(span_size_t) override {
     }
     void begin_member(string_view) override {
     }
