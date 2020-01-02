@@ -145,12 +145,12 @@ private:
 };
 //------------------------------------------------------------------------------
 template <typename... T>
-struct deserializer<std::tuple<std::pair<string_view, T&>...>>
-  : common_deserializer<std::tuple<std::pair<string_view, T&>...>> {
+struct deserializer<std::tuple<std::pair<string_view, T>...>>
+  : common_deserializer<std::tuple<std::pair<string_view, T>...>> {
 
     template <typename Backend>
     deserialization_result read(
-      std::tuple<std::pair<string_view, T&>...>& values, Backend& backend) {
+      std::tuple<std::pair<string_view, T>...>& values, Backend& backend) {
         deserialization_result errors{};
         span_size_t memb_count{0};
         errors |= backend.begin_struct(memb_count);
