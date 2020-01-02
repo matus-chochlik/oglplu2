@@ -165,7 +165,7 @@ struct deserializer<std::tuple<std::pair<string_view, T&>...>>
               values,
               backend,
               std::make_index_sequence<sizeof...(T)>());
-            errors |= backend.finish_list();
+            errors |= backend.finish_struct();
         }
         return errors;
     }
