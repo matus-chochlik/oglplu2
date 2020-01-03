@@ -10,18 +10,11 @@
 #ifndef EAGINE_SERIALIZE_WRITE_BACKEND_HPP
 #define EAGINE_SERIALIZE_WRITE_BACKEND_HPP
 
-#include "../bitfield.hpp"
 #include "data_sink.hpp"
+#include "result.hpp"
 #include <cstdint>
 
 namespace eagine {
-//------------------------------------------------------------------------------
-enum class serialization_error_code : std::uint8_t {
-    too_much_data = 1 << 0,
-    backend_error = 1 << 1
-};
-//------------------------------------------------------------------------------
-using serialization_result = bitfield<serialization_error_code>;
 //------------------------------------------------------------------------------
 struct serializer_backend {
     serializer_backend() noexcept = default;
@@ -148,9 +141,9 @@ public:
 
 protected:
     template <typename... Args>
-    void sink(Args&&... args) {
+    result sink(Args&&... args) {
         EAGINE_ASSERT(_sink);
-        _sink->write(std::forward<Args>(args)...);
+        return _sink->write(std::forward<Args>(args)...);
     }
 
 private:

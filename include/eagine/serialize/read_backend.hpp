@@ -10,22 +10,11 @@
 #ifndef EAGINE_SERIALIZE_READ_BACKEND_HPP
 #define EAGINE_SERIALIZE_READ_BACKEND_HPP
 
-#include "../bitfield.hpp"
 #include "data_source.hpp"
+#include "result.hpp"
 #include <cstdint>
 
 namespace eagine {
-//------------------------------------------------------------------------------
-enum class deserialization_error_code : std::uint8_t {
-    not_enough_data = 1 << 0,
-    missing_element = 1 << 1,
-    excess_element = 1 << 2,
-    missing_member = 1 << 3,
-    excess_member = 1 << 4,
-    backend_error = 1 << 5
-};
-//------------------------------------------------------------------------------
-using deserialization_result = bitfield<deserialization_error_code>;
 //------------------------------------------------------------------------------
 struct deserializer_backend {
     deserializer_backend() noexcept = default;

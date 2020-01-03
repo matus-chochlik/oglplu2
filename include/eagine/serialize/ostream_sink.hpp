@@ -11,6 +11,7 @@
 #define EAGINE_SERIALIZE_OSTREAM_SINK_HPP
 
 #include "data_sink.hpp"
+#include <limits>
 #include <ostream>
 
 namespace eagine {
@@ -21,10 +22,21 @@ public:
       : _out{out} {
     }
 
-    void write(memory::const_block blk) {
+    span_size_t remaining_size() final {
+        return std::numeric_limits<span_size_t>::max();
+    }
+
+    serialization_result write(memory::const_block blk) final {
         _out.write(
           reinterpret_cast<const char*>(blk.data()),
           static_cast<std::streamsize>(blk.size()));
+        if(_out.eof()) {
+            return {serialization_error_code::too_much_data};
+        }
+        if(!_out.good()) {
+            return {serialization_error_code::data_sink_error};
+        }
+        return {};
     }
 
 private:

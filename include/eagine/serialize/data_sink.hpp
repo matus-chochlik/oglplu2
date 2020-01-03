@@ -13,6 +13,7 @@
 #include "../memory/block.hpp"
 #include "../span.hpp"
 #include "../string_span.hpp"
+#include "result.hpp"
 
 namespace eagine {
 //------------------------------------------------------------------------------
@@ -24,14 +25,18 @@ struct serializer_data_sink {
     serializer_data_sink& operator=(const serializer_data_sink&) = delete;
     virtual ~serializer_data_sink() noexcept = default;
 
-    virtual void write(memory::const_block data) = 0;
+    using result = serialization_result;
 
-    inline void write(char chr) {
-        this->write(as_bytes(view_one(chr)));
+    virtual span_size_t remaining_size() = 0;
+
+    virtual result write(memory::const_block data) = 0;
+
+    inline result write(char chr) {
+        return this->write(as_bytes(view_one(chr)));
     }
 
-    inline void write(string_view str) {
-        this->write(as_bytes(str));
+    inline result write(string_view str) {
+        return this->write(as_bytes(str));
     }
 };
 //------------------------------------------------------------------------------

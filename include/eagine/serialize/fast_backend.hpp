@@ -27,16 +27,19 @@ public:
 
     template <typename T>
     result do_write(span<const T> values) {
-        sink(as_bytes(values));
-        return {};
+        return sink(as_bytes(values));
     }
 
     result do_write(span<const string_view> values) {
+        serialization_result errors{};
         for(auto& str : values) {
-            do_write(view_one(str.size()));
+            errors |= do_write(view_one(str.size()));
+            if(errors) {
+                return errors;
+            }
             sink(str);
         }
-        return {};
+        return errors;
     }
 
     result begin_struct(span_size_t size) final {
