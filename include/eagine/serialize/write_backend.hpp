@@ -55,8 +55,8 @@ template <typename Derived, typename Sink = serializer_data_sink>
 class common_serializer_backend : public serializer_backend {
 public:
     common_serializer_backend() noexcept = default;
-    common_serializer_backend(Sink& sink) noexcept
-      : _sink{&sink} {
+    common_serializer_backend(Sink& s) noexcept
+      : _sink{&s} {
     }
 
     result start() override {

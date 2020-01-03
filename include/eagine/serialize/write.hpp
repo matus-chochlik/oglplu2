@@ -237,6 +237,9 @@ private:
     serializer<T> _elem_serializer{};
 };
 //------------------------------------------------------------------------------
+template <typename T>
+struct serializer<span<T>> : serializer<span<const T>> {};
+//------------------------------------------------------------------------------
 template <typename T, std::size_t N>
 struct serializer<std::array<T, N>> : common_serializer<std::array<T, N>> {
     template <typename Backend>
