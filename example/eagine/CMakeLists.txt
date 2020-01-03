@@ -41,4 +41,5 @@ eagine_example_common(make_index)
 eagine_example_common(memoized)
 eagine_example_common(c_api_wrap)
 
+add_subdirectory(serialize)
 add_subdirectory(message_bus)
