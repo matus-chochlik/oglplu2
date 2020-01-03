@@ -28,18 +28,18 @@ struct deserializer_backend {
     using result = deserialization_result;
 
     virtual result start() = 0;
-    virtual result read(span<bool>) = 0;
-    virtual result read(span<char>) = 0;
-    virtual result read(span<std::int16_t>) = 0;
-    virtual result read(span<std::int32_t>) = 0;
-    virtual result read(span<std::int64_t>) = 0;
-    virtual result read(span<std::uint8_t>) = 0;
-    virtual result read(span<std::uint16_t>) = 0;
-    virtual result read(span<std::uint32_t>) = 0;
-    virtual result read(span<std::uint64_t>) = 0;
-    virtual result read(span<float>) = 0;
-    virtual result read(span<double>) = 0;
-    virtual result read(span<std::string>) = 0;
+    virtual result read(span<bool>, span_size_t&) = 0;
+    virtual result read(span<char>, span_size_t&) = 0;
+    virtual result read(span<std::int16_t>, span_size_t&) = 0;
+    virtual result read(span<std::int32_t>, span_size_t&) = 0;
+    virtual result read(span<std::int64_t>, span_size_t&) = 0;
+    virtual result read(span<std::uint8_t>, span_size_t&) = 0;
+    virtual result read(span<std::uint16_t>, span_size_t&) = 0;
+    virtual result read(span<std::uint32_t>, span_size_t&) = 0;
+    virtual result read(span<std::uint64_t>, span_size_t&) = 0;
+    virtual result read(span<float>, span_size_t&) = 0;
+    virtual result read(span<double>, span_size_t&) = 0;
+    virtual result read(span<std::string>, span_size_t&) = 0;
     virtual result begin_struct(span_size_t& member_count) = 0;
     virtual result begin_member(string_view name) = 0;
     virtual result finish_member(string_view name) = 0;
@@ -66,52 +66,52 @@ public:
         return {};
     }
 
-    result read(span<bool> values) override {
-        return derived().do_read(values);
+    result read(span<bool> values, span_size_t& done) override {
+        return derived().do_read(values, done);
     }
 
-    result read(span<char> values) override {
-        return derived().do_read(values);
+    result read(span<char> values, span_size_t& done) override {
+        return derived().do_read(values, done);
     }
 
-    result read(span<std::int16_t> values) override {
-        return derived().do_read(values);
+    result read(span<std::int16_t> values, span_size_t& done) override {
+        return derived().do_read(values, done);
     }
 
-    result read(span<std::int32_t> values) override {
-        return derived().do_read(values);
+    result read(span<std::int32_t> values, span_size_t& done) override {
+        return derived().do_read(values, done);
     }
 
-    result read(span<std::int64_t> values) override {
-        return derived().do_read(values);
+    result read(span<std::int64_t> values, span_size_t& done) override {
+        return derived().do_read(values, done);
     }
 
-    result read(span<std::uint8_t> values) override {
-        return derived().do_read(values);
+    result read(span<std::uint8_t> values, span_size_t& done) override {
+        return derived().do_read(values, done);
     }
 
-    result read(span<std::uint16_t> values) override {
-        return derived().do_read(values);
+    result read(span<std::uint16_t> values, span_size_t& done) override {
+        return derived().do_read(values, done);
     }
 
-    result read(span<std::uint32_t> values) override {
-        return derived().do_read(values);
+    result read(span<std::uint32_t> values, span_size_t& done) override {
+        return derived().do_read(values, done);
     }
 
-    result read(span<std::uint64_t> values) override {
-        return derived().do_read(values);
+    result read(span<std::uint64_t> values, span_size_t& done) override {
+        return derived().do_read(values, done);
     }
 
-    result read(span<float> values) override {
-        return derived().do_read(values);
+    result read(span<float> values, span_size_t& done) override {
+        return derived().do_read(values, done);
     }
 
-    result read(span<double> values) override {
-        return derived().do_read(values);
+    result read(span<double> values, span_size_t& done) override {
+        return derived().do_read(values, done);
     }
 
-    result read(span<std::string> values) override {
-        return derived().do_read(values);
+    result read(span<std::string> values, span_size_t& done) override {
+        return derived().do_read(values, done);
     }
 
     result begin_struct(span_size_t&) override {

@@ -24,11 +24,13 @@ enum class serialization_error_code : std::uint8_t {
 //------------------------------------------------------------------------------
 enum class deserialization_error_code : std::uint8_t {
     not_enough_data = 1 << 0,
-    missing_element = 1 << 1,
-    excess_element = 1 << 2,
-    missing_member = 1 << 3,
-    excess_member = 1 << 4,
-    backend_error = 1 << 5
+    incomplete_read = 1 << 1,
+    missing_element = 1 << 2,
+    excess_element = 1 << 3,
+    missing_member = 1 << 4,
+    excess_member = 1 << 5,
+    data_source_error = 1 << 6,
+    backend_error = 1 << 7
 };
 //------------------------------------------------------------------------------
 using serialization_result = bitfield<serialization_error_code>;

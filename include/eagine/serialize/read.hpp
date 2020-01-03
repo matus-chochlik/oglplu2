@@ -31,12 +31,14 @@ struct plain_deserializer {
 
     template <typename Backend>
     static deserialization_result read(T& value, Backend& backend) {
-        return backend.read(cover_one(value));
+        span_size_t done{0};
+        return backend.read(cover_one(value), done);
     }
 
     template <typename Backend>
     static deserialization_result read(span<T> values, Backend& backend) {
-        return backend.read(values);
+        span_size_t done{0};
+        return backend.read(values, done);
     }
 };
 //------------------------------------------------------------------------------

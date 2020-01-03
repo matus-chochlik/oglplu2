@@ -280,11 +280,11 @@ template <typename T, typename Backend>
 std::enable_if_t<
   std::is_base_of_v<serializer_backend, Backend>,
   serialization_result>
-serialize(const T& value, Backend& backend) {
+serialize(T& value, Backend& backend) {
     serialization_result errors{};
     errors |= backend.start();
     if(!errors) {
-        serializer<T> writer;
+        serializer<std::remove_cv_t<T>> writer;
         errors |= writer.write(value, backend);
         errors |= backend.finish();
     }

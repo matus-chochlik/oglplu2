@@ -80,39 +80,55 @@ public:
     using result = deserialization_result;
 
     template <typename T>
-    result do_read(span<T> values) {
+    result do_read(span<T> values, span_size_t& done) {
         auto dst = as_bytes(values);
         auto src = top(dst.size());
-        if(dst.size() != src.size()) {
-            EAGINE_ASSERT(src.size() < dst.size());
+        const auto ts = span_size_t(sizeof(T));
+        if(src.size() < ts) {
             return {error_code::not_enough_data};
         }
+        result errors{};
+        if(src.size() < dst.size()) {
+            done = src.size() / ts;
+            src = head(src, done * ts);
+            errors |= error_code::incomplete_read;
+        } else {
+            done = values.size();
+        }
         memory::copy(src, dst);
-        pop(dst.size());
-        return {};
+        pop(src.size());
+        return errors;
     }
 
-    result do_read(span<std::string> values) {
+    result do_read(span<std::string> values, span_size_t& done) {
+        result errors{};
+        done = 0;
         for(auto& str : values) {
+            span_size_t done{0};
             span_size_t size{0};
-            do_read(cover_one(size));
+            errors |= do_read(cover_one(size), done);
+            if(errors) {
+                break;
+            }
             auto src = memory::accomodate<const char>(top(size));
-            if(src.size() != size) {
-                EAGINE_ASSERT(src.size() < size);
+            if(src.size() < size) {
                 return {error_code::not_enough_data};
             }
             str.assign(src.data(), std::size_t(src.size()));
-            pop(size);
+            pop(src.size());
+            ++done;
         }
-        return {};
+        return errors;
     }
 
     result begin_struct(span_size_t& size) final {
-        return do_read(cover_one(size));
+        span_size_t done{0};
+        return do_read(cover_one(size), done);
     }
 
     result begin_list(span_size_t& size) final {
-        return do_read(cover_one(size));
+        span_size_t done{0};
+        return do_read(cover_one(size), done);
     }
 };
 //------------------------------------------------------------------------------
