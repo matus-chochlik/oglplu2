@@ -21,6 +21,37 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 template <typename T>
+struct fragment_serialize_wrapper;
+//------------------------------------------------------------------------------
+template <typename T>
+class fragment_serialize_wrapper<span<const T>> {
+public:
+    fragment_serialize_wrapper(span<const T> src) noexcept
+      : _src{src} {
+    }
+
+    auto remaining() const noexcept {
+        return skip(_src, _offset);
+    }
+
+    span_size_t offset() const noexcept {
+        return _offset;
+    }
+
+    void advance(span_size_t inc) noexcept {
+        _offset += inc;
+    }
+
+    bool is_done() const noexcept {
+        return !remaining();
+    }
+
+private:
+    span<const T> _src{};
+    span_size_t _offset{0};
+};
+//------------------------------------------------------------------------------
+template <typename T>
 struct serializer;
 //------------------------------------------------------------------------------
 template <typename T>
@@ -239,6 +270,33 @@ private:
 //------------------------------------------------------------------------------
 template <typename T>
 struct serializer<span<T>> : serializer<span<const T>> {};
+//------------------------------------------------------------------------------
+template <typename T>
+struct serializer<fragment_serialize_wrapper<span<const T>>>
+  : common_serializer<fragment_serialize_wrapper<span<const T>>> {
+
+    template <typename Backend>
+    serialization_result write(
+      fragment_serialize_wrapper<span<const T>>& frag, Backend& backend) const {
+        serialization_result errors{};
+        errors |= _size_serializer.write(frag.offset(), backend);
+        if(!errors) {
+            auto todo = frag.remaining();
+            errors |= _size_serializer.write(todo.size(), backend);
+            if(!errors) {
+                span_size_t written{0};
+                errors |= backend.write(todo, written);
+                if(errors.has_at_most(
+                     serialization_error_code::incomplete_write)) {
+                    frag.advance(written);
+                }
+            }
+        }
+        return errors;
+    }
+
+    serializer<span_size_t> _size_serializer{};
+};
 //------------------------------------------------------------------------------
 template <typename T, std::size_t N>
 struct serializer<std::array<T, N>> : common_serializer<std::array<T, N>> {

@@ -104,9 +104,9 @@ public:
         result errors{};
         done = 0;
         for(auto& str : values) {
-            span_size_t done{0};
+            span_size_t unused{0};
             span_size_t size{0};
-            errors |= do_read(cover_one(size), done);
+            errors |= do_read(cover_one(size), unused);
             if(errors) {
                 break;
             }

@@ -69,7 +69,8 @@ void foo(const my_struct& instance) {
     std::stringstream data;
     ostream_data_sink sink(data);
     fast_serializer_backend backend(sink);
-    serialize(map_data_members(instance), backend);
+    auto member_map = map_data_members(instance);
+    serialize(member_map, backend);
     bar(data);
 }
 //------------------------------------------------------------------------------

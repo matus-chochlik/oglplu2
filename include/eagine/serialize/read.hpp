@@ -21,6 +21,33 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 template <typename T>
+struct fragment_deserialize_wrapper;
+//------------------------------------------------------------------------------
+template <typename T>
+class fragment_deserialize_wrapper<span<T>> {
+public:
+    fragment_deserialize_wrapper(span<T> src) noexcept
+      : _src{src} {
+    }
+
+    auto slice(span_size_t offset, span_size_t size) const noexcept {
+        return memory::slice(_src, offset, size);
+    }
+
+    void advance(span_size_t inc) noexcept {
+        _done += inc;
+    }
+
+    bool is_done() const noexcept {
+        return _done >= _src.size();
+    }
+
+private:
+    span<T> _src{};
+    span_size_t _done{0};
+};
+//------------------------------------------------------------------------------
+template <typename T>
 struct deserializer;
 //------------------------------------------------------------------------------
 template <typename T>
@@ -205,6 +232,31 @@ private:
     }
 
     std::tuple<deserializer<T>...> _deserializers{};
+};
+//------------------------------------------------------------------------------
+template <typename T>
+struct deserializer<fragment_deserialize_wrapper<span<T>>>
+  : common_deserializer<fragment_deserialize_wrapper<span<T>>> {
+
+    template <typename Backend>
+    deserialization_result read(
+      fragment_deserialize_wrapper<span<T>>& frag, Backend& backend) const {
+        deserialization_result errors{};
+        span_size_t offs{0};
+        errors |= _size_deserializer.read(offs, backend);
+        if(!errors) {
+            span_size_t size{0};
+            errors |= _size_deserializer.read(size, backend);
+            if(!errors) {
+                span_size_t done{0};
+                errors |= backend.read(frag.slice(offs, size), done);
+                frag.advance(done);
+            }
+        }
+        return errors;
+    }
+
+    deserializer<span_size_t> _size_deserializer{};
 };
 //------------------------------------------------------------------------------
 template <typename T, std::size_t N>
