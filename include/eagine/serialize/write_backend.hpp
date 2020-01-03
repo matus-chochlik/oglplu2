@@ -28,18 +28,18 @@ struct serializer_backend {
     using result = serialization_result;
 
     virtual result start() = 0;
-    virtual result write(span<const bool>) = 0;
-    virtual result write(span<const char>) = 0;
-    virtual result write(span<const std::int16_t>) = 0;
-    virtual result write(span<const std::int32_t>) = 0;
-    virtual result write(span<const std::int64_t>) = 0;
-    virtual result write(span<const std::uint8_t>) = 0;
-    virtual result write(span<const std::uint16_t>) = 0;
-    virtual result write(span<const std::uint32_t>) = 0;
-    virtual result write(span<const std::uint64_t>) = 0;
-    virtual result write(span<const float>) = 0;
-    virtual result write(span<const double>) = 0;
-    virtual result write(span<const string_view>) = 0;
+    virtual result write(span<const bool>, span_size_t&) = 0;
+    virtual result write(span<const char>, span_size_t&) = 0;
+    virtual result write(span<const std::int16_t>, span_size_t&) = 0;
+    virtual result write(span<const std::int32_t>, span_size_t&) = 0;
+    virtual result write(span<const std::int64_t>, span_size_t&) = 0;
+    virtual result write(span<const std::uint8_t>, span_size_t&) = 0;
+    virtual result write(span<const std::uint16_t>, span_size_t&) = 0;
+    virtual result write(span<const std::uint32_t>, span_size_t&) = 0;
+    virtual result write(span<const std::uint64_t>, span_size_t&) = 0;
+    virtual result write(span<const float>, span_size_t&) = 0;
+    virtual result write(span<const double>, span_size_t&) = 0;
+    virtual result write(span<const string_view>, span_size_t&) = 0;
     virtual result begin_struct(span_size_t member_count) = 0;
     virtual result begin_member(string_view name) = 0;
     virtual result finish_member(string_view name) = 0;
@@ -63,52 +63,52 @@ public:
         return {};
     }
 
-    result write(span<const bool> values) override {
-        return derived().do_write(values);
+    result write(span<const bool> values, span_size_t& done) override {
+        return derived().do_write(values, done);
     }
 
-    result write(span<const char> values) override {
-        return derived().do_write(values);
+    result write(span<const char> values, span_size_t& done) override {
+        return derived().do_write(values, done);
     }
 
-    result write(span<const std::int16_t> values) override {
-        return derived().do_write(values);
+    result write(span<const std::int16_t> values, span_size_t& done) override {
+        return derived().do_write(values, done);
     }
 
-    result write(span<const std::int32_t> values) override {
-        return derived().do_write(values);
+    result write(span<const std::int32_t> values, span_size_t& done) override {
+        return derived().do_write(values, done);
     }
 
-    result write(span<const std::int64_t> values) override {
-        return derived().do_write(values);
+    result write(span<const std::int64_t> values, span_size_t& done) override {
+        return derived().do_write(values, done);
     }
 
-    result write(span<const std::uint8_t> values) override {
-        return derived().do_write(values);
+    result write(span<const std::uint8_t> values, span_size_t& done) override {
+        return derived().do_write(values, done);
     }
 
-    result write(span<const std::uint16_t> values) override {
-        return derived().do_write(values);
+    result write(span<const std::uint16_t> values, span_size_t& done) override {
+        return derived().do_write(values, done);
     }
 
-    result write(span<const std::uint32_t> values) override {
-        return derived().do_write(values);
+    result write(span<const std::uint32_t> values, span_size_t& done) override {
+        return derived().do_write(values, done);
     }
 
-    result write(span<const std::uint64_t> values) override {
-        return derived().do_write(values);
+    result write(span<const std::uint64_t> values, span_size_t& done) override {
+        return derived().do_write(values, done);
     }
 
-    result write(span<const float> values) override {
-        return derived().do_write(values);
+    result write(span<const float> values, span_size_t& done) override {
+        return derived().do_write(values, done);
     }
 
-    result write(span<const double> values) override {
-        return derived().do_write(values);
+    result write(span<const double> values, span_size_t& done) override {
+        return derived().do_write(values, done);
     }
 
-    result write(span<const string_view> values) override {
-        return derived().do_write(values);
+    result write(span<const string_view> values, span_size_t& done) override {
+        return derived().do_write(values, done);
     }
 
     result begin_struct(span_size_t) override {
@@ -140,8 +140,13 @@ public:
     }
 
 protected:
+    span_size_t remaining_size() const {
+        EAGINE_ASSERT(_sink);
+        return _sink->remaining_size();
+    }
+
     template <typename... Args>
-    result sink(Args&&... args) {
+    result sink(Args&&... args) const {
         EAGINE_ASSERT(_sink);
         return _sink->write(std::forward<Args>(args)...);
     }

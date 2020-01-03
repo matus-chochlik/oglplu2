@@ -10,6 +10,7 @@
 #ifndef EAGINE_SERIALIZE_WRITE_HPP
 #define EAGINE_SERIALIZE_WRITE_HPP
 
+#include "../assert.hpp"
 #include "write_backend.hpp"
 #include <array>
 #include <string>
@@ -32,12 +33,24 @@ template <typename T>
 struct plain_serializer {
     template <typename Backend>
     static serialization_result write(T value, Backend& backend) {
-        return backend.write(view_one(value));
+        span_size_t written{0};
+        auto errors = backend.write(view_one(value), written);
+        if(written < 1) {
+            EAGINE_ASSERT(
+              errors.has(serialization_error_code::incomplete_write));
+        }
+        return errors;
     }
 
     template <typename Backend>
     static serialization_result write(span<const T> values, Backend& backend) {
-        return backend.write(values);
+        span_size_t written{0};
+        auto errors = backend.write(values, written);
+        if(written < values.size()) {
+            EAGINE_ASSERT(
+              errors.has(serialization_error_code::incomplete_write));
+        }
+        return errors;
     }
 };
 

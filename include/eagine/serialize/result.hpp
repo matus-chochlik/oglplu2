@@ -17,8 +17,9 @@ namespace eagine {
 //------------------------------------------------------------------------------
 enum class serialization_error_code : std::uint8_t {
     too_much_data = 1 << 0,
-    data_sink_error = 1 << 1,
-    backend_error = 1 << 2
+    incomplete_write = 1 << 1,
+    data_sink_error = 1 << 2,
+    backend_error = 1 << 3
 };
 //------------------------------------------------------------------------------
 enum class deserialization_error_code : std::uint8_t {
