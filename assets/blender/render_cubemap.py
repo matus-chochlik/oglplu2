@@ -9,7 +9,6 @@
 
 import os
 import sys
-import bpy
 import math
 import argparse
 # ------------------------------------------------------------------------------
@@ -48,11 +47,39 @@ class CubeMapArgParser(argparse.ArgumentParser):
         )
 
         self.add_argument(
-            '--engine', '-e',
+            '--engine', '-E',
             type=str,
             action="store",
             default=None,
             choices=["CYCLES", "BLENDER_EEVEE", "BLENDER_WORKBENCH"]
+        )
+
+        self.add_argument(
+            '--threads', '-T',
+            type=self._positive_int,
+            action="store",
+            default=None
+        )
+
+        self.add_argument(
+            '--samples', '-S',
+            type=self._positive_int,
+            action="store",
+            default=None
+        )
+
+        self.add_argument(
+            '--tile-width', '-TW',
+            type=self._positive_int,
+            action="store",
+            default=None
+        )
+
+        self.add_argument(
+            '--tile-height', '-TH',
+            type=self._positive_int,
+            action="store",
+            default=None
         )
     # --------------------------------------------------------------------------
     def process_parsed_options(self, options):
@@ -90,36 +117,50 @@ def cm_cam_rotation(axis_name):
     return cm_cam_rotations()[axis_name]
 # ------------------------------------------------------------------------------
 def do_render_face(axis_name, options):
-    camname = "camera-%s" % axis_name
-    camera = bpy.data.cameras.new(name=camname)
-    camera.type = "PERSP"
-    camera.lens_unit = "FOV"
-    camera.lens = 18.0
-    camobj = bpy.data.objects.new(name=camname, object_data = camera)
-    camobj.location = (0.0, 0.0, 0.0)
-    camobj.rotation_mode = "XYZ"
-    camobj.rotation_euler = cm_cam_rotation(axis_name)
+    try:
+        import bpy
+        camname = "camera-%s" % axis_name
+        camera = bpy.data.cameras.new(name=camname)
+        camera.type = "PERSP"
+        camera.lens_unit = "FOV"
+        camera.lens = 18.0
+        camobj = bpy.data.objects.new(name=camname, object_data = camera)
+        camobj.location = (0.0, 0.0, 0.0)
+        camobj.rotation_mode = "XYZ"
+        camobj.rotation_euler = cm_cam_rotation(axis_name)
 
-    scene = bpy.context.scene
-    scene.camera = camobj
-    if options.engine:
-        scene.render.engine = options.engine
-    scene.render.image_settings.color_mode ='RGBA'
-    scene.render.image_settings.file_format ='PNG'
-    scene.render.filepath = os.path.realpath("%s/%s-%s.png" % (
-            options.prefix,
-            options.name,
-            axis_name
+        scene = bpy.context.scene
+        scene.camera = camobj
+        scene.render.image_settings.color_mode ='RGBA'
+        scene.render.image_settings.file_format ='PNG'
+        scene.render.filepath = os.path.realpath("%s/%s-%s.png" % (
+                options.prefix,
+                options.name,
+                axis_name
+            )
         )
-    )
-    scene.render.resolution_x = options.size
-    scene.render.resolution_y = options.size
+        scene.render.resolution_x = options.size
+        scene.render.resolution_y = options.size
+
+        if options.engine:
+            scene.render.engine = options.engine
+        if options.threads:
+            scene.render.threads = options.threads
+        if options.tile_width:
+            scene.render.tile_x = options.tile_width
+        if options.tile_height:
+            scene.render.tile_y = options.tile_height
+
+        if options.samples:
+            scene.cycles.samples = options.samples
+            
+        sys.stdout.write("Rendering: %s\n" % scene.render.filepath)
+        bpy.ops.render.render(write_still=True)
         
-    sys.stdout.write("Rendering: %s\n" % scene.render.filepath)
-    bpy.ops.render.render(write_still=True)
-    
-    bpy.data.objects.remove(camobj)
-    bpy.data.cameras.remove(camera)
+        bpy.data.objects.remove(camobj)
+        bpy.data.cameras.remove(camera)
+    except ModuleNotFoundError:
+        sys.stderr.write("must be run from blender!\n")
 # ------------------------------------------------------------------------------
 def render_all(options):
     for axis_name in cm_cam_rotations():
@@ -129,11 +170,14 @@ def main():
     try:
         arg_parser = make_argument_parser()
         try: args = sys.argv[sys.argv.index("--") + 1:]
-        except ValueError: args = []
-        options = arg_parser.parse_args([])
+        except ValueError: args = sys.argv[1:]
+        options = arg_parser.parse_args(args)
         render_all(options)
     finally:
-        bpy.ops.wm.quit_blender()
+        try:
+            import bpy
+            bpy.ops.wm.quit_blender()
+        except: pass
 # ------------------------------------------------------------------------------
 main()
 
