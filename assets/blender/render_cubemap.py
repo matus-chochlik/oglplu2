@@ -5,24 +5,91 @@
 # See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
 #
+# usage: blender -b myfile.blend -P render_cubemap.py [-- [--help|options...]]
 
+import os
+import sys
 import bpy
 import math
+import argparse
+# ------------------------------------------------------------------------------
+class CubeMapArgParser(argparse.ArgumentParser):
+    # --------------------------------------------------------------------------
+    def _positive_int(self, x):
+        try:
+            i = int(x)
+            assert(i > 0)
+            return i
+        except:
+            self.error("`%s' is not a positive integer value" % str(x))
+    # --------------------------------------------------------------------------
+    def __init__(self, **kw):
+        argparse.ArgumentParser.__init__(self, **kw)
 
-rad_90 = math.pi/2
-rad_180 = math.pi
-rad_270 = (3*math.pi)/2
+        self.add_argument(
+            '--size', '-s',
+            type=self._positive_int,
+            action="store",
+            default=1024
+        )
 
-cm_cam_rotation = {
-    "0-Xp": (rad_90, 0, -rad_90),
-    "1-Xn": (rad_90, 0, -rad_270),
-    "2-Yp": (rad_180, 0, -rad_180),
-    "3-Yn": (0, 0, -rad_180),
-    "4-Zp": (rad_90, 0, rad_180),
-    "5-Zn": (rad_90, 0, 0),
-}
+        self.add_argument(
+            '--prefix', '-P',
+            type=os.path.realpath,
+            action="store",
+            default="/tmp"
+        )
 
-def do_render_face(axis_name, image_name, size):
+        self.add_argument(
+            '--name', '-n',
+            type=str,
+            action="store",
+            default="cubemap"
+        )
+
+        self.add_argument(
+            '--engine', '-e',
+            type=str,
+            action="store",
+            default=None,
+            choices=["CYCLES", "BLENDER_EEVEE", "BLENDER_WORKBENCH"]
+        )
+    # --------------------------------------------------------------------------
+    def process_parsed_options(self, options):
+        return options
+    # --------------------------------------------------------------------------
+    def parse_args(self, args):
+        return self.process_parsed_options(
+            argparse.ArgumentParser.parse_args(self, args)
+        )
+
+# ------------------------------------------------------------------------------
+def make_argument_parser():
+    return CubeMapArgParser(
+            prog=os.path.basename(__file__),
+            description="""
+            Blender cube-map renderer script
+        """
+    )
+# ------------------------------------------------------------------------------
+def cm_cam_rotations():
+    rad_90 = math.pi/2
+    rad_180 = math.pi
+    rad_270 = (3*math.pi)/2
+
+    return {
+        "0-Xp": (rad_90, 0, -rad_90),
+        "1-Xn": (rad_90, 0, -rad_270),
+        "2-Yp": (rad_180, 0, -rad_180),
+        "3-Yn": (0, 0, -rad_180),
+        "4-Zp": (rad_90, 0, rad_180),
+        "5-Zn": (rad_90, 0, 0),
+    }
+# ------------------------------------------------------------------------------
+def cm_cam_rotation(axis_name):
+    return cm_cam_rotations()[axis_name]
+# ------------------------------------------------------------------------------
+def do_render_face(axis_name, options):
     camname = "camera-%s" % axis_name
     camera = bpy.data.cameras.new(name=camname)
     camera.type = "PERSP"
@@ -31,28 +98,45 @@ def do_render_face(axis_name, image_name, size):
     camobj = bpy.data.objects.new(name=camname, object_data = camera)
     camobj.location = (0.0, 0.0, 0.0)
     camobj.rotation_mode = "XYZ"
-    camobj.rotation_euler = cm_cam_rotation[axis_name]
+    camobj.rotation_euler = cm_cam_rotation(axis_name)
 
     scene = bpy.context.scene
     scene.camera = camobj
-    scene.render.engine = "CYCLES"
+    if options.engine:
+        scene.render.engine = options.engine
     scene.render.image_settings.color_mode ='RGBA'
     scene.render.image_settings.file_format ='PNG'
-    scene.render.filepath = "/tmp/%s-%s.png" % (image_name, axis_name)
-    scene.render.resolution_x = size
-    scene.render.resolution_y = size
+    scene.render.filepath = os.path.realpath("%s/%s-%s.png" % (
+            options.prefix,
+            options.name,
+            axis_name
+        )
+    )
+    scene.render.resolution_x = options.size
+    scene.render.resolution_y = options.size
         
+    sys.stdout.write("Rendering: %s\n" % scene.render.filepath)
     bpy.ops.render.render(write_still=True)
     
     bpy.data.objects.remove(camobj)
     bpy.data.cameras.remove(camera)
-    
-def render_all(image_name = "cm", size = 1024):
-    for axis_name in cm_cam_rotation:
-        print(axis_name)
-        do_render_face(axis_name, image_name, size)
-    
-render_all()
+# ------------------------------------------------------------------------------
+def render_all(options):
+    for axis_name in cm_cam_rotations():
+        do_render_face(axis_name, options)
+# ------------------------------------------------------------------------------
+def main():
+    try:
+        arg_parser = make_argument_parser()
+        try: args = sys.argv[sys.argv.index("--") + 1:]
+        except ValueError: args = []
+        options = arg_parser.parse_args([])
+        render_all(options)
+    finally:
+        bpy.ops.wm.quit_blender()
+# ------------------------------------------------------------------------------
+main()
+
 
 
 
