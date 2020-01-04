@@ -80,6 +80,26 @@ public:
         return false;
     }
 
+    valid_if_positive<span_size_t> max_data_size() const {
+        span_size_t result{0};
+        for(auto& connection : _connections) {
+            EAGINE_ASSERT(connection);
+            if(connection->is_usable()) {
+                if(const auto opt_max_size = connection->max_data_size()) {
+                    const auto max_size = extract(opt_max_size);
+                    if(result > 0) {
+                        if(result > max_size) {
+                            result = max_size;
+                        }
+                    } else {
+                        result = max_size;
+                    }
+                }
+            }
+        }
+        return {result};
+    }
+
     bool has_id() const {
         return _id != 0;
     }

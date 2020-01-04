@@ -12,8 +12,8 @@
 
 #include "../callable_ref.hpp"
 #include "../message_id.hpp"
+#include "../valid_if/positive.hpp"
 #include "message.hpp"
-#include <limits>
 
 namespace eagine {
 //------------------------------------------------------------------------------
@@ -35,8 +35,8 @@ struct message_bus_connection {
         return true;
     }
 
-    virtual span_size_t max_data_size() {
-        return std::numeric_limits<span_size_t>::max();
+    virtual valid_if_positive<span_size_t> max_data_size() {
+        return {0};
     }
 
     virtual bool send(
