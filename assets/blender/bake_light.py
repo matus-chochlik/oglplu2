@@ -144,9 +144,8 @@ def do_bake(options):
         target = bpy.data.objects[options.target]
         positions = bpy.data.objects[options.positions]
         light = bpy.data.objects[options.light]
-        bake_mat = bpy.data.materials.new('BakeMaterial')
+        bake_mat = target.active_material
         bake_mat.use_nodes = True
-        print(bake_mat.node_tree.nodes)
         bake_node = bake_mat.node_tree.nodes.new("ShaderNodeTexImage")
 
         if options.index:
@@ -161,7 +160,6 @@ def do_bake(options):
         )
         baked_image.file_format = 'PNG'
         bake_node.image = baked_image
-        target.active_material = bake_mat
 
         target.select_set(True)
         for i in indices:
