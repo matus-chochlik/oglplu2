@@ -340,7 +340,7 @@ std::enable_if_t<
   serialization_result>
 serialize(T& value, Backend& backend) {
     serialization_result errors{};
-    errors |= backend.start();
+    errors |= backend.begin();
     if(!errors) {
         serializer<std::remove_cv_t<T>> writer;
         errors |= writer.write(value, backend);

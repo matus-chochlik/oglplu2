@@ -21,7 +21,7 @@ struct serializer_data_sink {
     serializer_data_sink() noexcept = default;
     serializer_data_sink(serializer_data_sink&&) noexcept = default;
     serializer_data_sink(const serializer_data_sink&) = delete;
-    serializer_data_sink& operator=(serializer_data_sink&&) = delete;
+    serializer_data_sink& operator=(serializer_data_sink&&) noexcept = default;
     serializer_data_sink& operator=(const serializer_data_sink&) = delete;
     virtual ~serializer_data_sink() noexcept = default;
 

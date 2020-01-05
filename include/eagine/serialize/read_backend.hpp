@@ -27,7 +27,7 @@ struct deserializer_backend {
 
     using result = deserialization_result;
 
-    virtual result start() = 0;
+    virtual result begin() = 0;
     virtual result read(span<bool>, span_size_t&) = 0;
     virtual result read(span<char>, span_size_t&) = 0;
     virtual result read(span<std::int16_t>, span_size_t&) = 0;
@@ -59,10 +59,15 @@ public:
       : _source{&source} {
     }
 
+    Derived& set_source(Source& s) noexcept {
+        _source = &s;
+        return derived();
+    }
+
     using error_code = deserialization_error_code;
     using result = deserialization_result;
 
-    result start() override {
+    result begin() override {
         return {};
     }
 

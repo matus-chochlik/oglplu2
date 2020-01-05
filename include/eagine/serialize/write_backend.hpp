@@ -27,7 +27,7 @@ struct serializer_backend {
 
     using result = serialization_result;
 
-    virtual result start() = 0;
+    virtual result begin() = 0;
     virtual result write(span<const bool>, span_size_t&) = 0;
     virtual result write(span<const char>, span_size_t&) = 0;
     virtual result write(span<const std::int16_t>, span_size_t&) = 0;
@@ -59,7 +59,12 @@ public:
       : _sink{&s} {
     }
 
-    result start() override {
+    Derived& set_sink(Sink& s) noexcept {
+        _sink = &s;
+        return derived();
+    }
+
+    result begin() override {
         return {};
     }
 

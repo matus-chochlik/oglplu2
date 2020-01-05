@@ -26,12 +26,18 @@ struct fragment_deserialize_wrapper;
 template <typename T>
 class fragment_deserialize_wrapper<span<T>> {
 public:
-    fragment_deserialize_wrapper(span<T> src) noexcept
-      : _src{src} {
+    constexpr fragment_deserialize_wrapper() noexcept = default;
+
+    constexpr fragment_deserialize_wrapper(span<T> dst) noexcept
+      : _dst{dst} {
+    }
+
+    void set_target(span<T> dst) noexcept {
+        _dst = dst;
     }
 
     auto slice(span_size_t offset, span_size_t size) const noexcept {
-        return memory::slice(_src, offset, size);
+        return memory::slice(_dst, offset, size);
     }
 
     void advance(span_size_t inc) noexcept {
@@ -39,11 +45,11 @@ public:
     }
 
     bool is_done() const noexcept {
-        return _done >= _src.size();
+        return _done >= _dst.size();
     }
 
 private:
-    span<T> _src{};
+    span<T> _dst{};
     span_size_t _done{0};
 };
 //------------------------------------------------------------------------------
@@ -310,7 +316,7 @@ std::enable_if_t<
   deserialization_result>
 deserialize(T& value, Backend& backend) {
     deserialization_result errors{};
-    errors |= backend.start();
+    errors |= backend.begin();
     if(!errors) {
         deserializer<T> reader;
         errors |= reader.read(value, backend);
