@@ -10,3 +10,6 @@ target_link_libraries("message_bus-loopback" eagine)
 
 add_executable("message_bus-direct" "direct.cpp")
 target_link_libraries("message_bus-direct" eagine)
+
+add_executable("message_bus-fibonacci" "fibonacci.cpp")
+target_link_libraries("message_bus-fibonacci" eagine)

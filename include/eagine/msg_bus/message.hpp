@@ -58,6 +58,9 @@ struct message_view : message_info {
     constexpr message_view(memory::const_block init) noexcept
       : data{init} {
     }
+    constexpr message_view(memory::block init) noexcept
+      : data{init} {
+    }
     constexpr message_view(string_view init) noexcept
       : data{as_bytes(init)} {
     }
