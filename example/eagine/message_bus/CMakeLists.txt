@@ -5,11 +5,15 @@
 #
 cmake_minimum_required(VERSION 3.10)
 
-add_executable("message_bus-loopback" "loopback.cpp")
+add_executable("message_bus-loopback" "001_loopback.cpp")
 target_link_libraries("message_bus-loopback" eagine)
 
-add_executable("message_bus-direct" "direct.cpp")
+add_executable("message_bus-direct" "002_direct.cpp")
 target_link_libraries("message_bus-direct" eagine)
 
-add_executable("message_bus-fibonacci" "fibonacci.cpp")
+add_executable("message_bus-fibonacci" "004_fibonacci.cpp")
 target_link_libraries("message_bus-fibonacci" eagine)
+
+add_executable("message_bus-fib_threads" "005_fib_threads.cpp")
+target_link_libraries("message_bus-fib_threads" eagine)
+target_link_libraries("message_bus-fib_threads" "${CMAKE_THREAD_LIBS_INIT}")

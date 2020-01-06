@@ -80,6 +80,8 @@ if(${CONFIG_INFO_ONLY})
 	return()
 endif()
 
+find_package(Threads)
+
 # now create the site-configuration headers
 include(config/SiteConfig.cmake)
 
