@@ -5,8 +5,8 @@
 #
 cmake_minimum_required(VERSION 3.10)
 
-add_executable("serialize-basic" "basic.cpp")
+add_executable("serialize-basic" "001_basic.cpp")
 target_link_libraries("serialize-basic" eagine)
 
-add_executable("serialize-fragmented" "fragmented.cpp")
+add_executable("serialize-fragmented" "003_fragmented.cpp")
 target_link_libraries("serialize-fragmented" eagine)
