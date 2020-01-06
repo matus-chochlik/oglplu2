@@ -22,10 +22,31 @@ namespace eagine {
 enum class message_priority { idle, low, normal, high, critical };
 //------------------------------------------------------------------------------
 struct message_info {
+    static constexpr identifier_t inline invalid_endpoint_id() noexcept {
+        return 0U;
+    }
+
+    identifier_t source_id{invalid_endpoint_id()};
+    identifier_t target_id{invalid_endpoint_id()};
     message_priority priority{message_priority::normal};
 
     message_info& set_priority(message_priority new_priority) noexcept {
         priority = new_priority;
+        return *this;
+    }
+
+    message_info& set_source_id(identifier_t id) noexcept {
+        source_id = id;
+        return *this;
+    }
+
+    message_info& set_target_id(identifier_t id) noexcept {
+        target_id = id;
+        return *this;
+    }
+
+    message_info& setup_response(const message_info& info) noexcept {
+        target_id = info.source_id;
         return *this;
     }
 };
@@ -64,6 +85,8 @@ struct stored_message : message_info {
 //------------------------------------------------------------------------------
 class message_storage {
 public:
+    /// The return value indicates if the message is considered handled
+    /// and should be removed.
     using fetch_handler =
       callable_ref<bool(identifier_t, identifier_t, const message_view&)>;
 

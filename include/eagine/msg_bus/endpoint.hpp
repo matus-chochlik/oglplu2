@@ -18,7 +18,17 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 class message_bus_endpoint {
-    identifier_t _id{0};
+public:
+    static constexpr identifier_t invalid_id() noexcept {
+        return {0U};
+    }
+
+    static constexpr bool is_valid_id(identifier_t id) noexcept {
+        return id != invalid_id();
+    }
+
+private:
+    identifier_t _id{invalid_id()};
 
     std::vector<std::unique_ptr<message_bus_connection>> _connections;
 
@@ -53,10 +63,12 @@ class message_bus_endpoint {
             }
             return true;
         }
-        auto pos = _messages.find(_make_key(class_id, method_id));
-        if(pos != _messages.end()) {
-            _get_queue(pos).push(message);
-            return true;
+        if((message.target_id == _id) || !is_valid_id(message.target_id)) {
+            auto pos = _messages.find(_make_key(class_id, method_id));
+            if(pos != _messages.end()) {
+                _get_queue(pos).push(message);
+                return true;
+            }
         }
         return false;
     }
@@ -100,8 +112,8 @@ public:
         return {result};
     }
 
-    bool has_id() const {
-        return _id != 0;
+    bool has_id() const noexcept {
+        return is_valid_id(_id);
     }
 
     void update() {
@@ -151,22 +163,51 @@ public:
         unsubscribe(ClassId, MethodId);
     }
 
-    void send(
+    bool send(
       identifier_t class_id,
       identifier_t method_id,
-      const message_view& message) const {
+      message_view message) const {
+        message.set_source_id(_id);
         for(auto& connection : _connections) {
             EAGINE_ASSERT(connection);
             if(connection->send(class_id, method_id, message)) {
-                break;
+                return true;
             }
         }
+        return false;
     }
 
     template <identifier_t ClassId, identifier_t MethodId>
-    void send(
-      message_id<ClassId, MethodId>, const message_view& message) const {
-        send(ClassId, MethodId, message);
+    bool send(message_id<ClassId, MethodId>, message_view message) const {
+        return send(ClassId, MethodId, std::move(message));
+    }
+
+    template <identifier_t ClassId, identifier_t MethodId>
+    bool send(message_id<ClassId, MethodId>) const {
+        return send(ClassId, MethodId, {});
+    }
+
+    bool respond_to(
+      const message_info& info,
+      identifier_t class_id,
+      identifier_t method_id,
+      message_view message) const {
+        message.setup_response(info);
+        return send(class_id, method_id, std::move(message));
+    }
+
+    template <identifier_t ClassId, identifier_t MethodId>
+    bool respond_to(
+      const message_info& info,
+      message_id<ClassId, MethodId>,
+      message_view message) const {
+        return respond_to(info, ClassId, MethodId, std::move(message));
+    }
+
+    template <identifier_t ClassId, identifier_t MethodId>
+    bool respond_to(
+      const message_info& info, message_id<ClassId, MethodId>) const {
+        return respond_to(info, ClassId, MethodId, {});
     }
 
     using handler_type = callable_ref<bool(stored_message&)>;
