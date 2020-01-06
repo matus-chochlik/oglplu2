@@ -10,8 +10,10 @@
 #ifndef EAGINE_SERIALIZE_READ_HPP
 #define EAGINE_SERIALIZE_READ_HPP
 
+#include "../math/functions.hpp"
 #include "../memory/span_algo.hpp"
 #include "read_backend.hpp"
+#include <algorithm>
 #include <array>
 #include <string>
 #include <tuple>
@@ -28,29 +30,40 @@ class fragment_deserialize_wrapper<span<T>> {
 public:
     constexpr fragment_deserialize_wrapper() noexcept = default;
 
-    constexpr fragment_deserialize_wrapper(span<T> dst) noexcept
-      : _dst{dst} {
+    constexpr fragment_deserialize_wrapper(span<T> dst) noexcept {
+        set_target(dst);
     }
 
     void set_target(span<T> dst) noexcept {
         _dst = dst;
+        _done_bits.resize(std::size_t(dst.size()), false);
+        _done_size = 0;
     }
 
     auto slice(span_size_t offset, span_size_t size) const noexcept {
         return memory::slice(_dst, offset, size);
     }
 
-    void advance(span_size_t inc) noexcept {
-        _done += inc;
+    void mark_done(span_size_t offs, span_size_t size) noexcept {
+        auto i = math::minimum(_done_bits.begin() + offs, _done_bits.end());
+        auto e = math::minimum(i + size, _done_bits.end());
+        while(i != e) {
+            if(!*i) {
+                *i = true;
+                ++_done_size;
+            }
+            ++i;
+        }
     }
 
     bool is_done() const noexcept {
-        return _done >= _dst.size();
+        return _done_size >= _dst.size();
     }
 
 private:
     span<T> _dst{};
-    span_size_t _done{0};
+    std::vector<bool> _done_bits{};
+    span_size_t _done_size{0};
 };
 //------------------------------------------------------------------------------
 template <typename T>
@@ -256,7 +269,7 @@ struct deserializer<fragment_deserialize_wrapper<span<T>>>
             if(!errors) {
                 span_size_t done{0};
                 errors |= backend.read(frag.slice(offs, size), done);
-                frag.advance(done);
+                frag.mark_done(offs, done);
             }
         }
         return errors;
