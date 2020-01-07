@@ -187,6 +187,10 @@ public:
         return send(ClassId, MethodId, {});
     }
 
+    bool send_not_a_router() const {
+        return send(EAGINE_MSG_ID(EAGiRouter, NotARouter));
+    }
+
     bool respond_to(
       const message_info& info,
       identifier_t class_id,

@@ -34,6 +34,7 @@ struct message_bus_router_pending {
 //------------------------------------------------------------------------------
 struct message_bus_routed_endpoint {
     std::vector<std::unique_ptr<message_bus_connection>> connections;
+    bool maybe_router{true};
 };
 //------------------------------------------------------------------------------
 class message_bus_router {
@@ -144,26 +145,55 @@ private:
         _pending.emplace_back(std::move(conn));
     }
 
-    void _route_messages() {
-        for(auto& [id_in, endpoint_in] : _endpoints) {
-            auto handler = [this, id_in](
-                             identifier_t class_id,
-                             identifier_t method_id,
-                             const message_view& message) {
-                for(auto& [id_out, endpoint_out] : this->_endpoints) {
-                    if(id_in != id_out) {
-                        for(auto& conn_out : endpoint_out.connections) {
-                            if(EAGINE_LIKELY(
-                                 conn_out && conn_out->is_usable())) {
-                                if(conn_out->send(
-                                     class_id, method_id, message)) {
-                                    break;
-                                }
-                            }
+    bool _handle_special(
+      identifier_t class_id,
+      identifier_t method_id,
+      identifier_t incoming_id,
+      message_bus_routed_endpoint& endpoint,
+      const message_view& message) {
+        if(EAGINE_MSG_ID(EAGiRouter, NotARouter).matches(class_id, method_id)) {
+            if(incoming_id == message.source_id) {
+                endpoint.maybe_router = false;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool _do_route_message(
+      identifier_t class_id,
+      identifier_t method_id,
+      identifier_t incoming_id,
+      const message_view& message) {
+        for(auto& [outgoing_id, endpoint_out] : this->_endpoints) {
+            bool should_forward = (incoming_id != outgoing_id);
+            should_forward &=
+              (endpoint_out.maybe_router || (outgoing_id == message.target_id));
+            if(should_forward) {
+                for(auto& conn_out : endpoint_out.connections) {
+                    if(EAGINE_LIKELY(conn_out && conn_out->is_usable())) {
+                        if(conn_out->send(class_id, method_id, message)) {
+                            break;
                         }
                     }
                 }
-                return true;
+            }
+        }
+        return true;
+    }
+
+    void _route_messages() {
+        for(auto& [incoming_id, endpoint_in] : _endpoints) {
+            auto handler = [this, incoming_id, &endpoint_in](
+                             identifier_t class_id,
+                             identifier_t method_id,
+                             const message_view& message) {
+                if(this->_handle_special(
+                     class_id, method_id, incoming_id, endpoint_in, message)) {
+                    return true;
+                }
+                return this->_do_route_message(
+                  class_id, method_id, incoming_id, message);
             };
 
             for(auto& conn_in : endpoint_in.connections) {

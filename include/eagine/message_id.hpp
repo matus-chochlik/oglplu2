@@ -18,6 +18,11 @@ namespace eagine {
 template <identifier_t ClassId, identifier_t MethodId>
 struct message_id {
     using type = message_id;
+
+    static constexpr bool matches(
+      identifier_t class_id, identifier_t method_id) noexcept {
+        return (ClassId == class_id) && (MethodId == method_id);
+    }
 };
 //------------------------------------------------------------------------------
 template <identifier_t ClassId, identifier_t MethodId>
