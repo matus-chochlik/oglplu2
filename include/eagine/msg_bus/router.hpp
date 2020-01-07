@@ -151,10 +151,12 @@ private:
       identifier_t incoming_id,
       message_bus_routed_endpoint& endpoint,
       const message_view& message) {
-        if(EAGINE_MSG_ID(EAGiRouter, NotARouter).matches(class_id, method_id)) {
-            if(incoming_id == message.source_id) {
-                endpoint.maybe_router = false;
-                return true;
+        if(EAGINE_UNLIKELY(EAGINE_ID(EAGiRouter).matches(class_id))) {
+            if(EAGINE_ID(NotARouter).matches(method_id)) {
+                if(incoming_id == message.source_id) {
+                    endpoint.maybe_router = false;
+                    return true;
+                }
             }
         }
         return false;

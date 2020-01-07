@@ -238,6 +238,10 @@ public:
         return _bites.bytes().template as<UIntT>();
     }
 
+    constexpr inline bool matches(UIntT what) const noexcept {
+        return value() == what;
+    }
+
     constexpr inline name_type name() const noexcept {
         return _get_name(std::make_index_sequence<M>{});
     }
