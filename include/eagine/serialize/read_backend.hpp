@@ -10,6 +10,7 @@
 #ifndef EAGINE_SERIALIZE_READ_BACKEND_HPP
 #define EAGINE_SERIALIZE_READ_BACKEND_HPP
 
+#include "../identifier.hpp"
 #include "data_source.hpp"
 #include "result.hpp"
 #include <cstdint>
@@ -26,6 +27,8 @@ struct deserializer_backend {
     virtual ~deserializer_backend() noexcept = default;
 
     using result = deserialization_result;
+
+    virtual identifier type_id() = 0;
 
     virtual result begin() = 0;
     virtual result read(span<bool>, span_size_t&) = 0;

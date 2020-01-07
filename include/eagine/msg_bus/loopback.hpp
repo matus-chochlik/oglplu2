@@ -17,6 +17,10 @@ namespace eagine {
 //------------------------------------------------------------------------------
 class message_bus_loopback_connection : public message_bus_connection {
 public:
+    identifier type_id() {
+        return EAGINE_ID(Loopback);
+    }
+
     bool send(
       identifier_t class_id,
       identifier_t method_id,

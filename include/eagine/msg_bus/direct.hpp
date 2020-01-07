@@ -83,6 +83,10 @@ public:
       , _state{address->connect()} {
     }
 
+    identifier type_id() {
+        return EAGINE_ID(Direct);
+    }
+
     bool is_usable() final {
         _checkup();
         return bool(_state);
@@ -126,6 +130,10 @@ public:
     message_bus_direct_server_connection(
       std::shared_ptr<message_bus_direct_connection_state>& state)
       : _weak_state{state} {
+    }
+
+    identifier type_id() {
+        return EAGINE_ID(Direct);
     }
 
     bool send(

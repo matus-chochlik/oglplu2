@@ -11,6 +11,7 @@
 #define EAGINE_MSG_BUS_CONNECTION_HPP
 
 #include "../callable_ref.hpp"
+#include "../identity.hpp"
 #include "../message_id.hpp"
 #include "../valid_if/positive.hpp"
 #include "message.hpp"
@@ -27,6 +28,8 @@ struct message_bus_connection {
 
     using fetch_handler =
       callable_ref<bool(identifier_t, identifier_t, const message_view&)>;
+
+    virtual identifier type_id() = 0;
 
     virtual void update() {
     }

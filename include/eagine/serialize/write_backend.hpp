@@ -10,6 +10,7 @@
 #ifndef EAGINE_SERIALIZE_WRITE_BACKEND_HPP
 #define EAGINE_SERIALIZE_WRITE_BACKEND_HPP
 
+#include "../identifier.hpp"
 #include "data_sink.hpp"
 #include "result.hpp"
 #include <cstdint>
@@ -26,6 +27,8 @@ struct serializer_backend {
     virtual ~serializer_backend() noexcept = default;
 
     using result = serialization_result;
+
+    virtual identifier type_id() = 0;
 
     virtual result begin() = 0;
     virtual result write(span<const bool>, span_size_t&) = 0;

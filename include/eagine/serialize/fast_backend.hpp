@@ -26,6 +26,10 @@ public:
     using error_code = serialization_error_code;
     using result = serialization_result;
 
+    identifier type_id() final {
+        return EAGINE_ID(FastLocal);
+    }
+
     template <typename T>
     result do_write(span<const T> values, span_size_t& done) {
         result errors{};
@@ -78,6 +82,10 @@ public:
     using base::top;
     using error_code = deserialization_error_code;
     using result = deserialization_result;
+
+    identifier type_id() final {
+        return EAGINE_ID(FastLocal);
+    }
 
     template <typename T>
     result do_read(span<T> values, span_size_t& done) {
