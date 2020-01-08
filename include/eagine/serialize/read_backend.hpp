@@ -42,6 +42,7 @@ struct deserializer_backend {
     virtual result read(span<std::uint64_t>, span_size_t&) = 0;
     virtual result read(span<float>, span_size_t&) = 0;
     virtual result read(span<double>, span_size_t&) = 0;
+    virtual result read(span<identifier>, span_size_t&) = 0;
     virtual result read(span<std::string>, span_size_t&) = 0;
     virtual result begin_struct(span_size_t& member_count) = 0;
     virtual result begin_member(string_view name) = 0;
@@ -115,6 +116,10 @@ public:
     }
 
     result read(span<double> values, span_size_t& done) override {
+        return derived().do_read(values, done);
+    }
+
+    result read(span<identifier> values, span_size_t& done) override {
         return derived().do_read(values, done);
     }
 

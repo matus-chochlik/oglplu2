@@ -42,6 +42,7 @@ struct serializer_backend {
     virtual result write(span<const std::uint64_t>, span_size_t&) = 0;
     virtual result write(span<const float>, span_size_t&) = 0;
     virtual result write(span<const double>, span_size_t&) = 0;
+    virtual result write(span<const identifier>, span_size_t&) = 0;
     virtual result write(span<const string_view>, span_size_t&) = 0;
     virtual result begin_struct(span_size_t member_count) = 0;
     virtual result begin_member(string_view name) = 0;
@@ -112,6 +113,10 @@ public:
     }
 
     result write(span<const double> values, span_size_t& done) override {
+        return derived().do_write(values, done);
+    }
+
+    result write(span<const identifier> values, span_size_t& done) override {
         return derived().do_write(values, done);
     }
 

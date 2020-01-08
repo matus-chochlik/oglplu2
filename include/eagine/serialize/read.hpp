@@ -111,6 +111,8 @@ struct deserializer<float> : plain_deserializer<float> {};
 template <>
 struct deserializer<double> : plain_deserializer<double> {};
 template <>
+struct deserializer<identifier> : plain_deserializer<identifier> {};
+template <>
 struct deserializer<std::string> : plain_deserializer<std::string> {};
 //------------------------------------------------------------------------------
 template <typename T>

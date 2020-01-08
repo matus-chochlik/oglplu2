@@ -109,6 +109,8 @@ struct serializer<float> : plain_serializer<float> {};
 template <>
 struct serializer<double> : plain_serializer<double> {};
 template <>
+struct serializer<identifier> : plain_serializer<identifier> {};
+template <>
 struct serializer<string_view> : plain_serializer<string_view> {};
 //------------------------------------------------------------------------------
 template <typename T>
