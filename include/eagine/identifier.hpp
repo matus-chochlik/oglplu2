@@ -181,6 +181,10 @@ public:
         return _str.data() + size();
     }
 
+    string_view view() const {
+        return {data(), size()};
+    }
+
     std::string str() const {
         return {_str.data(), _len};
     }
