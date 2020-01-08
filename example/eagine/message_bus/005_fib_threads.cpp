@@ -17,6 +17,7 @@
 #include <eagine/serialize/fast_backend.hpp>
 #include <eagine/serialize/read.hpp>
 #include <eagine/serialize/write.hpp>
+#include <eagine/system_info.hpp>
 #include <iostream>
 #include <queue>
 #include <set>
@@ -155,7 +156,8 @@ private:
 int main() {
     using namespace eagine;
 
-    std::size_t thread_count{4};
+    system_info si;
+    const auto thread_count = extract_or(si.cpu_concurrent_threads(), 4);
 
     auto acceptor = std::make_unique<message_bus_direct_acceptor>();
 
@@ -167,7 +169,7 @@ int main() {
     std::vector<std::thread> workers;
     workers.reserve(thread_count);
 
-    for(std::size_t i = 0; i < thread_count; ++i) {
+    for(span_size_t i = 0; i < thread_count; ++i) {
         workers.emplace_back(
           [connection{acceptor->make_connection()}]() mutable {
               message_bus_endpoint server_endpoint;
