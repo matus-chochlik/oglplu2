@@ -215,7 +215,13 @@ public:
 
     template <std::size_t L, typename = std::enable_if_t<(L <= M + 1)>>
     constexpr inline basic_identifier(const char (&init)[L]) noexcept
-      : _bites{_make_bites(init, std::make_index_sequence<M>{})} {
+      : _bites{_make_bites(
+          static_cast<const char*>(init), L, std::make_index_sequence<M>{})} {
+    }
+
+    explicit constexpr inline basic_identifier(span<const char> init) noexcept
+      : _bites{_make_bites(
+          init.data(), init.size(), std::make_index_sequence<M>{})} {
     }
 
     explicit constexpr inline basic_identifier(UIntT init) noexcept
@@ -283,11 +289,11 @@ public:
 private:
     _bites_t _bites;
 
-    template <std::size_t L, std::size_t... I>
+    template <std::size_t... I>
     static constexpr inline auto _make_bites(
-      const char (&init)[L], std::index_sequence<I...>) noexcept {
+      const char* init, std::size_t l, std::index_sequence<I...>) noexcept {
         return biteset<M, B, std::uint8_t>{
-          encoding::encode((I < L) ? init[(I < L) ? I : 0] : '\0')...};
+          encoding::encode((I < l) ? init[(I < l) ? I : 0] : '\0')...};
     }
 
     template <std::size_t... I>
