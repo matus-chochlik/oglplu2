@@ -119,7 +119,7 @@ public:
             errors |= _write_one(val, identity<T>{});
             errors |= sink(';');
             if(errors) {
-                return errors;
+                break;
             }
             ++done;
         }
@@ -137,32 +137,40 @@ public:
         errors |= sink('|');
         return errors;
     }
+
     result begin_member(string_view name) final {
         result errors = sink(name);
         errors |= sink(':');
         return errors;
     }
+
     result finish_member(string_view) final {
         return {};
     }
+
     result finish_struct() final {
         return sink("};");
     }
+
     result begin_list(span_size_t count) final {
         result errors = sink('[');
         errors |= _write_one(count, identity<span_size_t>{});
         errors |= sink('|');
         return errors;
     }
+
     result begin_element(span_size_t) final {
         return {};
     }
+
     result finish_element(span_size_t) final {
         return {};
     }
+
     result finish_list() final {
         return sink("];");
     }
+
     result finish() final {
         return sink('>');
     }
@@ -174,8 +182,7 @@ class string_deserializer_backend
 
 public:
     using base::base;
-    using base::pop;
-    using base::top;
+    using base::require;
     using error_code = deserialization_error_code;
     using result = deserialization_result;
 
@@ -183,41 +190,203 @@ public:
         return EAGINE_ID(String);
     }
 
+private:
+    result _read_one(bool& value, char delimiter) {
+        result temp{};
+        if(this->consume("true", temp)) {
+            value = true;
+        } else if(this->consume("false", temp)) {
+            value = false;
+        } else {
+            return temp;
+        }
+        return require(delimiter);
+    }
+
+    result _read_one(char& value, char delimiter) {
+        result errors = require('\'');
+        if(!errors) {
+            if(auto opt_char = this->top_char()) {
+                value = extract(opt_char);
+                pop(1);
+            } else {
+                errors |= error_code::not_enough_data;
+            }
+            if(!errors) {
+                const char t[3] = {'\'', delimiter, '\0'};
+                errors |= require(string_view(t));
+            }
+        }
+        return errors;
+    }
+
+    template <typename T, std::size_t L>
+    result _sscanf_one(T& value, char delimiter, const char (&fmt)[L]) {
+        result errors{};
+        if(auto src = this->string_before(delimiter)) {
+            if(std::sscanf(src.data(), fmt, &value) == 1) {
+                pop(src.size() + 1);
+            } else {
+                errors |= error_code::invalid_format;
+            }
+        } else {
+            errors |= error_code::not_enough_data;
+        }
+        return errors;
+    }
+
+    result _read_one(byte& value, char delimiter) {
+        const char fmt[6] = {'%', 'h', 'h', 'x', delimiter, '\0'};
+        return _sscanf_one(value, delimiter, fmt);
+    }
+
+    result _read_one(short& value, char delimiter) {
+        const char fmt[5] = {'%', 'h', 'd', delimiter, '\0'};
+        return _sscanf_one(value, delimiter, fmt);
+    }
+
+    result _read_one(unsigned short& value, char delimiter) {
+        const char fmt[5] = {'%', 'h', 'u', delimiter, '\0'};
+        return _sscanf_one(value, delimiter, fmt);
+    }
+
+    result _read_one(int& value, char delimiter) {
+        const char fmt[4] = {'%', 'd', delimiter, '\0'};
+        return _sscanf_one(value, delimiter, fmt);
+    }
+
+    result _read_one(unsigned& value, char delimiter) {
+        const char fmt[4] = {'%', 'u', delimiter, '\0'};
+        return _sscanf_one(value, delimiter, fmt);
+    }
+
+    result _read_one(long& value, char delimiter) {
+        const char fmt[5] = {'%', 'l', 'd', delimiter, '\0'};
+        return _sscanf_one(value, delimiter, fmt);
+    }
+
+    result _read_one(unsigned long& value, char delimiter) {
+        const char fmt[5] = {'%', 'l', 'u', delimiter, '\0'};
+        return _sscanf_one(value, delimiter, fmt);
+    }
+
+    result _read_one(long long& value, char delimiter) {
+        const char fmt[6] = {'%', 'l', 'l', 'd', delimiter, '\0'};
+        return _sscanf_one(value, delimiter, fmt);
+    }
+
+    result _read_one(unsigned long long& value, char delimiter) {
+        const char fmt[6] = {'%', 'l', 'l', 'u', delimiter, '\0'};
+        return _sscanf_one(value, delimiter, fmt);
+    }
+
+    result _read_one(float& value, char delimiter) {
+        const char fmt[4] = {'%', 'f', delimiter, '\0'};
+        return _sscanf_one(value, delimiter, fmt);
+    }
+
+    result _read_one(double& value, char delimiter) {
+        const char fmt[5] = {'%', 'l', 'f', delimiter, '\0'};
+        return _sscanf_one(value, delimiter, fmt);
+    }
+
+    result _read_one(identifier& value, char delimiter) {
+        result errors{};
+        if(auto src = this->string_before(delimiter)) {
+            value = identifier(src);
+            pop(src.size() + 1);
+        } else {
+            errors |= error_code::not_enough_data;
+        }
+        return errors;
+    }
+
+    result _read_one(std::string& value, char delimiter) {
+        result errors = require('"');
+        if(!errors) {
+            span_size_t len{0};
+            errors |= _read_one(len, '|');
+            if(!errors) {
+                auto str = this->top_string(len);
+                if(str.size() < len) {
+                    errors |= error_code::not_enough_data;
+                } else {
+                    value.assign(str.data(), std::size_t(str.size()));
+                    pop(str.size());
+                    errors |= require('"');
+                    errors |= require(delimiter);
+                }
+            }
+        }
+        return errors;
+    }
+
+public:
     template <typename T>
-    result do_read(span<T>, span_size_t& done) {
+    result do_read(span<T> values, span_size_t& done) {
         done = 0;
-        return {};
+        result errors{};
+        for(T& val : values) {
+            errors |= _read_one(val, ';');
+            if(errors) {
+                break;
+            }
+            ++done;
+        }
+
+        return errors;
     }
 
     result begin() final {
-        return {};
+        return require('<');
     }
-    result begin_struct(span_size_t&) final {
-        return {};
+
+    result begin_struct(span_size_t& count) final {
+        result errors = require('{');
+        if(!errors) {
+            errors |= _read_one(count, '|');
+        }
+        return errors;
     }
-    result begin_member(string_view) final {
-        return {};
+
+    result begin_member(string_view name) final {
+        result errors = require(name);
+        if(!errors) {
+            errors |= require(':');
+        }
+        return errors;
     }
+
     result finish_member(string_view) final {
         return {};
     }
+
     result finish_struct() final {
-        return {};
+        return require("};");
     }
-    result begin_list(span_size_t&) final {
-        return {};
+
+    result begin_list(span_size_t& count) final {
+        result errors = require('[');
+        if(!errors) {
+            errors |= _read_one(count, '|');
+        }
+        return errors;
     }
+
     result begin_element(span_size_t) final {
         return {};
     }
+
     result finish_element(span_size_t) final {
         return {};
     }
+
     result finish_list() final {
-        return {};
+        return require("];");
     }
+
     result finish() final {
-        return {};
+        return require('>');
     }
 };
 //------------------------------------------------------------------------------

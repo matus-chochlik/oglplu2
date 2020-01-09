@@ -167,9 +167,70 @@ protected:
         return _source->top(size);
     }
 
+    auto top_string(span_size_t size) {
+        return memory::accomodate<const char>(top(size));
+    }
+
+    auto string_before(char c, valid_if_positive<span_size_t> step = {256}) {
+        auto found = scan_for(byte(c), step);
+        return top_string(extract_or(found, 0));
+    }
+
+    auto top_char() {
+        return top_string(1);
+    }
+
     void pop(span_size_t size) {
         EAGINE_ASSERT(_source);
         _source->pop(size);
+    }
+
+    bool starts_with(string_view what) {
+        return are_equal(top_string(what.size()), what);
+    }
+
+    bool starts_with(char c) {
+        return starts_with(view_one(c));
+    }
+
+    bool consume(string_view what, result& errors) {
+        errors = {};
+        auto top_str = top_string(what.size());
+        if(top_str.size() < what.size()) {
+            errors |= error_code::not_enough_data;
+        } else {
+            if(are_equal(top_str, what)) {
+                pop(what.size());
+                return true;
+            } else {
+                errors |= error_code::unexpected_data;
+            }
+        }
+        return false;
+    }
+
+    bool consume(char what, result& errors) {
+        return consume(view_one(what), errors);
+    }
+
+    result require(string_view what) {
+        result errors{};
+        auto top_str = top_string(what.size());
+        if(top_str.size() < what.size()) {
+            errors |= error_code::not_enough_data;
+        } else {
+            if(are_equal(top_str, what)) {
+                pop(what.size());
+            } else {
+                errors |= error_code::invalid_format;
+            }
+        }
+
+        return errors;
+    }
+
+    result require(char what) {
+        return require(view_one(what));
     }
 
 private:
