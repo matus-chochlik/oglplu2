@@ -1,16 +1,17 @@
 /**
- *  @example eagine/serialize/001_basic.cpp
+ *  @example eagine/serialize/002_string.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/hexdump.hpp>
 #include <eagine/map_data_members.hpp>
-#include <eagine/serialize/fast_backend.hpp>
 #include <eagine/serialize/istream_source.hpp>
 #include <eagine/serialize/ostream_sink.hpp>
 #include <eagine/serialize/read.hpp>
+#include <eagine/serialize/string_backend.hpp>
 #include <eagine/serialize/write.hpp>
 #include <iostream>
 #include <sstream>
@@ -20,8 +21,9 @@ namespace eagine {
 struct my_struct {
     bool b{false};
     char c{'\0'};
-    float f{0.f};
-    int i{0};
+    double d{0.0};
+    identifier i{};
+    long l{};
     std::string s{};
     unsigned u{0U};
 };
@@ -33,14 +35,16 @@ constexpr auto data_member_mapping(identity<my_struct>, selector<Id>) noexcept {
       S,
       bool,
       char,
-      float,
-      int,
+      double,
+      identifier,
+      long,
       std::string,
       unsigned>(
       {"b", &S::b},
       {"c", &S::c},
-      {"f", &S::f},
+      {"d", &S::d},
       {"i", &S::i},
+      {"l", &S::l},
       {"s", &S::s},
       {"u", &S::u});
 }
@@ -48,8 +52,9 @@ constexpr auto data_member_mapping(identity<my_struct>, selector<Id>) noexcept {
 void baz(const my_struct& instance) {
     std::cout << instance.b;
     std::cout << instance.c;
-    std::cout << instance.f;
-    std::cout << instance.i;
+    std::cout << instance.d;
+    std::cout << instance.i.name();
+    std::cout << instance.l;
     std::cout << instance.s;
     std::cout << instance.u;
     std::cout << std::endl;
@@ -57,7 +62,7 @@ void baz(const my_struct& instance) {
 //------------------------------------------------------------------------------
 void bar(std::istream& data) {
     istream_data_source source(data);
-    fast_deserializer_backend backend(source);
+    string_deserializer_backend backend(source);
     my_struct instance;
     auto member_map = map_data_members(instance);
     deserialize(member_map, backend);
@@ -68,9 +73,10 @@ void foo(const my_struct& instance) {
 
     std::stringstream data;
     ostream_data_sink sink(data);
-    fast_serializer_backend backend(sink);
+    string_serializer_backend backend(sink);
     auto member_map = map_data_members(instance);
     serialize(member_map, backend);
+    std::cout << hexdump(as_bytes(view(data.str())));
     bar(data);
 }
 //------------------------------------------------------------------------------
@@ -82,8 +88,9 @@ int main() {
     my_struct x;
     x.b = true;
     x.c = '2';
-    x.f = 34.5f;
-    x.i = 67;
+    x.d = 3.4;
+    x.i = identifier("FiveSix");
+    x.l = 7777777L;
     x.s = "eight";
     x.u = 90U;
 
