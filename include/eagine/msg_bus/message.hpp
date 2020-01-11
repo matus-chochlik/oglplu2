@@ -12,9 +12,9 @@
 
 #include "../assert.hpp"
 #include "../identifier.hpp"
-#include "../map_enumerators.hpp"
 #include "../memory/buffer_pool.hpp"
 #include "../memory/span_algo.hpp"
+#include "../reflect/map_enumerators_fwd.hpp"
 #include "../types.hpp"
 #include <vector>
 

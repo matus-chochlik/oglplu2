@@ -1,5 +1,5 @@
 /**
- *  @file eagine/map_data_members.hpp
+ *  @file eagine/reflect/map_data_members.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,11 +7,11 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MAP_DATA_MEMBERS_HPP
-#define EAGINE_MAP_DATA_MEMBERS_HPP
+#ifndef EAGINE_REFLECT_MAP_DATA_MEMBERS_HPP
+#define EAGINE_REFLECT_MAP_DATA_MEMBERS_HPP
 
-#include "selector.hpp"
-#include "string_span.hpp"
+#include "../selector.hpp"
+#include "../string_span.hpp"
 #include <type_traits>
 #include <utility>
 
@@ -103,4 +103,4 @@ constexpr auto map_data_members(T& instance) noexcept {
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-#endif // EAGINE_MAP_DATA_MEMBERS_HPP
+#endif // EAGINE_REFLECT_MAP_DATA_MEMBERS_HPP

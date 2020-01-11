@@ -1,5 +1,5 @@
 /**
- *  @file eagine/map_enumerators.hpp
+ *  @file eagine/reflect/map_enumerators.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,30 +7,16 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MAP_ENUMERATORS_HPP
-#define EAGINE_MAP_ENUMERATORS_HPP
+#ifndef EAGINE_REFLECT_MAP_ENUMERATORS_HPP
+#define EAGINE_REFLECT_MAP_ENUMERATORS_HPP
 
-#include "selector.hpp"
-#include "string_span.hpp"
-#include "valid_if/decl.hpp"
+#include "../selector.hpp"
+#include "../valid_if/decl.hpp"
+#include "map_enumerators_fwd.hpp"
 #include <type_traits>
 #include <utility>
 
 namespace eagine {
-//------------------------------------------------------------------------------
-template <typename T>
-struct enumerator_info {
-    constexpr enumerator_info(string_view n, T e) noexcept
-      : name{n}
-      , enumerator{e} {
-    }
-
-    const string_view name;
-    const T enumerator;
-};
-//------------------------------------------------------------------------------
-template <typename T, std::size_t N>
-using enumerator_map_type = std::array<enumerator_info<T>, N>;
 //------------------------------------------------------------------------------
 template <typename T, typename Selector>
 struct does_have_enumerator_mapping {
