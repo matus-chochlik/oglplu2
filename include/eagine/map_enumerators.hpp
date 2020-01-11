@@ -10,7 +10,6 @@
 #ifndef EAGINE_MAP_ENUMERATORS_HPP
 #define EAGINE_MAP_ENUMERATORS_HPP
 
-#include "maybe_unused.hpp"
 #include "selector.hpp"
 #include "string_span.hpp"
 #include "valid_if/decl.hpp"
@@ -18,6 +17,20 @@
 #include <utility>
 
 namespace eagine {
+//------------------------------------------------------------------------------
+template <typename T>
+struct enumerator_info {
+    constexpr enumerator_info(string_view n, T e) noexcept
+      : name{n}
+      , enumerator{e} {
+    }
+
+    const string_view name;
+    const T enumerator;
+};
+//------------------------------------------------------------------------------
+template <typename T, std::size_t N>
+using enumerator_map_type = std::array<enumerator_info<T>, N>;
 //------------------------------------------------------------------------------
 template <typename T, typename Selector>
 struct does_have_enumerator_mapping {
@@ -66,10 +79,9 @@ template <typename T, typename Selector>
 std::enable_if_t<has_enumerator_mapping_v<T, Selector>, optionally_valid<T>>
 from_value(
   std::underlying_type_t<T> value, identity<T> id, Selector sel) noexcept {
-    for(auto [unused, enumerator] : enumerator_mapping(id, sel)) {
-        EAGINE_MAYBE_UNUSED(unused);
-        if(enumerator_value(enumerator, id) == value) {
-            return {enumerator, true};
+    for(const auto& info : enumerator_mapping(id, sel)) {
+        if(enumerator_value(info.enumerator, id) == value) {
+            return {info.enumerator, true};
         }
     }
     return {};
@@ -84,9 +96,9 @@ constexpr auto from_value(
 template <typename T, typename Selector>
 std::enable_if_t<has_enumerator_mapping_v<T, Selector>, optionally_valid<T>>
 from_string(string_view name, identity<T> id, Selector sel) noexcept {
-    for(auto [enum_name, enumerator] : enumerator_mapping(id, sel)) {
-        if(are_equal(enum_name, name)) {
-            return {enumerator, true};
+    for(const auto& info : enumerator_mapping(id, sel)) {
+        if(are_equal(info.name, name)) {
+            return {info.enumerator, true};
         }
     }
     return {};
@@ -99,10 +111,10 @@ constexpr auto from_string(string_view name, identity<T> id = {}) noexcept {
 //------------------------------------------------------------------------------
 template <typename T, typename Selector>
 std::enable_if_t<has_enumerator_mapping_v<T, Selector>, string_view>
-enumerator_name(T value, identity<T> id, Selector sel) noexcept {
-    for(auto [enum_name, enumerator] : enumerator_mapping(id, sel)) {
-        if(value == enumerator) {
-            return enum_name;
+enumerator_name(T enumerator, identity<T> id, Selector sel) noexcept {
+    for(const auto& info : enumerator_mapping(id, sel)) {
+        if(info.enumerator == enumerator) {
+            return info.name;
         }
     }
     return {};

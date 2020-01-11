@@ -12,6 +12,7 @@
 
 #include "../assert.hpp"
 #include "../identifier.hpp"
+#include "../map_enumerators.hpp"
 #include "../memory/buffer_pool.hpp"
 #include "../memory/span_algo.hpp"
 #include "../types.hpp"
@@ -24,12 +25,12 @@ enum class message_priority { idle, low, normal, high, critical };
 template <identifier_t Id>
 constexpr auto enumerator_mapping(
   identity<message_priority>, selector<Id>) noexcept {
-    return std::array<std::pair<string_view, message_priority>, 5>{
-      {{{"critical"}, message_priority::critical},
-       {{"high"}, message_priority::high},
-       {{"normal"}, message_priority::normal},
-       {{"low"}, message_priority::low},
-       {{"idle"}, message_priority::idle}}};
+    return enumerator_map_type<message_priority, 5>{
+      {{"critical", message_priority::critical},
+       {"high", message_priority::high},
+       {"normal", message_priority::normal},
+       {"low", message_priority::low},
+       {"idle", message_priority::idle}}};
 }
 //------------------------------------------------------------------------------
 struct message_info {
