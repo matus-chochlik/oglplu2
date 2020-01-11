@@ -19,9 +19,6 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 template <typename CharSet>
-class identifier_encoding;
-//------------------------------------------------------------------------------
-template <typename CharSet>
 class identifier_encoding {
 public:
     static constexpr inline std::uint8_t encode(const char c) noexcept {
@@ -67,10 +64,10 @@ private:
 //------------------------------------------------------------------------------
 struct default_identifier_char_set {
     static constexpr const char values[63] = {
-      'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
-      'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-      'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-      'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+      'e', 't', 'a', 'o', 'i', 'n', 's', 'r', 'h', 'l', 'd', 'c', 'u',
+      'm', 'f', 'p', 'g', 'w', 'y', 'b', 'v', 'k', 'x', 'j', 'q', 'z',
+      'T', 'A', 'I', 'S', 'O', 'W', 'H', 'B', 'C', 'M', 'F', 'P', 'D',
+      'R', 'L', 'E', 'G', 'N', 'Y', 'U', 'K', 'V', 'J', 'Q', 'X', 'Z',
       '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '_'};
 };
 //------------------------------------------------------------------------------
@@ -79,8 +76,8 @@ class identifier_name {
 public:
     template <typename... C>
     identifier_name(span_size_t len, C... c) noexcept
-      : _str{c...}
-      , _len{std::uint8_t(len)} {
+      : _len{std::uint8_t(len)}
+      , _str{c...} {
     }
 
     using size_type = span_size_t;
@@ -113,8 +110,8 @@ public:
     }
 
 private:
+    std::uint8_t _len{0};
     fixed_size_string<M> _str{};
-    std::uint8_t _len{};
 };
 //------------------------------------------------------------------------------
 template <std::size_t M>
