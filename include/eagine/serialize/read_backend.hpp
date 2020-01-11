@@ -29,6 +29,7 @@ struct deserializer_backend {
     using result = deserialization_result;
 
     virtual identifier type_id() = 0;
+    virtual deserializer_data_source* source() = 0;
 
     virtual result begin() = 0;
     virtual result read(span<bool>, span_size_t&) = 0;
@@ -70,6 +71,10 @@ public:
 
     using error_code = deserialization_error_code;
     using result = deserialization_result;
+
+    deserializer_data_source* source() final {
+        return _source;
+    }
 
     result begin() override {
         return {};

@@ -29,6 +29,7 @@ struct serializer_backend {
     using result = serialization_result;
 
     virtual identifier type_id() = 0;
+    virtual serializer_data_sink* sink() = 0;
 
     virtual result begin() = 0;
     virtual result write(span<const bool>, span_size_t&) = 0;
@@ -66,6 +67,10 @@ public:
     Derived& set_sink(Sink& s) noexcept {
         _sink = &s;
         return derived();
+    }
+
+    serializer_data_sink* sink() final {
+        return _sink;
     }
 
     result begin() override {
