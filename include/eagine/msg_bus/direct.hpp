@@ -83,7 +83,7 @@ public:
       , _state{address->connect()} {
     }
 
-    identifier type_id() {
+    identifier type_id() final {
         return EAGINE_ID(Direct);
     }
 
@@ -95,7 +95,7 @@ public:
     bool send(
       identifier_t class_id,
       identifier_t method_id,
-      const message_view& message) {
+      const message_view& message) final {
         _checkup();
         if(EAGINE_LIKELY(_state)) {
             _state->send_to_server(class_id, method_id, message);
@@ -104,8 +104,7 @@ public:
         return false;
     }
 
-    void fetch_messages(
-      message_bus_connection::fetch_handler handler) noexcept {
+    void fetch_messages(message_bus_connection::fetch_handler handler) final {
         _checkup();
         if(EAGINE_LIKELY(_state)) {
             _state->fetch_from_server(handler);
@@ -132,14 +131,14 @@ public:
       : _weak_state{state} {
     }
 
-    identifier type_id() {
+    identifier type_id() final {
         return EAGINE_ID(Direct);
     }
 
     bool send(
       identifier_t class_id,
       identifier_t method_id,
-      const message_view& message) {
+      const message_view& message) final {
         if(auto state = _weak_state.lock()) {
             state->send_to_client(class_id, method_id, message);
             return true;
@@ -147,8 +146,7 @@ public:
         return false;
     }
 
-    void fetch_messages(
-      message_bus_connection::fetch_handler handler) noexcept {
+    void fetch_messages(message_bus_connection::fetch_handler handler) final {
         if(auto state = _weak_state.lock()) {
             state->fetch_from_client(handler);
         }
