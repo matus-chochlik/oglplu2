@@ -11,6 +11,7 @@
 #define EAGINE_MSG_BUS_SERIALIZE_HPP
 
 #include "../extract.hpp"
+#include "../serialize/read.hpp"
 #include "../serialize/write.hpp"
 #include "message.hpp"
 
@@ -38,7 +39,7 @@ serialize_message(
         }
     }
 
-    return {};
+    return errors;
 }
 //------------------------------------------------------------------------------
 template <identifier_t ClassId, identifier_t MethodId, typename Backend>
@@ -48,6 +49,32 @@ std::enable_if_t<
 serialize_message(
   message_id<ClassId, MethodId>, const message_view& msg, Backend& backend) {
     return serialize_message(ClassId, MethodId, msg, backend);
+}
+//------------------------------------------------------------------------------
+template <typename Backend>
+std::enable_if_t<
+  std::is_base_of_v<deserializer_backend, Backend>,
+  deserialization_result>
+deserialize_message(
+  identifier_t& class_id,
+  identifier_t& method_id,
+  stored_message& msg,
+  Backend& backend) {
+    std::tuple<identifier, identifier> message_params{};
+    deserialization_result errors = deserialize(message_params, backend);
+
+    if(!errors) {
+        class_id = std::get<0>(message_params).value();
+        method_id = std::get<1>(message_params).value();
+        if(auto source = backend.source()) {
+            msg.data.clear();
+            extract(source).fetch_all(msg.data);
+        } else {
+            errors |= deserialization_error_code::backend_error;
+        }
+    }
+
+    return errors;
 }
 //------------------------------------------------------------------------------
 } // namespace eagine

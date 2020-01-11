@@ -10,7 +10,7 @@
 #ifndef EAGINE_SERIALIZE_DATA_SOURCE_HPP
 #define EAGINE_SERIALIZE_DATA_SOURCE_HPP
 
-#include "../memory/block.hpp"
+#include "../memory/buffer.hpp"
 #include "../memory/span_algo.hpp"
 #include "../string_span.hpp"
 #include "../valid_if/nonnegative.hpp"
@@ -26,6 +26,10 @@ struct deserializer_data_source {
     deserializer_data_source& operator=(const deserializer_data_source&) =
       delete;
     virtual ~deserializer_data_source() noexcept = default;
+
+    virtual memory::const_block top(span_size_t size) = 0;
+
+    virtual void pop(span_size_t size) = 0;
 
     valid_if_nonnegative<span_size_t> scan_for(
       byte what, valid_if_positive<span_size_t> step = {256}) {
@@ -45,9 +49,16 @@ struct deserializer_data_source {
         return {-1};
     }
 
-    virtual memory::const_block top(span_size_t size) = 0;
-
-    virtual void pop(span_size_t size) = 0;
+    void fetch_all(
+      memory::buffer& dst, valid_if_positive<span_size_t> step = {256}) {
+        span_size_t offs{dst.size()};
+        while(auto blk = top(extract(step))) {
+            dst.enlarge_by(blk.size());
+            copy(blk, skip(cover(dst), offs));
+            offs += blk.size();
+            pop(blk.size());
+        }
+    }
 };
 //------------------------------------------------------------------------------
 } // namespace eagine

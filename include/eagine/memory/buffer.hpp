@@ -86,6 +86,14 @@ public:
         EAGINE_ASSERT(_is_ok());
     }
 
+    void clear() {
+        resize(0);
+    }
+
+    void enlarge_by(span_size_t inc_size) {
+        resize(size() + inc_size);
+    }
+
     void free() {
         _alloc.deallocate(std::move(_storage), _align);
         _size = 0;
