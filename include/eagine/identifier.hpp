@@ -13,7 +13,6 @@
 #include "biteset.hpp"
 #include "fixed_size_str.hpp"
 #include "identifier_t.hpp"
-#include "mp_string.hpp"
 #include "selector.hpp"
 #include <iosfwd>
 
@@ -34,8 +33,7 @@ public:
     }
 
     static constexpr inline auto invalid() noexcept {
-        return std::uint8_t(
-          sizeof(CharSet::values) / sizeof(CharSet::values[0]));
+        return _get_invalid(CharSet::values);
     }
 
     static constexpr inline bool invalid(const std::uint8_t c) noexcept {
@@ -47,6 +45,11 @@ public:
     }
 
 private:
+    template <std::size_t L>
+    static constexpr inline auto _get_invalid(const char (&)[L]) noexcept {
+        return std::uint8_t(L);
+    }
+
     template <std::size_t L>
     static constexpr inline std::uint8_t _do_encode(
       const char c, const std::uint8_t i, const char (&enc)[L]) noexcept {
