@@ -7,7 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/hexdump.hpp>
-#include <eagine/reflect/map_data_members.hpp>
+#include <eagine/reflect/data_members.hpp>
 #include <eagine/serialize/istream_source.hpp>
 #include <eagine/serialize/ostream_sink.hpp>
 #include <eagine/serialize/read.hpp>

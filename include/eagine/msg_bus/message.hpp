@@ -14,7 +14,7 @@
 #include "../identifier.hpp"
 #include "../memory/buffer_pool.hpp"
 #include "../memory/span_algo.hpp"
-#include "../reflect/map_enumerators_fwd.hpp"
+#include "../reflect/map_enumerators.hpp"
 #include "../types.hpp"
 #include <vector>
 

@@ -6,7 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <eagine/reflect/map_data_members.hpp>
+#include <eagine/reflect/data_members.hpp>
 #include <eagine/serialize/fast_backend.hpp>
 #include <eagine/serialize/istream_source.hpp>
 #include <eagine/serialize/ostream_sink.hpp>
