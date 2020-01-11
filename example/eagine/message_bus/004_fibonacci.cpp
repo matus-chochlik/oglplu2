@@ -1,5 +1,5 @@
 /**
- *  @example eagine/message_bus/fibonacci.cpp
+ *  @example eagine/message_bus/004_fibonacci.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
