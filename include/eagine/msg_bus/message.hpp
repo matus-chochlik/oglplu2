@@ -21,6 +21,17 @@ namespace eagine {
 //------------------------------------------------------------------------------
 enum class message_priority { idle, low, normal, high, critical };
 //------------------------------------------------------------------------------
+template <identifier_t Id>
+constexpr auto enumerator_mapping(
+  identity<message_priority>, selector<Id>) noexcept {
+    return std::array<std::pair<string_view, message_priority>, 5>{
+      {{{"critical"}, message_priority::critical},
+       {{"high"}, message_priority::high},
+       {{"normal"}, message_priority::normal},
+       {{"low"}, message_priority::low},
+       {{"idle"}, message_priority::idle}}};
+}
+//------------------------------------------------------------------------------
 struct message_info {
     static constexpr identifier_t inline invalid_endpoint_id() noexcept {
         return 0U;
