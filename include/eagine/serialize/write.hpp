@@ -11,6 +11,8 @@
 #define EAGINE_SERIALIZE_WRITE_HPP
 
 #include "../assert.hpp"
+#include "../nothing.hpp"
+#include "../reflect/enumerators.hpp"
 #include "write_backend.hpp"
 #include <array>
 #include <string>
@@ -110,6 +112,8 @@ template <>
 struct serializer<double> : plain_serializer<double> {};
 template <>
 struct serializer<identifier> : plain_serializer<identifier> {};
+template <>
+struct serializer<decl_name> : plain_serializer<decl_name> {};
 template <>
 struct serializer<string_view> : plain_serializer<string_view> {};
 //------------------------------------------------------------------------------
@@ -335,6 +339,33 @@ struct serializer<std::vector<T, A>> : common_serializer<std::vector<T, A>> {
 private:
     serializer<T> _elem_serializer{};
 };
+//------------------------------------------------------------------------------
+template <typename T>
+struct enum_serializer {
+    template <typename Backend>
+    serialization_result write(T enumerator, Backend& backend) const {
+        serialization_result errors{};
+        if(backend.enum_as_string()) {
+            errors |=
+              _name_serializer.write(enumerator_name(enumerator), backend);
+        } else {
+            errors |=
+              _value_serializer.write(enumerator_value(enumerator), backend);
+        }
+        return errors;
+    }
+
+private:
+    serializer<std::underlying_type_t<T>> _value_serializer{};
+    serializer<decl_name> _name_serializer{};
+};
+//------------------------------------------------------------------------------
+template <typename T>
+struct serializer
+  : std::conditional_t<
+      has_enumerator_mapping_v<T>,
+      enum_serializer<T>,
+      nothing_t> {};
 //------------------------------------------------------------------------------
 template <typename T, typename Backend>
 std::enable_if_t<

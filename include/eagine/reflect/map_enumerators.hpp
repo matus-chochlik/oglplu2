@@ -10,7 +10,8 @@
 #ifndef EAGINE_REFLECT_MAP_ENUMERATORS_HPP
 #define EAGINE_REFLECT_MAP_ENUMERATORS_HPP
 
-#include "../string_span.hpp"
+#include "../selector.hpp"
+#include "decl_name.hpp"
 #include <array>
 #include <type_traits>
 
@@ -18,12 +19,12 @@ namespace eagine {
 //------------------------------------------------------------------------------
 template <typename T>
 struct enumerator_and_name {
-    constexpr enumerator_and_name(string_view n, T e) noexcept
+    constexpr enumerator_and_name(decl_name n, T e) noexcept
       : name{n}
       , enumerator{e} {
     }
 
-    const string_view name;
+    const decl_name name;
     const T enumerator;
 };
 //------------------------------------------------------------------------------
@@ -43,11 +44,11 @@ public:
     using type = decltype(_test(static_cast<std::remove_cv_t<T>*>(nullptr)));
 };
 //------------------------------------------------------------------------------
-template <typename T, typename Selector>
+template <typename T, typename Selector = selector<0>>
 using has_enumerator_mapping_t =
   typename does_have_enumerator_mapping<T, Selector>::type;
 
-template <typename T, typename Selector>
+template <typename T, typename Selector = selector<0>>
 constexpr const bool has_enumerator_mapping_v =
   has_enumerator_mapping_t<T, Selector>::value;
 //------------------------------------------------------------------------------

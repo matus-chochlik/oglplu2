@@ -11,6 +11,7 @@
 #define EAGINE_SERIALIZE_READ_BACKEND_HPP
 
 #include "../identifier.hpp"
+#include "../reflect/decl_name.hpp"
 #include "data_source.hpp"
 #include "result.hpp"
 #include <cstdint>
@@ -30,6 +31,7 @@ struct deserializer_backend {
 
     virtual identifier type_id() = 0;
     virtual deserializer_data_source* source() = 0;
+    virtual bool enum_as_string() = 0;
 
     virtual result begin() = 0;
     virtual result read(span<bool>, span_size_t&) = 0;
@@ -44,6 +46,7 @@ struct deserializer_backend {
     virtual result read(span<float>, span_size_t&) = 0;
     virtual result read(span<double>, span_size_t&) = 0;
     virtual result read(span<identifier>, span_size_t&) = 0;
+    virtual result read(span<decl_name_storage>, span_size_t&) = 0;
     virtual result read(span<std::string>, span_size_t&) = 0;
     virtual result begin_struct(span_size_t& member_count) = 0;
     virtual result begin_member(string_view name) = 0;
@@ -74,6 +77,10 @@ public:
 
     deserializer_data_source* source() final {
         return _source;
+    }
+
+    bool enum_as_string() override {
+        return false;
     }
 
     result begin() override {
@@ -125,6 +132,10 @@ public:
     }
 
     result read(span<identifier> values, span_size_t& done) override {
+        return derived().do_read(values, done);
+    }
+
+    result read(span<decl_name_storage> values, span_size_t& done) override {
         return derived().do_read(values, done);
     }
 

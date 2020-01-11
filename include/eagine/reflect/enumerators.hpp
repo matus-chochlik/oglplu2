@@ -34,7 +34,7 @@ constexpr auto enumerator_name(T value, identity<T> id = {}) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename T, typename Selector>
-std::enable_if_t<has_enumerator_mapping_v<T, Selector>, string_view>
+std::enable_if_t<has_enumerator_mapping_v<T, Selector>, decl_name>
 enumerator_name(T enumerator, identity<T> id, Selector sel) noexcept {
     for(const auto& info : enumerator_mapping(id, sel)) {
         if(info.enumerator == enumerator) {
@@ -115,7 +115,7 @@ template <typename T, typename Selector>
 std::enable_if_t<has_enumerator_mapping_v<T, Selector>, optionally_valid<T>>
 from_string(string_view name, identity<T> id, Selector sel) noexcept {
     for(const auto& info : enumerator_mapping(id, sel)) {
-        if(are_equal(info.name, name)) {
+        if(are_equal(string_view(info.name), name)) {
             return {info.enumerator, true};
         }
     }

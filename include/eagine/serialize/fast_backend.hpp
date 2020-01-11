@@ -46,7 +46,8 @@ public:
         return errors;
     }
 
-    result do_write(span<const string_view> values, span_size_t& done) {
+    template <typename Str>
+    result do_write_strings(span<const Str> values, span_size_t& done) {
         done = 0;
         serialization_result errors{};
         for(auto& str : values) {
@@ -59,6 +60,14 @@ public:
             done += written;
         }
         return errors;
+    }
+
+    result do_write(span<const decl_name> values, span_size_t& done) {
+        return do_write_strings(values, done);
+    }
+
+    result do_write(span<const string_view> values, span_size_t& done) {
+        return do_write_strings(values, done);
     }
 
     result begin_struct(span_size_t size) final {
@@ -105,6 +114,27 @@ public:
         }
         memory::copy(src, dst);
         pop(src.size());
+        return errors;
+    }
+
+    result do_read(span<decl_name_storage> values, span_size_t& done) {
+        result errors{};
+        done = 0;
+        for(auto& name : values) {
+            span_size_t unused{0};
+            span_size_t size{0};
+            errors |= do_read(cover_one(size), unused);
+            if(errors) {
+                break;
+            }
+            auto src = memory::accomodate<const char>(top(size));
+            if(src.size() < size) {
+                return {error_code::not_enough_data};
+            }
+            name.assign(src);
+            pop(src.size());
+            ++done;
+        }
         return errors;
     }
 

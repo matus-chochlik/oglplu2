@@ -36,9 +36,13 @@ public:
     using type = decltype(_test(static_cast<std::remove_cv_t<T>*>(nullptr)));
 };
 //------------------------------------------------------------------------------
-template <typename T, typename Selector>
+template <typename T, typename Selector = selector<0>>
 using has_data_member_mapping_t =
   typename does_have_data_member_mapping<T, Selector>::type;
+
+template <typename T, typename Selector = selector<0>>
+constexpr const bool has_data_member_mapping_v =
+  has_data_member_mapping_t<T, Selector>::value;
 //------------------------------------------------------------------------------
 } // namespace eagine
 

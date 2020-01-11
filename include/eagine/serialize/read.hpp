@@ -12,6 +12,7 @@
 
 #include "../math/functions.hpp"
 #include "../memory/span_algo.hpp"
+#include "../reflect/enumerators.hpp"
 #include "read_backend.hpp"
 #include <algorithm>
 #include <array>
@@ -324,6 +325,47 @@ struct deserializer<std::vector<T, A>>
 private:
     deserializer<T> _elem_deserializer{};
 };
+//------------------------------------------------------------------------------
+template <typename T>
+struct enum_deserializer {
+    template <typename Backend>
+    deserialization_result read(T& enumerator, Backend& backend) {
+        deserialization_result errors{};
+        if(backend.enum_as_string()) {
+            errors |= _name_deserializer.read(_temp_name, backend);
+            if(!errors) {
+                if(auto found = from_string(_temp_name, identity<T>{})) {
+                    enumerator = extract(found);
+                } else {
+                    errors |= deserialization_error_code::unexpected_data;
+                }
+            }
+        } else {
+            std::underlying_type_t<T> temp_value{};
+            errors |= _value_deserializer.read(temp_value, backend);
+            if(!errors) {
+                if(auto found = from_value(temp_value, identity<T>{})) {
+                    enumerator = extract(found);
+                } else {
+                    errors |= deserialization_error_code::unexpected_data;
+                }
+            }
+        }
+        return errors;
+    }
+
+private:
+    deserializer<std::underlying_type_t<T>> _value_deserializer{};
+    deserializer<std::string> _name_deserializer{};
+    std::string _temp_name{};
+};
+//------------------------------------------------------------------------------
+template <typename T>
+struct deserializer
+  : std::conditional_t<
+      has_enumerator_mapping_v<T>,
+      enum_deserializer<T>,
+      nothing_t> {};
 //------------------------------------------------------------------------------
 template <typename T, typename Backend>
 std::enable_if_t<

@@ -27,8 +27,8 @@ serialize_message(
   const message_view& msg,
   Backend& backend) {
 
-    auto message_params =
-      std::make_tuple(identifier(class_id), identifier(method_id));
+    auto message_params = std::make_tuple(
+      identifier(class_id), identifier(method_id), msg.priority);
     serialization_result errors = serialize(message_params, backend);
 
     if(!errors) {
@@ -60,12 +60,13 @@ deserialize_message(
   identifier_t& method_id,
   stored_message& msg,
   Backend& backend) {
-    std::tuple<identifier, identifier> message_params{};
+    std::tuple<identifier, identifier, message_priority> message_params{};
     deserialization_result errors = deserialize(message_params, backend);
 
     if(!errors) {
         class_id = std::get<0>(message_params).value();
         method_id = std::get<1>(message_params).value();
+        msg.priority = std::get<2>(message_params);
         if(auto source = backend.source()) {
             msg.data.clear();
             extract(source).fetch_all(msg.data);

@@ -11,6 +11,7 @@
 #define EAGINE_SERIALIZE_WRITE_BACKEND_HPP
 
 #include "../identifier.hpp"
+#include "../reflect/decl_name.hpp"
 #include "data_sink.hpp"
 #include "result.hpp"
 #include <cstdint>
@@ -30,6 +31,7 @@ struct serializer_backend {
 
     virtual identifier type_id() = 0;
     virtual serializer_data_sink* sink() = 0;
+    virtual bool enum_as_string() = 0;
 
     virtual result begin() = 0;
     virtual result write(span<const bool>, span_size_t&) = 0;
@@ -44,6 +46,7 @@ struct serializer_backend {
     virtual result write(span<const float>, span_size_t&) = 0;
     virtual result write(span<const double>, span_size_t&) = 0;
     virtual result write(span<const identifier>, span_size_t&) = 0;
+    virtual result write(span<const decl_name>, span_size_t&) = 0;
     virtual result write(span<const string_view>, span_size_t&) = 0;
     virtual result begin_struct(span_size_t member_count) = 0;
     virtual result begin_member(string_view name) = 0;
@@ -71,6 +74,10 @@ public:
 
     serializer_data_sink* sink() final {
         return _sink;
+    }
+
+    bool enum_as_string() override {
+        return false;
     }
 
     result begin() override {
@@ -122,6 +129,10 @@ public:
     }
 
     result write(span<const identifier> values, span_size_t& done) override {
+        return derived().do_write(values, done);
+    }
+
+    result write(span<const decl_name> values, span_size_t& done) override {
         return derived().do_write(values, done);
     }
 

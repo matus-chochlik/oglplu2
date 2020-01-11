@@ -101,6 +101,10 @@ private:
         return sink(id.name().view());
     }
 
+    result _write_one(decl_name name, identity<decl_name>) {
+        return sink(name);
+    }
+
     result _write_one(string_view str, identity<string_view>) {
         result errors = sink('"');
         errors |= _write_one(str.size(), identity<span_size_t>{});
@@ -125,6 +129,10 @@ public:
         }
 
         return errors;
+    }
+
+    bool enum_as_string() final {
+        return true;
     }
 
     result begin() final {
@@ -301,6 +309,17 @@ private:
         return errors;
     }
 
+    result _read_one(decl_name_storage& value, char delimiter) {
+        result errors{};
+        if(auto src = this->string_before(delimiter)) {
+            value.assign(src);
+            pop(src.size() + 1);
+        } else {
+            errors |= error_code::not_enough_data;
+        }
+        return errors;
+    }
+
     result _read_one(std::string& value, char delimiter) {
         result errors = require('"');
         if(!errors) {
@@ -335,6 +354,10 @@ public:
         }
 
         return errors;
+    }
+
+    bool enum_as_string() final {
+        return true;
     }
 
     result begin() final {
