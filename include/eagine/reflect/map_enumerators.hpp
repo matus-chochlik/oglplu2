@@ -51,12 +51,6 @@ template <typename T, typename Selector>
 constexpr const bool has_enumerator_mapping_v =
   has_enumerator_mapping_t<T, Selector>::value;
 //------------------------------------------------------------------------------
-template <typename T, typename Selector>
-constexpr std::enable_if_t<has_enumerator_mapping_v<T, Selector>, span_size_t>
-enumerator_count(identity<T> id, Selector sel) noexcept {
-    return span_size_t(enumerator_mapping(id, sel).size());
-}
-//------------------------------------------------------------------------------
 } // namespace eagine
 
 #endif // EAGINE_MAP_ENUMERATORS_HPP

@@ -17,6 +17,12 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
+template <typename T, typename Selector>
+constexpr std::enable_if_t<has_enumerator_mapping_v<T, Selector>, span_size_t>
+enumerator_count(identity<T> id, Selector sel) noexcept {
+    return span_size_t(enumerator_mapping(id, sel).size());
+}
+//------------------------------------------------------------------------------
 template <typename T>
 constexpr auto enumerator_count(identity<T> id) noexcept {
     return enumerator_count(id, selector<0>());
