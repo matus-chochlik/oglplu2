@@ -22,9 +22,9 @@ namespace eagine {
 //------------------------------------------------------------------------------
 enum class message_priority { idle, low, normal, high, critical };
 //------------------------------------------------------------------------------
-template <identifier_t Id>
+template <typename Selector>
 constexpr auto enumerator_mapping(
-  identity<message_priority>, selector<Id>) noexcept {
+  identity<message_priority>, Selector) noexcept {
     return enumerator_map_type<message_priority, 5>{
       {{"critical", message_priority::critical},
        {"high", message_priority::high},
