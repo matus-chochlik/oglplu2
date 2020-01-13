@@ -188,7 +188,7 @@ public:
     }
 
     bool send_not_a_router() const {
-        return send(EAGINE_MSG_ID(EAGiRouter, NotARouter));
+        return send(EAGINE_MSG_ID(eagiRouter, NotARouter));
     }
 
     bool respond_to(
