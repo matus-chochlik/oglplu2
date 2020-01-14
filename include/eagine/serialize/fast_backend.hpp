@@ -127,7 +127,7 @@ public:
             if(errors) {
                 break;
             }
-            auto src = memory::accomodate<const char>(top(size));
+            auto src = as_chars(top(size));
             if(src.size() < size) {
                 return {error_code::not_enough_data};
             }
@@ -148,7 +148,7 @@ public:
             if(errors) {
                 break;
             }
-            auto src = memory::accomodate<const char>(top(size));
+            auto src = as_chars(top(size));
             if(src.size() < size) {
                 return {error_code::not_enough_data};
             }

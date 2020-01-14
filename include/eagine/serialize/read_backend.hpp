@@ -184,7 +184,7 @@ protected:
     }
 
     auto top_string(span_size_t size) {
-        return memory::accomodate<const char>(top(size));
+        return as_chars(top(size));
     }
 
     auto string_before(char c, valid_if_positive<span_size_t> step = {256}) {

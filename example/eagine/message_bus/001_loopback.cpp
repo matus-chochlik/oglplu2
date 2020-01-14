@@ -25,7 +25,7 @@ struct str_utils_server : message_bus_subscriber<1> {
     }
 
     bool reverse(stored_message& msg) {
-        auto str = memory::accomodate<char>(cover(msg.data));
+        auto str = as_chars(cover(msg.data));
         memory::reverse(str);
         endpoint().send(EAGINE_MSG_ID(StrUtilRes, Reverse), as_bytes(str));
         return true;

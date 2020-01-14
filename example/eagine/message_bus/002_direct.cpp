@@ -30,14 +30,14 @@ struct str_utils_server : message_bus_subscriber<2> {
     }
 
     bool reverse(stored_message& msg) {
-        auto str = memory::accomodate<char>(cover(msg.data));
+        auto str = as_chars(cover(msg.data));
         memory::reverse(str);
         endpoint().send(EAGINE_MSG_ID(StrUtilRes, Reverse), as_bytes(str));
         return true;
     }
 
     bool uppercase(stored_message& msg) {
-        auto str = memory::accomodate<char>(cover(msg.data));
+        auto str = as_chars(cover(msg.data));
         transform(str, [](char x) { return char(std::toupper(x)); });
         endpoint().send(EAGINE_MSG_ID(StrUtilRes, UpperCase), as_bytes(str));
         return true;
