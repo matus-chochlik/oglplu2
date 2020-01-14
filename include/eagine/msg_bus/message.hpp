@@ -146,6 +146,44 @@ private:
       _messages;
 };
 //------------------------------------------------------------------------------
+class serialized_message_storage {
+public:
+    /// The return value indicates if the message is considered handled
+    /// and should be removed.
+    using fetch_handler = callable_ref<bool(memory::const_block)>;
+
+    void push(memory::const_block message) {
+        auto buf = _buffers.get(message.size());
+        memory::copy(message, cover(buf));
+        _messages.emplace_back(std::move(buf));
+    }
+
+    void fetch_all(fetch_handler handler) {
+        bool keep_some = false;
+        for(auto& message : _messages) {
+            if(handler(view(message))) {
+                _buffers.eat(std::move(message));
+            } else {
+                keep_some = true;
+            }
+        }
+        if(keep_some) {
+            _messages.erase(
+              std::remove_if(
+                _messages.begin(),
+                _messages.end(),
+                [](auto& buf) { return buf.empty(); }),
+              _messages.end());
+        } else {
+            _messages.clear();
+        }
+    }
+
+private:
+    memory::buffer_pool _buffers;
+    std::vector<memory::buffer> _messages;
+};
+//------------------------------------------------------------------------------
 class message_priority_queue {
 public:
     using handler_type = callable_ref<bool(stored_message&)>;

@@ -69,6 +69,10 @@ public:
         return _size;
     }
 
+    bool empty() const noexcept {
+        return size() == 0;
+    }
+
     span_size_t capacity() const noexcept {
         return _storage.size();
     }
