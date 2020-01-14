@@ -142,7 +142,7 @@ struct serializer<std::tuple<T...>> : common_serializer<std::tuple<T...>> {
     serialization_result write(
       const std::tuple<T...>& values, Backend& backend) {
         serialization_result errors{};
-        errors |= backend.begin_list(span_size_t(sizeof...(T)));
+        errors |= backend.begin_list(span_size(sizeof...(T)));
         if(!errors) {
             _write_elements(
               errors,
@@ -174,10 +174,10 @@ private:
       Backend& backend,
       Serializer& serial) {
         if(!errors) {
-            errors |= backend.begin_element(span_size_t(index));
+            errors |= backend.begin_element(span_size(index));
             if(!errors) {
                 errors |= serial.write(elem, backend);
-                errors |= backend.finish_element(span_size_t(index));
+                errors |= backend.finish_element(span_size(index));
             }
         }
     }
@@ -193,7 +193,7 @@ struct serializer<std::tuple<std::pair<string_view, T>...>>
       const std::tuple<std::pair<string_view, T>...>& members,
       Backend& backend) {
         serialization_result errors{};
-        errors |= backend.begin_struct(span_size_t(sizeof...(T)));
+        errors |= backend.begin_struct(span_size(sizeof...(T)));
         if(!errors) {
             _write_members(
               errors,
@@ -310,7 +310,7 @@ struct serializer<std::array<T, N>> : common_serializer<std::array<T, N>> {
     serialization_result write(
       const std::array<T, N>& values, Backend& backend) const {
         serialization_result errors{};
-        errors |= backend.begin_list(span_size_t(N));
+        errors |= backend.begin_list(span_size(N));
         if(!errors) {
             errors |= _elem_serializer.write(view(values), backend);
             errors |= backend.finish_list();

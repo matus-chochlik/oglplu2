@@ -34,7 +34,7 @@ public:
     result do_write(span<const T> values, span_size_t& done) {
         result errors{};
         const span_size_t remaining = remaining_size();
-        span_size_t can_do = remaining / span_size_t(sizeof(T));
+        span_size_t can_do = remaining / span_size(sizeof(T));
         if(can_do < values.size()) {
             values = head(values, can_do);
             errors |= serialization_error_code::incomplete_write;
@@ -100,7 +100,7 @@ public:
     result do_read(span<T> values, span_size_t& done) {
         auto dst = as_bytes(values);
         auto src = top(dst.size());
-        const auto ts = span_size_t(sizeof(T));
+        const auto ts = span_size(sizeof(T));
         if(src.size() < ts) {
             return {error_code::not_enough_data};
         }
@@ -152,7 +152,7 @@ public:
             if(src.size() < size) {
                 return {error_code::not_enough_data};
             }
-            str.assign(src.data(), std::size_t(src.size()));
+            str.assign(src.data(), std_size(src.size()));
             pop(src.size());
             ++done;
         }

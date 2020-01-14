@@ -31,7 +31,7 @@ public:
             _in.read(
               reinterpret_cast<char*>(_storage.data()) + _cur_size,
               static_cast<std::streamsize>(req_size - _cur_size));
-            _cur_size += span_size_t(_in.gcount());
+            _cur_size += span_size(_in.gcount());
         }
         return head(head(view(_storage), _cur_size), req_size);
     }

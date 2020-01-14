@@ -37,7 +37,7 @@ public:
 
     void set_target(span<T> dst) noexcept {
         _dst = dst;
-        _done_bits.resize(std::size_t(dst.size()), false);
+        _done_bits.resize(std_size(dst.size()), false);
         _done_size = 0;
     }
 
@@ -144,9 +144,9 @@ struct deserializer<std::tuple<T...>> : common_deserializer<std::tuple<T...>> {
         deserialization_result errors{};
         span_size_t elem_count{0};
         errors |= backend.begin_list(elem_count);
-        if(elem_count < span_size_t(sizeof...(T))) {
+        if(elem_count < span_size(sizeof...(T))) {
             errors |= deserialization_error_code::missing_element;
-        } else if(elem_count > span_size_t(sizeof...(T))) {
+        } else if(elem_count > span_size(sizeof...(T))) {
             errors |= deserialization_error_code::excess_element;
         }
         if(errors.has_at_most(deserialization_error_code::excess_element)) {
@@ -184,10 +184,10 @@ private:
       Backend& backend,
       Serializer& serial) {
         if(!errors) {
-            errors |= backend.begin_element(span_size_t(index));
+            errors |= backend.begin_element(span_size(index));
             if(!errors) {
                 errors |= serial.read(elem, backend);
-                errors |= backend.finish_element(span_size_t(index));
+                errors |= backend.finish_element(span_size(index));
             }
         }
     }
@@ -205,9 +205,9 @@ struct deserializer<std::tuple<std::pair<string_view, T>...>>
         deserialization_result errors{};
         span_size_t memb_count{0};
         errors |= backend.begin_struct(memb_count);
-        if(memb_count < span_size_t(sizeof...(T))) {
+        if(memb_count < span_size(sizeof...(T))) {
             errors |= deserialization_error_code::missing_member;
-        } else if(memb_count > span_size_t(sizeof...(T))) {
+        } else if(memb_count > span_size(sizeof...(T))) {
             errors |= deserialization_error_code::excess_member;
         }
         if(errors.has_at_most(deserialization_error_code::excess_member)) {
@@ -289,9 +289,9 @@ struct deserializer<std::array<T, N>> : common_deserializer<std::array<T, N>> {
         deserialization_result errors{};
         span_size_t elem_count{0};
         errors |= backend.begin_list(elem_count);
-        if(elem_count < span_size_t(N)) {
+        if(elem_count < span_size(N)) {
             errors |= deserialization_error_code::missing_element;
-        } else if(elem_count > span_size_t(N)) {
+        } else if(elem_count > span_size(N)) {
             errors |= deserialization_error_code::excess_element;
         }
         if(errors.has_at_most(deserialization_error_code::excess_element)) {
@@ -315,7 +315,7 @@ struct deserializer<std::vector<T, A>>
         span_size_t elem_count{0};
         errors |= backend.begin_list(elem_count);
         if(!errors) {
-            values.resize(std::size_t(elem_count));
+            values.resize(std_size(elem_count));
             errors |= _elem_deserializer.read(cover(values), backend);
             errors |= backend.finish_list();
         }

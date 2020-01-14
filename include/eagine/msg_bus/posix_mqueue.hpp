@@ -138,28 +138,21 @@ public:
         return attr.mq_msgsize;
     }
 
-    msg_queue_posix_mqueue& send(unsigned priority, memory::const_block blk) {
+    msg_queue_posix_mqueue& send(unsigned priority, span<const char> blk) {
         errno = 0;
-        ::mq_send(
-          _handle,
-          reinterpret_cast<const char*>(blk.data()),
-          static_cast<std::size_t>(blk.size()),
-          priority);
+        ::mq_send(_handle, blk.data(), std_size(blk.size()), priority);
         _last_errno = errno;
         return *this;
     }
 
-    using receive_handler = callable_ref<bool(unsigned, memory::const_block)>;
+    using receive_handler = callable_ref<void(unsigned, span<const char>)>;
 
     msg_queue_posix_mqueue& receive(
-      memory::block blk, receive_handler handler) {
+      memory::span<char> blk, receive_handler handler) {
         unsigned priority{0U};
         errno = 0;
-        auto received = ::mq_receive(
-          _handle,
-          reinterpret_cast<char*>(blk.data()),
-          static_cast<std::size_t>(blk.size()),
-          &priority);
+        auto received =
+          ::mq_receive(_handle, blk.data(), span_size(blk.size()), &priority);
         _last_errno = errno;
         if(received > 0) {
             handler(priority, head(blk, received));
