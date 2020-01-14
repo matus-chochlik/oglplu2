@@ -115,6 +115,27 @@ public:
           stored_message{message, _buffers.get(message.data.size())});
     }
 
+    template <typename Function>
+    void push_if(Function function) {
+        _messages.emplace_back(
+          identifier_t{0},
+          identifier_t{0},
+          stored_message{{}, _buffers.get(0)});
+        auto& [class_id, method_id, message] = _messages.back();
+        bool rollback = false;
+        try {
+            if(!function(class_id, method_id, message)) {
+                rollback = true;
+            }
+        } catch(...) {
+            rollback = true;
+        }
+        if(rollback) {
+            _buffers.eat(std::move(message.data));
+            _messages.pop_back();
+        }
+    }
+
     void fetch_all(fetch_handler handler) {
         bool keep_some = false;
         for(auto& [class_id, method_id, message] : _messages) {
