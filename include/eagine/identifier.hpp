@@ -109,6 +109,11 @@ public:
         return {_str.data(), _len};
     }
 
+    std::string& str(std::string& s) const {
+        s.assign(_str.data(), _len);
+        return s;
+    }
+
 private:
     std::uint8_t _len{0};
     fixed_size_string<M> _str{};

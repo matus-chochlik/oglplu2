@@ -20,6 +20,7 @@
 #include <fcntl.h>
 #include <mqueue.h>
 #include <mutex>
+#include <random>
 #include <string.h>
 #include <sys/stat.h>
 
@@ -30,13 +31,21 @@ private:
     std::string _name{};
 
     static constexpr ::mqd_t _invalid_handle() noexcept {
-        return -1;
+        return ::mqd_t(-1);
     }
 
     ::mqd_t _handle{_invalid_handle()};
     int _last_errno{0};
 
 public:
+    string_view get_name() const noexcept {
+        return {_name};
+    }
+
+    bool had_error() const {
+        return _last_errno != 0;
+    }
+
     bool needs_retry() const {
         return (_last_errno == EAGAIN) || (_last_errno == ETIMEDOUT);
     }
@@ -86,6 +95,14 @@ public:
         return *this;
     }
 
+    message_bus_posix_mqueue& set_random_name() {
+        std::string temp;
+        temp.reserve(std_size(identifier::max_size() + 2));
+        // TODO: random_identifier
+        EAGINE_ID(TODO).name().str(temp);
+        return set_name(std::move(temp));
+    }
+
     message_bus_posix_mqueue(std::string name) {
         set_name(std::move(name));
     }
@@ -95,7 +112,7 @@ public:
     }
 
     constexpr explicit operator bool() const noexcept {
-        return is_open();
+        return is_open() && !had_error();
     }
 
     constexpr bool operator!() const noexcept {
@@ -178,6 +195,10 @@ class message_bus_posix_mqueue_connection : public message_bus_connection {
 public:
     using fetch_handler = message_bus_connection::fetch_handler;
 
+    bool open(std::string name) {
+        return bool(_data_queue.set_name(std::move(name)).open());
+    }
+
     identifier type_id() final {
         return EAGINE_ID(PosixMQue);
     }
@@ -192,7 +213,8 @@ public:
 
     void update() override {
         std::unique_lock lock{_mutex};
-        _do_update();
+        _receive();
+        _send();
     }
 
     bool send(
@@ -216,14 +238,38 @@ public:
     }
 
 protected:
-    void _do_update() {
-        // receive
+    void _checkup(message_bus_posix_mqueue& connect_queue) {
+        if(!_data_queue) {
+            if(_data_queue.had_error()) {
+                _data_queue.close();
+                _data_queue.unlink();
+            }
+            if(_data_queue.set_random_name().create()) {
+                _buffer.resize(connect_queue.max_data_size());
+
+                block_data_sink sink(as_bytes(cover(_buffer)));
+                string_serializer_backend backend(sink);
+                auto errors = serialize_message(
+                  EAGINE_MSG_ID(eagPMQueue, Connect),
+                  message_view(_data_queue.get_name()),
+                  backend);
+                if(!errors) {
+                    connect_queue.send(1, view(_buffer));
+                    _buffer.resize(_data_queue.max_data_size());
+                }
+            }
+        }
+    }
+
+    void _receive() {
         while(_data_queue.receive(
           cover(_buffer),
           message_bus_posix_mqueue::receive_handler(
             this, EAGINE_MEM_FUNC_C(this_class, _handle_receive)))) {
         }
-        // send
+    }
+
+    void _send() {
         _outgoing.fetch_all(
           {this, EAGINE_MEM_FUNC_C(this_class, _handle_send)});
     }
@@ -270,6 +316,8 @@ private:
 };
 //------------------------------------------------------------------------------
 class message_bus_posix_mqueue_acceptor : public message_bus_acceptor {
+    using this_class = message_bus_posix_mqueue_acceptor;
+
 public:
     using accept_handler = message_bus_acceptor::accept_handler;
 
@@ -277,10 +325,33 @@ public:
       : _accept_queue{std::move(name)} {
     }
 
-    void process_accepted(const accept_handler&) final {
+    void process_accepted(const accept_handler& handler) final {
+        _checkup();
+        _receive();
+        _process(handler);
     }
 
 private:
+    void _checkup() {
+        if(!_accept_queue) {
+            if(_accept_queue.had_error()) {
+                _accept_queue.close();
+                _accept_queue.unlink();
+            }
+            if(_accept_queue.open()) {
+                _buffer.resize(_accept_queue.max_data_size());
+            }
+        }
+    }
+
+    void _receive() {
+        while(_accept_queue.receive(
+          cover(_buffer),
+          message_bus_posix_mqueue::receive_handler(
+            this, EAGINE_MEM_FUNC_C(this_class, _handle_receive)))) {
+        }
+    }
+
     void _handle_receive(unsigned, memory::span<const char> data) {
         _requests.push_if([data](
                             identifier_t& class_id,
@@ -299,7 +370,28 @@ private:
         });
     }
 
+    void _process(const accept_handler& handler) {
+        auto fetch_handler = [this, &handler](
+                               identifier_t class_id,
+                               identifier_t method_id,
+                               const message_view& message) -> bool {
+            EAGINE_ASSERT((
+              EAGINE_MSG_ID(eagPMQueue, Connect).matches(class_id, method_id)));
+
+            if(
+              auto conn =
+                std::make_unique<message_bus_posix_mqueue_connection>()) {
+                if(conn->open(to_string(as_chars(message.data)))) {
+                    handler(std::move(conn));
+                }
+            }
+            return true;
+        };
+        _requests.fetch_all(message_storage::fetch_handler{fetch_handler});
+    }
+
     message_storage _requests;
+    std::vector<char> _buffer;
     message_bus_posix_mqueue _accept_queue{};
 };
 //------------------------------------------------------------------------------
