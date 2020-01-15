@@ -156,6 +156,10 @@ public:
       : _bites{_bites_t::from_value(init)} {
     }
 
+    explicit constexpr inline basic_identifier(_bites_t init) noexcept
+      : _bites{std::move(init)} {
+    }
+
     static constexpr inline size_type max_size() noexcept {
         return size_type(M);
     }
