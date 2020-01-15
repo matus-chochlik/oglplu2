@@ -11,6 +11,7 @@
 #define EAGINE_MSG_BUS_POSIX_MQUEUE_HPP
 
 #include "../branch_predict.hpp"
+#include "../random_identifier.hpp"
 #include "../serialize/block_sink.hpp"
 #include "../serialize/block_source.hpp"
 #include "../serialize/string_backend.hpp"
@@ -20,7 +21,6 @@
 #include <fcntl.h>
 #include <mqueue.h>
 #include <mutex>
-#include <random>
 #include <string.h>
 #include <sys/stat.h>
 
@@ -95,12 +95,15 @@ public:
         return *this;
     }
 
-    message_bus_posix_mqueue& set_random_name() {
-        std::string temp;
-        temp.reserve(std_size(identifier::max_size() + 2));
-        // TODO: random_identifier
-        EAGINE_ID(TODO).name().str(temp);
-        return set_name(std::move(temp));
+    static std::string name_from(identifier id) {
+        std::string result;
+        result.reserve(std_size(identifier::max_size() + 2));
+        id.name().str(result);
+        return result;
+    }
+
+    message_bus_posix_mqueue& set_name(identifier id) {
+        return set_name(name_from(id));
     }
 
     message_bus_posix_mqueue(std::string name) {
@@ -244,7 +247,7 @@ protected:
                 _data_queue.close();
                 _data_queue.unlink();
             }
-            if(_data_queue.set_random_name().create()) {
+            if(_data_queue.set_name(random_identifier(_rand_eng)).create()) {
                 _buffer.resize(connect_queue.max_data_size());
 
                 block_data_sink sink(as_bytes(cover(_buffer)));
@@ -297,6 +300,7 @@ private:
     serialized_message_storage _outgoing;
     std::vector<char> _buffer;
     message_bus_posix_mqueue _data_queue{};
+    std::default_random_engine _rand_eng{std::random_device{}()};
 };
 //------------------------------------------------------------------------------
 class message_bus_posix_mqueue_connector
@@ -306,6 +310,10 @@ public:
 
     message_bus_posix_mqueue_connector(std::string name) noexcept
       : _connect_queue{std::move(name)} {
+    }
+
+    message_bus_posix_mqueue_connector(identifier id)
+      : _connect_queue{message_bus_posix_mqueue::name_from(id)} {
     }
 
     void update() final {
@@ -323,6 +331,10 @@ public:
 
     message_bus_posix_mqueue_acceptor(std::string name) noexcept
       : _accept_queue{std::move(name)} {
+    }
+
+    message_bus_posix_mqueue_acceptor(identifier id)
+      : _accept_queue{message_bus_posix_mqueue::name_from(id)} {
     }
 
     void process_accepted(const accept_handler& handler) final {
