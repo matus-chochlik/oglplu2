@@ -253,6 +253,56 @@ private:
     message_bus_posix_mqueue _data_queue{};
 };
 //------------------------------------------------------------------------------
+class message_bus_posix_mqueue_connector
+  : public message_bus_posix_mqueue_connection {
+public:
+    using fetch_handler = message_bus_connection::fetch_handler;
+
+    message_bus_posix_mqueue_connector(std::string name) noexcept
+      : _connect_queue{std::move(name)} {
+    }
+
+    void update() final {
+    }
+
+private:
+    message_bus_posix_mqueue _connect_queue{};
+};
+//------------------------------------------------------------------------------
+class message_bus_posix_mqueue_acceptor : public message_bus_acceptor {
+public:
+    using accept_handler = message_bus_acceptor::accept_handler;
+
+    message_bus_posix_mqueue_acceptor(std::string name) noexcept
+      : _accept_queue{std::move(name)} {
+    }
+
+    void process_accepted(const accept_handler&) final {
+    }
+
+private:
+    void _handle_receive(unsigned, memory::span<const char> data) {
+        _requests.push_if([data](
+                            identifier_t& class_id,
+                            identifier_t& method_id,
+                            stored_message& message) {
+            block_data_source source(as_bytes(data));
+            string_deserializer_backend backend(source);
+            const auto errors =
+              deserialize_message(class_id, method_id, message, backend);
+            if(EAGINE_LIKELY(EAGINE_ID(eagPMQueue).matches(class_id))) {
+                if(EAGINE_LIKELY(EAGINE_ID(Connect).matches(method_id))) {
+                    return !errors;
+                }
+            }
+            return false;
+        });
+    }
+
+    message_storage _requests;
+    message_bus_posix_mqueue _accept_queue{};
+};
+//------------------------------------------------------------------------------
 } // namespace eagine
 
 #endif // EAGINE_MSG_BUS_POSIX_MQUEUE_HPP
