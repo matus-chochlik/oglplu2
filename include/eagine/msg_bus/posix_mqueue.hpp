@@ -38,27 +38,6 @@ private:
     int _last_errno{0};
 
 public:
-    string_view get_name() const noexcept {
-        return {_name};
-    }
-
-    bool had_error() const {
-        return _last_errno != 0;
-    }
-
-    bool needs_retry() const {
-        return (_last_errno == EAGAIN) || (_last_errno == ETIMEDOUT);
-    }
-
-    std::string last_message() const {
-        if(_last_errno) {
-            char buf[64] = {'\0'};
-            ::strerror_r(_last_errno, buf, sizeof(buf));
-            return {buf};
-        }
-        return {};
-    }
-
     constexpr message_bus_posix_mqueue() noexcept = default;
     message_bus_posix_mqueue(message_bus_posix_mqueue&& temp) noexcept {
         using std::swap;
@@ -89,7 +68,7 @@ public:
                 _name.insert(_name.begin(), '/');
             }
             if(_name.back() != ';') {
-                _name.insert(_name.begin(), ';');
+                _name.insert(_name.end(), ';');
             }
         }
         return *this;
@@ -110,8 +89,33 @@ public:
         set_name(std::move(name));
     }
 
+    string_view get_name() const noexcept {
+        return {_name};
+    }
+
+    bool had_error() const {
+        return _last_errno != 0;
+    }
+
+    bool needs_retry() const {
+        return (_last_errno == EAGAIN) || (_last_errno == ETIMEDOUT);
+    }
+
+    std::string last_message() const {
+        if(_last_errno) {
+            char buf[64] = {'\0'};
+            ::strerror_r(_last_errno, buf, sizeof(buf));
+            return {buf};
+        }
+        return {};
+    }
+
     constexpr bool is_open() const noexcept {
         return _handle >= 0;
+    }
+
+    constexpr bool is_usable() const noexcept {
+        return is_open() && !(had_error() && !needs_retry());
     }
 
     constexpr explicit operator bool() const noexcept {
@@ -157,18 +161,23 @@ public:
         return *this;
     }
 
-    auto max_data_size() {
-        struct ::mq_attr attr {};
-        errno = 0;
-        ::mq_getattr(_handle, &attr);
-        _last_errno = errno;
-        return attr.mq_msgsize;
+    valid_if_positive<long> max_data_size() {
+        if(is_open()) {
+            struct ::mq_attr attr {};
+            errno = 0;
+            ::mq_getattr(_handle, &attr);
+            _last_errno = errno;
+            return {attr.mq_msgsize};
+        }
+        return {0};
     }
 
     message_bus_posix_mqueue& send(unsigned priority, span<const char> blk) {
-        errno = 0;
-        ::mq_send(_handle, blk.data(), std_size(blk.size()), priority);
-        _last_errno = errno;
+        if(is_open()) {
+            errno = 0;
+            ::mq_send(_handle, blk.data(), std_size(blk.size()), priority);
+            _last_errno = errno;
+        }
         return *this;
     }
 
@@ -180,13 +189,15 @@ public:
 
     message_bus_posix_mqueue& receive(
       memory::span<char> blk, receive_handler handler) {
-        unsigned priority{0U};
-        errno = 0;
-        auto received =
-          ::mq_receive(_handle, blk.data(), span_size(blk.size()), &priority);
-        _last_errno = errno;
-        if(received > 0) {
-            handler(priority, head(blk, received));
+        if(is_open()) {
+            unsigned priority{0U};
+            errno = 0;
+            auto received = ::mq_receive(
+              _handle, blk.data(), span_size(blk.size()), &priority);
+            _last_errno = errno;
+            if(received > 0) {
+                handler(priority, head(blk, received));
+            }
         }
         return *this;
     }
@@ -197,6 +208,10 @@ class message_bus_posix_mqueue_connection : public message_bus_connection {
 
 public:
     using fetch_handler = message_bus_connection::fetch_handler;
+
+    message_bus_posix_mqueue_connection() {
+        _buffer.resize(8 * 1024);
+    }
 
     bool open(std::string name) {
         return bool(_data_queue.set_name(std::move(name)).open());
@@ -229,7 +244,7 @@ public:
         string_serializer_backend backend(sink);
         auto errors = serialize_message(class_id, method_id, message, backend);
         if(!errors) {
-            _outgoing.push(as_bytes(view(_buffer)));
+            _outgoing.push(sink.done());
             return true;
         }
         return false;
@@ -242,13 +257,15 @@ public:
 
 protected:
     void _checkup(message_bus_posix_mqueue& connect_queue) {
-        if(!_data_queue) {
+        if(!_data_queue.is_usable()) {
             if(_data_queue.had_error()) {
                 _data_queue.close();
-                _data_queue.unlink();
             }
+            _data_queue.unlink();
             if(_data_queue.set_name(random_identifier(_rand_eng)).create()) {
-                _buffer.resize(connect_queue.max_data_size());
+                if(auto opt_size = connect_queue.max_data_size()) {
+                    _buffer.resize(extract(opt_size));
+                }
 
                 block_data_sink sink(as_bytes(cover(_buffer)));
                 string_serializer_backend backend(sink);
@@ -257,8 +274,10 @@ protected:
                   message_view(_data_queue.get_name()),
                   backend);
                 if(!errors) {
-                    connect_queue.send(1, view(_buffer));
-                    _buffer.resize(_data_queue.max_data_size());
+                    connect_queue.send(sink.done());
+                    if(auto opt_size = _data_queue.max_data_size()) {
+                        _buffer.resize(extract(opt_size));
+                    }
                 }
             }
         }
@@ -277,7 +296,7 @@ protected:
           {this, EAGINE_MEM_FUNC_C(this_class, _handle_send)});
     }
 
-private:
+protected:
     bool _handle_send(memory::const_block blk) {
         return bool(_data_queue.send(blk));
     }
@@ -317,6 +336,10 @@ public:
     }
 
     void update() final {
+        std::unique_lock lock{_mutex};
+        _checkup(_connect_queue);
+        _receive();
+        _send();
     }
 
 private:
@@ -345,13 +368,15 @@ public:
 
 private:
     void _checkup() {
-        if(!_accept_queue) {
+        if(!_accept_queue.is_usable()) {
             if(_accept_queue.had_error()) {
                 _accept_queue.close();
-                _accept_queue.unlink();
             }
-            if(_accept_queue.open()) {
-                _buffer.resize(_accept_queue.max_data_size());
+            _accept_queue.unlink();
+            if(_accept_queue.create()) {
+                if(auto opt_size = _accept_queue.max_data_size()) {
+                    _buffer.resize(extract(opt_size));
+                }
             }
         }
     }
