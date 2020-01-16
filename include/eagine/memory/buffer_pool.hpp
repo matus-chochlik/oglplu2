@@ -29,7 +29,9 @@ public:
             _pool.erase(pos);
             return result;
         }
-        return {};
+        memory::buffer result{};
+        result.resize(req_size);
+        return result;
     }
 
     void eat(memory::buffer used) {
