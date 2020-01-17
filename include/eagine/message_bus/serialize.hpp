@@ -1,5 +1,5 @@
 /**
- *  @file eagine/msg_bus/serialize.hpp
+ *  @file eagine/message_bus/serialize.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MSG_BUS_SERIALIZE_HPP
-#define EAGINE_MSG_BUS_SERIALIZE_HPP
+#ifndef EAGINE_MESSAGE_BUS_SERIALIZE_HPP
+#define EAGINE_MESSAGE_BUS_SERIALIZE_HPP
 
 #include "../extract.hpp"
 #include "../serialize/read.hpp"
@@ -103,5 +103,5 @@ deserialize_message(
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-#endif // EAGINE_MSG_BUS_SERIALIZE_HPP
+#endif // EAGINE_MESSAGE_BUS_SERIALIZE_HPP
 

@@ -1,5 +1,5 @@
 /**
- *  @file eagine/msg_bus/connection.hpp
+ *  @file eagine/message_bus/connection.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MSG_BUS_CONNECTION_HPP
-#define EAGINE_MSG_BUS_CONNECTION_HPP
+#ifndef EAGINE_MESSAGE_BUS_CONNECTION_HPP
+#define EAGINE_MESSAGE_BUS_CONNECTION_HPP
 
 #include "../callable_ref.hpp"
 #include "../identity.hpp"
@@ -55,5 +55,5 @@ struct message_bus_connection {
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-#endif // EAGINE_MSG_BUS_CONNECTION_HPP
+#endif // EAGINE_MESSAGE_BUS_CONNECTION_HPP
 

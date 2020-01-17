@@ -1,5 +1,5 @@
 /**
- *  @file eagine/msg_bus/loopback.hpp
+ *  @file eagine/message_bus/loopback.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MSG_BUS_LOOPBACK_HPP
-#define EAGINE_MSG_BUS_LOOPBACK_HPP
+#ifndef EAGINE_MESSAGE_BUS_LOOPBACK_HPP
+#define EAGINE_MESSAGE_BUS_LOOPBACK_HPP
 
 #include "connection.hpp"
 #include <mutex>
@@ -42,5 +42,5 @@ private:
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-#endif // EAGINE_MSG_BUS_LOOPBACK_HPP
+#endif // EAGINE_MESSAGE_BUS_LOOPBACK_HPP
 

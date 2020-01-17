@@ -1,5 +1,5 @@
 /**
- *  @file eagine/msg_bus/router.hpp
+ *  @file eagine/message_bus/router.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MSG_BUS_ROUTER_HPP
-#define EAGINE_MSG_BUS_ROUTER_HPP
+#ifndef EAGINE_MESSAGE_BUS_ROUTER_HPP
+#define EAGINE_MESSAGE_BUS_ROUTER_HPP
 
 #include "../branch_predict.hpp"
 #include "acceptor.hpp"
@@ -233,5 +233,5 @@ private:
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-#endif // EAGINE_MSG_BUS_ROUTER_HPP
+#endif // EAGINE_MESSAGE_BUS_ROUTER_HPP
 

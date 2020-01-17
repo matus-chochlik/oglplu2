@@ -7,9 +7,9 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/memory/span_algo.hpp>
-#include <eagine/msg_bus/endpoint.hpp>
-#include <eagine/msg_bus/loopback.hpp>
-#include <eagine/msg_bus/subscriber.hpp>
+#include <eagine/message_bus/endpoint.hpp>
+#include <eagine/message_bus/loopback.hpp>
+#include <eagine/message_bus/subscriber.hpp>
 #include <iostream>
 
 namespace eagine {

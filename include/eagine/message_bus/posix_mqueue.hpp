@@ -1,5 +1,5 @@
 /**
- *  @file eagine/msg_bus/posix_mqueue.hpp
+ *  @file eagine/message_bus/posix_mqueue.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MSG_BUS_POSIX_MQUEUE_HPP
-#define EAGINE_MSG_BUS_POSIX_MQUEUE_HPP
+#ifndef EAGINE_MESSAGE_BUS_POSIX_MQUEUE_HPP
+#define EAGINE_MESSAGE_BUS_POSIX_MQUEUE_HPP
 
 #include "../branch_predict.hpp"
 #include "../random_identifier.hpp"
@@ -488,5 +488,5 @@ private:
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-#endif // EAGINE_MSG_BUS_POSIX_MQUEUE_HPP
+#endif // EAGINE_MESSAGE_BUS_POSIX_MQUEUE_HPP
 

@@ -7,11 +7,11 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/memory/span_algo.hpp>
-#include <eagine/msg_bus/acceptor.hpp>
-#include <eagine/msg_bus/direct.hpp>
-#include <eagine/msg_bus/endpoint.hpp>
-#include <eagine/msg_bus/router.hpp>
-#include <eagine/msg_bus/subscriber.hpp>
+#include <eagine/message_bus/acceptor.hpp>
+#include <eagine/message_bus/direct.hpp>
+#include <eagine/message_bus/endpoint.hpp>
+#include <eagine/message_bus/router.hpp>
+#include <eagine/message_bus/subscriber.hpp>
 #include <eagine/serialize/block_sink.hpp>
 #include <eagine/serialize/block_source.hpp>
 #include <eagine/serialize/fast_backend.hpp>

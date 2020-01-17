@@ -1,5 +1,5 @@
 /**
- *  @file eagine/msg_bus/direct.hpp
+ *  @file eagine/message_bus/direct.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MSG_BUS_DIRECT_HPP
-#define EAGINE_MSG_BUS_DIRECT_HPP
+#ifndef EAGINE_MESSAGE_BUS_DIRECT_HPP
+#define EAGINE_MESSAGE_BUS_DIRECT_HPP
 
 #include "../branch_predict.hpp"
 #include "connection.hpp"
@@ -197,5 +197,5 @@ private:
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-#endif // EAGINE_MSG_BUS_DIRECT_HPP
+#endif // EAGINE_MESSAGE_BUS_DIRECT_HPP
 

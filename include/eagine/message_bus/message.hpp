@@ -1,5 +1,5 @@
 /**
- *  @file eagine/msg_bus/message.hpp
+ *  @file eagine/message_bus/message.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MSG_BUS_MESSAGE_HPP
-#define EAGINE_MSG_BUS_MESSAGE_HPP
+#ifndef EAGINE_MESSAGE_BUS_MESSAGE_HPP
+#define EAGINE_MESSAGE_BUS_MESSAGE_HPP
 
 #include "../assert.hpp"
 #include "../identifier.hpp"
@@ -256,5 +256,5 @@ private:
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-#endif // EAGINE_MSG_BUS_MESSAGE_HPP
+#endif // EAGINE_MESSAGE_BUS_MESSAGE_HPP
 

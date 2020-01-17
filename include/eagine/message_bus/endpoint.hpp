@@ -1,5 +1,5 @@
 /**
- *  @file eagine/msg_bus/endpoint.hpp
+ *  @file eagine/message_bus/endpoint.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MSG_BUS_ENDPOINT_HPP
-#define EAGINE_MSG_BUS_ENDPOINT_HPP
+#ifndef EAGINE_MESSAGE_BUS_ENDPOINT_HPP
+#define EAGINE_MESSAGE_BUS_ENDPOINT_HPP
 
 #include "connection.hpp"
 #include <map>
@@ -299,5 +299,5 @@ public:
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-#endif // EAGINE_MSG_BUS_ENDPOINT_HPP
+#endif // EAGINE_MESSAGE_BUS_ENDPOINT_HPP
 

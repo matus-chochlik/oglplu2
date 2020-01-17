@@ -1,5 +1,5 @@
 /**
- *  @file eagine/msg_bus/acceptor.hpp
+ *  @file eagine/message_bus/acceptor.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MSG_BUS_ACCEPTOR_HPP
-#define EAGINE_MSG_BUS_ACCEPTOR_HPP
+#ifndef EAGINE_MESSAGE_BUS_ACCEPTOR_HPP
+#define EAGINE_MESSAGE_BUS_ACCEPTOR_HPP
 
 #include "connection.hpp"
 
@@ -30,5 +30,5 @@ struct message_bus_acceptor {
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-#endif // EAGINE_MSG_BUS_ACCEPTOR_HPP
+#endif // EAGINE_MESSAGE_BUS_ACCEPTOR_HPP
 

@@ -1,5 +1,5 @@
 /**
- *  @file eagine/msg_bus/subscriber.hpp
+ *  @file eagine/message_bus/subscriber.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MSG_BUS_SUBSCRIBER_HPP
-#define EAGINE_MSG_BUS_SUBSCRIBER_HPP
+#ifndef EAGINE_MESSAGE_BUS_SUBSCRIBER_HPP
+#define EAGINE_MESSAGE_BUS_SUBSCRIBER_HPP
 
 #include "../maybe_unused.hpp"
 #include "endpoint.hpp"
@@ -158,5 +158,5 @@ private:
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-#endif // EAGINE_MSG_BUS_SUBSCRIBER_HPP
+#endif // EAGINE_MESSAGE_BUS_SUBSCRIBER_HPP
 
