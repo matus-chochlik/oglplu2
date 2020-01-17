@@ -53,6 +53,7 @@ public:
         _handle_pending();
         _handle_accept();
         _route_messages();
+        _update_connections();
     }
 
 private:
@@ -74,10 +75,11 @@ private:
             auto handler = [&id](
                              identifier_t class_id,
                              identifier_t method_id,
-                             const message_view&) {
+                             const message_view& msg) {
                 // this is a special message containing endpoint id
-                if(class_id == 0) {
-                    id = method_id;
+                if(EAGINE_MSG_ID(eagiMsgBus, announceId)
+                     .matches(class_id, method_id)) {
+                    id = msg.source_id;
                     return true;
                 }
                 return false;
@@ -87,6 +89,7 @@ private:
             while(pos < _pending.size()) {
                 id = 0;
                 auto& pending = _pending[pos];
+                pending.connection->update();
                 pending.connection->fetch_messages(
                   message_bus_connection::fetch_handler(handler));
                 // if we got the endpoint id message from the connection
@@ -141,7 +144,10 @@ private:
             ++_id_sequence;
         }
         // send the special message assigning the endpoint id
-        conn->send(0, _id_sequence, {});
+        message_view msg{};
+        msg.set_target_id(_id_sequence);
+        conn->send(EAGINE_MSG_ID(eagiMsgBus, assignId), msg);
+        conn->update();
         _pending.emplace_back(std::move(conn));
     }
 
@@ -151,8 +157,8 @@ private:
       identifier_t incoming_id,
       message_bus_routed_endpoint& endpoint,
       const message_view& message) {
-        if(EAGINE_UNLIKELY(EAGINE_ID(eagiRouter).matches(class_id))) {
-            if(EAGINE_ID(NotARouter).matches(method_id)) {
+        if(EAGINE_UNLIKELY(EAGINE_ID(eagiMsgBus).matches(class_id))) {
+            if(EAGINE_ID(notARouter).matches(method_id)) {
                 if(incoming_id == message.source_id) {
                     endpoint.maybe_router = false;
                     return true;
@@ -207,7 +213,18 @@ private:
         }
     }
 
-    const std::chrono::seconds _pending_timeout{10};
+    void _update_connections() {
+        for(auto& [id, endpoint] : _endpoints) {
+            EAGINE_MAYBE_UNUSED(id);
+            for(auto& conn : endpoint.connections) {
+                if(EAGINE_LIKELY(conn)) {
+                    conn->update();
+                }
+            }
+        }
+    }
+
+    const std::chrono::seconds _pending_timeout{30};
     identifier_t _id_sequence{0};
     std::vector<std::unique_ptr<message_bus_acceptor>> _acceptors;
     std::vector<message_bus_router_pending> _pending;

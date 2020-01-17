@@ -45,6 +45,11 @@ struct message_bus_connection {
     virtual bool send(
       identifier_t class_id, identifier_t method_id, const message_view&) = 0;
 
+    template <identifier_t ClassId, identifier_t MethodId>
+    bool send(message_id<ClassId, MethodId>, const message_view& msg) {
+        return send(ClassId, MethodId, msg);
+    }
+
     virtual void fetch_messages(fetch_handler handler) = 0;
 };
 //------------------------------------------------------------------------------

@@ -32,10 +32,13 @@ private:
 
     std::vector<std::unique_ptr<message_bus_connection>> _connections;
 
+    message_storage _outgoing;
+
+    // TODO: flat map
     std::map<
       std::tuple<identifier_t, identifier_t>,
       std::tuple<span_size_t, message_priority_queue>>
-      _messages;
+      _incoming;
 
     static inline auto _make_key(
       identifier_t class_id, identifier_t method_id) noexcept {
@@ -57,20 +60,49 @@ private:
       identifier_t method_id,
       const message_view& message) {
         // this is a special message requesting/assigning endpoint id
-        if(EAGINE_UNLIKELY(class_id == 0)) {
+        if(EAGINE_UNLIKELY(EAGINE_MSG_ID(eagiMsgBus, assignId)
+                             .matches(class_id, method_id))) {
             if(!has_id()) {
-                _id = method_id;
+                _id = message.target_id;
             }
             return true;
         }
         if((message.target_id == _id) || !is_valid_id(message.target_id)) {
-            auto pos = _messages.find(_make_key(class_id, method_id));
-            if(pos != _messages.end()) {
+            auto pos = _incoming.find(_make_key(class_id, method_id));
+            if(pos != _incoming.end()) {
                 _get_queue(pos).push(message);
                 return true;
             }
         }
         return false;
+    }
+
+    bool _do_send(
+      identifier_t class_id,
+      identifier_t method_id,
+      message_view message) const {
+        EAGINE_ASSERT(has_id());
+        message.set_source_id(_id);
+        for(auto& connection : _connections) {
+            EAGINE_ASSERT(connection);
+            if(connection->send(class_id, method_id, message)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    template <identifier_t ClassId, identifier_t MethodId>
+    bool _do_send(
+      message_id<ClassId, MethodId>, const message_view& message) const {
+        return _do_send(ClassId, MethodId, message);
+    }
+
+    bool _handle_send(
+      identifier_t class_id,
+      identifier_t method_id,
+      const message_view& message) const {
+        return _do_send(class_id, method_id, message);
     }
 
 public:
@@ -131,13 +163,19 @@ public:
         // if processing the messages assigned the endpoint id
         if(EAGINE_UNLIKELY(has_id() && !had_id)) {
             // send the endpoint id through all connections
-            send(0, _id, {});
+            _do_send(EAGINE_MSG_ID(eagiMsgBus, announceId), {});
+        }
+
+        // if we have a valid id and we have messages in outbox
+        if(EAGINE_UNLIKELY(has_id() && !_outgoing.empty())) {
+            _outgoing.fetch_all(message_storage::fetch_handler{
+              this, EAGINE_MEM_FUNC_C(message_bus_endpoint, _handle_send)});
         }
     }
 
     void subscribe(identifier_t class_id, identifier_t method_id) {
         auto key = _make_key(class_id, method_id);
-        auto [pos, newone] = _messages.try_emplace(key);
+        auto [pos, newone] = _incoming.try_emplace(key);
         if(newone) {
             _get_counter(pos) = 0;
         }
@@ -150,10 +188,10 @@ public:
     }
 
     void unsubscribe(identifier_t class_id, identifier_t method_id) {
-        auto pos = _messages.find(_make_key(class_id, method_id));
-        if(pos != _messages.end()) {
+        auto pos = _incoming.find(_make_key(class_id, method_id));
+        if(pos != _incoming.end()) {
             if(--_get_counter(pos) <= 0) {
-                _messages.erase(pos);
+                _incoming.erase(pos);
             }
         }
     }
@@ -164,38 +202,34 @@ public:
     }
 
     bool send(
-      identifier_t class_id,
-      identifier_t method_id,
-      message_view message) const {
-        message.set_source_id(_id);
-        for(auto& connection : _connections) {
-            EAGINE_ASSERT(connection);
-            if(connection->send(class_id, method_id, message)) {
-                return true;
-            }
+      identifier_t class_id, identifier_t method_id, message_view message) {
+        if(has_id()) {
+            return _do_send(class_id, method_id, message);
+        } else {
+            _outgoing.push(class_id, method_id, message);
         }
         return false;
     }
 
     template <identifier_t ClassId, identifier_t MethodId>
-    bool send(message_id<ClassId, MethodId>, message_view message) const {
+    bool send(message_id<ClassId, MethodId>, message_view message) {
         return send(ClassId, MethodId, std::move(message));
     }
 
     template <identifier_t ClassId, identifier_t MethodId>
-    bool send(message_id<ClassId, MethodId>) const {
+    bool send(message_id<ClassId, MethodId>) {
         return send(ClassId, MethodId, {});
     }
 
-    bool send_not_a_router() const {
-        return send(EAGINE_MSG_ID(eagiRouter, NotARouter));
+    bool send_not_a_router() {
+        return send(EAGINE_MSG_ID(eagiMsgBus, notARouter));
     }
 
     bool respond_to(
       const message_info& info,
       identifier_t class_id,
       identifier_t method_id,
-      message_view message) const {
+      message_view message) {
         message.setup_response(info);
         return send(class_id, method_id, std::move(message));
     }
@@ -204,13 +238,12 @@ public:
     bool respond_to(
       const message_info& info,
       message_id<ClassId, MethodId>,
-      message_view message) const {
+      message_view message) {
         return respond_to(info, ClassId, MethodId, std::move(message));
     }
 
     template <identifier_t ClassId, identifier_t MethodId>
-    bool respond_to(
-      const message_info& info, message_id<ClassId, MethodId>) const {
+    bool respond_to(const message_info& info, message_id<ClassId, MethodId>) {
         return respond_to(info, ClassId, MethodId, {});
     }
 
@@ -220,8 +253,8 @@ public:
       identifier_t class_id,
       identifier_t method_id,
       const handler_type& handler) {
-        auto pos = _messages.find(_make_key(class_id, method_id));
-        if(pos != _messages.end()) {
+        auto pos = _incoming.find(_make_key(class_id, method_id));
+        if(pos != _incoming.end()) {
             return _get_queue(pos).process_one(handler);
         }
         return false;
@@ -231,8 +264,8 @@ public:
       identifier_t class_id,
       identifier_t method_id,
       const handler_type& handler) {
-        auto pos = _messages.find(_make_key(class_id, method_id));
-        if(pos != _messages.end()) {
+        auto pos = _incoming.find(_make_key(class_id, method_id));
+        if(pos != _incoming.end()) {
             return _get_queue(pos).process_all(handler);
         }
         return 0;

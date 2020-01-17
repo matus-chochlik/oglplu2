@@ -105,6 +105,10 @@ public:
     using fetch_handler =
       callable_ref<bool(identifier_t, identifier_t, const message_view&)>;
 
+    bool empty() const noexcept {
+        return _messages.empty();
+    }
+
     void push(
       identifier_t class_id,
       identifier_t method_id,

@@ -137,15 +137,8 @@ private:
     void _subscribe() {
         if(_endpoint) {
             for(auto& [class_id, method_id, unused] : _msg_handlers) {
-                EAGINE_MAYBE_UNUSED(class_id);
-                EAGINE_MAYBE_UNUSED(method_id);
                 EAGINE_MAYBE_UNUSED(unused);
                 _endpoint->subscribe(class_id, method_id);
-            }
-            for(auto& [class_id, method_id, unused] : _msg_handlers) {
-                EAGINE_MAYBE_UNUSED(class_id);
-                EAGINE_MAYBE_UNUSED(method_id);
-                EAGINE_MAYBE_UNUSED(unused);
             }
         }
     }

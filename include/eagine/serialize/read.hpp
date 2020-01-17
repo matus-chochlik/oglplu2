@@ -114,6 +114,9 @@ struct deserializer<double> : plain_deserializer<double> {};
 template <>
 struct deserializer<identifier> : plain_deserializer<identifier> {};
 template <>
+struct deserializer<decl_name_storage>
+  : plain_deserializer<decl_name_storage> {};
+template <>
 struct deserializer<std::string> : plain_deserializer<std::string> {};
 //------------------------------------------------------------------------------
 template <typename T>
@@ -332,9 +335,10 @@ struct enum_deserializer {
     deserialization_result read(T& enumerator, Backend& backend) {
         deserialization_result errors{};
         if(backend.enum_as_string()) {
-            errors |= _name_deserializer.read(_temp_name, backend);
+            decl_name_storage temp_name{};
+            errors |= _name_deserializer.read(temp_name, backend);
             if(!errors) {
-                if(auto found = from_string(_temp_name, identity<T>{})) {
+                if(auto found = from_string(temp_name.get(), identity<T>{})) {
                     enumerator = extract(found);
                 } else {
                     errors |= deserialization_error_code::unexpected_data;
@@ -356,8 +360,7 @@ struct enum_deserializer {
 
 private:
     deserializer<std::underlying_type_t<T>> _value_deserializer{};
-    deserializer<std::string> _name_deserializer{};
-    std::string _temp_name{};
+    deserializer<decl_name_storage> _name_deserializer{};
 };
 //------------------------------------------------------------------------------
 template <typename T>

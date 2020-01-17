@@ -28,7 +28,11 @@ serialize_message(
   Backend& backend) {
 
     auto message_params = std::make_tuple(
-      identifier(class_id), identifier(method_id), msg.priority);
+      identifier(class_id),
+      identifier(method_id),
+      msg.source_id,
+      msg.target_id,
+      msg.priority);
     serialization_result errors = serialize(message_params, backend);
 
     if(!errors) {
@@ -56,17 +60,16 @@ std::enable_if_t<
   std::is_base_of_v<deserializer_backend, Backend>,
   deserialization_result>
 deserialize_message(
-  identifier_t& class_id,
-  identifier_t& method_id,
+  identifier& class_id,
+  identifier& method_id,
   stored_message& msg,
   Backend& backend) {
-    std::tuple<identifier, identifier, message_priority> message_params{};
+
+    auto message_params =
+      std::tie(class_id, method_id, msg.source_id, msg.target_id, msg.priority);
     deserialization_result errors = deserialize(message_params, backend);
 
     if(!errors) {
-        class_id = std::get<0>(message_params).value();
-        method_id = std::get<1>(message_params).value();
-        msg.priority = std::get<2>(message_params);
         if(auto source = backend.source()) {
             msg.data.clear();
             extract(source).fetch_all(msg.data);
@@ -75,6 +78,26 @@ deserialize_message(
         }
     }
 
+    return errors;
+}
+//------------------------------------------------------------------------------
+template <typename Backend>
+std::enable_if_t<
+  std::is_base_of_v<deserializer_backend, Backend>,
+  deserialization_result>
+deserialize_message(
+  identifier_t& class_id,
+  identifier_t& method_id,
+  stored_message& msg,
+  Backend& backend) {
+    identifier class_ident{};
+    identifier method_ident{};
+    deserialization_result errors =
+      deserialize_message(class_ident, method_ident, msg, backend);
+    if(!errors) {
+        class_id = class_ident.value();
+        method_id = method_ident.value();
+    }
     return errors;
 }
 //------------------------------------------------------------------------------
