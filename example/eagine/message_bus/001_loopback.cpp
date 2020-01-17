@@ -67,6 +67,7 @@ int main() {
     using namespace eagine;
 
     message_bus_endpoint bus;
+    bus.set_id(EAGINE_ID(BusExample));
     bus.add_connection(std::make_unique<message_bus_loopback_connection>());
 
     str_utils_server server(bus);

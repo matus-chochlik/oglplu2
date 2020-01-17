@@ -106,6 +106,11 @@ private:
     }
 
 public:
+    message_bus_endpoint& set_id(identifier id) {
+        _id = id.value();
+        return *this;
+    }
+
     bool add_connection(std::unique_ptr<message_bus_connection> conn) {
         if(conn) {
             _connections.emplace_back(std::move(conn));
