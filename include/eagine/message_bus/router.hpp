@@ -12,7 +12,9 @@
 
 #include "../branch_predict.hpp"
 #include "acceptor.hpp"
+#include "serialize.hpp"
 #include <map>
+#include <set>
 #include <vector>
 
 namespace eagine {
@@ -34,7 +36,13 @@ struct message_bus_router_pending {
 //------------------------------------------------------------------------------
 struct message_bus_routed_endpoint {
     std::vector<std::unique_ptr<message_bus_connection>> connections;
+    std::set<std::tuple<identifier_t, identifier_t>> message_blacklist;
     bool maybe_router{true};
+
+    bool is_blacklisted(identifier_t class_id, identifier_t method_id) {
+        return message_blacklist.find(std::make_tuple(class_id, method_id)) !=
+               message_blacklist.end();
+    }
 };
 //------------------------------------------------------------------------------
 class message_bus_router {
@@ -163,6 +171,15 @@ private:
                     endpoint.maybe_router = false;
                     return true;
                 }
+            } else if(EAGINE_ID(clrBlkList).matches(method_id)) {
+                endpoint.message_blacklist.clear();
+                return true;
+            } else if(EAGINE_ID(msgBlkList).matches(method_id)) {
+                std::tuple<identifier_t, identifier_t> msg_id{};
+                if(message_bus_default_deserialize(msg_id, message.data)) {
+                    endpoint.message_blacklist.insert(msg_id);
+                }
+                return true;
             }
         }
         return false;
@@ -180,6 +197,8 @@ private:
                 should_forward &=
                   (endpoint_out.maybe_router ||
                    (outgoing_id == message.target_id) || !message.target_id);
+                should_forward &=
+                  !endpoint_out.is_blacklisted(class_id, method_id);
                 if(should_forward) {
                     for(auto& conn_out : endpoint_out.connections) {
                         if(EAGINE_LIKELY(conn_out && conn_out->is_usable())) {

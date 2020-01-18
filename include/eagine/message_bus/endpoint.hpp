@@ -11,6 +11,7 @@
 #define EAGINE_MESSAGE_BUS_ENDPOINT_HPP
 
 #include "connection.hpp"
+#include "serialize.hpp"
 #include <map>
 #include <tuple>
 #include <vector>
@@ -226,8 +227,33 @@ public:
         return send(ClassId, MethodId, {});
     }
 
-    bool send_not_a_router() {
+    bool say_not_a_router() {
         return send(EAGINE_MSG_ID(eagiMsgBus, notARouter));
+    }
+
+    bool clear_blacklist() {
+        return send(EAGINE_MSG_ID(eagiMsgBus, clrBlkList));
+    }
+
+    bool blacklist_message_type(std::tuple<identifier_t, identifier_t> msg_id) {
+        std::array<byte, 64> temp{};
+        if(
+          auto serialized =
+            message_bus_default_serialize(msg_id, cover(temp))) {
+            return send(
+              EAGINE_MSG_ID(eagiMsgBus, msgBlkList),
+              message_view(extract(serialized)));
+        }
+        return false;
+    }
+
+    bool blacklist_message_type(identifier_t class_id, identifier_t method_id) {
+        return blacklist_message_type(std::make_tuple(class_id, method_id));
+    }
+
+    template <identifier_t ClassId, identifier_t MethodId>
+    bool blacklist_message_type(message_id<ClassId, MethodId>) {
+        return blacklist_message_type(ClassId, MethodId);
     }
 
     bool respond_to(

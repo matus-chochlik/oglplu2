@@ -163,7 +163,7 @@ int main() {
 
     message_bus_endpoint client_endpoint;
     client_endpoint.add_connection(acceptor->make_connection());
-    client_endpoint.send_not_a_router();
+    client_endpoint.say_not_a_router();
     fibonacci_client client(client_endpoint);
 
     std::vector<std::thread> workers;
@@ -174,7 +174,7 @@ int main() {
           [connection{acceptor->make_connection()}]() mutable {
               message_bus_endpoint server_endpoint;
               server_endpoint.add_connection(std::move(connection));
-              server_endpoint.send_not_a_router();
+              server_endpoint.say_not_a_router();
               fibonacci_server server(server_endpoint);
 
               while(!server.is_done()) {
