@@ -16,11 +16,19 @@
 #include "../memory/span_algo.hpp"
 #include "../reflect/map_enumerators.hpp"
 #include "../types.hpp"
+#include <cstdint>
+#include <limits>
 #include <vector>
 
 namespace eagine {
 //------------------------------------------------------------------------------
-enum class message_priority { idle, low, normal, high, critical };
+enum class message_priority : std::uint8_t {
+    idle,
+    low,
+    normal,
+    high,
+    critical
+};
 //------------------------------------------------------------------------------
 template <typename Selector>
 constexpr auto enumerator_mapping(
@@ -42,6 +50,9 @@ struct message_info {
     identifier_t target_id{invalid_endpoint_id()};
     message_priority priority{message_priority::normal};
 
+    using hop_count_t = std::int8_t;
+    hop_count_t hop_count{0};
+
     message_info& set_priority(message_priority new_priority) noexcept {
         priority = new_priority;
         return *this;
@@ -59,6 +70,16 @@ struct message_info {
 
     message_info& setup_response(const message_info& info) noexcept {
         target_id = info.source_id;
+        return *this;
+    }
+
+    bool too_many_hops() const noexcept {
+        return hop_count >= hop_count_t(64);
+    }
+
+    message_info& add_hop() noexcept {
+        EAGINE_ASSERT(hop_count < std::numeric_limits<hop_count_t>::max());
+        ++hop_count;
         return *this;
     }
 };

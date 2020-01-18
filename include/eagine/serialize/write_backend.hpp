@@ -36,6 +36,7 @@ struct serializer_backend {
     virtual result begin() = 0;
     virtual result write(span<const bool>, span_size_t&) = 0;
     virtual result write(span<const char>, span_size_t&) = 0;
+    virtual result write(span<const std::int8_t>, span_size_t&) = 0;
     virtual result write(span<const std::int16_t>, span_size_t&) = 0;
     virtual result write(span<const std::int32_t>, span_size_t&) = 0;
     virtual result write(span<const std::int64_t>, span_size_t&) = 0;
@@ -89,6 +90,10 @@ public:
     }
 
     result write(span<const char> values, span_size_t& done) override {
+        return derived().do_write(values, done);
+    }
+
+    result write(span<const std::int8_t> values, span_size_t& done) override {
         return derived().do_write(values, done);
     }
 

@@ -57,6 +57,10 @@ private:
         return _sprintf_one(value, "%02hhx");
     }
 
+    result _write_one(signed char value, identity<signed char>) {
+        return _sprintf_one(value, "%hhd");
+    }
+
     result _write_one(short value, identity<short>) {
         return _sprintf_one(value, "%hd");
     }
@@ -245,6 +249,11 @@ private:
 
     result _read_one(byte& value, char delimiter) {
         const char fmt[6] = {'%', 'h', 'h', 'x', delimiter, '\0'};
+        return _sscanf_one(value, delimiter, fmt);
+    }
+
+    result _read_one(signed char& value, char delimiter) {
+        const char fmt[6] = {'%', 'h', 'h', 'd', delimiter, '\0'};
         return _sscanf_one(value, delimiter, fmt);
     }
 

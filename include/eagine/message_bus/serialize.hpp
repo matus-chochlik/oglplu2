@@ -32,7 +32,8 @@ serialize_message(
       identifier(method_id),
       msg.source_id,
       msg.target_id,
-      msg.priority);
+      msg.priority,
+      msg.hop_count);
     serialization_result errors = serialize(message_params, backend);
 
     if(!errors) {
@@ -65,8 +66,13 @@ deserialize_message(
   stored_message& msg,
   Backend& backend) {
 
-    auto message_params =
-      std::tie(class_id, method_id, msg.source_id, msg.target_id, msg.priority);
+    auto message_params = std::tie(
+      class_id,
+      method_id,
+      msg.source_id,
+      msg.target_id,
+      msg.priority,
+      msg.hop_count);
     deserialization_result errors = deserialize(message_params, backend);
 
     if(!errors) {

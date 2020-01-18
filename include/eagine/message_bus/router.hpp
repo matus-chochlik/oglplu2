@@ -172,17 +172,20 @@ private:
       identifier_t class_id,
       identifier_t method_id,
       identifier_t incoming_id,
-      const message_view& message) {
-        for(auto& [outgoing_id, endpoint_out] : this->_endpoints) {
-            bool should_forward = (incoming_id != outgoing_id);
-            should_forward &=
-              (endpoint_out.maybe_router ||
-               (outgoing_id == message.target_id) || !message.target_id);
-            if(should_forward) {
-                for(auto& conn_out : endpoint_out.connections) {
-                    if(EAGINE_LIKELY(conn_out && conn_out->is_usable())) {
-                        if(conn_out->send(class_id, method_id, message)) {
-                            break;
+      message_view message) {
+        if(!message.too_many_hops()) {
+            message.add_hop();
+            for(auto& [outgoing_id, endpoint_out] : this->_endpoints) {
+                bool should_forward = (incoming_id != outgoing_id);
+                should_forward &=
+                  (endpoint_out.maybe_router ||
+                   (outgoing_id == message.target_id) || !message.target_id);
+                if(should_forward) {
+                    for(auto& conn_out : endpoint_out.connections) {
+                        if(EAGINE_LIKELY(conn_out && conn_out->is_usable())) {
+                            if(conn_out->send(class_id, method_id, message)) {
+                                break;
+                            }
                         }
                     }
                 }

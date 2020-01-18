@@ -93,6 +93,8 @@ struct serializer<bool> : plain_serializer<bool> {};
 template <>
 struct serializer<char> : plain_serializer<char> {};
 template <>
+struct serializer<std::int8_t> : plain_serializer<std::int8_t> {};
+template <>
 struct serializer<std::int16_t> : plain_serializer<std::int16_t> {};
 template <>
 struct serializer<std::int32_t> : plain_serializer<std::int32_t> {};

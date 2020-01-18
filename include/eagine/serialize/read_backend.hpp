@@ -36,6 +36,7 @@ struct deserializer_backend {
     virtual result begin() = 0;
     virtual result read(span<bool>, span_size_t&) = 0;
     virtual result read(span<char>, span_size_t&) = 0;
+    virtual result read(span<std::int8_t>, span_size_t&) = 0;
     virtual result read(span<std::int16_t>, span_size_t&) = 0;
     virtual result read(span<std::int32_t>, span_size_t&) = 0;
     virtual result read(span<std::int64_t>, span_size_t&) = 0;
@@ -92,6 +93,10 @@ public:
     }
 
     result read(span<char> values, span_size_t& done) override {
+        return derived().do_read(values, done);
+    }
+
+    result read(span<std::int8_t> values, span_size_t& done) override {
         return derived().do_read(values, done);
     }
 

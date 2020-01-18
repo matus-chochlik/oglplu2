@@ -94,6 +94,8 @@ struct deserializer<bool> : plain_deserializer<bool> {};
 template <>
 struct deserializer<char> : plain_deserializer<char> {};
 template <>
+struct deserializer<std::int8_t> : plain_deserializer<std::int8_t> {};
+template <>
 struct deserializer<std::int16_t> : plain_deserializer<std::int16_t> {};
 template <>
 struct deserializer<std::int32_t> : plain_deserializer<std::int32_t> {};
