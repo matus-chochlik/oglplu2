@@ -33,7 +33,7 @@ void use_data(std::vector<T>& data) {
 //------------------------------------------------------------------------------
 template <typename T>
 struct deserial_data_state {
-    deserialization_result errors{};
+    deserialization_errors errors{};
     fast_deserializer_backend backend{};
     fragment_deserialize_wrapper<span<T>> defragmenter{};
     std::vector<T> data{};
@@ -100,7 +100,7 @@ void serialize_data(const std::vector<T>& instance) {
 
     block_data_sink sink(cover(chunk));
     fast_serializer_backend backend{sink};
-    serialization_result errors = backend.begin();
+    serialization_errors errors = backend.begin();
 
     if(!errors) {
         errors |= serializer<std::size_t>().write(instance.size(), backend);

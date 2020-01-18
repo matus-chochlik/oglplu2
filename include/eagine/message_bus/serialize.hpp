@@ -11,7 +11,10 @@
 #define EAGINE_MESSAGE_BUS_SERIALIZE_HPP
 
 #include "../extract.hpp"
+#include "../serialize/block_sink.hpp"
+#include "../serialize/block_source.hpp"
 #include "../serialize/read.hpp"
+#include "../serialize/string_backend.hpp"
 #include "../serialize/write.hpp"
 #include "message.hpp"
 
@@ -20,7 +23,7 @@ namespace eagine {
 template <typename Backend>
 std::enable_if_t<
   std::is_base_of_v<serializer_backend, Backend>,
-  serialization_result>
+  serialization_errors>
 serialize_message(
   identifier_t class_id,
   identifier_t method_id,
@@ -34,7 +37,7 @@ serialize_message(
       msg.target_id,
       msg.priority,
       msg.hop_count);
-    serialization_result errors = serialize(message_params, backend);
+    serialization_errors errors = serialize(message_params, backend);
 
     if(!errors) {
         if(auto sink = backend.sink()) {
@@ -50,7 +53,7 @@ serialize_message(
 template <identifier_t ClassId, identifier_t MethodId, typename Backend>
 std::enable_if_t<
   std::is_base_of_v<serializer_backend, Backend>,
-  serialization_result>
+  serialization_errors>
 serialize_message(
   message_id<ClassId, MethodId>, const message_view& msg, Backend& backend) {
     return serialize_message(ClassId, MethodId, msg, backend);
@@ -59,7 +62,7 @@ serialize_message(
 template <typename Backend>
 std::enable_if_t<
   std::is_base_of_v<deserializer_backend, Backend>,
-  deserialization_result>
+  deserialization_errors>
 deserialize_message(
   identifier& class_id,
   identifier& method_id,
@@ -73,7 +76,7 @@ deserialize_message(
       msg.target_id,
       msg.priority,
       msg.hop_count);
-    deserialization_result errors = deserialize(message_params, backend);
+    deserialization_errors errors = deserialize(message_params, backend);
 
     if(!errors) {
         if(auto source = backend.source()) {
@@ -90,7 +93,7 @@ deserialize_message(
 template <typename Backend>
 std::enable_if_t<
   std::is_base_of_v<deserializer_backend, Backend>,
-  deserialization_result>
+  deserialization_errors>
 deserialize_message(
   identifier_t& class_id,
   identifier_t& method_id,
@@ -98,13 +101,31 @@ deserialize_message(
   Backend& backend) {
     identifier class_ident{};
     identifier method_ident{};
-    deserialization_result errors =
+    deserialization_errors errors =
       deserialize_message(class_ident, method_ident, msg, backend);
     if(!errors) {
         class_id = class_ident.value();
         method_id = method_ident.value();
     }
     return errors;
+}
+//------------------------------------------------------------------------------
+template <typename T>
+serialization_result<memory::const_block> message_bus_default_serialize(
+  T& value, memory::block blk) {
+    block_data_sink sink(blk);
+    string_serializer_backend backend(sink);
+    auto errors = serialize(value, backend);
+    return {sink.done(), errors};
+}
+//------------------------------------------------------------------------------
+template <typename T>
+deserialization_result<memory::const_block> message_bus_default_deserialize(
+  T& value, memory::const_block blk) {
+    block_data_source source(blk);
+    string_deserializer_backend backend(source);
+    auto errors = deserialize(value, backend);
+    return {source.remaining(), errors};
 }
 //------------------------------------------------------------------------------
 } // namespace eagine

@@ -25,7 +25,7 @@ struct serializer_data_sink {
     serializer_data_sink& operator=(const serializer_data_sink&) = delete;
     virtual ~serializer_data_sink() noexcept = default;
 
-    using result = serialization_result;
+    using result = serialization_errors;
 
     virtual span_size_t remaining_size() = 0;
 

@@ -27,7 +27,7 @@ struct deserializer_backend {
 
     virtual ~deserializer_backend() noexcept = default;
 
-    using result = deserialization_result;
+    using result = deserialization_errors;
 
     virtual identifier type_id() = 0;
     virtual deserializer_data_source* source() = 0;
@@ -74,7 +74,7 @@ public:
     }
 
     using error_code = deserialization_error_code;
-    using result = deserialization_result;
+    using result = deserialization_errors;
 
     deserializer_data_source* source() final {
         return _source;

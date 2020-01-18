@@ -24,7 +24,7 @@ public:
     using base::remaining_size;
     using base::sink;
     using error_code = serialization_error_code;
-    using result = serialization_result;
+    using result = serialization_errors;
 
     identifier type_id() final {
         return EAGINE_ID(FastLocal);
@@ -49,7 +49,7 @@ public:
     template <typename Str>
     result do_write_strings(span<const Str> values, span_size_t& done) {
         done = 0;
-        serialization_result errors{};
+        serialization_errors errors{};
         for(auto& str : values) {
             span_size_t written{0};
             errors |= do_write(view_one(str.size()), written);
@@ -90,7 +90,7 @@ public:
     using base::pop;
     using base::top;
     using error_code = deserialization_error_code;
-    using result = deserialization_result;
+    using result = deserialization_errors;
 
     identifier type_id() final {
         return EAGINE_ID(FastLocal);

@@ -27,7 +27,7 @@ struct serializer_backend {
 
     virtual ~serializer_backend() noexcept = default;
 
-    using result = serialization_result;
+    using result = serialization_errors;
 
     virtual identifier type_id() = 0;
     virtual serializer_data_sink* sink() = 0;

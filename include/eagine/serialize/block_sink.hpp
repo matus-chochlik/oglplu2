@@ -34,7 +34,7 @@ public:
         return free().size();
     }
 
-    serialization_result write(memory::const_block blk) {
+    serialization_errors write(memory::const_block blk) {
         auto dst = free();
         if(dst.size() < blk.size()) {
             return {serialization_error_code::too_much_data};

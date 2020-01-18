@@ -25,7 +25,7 @@ public:
     using base::remaining_size;
     using base::sink;
     using error_code = serialization_error_code;
-    using result = serialization_result;
+    using result = serialization_errors;
 
     identifier type_id() final {
         return EAGINE_ID(String);
@@ -196,7 +196,7 @@ public:
     using base::base;
     using base::require;
     using error_code = deserialization_error_code;
-    using result = deserialization_result;
+    using result = deserialization_errors;
 
     identifier type_id() final {
         return EAGINE_ID(String);

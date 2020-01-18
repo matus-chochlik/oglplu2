@@ -12,6 +12,7 @@
 
 #include "../bitfield.hpp"
 #include "../reflect/map_enumerators.hpp"
+#include "../valid_if/indicated.hpp"
 #include <cstdint>
 
 namespace eagine {
@@ -66,8 +67,16 @@ constexpr auto enumerator_mapping(
        {"backend_error", deserialization_error_code::backend_error}}};
 }
 //------------------------------------------------------------------------------
-using serialization_result = bitfield<serialization_error_code>;
-using deserialization_result = bitfield<deserialization_error_code>;
+using serialization_errors = bitfield<serialization_error_code>;
+using deserialization_errors = bitfield<deserialization_error_code>;
+//------------------------------------------------------------------------------
+template <typename T>
+using serialization_result =
+  valid_if_indicated<T, serialization_errors, bool, false>;
+//------------------------------------------------------------------------------
+template <typename T>
+using deserialization_result =
+  valid_if_indicated<T, deserialization_errors, bool, false>;
 //------------------------------------------------------------------------------
 } // namespace eagine
 

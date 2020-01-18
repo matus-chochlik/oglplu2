@@ -77,13 +77,13 @@ template <typename T>
 struct plain_deserializer {
 
     template <typename Backend>
-    static deserialization_result read(T& value, Backend& backend) {
+    static deserialization_errors read(T& value, Backend& backend) {
         span_size_t done{0};
         return backend.read(cover_one(value), done);
     }
 
     template <typename Backend>
-    static deserialization_result read(span<T> values, Backend& backend) {
+    static deserialization_errors read(span<T> values, Backend& backend) {
         span_size_t done{0};
         return backend.read(values, done);
     }
@@ -125,9 +125,9 @@ template <typename T>
 struct common_deserializer {
 
     template <typename Backend>
-    deserialization_result read(span<T> values, Backend& backend) const {
+    deserialization_errors read(span<T> values, Backend& backend) const {
         using ec = deserialization_error_code;
-        deserialization_result result{};
+        deserialization_errors result{};
         for(auto& elem : values) {
             result |=
               static_cast<const deserializer<T>*>(this)->read(elem, backend);
@@ -145,8 +145,8 @@ template <typename... T>
 struct deserializer<std::tuple<T...>> : common_deserializer<std::tuple<T...>> {
 
     template <typename Backend>
-    deserialization_result read(std::tuple<T...>& values, Backend& backend) {
-        deserialization_result errors{};
+    deserialization_errors read(std::tuple<T...>& values, Backend& backend) {
+        deserialization_errors errors{};
         span_size_t elem_count{0};
         errors |= backend.begin_list(elem_count);
         if(elem_count < span_size(sizeof...(T))) {
@@ -168,7 +168,7 @@ struct deserializer<std::tuple<T...>> : common_deserializer<std::tuple<T...>> {
 private:
     template <typename Tuple, typename Backend, std::size_t... I>
     void _read_elements(
-      deserialization_result& errors,
+      deserialization_errors& errors,
       Tuple& values,
       Backend& backend,
       std::index_sequence<I...>) {
@@ -183,7 +183,7 @@ private:
 
     template <typename Elem, typename Backend, typename Serializer>
     static void _read_element(
-      deserialization_result& errors,
+      deserialization_errors& errors,
       std::size_t index,
       Elem& elem,
       Backend& backend,
@@ -205,9 +205,9 @@ struct deserializer<std::tuple<std::pair<string_view, T>...>>
   : common_deserializer<std::tuple<std::pair<string_view, T>...>> {
 
     template <typename Backend>
-    deserialization_result read(
+    deserialization_errors read(
       std::tuple<std::pair<string_view, T>...>& values, Backend& backend) {
-        deserialization_result errors{};
+        deserialization_errors errors{};
         span_size_t memb_count{0};
         errors |= backend.begin_struct(memb_count);
         if(memb_count < span_size(sizeof...(T))) {
@@ -229,7 +229,7 @@ struct deserializer<std::tuple<std::pair<string_view, T>...>>
 private:
     template <typename Tuple, typename Backend, std::size_t... I>
     void _read_members(
-      deserialization_result& errors,
+      deserialization_errors& errors,
       Tuple& values,
       Backend& backend,
       std::index_sequence<I...>) {
@@ -244,7 +244,7 @@ private:
 
     template <typename Memb, typename Backend, typename Serializer>
     static void _read_member(
-      deserialization_result& errors,
+      deserialization_errors& errors,
       string_view name,
       Memb& value,
       Backend& backend,
@@ -266,9 +266,9 @@ struct deserializer<fragment_deserialize_wrapper<span<T>>>
   : common_deserializer<fragment_deserialize_wrapper<span<T>>> {
 
     template <typename Backend>
-    deserialization_result read(
+    deserialization_errors read(
       fragment_deserialize_wrapper<span<T>>& frag, Backend& backend) const {
-        deserialization_result errors{};
+        deserialization_errors errors{};
         span_size_t offs{0};
         errors |= _size_deserializer.read(offs, backend);
         if(!errors) {
@@ -289,9 +289,9 @@ struct deserializer<fragment_deserialize_wrapper<span<T>>>
 template <typename T, std::size_t N>
 struct deserializer<std::array<T, N>> : common_deserializer<std::array<T, N>> {
     template <typename Backend>
-    deserialization_result read(
+    deserialization_errors read(
       std::array<T, N>& values, Backend& backend) const {
-        deserialization_result errors{};
+        deserialization_errors errors{};
         span_size_t elem_count{0};
         errors |= backend.begin_list(elem_count);
         if(elem_count < span_size(N)) {
@@ -314,9 +314,9 @@ template <typename T, typename A>
 struct deserializer<std::vector<T, A>>
   : common_deserializer<std::vector<T, A>> {
     template <typename Backend>
-    deserialization_result read(
+    deserialization_errors read(
       std::vector<T, A>& values, Backend& backend) const {
-        deserialization_result errors{};
+        deserialization_errors errors{};
         span_size_t elem_count{0};
         errors |= backend.begin_list(elem_count);
         if(!errors) {
@@ -334,8 +334,8 @@ private:
 template <typename T>
 struct enum_deserializer {
     template <typename Backend>
-    deserialization_result read(T& enumerator, Backend& backend) {
-        deserialization_result errors{};
+    deserialization_errors read(T& enumerator, Backend& backend) {
+        deserialization_errors errors{};
         if(backend.enum_as_string()) {
             decl_name_storage temp_name{};
             errors |= _name_deserializer.read(temp_name, backend);
@@ -375,9 +375,9 @@ struct deserializer
 template <typename T, typename Backend>
 std::enable_if_t<
   std::is_base_of_v<deserializer_backend, Backend>,
-  deserialization_result>
+  deserialization_errors>
 deserialize(T& value, Backend& backend) {
-    deserialization_result errors{};
+    deserialization_errors errors{};
     errors |= backend.begin();
     if(!errors) {
         deserializer<T> reader;

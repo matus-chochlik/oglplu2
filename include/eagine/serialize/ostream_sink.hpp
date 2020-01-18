@@ -26,7 +26,7 @@ public:
         return std::numeric_limits<span_size_t>::max();
     }
 
-    serialization_result write(memory::const_block blk) final {
+    serialization_errors write(memory::const_block blk) final {
         _out.write(
           reinterpret_cast<const char*>(blk.data()),
           static_cast<std::streamsize>(blk.size()));

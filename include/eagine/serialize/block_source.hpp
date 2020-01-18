@@ -31,6 +31,10 @@ public:
         _done += del_size;
     }
 
+    memory::const_block remaining() const noexcept {
+        return skip(_src, _done);
+    }
+
 private:
     memory::const_block _src;
     span_size_t _done{0};
