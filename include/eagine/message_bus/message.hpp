@@ -21,6 +21,7 @@
 #include <vector>
 
 namespace eagine {
+namespace msgbus {
 //------------------------------------------------------------------------------
 enum class message_priority : std::uint8_t {
     idle,
@@ -275,6 +276,7 @@ private:
     std::vector<stored_message> _messages;
 };
 //------------------------------------------------------------------------------
+} // namespace msgbus
 } // namespace eagine
 
 #endif // EAGINE_MESSAGE_BUS_MESSAGE_HPP

@@ -17,14 +17,15 @@
 #include "message.hpp"
 
 namespace eagine {
+namespace msgbus {
 //------------------------------------------------------------------------------
-struct message_bus_connection {
-    virtual ~message_bus_connection() noexcept = default;
-    message_bus_connection() noexcept = default;
-    message_bus_connection(message_bus_connection&&) noexcept = default;
-    message_bus_connection(const message_bus_connection&) = delete;
-    message_bus_connection& operator=(message_bus_connection&&) = delete;
-    message_bus_connection& operator=(const message_bus_connection&) = delete;
+struct connection {
+    virtual ~connection() noexcept = default;
+    connection() noexcept = default;
+    connection(connection&&) noexcept = default;
+    connection(const connection&) = delete;
+    connection& operator=(connection&&) = delete;
+    connection& operator=(const connection&) = delete;
 
     using fetch_handler =
       callable_ref<bool(identifier_t, identifier_t, const message_view&)>;
@@ -53,6 +54,7 @@ struct message_bus_connection {
     virtual void fetch_messages(fetch_handler handler) = 0;
 };
 //------------------------------------------------------------------------------
+} // namespace msgbus
 } // namespace eagine
 
 #endif // EAGINE_MESSAGE_BUS_CONNECTION_HPP

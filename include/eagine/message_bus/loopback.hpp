@@ -14,8 +14,9 @@
 #include <mutex>
 
 namespace eagine {
+namespace msgbus {
 //------------------------------------------------------------------------------
-class message_bus_loopback_connection : public message_bus_connection {
+class loopback_connection : public connection {
 public:
     identifier type_id() final {
         return EAGINE_ID(Loopback);
@@ -30,7 +31,7 @@ public:
         return true;
     }
 
-    void fetch_messages(message_bus_connection::fetch_handler handler) final {
+    void fetch_messages(connection::fetch_handler handler) final {
         std::unique_lock lock{_mutex};
         _messages.fetch_all(handler);
     }
@@ -40,6 +41,7 @@ private:
     message_storage _messages;
 };
 //------------------------------------------------------------------------------
+} // namespace msgbus
 } // namespace eagine
 
 #endif // EAGINE_MESSAGE_BUS_LOOPBACK_HPP

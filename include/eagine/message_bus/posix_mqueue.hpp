@@ -25,8 +25,9 @@
 #include <sys/stat.h>
 
 namespace eagine {
+namespace msgbus {
 //------------------------------------------------------------------------------
-class message_bus_posix_mqueue {
+class posix_mqueue {
 private:
     std::string _name{};
 
@@ -39,20 +40,18 @@ private:
     int _last_errno{0};
 
 public:
-    constexpr message_bus_posix_mqueue() noexcept = default;
-    message_bus_posix_mqueue(message_bus_posix_mqueue&& temp) noexcept {
+    constexpr posix_mqueue() noexcept = default;
+    posix_mqueue(posix_mqueue&& temp) noexcept {
         using std::swap;
         swap(_name, temp._name);
         swap(_ihandle, temp._ihandle);
         swap(_ohandle, temp._ohandle);
     }
-    message_bus_posix_mqueue(const message_bus_posix_mqueue&) = delete;
-    message_bus_posix_mqueue& operator=(message_bus_posix_mqueue&& temp) =
-      delete;
-    message_bus_posix_mqueue& operator=(const message_bus_posix_mqueue&) =
-      delete;
+    posix_mqueue(const posix_mqueue&) = delete;
+    posix_mqueue& operator=(posix_mqueue&& temp) = delete;
+    posix_mqueue& operator=(const posix_mqueue&) = delete;
 
-    ~message_bus_posix_mqueue() noexcept {
+    ~posix_mqueue() noexcept {
         try {
             this->close();
         } catch(...) {
@@ -63,7 +62,7 @@ public:
         return {_name};
     }
 
-    message_bus_posix_mqueue& set_name(std::string name) {
+    posix_mqueue& set_name(std::string name) {
         _name = std::move(name);
         if(!_name.empty()) {
             if(_name.front() != '/') {
@@ -80,11 +79,11 @@ public:
         return result;
     }
 
-    message_bus_posix_mqueue& set_name(identifier id) {
+    posix_mqueue& set_name(identifier id) {
         return set_name(name_from(id));
     }
 
-    message_bus_posix_mqueue(std::string name) {
+    posix_mqueue(std::string name) {
         set_name(std::move(name));
     }
 
@@ -113,7 +112,7 @@ public:
         return is_open() && !(had_error() && !needs_retry());
     }
 
-    message_bus_posix_mqueue& unlink() {
+    posix_mqueue& unlink() {
         errno = 0;
         ::mq_unlink((_name + "0").c_str());
         ::mq_unlink((_name + "1").c_str());
@@ -121,7 +120,7 @@ public:
         return *this;
     }
 
-    message_bus_posix_mqueue& create() {
+    posix_mqueue& create() {
         errno = 0;
         _ihandle = ::mq_open(
           (_name + "1").c_str(),
@@ -140,7 +139,7 @@ public:
         return *this;
     }
 
-    message_bus_posix_mqueue& open() {
+    posix_mqueue& open() {
         errno = 0;
         _ihandle = ::mq_open(
           (_name + "0").c_str(),
@@ -159,7 +158,7 @@ public:
         return *this;
     }
 
-    message_bus_posix_mqueue& close() {
+    posix_mqueue& close() {
         if(is_open()) {
             ::mq_close(_ihandle);
             ::mq_close(_ohandle);
@@ -189,7 +188,7 @@ public:
         return extract_or(max_data_size(), default_data_size());
     }
 
-    message_bus_posix_mqueue& send(unsigned priority, span<const char> blk) {
+    posix_mqueue& send(unsigned priority, span<const char> blk) {
         if(is_open()) {
             errno = 0;
             ::mq_send(_ohandle, blk.data(), std_size(blk.size()), priority);
@@ -200,8 +199,7 @@ public:
 
     using receive_handler = callable_ref<void(unsigned, span<const char>)>;
 
-    message_bus_posix_mqueue& receive(
-      memory::span<char> blk, receive_handler handler) {
+    posix_mqueue& receive(memory::span<char> blk, receive_handler handler) {
         if(is_open()) {
             unsigned priority{0U};
             errno = 0;
@@ -216,13 +214,13 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-class message_bus_posix_mqueue_connection : public message_bus_connection {
-    using this_class = message_bus_posix_mqueue_connection;
+class posix_mqueue_connection : public connection {
+    using this_class = posix_mqueue_connection;
 
 public:
-    using fetch_handler = message_bus_connection::fetch_handler;
+    using fetch_handler = connection::fetch_handler;
 
-    message_bus_posix_mqueue_connection() {
+    posix_mqueue_connection() {
         _buffer.resize(_data_queue.data_size());
     }
 
@@ -269,7 +267,7 @@ public:
     }
 
 protected:
-    void _checkup(message_bus_posix_mqueue& connect_queue) {
+    void _checkup(posix_mqueue& connect_queue) {
         if(connect_queue.is_usable()) {
             if(!_data_queue.is_usable()) {
                 _data_queue.close();
@@ -300,7 +298,7 @@ protected:
             while(!_data_queue
                      .receive(
                        as_chars(cover(_buffer)),
-                       message_bus_posix_mqueue::receive_handler(
+                       posix_mqueue::receive_handler(
                          this, EAGINE_MEM_FUNC_C(this_class, _handle_receive)))
                      .had_error()) {
             }
@@ -336,33 +334,28 @@ protected:
     memory::buffer _buffer;
     message_storage _incoming;
     serialized_message_storage _outgoing;
-    message_bus_posix_mqueue _data_queue{};
+    posix_mqueue _data_queue{};
     std::default_random_engine _rand_eng{std::random_device{}()};
 };
 //------------------------------------------------------------------------------
-class message_bus_posix_mqueue_connector
-  : public message_bus_posix_mqueue_connection {
+class posix_mqueue_connector : public posix_mqueue_connection {
 public:
-    using fetch_handler = message_bus_connection::fetch_handler;
+    using fetch_handler = connection::fetch_handler;
 
-    message_bus_posix_mqueue_connector(std::string name) noexcept
+    posix_mqueue_connector(std::string name) noexcept
       : _connect_queue{std::move(name)} {
     }
 
-    message_bus_posix_mqueue_connector(identifier id)
-      : _connect_queue{message_bus_posix_mqueue::name_from(id)} {
+    posix_mqueue_connector(identifier id)
+      : _connect_queue{posix_mqueue::name_from(id)} {
     }
 
-    message_bus_posix_mqueue_connector(
-      message_bus_posix_mqueue_connector&&) noexcept = default;
-    message_bus_posix_mqueue_connector& operator=(
-      message_bus_posix_mqueue_connector&&) = delete;
-    message_bus_posix_mqueue_connector(
-      const message_bus_posix_mqueue_connector&) = delete;
-    message_bus_posix_mqueue_connector& operator=(
-      const message_bus_posix_mqueue_connector&) = delete;
+    posix_mqueue_connector(posix_mqueue_connector&&) noexcept = default;
+    posix_mqueue_connector& operator=(posix_mqueue_connector&&) = delete;
+    posix_mqueue_connector(const posix_mqueue_connector&) = delete;
+    posix_mqueue_connector& operator=(const posix_mqueue_connector&) = delete;
 
-    ~message_bus_posix_mqueue_connector() noexcept {
+    ~posix_mqueue_connector() noexcept {
         _data_queue.unlink();
     }
 
@@ -379,38 +372,33 @@ private:
             _connect_queue.close();
             _connect_queue.open();
         }
-        message_bus_posix_mqueue_connection::_checkup(_connect_queue);
+        posix_mqueue_connection::_checkup(_connect_queue);
     }
 
-    message_bus_posix_mqueue _connect_queue{};
+    posix_mqueue _connect_queue{};
 };
 //------------------------------------------------------------------------------
-class message_bus_posix_mqueue_acceptor : public message_bus_acceptor {
-    using this_class = message_bus_posix_mqueue_acceptor;
+class posix_mqueue_acceptor : public acceptor {
+    using this_class = posix_mqueue_acceptor;
 
 public:
-    using accept_handler = message_bus_acceptor::accept_handler;
+    using accept_handler = acceptor::accept_handler;
 
-    message_bus_posix_mqueue_acceptor(std::string name) noexcept
+    posix_mqueue_acceptor(std::string name) noexcept
       : _accept_queue{std::move(name)} {
         _buffer.resize(_accept_queue.data_size());
     }
 
-    message_bus_posix_mqueue_acceptor(identifier id)
-      : message_bus_posix_mqueue_acceptor{
-          message_bus_posix_mqueue::name_from(id)} {
+    posix_mqueue_acceptor(identifier id)
+      : posix_mqueue_acceptor{posix_mqueue::name_from(id)} {
     }
 
-    message_bus_posix_mqueue_acceptor(
-      message_bus_posix_mqueue_acceptor&&) noexcept = default;
-    message_bus_posix_mqueue_acceptor& operator=(
-      message_bus_posix_mqueue_acceptor&&) = delete;
-    message_bus_posix_mqueue_acceptor(
-      const message_bus_posix_mqueue_acceptor&) = delete;
-    message_bus_posix_mqueue_acceptor& operator=(
-      const message_bus_posix_mqueue_acceptor&) = delete;
+    posix_mqueue_acceptor(posix_mqueue_acceptor&&) noexcept = default;
+    posix_mqueue_acceptor& operator=(posix_mqueue_acceptor&&) = delete;
+    posix_mqueue_acceptor(const posix_mqueue_acceptor&) = delete;
+    posix_mqueue_acceptor& operator=(const posix_mqueue_acceptor&) = delete;
 
-    ~message_bus_posix_mqueue_acceptor() noexcept {
+    ~posix_mqueue_acceptor() noexcept {
         _accept_queue.unlink();
     }
 
@@ -436,7 +424,7 @@ private:
             while(!_accept_queue
                      .receive(
                        as_chars(cover(_buffer)),
-                       message_bus_posix_mqueue::receive_handler(
+                       posix_mqueue::receive_handler(
                          this, EAGINE_MEM_FUNC_C(this_class, _handle_receive)))
                      .had_error()) {
             }
@@ -469,9 +457,7 @@ private:
             EAGINE_ASSERT((EAGINE_MSG_ID(eagiMsgBus, pmqConnect)
                              .matches(class_id, method_id)));
 
-            if(
-              auto conn =
-                std::make_unique<message_bus_posix_mqueue_connection>()) {
+            if(auto conn = std::make_unique<posix_mqueue_connection>()) {
                 if(conn->open(to_string(as_chars(message.data)))) {
                     handler(std::move(conn));
                 }
@@ -483,9 +469,10 @@ private:
 
     memory::buffer _buffer;
     message_storage _requests;
-    message_bus_posix_mqueue _accept_queue{};
+    posix_mqueue _accept_queue{};
 };
 //------------------------------------------------------------------------------
+} // namespace msgbus
 } // namespace eagine
 
 #endif // EAGINE_MESSAGE_BUS_POSIX_MQUEUE_HPP

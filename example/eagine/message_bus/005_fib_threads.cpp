@@ -24,16 +24,17 @@
 #include <thread>
 
 namespace eagine {
+namespace msgbus {
 //------------------------------------------------------------------------------
-class fibonacci_server : public message_bus_subscriber<3> {
+class fibonacci_server : public subscriber<3> {
 public:
     using this_class = fibonacci_server;
-    using base = message_bus_subscriber<3>;
-    using base::endpoint;
+    using base = subscriber<3>;
+    using base::bus;
 
-    fibonacci_server(message_bus_endpoint& bus)
+    fibonacci_server(endpoint& ep)
       : base(
-          bus,
+          ep,
           this,
           EAGINE_MSG_MAP(Fibonacci, FindServer, this_class, is_ready),
           EAGINE_MSG_MAP(Fibonacci, Calculate, this_class, calculate),
@@ -46,7 +47,7 @@ public:
     }
 
     bool is_ready(stored_message& msg) {
-        endpoint().respond_to(msg, EAGINE_MSG_ID(Fibonacci, IsReady));
+        bus().respond_to(msg, EAGINE_MSG_ID(Fibonacci, IsReady));
         return true;
     }
 
@@ -70,8 +71,7 @@ public:
         fast_serializer_backend write_backend(sink);
         serialize(tup, write_backend);
         // send
-        endpoint().respond_to(
-          msg, EAGINE_MSG_ID(Fibonacci, Result), {sink.done()});
+        bus().respond_to(msg, EAGINE_MSG_ID(Fibonacci, Result), {sink.done()});
         return true;
     }
 
@@ -83,15 +83,15 @@ private:
     bool _done{false};
 };
 //------------------------------------------------------------------------------
-class fibonacci_client : public message_bus_subscriber<2> {
+class fibonacci_client : public subscriber<2> {
 public:
     using this_class = fibonacci_client;
-    using base = message_bus_subscriber<2>;
-    using base::endpoint;
+    using base = subscriber<2>;
+    using base::bus;
 
-    fibonacci_client(message_bus_endpoint& bus)
+    fibonacci_client(endpoint& ep)
       : base(
-          bus,
+          ep,
           this,
           EAGINE_MSG_MAP(Fibonacci, IsReady, this_class, dispatch),
           EAGINE_MSG_MAP(Fibonacci, Result, this_class, print)) {
@@ -102,12 +102,12 @@ public:
     }
 
     void shutdown() {
-        endpoint().send(EAGINE_MSG_ID(Fibonacci, Shutdown));
+        bus().send(EAGINE_MSG_ID(Fibonacci, Shutdown));
     }
 
     void update() {
         if(!_remaining.empty()) {
-            endpoint().send(EAGINE_MSG_ID(Fibonacci, FindServer));
+            bus().send(EAGINE_MSG_ID(Fibonacci, FindServer));
         }
     }
 
@@ -121,7 +121,7 @@ public:
             block_data_sink sink(cover(buffer));
             fast_serializer_backend write_backend(sink);
             serialize(arg, write_backend);
-            endpoint().respond_to(
+            bus().respond_to(
               msg, EAGINE_MSG_ID(Fibonacci, Calculate), {sink.done()});
         }
         return true;
@@ -151,6 +151,7 @@ private:
     std::set<std::int64_t> _pending{};
 };
 //------------------------------------------------------------------------------
+} // namespace msgbus
 } // namespace eagine
 
 int main() {
@@ -159,12 +160,12 @@ int main() {
     system_info si;
     const auto thread_count = extract_or(si.cpu_concurrent_threads(), 4);
 
-    auto acceptor = std::make_unique<message_bus_direct_acceptor>();
+    auto acceptor = std::make_unique<msgbus::direct_acceptor>();
 
-    message_bus_endpoint client_endpoint;
+    msgbus::endpoint client_endpoint;
     client_endpoint.add_connection(acceptor->make_connection());
     client_endpoint.say_not_a_router();
-    fibonacci_client client(client_endpoint);
+    msgbus::fibonacci_client client(client_endpoint);
 
     std::vector<std::thread> workers;
     workers.reserve(thread_count);
@@ -172,10 +173,10 @@ int main() {
     for(span_size_t i = 0; i < thread_count; ++i) {
         workers.emplace_back(
           [connection{acceptor->make_connection()}]() mutable {
-              message_bus_endpoint server_endpoint;
+              msgbus::endpoint server_endpoint;
               server_endpoint.add_connection(std::move(connection));
               server_endpoint.say_not_a_router();
-              fibonacci_server server(server_endpoint);
+              msgbus::fibonacci_server server(server_endpoint);
 
               while(!server.is_done()) {
                   server_endpoint.update();
@@ -184,7 +185,7 @@ int main() {
           });
     }
 
-    message_bus_router router;
+    msgbus::router router;
     router.add_acceptor(std::move(acceptor));
 
     for(std::int64_t i = 1; i <= 45; ++i) {

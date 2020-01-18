@@ -19,6 +19,7 @@
 #include "message.hpp"
 
 namespace eagine {
+namespace msgbus {
 //------------------------------------------------------------------------------
 template <typename Backend>
 std::enable_if_t<
@@ -111,7 +112,7 @@ deserialize_message(
 }
 //------------------------------------------------------------------------------
 template <typename T>
-serialization_result<memory::const_block> message_bus_default_serialize(
+serialization_result<memory::const_block> default_serialize(
   T& value, memory::block blk) {
     block_data_sink sink(blk);
     string_serializer_backend backend(sink);
@@ -120,7 +121,7 @@ serialization_result<memory::const_block> message_bus_default_serialize(
 }
 //------------------------------------------------------------------------------
 template <typename T>
-deserialization_result<memory::const_block> message_bus_default_deserialize(
+deserialization_result<memory::const_block> default_deserialize(
   T& value, memory::const_block blk) {
     block_data_source source(blk);
     string_deserializer_backend backend(source);
@@ -128,6 +129,7 @@ deserialization_result<memory::const_block> message_bus_default_deserialize(
     return {source.remaining(), errors};
 }
 //------------------------------------------------------------------------------
+} // namespace msgbus
 } // namespace eagine
 
 #endif // EAGINE_MESSAGE_BUS_SERIALIZE_HPP

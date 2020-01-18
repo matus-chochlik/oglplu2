@@ -18,24 +18,26 @@
 #include <vector>
 
 namespace eagine {
+namespace msgbus {
 //------------------------------------------------------------------------------
-struct message_bus_router_pending {
+struct router_pending {
 
-    message_bus_router_pending(std::unique_ptr<message_bus_connection> conn)
-      : connection{std::move(conn)} {
+    router_pending(std::unique_ptr<connection> conn)
+      : the_connection{std::move(conn)} {
     }
 
     std::chrono::steady_clock::time_point create_time{
       std::chrono::steady_clock::now()};
-    std::unique_ptr<message_bus_connection> connection;
+
+    std::unique_ptr<connection> the_connection;
 
     auto age() const {
         return std::chrono::steady_clock::now() - create_time;
     }
 };
 //------------------------------------------------------------------------------
-struct message_bus_routed_endpoint {
-    std::vector<std::unique_ptr<message_bus_connection>> connections;
+struct routed_endpoint {
+    std::vector<std::unique_ptr<connection>> connections;
     std::set<std::tuple<identifier_t, identifier_t>> message_blacklist;
     bool maybe_router{true};
 
@@ -45,11 +47,11 @@ struct message_bus_routed_endpoint {
     }
 };
 //------------------------------------------------------------------------------
-class message_bus_router {
+class router {
 public:
-    bool add_acceptor(std::unique_ptr<message_bus_acceptor> acceptor) {
-        if(acceptor) {
-            _acceptors.emplace_back(std::move(acceptor));
+    bool add_acceptor(std::unique_ptr<acceptor> the_acceptor) {
+        if(the_acceptor) {
+            _acceptors.emplace_back(std::move(the_acceptor));
             return true;
         }
         return false;
@@ -67,11 +69,11 @@ public:
 private:
     void _handle_accept() {
         if(EAGINE_LIKELY(!_acceptors.empty())) {
-            message_bus_acceptor::accept_handler handler{
-              this, EAGINE_MEM_FUNC_C(message_bus_router, _handle_connection)};
-            for(auto& acceptor : _acceptors) {
-                EAGINE_ASSERT(acceptor);
-                acceptor->process_accepted(handler);
+            acceptor::accept_handler handler{
+              this, EAGINE_MEM_FUNC_C(router, _handle_connection)};
+            for(auto& the_acceptor : _acceptors) {
+                EAGINE_ASSERT(the_acceptor);
+                the_acceptor->process_accepted(handler);
             }
         }
     }
@@ -97,13 +99,13 @@ private:
             while(pos < _pending.size()) {
                 id = 0;
                 auto& pending = _pending[pos];
-                pending.connection->update();
-                pending.connection->fetch_messages(
-                  message_bus_connection::fetch_handler(handler));
+                pending.the_connection->update();
+                pending.the_connection->fetch_messages(
+                  connection::fetch_handler(handler));
                 // if we got the endpoint id message from the connection
                 if(id != 0) {
                     _endpoints[id].connections.emplace_back(
-                      std::move(pending.connection));
+                      std::move(pending.the_connection));
                     _pending.erase(_pending.begin() + pos);
                 } else {
                     ++pos;
@@ -143,7 +145,7 @@ private:
         }
     }
 
-    void _handle_connection(std::unique_ptr<message_bus_connection> conn) {
+    void _handle_connection(std::unique_ptr<connection> conn) {
         EAGINE_ASSERT(conn);
         // find a currently unused endpoint id value
         ++_id_sequence;
@@ -163,7 +165,7 @@ private:
       identifier_t class_id,
       identifier_t method_id,
       identifier_t incoming_id,
-      message_bus_routed_endpoint& endpoint,
+      routed_endpoint& endpoint,
       const message_view& message) {
         if(EAGINE_UNLIKELY(EAGINE_ID(eagiMsgBus).matches(class_id))) {
             if(EAGINE_ID(notARouter).matches(method_id)) {
@@ -176,7 +178,7 @@ private:
                 return true;
             } else if(EAGINE_ID(msgBlkList).matches(method_id)) {
                 std::tuple<identifier_t, identifier_t> msg_id{};
-                if(message_bus_default_deserialize(msg_id, message.data)) {
+                if(default_deserialize(msg_id, message.data)) {
                     endpoint.message_blacklist.insert(msg_id);
                 }
                 return true;
@@ -229,8 +231,7 @@ private:
 
             for(auto& conn_in : endpoint_in.connections) {
                 if(EAGINE_LIKELY(conn_in && conn_in->is_usable())) {
-                    conn_in->fetch_messages(
-                      message_bus_connection::fetch_handler(handler));
+                    conn_in->fetch_messages(connection::fetch_handler(handler));
                 }
             }
         }
@@ -249,11 +250,12 @@ private:
 
     const std::chrono::seconds _pending_timeout{30};
     identifier_t _id_sequence{0};
-    std::vector<std::unique_ptr<message_bus_acceptor>> _acceptors;
-    std::vector<message_bus_router_pending> _pending;
-    std::map<identifier_t, message_bus_routed_endpoint> _endpoints;
+    std::vector<std::unique_ptr<acceptor>> _acceptors;
+    std::vector<router_pending> _pending;
+    std::map<identifier_t, routed_endpoint> _endpoints;
 };
 //------------------------------------------------------------------------------
+} // namespace msgbus
 } // namespace eagine
 
 #endif // EAGINE_MESSAGE_BUS_ROUTER_HPP

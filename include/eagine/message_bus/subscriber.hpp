@@ -16,26 +16,27 @@
 #include <type_traits>
 
 namespace eagine {
+namespace msgbus {
 //------------------------------------------------------------------------------
 template <typename MessageId, typename MemFuncConst>
 struct message_handler_map {};
 //------------------------------------------------------------------------------
 #define EAGINE_MSG_MAP(CLASS_ID, METHOD_ID, CLASS, METHOD) \
-    eagine::message_handler_map<                           \
+    eagine::msgbus::message_handler_map<                   \
       EAGINE_MSG_TYPE(CLASS_ID, METHOD_ID),                \
       EAGINE_MEM_FUNC_T(CLASS, METHOD)>()
 //------------------------------------------------------------------------------
 template <std::size_t N>
-class message_bus_subscriber {
+class subscriber {
 public:
-    using handler_type = typename message_bus_endpoint::handler_type;
+    using handler_type = typename endpoint::handler_type;
 
-    message_bus_subscriber(message_bus_subscriber&& temp) = delete;
-    message_bus_subscriber(const message_bus_subscriber&) = delete;
-    message_bus_subscriber& operator=(message_bus_subscriber&&) = delete;
-    message_bus_subscriber& operator=(const message_bus_subscriber&) = delete;
+    subscriber(subscriber&& temp) = delete;
+    subscriber(const subscriber&) = delete;
+    subscriber& operator=(subscriber&&) = delete;
+    subscriber& operator=(const subscriber&) = delete;
 
-    ~message_bus_subscriber() noexcept {
+    ~subscriber() noexcept {
         _unsubscribe();
     }
 
@@ -47,19 +48,19 @@ public:
         return _endpoint == nullptr;
     }
 
-    message_bus_endpoint& endpoint() noexcept {
+    endpoint& bus() noexcept {
         EAGINE_ASSERT(_endpoint != nullptr);
         return *_endpoint;
     }
 
-    const message_bus_endpoint& endpoint() const noexcept {
+    const endpoint& bus() const noexcept {
         EAGINE_ASSERT(_endpoint != nullptr);
         return *_endpoint;
     }
 
     bool process_one() {
         for(auto& [class_id, method_id, handler] : _msg_handlers) {
-            if(endpoint().process_one(class_id, method_id, handler)) {
+            if(bus().process_one(class_id, method_id, handler)) {
                 return true;
             }
         }
@@ -69,7 +70,7 @@ public:
     span_size_t process_all() {
         span_size_t result{0};
         for(auto& [class_id, method_id, handler] : _msg_handlers) {
-            result += endpoint().process_all(class_id, method_id, handler);
+            result += bus().process_all(class_id, method_id, handler);
         }
         return result;
     }
@@ -79,9 +80,8 @@ protected:
       typename Class,
       typename... MsgMaps,
       typename = std::enable_if_t<sizeof...(MsgMaps) == N>>
-    message_bus_subscriber(
-      message_bus_endpoint& endpoint, Class* instance, MsgMaps... msg_maps)
-      : _endpoint{&endpoint}
+    subscriber(endpoint& bus, Class* instance, MsgMaps... msg_maps)
+      : _endpoint{&bus}
       , _msg_handlers{{as_tuple(instance, msg_maps)...}} {
         _subscribe();
     }
@@ -130,7 +130,7 @@ protected:
 
 private:
     unsigned _padding{0};
-    message_bus_endpoint* const _endpoint{nullptr};
+    endpoint* const _endpoint{nullptr};
     std::array<const std::tuple<identifier_t, identifier_t, handler_type>, N>
       _msg_handlers;
 
@@ -156,6 +156,7 @@ private:
     }
 };
 //------------------------------------------------------------------------------
+} // namespace msgbus
 } // namespace eagine
 
 #endif // EAGINE_MESSAGE_BUS_SUBSCRIBER_HPP

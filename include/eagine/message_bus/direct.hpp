@@ -15,8 +15,9 @@
 #include <mutex>
 
 namespace eagine {
+namespace msgbus {
 //------------------------------------------------------------------------------
-class message_bus_direct_connection_state {
+class direct_connection_state {
 public:
     void send_to_server(
       identifier_t class_id,
@@ -34,14 +35,12 @@ public:
         _server_to_client.push(class_id, method_id, message);
     }
 
-    void fetch_from_client(
-      message_bus_connection::fetch_handler handler) noexcept {
+    void fetch_from_client(connection::fetch_handler handler) noexcept {
         std::unique_lock lock{_mutex};
         _client_to_server.fetch_all(handler);
     }
 
-    void fetch_from_server(
-      message_bus_connection::fetch_handler handler) noexcept {
+    void fetch_from_server(connection::fetch_handler handler) noexcept {
         std::unique_lock lock{_mutex};
         _server_to_client.fetch_all(handler);
     }
@@ -52,13 +51,13 @@ public:
     message_storage _client_to_server;
 };
 //------------------------------------------------------------------------------
-class message_bus_direct_connection_address {
+class direct_connection_address {
 public:
-    using shared_state = std::shared_ptr<message_bus_direct_connection_state>;
+    using shared_state = std::shared_ptr<direct_connection_state>;
     using process_handler = callable_ref<void(shared_state&)>;
 
     shared_state connect() {
-        auto state = std::make_shared<message_bus_direct_connection_state>();
+        auto state = std::make_shared<direct_connection_state>();
         _pending.push_back(state);
         return state;
     }
@@ -74,11 +73,11 @@ private:
     std::vector<shared_state> _pending;
 };
 //------------------------------------------------------------------------------
-class message_bus_direct_client_connection : public message_bus_connection {
+class direct_client_connection : public connection {
 
 public:
-    message_bus_direct_client_connection(
-      std::shared_ptr<message_bus_direct_connection_address>& address) noexcept
+    direct_client_connection(
+      std::shared_ptr<direct_connection_address>& address) noexcept
       : _weak_address{address}
       , _state{address->connect()} {
     }
@@ -104,7 +103,7 @@ public:
         return false;
     }
 
-    void fetch_messages(message_bus_connection::fetch_handler handler) final {
+    void fetch_messages(connection::fetch_handler handler) final {
         _checkup();
         if(EAGINE_LIKELY(_state)) {
             _state->fetch_from_server(handler);
@@ -120,14 +119,13 @@ private:
         }
     }
 
-    std::weak_ptr<message_bus_direct_connection_address> _weak_address;
-    std::shared_ptr<message_bus_direct_connection_state> _state;
+    std::weak_ptr<direct_connection_address> _weak_address;
+    std::shared_ptr<direct_connection_state> _state;
 };
 //------------------------------------------------------------------------------
-class message_bus_direct_server_connection : public message_bus_connection {
+class direct_server_connection : public connection {
 public:
-    message_bus_direct_server_connection(
-      std::shared_ptr<message_bus_direct_connection_state>& state)
+    direct_server_connection(std::shared_ptr<direct_connection_state>& state)
       : _weak_state{state} {
     }
 
@@ -146,55 +144,52 @@ public:
         return false;
     }
 
-    void fetch_messages(message_bus_connection::fetch_handler handler) final {
+    void fetch_messages(connection::fetch_handler handler) final {
         if(auto state = _weak_state.lock()) {
             state->fetch_from_client(handler);
         }
     }
 
 private:
-    std::weak_ptr<message_bus_direct_connection_state> _weak_state;
+    std::weak_ptr<direct_connection_state> _weak_state;
 };
 //------------------------------------------------------------------------------
-class message_bus_direct_acceptor : public message_bus_acceptor {
-    using shared_state = std::shared_ptr<message_bus_direct_connection_state>;
+class direct_acceptor : public acceptor {
+    using shared_state = std::shared_ptr<direct_connection_state>;
 
 public:
-    message_bus_direct_acceptor(
-      std::shared_ptr<message_bus_direct_connection_address> address) noexcept
+    direct_acceptor(std::shared_ptr<direct_connection_address> address) noexcept
       : _address{std::move(address)} {
     }
 
-    message_bus_direct_acceptor()
-      : message_bus_direct_acceptor(
-          std::make_shared<message_bus_direct_connection_address>()) {
+    direct_acceptor()
+      : direct_acceptor(std::make_shared<direct_connection_address>()) {
     }
 
     void process_accepted(const accept_handler& handler) final {
         if(_address) {
             auto wrapped_handler = [this, &handler](shared_state& state) {
-                handler(std::unique_ptr<message_bus_connection>{
-                  std::make_unique<message_bus_direct_server_connection>(
-                    state)});
+                handler(std::unique_ptr<connection>{
+                  std::make_unique<direct_server_connection>(state)});
             };
             _address->process_all(
-              message_bus_direct_connection_address::process_handler{
-                wrapped_handler});
+              direct_connection_address::process_handler{wrapped_handler});
         }
     }
 
-    std::unique_ptr<message_bus_connection> make_connection() {
+    std::unique_ptr<connection> make_connection() {
         if(_address) {
-            return std::unique_ptr<message_bus_connection>{
-              std::make_unique<message_bus_direct_client_connection>(_address)};
+            return std::unique_ptr<connection>{
+              std::make_unique<direct_client_connection>(_address)};
         }
         return {};
     }
 
 private:
-    std::shared_ptr<message_bus_direct_connection_address> _address;
+    std::shared_ptr<direct_connection_address> _address;
 };
 //------------------------------------------------------------------------------
+} // namespace msgbus
 } // namespace eagine
 
 #endif // EAGINE_MESSAGE_BUS_DIRECT_HPP

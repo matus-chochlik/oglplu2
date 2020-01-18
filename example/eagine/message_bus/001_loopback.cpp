@@ -13,38 +13,38 @@
 #include <iostream>
 
 namespace eagine {
+namespace msgbus {
 //------------------------------------------------------------------------------
-struct str_utils_server : message_bus_subscriber<1> {
+struct str_utils_server : subscriber<1> {
     using this_class = str_utils_server;
-    using base = message_bus_subscriber<1>;
-    using base::endpoint;
+    using base = subscriber<1>;
+    using base::bus;
 
-    str_utils_server(message_bus_endpoint& bus)
+    str_utils_server(endpoint& ep)
       : base(
-          bus, this, EAGINE_MSG_MAP(StrUtilReq, Reverse, this_class, reverse)) {
+          ep, this, EAGINE_MSG_MAP(StrUtilReq, Reverse, this_class, reverse)) {
     }
 
     bool reverse(stored_message& msg) {
         auto str = as_chars(cover(msg.data));
         memory::reverse(str);
-        endpoint().send(EAGINE_MSG_ID(StrUtilRes, Reverse), as_bytes(str));
+        bus().send(EAGINE_MSG_ID(StrUtilRes, Reverse), as_bytes(str));
         return true;
     }
 };
 //------------------------------------------------------------------------------
-struct str_utils_client : message_bus_subscriber<1> {
+struct str_utils_client : subscriber<1> {
     using this_class = str_utils_client;
-    using base = message_bus_subscriber<1>;
-    using base::endpoint;
+    using base = subscriber<1>;
+    using base::bus;
 
-    str_utils_client(message_bus_endpoint& bus)
-      : base(
-          bus, this, EAGINE_MSG_MAP(StrUtilRes, Reverse, this_class, print)) {
+    str_utils_client(endpoint& ep)
+      : base(ep, this, EAGINE_MSG_MAP(StrUtilRes, Reverse, this_class, print)) {
     }
 
     void call_reverse(string_view str) {
         ++_remaining;
-        endpoint().send(EAGINE_MSG_ID(StrUtilReq, Reverse), as_bytes(str));
+        bus().send(EAGINE_MSG_ID(StrUtilReq, Reverse), as_bytes(str));
     }
 
     bool print(stored_message& msg) {
@@ -61,17 +61,18 @@ private:
     int _remaining{0};
 };
 //------------------------------------------------------------------------------
+} // namespace msgbus
 } // namespace eagine
 
 int main() {
     using namespace eagine;
 
-    message_bus_endpoint bus;
+    msgbus::endpoint bus;
     bus.set_id(EAGINE_ID(BusExample));
-    bus.add_connection(std::make_unique<message_bus_loopback_connection>());
+    bus.add_connection(std::make_unique<msgbus::loopback_connection>());
 
-    str_utils_server server(bus);
-    str_utils_client client(bus);
+    msgbus::str_utils_server server(bus);
+    msgbus::str_utils_client client(bus);
 
     client.call_reverse("foo");
     client.call_reverse("bar");

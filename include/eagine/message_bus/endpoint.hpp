@@ -17,8 +17,9 @@
 #include <vector>
 
 namespace eagine {
+namespace msgbus {
 //------------------------------------------------------------------------------
-class message_bus_endpoint {
+class endpoint {
 public:
     static constexpr identifier_t invalid_id() noexcept {
         return {0U};
@@ -31,7 +32,7 @@ public:
 private:
     identifier_t _id{invalid_id()};
 
-    std::vector<std::unique_ptr<message_bus_connection>> _connections;
+    std::vector<std::unique_ptr<connection>> _connections;
 
     message_storage _outgoing;
 
@@ -107,12 +108,12 @@ private:
     }
 
 public:
-    message_bus_endpoint& set_id(identifier id) {
+    endpoint& set_id(identifier id) {
         _id = id.value();
         return *this;
     }
 
-    bool add_connection(std::unique_ptr<message_bus_connection> conn) {
+    bool add_connection(std::unique_ptr<connection> conn) {
         if(conn) {
             _connections.emplace_back(std::move(conn));
             return true;
@@ -157,8 +158,8 @@ public:
     void update() {
 
         const bool had_id = has_id();
-        message_bus_connection::fetch_handler handler{
-          this, EAGINE_MEM_FUNC_C(message_bus_endpoint, _store_message)};
+        connection::fetch_handler handler{
+          this, EAGINE_MEM_FUNC_C(endpoint, _store_message)};
 
         for(auto& connection : _connections) {
             EAGINE_ASSERT(connection);
@@ -175,7 +176,7 @@ public:
         // if we have a valid id and we have messages in outbox
         if(EAGINE_UNLIKELY(has_id() && !_outgoing.empty())) {
             _outgoing.fetch_all(message_storage::fetch_handler{
-              this, EAGINE_MEM_FUNC_C(message_bus_endpoint, _handle_send)});
+              this, EAGINE_MEM_FUNC_C(endpoint, _handle_send)});
         }
     }
 
@@ -237,9 +238,7 @@ public:
 
     bool blacklist_message_type(std::tuple<identifier_t, identifier_t> msg_id) {
         std::array<byte, 64> temp{};
-        if(
-          auto serialized =
-            message_bus_default_serialize(msg_id, cover(temp))) {
+        if(auto serialized = default_serialize(msg_id, cover(temp))) {
             return send(
               EAGINE_MSG_ID(eagiMsgBus, msgBlkList),
               message_view(extract(serialized)));
@@ -328,6 +327,7 @@ public:
     }
 };
 //------------------------------------------------------------------------------
+} // namespace msgbus
 } // namespace eagine
 
 #endif // EAGINE_MESSAGE_BUS_ENDPOINT_HPP

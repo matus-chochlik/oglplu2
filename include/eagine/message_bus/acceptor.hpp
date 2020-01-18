@@ -13,21 +13,22 @@
 #include "connection.hpp"
 
 namespace eagine {
+namespace msgbus {
 //------------------------------------------------------------------------------
-struct message_bus_acceptor {
-    virtual ~message_bus_acceptor() noexcept = default;
-    message_bus_acceptor() noexcept = default;
-    message_bus_acceptor(message_bus_acceptor&&) noexcept = default;
-    message_bus_acceptor(const message_bus_acceptor&) = delete;
-    message_bus_acceptor& operator=(message_bus_acceptor&&) = delete;
-    message_bus_acceptor& operator=(const message_bus_acceptor&) = delete;
+struct acceptor {
+    virtual ~acceptor() noexcept = default;
+    acceptor() noexcept = default;
+    acceptor(acceptor&&) noexcept = default;
+    acceptor(const acceptor&) = delete;
+    acceptor& operator=(acceptor&&) = delete;
+    acceptor& operator=(const acceptor&) = delete;
 
-    using accept_handler =
-      callable_ref<void(std::unique_ptr<message_bus_connection>)>;
+    using accept_handler = callable_ref<void(std::unique_ptr<connection>)>;
 
     virtual void process_accepted(const accept_handler& handler) = 0;
 };
 //------------------------------------------------------------------------------
+} // namespace msgbus
 } // namespace eagine
 
 #endif // EAGINE_MESSAGE_BUS_ACCEPTOR_HPP
