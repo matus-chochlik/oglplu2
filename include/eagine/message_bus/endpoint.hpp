@@ -232,6 +232,10 @@ public:
         return send(EAGINE_MSG_ID(eagiMsgBus, notARouter));
     }
 
+    bool say_bye() {
+        return send(EAGINE_MSG_ID(eagiMsgBus, byeBye));
+    }
+
     bool clear_blacklist() {
         return send(EAGINE_MSG_ID(eagiMsgBus, clrBlkList));
     }

@@ -28,6 +28,13 @@ protected:
         _endpoint.say_not_a_router();
     }
 
+    ~actor() noexcept {
+        try {
+            _endpoint.say_bye();
+        } catch(...) {
+        }
+    }
+
 public:
     endpoint& bus() noexcept {
         return _endpoint;

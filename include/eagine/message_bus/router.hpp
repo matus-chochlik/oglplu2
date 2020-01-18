@@ -40,6 +40,7 @@ struct routed_endpoint {
     std::vector<std::unique_ptr<connection>> connections;
     std::set<std::tuple<identifier_t, identifier_t>> message_blacklist;
     bool maybe_router{true};
+    bool do_disconnect{false};
 
     bool is_blacklisted(identifier_t class_id, identifier_t method_id) {
         return message_blacklist.find(std::make_tuple(class_id, method_id)) !=
@@ -127,13 +128,18 @@ private:
 
     void _remove_disconnected() {
         for(auto& p : _endpoints) {
-            auto& conns = std::get<1>(p).connections;
-            conns.erase(
-              std::remove_if(
-                conns.begin(),
-                conns.end(),
-                [](auto& conn) { return !conn || !conn->is_usable(); }),
-              conns.end());
+            auto& rep = std::get<1>(p);
+            auto& conns = rep.connections;
+            if(EAGINE_UNLIKELY(rep.do_disconnect)) {
+                conns.clear();
+            } else {
+                conns.erase(
+                  std::remove_if(
+                    conns.begin(),
+                    conns.end(),
+                    [](auto& conn) { return !conn || !conn->is_usable(); }),
+                  conns.end());
+            }
         }
         auto it = _endpoints.begin();
         while(it != _endpoints.end()) {
@@ -181,6 +187,9 @@ private:
                 if(default_deserialize(msg_id, message.data)) {
                     endpoint.message_blacklist.insert(msg_id);
                 }
+                return true;
+            } else if(EAGINE_ID(byeBye).matches(method_id)) {
+                endpoint.do_disconnect = true;
                 return true;
             }
         }
