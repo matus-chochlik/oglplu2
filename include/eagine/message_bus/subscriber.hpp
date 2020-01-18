@@ -27,55 +27,16 @@ struct message_handler_map {};
       EAGINE_MEM_FUNC_T(CLASS, METHOD)>()
 //------------------------------------------------------------------------------
 template <std::size_t N>
+class actor;
+//------------------------------------------------------------------------------
+template <std::size_t N>
 class subscriber {
 public:
     using handler_type = typename endpoint::handler_type;
 
-    subscriber(subscriber&& temp) = delete;
-    subscriber(const subscriber&) = delete;
-    subscriber& operator=(subscriber&&) = delete;
-    subscriber& operator=(const subscriber&) = delete;
-
-    ~subscriber() noexcept {
-        _unsubscribe();
-    }
-
-    explicit operator bool() noexcept {
-        return _endpoint != nullptr;
-    }
-
-    bool operator!() noexcept {
-        return _endpoint == nullptr;
-    }
-
-    endpoint& bus() noexcept {
-        EAGINE_ASSERT(_endpoint != nullptr);
-        return *_endpoint;
-    }
-
-    const endpoint& bus() const noexcept {
-        EAGINE_ASSERT(_endpoint != nullptr);
-        return *_endpoint;
-    }
-
-    bool process_one() {
-        for(auto& [class_id, method_id, handler] : _msg_handlers) {
-            if(bus().process_one(class_id, method_id, handler)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    span_size_t process_all() {
-        span_size_t result{0};
-        for(auto& [class_id, method_id, handler] : _msg_handlers) {
-            result += bus().process_all(class_id, method_id, handler);
-        }
-        return result;
-    }
-
 protected:
+    friend class actor<N>;
+
     template <
       typename Class,
       typename... MsgMaps,
@@ -126,6 +87,51 @@ protected:
                              member_function_constant<
                                bool (Class::*)(stored_message&) const,
                                HandlerFunc>{}}};
+    }
+
+public:
+    subscriber(subscriber&& temp) = delete;
+    subscriber(const subscriber&) = delete;
+    subscriber& operator=(subscriber&&) = delete;
+    subscriber& operator=(const subscriber&) = delete;
+
+    ~subscriber() noexcept {
+        _unsubscribe();
+    }
+
+    explicit operator bool() noexcept {
+        return _endpoint != nullptr;
+    }
+
+    bool operator!() noexcept {
+        return _endpoint == nullptr;
+    }
+
+    endpoint& bus() noexcept {
+        EAGINE_ASSERT(_endpoint != nullptr);
+        return *_endpoint;
+    }
+
+    const endpoint& bus() const noexcept {
+        EAGINE_ASSERT(_endpoint != nullptr);
+        return *_endpoint;
+    }
+
+    bool process_one() {
+        for(auto& [class_id, method_id, handler] : _msg_handlers) {
+            if(bus().process_one(class_id, method_id, handler)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    span_size_t process_all() {
+        span_size_t result{0};
+        for(auto& [class_id, method_id, handler] : _msg_handlers) {
+            result += bus().process_all(class_id, method_id, handler);
+        }
+        return result;
     }
 
 private:
