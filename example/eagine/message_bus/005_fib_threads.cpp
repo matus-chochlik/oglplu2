@@ -8,10 +8,10 @@
  */
 #include <eagine/memory/span_algo.hpp>
 #include <eagine/message_bus/acceptor.hpp>
+#include <eagine/message_bus/actor.hpp>
 #include <eagine/message_bus/direct.hpp>
 #include <eagine/message_bus/endpoint.hpp>
 #include <eagine/message_bus/router.hpp>
-#include <eagine/message_bus/subscriber.hpp>
 #include <eagine/serialize/block_sink.hpp>
 #include <eagine/serialize/block_source.hpp>
 #include <eagine/serialize/fast_backend.hpp>
@@ -26,15 +26,14 @@
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
-class fibonacci_server : public subscriber<3> {
+class fibonacci_server : public actor<3> {
 public:
     using this_class = fibonacci_server;
-    using base = subscriber<3>;
+    using base = actor<3>;
     using base::bus;
 
-    fibonacci_server(endpoint& ep)
+    fibonacci_server()
       : base(
-          ep,
           this,
           EAGINE_MSG_MAP(Fibonacci, FindServer, this_class, is_ready),
           EAGINE_MSG_MAP(Fibonacci, Calculate, this_class, calculate),
@@ -83,15 +82,14 @@ private:
     bool _done{false};
 };
 //------------------------------------------------------------------------------
-class fibonacci_client : public subscriber<2> {
+class fibonacci_client : public actor<2> {
 public:
     using this_class = fibonacci_client;
-    using base = subscriber<2>;
+    using base = actor<2>;
     using base::bus;
 
-    fibonacci_client(endpoint& ep)
+    fibonacci_client()
       : base(
-          ep,
           this,
           EAGINE_MSG_MAP(Fibonacci, IsReady, this_class, dispatch),
           EAGINE_MSG_MAP(Fibonacci, Result, this_class, print)) {
@@ -162,10 +160,8 @@ int main() {
 
     auto acceptor = std::make_unique<msgbus::direct_acceptor>();
 
-    msgbus::endpoint client_endpoint;
-    client_endpoint.add_connection(acceptor->make_connection());
-    client_endpoint.say_not_a_router();
-    msgbus::fibonacci_client client(client_endpoint);
+    msgbus::fibonacci_client client;
+    client.add_connection(acceptor->make_connection());
 
     std::vector<std::thread> workers;
     workers.reserve(thread_count);
@@ -173,13 +169,10 @@ int main() {
     for(span_size_t i = 0; i < thread_count; ++i) {
         workers.emplace_back(
           [connection{acceptor->make_connection()}]() mutable {
-              msgbus::endpoint server_endpoint;
-              server_endpoint.add_connection(std::move(connection));
-              server_endpoint.say_not_a_router();
-              msgbus::fibonacci_server server(server_endpoint);
+              msgbus::fibonacci_server server;
+              server.add_connection(std::move(connection));
 
               while(!server.is_done()) {
-                  server_endpoint.update();
                   server.process_one();
               }
           });
@@ -194,7 +187,6 @@ int main() {
 
     while(!client.is_done()) {
         router.update();
-        client_endpoint.update();
         client.update();
         client.process_one();
     }
