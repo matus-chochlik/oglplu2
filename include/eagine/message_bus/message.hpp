@@ -43,12 +43,13 @@ constexpr auto enumerator_mapping(
 }
 //------------------------------------------------------------------------------
 struct message_info {
-    static constexpr identifier_t inline invalid_endpoint_id() noexcept {
+    static constexpr identifier_t inline invalid_id() noexcept {
         return 0U;
     }
 
-    identifier_t source_id{invalid_endpoint_id()};
-    identifier_t target_id{invalid_endpoint_id()};
+    identifier_t source_id{invalid_id()};
+    identifier_t target_id{invalid_id()};
+    identifier_t serializer_id{invalid_id()};
     message_priority priority{message_priority::normal};
 
     using hop_count_t = std::int8_t;
@@ -70,6 +71,11 @@ struct message_info {
 
     message_info& set_target_id(identifier_t id) noexcept {
         target_id = id;
+        return *this;
+    }
+
+    message_info& set_serializer_id(identifier id) noexcept {
+        serializer_id = id.value();
         return *this;
     }
 

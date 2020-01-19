@@ -273,7 +273,7 @@ public:
                   if(!errors) {
                       dst_class_id = class_id;
                       dst_method_id = method_id;
-                      message.assign(info);
+                      message.assign(info).set_serializer_id(backend.type_id());
                       message.data.resize(sink.done().size());
                       return true;
                   }

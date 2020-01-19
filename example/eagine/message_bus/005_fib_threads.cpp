@@ -46,8 +46,8 @@ public:
         return true;
     }
 
-    bool is_ready(stored_message& msg) {
-        bus().respond_to(msg, EAGINE_MSG_ID(Fibonacci, IsReady));
+    bool is_ready(stored_message& msg_in) {
+        bus().respond_to(msg_in, EAGINE_MSG_ID(Fibonacci, IsReady));
         return true;
     }
 
@@ -55,12 +55,12 @@ public:
         return arg <= 2 ? 1 : fib(arg - 2) + fib(arg - 1);
     }
 
-    bool calculate(stored_message& msg) {
+    bool calculate(stored_message& msg_in) {
         std::int64_t arg{0};
         std::int64_t result{0};
         auto tup = std::tie(arg, result);
         // deserialize
-        block_data_source source(msg.data);
+        block_data_source source(msg_in.data);
         fast_deserializer_backend read_backend(source);
         deserialize(arg, read_backend);
         // call
@@ -71,7 +71,9 @@ public:
         fast_serializer_backend write_backend(sink);
         serialize(tup, write_backend);
         // send
-        bus().respond_to(msg, EAGINE_MSG_ID(Fibonacci, Result), {sink.done()});
+        message_view msg_out{sink.done()};
+        msg_out.set_serializer_id(write_backend.type_id());
+        bus().respond_to(msg_in, EAGINE_MSG_ID(Fibonacci, Result), msg_out);
         return true;
     }
 
@@ -110,7 +112,7 @@ public:
         }
     }
 
-    bool dispatch(stored_message& msg) {
+    bool dispatch(stored_message& msg_in) {
         if(!_remaining.empty()) {
             auto arg = _remaining.front();
             _pending.insert(arg);
@@ -120,18 +122,20 @@ public:
             block_data_sink sink(cover(buffer));
             fast_serializer_backend write_backend(sink);
             serialize(arg, write_backend);
+            message_view msg_out{sink.done()};
+            msg_out.set_serializer_id(write_backend.type_id());
             bus().respond_to(
-              msg, EAGINE_MSG_ID(Fibonacci, Calculate), {sink.done()});
+              msg_in, EAGINE_MSG_ID(Fibonacci, Calculate), msg_out);
         }
         return true;
     }
 
-    bool print(stored_message& msg) {
+    bool print(stored_message& msg_in) {
         std::int64_t arg{0};
         std::int64_t result{0};
         auto tup = std::tie(arg, result);
         // deserialize
-        block_data_source source(msg.data);
+        block_data_source source(msg_in.data);
         fast_deserializer_backend read_backend(source);
         deserialize(tup, read_backend);
         // print
