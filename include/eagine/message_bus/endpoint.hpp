@@ -19,6 +19,8 @@
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
+class friend_of_endpoint;
+//------------------------------------------------------------------------------
 class endpoint {
 public:
     static constexpr identifier_t invalid_id() noexcept {
@@ -30,6 +32,8 @@ public:
     }
 
 private:
+    friend class friend_of_endpoint;
+
     identifier_t _id{invalid_id()};
 
     std::vector<std::unique_ptr<connection>> _connections;
@@ -87,12 +91,14 @@ private:
         return _do_send(class_id, method_id, message);
     }
 
-protected:
-    bool _store_message(
+    explicit endpoint(connection::fetch_handler store_message) noexcept
+      : _store_handler{std::move(store_message)} {
+    }
+
+    inline bool _handle_special(
       identifier_t class_id,
       identifier_t method_id,
-      const message_view& message) {
-        // this is a special message requesting/assigning endpoint id
+      const message_view& message) noexcept {
         if(EAGINE_UNLIKELY(EAGINE_MSG_ID(eagiMsgBus, assignId)
                              .matches(class_id, method_id))) {
             if(!has_id()) {
@@ -100,18 +106,40 @@ protected:
             }
             return true;
         }
-        if((message.target_id == _id) || !is_valid_id(message.target_id)) {
-            auto pos = _incoming.find(_make_key(class_id, method_id));
-            if(pos != _incoming.end()) {
-                _get_queue(pos).push(message);
-                return true;
+        return false;
+    }
+
+    bool _store_message(
+      identifier_t class_id,
+      identifier_t method_id,
+      const message_view& message) {
+        if(!_handle_special(class_id, method_id, message)) {
+            if((message.target_id == _id) || !is_valid_id(message.target_id)) {
+                auto pos = _incoming.find(_make_key(class_id, method_id));
+                if(pos != _incoming.end()) {
+                    _get_queue(pos).push(message);
+                    return true;
+                }
             }
         }
         return false;
     }
 
-    endpoint(connection::fetch_handler store_message) noexcept
-      : _store_handler{std::move(store_message)} {
+    bool _accept_message(
+      identifier_t class_id,
+      identifier_t method_id,
+      const message_view& message) {
+        if(_handle_special(class_id, method_id, message)) {
+            return true;
+        }
+        auto pos = _incoming.find(_make_key(class_id, method_id));
+        if(pos != _incoming.end()) {
+            if((message.target_id == _id) || !is_valid_id(message.target_id)) {
+                _get_queue(pos).push(message);
+            }
+            return true;
+        }
+        return false;
     }
 
 public:
@@ -217,6 +245,16 @@ public:
         unsubscribe(ClassId, MethodId);
     }
 
+    void send_later(
+      identifier_t class_id, identifier_t method_id, message_view message) {
+        _outgoing.push(class_id, method_id, message);
+    }
+
+    template <identifier_t ClassId, identifier_t MethodId>
+    void send_later(message_id<ClassId, MethodId>, message_view message) {
+        send_later(ClassId, MethodId, std::move(message));
+    }
+
     bool send(
       identifier_t class_id, identifier_t method_id, message_view message) {
         if(has_id()) {
@@ -245,27 +283,26 @@ public:
         return send(EAGINE_MSG_ID(eagiMsgBus, byeBye));
     }
 
-    bool clear_blacklist() {
-        return send(EAGINE_MSG_ID(eagiMsgBus, clrBlkList));
+    void clear_blacklist() {
+        send_later(EAGINE_MSG_ID(eagiMsgBus, clrBlkList), {});
     }
 
-    bool blacklist_message_type(std::tuple<identifier_t, identifier_t> msg_id) {
+    void blacklist_message_type(std::tuple<identifier_t, identifier_t> msg_id) {
         std::array<byte, 64> temp{};
         if(auto serialized = default_serialize(msg_id, cover(temp))) {
-            return send(
+            send_later(
               EAGINE_MSG_ID(eagiMsgBus, msgBlkList),
               message_view(extract(serialized)));
         }
-        return false;
     }
 
-    bool blacklist_message_type(identifier_t class_id, identifier_t method_id) {
-        return blacklist_message_type(std::make_tuple(class_id, method_id));
+    void blacklist_message_type(identifier_t class_id, identifier_t method_id) {
+        blacklist_message_type(std::make_tuple(class_id, method_id));
     }
 
     template <identifier_t ClassId, identifier_t MethodId>
-    bool blacklist_message_type(message_id<ClassId, MethodId>) {
-        return blacklist_message_type(ClassId, MethodId);
+    void blacklist_message_type(message_id<ClassId, MethodId>) {
+        blacklist_message_type(ClassId, MethodId);
     }
 
     bool respond_to(
@@ -337,6 +374,22 @@ public:
         method,
       Class* instance) {
         return process_one(mid, {instance, method});
+    }
+};
+//------------------------------------------------------------------------------
+class friend_of_endpoint {
+protected:
+    static auto _make_endpoint(
+      connection::fetch_handler store_message) noexcept {
+        return endpoint{store_message};
+    }
+
+    inline bool _accept_message(
+      endpoint& ep,
+      identifier_t class_id,
+      identifier_t method_id,
+      const message_view& message) {
+        return ep._accept_message(class_id, method_id, message);
     }
 };
 //------------------------------------------------------------------------------

@@ -16,14 +16,28 @@ namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
 template <std::size_t N>
-class actor {
+class actor : public friend_of_endpoint {
+    using friend_of_endpoint::_accept_message;
+    using friend_of_endpoint::_make_endpoint;
+
 protected:
+    bool _process_message(
+      identifier_t class_id,
+      identifier_t method_id,
+      const message_view& message) {
+        if(!_accept_message(_endpoint, class_id, method_id, message)) {
+            _endpoint.blacklist_message_type(class_id, method_id);
+        }
+        return true;
+    }
+
     template <
       typename Class,
       typename... MsgMaps,
       typename = std::enable_if_t<sizeof...(MsgMaps) == N>>
     actor(Class* instance, MsgMaps... msg_maps)
-      : _endpoint{}
+      : _endpoint{_make_endpoint(
+          {this, EAGINE_MEM_FUNC_C(actor, _process_message)})}
       , _subscriber{_endpoint, instance, msg_maps...} {
         _endpoint.say_not_a_router();
     }
