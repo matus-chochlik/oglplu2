@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/interop/valgrind.hpp>
 #include <eagine/memory/span_algo.hpp>
 #include <eagine/message_bus/acceptor.hpp>
 #include <eagine/message_bus/actor.hpp>
@@ -181,7 +182,9 @@ int main() {
     msgbus::router router;
     router.add_acceptor(std::move(acceptor));
 
-    for(std::int64_t i = 1; i <= 45; ++i) {
+    const std::int64_t n = running_on_valgrind() ? 34 : 46;
+
+    for(std::int64_t i = 1; i <= n; ++i) {
         client.enqueue(i);
     }
 
