@@ -184,7 +184,7 @@ public:
     }
 
     result finish() final {
-        return sink('>');
+        return sink(">\0");
     }
 };
 //------------------------------------------------------------------------------
@@ -236,7 +236,7 @@ private:
     result _sscanf_one(T& value, char delimiter, const char (&fmt)[L]) {
         result errors{};
         if(auto src = this->string_before(delimiter)) {
-            if(std::sscanf(src.data(), fmt, &value) == 1) {
+            if(std::sscanf(c_str(src), fmt, &value) == 1) {
                 pop(src.size() + 1);
             } else {
                 errors |= error_code::invalid_format;

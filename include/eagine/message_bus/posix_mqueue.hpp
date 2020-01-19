@@ -89,7 +89,7 @@ public:
 
     std::string last_message() const {
         if(_last_errno) {
-            char buf[64] = {'\0'};
+            char buf[128] = {'\0'};
             ::strerror_r(_last_errno, buf, sizeof(buf));
             return {buf};
         }
