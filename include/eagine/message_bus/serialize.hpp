@@ -21,6 +21,9 @@
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
+using default_serializer_backend = string_serializer_backend;
+using default_deserializer_backend = string_deserializer_backend;
+//------------------------------------------------------------------------------
 template <typename Backend>
 std::enable_if_t<
   std::is_base_of_v<serializer_backend, Backend>,
@@ -115,7 +118,7 @@ template <typename T>
 serialization_result<memory::const_block> default_serialize(
   T& value, memory::block blk) {
     block_data_sink sink(blk);
-    string_serializer_backend backend(sink);
+    default_serializer_backend backend(sink);
     auto errors = serialize(value, backend);
     return {sink.done(), errors};
 }
@@ -124,7 +127,7 @@ template <typename T>
 deserialization_result<memory::const_block> default_deserialize(
   T& value, memory::const_block blk) {
     block_data_source source(blk);
-    string_deserializer_backend backend(source);
+    default_deserializer_backend backend(source);
     auto errors = deserialize(value, backend);
     return {source.remaining(), errors};
 }

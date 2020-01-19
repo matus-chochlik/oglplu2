@@ -245,14 +245,49 @@ public:
         unsubscribe(ClassId, MethodId);
     }
 
-    void send_later(
+    void post(
       identifier_t class_id, identifier_t method_id, message_view message) {
         _outgoing.push(class_id, method_id, message);
     }
 
     template <identifier_t ClassId, identifier_t MethodId>
-    void send_later(message_id<ClassId, MethodId>, message_view message) {
-        send_later(ClassId, MethodId, std::move(message));
+    void post(message_id<ClassId, MethodId>, message_view message) {
+        post(ClassId, MethodId, std::move(message));
+    }
+
+    template <typename T>
+    bool post_value(
+      identifier_t class_id,
+      identifier_t method_id,
+      T& value,
+      const message_info& info = {}) {
+        if(auto opt_size = max_data_size()) {
+            return _outgoing.push_if(
+              [this, class_id, method_id, &info, &value](
+                identifier_t& dst_class_id,
+                identifier_t& dst_method_id,
+                stored_message& message) {
+                  block_data_sink sink(cover(message.data));
+                  default_serializer_backend backend(sink);
+                  auto errors = serialize(value, backend);
+                  if(!errors) {
+                      dst_class_id = class_id;
+                      dst_method_id = method_id;
+                      message.assign(info);
+                      message.data.resize(sink.done().size());
+                      return true;
+                  }
+                  return false;
+              },
+              extract(opt_size));
+        }
+        return false;
+    }
+
+    template <identifier_t ClassId, identifier_t MethodId, typename T>
+    bool post_value(
+      message_id<ClassId, MethodId>, T& value, const message_info& info = {}) {
+        return post_value(ClassId, MethodId, value, info);
     }
 
     bool send(
@@ -260,7 +295,7 @@ public:
         if(has_id()) {
             return _do_send(class_id, method_id, message);
         } else {
-            _outgoing.push(class_id, method_id, message);
+            post(class_id, method_id, message);
         }
         return false;
     }
@@ -284,13 +319,13 @@ public:
     }
 
     void clear_blacklist() {
-        send_later(EAGINE_MSG_ID(eagiMsgBus, clrBlkList), {});
+        post(EAGINE_MSG_ID(eagiMsgBus, clrBlkList), {});
     }
 
     void blacklist_message_type(std::tuple<identifier_t, identifier_t> msg_id) {
         std::array<byte, 64> temp{};
         if(auto serialized = default_serialize(msg_id, cover(temp))) {
-            send_later(
+            post(
               EAGINE_MSG_ID(eagiMsgBus, msgBlkList),
               message_view(extract(serialized)));
         }

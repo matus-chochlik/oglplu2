@@ -54,6 +54,10 @@ struct message_info {
     using hop_count_t = std::int8_t;
     hop_count_t hop_count{0};
 
+    message_info& assign(const message_info& that) noexcept {
+        return *this = that;
+    }
+
     message_info& set_priority(message_priority new_priority) noexcept {
         priority = new_priority;
         return *this;
@@ -142,11 +146,11 @@ public:
     }
 
     template <typename Function>
-    void push_if(Function function) {
+    bool push_if(Function function, span_size_t req_size = 0) {
         _messages.emplace_back(
           identifier_t{0},
           identifier_t{0},
-          stored_message{{}, _buffers.get(0)});
+          stored_message{{}, _buffers.get(req_size)});
         auto& [class_id, method_id, message] = _messages.back();
         bool rollback = false;
         try {
@@ -159,7 +163,9 @@ public:
         if(rollback) {
             _buffers.eat(std::move(message.data));
             _messages.pop_back();
+            return false;
         }
+        return true;
     }
 
     void fetch_all(fetch_handler handler) {
