@@ -57,27 +57,7 @@ private:
         return std::get<1>(std::get<1>(*iter));
     }
 
-    bool _store_message(
-      identifier_t class_id,
-      identifier_t method_id,
-      const message_view& message) {
-        // this is a special message requesting/assigning endpoint id
-        if(EAGINE_UNLIKELY(EAGINE_MSG_ID(eagiMsgBus, assignId)
-                             .matches(class_id, method_id))) {
-            if(!has_id()) {
-                _id = message.target_id;
-            }
-            return true;
-        }
-        if((message.target_id == _id) || !is_valid_id(message.target_id)) {
-            auto pos = _incoming.find(_make_key(class_id, method_id));
-            if(pos != _incoming.end()) {
-                _get_queue(pos).push(message);
-                return true;
-            }
-        }
-        return false;
-    }
+    connection::fetch_handler _store_handler{};
 
     bool _do_send(
       identifier_t class_id,
@@ -107,7 +87,38 @@ private:
         return _do_send(class_id, method_id, message);
     }
 
+protected:
+    bool _store_message(
+      identifier_t class_id,
+      identifier_t method_id,
+      const message_view& message) {
+        // this is a special message requesting/assigning endpoint id
+        if(EAGINE_UNLIKELY(EAGINE_MSG_ID(eagiMsgBus, assignId)
+                             .matches(class_id, method_id))) {
+            if(!has_id()) {
+                _id = message.target_id;
+            }
+            return true;
+        }
+        if((message.target_id == _id) || !is_valid_id(message.target_id)) {
+            auto pos = _incoming.find(_make_key(class_id, method_id));
+            if(pos != _incoming.end()) {
+                _get_queue(pos).push(message);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    endpoint(connection::fetch_handler store_message) noexcept
+      : _store_handler{std::move(store_message)} {
+    }
+
 public:
+    endpoint() noexcept
+      : _store_handler{this, EAGINE_MEM_FUNC_C(endpoint, _store_message)} {
+    }
+
     endpoint& set_id(identifier id) {
         _id = id.value();
         return *this;
@@ -158,13 +169,11 @@ public:
     void update() {
 
         const bool had_id = has_id();
-        connection::fetch_handler handler{
-          this, EAGINE_MEM_FUNC_C(endpoint, _store_message)};
 
         for(auto& connection : _connections) {
             EAGINE_ASSERT(connection);
             connection->update();
-            connection->fetch_messages(handler);
+            connection->fetch_messages(_store_handler);
         }
 
         // if processing the messages assigned the endpoint id
