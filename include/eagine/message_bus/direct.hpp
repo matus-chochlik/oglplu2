@@ -189,6 +189,55 @@ private:
     std::shared_ptr<direct_connection_address> _address;
 };
 //------------------------------------------------------------------------------
+class direct_connection_factory : public connection_factory {
+private:
+    std::shared_ptr<direct_connection_address> _default_addr;
+    std::map<
+      std::string,
+      std::shared_ptr<direct_connection_address>,
+      basic_str_view_less<std::string, string_view>>
+      _addrs;
+
+    auto _make_addr() {
+        return std::make_shared<direct_connection_address>();
+    }
+
+    auto& _get(string_view addr_str) {
+        auto pos = _addrs.find(addr_str);
+        if(pos == _addrs.end()) {
+            pos = _addrs.emplace(to_string(addr_str), _make_addr()).first;
+        }
+        EAGINE_ASSERT(pos != _addrs.end());
+        return pos->second;
+    }
+
+public:
+    using connection_factory::make_acceptor;
+    using connection_factory::make_connector;
+
+    direct_connection_factory()
+      : _default_addr{_make_addr()} {
+    }
+
+    identifier type_id() final {
+        return EAGINE_ID(Direct);
+    }
+
+    std::unique_ptr<acceptor> make_acceptor(string_view addr_str) final {
+        if(addr_str) {
+            return std::make_unique<direct_acceptor>(_get(addr_str));
+        }
+        return std::make_unique<direct_acceptor>(_default_addr);
+    }
+
+    std::unique_ptr<connection> make_connector(string_view addr_str) {
+        if(addr_str) {
+            return std::make_unique<direct_client_connection>(_get(addr_str));
+        }
+        return std::make_unique<direct_client_connection>(_default_addr);
+    }
+};
+//------------------------------------------------------------------------------
 } // namespace msgbus
 } // namespace eagine
 

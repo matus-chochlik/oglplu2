@@ -30,6 +30,14 @@ struct connection_factory {
     virtual std::unique_ptr<acceptor> make_acceptor(string_view address) = 0;
     virtual std::unique_ptr<connection> make_connector(string_view address) = 0;
 
+    auto make_acceptor() {
+        return make_acceptor(string_view{});
+    }
+
+    auto make_connector() {
+        return make_connector(string_view{});
+    }
+
     auto make_acceptor(identifier id) {
         return make_acceptor(id.name());
     }
