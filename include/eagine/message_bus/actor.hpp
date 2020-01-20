@@ -26,7 +26,9 @@ protected:
       identifier_t method_id,
       const message_view& message) {
         if(!_accept_message(_endpoint, class_id, method_id, message)) {
-            _endpoint.blacklist_message_type(class_id, method_id);
+            if(!EAGINE_ID(eagiMsgBus).matches(class_id)) {
+                _endpoint.blacklist_message_type(class_id, method_id);
+            }
         }
         return true;
     }

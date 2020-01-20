@@ -173,7 +173,8 @@ private:
       identifier_t incoming_id,
       routed_endpoint& endpoint,
       const message_view& message) {
-        if(EAGINE_UNLIKELY(EAGINE_ID(eagiMsgBus).matches(class_id))) {
+        const auto emb_id = EAGINE_ID(eagiMsgBus);
+        if(EAGINE_UNLIKELY(emb_id.matches(class_id))) {
             if(EAGINE_ID(notARouter).matches(method_id)) {
                 if(incoming_id == message.source_id) {
                     endpoint.maybe_router = false;
@@ -183,9 +184,14 @@ private:
                 endpoint.message_blacklist.clear();
                 return true;
             } else if(EAGINE_ID(msgBlkList).matches(method_id)) {
-                std::tuple<identifier_t, identifier_t> msg_id{};
-                if(default_deserialize(msg_id, message.data)) {
-                    endpoint.message_blacklist.insert(msg_id);
+                identifier_t blk_class_id{0};
+                identifier_t blk_method_id{0};
+                auto blk_msg_id = std::tie(blk_class_id, blk_method_id);
+                if(default_deserialize(blk_msg_id, message.data)) {
+                    // messages with eagiMsgBus class cannot be blacklisted
+                    if(!emb_id.matches(blk_class_id)) {
+                        endpoint.message_blacklist.insert(blk_msg_id);
+                    }
                 }
                 return true;
             } else if(EAGINE_ID(byeBye).matches(method_id)) {
