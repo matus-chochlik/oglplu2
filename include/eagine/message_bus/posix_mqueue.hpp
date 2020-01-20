@@ -15,6 +15,7 @@
 #include "../serialize/block_sink.hpp"
 #include "../serialize/block_source.hpp"
 #include "../serialize/string_backend.hpp"
+#include "conn_factory.hpp"
 #include "connection.hpp"
 #include "serialize.hpp"
 #include <errno.h>
@@ -470,6 +471,23 @@ private:
     memory::buffer _buffer;
     message_storage _requests;
     posix_mqueue _accept_queue{};
+};
+//------------------------------------------------------------------------------
+struct posix_mqueue_connection_factory : connection_factory {
+    using connection_factory::make_acceptor;
+    using connection_factory::make_connector;
+
+    identifier type_id() final {
+        return EAGINE_ID(PosixMQue);
+    }
+
+    std::unique_ptr<acceptor> make_acceptor(string_view address) final {
+        return std::make_unique<posix_mqueue_acceptor>(to_string(address));
+    }
+
+    std::unique_ptr<connection> make_connector(string_view address) {
+        return std::make_unique<posix_mqueue_connector>(to_string(address));
+    }
 };
 //------------------------------------------------------------------------------
 } // namespace msgbus
