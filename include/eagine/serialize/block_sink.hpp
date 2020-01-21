@@ -12,7 +12,7 @@
 
 #include "../memory/span_algo.hpp"
 #include "data_sink.hpp"
-#include <ostream>
+#include <stack>
 
 namespace eagine {
 //------------------------------------------------------------------------------
@@ -34,6 +34,8 @@ public:
         return free().size();
     }
 
+    using serializer_data_sink::write;
+
     serialization_errors write(memory::const_block blk) {
         auto dst = free();
         if(dst.size() < blk.size()) {
@@ -44,9 +46,28 @@ public:
         return {};
     }
 
+    transaction_handle begin_work() final {
+        _save_points.push(_done);
+        return transaction_handle(_save_points.size());
+    }
+
+    void commit(transaction_handle th) final {
+        EAGINE_ASSERT(th == transaction_handle(_save_points.size()));
+        EAGINE_MAYBE_UNUSED(th);
+        _save_points.pop();
+    }
+
+    void rollback(transaction_handle th) final {
+        EAGINE_ASSERT(th == transaction_handle(_save_points.size()));
+        EAGINE_MAYBE_UNUSED(th);
+        _done = _save_points.top();
+        _save_points.pop();
+    }
+
 private:
     memory::block _dst;
     span_size_t _done{0};
+    std::stack<span_size_t> _save_points;
 };
 //------------------------------------------------------------------------------
 } // namespace eagine

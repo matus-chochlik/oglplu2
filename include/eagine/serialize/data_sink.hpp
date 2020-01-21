@@ -38,6 +38,14 @@ struct serializer_data_sink {
     inline result write(string_view str) {
         return this->write(as_bytes(str));
     }
+
+    using transaction_handle = std::uintptr_t;
+
+    virtual transaction_handle begin_work() = 0;
+
+    virtual void commit(transaction_handle) = 0;
+
+    virtual void rollback(transaction_handle) = 0;
 };
 //------------------------------------------------------------------------------
 } // namespace eagine

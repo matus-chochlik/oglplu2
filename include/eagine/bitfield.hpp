@@ -96,7 +96,12 @@ public:
     }
 
     friend constexpr inline bitfield operator~(bitfield b) noexcept {
-        return bitfield{~b._bits};
+        return bitfield{BF(~b._bits)};
+    }
+
+    bitfield& clear(Bit b) noexcept {
+        _bits &= ~BF(b);
+        return *this;
     }
 };
 
