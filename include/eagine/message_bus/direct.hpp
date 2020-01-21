@@ -11,7 +11,9 @@
 #define EAGINE_MESSAGE_BUS_DIRECT_HPP
 
 #include "../branch_predict.hpp"
+#include "conn_factory.hpp"
 #include "connection.hpp"
+#include <map>
 #include <mutex>
 
 namespace eagine {
