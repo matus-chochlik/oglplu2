@@ -69,8 +69,7 @@ struct plain_serializer {
         span_size_t written{0};
         auto errors = backend.write(view_one(value), written);
         if(written < 1) {
-            EAGINE_ASSERT(
-              errors.has(serialization_error_code::incomplete_write));
+            EAGINE_ASSERT(errors.has(serialization_error_code::too_much_data));
         }
         return errors;
     }
@@ -80,8 +79,7 @@ struct plain_serializer {
         span_size_t written{0};
         auto errors = backend.write(values, written);
         if(written < values.size()) {
-            EAGINE_ASSERT(
-              errors.has(serialization_error_code::incomplete_write));
+            EAGINE_ASSERT(errors.has(serialization_error_code::too_much_data));
         }
         return errors;
     }
@@ -123,15 +121,36 @@ template <typename T>
 struct common_serializer {
 
     template <typename Backend>
-    serialization_errors write(span<const T> values, Backend& backend) const {
+    serialization_errors write(span<const T> values, Backend& backend) {
+        const auto tmd = serialization_error_code::too_much_data;
+        const auto icw = serialization_error_code::incomplete_write;
+        auto& sink = extract(backend.sink());
         serialization_errors errors{};
         span_size_t i = 0;
         for(auto& elem : values) {
+            auto th = sink.begin_work();
             errors |= backend.begin_element(i);
             if(!errors) {
                 errors |=
-                  static_cast<const serializer<T>*>(this)->write(elem, backend);
+                  static_cast<serializer<T>*>(this)->write(elem, backend);
                 errors |= backend.finish_element(i++);
+                if(!errors) {
+                    sink.commit(th);
+                } else if(errors.has_at_most(tmd)) {
+                    errors.clear(tmd);
+                    errors |= icw;
+                    sink.rollback(th);
+                    break;
+                } else {
+                    break;
+                }
+            } else if(errors.has_only(tmd)) {
+                errors.clear(tmd);
+                errors |= icw;
+                sink.rollback(th);
+                break;
+            } else {
+                break;
             }
         }
         return errors;
@@ -140,6 +159,9 @@ struct common_serializer {
 //------------------------------------------------------------------------------
 template <typename... T>
 struct serializer<std::tuple<T...>> : common_serializer<std::tuple<T...>> {
+
+    using common_serializer<std::tuple<T...>>::write;
+
     template <typename Backend>
     serialization_errors write(
       const std::tuple<T...>& values, Backend& backend) {
@@ -190,6 +212,7 @@ private:
 template <typename... T>
 struct serializer<std::tuple<std::pair<string_view, T>...>>
   : common_serializer<std::tuple<std::pair<string_view, T>...>> {
+
     template <typename Backend>
     serialization_errors write(
       const std::tuple<std::pair<string_view, T>...>& members,
@@ -248,10 +271,12 @@ struct serializer<char[N]> : serializer<string_view> {};
 template <typename Char, typename Traits, typename Alloc>
 struct serializer<std::basic_string<Char, Traits, Alloc>>
   : common_serializer<std::basic_string<Char, Traits, Alloc>> {
+
+    using common_serializer<std::basic_string<Char, Traits, Alloc>>::write;
+
     template <typename Backend>
     serialization_errors write(
-      const std::basic_string<Char, Traits, Alloc>& value,
-      Backend& backend) const {
+      const std::basic_string<Char, Traits, Alloc>& value, Backend& backend) {
         return _serializer.write(value, backend);
     }
 
@@ -261,8 +286,11 @@ private:
 //------------------------------------------------------------------------------
 template <typename T>
 struct serializer<span<const T>> : common_serializer<span<const T>> {
+
+    using common_serializer<span<const T>>::write;
+
     template <typename Backend>
-    serialization_errors write(span<const T> values, Backend& backend) const {
+    serialization_errors write(span<const T> values, Backend& backend) {
         serialization_errors errors{};
         errors |= backend.begin_list(values.size());
         if(!errors) {
@@ -283,9 +311,11 @@ template <typename T>
 struct serializer<fragment_serialize_wrapper<span<const T>>>
   : common_serializer<fragment_serialize_wrapper<span<const T>>> {
 
+    using common_serializer<fragment_serialize_wrapper<span<const T>>>::write;
+
     template <typename Backend>
     serialization_errors write(
-      fragment_serialize_wrapper<span<const T>>& frag, Backend& backend) const {
+      fragment_serialize_wrapper<span<const T>>& frag, Backend& backend) {
         serialization_errors errors{};
         errors |= _size_serializer.write(frag.offset(), backend);
         if(!errors) {
@@ -308,9 +338,12 @@ struct serializer<fragment_serialize_wrapper<span<const T>>>
 //------------------------------------------------------------------------------
 template <typename T, std::size_t N>
 struct serializer<std::array<T, N>> : common_serializer<std::array<T, N>> {
+
+    using common_serializer<std::array<T, N>>::write;
+
     template <typename Backend>
     serialization_errors write(
-      const std::array<T, N>& values, Backend& backend) const {
+      const std::array<T, N>& values, Backend& backend) {
         serialization_errors errors{};
         errors |= backend.begin_list(span_size(N));
         if(!errors) {
@@ -326,9 +359,12 @@ private:
 //------------------------------------------------------------------------------
 template <typename T, typename A>
 struct serializer<std::vector<T, A>> : common_serializer<std::vector<T, A>> {
+
+    using common_serializer<std::vector<T, A>>::write;
+
     template <typename Backend>
     serialization_errors write(
-      const std::vector<T, A>& values, Backend& backend) const {
+      const std::vector<T, A>& values, Backend& backend) {
         serialization_errors errors{};
         errors |= backend.begin_list(values.size());
         if(!errors) {
@@ -345,7 +381,7 @@ private:
 template <typename T>
 struct enum_serializer {
     template <typename Backend>
-    serialization_errors write(T enumerator, Backend& backend) const {
+    serialization_errors write(T enumerator, Backend& backend) {
         serialization_errors errors{};
         if(backend.enum_as_string()) {
             errors |=
