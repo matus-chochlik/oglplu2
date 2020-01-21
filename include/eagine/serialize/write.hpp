@@ -78,8 +78,12 @@ struct plain_serializer {
     static serialization_errors write(span<const T> values, Backend& backend) {
         span_size_t written{0};
         auto errors = backend.write(values, written);
-        if(written < values.size()) {
+        if(written < 1) {
             EAGINE_ASSERT(errors.has(serialization_error_code::too_much_data));
+        } else if(written < values.size()) {
+            EAGINE_ASSERT(
+              errors.has(serialization_error_code::incomplete_write) ||
+              errors.has(serialization_error_code::too_much_data));
         }
         return errors;
     }
