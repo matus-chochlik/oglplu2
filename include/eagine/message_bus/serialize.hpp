@@ -128,12 +128,6 @@ serialization_result<memory::const_block> default_serialize(
     return {sink.done(), errors};
 }
 //------------------------------------------------------------------------------
-auto default_serialize(identifier_t class_id, identifier_t method_id) {
-    auto value{std::tie(class_id, method_id)};
-    std::array<byte, 64> temp{};
-    return default_serialize(value, cover(temp));
-}
-//------------------------------------------------------------------------------
 // default_deserialize
 //------------------------------------------------------------------------------
 template <typename T>

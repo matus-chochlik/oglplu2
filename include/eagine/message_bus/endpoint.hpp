@@ -330,7 +330,9 @@ public:
       message_id<ClassId, MethodId> meta_msg_id,
       identifier_t class_id,
       identifier_t method_id) {
-        if(auto serialized = default_serialize(class_id, method_id)) {
+        auto msg_id{std::tie(class_id, method_id)};
+        std::array<byte, 64> temp{};
+        if(auto serialized = default_serialize(msg_id, cover(temp))) {
             post(meta_msg_id, message_view(extract(serialized)));
         }
     }
