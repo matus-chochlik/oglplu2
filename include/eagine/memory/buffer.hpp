@@ -24,10 +24,10 @@ public:
     using pointer = typename block::pointer;
 
 private:
-    span_size_t _size;
-    span_size_t _align;
-    owned_block _storage;
-    shared_byte_allocator _alloc;
+    span_size_t _size{0};
+    span_size_t _align{0};
+    owned_block _storage{};
+    shared_byte_allocator _alloc{};
 
     bool _is_ok() const noexcept {
         return bool(_alloc) && size() <= capacity();
@@ -48,9 +48,22 @@ public:
       : buffer(alignof(long double)) {
     }
 
-    buffer(buffer&&) noexcept = default;
+    buffer(buffer&& temp) noexcept
+      : _size{temp._size}
+      , _align{temp._align}
+      , _storage{std::move(temp._storage)}
+      , _alloc{std::move(temp._alloc)} {
+        temp._size = 0;
+    }
+    buffer& operator=(buffer&& temp) noexcept {
+        _size = temp._size;
+        temp._size = 0;
+        _align = temp._align;
+        _storage = std::move(temp._storage);
+        _alloc = std::move(temp._alloc);
+        return *this;
+    }
     buffer(const buffer&) = delete;
-    buffer& operator=(buffer&&) noexcept = default;
     buffer& operator=(const buffer&) = delete;
 
     ~buffer() noexcept {
