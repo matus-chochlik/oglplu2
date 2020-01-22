@@ -17,6 +17,7 @@
 #include "../serialize/string_backend.hpp"
 #include "../serialize/write.hpp"
 #include "message.hpp"
+#include <array>
 
 namespace eagine {
 namespace msgbus {
@@ -116,6 +117,8 @@ deserialize_message(
     return errors;
 }
 //------------------------------------------------------------------------------
+// default_serialize
+//------------------------------------------------------------------------------
 template <typename T>
 serialization_result<memory::const_block> default_serialize(
   T& value, memory::block blk) {
@@ -124,6 +127,14 @@ serialization_result<memory::const_block> default_serialize(
     auto errors = serialize(value, backend);
     return {sink.done(), errors};
 }
+//------------------------------------------------------------------------------
+auto default_serialize(identifier_t class_id, identifier_t method_id) {
+    auto value{std::tie(class_id, method_id)};
+    std::array<byte, 64> temp{};
+    return default_serialize(value, cover(temp));
+}
+//------------------------------------------------------------------------------
+// default_deserialize
 //------------------------------------------------------------------------------
 template <typename T>
 deserialization_result<memory::const_block> default_deserialize(

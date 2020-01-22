@@ -42,11 +42,14 @@ protected:
           {this, EAGINE_MEM_FUNC_C(actor, _process_message)})}
       , _subscriber{_endpoint, instance, msg_maps...} {
         _endpoint.say_not_a_router();
+        _subscriber.announce_subscriptions();
     }
 
     ~actor() noexcept {
         try {
+            _subscriber.retract_subscriptions();
             _endpoint.say_bye();
+            _endpoint.flush_outbox();
         } catch(...) {
         }
     }

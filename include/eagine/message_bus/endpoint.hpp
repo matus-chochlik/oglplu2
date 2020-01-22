@@ -194,6 +194,13 @@ public:
         return is_valid_id(_id);
     }
 
+    void flush_outbox() {
+        if(has_id()) {
+            _outgoing.fetch_all(message_storage::fetch_handler{
+              this, EAGINE_MEM_FUNC_C(endpoint, _handle_send)});
+        }
+    }
+
     void update() {
 
         const bool had_id = has_id();
@@ -318,21 +325,43 @@ public:
         return send(EAGINE_MSG_ID(eagiMsgBus, byeBye));
     }
 
+    template <identifier_t ClassId, identifier_t MethodId>
+    void post_meta_message(
+      message_id<ClassId, MethodId> meta_msg_id,
+      identifier_t class_id,
+      identifier_t method_id) {
+        if(auto serialized = default_serialize(class_id, method_id)) {
+            post(meta_msg_id, message_view(extract(serialized)));
+        }
+    }
+
+    void say_subscribes_to(identifier_t class_id, identifier_t method_id) {
+        post_meta_message(
+          EAGINE_MSG_ID(eagiMsgBus, subscribTo), class_id, method_id);
+    }
+
+    template <identifier_t ClassId, identifier_t MethodId>
+    void say_subscribes_to(message_id<ClassId, MethodId>) {
+        say_subscribes_to(ClassId, MethodId);
+    }
+
+    void say_unsubscribes_from(identifier_t class_id, identifier_t method_id) {
+        post_meta_message(
+          EAGINE_MSG_ID(eagiMsgBus, unsubFrom), class_id, method_id);
+    }
+
+    template <identifier_t ClassId, identifier_t MethodId>
+    void say_unsubscribes_from(message_id<ClassId, MethodId>) {
+        say_unsubscribes_from(ClassId, MethodId);
+    }
+
     void clear_blacklist() {
         post(EAGINE_MSG_ID(eagiMsgBus, clrBlkList), {});
     }
 
-    void blacklist_message_type(std::tuple<identifier_t, identifier_t> msg_id) {
-        std::array<byte, 64> temp{};
-        if(auto serialized = default_serialize(msg_id, cover(temp))) {
-            post(
-              EAGINE_MSG_ID(eagiMsgBus, msgBlkList),
-              message_view(extract(serialized)));
-        }
-    }
-
     void blacklist_message_type(identifier_t class_id, identifier_t method_id) {
-        blacklist_message_type(std::make_tuple(class_id, method_id));
+        post_meta_message(
+          EAGINE_MSG_ID(eagiMsgBus, msgBlkList), class_id, method_id);
     }
 
     template <identifier_t ClassId, identifier_t MethodId>

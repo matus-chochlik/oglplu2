@@ -134,6 +134,24 @@ public:
         return result;
     }
 
+    void announce_subscriptions() {
+        if(_endpoint) {
+            for(auto& [class_id, method_id, unused] : _msg_handlers) {
+                EAGINE_MAYBE_UNUSED(unused);
+                _endpoint->say_subscribes_to(class_id, method_id);
+            }
+        }
+    }
+
+    void retract_subscriptions() {
+        if(_endpoint) {
+            for(auto& [class_id, method_id, unused] : _msg_handlers) {
+                EAGINE_MAYBE_UNUSED(unused);
+                _endpoint->say_unsubscribes_from(class_id, method_id);
+            }
+        }
+    }
+
 private:
     unsigned _padding{0};
     endpoint* const _endpoint{nullptr};
