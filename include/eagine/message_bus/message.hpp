@@ -213,6 +213,7 @@ public:
 
     void push(memory::const_block message) {
         auto buf = _buffers.get(message.size());
+        buf.resize(message.size());
         memory::copy(message, cover(buf));
         _messages.emplace_back(std::move(buf));
     }
