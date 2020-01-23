@@ -22,11 +22,12 @@ public:
     memory::buffer get(span_size_t req_size = 0) {
         auto pos = std::lower_bound(
           _pool.begin(), _pool.end(), req_size, [](auto& buf, auto req) {
-              return buf.size() < req;
+              return buf.capacity() < req;
           });
         if(pos != _pool.end()) {
             memory::buffer result{std::move(*pos)};
             _pool.erase(pos);
+            result.resize(req_size);
             return result;
         }
         memory::buffer result{};
@@ -36,9 +37,10 @@ public:
 
     void eat(memory::buffer used) {
         auto pos = std::lower_bound(
-          _pool.begin(), _pool.end(), used.size(), [](auto& buf, auto size) {
-              return buf.size() < size;
-          });
+          _pool.begin(),
+          _pool.end(),
+          used.capacity(),
+          [](auto& buf, auto capacity) { return buf.capacity() < capacity; });
         _pool.emplace(pos, std::move(used));
     }
 
