@@ -27,26 +27,11 @@ struct message_handler_map {};
       EAGINE_MEM_FUNC_T(CLASS, METHOD)>()
 //------------------------------------------------------------------------------
 template <std::size_t N>
-class actor;
-//------------------------------------------------------------------------------
-template <std::size_t N>
 class subscriber {
 public:
     using handler_type = typename endpoint::handler_type;
 
 protected:
-    friend class actor<N>;
-
-    template <
-      typename Class,
-      typename... MsgMaps,
-      typename = std::enable_if_t<sizeof...(MsgMaps) == N>>
-    subscriber(endpoint& bus, Class* instance, MsgMaps... msg_maps)
-      : _endpoint{&bus}
-      , _msg_handlers{{as_tuple(instance, msg_maps)...}} {
-        _subscribe();
-    }
-
     template <
       identifier_t ClassId,
       identifier_t MethodId,
@@ -90,6 +75,23 @@ protected:
     }
 
 public:
+    template <
+      typename... MsgHandlers,
+      typename = std::enable_if_t<sizeof...(MsgHandlers) == N>>
+    subscriber(endpoint& bus, MsgHandlers&&... msg_handlers)
+      : _endpoint{&bus}
+      , _msg_handlers{{std::forward<MsgHandlers>(msg_handlers)...}} {
+        _subscribe();
+    }
+
+    template <
+      typename Class,
+      typename... MsgMaps,
+      typename = std::enable_if_t<sizeof...(MsgMaps) == N>>
+    subscriber(endpoint& bus, Class* instance, MsgMaps... msg_maps)
+      : subscriber(bus, as_tuple(instance, msg_maps)...) {
+    }
+
     subscriber(subscriber&& temp) = delete;
     subscriber(const subscriber&) = delete;
     subscriber& operator=(subscriber&&) = delete;
