@@ -15,7 +15,7 @@
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
-template <std::size_t N>
+template <std::size_t N, template <std::size_t> class Subscriber = subscriber>
 class actor : public friend_of_endpoint {
     using friend_of_endpoint::_accept_message;
     using friend_of_endpoint::_make_endpoint;
@@ -75,7 +75,7 @@ public:
 
 private:
     endpoint _endpoint;
-    subscriber<N> _subscriber;
+    Subscriber<N> _subscriber;
 };
 //------------------------------------------------------------------------------
 } // namespace msgbus
