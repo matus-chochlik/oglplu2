@@ -10,6 +10,7 @@
 #ifndef EAGINE_MESSAGE_BUS_CONNECTION_HPP
 #define EAGINE_MESSAGE_BUS_CONNECTION_HPP
 
+#include "../bitfield.hpp"
 #include "../callable_ref.hpp"
 #include "../identity.hpp"
 #include "../message_id.hpp"
@@ -20,9 +21,9 @@ namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
 enum class connection_kind : std::uint8_t {
-    in_process,
-    local_interprocess,
-    remote_interprocess
+    in_process = 1 << 0,
+    local_interprocess = 1 << 1,
+    remote_interprocess = 1 << 2
 };
 //------------------------------------------------------------------------------
 template <typename Selector>
@@ -33,6 +34,8 @@ constexpr auto enumerator_mapping(
        {"local_interprocess", connection_kind::local_interprocess},
        {"remote_interprocess", connection_kind::remote_interprocess}}};
 }
+//------------------------------------------------------------------------------
+using connection_kinds = bitfield<connection_kind>;
 //------------------------------------------------------------------------------
 struct connection_info {
     virtual ~connection_info() noexcept = default;
