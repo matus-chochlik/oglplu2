@@ -215,7 +215,20 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-class posix_mqueue_connection : public connection {
+template <typename Base>
+class posix_mqueue_connection_info : public Base {
+public:
+    connection_kind kind() final {
+        return connection_kind::local_interprocess;
+    }
+
+    identifier type_id() final {
+        return EAGINE_ID(PosixMQue);
+    }
+};
+//------------------------------------------------------------------------------
+class posix_mqueue_connection
+  : public posix_mqueue_connection_info<connection> {
     using this_class = posix_mqueue_connection;
 
 public:
@@ -227,10 +240,6 @@ public:
 
     bool open(std::string name) {
         return !_data_queue.set_name(std::move(name)).open().had_error();
-    }
-
-    identifier type_id() final {
-        return EAGINE_ID(PosixMQue);
     }
 
     bool is_usable() final {
@@ -473,13 +482,10 @@ private:
     posix_mqueue _accept_queue{};
 };
 //------------------------------------------------------------------------------
-struct posix_mqueue_connection_factory : connection_factory {
+struct posix_mqueue_connection_factory
+  : posix_mqueue_connection_info<connection_factory> {
     using connection_factory::make_acceptor;
     using connection_factory::make_connector;
-
-    identifier type_id() final {
-        return EAGINE_ID(PosixMQue);
-    }
 
     std::unique_ptr<acceptor> make_acceptor(string_view address) final {
         return std::make_unique<posix_mqueue_acceptor>(to_string(address));

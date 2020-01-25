@@ -19,18 +19,38 @@
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
-struct connection {
-    virtual ~connection() noexcept = default;
-    connection() noexcept = default;
-    connection(connection&&) noexcept = default;
-    connection(const connection&) = delete;
-    connection& operator=(connection&&) = delete;
-    connection& operator=(const connection&) = delete;
+enum class connection_kind : std::uint8_t {
+    in_process,
+    local_interprocess,
+    remote_interprocess
+};
+//------------------------------------------------------------------------------
+template <typename Selector>
+constexpr auto enumerator_mapping(
+  identity<connection_kind>, Selector) noexcept {
+    return enumerator_map_type<connection_kind, 3>{
+      {{"in_process", connection_kind::in_process},
+       {"local_interprocess", connection_kind::local_interprocess},
+       {"remote_interprocess", connection_kind::remote_interprocess}}};
+}
+//------------------------------------------------------------------------------
+struct connection_info {
+    virtual ~connection_info() noexcept = default;
+    connection_info() noexcept = default;
+    connection_info(connection_info&&) noexcept = default;
+    connection_info(const connection_info&) = delete;
+    connection_info& operator=(connection_info&&) = delete;
+    connection_info& operator=(const connection_info&) = delete;
+
+    virtual connection_kind kind() = 0;
+
+    virtual identifier type_id() = 0;
+};
+//------------------------------------------------------------------------------
+struct connection : connection_info {
 
     using fetch_handler =
       callable_ref<bool(identifier_t, identifier_t, const message_view&)>;
-
-    virtual identifier type_id() = 0;
 
     virtual void update() {
     }

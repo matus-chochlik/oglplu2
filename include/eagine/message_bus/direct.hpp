@@ -75,17 +75,25 @@ private:
     std::vector<shared_state> _pending;
 };
 //------------------------------------------------------------------------------
-class direct_client_connection : public connection {
+template <typename Base>
+class direct_connection_info : public Base {
+public:
+    connection_kind kind() final {
+        return connection_kind::in_process;
+    }
+
+    identifier type_id() final {
+        return EAGINE_ID(Direct);
+    }
+};
+//------------------------------------------------------------------------------
+class direct_client_connection : public direct_connection_info<connection> {
 
 public:
     direct_client_connection(
       std::shared_ptr<direct_connection_address>& address) noexcept
       : _weak_address{address}
       , _state{address->connect()} {
-    }
-
-    identifier type_id() final {
-        return EAGINE_ID(Direct);
     }
 
     bool is_usable() final {
@@ -125,14 +133,10 @@ private:
     std::shared_ptr<direct_connection_state> _state;
 };
 //------------------------------------------------------------------------------
-class direct_server_connection : public connection {
+class direct_server_connection : public direct_connection_info<connection> {
 public:
     direct_server_connection(std::shared_ptr<direct_connection_state>& state)
       : _weak_state{state} {
-    }
-
-    identifier type_id() final {
-        return EAGINE_ID(Direct);
     }
 
     bool send(
@@ -191,7 +195,8 @@ private:
     std::shared_ptr<direct_connection_address> _address;
 };
 //------------------------------------------------------------------------------
-class direct_connection_factory : public connection_factory {
+class direct_connection_factory
+  : public direct_connection_info<connection_factory> {
 private:
     std::shared_ptr<direct_connection_address> _default_addr;
     std::map<
@@ -219,10 +224,6 @@ public:
 
     direct_connection_factory()
       : _default_addr{_make_addr()} {
-    }
-
-    identifier type_id() final {
-        return EAGINE_ID(Direct);
     }
 
     std::unique_ptr<acceptor> make_acceptor(string_view addr_str) final {

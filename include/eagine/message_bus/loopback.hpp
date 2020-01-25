@@ -18,6 +18,10 @@ namespace msgbus {
 //------------------------------------------------------------------------------
 class loopback_connection : public connection {
 public:
+    connection_kind kind() final {
+        return connection_kind::in_process;
+    }
+
     identifier type_id() final {
         return EAGINE_ID(Loopback);
     }
