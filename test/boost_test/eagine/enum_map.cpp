@@ -28,7 +28,7 @@ static inline void enum_map_test_1(std::size_t n) {
       test_enum::value_e>
       counters;
 
-    auto incr = [](auto& ctr) { ctr(); };
+    auto incr = [](auto, auto& ctr) { ctr(); };
 
     for(std::size_t i = 0; i < n; ++i) {
         BOOST_CHECK(counters.visit(test_enum::value_d, incr));
@@ -69,7 +69,7 @@ static inline void enum_map_test_2(std::size_t n) {
 
     const auto& ccounters = counters;
 
-    auto chk_value = [&](const auto& ctr) {
+    auto chk_value = [&](auto, const auto& ctr) {
         BOOST_CHECK_EQUAL(ctr.value(), n);
     };
 
@@ -81,6 +81,64 @@ static inline void enum_map_test_2(std::size_t n) {
     BOOST_CHECK(!ccounters.visit(test_enum::value_f, chk_value));
 }
 
+template <test_enum>
+using test_enum_map_value_counter = std::tuple<test_enum, std::size_t>;
+
+static inline void enum_map_test_3(std::size_t n) {
+    static_enum_map<
+      test_enum,
+      test_enum_map_value_counter,
+      test_enum::value_a,
+      test_enum::value_b,
+      test_enum::value_c,
+      test_enum::value_d,
+      test_enum::value_e>
+      counters;
+
+    auto init = [](auto val, auto& tup) {
+        std::get<0>(tup) = val;
+        std::get<1>(tup) = 1;
+    };
+
+    BOOST_CHECK(counters.visit_all(init));
+
+    auto incr = [](auto, auto& tup) { std::get<1>(tup)++; };
+
+    for(std::size_t i = 0; i < n; ++i) {
+        BOOST_CHECK(counters.visit(test_enum::value_d, incr));
+        BOOST_CHECK(counters.visit(test_enum::value_a, incr));
+        BOOST_CHECK(counters.visit(test_enum::value_c, incr));
+        BOOST_CHECK(counters.visit(test_enum::value_e, incr));
+        BOOST_CHECK(counters.visit(test_enum::value_b, incr));
+        BOOST_CHECK(!counters.visit(test_enum::value_f, incr));
+    }
+
+    const auto& ccounters = counters;
+
+    BOOST_CHECK(
+      std::get<0>(ccounters.get<test_enum::value_a>()) == test_enum::value_a);
+    BOOST_CHECK(
+      std::get<0>(ccounters.get<test_enum::value_b>()) == test_enum::value_b);
+    BOOST_CHECK(
+      std::get<0>(ccounters.get<test_enum::value_c>()) == test_enum::value_c);
+    BOOST_CHECK(
+      std::get<0>(ccounters.get<test_enum::value_d>()) == test_enum::value_d);
+    BOOST_CHECK(
+      std::get<0>(ccounters.get<test_enum::value_e>()) == test_enum::value_e);
+
+    auto chk_tuple = [&](auto value, const auto& tup) {
+        BOOST_CHECK(std::get<0>(tup) == value);
+        BOOST_CHECK(std::get<1>(tup) == n + 1);
+    };
+
+    BOOST_CHECK(ccounters.visit(test_enum::value_a, chk_tuple));
+    BOOST_CHECK(ccounters.visit(test_enum::value_b, chk_tuple));
+    BOOST_CHECK(ccounters.visit(test_enum::value_c, chk_tuple));
+    BOOST_CHECK(ccounters.visit(test_enum::value_d, chk_tuple));
+    BOOST_CHECK(ccounters.visit(test_enum::value_e, chk_tuple));
+    BOOST_CHECK(!ccounters.visit(test_enum::value_f, chk_tuple));
+}
+
 } // namespace eagine
 
 BOOST_AUTO_TEST_SUITE(enum_map_tests)
@@ -89,6 +147,18 @@ BOOST_AUTO_TEST_CASE(enum_map_1) {
     using namespace eagine;
 
     enum_map_test_1(1000);
+}
+
+BOOST_AUTO_TEST_CASE(enum_map_2) {
+    using namespace eagine;
+
+    enum_map_test_2(1000);
+}
+
+BOOST_AUTO_TEST_CASE(enum_map_3) {
+    using namespace eagine;
+
+    enum_map_test_3(1000);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

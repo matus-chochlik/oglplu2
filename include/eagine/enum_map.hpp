@@ -20,7 +20,7 @@ struct static_enum_map_unit : Unit<Key> {
     template <typename Visitor>
     bool _accept(Enum key, Visitor& visitor) {
         if(Key == key) {
-            visitor(*static_cast<Unit<Key>*>(this));
+            visitor(Key, *static_cast<Unit<Key>*>(this));
             return true;
         }
         return false;
@@ -29,10 +29,22 @@ struct static_enum_map_unit : Unit<Key> {
     template <typename Visitor>
     bool _accept(Enum key, Visitor& visitor) const {
         if(Key == key) {
-            visitor(*static_cast<const Unit<Key>*>(this));
+            visitor(Key, *static_cast<const Unit<Key>*>(this));
             return true;
         }
         return false;
+    }
+
+    template <typename Visitor>
+    bool _accept(Visitor& visitor) {
+        visitor(Key, *static_cast<Unit<Key>*>(this));
+        return true;
+    }
+
+    template <typename Visitor>
+    bool _accept(Visitor& visitor) const {
+        visitor(Key, *static_cast<const Unit<Key>*>(this));
+        return true;
     }
 };
 //------------------------------------------------------------------------------
@@ -77,6 +89,16 @@ public:
     template <typename Visitor>
     bool visit(Enum key, Visitor visitor) const noexcept {
         return (false || ... || _base<Keys>()._accept(key, visitor));
+    }
+
+    template <typename Visitor>
+    bool visit_all(Visitor visitor) noexcept {
+        return (true && ... && _base<Keys>()._accept(visitor));
+    }
+
+    template <typename Visitor>
+    bool visit_all(Visitor visitor) const noexcept {
+        return (true && ... && _base<Keys>()._accept(visitor));
     }
 };
 //------------------------------------------------------------------------------
