@@ -12,7 +12,20 @@
 
 namespace eagine {
 
-enum class test_enum { value_a, value_b, value_c, value_d, value_e, value_f };
+enum class test_enum {
+    value_a = 1 << 0,
+    value_b = 1 << 1,
+    value_c = 1 << 2,
+    value_d = 1 << 3,
+    value_e = 1 << 4,
+    value_f = 1 << 5
+};
+
+using test_bits = bitfield<test_enum>;
+
+static inline test_bits operator|(test_enum a, test_enum b) noexcept {
+    return {a, b};
+}
 
 template <test_enum>
 using test_enum_map_counter = count_t<std::size_t>;
@@ -81,10 +94,60 @@ static inline void enum_map_test_2(std::size_t n) {
     BOOST_CHECK(!ccounters.visit(test_enum::value_f, chk_value));
 }
 
+static inline void enum_map_test_3(std::size_t n) {
+    static_enum_map<
+      test_enum,
+      test_enum_map_counter,
+      test_enum::value_a,
+      test_enum::value_b,
+      test_enum::value_c,
+      test_enum::value_d,
+      test_enum::value_e>
+      counters;
+
+    auto incr = [](auto, auto& ctr) { ctr(); };
+
+    for(std::size_t i = 0; i < n; ++i) {
+        BOOST_CHECK(counters.visit(test_enum::value_a, incr));
+    }
+
+    for(std::size_t i = 0; i < n; ++i) {
+        BOOST_CHECK(
+          counters.visit(test_enum::value_a | test_enum::value_b, incr));
+    }
+
+    for(std::size_t i = 0; i < n; ++i) {
+        BOOST_CHECK(counters.visit(
+          test_enum::value_a | test_enum::value_b | test_enum::value_c, incr));
+    }
+
+    for(std::size_t i = 0; i < n; ++i) {
+        BOOST_CHECK(counters.visit(
+          test_enum::value_a | test_enum::value_b | test_enum::value_c |
+            test_enum::value_d,
+          incr));
+    }
+
+    for(std::size_t i = 0; i < n; ++i) {
+        BOOST_CHECK(counters.visit(
+          test_enum::value_a | test_enum::value_b | test_enum::value_c |
+            test_enum::value_d | test_enum::value_e,
+          incr));
+    }
+
+    const auto& ccounters = counters;
+
+    BOOST_CHECK_EQUAL(ccounters.get<test_enum::value_a>().value(), n * 5);
+    BOOST_CHECK_EQUAL(ccounters.get<test_enum::value_b>().value(), n * 4);
+    BOOST_CHECK_EQUAL(ccounters.get<test_enum::value_c>().value(), n * 3);
+    BOOST_CHECK_EQUAL(ccounters.get<test_enum::value_d>().value(), n * 2);
+    BOOST_CHECK_EQUAL(ccounters.get<test_enum::value_e>().value(), n * 1);
+}
+
 template <test_enum>
 using test_enum_map_value_counter = std::tuple<test_enum, std::size_t>;
 
-static inline void enum_map_test_3(std::size_t n) {
+static inline void enum_map_test_4(std::size_t n) {
     static_enum_map<
       test_enum,
       test_enum_map_value_counter,
@@ -159,6 +222,12 @@ BOOST_AUTO_TEST_CASE(enum_map_3) {
     using namespace eagine;
 
     enum_map_test_3(1000);
+}
+
+BOOST_AUTO_TEST_CASE(enum_map_4) {
+    using namespace eagine;
+
+    enum_map_test_4(1000);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

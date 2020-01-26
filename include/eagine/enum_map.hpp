@@ -10,6 +10,8 @@
 #ifndef EAGINE_ENUM_MAP_HPP
 #define EAGINE_ENUM_MAP_HPP
 
+#include "bitfield.hpp"
+#include "types.hpp"
 #include <type_traits>
 
 namespace eagine {
@@ -33,6 +35,24 @@ struct static_enum_map_unit : Unit<Key> {
             return true;
         }
         return false;
+    }
+
+    template <typename Visitor>
+    span_size_t _accept(bitfield<Enum> keys, Visitor& visitor) {
+        if(keys.has(Key)) {
+            visitor(Key, *static_cast<Unit<Key>*>(this));
+            return 1;
+        }
+        return 0;
+    }
+
+    template <typename Visitor>
+    span_size_t _accept(bitfield<Enum> keys, Visitor& visitor) const {
+        if(keys.has(Key)) {
+            visitor(Key, *static_cast<const Unit<Key>*>(this));
+            return 1;
+        }
+        return 0;
     }
 
     template <typename Visitor>
@@ -89,6 +109,16 @@ public:
     template <typename Visitor>
     bool visit(Enum key, Visitor visitor) const noexcept {
         return (false || ... || _base<Keys>()._accept(key, visitor));
+    }
+
+    template <typename Visitor>
+    span_size_t visit(bitfield<Enum> keys, Visitor visitor) noexcept {
+        return (0 + ... + _base<Keys>()._accept(keys, visitor));
+    }
+
+    template <typename Visitor>
+    span_size_t visit(bitfield<Enum> keys, Visitor visitor) const noexcept {
+        return (0 + ... + _base<Keys>()._accept(keys, visitor));
     }
 
     template <typename Visitor>
