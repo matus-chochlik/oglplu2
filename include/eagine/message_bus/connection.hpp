@@ -36,6 +36,11 @@ constexpr auto enumerator_mapping(
 }
 //------------------------------------------------------------------------------
 using connection_kinds = bitfield<connection_kind>;
+
+static inline connection_kinds operator|(
+  connection_kind l, connection_kind r) noexcept {
+    return {l, r};
+}
 //------------------------------------------------------------------------------
 struct connection_info {
     virtual ~connection_info() noexcept = default;
