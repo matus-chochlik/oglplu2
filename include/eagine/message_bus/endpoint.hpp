@@ -21,7 +21,7 @@ namespace msgbus {
 //------------------------------------------------------------------------------
 class friend_of_endpoint;
 //------------------------------------------------------------------------------
-class endpoint {
+class endpoint : public connection_user {
 public:
     static constexpr identifier_t invalid_id() noexcept {
         return {0U};
@@ -152,7 +152,7 @@ public:
         return *this;
     }
 
-    bool add_connection(std::unique_ptr<connection> conn) {
+    bool add_connection(std::unique_ptr<connection> conn) final {
         if(conn) {
             _connections.emplace_back(std::move(conn));
             return true;

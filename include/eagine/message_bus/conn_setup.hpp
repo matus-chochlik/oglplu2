@@ -32,9 +32,8 @@ class connection_setup {
       connection_kind::remote_interprocess>
       _factory_map{};
 
-    template <typename Target>
     void _do_setup_acceptors(
-      Target& target, string_view address, _factory_list& factories) {
+      acceptor_user& target, string_view address, _factory_list& factories) {
         for(auto& factory : factories) {
             EAGINE_ASSERT(factory);
             if(auto acceptor = factory->make_acceptor(address)) {
@@ -43,9 +42,8 @@ class connection_setup {
         }
     }
 
-    template <typename Target>
     void _do_setup_connectors(
-      Target& target, string_view address, _factory_list& factories) {
+      connection_user& target, string_view address, _factory_list& factories) {
         for(auto& factory : factories) {
             EAGINE_ASSERT(factory);
             if(auto connector = factory->make_connector(address)) {
@@ -54,86 +52,74 @@ class connection_setup {
         }
     }
 
-    template <typename Target>
-    auto _make_call_setup_acceptors(Target& target, string_view address) {
+    auto _make_call_setup_acceptors(
+      acceptor_user& target, string_view address) {
         return [this, &target, address](auto, auto& factories) {
             _do_setup_acceptors(target, address, factories);
         };
     }
 
-    template <typename Target>
-    auto _make_call_setup_connectors(Target& target, string_view address) {
+    auto _make_call_setup_connectors(
+      connection_user& target, string_view address) {
         return [this, &target, address](auto, auto& factories) {
             _do_setup_connectors(target, address, factories);
         };
     }
 
 public:
-    template <typename Target>
-    void setup_acceptors(Target& target, string_view address) {
+    void setup_acceptors(acceptor_user& target, string_view address) {
         _factory_map.visit_all(_make_call_setup_acceptors(target, address));
     }
 
-    template <typename Target>
-    void setup_acceptors(Target& target, identifier address) {
+    void setup_acceptors(acceptor_user& target, identifier address) {
         setup_acceptors(target, address.name());
     }
 
-    template <typename Target>
     void setup_acceptors(
-      Target& target, connection_kinds kinds, string_view address) {
+      acceptor_user& target, connection_kinds kinds, string_view address) {
         _factory_map.visit(kinds, _make_call_setup_acceptors(target, address));
     }
 
-    template <typename Target>
     void setup_acceptors(
-      Target& target, connection_kinds kinds, identifier address) {
+      acceptor_user& target, connection_kinds kinds, identifier address) {
         setup_acceptors(target, kinds, address.name());
     }
 
-    template <typename Target>
     void setup_acceptors(
-      Target& target, connection_kind kind, string_view address) {
+      acceptor_user& target, connection_kind kind, string_view address) {
         _factory_map.visit(kind, _make_call_setup_acceptors(target, address));
     }
 
-    template <typename Target>
     void setup_acceptors(
-      Target& target, connection_kind kind, identifier address) {
+      acceptor_user& target, connection_kind kind, identifier address) {
         setup_acceptors(target, kind, address.name());
     }
 
-    template <typename Target>
-    void setup_connectors(Target& target, string_view address) {
+    void setup_connectors(connection_user& target, string_view address) {
         _factory_map.visit_all(_make_call_setup_connectors(target, address));
     }
 
-    template <typename Target>
-    void setup_connectors(Target& target, identifier address) {
+    void setup_connectors(connection_user& target, identifier address) {
         setup_connectors(target, address.name());
     }
 
-    template <typename Target>
     void setup_connectors(
-      Target& target, connection_kinds kinds, string_view address) {
+      connection_user& target, connection_kinds kinds, string_view address) {
         _factory_map.visit(kinds, _make_call_setup_connectors(target, address));
     }
 
-    template <typename Target>
     void setup_connectors(
-      Target& target, connection_kinds kinds, identifier address) {
+      connection_user& target, connection_kinds kinds, identifier address) {
         setup_connectors(target, kinds, address.name());
     }
 
-    template <typename Target>
     void setup_connectors(
-      Target& target, connection_kind kind, string_view address) {
+      connection_user& target, connection_kind kind, string_view address) {
         _factory_map.visit(kind, _make_call_setup_connectors(target, address));
     }
 
-    template <typename Target>
     void setup_connectors(
-      Target& target, connection_kind kind, identifier address) {
+      connection_user& target, connection_kind kind, identifier address) {
         setup_connectors(target, kind, address.name());
     }
 

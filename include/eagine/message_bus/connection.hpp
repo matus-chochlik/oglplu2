@@ -82,6 +82,17 @@ struct connection : connection_info {
     virtual void fetch_messages(fetch_handler handler) = 0;
 };
 //------------------------------------------------------------------------------
+struct connection_user {
+    virtual ~connection_user() noexcept = default;
+    connection_user() noexcept = default;
+    connection_user(connection_user&&) noexcept = default;
+    connection_user(const connection_user&) = delete;
+    connection_user& operator=(connection_user&&) = delete;
+    connection_user& operator=(const connection&) = delete;
+
+    virtual bool add_connection(std::unique_ptr<connection> a_connection) = 0;
+};
+//------------------------------------------------------------------------------
 } // namespace msgbus
 } // namespace eagine
 

@@ -48,9 +48,9 @@ struct routed_endpoint {
     }
 };
 //------------------------------------------------------------------------------
-class router {
+class router : public acceptor_user {
 public:
-    bool add_acceptor(std::unique_ptr<acceptor> the_acceptor) {
+    bool add_acceptor(std::unique_ptr<acceptor> the_acceptor) final {
         if(the_acceptor) {
             _acceptors.emplace_back(std::move(the_acceptor));
             return true;

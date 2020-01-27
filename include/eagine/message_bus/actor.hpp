@@ -16,7 +16,9 @@ namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
 template <std::size_t N, template <std::size_t> class Subscriber = subscriber>
-class actor : public friend_of_endpoint {
+class actor
+  : public connection_user
+  , public friend_of_endpoint {
     using friend_of_endpoint::_accept_message;
     using friend_of_endpoint::_make_endpoint;
 
@@ -45,7 +47,7 @@ protected:
         _subscriber.announce_subscriptions();
     }
 
-    ~actor() noexcept {
+    ~actor() noexcept override {
         try {
             _subscriber.retract_subscriptions();
             _endpoint.say_bye();
@@ -59,7 +61,7 @@ public:
         return _endpoint;
     }
 
-    bool add_connection(std::unique_ptr<connection> conn) {
+    bool add_connection(std::unique_ptr<connection> conn) final {
         return _endpoint.add_connection(std::move(conn));
     }
 

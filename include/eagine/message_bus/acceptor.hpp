@@ -28,6 +28,17 @@ struct acceptor {
     virtual void process_accepted(const accept_handler& handler) = 0;
 };
 //------------------------------------------------------------------------------
+struct acceptor_user {
+    virtual ~acceptor_user() noexcept = default;
+    acceptor_user() noexcept = default;
+    acceptor_user(acceptor_user&&) noexcept = default;
+    acceptor_user(const acceptor_user&) = delete;
+    acceptor_user& operator=(acceptor_user&&) = delete;
+    acceptor_user& operator=(const acceptor&) = delete;
+
+    virtual bool add_acceptor(std::unique_ptr<acceptor> an_acceptor) = 0;
+};
+//------------------------------------------------------------------------------
 } // namespace msgbus
 } // namespace eagine
 
