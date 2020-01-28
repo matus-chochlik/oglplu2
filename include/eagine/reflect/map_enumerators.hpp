@@ -54,4 +54,4 @@ constexpr const bool has_enumerator_mapping_v =
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-#endif // EAGINE_MAP_ENUMERATORS_HPP
+#endif // EAGINE_REFLECT_MAP_ENUMERATORS_HPP

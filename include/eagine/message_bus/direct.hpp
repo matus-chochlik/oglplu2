@@ -174,7 +174,7 @@ public:
 
     void process_accepted(const accept_handler& handler) final {
         if(_address) {
-            auto wrapped_handler = [this, &handler](shared_state& state) {
+            auto wrapped_handler = [&handler](shared_state& state) {
                 handler(std::unique_ptr<connection>{
                   std::make_unique<direct_server_connection>(state)});
             };
@@ -233,7 +233,7 @@ public:
         return std::make_unique<direct_acceptor>(_default_addr);
     }
 
-    std::unique_ptr<connection> make_connector(string_view addr_str) {
+    std::unique_ptr<connection> make_connector(string_view addr_str) final {
         if(addr_str) {
             return std::make_unique<direct_client_connection>(_get(addr_str));
         }

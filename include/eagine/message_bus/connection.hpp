@@ -21,9 +21,9 @@ namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
 enum class connection_kind : std::uint8_t {
-    in_process = 1 << 0,
-    local_interprocess = 1 << 1,
-    remote_interprocess = 1 << 2
+    in_process = 1U << 0U,
+    local_interprocess = 1U << 1U,
+    remote_interprocess = 1U << 2U
 };
 //------------------------------------------------------------------------------
 template <typename Selector>
@@ -88,7 +88,7 @@ struct connection_user {
     connection_user(connection_user&&) noexcept = default;
     connection_user(const connection_user&) = delete;
     connection_user& operator=(connection_user&&) = delete;
-    connection_user& operator=(const connection&) = delete;
+    connection_user& operator=(const connection_user&) = delete;
 
     virtual bool add_connection(std::unique_ptr<connection> a_connection) = 0;
 };

@@ -18,12 +18,6 @@ namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
 struct connection_factory : connection_info {
-    connection_factory() noexcept = default;
-    connection_factory(connection_factory&&) noexcept = default;
-    connection_factory(const connection_factory&) = delete;
-    connection_factory& operator=(connection_factory&&) = delete;
-    connection_factory& operator=(const connection_factory&) = delete;
-    virtual ~connection_factory() noexcept = default;
 
     virtual std::unique_ptr<acceptor> make_acceptor(string_view address) = 0;
     virtual std::unique_ptr<connection> make_connector(string_view address) = 0;

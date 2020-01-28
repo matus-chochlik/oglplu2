@@ -109,7 +109,7 @@ struct message_view : message_info {
       : data{as_bytes(init)} {
     }
     constexpr message_view(message_info info, memory::const_block init) noexcept
-      : message_info{std::move(info)}
+      : message_info{info}
       , data{init} {
     }
 };

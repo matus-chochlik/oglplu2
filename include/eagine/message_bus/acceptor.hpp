@@ -34,7 +34,7 @@ struct acceptor_user {
     acceptor_user(acceptor_user&&) noexcept = default;
     acceptor_user(const acceptor_user&) = delete;
     acceptor_user& operator=(acceptor_user&&) = delete;
-    acceptor_user& operator=(const acceptor&) = delete;
+    acceptor_user& operator=(const acceptor_user&) = delete;
 
     virtual bool add_acceptor(std::unique_ptr<acceptor> an_acceptor) = 0;
 };

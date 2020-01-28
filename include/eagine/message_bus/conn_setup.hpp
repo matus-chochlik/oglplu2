@@ -18,6 +18,9 @@
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
+class connection_setup;
+void connection_setup_default_init(connection_setup&);
+//------------------------------------------------------------------------------
 class connection_setup {
     using _factory_list = std::vector<std::unique_ptr<connection_factory>>;
 
@@ -137,10 +140,18 @@ public:
     make_factory(Args&&... args) {
         add_factory(std::make_unique<Factory>(std::forward<Args>(args)...));
     }
+
+    void default_init() {
+        connection_setup_default_init(*this);
+    }
 };
 //------------------------------------------------------------------------------
 } // namespace msgbus
 } // namespace eagine
+
+#if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
+#include <eagine/message_bus/conn_setup.inl>
+#endif
 
 #endif // EAGINE_MESSAGE_BUS_CONN_SETUP_HPP
 

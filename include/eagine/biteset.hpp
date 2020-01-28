@@ -139,7 +139,7 @@ public:
 
     biteset_value_proxy(biteset_value_proxy&&) noexcept = default;
     biteset_value_proxy(const biteset_value_proxy&) = delete;
-    biteset_value_proxy& operator=(biteset_value_proxy&&) noexcept = default;
+    biteset_value_proxy& operator=(biteset_value_proxy&&) = delete;
     biteset_value_proxy& operator=(const biteset_value_proxy&) = delete;
 };
 
