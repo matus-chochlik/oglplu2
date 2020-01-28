@@ -18,11 +18,11 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 enum class serialization_error_code : std::uint8_t {
-    not_supported = 1 << 0,
-    too_much_data = 1 << 1,
-    incomplete_write = 1 << 2,
-    data_sink_error = 1 << 3,
-    backend_error = 1 << 4
+    not_supported = 1U << 0U,
+    too_much_data = 1U << 1U,
+    incomplete_write = 1U << 2U,
+    data_sink_error = 1U << 3U,
+    backend_error = 1U << 4U
 };
 //------------------------------------------------------------------------------
 template <typename Selector>
@@ -37,24 +37,24 @@ constexpr auto enumerator_mapping(
 }
 //------------------------------------------------------------------------------
 enum class deserialization_error_code : std::uint16_t {
-    not_supported = 1 << 0,
-    not_enough_data = 1 << 1,
-    unexpected_data = 1 << 2,
-    incomplete_read = 1 << 3,
-    missing_element = 1 << 4,
-    excess_element = 1 << 5,
-    missing_member = 1 << 6,
-    excess_member = 1 << 7,
-    invalid_format = 1 << 8,
-    data_source_error = 1 << 9,
-    backend_error = 1 << 10
+    not_supported = 1U << 0U,
+    not_enough_data = 1U << 1U,
+    unexpected_data = 1U << 2U,
+    incomplete_read = 1U << 3U,
+    missing_element = 1U << 4U,
+    excess_element = 1U << 5U,
+    missing_member = 1U << 6U,
+    excess_member = 1U << 7U,
+    invalid_format = 1U << 8U,
+    data_source_error = 1U << 9U,
+    backend_error = 1U << 10U
 };
 //------------------------------------------------------------------------------
 template <typename Selector>
 constexpr auto enumerator_mapping(
   identity<deserialization_error_code>, Selector) noexcept {
     return enumerator_map_type<deserialization_error_code, 11>{
-      {{"not_supported", serialization_error_code::not_supported},
+      {{"not_supported", deserialization_error_code::not_supported},
        {"not_enough_data", deserialization_error_code::not_enough_data},
        {"unexpected_data", deserialization_error_code::unexpected_data},
        {"incomplete_read", deserialization_error_code::incomplete_read},

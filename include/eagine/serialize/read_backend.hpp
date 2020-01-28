@@ -192,7 +192,8 @@ protected:
         return as_chars(top(size));
     }
 
-    auto string_before(char c, valid_if_positive<span_size_t> step = {256}) {
+    auto string_before(
+      char c, const valid_if_positive<span_size_t>& step = {256}) {
         auto found = scan_for(byte(c), step);
         return top_string(extract_or(found, 0));
     }

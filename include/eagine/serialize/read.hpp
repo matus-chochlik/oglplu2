@@ -24,7 +24,7 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 template <typename T>
-struct fragment_deserialize_wrapper;
+class fragment_deserialize_wrapper;
 //------------------------------------------------------------------------------
 template <typename T>
 class fragment_deserialize_wrapper<span<T>> {

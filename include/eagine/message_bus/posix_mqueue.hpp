@@ -18,11 +18,11 @@
 #include "conn_factory.hpp"
 #include "connection.hpp"
 #include "serialize.hpp"
-#include <errno.h>
+#include <cerrno>
+#include <cstring>
 #include <fcntl.h>
 #include <mqueue.h>
 #include <mutex>
-#include <string.h>
 #include <sys/stat.h>
 
 namespace eagine {
@@ -92,7 +92,7 @@ public:
         if(_last_errno) {
             char buf[128] = {'\0'};
             ::strerror_r(_last_errno, buf, sizeof(buf));
-            return {buf};
+            return {static_cast<const char*>(buf)};
         }
         return {};
     }
@@ -328,7 +328,7 @@ protected:
     }
 
     void _handle_receive(unsigned, memory::span<const char> data) {
-        _incoming.push_if([this, data](
+        _incoming.push_if([data](
                             identifier_t& class_id,
                             identifier_t& method_id,
                             stored_message& message) {
@@ -365,7 +365,7 @@ public:
     posix_mqueue_connector(const posix_mqueue_connector&) = delete;
     posix_mqueue_connector& operator=(const posix_mqueue_connector&) = delete;
 
-    ~posix_mqueue_connector() noexcept {
+    ~posix_mqueue_connector() noexcept final {
         _data_queue.unlink();
     }
 
@@ -408,7 +408,7 @@ public:
     posix_mqueue_acceptor(const posix_mqueue_acceptor&) = delete;
     posix_mqueue_acceptor& operator=(const posix_mqueue_acceptor&) = delete;
 
-    ~posix_mqueue_acceptor() noexcept {
+    ~posix_mqueue_acceptor() noexcept final {
         _accept_queue.unlink();
     }
 
@@ -460,7 +460,7 @@ private:
     }
 
     void _process(const accept_handler& handler) {
-        auto fetch_handler = [this, &handler](
+        auto fetch_handler = [&handler](
                                identifier_t class_id,
                                identifier_t method_id,
                                const message_view& message) -> bool {
@@ -491,7 +491,7 @@ struct posix_mqueue_connection_factory
         return std::make_unique<posix_mqueue_acceptor>(to_string(address));
     }
 
-    std::unique_ptr<connection> make_connector(string_view address) {
+    std::unique_ptr<connection> make_connector(string_view address) final {
         return std::make_unique<posix_mqueue_connector>(to_string(address));
     }
 };

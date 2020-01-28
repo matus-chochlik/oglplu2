@@ -36,7 +36,7 @@ public:
 
     using serializer_data_sink::write;
 
-    serialization_errors write(memory::const_block blk) {
+    serialization_errors write(memory::const_block blk) final {
         auto dst = free();
         if(dst.size() < blk.size()) {
             return {serialization_error_code::too_much_data};
