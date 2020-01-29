@@ -3,7 +3,7 @@
 # See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
 
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 if(POLICY CMP0054)
 	cmake_policy(SET CMP0054 NEW)
 endif()
@@ -39,6 +39,7 @@ if(NOT ${CONFIG_INFO_ONLY})
 endif()
 
 include(config/Tools.cmake)
+include(config/CommonLibs.cmake)
 
 include(FindPkgConfig)
 include(config/CommonFindMod.cmake)

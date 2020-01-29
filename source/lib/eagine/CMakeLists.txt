@@ -6,6 +6,9 @@
 file(GLOB EAGINE_LIB_SOURCES *.cpp)
 
 add_library(eagine EXCLUDE_FROM_ALL ${EAGINE_LIB_SOURCES})
+foreach(COMMON_LIBRARY ${COMMON_LIBRARIES})
+	target_link_libraries(eagine ${COMMON_LIBRARY})
+endforeach()
 set_target_properties(
 	eagine 
 	PROPERTIES FOLDER "Library/EAGine"
