@@ -92,7 +92,11 @@ public:
       : subscriber(bus, as_tuple(instance, msg_maps)...) {
     }
 
-    subscriber(subscriber&& temp) = delete;
+    subscriber(subscriber&& temp) noexcept
+      : _endpoint{temp._endpoint}
+      , _msg_handlers{std::move(temp._msg_handlers)} {
+        temp._endpoint = nullptr;
+    }
     subscriber(const subscriber&) = delete;
     subscriber& operator=(subscriber&&) = delete;
     subscriber& operator=(const subscriber&) = delete;
@@ -155,8 +159,7 @@ public:
     }
 
 private:
-    unsigned _padding{0};
-    endpoint* const _endpoint{nullptr};
+    endpoint* _endpoint{nullptr};
     std::array<const std::tuple<identifier_t, identifier_t, handler_type>, N>
       _msg_handlers;
 

@@ -47,6 +47,11 @@ protected:
         _subscriber.announce_subscriptions();
     }
 
+    actor(actor&&) noexcept = default;
+    actor(const actor&) = delete;
+    actor& operator=(actor&&) = delete;
+    actor& operator=(const actor&) = delete;
+
     ~actor() noexcept override {
         try {
             _subscriber.retract_subscriptions();

@@ -147,6 +147,11 @@ public:
       : _store_handler{this, EAGINE_MEM_FUNC_C(endpoint, _store_message)} {
     }
 
+    endpoint(endpoint&&) noexcept = default;
+    endpoint(const endpoint&) = delete;
+    endpoint& operator=(endpoint&&) = delete;
+    endpoint& operator=(const endpoint&) = delete;
+
     endpoint& set_id(identifier id) {
         _id = id.value();
         return *this;
