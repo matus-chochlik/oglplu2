@@ -78,6 +78,10 @@ public:
         setup_acceptors(target, address.name());
     }
 
+    void setup_acceptors(acceptor_user& target) {
+        setup_acceptors(target, string_view{});
+    }
+
     void setup_acceptors(
       acceptor_user& target, connection_kinds kinds, string_view address) {
         _factory_map.visit(kinds, _make_call_setup_acceptors(target, address));
@@ -86,6 +90,10 @@ public:
     void setup_acceptors(
       acceptor_user& target, connection_kinds kinds, identifier address) {
         setup_acceptors(target, kinds, address.name());
+    }
+
+    void setup_acceptors(acceptor_user& target, connection_kinds kinds) {
+        setup_acceptors(target, kinds, string_view{});
     }
 
     void setup_acceptors(
@@ -98,12 +106,20 @@ public:
         setup_acceptors(target, kind, address.name());
     }
 
+    void setup_acceptors(acceptor_user& target, connection_kind kind) {
+        setup_acceptors(target, kind, string_view{});
+    }
+
     void setup_connectors(connection_user& target, string_view address) {
         _factory_map.visit_all(_make_call_setup_connectors(target, address));
     }
 
     void setup_connectors(connection_user& target, identifier address) {
         setup_connectors(target, address.name());
+    }
+
+    void setup_connectors(connection_user& target) {
+        setup_connectors(target, string_view{});
     }
 
     void setup_connectors(
@@ -116,6 +132,10 @@ public:
         setup_connectors(target, kinds, address.name());
     }
 
+    void setup_connectors(connection_user& target, connection_kinds kinds) {
+        setup_connectors(target, kinds, string_view{});
+    }
+
     void setup_connectors(
       connection_user& target, connection_kind kind, string_view address) {
         _factory_map.visit(kind, _make_call_setup_connectors(target, address));
@@ -124,6 +144,10 @@ public:
     void setup_connectors(
       connection_user& target, connection_kind kind, identifier address) {
         setup_connectors(target, kind, address.name());
+    }
+
+    void setup_connectors(connection_user& target, connection_kind kind) {
+        setup_connectors(target, kind, string_view{});
     }
 
     void add_factory(std::unique_ptr<connection_factory> factory) {
