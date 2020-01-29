@@ -91,7 +91,7 @@ public:
     std::string last_message() const {
         if(_last_errno) {
             char buf[128] = {'\0'};
-            ::strerror_r(_last_errno, buf, sizeof(buf));
+            ::strerror_r(_last_errno, static_cast<char*>(buf), sizeof(buf));
             return {static_cast<const char*>(buf)};
         }
         return {};
@@ -123,16 +123,22 @@ public:
 
     posix_mqueue& create() {
         errno = 0;
+        // NOLINTNEXTLINE(hicpp-vararg)
         _ihandle = ::mq_open(
           (_name + "1").c_str(),
+          // NOLINTNEXTLINE(hicpp-signed-bitwise)
           O_RDONLY | O_CREAT | O_EXCL | O_NONBLOCK,
+          // NOLINTNEXTLINE(hicpp-signed-bitwise)
           S_IRUSR | S_IWUSR,
           nullptr);
         _last_errno = errno;
         if(errno == 0) {
+            // NOLINTNEXTLINE(hicpp-vararg)
             _ohandle = ::mq_open(
               (_name + "0").c_str(),
+              // NOLINTNEXTLINE(hicpp-signed-bitwise)
               O_WRONLY | O_CREAT | O_EXCL | O_NONBLOCK,
+              // NOLINTNEXTLINE(hicpp-signed-bitwise)
               S_IRUSR | S_IWUSR,
               nullptr);
             _last_errno = errno;
@@ -142,16 +148,22 @@ public:
 
     posix_mqueue& open() {
         errno = 0;
+        // NOLINTNEXTLINE(hicpp-vararg)
         _ihandle = ::mq_open(
           (_name + "0").c_str(),
+          // NOLINTNEXTLINE(hicpp-signed-bitwise)
           O_RDONLY | O_NONBLOCK,
+          // NOLINTNEXTLINE(hicpp-signed-bitwise)
           S_IRUSR | S_IWUSR,
           nullptr);
         _last_errno = errno;
         if(errno == 0) {
+            // NOLINTNEXTLINE(hicpp-vararg)
             _ohandle = ::mq_open(
               (_name + "1").c_str(),
+              // NOLINTNEXTLINE(hicpp-signed-bitwise)
               O_WRONLY | O_NONBLOCK,
+              // NOLINTNEXTLINE(hicpp-signed-bitwise)
               S_IRUSR | S_IWUSR,
               nullptr);
             _last_errno = errno;
@@ -360,7 +372,7 @@ public:
       : _connect_queue{posix_mqueue::name_from(id)} {
     }
 
-    posix_mqueue_connector(posix_mqueue_connector&&) noexcept = default;
+    posix_mqueue_connector(posix_mqueue_connector&&) = delete;
     posix_mqueue_connector& operator=(posix_mqueue_connector&&) = delete;
     posix_mqueue_connector(const posix_mqueue_connector&) = delete;
     posix_mqueue_connector& operator=(const posix_mqueue_connector&) = delete;

@@ -49,7 +49,10 @@ private:
     template <typename T, std::size_t L>
     result _sprintf_one(T value, const char (&fmt)[L]) {
         std::array<char, 64> temp{};
-        std::snprintf(temp.data(), temp.size(), fmt, value);
+        // TODO: to_chars from_chars when available
+        // NOLINTNEXTLINE(hicpp-vararg)
+        std::snprintf(
+          temp.data(), temp.size(), static_cast<const char*>(fmt), value);
         return sink(string_view(temp.data()));
     }
 
@@ -236,7 +239,11 @@ private:
     result _sscanf_one(T& value, char delimiter, const char (&fmt)[L]) {
         result errors{};
         if(auto src = this->string_before(delimiter)) {
-            if(std::sscanf(src.data(), fmt, &value) == 1) {
+            if(
+              // TODO: to_chars from_chars when available
+              // NOLINTNEXTLINE(hicpp-vararg)
+              std::sscanf(src.data(), static_cast<const char*>(fmt), &value) ==
+              1) {
                 pop(src.size() + 1);
             } else {
                 errors |= error_code::invalid_format;

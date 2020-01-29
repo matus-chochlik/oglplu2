@@ -23,7 +23,7 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 template <typename T>
-struct fragment_serialize_wrapper;
+class fragment_serialize_wrapper;
 //------------------------------------------------------------------------------
 template <typename T>
 class fragment_serialize_wrapper<span<const T>> {
