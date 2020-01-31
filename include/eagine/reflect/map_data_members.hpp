@@ -10,6 +10,7 @@
 #ifndef EAGINE_REFLECT_MAP_DATA_MEMBERS_HPP
 #define EAGINE_REFLECT_MAP_DATA_MEMBERS_HPP
 
+#include "../selector.hpp"
 #include "../string_span.hpp"
 #include <tuple>
 #include <type_traits>
