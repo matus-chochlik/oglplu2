@@ -91,10 +91,6 @@ private:
         return _do_send(class_id, method_id, message);
     }
 
-    explicit endpoint(connection::fetch_handler store_message) noexcept
-      : _store_handler{std::move(store_message)} {
-    }
-
     inline bool _handle_special(
       identifier_t class_id,
       identifier_t method_id,
@@ -142,12 +138,33 @@ private:
         return false;
     }
 
+    explicit endpoint(connection::fetch_handler store_message) noexcept
+      : _store_handler{std::move(store_message)} {
+    }
+
+    endpoint(endpoint&& temp) noexcept
+      : _id{temp._id}
+      , _connections{std::move(temp._connections)}
+      , _outgoing{std::move(temp._outgoing)}
+      , _incoming{std::move(temp._incoming)}
+      , _store_handler{this, EAGINE_MEM_FUNC_C(endpoint, _store_message)} {
+        temp._id = invalid_id();
+    }
+
+    endpoint(endpoint&& temp, connection::fetch_handler store_message) noexcept
+      : _id{temp._id}
+      , _connections{std::move(temp._connections)}
+      , _outgoing{std::move(temp._outgoing)}
+      , _incoming{std::move(temp._incoming)}
+      , _store_handler{std::move(store_message)} {
+        temp._id = invalid_id();
+    }
+
 public:
     endpoint() noexcept
       : _store_handler{this, EAGINE_MEM_FUNC_C(endpoint, _store_message)} {
     }
 
-    endpoint(endpoint&&) noexcept = default;
     endpoint(const endpoint&) = delete;
     endpoint& operator=(endpoint&&) = delete;
     endpoint& operator=(const endpoint&) = delete;
@@ -454,6 +471,11 @@ protected:
     static auto _make_endpoint(
       connection::fetch_handler store_message) noexcept {
         return endpoint{store_message};
+    }
+
+    static auto _move_endpoint(
+      endpoint&& bus, connection::fetch_handler store_message) noexcept {
+        return endpoint{std::move(bus), std::move(store_message)};
     }
 
     inline bool _accept_message(

@@ -21,6 +21,7 @@ class actor
   , public friend_of_endpoint {
     using friend_of_endpoint::_accept_message;
     using friend_of_endpoint::_make_endpoint;
+    using friend_of_endpoint::_move_endpoint;
 
 protected:
     bool _process_message(
@@ -45,6 +46,19 @@ protected:
       , _subscriber{_endpoint, instance, msg_maps...} {
         _endpoint.say_not_a_router();
         _subscriber.announce_subscriptions();
+    }
+
+    template <
+      typename Derived,
+      typename Class,
+      typename... MsgMaps,
+      typename = std::enable_if_t<
+        (sizeof...(MsgMaps) == N) && std::is_base_of_v<actor, Derived>>>
+    actor(Derived&& temp, Class* instance, MsgMaps... msg_maps) noexcept
+      : _endpoint{_move_endpoint(
+          std::move(temp._endpoint),
+          {this, EAGINE_MEM_FUNC_C(actor, _process_message)})}
+      , _subscriber{_endpoint, instance, msg_maps...} {
     }
 
     actor(actor&&) noexcept = default;

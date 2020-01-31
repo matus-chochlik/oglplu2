@@ -92,11 +92,7 @@ public:
       : subscriber(bus, as_tuple(instance, msg_maps)...) {
     }
 
-    subscriber(subscriber&& temp) noexcept
-      : _endpoint{temp._endpoint}
-      , _msg_handlers{std::move(temp._msg_handlers)} {
-        temp._endpoint = nullptr;
-    }
+    subscriber(subscriber&& temp) = delete;
     subscriber(const subscriber&) = delete;
     subscriber& operator=(subscriber&&) = delete;
     subscriber& operator=(const subscriber&) = delete;
