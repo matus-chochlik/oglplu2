@@ -13,6 +13,7 @@
 #include "../enum_map.hpp"
 #include "conn_factory.hpp"
 #include <memory>
+#include <mutex>
 #include <vector>
 
 namespace eagine {
@@ -22,6 +23,8 @@ class connection_setup;
 void connection_setup_default_init(connection_setup&);
 //------------------------------------------------------------------------------
 class connection_setup {
+    std::mutex _mutex{};
+
     using _factory_list = std::vector<std::unique_ptr<connection_factory>>;
 
     template <connection_kind Kind>
@@ -71,6 +74,7 @@ class connection_setup {
 
 public:
     void setup_acceptors(acceptor_user& target, string_view address) {
+        std::unique_lock lock{_mutex};
         _factory_map.visit_all(_make_call_setup_acceptors(target, address));
     }
 
@@ -84,6 +88,7 @@ public:
 
     void setup_acceptors(
       acceptor_user& target, connection_kinds kinds, string_view address) {
+        std::unique_lock lock{_mutex};
         _factory_map.visit(kinds, _make_call_setup_acceptors(target, address));
     }
 
@@ -98,6 +103,7 @@ public:
 
     void setup_acceptors(
       acceptor_user& target, connection_kind kind, string_view address) {
+        std::unique_lock lock{_mutex};
         _factory_map.visit(kind, _make_call_setup_acceptors(target, address));
     }
 
@@ -111,6 +117,7 @@ public:
     }
 
     void setup_connectors(connection_user& target, string_view address) {
+        std::unique_lock lock{_mutex};
         _factory_map.visit_all(_make_call_setup_connectors(target, address));
     }
 
@@ -124,6 +131,7 @@ public:
 
     void setup_connectors(
       connection_user& target, connection_kinds kinds, string_view address) {
+        std::unique_lock lock{_mutex};
         _factory_map.visit(kinds, _make_call_setup_connectors(target, address));
     }
 
@@ -138,6 +146,7 @@ public:
 
     void setup_connectors(
       connection_user& target, connection_kind kind, string_view address) {
+        std::unique_lock lock{_mutex};
         _factory_map.visit(kind, _make_call_setup_connectors(target, address));
     }
 
@@ -151,6 +160,7 @@ public:
     }
 
     void add_factory(std::unique_ptr<connection_factory> factory) {
+        std::unique_lock lock{_mutex};
         EAGINE_ASSERT(factory);
         const auto kind{factory->kind()};
         _factory_map.visit(
