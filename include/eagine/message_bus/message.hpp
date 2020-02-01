@@ -211,7 +211,21 @@ public:
     /// and should be removed.
     using fetch_handler = callable_ref<bool(memory::const_block)>;
 
+    memory::const_block top() const noexcept {
+        if(!_messages.empty()) {
+            return view(_messages.front());
+        }
+        return {};
+    }
+
+    void pop() noexcept {
+        EAGINE_ASSERT(!_messages.empty());
+        _buffers.eat(std::move(_messages.front()));
+        _messages.erase(_messages.begin());
+    }
+
     void push(memory::const_block message) {
+        EAGINE_ASSERT(!message.empty());
         auto buf = _buffers.get(message.size());
         buf.resize(message.size());
         memory::copy(message, cover(buf));
