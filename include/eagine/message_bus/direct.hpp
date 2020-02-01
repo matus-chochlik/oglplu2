@@ -12,7 +12,6 @@
 
 #include "../branch_predict.hpp"
 #include "conn_factory.hpp"
-#include "connection.hpp"
 #include <map>
 #include <mutex>
 

@@ -16,7 +16,6 @@
 #include "../serialize/block_source.hpp"
 #include "../serialize/string_backend.hpp"
 #include "conn_factory.hpp"
-#include "connection.hpp"
 #include "serialize.hpp"
 #include <cerrno>
 #include <cstring>
