@@ -17,7 +17,9 @@ test%: test%.o
 		-ldl -lrt \
 		$(shell pkg-config --libs openal) \
 		-rdynamic \
+		-pthread \
 		-o $@ $<
+
 test%.o: test%.cpp
 	$(CXX) -std=c++17 -g3 \
 		-Wall -Wextra -Werror \
@@ -31,10 +33,11 @@ test%.o: test%.cpp
 		-Wno-documentation \
 		-Wno-documentation-unknown-command \
 		-I$(BINARY_DIR)/include \
-		-I../third_party/include \
 		-I../include \
 		-I../implement \
 		-I../source/utils \
+		-I../third_party/include \
+		-I../third_party/asio/asio/include \
 		$(shell pkg-config --cflags openal) \
 		-c -o $@ $<
 
