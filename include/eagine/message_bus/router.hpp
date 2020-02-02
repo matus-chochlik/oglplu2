@@ -74,6 +74,7 @@ private:
               this, EAGINE_MEM_FUNC_C(router, _handle_connection)};
             for(auto& the_acceptor : _acceptors) {
                 EAGINE_ASSERT(the_acceptor);
+                the_acceptor->update();
                 the_acceptor->process_accepted(handler);
             }
         }

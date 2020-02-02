@@ -25,6 +25,9 @@ struct acceptor {
 
     using accept_handler = callable_ref<void(std::unique_ptr<connection>)>;
 
+    virtual void update() {
+    }
+
     virtual void process_accepted(const accept_handler& handler) = 0;
 };
 //------------------------------------------------------------------------------

@@ -423,9 +423,12 @@ public:
         _accept_queue.unlink();
     }
 
-    void process_accepted(const accept_handler& handler) final {
+    void update() final {
         _checkup();
         _receive();
+    }
+
+    void process_accepted(const accept_handler& handler) final {
         _process(handler);
     }
 
