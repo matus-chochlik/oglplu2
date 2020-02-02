@@ -31,95 +31,31 @@ struct asio_common_state {
 //------------------------------------------------------------------------------
 template <typename Base, asio_connection_addr_kind, asio_connection_protocol>
 class asio_connection_info;
-//------------------------------------------------------------------------------
-template <typename Base>
-class asio_connection_info<
-  Base,
-  asio_connection_addr_kind::local,
-  asio_connection_protocol::stream> : public Base {
-public:
-    connection_kind kind() final {
-        return connection_kind::local_interprocess;
-    }
 
-    identifier type_id() final {
-        return EAGINE_ID(AsioTcpLcl);
-    }
-};
-//------------------------------------------------------------------------------
-template <typename Base>
-class asio_connection_info<
-  Base,
-  asio_connection_addr_kind::ipv4,
-  asio_connection_protocol::stream> : public Base {
-public:
-    connection_kind kind() final {
-        return connection_kind::remote_interprocess;
-    }
+template <asio_connection_addr_kind Kind, asio_connection_protocol Proto>
+class asio_connection;
 
-    identifier type_id() final {
-        return EAGINE_ID(AsioTcpIp4);
-    }
-};
-//------------------------------------------------------------------------------
-template <asio_connection_addr_kind, asio_connection_protocol>
-struct asio_connection_socket;
+template <asio_connection_addr_kind Kind, asio_connection_protocol Proto>
+class asio_connector;
 
 template <asio_connection_addr_kind K, asio_connection_protocol P>
-using asio_connection_socket_t = typename asio_connection_socket<K, P>::type;
-//------------------------------------------------------------------------------
-template <>
-struct asio_connection_socket<
-  asio_connection_addr_kind::ipv4,
-  asio_connection_protocol::stream> : identity<asio::ip::tcp::socket> {};
+class asio_acceptor;
 //------------------------------------------------------------------------------
 template <asio_connection_addr_kind Kind, asio_connection_protocol Proto>
-class asio_connection
-  : public std::enable_shared_from_this<asio_connection<Kind, Proto>>
+class asio_connection_base
+  : public std::enable_shared_from_this<asio_connection_base<Kind, Proto>>
   , public asio_connection_info<connection, Kind, Proto> {
-
-    using socket_t = asio_connection_socket_t<Kind, Proto>;
 
 protected:
     std::mutex _mutex;
     std::shared_ptr<asio_common_state> _asio_state;
-    socket_t _socket;
 
-private:
     memory::buffer _buffer;
     message_storage _incoming;
     serialized_message_storage _outgoing;
 
-    void _send() {
-        if(auto blk = _outgoing.top()) {
-            asio::async_write(
-              _socket,
-              asio::buffer(blk.data(), blk.size()),
-              [this, self{this->shared_from_this()}](
-                std::error_code error, std::size_t length) {
-                  if(!error) {
-                      this->_handle_sent(span_size(length));
-                  }
-              });
-        }
-    }
-
     void _handle_sent(span_size_t) {
         this->_outgoing.pop();
-        this->_send();
-    }
-
-    void _receive() {
-        asio::async_read(
-          _socket,
-          asio::buffer(_buffer.data(), _buffer.size()),
-          [this, self{this->shared_from_this()}](
-            std::error_code error, std::size_t length) {
-              if(!error) {
-                  this->_handle_received(
-                    head(view(_buffer), span_size(length)));
-              }
-          });
     }
 
     void _handle_received(memory::const_block data) {
@@ -136,27 +72,10 @@ private:
     }
 
 public:
-    asio_connection(
-      std::shared_ptr<asio_common_state> asio_state, socket_t socket) noexcept
-      : _asio_state{std::move(asio_state)}
-      , _socket{std::move(socket)} {
+    asio_connection_base(std::shared_ptr<asio_common_state> asio_state)
+      : _asio_state{std::move(asio_state)} {
         EAGINE_ASSERT(_asio_state);
         _buffer.resize(8 * 1024);
-    }
-
-    bool is_usable() final {
-        if(EAGINE_LIKELY(_asio_state)) {
-            return _socket.is_open();
-        }
-        return false;
-    }
-
-    void update() final {
-        if(EAGINE_LIKELY(_asio_state)) {
-            _receive();
-            _send();
-            _asio_state->context.poll();
-        }
     }
 
     valid_if_positive<span_size_t> max_data_size() final {
@@ -184,39 +103,179 @@ public:
     }
 };
 //------------------------------------------------------------------------------
+// TCP/IPv4
+//------------------------------------------------------------------------------
+template <typename Base>
+class asio_connection_info<
+  Base,
+  asio_connection_addr_kind::ipv4,
+  asio_connection_protocol::stream> : public Base {
+public:
+    connection_kind kind() final {
+        return connection_kind::remote_interprocess;
+    }
+
+    identifier type_id() final {
+        return EAGINE_ID(AsioTcpIp4);
+    }
+};
+//------------------------------------------------------------------------------
+template <>
+class asio_connection<
+  asio_connection_addr_kind::ipv4,
+  asio_connection_protocol::stream>
+  : public asio_connection_base<
+      asio_connection_addr_kind::ipv4,
+      asio_connection_protocol::stream> {
+
+    using base = asio_connection_base<
+      asio_connection_addr_kind::ipv4,
+      asio_connection_protocol::stream>;
+
+protected:
+    asio::ip::tcp::socket _socket;
+
+    void _send() {
+        if(auto blk = _outgoing.top()) {
+            asio::async_write(
+              _socket,
+              asio::buffer(blk.data(), blk.size()),
+              [this, self{this->shared_from_this()}](
+                std::error_code error, std::size_t length) {
+                  if(!error) {
+                      this->_handle_sent(span_size(length));
+                      this->_send();
+                  }
+              });
+        }
+    }
+
+    void _receive() {
+        auto blk = cover(this->_buffer);
+        asio::async_read(
+          _socket,
+          asio::buffer(blk.data(), blk.size()),
+          [this, self{this->shared_from_this()}, blk](
+            std::error_code error, std::size_t length) {
+              if(!error) {
+                  this->_handle_received(head(blk, span_size(length)));
+              }
+          });
+    }
+
+    asio_connection(const std::shared_ptr<asio_common_state>& asio_state)
+      : base{asio_state}
+      , _socket{asio_state->context} {
+    }
+
+public:
+    asio_connection(
+      const std::shared_ptr<asio_common_state>& asio_state,
+      asio::ip::tcp::socket socket)
+      : base{asio_state}
+      , _socket{std::move(socket)} {
+    }
+
+    bool is_usable() final {
+        if(EAGINE_LIKELY(this->_asio_state)) {
+            return _socket.is_open();
+        }
+        return false;
+    }
+
+    void update() override {
+        EAGINE_ASSERT(this->_asio_state);
+        if(_socket.is_open()) {
+            _receive();
+            _send();
+        }
+        this->_asio_state->context.poll();
+    }
+};
+//------------------------------------------------------------------------------
 template <asio_connection_addr_kind Kind, asio_connection_protocol Proto>
 class asio_connector : public asio_connection<Kind, Proto> {
     using base = asio_connection<Kind, Proto>;
-    using socket_t = asio_connection_socket_t<Kind, Proto>;
 
     std::string _addr_str;
 
 public:
     asio_connector(
       std::shared_ptr<asio_common_state>& asio_state, string_view addr_str)
-      : base{asio_state, socket_t{asio_state->context}}
+      : base{asio_state}
       , _addr_str{to_string(addr_str)} {
+    }
+
+    void update() final {
+        EAGINE_ASSERT(this->_asio_state);
+        if(!this->_socket.is_open()) {
+        }
+        if(this->_socket.is_open()) {
+            this->_receive();
+            this->_send();
+        }
+        this->_asio_state->context.poll();
     }
 };
 //------------------------------------------------------------------------------
-template <asio_connection_addr_kind, asio_connection_protocol>
-class asio_acceptor : public acceptor {
+template <>
+class asio_acceptor<
+  asio_connection_addr_kind::ipv4,
+  asio_connection_protocol::stream> : public acceptor {
 private:
     std::shared_ptr<asio_common_state> _asio_state;
+    std::string _addr_str;
+    asio::ip::tcp::acceptor _acceptor;
+    asio::ip::tcp::socket _socket;
+
+    std::vector<asio::ip::tcp::socket> _accepted;
+
+    void _start_accept() {
+        _socket = asio::ip::tcp::socket(
+          this->_asio_state->context, asio::ip::tcp::v4());
+        _acceptor.async_accept(_socket, [this](std::error_code error) {
+            if(!error) {
+                this->_accepted.emplace_back(std::move(this->_socket));
+            }
+            _start_accept();
+        });
+    }
 
 public:
     asio_acceptor(
-      std::shared_ptr<asio_common_state> asio_state, string_view) noexcept
-      : _asio_state{std::move(asio_state)} {
+      std::shared_ptr<asio_common_state> asio_state,
+      string_view addr_str) noexcept
+      : _asio_state{std::move(asio_state)}
+      , _addr_str{to_string(addr_str)}
+      , _acceptor{_asio_state->context}
+      , _socket{_asio_state->context} {
+    }
+
+    void update() final {
+        EAGINE_ASSERT(this->_asio_state);
+        if(!_acceptor.is_open()) {
+            // TODO: addr string
+            asio::ip::tcp::endpoint endpoint(asio::ip::tcp::v4(), 3491);
+            _acceptor.open(endpoint.protocol());
+            _acceptor.bind(endpoint);
+            _acceptor.listen();
+            _start_accept();
+        }
+        this->_asio_state->context.poll();
     }
 
     void process_accepted(const accept_handler& handler) final {
-        EAGINE_MAYBE_UNUSED(handler);
+        for(auto& socket : _accepted) {
+            handler(std::make_unique<asio_connection<
+                      asio_connection_addr_kind::ipv4,
+                      asio_connection_protocol::stream>>(
+              this->_asio_state, std::move(socket)));
+        }
+        _accepted.clear();
     }
 };
 //------------------------------------------------------------------------------
-template <asio_connection_addr_kind, asio_connection_protocol>
-class asio_connection_factory;
+// Factory
 //------------------------------------------------------------------------------
 template <asio_connection_addr_kind Kind, asio_connection_protocol Proto>
 class asio_connection_factory
