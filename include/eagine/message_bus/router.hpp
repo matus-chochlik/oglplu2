@@ -22,8 +22,8 @@ namespace msgbus {
 //------------------------------------------------------------------------------
 struct router_pending {
 
-    router_pending(std::unique_ptr<connection> conn)
-      : the_connection{std::move(conn)} {
+    router_pending(std::unique_ptr<connection> a_connection)
+      : the_connection{std::move(a_connection)} {
     }
 
     std::chrono::steady_clock::time_point create_time{
@@ -50,9 +50,9 @@ struct routed_endpoint {
 //------------------------------------------------------------------------------
 class router : public acceptor_user {
 public:
-    bool add_acceptor(std::unique_ptr<acceptor> the_acceptor) final {
-        if(the_acceptor) {
-            _acceptors.emplace_back(std::move(the_acceptor));
+    bool add_acceptor(std::unique_ptr<acceptor> an_acceptor) final {
+        if(an_acceptor) {
+            _acceptors.emplace_back(std::move(an_acceptor));
             return true;
         }
         return false;
@@ -72,10 +72,10 @@ private:
         if(EAGINE_LIKELY(!_acceptors.empty())) {
             acceptor::accept_handler handler{
               this, EAGINE_MEM_FUNC_C(router, _handle_connection)};
-            for(auto& the_acceptor : _acceptors) {
-                EAGINE_ASSERT(the_acceptor);
-                the_acceptor->update();
-                the_acceptor->process_accepted(handler);
+            for(auto& an_acceptor : _acceptors) {
+                EAGINE_ASSERT(an_acceptor);
+                an_acceptor->update();
+                an_acceptor->process_accepted(handler);
             }
         }
     }

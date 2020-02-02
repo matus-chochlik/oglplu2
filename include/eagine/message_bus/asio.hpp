@@ -13,6 +13,7 @@
 #include "../branch_predict.hpp"
 #include "conn_factory.hpp"
 #include "serialize.hpp"
+#include <asio/connect.hpp>
 #include <asio/io_context.hpp>
 #include <asio/ip/tcp.hpp>
 #include <asio/read.hpp>
@@ -32,37 +33,56 @@ struct asio_common_state {
 template <typename Base, asio_connection_addr_kind, asio_connection_protocol>
 class asio_connection_info;
 
-template <asio_connection_addr_kind Kind, asio_connection_protocol Proto>
+template <asio_connection_addr_kind, asio_connection_protocol>
 class asio_connection;
 
-template <asio_connection_addr_kind Kind, asio_connection_protocol Proto>
+template <asio_connection_addr_kind, asio_connection_protocol>
 class asio_connector;
 
-template <asio_connection_addr_kind K, asio_connection_protocol P>
+template <asio_connection_addr_kind, asio_connection_protocol>
 class asio_acceptor;
 //------------------------------------------------------------------------------
-template <asio_connection_addr_kind Kind, asio_connection_protocol Proto>
-class asio_connection_base
-  : public std::enable_shared_from_this<asio_connection_base<Kind, Proto>>
-  , public asio_connection_info<connection, Kind, Proto> {
+template <typename Socket>
+struct asio_connection_state
+  : std::enable_shared_from_this<asio_connection_state<Socket>> {
 
-protected:
-    std::mutex _mutex;
-    std::shared_ptr<asio_common_state> _asio_state;
+    std::mutex mutex;
+    std::shared_ptr<asio_common_state> common;
+    Socket socket;
 
-    memory::buffer _buffer;
-    message_storage _incoming;
-    serialized_message_storage _outgoing;
+    memory::buffer buffer;
+    message_storage incoming;
+    serialized_message_storage outgoing;
 
-    void _handle_sent(span_size_t) {
-        this->_outgoing.pop();
+    asio_connection_state(
+      std::shared_ptr<asio_common_state> asio_state, Socket sock)
+      : common{std::move(asio_state)}
+      , socket{std::move(sock)} {
+        EAGINE_ASSERT(common);
+        buffer.resize(8 * 1024);
     }
 
-    void _handle_received(memory::const_block data) {
-        _incoming.push_if([data](
-                            identifier_t& class_id,
-                            identifier_t& method_id,
-                            stored_message& message) {
+    asio_connection_state(
+      const std::shared_ptr<asio_common_state>& asio_state) noexcept
+      : asio_connection_state{asio_state, Socket{asio_state->context}} {
+    }
+
+    bool is_usable() const {
+        if(EAGINE_LIKELY(common)) {
+            return socket.is_open();
+        }
+        return false;
+    }
+
+    void handle_sent(span_size_t) {
+        outgoing.pop();
+    }
+
+    void handle_received(memory::const_block data) {
+        incoming.push_if([data](
+                           identifier_t& class_id,
+                           identifier_t& method_id,
+                           stored_message& message) {
             block_data_source source(data);
             string_deserializer_backend backend(source);
             const auto errors =
@@ -71,35 +91,110 @@ protected:
         });
     }
 
+    bool enqueue(
+      identifier_t class_id,
+      identifier_t method_id,
+      const message_view& message) {
+        std::unique_lock lock{mutex};
+        block_data_sink sink(cover(buffer));
+        string_serializer_backend backend(sink);
+        auto errors = serialize_message(class_id, method_id, message, backend);
+        if(!errors) {
+            outgoing.push(sink.done());
+            return true;
+        }
+        return false;
+    }
+
+    void fetch_messages(connection::fetch_handler handler) {
+        std::unique_lock lock{mutex};
+        incoming.fetch_all(handler);
+    }
+
+    void start_send() {
+        if(auto blk = outgoing.top()) {
+            asio::async_write(
+              socket,
+              asio::buffer(blk.data(), blk.size()),
+              [this, self{this->shared_from_this()}](
+                std::error_code error, std::size_t length) {
+                  if(!error) {
+                      this->handle_sent(span_size(length));
+                      this->start_send();
+                  }
+              });
+        }
+    }
+
+    void start_receive() {
+        auto blk = cover(buffer);
+        asio::async_read(
+          socket,
+          asio::buffer(blk.data(), blk.size()),
+          [this, self{this->shared_from_this()}, blk](
+            std::error_code error, std::size_t length) {
+              if(!error) {
+                  this->handle_received(head(blk, span_size(length)));
+                  this->start_receive();
+              }
+          });
+    }
+
+    void update() {
+        common->context.poll();
+    }
+};
+//------------------------------------------------------------------------------
+template <
+  asio_connection_addr_kind Kind,
+  asio_connection_protocol Proto,
+  typename Socket>
+class asio_connection_base
+  : public asio_connection_info<connection, Kind, Proto> {
+
+protected:
+    std::shared_ptr<asio_connection_state<Socket>> _state;
+
 public:
     asio_connection_base(std::shared_ptr<asio_common_state> asio_state)
-      : _asio_state{std::move(asio_state)} {
-        EAGINE_ASSERT(_asio_state);
-        _buffer.resize(8 * 1024);
+      : _state{std::make_shared<asio_connection_state<Socket>>(
+          std::move(asio_state))} {
+        EAGINE_ASSERT(_state);
+    }
+
+    asio_connection_base(
+      std::shared_ptr<asio_common_state> asio_state, Socket socket)
+      : _state{std::make_shared<asio_connection_state<Socket>>(
+          std::move(asio_state), std::move(socket))} {
+        EAGINE_ASSERT(_state);
     }
 
     valid_if_positive<span_size_t> max_data_size() final {
-        return {_buffer.size()};
+        EAGINE_ASSERT(_state);
+        return {_state->buffer.size()};
+    }
+
+    bool is_usable() final {
+        EAGINE_ASSERT(_state);
+        return _state->is_usable();
+    }
+
+    void update() override {
+        EAGINE_ASSERT(_state);
+        _state->update();
     }
 
     bool send(
       identifier_t class_id,
       identifier_t method_id,
       const message_view& message) final {
-        std::unique_lock lock{_mutex};
-        block_data_sink sink(cover(_buffer));
-        string_serializer_backend backend(sink);
-        auto errors = serialize_message(class_id, method_id, message, backend);
-        if(!errors) {
-            _outgoing.push(sink.done());
-            return true;
-        }
-        return false;
+        EAGINE_ASSERT(_state);
+        return _state->enqueue(class_id, method_id, message);
     }
 
     void fetch_messages(connection::fetch_handler handler) final {
-        std::unique_lock lock{_mutex};
-        _incoming.fetch_all(handler);
+        EAGINE_ASSERT(_state);
+        _state->fetch_messages(handler);
     }
 };
 //------------------------------------------------------------------------------
@@ -126,95 +221,85 @@ class asio_connection<
   asio_connection_protocol::stream>
   : public asio_connection_base<
       asio_connection_addr_kind::ipv4,
-      asio_connection_protocol::stream> {
+      asio_connection_protocol::stream,
+      asio::ip::tcp::socket> {
 
     using base = asio_connection_base<
       asio_connection_addr_kind::ipv4,
+      asio_connection_protocol::stream,
+      asio::ip::tcp::socket>;
+
+public:
+    using base::base;
+
+    void start() {
+        this->_state->start_receive();
+        this->_state->start_send();
+    }
+};
+//------------------------------------------------------------------------------
+template <>
+class asio_connector<
+  asio_connection_addr_kind::ipv4,
+  asio_connection_protocol::stream>
+  : public asio_connection<
+      asio_connection_addr_kind::ipv4,
+      asio_connection_protocol::stream> {
+    using base = asio_connection<
+      asio_connection_addr_kind::ipv4,
       asio_connection_protocol::stream>;
 
-protected:
-    asio::ip::tcp::socket _socket;
+    asio::ip::tcp::resolver _resolver;
+    std::string _addr_str;
+    bool _connecting{false};
 
-    void _send() {
-        if(auto blk = _outgoing.top()) {
-            asio::async_write(
-              _socket,
-              asio::buffer(blk.data(), blk.size()),
-              [this, self{this->shared_from_this()}](
-                std::error_code error, std::size_t length) {
-                  if(!error) {
-                      this->_handle_sent(span_size(length));
-                      this->_send();
-                  }
-              });
-        }
-    }
-
-    void _receive() {
-        auto blk = cover(this->_buffer);
-        asio::async_read(
-          _socket,
-          asio::buffer(blk.data(), blk.size()),
-          [this, self{this->shared_from_this()}, blk](
-            std::error_code error, std::size_t length) {
+    void _start_connect(asio::ip::tcp::resolver::iterator resolved) {
+        asio::ip::tcp::endpoint ep = *resolved;
+        ep.port(34912);
+        this->_state->socket.async_connect(
+          ep, [this, resolved](std::error_code error) mutable {
               if(!error) {
-                  this->_handle_received(head(blk, span_size(length)));
+                  this->_connecting = false;
+                  this->start();
+              } else {
+                  if(++resolved != asio::ip::tcp::resolver::iterator{}) {
+                      this->_start_connect(resolved);
+                  } else {
+                      this->_connecting = false;
+                  }
               }
           });
     }
 
-    asio_connection(const std::shared_ptr<asio_common_state>& asio_state)
-      : base{asio_state}
-      , _socket{asio_state->context} {
+    void _start_resolve() {
+        auto host = _addr_str.empty() ? asio::string_view("localhost")
+                                      : asio::string_view(_addr_str);
+        _resolver.async_resolve(
+          host, {}, [this](std::error_code error, auto resolved) {
+              if(!error) {
+                  this->_start_connect(resolved);
+              } else {
+                  this->_connecting = false;
+              }
+          });
     }
-
-public:
-    asio_connection(
-      const std::shared_ptr<asio_common_state>& asio_state,
-      asio::ip::tcp::socket socket)
-      : base{asio_state}
-      , _socket{std::move(socket)} {
-    }
-
-    bool is_usable() final {
-        if(EAGINE_LIKELY(this->_asio_state)) {
-            return _socket.is_open();
-        }
-        return false;
-    }
-
-    void update() override {
-        EAGINE_ASSERT(this->_asio_state);
-        if(_socket.is_open()) {
-            _receive();
-            _send();
-        }
-        this->_asio_state->context.poll();
-    }
-};
-//------------------------------------------------------------------------------
-template <asio_connection_addr_kind Kind, asio_connection_protocol Proto>
-class asio_connector : public asio_connection<Kind, Proto> {
-    using base = asio_connection<Kind, Proto>;
-
-    std::string _addr_str;
 
 public:
     asio_connector(
-      std::shared_ptr<asio_common_state>& asio_state, string_view addr_str)
+      const std::shared_ptr<asio_common_state>& asio_state,
+      string_view addr_str)
       : base{asio_state}
+      , _resolver{asio_state->context}
       , _addr_str{to_string(addr_str)} {
     }
 
     void update() final {
-        EAGINE_ASSERT(this->_asio_state);
-        if(!this->_socket.is_open()) {
+        EAGINE_ASSERT(this->_state);
+        if(!this->_state->socket.is_open() && !_connecting) {
+            _connecting = true;
+            _start_resolve();
         }
-        if(this->_socket.is_open()) {
-            this->_receive();
-            this->_send();
-        }
-        this->_asio_state->context.poll();
+        this->_state->update();
     }
 };
 //------------------------------------------------------------------------------
@@ -231,8 +316,7 @@ private:
     std::vector<asio::ip::tcp::socket> _accepted;
 
     void _start_accept() {
-        _socket = asio::ip::tcp::socket(
-          this->_asio_state->context, asio::ip::tcp::v4());
+        _socket = asio::ip::tcp::socket(this->_asio_state->context);
         _acceptor.async_accept(_socket, [this](std::error_code error) {
             if(!error) {
                 this->_accepted.emplace_back(std::move(this->_socket));
@@ -255,7 +339,7 @@ public:
         EAGINE_ASSERT(this->_asio_state);
         if(!_acceptor.is_open()) {
             // TODO: addr string
-            asio::ip::tcp::endpoint endpoint(asio::ip::tcp::v4(), 3491);
+            asio::ip::tcp::endpoint endpoint(asio::ip::tcp::v4(), 34912);
             _acceptor.open(endpoint.protocol());
             _acceptor.bind(endpoint);
             _acceptor.listen();
@@ -266,10 +350,12 @@ public:
 
     void process_accepted(const accept_handler& handler) final {
         for(auto& socket : _accepted) {
-            handler(std::make_unique<asio_connection<
-                      asio_connection_addr_kind::ipv4,
-                      asio_connection_protocol::stream>>(
-              this->_asio_state, std::move(socket)));
+            auto conn = std::make_unique<asio_connection<
+              asio_connection_addr_kind::ipv4,
+              asio_connection_protocol::stream>>(
+              _asio_state, std::move(socket));
+            conn->start();
+            handler(std::move(conn));
         }
         _accepted.clear();
     }
