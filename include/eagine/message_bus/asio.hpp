@@ -53,6 +53,8 @@ struct asio_connection_state
     memory::buffer buffer;
     message_storage incoming;
     serialized_message_storage outgoing;
+    bool is_sending{false};
+    bool is_recving{false};
 
     asio_connection_state(
       std::shared_ptr<asio_common_state> asio_state, Socket sock)
@@ -72,23 +74,6 @@ struct asio_connection_state
             return socket.is_open();
         }
         return false;
-    }
-
-    void handle_sent(span_size_t) {
-        outgoing.pop();
-    }
-
-    void handle_received(memory::const_block data) {
-        incoming.push_if([data](
-                           identifier_t& class_id,
-                           identifier_t& method_id,
-                           stored_message& message) {
-            block_data_source source(data);
-            string_deserializer_backend backend(source);
-            const auto errors =
-              deserialize_message(class_id, method_id, message, backend);
-            return !errors;
-        });
     }
 
     bool enqueue(
@@ -111,33 +96,62 @@ struct asio_connection_state
         incoming.fetch_all(handler);
     }
 
+    void handle_sent(span_size_t) {
+        outgoing.pop();
+        is_sending = false;
+    }
+
     void start_send() {
         if(auto blk = outgoing.top()) {
-            asio::async_write(
-              socket,
-              asio::buffer(blk.data(), blk.size()),
-              [this, self{this->shared_from_this()}](
-                std::error_code error, std::size_t length) {
-                  if(!error) {
-                      this->handle_sent(span_size(length));
-                      this->start_send();
-                  }
-              });
+            if(!is_sending) {
+                is_sending = true;
+                asio::async_write(
+                  socket,
+                  asio::buffer(blk.data(), blk.size()),
+                  [this, self{this->shared_from_this()}](
+                    std::error_code error, std::size_t length) {
+                      if(!error) {
+                          this->handle_sent(span_size(length));
+                          this->start_send();
+                      } else {
+                          this->is_sending = false;
+                      }
+                  });
+            }
         }
     }
 
+    void handle_received(memory::const_block data) {
+        incoming.push_if([data](
+                           identifier_t& class_id,
+                           identifier_t& method_id,
+                           stored_message& message) {
+            block_data_source source(data);
+            string_deserializer_backend backend(source);
+            const auto errors =
+              deserialize_message(class_id, method_id, message, backend);
+            return !errors;
+        });
+        is_recving = false;
+    }
+
     void start_receive() {
-        auto blk = cover(buffer);
-        asio::async_read(
-          socket,
-          asio::buffer(blk.data(), blk.size()),
-          [this, self{this->shared_from_this()}, blk](
-            std::error_code error, std::size_t length) {
-              if(!error) {
-                  this->handle_received(head(blk, span_size(length)));
-                  this->start_receive();
-              }
-          });
+        if(!is_recving) {
+            is_recving = true;
+            auto blk = cover(buffer);
+            asio::async_read(
+              socket,
+              asio::buffer(blk.data(), blk.size()),
+              [this, self{this->shared_from_this()}, blk](
+                std::error_code error, std::size_t length) {
+                  if(!error) {
+                      this->handle_received(head(blk, span_size(length)));
+                      this->start_receive();
+                  } else {
+                      this->is_recving = false;
+                  }
+              });
+        }
     }
 
     void update() {
@@ -177,11 +191,6 @@ public:
     bool is_usable() final {
         EAGINE_ASSERT(_state);
         return _state->is_usable();
-    }
-
-    void update() override {
-        EAGINE_ASSERT(_state);
-        _state->update();
     }
 
     bool send(
@@ -232,9 +241,11 @@ class asio_connection<
 public:
     using base::base;
 
-    void start() {
+    void update() override {
+        EAGINE_ASSERT(this->_state);
         this->_state->start_receive();
         this->_state->start_send();
+        this->_state->update();
     }
 };
 //------------------------------------------------------------------------------
@@ -260,7 +271,6 @@ class asio_connector<
           ep, [this, resolved](std::error_code error) mutable {
               if(!error) {
                   this->_connecting = false;
-                  this->start();
               } else {
                   if(++resolved != asio::ip::tcp::resolver::iterator{}) {
                       this->_start_connect(resolved);
@@ -295,7 +305,10 @@ public:
 
     void update() final {
         EAGINE_ASSERT(this->_state);
-        if(!this->_state->socket.is_open() && !_connecting) {
+        if(this->_state->socket.is_open()) {
+            this->_state->start_receive();
+            this->_state->start_send();
+        } else if(!_connecting) {
             _connecting = true;
             _start_resolve();
         }
@@ -354,7 +367,6 @@ public:
               asio_connection_addr_kind::ipv4,
               asio_connection_protocol::stream>>(
               _asio_state, std::move(socket));
-            conn->start();
             handler(std::move(conn));
         }
         _accepted.clear();
