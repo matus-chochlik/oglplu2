@@ -6,6 +6,7 @@
  */
 #include <eagine/config/platform.hpp>
 
+#include <eagine/message_bus/asio.hpp>
 #include <eagine/message_bus/direct.hpp>
 #if EAGINE_POSIX
 #include <eagine/message_bus/posix_mqueue.hpp>
@@ -16,6 +17,7 @@ namespace msgbus {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void connection_setup_default_init(connection_setup& setup) {
+    setup.make_factory<asio_tcp_ipv4_connection_factory>();
     setup.make_factory<direct_connection_factory>();
 #if EAGINE_POSIX
     setup.make_factory<posix_mqueue_connection_factory>();
