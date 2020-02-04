@@ -297,6 +297,15 @@ static inline basic_span<T, P, S> fill(basic_span<T, P, S> spn, const V& v) {
 }
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S>
+static inline std::enable_if_t<
+  std::is_integral_v<T> || std::is_floating_point_v<T>,
+  basic_span<T, P, S>>
+zero(basic_span<T, P, S> spn) {
+    std::fill(spn.begin(), spn.end(), T(0));
+    return spn;
+}
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename S>
 static inline basic_span<T, P, S> reverse(basic_span<T, P, S> spn) {
     std::reverse(spn.begin(), spn.end());
     return spn;
