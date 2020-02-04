@@ -11,6 +11,7 @@
 #define EAGINE_MESSAGE_BUS_ASIO_HPP
 
 #include "../branch_predict.hpp"
+#include "../serialize/size_and_data.hpp"
 #include "conn_factory.hpp"
 #include "serialize.hpp"
 #include <asio/connect.hpp>
@@ -50,7 +51,8 @@ struct asio_connection_state
     std::shared_ptr<asio_common_state> common;
     Socket socket;
 
-    memory::buffer buffer;
+    memory::buffer read_buffer;
+    memory::buffer write_buffer;
     message_storage incoming;
     serialized_message_storage outgoing;
     bool is_sending{false};
@@ -61,7 +63,10 @@ struct asio_connection_state
       : common{std::move(asio_state)}
       , socket{std::move(sock)} {
         EAGINE_ASSERT(common);
-        buffer.resize(8 * 1024);
+        read_buffer.resize(8 * 1024);
+        zero(cover(read_buffer));
+        write_buffer.resize(read_buffer.size());
+        zero(cover(write_buffer));
     }
 
     asio_connection_state(
@@ -81,7 +86,7 @@ struct asio_connection_state
       identifier_t method_id,
       const message_view& message) {
         std::unique_lock lock{mutex};
-        block_data_sink sink(cover(buffer));
+        block_data_sink sink(cover(write_buffer));
         string_serializer_backend backend(sink);
         auto errors = serialize_message(class_id, method_id, message, backend);
         if(!errors) {
@@ -102,43 +107,47 @@ struct asio_connection_state
     }
 
     void start_send() {
-        if(auto blk = outgoing.top()) {
+        if(auto to_be_sent = outgoing.top()) {
             if(!is_sending) {
-                is_sending = true;
-                asio::async_write(
-                  socket,
-                  asio::buffer(blk.data(), blk.size()),
-                  [this, self{this->shared_from_this()}](
-                    std::error_code error, std::size_t length) {
-                      if(!error) {
-                          this->handle_sent(span_size(length));
-                          this->start_send();
-                      } else {
-                          this->is_sending = false;
-                      }
-                  });
+                if(store_data_with_size(to_be_sent, cover(write_buffer))) {
+                    is_sending = true;
+                    asio::async_write(
+                      socket,
+                      asio::buffer(write_buffer.data(), write_buffer.size()),
+                      [this, self{this->shared_from_this()}](
+                        std::error_code error, std::size_t length) {
+                          if(!error) {
+                              this->handle_sent(span_size(length));
+                              this->start_send();
+                          } else {
+                              this->is_sending = false;
+                          }
+                      });
+                }
             }
         }
     }
 
     void handle_received(memory::const_block data) {
-        incoming.push_if([data](
-                           identifier_t& class_id,
-                           identifier_t& method_id,
-                           stored_message& message) {
-            block_data_source source(data);
-            string_deserializer_backend backend(source);
-            const auto errors =
-              deserialize_message(class_id, method_id, message, backend);
-            return !errors;
-        });
+        if(const auto blk = get_data_with_size(data)) {
+            incoming.push_if([blk](
+                               identifier_t& class_id,
+                               identifier_t& method_id,
+                               stored_message& message) {
+                block_data_source source(blk);
+                string_deserializer_backend backend(source);
+                const auto errors =
+                  deserialize_message(class_id, method_id, message, backend);
+                return !errors;
+            });
+        }
         is_recving = false;
     }
 
     void start_receive() {
         if(!is_recving) {
             is_recving = true;
-            auto blk = cover(buffer);
+            auto blk = cover(read_buffer);
             asio::async_read(
               socket,
               asio::buffer(blk.data(), blk.size()),
@@ -185,7 +194,7 @@ public:
 
     valid_if_positive<span_size_t> max_data_size() final {
         EAGINE_ASSERT(_state);
-        return {_state->buffer.size()};
+        return {_state->write_buffer.size()};
     }
 
     bool is_usable() final {
