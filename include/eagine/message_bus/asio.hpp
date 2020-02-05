@@ -11,12 +11,16 @@
 #define EAGINE_MESSAGE_BUS_ASIO_HPP
 
 #include "../branch_predict.hpp"
+#include "../config/platform.hpp"
 #include "../serialize/size_and_data.hpp"
 #include "conn_factory.hpp"
 #include "serialize.hpp"
 #include <asio/connect.hpp>
 #include <asio/io_context.hpp>
 #include <asio/ip/tcp.hpp>
+#if EAGINE_POSIX
+#include <asio/local/stream_protocol.hpp>
+#endif
 #include <asio/read.hpp>
 #include <asio/write.hpp>
 #include <mutex>
@@ -382,6 +386,147 @@ public:
     }
 };
 //------------------------------------------------------------------------------
+// Local/Stream
+#if EAGINE_POSIX
+//------------------------------------------------------------------------------
+template <typename Base>
+class asio_connection_info<
+  Base,
+  asio_connection_addr_kind::local,
+  asio_connection_protocol::stream> : public Base {
+public:
+    connection_kind kind() final {
+        return connection_kind::local_interprocess;
+    }
+
+    identifier type_id() final {
+        return EAGINE_ID(AsioLclStr);
+    }
+};
+//------------------------------------------------------------------------------
+template <>
+class asio_connection<
+  asio_connection_addr_kind::local,
+  asio_connection_protocol::stream>
+  : public asio_connection_base<
+      asio_connection_addr_kind::local,
+      asio_connection_protocol::stream,
+      asio::local::stream_protocol::socket> {
+
+    using base = asio_connection_base<
+      asio_connection_addr_kind::local,
+      asio_connection_protocol::stream,
+      asio::local::stream_protocol::socket>;
+
+public:
+    using base::base;
+
+    void update() override {
+        EAGINE_ASSERT(this->_state);
+        this->_state->start_receive();
+        this->_state->start_send();
+        this->_state->update();
+    }
+};
+//------------------------------------------------------------------------------
+template <>
+class asio_connector<
+  asio_connection_addr_kind::local,
+  asio_connection_protocol::stream>
+  : public asio_connection<
+      asio_connection_addr_kind::local,
+      asio_connection_protocol::stream> {
+    using base = asio_connection<
+      asio_connection_addr_kind::local,
+      asio_connection_protocol::stream>;
+
+    asio::local::stream_protocol::endpoint _endpoint;
+    bool _connecting{false};
+
+    void _start_connect() {
+        this->_state->socket.async_connect(
+          _endpoint,
+          [this](std::error_code) mutable { this->_connecting = false; });
+    }
+
+public:
+    asio_connector(
+      const std::shared_ptr<asio_common_state>& asio_state,
+      string_view addr_str)
+      : base{asio_state}
+      , _endpoint{c_str(addr_str)} {
+    }
+
+    void update() final {
+        EAGINE_ASSERT(this->_state);
+        if(this->_state->socket.is_open()) {
+            this->_state->start_receive();
+            this->_state->start_send();
+        } else if(!_connecting) {
+            _connecting = true;
+            _start_connect();
+        }
+        this->_state->update();
+    }
+};
+//------------------------------------------------------------------------------
+template <>
+class asio_acceptor<
+  asio_connection_addr_kind::local,
+  asio_connection_protocol::stream> : public acceptor {
+private:
+    std::shared_ptr<asio_common_state> _asio_state;
+    asio::local::stream_protocol::endpoint _endpoint;
+    asio::local::stream_protocol::acceptor _acceptor;
+    asio::local::stream_protocol::socket _socket;
+
+    std::vector<asio::local::stream_protocol::socket> _accepted;
+
+    void _start_accept() {
+        _socket =
+          asio::local::stream_protocol::socket(this->_asio_state->context);
+        _acceptor.async_accept(_socket, [this](std::error_code error) {
+            if(!error) {
+                this->_accepted.emplace_back(std::move(this->_socket));
+            }
+            _start_accept();
+        });
+    }
+
+public:
+    asio_acceptor(
+      std::shared_ptr<asio_common_state> asio_state,
+      string_view addr_str) noexcept
+      : _asio_state{std::move(asio_state)}
+      , _endpoint{c_str(addr_str)}
+      , _acceptor{_asio_state->context}
+      , _socket{_asio_state->context} {
+    }
+
+    void update() final {
+        EAGINE_ASSERT(this->_asio_state);
+        if(!_acceptor.is_open()) {
+            _acceptor.bind(_endpoint);
+            _acceptor.listen();
+            _start_accept();
+        }
+        this->_asio_state->context.poll();
+    }
+
+    void process_accepted(const accept_handler& handler) final {
+        for(auto& socket : _accepted) {
+            auto conn = std::make_unique<asio_connection<
+              asio_connection_addr_kind::local,
+              asio_connection_protocol::stream>>(
+              _asio_state, std::move(socket));
+            handler(std::move(conn));
+        }
+        _accepted.clear();
+    }
+};
+//------------------------------------------------------------------------------
+#endif // EAGINE_POSIX
+//------------------------------------------------------------------------------
 // Factory
 //------------------------------------------------------------------------------
 template <asio_connection_addr_kind Kind, asio_connection_protocol Proto>
@@ -417,6 +562,12 @@ public:
 using asio_tcp_ipv4_connection_factory = asio_connection_factory<
   asio_connection_addr_kind::ipv4,
   asio_connection_protocol::stream>;
+//------------------------------------------------------------------------------
+#if EAGINE_POSIX
+using asio_local_stream_connection_factory = asio_connection_factory<
+  asio_connection_addr_kind::local,
+  asio_connection_protocol::stream>;
+#endif // EAGINE_POSIX
 //------------------------------------------------------------------------------
 } // namespace msgbus
 } // namespace eagine
