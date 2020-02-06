@@ -476,38 +476,62 @@ class asio_acceptor<
   asio_connection_protocol::stream> : public acceptor {
 private:
     std::shared_ptr<asio_common_state> _asio_state;
-    asio::local::stream_protocol::endpoint _endpoint;
+    std::string _addr_str;
     asio::local::stream_protocol::acceptor _acceptor;
-    asio::local::stream_protocol::socket _socket;
+    bool _accepting{false};
 
     std::vector<asio::local::stream_protocol::socket> _accepted;
 
     void _start_accept() {
-        _socket =
-          asio::local::stream_protocol::socket(this->_asio_state->context);
-        _acceptor.async_accept(_socket, [this](std::error_code error) {
-            if(!error) {
-                this->_accepted.emplace_back(std::move(this->_socket));
+        _accepting = true;
+        _acceptor.async_accept([this](
+                                 std::error_code error,
+                                 asio::local::stream_protocol::socket socket) {
+            if(error) {
+                this->_accepting = false;
+            } else {
+                this->_accepted.emplace_back(std::move(socket));
             }
             _start_accept();
         });
+    }
+
+    static inline std::shared_ptr<asio_common_state> _prepare(
+      std::shared_ptr<asio_common_state> asio_state, string_view addr_str) {
+        std::remove(c_str(addr_str));
+        return asio_state;
     }
 
 public:
     asio_acceptor(
       std::shared_ptr<asio_common_state> asio_state,
       string_view addr_str) noexcept
-      : _asio_state{std::move(asio_state)}
-      , _endpoint{c_str(addr_str)}
-      , _acceptor{_asio_state->context}
-      , _socket{_asio_state->context} {
+      : _asio_state{_prepare(std::move(asio_state), addr_str)}
+      , _addr_str{to_string(addr_str)}
+      , _acceptor{_asio_state->context,
+                  asio::local::stream_protocol::endpoint(_addr_str.c_str())} {
     }
+
+    ~asio_acceptor() noexcept {
+        try {
+            std::remove(_addr_str.c_str());
+        } catch(...) {
+        }
+    }
+
+    asio_acceptor(asio_acceptor&&) = delete;
+    asio_acceptor(const asio_acceptor&) = delete;
+    asio_acceptor& operator=(asio_acceptor&&) = delete;
+    asio_acceptor& operator=(const asio_acceptor&) = delete;
 
     void update() final {
         EAGINE_ASSERT(this->_asio_state);
-        if(!_acceptor.is_open()) {
-            _acceptor.bind(_endpoint);
-            _acceptor.listen();
+        if(EAGINE_UNLIKELY(!_acceptor.is_open())) {
+            _acceptor = {
+              _asio_state->context,
+              asio::local::stream_protocol::endpoint(_addr_str.c_str())};
+        }
+        if(_acceptor.is_open() && !_accepting) {
             _start_accept();
         }
         this->_asio_state->context.poll();
