@@ -512,7 +512,7 @@ public:
                   asio::local::stream_protocol::endpoint(_addr_str.c_str())} {
     }
 
-    ~asio_acceptor() noexcept {
+    ~asio_acceptor() noexcept override {
         try {
             std::remove(_addr_str.c_str());
         } catch(...) {
