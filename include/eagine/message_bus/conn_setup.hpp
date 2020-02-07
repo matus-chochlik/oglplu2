@@ -11,6 +11,7 @@
 #define EAGINE_MESSAGE_BUS_CONN_SETUP_HPP
 
 #include "../enum_map.hpp"
+#include "../program_args.hpp"
 #include "conn_factory.hpp"
 #include <memory>
 #include <mutex>
@@ -21,6 +22,7 @@ namespace msgbus {
 //------------------------------------------------------------------------------
 class connection_setup;
 void connection_setup_default_init(connection_setup&);
+void connection_setup_default_init(connection_setup&, const program_args&);
 //------------------------------------------------------------------------------
 class connection_setup {
     std::mutex _mutex{};
@@ -177,6 +179,10 @@ public:
 
     void default_init() {
         connection_setup_default_init(*this);
+    }
+
+    void default_init(const program_args& args) {
+        connection_setup_default_init(*this, args);
     }
 };
 //------------------------------------------------------------------------------
