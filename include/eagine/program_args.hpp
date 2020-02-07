@@ -320,6 +320,10 @@ public:
         return memory::ends_with(get(), str);
     }
 
+    bool is_tag(string_view tag) const noexcept {
+        return are_equal(get(), tag);
+    }
+
     bool is_tag(string_view short_tag, string_view long_tag) const noexcept {
         return are_equal(get(), short_tag) || are_equal(get(), long_tag);
     }
