@@ -39,9 +39,9 @@ struct egl_types {
     using image_type = EGLImage;
     using sync_type = EGLSync;
     using time_type = EGLTime;
-    using bool_type = EGLboolean;
+    using bool_type = EGLBoolean;
     using int_type = EGLint;
-    using attrib_type = EGLattrib;
+    using attrib_type = EGLAttrib;
 #else
     static constexpr bool has_api = false;
     using display_type = nothing_t;
