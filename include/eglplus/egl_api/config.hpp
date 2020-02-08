@@ -29,6 +29,7 @@ namespace eglp {
 //------------------------------------------------------------------------------
 struct egl_types {
     using char_type = char;
+    using void_ptr_type = void*;
 #if EGLPLUS_HAS_EGL
     static constexpr bool has_api = true;
     using display_type = EGLDisplay;

@@ -9,14 +9,13 @@
 #ifndef OALPLUS_EGL_API_HPP
 #define OALPLUS_EGL_API_HPP
 
+#include "egl_api/api.hpp"
 #include "egl_api/api_traits.hpp"
-#include "egl_api/c_api.hpp"
 #include "egl_api/constants.hpp"
 
 namespace eagine {
 namespace eglp {
 //------------------------------------------------------------------------------
-/*
 class egl_api
   : protected egl_api_traits
   , public basic_egl_api<egl_api_traits>
@@ -34,7 +33,6 @@ public:
       : egl_api{egl_api_traits{}} {
     }
 };
-*/
 //------------------------------------------------------------------------------
 } // namespace eglp
 } // namespace eagine

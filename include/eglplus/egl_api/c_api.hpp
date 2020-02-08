@@ -16,7 +16,7 @@
 
 #ifndef EGLPLUS_EGL_STATIC_FUNC
 #if EGLPLUS_HAS_AL
-#define EGLPLUS_EGL_STATIC_FUNC(NAME) &EAGINE_JOIN(::al, NAME)
+#define EGLPLUS_EGL_STATIC_FUNC(NAME) &EAGINE_JOIN(::egl, NAME)
 #else
 #define EGLPLUS_EGL_STATIC_FUNC(NAME) nullptr
 #endif
@@ -32,8 +32,10 @@ struct basic_egl_c_api {
     using api_traits = Traits;
 
     static constexpr bool has_api = egl_types::has_api;
+    using void_ptr_type = typename egl_types::void_ptr_type;
     using enum_type = typename egl_types::enum_type;
     using bool_type = typename egl_types::bool_type;
+    using char_type = typename egl_types::char_type;
     using int_type = typename egl_types::int_type;
     using display_type = typename egl_types::display_type;
     using surface_type = typename egl_types::surface_type;
@@ -58,6 +60,22 @@ struct basic_egl_c_api {
     eagine::opt_c_api_function<
       api_traits,
       nothing_t,
+      void_ptr_type(const char_type*),
+      EGLPLUS_EGL_STATIC_FUNC(GetProcAddress),
+      has_api>
+      GetProcAddress;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      const char_type*(display_type, enum_type),
+      EGLPLUS_EGL_STATIC_FUNC(QueryString),
+      has_api>
+      QueryString;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
       bool_type(display_type, surface_type),
       EGLPLUS_EGL_STATIC_FUNC(SwapBuffers),
       has_api>
@@ -65,6 +83,8 @@ struct basic_egl_c_api {
 
     constexpr basic_egl_c_api(api_traits& traits)
       : GetError("GetError", traits, *this)
+      , GetProcAddress("GetEnumValue", traits, *this)
+      , QueryString("QueryString", traits, *this)
       , SwapBuffers("SwapBuffers", traits, *this) {
     }
 };
