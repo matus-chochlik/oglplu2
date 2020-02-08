@@ -32,6 +32,7 @@ struct basic_egl_c_api {
     using api_traits = Traits;
 
     static constexpr bool has_api = egl_types::has_api;
+    using enum_type = typename egl_types::enum_type;
     using bool_type = typename egl_types::bool_type;
     using int_type = typename egl_types::int_type;
     using display_type = typename egl_types::display_type;
@@ -40,12 +41,12 @@ struct basic_egl_c_api {
     eagine::opt_c_api_function<
       api_traits,
       nothing_t,
-      int_type(),
+      enum_type(),
       EGLPLUS_EGL_STATIC_FUNC(GetError),
       has_api>
       GetError;
 
-    static constexpr bool success(int_type ec) noexcept {
+    static constexpr bool success(enum_type ec) noexcept {
 #ifdef EGL_SUCCESS
         return ec == EGL_SUCCESS;
 #else

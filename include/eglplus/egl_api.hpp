@@ -11,7 +11,7 @@
 
 #include "egl_api/api_traits.hpp"
 #include "egl_api/c_api.hpp"
-//#include "egl_api/constants.hpp"
+#include "egl_api/constants.hpp"
 
 namespace eagine {
 namespace eglp {

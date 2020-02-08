@@ -28,8 +28,7 @@ namespace eagine {
 namespace eglp {
 //------------------------------------------------------------------------------
 struct egl_types {
-    using void_ptr_type = void*;
-    using const_void_ptr_type = const void*;
+    using char_type = char;
 #if EGLPLUS_HAS_EGL
     static constexpr bool has_api = true;
     using display_type = EGLDisplay;
@@ -55,6 +54,7 @@ struct egl_types {
     using int_type = int;
     using attrib_type = std::intptr_t;
 #endif
+    using enum_type = int_type;
 };
 //------------------------------------------------------------------------------
 } // namespace eglp
