@@ -9,8 +9,8 @@
 #ifndef OALPLUS_EGL_API_HPP
 #define OALPLUS_EGL_API_HPP
 
-//#include "egl_api/api.hpp"
 #include "egl_api/api_traits.hpp"
+#include "egl_api/c_api.hpp"
 //#include "egl_api/constants.hpp"
 
 namespace eagine {
