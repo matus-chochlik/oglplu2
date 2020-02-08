@@ -32,6 +32,7 @@ struct egl_types {
     using void_ptr_type = void*;
 #if EGLPLUS_HAS_EGL
     static constexpr bool has_api = true;
+    using native_display_type = EGLNativeDisplayType;
     using display_type = EGLDisplay;
     using config_type = EGLConfig;
     using context_type = EGLContext;
@@ -44,6 +45,7 @@ struct egl_types {
     using attrib_type = EGLAttrib;
 #else
     static constexpr bool has_api = false;
+    using native_display_type = nothing_t;
     using display_type = nothing_t;
     using config_type = nothing_t;
     using context_type = nothing_t;

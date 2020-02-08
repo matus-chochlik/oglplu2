@@ -37,8 +37,11 @@ struct basic_egl_c_api {
     using bool_type = typename egl_types::bool_type;
     using char_type = typename egl_types::char_type;
     using int_type = typename egl_types::int_type;
+    using native_display_type = typename egl_types::native_display_type;
     using display_type = typename egl_types::display_type;
     using surface_type = typename egl_types::surface_type;
+    using config_type = typename egl_types::config_type;
+    using attrib_type = typename egl_types::attrib_type;
 
     eagine::opt_c_api_function<
       api_traits,
@@ -68,10 +71,67 @@ struct basic_egl_c_api {
     eagine::opt_c_api_function<
       api_traits,
       nothing_t,
+      display_type(enum_type, void_ptr_type, const attrib_type*),
+      EGLPLUS_EGL_STATIC_FUNC(GetPlatformDisplay),
+      has_api>
+      GetPlatformDisplay;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      display_type(native_display_type),
+      EGLPLUS_EGL_STATIC_FUNC(GetDisplay),
+      has_api>
+      GetDisplay;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      bool_type(display_type, int_type*, int_type*),
+      EGLPLUS_EGL_STATIC_FUNC(Initialize),
+      has_api>
+      Initialize;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      bool_type(display_type),
+      EGLPLUS_EGL_STATIC_FUNC(Terminate),
+      has_api>
+      Terminate;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
       const char_type*(display_type, enum_type),
       EGLPLUS_EGL_STATIC_FUNC(QueryString),
       has_api>
       QueryString;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      bool_type(display_type, config_type*, int_type, int_type*),
+      EGLPLUS_EGL_STATIC_FUNC(GetConfigs),
+      has_api>
+      GetConfigs;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      bool_type(
+        display_type, const attrib_type*, config_type*, int_type, int_type*),
+      EGLPLUS_EGL_STATIC_FUNC(ChooseConfig),
+      has_api>
+      ChooseConfig;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      bool_type(display_type, config_type, int_type, int_type*),
+      EGLPLUS_EGL_STATIC_FUNC(GetConfigAttrib),
+      has_api>
+      GetConfigAttrib;
 
     eagine::opt_c_api_function<
       api_traits,
@@ -84,7 +144,14 @@ struct basic_egl_c_api {
     constexpr basic_egl_c_api(api_traits& traits)
       : GetError("GetError", traits, *this)
       , GetProcAddress("GetEnumValue", traits, *this)
+      , GetPlatformDisplay("GetPlatformDisplay", traits, *this)
+      , GetDisplay("GetDisplay", traits, *this)
+      , Initialize("Initialize", traits, *this)
+      , Terminate("Terminate", traits, *this)
       , QueryString("QueryString", traits, *this)
+      , GetConfigs("GetConfigs", traits, *this)
+      , ChooseConfig("ChooseConfig", traits, *this)
+      , GetConfigAttrib("GetConfigAttrib", traits, *this)
       , SwapBuffers("SwapBuffers", traits, *this) {
     }
 };
