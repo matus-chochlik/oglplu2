@@ -24,10 +24,13 @@ public:
     using api_traits = ApiTraits;
     using c_api = basic_egl_c_api<ApiTraits>;
 
+    using void_ptr_type = typename egl_types::void_ptr_type;
     using int_type = typename egl_types::int_type;
     using bool_type = typename egl_types::char_type;
     using char_type = typename egl_types::char_type;
     using enum_type = typename egl_types::enum_type;
+    using attrib_type = typename egl_types::attrib_type;
+    using native_display_type = typename egl_types::native_display_type;
     using display_type = typename egl_types::display_type;
 
     struct derived_func : derived_c_api_function<c_api, api_traits, nothing_t> {
@@ -40,6 +43,69 @@ public:
             return std::forward<Res>(res);
         }
     };
+
+    // get_platform_display
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().GetPlatformDisplay);
+        }
+
+        constexpr auto operator()(
+          platform_type platform,
+          void_ptr_type disp,
+          const attrib_type* attribs) const noexcept {
+            return this->_check(this->call(
+              this->api().GetPlatformDisplay, platform, disp, attribs));
+        }
+    } get_platform_display;
+
+    // get_display
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().GetPlatformDisplay);
+        }
+
+        constexpr auto operator()(native_display_type disp) const noexcept {
+            return this->_check(
+              this->call(this->api().GetPlatformDisplay, disp));
+        }
+    } get_display;
+
+    // initialize
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().Initialize);
+        }
+
+        constexpr auto operator()(
+          display_type disp, int_type* maj, int_type* min) const noexcept {
+            return this->_check(
+              this->call(this->api().Initialize, disp, maj, min));
+        }
+    } initialize;
+
+    // terminate
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().Terminate);
+        }
+
+        constexpr auto operator()(display_type disp) const noexcept {
+            return this->_check(this->call(this->api().Terminate, disp));
+        }
+
+        auto raii(display_type disp) noexcept {
+            return eagine::finally([=]() { (*this)(disp); });
+        }
+    } terminate;
 
     // query_string
     struct : derived_func {
@@ -60,9 +126,27 @@ public:
         }
     } query_string;
 
+    // swap_buffers
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().SwapBuffers);
+        }
+
+        constexpr auto operator()() const noexcept {
+            return this->_check(this->call(this->api().SwapBuffers));
+        }
+    } swap_buffers;
+
     constexpr basic_egl_api(api_traits& traits)
       : c_api{traits}
-      , query_string("query_string", traits, *this) {
+      , get_platform_display("get_platform_display", traits, *this)
+      , get_display("get_display", traits, *this)
+      , initialize("initialize", traits, *this)
+      , terminate("terminate", traits, *this)
+      , query_string("query_string", traits, *this)
+      , swap_buffers("swap_buffers", traits, *this) {
     }
 };
 //------------------------------------------------------------------------------
