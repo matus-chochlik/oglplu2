@@ -15,7 +15,7 @@
 #include <eagine/preprocessor.hpp>
 
 #ifndef EGLPLUS_EGL_STATIC_FUNC
-#if EGLPLUS_HAS_AL
+#if EGLPLUS_HAS_EGL
 #define EGLPLUS_EGL_STATIC_FUNC(NAME) &EAGINE_JOIN(::egl, NAME)
 #else
 #define EGLPLUS_EGL_STATIC_FUNC(NAME) nullptr
@@ -46,12 +46,12 @@ struct basic_egl_c_api {
     eagine::opt_c_api_function<
       api_traits,
       nothing_t,
-      enum_type(),
+      int_type(),
       EGLPLUS_EGL_STATIC_FUNC(GetError),
       has_api>
       GetError;
 
-    static constexpr bool success(enum_type ec) noexcept {
+    static constexpr bool success(int_type ec) noexcept {
 #ifdef EGL_SUCCESS
         return ec == EGL_SUCCESS;
 #else
@@ -63,7 +63,7 @@ struct basic_egl_c_api {
     eagine::opt_c_api_function<
       api_traits,
       nothing_t,
-      void_ptr_type(const char_type*),
+      void (*(const char_type*))(),
       EGLPLUS_EGL_STATIC_FUNC(GetProcAddress),
       has_api>
       GetProcAddress;
@@ -103,7 +103,7 @@ struct basic_egl_c_api {
     eagine::opt_c_api_function<
       api_traits,
       nothing_t,
-      const char_type*(display_type, enum_type),
+      const char_type*(display_type, int_type),
       EGLPLUS_EGL_STATIC_FUNC(QueryString),
       has_api>
       QueryString;
@@ -120,7 +120,7 @@ struct basic_egl_c_api {
       api_traits,
       nothing_t,
       bool_type(
-        display_type, const attrib_type*, config_type*, int_type, int_type*),
+        display_type, const int_type*, config_type*, int_type, int_type*),
       EGLPLUS_EGL_STATIC_FUNC(ChooseConfig),
       has_api>
       ChooseConfig;

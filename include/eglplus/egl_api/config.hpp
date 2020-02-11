@@ -35,29 +35,30 @@ struct egl_types {
     using native_display_type = EGLNativeDisplayType;
     using display_type = EGLDisplay;
     using config_type = EGLConfig;
+    using attrib_type = EGLAttrib;
     using context_type = EGLContext;
     using surface_type = EGLSurface;
     using image_type = EGLImage;
     using sync_type = EGLSync;
     using time_type = EGLTime;
     using bool_type = EGLBoolean;
+    using enum_type = EGLenum;
     using int_type = EGLint;
-    using attrib_type = EGLAttrib;
 #else
     static constexpr bool has_api = false;
     using native_display_type = nothing_t;
     using display_type = nothing_t;
     using config_type = nothing_t;
+    using attrib_type = std::intptr_t;
     using context_type = nothing_t;
     using surface_type = nothing_t;
     using image_type = nothing_t;
     using sync_type = nothing_t;
     using time_type = nothing_t;
     using bool_type = bool;
+    using enum_type = int;
     using int_type = int;
-    using attrib_type = std::intptr_t;
 #endif
-    using enum_type = int_type;
 };
 //------------------------------------------------------------------------------
 } // namespace eglp

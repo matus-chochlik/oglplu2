@@ -66,12 +66,20 @@ public:
         using derived_func::derived_func;
 
         explicit constexpr operator bool() const noexcept {
-            return bool(this->api().GetPlatformDisplay);
+            return bool(this->api().GetDisplay);
         }
 
         constexpr auto operator()(native_display_type disp) const noexcept {
+            return this->_check(this->call(this->api().GetDisplay, disp));
+        }
+
+        constexpr auto operator()() const noexcept {
+#ifdef EGL_DEFAULT_DISPLAY
             return this->_check(
-              this->call(this->api().GetPlatformDisplay, disp));
+              this->call(this->api().GetDisplay, EGL_DEFAULT_DISPLAY));
+#else
+            return this->fake(this->api().GetDisplay, {});
+#endif
         }
     } get_display;
 
@@ -125,6 +133,47 @@ public:
             return this->fake(this->api().QueryString, "");
         }
     } query_string;
+
+    // query_strings
+    auto query_strings(
+      display_type disp, string_query query, char separator) noexcept {
+        return query_string(disp, query).transformed([separator](auto src) {
+            return split_c_str_into_string_list(src, separator);
+        });
+    }
+
+    // get_client_apis
+    auto get_client_apis(display_type disp) noexcept {
+#ifdef EGL_CLIENT_APIS
+        return query_string(disp, string_query(EGL_CLIENT_APIS))
+#else
+        return query_string()
+#endif
+          .transformed(
+            [](auto src) { return split_c_str_into_string_list(src, ' '); });
+    }
+
+    // get_extensions
+    auto get_extensions() noexcept {
+#if defined(EGL_EXTENSIONS) && defined(EGL_NO_DISPLAY)
+        return query_string(EGL_NO_DISPLAY, string_query(EGL_EXTENSIONS))
+#else
+        return query_string()
+#endif
+          .transformed(
+            [](auto src) { return split_c_str_into_string_list(src, ' '); });
+    }
+
+    // get_extensions
+    auto get_extensions(display_type disp) noexcept {
+#ifdef EGL_EXTENSIONS
+        return query_string(disp, string_query(EGL_EXTENSIONS))
+#else
+        return query_string()
+#endif
+          .transformed(
+            [](auto src) { return split_c_str_into_string_list(src, ' '); });
+    }
 
     // swap_buffers
     struct : derived_func {
