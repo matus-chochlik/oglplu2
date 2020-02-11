@@ -223,17 +223,33 @@ static inline span_size_t for_each_separated_c_str(
     span_size_t cnt = 0;
     const char* bgn = str;
     const char* pos = bgn;
-    while(bool(str)) {
-        if((*pos == sep) || (*pos == char(0))) {
-            if(pos - bgn > 1) {
-                func(string_view(bgn, pos - bgn));
-                ++cnt;
-                bgn = ++pos;
+    if(sep != '\0') {
+        while(bool(str) && (*pos != '\0')) {
+            if(*pos == sep) {
+                if(pos - bgn > 0) {
+                    func(string_view(bgn, pos - bgn));
+                    ++cnt;
+                    bgn = ++pos;
+                } else {
+                    break;
+                }
             } else {
-                break;
+                ++pos;
             }
-        } else {
-            ++pos;
+        }
+    } else {
+        while(bool(str)) {
+            if((*pos == sep) || (*pos == char(0))) {
+                if(pos - bgn > 1) {
+                    func(string_view(bgn, pos - bgn));
+                    ++cnt;
+                    bgn = ++pos;
+                } else {
+                    break;
+                }
+            } else {
+                ++pos;
+            }
         }
     }
     return cnt;
