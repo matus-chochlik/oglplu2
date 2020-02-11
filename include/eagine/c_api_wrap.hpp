@@ -171,7 +171,7 @@ static constexpr inline Result extract_or(
 template <typename Result>
 class api_result_value {
 public:
-    constexpr api_result_value() noexcept = default;
+    constexpr api_result_value() noexcept(noexcept(Result{})) = default;
 
     constexpr api_result_value(Result value) noexcept
       : _value{std::move(value)} {

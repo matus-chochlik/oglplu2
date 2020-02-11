@@ -1,13 +1,13 @@
 /**
- *  @file oalplus/egl_api/result.hpp
+ *  @file eglplus/egl_api/result.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OALPLUS_EGL_API_RESULT_HPP
-#define OALPLUS_EGL_API_RESULT_HPP
+#ifndef EGLPLUS_EGL_API_RESULT_HPP
+#define EGLPLUS_EGL_API_RESULT_HPP
 
 #include "config.hpp"
 #include <eagine/anything.hpp>
@@ -152,5 +152,5 @@ using egl_opt_result = api_opt_result<Result, egl_result_info>;
 } // namespace eglp
 } // namespace eagine
 
-#endif // OALPLUS_EGL_API_RESULT_HPP
+#endif // EGLPLUS_EGL_API_RESULT_HPP
 
