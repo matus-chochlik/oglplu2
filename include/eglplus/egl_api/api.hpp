@@ -96,6 +96,14 @@ public:
             return this->_check(
               this->call(this->api().Initialize, disp, maj, min));
         }
+
+        constexpr auto operator()(display_type disp) const noexcept {
+            int_type maj{-1};
+            int_type min{-1};
+            return (*this)(disp, &maj, &min).transformed([&maj, &min](auto) {
+                return std::make_tuple(maj, min);
+            });
+        }
     } initialize;
 
     // terminate
