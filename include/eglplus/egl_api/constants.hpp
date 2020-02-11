@@ -155,6 +155,105 @@ public:
       depth_size;
 
     opt_c_api_constant<
+      mp_list<config_attribute>,
+#ifdef EGL_STENCIL_SIZE
+      int_type_c<EGL_STENCIL_SIZE>>
+#else
+      int_type_i>
+#endif
+      stencil_size;
+
+    opt_c_api_constant<
+      mp_list<config_attribute>,
+#ifdef EGL_SAMPLE_BUFFERS
+      int_type_c<EGL_SAMPLE_BUFFERS>>
+#else
+      int_type_i>
+#endif
+      sample_buffers;
+
+    opt_c_api_constant<
+      mp_list<config_attribute>,
+#ifdef EGL_SAMPLES
+      int_type_c<EGL_SAMPLES>>
+#else
+      int_type_i>
+#endif
+      samples;
+
+    opt_c_api_constant<
+      mp_list<config_attribute>,
+#ifdef EGL_TRANSPARENT_TYPE
+      int_type_c<EGL_TRANSPARENT_TYPE>>
+#else
+      int_type_i>
+#endif
+      transparent_type;
+
+    opt_c_api_constant<
+      mp_list<config_attribute>,
+#ifdef EGL_TRANSPARENT_RED_VALUE
+      int_type_c<EGL_TRANSPARENT_RED_VALUE>>
+#else
+      int_type_i>
+#endif
+      transparent_red_value;
+
+    opt_c_api_constant<
+      mp_list<config_attribute>,
+#ifdef EGL_TRANSPARENT_GREEN_VALUE
+      int_type_c<EGL_TRANSPARENT_GREEN_VALUE>>
+#else
+      int_type_i>
+#endif
+      transparent_green_value;
+
+    opt_c_api_constant<
+      mp_list<config_attribute>,
+#ifdef EGL_TRANSPARENT_BLUE_VALUE
+      int_type_c<EGL_TRANSPARENT_BLUE_VALUE>>
+#else
+      int_type_i>
+#endif
+      transparent_blue_value;
+
+    opt_c_api_constant<
+      mp_list<config_attribute>,
+#ifdef EGL_LEVEL
+      int_type_c<EGL_LEVEL>>
+#else
+      int_type_i>
+#endif
+      level;
+
+    opt_c_api_constant<
+      mp_list<config_attribute>,
+#ifdef EGL_PBUFFER_WIDTH
+      int_type_c<EGL_PBUFFER_WIDTH>>
+#else
+      int_type_i>
+#endif
+      pbuffer_width;
+
+    opt_c_api_constant<
+      mp_list<config_attribute>,
+#ifdef EGL_PBUFFER_HEIGHT
+      int_type_c<EGL_PBUFFER_HEIGHT>>
+#else
+      int_type_i>
+#endif
+      pbuffer_height;
+
+    opt_c_api_constant<
+      mp_list<config_attribute>,
+#ifdef EGL_PBUFFER_PIXELS
+      int_type_c<EGL_PBUFFER_PIXELS>>
+#else
+      int_type_i>
+#endif
+      pbuffer_pixels;
+
+    opt_c_api_constant<
       mp_list<eglp::config_caveat>,
 #ifdef EGL_NONE
       int_type_c<EGL_NONE>>
@@ -178,6 +277,17 @@ public:
       , alpha_size("ALPHA_SIZE", traits, api)
       , alpha_mask_size("ALPHA_MASK_SIZE", traits, api)
       , depth_size("DEPTH_SIZE", traits, api)
+      , stencil_size("STENCIL_SIZE", traits, api)
+      , sample_buffers("SAMPLE_BUFFERS", traits, api)
+      , samples("SAMPLES", traits, api)
+      , transparent_type("TRANSPARENT_TYPE", traits, api)
+      , transparent_red_value("TRANSPARENT_RED_VALUE", traits, api)
+      , transparent_green_value("TRANSPARENT_GREEN_VALUE", traits, api)
+      , transparent_blue_value("TRANSPARENT_BLUE_VALUE", traits, api)
+      , level("LEVEL", traits, api)
+      , pbuffer_width("PBUFFER_WIDTH", traits, api)
+      , pbuffer_height("PBUFFER_HEIGHT", traits, api)
+      , pbuffer_pixels("PBUFFER_PIXELS", traits, api)
       , none("NONE", traits, api) {
     }
 };
