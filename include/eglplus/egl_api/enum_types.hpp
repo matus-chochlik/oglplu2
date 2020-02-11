@@ -26,6 +26,11 @@ struct string_query : egl_enum_class<string_query, EAGINE_ID_V(StrQuery)> {
     using enum_class::enum_class;
 };
 
+struct config_attribute
+  : egl_enum_class<config_attribute, EAGINE_ID_V(ConfAttrib)> {
+    using enum_class::enum_class;
+};
+
 struct config_caveat : egl_enum_class<config_caveat, EAGINE_ID_V(ConfCaveat)> {
     using enum_class::enum_class;
 };

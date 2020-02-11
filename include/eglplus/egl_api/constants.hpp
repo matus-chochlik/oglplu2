@@ -23,57 +23,143 @@ public:
     template <enum_type value>
     using enum_type_c = std::integral_constant<enum_type, value>;
 
+    using int_type = typename egl_types::int_type;
+    using int_type_i = identity<int_type>;
+    template <int_type value>
+    using int_type_c = std::integral_constant<int_type, value>;
+
     opt_c_api_constant<
       mp_list<egl_error_code>,
 #ifdef EGL_SUCCESS
-      enum_type_c<EGL_SUCCESS>>
+      int_type_c<EGL_SUCCESS>>
 #else
-      enum_type_i>
+      int_type_i>
 #endif
       success;
 
     opt_c_api_constant<
       mp_list<string_query>,
 #ifdef EGL_CLIENT_APIS
-      enum_type_c<EGL_CLIENT_APIS>>
+      int_type_c<EGL_CLIENT_APIS>>
 #else
-      enum_type_i>
+      int_type_i>
 #endif
       client_apis;
 
     opt_c_api_constant<
       mp_list<string_query>,
 #ifdef EGL_VENDOR
-      enum_type_c<EGL_VENDOR>>
+      int_type_c<EGL_VENDOR>>
 #else
-      enum_type_i>
+      int_type_i>
 #endif
       vendor;
 
     opt_c_api_constant<
       mp_list<string_query>,
 #ifdef EGL_VERSION
-      enum_type_c<EGL_VERSION>>
+      int_type_c<EGL_VERSION>>
 #else
-      enum_type_i>
+      int_type_i>
 #endif
       version;
 
     opt_c_api_constant<
       mp_list<string_query>,
 #ifdef EGL_EXTENSIONS
-      enum_type_c<EGL_EXTENSIONS>>
+      int_type_c<EGL_EXTENSIONS>>
 #else
-      enum_type_i>
+      int_type_i>
 #endif
       extensions;
 
     opt_c_api_constant<
+      mp_list<config_attribute>,
+#ifdef EGL_CONFIG_ID
+      int_type_c<EGL_CONFIG_ID>>
+#else
+      int_type_i>
+#endif
+      config_id;
+
+    opt_c_api_constant<
+      mp_list<config_attribute>,
+#ifdef EGL_BUFFER_SIZE
+      int_type_c<EGL_BUFFER_SIZE>>
+#else
+      int_type_i>
+#endif
+      buffer_size;
+
+    opt_c_api_constant<
+      mp_list<config_attribute>,
+#ifdef EGL_RED_SIZE
+      int_type_c<EGL_RED_SIZE>>
+#else
+      int_type_i>
+#endif
+      red_size;
+
+    opt_c_api_constant<
+      mp_list<config_attribute>,
+#ifdef EGL_GREEN_SIZE
+      int_type_c<EGL_GREEN_SIZE>>
+#else
+      int_type_i>
+#endif
+      green_size;
+
+    opt_c_api_constant<
+      mp_list<config_attribute>,
+#ifdef EGL_BLUE_SIZE
+      int_type_c<EGL_BLUE_SIZE>>
+#else
+      int_type_i>
+#endif
+      blue_size;
+
+    opt_c_api_constant<
+      mp_list<config_attribute>,
+#ifdef EGL_LUMINANCE_SIZE
+      int_type_c<EGL_LUMINANCE_SIZE>>
+#else
+      int_type_i>
+#endif
+      luminance_size;
+
+    opt_c_api_constant<
+      mp_list<config_attribute>,
+#ifdef EGL_ALPHA_SIZE
+      int_type_c<EGL_ALPHA_SIZE>>
+#else
+      int_type_i>
+#endif
+      alpha_size;
+
+    opt_c_api_constant<
+      mp_list<config_attribute>,
+#ifdef EGL_ALPHA_MASK_SIZE
+      int_type_c<EGL_ALPHA_MASK_SIZE>>
+#else
+      int_type_i>
+#endif
+      alpha_mask_size;
+
+    opt_c_api_constant<
+      mp_list<config_attribute>,
+#ifdef EGL_DEPTH_SIZE
+      int_type_c<EGL_DEPTH_SIZE>>
+#else
+      int_type_i>
+#endif
+      depth_size;
+
+    opt_c_api_constant<
       mp_list<eglp::config_caveat>,
 #ifdef EGL_NONE
-      enum_type_c<EGL_NONE>>
+      int_type_c<EGL_NONE>>
 #else
-      enum_type_i>
+      int_type_i>
 #endif
       none;
 
@@ -83,6 +169,15 @@ public:
       , vendor("VENDOR", traits, api)
       , version("VERSION", traits, api)
       , extensions("EXTENSIONS", traits, api)
+      , config_id("CONFIG_ID", traits, api)
+      , buffer_size("BUFFER_SIZE", traits, api)
+      , red_size("RED_SIZE", traits, api)
+      , green_size("GREEN_SIZE", traits, api)
+      , blue_size("BLUE_SIZE", traits, api)
+      , luminance_size("LUMINANCE_SIZE", traits, api)
+      , alpha_size("ALPHA_SIZE", traits, api)
+      , alpha_mask_size("ALPHA_MASK_SIZE", traits, api)
+      , depth_size("DEPTH_SIZE", traits, api)
       , none("NONE", traits, api) {
     }
 };

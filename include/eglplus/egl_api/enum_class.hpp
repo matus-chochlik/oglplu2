@@ -18,7 +18,7 @@ namespace eglp {
 //------------------------------------------------------------------------------
 template <typename Self, identifier_t Id>
 using egl_enum_class =
-  enum_class<Self, egl_types::enum_type, EAGINE_ID_V(EGL), Id>;
+  enum_class<Self, egl_types::int_type, EAGINE_ID_V(EGL), Id>;
 
 using egl_any_enum_class = any_enum_class<EAGINE_ID_V(EGL)>;
 using egl_any_enum_value = any_enum_value<EAGINE_ID_V(EGL)>;

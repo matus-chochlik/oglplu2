@@ -134,7 +134,7 @@ public:
         constexpr auto operator()(display_type disp, string_query query) const
           noexcept {
             return this->_check(
-              this->call(this->api().QueryString, disp, enum_type(query)));
+              this->call(this->api().QueryString, disp, int_type(query)));
         }
 
         constexpr auto operator()() const noexcept {
