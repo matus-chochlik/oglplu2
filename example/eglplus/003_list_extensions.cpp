@@ -17,6 +17,19 @@ int main() {
 
     egl_api egl;
 
+    std::cout << "Generic extensions: " << std::endl;
+
+    if(auto get_result = egl.get_extensions()) {
+        for(auto name : extract(get_result)) {
+            std::cout << "  " << name << std::endl;
+        }
+    } else {
+        std::cerr << "failed to get extension list: " << get_result.message()
+                  << std::endl;
+    }
+
+    std::cout << std::endl;
+
     if(egl.get_display) {
         if(auto opt_disp = egl.get_display()) {
             auto& display = extract(opt_disp);
@@ -32,6 +45,8 @@ int main() {
                     std::cout << "Version: " << extract(opt_version)
                               << std::endl;
                 }
+
+                std::cout << "Display extensions: " << std::endl;
 
                 if(auto get_result = egl.get_extensions(display)) {
                     for(auto name : extract(get_result)) {
