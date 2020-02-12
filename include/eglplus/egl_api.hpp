@@ -22,7 +22,7 @@ class egl_api
   , public basic_egl_constants<egl_api_traits> {
 public:
     egl_api(egl_api_traits traits)
-      : egl_api_traits{traits}
+      : egl_api_traits{std::move(traits)}
       , basic_egl_api<egl_api_traits>{*static_cast<egl_api_traits*>(this)}
       , basic_egl_constants<egl_api_traits>{
           *static_cast<egl_api_traits*>(this),
