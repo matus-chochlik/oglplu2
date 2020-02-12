@@ -35,6 +35,7 @@ struct egl_types {
     using native_display_type = EGLNativeDisplayType;
     using native_window_type = EGLNativeWindowType;
     using native_pixmap_type = EGLNativePixmapType;
+    using client_buffer_type = EGLClientBuffer;
     using display_type = EGLDisplay;
     using config_type = EGLConfig;
     using attrib_type = EGLAttrib;
@@ -51,6 +52,7 @@ struct egl_types {
     using native_display_type = nothing_t;
     using native_window_type = nothing_t;
     using native_pixmap_type = nothing_t;
+    using client_buffer_type = nothing_t;
     using display_type = nothing_t;
     using config_type = nothing_t;
     using attrib_type = std::intptr_t;

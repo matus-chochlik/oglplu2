@@ -33,6 +33,8 @@ struct basic_egl_c_api {
 
     static constexpr bool has_api = egl_types::has_api;
     using void_ptr_type = typename egl_types::void_ptr_type;
+    using time_type = typename egl_types::time_type;
+    using sync_type = typename egl_types::sync_type;
     using enum_type = typename egl_types::enum_type;
     using bool_type = typename egl_types::bool_type;
     using char_type = typename egl_types::char_type;
@@ -40,11 +42,13 @@ struct basic_egl_c_api {
     using native_display_type = typename egl_types::native_display_type;
     using native_window_type = typename egl_types::native_window_type;
     using native_pixmap_type = typename egl_types::native_pixmap_type;
+    using client_buffer_type = typename egl_types::client_buffer_type;
     using display_type = typename egl_types::display_type;
     using surface_type = typename egl_types::surface_type;
     using config_type = typename egl_types::config_type;
     using attrib_type = typename egl_types::attrib_type;
     using context_type = typename egl_types::context_type;
+    using image_type = typename egl_types::image_type;
 
     eagine::opt_c_api_function<
       api_traits,
@@ -303,10 +307,95 @@ struct basic_egl_c_api {
     eagine::opt_c_api_function<
       api_traits,
       nothing_t,
+      sync_type(display_type, enum_type, const attrib_type*),
+      EGLPLUS_EGL_STATIC_FUNC(CreateSync),
+      has_api>
+      CreateSync;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      int_type(display_type, sync_type, int_type, time_type),
+      EGLPLUS_EGL_STATIC_FUNC(ClientWaitSync),
+      has_api>
+      ClientWaitSync;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      bool_type(display_type, sync_type, int_type),
+      EGLPLUS_EGL_STATIC_FUNC(WaitSync),
+      has_api>
+      WaitSync;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      bool_type(display_type, sync_type, int_type, attrib_type*),
+      EGLPLUS_EGL_STATIC_FUNC(GetSyncAttrib),
+      has_api>
+      GetSyncAttrib;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      bool_type(display_type, sync_type),
+      EGLPLUS_EGL_STATIC_FUNC(DestroySync),
+      has_api>
+      DestroySync;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      image_type(
+        display_type,
+        context_type,
+        enum_type,
+        client_buffer_type,
+        const attrib_type*),
+      EGLPLUS_EGL_STATIC_FUNC(CreateImage),
+      has_api>
+      CreateImage;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      bool_type(display_type, image_type),
+      EGLPLUS_EGL_STATIC_FUNC(DestroyImage),
+      has_api>
+      DestroyImage;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      bool_type(display_type, surface_type, native_pixmap_type),
+      EGLPLUS_EGL_STATIC_FUNC(CopyBuffers),
+      has_api>
+      CopyBuffers;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      bool_type(display_type, int_type),
+      EGLPLUS_EGL_STATIC_FUNC(SwapInterval),
+      has_api>
+      SwapInterval;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
       bool_type(display_type, surface_type),
       EGLPLUS_EGL_STATIC_FUNC(SwapBuffers),
       has_api>
       SwapBuffers;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      bool_type(),
+      EGLPLUS_EGL_STATIC_FUNC(ReleaseThread),
+      has_api>
+      ReleaseThread;
 
     constexpr basic_egl_c_api(api_traits& traits)
       : GetError("GetError", traits, *this)
@@ -341,7 +430,17 @@ struct basic_egl_c_api {
       , QueryContext("QueryContext", traits, *this)
       , WaitClient("WaitClient", traits, *this)
       , WaitNative("WaitNative", traits, *this)
-      , SwapBuffers("SwapBuffers", traits, *this) {
+      , CreateSync("CreateSync", traits, *this)
+      , ClientWaitSync("ClientWaitSync", traits, *this)
+      , WaitSync("WaitSync", traits, *this)
+      , GetSyncAttrib("GetSyncAttrib", traits, *this)
+      , DestroySync("DestroySync", traits, *this)
+      , CreateImage("CreateImage", traits, *this)
+      , DestroyImage("DestroyImage", traits, *this)
+      , CopyBuffers("CopyBuffers", traits, *this)
+      , SwapInterval("SwapInterval", traits, *this)
+      , SwapBuffers("SwapBuffers", traits, *this)
+      , ReleaseThread("ReleaseThread", traits, *this) {
     }
 };
 //------------------------------------------------------------------------------
