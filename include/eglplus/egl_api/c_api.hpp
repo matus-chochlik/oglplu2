@@ -38,6 +38,8 @@ struct basic_egl_c_api {
     using char_type = typename egl_types::char_type;
     using int_type = typename egl_types::int_type;
     using native_display_type = typename egl_types::native_display_type;
+    using native_window_type = typename egl_types::native_window_type;
+    using native_pixmap_type = typename egl_types::native_pixmap_type;
     using display_type = typename egl_types::display_type;
     using surface_type = typename egl_types::surface_type;
     using config_type = typename egl_types::config_type;
@@ -136,6 +138,58 @@ struct basic_egl_c_api {
     eagine::opt_c_api_function<
       api_traits,
       nothing_t,
+      surface_type(
+        display_type, config_type, void_ptr_type, const attrib_type*),
+      EGLPLUS_EGL_STATIC_FUNC(CreatePlatformWindowSurface),
+      has_api>
+      CreatePlatformWindowSurface;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      surface_type(
+        display_type, config_type, native_window_type, const int_type*),
+      EGLPLUS_EGL_STATIC_FUNC(CreateWindowSurface),
+      has_api>
+      CreateWindowSurface;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      surface_type(display_type, config_type, const int_type*),
+      EGLPLUS_EGL_STATIC_FUNC(CreatePbufferSurface),
+      has_api>
+      CreatePbufferSurface;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      surface_type(
+        display_type, config_type, void_ptr_type, const attrib_type*),
+      EGLPLUS_EGL_STATIC_FUNC(CreatePlatformPixmapSurface),
+      has_api>
+      CreatePlatformPixmapSurface;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      surface_type(
+        display_type, config_type, native_pixmap_type, const int_type*),
+      EGLPLUS_EGL_STATIC_FUNC(CreatePixmapSurface),
+      has_api>
+      CreatePixmapSurface;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      bool_type(display_type, surface_type),
+      EGLPLUS_EGL_STATIC_FUNC(DestroySurface),
+      has_api>
+      DestroySurface;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
       bool_type(display_type, surface_type),
       EGLPLUS_EGL_STATIC_FUNC(SwapBuffers),
       has_api>
@@ -152,6 +206,14 @@ struct basic_egl_c_api {
       , GetConfigs("GetConfigs", traits, *this)
       , ChooseConfig("ChooseConfig", traits, *this)
       , GetConfigAttrib("GetConfigAttrib", traits, *this)
+      , CreatePlatformWindowSurface(
+          "CreatePlatformWindowSurface", traits, *this)
+      , CreateWindowSurface("CreateWindowSurface", traits, *this)
+      , CreatePbufferSurface("CreatePbufferSurface", traits, *this)
+      , CreatePlatformPixmapSurface(
+          "CreatePlatformPixmapSurface", traits, *this)
+      , CreatePixmapSurface("CreatePixmapSurface", traits, *this)
+      , DestroySurface("DestroySurface", traits, *this)
       , SwapBuffers("SwapBuffers", traits, *this) {
     }
 };

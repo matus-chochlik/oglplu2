@@ -33,6 +33,8 @@ struct egl_types {
 #if EGLPLUS_HAS_EGL
     static constexpr bool has_api = true;
     using native_display_type = EGLNativeDisplayType;
+    using native_window_type = EGLNativeWindowType;
+    using native_pixmap_type = EGLNativePixmapType;
     using display_type = EGLDisplay;
     using config_type = EGLConfig;
     using attrib_type = EGLAttrib;
@@ -47,6 +49,8 @@ struct egl_types {
 #else
     static constexpr bool has_api = false;
     using native_display_type = nothing_t;
+    using native_window_type = nothing_t;
+    using native_pixmap_type = nothing_t;
     using display_type = nothing_t;
     using config_type = nothing_t;
     using attrib_type = std::intptr_t;

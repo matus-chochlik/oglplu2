@@ -254,6 +254,24 @@ public:
       pbuffer_pixels;
 
     opt_c_api_constant<
+      mp_list<config_attribute>,
+#ifdef EGL_MAX_SWAP_INTERVAL
+      int_type_c<EGL_MAX_SWAP_INTERVAL>>
+#else
+      int_type_i>
+#endif
+      max_swap_interval;
+
+    opt_c_api_constant<
+      mp_list<config_attribute>,
+#ifdef EGL_MIN_SWAP_INTERVAL
+      int_type_c<EGL_MIN_SWAP_INTERVAL>>
+#else
+      int_type_i>
+#endif
+      min_swap_interval;
+
+    opt_c_api_constant<
       mp_list<eglp::config_caveat>,
 #ifdef EGL_NONE
       int_type_c<EGL_NONE>>
@@ -288,6 +306,8 @@ public:
       , pbuffer_width("PBUFFER_WIDTH", traits, api)
       , pbuffer_height("PBUFFER_HEIGHT", traits, api)
       , pbuffer_pixels("PBUFFER_PIXELS", traits, api)
+      , max_swap_interval("MAX_SWAP_INTERVAL", traits, api)
+      , min_swap_interval("MIN_SWAP_INTERVAL", traits, api)
       , none("NONE", traits, api) {
     }
 };

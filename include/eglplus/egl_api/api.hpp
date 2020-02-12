@@ -10,6 +10,7 @@
 #define EGLPLUS_EGL_API_API_HPP
 
 #include "c_api.hpp"
+#include "config_attribs.hpp"
 #include "enum_types.hpp"
 #include <eagine/scope_exit.hpp>
 #include <eagine/string_list.hpp>
