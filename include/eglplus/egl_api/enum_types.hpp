@@ -34,6 +34,11 @@ struct config_attribute
 struct config_caveat : egl_enum_class<config_caveat, EAGINE_ID_V(ConfCaveat)> {
     using enum_class::enum_class;
 };
+
+struct surface_attribute
+  : egl_enum_class<surface_attribute, EAGINE_ID_V(SurfAttrib)> {
+    using enum_class::enum_class;
+};
 //------------------------------------------------------------------------------
 } // namespace eglp
 } // namespace eagine

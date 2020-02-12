@@ -44,6 +44,7 @@ struct basic_egl_c_api {
     using surface_type = typename egl_types::surface_type;
     using config_type = typename egl_types::config_type;
     using attrib_type = typename egl_types::attrib_type;
+    using context_type = typename egl_types::context_type;
 
     eagine::opt_c_api_function<
       api_traits,
@@ -190,6 +191,118 @@ struct basic_egl_c_api {
     eagine::opt_c_api_function<
       api_traits,
       nothing_t,
+      surface_type(int_type),
+      EGLPLUS_EGL_STATIC_FUNC(GetCurrentSurface),
+      has_api>
+      GetCurrentSurface;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      bool_type(display_type, surface_type, int_type, int_type),
+      EGLPLUS_EGL_STATIC_FUNC(SurfaceAttrib),
+      has_api>
+      SurfaceAttrib;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      bool_type(display_type, surface_type, int_type, int_type*),
+      EGLPLUS_EGL_STATIC_FUNC(QuerySurface),
+      has_api>
+      QuerySurface;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      bool_type(display_type, surface_type, int_type),
+      EGLPLUS_EGL_STATIC_FUNC(BindTexImage),
+      has_api>
+      BindTexImage;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      bool_type(display_type, surface_type, int_type),
+      EGLPLUS_EGL_STATIC_FUNC(ReleaseTexImage),
+      has_api>
+      ReleaseTexImage;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      bool_type(enum_type),
+      EGLPLUS_EGL_STATIC_FUNC(BindAPI),
+      has_api>
+      BindAPI;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      enum_type(),
+      EGLPLUS_EGL_STATIC_FUNC(QueryAPI),
+      has_api>
+      QueryAPI;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      context_type(display_type, config_type, context_type, const int_type*),
+      EGLPLUS_EGL_STATIC_FUNC(CreateContext),
+      has_api>
+      CreateContext;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      bool_type(display_type, context_type),
+      EGLPLUS_EGL_STATIC_FUNC(DestroyContext),
+      has_api>
+      DestroyContext;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      bool_type(display_type, surface_type, surface_type, context_type),
+      EGLPLUS_EGL_STATIC_FUNC(MakeCurrent),
+      has_api>
+      MakeCurrent;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      context_type(),
+      EGLPLUS_EGL_STATIC_FUNC(GetCurrentContext),
+      has_api>
+      GetCurrentContext;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      bool_type(display_type, context_type, int_type, int_type*),
+      EGLPLUS_EGL_STATIC_FUNC(QueryContext),
+      has_api>
+      QueryContext;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      bool_type(),
+      EGLPLUS_EGL_STATIC_FUNC(WaitClient),
+      has_api>
+      WaitClient;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      bool_type(int_type),
+      EGLPLUS_EGL_STATIC_FUNC(WaitNative),
+      has_api>
+      WaitNative;
+
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
       bool_type(display_type, surface_type),
       EGLPLUS_EGL_STATIC_FUNC(SwapBuffers),
       has_api>
@@ -214,6 +327,20 @@ struct basic_egl_c_api {
           "CreatePlatformPixmapSurface", traits, *this)
       , CreatePixmapSurface("CreatePixmapSurface", traits, *this)
       , DestroySurface("DestroySurface", traits, *this)
+      , GetCurrentSurface("GetCurrentSurface", traits, *this)
+      , SurfaceAttrib("SurfaceAttrib", traits, *this)
+      , QuerySurface("QuerySurface", traits, *this)
+      , BindTexImage("BindTexImage", traits, *this)
+      , ReleaseTexImage("ReleaseTexImage", traits, *this)
+      , BindAPI("BindAPI", traits, *this)
+      , QueryAPI("QueryAPI", traits, *this)
+      , CreateContext("CreateContext", traits, *this)
+      , DestroyContext("DestroyContext", traits, *this)
+      , MakeCurrent("MakeCurrent", traits, *this)
+      , GetCurrentContext("GetCurrentContext", traits, *this)
+      , QueryContext("QueryContext", traits, *this)
+      , WaitClient("WaitClient", traits, *this)
+      , WaitNative("WaitNative", traits, *this)
       , SwapBuffers("SwapBuffers", traits, *this) {
     }
 };
