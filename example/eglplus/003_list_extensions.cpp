@@ -1,5 +1,5 @@
 /**
- *  example eglplus/002_list_extensions.cpp
+ *  example eglplus/003_list_extensions.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
