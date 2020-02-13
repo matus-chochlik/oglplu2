@@ -797,7 +797,7 @@ struct basic_al_c_api {
 
     constexpr basic_al_c_api(api_traits& traits)
       : GetError("GetError", traits, *this)
-      , GetProcAddress("GetEnumValue", traits, *this)
+      , GetProcAddress("GetProcAddress", traits, *this)
       , GetEnumValue("GetEnumValue", traits, *this)
       , Enable("Enable", traits, *this)
       , Disable("Disable", traits, *this)

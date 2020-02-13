@@ -399,7 +399,7 @@ struct basic_egl_c_api {
 
     constexpr basic_egl_c_api(api_traits& traits)
       : GetError("GetError", traits, *this)
-      , GetProcAddress("GetEnumValue", traits, *this)
+      , GetProcAddress("GetProcAddress", traits, *this)
       , GetPlatformDisplay("GetPlatformDisplay", traits, *this)
       , GetDisplay("GetDisplay", traits, *this)
       , Initialize("Initialize", traits, *this)
