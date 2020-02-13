@@ -29,7 +29,7 @@ public:
     using int_type_c = std::integral_constant<int_type, value>;
 
     opt_c_api_constant<
-      mp_list<egl_error_code>,
+      mp_list<error_code>,
 #ifdef EGL_SUCCESS
       int_type_c<EGL_SUCCESS>>
 #else

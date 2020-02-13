@@ -14,7 +14,7 @@
 namespace eagine {
 namespace eglp {
 //------------------------------------------------------------------------------
-struct egl_error_code : egl_enum_class<egl_error_code, EAGINE_ID_V(ErrorCode)> {
+struct error_code : egl_enum_class<error_code, EAGINE_ID_V(ErrorCode)> {
     using enum_class::enum_class;
 };
 
