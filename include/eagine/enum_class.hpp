@@ -169,7 +169,9 @@ template <typename T>
 struct is_enum_class : std::false_type {};
 
 template <typename Self, typename T, identifier_t LibId, identifier_t Id>
-struct is_enum_class<enum_class<Self, T, LibId, Id>> : std::true_type {};
+struct is_enum_class<enum_class<Self, T, LibId, Id>> : std::true_type {
+    static_assert(std::is_base_of_v<enum_class<Self, T, LibId, Id>, Self>);
+};
 
 template <typename T>
 constexpr bool is_enum_class_v = is_enum_class<T>::value;
@@ -186,6 +188,7 @@ struct any_enum_class {
     constexpr inline any_enum_class(
       const enum_class<Self, T, LibId, Id>&) noexcept
       : _type_id(Id) {
+        static_assert(std::is_base_of_v<enum_class<Self, T, LibId, Id>, Self>);
     }
 
     constexpr inline any_enum_class(const any_enum_value<LibId>& aev) noexcept
@@ -224,6 +227,7 @@ struct any_enum_value {
     constexpr inline any_enum_value(enum_class<Self, T, LibId, Id> v) noexcept
       : _value(long(v._value))
       , _type_id(Id) {
+        static_assert(std::is_base_of_v<enum_class<Self, T, LibId, Id>, Self>);
     }
 
     explicit constexpr inline operator bool() const noexcept {
