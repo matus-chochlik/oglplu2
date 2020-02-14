@@ -45,5 +45,6 @@ if(OPENAL_FOUND)
 	eglplus_example_common(003_list_extensions)
 	eglplus_example_common(005_list_configs)
 	eglplus_example_common(006_multisample_configs)
+	eglplus_example_common(007_depth_stencil_configs)
 endif()
 
