@@ -39,6 +39,10 @@ struct surface_attribute
   : egl_enum_class<surface_attribute, EAGINE_ID_V(SurfAttrib)> {
     using enum_class::enum_class;
 };
+
+struct api_bit : egl_enum_class<api_bit, EAGINE_ID_V(EglApiBit)> {
+    using enum_class::enum_class;
+};
 //------------------------------------------------------------------------------
 } // namespace eglp
 } // namespace eagine
