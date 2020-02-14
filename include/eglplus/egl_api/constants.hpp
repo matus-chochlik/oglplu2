@@ -38,6 +38,132 @@ public:
       success;
 
     opt_c_api_constant<
+      mp_list<error_code>,
+#ifdef EGL_NOT_INITIALIZED
+      int_type_c<EGL_NOT_INITIALIZED>>
+#else
+      int_type_i>
+#endif
+      not_initialized;
+
+    opt_c_api_constant<
+      mp_list<error_code>,
+#ifdef EGL_BAD_ACCESS
+      int_type_c<EGL_BAD_ACCESS>>
+#else
+      int_type_i>
+#endif
+      bad_access;
+
+    opt_c_api_constant<
+      mp_list<error_code>,
+#ifdef EGL_BAD_ALLOC
+      int_type_c<EGL_BAD_ALLOC>>
+#else
+      int_type_i>
+#endif
+      bad_alloc;
+
+    opt_c_api_constant<
+      mp_list<error_code>,
+#ifdef EGL_BAD_ATTRIBUTE
+      int_type_c<EGL_BAD_ATTRIBUTE>>
+#else
+      int_type_i>
+#endif
+      bad_attribute;
+
+    opt_c_api_constant<
+      mp_list<error_code>,
+#ifdef EGL_BAD_CONTEXT
+      int_type_c<EGL_BAD_CONTEXT>>
+#else
+      int_type_i>
+#endif
+      bad_context;
+
+    opt_c_api_constant<
+      mp_list<error_code>,
+#ifdef EGL_BAD_CONFIG
+      int_type_c<EGL_BAD_CONFIG>>
+#else
+      int_type_i>
+#endif
+      bad_config;
+
+    opt_c_api_constant<
+      mp_list<error_code>,
+#ifdef EGL_BAD_CURRENT_SURFACE
+      int_type_c<EGL_BAD_CURRENT_SURFACE>>
+#else
+      int_type_i>
+#endif
+      bad_current_surface;
+
+    opt_c_api_constant<
+      mp_list<error_code>,
+#ifdef EGL_BAD_DISPLAY
+      int_type_c<EGL_BAD_DISPLAY>>
+#else
+      int_type_i>
+#endif
+      bad_display;
+
+    opt_c_api_constant<
+      mp_list<error_code>,
+#ifdef EGL_BAD_SURFACE
+      int_type_c<EGL_BAD_SURFACE>>
+#else
+      int_type_i>
+#endif
+      bad_surface;
+
+    opt_c_api_constant<
+      mp_list<error_code>,
+#ifdef EGL_BAD_MATCH
+      int_type_c<EGL_BAD_MATCH>>
+#else
+      int_type_i>
+#endif
+      bad_match;
+
+    opt_c_api_constant<
+      mp_list<error_code>,
+#ifdef EGL_BAD_PARAMETER
+      int_type_c<EGL_BAD_PARAMETER>>
+#else
+      int_type_i>
+#endif
+      bad_parameter;
+
+    opt_c_api_constant<
+      mp_list<error_code>,
+#ifdef EGL_BAD_NATIVE_PIXMAP
+      int_type_c<EGL_BAD_NATIVE_PIXMAP>>
+#else
+      int_type_i>
+#endif
+      bad_native_pixmap;
+
+    opt_c_api_constant<
+      mp_list<error_code>,
+#ifdef EGL_BAD_NATIVE_WINDOW
+      int_type_c<EGL_BAD_NATIVE_WINDOW>>
+#else
+      int_type_i>
+#endif
+      bad_native_window;
+
+    opt_c_api_constant<
+      mp_list<error_code>,
+#ifdef EGL_CONTEXT_LOST
+      int_type_c<EGL_CONTEXT_LOST>>
+#else
+      int_type_i>
+#endif
+      context_lost;
+
+    opt_c_api_constant<
       mp_list<string_query>,
 #ifdef EGL_CLIENT_APIS
       int_type_c<EGL_CLIENT_APIS>>
@@ -282,6 +408,20 @@ public:
 
     basic_egl_constants(ApiTraits& traits, basic_egl_c_api<ApiTraits>& api)
       : success("SUCCESS", traits, api)
+      , not_initialized("NOT_INITIALIZED", traits, api)
+      , bad_access("BAD_ACCESS", traits, api)
+      , bad_alloc("BAD_ALLOC", traits, api)
+      , bad_attribute("BAD_ATTRIBUTE", traits, api)
+      , bad_context("BAD_CONTEXT", traits, api)
+      , bad_config("BAD_CONFIG", traits, api)
+      , bad_current_surface("BAD_CURRENT_SURFACE", traits, api)
+      , bad_display("BAD_DISPLAY", traits, api)
+      , bad_surface("BAD_SURFACE", traits, api)
+      , bad_match("BAD_MATCH", traits, api)
+      , bad_parameter("BAD_PARAMETER", traits, api)
+      , bad_native_pixmap("BAD_NATIVE_PIXMAP", traits, api)
+      , bad_native_window("BAD_NATIVE_WINDOW", traits, api)
+      , context_lost("CONTEXT_LOST", traits, api)
       , client_apis("CLIENT_APIS", traits, api)
       , vendor("VENDOR", traits, api)
       , version("VERSION", traits, api)
