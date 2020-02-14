@@ -32,7 +32,7 @@ public:
             _full_name.append("egl");
             _full_name.append(name.data(), std::size_t(name.size()));
             auto func = api.GetProcAddress(nullptr, _full_name.c_str());
-            if(api.success(api.GetError())) {
+            if(egl_types::error_code_no_error(api.GetError())) {
                 return reinterpret_cast<std::remove_pointer_t<Signature>*>(
                   func);
             }

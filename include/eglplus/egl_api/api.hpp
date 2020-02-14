@@ -33,6 +33,7 @@ public:
     using attrib_type = typename egl_types::attrib_type;
     using native_display_type = typename egl_types::native_display_type;
     using display_type = typename egl_types::display_type;
+    using config_type = typename egl_types::config_type;
 
     struct derived_func : derived_c_api_function<c_api, api_traits, nothing_t> {
         using base = derived_c_api_function<c_api, api_traits, nothing_t>;
@@ -124,6 +125,33 @@ public:
         }
     } terminate;
 
+    // get_configs
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().GetConfigs);
+        }
+
+        auto operator()(display_type disp, span<config_type> dest) const
+          noexcept {
+            int_type ret_count{0};
+            return this
+              ->_check(this->call(
+                this->api().GetConfigs,
+                disp,
+                dest.data(),
+                limit_cast<int_type>(dest.size()),
+                &ret_count))
+              .transformed([dest, &ret_count](auto ok) {
+                  return head(
+                    dest,
+                    limit_cast<span_size_t>(
+                      egl_types::bool_true(ok) ? ret_count : 0));
+              });
+        }
+    } get_configs;
+
     // query_string
     struct : derived_func {
         using derived_func::derived_func;
@@ -203,6 +231,7 @@ public:
       , get_display("get_display", traits, *this)
       , initialize("initialize", traits, *this)
       , terminate("terminate", traits, *this)
+      , get_configs("get_configs", traits, *this)
       , query_string("query_string", traits, *this)
       , swap_buffers("swap_buffers", traits, *this) {
     }

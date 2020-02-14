@@ -10,6 +10,7 @@
 #define OGLPLUS_GL_API_CONFIG_HPP
 
 #include "../config/basic.hpp"
+#include <eagine/maybe_unused.hpp>
 
 #ifndef OGLPLUS_HAS_GL
 #if defined(GL_SUCCESS)
@@ -66,6 +67,23 @@ struct gl_types {
     using double_type = double;
     using sizei_type = std::ptrdiff_t;
 #endif
+
+    static constexpr bool bool_true(bool_type b) noexcept {
+#if OGLPLUS_HAS_GL
+        return b == GL_TRUE;
+#else
+        return b;
+#endif
+    }
+
+    static constexpr bool error_code_no_error(enum_type ec) noexcept {
+#if OGLPLUS_HAS_GL
+        return ec == GL_NO_ERROR;
+#else
+        EAGINE_MAYBE_UNUSED(ec);
+        return false;
+#endif
+    }
 };
 //------------------------------------------------------------------------------
 } // namespace oglp

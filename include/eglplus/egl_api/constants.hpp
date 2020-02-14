@@ -425,6 +425,42 @@ public:
       pbuffer_bit;
 
     opt_c_api_constant<
+      mp_list<surface_type_bit>,
+#ifdef EGL_MULTISAMPLE_RESOLVE_BOX_BIT
+      int_type_c<EGL_MULTISAMPLE_RESOLVE_BOX_BIT>>
+#else
+      int_type_i>
+#endif
+      multisample_resolve_box_bit;
+
+    opt_c_api_constant<
+      mp_list<surface_type_bit>,
+#ifdef EGL_SWAP_BEHAVIOR_PRESERVED_BIT
+      int_type_c<EGL_SWAP_BEHAVIOR_PRESERVED_BIT>>
+#else
+      int_type_i>
+#endif
+      swap_behavior_preserved_bit;
+
+    opt_c_api_constant<
+      mp_list<surface_type_bit>,
+#ifdef EGL_VG_COLORSPACE_LINEAR_BIT
+      int_type_c<EGL_VG_COLORSPACE_LINEAR_BIT>>
+#else
+      int_type_i>
+#endif
+      vg_colorspace_linear_bit;
+
+    opt_c_api_constant<
+      mp_list<surface_type_bit>,
+#ifdef EGL_VG_ALPHA_FORMAT_PRE_BIT_BIT
+      int_type_c<EGL_VG_ALPHA_FORMAT_PRE_BIT_BIT>>
+#else
+      int_type_i>
+#endif
+      vg_alpha_format_pre_bit_bit;
+
+    opt_c_api_constant<
       mp_list<client_api_bit>,
 #ifdef EGL_OPENGL_BIT
       int_type_c<EGL_OPENGL_BIT>>
@@ -523,6 +559,10 @@ public:
       , window_bit("WINDOW_BIT", traits, api)
       , pixmap_bit("PIXMAP_BIT", traits, api)
       , pbuffer_bit("PBUFFER_BIT", traits, api)
+      , multisample_resolve_box_bit("MULTISAMPLE_RESOLVE_BOX_BIT", traits, api)
+      , swap_behavior_preserved_bit("SWAP_BEHAVIOR_PRESERVED_BIT", traits, api)
+      , vg_colorspace_linear_bit("VG_COLORSPACE_LINEAR_BIT", traits, api)
+      , vg_alpha_format_pre_bit_bit("VG_ALPHA_FORMAT_PRE_BIT_BIT", traits, api)
       , opengl_bit("OPENGL_BIT", traits, api)
       , opengl_es_bit("OPENGL_ES_BIT", traits, api)
       , opengl_es2_bit("OPENGL_ES2_BIT", traits, api)

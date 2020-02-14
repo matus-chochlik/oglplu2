@@ -10,6 +10,7 @@
 #define EGLPLUS_EGL_API_CONFIG_HPP
 
 #include "../config/basic.hpp"
+#include <eagine/maybe_unused.hpp>
 
 #ifndef EGLPLUS_HAS_EGL
 #if defined(EGL_SUCCESS)
@@ -65,6 +66,23 @@ struct egl_types {
     using enum_type = int;
     using int_type = int;
 #endif
+
+    static constexpr bool bool_true(bool_type b) noexcept {
+#if EGLPLUS_HAS_EGL
+        return b == EGL_TRUE;
+#else
+        return b;
+#endif
+    }
+
+    static constexpr bool error_code_no_error(int_type ec) noexcept {
+#if EGLPLUS_HAS_EGL
+        return ec == EGL_SUCCESS;
+#else
+        EAGINE_MAYBE_UNUSED(ec);
+        return false;
+#endif
+    }
 };
 //------------------------------------------------------------------------------
 } // namespace eglp

@@ -10,6 +10,7 @@
 #define OALPLUS_ALC_API_CONFIG_HPP
 
 #include "../config/basic.hpp"
+#include <eagine/maybe_unused.hpp>
 
 #ifndef OALPLUS_HAS_ALC
 #if defined(ALC_NO_ERROR)
@@ -50,6 +51,23 @@ struct alc_types {
     using uint_type = unsigned;
     using size_type = std::intptr_t;
 #endif
+
+    static constexpr bool bool_true(bool_type b) noexcept {
+#if OALPLUS_HAS_ALC
+        return b == ALC_TRUE;
+#else
+        return b;
+#endif
+    }
+
+    static constexpr bool error_code_no_error(enum_type ec) noexcept {
+#if OALPLUS_HAS_ALC
+        return ec == ALC_NO_ERROR;
+#else
+        EAGINE_MAYBE_UNUSED(ec);
+        return false;
+#endif
+    }
 };
 //------------------------------------------------------------------------------
 } // namespace oalp

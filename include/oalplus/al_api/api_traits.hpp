@@ -32,7 +32,7 @@ public:
             _full_name.append("AL_");
             _full_name.append(name.data(), std::size_t(name.size()));
             const auto val = api.GetEnumValue(_full_name.c_str());
-            if(api.success(api.GetError())) {
+            if(al_types::error_code_no_error(api.GetError())) {
                 return {static_cast<Type>(val), true};
             }
         }
@@ -48,7 +48,7 @@ public:
             _full_name.append("al");
             _full_name.append(name.data(), std::size_t(name.size()));
             auto func = api.GetProcAddress(_full_name.c_str());
-            if(api.success(api.GetError())) {
+            if(al_types::error_code_no_error(api.GetError())) {
                 return reinterpret_cast<std::remove_pointer_t<Signature>*>(
                   func);
             }

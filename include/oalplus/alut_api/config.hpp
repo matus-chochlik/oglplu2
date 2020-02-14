@@ -11,6 +11,7 @@
 
 #include "../al_api/config.hpp"
 #include "../config/basic.hpp"
+#include <eagine/maybe_unused.hpp>
 
 #ifndef OALPLUS_HAS_ALUT
 #if defined(ALUT_ERROR_NO_ERROR)
@@ -44,6 +45,23 @@ struct alut_types {
 #else
     static constexpr bool has_api = false;
 #endif
+
+    static constexpr bool bool_true(bool_type b) noexcept {
+#if OALPLUS_HAS_ALUT
+        return b == AL_TRUE;
+#else
+        return b;
+#endif
+    }
+
+    static constexpr bool error_code_no_error(enum_type ec) noexcept {
+#if OALPLUS_HAS_ALUT
+        return ec == ALUT_ERROR_NO_ERROR;
+#else
+        EAGINE_MAYBE_UNUSED(ec);
+        return false;
+#endif
+    }
 };
 //------------------------------------------------------------------------------
 } // namespace oalp

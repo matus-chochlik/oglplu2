@@ -52,15 +52,6 @@ struct basic_al_c_api {
       has_api>
       GetError;
 
-    static constexpr bool success(enum_type ec) noexcept {
-#ifdef AL_NO_ERROR
-        return ec == AL_NO_ERROR;
-#else
-        EAGINE_MAYBE_UNUSED(ec);
-        return false;
-#endif
-    }
-
     eagine::opt_c_api_function<
       api_traits,
       nothing_t,

@@ -44,7 +44,7 @@ struct basic_gl_c_api {
       has_api>
       GetError;
 
-    static constexpr bool success(enum_type ec) noexcept {
+    static constexpr bool succeeded(enum_type ec) noexcept {
 #ifdef GL_NO_ERROR
         return ec == GL_NO_ERROR;
 #else

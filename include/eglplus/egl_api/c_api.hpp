@@ -58,15 +58,6 @@ struct basic_egl_c_api {
       has_api>
       GetError;
 
-    static constexpr bool success(int_type ec) noexcept {
-#ifdef EGL_SUCCESS
-        return ec == EGL_SUCCESS;
-#else
-        EAGINE_MAYBE_UNUSED(ec);
-        return false;
-#endif
-    }
-
     eagine::opt_c_api_function<
       api_traits,
       nothing_t,

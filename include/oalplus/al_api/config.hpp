@@ -10,6 +10,7 @@
 #define OALPLUS_AL_API_CONFIG_HPP
 
 #include "../config/basic.hpp"
+#include <eagine/maybe_unused.hpp>
 
 #ifndef OALPLUS_HAS_AL
 #if defined(AL_NO_ERROR)
@@ -60,6 +61,23 @@ struct al_types {
     using float_type = float;
     using double_type = double;
 #endif
+
+    static constexpr bool bool_true(bool_type b) noexcept {
+#if OALPLUS_HAS_AL
+        return b == AL_TRUE;
+#else
+        return b;
+#endif
+    }
+
+    static constexpr bool error_code_no_error(enum_type ec) noexcept {
+#if OALPLUS_HAS_AL
+        return ec == AL_NO_ERROR;
+#else
+        EAGINE_MAYBE_UNUSED(ec);
+        return false;
+#endif
+    }
 };
 //------------------------------------------------------------------------------
 } // namespace oalp
