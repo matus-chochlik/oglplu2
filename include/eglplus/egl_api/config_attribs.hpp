@@ -22,7 +22,11 @@ struct config_attrib_traits {
     using value_type = egl_types::int_type;
 
     static constexpr inline egl_types::int_type terminator() noexcept {
+#ifdef EGL_NONE
+        return EGL_NONE;
+#else
         return 0;
+#endif
     }
 };
 

@@ -133,6 +133,17 @@ public:
             return bool(this->api().GetConfigs);
         }
 
+        auto count(display_type disp) const noexcept {
+            int_type ret_count{0};
+            return this
+              ->_check(this->call(
+                this->api().GetConfigs, disp, nullptr, 0, &ret_count))
+              .transformed([&ret_count](auto ok) {
+                  return limit_cast<span_size_t>(
+                    egl_types::bool_true(ok) ? ret_count : 0);
+              });
+        }
+
         auto operator()(display_type disp, span<config_type> dest) const
           noexcept {
             int_type ret_count{0};
@@ -160,9 +171,37 @@ public:
             return bool(this->api().ChooseConfig);
         }
 
+        auto count(display_type disp, span<const int_type> attribs) const
+          noexcept {
+            int_type ret_count{0};
+            return this
+              ->_check(this->call(
+                this->api().ChooseConfig,
+                disp,
+                attribs.data(),
+                nullptr,
+                0,
+                &ret_count))
+              .transformed([&ret_count](auto ok) {
+                  return limit_cast<span_size_t>(
+                    egl_types::bool_true(ok) ? ret_count : 0);
+              });
+        }
+
+        template <std::size_t N>
+        auto count(
+          display_type disp, const config_attributes<N>& attribs) const {
+            return count(disp, attribs.get());
+        }
+
+        auto count(
+          display_type disp, const config_attribute_value& attribs) const {
+            return count(disp, config_attributes<2>{attribs});
+        }
+
         auto operator()(
           display_type disp,
-          span<attrib_type> attribs,
+          span<const int_type> attribs,
           span<config_type> dest) const noexcept {
             int_type ret_count{0};
             return this
@@ -181,13 +220,49 @@ public:
               });
         }
 
+        template <std::size_t N>
         auto operator()(
           display_type disp,
-          const config_attributes<2>& attribs,
+          const config_attributes<N>& attribs,
           span<config_type> dest) const noexcept {
             return (*this)(disp, attribs.get(), dest);
         }
+
+        auto operator()(
+          display_type disp,
+          const config_attribute_value& attribs,
+          span<config_type> dest) const noexcept {
+            return (*this)(disp, config_attributes<2>{attribs}, dest);
+        }
     } choose_config;
+
+    // get_config_attrib
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().GetConfigAttrib);
+        }
+
+        constexpr auto operator()(
+          display_type disp,
+          config_type conf,
+          config_attribute attrib,
+          int_type* dest) const noexcept {
+            return this->_check(this->call(
+              this->api().GetConfigAttrib, disp, conf, int_type(attrib), dest));
+        }
+
+        constexpr auto operator()(
+          display_type disp, config_type conf, config_attribute attrib) const
+          noexcept {
+            int_type value{0};
+            return (*this)(disp, conf, attrib, &value)
+              .transformed([&value](auto ok) {
+                  return egl_types::bool_true(ok) ? value : 0;
+              });
+        }
+    } get_config_attrib;
 
     // query_string
     struct : derived_func {
@@ -270,6 +345,7 @@ public:
       , terminate("terminate", traits, *this)
       , get_configs("get_configs", traits, *this)
       , choose_config("choose_config", traits, *this)
+      , get_config_attrib("get_config_attrib", traits, *this)
       , query_string("query_string", traits, *this)
       , swap_buffers("swap_buffers", traits, *this) {
     }
