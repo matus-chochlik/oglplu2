@@ -33,19 +33,11 @@ private:
 class gl_result_info {
 public:
     explicit constexpr operator bool() const noexcept {
-#ifdef GL_NO_ERROR
-        return _error_code == GL_NO_ERROR;
-#else
-        return false;
-#endif
+        return gl_types::error_code_no_error(_error_code);
     }
 
     constexpr bool operator!() const noexcept {
-#ifdef GL_NO_ERROR
-        return _error_code != GL_NO_ERROR;
-#else
-        return true;
-#endif
+        return !gl_types::error_code_no_error(_error_code);
     }
 
     constexpr gl_result_info& error_code(gl_types::enum_type ec) noexcept {

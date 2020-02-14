@@ -35,19 +35,11 @@ public:
     using enum_type = alut_types::enum_type;
 
     explicit constexpr operator bool() const noexcept {
-#ifdef ALUT_ERROR_NO_ERROR
-        return _error_code == ALUT_ERROR_NO_ERROR;
-#else
-        return false;
-#endif
+        return alut_types::error_code_no_error(_error_code);
     }
 
     constexpr bool operator!() const noexcept {
-#ifdef ALUT_ERROR_NO_ERROR
-        return _error_code != ALUT_ERROR_NO_ERROR;
-#else
-        return true;
-#endif
+        return !alut_types::error_code_no_error(_error_code);
     }
 
     constexpr alut_result_info& error_code(enum_type ec) noexcept {

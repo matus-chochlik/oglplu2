@@ -57,9 +57,9 @@ public:
         constexpr auto operator()(
           platform_type platform,
           void_ptr_type disp,
-          const attrib_type* attribs) const noexcept {
+          span<const attrib_type> attribs) const noexcept {
             return this->_check(this->call(
-              this->api().GetPlatformDisplay, platform, disp, attribs));
+              this->api().GetPlatformDisplay, platform, disp, attribs.data()));
         }
     } get_platform_display;
 
@@ -152,6 +152,43 @@ public:
         }
     } get_configs;
 
+    // choose_config
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().ChooseConfig);
+        }
+
+        auto operator()(
+          display_type disp,
+          span<attrib_type> attribs,
+          span<config_type> dest) const noexcept {
+            int_type ret_count{0};
+            return this
+              ->_check(this->call(
+                this->api().ChooseConfig,
+                disp,
+                attribs.data(),
+                dest.data(),
+                limit_cast<int_type>(dest.size()),
+                &ret_count))
+              .transformed([dest, &ret_count](auto ok) {
+                  return head(
+                    dest,
+                    limit_cast<span_size_t>(
+                      egl_types::bool_true(ok) ? ret_count : 0));
+              });
+        }
+
+        auto operator()(
+          display_type disp,
+          const config_attributes<2>& attribs,
+          span<config_type> dest) const noexcept {
+            return (*this)(disp, attribs.get(), dest);
+        }
+    } choose_config;
+
     // query_string
     struct : derived_func {
         using derived_func::derived_func;
@@ -232,6 +269,7 @@ public:
       , initialize("initialize", traits, *this)
       , terminate("terminate", traits, *this)
       , get_configs("get_configs", traits, *this)
+      , choose_config("choose_config", traits, *this)
       , query_string("query_string", traits, *this)
       , swap_buffers("swap_buffers", traits, *this) {
     }

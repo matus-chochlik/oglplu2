@@ -33,19 +33,11 @@ private:
 class egl_result_info {
 public:
     explicit constexpr operator bool() const noexcept {
-#ifdef EGL_SUCCESS
-        return _error_code == EGL_SUCCESS;
-#else
-        return false;
-#endif
+        return egl_types::error_code_no_error(_error_code);
     }
 
     constexpr bool operator!() const noexcept {
-#ifdef EGL_SUCCESS
-        return _error_code != EGL_SUCCESS;
-#else
-        return true;
-#endif
+        return !egl_types::error_code_no_error(_error_code);
     }
 
     constexpr egl_result_info& error_code(egl_types::int_type ec) noexcept {

@@ -35,19 +35,11 @@ public:
     using enum_type = alc_types::enum_type;
 
     explicit constexpr operator bool() const noexcept {
-#ifdef ALC_NO_ERROR
-        return _error_code == ALC_NO_ERROR;
-#else
-        return false;
-#endif
+        return alc_types::error_code_no_error(_error_code);
     }
 
     constexpr bool operator!() const noexcept {
-#ifdef ALC_NO_ERROR
-        return _error_code != ALC_NO_ERROR;
-#else
-        return true;
-#endif
+        return !alc_types::error_code_no_error(_error_code);
     }
 
     constexpr alc_result_info& error_code(enum_type ec) noexcept {
