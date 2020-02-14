@@ -43,5 +43,6 @@ if(OPENAL_FOUND)
 	eglplus_example_common(001_basic_info)
 	eglplus_example_common(002_list_apis)
 	eglplus_example_common(003_list_extensions)
+	eglplus_example_common(005_list_configs)
 endif()
 

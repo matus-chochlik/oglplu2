@@ -34,7 +34,7 @@ int main() {
         if(auto opt_disp = egl.get_display()) {
             auto& display = extract(opt_disp);
             if(auto init_res = egl.initialize(display)) {
-                auto cln = egl.terminate.raii(display);
+                auto do_cleanup = egl.terminate.raii(display);
 
                 if(auto opt_vendor = egl.query_string(display, egl.vendor)) {
                     std::cout << "Vendor:  " << extract(opt_vendor)

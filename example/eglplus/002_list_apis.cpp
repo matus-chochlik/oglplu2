@@ -21,7 +21,7 @@ int main() {
         if(auto opt_disp = egl.get_display()) {
             auto& display = extract(opt_disp);
             if(auto init_res = egl.initialize(display)) {
-                auto cln = egl.terminate.raii(display);
+                auto do_cleanup = egl.terminate.raii(display);
 
                 std::cout << "Supported APIs:" << std::endl;
 
