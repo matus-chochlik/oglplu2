@@ -398,6 +398,78 @@ public:
       min_swap_interval;
 
     opt_c_api_constant<
+      mp_list<surface_type_bit>,
+#ifdef EGL_WINDOW_BIT
+      int_type_c<EGL_WINDOW_BIT>>
+#else
+      int_type_i>
+#endif
+      window_bit;
+
+    opt_c_api_constant<
+      mp_list<surface_type_bit>,
+#ifdef EGL_PIXMAP_BIT
+      int_type_c<EGL_PIXMAP_BIT>>
+#else
+      int_type_i>
+#endif
+      pixmap_bit;
+
+    opt_c_api_constant<
+      mp_list<surface_type_bit>,
+#ifdef EGL_PBUFFER_BIT
+      int_type_c<EGL_PBUFFER_BIT>>
+#else
+      int_type_i>
+#endif
+      pbuffer_bit;
+
+    opt_c_api_constant<
+      mp_list<client_api_bit>,
+#ifdef EGL_OPENGL_BIT
+      int_type_c<EGL_OPENGL_BIT>>
+#else
+      int_type_i>
+#endif
+      opengl_bit;
+
+    opt_c_api_constant<
+      mp_list<client_api_bit>,
+#ifdef EGL_OPENGL_ES_BIT
+      int_type_c<EGL_OPENGL_ES_BIT>>
+#else
+      int_type_i>
+#endif
+      opengl_es_bit;
+
+    opt_c_api_constant<
+      mp_list<client_api_bit>,
+#ifdef EGL_OPENGL_ES2_BIT
+      int_type_c<EGL_OPENGL_ES2_BIT>>
+#else
+      int_type_i>
+#endif
+      opengl_es2_bit;
+
+    opt_c_api_constant<
+      mp_list<client_api_bit>,
+#ifdef EGL_OPENGL_ES3_BIT
+      int_type_c<EGL_OPENGL_ES3_BIT>>
+#else
+      int_type_i>
+#endif
+      opengl_es3_bit;
+
+    opt_c_api_constant<
+      mp_list<client_api_bit>,
+#ifdef EGL_OPENVG_BIT
+      int_type_c<EGL_OPENVG_BIT>>
+#else
+      int_type_i>
+#endif
+      openvg_bit;
+
+    opt_c_api_constant<
       mp_list<eglp::config_caveat>,
 #ifdef EGL_NONE
       int_type_c<EGL_NONE>>
@@ -448,6 +520,14 @@ public:
       , pbuffer_pixels("PBUFFER_PIXELS", traits, api)
       , max_swap_interval("MAX_SWAP_INTERVAL", traits, api)
       , min_swap_interval("MIN_SWAP_INTERVAL", traits, api)
+      , window_bit("WINDOW_BIT", traits, api)
+      , pixmap_bit("PIXMAP_BIT", traits, api)
+      , pbuffer_bit("PBUFFER_BIT", traits, api)
+      , opengl_bit("OPENGL_BIT", traits, api)
+      , opengl_es_bit("OPENGL_ES_BIT", traits, api)
+      , opengl_es2_bit("OPENGL_ES2_BIT", traits, api)
+      , opengl_es3_bit("OPENGL_ES3_BIT", traits, api)
+      , openvg_bit("OPENVG_BIT", traits, api)
       , none("NONE", traits, api) {
     }
 };

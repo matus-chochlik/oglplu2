@@ -40,7 +40,13 @@ struct surface_attribute
     using enum_class::enum_class;
 };
 
-struct api_bit : egl_enum_class<api_bit, EAGINE_ID_V(EglApiBit)> {
+struct surface_type_bit
+  : egl_enum_class<surface_type_bit, EAGINE_ID_V(SurfTypBit)> {
+    using enum_class::enum_class;
+};
+
+struct client_api_bit
+  : egl_enum_class<client_api_bit, EAGINE_ID_V(ClntApiBit)> {
     using enum_class::enum_class;
 };
 //------------------------------------------------------------------------------

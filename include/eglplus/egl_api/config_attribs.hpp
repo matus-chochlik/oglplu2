@@ -36,6 +36,16 @@ static constexpr inline config_attribute_value operator|(
     return {key, value};
 }
 
+static constexpr inline config_attribute_value operator|(
+  config_attribute key, enum_bitfield<surface_type_bit> value) noexcept {
+    return {key, egl_types::int_type(value)};
+}
+
+static constexpr inline config_attribute_value operator|(
+  config_attribute key, enum_bitfield<client_api_bit> value) noexcept {
+    return {key, egl_types::int_type(value)};
+}
+
 #if defined(EGL_TRUE) && defined(EGL_FALSE)
 static constexpr inline config_attribute_value operator|(
   config_attribute key, bool value) noexcept {

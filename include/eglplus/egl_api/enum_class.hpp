@@ -10,6 +10,7 @@
 #define EGLPLUS_EGL_API_ENUM_CLASS_HPP
 
 #include "config.hpp"
+#include <eagine/enum_bitfield.hpp>
 #include <eagine/enum_class.hpp>
 #include <eagine/identifier.hpp>
 
