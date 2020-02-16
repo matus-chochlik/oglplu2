@@ -128,13 +128,52 @@ public:
         }
     } clear;
 
+    // get_string
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().GetString);
+        }
+
+        constexpr auto operator()(string_query query) const noexcept {
+            return this
+              ->_check(this->call(this->api().GetString, enum_type(query)))
+              .transformed(
+                [](auto src) { return reinterpret_cast<const char*>(src); });
+        }
+
+        constexpr auto operator()() const noexcept {
+            return this->fake(this->api().GetString, "");
+        }
+    } get_string;
+
+    // get_strings
+    auto get_strings(string_query query, char separator) noexcept {
+        return get_string(query).transformed([separator](auto src) {
+            return split_c_str_into_string_list(src, separator);
+        });
+    }
+
+    // get_extensions
+    auto get_extensions() noexcept {
+#ifdef GL_EXTENSIONS
+        return get_string(string_query(GL_EXTENSIONS))
+#else
+        return get_string()
+#endif
+          .transformed(
+            [](auto src) { return split_c_str_into_string_list(src, ' '); });
+    }
+
     constexpr basic_gl_api(api_traits& traits)
       : c_api{traits}
       , viewport("viewport", traits, *this)
       , clear_color("clear_color", traits, *this)
       , clear_depth("clear_depth", traits, *this)
       , clear_stencil("clear_stencil", traits, *this)
-      , clear("clear", traits, *this) {
+      , clear("clear", traits, *this)
+      , get_string("get_string", traits, *this) {
     }
 };
 //------------------------------------------------------------------------------

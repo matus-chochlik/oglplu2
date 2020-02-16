@@ -39,8 +39,11 @@ struct basic_gl_c_api {
     using sizei_type = typename gl_types::sizei_type;
     using bool_type = typename gl_types::bool_type;
     using char_type = typename gl_types::char_type;
-    using enum_type = typename gl_types::enum_type;
+    using byte_type = typename gl_types::byte_type;
+    using ubyte_type = typename gl_types::ubyte_type;
     using int_type = typename gl_types::int_type;
+    using uint_type = typename gl_types::uint_type;
+    using enum_type = typename gl_types::enum_type;
     using float_type = typename gl_types::float_type;
     using double_type = typename gl_types::double_type;
     using bitfield_type = typename gl_types::bitfield_type;
@@ -89,6 +92,16 @@ struct basic_gl_c_api {
 
     gl_api_function<void(bitfield_type), OGLPLUS_GL_STATIC_FUNC(Clear)> Clear;
 
+    gl_api_function<
+      const ubyte_type*(enum_type),
+      OGLPLUS_GL_STATIC_FUNC(GetString)>
+      GetString;
+
+    gl_api_function<
+      const ubyte_type*(enum_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(GetStringi)>
+      GetStringi;
+
     constexpr basic_gl_c_api(api_traits& traits)
       : GetError("GetError", traits, *this)
       , DepthRange("DepthRange", traits, *this)
@@ -98,7 +111,9 @@ struct basic_gl_c_api {
       , ClearDepthf("ClearDepthf", traits, *this)
       , ClearDepth("ClearDepth", traits, *this)
       , ClearStencil("ClearStencil", traits, *this)
-      , Clear("Clear", traits, *this) {
+      , Clear("Clear", traits, *this)
+      , GetString("GetString", traits, *this)
+      , GetStringi("GetStringi", traits, *this) {
     }
 };
 //------------------------------------------------------------------------------

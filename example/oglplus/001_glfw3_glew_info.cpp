@@ -1,5 +1,5 @@
 /**
- *  @example standalone/001_glfw3_glew_info.cpp
+ *  @example oglplus/001_glfw3_glew_info.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -8,13 +8,8 @@
  */
 #include <GL/glew.h>
 
-#include <oglplus/constant_defs.hpp>
-#include <oglplus/constants.hpp>
-#include <oglplus/enum/value_names.hpp>
-#include <oglplus/enum/value_range.hpp>
-#include <oglplus/operations.hpp>
-
 #include <eagine/scope_exit.hpp>
+#include <oglplus/gl_api.hpp>
 
 #include <GLFW/glfw3.h>
 
@@ -22,25 +17,36 @@
 #include <stdexcept>
 
 static void run() {
-    using namespace oglplus;
+    using namespace eagine;
+    using namespace eagine::oglp;
 
-    operations gl;
+    gl_api gl;
 
-    for(const auto& str_query : enum_value_range<string_query>()) {
-        std::cout << enum_value_name(str_query) << ": "
-                  << gl.get_string(str_query).value() << std::endl;
+    if(ok info{gl.get_string(gl.vendor)}) {
+        std::cout << "Vendor: " << info << std::endl;
     }
 
-    std::cout << "EXTENSIONS:" << std::endl;
+    if(ok info{gl.get_string(gl.renderer)}) {
+        std::cout << "Renderer: " << info << std::endl;
+    }
 
-    GLuint index = 0;
-    while(true) {
-        if(auto result = success(gl.get_extension_name(index++))) {
-            std::cout << '\t' << result.value() << std::endl;
-        } else {
-            result.ignore_error();
-            break;
+    if(ok info{gl.get_string(gl.version)}) {
+        std::cout << "Version: " << info << std::endl;
+    }
+
+    if(ok info{gl.get_string(gl.shading_language_version)}) {
+        std::cout << "GLSL Version: " << info << std::endl;
+    }
+
+    std::cout << "Extensions:" << std::endl;
+
+    if(ok extensions{gl.get_extensions()}) {
+        for(auto name : extensions) {
+            std::cout << "  " << name << std::endl;
         }
+    } else {
+        std::cerr << "failed to get GL extension list: "
+                  << (!extensions).message() << std::endl;
     }
 }
 

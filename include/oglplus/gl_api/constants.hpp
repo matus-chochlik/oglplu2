@@ -38,6 +38,51 @@ public:
       no_error;
 
     opt_c_api_constant<
+      mp_list<string_query>,
+#ifdef GL_VENDOR
+      enum_type_c<GL_VENDOR>>
+#else
+      enum_type_i>
+#endif
+      vendor;
+
+    opt_c_api_constant<
+      mp_list<string_query>,
+#ifdef GL_RENDERER
+      enum_type_c<GL_RENDERER>>
+#else
+      enum_type_i>
+#endif
+      renderer;
+
+    opt_c_api_constant<
+      mp_list<string_query>,
+#ifdef GL_VERSION
+      enum_type_c<GL_VERSION>>
+#else
+      enum_type_i>
+#endif
+      version;
+
+    opt_c_api_constant<
+      mp_list<string_query>,
+#ifdef GL_SHADING_LANGUAGE_VERSION
+      enum_type_c<GL_SHADING_LANGUAGE_VERSION>>
+#else
+      enum_type_i>
+#endif
+      shading_language_version;
+
+    opt_c_api_constant<
+      mp_list<string_query>,
+#ifdef GL_EXTENSIONS
+      enum_type_c<GL_EXTENSIONS>>
+#else
+      enum_type_i>
+#endif
+      extensions;
+
+    opt_c_api_constant<
       mp_list<buffer_clear_bit>,
 #ifdef GL_COLOR_BUFFER_BIT
       bitfield_type_c<GL_COLOR_BUFFER_BIT>>
@@ -75,6 +120,11 @@ public:
 
     basic_gl_constants(ApiTraits& traits, basic_gl_c_api<ApiTraits>& api)
       : no_error("NO_ERROR", traits, api)
+      , vendor("VENDOR", traits, api)
+      , renderer("RENDERER", traits, api)
+      , version("VERSION", traits, api)
+      , shading_language_version("SHADING_LANGUAGE_VERSION", traits, api)
+      , extensions("EXTENSIONS", traits, api)
       , color_buffer_bit("COLOR_BUFFER_BIT", traits, api)
       , depth_buffer_bit("DEPTH_BUFFER_BIT", traits, api)
       , stencil_buffer_bit("STENCIL_BUFFER_BIT", traits, api)

@@ -1,5 +1,5 @@
 /**
- *  @example standalone/004_glfw3_glew_path_nv.cpp
+ *  @example oglplus/004_glfw3_glew_path_nv.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.

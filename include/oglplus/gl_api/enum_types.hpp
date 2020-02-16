@@ -27,6 +27,10 @@ struct texture_compare_mode
   : gl_enum_class<texture_compare_mode, EAGINE_ID_V(TexCmpMode)> {
     using enum_class::enum_class;
 };
+
+struct string_query : gl_enum_class<string_query, EAGINE_ID_V(StrQuery)> {
+    using enum_class::enum_class;
+};
 //------------------------------------------------------------------------------
 } // namespace oglp
 } // namespace eagine

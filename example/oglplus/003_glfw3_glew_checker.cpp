@@ -1,5 +1,5 @@
 /**
- *  @example standalone/003_glfw3_glew_checker.cpp
+ *  @example oglplus/003_glfw3_glew_checker.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
