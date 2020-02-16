@@ -18,28 +18,26 @@ int main() {
 
     alc_api alc;
 
-    if(auto open_dev_res = alc.open_device()) {
-        auto& device = eagine::extract(open_dev_res);
+    if(ok device{alc.open_device()}) {
         auto cleanup_dev = alc.close_device.raii(device);
 
-        if(auto crt_ctx_res = alc.create_context(device)) {
-            auto& context = extract(crt_ctx_res);
+        if(ok context{alc.create_context(device)}) {
             auto cleanup_ctx = alc.destroy_context.raii(device, context);
 
             alc.MakeContextCurrent(context);
 
             al_api al;
 
-            if(auto opt_info = al.get_string(al.vendor)) {
-                std::cout << "Vendor: " << extract(opt_info) << std::endl;
+            if(ok info{al.get_string(al.vendor)}) {
+                std::cout << "Vendor: " << info << std::endl;
             }
 
-            if(auto opt_info = al.get_string(al.renderer)) {
-                std::cout << "Renderer: " << extract(opt_info) << std::endl;
+            if(ok info{al.get_string(al.renderer)}) {
+                std::cout << "Renderer: " << info << std::endl;
             }
 
-            if(auto opt_info = al.get_string(al.version)) {
-                std::cout << "Version: " << extract(opt_info) << std::endl;
+            if(ok info{al.get_string(al.version)}) {
+                std::cout << "Version: " << info << std::endl;
             }
         }
     }

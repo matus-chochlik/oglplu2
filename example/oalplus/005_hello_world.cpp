@@ -21,18 +21,14 @@ int main(int argc, char** argv) {
 
     alc_api alc;
 
-    if(auto open_dev_res = alc.open_device()) {
-        auto& device = eagine::extract(open_dev_res);
+    if(ok device{alc.open_device()}) {
         auto cleanup_dev = alc.close_device.raii(device);
 
         const auto context_attribs = (alc.mono_sources | 1) +
                                      (alc.stereo_sources | 1) +
                                      (alc.sync | false);
 
-        if(
-          auto crt_ctx_res =
-            alc.create_context(device, context_attribs.get())) {
-            auto& context = extract(crt_ctx_res);
+        if(ok context{alc.create_context(device, context_attribs.get())}) {
             auto cleanup_ctx = alc.destroy_context.raii(device, context);
 
             alc.make_context_current(context);

@@ -18,24 +18,23 @@ int main() {
     alc_api alc;
 
     if(alc.get_string) {
-        if(auto get_result = alc.get_default_device_specifier()) {
-            std::cout << "Default device: " << extract(get_result) << std::endl;
+        if(ok name{alc.get_default_device_specifier()}) {
+            std::cout << "Default device: " << name.get() << std::endl;
         }
     }
 
     if(alc.open_device && alc.close_device) {
-        if(auto open_res = alc.open_device()) {
-            auto& device = eagine::extract(open_res);
+        if(ok device{alc.open_device()}) {
             // closes the device when going out of scope
             auto cleanup_dev = alc.close_device.raii(device);
 
-            if(auto get_result = alc.get_extensions(device)) {
-                for(auto name : extract(get_result)) {
+            if(ok extensions{alc.get_extensions(device)}) {
+                for(auto name : extensions) {
                     std::cout << "  " << name << std::endl;
                 }
             } else {
                 std::cerr << "failed to get extension list: "
-                          << get_result.message() << std::endl;
+                          << (!extensions).message() << std::endl;
             }
         } else {
             std::cout << "missing required API function." << std::endl;

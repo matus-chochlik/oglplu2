@@ -19,13 +19,13 @@ int main() {
 
     if(alc.get_string) {
         std::cout << "Playback devices:" << std::endl;
-        if(auto get_result = alc.get_device_specifiers()) {
-            for(auto name : extract(get_result)) {
+        if(ok names = alc.get_device_specifiers()) {
+            for(auto name : names) {
                 std::cout << "  " << name << std::endl;
             }
         } else {
             std::cerr << "failed to list playback devices: "
-                      << get_result.message() << std::endl;
+                      << (!names).message() << std::endl;
         }
     } else {
         std::cout << "missing required API function: " << alc.get_string.name()
@@ -34,13 +34,13 @@ int main() {
 
     if(alc.get_string) {
         std::cout << "Capture devices:" << std::endl;
-        if(auto get_result = alc.get_capture_device_specifiers()) {
-            for(auto name : extract(get_result)) {
+        if(ok names = alc.get_capture_device_specifiers()) {
+            for(auto name : names) {
                 std::cout << "  " << name << std::endl;
             }
         } else {
             std::cerr << "failed to list capture devices: "
-                      << get_result.message() << std::endl;
+                      << (!names).message() << std::endl;
         }
         std::cout << "missing required API function: " << alc.get_string.name()
                   << std::endl;
