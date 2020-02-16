@@ -18,6 +18,10 @@ struct error_code : gl_enum_class<error_code, EAGINE_ID_V(ErrorCode)> {
     using enum_class::enum_class;
 };
 
+struct capability : gl_enum_class<capability, EAGINE_ID_V(Capability)> {
+    using enum_class::enum_class;
+};
+
 struct buffer_clear_bit
   : gl_enum_class<buffer_clear_bit, EAGINE_ID_V(BuffClrBit)> {
     using enum_class::enum_class;

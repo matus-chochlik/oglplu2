@@ -62,6 +62,26 @@ struct basic_gl_c_api {
 
     gl_api_function<enum_type(), OGLPLUS_GL_STATIC_FUNC(GetError)> GetError;
 
+    gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(Enable)> Enable;
+
+    gl_api_function<void(enum_type, uint_type), OGLPLUS_GL_STATIC_FUNC(Enablei)>
+      Enablei;
+
+    gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(Disable)> Disable;
+
+    gl_api_function<
+      void(enum_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(Disablei)>
+      Disablei;
+
+    gl_api_function<bool_type(enum_type), OGLPLUS_GL_STATIC_FUNC(IsEnabled)>
+      IsEnabled;
+
+    gl_api_function<
+      bool_type(enum_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(IsEnabledi)>
+      IsEnabledi;
+
     gl_api_function<
       void(double_type, double_type),
       OGLPLUS_GL_STATIC_FUNC(DepthRange)>
@@ -155,6 +175,12 @@ struct basic_gl_c_api {
 
     constexpr basic_gl_c_api(api_traits& traits)
       : GetError("GetError", traits, *this)
+      , Enable("Enable", traits, *this)
+      , Enablei("Enablei", traits, *this)
+      , Disable("Disable", traits, *this)
+      , Disablei("Disablei", traits, *this)
+      , IsEnabled("IsEnabled", traits, *this)
+      , IsEnabledi("IsEnabledi", traits, *this)
       , DepthRange("DepthRange", traits, *this)
       , DepthRangef("DepthRangef", traits, *this)
       , Viewport("Viewport", traits, *this)

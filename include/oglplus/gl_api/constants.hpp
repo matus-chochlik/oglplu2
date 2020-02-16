@@ -38,6 +38,69 @@ public:
       no_error;
 
     opt_c_api_constant<
+      mp_list<capability>,
+#ifdef GL_BLEND
+      enum_type_c<GL_BLEND>>
+#else
+      enum_type_i>
+#endif
+      blend;
+
+    opt_c_api_constant<
+      mp_list<capability>,
+#ifdef GL_CULL_FACE
+      enum_type_c<GL_CULL_FACE>>
+#else
+      enum_type_i>
+#endif
+      cull_face;
+
+    opt_c_api_constant<
+      mp_list<capability>,
+#ifdef GL_DEPTH_CLAMP
+      enum_type_c<GL_DEPTH_CLAMP>>
+#else
+      enum_type_i>
+#endif
+      depth_clamp;
+
+    opt_c_api_constant<
+      mp_list<capability>,
+#ifdef GL_DEPTH_TEST
+      enum_type_c<GL_DEPTH_TEST>>
+#else
+      enum_type_i>
+#endif
+      depth_test;
+
+    opt_c_api_constant<
+      mp_list<capability>,
+#ifdef GL_SCISSOR_TEST
+      enum_type_c<GL_SCISSOR_TEST>>
+#else
+      enum_type_i>
+#endif
+      scissor_test;
+
+    opt_c_api_constant<
+      mp_list<capability>,
+#ifdef GL_STENCIL_TEST
+      enum_type_c<GL_STENCIL_TEST>>
+#else
+      enum_type_i>
+#endif
+      stencil_test;
+
+    opt_c_api_constant<
+      mp_list<capability>,
+#ifdef GL_MULTISAMPLE
+      enum_type_c<GL_MULTISAMPLE>>
+#else
+      enum_type_i>
+#endif
+      multisample;
+
+    opt_c_api_constant<
       mp_list<string_query>,
 #ifdef GL_VENDOR
       enum_type_c<GL_VENDOR>>
@@ -120,6 +183,13 @@ public:
 
     basic_gl_constants(ApiTraits& traits, basic_gl_c_api<ApiTraits>& api)
       : no_error("NO_ERROR", traits, api)
+      , blend("BLEND", traits, api)
+      , cull_face("CULL_FACE", traits, api)
+      , depth_clamp("DEPTH_CLAMP", traits, api)
+      , depth_test("DEPTH_TEST", traits, api)
+      , scissor_test("SCISSOR_TEST", traits, api)
+      , stencil_test("STENCIL_TEST", traits, api)
+      , multisample("MULTISAMPLE", traits, api)
       , vendor("VENDOR", traits, api)
       , renderer("RENDERER", traits, api)
       , version("VERSION", traits, api)
