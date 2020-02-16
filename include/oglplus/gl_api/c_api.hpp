@@ -43,6 +43,7 @@ struct basic_gl_c_api {
     using ubyte_type = typename gl_types::ubyte_type;
     using int_type = typename gl_types::int_type;
     using uint_type = typename gl_types::uint_type;
+    using int64_type = typename gl_types::int64_type;
     using enum_type = typename gl_types::enum_type;
     using float_type = typename gl_types::float_type;
     using double_type = typename gl_types::double_type;
@@ -93,6 +94,56 @@ struct basic_gl_c_api {
     gl_api_function<void(bitfield_type), OGLPLUS_GL_STATIC_FUNC(Clear)> Clear;
 
     gl_api_function<
+      void(enum_type, bool_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetBooleanv)>
+      GetBooleanv;
+
+    gl_api_function<
+      void(enum_type, uint_type, bool_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetBooleani_v)>
+      GetBooleani_v;
+
+    gl_api_function<
+      void(enum_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetIntegerv)>
+      GetIntegerv;
+
+    gl_api_function<
+      void(enum_type, uint_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetIntegeri_v)>
+      GetIntegeri_v;
+
+    gl_api_function<
+      void(enum_type, int64_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetInteger64v)>
+      GetInteger64v;
+
+    gl_api_function<
+      void(enum_type, uint_type, int64_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetInteger64i_v)>
+      GetInteger64i_v;
+
+    gl_api_function<
+      void(enum_type, float_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetFloatv)>
+      GetFloatv;
+
+    gl_api_function<
+      void(enum_type, uint_type, float_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetFloati_v)>
+      GetFloati_v;
+
+    gl_api_function<
+      void(enum_type, double_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetDoublev)>
+      GetDoublev;
+
+    gl_api_function<
+      void(enum_type, uint_type, double_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetDoublei_v)>
+      GetDoublei_v;
+
+    gl_api_function<
       const ubyte_type*(enum_type),
       OGLPLUS_GL_STATIC_FUNC(GetString)>
       GetString;
@@ -112,6 +163,16 @@ struct basic_gl_c_api {
       , ClearDepth("ClearDepth", traits, *this)
       , ClearStencil("ClearStencil", traits, *this)
       , Clear("Clear", traits, *this)
+      , GetBooleanv("GetBooleanv", traits, *this)
+      , GetBooleani_v("GetBooleani_v", traits, *this)
+      , GetIntegerv("GetIntegerv", traits, *this)
+      , GetIntegeri_v("GetIntegeri_v", traits, *this)
+      , GetInteger64v("GetInteger64v", traits, *this)
+      , GetInteger64i_v("GetInteger64i_v", traits, *this)
+      , GetFloatv("GetFloatv", traits, *this)
+      , GetFloati_v("GetFloati_v", traits, *this)
+      , GetDoublev("GetDoublev", traits, *this)
+      , GetDoublei_v("GetDoublei_v", traits, *this)
       , GetString("GetString", traits, *this)
       , GetStringi("GetStringi", traits, *this) {
     }
