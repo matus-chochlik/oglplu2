@@ -42,165 +42,117 @@ struct basic_alc_c_api {
     using size_type = typename alc_types::size_type;
     using void_ptr_type = typename alc_types::void_ptr_type;
 
-    eagine::opt_c_api_function<
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Waddress"
+#endif
+    template <
+      typename Signature,
+      c_api_function_ptr<api_traits, nothing_t, Signature> Function>
+    using alc_api_function = eagine::opt_c_api_function<
       api_traits,
       nothing_t,
-      enum_type(device_type*),
-      OALPLUS_ALC_STATIC_FUNC(GetError),
-      has_api>
+      Signature,
+      Function,
+      has_api,
+      bool(Function)>;
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
+
+    alc_api_function<enum_type(device_type*), OALPLUS_ALC_STATIC_FUNC(GetError)>
       GetError;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    alc_api_function<
       void_ptr_type(device_type*, const char_type*),
-      OALPLUS_ALC_STATIC_FUNC(GetProcAddress),
-      has_api>
+      OALPLUS_ALC_STATIC_FUNC(GetProcAddress)>
       GetProcAddress;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    alc_api_function<
       enum_type(device_type*, const char_type*),
-      OALPLUS_ALC_STATIC_FUNC(GetEnumValue),
-      has_api>
+      OALPLUS_ALC_STATIC_FUNC(GetEnumValue)>
       GetEnumValue;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    alc_api_function<
       device_type*(const char_type*),
-      OALPLUS_ALC_STATIC_FUNC(OpenDevice),
-      has_api>
+      OALPLUS_ALC_STATIC_FUNC(OpenDevice)>
       OpenDevice;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    alc_api_function<
       device_type*(
         const char_type*, uint_type freq, enum_type format, size_type bufsize),
-      OALPLUS_ALC_STATIC_FUNC(CaptureOpenDevice),
-      has_api>
+      OALPLUS_ALC_STATIC_FUNC(CaptureOpenDevice)>
       CaptureOpenDevice;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    alc_api_function<
       bool_type(device_type*),
-      OALPLUS_ALC_STATIC_FUNC(CloseDevice),
-      has_api>
+      OALPLUS_ALC_STATIC_FUNC(CloseDevice)>
       CloseDevice;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    alc_api_function<
       bool_type(device_type*),
-      OALPLUS_ALC_STATIC_FUNC(CaptureCloseDevice),
-      has_api>
+      OALPLUS_ALC_STATIC_FUNC(CaptureCloseDevice)>
       CaptureCloseDevice;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    alc_api_function<
       const char_type*(device_type*, enum_type),
-      OALPLUS_ALC_STATIC_FUNC(GetString),
-      has_api>
+      OALPLUS_ALC_STATIC_FUNC(GetString)>
       GetString;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    alc_api_function<
       void(device_type*, enum_type, size_type, int_type*),
-      OALPLUS_ALC_STATIC_FUNC(GetIntegerv),
-      has_api>
+      OALPLUS_ALC_STATIC_FUNC(GetIntegerv)>
       GetIntegerv;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    alc_api_function<
       bool_type(device_type*, const char_type*),
-      OALPLUS_ALC_STATIC_FUNC(IsExtensionPresent),
-      has_api>
+      OALPLUS_ALC_STATIC_FUNC(IsExtensionPresent)>
       IsExtensionPresent;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    alc_api_function<
       context_type*(device_type*, const int_type*),
-      OALPLUS_ALC_STATIC_FUNC(CreateContext),
-      has_api>
+      OALPLUS_ALC_STATIC_FUNC(CreateContext)>
       CreateContext;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    alc_api_function<
       void(context_type*),
-      OALPLUS_ALC_STATIC_FUNC(ProcessContext),
-      has_api>
+      OALPLUS_ALC_STATIC_FUNC(ProcessContext)>
       ProcessContext;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    alc_api_function<
       void(context_type*),
-      OALPLUS_ALC_STATIC_FUNC(SuspendContext),
-      has_api>
+      OALPLUS_ALC_STATIC_FUNC(SuspendContext)>
       SuspendContext;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    alc_api_function<
       void(context_type*),
-      OALPLUS_ALC_STATIC_FUNC(DestroyContext),
-      has_api>
+      OALPLUS_ALC_STATIC_FUNC(DestroyContext)>
       DestroyContext;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    alc_api_function<
       bool_type(context_type*),
-      OALPLUS_ALC_STATIC_FUNC(MakeContextCurrent),
-      has_api>
+      OALPLUS_ALC_STATIC_FUNC(MakeContextCurrent)>
       MakeContextCurrent;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    alc_api_function<
       context_type*(),
-      OALPLUS_ALC_STATIC_FUNC(GetCurrentContext),
-      has_api>
+      OALPLUS_ALC_STATIC_FUNC(GetCurrentContext)>
       GetCurrentContext;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    alc_api_function<
       device_type*(context_type*),
-      OALPLUS_ALC_STATIC_FUNC(GetContextsDevice),
-      has_api>
+      OALPLUS_ALC_STATIC_FUNC(GetContextsDevice)>
       GetContextsDevice;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(device_type*),
-      OALPLUS_ALC_STATIC_FUNC(CaptureStart),
-      has_api>
+    alc_api_function<void(device_type*), OALPLUS_ALC_STATIC_FUNC(CaptureStart)>
       CaptureStart;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(device_type*),
-      OALPLUS_ALC_STATIC_FUNC(CaptureStop),
-      has_api>
+    alc_api_function<void(device_type*), OALPLUS_ALC_STATIC_FUNC(CaptureStop)>
       CaptureStop;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    alc_api_function<
       void(device_type*, void_ptr_type, size_type),
-      OALPLUS_ALC_STATIC_FUNC(CaptureSamples),
-      has_api>
+      OALPLUS_ALC_STATIC_FUNC(CaptureSamples)>
       CaptureSamples;
 
     constexpr basic_alc_c_api(api_traits& traits)

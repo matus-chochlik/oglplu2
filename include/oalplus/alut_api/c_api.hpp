@@ -43,77 +43,58 @@ struct basic_alut_c_api {
     using void_ptr_type = typename alut_types::void_ptr_type;
     using const_void_ptr_type = typename alut_types::const_void_ptr_type;
 
-    eagine::opt_c_api_function<
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Waddress"
+#endif
+    template <
+      typename Signature,
+      c_api_function_ptr<api_traits, nothing_t, Signature> Function>
+    using alut_api_function = eagine::opt_c_api_function<
       api_traits,
       nothing_t,
-      enum_type(),
-      OALPLUS_ALUT_STATIC_FUNC(GetError),
-      has_api>
-      GetError;
+      Signature,
+      Function,
+      has_api,
+      bool(Function)>;
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    alut_api_function<enum_type(), OALPLUS_ALUT_STATIC_FUNC(GetError)> GetError;
+
+    alut_api_function<
       const char_type*(enum_type),
-      OALPLUS_ALUT_STATIC_FUNC(GetErrorString),
-      has_api>
+      OALPLUS_ALUT_STATIC_FUNC(GetErrorString)>
       GetErrorString;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      bool_type(int*, char**),
-      OALPLUS_ALUT_STATIC_FUNC(Init),
-      has_api>
+    alut_api_function<bool_type(int*, char**), OALPLUS_ALUT_STATIC_FUNC(Init)>
       Init;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      bool_type(int*, char**),
-      OALPLUS_ALUT_STATIC_FUNC(Init),
-      has_api>
+    alut_api_function<bool_type(int*, char**), OALPLUS_ALUT_STATIC_FUNC(Init)>
       InitWithoutContext;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    alut_api_function<
       name_type(const char*),
-      OALPLUS_ALUT_STATIC_FUNC(CreateBufferFromFile),
-      has_api>
+      OALPLUS_ALUT_STATIC_FUNC(CreateBufferFromFile)>
       CreateBufferFromFile;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    alut_api_function<
       name_type(const_void_ptr_type, size_type),
-      OALPLUS_ALUT_STATIC_FUNC(CreateBufferFromFileImage),
-      has_api>
+      OALPLUS_ALUT_STATIC_FUNC(CreateBufferFromFileImage)>
       CreateBufferFromFileImage;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    alut_api_function<
       name_type(),
-      OALPLUS_ALUT_STATIC_FUNC(CreateBufferHelloWorld),
-      has_api>
+      OALPLUS_ALUT_STATIC_FUNC(CreateBufferHelloWorld)>
       CreateBufferHelloWorld;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    alut_api_function<
       name_type(enum_type, float_type, float_type, float_type),
-      OALPLUS_ALUT_STATIC_FUNC(CreateBufferWaveform),
-      has_api>
+      OALPLUS_ALUT_STATIC_FUNC(CreateBufferWaveform)>
       CreateBufferWaveform;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      bool_type(),
-      OALPLUS_ALUT_STATIC_FUNC(Exit),
-      has_api>
-      Exit;
+    alut_api_function<bool_type(), OALPLUS_ALUT_STATIC_FUNC(Exit)> Exit;
 
     constexpr basic_alut_c_api(api_traits& traits)
       : GetError("GetError", traits, *this)

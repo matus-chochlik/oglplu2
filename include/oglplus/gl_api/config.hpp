@@ -13,7 +13,7 @@
 #include <eagine/maybe_unused.hpp>
 
 #ifndef OGLPLUS_HAS_GL
-#if defined(GL_SUCCESS)
+#if defined(GL_NO_ERROR)
 #define OGLPLUS_HAS_GL 1
 #else
 #define OGLPLUS_HAS_GL 0
@@ -32,6 +32,11 @@ struct gl_types {
     using void_ptr_type = void*;
 #if OGLPLUS_HAS_GL
     static constexpr bool has_api = true;
+#if defined(__GLEW_H__)
+    static constexpr bool has_static_api = false;
+#else
+    static constexpr bool has_static_api = true;
+#endif
     using char_type = GLchar;
     using bool_type = GLboolean;
     using enum_type = GLenum;
@@ -50,6 +55,7 @@ struct gl_types {
     using sizei_type = GLsizei;
 #else
     static constexpr bool has_api = false;
+    static constexpr bool has_static_api = true;
     using char_type = char;
     using bool_type = bool;
     using enum_type = unsigned;

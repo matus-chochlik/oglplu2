@@ -17,6 +17,7 @@ test%: test%.o
 		-ldl -lrt \
 		$(shell pkg-config --libs openal) \
 		$(shell pkg-config --libs egl) \
+		$(shell pkg-config --libs gl) \
 		-rdynamic \
 		-pthread \
 		-o $@ $<
@@ -41,6 +42,7 @@ test%.o: test%.cpp
 		-I../third_party/asio/asio/include \
 		$(shell pkg-config --cflags openal) \
 		$(shell pkg-config --cflags egl) \
+		$(shell pkg-config --cflags gl) \
 		-c -o $@ $<
 
 clean:

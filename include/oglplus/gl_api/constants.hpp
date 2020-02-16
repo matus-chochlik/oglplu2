@@ -38,6 +38,33 @@ public:
       no_error;
 
     opt_c_api_constant<
+      mp_list<buffer_clear_bit>,
+#ifdef GL_COLOR_BUFFER_BIT
+      bitfield_type_c<GL_COLOR_BUFFER_BIT>>
+#else
+      bitfield_type_i>
+#endif
+      color_buffer_bit;
+
+    opt_c_api_constant<
+      mp_list<buffer_clear_bit>,
+#ifdef GL_DEPTH_BUFFER_BIT
+      bitfield_type_c<GL_DEPTH_BUFFER_BIT>>
+#else
+      bitfield_type_i>
+#endif
+      depth_buffer_bit;
+
+    opt_c_api_constant<
+      mp_list<buffer_clear_bit>,
+#ifdef GL_STENCIL_BUFFER_BIT
+      bitfield_type_c<GL_STENCIL_BUFFER_BIT>>
+#else
+      bitfield_type_i>
+#endif
+      stencil_buffer_bit;
+
+    opt_c_api_constant<
       mp_list<texture_compare_mode>,
 #ifdef GL_NONE
       bitfield_type_c<GL_NONE>>
@@ -48,6 +75,9 @@ public:
 
     basic_gl_constants(ApiTraits& traits, basic_gl_c_api<ApiTraits>& api)
       : no_error("NO_ERROR", traits, api)
+      , color_buffer_bit("COLOR_BUFFER_BIT", traits, api)
+      , depth_buffer_bit("DEPTH_BUFFER_BIT", traits, api)
+      , stencil_buffer_bit("STENCIL_BUFFER_BIT", traits, api)
       , none("NONE", traits, api) {
     }
 };

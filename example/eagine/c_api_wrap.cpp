@@ -42,7 +42,8 @@ struct example_file_api {
       example_sets_errno,
       int(int[2]),
       EXAMPLE_API_STATIC_FUNC(pipe),
-      EAGINE_POSIX>
+      EAGINE_POSIX,
+      true>
       make_pipe;
 
     struct : derived_func<> {
@@ -69,7 +70,8 @@ struct example_file_api {
       example_sets_errno,
       ssize_t(int, void*, size_t),
       EXAMPLE_API_STATIC_FUNC(read),
-      EAGINE_POSIX>
+      EAGINE_POSIX,
+      true>
       read_file;
 
     struct : derived_func<> {
@@ -94,7 +96,8 @@ struct example_file_api {
       example_sets_errno,
       ssize_t(int, const void*, size_t),
       EXAMPLE_API_STATIC_FUNC(write),
-      EAGINE_POSIX>
+      EAGINE_POSIX,
+      true>
       write_file;
 
     struct : derived_func<> {
@@ -136,7 +139,8 @@ struct example_file_api {
       example_sets_errno,
       int(int),
       EXAMPLE_API_STATIC_FUNC(close),
-      EAGINE_POSIX>
+      EAGINE_POSIX,
+      true>
       close_file;
 
     example_file_api(api_traits& traits)

@@ -50,342 +50,221 @@ struct basic_egl_c_api {
     using context_type = typename egl_types::context_type;
     using image_type = typename egl_types::image_type;
 
-    eagine::opt_c_api_function<
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Waddress"
+#endif
+    template <
+      typename Signature,
+      c_api_function_ptr<api_traits, nothing_t, Signature> Function>
+    using egl_api_function = eagine::opt_c_api_function<
       api_traits,
       nothing_t,
-      int_type(),
-      EGLPLUS_EGL_STATIC_FUNC(GetError),
-      has_api>
-      GetError;
+      Signature,
+      Function,
+      has_api,
+      bool(Function)>;
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    egl_api_function<int_type(), EGLPLUS_EGL_STATIC_FUNC(GetError)> GetError;
+
+    egl_api_function<
       void (*(const char_type*))(),
-      EGLPLUS_EGL_STATIC_FUNC(GetProcAddress),
-      has_api>
+      EGLPLUS_EGL_STATIC_FUNC(GetProcAddress)>
       GetProcAddress;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    egl_api_function<
       display_type(enum_type, void_ptr_type, const attrib_type*),
-      EGLPLUS_EGL_STATIC_FUNC(GetPlatformDisplay),
-      has_api>
+      EGLPLUS_EGL_STATIC_FUNC(GetPlatformDisplay)>
       GetPlatformDisplay;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    egl_api_function<
       display_type(native_display_type),
-      EGLPLUS_EGL_STATIC_FUNC(GetDisplay),
-      has_api>
+      EGLPLUS_EGL_STATIC_FUNC(GetDisplay)>
       GetDisplay;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    egl_api_function<
       bool_type(display_type, int_type*, int_type*),
-      EGLPLUS_EGL_STATIC_FUNC(Initialize),
-      has_api>
+      EGLPLUS_EGL_STATIC_FUNC(Initialize)>
       Initialize;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    egl_api_function<
       bool_type(display_type),
-      EGLPLUS_EGL_STATIC_FUNC(Terminate),
-      has_api>
+      EGLPLUS_EGL_STATIC_FUNC(Terminate)>
       Terminate;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    egl_api_function<
       const char_type*(display_type, int_type),
-      EGLPLUS_EGL_STATIC_FUNC(QueryString),
-      has_api>
+      EGLPLUS_EGL_STATIC_FUNC(QueryString)>
       QueryString;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    egl_api_function<
       bool_type(display_type, config_type*, int_type, int_type*),
-      EGLPLUS_EGL_STATIC_FUNC(GetConfigs),
-      has_api>
+      EGLPLUS_EGL_STATIC_FUNC(GetConfigs)>
       GetConfigs;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    egl_api_function<
       bool_type(
         display_type, const int_type*, config_type*, int_type, int_type*),
-      EGLPLUS_EGL_STATIC_FUNC(ChooseConfig),
-      has_api>
+      EGLPLUS_EGL_STATIC_FUNC(ChooseConfig)>
       ChooseConfig;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    egl_api_function<
       bool_type(display_type, config_type, int_type, int_type*),
-      EGLPLUS_EGL_STATIC_FUNC(GetConfigAttrib),
-      has_api>
+      EGLPLUS_EGL_STATIC_FUNC(GetConfigAttrib)>
       GetConfigAttrib;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    egl_api_function<
       surface_type(
         display_type, config_type, void_ptr_type, const attrib_type*),
-      EGLPLUS_EGL_STATIC_FUNC(CreatePlatformWindowSurface),
-      has_api>
+      EGLPLUS_EGL_STATIC_FUNC(CreatePlatformWindowSurface)>
       CreatePlatformWindowSurface;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    egl_api_function<
       surface_type(
         display_type, config_type, native_window_type, const int_type*),
-      EGLPLUS_EGL_STATIC_FUNC(CreateWindowSurface),
-      has_api>
+      EGLPLUS_EGL_STATIC_FUNC(CreateWindowSurface)>
       CreateWindowSurface;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    egl_api_function<
       surface_type(display_type, config_type, const int_type*),
-      EGLPLUS_EGL_STATIC_FUNC(CreatePbufferSurface),
-      has_api>
+      EGLPLUS_EGL_STATIC_FUNC(CreatePbufferSurface)>
       CreatePbufferSurface;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    egl_api_function<
       surface_type(
         display_type, config_type, void_ptr_type, const attrib_type*),
-      EGLPLUS_EGL_STATIC_FUNC(CreatePlatformPixmapSurface),
-      has_api>
+      EGLPLUS_EGL_STATIC_FUNC(CreatePlatformPixmapSurface)>
       CreatePlatformPixmapSurface;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    egl_api_function<
       surface_type(
         display_type, config_type, native_pixmap_type, const int_type*),
-      EGLPLUS_EGL_STATIC_FUNC(CreatePixmapSurface),
-      has_api>
+      EGLPLUS_EGL_STATIC_FUNC(CreatePixmapSurface)>
       CreatePixmapSurface;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    egl_api_function<
       bool_type(display_type, surface_type),
-      EGLPLUS_EGL_STATIC_FUNC(DestroySurface),
-      has_api>
+      EGLPLUS_EGL_STATIC_FUNC(DestroySurface)>
       DestroySurface;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    egl_api_function<
       surface_type(int_type),
-      EGLPLUS_EGL_STATIC_FUNC(GetCurrentSurface),
-      has_api>
+      EGLPLUS_EGL_STATIC_FUNC(GetCurrentSurface)>
       GetCurrentSurface;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    egl_api_function<
       bool_type(display_type, surface_type, int_type, int_type),
-      EGLPLUS_EGL_STATIC_FUNC(SurfaceAttrib),
-      has_api>
+      EGLPLUS_EGL_STATIC_FUNC(SurfaceAttrib)>
       SurfaceAttrib;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    egl_api_function<
       bool_type(display_type, surface_type, int_type, int_type*),
-      EGLPLUS_EGL_STATIC_FUNC(QuerySurface),
-      has_api>
+      EGLPLUS_EGL_STATIC_FUNC(QuerySurface)>
       QuerySurface;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    egl_api_function<
       bool_type(display_type, surface_type, int_type),
-      EGLPLUS_EGL_STATIC_FUNC(BindTexImage),
-      has_api>
+      EGLPLUS_EGL_STATIC_FUNC(BindTexImage)>
       BindTexImage;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    egl_api_function<
       bool_type(display_type, surface_type, int_type),
-      EGLPLUS_EGL_STATIC_FUNC(ReleaseTexImage),
-      has_api>
+      EGLPLUS_EGL_STATIC_FUNC(ReleaseTexImage)>
       ReleaseTexImage;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      bool_type(enum_type),
-      EGLPLUS_EGL_STATIC_FUNC(BindAPI),
-      has_api>
+    egl_api_function<bool_type(enum_type), EGLPLUS_EGL_STATIC_FUNC(BindAPI)>
       BindAPI;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      enum_type(),
-      EGLPLUS_EGL_STATIC_FUNC(QueryAPI),
-      has_api>
-      QueryAPI;
+    egl_api_function<enum_type(), EGLPLUS_EGL_STATIC_FUNC(QueryAPI)> QueryAPI;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    egl_api_function<
       context_type(display_type, config_type, context_type, const int_type*),
-      EGLPLUS_EGL_STATIC_FUNC(CreateContext),
-      has_api>
+      EGLPLUS_EGL_STATIC_FUNC(CreateContext)>
       CreateContext;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    egl_api_function<
       bool_type(display_type, context_type),
-      EGLPLUS_EGL_STATIC_FUNC(DestroyContext),
-      has_api>
+      EGLPLUS_EGL_STATIC_FUNC(DestroyContext)>
       DestroyContext;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    egl_api_function<
       bool_type(display_type, surface_type, surface_type, context_type),
-      EGLPLUS_EGL_STATIC_FUNC(MakeCurrent),
-      has_api>
+      EGLPLUS_EGL_STATIC_FUNC(MakeCurrent)>
       MakeCurrent;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      context_type(),
-      EGLPLUS_EGL_STATIC_FUNC(GetCurrentContext),
-      has_api>
+    egl_api_function<context_type(), EGLPLUS_EGL_STATIC_FUNC(GetCurrentContext)>
       GetCurrentContext;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    egl_api_function<
       bool_type(display_type, context_type, int_type, int_type*),
-      EGLPLUS_EGL_STATIC_FUNC(QueryContext),
-      has_api>
+      EGLPLUS_EGL_STATIC_FUNC(QueryContext)>
       QueryContext;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      bool_type(),
-      EGLPLUS_EGL_STATIC_FUNC(WaitClient),
-      has_api>
+    egl_api_function<bool_type(), EGLPLUS_EGL_STATIC_FUNC(WaitClient)>
       WaitClient;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      bool_type(int_type),
-      EGLPLUS_EGL_STATIC_FUNC(WaitNative),
-      has_api>
+    egl_api_function<bool_type(int_type), EGLPLUS_EGL_STATIC_FUNC(WaitNative)>
       WaitNative;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    egl_api_function<
       sync_type(display_type, enum_type, const attrib_type*),
-      EGLPLUS_EGL_STATIC_FUNC(CreateSync),
-      has_api>
+      EGLPLUS_EGL_STATIC_FUNC(CreateSync)>
       CreateSync;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    egl_api_function<
       int_type(display_type, sync_type, int_type, time_type),
-      EGLPLUS_EGL_STATIC_FUNC(ClientWaitSync),
-      has_api>
+      EGLPLUS_EGL_STATIC_FUNC(ClientWaitSync)>
       ClientWaitSync;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    egl_api_function<
       bool_type(display_type, sync_type, int_type),
-      EGLPLUS_EGL_STATIC_FUNC(WaitSync),
-      has_api>
+      EGLPLUS_EGL_STATIC_FUNC(WaitSync)>
       WaitSync;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    egl_api_function<
       bool_type(display_type, sync_type, int_type, attrib_type*),
-      EGLPLUS_EGL_STATIC_FUNC(GetSyncAttrib),
-      has_api>
+      EGLPLUS_EGL_STATIC_FUNC(GetSyncAttrib)>
       GetSyncAttrib;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    egl_api_function<
       bool_type(display_type, sync_type),
-      EGLPLUS_EGL_STATIC_FUNC(DestroySync),
-      has_api>
+      EGLPLUS_EGL_STATIC_FUNC(DestroySync)>
       DestroySync;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    egl_api_function<
       image_type(
         display_type,
         context_type,
         enum_type,
         client_buffer_type,
         const attrib_type*),
-      EGLPLUS_EGL_STATIC_FUNC(CreateImage),
-      has_api>
+      EGLPLUS_EGL_STATIC_FUNC(CreateImage)>
       CreateImage;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    egl_api_function<
       bool_type(display_type, image_type),
-      EGLPLUS_EGL_STATIC_FUNC(DestroyImage),
-      has_api>
+      EGLPLUS_EGL_STATIC_FUNC(DestroyImage)>
       DestroyImage;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    egl_api_function<
       bool_type(display_type, surface_type, native_pixmap_type),
-      EGLPLUS_EGL_STATIC_FUNC(CopyBuffers),
-      has_api>
+      EGLPLUS_EGL_STATIC_FUNC(CopyBuffers)>
       CopyBuffers;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    egl_api_function<
       bool_type(display_type, int_type),
-      EGLPLUS_EGL_STATIC_FUNC(SwapInterval),
-      has_api>
+      EGLPLUS_EGL_STATIC_FUNC(SwapInterval)>
       SwapInterval;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    egl_api_function<
       bool_type(display_type, surface_type),
-      EGLPLUS_EGL_STATIC_FUNC(SwapBuffers),
-      has_api>
+      EGLPLUS_EGL_STATIC_FUNC(SwapBuffers)>
       SwapBuffers;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      bool_type(),
-      EGLPLUS_EGL_STATIC_FUNC(ReleaseThread),
-      has_api>
+    egl_api_function<bool_type(), EGLPLUS_EGL_STATIC_FUNC(ReleaseThread)>
       ReleaseThread;
 
     constexpr basic_egl_c_api(api_traits& traits)

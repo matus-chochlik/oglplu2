@@ -25,10 +25,13 @@ public:
     using c_api = basic_gl_c_api<ApiTraits>;
 
     using void_ptr_type = typename gl_types::void_ptr_type;
+    using sizei_type = typename gl_types::sizei_type;
     using int_type = typename gl_types::int_type;
     using bool_type = typename gl_types::char_type;
     using char_type = typename gl_types::char_type;
     using enum_type = typename gl_types::enum_type;
+    using float_type = typename gl_types::float_type;
+    using double_type = typename gl_types::double_type;
     using bitfield_type = typename gl_types::bitfield_type;
 
     struct derived_func : derived_c_api_function<c_api, api_traits, nothing_t> {
@@ -42,6 +45,74 @@ public:
         }
     };
 
+    // viewport
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().Viewport);
+        }
+
+        constexpr auto operator()(
+          int_type x, int_type y, sizei_type w, sizei_type h) const noexcept {
+            return this->_check(this->call(this->api().Viewport, x, y, w, h));
+        }
+
+        constexpr auto operator()(sizei_type w, sizei_type h) const noexcept {
+            return this->_check(this->call(this->api().Viewport, 0, 0, w, h));
+        }
+    } viewport;
+
+    // clear_color
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().ClearColor);
+        }
+
+        constexpr auto operator()(
+          float_type r, float_type g, float_type b, float_type a) const
+          noexcept {
+            return this->_check(this->call(this->api().ClearColor, r, g, b, a));
+        }
+    } clear_color;
+
+    // clear_depth
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().ClearDepthf) ||
+                   bool(this->api().ClearDepth);
+        }
+
+        constexpr auto operator()(float_type d) const noexcept {
+            if(EAGINE_LIKELY(this->api().ClearDepthf)) {
+                return this->_check(this->call(this->api().ClearDepthf, d));
+            }
+            return this->_check(
+              this->call(this->api().ClearDepth, double_type(d)));
+        }
+
+        constexpr auto operator()(double_type d) const noexcept {
+            return this->_check(this->call(this->api().ClearDepth, d));
+        }
+    } clear_depth;
+
+    // clear_stencil
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().ClearStencil);
+        }
+
+        constexpr auto operator()(int_type s) const noexcept {
+            return this->_check(this->call(this->api().ClearStencil, s));
+        }
+    } clear_stencil;
+
     // clear
     struct : derived_func {
         using derived_func::derived_func;
@@ -53,12 +124,16 @@ public:
         constexpr auto operator()(enum_bitfield<buffer_clear_bit> mask) const
           noexcept {
             return this->_check(
-              this->call(this->api().clear, bitfield_type(mask)));
+              this->call(this->api().Clear, bitfield_type(mask)));
         }
     } clear;
 
     constexpr basic_gl_api(api_traits& traits)
       : c_api{traits}
+      , viewport("viewport", traits, *this)
+      , clear_color("clear_color", traits, *this)
+      , clear_depth("clear_depth", traits, *this)
+      , clear_stencil("clear_stencil", traits, *this)
       , clear("clear", traits, *this) {
     }
 };

@@ -547,28 +547,20 @@ private:
     function_pointer _function{nullptr};
 };
 //------------------------------------------------------------------------------
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Waddress"
-#endif
-
 template <
   typename ApiTraits,
   typename Tag,
   typename Signature,
   c_api_function_ptr<ApiTraits, Tag, Signature> function,
-  bool IsAvailable>
+  bool IsAvailable,
+  bool IsStatic>
 using opt_c_api_function = std::conditional_t<
   IsAvailable,
   std::conditional_t<
-    bool(function),
+    IsStatic,
     static_c_api_function<ApiTraits, Tag, Signature, function>,
     dynamic_c_api_function<ApiTraits, Tag, Signature>>,
   unimplemented_c_api_function<ApiTraits, Tag, Signature>>;
-
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
 //------------------------------------------------------------------------------
 template <typename Api, typename ApiTraits, typename Tag>
 class derived_c_api_function {

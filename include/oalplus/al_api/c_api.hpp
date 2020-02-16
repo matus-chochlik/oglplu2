@@ -44,746 +44,368 @@ struct basic_al_c_api {
     using void_ptr_type = typename al_types::void_ptr_type;
     using const_void_ptr_type = typename al_types::const_void_ptr_type;
 
-    eagine::opt_c_api_function<
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Waddress"
+#endif
+    template <
+      typename Signature,
+      c_api_function_ptr<api_traits, nothing_t, Signature> Function>
+    using al_api_function = eagine::opt_c_api_function<
       api_traits,
       nothing_t,
-      enum_type(),
-      OALPLUS_AL_STATIC_FUNC(GetError),
-      has_api>
-      GetError;
+      Signature,
+      Function,
+      has_api,
+      bool(Function)>;
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<enum_type(), OALPLUS_AL_STATIC_FUNC(GetError)> GetError;
+
+    al_api_function<
       void_ptr_type(const char_type*),
-      OALPLUS_AL_STATIC_FUNC(GetProcAddress),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(GetProcAddress)>
       GetProcAddress;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       enum_type(const char_type*),
-      OALPLUS_AL_STATIC_FUNC(GetEnumValue),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(GetEnumValue)>
       GetEnumValue;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(enum_type),
-      OALPLUS_AL_STATIC_FUNC(Enable),
-      has_api>
-      Enable;
+    al_api_function<void(enum_type), OALPLUS_AL_STATIC_FUNC(Enable)> Enable;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(enum_type),
-      OALPLUS_AL_STATIC_FUNC(Disable),
-      has_api>
-      Disable;
+    al_api_function<void(enum_type), OALPLUS_AL_STATIC_FUNC(Disable)> Disable;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      bool_type(enum_type),
-      OALPLUS_AL_STATIC_FUNC(IsEnabled),
-      has_api>
+    al_api_function<bool_type(enum_type), OALPLUS_AL_STATIC_FUNC(IsEnabled)>
       IsEnabled;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(enum_type, bool_type*),
-      OALPLUS_AL_STATIC_FUNC(GetBooleanv),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(GetBooleanv)>
       GetBooleanv;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(enum_type, int_type*),
-      OALPLUS_AL_STATIC_FUNC(GetIntegerv),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(GetIntegerv)>
       GetIntegerv;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(enum_type, float_type*),
-      OALPLUS_AL_STATIC_FUNC(GetFloatv),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(GetFloatv)>
       GetFloatv;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(enum_type, double_type*),
-      OALPLUS_AL_STATIC_FUNC(GetDoublev),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(GetDoublev)>
       GetDoublev;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      bool_type(enum_type),
-      OALPLUS_AL_STATIC_FUNC(GetBoolean),
-      has_api>
+    al_api_function<bool_type(enum_type), OALPLUS_AL_STATIC_FUNC(GetBoolean)>
       GetBoolean;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      int_type(enum_type),
-      OALPLUS_AL_STATIC_FUNC(GetInteger),
-      has_api>
+    al_api_function<int_type(enum_type), OALPLUS_AL_STATIC_FUNC(GetInteger)>
       GetInteger;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      float_type(enum_type),
-      OALPLUS_AL_STATIC_FUNC(GetFloat),
-      has_api>
+    al_api_function<float_type(enum_type), OALPLUS_AL_STATIC_FUNC(GetFloat)>
       GetFloat;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      double_type(enum_type),
-      OALPLUS_AL_STATIC_FUNC(GetDouble),
-      has_api>
+    al_api_function<double_type(enum_type), OALPLUS_AL_STATIC_FUNC(GetDouble)>
       GetDouble;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       const char_type*(enum_type),
-      OALPLUS_AL_STATIC_FUNC(GetString),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(GetString)>
       GetString;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(enum_type),
-      OALPLUS_AL_STATIC_FUNC(DistanceModel),
-      has_api>
+    al_api_function<void(enum_type), OALPLUS_AL_STATIC_FUNC(DistanceModel)>
       DistanceModel;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(float_type),
-      OALPLUS_AL_STATIC_FUNC(DopplerFactor),
-      has_api>
+    al_api_function<void(float_type), OALPLUS_AL_STATIC_FUNC(DopplerFactor)>
       DopplerFactor;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(float_type),
-      OALPLUS_AL_STATIC_FUNC(SpeedOfSound),
-      has_api>
+    al_api_function<void(float_type), OALPLUS_AL_STATIC_FUNC(SpeedOfSound)>
       SpeedOfSound;
 
     // Listener
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(enum_type, int_type),
-      OALPLUS_AL_STATIC_FUNC(Listeneri),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(Listeneri)>
       Listeneri;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(enum_type, int_type, int_type, int_type),
-      OALPLUS_AL_STATIC_FUNC(Listener3i),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(Listener3i)>
       Listener3i;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(enum_type, const int_type*),
-      OALPLUS_AL_STATIC_FUNC(Listeneriv),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(Listeneriv)>
       Listeneriv;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(enum_type, int_type*),
-      OALPLUS_AL_STATIC_FUNC(GetListeneriv),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(GetListeneriv)>
       GetListeneriv;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(enum_type, float_type),
-      OALPLUS_AL_STATIC_FUNC(Listenerf),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(Listenerf)>
       Listenerf;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(enum_type, float_type, float_type, float_type),
-      OALPLUS_AL_STATIC_FUNC(Listener3f),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(Listener3f)>
       Listener3f;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(enum_type, const float_type*),
-      OALPLUS_AL_STATIC_FUNC(Listenerfv),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(Listenerfv)>
       Listenerfv;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(enum_type, float_type*),
-      OALPLUS_AL_STATIC_FUNC(GetListenerfv),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(GetListenerfv)>
       GetListenerfv;
 
     // Buffers
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(size_type, name_type*),
-      OALPLUS_AL_STATIC_FUNC(GenBuffers),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(GenBuffers)>
       GenBuffers;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(size_type, const name_type*),
-      OALPLUS_AL_STATIC_FUNC(DeleteBuffers),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(DeleteBuffers)>
       DeleteBuffers;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      bool_type(name_type),
-      OALPLUS_AL_STATIC_FUNC(IsBuffer),
-      has_api>
+    al_api_function<bool_type(name_type), OALPLUS_AL_STATIC_FUNC(IsBuffer)>
       IsBuffer;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(name_type, enum_type, const_void_ptr_type, size_type, size_type),
-      OALPLUS_AL_STATIC_FUNC(BufferData),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(BufferData)>
       BufferData;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(name_type, enum_type, int_type),
-      OALPLUS_AL_STATIC_FUNC(Bufferi),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(Bufferi)>
       Bufferi;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(name_type, enum_type, int_type, int_type, int_type),
-      OALPLUS_AL_STATIC_FUNC(Buffer3i),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(Buffer3i)>
       Buffer3i;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(name_type, enum_type, const int_type*),
-      OALPLUS_AL_STATIC_FUNC(Bufferiv),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(Bufferiv)>
       Bufferiv;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(name_type, enum_type, int_type*),
-      OALPLUS_AL_STATIC_FUNC(GetBufferiv),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(GetBufferiv)>
       GetBufferiv;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(name_type, enum_type, float_type),
-      OALPLUS_AL_STATIC_FUNC(Bufferf),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(Bufferf)>
       Bufferf;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(name_type, enum_type, float_type, float_type, float_type),
-      OALPLUS_AL_STATIC_FUNC(Buffer3f),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(Buffer3f)>
       Buffer3f;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(name_type, enum_type, const float_type*),
-      OALPLUS_AL_STATIC_FUNC(Bufferfv),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(Bufferfv)>
       Bufferfv;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(name_type, enum_type, float_type*),
-      OALPLUS_AL_STATIC_FUNC(GetBufferfv),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(GetBufferfv)>
       GetBufferfv;
 
     // Sources
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(size_type, name_type*),
-      OALPLUS_AL_STATIC_FUNC(GenSources),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(GenSources)>
       GenSources;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(size_type, const name_type*),
-      OALPLUS_AL_STATIC_FUNC(DeleteSources),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(DeleteSources)>
       DeleteSources;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      bool_type(name_type),
-      OALPLUS_AL_STATIC_FUNC(IsSource),
-      has_api>
+    al_api_function<bool_type(name_type), OALPLUS_AL_STATIC_FUNC(IsSource)>
       IsSource;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(name_type, enum_type, int_type),
-      OALPLUS_AL_STATIC_FUNC(Sourcei),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(Sourcei)>
       Sourcei;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(name_type, enum_type, int_type, int_type, int_type),
-      OALPLUS_AL_STATIC_FUNC(Source3i),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(Source3i)>
       Source3i;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(name_type, enum_type, const int_type*),
-      OALPLUS_AL_STATIC_FUNC(Sourceiv),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(Sourceiv)>
       Sourceiv;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(name_type, enum_type, int_type*),
-      OALPLUS_AL_STATIC_FUNC(GetSourceiv),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(GetSourceiv)>
       GetSourceiv;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(name_type, enum_type, float_type),
-      OALPLUS_AL_STATIC_FUNC(Sourcef),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(Sourcef)>
       Sourcef;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(name_type, enum_type, float_type, float_type, float_type),
-      OALPLUS_AL_STATIC_FUNC(Source3f),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(Source3f)>
       Source3f;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(name_type, enum_type, const float_type*),
-      OALPLUS_AL_STATIC_FUNC(Sourcefv),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(Sourcefv)>
       Sourcefv;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(name_type, enum_type, float_type*),
-      OALPLUS_AL_STATIC_FUNC(GetSourcefv),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(GetSourcefv)>
       GetSourcefv;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(name_type),
-      OALPLUS_AL_STATIC_FUNC(SourcePlay),
-      has_api>
+    al_api_function<void(name_type), OALPLUS_AL_STATIC_FUNC(SourcePlay)>
       SourcePlay;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(name_type),
-      OALPLUS_AL_STATIC_FUNC(SourceStop),
-      has_api>
+    al_api_function<void(name_type), OALPLUS_AL_STATIC_FUNC(SourceStop)>
       SourceStop;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(name_type),
-      OALPLUS_AL_STATIC_FUNC(SourceRewind),
-      has_api>
+    al_api_function<void(name_type), OALPLUS_AL_STATIC_FUNC(SourceRewind)>
       SourceRewind;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(name_type),
-      OALPLUS_AL_STATIC_FUNC(SourcePause),
-      has_api>
+    al_api_function<void(name_type), OALPLUS_AL_STATIC_FUNC(SourcePause)>
       SourcePause;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(size_type, const name_type*),
-      OALPLUS_AL_STATIC_FUNC(SourcePlayv),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(SourcePlayv)>
       SourcePlayv;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(size_type, const name_type*),
-      OALPLUS_AL_STATIC_FUNC(SourceStopv),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(SourceStopv)>
       SourceStopv;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(size_type, const name_type*),
-      OALPLUS_AL_STATIC_FUNC(SourceRewindv),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(SourceRewindv)>
       SourceRewindv;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(size_type, const name_type*),
-      OALPLUS_AL_STATIC_FUNC(SourcePausev),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(SourcePausev)>
       SourcePausev;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(name_type, size_type, const name_type*),
-      OALPLUS_AL_STATIC_FUNC(SourceQueueBuffers),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(SourceQueueBuffers)>
       SourceQueueBuffers;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
+    al_api_function<
       void(name_type, size_type, name_type*),
-      OALPLUS_AL_STATIC_FUNC(SourceUnqueueBuffers),
-      has_api>
+      OALPLUS_AL_STATIC_FUNC(SourceUnqueueBuffers)>
       SourceUnqueueBuffers;
 
     // Effects
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(size_type, name_type*),
-      nullptr,
-      has_api>
-      GenEffects;
+    al_api_function<void(size_type, name_type*), nullptr> GenEffects;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(size_type, const name_type*),
-      nullptr,
-      has_api>
-      DeleteEffects;
+    al_api_function<void(size_type, const name_type*), nullptr> DeleteEffects;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      bool_type(name_type),
-      nullptr,
-      has_api>
-      IsEffect;
+    al_api_function<bool_type(name_type), nullptr> IsEffect;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(name_type, enum_type, int_type),
-      nullptr,
-      has_api>
-      Effecti;
+    al_api_function<void(name_type, enum_type, int_type), nullptr> Effecti;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(name_type, enum_type, const int_type*),
-      nullptr,
-      has_api>
+    al_api_function<void(name_type, enum_type, const int_type*), nullptr>
       Effectiv;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(name_type, enum_type, float_type),
-      nullptr,
-      has_api>
-      Effectf;
+    al_api_function<void(name_type, enum_type, float_type), nullptr> Effectf;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(name_type, enum_type, const float_type*),
-      nullptr,
-      has_api>
+    al_api_function<void(name_type, enum_type, const float_type*), nullptr>
       Effectfv;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(name_type, enum_type, int_type),
-      nullptr,
-      has_api>
-      GetEffecti;
+    al_api_function<void(name_type, enum_type, int_type), nullptr> GetEffecti;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(name_type, enum_type, int_type*),
-      nullptr,
-      has_api>
-      GetEffectiv;
+    al_api_function<void(name_type, enum_type, int_type*), nullptr> GetEffectiv;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(name_type, enum_type, float_type),
-      nullptr,
-      has_api>
-      GetEffectf;
+    al_api_function<void(name_type, enum_type, float_type), nullptr> GetEffectf;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(name_type, enum_type, float_type*),
-      nullptr,
-      has_api>
+    al_api_function<void(name_type, enum_type, float_type*), nullptr>
       GetEffectfv;
 
     // Filters
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(size_type, name_type*),
-      nullptr,
-      has_api>
-      GenFilters;
+    al_api_function<void(size_type, name_type*), nullptr> GenFilters;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(size_type, const name_type*),
-      nullptr,
-      has_api>
-      DeleteFilters;
+    al_api_function<void(size_type, const name_type*), nullptr> DeleteFilters;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      bool_type(name_type),
-      nullptr,
-      has_api>
-      IsFilter;
+    al_api_function<bool_type(name_type), nullptr> IsFilter;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(name_type, enum_type, int_type),
-      nullptr,
-      has_api>
-      Filteri;
+    al_api_function<void(name_type, enum_type, int_type), nullptr> Filteri;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(name_type, enum_type, const int_type*),
-      nullptr,
-      has_api>
+    al_api_function<void(name_type, enum_type, const int_type*), nullptr>
       Filteriv;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(name_type, enum_type, float_type),
-      nullptr,
-      has_api>
-      Filterf;
+    al_api_function<void(name_type, enum_type, float_type), nullptr> Filterf;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(name_type, enum_type, const float_type*),
-      nullptr,
-      has_api>
+    al_api_function<void(name_type, enum_type, const float_type*), nullptr>
       Filterfv;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(name_type, enum_type, int_type),
-      nullptr,
-      has_api>
-      GetFilteri;
+    al_api_function<void(name_type, enum_type, int_type), nullptr> GetFilteri;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(name_type, enum_type, int_type*),
-      nullptr,
-      has_api>
-      GetFilteriv;
+    al_api_function<void(name_type, enum_type, int_type*), nullptr> GetFilteriv;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(name_type, enum_type, float_type),
-      nullptr,
-      has_api>
-      GetFilterf;
+    al_api_function<void(name_type, enum_type, float_type), nullptr> GetFilterf;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(name_type, enum_type, float_type*),
-      nullptr,
-      has_api>
+    al_api_function<void(name_type, enum_type, float_type*), nullptr>
       GetFilterfv;
 
     // AuxiliaryEffectSlots
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(size_type, name_type*),
-      nullptr,
-      has_api>
+    al_api_function<void(size_type, name_type*), nullptr>
       GenAuxiliaryEffectSlots;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(size_type, const name_type*),
-      nullptr,
-      has_api>
+    al_api_function<void(size_type, const name_type*), nullptr>
       DeleteAuxiliaryEffectSlots;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      bool_type(name_type),
-      nullptr,
-      has_api>
-      IsAuxiliaryEffectSlot;
+    al_api_function<bool_type(name_type), nullptr> IsAuxiliaryEffectSlot;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(name_type, enum_type, int_type),
-      nullptr,
-      has_api>
+    al_api_function<void(name_type, enum_type, int_type), nullptr>
       AuxiliaryEffectSloti;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(name_type, enum_type, const int_type*),
-      nullptr,
-      has_api>
+    al_api_function<void(name_type, enum_type, const int_type*), nullptr>
       AuxiliaryEffectSlotiv;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(name_type, enum_type, float_type),
-      nullptr,
-      has_api>
+    al_api_function<void(name_type, enum_type, float_type), nullptr>
       AuxiliaryEffectSlotf;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(name_type, enum_type, const float_type*),
-      nullptr,
-      has_api>
+    al_api_function<void(name_type, enum_type, const float_type*), nullptr>
       AuxiliaryEffectSlotfv;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(name_type, enum_type, int_type),
-      nullptr,
-      has_api>
+    al_api_function<void(name_type, enum_type, int_type), nullptr>
       GetAuxiliaryEffectSloti;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(name_type, enum_type, int_type*),
-      nullptr,
-      has_api>
+    al_api_function<void(name_type, enum_type, int_type*), nullptr>
       GetAuxiliaryEffectSlotiv;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(name_type, enum_type, float_type),
-      nullptr,
-      has_api>
+    al_api_function<void(name_type, enum_type, float_type), nullptr>
       GetAuxiliaryEffectSlotf;
 
-    eagine::opt_c_api_function<
-      api_traits,
-      nothing_t,
-      void(name_type, enum_type, float_type*),
-      nullptr,
-      has_api>
+    al_api_function<void(name_type, enum_type, float_type*), nullptr>
       GetAuxiliaryEffectSlotfv;
 
     constexpr basic_al_c_api(api_traits& traits)

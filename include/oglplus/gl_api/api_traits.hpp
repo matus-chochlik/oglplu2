@@ -14,6 +14,12 @@
 namespace eagine {
 namespace oglp {
 //------------------------------------------------------------------------------
+extern "C" {
+
+void* glXGetProcAddress(const gl_types::ubyte_type*);
+
+} // extern "C"
+//------------------------------------------------------------------------------
 class gl_api_traits : public default_c_api_traits {
 public:
     template <typename R>
@@ -25,17 +31,16 @@ public:
 
     template <typename Api, typename Tag, typename Signature>
     std::add_pointer_t<Signature> link_function(
-      Api& api, Tag, string_view name, identity<Signature>) {
-        if(api.GetProcAddress && api.GetError) {
-            _full_name.clear();
-            _full_name.reserve(2 + name.size() + 1);
-            _full_name.append("gl");
-            _full_name.append(name.data(), std::size_t(name.size()));
-            auto func = api.GetProcAddress(nullptr, _full_name.c_str());
-            if(gl_types::error_code_no_error(api.GetError())) {
-                return reinterpret_cast<std::remove_pointer_t<Signature>*>(
-                  func);
-            }
+      Api&, Tag, string_view name, identity<Signature>) {
+        _full_name.clear();
+        _full_name.reserve(2 + name.size() + 1);
+        _full_name.append("gl");
+        _full_name.append(name.data(), std::size_t(name.size()));
+        auto func = glXGetProcAddress(
+          reinterpret_cast<const gl_types::ubyte_type*>(_full_name.c_str()));
+        // TODO: support for extension also needs to be checked
+        if(func != nullptr) {
+            return reinterpret_cast<std::remove_pointer_t<Signature>*>(func);
         }
         return nullptr;
     }

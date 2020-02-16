@@ -8,9 +8,7 @@
  */
 #include <GL/glew.h>
 
-#include <oglplus/constant_defs.hpp>
-#include <oglplus/constants.hpp>
-#include <oglplus/operations.hpp>
+#include <oglplus/gl_api.hpp>
 
 #include <eagine/scope_exit.hpp>
 
@@ -20,40 +18,42 @@
 #include <stdexcept>
 
 static void run_loop(GLFWwindow* window, int width, int height) {
-    using namespace oglplus;
+    using namespace eagine::oglp;
 
-    constants GL;
-    operations gl;
+    gl_api gl;
 
-    gl.clear_color(0.3f, 0.3f, 0.9f, 0.0f);
-    gl.clear_depth(1.0f);
+    if(gl.clear) {
 
-    while(true) {
-        glfwPollEvents();
+        gl.clear_color(0.3f, 0.3f, 0.9f, 0.0f);
+        gl.clear_depth(1.0f);
 
-        if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-            glfwSetWindowShouldClose(window, 1);
-            break;
-        }
+        while(true) {
+            glfwPollEvents();
 
-        if(glfwWindowShouldClose(window)) {
-            break;
-        }
+            if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+                glfwSetWindowShouldClose(window, 1);
+                break;
+            }
 
-        int new_width, new_height;
-        glfwGetWindowSize(window, &new_width, &new_height);
-        if((width != new_width) || (height != new_height)) {
-            width = new_width;
-            height = new_height;
+            if(glfwWindowShouldClose(window)) {
+                break;
+            }
+
+            int new_width, new_height;
+            glfwGetWindowSize(window, &new_width, &new_height);
+            if((width != new_width) || (height != new_height)) {
+                width = new_width;
+                height = new_height;
+            }
 
             gl.viewport(width, height);
+
+            gl.clear(gl.color_buffer_bit | gl.depth_buffer_bit);
+
+            glfwSwapBuffers(window);
         }
-
-        gl.viewport(0, 0, width, height);
-
-        gl.clear(GL.color_buffer_bit | GL.depth_buffer_bit);
-
-        glfwSwapBuffers(window);
+    } else {
+        std::cout << "missing required API" << std::endl;
     }
 }
 
