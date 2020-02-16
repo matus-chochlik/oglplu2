@@ -18,21 +18,19 @@ int main() {
     egl_api egl;
 
     if(egl.get_display) {
-        if(auto opt_disp = egl.get_display()) {
-            auto& display = extract(opt_disp);
+        if(ok display = egl.get_display()) {
             if(auto init_res = egl.initialize(display)) {
                 auto do_cleanup = egl.terminate.raii(display);
 
                 std::cout << "Supported APIs:" << std::endl;
 
-                if(auto get_result = egl.get_client_apis(display)) {
-                    for(auto name : extract(get_result)) {
+                if(ok apis = egl.get_client_apis(display)) {
+                    for(auto name : apis) {
                         std::cout << "  " << name << std::endl;
                     }
                 } else {
-                    std::cerr
-                      << "failed to get API list: " << get_result.message()
-                      << std::endl;
+                    std::cerr << "failed to get API list: " << (!apis).message()
+                              << std::endl;
                 }
             } else {
                 std::cout << "missing required API function." << std::endl;

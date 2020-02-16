@@ -20,17 +20,15 @@ int main() {
     egl_api egl;
 
     if(egl.get_display) {
-        if(auto opt_disp = egl.get_display()) {
-            auto& display = extract(opt_disp);
+        if(ok display{egl.get_display()}) {
             if(auto init_res = egl.initialize(display)) {
                 auto do_cleanup = egl.terminate.raii(display);
 
                 if(
-                  auto opt_count =
+                  ok count =
                     egl.choose_config.count(display, egl.samples | 2)) {
 
-                    std::vector<egl_api::config_type> configs(
-                      extract(opt_count));
+                    std::vector<egl_api::config_type> configs(count);
 
                     std::cout << "found " << configs.size()
                               << " multisample configs:" << std::endl;
