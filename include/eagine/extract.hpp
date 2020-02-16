@@ -11,6 +11,7 @@
 #define EAGINE_EXTRACT_HPP
 
 #include "assert.hpp"
+#include "nothing.hpp"
 #include <memory>
 #include <type_traits>
 

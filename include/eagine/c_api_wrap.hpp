@@ -12,6 +12,7 @@
 
 #include "assert.hpp"
 #include "enum_class.hpp"
+#include "extract.hpp"
 #include "identity.hpp"
 #include "int_constant.hpp"
 #include "string_span.hpp"
@@ -161,6 +162,14 @@ public:
     }
 };
 //------------------------------------------------------------------------------
+template <typename Result, typename Info>
+struct ok_traits<api_no_result<Result, Info>> {
+    static constexpr const Info& nok_info(
+      const api_no_result<Result, Info>& r) noexcept {
+        return r;
+    }
+};
+//------------------------------------------------------------------------------
 template <typename Result, typename Info, typename Fallback>
 static constexpr inline Result extract_or(
   const api_no_result<Result, Info>&, Fallback&& fallback) noexcept {
@@ -240,6 +249,14 @@ public:
     template <typename Transform>
     auto transformed(Transform transform) const {
         return this->_transformed(*this, transform);
+    }
+};
+//------------------------------------------------------------------------------
+template <typename Result, typename Info>
+struct ok_traits<api_result<Result, Info>> {
+    static constexpr const Info& nok_info(
+      const api_result<Result, Info>& r) noexcept {
+        return r;
     }
 };
 //------------------------------------------------------------------------------
@@ -342,6 +359,14 @@ public:
     template <typename Transform>
     auto transformed(Transform transform) const {
         return this->_transformed(*this, transform);
+    }
+};
+//------------------------------------------------------------------------------
+template <typename Result, typename Info>
+struct ok_traits<api_opt_result<Result, Info>> {
+    static constexpr const Info& nok_info(
+      const api_opt_result<Result, Info>& r) noexcept {
+        return r;
     }
 };
 //------------------------------------------------------------------------------
