@@ -9,14 +9,13 @@
 #ifndef OGLPLUS_GL_API_HPP
 #define OGLPLUS_GL_API_HPP
 
-//#include "gl_api/api.hpp"
+#include "gl_api/api.hpp"
 #include "gl_api/api_traits.hpp"
-//#include "gl_api/constants.hpp"
+#include "gl_api/constants.hpp"
 
 namespace eagine {
 namespace oglp {
 //------------------------------------------------------------------------------
-/*
 class gl_api
   : protected gl_api_traits
   , public basic_gl_api<gl_api_traits>
@@ -34,7 +33,6 @@ public:
       : gl_api{gl_api_traits{}} {
     }
 };
-*/
 //------------------------------------------------------------------------------
 } // namespace oglp
 } // namespace eagine

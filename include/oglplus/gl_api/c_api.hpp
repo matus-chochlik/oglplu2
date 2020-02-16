@@ -35,6 +35,7 @@ struct basic_gl_c_api {
     using void_ptr_type = typename gl_types::void_ptr_type;
     using enum_type = typename gl_types::enum_type;
     using char_type = typename gl_types::char_type;
+    using bitfield_type = typename gl_types::bitfield_type;
 
     eagine::opt_c_api_function<
       api_traits,
@@ -44,17 +45,17 @@ struct basic_gl_c_api {
       has_api>
       GetError;
 
-    static constexpr bool succeeded(enum_type ec) noexcept {
-#ifdef GL_NO_ERROR
-        return ec == GL_NO_ERROR;
-#else
-        EAGINE_MAYBE_UNUSED(ec);
-        return false;
-#endif
-    }
+    eagine::opt_c_api_function<
+      api_traits,
+      nothing_t,
+      void(bitfield_type),
+      OGLPLUS_GL_STATIC_FUNC(Clear),
+      has_api>
+      Clear;
 
     constexpr basic_gl_c_api(api_traits& traits)
-      : GetError("GetError", traits, *this) {
+      : GetError("GetError", traits, *this)
+      , Clear("Clear", traits, *this) {
     }
 };
 //------------------------------------------------------------------------------

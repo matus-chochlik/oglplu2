@@ -17,6 +17,16 @@ namespace oglp {
 struct error_code : gl_enum_class<error_code, EAGINE_ID_V(ErrorCode)> {
     using enum_class::enum_class;
 };
+
+struct buffer_clear_bit
+  : gl_enum_class<buffer_clear_bit, EAGINE_ID_V(BuffClrBit)> {
+    using enum_class::enum_class;
+};
+
+struct texture_compare_mode
+  : gl_enum_class<texture_compare_mode, EAGINE_ID_V(TexCmpMode)> {
+    using enum_class::enum_class;
+};
 //------------------------------------------------------------------------------
 } // namespace oglp
 } // namespace eagine
