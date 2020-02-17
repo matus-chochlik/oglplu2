@@ -86,6 +86,11 @@ public:
             return {"table too large"};
         }
 #endif
+#ifdef GL_CONTEXT_LOST
+        if(_error_code == GL_CONTEXT_LOST) {
+            return {"rendering context lost"};
+        }
+#endif
 #ifdef GL_OUT_OF_MEMORY
         if(_error_code == GL_OUT_OF_MEMORY) {
             return {"out of memory"};

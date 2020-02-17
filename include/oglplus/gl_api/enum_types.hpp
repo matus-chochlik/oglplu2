@@ -22,6 +22,11 @@ struct capability : gl_enum_class<capability, EAGINE_ID_V(Capability)> {
     using enum_class::enum_class;
 };
 
+struct graphics_reset_status
+  : gl_enum_class<graphics_reset_status, EAGINE_ID_V(GrphRstStt)> {
+    using enum_class::enum_class;
+};
+
 struct buffer_clear_bit
   : gl_enum_class<buffer_clear_bit, EAGINE_ID_V(BuffClrBit)> {
     using enum_class::enum_class;

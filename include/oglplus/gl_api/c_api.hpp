@@ -62,6 +62,9 @@ struct basic_gl_c_api {
 
     gl_api_function<enum_type(), OGLPLUS_GL_STATIC_FUNC(GetError)> GetError;
 
+    gl_api_function<enum_type(), OGLPLUS_GL_STATIC_FUNC(GetGraphicsResetStatus)>
+      GetGraphicsResetStatus;
+
     gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(Enable)> Enable;
 
     gl_api_function<void(enum_type, uint_type), OGLPLUS_GL_STATIC_FUNC(Enablei)>
@@ -82,6 +85,157 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(IsEnabledi)>
       IsEnabledi;
 
+    // object ops
+
+    gl_api_function<
+      void(sizei_type, uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(GenVertexArrays)>
+      GenVertexArrays;
+
+    gl_api_function<
+      void(sizei_type, const uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(DeleteVertexArrays)>
+      DeleteVertexArrays;
+
+    gl_api_function<bool_type(uint_type), OGLPLUS_GL_STATIC_FUNC(IsVertexArray)>
+      IsVertexArray;
+
+    gl_api_function<void(uint_type), OGLPLUS_GL_STATIC_FUNC(BindVertexArray)>
+      BindVertexArray;
+
+    gl_api_function<
+      void(sizei_type, uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(GenBuffers)>
+      GenBuffers;
+
+    gl_api_function<
+      void(sizei_type, const uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(DeleteBuffers)>
+      DeleteBuffers;
+
+    gl_api_function<bool_type(uint_type), OGLPLUS_GL_STATIC_FUNC(IsBuffer)>
+      IsBuffer;
+
+    gl_api_function<
+      void(enum_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(BindBuffer)>
+      BindBuffer;
+
+    gl_api_function<
+      void(sizei_type, uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(GenTextures)>
+      GenTextures;
+
+    gl_api_function<
+      void(sizei_type, const uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(DeleteTextures)>
+      DeleteTextures;
+
+    gl_api_function<bool_type(uint_type), OGLPLUS_GL_STATIC_FUNC(IsTexture)>
+      IsTexture;
+
+    gl_api_function<
+      void(enum_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(BindTexture)>
+      BindTexture;
+
+    gl_api_function<
+      void(sizei_type, uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(GenSamplers)>
+      GenSamplers;
+
+    gl_api_function<
+      void(sizei_type, const uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(DeleteSamplers)>
+      DeleteSamplers;
+
+    gl_api_function<bool_type(uint_type), OGLPLUS_GL_STATIC_FUNC(IsSampler)>
+      IsSampler;
+
+    gl_api_function<
+      void(enum_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(BindSampler)>
+      BindSampler;
+
+    gl_api_function<
+      void(sizei_type, uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(GenRenderbuffers)>
+      GenRenderbuffers;
+
+    gl_api_function<
+      void(sizei_type, const uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(DeleteRenderbuffers)>
+      DeleteRenderbuffers;
+
+    gl_api_function<
+      bool_type(uint_type),
+      OGLPLUS_GL_STATIC_FUNC(IsRenderbuffer)>
+      IsRenderbuffer;
+
+    gl_api_function<
+      void(enum_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(BindRenderbuffer)>
+      BindRenderbuffer;
+
+    gl_api_function<
+      void(sizei_type, uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(GenFramebuffers)>
+      GenFramebuffers;
+
+    gl_api_function<
+      void(sizei_type, const uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(DeleteFramebuffers)>
+      DeleteFramebuffers;
+
+    gl_api_function<bool_type(uint_type), OGLPLUS_GL_STATIC_FUNC(IsFramebuffer)>
+      IsFramebuffer;
+
+    gl_api_function<
+      void(enum_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(BindFramebuffer)>
+      BindFramebuffer;
+
+    gl_api_function<
+      void(sizei_type, uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(GenTransformFeedbacks)>
+      GenTransformFeedbacks;
+
+    gl_api_function<
+      void(sizei_type, const uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(DeleteTransformFeedbacks)>
+      DeleteTransformFeedbacks;
+
+    gl_api_function<
+      bool_type(uint_type),
+      OGLPLUS_GL_STATIC_FUNC(IsTransformFeedback)>
+      IsTransformFeedback;
+
+    gl_api_function<
+      void(uint_type),
+      OGLPLUS_GL_STATIC_FUNC(BindTransformFeedback)>
+      BindTransformFeedback;
+
+    gl_api_function<
+      void(sizei_type, uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(GenQueries)>
+      GenQueries;
+
+    gl_api_function<
+      void(sizei_type, const uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(DeleteQueries)>
+      DeleteQueries;
+
+    gl_api_function<bool_type(uint_type), OGLPLUS_GL_STATIC_FUNC(IsQuery)>
+      IsQuery;
+
+    gl_api_function<
+      void(enum_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(BeginQuery)>
+      BeginQuery;
+
+    gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(EndQuery)> EndQuery;
+
+    // viewport
     gl_api_function<
       void(double_type, double_type),
       OGLPLUS_GL_STATIC_FUNC(DepthRange)>
@@ -173,14 +327,51 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(GetStringi)>
       GetStringi;
 
+    gl_api_function<void(), OGLPLUS_GL_STATIC_FUNC(Flush)> Flush;
+    gl_api_function<void(), OGLPLUS_GL_STATIC_FUNC(Finish)> Finish;
+
     constexpr basic_gl_c_api(api_traits& traits)
       : GetError("GetError", traits, *this)
+      , GetGraphicsResetStatus("GetGraphicsResetStatus", traits, *this)
       , Enable("Enable", traits, *this)
       , Enablei("Enablei", traits, *this)
       , Disable("Disable", traits, *this)
       , Disablei("Disablei", traits, *this)
       , IsEnabled("IsEnabled", traits, *this)
       , IsEnabledi("IsEnabledi", traits, *this)
+      , GenVertexArrays("GenVertexArrays", traits, *this)
+      , DeleteVertexArrays("DeleteVertexArrays", traits, *this)
+      , IsVertexArray("IsVertexArray", traits, *this)
+      , BindVertexArray("BindVertexArray", traits, *this)
+      , GenBuffers("GenBuffers", traits, *this)
+      , DeleteBuffers("DeleteBuffers", traits, *this)
+      , IsBuffer("IsBuffer", traits, *this)
+      , BindBuffer("BindBuffer", traits, *this)
+      , GenTextures("GenTextures", traits, *this)
+      , DeleteTextures("DeleteTextures", traits, *this)
+      , IsTexture("IsTexture", traits, *this)
+      , BindTexture("BindTexture", traits, *this)
+      , GenSamplers("GenSamplers", traits, *this)
+      , DeleteSamplers("DeleteSamplers", traits, *this)
+      , IsSampler("IsSampler", traits, *this)
+      , BindSampler("BindSampler", traits, *this)
+      , GenRenderbuffers("GenRenderbuffers", traits, *this)
+      , DeleteRenderbuffers("DeleteRenderbuffers", traits, *this)
+      , IsRenderbuffer("IsRenderbuffer", traits, *this)
+      , BindRenderbuffer("BindRenderbuffer", traits, *this)
+      , GenFramebuffers("GenFramebuffers", traits, *this)
+      , DeleteFramebuffers("DeleteFramebuffers", traits, *this)
+      , IsFramebuffer("IsFramebuffer", traits, *this)
+      , BindFramebuffer("BindFramebuffer", traits, *this)
+      , GenTransformFeedbacks("GenTransformFeedbacks", traits, *this)
+      , DeleteTransformFeedbacks("DeleteTransformFeedbacks", traits, *this)
+      , IsTransformFeedback("IsTransformFeedback", traits, *this)
+      , BindTransformFeedback("BindTransformFeedback", traits, *this)
+      , GenQueries("GenQueries", traits, *this)
+      , DeleteQueries("DeleteQueries", traits, *this)
+      , IsQuery("IsQuery", traits, *this)
+      , BeginQuery("BeginQuery", traits, *this)
+      , EndQuery("EndQuery", traits, *this)
       , DepthRange("DepthRange", traits, *this)
       , DepthRangef("DepthRangef", traits, *this)
       , Viewport("Viewport", traits, *this)
@@ -200,7 +391,9 @@ struct basic_gl_c_api {
       , GetDoublev("GetDoublev", traits, *this)
       , GetDoublei_v("GetDoublei_v", traits, *this)
       , GetString("GetString", traits, *this)
-      , GetStringi("GetStringi", traits, *this) {
+      , GetStringi("GetStringi", traits, *this)
+      , Flush("Flush", traits, *this)
+      , Finish("Finish", traits, *this) {
     }
 };
 //------------------------------------------------------------------------------

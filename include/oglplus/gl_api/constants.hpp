@@ -29,7 +29,7 @@ public:
     using bitfield_type_c = std::integral_constant<bitfield_type, value>;
 
     opt_c_api_constant<
-      mp_list<error_code>,
+      mp_list<error_code, graphics_reset_status>,
 #ifdef GL_NO_ERROR
       enum_type_c<GL_NO_ERROR>>
 #else
@@ -117,6 +117,33 @@ public:
       enum_type_i>
 #endif
       out_of_memory;
+
+    opt_c_api_constant<
+      mp_list<graphics_reset_status>,
+#ifdef GL_GUILTY_CONTEXT_RESET
+      enum_type_c<GL_GUILTY_CONTEXT_RESET>>
+#else
+      enum_type_i>
+#endif
+      guilty_context_reset;
+
+    opt_c_api_constant<
+      mp_list<graphics_reset_status>,
+#ifdef GL_INNOCENT_CONTEXT_RESET
+      enum_type_c<GL_INNOCENT_CONTEXT_RESET>>
+#else
+      enum_type_i>
+#endif
+      innocent_context_reset;
+
+    opt_c_api_constant<
+      mp_list<graphics_reset_status>,
+#ifdef GL_UNKNOWN_CONTEXT_RESET
+      enum_type_c<GL_UNKNOWN_CONTEXT_RESET>>
+#else
+      enum_type_i>
+#endif
+      unknown_context_reset;
 
     opt_c_api_constant<
       mp_list<capability>,
@@ -274,6 +301,9 @@ public:
       , table_too_large("TABLE_TOO_LARGE", traits, api)
       , context_lost("CONTEXT_LOST", traits, api)
       , out_of_memory("OUT_OF_MEMORY", traits, api)
+      , guilty_context_reset("GUILTY_CONTEXT_RESET", traits, api)
+      , innocent_context_reset("INNOCENT_CONTEXT_RESET", traits, api)
+      , unknown_context_reset("UNKNOWN_CONTEXT_RESET", traits, api)
       , blend("BLEND", traits, api)
       , cull_face("CULL_FACE", traits, api)
       , depth_clamp("DEPTH_CLAMP", traits, api)
