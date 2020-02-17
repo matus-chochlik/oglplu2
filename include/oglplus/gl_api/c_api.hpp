@@ -235,6 +235,93 @@ struct basic_gl_c_api {
 
     gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(EndQuery)> EndQuery;
 
+    //
+    gl_api_function<uint_type(enum_type), OGLPLUS_GL_STATIC_FUNC(CreateShader)>
+      CreateShader;
+
+    gl_api_function<void(uint_type), OGLPLUS_GL_STATIC_FUNC(DeleteShader)>
+      DeleteShader;
+
+    gl_api_function<bool_type(uint_type), OGLPLUS_GL_STATIC_FUNC(IsShader)>
+      IsShader;
+
+    gl_api_function<void(uint_type), OGLPLUS_GL_STATIC_FUNC(CompileShader)>
+      CompileShader;
+
+    gl_api_function<
+      void(uint_type, enum_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetShaderiv)>
+      GetShaderiv;
+
+    gl_api_function<
+      void(uint_type, sizei_type, sizei_type*, char*),
+      OGLPLUS_GL_STATIC_FUNC(GetShaderInfoLog)>
+      GetShaderInfoLog;
+
+    gl_api_function<
+      void(uint_type, sizei_type, sizei_type*, char*),
+      OGLPLUS_GL_STATIC_FUNC(GetShaderSource)>
+      GetShaderSource;
+
+    //
+    gl_api_function<uint_type(enum_type), OGLPLUS_GL_STATIC_FUNC(CreateProgram)>
+      CreateProgram;
+
+    gl_api_function<void(uint_type), OGLPLUS_GL_STATIC_FUNC(DeleteProgram)>
+      DeleteProgram;
+
+    gl_api_function<bool_type(uint_type), OGLPLUS_GL_STATIC_FUNC(IsProgram)>
+      IsProgram;
+
+    gl_api_function<
+      void(uint_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(AttachShader)>
+      AttachShader;
+
+    gl_api_function<
+      void(uint_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(DetachShader)>
+      DetachShader;
+
+    gl_api_function<
+      void(uint_type, sizei_type, sizei_type*, uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetAttachedShader)>
+      GetAttachedShader;
+
+    gl_api_function<void(uint_type), OGLPLUS_GL_STATIC_FUNC(ValidateProgram)>
+      ValidateProgram;
+
+    gl_api_function<void(uint_type), OGLPLUS_GL_STATIC_FUNC(LinkProgram)>
+      LinkProgram;
+
+    gl_api_function<
+      void(uint_type, enum_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetProgramiv)>
+      GetProgramiv;
+
+    gl_api_function<
+      void(uint_type, sizei_type, sizei_type*, char*),
+      OGLPLUS_GL_STATIC_FUNC(GetProgramInfoLog)>
+      GetProgramInfoLog;
+
+    gl_api_function<void(uint_type), OGLPLUS_GL_STATIC_FUNC(UseProgram)>
+      UseProgram;
+
+    gl_api_function<
+      void(uint_type, uint_type, const char*),
+      OGLPLUS_GL_STATIC_FUNC(BindAttribLocation)>
+      BindAttribLocation;
+
+    gl_api_function<
+      int_type(uint_type, const char*),
+      OGLPLUS_GL_STATIC_FUNC(GetAttribLocation)>
+      GetAttribLocation;
+
+    gl_api_function<
+      int_type(uint_type, const char*),
+      OGLPLUS_GL_STATIC_FUNC(GetUniformLocation)>
+      GetUniformLocation;
+
     // viewport
     gl_api_function<
       void(double_type, double_type),
@@ -372,6 +459,27 @@ struct basic_gl_c_api {
       , IsQuery("IsQuery", traits, *this)
       , BeginQuery("BeginQuery", traits, *this)
       , EndQuery("EndQuery", traits, *this)
+      , CreateShader("CreateShader", traits, *this)
+      , DeleteShader("DeleteShader", traits, *this)
+      , IsShader("IsShader", traits, *this)
+      , CompileShader("CompileShader", traits, *this)
+      , GetShaderiv("GetShaderiv", traits, *this)
+      , GetShaderInfoLog("GetShaderInfoLog", traits, *this)
+      , GetShaderSource("GetShaderSource", traits, *this)
+      , CreateProgram("CreateProgram", traits, *this)
+      , DeleteProgram("DeleteProgram", traits, *this)
+      , IsProgram("IsProgram", traits, *this)
+      , AttachShader("AttachShader", traits, *this)
+      , DetachShader("DetachShader", traits, *this)
+      , GetAttachedShader("GetAttachedShader", traits, *this)
+      , ValidateProgram("ValidateProgram", traits, *this)
+      , LinkProgram("LinkProgram", traits, *this)
+      , GetProgramiv("GetProgramiv", traits, *this)
+      , GetProgramInfoLog("GetProgramInfoLog", traits, *this)
+      , UseProgram("UseProgram", traits, *this)
+      , BindAttribLocation("BindAttribLocation", traits, *this)
+      , GetAttribLocation("GetAttribLocation", traits, *this)
+      , GetUniformLocation("GetUniformLocation", traits, *this)
       , DepthRange("DepthRange", traits, *this)
       , DepthRangef("DepthRangef", traits, *this)
       , Viewport("Viewport", traits, *this)
