@@ -38,6 +38,87 @@ public:
       no_error;
 
     opt_c_api_constant<
+      mp_list<error_code>,
+#ifdef GL_INVALID_ENUM
+      enum_type_c<GL_INVALID_ENUM>>
+#else
+      enum_type_i>
+#endif
+      invalid_enum;
+
+    opt_c_api_constant<
+      mp_list<error_code>,
+#ifdef GL_INVALID_VALUE
+      enum_type_c<GL_INVALID_VALUE>>
+#else
+      enum_type_i>
+#endif
+      invalid_value;
+
+    opt_c_api_constant<
+      mp_list<error_code>,
+#ifdef GL_INVALID_OPERATION
+      enum_type_c<GL_INVALID_OPERATION>>
+#else
+      enum_type_i>
+#endif
+      invalid_operation;
+
+    opt_c_api_constant<
+      mp_list<error_code>,
+#ifdef GL_INVALID_FRAMEBUFFER_OPERATION
+      enum_type_c<GL_INVALID_FRAMEBUFFER_OPERATION>>
+#else
+      enum_type_i>
+#endif
+      invalid_framebuffer_operation;
+
+    opt_c_api_constant<
+      mp_list<error_code>,
+#ifdef GL_STACK_OVERFLOW
+      enum_type_c<GL_STACK_OVERFLOW>>
+#else
+      enum_type_i>
+#endif
+      stack_overflow;
+
+    opt_c_api_constant<
+      mp_list<error_code>,
+#ifdef GL_STACK_UNDERFLOW
+      enum_type_c<GL_STACK_UNDERFLOW>>
+#else
+      enum_type_i>
+#endif
+      stack_underflow;
+
+    opt_c_api_constant<
+      mp_list<error_code>,
+#ifdef GL_TABLE_TOO_LARGE
+      enum_type_c<GL_TABLE_TOO_LARGE>>
+#else
+      enum_type_i>
+#endif
+      table_too_large;
+
+    opt_c_api_constant<
+      mp_list<error_code>,
+#ifdef GL_CONTEXT_LOST
+      enum_type_c<GL_CONTEXT_LOST>>
+#else
+      enum_type_i>
+#endif
+      context_lost;
+
+    opt_c_api_constant<
+      mp_list<error_code>,
+#ifdef GL_OUT_OF_MEMORY
+      enum_type_c<GL_OUT_OF_MEMORY>>
+#else
+      enum_type_i>
+#endif
+      out_of_memory;
+
+    opt_c_api_constant<
       mp_list<capability>,
 #ifdef GL_BLEND
       enum_type_c<GL_BLEND>>
@@ -183,6 +264,16 @@ public:
 
     basic_gl_constants(ApiTraits& traits, basic_gl_c_api<ApiTraits>& api)
       : no_error("NO_ERROR", traits, api)
+      , invalid_enum("INVALID_ENUM", traits, api)
+      , invalid_value("INVALID_VALUE", traits, api)
+      , invalid_operation("INVALID_OPERATION", traits, api)
+      , invalid_framebuffer_operation(
+          "INVALID_FRAMEBUFFER_OPERATION", traits, api)
+      , stack_overflow("STACK_OVERFLOW", traits, api)
+      , stack_underflow("STACK_UNDERFLOW", traits, api)
+      , table_too_large("TABLE_TOO_LARGE", traits, api)
+      , context_lost("CONTEXT_LOST", traits, api)
+      , out_of_memory("OUT_OF_MEMORY", traits, api)
       , blend("BLEND", traits, api)
       , cull_face("CULL_FACE", traits, api)
       , depth_clamp("DEPTH_CLAMP", traits, api)
