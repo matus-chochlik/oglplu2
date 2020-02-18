@@ -37,6 +37,7 @@ struct basic_gl_c_api {
 
     using void_ptr_type = typename gl_types::void_ptr_type;
     using sizei_type = typename gl_types::sizei_type;
+    using intptr_type = typename gl_types::intptr_type;
     using bool_type = typename gl_types::bool_type;
     using char_type = typename gl_types::char_type;
     using byte_type = typename gl_types::byte_type;
@@ -257,11 +258,76 @@ struct basic_gl_c_api {
       IsQuery;
 
     gl_api_function<
+      void(enum_type, enum_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetQueryiv)>
+      GetQueryiv;
+
+    gl_api_function<
+      void(enum_type, uint_type, enum_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetQueryIndexediv)>
+      GetQueryIndexediv;
+
+    gl_api_function<
+      void(uint_type, enum_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetQueryObjectiv)>
+      GetQueryObjectiv;
+
+    gl_api_function<
+      void(uint_type, enum_type, uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetQueryObjectuiv)>
+      GetQueryObjectuiv;
+
+    gl_api_function<
+      void(uint_type, enum_type, int64_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetQueryObjecti64v)>
+      GetQueryObjecti64v;
+
+    gl_api_function<
+      void(uint_type, enum_type, uint64_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetQueryObjectui64v)>
+      GetQueryObjectui64v;
+
+    gl_api_function<
+      void(uint_type, uint_type, enum_type, intptr_type),
+      OGLPLUS_GL_STATIC_FUNC(GetQueryBufferObjectiv)>
+      GetQueryBufferObjectiv;
+
+    gl_api_function<
+      void(uint_type, uint_type, enum_type, intptr_type),
+      OGLPLUS_GL_STATIC_FUNC(GetQueryBufferObjectuiv)>
+      GetQueryBufferObjectuiv;
+
+    gl_api_function<
+      void(uint_type, uint_type, enum_type, intptr_type),
+      OGLPLUS_GL_STATIC_FUNC(GetQueryBufferObjecti64v)>
+      GetQueryBufferObjecti64v;
+
+    gl_api_function<
+      void(uint_type, uint_type, enum_type, intptr_type),
+      OGLPLUS_GL_STATIC_FUNC(GetQueryBufferObjectui64v)>
+      GetQueryBufferObjectui64v;
+
+    gl_api_function<
       void(enum_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(BeginQuery)>
       BeginQuery;
 
+    gl_api_function<
+      void(enum_type, uint_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(BeginQueryIndexed)>
+      BeginQueryIndexed;
+
     gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(EndQuery)> EndQuery;
+
+    gl_api_function<
+      void(enum_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(EndQueryIndexed)>
+      EndQueryIndexed;
+
+    gl_api_function<
+      void(uint_type, enum_type),
+      OGLPLUS_GL_STATIC_FUNC(QueryCounter)>
+      QueryCounter;
 
     gl_api_function<
       void(sizei_type, uint_type*),
@@ -680,8 +746,21 @@ struct basic_gl_c_api {
       , GenQueries("GenQueries", traits, *this)
       , DeleteQueries("DeleteQueries", traits, *this)
       , IsQuery("IsQuery", traits, *this)
+      , GetQueryiv("GetQueryiv", traits, *this)
+      , GetQueryIndexediv("GetQueryIndexediv", traits, *this)
+      , GetQueryObjectiv("GetQueryObjectiv", traits, *this)
+      , GetQueryObjectuiv("GetQueryObjectuiv", traits, *this)
+      , GetQueryObjecti64v("GetQueryObjecti64v", traits, *this)
+      , GetQueryObjectui64v("GetQueryObjectui64v", traits, *this)
+      , GetQueryBufferObjectiv("GetQueryBufferObjectiv", traits, *this)
+      , GetQueryBufferObjectuiv("GetQueryBufferObjectuiv", traits, *this)
+      , GetQueryBufferObjecti64v("GetQueryBufferObjecti64v", traits, *this)
+      , GetQueryBufferObjectui64v("GetQueryBufferObjectui64v", traits, *this)
       , BeginQuery("BeginQuery", traits, *this)
+      , BeginQueryIndexed("BeginQueryIndexed", traits, *this)
       , EndQuery("EndQuery", traits, *this)
+      , EndQueryIndexed("EndQueryIndexed", traits, *this)
+      , QueryCounter("QueryCounter", traits, *this)
       , GenProgramPipeliness("GenProgramPipeliness", traits, *this)
       , DeleteProgramPipeliness("DeleteProgramPipeliness", traits, *this)
       , IsProgramPipelines("IsProgramPipelines", traits, *this)

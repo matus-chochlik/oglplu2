@@ -53,6 +53,7 @@ struct gl_types {
     using float_type = GLfloat;
     using double_type = GLdouble;
     using sizei_type = GLsizei;
+    using intptr_type = GLintptr;
     using sync_type = GLsync;
 #else
     static constexpr bool has_api = false;
@@ -73,6 +74,7 @@ struct gl_types {
     using float_type = float;
     using double_type = double;
     using sizei_type = std::ptrdiff_t;
+    using intptr_type = std::intptr_t;
     using sync_type = nothing_t;
 #endif
 
