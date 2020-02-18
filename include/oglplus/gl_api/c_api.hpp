@@ -44,10 +44,12 @@ struct basic_gl_c_api {
     using int_type = typename gl_types::int_type;
     using uint_type = typename gl_types::uint_type;
     using int64_type = typename gl_types::int64_type;
+    using uint64_type = typename gl_types::uint64_type;
     using enum_type = typename gl_types::enum_type;
     using float_type = typename gl_types::float_type;
     using double_type = typename gl_types::double_type;
     using bitfield_type = typename gl_types::bitfield_type;
+    using sync_type = typename gl_types::sync_type;
 
     template <
       typename Signature,
@@ -86,6 +88,32 @@ struct basic_gl_c_api {
       IsEnabledi;
 
     // object ops
+
+    gl_api_function<
+      sync_type(enum_type, bitfield_type),
+      OGLPLUS_GL_STATIC_FUNC(FenceSync)>
+      FenceSync;
+
+    gl_api_function<void(sync_type), OGLPLUS_GL_STATIC_FUNC(DeleteSync)>
+      DeleteSync;
+
+    gl_api_function<bool_type(sync_type), OGLPLUS_GL_STATIC_FUNC(IsSync)>
+      IsSync;
+
+    gl_api_function<
+      void(sync_type, enum_type, sizei_type, sizei_type*, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetSynciv)>
+      GetSynciv;
+
+    gl_api_function<
+      enum_type(sync_type, bitfield_type, uint64_type),
+      OGLPLUS_GL_STATIC_FUNC(WaitSync)>
+      WaitSync;
+
+    gl_api_function<
+      enum_type(sync_type, bitfield_type, uint64_type),
+      OGLPLUS_GL_STATIC_FUNC(ClientWaitSync)>
+      ClientWaitSync;
 
     gl_api_function<
       void(sizei_type, uint_type*),
@@ -615,6 +643,12 @@ struct basic_gl_c_api {
       , Disablei("Disablei", traits, *this)
       , IsEnabled("IsEnabled", traits, *this)
       , IsEnabledi("IsEnabledi", traits, *this)
+      , FenceSync("FenceSync", traits, *this)
+      , DeleteSync("DeleteSync", traits, *this)
+      , IsSync("IsSync", traits, *this)
+      , GetSynciv("GetSynciv", traits, *this)
+      , WaitSync("WaitSync", traits, *this)
+      , ClientWaitSync("ClientWaitSync", traits, *this)
       , GenVertexArrays("GenVertexArrays", traits, *this)
       , DeleteVertexArrays("DeleteVertexArrays", traits, *this)
       , IsVertexArray("IsVertexArray", traits, *this)
