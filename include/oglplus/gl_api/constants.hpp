@@ -147,6 +147,141 @@ public:
 
     opt_c_api_constant<
       mp_list<capability>,
+#ifdef GL_ARRAY_BUFFER
+      enum_type_c<GL_ARRAY_BUFFER>>
+#else
+      enum_type_i>
+#endif
+      array_buffer;
+
+    opt_c_api_constant<
+      mp_list<capability>,
+#ifdef GL_ATOMIC_COUNTER_BUFFER
+      enum_type_c<GL_ATOMIC_COUNTER_BUFFER>>
+#else
+      enum_type_i>
+#endif
+      atomic_counter_buffer;
+
+    opt_c_api_constant<
+      mp_list<capability>,
+#ifdef GL_COPY_READ_BUFFER
+      enum_type_c<GL_COPY_READ_BUFFER>>
+#else
+      enum_type_i>
+#endif
+      copy_read_buffer;
+
+    opt_c_api_constant<
+      mp_list<capability>,
+#ifdef GL_COPY_WRITE_BUFFER
+      enum_type_c<GL_COPY_WRITE_BUFFER>>
+#else
+      enum_type_i>
+#endif
+      copy_write_buffer;
+
+    opt_c_api_constant<
+      mp_list<capability>,
+#ifdef GL_DISPATCH_INDIRECT_BUFFER
+      enum_type_c<GL_DISPATCH_INDIRECT_BUFFER>>
+#else
+      enum_type_i>
+#endif
+      dispatch_indirect_buffer;
+
+    opt_c_api_constant<
+      mp_list<capability>,
+#ifdef GL_DRAW_INDIRECT_BUFFER
+      enum_type_c<GL_DRAW_INDIRECT_BUFFER>>
+#else
+      enum_type_i>
+#endif
+      draw_indirect_buffer;
+
+    opt_c_api_constant<
+      mp_list<capability>,
+#ifdef GL_ELEMENT_ARRAY_BUFFER
+      enum_type_c<GL_ELEMENT_ARRAY_BUFFER>>
+#else
+      enum_type_i>
+#endif
+      element_array_buffer;
+
+    opt_c_api_constant<
+      mp_list<capability>,
+#ifdef GL_PARAMETER_BUFFER
+      enum_type_c<GL_PARAMETER_BUFFER>>
+#else
+      enum_type_i>
+#endif
+      parameter_buffer;
+
+    opt_c_api_constant<
+      mp_list<capability>,
+#ifdef GL_PIXEL_PACK_BUFFER
+      enum_type_c<GL_PIXEL_PACK_BUFFER>>
+#else
+      enum_type_i>
+#endif
+      pixel_pack_buffer;
+
+    opt_c_api_constant<
+      mp_list<capability>,
+#ifdef GL_PIXEL_UNPACK_BUFFER
+      enum_type_c<GL_PIXEL_UNPACK_BUFFER>>
+#else
+      enum_type_i>
+#endif
+      pixel_unpack_buffer;
+
+    opt_c_api_constant<
+      mp_list<capability>,
+#ifdef GL_QUERY_BUFFER
+      enum_type_c<GL_QUERY_BUFFER>>
+#else
+      enum_type_i>
+#endif
+      query_buffer;
+
+    opt_c_api_constant<
+      mp_list<capability>,
+#ifdef GL_SHADER_STORAGE_BUFFER
+      enum_type_c<GL_SHADER_STORAGE_BUFFER>>
+#else
+      enum_type_i>
+#endif
+      shader_storage_buffer;
+
+    opt_c_api_constant<
+      mp_list<capability>,
+#ifdef GL_TEXTURE_BUFFER
+      enum_type_c<GL_TEXTURE_BUFFER>>
+#else
+      enum_type_i>
+#endif
+      texture_buffer;
+
+    opt_c_api_constant<
+      mp_list<capability>,
+#ifdef GL_TRANSFORM_FEEDBACK_BUFFER
+      enum_type_c<GL_TRANSFORM_FEEDBACK_BUFFER>>
+#else
+      enum_type_i>
+#endif
+      transform_feedback_buffer;
+
+    opt_c_api_constant<
+      mp_list<capability>,
+#ifdef GL_UNIFORM_BUFFER
+      enum_type_c<GL_UNIFORM_BUFFER>>
+#else
+      enum_type_i>
+#endif
+      uniform_buffer;
+
+    opt_c_api_constant<
+      mp_list<capability>,
 #ifdef GL_BLEND
       enum_type_c<GL_BLEND>>
 #else
@@ -304,6 +439,21 @@ public:
       , guilty_context_reset("GUILTY_CONTEXT_RESET", traits, api)
       , innocent_context_reset("INNOCENT_CONTEXT_RESET", traits, api)
       , unknown_context_reset("UNKNOWN_CONTEXT_RESET", traits, api)
+      , array_buffer("ARRAY_BUFFER", traits, api)
+      , atomic_counter_buffer("ATOMIC_COUNTER_BUFFER", traits, api)
+      , copy_read_buffer("COPY_READ_BUFFER", traits, api)
+      , copy_write_buffer("COPY_WRITE_BUFFER", traits, api)
+      , dispatch_indirect_buffer("DISPATCH_INDIRECT_BUFFER", traits, api)
+      , draw_indirect_buffer("DRAW_INDIRECT_BUFFER", traits, api)
+      , element_array_buffer("ELEMENT_ARRAY_BUFFER", traits, api)
+      , parameter_buffer("PARAMETER_BUFFER", traits, api)
+      , pixel_pack_buffer("PIXEL_PACK_BUFFER", traits, api)
+      , pixel_unpack_buffer("PIXEL_UNPACK_BUFFER", traits, api)
+      , query_buffer("QUERY_BUFFER", traits, api)
+      , shader_storage_buffer("SHADER_STORAGE_BUFFER", traits, api)
+      , texture_buffer("TEXTURE_BUFFER", traits, api)
+      , transform_feedback_buffer("TRANSFORM_FEEDBACK_BUFFER", traits, api)
+      , uniform_buffer("UNIFORM_BUFFER", traits, api)
       , blend("BLEND", traits, api)
       , cull_face("CULL_FACE", traits, api)
       , depth_clamp("DEPTH_CLAMP", traits, api)
