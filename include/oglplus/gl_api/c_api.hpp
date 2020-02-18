@@ -235,6 +235,31 @@ struct basic_gl_c_api {
 
     gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(EndQuery)> EndQuery;
 
+    gl_api_function<
+      void(sizei_type, uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(GenProgramPipeliness)>
+      GenProgramPipeliness;
+
+    gl_api_function<
+      void(sizei_type, const uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(DeleteProgramPipeliness)>
+      DeleteProgramPipeliness;
+
+    gl_api_function<
+      bool_type(uint_type),
+      OGLPLUS_GL_STATIC_FUNC(IsProgramPipelines)>
+      IsProgramPipelines;
+
+    gl_api_function<
+      void(uint_type),
+      OGLPLUS_GL_STATIC_FUNC(BindProgramPipelines)>
+      BindProgramPipelines;
+
+    gl_api_function<
+      void(uint_type, bitfield_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(UseProgramStages)>
+      UseProgramStages;
+
     //
     gl_api_function<uint_type(enum_type), OGLPLUS_GL_STATIC_FUNC(CreateShader)>
       CreateShader;
@@ -459,6 +484,11 @@ struct basic_gl_c_api {
       , IsQuery("IsQuery", traits, *this)
       , BeginQuery("BeginQuery", traits, *this)
       , EndQuery("EndQuery", traits, *this)
+      , GenProgramPipeliness("GenProgramPipeliness", traits, *this)
+      , DeleteProgramPipeliness("DeleteProgramPipeliness", traits, *this)
+      , IsProgramPipelines("IsProgramPipelines", traits, *this)
+      , BindProgramPipelines("BindProgramPipelines", traits, *this)
+      , UseProgramStages("UseProgramStages", traits, *this)
       , CreateShader("CreateShader", traits, *this)
       , DeleteShader("DeleteShader", traits, *this)
       , IsShader("IsShader", traits, *this)
