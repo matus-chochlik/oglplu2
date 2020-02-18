@@ -347,6 +347,170 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(GetUniformLocation)>
       GetUniformLocation;
 
+    // uniform
+    gl_api_function<void(int_type, int_type), OGLPLUS_GL_STATIC_FUNC(Uniform1i)>
+      Uniform1i;
+
+    gl_api_function<
+      void(int_type, int_type, int_type),
+      OGLPLUS_GL_STATIC_FUNC(Uniform2i)>
+      Uniform2i;
+
+    gl_api_function<
+      void(int_type, int_type, int_type, int_type),
+      OGLPLUS_GL_STATIC_FUNC(Uniform3i)>
+      Uniform3i;
+
+    gl_api_function<
+      void(int_type, int_type, int_type, int_type, int_type),
+      OGLPLUS_GL_STATIC_FUNC(Uniform4i)>
+      Uniform4i;
+
+    gl_api_function<
+      void(int_type, sizei_type, const int_type*),
+      OGLPLUS_GL_STATIC_FUNC(Uniform1iv)>
+      Uniform1iv;
+
+    gl_api_function<
+      void(int_type, sizei_type, const int_type*),
+      OGLPLUS_GL_STATIC_FUNC(Uniform2iv)>
+      Uniform2iv;
+
+    gl_api_function<
+      void(int_type, sizei_type, const int_type*),
+      OGLPLUS_GL_STATIC_FUNC(Uniform3iv)>
+      Uniform3iv;
+
+    gl_api_function<
+      void(int_type, sizei_type, const int_type*),
+      OGLPLUS_GL_STATIC_FUNC(Uniform4iv)>
+      Uniform4iv;
+
+    gl_api_function<
+      void(int_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(Uniform1ui)>
+      Uniform1ui;
+
+    gl_api_function<
+      void(int_type, uint_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(Uniform2ui)>
+      Uniform2ui;
+
+    gl_api_function<
+      void(int_type, uint_type, uint_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(Uniform3ui)>
+      Uniform3ui;
+
+    gl_api_function<
+      void(int_type, uint_type, uint_type, uint_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(Uniform4ui)>
+      Uniform4ui;
+
+    gl_api_function<
+      void(int_type, sizei_type, const uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(Uniform1uiv)>
+      Uniform1uiv;
+
+    gl_api_function<
+      void(int_type, sizei_type, const uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(Uniform2uiv)>
+      Uniform2uiv;
+
+    gl_api_function<
+      void(int_type, sizei_type, const uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(Uniform3uiv)>
+      Uniform3uiv;
+
+    gl_api_function<
+      void(int_type, sizei_type, const uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(Uniform4uiv)>
+      Uniform4uiv;
+
+    gl_api_function<
+      void(int_type, float_type),
+      OGLPLUS_GL_STATIC_FUNC(Uniform1f)>
+      Uniform1f;
+
+    gl_api_function<
+      void(int_type, float_type, float_type),
+      OGLPLUS_GL_STATIC_FUNC(Uniform2f)>
+      Uniform2f;
+
+    gl_api_function<
+      void(int_type, float_type, float_type, float_type),
+      OGLPLUS_GL_STATIC_FUNC(Uniform3f)>
+      Uniform3f;
+
+    gl_api_function<
+      void(int_type, float_type, float_type, float_type, float_type),
+      OGLPLUS_GL_STATIC_FUNC(Uniform4f)>
+      Uniform4f;
+
+    gl_api_function<
+      void(int_type, sizei_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(Uniform1fv)>
+      Uniform1fv;
+
+    gl_api_function<
+      void(int_type, sizei_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(Uniform2fv)>
+      Uniform2fv;
+
+    gl_api_function<
+      void(int_type, sizei_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(Uniform3fv)>
+      Uniform3fv;
+
+    gl_api_function<
+      void(int_type, sizei_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(Uniform4fv)>
+      Uniform4fv;
+
+    gl_api_function<
+      void(int_type, sizei_type, bool_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(UniformMatrix2fv)>
+      UniformMatrix2fv;
+
+    gl_api_function<
+      void(int_type, sizei_type, bool_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(UniformMatrix3fv)>
+      UniformMatrix3fv;
+
+    gl_api_function<
+      void(int_type, sizei_type, bool_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(UniformMatrix4fv)>
+      UniformMatrix4fv;
+
+    gl_api_function<
+      void(int_type, sizei_type, bool_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(UniformMatrix2x3fv)>
+      UniformMatrix2x3fv;
+
+    gl_api_function<
+      void(int_type, sizei_type, bool_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(UniformMatrix3x2fv)>
+      UniformMatrix3x2fv;
+
+    gl_api_function<
+      void(int_type, sizei_type, bool_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(UniformMatrix2x4fv)>
+      UniformMatrix2x4fv;
+
+    gl_api_function<
+      void(int_type, sizei_type, bool_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(UniformMatrix4x2fv)>
+      UniformMatrix4x2fv;
+
+    gl_api_function<
+      void(int_type, sizei_type, bool_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(UniformMatrix3x4fv)>
+      UniformMatrix3x4fv;
+
+    gl_api_function<
+      void(int_type, sizei_type, bool_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(UniformMatrix4x3fv)>
+      UniformMatrix4x3fv;
+
     // viewport
     gl_api_function<
       void(double_type, double_type),
@@ -510,6 +674,39 @@ struct basic_gl_c_api {
       , BindAttribLocation("BindAttribLocation", traits, *this)
       , GetAttribLocation("GetAttribLocation", traits, *this)
       , GetUniformLocation("GetUniformLocation", traits, *this)
+      , Uniform1i("Uniform1i", traits, *this)
+      , Uniform2i("Uniform2i", traits, *this)
+      , Uniform3i("Uniform3i", traits, *this)
+      , Uniform4i("Uniform4i", traits, *this)
+      , Uniform1iv("Uniform1iv", traits, *this)
+      , Uniform2iv("Uniform2iv", traits, *this)
+      , Uniform3iv("Uniform3iv", traits, *this)
+      , Uniform4iv("Uniform4iv", traits, *this)
+      , Uniform1ui("Uniform1ui", traits, *this)
+      , Uniform2ui("Uniform2ui", traits, *this)
+      , Uniform3ui("Uniform3ui", traits, *this)
+      , Uniform4ui("Uniform4ui", traits, *this)
+      , Uniform1uiv("Uniform1uiv", traits, *this)
+      , Uniform2uiv("Uniform2uiv", traits, *this)
+      , Uniform3uiv("Uniform3uiv", traits, *this)
+      , Uniform4uiv("Uniform4uiv", traits, *this)
+      , Uniform1f("Uniform1f", traits, *this)
+      , Uniform2f("Uniform2f", traits, *this)
+      , Uniform3f("Uniform3f", traits, *this)
+      , Uniform4f("Uniform4f", traits, *this)
+      , Uniform1fv("Uniform1fv", traits, *this)
+      , Uniform2fv("Uniform2fv", traits, *this)
+      , Uniform3fv("Uniform3fv", traits, *this)
+      , Uniform4fv("Uniform4fv", traits, *this)
+      , UniformMatrix2fv("UniformMatrix2fv", traits, *this)
+      , UniformMatrix3fv("UniformMatrix3fv", traits, *this)
+      , UniformMatrix4fv("UniformMatrix4fv", traits, *this)
+      , UniformMatrix2x3fv("UniformMatrix2x3fv", traits, *this)
+      , UniformMatrix3x2fv("UniformMatrix3x2fv", traits, *this)
+      , UniformMatrix2x4fv("UniformMatrix2x4fv", traits, *this)
+      , UniformMatrix4x2fv("UniformMatrix4x2fv", traits, *this)
+      , UniformMatrix3x4fv("UniformMatrix3x4fv", traits, *this)
+      , UniformMatrix4x3fv("UniformMatrix4x3fv", traits, *this)
       , DepthRange("DepthRange", traits, *this)
       , DepthRangef("DepthRangef", traits, *this)
       , Viewport("Viewport", traits, *this)
