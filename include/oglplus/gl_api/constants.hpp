@@ -146,7 +146,7 @@ public:
       unknown_context_reset;
 
     opt_c_api_constant<
-      mp_list<capability>,
+      mp_list<buffer_target>,
 #ifdef GL_ARRAY_BUFFER
       enum_type_c<GL_ARRAY_BUFFER>>
 #else
@@ -155,7 +155,7 @@ public:
       array_buffer;
 
     opt_c_api_constant<
-      mp_list<capability>,
+      mp_list<buffer_target>,
 #ifdef GL_ATOMIC_COUNTER_BUFFER
       enum_type_c<GL_ATOMIC_COUNTER_BUFFER>>
 #else
@@ -164,7 +164,7 @@ public:
       atomic_counter_buffer;
 
     opt_c_api_constant<
-      mp_list<capability>,
+      mp_list<buffer_target>,
 #ifdef GL_COPY_READ_BUFFER
       enum_type_c<GL_COPY_READ_BUFFER>>
 #else
@@ -173,7 +173,7 @@ public:
       copy_read_buffer;
 
     opt_c_api_constant<
-      mp_list<capability>,
+      mp_list<buffer_target>,
 #ifdef GL_COPY_WRITE_BUFFER
       enum_type_c<GL_COPY_WRITE_BUFFER>>
 #else
@@ -182,7 +182,7 @@ public:
       copy_write_buffer;
 
     opt_c_api_constant<
-      mp_list<capability>,
+      mp_list<buffer_target>,
 #ifdef GL_DISPATCH_INDIRECT_BUFFER
       enum_type_c<GL_DISPATCH_INDIRECT_BUFFER>>
 #else
@@ -191,7 +191,7 @@ public:
       dispatch_indirect_buffer;
 
     opt_c_api_constant<
-      mp_list<capability>,
+      mp_list<buffer_target>,
 #ifdef GL_DRAW_INDIRECT_BUFFER
       enum_type_c<GL_DRAW_INDIRECT_BUFFER>>
 #else
@@ -200,7 +200,7 @@ public:
       draw_indirect_buffer;
 
     opt_c_api_constant<
-      mp_list<capability>,
+      mp_list<buffer_target>,
 #ifdef GL_ELEMENT_ARRAY_BUFFER
       enum_type_c<GL_ELEMENT_ARRAY_BUFFER>>
 #else
@@ -209,7 +209,7 @@ public:
       element_array_buffer;
 
     opt_c_api_constant<
-      mp_list<capability>,
+      mp_list<buffer_target>,
 #ifdef GL_PARAMETER_BUFFER
       enum_type_c<GL_PARAMETER_BUFFER>>
 #else
@@ -218,7 +218,7 @@ public:
       parameter_buffer;
 
     opt_c_api_constant<
-      mp_list<capability>,
+      mp_list<buffer_target>,
 #ifdef GL_PIXEL_PACK_BUFFER
       enum_type_c<GL_PIXEL_PACK_BUFFER>>
 #else
@@ -227,7 +227,7 @@ public:
       pixel_pack_buffer;
 
     opt_c_api_constant<
-      mp_list<capability>,
+      mp_list<buffer_target>,
 #ifdef GL_PIXEL_UNPACK_BUFFER
       enum_type_c<GL_PIXEL_UNPACK_BUFFER>>
 #else
@@ -236,7 +236,7 @@ public:
       pixel_unpack_buffer;
 
     opt_c_api_constant<
-      mp_list<capability>,
+      mp_list<buffer_target>,
 #ifdef GL_QUERY_BUFFER
       enum_type_c<GL_QUERY_BUFFER>>
 #else
@@ -245,7 +245,7 @@ public:
       query_buffer;
 
     opt_c_api_constant<
-      mp_list<capability>,
+      mp_list<buffer_target>,
 #ifdef GL_SHADER_STORAGE_BUFFER
       enum_type_c<GL_SHADER_STORAGE_BUFFER>>
 #else
@@ -254,7 +254,7 @@ public:
       shader_storage_buffer;
 
     opt_c_api_constant<
-      mp_list<capability>,
+      mp_list<buffer_target>,
 #ifdef GL_TEXTURE_BUFFER
       enum_type_c<GL_TEXTURE_BUFFER>>
 #else
@@ -263,7 +263,7 @@ public:
       texture_buffer;
 
     opt_c_api_constant<
-      mp_list<capability>,
+      mp_list<buffer_target>,
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER
       enum_type_c<GL_TRANSFORM_FEEDBACK_BUFFER>>
 #else
@@ -272,13 +272,121 @@ public:
       transform_feedback_buffer;
 
     opt_c_api_constant<
-      mp_list<capability>,
+      mp_list<buffer_target>,
 #ifdef GL_UNIFORM_BUFFER
       enum_type_c<GL_UNIFORM_BUFFER>>
 #else
       enum_type_i>
 #endif
       uniform_buffer;
+
+    opt_c_api_constant<
+      mp_list<buffer_usage>,
+#ifdef GL_STREAM_DRAW
+      enum_type_c<GL_STREAM_DRAW>>
+#else
+      enum_type_i>
+#endif
+      stream_draw;
+
+    opt_c_api_constant<
+      mp_list<buffer_usage>,
+#ifdef GL_STREAM_READ
+      enum_type_c<GL_STREAM_READ>>
+#else
+      enum_type_i>
+#endif
+      stream_read;
+
+    opt_c_api_constant<
+      mp_list<buffer_usage>,
+#ifdef GL_STREAM_COPY
+      enum_type_c<GL_STREAM_COPY>>
+#else
+      enum_type_i>
+#endif
+      stream_copy;
+
+    opt_c_api_constant<
+      mp_list<buffer_usage>,
+#ifdef GL_STATIC_DRAW
+      enum_type_c<GL_STATIC_DRAW>>
+#else
+      enum_type_i>
+#endif
+      static_draw;
+
+    opt_c_api_constant<
+      mp_list<buffer_usage>,
+#ifdef GL_STATIC_READ
+      enum_type_c<GL_STATIC_READ>>
+#else
+      enum_type_i>
+#endif
+      static_read;
+
+    opt_c_api_constant<
+      mp_list<buffer_usage>,
+#ifdef GL_STATIC_COPY
+      enum_type_c<GL_STATIC_COPY>>
+#else
+      enum_type_i>
+#endif
+      static_copy;
+
+    opt_c_api_constant<
+      mp_list<buffer_usage>,
+#ifdef GL_DYNAMIC_DRAW
+      enum_type_c<GL_DYNAMIC_DRAW>>
+#else
+      enum_type_i>
+#endif
+      dynamic_draw;
+
+    opt_c_api_constant<
+      mp_list<buffer_usage>,
+#ifdef GL_DYNAMIC_READ
+      enum_type_c<GL_DYNAMIC_READ>>
+#else
+      enum_type_i>
+#endif
+      dynamic_read;
+
+    opt_c_api_constant<
+      mp_list<buffer_usage>,
+#ifdef GL_DYNAMIC_COPY
+      enum_type_c<GL_DYNAMIC_COPY>>
+#else
+      enum_type_i>
+#endif
+      dynamic_copy;
+
+    opt_c_api_constant<
+      mp_list<buffer_map_access_bit>,
+#ifdef GL_MAP_READ_BIT
+      enum_type_c<GL_MAP_READ_BIT>>
+#else
+      enum_type_i>
+#endif
+      map_read_bit;
+
+    opt_c_api_constant<
+      mp_list<buffer_map_access_bit>,
+#ifdef GL_MAP_WRITE_BIT
+      enum_type_c<GL_MAP_WRITE_BIT>>
+#else
+      enum_type_i>
+#endif
+      map_write_bit;
+
+    opt_c_api_constant<
+      mp_list<buffer_map_access_bit>,
+#ifdef GL_MAP_PERSISTENT_BIT
+      enum_type_c<GL_MAP_PERSISTENT_BIT>>
+#else
+      enum_type_i>
+#endif
+      map_persistent_bit;
 
     opt_c_api_constant<
       mp_list<capability>,
@@ -454,6 +562,18 @@ public:
       , texture_buffer("TEXTURE_BUFFER", traits, api)
       , transform_feedback_buffer("TRANSFORM_FEEDBACK_BUFFER", traits, api)
       , uniform_buffer("UNIFORM_BUFFER", traits, api)
+      , stream_draw("STREAM_DRAW", traits, api)
+      , stream_read("STREAM_READ", traits, api)
+      , stream_copy("STREAM_COPY", traits, api)
+      , static_draw("STATIC_DRAW", traits, api)
+      , static_read("STATIC_READ", traits, api)
+      , static_copy("STATIC_COPY", traits, api)
+      , dynamic_draw("DYNAMIC_DRAW", traits, api)
+      , dynamic_read("DYNAMIC_READ", traits, api)
+      , dynamic_copy("DYNAMIC_COPY", traits, api)
+      , map_read_bit("MAP_READ_BIT", traits, api)
+      , map_write_bit("MAP_WRITE_BIT", traits, api)
+      , map_persistent_bit("MAP_PERSISTENT_BIT", traits, api)
       , blend("BLEND", traits, api)
       , cull_face("CULL_FACE", traits, api)
       , depth_clamp("DEPTH_CLAMP", traits, api)

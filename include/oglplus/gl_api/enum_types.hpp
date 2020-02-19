@@ -31,6 +31,15 @@ struct buffer_target : gl_enum_class<buffer_target, EAGINE_ID_V(BufferTgt)> {
     using enum_class::enum_class;
 };
 
+struct buffer_usage : gl_enum_class<buffer_usage, EAGINE_ID_V(BufferUsge)> {
+    using enum_class::enum_class;
+};
+
+struct buffer_map_access_bit
+  : gl_enum_class<buffer_map_access_bit, EAGINE_ID_V(BufMapAccB)> {
+    using enum_class::enum_class;
+};
+
 struct buffer_clear_bit
   : gl_enum_class<buffer_clear_bit, EAGINE_ID_V(BuffClrBit)> {
     using enum_class::enum_class;
