@@ -36,7 +36,9 @@ struct basic_gl_c_api {
     using api_traits = Traits;
 
     using void_ptr_type = typename gl_types::void_ptr_type;
+    using const_void_ptr_type = typename gl_types::const_void_ptr_type;
     using sizei_type = typename gl_types::sizei_type;
+    using sizeiptr_type = typename gl_types::sizeiptr_type;
     using intptr_type = typename gl_types::intptr_type;
     using bool_type = typename gl_types::bool_type;
     using char_type = typename gl_types::char_type;
@@ -149,6 +151,168 @@ struct basic_gl_c_api {
       void(enum_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(BindBuffer)>
       BindBuffer;
+
+    gl_api_function<
+      void(enum_type, uint_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(BindBufferBase)>
+      BindBufferBase;
+
+    gl_api_function<
+      void(enum_type, uint_type, uint_type, intptr_type, sizeiptr_type),
+      OGLPLUS_GL_STATIC_FUNC(BindBufferRange)>
+      BindBufferRange;
+
+    gl_api_function<
+      void(enum_type, sizeiptr_type, const_void_ptr_type, bitfield_type),
+      OGLPLUS_GL_STATIC_FUNC(BufferStorage)>
+      BufferStorage;
+
+    gl_api_function<
+      void(uint_type, sizeiptr_type, const_void_ptr_type, bitfield_type),
+      OGLPLUS_GL_STATIC_FUNC(BufferStorage)>
+      NamedBufferStorage;
+
+    gl_api_function<
+      void(enum_type, sizeiptr_type, const_void_ptr_type, enum_type),
+      OGLPLUS_GL_STATIC_FUNC(BufferData)>
+      BufferData;
+
+    gl_api_function<
+      void(uint_type, sizeiptr_type, const_void_ptr_type, enum_type),
+      OGLPLUS_GL_STATIC_FUNC(NamedBufferData)>
+      NamedBufferData;
+
+    gl_api_function<
+      void(enum_type, intptr_type, sizeiptr_type, const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(BufferSubData)>
+      BufferSubData;
+
+    gl_api_function<
+      void(uint_type, intptr_type, sizeiptr_type, const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(NamedBufferSubData)>
+      NamedBufferSubData;
+
+    gl_api_function<
+      void(enum_type, enum_type, enum_type, enum_type, const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(ClearBufferData)>
+      ClearBufferData;
+
+    gl_api_function<
+      void(uint_type, enum_type, enum_type, enum_type, const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(ClearNamedBufferData)>
+      ClearNamedBufferData;
+
+    gl_api_function<
+      void(
+        enum_type,
+        enum_type,
+        intptr_type,
+        sizeiptr_type,
+        enum_type,
+        enum_type,
+        const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(ClearBufferSubData)>
+      ClearBufferSubData;
+
+    gl_api_function<
+      void(
+        uint_type,
+        enum_type,
+        intptr_type,
+        sizeiptr_type,
+        enum_type,
+        enum_type,
+        const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(ClearNamedBufferSubData)>
+      ClearNamedBufferSubData;
+
+    gl_api_function<
+      void_ptr_type(enum_type, enum_type),
+      OGLPLUS_GL_STATIC_FUNC(MapBuffer)>
+      MapBuffer;
+
+    gl_api_function<
+      void_ptr_type(uint_type, enum_type),
+      OGLPLUS_GL_STATIC_FUNC(MapNamedBuffer)>
+      MapNamedBuffer;
+
+    gl_api_function<
+      void_ptr_type(enum_type, intptr_type, sizeiptr_type, bitfield_type),
+      OGLPLUS_GL_STATIC_FUNC(MapBufferRange)>
+      MapBufferRange;
+
+    gl_api_function<
+      void_ptr_type(uint_type, intptr_type, sizeiptr_type, bitfield_type),
+      OGLPLUS_GL_STATIC_FUNC(MapNamedBufferRange)>
+      MapNamedBufferRange;
+
+    gl_api_function<
+      void_ptr_type(enum_type, intptr_type, sizeiptr_type),
+      OGLPLUS_GL_STATIC_FUNC(FlushMappedBufferRange)>
+      FlushMappedBufferRange;
+
+    gl_api_function<
+      void_ptr_type(uint_type, intptr_type, sizeiptr_type),
+      OGLPLUS_GL_STATIC_FUNC(FlushMappedNamedBufferRange)>
+      FlushMappedNamedBufferRange;
+
+    gl_api_function<bool_type(enum_type), OGLPLUS_GL_STATIC_FUNC(UnmapBuffer)>
+      UnmapBuffer;
+
+    gl_api_function<
+      bool_type(uint_type),
+      OGLPLUS_GL_STATIC_FUNC(UnmapNamedBuffer)>
+      UnmapNamedBuffer;
+
+    gl_api_function<
+      void(uint_type),
+      OGLPLUS_GL_STATIC_FUNC(InvalidateBufferData)>
+      InvalidateBufferData;
+
+    gl_api_function<
+      void(uint_type, intptr_type, sizeiptr_type),
+      OGLPLUS_GL_STATIC_FUNC(InvalidateBufferSubData)>
+      InvalidateBufferSubData;
+
+    gl_api_function<
+      void(enum_type, enum_type, intptr_type, intptr_type, sizeiptr_type),
+      OGLPLUS_GL_STATIC_FUNC(CopyBufferSubData)>
+      CopyBufferSubData;
+
+    gl_api_function<
+      void(uint_type, uint_type, intptr_type, intptr_type, sizeiptr_type),
+      OGLPLUS_GL_STATIC_FUNC(CopyNamedBufferSubData)>
+      CopyNamedBufferSubData;
+
+    gl_api_function<
+      void(enum_type, enum_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetBufferParameteriv)>
+      GetBufferParameteriv;
+
+    gl_api_function<
+      void(enum_type, enum_type, int64_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetBufferParameteri64v)>
+      GetBufferParameteri64v;
+
+    gl_api_function<
+      void(uint_type, enum_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetNamedBufferParameteriv)>
+      GetNamedBufferParameteriv;
+
+    gl_api_function<
+      void(uint_type, enum_type, int64_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetNamedBufferParameteri64v)>
+      GetNamedBufferParameteri64v;
+
+    gl_api_function<
+      void(enum_type, intptr_type, sizeiptr_type, void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(GetBufferSubData)>
+      GetBufferSubData;
+
+    gl_api_function<
+      void(uint_type, intptr_type, sizeiptr_type, void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(GetNamedBufferSubData)>
+      GetNamedBufferSubData;
 
     gl_api_function<
       void(sizei_type, uint_type*),
@@ -723,6 +887,38 @@ struct basic_gl_c_api {
       , DeleteBuffers("DeleteBuffers", traits, *this)
       , IsBuffer("IsBuffer", traits, *this)
       , BindBuffer("BindBuffer", traits, *this)
+      , BindBufferBase("BindBufferBase", traits, *this)
+      , BindBufferRange("BindBufferRange", traits, *this)
+      , BufferStorage("BufferStorage", traits, *this)
+      , NamedBufferStorage("NamedBufferStorage", traits, *this)
+      , BufferData("BufferData", traits, *this)
+      , NamedBufferData("NamedBufferData", traits, *this)
+      , BufferSubData("BufferSubData", traits, *this)
+      , NamedBufferSubData("NamedBufferSubData", traits, *this)
+      , ClearBufferData("ClearBufferData", traits, *this)
+      , ClearNamedBufferData("ClearNamedBufferData", traits, *this)
+      , ClearBufferSubData("ClearBufferSubData", traits, *this)
+      , ClearNamedBufferSubData("ClearNamedBufferSubData", traits, *this)
+      , MapBuffer("MapBuffer", traits, *this)
+      , MapNamedBuffer("MapNamedBuffer", traits, *this)
+      , MapBufferRange("MapBufferRange", traits, *this)
+      , MapNamedBufferRange("MapNamedBufferRange", traits, *this)
+      , FlushMappedBufferRange("FlushMappedBufferRange", traits, *this)
+      , FlushMappedNamedBufferRange(
+          "FlushMappedNamedBufferRange", traits, *this)
+      , UnmapBuffer("UnmapBuffer", traits, *this)
+      , UnmapNamedBuffer("UnmapNamedBuffer", traits, *this)
+      , InvalidateBufferData("InvalidateBufferData", traits, *this)
+      , InvalidateBufferSubData("InvalidateBufferSubData", traits, *this)
+      , CopyBufferSubData("CopyBufferSubData", traits, *this)
+      , CopyNamedBufferSubData("CopyNamedBufferSubData", traits, *this)
+      , GetBufferParameteriv("GetBufferParameteriv", traits, *this)
+      , GetBufferParameteri64v("GetBufferParameteri64v", traits, *this)
+      , GetNamedBufferParameteriv("GetNamedBufferParameteriv", traits, *this)
+      , GetNamedBufferParameteri64v(
+          "GetNamedBufferParameteri64v", traits, *this)
+      , GetBufferSubData("GetBufferSubData", traits, *this)
+      , GetNamedBufferSubData("GetNamedBufferSubData", traits, *this)
       , GenTextures("GenTextures", traits, *this)
       , DeleteTextures("DeleteTextures", traits, *this)
       , IsTexture("IsTexture", traits, *this)

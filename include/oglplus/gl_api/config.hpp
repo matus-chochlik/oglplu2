@@ -29,7 +29,6 @@ namespace eagine {
 namespace oglp {
 //------------------------------------------------------------------------------
 struct gl_types {
-    using void_ptr_type = void*;
 #if OGLPLUS_HAS_GL
     static constexpr bool has_api = true;
 #if defined(__GLEW_H__)
@@ -37,6 +36,8 @@ struct gl_types {
 #else
     static constexpr bool has_static_api = true;
 #endif
+    using void_ptr_type = GLvoid*;
+    using const_void_ptr_type = const GLvoid*;
     using char_type = GLchar;
     using bool_type = GLboolean;
     using enum_type = GLenum;
@@ -53,11 +54,14 @@ struct gl_types {
     using float_type = GLfloat;
     using double_type = GLdouble;
     using sizei_type = GLsizei;
+    using sizeiptr_type = GLsizeiptr;
     using intptr_type = GLintptr;
     using sync_type = GLsync;
 #else
     static constexpr bool has_api = false;
     static constexpr bool has_static_api = true;
+    using void_ptr_type = void*;
+    using const_void_ptr_type = const void*;
     using char_type = char;
     using bool_type = bool;
     using enum_type = unsigned;
@@ -74,6 +78,7 @@ struct gl_types {
     using float_type = float;
     using double_type = double;
     using sizei_type = std::ptrdiff_t;
+    using sizeiptr_type = std::intptr_t;
     using intptr_type = std::intptr_t;
     using sync_type = nothing_t;
 #endif
