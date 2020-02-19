@@ -389,6 +389,15 @@ public:
       map_persistent_bit;
 
     opt_c_api_constant<
+      mp_list<buffer_map_access_bit>,
+#ifdef GL_MAP_COHERENT_BIT
+      enum_type_c<GL_MAP_COHERENT_BIT>>
+#else
+      enum_type_i>
+#endif
+      map_coherent_bit;
+
+    opt_c_api_constant<
       mp_list<capability>,
 #ifdef GL_BLEND
       enum_type_c<GL_BLEND>>
@@ -574,6 +583,7 @@ public:
       , map_read_bit("MAP_READ_BIT", traits, api)
       , map_write_bit("MAP_WRITE_BIT", traits, api)
       , map_persistent_bit("MAP_PERSISTENT_BIT", traits, api)
+      , map_coherent_bit("MAP_COHERENT_BIT", traits, api)
       , blend("BLEND", traits, api)
       , cull_face("CULL_FACE", traits, api)
       , depth_clamp("DEPTH_CLAMP", traits, api)
