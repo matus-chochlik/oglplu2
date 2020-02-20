@@ -528,8 +528,28 @@ struct basic_gl_c_api {
     gl_api_function<bool_type(uint_type), OGLPLUS_GL_STATIC_FUNC(IsShader)>
       IsShader;
 
+    gl_api_function<
+      void(uint_type, sizei_type, const char_type* const*, const int_type*),
+      OGLPLUS_GL_STATIC_FUNC(ShaderSource)>
+      ShaderSource;
+
     gl_api_function<void(uint_type), OGLPLUS_GL_STATIC_FUNC(CompileShader)>
       CompileShader;
+
+    gl_api_function<
+      void(sizei_type, const uint*, enum_type, const_void_ptr_type, sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(ShaderBinary)>
+      ShaderBinary;
+
+    gl_api_function<
+      void(
+        uint_type,
+        const char_type*,
+        uint_type,
+        const uint_type*,
+        const uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(SpecializeShader)>
+      SpecializeShader;
 
     gl_api_function<
       void(uint_type, enum_type, int_type*),
@@ -537,18 +557,26 @@ struct basic_gl_c_api {
       GetShaderiv;
 
     gl_api_function<
-      void(uint_type, sizei_type, sizei_type*, char*),
+      void(uint_type, sizei_type, sizei_type*, char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetShaderInfoLog)>
       GetShaderInfoLog;
 
     gl_api_function<
-      void(uint_type, sizei_type, sizei_type*, char*),
+      void(uint_type, sizei_type, sizei_type*, char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetShaderSource)>
       GetShaderSource;
+
+    gl_api_function<void(), OGLPLUS_GL_STATIC_FUNC(ReleaseShaderCompiler)>
+      ReleaseShaderCompiler;
 
     //
     gl_api_function<uint_type(enum_type), OGLPLUS_GL_STATIC_FUNC(CreateProgram)>
       CreateProgram;
+
+    gl_api_function<
+      uint_type(enum_type, sizei_type, const char_type* const*),
+      OGLPLUS_GL_STATIC_FUNC(CreateShaderProgramv)>
+      CreateShaderProgramv;
 
     gl_api_function<void(uint_type), OGLPLUS_GL_STATIC_FUNC(DeleteProgram)>
       DeleteProgram;
@@ -586,6 +614,11 @@ struct basic_gl_c_api {
       void(uint_type, sizei_type, sizei_type*, char*),
       OGLPLUS_GL_STATIC_FUNC(GetProgramInfoLog)>
       GetProgramInfoLog;
+
+    gl_api_function<
+      void(uint_type, enum_type, enum_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetProgramInterfaceiv)>
+      GetProgramInterfaceiv;
 
     gl_api_function<void(uint_type), OGLPLUS_GL_STATIC_FUNC(UseProgram)>
       UseProgram;
@@ -965,11 +998,16 @@ struct basic_gl_c_api {
       , CreateShader("CreateShader", traits, *this)
       , DeleteShader("DeleteShader", traits, *this)
       , IsShader("IsShader", traits, *this)
+      , ShaderSource("ShaderSource", traits, *this)
       , CompileShader("CompileShader", traits, *this)
+      , ShaderBinary("ShaderBinary", traits, *this)
+      , SpecializeShader("SpecializeShader", traits, *this)
       , GetShaderiv("GetShaderiv", traits, *this)
       , GetShaderInfoLog("GetShaderInfoLog", traits, *this)
       , GetShaderSource("GetShaderSource", traits, *this)
+      , ReleaseShaderCompiler("ReleaseShaderCompiler", traits, *this)
       , CreateProgram("CreateProgram", traits, *this)
+      , CreateShaderProgramv("CreateShaderProgramv", traits, *this)
       , DeleteProgram("DeleteProgram", traits, *this)
       , IsProgram("IsProgram", traits, *this)
       , AttachShader("AttachShader", traits, *this)
@@ -979,6 +1017,7 @@ struct basic_gl_c_api {
       , LinkProgram("LinkProgram", traits, *this)
       , GetProgramiv("GetProgramiv", traits, *this)
       , GetProgramInfoLog("GetProgramInfoLog", traits, *this)
+      , GetProgramInterfaceiv("GetProgramInterfaceiv", traits, *this)
       , UseProgram("UseProgram", traits, *this)
       , BindAttribLocation("BindAttribLocation", traits, *this)
       , GetAttribLocation("GetAttribLocation", traits, *this)

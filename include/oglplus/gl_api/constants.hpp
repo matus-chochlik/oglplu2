@@ -155,7 +155,7 @@ public:
       array_buffer;
 
     opt_c_api_constant<
-      mp_list<buffer_target>,
+      mp_list<buffer_target, program_interface>,
 #ifdef GL_ATOMIC_COUNTER_BUFFER
       enum_type_c<GL_ATOMIC_COUNTER_BUFFER>>
 #else
@@ -263,7 +263,7 @@ public:
       texture_buffer;
 
     opt_c_api_constant<
-      mp_list<buffer_target>,
+      mp_list<buffer_target, program_interface>,
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER
       enum_type_c<GL_TRANSFORM_FEEDBACK_BUFFER>>
 #else
@@ -396,6 +396,177 @@ public:
       enum_type_i>
 #endif
       map_coherent_bit;
+
+    opt_c_api_constant<
+      mp_list<program_interface>,
+#ifdef GL_UNIFORM
+      enum_type_c<GL_UNIFORM>>
+#else
+      enum_type_i>
+#endif
+      uniform;
+
+    opt_c_api_constant<
+      mp_list<program_interface>,
+#ifdef GL_UNIFORM_BLOCK
+      enum_type_c<GL_UNIFORM_BLOCK>>
+#else
+      enum_type_i>
+#endif
+      uniform_block;
+
+    opt_c_api_constant<
+      mp_list<program_interface>,
+#ifdef GL_PROGRAM_INPUT
+      enum_type_c<GL_PROGRAM_INPUT>>
+#else
+      enum_type_i>
+#endif
+      program_input;
+
+    opt_c_api_constant<
+      mp_list<program_interface>,
+#ifdef GL_PROGRAM_OUTPUT
+      enum_type_c<GL_PROGRAM_OUTPUT>>
+#else
+      enum_type_i>
+#endif
+      program_output;
+
+    opt_c_api_constant<
+      mp_list<program_interface>,
+#ifdef GL_VERTEX_SUBROUTINE
+      enum_type_c<GL_VERTEX_SUBROUTINE>>
+#else
+      enum_type_i>
+#endif
+      vertex_subroutine;
+
+    opt_c_api_constant<
+      mp_list<program_interface>,
+#ifdef GL_TESS_CONTROL_SUBROUTINE
+      enum_type_c<GL_TESS_CONTROL_SUBROUTINE>>
+#else
+      enum_type_i>
+#endif
+      tess_control_subroutine;
+
+    opt_c_api_constant<
+      mp_list<program_interface>,
+#ifdef GL_TESS_EVALUATION_SUBROUTINE
+      enum_type_c<GL_TESS_EVALUATION_SUBROUTINE>>
+#else
+      enum_type_i>
+#endif
+      tess_evaluation_subroutine;
+
+    opt_c_api_constant<
+      mp_list<program_interface>,
+#ifdef GL_GEOMETRY_SUBROUTINE
+      enum_type_c<GL_GEOMETRY_SUBROUTINE>>
+#else
+      enum_type_i>
+#endif
+      geometry_subroutine;
+
+    opt_c_api_constant<
+      mp_list<program_interface>,
+#ifdef GL_FRAGMENT_SUBROUTINE
+      enum_type_c<GL_FRAGMENT_SUBROUTINE>>
+#else
+      enum_type_i>
+#endif
+      fragment_subroutine;
+
+    opt_c_api_constant<
+      mp_list<program_interface>,
+#ifdef GL_COMPUTE_SUBROUTINE
+      enum_type_c<GL_COMPUTE_SUBROUTINE>>
+#else
+      enum_type_i>
+#endif
+      compute_subroutine;
+
+    opt_c_api_constant<
+      mp_list<program_interface>,
+#ifdef GL_VERTEX_SUBROUTINE_UNIFORM
+      enum_type_c<GL_VERTEX_SUBROUTINE_UNIFORM>>
+#else
+      enum_type_i>
+#endif
+      vertex_subroutine_uniform;
+
+    opt_c_api_constant<
+      mp_list<program_interface>,
+#ifdef GL_TESS_CONTROL_SUBROUTINE_UNIFORM
+      enum_type_c<GL_TESS_CONTROL_SUBROUTINE_UNIFORM>>
+#else
+      enum_type_i>
+#endif
+      tess_control_subroutine_uniform;
+
+    opt_c_api_constant<
+      mp_list<program_interface>,
+#ifdef GL_TESS_EVALUATION_SUBROUTINE_UNIFORM
+      enum_type_c<GL_TESS_EVALUATION_SUBROUTINE_UNIFORM>>
+#else
+      enum_type_i>
+#endif
+      tess_evaluation_subroutine_uniform;
+
+    opt_c_api_constant<
+      mp_list<program_interface>,
+#ifdef GL_GEOMETRY_SUBROUTINE_UNIFORM
+      enum_type_c<GL_GEOMETRY_SUBROUTINE_UNIFORM>>
+#else
+      enum_type_i>
+#endif
+      geometry_subroutine_uniform;
+
+    opt_c_api_constant<
+      mp_list<program_interface>,
+#ifdef GL_FRAGMENT_SUBROUTINE_UNIFORM
+      enum_type_c<GL_FRAGMENT_SUBROUTINE_UNIFORM>>
+#else
+      enum_type_i>
+#endif
+      fragment_subroutine_uniform;
+
+    opt_c_api_constant<
+      mp_list<program_interface>,
+#ifdef GL_COMPUTE_SUBROUTINE_UNIFORM
+      enum_type_c<GL_COMPUTE_SUBROUTINE_UNIFORM>>
+#else
+      enum_type_i>
+#endif
+      compute_subroutine_uniform;
+
+    opt_c_api_constant<
+      mp_list<program_interface>,
+#ifdef GL_TRANSFORM_FEEDBACK_VARYING
+      enum_type_c<GL_TRANSFORM_FEEDBACK_VARYING>>
+#else
+      enum_type_i>
+#endif
+      transform_feedback_varying;
+
+    opt_c_api_constant<
+      mp_list<capability>,
+#ifdef GL_BUFFER_VARIABLE
+      enum_type_c<GL_BUFFER_VARIABLE>>
+#else
+      enum_type_i>
+#endif
+      buffer_variable;
+
+    opt_c_api_constant<
+      mp_list<capability>,
+#ifdef GL_BUFFER_STORAGE_BLOCK
+      enum_type_c<GL_BUFFER_STORAGE_BLOCK>>
+#else
+      enum_type_i>
+#endif
+      buffer_storage_block;
 
     opt_c_api_constant<
       mp_list<capability>,
@@ -584,6 +755,27 @@ public:
       , map_write_bit("MAP_WRITE_BIT", traits, api)
       , map_persistent_bit("MAP_PERSISTENT_BIT", traits, api)
       , map_coherent_bit("MAP_COHERENT_BIT", traits, api)
+      , uniform("UNIFORM", traits, api)
+      , uniform_block("UNIFORM_BLOCK", traits, api)
+      , program_input("PROGRAM_INPUT", traits, api)
+      , program_output("PROGRAM_OUTPUT", traits, api)
+      , vertex_subroutine("VERTEX_SUBROUTINE", traits, api)
+      , tess_control_subroutine("TESS_CONTROL_SUBROUTINE", traits, api)
+      , tess_evaluation_subroutine("TESS_EVALUATION_SUBROUTINE", traits, api)
+      , geometry_subroutine("GEOMETRY_SUBROUTINE", traits, api)
+      , fragment_subroutine("FRAGMENT_SUBROUTINE", traits, api)
+      , compute_subroutine("COMPUTE_SUBROUTINE", traits, api)
+      , vertex_subroutine_uniform("VERTEX_SUBROUTINE_UNIFORM", traits, api)
+      , tess_control_subroutine_uniform(
+          "TESS_CONTROL_SUBROUTINE_UNIFORM", traits, api)
+      , tess_evaluation_subroutine_uniform(
+          "TESS_EVALUATION_SUBROUTINE_UNIFORM", traits, api)
+      , geometry_subroutine_uniform("GEOMETRY_SUBROUTINE_UNIFORM", traits, api)
+      , fragment_subroutine_uniform("FRAGMENT_SUBROUTINE_UNIFORM", traits, api)
+      , compute_subroutine_uniform("COMPUTE_SUBROUTINE_UNIFORM", traits, api)
+      , transform_feedback_varying("GL_TRANSFORM_FEEDBACK_VARYING", traits, api)
+      , buffer_variable("BUFFER_VARIABLE", traits, api)
+      , buffer_storage_block("BUFFER_STORAGE_BLOCK", traits, api)
       , blend("BLEND", traits, api)
       , cull_face("CULL_FACE", traits, api)
       , depth_clamp("DEPTH_CLAMP", traits, api)
