@@ -45,6 +45,11 @@ struct program_interface
     using enum_class::enum_class;
 };
 
+struct program_property
+  : gl_enum_class<program_property, EAGINE_ID_V(ProgrmProp)> {
+    using enum_class::enum_class;
+};
+
 struct buffer_clear_bit
   : gl_enum_class<buffer_clear_bit, EAGINE_ID_V(BuffClrBit)> {
     using enum_class::enum_class;

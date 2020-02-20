@@ -537,7 +537,12 @@ struct basic_gl_c_api {
       CompileShader;
 
     gl_api_function<
-      void(sizei_type, const uint*, enum_type, const_void_ptr_type, sizei_type),
+      void(
+        sizei_type,
+        const uint_type*,
+        enum_type,
+        const_void_ptr_type,
+        sizei_type),
       OGLPLUS_GL_STATIC_FUNC(ShaderBinary)>
       ShaderBinary;
 
@@ -619,6 +624,30 @@ struct basic_gl_c_api {
       void(uint_type, enum_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetProgramInterfaceiv)>
       GetProgramInterfaceiv;
+
+    gl_api_function<
+      uint_type(uint_type, enum_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetProgramResourceIndex)>
+      GetProgramResourceIndex;
+
+    gl_api_function<
+      void(
+        uint_type, enum_type, uint_type, sizei_type, sizei_type*, char_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetProgramResourceName)>
+      GetProgramResourceName;
+
+    gl_api_function<
+      void(
+        uint_type,
+        enum_type,
+        uint_type,
+        sizei_type,
+        const enum_type*,
+        sizei_type,
+        sizei_type*,
+        int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetProgramResourceiv)>
+      GetProgramResourceiv;
 
     gl_api_function<void(uint_type), OGLPLUS_GL_STATIC_FUNC(UseProgram)>
       UseProgram;
@@ -1018,6 +1047,9 @@ struct basic_gl_c_api {
       , GetProgramiv("GetProgramiv", traits, *this)
       , GetProgramInfoLog("GetProgramInfoLog", traits, *this)
       , GetProgramInterfaceiv("GetProgramInterfaceiv", traits, *this)
+      , GetProgramResourceIndex("GetProgramResourceIndex", traits, *this)
+      , GetProgramResourceName("GetProgramResourceName", traits, *this)
+      , GetProgramResourceiv("GetProgramResourceiv", traits, *this)
       , UseProgram("UseProgram", traits, *this)
       , BindAttribLocation("BindAttribLocation", traits, *this)
       , GetAttribLocation("GetAttribLocation", traits, *this)

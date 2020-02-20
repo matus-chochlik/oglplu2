@@ -551,7 +551,7 @@ public:
       transform_feedback_varying;
 
     opt_c_api_constant<
-      mp_list<capability>,
+      mp_list<program_interface>,
 #ifdef GL_BUFFER_VARIABLE
       enum_type_c<GL_BUFFER_VARIABLE>>
 #else
@@ -560,13 +560,274 @@ public:
       buffer_variable;
 
     opt_c_api_constant<
-      mp_list<capability>,
+      mp_list<program_interface>,
 #ifdef GL_BUFFER_STORAGE_BLOCK
       enum_type_c<GL_BUFFER_STORAGE_BLOCK>>
 #else
       enum_type_i>
 #endif
       buffer_storage_block;
+
+    opt_c_api_constant<
+      mp_list<program_property>,
+#ifdef GL_BUFFER_BINDING
+      enum_type_c<GL_BUFFER_BINDING>>
+#else
+      enum_type_i>
+#endif
+      buffer_binding;
+
+    opt_c_api_constant<
+      mp_list<program_property>,
+#ifdef GL_ACTIVE_VARIABLES
+      enum_type_c<GL_ACTIVE_VARIABLES>>
+#else
+      enum_type_i>
+#endif
+      active_variables;
+
+    opt_c_api_constant<
+      mp_list<program_property>,
+#ifdef GL_NUM_ACTIVE_VARIABLES
+      enum_type_c<GL_NUM_ACTIVE_VARIABLES>>
+#else
+      enum_type_i>
+#endif
+      num_active_variables;
+
+    opt_c_api_constant<
+      mp_list<program_property>,
+#ifdef GL_ARRAY_SIZE
+      enum_type_c<GL_ARRAY_SIZE>>
+#else
+      enum_type_i>
+#endif
+      array_size;
+
+    opt_c_api_constant<
+      mp_list<program_property>,
+#ifdef GL_ARRAY_STRIDE
+      enum_type_c<GL_ARRAY_STRIDE>>
+#else
+      enum_type_i>
+#endif
+      array_stride;
+
+    opt_c_api_constant<
+      mp_list<program_property>,
+#ifdef GL_BLOCK_INDEX
+      enum_type_c<GL_BLOCK_INDEX>>
+#else
+      enum_type_i>
+#endif
+      block_index;
+
+    opt_c_api_constant<
+      mp_list<program_property>,
+#ifdef GL_IS_ROW_MAJOR
+      enum_type_c<GL_IS_ROW_MAJOR>>
+#else
+      enum_type_i>
+#endif
+      is_row_major;
+
+    opt_c_api_constant<
+      mp_list<program_property>,
+#ifdef GL_MATRIX_STRIDE
+      enum_type_c<GL_MATRIX_STRIDE>>
+#else
+      enum_type_i>
+#endif
+      matrix_stride;
+
+    opt_c_api_constant<
+      mp_list<program_property>,
+#ifdef GL_ATOMIC_COUNTER_BUFFER_INDEX
+      enum_type_c<GL_ATOMIC_COUNTER_BUFFER_INDEX>>
+#else
+      enum_type_i>
+#endif
+      atomic_counter_buffer_index;
+
+    opt_c_api_constant<
+      mp_list<program_property>,
+#ifdef GL_BUFFER_DATA_SIZE
+      enum_type_c<GL_BUFFER_DATA_SIZE>>
+#else
+      enum_type_i>
+#endif
+      buffer_data_size;
+
+    opt_c_api_constant<
+      mp_list<program_property>,
+#ifdef GL_NUM_COMPATIBLE_SUBROUTINES
+      enum_type_c<GL_NUM_COMPATIBLE_SUBROUTINES>>
+#else
+      enum_type_i>
+#endif
+      num_compatible_subroutines;
+
+    opt_c_api_constant<
+      mp_list<program_property>,
+#ifdef GL_COMPATIBLE_SUBROUTINES
+      enum_type_c<GL_COMPATIBLE_SUBROUTINES>>
+#else
+      enum_type_i>
+#endif
+      compatible_subroutines;
+
+    opt_c_api_constant<
+      mp_list<program_property>,
+#ifdef GL_IS_PER_PATCH
+      enum_type_c<GL_IS_PER_PATCH>>
+#else
+      enum_type_i>
+#endif
+      is_per_patch;
+
+    opt_c_api_constant<
+      mp_list<program_property>,
+#ifdef GL_LOCATION
+      enum_type_c<GL_LOCATION>>
+#else
+      enum_type_i>
+#endif
+      location;
+
+    opt_c_api_constant<
+      mp_list<program_property>,
+#ifdef GL_LOCATION_COMPONENT
+      enum_type_c<GL_LOCATION_COMPONENT>>
+#else
+      enum_type_i>
+#endif
+      location_component;
+
+    opt_c_api_constant<
+      mp_list<program_property>,
+#ifdef GL_LOCATION_INDEX
+      enum_type_c<GL_LOCATION_INDEX>>
+#else
+      enum_type_i>
+#endif
+      location_index;
+
+    opt_c_api_constant<
+      mp_list<program_property>,
+#ifdef GL_NAME_LENGTH
+      enum_type_c<GL_NAME_LENGTH>>
+#else
+      enum_type_i>
+#endif
+      name_length;
+
+    opt_c_api_constant<
+      mp_list<program_property>,
+#ifdef GL_OFFSET
+      enum_type_c<GL_OFFSET>>
+#else
+      enum_type_i>
+#endif
+      offset;
+
+    opt_c_api_constant<
+      mp_list<program_property>,
+#ifdef GL_REFERENCED_BY_VERTEX_SHADER
+      enum_type_c<GL_REFERENCED_BY_VERTEX_SHADER>>
+#else
+      enum_type_i>
+#endif
+      referenced_by_vertex_shader;
+
+    opt_c_api_constant<
+      mp_list<program_property>,
+#ifdef GL_REFERENCED_BY_TESS_CONTROL_SHADER
+      enum_type_c<GL_REFERENCED_BY_TESS_CONTROL_SHADER>>
+#else
+      enum_type_i>
+#endif
+      referenced_by_tess_control_shader;
+
+    opt_c_api_constant<
+      mp_list<program_property>,
+#ifdef GL_REFERENCED_BY_TESS_EVALUATION_SHADER
+      enum_type_c<GL_REFERENCED_BY_TESS_EVALUATION_SHADER>>
+#else
+      enum_type_i>
+#endif
+      referenced_by_tess_evaluation_shader;
+
+    opt_c_api_constant<
+      mp_list<program_property>,
+#ifdef GL_REFERENCED_BY_GEOMETRY_SHADER
+      enum_type_c<GL_REFERENCED_BY_GEOMETRY_SHADER>>
+#else
+      enum_type_i>
+#endif
+      referenced_by_geometry_shader;
+
+    opt_c_api_constant<
+      mp_list<program_property>,
+#ifdef GL_REFERENCED_BY_FRAGMENT_SHADER
+      enum_type_c<GL_REFERENCED_BY_FRAGMENT_SHADER>>
+#else
+      enum_type_i>
+#endif
+      referenced_by_fragment_shader;
+
+    opt_c_api_constant<
+      mp_list<program_property>,
+#ifdef GL_REFERENCED_BY_COMPUTE_SHADER
+      enum_type_c<GL_REFERENCED_BY_COMPUTE_SHADER>>
+#else
+      enum_type_i>
+#endif
+      referenced_by_compute_shader;
+
+    opt_c_api_constant<
+      mp_list<program_property>,
+#ifdef GL_TRANSFORM_FEEDBACK_BUFFER_INDEX
+      enum_type_c<GL_TRANSFORM_FEEDBACK_BUFFER_INDEX>>
+#else
+      enum_type_i>
+#endif
+      transform_feedback_buffer_index;
+
+    opt_c_api_constant<
+      mp_list<program_property>,
+#ifdef GL_TRANSFORM_FEEDBACK_BUFFER_STRIDE
+      enum_type_c<GL_TRANSFORM_FEEDBACK_BUFFER_STRIDE>>
+#else
+      enum_type_i>
+#endif
+      transform_feedback_buffer_stride;
+
+    opt_c_api_constant<
+      mp_list<program_property>,
+#ifdef GL_TOP_LEVEL_ARRAY_SIZE
+      enum_type_c<GL_TOP_LEVEL_ARRAY_SIZE>>
+#else
+      enum_type_i>
+#endif
+      top_level_array_size;
+
+    opt_c_api_constant<
+      mp_list<program_property>,
+#ifdef GL_TOP_LEVEL_ARRAY_STRIDE
+      enum_type_c<GL_TOP_LEVEL_ARRAY_STRIDE>>
+#else
+      enum_type_i>
+#endif
+      top_level_array_stride;
+
+    opt_c_api_constant<
+      mp_list<program_property>,
+#ifdef GL_TYPE
+      enum_type_c<GL_TYPE>>
+#else
+      enum_type_i>
+#endif
+      type;
 
     opt_c_api_constant<
       mp_list<capability>,
@@ -776,6 +1037,42 @@ public:
       , transform_feedback_varying("GL_TRANSFORM_FEEDBACK_VARYING", traits, api)
       , buffer_variable("BUFFER_VARIABLE", traits, api)
       , buffer_storage_block("BUFFER_STORAGE_BLOCK", traits, api)
+      , buffer_binding("BUFFER_BINDING", traits, api)
+      , active_variables("ACTIVE_VARIABLES", traits, api)
+      , num_active_variables("NUM_ACTIVE_VARIABLES", traits, api)
+      , array_size("ARRAY_SIZE", traits, api)
+      , array_stride("ARRAY_STRIDE", traits, api)
+      , block_index("BLOCK_INDEX", traits, api)
+      , is_row_major("IS_ROW_MAJOR", traits, api)
+      , matrix_stride("MATRIX_STRIDE", traits, api)
+      , atomic_counter_buffer_index("ATOMIC_COUNTER_BUFFER_INDEX", traits, api)
+      , buffer_data_size("BUFFER_DATA_SIZE", traits, api)
+      , num_compatible_subroutines("NUM_COMPATIBLE_SUBROUTINES", traits, api)
+      , compatible_subroutines("COMPATIBLE_SUBROUTINES", traits, api)
+      , is_per_patch("IS_PER_PATCH", traits, api)
+      , location("LOCATION", traits, api)
+      , location_component("LOCATION_COMPONENT", traits, api)
+      , location_index("LOCATION_INDEX", traits, api)
+      , name_length("NAME_LENGTH", traits, api)
+      , offset("OFFSET", traits, api)
+      , referenced_by_vertex_shader("REFERENCED_BY_VERTEX_SHADER", traits, api)
+      , referenced_by_tess_control_shader(
+          "REFERENCED_BY_TESS_CONTROL_SHADER", traits, api)
+      , referenced_by_tess_evaluation_shader(
+          "REFERENCED_BY_TESS_EVALUATION_SHADER", traits, api)
+      , referenced_by_geometry_shader(
+          "REFERENCED_BY_GEOMETRY_SHADER", traits, api)
+      , referenced_by_fragment_shader(
+          "REFERENCED_BY_FRAGMENT_SHADER", traits, api)
+      , referenced_by_compute_shader(
+          "REFERENCED_BY_COMPUTE_SHADER", traits, api)
+      , transform_feedback_buffer_index(
+          "TRANSFORM_FEEDBACK_BUFFER_INDEX", traits, api)
+      , transform_feedback_buffer_stride(
+          "TRANSFORM_FEEDBACK_BUFFER_STRIDE", traits, api)
+      , top_level_array_size("TOP_LEVEL_ARRAY_SIZE", traits, api)
+      , top_level_array_stride("TOP_LEVEL_ARRAY_STRIDE", traits, api)
+      , type("TYPE", traits, api)
       , blend("BLEND", traits, api)
       , cull_face("CULL_FACE", traits, api)
       , depth_clamp("DEPTH_CLAMP", traits, api)
