@@ -871,6 +871,172 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(UniformMatrix4x3fv)>
       UniformMatrix4x3fv;
 
+    // program uniform
+    gl_api_function<
+      void(uint_type, int_type, int_type),
+      OGLPLUS_GL_STATIC_FUNC(ProgramUniform1i)>
+      ProgramUniform1i;
+
+    gl_api_function<
+      void(uint_type, int_type, int_type, int_type),
+      OGLPLUS_GL_STATIC_FUNC(ProgramUniform2i)>
+      ProgramUniform2i;
+
+    gl_api_function<
+      void(uint_type, int_type, int_type, int_type, int_type),
+      OGLPLUS_GL_STATIC_FUNC(ProgramUniform3i)>
+      ProgramUniform3i;
+
+    gl_api_function<
+      void(uint_type, int_type, int_type, int_type, int_type, int_type),
+      OGLPLUS_GL_STATIC_FUNC(ProgramUniform4i)>
+      ProgramUniform4i;
+
+    gl_api_function<
+      void(uint_type, int_type, sizei_type, const int_type*),
+      OGLPLUS_GL_STATIC_FUNC(ProgramUniform1iv)>
+      ProgramUniform1iv;
+
+    gl_api_function<
+      void(uint_type, int_type, sizei_type, const int_type*),
+      OGLPLUS_GL_STATIC_FUNC(ProgramUniform2iv)>
+      ProgramUniform2iv;
+
+    gl_api_function<
+      void(uint_type, int_type, sizei_type, const int_type*),
+      OGLPLUS_GL_STATIC_FUNC(ProgramUniform3iv)>
+      ProgramUniform3iv;
+
+    gl_api_function<
+      void(uint_type, int_type, sizei_type, const int_type*),
+      OGLPLUS_GL_STATIC_FUNC(ProgramUniform4iv)>
+      ProgramUniform4iv;
+
+    gl_api_function<
+      void(uint_type, int_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(ProgramUniform1ui)>
+      ProgramUniform1ui;
+
+    gl_api_function<
+      void(uint_type, int_type, uint_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(ProgramUniform2ui)>
+      ProgramUniform2ui;
+
+    gl_api_function<
+      void(uint_type, int_type, uint_type, uint_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(ProgramUniform3ui)>
+      ProgramUniform3ui;
+
+    gl_api_function<
+      void(uint_type, int_type, uint_type, uint_type, uint_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(ProgramUniform4ui)>
+      ProgramUniform4ui;
+
+    gl_api_function<
+      void(uint_type, int_type, sizei_type, const uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(ProgramUniform1uiv)>
+      ProgramUniform1uiv;
+
+    gl_api_function<
+      void(uint_type, int_type, sizei_type, const uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(ProgramUniform2uiv)>
+      ProgramUniform2uiv;
+
+    gl_api_function<
+      void(uint_type, int_type, sizei_type, const uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(ProgramUniform3uiv)>
+      ProgramUniform3uiv;
+
+    gl_api_function<
+      void(uint_type, int_type, sizei_type, const uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(ProgramUniform4uiv)>
+      ProgramUniform4uiv;
+
+    gl_api_function<
+      void(uint_type, int_type, float_type),
+      OGLPLUS_GL_STATIC_FUNC(ProgramUniform1f)>
+      ProgramUniform1f;
+
+    gl_api_function<
+      void(uint_type, int_type, float_type, float_type),
+      OGLPLUS_GL_STATIC_FUNC(ProgramUniform2f)>
+      ProgramUniform2f;
+
+    gl_api_function<
+      void(uint_type, int_type, float_type, float_type, float_type),
+      OGLPLUS_GL_STATIC_FUNC(ProgramUniform3f)>
+      ProgramUniform3f;
+
+    gl_api_function<
+      void(uint_type, int_type, float_type, float_type, float_type, float_type),
+      OGLPLUS_GL_STATIC_FUNC(ProgramUniform4f)>
+      ProgramUniform4f;
+
+    gl_api_function<
+      void(uint_type, int_type, sizei_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(ProgramUniform1fv)>
+      ProgramUniform1fv;
+
+    gl_api_function<
+      void(uint_type, int_type, sizei_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(ProgramUniform2fv)>
+      ProgramUniform2fv;
+
+    gl_api_function<
+      void(uint_type, int_type, sizei_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(ProgramUniform3fv)>
+      ProgramUniform3fv;
+
+    gl_api_function<
+      void(uint_type, int_type, sizei_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(ProgramUniform4fv)>
+      ProgramUniform4fv;
+
+    gl_api_function<
+      void(uint_type, int_type, sizei_type, bool_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(ProgramUniformMatrix2fv)>
+      ProgramUniformMatrix2fv;
+
+    gl_api_function<
+      void(uint_type, int_type, sizei_type, bool_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(ProgramUniformMatrix3fv)>
+      ProgramUniformMatrix3fv;
+
+    gl_api_function<
+      void(uint_type, int_type, sizei_type, bool_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(ProgramUniformMatrix4fv)>
+      ProgramUniformMatrix4fv;
+
+    gl_api_function<
+      void(uint_type, int_type, sizei_type, bool_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(ProgramUniformMatrix2x3fv)>
+      ProgramUniformMatrix2x3fv;
+
+    gl_api_function<
+      void(uint_type, int_type, sizei_type, bool_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(ProgramUniformMatrix3x2fv)>
+      ProgramUniformMatrix3x2fv;
+
+    gl_api_function<
+      void(uint_type, int_type, sizei_type, bool_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(ProgramUniformMatrix2x4fv)>
+      ProgramUniformMatrix2x4fv;
+
+    gl_api_function<
+      void(uint_type, int_type, sizei_type, bool_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(ProgramUniformMatrix4x2fv)>
+      ProgramUniformMatrix4x2fv;
+
+    gl_api_function<
+      void(uint_type, int_type, sizei_type, bool_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(ProgramUniformMatrix3x4fv)>
+      ProgramUniformMatrix3x4fv;
+
+    gl_api_function<
+      void(uint_type, int_type, sizei_type, bool_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(ProgramUniformMatrix4x3fv)>
+      ProgramUniformMatrix4x3fv;
+
     // viewport
     gl_api_function<
       void(double_type, double_type),
@@ -1137,6 +1303,39 @@ struct basic_gl_c_api {
       , UniformMatrix4x2fv("UniformMatrix4x2fv", traits, *this)
       , UniformMatrix3x4fv("UniformMatrix3x4fv", traits, *this)
       , UniformMatrix4x3fv("UniformMatrix4x3fv", traits, *this)
+      , ProgramUniform1i("ProgramUniform1i", traits, *this)
+      , ProgramUniform2i("ProgramUniform2i", traits, *this)
+      , ProgramUniform3i("ProgramUniform3i", traits, *this)
+      , ProgramUniform4i("ProgramUniform4i", traits, *this)
+      , ProgramUniform1iv("ProgramUniform1iv", traits, *this)
+      , ProgramUniform2iv("ProgramUniform2iv", traits, *this)
+      , ProgramUniform3iv("ProgramUniform3iv", traits, *this)
+      , ProgramUniform4iv("ProgramUniform4iv", traits, *this)
+      , ProgramUniform1ui("ProgramUniform1ui", traits, *this)
+      , ProgramUniform2ui("ProgramUniform2ui", traits, *this)
+      , ProgramUniform3ui("ProgramUniform3ui", traits, *this)
+      , ProgramUniform4ui("ProgramUniform4ui", traits, *this)
+      , ProgramUniform1uiv("ProgramUniform1uiv", traits, *this)
+      , ProgramUniform2uiv("ProgramUniform2uiv", traits, *this)
+      , ProgramUniform3uiv("ProgramUniform3uiv", traits, *this)
+      , ProgramUniform4uiv("ProgramUniform4uiv", traits, *this)
+      , ProgramUniform1f("ProgramUniform1f", traits, *this)
+      , ProgramUniform2f("ProgramUniform2f", traits, *this)
+      , ProgramUniform3f("ProgramUniform3f", traits, *this)
+      , ProgramUniform4f("ProgramUniform4f", traits, *this)
+      , ProgramUniform1fv("ProgramUniform1fv", traits, *this)
+      , ProgramUniform2fv("ProgramUniform2fv", traits, *this)
+      , ProgramUniform3fv("ProgramUniform3fv", traits, *this)
+      , ProgramUniform4fv("ProgramUniform4fv", traits, *this)
+      , ProgramUniformMatrix2fv("ProgramUniformMatrix2fv", traits, *this)
+      , ProgramUniformMatrix3fv("ProgramUniformMatrix3fv", traits, *this)
+      , ProgramUniformMatrix4fv("ProgramUniformMatrix4fv", traits, *this)
+      , ProgramUniformMatrix2x3fv("ProgramUniformMatrix2x3fv", traits, *this)
+      , ProgramUniformMatrix3x2fv("ProgramUniformMatrix3x2fv", traits, *this)
+      , ProgramUniformMatrix2x4fv("ProgramUniformMatrix2x4fv", traits, *this)
+      , ProgramUniformMatrix4x2fv("ProgramUniformMatrix4x2fv", traits, *this)
+      , ProgramUniformMatrix3x4fv("ProgramUniformMatrix3x4fv", traits, *this)
+      , ProgramUniformMatrix4x3fv("ProgramUniformMatrix4x3fv", traits, *this)
       , DepthRange("DepthRange", traits, *this)
       , DepthRangef("DepthRangef", traits, *this)
       , Viewport("Viewport", traits, *this)
