@@ -50,7 +50,6 @@ struct gl_types {
     using uint_type = GLuint;
     using int64_type = GLint64;
     using uint64_type = GLuint64;
-    using fixed_type = GLfixed;
     using float_type = GLfloat;
     using double_type = GLdouble;
     using sizei_type = GLsizei;
@@ -74,7 +73,6 @@ struct gl_types {
     using uint_type = unsigned;
     using int64_type = std::int64_t;
     using uint64_type = std::uint64_t;
-    using fixed_type = std::int32_t;
     using float_type = float;
     using double_type = double;
     using sizei_type = std::ptrdiff_t;

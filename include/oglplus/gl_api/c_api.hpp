@@ -19,7 +19,7 @@
 #if defined(__GLEW_H__)
 #define OGLPLUS_GL_STATIC_FUNC(NAME) nullptr
 #else
-#define OGLPLUS_GL_STATIC_FUNC(NAME) &EAGINE_JOIN(::gl, NAME)
+#define OGLPLUS_GL_STATIC_FUNC(NAME) &EAGINE_JOIN(gl, NAME)
 #endif
 #else
 #define OGLPLUS_GL_STATIC_FUNC(NAME) nullptr
@@ -109,7 +109,7 @@ struct basic_gl_c_api {
       GetSynciv;
 
     gl_api_function<
-      enum_type(sync_type, bitfield_type, uint64_type),
+      void(sync_type, bitfield_type, uint64_type),
       OGLPLUS_GL_STATIC_FUNC(WaitSync)>
       WaitSync;
 
@@ -247,12 +247,12 @@ struct basic_gl_c_api {
       MapNamedBufferRange;
 
     gl_api_function<
-      void_ptr_type(enum_type, intptr_type, sizeiptr_type),
+      void(enum_type, intptr_type, sizeiptr_type),
       OGLPLUS_GL_STATIC_FUNC(FlushMappedBufferRange)>
       FlushMappedBufferRange;
 
     gl_api_function<
-      void_ptr_type(uint_type, intptr_type, sizeiptr_type),
+      void(uint_type, intptr_type, sizeiptr_type),
       OGLPLUS_GL_STATIC_FUNC(FlushMappedNamedBufferRange)>
       FlushMappedNamedBufferRange;
 
@@ -404,7 +404,7 @@ struct basic_gl_c_api {
       IsTransformFeedback;
 
     gl_api_function<
-      void(uint_type),
+      void(enum_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(BindTransformFeedback)>
       BindTransformFeedback;
 
@@ -495,28 +495,38 @@ struct basic_gl_c_api {
 
     gl_api_function<
       void(sizei_type, uint_type*),
-      OGLPLUS_GL_STATIC_FUNC(GenProgramPipeliness)>
-      GenProgramPipeliness;
+      OGLPLUS_GL_STATIC_FUNC(GenProgramPipelines)>
+      GenProgramPipelines;
+
+    gl_api_function<
+      void(sizei_type, uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(CreateProgramPipelines)>
+      CreateProgramPipelines;
 
     gl_api_function<
       void(sizei_type, const uint_type*),
-      OGLPLUS_GL_STATIC_FUNC(DeleteProgramPipeliness)>
-      DeleteProgramPipeliness;
+      OGLPLUS_GL_STATIC_FUNC(DeleteProgramPipelines)>
+      DeleteProgramPipelines;
 
     gl_api_function<
       bool_type(uint_type),
-      OGLPLUS_GL_STATIC_FUNC(IsProgramPipelines)>
-      IsProgramPipelines;
+      OGLPLUS_GL_STATIC_FUNC(IsProgramPipeline)>
+      IsProgramPipeline;
 
     gl_api_function<
       void(uint_type),
-      OGLPLUS_GL_STATIC_FUNC(BindProgramPipelines)>
-      BindProgramPipelines;
+      OGLPLUS_GL_STATIC_FUNC(BindProgramPipeline)>
+      BindProgramPipeline;
 
     gl_api_function<
       void(uint_type, bitfield_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(UseProgramStages)>
       UseProgramStages;
+
+    gl_api_function<
+      void(uint_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(ActiveShaderProgram)>
+      ActiveShaderProgram;
 
     //
     gl_api_function<uint_type(enum_type), OGLPLUS_GL_STATIC_FUNC(CreateShader)>
@@ -575,7 +585,7 @@ struct basic_gl_c_api {
       ReleaseShaderCompiler;
 
     //
-    gl_api_function<uint_type(enum_type), OGLPLUS_GL_STATIC_FUNC(CreateProgram)>
+    gl_api_function<uint_type(), OGLPLUS_GL_STATIC_FUNC(CreateProgram)>
       CreateProgram;
 
     gl_api_function<
@@ -601,14 +611,24 @@ struct basic_gl_c_api {
 
     gl_api_function<
       void(uint_type, sizei_type, sizei_type*, uint_type*),
-      OGLPLUS_GL_STATIC_FUNC(GetAttachedShader)>
-      GetAttachedShader;
+      OGLPLUS_GL_STATIC_FUNC(GetAttachedShaders)>
+      GetAttachedShaders;
 
     gl_api_function<void(uint_type), OGLPLUS_GL_STATIC_FUNC(ValidateProgram)>
       ValidateProgram;
 
     gl_api_function<void(uint_type), OGLPLUS_GL_STATIC_FUNC(LinkProgram)>
       LinkProgram;
+
+    gl_api_function<
+      void(uint_type, enum_type, const_void_ptr_type, sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(ProgramBinary)>
+      ProgramBinary;
+
+    gl_api_function<
+      void(uint_type, sizei_type, sizei_type*, enum_type*, void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(GetProgramBinary)>
+      GetProgramBinary;
 
     gl_api_function<
       void(uint_type, enum_type, int_type*),
@@ -626,7 +646,7 @@ struct basic_gl_c_api {
       GetProgramInterfaceiv;
 
     gl_api_function<
-      uint_type(uint_type, enum_type, int_type*),
+      uint_type(uint_type, enum_type, const char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetProgramResourceIndex)>
       GetProgramResourceIndex;
 
@@ -635,6 +655,16 @@ struct basic_gl_c_api {
         uint_type, enum_type, uint_type, sizei_type, sizei_type*, char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetProgramResourceName)>
       GetProgramResourceName;
+
+    gl_api_function<
+      int_type(uint_type, enum_type, const char_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetProgramResourceLocation)>
+      GetProgramResourceLocation;
+
+    gl_api_function<
+      int_type(uint_type, enum_type, const char_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetProgramResourceLocationIndex)>
+      GetProgramResourceLocationIndex;
 
     gl_api_function<
       void(
@@ -666,6 +696,16 @@ struct basic_gl_c_api {
       int_type(uint_type, const char*),
       OGLPLUS_GL_STATIC_FUNC(GetUniformLocation)>
       GetUniformLocation;
+
+    gl_api_function<
+      void(uint_type, uint_type, const char*),
+      OGLPLUS_GL_STATIC_FUNC(BindFragDataLocation)>
+      BindFragDataLocation;
+
+    gl_api_function<
+      void(uint_type, uint_type, uint_type, const char*),
+      OGLPLUS_GL_STATIC_FUNC(BindFragDataLocationIndexed)>
+      BindFragDataLocationIndexed;
 
     // uniform
     gl_api_function<void(int_type, int_type), OGLPLUS_GL_STATIC_FUNC(Uniform1i)>
@@ -1019,11 +1059,13 @@ struct basic_gl_c_api {
       , EndQuery("EndQuery", traits, *this)
       , EndQueryIndexed("EndQueryIndexed", traits, *this)
       , QueryCounter("QueryCounter", traits, *this)
-      , GenProgramPipeliness("GenProgramPipeliness", traits, *this)
-      , DeleteProgramPipeliness("DeleteProgramPipeliness", traits, *this)
-      , IsProgramPipelines("IsProgramPipelines", traits, *this)
-      , BindProgramPipelines("BindProgramPipelines", traits, *this)
+      , GenProgramPipelines("GenProgramPipelines", traits, *this)
+      , CreateProgramPipelines("CreateProgramPipelines", traits, *this)
+      , DeleteProgramPipelines("DeleteProgramPipelines", traits, *this)
+      , IsProgramPipeline("IsProgramPipeline", traits, *this)
+      , BindProgramPipeline("BindProgramPipeline", traits, *this)
       , UseProgramStages("UseProgramStages", traits, *this)
+      , ActiveShaderProgram("ActiveShaderProgram", traits, *this)
       , CreateShader("CreateShader", traits, *this)
       , DeleteShader("DeleteShader", traits, *this)
       , IsShader("IsShader", traits, *this)
@@ -1041,19 +1083,27 @@ struct basic_gl_c_api {
       , IsProgram("IsProgram", traits, *this)
       , AttachShader("AttachShader", traits, *this)
       , DetachShader("DetachShader", traits, *this)
-      , GetAttachedShader("GetAttachedShader", traits, *this)
+      , GetAttachedShaders("GetAttachedShaders", traits, *this)
       , ValidateProgram("ValidateProgram", traits, *this)
       , LinkProgram("LinkProgram", traits, *this)
+      , ProgramBinary("ProgramBinary", traits, *this)
+      , GetProgramBinary("GetProgramBinary", traits, *this)
       , GetProgramiv("GetProgramiv", traits, *this)
       , GetProgramInfoLog("GetProgramInfoLog", traits, *this)
       , GetProgramInterfaceiv("GetProgramInterfaceiv", traits, *this)
       , GetProgramResourceIndex("GetProgramResourceIndex", traits, *this)
       , GetProgramResourceName("GetProgramResourceName", traits, *this)
+      , GetProgramResourceLocation("GetProgramResourceLocation", traits, *this)
+      , GetProgramResourceLocationIndex(
+          "GetProgramResourceLocationIndex", traits, *this)
       , GetProgramResourceiv("GetProgramResourceiv", traits, *this)
       , UseProgram("UseProgram", traits, *this)
       , BindAttribLocation("BindAttribLocation", traits, *this)
       , GetAttribLocation("GetAttribLocation", traits, *this)
       , GetUniformLocation("GetUniformLocation", traits, *this)
+      , BindFragDataLocation("BindFragDataLocation", traits, *this)
+      , BindFragDataLocationIndexed(
+          "BindFragDataLocationIndexed", traits, *this)
       , Uniform1i("Uniform1i", traits, *this)
       , Uniform2i("Uniform2i", traits, *this)
       , Uniform3i("Uniform3i", traits, *this)
