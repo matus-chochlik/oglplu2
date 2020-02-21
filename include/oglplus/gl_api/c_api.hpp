@@ -1037,6 +1037,17 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(ProgramUniformMatrix4x3fv)>
       ProgramUniformMatrix4x3fv;
 
+    // uniform blocks
+    gl_api_function<
+      void(uint_type, uint_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(UniformBlockBinding)>
+      UniformBlockBinding;
+
+    gl_api_function<
+      void(uint_type, uint_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(ShaderStorageBlockBinding)>
+      ShaderStorageBlockBinding;
+
     // viewport
     gl_api_function<
       void(double_type, double_type),
@@ -1336,6 +1347,8 @@ struct basic_gl_c_api {
       , ProgramUniformMatrix4x2fv("ProgramUniformMatrix4x2fv", traits, *this)
       , ProgramUniformMatrix3x4fv("ProgramUniformMatrix3x4fv", traits, *this)
       , ProgramUniformMatrix4x3fv("ProgramUniformMatrix4x3fv", traits, *this)
+      , UniformBlockBinding("UniformBlockBinding", traits, *this)
+      , ShaderStorageBlockBinding("ShaderStorageBlockBinding", traits, *this)
       , DepthRange("DepthRange", traits, *this)
       , DepthRangef("DepthRangef", traits, *this)
       , Viewport("Viewport", traits, *this)

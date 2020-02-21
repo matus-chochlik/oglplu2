@@ -893,6 +893,78 @@ public:
       multisample;
 
     opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_MAX_VERTEX_UNIFORM_BLOCKS
+      enum_type_c<GL_MAX_VERTEX_UNIFORM_BLOCKS>>
+#else
+      enum_type_i>
+#endif
+      max_vertex_uniform_blocks;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_MAX_TESS_CONTROL_UNIFORM_BLOCKS
+      enum_type_c<GL_MAX_TESS_CONTROL_UNIFORM_BLOCKS>>
+#else
+      enum_type_i>
+#endif
+      max_tess_control_uniform_blocks;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_MAX_TESS_EVALUATION_UNIFORM_BLOCKS
+      enum_type_c<GL_MAX_TESS_EVALUATION_UNIFORM_BLOCKS>>
+#else
+      enum_type_i>
+#endif
+      max_tess_evaluation_uniform_blocks;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_MAX_GEOMETRY_UNIFORM_BLOCKS
+      enum_type_c<GL_MAX_GEOMETRY_UNIFORM_BLOCKS>>
+#else
+      enum_type_i>
+#endif
+      max_geometry_uniform_blocks;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_MAX_FRAGMENT_UNIFORM_BLOCKS
+      enum_type_c<GL_MAX_FRAGMENT_UNIFORM_BLOCKS>>
+#else
+      enum_type_i>
+#endif
+      max_fragment_uniform_blocks;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_MAX_COMPUTE_UNIFORM_BLOCKS
+      enum_type_c<GL_MAX_COMPUTE_UNIFORM_BLOCKS>>
+#else
+      enum_type_i>
+#endif
+      max_compute_uniform_blocks;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_MAX_COMBINED_UNIFORM_BLOCKS
+      enum_type_c<GL_MAX_COMBINED_UNIFORM_BLOCKS>>
+#else
+      enum_type_i>
+#endif
+      max_combined_uniform_blocks;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_MAX_UNIFORM_BLOCK_SIZE
+      enum_type_c<GL_MAX_UNIFORM_BLOCK_SIZE>>
+#else
+      enum_type_i>
+#endif
+      max_uniform_block_size;
+
+    opt_c_api_constant<
       mp_list<string_query>,
 #ifdef GL_VENDOR
       enum_type_c<GL_VENDOR>>
@@ -1080,6 +1152,16 @@ public:
       , scissor_test("SCISSOR_TEST", traits, api)
       , stencil_test("STENCIL_TEST", traits, api)
       , multisample("MULTISAMPLE", traits, api)
+      , max_vertex_uniform_blocks("MAX_VERTEX_UNIFORM_BLOCKS", traits, api)
+      , max_tess_control_uniform_blocks(
+          "MAX_TESS_CONTROL_UNIFORM_BLOCKS", traits, api)
+      , max_tess_evaluation_uniform_blocks(
+          "MAX_TESS_EVALUATION_UNIFORM_BLOCKS", traits, api)
+      , max_geometry_uniform_blocks("MAX_GEOMETRY_UNIFORM_BLOCKS", traits, api)
+      , max_fragment_uniform_blocks("MAX_FRAGMENT_UNIFORM_BLOCKS", traits, api)
+      , max_compute_uniform_blocks("MAX_COMPUTE_UNIFORM_BLOCKS", traits, api)
+      , max_combined_uniform_blocks("MAX_COMBINED_UNIFORM_BLOCKS", traits, api)
+      , max_uniform_block_size("MAX_UNIFORM_BLOCK_SIZE", traits, api)
       , vendor("VENDOR", traits, api)
       , renderer("RENDERER", traits, api)
       , version("VERSION", traits, api)
