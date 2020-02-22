@@ -573,6 +573,226 @@ struct basic_gl_c_api {
       CopyTextureSubImage1D;
 
     gl_api_function<
+      void(
+        enum_type,
+        int_type,
+        enum_type,
+        sizei_type,
+        sizei_type,
+        sizei_type,
+        int_type,
+        sizei_type,
+        const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(CompressedTexImage3D)>
+      CompressedTexImage3D;
+
+    gl_api_function<
+      void(
+        enum_type,
+        int_type,
+        enum_type,
+        sizei_type,
+        sizei_type,
+        int_type,
+        sizei_type,
+        const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(CompressedTexImage2D)>
+      CompressedTexImage2D;
+
+    gl_api_function<
+      void(
+        enum_type,
+        int_type,
+        enum_type,
+        sizei_type,
+        int_type,
+        sizei_type,
+        const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(CompressedTexImage1D)>
+      CompressedTexImage1D;
+
+    gl_api_function<
+      void(
+        enum_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type,
+        sizei_type,
+        enum_type,
+        sizei_type,
+        const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(CompressedTexSubImage3D)>
+      CompressedTexSubImage3D;
+
+    gl_api_function<
+      void(
+        enum_type,
+        int_type,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type,
+        enum_type,
+        sizei_type,
+        const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(CompressedTexSubImage2D)>
+      CompressedTexSubImage2D;
+
+    gl_api_function<
+      void(
+        enum_type,
+        int_type,
+        int_type,
+        sizei_type,
+        enum_type,
+        sizei_type,
+        const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(CompressedTexSubImage1D)>
+      CompressedTexSubImage1D;
+
+    gl_api_function<
+      void(
+        uint_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type,
+        sizei_type,
+        enum_type,
+        sizei_type,
+        const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(CompressedTextureSubImage3D)>
+      CompressedTextureSubImage3D;
+
+    gl_api_function<
+      void(
+        uint_type,
+        int_type,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type,
+        enum_type,
+        sizei_type,
+        const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(CompressedTextureSubImage2D)>
+      CompressedTextureSubImage2D;
+
+    gl_api_function<
+      void(
+        uint_type,
+        int_type,
+        int_type,
+        sizei_type,
+        enum_type,
+        sizei_type,
+        const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(CompressedTextureSubImage1D)>
+      CompressedTextureSubImage1D;
+
+    gl_api_function<
+      void(
+        enum_type,
+        sizei_type,
+        enum_type,
+        sizei_type,
+        sizei_type,
+        sizei_type,
+        bool_type),
+      OGLPLUS_GL_STATIC_FUNC(TexImage3DMultisample)>
+      TexImage3DMultisample;
+
+    gl_api_function<
+      void(enum_type, sizei_type, enum_type, sizei_type, sizei_type, bool_type),
+      OGLPLUS_GL_STATIC_FUNC(TexImage2DMultisample)>
+      TexImage2DMultisample;
+
+    gl_api_function<
+      void(enum_type, enum_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(TexBuffer)>
+      TexBuffer;
+
+    gl_api_function<
+      void(enum_type, enum_type, uint_type, intptr_type, sizeiptr_type),
+      OGLPLUS_GL_STATIC_FUNC(TexBufferRange)>
+      TexBufferRange;
+
+    gl_api_function<
+      void(uint_type, enum_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(TextureBuffer)>
+      TextureBuffer;
+
+    gl_api_function<
+      void(uint_type, enum_type, uint_type, intptr_type, sizeiptr_type),
+      OGLPLUS_GL_STATIC_FUNC(TextureBufferRange)>
+      TextureBufferRange;
+
+    gl_api_function<
+      void(enum_type, enum_type, float_type),
+      OGLPLUS_GL_STATIC_FUNC(TexParameterf)>
+      TexParameterf;
+
+    gl_api_function<
+      void(enum_type, enum_type, int_type),
+      OGLPLUS_GL_STATIC_FUNC(TexParameteri)>
+      TexParameteri;
+
+    gl_api_function<
+      void(enum_type, enum_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(TexParameterfv)>
+      TexParameterfv;
+
+    gl_api_function<
+      void(enum_type, enum_type, const int_type*),
+      OGLPLUS_GL_STATIC_FUNC(TexParameteriv)>
+      TexParameteriv;
+
+    gl_api_function<
+      void(enum_type, enum_type, const int_type*),
+      OGLPLUS_GL_STATIC_FUNC(TexParameterIiv)>
+      TexParameterIiv;
+
+    gl_api_function<
+      void(enum_type, enum_type, const uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(TexParameterIuiv)>
+      TexParameterIuiv;
+
+    gl_api_function<
+      void(uint_type, enum_type, float_type),
+      OGLPLUS_GL_STATIC_FUNC(TextureParameterf)>
+      TextureParameterf;
+
+    gl_api_function<
+      void(uint_type, enum_type, int_type),
+      OGLPLUS_GL_STATIC_FUNC(TextureParameteri)>
+      TextureParameteri;
+
+    gl_api_function<
+      void(uint_type, enum_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(TextureParameterfv)>
+      TextureParameterfv;
+
+    gl_api_function<
+      void(uint_type, enum_type, const int_type*),
+      OGLPLUS_GL_STATIC_FUNC(TextureParameteriv)>
+      TextureParameteriv;
+
+    gl_api_function<
+      void(uint_type, enum_type, const int_type*),
+      OGLPLUS_GL_STATIC_FUNC(TextureParameterIiv)>
+      TextureParameterIiv;
+
+    gl_api_function<
+      void(uint_type, enum_type, const uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(TextureParameterIuiv)>
+      TextureParameterIuiv;
+
+    gl_api_function<
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GenSamplers)>
       GenSamplers;
@@ -1621,6 +1841,36 @@ struct basic_gl_c_api {
       , CopyTextureSubImage3D("CopyTextureSubImage3D", traits, *this)
       , CopyTextureSubImage2D("CopyTextureSubImage2D", traits, *this)
       , CopyTextureSubImage1D("CopyTextureSubImage1D", traits, *this)
+      , CompressedTexImage3D("CompressedTexImage3D", traits, *this)
+      , CompressedTexImage2D("CompressedTexImage2D", traits, *this)
+      , CompressedTexImage1D("CompressedTexImage1D", traits, *this)
+      , CompressedTexSubImage3D("CompressedTexSubImage3D", traits, *this)
+      , CompressedTexSubImage2D("CompressedTexSubImage2D", traits, *this)
+      , CompressedTexSubImage1D("CompressedTexSubImage1D", traits, *this)
+      , CompressedTextureSubImage3D(
+          "CompressedTextureSubImage3D", traits, *this)
+      , CompressedTextureSubImage2D(
+          "CompressedTextureSubImage2D", traits, *this)
+      , CompressedTextureSubImage1D(
+          "CompressedTextureSubImage1D", traits, *this)
+      , TexImage3DMultisample("TexImage3DMultisample", traits, *this)
+      , TexImage2DMultisample("TexImage2DMultisample", traits, *this)
+      , TexBuffer("TexBuffer", traits, *this)
+      , TexBufferRange("TexBufferRange", traits, *this)
+      , TextureBuffer("TextureBuffer", traits, *this)
+      , TextureBufferRange("TextureBufferRange", traits, *this)
+      , TexParameterf("TexParameterf", traits, *this)
+      , TexParameteri("TexParameteri", traits, *this)
+      , TexParameterfv("TexParameterfv", traits, *this)
+      , TexParameteriv("TexParameteriv", traits, *this)
+      , TexParameterIiv("TexParameterIiv", traits, *this)
+      , TexParameterIuiv("TexParameterIuiv", traits, *this)
+      , TextureParameterf("TextureParameterf", traits, *this)
+      , TextureParameteri("TextureParameteri", traits, *this)
+      , TextureParameterfv("TextureParameterfv", traits, *this)
+      , TextureParameteriv("TextureParameteriv", traits, *this)
+      , TextureParameterIiv("TextureParameterIiv", traits, *this)
+      , TextureParameterIuiv("TextureParameterIuiv", traits, *this)
       , GenSamplers("GenSamplers", traits, *this)
       , CreateSamplers("CreateSamplers", traits, *this)
       , DeleteSamplers("DeleteSamplers", traits, *this)
