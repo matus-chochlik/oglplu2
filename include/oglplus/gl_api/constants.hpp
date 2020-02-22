@@ -146,6 +146,150 @@ public:
       unknown_context_reset;
 
     opt_c_api_constant<
+      mp_list<memory_barrier_bit>,
+#ifdef GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT
+      enum_type_c<GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT>>
+#else
+      enum_type_i>
+#endif
+      vertex_attrib_array_barrier_bit;
+
+    opt_c_api_constant<
+      mp_list<memory_barrier_bit>,
+#ifdef GL_ELEMENT_ARRAY_BARRIER_BIT
+      enum_type_c<GL_ELEMENT_ARRAY_BARRIER_BIT>>
+#else
+      enum_type_i>
+#endif
+      element_array_barrier_bit;
+
+    opt_c_api_constant<
+      mp_list<memory_barrier_bit>,
+#ifdef GL_UNIFORM_BARRIER_BIT
+      enum_type_c<GL_UNIFORM_BARRIER_BIT>>
+#else
+      enum_type_i>
+#endif
+      uniform_barrier_bit;
+
+    opt_c_api_constant<
+      mp_list<memory_barrier_bit>,
+#ifdef GL_TEXTURE_FETCH_BARRIER_BIT
+      enum_type_c<GL_TEXTURE_FETCH_BARRIER_BIT>>
+#else
+      enum_type_i>
+#endif
+      texture_fetch_barrier_bit;
+
+    opt_c_api_constant<
+      mp_list<memory_barrier_bit>,
+#ifdef GL_SHADER_IMAGE_ACCESS_BARRIER_BIT
+      enum_type_c<GL_SHADER_IMAGE_ACCESS_BARRIER_BIT>>
+#else
+      enum_type_i>
+#endif
+      shader_image_access_barrier_bit;
+
+    opt_c_api_constant<
+      mp_list<memory_barrier_bit>,
+#ifdef GL_COMMAND_BARRIER_BIT
+      enum_type_c<GL_COMMAND_BARRIER_BIT>>
+#else
+      enum_type_i>
+#endif
+      command_barrier_bit;
+
+    opt_c_api_constant<
+      mp_list<memory_barrier_bit>,
+#ifdef GL_PIXEL_BUFFER_BARRIER_BIT
+      enum_type_c<GL_PIXEL_BUFFER_BARRIER_BIT>>
+#else
+      enum_type_i>
+#endif
+      pixel_buffer_barrier_bit;
+
+    opt_c_api_constant<
+      mp_list<memory_barrier_bit>,
+#ifdef GL_TEXTURE_UPDATE_BARRIER_BIT
+      enum_type_c<GL_TEXTURE_UPDATE_BARRIER_BIT>>
+#else
+      enum_type_i>
+#endif
+      texture_update_barrier_bit;
+
+    opt_c_api_constant<
+      mp_list<memory_barrier_bit>,
+#ifdef GL_BUFFER_UPDATE_BARRIER_BIT
+      enum_type_c<GL_BUFFER_UPDATE_BARRIER_BIT>>
+#else
+      enum_type_i>
+#endif
+      buffer_update_barrier_bit;
+
+    opt_c_api_constant<
+      mp_list<memory_barrier_bit>,
+#ifdef GL_CLIENT_MAPPED_BUFFER_BARRIER_BIT
+      enum_type_c<GL_CLIENT_MAPPED_BUFFER_BARRIER_BIT>>
+#else
+      enum_type_i>
+#endif
+      client_mapped_buffer_barrier_bit;
+
+    opt_c_api_constant<
+      mp_list<memory_barrier_bit>,
+#ifdef GL_QUERY_BUFFER_BARRIER_BIT
+      enum_type_c<GL_QUERY_BUFFER_BARRIER_BIT>>
+#else
+      enum_type_i>
+#endif
+      query_buffer_barrier_bit;
+
+    opt_c_api_constant<
+      mp_list<memory_barrier_bit>,
+#ifdef GL_FRAMEBUFFER_BARRIER_BIT
+      enum_type_c<GL_FRAMEBUFFER_BARRIER_BIT>>
+#else
+      enum_type_i>
+#endif
+      framebuffer_barrier_bit;
+
+    opt_c_api_constant<
+      mp_list<memory_barrier_bit>,
+#ifdef GL_TRANSFORM_FEEDBACK_BARRIER_BIT
+      enum_type_c<GL_TRANSFORM_FEEDBACK_BARRIER_BIT>>
+#else
+      enum_type_i>
+#endif
+      transform_feedback_barrier_bit;
+
+    opt_c_api_constant<
+      mp_list<memory_barrier_bit>,
+#ifdef GL_ATOMIC_COUNTER_BARRIER_BIT
+      enum_type_c<GL_ATOMIC_COUNTER_BARRIER_BIT>>
+#else
+      enum_type_i>
+#endif
+      atomic_counter_barrier_bit;
+
+    opt_c_api_constant<
+      mp_list<memory_barrier_bit>,
+#ifdef GL_SHADER_STORAGE_BARRIER_BIT
+      enum_type_c<GL_SHADER_STORAGE_BARRIER_BIT>>
+#else
+      enum_type_i>
+#endif
+      shader_storage_barrier_bit;
+
+    opt_c_api_constant<
+      mp_list<memory_barrier_bit>,
+#ifdef GL_ALL_BARRIER_BITS
+      enum_type_c<GL_ALL_BARRIER_BITS>>
+#else
+      enum_type_i>
+#endif
+      all_barrier_bits;
+
+    opt_c_api_constant<
       mp_list<shader_type>,
 #ifdef GL_VERTEX_SHADER
       enum_type_c<GL_VERTEX_SHADER>>
@@ -1114,6 +1258,26 @@ public:
       , guilty_context_reset("GUILTY_CONTEXT_RESET", traits, api)
       , innocent_context_reset("INNOCENT_CONTEXT_RESET", traits, api)
       , unknown_context_reset("UNKNOWN_CONTEXT_RESET", traits, api)
+      , vertex_attrib_array_barrier_bit(
+          "VERTEX_ATTRIB_ARRAY_BARRIER_BIT", traits, api)
+      , element_array_barrier_bit("ELEMENT_ARRAY_BARRIER_BIT", traits, api)
+      , uniform_barrier_bit("UNIFORM_BARRIER_BIT", traits, api)
+      , texture_fetch_barrier_bit("TEXTURE_FETCH_BARRIER_BIT", traits, api)
+      , shader_image_access_barrier_bit(
+          "SHADER_IMAGE_ACCESS_BARRIER_BIT", traits, api)
+      , command_barrier_bit("COMMAND_BARRIER_BIT", traits, api)
+      , pixel_buffer_barrier_bit("PIXEL_BUFFER_BARRIER_BIT", traits, api)
+      , texture_update_barrier_bit("TEXTURE_UPDATE_BARRIER_BIT", traits, api)
+      , buffer_update_barrier_bit("BUFFER_UPDATE_BARRIER_BIT", traits, api)
+      , client_mapped_buffer_barrier_bit(
+          "CLIENT_MAPPED_BUFFER_BARRIER_BIT", traits, api)
+      , query_buffer_barrier_bit("QUERY_BUFFER_BARRIER_BIT", traits, api)
+      , framebuffer_barrier_bit("FRAMEBUFFER_BARRIER_BIT", traits, api)
+      , transform_feedback_barrier_bit(
+          "TRANSFORM_FEEDBACK_BARRIER_BIT", traits, api)
+      , atomic_counter_barrier_bit("ATOMIC_COUNTER_BARRIER_BIT", traits, api)
+      , shader_storage_barrier_bit("SHADER_STORAGE_BARRIER_BIT", traits, api)
+      , all_barrier_bits("ALL_BARRIER_BITS", traits, api)
       , vertex_shader("VERTEX_SHADER", traits, api)
       , tess_control_shader("TESS_CONTROL_SHADER", traits, api)
       , tess_evaluation_shader("TESS_EVALUATION_SHADER", traits, api)

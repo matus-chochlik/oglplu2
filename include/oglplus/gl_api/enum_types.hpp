@@ -27,6 +27,15 @@ struct graphics_reset_status
     using enum_class::enum_class;
 };
 
+struct memory_barrier_bit
+  : gl_enum_class<memory_barrier_bit, EAGINE_ID_V(MemBrirBit)> {
+    using enum_class::enum_class;
+};
+
+struct shader_type : gl_enum_class<shader_type, EAGINE_ID_V(ShaderType)> {
+    using enum_class::enum_class;
+};
+
 struct buffer_target : gl_enum_class<buffer_target, EAGINE_ID_V(BufferTgt)> {
     using enum_class::enum_class;
 };
@@ -57,10 +66,6 @@ struct buffer_clear_bit
 
 struct texture_compare_mode
   : gl_enum_class<texture_compare_mode, EAGINE_ID_V(TexCmpMode)> {
-    using enum_class::enum_class;
-};
-
-struct shader_type : gl_enum_class<shader_type, EAGINE_ID_V(ShaderType)> {
     using enum_class::enum_class;
 };
 
