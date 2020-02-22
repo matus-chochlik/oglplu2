@@ -386,6 +386,56 @@ struct basic_gl_c_api {
       BindSamplers;
 
     gl_api_function<
+      void(uint_type, enum_type, float_type),
+      OGLPLUS_GL_STATIC_FUNC(SamplerParameterf)>
+      SamplerParameterf;
+
+    gl_api_function<
+      void(uint_type, enum_type, int_type),
+      OGLPLUS_GL_STATIC_FUNC(SamplerParameteri)>
+      SamplerParameteri;
+
+    gl_api_function<
+      void(uint_type, enum_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(SamplerParameterfv)>
+      SamplerParameterfv;
+
+    gl_api_function<
+      void(uint_type, enum_type, const int_type*),
+      OGLPLUS_GL_STATIC_FUNC(SamplerParameteriv)>
+      SamplerParameteriv;
+
+    gl_api_function<
+      void(uint_type, enum_type, const int_type*),
+      OGLPLUS_GL_STATIC_FUNC(SamplerParameterIiv)>
+      SamplerParameterIiv;
+
+    gl_api_function<
+      void(uint_type, enum_type, const uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(SamplerParameterIuiv)>
+      SamplerParameterIuiv;
+
+    gl_api_function<
+      void(uint_type, enum_type, float_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetSamplerParameterfv)>
+      GetSamplerParameterfv;
+
+    gl_api_function<
+      void(uint_type, enum_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetSamplerParameteriv)>
+      GetSamplerParameteriv;
+
+    gl_api_function<
+      void(uint_type, enum_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetSamplerParameterIiv)>
+      GetSamplerParameterIiv;
+
+    gl_api_function<
+      void(uint_type, enum_type, uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetSamplerParameterIuiv)>
+      GetSamplerParameterIuiv;
+
+    gl_api_function<
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GenRenderbuffers)>
       GenRenderbuffers;
@@ -1345,6 +1395,16 @@ struct basic_gl_c_api {
       , IsSampler("IsSampler", traits, *this)
       , BindSampler("BindSampler", traits, *this)
       , BindSamplers("BindSamplers", traits, *this)
+      , SamplerParameterf("SamplerParameterf", traits, *this)
+      , SamplerParameteri("SamplerParameteri", traits, *this)
+      , SamplerParameterfv("SamplerParameterfv", traits, *this)
+      , SamplerParameteriv("SamplerParameteriv", traits, *this)
+      , SamplerParameterIiv("SamplerParameterIiv", traits, *this)
+      , SamplerParameterIuiv("SamplerParameterIuiv", traits, *this)
+      , GetSamplerParameterfv("GetSamplerParameterfv", traits, *this)
+      , GetSamplerParameteriv("GetSamplerParameteriv", traits, *this)
+      , GetSamplerParameterIiv("GetSamplerParameterIiv", traits, *this)
+      , GetSamplerParameterIuiv("GetSamplerParameterIuiv", traits, *this)
       , GenRenderbuffers("GenRenderbuffers", traits, *this)
       , DeleteRenderbuffers("DeleteRenderbuffers", traits, *this)
       , IsRenderbuffer("IsRenderbuffer", traits, *this)
