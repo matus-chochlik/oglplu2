@@ -813,6 +813,37 @@ struct basic_gl_c_api {
       GetTexParameterIuiv;
 
     gl_api_function<
+      void(enum_type, int_type, enum_type, float_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetTexLevelParameterfv)>
+      GetTexLevelParameterfv;
+
+    gl_api_function<
+      void(enum_type, int_type, enum_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetTexLevelParameteriv)>
+      GetTexLevelParameteriv;
+
+    gl_api_function<
+      void(enum_type, int_type, enum_type, enum_type, void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(GetTexImage)>
+      GetTexImage;
+
+    gl_api_function<
+      void(
+        enum_type, int_type, enum_type, enum_type, sizei_type, void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(GetnTexImage)>
+      GetnTexImage;
+
+    gl_api_function<
+      void(enum_type, int_type, void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(GetCompressedTexImage)>
+      GetCompressedTexImage;
+
+    gl_api_function<
+      void(enum_type, int_type, sizei_type, void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(GetnCompressedTexImage)>
+      GetnCompressedTexImage;
+
+    gl_api_function<
       void(uint_type, enum_type, float_type*),
       OGLPLUS_GL_STATIC_FUNC(GetTextureParameterfv)>
       GetTextureParameterfv;
@@ -831,6 +862,59 @@ struct basic_gl_c_api {
       void(uint_type, enum_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GetTextureParameterIuiv)>
       GetTextureParameterIuiv;
+
+    gl_api_function<
+      void(uint_type, int_type, enum_type, float_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetTextureLevelParameterfv)>
+      GetTextureLevelParameterfv;
+
+    gl_api_function<
+      void(uint_type, int_type, enum_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetTextureLevelParameteriv)>
+      GetTextureLevelParameteriv;
+
+    gl_api_function<
+      void(
+        uint_type, int_type, enum_type, enum_type, sizei_type, void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(GetTextureImage)>
+      GetTextureImage;
+
+    gl_api_function<
+      void(
+        uint_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type,
+        sizei_type,
+        enum_type,
+        enum_type,
+        sizei_type,
+        void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(GetTextureSubImage)>
+      GetTextureSubImage;
+
+    gl_api_function<
+      void(uint_type, int_type, sizei_type, void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(GetCompressedTextureImage)>
+      GetCompressedTextureImage;
+
+    gl_api_function<
+      void(
+        uint_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type,
+        sizei_type,
+        sizei_type,
+        void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(GetCompressedTextureSubImage)>
+      GetCompressedTextureSubImage;
 
     gl_api_function<
       void(sizei_type, uint_type*),
@@ -1915,10 +1999,23 @@ struct basic_gl_c_api {
       , GetTexParameteriv("GetTexParameteriv", traits, *this)
       , GetTexParameterIiv("GetTexParameterIiv", traits, *this)
       , GetTexParameterIuiv("GetTexParameterIuiv", traits, *this)
+      , GetTexLevelParameterfv("GetTexLevelParameterfv", traits, *this)
+      , GetTexLevelParameteriv("GetTexLevelParameteriv", traits, *this)
+      , GetTexImage("GetTexImage", traits, *this)
+      , GetnTexImage("GetnTexImage", traits, *this)
+      , GetCompressedTexImage("GetCompressedTexImage", traits, *this)
+      , GetnCompressedTexImage("GetnCompressedTexImage", traits, *this)
       , GetTextureParameterfv("GetTextureParameterfv", traits, *this)
       , GetTextureParameteriv("GetTextureParameteriv", traits, *this)
       , GetTextureParameterIiv("GetTextureParameterIiv", traits, *this)
       , GetTextureParameterIuiv("GetTextureParameterIuiv", traits, *this)
+      , GetTextureLevelParameterfv("GetTextureLevelParameterfv", traits, *this)
+      , GetTextureLevelParameteriv("GetTextureLevelParameteriv", traits, *this)
+      , GetTextureImage("GetTextureImage", traits, *this)
+      , GetTextureSubImage("GetTextureSubImage", traits, *this)
+      , GetCompressedTextureImage("GetCompressedTextureImage", traits, *this)
+      , GetCompressedTextureSubImage(
+          "GetCompressedTextureSubImage", traits, *this)
       , GenSamplers("GenSamplers", traits, *this)
       , CreateSamplers("CreateSamplers", traits, *this)
       , DeleteSamplers("DeleteSamplers", traits, *this)
