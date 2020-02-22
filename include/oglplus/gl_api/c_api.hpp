@@ -793,6 +793,46 @@ struct basic_gl_c_api {
       TextureParameterIuiv;
 
     gl_api_function<
+      void(enum_type, enum_type, float_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetTexParameterfv)>
+      GetTexParameterfv;
+
+    gl_api_function<
+      void(enum_type, enum_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetTexParameteriv)>
+      GetTexParameteriv;
+
+    gl_api_function<
+      void(enum_type, enum_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetTexParameterIiv)>
+      GetTexParameterIiv;
+
+    gl_api_function<
+      void(enum_type, enum_type, uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetTexParameterIuiv)>
+      GetTexParameterIuiv;
+
+    gl_api_function<
+      void(uint_type, enum_type, float_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetTextureParameterfv)>
+      GetTextureParameterfv;
+
+    gl_api_function<
+      void(uint_type, enum_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetTextureParameteriv)>
+      GetTextureParameteriv;
+
+    gl_api_function<
+      void(uint_type, enum_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetTextureParameterIiv)>
+      GetTextureParameterIiv;
+
+    gl_api_function<
+      void(uint_type, enum_type, uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetTextureParameterIuiv)>
+      GetTextureParameterIuiv;
+
+    gl_api_function<
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GenSamplers)>
       GenSamplers;
@@ -1871,6 +1911,14 @@ struct basic_gl_c_api {
       , TextureParameteriv("TextureParameteriv", traits, *this)
       , TextureParameterIiv("TextureParameterIiv", traits, *this)
       , TextureParameterIuiv("TextureParameterIuiv", traits, *this)
+      , GetTexParameterfv("GetTexParameterfv", traits, *this)
+      , GetTexParameteriv("GetTexParameteriv", traits, *this)
+      , GetTexParameterIiv("GetTexParameterIiv", traits, *this)
+      , GetTexParameterIuiv("GetTexParameterIuiv", traits, *this)
+      , GetTextureParameterfv("GetTextureParameterfv", traits, *this)
+      , GetTextureParameteriv("GetTextureParameteriv", traits, *this)
+      , GetTextureParameterIiv("GetTextureParameterIiv", traits, *this)
+      , GetTextureParameterIuiv("GetTextureParameterIuiv", traits, *this)
       , GenSamplers("GenSamplers", traits, *this)
       , CreateSamplers("CreateSamplers", traits, *this)
       , DeleteSamplers("DeleteSamplers", traits, *this)

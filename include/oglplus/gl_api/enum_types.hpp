@@ -49,6 +49,10 @@ struct buffer_map_access_bit
     using enum_class::enum_class;
 };
 
+struct texture_target : gl_enum_class<texture_target, EAGINE_ID_V(TextureTgt)> {
+    using enum_class::enum_class;
+};
+
 struct program_interface
   : gl_enum_class<program_interface, EAGINE_ID_V(ProgrmIntf)> {
     using enum_class::enum_class;

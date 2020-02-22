@@ -596,6 +596,96 @@ public:
       map_coherent_bit;
 
     opt_c_api_constant<
+      mp_list<texture_target>,
+#ifdef GL_TEXTURE_3D
+      enum_type_c<GL_TEXTURE_3D>>
+#else
+      enum_type_i>
+#endif
+      texture_3d;
+
+    opt_c_api_constant<
+      mp_list<texture_target>,
+#ifdef GL_TEXTURE_2D
+      enum_type_c<GL_TEXTURE_2D>>
+#else
+      enum_type_i>
+#endif
+      texture_2d;
+
+    opt_c_api_constant<
+      mp_list<texture_target>,
+#ifdef GL_TEXTURE_1D
+      enum_type_c<GL_TEXTURE_1D>>
+#else
+      enum_type_i>
+#endif
+      texture_1d;
+
+    opt_c_api_constant<
+      mp_list<texture_target>,
+#ifdef GL_TEXTURE_2D_ARRAY
+      enum_type_c<GL_TEXTURE_2D_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      texture_2d_array;
+
+    opt_c_api_constant<
+      mp_list<texture_target>,
+#ifdef GL_TEXTURE_1D_ARRAY
+      enum_type_c<GL_TEXTURE_1D_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      texture_1d_array;
+
+    opt_c_api_constant<
+      mp_list<texture_target>,
+#ifdef GL_TEXTURE_RECTANGLE
+      enum_type_c<GL_TEXTURE_RECTANGLE>>
+#else
+      enum_type_i>
+#endif
+      texture_rectangle;
+
+    opt_c_api_constant<
+      mp_list<texture_target>,
+#ifdef GL_TEXTURE_CUBE_MAP
+      enum_type_c<GL_TEXTURE_CUBE_MAP>>
+#else
+      enum_type_i>
+#endif
+      texture_cube_map;
+
+    opt_c_api_constant<
+      mp_list<texture_target>,
+#ifdef GL_TEXTURE_CUBE_MAP_ARRAY
+      enum_type_c<GL_TEXTURE_CUBE_MAP_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      texture_cube_map_array;
+
+    opt_c_api_constant<
+      mp_list<texture_target>,
+#ifdef GL_TEXTURE_2D_MULTISAMPLE
+      enum_type_c<GL_TEXTURE_2D_MULTISAMPLE>>
+#else
+      enum_type_i>
+#endif
+      texture_2d_multisample;
+
+    opt_c_api_constant<
+      mp_list<texture_target>,
+#ifdef GL_TEXTURE_2D_MULTISAMPLE_ARRAY
+      enum_type_c<GL_TEXTURE_2D_MULTISAMPLE_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      texture_2d_multisample_array;
+
+    opt_c_api_constant<
       mp_list<program_interface>,
 #ifdef GL_UNIFORM
       enum_type_c<GL_UNIFORM>>
@@ -1312,6 +1402,17 @@ public:
       , map_write_bit("MAP_WRITE_BIT", traits, api)
       , map_persistent_bit("MAP_PERSISTENT_BIT", traits, api)
       , map_coherent_bit("MAP_COHERENT_BIT", traits, api)
+      , texture_3d("TEXTURE_3D", traits, api)
+      , texture_2d("TEXTURE_2D", traits, api)
+      , texture_1d("TEXTURE_1D", traits, api)
+      , texture_2d_array("TEXTURE_2D_ARRAY", traits, api)
+      , texture_1d_array("TEXTURE_1D_ARRAY", traits, api)
+      , texture_rectangle("TEXTURE_RECTANGLE", traits, api)
+      , texture_cube_map("TEXTURE_CUBE_MAP", traits, api)
+      , texture_cube_map_array("TEXTURE_CUBE_MAP_ARRAY", traits, api)
+      , texture_2d_multisample("TEXTURE_2D_MULTISAMPLE", traits, api)
+      , texture_2d_multisample_array(
+          "TEXTURE_2D_MULTISAMPLE_ARRAY", traits, api)
       , uniform("UNIFORM", traits, api)
       , uniform_block("UNIFORM_BLOCK", traits, api)
       , program_input("PROGRAM_INPUT", traits, api)
