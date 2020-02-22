@@ -90,8 +90,15 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(IsEnabledi)>
       IsEnabledi;
 
-    // object ops
+    gl_api_function<void(bitfield_type), OGLPLUS_GL_STATIC_FUNC(MemoryBarrier)>
+      MemoryBarrier;
 
+    gl_api_function<
+      void(bitfield_type),
+      OGLPLUS_GL_STATIC_FUNC(MemoryBarrierByRegion)>
+      MemoryBarrierByRegion;
+
+    // object ops
     gl_api_function<
       sync_type(enum_type, bitfield_type),
       OGLPLUS_GL_STATIC_FUNC(FenceSync)>
@@ -320,6 +327,11 @@ struct basic_gl_c_api {
       GenTextures;
 
     gl_api_function<
+      void(enum_type, sizei_type, uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(CreateTextures)>
+      CreateTextures;
+
+    gl_api_function<
       void(sizei_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(DeleteTextures)>
       DeleteTextures;
@@ -327,15 +339,33 @@ struct basic_gl_c_api {
     gl_api_function<bool_type(uint_type), OGLPLUS_GL_STATIC_FUNC(IsTexture)>
       IsTexture;
 
+    gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(ActiveTexture)>
+      ActiveTexture;
+
     gl_api_function<
       void(enum_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(BindTexture)>
       BindTexture;
 
     gl_api_function<
+      void(uint_type, sizei_type, const uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(BindTextures)>
+      BindTextures;
+
+    gl_api_function<
+      void(uint_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(BindTextureUnit)>
+      BindTextureUnit;
+
+    gl_api_function<
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GenSamplers)>
       GenSamplers;
+
+    gl_api_function<
+      void(sizei_type, uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(CreateSamplers)>
+      CreateSamplers;
 
     gl_api_function<
       void(sizei_type, const uint_type*),
@@ -349,6 +379,11 @@ struct basic_gl_c_api {
       void(enum_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(BindSampler)>
       BindSampler;
+
+    gl_api_function<
+      void(uint_type, sizei_type, const uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(BindSamplers)>
+      BindSamplers;
 
     gl_api_function<
       void(sizei_type, uint_type*),
@@ -524,6 +559,21 @@ struct basic_gl_c_api {
       UseProgramStages;
 
     gl_api_function<
+      void(uint_type, enum_type, enum_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetProgramStageiv)>
+      GetProgramStageiv;
+
+    gl_api_function<
+      void(uint_type, enum_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetProgramPipelineiv)>
+      GetProgramPipelineiv;
+
+    gl_api_function<
+      void(uint_type, sizei_type, sizei_type*, char*),
+      OGLPLUS_GL_STATIC_FUNC(GetProgramPipelineInfoLog)>
+      GetProgramPipelineInfoLog;
+
+    gl_api_function<
       void(uint_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(ActiveShaderProgram)>
       ActiveShaderProgram;
@@ -580,6 +630,11 @@ struct basic_gl_c_api {
       void(uint_type, sizei_type, sizei_type*, char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetShaderSource)>
       GetShaderSource;
+
+    gl_api_function<
+      void(enum_type, enum_type, int_type*, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetShaderPrecisionFormat)>
+      GetShaderPrecisionFormat;
 
     gl_api_function<void(), OGLPLUS_GL_STATIC_FUNC(ReleaseShaderCompiler)>
       ReleaseShaderCompiler;
@@ -737,6 +792,11 @@ struct basic_gl_c_api {
       void(enum_type, sizei_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(UniformSubroutinesuiv)>
       UniformSubroutinesuiv;
+
+    gl_api_function<
+      void(enum_type, int_type, uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetUniformSubroutineuiv)>
+      GetUniformSubroutineuiv;
 
     // uniform
     gl_api_function<void(int_type, int_type), OGLPLUS_GL_STATIC_FUNC(Uniform1i)>
@@ -901,6 +961,46 @@ struct basic_gl_c_api {
       void(int_type, sizei_type, bool_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(UniformMatrix4x3fv)>
       UniformMatrix4x3fv;
+
+    gl_api_function<
+      void(uint_type, int_type, float_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetUniformfv)>
+      GetUniformfv;
+
+    gl_api_function<
+      void(uint_type, int_type, double_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetUniformdv)>
+      GetUniformdv;
+
+    gl_api_function<
+      void(uint_type, int_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetUniformiv)>
+      GetUniformiv;
+
+    gl_api_function<
+      void(uint_type, int_type, uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetUniformuiv)>
+      GetUniformuiv;
+
+    gl_api_function<
+      void(uint_type, int_type, sizei_type, float_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetnUniformfv)>
+      GetnUniformfv;
+
+    gl_api_function<
+      void(uint_type, int_type, sizei_type, double_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetnUniformdv)>
+      GetnUniformdv;
+
+    gl_api_function<
+      void(uint_type, int_type, sizei_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetnUniformiv)>
+      GetnUniformiv;
+
+    gl_api_function<
+      void(uint_type, int_type, sizei_type, uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetnUniformuiv)>
+      GetnUniformuiv;
 
     // program uniform
     gl_api_function<
@@ -1183,6 +1283,8 @@ struct basic_gl_c_api {
       , Disablei("Disablei", traits, *this)
       , IsEnabled("IsEnabled", traits, *this)
       , IsEnabledi("IsEnabledi", traits, *this)
+      , MemoryBarrier("MemoryBarrier", traits, *this)
+      , MemoryBarrierByRegion("MemoryBarrierByRegion", traits, *this)
       , FenceSync("FenceSync", traits, *this)
       , DeleteSync("DeleteSync", traits, *this)
       , IsSync("IsSync", traits, *this)
@@ -1230,13 +1332,19 @@ struct basic_gl_c_api {
       , GetBufferSubData("GetBufferSubData", traits, *this)
       , GetNamedBufferSubData("GetNamedBufferSubData", traits, *this)
       , GenTextures("GenTextures", traits, *this)
+      , CreateTextures("CreateTextures", traits, *this)
       , DeleteTextures("DeleteTextures", traits, *this)
       , IsTexture("IsTexture", traits, *this)
+      , ActiveTexture("ActiveTexture", traits, *this)
       , BindTexture("BindTexture", traits, *this)
+      , BindTextures("BindTextures", traits, *this)
+      , BindTextureUnit("BindTextureUnit", traits, *this)
       , GenSamplers("GenSamplers", traits, *this)
+      , CreateSamplers("CreateSamplers", traits, *this)
       , DeleteSamplers("DeleteSamplers", traits, *this)
       , IsSampler("IsSampler", traits, *this)
       , BindSampler("BindSampler", traits, *this)
+      , BindSamplers("BindSamplers", traits, *this)
       , GenRenderbuffers("GenRenderbuffers", traits, *this)
       , DeleteRenderbuffers("DeleteRenderbuffers", traits, *this)
       , IsRenderbuffer("IsRenderbuffer", traits, *this)
@@ -1273,6 +1381,9 @@ struct basic_gl_c_api {
       , IsProgramPipeline("IsProgramPipeline", traits, *this)
       , BindProgramPipeline("BindProgramPipeline", traits, *this)
       , UseProgramStages("UseProgramStages", traits, *this)
+      , GetProgramStageiv("GetProgramStageiv", traits, *this)
+      , GetProgramPipelineiv("GetProgramPipelineiv", traits, *this)
+      , GetProgramPipelineInfoLog("GetProgramPipelineInfoLog", traits, *this)
       , ActiveShaderProgram("ActiveShaderProgram", traits, *this)
       , CreateShader("CreateShader", traits, *this)
       , DeleteShader("DeleteShader", traits, *this)
@@ -1284,6 +1395,7 @@ struct basic_gl_c_api {
       , GetShaderiv("GetShaderiv", traits, *this)
       , GetShaderInfoLog("GetShaderInfoLog", traits, *this)
       , GetShaderSource("GetShaderSource", traits, *this)
+      , GetShaderPrecisionFormat("GetShaderPrecisionFormat", traits, *this)
       , ReleaseShaderCompiler("ReleaseShaderCompiler", traits, *this)
       , CreateProgram("CreateProgram", traits, *this)
       , CreateShaderProgramv("CreateShaderProgramv", traits, *this)
@@ -1321,6 +1433,7 @@ struct basic_gl_c_api {
       , BindFragDataLocationIndexed(
           "BindFragDataLocationIndexed", traits, *this)
       , UniformSubroutinesuiv("UniformSubroutinesuiv", traits, *this)
+      , GetUniformSubroutineuiv("GetUniformSubroutineuiv", traits, *this)
       , Uniform1i("Uniform1i", traits, *this)
       , Uniform2i("Uniform2i", traits, *this)
       , Uniform3i("Uniform3i", traits, *this)
@@ -1354,6 +1467,14 @@ struct basic_gl_c_api {
       , UniformMatrix4x2fv("UniformMatrix4x2fv", traits, *this)
       , UniformMatrix3x4fv("UniformMatrix3x4fv", traits, *this)
       , UniformMatrix4x3fv("UniformMatrix4x3fv", traits, *this)
+      , GetUniformfv("GetUniformfv", traits, *this)
+      , GetUniformdv("GetUniformdv", traits, *this)
+      , GetUniformiv("GetUniformiv", traits, *this)
+      , GetUniformuiv("GetUniformuiv", traits, *this)
+      , GetnUniformfv("GetnUniformfv", traits, *this)
+      , GetnUniformdv("GetnUniformdv", traits, *this)
+      , GetnUniformiv("GetnUniformiv", traits, *this)
+      , GetnUniformuiv("GetnUniformuiv", traits, *this)
       , ProgramUniform1i("ProgramUniform1i", traits, *this)
       , ProgramUniform2i("ProgramUniform2i", traits, *this)
       , ProgramUniform3i("ProgramUniform3i", traits, *this)

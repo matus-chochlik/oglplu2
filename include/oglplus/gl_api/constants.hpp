@@ -148,144 +148,144 @@ public:
     opt_c_api_constant<
       mp_list<memory_barrier_bit>,
 #ifdef GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT
-      enum_type_c<GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT>>
+      bitfield_type_c<GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT>>
 #else
-      enum_type_i>
+      bitfield_type_i>
 #endif
       vertex_attrib_array_barrier_bit;
 
     opt_c_api_constant<
       mp_list<memory_barrier_bit>,
 #ifdef GL_ELEMENT_ARRAY_BARRIER_BIT
-      enum_type_c<GL_ELEMENT_ARRAY_BARRIER_BIT>>
+      bitfield_type_c<GL_ELEMENT_ARRAY_BARRIER_BIT>>
 #else
-      enum_type_i>
+      bitfield_type_i>
 #endif
       element_array_barrier_bit;
 
     opt_c_api_constant<
       mp_list<memory_barrier_bit>,
 #ifdef GL_UNIFORM_BARRIER_BIT
-      enum_type_c<GL_UNIFORM_BARRIER_BIT>>
+      bitfield_type_c<GL_UNIFORM_BARRIER_BIT>>
 #else
-      enum_type_i>
+      bitfield_type_i>
 #endif
       uniform_barrier_bit;
 
     opt_c_api_constant<
       mp_list<memory_barrier_bit>,
 #ifdef GL_TEXTURE_FETCH_BARRIER_BIT
-      enum_type_c<GL_TEXTURE_FETCH_BARRIER_BIT>>
+      bitfield_type_c<GL_TEXTURE_FETCH_BARRIER_BIT>>
 #else
-      enum_type_i>
+      bitfield_type_i>
 #endif
       texture_fetch_barrier_bit;
 
     opt_c_api_constant<
       mp_list<memory_barrier_bit>,
 #ifdef GL_SHADER_IMAGE_ACCESS_BARRIER_BIT
-      enum_type_c<GL_SHADER_IMAGE_ACCESS_BARRIER_BIT>>
+      bitfield_type_c<GL_SHADER_IMAGE_ACCESS_BARRIER_BIT>>
 #else
-      enum_type_i>
+      bitfield_type_i>
 #endif
       shader_image_access_barrier_bit;
 
     opt_c_api_constant<
       mp_list<memory_barrier_bit>,
 #ifdef GL_COMMAND_BARRIER_BIT
-      enum_type_c<GL_COMMAND_BARRIER_BIT>>
+      bitfield_type_c<GL_COMMAND_BARRIER_BIT>>
 #else
-      enum_type_i>
+      bitfield_type_i>
 #endif
       command_barrier_bit;
 
     opt_c_api_constant<
       mp_list<memory_barrier_bit>,
 #ifdef GL_PIXEL_BUFFER_BARRIER_BIT
-      enum_type_c<GL_PIXEL_BUFFER_BARRIER_BIT>>
+      bitfield_type_c<GL_PIXEL_BUFFER_BARRIER_BIT>>
 #else
-      enum_type_i>
+      bitfield_type_i>
 #endif
       pixel_buffer_barrier_bit;
 
     opt_c_api_constant<
       mp_list<memory_barrier_bit>,
 #ifdef GL_TEXTURE_UPDATE_BARRIER_BIT
-      enum_type_c<GL_TEXTURE_UPDATE_BARRIER_BIT>>
+      bitfield_type_c<GL_TEXTURE_UPDATE_BARRIER_BIT>>
 #else
-      enum_type_i>
+      bitfield_type_i>
 #endif
       texture_update_barrier_bit;
 
     opt_c_api_constant<
       mp_list<memory_barrier_bit>,
 #ifdef GL_BUFFER_UPDATE_BARRIER_BIT
-      enum_type_c<GL_BUFFER_UPDATE_BARRIER_BIT>>
+      bitfield_type_c<GL_BUFFER_UPDATE_BARRIER_BIT>>
 #else
-      enum_type_i>
+      bitfield_type_i>
 #endif
       buffer_update_barrier_bit;
 
     opt_c_api_constant<
       mp_list<memory_barrier_bit>,
 #ifdef GL_CLIENT_MAPPED_BUFFER_BARRIER_BIT
-      enum_type_c<GL_CLIENT_MAPPED_BUFFER_BARRIER_BIT>>
+      bitfield_type_c<GL_CLIENT_MAPPED_BUFFER_BARRIER_BIT>>
 #else
-      enum_type_i>
+      bitfield_type_i>
 #endif
       client_mapped_buffer_barrier_bit;
 
     opt_c_api_constant<
       mp_list<memory_barrier_bit>,
 #ifdef GL_QUERY_BUFFER_BARRIER_BIT
-      enum_type_c<GL_QUERY_BUFFER_BARRIER_BIT>>
+      bitfield_type_c<GL_QUERY_BUFFER_BARRIER_BIT>>
 #else
-      enum_type_i>
+      bitfield_type_i>
 #endif
       query_buffer_barrier_bit;
 
     opt_c_api_constant<
       mp_list<memory_barrier_bit>,
 #ifdef GL_FRAMEBUFFER_BARRIER_BIT
-      enum_type_c<GL_FRAMEBUFFER_BARRIER_BIT>>
+      bitfield_type_c<GL_FRAMEBUFFER_BARRIER_BIT>>
 #else
-      enum_type_i>
+      bitfield_type_i>
 #endif
       framebuffer_barrier_bit;
 
     opt_c_api_constant<
       mp_list<memory_barrier_bit>,
 #ifdef GL_TRANSFORM_FEEDBACK_BARRIER_BIT
-      enum_type_c<GL_TRANSFORM_FEEDBACK_BARRIER_BIT>>
+      bitfield_type_c<GL_TRANSFORM_FEEDBACK_BARRIER_BIT>>
 #else
-      enum_type_i>
+      bitfield_type_i>
 #endif
       transform_feedback_barrier_bit;
 
     opt_c_api_constant<
       mp_list<memory_barrier_bit>,
 #ifdef GL_ATOMIC_COUNTER_BARRIER_BIT
-      enum_type_c<GL_ATOMIC_COUNTER_BARRIER_BIT>>
+      bitfield_type_c<GL_ATOMIC_COUNTER_BARRIER_BIT>>
 #else
-      enum_type_i>
+      bitfield_type_i>
 #endif
       atomic_counter_barrier_bit;
 
     opt_c_api_constant<
       mp_list<memory_barrier_bit>,
 #ifdef GL_SHADER_STORAGE_BARRIER_BIT
-      enum_type_c<GL_SHADER_STORAGE_BARRIER_BIT>>
+      bitfield_type_c<GL_SHADER_STORAGE_BARRIER_BIT>>
 #else
-      enum_type_i>
+      bitfield_type_i>
 #endif
       shader_storage_barrier_bit;
 
     opt_c_api_constant<
       mp_list<memory_barrier_bit>,
 #ifdef GL_ALL_BARRIER_BITS
-      enum_type_c<GL_ALL_BARRIER_BITS>>
+      bitfield_type_c<GL_ALL_BARRIER_BITS>>
 #else
-      enum_type_i>
+      bitfield_type_i>
 #endif
       all_barrier_bits;
 
@@ -562,36 +562,36 @@ public:
     opt_c_api_constant<
       mp_list<buffer_map_access_bit>,
 #ifdef GL_MAP_READ_BIT
-      enum_type_c<GL_MAP_READ_BIT>>
+      bitfield_type_c<GL_MAP_READ_BIT>>
 #else
-      enum_type_i>
+      bitfield_type_i>
 #endif
       map_read_bit;
 
     opt_c_api_constant<
       mp_list<buffer_map_access_bit>,
 #ifdef GL_MAP_WRITE_BIT
-      enum_type_c<GL_MAP_WRITE_BIT>>
+      bitfield_type_c<GL_MAP_WRITE_BIT>>
 #else
-      enum_type_i>
+      bitfield_type_i>
 #endif
       map_write_bit;
 
     opt_c_api_constant<
       mp_list<buffer_map_access_bit>,
 #ifdef GL_MAP_PERSISTENT_BIT
-      enum_type_c<GL_MAP_PERSISTENT_BIT>>
+      bitfield_type_c<GL_MAP_PERSISTENT_BIT>>
 #else
-      enum_type_i>
+      bitfield_type_i>
 #endif
       map_persistent_bit;
 
     opt_c_api_constant<
       mp_list<buffer_map_access_bit>,
 #ifdef GL_MAP_COHERENT_BIT
-      enum_type_c<GL_MAP_COHERENT_BIT>>
+      bitfield_type_c<GL_MAP_COHERENT_BIT>>
 #else
-      enum_type_i>
+      bitfield_type_i>
 #endif
       map_coherent_bit;
 
