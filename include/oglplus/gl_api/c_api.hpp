@@ -620,6 +620,9 @@ struct basic_gl_c_api {
     gl_api_function<void(uint_type), OGLPLUS_GL_STATIC_FUNC(LinkProgram)>
       LinkProgram;
 
+    gl_api_function<void(uint_type), OGLPLUS_GL_STATIC_FUNC(UseProgram)>
+      UseProgram;
+
     gl_api_function<
       void(uint_type, enum_type, const_void_ptr_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(ProgramBinary)>
@@ -679,9 +682,6 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(GetProgramResourceiv)>
       GetProgramResourceiv;
 
-    gl_api_function<void(uint_type), OGLPLUS_GL_STATIC_FUNC(UseProgram)>
-      UseProgram;
-
     gl_api_function<
       void(uint_type, uint_type, const char*),
       OGLPLUS_GL_STATIC_FUNC(BindAttribLocation)>
@@ -698,6 +698,31 @@ struct basic_gl_c_api {
       GetUniformLocation;
 
     gl_api_function<
+      uint_type(uint_type, enum_type, const char*),
+      OGLPLUS_GL_STATIC_FUNC(GetSubroutineIndex)>
+      GetSubroutineIndex;
+
+    gl_api_function<
+      void(uint_type, enum_type, uint_type, sizei_type, sizei_type*, char*),
+      OGLPLUS_GL_STATIC_FUNC(GetActiveSubroutineName)>
+      GetActiveSubroutineName;
+
+    gl_api_function<
+      void(uint_type, enum_type, uint_type, sizei_type, sizei_type*, char*),
+      OGLPLUS_GL_STATIC_FUNC(GetActiveSubroutineUniformName)>
+      GetActiveSubroutineUniformName;
+
+    gl_api_function<
+      int_type(uint_type, enum_type, const char*),
+      OGLPLUS_GL_STATIC_FUNC(GetSubroutineUniformLocation)>
+      GetSubroutineUniformLocation;
+
+    gl_api_function<
+      void(uint_type, enum_type, uint_type, enum_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetActiveSubroutineUniformiv)>
+      GetActiveSubroutineUniformiv;
+
+    gl_api_function<
       void(uint_type, uint_type, const char*),
       OGLPLUS_GL_STATIC_FUNC(BindFragDataLocation)>
       BindFragDataLocation;
@@ -706,6 +731,12 @@ struct basic_gl_c_api {
       void(uint_type, uint_type, uint_type, const char*),
       OGLPLUS_GL_STATIC_FUNC(BindFragDataLocationIndexed)>
       BindFragDataLocationIndexed;
+
+    // uniform subroutine
+    gl_api_function<
+      void(enum_type, sizei_type, const uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(UniformSubroutinesuiv)>
+      UniformSubroutinesuiv;
 
     // uniform
     gl_api_function<void(int_type, int_type), OGLPLUS_GL_STATIC_FUNC(Uniform1i)>
@@ -1263,6 +1294,7 @@ struct basic_gl_c_api {
       , GetAttachedShaders("GetAttachedShaders", traits, *this)
       , ValidateProgram("ValidateProgram", traits, *this)
       , LinkProgram("LinkProgram", traits, *this)
+      , UseProgram("UseProgram", traits, *this)
       , ProgramBinary("ProgramBinary", traits, *this)
       , GetProgramBinary("GetProgramBinary", traits, *this)
       , GetProgramiv("GetProgramiv", traits, *this)
@@ -1274,13 +1306,21 @@ struct basic_gl_c_api {
       , GetProgramResourceLocationIndex(
           "GetProgramResourceLocationIndex", traits, *this)
       , GetProgramResourceiv("GetProgramResourceiv", traits, *this)
-      , UseProgram("UseProgram", traits, *this)
       , BindAttribLocation("BindAttribLocation", traits, *this)
       , GetAttribLocation("GetAttribLocation", traits, *this)
       , GetUniformLocation("GetUniformLocation", traits, *this)
+      , GetSubroutineIndex("GetSubroutineIndex", traits, *this)
+      , GetActiveSubroutineName("GetActiveSubroutineName", traits, *this)
+      , GetActiveSubroutineUniformName(
+          "GetActiveSubroutineUniformName", traits, *this)
+      , GetSubroutineUniformLocation(
+          "GetSubroutineUniformLocation", traits, *this)
+      , GetActiveSubroutineUniformiv(
+          "GetActiveSubroutineUniformiv", traits, *this)
       , BindFragDataLocation("BindFragDataLocation", traits, *this)
       , BindFragDataLocationIndexed(
           "BindFragDataLocationIndexed", traits, *this)
+      , UniformSubroutinesuiv("UniformSubroutinesuiv", traits, *this)
       , Uniform1i("Uniform1i", traits, *this)
       , Uniform2i("Uniform2i", traits, *this)
       , Uniform3i("Uniform3i", traits, *this)

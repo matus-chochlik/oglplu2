@@ -146,6 +146,60 @@ public:
       unknown_context_reset;
 
     opt_c_api_constant<
+      mp_list<shader_type>,
+#ifdef GL_VERTEX_SHADER
+      enum_type_c<GL_VERTEX_SHADER>>
+#else
+      enum_type_i>
+#endif
+      vertex_shader;
+
+    opt_c_api_constant<
+      mp_list<shader_type>,
+#ifdef GL_TESS_CONTROL_SHADER
+      enum_type_c<GL_TESS_CONTROL_SHADER>>
+#else
+      enum_type_i>
+#endif
+      tess_control_shader;
+
+    opt_c_api_constant<
+      mp_list<shader_type>,
+#ifdef GL_TESS_EVALUATION_SHADER
+      enum_type_c<GL_TESS_EVALUATION_SHADER>>
+#else
+      enum_type_i>
+#endif
+      tess_evaluation_shader;
+
+    opt_c_api_constant<
+      mp_list<shader_type>,
+#ifdef GL_GEOMETRY_SHADER
+      enum_type_c<GL_GEOMETRY_SHADER>>
+#else
+      enum_type_i>
+#endif
+      geometry_shader;
+
+    opt_c_api_constant<
+      mp_list<shader_type>,
+#ifdef GL_FRAGMENT_SHADER
+      enum_type_c<GL_FRAGMENT_SHADER>>
+#else
+      enum_type_i>
+#endif
+      fragment_shader;
+
+    opt_c_api_constant<
+      mp_list<shader_type>,
+#ifdef GL_COMPUTE_SHADER
+      enum_type_c<GL_COMPUTE_SHADER>>
+#else
+      enum_type_i>
+#endif
+      compute_shader;
+
+    opt_c_api_constant<
       mp_list<buffer_target>,
 #ifdef GL_ARRAY_BUFFER
       enum_type_c<GL_ARRAY_BUFFER>>
@@ -1060,6 +1114,12 @@ public:
       , guilty_context_reset("GUILTY_CONTEXT_RESET", traits, api)
       , innocent_context_reset("INNOCENT_CONTEXT_RESET", traits, api)
       , unknown_context_reset("UNKNOWN_CONTEXT_RESET", traits, api)
+      , vertex_shader("VERTEX_SHADER", traits, api)
+      , tess_control_shader("TESS_CONTROL_SHADER", traits, api)
+      , tess_evaluation_shader("TESS_EVALUATION_SHADER", traits, api)
+      , geometry_shader("GEOMETRY_SHADER", traits, api)
+      , fragment_shader("FRAGMENT_SHADER", traits, api)
+      , compute_shader("COMPUTE_SHADER", traits, api)
       , array_buffer("ARRAY_BUFFER", traits, api)
       , atomic_counter_buffer("ATOMIC_COUNTER_BUFFER", traits, api)
       , copy_read_buffer("COPY_READ_BUFFER", traits, api)

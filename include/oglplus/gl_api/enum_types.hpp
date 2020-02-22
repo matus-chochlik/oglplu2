@@ -60,6 +60,10 @@ struct texture_compare_mode
     using enum_class::enum_class;
 };
 
+struct shader_type : gl_enum_class<shader_type, EAGINE_ID_V(ShaderType)> {
+    using enum_class::enum_class;
+};
+
 struct integer_query : gl_enum_class<integer_query, EAGINE_ID_V(IntQuery)> {
     using enum_class::enum_class;
 };
