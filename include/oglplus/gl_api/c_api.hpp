@@ -358,6 +358,221 @@ struct basic_gl_c_api {
       BindTextureUnit;
 
     gl_api_function<
+      void(
+        enum_type,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type,
+        sizei_type,
+        int_type,
+        enum_type,
+        enum_type,
+        const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(TexImage3D)>
+      TexImage3D;
+
+    gl_api_function<
+      void(
+        enum_type,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type,
+        int_type,
+        enum_type,
+        enum_type,
+        const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(TexImage2D)>
+      TexImage2D;
+
+    gl_api_function<
+      void(
+        enum_type,
+        int_type,
+        int_type,
+        sizei_type,
+        int_type,
+        enum_type,
+        enum_type,
+        const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(TexImage1D)>
+      TexImage1D;
+
+    gl_api_function<
+      void(
+        enum_type,
+        int_type,
+        enum_type,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type,
+        int_type),
+      OGLPLUS_GL_STATIC_FUNC(CopyTexImage2D)>
+      CopyTexImage2D;
+
+    gl_api_function<
+      void(
+        enum_type,
+        int_type,
+        enum_type,
+        int_type,
+        int_type,
+        sizei_type,
+        int_type),
+      OGLPLUS_GL_STATIC_FUNC(CopyTexImage1D)>
+      CopyTexImage1D;
+
+    gl_api_function<
+      void(
+        enum_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type,
+        sizei_type,
+        enum_type,
+        enum_type,
+        const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(TexSubImage3D)>
+      TexSubImage3D;
+
+    gl_api_function<
+      void(
+        enum_type,
+        int_type,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type,
+        enum_type,
+        enum_type,
+        const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(TexSubImage2D)>
+      TexSubImage2D;
+
+    gl_api_function<
+      void(
+        enum_type,
+        int_type,
+        int_type,
+        sizei_type,
+        enum_type,
+        enum_type,
+        const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(TexSubImage1D)>
+      TexSubImage1D;
+
+    gl_api_function<
+      void(
+        enum_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(CopyTexSubImage3D)>
+      CopyTexSubImage3D;
+
+    gl_api_function<
+      void(
+        enum_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(CopyTexSubImage2D)>
+      CopyTexSubImage2D;
+
+    gl_api_function<
+      void(enum_type, int_type, int_type, int_type, int_type, sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(CopyTexSubImage1D)>
+      CopyTexSubImage1D;
+
+    gl_api_function<
+      void(
+        uint_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type,
+        sizei_type,
+        enum_type,
+        enum_type,
+        const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(TextureSubImage3D)>
+      TextureSubImage3D;
+
+    gl_api_function<
+      void(
+        uint_type,
+        int_type,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type,
+        enum_type,
+        enum_type,
+        const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(TextureSubImage2D)>
+      TextureSubImage2D;
+
+    gl_api_function<
+      void(
+        uint_type,
+        int_type,
+        int_type,
+        sizei_type,
+        enum_type,
+        enum_type,
+        const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(TextureSubImage1D)>
+      TextureSubImage1D;
+
+    gl_api_function<
+      void(
+        uint_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(CopyTextureSubImage3D)>
+      CopyTextureSubImage3D;
+
+    gl_api_function<
+      void(
+        uint_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(CopyTextureSubImage2D)>
+      CopyTextureSubImage2D;
+
+    gl_api_function<
+      void(uint_type, int_type, int_type, int_type, int_type, sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(CopyTextureSubImage1D)>
+      CopyTextureSubImage1D;
+
+    gl_api_function<
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GenSamplers)>
       GenSamplers;
@@ -1389,6 +1604,23 @@ struct basic_gl_c_api {
       , BindTexture("BindTexture", traits, *this)
       , BindTextures("BindTextures", traits, *this)
       , BindTextureUnit("BindTextureUnit", traits, *this)
+      , TexImage3D("TexImage3D", traits, *this)
+      , TexImage2D("TexImage2D", traits, *this)
+      , TexImage1D("TexImage1D", traits, *this)
+      , CopyTexImage2D("CopyTexImage2D", traits, *this)
+      , CopyTexImage1D("CopyTexImage1D", traits, *this)
+      , TexSubImage3D("TexSubImage3D", traits, *this)
+      , TexSubImage2D("TexSubImage2D", traits, *this)
+      , TexSubImage1D("TexSubImage1D", traits, *this)
+      , CopyTexSubImage3D("CopyTexSubImage3D", traits, *this)
+      , CopyTexSubImage2D("CopyTexSubImage2D", traits, *this)
+      , CopyTexSubImage1D("CopyTexSubImage1D", traits, *this)
+      , TextureSubImage3D("TextureSubImage3D", traits, *this)
+      , TextureSubImage2D("TextureSubImage2D", traits, *this)
+      , TextureSubImage1D("TextureSubImage1D", traits, *this)
+      , CopyTextureSubImage3D("CopyTextureSubImage3D", traits, *this)
+      , CopyTextureSubImage2D("CopyTextureSubImage2D", traits, *this)
+      , CopyTextureSubImage1D("CopyTextureSubImage1D", traits, *this)
       , GenSamplers("GenSamplers", traits, *this)
       , CreateSamplers("CreateSamplers", traits, *this)
       , DeleteSamplers("DeleteSamplers", traits, *this)
