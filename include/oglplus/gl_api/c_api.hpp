@@ -916,6 +916,27 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(GetCompressedTextureSubImage)>
       GetCompressedTextureSubImage;
 
+    gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(GenerateMipmap)>
+      GenerateMipmap;
+
+    gl_api_function<
+      void(uint_type),
+      OGLPLUS_GL_STATIC_FUNC(GenerateTextureMipmap)>
+      GenerateTextureMipmap;
+
+    gl_api_function<
+      void(
+        uint_type,
+        enum_type,
+        uint_type,
+        enum_type,
+        uint_type,
+        uint_type,
+        uint_type,
+        uint_type),
+      OGLPLUS_GL_STATIC_FUNC(TextureView)>
+      TextureView;
+
     gl_api_function<
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GenSamplers)>
@@ -2016,6 +2037,9 @@ struct basic_gl_c_api {
       , GetCompressedTextureImage("GetCompressedTextureImage", traits, *this)
       , GetCompressedTextureSubImage(
           "GetCompressedTextureSubImage", traits, *this)
+      , GenerateMipmap("GenerateMipmap", traits, *this)
+      , GenerateTextureMipmap("GenerateTextureMipmap", traits, *this)
+      , TextureView("TextureView", traits, *this)
       , GenSamplers("GenSamplers", traits, *this)
       , CreateSamplers("CreateSamplers", traits, *this)
       , DeleteSamplers("DeleteSamplers", traits, *this)

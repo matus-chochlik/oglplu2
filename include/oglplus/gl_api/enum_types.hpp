@@ -45,6 +45,11 @@ struct buffer_target : gl_enum_class<buffer_target, EAGINE_ID_V(BufferTgt)> {
     using enum_class::enum_class;
 };
 
+struct buffer_parameter
+  : gl_enum_class<buffer_parameter, EAGINE_ID_V(BufParmtr)> {
+    using enum_class::enum_class;
+};
+
 struct buffer_usage : gl_enum_class<buffer_usage, EAGINE_ID_V(BufferUsge)> {
     using enum_class::enum_class;
 };
@@ -123,6 +128,10 @@ struct color_buffer : gl_enum_class<color_buffer, EAGINE_ID_V(ColorBuffr)> {
 
 struct compare_function
   : gl_enum_class<compare_function, EAGINE_ID_V(ComparFunc)> {
+    using enum_class::enum_class;
+};
+
+struct blit_filter : gl_enum_class<blit_filter, EAGINE_ID_V(BlitFilter)> {
     using enum_class::enum_class;
 };
 

@@ -506,7 +506,88 @@ public:
       uniform_buffer;
 
     opt_c_api_constant<
-      mp_list<buffer_usage>,
+      mp_list<buffer_parameter>,
+#ifdef GL_BUFFER_ACCESS
+      enum_type_c<GL_BUFFER_ACCESS>>
+#else
+      enum_type_i>
+#endif
+      buffer_access;
+
+    opt_c_api_constant<
+      mp_list<buffer_parameter>,
+#ifdef GL_BUFFER_ACCESS_FLAGS
+      enum_type_c<GL_BUFFER_ACCESS_FLAGS>>
+#else
+      enum_type_i>
+#endif
+      buffer_access_flags;
+
+    opt_c_api_constant<
+      mp_list<buffer_parameter>,
+#ifdef GL_BUFFER_IMMUTABLE_STORAGE
+      enum_type_c<GL_BUFFER_IMMUTABLE_STORAGE>>
+#else
+      enum_type_i>
+#endif
+      buffer_immutable_storage;
+
+    opt_c_api_constant<
+      mp_list<buffer_parameter>,
+#ifdef GL_BUFFER_MAPPED
+      enum_type_c<GL_BUFFER_MAPPED>>
+#else
+      enum_type_i>
+#endif
+      buffer_mapped;
+
+    opt_c_api_constant<
+      mp_list<buffer_parameter>,
+#ifdef GL_BUFFER_MAP_LENGTH
+      enum_type_c<GL_BUFFER_MAP_LENGTH>>
+#else
+      enum_type_i>
+#endif
+      buffer_map_length;
+
+    opt_c_api_constant<
+      mp_list<buffer_parameter>,
+#ifdef GL_BUFFER_MAP_OFFSET
+      enum_type_c<GL_BUFFER_MAP_OFFSET>>
+#else
+      enum_type_i>
+#endif
+      buffer_map_offset;
+
+    opt_c_api_constant<
+      mp_list<buffer_parameter>,
+#ifdef GL_BUFFER_SIZE
+      enum_type_c<GL_BUFFER_SIZE>>
+#else
+      enum_type_i>
+#endif
+      buffer_size;
+
+    opt_c_api_constant<
+      mp_list<buffer_parameter>,
+#ifdef GL_BUFFER_STORAGE_FLAGS
+      enum_type_c<GL_BUFFER_STORAGE_FLAGS>>
+#else
+      enum_type_i>
+#endif
+      buffer_storage_flags;
+
+    opt_c_api_constant<
+      mp_list<buffer_parameter>,
+#ifdef GL_BUFFER_USAGE
+      enum_type_c<GL_BUFFER_USAGE>>
+#else
+      enum_type_i>
+#endif
+      buffer_usage;
+
+    opt_c_api_constant<
+      mp_list<oglp::buffer_usage>,
 #ifdef GL_STREAM_DRAW
       enum_type_c<GL_STREAM_DRAW>>
 #else
@@ -515,7 +596,7 @@ public:
       stream_draw;
 
     opt_c_api_constant<
-      mp_list<buffer_usage>,
+      mp_list<oglp::buffer_usage>,
 #ifdef GL_STREAM_READ
       enum_type_c<GL_STREAM_READ>>
 #else
@@ -524,7 +605,7 @@ public:
       stream_read;
 
     opt_c_api_constant<
-      mp_list<buffer_usage>,
+      mp_list<oglp::buffer_usage>,
 #ifdef GL_STREAM_COPY
       enum_type_c<GL_STREAM_COPY>>
 #else
@@ -533,7 +614,7 @@ public:
       stream_copy;
 
     opt_c_api_constant<
-      mp_list<buffer_usage>,
+      mp_list<oglp::buffer_usage>,
 #ifdef GL_STATIC_DRAW
       enum_type_c<GL_STATIC_DRAW>>
 #else
@@ -542,7 +623,7 @@ public:
       static_draw;
 
     opt_c_api_constant<
-      mp_list<buffer_usage>,
+      mp_list<oglp::buffer_usage>,
 #ifdef GL_STATIC_READ
       enum_type_c<GL_STATIC_READ>>
 #else
@@ -551,7 +632,7 @@ public:
       static_read;
 
     opt_c_api_constant<
-      mp_list<buffer_usage>,
+      mp_list<oglp::buffer_usage>,
 #ifdef GL_STATIC_COPY
       enum_type_c<GL_STATIC_COPY>>
 #else
@@ -560,7 +641,7 @@ public:
       static_copy;
 
     opt_c_api_constant<
-      mp_list<buffer_usage>,
+      mp_list<oglp::buffer_usage>,
 #ifdef GL_DYNAMIC_DRAW
       enum_type_c<GL_DYNAMIC_DRAW>>
 #else
@@ -569,7 +650,7 @@ public:
       dynamic_draw;
 
     opt_c_api_constant<
-      mp_list<buffer_usage>,
+      mp_list<oglp::buffer_usage>,
 #ifdef GL_DYNAMIC_READ
       enum_type_c<GL_DYNAMIC_READ>>
 #else
@@ -578,7 +659,7 @@ public:
       dynamic_read;
 
     opt_c_api_constant<
-      mp_list<buffer_usage>,
+      mp_list<oglp::buffer_usage>,
 #ifdef GL_DYNAMIC_COPY
       enum_type_c<GL_DYNAMIC_COPY>>
 #else
@@ -815,7 +896,8 @@ public:
       mp_list<
         oglp::texture_min_filter,
         oglp::texture_mag_filter,
-        oglp::texture_filter>,
+        oglp::texture_filter,
+        oglp::blit_filter>,
 #ifdef GL_NEAREST
       enum_type_c<GL_NEAREST>>
 #else
@@ -827,7 +909,8 @@ public:
       mp_list<
         oglp::texture_min_filter,
         oglp::texture_mag_filter,
-        oglp::texture_filter>,
+        oglp::texture_filter,
+        oglp::blit_filter>,
 #ifdef GL_LINEAR
       enum_type_c<GL_LINEAR>>
 #else
@@ -2811,6 +2894,15 @@ public:
       , texture_buffer("TEXTURE_BUFFER", traits, api)
       , transform_feedback_buffer("TRANSFORM_FEEDBACK_BUFFER", traits, api)
       , uniform_buffer("UNIFORM_BUFFER", traits, api)
+      , buffer_access("BUFFER_ACCESS", traits, api)
+      , buffer_access_flags("BUFFER_ACCESS_FLAGS", traits, api)
+      , buffer_immutable_storage("BUFFER_IMMUTABLE_STORAGE", traits, api)
+      , buffer_mapped("BUFFER_MAPPED", traits, api)
+      , buffer_map_length("BUFFER_MAP_LENGTH", traits, api)
+      , buffer_map_offset("BUFFER_MAP_OFFSET", traits, api)
+      , buffer_size("BUFFER_SIZE", traits, api)
+      , buffer_storage_flags("BUFFER_STORAGE_FLAGS", traits, api)
+      , buffer_usage("BUFFER_USAGE", traits, api)
       , stream_draw("STREAM_DRAW", traits, api)
       , stream_read("STREAM_READ", traits, api)
       , stream_copy("STREAM_COPY", traits, api)
