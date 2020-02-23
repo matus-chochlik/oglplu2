@@ -713,6 +713,60 @@ public:
       texture_2d_multisample_array;
 
     opt_c_api_constant<
+      mp_list<oglp::texture_target>,
+#ifdef GL_TEXTURE_CUBE_MAP_POSITIVE_X
+      enum_type_c<GL_TEXTURE_CUBE_MAP_POSITIVE_X>>
+#else
+      enum_type_i>
+#endif
+      texture_cube_map_positive_x;
+
+    opt_c_api_constant<
+      mp_list<oglp::texture_target>,
+#ifdef GL_TEXTURE_CUBE_MAP_NEGATIVE_X
+      enum_type_c<GL_TEXTURE_CUBE_MAP_NEGATIVE_X>>
+#else
+      enum_type_i>
+#endif
+      texture_cube_map_negative_x;
+
+    opt_c_api_constant<
+      mp_list<oglp::texture_target>,
+#ifdef GL_TEXTURE_CUBE_MAP_POSITIVE_Y
+      enum_type_c<GL_TEXTURE_CUBE_MAP_POSITIVE_Y>>
+#else
+      enum_type_i>
+#endif
+      texture_cube_map_positive_y;
+
+    opt_c_api_constant<
+      mp_list<oglp::texture_target>,
+#ifdef GL_TEXTURE_CUBE_MAP_NEGATIVE_Y
+      enum_type_c<GL_TEXTURE_CUBE_MAP_NEGATIVE_Y>>
+#else
+      enum_type_i>
+#endif
+      texture_cube_map_negative_y;
+
+    opt_c_api_constant<
+      mp_list<oglp::texture_target>,
+#ifdef GL_TEXTURE_CUBE_MAP_POSITIVE_Z
+      enum_type_c<GL_TEXTURE_CUBE_MAP_POSITIVE_Z>>
+#else
+      enum_type_i>
+#endif
+      texture_cube_map_positive_z;
+
+    opt_c_api_constant<
+      mp_list<oglp::texture_target>,
+#ifdef GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
+      enum_type_c<GL_TEXTURE_CUBE_MAP_NEGATIVE_Z>>
+#else
+      enum_type_i>
+#endif
+      texture_cube_map_negative_z;
+
+    opt_c_api_constant<
       mp_list<oglp::texture_compare_mode>,
 #ifdef GL_COMPARE_REF_TO_TEXTURE
       enum_type_c<GL_COMPARE_REF_TO_TEXTURE>>
@@ -908,7 +962,7 @@ public:
       texture_min_lod;
 
     opt_c_api_constant<
-      mp_list<texture_parameter>,
+      mp_list<texture_parameter, texture_swizzle_mode>,
 #ifdef GL_TEXTURE_SWIZZLE_R
       enum_type_c<GL_TEXTURE_SWIZZLE_R>>
 #else
@@ -917,7 +971,7 @@ public:
       texture_swizzle_r;
 
     opt_c_api_constant<
-      mp_list<texture_parameter>,
+      mp_list<texture_parameter, texture_swizzle_mode>,
 #ifdef GL_TEXTURE_SWIZZLE_G
       enum_type_c<GL_TEXTURE_SWIZZLE_G>>
 #else
@@ -926,7 +980,7 @@ public:
       texture_swizzle_g;
 
     opt_c_api_constant<
-      mp_list<texture_parameter>,
+      mp_list<texture_parameter, texture_swizzle_mode>,
 #ifdef GL_TEXTURE_SWIZZLE_B
       enum_type_c<GL_TEXTURE_SWIZZLE_B>>
 #else
@@ -935,7 +989,7 @@ public:
       texture_swizzle_b;
 
     opt_c_api_constant<
-      mp_list<texture_parameter>,
+      mp_list<texture_parameter, texture_swizzle_mode>,
 #ifdef GL_TEXTURE_SWIZZLE_A
       enum_type_c<GL_TEXTURE_SWIZZLE_A>>
 #else
@@ -944,7 +998,7 @@ public:
       texture_swizzle_a;
 
     opt_c_api_constant<
-      mp_list<texture_parameter>,
+      mp_list<texture_parameter, texture_swizzle_mode>,
 #ifdef GL_TEXTURE_SWIZZLE_RGBA
       enum_type_c<GL_TEXTURE_SWIZZLE_RGBA>>
 #else
@@ -998,7 +1052,7 @@ public:
       texture_view_num_levels;
 
     opt_c_api_constant<
-      mp_list<texture_parameter>,
+      mp_list<texture_parameter, texture_wrap_coord>,
 #ifdef GL_TEXTURE_WRAP_S
       enum_type_c<GL_TEXTURE_WRAP_S>>
 #else
@@ -1007,7 +1061,7 @@ public:
       texture_wrap_s;
 
     opt_c_api_constant<
-      mp_list<texture_parameter>,
+      mp_list<texture_parameter, texture_wrap_coord>,
 #ifdef GL_TEXTURE_WRAP_T
       enum_type_c<GL_TEXTURE_WRAP_T>>
 #else
@@ -1016,13 +1070,112 @@ public:
       texture_wrap_t;
 
     opt_c_api_constant<
-      mp_list<texture_parameter>,
+      mp_list<texture_parameter, texture_wrap_coord>,
 #ifdef GL_TEXTURE_WRAP_R
       enum_type_c<GL_TEXTURE_WRAP_R>>
 #else
       enum_type_i>
 #endif
       texture_wrap_r;
+
+    opt_c_api_constant<
+      mp_list<texture_wrap_mode>,
+#ifdef GL_CLAMP_TO_EDGE
+      enum_type_c<GL_CLAMP_TO_EDGE>>
+#else
+      enum_type_i>
+#endif
+      clamp_to_edge;
+
+    opt_c_api_constant<
+      mp_list<texture_wrap_mode>,
+#ifdef GL_REPEAT
+      enum_type_c<GL_REPEAT>>
+#else
+      enum_type_i>
+#endif
+      repeat;
+
+    opt_c_api_constant<
+      mp_list<texture_wrap_mode>,
+#ifdef GL_CLAMP_TO_BORDER
+      enum_type_c<GL_CLAMP_TO_BORDER>>
+#else
+      enum_type_i>
+#endif
+      clamp_to_border;
+
+    opt_c_api_constant<
+      mp_list<texture_wrap_mode>,
+#ifdef GL_MIRRORED_REPEAT
+      enum_type_c<GL_MIRRORED_REPEAT>>
+#else
+      enum_type_i>
+#endif
+      mirrored_repeat;
+
+    opt_c_api_constant<
+      mp_list<texture_wrap_mode>,
+#ifdef GL_MIRROR_CLAMP_TO_EDGE
+      enum_type_c<GL_MIRROR_CLAMP_TO_EDGE>>
+#else
+      enum_type_i>
+#endif
+      mirror_clamp_to_edge;
+
+    opt_c_api_constant<
+      mp_list<texture_swizzle_mode>,
+#ifdef GL_RED
+      enum_type_c<GL_RED>>
+#else
+      enum_type_i>
+#endif
+      red;
+
+    opt_c_api_constant<
+      mp_list<texture_swizzle_mode>,
+#ifdef GL_GREEN
+      enum_type_c<GL_GREEN>>
+#else
+      enum_type_i>
+#endif
+      green;
+
+    opt_c_api_constant<
+      mp_list<texture_swizzle_mode>,
+#ifdef GL_BLUE
+      enum_type_c<GL_BLUE>>
+#else
+      enum_type_i>
+#endif
+      blue;
+
+    opt_c_api_constant<
+      mp_list<texture_swizzle_mode>,
+#ifdef GL_ALPHA
+      enum_type_c<GL_ALPHA>>
+#else
+      enum_type_i>
+#endif
+      alpha;
+
+    opt_c_api_constant<
+      mp_list<texture_swizzle_mode>,
+#ifdef GL_ZERO
+      enum_type_c<GL_ZERO>>
+#else
+      enum_type_i>
+#endif
+      zero;
+
+    opt_c_api_constant<
+      mp_list<texture_swizzle_mode>,
+#ifdef GL_ONE
+      enum_type_c<GL_ONE>>
+#else
+      enum_type_i>
+#endif
+      one;
 
     opt_c_api_constant<
       mp_list<program_interface>,
@@ -2043,6 +2196,12 @@ public:
       , texture_2d_multisample("TEXTURE_2D_MULTISAMPLE", traits, api)
       , texture_2d_multisample_array(
           "TEXTURE_2D_MULTISAMPLE_ARRAY", traits, api)
+      , texture_cube_map_positive_x("TEXTURE_CUBE_MAP_POSITIVE_X", traits, api)
+      , texture_cube_map_negative_x("TEXTURE_CUBE_MAP_NEGATIVE_X", traits, api)
+      , texture_cube_map_positive_y("TEXTURE_CUBE_MAP_POSITIVE_Y", traits, api)
+      , texture_cube_map_negative_y("TEXTURE_CUBE_MAP_NEGATIVE_Y", traits, api)
+      , texture_cube_map_positive_z("TEXTURE_CUBE_MAP_POSITIVE_Z", traits, api)
+      , texture_cube_map_negative_z("TEXTURE_CUBE_MAP_NEGATIVE_Z", traits, api)
       , compare_ref_to_texture("COMPARE_REF_TO_TEXTURE", traits, api)
       , nearest("NEAREST", traits, api)
       , linear("LINEAR", traits, api)
@@ -2078,6 +2237,17 @@ public:
       , texture_wrap_s("TEXTURE_WRAP_S", traits, api)
       , texture_wrap_t("TEXTURE_WRAP_T", traits, api)
       , texture_wrap_r("TEXTURE_WRAP_R", traits, api)
+      , clamp_to_edge("CLAMP_TO_EDGE", traits, api)
+      , repeat("REPEAT", traits, api)
+      , clamp_to_border("CLAMP_TO_BORDER", traits, api)
+      , mirrored_repeat("MIRRORED_REPEAT", traits, api)
+      , mirror_clamp_to_edge("MIRROR_CLAMP_TO_EDGE", traits, api)
+      , red("RED", traits, api)
+      , green("GREEN", traits, api)
+      , blue("BLUE", traits, api)
+      , alpha("ALPHA", traits, api)
+      , zero("ZERO", traits, api)
+      , one("ONE", traits, api)
       , uniform("UNIFORM", traits, api)
       , uniform_block("UNIFORM_BLOCK", traits, api)
       , program_input("PROGRAM_INPUT", traits, api)

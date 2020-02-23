@@ -97,6 +97,26 @@ struct texture_parameter
     using enum_class::enum_class;
 };
 
+struct texture_swizzle_coord
+  : gl_enum_class<texture_swizzle_coord, EAGINE_ID_V(TexSwzCord)> {
+    using enum_class::enum_class;
+};
+
+struct texture_swizzle_mode
+  : gl_enum_class<texture_swizzle_mode, EAGINE_ID_V(TexSwzMode)> {
+    using enum_class::enum_class;
+};
+
+struct texture_wrap_coord
+  : gl_enum_class<texture_wrap_coord, EAGINE_ID_V(TexWrpCord)> {
+    using enum_class::enum_class;
+};
+
+struct texture_wrap_mode
+  : gl_enum_class<texture_wrap_mode, EAGINE_ID_V(TexWrpMode)> {
+    using enum_class::enum_class;
+};
+
 struct binding_query : gl_enum_class<binding_query, EAGINE_ID_V(BindQuery)> {
     using enum_class::enum_class;
 };
