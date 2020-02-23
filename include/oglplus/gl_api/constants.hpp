@@ -2294,7 +2294,457 @@ public:
       never;
 
     opt_c_api_constant<
-      mp_list<color_buffer, oglp::texture_compare_mode>,
+      mp_list<sl_data_type>,
+#ifdef GL_FLOAT
+      enum_type_c<GL_FLOAT>>
+#else
+      enum_type_i>
+#endif
+      float_scalar;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_FLOAT_VEC2
+      enum_type_c<GL_FLOAT_VEC2>>
+#else
+      enum_type_i>
+#endif
+      float_vec2;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_FLOAT_VEC3
+      enum_type_c<GL_FLOAT_VEC3>>
+#else
+      enum_type_i>
+#endif
+      float_vec3;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_FLOAT_VEC4
+      enum_type_c<GL_FLOAT_VEC4>>
+#else
+      enum_type_i>
+#endif
+      float_vec4;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_DOUBLE
+      enum_type_c<GL_DOUBLE>>
+#else
+      enum_type_i>
+#endif
+      double_scalar;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_DOUBLE_VEC2
+      enum_type_c<GL_DOUBLE_VEC2>>
+#else
+      enum_type_i>
+#endif
+      double_vec2;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_DOUBLE_VEC3
+      enum_type_c<GL_DOUBLE_VEC3>>
+#else
+      enum_type_i>
+#endif
+      double_vec3;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_DOUBLE_VEC4
+      enum_type_c<GL_DOUBLE_VEC4>>
+#else
+      enum_type_i>
+#endif
+      double_vec4;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_INT
+      enum_type_c<GL_INT>>
+#else
+      enum_type_i>
+#endif
+      int_scalar;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_INT_VEC2
+      enum_type_c<GL_INT_VEC2>>
+#else
+      enum_type_i>
+#endif
+      int_vec2;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_INT_VEC3
+      enum_type_c<GL_INT_VEC3>>
+#else
+      enum_type_i>
+#endif
+      int_vec3;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_INT_VEC4
+      enum_type_c<GL_INT_VEC4>>
+#else
+      enum_type_i>
+#endif
+      int_vec4;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_UNSIGNED_INT
+      enum_type_c<GL_UNSIGNED_INT>>
+#else
+      enum_type_i>
+#endif
+      unsigned_int_scalar;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_UNSIGNED_INT_VEC2
+      enum_type_c<GL_UNSIGNED_INT_VEC2>>
+#else
+      enum_type_i>
+#endif
+      unsigned_int_vec2;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_UNSIGNED_INT_VEC3
+      enum_type_c<GL_UNSIGNED_INT_VEC3>>
+#else
+      enum_type_i>
+#endif
+      unsigned_int_vec3;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_UNSIGNED_INT_VEC4
+      enum_type_c<GL_UNSIGNED_INT_VEC4>>
+#else
+      enum_type_i>
+#endif
+      unsigned_int_vec4;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_BOOL
+      enum_type_c<GL_BOOL>>
+#else
+      enum_type_i>
+#endif
+      bool_scalar;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_BOOL_VEC2
+      enum_type_c<GL_BOOL_VEC2>>
+#else
+      enum_type_i>
+#endif
+      bool_vec2;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_BOOL_VEC3
+      enum_type_c<GL_BOOL_VEC3>>
+#else
+      enum_type_i>
+#endif
+      bool_vec3;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_BOOL_VEC4
+      enum_type_c<GL_BOOL_VEC4>>
+#else
+      enum_type_i>
+#endif
+      bool_vec4;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_FLOAT_MAT2
+      enum_type_c<GL_FLOAT_MAT2>>
+#else
+      enum_type_i>
+#endif
+      float_mat2;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_FLOAT_MAT3
+      enum_type_c<GL_FLOAT_MAT3>>
+#else
+      enum_type_i>
+#endif
+      float_mat3;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_FLOAT_MAT4
+      enum_type_c<GL_FLOAT_MAT4>>
+#else
+      enum_type_i>
+#endif
+      float_mat4;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_FLOAT_MAT2x3
+      enum_type_c<GL_FLOAT_MAT2x3>>
+#else
+      enum_type_i>
+#endif
+      float_mat2x3;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_FLOAT_MAT2x4
+      enum_type_c<GL_FLOAT_MAT2x4>>
+#else
+      enum_type_i>
+#endif
+      float_mat2x4;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_FLOAT_MAT3x2
+      enum_type_c<GL_FLOAT_MAT3x2>>
+#else
+      enum_type_i>
+#endif
+      float_mat3x2;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_FLOAT_MAT3x4
+      enum_type_c<GL_FLOAT_MAT3x4>>
+#else
+      enum_type_i>
+#endif
+      float_mat3x4;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_FLOAT_MAT4x2
+      enum_type_c<GL_FLOAT_MAT4x2>>
+#else
+      enum_type_i>
+#endif
+      float_mat4x2;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_FLOAT_MAT4x3
+      enum_type_c<GL_FLOAT_MAT4x3>>
+#else
+      enum_type_i>
+#endif
+      float_mat4x3;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_DOUBLE_MAT2
+      enum_type_c<GL_DOUBLE_MAT2>>
+#else
+      enum_type_i>
+#endif
+      double_mat2;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_DOUBLE_MAT3
+      enum_type_c<GL_DOUBLE_MAT3>>
+#else
+      enum_type_i>
+#endif
+      double_mat3;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_DOUBLE_MAT4
+      enum_type_c<GL_DOUBLE_MAT4>>
+#else
+      enum_type_i>
+#endif
+      double_mat4;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_DOUBLE_MAT2x3
+      enum_type_c<GL_DOUBLE_MAT2x3>>
+#else
+      enum_type_i>
+#endif
+      double_mat2x3;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_DOUBLE_MAT2x4
+      enum_type_c<GL_DOUBLE_MAT2x4>>
+#else
+      enum_type_i>
+#endif
+      double_mat2x4;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_DOUBLE_MAT3x2
+      enum_type_c<GL_DOUBLE_MAT3x2>>
+#else
+      enum_type_i>
+#endif
+      double_mat3x2;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_DOUBLE_MAT3x4
+      enum_type_c<GL_DOUBLE_MAT3x4>>
+#else
+      enum_type_i>
+#endif
+      double_mat3x4;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_DOUBLE_MAT4x2
+      enum_type_c<GL_DOUBLE_MAT4x2>>
+#else
+      enum_type_i>
+#endif
+      double_mat4x2;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_DOUBLE_MAT4x3
+      enum_type_c<GL_DOUBLE_MAT4x3>>
+#else
+      enum_type_i>
+#endif
+      double_mat4x3;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_SAMPLER_1D
+      enum_type_c<GL_SAMPLER_1D>>
+#else
+      enum_type_i>
+#endif
+      sampler_1d;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_SAMPLER_2D
+      enum_type_c<GL_SAMPLER_2D>>
+#else
+      enum_type_i>
+#endif
+      sampler_2d;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_SAMPLER_3D
+      enum_type_c<GL_SAMPLER_3D>>
+#else
+      enum_type_i>
+#endif
+      sampler_3d;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_SAMPLER_CUBE
+      enum_type_c<GL_SAMPLER_CUBE>>
+#else
+      enum_type_i>
+#endif
+      sampler_cube;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_SAMPLER_1D_SHADOW
+      enum_type_c<GL_SAMPLER_1D_SHADOW>>
+#else
+      enum_type_i>
+#endif
+      sampler_1d_shadow;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_SAMPLER_2D_SHADOW
+      enum_type_c<GL_SAMPLER_2D_SHADOW>>
+#else
+      enum_type_i>
+#endif
+      sampler_2d_shadow;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_SAMPLER_1D_ARRAY
+      enum_type_c<GL_SAMPLER_1D_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      sampler_1d_array;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_SAMPLER_2D_ARRAY
+      enum_type_c<GL_SAMPLER_2D_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      sampler_2d_array;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_SAMPLER_CUBE_MAP_ARRAY
+      enum_type_c<GL_SAMPLER_CUBE_MAP_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      sampler_cube_map_array;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_SAMPLER_1D_ARRAY_SHADOW
+      enum_type_c<GL_SAMPLER_1D_ARRAY_SHADOW>>
+#else
+      enum_type_i>
+#endif
+      sampler_1d_array_shadow;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_SAMPLER_2D_ARRAY_SHADOW
+      enum_type_c<GL_SAMPLER_2D_ARRAY_SHADOW>>
+#else
+      enum_type_i>
+#endif
+      sampler_2d_array_shadow;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_SAMPLER_2D_MULTISAMPLE
+      enum_type_c<GL_SAMPLER_2D_MULTISAMPLE>>
+#else
+      enum_type_i>
+#endif
+      sampler_2d_multisample;
+
+    opt_c_api_constant<
+      mp_list<color_buffer, sl_data_type, oglp::texture_compare_mode>,
 #ifdef GL_NONE
       bitfield_type_c<GL_NONE>>
 #else
@@ -2582,6 +3032,56 @@ public:
       , notequal("NOTEQUAL", traits, api)
       , always("ALWAYS", traits, api)
       , never("NEVER", traits, api)
+      , float_scalar("FLOAT", traits, api)
+      , float_vec2("FLOAT_VEC2", traits, api)
+      , float_vec3("FLOAT_VEC3", traits, api)
+      , float_vec4("FLOAT_VEC4", traits, api)
+      , double_scalar("DOUBLE", traits, api)
+      , double_vec2("DOUBLE_VEC2", traits, api)
+      , double_vec3("DOUBLE_VEC3", traits, api)
+      , double_vec4("DOUBLE_VEC4", traits, api)
+      , int_scalar("INT", traits, api)
+      , int_vec2("INT_VEC2", traits, api)
+      , int_vec3("INT_VEC3", traits, api)
+      , int_vec4("INT_VEC4", traits, api)
+      , unsigned_int_scalar("UNSIGNED_INT", traits, api)
+      , unsigned_int_vec2("UNSIGNED_INT_VEC2", traits, api)
+      , unsigned_int_vec3("UNSIGNED_INT_VEC3", traits, api)
+      , unsigned_int_vec4("UNSIGNED_INT_VEC4", traits, api)
+      , bool_scalar("BOOL", traits, api)
+      , bool_vec2("BOOL_VEC2", traits, api)
+      , bool_vec3("BOOL_VEC3", traits, api)
+      , bool_vec4("BOOL_VEC4", traits, api)
+      , float_mat2("FLOAT_MAT2", traits, api)
+      , float_mat3("FLOAT_MAT3", traits, api)
+      , float_mat4("FLOAT_MAT4", traits, api)
+      , float_mat2x3("FLOAT_MAT2x3", traits, api)
+      , float_mat2x4("FLOAT_MAT2x4", traits, api)
+      , float_mat3x2("FLOAT_MAT3x2", traits, api)
+      , float_mat3x4("FLOAT_MAT3x4", traits, api)
+      , float_mat4x2("FLOAT_MAT4x2", traits, api)
+      , float_mat4x3("FLOAT_MAT4x3", traits, api)
+      , double_mat2("DOUBLE_MAT2", traits, api)
+      , double_mat3("DOUBLE_MAT3", traits, api)
+      , double_mat4("DOUBLE_MAT4", traits, api)
+      , double_mat2x3("DOUBLE_MAT2x3", traits, api)
+      , double_mat2x4("DOUBLE_MAT2x4", traits, api)
+      , double_mat3x2("DOUBLE_MAT3x2", traits, api)
+      , double_mat3x4("DOUBLE_MAT3x4", traits, api)
+      , double_mat4x2("DOUBLE_MAT4x2", traits, api)
+      , double_mat4x3("DOUBLE_MAT4x3", traits, api)
+      , sampler_1d("SAMPLER_1D", traits, api)
+      , sampler_2d("SAMPLER_2D", traits, api)
+      , sampler_3d("SAMPLER_3D", traits, api)
+      , sampler_cube("SAMPLER_CUBE", traits, api)
+      , sampler_1d_shadow("SAMPLER_1D_SHADOW", traits, api)
+      , sampler_2d_shadow("SAMPLER_2D_SHADOW", traits, api)
+      , sampler_1d_array("SAMPLER_1D_ARRAY", traits, api)
+      , sampler_2d_array("SAMPLER_2D_ARRAY", traits, api)
+      , sampler_cube_map_array("SAMPLER_CUBE_MAP_ARRAY", traits, api)
+      , sampler_1d_array_shadow("SAMPLER_1D_ARRAY_SHADOW", traits, api)
+      , sampler_2d_array_shadow("SAMPLER_2D_ARRAY_SHADOW", traits, api)
+      , sampler_2d_multisample("SAMPLER_2D_MULTISAMPLE", traits, api)
       , none("NONE", traits, api) {
     }
 };

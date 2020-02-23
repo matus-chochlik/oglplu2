@@ -137,6 +137,10 @@ struct integer_query : gl_enum_class<integer_query, EAGINE_ID_V(IntQuery)> {
 struct string_query : gl_enum_class<string_query, EAGINE_ID_V(StrQuery)> {
     using enum_class::enum_class;
 };
+
+struct sl_data_type : gl_enum_class<sl_data_type, EAGINE_ID_V(SLDataType)> {
+    using enum_class::enum_class;
+};
 //------------------------------------------------------------------------------
 } // namespace oglp
 } // namespace eagine
