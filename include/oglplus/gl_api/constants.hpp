@@ -623,6 +623,42 @@ public:
       map_coherent_bit;
 
     opt_c_api_constant<
+      mp_list<buffer_map_access_bit>,
+#ifdef GL_MAP_INVALIDATE_RANGE_BIT
+      bitfield_type_c<GL_MAP_INVALIDATE_RANGE_BIT>>
+#else
+      bitfield_type_i>
+#endif
+      map_invalidate_range_bit;
+
+    opt_c_api_constant<
+      mp_list<buffer_map_access_bit>,
+#ifdef GL_MAP_INVALIDATE_BUFFER_BIT
+      bitfield_type_c<GL_MAP_INVALIDATE_BUFFER_BIT>>
+#else
+      bitfield_type_i>
+#endif
+      map_invalidate_buffer_bit;
+
+    opt_c_api_constant<
+      mp_list<buffer_map_access_bit>,
+#ifdef GL_MAP_FLUSH_EXPLICIT_BIT
+      bitfield_type_c<GL_MAP_FLUSH_EXPLICIT_BIT>>
+#else
+      bitfield_type_i>
+#endif
+      map_flush_explicit_bit;
+
+    opt_c_api_constant<
+      mp_list<buffer_map_access_bit>,
+#ifdef GL_MAP_UNSYNCHRONIZED_BIT
+      bitfield_type_c<GL_MAP_UNSYNCHRONIZED_BIT>>
+#else
+      bitfield_type_i>
+#endif
+      map_unsynchronized_bit;
+
+    opt_c_api_constant<
       mp_list<oglp::texture_target>,
 #ifdef GL_TEXTURE_3D
       enum_type_c<GL_TEXTURE_3D>>
@@ -1664,6 +1700,87 @@ public:
       multisample;
 
     opt_c_api_constant<
+      mp_list<color_buffer>,
+#ifdef GL_FRONT_LEFT
+      enum_type_c<GL_FRONT_LEFT>>
+#else
+      enum_type_i>
+#endif
+      front_left;
+
+    opt_c_api_constant<
+      mp_list<color_buffer>,
+#ifdef GL_FRONT_RIGHT
+      enum_type_c<GL_FRONT_RIGHT>>
+#else
+      enum_type_i>
+#endif
+      front_right;
+
+    opt_c_api_constant<
+      mp_list<color_buffer>,
+#ifdef GL_BACK_LEFT
+      enum_type_c<GL_BACK_LEFT>>
+#else
+      enum_type_i>
+#endif
+      back_left;
+
+    opt_c_api_constant<
+      mp_list<color_buffer>,
+#ifdef GL_BACK_RIGHT
+      enum_type_c<GL_BACK_RIGHT>>
+#else
+      enum_type_i>
+#endif
+      back_right;
+
+    opt_c_api_constant<
+      mp_list<color_buffer>,
+#ifdef GL_FRONT
+      enum_type_c<GL_FRONT>>
+#else
+      enum_type_i>
+#endif
+      front;
+
+    opt_c_api_constant<
+      mp_list<color_buffer>,
+#ifdef GL_BACK
+      enum_type_c<GL_BACK>>
+#else
+      enum_type_i>
+#endif
+      back;
+
+    opt_c_api_constant<
+      mp_list<color_buffer>,
+#ifdef GL_LEFT
+      enum_type_c<GL_LEFT>>
+#else
+      enum_type_i>
+#endif
+      left;
+
+    opt_c_api_constant<
+      mp_list<color_buffer>,
+#ifdef GL_RIGHT
+      enum_type_c<GL_RIGHT>>
+#else
+      enum_type_i>
+#endif
+      right;
+
+    opt_c_api_constant<
+      mp_list<color_buffer>,
+#ifdef GL_FRONT_AND_BACK
+      enum_type_c<GL_FRONT_AND_BACK>>
+#else
+      enum_type_i>
+#endif
+      front_and_back;
+
+    opt_c_api_constant<
       mp_list<binding_query, program_property>,
 #ifdef GL_ARRAY_BUFFER_BINDING
       enum_type_c<GL_ARRAY_BUFFER_BINDING>>
@@ -2105,7 +2222,79 @@ public:
       stencil_buffer_bit;
 
     opt_c_api_constant<
-      mp_list<oglp::texture_compare_mode>,
+      mp_list<compare_function>,
+#ifdef GL_LEQUAL
+      enum_type_c<GL_LEQUAL>>
+#else
+      enum_type_i>
+#endif
+      lequal;
+
+    opt_c_api_constant<
+      mp_list<compare_function>,
+#ifdef GL_GEQUAL
+      enum_type_c<GL_GEQUAL>>
+#else
+      enum_type_i>
+#endif
+      gequal;
+
+    opt_c_api_constant<
+      mp_list<compare_function>,
+#ifdef GL_LESS
+      enum_type_c<GL_LESS>>
+#else
+      enum_type_i>
+#endif
+      less;
+
+    opt_c_api_constant<
+      mp_list<compare_function>,
+#ifdef GL_GREATER
+      enum_type_c<GL_GREATER>>
+#else
+      enum_type_i>
+#endif
+      greater;
+
+    opt_c_api_constant<
+      mp_list<compare_function>,
+#ifdef GL_EQUAL
+      enum_type_c<GL_EQUAL>>
+#else
+      enum_type_i>
+#endif
+      equal;
+
+    opt_c_api_constant<
+      mp_list<compare_function>,
+#ifdef GL_NOTEQUAL
+      enum_type_c<GL_NOTEQUAL>>
+#else
+      enum_type_i>
+#endif
+      notequal;
+
+    opt_c_api_constant<
+      mp_list<compare_function>,
+#ifdef GL_ALWAYS
+      enum_type_c<GL_ALWAYS>>
+#else
+      enum_type_i>
+#endif
+      always;
+
+    opt_c_api_constant<
+      mp_list<compare_function>,
+#ifdef GL_NEVER
+      enum_type_c<GL_NEVER>>
+#else
+      enum_type_i>
+#endif
+      never;
+
+    opt_c_api_constant<
+      mp_list<color_buffer, oglp::texture_compare_mode>,
 #ifdef GL_NONE
       bitfield_type_c<GL_NONE>>
 #else
@@ -2185,6 +2374,10 @@ public:
       , map_write_bit("MAP_WRITE_BIT", traits, api)
       , map_persistent_bit("MAP_PERSISTENT_BIT", traits, api)
       , map_coherent_bit("MAP_COHERENT_BIT", traits, api)
+      , map_invalidate_range_bit("MAP_INVALIDATE_RANGE_BIT", traits, api)
+      , map_invalidate_buffer_bit("MAP_INVALIDATE_BUFFER_BIT", traits, api)
+      , map_flush_explicit_bit("MAP_FLUSH_EXPLICIT_BIT", traits, api)
+      , map_unsynchronized_bit("MAP_UNSYNCHRONIZED_BIT", traits, api)
       , texture_3d("TEXTURE_3D", traits, api)
       , texture_2d("TEXTURE_2D", traits, api)
       , texture_1d("TEXTURE_1D", traits, api)
@@ -2311,6 +2504,15 @@ public:
       , scissor_test("SCISSOR_TEST", traits, api)
       , stencil_test("STENCIL_TEST", traits, api)
       , multisample("MULTISAMPLE", traits, api)
+      , front_left("FRONT_LEFT", traits, api)
+      , front_right("FRONT_RIGHT", traits, api)
+      , back_left("BACK_LEFT", traits, api)
+      , back_right("BACK_RIGHT", traits, api)
+      , front("FRONT", traits, api)
+      , back("BACK", traits, api)
+      , left("LEFT", traits, api)
+      , right("RIGHT", traits, api)
+      , front_and_back("FRONT_AND_BACK", traits, api)
       , array_buffer_binding("ARRAY_BUFFER_BINDING", traits, api)
       , atomic_counter_buffer_binding(
           "ATOMIC_COUNTER_BUFFER_BINDING", traits, api)
@@ -2372,6 +2574,14 @@ public:
       , color_buffer_bit("COLOR_BUFFER_BIT", traits, api)
       , depth_buffer_bit("DEPTH_BUFFER_BIT", traits, api)
       , stencil_buffer_bit("STENCIL_BUFFER_BIT", traits, api)
+      , lequal("LEQUAL", traits, api)
+      , gequal("GEQUAL", traits, api)
+      , less("LESS", traits, api)
+      , greater("GREATER", traits, api)
+      , equal("EQUAL", traits, api)
+      , notequal("NOTEQUAL", traits, api)
+      , always("ALWAYS", traits, api)
+      , never("NEVER", traits, api)
       , none("NONE", traits, api) {
     }
 };

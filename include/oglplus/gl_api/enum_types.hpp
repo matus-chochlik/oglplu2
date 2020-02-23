@@ -117,6 +117,15 @@ struct texture_wrap_mode
     using enum_class::enum_class;
 };
 
+struct color_buffer : gl_enum_class<color_buffer, EAGINE_ID_V(ColorBuffr)> {
+    using enum_class::enum_class;
+};
+
+struct compare_function
+  : gl_enum_class<compare_function, EAGINE_ID_V(ComparFunc)> {
+    using enum_class::enum_class;
+};
+
 struct binding_query : gl_enum_class<binding_query, EAGINE_ID_V(BindQuery)> {
     using enum_class::enum_class;
 };
