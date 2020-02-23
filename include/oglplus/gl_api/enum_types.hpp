@@ -32,6 +32,11 @@ struct memory_barrier_bit
     using enum_class::enum_class;
 };
 
+struct access_specifier
+  : gl_enum_class<access_specifier, EAGINE_ID_V(AccessSpec)> {
+    using enum_class::enum_class;
+};
+
 struct shader_type : gl_enum_class<shader_type, EAGINE_ID_V(ShaderType)> {
     using enum_class::enum_class;
 };
@@ -70,6 +75,10 @@ struct buffer_clear_bit
 
 struct texture_compare_mode
   : gl_enum_class<texture_compare_mode, EAGINE_ID_V(TexCmpMode)> {
+    using enum_class::enum_class;
+};
+
+struct binding_query : gl_enum_class<binding_query, EAGINE_ID_V(BindQuery)> {
     using enum_class::enum_class;
 };
 

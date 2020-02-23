@@ -290,6 +290,33 @@ public:
       all_barrier_bits;
 
     opt_c_api_constant<
+      mp_list<access_specifier>,
+#ifdef GL_READ_ONLY
+      enum_type_c<GL_READ_ONLY>>
+#else
+      enum_type_i>
+#endif
+      read_only;
+
+    opt_c_api_constant<
+      mp_list<access_specifier>,
+#ifdef GL_WRITE_ONLY
+      enum_type_c<GL_WRITE_ONLY>>
+#else
+      enum_type_i>
+#endif
+      write_only;
+
+    opt_c_api_constant<
+      mp_list<access_specifier>,
+#ifdef GL_READ_WRITE
+      enum_type_c<GL_READ_WRITE>>
+#else
+      enum_type_i>
+#endif
+      read_write;
+
+    opt_c_api_constant<
       mp_list<shader_type>,
 #ifdef GL_VERTEX_SHADER
       enum_type_c<GL_VERTEX_SHADER>>
@@ -858,15 +885,6 @@ public:
 
     opt_c_api_constant<
       mp_list<program_property>,
-#ifdef GL_BUFFER_BINDING
-      enum_type_c<GL_BUFFER_BINDING>>
-#else
-      enum_type_i>
-#endif
-      buffer_binding;
-
-    opt_c_api_constant<
-      mp_list<program_property>,
 #ifdef GL_ACTIVE_VARIABLES
       enum_type_c<GL_ACTIVE_VARIABLES>>
 #else
@@ -1181,6 +1199,303 @@ public:
       multisample;
 
     opt_c_api_constant<
+      mp_list<binding_query, program_property>,
+#ifdef GL_ARRAY_BUFFER_BINDING
+      enum_type_c<GL_ARRAY_BUFFER_BINDING>>
+#else
+      enum_type_i>
+#endif
+      array_buffer_binding;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
+#ifdef GL_ATOMIC_COUNTER_BUFFER_BINDING
+      enum_type_c<GL_ATOMIC_COUNTER_BUFFER_BINDING>>
+#else
+      enum_type_i>
+#endif
+      atomic_counter_buffer_binding;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
+#ifdef GL_COPY_READ_BUFFER_BINDING
+      enum_type_c<GL_COPY_READ_BUFFER_BINDING>>
+#else
+      enum_type_i>
+#endif
+      copy_read_buffer_binding;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
+#ifdef GL_COPY_WRITE_BUFFER_BINDING
+      enum_type_c<GL_COPY_WRITE_BUFFER_BINDING>>
+#else
+      enum_type_i>
+#endif
+      copy_write_buffer_binding;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
+#ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
+      enum_type_c<GL_DISPATCH_INDIRECT_BUFFER_BINDING>>
+#else
+      enum_type_i>
+#endif
+      dispatch_indirect_buffer_binding;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
+#ifdef GL_DRAW_INDIRECT_BUFFER_BINDING
+      enum_type_c<GL_DRAW_INDIRECT_BUFFER_BINDING>>
+#else
+      enum_type_i>
+#endif
+      draw_indirect_buffer_binding;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
+#ifdef GL_ELEMENT_ARRAY_BUFFER_BINDING
+      enum_type_c<GL_ELEMENT_ARRAY_BUFFER_BINDING>>
+#else
+      enum_type_i>
+#endif
+      element_array_buffer_binding;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
+#ifdef GL_PIXEL_PACK_BUFFER_BINDING
+      enum_type_c<GL_PIXEL_PACK_BUFFER_BINDING>>
+#else
+      enum_type_i>
+#endif
+      pixel_pack_buffer_binding;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
+#ifdef GL_PIXEL_UNPACK_BUFFER_BINDING
+      enum_type_c<GL_PIXEL_UNPACK_BUFFER_BINDING>>
+#else
+      enum_type_i>
+#endif
+      pixel_unpack_buffer_binding;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
+#ifdef GL_SHADER_STORAGE_BUFFER_BINDING
+      enum_type_c<GL_SHADER_STORAGE_BUFFER_BINDING>>
+#else
+      enum_type_i>
+#endif
+      shader_storage_buffer_binding;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
+#ifdef GL_TEXTURE_BUFFER_BINDING
+      enum_type_c<GL_TEXTURE_BUFFER_BINDING>>
+#else
+      enum_type_i>
+#endif
+      texture_buffer_binding;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
+#ifdef GL_TRANSFORM_FEEDBACK_BUFFER_BINDING
+      enum_type_c<GL_TRANSFORM_FEEDBACK_BUFFER_BINDING>>
+#else
+      enum_type_i>
+#endif
+      transform_feedback_buffer_binding;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
+#ifdef GL_UNIFORM_BUFFER_BINDING
+      enum_type_c<GL_UNIFORM_BUFFER_BINDING>>
+#else
+      enum_type_i>
+#endif
+      uniform_buffer_binding;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
+#ifdef GL_QUERY_BUFFER_BINDING
+      enum_type_c<GL_QUERY_BUFFER_BINDING>>
+#else
+      enum_type_i>
+#endif
+      query_buffer_binding;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
+#ifdef GL_PARAMETER_BUFFER_BINDING_ARB
+      enum_type_c<GL_PARAMETER_BUFFER_BINDING_ARB>>
+#else
+      enum_type_i>
+#endif
+      parameter_buffer_binding_arb;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
+#ifdef GL_DRAW_FRAMEBUFFER_BINDING
+      enum_type_c<GL_DRAW_FRAMEBUFFER_BINDING>>
+#else
+      enum_type_i>
+#endif
+      draw_framebuffer_binding;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
+#ifdef GL_BUFFER_BINDING
+      enum_type_c<GL_BUFFER_BINDING>>
+#else
+      enum_type_i>
+#endif
+      buffer_binding;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
+#ifdef GL_RENDERBUFFER_BINDING
+      enum_type_c<GL_RENDERBUFFER_BINDING>>
+#else
+      enum_type_i>
+#endif
+      renderbuffer_binding;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
+#ifdef GL_SAMPLER_BINDING
+      enum_type_c<GL_SAMPLER_BINDING>>
+#else
+      enum_type_i>
+#endif
+      sampler_binding;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
+#ifdef GL_TEXTURE_BINDING_1D
+      enum_type_c<GL_TEXTURE_BINDING_1D>>
+#else
+      enum_type_i>
+#endif
+      texture_binding_1d;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
+#ifdef GL_TEXTURE_BINDING_2D
+      enum_type_c<GL_TEXTURE_BINDING_2D>>
+#else
+      enum_type_i>
+#endif
+      texture_binding_2d;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
+#ifdef GL_TEXTURE_BINDING_3D
+      enum_type_c<GL_TEXTURE_BINDING_3D>>
+#else
+      enum_type_i>
+#endif
+      texture_binding_3d;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
+#ifdef GL_TEXTURE_BINDING_1D_ARRAY
+      enum_type_c<GL_TEXTURE_BINDING_1D_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      texture_binding_1d_array;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
+#ifdef GL_TEXTURE_BINDING_2D_ARRAY
+      enum_type_c<GL_TEXTURE_BINDING_2D_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      texture_binding_2d_array;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
+#ifdef GL_TEXTURE_BINDING_RECTANGLE
+      enum_type_c<GL_TEXTURE_BINDING_RECTANGLE>>
+#else
+      enum_type_i>
+#endif
+      texture_binding_rectangle;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
+#ifdef GL_TEXTURE_BINDING_BUFFER
+      enum_type_c<GL_TEXTURE_BINDING_BUFFER>>
+#else
+      enum_type_i>
+#endif
+      texture_binding_buffer;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
+#ifdef GL_TEXTURE_BINDING_CUBE_MAP
+      enum_type_c<GL_TEXTURE_BINDING_CUBE_MAP>>
+#else
+      enum_type_i>
+#endif
+      texture_binding_cube_map;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
+#ifdef GL_TEXTURE_BINDING_CUBE_MAP_ARRAY
+      enum_type_c<GL_TEXTURE_BINDING_CUBE_MAP_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      texture_binding_cube_map_array;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
+#ifdef GL_TEXTURE_BINDING_2D_MULTISAMPLE
+      enum_type_c<GL_TEXTURE_BINDING_2D_MULTISAMPLE>>
+#else
+      enum_type_i>
+#endif
+      texture_binding_2d_multisample;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
+#ifdef GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY
+      enum_type_c<GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      texture_binding_2d_multisample_array;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
+#ifdef GL_TRANSFORM_FEEDBACK_BINDING
+      enum_type_c<GL_TRANSFORM_FEEDBACK_BINDING>>
+#else
+      enum_type_i>
+#endif
+      transform_feedback_binding;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
+#ifdef GL_VERTEX_ARRAY_BINDING
+      enum_type_c<GL_VERTEX_ARRAY_BINDING>>
+#else
+      enum_type_i>
+#endif
+      vertex_array_binding;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
+#ifdef GL_CURRENT_PROGRAM
+      enum_type_c<GL_CURRENT_PROGRAM>>
+#else
+      enum_type_i>
+#endif
+      current_program;
+
+    opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_MAX_VERTEX_UNIFORM_BLOCKS
       enum_type_c<GL_MAX_VERTEX_UNIFORM_BLOCKS>>
@@ -1368,6 +1683,9 @@ public:
       , atomic_counter_barrier_bit("ATOMIC_COUNTER_BARRIER_BIT", traits, api)
       , shader_storage_barrier_bit("SHADER_STORAGE_BARRIER_BIT", traits, api)
       , all_barrier_bits("ALL_BARRIER_BITS", traits, api)
+      , read_only("READ_ONLY", traits, api)
+      , write_only("WRITE_ONLY", traits, api)
+      , read_write("READ_WRITE", traits, api)
       , vertex_shader("VERTEX_SHADER", traits, api)
       , tess_control_shader("TESS_CONTROL_SHADER", traits, api)
       , tess_evaluation_shader("TESS_EVALUATION_SHADER", traits, api)
@@ -1434,7 +1752,6 @@ public:
       , transform_feedback_varying("GL_TRANSFORM_FEEDBACK_VARYING", traits, api)
       , buffer_variable("BUFFER_VARIABLE", traits, api)
       , buffer_storage_block("BUFFER_STORAGE_BLOCK", traits, api)
-      , buffer_binding("BUFFER_BINDING", traits, api)
       , active_variables("ACTIVE_VARIABLES", traits, api)
       , num_active_variables("NUM_ACTIVE_VARIABLES", traits, api)
       , array_size("ARRAY_SIZE", traits, api)
@@ -1477,6 +1794,49 @@ public:
       , scissor_test("SCISSOR_TEST", traits, api)
       , stencil_test("STENCIL_TEST", traits, api)
       , multisample("MULTISAMPLE", traits, api)
+      , array_buffer_binding("ARRAY_BUFFER_BINDING", traits, api)
+      , atomic_counter_buffer_binding(
+          "ATOMIC_COUNTER_BUFFER_BINDING", traits, api)
+      , copy_read_buffer_binding("COPY_READ_BUFFER_BINDING", traits, api)
+      , copy_write_buffer_binding("COPY_WRITE_BUFFER_BINDING", traits, api)
+      , dispatch_indirect_buffer_binding(
+          "DISPATCH_INDIRECT_BUFFER_BINDING", traits, api)
+      , draw_indirect_buffer_binding(
+          "DRAW_INDIRECT_BUFFER_BINDING", traits, api)
+      , element_array_buffer_binding(
+          "ELEMENT_ARRAY_BUFFER_BINDING", traits, api)
+      , pixel_pack_buffer_binding("PIXEL_PACK_BUFFER_BINDING", traits, api)
+      , pixel_unpack_buffer_binding("PIXEL_UNPACK_BUFFER_BINDING", traits, api)
+      , shader_storage_buffer_binding(
+          "SHADER_STORAGE_BUFFER_BINDING", traits, api)
+      , texture_buffer_binding("TEXTURE_BUFFER_BINDING", traits, api)
+      , transform_feedback_buffer_binding(
+          "TRANSFORM_FEEDBACK_BUFFER_BINDING", traits, api)
+      , uniform_buffer_binding("UNIFORM_BUFFER_BINDING", traits, api)
+      , query_buffer_binding("QUERY_BUFFER_BINDING", traits, api)
+      , parameter_buffer_binding_arb(
+          "PARAMETER_BUFFER_BINDING_ARB", traits, api)
+      , draw_framebuffer_binding("DRAW_FRAMEBUFFER_BINDING", traits, api)
+      , buffer_binding("BUFFER_BINDING", traits, api)
+      , renderbuffer_binding("RENDERBUFFER_BINDING", traits, api)
+      , sampler_binding("SAMPLER_BINDING", traits, api)
+      , texture_binding_1d("TEXTURE_BINDING_1D", traits, api)
+      , texture_binding_2d("TEXTURE_BINDING_2D", traits, api)
+      , texture_binding_3d("TEXTURE_BINDING_3D", traits, api)
+      , texture_binding_1d_array("TEXTURE_BINDING_1D_ARRAY", traits, api)
+      , texture_binding_2d_array("TEXTURE_BINDING_2D_ARRAY", traits, api)
+      , texture_binding_rectangle("TEXTURE_BINDING_RECTANGLE", traits, api)
+      , texture_binding_buffer("TEXTURE_BINDING_BUFFER", traits, api)
+      , texture_binding_cube_map("TEXTURE_BINDING_CUBE_MAP", traits, api)
+      , texture_binding_cube_map_array(
+          "TEXTURE_BINDING_CUBE_MAP_ARRAY", traits, api)
+      , texture_binding_2d_multisample(
+          "TEXTURE_BINDING_2D_MULTISAMPLE", traits, api)
+      , texture_binding_2d_multisample_array(
+          "TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY", traits, api)
+      , transform_feedback_binding("TRANSFORM_FEEDBACK_BINDING", traits, api)
+      , vertex_array_binding("VERTEX_ARRAY_BINDING", traits, api)
+      , current_program("CURRENT_PROGRAM", traits, api)
       , max_vertex_uniform_blocks("MAX_VERTEX_UNIFORM_BLOCKS", traits, api)
       , max_tess_control_uniform_blocks(
           "MAX_TESS_CONTROL_UNIFORM_BLOCKS", traits, api)
