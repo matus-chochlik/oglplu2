@@ -321,6 +321,7 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(GetNamedBufferSubData)>
       GetNamedBufferSubData;
 
+    // texture
     gl_api_function<
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GenTextures)>
@@ -356,6 +357,39 @@ struct basic_gl_c_api {
       void(uint_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(BindTextureUnit)>
       BindTextureUnit;
+
+    gl_api_function<
+      void(
+        enum_type, sizei_type, enum_type, sizei_type, sizei_type, sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(TexStorage3D)>
+      TexStorage3D;
+
+    gl_api_function<
+      void(enum_type, sizei_type, enum_type, sizei_type, sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(TexStorage2D)>
+      TexStorage2D;
+
+    gl_api_function<
+      void(enum_type, sizei_type, enum_type, sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(TexStorage1D)>
+      TexStorage1D;
+
+    gl_api_function<
+      void(
+        enum_type,
+        sizei_type,
+        enum_type,
+        sizei_type,
+        sizei_type,
+        sizei_type,
+        bool_type),
+      OGLPLUS_GL_STATIC_FUNC(TexStorage3DMultisample)>
+      TexStorage3DMultisample;
+
+    gl_api_function<
+      void(enum_type, sizei_type, enum_type, sizei_type, sizei_type, bool_type),
+      OGLPLUS_GL_STATIC_FUNC(TexStorage2DMultisample)>
+      TexStorage2DMultisample;
 
     gl_api_function<
       void(
@@ -497,6 +531,40 @@ struct basic_gl_c_api {
       void(enum_type, int_type, int_type, int_type, int_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(CopyTexSubImage1D)>
       CopyTexSubImage1D;
+
+    // dsa texture
+    gl_api_function<
+      void(
+        uint_type, sizei_type, enum_type, sizei_type, sizei_type, sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(TextureStorage3D)>
+      TextureStorage3D;
+
+    gl_api_function<
+      void(uint_type, sizei_type, enum_type, sizei_type, sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(TextureStorage2D)>
+      TextureStorage2D;
+
+    gl_api_function<
+      void(uint_type, sizei_type, enum_type, sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(TextureStorage1D)>
+      TextureStorage1D;
+
+    gl_api_function<
+      void(
+        uint_type,
+        sizei_type,
+        enum_type,
+        sizei_type,
+        sizei_type,
+        sizei_type,
+        bool_type),
+      OGLPLUS_GL_STATIC_FUNC(TextureStorage3DMultisample)>
+      TextureStorage3DMultisample;
+
+    gl_api_function<
+      void(uint_type, sizei_type, enum_type, sizei_type, sizei_type, bool_type),
+      OGLPLUS_GL_STATIC_FUNC(TextureStorage2DMultisample)>
+      TextureStorage2DMultisample;
 
     gl_api_function<
       void(
@@ -937,6 +1005,46 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(TextureView)>
       TextureView;
 
+    gl_api_function<
+      void(
+        uint_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type,
+        sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(InvalidateTexSubImage)>
+      InvalidateTexSubImage;
+
+    gl_api_function<
+      void(uint_type, int_type),
+      OGLPLUS_GL_STATIC_FUNC(InvalidateTexImage)>
+      InvalidateTexImage;
+
+    gl_api_function<
+      void(
+        uint_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type,
+        sizei_type,
+        enum_type,
+        enum_type,
+        const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(ClearTexSubImage)>
+      ClearTexSubImage;
+
+    gl_api_function<
+      void(uint_type, int_type, enum_type, enum_type, const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(ClearTexImage)>
+      ClearTexImage;
+
+    // samplers
     gl_api_function<
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GenSamplers)>
@@ -1969,6 +2077,11 @@ struct basic_gl_c_api {
       , BindTexture("BindTexture", traits, *this)
       , BindTextures("BindTextures", traits, *this)
       , BindTextureUnit("BindTextureUnit", traits, *this)
+      , TexStorage3D("TexStorage3D", traits, *this)
+      , TexStorage2D("TexStorage2D", traits, *this)
+      , TexStorage1D("TexStorage1D", traits, *this)
+      , TexStorage3DMultisample("TexStorage3DMultisample", traits, *this)
+      , TexStorage2DMultisample("TexStorage2DMultisample", traits, *this)
       , TexImage3D("TexImage3D", traits, *this)
       , TexImage2D("TexImage2D", traits, *this)
       , TexImage1D("TexImage1D", traits, *this)
@@ -1980,6 +2093,13 @@ struct basic_gl_c_api {
       , CopyTexSubImage3D("CopyTexSubImage3D", traits, *this)
       , CopyTexSubImage2D("CopyTexSubImage2D", traits, *this)
       , CopyTexSubImage1D("CopyTexSubImage1D", traits, *this)
+      , TextureStorage3D("TextureStorage3D", traits, *this)
+      , TextureStorage2D("TextureStorage2D", traits, *this)
+      , TextureStorage1D("TextureStorage1D", traits, *this)
+      , TextureStorage3DMultisample(
+          "TextureStorage3DMultisample", traits, *this)
+      , TextureStorage2DMultisample(
+          "TextureStorage2DMultisample", traits, *this)
       , TextureSubImage3D("TextureSubImage3D", traits, *this)
       , TextureSubImage2D("TextureSubImage2D", traits, *this)
       , TextureSubImage1D("TextureSubImage1D", traits, *this)
@@ -2040,6 +2160,10 @@ struct basic_gl_c_api {
       , GenerateMipmap("GenerateMipmap", traits, *this)
       , GenerateTextureMipmap("GenerateTextureMipmap", traits, *this)
       , TextureView("TextureView", traits, *this)
+      , InvalidateTexSubImage("InvalidateTexSubImage", traits, *this)
+      , InvalidateTexImage("InvalidateTexImage", traits, *this)
+      , ClearTexSubImage("ClearTexSubImage", traits, *this)
+      , ClearTexImage("ClearTexImage", traits, *this)
       , GenSamplers("GenSamplers", traits, *this)
       , CreateSamplers("CreateSamplers", traits, *this)
       , DeleteSamplers("DeleteSamplers", traits, *this)
