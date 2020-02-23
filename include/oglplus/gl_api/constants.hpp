@@ -623,7 +623,7 @@ public:
       map_coherent_bit;
 
     opt_c_api_constant<
-      mp_list<texture_target>,
+      mp_list<oglp::texture_target>,
 #ifdef GL_TEXTURE_3D
       enum_type_c<GL_TEXTURE_3D>>
 #else
@@ -632,7 +632,7 @@ public:
       texture_3d;
 
     opt_c_api_constant<
-      mp_list<texture_target>,
+      mp_list<oglp::texture_target>,
 #ifdef GL_TEXTURE_2D
       enum_type_c<GL_TEXTURE_2D>>
 #else
@@ -641,7 +641,7 @@ public:
       texture_2d;
 
     opt_c_api_constant<
-      mp_list<texture_target>,
+      mp_list<oglp::texture_target>,
 #ifdef GL_TEXTURE_1D
       enum_type_c<GL_TEXTURE_1D>>
 #else
@@ -650,7 +650,7 @@ public:
       texture_1d;
 
     opt_c_api_constant<
-      mp_list<texture_target>,
+      mp_list<oglp::texture_target>,
 #ifdef GL_TEXTURE_2D_ARRAY
       enum_type_c<GL_TEXTURE_2D_ARRAY>>
 #else
@@ -659,7 +659,7 @@ public:
       texture_2d_array;
 
     opt_c_api_constant<
-      mp_list<texture_target>,
+      mp_list<oglp::texture_target>,
 #ifdef GL_TEXTURE_1D_ARRAY
       enum_type_c<GL_TEXTURE_1D_ARRAY>>
 #else
@@ -668,7 +668,7 @@ public:
       texture_1d_array;
 
     opt_c_api_constant<
-      mp_list<texture_target>,
+      mp_list<oglp::texture_target>,
 #ifdef GL_TEXTURE_RECTANGLE
       enum_type_c<GL_TEXTURE_RECTANGLE>>
 #else
@@ -677,7 +677,7 @@ public:
       texture_rectangle;
 
     opt_c_api_constant<
-      mp_list<texture_target>,
+      mp_list<oglp::texture_target>,
 #ifdef GL_TEXTURE_CUBE_MAP
       enum_type_c<GL_TEXTURE_CUBE_MAP>>
 #else
@@ -686,7 +686,7 @@ public:
       texture_cube_map;
 
     opt_c_api_constant<
-      mp_list<texture_target>,
+      mp_list<oglp::texture_target>,
 #ifdef GL_TEXTURE_CUBE_MAP_ARRAY
       enum_type_c<GL_TEXTURE_CUBE_MAP_ARRAY>>
 #else
@@ -695,7 +695,7 @@ public:
       texture_cube_map_array;
 
     opt_c_api_constant<
-      mp_list<texture_target>,
+      mp_list<oglp::texture_target>,
 #ifdef GL_TEXTURE_2D_MULTISAMPLE
       enum_type_c<GL_TEXTURE_2D_MULTISAMPLE>>
 #else
@@ -704,13 +704,325 @@ public:
       texture_2d_multisample;
 
     opt_c_api_constant<
-      mp_list<texture_target>,
+      mp_list<oglp::texture_target>,
 #ifdef GL_TEXTURE_2D_MULTISAMPLE_ARRAY
       enum_type_c<GL_TEXTURE_2D_MULTISAMPLE_ARRAY>>
 #else
       enum_type_i>
 #endif
       texture_2d_multisample_array;
+
+    opt_c_api_constant<
+      mp_list<oglp::texture_compare_mode>,
+#ifdef GL_COMPARE_REF_TO_TEXTURE
+      enum_type_c<GL_COMPARE_REF_TO_TEXTURE>>
+#else
+      enum_type_i>
+#endif
+      compare_ref_to_texture;
+
+    opt_c_api_constant<
+      mp_list<
+        oglp::texture_min_filter,
+        oglp::texture_mag_filter,
+        oglp::texture_filter>,
+#ifdef GL_NEAREST
+      enum_type_c<GL_NEAREST>>
+#else
+      enum_type_i>
+#endif
+      nearest;
+
+    opt_c_api_constant<
+      mp_list<
+        oglp::texture_min_filter,
+        oglp::texture_mag_filter,
+        oglp::texture_filter>,
+#ifdef GL_LINEAR
+      enum_type_c<GL_LINEAR>>
+#else
+      enum_type_i>
+#endif
+      linear;
+
+    opt_c_api_constant<
+      mp_list<oglp::texture_min_filter>,
+#ifdef GL_NEAREST_MIPMAP_NEAREST
+      enum_type_c<GL_NEAREST_MIPMAP_NEAREST>>
+#else
+      enum_type_i>
+#endif
+      nearest_mipmap_nearest;
+
+    opt_c_api_constant<
+      mp_list<oglp::texture_min_filter>,
+#ifdef GL_NEAREST_MIPMAP_LINEAR
+      enum_type_c<GL_NEAREST_MIPMAP_LINEAR>>
+#else
+      enum_type_i>
+#endif
+      nearest_mipmap_linear;
+
+    opt_c_api_constant<
+      mp_list<oglp::texture_min_filter>,
+#ifdef GL_LINEAR_MIPMAP_NEAREST
+      enum_type_c<GL_LINEAR_MIPMAP_NEAREST>>
+#else
+      enum_type_i>
+#endif
+      linear_mipmap_nearest;
+
+    opt_c_api_constant<
+      mp_list<oglp::texture_min_filter>,
+#ifdef GL_LINEAR_MIPMAP_LINEAR
+      enum_type_c<GL_LINEAR_MIPMAP_LINEAR>>
+#else
+      enum_type_i>
+#endif
+      linear_mipmap_linear;
+
+    opt_c_api_constant<
+      mp_list<texture_parameter>,
+#ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
+      enum_type_c<GL_DEPTH_STENCIL_TEXTURE_MODE>>
+#else
+      enum_type_i>
+#endif
+      depth_stencil_texture_mode;
+
+    opt_c_api_constant<
+      mp_list<texture_parameter>,
+#ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
+      enum_type_c<GL_IMAGE_FORMAT_COMPATIBILITY_TYPE>>
+#else
+      enum_type_i>
+#endif
+      image_format_compatibility_type;
+
+    opt_c_api_constant<
+      mp_list<texture_parameter>,
+#ifdef GL_TEXTURE_BASE_LEVEL
+      enum_type_c<GL_TEXTURE_BASE_LEVEL>>
+#else
+      enum_type_i>
+#endif
+      texture_base_level;
+
+    opt_c_api_constant<
+      mp_list<texture_parameter>,
+#ifdef GL_TEXTURE_BORDER_COLOR
+      enum_type_c<GL_TEXTURE_BORDER_COLOR>>
+#else
+      enum_type_i>
+#endif
+      texture_border_color;
+
+    opt_c_api_constant<
+      mp_list<texture_parameter>,
+#ifdef GL_TEXTURE_COMPARE_MODE
+      enum_type_c<GL_TEXTURE_COMPARE_MODE>>
+#else
+      enum_type_i>
+#endif
+      texture_compare_mode;
+
+    opt_c_api_constant<
+      mp_list<texture_parameter>,
+#ifdef GL_TEXTURE_COMPARE_FUNC
+      enum_type_c<GL_TEXTURE_COMPARE_FUNC>>
+#else
+      enum_type_i>
+#endif
+      texture_compare_func;
+
+    opt_c_api_constant<
+      mp_list<texture_parameter>,
+#ifdef GL_TEXTURE_IMMUTABLE_FORMAT
+      enum_type_c<GL_TEXTURE_IMMUTABLE_FORMAT>>
+#else
+      enum_type_i>
+#endif
+      texture_immutable_format;
+
+    opt_c_api_constant<
+      mp_list<texture_parameter>,
+#ifdef GL_TEXTURE_IMMUTABLE_LEVELS
+      enum_type_c<GL_TEXTURE_IMMUTABLE_LEVELS>>
+#else
+      enum_type_i>
+#endif
+      texture_immutable_levels;
+
+    opt_c_api_constant<
+      mp_list<texture_parameter>,
+#ifdef GL_TEXTURE_LOD_BIAS
+      enum_type_c<GL_TEXTURE_LOD_BIAS>>
+#else
+      enum_type_i>
+#endif
+      texture_lod_bias;
+
+    opt_c_api_constant<
+      mp_list<texture_parameter>,
+#ifdef GL_TEXTURE_MAG_FILTER
+      enum_type_c<GL_TEXTURE_MAG_FILTER>>
+#else
+      enum_type_i>
+#endif
+      texture_mag_filter;
+
+    opt_c_api_constant<
+      mp_list<texture_parameter>,
+#ifdef GL_TEXTURE_MAX_LEVEL
+      enum_type_c<GL_TEXTURE_MAX_LEVEL>>
+#else
+      enum_type_i>
+#endif
+      texture_max_level;
+
+    opt_c_api_constant<
+      mp_list<texture_parameter>,
+#ifdef GL_TEXTURE_MAX_LOD
+      enum_type_c<GL_TEXTURE_MAX_LOD>>
+#else
+      enum_type_i>
+#endif
+      texture_max_lod;
+
+    opt_c_api_constant<
+      mp_list<texture_parameter>,
+#ifdef GL_TEXTURE_MIN_FILTER
+      enum_type_c<GL_TEXTURE_MIN_FILTER>>
+#else
+      enum_type_i>
+#endif
+      texture_min_filter;
+
+    opt_c_api_constant<
+      mp_list<texture_parameter>,
+#ifdef GL_TEXTURE_MIN_LOD
+      enum_type_c<GL_TEXTURE_MIN_LOD>>
+#else
+      enum_type_i>
+#endif
+      texture_min_lod;
+
+    opt_c_api_constant<
+      mp_list<texture_parameter>,
+#ifdef GL_TEXTURE_SWIZZLE_R
+      enum_type_c<GL_TEXTURE_SWIZZLE_R>>
+#else
+      enum_type_i>
+#endif
+      texture_swizzle_r;
+
+    opt_c_api_constant<
+      mp_list<texture_parameter>,
+#ifdef GL_TEXTURE_SWIZZLE_G
+      enum_type_c<GL_TEXTURE_SWIZZLE_G>>
+#else
+      enum_type_i>
+#endif
+      texture_swizzle_g;
+
+    opt_c_api_constant<
+      mp_list<texture_parameter>,
+#ifdef GL_TEXTURE_SWIZZLE_B
+      enum_type_c<GL_TEXTURE_SWIZZLE_B>>
+#else
+      enum_type_i>
+#endif
+      texture_swizzle_b;
+
+    opt_c_api_constant<
+      mp_list<texture_parameter>,
+#ifdef GL_TEXTURE_SWIZZLE_A
+      enum_type_c<GL_TEXTURE_SWIZZLE_A>>
+#else
+      enum_type_i>
+#endif
+      texture_swizzle_a;
+
+    opt_c_api_constant<
+      mp_list<texture_parameter>,
+#ifdef GL_TEXTURE_SWIZZLE_RGBA
+      enum_type_c<GL_TEXTURE_SWIZZLE_RGBA>>
+#else
+      enum_type_i>
+#endif
+      texture_swizzle_rgba;
+
+    opt_c_api_constant<
+      mp_list<texture_parameter>,
+#ifdef GL_TEXTURE_TARGET
+      enum_type_c<GL_TEXTURE_TARGET>>
+#else
+      enum_type_i>
+#endif
+      texture_target;
+
+    opt_c_api_constant<
+      mp_list<texture_parameter>,
+#ifdef GL_TEXTURE_VIEW_MIN_LAYER
+      enum_type_c<GL_TEXTURE_VIEW_MIN_LAYER>>
+#else
+      enum_type_i>
+#endif
+      texture_view_min_layer;
+
+    opt_c_api_constant<
+      mp_list<texture_parameter>,
+#ifdef GL_TEXTURE_VIEW_MIN_LEVEL
+      enum_type_c<GL_TEXTURE_VIEW_MIN_LEVEL>>
+#else
+      enum_type_i>
+#endif
+      texture_view_min_level;
+
+    opt_c_api_constant<
+      mp_list<texture_parameter>,
+#ifdef GL_TEXTURE_VIEW_NUM_LAYERS
+      enum_type_c<GL_TEXTURE_VIEW_NUM_LAYERS>>
+#else
+      enum_type_i>
+#endif
+      texture_view_num_layers;
+
+    opt_c_api_constant<
+      mp_list<texture_parameter>,
+#ifdef GL_TEXTURE_VIEW_NUM_LEVELS
+      enum_type_c<GL_TEXTURE_VIEW_NUM_LEVELS>>
+#else
+      enum_type_i>
+#endif
+      texture_view_num_levels;
+
+    opt_c_api_constant<
+      mp_list<texture_parameter>,
+#ifdef GL_TEXTURE_WRAP_S
+      enum_type_c<GL_TEXTURE_WRAP_S>>
+#else
+      enum_type_i>
+#endif
+      texture_wrap_s;
+
+    opt_c_api_constant<
+      mp_list<texture_parameter>,
+#ifdef GL_TEXTURE_WRAP_T
+      enum_type_c<GL_TEXTURE_WRAP_T>>
+#else
+      enum_type_i>
+#endif
+      texture_wrap_t;
+
+    opt_c_api_constant<
+      mp_list<texture_parameter>,
+#ifdef GL_TEXTURE_WRAP_R
+      enum_type_c<GL_TEXTURE_WRAP_R>>
+#else
+      enum_type_i>
+#endif
+      texture_wrap_r;
 
     opt_c_api_constant<
       mp_list<program_interface>,
@@ -1640,7 +1952,7 @@ public:
       stencil_buffer_bit;
 
     opt_c_api_constant<
-      mp_list<texture_compare_mode>,
+      mp_list<oglp::texture_compare_mode>,
 #ifdef GL_NONE
       bitfield_type_c<GL_NONE>>
 #else
@@ -1731,6 +2043,41 @@ public:
       , texture_2d_multisample("TEXTURE_2D_MULTISAMPLE", traits, api)
       , texture_2d_multisample_array(
           "TEXTURE_2D_MULTISAMPLE_ARRAY", traits, api)
+      , compare_ref_to_texture("COMPARE_REF_TO_TEXTURE", traits, api)
+      , nearest("NEAREST", traits, api)
+      , linear("LINEAR", traits, api)
+      , nearest_mipmap_nearest("NEAREST_MIPMAP_NEAREST", traits, api)
+      , nearest_mipmap_linear("NEAREST_MIPMAP_LINEAR", traits, api)
+      , linear_mipmap_nearest("LINEAR_MIPMAP_NEAREST", traits, api)
+      , linear_mipmap_linear("LINEAR_MIPMAP_LINEAR", traits, api)
+      , depth_stencil_texture_mode("DEPTH_STENCIL_TEXTURE_MODE", traits, api)
+      , image_format_compatibility_type(
+          "IMAGE_FORMAT_COMPATIBILITY_TYPE", traits, api)
+      , texture_base_level("TEXTURE_BASE_LEVEL", traits, api)
+      , texture_border_color("TEXTURE_BORDER_COLOR", traits, api)
+      , texture_compare_mode("TEXTURE_COMPARE_MODE", traits, api)
+      , texture_compare_func("TEXTURE_COMPARE_FUNC", traits, api)
+      , texture_immutable_format("TEXTURE_IMMUTABLE_FORMAT", traits, api)
+      , texture_immutable_levels("TEXTURE_IMMUTABLE_LEVELS", traits, api)
+      , texture_lod_bias("TEXTURE_LOD_BIAS", traits, api)
+      , texture_mag_filter("TEXTURE_MAG_FILTER", traits, api)
+      , texture_max_level("TEXTURE_MAX_LEVEL", traits, api)
+      , texture_max_lod("TEXTURE_MAX_LOD", traits, api)
+      , texture_min_filter("TEXTURE_MIN_FILTER", traits, api)
+      , texture_min_lod("TEXTURE_MIN_LOD", traits, api)
+      , texture_swizzle_r("TEXTURE_SWIZZLE_R", traits, api)
+      , texture_swizzle_g("TEXTURE_SWIZZLE_G", traits, api)
+      , texture_swizzle_b("TEXTURE_SWIZZLE_B", traits, api)
+      , texture_swizzle_a("TEXTURE_SWIZZLE_A", traits, api)
+      , texture_swizzle_rgba("TEXTURE_SWIZZLE_RGBA", traits, api)
+      , texture_target("TEXTURE_TARGET", traits, api)
+      , texture_view_min_layer("TEXTURE_VIEW_MIN_LAYER", traits, api)
+      , texture_view_min_level("TEXTURE_VIEW_MIN_LEVEL", traits, api)
+      , texture_view_num_layers("TEXTURE_VIEW_NUM_LAYERS", traits, api)
+      , texture_view_num_levels("TEXTURE_VIEW_NUM_LEVELS", traits, api)
+      , texture_wrap_s("TEXTURE_WRAP_S", traits, api)
+      , texture_wrap_t("TEXTURE_WRAP_T", traits, api)
+      , texture_wrap_r("TEXTURE_WRAP_R", traits, api)
       , uniform("UNIFORM", traits, api)
       , uniform_block("UNIFORM_BLOCK", traits, api)
       , program_input("PROGRAM_INPUT", traits, api)

@@ -78,6 +78,25 @@ struct texture_compare_mode
     using enum_class::enum_class;
 };
 
+struct texture_min_filter
+  : gl_enum_class<texture_min_filter, EAGINE_ID_V(TexMinFltr)> {
+    using enum_class::enum_class;
+};
+
+struct texture_mag_filter
+  : gl_enum_class<texture_mag_filter, EAGINE_ID_V(TexMagFltr)> {
+    using enum_class::enum_class;
+};
+
+struct texture_filter : gl_enum_class<texture_filter, EAGINE_ID_V(TexFilter)> {
+    using enum_class::enum_class;
+};
+
+struct texture_parameter
+  : gl_enum_class<texture_parameter, EAGINE_ID_V(TexParamtr)> {
+    using enum_class::enum_class;
+};
+
 struct binding_query : gl_enum_class<binding_query, EAGINE_ID_V(BindQuery)> {
     using enum_class::enum_class;
 };
