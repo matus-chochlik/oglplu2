@@ -1783,6 +1783,28 @@ public:
       multisample;
 
     opt_c_api_constant<
+      mp_list<capability>,
+#ifdef GL_DEBUG_OUTPUT
+      enum_type_c<GL_DEBUG_OUTPUT>>
+#elif defined(GL_DEBUG_OUTPUT_KHR)
+      enum_type_c<GL_DEBUG_OUTPUT_KHR>>
+#else
+      enum_type_i>
+#endif
+      debug_output;
+
+    opt_c_api_constant<
+      mp_list<capability>,
+#ifdef GL_DEBUG_OUTPUT_SYNCHRONOUS
+      enum_type_c<GL_DEBUG_OUTPUT_SYNCHRONOUS>>
+#elif defined(GL_DEBUG_OUTPUT_SYNCHRONOUS_KHR)
+      enum_type_c<GL_DEBUG_OUTPUT_SYNCHRONOUS_KHR>>
+#else
+      enum_type_i>
+#endif
+      debug_output_synchronous;
+
+    opt_c_api_constant<
       mp_list<color_buffer>,
 #ifdef GL_FRONT_LEFT
       enum_type_c<GL_FRONT_LEFT>>
@@ -2232,6 +2254,84 @@ public:
 #endif
       max_uniform_block_size;
 
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_MAX_DEBUG_MESSAGE_LENGTH
+      enum_type_c<GL_MAX_DEBUG_MESSAGE_LENGTH>>
+#elif defined(GL_MAX_DEBUG_MESSAGE_LENGTH_KHR)
+      enum_type_c<GL_MAX_DEBUG_MESSAGE_LENGTH_KHR>>
+#else
+      enum_type_i>
+#endif
+      max_debug_message_length;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_MAX_DEBUG_LOGGED_MESSAGES
+      enum_type_c<GL_MAX_DEBUG_LOGGED_MESSAGES>>
+#elif defined(GL_MAX_DEBUG_LOGGED_MESSAGES_KHR)
+      enum_type_c<GL_MAX_DEBUG_LOGGED_MESSAGES_KHR>>
+#else
+      enum_type_i>
+#endif
+      max_debug_logged_messages;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_DEBUG_LOGGED_MESSAGES
+      enum_type_c<GL_DEBUG_LOGGED_MESSAGES>>
+#elif defined(GL_DEBUG_LOGGED_MESSAGES_KHR)
+      enum_type_c<GL_DEBUG_LOGGED_MESSAGES_KHR>>
+#else
+      enum_type_i>
+#endif
+      debug_logged_messages;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_DEBUG_NEXT_LOGGED_MESSAGE_LENGTH
+      enum_type_c<GL_DEBUG_NEXT_LOGGED_MESSAGE_LENGTH>>
+#elif defined(GL_DEBUG_NEXT_LOGGED_MESSAGE_LENGTH_KHR)
+      enum_type_c<GL_DEBUG_NEXT_LOGGED_MESSAGE_LENGTH_KHR>>
+#else
+      enum_type_i>
+#endif
+      debug_next_logged_message_length;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_MAX_DEBUG_GROUP_STACK_DEPTH
+      enum_type_c<GL_MAX_DEBUG_GROUP_STACK_DEPTH>>
+#elif defined(GL_MAX_DEBUG_GROUP_STACK_DEPTH_KHR)
+      enum_type_c<GL_MAX_DEBUG_GROUP_STACK_DEPTH_KHR>>
+#else
+      enum_type_i>
+#endif
+      max_debug_group_stack_depth;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_DEBUG_GROUP_STACK_DEPTH
+      enum_type_c<GL_DEBUG_GROUP_STACK_DEPTH>>
+#elif defined(GL_DEBUG_GROUP_STACK_DEPTH_KHR)
+      enum_type_c<GL_DEBUG_GROUP_STACK_DEPTH_KHR>>
+#else
+      enum_type_i>
+#endif
+      debug_group_stack_depth;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_MAX_LABEL_LENGTH
+      enum_type_c<GL_MAX_LABEL_LENGTH>>
+#elif defined(GL_MAX_LABEL_LENGTH_KHR)
+      enum_type_c<GL_MAX_LABEL_LENGTH_KHR>>
+#else
+      enum_type_i>
+#endif
+      max_label_length;
+
+    // string query
     opt_c_api_constant<
       mp_list<string_query>,
 #ifdef GL_VENDOR
@@ -3163,6 +3263,8 @@ public:
       mp_list<debug_output_severity>,
 #ifdef GL_DEBUG_SEVERITY_HIGH
       enum_type_c<GL_DEBUG_SEVERITY_HIGH>>
+#elif defined(GL_DEBUG_SEVERITY_HIGH_KHR)
+      enum_type_c<GL_DEBUG_SEVERITY_HIGH_KHR>>
 #else
       enum_type_i>
 #endif
@@ -3172,6 +3274,8 @@ public:
       mp_list<debug_output_severity>,
 #ifdef GL_DEBUG_SEVERITY_MEDIUM
       enum_type_c<GL_DEBUG_SEVERITY_MEDIUM>>
+#elif defined(GL_DEBUG_SEVERITY_MEDIUM_KHR)
+      enum_type_c<GL_DEBUG_SEVERITY_MEDIUM_KHR>>
 #else
       enum_type_i>
 #endif
@@ -3181,6 +3285,8 @@ public:
       mp_list<debug_output_severity>,
 #ifdef GL_DEBUG_SEVERITY_LOW
       enum_type_c<GL_DEBUG_SEVERITY_LOW>>
+#elif defined(GL_DEBUG_SEVERITY_LOW_KHR)
+      enum_type_c<GL_DEBUG_SEVERITY_LOW_KHR>>
 #else
       enum_type_i>
 #endif
@@ -3190,6 +3296,8 @@ public:
       mp_list<debug_output_severity>,
 #ifdef GL_DEBUG_SEVERITY_NOTIFICATION
       enum_type_c<GL_DEBUG_SEVERITY_NOTIFICATION>>
+#elif defined(GL_DEBUG_SEVERITY_NOTIFICATION_KHR)
+      enum_type_c<GL_DEBUG_SEVERITY_NOTIFICATION_KHR>>
 #else
       enum_type_i>
 #endif
@@ -3199,6 +3307,8 @@ public:
       mp_list<debug_output_source>,
 #ifdef GL_DEBUG_SOURCE_API
       enum_type_c<GL_DEBUG_SOURCE_API>>
+#elif defined(GL_DEBUG_SOURCE_API_KHR)
+      enum_type_c<GL_DEBUG_SOURCE_API_KHR>>
 #else
       enum_type_i>
 #endif
@@ -3208,6 +3318,8 @@ public:
       mp_list<debug_output_source>,
 #ifdef GL_DEBUG_SOURCE_WINDOW_SYSTEM
       enum_type_c<GL_DEBUG_SOURCE_WINDOW_SYSTEM>>
+#elif defined(GL_DEBUG_SOURCE_WINDOW_SYSTEM_KHR)
+      enum_type_c<GL_DEBUG_SOURCE_WINDOW_SYSTEM_KHR>>
 #else
       enum_type_i>
 #endif
@@ -3217,6 +3329,8 @@ public:
       mp_list<debug_output_source>,
 #ifdef GL_DEBUG_SOURCE_SHADER_COMPILER
       enum_type_c<GL_DEBUG_SOURCE_SHADER_COMPILER>>
+#elif defined(GL_DEBUG_SOURCE_SHADER_COMPILER_KHR)
+      enum_type_c<GL_DEBUG_SOURCE_SHADER_COMPILER_KHR>>
 #else
       enum_type_i>
 #endif
@@ -3226,6 +3340,8 @@ public:
       mp_list<debug_output_source>,
 #ifdef GL_DEBUG_SOURCE_THIRD_PARTY
       enum_type_c<GL_DEBUG_SOURCE_THIRD_PARTY>>
+#elif defined(GL_DEBUG_SOURCE_THIRD_PARTY_KHR)
+      enum_type_c<GL_DEBUG_SOURCE_THIRD_PARTY_KHR>>
 #else
       enum_type_i>
 #endif
@@ -3235,6 +3351,8 @@ public:
       mp_list<debug_output_source>,
 #ifdef GL_DEBUG_SOURCE_APPLICATION
       enum_type_c<GL_DEBUG_SOURCE_APPLICATION>>
+#elif defined(GL_DEBUG_SOURCE_APPLICATION_KHR)
+      enum_type_c<GL_DEBUG_SOURCE_APPLICATION_KHR>>
 #else
       enum_type_i>
 #endif
@@ -3244,6 +3362,8 @@ public:
       mp_list<debug_output_source>,
 #ifdef GL_DEBUG_SOURCE_OTHER
       enum_type_c<GL_DEBUG_SOURCE_OTHER>>
+#elif defined(GL_DEBUG_SOURCE_OTHER_KHR)
+      enum_type_c<GL_DEBUG_SOURCE_OTHER_KHR>>
 #else
       enum_type_i>
 #endif
@@ -3253,6 +3373,8 @@ public:
       mp_list<debug_output_type>,
 #ifdef GL_DEBUG_TYPE_ERROR
       enum_type_c<GL_DEBUG_TYPE_ERROR>>
+#elif defined(GL_DEBUG_TYPE_ERROR_KHR)
+      enum_type_c<GL_DEBUG_TYPE_ERROR_KHR>>
 #else
       enum_type_i>
 #endif
@@ -3262,6 +3384,8 @@ public:
       mp_list<debug_output_type>,
 #ifdef GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR
       enum_type_c<GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR>>
+#elif defined(GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR_KHR)
+      enum_type_c<GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR_KHR>>
 #else
       enum_type_i>
 #endif
@@ -3271,6 +3395,8 @@ public:
       mp_list<debug_output_type>,
 #ifdef GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR
       enum_type_c<GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR>>
+#elif defined(GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR_KHR)
+      enum_type_c<GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR_KHR>>
 #else
       enum_type_i>
 #endif
@@ -3280,6 +3406,8 @@ public:
       mp_list<debug_output_type>,
 #ifdef GL_DEBUG_TYPE_PORTABILITY
       enum_type_c<GL_DEBUG_TYPE_PORTABILITY>>
+#elif defined(GL_DEBUG_TYPE_PORTABILITY_KHR)
+      enum_type_c<GL_DEBUG_TYPE_PORTABILITY_KHR>>
 #else
       enum_type_i>
 #endif
@@ -3289,6 +3417,8 @@ public:
       mp_list<debug_output_type>,
 #ifdef GL_DEBUG_TYPE_PERFORMANCE
       enum_type_c<GL_DEBUG_TYPE_PERFORMANCE>>
+#elif defined(GL_DEBUG_TYPE_PERFORMANCE_KHR)
+      enum_type_c<GL_DEBUG_TYPE_PERFORMANCE_KHR>>
 #else
       enum_type_i>
 #endif
@@ -3298,6 +3428,8 @@ public:
       mp_list<debug_output_type>,
 #ifdef GL_DEBUG_TYPE_MARKER
       enum_type_c<GL_DEBUG_TYPE_MARKER>>
+#elif defined(GL_DEBUG_TYPE_MARKER_KHR)
+      enum_type_c<GL_DEBUG_TYPE_MARKER_KHR>>
 #else
       enum_type_i>
 #endif
@@ -3307,6 +3439,8 @@ public:
       mp_list<debug_output_type>,
 #ifdef GL_DEBUG_TYPE_PUSH_GROUP
       enum_type_c<GL_DEBUG_TYPE_PUSH_GROUP>>
+#elif defined(GL_DEBUG_TYPE_PUSH_GROUP_KHR)
+      enum_type_c<GL_DEBUG_TYPE_PUSH_GROUP_KHR>>
 #else
       enum_type_i>
 #endif
@@ -3316,6 +3450,8 @@ public:
       mp_list<debug_output_type>,
 #ifdef GL_DEBUG_TYPE_POP_GROUP
       enum_type_c<GL_DEBUG_TYPE_POP_GROUP>>
+#elif defined(GL_DEBUG_TYPE_POP_GROUP_KHR)
+      enum_type_c<GL_DEBUG_TYPE_POP_GROUP_KHR>>
 #else
       enum_type_i>
 #endif
@@ -3325,6 +3461,8 @@ public:
       mp_list<debug_output_type>,
 #ifdef GL_DEBUG_TYPE_OTHER
       enum_type_c<GL_DEBUG_TYPE_OTHER>>
+#elif defined(GL_DEBUG_TYPE_OTHER_KHR)
+      enum_type_c<GL_DEBUG_TYPE_OTHER_KHR>>
 #else
       enum_type_i>
 #endif
@@ -3559,6 +3697,8 @@ public:
       , scissor_test("SCISSOR_TEST", traits, api)
       , stencil_test("STENCIL_TEST", traits, api)
       , multisample("MULTISAMPLE", traits, api)
+      , debug_output("DEBUG_OUTPUT", traits, api)
+      , debug_output_synchronous("DEBUG_OUTPUT_SYNCHRONOUS", traits, api)
       , front_left("FRONT_LEFT", traits, api)
       , front_right("FRONT_RIGHT", traits, api)
       , back_left("BACK_LEFT", traits, api)
@@ -3621,6 +3761,14 @@ public:
       , max_compute_uniform_blocks("MAX_COMPUTE_UNIFORM_BLOCKS", traits, api)
       , max_combined_uniform_blocks("MAX_COMBINED_UNIFORM_BLOCKS", traits, api)
       , max_uniform_block_size("MAX_UNIFORM_BLOCK_SIZE", traits, api)
+      , max_debug_message_length("MAX_DEBUG_MESSAGE_LENGTH", traits, api)
+      , max_debug_logged_messages("MAX_DEBUG_LOGGED_MESSAGES", traits, api)
+      , debug_logged_messages("DEBUG_LOGGED_MESSAGES", traits, api)
+      , debug_next_logged_message_length(
+          "DEBUG_NEXT_LOGGED_MESSAGE_LENGTH", traits, api)
+      , max_debug_group_stack_depth("MAX_DEBUG_GROUP_STACK_DEPTH", traits, api)
+      , debug_group_stack_depth("DEBUG_GROUP_STACK_DEPTH", traits, api)
+      , max_label_length("MAX_LABEL_LENGTH", traits, api)
       , vendor("VENDOR", traits, api)
       , renderer("RENDERER", traits, api)
       , version("VERSION", traits, api)
