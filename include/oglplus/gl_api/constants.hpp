@@ -3160,6 +3160,186 @@ public:
       one_minus_src1_alpha;
 
     opt_c_api_constant<
+      mp_list<debug_output_severity>,
+#ifdef GL_DEBUG_SEVERITY_HIGH
+      enum_type_c<GL_DEBUG_SEVERITY_HIGH>>
+#else
+      enum_type_i>
+#endif
+      debug_severity_high;
+
+    opt_c_api_constant<
+      mp_list<debug_output_severity>,
+#ifdef GL_DEBUG_SEVERITY_MEDIUM
+      enum_type_c<GL_DEBUG_SEVERITY_MEDIUM>>
+#else
+      enum_type_i>
+#endif
+      debug_severity_medium;
+
+    opt_c_api_constant<
+      mp_list<debug_output_severity>,
+#ifdef GL_DEBUG_SEVERITY_LOW
+      enum_type_c<GL_DEBUG_SEVERITY_LOW>>
+#else
+      enum_type_i>
+#endif
+      debug_severity_low;
+
+    opt_c_api_constant<
+      mp_list<debug_output_severity>,
+#ifdef GL_DEBUG_SEVERITY_NOTIFICATION
+      enum_type_c<GL_DEBUG_SEVERITY_NOTIFICATION>>
+#else
+      enum_type_i>
+#endif
+      debug_severity_notification;
+
+    opt_c_api_constant<
+      mp_list<debug_output_source>,
+#ifdef GL_DEBUG_SOURCE_API
+      enum_type_c<GL_DEBUG_SOURCE_API>>
+#else
+      enum_type_i>
+#endif
+      debug_source_api;
+
+    opt_c_api_constant<
+      mp_list<debug_output_source>,
+#ifdef GL_DEBUG_SOURCE_WINDOW_SYSTEM
+      enum_type_c<GL_DEBUG_SOURCE_WINDOW_SYSTEM>>
+#else
+      enum_type_i>
+#endif
+      debug_source_window_system;
+
+    opt_c_api_constant<
+      mp_list<debug_output_source>,
+#ifdef GL_DEBUG_SOURCE_SHADER_COMPILER
+      enum_type_c<GL_DEBUG_SOURCE_SHADER_COMPILER>>
+#else
+      enum_type_i>
+#endif
+      debug_source_shader_compiler;
+
+    opt_c_api_constant<
+      mp_list<debug_output_source>,
+#ifdef GL_DEBUG_SOURCE_THIRD_PARTY
+      enum_type_c<GL_DEBUG_SOURCE_THIRD_PARTY>>
+#else
+      enum_type_i>
+#endif
+      debug_source_third_party;
+
+    opt_c_api_constant<
+      mp_list<debug_output_source>,
+#ifdef GL_DEBUG_SOURCE_APPLICATION
+      enum_type_c<GL_DEBUG_SOURCE_APPLICATION>>
+#else
+      enum_type_i>
+#endif
+      debug_source_application;
+
+    opt_c_api_constant<
+      mp_list<debug_output_source>,
+#ifdef GL_DEBUG_SOURCE_OTHER
+      enum_type_c<GL_DEBUG_SOURCE_OTHER>>
+#else
+      enum_type_i>
+#endif
+      debug_source_other;
+
+    opt_c_api_constant<
+      mp_list<debug_output_type>,
+#ifdef GL_DEBUG_TYPE_ERROR
+      enum_type_c<GL_DEBUG_TYPE_ERROR>>
+#else
+      enum_type_i>
+#endif
+      debug_type_error;
+
+    opt_c_api_constant<
+      mp_list<debug_output_type>,
+#ifdef GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR
+      enum_type_c<GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR>>
+#else
+      enum_type_i>
+#endif
+      debug_type_deprecated_behavior;
+
+    opt_c_api_constant<
+      mp_list<debug_output_type>,
+#ifdef GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR
+      enum_type_c<GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR>>
+#else
+      enum_type_i>
+#endif
+      debug_type_undefined_behavior;
+
+    opt_c_api_constant<
+      mp_list<debug_output_type>,
+#ifdef GL_DEBUG_TYPE_PORTABILITY
+      enum_type_c<GL_DEBUG_TYPE_PORTABILITY>>
+#else
+      enum_type_i>
+#endif
+      debug_type_portability;
+
+    opt_c_api_constant<
+      mp_list<debug_output_type>,
+#ifdef GL_DEBUG_TYPE_PERFORMANCE
+      enum_type_c<GL_DEBUG_TYPE_PERFORMANCE>>
+#else
+      enum_type_i>
+#endif
+      debug_type_performance;
+
+    opt_c_api_constant<
+      mp_list<debug_output_type>,
+#ifdef GL_DEBUG_TYPE_MARKER
+      enum_type_c<GL_DEBUG_TYPE_MARKER>>
+#else
+      enum_type_i>
+#endif
+      debug_type_marker;
+
+    opt_c_api_constant<
+      mp_list<debug_output_type>,
+#ifdef GL_DEBUG_TYPE_PUSH_GROUP
+      enum_type_c<GL_DEBUG_TYPE_PUSH_GROUP>>
+#else
+      enum_type_i>
+#endif
+      debug_type_push_group;
+
+    opt_c_api_constant<
+      mp_list<debug_output_type>,
+#ifdef GL_DEBUG_TYPE_POP_GROUP
+      enum_type_c<GL_DEBUG_TYPE_POP_GROUP>>
+#else
+      enum_type_i>
+#endif
+      debug_type_pop_group;
+
+    opt_c_api_constant<
+      mp_list<debug_output_type>,
+#ifdef GL_DEBUG_TYPE_OTHER
+      enum_type_c<GL_DEBUG_TYPE_OTHER>>
+#else
+      enum_type_i>
+#endif
+      debug_type_other;
+
+    opt_c_api_constant<
+      mp_list<debug_output_severity, debug_output_source, debug_output_type>,
+#ifdef GL_DONT_CARE
+      enum_type_c<GL_DONT_CARE>>
+#else
+      enum_type_i>
+#endif
+      dont_care;
+
+    opt_c_api_constant<
       mp_list<color_buffer, sl_data_type, oglp::texture_compare_mode>,
 #ifdef GL_NONE
       bitfield_type_c<GL_NONE>>
@@ -3544,6 +3724,29 @@ public:
       , one_minus_src1_color("ONE_MINUS_SRC1_COLOR", traits, api)
       , src1_alpha("SRC1_ALPHA", traits, api)
       , one_minus_src1_alpha("ONE_MINUS_SRC1_ALPHA", traits, api)
+      , debug_severity_high("DEBUG_SEVERITY_HIGH", traits, api)
+      , debug_severity_medium("DEBUG_SEVERITY_MEDIUM", traits, api)
+      , debug_severity_low("DEBUG_SEVERITY_LOW", traits, api)
+      , debug_severity_notification("DEBUG_SEVERITY_NOTIFICATION", traits, api)
+      , debug_source_api("DEBUG_SOURCE_API", traits, api)
+      , debug_source_window_system("DEBUG_SOURCE_WINDOW_SYSTEM", traits, api)
+      , debug_source_shader_compiler(
+          "DEBUG_SOURCE_SHADER_COMPILER", traits, api)
+      , debug_source_third_party("DEBUG_SOURCE_THIRD_PARTY", traits, api)
+      , debug_source_application("DEBUG_SOURCE_APPLICATION", traits, api)
+      , debug_source_other("DEBUG_SOURCE_OTHER", traits, api)
+      , debug_type_error("DEBUG_TYPE_ERROR", traits, api)
+      , debug_type_deprecated_behavior(
+          "DEBUG_TYPE_DEPRECATED_BEHAVIOR", traits, api)
+      , debug_type_undefined_behavior(
+          "DEBUG_TYPE_UNDEFINED_BEHAVIOR", traits, api)
+      , debug_type_portability("DEBUG_TYPE_PORTABILITY", traits, api)
+      , debug_type_performance("DEBUG_TYPE_PERFORMANCE", traits, api)
+      , debug_type_marker("DEBUG_TYPE_MARKER", traits, api)
+      , debug_type_push_group("DEBUG_TYPE_PUSH_GROUP", traits, api)
+      , debug_type_pop_group("DEBUG_TYPE_POP_GROUP", traits, api)
+      , debug_type_other("DEBUG_TYPE_OTHER", traits, api)
+      , dont_care("DONT_CARE", traits, api)
       , none("NONE", traits, api) {
     }
 };

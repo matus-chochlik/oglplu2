@@ -163,6 +163,21 @@ struct blend_equation_advanced
 struct blend_function : gl_enum_class<blend_function, EAGINE_ID_V(BlendFunc)> {
     using enum_class::enum_class;
 };
+
+struct debug_output_severity
+  : gl_enum_class<debug_output_severity, EAGINE_ID_V(DbgOutSvrt)> {
+    using enum_class::enum_class;
+};
+
+struct debug_output_source
+  : gl_enum_class<debug_output_source, EAGINE_ID_V(DbgOutSrce)> {
+    using enum_class::enum_class;
+};
+
+struct debug_output_type
+  : gl_enum_class<debug_output_type, EAGINE_ID_V(DbgOutType)> {
+    using enum_class::enum_class;
+};
 //------------------------------------------------------------------------------
 } // namespace oglp
 } // namespace eagine
