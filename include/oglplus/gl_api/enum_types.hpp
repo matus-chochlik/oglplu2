@@ -150,6 +150,14 @@ struct string_query : gl_enum_class<string_query, EAGINE_ID_V(StrQuery)> {
 struct sl_data_type : gl_enum_class<sl_data_type, EAGINE_ID_V(SLDataType)> {
     using enum_class::enum_class;
 };
+
+struct blend_equation : gl_enum_class<blend_equation, EAGINE_ID_V(BlendEqtn)> {
+    using enum_class::enum_class;
+};
+
+struct blend_function : gl_enum_class<blend_function, EAGINE_ID_V(BlendFunc)> {
+    using enum_class::enum_class;
+};
 //------------------------------------------------------------------------------
 } // namespace oglp
 } // namespace eagine

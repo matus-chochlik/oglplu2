@@ -1279,7 +1279,7 @@ public:
       alpha;
 
     opt_c_api_constant<
-      mp_list<texture_swizzle_mode>,
+      mp_list<texture_swizzle_mode, blend_function>,
 #ifdef GL_ZERO
       enum_type_c<GL_ZERO>>
 #else
@@ -1288,7 +1288,7 @@ public:
       zero;
 
     opt_c_api_constant<
-      mp_list<texture_swizzle_mode>,
+      mp_list<texture_swizzle_mode, blend_function>,
 #ifdef GL_ONE
       enum_type_c<GL_ONE>>
 #else
@@ -2827,6 +2827,204 @@ public:
       sampler_2d_multisample;
 
     opt_c_api_constant<
+      mp_list<blend_equation>,
+#ifdef GL_FUNC_ADD
+      enum_type_c<GL_FUNC_ADD>>
+#else
+      enum_type_i>
+#endif
+      func_add;
+
+    opt_c_api_constant<
+      mp_list<blend_equation>,
+#ifdef GL_FUNC_SUBTRACT
+      enum_type_c<GL_FUNC_SUBTRACT>>
+#else
+      enum_type_i>
+#endif
+      func_subtract;
+
+    opt_c_api_constant<
+      mp_list<blend_equation>,
+#ifdef GL_FUNC_REVERSE_SUBTRACT
+      enum_type_c<GL_FUNC_REVERSE_SUBTRACT>>
+#else
+      enum_type_i>
+#endif
+      func_reverse_subtract;
+
+    opt_c_api_constant<
+      mp_list<blend_equation>,
+#ifdef GL_MIN
+      enum_type_c<GL_MIN>>
+#else
+      enum_type_i>
+#endif
+      min;
+
+    opt_c_api_constant<
+      mp_list<blend_equation>,
+#ifdef GL_MAX
+      enum_type_c<GL_MAX>>
+#else
+      enum_type_i>
+#endif
+      max;
+
+    opt_c_api_constant<
+      mp_list<blend_function>,
+#ifdef GL_SRC_COLOR
+      enum_type_c<GL_SRC_COLOR>>
+#else
+      enum_type_i>
+#endif
+      src_color;
+
+    opt_c_api_constant<
+      mp_list<blend_function>,
+#ifdef GL_ONE_MINUS_SRC_COLOR
+      enum_type_c<GL_ONE_MINUS_SRC_COLOR>>
+#else
+      enum_type_i>
+#endif
+      one_minus_src_color;
+
+    opt_c_api_constant<
+      mp_list<blend_function>,
+#ifdef GL_DST_COLOR
+      enum_type_c<GL_DST_COLOR>>
+#else
+      enum_type_i>
+#endif
+      dst_color;
+
+    opt_c_api_constant<
+      mp_list<blend_function>,
+#ifdef GL_ONE_MINUS_DST_COLOR
+      enum_type_c<GL_ONE_MINUS_DST_COLOR>>
+#else
+      enum_type_i>
+#endif
+      one_minus_dst_color;
+
+    opt_c_api_constant<
+      mp_list<blend_function>,
+#ifdef GL_SRC_ALPHA
+      enum_type_c<GL_SRC_ALPHA>>
+#else
+      enum_type_i>
+#endif
+      src_alpha;
+
+    opt_c_api_constant<
+      mp_list<blend_function>,
+#ifdef GL_ONE_MINUS_SRC_ALPHA
+      enum_type_c<GL_ONE_MINUS_SRC_ALPHA>>
+#else
+      enum_type_i>
+#endif
+      one_minus_src_alpha;
+
+    opt_c_api_constant<
+      mp_list<blend_function>,
+#ifdef GL_DST_ALPHA
+      enum_type_c<GL_DST_ALPHA>>
+#else
+      enum_type_i>
+#endif
+      dst_alpha;
+
+    opt_c_api_constant<
+      mp_list<blend_function>,
+#ifdef GL_ONE_MINUS_DST_ALPHA
+      enum_type_c<GL_ONE_MINUS_DST_ALPHA>>
+#else
+      enum_type_i>
+#endif
+      one_minus_dst_alpha;
+
+    opt_c_api_constant<
+      mp_list<blend_function>,
+#ifdef GL_CONSTANT_COLOR
+      enum_type_c<GL_CONSTANT_COLOR>>
+#else
+      enum_type_i>
+#endif
+      constant_color;
+
+    opt_c_api_constant<
+      mp_list<blend_function>,
+#ifdef GL_ONE_MINUS_CONSTANT_COLOR
+      enum_type_c<GL_ONE_MINUS_CONSTANT_COLOR>>
+#else
+      enum_type_i>
+#endif
+      one_minus_constant_color;
+
+    opt_c_api_constant<
+      mp_list<blend_function>,
+#ifdef GL_CONSTANT_ALPHA
+      enum_type_c<GL_CONSTANT_ALPHA>>
+#else
+      enum_type_i>
+#endif
+      constant_alpha;
+
+    opt_c_api_constant<
+      mp_list<blend_function>,
+#ifdef GL_ONE_MINUS_CONSTANT_ALPHA
+      enum_type_c<GL_ONE_MINUS_CONSTANT_ALPHA>>
+#else
+      enum_type_i>
+#endif
+      one_minus_constant_alpha;
+
+    opt_c_api_constant<
+      mp_list<blend_function>,
+#ifdef GL_SRC_ALPHA_SATURATE
+      enum_type_c<GL_SRC_ALPHA_SATURATE>>
+#else
+      enum_type_i>
+#endif
+      src_alpha_saturate;
+
+    opt_c_api_constant<
+      mp_list<blend_function>,
+#ifdef GL_SRC1_COLOR
+      enum_type_c<GL_SRC1_COLOR>>
+#else
+      enum_type_i>
+#endif
+      src1_color;
+
+    opt_c_api_constant<
+      mp_list<blend_function>,
+#ifdef GL_ONE_MINUS_SRC1_COLOR
+      enum_type_c<GL_ONE_MINUS_SRC1_COLOR>>
+#else
+      enum_type_i>
+#endif
+      one_minus_src1_color;
+
+    opt_c_api_constant<
+      mp_list<blend_function>,
+#ifdef GL_SRC1_ALPHA
+      enum_type_c<GL_SRC1_ALPHA>>
+#else
+      enum_type_i>
+#endif
+      src1_alpha;
+
+    opt_c_api_constant<
+      mp_list<blend_function>,
+#ifdef GL_ONE_MINUS_SRC1_ALPHA
+      enum_type_c<GL_ONE_MINUS_SRC1_ALPHA>>
+#else
+      enum_type_i>
+#endif
+      one_minus_src1_alpha;
+
+    opt_c_api_constant<
       mp_list<color_buffer, sl_data_type, oglp::texture_compare_mode>,
 #ifdef GL_NONE
       bitfield_type_c<GL_NONE>>
@@ -3174,6 +3372,28 @@ public:
       , sampler_1d_array_shadow("SAMPLER_1D_ARRAY_SHADOW", traits, api)
       , sampler_2d_array_shadow("SAMPLER_2D_ARRAY_SHADOW", traits, api)
       , sampler_2d_multisample("SAMPLER_2D_MULTISAMPLE", traits, api)
+      , func_add("FUNC_ADD", traits, api)
+      , func_subtract("FUNC_SUBTRACT", traits, api)
+      , func_reverse_subtract("FUNC_REVERSE_SUBTRACT", traits, api)
+      , min("MIN", traits, api)
+      , max("MAX", traits, api)
+      , src_color("SRC_COLOR", traits, api)
+      , one_minus_src_color("ONE_MINUS_SRC_COLOR", traits, api)
+      , dst_color("DST_COLOR", traits, api)
+      , one_minus_dst_color("ONE_MINUS_DST_COLOR", traits, api)
+      , src_alpha("SRC_ALPHA", traits, api)
+      , one_minus_src_alpha("ONE_MINUS_SRC_ALPHA", traits, api)
+      , dst_alpha("DST_ALPHA", traits, api)
+      , one_minus_dst_alpha("ONE_MINUS_DST_ALPHA", traits, api)
+      , constant_color("CONSTANT_COLOR", traits, api)
+      , one_minus_constant_color("ONE_MINUS_CONSTANT_COLOR", traits, api)
+      , constant_alpha("CONSTANT_ALPHA", traits, api)
+      , one_minus_constant_alpha("ONE_MINUS_CONSTANT_ALPHA", traits, api)
+      , src_alpha_saturate("SRC_ALPHA_SATURATE", traits, api)
+      , src1_color("SRC1_COLOR", traits, api)
+      , one_minus_src1_color("ONE_MINUS_SRC1_COLOR", traits, api)
+      , src1_alpha("SRC1_ALPHA", traits, api)
+      , one_minus_src1_alpha("ONE_MINUS_SRC1_ALPHA", traits, api)
       , none("NONE", traits, api) {
     }
 };
