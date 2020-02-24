@@ -2872,6 +2872,141 @@ public:
       max;
 
     opt_c_api_constant<
+      mp_list<blend_equation_advanced>,
+#ifdef GL_MULTIPLY_KHR
+      enum_type_c<GL_MULTIPLY_KHR>>
+#else
+      enum_type_i>
+#endif
+      multiply_khr;
+
+    opt_c_api_constant<
+      mp_list<blend_equation_advanced>,
+#ifdef GL_SCREEN_KHR
+      enum_type_c<GL_SCREEN_KHR>>
+#else
+      enum_type_i>
+#endif
+      screen_khr;
+
+    opt_c_api_constant<
+      mp_list<blend_equation_advanced>,
+#ifdef GL_OVERLAY_KHR
+      enum_type_c<GL_OVERLAY_KHR>>
+#else
+      enum_type_i>
+#endif
+      overlay_khr;
+
+    opt_c_api_constant<
+      mp_list<blend_equation_advanced>,
+#ifdef GL_DARKEN_KHR
+      enum_type_c<GL_DARKEN_KHR>>
+#else
+      enum_type_i>
+#endif
+      darken_khr;
+
+    opt_c_api_constant<
+      mp_list<blend_equation_advanced>,
+#ifdef GL_LIGHTEN_KHR
+      enum_type_c<GL_LIGHTEN_KHR>>
+#else
+      enum_type_i>
+#endif
+      lighten_khr;
+
+    opt_c_api_constant<
+      mp_list<blend_equation_advanced>,
+#ifdef GL_COLORDODGE_KHR
+      enum_type_c<GL_COLORDODGE_KHR>>
+#else
+      enum_type_i>
+#endif
+      colordodge_khr;
+
+    opt_c_api_constant<
+      mp_list<blend_equation_advanced>,
+#ifdef GL_COLORBURN_KHR
+      enum_type_c<GL_COLORBURN_KHR>>
+#else
+      enum_type_i>
+#endif
+      colorburn_khr;
+
+    opt_c_api_constant<
+      mp_list<blend_equation_advanced>,
+#ifdef GL_HARDLIGHT_KHR
+      enum_type_c<GL_HARDLIGHT_KHR>>
+#else
+      enum_type_i>
+#endif
+      hardlight_khr;
+
+    opt_c_api_constant<
+      mp_list<blend_equation_advanced>,
+#ifdef GL_SOFTLIGHT_KHR
+      enum_type_c<GL_SOFTLIGHT_KHR>>
+#else
+      enum_type_i>
+#endif
+      softlight_khr;
+
+    opt_c_api_constant<
+      mp_list<blend_equation_advanced>,
+#ifdef GL_DIFFERENCE_KHR
+      enum_type_c<GL_DIFFERENCE_KHR>>
+#else
+      enum_type_i>
+#endif
+      difference_khr;
+
+    opt_c_api_constant<
+      mp_list<blend_equation_advanced>,
+#ifdef GL_EXCLUSION_KHR
+      enum_type_c<GL_EXCLUSION_KHR>>
+#else
+      enum_type_i>
+#endif
+      exclusion_khr;
+
+    opt_c_api_constant<
+      mp_list<blend_equation_advanced>,
+#ifdef GL_HSL_HUE_KHR
+      enum_type_c<GL_HSL_HUE_KHR>>
+#else
+      enum_type_i>
+#endif
+      hsl_hue_khr;
+
+    opt_c_api_constant<
+      mp_list<blend_equation_advanced>,
+#ifdef GL_HSL_SATURATION_KHR
+      enum_type_c<GL_HSL_SATURATION_KHR>>
+#else
+      enum_type_i>
+#endif
+      hsl_saturation_khr;
+
+    opt_c_api_constant<
+      mp_list<blend_equation_advanced>,
+#ifdef GL_HSL_COLOR_KHR
+      enum_type_c<GL_HSL_COLOR_KHR>>
+#else
+      enum_type_i>
+#endif
+      hsl_color_khr;
+
+    opt_c_api_constant<
+      mp_list<blend_equation_advanced>,
+#ifdef GL_HSL_LUMINOSITY_KHR
+      enum_type_c<GL_HSL_LUMINOSITY_KHR>>
+#else
+      enum_type_i>
+#endif
+      hsl_luminosity_khr;
+
+    opt_c_api_constant<
       mp_list<blend_function>,
 #ifdef GL_SRC_COLOR
       enum_type_c<GL_SRC_COLOR>>
@@ -3377,6 +3512,21 @@ public:
       , func_reverse_subtract("FUNC_REVERSE_SUBTRACT", traits, api)
       , min("MIN", traits, api)
       , max("MAX", traits, api)
+      , multiply_khr("MULTIPLY_KHR", traits, api)
+      , screen_khr("SCREEN_KHR", traits, api)
+      , overlay_khr("OVERLAY_KHR", traits, api)
+      , darken_khr("DARKEN_KHR", traits, api)
+      , lighten_khr("LIGHTEN_KHR", traits, api)
+      , colordodge_khr("COLORDODGE_KHR", traits, api)
+      , colorburn_khr("COLORBURN_KHR", traits, api)
+      , hardlight_khr("HARDLIGHT_KHR", traits, api)
+      , softlight_khr("SOFTLIGHT_KHR", traits, api)
+      , difference_khr("DIFFERENCE_KHR", traits, api)
+      , exclusion_khr("EXCLUSION_KHR", traits, api)
+      , hsl_hue_khr("HSL_HUE_KHR", traits, api)
+      , hsl_saturation_khr("HSL_SATURATION_KHR", traits, api)
+      , hsl_color_khr("HSL_COLOR_KHR", traits, api)
+      , hsl_luminosity_khr("HSL_LUMINOSITY_KHR", traits, api)
       , src_color("SRC_COLOR", traits, api)
       , one_minus_src_color("ONE_MINUS_SRC_COLOR", traits, api)
       , dst_color("DST_COLOR", traits, api)

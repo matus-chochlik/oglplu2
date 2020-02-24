@@ -155,6 +155,11 @@ struct blend_equation : gl_enum_class<blend_equation, EAGINE_ID_V(BlendEqtn)> {
     using enum_class::enum_class;
 };
 
+struct blend_equation_advanced
+  : gl_enum_class<blend_equation_advanced, EAGINE_ID_V(BlndEqAdvn)> {
+    using enum_class::enum_class;
+};
+
 struct blend_function : gl_enum_class<blend_function, EAGINE_ID_V(BlendFunc)> {
     using enum_class::enum_class;
 };
