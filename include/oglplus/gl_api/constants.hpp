@@ -2927,6 +2927,168 @@ public:
       sampler_2d_multisample;
 
     opt_c_api_constant<
+      mp_list<primitive_type>,
+#ifdef GL_POINTS
+      enum_type_c<GL_POINTS>>
+#else
+      enum_type_i>
+#endif
+      points;
+
+    opt_c_api_constant<
+      mp_list<primitive_type>,
+#ifdef GL_LINE_STRIP
+      enum_type_c<GL_LINE_STRIP>>
+#else
+      enum_type_i>
+#endif
+      line_strip;
+
+    opt_c_api_constant<
+      mp_list<primitive_type>,
+#ifdef GL_LINE_LOOP
+      enum_type_c<GL_LINE_LOOP>>
+#else
+      enum_type_i>
+#endif
+      line_loop;
+
+    opt_c_api_constant<
+      mp_list<primitive_type>,
+#ifdef GL_LINES
+      enum_type_c<GL_LINES>>
+#else
+      enum_type_i>
+#endif
+      lines;
+
+    opt_c_api_constant<
+      mp_list<primitive_type>,
+#ifdef GL_TRIANGLE_STRIP
+      enum_type_c<GL_TRIANGLE_STRIP>>
+#else
+      enum_type_i>
+#endif
+      triangle_strip;
+
+    opt_c_api_constant<
+      mp_list<primitive_type>,
+#ifdef GL_TRIANGLE_FAN
+      enum_type_c<GL_TRIANGLE_FAN>>
+#else
+      enum_type_i>
+#endif
+      triangle_fan;
+
+    opt_c_api_constant<
+      mp_list<primitive_type>,
+#ifdef GL_TRIANGLES
+      enum_type_c<GL_TRIANGLES>>
+#else
+      enum_type_i>
+#endif
+      triangles;
+
+    opt_c_api_constant<
+      mp_list<primitive_type>,
+#ifdef GL_LINES_ADJACENCY
+      enum_type_c<GL_LINES_ADJACENCY>>
+#else
+      enum_type_i>
+#endif
+      lines_adjacency;
+
+    opt_c_api_constant<
+      mp_list<primitive_type>,
+#ifdef GL_LINE_STRIP_ADJACENCY
+      enum_type_c<GL_LINE_STRIP_ADJACENCY>>
+#else
+      enum_type_i>
+#endif
+      line_strip_adjacency;
+
+    opt_c_api_constant<
+      mp_list<primitive_type>,
+#ifdef GL_TRIANGLES_ADJACENCY
+      enum_type_c<GL_TRIANGLES_ADJACENCY>>
+#else
+      enum_type_i>
+#endif
+      triangles_adjacency;
+
+    opt_c_api_constant<
+      mp_list<primitive_type>,
+#ifdef GL_TRIANGLE_STRIP_ADJACENCY
+      enum_type_c<GL_TRIANGLE_STRIP_ADJACENCY>>
+#else
+      enum_type_i>
+#endif
+      triangle_strip_adjacency;
+
+    opt_c_api_constant<
+      mp_list<primitive_type>,
+#ifdef GL_PATCHES
+      enum_type_c<GL_PATCHES>>
+#else
+      enum_type_i>
+#endif
+      patches;
+
+    opt_c_api_constant<
+      mp_list<provoke_mode>,
+#ifdef GL_FIRST_VERTEX_CONVENTION
+      enum_type_c<GL_FIRST_VERTEX_CONVENTION>>
+#else
+      enum_type_i>
+#endif
+      first_vertex_convention;
+
+    opt_c_api_constant<
+      mp_list<provoke_mode>,
+#ifdef GL_LAST_VERTEX_CONVENTION
+      enum_type_c<GL_LAST_VERTEX_CONVENTION>>
+#else
+      enum_type_i>
+#endif
+      last_vertex_convention;
+
+    opt_c_api_constant<
+      mp_list<polygon_mode>,
+#ifdef GL_POINT
+      enum_type_c<GL_POINT>>
+#else
+      enum_type_i>
+#endif
+      point;
+
+    opt_c_api_constant<
+      mp_list<polygon_mode>,
+#ifdef GL_LINE
+      enum_type_c<GL_LINE>>
+#else
+      enum_type_i>
+#endif
+      line;
+
+    opt_c_api_constant<
+      mp_list<polygon_mode>,
+#ifdef GL_FILL
+      enum_type_c<GL_FILL>>
+#else
+      enum_type_i>
+#endif
+      fill;
+
+    opt_c_api_constant<
+      mp_list<polygon_mode>,
+#ifdef GL_FILL_RECTANGLE_NV
+      enum_type_c<GL_FILL_RECTANGLE_NV>>
+#else
+      enum_type_i>
+#endif
+      fill_rectangle_nv;
+
+    opt_c_api_constant<
       mp_list<blend_equation>,
 #ifdef GL_FUNC_ADD
       enum_type_c<GL_FUNC_ADD>>
@@ -3835,6 +3997,24 @@ public:
       , sampler_1d_array_shadow("SAMPLER_1D_ARRAY_SHADOW", traits, api)
       , sampler_2d_array_shadow("SAMPLER_2D_ARRAY_SHADOW", traits, api)
       , sampler_2d_multisample("SAMPLER_2D_MULTISAMPLE", traits, api)
+      , points("POINTS", traits, api)
+      , line_strip("LINE_STRIP", traits, api)
+      , line_loop("LINE_LOOP", traits, api)
+      , lines("LINES", traits, api)
+      , triangle_strip("TRIANGLE_STRIP", traits, api)
+      , triangle_fan("TRIANGLE_FAN", traits, api)
+      , triangles("TRIANGLES", traits, api)
+      , lines_adjacency("LINES_ADJACENCY", traits, api)
+      , line_strip_adjacency("LINE_STRIP_ADJACENCY", traits, api)
+      , triangles_adjacency("TRIANGLES_ADJACENCY", traits, api)
+      , triangle_strip_adjacency("TRIANGLE_STRIP_ADJACENCY", traits, api)
+      , patches("PATCHES", traits, api)
+      , first_vertex_convention("FIRST_VERTEX_CONVENTION", traits, api)
+      , last_vertex_convention("LAST_VERTEX_CONVENTION", traits, api)
+      , point("POINT", traits, api)
+      , line("LINE", traits, api)
+      , fill("FILL", traits, api)
+      , fill_rectangle_nv("FILL_RECTANGLE_NV", traits, api)
       , func_add("FUNC_ADD", traits, api)
       , func_subtract("FUNC_SUBTRACT", traits, api)
       , func_reverse_subtract("FUNC_REVERSE_SUBTRACT", traits, api)

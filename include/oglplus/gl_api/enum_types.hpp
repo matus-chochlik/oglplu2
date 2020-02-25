@@ -122,6 +122,14 @@ struct texture_wrap_mode
     using enum_class::enum_class;
 };
 
+struct primitive_type : gl_enum_class<primitive_type, EAGINE_ID_V(PrmtveType)> {
+    using enum_class::enum_class;
+};
+
+struct provoke_mode : gl_enum_class<provoke_mode, EAGINE_ID_V(ProvkeMode)> {
+    using enum_class::enum_class;
+};
+
 struct color_buffer : gl_enum_class<color_buffer, EAGINE_ID_V(ColorBuffr)> {
     using enum_class::enum_class;
 };
@@ -148,6 +156,10 @@ struct string_query : gl_enum_class<string_query, EAGINE_ID_V(StrQuery)> {
 };
 
 struct sl_data_type : gl_enum_class<sl_data_type, EAGINE_ID_V(SLDataType)> {
+    using enum_class::enum_class;
+};
+
+struct polygon_mode : gl_enum_class<polygon_mode, EAGINE_ID_V(PolygnMode)> {
     using enum_class::enum_class;
 };
 
