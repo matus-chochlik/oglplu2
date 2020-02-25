@@ -41,6 +41,11 @@ struct shader_type : gl_enum_class<shader_type, EAGINE_ID_V(ShaderType)> {
     using enum_class::enum_class;
 };
 
+struct shader_parameter
+  : gl_enum_class<shader_parameter, EAGINE_ID_V(ShdrPrmter)> {
+    using enum_class::enum_class;
+};
+
 struct buffer_target : gl_enum_class<buffer_target, EAGINE_ID_V(BufferTgt)> {
     using enum_class::enum_class;
 };
@@ -122,6 +127,11 @@ struct texture_wrap_mode
     using enum_class::enum_class;
 };
 
+struct sampler_parameter
+  : gl_enum_class<sampler_parameter, EAGINE_ID_V(SamParamtr)> {
+    using enum_class::enum_class;
+};
+
 struct primitive_type : gl_enum_class<primitive_type, EAGINE_ID_V(PrmtveType)> {
     using enum_class::enum_class;
 };
@@ -163,6 +173,11 @@ struct polygon_mode : gl_enum_class<polygon_mode, EAGINE_ID_V(PolygnMode)> {
     using enum_class::enum_class;
 };
 
+struct stencil_operation
+  : gl_enum_class<stencil_operation, EAGINE_ID_V(StencilOp)> {
+    using enum_class::enum_class;
+};
+
 struct blend_equation : gl_enum_class<blend_equation, EAGINE_ID_V(BlendEqtn)> {
     using enum_class::enum_class;
 };
@@ -188,6 +203,10 @@ struct debug_output_source
 
 struct debug_output_type
   : gl_enum_class<debug_output_type, EAGINE_ID_V(DbgOutType)> {
+    using enum_class::enum_class;
+};
+
+struct support_level : gl_enum_class<support_level, EAGINE_ID_V(SupportLvl)> {
     using enum_class::enum_class;
 };
 //------------------------------------------------------------------------------

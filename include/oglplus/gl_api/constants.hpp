@@ -317,7 +317,7 @@ public:
       read_write;
 
     opt_c_api_constant<
-      mp_list<shader_type>,
+      mp_list<oglp::shader_type>,
 #ifdef GL_VERTEX_SHADER
       enum_type_c<GL_VERTEX_SHADER>>
 #else
@@ -326,7 +326,7 @@ public:
       vertex_shader;
 
     opt_c_api_constant<
-      mp_list<shader_type>,
+      mp_list<oglp::shader_type>,
 #ifdef GL_TESS_CONTROL_SHADER
       enum_type_c<GL_TESS_CONTROL_SHADER>>
 #else
@@ -335,7 +335,7 @@ public:
       tess_control_shader;
 
     opt_c_api_constant<
-      mp_list<shader_type>,
+      mp_list<oglp::shader_type>,
 #ifdef GL_TESS_EVALUATION_SHADER
       enum_type_c<GL_TESS_EVALUATION_SHADER>>
 #else
@@ -344,7 +344,7 @@ public:
       tess_evaluation_shader;
 
     opt_c_api_constant<
-      mp_list<shader_type>,
+      mp_list<oglp::shader_type>,
 #ifdef GL_GEOMETRY_SHADER
       enum_type_c<GL_GEOMETRY_SHADER>>
 #else
@@ -353,7 +353,7 @@ public:
       geometry_shader;
 
     opt_c_api_constant<
-      mp_list<shader_type>,
+      mp_list<oglp::shader_type>,
 #ifdef GL_FRAGMENT_SHADER
       enum_type_c<GL_FRAGMENT_SHADER>>
 #else
@@ -362,13 +362,58 @@ public:
       fragment_shader;
 
     opt_c_api_constant<
-      mp_list<shader_type>,
+      mp_list<oglp::shader_type>,
 #ifdef GL_COMPUTE_SHADER
       enum_type_c<GL_COMPUTE_SHADER>>
 #else
       enum_type_i>
 #endif
       compute_shader;
+
+    opt_c_api_constant<
+      mp_list<shader_parameter>,
+#ifdef GL_SHADER_TYPE
+      enum_type_c<GL_SHADER_TYPE>>
+#else
+      enum_type_i>
+#endif
+      shader_type;
+
+    opt_c_api_constant<
+      mp_list<shader_parameter>,
+#ifdef GL_DELETE_STATUS
+      enum_type_c<GL_DELETE_STATUS>>
+#else
+      enum_type_i>
+#endif
+      delete_status;
+
+    opt_c_api_constant<
+      mp_list<shader_parameter>,
+#ifdef GL_COMPILE_STATUS
+      enum_type_c<GL_COMPILE_STATUS>>
+#else
+      enum_type_i>
+#endif
+      compile_status;
+
+    opt_c_api_constant<
+      mp_list<shader_parameter>,
+#ifdef GL_INFO_LOG_LENGTH
+      enum_type_c<GL_INFO_LOG_LENGTH>>
+#else
+      enum_type_i>
+#endif
+      info_log_length;
+
+    opt_c_api_constant<
+      mp_list<shader_parameter>,
+#ifdef GL_SHADER_SOURCE_LENGTH
+      enum_type_c<GL_SHADER_SOURCE_LENGTH>>
+#else
+      enum_type_i>
+#endif
+      shader_source_length;
 
     opt_c_api_constant<
       mp_list<buffer_target>,
@@ -982,7 +1027,7 @@ public:
       texture_base_level;
 
     opt_c_api_constant<
-      mp_list<texture_parameter>,
+      mp_list<texture_parameter, sampler_parameter>,
 #ifdef GL_TEXTURE_BORDER_COLOR
       enum_type_c<GL_TEXTURE_BORDER_COLOR>>
 #else
@@ -991,7 +1036,7 @@ public:
       texture_border_color;
 
     opt_c_api_constant<
-      mp_list<texture_parameter>,
+      mp_list<texture_parameter, sampler_parameter>,
 #ifdef GL_TEXTURE_COMPARE_MODE
       enum_type_c<GL_TEXTURE_COMPARE_MODE>>
 #else
@@ -1000,7 +1045,7 @@ public:
       texture_compare_mode;
 
     opt_c_api_constant<
-      mp_list<texture_parameter>,
+      mp_list<texture_parameter, sampler_parameter>,
 #ifdef GL_TEXTURE_COMPARE_FUNC
       enum_type_c<GL_TEXTURE_COMPARE_FUNC>>
 #else
@@ -1027,7 +1072,7 @@ public:
       texture_immutable_levels;
 
     opt_c_api_constant<
-      mp_list<texture_parameter>,
+      mp_list<texture_parameter, sampler_parameter>,
 #ifdef GL_TEXTURE_LOD_BIAS
       enum_type_c<GL_TEXTURE_LOD_BIAS>>
 #else
@@ -1036,7 +1081,7 @@ public:
       texture_lod_bias;
 
     opt_c_api_constant<
-      mp_list<texture_parameter>,
+      mp_list<texture_parameter, sampler_parameter>,
 #ifdef GL_TEXTURE_MAG_FILTER
       enum_type_c<GL_TEXTURE_MAG_FILTER>>
 #else
@@ -1054,7 +1099,7 @@ public:
       texture_max_level;
 
     opt_c_api_constant<
-      mp_list<texture_parameter>,
+      mp_list<texture_parameter, sampler_parameter>,
 #ifdef GL_TEXTURE_MAX_LOD
       enum_type_c<GL_TEXTURE_MAX_LOD>>
 #else
@@ -1063,7 +1108,7 @@ public:
       texture_max_lod;
 
     opt_c_api_constant<
-      mp_list<texture_parameter>,
+      mp_list<texture_parameter, sampler_parameter>,
 #ifdef GL_TEXTURE_MIN_FILTER
       enum_type_c<GL_TEXTURE_MIN_FILTER>>
 #else
@@ -1072,7 +1117,7 @@ public:
       texture_min_filter;
 
     opt_c_api_constant<
-      mp_list<texture_parameter>,
+      mp_list<texture_parameter, sampler_parameter>,
 #ifdef GL_TEXTURE_MIN_LOD
       enum_type_c<GL_TEXTURE_MIN_LOD>>
 #else
@@ -1171,7 +1216,7 @@ public:
       texture_view_num_levels;
 
     opt_c_api_constant<
-      mp_list<texture_parameter, texture_wrap_coord>,
+      mp_list<texture_parameter, texture_wrap_coord, sampler_parameter>,
 #ifdef GL_TEXTURE_WRAP_S
       enum_type_c<GL_TEXTURE_WRAP_S>>
 #else
@@ -1180,7 +1225,7 @@ public:
       texture_wrap_s;
 
     opt_c_api_constant<
-      mp_list<texture_parameter, texture_wrap_coord>,
+      mp_list<texture_parameter, texture_wrap_coord, sampler_parameter>,
 #ifdef GL_TEXTURE_WRAP_T
       enum_type_c<GL_TEXTURE_WRAP_T>>
 #else
@@ -1189,7 +1234,7 @@ public:
       texture_wrap_t;
 
     opt_c_api_constant<
-      mp_list<texture_parameter, texture_wrap_coord>,
+      mp_list<texture_parameter, texture_wrap_coord, sampler_parameter>,
 #ifdef GL_TEXTURE_WRAP_R
       enum_type_c<GL_TEXTURE_WRAP_R>>
 #else
@@ -1279,7 +1324,7 @@ public:
       alpha;
 
     opt_c_api_constant<
-      mp_list<texture_swizzle_mode, blend_function>,
+      mp_list<texture_swizzle_mode, blend_function, stencil_operation>,
 #ifdef GL_ZERO
       enum_type_c<GL_ZERO>>
 #else
@@ -3089,6 +3134,69 @@ public:
       fill_rectangle_nv;
 
     opt_c_api_constant<
+      mp_list<stencil_operation>,
+#ifdef GL_KEEP
+      enum_type_c<GL_KEEP>>
+#else
+      enum_type_i>
+#endif
+      keep;
+
+    opt_c_api_constant<
+      mp_list<stencil_operation>,
+#ifdef GL_REPLACE
+      enum_type_c<GL_REPLACE>>
+#else
+      enum_type_i>
+#endif
+      replace;
+
+    opt_c_api_constant<
+      mp_list<stencil_operation>,
+#ifdef GL_INCR
+      enum_type_c<GL_INCR>>
+#else
+      enum_type_i>
+#endif
+      incr;
+
+    opt_c_api_constant<
+      mp_list<stencil_operation>,
+#ifdef GL_DECR
+      enum_type_c<GL_DECR>>
+#else
+      enum_type_i>
+#endif
+      decr;
+
+    opt_c_api_constant<
+      mp_list<stencil_operation>,
+#ifdef GL_INVERT
+      enum_type_c<GL_INVERT>>
+#else
+      enum_type_i>
+#endif
+      invert;
+
+    opt_c_api_constant<
+      mp_list<stencil_operation>,
+#ifdef GL_INCR_WRAP
+      enum_type_c<GL_INCR_WRAP>>
+#else
+      enum_type_i>
+#endif
+      incr_wrap;
+
+    opt_c_api_constant<
+      mp_list<stencil_operation>,
+#ifdef GL_DECR_WRAP
+      enum_type_c<GL_DECR_WRAP>>
+#else
+      enum_type_i>
+#endif
+      decr_wrap;
+
+    opt_c_api_constant<
       mp_list<blend_equation>,
 #ifdef GL_FUNC_ADD
       enum_type_c<GL_FUNC_ADD>>
@@ -3640,7 +3748,29 @@ public:
       dont_care;
 
     opt_c_api_constant<
-      mp_list<color_buffer, sl_data_type, oglp::texture_compare_mode>,
+      mp_list<support_level>,
+#ifdef GL_FULL_SUPPORT
+      enum_type_c<GL_FULL_SUPPORT>>
+#else
+      enum_type_i>
+#endif
+      full_support;
+
+    opt_c_api_constant<
+      mp_list<support_level>,
+#ifdef GL_CAVEAT_SUPPORT
+      enum_type_c<GL_CAVEAT_SUPPORT>>
+#else
+      enum_type_i>
+#endif
+      caveat_support;
+
+    opt_c_api_constant<
+      mp_list<
+        support_level,
+        color_buffer,
+        sl_data_type,
+        oglp::texture_compare_mode>,
 #ifdef GL_NONE
       bitfield_type_c<GL_NONE>>
 #else
@@ -3692,6 +3822,11 @@ public:
       , geometry_shader("GEOMETRY_SHADER", traits, api)
       , fragment_shader("FRAGMENT_SHADER", traits, api)
       , compute_shader("COMPUTE_SHADER", traits, api)
+      , shader_type("SHADER_TYPE", traits, api)
+      , delete_status("DELETE_STATUS", traits, api)
+      , compile_status("COMPILE_STATUS", traits, api)
+      , info_log_length("INFO_LOG_LENGTH", traits, api)
+      , shader_source_length("SHADER_SOURCE_LENGTH", traits, api)
       , array_buffer("ARRAY_BUFFER", traits, api)
       , atomic_counter_buffer("ATOMIC_COUNTER_BUFFER", traits, api)
       , copy_read_buffer("COPY_READ_BUFFER", traits, api)
@@ -4015,6 +4150,13 @@ public:
       , line("LINE", traits, api)
       , fill("FILL", traits, api)
       , fill_rectangle_nv("FILL_RECTANGLE_NV", traits, api)
+      , keep("KEEP", traits, api)
+      , replace("REPLACE", traits, api)
+      , incr("INCR", traits, api)
+      , decr("DECR", traits, api)
+      , invert("INVERT", traits, api)
+      , incr_wrap("INCR_WRAP", traits, api)
+      , decr_wrap("DECR_WRAP", traits, api)
       , func_add("FUNC_ADD", traits, api)
       , func_subtract("FUNC_SUBTRACT", traits, api)
       , func_reverse_subtract("FUNC_REVERSE_SUBTRACT", traits, api)
@@ -4075,6 +4217,8 @@ public:
       , debug_type_pop_group("DEBUG_TYPE_POP_GROUP", traits, api)
       , debug_type_other("DEBUG_TYPE_OTHER", traits, api)
       , dont_care("DONT_CARE", traits, api)
+      , full_support("FULL_SUPPORT", traits, api)
+      , caveat_support("CAVEAT_SUPPORT", traits, api)
       , none("NONE", traits, api) {
     }
 };
