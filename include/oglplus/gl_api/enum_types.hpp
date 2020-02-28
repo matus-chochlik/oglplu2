@@ -191,6 +191,15 @@ struct blend_function : gl_enum_class<blend_function, EAGINE_ID_V(BlendFunc)> {
     using enum_class::enum_class;
 };
 
+struct pixel_format : gl_enum_class<pixel_format, EAGINE_ID_V(PixelFrmat)> {
+    using enum_class::enum_class;
+};
+
+struct pixel_internal_format
+  : gl_enum_class<pixel_internal_format, EAGINE_ID_V(PixIntlFmt)> {
+    using enum_class::enum_class;
+};
+
 struct pixel_store_parameter
   : gl_enum_class<pixel_store_parameter, EAGINE_ID_V(PixStorPrm)> {
     using enum_class::enum_class;

@@ -1288,7 +1288,7 @@ public:
       mirror_clamp_to_edge;
 
     opt_c_api_constant<
-      mp_list<texture_swizzle_mode>,
+      mp_list<texture_swizzle_mode, pixel_internal_format>,
 #ifdef GL_RED
       enum_type_c<GL_RED>>
 #else
@@ -3530,6 +3530,447 @@ public:
       one_minus_src1_alpha;
 
     opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_DEPTH_COMPONENT
+      enum_type_c<GL_DEPTH_COMPONENT>>
+#else
+      enum_type_i>
+#endif
+      depth_component;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_DEPTH_STENCIL
+      enum_type_c<GL_DEPTH_STENCIL>>
+#else
+      enum_type_i>
+#endif
+      depth_stencil;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_STENCIL_INDEX8
+      enum_type_c<GL_STENCIL_INDEX8>>
+#else
+      enum_type_i>
+#endif
+      stencil_index8;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_RG
+      enum_type_c<GL_RG>>
+#else
+      enum_type_i>
+#endif
+      rg;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_RGB
+      enum_type_c<GL_RGB>>
+#else
+      enum_type_i>
+#endif
+      rgb;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_RGBA
+      enum_type_c<GL_RGBA>>
+#else
+      enum_type_i>
+#endif
+      rgba;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_R8
+      enum_type_c<GL_R8>>
+#else
+      enum_type_i>
+#endif
+      r8;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_R8_SNORM
+      enum_type_c<GL_R8_SNORM>>
+#else
+      enum_type_i>
+#endif
+      r8_snorm;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_R16
+      enum_type_c<GL_R16>>
+#else
+      enum_type_i>
+#endif
+      r16;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_R16_SNORM
+      enum_type_c<GL_R16_SNORM>>
+#else
+      enum_type_i>
+#endif
+      r16_snorm;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_RG8
+      enum_type_c<GL_RG8>>
+#else
+      enum_type_i>
+#endif
+      rg8;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_RG8_SNORM
+      enum_type_c<GL_RG8_SNORM>>
+#else
+      enum_type_i>
+#endif
+      rg8_snorm;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_RG16
+      enum_type_c<GL_RG16>>
+#else
+      enum_type_i>
+#endif
+      rg16;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_RG16_SNORM
+      enum_type_c<GL_RG16_SNORM>>
+#else
+      enum_type_i>
+#endif
+      rg16_snorm;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_R3_G3_B2
+      enum_type_c<GL_R3_G3_B2>>
+#else
+      enum_type_i>
+#endif
+      r3_g3_b2;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_RGB4
+      enum_type_c<GL_RGB4>>
+#else
+      enum_type_i>
+#endif
+      rgb4;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_RGB5
+      enum_type_c<GL_RGB5>>
+#else
+      enum_type_i>
+#endif
+      rgb5;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_RGB8
+      enum_type_c<GL_RGB8>>
+#else
+      enum_type_i>
+#endif
+      rgb8;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_RGB8_SNORM
+      enum_type_c<GL_RGB8_SNORM>>
+#else
+      enum_type_i>
+#endif
+      rgb8_snorm;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_RGB10
+      enum_type_c<GL_RGB10>>
+#else
+      enum_type_i>
+#endif
+      rgb10;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_RGB12
+      enum_type_c<GL_RGB12>>
+#else
+      enum_type_i>
+#endif
+      rgb12;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_RGB16
+      enum_type_c<GL_RGB16>>
+#else
+      enum_type_i>
+#endif
+      rgb16;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_RGB16_SNORM
+      enum_type_c<GL_RGB16_SNORM>>
+#else
+      enum_type_i>
+#endif
+      rgb16_snorm;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_RGBA2
+      enum_type_c<GL_RGBA2>>
+#else
+      enum_type_i>
+#endif
+      rgba2;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_RGBA4
+      enum_type_c<GL_RGBA4>>
+#else
+      enum_type_i>
+#endif
+      rgba4;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_RGB5_A1
+      enum_type_c<GL_RGB5_A1>>
+#else
+      enum_type_i>
+#endif
+      rgb5_a1;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_RGBA8
+      enum_type_c<GL_RGBA8>>
+#else
+      enum_type_i>
+#endif
+      rgba8;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_RGBA8_SNORM
+      enum_type_c<GL_RGBA8_SNORM>>
+#else
+      enum_type_i>
+#endif
+      rgba8_snorm;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_RGB10_A2
+      enum_type_c<GL_RGB10_A2>>
+#else
+      enum_type_i>
+#endif
+      rgb10_a2;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_RGB10_A2UI
+      enum_type_c<GL_RGB10_A2UI>>
+#else
+      enum_type_i>
+#endif
+      rgb10_a2ui;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_RGBA12
+      enum_type_c<GL_RGBA12>>
+#else
+      enum_type_i>
+#endif
+      rgba12;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_RGBA16
+      enum_type_c<GL_RGBA16>>
+#else
+      enum_type_i>
+#endif
+      rgba16;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_RGBA16_SNORM
+      enum_type_c<GL_RGBA16_SNORM>>
+#else
+      enum_type_i>
+#endif
+      rgba16_snorm;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_SRGB8
+      enum_type_c<GL_SRGB8>>
+#else
+      enum_type_i>
+#endif
+      srgb8;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_SRGB8_ALPHA8
+      enum_type_c<GL_SRGB8_ALPHA8>>
+#else
+      enum_type_i>
+#endif
+      srgb8_alpha8;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_R16F
+      enum_type_c<GL_R16F>>
+#else
+      enum_type_i>
+#endif
+      r16f;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_RG16F
+      enum_type_c<GL_RG16F>>
+#else
+      enum_type_i>
+#endif
+      rg16f;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_RGB16F
+      enum_type_c<GL_RGB16F>>
+#else
+      enum_type_i>
+#endif
+      rgb16f;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_RGBA16F
+      enum_type_c<GL_RGBA16F>>
+#else
+      enum_type_i>
+#endif
+      rgba16f;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_R32F
+      enum_type_c<GL_R32F>>
+#else
+      enum_type_i>
+#endif
+      r32f;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_RG32F
+      enum_type_c<GL_RG32F>>
+#else
+      enum_type_i>
+#endif
+      rg32f;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_RGB32F
+      enum_type_c<GL_RGB32F>>
+#else
+      enum_type_i>
+#endif
+      rgb32f;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_RGBA32F
+      enum_type_c<GL_RGBA32F>>
+#else
+      enum_type_i>
+#endif
+      rgba32f;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_R11F_G11F_B10F
+      enum_type_c<GL_R11F_G11F_B10F>>
+#else
+      enum_type_i>
+#endif
+      r11f_g11f_b10f;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_RGB9_E5
+      enum_type_c<GL_RGB9_E5>>
+#else
+      enum_type_i>
+#endif
+      rgb9_e5;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_R8I
+      enum_type_c<GL_R8I>>
+#else
+      enum_type_i>
+#endif
+      r8i;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_R8UI
+      enum_type_c<GL_R8UI>>
+#else
+      enum_type_i>
+#endif
+      r8ui;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_R16I
+      enum_type_c<GL_R16I>>
+#else
+      enum_type_i>
+#endif
+      r16i;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format>,
+#ifdef GL_R16UI
+      enum_type_c<GL_R16UI>>
+#else
+      enum_type_i>
+#endif
+      r16ui;
+
+    opt_c_api_constant<
       mp_list<pixel_store_parameter>,
 #ifdef GL_PACK_SWAP_BYTES
       enum_type_c<GL_PACK_SWAP_BYTES>>
@@ -4410,6 +4851,55 @@ public:
       , one_minus_src1_color("ONE_MINUS_SRC1_COLOR", traits, api)
       , src1_alpha("SRC1_ALPHA", traits, api)
       , one_minus_src1_alpha("ONE_MINUS_SRC1_ALPHA", traits, api)
+      , depth_component("DEPTH_COMPONENT", traits, api)
+      , depth_stencil("DEPTH_STENCIL", traits, api)
+      , stencil_index8("STENCIL_INDEX8", traits, api)
+      , rg("RG", traits, api)
+      , rgb("RGB", traits, api)
+      , rgba("RGBA", traits, api)
+      , r8("R8", traits, api)
+      , r8_snorm("R8_SNORM", traits, api)
+      , r16("R16", traits, api)
+      , r16_snorm("R16_SNORM", traits, api)
+      , rg8("RG8", traits, api)
+      , rg8_snorm("RG8_SNORM", traits, api)
+      , rg16("RG16", traits, api)
+      , rg16_snorm("RG16_SNORM", traits, api)
+      , r3_g3_b2("R3_G3_B2", traits, api)
+      , rgb4("RGB4", traits, api)
+      , rgb5("RGB5", traits, api)
+      , rgb8("RGB8", traits, api)
+      , rgb8_snorm("RGB8_SNORM", traits, api)
+      , rgb10("RGB10", traits, api)
+      , rgb12("RGB12", traits, api)
+      , rgb16("RGB16", traits, api)
+      , rgb16_snorm("RGB16_SNORM", traits, api)
+      , rgba2("RGBA2", traits, api)
+      , rgba4("RGBA4", traits, api)
+      , rgb5_a1("RGB5_A1", traits, api)
+      , rgba8("RGBA8", traits, api)
+      , rgba8_snorm("RGBA8_SNORM", traits, api)
+      , rgb10_a2("RGB10_A2", traits, api)
+      , rgb10_a2ui("RGB10_A2UI", traits, api)
+      , rgba12("RGBA12", traits, api)
+      , rgba16("RGBA16", traits, api)
+      , rgba16_snorm("RGBA16_SNORM", traits, api)
+      , srgb8("SRGB8", traits, api)
+      , srgb8_alpha8("SRGB8_ALPHA8", traits, api)
+      , r16f("R16F", traits, api)
+      , rg16f("RG16F", traits, api)
+      , rgb16f("RGB16F", traits, api)
+      , rgba16f("RGBA16F", traits, api)
+      , r32f("R32F", traits, api)
+      , rg32f("RG32F", traits, api)
+      , rgb32f("RGB32F", traits, api)
+      , rgba32f("RGBA32F", traits, api)
+      , r11f_g11f_b10f("R11F_G11F_B10F", traits, api)
+      , rgb9_e5("RGB9_E5", traits, api)
+      , r8i("R8I", traits, api)
+      , r8ui("R8UI", traits, api)
+      , r16i("R16I", traits, api)
+      , r16ui("R16UI", traits, api)
       , pack_swap_bytes("PACK_SWAP_BYTES", traits, api)
       , pack_lsb_first("PACK_LSB_FIRST", traits, api)
       , pack_row_length("PACK_ROW_LENGTH", traits, api)
