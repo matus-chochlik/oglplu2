@@ -191,6 +191,11 @@ struct blend_function : gl_enum_class<blend_function, EAGINE_ID_V(BlendFunc)> {
     using enum_class::enum_class;
 };
 
+struct pixel_store_parameter
+  : gl_enum_class<pixel_store_parameter, EAGINE_ID_V(PixStorPrm)> {
+    using enum_class::enum_class;
+};
+
 struct debug_output_severity
   : gl_enum_class<debug_output_severity, EAGINE_ID_V(DbgOutSvrt)> {
     using enum_class::enum_class;

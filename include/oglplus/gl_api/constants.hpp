@@ -3530,6 +3530,222 @@ public:
       one_minus_src1_alpha;
 
     opt_c_api_constant<
+      mp_list<pixel_store_parameter>,
+#ifdef GL_PACK_SWAP_BYTES
+      enum_type_c<GL_PACK_SWAP_BYTES>>
+#else
+      enum_type_i>
+#endif
+      pack_swap_bytes;
+
+    opt_c_api_constant<
+      mp_list<pixel_store_parameter>,
+#ifdef GL_PACK_LSB_FIRST
+      enum_type_c<GL_PACK_LSB_FIRST>>
+#else
+      enum_type_i>
+#endif
+      pack_lsb_first;
+
+    opt_c_api_constant<
+      mp_list<pixel_store_parameter>,
+#ifdef GL_PACK_ROW_LENGTH
+      enum_type_c<GL_PACK_ROW_LENGTH>>
+#else
+      enum_type_i>
+#endif
+      pack_row_length;
+
+    opt_c_api_constant<
+      mp_list<pixel_store_parameter>,
+#ifdef GL_PACK_SKIP_ROWS
+      enum_type_c<GL_PACK_SKIP_ROWS>>
+#else
+      enum_type_i>
+#endif
+      pack_skip_rows;
+
+    opt_c_api_constant<
+      mp_list<pixel_store_parameter>,
+#ifdef GL_PACK_SKIP_PIXELS
+      enum_type_c<GL_PACK_SKIP_PIXELS>>
+#else
+      enum_type_i>
+#endif
+      pack_skip_pixels;
+
+    opt_c_api_constant<
+      mp_list<pixel_store_parameter>,
+#ifdef GL_PACK_ALIGNMENT
+      enum_type_c<GL_PACK_ALIGNMENT>>
+#else
+      enum_type_i>
+#endif
+      pack_alignment;
+
+    opt_c_api_constant<
+      mp_list<pixel_store_parameter>,
+#ifdef GL_PACK_IMAGE_HEIGHT
+      enum_type_c<GL_PACK_IMAGE_HEIGHT>>
+#else
+      enum_type_i>
+#endif
+      pack_image_height;
+
+    opt_c_api_constant<
+      mp_list<pixel_store_parameter>,
+#ifdef GL_PACK_SKIP_IMAGES
+      enum_type_c<GL_PACK_SKIP_IMAGES>>
+#else
+      enum_type_i>
+#endif
+      pack_skip_images;
+
+    opt_c_api_constant<
+      mp_list<pixel_store_parameter>,
+#ifdef GL_PACK_COMPRESSED_BLOCK_WIDTH
+      enum_type_c<GL_PACK_COMPRESSED_BLOCK_WIDTH>>
+#else
+      enum_type_i>
+#endif
+      pack_compressed_block_width;
+
+    opt_c_api_constant<
+      mp_list<pixel_store_parameter>,
+#ifdef GL_PACK_COMPRESSED_BLOCK_HEIGHT
+      enum_type_c<GL_PACK_COMPRESSED_BLOCK_HEIGHT>>
+#else
+      enum_type_i>
+#endif
+      pack_compressed_block_height;
+
+    opt_c_api_constant<
+      mp_list<pixel_store_parameter>,
+#ifdef GL_PACK_COMPRESSED_BLOCK_DEPTH
+      enum_type_c<GL_PACK_COMPRESSED_BLOCK_DEPTH>>
+#else
+      enum_type_i>
+#endif
+      pack_compressed_block_depth;
+
+    opt_c_api_constant<
+      mp_list<pixel_store_parameter>,
+#ifdef GL_PACK_COMPRESSED_BLOCK_SIZE
+      enum_type_c<GL_PACK_COMPRESSED_BLOCK_SIZE>>
+#else
+      enum_type_i>
+#endif
+      pack_compressed_block_size;
+
+    opt_c_api_constant<
+      mp_list<pixel_store_parameter>,
+#ifdef GL_UNPACK_SWAP_BYTES
+      enum_type_c<GL_UNPACK_SWAP_BYTES>>
+#else
+      enum_type_i>
+#endif
+      unpack_swap_bytes;
+
+    opt_c_api_constant<
+      mp_list<pixel_store_parameter>,
+#ifdef GL_UNPACK_LSB_FIRST
+      enum_type_c<GL_UNPACK_LSB_FIRST>>
+#else
+      enum_type_i>
+#endif
+      unpack_lsb_first;
+
+    opt_c_api_constant<
+      mp_list<pixel_store_parameter>,
+#ifdef GL_UNPACK_ROW_LENGTH
+      enum_type_c<GL_UNPACK_ROW_LENGTH>>
+#else
+      enum_type_i>
+#endif
+      unpack_row_length;
+
+    opt_c_api_constant<
+      mp_list<pixel_store_parameter>,
+#ifdef GL_UNPACK_SKIP_ROWS
+      enum_type_c<GL_UNPACK_SKIP_ROWS>>
+#else
+      enum_type_i>
+#endif
+      unpack_skip_rows;
+
+    opt_c_api_constant<
+      mp_list<pixel_store_parameter>,
+#ifdef GL_UNPACK_SKIP_PIXELS
+      enum_type_c<GL_UNPACK_SKIP_PIXELS>>
+#else
+      enum_type_i>
+#endif
+      unpack_skip_pixels;
+
+    opt_c_api_constant<
+      mp_list<pixel_store_parameter>,
+#ifdef GL_UNPACK_ALIGNMENT
+      enum_type_c<GL_UNPACK_ALIGNMENT>>
+#else
+      enum_type_i>
+#endif
+      unpack_alignment;
+
+    opt_c_api_constant<
+      mp_list<pixel_store_parameter>,
+#ifdef GL_UNPACK_IMAGE_HEIGHT
+      enum_type_c<GL_UNPACK_IMAGE_HEIGHT>>
+#else
+      enum_type_i>
+#endif
+      unpack_image_height;
+
+    opt_c_api_constant<
+      mp_list<pixel_store_parameter>,
+#ifdef GL_UNPACK_SKIP_IMAGES
+      enum_type_c<GL_UNPACK_SKIP_IMAGES>>
+#else
+      enum_type_i>
+#endif
+      unpack_skip_images;
+
+    opt_c_api_constant<
+      mp_list<pixel_store_parameter>,
+#ifdef GL_UNPACK_COMPRESSED_BLOCK_WIDTH
+      enum_type_c<GL_UNPACK_COMPRESSED_BLOCK_WIDTH>>
+#else
+      enum_type_i>
+#endif
+      unpack_compressed_block_width;
+
+    opt_c_api_constant<
+      mp_list<pixel_store_parameter>,
+#ifdef GL_UNPACK_COMPRESSED_BLOCK_HEIGHT
+      enum_type_c<GL_UNPACK_COMPRESSED_BLOCK_HEIGHT>>
+#else
+      enum_type_i>
+#endif
+      unpack_compressed_block_height;
+
+    opt_c_api_constant<
+      mp_list<pixel_store_parameter>,
+#ifdef GL_UNPACK_COMPRESSED_BLOCK_DEPTH
+      enum_type_c<GL_UNPACK_COMPRESSED_BLOCK_DEPTH>>
+#else
+      enum_type_i>
+#endif
+      unpack_compressed_block_depth;
+
+    opt_c_api_constant<
+      mp_list<pixel_store_parameter>,
+#ifdef GL_UNPACK_COMPRESSED_BLOCK_SIZE
+      enum_type_c<GL_UNPACK_COMPRESSED_BLOCK_SIZE>>
+#else
+      enum_type_i>
+#endif
+      unpack_compressed_block_size;
+
+    opt_c_api_constant<
       mp_list<debug_output_severity>,
 #ifdef GL_DEBUG_SEVERITY_HIGH
       enum_type_c<GL_DEBUG_SEVERITY_HIGH>>
@@ -4194,6 +4410,35 @@ public:
       , one_minus_src1_color("ONE_MINUS_SRC1_COLOR", traits, api)
       , src1_alpha("SRC1_ALPHA", traits, api)
       , one_minus_src1_alpha("ONE_MINUS_SRC1_ALPHA", traits, api)
+      , pack_swap_bytes("PACK_SWAP_BYTES", traits, api)
+      , pack_lsb_first("PACK_LSB_FIRST", traits, api)
+      , pack_row_length("PACK_ROW_LENGTH", traits, api)
+      , pack_skip_rows("PACK_SKIP_ROWS", traits, api)
+      , pack_skip_pixels("PACK_SKIP_PIXELS", traits, api)
+      , pack_alignment("PACK_ALIGNMENT", traits, api)
+      , pack_image_height("PACK_IMAGE_HEIGHT", traits, api)
+      , pack_skip_images("PACK_SKIP_IMAGES", traits, api)
+      , pack_compressed_block_width("PACK_COMPRESSED_BLOCK_WIDTH", traits, api)
+      , pack_compressed_block_height(
+          "PACK_COMPRESSED_BLOCK_HEIGHT", traits, api)
+      , pack_compressed_block_depth("PACK_COMPRESSED_BLOCK_DEPTH", traits, api)
+      , pack_compressed_block_size("PACK_COMPRESSED_BLOCK_SIZE", traits, api)
+      , unpack_swap_bytes("UNPACK_SWAP_BYTES", traits, api)
+      , unpack_lsb_first("UNPACK_LSB_FIRST", traits, api)
+      , unpack_row_length("UNPACK_ROW_LENGTH", traits, api)
+      , unpack_skip_rows("UNPACK_SKIP_ROWS", traits, api)
+      , unpack_skip_pixels("UNPACK_SKIP_PIXELS", traits, api)
+      , unpack_alignment("UNPACK_ALIGNMENT", traits, api)
+      , unpack_image_height("UNPACK_IMAGE_HEIGHT", traits, api)
+      , unpack_skip_images("UNPACK_SKIP_IMAGES", traits, api)
+      , unpack_compressed_block_width(
+          "UNPACK_COMPRESSED_BLOCK_WIDTH", traits, api)
+      , unpack_compressed_block_height(
+          "UNPACK_COMPRESSED_BLOCK_HEIGHT", traits, api)
+      , unpack_compressed_block_depth(
+          "UNPACK_COMPRESSED_BLOCK_DEPTH", traits, api)
+      , unpack_compressed_block_size(
+          "UNPACK_COMPRESSED_BLOCK_SIZE", traits, api)
       , debug_severity_high("DEBUG_SEVERITY_HIGH", traits, api)
       , debug_severity_medium("DEBUG_SEVERITY_MEDIUM", traits, api)
       , debug_severity_low("DEBUG_SEVERITY_LOW", traits, api)
