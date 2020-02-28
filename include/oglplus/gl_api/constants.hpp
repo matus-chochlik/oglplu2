@@ -1288,7 +1288,7 @@ public:
       mirror_clamp_to_edge;
 
     opt_c_api_constant<
-      mp_list<texture_swizzle_mode, pixel_internal_format>,
+      mp_list<texture_swizzle_mode, pixel_internal_format, pixel_format>,
 #ifdef GL_RED
       enum_type_c<GL_RED>>
 #else
@@ -1297,7 +1297,7 @@ public:
       red;
 
     opt_c_api_constant<
-      mp_list<texture_swizzle_mode>,
+      mp_list<texture_swizzle_mode, pixel_format>,
 #ifdef GL_GREEN
       enum_type_c<GL_GREEN>>
 #else
@@ -1306,7 +1306,7 @@ public:
       green;
 
     opt_c_api_constant<
-      mp_list<texture_swizzle_mode>,
+      mp_list<texture_swizzle_mode, pixel_format>,
 #ifdef GL_BLUE
       enum_type_c<GL_BLUE>>
 #else
@@ -3530,7 +3530,106 @@ public:
       one_minus_src1_alpha;
 
     opt_c_api_constant<
-      mp_list<pixel_internal_format>,
+      mp_list<pixel_format>,
+#ifdef GL_STENCIL_INDEX
+      enum_type_c<GL_STENCIL_INDEX>>
+#else
+      enum_type_i>
+#endif
+      stencil_index;
+
+    opt_c_api_constant<
+      mp_list<pixel_format>,
+#ifdef GL_BGR
+      enum_type_c<GL_BGR>>
+#else
+      enum_type_i>
+#endif
+      bgr;
+
+    opt_c_api_constant<
+      mp_list<pixel_format>,
+#ifdef GL_BGRA
+      enum_type_c<GL_BGRA>>
+#else
+      enum_type_i>
+#endif
+      bgra;
+
+    opt_c_api_constant<
+      mp_list<pixel_format>,
+#ifdef GL_RED_INTEGER
+      enum_type_c<GL_RED_INTEGER>>
+#else
+      enum_type_i>
+#endif
+      red_integer;
+
+    opt_c_api_constant<
+      mp_list<pixel_format>,
+#ifdef GL_GREEN_INTEGER
+      enum_type_c<GL_GREEN_INTEGER>>
+#else
+      enum_type_i>
+#endif
+      green_integer;
+
+    opt_c_api_constant<
+      mp_list<pixel_format>,
+#ifdef GL_BLUE_INTEGER
+      enum_type_c<GL_BLUE_INTEGER>>
+#else
+      enum_type_i>
+#endif
+      blue_integer;
+
+    opt_c_api_constant<
+      mp_list<pixel_format>,
+#ifdef GL_RG_INTEGER
+      enum_type_c<GL_RG_INTEGER>>
+#else
+      enum_type_i>
+#endif
+      rg_integer;
+
+    opt_c_api_constant<
+      mp_list<pixel_format>,
+#ifdef GL_RGB_INTEGER
+      enum_type_c<GL_RGB_INTEGER>>
+#else
+      enum_type_i>
+#endif
+      rgb_integer;
+
+    opt_c_api_constant<
+      mp_list<pixel_format>,
+#ifdef GL_RGBA_INTEGER
+      enum_type_c<GL_RGBA_INTEGER>>
+#else
+      enum_type_i>
+#endif
+      rgba_integer;
+
+    opt_c_api_constant<
+      mp_list<pixel_format>,
+#ifdef GL_BGR_INTEGER
+      enum_type_c<GL_BGR_INTEGER>>
+#else
+      enum_type_i>
+#endif
+      bgr_integer;
+
+    opt_c_api_constant<
+      mp_list<pixel_format>,
+#ifdef GL_BGRA_INTEGER
+      enum_type_c<GL_BGRA_INTEGER>>
+#else
+      enum_type_i>
+#endif
+      bgra_integer;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format, pixel_format>,
 #ifdef GL_DEPTH_COMPONENT
       enum_type_c<GL_DEPTH_COMPONENT>>
 #else
@@ -3539,7 +3638,7 @@ public:
       depth_component;
 
     opt_c_api_constant<
-      mp_list<pixel_internal_format>,
+      mp_list<pixel_internal_format, pixel_format>,
 #ifdef GL_DEPTH_STENCIL
       enum_type_c<GL_DEPTH_STENCIL>>
 #else
@@ -3557,7 +3656,7 @@ public:
       stencil_index8;
 
     opt_c_api_constant<
-      mp_list<pixel_internal_format>,
+      mp_list<pixel_internal_format, pixel_format>,
 #ifdef GL_RG
       enum_type_c<GL_RG>>
 #else
@@ -3566,7 +3665,7 @@ public:
       rg;
 
     opt_c_api_constant<
-      mp_list<pixel_internal_format>,
+      mp_list<pixel_internal_format, pixel_format>,
 #ifdef GL_RGB
       enum_type_c<GL_RGB>>
 #else
@@ -3575,7 +3674,7 @@ public:
       rgb;
 
     opt_c_api_constant<
-      mp_list<pixel_internal_format>,
+      mp_list<pixel_internal_format, pixel_format>,
 #ifdef GL_RGBA
       enum_type_c<GL_RGBA>>
 #else
@@ -4851,6 +4950,17 @@ public:
       , one_minus_src1_color("ONE_MINUS_SRC1_COLOR", traits, api)
       , src1_alpha("SRC1_ALPHA", traits, api)
       , one_minus_src1_alpha("ONE_MINUS_SRC1_ALPHA", traits, api)
+      , stencil_index("STENCIL_INDEX", traits, api)
+      , bgr("BGR", traits, api)
+      , bgra("BGRA", traits, api)
+      , red_integer("RED_INTEGER", traits, api)
+      , green_integer("GREEN_INTEGER", traits, api)
+      , blue_integer("BLUE_INTEGER", traits, api)
+      , rg_integer("RG_INTEGER", traits, api)
+      , rgb_integer("RGB_INTEGER", traits, api)
+      , rgba_integer("RGBA_INTEGER", traits, api)
+      , bgr_integer("BGR_INTEGER", traits, api)
+      , bgra_integer("BGRA_INTEGER", traits, api)
       , depth_component("DEPTH_COMPONENT", traits, api)
       , depth_stencil("DEPTH_STENCIL", traits, api)
       , stencil_index8("STENCIL_INDEX8", traits, api)
