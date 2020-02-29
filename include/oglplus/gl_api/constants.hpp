@@ -380,7 +380,7 @@ public:
       shader_type;
 
     opt_c_api_constant<
-      mp_list<shader_parameter>,
+      mp_list<shader_parameter, program_parameter>,
 #ifdef GL_DELETE_STATUS
       enum_type_c<GL_DELETE_STATUS>>
 #else
@@ -398,7 +398,7 @@ public:
       compile_status;
 
     opt_c_api_constant<
-      mp_list<shader_parameter>,
+      mp_list<shader_parameter, program_parameter>,
 #ifdef GL_INFO_LOG_LENGTH
       enum_type_c<GL_INFO_LOG_LENGTH>>
 #else
@@ -414,6 +414,150 @@ public:
       enum_type_i>
 #endif
       shader_source_length;
+
+    opt_c_api_constant<
+      mp_list<program_parameter>,
+#ifdef GL_LINK_STATUS
+      enum_type_c<GL_LINK_STATUS>>
+#else
+      enum_type_i>
+#endif
+      link_status;
+
+    opt_c_api_constant<
+      mp_list<program_parameter>,
+#ifdef GL_VALIDATE_STATUS
+      enum_type_c<GL_VALIDATE_STATUS>>
+#else
+      enum_type_i>
+#endif
+      validate_status;
+
+    opt_c_api_constant<
+      mp_list<program_parameter>,
+#ifdef GL_ATTACHED_SHADERS
+      enum_type_c<GL_ATTACHED_SHADERS>>
+#else
+      enum_type_i>
+#endif
+      attached_shaders;
+
+    opt_c_api_constant<
+      mp_list<program_parameter>,
+#ifdef GL_ACTIVE_ATOMIC_COUNTER_BUFFERS
+      enum_type_c<GL_ACTIVE_ATOMIC_COUNTER_BUFFERS>>
+#else
+      enum_type_i>
+#endif
+      active_atomic_counter_buffers;
+
+    opt_c_api_constant<
+      mp_list<program_parameter>,
+#ifdef GL_ACTIVE_ATTRIBUTES
+      enum_type_c<GL_ACTIVE_ATTRIBUTES>>
+#else
+      enum_type_i>
+#endif
+      active_attributes;
+
+    opt_c_api_constant<
+      mp_list<program_parameter>,
+#ifdef GL_ACTIVE_ATTRIBUTE_MAX_LENGTH
+      enum_type_c<GL_ACTIVE_ATTRIBUTE_MAX_LENGTH>>
+#else
+      enum_type_i>
+#endif
+      active_attribute_max_length;
+
+    opt_c_api_constant<
+      mp_list<program_parameter>,
+#ifdef GL_ACTIVE_UNIFORMS
+      enum_type_c<GL_ACTIVE_UNIFORMS>>
+#else
+      enum_type_i>
+#endif
+      active_uniforms;
+
+    opt_c_api_constant<
+      mp_list<program_parameter>,
+#ifdef GL_ACTIVE_UNIFORM_MAX_LENGTH
+      enum_type_c<GL_ACTIVE_UNIFORM_MAX_LENGTH>>
+#else
+      enum_type_i>
+#endif
+      active_uniform_max_length;
+
+    opt_c_api_constant<
+      mp_list<program_parameter>,
+#ifdef GL_PROGRAM_BINARY_LENGTH
+      enum_type_c<GL_PROGRAM_BINARY_LENGTH>>
+#else
+      enum_type_i>
+#endif
+      program_binary_length;
+
+    opt_c_api_constant<
+      mp_list<program_parameter>,
+#ifdef GL_COMPUTE_WORK_GROUP_SIZE
+      enum_type_c<GL_COMPUTE_WORK_GROUP_SIZE>>
+#else
+      enum_type_i>
+#endif
+      compute_work_group_size;
+
+    opt_c_api_constant<
+      mp_list<program_parameter>,
+#ifdef GL_TRANSFORM_FEEDBACK_BUFFER_MODE
+      enum_type_c<GL_TRANSFORM_FEEDBACK_BUFFER_MODE>>
+#else
+      enum_type_i>
+#endif
+      transform_feedback_buffer_mode;
+
+    opt_c_api_constant<
+      mp_list<program_parameter>,
+#ifdef GL_TRANSFORM_FEEDBACK_VARYINGS
+      enum_type_c<GL_TRANSFORM_FEEDBACK_VARYINGS>>
+#else
+      enum_type_i>
+#endif
+      transform_feedback_varyings;
+
+    opt_c_api_constant<
+      mp_list<program_parameter>,
+#ifdef GL_TRANSFORM_FEEDBACK_VARYING_MAX_LENGTH
+      enum_type_c<GL_TRANSFORM_FEEDBACK_VARYING_MAX_LENGTH>>
+#else
+      enum_type_i>
+#endif
+      transform_feedback_varying_max_length;
+
+    opt_c_api_constant<
+      mp_list<program_parameter>,
+#ifdef GL_GEOMETRY_VERTICES_OUT
+      enum_type_c<GL_GEOMETRY_VERTICES_OUT>>
+#else
+      enum_type_i>
+#endif
+      geometry_vertices_out;
+
+    opt_c_api_constant<
+      mp_list<program_parameter>,
+#ifdef GL_GEOMETRY_INPUT_TYPE
+      enum_type_c<GL_GEOMETRY_INPUT_TYPE>>
+#else
+      enum_type_i>
+#endif
+      geometry_input_type;
+
+    opt_c_api_constant<
+      mp_list<program_parameter>,
+#ifdef GL_GEOMETRY_OUTPUT_TYPE
+      enum_type_c<GL_GEOMETRY_OUTPUT_TYPE>>
+#else
+      enum_type_i>
+#endif
+      geometry_output_type;
 
     opt_c_api_constant<
       mp_list<buffer_target>,
@@ -5915,6 +6059,25 @@ public:
       , compile_status("COMPILE_STATUS", traits, api)
       , info_log_length("INFO_LOG_LENGTH", traits, api)
       , shader_source_length("SHADER_SOURCE_LENGTH", traits, api)
+      , link_status("LINK_STATUS", traits, api)
+      , validate_status("VALIDATE_STATUS", traits, api)
+      , attached_shaders("ATTACHED_SHADERS", traits, api)
+      , active_atomic_counter_buffers(
+          "ACTIVE_ATOMIC_COUNTER_BUFFERS", traits, api)
+      , active_attributes("ACTIVE_ATTRIBUTES", traits, api)
+      , active_attribute_max_length("ACTIVE_ATTRIBUTE_MAX_LENGTH", traits, api)
+      , active_uniforms("ACTIVE_UNIFORMS", traits, api)
+      , active_uniform_max_length("ACTIVE_UNIFORM_MAX_LENGTH", traits, api)
+      , program_binary_length("PROGRAM_BINARY_LENGTH", traits, api)
+      , compute_work_group_size("COMPUTE_WORK_GROUP_SIZE", traits, api)
+      , transform_feedback_buffer_mode(
+          "TRANSFORM_FEEDBACK_BUFFER_MODE", traits, api)
+      , transform_feedback_varyings("TRANSFORM_FEEDBACK_VARYINGS", traits, api)
+      , transform_feedback_varying_max_length(
+          "TRANSFORM_FEEDBACK_VARYING_MAX_LENGTH", traits, api)
+      , geometry_vertices_out("GEOMETRY_VERTICES_OUT", traits, api)
+      , geometry_input_type("GEOMETRY_INPUT_TYPE", traits, api)
+      , geometry_output_type("GEOMETRY_OUTPUT_TYPE", traits, api)
       , array_buffer("ARRAY_BUFFER", traits, api)
       , atomic_counter_buffer("ATOMIC_COUNTER_BUFFER", traits, api)
       , copy_read_buffer("COPY_READ_BUFFER", traits, api)

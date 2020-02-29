@@ -46,6 +46,16 @@ struct shader_parameter
     using enum_class::enum_class;
 };
 
+struct program_parameter
+  : gl_enum_class<program_parameter, EAGINE_ID_V(ProgPrmter)> {
+    using enum_class::enum_class;
+};
+
+struct program_pipeline_parameter
+  : gl_enum_class<program_pipeline_parameter, EAGINE_ID_V(PiplPrmter)> {
+    using enum_class::enum_class;
+};
+
 struct buffer_target : gl_enum_class<buffer_target, EAGINE_ID_V(BufferTgt)> {
     using enum_class::enum_class;
 };
