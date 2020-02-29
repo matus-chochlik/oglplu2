@@ -4286,6 +4286,150 @@ public:
       unpack_compressed_block_size;
 
     opt_c_api_constant<
+      mp_list<oglp::view_compatibility_class>,
+#ifdef GL_VIEW_CLASS_128_BITS
+      enum_type_c<GL_VIEW_CLASS_128_BITS>>
+#else
+      enum_type_i>
+#endif
+      view_class_128_bits;
+
+    opt_c_api_constant<
+      mp_list<oglp::view_compatibility_class>,
+#ifdef GL_VIEW_CLASS_96_BITS
+      enum_type_c<GL_VIEW_CLASS_96_BITS>>
+#else
+      enum_type_i>
+#endif
+      view_class_96_bits;
+
+    opt_c_api_constant<
+      mp_list<oglp::view_compatibility_class>,
+#ifdef GL_VIEW_CLASS_64_BITS
+      enum_type_c<GL_VIEW_CLASS_64_BITS>>
+#else
+      enum_type_i>
+#endif
+      view_class_64_bits;
+
+    opt_c_api_constant<
+      mp_list<oglp::view_compatibility_class>,
+#ifdef GL_VIEW_CLASS_48_BITS
+      enum_type_c<GL_VIEW_CLASS_48_BITS>>
+#else
+      enum_type_i>
+#endif
+      view_class_48_bits;
+
+    opt_c_api_constant<
+      mp_list<oglp::view_compatibility_class>,
+#ifdef GL_VIEW_CLASS_32_BITS
+      enum_type_c<GL_VIEW_CLASS_32_BITS>>
+#else
+      enum_type_i>
+#endif
+      view_class_32_bits;
+
+    opt_c_api_constant<
+      mp_list<oglp::view_compatibility_class>,
+#ifdef GL_VIEW_CLASS_24_BITS
+      enum_type_c<GL_VIEW_CLASS_24_BITS>>
+#else
+      enum_type_i>
+#endif
+      view_class_24_bits;
+
+    opt_c_api_constant<
+      mp_list<oglp::view_compatibility_class>,
+#ifdef GL_VIEW_CLASS_16_BITS
+      enum_type_c<GL_VIEW_CLASS_16_BITS>>
+#else
+      enum_type_i>
+#endif
+      view_class_16_bits;
+
+    opt_c_api_constant<
+      mp_list<oglp::view_compatibility_class>,
+#ifdef GL_VIEW_CLASS_8_BITS
+      enum_type_c<GL_VIEW_CLASS_8_BITS>>
+#else
+      enum_type_i>
+#endif
+      view_class_8_bits;
+
+    opt_c_api_constant<
+      mp_list<oglp::view_compatibility_class>,
+#ifdef GL_VIEW_CLASS_S3TC_DXT1_RGB
+      enum_type_c<GL_VIEW_CLASS_S3TC_DXT1_RGB>>
+#else
+      enum_type_i>
+#endif
+      view_class_s3tc_dxt1_rgb;
+
+    opt_c_api_constant<
+      mp_list<oglp::view_compatibility_class>,
+#ifdef GL_VIEW_CLASS_S3TC_DXT1_RGBA
+      enum_type_c<GL_VIEW_CLASS_S3TC_DXT1_RGBA>>
+#else
+      enum_type_i>
+#endif
+      view_class_s3tc_dxt1_rgba;
+
+    opt_c_api_constant<
+      mp_list<oglp::view_compatibility_class>,
+#ifdef GL_VIEW_CLASS_S3TC_DXT3_RGBA
+      enum_type_c<GL_VIEW_CLASS_S3TC_DXT3_RGBA>>
+#else
+      enum_type_i>
+#endif
+      view_class_s3tc_dxt3_rgba;
+
+    opt_c_api_constant<
+      mp_list<oglp::view_compatibility_class>,
+#ifdef GL_VIEW_CLASS_S3TC_DXT5_RGBA
+      enum_type_c<GL_VIEW_CLASS_S3TC_DXT5_RGBA>>
+#else
+      enum_type_i>
+#endif
+      view_class_s3tc_dxt5_rgba;
+
+    opt_c_api_constant<
+      mp_list<oglp::view_compatibility_class>,
+#ifdef GL_VIEW_CLASS_RGTC1_RED
+      enum_type_c<GL_VIEW_CLASS_RGTC1_RED>>
+#else
+      enum_type_i>
+#endif
+      view_class_rgtc1_red;
+
+    opt_c_api_constant<
+      mp_list<oglp::view_compatibility_class>,
+#ifdef GL_VIEW_CLASS_RGTC2_RG
+      enum_type_c<GL_VIEW_CLASS_RGTC2_RG>>
+#else
+      enum_type_i>
+#endif
+      view_class_rgtc2_rg;
+
+    opt_c_api_constant<
+      mp_list<oglp::view_compatibility_class>,
+#ifdef GL_VIEW_CLASS_BPTC_UNORM
+      enum_type_c<GL_VIEW_CLASS_BPTC_UNORM>>
+#else
+      enum_type_i>
+#endif
+      view_class_bptc_unorm;
+
+    opt_c_api_constant<
+      mp_list<oglp::view_compatibility_class>,
+#ifdef GL_VIEW_CLASS_BPTC_FLOAT
+      enum_type_c<GL_VIEW_CLASS_BPTC_FLOAT>>
+#else
+      enum_type_i>
+#endif
+      view_class_bptc_float;
+
+    opt_c_api_constant<
       mp_list<debug_output_severity>,
 #ifdef GL_DEBUG_SEVERITY_HIGH
       enum_type_c<GL_DEBUG_SEVERITY_HIGH>>
@@ -5039,6 +5183,22 @@ public:
           "UNPACK_COMPRESSED_BLOCK_DEPTH", traits, api)
       , unpack_compressed_block_size(
           "UNPACK_COMPRESSED_BLOCK_SIZE", traits, api)
+      , view_class_128_bits("VIEW_CLASS_128_BITS", traits, api)
+      , view_class_96_bits("VIEW_CLASS_96_BITS", traits, api)
+      , view_class_64_bits("VIEW_CLASS_64_BITS", traits, api)
+      , view_class_48_bits("VIEW_CLASS_48_BITS", traits, api)
+      , view_class_32_bits("VIEW_CLASS_32_BITS", traits, api)
+      , view_class_24_bits("VIEW_CLASS_24_BITS", traits, api)
+      , view_class_16_bits("VIEW_CLASS_16_BITS", traits, api)
+      , view_class_8_bits("VIEW_CLASS_8_BITS", traits, api)
+      , view_class_s3tc_dxt1_rgb("VIEW_CLASS_S3TC_DXT1_RGB", traits, api)
+      , view_class_s3tc_dxt1_rgba("VIEW_CLASS_S3TC_DXT1_RGBA", traits, api)
+      , view_class_s3tc_dxt3_rgba("VIEW_CLASS_S3TC_DXT3_RGBA", traits, api)
+      , view_class_s3tc_dxt5_rgba("VIEW_CLASS_S3TC_DXT5_RGBA", traits, api)
+      , view_class_rgtc1_red("VIEW_CLASS_RGTC1_RED", traits, api)
+      , view_class_rgtc2_rg("VIEW_CLASS_RGTC2_RG", traits, api)
+      , view_class_bptc_unorm("VIEW_CLASS_BPTC_UNORM", traits, api)
+      , view_class_bptc_float("VIEW_CLASS_BPTC_FLOAT", traits, api)
       , debug_severity_high("DEBUG_SEVERITY_HIGH", traits, api)
       , debug_severity_medium("DEBUG_SEVERITY_MEDIUM", traits, api)
       , debug_severity_low("DEBUG_SEVERITY_LOW", traits, api)

@@ -205,6 +205,11 @@ struct pixel_store_parameter
     using enum_class::enum_class;
 };
 
+struct view_compatibility_class
+  : gl_enum_class<view_compatibility_class, EAGINE_ID_V(VwCompClss)> {
+    using enum_class::enum_class;
+};
+
 struct debug_output_severity
   : gl_enum_class<debug_output_severity, EAGINE_ID_V(DbgOutSvrt)> {
     using enum_class::enum_class;
