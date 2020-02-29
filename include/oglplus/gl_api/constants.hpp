@@ -2972,6 +2972,537 @@ public:
       sampler_2d_multisample;
 
     opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_SAMPLER_2D_MULTISAMPLE_ARRAY
+      enum_type_c<GL_SAMPLER_2D_MULTISAMPLE_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      sampler_2d_multisample_array;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_SAMPLER_CUBE_SHADOW
+      enum_type_c<GL_SAMPLER_CUBE_SHADOW>>
+#else
+      enum_type_i>
+#endif
+      sampler_cube_shadow;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_SAMPLER_CUBE_MAP_ARRAY_SHADOW
+      enum_type_c<GL_SAMPLER_CUBE_MAP_ARRAY_SHADOW>>
+#else
+      enum_type_i>
+#endif
+      sampler_cube_map_array_shadow;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_SAMPLER_BUFFER
+      enum_type_c<GL_SAMPLER_BUFFER>>
+#else
+      enum_type_i>
+#endif
+      sampler_buffer;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_SAMPLER_2D_RECT
+      enum_type_c<GL_SAMPLER_2D_RECT>>
+#else
+      enum_type_i>
+#endif
+      sampler_2d_rect;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_SAMPLER_2D_RECT_SHADOW
+      enum_type_c<GL_SAMPLER_2D_RECT_SHADOW>>
+#else
+      enum_type_i>
+#endif
+      sampler_2d_rect_shadow;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_INT_SAMPLER_1D
+      enum_type_c<GL_INT_SAMPLER_1D>>
+#else
+      enum_type_i>
+#endif
+      int_sampler_1d;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_INT_SAMPLER_2D
+      enum_type_c<GL_INT_SAMPLER_2D>>
+#else
+      enum_type_i>
+#endif
+      int_sampler_2d;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_INT_SAMPLER_3D
+      enum_type_c<GL_INT_SAMPLER_3D>>
+#else
+      enum_type_i>
+#endif
+      int_sampler_3d;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_INT_SAMPLER_CUBE
+      enum_type_c<GL_INT_SAMPLER_CUBE>>
+#else
+      enum_type_i>
+#endif
+      int_sampler_cube;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_INT_SAMPLER_1D_ARRAY
+      enum_type_c<GL_INT_SAMPLER_1D_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      int_sampler_1d_array;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_INT_SAMPLER_2D_ARRAY
+      enum_type_c<GL_INT_SAMPLER_2D_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      int_sampler_2d_array;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_INT_SAMPLER_CUBE_MAP_ARRAY
+      enum_type_c<GL_INT_SAMPLER_CUBE_MAP_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      int_sampler_cube_map_array;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_INT_SAMPLER_2D_MULTISAMPLE
+      enum_type_c<GL_INT_SAMPLER_2D_MULTISAMPLE>>
+#else
+      enum_type_i>
+#endif
+      int_sampler_2d_multisample;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_INT_SAMPLER_2D_MULTISAMPLE_ARRAY
+      enum_type_c<GL_INT_SAMPLER_2D_MULTISAMPLE_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      int_sampler_2d_multisample_array;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_INT_SAMPLER_BUFFER
+      enum_type_c<GL_INT_SAMPLER_BUFFER>>
+#else
+      enum_type_i>
+#endif
+      int_sampler_buffer;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_INT_SAMPLER_2D_RECT
+      enum_type_c<GL_INT_SAMPLER_2D_RECT>>
+#else
+      enum_type_i>
+#endif
+      int_sampler_2d_rect;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_UNSIGNED_INT_SAMPLER_1D
+      enum_type_c<GL_UNSIGNED_INT_SAMPLER_1D>>
+#else
+      enum_type_i>
+#endif
+      unsigned_int_sampler_1d;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_UNSIGNED_INT_SAMPLER_2D
+      enum_type_c<GL_UNSIGNED_INT_SAMPLER_2D>>
+#else
+      enum_type_i>
+#endif
+      unsigned_int_sampler_2d;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_UNSIGNED_INT_SAMPLER_3D
+      enum_type_c<GL_UNSIGNED_INT_SAMPLER_3D>>
+#else
+      enum_type_i>
+#endif
+      unsigned_int_sampler_3d;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_UNSIGNED_INT_SAMPLER_CUBE
+      enum_type_c<GL_UNSIGNED_INT_SAMPLER_CUBE>>
+#else
+      enum_type_i>
+#endif
+      unsigned_int_sampler_cube;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_UNSIGNED_INT_SAMPLER_1D_ARRAY
+      enum_type_c<GL_UNSIGNED_INT_SAMPLER_1D_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      unsigned_int_sampler_1d_array;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_UNSIGNED_INT_SAMPLER_2D_ARRAY
+      enum_type_c<GL_UNSIGNED_INT_SAMPLER_2D_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      unsigned_int_sampler_2d_array;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY
+      enum_type_c<GL_UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      unsigned_int_sampler_cube_map_array;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE
+      enum_type_c<GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE>>
+#else
+      enum_type_i>
+#endif
+      unsigned_int_sampler_2d_multisample;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY
+      enum_type_c<GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      unsigned_int_sampler_2d_multisample_array;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_UNSIGNED_INT_SAMPLER_BUFFER
+      enum_type_c<GL_UNSIGNED_INT_SAMPLER_BUFFER>>
+#else
+      enum_type_i>
+#endif
+      unsigned_int_sampler_buffer;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_UNSIGNED_INT_SAMPLER_2D_RECT
+      enum_type_c<GL_UNSIGNED_INT_SAMPLER_2D_RECT>>
+#else
+      enum_type_i>
+#endif
+      unsigned_int_sampler_2d_rect;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_IMAGE_1D
+      enum_type_c<GL_IMAGE_1D>>
+#else
+      enum_type_i>
+#endif
+      image_1d;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_IMAGE_2D
+      enum_type_c<GL_IMAGE_2D>>
+#else
+      enum_type_i>
+#endif
+      image_2d;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_IMAGE_3D
+      enum_type_c<GL_IMAGE_3D>>
+#else
+      enum_type_i>
+#endif
+      image_3d;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_IMAGE_2D_RECT
+      enum_type_c<GL_IMAGE_2D_RECT>>
+#else
+      enum_type_i>
+#endif
+      image_2d_rect;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_IMAGE_CUBE
+      enum_type_c<GL_IMAGE_CUBE>>
+#else
+      enum_type_i>
+#endif
+      image_cube;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_IMAGE_BUFFER
+      enum_type_c<GL_IMAGE_BUFFER>>
+#else
+      enum_type_i>
+#endif
+      image_buffer;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_IMAGE_1D_ARRAY
+      enum_type_c<GL_IMAGE_1D_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      image_1d_array;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_IMAGE_2D_ARRAY
+      enum_type_c<GL_IMAGE_2D_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      image_2d_array;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_IMAGE_2D_MULTISAMPLE
+      enum_type_c<GL_IMAGE_2D_MULTISAMPLE>>
+#else
+      enum_type_i>
+#endif
+      image_2d_multisample;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_IMAGE_2D_MULTISAMPLE_ARRAY
+      enum_type_c<GL_IMAGE_2D_MULTISAMPLE_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      image_2d_multisample_array;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_INT_IMAGE_1D
+      enum_type_c<GL_INT_IMAGE_1D>>
+#else
+      enum_type_i>
+#endif
+      int_image_1d;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_INT_IMAGE_2D
+      enum_type_c<GL_INT_IMAGE_2D>>
+#else
+      enum_type_i>
+#endif
+      int_image_2d;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_INT_IMAGE_3D
+      enum_type_c<GL_INT_IMAGE_3D>>
+#else
+      enum_type_i>
+#endif
+      int_image_3d;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_INT_IMAGE_2D_RECT
+      enum_type_c<GL_INT_IMAGE_2D_RECT>>
+#else
+      enum_type_i>
+#endif
+      int_image_2d_rect;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_INT_IMAGE_CUBE
+      enum_type_c<GL_INT_IMAGE_CUBE>>
+#else
+      enum_type_i>
+#endif
+      int_image_cube;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_INT_IMAGE_BUFFER
+      enum_type_c<GL_INT_IMAGE_BUFFER>>
+#else
+      enum_type_i>
+#endif
+      int_image_buffer;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_INT_IMAGE_1D_ARRAY
+      enum_type_c<GL_INT_IMAGE_1D_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      int_image_1d_array;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_INT_IMAGE_2D_ARRAY
+      enum_type_c<GL_INT_IMAGE_2D_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      int_image_2d_array;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_INT_IMAGE_2D_MULTISAMPLE
+      enum_type_c<GL_INT_IMAGE_2D_MULTISAMPLE>>
+#else
+      enum_type_i>
+#endif
+      int_image_2d_multisample;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_INT_IMAGE_2D_MULTISAMPLE_ARRAY
+      enum_type_c<GL_INT_IMAGE_2D_MULTISAMPLE_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      int_image_2d_multisample_array;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_UNSIGNED_INT_IMAGE_1D
+      enum_type_c<GL_UNSIGNED_INT_IMAGE_1D>>
+#else
+      enum_type_i>
+#endif
+      unsigned_int_image_1d;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_UNSIGNED_INT_IMAGE_2D
+      enum_type_c<GL_UNSIGNED_INT_IMAGE_2D>>
+#else
+      enum_type_i>
+#endif
+      unsigned_int_image_2d;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_UNSIGNED_INT_IMAGE_3D
+      enum_type_c<GL_UNSIGNED_INT_IMAGE_3D>>
+#else
+      enum_type_i>
+#endif
+      unsigned_int_image_3d;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_UNSIGNED_INT_IMAGE_2D_RECT
+      enum_type_c<GL_UNSIGNED_INT_IMAGE_2D_RECT>>
+#else
+      enum_type_i>
+#endif
+      unsigned_int_image_2d_rect;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_UNSIGNED_INT_IMAGE_CUBE
+      enum_type_c<GL_UNSIGNED_INT_IMAGE_CUBE>>
+#else
+      enum_type_i>
+#endif
+      unsigned_int_image_cube;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_UNSIGNED_INT_IMAGE_BUFFER
+      enum_type_c<GL_UNSIGNED_INT_IMAGE_BUFFER>>
+#else
+      enum_type_i>
+#endif
+      unsigned_int_image_buffer;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_UNSIGNED_INT_IMAGE_1D_ARRAY
+      enum_type_c<GL_UNSIGNED_INT_IMAGE_1D_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      unsigned_int_image_1d_array;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_UNSIGNED_INT_IMAGE_2D_ARRAY
+      enum_type_c<GL_UNSIGNED_INT_IMAGE_2D_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      unsigned_int_image_2d_array;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE
+      enum_type_c<GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE>>
+#else
+      enum_type_i>
+#endif
+      unsigned_int_image_2d_multisample;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE_ARRAY
+      enum_type_c<GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      unsigned_int_image_2d_multisample_array;
+
+    opt_c_api_constant<
+      mp_list<sl_data_type>,
+#ifdef GL_UNSIGNED_INT_ATOMIC_COUNTER
+      enum_type_c<GL_UNSIGNED_INT_ATOMIC_COUNTER>>
+#else
+      enum_type_i>
+#endif
+      unsigned_int_atomic_counter;
+
+    opt_c_api_constant<
       mp_list<primitive_type>,
 #ifdef GL_POINTS
       enum_type_c<GL_POINTS>>
@@ -5689,6 +6220,77 @@ public:
       , sampler_1d_array_shadow("SAMPLER_1D_ARRAY_SHADOW", traits, api)
       , sampler_2d_array_shadow("SAMPLER_2D_ARRAY_SHADOW", traits, api)
       , sampler_2d_multisample("SAMPLER_2D_MULTISAMPLE", traits, api)
+      , sampler_2d_multisample_array(
+          "SAMPLER_2D_MULTISAMPLE_ARRAY", traits, api)
+      , sampler_cube_shadow("SAMPLER_CUBE_SHADOW", traits, api)
+      , sampler_cube_map_array_shadow(
+          "SAMPLER_CUBE_MAP_ARRAY_SHADOW", traits, api)
+      , sampler_buffer("SAMPLER_BUFFER", traits, api)
+      , sampler_2d_rect("SAMPLER_2D_RECT", traits, api)
+      , sampler_2d_rect_shadow("SAMPLER_2D_RECT_SHADOW", traits, api)
+      , int_sampler_1d("INT_SAMPLER_1D", traits, api)
+      , int_sampler_2d("INT_SAMPLER_2D", traits, api)
+      , int_sampler_3d("INT_SAMPLER_3D", traits, api)
+      , int_sampler_cube("INT_SAMPLER_CUBE", traits, api)
+      , int_sampler_1d_array("INT_SAMPLER_1D_ARRAY", traits, api)
+      , int_sampler_2d_array("INT_SAMPLER_2D_ARRAY", traits, api)
+      , int_sampler_cube_map_array("INT_SAMPLER_CUBE_MAP_ARRAY", traits, api)
+      , int_sampler_2d_multisample("INT_SAMPLER_2D_MULTISAMPLE", traits, api)
+      , int_sampler_2d_multisample_array(
+          "INT_SAMPLER_2D_MULTISAMPLE_ARRAY", traits, api)
+      , int_sampler_buffer("INT_SAMPLER_BUFFER", traits, api)
+      , int_sampler_2d_rect("INT_SAMPLER_2D_RECT", traits, api)
+      , unsigned_int_sampler_1d("UNSIGNED_INT_SAMPLER_1D", traits, api)
+      , unsigned_int_sampler_2d("UNSIGNED_INT_SAMPLER_2D", traits, api)
+      , unsigned_int_sampler_3d("UNSIGNED_INT_SAMPLER_3D", traits, api)
+      , unsigned_int_sampler_cube("UNSIGNED_INT_SAMPLER_CUBE", traits, api)
+      , unsigned_int_sampler_1d_array(
+          "UNSIGNED_INT_SAMPLER_1D_ARRAY", traits, api)
+      , unsigned_int_sampler_2d_array(
+          "UNSIGNED_INT_SAMPLER_2D_ARRAY", traits, api)
+      , unsigned_int_sampler_cube_map_array(
+          "UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY", traits, api)
+      , unsigned_int_sampler_2d_multisample(
+          "UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE", traits, api)
+      , unsigned_int_sampler_2d_multisample_array(
+          "UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY", traits, api)
+      , unsigned_int_sampler_buffer("UNSIGNED_INT_SAMPLER_BUFFER", traits, api)
+      , unsigned_int_sampler_2d_rect(
+          "UNSIGNED_INT_SAMPLER_2D_RECT", traits, api)
+      , image_1d("IMAGE_1D", traits, api)
+      , image_2d("IMAGE_2D", traits, api)
+      , image_3d("IMAGE_3D", traits, api)
+      , image_2d_rect("IMAGE_2D_RECT", traits, api)
+      , image_cube("IMAGE_CUBE", traits, api)
+      , image_buffer("IMAGE_BUFFER", traits, api)
+      , image_1d_array("IMAGE_1D_ARRAY", traits, api)
+      , image_2d_array("IMAGE_2D_ARRAY", traits, api)
+      , image_2d_multisample("IMAGE_2D_MULTISAMPLE", traits, api)
+      , image_2d_multisample_array("IMAGE_2D_MULTISAMPLE_ARRAY", traits, api)
+      , int_image_1d("INT_IMAGE_1D", traits, api)
+      , int_image_2d("INT_IMAGE_2D", traits, api)
+      , int_image_3d("INT_IMAGE_3D", traits, api)
+      , int_image_2d_rect("INT_IMAGE_2D_RECT", traits, api)
+      , int_image_cube("INT_IMAGE_CUBE", traits, api)
+      , int_image_buffer("INT_IMAGE_BUFFER", traits, api)
+      , int_image_1d_array("INT_IMAGE_1D_ARRAY", traits, api)
+      , int_image_2d_array("INT_IMAGE_2D_ARRAY", traits, api)
+      , int_image_2d_multisample("INT_IMAGE_2D_MULTISAMPLE", traits, api)
+      , int_image_2d_multisample_array(
+          "INT_IMAGE_2D_MULTISAMPLE_ARRAY", traits, api)
+      , unsigned_int_image_1d("UNSIGNED_INT_IMAGE_1D", traits, api)
+      , unsigned_int_image_2d("UNSIGNED_INT_IMAGE_2D", traits, api)
+      , unsigned_int_image_3d("UNSIGNED_INT_IMAGE_3D", traits, api)
+      , unsigned_int_image_2d_rect("UNSIGNED_INT_IMAGE_2D_RECT", traits, api)
+      , unsigned_int_image_cube("UNSIGNED_INT_IMAGE_CUBE", traits, api)
+      , unsigned_int_image_buffer("UNSIGNED_INT_IMAGE_BUFFER", traits, api)
+      , unsigned_int_image_1d_array("UNSIGNED_INT_IMAGE_1D_ARRAY", traits, api)
+      , unsigned_int_image_2d_array("UNSIGNED_INT_IMAGE_2D_ARRAY", traits, api)
+      , unsigned_int_image_2d_multisample(
+          "UNSIGNED_INT_IMAGE_2D_MULTISAMPLE", traits, api)
+      , unsigned_int_image_2d_multisample_array(
+          "UNSIGNED_INT_IMAGE_2D_MULTISAMPLE_ARRAY", traits, api)
+      , unsigned_int_atomic_counter("UNSIGNED_INT_ATOMIC_COUNTER", traits, api)
       , points("POINTS", traits, api)
       , line_strip("LINE_STRIP", traits, api)
       , line_loop("LINE_LOOP", traits, api)
