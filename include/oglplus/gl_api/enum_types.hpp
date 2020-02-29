@@ -205,6 +205,11 @@ struct pixel_store_parameter
     using enum_class::enum_class;
 };
 
+struct internal_format_parameter
+  : gl_enum_class<internal_format_parameter, EAGINE_ID_V(IntlFmtPrm)> {
+    using enum_class::enum_class;
+};
+
 struct view_compatibility_class
   : gl_enum_class<view_compatibility_class, EAGINE_ID_V(VwCompClss)> {
     using enum_class::enum_class;

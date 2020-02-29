@@ -1009,7 +1009,7 @@ public:
       depth_stencil_texture_mode;
 
     opt_c_api_constant<
-      mp_list<texture_parameter>,
+      mp_list<texture_parameter, internal_format_parameter>,
 #ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
       enum_type_c<GL_IMAGE_FORMAT_COMPATIBILITY_TYPE>>
 #else
@@ -4430,6 +4430,663 @@ public:
       view_class_bptc_float;
 
     opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_NUM_SAMPLE_COUNTS
+      enum_type_c<GL_NUM_SAMPLE_COUNTS>>
+#else
+      enum_type_i>
+#endif
+      num_sample_counts;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_SAMPLES
+      enum_type_c<GL_SAMPLES>>
+#else
+      enum_type_i>
+#endif
+      samples;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_INTERNALFORMAT_SUPPORTED
+      enum_type_c<GL_INTERNALFORMAT_SUPPORTED>>
+#else
+      enum_type_i>
+#endif
+      internalformat_supported;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_INTERNALFORMAT_PREFERRED
+      enum_type_c<GL_INTERNALFORMAT_PREFERRED>>
+#else
+      enum_type_i>
+#endif
+      internalformat_preferred;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_INTERNALFORMAT_RED_SIZE
+      enum_type_c<GL_INTERNALFORMAT_RED_SIZE>>
+#else
+      enum_type_i>
+#endif
+      internalformat_red_size;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_INTERNALFORMAT_GREEN_SIZE
+      enum_type_c<GL_INTERNALFORMAT_GREEN_SIZE>>
+#else
+      enum_type_i>
+#endif
+      internalformat_green_size;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_INTERNALFORMAT_BLUE_SIZE
+      enum_type_c<GL_INTERNALFORMAT_BLUE_SIZE>>
+#else
+      enum_type_i>
+#endif
+      internalformat_blue_size;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_INTERNALFORMAT_ALPHA_SIZE
+      enum_type_c<GL_INTERNALFORMAT_ALPHA_SIZE>>
+#else
+      enum_type_i>
+#endif
+      internalformat_alpha_size;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_INTERNALFORMAT_DEPTH_SIZE
+      enum_type_c<GL_INTERNALFORMAT_DEPTH_SIZE>>
+#else
+      enum_type_i>
+#endif
+      internalformat_depth_size;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_INTERNALFORMAT_STENCIL_SIZE
+      enum_type_c<GL_INTERNALFORMAT_STENCIL_SIZE>>
+#else
+      enum_type_i>
+#endif
+      internalformat_stencil_size;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_INTERNALFORMAT_SHARED_SIZE
+      enum_type_c<GL_INTERNALFORMAT_SHARED_SIZE>>
+#else
+      enum_type_i>
+#endif
+      internalformat_shared_size;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_INTERNALFORMAT_RED_TYPE
+      enum_type_c<GL_INTERNALFORMAT_RED_TYPE>>
+#else
+      enum_type_i>
+#endif
+      internalformat_red_type;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_INTERNALFORMAT_GREEN_TYPE
+      enum_type_c<GL_INTERNALFORMAT_GREEN_TYPE>>
+#else
+      enum_type_i>
+#endif
+      internalformat_green_type;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_INTERNALFORMAT_BLUE_TYPE
+      enum_type_c<GL_INTERNALFORMAT_BLUE_TYPE>>
+#else
+      enum_type_i>
+#endif
+      internalformat_blue_type;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_INTERNALFORMAT_ALPHA_TYPE
+      enum_type_c<GL_INTERNALFORMAT_ALPHA_TYPE>>
+#else
+      enum_type_i>
+#endif
+      internalformat_alpha_type;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_INTERNALFORMAT_DEPTH_TYPE
+      enum_type_c<GL_INTERNALFORMAT_DEPTH_TYPE>>
+#else
+      enum_type_i>
+#endif
+      internalformat_depth_type;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_INTERNALFORMAT_STENCIL_TYPE
+      enum_type_c<GL_INTERNALFORMAT_STENCIL_TYPE>>
+#else
+      enum_type_i>
+#endif
+      internalformat_stencil_type;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_MAX_WIDTH
+      enum_type_c<GL_MAX_WIDTH>>
+#else
+      enum_type_i>
+#endif
+      max_width;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_MAX_HEIGHT
+      enum_type_c<GL_MAX_HEIGHT>>
+#else
+      enum_type_i>
+#endif
+      max_height;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_MAX_DEPTH
+      enum_type_c<GL_MAX_DEPTH>>
+#else
+      enum_type_i>
+#endif
+      max_depth;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_MAX_LAYERS
+      enum_type_c<GL_MAX_LAYERS>>
+#else
+      enum_type_i>
+#endif
+      max_layers;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_MAX_COMBINED_DIMENSIONS
+      enum_type_c<GL_MAX_COMBINED_DIMENSIONS>>
+#else
+      enum_type_i>
+#endif
+      max_combined_dimensions;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_COLOR_COMPONENTS
+      enum_type_c<GL_COLOR_COMPONENTS>>
+#else
+      enum_type_i>
+#endif
+      color_components;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_DEPTH_COMPONENTS
+      enum_type_c<GL_DEPTH_COMPONENTS>>
+#else
+      enum_type_i>
+#endif
+      depth_components;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_STENCIL_COMPONENTS
+      enum_type_c<GL_STENCIL_COMPONENTS>>
+#else
+      enum_type_i>
+#endif
+      stencil_components;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_COLOR_RENDERABLE
+      enum_type_c<GL_COLOR_RENDERABLE>>
+#else
+      enum_type_i>
+#endif
+      color_renderable;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_DEPTH_RENDERABLE
+      enum_type_c<GL_DEPTH_RENDERABLE>>
+#else
+      enum_type_i>
+#endif
+      depth_renderable;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_STENCIL_RENDERABLE
+      enum_type_c<GL_STENCIL_RENDERABLE>>
+#else
+      enum_type_i>
+#endif
+      stencil_renderable;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_FRAMEBUFFER_RENDERABLE
+      enum_type_c<GL_FRAMEBUFFER_RENDERABLE>>
+#else
+      enum_type_i>
+#endif
+      framebuffer_renderable;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_FRAMEBUFFER_RENDERABLE_LAYERED
+      enum_type_c<GL_FRAMEBUFFER_RENDERABLE_LAYERED>>
+#else
+      enum_type_i>
+#endif
+      framebuffer_renderable_layered;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_FRAMEBUFFER_BLEND
+      enum_type_c<GL_FRAMEBUFFER_BLEND>>
+#else
+      enum_type_i>
+#endif
+      framebuffer_blend;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_READ_PIXELS
+      enum_type_c<GL_READ_PIXELS>>
+#else
+      enum_type_i>
+#endif
+      read_pixels;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_READ_PIXELS_FORMAT
+      enum_type_c<GL_READ_PIXELS_FORMAT>>
+#else
+      enum_type_i>
+#endif
+      read_pixels_format;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_READ_PIXELS_TYPE
+      enum_type_c<GL_READ_PIXELS_TYPE>>
+#else
+      enum_type_i>
+#endif
+      read_pixels_type;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_TEXTURE_IMAGE_FORMAT
+      enum_type_c<GL_TEXTURE_IMAGE_FORMAT>>
+#else
+      enum_type_i>
+#endif
+      texture_image_format;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_TEXTURE_IMAGE_TYPE
+      enum_type_c<GL_TEXTURE_IMAGE_TYPE>>
+#else
+      enum_type_i>
+#endif
+      texture_image_type;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_GET_TEXTURE_IMAGE_FORMAT
+      enum_type_c<GL_GET_TEXTURE_IMAGE_FORMAT>>
+#else
+      enum_type_i>
+#endif
+      get_texture_image_format;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_GET_TEXTURE_IMAGE_TYPE
+      enum_type_c<GL_GET_TEXTURE_IMAGE_TYPE>>
+#else
+      enum_type_i>
+#endif
+      get_texture_image_type;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_MIPMAP
+      enum_type_c<GL_MIPMAP>>
+#else
+      enum_type_i>
+#endif
+      mipmap;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_GENERATE_MIPMAP
+      enum_type_c<GL_GENERATE_MIPMAP>>
+#else
+      enum_type_i>
+#endif
+      generate_mipmap;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_AUTO_GENERATE_MIPMAP
+      enum_type_c<GL_AUTO_GENERATE_MIPMAP>>
+#else
+      enum_type_i>
+#endif
+      auto_generate_mipmap;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_COLOR_ENCODING
+      enum_type_c<GL_COLOR_ENCODING>>
+#else
+      enum_type_i>
+#endif
+      color_encoding;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_SRGB_READ
+      enum_type_c<GL_SRGB_READ>>
+#else
+      enum_type_i>
+#endif
+      srgb_read;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_SRGB_WRITE
+      enum_type_c<GL_SRGB_WRITE>>
+#else
+      enum_type_i>
+#endif
+      srgb_write;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_FILTER
+      enum_type_c<GL_FILTER>>
+#else
+      enum_type_i>
+#endif
+      filter;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_VERTEX_TEXTURE
+      enum_type_c<GL_VERTEX_TEXTURE>>
+#else
+      enum_type_i>
+#endif
+      vertex_texture;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_TESS_CONTROL_TEXTURE
+      enum_type_c<GL_TESS_CONTROL_TEXTURE>>
+#else
+      enum_type_i>
+#endif
+      tess_control_texture;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_TESS_EVALUATION_TEXTURE
+      enum_type_c<GL_TESS_EVALUATION_TEXTURE>>
+#else
+      enum_type_i>
+#endif
+      tess_evaluation_texture;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_GEOMETRY_TEXTURE
+      enum_type_c<GL_GEOMETRY_TEXTURE>>
+#else
+      enum_type_i>
+#endif
+      geometry_texture;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_FRAGMENT_TEXTURE
+      enum_type_c<GL_FRAGMENT_TEXTURE>>
+#else
+      enum_type_i>
+#endif
+      fragment_texture;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_COMPUTE_TEXTURE
+      enum_type_c<GL_COMPUTE_TEXTURE>>
+#else
+      enum_type_i>
+#endif
+      compute_texture;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_TEXTURE_SHADOW
+      enum_type_c<GL_TEXTURE_SHADOW>>
+#else
+      enum_type_i>
+#endif
+      texture_shadow;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_TEXTURE_GATHER
+      enum_type_c<GL_TEXTURE_GATHER>>
+#else
+      enum_type_i>
+#endif
+      texture_gather;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_TEXTURE_GATHER_SHADOW
+      enum_type_c<GL_TEXTURE_GATHER_SHADOW>>
+#else
+      enum_type_i>
+#endif
+      texture_gather_shadow;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_SHADER_IMAGE_LOAD
+      enum_type_c<GL_SHADER_IMAGE_LOAD>>
+#else
+      enum_type_i>
+#endif
+      shader_image_load;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_SHADER_IMAGE_STORE
+      enum_type_c<GL_SHADER_IMAGE_STORE>>
+#else
+      enum_type_i>
+#endif
+      shader_image_store;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_SHADER_IMAGE_ATOMIC
+      enum_type_c<GL_SHADER_IMAGE_ATOMIC>>
+#else
+      enum_type_i>
+#endif
+      shader_image_atomic;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_IMAGE_TEXEL_SIZE
+      enum_type_c<GL_IMAGE_TEXEL_SIZE>>
+#else
+      enum_type_i>
+#endif
+      image_texel_size;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_IMAGE_COMPATIBILITY_CLASS
+      enum_type_c<GL_IMAGE_COMPATIBILITY_CLASS>>
+#else
+      enum_type_i>
+#endif
+      image_compatibility_class;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_IMAGE_PIXEL_FORMAT
+      enum_type_c<GL_IMAGE_PIXEL_FORMAT>>
+#else
+      enum_type_i>
+#endif
+      image_pixel_format;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_IMAGE_PIXEL_TYPE
+      enum_type_c<GL_IMAGE_PIXEL_TYPE>>
+#else
+      enum_type_i>
+#endif
+      image_pixel_type;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_SIMULTANEOUS_TEXTURE_AND_DEPTH_TEST
+      enum_type_c<GL_SIMULTANEOUS_TEXTURE_AND_DEPTH_TEST>>
+#else
+      enum_type_i>
+#endif
+      simultaneous_texture_and_depth_test;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_SIMULTANEOUS_TEXTURE_AND_STENCIL_TEST
+      enum_type_c<GL_SIMULTANEOUS_TEXTURE_AND_STENCIL_TEST>>
+#else
+      enum_type_i>
+#endif
+      simultaneous_texture_and_stencil_test;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_SIMULTANEOUS_TEXTURE_AND_DEPTH_WRITE
+      enum_type_c<GL_SIMULTANEOUS_TEXTURE_AND_DEPTH_WRITE>>
+#else
+      enum_type_i>
+#endif
+      simultaneous_texture_and_depth_write;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_SIMULTANEOUS_TEXTURE_AND_STENCIL_WRITE
+      enum_type_c<GL_SIMULTANEOUS_TEXTURE_AND_STENCIL_WRITE>>
+#else
+      enum_type_i>
+#endif
+      simultaneous_texture_and_stencil_write;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_TEXTURE_COMPRESSED
+      enum_type_c<GL_TEXTURE_COMPRESSED>>
+#else
+      enum_type_i>
+#endif
+      texture_compressed;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_TEXTURE_COMPRESSED_BLOCK_WIDTH
+      enum_type_c<GL_TEXTURE_COMPRESSED_BLOCK_WIDTH>>
+#else
+      enum_type_i>
+#endif
+      texture_compressed_block_width;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_TEXTURE_COMPRESSED_BLOCK_HEIGHT
+      enum_type_c<GL_TEXTURE_COMPRESSED_BLOCK_HEIGHT>>
+#else
+      enum_type_i>
+#endif
+      texture_compressed_block_height;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_TEXTURE_COMPRESSED_BLOCK_SIZE
+      enum_type_c<GL_TEXTURE_COMPRESSED_BLOCK_SIZE>>
+#else
+      enum_type_i>
+#endif
+      texture_compressed_block_size;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_CLEAR_BUFFER
+      enum_type_c<GL_CLEAR_BUFFER>>
+#else
+      enum_type_i>
+#endif
+      clear_buffer;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_CLEAR_TEXTURE
+      enum_type_c<GL_CLEAR_TEXTURE>>
+#else
+      enum_type_i>
+#endif
+      clear_texture;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_TEXTURE_VIEW
+      enum_type_c<GL_TEXTURE_VIEW>>
+#else
+      enum_type_i>
+#endif
+      texture_view;
+
+    opt_c_api_constant<
+      mp_list<internal_format_parameter>,
+#ifdef GL_VIEW_COMPATIBILITY_CLASS
+      enum_type_c<GL_VIEW_COMPATIBILITY_CLASS>>
+#else
+      enum_type_i>
+#endif
+      view_compatibility_class;
+
+    opt_c_api_constant<
       mp_list<debug_output_severity>,
 #ifdef GL_DEBUG_SEVERITY_HIGH
       enum_type_c<GL_DEBUG_SEVERITY_HIGH>>
@@ -5199,6 +5856,87 @@ public:
       , view_class_rgtc2_rg("VIEW_CLASS_RGTC2_RG", traits, api)
       , view_class_bptc_unorm("VIEW_CLASS_BPTC_UNORM", traits, api)
       , view_class_bptc_float("VIEW_CLASS_BPTC_FLOAT", traits, api)
+      , num_sample_counts("NUM_SAMPLE_COUNTS", traits, api)
+      , samples("SAMPLES", traits, api)
+      , internalformat_supported("INTERNALFORMAT_SUPPORTED", traits, api)
+      , internalformat_preferred("INTERNALFORMAT_PREFERRED", traits, api)
+      , internalformat_red_size("INTERNALFORMAT_RED_SIZE", traits, api)
+      , internalformat_green_size("INTERNALFORMAT_GREEN_SIZE", traits, api)
+      , internalformat_blue_size("INTERNALFORMAT_BLUE_SIZE", traits, api)
+      , internalformat_alpha_size("INTERNALFORMAT_ALPHA_SIZE", traits, api)
+      , internalformat_depth_size("INTERNALFORMAT_DEPTH_SIZE", traits, api)
+      , internalformat_stencil_size("INTERNALFORMAT_STENCIL_SIZE", traits, api)
+      , internalformat_shared_size("INTERNALFORMAT_SHARED_SIZE", traits, api)
+      , internalformat_red_type("INTERNALFORMAT_RED_TYPE", traits, api)
+      , internalformat_green_type("INTERNALFORMAT_GREEN_TYPE", traits, api)
+      , internalformat_blue_type("INTERNALFORMAT_BLUE_TYPE", traits, api)
+      , internalformat_alpha_type("INTERNALFORMAT_ALPHA_TYPE", traits, api)
+      , internalformat_depth_type("INTERNALFORMAT_DEPTH_TYPE", traits, api)
+      , internalformat_stencil_type("INTERNALFORMAT_STENCIL_TYPE", traits, api)
+      , max_width("MAX_WIDTH", traits, api)
+      , max_height("MAX_HEIGHT", traits, api)
+      , max_depth("MAX_DEPTH", traits, api)
+      , max_layers("MAX_LAYERS", traits, api)
+      , max_combined_dimensions("MAX_COMBINED_DIMENSIONS", traits, api)
+      , color_components("COLOR_COMPONENTS", traits, api)
+      , depth_components("DEPTH_COMPONENTS", traits, api)
+      , stencil_components("STENCIL_COMPONENTS", traits, api)
+      , color_renderable("COLOR_RENDERABLE", traits, api)
+      , depth_renderable("DEPTH_RENDERABLE", traits, api)
+      , stencil_renderable("STENCIL_RENDERABLE", traits, api)
+      , framebuffer_renderable("FRAMEBUFFER_RENDERABLE", traits, api)
+      , framebuffer_renderable_layered(
+          "FRAMEBUFFER_RENDERABLE_LAYERED", traits, api)
+      , framebuffer_blend("FRAMEBUFFER_BLEND", traits, api)
+      , read_pixels("READ_PIXELS", traits, api)
+      , read_pixels_format("READ_PIXELS_FORMAT", traits, api)
+      , read_pixels_type("READ_PIXELS_TYPE", traits, api)
+      , texture_image_format("TEXTURE_IMAGE_FORMAT", traits, api)
+      , texture_image_type("TEXTURE_IMAGE_TYPE", traits, api)
+      , get_texture_image_format("GET_TEXTURE_IMAGE_FORMAT", traits, api)
+      , get_texture_image_type("GET_TEXTURE_IMAGE_TYPE", traits, api)
+      , mipmap("MIPMAP", traits, api)
+      , generate_mipmap("GENERATE_MIPMAP", traits, api)
+      , auto_generate_mipmap("AUTO_GENERATE_MIPMAP", traits, api)
+      , color_encoding("COLOR_ENCODING", traits, api)
+      , srgb_read("SRGB_READ", traits, api)
+      , srgb_write("SRGB_WRITE", traits, api)
+      , filter("FILTER", traits, api)
+      , vertex_texture("VERTEX_TEXTURE", traits, api)
+      , tess_control_texture("TESS_CONTROL_TEXTURE", traits, api)
+      , tess_evaluation_texture("TESS_EVALUATION_TEXTURE", traits, api)
+      , geometry_texture("GEOMETRY_TEXTURE", traits, api)
+      , fragment_texture("FRAGMENT_TEXTURE", traits, api)
+      , compute_texture("COMPUTE_TEXTURE", traits, api)
+      , texture_shadow("TEXTURE_SHADOW", traits, api)
+      , texture_gather("TEXTURE_GATHER", traits, api)
+      , texture_gather_shadow("TEXTURE_GATHER_SHADOW", traits, api)
+      , shader_image_load("SHADER_IMAGE_LOAD", traits, api)
+      , shader_image_store("SHADER_IMAGE_STORE", traits, api)
+      , shader_image_atomic("SHADER_IMAGE_ATOMIC", traits, api)
+      , image_texel_size("IMAGE_TEXEL_SIZE", traits, api)
+      , image_compatibility_class("IMAGE_COMPATIBILITY_CLASS", traits, api)
+      , image_pixel_format("IMAGE_PIXEL_FORMAT", traits, api)
+      , image_pixel_type("IMAGE_PIXEL_TYPE", traits, api)
+      , simultaneous_texture_and_depth_test(
+          "SIMULTANEOUS_TEXTURE_AND_DEPTH_TEST", traits, api)
+      , simultaneous_texture_and_stencil_test(
+          "SIMULTANEOUS_TEXTURE_AND_STENCIL_TEST", traits, api)
+      , simultaneous_texture_and_depth_write(
+          "SIMULTANEOUS_TEXTURE_AND_DEPTH_WRITE", traits, api)
+      , simultaneous_texture_and_stencil_write(
+          "SIMULTANEOUS_TEXTURE_AND_STENCIL_WRITE", traits, api)
+      , texture_compressed("TEXTURE_COMPRESSED", traits, api)
+      , texture_compressed_block_width(
+          "TEXTURE_COMPRESSED_BLOCK_WIDTH", traits, api)
+      , texture_compressed_block_height(
+          "TEXTURE_COMPRESSED_BLOCK_HEIGHT", traits, api)
+      , texture_compressed_block_size(
+          "TEXTURE_COMPRESSED_BLOCK_SIZE", traits, api)
+      , clear_buffer("CLEAR_BUFFER", traits, api)
+      , clear_texture("CLEAR_TEXTURE", traits, api)
+      , texture_view("TEXTURE_VIEW", traits, api)
+      , view_compatibility_class("VIEW_COMPATIBILITY_CLASS", traits, api)
       , debug_severity_high("DEBUG_SEVERITY_HIGH", traits, api)
       , debug_severity_medium("DEBUG_SEVERITY_MEDIUM", traits, api)
       , debug_severity_low("DEBUG_SEVERITY_LOW", traits, api)
