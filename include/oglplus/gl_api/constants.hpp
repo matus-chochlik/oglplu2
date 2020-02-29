@@ -317,7 +317,7 @@ public:
       read_write;
 
     opt_c_api_constant<
-      mp_list<oglp::shader_type>,
+      mp_list<oglp::shader_type, program_pipeline_parameter>,
 #ifdef GL_VERTEX_SHADER
       enum_type_c<GL_VERTEX_SHADER>>
 #else
@@ -326,7 +326,7 @@ public:
       vertex_shader;
 
     opt_c_api_constant<
-      mp_list<oglp::shader_type>,
+      mp_list<oglp::shader_type, program_pipeline_parameter>,
 #ifdef GL_TESS_CONTROL_SHADER
       enum_type_c<GL_TESS_CONTROL_SHADER>>
 #else
@@ -335,7 +335,7 @@ public:
       tess_control_shader;
 
     opt_c_api_constant<
-      mp_list<oglp::shader_type>,
+      mp_list<oglp::shader_type, program_pipeline_parameter>,
 #ifdef GL_TESS_EVALUATION_SHADER
       enum_type_c<GL_TESS_EVALUATION_SHADER>>
 #else
@@ -344,7 +344,7 @@ public:
       tess_evaluation_shader;
 
     opt_c_api_constant<
-      mp_list<oglp::shader_type>,
+      mp_list<oglp::shader_type, program_pipeline_parameter>,
 #ifdef GL_GEOMETRY_SHADER
       enum_type_c<GL_GEOMETRY_SHADER>>
 #else
@@ -353,7 +353,7 @@ public:
       geometry_shader;
 
     opt_c_api_constant<
-      mp_list<oglp::shader_type>,
+      mp_list<oglp::shader_type, program_pipeline_parameter>,
 #ifdef GL_FRAGMENT_SHADER
       enum_type_c<GL_FRAGMENT_SHADER>>
 #else
@@ -398,7 +398,7 @@ public:
       compile_status;
 
     opt_c_api_constant<
-      mp_list<shader_parameter, program_parameter>,
+      mp_list<shader_parameter, program_parameter, program_pipeline_parameter>,
 #ifdef GL_INFO_LOG_LENGTH
       enum_type_c<GL_INFO_LOG_LENGTH>>
 #else
@@ -558,6 +558,15 @@ public:
       enum_type_i>
 #endif
       geometry_output_type;
+
+    opt_c_api_constant<
+      mp_list<program_pipeline_parameter>,
+#ifdef GL_ACTIVE_PROGRAM
+      enum_type_c<GL_ACTIVE_PROGRAM>>
+#else
+      enum_type_i>
+#endif
+      active_program;
 
     opt_c_api_constant<
       mp_list<buffer_target>,
@@ -6078,6 +6087,7 @@ public:
       , geometry_vertices_out("GEOMETRY_VERTICES_OUT", traits, api)
       , geometry_input_type("GEOMETRY_INPUT_TYPE", traits, api)
       , geometry_output_type("GEOMETRY_OUTPUT_TYPE", traits, api)
+      , active_program("ACTIVE_PROGRAM", traits, api)
       , array_buffer("ARRAY_BUFFER", traits, api)
       , atomic_counter_buffer("ATOMIC_COUNTER_BUFFER", traits, api)
       , copy_read_buffer("COPY_READ_BUFFER", traits, api)
