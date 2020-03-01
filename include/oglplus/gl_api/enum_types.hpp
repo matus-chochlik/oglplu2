@@ -37,6 +37,10 @@ struct access_specifier
     using enum_class::enum_class;
 };
 
+struct object_type : gl_enum_class<object_type, EAGINE_ID_V(ObjectType)> {
+    using enum_class::enum_class;
+};
+
 struct shader_type : gl_enum_class<shader_type, EAGINE_ID_V(ShaderType)> {
     using enum_class::enum_class;
 };

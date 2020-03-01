@@ -317,6 +317,105 @@ public:
       read_write;
 
     opt_c_api_constant<
+      mp_list<object_type>,
+#ifdef GL_BUFFER
+      enum_type_c<GL_BUFFER>>
+#else
+      enum_type_i>
+#endif
+      buffer;
+
+    opt_c_api_constant<
+      mp_list<object_type>,
+#ifdef GL_FRAMEBUFFER
+      enum_type_c<GL_FRAMEBUFFER>>
+#else
+      enum_type_i>
+#endif
+      framebuffer;
+
+    opt_c_api_constant<
+      mp_list<object_type>,
+#ifdef GL_PROGRAM_PIPELINE
+      enum_type_c<GL_PROGRAM_PIPELINE>>
+#else
+      enum_type_i>
+#endif
+      program_pipeline;
+
+    opt_c_api_constant<
+      mp_list<object_type>,
+#ifdef GL_PROGRAM
+      enum_type_c<GL_PROGRAM>>
+#else
+      enum_type_i>
+#endif
+      program;
+
+    opt_c_api_constant<
+      mp_list<object_type>,
+#ifdef GL_QUERY
+      enum_type_c<GL_QUERY>>
+#else
+      enum_type_i>
+#endif
+      query;
+
+    opt_c_api_constant<
+      mp_list<object_type>,
+#ifdef GL_RENDERBUFFER
+      enum_type_c<GL_RENDERBUFFER>>
+#else
+      enum_type_i>
+#endif
+      renderbuffer;
+
+    opt_c_api_constant<
+      mp_list<object_type>,
+#ifdef GL_SAMPLER
+      enum_type_c<GL_SAMPLER>>
+#else
+      enum_type_i>
+#endif
+      sampler;
+
+    opt_c_api_constant<
+      mp_list<object_type>,
+#ifdef GL_SHADER
+      enum_type_c<GL_SHADER>>
+#else
+      enum_type_i>
+#endif
+      shader;
+
+    opt_c_api_constant<
+      mp_list<object_type>,
+#ifdef GL_TEXTURE
+      enum_type_c<GL_TEXTURE>>
+#else
+      enum_type_i>
+#endif
+      texture;
+
+    opt_c_api_constant<
+      mp_list<object_type>,
+#ifdef GL_TRANSFORM_FEEDBACK
+      enum_type_c<GL_TRANSFORM_FEEDBACK>>
+#else
+      enum_type_i>
+#endif
+      transform_feedback;
+
+    opt_c_api_constant<
+      mp_list<object_type>,
+#ifdef GL_VERTEX_ARRAY
+      enum_type_c<GL_VERTEX_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      vertex_array;
+
+    opt_c_api_constant<
       mp_list<oglp::shader_type, program_pipeline_parameter>,
 #ifdef GL_VERTEX_SHADER
       enum_type_c<GL_VERTEX_SHADER>>
@@ -6246,6 +6345,17 @@ public:
       , read_only("READ_ONLY", traits, api)
       , write_only("WRITE_ONLY", traits, api)
       , read_write("READ_WRITE", traits, api)
+      , buffer("BUFFER", traits, api)
+      , framebuffer("FRAMEBUFFER", traits, api)
+      , program_pipeline("PROGRAM_PIPELINE", traits, api)
+      , program("PROGRAM", traits, api)
+      , query("QUERY", traits, api)
+      , renderbuffer("RENDERBUFFER", traits, api)
+      , sampler("SAMPLER", traits, api)
+      , shader("SHADER", traits, api)
+      , texture("TEXTURE", traits, api)
+      , transform_feedback("TRANSFORM_FEEDBACK", traits, api)
+      , vertex_array("VERTEX_ARRAY", traits, api)
       , vertex_shader("VERTEX_SHADER", traits, api)
       , tess_control_shader("TESS_CONTROL_SHADER", traits, api)
       , tess_evaluation_shader("TESS_EVALUATION_SHADER", traits, api)
