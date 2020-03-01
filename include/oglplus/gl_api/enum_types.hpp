@@ -150,6 +150,16 @@ struct primitive_type : gl_enum_class<primitive_type, EAGINE_ID_V(PrmtveType)> {
     using enum_class::enum_class;
 };
 
+struct tess_gen_primitive_type
+  : gl_enum_class<tess_gen_primitive_type, EAGINE_ID_V(TsGnPrmTyp)> {
+    using enum_class::enum_class;
+};
+
+struct tess_gen_primitive_spacing
+  : gl_enum_class<tess_gen_primitive_spacing, EAGINE_ID_V(TsGnPrmSpc)> {
+    using enum_class::enum_class;
+};
+
 struct provoke_mode : gl_enum_class<provoke_mode, EAGINE_ID_V(ProvkeMode)> {
     using enum_class::enum_class;
 };
@@ -189,6 +199,10 @@ struct polygon_mode : gl_enum_class<polygon_mode, EAGINE_ID_V(PolygnMode)> {
 
 struct stencil_operation
   : gl_enum_class<stencil_operation, EAGINE_ID_V(StencilOp)> {
+    using enum_class::enum_class;
+};
+
+struct logic_operation : gl_enum_class<logic_operation, EAGINE_ID_V(LogicOp)> {
     using enum_class::enum_class;
 };
 

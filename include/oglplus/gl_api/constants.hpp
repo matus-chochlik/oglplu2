@@ -2738,7 +2738,7 @@ public:
       greater;
 
     opt_c_api_constant<
-      mp_list<compare_function>,
+      mp_list<compare_function, tess_gen_primitive_spacing>,
 #ifdef GL_EQUAL
       enum_type_c<GL_EQUAL>>
 #else
@@ -3809,7 +3809,7 @@ public:
       triangle_fan;
 
     opt_c_api_constant<
-      mp_list<primitive_type>,
+      mp_list<primitive_type, tess_gen_primitive_type>,
 #ifdef GL_TRIANGLES
       enum_type_c<GL_TRIANGLES>>
 #else
@@ -3861,6 +3861,42 @@ public:
       enum_type_i>
 #endif
       patches;
+
+    opt_c_api_constant<
+      mp_list<tess_gen_primitive_type>,
+#ifdef GL_QUADS
+      enum_type_c<GL_QUADS>>
+#else
+      enum_type_i>
+#endif
+      quads;
+
+    opt_c_api_constant<
+      mp_list<tess_gen_primitive_type>,
+#ifdef GL_ISOLINES
+      enum_type_c<GL_ISOLINES>>
+#else
+      enum_type_i>
+#endif
+      isolines;
+
+    opt_c_api_constant<
+      mp_list<tess_gen_primitive_spacing>,
+#ifdef GL_FRACTIONAL_EVEN
+      enum_type_c<GL_FRACTIONAL_EVEN>>
+#else
+      enum_type_i>
+#endif
+      fractional_even;
+
+    opt_c_api_constant<
+      mp_list<tess_gen_primitive_spacing>,
+#ifdef GL_FRACTIONAL_ODD
+      enum_type_c<GL_FRACTIONAL_ODD>>
+#else
+      enum_type_i>
+#endif
+      fractional_odd;
 
     opt_c_api_constant<
       mp_list<provoke_mode>,
@@ -3953,7 +3989,7 @@ public:
       decr;
 
     opt_c_api_constant<
-      mp_list<stencil_operation>,
+      mp_list<stencil_operation, logic_operation>,
 #ifdef GL_INVERT
       enum_type_c<GL_INVERT>>
 #else
@@ -3978,6 +4014,141 @@ public:
       enum_type_i>
 #endif
       decr_wrap;
+
+    opt_c_api_constant<
+      mp_list<logic_operation>,
+#ifdef GL_CLEAR
+      enum_type_c<GL_CLEAR>>
+#else
+      enum_type_i>
+#endif
+      clear_;
+
+    opt_c_api_constant<
+      mp_list<logic_operation>,
+#ifdef GL_AND
+      enum_type_c<GL_AND>>
+#else
+      enum_type_i>
+#endif
+      and_;
+
+    opt_c_api_constant<
+      mp_list<logic_operation>,
+#ifdef GL_AND_REVERSE
+      enum_type_c<GL_AND_REVERSE>>
+#else
+      enum_type_i>
+#endif
+      and_reverse;
+
+    opt_c_api_constant<
+      mp_list<logic_operation>,
+#ifdef GL_COPY
+      enum_type_c<GL_COPY>>
+#else
+      enum_type_i>
+#endif
+      copy;
+
+    opt_c_api_constant<
+      mp_list<logic_operation>,
+#ifdef GL_AND_INVERTED
+      enum_type_c<GL_AND_INVERTED>>
+#else
+      enum_type_i>
+#endif
+      and_inverted;
+
+    opt_c_api_constant<
+      mp_list<logic_operation>,
+#ifdef GL_NOOP
+      enum_type_c<GL_NOOP>>
+#else
+      enum_type_i>
+#endif
+      noop;
+
+    opt_c_api_constant<
+      mp_list<logic_operation>,
+#ifdef GL_XOR
+      enum_type_c<GL_XOR>>
+#else
+      enum_type_i>
+#endif
+      xor_;
+
+    opt_c_api_constant<
+      mp_list<logic_operation>,
+#ifdef GL_OR
+      enum_type_c<GL_OR>>
+#else
+      enum_type_i>
+#endif
+      or_;
+
+    opt_c_api_constant<
+      mp_list<logic_operation>,
+#ifdef GL_NOR
+      enum_type_c<GL_NOR>>
+#else
+      enum_type_i>
+#endif
+      nor;
+
+    opt_c_api_constant<
+      mp_list<logic_operation>,
+#ifdef GL_EQUIV
+      enum_type_c<GL_EQUIV>>
+#else
+      enum_type_i>
+#endif
+      equiv;
+
+    opt_c_api_constant<
+      mp_list<logic_operation>,
+#ifdef GL_OR_REVERSE
+      enum_type_c<GL_OR_REVERSE>>
+#else
+      enum_type_i>
+#endif
+      or_reverse;
+
+    opt_c_api_constant<
+      mp_list<logic_operation>,
+#ifdef GL_COPY_INVERTED
+      enum_type_c<GL_COPY_INVERTED>>
+#else
+      enum_type_i>
+#endif
+      copy_inverted;
+
+    opt_c_api_constant<
+      mp_list<logic_operation>,
+#ifdef GL_OR_INVERTED
+      enum_type_c<GL_OR_INVERTED>>
+#else
+      enum_type_i>
+#endif
+      or_inverted;
+
+    opt_c_api_constant<
+      mp_list<logic_operation>,
+#ifdef GL_NAND
+      enum_type_c<GL_NAND>>
+#else
+      enum_type_i>
+#endif
+      nand;
+
+    opt_c_api_constant<
+      mp_list<logic_operation>,
+#ifdef GL_SET
+      enum_type_c<GL_SET>>
+#else
+      enum_type_i>
+#endif
+      set;
 
     opt_c_api_constant<
       mp_list<blend_equation>,
@@ -6775,6 +6946,10 @@ public:
       , triangles_adjacency("TRIANGLES_ADJACENCY", traits, api)
       , triangle_strip_adjacency("TRIANGLE_STRIP_ADJACENCY", traits, api)
       , patches("PATCHES", traits, api)
+      , quads("QUADS", traits, api)
+      , isolines("ISOLINES", traits, api)
+      , fractional_even("FRACTIONAL_EVEN", traits, api)
+      , fractional_odd("FRACTIONAL_ODD", traits, api)
       , first_vertex_convention("FIRST_VERTEX_CONVENTION", traits, api)
       , last_vertex_convention("LAST_VERTEX_CONVENTION", traits, api)
       , point("POINT", traits, api)
@@ -6788,6 +6963,21 @@ public:
       , invert("INVERT", traits, api)
       , incr_wrap("INCR_WRAP", traits, api)
       , decr_wrap("DECR_WRAP", traits, api)
+      , clear_("CLEAR", traits, api)
+      , and_("AND", traits, api)
+      , and_reverse("AND_REVERSE", traits, api)
+      , copy("COPY", traits, api)
+      , and_inverted("AND_INVERTED", traits, api)
+      , noop("NOOP", traits, api)
+      , xor_("XOR", traits, api)
+      , or_("OR", traits, api)
+      , nor("NOR", traits, api)
+      , equiv("EQUIV", traits, api)
+      , or_reverse("OR_REVERSE", traits, api)
+      , copy_inverted("COPY_INVERTED", traits, api)
+      , or_inverted("OR_INVERTED", traits, api)
+      , nand("NAND", traits, api)
+      , set("SET", traits, api)
       , func_add("FUNC_ADD", traits, api)
       , func_subtract("FUNC_SUBTRACT", traits, api)
       , func_reverse_subtract("FUNC_REVERSE_SUBTRACT", traits, api)
