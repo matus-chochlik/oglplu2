@@ -2675,13 +2675,13 @@ public:
       never;
 
     opt_c_api_constant<
-      mp_list<sl_data_type>,
+      mp_list<sl_data_type, pixel_data_type>,
 #ifdef GL_FLOAT
       enum_type_c<GL_FLOAT>>
 #else
       enum_type_i>
 #endif
-      float_scalar;
+      float_;
 
     opt_c_api_constant<
       mp_list<sl_data_type>,
@@ -2717,7 +2717,7 @@ public:
 #else
       enum_type_i>
 #endif
-      double_scalar;
+      double_;
 
     opt_c_api_constant<
       mp_list<sl_data_type>,
@@ -2747,13 +2747,13 @@ public:
       double_vec4;
 
     opt_c_api_constant<
-      mp_list<sl_data_type>,
+      mp_list<sl_data_type, pixel_data_type>,
 #ifdef GL_INT
       enum_type_c<GL_INT>>
 #else
       enum_type_i>
 #endif
-      int_scalar;
+      int_;
 
     opt_c_api_constant<
       mp_list<sl_data_type>,
@@ -2783,13 +2783,13 @@ public:
       int_vec4;
 
     opt_c_api_constant<
-      mp_list<sl_data_type>,
+      mp_list<sl_data_type, pixel_data_type>,
 #ifdef GL_UNSIGNED_INT
       enum_type_c<GL_UNSIGNED_INT>>
 #else
       enum_type_i>
 #endif
-      unsigned_int_scalar;
+      unsigned_int_;
 
     opt_c_api_constant<
       mp_list<sl_data_type>,
@@ -2825,7 +2825,7 @@ public:
 #else
       enum_type_i>
 #endif
-      bool_scalar;
+      bool_;
 
     opt_c_api_constant<
       mp_list<sl_data_type>,
@@ -4212,6 +4212,195 @@ public:
       enum_type_i>
 #endif
       one_minus_src1_alpha;
+
+    opt_c_api_constant<
+      mp_list<pixel_data_type>,
+#ifdef GL_UNSIGNED_BYTE
+      enum_type_c<GL_UNSIGNED_BYTE>>
+#else
+      enum_type_i>
+#endif
+      unsigned_byte_;
+
+    opt_c_api_constant<
+      mp_list<pixel_data_type>,
+#ifdef GL_BYTE
+      enum_type_c<GL_BYTE>>
+#else
+      enum_type_i>
+#endif
+      byte_;
+
+    opt_c_api_constant<
+      mp_list<pixel_data_type>,
+#ifdef GL_UNSIGNED_SHORT
+      enum_type_c<GL_UNSIGNED_SHORT>>
+#else
+      enum_type_i>
+#endif
+      unsigned_short_;
+
+    opt_c_api_constant<
+      mp_list<pixel_data_type>,
+#ifdef GL_SHORT
+      enum_type_c<GL_SHORT>>
+#else
+      enum_type_i>
+#endif
+      short_;
+
+    opt_c_api_constant<
+      mp_list<pixel_data_type>,
+#ifdef GL_HALF_FLOAT
+      enum_type_c<GL_HALF_FLOAT>>
+#else
+      enum_type_i>
+#endif
+      half_float_;
+
+    opt_c_api_constant<
+      mp_list<pixel_data_type>,
+#ifdef GL_UNSIGNED_BYTE_3_3_2
+      enum_type_c<GL_UNSIGNED_BYTE_3_3_2>>
+#else
+      enum_type_i>
+#endif
+      unsigned_byte_3_3_2;
+
+    opt_c_api_constant<
+      mp_list<pixel_data_type>,
+#ifdef GL_UNSIGNED_BYTE_2_3_3_REV
+      enum_type_c<GL_UNSIGNED_BYTE_2_3_3_REV>>
+#else
+      enum_type_i>
+#endif
+      unsigned_byte_2_3_3_rev;
+
+    opt_c_api_constant<
+      mp_list<pixel_data_type>,
+#ifdef GL_UNSIGNED_SHORT_5_6_5
+      enum_type_c<GL_UNSIGNED_SHORT_5_6_5>>
+#else
+      enum_type_i>
+#endif
+      unsigned_short_5_6_5;
+
+    opt_c_api_constant<
+      mp_list<pixel_data_type>,
+#ifdef GL_UNSIGNED_SHORT_5_6_5_REV
+      enum_type_c<GL_UNSIGNED_SHORT_5_6_5_REV>>
+#else
+      enum_type_i>
+#endif
+      unsigned_short_5_6_5_rev;
+
+    opt_c_api_constant<
+      mp_list<pixel_data_type>,
+#ifdef GL_UNSIGNED_SHORT_4_4_4_4
+      enum_type_c<GL_UNSIGNED_SHORT_4_4_4_4>>
+#else
+      enum_type_i>
+#endif
+      unsigned_short_4_4_4_4;
+
+    opt_c_api_constant<
+      mp_list<pixel_data_type>,
+#ifdef GL_UNSIGNED_SHORT_4_4_4_4_REV
+      enum_type_c<GL_UNSIGNED_SHORT_4_4_4_4_REV>>
+#else
+      enum_type_i>
+#endif
+      unsigned_short_4_4_4_4_rev;
+
+    opt_c_api_constant<
+      mp_list<pixel_data_type>,
+#ifdef GL_UNSIGNED_SHORT_5_5_5_1
+      enum_type_c<GL_UNSIGNED_SHORT_5_5_5_1>>
+#else
+      enum_type_i>
+#endif
+      unsigned_short_5_5_5_1;
+
+    opt_c_api_constant<
+      mp_list<pixel_data_type>,
+#ifdef GL_UNSIGNED_SHORT_1_5_5_5_REV
+      enum_type_c<GL_UNSIGNED_SHORT_1_5_5_5_REV>>
+#else
+      enum_type_i>
+#endif
+      unsigned_short_1_5_5_5_rev;
+
+    opt_c_api_constant<
+      mp_list<pixel_data_type>,
+#ifdef GL_UNSIGNED_INT_8_8_8_8
+      enum_type_c<GL_UNSIGNED_INT_8_8_8_8>>
+#else
+      enum_type_i>
+#endif
+      unsigned_int_8_8_8_8;
+
+    opt_c_api_constant<
+      mp_list<pixel_data_type>,
+#ifdef GL_UNSIGNED_INT_8_8_8_8_REV
+      enum_type_c<GL_UNSIGNED_INT_8_8_8_8_REV>>
+#else
+      enum_type_i>
+#endif
+      unsigned_int_8_8_8_8_rev;
+
+    opt_c_api_constant<
+      mp_list<pixel_data_type>,
+#ifdef GL_UNSIGNED_INT_10_10_10_2
+      enum_type_c<GL_UNSIGNED_INT_10_10_10_2>>
+#else
+      enum_type_i>
+#endif
+      unsigned_int_10_10_10_2;
+
+    opt_c_api_constant<
+      mp_list<pixel_data_type>,
+#ifdef GL_UNSIGNED_INT_2_10_10_10_REV
+      enum_type_c<GL_UNSIGNED_INT_2_10_10_10_REV>>
+#else
+      enum_type_i>
+#endif
+      unsigned_int_2_10_10_10_rev;
+
+    opt_c_api_constant<
+      mp_list<pixel_data_type>,
+#ifdef GL_UNSIGNED_INT_24_8
+      enum_type_c<GL_UNSIGNED_INT_24_8>>
+#else
+      enum_type_i>
+#endif
+      unsigned_int_24_8;
+
+    opt_c_api_constant<
+      mp_list<pixel_data_type>,
+#ifdef GL_UNSIGNED_INT_10F_11F_11F_REV
+      enum_type_c<GL_UNSIGNED_INT_10F_11F_11F_REV>>
+#else
+      enum_type_i>
+#endif
+      unsigned_int_10f_11f_11f_rev;
+
+    opt_c_api_constant<
+      mp_list<pixel_data_type>,
+#ifdef GL_UNSIGNED_INT_5_9_9_9_REV
+      enum_type_c<GL_UNSIGNED_INT_5_9_9_9_REV>>
+#else
+      enum_type_i>
+#endif
+      unsigned_int_5_9_9_9_rev;
+
+    opt_c_api_constant<
+      mp_list<pixel_data_type>,
+#ifdef GL_FLOAT_32_UNSIGNED_INT_24_8_REV
+      enum_type_c<GL_FLOAT_32_UNSIGNED_INT_24_8_REV>>
+#else
+      enum_type_i>
+#endif
+      float_32_unsigned_int_24_8_rev;
 
     opt_c_api_constant<
       mp_list<pixel_format>,
@@ -6343,23 +6532,23 @@ public:
       , notequal("NOTEQUAL", traits, api)
       , always("ALWAYS", traits, api)
       , never("NEVER", traits, api)
-      , float_scalar("FLOAT", traits, api)
+      , float_("FLOAT", traits, api)
       , float_vec2("FLOAT_VEC2", traits, api)
       , float_vec3("FLOAT_VEC3", traits, api)
       , float_vec4("FLOAT_VEC4", traits, api)
-      , double_scalar("DOUBLE", traits, api)
+      , double_("DOUBLE", traits, api)
       , double_vec2("DOUBLE_VEC2", traits, api)
       , double_vec3("DOUBLE_VEC3", traits, api)
       , double_vec4("DOUBLE_VEC4", traits, api)
-      , int_scalar("INT", traits, api)
+      , int_("INT", traits, api)
       , int_vec2("INT_VEC2", traits, api)
       , int_vec3("INT_VEC3", traits, api)
       , int_vec4("INT_VEC4", traits, api)
-      , unsigned_int_scalar("UNSIGNED_INT", traits, api)
+      , unsigned_int_("UNSIGNED_INT", traits, api)
       , unsigned_int_vec2("UNSIGNED_INT_VEC2", traits, api)
       , unsigned_int_vec3("UNSIGNED_INT_VEC3", traits, api)
       , unsigned_int_vec4("UNSIGNED_INT_VEC4", traits, api)
-      , bool_scalar("BOOL", traits, api)
+      , bool_("BOOL", traits, api)
       , bool_vec2("BOOL_VEC2", traits, api)
       , bool_vec3("BOOL_VEC3", traits, api)
       , bool_vec4("BOOL_VEC4", traits, api)
@@ -6526,6 +6715,29 @@ public:
       , one_minus_src1_color("ONE_MINUS_SRC1_COLOR", traits, api)
       , src1_alpha("SRC1_ALPHA", traits, api)
       , one_minus_src1_alpha("ONE_MINUS_SRC1_ALPHA", traits, api)
+      , unsigned_byte_("UNSIGNED_BYTE", traits, api)
+      , byte_("BYTE", traits, api)
+      , unsigned_short_("UNSIGNED_SHORT", traits, api)
+      , short_("SHORT", traits, api)
+      , half_float_("HALF_FLOAT", traits, api)
+      , unsigned_byte_3_3_2("UNSIGNED_BYTE_3_3_2", traits, api)
+      , unsigned_byte_2_3_3_rev("UNSIGNED_BYTE_2_3_3_REV", traits, api)
+      , unsigned_short_5_6_5("UNSIGNED_SHORT_5_6_5", traits, api)
+      , unsigned_short_5_6_5_rev("UNSIGNED_SHORT_5_6_5_REV", traits, api)
+      , unsigned_short_4_4_4_4("UNSIGNED_SHORT_4_4_4_4", traits, api)
+      , unsigned_short_4_4_4_4_rev("UNSIGNED_SHORT_4_4_4_4_REV", traits, api)
+      , unsigned_short_5_5_5_1("UNSIGNED_SHORT_5_5_5_1", traits, api)
+      , unsigned_short_1_5_5_5_rev("UNSIGNED_SHORT_1_5_5_5_REV", traits, api)
+      , unsigned_int_8_8_8_8("UNSIGNED_INT_8_8_8_8", traits, api)
+      , unsigned_int_8_8_8_8_rev("UNSIGNED_INT_8_8_8_8_REV", traits, api)
+      , unsigned_int_10_10_10_2("UNSIGNED_INT_10_10_10_2", traits, api)
+      , unsigned_int_2_10_10_10_rev("UNSIGNED_INT_2_10_10_10_REV", traits, api)
+      , unsigned_int_24_8("UNSIGNED_INT_24_8", traits, api)
+      , unsigned_int_10f_11f_11f_rev(
+          "UNSIGNED_INT_10F_11F_11F_REV", traits, api)
+      , unsigned_int_5_9_9_9_rev("UNSIGNED_INT_5_9_9_9_REV", traits, api)
+      , float_32_unsigned_int_24_8_rev(
+          "FLOAT_32_UNSIGNED_INT_24_8_REV", traits, api)
       , stencil_index("STENCIL_INDEX", traits, api)
       , bgr("BGR", traits, api)
       , bgra("BGRA", traits, api)
