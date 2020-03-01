@@ -21,6 +21,10 @@ template <typename Self, identifier_t Id>
 using gl_enum_class =
   enum_class<Self, gl_types::enum_type, EAGINE_ID_V(GL), Id>;
 
+template <typename Self, identifier_t Id>
+using gl_bitfield_class =
+  enum_class<Self, gl_types::bitfield_type, EAGINE_ID_V(GL), Id>;
+
 using gl_any_enum_class = any_enum_class<EAGINE_ID_V(GL)>;
 using gl_any_enum_value = any_enum_value<EAGINE_ID_V(GL)>;
 

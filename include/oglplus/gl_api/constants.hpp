@@ -119,6 +119,69 @@ public:
       out_of_memory;
 
     opt_c_api_constant<
+      mp_list<context_flag_bit>,
+#ifdef GL_CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT
+      bitfield_type_c<GL_CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT>>
+#else
+      bitfield_type_i>
+#endif
+      context_flag_forward_compatible_bit;
+
+    opt_c_api_constant<
+      mp_list<context_flag_bit>,
+#ifdef GL_CONTEXT_FLAG_DEBUG_BIT
+      bitfield_type_c<GL_CONTEXT_FLAG_DEBUG_BIT>>
+#else
+      bitfield_type_i>
+#endif
+      context_flag_debug_bit;
+
+    opt_c_api_constant<
+      mp_list<context_flag_bit>,
+#ifdef GL_CONTEXT_FLAG_ROBUST_ACCESS_BIT
+      bitfield_type_c<GL_CONTEXT_FLAG_ROBUST_ACCESS_BIT>>
+#else
+      bitfield_type_i>
+#endif
+      context_flag_robust_access_bit;
+
+    opt_c_api_constant<
+      mp_list<context_flag_bit>,
+#ifdef GL_CONTEXT_FLAG_NO_ERROR_BIT
+      bitfield_type_c<GL_CONTEXT_FLAG_NO_ERROR_BIT>>
+#else
+      bitfield_type_i>
+#endif
+      context_flag_no_error_bit;
+
+    opt_c_api_constant<
+      mp_list<context_profile_bit>,
+#ifdef GL_CONTEXT_CORE_PROFILE_BIT
+      bitfield_type_c<GL_CONTEXT_CORE_PROFILE_BIT>>
+#else
+      bitfield_type_i>
+#endif
+      context_core_profile_bit;
+
+    opt_c_api_constant<
+      mp_list<context_profile_bit>,
+#ifdef GL_CONTEXT_COMPATIBILITY_PROFILE_BIT
+      bitfield_type_c<GL_CONTEXT_COMPATIBILITY_PROFILE_BIT>>
+#else
+      bitfield_type_i>
+#endif
+      context_compatibility_profile_bit;
+
+    opt_c_api_constant<
+      mp_list<context_release_behavior>,
+#ifdef GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH
+      enum_type_c<GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH>>
+#else
+      enum_type_i>
+#endif
+      context_release_behavior_flush;
+
+    opt_c_api_constant<
       mp_list<graphics_reset_status>,
 #ifdef GL_GUILTY_CONTEXT_RESET
       enum_type_c<GL_GUILTY_CONTEXT_RESET>>
@@ -6470,7 +6533,8 @@ public:
         support_level,
         color_buffer,
         sl_data_type,
-        oglp::texture_compare_mode>,
+        oglp::texture_compare_mode,
+        oglp::context_release_behavior>,
 #ifdef GL_NONE
       bitfield_type_c<GL_NONE>>
 #else
@@ -6490,6 +6554,17 @@ public:
       , table_too_large("TABLE_TOO_LARGE", traits, api)
       , context_lost("CONTEXT_LOST", traits, api)
       , out_of_memory("OUT_OF_MEMORY", traits, api)
+      , context_flag_forward_compatible_bit(
+          "CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT", traits, api)
+      , context_flag_debug_bit("CONTEXT_FLAG_DEBUG_BIT", traits, api)
+      , context_flag_robust_access_bit(
+          "CONTEXT_FLAG_ROBUST_ACCESS_BIT", traits, api)
+      , context_flag_no_error_bit("CONTEXT_FLAG_NO_ERROR_BIT", traits, api)
+      , context_core_profile_bit("CONTEXT_CORE_PROFILE_BIT", traits, api)
+      , context_compatibility_profile_bit(
+          "CONTEXT_COMPATIBILITY_PROFILE_BIT", traits, api)
+      , context_release_behavior_flush(
+          "CONTEXT_RELEASE_BEHAVIOR_FLUSH", traits, api)
       , guilty_context_reset("GUILTY_CONTEXT_RESET", traits, api)
       , innocent_context_reset("INNOCENT_CONTEXT_RESET", traits, api)
       , unknown_context_reset("UNKNOWN_CONTEXT_RESET", traits, api)

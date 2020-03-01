@@ -18,6 +18,21 @@ struct error_code : gl_enum_class<error_code, EAGINE_ID_V(ErrorCode)> {
     using enum_class::enum_class;
 };
 
+struct context_flag_bit
+  : gl_bitfield_class<context_flag_bit, EAGINE_ID_V(CtxFlagBit)> {
+    using enum_class::enum_class;
+};
+
+struct context_profile_bit
+  : gl_bitfield_class<context_profile_bit, EAGINE_ID_V(CtxProfBit)> {
+    using enum_class::enum_class;
+};
+
+struct context_release_behavior
+  : gl_enum_class<context_release_behavior, EAGINE_ID_V(CtxRlsBhvr)> {
+    using enum_class::enum_class;
+};
+
 struct capability : gl_enum_class<capability, EAGINE_ID_V(Capability)> {
     using enum_class::enum_class;
 };
@@ -28,7 +43,7 @@ struct graphics_reset_status
 };
 
 struct memory_barrier_bit
-  : gl_enum_class<memory_barrier_bit, EAGINE_ID_V(MemBrirBit)> {
+  : gl_bitfield_class<memory_barrier_bit, EAGINE_ID_V(MemBrirBit)> {
     using enum_class::enum_class;
 };
 
@@ -74,7 +89,7 @@ struct buffer_usage : gl_enum_class<buffer_usage, EAGINE_ID_V(BufferUsge)> {
 };
 
 struct buffer_map_access_bit
-  : gl_enum_class<buffer_map_access_bit, EAGINE_ID_V(BufMapAccB)> {
+  : gl_bitfield_class<buffer_map_access_bit, EAGINE_ID_V(BufMapAccB)> {
     using enum_class::enum_class;
 };
 
@@ -93,7 +108,7 @@ struct program_property
 };
 
 struct buffer_clear_bit
-  : gl_enum_class<buffer_clear_bit, EAGINE_ID_V(BuffClrBit)> {
+  : gl_bitfield_class<buffer_clear_bit, EAGINE_ID_V(BuffClrBit)> {
     using enum_class::enum_class;
 };
 
