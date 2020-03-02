@@ -37,6 +37,11 @@ struct capability : gl_enum_class<capability, EAGINE_ID_V(Capability)> {
     using enum_class::enum_class;
 };
 
+struct client_capability
+  : gl_enum_class<client_capability, EAGINE_ID_V(ClientCap)> {
+    using enum_class::enum_class;
+};
+
 struct graphics_reset_status
   : gl_enum_class<graphics_reset_status, EAGINE_ID_V(GrphRstStt)> {
     using enum_class::enum_class;
@@ -176,6 +181,11 @@ struct tess_gen_primitive_spacing
 };
 
 struct provoke_mode : gl_enum_class<provoke_mode, EAGINE_ID_V(ProvkeMode)> {
+    using enum_class::enum_class;
+};
+
+struct conditional_render_mode
+  : gl_enum_class<conditional_render_mode, EAGINE_ID_V(CndRndrMod)> {
     using enum_class::enum_class;
 };
 

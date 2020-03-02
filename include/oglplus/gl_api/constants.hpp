@@ -470,7 +470,7 @@ public:
       transform_feedback;
 
     opt_c_api_constant<
-      mp_list<object_type>,
+      mp_list<object_type, client_capability>,
 #ifdef GL_VERTEX_ARRAY
       enum_type_c<GL_VERTEX_ARRAY>>
 #else
@@ -2163,6 +2163,96 @@ public:
       enum_type_i>
 #endif
       debug_output_synchronous;
+
+    opt_c_api_constant<
+      mp_list<client_capability>,
+#ifdef GL_COLOR_ARRAY
+      enum_type_c<GL_COLOR_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      color_array;
+
+    opt_c_api_constant<
+      mp_list<client_capability>,
+#ifdef GL_EDGE_FLAG_ARRAY
+      enum_type_c<GL_EDGE_FLAG_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      edge_flag_array;
+
+    opt_c_api_constant<
+      mp_list<client_capability>,
+#ifdef GL_FOG_COORD_ARRAY
+      enum_type_c<GL_FOG_COORD_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      fog_coord_array;
+
+    opt_c_api_constant<
+      mp_list<client_capability>,
+#ifdef GL_INDEX_ARRAY
+      enum_type_c<GL_INDEX_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      index_array;
+
+    opt_c_api_constant<
+      mp_list<client_capability>,
+#ifdef GL_NORMAL_ARRAY
+      enum_type_c<GL_NORMAL_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      normal_array;
+
+    opt_c_api_constant<
+      mp_list<client_capability>,
+#ifdef GL_SECONDARY_COLOR_ARRAY
+      enum_type_c<GL_SECONDARY_COLOR_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      secondary_color_array;
+
+    opt_c_api_constant<
+      mp_list<client_capability>,
+#ifdef GL_TEXTURE_COORD_ARRAY
+      enum_type_c<GL_TEXTURE_COORD_ARRAY>>
+#else
+      enum_type_i>
+#endif
+      texture_coord_array;
+
+    opt_c_api_constant<
+      mp_list<client_capability>,
+#ifdef GL_VERTEX_ATTRIB_ARRAY_UNIFIED_NV
+      enum_type_c<GL_VERTEX_ATTRIB_ARRAY_UNIFIED_NV>>
+#else
+      enum_type_i>
+#endif
+      vertex_attrib_array_unified_nv;
+
+    opt_c_api_constant<
+      mp_list<client_capability>,
+#ifdef GL_ELEMENT_ARRAY_UNIFIED_NV
+      enum_type_c<GL_ELEMENT_ARRAY_UNIFIED_NV>>
+#else
+      enum_type_i>
+#endif
+      element_array_unified_nv;
+
+    opt_c_api_constant<
+      mp_list<client_capability>,
+#ifdef GL_UNIFORM_BUFFER_UNIFIED_NV
+      enum_type_c<GL_UNIFORM_BUFFER_UNIFIED_NV>>
+#else
+      enum_type_i>
+#endif
+      uniform_buffer_unified_nv;
 
     opt_c_api_constant<
       mp_list<color_buffer>,
@@ -3978,6 +4068,78 @@ public:
       enum_type_i>
 #endif
       last_vertex_convention;
+
+    opt_c_api_constant<
+      mp_list<conditional_render_mode>,
+#ifdef GL_QUERY_WAIT
+      enum_type_c<GL_QUERY_WAIT>>
+#else
+      enum_type_i>
+#endif
+      query_wait;
+
+    opt_c_api_constant<
+      mp_list<conditional_render_mode>,
+#ifdef GL_QUERY_NO_WAIT
+      enum_type_c<GL_QUERY_NO_WAIT>>
+#else
+      enum_type_i>
+#endif
+      query_no_wait;
+
+    opt_c_api_constant<
+      mp_list<conditional_render_mode>,
+#ifdef GL_QUERY_BY_REGION_WAIT
+      enum_type_c<GL_QUERY_BY_REGION_WAIT>>
+#else
+      enum_type_i>
+#endif
+      query_by_region_wait;
+
+    opt_c_api_constant<
+      mp_list<conditional_render_mode>,
+#ifdef GL_QUERY_BY_REGION_NO_WAIT
+      enum_type_c<GL_QUERY_BY_REGION_NO_WAIT>>
+#else
+      enum_type_i>
+#endif
+      query_by_region_no_wait;
+
+    opt_c_api_constant<
+      mp_list<conditional_render_mode>,
+#ifdef GL_QUERY_WAIT_INVERTED
+      enum_type_c<GL_QUERY_WAIT_INVERTED>>
+#else
+      enum_type_i>
+#endif
+      query_wait_inverted;
+
+    opt_c_api_constant<
+      mp_list<conditional_render_mode>,
+#ifdef GL_QUERY_NO_WAIT_INVERTED
+      enum_type_c<GL_QUERY_NO_WAIT_INVERTED>>
+#else
+      enum_type_i>
+#endif
+      query_no_wait_inverted;
+
+    opt_c_api_constant<
+      mp_list<conditional_render_mode>,
+#ifdef GL_QUERY_BY_REGION_WAIT_INVERTED
+      enum_type_c<GL_QUERY_BY_REGION_WAIT_INVERTED>>
+#else
+      enum_type_i>
+#endif
+      query_by_region_wait_inverted;
+
+    opt_c_api_constant<
+      mp_list<conditional_render_mode>,
+#ifdef GL_QUERY_BY_REGION_NO_WAIT_INVERTED
+      enum_type_c<GL_QUERY_BY_REGION_NO_WAIT_INVERTED>>
+#else
+      enum_type_i>
+#endif
+      query_by_region_no_wait_inverted;
 
     opt_c_api_constant<
       mp_list<polygon_mode>,
@@ -6802,6 +6964,17 @@ public:
       , multisample("MULTISAMPLE", traits, api)
       , debug_output("DEBUG_OUTPUT", traits, api)
       , debug_output_synchronous("DEBUG_OUTPUT_SYNCHRONOUS", traits, api)
+      , color_array("COLOR_ARRAY", traits, api)
+      , edge_flag_array("EDGE_FLAG_ARRAY", traits, api)
+      , fog_coord_array("FOG_COORD_ARRAY", traits, api)
+      , index_array("INDEX_ARRAY", traits, api)
+      , normal_array("NORMAL_ARRAY", traits, api)
+      , secondary_color_array("SECONDARY_COLOR_ARRAY", traits, api)
+      , texture_coord_array("TEXTURE_COORD_ARRAY", traits, api)
+      , vertex_attrib_array_unified_nv(
+          "VERTEX_ATTRIB_ARRAY_UNIFIED_NV", traits, api)
+      , element_array_unified_nv("ELEMENT_ARRAY_UNIFIED_NV", traits, api)
+      , uniform_buffer_unified_nv("UNIFORM_BUFFER_UNIFIED_NV", traits, api)
       , front_left("FRONT_LEFT", traits, api)
       , front_right("FRONT_RIGHT", traits, api)
       , back_left("BACK_LEFT", traits, api)
@@ -7027,6 +7200,16 @@ public:
       , fractional_odd("FRACTIONAL_ODD", traits, api)
       , first_vertex_convention("FIRST_VERTEX_CONVENTION", traits, api)
       , last_vertex_convention("LAST_VERTEX_CONVENTION", traits, api)
+      , query_wait("QUERY_WAIT", traits, api)
+      , query_no_wait("QUERY_NO_WAIT", traits, api)
+      , query_by_region_wait("QUERY_BY_REGION_WAIT", traits, api)
+      , query_by_region_no_wait("QUERY_BY_REGION_NO_WAIT", traits, api)
+      , query_wait_inverted("QUERY_WAIT_INVERTED", traits, api)
+      , query_no_wait_inverted("QUERY_NO_WAIT_INVERTED", traits, api)
+      , query_by_region_wait_inverted(
+          "QUERY_BY_REGION_WAIT_INVERTED", traits, api)
+      , query_by_region_no_wait_inverted(
+          "QUERY_BY_REGION_NO_WAIT_INVERTED", traits, api)
       , point("POINT", traits, api)
       , line("LINE", traits, api)
       , fill("FILL", traits, api)
