@@ -189,6 +189,11 @@ struct conditional_render_mode
     using enum_class::enum_class;
 };
 
+struct face_orientation
+  : gl_enum_class<face_orientation, EAGINE_ID_V(FaceOrient)> {
+    using enum_class::enum_class;
+};
+
 struct color_buffer : gl_enum_class<color_buffer, EAGINE_ID_V(ColorBuffr)> {
     using enum_class::enum_class;
 };
@@ -270,6 +275,14 @@ struct internal_format_parameter
 
 struct view_compatibility_class
   : gl_enum_class<view_compatibility_class, EAGINE_ID_V(VwCompClss)> {
+    using enum_class::enum_class;
+};
+
+struct hint_option : gl_enum_class<hint_option, EAGINE_ID_V(HintOption)> {
+    using enum_class::enum_class;
+};
+
+struct hint_target : gl_enum_class<hint_target, EAGINE_ID_V(HintTarget)> {
     using enum_class::enum_class;
 };
 

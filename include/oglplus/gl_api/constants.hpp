@@ -4052,6 +4052,24 @@ public:
       fractional_odd;
 
     opt_c_api_constant<
+      mp_list<face_orientation>,
+#ifdef GL_CW
+      enum_type_c<GL_CW>>
+#else
+      enum_type_i>
+#endif
+      cw;
+
+    opt_c_api_constant<
+      mp_list<face_orientation>,
+#ifdef GL_CCW
+      enum_type_c<GL_CCW>>
+#else
+      enum_type_i>
+#endif
+      ccw;
+
+    opt_c_api_constant<
       mp_list<provoke_mode>,
 #ifdef GL_FIRST_VERTEX_CONVENTION
       enum_type_c<GL_FIRST_VERTEX_CONVENTION>>
@@ -6664,7 +6682,65 @@ public:
       debug_type_other;
 
     opt_c_api_constant<
-      mp_list<debug_output_severity, debug_output_source, debug_output_type>,
+      mp_list<hint_target>,
+#ifdef GL_LINE_SMOOTH_HINT
+      enum_type_c<GL_LINE_SMOOTH_HINT>>
+#else
+      enum_type_i>
+#endif
+      line_smooth_hint;
+
+    opt_c_api_constant<
+      mp_list<hint_target>,
+#ifdef GL_POLYGON_SMOOTH_HINT
+      enum_type_c<GL_POLYGON_SMOOTH_HINT>>
+#else
+      enum_type_i>
+#endif
+      polygon_smooth_hint;
+
+    opt_c_api_constant<
+      mp_list<hint_target>,
+#ifdef GL_TEXTURE_COMPRESSION_HINT
+      enum_type_c<GL_TEXTURE_COMPRESSION_HINT>>
+#else
+      enum_type_i>
+#endif
+      texture_compression_hint;
+
+    opt_c_api_constant<
+      mp_list<hint_target>,
+#ifdef GL_FRAGMENT_SHADER_DERIVATIVE_HINT
+      enum_type_c<GL_FRAGMENT_SHADER_DERIVATIVE_HINT>>
+#else
+      enum_type_i>
+#endif
+      fragment_shader_derivative_hint;
+
+    opt_c_api_constant<
+      mp_list<hint_option>,
+#ifdef GL_FASTEST
+      enum_type_c<GL_FASTEST>>
+#else
+      enum_type_i>
+#endif
+      fastest;
+
+    opt_c_api_constant<
+      mp_list<hint_option>,
+#ifdef GL_NICEST
+      enum_type_c<GL_NICEST>>
+#else
+      enum_type_i>
+#endif
+      nicest;
+
+    opt_c_api_constant<
+      mp_list<
+        debug_output_severity,
+        debug_output_source,
+        debug_output_type,
+        hint_option>,
 #ifdef GL_DONT_CARE
       enum_type_c<GL_DONT_CARE>>
 #else
@@ -7198,6 +7274,8 @@ public:
       , isolines("ISOLINES", traits, api)
       , fractional_even("FRACTIONAL_EVEN", traits, api)
       , fractional_odd("FRACTIONAL_ODD", traits, api)
+      , cw("CW", traits, api)
+      , ccw("CCW", traits, api)
       , first_vertex_convention("FIRST_VERTEX_CONVENTION", traits, api)
       , last_vertex_convention("LAST_VERTEX_CONVENTION", traits, api)
       , query_wait("QUERY_WAIT", traits, api)
@@ -7504,6 +7582,13 @@ public:
       , debug_type_push_group("DEBUG_TYPE_PUSH_GROUP", traits, api)
       , debug_type_pop_group("DEBUG_TYPE_POP_GROUP", traits, api)
       , debug_type_other("DEBUG_TYPE_OTHER", traits, api)
+      , line_smooth_hint("LINE_SMOOTH_HINT", traits, api)
+      , polygon_smooth_hint("POLYGON_SMOOTH_HINT", traits, api)
+      , texture_compression_hint("TEXTURE_COMPRESSION_HINT", traits, api)
+      , fragment_shader_derivative_hint(
+          "FRAGMENT_SHADER_DERIVATIVE_HINT", traits, api)
+      , fastest("FASTEST", traits, api)
+      , nicest("NICEST", traits, api)
       , dont_care("DONT_CARE", traits, api)
       , full_support("FULL_SUPPORT", traits, api)
       , caveat_support("CAVEAT_SUPPORT", traits, api)
