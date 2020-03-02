@@ -380,6 +380,60 @@ public:
       read_write;
 
     opt_c_api_constant<
+      mp_list<precision_type>,
+#ifdef GL_LOW_FLOAT
+      enum_type_c<GL_LOW_FLOAT>>
+#else
+      enum_type_i>
+#endif
+      low_float;
+
+    opt_c_api_constant<
+      mp_list<precision_type>,
+#ifdef GL_MEDIUM_FLOAT
+      enum_type_c<GL_MEDIUM_FLOAT>>
+#else
+      enum_type_i>
+#endif
+      medium_float;
+
+    opt_c_api_constant<
+      mp_list<precision_type>,
+#ifdef GL_HIGH_FLOAT
+      enum_type_c<GL_HIGH_FLOAT>>
+#else
+      enum_type_i>
+#endif
+      high_float;
+
+    opt_c_api_constant<
+      mp_list<precision_type>,
+#ifdef GL_LOW_INT
+      enum_type_c<GL_LOW_INT>>
+#else
+      enum_type_i>
+#endif
+      low_int;
+
+    opt_c_api_constant<
+      mp_list<precision_type>,
+#ifdef GL_MEDIUM_INT
+      enum_type_c<GL_MEDIUM_INT>>
+#else
+      enum_type_i>
+#endif
+      medium_int;
+
+    opt_c_api_constant<
+      mp_list<precision_type>,
+#ifdef GL_HIGH_INT
+      enum_type_c<GL_HIGH_INT>>
+#else
+      enum_type_i>
+#endif
+      high_int;
+
+    opt_c_api_constant<
       mp_list<object_type>,
 #ifdef GL_BUFFER
       enum_type_c<GL_BUFFER>>
@@ -3035,7 +3089,7 @@ public:
       int_vec4;
 
     opt_c_api_constant<
-      mp_list<sl_data_type, pixel_data_type>,
+      mp_list<sl_data_type, pixel_data_type, index_data_type>,
 #ifdef GL_UNSIGNED_INT
       enum_type_c<GL_UNSIGNED_INT>>
 #else
@@ -4052,6 +4106,33 @@ public:
       fractional_odd;
 
     opt_c_api_constant<
+      mp_list<patch_parameter>,
+#ifdef GL_PATCH_VERTICES
+      enum_type_c<GL_PATCH_VERTICES>>
+#else
+      enum_type_i>
+#endif
+      patch_vertices;
+
+    opt_c_api_constant<
+      mp_list<patch_parameter>,
+#ifdef GL_PATCH_DEFAULT_OUTER_LEVEL
+      enum_type_c<GL_PATCH_DEFAULT_OUTER_LEVEL>>
+#else
+      enum_type_i>
+#endif
+      patch_default_outer_level;
+
+    opt_c_api_constant<
+      mp_list<patch_parameter>,
+#ifdef GL_PATCH_DEFAULT_INNER_LEVEL
+      enum_type_c<GL_PATCH_DEFAULT_INNER_LEVEL>>
+#else
+      enum_type_i>
+#endif
+      patch_default_inner_level;
+
+    opt_c_api_constant<
       mp_list<face_orientation>,
 #ifdef GL_CW
       enum_type_c<GL_CW>>
@@ -4727,7 +4808,7 @@ public:
       one_minus_src1_alpha;
 
     opt_c_api_constant<
-      mp_list<pixel_data_type>,
+      mp_list<pixel_data_type, index_data_type>,
 #ifdef GL_UNSIGNED_BYTE
       enum_type_c<GL_UNSIGNED_BYTE>>
 #else
@@ -4745,7 +4826,7 @@ public:
       byte_;
 
     opt_c_api_constant<
-      mp_list<pixel_data_type>,
+      mp_list<pixel_data_type, index_data_type>,
 #ifdef GL_UNSIGNED_SHORT
       enum_type_c<GL_UNSIGNED_SHORT>>
 #else
@@ -6928,6 +7009,12 @@ public:
       , read_only("READ_ONLY", traits, api)
       , write_only("WRITE_ONLY", traits, api)
       , read_write("READ_WRITE", traits, api)
+      , low_float("LOW_FLOAT", traits, api)
+      , medium_float("MEDIUM_FLOAT", traits, api)
+      , high_float("HIGH_FLOAT", traits, api)
+      , low_int("LOW_INT", traits, api)
+      , medium_int("MEDIUM_INT", traits, api)
+      , high_int("HIGH_INT", traits, api)
       , buffer("BUFFER", traits, api)
       , framebuffer("FRAMEBUFFER", traits, api)
       , program_pipeline("PROGRAM_PIPELINE", traits, api)
@@ -7373,6 +7460,9 @@ public:
       , isolines("ISOLINES", traits, api)
       , fractional_even("FRACTIONAL_EVEN", traits, api)
       , fractional_odd("FRACTIONAL_ODD", traits, api)
+      , patch_vertices("PATCH_VERTICES", traits, api)
+      , patch_default_outer_level("PATCH_DEFAULT_OUTER_LEVEL", traits, api)
+      , patch_default_inner_level("PATCH_DEFAULT_INNER_LEVEL", traits, api)
       , cw("CW", traits, api)
       , ccw("CCW", traits, api)
       , first_vertex_convention("FIRST_VERTEX_CONVENTION", traits, api)

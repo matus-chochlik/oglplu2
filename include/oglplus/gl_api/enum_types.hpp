@@ -57,6 +57,10 @@ struct access_specifier
     using enum_class::enum_class;
 };
 
+struct precision_type : gl_enum_class<precision_type, EAGINE_ID_V(PrecisType)> {
+    using enum_class::enum_class;
+};
+
 struct object_type : gl_enum_class<object_type, EAGINE_ID_V(ObjectType)> {
     using enum_class::enum_class;
 };
@@ -180,6 +184,11 @@ struct tess_gen_primitive_spacing
     using enum_class::enum_class;
 };
 
+struct patch_parameter
+  : gl_enum_class<patch_parameter, EAGINE_ID_V(PtchParmtr)> {
+    using enum_class::enum_class;
+};
+
 struct provoke_mode : gl_enum_class<provoke_mode, EAGINE_ID_V(ProvkeMode)> {
     using enum_class::enum_class;
 };
@@ -216,6 +225,11 @@ struct integer_query : gl_enum_class<integer_query, EAGINE_ID_V(IntQuery)> {
 };
 
 struct string_query : gl_enum_class<string_query, EAGINE_ID_V(StrQuery)> {
+    using enum_class::enum_class;
+};
+
+struct index_data_type
+  : gl_enum_class<index_data_type, EAGINE_ID_V(IdxDtaType)> {
     using enum_class::enum_class;
 };
 
