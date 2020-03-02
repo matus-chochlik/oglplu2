@@ -273,6 +273,11 @@ struct internal_format_parameter
     using enum_class::enum_class;
 };
 
+struct image_compatibility_class
+  : gl_enum_class<image_compatibility_class, EAGINE_ID_V(ImCompClss)> {
+    using enum_class::enum_class;
+};
+
 struct view_compatibility_class
   : gl_enum_class<view_compatibility_class, EAGINE_ID_V(VwCompClss)> {
     using enum_class::enum_class;

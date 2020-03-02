@@ -5672,6 +5672,105 @@ public:
       unpack_compressed_block_size;
 
     opt_c_api_constant<
+      mp_list<oglp::image_compatibility_class>,
+#ifdef GL_IMAGE_CLASS_4_X_32
+      enum_type_c<GL_IMAGE_CLASS_4_X_32>>
+#else
+      enum_type_i>
+#endif
+      image_class_4_x_32;
+
+    opt_c_api_constant<
+      mp_list<oglp::image_compatibility_class>,
+#ifdef GL_IMAGE_CLASS_2_X_32
+      enum_type_c<GL_IMAGE_CLASS_2_X_32>>
+#else
+      enum_type_i>
+#endif
+      image_class_2_x_32;
+
+    opt_c_api_constant<
+      mp_list<oglp::image_compatibility_class>,
+#ifdef GL_IMAGE_CLASS_1_X_32
+      enum_type_c<GL_IMAGE_CLASS_1_X_32>>
+#else
+      enum_type_i>
+#endif
+      image_class_1_x_32;
+
+    opt_c_api_constant<
+      mp_list<oglp::image_compatibility_class>,
+#ifdef GL_IMAGE_CLASS_4_X_16
+      enum_type_c<GL_IMAGE_CLASS_4_X_16>>
+#else
+      enum_type_i>
+#endif
+      image_class_4_x_16;
+
+    opt_c_api_constant<
+      mp_list<oglp::image_compatibility_class>,
+#ifdef GL_IMAGE_CLASS_2_X_16
+      enum_type_c<GL_IMAGE_CLASS_2_X_16>>
+#else
+      enum_type_i>
+#endif
+      image_class_2_x_16;
+
+    opt_c_api_constant<
+      mp_list<oglp::image_compatibility_class>,
+#ifdef GL_IMAGE_CLASS_1_X_16
+      enum_type_c<GL_IMAGE_CLASS_1_X_16>>
+#else
+      enum_type_i>
+#endif
+      image_class_1_x_16;
+
+    opt_c_api_constant<
+      mp_list<oglp::image_compatibility_class>,
+#ifdef GL_IMAGE_CLASS_4_X_8
+      enum_type_c<GL_IMAGE_CLASS_4_X_8>>
+#else
+      enum_type_i>
+#endif
+      image_class_4_x_8;
+
+    opt_c_api_constant<
+      mp_list<oglp::image_compatibility_class>,
+#ifdef GL_IMAGE_CLASS_2_X_8
+      enum_type_c<GL_IMAGE_CLASS_2_X_8>>
+#else
+      enum_type_i>
+#endif
+      image_class_2_x_8;
+
+    opt_c_api_constant<
+      mp_list<oglp::image_compatibility_class>,
+#ifdef GL_IMAGE_CLASS_1_X_8
+      enum_type_c<GL_IMAGE_CLASS_1_X_8>>
+#else
+      enum_type_i>
+#endif
+      image_class_1_x_8;
+
+    opt_c_api_constant<
+      mp_list<oglp::image_compatibility_class>,
+#ifdef GL_IMAGE_CLASS_11_11_10
+      enum_type_c<GL_IMAGE_CLASS_11_11_10>>
+#else
+      enum_type_i>
+#endif
+      image_class_11_11_10;
+
+    opt_c_api_constant<
+      mp_list<oglp::image_compatibility_class>,
+#ifdef GL_IMAGE_CLASS_10_10_10_2
+      enum_type_c<GL_IMAGE_CLASS_10_10_10_2>>
+#else
+      enum_type_i>
+#endif
+      image_class_10_10_10_2;
+
+    opt_c_api_constant<
       mp_list<oglp::view_compatibility_class>,
 #ifdef GL_VIEW_CLASS_128_BITS
       enum_type_c<GL_VIEW_CLASS_128_BITS>>
@@ -7463,6 +7562,17 @@ public:
           "UNPACK_COMPRESSED_BLOCK_DEPTH", traits, api)
       , unpack_compressed_block_size(
           "UNPACK_COMPRESSED_BLOCK_SIZE", traits, api)
+      , image_class_4_x_32("IMAGE_CLASS_4_X_32", traits, api)
+      , image_class_2_x_32("IMAGE_CLASS_2_X_32", traits, api)
+      , image_class_1_x_32("IMAGE_CLASS_1_X_32", traits, api)
+      , image_class_4_x_16("IMAGE_CLASS_4_X_16", traits, api)
+      , image_class_2_x_16("IMAGE_CLASS_2_X_16", traits, api)
+      , image_class_1_x_16("IMAGE_CLASS_1_X_16", traits, api)
+      , image_class_4_x_8("IMAGE_CLASS_4_X_8", traits, api)
+      , image_class_2_x_8("IMAGE_CLASS_2_X_8", traits, api)
+      , image_class_1_x_8("IMAGE_CLASS_1_X_8", traits, api)
+      , image_class_11_11_10("IMAGE_CLASS_11_11_10", traits, api)
+      , image_class_10_10_10_2("IMAGE_CLASS_10_10_10_2", traits, api)
       , view_class_128_bits("VIEW_CLASS_128_BITS", traits, api)
       , view_class_96_bits("VIEW_CLASS_96_BITS", traits, api)
       , view_class_64_bits("VIEW_CLASS_64_BITS", traits, api)
