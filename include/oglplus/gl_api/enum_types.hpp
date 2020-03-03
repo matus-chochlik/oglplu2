@@ -180,6 +180,16 @@ struct framebuffer_parameter
     using enum_class::enum_class;
 };
 
+struct framebuffer_attachment_parameter
+  : gl_enum_class<framebuffer_attachment_parameter, EAGINE_ID_V(FboAtchPar)> {
+    using enum_class::enum_class;
+};
+
+struct framebuffer_buffer
+  : gl_enum_class<framebuffer_buffer, EAGINE_ID_V(FboBuffer)> {
+    using enum_class::enum_class;
+};
+
 struct framebuffer_attachment
   : gl_enum_class<framebuffer_attachment, EAGINE_ID_V(FboAttchmt)> {
     using enum_class::enum_class;

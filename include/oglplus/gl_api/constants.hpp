@@ -911,6 +911,132 @@ public:
       framebuffer_default_fixed_sample_locations;
 
     opt_c_api_constant<
+      mp_list<framebuffer_attachment_parameter>,
+#ifdef GL_FRAMEBUFFER_ATTACHMENT_RED_SIZE
+      enum_type_c<GL_FRAMEBUFFER_ATTACHMENT_RED_SIZE>>
+#else
+      enum_type_i>
+#endif
+      framebuffer_attachment_red_size;
+
+    opt_c_api_constant<
+      mp_list<framebuffer_attachment_parameter>,
+#ifdef GL_FRAMEBUFFER_ATTACHMENT_GREEN_SIZE
+      enum_type_c<GL_FRAMEBUFFER_ATTACHMENT_GREEN_SIZE>>
+#else
+      enum_type_i>
+#endif
+      framebuffer_attachment_green_size;
+
+    opt_c_api_constant<
+      mp_list<framebuffer_attachment_parameter>,
+#ifdef GL_FRAMEBUFFER_ATTACHMENT_BLUE_SIZE
+      enum_type_c<GL_FRAMEBUFFER_ATTACHMENT_BLUE_SIZE>>
+#else
+      enum_type_i>
+#endif
+      framebuffer_attachment_blue_size;
+
+    opt_c_api_constant<
+      mp_list<framebuffer_attachment_parameter>,
+#ifdef GL_FRAMEBUFFER_ATTACHMENT_ALPHA_SIZE
+      enum_type_c<GL_FRAMEBUFFER_ATTACHMENT_ALPHA_SIZE>>
+#else
+      enum_type_i>
+#endif
+      framebuffer_attachment_alpha_size;
+
+    opt_c_api_constant<
+      mp_list<framebuffer_attachment_parameter>,
+#ifdef GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE
+      enum_type_c<GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE>>
+#else
+      enum_type_i>
+#endif
+      framebuffer_attachment_depth_size;
+
+    opt_c_api_constant<
+      mp_list<framebuffer_attachment_parameter>,
+#ifdef GL_FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE
+      enum_type_c<GL_FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE>>
+#else
+      enum_type_i>
+#endif
+      framebuffer_attachment_stencil_size;
+
+    opt_c_api_constant<
+      mp_list<framebuffer_attachment_parameter>,
+#ifdef GL_FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE
+      enum_type_c<GL_FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE>>
+#else
+      enum_type_i>
+#endif
+      framebuffer_attachment_component_type;
+
+    opt_c_api_constant<
+      mp_list<framebuffer_attachment_parameter>,
+#ifdef GL_FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING
+      enum_type_c<GL_FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING>>
+#else
+      enum_type_i>
+#endif
+      framebuffer_attachment_color_encoding;
+
+    opt_c_api_constant<
+      mp_list<framebuffer_attachment_parameter>,
+#ifdef GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE
+      enum_type_c<GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE>>
+#else
+      enum_type_i>
+#endif
+      framebuffer_attachment_object_type;
+
+    opt_c_api_constant<
+      mp_list<framebuffer_attachment_parameter>,
+#ifdef GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME
+      enum_type_c<GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME>>
+#else
+      enum_type_i>
+#endif
+      framebuffer_attachment_object_name;
+
+    opt_c_api_constant<
+      mp_list<framebuffer_attachment_parameter>,
+#ifdef GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL
+      enum_type_c<GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL>>
+#else
+      enum_type_i>
+#endif
+      framebuffer_attachment_texture_level;
+
+    opt_c_api_constant<
+      mp_list<framebuffer_attachment_parameter>,
+#ifdef GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE
+      enum_type_c<GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE>>
+#else
+      enum_type_i>
+#endif
+      framebuffer_attachment_texture_cube_map_face;
+
+    opt_c_api_constant<
+      mp_list<framebuffer_attachment_parameter>,
+#ifdef GL_FRAMEBUFFER_ATTACHMENT_LAYERED
+      enum_type_c<GL_FRAMEBUFFER_ATTACHMENT_LAYERED>>
+#else
+      enum_type_i>
+#endif
+      framebuffer_attachment_layered;
+
+    opt_c_api_constant<
+      mp_list<framebuffer_attachment_parameter>,
+#ifdef GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LAYER
+      enum_type_c<GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LAYER>>
+#else
+      enum_type_i>
+#endif
+      framebuffer_attachment_texture_layer;
+
+    opt_c_api_constant<
       mp_list<framebuffer_attachment>,
 #ifdef GL_DEPTH_ATTACHMENT
       enum_type_c<GL_DEPTH_ATTACHMENT>>
@@ -936,6 +1062,33 @@ public:
       enum_type_i>
 #endif
       depth_stencil_attachment;
+
+    opt_c_api_constant<
+      mp_list<framebuffer_buffer>,
+#ifdef GL_COLOR
+      enum_type_c<GL_COLOR>>
+#else
+      enum_type_i>
+#endif
+      color;
+
+    opt_c_api_constant<
+      mp_list<framebuffer_buffer>,
+#ifdef GL_DEPTH
+      enum_type_c<GL_DEPTH>>
+#else
+      enum_type_i>
+#endif
+      depth;
+
+    opt_c_api_constant<
+      mp_list<framebuffer_buffer>,
+#ifdef GL_STENCIL
+      enum_type_c<GL_STENCIL>>
+#else
+      enum_type_i>
+#endif
+      stencil;
 
     opt_c_api_constant<
       mp_list<buffer_target>,
@@ -5258,7 +5411,7 @@ public:
       depth_component;
 
     opt_c_api_constant<
-      mp_list<pixel_internal_format, pixel_format>,
+      mp_list<pixel_internal_format, pixel_format, framebuffer_buffer>,
 #ifdef GL_DEPTH_STENCIL
       enum_type_c<GL_DEPTH_STENCIL>>
 #else
@@ -7301,9 +7454,40 @@ public:
       , framebuffer_default_samples("FRAMEBUFFER_DEFAULT_SAMPLES", traits, api)
       , framebuffer_default_fixed_sample_locations(
           "FRAMEBUFFER_DEFAULT_FIXED_SAMPLE_LOCATIONS", traits, api)
+      , framebuffer_attachment_red_size(
+          "FRAMEBUFFER_ATTACHMENT_RED_SIZE", traits, api)
+      , framebuffer_attachment_green_size(
+          "FRAMEBUFFER_ATTACHMENT_GREEN_SIZE", traits, api)
+      , framebuffer_attachment_blue_size(
+          "FRAMEBUFFER_ATTACHMENT_BLUE_SIZE", traits, api)
+      , framebuffer_attachment_alpha_size(
+          "FRAMEBUFFER_ATTACHMENT_ALPHA_SIZE", traits, api)
+      , framebuffer_attachment_depth_size(
+          "FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE", traits, api)
+      , framebuffer_attachment_stencil_size(
+          "FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE", traits, api)
+      , framebuffer_attachment_component_type(
+          "FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE", traits, api)
+      , framebuffer_attachment_color_encoding(
+          "FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING", traits, api)
+      , framebuffer_attachment_object_type(
+          "FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE", traits, api)
+      , framebuffer_attachment_object_name(
+          "FRAMEBUFFER_ATTACHMENT_OBJECT_NAME", traits, api)
+      , framebuffer_attachment_texture_level(
+          "FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL", traits, api)
+      , framebuffer_attachment_texture_cube_map_face(
+          "FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE", traits, api)
+      , framebuffer_attachment_layered(
+          "FRAMEBUFFER_ATTACHMENT_LAYERED", traits, api)
+      , framebuffer_attachment_texture_layer(
+          "FRAMEBUFFER_ATTACHMENT_TEXTURE_LAYER", traits, api)
       , depth_attachment("DEPTH_ATTACHMENT", traits, api)
       , stencil_attachment("STENCIL_ATTACHMENT", traits, api)
       , depth_stencil_attachment("DEPTH_STENCIL_ATTACHMENT", traits, api)
+      , color("COLOR", traits, api)
+      , depth("DEPTH", traits, api)
+      , stencil("STENCIL", traits, api)
       , array_buffer("ARRAY_BUFFER", traits, api)
       , atomic_counter_buffer("ATOMIC_COUNTER_BUFFER", traits, api)
       , copy_read_buffer("COPY_READ_BUFFER", traits, api)
