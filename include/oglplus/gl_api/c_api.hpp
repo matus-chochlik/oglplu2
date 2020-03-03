@@ -360,6 +360,23 @@ struct basic_gl_c_api {
 
     gl_api_function<
       void(
+        uint_type,
+        uint_type,
+        int_type,
+        bool_type,
+        int_type,
+        enum_type,
+        enum_type),
+      OGLPLUS_GL_STATIC_FUNC(BindImageTexture)>
+      BindImageTexture;
+
+    gl_api_function<
+      void(uint_type, sizei_type, const uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(BindImageTextures)>
+      BindImageTextures;
+
+    gl_api_function<
+      void(
         enum_type, sizei_type, enum_type, sizei_type, sizei_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(TexStorage3D)>
       TexStorage3D;
@@ -1147,6 +1164,11 @@ struct basic_gl_c_api {
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GenFramebuffers)>
       GenFramebuffers;
+
+    gl_api_function<
+      void(sizei_type, uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(CreateFramebuffers)>
+      CreateFramebuffers;
 
     gl_api_function<
       void(sizei_type, const uint_type*),
@@ -2077,6 +2099,8 @@ struct basic_gl_c_api {
       , BindTexture("BindTexture", traits, *this)
       , BindTextures("BindTextures", traits, *this)
       , BindTextureUnit("BindTextureUnit", traits, *this)
+      , BindImageTexture("BindImageTexture", traits, *this)
+      , BindImageTextures("BindImageTextures", traits, *this)
       , TexStorage3D("TexStorage3D", traits, *this)
       , TexStorage2D("TexStorage2D", traits, *this)
       , TexStorage1D("TexStorage1D", traits, *this)
@@ -2185,6 +2209,7 @@ struct basic_gl_c_api {
       , IsRenderbuffer("IsRenderbuffer", traits, *this)
       , BindRenderbuffer("BindRenderbuffer", traits, *this)
       , GenFramebuffers("GenFramebuffers", traits, *this)
+      , CreateFramebuffers("CreateFramebuffers", traits, *this)
       , DeleteFramebuffers("DeleteFramebuffers", traits, *this)
       , IsFramebuffer("IsFramebuffer", traits, *this)
       , BindFramebuffer("BindFramebuffer", traits, *this)

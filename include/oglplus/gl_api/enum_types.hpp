@@ -102,10 +102,6 @@ struct buffer_map_access_bit
     using enum_class::enum_class;
 };
 
-struct texture_target : gl_enum_class<texture_target, EAGINE_ID_V(TextureTgt)> {
-    using enum_class::enum_class;
-};
-
 struct program_interface
   : gl_enum_class<program_interface, EAGINE_ID_V(ProgrmIntf)> {
     using enum_class::enum_class;
@@ -118,6 +114,10 @@ struct program_property
 
 struct buffer_clear_bit
   : gl_bitfield_class<buffer_clear_bit, EAGINE_ID_V(BuffClrBit)> {
+    using enum_class::enum_class;
+};
+
+struct texture_target : gl_enum_class<texture_target, EAGINE_ID_V(TexTarget)> {
     using enum_class::enum_class;
 };
 
@@ -162,6 +162,16 @@ struct texture_wrap_coord
 
 struct texture_wrap_mode
   : gl_enum_class<texture_wrap_mode, EAGINE_ID_V(TexWrpMode)> {
+    using enum_class::enum_class;
+};
+
+struct framebuffer_target
+  : gl_enum_class<framebuffer_target, EAGINE_ID_V(FboTarget)> {
+    using enum_class::enum_class;
+};
+
+struct framebuffer_status
+  : gl_enum_class<framebuffer_status, EAGINE_ID_V(FboStatus)> {
     using enum_class::enum_class;
 };
 

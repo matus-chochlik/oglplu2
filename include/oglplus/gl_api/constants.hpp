@@ -785,6 +785,87 @@ public:
       active_program;
 
     opt_c_api_constant<
+      mp_list<framebuffer_target>,
+#ifdef GL_DRAW_FRAMEBUFFER
+      enum_type_c<GL_DRAW_FRAMEBUFFER>>
+#else
+      enum_type_i>
+#endif
+      draw_framebuffer;
+
+    opt_c_api_constant<
+      mp_list<framebuffer_target>,
+#ifdef GL_READ_FRAMEBUFFER
+      enum_type_c<GL_READ_FRAMEBUFFER>>
+#else
+      enum_type_i>
+#endif
+      read_framebuffer;
+
+    opt_c_api_constant<
+      mp_list<framebuffer_status>,
+#ifdef GL_FRAMEBUFFER_COMPLETE
+      enum_type_c<GL_FRAMEBUFFER_COMPLETE>>
+#else
+      enum_type_i>
+#endif
+      framebuffer_complete;
+
+    opt_c_api_constant<
+      mp_list<framebuffer_status>,
+#ifdef GL_FRAMEBUFFER_UNDEFINED
+      enum_type_c<GL_FRAMEBUFFER_UNDEFINED>>
+#else
+      enum_type_i>
+#endif
+      framebuffer_undefined;
+
+    opt_c_api_constant<
+      mp_list<framebuffer_status>,
+#ifdef GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT
+      enum_type_c<GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT>>
+#else
+      enum_type_i>
+#endif
+      framebuffer_incomplete_attachment;
+
+    opt_c_api_constant<
+      mp_list<framebuffer_status>,
+#ifdef GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT
+      enum_type_c<GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT>>
+#else
+      enum_type_i>
+#endif
+      framebuffer_incomplete_missing_attachment;
+
+    opt_c_api_constant<
+      mp_list<framebuffer_status>,
+#ifdef GL_FRAMEBUFFER_UNSUPPORTED
+      enum_type_c<GL_FRAMEBUFFER_UNSUPPORTED>>
+#else
+      enum_type_i>
+#endif
+      framebuffer_unsupported;
+
+    opt_c_api_constant<
+      mp_list<framebuffer_status>,
+#ifdef GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE
+      enum_type_c<GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE>>
+#else
+      enum_type_i>
+#endif
+      framebuffer_incomplete_multisample;
+
+    opt_c_api_constant<
+      mp_list<framebuffer_status>,
+#ifdef GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS
+      enum_type_c<GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS>>
+#else
+      enum_type_i>
+#endif
+      framebuffer_incomplete_layer_targets;
+
+    opt_c_api_constant<
       mp_list<buffer_target>,
 #ifdef GL_ARRAY_BUFFER
       enum_type_c<GL_ARRAY_BUFFER>>
@@ -7129,6 +7210,19 @@ public:
       , geometry_input_type("GEOMETRY_INPUT_TYPE", traits, api)
       , geometry_output_type("GEOMETRY_OUTPUT_TYPE", traits, api)
       , active_program("ACTIVE_PROGRAM", traits, api)
+      , draw_framebuffer("DRAW_FRAMEBUFFER", traits, api)
+      , read_framebuffer("READ_FRAMEBUFFER", traits, api)
+      , framebuffer_complete("FRAMEBUFFER_COMPLETE", traits, api)
+      , framebuffer_undefined("FRAMEBUFFER_UNDEFINED", traits, api)
+      , framebuffer_incomplete_attachment(
+          "FRAMEBUFFER_INCOMPLETE_ATTACHMENT", traits, api)
+      , framebuffer_incomplete_missing_attachment(
+          "FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT", traits, api)
+      , framebuffer_unsupported("FRAMEBUFFER_UNSUPPORTED", traits, api)
+      , framebuffer_incomplete_multisample(
+          "FRAMEBUFFER_INCOMPLETE_MULTISAMPLE", traits, api)
+      , framebuffer_incomplete_layer_targets(
+          "FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS", traits, api)
       , array_buffer("ARRAY_BUFFER", traits, api)
       , atomic_counter_buffer("ATOMIC_COUNTER_BUFFER", traits, api)
       , copy_read_buffer("COPY_READ_BUFFER", traits, api)
