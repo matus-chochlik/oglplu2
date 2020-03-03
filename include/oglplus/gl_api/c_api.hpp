@@ -1184,6 +1184,26 @@ struct basic_gl_c_api {
       BindFramebuffer;
 
     gl_api_function<
+      void(enum_type, enum_type, int_type),
+      OGLPLUS_GL_STATIC_FUNC(FramebufferParameteri)>
+      FramebufferParameteri;
+
+    gl_api_function<
+      void(uint_type, enum_type, int_type),
+      OGLPLUS_GL_STATIC_FUNC(NamedFramebufferParameteri)>
+      NamedFramebufferParameteri;
+
+    gl_api_function<
+      void(enum_type, enum_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetFramebufferParameteriv)>
+      GetFramebufferParameteriv;
+
+    gl_api_function<
+      void(uint_type, enum_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetNamedFramebufferParameteriv)>
+      GetNamedFramebufferParameteriv;
+
+    gl_api_function<
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GenTransformFeedbacks)>
       GenTransformFeedbacks;
@@ -2213,6 +2233,11 @@ struct basic_gl_c_api {
       , DeleteFramebuffers("DeleteFramebuffers", traits, *this)
       , IsFramebuffer("IsFramebuffer", traits, *this)
       , BindFramebuffer("BindFramebuffer", traits, *this)
+      , FramebufferParameteri("FramebufferParameteri", traits, *this)
+      , NamedFramebufferParameteri("NamedFramebufferParameteri", traits, *this)
+      , GetFramebufferParameteriv("GetFramebufferParameteriv", traits, *this)
+      , GetNamedFramebufferParameteriv(
+          "GetNamedFramebufferParameteriv", traits, *this)
       , GenTransformFeedbacks("GenTransformFeedbacks", traits, *this)
       , DeleteTransformFeedbacks("DeleteTransformFeedbacks", traits, *this)
       , IsTransformFeedback("IsTransformFeedback", traits, *this)

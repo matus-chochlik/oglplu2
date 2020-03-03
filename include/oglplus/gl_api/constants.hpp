@@ -866,6 +866,78 @@ public:
       framebuffer_incomplete_layer_targets;
 
     opt_c_api_constant<
+      mp_list<framebuffer_parameter>,
+#ifdef GL_FRAMEBUFFER_DEFAULT_WIDTH
+      enum_type_c<GL_FRAMEBUFFER_DEFAULT_WIDTH>>
+#else
+      enum_type_i>
+#endif
+      framebuffer_default_width;
+
+    opt_c_api_constant<
+      mp_list<framebuffer_parameter>,
+#ifdef GL_FRAMEBUFFER_DEFAULT_HEIGHT
+      enum_type_c<GL_FRAMEBUFFER_DEFAULT_HEIGHT>>
+#else
+      enum_type_i>
+#endif
+      framebuffer_default_height;
+
+    opt_c_api_constant<
+      mp_list<framebuffer_parameter>,
+#ifdef GL_FRAMEBUFFER_DEFAULT_LAYERS
+      enum_type_c<GL_FRAMEBUFFER_DEFAULT_LAYERS>>
+#else
+      enum_type_i>
+#endif
+      framebuffer_default_layers;
+
+    opt_c_api_constant<
+      mp_list<framebuffer_parameter>,
+#ifdef GL_FRAMEBUFFER_DEFAULT_SAMPLES
+      enum_type_c<GL_FRAMEBUFFER_DEFAULT_SAMPLES>>
+#else
+      enum_type_i>
+#endif
+      framebuffer_default_samples;
+
+    opt_c_api_constant<
+      mp_list<framebuffer_parameter>,
+#ifdef GL_FRAMEBUFFER_DEFAULT_FIXED_SAMPLE_LOCATIONS
+      enum_type_c<GL_FRAMEBUFFER_DEFAULT_FIXED_SAMPLE_LOCATIONS>>
+#else
+      enum_type_i>
+#endif
+      framebuffer_default_fixed_sample_locations;
+
+    opt_c_api_constant<
+      mp_list<framebuffer_attachment>,
+#ifdef GL_DEPTH_ATTACHMENT
+      enum_type_c<GL_DEPTH_ATTACHMENT>>
+#else
+      enum_type_i>
+#endif
+      depth_attachment;
+
+    opt_c_api_constant<
+      mp_list<framebuffer_attachment>,
+#ifdef GL_STENCIL_ATTACHMENT
+      enum_type_c<GL_STENCIL_ATTACHMENT>>
+#else
+      enum_type_i>
+#endif
+      stencil_attachment;
+
+    opt_c_api_constant<
+      mp_list<framebuffer_attachment>,
+#ifdef GL_DEPTH_STENCIL_ATTACHMENT
+      enum_type_c<GL_DEPTH_STENCIL_ATTACHMENT>>
+#else
+      enum_type_i>
+#endif
+      depth_stencil_attachment;
+
+    opt_c_api_constant<
       mp_list<buffer_target>,
 #ifdef GL_ARRAY_BUFFER
       enum_type_c<GL_ARRAY_BUFFER>>
@@ -7223,6 +7295,15 @@ public:
           "FRAMEBUFFER_INCOMPLETE_MULTISAMPLE", traits, api)
       , framebuffer_incomplete_layer_targets(
           "FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS", traits, api)
+      , framebuffer_default_width("FRAMEBUFFER_DEFAULT_WIDTH", traits, api)
+      , framebuffer_default_height("FRAMEBUFFER_DEFAULT_HEIGHT", traits, api)
+      , framebuffer_default_layers("FRAMEBUFFER_DEFAULT_LAYERS", traits, api)
+      , framebuffer_default_samples("FRAMEBUFFER_DEFAULT_SAMPLES", traits, api)
+      , framebuffer_default_fixed_sample_locations(
+          "FRAMEBUFFER_DEFAULT_FIXED_SAMPLE_LOCATIONS", traits, api)
+      , depth_attachment("DEPTH_ATTACHMENT", traits, api)
+      , stencil_attachment("STENCIL_ATTACHMENT", traits, api)
+      , depth_stencil_attachment("DEPTH_STENCIL_ATTACHMENT", traits, api)
       , array_buffer("ARRAY_BUFFER", traits, api)
       , atomic_counter_buffer("ATOMIC_COUNTER_BUFFER", traits, api)
       , copy_read_buffer("COPY_READ_BUFFER", traits, api)

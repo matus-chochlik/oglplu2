@@ -175,6 +175,16 @@ struct framebuffer_status
     using enum_class::enum_class;
 };
 
+struct framebuffer_parameter
+  : gl_enum_class<framebuffer_parameter, EAGINE_ID_V(FboParamtr)> {
+    using enum_class::enum_class;
+};
+
+struct framebuffer_attachment
+  : gl_enum_class<framebuffer_attachment, EAGINE_ID_V(FboAttchmt)> {
+    using enum_class::enum_class;
+};
+
 struct sampler_parameter
   : gl_enum_class<sampler_parameter, EAGINE_ID_V(SamParamtr)> {
     using enum_class::enum_class;
