@@ -515,7 +515,7 @@ public:
       texture;
 
     opt_c_api_constant<
-      mp_list<object_type>,
+      mp_list<object_type, transform_feedback_target>,
 #ifdef GL_TRANSFORM_FEEDBACK
       enum_type_c<GL_TRANSFORM_FEEDBACK>>
 #else
@@ -2107,6 +2107,60 @@ public:
       one;
 
     opt_c_api_constant<
+      mp_list<transform_feedback_mode>,
+#ifdef GL_INTERLEAVED_ATTRIBS
+      enum_type_c<GL_INTERLEAVED_ATTRIBS>>
+#else
+      enum_type_i>
+#endif
+      interleaved_attribs;
+
+    opt_c_api_constant<
+      mp_list<transform_feedback_mode>,
+#ifdef GL_SEPARATE_ATTRIBS
+      enum_type_c<GL_SEPARATE_ATTRIBS>>
+#else
+      enum_type_i>
+#endif
+      separate_attribs;
+
+    opt_c_api_constant<
+      mp_list<transform_feedback_parameter>,
+#ifdef GL_TRANSFORM_FEEDBACK_BUFFER_START
+      enum_type_c<GL_TRANSFORM_FEEDBACK_BUFFER_START>>
+#else
+      enum_type_i>
+#endif
+      transform_feedback_buffer_start;
+
+    opt_c_api_constant<
+      mp_list<transform_feedback_parameter>,
+#ifdef GL_TRANSFORM_FEEDBACK_BUFFER_SIZE
+      enum_type_c<GL_TRANSFORM_FEEDBACK_BUFFER_SIZE>>
+#else
+      enum_type_i>
+#endif
+      transform_feedback_buffer_size;
+
+    opt_c_api_constant<
+      mp_list<transform_feedback_parameter>,
+#ifdef GL_TRANSFORM_FEEDBACK_PAUSED
+      enum_type_c<GL_TRANSFORM_FEEDBACK_PAUSED>>
+#else
+      enum_type_i>
+#endif
+      transform_feedback_paused;
+
+    opt_c_api_constant<
+      mp_list<transform_feedback_parameter>,
+#ifdef GL_TRANSFORM_FEEDBACK_ACTIVE
+      enum_type_c<GL_TRANSFORM_FEEDBACK_ACTIVE>>
+#else
+      enum_type_i>
+#endif
+      transform_feedback_active;
+
+    opt_c_api_constant<
       mp_list<program_interface>,
 #ifdef GL_UNIFORM
       enum_type_c<GL_UNIFORM>>
@@ -2885,7 +2939,7 @@ public:
       texture_buffer_binding;
 
     opt_c_api_constant<
-      mp_list<binding_query>,
+      mp_list<binding_query, transform_feedback_parameter>,
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_BINDING
       enum_type_c<GL_TRANSFORM_FEEDBACK_BUFFER_BINDING>>
 #else
@@ -4358,7 +4412,7 @@ public:
       unsigned_int_atomic_counter;
 
     opt_c_api_constant<
-      mp_list<primitive_type>,
+      mp_list<primitive_type, transform_feedback_primitive_type>,
 #ifdef GL_POINTS
       enum_type_c<GL_POINTS>>
 #else
@@ -4385,7 +4439,7 @@ public:
       line_loop;
 
     opt_c_api_constant<
-      mp_list<primitive_type>,
+      mp_list<primitive_type, transform_feedback_primitive_type>,
 #ifdef GL_LINES
       enum_type_c<GL_LINES>>
 #else
@@ -4412,7 +4466,10 @@ public:
       triangle_fan;
 
     opt_c_api_constant<
-      mp_list<primitive_type, tess_gen_primitive_type>,
+      mp_list<
+        primitive_type,
+        tess_gen_primitive_type,
+        transform_feedback_primitive_type>,
 #ifdef GL_TRIANGLES
       enum_type_c<GL_TRIANGLES>>
 #else
@@ -7693,6 +7750,14 @@ public:
       , alpha("ALPHA", traits, api)
       , zero("ZERO", traits, api)
       , one("ONE", traits, api)
+      , interleaved_attribs("INTERLEAVED_ATTRIBS", traits, api)
+      , separate_attribs("SEPARATE_ATTRIBS", traits, api)
+      , transform_feedback_buffer_start(
+          "TRANSFORM_FEEDBACK_BUFFER_START", traits, api)
+      , transform_feedback_buffer_size(
+          "TRANSFORM_FEEDBACK_BUFFER_SIZE", traits, api)
+      , transform_feedback_paused("TRANSFORM_FEEDBACK_PAUSED", traits, api)
+      , transform_feedback_active("TRANSFORM_FEEDBACK_ACTIVE", traits, api)
       , uniform("UNIFORM", traits, api)
       , uniform_block("UNIFORM_BLOCK", traits, api)
       , program_input("PROGRAM_INPUT", traits, api)

@@ -210,6 +210,26 @@ struct sampler_parameter
     using enum_class::enum_class;
 };
 
+struct transform_feedback_target
+  : gl_enum_class<transform_feedback_target, EAGINE_ID_V(XfbTarget)> {
+    using enum_class::enum_class;
+};
+
+struct transform_feedback_primitive_type
+  : gl_enum_class<transform_feedback_primitive_type, EAGINE_ID_V(XfbPrimTyp)> {
+    using enum_class::enum_class;
+};
+
+struct transform_feedback_mode
+  : gl_enum_class<transform_feedback_mode, EAGINE_ID_V(XfbMode)> {
+    using enum_class::enum_class;
+};
+
+struct transform_feedback_parameter
+  : gl_enum_class<transform_feedback_parameter, EAGINE_ID_V(XfbParamtr)> {
+    using enum_class::enum_class;
+};
+
 struct primitive_type : gl_enum_class<primitive_type, EAGINE_ID_V(PrmtveType)> {
     using enum_class::enum_class;
 };
