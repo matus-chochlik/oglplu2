@@ -210,6 +210,10 @@ struct sampler_parameter
     using enum_class::enum_class;
 };
 
+struct query_target : gl_enum_class<query_target, EAGINE_ID_V(QryTarget)> {
+    using enum_class::enum_class;
+};
+
 struct transform_feedback_target
   : gl_enum_class<transform_feedback_target, EAGINE_ID_V(XfbTarget)> {
     using enum_class::enum_class;

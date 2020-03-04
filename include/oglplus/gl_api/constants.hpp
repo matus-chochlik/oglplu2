@@ -2107,6 +2107,186 @@ public:
       one;
 
     opt_c_api_constant<
+      mp_list<query_target>,
+#ifdef GL_PRIMITIVES_GENERATED
+      enum_type_c<GL_PRIMITIVES_GENERATED>>
+#else
+      enum_type_i>
+#endif
+      primitives_generated;
+
+    opt_c_api_constant<
+      mp_list<query_target>,
+#ifdef GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN
+      enum_type_c<GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN>>
+#else
+      enum_type_i>
+#endif
+      transform_feedback_primitives_written;
+
+    opt_c_api_constant<
+      mp_list<query_target>,
+#ifdef GL_TRANSFORM_FEEDBACK_OVERFLOW
+      enum_type_c<GL_TRANSFORM_FEEDBACK_OVERFLOW>>
+#else
+      enum_type_i>
+#endif
+      transform_feedback_overflow;
+
+    opt_c_api_constant<
+      mp_list<query_target>,
+#ifdef GL_TRANSFORM_FEEDBACK_STREAM_OVERFLOW
+      enum_type_c<GL_TRANSFORM_FEEDBACK_STREAM_OVERFLOW>>
+#else
+      enum_type_i>
+#endif
+      transform_feedback_stream_overflow;
+
+    opt_c_api_constant<
+      mp_list<query_target>,
+#ifdef GL_SAMPLES_PASSED
+      enum_type_c<GL_SAMPLES_PASSED>>
+#else
+      enum_type_i>
+#endif
+      samples_passed;
+
+    opt_c_api_constant<
+      mp_list<query_target>,
+#ifdef GL_ANY_SAMPLES_PASSED
+      enum_type_c<GL_ANY_SAMPLES_PASSED>>
+#else
+      enum_type_i>
+#endif
+      any_samples_passed;
+
+    opt_c_api_constant<
+      mp_list<query_target>,
+#ifdef GL_ANY_SAMPLES_PASSED_CONSERVATIVE
+      enum_type_c<GL_ANY_SAMPLES_PASSED_CONSERVATIVE>>
+#else
+      enum_type_i>
+#endif
+      any_samples_passed_conservative;
+
+    opt_c_api_constant<
+      mp_list<query_target>,
+#ifdef GL_TIME_ELAPSED
+      enum_type_c<GL_TIME_ELAPSED>>
+#else
+      enum_type_i>
+#endif
+      time_elapsed;
+
+    opt_c_api_constant<
+      mp_list<query_target>,
+#ifdef GL_TIMESTAMP
+      enum_type_c<GL_TIMESTAMP>>
+#else
+      enum_type_i>
+#endif
+      timestamp;
+
+    opt_c_api_constant<
+      mp_list<query_target>,
+#ifdef GL_VERTICES_SUBMITTED
+      enum_type_c<GL_VERTICES_SUBMITTED>>
+#else
+      enum_type_i>
+#endif
+      vertices_submitted;
+
+    opt_c_api_constant<
+      mp_list<query_target>,
+#ifdef GL_PRIMITIVES_SUBMITTED
+      enum_type_c<GL_PRIMITIVES_SUBMITTED>>
+#else
+      enum_type_i>
+#endif
+      primitives_submitted;
+
+    opt_c_api_constant<
+      mp_list<query_target>,
+#ifdef GL_VERTEX_SHADER_INVOCATIONS
+      enum_type_c<GL_VERTEX_SHADER_INVOCATIONS>>
+#else
+      enum_type_i>
+#endif
+      vertex_shader_invocations;
+
+    opt_c_api_constant<
+      mp_list<query_target>,
+#ifdef GL_TESS_CONTROL_SHADER_PATCHES
+      enum_type_c<GL_TESS_CONTROL_SHADER_PATCHES>>
+#else
+      enum_type_i>
+#endif
+      tess_control_shader_patches;
+
+    opt_c_api_constant<
+      mp_list<query_target>,
+#ifdef GL_TESS_EVALUATION_SHADER_INVOCATIONS
+      enum_type_c<GL_TESS_EVALUATION_SHADER_INVOCATIONS>>
+#else
+      enum_type_i>
+#endif
+      tess_evaluation_shader_invocations;
+
+    opt_c_api_constant<
+      mp_list<query_target>,
+#ifdef GL_GEOMETRY_SHADER_INVOCATIONS
+      enum_type_c<GL_GEOMETRY_SHADER_INVOCATIONS>>
+#else
+      enum_type_i>
+#endif
+      geometry_shader_invocations;
+
+    opt_c_api_constant<
+      mp_list<query_target>,
+#ifdef GL_GEOMETRY_SHADER_PRIMITIVES_EMITTED
+      enum_type_c<GL_GEOMETRY_SHADER_PRIMITIVES_EMITTED>>
+#else
+      enum_type_i>
+#endif
+      geometry_shader_primitives_emitted;
+
+    opt_c_api_constant<
+      mp_list<query_target>,
+#ifdef GL_CLIPPING_INPUT_PRIMITIVES
+      enum_type_c<GL_CLIPPING_INPUT_PRIMITIVES>>
+#else
+      enum_type_i>
+#endif
+      clipping_input_primitives;
+
+    opt_c_api_constant<
+      mp_list<query_target>,
+#ifdef GL_CLIPPING_OUTPUT_PRIMITIVES
+      enum_type_c<GL_CLIPPING_OUTPUT_PRIMITIVES>>
+#else
+      enum_type_i>
+#endif
+      clipping_output_primitives;
+
+    opt_c_api_constant<
+      mp_list<query_target>,
+#ifdef GL_FRAGMENT_SHADER_INVOCATIONS
+      enum_type_c<GL_FRAGMENT_SHADER_INVOCATIONS>>
+#else
+      enum_type_i>
+#endif
+      fragment_shader_invocations;
+
+    opt_c_api_constant<
+      mp_list<query_target>,
+#ifdef GL_COMPUTE_SHADER_INVOCATIONS
+      enum_type_c<GL_COMPUTE_SHADER_INVOCATIONS>>
+#else
+      enum_type_i>
+#endif
+      compute_shader_invocations;
+
+    opt_c_api_constant<
       mp_list<transform_feedback_mode>,
 #ifdef GL_INTERLEAVED_ATTRIBS
       enum_type_c<GL_INTERLEAVED_ATTRIBS>>
@@ -7750,6 +7930,31 @@ public:
       , alpha("ALPHA", traits, api)
       , zero("ZERO", traits, api)
       , one("ONE", traits, api)
+      , primitives_generated("PRIMITIVES_GENERATED", traits, api)
+      , transform_feedback_primitives_written(
+          "TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN", traits, api)
+      , transform_feedback_overflow("TRANSFORM_FEEDBACK_OVERFLOW", traits, api)
+      , transform_feedback_stream_overflow(
+          "TRANSFORM_FEEDBACK_STREAM_OVERFLOW", traits, api)
+      , samples_passed("SAMPLES_PASSED", traits, api)
+      , any_samples_passed("ANY_SAMPLES_PASSED", traits, api)
+      , any_samples_passed_conservative(
+          "ANY_SAMPLES_PASSED_CONSERVATIVE", traits, api)
+      , time_elapsed("TIME_ELAPSED", traits, api)
+      , timestamp("TIMESTAMP", traits, api)
+      , vertices_submitted("VERTICES_SUBMITTED", traits, api)
+      , primitives_submitted("PRIMITIVES_SUBMITTED", traits, api)
+      , vertex_shader_invocations("VERTEX_SHADER_INVOCATIONS", traits, api)
+      , tess_control_shader_patches("TESS_CONTROL_SHADER_PATCHES", traits, api)
+      , tess_evaluation_shader_invocations(
+          "TESS_EVALUATION_SHADER_INVOCATIONS", traits, api)
+      , geometry_shader_invocations("GEOMETRY_SHADER_INVOCATIONS", traits, api)
+      , geometry_shader_primitives_emitted(
+          "GEOMETRY_SHADER_PRIMITIVES_EMITTED", traits, api)
+      , clipping_input_primitives("CLIPPING_INPUT_PRIMITIVES", traits, api)
+      , clipping_output_primitives("CLIPPING_OUTPUT_PRIMITIVES", traits, api)
+      , fragment_shader_invocations("FRAGMENT_SHADER_INVOCATIONS", traits, api)
+      , compute_shader_invocations("COMPUTE_SHADER_INVOCATIONS", traits, api)
       , interleaved_attribs("INTERLEAVED_ATTRIBS", traits, api)
       , separate_attribs("SEPARATE_ATTRIBS", traits, api)
       , transform_feedback_buffer_start(
