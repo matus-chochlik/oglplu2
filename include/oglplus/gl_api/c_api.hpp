@@ -1146,6 +1146,11 @@ struct basic_gl_c_api {
       GenRenderbuffers;
 
     gl_api_function<
+      void(sizei_type, uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(CreateRenderbuffers)>
+      CreateRenderbuffers;
+
+    gl_api_function<
       void(sizei_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(DeleteRenderbuffers)>
       DeleteRenderbuffers;
@@ -1159,6 +1164,26 @@ struct basic_gl_c_api {
       void(enum_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(BindRenderbuffer)>
       BindRenderbuffer;
+
+    gl_api_function<
+      void(enum_type, enum_type, sizei_type, sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(RenderbufferStorage)>
+      RenderbufferStorage;
+
+    gl_api_function<
+      void(uint_type, enum_type, sizei_type, sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(NamedRenderbufferStorage)>
+      NamedRenderbufferStorage;
+
+    gl_api_function<
+      void(enum_type, sizei_type, enum_type, sizei_type, sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(RenderbufferStorageMultisample)>
+      RenderbufferStorageMultisample;
+
+    gl_api_function<
+      void(uint_type, sizei_type, enum_type, sizei_type, sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(NamedRenderbufferStorageMultisample)>
+      NamedRenderbufferStorageMultisample;
 
     gl_api_function<
       void(sizei_type, uint_type*),
@@ -2235,9 +2260,16 @@ struct basic_gl_c_api {
       , GetSamplerParameterIiv("GetSamplerParameterIiv", traits, *this)
       , GetSamplerParameterIuiv("GetSamplerParameterIuiv", traits, *this)
       , GenRenderbuffers("GenRenderbuffers", traits, *this)
+      , CreateRenderbuffers("CreateRenderbuffers", traits, *this)
       , DeleteRenderbuffers("DeleteRenderbuffers", traits, *this)
       , IsRenderbuffer("IsRenderbuffer", traits, *this)
       , BindRenderbuffer("BindRenderbuffer", traits, *this)
+      , RenderbufferStorage("RenderbufferStorage", traits, *this)
+      , NamedRenderbufferStorage("NamedRenderbufferStorage", traits, *this)
+      , RenderbufferStorageMultisample(
+          "RenderbufferStorageMultisample", traits, *this)
+      , NamedRenderbufferStorageMultisample(
+          "NamedRenderbufferStorageMultisample", traits, *this)
       , GenFramebuffers("GenFramebuffers", traits, *this)
       , CreateFramebuffers("CreateFramebuffers", traits, *this)
       , DeleteFramebuffers("DeleteFramebuffers", traits, *this)

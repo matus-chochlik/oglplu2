@@ -165,6 +165,16 @@ struct texture_wrap_mode
     using enum_class::enum_class;
 };
 
+struct renderbuffer_target
+  : gl_enum_class<renderbuffer_target, EAGINE_ID_V(RboTarget)> {
+    using enum_class::enum_class;
+};
+
+struct renderbuffer_parameter
+  : gl_enum_class<renderbuffer_parameter, EAGINE_ID_V(RboParamtr)> {
+    using enum_class::enum_class;
+};
+
 struct framebuffer_target
   : gl_enum_class<framebuffer_target, EAGINE_ID_V(FboTarget)> {
     using enum_class::enum_class;

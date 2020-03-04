@@ -479,7 +479,7 @@ public:
       query;
 
     opt_c_api_constant<
-      mp_list<object_type>,
+      mp_list<object_type, renderbuffer_target>,
 #ifdef GL_RENDERBUFFER
       enum_type_c<GL_RENDERBUFFER>>
 #else
@@ -783,6 +783,96 @@ public:
       enum_type_i>
 #endif
       active_program;
+
+    opt_c_api_constant<
+      mp_list<renderbuffer_parameter>,
+#ifdef GL_RENDERBUFFER_WIDTH
+      enum_type_c<GL_RENDERBUFFER_WIDTH>>
+#else
+      enum_type_i>
+#endif
+      renderbuffer_width;
+
+    opt_c_api_constant<
+      mp_list<renderbuffer_parameter>,
+#ifdef GL_RENDERBUFFER_HEIGHT
+      enum_type_c<GL_RENDERBUFFER_HEIGHT>>
+#else
+      enum_type_i>
+#endif
+      renderbuffer_height;
+
+    opt_c_api_constant<
+      mp_list<renderbuffer_parameter>,
+#ifdef GL_RENDERBUFFER_INTERNAL_FORMAT
+      enum_type_c<GL_RENDERBUFFER_INTERNAL_FORMAT>>
+#else
+      enum_type_i>
+#endif
+      renderbuffer_internal_format;
+
+    opt_c_api_constant<
+      mp_list<renderbuffer_parameter>,
+#ifdef GL_RENDERBUFFER_SAMPLES
+      enum_type_c<GL_RENDERBUFFER_SAMPLES>>
+#else
+      enum_type_i>
+#endif
+      renderbuffer_samples;
+
+    opt_c_api_constant<
+      mp_list<renderbuffer_parameter>,
+#ifdef GL_RENDERBUFFER_RED_SIZE
+      enum_type_c<GL_RENDERBUFFER_RED_SIZE>>
+#else
+      enum_type_i>
+#endif
+      renderbuffer_red_size;
+
+    opt_c_api_constant<
+      mp_list<renderbuffer_parameter>,
+#ifdef GL_RENDERBUFFER_GREEN_SIZE
+      enum_type_c<GL_RENDERBUFFER_GREEN_SIZE>>
+#else
+      enum_type_i>
+#endif
+      renderbuffer_green_size;
+
+    opt_c_api_constant<
+      mp_list<renderbuffer_parameter>,
+#ifdef GL_RENDERBUFFER_BLUE_SIZE
+      enum_type_c<GL_RENDERBUFFER_BLUE_SIZE>>
+#else
+      enum_type_i>
+#endif
+      renderbuffer_blue_size;
+
+    opt_c_api_constant<
+      mp_list<renderbuffer_parameter>,
+#ifdef GL_RENDERBUFFER_ALPHA_SIZE
+      enum_type_c<GL_RENDERBUFFER_ALPHA_SIZE>>
+#else
+      enum_type_i>
+#endif
+      renderbuffer_alpha_size;
+
+    opt_c_api_constant<
+      mp_list<renderbuffer_parameter>,
+#ifdef GL_RENDERBUFFER_DEPTH_SIZE
+      enum_type_c<GL_RENDERBUFFER_DEPTH_SIZE>>
+#else
+      enum_type_i>
+#endif
+      renderbuffer_depth_size;
+
+    opt_c_api_constant<
+      mp_list<renderbuffer_parameter>,
+#ifdef GL_RENDERBUFFER_STENCIL_SIZE
+      enum_type_c<GL_RENDERBUFFER_STENCIL_SIZE>>
+#else
+      enum_type_i>
+#endif
+      renderbuffer_stencil_size;
 
     opt_c_api_constant<
       mp_list<framebuffer_target>,
@@ -7435,6 +7525,17 @@ public:
       , geometry_input_type("GEOMETRY_INPUT_TYPE", traits, api)
       , geometry_output_type("GEOMETRY_OUTPUT_TYPE", traits, api)
       , active_program("ACTIVE_PROGRAM", traits, api)
+      , renderbuffer_width("RENDERBUFFER_WIDTH", traits, api)
+      , renderbuffer_height("RENDERBUFFER_HEIGHT", traits, api)
+      , renderbuffer_internal_format(
+          "RENDERBUFFER_INTERNAL_FORMAT", traits, api)
+      , renderbuffer_samples("RENDERBUFFER_SAMPLES", traits, api)
+      , renderbuffer_red_size("RENDERBUFFER_RED_SIZE", traits, api)
+      , renderbuffer_green_size("RENDERBUFFER_GREEN_SIZE", traits, api)
+      , renderbuffer_blue_size("RENDERBUFFER_BLUE_SIZE", traits, api)
+      , renderbuffer_alpha_size("RENDERBUFFER_ALPHA_SIZE", traits, api)
+      , renderbuffer_depth_size("RENDERBUFFER_DEPTH_SIZE", traits, api)
+      , renderbuffer_stencil_size("RENDERBUFFER_STENCIL_SIZE", traits, api)
       , draw_framebuffer("DRAW_FRAMEBUFFER", traits, api)
       , read_framebuffer("READ_FRAMEBUFFER", traits, api)
       , framebuffer_complete("FRAMEBUFFER_COMPLETE", traits, api)
