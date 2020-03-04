@@ -1061,6 +1061,9 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(ClearTexImage)>
       ClearTexImage;
 
+    gl_api_function<void(), OGLPLUS_GL_STATIC_FUNC(TextureBarrier)>
+      TextureBarrier;
+
     // samplers
     gl_api_function<
       void(sizei_type, uint_type*),
@@ -1186,6 +1189,16 @@ struct basic_gl_c_api {
       NamedRenderbufferStorageMultisample;
 
     gl_api_function<
+      void(enum_type, enum_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetRenderbufferParameteriv)>
+      GetRenderbufferParameteriv;
+
+    gl_api_function<
+      void(uint_type, enum_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetNamedRenderbufferParameteriv)>
+      GetNamedRenderbufferParameteriv;
+
+    gl_api_function<
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GenFramebuffers)>
       GenFramebuffers;
@@ -1237,6 +1250,61 @@ struct basic_gl_c_api {
       void(uint_type, enum_type, enum_type, int_type*),
       OGLPLUS_GL_STATIC_FUNC(GetNamedFramebufferAttachmentParameteriv)>
       GetNamedFramebufferAttachmentParameteriv;
+
+    gl_api_function<
+      void(enum_type, enum_type, enum_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(FramebufferRenderbuffer)>
+      FramebufferRenderbuffer;
+
+    gl_api_function<
+      void(uint_type, enum_type, enum_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(NamedFramebufferRenderbuffer)>
+      NamedFramebufferRenderbuffer;
+
+    gl_api_function<
+      void(enum_type, enum_type, uint_type, int_type),
+      OGLPLUS_GL_STATIC_FUNC(FramebufferTexture)>
+      FramebufferTexture;
+
+    gl_api_function<
+      void(uint_type, enum_type, uint_type, int_type),
+      OGLPLUS_GL_STATIC_FUNC(NamedFramebufferTexture)>
+      NamedFramebufferTexture;
+
+    gl_api_function<
+      void(enum_type, enum_type, enum_type, uint_type, int_type),
+      OGLPLUS_GL_STATIC_FUNC(FramebufferTexture1D)>
+      FramebufferTexture1D;
+
+    gl_api_function<
+      void(enum_type, enum_type, enum_type, uint_type, int_type),
+      OGLPLUS_GL_STATIC_FUNC(FramebufferTexture2D)>
+      FramebufferTexture2D;
+
+    gl_api_function<
+      void(enum_type, enum_type, enum_type, uint_type, int_type, int_type),
+      OGLPLUS_GL_STATIC_FUNC(FramebufferTexture3D)>
+      FramebufferTexture3D;
+
+    gl_api_function<
+      void(enum_type, enum_type, uint_type, int_type, int_type),
+      OGLPLUS_GL_STATIC_FUNC(FramebufferTextureLayer)>
+      FramebufferTextureLayer;
+
+    gl_api_function<
+      void(uint_type, enum_type, uint_type, int_type, int_type),
+      OGLPLUS_GL_STATIC_FUNC(NamedFramebufferTextureLayer)>
+      NamedFramebufferTextureLayer;
+
+    gl_api_function<
+      enum_type(enum_type),
+      OGLPLUS_GL_STATIC_FUNC(CheckFramebufferStatus)>
+      CheckFramebufferStatus;
+
+    gl_api_function<
+      enum_type(uint_type, enum_type),
+      OGLPLUS_GL_STATIC_FUNC(CheckNamedFramebufferStatus)>
+      CheckNamedFramebufferStatus;
 
     gl_api_function<
       void(sizei_type, uint_type*),
@@ -2243,6 +2311,7 @@ struct basic_gl_c_api {
       , InvalidateTexImage("InvalidateTexImage", traits, *this)
       , ClearTexSubImage("ClearTexSubImage", traits, *this)
       , ClearTexImage("ClearTexImage", traits, *this)
+      , TextureBarrier("TextureBarrier", traits, *this)
       , GenSamplers("GenSamplers", traits, *this)
       , CreateSamplers("CreateSamplers", traits, *this)
       , DeleteSamplers("DeleteSamplers", traits, *this)
@@ -2270,6 +2339,9 @@ struct basic_gl_c_api {
           "RenderbufferStorageMultisample", traits, *this)
       , NamedRenderbufferStorageMultisample(
           "NamedRenderbufferStorageMultisample", traits, *this)
+      , GetRenderbufferParameteriv("GetRenderbufferParameteriv", traits, *this)
+      , GetNamedRenderbufferParameteriv(
+          "GetNamedRenderbufferParameteriv", traits, *this)
       , GenFramebuffers("GenFramebuffers", traits, *this)
       , CreateFramebuffers("CreateFramebuffers", traits, *this)
       , DeleteFramebuffers("DeleteFramebuffers", traits, *this)
@@ -2284,6 +2356,20 @@ struct basic_gl_c_api {
           "GetFramebufferAttachmentParameteriv", traits, *this)
       , GetNamedFramebufferAttachmentParameteriv(
           "GetNamedFramebufferAttachmentParameteriv", traits, *this)
+      , FramebufferRenderbuffer("FramebufferRenderbuffer", traits, *this)
+      , NamedFramebufferRenderbuffer(
+          "NamedFramebufferRenderbuffer", traits, *this)
+      , FramebufferTexture("FramebufferTexture", traits, *this)
+      , NamedFramebufferTexture("NamedFramebufferTexture", traits, *this)
+      , FramebufferTexture1D("FramebufferTexture1D", traits, *this)
+      , FramebufferTexture2D("FramebufferTexture2D", traits, *this)
+      , FramebufferTexture3D("FramebufferTexture3D", traits, *this)
+      , FramebufferTextureLayer("FramebufferTextureLayer", traits, *this)
+      , NamedFramebufferTextureLayer(
+          "NamedFramebufferTextureLayer", traits, *this)
+      , CheckFramebufferStatus("CheckFramebufferStatus", traits, *this)
+      , CheckNamedFramebufferStatus(
+          "CheckNamedFramebufferStatus", traits, *this)
       , GenTransformFeedbacks("GenTransformFeedbacks", traits, *this)
       , DeleteTransformFeedbacks("DeleteTransformFeedbacks", traits, *this)
       , IsTransformFeedback("IsTransformFeedback", traits, *this)
