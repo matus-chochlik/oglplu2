@@ -131,6 +131,11 @@ struct basic_gl_c_api {
       GenVertexArrays;
 
     gl_api_function<
+      void(sizei_type, uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(CreateVertexArrays)>
+      CreateVertexArrays;
+
+    gl_api_function<
       void(sizei_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(DeleteVertexArrays)>
       DeleteVertexArrays;
@@ -145,6 +150,11 @@ struct basic_gl_c_api {
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GenBuffers)>
       GenBuffers;
+
+    gl_api_function<
+      void(sizei_type, uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(CreateBuffers)>
+      CreateBuffers;
 
     gl_api_function<
       void(sizei_type, const uint_type*),
@@ -1312,6 +1322,11 @@ struct basic_gl_c_api {
       GenTransformFeedbacks;
 
     gl_api_function<
+      void(sizei_type, uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(CreateTransformFeedbacks)>
+      CreateTransformFeedbacks;
+
+    gl_api_function<
       void(sizei_type, const uint_type*),
       OGLPLUS_GL_STATIC_FUNC(DeleteTransformFeedbacks)>
       DeleteTransformFeedbacks;
@@ -1330,6 +1345,11 @@ struct basic_gl_c_api {
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GenQueries)>
       GenQueries;
+
+    gl_api_function<
+      void(enum_type, sizei_type, uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(CreateQueries)>
+      CreateQueries;
 
     gl_api_function<
       void(sizei_type, const uint_type*),
@@ -2095,6 +2115,11 @@ struct basic_gl_c_api {
     gl_api_function<void(bitfield_type), OGLPLUS_GL_STATIC_FUNC(Clear)> Clear;
 
     gl_api_function<
+      void(enum_type, int_type),
+      OGLPLUS_GL_STATIC_FUNC(PatchParameteri)>
+      PatchParameteri;
+
+    gl_api_function<
       void(enum_type, bool_type*),
       OGLPLUS_GL_STATIC_FUNC(GetBooleanv)>
       GetBooleanv;
@@ -2175,10 +2200,12 @@ struct basic_gl_c_api {
       , WaitSync("WaitSync", traits, *this)
       , ClientWaitSync("ClientWaitSync", traits, *this)
       , GenVertexArrays("GenVertexArrays", traits, *this)
+      , CreateVertexArrays("CreateVertexArrays", traits, *this)
       , DeleteVertexArrays("DeleteVertexArrays", traits, *this)
       , IsVertexArray("IsVertexArray", traits, *this)
       , BindVertexArray("BindVertexArray", traits, *this)
       , GenBuffers("GenBuffers", traits, *this)
+      , CreateBuffers("CreateBuffers", traits, *this)
       , DeleteBuffers("DeleteBuffers", traits, *this)
       , IsBuffer("IsBuffer", traits, *this)
       , BindBuffer("BindBuffer", traits, *this)
@@ -2371,10 +2398,12 @@ struct basic_gl_c_api {
       , CheckNamedFramebufferStatus(
           "CheckNamedFramebufferStatus", traits, *this)
       , GenTransformFeedbacks("GenTransformFeedbacks", traits, *this)
+      , CreateTransformFeedbacks("CreateTransformFeedbacks", traits, *this)
       , DeleteTransformFeedbacks("DeleteTransformFeedbacks", traits, *this)
       , IsTransformFeedback("IsTransformFeedback", traits, *this)
       , BindTransformFeedback("BindTransformFeedback", traits, *this)
       , GenQueries("GenQueries", traits, *this)
+      , CreateQueries("CreateQueries", traits, *this)
       , DeleteQueries("DeleteQueries", traits, *this)
       , IsQuery("IsQuery", traits, *this)
       , GetQueryiv("GetQueryiv", traits, *this)
@@ -2535,6 +2564,7 @@ struct basic_gl_c_api {
       , ClearDepth("ClearDepth", traits, *this)
       , ClearStencil("ClearStencil", traits, *this)
       , Clear("Clear", traits, *this)
+      , PatchParameteri("PatchParameteri", traits, *this)
       , GetBooleanv("GetBooleanv", traits, *this)
       , GetBooleani_v("GetBooleani_v", traits, *this)
       , GetIntegerv("GetIntegerv", traits, *this)
