@@ -587,6 +587,42 @@ public:
       compute_shader;
 
     opt_c_api_constant<
+      mp_list<sync_type>,
+#ifdef GL_SYNC_FENCE
+      enum_type_c<GL_SYNC_FENCE>>
+#else
+      enum_type_i>
+#endif
+      sync_fence;
+
+    opt_c_api_constant<
+      mp_list<sync_condition>,
+#ifdef GL_SYNC_GPU_COMMANDS_COMPLETE
+      enum_type_c<GL_SYNC_GPU_COMMANDS_COMPLETE>>
+#else
+      enum_type_i>
+#endif
+      sync_gpu_commands_complete;
+
+    opt_c_api_constant<
+      mp_list<sync_status>,
+#ifdef GL_SIGNALED
+      enum_type_c<GL_SIGNALED>>
+#else
+      enum_type_i>
+#endif
+      signaled;
+
+    opt_c_api_constant<
+      mp_list<sync_status>,
+#ifdef GL_UNSIGNALED
+      enum_type_c<GL_UNSIGNALED>>
+#else
+      enum_type_i>
+#endif
+      unsignaled;
+
+    opt_c_api_constant<
       mp_list<shader_parameter>,
 #ifdef GL_SHADER_TYPE
       enum_type_c<GL_SHADER_TYPE>>
@@ -2287,6 +2323,24 @@ public:
       compute_shader_invocations;
 
     opt_c_api_constant<
+      mp_list<query_parameter>,
+#ifdef GL_QUERY_RESULT
+      enum_type_c<GL_QUERY_RESULT>>
+#else
+      enum_type_i>
+#endif
+      query_result;
+
+    opt_c_api_constant<
+      mp_list<query_parameter>,
+#ifdef GL_QUERY_RESULT_AVAILABLE
+      enum_type_c<GL_QUERY_RESULT_AVAILABLE>>
+#else
+      enum_type_i>
+#endif
+      query_result_available;
+
+    opt_c_api_constant<
       mp_list<transform_feedback_mode>,
 #ifdef GL_INTERLEAVED_ATTRIBS
       enum_type_c<GL_INTERLEAVED_ATTRIBS>>
@@ -2975,7 +3029,7 @@ public:
       back_right;
 
     opt_c_api_constant<
-      mp_list<color_buffer>,
+      mp_list<color_buffer, face_mode>,
 #ifdef GL_FRONT
       enum_type_c<GL_FRONT>>
 #else
@@ -2984,7 +3038,7 @@ public:
       front;
 
     opt_c_api_constant<
-      mp_list<color_buffer>,
+      mp_list<color_buffer, face_mode>,
 #ifdef GL_BACK
       enum_type_c<GL_BACK>>
 #else
@@ -3011,7 +3065,7 @@ public:
       right;
 
     opt_c_api_constant<
-      mp_list<color_buffer>,
+      mp_list<color_buffer, face_mode>,
 #ifdef GL_FRONT_AND_BACK
       enum_type_c<GL_FRONT_AND_BACK>>
 #else
@@ -4872,6 +4926,42 @@ public:
       enum_type_i>
 #endif
       query_by_region_no_wait_inverted;
+
+    opt_c_api_constant<
+      mp_list<point_parameter>,
+#ifdef GL_POINT_SIZE_MIN
+      enum_type_c<GL_POINT_SIZE_MIN>>
+#else
+      enum_type_i>
+#endif
+      point_size_min;
+
+    opt_c_api_constant<
+      mp_list<point_parameter>,
+#ifdef GL_POINT_SIZE_MAX
+      enum_type_c<GL_POINT_SIZE_MAX>>
+#else
+      enum_type_i>
+#endif
+      point_size_max;
+
+    opt_c_api_constant<
+      mp_list<point_parameter>,
+#ifdef GL_POINT_FADE_THRESHOLD_SIZE
+      enum_type_c<GL_POINT_FADE_THRESHOLD_SIZE>>
+#else
+      enum_type_i>
+#endif
+      point_fade_threshold_size;
+
+    opt_c_api_constant<
+      mp_list<point_parameter>,
+#ifdef GL_POINT_SPRITE_COORD_ORIGIN
+      enum_type_c<GL_POINT_SPRITE_COORD_ORIGIN>>
+#else
+      enum_type_i>
+#endif
+      point_sprite_coord_origin;
 
     opt_c_api_constant<
       mp_list<polygon_mode>,
@@ -7737,6 +7827,10 @@ public:
       , geometry_shader("GEOMETRY_SHADER", traits, api)
       , fragment_shader("FRAGMENT_SHADER", traits, api)
       , compute_shader("COMPUTE_SHADER", traits, api)
+      , sync_fence("SYNC_FENCE", traits, api)
+      , sync_gpu_commands_complete("SYNC_GPU_COMMANDS_COMPLETE", traits, api)
+      , signaled("SIGNALED", traits, api)
+      , unsignaled("UNSIGNALED", traits, api)
       , shader_type("SHADER_TYPE", traits, api)
       , delete_status("DELETE_STATUS", traits, api)
       , compile_status("COMPILE_STATUS", traits, api)
@@ -7955,6 +8049,8 @@ public:
       , clipping_output_primitives("CLIPPING_OUTPUT_PRIMITIVES", traits, api)
       , fragment_shader_invocations("FRAGMENT_SHADER_INVOCATIONS", traits, api)
       , compute_shader_invocations("COMPUTE_SHADER_INVOCATIONS", traits, api)
+      , query_result("QUERY_RESULT", traits, api)
+      , query_result_available("QUERY_RESULT_AVAILABLE", traits, api)
       , interleaved_attribs("INTERLEAVED_ATTRIBS", traits, api)
       , separate_attribs("SEPARATE_ATTRIBS", traits, api)
       , transform_feedback_buffer_start(
@@ -8279,6 +8375,10 @@ public:
           "QUERY_BY_REGION_WAIT_INVERTED", traits, api)
       , query_by_region_no_wait_inverted(
           "QUERY_BY_REGION_NO_WAIT_INVERTED", traits, api)
+      , point_size_min("POINT_SIZE_MIN", traits, api)
+      , point_size_max("POINT_SIZE_MAX", traits, api)
+      , point_fade_threshold_size("POINT_FADE_THRESHOLD_SIZE", traits, api)
+      , point_sprite_coord_origin("POINT_SPRITE_COORD_ORIGIN", traits, api)
       , point("POINT", traits, api)
       , line("LINE", traits, api)
       , fill("FILL", traits, api)

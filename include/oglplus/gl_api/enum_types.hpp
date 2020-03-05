@@ -65,6 +65,18 @@ struct object_type : gl_enum_class<object_type, EAGINE_ID_V(ObjectType)> {
     using enum_class::enum_class;
 };
 
+struct sync_type : gl_enum_class<sync_type, EAGINE_ID_V(SyncType)> {
+    using enum_class::enum_class;
+};
+
+struct sync_status : gl_enum_class<sync_status, EAGINE_ID_V(SyncStatus)> {
+    using enum_class::enum_class;
+};
+
+struct sync_condition : gl_enum_class<sync_condition, EAGINE_ID_V(SyncCondtn)> {
+    using enum_class::enum_class;
+};
+
 struct shader_type : gl_enum_class<shader_type, EAGINE_ID_V(ShaderType)> {
     using enum_class::enum_class;
 };
@@ -214,6 +226,11 @@ struct query_target : gl_enum_class<query_target, EAGINE_ID_V(QryTarget)> {
     using enum_class::enum_class;
 };
 
+struct query_parameter
+  : gl_enum_class<query_parameter, EAGINE_ID_V(QryParamtr)> {
+    using enum_class::enum_class;
+};
+
 struct transform_feedback_target
   : gl_enum_class<transform_feedback_target, EAGINE_ID_V(XfbTarget)> {
     using enum_class::enum_class;
@@ -262,6 +279,10 @@ struct conditional_render_mode
     using enum_class::enum_class;
 };
 
+struct face_mode : gl_enum_class<face_mode, EAGINE_ID_V(FaceMode)> {
+    using enum_class::enum_class;
+};
+
 struct face_orientation
   : gl_enum_class<face_orientation, EAGINE_ID_V(FaceOrient)> {
     using enum_class::enum_class;
@@ -298,6 +319,11 @@ struct index_data_type
 };
 
 struct sl_data_type : gl_enum_class<sl_data_type, EAGINE_ID_V(SLDataType)> {
+    using enum_class::enum_class;
+};
+
+struct point_parameter
+  : gl_enum_class<point_parameter, EAGINE_ID_V(PtParametr)> {
     using enum_class::enum_class;
 };
 
