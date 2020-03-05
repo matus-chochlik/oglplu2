@@ -77,6 +77,15 @@ struct sync_condition : gl_enum_class<sync_condition, EAGINE_ID_V(SyncCondtn)> {
     using enum_class::enum_class;
 };
 
+struct sync_parameter : gl_enum_class<sync_parameter, EAGINE_ID_V(SynParamtr)> {
+    using enum_class::enum_class;
+};
+
+struct sync_wait_result
+  : gl_enum_class<sync_wait_result, EAGINE_ID_V(SynWaitRes)> {
+    using enum_class::enum_class;
+};
+
 struct shader_type : gl_enum_class<shader_type, EAGINE_ID_V(ShaderType)> {
     using enum_class::enum_class;
 };

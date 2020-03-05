@@ -434,7 +434,7 @@ public:
       high_int;
 
     opt_c_api_constant<
-      mp_list<object_type>,
+      mp_list<oglp::object_type>,
 #ifdef GL_BUFFER
       enum_type_c<GL_BUFFER>>
 #else
@@ -443,7 +443,7 @@ public:
       buffer;
 
     opt_c_api_constant<
-      mp_list<object_type>,
+      mp_list<oglp::object_type>,
 #ifdef GL_FRAMEBUFFER
       enum_type_c<GL_FRAMEBUFFER>>
 #else
@@ -452,7 +452,7 @@ public:
       framebuffer;
 
     opt_c_api_constant<
-      mp_list<object_type>,
+      mp_list<oglp::object_type>,
 #ifdef GL_PROGRAM_PIPELINE
       enum_type_c<GL_PROGRAM_PIPELINE>>
 #else
@@ -461,7 +461,7 @@ public:
       program_pipeline;
 
     opt_c_api_constant<
-      mp_list<object_type>,
+      mp_list<oglp::object_type>,
 #ifdef GL_PROGRAM
       enum_type_c<GL_PROGRAM>>
 #else
@@ -470,7 +470,7 @@ public:
       program;
 
     opt_c_api_constant<
-      mp_list<object_type>,
+      mp_list<oglp::object_type>,
 #ifdef GL_QUERY
       enum_type_c<GL_QUERY>>
 #else
@@ -479,7 +479,7 @@ public:
       query;
 
     opt_c_api_constant<
-      mp_list<object_type, renderbuffer_target>,
+      mp_list<oglp::object_type, renderbuffer_target>,
 #ifdef GL_RENDERBUFFER
       enum_type_c<GL_RENDERBUFFER>>
 #else
@@ -488,7 +488,7 @@ public:
       renderbuffer;
 
     opt_c_api_constant<
-      mp_list<object_type>,
+      mp_list<oglp::object_type>,
 #ifdef GL_SAMPLER
       enum_type_c<GL_SAMPLER>>
 #else
@@ -497,7 +497,7 @@ public:
       sampler;
 
     opt_c_api_constant<
-      mp_list<object_type>,
+      mp_list<oglp::object_type>,
 #ifdef GL_SHADER
       enum_type_c<GL_SHADER>>
 #else
@@ -506,7 +506,7 @@ public:
       shader;
 
     opt_c_api_constant<
-      mp_list<object_type>,
+      mp_list<oglp::object_type>,
 #ifdef GL_TEXTURE
       enum_type_c<GL_TEXTURE>>
 #else
@@ -515,7 +515,7 @@ public:
       texture;
 
     opt_c_api_constant<
-      mp_list<object_type, transform_feedback_target>,
+      mp_list<oglp::object_type, transform_feedback_target>,
 #ifdef GL_TRANSFORM_FEEDBACK
       enum_type_c<GL_TRANSFORM_FEEDBACK>>
 #else
@@ -524,7 +524,7 @@ public:
       transform_feedback;
 
     opt_c_api_constant<
-      mp_list<object_type, client_capability>,
+      mp_list<oglp::object_type, client_capability>,
 #ifdef GL_VERTEX_ARRAY
       enum_type_c<GL_VERTEX_ARRAY>>
 #else
@@ -596,7 +596,7 @@ public:
       sync_fence;
 
     opt_c_api_constant<
-      mp_list<sync_condition>,
+      mp_list<oglp::sync_condition, sync_parameter>,
 #ifdef GL_SYNC_GPU_COMMANDS_COMPLETE
       enum_type_c<GL_SYNC_GPU_COMMANDS_COMPLETE>>
 #else
@@ -605,7 +605,7 @@ public:
       sync_gpu_commands_complete;
 
     opt_c_api_constant<
-      mp_list<sync_status>,
+      mp_list<oglp::sync_status>,
 #ifdef GL_SIGNALED
       enum_type_c<GL_SIGNALED>>
 #else
@@ -614,13 +614,76 @@ public:
       signaled;
 
     opt_c_api_constant<
-      mp_list<sync_status>,
+      mp_list<oglp::sync_status>,
 #ifdef GL_UNSIGNALED
       enum_type_c<GL_UNSIGNALED>>
 #else
       enum_type_i>
 #endif
       unsignaled;
+
+    opt_c_api_constant<
+      mp_list<sync_parameter>,
+#ifdef GL_OBJECT_TYPE
+      enum_type_c<GL_OBJECT_TYPE>>
+#else
+      enum_type_i>
+#endif
+      object_type;
+
+    opt_c_api_constant<
+      mp_list<sync_parameter>,
+#ifdef GL_SYNC_STATUS
+      enum_type_c<GL_SYNC_STATUS>>
+#else
+      enum_type_i>
+#endif
+      sync_status;
+
+    opt_c_api_constant<
+      mp_list<sync_parameter>,
+#ifdef GL_SYNC_CONDITION
+      enum_type_c<GL_SYNC_CONDITION>>
+#else
+      enum_type_i>
+#endif
+      sync_condition;
+
+    opt_c_api_constant<
+      mp_list<sync_wait_result>,
+#ifdef GL_CONDITION_SATISFIED
+      enum_type_c<GL_CONDITION_SATISFIED>>
+#else
+      enum_type_i>
+#endif
+      condition_satisfied;
+
+    opt_c_api_constant<
+      mp_list<sync_wait_result>,
+#ifdef GL_ALREADY_SIGNALED
+      enum_type_c<GL_ALREADY_SIGNALED>>
+#else
+      enum_type_i>
+#endif
+      already_signaled;
+
+    opt_c_api_constant<
+      mp_list<sync_wait_result>,
+#ifdef GL_TIMEOUT_EXPIRED
+      enum_type_c<GL_TIMEOUT_EXPIRED>>
+#else
+      enum_type_i>
+#endif
+      timeout_expired;
+
+    opt_c_api_constant<
+      mp_list<sync_wait_result>,
+#ifdef GL_WAIT_FAILED
+      enum_type_c<GL_WAIT_FAILED>>
+#else
+      enum_type_i>
+#endif
+      wait_failed;
 
     opt_c_api_constant<
       mp_list<shader_parameter>,
@@ -7831,6 +7894,13 @@ public:
       , sync_gpu_commands_complete("SYNC_GPU_COMMANDS_COMPLETE", traits, api)
       , signaled("SIGNALED", traits, api)
       , unsignaled("UNSIGNALED", traits, api)
+      , object_type("OBJECT_TYPE", traits, api)
+      , sync_status("SYNC_STATUS", traits, api)
+      , sync_condition("SYNC_CONDITION", traits, api)
+      , condition_satisfied("CONDITION_SATISFIED", traits, api)
+      , already_signaled("ALREADY_SIGNALED", traits, api)
+      , timeout_expired("TIMEOUT_EXPIRED", traits, api)
+      , wait_failed("WAIT_FAILED", traits, api)
       , shader_type("SHADER_TYPE", traits, api)
       , delete_status("DELETE_STATUS", traits, api)
       , compile_status("COMPILE_STATUS", traits, api)
