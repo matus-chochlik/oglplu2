@@ -149,6 +149,72 @@ struct basic_gl_c_api {
       BindVertexArray;
 
     gl_api_function<
+      void(uint_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(VertexArrayElementBuffer)>
+      VertexArrayElementBuffer;
+
+    gl_api_function<
+      void(uint_type, uint_type, intptr_type, sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(BindVertexBuffer)>
+      BindVertexBuffer;
+
+    gl_api_function<
+      void(uint_type, uint_type, uint_type, intptr_type, sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(VertexArrayVertexBuffer)>
+      VertexArrayVertexBuffer;
+
+    gl_api_function<
+      void(
+        uint_type,
+        sizei_type,
+        const uint_type*,
+        const intptr_type*,
+        const sizei_type*),
+      OGLPLUS_GL_STATIC_FUNC(BindVertexBuffers)>
+      BindVertexBuffers;
+
+    gl_api_function<
+      void(
+        uint_type,
+        uint_type,
+        sizei_type,
+        const uint_type*,
+        const intptr_type*,
+        const sizei_type*),
+      OGLPLUS_GL_STATIC_FUNC(VertexArrayVertexBuffers)>
+      VertexArrayVertexBuffers;
+
+    gl_api_function<
+      void(uint_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttribBinding)>
+      VertexAttribBinding;
+
+    gl_api_function<
+      void(uint_type, uint_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(VertexArrayAttribBinding)>
+      VertexArrayAttribBinding;
+
+    gl_api_function<
+      void(uint_type),
+      OGLPLUS_GL_STATIC_FUNC(EnableVertexAttribArray)>
+      EnableVertexAttribArray;
+
+    gl_api_function<
+      void(uint_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(EnableVertexArrayAttrib)>
+      EnableVertexArrayAttrib;
+
+    gl_api_function<
+      void(uint_type),
+      OGLPLUS_GL_STATIC_FUNC(DisableVertexAttribArray)>
+      DisableVertexAttribArray;
+
+    gl_api_function<
+      void(uint_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(DisableVertexArrayAttrib)>
+      DisableVertexArrayAttrib;
+
+    gl_api_function<
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GenBuffers)>
       GenBuffers;
@@ -2445,6 +2511,58 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(VertexAttribP4uiv)>
       VertexAttribP4uiv;
 
+    // vertex attrib format
+    gl_api_function<
+      void(uint_type, int_type, enum_type, bool_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttribFormat)>
+      VertexAttribFormat;
+
+    gl_api_function<
+      void(uint_type, int_type, enum_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttribIFormat)>
+      VertexAttribIFormat;
+
+    gl_api_function<
+      void(uint_type, int_type, enum_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttribLFormat)>
+      VertexAttribLFormat;
+
+    gl_api_function<
+      void(uint_type, uint_type, int_type, enum_type, bool_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(VertexArrayAttribFormat)>
+      VertexArrayAttribFormat;
+
+    gl_api_function<
+      void(uint_type, uint_type, int_type, enum_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(VertexArrayAttribIFormat)>
+      VertexArrayAttribIFormat;
+
+    gl_api_function<
+      void(uint_type, uint_type, int_type, enum_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(VertexArrayAttribLFormat)>
+      VertexArrayAttribLFormat;
+
+    gl_api_function<
+      void(
+        uint_type,
+        int_type,
+        enum_type,
+        bool_type,
+        sizei_type,
+        const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttribPointer)>
+      VertexAttribPointer;
+
+    gl_api_function<
+      void(uint_type, int_type, enum_type, sizei_type, const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttribIPointer)>
+      VertexAttribIPointer;
+
+    gl_api_function<
+      void(uint_type, int_type, enum_type, sizei_type, const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttribLPointer)>
+      VertexAttribLPointer;
+
     // viewport
     gl_api_function<
       void(double_type, double_type),
@@ -2567,6 +2685,17 @@ struct basic_gl_c_api {
       , DeleteVertexArrays("DeleteVertexArrays", traits, *this)
       , IsVertexArray("IsVertexArray", traits, *this)
       , BindVertexArray("BindVertexArray", traits, *this)
+      , VertexArrayElementBuffer("VertexArrayElementBuffer", traits, *this)
+      , BindVertexBuffer("BindVertexBuffer", traits, *this)
+      , VertexArrayVertexBuffer("VertexArrayVertexBuffer", traits, *this)
+      , BindVertexBuffers("BindVertexBuffers", traits, *this)
+      , VertexArrayVertexBuffers("VertexArrayVertexBuffers", traits, *this)
+      , VertexAttribBinding("VertexAttribBinding", traits, *this)
+      , VertexArrayAttribBinding("VertexArrayAttribBinding", traits, *this)
+      , EnableVertexAttribArray("EnableVertexAttribArray", traits, *this)
+      , EnableVertexArrayAttrib("EnableVertexArrayAttrib", traits, *this)
+      , DisableVertexAttribArray("DisableVertexAttribArray", traits, *this)
+      , DisableVertexArrayAttrib("DisableVertexArrayAttrib", traits, *this)
       , GenBuffers("GenBuffers", traits, *this)
       , CreateBuffers("CreateBuffers", traits, *this)
       , DeleteBuffers("DeleteBuffers", traits, *this)
@@ -2991,6 +3120,15 @@ struct basic_gl_c_api {
       , VertexAttribP2uiv("VertexAttribP2uiv", traits, *this)
       , VertexAttribP3uiv("VertexAttribP3uiv", traits, *this)
       , VertexAttribP4uiv("VertexAttribP4uiv", traits, *this)
+      , VertexAttribFormat("VertexAttribFormat", traits, *this)
+      , VertexAttribIFormat("VertexAttribIFormat", traits, *this)
+      , VertexAttribLFormat("VertexAttribLFormat", traits, *this)
+      , VertexArrayAttribFormat("VertexArrayAttribFormat", traits, *this)
+      , VertexArrayAttribIFormat("VertexArrayAttribIFormat", traits, *this)
+      , VertexArrayAttribLFormat("VertexArrayAttribLFormat", traits, *this)
+      , VertexAttribPointer("VertexAttribPointer", traits, *this)
+      , VertexAttribIPointer("VertexAttribIPointer", traits, *this)
+      , VertexAttribLPointer("VertexAttribLPointer", traits, *this)
       , DepthRange("DepthRange", traits, *this)
       , DepthRangef("DepthRangef", traits, *this)
       , Viewport("Viewport", traits, *this)
