@@ -45,6 +45,7 @@ struct basic_gl_c_api {
     using byte_type = typename gl_types::byte_type;
     using ubyte_type = typename gl_types::ubyte_type;
     using short_type = typename gl_types::short_type;
+    using ushort_type = typename gl_types::ushort_type;
     using int_type = typename gl_types::int_type;
     using uint_type = typename gl_types::uint_type;
     using int64_type = typename gl_types::int64_type;
@@ -2284,6 +2285,166 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(VertexAttribI4uiv)>
       VertexAttribI4uiv;
 
+    gl_api_function<
+      void(uint_type, const byte_type*),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttribI4bv)>
+      VertexAttribI4bv;
+
+    gl_api_function<
+      void(uint_type, const ubyte_type*),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttribI4ubv)>
+      VertexAttribI4ubv;
+
+    gl_api_function<
+      void(uint_type, const short_type*),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttribI4sv)>
+      VertexAttribI4sv;
+
+    gl_api_function<
+      void(uint_type, const ushort_type*),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttribI4usv)>
+      VertexAttribI4usv;
+
+    gl_api_function<
+      void(uint_type, const byte_type*),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttrib4bv)>
+      VertexAttrib4bv;
+
+    gl_api_function<
+      void(uint_type, const ubyte_type*),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttrib4ubv)>
+      VertexAttrib4ubv;
+
+    gl_api_function<
+      void(uint_type, const ushort_type*),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttrib4usv)>
+      VertexAttrib4usv;
+
+    gl_api_function<
+      void(uint_type, const int_type*),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttrib4iv)>
+      VertexAttrib4iv;
+
+    gl_api_function<
+      void(uint_type, const uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttrib4uiv)>
+      VertexAttrib4uiv;
+
+    gl_api_function<
+      void(uint_type, ubyte_type, ubyte_type, ubyte_type, ubyte_type),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttrib4Nub)>
+      VertexAttrib4Nub;
+
+    gl_api_function<
+      void(uint_type, const byte_type*),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttrib4Nbv)>
+      VertexAttrib4Nbv;
+
+    gl_api_function<
+      void(uint_type, const ubyte_type*),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttrib4Nubv)>
+      VertexAttrib4Nubv;
+
+    gl_api_function<
+      void(uint_type, const short_type*),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttrib4Nsv)>
+      VertexAttrib4Nsv;
+
+    gl_api_function<
+      void(uint_type, const ushort_type*),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttrib4Nusv)>
+      VertexAttrib4Nusv;
+
+    gl_api_function<
+      void(uint_type, const int_type*),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttrib4Niv)>
+      VertexAttrib4Niv;
+
+    gl_api_function<
+      void(uint_type, const uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttrib4Nuiv)>
+      VertexAttrib4Nuiv;
+
+    gl_api_function<
+      void(uint_type, double_type),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttribL1d)>
+      VertexAttribL1d;
+
+    gl_api_function<
+      void(uint_type, double_type, double_type),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttribL2d)>
+      VertexAttribL2d;
+
+    gl_api_function<
+      void(uint_type, double_type, double_type, double_type),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttribL3d)>
+      VertexAttribL3d;
+
+    gl_api_function<
+      void(uint_type, double_type, double_type, double_type, double_type),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttribL4d)>
+      VertexAttribL4d;
+
+    gl_api_function<
+      void(uint_type, const double_type*),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttribL1dv)>
+      VertexAttribL1dv;
+
+    gl_api_function<
+      void(uint_type, const double_type*),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttribL2dv)>
+      VertexAttribL2dv;
+
+    gl_api_function<
+      void(uint_type, const double_type*),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttribL3dv)>
+      VertexAttribL3dv;
+
+    gl_api_function<
+      void(uint_type, const double_type*),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttribL4dv)>
+      VertexAttribL4dv;
+
+    gl_api_function<
+      void(uint_type, enum_type, bool_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttribP1ui)>
+      VertexAttribP1ui;
+
+    gl_api_function<
+      void(uint_type, enum_type, bool_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttribP2ui)>
+      VertexAttribP2ui;
+
+    gl_api_function<
+      void(uint_type, enum_type, bool_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttribP3ui)>
+      VertexAttribP3ui;
+
+    gl_api_function<
+      void(uint_type, enum_type, bool_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttribP4ui)>
+      VertexAttribP4ui;
+
+    gl_api_function<
+      void(uint_type, enum_type, bool_type, const uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttribP1uiv)>
+      VertexAttribP1uiv;
+
+    gl_api_function<
+      void(uint_type, enum_type, bool_type, const uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttribP2uiv)>
+      VertexAttribP2uiv;
+
+    gl_api_function<
+      void(uint_type, enum_type, bool_type, const uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttribP3uiv)>
+      VertexAttribP3uiv;
+
+    gl_api_function<
+      void(uint_type, enum_type, bool_type, const uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttribP4uiv)>
+      VertexAttribP4uiv;
+
     // viewport
     gl_api_function<
       void(double_type, double_type),
@@ -2798,6 +2959,38 @@ struct basic_gl_c_api {
       , VertexAttribI2uiv("VertexAttribI2uiv", traits, *this)
       , VertexAttribI3uiv("VertexAttribI3uiv", traits, *this)
       , VertexAttribI4uiv("VertexAttribI4uiv", traits, *this)
+      , VertexAttribI4bv("VertexAttribI4bv", traits, *this)
+      , VertexAttribI4ubv("VertexAttribI4ubv", traits, *this)
+      , VertexAttribI4sv("VertexAttribI4sv", traits, *this)
+      , VertexAttribI4usv("VertexAttribI4usv", traits, *this)
+      , VertexAttrib4bv("VertexAttrib4bv", traits, *this)
+      , VertexAttrib4ubv("VertexAttrib4ubv", traits, *this)
+      , VertexAttrib4usv("VertexAttrib4usv", traits, *this)
+      , VertexAttrib4iv("VertexAttrib4iv", traits, *this)
+      , VertexAttrib4uiv("VertexAttrib4uiv", traits, *this)
+      , VertexAttrib4Nub("VertexAttrib4Nub", traits, *this)
+      , VertexAttrib4Nbv("VertexAttrib4Nbv", traits, *this)
+      , VertexAttrib4Nubv("VertexAttrib4Nubv", traits, *this)
+      , VertexAttrib4Nsv("VertexAttrib4Nsv", traits, *this)
+      , VertexAttrib4Nusv("VertexAttrib4Nusv", traits, *this)
+      , VertexAttrib4Niv("VertexAttrib4Niv", traits, *this)
+      , VertexAttrib4Nuiv("VertexAttrib4Nuiv", traits, *this)
+      , VertexAttribL1d("VertexAttribL1d", traits, *this)
+      , VertexAttribL2d("VertexAttribL2d", traits, *this)
+      , VertexAttribL3d("VertexAttribL3d", traits, *this)
+      , VertexAttribL4d("VertexAttribL4d", traits, *this)
+      , VertexAttribL1dv("VertexAttribL1dv", traits, *this)
+      , VertexAttribL2dv("VertexAttribL2dv", traits, *this)
+      , VertexAttribL3dv("VertexAttribL3dv", traits, *this)
+      , VertexAttribL4dv("VertexAttribL4dv", traits, *this)
+      , VertexAttribP1ui("VertexAttribP1ui", traits, *this)
+      , VertexAttribP2ui("VertexAttribP2ui", traits, *this)
+      , VertexAttribP3ui("VertexAttribP3ui", traits, *this)
+      , VertexAttribP4ui("VertexAttribP4ui", traits, *this)
+      , VertexAttribP1uiv("VertexAttribP1uiv", traits, *this)
+      , VertexAttribP2uiv("VertexAttribP2uiv", traits, *this)
+      , VertexAttribP3uiv("VertexAttribP3uiv", traits, *this)
+      , VertexAttribP4uiv("VertexAttribP4uiv", traits, *this)
       , DepthRange("DepthRange", traits, *this)
       , DepthRangef("DepthRangef", traits, *this)
       , Viewport("Viewport", traits, *this)
