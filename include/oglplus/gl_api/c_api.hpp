@@ -1847,6 +1847,16 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(BindFragDataLocationIndexed)>
       BindFragDataLocationIndexed;
 
+    gl_api_function<
+      int_type(uint_type, const char_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetFragDataLocation)>
+      GetFragDataLocation;
+
+    gl_api_function<
+      int_type(uint_type, const char_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetFragDataIndex)>
+      GetFragDataIndex;
+
     // uniform subroutine
     gl_api_function<
       void(enum_type, sizei_type, const uint_type*),
@@ -3430,6 +3440,8 @@ struct basic_gl_c_api {
       , BindFragDataLocation("BindFragDataLocation", traits, *this)
       , BindFragDataLocationIndexed(
           "BindFragDataLocationIndexed", traits, *this)
+      , GetFragDataLocation("GetFragDataLocation", traits, *this)
+      , GetFragDataIndex("GetFragDataIndex", traits, *this)
       , UniformSubroutinesuiv("UniformSubroutinesuiv", traits, *this)
       , GetUniformSubroutineuiv("GetUniformSubroutineuiv", traits, *this)
       , Uniform1i("Uniform1i", traits, *this)
