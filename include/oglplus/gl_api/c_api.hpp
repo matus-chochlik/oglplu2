@@ -2704,6 +2704,11 @@ struct basic_gl_c_api {
 
     // viewport
     gl_api_function<
+      void(enum_type, enum_type),
+      OGLPLUS_GL_STATIC_FUNC(ClipControl)>
+      ClipControl;
+
+    gl_api_function<
       void(double_type, double_type),
       OGLPLUS_GL_STATIC_FUNC(DepthRange)>
       DepthRange;
@@ -2714,10 +2719,57 @@ struct basic_gl_c_api {
       DepthRangef;
 
     gl_api_function<
+      void(uint_type, sizei_type, const double_type*),
+      OGLPLUS_GL_STATIC_FUNC(DepthRangeArrayv)>
+      DepthRangeArrayv;
+
+    gl_api_function<
+      void(uint_type, double_type, double_type),
+      OGLPLUS_GL_STATIC_FUNC(DepthRangeIndexed)>
+      DepthRangeIndexed;
+
+    gl_api_function<
       void(int_type, int_type, sizei_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(Viewport)>
       Viewport;
 
+    gl_api_function<
+      void(uint_type, sizei_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(ViewportArrayv)>
+      ViewportArrayv;
+
+    gl_api_function<
+      void(uint_type, float_type, float_type, float_type, float_type),
+      OGLPLUS_GL_STATIC_FUNC(ViewportIndexedf)>
+      ViewportIndexedf;
+
+    gl_api_function<
+      void(uint_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(ViewportIndexedfv)>
+      ViewportIndexedfv;
+
+    // scissor test
+    gl_api_function<
+      void(int_type, int_type, sizei_type, sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(Scissor)>
+      Scissor;
+
+    gl_api_function<
+      void(uint_type, sizei_type, const int_type*),
+      OGLPLUS_GL_STATIC_FUNC(ScissorArrayv)>
+      ScissorArrayv;
+
+    gl_api_function<
+      void(uint_type, int_type, int_type, sizei_type, sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(ScissorIndexed)>
+      ScissorIndexed;
+
+    gl_api_function<
+      void(uint_type, const int_type*),
+      OGLPLUS_GL_STATIC_FUNC(ScissorIndexedv)>
+      ScissorIndexedv;
+
+    // draw buffer clearing
     gl_api_function<
       void(float_type, float_type, float_type, float_type),
       OGLPLUS_GL_STATIC_FUNC(ClearColor)>
@@ -2743,6 +2795,32 @@ struct basic_gl_c_api {
     gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(ProvokingVertex)>
       ProvokingVertex;
 
+    gl_api_function<void(float_type), OGLPLUS_GL_STATIC_FUNC(LineWidth)>
+      LineWidth;
+
+    gl_api_function<void(float_type), OGLPLUS_GL_STATIC_FUNC(PointSize)>
+      PointSize;
+
+    gl_api_function<
+      void(enum_type, int_type),
+      OGLPLUS_GL_STATIC_FUNC(PointParameteri)>
+      PointParameteri;
+
+    gl_api_function<
+      void(enum_type, float_type),
+      OGLPLUS_GL_STATIC_FUNC(PointParameterf)>
+      PointParameterf;
+
+    gl_api_function<
+      void(enum_type, const int_type*),
+      OGLPLUS_GL_STATIC_FUNC(PointParameteriv)>
+      PointParameteriv;
+
+    gl_api_function<
+      void(enum_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(PointParameterfv)>
+      PointParameterfv;
+
     gl_api_function<
       void(enum_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(PatchParameteri)>
@@ -2752,6 +2830,44 @@ struct basic_gl_c_api {
       void(enum_type, const float_type*),
       OGLPLUS_GL_STATIC_FUNC(PatchParameterfv)>
       PatchParameterfv;
+
+    gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(FrontFace)>
+      FrontFace;
+
+    gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(CullFace)> CullFace;
+
+    gl_api_function<
+      void(enum_type, enum_type),
+      OGLPLUS_GL_STATIC_FUNC(PolygonMode)>
+      PolygonMode;
+
+    gl_api_function<
+      void(float_type, float_type),
+      OGLPLUS_GL_STATIC_FUNC(PolygonOffset)>
+      PolygonOffset;
+
+    gl_api_function<
+      void(float_type, float_type, float_type),
+      OGLPLUS_GL_STATIC_FUNC(PolygonOffsetClamp)>
+      PolygonOffsetClamp;
+
+    gl_api_function<
+      void(float_type, bool_type),
+      OGLPLUS_GL_STATIC_FUNC(SampleCoverage)>
+      SampleCoverage;
+
+    gl_api_function<
+      void(uint_type, bitfield_type),
+      OGLPLUS_GL_STATIC_FUNC(SampleMaski)>
+      SampleMaski;
+
+    gl_api_function<void(float_type), OGLPLUS_GL_STATIC_FUNC(MinSampleShading)>
+      MinSampleShading;
+
+    gl_api_function<
+      void(enum_type, uint_type, float_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetMultisamplefv)>
+      GetMultisamplefv;
 
     // draw arrays
     gl_api_function<
@@ -3483,9 +3599,19 @@ struct basic_gl_c_api {
       , GetVertexAttribIuiv("GetVertexAttribIuiv", traits, *this)
       , GetVertexAttribLdv("GetVertexAttribLdv", traits, *this)
       , GetVertexAttribPointerv("GetVertexAttribPointerv", traits, *this)
+      , ClipControl("ClipControl", traits, *this)
       , DepthRange("DepthRange", traits, *this)
       , DepthRangef("DepthRangef", traits, *this)
+      , DepthRangeArrayv("DepthRangeArrayv", traits, *this)
+      , DepthRangeIndexed("DepthRangeIndexed", traits, *this)
       , Viewport("Viewport", traits, *this)
+      , ViewportArrayv("ViewportArrayv", traits, *this)
+      , ViewportIndexedf("ViewportIndexedf", traits, *this)
+      , ViewportIndexedfv("ViewportIndexedfv", traits, *this)
+      , Scissor("Scissor", traits, *this)
+      , ScissorArrayv("ScissorArrayv", traits, *this)
+      , ScissorIndexed("ScissorIndexed", traits, *this)
+      , ScissorIndexedv("ScissorIndexedv", traits, *this)
       , ClearColor("ClearColor", traits, *this)
       , ClearDepthf("ClearDepthf", traits, *this)
       , ClearDepth("ClearDepth", traits, *this)
@@ -3493,8 +3619,23 @@ struct basic_gl_c_api {
       , Clear("Clear", traits, *this)
       , PrimitiveRestartIndex("PrimitiveRestartIndex", traits, *this)
       , ProvokingVertex("ProvokingVertex", traits, *this)
+      , LineWidth("LineWidth", traits, *this)
+      , PointSize("PointSize", traits, *this)
+      , PointParameteri("PointParameteri", traits, *this)
+      , PointParameterf("PointParameterf", traits, *this)
+      , PointParameteriv("PointParameteriv", traits, *this)
+      , PointParameterfv("PointParameterfv", traits, *this)
       , PatchParameteri("PatchParameteri", traits, *this)
       , PatchParameterfv("PatchParameterfv", traits, *this)
+      , FrontFace("FrontFace", traits, *this)
+      , CullFace("CullFace", traits, *this)
+      , PolygonMode("PolygonMode", traits, *this)
+      , PolygonOffset("PolygonOffset", traits, *this)
+      , PolygonOffsetClamp("PolygonOffsetClamp", traits, *this)
+      , SampleCoverage("SampleCoverage", traits, *this)
+      , SampleMaski("SampleMaski", traits, *this)
+      , MinSampleShading("MinSampleShading", traits, *this)
+      , GetMultisamplefv("GetMultisamplefv", traits, *this)
       , DrawArrays("DrawArrays", traits, *this)
       , DrawArraysInstancedBaseInstance(
           "DrawArraysInstancedBaseInstance", traits, *this)
