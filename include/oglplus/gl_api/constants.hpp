@@ -2458,6 +2458,132 @@ public:
       transform_feedback_active;
 
     opt_c_api_constant<
+      mp_list<vertex_attrib_parameter>,
+#ifdef GL_CURRENT_VERTEX_ATTRIB
+      enum_type_c<GL_CURRENT_VERTEX_ATTRIB>>
+#else
+      enum_type_i>
+#endif
+      current_vertex_attrib;
+
+    opt_c_api_constant<
+      mp_list<vertex_attrib_parameter>,
+#ifdef GL_VERTEX_ATTRIB_ARRAY_BUFFER_BINDING
+      enum_type_c<GL_VERTEX_ATTRIB_ARRAY_BUFFER_BINDING>>
+#else
+      enum_type_i>
+#endif
+      vertex_attrib_array_buffer_binding;
+
+    opt_c_api_constant<
+      mp_list<vertex_attrib_parameter>,
+#ifdef GL_VERTEX_ATTRIB_ARRAY_DIVISOR
+      enum_type_c<GL_VERTEX_ATTRIB_ARRAY_DIVISOR>>
+#else
+      enum_type_i>
+#endif
+      vertex_attrib_array_divisor;
+
+    opt_c_api_constant<
+      mp_list<vertex_attrib_parameter>,
+#ifdef GL_VERTEX_ATTRIB_ARRAY_ENABLED
+      enum_type_c<GL_VERTEX_ATTRIB_ARRAY_ENABLED>>
+#else
+      enum_type_i>
+#endif
+      vertex_attrib_array_enabled;
+
+    opt_c_api_constant<
+      mp_list<vertex_attrib_parameter>,
+#ifdef GL_VERTEX_ATTRIB_ARRAY_INTEGER
+      enum_type_c<GL_VERTEX_ATTRIB_ARRAY_INTEGER>>
+#else
+      enum_type_i>
+#endif
+      vertex_attrib_array_integer;
+
+    opt_c_api_constant<
+      mp_list<vertex_attrib_parameter>,
+#ifdef GL_VERTEX_ATTRIB_ARRAY_INTEGER_EXT
+      enum_type_c<GL_VERTEX_ATTRIB_ARRAY_INTEGER_EXT>>
+#else
+      enum_type_i>
+#endif
+      vertex_attrib_array_integer_ext;
+
+    opt_c_api_constant<
+      mp_list<vertex_attrib_parameter>,
+#ifdef GL_VERTEX_ATTRIB_ARRAY_LONG
+      enum_type_c<GL_VERTEX_ATTRIB_ARRAY_LONG>>
+#else
+      enum_type_i>
+#endif
+      vertex_attrib_array_long;
+
+    opt_c_api_constant<
+      mp_list<vertex_attrib_parameter>,
+#ifdef GL_VERTEX_ATTRIB_ARRAY_NORMALIZED
+      enum_type_c<GL_VERTEX_ATTRIB_ARRAY_NORMALIZED>>
+#else
+      enum_type_i>
+#endif
+      vertex_attrib_array_normalized;
+
+    opt_c_api_constant<
+      mp_list<vertex_attrib_parameter>,
+#ifdef GL_VERTEX_ATTRIB_ARRAY_POINTER
+      enum_type_c<GL_VERTEX_ATTRIB_ARRAY_POINTER>>
+#else
+      enum_type_i>
+#endif
+      vertex_attrib_array_pointer;
+
+    opt_c_api_constant<
+      mp_list<vertex_attrib_parameter>,
+#ifdef GL_VERTEX_ATTRIB_ARRAY_SIZE
+      enum_type_c<GL_VERTEX_ATTRIB_ARRAY_SIZE>>
+#else
+      enum_type_i>
+#endif
+      vertex_attrib_array_size;
+
+    opt_c_api_constant<
+      mp_list<vertex_attrib_parameter>,
+#ifdef GL_VERTEX_ATTRIB_ARRAY_STRIDE
+      enum_type_c<GL_VERTEX_ATTRIB_ARRAY_STRIDE>>
+#else
+      enum_type_i>
+#endif
+      vertex_attrib_array_stride;
+
+    opt_c_api_constant<
+      mp_list<vertex_attrib_parameter>,
+#ifdef GL_VERTEX_ATTRIB_ARRAY_TYPE
+      enum_type_c<GL_VERTEX_ATTRIB_ARRAY_TYPE>>
+#else
+      enum_type_i>
+#endif
+      vertex_attrib_array_type;
+
+    opt_c_api_constant<
+      mp_list<vertex_attrib_parameter>,
+#ifdef GL_VERTEX_ATTRIB_BINDING
+      enum_type_c<GL_VERTEX_ATTRIB_BINDING>>
+#else
+      enum_type_i>
+#endif
+      vertex_attrib_binding;
+
+    opt_c_api_constant<
+      mp_list<vertex_attrib_parameter>,
+#ifdef GL_VERTEX_ATTRIB_RELATIVE_OFFSET
+      enum_type_c<GL_VERTEX_ATTRIB_RELATIVE_OFFSET>>
+#else
+      enum_type_i>
+#endif
+      vertex_attrib_relative_offset;
+
+    opt_c_api_constant<
       mp_list<program_interface>,
 #ifdef GL_UNIFORM
       enum_type_c<GL_UNIFORM>>
@@ -8129,6 +8255,24 @@ public:
           "TRANSFORM_FEEDBACK_BUFFER_SIZE", traits, api)
       , transform_feedback_paused("TRANSFORM_FEEDBACK_PAUSED", traits, api)
       , transform_feedback_active("TRANSFORM_FEEDBACK_ACTIVE", traits, api)
+      , current_vertex_attrib("CURRENT_VERTEX_ATTRIB", traits, api)
+      , vertex_attrib_array_buffer_binding(
+          "VERTEX_ATTRIB_ARRAY_BUFFER_BINDING", traits, api)
+      , vertex_attrib_array_divisor("VERTEX_ATTRIB_ARRAY_DIVISOR", traits, api)
+      , vertex_attrib_array_enabled("VERTEX_ATTRIB_ARRAY_ENABLED", traits, api)
+      , vertex_attrib_array_integer("VERTEX_ATTRIB_ARRAY_INTEGER", traits, api)
+      , vertex_attrib_array_integer_ext(
+          "VERTEX_ATTRIB_ARRAY_INTEGER_EXT", traits, api)
+      , vertex_attrib_array_long("VERTEX_ATTRIB_ARRAY_LONG", traits, api)
+      , vertex_attrib_array_normalized(
+          "VERTEX_ATTRIB_ARRAY_NORMALIZED", traits, api)
+      , vertex_attrib_array_pointer("VERTEX_ATTRIB_ARRAY_POINTER", traits, api)
+      , vertex_attrib_array_size("VERTEX_ATTRIB_ARRAY_SIZE", traits, api)
+      , vertex_attrib_array_stride("VERTEX_ATTRIB_ARRAY_STRIDE", traits, api)
+      , vertex_attrib_array_type("VERTEX_ATTRIB_ARRAY_TYPE", traits, api)
+      , vertex_attrib_binding("VERTEX_ATTRIB_BINDING", traits, api)
+      , vertex_attrib_relative_offset(
+          "VERTEX_ATTRIB_RELATIVE_OFFSET", traits, api)
       , uniform("UNIFORM", traits, api)
       , uniform_block("UNIFORM_BLOCK", traits, api)
       , program_input("PROGRAM_INPUT", traits, api)

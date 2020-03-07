@@ -260,6 +260,11 @@ struct transform_feedback_parameter
     using enum_class::enum_class;
 };
 
+struct vertex_attrib_parameter
+  : gl_enum_class<vertex_attrib_parameter, EAGINE_ID_V(VAtrParmtr)> {
+    using enum_class::enum_class;
+};
+
 struct primitive_type : gl_enum_class<primitive_type, EAGINE_ID_V(PrmtveType)> {
     using enum_class::enum_class;
 };
