@@ -1236,6 +1236,7 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(GetSamplerParameterIuiv)>
       GetSamplerParameterIuiv;
 
+    // renderbuffer object
     gl_api_function<
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GenRenderbuffers)>
@@ -1291,6 +1292,7 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(GetNamedRenderbufferParameteriv)>
       GetNamedRenderbufferParameteriv;
 
+    // framebuffer objects
     gl_api_function<
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GenFramebuffers)>
@@ -1399,6 +1401,7 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(CheckNamedFramebufferStatus)>
       CheckNamedFramebufferStatus;
 
+    // transform feedback objects
     gl_api_function<
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GenTransformFeedbacks)>
@@ -1424,6 +1427,31 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(BindTransformFeedback)>
       BindTransformFeedback;
 
+    gl_api_function<
+      void(enum_type),
+      OGLPLUS_GL_STATIC_FUNC(BeginTransformFeedback)>
+      BeginTransformFeedback;
+
+    gl_api_function<void(), OGLPLUS_GL_STATIC_FUNC(PauseTransformFeedback)>
+      PauseTransformFeedback;
+
+    gl_api_function<void(), OGLPLUS_GL_STATIC_FUNC(ResumeTransformFeedback)>
+      ResumeTransformFeedback;
+
+    gl_api_function<void(), OGLPLUS_GL_STATIC_FUNC(EndTransformFeedback)>
+      EndTransformFeedback;
+
+    gl_api_function<
+      void(uint_type, uint_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(TransformFeedbackBufferBase)>
+      TransformFeedbackBufferBase;
+
+    gl_api_function<
+      void(uint_type, uint_type, uint_type, intptr_type, sizeiptr_type),
+      OGLPLUS_GL_STATIC_FUNC(TransformFeedbackBufferRange)>
+      TransformFeedbackBufferRange;
+
+    // query objects
     gl_api_function<
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GenQueries)>
@@ -1514,6 +1542,16 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(QueryCounter)>
       QueryCounter;
 
+    // conditional rendering
+    gl_api_function<
+      void(uint_type, enum_type),
+      OGLPLUS_GL_STATIC_FUNC(BeginConditionalRender)>
+      BeginConditionalRender;
+
+    gl_api_function<void(), OGLPLUS_GL_STATIC_FUNC(EndConditionalRender)>
+      EndConditionalRender;
+
+    // program pipelines
     gl_api_function<
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GenProgramPipelines)>
@@ -1540,6 +1578,11 @@ struct basic_gl_c_api {
       BindProgramPipeline;
 
     gl_api_function<
+      void(uint_type),
+      OGLPLUS_GL_STATIC_FUNC(ValidateProgramPipeline)>
+      ValidateProgramPipeline;
+
+    gl_api_function<
       void(uint_type, bitfield_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(UseProgramStages)>
       UseProgramStages;
@@ -1555,7 +1598,7 @@ struct basic_gl_c_api {
       GetProgramPipelineiv;
 
     gl_api_function<
-      void(uint_type, sizei_type, sizei_type*, char*),
+      void(uint_type, sizei_type, sizei_type*, char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetProgramPipelineInfoLog)>
       GetProgramPipelineInfoLog;
 
@@ -1680,7 +1723,7 @@ struct basic_gl_c_api {
       GetProgramiv;
 
     gl_api_function<
-      void(uint_type, sizei_type, sizei_type*, char*),
+      void(uint_type, sizei_type, sizei_type*, char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetProgramInfoLog)>
       GetProgramInfoLog;
 
@@ -1724,37 +1767,51 @@ struct basic_gl_c_api {
       GetProgramResourceiv;
 
     gl_api_function<
-      void(uint_type, uint_type, const char*),
+      void(uint_type, uint_type, const char_type*),
       OGLPLUS_GL_STATIC_FUNC(BindAttribLocation)>
       BindAttribLocation;
 
     gl_api_function<
-      int_type(uint_type, const char*),
+      int_type(uint_type, const char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetAttribLocation)>
       GetAttribLocation;
 
     gl_api_function<
-      int_type(uint_type, const char*),
+      void(
+        uint_type,
+        uint_type,
+        sizei_type,
+        sizei_type*,
+        int_type*,
+        enum_type*,
+        char_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetActiveAttrib)>
+      GetActiveAttrib;
+
+    gl_api_function<
+      int_type(uint_type, const char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetUniformLocation)>
       GetUniformLocation;
 
     gl_api_function<
-      uint_type(uint_type, enum_type, const char*),
+      uint_type(uint_type, enum_type, const char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetSubroutineIndex)>
       GetSubroutineIndex;
 
     gl_api_function<
-      void(uint_type, enum_type, uint_type, sizei_type, sizei_type*, char*),
+      void(
+        uint_type, enum_type, uint_type, sizei_type, sizei_type*, char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetActiveSubroutineName)>
       GetActiveSubroutineName;
 
     gl_api_function<
-      void(uint_type, enum_type, uint_type, sizei_type, sizei_type*, char*),
+      void(
+        uint_type, enum_type, uint_type, sizei_type, sizei_type*, char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetActiveSubroutineUniformName)>
       GetActiveSubroutineUniformName;
 
     gl_api_function<
-      int_type(uint_type, enum_type, const char*),
+      int_type(uint_type, enum_type, const char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetSubroutineUniformLocation)>
       GetSubroutineUniformLocation;
 
@@ -1764,12 +1821,29 @@ struct basic_gl_c_api {
       GetActiveSubroutineUniformiv;
 
     gl_api_function<
-      void(uint_type, uint_type, const char*),
+      void(uint_type, sizei_type, const char_type* const*, enum_type),
+      OGLPLUS_GL_STATIC_FUNC(TransformFeedbackVaryings)>
+      TransformFeedbackVaryings;
+
+    gl_api_function<
+      void(
+        uint_type,
+        uint_type,
+        sizei_type,
+        sizei_type*,
+        sizei_type*,
+        enum_type*,
+        char_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetTransformFeedbackVarying)>
+      GetTransformFeedbackVarying;
+
+    gl_api_function<
+      void(uint_type, uint_type, const char_type*),
       OGLPLUS_GL_STATIC_FUNC(BindFragDataLocation)>
       BindFragDataLocation;
 
     gl_api_function<
-      void(uint_type, uint_type, uint_type, const char*),
+      void(uint_type, uint_type, uint_type, const char_type*),
       OGLPLUS_GL_STATIC_FUNC(BindFragDataLocationIndexed)>
       BindFragDataLocationIndexed;
 
@@ -2660,16 +2734,26 @@ struct basic_gl_c_api {
 
     gl_api_function<void(bitfield_type), OGLPLUS_GL_STATIC_FUNC(Clear)> Clear;
 
+    // draw parameters
     gl_api_function<
       void(uint_type),
       OGLPLUS_GL_STATIC_FUNC(PrimitiveRestartIndex)>
       PrimitiveRestartIndex;
+
+    gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(ProvokingVertex)>
+      ProvokingVertex;
 
     gl_api_function<
       void(enum_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(PatchParameteri)>
       PatchParameteri;
 
+    gl_api_function<
+      void(enum_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(PatchParameterfv)>
+      PatchParameterfv;
+
+    // draw arrays
     gl_api_function<
       void(enum_type, int_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(DrawArrays)>
@@ -2705,6 +2789,7 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(MultiDrawArraysIndirectCount)>
       MultiDrawArraysIndirectCount;
 
+    // draw elements
     gl_api_function<
       void(enum_type, sizei_type, enum_type, const_void_ptr_type),
       OGLPLUS_GL_STATIC_FUNC(DrawElements)>
@@ -2819,6 +2904,28 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(MultiDrawElementsBaseVertex)>
       MultiDrawElementsBaseVertex;
 
+    // draw transform feedback
+    gl_api_function<
+      void(enum_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(DrawTransformFeedback)>
+      DrawTransformFeedback;
+
+    gl_api_function<
+      void(enum_type, uint_type, sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(DrawTransformFeedbackInstanced)>
+      DrawTransformFeedbackInstanced;
+
+    gl_api_function<
+      void(enum_type, uint_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(DrawTransformFeedbackStream)>
+      DrawTransformFeedbackStream;
+
+    gl_api_function<
+      void(enum_type, uint_type, uint_type, sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(DrawTransformFeedbackStreamInstanced)>
+      DrawTransformFeedbackStreamInstanced;
+
+    // state queries
     gl_api_function<
       void(enum_type, bool_type*),
       OGLPLUS_GL_STATIC_FUNC(GetBooleanv)>
@@ -3116,6 +3223,14 @@ struct basic_gl_c_api {
       , DeleteTransformFeedbacks("DeleteTransformFeedbacks", traits, *this)
       , IsTransformFeedback("IsTransformFeedback", traits, *this)
       , BindTransformFeedback("BindTransformFeedback", traits, *this)
+      , BeginTransformFeedback("BeginTransformFeedback", traits, *this)
+      , PauseTransformFeedback("PauseTransformFeedback", traits, *this)
+      , ResumeTransformFeedback("ResumeTransformFeedback", traits, *this)
+      , EndTransformFeedback("EndTransformFeedback", traits, *this)
+      , TransformFeedbackBufferBase(
+          "TransformFeedbackBufferBase", traits, *this)
+      , TransformFeedbackBufferRange(
+          "TransformFeedbackBufferRange", traits, *this)
       , GenQueries("GenQueries", traits, *this)
       , CreateQueries("CreateQueries", traits, *this)
       , DeleteQueries("DeleteQueries", traits, *this)
@@ -3135,11 +3250,14 @@ struct basic_gl_c_api {
       , EndQuery("EndQuery", traits, *this)
       , EndQueryIndexed("EndQueryIndexed", traits, *this)
       , QueryCounter("QueryCounter", traits, *this)
+      , BeginConditionalRender("BeginConditionalRender", traits, *this)
+      , EndConditionalRender("EndConditionalRender", traits, *this)
       , GenProgramPipelines("GenProgramPipelines", traits, *this)
       , CreateProgramPipelines("CreateProgramPipelines", traits, *this)
       , DeleteProgramPipelines("DeleteProgramPipelines", traits, *this)
       , IsProgramPipeline("IsProgramPipeline", traits, *this)
       , BindProgramPipeline("BindProgramPipeline", traits, *this)
+      , ValidateProgramPipeline("ValidateProgramPipeline", traits, *this)
       , UseProgramStages("UseProgramStages", traits, *this)
       , GetProgramStageiv("GetProgramStageiv", traits, *this)
       , GetProgramPipelineiv("GetProgramPipelineiv", traits, *this)
@@ -3180,6 +3298,7 @@ struct basic_gl_c_api {
       , GetProgramResourceiv("GetProgramResourceiv", traits, *this)
       , BindAttribLocation("BindAttribLocation", traits, *this)
       , GetAttribLocation("GetAttribLocation", traits, *this)
+      , GetActiveAttrib("GetActiveAttrib", traits, *this)
       , GetUniformLocation("GetUniformLocation", traits, *this)
       , GetSubroutineIndex("GetSubroutineIndex", traits, *this)
       , GetActiveSubroutineName("GetActiveSubroutineName", traits, *this)
@@ -3189,6 +3308,9 @@ struct basic_gl_c_api {
           "GetSubroutineUniformLocation", traits, *this)
       , GetActiveSubroutineUniformiv(
           "GetActiveSubroutineUniformiv", traits, *this)
+      , TransformFeedbackVaryings("TransformFeedbackVaryings", traits, *this)
+      , GetTransformFeedbackVarying(
+          "GetTransformFeedbackVarying", traits, *this)
       , BindFragDataLocation("BindFragDataLocation", traits, *this)
       , BindFragDataLocationIndexed(
           "BindFragDataLocationIndexed", traits, *this)
@@ -3370,7 +3492,9 @@ struct basic_gl_c_api {
       , ClearStencil("ClearStencil", traits, *this)
       , Clear("Clear", traits, *this)
       , PrimitiveRestartIndex("PrimitiveRestartIndex", traits, *this)
+      , ProvokingVertex("ProvokingVertex", traits, *this)
       , PatchParameteri("PatchParameteri", traits, *this)
+      , PatchParameterfv("PatchParameterfv", traits, *this)
       , DrawArrays("DrawArrays", traits, *this)
       , DrawArraysInstancedBaseInstance(
           "DrawArraysInstancedBaseInstance", traits, *this)
@@ -3399,6 +3523,13 @@ struct basic_gl_c_api {
           "MultiDrawElementsIndirectCount", traits, *this)
       , MultiDrawElementsBaseVertex(
           "MultiDrawElementsBaseVertex", traits, *this)
+      , DrawTransformFeedback("DrawTransformFeedback", traits, *this)
+      , DrawTransformFeedbackInstanced(
+          "DrawTransformFeedbackInstanced", traits, *this)
+      , DrawTransformFeedbackStream(
+          "DrawTransformFeedbackStream", traits, *this)
+      , DrawTransformFeedbackStreamInstanced(
+          "DrawTransformFeedbackStreamInstanced", traits, *this)
       , GetBooleanv("GetBooleanv", traits, *this)
       , GetBooleani_v("GetBooleani_v", traits, *this)
       , GetIntegerv("GetIntegerv", traits, *this)
