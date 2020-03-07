@@ -215,6 +215,21 @@ struct basic_gl_c_api {
       DisableVertexArrayAttrib;
 
     gl_api_function<
+      void(uint_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(VertexBindingDivisor)>
+      VertexBindingDivisor;
+
+    gl_api_function<
+      void(uint_type, uint_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(VertexArrayBindingDivisor)>
+      VertexArrayBindingDivisor;
+
+    gl_api_function<
+      void(uint_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(VertexAttribDivisor)>
+      VertexAttribDivisor;
+
+    gl_api_function<
       void(sizei_type, uint_type*),
       OGLPLUS_GL_STATIC_FUNC(GenBuffers)>
       GenBuffers;
@@ -2596,9 +2611,163 @@ struct basic_gl_c_api {
     gl_api_function<void(bitfield_type), OGLPLUS_GL_STATIC_FUNC(Clear)> Clear;
 
     gl_api_function<
+      void(uint_type),
+      OGLPLUS_GL_STATIC_FUNC(PrimitiveRestartIndex)>
+      PrimitiveRestartIndex;
+
+    gl_api_function<
       void(enum_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(PatchParameteri)>
       PatchParameteri;
+
+    gl_api_function<
+      void(enum_type, int_type, sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(DrawArrays)>
+      DrawArrays;
+
+    gl_api_function<
+      void(enum_type, int_type, sizei_type, sizei_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(DrawArraysInstancedBaseInstance)>
+      DrawArraysInstancedBaseInstance;
+
+    gl_api_function<
+      void(enum_type, int_type, sizei_type, sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(DrawArraysInstanced)>
+      DrawArraysInstanced;
+
+    gl_api_function<
+      void(enum_type, const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(DrawArraysIndirect)>
+      DrawArraysIndirect;
+
+    gl_api_function<
+      void(enum_type, const int_type*, const sizei_type*, sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(MultiDrawArrays)>
+      MultiDrawArrays;
+
+    gl_api_function<
+      void(enum_type, const_void_ptr_type, sizei_type, sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(MultiDrawArraysIndirect)>
+      MultiDrawArraysIndirect;
+
+    gl_api_function<
+      void(enum_type, const_void_ptr_type, intptr_type, sizei_type, sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(MultiDrawArraysIndirectCount)>
+      MultiDrawArraysIndirectCount;
+
+    gl_api_function<
+      void(enum_type, sizei_type, enum_type, const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(DrawElements)>
+      DrawElements;
+
+    gl_api_function<
+      void(
+        enum_type,
+        uint_type,
+        uint_type,
+        sizei_type,
+        enum_type,
+        const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(DrawRangeElements)>
+      DrawRangeElements;
+
+    gl_api_function<
+      void(
+        enum_type,
+        sizei_type,
+        enum_type,
+        const_void_ptr_type,
+        sizei_type,
+        uint_type),
+      OGLPLUS_GL_STATIC_FUNC(DrawElementsInstancedBaseInstance)>
+      DrawElementsInstancedBaseInstance;
+
+    gl_api_function<
+      void(enum_type, sizei_type, enum_type, const_void_ptr_type, sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(DrawElementsInstanced)>
+      DrawElementsInstanced;
+
+    gl_api_function<
+      void(enum_type, sizei_type, enum_type, const_void_ptr_type, int_type),
+      OGLPLUS_GL_STATIC_FUNC(DrawElementsBaseVertex)>
+      DrawElementsBaseVertex;
+
+    gl_api_function<
+      void(
+        enum_type,
+        uint_type,
+        uint_type,
+        sizei_type,
+        enum_type,
+        const_void_ptr_type,
+        int_type),
+      OGLPLUS_GL_STATIC_FUNC(DrawRangeElementsBaseVertex)>
+      DrawRangeElementsBaseVertex;
+
+    gl_api_function<
+      void(
+        enum_type,
+        sizei_type,
+        enum_type,
+        const_void_ptr_type,
+        sizei_type,
+        int_type),
+      OGLPLUS_GL_STATIC_FUNC(DrawElementsInstancedBaseVertex)>
+      DrawElementsInstancedBaseVertex;
+
+    gl_api_function<
+      void(
+        enum_type,
+        sizei_type,
+        enum_type,
+        const_void_ptr_type,
+        sizei_type,
+        int_type,
+        uint_type),
+      OGLPLUS_GL_STATIC_FUNC(DrawElementsInstancedBaseVertexBaseInstance)>
+      DrawElementsInstancedBaseVertexBaseInstance;
+
+    gl_api_function<
+      void(enum_type, enum_type, const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(DrawElementsIndirect)>
+      DrawElementsIndirect;
+
+    gl_api_function<
+      void(
+        enum_type,
+        const sizei_type*,
+        enum_type,
+        const const_void_ptr_type*,
+        sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(MultiDrawElements)>
+      MultiDrawElements;
+
+    gl_api_function<
+      void(enum_type, enum_type, const_void_ptr_type, sizei_type, sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(MultiDrawElementsIndirect)>
+      MultiDrawElementsIndirect;
+
+    gl_api_function<
+      void(
+        enum_type,
+        enum_type,
+        const_void_ptr_type,
+        intptr_type,
+        sizei_type,
+        sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(MultiDrawElementsIndirectCount)>
+      MultiDrawElementsIndirectCount;
+
+    gl_api_function<
+      void(
+        enum_type,
+        const sizei_type*,
+        enum_type,
+        const const_void_ptr_type*,
+        sizei_type,
+        const int_type*),
+      OGLPLUS_GL_STATIC_FUNC(MultiDrawElementsBaseVertex)>
+      MultiDrawElementsBaseVertex;
 
     gl_api_function<
       void(enum_type, bool_type*),
@@ -2696,6 +2865,9 @@ struct basic_gl_c_api {
       , EnableVertexArrayAttrib("EnableVertexArrayAttrib", traits, *this)
       , DisableVertexAttribArray("DisableVertexAttribArray", traits, *this)
       , DisableVertexArrayAttrib("DisableVertexArrayAttrib", traits, *this)
+      , VertexBindingDivisor("VertexBindingDivisor", traits, *this)
+      , VertexArrayBindingDivisor("VertexArrayBindingDivisor", traits, *this)
+      , VertexAttribDivisor("VertexAttribDivisor", traits, *this)
       , GenBuffers("GenBuffers", traits, *this)
       , CreateBuffers("CreateBuffers", traits, *this)
       , DeleteBuffers("DeleteBuffers", traits, *this)
@@ -3137,7 +3309,36 @@ struct basic_gl_c_api {
       , ClearDepth("ClearDepth", traits, *this)
       , ClearStencil("ClearStencil", traits, *this)
       , Clear("Clear", traits, *this)
+      , PrimitiveRestartIndex("PrimitiveRestartIndex", traits, *this)
       , PatchParameteri("PatchParameteri", traits, *this)
+      , DrawArrays("DrawArrays", traits, *this)
+      , DrawArraysInstancedBaseInstance(
+          "DrawArraysInstancedBaseInstance", traits, *this)
+      , DrawArraysInstanced("DrawArraysInstanced", traits, *this)
+      , DrawArraysIndirect("DrawArraysIndirect", traits, *this)
+      , MultiDrawArrays("MultiDrawArrays", traits, *this)
+      , MultiDrawArraysIndirect("MultiDrawArraysIndirect", traits, *this)
+      , MultiDrawArraysIndirectCount(
+          "MultiDrawArraysIndirectCount", traits, *this)
+      , DrawElements("DrawElements", traits, *this)
+      , DrawRangeElements("DrawRangeElements", traits, *this)
+      , DrawElementsInstancedBaseInstance(
+          "DrawElementsInstancedBaseInstance", traits, *this)
+      , DrawElementsInstanced("DrawElementsInstanced", traits, *this)
+      , DrawElementsBaseVertex("DrawElementsBaseVertex", traits, *this)
+      , DrawRangeElementsBaseVertex(
+          "DrawRangeElementsBaseVertex", traits, *this)
+      , DrawElementsInstancedBaseVertex(
+          "DrawElementsInstancedBaseVertex", traits, *this)
+      , DrawElementsInstancedBaseVertexBaseInstance(
+          "DrawElementsInstancedBaseVertexBaseInstance", traits, *this)
+      , DrawElementsIndirect("DrawElementsIndirect", traits, *this)
+      , MultiDrawElements("MultiDrawElements", traits, *this)
+      , MultiDrawElementsIndirect("MultiDrawElementsIndirect", traits, *this)
+      , MultiDrawElementsIndirectCount(
+          "MultiDrawElementsIndirectCount", traits, *this)
+      , MultiDrawElementsBaseVertex(
+          "MultiDrawElementsBaseVertex", traits, *this)
       , GetBooleanv("GetBooleanv", traits, *this)
       , GetBooleani_v("GetBooleani_v", traits, *this)
       , GetIntegerv("GetIntegerv", traits, *this)
