@@ -2578,6 +2578,56 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(VertexAttribLPointer)>
       VertexAttribLPointer;
 
+    gl_api_function<
+      void(uint_type, enum_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetVertexArrayiv)>
+      GetVertexArrayiv;
+
+    gl_api_function<
+      void(uint_type, uint_type, enum_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetVertexArrayIndexediv)>
+      GetVertexArrayIndexediv;
+
+    gl_api_function<
+      void(uint_type, uint_type, enum_type, int64_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetVertexArrayIndexed64iv)>
+      GetVertexArrayIndexed64iv;
+
+    gl_api_function<
+      void(uint_type, enum_type, double_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetVertexAttribdv)>
+      GetVertexAttribdv;
+
+    gl_api_function<
+      void(uint_type, enum_type, float_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetVertexAttribfv)>
+      GetVertexAttribfv;
+
+    gl_api_function<
+      void(uint_type, enum_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetVertexAttribiv)>
+      GetVertexAttribiv;
+
+    gl_api_function<
+      void(uint_type, enum_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetVertexAttribIiv)>
+      GetVertexAttribIiv;
+
+    gl_api_function<
+      void(uint_type, enum_type, uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetVertexAttribIuiv)>
+      GetVertexAttribIuiv;
+
+    gl_api_function<
+      void(uint_type, enum_type, double_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetVertexAttribLdv)>
+      GetVertexAttribLdv;
+
+    gl_api_function<
+      void(uint_type, enum_type, void_ptr_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetVertexAttribPointerv)>
+      GetVertexAttribPointerv;
+
     // viewport
     gl_api_function<
       void(double_type, double_type),
@@ -3301,6 +3351,16 @@ struct basic_gl_c_api {
       , VertexAttribPointer("VertexAttribPointer", traits, *this)
       , VertexAttribIPointer("VertexAttribIPointer", traits, *this)
       , VertexAttribLPointer("VertexAttribLPointer", traits, *this)
+      , GetVertexArrayiv("GetVertexArrayiv", traits, *this)
+      , GetVertexArrayIndexediv("GetVertexArrayIndexediv", traits, *this)
+      , GetVertexArrayIndexed64iv("GetVertexArrayIndexed64iv", traits, *this)
+      , GetVertexAttribdv("GetVertexAttribdv", traits, *this)
+      , GetVertexAttribfv("GetVertexAttribfv", traits, *this)
+      , GetVertexAttribiv("GetVertexAttribiv", traits, *this)
+      , GetVertexAttribIiv("GetVertexAttribIiv", traits, *this)
+      , GetVertexAttribIuiv("GetVertexAttribIuiv", traits, *this)
+      , GetVertexAttribLdv("GetVertexAttribLdv", traits, *this)
+      , GetVertexAttribPointerv("GetVertexAttribPointerv", traits, *this)
       , DepthRange("DepthRange", traits, *this)
       , DepthRangef("DepthRangef", traits, *this)
       , Viewport("Viewport", traits, *this)
