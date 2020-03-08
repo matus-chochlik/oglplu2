@@ -1316,6 +1316,24 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(BindFramebuffer)>
       BindFramebuffer;
 
+    gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(DrawBuffer)>
+      DrawBuffer;
+
+    gl_api_function<
+      void(uint_type, enum_type),
+      OGLPLUS_GL_STATIC_FUNC(NamedFramebufferDrawBuffer)>
+      NamedFramebufferDrawBuffer;
+
+    gl_api_function<
+      void(sizei_type, const enum_type*),
+      OGLPLUS_GL_STATIC_FUNC(DrawBuffers)>
+      DrawBuffers;
+
+    gl_api_function<
+      void(uint_type, sizei_type, const enum_type*),
+      OGLPLUS_GL_STATIC_FUNC(NamedFramebufferDrawBuffers)>
+      NamedFramebufferDrawBuffers;
+
     gl_api_function<
       void(enum_type, enum_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(FramebufferParameteri)>
@@ -2779,6 +2797,53 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(ScissorIndexedv)>
       ScissorIndexedv;
 
+    // stencil test
+    gl_api_function<
+      void(enum_type, int_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(StencilFunc)>
+      StencilFunc;
+
+    gl_api_function<
+      void(enum_type, enum_type, int_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(StencilFuncSeparate)>
+      StencilFuncSeparate;
+
+    gl_api_function<
+      void(enum_type, enum_type, enum_type),
+      OGLPLUS_GL_STATIC_FUNC(StencilOp)>
+      StencilOp;
+
+    gl_api_function<
+      void(enum_type, enum_type, enum_type, enum_type),
+      OGLPLUS_GL_STATIC_FUNC(StencilOpSeparate)>
+      StencilOpSeparate;
+
+    // depth test
+    gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(DepthFunc)>
+      DepthFunc;
+
+    // buffer masking
+    gl_api_function<
+      void(bool_type, bool_type, bool_type, bool_type),
+      OGLPLUS_GL_STATIC_FUNC(ColorMask)>
+      ColorMask;
+
+    gl_api_function<
+      void(uint_type, bool_type, bool_type, bool_type, bool_type),
+      OGLPLUS_GL_STATIC_FUNC(ColorMaski)>
+      ColorMaski;
+
+    gl_api_function<void(bool_type), OGLPLUS_GL_STATIC_FUNC(DepthMask)>
+      DepthMask;
+
+    gl_api_function<void(uint_type), OGLPLUS_GL_STATIC_FUNC(StencilMask)>
+      StencilMask;
+
+    gl_api_function<
+      void(enum_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(StencilMaskSeparate)>
+      StencilMaskSeparate;
+
     // draw buffer clearing
     gl_api_function<
       void(float_type, float_type, float_type, float_type),
@@ -2878,6 +2943,53 @@ struct basic_gl_c_api {
       void(enum_type, uint_type, float_type*),
       OGLPLUS_GL_STATIC_FUNC(GetMultisamplefv)>
       GetMultisamplefv;
+
+    // blending
+    gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(BlendEquation)>
+      BlendEquation;
+
+    gl_api_function<
+      void(enum_type, enum_type),
+      OGLPLUS_GL_STATIC_FUNC(BlendEquationSeparate)>
+      BlendEquationSeparate;
+
+    gl_api_function<
+      void(uint_type, enum_type),
+      OGLPLUS_GL_STATIC_FUNC(BlendEquationi)>
+      BlendEquationi;
+
+    gl_api_function<
+      void(uint_type, enum_type, enum_type),
+      OGLPLUS_GL_STATIC_FUNC(BlendEquationSeparatei)>
+      BlendEquationSeparatei;
+
+    gl_api_function<
+      void(enum_type, enum_type),
+      OGLPLUS_GL_STATIC_FUNC(BlendFunc)>
+      BlendFunc;
+
+    gl_api_function<
+      void(enum_type, enum_type, enum_type, enum_type),
+      OGLPLUS_GL_STATIC_FUNC(BlendFuncSeparate)>
+      BlendFuncSeparate;
+
+    gl_api_function<
+      void(uint_type, enum_type, enum_type),
+      OGLPLUS_GL_STATIC_FUNC(BlendFunci)>
+      BlendFunci;
+
+    gl_api_function<
+      void(uint_type, enum_type, enum_type, enum_type, enum_type),
+      OGLPLUS_GL_STATIC_FUNC(BlendFuncSeparatei)>
+      BlendFuncSeparatei;
+
+    gl_api_function<
+      void(float_type, float_type, float_type, float_type),
+      OGLPLUS_GL_STATIC_FUNC(BlendColor)>
+      BlendColor;
+
+    // logic operation
+    gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(LogicOp)> LogicOp;
 
     // draw arrays
     gl_api_function<
@@ -3321,6 +3433,11 @@ struct basic_gl_c_api {
       , DeleteFramebuffers("DeleteFramebuffers", traits, *this)
       , IsFramebuffer("IsFramebuffer", traits, *this)
       , BindFramebuffer("BindFramebuffer", traits, *this)
+      , DrawBuffer("DrawBuffer", traits, *this)
+      , NamedFramebufferDrawBuffer("NamedFramebufferDrawBuffer", traits, *this)
+      , DrawBuffers("DrawBuffers", traits, *this)
+      , NamedFramebufferDrawBuffers(
+          "NamedFramebufferDrawBuffers", traits, *this)
       , FramebufferParameteri("FramebufferParameteri", traits, *this)
       , NamedFramebufferParameteri("NamedFramebufferParameteri", traits, *this)
       , GetFramebufferParameteriv("GetFramebufferParameteriv", traits, *this)
@@ -3624,6 +3741,16 @@ struct basic_gl_c_api {
       , ScissorArrayv("ScissorArrayv", traits, *this)
       , ScissorIndexed("ScissorIndexed", traits, *this)
       , ScissorIndexedv("ScissorIndexedv", traits, *this)
+      , StencilFunc("StencilFunc", traits, *this)
+      , StencilFuncSeparate("StencilFuncSeparate", traits, *this)
+      , StencilOp("StencilOp", traits, *this)
+      , StencilOpSeparate("StencilOpSeparate", traits, *this)
+      , DepthFunc("DepthFunc", traits, *this)
+      , ColorMask("ColorMask", traits, *this)
+      , ColorMaski("ColorMaski", traits, *this)
+      , DepthMask("DepthMask", traits, *this)
+      , StencilMask("StencilMask", traits, *this)
+      , StencilMaskSeparate("StencilMaskSeparate", traits, *this)
       , ClearColor("ClearColor", traits, *this)
       , ClearDepthf("ClearDepthf", traits, *this)
       , ClearDepth("ClearDepth", traits, *this)
@@ -3648,6 +3775,16 @@ struct basic_gl_c_api {
       , SampleMaski("SampleMaski", traits, *this)
       , MinSampleShading("MinSampleShading", traits, *this)
       , GetMultisamplefv("GetMultisamplefv", traits, *this)
+      , BlendEquation("BlendEquation", traits, *this)
+      , BlendEquationSeparate("BlendEquationSeparate", traits, *this)
+      , BlendEquationi("BlendEquationi", traits, *this)
+      , BlendEquationSeparatei("BlendEquationSeparatei", traits, *this)
+      , BlendFunc("BlendFunc", traits, *this)
+      , BlendFuncSeparate("BlendFuncSeparate", traits, *this)
+      , BlendFunci("BlendFunci", traits, *this)
+      , BlendFuncSeparatei("BlendFuncSeparatei", traits, *this)
+      , BlendColor("BlendColor", traits, *this)
+      , LogicOp("LogicOp", traits, *this)
       , DrawArrays("DrawArrays", traits, *this)
       , DrawArraysInstancedBaseInstance(
           "DrawArraysInstancedBaseInstance", traits, *this)
