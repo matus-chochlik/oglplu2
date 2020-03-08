@@ -1335,6 +1335,46 @@ struct basic_gl_c_api {
       NamedFramebufferDrawBuffers;
 
     gl_api_function<
+      void(enum_type, int_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(ClearBufferfv)>
+      ClearBufferfv;
+
+    gl_api_function<
+      void(enum_type, int_type, const int_type*),
+      OGLPLUS_GL_STATIC_FUNC(ClearBufferiv)>
+      ClearBufferiv;
+
+    gl_api_function<
+      void(enum_type, int_type, const uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(ClearBufferuiv)>
+      ClearBufferuiv;
+
+    gl_api_function<
+      void(enum_type, int_type, float_type, int_type),
+      OGLPLUS_GL_STATIC_FUNC(ClearBufferfi)>
+      ClearBufferfi;
+
+    gl_api_function<
+      void(uint_type, enum_type, int_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(ClearNamedFramebufferfv)>
+      ClearNamedFramebufferfv;
+
+    gl_api_function<
+      void(uint_type, enum_type, int_type, const int_type*),
+      OGLPLUS_GL_STATIC_FUNC(ClearNamedFramebufferiv)>
+      ClearNamedFramebufferiv;
+
+    gl_api_function<
+      void(uint_type, enum_type, int_type, const uint_type*),
+      OGLPLUS_GL_STATIC_FUNC(ClearNamedFramebufferuiv)>
+      ClearNamedFramebufferuiv;
+
+    gl_api_function<
+      void(uint_type, enum_type, int_type, float_type, int_type),
+      OGLPLUS_GL_STATIC_FUNC(ClearNamedFramebufferfi)>
+      ClearNamedFramebufferfi;
+
+    gl_api_function<
       void(enum_type, enum_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(FramebufferParameteri)>
       FramebufferParameteri;
@@ -3438,6 +3478,14 @@ struct basic_gl_c_api {
       , DrawBuffers("DrawBuffers", traits, *this)
       , NamedFramebufferDrawBuffers(
           "NamedFramebufferDrawBuffers", traits, *this)
+      , ClearBufferfv("ClearBufferfv", traits, *this)
+      , ClearBufferiv("ClearBufferiv", traits, *this)
+      , ClearBufferuiv("ClearBufferuiv", traits, *this)
+      , ClearBufferfi("ClearBufferfi", traits, *this)
+      , ClearNamedFramebufferfv("ClearNamedFramebufferfv", traits, *this)
+      , ClearNamedFramebufferiv("ClearNamedFramebufferiv", traits, *this)
+      , ClearNamedFramebufferuiv("ClearNamedFramebufferuiv", traits, *this)
+      , ClearNamedFramebufferfi("ClearNamedFramebufferfi", traits, *this)
       , FramebufferParameteri("FramebufferParameteri", traits, *this)
       , NamedFramebufferParameteri("NamedFramebufferParameteri", traits, *this)
       , GetFramebufferParameteriv("GetFramebufferParameteriv", traits, *this)
