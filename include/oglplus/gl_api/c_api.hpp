@@ -1375,6 +1375,40 @@ struct basic_gl_c_api {
       ClearNamedFramebufferfi;
 
     gl_api_function<
+      void(enum_type, sizei_type, const enum_type*),
+      OGLPLUS_GL_STATIC_FUNC(InvalidateFramebuffer)>
+      InvalidateFramebuffer;
+
+    gl_api_function<
+      void(
+        enum_type,
+        sizei_type,
+        const enum_type*,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(InvalidateSubFramebuffer)>
+      InvalidateSubFramebuffer;
+
+    gl_api_function<
+      void(uint_type, sizei_type, const enum_type*),
+      OGLPLUS_GL_STATIC_FUNC(InvalidateFramebuffer)>
+      InvalidateNamedFramebufferData;
+
+    gl_api_function<
+      void(
+        uint_type,
+        sizei_type,
+        const enum_type*,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(InvalidateNamedFramebufferSubData)>
+      InvalidateNamedFramebufferSubData;
+
+    gl_api_function<
       void(enum_type, enum_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(FramebufferParameteri)>
       FramebufferParameteri;
@@ -1458,6 +1492,14 @@ struct basic_gl_c_api {
       enum_type(uint_type, enum_type),
       OGLPLUS_GL_STATIC_FUNC(CheckNamedFramebufferStatus)>
       CheckNamedFramebufferStatus;
+
+    gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(ReadBuffer)>
+      ReadBuffer;
+
+    gl_api_function<
+      void(uint_type, enum_type),
+      OGLPLUS_GL_STATIC_FUNC(NamedFramebufferReadBuffer)>
+      NamedFramebufferReadBuffer;
 
     // transform feedback objects
     gl_api_function<
@@ -3203,6 +3245,37 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(DrawTransformFeedbackStreamInstanced)>
       DrawTransformFeedbackStreamInstanced;
 
+    // framebufer reads/writes
+    gl_api_function<
+      void(enum_type, enum_type),
+      OGLPLUS_GL_STATIC_FUNC(ClampColor)>
+      ClampColor;
+
+    gl_api_function<
+      void(
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type,
+        enum_type,
+        enum_type,
+        void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(ReadPixels)>
+      ReadPixels;
+
+    gl_api_function<
+      void(
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type,
+        enum_type,
+        enum_type,
+        sizei_type,
+        void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(ReadnPixels)>
+      ReadnPixels;
+
     // state queries
     gl_api_function<
       void(enum_type, bool_type*),
@@ -3486,6 +3559,12 @@ struct basic_gl_c_api {
       , ClearNamedFramebufferiv("ClearNamedFramebufferiv", traits, *this)
       , ClearNamedFramebufferuiv("ClearNamedFramebufferuiv", traits, *this)
       , ClearNamedFramebufferfi("ClearNamedFramebufferfi", traits, *this)
+      , InvalidateFramebuffer("InvalidateFramebuffer", traits, *this)
+      , InvalidateSubFramebuffer("InvalidateSubFramebuffer", traits, *this)
+      , InvalidateNamedFramebufferData(
+          "InvalidateNamedFramebufferData", traits, *this)
+      , InvalidateNamedFramebufferSubData(
+          "InvalidateNamedFramebufferSubData", traits, *this)
       , FramebufferParameteri("FramebufferParameteri", traits, *this)
       , NamedFramebufferParameteri("NamedFramebufferParameteri", traits, *this)
       , GetFramebufferParameteriv("GetFramebufferParameteriv", traits, *this)
@@ -3509,6 +3588,8 @@ struct basic_gl_c_api {
       , CheckFramebufferStatus("CheckFramebufferStatus", traits, *this)
       , CheckNamedFramebufferStatus(
           "CheckNamedFramebufferStatus", traits, *this)
+      , ReadBuffer("ReadBuffer", traits, *this)
+      , NamedFramebufferReadBuffer("NamedFramebufferReadBuffer", traits, *this)
       , GenTransformFeedbacks("GenTransformFeedbacks", traits, *this)
       , CreateTransformFeedbacks("CreateTransformFeedbacks", traits, *this)
       , DeleteTransformFeedbacks("DeleteTransformFeedbacks", traits, *this)
@@ -3868,6 +3949,9 @@ struct basic_gl_c_api {
           "DrawTransformFeedbackStream", traits, *this)
       , DrawTransformFeedbackStreamInstanced(
           "DrawTransformFeedbackStreamInstanced", traits, *this)
+      , ClampColor("ClampColor", traits, *this)
+      , ReadPixels("ReadPixels", traits, *this)
+      , ReadnPixels("ReadnPixels", traits, *this)
       , GetBooleanv("GetBooleanv", traits, *this)
       , GetBooleani_v("GetBooleani_v", traits, *this)
       , GetIntegerv("GetIntegerv", traits, *this)
