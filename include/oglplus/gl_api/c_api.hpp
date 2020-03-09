@@ -1501,6 +1501,58 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(NamedFramebufferReadBuffer)>
       NamedFramebufferReadBuffer;
 
+    gl_api_function<
+      void(
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        bitfield_type,
+        enum_type),
+      OGLPLUS_GL_STATIC_FUNC(BlitFramebuffer)>
+      BlitFramebuffer;
+
+    gl_api_function<
+      void(
+        uint_type,
+        uint_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        bitfield_type,
+        enum_type),
+      OGLPLUS_GL_STATIC_FUNC(BlitNamedFramebuffer)>
+      BlitNamedFramebuffer;
+
+    gl_api_function<
+      void(
+        uint_type,
+        enum_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        uint_type,
+        enum_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type,
+        sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(CopyImageSubData)>
+      CopyImageSubData;
+
     // transform feedback objects
     gl_api_function<
       void(sizei_type, uint_type*),
@@ -3245,6 +3297,17 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(DrawTransformFeedbackStreamInstanced)>
       DrawTransformFeedbackStreamInstanced;
 
+    // compute
+    gl_api_function<
+      void(uint_type, uint_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(DispatchCompute)>
+      DispatchCompute;
+
+    gl_api_function<
+      void(intptr_type),
+      OGLPLUS_GL_STATIC_FUNC(DispatchComputeIndirect)>
+      DispatchComputeIndirect;
+
     // framebufer reads/writes
     gl_api_function<
       void(enum_type, enum_type),
@@ -3590,6 +3653,9 @@ struct basic_gl_c_api {
           "CheckNamedFramebufferStatus", traits, *this)
       , ReadBuffer("ReadBuffer", traits, *this)
       , NamedFramebufferReadBuffer("NamedFramebufferReadBuffer", traits, *this)
+      , BlitFramebuffer("BlitFramebuffer", traits, *this)
+      , BlitNamedFramebuffer("BlitNamedFramebuffer", traits, *this)
+      , CopyImageSubData("CopyImageSubData", traits, *this)
       , GenTransformFeedbacks("GenTransformFeedbacks", traits, *this)
       , CreateTransformFeedbacks("CreateTransformFeedbacks", traits, *this)
       , DeleteTransformFeedbacks("DeleteTransformFeedbacks", traits, *this)
@@ -3949,6 +4015,8 @@ struct basic_gl_c_api {
           "DrawTransformFeedbackStream", traits, *this)
       , DrawTransformFeedbackStreamInstanced(
           "DrawTransformFeedbackStreamInstanced", traits, *this)
+      , DispatchCompute("DispatchCompute", traits, *this)
+      , DispatchComputeIndirect("DispatchComputeIndirect", traits, *this)
       , ClampColor("ClampColor", traits, *this)
       , ReadPixels("ReadPixels", traits, *this)
       , ReadnPixels("ReadnPixels", traits, *this)
