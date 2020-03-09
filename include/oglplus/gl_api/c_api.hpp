@@ -56,6 +56,15 @@ struct basic_gl_c_api {
     using bitfield_type = typename gl_types::bitfield_type;
     using sync_type = typename gl_types::sync_type;
 
+    using debug_callback_type = void(
+      enum_type,
+      enum_type,
+      uint_type,
+      enum_type,
+      sizei_type,
+      const char_type*,
+      const_void_ptr_type);
+
     template <
       typename Signature,
       c_api_function_ptr<api_traits, nothing_t, Signature> Function>
@@ -3400,6 +3409,72 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(GetStringi)>
       GetStringi;
 
+    gl_api_function<
+      void(debug_callback_type*, const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(DebugMessageCallback)>
+      DebugMessageCallback;
+
+    gl_api_function<
+      void(
+        enum_type,
+        enum_type,
+        enum_type,
+        sizei_type,
+        const uint_type*,
+        bool_type),
+      OGLPLUS_GL_STATIC_FUNC(DebugMessageControl)>
+      DebugMessageControl;
+
+    gl_api_function<
+      void(
+        enum_type, enum_type, uint_type, enum_type, int_type, const char_type*),
+      OGLPLUS_GL_STATIC_FUNC(DebugMessageInsert)>
+      DebugMessageInsert;
+
+    gl_api_function<
+      void(enum_type, uint_type, sizei_type, const char_type*),
+      OGLPLUS_GL_STATIC_FUNC(PushDebugGroup)>
+      PushDebugGroup;
+
+    gl_api_function<void(), OGLPLUS_GL_STATIC_FUNC(PopDebugGroup)>
+      PopDebugGroup;
+
+    gl_api_function<
+      void(enum_type, uint_type, sizei_type, const char_type*),
+      OGLPLUS_GL_STATIC_FUNC(ObjectLabel)>
+      ObjectLabel;
+
+    gl_api_function<
+      void(const_void_ptr_type, sizei_type, const char_type*),
+      OGLPLUS_GL_STATIC_FUNC(ObjectPtrLabel)>
+      ObjectPtrLabel;
+
+    gl_api_function<
+      void(enum_type, uint_type, sizei_type, sizei_type*, char_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetObjectLabel)>
+      GetObjectLabel;
+
+    gl_api_function<
+      void(const_void_ptr_type, sizei_type, sizei_type*, char_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetObjectPtrLabel)>
+      GetObjectPtrLabel;
+
+    gl_api_function<
+      uint_type(
+        uint_type,
+        sizei_type,
+        enum_type*,
+        enum_type*,
+        uint_type*,
+        enum_type*,
+        sizei_type*,
+        char_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetDebugMessageLog)>
+      GetDebugMessageLog;
+
+    gl_api_function<void(enum_type, enum_type), OGLPLUS_GL_STATIC_FUNC(Hint)>
+      Hint;
+
     gl_api_function<void(), OGLPLUS_GL_STATIC_FUNC(Flush)> Flush;
     gl_api_function<void(), OGLPLUS_GL_STATIC_FUNC(Finish)> Finish;
 
@@ -4032,6 +4107,17 @@ struct basic_gl_c_api {
       , GetDoublei_v("GetDoublei_v", traits, *this)
       , GetString("GetString", traits, *this)
       , GetStringi("GetStringi", traits, *this)
+      , DebugMessageCallback("DebugMessageCallback", traits, *this)
+      , DebugMessageControl("DebugMessageControl", traits, *this)
+      , DebugMessageInsert("DebugMessageInsert", traits, *this)
+      , PushDebugGroup("PushDebugGroup", traits, *this)
+      , PopDebugGroup("PopDebugGroup", traits, *this)
+      , ObjectLabel("ObjectLabel", traits, *this)
+      , ObjectPtrLabel("ObjectPtrLabel", traits, *this)
+      , GetObjectLabel("GetObjectLabel", traits, *this)
+      , GetObjectPtrLabel("GetObjectPtrLabel", traits, *this)
+      , GetDebugMessageLog("GetDebugMessageLog", traits, *this)
+      , Hint("Hint", traits, *this)
       , Flush("Flush", traits, *this)
       , Finish("Finish", traits, *this) {
     }
