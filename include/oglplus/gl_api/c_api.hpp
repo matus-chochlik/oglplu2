@@ -1612,6 +1612,21 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(TransformFeedbackBufferRange)>
       TransformFeedbackBufferRange;
 
+    gl_api_function<
+      void(uint_type, enum_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetTransformFeedbackiv)>
+      GetTransformFeedbackiv;
+
+    gl_api_function<
+      void(uint_type, enum_type, uint_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetTransformFeedbacki_v)>
+      GetTransformFeedbacki_v;
+
+    gl_api_function<
+      void(uint_type, enum_type, uint_type, int64_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetTransformFeedbacki64_v)>
+      GetTransformFeedbacki64_v;
+
     // query objects
     gl_api_function<
       void(sizei_type, uint_type*),
@@ -3400,6 +3415,21 @@ struct basic_gl_c_api {
       GetDoublei_v;
 
     gl_api_function<
+      void(enum_type, enum_type, enum_type, sizei_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetInternalformativ)>
+      GetInternalformativ;
+
+    gl_api_function<
+      void(enum_type, enum_type, enum_type, sizei_type, int64_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetInternalformati64v)>
+      GetInternalformati64v;
+
+    gl_api_function<
+      void(enum_type, void_ptr_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetPointerv)>
+      GetPointerv;
+
+    gl_api_function<
       const ubyte_type*(enum_type),
       OGLPLUS_GL_STATIC_FUNC(GetString)>
       GetString;
@@ -3744,6 +3774,9 @@ struct basic_gl_c_api {
           "TransformFeedbackBufferBase", traits, *this)
       , TransformFeedbackBufferRange(
           "TransformFeedbackBufferRange", traits, *this)
+      , GetTransformFeedbackiv("GetTransformFeedbackiv", traits, *this)
+      , GetTransformFeedbacki_v("GetTransformFeedbacki_v", traits, *this)
+      , GetTransformFeedbacki64_v("GetTransformFeedbacki64_v", traits, *this)
       , GenQueries("GenQueries", traits, *this)
       , CreateQueries("CreateQueries", traits, *this)
       , DeleteQueries("DeleteQueries", traits, *this)
@@ -4105,6 +4138,9 @@ struct basic_gl_c_api {
       , GetFloati_v("GetFloati_v", traits, *this)
       , GetDoublev("GetDoublev", traits, *this)
       , GetDoublei_v("GetDoublei_v", traits, *this)
+      , GetInternalformativ("GetInternalformativ", traits, *this)
+      , GetInternalformati64v("GetInternalformati64v", traits, *this)
+      , GetPointerv("GetPointerv", traits, *this)
       , GetString("GetString", traits, *this)
       , GetStringi("GetStringi", traits, *this)
       , DebugMessageCallback("DebugMessageCallback", traits, *this)
