@@ -436,6 +436,11 @@ struct support_level : gl_enum_class<support_level, EAGINE_ID_V(SupportLvl)> {
 struct matrix_mode : gl_enum_class<matrix_mode, EAGINE_ID_V(MatrixMode)> {
     using enum_class::enum_class;
 };
+
+struct path_command_nv
+  : gl_byteenum_class<path_command_nv, EAGINE_ID_V(PathCmdNV)> {
+    using enum_class::enum_class;
+};
 //------------------------------------------------------------------------------
 } // namespace oglp
 } // namespace eagine

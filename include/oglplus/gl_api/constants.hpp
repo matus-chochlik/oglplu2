@@ -28,6 +28,11 @@ public:
     template <bitfield_type value>
     using bitfield_type_c = std::integral_constant<bitfield_type, value>;
 
+    using ubyte_type = typename gl_types::ubyte_type;
+    using ubyte_type_i = identity<ubyte_type>;
+    template <ubyte_type value>
+    using ubyte_type_c = std::integral_constant<ubyte_type, value>;
+
     opt_c_api_constant<
       mp_list<error_code, graphics_reset_status>,
 #ifdef GL_NO_ERROR
@@ -7888,6 +7893,7 @@ public:
 #endif
       debug_type_other;
 
+    // hint target
     opt_c_api_constant<
       mp_list<hint_target>,
 #ifdef GL_LINE_SMOOTH_HINT
@@ -7924,6 +7930,7 @@ public:
 #endif
       fragment_shader_derivative_hint;
 
+    // hint option
     opt_c_api_constant<
       mp_list<hint_option>,
 #ifdef GL_FASTEST
@@ -7973,6 +7980,314 @@ public:
 #endif
       caveat_support;
 
+    // path command
+    opt_c_api_constant<
+      mp_list<path_command_nv>,
+#ifdef GL_CLOSE_PATH_NV
+      ubyte_type_c<GL_CLOSE_PATH_NV>>
+#else
+      ubyte_type_i>
+#endif
+      close_path_nv;
+
+    opt_c_api_constant<
+      mp_list<path_command_nv>,
+#ifdef GL_MOVE_TO_NV
+      ubyte_type_c<GL_MOVE_TO_NV>>
+#else
+      ubyte_type_i>
+#endif
+      move_to_nv;
+
+    opt_c_api_constant<
+      mp_list<path_command_nv>,
+#ifdef GL_RELATIVE_MOVE_TO_NV
+      ubyte_type_c<GL_RELATIVE_MOVE_TO_NV>>
+#else
+      ubyte_type_i>
+#endif
+      relative_move_to_nv;
+
+    opt_c_api_constant<
+      mp_list<path_command_nv>,
+#ifdef GL_LINE_TO_NV
+      ubyte_type_c<GL_LINE_TO_NV>>
+#else
+      ubyte_type_i>
+#endif
+      line_to_nv;
+
+    opt_c_api_constant<
+      mp_list<path_command_nv>,
+#ifdef GL_RELATIVE_LINE_TO_NV
+      ubyte_type_c<GL_RELATIVE_LINE_TO_NV>>
+#else
+      ubyte_type_i>
+#endif
+      relative_line_to_nv;
+
+    opt_c_api_constant<
+      mp_list<path_command_nv>,
+#ifdef GL_HORIZONTAL_LINE_TO_NV
+      ubyte_type_c<GL_HORIZONTAL_LINE_TO_NV>>
+#else
+      ubyte_type_i>
+#endif
+      horizontal_line_to_nv;
+
+    opt_c_api_constant<
+      mp_list<path_command_nv>,
+#ifdef GL_RELATIVE_HORIZONTAL_LINE_TO_NV
+      ubyte_type_c<GL_RELATIVE_HORIZONTAL_LINE_TO_NV>>
+#else
+      ubyte_type_i>
+#endif
+      relative_horizontal_line_to_nv;
+
+    opt_c_api_constant<
+      mp_list<path_command_nv>,
+#ifdef GL_VERTICAL_LINE_TO_NV
+      ubyte_type_c<GL_VERTICAL_LINE_TO_NV>>
+#else
+      ubyte_type_i>
+#endif
+      vertical_line_to_nv;
+
+    opt_c_api_constant<
+      mp_list<path_command_nv>,
+#ifdef GL_RELATIVE_VERTICAL_LINE_TO_NV
+      ubyte_type_c<GL_RELATIVE_VERTICAL_LINE_TO_NV>>
+#else
+      ubyte_type_i>
+#endif
+      relative_vertical_line_to_nv;
+
+    opt_c_api_constant<
+      mp_list<path_command_nv>,
+#ifdef GL_QUADRATIC_CURVE_TO_NV
+      ubyte_type_c<GL_QUADRATIC_CURVE_TO_NV>>
+#else
+      ubyte_type_i>
+#endif
+      quadratic_curve_to_nv;
+
+    opt_c_api_constant<
+      mp_list<path_command_nv>,
+#ifdef GL_RELATIVE_QUADRATIC_CURVE_TO_NV
+      ubyte_type_c<GL_RELATIVE_QUADRATIC_CURVE_TO_NV>>
+#else
+      ubyte_type_i>
+#endif
+      relative_quadratic_curve_to_nv;
+
+    opt_c_api_constant<
+      mp_list<path_command_nv>,
+#ifdef GL_CUBIC_CURVE_TO_NV
+      ubyte_type_c<GL_CUBIC_CURVE_TO_NV>>
+#else
+      ubyte_type_i>
+#endif
+      cubic_curve_to_nv;
+
+    opt_c_api_constant<
+      mp_list<path_command_nv>,
+#ifdef GL_RELATIVE_CUBIC_CURVE_TO_NV
+      ubyte_type_c<GL_RELATIVE_CUBIC_CURVE_TO_NV>>
+#else
+      ubyte_type_i>
+#endif
+      relative_cubic_curve_to_nv;
+
+    opt_c_api_constant<
+      mp_list<path_command_nv>,
+#ifdef GL_SMOOTH_QUADRATIC_CURVE_TO_NV
+      ubyte_type_c<GL_SMOOTH_QUADRATIC_CURVE_TO_NV>>
+#else
+      ubyte_type_i>
+#endif
+      smooth_quadratic_curve_to_nv;
+
+    opt_c_api_constant<
+      mp_list<path_command_nv>,
+#ifdef GL_RELATIVE_SMOOTH_QUADRATIC_CURVE_TO_NV
+      ubyte_type_c<GL_RELATIVE_SMOOTH_QUADRATIC_CURVE_TO_NV>>
+#else
+      ubyte_type_i>
+#endif
+      relative_smooth_quadratic_curve_to_nv;
+
+    opt_c_api_constant<
+      mp_list<path_command_nv>,
+#ifdef GL_SMOOTH_CUBIC_CURVE_TO_NV
+      ubyte_type_c<GL_SMOOTH_CUBIC_CURVE_TO_NV>>
+#else
+      ubyte_type_i>
+#endif
+      smooth_cubic_curve_to_nv;
+
+    opt_c_api_constant<
+      mp_list<path_command_nv>,
+#ifdef GL_RELATIVE_SMOOTH_CUBIC_CURVE_TO_NV
+      ubyte_type_c<GL_RELATIVE_SMOOTH_CUBIC_CURVE_TO_NV>>
+#else
+      ubyte_type_i>
+#endif
+      relative_smooth_cubic_curve_to_nv;
+
+    opt_c_api_constant<
+      mp_list<path_command_nv>,
+#ifdef GL_SMALL_CCW_ARC_TO_NV
+      ubyte_type_c<GL_SMALL_CCW_ARC_TO_NV>>
+#else
+      ubyte_type_i>
+#endif
+      small_ccw_arc_to_nv;
+
+    opt_c_api_constant<
+      mp_list<path_command_nv>,
+#ifdef GL_RELATIVE_SMALL_CCW_ARC_TO_NV
+      ubyte_type_c<GL_RELATIVE_SMALL_CCW_ARC_TO_NV>>
+#else
+      ubyte_type_i>
+#endif
+      relative_small_ccw_arc_to_nv;
+
+    opt_c_api_constant<
+      mp_list<path_command_nv>,
+#ifdef GL_SMALL_CW_ARC_TO_NV
+      ubyte_type_c<GL_SMALL_CW_ARC_TO_NV>>
+#else
+      ubyte_type_i>
+#endif
+      small_cw_arc_to_nv;
+
+    opt_c_api_constant<
+      mp_list<path_command_nv>,
+#ifdef GL_RELATIVE_SMALL_CW_ARC_TO_NV
+      ubyte_type_c<GL_RELATIVE_SMALL_CW_ARC_TO_NV>>
+#else
+      ubyte_type_i>
+#endif
+      relative_small_cw_arc_to_nv;
+
+    opt_c_api_constant<
+      mp_list<path_command_nv>,
+#ifdef GL_LARGE_CCW_ARC_TO_NV
+      ubyte_type_c<GL_LARGE_CCW_ARC_TO_NV>>
+#else
+      ubyte_type_i>
+#endif
+      large_ccw_arc_to_nv;
+
+    opt_c_api_constant<
+      mp_list<path_command_nv>,
+#ifdef GL_RELATIVE_LARGE_CCW_ARC_TO_NV
+      ubyte_type_c<GL_RELATIVE_LARGE_CCW_ARC_TO_NV>>
+#else
+      ubyte_type_i>
+#endif
+      relative_large_ccw_arc_to_nv;
+
+    opt_c_api_constant<
+      mp_list<path_command_nv>,
+#ifdef GL_LARGE_CW_ARC_TO_NV
+      ubyte_type_c<GL_LARGE_CW_ARC_TO_NV>>
+#else
+      ubyte_type_i>
+#endif
+      large_cw_arc_to_nv;
+
+    opt_c_api_constant<
+      mp_list<path_command_nv>,
+#ifdef GL_RELATIVE_LARGE_CW_ARC_TO_NV
+      ubyte_type_c<GL_RELATIVE_LARGE_CW_ARC_TO_NV>>
+#else
+      ubyte_type_i>
+#endif
+      relative_large_cw_arc_to_nv;
+
+    opt_c_api_constant<
+      mp_list<path_command_nv>,
+#ifdef GL_RESTART_PATH_NV
+      ubyte_type_c<GL_RESTART_PATH_NV>>
+#else
+      ubyte_type_i>
+#endif
+      restart_path_nv;
+
+    opt_c_api_constant<
+      mp_list<path_command_nv>,
+#ifdef GL_DUP_FIRST_CUBIC_CURVE_TO_NV
+      ubyte_type_c<GL_DUP_FIRST_CUBIC_CURVE_TO_NV>>
+#else
+      ubyte_type_i>
+#endif
+      dup_first_cubic_curve_to_nv;
+
+    opt_c_api_constant<
+      mp_list<path_command_nv>,
+#ifdef GL_DUP_LAST_CUBIC_CURVE_TO_NV
+      ubyte_type_c<GL_DUP_LAST_CUBIC_CURVE_TO_NV>>
+#else
+      ubyte_type_i>
+#endif
+      dup_last_cubic_curve_to_nv;
+
+    opt_c_api_constant<
+      mp_list<path_command_nv>,
+#ifdef GL_RECT_NV
+      ubyte_type_c<GL_RECT_NV>>
+#else
+      ubyte_type_i>
+#endif
+      rect_nv;
+
+    opt_c_api_constant<
+      mp_list<path_command_nv>,
+#ifdef GL_CIRCULAR_CCW_ARC_TO_NV
+      ubyte_type_c<GL_CIRCULAR_CCW_ARC_TO_NV>>
+#else
+      ubyte_type_i>
+#endif
+      circular_ccw_arc_to_nv;
+
+    opt_c_api_constant<
+      mp_list<path_command_nv>,
+#ifdef GL_CIRCULAR_CW_ARC_TO_NV
+      ubyte_type_c<GL_CIRCULAR_CW_ARC_TO_NV>>
+#else
+      ubyte_type_i>
+#endif
+      circular_cw_arc_to_nv;
+
+    opt_c_api_constant<
+      mp_list<path_command_nv>,
+#ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
+      ubyte_type_c<GL_CIRCULAR_TANGENT_ARC_TO_NV>>
+#else
+      ubyte_type_i>
+#endif
+      circular_tangent_arc_to_nv;
+
+    opt_c_api_constant<
+      mp_list<path_command_nv>,
+#ifdef GL_ARC_TO_NV
+      ubyte_type_c<GL_ARC_TO_NV>>
+#else
+      ubyte_type_i>
+#endif
+      arc_to_nv;
+
+    opt_c_api_constant<
+      mp_list<path_command_nv>,
+#ifdef GL_RELATIVE_ARC_TO_NV
+      ubyte_type_c<GL_RELATIVE_ARC_TO_NV>>
+#else
+      ubyte_type_i>
+#endif
+      relative_arc_to_nv;
+
+    // none
     opt_c_api_constant<
       mp_list<
         support_level,
@@ -8966,6 +9281,49 @@ public:
       , dont_care("DONT_CARE", traits, api)
       , full_support("FULL_SUPPORT", traits, api)
       , caveat_support("CAVEAT_SUPPORT", traits, api)
+      , close_path_nv("CLOSE_PATH_NV", traits, api)
+      , move_to_nv("MOVE_TO_NV", traits, api)
+      , relative_move_to_nv("RELATIVE_MOVE_TO_NV", traits, api)
+      , line_to_nv("LINE_TO_NV", traits, api)
+      , relative_line_to_nv("RELATIVE_LINE_TO_NV", traits, api)
+      , horizontal_line_to_nv("HORIZONTAL_LINE_TO_NV", traits, api)
+      , relative_horizontal_line_to_nv(
+          "RELATIVE_HORIZONTAL_LINE_TO_NV", traits, api)
+      , vertical_line_to_nv("VERTICAL_LINE_TO_NV", traits, api)
+      , relative_vertical_line_to_nv(
+          "RELATIVE_VERTICAL_LINE_TO_NV", traits, api)
+      , quadratic_curve_to_nv("QUADRATIC_CURVE_TO_NV", traits, api)
+      , relative_quadratic_curve_to_nv(
+          "RELATIVE_QUADRATIC_CURVE_TO_NV", traits, api)
+      , cubic_curve_to_nv("CUBIC_CURVE_TO_NV", traits, api)
+      , relative_cubic_curve_to_nv("RELATIVE_CUBIC_CURVE_TO_NV", traits, api)
+      , smooth_quadratic_curve_to_nv(
+          "SMOOTH_QUADRATIC_CURVE_TO_NV", traits, api)
+      , relative_smooth_quadratic_curve_to_nv(
+          "RELATIVE_SMOOTH_QUADRATIC_CURVE_TO_NV", traits, api)
+      , smooth_cubic_curve_to_nv("SMOOTH_CUBIC_CURVE_TO_NV", traits, api)
+      , relative_smooth_cubic_curve_to_nv(
+          "RELATIVE_SMOOTH_CUBIC_CURVE_TO_NV", traits, api)
+      , small_ccw_arc_to_nv("SMALL_CCW_ARC_TO_NV", traits, api)
+      , relative_small_ccw_arc_to_nv(
+          "RELATIVE_SMALL_CCW_ARC_TO_NV", traits, api)
+      , small_cw_arc_to_nv("SMALL_CW_ARC_TO_NV", traits, api)
+      , relative_small_cw_arc_to_nv("RELATIVE_SMALL_CW_ARC_TO_NV", traits, api)
+      , large_ccw_arc_to_nv("LARGE_CCW_ARC_TO_NV", traits, api)
+      , relative_large_ccw_arc_to_nv(
+          "RELATIVE_LARGE_CCW_ARC_TO_NV", traits, api)
+      , large_cw_arc_to_nv("LARGE_CW_ARC_TO_NV", traits, api)
+      , relative_large_cw_arc_to_nv("RELATIVE_LARGE_CW_ARC_TO_NV", traits, api)
+      , restart_path_nv("RESTART_PATH_NV", traits, api)
+      , dup_first_cubic_curve_to_nv("DUP_FIRST_CUBIC_CURVE_TO_NV", traits, api)
+      , dup_last_cubic_curve_to_nv("DUP_LAST_CUBIC_CURVE_TO_NV", traits, api)
+      , rect_nv("RECT_NV", traits, api)
+      , circular_ccw_arc_to_nv("CIRCULAR_CCW_ARC_TO_NV", traits, api)
+      , circular_cw_arc_to_nv("CIRCULAR_CW_ARC_TO_NV", traits, api)
+      , circular_tangent_arc_to_nv("CIRCULAR_TANGENT_ARC_TO_NV", traits, api)
+      , arc_to_nv("ARC_TO_NV", traits, api)
+      , relative_arc_to_nv("RELATIVE_ARC_TO_NV", traits, api)
+
       , none("NONE", traits, api) {
     }
 };
