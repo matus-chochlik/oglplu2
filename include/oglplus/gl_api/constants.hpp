@@ -506,7 +506,7 @@ public:
       shader;
 
     opt_c_api_constant<
-      mp_list<oglp::object_type>,
+      mp_list<oglp::object_type, matrix_mode>,
 #ifdef GL_TEXTURE
       enum_type_c<GL_TEXTURE>>
 #else
@@ -1253,7 +1253,7 @@ public:
       depth_stencil_attachment;
 
     opt_c_api_constant<
-      mp_list<framebuffer_buffer>,
+      mp_list<framebuffer_buffer, matrix_mode>,
 #ifdef GL_COLOR
       enum_type_c<GL_COLOR>>
 #else
@@ -4835,7 +4835,10 @@ public:
       unsigned_int_atomic_counter;
 
     opt_c_api_constant<
-      mp_list<primitive_type, transform_feedback_primitive_type>,
+      mp_list<
+        primitive_type,
+        transform_feedback_primitive_type,
+        old_primitive_type>,
 #ifdef GL_POINTS
       enum_type_c<GL_POINTS>>
 #else
@@ -4844,7 +4847,7 @@ public:
       points;
 
     opt_c_api_constant<
-      mp_list<primitive_type>,
+      mp_list<primitive_type, old_primitive_type>,
 #ifdef GL_LINE_STRIP
       enum_type_c<GL_LINE_STRIP>>
 #else
@@ -4853,7 +4856,7 @@ public:
       line_strip;
 
     opt_c_api_constant<
-      mp_list<primitive_type>,
+      mp_list<primitive_type, old_primitive_type>,
 #ifdef GL_LINE_LOOP
       enum_type_c<GL_LINE_LOOP>>
 #else
@@ -4862,7 +4865,10 @@ public:
       line_loop;
 
     opt_c_api_constant<
-      mp_list<primitive_type, transform_feedback_primitive_type>,
+      mp_list<
+        primitive_type,
+        old_primitive_type,
+        transform_feedback_primitive_type>,
 #ifdef GL_LINES
       enum_type_c<GL_LINES>>
 #else
@@ -4871,7 +4877,7 @@ public:
       lines;
 
     opt_c_api_constant<
-      mp_list<primitive_type>,
+      mp_list<primitive_type, old_primitive_type>,
 #ifdef GL_TRIANGLE_STRIP
       enum_type_c<GL_TRIANGLE_STRIP>>
 #else
@@ -4880,7 +4886,7 @@ public:
       triangle_strip;
 
     opt_c_api_constant<
-      mp_list<primitive_type>,
+      mp_list<primitive_type, old_primitive_type>,
 #ifdef GL_TRIANGLE_FAN
       enum_type_c<GL_TRIANGLE_FAN>>
 #else
@@ -4891,6 +4897,7 @@ public:
     opt_c_api_constant<
       mp_list<
         primitive_type,
+        old_primitive_type,
         tess_gen_primitive_type,
         transform_feedback_primitive_type>,
 #ifdef GL_TRIANGLES
@@ -4899,6 +4906,33 @@ public:
       enum_type_i>
 #endif
       triangles;
+
+    opt_c_api_constant<
+      mp_list<old_primitive_type, tess_gen_primitive_type>,
+#ifdef GL_QUADS
+      enum_type_c<GL_QUADS>>
+#else
+      enum_type_i>
+#endif
+      quads;
+
+    opt_c_api_constant<
+      mp_list<old_primitive_type>,
+#ifdef GL_QUAD_STRIP
+      enum_type_c<GL_QUAD_STRIP>>
+#else
+      enum_type_i>
+#endif
+      quad_strip;
+
+    opt_c_api_constant<
+      mp_list<old_primitive_type>,
+#ifdef GL_POLYGON
+      enum_type_c<GL_POLYGON>>
+#else
+      enum_type_i>
+#endif
+      polygon;
 
     opt_c_api_constant<
       mp_list<primitive_type>,
@@ -4944,15 +4978,6 @@ public:
       enum_type_i>
 #endif
       patches;
-
-    opt_c_api_constant<
-      mp_list<tess_gen_primitive_type>,
-#ifdef GL_QUADS
-      enum_type_c<GL_QUADS>>
-#else
-      enum_type_i>
-#endif
-      quads;
 
     opt_c_api_constant<
       mp_list<tess_gen_primitive_type>,
@@ -7637,6 +7662,24 @@ public:
       view_compatibility_class;
 
     opt_c_api_constant<
+      mp_list<matrix_mode>,
+#ifdef GL_PROJECTION
+      enum_type_c<GL_PROJECTION>>
+#else
+      enum_type_i>
+#endif
+      projection;
+
+    opt_c_api_constant<
+      mp_list<matrix_mode>,
+#ifdef GL_MODELVIEW
+      enum_type_c<GL_MODELVIEW>>
+#else
+      enum_type_i>
+#endif
+      modelview;
+
+    opt_c_api_constant<
       mp_list<debug_output_severity>,
 #ifdef GL_DEBUG_SEVERITY_HIGH
       enum_type_c<GL_DEBUG_SEVERITY_HIGH>>
@@ -8563,12 +8606,14 @@ public:
       , triangle_strip("TRIANGLE_STRIP", traits, api)
       , triangle_fan("TRIANGLE_FAN", traits, api)
       , triangles("TRIANGLES", traits, api)
+      , quads("QUADS", traits, api)
+      , quad_strip("QUAD_STRIP", traits, api)
+      , polygon("POLYGON", traits, api)
       , lines_adjacency("LINES_ADJACENCY", traits, api)
       , line_strip_adjacency("LINE_STRIP_ADJACENCY", traits, api)
       , triangles_adjacency("TRIANGLES_ADJACENCY", traits, api)
       , triangle_strip_adjacency("TRIANGLE_STRIP_ADJACENCY", traits, api)
       , patches("PATCHES", traits, api)
-      , quads("QUADS", traits, api)
       , isolines("ISOLINES", traits, api)
       , fractional_even("FRACTIONAL_EVEN", traits, api)
       , fractional_odd("FRACTIONAL_ODD", traits, api)
@@ -8887,6 +8932,8 @@ public:
       , clear_texture("CLEAR_TEXTURE", traits, api)
       , texture_view("TEXTURE_VIEW", traits, api)
       , view_compatibility_class("VIEW_COMPATIBILITY_CLASS", traits, api)
+      , projection("PROJECTION", traits, api)
+      , modelview("MODELVIEW", traits, api)
       , debug_severity_high("DEBUG_SEVERITY_HIGH", traits, api)
       , debug_severity_medium("DEBUG_SEVERITY_MEDIUM", traits, api)
       , debug_severity_low("DEBUG_SEVERITY_LOW", traits, api)

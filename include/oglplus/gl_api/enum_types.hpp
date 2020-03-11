@@ -269,6 +269,11 @@ struct primitive_type : gl_enum_class<primitive_type, EAGINE_ID_V(PrmtveType)> {
     using enum_class::enum_class;
 };
 
+struct old_primitive_type
+  : gl_enum_class<old_primitive_type, EAGINE_ID_V(OldPrmType)> {
+    using enum_class::enum_class;
+};
+
 struct tess_gen_primitive_type
   : gl_enum_class<tess_gen_primitive_type, EAGINE_ID_V(TsGnPrmTyp)> {
     using enum_class::enum_class;
@@ -425,6 +430,10 @@ struct debug_output_type
 };
 
 struct support_level : gl_enum_class<support_level, EAGINE_ID_V(SupportLvl)> {
+    using enum_class::enum_class;
+};
+
+struct matrix_mode : gl_enum_class<matrix_mode, EAGINE_ID_V(MatrixMode)> {
     using enum_class::enum_class;
 };
 //------------------------------------------------------------------------------
