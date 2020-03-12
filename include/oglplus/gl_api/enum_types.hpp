@@ -438,7 +438,21 @@ struct matrix_mode : gl_enum_class<matrix_mode, EAGINE_ID_V(MatrixMode)> {
 };
 
 struct path_command_nv
-  : gl_byteenum_class<path_command_nv, EAGINE_ID_V(PathCmdNV)> {
+  : gl_ubyte_class<path_command_nv, EAGINE_ID_V(PathComand)> {
+    using enum_class::enum_class;
+};
+
+struct path_cap_style_nv
+  : gl_enum_class<path_cap_style_nv, EAGINE_ID_V(PathCapSty)> {
+    using enum_class::enum_class;
+};
+
+struct path_color_format_nv
+  : gl_enum_class<path_color_format_nv, EAGINE_ID_V(PathClrFmt)> {
+    using enum_class::enum_class;
+};
+
+struct path_color_nv : gl_enum_class<path_color_nv, EAGINE_ID_V(PathColor)> {
     using enum_class::enum_class;
 };
 //------------------------------------------------------------------------------

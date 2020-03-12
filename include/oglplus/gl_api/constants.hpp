@@ -2184,7 +2184,7 @@ public:
       blue;
 
     opt_c_api_constant<
-      mp_list<texture_swizzle_mode>,
+      mp_list<texture_swizzle_mode, path_color_format_nv>,
 #ifdef GL_ALPHA
       enum_type_c<GL_ALPHA>>
 #else
@@ -6074,7 +6074,7 @@ public:
       rg;
 
     opt_c_api_constant<
-      mp_list<pixel_internal_format, pixel_format>,
+      mp_list<pixel_internal_format, pixel_format, path_color_format_nv>,
 #ifdef GL_RGB
       enum_type_c<GL_RGB>>
 #else
@@ -6083,7 +6083,7 @@ public:
       rgb;
 
     opt_c_api_constant<
-      mp_list<pixel_internal_format, pixel_format>,
+      mp_list<pixel_internal_format, pixel_format, path_color_format_nv>,
 #ifdef GL_RGBA
       enum_type_c<GL_RGBA>>
 #else
@@ -8287,6 +8287,87 @@ public:
 #endif
       relative_arc_to_nv;
 
+    opt_c_api_constant<
+      mp_list<path_cap_style_nv>,
+#ifdef GL_FLAT
+      enum_type_c<GL_FLAT>>
+#else
+      enum_type_i>
+#endif
+      flat;
+
+    opt_c_api_constant<
+      mp_list<path_cap_style_nv>,
+#ifdef GL_SQUARE_NV
+      enum_type_c<GL_SQUARE_NV>>
+#else
+      enum_type_i>
+#endif
+      square_nv;
+
+    opt_c_api_constant<
+      mp_list<path_cap_style_nv>,
+#ifdef GL_ROUND_NV
+      enum_type_c<GL_ROUND_NV>>
+#else
+      enum_type_i>
+#endif
+      round_nv;
+
+    opt_c_api_constant<
+      mp_list<path_cap_style_nv>,
+#ifdef GL_TRIANGULAR_NV
+      enum_type_c<GL_TRIANGULAR_NV>>
+#else
+      enum_type_i>
+#endif
+      triangular_nv;
+
+    opt_c_api_constant<
+      mp_list<path_color_format_nv>,
+#ifdef GL_LUMINANCE
+      enum_type_c<GL_LUMINANCE>>
+#else
+      enum_type_i>
+#endif
+      luminance;
+
+    opt_c_api_constant<
+      mp_list<path_color_format_nv>,
+#ifdef GL_INTENSITY
+      enum_type_c<GL_INTENSITY>>
+#else
+      enum_type_i>
+#endif
+      intensity;
+
+    opt_c_api_constant<
+      mp_list<path_color_format_nv>,
+#ifdef GL_LUMINANCE_ALPHA
+      enum_type_c<GL_LUMINANCE_ALPHA>>
+#else
+      enum_type_i>
+#endif
+      luminance_alpha;
+
+    opt_c_api_constant<
+      mp_list<path_color_nv>,
+#ifdef GL_PRIMARY_COLOR_NV
+      enum_type_c<GL_PRIMARY_COLOR_NV>>
+#else
+      enum_type_i>
+#endif
+      primary_color_nv;
+
+    opt_c_api_constant<
+      mp_list<path_color_nv>,
+#ifdef GL_SECONDARY_COLOR_NV
+      enum_type_c<GL_SECONDARY_COLOR_NV>>
+#else
+      enum_type_i>
+#endif
+      secondary_color_nv;
+
     // none
     opt_c_api_constant<
       mp_list<
@@ -9323,7 +9404,15 @@ public:
       , circular_tangent_arc_to_nv("CIRCULAR_TANGENT_ARC_TO_NV", traits, api)
       , arc_to_nv("ARC_TO_NV", traits, api)
       , relative_arc_to_nv("RELATIVE_ARC_TO_NV", traits, api)
-
+      , flat("FLAT", traits, api)
+      , square_nv("SQUARE_NV", traits, api)
+      , round_nv("ROUND_NV", traits, api)
+      , triangular_nv("TRIANGULAR_NV", traits, api)
+      , luminance("LUMINANCE", traits, api)
+      , intensity("INTENSITY", traits, api)
+      , luminance_alpha("LUMINANCE_ALPHA", traits, api)
+      , primary_color_nv("PRIMARY_COLOR_NV", traits, api)
+      , secondary_color_nv("SECONDARY_COLOR_NV", traits, api)
       , none("NONE", traits, api) {
     }
 };
