@@ -5255,7 +5255,7 @@ public:
       decr;
 
     opt_c_api_constant<
-      mp_list<stencil_operation, logic_operation>,
+      mp_list<stencil_operation, logic_operation, path_fill_mode_nv>,
 #ifdef GL_INVERT
       enum_type_c<GL_INVERT>>
 #else
@@ -8368,6 +8368,87 @@ public:
 #endif
       secondary_color_nv;
 
+    opt_c_api_constant<
+      mp_list<path_dash_offset_reset_nv>,
+#ifdef GL_MOVE_TO_RESET_NV
+      enum_type_c<GL_MOVE_TO_RESET_NV>>
+#else
+      enum_type_i>
+#endif
+      move_to_reset_nv;
+
+    opt_c_api_constant<
+      mp_list<path_dash_offset_reset_nv>,
+#ifdef GL_MOVE_TO_CONTINUES_NV
+      enum_type_c<GL_MOVE_TO_CONTINUES_NV>>
+#else
+      enum_type_i>
+#endif
+      move_to_continues_nv;
+
+    opt_c_api_constant<
+      mp_list<path_fill_cover_mode_nv>,
+#ifdef GL_CONVEX_HULL_NV
+      enum_type_c<GL_CONVEX_HULL_NV>>
+#else
+      enum_type_i>
+#endif
+      convex_hull_nv;
+
+    opt_c_api_constant<
+      mp_list<path_fill_cover_mode_nv>,
+#ifdef GL_BOUNDING_BOX_NV
+      enum_type_c<GL_BOUNDING_BOX_NV>>
+#else
+      enum_type_i>
+#endif
+      bounding_box_nv;
+
+    opt_c_api_constant<
+      mp_list<path_fill_cover_mode_nv>,
+#ifdef GL_BOUNDING_BOX_OF_BOUNDING_BOXES_NV
+      enum_type_c<GL_BOUNDING_BOX_OF_BOUNDING_BOXES_NV>>
+#else
+      enum_type_i>
+#endif
+      bounding_box_of_bounding_boxes_nv;
+
+    opt_c_api_constant<
+      mp_list<path_fill_mode_nv>,
+#ifdef GL_COUNT_UP_NV
+      enum_type_c<GL_COUNT_UP_NV>>
+#else
+      enum_type_i>
+#endif
+      count_up_nv;
+
+    opt_c_api_constant<
+      mp_list<path_fill_mode_nv>,
+#ifdef GL_COUNT_DOWN_NV
+      enum_type_c<GL_COUNT_DOWN_NV>>
+#else
+      enum_type_i>
+#endif
+      count_down_nv;
+
+    opt_c_api_constant<
+      mp_list<path_font_style_nv>,
+#ifdef GL_BOLD_BIT_NV
+      bitfield_type_c<GL_BOLD_BIT_NV>>
+#else
+      bitfield_type_i>
+#endif
+      bold_bit_nv;
+
+    opt_c_api_constant<
+      mp_list<path_font_style_nv>,
+#ifdef GL_ITALIC_BIT_NV
+      bitfield_type_c<GL_ITALIC_BIT_NV>>
+#else
+      bitfield_type_i>
+#endif
+      italic_bit_nv;
+
     // none
     opt_c_api_constant<
       mp_list<
@@ -9413,6 +9494,16 @@ public:
       , luminance_alpha("LUMINANCE_ALPHA", traits, api)
       , primary_color_nv("PRIMARY_COLOR_NV", traits, api)
       , secondary_color_nv("SECONDARY_COLOR_NV", traits, api)
+      , move_to_reset_nv("MOVE_TO_RESET_NV", traits, api)
+      , move_to_continues_nv("MOVE_TO_CONTINUES_NV", traits, api)
+      , convex_hull_nv("CONVEX_HULL_NV", traits, api)
+      , bounding_box_nv("BOUNDING_BOX_NV", traits, api)
+      , bounding_box_of_bounding_boxes_nv(
+          "BOUNDING_BOX_OF_BOUNDING_BOXES_NV", traits, api)
+      , count_up_nv("COUNT_UP_NV", traits, api)
+      , count_down_nv("COUNT_DOWN_NV", traits, api)
+      , bold_bit_nv("BOLD_BIT_NV", traits, api)
+      , italic_bit_nv("ITALIC_BIT_NV", traits, api)
       , none("NONE", traits, api) {
     }
 };

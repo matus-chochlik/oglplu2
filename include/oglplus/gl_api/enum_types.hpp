@@ -455,6 +455,26 @@ struct path_color_format_nv
 struct path_color_nv : gl_enum_class<path_color_nv, EAGINE_ID_V(PathColor)> {
     using enum_class::enum_class;
 };
+
+struct path_dash_offset_reset_nv
+  : gl_enum_class<path_dash_offset_reset_nv, EAGINE_ID_V(PathDsORst)> {
+    using enum_class::enum_class;
+};
+
+struct path_fill_cover_mode_nv
+  : gl_enum_class<path_fill_cover_mode_nv, EAGINE_ID_V(PathFlCvrM)> {
+    using enum_class::enum_class;
+};
+
+struct path_fill_mode_nv
+  : gl_enum_class<path_fill_mode_nv, EAGINE_ID_V(PathFillMd)> {
+    using enum_class::enum_class;
+};
+
+struct path_font_style_nv
+  : gl_enum_class<path_font_style_nv, EAGINE_ID_V(PathFntSty)> {
+    using enum_class::enum_class;
+};
 //------------------------------------------------------------------------------
 } // namespace oglp
 } // namespace eagine
