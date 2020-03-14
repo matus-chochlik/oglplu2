@@ -1232,6 +1232,16 @@ public:
 
     opt_c_api_constant<
       mp_list<framebuffer_attachment>,
+#ifdef GL_COLOR_ATTACHMENT0
+      enum_type_c<GL_COLOR_ATTACHMENT0>,
+#else
+      enum_type_i,
+#endif
+      true>
+      color_attachment0;
+
+    opt_c_api_constant<
+      mp_list<framebuffer_attachment>,
 #ifdef GL_DEPTH_ATTACHMENT
       enum_type_c<GL_DEPTH_ATTACHMENT>>
 #else
@@ -1652,6 +1662,16 @@ public:
       bitfield_type_i>
 #endif
       map_unsynchronized_bit;
+
+    opt_c_api_constant<
+      mp_list<oglp::texture_unit>,
+#ifdef GL_TEXTURE0
+      enum_type_c<GL_TEXTURE0>,
+#else
+      enum_type_i,
+#endif
+      true>
+      texture0;
 
     opt_c_api_constant<
       mp_list<oglp::texture_target>,
@@ -3022,6 +3042,16 @@ public:
 
     opt_c_api_constant<
       mp_list<capability>,
+#ifdef GL_CLIP_DISTANCE0
+      enum_type_c<GL_CLIP_DISTANCE0>,
+#else
+      enum_type_i,
+#endif
+      true>
+      clip_distance0;
+
+    opt_c_api_constant<
+      mp_list<capability>,
 #ifdef GL_CULL_FACE
       enum_type_c<GL_CULL_FACE>>
 #else
@@ -3563,6 +3593,16 @@ public:
       enum_type_i>
 #endif
       current_program;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
+#ifdef GL_DRAW_BUFFER0
+      enum_type_c<GL_DRAW_BUFFER0>,
+#else
+      enum_type_i,
+#endif
+      true>
+      draw_buffer0;
 
     opt_c_api_constant<
       mp_list<integer_query>,
@@ -9263,6 +9303,7 @@ public:
           "FRAMEBUFFER_ATTACHMENT_LAYERED", traits, api)
       , framebuffer_attachment_texture_layer(
           "FRAMEBUFFER_ATTACHMENT_TEXTURE_LAYER", traits, api)
+      , color_attachment0("COLOR_ATTACHMENT0", traits, api)
       , depth_attachment("DEPTH_ATTACHMENT", traits, api)
       , stencil_attachment("STENCIL_ATTACHMENT", traits, api)
       , depth_stencil_attachment("DEPTH_STENCIL_ATTACHMENT", traits, api)
@@ -9310,6 +9351,7 @@ public:
       , map_invalidate_buffer_bit("MAP_INVALIDATE_BUFFER_BIT", traits, api)
       , map_flush_explicit_bit("MAP_FLUSH_EXPLICIT_BIT", traits, api)
       , map_unsynchronized_bit("MAP_UNSYNCHRONIZED_BIT", traits, api)
+      , texture0("TEXTURE0", traits, api)
       , texture_3d("TEXTURE_3D", traits, api)
       , texture_2d("TEXTURE_2D", traits, api)
       , texture_1d("TEXTURE_1D", traits, api)
@@ -9483,6 +9525,7 @@ public:
       , top_level_array_stride("TOP_LEVEL_ARRAY_STRIDE", traits, api)
       , type("TYPE", traits, api)
       , blend("BLEND", traits, api)
+      , clip_distance0("CLIP_DISTANCE0", traits, api)
       , cull_face("CULL_FACE", traits, api)
       , depth_clamp("DEPTH_CLAMP", traits, api)
       , depth_test("DEPTH_TEST", traits, api)
@@ -9554,6 +9597,7 @@ public:
       , transform_feedback_binding("TRANSFORM_FEEDBACK_BINDING", traits, api)
       , vertex_array_binding("VERTEX_ARRAY_BINDING", traits, api)
       , current_program("CURRENT_PROGRAM", traits, api)
+      , draw_buffer0("DRAW_BUFFER0", traits, api)
       , max_vertex_uniform_blocks("MAX_VERTEX_UNIFORM_BLOCKS", traits, api)
       , max_tess_control_uniform_blocks(
           "MAX_TESS_CONTROL_UNIFORM_BLOCKS", traits, api)

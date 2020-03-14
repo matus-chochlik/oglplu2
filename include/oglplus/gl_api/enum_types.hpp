@@ -138,6 +138,10 @@ struct buffer_clear_bit
     using enum_class::enum_class;
 };
 
+struct texture_unit : gl_enum_class<texture_unit, EAGINE_ID_V(TexUnit)> {
+    using enum_class::enum_class;
+};
+
 struct texture_target : gl_enum_class<texture_target, EAGINE_ID_V(TexTarget)> {
     using enum_class::enum_class;
 };
