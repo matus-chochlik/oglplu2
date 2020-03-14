@@ -8387,7 +8387,7 @@ public:
       move_to_continues_nv;
 
     opt_c_api_constant<
-      mp_list<oglp::path_fill_cover_mode_nv>,
+      mp_list<oglp::path_stroke_cover_mode_nv, oglp::path_fill_cover_mode_nv>,
 #ifdef GL_CONVEX_HULL_NV
       enum_type_c<GL_CONVEX_HULL_NV>>
 #else
@@ -8396,7 +8396,7 @@ public:
       convex_hull_nv;
 
     opt_c_api_constant<
-      mp_list<oglp::path_fill_cover_mode_nv>,
+      mp_list<oglp::path_stroke_cover_mode_nv, oglp::path_fill_cover_mode_nv>,
 #ifdef GL_BOUNDING_BOX_NV
       enum_type_c<GL_BOUNDING_BOX_NV>>
 #else
@@ -8405,7 +8405,7 @@ public:
       bounding_box_nv;
 
     opt_c_api_constant<
-      mp_list<oglp::path_fill_cover_mode_nv>,
+      mp_list<oglp::path_stroke_cover_mode_nv, oglp::path_fill_cover_mode_nv>,
 #ifdef GL_BOUNDING_BOX_OF_BOUNDING_BOXES_NV
       enum_type_c<GL_BOUNDING_BOX_OF_BOUNDING_BOXES_NV>>
 #else
@@ -8989,6 +8989,96 @@ public:
 #endif
       path_stroke_bounding_box_nv;
 
+    opt_c_api_constant<
+      mp_list<path_transform_type_nv>,
+#ifdef GL_TRANSLATE_X_NV
+      enum_type_c<GL_TRANSLATE_X_NV>>
+#else
+      enum_type_i>
+#endif
+      translate_x_nv;
+
+    opt_c_api_constant<
+      mp_list<path_transform_type_nv>,
+#ifdef GL_TRANSLATE_Y_NV
+      enum_type_c<GL_TRANSLATE_Y_NV>>
+#else
+      enum_type_i>
+#endif
+      translate_y_nv;
+
+    opt_c_api_constant<
+      mp_list<path_transform_type_nv>,
+#ifdef GL_TRANSLATE_2D_NV
+      enum_type_c<GL_TRANSLATE_2D_NV>>
+#else
+      enum_type_i>
+#endif
+      translate_2d_nv;
+
+    opt_c_api_constant<
+      mp_list<path_transform_type_nv>,
+#ifdef GL_TRANSLATE_3D_NV
+      enum_type_c<GL_TRANSLATE_3D_NV>>
+#else
+      enum_type_i>
+#endif
+      translate_3d_nv;
+
+    opt_c_api_constant<
+      mp_list<path_transform_type_nv>,
+#ifdef GL_AFFINE_2D_NV
+      enum_type_c<GL_AFFINE_2D_NV>>
+#else
+      enum_type_i>
+#endif
+      affine_2d_nv;
+
+    opt_c_api_constant<
+      mp_list<path_transform_type_nv>,
+#ifdef GL_AFFINE_3D_NV
+      enum_type_c<GL_AFFINE_3D_NV>>
+#else
+      enum_type_i>
+#endif
+      affine_3d_nv;
+
+    opt_c_api_constant<
+      mp_list<path_transform_type_nv>,
+#ifdef GL_TRANSPOSE_AFFINE_2D_NV
+      enum_type_c<GL_TRANSPOSE_AFFINE_2D_NV>>
+#else
+      enum_type_i>
+#endif
+      transpose_affine_2d_nv;
+
+    opt_c_api_constant<
+      mp_list<path_transform_type_nv>,
+#ifdef GL_TRANSPOSE_AFFINE_3D_NV
+      enum_type_c<GL_TRANSPOSE_AFFINE_3D_NV>>
+#else
+      enum_type_i>
+#endif
+      transpose_affine_3d_nv;
+
+    opt_c_api_constant<
+      mp_list<path_text_encoding_nv>,
+#ifdef GL_UTF8_NV
+      enum_type_c<GL_UTF8_NV>>
+#else
+      enum_type_i>
+#endif
+      utf8_nv;
+
+    opt_c_api_constant<
+      mp_list<path_text_encoding_nv>,
+#ifdef GL_UTF16_NV
+      enum_type_c<GL_UTF16_NV>>
+#else
+      enum_type_i>
+#endif
+      utf16_nv;
+
     // none
     opt_c_api_constant<
       mp_list<
@@ -8998,7 +9088,8 @@ public:
         oglp::texture_compare_mode,
         oglp::context_release_behavior,
         oglp::path_join_style_nv,
-        oglp::path_gen_mode_nv>,
+        oglp::path_gen_mode_nv,
+        oglp::path_transform_type_nv>,
 #ifdef GL_NONE
       bitfield_type_c<GL_NONE>>
 #else
@@ -10116,6 +10207,16 @@ public:
       , path_stroke_bound_nv("PATH_STROKE_BOUND_NV", traits, api)
       , path_fill_bounding_box_nv("PATH_FILL_BOUNDING_BOX_NV", traits, api)
       , path_stroke_bounding_box_nv("PATH_STROKE_BOUNDING_BOX_NV", traits, api)
+      , translate_x_nv("TRANSLATE_X_NV", traits, api)
+      , translate_y_nv("TRANSLATE_Y_NV", traits, api)
+      , translate_2d_nv("TRANSLATE_2D_NV", traits, api)
+      , translate_3d_nv("TRANSLATE_3D_NV", traits, api)
+      , affine_2d_nv("AFFINE_2D_NV", traits, api)
+      , affine_3d_nv("AFFINE_3D_NV", traits, api)
+      , transpose_affine_2d_nv("TRANSPOSE_AFFINE_2D_NV", traits, api)
+      , transpose_affine_3d_nv("TRANSPOSE_AFFINE_3D_NV", traits, api)
+      , utf8_nv("UTF8_NV", traits, api)
+      , utf16_nv("UTF16_NV", traits, api)
       , none("NONE", traits, api) {
     }
 };

@@ -461,6 +461,11 @@ struct path_dash_offset_reset_nv
     using enum_class::enum_class;
 };
 
+struct path_stroke_cover_mode_nv
+  : gl_enum_class<path_stroke_cover_mode_nv, EAGINE_ID_V(PathStCvrM)> {
+    using enum_class::enum_class;
+};
+
 struct path_fill_cover_mode_nv
   : gl_enum_class<path_fill_cover_mode_nv, EAGINE_ID_V(PathFlCvrM)> {
     using enum_class::enum_class;
@@ -512,6 +517,16 @@ struct path_missing_glyph_nv
 
 struct path_parameter_nv
   : gl_bitfield_class<path_parameter_nv, EAGINE_ID_V(PathPrmter)> {
+    using enum_class::enum_class;
+};
+
+struct path_text_encoding_nv
+  : gl_bitfield_class<path_text_encoding_nv, EAGINE_ID_V(PathTxtEnc)> {
+    using enum_class::enum_class;
+};
+
+struct path_transform_type_nv
+  : gl_bitfield_class<path_transform_type_nv, EAGINE_ID_V(PathTrnsfT)> {
     using enum_class::enum_class;
 };
 //------------------------------------------------------------------------------
