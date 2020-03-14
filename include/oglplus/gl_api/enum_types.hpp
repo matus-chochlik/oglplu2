@@ -472,7 +472,31 @@ struct path_fill_mode_nv
 };
 
 struct path_font_style_nv
-  : gl_enum_class<path_font_style_nv, EAGINE_ID_V(PathFntSty)> {
+  : gl_bitfield_class<path_font_style_nv, EAGINE_ID_V(PathFntSty)> {
+    using enum_class::enum_class;
+};
+
+struct path_join_style_nv
+  : gl_bitfield_class<path_join_style_nv, EAGINE_ID_V(PathJinSty)> {
+    using enum_class::enum_class;
+};
+
+struct path_font_target_nv
+  : gl_enum_class<path_font_target_nv, EAGINE_ID_V(PathFntTgt)> {
+    using enum_class::enum_class;
+};
+
+struct path_format_nv : gl_enum_class<path_format_nv, EAGINE_ID_V(PathFormat)> {
+    using enum_class::enum_class;
+};
+
+struct path_gen_mode_nv
+  : gl_enum_class<path_gen_mode_nv, EAGINE_ID_V(PathGenMod)> {
+    using enum_class::enum_class;
+};
+
+struct path_list_mode_nv
+  : gl_enum_class<path_list_mode_nv, EAGINE_ID_V(PathLstMod)> {
     using enum_class::enum_class;
 };
 //------------------------------------------------------------------------------

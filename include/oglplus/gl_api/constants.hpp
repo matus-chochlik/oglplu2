@@ -8306,7 +8306,7 @@ public:
       square_nv;
 
     opt_c_api_constant<
-      mp_list<path_cap_style_nv>,
+      mp_list<path_cap_style_nv, path_join_style_nv>,
 #ifdef GL_ROUND_NV
       enum_type_c<GL_ROUND_NV>>
 #else
@@ -8432,6 +8432,33 @@ public:
       count_down_nv;
 
     opt_c_api_constant<
+      mp_list<path_join_style_nv>,
+#ifdef GL_BEVEL_NV
+      enum_type_c<GL_BEVEL_NV>>
+#else
+      enum_type_i>
+#endif
+      bevel_nv;
+
+    opt_c_api_constant<
+      mp_list<path_join_style_nv>,
+#ifdef GL_MITER_REVERT_NV
+      enum_type_c<GL_MITER_REVERT_NV>>
+#else
+      enum_type_i>
+#endif
+      miter_revert_nv;
+
+    opt_c_api_constant<
+      mp_list<path_join_style_nv>,
+#ifdef GL_MITER_TRUNCATE_NV
+      enum_type_c<GL_MITER_TRUNCATE_NV>>
+#else
+      enum_type_i>
+#endif
+      miter_truncate_nv;
+
+    opt_c_api_constant<
       mp_list<path_font_style_nv>,
 #ifdef GL_BOLD_BIT_NV
       bitfield_type_c<GL_BOLD_BIT_NV>>
@@ -8449,6 +8476,105 @@ public:
 #endif
       italic_bit_nv;
 
+    opt_c_api_constant<
+      mp_list<path_font_target_nv>,
+#ifdef GL_STANDARD_FONT_NAME_NV
+      enum_type_c<GL_STANDARD_FONT_NAME_NV>>
+#else
+      enum_type_i>
+#endif
+      standard_font_name_nv;
+
+    opt_c_api_constant<
+      mp_list<path_font_target_nv>,
+#ifdef GL_SYSTEM_FONT_NAME_NV
+      enum_type_c<GL_SYSTEM_FONT_NAME_NV>>
+#else
+      enum_type_i>
+#endif
+      system_font_name_nv;
+
+    opt_c_api_constant<
+      mp_list<path_font_target_nv>,
+#ifdef GL_FILE_NAME_NV
+      enum_type_c<GL_FILE_NAME_NV>>
+#else
+      enum_type_i>
+#endif
+      file_name_nv;
+
+    opt_c_api_constant<
+      mp_list<path_format_nv>,
+#ifdef GL_PATH_FORMAT_SVG_NV
+      enum_type_c<GL_PATH_FORMAT_SVG_NV>>
+#else
+      enum_type_i>
+#endif
+      path_format_svg_nv;
+
+    opt_c_api_constant<
+      mp_list<path_format_nv>,
+#ifdef GL_PATH_FORMAT_PS_NV
+      enum_type_c<GL_PATH_FORMAT_PS_NV>>
+#else
+      enum_type_i>
+#endif
+      path_format_ps_nv;
+
+    opt_c_api_constant<
+      mp_list<path_gen_mode_nv>,
+#ifdef GL_EYE_LINEAR
+      enum_type_c<GL_EYE_LINEAR>>
+#else
+      enum_type_i>
+#endif
+      eye_linear;
+
+    opt_c_api_constant<
+      mp_list<path_gen_mode_nv>,
+#ifdef GL_OBJECT_LINEAR
+      enum_type_c<GL_OBJECT_LINEAR>>
+#else
+      enum_type_i>
+#endif
+      object_linear;
+
+    opt_c_api_constant<
+      mp_list<path_gen_mode_nv>,
+#ifdef GL_PATH_OBJECT_BOUNDING_BOX_NV
+      enum_type_c<GL_PATH_OBJECT_BOUNDING_BOX_NV>>
+#else
+      enum_type_i>
+#endif
+      path_object_bounding_box_nv;
+
+    opt_c_api_constant<
+      mp_list<path_list_mode_nv>,
+#ifdef GL_ACCUM_ADJACENT_PAIRS_NV
+      enum_type_c<GL_ACCUM_ADJACENT_PAIRS_NV>>
+#else
+      enum_type_i>
+#endif
+      accum_adjacent_pairs_nv;
+
+    opt_c_api_constant<
+      mp_list<path_list_mode_nv>,
+#ifdef GL_ADJACENT_PAIRS_NV
+      enum_type_c<GL_ADJACENT_PAIRS_NV>>
+#else
+      enum_type_i>
+#endif
+      adjacent_pairs_nv;
+
+    opt_c_api_constant<
+      mp_list<path_list_mode_nv>,
+#ifdef GL_FIRST_TO_REST_NV
+      enum_type_c<GL_FIRST_TO_REST_NV>>
+#else
+      enum_type_i>
+#endif
+      first_to_rest_nv;
+
     // none
     opt_c_api_constant<
       mp_list<
@@ -8456,7 +8582,9 @@ public:
         color_buffer,
         sl_data_type,
         oglp::texture_compare_mode,
-        oglp::context_release_behavior>,
+        oglp::context_release_behavior,
+        oglp::path_join_style_nv,
+        oglp::path_gen_mode_nv>,
 #ifdef GL_NONE
       bitfield_type_c<GL_NONE>>
 #else
@@ -9502,8 +9630,22 @@ public:
           "BOUNDING_BOX_OF_BOUNDING_BOXES_NV", traits, api)
       , count_up_nv("COUNT_UP_NV", traits, api)
       , count_down_nv("COUNT_DOWN_NV", traits, api)
+      , bevel_nv("BEVEL_NV", traits, api)
+      , miter_revert_nv("MITER_REVERT_NV", traits, api)
+      , miter_truncate_nv("MITER_TRUNCATE_NV", traits, api)
       , bold_bit_nv("BOLD_BIT_NV", traits, api)
       , italic_bit_nv("ITALIC_BIT_NV", traits, api)
+      , standard_font_name_nv("STANDARD_FONT_NAME_NV", traits, api)
+      , system_font_name_nv("SYSTEM_FONT_NAME_NV", traits, api)
+      , file_name_nv("FILE_NAME_NV", traits, api)
+      , path_format_svg_nv("PATH_FORMAT_SVG_NV", traits, api)
+      , path_format_ps_nv("PATH_FORMAT_PS_NV", traits, api)
+      , eye_linear("EYE_LINEAR", traits, api)
+      , object_linear("OBJECT_LINEAR", traits, api)
+      , path_object_bounding_box_nv("PATH_OBJECT_BOUNDING_BOX_NV", traits, api)
+      , accum_adjacent_pairs_nv("ACCUM_ADJACENT_PAIRS_NV", traits, api)
+      , adjacent_pairs_nv("ADJACENT_PAIRS_NV", traits, api)
+      , first_to_rest_nv("FIRST_TO_REST_NV", traits, api)
       , none("NONE", traits, api) {
     }
 };
