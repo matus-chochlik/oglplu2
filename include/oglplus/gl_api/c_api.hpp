@@ -3503,6 +3503,37 @@ struct basic_gl_c_api {
       GetDebugMessageLog;
 
     // nv path rendering
+    gl_api_function<uint_type(sizei_type), OGLPLUS_GL_STATIC_FUNC(GenPathsNV)>
+      GenPathsNV;
+
+    gl_api_function<
+      void(uint_type, sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(DeletePathsNV)>
+      DeletePathsNV;
+
+    gl_api_function<bool_type(uint_type), OGLPLUS_GL_STATIC_FUNC(IsPathNV)>
+      IsPathNV;
+
+    gl_api_function<
+      void(uint_type, enum_type, const int_type*),
+      OGLPLUS_GL_STATIC_FUNC(PathParameterivNV)>
+      PathParameterivNV;
+
+    gl_api_function<
+      void(uint_type, enum_type, int_type),
+      OGLPLUS_GL_STATIC_FUNC(PathParameteriNV)>
+      PathParameteriNV;
+
+    gl_api_function<
+      void(uint_type, enum_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(PathParameterfvNV)>
+      PathParameterfvNV;
+
+    gl_api_function<
+      void(uint_type, enum_type, float_type),
+      OGLPLUS_GL_STATIC_FUNC(PathParameterfNV)>
+      PathParameterfNV;
+
     gl_api_function<
       void(
         uint_type,
@@ -3608,6 +3639,72 @@ struct basic_gl_c_api {
         uint_type[2]),
       OGLPLUS_GL_STATIC_FUNC(PathGlyphIndexRangeNV)>
       PathGlyphIndexRangeNV;
+
+    gl_api_function<
+      void(uint_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(CopyPathNV)>
+      CopyPathNV;
+
+    gl_api_function<
+      void(uint_type, uint_type, uint_type, float_type),
+      OGLPLUS_GL_STATIC_FUNC(InterpolatePathsNV)>
+      InterpolatePathsNV;
+
+    gl_api_function<
+      void(uint_type, sizei_type, const uint_type[], const float_type[]),
+      OGLPLUS_GL_STATIC_FUNC(WeightPathsNV)>
+      WeightPathsNV;
+
+    gl_api_function<
+      void(uint_type, uint_type, enum_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(TransformPathNV)>
+      TransformPathNV;
+
+    gl_api_function<
+      void(enum_type, int_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(PathStencilFuncNV)>
+      PathStencilFuncNV;
+
+    gl_api_function<
+      void(float_type, float_type),
+      OGLPLUS_GL_STATIC_FUNC(PathStencilDepthOffsetNV)>
+      PathStencilDepthOffsetNV;
+
+    gl_api_function<
+      void(uint_type, enum_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(StencilFillPathNV)>
+      StencilFillPathNV;
+
+    gl_api_function<
+      void(uint_type, int_type, uint_type),
+      OGLPLUS_GL_STATIC_FUNC(StencilStrokePathNV)>
+      StencilStrokePathNV;
+
+    gl_api_function<
+      void(
+        sizei_type,
+        enum_type,
+        const_void_ptr_type,
+        uint_type,
+        enum_type,
+        uint_type,
+        enum_type,
+        const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(StencilFillPathInstancedNV)>
+      StencilFillPathInstancedNV;
+
+    gl_api_function<
+      void(
+        sizei_type,
+        enum_type,
+        const_void_ptr_type,
+        uint_type,
+        int_type,
+        uint_type,
+        enum_type,
+        const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(StencilStrokePathInstancedNV)>
+      StencilStrokePathInstancedNV;
 
     // hints
     gl_api_function<void(enum_type, enum_type), OGLPLUS_GL_STATIC_FUNC(Hint)>
@@ -4262,6 +4359,13 @@ struct basic_gl_c_api {
       , GetObjectLabel("GetObjectLabel", traits, *this)
       , GetObjectPtrLabel("GetObjectPtrLabel", traits, *this)
       , GetDebugMessageLog("GetDebugMessageLog", traits, *this)
+      , GenPathsNV("GenPathsNV", traits, *this)
+      , DeletePathsNV("DeletePathsNV", traits, *this)
+      , IsPathNV("IsPathNV", traits, *this)
+      , PathParameterivNV("PathParameterivNV", traits, *this)
+      , PathParameteriNV("PathParameteriNV", traits, *this)
+      , PathParameterfvNV("PathParameterfvNV", traits, *this)
+      , PathParameterfNV("PathParameterfNV", traits, *this)
       , PathCommandsNV("PathCommandsNV", traits, *this)
       , PathSubCommandsNV("PathSubCommandsNV", traits, *this)
       , PathCoordsNV("PathCoordsNV", traits, *this)
@@ -4273,6 +4377,17 @@ struct basic_gl_c_api {
       , PathMemoryGlyphIndexArrayNV(
           "PathMemoryGlyphIndexArrayNV", traits, *this)
       , PathGlyphIndexRangeNV("PathGlyphIndexRangeNV", traits, *this)
+      , CopyPathNV("CopyPathNV", traits, *this)
+      , InterpolatePathsNV("InterpolatePaths", traits, *this)
+      , WeightPathsNV("WeightPathsNV", traits, *this)
+      , TransformPathNV("TransformPathNV", traits, *this)
+      , PathStencilFuncNV("PathStencilFuncNV", traits, *this)
+      , PathStencilDepthOffsetNV("PathStencilDepthOffsetNV", traits, *this)
+      , StencilFillPathNV("StencilFillPathNV", traits, *this)
+      , StencilStrokePathNV("StencilStrokePathNV", traits, *this)
+      , StencilFillPathInstancedNV("StencilFillPathInstancedNV", traits, *this)
+      , StencilStrokePathInstancedNV(
+          "StencilStrokePathInstancedNV", traits, *this)
       , Hint("Hint", traits, *this)
       , Flush("Flush", traits, *this)
       , Finish("Finish", traits, *this) {
