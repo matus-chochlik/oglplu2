@@ -499,6 +499,11 @@ struct path_list_mode_nv
   : gl_enum_class<path_list_mode_nv, EAGINE_ID_V(PathLstMod)> {
     using enum_class::enum_class;
 };
+
+struct path_metric_query_nv
+  : gl_bitfield_class<path_metric_query_nv, EAGINE_ID_V(PathMrcQry)> {
+    using enum_class::enum_class;
+};
 //------------------------------------------------------------------------------
 } // namespace oglp
 } // namespace eagine

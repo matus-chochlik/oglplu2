@@ -8575,6 +8575,204 @@ public:
 #endif
       first_to_rest_nv;
 
+    opt_c_api_constant<
+      mp_list<path_metric_query_nv>,
+#ifdef GL_GLYPH_WIDTH_BIT_NV
+      bitfield_type_c<GL_GLYPH_WIDTH_BIT_NV>>
+#else
+      bitfield_type_i>
+#endif
+      glyph_width_bit_nv;
+
+    opt_c_api_constant<
+      mp_list<path_metric_query_nv>,
+#ifdef GL_GLYPH_HEIGHT_BIT_NV
+      bitfield_type_c<GL_GLYPH_HEIGHT_BIT_NV>>
+#else
+      bitfield_type_i>
+#endif
+      glyph_height_bit_nv;
+
+    opt_c_api_constant<
+      mp_list<path_metric_query_nv>,
+#ifdef GL_GLYPH_HORIZONTAL_BEARING_X_BIT_NV
+      bitfield_type_c<GL_GLYPH_HORIZONTAL_BEARING_X_BIT_NV>>
+#else
+      bitfield_type_i>
+#endif
+      glyph_horizontal_bearing_x_bit_nv;
+
+    opt_c_api_constant<
+      mp_list<path_metric_query_nv>,
+#ifdef GL_GLYPH_HORIZONTAL_BEARING_Y_BIT_NV
+      bitfield_type_c<GL_GLYPH_HORIZONTAL_BEARING_Y_BIT_NV>>
+#else
+      bitfield_type_i>
+#endif
+      glyph_horizontal_bearing_y_bit_nv;
+
+    opt_c_api_constant<
+      mp_list<path_metric_query_nv>,
+#ifdef GL_GLYPH_HORIZONTAL_BEARING_ADVANCE_BIT_NV
+      bitfield_type_c<GL_GLYPH_HORIZONTAL_BEARING_ADVANCE_BIT_NV>>
+#else
+      bitfield_type_i>
+#endif
+      glyph_horizontal_bearing_advance_bit_nv;
+
+    opt_c_api_constant<
+      mp_list<path_metric_query_nv>,
+#ifdef GL_GLYPH_VERTICAL_BEARING_X_BIT_NV
+      bitfield_type_c<GL_GLYPH_VERTICAL_BEARING_X_BIT_NV>>
+#else
+      bitfield_type_i>
+#endif
+      glyph_vertical_bearing_x_bit_nv;
+
+    opt_c_api_constant<
+      mp_list<path_metric_query_nv>,
+#ifdef GL_GLYPH_VERTICAL_BEARING_Y_BIT_NV
+      bitfield_type_c<GL_GLYPH_VERTICAL_BEARING_Y_BIT_NV>>
+#else
+      bitfield_type_i>
+#endif
+      glyph_vertical_bearing_y_bit_nv;
+
+    opt_c_api_constant<
+      mp_list<path_metric_query_nv>,
+#ifdef GL_GLYPH_VERTICAL_BEARING_ADVANCE_BIT_NV
+      bitfield_type_c<GL_GLYPH_VERTICAL_BEARING_ADVANCE_BIT_NV>>
+#else
+      bitfield_type_i>
+#endif
+      glyph_vertical_bearing_advance_bit_nv;
+
+    opt_c_api_constant<
+      mp_list<path_metric_query_nv>,
+#ifdef GL_GLYPH_HAS_KERNING_BIT_NV
+      bitfield_type_c<GL_GLYPH_HAS_KERNING_BIT_NV>>
+#else
+      bitfield_type_i>
+#endif
+      glyph_has_kerning_bit_nv;
+
+    opt_c_api_constant<
+      mp_list<path_metric_query_nv>,
+#ifdef GL_FONT_X_MIN_BOUNDS_BIT_NV
+      bitfield_type_c<GL_FONT_X_MIN_BOUNDS_BIT_NV>>
+#else
+      bitfield_type_i>
+#endif
+      font_x_min_bounds_bit_nv;
+
+    opt_c_api_constant<
+      mp_list<path_metric_query_nv>,
+#ifdef GL_FONT_Y_MIN_BOUNDS_BIT_NV
+      bitfield_type_c<GL_FONT_Y_MIN_BOUNDS_BIT_NV>>
+#else
+      bitfield_type_i>
+#endif
+      font_y_min_bounds_bit_nv;
+
+    opt_c_api_constant<
+      mp_list<path_metric_query_nv>,
+#ifdef GL_FONT_X_MAX_BOUNDS_BIT_NV
+      bitfield_type_c<GL_FONT_X_MAX_BOUNDS_BIT_NV>>
+#else
+      bitfield_type_i>
+#endif
+      font_x_max_bounds_bit_nv;
+
+    opt_c_api_constant<
+      mp_list<path_metric_query_nv>,
+#ifdef GL_FONT_Y_MAX_BOUNDS_BIT_NV
+      bitfield_type_c<GL_FONT_Y_MAX_BOUNDS_BIT_NV>>
+#else
+      bitfield_type_i>
+#endif
+      font_y_max_bounds_bit_nv;
+
+    opt_c_api_constant<
+      mp_list<path_metric_query_nv>,
+#ifdef GL_FONT_UNITS_PER_EM_BIT_NV
+      bitfield_type_c<GL_FONT_UNITS_PER_EM_BIT_NV>>
+#else
+      bitfield_type_i>
+#endif
+      font_units_per_em_bit_nv;
+
+    opt_c_api_constant<
+      mp_list<path_metric_query_nv>,
+#ifdef GL_FONT_ASCENDER_BIT_NV
+      bitfield_type_c<GL_FONT_ASCENDER_BIT_NV>>
+#else
+      bitfield_type_i>
+#endif
+      font_ascender_bit_nv;
+
+    opt_c_api_constant<
+      mp_list<path_metric_query_nv>,
+#ifdef GL_FONT_DESCENDER_BIT_NV
+      bitfield_type_c<GL_FONT_DESCENDER_BIT_NV>>
+#else
+      bitfield_type_i>
+#endif
+      font_descender_bit_nv;
+
+    opt_c_api_constant<
+      mp_list<path_metric_query_nv>,
+#ifdef GL_FONT_HEIGHT_BIT_NV
+      bitfield_type_c<GL_FONT_HEIGHT_BIT_NV>>
+#else
+      bitfield_type_i>
+#endif
+      font_height_bit_nv;
+
+    opt_c_api_constant<
+      mp_list<path_metric_query_nv>,
+#ifdef GL_FONT_MAX_ADVANCE_WIDTH_BIT_NV
+      bitfield_type_c<GL_FONT_MAX_ADVANCE_WIDTH_BIT_NV>>
+#else
+      bitfield_type_i>
+#endif
+      font_max_advance_width_bit_nv;
+
+    opt_c_api_constant<
+      mp_list<path_metric_query_nv>,
+#ifdef GL_FONT_MAX_ADVANCE_HEIGHT_BIT_NV
+      bitfield_type_c<GL_FONT_MAX_ADVANCE_HEIGHT_BIT_NV>>
+#else
+      bitfield_type_i>
+#endif
+      font_max_advance_height_bit_nv;
+
+    opt_c_api_constant<
+      mp_list<path_metric_query_nv>,
+#ifdef GL_FONT_UNDERLINE_POSITION_BIT_NV
+      bitfield_type_c<GL_FONT_UNDERLINE_POSITION_BIT_NV>>
+#else
+      bitfield_type_i>
+#endif
+      font_underline_position_bit_nv;
+
+    opt_c_api_constant<
+      mp_list<path_metric_query_nv>,
+#ifdef GL_FONT_UNDERLINE_THICKNESS_BIT_NV
+      bitfield_type_c<GL_FONT_UNDERLINE_THICKNESS_BIT_NV>>
+#else
+      bitfield_type_i>
+#endif
+      font_underline_thickness_bit_nv;
+
+    opt_c_api_constant<
+      mp_list<path_metric_query_nv>,
+#ifdef GL_FONT_HAS_KERNING_BIT_NV
+      bitfield_type_c<GL_FONT_HAS_KERNING_BIT_NV>>
+#else
+      bitfield_type_i>
+#endif
+      font_has_kerning_bit_nv;
+
     // none
     opt_c_api_constant<
       mp_list<
@@ -9646,6 +9844,38 @@ public:
       , accum_adjacent_pairs_nv("ACCUM_ADJACENT_PAIRS_NV", traits, api)
       , adjacent_pairs_nv("ADJACENT_PAIRS_NV", traits, api)
       , first_to_rest_nv("FIRST_TO_REST_NV", traits, api)
+      , glyph_width_bit_nv("GLYPH_WIDTH_BIT_NV", traits, api)
+      , glyph_height_bit_nv("GLYPH_HEIGHT_BIT_NV", traits, api)
+      , glyph_horizontal_bearing_x_bit_nv(
+          "GLYPH_HORIZONTAL_BEARING_X_BIT_NV", traits, api)
+      , glyph_horizontal_bearing_y_bit_nv(
+          "GLYPH_HORIZONTAL_BEARING_Y_BIT_NV", traits, api)
+      , glyph_horizontal_bearing_advance_bit_nv(
+          "GLYPH_HORIZONTAL_BEARING_ADVANCE_BIT_NV", traits, api)
+      , glyph_vertical_bearing_x_bit_nv(
+          "GLYPH_VERTICAL_BEARING_X_BIT_NV", traits, api)
+      , glyph_vertical_bearing_y_bit_nv(
+          "GLYPH_VERTICAL_BEARING_Y_BIT_NV", traits, api)
+      , glyph_vertical_bearing_advance_bit_nv(
+          "GLYPH_VERTICAL_BEARING_ADVANCE_BIT_NV", traits, api)
+      , glyph_has_kerning_bit_nv("GLYPH_HAS_KERNING_BIT_NV", traits, api)
+      , font_x_min_bounds_bit_nv("FONT_X_MIN_BOUNDS_BIT_NV", traits, api)
+      , font_y_min_bounds_bit_nv("FONT_Y_MIN_BOUNDS_BIT_NV", traits, api)
+      , font_x_max_bounds_bit_nv("FONT_X_MAX_BOUNDS_BIT_NV", traits, api)
+      , font_y_max_bounds_bit_nv("FONT_Y_MAX_BOUNDS_BIT_NV", traits, api)
+      , font_units_per_em_bit_nv("FONT_UNITS_PER_EM_BIT_NV", traits, api)
+      , font_ascender_bit_nv("FONT_ASCENDER_BIT_NV", traits, api)
+      , font_descender_bit_nv("FONT_DESCENDER_BIT_NV", traits, api)
+      , font_height_bit_nv("FONT_HEIGHT_BIT_NV", traits, api)
+      , font_max_advance_width_bit_nv(
+          "FONT_MAX_ADVANCE_WIDTH_BIT_NV", traits, api)
+      , font_max_advance_height_bit_nv(
+          "FONT_MAX_ADVANCE_HEIGHT_BIT_NV", traits, api)
+      , font_underline_position_bit_nv(
+          "FONT_UNDERLINE_POSITION_BIT_NV", traits, api)
+      , font_underline_thickness_bit_nv(
+          "FONT_UNDERLINE_THICKNESS_BIT_NV", traits, api)
+      , font_has_kerning_bit_nv("FONT_HAS_KERNING_BIT_NV", traits, api)
       , none("NONE", traits, api) {
     }
 };
