@@ -3502,9 +3502,118 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(GetDebugMessageLog)>
       GetDebugMessageLog;
 
+    // nv path rendering
+    gl_api_function<
+      void(
+        uint_type,
+        sizei_type,
+        const ubyte_type*,
+        sizei_type,
+        enum_type,
+        const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(PathCommandsNV)>
+      PathCommandsNV;
+
+    gl_api_function<
+      void(
+        uint_type,
+        sizei_type,
+        sizei_type,
+        sizei_type,
+        const ubyte_type*,
+        sizei_type,
+        enum_type,
+        const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(PathSubCommandsNV)>
+      PathSubCommandsNV;
+
+    gl_api_function<
+      void(uint_type, sizei_type, enum_type, const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(PathCoordsNV)>
+      PathCoordsNV;
+
+    gl_api_function<
+      void(uint_type, sizei_type, sizei_type, enum_type, const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(PathSubCoordsNV)>
+      PathSubCoordsNV;
+
+    gl_api_function<
+      void(uint_type, enum_type, sizei_type, const_void_ptr_type),
+      OGLPLUS_GL_STATIC_FUNC(PathStringNV)>
+      PathStringNV;
+
+    gl_api_function<
+      void(
+        uint_type,
+        enum_type,
+        const_void_ptr_type,
+        bitfield_type,
+        sizei_type,
+        enum_type,
+        const_void_ptr_type,
+        enum_type,
+        uint_type,
+        float_type),
+      OGLPLUS_GL_STATIC_FUNC(PathGlyphsNV)>
+      PathGlyphsNV;
+
+    gl_api_function<
+      void(
+        uint_type,
+        enum_type,
+        const_void_ptr_type,
+        bitfield_type,
+        uint_type,
+        sizei_type,
+        enum_type,
+        uint_type,
+        float_type),
+      OGLPLUS_GL_STATIC_FUNC(PathGlyphRangeNV)>
+      PathGlyphRangeNV;
+
+    gl_api_function<
+      enum_type(
+        uint_type,
+        enum_type,
+        const_void_ptr_type,
+        bitfield_type,
+        uint_type,
+        sizei_type,
+        uint_type,
+        float_type),
+      OGLPLUS_GL_STATIC_FUNC(PathGlyphIndexArrayNV)>
+      PathGlyphIndexArrayNV;
+
+    gl_api_function<
+      enum_type(
+        uint_type,
+        enum_type,
+        sizeiptr_type,
+        const_void_ptr_type,
+        sizei_type,
+        uint_type,
+        sizei_type,
+        uint_type,
+        float_type),
+      OGLPLUS_GL_STATIC_FUNC(PathMemoryGlyphIndexArrayNV)>
+      PathMemoryGlyphIndexArrayNV;
+
+    gl_api_function<
+      enum_type(
+        enum_type,
+        const_void_ptr_type,
+        bitfield_type,
+        uint_type,
+        float_type,
+        uint_type[2]),
+      OGLPLUS_GL_STATIC_FUNC(PathGlyphIndexRangeNV)>
+      PathGlyphIndexRangeNV;
+
+    // hints
     gl_api_function<void(enum_type, enum_type), OGLPLUS_GL_STATIC_FUNC(Hint)>
       Hint;
 
+    // flush/finish
     gl_api_function<void(), OGLPLUS_GL_STATIC_FUNC(Flush)> Flush;
     gl_api_function<void(), OGLPLUS_GL_STATIC_FUNC(Finish)> Finish;
 
@@ -4153,6 +4262,17 @@ struct basic_gl_c_api {
       , GetObjectLabel("GetObjectLabel", traits, *this)
       , GetObjectPtrLabel("GetObjectPtrLabel", traits, *this)
       , GetDebugMessageLog("GetDebugMessageLog", traits, *this)
+      , PathCommandsNV("PathCommandsNV", traits, *this)
+      , PathSubCommandsNV("PathSubCommandsNV", traits, *this)
+      , PathCoordsNV("PathCoordsNV", traits, *this)
+      , PathSubCoordsNV("PathSubCoordsNV", traits, *this)
+      , PathStringNV("PathStringNV", traits, *this)
+      , PathGlyphsNV("PathGlyphsNV", traits, *this)
+      , PathGlyphRangeNV("PathGlyphRangeNV", traits, *this)
+      , PathGlyphIndexArrayNV("PathGlyphIndexArrayNV", traits, *this)
+      , PathMemoryGlyphIndexArrayNV(
+          "PathMemoryGlyphIndexArrayNV", traits, *this)
+      , PathGlyphIndexRangeNV("PathGlyphIndexRangeNV", traits, *this)
       , Hint("Hint", traits, *this)
       , Flush("Flush", traits, *this)
       , Finish("Finish", traits, *this) {
