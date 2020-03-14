@@ -504,6 +504,16 @@ struct path_metric_query_nv
   : gl_bitfield_class<path_metric_query_nv, EAGINE_ID_V(PathMrcQry)> {
     using enum_class::enum_class;
 };
+
+struct path_missing_glyph_nv
+  : gl_bitfield_class<path_missing_glyph_nv, EAGINE_ID_V(PathMsnGph)> {
+    using enum_class::enum_class;
+};
+
+struct path_parameter_nv
+  : gl_bitfield_class<path_parameter_nv, EAGINE_ID_V(PathPrmter)> {
+    using enum_class::enum_class;
+};
 //------------------------------------------------------------------------------
 } // namespace oglp
 } // namespace eagine

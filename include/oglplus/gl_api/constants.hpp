@@ -5255,7 +5255,7 @@ public:
       decr;
 
     opt_c_api_constant<
-      mp_list<stencil_operation, logic_operation, path_fill_mode_nv>,
+      mp_list<stencil_operation, logic_operation, oglp::path_fill_mode_nv>,
 #ifdef GL_INVERT
       enum_type_c<GL_INVERT>>
 #else
@@ -8306,7 +8306,7 @@ public:
       square_nv;
 
     opt_c_api_constant<
-      mp_list<path_cap_style_nv, path_join_style_nv>,
+      mp_list<path_cap_style_nv, oglp::path_join_style_nv>,
 #ifdef GL_ROUND_NV
       enum_type_c<GL_ROUND_NV>>
 #else
@@ -8369,7 +8369,7 @@ public:
       secondary_color_nv;
 
     opt_c_api_constant<
-      mp_list<path_dash_offset_reset_nv>,
+      mp_list<oglp::path_dash_offset_reset_nv>,
 #ifdef GL_MOVE_TO_RESET_NV
       enum_type_c<GL_MOVE_TO_RESET_NV>>
 #else
@@ -8378,7 +8378,7 @@ public:
       move_to_reset_nv;
 
     opt_c_api_constant<
-      mp_list<path_dash_offset_reset_nv>,
+      mp_list<oglp::path_dash_offset_reset_nv>,
 #ifdef GL_MOVE_TO_CONTINUES_NV
       enum_type_c<GL_MOVE_TO_CONTINUES_NV>>
 #else
@@ -8387,7 +8387,7 @@ public:
       move_to_continues_nv;
 
     opt_c_api_constant<
-      mp_list<path_fill_cover_mode_nv>,
+      mp_list<oglp::path_fill_cover_mode_nv>,
 #ifdef GL_CONVEX_HULL_NV
       enum_type_c<GL_CONVEX_HULL_NV>>
 #else
@@ -8396,7 +8396,7 @@ public:
       convex_hull_nv;
 
     opt_c_api_constant<
-      mp_list<path_fill_cover_mode_nv>,
+      mp_list<oglp::path_fill_cover_mode_nv>,
 #ifdef GL_BOUNDING_BOX_NV
       enum_type_c<GL_BOUNDING_BOX_NV>>
 #else
@@ -8405,7 +8405,7 @@ public:
       bounding_box_nv;
 
     opt_c_api_constant<
-      mp_list<path_fill_cover_mode_nv>,
+      mp_list<oglp::path_fill_cover_mode_nv>,
 #ifdef GL_BOUNDING_BOX_OF_BOUNDING_BOXES_NV
       enum_type_c<GL_BOUNDING_BOX_OF_BOUNDING_BOXES_NV>>
 #else
@@ -8414,7 +8414,7 @@ public:
       bounding_box_of_bounding_boxes_nv;
 
     opt_c_api_constant<
-      mp_list<path_fill_mode_nv>,
+      mp_list<oglp::path_fill_mode_nv>,
 #ifdef GL_COUNT_UP_NV
       enum_type_c<GL_COUNT_UP_NV>>
 #else
@@ -8423,7 +8423,7 @@ public:
       count_up_nv;
 
     opt_c_api_constant<
-      mp_list<path_fill_mode_nv>,
+      mp_list<oglp::path_fill_mode_nv>,
 #ifdef GL_COUNT_DOWN_NV
       enum_type_c<GL_COUNT_DOWN_NV>>
 #else
@@ -8432,7 +8432,7 @@ public:
       count_down_nv;
 
     opt_c_api_constant<
-      mp_list<path_join_style_nv>,
+      mp_list<oglp::path_join_style_nv>,
 #ifdef GL_BEVEL_NV
       enum_type_c<GL_BEVEL_NV>>
 #else
@@ -8441,7 +8441,7 @@ public:
       bevel_nv;
 
     opt_c_api_constant<
-      mp_list<path_join_style_nv>,
+      mp_list<oglp::path_join_style_nv>,
 #ifdef GL_MITER_REVERT_NV
       enum_type_c<GL_MITER_REVERT_NV>>
 #else
@@ -8450,7 +8450,7 @@ public:
       miter_revert_nv;
 
     opt_c_api_constant<
-      mp_list<path_join_style_nv>,
+      mp_list<oglp::path_join_style_nv>,
 #ifdef GL_MITER_TRUNCATE_NV
       enum_type_c<GL_MITER_TRUNCATE_NV>>
 #else
@@ -8540,7 +8540,7 @@ public:
       object_linear;
 
     opt_c_api_constant<
-      mp_list<path_gen_mode_nv>,
+      mp_list<path_gen_mode_nv, path_parameter_nv>,
 #ifdef GL_PATH_OBJECT_BOUNDING_BOX_NV
       enum_type_c<GL_PATH_OBJECT_BOUNDING_BOX_NV>>
 #else
@@ -8772,6 +8772,222 @@ public:
       bitfield_type_i>
 #endif
       font_has_kerning_bit_nv;
+
+    opt_c_api_constant<
+      mp_list<path_missing_glyph_nv>,
+#ifdef GL_SKIP_MISSING_GLYPH_NV
+      enum_type_c<GL_SKIP_MISSING_GLYPH_NV>>
+#else
+      enum_type_i>
+#endif
+      skip_missing_glyph_nv;
+
+    opt_c_api_constant<
+      mp_list<path_missing_glyph_nv>,
+#ifdef GL_USE_MISSING_GLYPH_NV
+      enum_type_c<GL_USE_MISSING_GLYPH_NV>>
+#else
+      enum_type_i>
+#endif
+      use_missing_glyph_nv;
+
+    opt_c_api_constant<
+      mp_list<path_parameter_nv>,
+#ifdef GL_PATH_COMMAND_COUNT_NV
+      enum_type_c<GL_PATH_COMMAND_COUNT_NV>>
+#else
+      enum_type_i>
+#endif
+      path_command_count_nv;
+
+    opt_c_api_constant<
+      mp_list<path_parameter_nv>,
+#ifdef GL_PATH_COORD_COUNT_NV
+      enum_type_c<GL_PATH_COORD_COUNT_NV>>
+#else
+      enum_type_i>
+#endif
+      path_coord_count_nv;
+
+    opt_c_api_constant<
+      mp_list<path_parameter_nv>,
+#ifdef GL_PATH_COMPUTED_LENGTH_NV
+      enum_type_c<GL_PATH_COMPUTED_LENGTH_NV>>
+#else
+      enum_type_i>
+#endif
+      path_computed_length_nv;
+
+    opt_c_api_constant<
+      mp_list<path_parameter_nv>,
+#ifdef GL_PATH_STROKE_WIDTH_NV
+      enum_type_c<GL_PATH_STROKE_WIDTH_NV>>
+#else
+      enum_type_i>
+#endif
+      path_stroke_width_nv;
+
+    opt_c_api_constant<
+      mp_list<path_parameter_nv>,
+#ifdef GL_PATH_INITIAL_END_CAP_NV
+      enum_type_c<GL_PATH_INITIAL_END_CAP_NV>>
+#else
+      enum_type_i>
+#endif
+      path_initial_end_cap_nv;
+
+    opt_c_api_constant<
+      mp_list<path_parameter_nv>,
+#ifdef GL_PATH_TERMINAL_END_CAP_NV
+      enum_type_c<GL_PATH_TERMINAL_END_CAP_NV>>
+#else
+      enum_type_i>
+#endif
+      path_terminal_end_cap_nv;
+
+    opt_c_api_constant<
+      mp_list<path_parameter_nv>,
+#ifdef GL_PATH_JOIN_STYLE_NV
+      enum_type_c<GL_PATH_JOIN_STYLE_NV>>
+#else
+      enum_type_i>
+#endif
+      path_join_style_nv;
+
+    opt_c_api_constant<
+      mp_list<path_parameter_nv>,
+#ifdef GL_PATH_MITER_LIMIT_NV
+      enum_type_c<GL_PATH_MITER_LIMIT_NV>>
+#else
+      enum_type_i>
+#endif
+      path_miter_limit_nv;
+
+    opt_c_api_constant<
+      mp_list<path_parameter_nv>,
+#ifdef GL_PATH_DASH_ARRAY_COUNT_NV
+      enum_type_c<GL_PATH_DASH_ARRAY_COUNT_NV>>
+#else
+      enum_type_i>
+#endif
+      path_dash_array_count_nv;
+
+    opt_c_api_constant<
+      mp_list<path_parameter_nv>,
+#ifdef GL_PATH_DASH_OFFSET_NV
+      enum_type_c<GL_PATH_DASH_OFFSET_NV>>
+#else
+      enum_type_i>
+#endif
+      path_dash_offset_nv;
+
+    opt_c_api_constant<
+      mp_list<path_parameter_nv>,
+#ifdef GL_PATH_DASH_OFFSET_RESET_NV
+      enum_type_c<GL_PATH_DASH_OFFSET_RESET_NV>>
+#else
+      enum_type_i>
+#endif
+      path_dash_offset_reset_nv;
+
+    opt_c_api_constant<
+      mp_list<path_parameter_nv>,
+#ifdef GL_PATH_CLIENT_LENGTH_NV
+      enum_type_c<GL_PATH_CLIENT_LENGTH_NV>>
+#else
+      enum_type_i>
+#endif
+      path_client_length_nv;
+
+    opt_c_api_constant<
+      mp_list<path_parameter_nv>,
+#ifdef GL_PATH_INITIAL_DASH_CAP_NV
+      enum_type_c<GL_PATH_INITIAL_DASH_CAP_NV>>
+#else
+      enum_type_i>
+#endif
+      path_initial_dash_cap_nv;
+
+    opt_c_api_constant<
+      mp_list<path_parameter_nv>,
+#ifdef GL_PATH_TERMINAL_DASH_CAP_NV
+      enum_type_c<GL_PATH_TERMINAL_DASH_CAP_NV>>
+#else
+      enum_type_i>
+#endif
+      path_terminal_dash_cap_nv;
+
+    opt_c_api_constant<
+      mp_list<path_parameter_nv>,
+#ifdef GL_PATH_FILL_MODE_NV
+      enum_type_c<GL_PATH_FILL_MODE_NV>>
+#else
+      enum_type_i>
+#endif
+      path_fill_mode_nv;
+
+    opt_c_api_constant<
+      mp_list<path_parameter_nv>,
+#ifdef GL_PATH_FILL_MASK_NV
+      enum_type_c<GL_PATH_FILL_MASK_NV>>
+#else
+      enum_type_i>
+#endif
+      path_fill_mask_nv;
+
+    opt_c_api_constant<
+      mp_list<path_parameter_nv>,
+#ifdef GL_PATH_FILL_COVER_MODE_NV
+      enum_type_c<GL_PATH_FILL_COVER_MODE_NV>>
+#else
+      enum_type_i>
+#endif
+      path_fill_cover_mode_nv;
+
+    opt_c_api_constant<
+      mp_list<path_parameter_nv>,
+#ifdef GL_PATH_STROKE_COVER_MODE_NV
+      enum_type_c<GL_PATH_STROKE_COVER_MODE_NV>>
+#else
+      enum_type_i>
+#endif
+      path_stroke_cover_mode_nv;
+
+    opt_c_api_constant<
+      mp_list<path_parameter_nv>,
+#ifdef GL_PATH_STROKE_MASK_NV
+      enum_type_c<GL_PATH_STROKE_MASK_NV>>
+#else
+      enum_type_i>
+#endif
+      path_stroke_mask_nv;
+
+    opt_c_api_constant<
+      mp_list<path_parameter_nv>,
+#ifdef GL_PATH_STROKE_BOUND_NV
+      enum_type_c<GL_PATH_STROKE_BOUND_NV>>
+#else
+      enum_type_i>
+#endif
+      path_stroke_bound_nv;
+
+    opt_c_api_constant<
+      mp_list<path_parameter_nv>,
+#ifdef GL_PATH_FILL_BOUNDING_BOX_NV
+      enum_type_c<GL_PATH_FILL_BOUNDING_BOX_NV>>
+#else
+      enum_type_i>
+#endif
+      path_fill_bounding_box_nv;
+
+    opt_c_api_constant<
+      mp_list<path_parameter_nv>,
+#ifdef GL_PATH_STROKE_BOUNDING_BOX_NV
+      enum_type_c<GL_PATH_STROKE_BOUNDING_BOX_NV>>
+#else
+      enum_type_i>
+#endif
+      path_stroke_bounding_box_nv;
 
     // none
     opt_c_api_constant<
@@ -9876,6 +10092,30 @@ public:
       , font_underline_thickness_bit_nv(
           "FONT_UNDERLINE_THICKNESS_BIT_NV", traits, api)
       , font_has_kerning_bit_nv("FONT_HAS_KERNING_BIT_NV", traits, api)
+      , skip_missing_glyph_nv("SKIP_MISSING_GLYPH_NV", traits, api)
+      , use_missing_glyph_nv("USE_MISSING_GLYPH_NV", traits, api)
+      , path_command_count_nv("PATH_COMMAND_COUNT_NV", traits, api)
+      , path_coord_count_nv("PATH_COORD_COUNT_NV", traits, api)
+      , path_computed_length_nv("PATH_COMPUTED_LENGTH_NV", traits, api)
+      , path_stroke_width_nv("PATH_STROKE_WIDTH_NV", traits, api)
+      , path_initial_end_cap_nv("PATH_INITIAL_END_CAP_NV", traits, api)
+      , path_terminal_end_cap_nv("PATH_TERMINAL_END_CAP_NV", traits, api)
+      , path_join_style_nv("PATH_JOIN_STYLE_NV", traits, api)
+      , path_miter_limit_nv("PATH_MITER_LIMIT_NV", traits, api)
+      , path_dash_array_count_nv("PATH_DASH_ARRAY_COUNT_NV", traits, api)
+      , path_dash_offset_nv("PATH_DASH_OFFSET_NV", traits, api)
+      , path_dash_offset_reset_nv("PATH_DASH_OFFSET_RESET_NV", traits, api)
+      , path_client_length_nv("PATH_CLIENT_LENGTH_NV", traits, api)
+      , path_initial_dash_cap_nv("PATH_INITIAL_DASH_CAP_NV", traits, api)
+      , path_terminal_dash_cap_nv("PATH_TERMINAL_DASH_CAP_NV", traits, api)
+      , path_fill_mode_nv("PATH_FILL_MODE_NV", traits, api)
+      , path_fill_mask_nv("PATH_FILL_MASK_NV", traits, api)
+      , path_fill_cover_mode_nv("PATH_FILL_COVER_MODE_NV", traits, api)
+      , path_stroke_cover_mode_nv("PATH_STROKE_COVER_MODE_NV", traits, api)
+      , path_stroke_mask_nv("PATH_STROKE_MASK_NV", traits, api)
+      , path_stroke_bound_nv("PATH_STROKE_BOUND_NV", traits, api)
+      , path_fill_bounding_box_nv("PATH_FILL_BOUNDING_BOX_NV", traits, api)
+      , path_stroke_bounding_box_nv("PATH_STROKE_BOUNDING_BOX_NV", traits, api)
       , none("NONE", traits, api) {
     }
 };
