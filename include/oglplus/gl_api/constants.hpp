@@ -736,6 +736,15 @@ public:
       shader_source_length;
 
     opt_c_api_constant<
+      mp_list<shader_parameter, program_parameter>,
+#ifdef GL_COMPLETION_STATUS_ARB
+      enum_type_c<GL_COMPLETION_STATUS_ARB>>
+#else
+      enum_type_i>
+#endif
+      completion_status;
+
+    opt_c_api_constant<
       mp_list<program_parameter>,
 #ifdef GL_LINK_STATUS
       enum_type_c<GL_LINK_STATUS>>
@@ -2780,6 +2789,15 @@ public:
       buffer_storage_block;
 
     opt_c_api_constant<
+      mp_list<program_interface>,
+#ifdef GL_FRAGMENT_INPUT_NV
+      enum_type_c<GL_FRAGMENT_INPUT_NV>>
+#else
+      enum_type_i>
+#endif
+      fragment_input_nv;
+
+    opt_c_api_constant<
       mp_list<program_property>,
 #ifdef GL_ACTIVE_VARIABLES
       enum_type_c<GL_ACTIVE_VARIABLES>>
@@ -3307,6 +3325,33 @@ public:
       array_buffer_binding;
 
     opt_c_api_constant<
+      mp_list<binding_query, program_property>,
+#ifdef GL_PATH_GEN_MODE_NV
+      enum_type_c<GL_PATH_GEN_MODE_NV>>
+#else
+      enum_type_i>
+#endif
+      path_gen_mode_nv;
+
+    opt_c_api_constant<
+      mp_list<binding_query, program_property>,
+#ifdef GL_PATH_GEN_COMPONENTS_NV
+      enum_type_c<GL_PATH_GEN_COMPONENTS_NV>>
+#else
+      enum_type_i>
+#endif
+      path_gen_components_nv;
+
+    opt_c_api_constant<
+      mp_list<binding_query, program_property>,
+#ifdef GL_PATH_GEN_COEFF_NV
+      enum_type_c<GL_PATH_GEN_COEFF_NV>>
+#else
+      enum_type_i>
+#endif
+      path_gen_coeff_nv;
+
+    opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_ATOMIC_COUNTER_BUFFER_BINDING
       enum_type_c<GL_ATOMIC_COUNTER_BUFFER_BINDING>>
@@ -3430,7 +3475,7 @@ public:
 #else
       enum_type_i>
 #endif
-      parameter_buffer_binding_arb;
+      parameter_buffer_binding;
 
     opt_c_api_constant<
       mp_list<binding_query>,
@@ -3752,6 +3797,15 @@ public:
       enum_type_i>
 #endif
       max_label_length;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_MAX_SHADER_COMPILER_THREADS_ARB
+      enum_type_c<GL_MAX_SHADER_COMPILER_THREADS_ARB>>
+#else
+      enum_type_i>
+#endif
+      max_shader_compiler_threads;
 
     // string query
     opt_c_api_constant<
@@ -8562,7 +8616,7 @@ public:
       path_format_ps_nv;
 
     opt_c_api_constant<
-      mp_list<path_gen_mode_nv>,
+      mp_list<oglp::path_gen_mode_nv>,
 #ifdef GL_EYE_LINEAR
       enum_type_c<GL_EYE_LINEAR>>
 #else
@@ -8571,7 +8625,7 @@ public:
       eye_linear;
 
     opt_c_api_constant<
-      mp_list<path_gen_mode_nv>,
+      mp_list<oglp::path_gen_mode_nv>,
 #ifdef GL_OBJECT_LINEAR
       enum_type_c<GL_OBJECT_LINEAR>>
 #else
@@ -8580,7 +8634,7 @@ public:
       object_linear;
 
     opt_c_api_constant<
-      mp_list<path_gen_mode_nv, path_parameter_nv>,
+      mp_list<oglp::path_gen_mode_nv, path_parameter_nv>,
 #ifdef GL_PATH_OBJECT_BOUNDING_BOX_NV
       enum_type_c<GL_PATH_OBJECT_BOUNDING_BOX_NV>>
 #else
@@ -9225,6 +9279,7 @@ public:
       , compile_status("COMPILE_STATUS", traits, api)
       , info_log_length("INFO_LOG_LENGTH", traits, api)
       , shader_source_length("SHADER_SOURCE_LENGTH", traits, api)
+      , completion_status("COMPLETION_STATUS", traits, api)
       , link_status("LINK_STATUS", traits, api)
       , validate_status("VALIDATE_STATUS", traits, api)
       , attached_shaders("ATTACHED_SHADERS", traits, api)
@@ -9489,6 +9544,7 @@ public:
       , transform_feedback_varying("GL_TRANSFORM_FEEDBACK_VARYING", traits, api)
       , buffer_variable("BUFFER_VARIABLE", traits, api)
       , buffer_storage_block("BUFFER_STORAGE_BLOCK", traits, api)
+      , fragment_input_nv("FRAGMENT_INPUT_NV", traits, api)
       , active_variables("ACTIVE_VARIABLES", traits, api)
       , num_active_variables("NUM_ACTIVE_VARIABLES", traits, api)
       , array_size("ARRAY_SIZE", traits, api)
@@ -9555,6 +9611,9 @@ public:
       , right("RIGHT", traits, api)
       , front_and_back("FRONT_AND_BACK", traits, api)
       , array_buffer_binding("ARRAY_BUFFER_BINDING", traits, api)
+      , path_gen_mode_nv("PATH_GEN_MODE_NV", traits, api)
+      , path_gen_components_nv("PATH_GEN_COMPONENTS_NV", traits, api)
+      , path_gen_coeff_nv("PATH_GEN_COEFF_NV", traits, api)
       , atomic_counter_buffer_binding(
           "ATOMIC_COUNTER_BUFFER_BINDING", traits, api)
       , copy_read_buffer_binding("COPY_READ_BUFFER_BINDING", traits, api)
@@ -9574,8 +9633,7 @@ public:
           "TRANSFORM_FEEDBACK_BUFFER_BINDING", traits, api)
       , uniform_buffer_binding("UNIFORM_BUFFER_BINDING", traits, api)
       , query_buffer_binding("QUERY_BUFFER_BINDING", traits, api)
-      , parameter_buffer_binding_arb(
-          "PARAMETER_BUFFER_BINDING_ARB", traits, api)
+      , parameter_buffer_binding("PARAMETER_BUFFER_BINDING_ARB", traits, api)
       , draw_framebuffer_binding("DRAW_FRAMEBUFFER_BINDING", traits, api)
       , buffer_binding("BUFFER_BINDING", traits, api)
       , renderbuffer_binding("RENDERBUFFER_BINDING", traits, api)
@@ -9616,6 +9674,8 @@ public:
       , max_debug_group_stack_depth("MAX_DEBUG_GROUP_STACK_DEPTH", traits, api)
       , debug_group_stack_depth("DEBUG_GROUP_STACK_DEPTH", traits, api)
       , max_label_length("MAX_LABEL_LENGTH", traits, api)
+      , max_shader_compiler_threads(
+          "MAX_SHADER_COMPILER_THREADS_ARB", traits, api)
       , vendor("VENDOR", traits, api)
       , renderer("RENDERER", traits, api)
       , version("VERSION", traits, api)

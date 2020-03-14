@@ -3918,7 +3918,42 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(PointAlongPathNV)>
       PointAlongPathNV;
 
+    gl_api_function<
+      void(enum_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(MatrixLoad3x2fNV)>
+      MatrixLoad3x2fNV;
+
+    gl_api_function<
+      void(enum_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(MatrixLoad3x3fNV)>
+      MatrixLoad3x3fNV;
+
+    gl_api_function<
+      void(enum_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(MatrixLoadTranspose3x3fNV)>
+      MatrixLoadTranspose3x3fNV;
+
+    gl_api_function<
+      void(enum_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(MatrixMult3x2fNV)>
+      MatrixMult3x2fNV;
+
+    gl_api_function<
+      void(enum_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(MatrixMult3x3fNV)>
+      MatrixMult3x3fNV;
+
+    gl_api_function<
+      void(enum_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(MatrixMultTranspose3x3fNV)>
+      MatrixMultTranspose3x3fNV;
+
     // hints
+    gl_api_function<
+      void(uint_type),
+      OGLPLUS_GL_STATIC_FUNC(MaxShaderCompilerThreadsARB)>
+      MaxShaderCompilerThreadsARB;
+
     gl_api_function<void(enum_type, enum_type), OGLPLUS_GL_STATIC_FUNC(Hint)>
       Hint;
 
@@ -4634,6 +4669,14 @@ struct basic_gl_c_api {
       , IsPointInFillPathNV("IsPointInFillPathNV", traits, *this)
       , IsPointInStrokePathNV("IsPointInStrokePathNV", traits, *this)
       , PointAlongPathNV("PointAlongPathNV", traits, *this)
+      , MatrixLoad3x2fNV("MatrixLoad3x2fNV", traits, *this)
+      , MatrixLoad3x3fNV("MatrixLoad3x3fNV", traits, *this)
+      , MatrixLoadTranspose3x3fNV("MatrixLoadTranspose3x3fNV", traits, *this)
+      , MatrixMult3x2fNV("MatrixMult3x2fNV", traits, *this)
+      , MatrixMult3x3fNV("MatrixMult3x3fNV", traits, *this)
+      , MatrixMultTranspose3x3fNV("MatrixMultTranspose3x3fNV", traits, *this)
+      , MaxShaderCompilerThreadsARB(
+          "MaxShaderCompilerThreadsARB", traits, *this)
       , Hint("Hint", traits, *this)
       , Flush("Flush", traits, *this)
       , Finish("Finish", traits, *this) {
