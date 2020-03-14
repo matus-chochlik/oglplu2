@@ -3706,6 +3706,101 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(StencilStrokePathInstancedNV)>
       StencilStrokePathInstancedNV;
 
+    gl_api_function<
+      void(enum_type),
+      OGLPLUS_GL_STATIC_FUNC(PathCoverDepthFuncNV)>
+      PathCoverDepthFuncNV;
+
+    gl_api_function<
+      void(enum_type, enum_type, enum_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(PathColorGenNV)>
+      PathColorGenNV;
+
+    gl_api_function<
+      void(enum_type, enum_type, int_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(PathTexGenNV)>
+      PathTexGenNV;
+
+    gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(PathFogGenNV)>
+      PathFogGenNV;
+
+    gl_api_function<
+      void(uint_type, int_type, enum_type, int_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(ProgramPathFragmentInputGenNV)>
+      ProgramPathFragmentInputGenNV;
+
+    gl_api_function<
+      void(uint_type, enum_type),
+      OGLPLUS_GL_STATIC_FUNC(CoverFillPathNV)>
+      CoverFillPathNV;
+
+    gl_api_function<
+      void(uint_type, enum_type),
+      OGLPLUS_GL_STATIC_FUNC(CoverStrokePathNV)>
+      CoverStrokePathNV;
+
+    gl_api_function<
+      void(
+        sizei_type,
+        enum_type,
+        const_void_ptr_type,
+        uint_type,
+        enum_type,
+        enum_type,
+        const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(CoverFillPathInstancedNV)>
+      CoverFillPathInstancedNV;
+
+    gl_api_function<
+      void(
+        sizei_type,
+        enum_type,
+        const_void_ptr_type,
+        uint_type,
+        enum_type,
+        enum_type,
+        const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(CoverStrokePathInstancedNV)>
+      CoverStrokePathInstancedNV;
+
+    gl_api_function<
+      void(uint_type, enum_type, uint_type, enum_type),
+      OGLPLUS_GL_STATIC_FUNC(StencilThenCoverFillPathNV)>
+      StencilThenCoverFillPathNV;
+
+    gl_api_function<
+      void(uint_type, int_type, uint_type, enum_type),
+      OGLPLUS_GL_STATIC_FUNC(StencilThenCoverStrokePathNV)>
+      StencilThenCoverStrokePathNV;
+
+    gl_api_function<
+      void(
+        sizei_type,
+        enum_type,
+        const_void_ptr_type,
+        uint_type,
+        enum_type,
+        uint_type,
+        enum_type,
+        enum_type,
+        const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(StencilThenCoverFillPathInstancedNV)>
+      StencilThenCoverFillPathInstancedNV;
+
+    gl_api_function<
+      void(
+        sizei_type,
+        enum_type,
+        const_void_ptr_type,
+        uint_type,
+        int_type,
+        uint_type,
+        enum_type,
+        enum_type,
+        const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(StencilThenCoverStrokePathInstancedNV)>
+      StencilThenCoverStrokePathInstancedNV;
+
     // hints
     gl_api_function<void(enum_type, enum_type), OGLPLUS_GL_STATIC_FUNC(Hint)>
       Hint;
@@ -4388,6 +4483,23 @@ struct basic_gl_c_api {
       , StencilFillPathInstancedNV("StencilFillPathInstancedNV", traits, *this)
       , StencilStrokePathInstancedNV(
           "StencilStrokePathInstancedNV", traits, *this)
+      , PathCoverDepthFuncNV("PathCoverDepthFuncNV", traits, *this)
+      , PathColorGenNV("PathColorGenNV", traits, *this)
+      , PathTexGenNV("PathTexGenNV", traits, *this)
+      , PathFogGenNV("PathFogGenNV", traits, *this)
+      , ProgramPathFragmentInputGenNV(
+          "ProgramPathFragmentInputGenNV", traits, *this)
+      , CoverFillPathNV("CoverFillPathNV", traits, *this)
+      , CoverStrokePathNV("CoverStrokePathNV", traits, *this)
+      , CoverFillPathInstancedNV("CoverFillPathInstancedNV", traits, *this)
+      , CoverStrokePathInstancedNV("CoverStrokePathInstancedNV", traits, *this)
+      , StencilThenCoverFillPathNV("StencilThenCoverFillPathNV", traits, *this)
+      , StencilThenCoverStrokePathNV(
+          "StencilThenCoverStrokePathNV", traits, *this)
+      , StencilThenCoverFillPathInstancedNV(
+          "StencilThenCoverFillPathInstancedNV", traits, *this)
+      , StencilThenCoverStrokePathInstancedNV(
+          "StencilThenCoverStrokePathInstancedNV", traits, *this)
       , Hint("Hint", traits, *this)
       , Flush("Flush", traits, *this)
       , Finish("Finish", traits, *this) {
