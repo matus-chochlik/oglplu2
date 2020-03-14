@@ -1943,6 +1943,19 @@ struct basic_gl_c_api {
       GetProgramResourceiv;
 
     gl_api_function<
+      void(
+        uint_type,
+        enum_type,
+        uint_type,
+        sizei_type,
+        const enum_type*,
+        sizei_type,
+        sizei_type*,
+        float_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetProgramResourcefvNV)>
+      GetProgramResourcefvNV;
+
+    gl_api_function<
       void(uint_type, uint_type, const char_type*),
       OGLPLUS_GL_STATIC_FUNC(BindAttribLocation)>
       BindAttribLocation;
@@ -3801,6 +3814,110 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(StencilThenCoverStrokePathInstancedNV)>
       StencilThenCoverStrokePathInstancedNV;
 
+    gl_api_function<
+      void(uint_type, enum_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetPathParameterivNV)>
+      GetPathParameterivNV;
+
+    gl_api_function<
+      void(uint_type, enum_type, float_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetPathParameterfvNV)>
+      GetPathParameterfvNV;
+
+    gl_api_function<
+      void(uint_type, ubyte_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetPathCommandsNV)>
+      GetPathCommandsNV;
+
+    gl_api_function<
+      void(uint_type, float_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetPathCoordsNV)>
+      GetPathCoordsNV;
+
+    gl_api_function<
+      void(uint_type, float_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetPathDashArrayNV)>
+      GetPathDashArrayNV;
+
+    gl_api_function<
+      void(
+        bitfield_type,
+        sizei_type,
+        enum_type,
+        const_void_ptr_type,
+        uint_type,
+        sizei_type,
+        float_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetPathMetricsNV)>
+      GetPathMetricsNV;
+
+    gl_api_function<
+      void(bitfield_type, uint_type, sizei_type, sizei_type, float_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetPathMetricRangeNV)>
+      GetPathMetricRangeNV;
+
+    gl_api_function<
+      void(
+        enum_type,
+        sizei_type,
+        enum_type,
+        const_void_ptr_type,
+        uint_type,
+        float_type,
+        float_type,
+        enum_type,
+        float_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetPathSpacingNV)>
+      GetPathSpacingNV;
+
+    gl_api_function<
+      void(enum_type, enum_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetPathColorGenivNV)>
+      GetPathColorGenivNV;
+
+    gl_api_function<
+      void(enum_type, enum_type, float_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetPathColorGenfvNV)>
+      GetPathColorGenfvNV;
+
+    gl_api_function<
+      void(enum_type, enum_type, int_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetPathTexGenivNV)>
+      GetPathTexGenivNV;
+
+    gl_api_function<
+      void(enum_type, enum_type, float_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetPathTexGenfvNV)>
+      GetPathTexGenfvNV;
+
+    gl_api_function<
+      float_type(uint_type, sizei_type, sizei_type),
+      OGLPLUS_GL_STATIC_FUNC(GetPathLengthNV)>
+      GetPathLengthNV;
+
+    gl_api_function<
+      bool_type(uint_type, uint_type, float_type, float_type),
+      OGLPLUS_GL_STATIC_FUNC(IsPointInFillPathNV)>
+      IsPointInFillPathNV;
+
+    gl_api_function<
+      bool_type(uint_type, float_type, float_type),
+      OGLPLUS_GL_STATIC_FUNC(IsPointInStrokePathNV)>
+      IsPointInStrokePathNV;
+
+    gl_api_function<
+      bool_type(
+        uint_type,
+        sizei_type,
+        sizei_type,
+        float_type,
+        float_type*,
+        float_type*,
+        float_type*,
+        float_type*),
+      OGLPLUS_GL_STATIC_FUNC(PointAlongPathNV)>
+      PointAlongPathNV;
+
     // hints
     gl_api_function<void(enum_type, enum_type), OGLPLUS_GL_STATIC_FUNC(Hint)>
       Hint;
@@ -4143,6 +4260,7 @@ struct basic_gl_c_api {
       , GetProgramResourceLocationIndex(
           "GetProgramResourceLocationIndex", traits, *this)
       , GetProgramResourceiv("GetProgramResourceiv", traits, *this)
+      , GetProgramResourcefvNV("GetProgramResourcefvNV", traits, *this)
       , BindAttribLocation("BindAttribLocation", traits, *this)
       , GetAttribLocation("GetAttribLocation", traits, *this)
       , GetActiveAttrib("GetActiveAttrib", traits, *this)
@@ -4500,6 +4618,22 @@ struct basic_gl_c_api {
           "StencilThenCoverFillPathInstancedNV", traits, *this)
       , StencilThenCoverStrokePathInstancedNV(
           "StencilThenCoverStrokePathInstancedNV", traits, *this)
+      , GetPathParameterivNV("GetPathParameterivNV", traits, *this)
+      , GetPathParameterfvNV("GetPathParameterfvNV", traits, *this)
+      , GetPathCommandsNV("GetPathCommandsNV", traits, *this)
+      , GetPathCoordsNV("GetPathCoordsNV", traits, *this)
+      , GetPathDashArrayNV("GetPathDashArrayNV", traits, *this)
+      , GetPathMetricsNV("GetPathMetricsNV", traits, *this)
+      , GetPathMetricRangeNV("GetPathMetricRangeNV", traits, *this)
+      , GetPathSpacingNV("GetPathSpacingNV", traits, *this)
+      , GetPathColorGenivNV("GetPathColorGenivNV", traits, *this)
+      , GetPathColorGenfvNV("GetPathColorGenfvNV", traits, *this)
+      , GetPathTexGenivNV("GetPathTexGenivNV", traits, *this)
+      , GetPathTexGenfvNV("GetPathTexGenfvNV", traits, *this)
+      , GetPathLengthNV("GetPathLengthNV", traits, *this)
+      , IsPointInFillPathNV("IsPointInFillPathNV", traits, *this)
+      , IsPointInStrokePathNV("IsPointInStrokePathNV", traits, *this)
+      , PointAlongPathNV("PointAlongPathNV", traits, *this)
       , Hint("Hint", traits, *this)
       , Flush("Flush", traits, *this)
       , Finish("Finish", traits, *this) {
