@@ -889,6 +889,15 @@ public:
       geometry_output_type;
 
     opt_c_api_constant<
+      mp_list<program_binary_format>,
+#ifdef GL_PROGRAM_BINARY_FORMAT_MESA
+      enum_type_c<GL_PROGRAM_BINARY_FORMAT_MESA>>
+#else
+      enum_type_i>
+#endif
+      gl_program_binary_format_mesa;
+
+    opt_c_api_constant<
       mp_list<program_pipeline_parameter>,
 #ifdef GL_ACTIVE_PROGRAM
       enum_type_c<GL_ACTIVE_PROGRAM>>
@@ -5978,7 +5987,7 @@ public:
 #else
       enum_type_i>
 #endif
-      clear_;
+      clear;
 
     opt_c_api_constant<
       mp_list<logic_operation>,
@@ -9895,6 +9904,7 @@ public:
       , geometry_vertices_out("GEOMETRY_VERTICES_OUT", traits, api)
       , geometry_input_type("GEOMETRY_INPUT_TYPE", traits, api)
       , geometry_output_type("GEOMETRY_OUTPUT_TYPE", traits, api)
+      , gl_program_binary_format_mesa("PROGRAM_BINARY_FORMAT_MESA", traits, api)
       , active_program("ACTIVE_PROGRAM", traits, api)
       , renderbuffer_width("RENDERBUFFER_WIDTH", traits, api)
       , renderbuffer_height("RENDERBUFFER_HEIGHT", traits, api)
@@ -10534,7 +10544,7 @@ public:
       , invert("INVERT", traits, api)
       , incr_wrap("INCR_WRAP", traits, api)
       , decr_wrap("DECR_WRAP", traits, api)
-      , clear_("CLEAR", traits, api)
+      , clear("CLEAR", traits, api)
       , and_("AND", traits, api)
       , and_reverse("AND_REVERSE", traits, api)
       , copy("COPY", traits, api)

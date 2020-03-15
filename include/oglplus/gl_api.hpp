@@ -32,6 +32,38 @@ public:
     gl_api()
       : gl_api{gl_api_traits{}} {
     }
+
+    basic_gl_api<gl_api_traits>& operations() noexcept {
+        return *this;
+    }
+
+    const basic_gl_api<gl_api_traits>& operations() const noexcept {
+        return *this;
+    }
+
+    basic_gl_api<gl_api_traits>& operator()() noexcept {
+        return *this;
+    }
+
+    const basic_gl_api<gl_api_traits>& operator()() const noexcept {
+        return *this;
+    }
+
+    basic_gl_constants<gl_api_traits>& constants() noexcept {
+        return *this;
+    }
+
+    const basic_gl_constants<gl_api_traits>& constants() const noexcept {
+        return *this;
+    }
+
+    basic_gl_constants<gl_api_traits>& operator~() noexcept {
+        return *this;
+    }
+
+    const basic_gl_constants<gl_api_traits>& operator~() const noexcept {
+        return *this;
+    }
 };
 //------------------------------------------------------------------------------
 } // namespace oglp

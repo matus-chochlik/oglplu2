@@ -100,6 +100,11 @@ struct program_parameter
     using enum_class::enum_class;
 };
 
+struct program_binary_format
+  : gl_enum_class<program_binary_format, EAGINE_ID_V(ProgBinFmt)> {
+    using enum_class::enum_class;
+};
+
 struct program_pipeline_parameter
   : gl_enum_class<program_pipeline_parameter, EAGINE_ID_V(PiplPrmter)> {
     using enum_class::enum_class;
