@@ -529,6 +529,29 @@ public:
         }
     } get_integer;
 
+    // get_float
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().GetFloatv);
+        }
+
+        constexpr auto operator()(float_query query) const noexcept {
+            float_type result{};
+            return this
+              ->_check(
+                this->call(this->api().GetFloatv, enum_type(query), &result))
+              .transformed([&result]() { return result; });
+        }
+
+        constexpr auto operator()(
+          float_query query, span<float_type> dest) const noexcept {
+            return this->_check(
+              this->call(this->api().GetFloatv, enum_type(query), dest.data()));
+        }
+    } get_float;
+
     // get_string
     struct : derived_func {
         using derived_func::derived_func;
@@ -620,6 +643,7 @@ public:
       , clear_stencil("clear_stencil", traits, *this)
       , clear("clear", traits, *this)
       , get_integer("get_integer", traits, *this)
+      , get_float("get_float", traits, *this)
       , get_string("get_string", traits, *this) {
     }
 };

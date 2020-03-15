@@ -3649,6 +3649,7 @@ public:
       true>
       draw_buffer0;
 
+    // integer query
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_MAX_VERTEX_UNIFORM_BLOCKS
@@ -3806,6 +3807,196 @@ public:
       enum_type_i>
 #endif
       max_shader_compiler_threads;
+
+    // float query
+    opt_c_api_constant<
+      mp_list<float_query>,
+#ifdef GL_LINE_WIDTH
+      enum_type_c<GL_LINE_WIDTH>>
+#else
+      enum_type_i>
+#endif
+      line_width;
+
+    opt_c_api_constant<
+      mp_list<float_query>,
+#ifdef GL_POINT_SIZE
+      enum_type_c<GL_POINT_SIZE>>
+#else
+      enum_type_i>
+#endif
+      point_size;
+
+    opt_c_api_constant<
+      mp_list<float_query>,
+#ifdef GL_POLYGON_OFFSET_CLAMP
+      enum_type_c<GL_POLYGON_OFFSET_CLAMP>>
+#else
+      enum_type_i>
+#endif
+      polygon_offset_clamp;
+
+    opt_c_api_constant<
+      mp_list<float_query>,
+#ifdef GL_POLYGON_OFFSET_FACTOR
+      enum_type_c<GL_POLYGON_OFFSET_FACTOR>>
+#else
+      enum_type_i>
+#endif
+      polygon_offset_factor;
+
+    opt_c_api_constant<
+      mp_list<float_query>,
+#ifdef GL_POLYGON_OFFSET_UNITS
+      enum_type_c<GL_POLYGON_OFFSET_UNITS>>
+#else
+      enum_type_i>
+#endif
+      polygon_offset_units;
+
+    opt_c_api_constant<
+      mp_list<float_query>,
+#ifdef GL_SAMPLE_COVERAGE_VALUE
+      enum_type_c<GL_SAMPLE_COVERAGE_VALUE>>
+#else
+      enum_type_i>
+#endif
+      sample_coverage_value;
+
+    opt_c_api_constant<
+      mp_list<float_query>,
+#ifdef GL_BLEND_COLOR
+      enum_type_c<GL_BLEND_COLOR>>
+#else
+      enum_type_i>
+#endif
+      blend_color;
+
+    opt_c_api_constant<
+      mp_list<float_query>,
+#ifdef GL_COLOR_CLEAR_VALUE
+      enum_type_c<GL_COLOR_CLEAR_VALUE>>
+#else
+      enum_type_i>
+#endif
+      color_clear_value;
+
+    opt_c_api_constant<
+      mp_list<float_query>,
+#ifdef GL_DEPTH_CLEAR_VALUE
+      enum_type_c<GL_DEPTH_CLEAR_VALUE>>
+#else
+      enum_type_i>
+#endif
+      depth_clear_value;
+
+    opt_c_api_constant<
+      mp_list<float_query>,
+#ifdef GL_VIEWPORT_BOUNDS_RANGE
+      enum_type_c<GL_VIEWPORT_BOUNDS_RANGE>>
+#else
+      enum_type_i>
+#endif
+      viewport_bounds_range;
+
+    opt_c_api_constant<
+      mp_list<float_query>,
+#ifdef GL_POINT_SIZE_RANGE
+      enum_type_c<GL_POINT_SIZE_RANGE>>
+#else
+      enum_type_i>
+#endif
+      point_size_range;
+
+    opt_c_api_constant<
+      mp_list<float_query>,
+#ifdef GL_POINT_SIZE_GRANULARITY
+      enum_type_c<GL_POINT_SIZE_GRANULARITY>>
+#else
+      enum_type_i>
+#endif
+      point_size_granularity;
+
+    opt_c_api_constant<
+      mp_list<float_query>,
+#ifdef GL_ALIASED_LINE_WIDTH_RANGE
+      enum_type_c<GL_ALIASED_LINE_WIDTH_RANGE>>
+#else
+      enum_type_i>
+#endif
+      aliased_line_width_range;
+
+    opt_c_api_constant<
+      mp_list<float_query>,
+#ifdef GL_SMOOTH_LINE_WIDTH_RANGE
+      enum_type_c<GL_SMOOTH_LINE_WIDTH_RANGE>>
+#else
+      enum_type_i>
+#endif
+      smooth_line_width_range;
+
+    opt_c_api_constant<
+      mp_list<float_query>,
+#ifdef GL_SMOOTH_LINE_WIDTH_GRANULARITY
+      enum_type_c<GL_SMOOTH_LINE_WIDTH_GRANULARITY>>
+#else
+      enum_type_i>
+#endif
+      smooth_line_width_granularity;
+
+    opt_c_api_constant<
+      mp_list<float_query>,
+#ifdef GL_MIN_SAMPLE_SHADING_VALUE
+      enum_type_c<GL_MIN_SAMPLE_SHADING_VALUE>>
+#else
+      enum_type_i>
+#endif
+      min_sample_shading_value;
+
+    opt_c_api_constant<
+      mp_list<float_query>,
+#ifdef GL_MIN_FRAGMENT_INTERPOLATION_OFFSET
+      enum_type_c<GL_MIN_FRAGMENT_INTERPOLATION_OFFSET>>
+#else
+      enum_type_i>
+#endif
+      min_fragment_interpolation_offset;
+
+    opt_c_api_constant<
+      mp_list<float_query>,
+#ifdef GL_MAX_FRAGMENT_INTERPOLATION_OFFSET
+      enum_type_c<GL_MAX_FRAGMENT_INTERPOLATION_OFFSET>>
+#else
+      enum_type_i>
+#endif
+      max_fragment_interpolation_offset;
+
+    opt_c_api_constant<
+      mp_list<float_query>,
+#ifdef GL_MAX_TEXTURE_LOD_BIAS
+      enum_type_c<GL_MAX_TEXTURE_LOD_BIAS>>
+#else
+      enum_type_i>
+#endif
+      max_texture_lod_bias;
+
+    opt_c_api_constant<
+      mp_list<float_query>,
+#ifdef GL_MAX_TEXTURE_MAX_ANISOTROPY
+      enum_type_c<GL_MAX_TEXTURE_MAX_ANISOTROPY>>
+#else
+      enum_type_i>
+#endif
+      max_texture_max_anisotropy;
+
+    opt_c_api_constant<
+      mp_list<float_query>,
+#ifdef GL_MAX_VIEWPORT_DIMS
+      enum_type_c<GL_MAX_VIEWPORT_DIMS>>
+#else
+      enum_type_i>
+#endif
+      max_viewport_dims;
 
     // string query
     opt_c_api_constant<
@@ -5115,7 +5306,7 @@ public:
       patch_vertices;
 
     opt_c_api_constant<
-      mp_list<patch_parameter>,
+      mp_list<patch_parameter, float_query>,
 #ifdef GL_PATCH_DEFAULT_OUTER_LEVEL
       enum_type_c<GL_PATCH_DEFAULT_OUTER_LEVEL>>
 #else
@@ -5124,7 +5315,7 @@ public:
       patch_default_outer_level;
 
     opt_c_api_constant<
-      mp_list<patch_parameter>,
+      mp_list<patch_parameter, float_query>,
 #ifdef GL_PATCH_DEFAULT_INNER_LEVEL
       enum_type_c<GL_PATCH_DEFAULT_INNER_LEVEL>>
 #else
@@ -5259,7 +5450,7 @@ public:
       point_size_max;
 
     opt_c_api_constant<
-      mp_list<point_parameter>,
+      mp_list<point_parameter, float_query>,
 #ifdef GL_POINT_FADE_THRESHOLD_SIZE
       enum_type_c<GL_POINT_FADE_THRESHOLD_SIZE>>
 #else
@@ -9676,6 +9867,30 @@ public:
       , max_label_length("MAX_LABEL_LENGTH", traits, api)
       , max_shader_compiler_threads(
           "MAX_SHADER_COMPILER_THREADS_ARB", traits, api)
+      , line_width("LINE_WIDTH", traits, api)
+      , point_size("POINT_SIZE", traits, api)
+      , polygon_offset_clamp("POLYGON_OFFSET_CLAMP", traits, api)
+      , polygon_offset_factor("POLYGON_OFFSET_FACTOR", traits, api)
+      , polygon_offset_units("POLYGON_OFFSET_UNITS", traits, api)
+      , sample_coverage_value("SAMPLE_COVERAGE_VALUE", traits, api)
+      , blend_color("BLEND_COLOR", traits, api)
+      , color_clear_value("COLOR_CLEAR_VALUE", traits, api)
+      , depth_clear_value("DEPTH_CLEAR_VALUE", traits, api)
+      , viewport_bounds_range("VIEWPORT_BOUNDS_RANGE", traits, api)
+      , point_size_range("POINT_SIZE_RANGE", traits, api)
+      , point_size_granularity("POINT_SIZE_GRANULARITY", traits, api)
+      , aliased_line_width_range("ALIASED_LINE_WIDTH_RANGE", traits, api)
+      , smooth_line_width_range("SMOOTH_LINE_WIDTH_RANGE", traits, api)
+      , smooth_line_width_granularity(
+          "SMOOTH_LINE_WIDTH_GRANULARITY", traits, api)
+      , min_sample_shading_value("MIN_SAMPLE_SHADING_VALUE", traits, api)
+      , min_fragment_interpolation_offset(
+          "MIN_FRAGMENT_INTERPOLATION_OFFSET", traits, api)
+      , max_fragment_interpolation_offset(
+          "MAX_FRAGMENT_INTERPOLATION_OFFSET", traits, api)
+      , max_texture_lod_bias("MAX_TEXTURE_LOD_BIAS", traits, api)
+      , max_texture_max_anisotropy("MAX_TEXTURE_MAX_ANISOTROPY", traits, api)
+      , max_viewport_dims("MAX_VIEWPORT_DIMS", traits, api)
       , vendor("VENDOR", traits, api)
       , renderer("RENDERER", traits, api)
       , version("VERSION", traits, api)
