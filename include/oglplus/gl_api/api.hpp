@@ -202,6 +202,19 @@ public:
       &c_api::CreateVertexArrays>
       create_vertex_arrays;
 
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().GenPathsNV);
+        }
+
+        constexpr auto operator()() const noexcept {
+            return this->_check(this->call(this->api().GenPathsNV, 1))
+              .transformed([](name_type n) { return owned_path_nv_name(n); });
+        }
+    } create_paths_nv;
+
     // delete objects
     template <typename ObjTag, typename W, W c_api::*DeleteObjects>
     struct delete_object_func : derived_func {
@@ -325,6 +338,90 @@ public:
       decltype(c_api::DeleteVertexArrays),
       &c_api::DeleteVertexArrays>
       delete_vertex_arrays;
+
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().DeletePathsNV);
+        }
+
+        constexpr auto operator()(owned_path_nv_name name) const noexcept {
+            return this->_check(
+              this->call(this->api().DeletePathsNV, name.release(), 1));
+        }
+
+        auto raii(owned_path_nv_name& name) noexcept {
+            return eagine::finally([this, &name]() { (*this)(name); });
+        }
+    } delete_paths_nv;
+
+    // is_object
+    template <typename ObjTag, typename W, W c_api::*IsObject>
+    struct is_object_func : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().*IsObject);
+        }
+
+        constexpr bool operator()(gl_object_name<ObjTag> name) const noexcept {
+            return this
+              ->_check(this->call(this->api().*IsObject, name_type(name)))
+              .transformed([](bool_type b) { return b == GL_TRUE; });
+        }
+    };
+
+    is_object_func<buffer_tag, decltype(c_api::IsBuffer), &c_api::IsBuffer>
+      is_buffer;
+
+    is_object_func<
+      framebuffer_tag,
+      decltype(c_api::IsFramebuffer),
+      &c_api::IsFramebuffer>
+      is_framebuffer;
+
+    is_object_func<
+      program_pipeline_tag,
+      decltype(c_api::IsProgramPipeline),
+      &c_api::IsProgramPipeline>
+      is_program_pipeline;
+
+    is_object_func<program_tag, decltype(c_api::IsProgram), &c_api::IsProgram>
+      is_program;
+
+    is_object_func<query_tag, decltype(c_api::IsQuery), &c_api::IsQuery>
+      is_query;
+
+    is_object_func<
+      renderbuffer_tag,
+      decltype(c_api::IsRenderbuffer),
+      &c_api::IsRenderbuffer>
+      is_renderbuffer;
+
+    is_object_func<sampler_tag, decltype(c_api::IsSampler), &c_api::IsSampler>
+      is_sampler;
+
+    is_object_func<shader_tag, decltype(c_api::IsShader), &c_api::IsShader>
+      is_shader;
+
+    is_object_func<texture_tag, decltype(c_api::IsTexture), &c_api::IsTexture>
+      is_texture;
+
+    is_object_func<
+      transform_feedback_tag,
+      decltype(c_api::IsTransformFeedback),
+      &c_api::IsTransformFeedback>
+      is_transform_feedback;
+
+    is_object_func<
+      vertex_array_tag,
+      decltype(c_api::IsVertexArray),
+      &c_api::IsVertexArray>
+      is_vertex_array;
+
+    is_object_func<path_nv_tag, decltype(c_api::IsPathNV), &c_api::IsPathNV>
+      is_path_nv;
 
     // viewport
     struct : derived_func {
@@ -469,6 +566,7 @@ public:
       , create_transform_feedbacks("create_transform_feedbacks", traits, *this)
       , gen_vertex_arrays("gen_vertex_arrays", traits, *this)
       , create_vertex_arrays("create_vertex_arrays", traits, *this)
+      , create_paths_nv("create_paths_nv", traits, *this)
       , delete_shader("delete_shader", traits, *this)
       , delete_program("delete_program", traits, *this)
       , delete_buffers("delete_buffers", traits, *this)
@@ -480,6 +578,19 @@ public:
       , delete_textures("delete_textures", traits, *this)
       , delete_transform_feedbacks("delete_transform_feedbacks", traits, *this)
       , delete_vertex_arrays("delete_vertex_arrays", traits, *this)
+      , delete_paths_nv("delete_paths_nv", traits, *this)
+      , is_buffer("is_buffer", traits, *this)
+      , is_framebuffer("is_framebuffer", traits, *this)
+      , is_program_pipeline("is_program_pipeline", traits, *this)
+      , is_program("is_program", traits, *this)
+      , is_query("is_query", traits, *this)
+      , is_renderbuffer("is_renderbuffer", traits, *this)
+      , is_sampler("is_sampler", traits, *this)
+      , is_shader("is_shader", traits, *this)
+      , is_texture("is_texture", traits, *this)
+      , is_transform_feedback("is_transform_feedback", traits, *this)
+      , is_vertex_array("is_vertex_array", traits, *this)
+      , is_path_nv("is_path_nv", traits, *this)
       , viewport("viewport", traits, *this)
       , clear_color("clear_color", traits, *this)
       , clear_depth("clear_depth", traits, *this)
