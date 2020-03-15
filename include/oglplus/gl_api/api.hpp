@@ -49,9 +49,9 @@ public:
         }
     };
 
-    // gen objects
+    // generate / create objects
     template <typename ObjTag, typename W, W c_api::*GenObjects>
-    struct gen_object_func : derived_func {
+    struct make_object_func : derived_func {
         using derived_func::derived_func;
 
         explicit constexpr operator bool() const noexcept {
@@ -70,53 +70,137 @@ public:
         }
     };
 
-    gen_object_func<buffer_tag, decltype(c_api::GenBuffers), &c_api::GenBuffers>
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().CreateShader);
+        }
+
+        constexpr auto operator()(shader_type type) const noexcept {
+            return this
+              ->_check(this->call(this->api().CreateShader, enum_type(type)))
+              .transformed([](name_type n) { return owned_shader_name(n); });
+        }
+    } create_shader;
+
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().CreateProgram);
+        }
+
+        constexpr auto operator()() const noexcept {
+            return this->_check(this->call(this->api().CreateProgram))
+              .transformed([](name_type n) { return owned_program_name(n); });
+        }
+    } create_program;
+
+    make_object_func<
+      buffer_tag,
+      decltype(c_api::GenBuffers),
+      &c_api::GenBuffers>
       gen_buffers;
 
-    gen_object_func<
+    make_object_func<
+      buffer_tag,
+      decltype(c_api::CreateBuffers),
+      &c_api::CreateBuffers>
+      create_buffers;
+
+    make_object_func<
       framebuffer_tag,
       decltype(c_api::GenFramebuffers),
       &c_api::GenFramebuffers>
       gen_framebuffers;
 
-    gen_object_func<
+    make_object_func<
+      framebuffer_tag,
+      decltype(c_api::CreateFramebuffers),
+      &c_api::CreateFramebuffers>
+      create_framebuffers;
+
+    make_object_func<
       program_pipeline_tag,
       decltype(c_api::GenProgramPipelines),
       &c_api::GenProgramPipelines>
       gen_program_pipelines;
 
-    gen_object_func<query_tag, decltype(c_api::GenQueries), &c_api::GenQueries>
+    make_object_func<
+      program_pipeline_tag,
+      decltype(c_api::CreateProgramPipelines),
+      &c_api::CreateProgramPipelines>
+      create_program_pipelines;
+
+    make_object_func<query_tag, decltype(c_api::GenQueries), &c_api::GenQueries>
       gen_queries;
 
-    gen_object_func<
+    make_object_func<
+      query_tag,
+      decltype(c_api::CreateQueries),
+      &c_api::CreateQueries>
+      create_queries;
+
+    make_object_func<
       renderbuffer_tag,
       decltype(c_api::GenRenderbuffers),
       &c_api::GenRenderbuffers>
       gen_renderbuffers;
 
-    gen_object_func<
+    make_object_func<
+      renderbuffer_tag,
+      decltype(c_api::CreateRenderbuffers),
+      &c_api::CreateRenderbuffers>
+      create_renderbuffers;
+
+    make_object_func<
       sampler_tag,
       decltype(c_api::GenSamplers),
       &c_api::GenSamplers>
       gen_samplers;
 
-    gen_object_func<
+    make_object_func<
+      sampler_tag,
+      decltype(c_api::CreateSamplers),
+      &c_api::CreateSamplers>
+      create_samplers;
+
+    make_object_func<
       texture_tag,
       decltype(c_api::GenTextures),
       &c_api::GenTextures>
       gen_textures;
 
-    gen_object_func<
+    make_object_func<
+      texture_tag,
+      decltype(c_api::CreateTextures),
+      &c_api::CreateTextures>
+      create_textures;
+
+    make_object_func<
       transform_feedback_tag,
       decltype(c_api::GenTransformFeedbacks),
       &c_api::GenTransformFeedbacks>
       gen_transform_feedbacks;
 
-    gen_object_func<
+    make_object_func<
+      transform_feedback_tag,
+      decltype(c_api::CreateTransformFeedbacks),
+      &c_api::CreateTransformFeedbacks>
+      create_transform_feedbacks;
+
+    make_object_func<
       vertex_array_tag,
       decltype(c_api::GenVertexArrays),
       &c_api::GenVertexArrays>
       gen_vertex_arrays;
+
+    make_object_func<
+      vertex_array_tag,
+      decltype(c_api::CreateVertexArrays),
+      &c_api::CreateVertexArrays>
+      create_vertex_arrays;
 
     // delete objects
     template <typename ObjTag, typename W, W c_api::*DeleteObjects>
@@ -153,6 +237,40 @@ public:
             });
         }
     };
+
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().DeleteShader);
+        }
+
+        constexpr auto operator()(owned_shader_name name) const noexcept {
+            return this->_check(
+              this->call(this->api().DeleteShader, name.release()));
+        }
+
+        auto raii(owned_shader_name& name) noexcept {
+            return eagine::finally([this, &name]() { (*this)(name); });
+        }
+    } delete_shader;
+
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().DeleteProgram);
+        }
+
+        constexpr auto operator()(owned_program_name name) const noexcept {
+            return this->_check(
+              this->call(this->api().DeleteProgram, name.release()));
+        }
+
+        auto raii(owned_program_name& name) noexcept {
+            return eagine::finally([this, &name]() { (*this)(name); });
+        }
+    } delete_program;
 
     delete_object_func<
       buffer_tag,
@@ -331,15 +449,28 @@ public:
 
     constexpr basic_gl_api(api_traits& traits)
       : c_api{traits}
+      , create_shader("create_shader", traits, *this)
+      , create_program("create_program", traits, *this)
       , gen_buffers("gen_buffers", traits, *this)
+      , create_buffers("create_buffers", traits, *this)
       , gen_framebuffers("gen_framebuffers", traits, *this)
+      , create_framebuffers("create_framebuffers", traits, *this)
       , gen_program_pipelines("gen_program_pipelines", traits, *this)
+      , create_program_pipelines("create_program_pipelines", traits, *this)
       , gen_queries("gen_queries", traits, *this)
+      , create_queries("create_queries", traits, *this)
       , gen_renderbuffers("gen_renderbuffers", traits, *this)
+      , create_renderbuffers("create_renderbuffers", traits, *this)
       , gen_samplers("gen_samplers", traits, *this)
+      , create_samplers("create_samplers", traits, *this)
       , gen_textures("gen_textures", traits, *this)
+      , create_textures("create_textures", traits, *this)
       , gen_transform_feedbacks("gen_transform_feedbacks", traits, *this)
+      , create_transform_feedbacks("create_transform_feedbacks", traits, *this)
       , gen_vertex_arrays("gen_vertex_arrays", traits, *this)
+      , create_vertex_arrays("create_vertex_arrays", traits, *this)
+      , delete_shader("delete_shader", traits, *this)
+      , delete_program("delete_program", traits, *this)
       , delete_buffers("delete_buffers", traits, *this)
       , delete_framebuffers("delete_framebuffers", traits, *this)
       , delete_program_pipelines("delete_program_pipelines", traits, *this)
