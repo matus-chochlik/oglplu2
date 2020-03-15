@@ -70,7 +70,6 @@ public:
         }
     };
 
-    // gen_objects
     gen_object_func<buffer_tag, decltype(c_api::GenBuffers), &c_api::GenBuffers>
       gen_buffers;
 
@@ -118,6 +117,96 @@ public:
       decltype(c_api::GenVertexArrays),
       &c_api::GenVertexArrays>
       gen_vertex_arrays;
+
+    // delete objects
+    template <typename ObjTag, typename W, W c_api::*DeleteObjects>
+    struct delete_object_func : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().*DeleteObjects);
+        }
+
+        constexpr auto operator()(span<const name_type> names) const noexcept {
+            return this->_check(this->call(
+              this->api().*DeleteObjects,
+              sizei_type(names.size()),
+              names.data()));
+        }
+
+        constexpr auto operator()(gl_owned_object_name<ObjTag>& name) const
+          noexcept {
+            auto n = name.release();
+            return this->_check(this->call(this->api().*DeleteObjects, 1, &n));
+        }
+
+        auto raii(gl_owned_object_name<ObjTag>& name) noexcept {
+            return eagine::finally([this, &name]() { (*this)(name); });
+        }
+
+        template <typename Res>
+        auto raii_opt(Res& res) noexcept {
+            return eagine::finally([this, &res]() {
+                if(res) {
+                    (*this)(extract(res));
+                }
+            });
+        }
+    };
+
+    delete_object_func<
+      buffer_tag,
+      decltype(c_api::DeleteBuffers),
+      &c_api::DeleteBuffers>
+      delete_buffers;
+
+    delete_object_func<
+      framebuffer_tag,
+      decltype(c_api::DeleteFramebuffers),
+      &c_api::DeleteFramebuffers>
+      delete_framebuffers;
+
+    delete_object_func<
+      program_pipeline_tag,
+      decltype(c_api::DeleteProgramPipelines),
+      &c_api::DeleteProgramPipelines>
+      delete_program_pipelines;
+
+    delete_object_func<
+      query_tag,
+      decltype(c_api::DeleteQueries),
+      &c_api::DeleteQueries>
+      delete_queries;
+
+    delete_object_func<
+      renderbuffer_tag,
+      decltype(c_api::DeleteRenderbuffers),
+      &c_api::DeleteRenderbuffers>
+      delete_renderbuffers;
+
+    delete_object_func<
+      sampler_tag,
+      decltype(c_api::DeleteSamplers),
+      &c_api::DeleteSamplers>
+      delete_samplers;
+
+    delete_object_func<
+      texture_tag,
+      decltype(c_api::DeleteTextures),
+      &c_api::DeleteTextures>
+      delete_textures;
+
+    delete_object_func<
+      transform_feedback_tag,
+      decltype(c_api::DeleteTransformFeedbacks),
+      &c_api::DeleteTransformFeedbacks>
+      delete_transform_feedbacks;
+
+    delete_object_func<
+      vertex_array_tag,
+      decltype(c_api::DeleteVertexArrays),
+      &c_api::DeleteVertexArrays>
+      delete_vertex_arrays;
 
     // viewport
     struct : derived_func {
@@ -251,6 +340,15 @@ public:
       , gen_textures("gen_textures", traits, *this)
       , gen_transform_feedbacks("gen_transform_feedbacks", traits, *this)
       , gen_vertex_arrays("gen_vertex_arrays", traits, *this)
+      , delete_buffers("delete_buffers", traits, *this)
+      , delete_framebuffers("delete_framebuffers", traits, *this)
+      , delete_program_pipelines("delete_program_pipelines", traits, *this)
+      , delete_queries("delete_queries", traits, *this)
+      , delete_renderbuffers("delete_renderbuffers", traits, *this)
+      , delete_samplers("delete_samplers", traits, *this)
+      , delete_textures("delete_textures", traits, *this)
+      , delete_transform_feedbacks("delete_transform_feedbacks", traits, *this)
+      , delete_vertex_arrays("delete_vertex_arrays", traits, *this)
       , viewport("viewport", traits, *this)
       , clear_color("clear_color", traits, *this)
       , clear_depth("clear_depth", traits, *this)
