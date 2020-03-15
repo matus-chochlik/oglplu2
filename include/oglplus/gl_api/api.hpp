@@ -29,6 +29,7 @@ public:
     using sizei_type = typename gl_types::sizei_type;
     using int_type = typename gl_types::int_type;
     using uint_type = typename gl_types::uint_type;
+    using int64_type = typename gl_types::int64_type;
     using bool_type = typename gl_types::bool_type;
     using char_type = typename gl_types::char_type;
     using enum_type = typename gl_types::enum_type;
@@ -529,6 +530,29 @@ public:
         }
     } get_integer;
 
+    // get_integer64
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().GetInteger64v);
+        }
+
+        constexpr auto operator()(integer_query query) const noexcept {
+            int64_type result{};
+            return this
+              ->_check(this->call(
+                this->api().GetInteger64v, enum_type(query), &result))
+              .transformed([&result]() { return result; });
+        }
+
+        constexpr auto operator()(
+          integer_query query, span<int64_type> dest) const noexcept {
+            return this->_check(this->call(
+              this->api().GetInteger64v, enum_type(query), dest.data()));
+        }
+    } get_integer64;
+
     // get_float
     struct : derived_func {
         using derived_func::derived_func;
@@ -643,6 +667,7 @@ public:
       , clear_stencil("clear_stencil", traits, *this)
       , clear("clear", traits, *this)
       , get_integer("get_integer", traits, *this)
+      , get_integer64("get_integer64", traits, *this)
       , get_float("get_float", traits, *this)
       , get_string("get_string", traits, *this) {
     }

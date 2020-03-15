@@ -3652,6 +3652,411 @@ public:
     // integer query
     opt_c_api_constant<
       mp_list<integer_query>,
+#ifdef GL_MAJOR_VERSION
+      enum_type_c<GL_MAJOR_VERSION>>
+#else
+      enum_type_i>
+#endif
+      major_version;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_MINOR_VERSION
+      enum_type_c<GL_MINOR_VERSION>>
+#else
+      enum_type_i>
+#endif
+      minor_version;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_RESET_NOTIFICATION_STRATEGY
+      enum_type_c<GL_RESET_NOTIFICATION_STRATEGY>>
+#else
+      enum_type_i>
+#endif
+      reset_notification_strategy;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_NUM_SHADING_LANGUAGE_VERSIONS
+      enum_type_c<GL_NUM_SHADING_LANGUAGE_VERSIONS>>
+#else
+      enum_type_i>
+#endif
+      num_shading_language_versions;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_NUM_EXTENSIONS
+      enum_type_c<GL_NUM_EXTENSIONS>>
+#else
+      enum_type_i>
+#endif
+      num_extensions;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_NUM_SPIR_V_EXTENSIONS
+      enum_type_c<GL_NUM_SPIR_V_EXTENSIONS>>
+#else
+      enum_type_i>
+#endif
+      num_spir_v_extensions;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_CONTEXT_FLAGS
+      enum_type_c<GL_CONTEXT_FLAGS>>
+#else
+      enum_type_i>
+#endif
+      context_flags;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_CONTEXT_PROFILE_MASK
+      enum_type_c<GL_CONTEXT_PROFILE_MASK>>
+#else
+      enum_type_i>
+#endif
+      context_profile_mask;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_CLIP_ORIGIN
+      enum_type_c<GL_CLIP_ORIGIN>>
+#else
+      enum_type_i>
+#endif
+      clip_origin;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_CLIP_DEPTH_MODE
+      enum_type_c<GL_CLIP_DEPTH_MODE>>
+#else
+      enum_type_i>
+#endif
+      clip_depth_mode;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_CLAMP_READ_COLOR
+      enum_type_c<GL_CLAMP_READ_COLOR>>
+#else
+      enum_type_i>
+#endif
+      clamp_read_color;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_PROVOKING_VERTEX
+      enum_type_c<GL_PROVOKING_VERTEX>>
+#else
+      enum_type_i>
+#endif
+      provoking_vertex;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_LAYER_PROVOKING_VERTEX
+      enum_type_c<GL_LAYER_PROVOKING_VERTEX>>
+#else
+      enum_type_i>
+#endif
+      layer_provoking_vertex;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_VIEWPORT_INDEX_PROVOKING_VERTEX
+      enum_type_c<GL_VIEWPORT_INDEX_PROVOKING_VERTEX>>
+#else
+      enum_type_i>
+#endif
+      viewport_index_provoking_vertex;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_CULL_FACE_MODE
+      enum_type_c<GL_CULL_FACE_MODE>>
+#else
+      enum_type_i>
+#endif
+      cull_face_mode;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_FRONT_FACE
+      enum_type_c<GL_FRONT_FACE>>
+#else
+      enum_type_i>
+#endif
+      front_face;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_POLYGON_MODE
+      enum_type_c<GL_POLYGON_MODE>>
+#else
+      enum_type_i>
+#endif
+      polygon_mode;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_ACTIVE_TEXTURE
+      enum_type_c<GL_ACTIVE_TEXTURE>>
+#else
+      enum_type_i>
+#endif
+      active_texture;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_STENCIL_FUNC
+      enum_type_c<GL_STENCIL_FUNC>>
+#else
+      enum_type_i>
+#endif
+      stencil_func;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_STENCIL_VALUE_MASK
+      enum_type_c<GL_STENCIL_VALUE_MASK>>
+#else
+      enum_type_i>
+#endif
+      stencil_value_mask;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_STENCIL_REF
+      enum_type_c<GL_STENCIL_REF>>
+#else
+      enum_type_i>
+#endif
+      stencil_ref;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_STENCIL_FAIL
+      enum_type_c<GL_STENCIL_FAIL>>
+#else
+      enum_type_i>
+#endif
+      stencil_fail;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_STENCIL_PASS_DEPTH_FAIL
+      enum_type_c<GL_STENCIL_PASS_DEPTH_FAIL>>
+#else
+      enum_type_i>
+#endif
+      stencil_pass_depth_fail;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_STENCIL_PASS_DEPTH_PASS
+      enum_type_c<GL_STENCIL_PASS_DEPTH_PASS>>
+#else
+      enum_type_i>
+#endif
+      stencil_pass_depth_pass;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_STENCIL_BACK_FUNC
+      enum_type_c<GL_STENCIL_BACK_FUNC>>
+#else
+      enum_type_i>
+#endif
+      stencil_back_func;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_STENCIL_BACK_VALUE_MASK
+      enum_type_c<GL_STENCIL_BACK_VALUE_MASK>>
+#else
+      enum_type_i>
+#endif
+      stencil_back_value_mask;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_STENCIL_BACK_REF
+      enum_type_c<GL_STENCIL_BACK_REF>>
+#else
+      enum_type_i>
+#endif
+      stencil_back_ref;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_STENCIL_BACK_FAIL
+      enum_type_c<GL_STENCIL_BACK_FAIL>>
+#else
+      enum_type_i>
+#endif
+      stencil_back_fail;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_STENCIL_BACK_PASS_DEPTH_FAIL
+      enum_type_c<GL_STENCIL_BACK_PASS_DEPTH_FAIL>>
+#else
+      enum_type_i>
+#endif
+      stencil_back_pass_depth_fail;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_STENCIL_BACK_PASS_DEPTH_PASS
+      enum_type_c<GL_STENCIL_BACK_PASS_DEPTH_PASS>>
+#else
+      enum_type_i>
+#endif
+      stencil_back_pass_depth_pass;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_STENCIL_WRITEMASK
+      enum_type_c<GL_STENCIL_WRITEMASK>>
+#else
+      enum_type_i>
+#endif
+      stencil_writemask;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_STENCIL_BACK_WRITEMASK
+      enum_type_c<GL_STENCIL_BACK_WRITEMASK>>
+#else
+      enum_type_i>
+#endif
+      stencil_back_writemask;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_STENCIL_CLEAR_VALUE
+      enum_type_c<GL_STENCIL_CLEAR_VALUE>>
+#else
+      enum_type_i>
+#endif
+      stencil_clear_value;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_DEPTH_FUNC
+      enum_type_c<GL_DEPTH_FUNC>>
+#else
+      enum_type_i>
+#endif
+      depth_func;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_LOGIC_OP_MODE
+      enum_type_c<GL_LOGIC_OP_MODE>>
+#else
+      enum_type_i>
+#endif
+      logic_op_mode;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_SAMPLE_BUFFERS
+      enum_type_c<GL_SAMPLE_BUFFERS>>
+#else
+      enum_type_i>
+#endif
+      sample_buffers;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_SUBPIXEL_BITS
+      enum_type_c<GL_SUBPIXEL_BITS>>
+#else
+      enum_type_i>
+#endif
+      subpixel_bits;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_VIEWPORT_SUBPIXEL_BITS
+      enum_type_c<GL_VIEWPORT_SUBPIXEL_BITS>>
+#else
+      enum_type_i>
+#endif
+      viewport_subpixel_bits;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_NUM_COMPRESSED_TEXTURE_FORMATS
+      enum_type_c<GL_NUM_COMPRESSED_TEXTURE_FORMATS>>
+#else
+      enum_type_i>
+#endif
+      num_compressed_texture_formats;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_COMPRESSED_TEXTURE_FORMATS
+      enum_type_c<GL_COMPRESSED_TEXTURE_FORMATS>>
+#else
+      enum_type_i>
+#endif
+      compressed_texture_formats;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_NUM_PROGRAM_BINARY_FORMATS
+      enum_type_c<GL_NUM_PROGRAM_BINARY_FORMATS>>
+#else
+      enum_type_i>
+#endif
+      num_program_binary_formats;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_PROGRAM_BINARY_FORMATS
+      enum_type_c<GL_PROGRAM_BINARY_FORMATS>>
+#else
+      enum_type_i>
+#endif
+      program_binary_formats;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_NUM_SHADER_BINARY_FORMATS
+      enum_type_c<GL_NUM_SHADER_BINARY_FORMATS>>
+#else
+      enum_type_i>
+#endif
+      num_shader_binary_formats;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_SHADER_BINARY_FORMATS
+      enum_type_c<GL_SHADER_BINARY_FORMATS>>
+#else
+      enum_type_i>
+#endif
+      shader_binary_formats;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_TEXTURE_BUFFER_OFFSET_ALIGNMENT
+      enum_type_c<GL_TEXTURE_BUFFER_OFFSET_ALIGNMENT>>
+#else
+      enum_type_i>
+#endif
+      texture_buffer_offset_alignment;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
 #ifdef GL_MAX_VERTEX_UNIFORM_BLOCKS
       enum_type_c<GL_MAX_VERTEX_UNIFORM_BLOCKS>>
 #else
@@ -5297,7 +5702,7 @@ public:
       fractional_odd;
 
     opt_c_api_constant<
-      mp_list<patch_parameter>,
+      mp_list<patch_parameter, integer_query>,
 #ifdef GL_PATCH_VERTICES
       enum_type_c<GL_PATCH_VERTICES>>
 #else
@@ -5459,7 +5864,7 @@ public:
       point_fade_threshold_size;
 
     opt_c_api_constant<
-      mp_list<point_parameter>,
+      mp_list<point_parameter, integer_query>,
 #ifdef GL_POINT_SPRITE_COORD_ORIGIN
       enum_type_c<GL_POINT_SPRITE_COORD_ORIGIN>>
 #else
@@ -5468,7 +5873,7 @@ public:
       point_sprite_coord_origin;
 
     opt_c_api_constant<
-      mp_list<polygon_mode>,
+      mp_list<oglp::polygon_mode>,
 #ifdef GL_POINT
       enum_type_c<GL_POINT>>
 #else
@@ -5477,7 +5882,7 @@ public:
       point;
 
     opt_c_api_constant<
-      mp_list<polygon_mode>,
+      mp_list<oglp::polygon_mode>,
 #ifdef GL_LINE
       enum_type_c<GL_LINE>>
 #else
@@ -5486,7 +5891,7 @@ public:
       line;
 
     opt_c_api_constant<
-      mp_list<polygon_mode>,
+      mp_list<oglp::polygon_mode>,
 #ifdef GL_FILL
       enum_type_c<GL_FILL>>
 #else
@@ -5495,7 +5900,7 @@ public:
       fill;
 
     opt_c_api_constant<
-      mp_list<polygon_mode>,
+      mp_list<oglp::polygon_mode>,
 #ifdef GL_FILL_RECTANGLE_NV
       enum_type_c<GL_FILL_RECTANGLE_NV>>
 #else
@@ -7304,7 +7709,7 @@ public:
       num_sample_counts;
 
     opt_c_api_constant<
-      mp_list<internal_format_parameter>,
+      mp_list<internal_format_parameter, integer_query>,
 #ifdef GL_SAMPLES
       enum_type_c<GL_SAMPLES>>
 #else
@@ -9847,6 +10252,57 @@ public:
       , vertex_array_binding("VERTEX_ARRAY_BINDING", traits, api)
       , current_program("CURRENT_PROGRAM", traits, api)
       , draw_buffer0("DRAW_BUFFER0", traits, api)
+      , major_version("MAJOR_VERSION", traits, api)
+      , minor_version("MINOR_VERSION", traits, api)
+      , reset_notification_strategy("RESET_NOTIFICATION_STRATEGY", traits, api)
+      , num_shading_language_versions(
+          "NUM_SHADING_LANGUAGE_VERSIONS", traits, api)
+      , num_extensions("NUM_EXTENSIONS", traits, api)
+      , num_spir_v_extensions("NUM_SPIR_V_EXTENSIONS", traits, api)
+      , context_flags("CONTEXT_FLAGS", traits, api)
+      , context_profile_mask("CONTEXT_PROFILE_MASK", traits, api)
+      , clip_origin("CLIP_ORIGIN", traits, api)
+      , clip_depth_mode("CLIP_DEPTH_MODE", traits, api)
+      , clamp_read_color("CLAMP_READ_COLOR", traits, api)
+      , provoking_vertex("PROVOKING_VERTEX", traits, api)
+      , layer_provoking_vertex("LAYER_PROVOKING_VERTEX", traits, api)
+      , viewport_index_provoking_vertex(
+          "VIEWPORT_INDEX_PROVOKING_VERTEX", traits, api)
+      , cull_face_mode("CULL_FACE_MODE", traits, api)
+      , front_face("FRONT_FACE", traits, api)
+      , polygon_mode("POLYGON_MODE", traits, api)
+      , active_texture("ACTIVE_TEXTURE", traits, api)
+      , stencil_func("STENCIL_FUNC", traits, api)
+      , stencil_value_mask("STENCIL_VALUE_MASK", traits, api)
+      , stencil_ref("STENCIL_REF", traits, api)
+      , stencil_fail("STENCIL_FAIL", traits, api)
+      , stencil_pass_depth_fail("STENCIL_PASS_DEPTH_FAIL", traits, api)
+      , stencil_pass_depth_pass("STENCIL_PASS_DEPTH_PASS", traits, api)
+      , stencil_back_func("STENCIL_BACK_FUNC", traits, api)
+      , stencil_back_value_mask("STENCIL_BACK_VALUE_MASK", traits, api)
+      , stencil_back_ref("STENCIL_BACK_REF", traits, api)
+      , stencil_back_fail("STENCIL_BACK_FAIL", traits, api)
+      , stencil_back_pass_depth_fail(
+          "STENCIL_BACK_PASS_DEPTH_FAIL", traits, api)
+      , stencil_back_pass_depth_pass(
+          "STENCIL_BACK_PASS_DEPTH_PASS", traits, api)
+      , stencil_writemask("STENCIL_WRITEMASK", traits, api)
+      , stencil_back_writemask("STENCIL_BACK_WRITEMASK", traits, api)
+      , stencil_clear_value("STENCIL_CLEAR_VALUE", traits, api)
+      , depth_func("DEPTH_FUNC", traits, api)
+      , logic_op_mode("LOGIC_OP_MODE", traits, api)
+      , sample_buffers("SAMPLE_BUFFERS", traits, api)
+      , subpixel_bits("SUBPIXEL_BITS", traits, api)
+      , viewport_subpixel_bits("VIEWPORT_SUBPIXEL_BITS", traits, api)
+      , num_compressed_texture_formats(
+          "NUM_COMPRESSED_TEXTURE_FORMATS", traits, api)
+      , compressed_texture_formats("COMPRESSED_TEXTURE_FORMATS", traits, api)
+      , num_program_binary_formats("NUM_PROGRAM_BINARY_FORMATS", traits, api)
+      , program_binary_formats("PROGRAM_BINARY_FORMATS", traits, api)
+      , num_shader_binary_formats("NUM_SHADER_BINARY_FORMATS", traits, api)
+      , shader_binary_formats("SHADER_BINARY_FORMATS", traits, api)
+      , texture_buffer_offset_alignment(
+          "TEXTURE_BUFFER_OFFSET_ALIGNMENT", traits, api)
       , max_vertex_uniform_blocks("MAX_VERTEX_UNIFORM_BLOCKS", traits, api)
       , max_tess_control_uniform_blocks(
           "MAX_TESS_CONTROL_UNIFORM_BLOCKS", traits, api)
