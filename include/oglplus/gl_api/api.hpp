@@ -11,6 +11,7 @@
 
 #include "c_api.hpp"
 #include "enum_types.hpp"
+#include "object_name.hpp"
 #include <eagine/scope_exit.hpp>
 #include <eagine/string_list.hpp>
 
@@ -27,12 +28,15 @@ public:
     using void_ptr_type = typename gl_types::void_ptr_type;
     using sizei_type = typename gl_types::sizei_type;
     using int_type = typename gl_types::int_type;
-    using bool_type = typename gl_types::char_type;
+    using uint_type = typename gl_types::uint_type;
+    using bool_type = typename gl_types::bool_type;
     using char_type = typename gl_types::char_type;
     using enum_type = typename gl_types::enum_type;
     using float_type = typename gl_types::float_type;
     using double_type = typename gl_types::double_type;
     using bitfield_type = typename gl_types::bitfield_type;
+
+    using name_type = typename gl_types::name_type;
 
     struct derived_func : derived_c_api_function<c_api, api_traits, nothing_t> {
         using base = derived_c_api_function<c_api, api_traits, nothing_t>;
@@ -44,6 +48,76 @@ public:
             return std::forward<Res>(res);
         }
     };
+
+    // gen objects
+    template <typename ObjTag, typename W, W c_api::*GenObjects>
+    struct gen_object_func : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().*GenObjects);
+        }
+
+        constexpr auto operator()(span<name_type> names) const noexcept {
+            return this->_check(this->call(
+              this->api().*GenObjects, sizei_type(names.size()), names.data()));
+        }
+
+        constexpr auto operator()() const noexcept {
+            name_type n{};
+            return this->_check(this->call(this->api().*GenObjects, 1, &n))
+              .transformed([&n]() { return gl_owned_object_name<ObjTag>(n); });
+        }
+    };
+
+    // gen_objects
+    gen_object_func<buffer_tag, decltype(c_api::GenBuffers), &c_api::GenBuffers>
+      gen_buffers;
+
+    gen_object_func<
+      framebuffer_tag,
+      decltype(c_api::GenFramebuffers),
+      &c_api::GenFramebuffers>
+      gen_framebuffers;
+
+    gen_object_func<
+      program_pipeline_tag,
+      decltype(c_api::GenProgramPipelines),
+      &c_api::GenProgramPipelines>
+      gen_program_pipelines;
+
+    gen_object_func<query_tag, decltype(c_api::GenQueries), &c_api::GenQueries>
+      gen_queries;
+
+    gen_object_func<
+      renderbuffer_tag,
+      decltype(c_api::GenRenderbuffers),
+      &c_api::GenRenderbuffers>
+      gen_renderbuffers;
+
+    gen_object_func<
+      sampler_tag,
+      decltype(c_api::GenSamplers),
+      &c_api::GenSamplers>
+      gen_samplers;
+
+    gen_object_func<
+      texture_tag,
+      decltype(c_api::GenTextures),
+      &c_api::GenTextures>
+      gen_textures;
+
+    gen_object_func<
+      transform_feedback_tag,
+      decltype(c_api::GenTransformFeedbacks),
+      &c_api::GenTransformFeedbacks>
+      gen_transform_feedbacks;
+
+    gen_object_func<
+      vertex_array_tag,
+      decltype(c_api::GenVertexArrays),
+      &c_api::GenVertexArrays>
+      gen_vertex_arrays;
 
     // viewport
     struct : derived_func {
@@ -168,6 +242,15 @@ public:
 
     constexpr basic_gl_api(api_traits& traits)
       : c_api{traits}
+      , gen_buffers("gen_buffers", traits, *this)
+      , gen_framebuffers("gen_framebuffers", traits, *this)
+      , gen_program_pipelines("gen_program_pipelines", traits, *this)
+      , gen_queries("gen_queries", traits, *this)
+      , gen_renderbuffers("gen_renderbuffers", traits, *this)
+      , gen_samplers("gen_samplers", traits, *this)
+      , gen_textures("gen_textures", traits, *this)
+      , gen_transform_feedbacks("gen_transform_feedbacks", traits, *this)
+      , gen_vertex_arrays("gen_vertex_arrays", traits, *this)
       , viewport("viewport", traits, *this)
       , clear_color("clear_color", traits, *this)
       , clear_depth("clear_depth", traits, *this)

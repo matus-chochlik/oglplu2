@@ -81,6 +81,8 @@ struct gl_types {
     using sync_type = nothing_t;
 #endif
 
+    using name_type = uint_type;
+
     static constexpr bool bool_true(bool_type b) noexcept {
 #if OGLPLUS_HAS_GL
         return b == GL_TRUE;
