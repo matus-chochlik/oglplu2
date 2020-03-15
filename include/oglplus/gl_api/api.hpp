@@ -506,6 +506,29 @@ public:
         }
     } clear;
 
+    // get_integer
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().GetIntegerv);
+        }
+
+        constexpr auto operator()(integer_query query) const noexcept {
+            int_type result{};
+            return this
+              ->_check(
+                this->call(this->api().GetIntegerv, enum_type(query), &result))
+              .transformed([&result]() { return result; });
+        }
+
+        constexpr auto operator()(
+          integer_query query, span<int_type> dest) const noexcept {
+            return this->_check(this->call(
+              this->api().GetIntegerv, enum_type(query), dest.data()));
+        }
+    } get_integer;
+
     // get_string
     struct : derived_func {
         using derived_func::derived_func;
@@ -596,6 +619,7 @@ public:
       , clear_depth("clear_depth", traits, *this)
       , clear_stencil("clear_stencil", traits, *this)
       , clear("clear", traits, *this)
+      , get_integer("get_integer", traits, *this)
       , get_string("get_string", traits, *this) {
     }
 };
