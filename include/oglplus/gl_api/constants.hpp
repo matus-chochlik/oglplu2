@@ -11,6 +11,7 @@
 
 #include "c_api.hpp"
 #include "enum_types.hpp"
+#include "object_name.hpp"
 
 namespace eagine {
 namespace oglp {
@@ -1255,6 +1256,7 @@ public:
 #else
       enum_type_i,
 #endif
+      nothing_t,
       true>
       color_attachment0;
 
@@ -1688,6 +1690,7 @@ public:
 #else
       enum_type_i,
 #endif
+      nothing_t,
       true>
       texture0;
 
@@ -3074,6 +3077,7 @@ public:
 #else
       enum_type_i,
 #endif
+      nothing_t,
       true>
       clip_distance0;
 
@@ -3327,10 +3331,11 @@ public:
     opt_c_api_constant<
       mp_list<binding_query, program_property>,
 #ifdef GL_ARRAY_BUFFER_BINDING
-      enum_type_c<GL_ARRAY_BUFFER_BINDING>>
+      enum_type_c<GL_ARRAY_BUFFER_BINDING>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      buffer_name>
       array_buffer_binding;
 
     opt_c_api_constant<
@@ -3655,6 +3660,7 @@ public:
 #else
       enum_type_i,
 #endif
+      nothing_t,
       true>
       draw_buffer0;
 

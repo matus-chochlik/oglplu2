@@ -16,6 +16,7 @@
 #include "identity.hpp"
 #include "int_constant.hpp"
 #include "is_within_limits.hpp"
+#include "nothing.hpp"
 #include "string_span.hpp"
 #include "valid_if/always.hpp"
 #include "valid_if/never.hpp"
@@ -38,10 +39,10 @@ private:
     string_view _name{};
 };
 //------------------------------------------------------------------------------
-template <typename T, bool is_indexed = false>
+template <typename T, typename Tag = nothing_t, bool is_indexed = false>
 struct no_c_api_constant
   : c_api_constant_base
-  , no_enum_value<T> {
+  , no_enum_value<T, Tag> {
 public:
     template <typename ApiTraits, typename Api>
     constexpr no_c_api_constant(string_view name, ApiTraits&, Api&) noexcept
@@ -50,27 +51,32 @@ public:
 
     template <typename I>
     constexpr std::
-      enable_if_t<(is_indexed && std::is_integral_v<I>), no_enum_value<T>>
+      enable_if_t<(is_indexed && std::is_integral_v<I>), no_enum_value<T, Tag>>
       operator+(I) const noexcept {
         return {};
     }
 };
 //------------------------------------------------------------------------------
-template <typename ClassList, typename T, T value, bool is_indexed = false>
+template <
+  typename ClassList,
+  typename T,
+  T value,
+  typename Tag = nothing_t,
+  bool is_indexed = false>
 struct static_c_api_constant
   : c_api_constant_base
-  , enum_value<T, ClassList> {
+  , enum_value<T, ClassList, Tag> {
 public:
     template <typename ApiTraits, typename Api>
     constexpr static_c_api_constant(string_view name, ApiTraits&, Api&) noexcept
       : c_api_constant_base{name}
-      , enum_value<T, ClassList>{value} {
+      , enum_value<T, ClassList, Tag>{value} {
     }
 
     template <typename I>
     constexpr std::enable_if_t<
       (is_indexed && std::is_integral_v<I>),
-      enum_value<T, ClassList>>
+      enum_value<T, ClassList, Tag>>
     operator+(I index) const noexcept {
         using O = std::conditional_t<
           std::is_signed_v<T>,
@@ -80,23 +86,29 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-template <typename ClassList, typename T, bool is_indexed = false>
+template <
+  typename ClassList,
+  typename T,
+  typename Tag = nothing_t,
+  bool is_indexed = false>
 struct dynamic_c_api_constant
   : c_api_constant_base
-  , opt_enum_value<T, ClassList> {
+  , opt_enum_value<T, ClassList, Tag> {
 public:
+    using tag_type = Tag;
+
     template <typename ApiTraits, typename Api>
     constexpr dynamic_c_api_constant(
       string_view name, ApiTraits& traits, Api& api) noexcept
       : c_api_constant_base{name}
-      , opt_enum_value<T, ClassList>{
+      , opt_enum_value<T, ClassList, Tag>{
           traits.load_constant(api, name, identity<T>())} {
     }
 
     template <typename I>
     constexpr std::enable_if_t<
       (is_indexed && std::is_integral_v<I>),
-      opt_enum_value<T, ClassList>>
+      opt_enum_value<T, ClassList, Tag>>
     operator+(I index) const noexcept {
         using O = std::conditional_t<
           std::is_signed_v<T>,
@@ -106,23 +118,33 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-template <typename ClassList, typename Constant, bool is_indexed>
+template <typename ClassList, typename Constant, typename Tag, bool is_indexed>
 struct get_opt_c_api_constant;
 
-template <typename ClassList, typename T, T value, bool is_indexed>
+template <
+  typename ClassList,
+  typename T,
+  T value,
+  typename Tag,
+  bool is_indexed>
 struct get_opt_c_api_constant<
   ClassList,
   std::integral_constant<T, value>,
+  Tag,
   is_indexed>
-  : identity<static_c_api_constant<ClassList, T, value, is_indexed>> {};
+  : identity<static_c_api_constant<ClassList, T, value, Tag, is_indexed>> {};
 
-template <typename ClassList, typename T, bool is_indexed>
-struct get_opt_c_api_constant<ClassList, identity<T>, is_indexed>
-  : identity<dynamic_c_api_constant<ClassList, T, is_indexed>> {};
+template <typename ClassList, typename T, typename Tag, bool is_indexed>
+struct get_opt_c_api_constant<ClassList, identity<T>, Tag, is_indexed>
+  : identity<dynamic_c_api_constant<ClassList, T, Tag, is_indexed>> {};
 
-template <typename ClassList, typename Constant, bool is_indexed = false>
+template <
+  typename ClassList,
+  typename Constant,
+  typename Tag = nothing_t,
+  bool is_indexed = false>
 using opt_c_api_constant =
-  typename get_opt_c_api_constant<ClassList, Constant, is_indexed>::type;
+  typename get_opt_c_api_constant<ClassList, Constant, Tag, is_indexed>::type;
 //------------------------------------------------------------------------------
 template <typename Result, typename Info>
 class api_no_result;

@@ -13,19 +13,21 @@
 #include "assert.hpp"
 #include "identifier_t.hpp"
 #include "mp_list.hpp"
+#include "nothing.hpp"
 #include <tuple>
 #include <type_traits>
 
 namespace eagine {
-
-template <typename T, typename ClassList>
+//------------------------------------------------------------------------------
+template <typename T, typename ClassList, typename Tag = nothing_t>
 struct enum_value;
 
-template <typename T, typename... Classes>
-struct enum_value<T, mp_list<Classes...>> {
+template <typename T, typename... Classes, typename Tag>
+struct enum_value<T, mp_list<Classes...>, Tag> {
     using type = enum_value;
 
     using value_type = T;
+    using tag_type = Tag;
 
     const T value;
 
@@ -45,15 +47,16 @@ struct enum_value<T, mp_list<Classes...>> {
         return false;
     }
 };
-
-template <typename T, typename ClassList>
+//------------------------------------------------------------------------------
+template <typename T, typename ClassList, typename Tag = nothing_t>
 struct opt_enum_value;
 
-template <typename T, typename... Classes>
-struct opt_enum_value<T, mp_list<Classes...>> {
+template <typename T, typename... Classes, typename Tag>
+struct opt_enum_value<T, mp_list<Classes...>, Tag> {
     using type = opt_enum_value;
 
     using value_type = T;
+    using tag_type = Tag;
 
     const T value{};
     const bool is_valid{false};
@@ -80,12 +83,13 @@ struct opt_enum_value<T, mp_list<Classes...>> {
         return !is_valid;
     }
 };
-
-template <typename T>
+//------------------------------------------------------------------------------
+template <typename T, typename Tag = nothing_t>
 struct no_enum_value {
     using type = no_enum_value;
 
     using value_type = T;
+    using tag_type = Tag;
 
     const T value{};
 
@@ -101,7 +105,7 @@ struct no_enum_value {
         return true;
     }
 };
-
+//------------------------------------------------------------------------------
 template <identifier_t LibId>
 struct any_enum_value;
 
@@ -120,15 +124,17 @@ struct enum_class {
 
     template <
       typename Classes,
+      typename Tag,
       typename = std::enable_if_t<mp_contains<Classes, Self>::value>>
-    constexpr inline enum_class(enum_value<T, Classes> ev) noexcept
+    constexpr inline enum_class(enum_value<T, Classes, Tag> ev) noexcept
       : _value(ev.value) {
     }
 
     template <
       typename Classes,
+      typename Tag,
       typename = std::enable_if_t<mp_contains<Classes, Self>::value>>
-    constexpr inline enum_class(opt_enum_value<T, Classes> ev) noexcept
+    constexpr inline enum_class(opt_enum_value<T, Classes, Tag> ev) noexcept
       : _value(ev.value) {
         EAGINE_ASSERT(ev.is_valid);
     }
@@ -164,18 +170,50 @@ struct enum_class {
         return a._value != b._value;
     }
 };
-
+//------------------------------------------------------------------------------
 template <typename T>
 struct is_enum_class : std::false_type {};
+
+template <typename T>
+constexpr bool is_enum_class_v = is_enum_class<T>::value;
 
 template <typename Self, typename T, identifier_t LibId, identifier_t Id>
 struct is_enum_class<enum_class<Self, T, LibId, Id>> : std::true_type {
     static_assert(std::is_base_of_v<enum_class<Self, T, LibId, Id>, Self>);
 };
+//------------------------------------------------------------------------------
+template <typename Class, typename Value>
+struct is_enum_class_value : std::false_type {};
 
-template <typename T>
-constexpr bool is_enum_class_v = is_enum_class<T>::value;
+template <typename C, typename V>
+constexpr bool is_enum_class_value_v = is_enum_class_value<C, V>::value;
 
+template <
+  typename Self,
+  typename T,
+  typename... Classes,
+  typename Tag,
+  identifier_t LibId,
+  identifier_t Id>
+struct is_enum_class_value<
+  enum_class<Self, T, LibId, Id>,
+  enum_value<T, mp_list<Classes...>, Tag>> : mp_contains<Classes..., Self> {
+    static_assert(std::is_base_of_v<enum_class<Self, T, LibId, Id>, Self>);
+};
+
+template <
+  typename Self,
+  typename T,
+  typename... Classes,
+  typename Tag,
+  identifier_t LibId,
+  identifier_t Id>
+struct is_enum_class_value<
+  enum_class<Self, T, LibId, Id>,
+  opt_enum_value<T, mp_list<Classes...>, Tag>> : mp_contains<Classes..., Self> {
+    static_assert(std::is_base_of_v<enum_class<Self, T, LibId, Id>, Self>);
+};
+//------------------------------------------------------------------------------
 template <identifier_t LibId>
 struct any_enum_class {
     identifier_t _type_id;
@@ -254,7 +292,7 @@ static constexpr inline bool same_enum_class(
   any_enum_class<LibId> a, any_enum_class<LibId> b) noexcept {
     return a._type_id == b._type_id;
 }
-
+//------------------------------------------------------------------------------
 } // namespace eagine
 
 #endif // EAGINE_ENUM_CLASS_HPP
