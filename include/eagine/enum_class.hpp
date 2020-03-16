@@ -125,7 +125,7 @@ struct enum_class {
     template <
       typename Classes,
       typename Tag,
-      typename = std::enable_if_t<mp_contains<Classes, Self>::value>>
+      typename = std::enable_if_t<mp_contains_v<Classes, Self>>>
     constexpr inline enum_class(enum_value<T, Classes, Tag> ev) noexcept
       : _value(ev.value) {
     }
@@ -133,7 +133,7 @@ struct enum_class {
     template <
       typename Classes,
       typename Tag,
-      typename = std::enable_if_t<mp_contains<Classes, Self>::value>>
+      typename = std::enable_if_t<mp_contains_v<Classes, Self>>>
     constexpr inline enum_class(opt_enum_value<T, Classes, Tag> ev) noexcept
       : _value(ev.value) {
         EAGINE_ASSERT(ev.is_valid);
@@ -187,6 +187,18 @@ struct is_enum_class_value : std::false_type {};
 
 template <typename C, typename V>
 constexpr bool is_enum_class_value_v = is_enum_class_value<C, V>::value;
+
+template <
+  typename Self,
+  typename T,
+  typename Tag,
+  identifier_t LibId,
+  identifier_t Id>
+struct is_enum_class_value<
+  enum_class<Self, T, LibId, Id>,
+  no_enum_value<T, Tag>> : std::true_type {
+    static_assert(std::is_base_of_v<enum_class<Self, T, LibId, Id>, Self>);
+};
 
 template <
   typename Self,

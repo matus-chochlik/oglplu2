@@ -13,7 +13,7 @@
 #include "enum_class.hpp"
 
 namespace eagine {
-
+//------------------------------------------------------------------------------
 template <typename T, typename ClassList>
 struct enum_bits;
 
@@ -30,7 +30,7 @@ template <
   typename T,
   typename TL1,
   typename TL2,
-  typename = std::enable_if_t<!mp_empty<mp_union_t<TL1, TL2>>::value>>
+  typename = std::enable_if_t<!mp_is_empty_v<mp_union_t<TL1, TL2>>>>
 static constexpr inline enum_bits<T, mp_union_t<TL1, TL2>> operator|(
   enum_value<T, TL1> a, enum_value<T, TL2> b) noexcept {
     return enum_bits<T, mp_union_t<TL1, TL2>>{a.value | b.value};
@@ -40,12 +40,12 @@ template <
   typename T,
   typename TL1,
   typename TL2,
-  typename = std::enable_if_t<!mp_empty<mp_union_t<TL1, TL2>>::value>>
+  typename = std::enable_if_t<!mp_is_empty_v<mp_union_t<TL1, TL2>>>>
 static constexpr inline enum_bits<T, mp_union_t<TL1, TL2>> operator|(
   enum_bits<T, TL1> eb, enum_value<T, TL2> ev) noexcept {
     return enum_bits<T, mp_union_t<TL1, TL2>>{eb._bits | ev.value};
 }
-
+//------------------------------------------------------------------------------
 template <typename EnumClass>
 struct enum_bitfield {
     using value_type = typename EnumClass::value_type;
@@ -66,14 +66,14 @@ struct enum_bitfield {
 
     template <
       typename Classes,
-      typename = std::enable_if_t<mp_contains<Classes, EnumClass>::value>>
+      typename = std::enable_if_t<mp_contains_v<Classes, EnumClass>>>
     constexpr inline enum_bitfield(enum_value<value_type, Classes> ev) noexcept
       : _value(ev.value) {
     }
 
     template <
       typename Classes,
-      typename = std::enable_if_t<mp_contains<Classes, EnumClass>::value>>
+      typename = std::enable_if_t<mp_contains_v<Classes, EnumClass>>>
     constexpr inline enum_bitfield(enum_bits<value_type, Classes> eb) noexcept
       : _value(eb._bits) {
     }
