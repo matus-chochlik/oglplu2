@@ -3062,6 +3062,33 @@ public:
       type;
 
     opt_c_api_constant<
+      mp_list<program_property>,
+#ifdef GL_PATH_GEN_MODE_NV
+      enum_type_c<GL_PATH_GEN_MODE_NV>>
+#else
+      enum_type_i>
+#endif
+      path_gen_mode_nv;
+
+    opt_c_api_constant<
+      mp_list<program_property>,
+#ifdef GL_PATH_GEN_COMPONENTS_NV
+      enum_type_c<GL_PATH_GEN_COMPONENTS_NV>>
+#else
+      enum_type_i>
+#endif
+      path_gen_components_nv;
+
+    opt_c_api_constant<
+      mp_list<program_property>,
+#ifdef GL_PATH_GEN_COEFF_NV
+      enum_type_c<GL_PATH_GEN_COEFF_NV>>
+#else
+      enum_type_i>
+#endif
+      path_gen_coeff_nv;
+
+    opt_c_api_constant<
       mp_list<capability>,
 #ifdef GL_BLEND
       enum_type_c<GL_BLEND>>
@@ -3339,166 +3366,144 @@ public:
       array_buffer_binding;
 
     opt_c_api_constant<
-      mp_list<binding_query, program_property>,
-#ifdef GL_PATH_GEN_MODE_NV
-      enum_type_c<GL_PATH_GEN_MODE_NV>>
-#else
-      enum_type_i>
-#endif
-      path_gen_mode_nv;
-
-    opt_c_api_constant<
-      mp_list<binding_query, program_property>,
-#ifdef GL_PATH_GEN_COMPONENTS_NV
-      enum_type_c<GL_PATH_GEN_COMPONENTS_NV>>
-#else
-      enum_type_i>
-#endif
-      path_gen_components_nv;
-
-    opt_c_api_constant<
-      mp_list<binding_query, program_property>,
-#ifdef GL_PATH_GEN_COEFF_NV
-      enum_type_c<GL_PATH_GEN_COEFF_NV>>
-#else
-      enum_type_i>
-#endif
-      path_gen_coeff_nv;
-
-    opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_ATOMIC_COUNTER_BUFFER_BINDING
-      enum_type_c<GL_ATOMIC_COUNTER_BUFFER_BINDING>>
+      enum_type_c<GL_ATOMIC_COUNTER_BUFFER_BINDING>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      buffer_name>
       atomic_counter_buffer_binding;
 
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_COPY_READ_BUFFER_BINDING
-      enum_type_c<GL_COPY_READ_BUFFER_BINDING>>
+      enum_type_c<GL_COPY_READ_BUFFER_BINDING>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      buffer_name>
       copy_read_buffer_binding;
 
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_COPY_WRITE_BUFFER_BINDING
-      enum_type_c<GL_COPY_WRITE_BUFFER_BINDING>>
+      enum_type_c<GL_COPY_WRITE_BUFFER_BINDING>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      buffer_name>
       copy_write_buffer_binding;
 
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
-      enum_type_c<GL_DISPATCH_INDIRECT_BUFFER_BINDING>>
+      enum_type_c<GL_DISPATCH_INDIRECT_BUFFER_BINDING>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      buffer_name>
       dispatch_indirect_buffer_binding;
 
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_DRAW_INDIRECT_BUFFER_BINDING
-      enum_type_c<GL_DRAW_INDIRECT_BUFFER_BINDING>>
+      enum_type_c<GL_DRAW_INDIRECT_BUFFER_BINDING>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      buffer_name>
       draw_indirect_buffer_binding;
 
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_ELEMENT_ARRAY_BUFFER_BINDING
-      enum_type_c<GL_ELEMENT_ARRAY_BUFFER_BINDING>>
+      enum_type_c<GL_ELEMENT_ARRAY_BUFFER_BINDING>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      buffer_name>
       element_array_buffer_binding;
 
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_PIXEL_PACK_BUFFER_BINDING
-      enum_type_c<GL_PIXEL_PACK_BUFFER_BINDING>>
+      enum_type_c<GL_PIXEL_PACK_BUFFER_BINDING>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      buffer_name>
       pixel_pack_buffer_binding;
 
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_PIXEL_UNPACK_BUFFER_BINDING
-      enum_type_c<GL_PIXEL_UNPACK_BUFFER_BINDING>>
+      enum_type_c<GL_PIXEL_UNPACK_BUFFER_BINDING>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      buffer_name>
       pixel_unpack_buffer_binding;
 
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_SHADER_STORAGE_BUFFER_BINDING
-      enum_type_c<GL_SHADER_STORAGE_BUFFER_BINDING>>
+      enum_type_c<GL_SHADER_STORAGE_BUFFER_BINDING>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      buffer_name>
       shader_storage_buffer_binding;
 
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_TEXTURE_BUFFER_BINDING
-      enum_type_c<GL_TEXTURE_BUFFER_BINDING>>
+      enum_type_c<GL_TEXTURE_BUFFER_BINDING>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      buffer_name>
       texture_buffer_binding;
 
     opt_c_api_constant<
       mp_list<binding_query, transform_feedback_parameter>,
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_BINDING
-      enum_type_c<GL_TRANSFORM_FEEDBACK_BUFFER_BINDING>>
+      enum_type_c<GL_TRANSFORM_FEEDBACK_BUFFER_BINDING>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      buffer_name>
       transform_feedback_buffer_binding;
 
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_UNIFORM_BUFFER_BINDING
-      enum_type_c<GL_UNIFORM_BUFFER_BINDING>>
+      enum_type_c<GL_UNIFORM_BUFFER_BINDING>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      buffer_name>
       uniform_buffer_binding;
 
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_QUERY_BUFFER_BINDING
-      enum_type_c<GL_QUERY_BUFFER_BINDING>>
+      enum_type_c<GL_QUERY_BUFFER_BINDING>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      buffer_name>
       query_buffer_binding;
 
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_PARAMETER_BUFFER_BINDING_ARB
-      enum_type_c<GL_PARAMETER_BUFFER_BINDING_ARB>>
+      enum_type_c<GL_PARAMETER_BUFFER_BINDING_ARB>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      buffer_name>
       parameter_buffer_binding;
-
-    opt_c_api_constant<
-      mp_list<binding_query>,
-#ifdef GL_DRAW_FRAMEBUFFER_BINDING
-      enum_type_c<GL_DRAW_FRAMEBUFFER_BINDING>>
-#else
-      enum_type_i>
-#endif
-      draw_framebuffer_binding;
 
     opt_c_api_constant<
       mp_list<binding_query>,
@@ -3511,146 +3516,172 @@ public:
 
     opt_c_api_constant<
       mp_list<binding_query>,
-#ifdef GL_RENDERBUFFER_BINDING
-      enum_type_c<GL_RENDERBUFFER_BINDING>>
+#ifdef GL_DRAW_FRAMEBUFFER_BINDING
+      enum_type_c<GL_DRAW_FRAMEBUFFER_BINDING>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      framebuffer_name>
+      draw_framebuffer_binding;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
+#ifdef GL_RENDERBUFFER_BINDING
+      enum_type_c<GL_RENDERBUFFER_BINDING>,
+#else
+      enum_type_i,
+#endif
+      renderbuffer_name>
       renderbuffer_binding;
 
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_SAMPLER_BINDING
-      enum_type_c<GL_SAMPLER_BINDING>>
+      enum_type_c<GL_SAMPLER_BINDING>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      sampler_name>
       sampler_binding;
 
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_TEXTURE_BINDING_1D
-      enum_type_c<GL_TEXTURE_BINDING_1D>>
+      enum_type_c<GL_TEXTURE_BINDING_1D>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      texture_name>
       texture_binding_1d;
 
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_TEXTURE_BINDING_2D
-      enum_type_c<GL_TEXTURE_BINDING_2D>>
+      enum_type_c<GL_TEXTURE_BINDING_2D>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      texture_name>
       texture_binding_2d;
 
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_TEXTURE_BINDING_3D
-      enum_type_c<GL_TEXTURE_BINDING_3D>>
+      enum_type_c<GL_TEXTURE_BINDING_3D>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      texture_name>
       texture_binding_3d;
 
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_TEXTURE_BINDING_1D_ARRAY
-      enum_type_c<GL_TEXTURE_BINDING_1D_ARRAY>>
+      enum_type_c<GL_TEXTURE_BINDING_1D_ARRAY>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      texture_name>
       texture_binding_1d_array;
 
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_TEXTURE_BINDING_2D_ARRAY
-      enum_type_c<GL_TEXTURE_BINDING_2D_ARRAY>>
+      enum_type_c<GL_TEXTURE_BINDING_2D_ARRAY>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      texture_name>
       texture_binding_2d_array;
 
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_TEXTURE_BINDING_RECTANGLE
-      enum_type_c<GL_TEXTURE_BINDING_RECTANGLE>>
+      enum_type_c<GL_TEXTURE_BINDING_RECTANGLE>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      texture_name>
       texture_binding_rectangle;
 
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_TEXTURE_BINDING_BUFFER
-      enum_type_c<GL_TEXTURE_BINDING_BUFFER>>
+      enum_type_c<GL_TEXTURE_BINDING_BUFFER>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      texture_name>
       texture_binding_buffer;
 
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_TEXTURE_BINDING_CUBE_MAP
-      enum_type_c<GL_TEXTURE_BINDING_CUBE_MAP>>
+      enum_type_c<GL_TEXTURE_BINDING_CUBE_MAP>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      texture_name>
       texture_binding_cube_map;
 
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_TEXTURE_BINDING_CUBE_MAP_ARRAY
-      enum_type_c<GL_TEXTURE_BINDING_CUBE_MAP_ARRAY>>
+      enum_type_c<GL_TEXTURE_BINDING_CUBE_MAP_ARRAY>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      texture_name>
       texture_binding_cube_map_array;
 
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_TEXTURE_BINDING_2D_MULTISAMPLE
-      enum_type_c<GL_TEXTURE_BINDING_2D_MULTISAMPLE>>
+      enum_type_c<GL_TEXTURE_BINDING_2D_MULTISAMPLE>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      texture_name>
       texture_binding_2d_multisample;
 
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY
-      enum_type_c<GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY>>
+      enum_type_c<GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      texture_name>
       texture_binding_2d_multisample_array;
 
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_TRANSFORM_FEEDBACK_BINDING
-      enum_type_c<GL_TRANSFORM_FEEDBACK_BINDING>>
+      enum_type_c<GL_TRANSFORM_FEEDBACK_BINDING>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      transform_feedback_name>
       transform_feedback_binding;
 
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_VERTEX_ARRAY_BINDING
-      enum_type_c<GL_VERTEX_ARRAY_BINDING>>
+      enum_type_c<GL_VERTEX_ARRAY_BINDING>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      vertex_array_name>
       vertex_array_binding;
 
     opt_c_api_constant<
       mp_list<binding_query>,
 #ifdef GL_CURRENT_PROGRAM
-      enum_type_c<GL_CURRENT_PROGRAM>>
+      enum_type_c<GL_CURRENT_PROGRAM>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      program_name>
       current_program;
 
     opt_c_api_constant<
@@ -10192,6 +10223,9 @@ public:
       , top_level_array_size("TOP_LEVEL_ARRAY_SIZE", traits, api)
       , top_level_array_stride("TOP_LEVEL_ARRAY_STRIDE", traits, api)
       , type("TYPE", traits, api)
+      , path_gen_mode_nv("PATH_GEN_MODE_NV", traits, api)
+      , path_gen_components_nv("PATH_GEN_COMPONENTS_NV", traits, api)
+      , path_gen_coeff_nv("PATH_GEN_COEFF_NV", traits, api)
       , blend("BLEND", traits, api)
       , clip_distance0("CLIP_DISTANCE0", traits, api)
       , cull_face("CULL_FACE", traits, api)
@@ -10223,9 +10257,6 @@ public:
       , right("RIGHT", traits, api)
       , front_and_back("FRONT_AND_BACK", traits, api)
       , array_buffer_binding("ARRAY_BUFFER_BINDING", traits, api)
-      , path_gen_mode_nv("PATH_GEN_MODE_NV", traits, api)
-      , path_gen_components_nv("PATH_GEN_COMPONENTS_NV", traits, api)
-      , path_gen_coeff_nv("PATH_GEN_COEFF_NV", traits, api)
       , atomic_counter_buffer_binding(
           "ATOMIC_COUNTER_BUFFER_BINDING", traits, api)
       , copy_read_buffer_binding("COPY_READ_BUFFER_BINDING", traits, api)
@@ -10246,8 +10277,8 @@ public:
       , uniform_buffer_binding("UNIFORM_BUFFER_BINDING", traits, api)
       , query_buffer_binding("QUERY_BUFFER_BINDING", traits, api)
       , parameter_buffer_binding("PARAMETER_BUFFER_BINDING_ARB", traits, api)
-      , draw_framebuffer_binding("DRAW_FRAMEBUFFER_BINDING", traits, api)
       , buffer_binding("BUFFER_BINDING", traits, api)
+      , draw_framebuffer_binding("DRAW_FRAMEBUFFER_BINDING", traits, api)
       , renderbuffer_binding("RENDERBUFFER_BINDING", traits, api)
       , sampler_binding("SAMPLER_BINDING", traits, api)
       , texture_binding_1d("TEXTURE_BINDING_1D", traits, api)

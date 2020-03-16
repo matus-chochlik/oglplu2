@@ -159,6 +159,13 @@ public:
     constexpr api_no_result_value() noexcept = default;
 
 protected:
+    template <typename Info, typename T>
+    auto _cast_to(const api_no_result<Result, Info>& src, identity<T>) const {
+        api_no_result<T, Info> result{};
+        static_cast<Info&>(result) = static_cast<const Info&>(src);
+        return result;
+    }
+
     template <typename Info, typename Transform>
     auto _transformed(
       const api_no_result<Result, Info>& src, Transform& transform) const {
@@ -186,6 +193,13 @@ template <>
 class api_no_result_value<void> {
 public:
 protected:
+    template <typename Info, typename T>
+    auto _cast_to(const api_no_result<void, Info>& src, identity<T>) const {
+        api_no_result<T, Info> result{};
+        static_cast<Info&>(result) = static_cast<const Info&>(src);
+        return result;
+    }
+
     template <typename Info, typename Transform>
     auto _transformed(
       const api_no_result<void, Info>& src, Transform& transform) const {
@@ -211,6 +225,18 @@ public:
 
     constexpr bool operator!() const noexcept {
         return true;
+    }
+
+    template <typename T>
+    auto replaced_with(T value) const {
+        api_no_result<T, Info> result{std::move(value)};
+        static_cast<Info&>(result) = static_cast<const Info&>(*this);
+        return result;
+    }
+
+    template <typename T>
+    auto cast_to(identity<T> tid) const {
+        return this->_cast_to(*this, tid);
     }
 
     template <typename Transform>
@@ -244,6 +270,13 @@ public:
     }
 
 protected:
+    template <typename Info, typename T>
+    auto _cast_to(const api_result<Result, Info>& src, identity<T>) const {
+        api_result<T, Info> result{T(_value)};
+        static_cast<Info&>(result) = static_cast<const Info&>(src);
+        return result;
+    }
+
     template <typename Info, typename Transform>
     auto _transformed(
       const api_result<Result, Info>& src, Transform& transform) const {
@@ -276,6 +309,13 @@ static constexpr const Result& extract(
 template <>
 class api_result_value<void> {
 protected:
+    template <typename Info, typename T>
+    auto _cast_to(const api_result<void, Info>& src, identity<T>) const {
+        api_result<T, Info> result{};
+        static_cast<Info&>(result) = static_cast<const Info&>(src);
+        return result;
+    }
+
     template <typename Info, typename Transform>
     auto _transformed(
       const api_result<void, Info>& src, Transform& transform) const {
@@ -301,6 +341,22 @@ public:
 
     constexpr bool operator!() const noexcept {
         return !(*static_cast<const Info*>(this));
+    }
+
+    template <typename T>
+    auto replaced_with(T value) const {
+        api_result<T, Info> result{std::move(value)};
+        static_cast<Info&>(result) = static_cast<const Info&>(*this);
+        return result;
+    }
+
+    template <typename T>
+    auto cast_to(identity<T> tid) const {
+        return this->_cast_to(*this, tid);
+    }
+
+    const auto& cast_to(identity<nothing_t>) const noexcept {
+        return *this;
     }
 
     template <typename Transform>
@@ -341,6 +397,13 @@ public:
     }
 
 protected:
+    template <typename Info, typename T>
+    auto _cast_to(const api_opt_result<Result, Info>& src, identity<T>) const {
+        api_opt_result<T, Info> result{T(_value), src.is_valid()};
+        static_cast<Info&>(result) = static_cast<const Info&>(src);
+        return result;
+    }
+
     template <typename Info, typename Transform>
     auto _transformed(
       const api_opt_result<Result, Info>& src, Transform& transform) const {
@@ -383,6 +446,13 @@ public:
     }
 
 protected:
+    template <typename Info, typename T>
+    auto _cast_to(const api_opt_result<void, Info>& src, identity<T>) const {
+        api_opt_result<T, Info> result{T{}, src.is_valid()};
+        static_cast<Info&>(result) = static_cast<const Info&>(src);
+        return result;
+    }
+
     template <typename Info, typename Transform>
     auto _transformed(
       const api_opt_result<void, Info>& src, Transform& transform) const {
@@ -411,6 +481,22 @@ public:
 
     constexpr bool operator!() const noexcept {
         return !this->is_valid() || !(*static_cast<const Info*>(this));
+    }
+
+    template <typename T>
+    auto replaced_with(T value) const {
+        api_opt_result<T, Info> result{std::move(value), this->is_valid()};
+        static_cast<Info&>(result) = static_cast<const Info&>(*this);
+        return result;
+    }
+
+    template <typename T>
+    auto cast_to(identity<T> tid) const {
+        return this->_cast_to(*this, tid);
+    }
+
+    const auto& cast_to(identity<nothing_t>) const noexcept {
+        return *this;
     }
 
     template <typename Transform>

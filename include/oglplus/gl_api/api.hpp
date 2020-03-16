@@ -515,12 +515,19 @@ public:
             return bool(this->api().GetIntegerv);
         }
 
-        constexpr auto operator()(integer_query query) const noexcept {
+        template <
+          typename Query,
+          typename = std::enable_if_t<
+            is_enum_class_value_v<integer_query, Query> ||
+            is_enum_class_value_v<binding_query, Query>>>
+        constexpr auto operator()(Query query) const noexcept {
+            using RV = typename Query::tag_type;
             int_type result{};
             return this
               ->_check(
                 this->call(this->api().GetIntegerv, enum_type(query), &result))
-              .transformed([&result]() { return result; });
+              .replaced_with(result)
+              .cast_to(identity<RV>{});
         }
 
         constexpr auto operator()(

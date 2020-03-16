@@ -27,6 +27,20 @@ struct identity {
 };
 
 template <typename T>
+struct get_type {
+    template <typename X>
+    static typename X::type _get(X*);
+
+    template <typename X>
+    static void _get(...);
+
+    using type = decltype(_get<T>(0));
+};
+
+template <typename T>
+using type_t = typename get_type<T>::type;
+
+template <typename T>
 static constexpr inline identity<T> make_identity(const T&) noexcept {
     return {};
 }

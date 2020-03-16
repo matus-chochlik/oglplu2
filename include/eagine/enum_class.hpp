@@ -12,6 +12,7 @@
 
 #include "assert.hpp"
 #include "identifier_t.hpp"
+#include "identity.hpp"
 #include "mp_list.hpp"
 #include "nothing.hpp"
 #include <tuple>
@@ -186,7 +187,8 @@ template <typename Class, typename Value>
 struct is_enum_class_value : std::false_type {};
 
 template <typename C, typename V>
-constexpr bool is_enum_class_value_v = is_enum_class_value<C, V>::value;
+constexpr auto is_enum_class_value_v =
+  is_enum_class_value<type_t<C>, type_t<V>>::value;
 
 template <
   typename Self,
@@ -203,26 +205,26 @@ struct is_enum_class_value<
 template <
   typename Self,
   typename T,
-  typename... Classes,
+  typename Classes,
   typename Tag,
   identifier_t LibId,
   identifier_t Id>
 struct is_enum_class_value<
   enum_class<Self, T, LibId, Id>,
-  enum_value<T, mp_list<Classes...>, Tag>> : mp_contains<Classes..., Self> {
+  enum_value<T, Classes, Tag>> : mp_contains<Classes, Self> {
     static_assert(std::is_base_of_v<enum_class<Self, T, LibId, Id>, Self>);
 };
 
 template <
   typename Self,
   typename T,
-  typename... Classes,
+  typename Classes,
   typename Tag,
   identifier_t LibId,
   identifier_t Id>
 struct is_enum_class_value<
   enum_class<Self, T, LibId, Id>,
-  opt_enum_value<T, mp_list<Classes...>, Tag>> : mp_contains<Classes..., Self> {
+  opt_enum_value<T, Classes, Tag>> : mp_contains<Classes, Self> {
     static_assert(std::is_base_of_v<enum_class<Self, T, LibId, Id>, Self>);
 };
 //------------------------------------------------------------------------------
