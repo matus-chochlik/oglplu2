@@ -33,6 +33,11 @@ struct context_release_behavior
     using enum_class::enum_class;
 };
 
+struct reset_notification_strategy
+  : gl_enum_class<reset_notification_strategy, EAGINE_ID_V(RstNtfStgy)> {
+    using enum_class::enum_class;
+};
+
 struct capability : gl_enum_class<capability, EAGINE_ID_V(Capability)> {
     using enum_class::enum_class;
 };
@@ -125,6 +130,11 @@ struct buffer_usage : gl_enum_class<buffer_usage, EAGINE_ID_V(BufferUsge)> {
 
 struct buffer_map_access_bit
   : gl_bitfield_class<buffer_map_access_bit, EAGINE_ID_V(BufMapAccB)> {
+    using enum_class::enum_class;
+};
+
+struct buffer_storage_bit
+  : gl_bitfield_class<buffer_storage_bit, EAGINE_ID_V(BufStrgBit)> {
     using enum_class::enum_class;
 };
 

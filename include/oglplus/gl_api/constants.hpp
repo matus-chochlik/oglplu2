@@ -179,6 +179,24 @@ public:
       context_compatibility_profile_bit;
 
     opt_c_api_constant<
+      mp_list<oglp::reset_notification_strategy>,
+#ifdef GL_NO_RESET_NOTIFICATION
+      enum_type_c<GL_NO_RESET_NOTIFICATION>>
+#else
+      enum_type_i>
+#endif
+      no_reset_notification;
+
+    opt_c_api_constant<
+      mp_list<oglp::reset_notification_strategy>,
+#ifdef GL_LOSE_CONTEXT_ON_RESET
+      enum_type_c<GL_LOSE_CONTEXT_ON_RESET>>
+#else
+      enum_type_i>
+#endif
+      lose_context_on_reset;
+
+    opt_c_api_constant<
       mp_list<context_release_behavior>,
 #ifdef GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH
       enum_type_c<GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH>>
@@ -1452,19 +1470,21 @@ public:
     opt_c_api_constant<
       mp_list<buffer_parameter>,
 #ifdef GL_BUFFER_ACCESS
-      enum_type_c<GL_BUFFER_ACCESS>>
+      enum_type_c<GL_BUFFER_ACCESS>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      access_specifier>
       buffer_access;
 
     opt_c_api_constant<
       mp_list<buffer_parameter>,
 #ifdef GL_BUFFER_ACCESS_FLAGS
-      enum_type_c<GL_BUFFER_ACCESS_FLAGS>>
+      enum_type_c<GL_BUFFER_ACCESS_FLAGS>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      enum_bitfield<buffer_map_access_bit>>
       buffer_access_flags;
 
     opt_c_api_constant<
@@ -1515,19 +1535,21 @@ public:
     opt_c_api_constant<
       mp_list<buffer_parameter>,
 #ifdef GL_BUFFER_STORAGE_FLAGS
-      enum_type_c<GL_BUFFER_STORAGE_FLAGS>>
+      enum_type_c<GL_BUFFER_STORAGE_FLAGS>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      enum_bitfield<buffer_storage_bit>>
       buffer_storage_flags;
 
     opt_c_api_constant<
       mp_list<buffer_parameter>,
 #ifdef GL_BUFFER_USAGE
-      enum_type_c<GL_BUFFER_USAGE>>
+      enum_type_c<GL_BUFFER_USAGE>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      oglp::buffer_usage>
       buffer_usage;
 
     opt_c_api_constant<
@@ -1612,7 +1634,7 @@ public:
       dynamic_copy;
 
     opt_c_api_constant<
-      mp_list<buffer_map_access_bit>,
+      mp_list<buffer_map_access_bit, buffer_storage_bit>,
 #ifdef GL_MAP_READ_BIT
       bitfield_type_c<GL_MAP_READ_BIT>>
 #else
@@ -1621,7 +1643,7 @@ public:
       map_read_bit;
 
     opt_c_api_constant<
-      mp_list<buffer_map_access_bit>,
+      mp_list<buffer_map_access_bit, buffer_storage_bit>,
 #ifdef GL_MAP_WRITE_BIT
       bitfield_type_c<GL_MAP_WRITE_BIT>>
 #else
@@ -1630,7 +1652,7 @@ public:
       map_write_bit;
 
     opt_c_api_constant<
-      mp_list<buffer_map_access_bit>,
+      mp_list<buffer_map_access_bit, buffer_storage_bit>,
 #ifdef GL_MAP_PERSISTENT_BIT
       bitfield_type_c<GL_MAP_PERSISTENT_BIT>>
 #else
@@ -1639,7 +1661,7 @@ public:
       map_persistent_bit;
 
     opt_c_api_constant<
-      mp_list<buffer_map_access_bit>,
+      mp_list<buffer_map_access_bit, buffer_storage_bit>,
 #ifdef GL_MAP_COHERENT_BIT
       bitfield_type_c<GL_MAP_COHERENT_BIT>>
 #else
@@ -1682,6 +1704,33 @@ public:
       bitfield_type_i>
 #endif
       map_unsynchronized_bit;
+
+    opt_c_api_constant<
+      mp_list<buffer_storage_bit>,
+#ifdef GL_DYNAMIC_STORAGE_BIT
+      bitfield_type_c<GL_DYNAMIC_STORAGE_BIT>>
+#else
+      bitfield_type_i>
+#endif
+      dynamic_storage_bit;
+
+    opt_c_api_constant<
+      mp_list<buffer_storage_bit>,
+#ifdef GL_CLIENT_STORAGE_BIT
+      bitfield_type_c<GL_CLIENT_STORAGE_BIT>>
+#else
+      bitfield_type_i>
+#endif
+      client_storage_bit;
+
+    opt_c_api_constant<
+      mp_list<buffer_storage_bit>,
+#ifdef GL_SPARSE_STORAGE_BIT_ARB
+      bitfield_type_c<GL_SPARSE_STORAGE_BIT_ARB>>
+#else
+      bitfield_type_i>
+#endif
+      sparse_storage_bit;
 
     opt_c_api_constant<
       mp_list<oglp::texture_unit>,
@@ -3717,10 +3766,11 @@ public:
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_RESET_NOTIFICATION_STRATEGY
-      enum_type_c<GL_RESET_NOTIFICATION_STRATEGY>>
+      enum_type_c<GL_RESET_NOTIFICATION_STRATEGY>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      oglp::reset_notification_strategy>
       reset_notification_strategy;
 
     opt_c_api_constant<
@@ -3753,19 +3803,21 @@ public:
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_CONTEXT_FLAGS
-      enum_type_c<GL_CONTEXT_FLAGS>>
+      enum_type_c<GL_CONTEXT_FLAGS>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      enum_bitfield<context_flag_bit>>
       context_flags;
 
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_CONTEXT_PROFILE_MASK
-      enum_type_c<GL_CONTEXT_PROFILE_MASK>>
+      enum_type_c<GL_CONTEXT_PROFILE_MASK>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      enum_bitfield<context_profile_bit>>
       context_profile_mask;
 
     opt_c_api_constant<
@@ -3798,28 +3850,31 @@ public:
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_PROVOKING_VERTEX
-      enum_type_c<GL_PROVOKING_VERTEX>>
+      enum_type_c<GL_PROVOKING_VERTEX>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      provoke_mode>
       provoking_vertex;
 
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_LAYER_PROVOKING_VERTEX
-      enum_type_c<GL_LAYER_PROVOKING_VERTEX>>
+      enum_type_c<GL_LAYER_PROVOKING_VERTEX>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      provoke_mode>
       layer_provoking_vertex;
 
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_VIEWPORT_INDEX_PROVOKING_VERTEX
-      enum_type_c<GL_VIEWPORT_INDEX_PROVOKING_VERTEX>>
+      enum_type_c<GL_VIEWPORT_INDEX_PROVOKING_VERTEX>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      provoke_mode>
       viewport_index_provoking_vertex;
 
     opt_c_api_constant<
@@ -3843,19 +3898,21 @@ public:
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_POLYGON_MODE
-      enum_type_c<GL_POLYGON_MODE>>
+      enum_type_c<GL_POLYGON_MODE>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      oglp::polygon_mode>
       polygon_mode;
 
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_ACTIVE_TEXTURE
-      enum_type_c<GL_ACTIVE_TEXTURE>>
+      enum_type_c<GL_ACTIVE_TEXTURE>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      texture_unit>
       active_texture;
 
     opt_c_api_constant<
@@ -9854,6 +9911,8 @@ public:
       , context_core_profile_bit("CONTEXT_CORE_PROFILE_BIT", traits, api)
       , context_compatibility_profile_bit(
           "CONTEXT_COMPATIBILITY_PROFILE_BIT", traits, api)
+      , no_reset_notification("NO_RESET_NOTIFICATION", traits, api)
+      , lose_context_on_reset("LOSE_CONTEXT_ON_RESET", traits, api)
       , context_release_behavior_flush(
           "CONTEXT_RELEASE_BEHAVIOR_FLUSH", traits, api)
       , guilty_context_reset("GUILTY_CONTEXT_RESET", traits, api)
@@ -10049,6 +10108,9 @@ public:
       , map_invalidate_buffer_bit("MAP_INVALIDATE_BUFFER_BIT", traits, api)
       , map_flush_explicit_bit("MAP_FLUSH_EXPLICIT_BIT", traits, api)
       , map_unsynchronized_bit("MAP_UNSYNCHRONIZED_BIT", traits, api)
+      , dynamic_storage_bit("DYNAMIC_STORAGE_BIT", traits, api)
+      , client_storage_bit("CLIENT_STORAGE_BIT", traits, api)
+      , sparse_storage_bit("SPARSE_STORAGE_BIT_ARB", traits, api)
       , texture0("TEXTURE0", traits, api)
       , texture_3d("TEXTURE_3D", traits, api)
       , texture_2d("TEXTURE_2D", traits, api)

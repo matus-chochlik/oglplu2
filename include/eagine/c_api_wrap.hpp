@@ -228,8 +228,8 @@ public:
     }
 
     template <typename T>
-    auto replaced_with(T value) const {
-        api_no_result<T, Info> result{std::move(value)};
+    auto replaced_with(T) const {
+        api_no_result<T, Info> result{};
         static_cast<Info&>(result) = static_cast<const Info&>(*this);
         return result;
     }
@@ -443,6 +443,10 @@ public:
 
     constexpr api_opt_result_value(bool valid) noexcept
       : _valid{valid} {
+    }
+
+    constexpr bool is_valid() const noexcept {
+        return _valid;
     }
 
 protected:

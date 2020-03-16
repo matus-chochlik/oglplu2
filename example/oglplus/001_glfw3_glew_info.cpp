@@ -34,6 +34,14 @@ static void run() {
         std::cout << "Version: " << info << std::endl;
     }
 
+    if(ok info{gl.get_integer(gl.major_version)}) {
+        std::cout << "Major version: " << info << std::endl;
+    }
+
+    if(ok info{gl.get_integer(gl.minor_version)}) {
+        std::cout << "Minor version: " << info << std::endl;
+    }
+
     if(ok info{gl.get_string(gl.shading_language_version)}) {
         std::cout << "GLSL Version: " << info << std::endl;
     }

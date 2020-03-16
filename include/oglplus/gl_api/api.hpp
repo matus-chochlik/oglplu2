@@ -519,7 +519,9 @@ public:
           typename Query,
           typename = std::enable_if_t<
             is_enum_class_value_v<integer_query, Query> ||
-            is_enum_class_value_v<binding_query, Query>>>
+            is_enum_class_value_v<binding_query, Query>>,
+          typename =
+            std::enable_if_t<!std::is_array_v<typename Query::tag_type>>>
         constexpr auto operator()(Query query) const noexcept {
             using RV = typename Query::tag_type;
             int_type result{};
@@ -530,8 +532,14 @@ public:
               .cast_to(identity<RV>{});
         }
 
-        constexpr auto operator()(
-          integer_query query, span<int_type> dest) const noexcept {
+        template <
+          typename Query,
+          typename = std::enable_if_t<
+            is_enum_class_value_v<integer_query, Query> ||
+            is_enum_class_value_v<binding_query, Query>>>
+        auto operator()(integer_query query, span<int_type> dest) const
+          noexcept {
+            EAGINE_ASSERT(dest.size());
             return this->_check(this->call(
               this->api().GetIntegerv, enum_type(query), dest.data()));
         }
