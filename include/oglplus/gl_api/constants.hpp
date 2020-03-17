@@ -2035,10 +2035,11 @@ public:
     opt_c_api_constant<
       mp_list<texture_parameter>,
 #ifdef GL_TEXTURE_IMMUTABLE_FORMAT
-      enum_type_c<GL_TEXTURE_IMMUTABLE_FORMAT>>
+      enum_type_c<GL_TEXTURE_IMMUTABLE_FORMAT>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      true_false>
       texture_immutable_format;
 
     opt_c_api_constant<
@@ -2193,6 +2194,16 @@ public:
       enum_type_i>
 #endif
       texture_view_num_levels;
+
+    opt_c_api_constant<
+      mp_list<texture_parameter>,
+#ifdef GL_TEXTURE_FIXED_SAMPLE_LOCATIONS
+      enum_type_c<GL_TEXTURE_FIXED_SAMPLE_LOCATIONS>,
+#else
+      enum_type_i,
+#endif
+      true_false>
+      texture_fixed_sample_locations;
 
     opt_c_api_constant<
       mp_list<texture_parameter, texture_wrap_coord, sampler_parameter>,
@@ -8414,10 +8425,11 @@ public:
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
 #ifdef GL_TEXTURE_COMPRESSED
-      enum_type_c<GL_TEXTURE_COMPRESSED>>
+      enum_type_c<GL_TEXTURE_COMPRESSED>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      true_false>
       texture_compressed;
 
     opt_c_api_constant<
@@ -10187,6 +10199,8 @@ public:
       , texture_view_min_level("TEXTURE_VIEW_MIN_LEVEL", traits, api)
       , texture_view_num_layers("TEXTURE_VIEW_NUM_LAYERS", traits, api)
       , texture_view_num_levels("TEXTURE_VIEW_NUM_LEVELS", traits, api)
+      , texture_fixed_sample_locations(
+          "TEXTURE_FIXED_SAMPLE_LOCATIONS", traits, api)
       , texture_wrap_s("TEXTURE_WRAP_S", traits, api)
       , texture_wrap_t("TEXTURE_WRAP_T", traits, api)
       , texture_wrap_r("TEXTURE_WRAP_R", traits, api)

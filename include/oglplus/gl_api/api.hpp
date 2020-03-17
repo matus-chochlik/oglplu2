@@ -438,6 +438,20 @@ public:
         }
     } enable;
 
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().Enablei);
+        }
+
+        constexpr auto operator()(capability cap, uint_type idx) const
+          noexcept {
+            return this->_check(
+              this->call(this->api().Enablei, enum_type(cap), idx));
+        }
+    } enablei;
+
     // disable
     struct : derived_func {
         using derived_func::derived_func;
@@ -451,6 +465,20 @@ public:
               this->call(this->api().Disable, enum_type(cap)));
         }
     } disable;
+
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().Disablei);
+        }
+
+        constexpr auto operator()(capability cap, uint_type idx) const
+          noexcept {
+            return this->_check(
+              this->call(this->api().Disablei, enum_type(cap), idx));
+        }
+    } disablei;
 
     // is_enabled
     struct : derived_func {
@@ -466,6 +494,21 @@ public:
               .cast_to(identity<true_false>{});
         }
     } is_enabled;
+
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().IsEnabledi);
+        }
+
+        constexpr auto operator()(capability cap, uint_type idx) const
+          noexcept {
+            return this
+              ->_check(this->call(this->api().IsEnabledi, enum_type(cap), idx))
+              .cast_to(identity<true_false>{});
+        }
+    } is_enabledi;
 
     // viewport
     struct : derived_func {
@@ -720,8 +763,11 @@ public:
       , is_vertex_array("is_vertex_array", traits, *this)
       , is_path_nv("is_path_nv", traits, *this)
       , enable("enable", traits, *this)
+      , enablei("enablei", traits, *this)
       , disable("disable", traits, *this)
+      , disablei("disablei", traits, *this)
       , is_enabled("is_enabled", traits, *this)
+      , is_enabledi("is_enabledi", traits, *this)
       , viewport("viewport", traits, *this)
       , clear_color("clear_color", traits, *this)
       , clear_depth("clear_depth", traits, *this)
