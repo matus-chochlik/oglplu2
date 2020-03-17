@@ -2104,6 +2104,56 @@ public:
       texture_shared_size;
 
     opt_c_api_constant<
+      mp_list<texture_level_parameter>,
+#ifdef GL_TEXTURE_RED_SIZE
+      enum_type_c<GL_TEXTURE_RED_SIZE>,
+#else
+      enum_type_i,
+#endif
+      pixel_data_type>
+      texture_red_type;
+
+    opt_c_api_constant<
+      mp_list<texture_level_parameter>,
+#ifdef GL_TEXTURE_GREEN_SIZE
+      enum_type_c<GL_TEXTURE_GREEN_SIZE>,
+#else
+      enum_type_i,
+#endif
+      pixel_data_type>
+      texture_green_type;
+
+    opt_c_api_constant<
+      mp_list<texture_level_parameter>,
+#ifdef GL_TEXTURE_BLUE_SIZE
+      enum_type_c<GL_TEXTURE_BLUE_SIZE>,
+#else
+      enum_type_i,
+#endif
+      pixel_data_type>
+      texture_blue_type;
+
+    opt_c_api_constant<
+      mp_list<texture_level_parameter>,
+#ifdef GL_TEXTURE_ALPHA_SIZE
+      enum_type_c<GL_TEXTURE_ALPHA_SIZE>,
+#else
+      enum_type_i,
+#endif
+      pixel_data_type>
+      texture_alpha_type;
+
+    opt_c_api_constant<
+      mp_list<texture_level_parameter>,
+#ifdef GL_TEXTURE_DEPTH_SIZE
+      enum_type_c<GL_TEXTURE_DEPTH_SIZE>,
+#else
+      enum_type_i,
+#endif
+      pixel_data_type>
+      texture_depth_type;
+
+    opt_c_api_constant<
       mp_list<texture_parameter>,
 #ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
       enum_type_c<GL_DEPTH_STENCIL_TEXTURE_MODE>>
@@ -8636,7 +8686,7 @@ public:
       simultaneous_texture_and_stencil_write;
 
     opt_c_api_constant<
-      mp_list<internal_format_parameter>,
+      mp_list<internal_format_parameter, texture_level_parameter>,
 #ifdef GL_TEXTURE_COMPRESSED
       enum_type_c<GL_TEXTURE_COMPRESSED>,
 #else
@@ -8644,6 +8694,15 @@ public:
 #endif
       true_false>
       texture_compressed;
+
+    opt_c_api_constant<
+      mp_list<texture_level_parameter>,
+#ifdef GL_TEXTURE_COMPRESSED_IMAGE_SIZE
+      enum_type_c<GL_TEXTURE_COMPRESSED_IMAGE_SIZE>>
+#else
+      enum_type_i>
+#endif
+      texture_compressed_image_size;
 
     opt_c_api_constant<
       mp_list<internal_format_parameter>,
@@ -10404,6 +10463,11 @@ public:
       , texture_depth_size("TEXTURE_DEPTH_SIZE", traits, api)
       , texture_stencil_size("TEXTURE_STENCIL_SIZE", traits, api)
       , texture_shared_size("TEXTURE_SHARED_SIZE", traits, api)
+      , texture_red_type("TEXTURE_RED_TYPE", traits, api)
+      , texture_green_type("TEXTURE_GREEN_TYPE", traits, api)
+      , texture_blue_type("TEXTURE_BLUE_TYPE", traits, api)
+      , texture_alpha_type("TEXTURE_ALPHA_TYPE", traits, api)
+      , texture_depth_type("TEXTURE_DEPTH_TYPE", traits, api)
       , depth_stencil_texture_mode("DEPTH_STENCIL_TEXTURE_MODE", traits, api)
       , image_format_compatibility_type(
           "IMAGE_FORMAT_COMPATIBILITY_TYPE", traits, api)
@@ -11193,6 +11257,8 @@ public:
       , simultaneous_texture_and_stencil_write(
           "SIMULTANEOUS_TEXTURE_AND_STENCIL_WRITE", traits, api)
       , texture_compressed("TEXTURE_COMPRESSED", traits, api)
+      , texture_compressed_image_size(
+          "TEXTURE_COMPRESSED_IMAGE_SIZE", traits, api)
       , texture_compressed_block_width(
           "TEXTURE_COMPRESSED_BLOCK_WIDTH", traits, api)
       , texture_compressed_block_height(

@@ -102,6 +102,11 @@ struct sync_condition : gl_enum_class<sync_condition, EAGINE_ID_V(SyncCondtn)> {
     using enum_class::enum_class;
 };
 
+struct sync_flag_bit
+  : gl_bitfield_class<sync_flag_bit, EAGINE_ID_V(SyncFlgBit)> {
+    using enum_class::enum_class;
+};
+
 struct sync_parameter : gl_enum_class<sync_parameter, EAGINE_ID_V(SynParamtr)> {
     using enum_class::enum_class;
 };

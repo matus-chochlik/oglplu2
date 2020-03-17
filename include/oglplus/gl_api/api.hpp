@@ -37,6 +37,7 @@ public:
     using double_type = typename gl_types::double_type;
     using bitfield_type = typename gl_types::bitfield_type;
 
+    using sync_type = typename gl_types::sync_type;
     using name_type = typename gl_types::name_type;
 
     struct derived_func : derived_c_api_function<c_api, api_traits, nothing_t> {
@@ -51,6 +52,26 @@ public:
     };
 
     // generate / create objects
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().FenceSync);
+        }
+
+        constexpr auto operator()(sync_condition cond) const noexcept {
+            return this->_check(this->call(
+              this->api().FenceSync, enum_type(cond), bitfield_type(0)));
+        }
+
+        constexpr auto operator()(
+          sync_condition cond, enum_bitfield<sync_flag_bit> flags) const
+          noexcept {
+            return this->_check(this->call(
+              this->api().FenceSync, enum_type(cond), bitfield_type(flags)));
+        }
+    } fence_sync;
+
     template <typename ObjTag, typename W, W c_api::*GenObjects>
     struct make_object_func : derived_func {
         using derived_func::derived_func;
@@ -67,7 +88,8 @@ public:
         constexpr auto operator()() const noexcept {
             name_type n{};
             return this->_check(this->call(this->api().*GenObjects, 1, &n))
-              .transformed([&n]() { return gl_owned_object_name<ObjTag>(n); });
+              .replaced_with(n)
+              .cast_to(identity<gl_owned_object_name<ObjTag>>{});
         }
     };
 
@@ -81,7 +103,7 @@ public:
         constexpr auto operator()(shader_type type) const noexcept {
             return this
               ->_check(this->call(this->api().CreateShader, enum_type(type)))
-              .transformed([](name_type n) { return owned_shader_name(n); });
+              .cast_to(identity<owned_shader_name>{});
         }
     } create_shader;
 
@@ -94,7 +116,7 @@ public:
 
         constexpr auto operator()() const noexcept {
             return this->_check(this->call(this->api().CreateProgram))
-              .transformed([](name_type n) { return owned_program_name(n); });
+              .cast_to(identity<owned_program_name>{});
         }
     } create_program;
 
@@ -212,11 +234,27 @@ public:
 
         constexpr auto operator()() const noexcept {
             return this->_check(this->call(this->api().GenPathsNV, 1))
-              .transformed([](name_type n) { return owned_path_nv_name(n); });
+              .cast_to(identity<owned_path_nv_name>{});
         }
     } create_paths_nv;
 
     // delete objects
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().DeleteSync);
+        }
+
+        constexpr auto operator()(sync_type sync) const noexcept {
+            return this->_check(this->call(this->api().DeleteSync, sync));
+        }
+
+        auto raii(sync_type& sync) noexcept {
+            return eagine::finally([this, &sync]() { (*this)(sync); });
+        }
+    } delete_sync;
+
     template <typename ObjTag, typename W, W c_api::*DeleteObjects>
     struct delete_object_func : derived_func {
         using derived_func::derived_func;
@@ -358,6 +396,19 @@ public:
     } delete_paths_nv;
 
     // is_object
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().IsSync);
+        }
+
+        constexpr true_false operator()(sync_type sync) const noexcept {
+            return this->_check(this->call(this->api().IsSync, sync))
+              .cast_to(identity<true_false>{});
+        }
+    } is_sync;
+
     template <typename ObjTag, typename W, W c_api::*IsObject>
     struct is_object_func : derived_func {
         using derived_func::derived_func;
@@ -510,6 +561,35 @@ public:
         }
     } is_enabledi;
 
+    // memory barrier
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().MemoryBarrier);
+        }
+
+        constexpr auto operator()(enum_bitfield<memory_barrier_bit> bits) const
+          noexcept {
+            return this->_check(
+              this->call(this->api().MemoryBarrier, bitfield_type(bits)));
+        }
+    } memory_barrier;
+
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().MemoryBarrierRegion);
+        }
+
+        constexpr auto operator()(enum_bitfield<memory_barrier_bit> bits) const
+          noexcept {
+            return this->_check(
+              this->call(this->api().MemoryBarrierRegion, bitfield_type(bits)));
+        }
+    } memory_barrier_by_region;
+
     // viewport
     struct : derived_func {
         using derived_func::derived_func;
@@ -644,7 +724,7 @@ public:
             return this
               ->_check(this->call(
                 this->api().GetInteger64v, enum_type(query), &result))
-              .transformed([&result]() { return result; });
+              .replaced_with(result);
         }
 
         constexpr auto operator()(
@@ -667,7 +747,7 @@ public:
             return this
               ->_check(
                 this->call(this->api().GetFloatv, enum_type(query), &result))
-              .transformed([&result]() { return result; });
+              .replaced_with(result);
         }
 
         constexpr auto operator()(
@@ -717,6 +797,7 @@ public:
 
     constexpr basic_gl_api(api_traits& traits)
       : c_api{traits}
+      , fence_sync("fence_sync", traits, *this)
       , create_shader("create_shader", traits, *this)
       , create_program("create_program", traits, *this)
       , gen_buffers("gen_buffers", traits, *this)
@@ -738,6 +819,7 @@ public:
       , gen_vertex_arrays("gen_vertex_arrays", traits, *this)
       , create_vertex_arrays("create_vertex_arrays", traits, *this)
       , create_paths_nv("create_paths_nv", traits, *this)
+      , delete_sync("delete_sync", traits, *this)
       , delete_shader("delete_shader", traits, *this)
       , delete_program("delete_program", traits, *this)
       , delete_buffers("delete_buffers", traits, *this)
@@ -750,6 +832,7 @@ public:
       , delete_transform_feedbacks("delete_transform_feedbacks", traits, *this)
       , delete_vertex_arrays("delete_vertex_arrays", traits, *this)
       , delete_paths_nv("delete_paths_nv", traits, *this)
+      , is_sync("is_sync", traits, *this)
       , is_buffer("is_buffer", traits, *this)
       , is_framebuffer("is_framebuffer", traits, *this)
       , is_program_pipeline("is_program_pipeline", traits, *this)
@@ -768,6 +851,8 @@ public:
       , disablei("disablei", traits, *this)
       , is_enabled("is_enabled", traits, *this)
       , is_enabledi("is_enabledi", traits, *this)
+      , memory_barrier("memory_barrier", traits, *this)
+      , memory_barrier_by_region("memory_barrier_by_region", traits, *this)
       , viewport("viewport", traits, *this)
       , clear_color("clear_color", traits, *this)
       , clear_depth("clear_depth", traits, *this)
