@@ -739,19 +739,21 @@ public:
     opt_c_api_constant<
       mp_list<shader_parameter, program_parameter>,
 #ifdef GL_DELETE_STATUS
-      enum_type_c<GL_DELETE_STATUS>>
+      enum_type_c<GL_DELETE_STATUS>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      true_false>
       delete_status;
 
     opt_c_api_constant<
       mp_list<shader_parameter>,
 #ifdef GL_COMPILE_STATUS
-      enum_type_c<GL_COMPILE_STATUS>>
+      enum_type_c<GL_COMPILE_STATUS>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      true_false>
       compile_status;
 
     opt_c_api_constant<
@@ -773,30 +775,53 @@ public:
       shader_source_length;
 
     opt_c_api_constant<
+      mp_list<shader_parameter>,
+#ifdef GL_SPIR_V_BINARY
+      enum_type_c<GL_SPIR_V_BINARY>,
+#else
+      enum_type_i,
+#endif
+      true_false>
+      spir_v_binary;
+
+    opt_c_api_constant<
+      mp_list<program_parameter>,
+#ifdef GL_PROGRAM_SEPARABLE
+      enum_type_c<GL_PROGRAM_SEPARABLE>,
+#else
+      enum_type_i,
+#endif
+      true_false>
+      program_separable;
+
+    opt_c_api_constant<
       mp_list<shader_parameter, program_parameter>,
 #ifdef GL_COMPLETION_STATUS_ARB
-      enum_type_c<GL_COMPLETION_STATUS_ARB>>
+      enum_type_c<GL_COMPLETION_STATUS_ARB>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      true_false>
       completion_status;
 
     opt_c_api_constant<
       mp_list<program_parameter>,
 #ifdef GL_LINK_STATUS
-      enum_type_c<GL_LINK_STATUS>>
+      enum_type_c<GL_LINK_STATUS>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      true_false>
       link_status;
 
     opt_c_api_constant<
       mp_list<program_parameter>,
 #ifdef GL_VALIDATE_STATUS
-      enum_type_c<GL_VALIDATE_STATUS>>
+      enum_type_c<GL_VALIDATE_STATUS>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      true_false>
       validate_status;
 
     opt_c_api_constant<
@@ -924,6 +949,15 @@ public:
       enum_type_i>
 #endif
       geometry_output_type;
+
+    opt_c_api_constant<
+      mp_list<program_parameter>,
+#ifdef GL_TESS_GEN_POINT_MODE
+      enum_type_c<GL_TESS_GEN_POINT_MODE>>
+#else
+      enum_type_i>
+#endif
+      tess_gen_point_mode;
 
     opt_c_api_constant<
       mp_list<program_binary_format>,
@@ -1270,10 +1304,11 @@ public:
     opt_c_api_constant<
       mp_list<framebuffer_attachment_parameter>,
 #ifdef GL_FRAMEBUFFER_ATTACHMENT_LAYERED
-      enum_type_c<GL_FRAMEBUFFER_ATTACHMENT_LAYERED>>
+      enum_type_c<GL_FRAMEBUFFER_ATTACHMENT_LAYERED>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      true_false>
       framebuffer_attachment_layered;
 
     opt_c_api_constant<
@@ -2523,10 +2558,11 @@ public:
     opt_c_api_constant<
       mp_list<query_parameter>,
 #ifdef GL_QUERY_RESULT_AVAILABLE
-      enum_type_c<GL_QUERY_RESULT_AVAILABLE>>
+      enum_type_c<GL_QUERY_RESULT_AVAILABLE>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      true_false>
       query_result_available;
 
     opt_c_api_constant<
@@ -2568,19 +2604,21 @@ public:
     opt_c_api_constant<
       mp_list<transform_feedback_parameter>,
 #ifdef GL_TRANSFORM_FEEDBACK_PAUSED
-      enum_type_c<GL_TRANSFORM_FEEDBACK_PAUSED>>
+      enum_type_c<GL_TRANSFORM_FEEDBACK_PAUSED>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      true_false>
       transform_feedback_paused;
 
     opt_c_api_constant<
       mp_list<transform_feedback_parameter>,
 #ifdef GL_TRANSFORM_FEEDBACK_ACTIVE
-      enum_type_c<GL_TRANSFORM_FEEDBACK_ACTIVE>>
+      enum_type_c<GL_TRANSFORM_FEEDBACK_ACTIVE>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      true_false>
       transform_feedback_active;
 
     opt_c_api_constant<
@@ -3760,6 +3798,16 @@ public:
 
     opt_c_api_constant<
       mp_list<binding_query>,
+#ifdef GL_PROGRAM_PIPELINE_BINDING
+      enum_type_c<GL_PROGRAM_PIPELINE_BINDING>,
+#else
+      enum_type_i,
+#endif
+      program_pipeline_name>
+      program_pipeline_binding;
+
+    opt_c_api_constant<
+      mp_list<binding_query>,
 #ifdef GL_CURRENT_PROGRAM
       enum_type_c<GL_CURRENT_PROGRAM>,
 #else
@@ -3854,6 +3902,24 @@ public:
 #endif
       enum_bitfield<context_profile_bit>>
       context_profile_mask;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_DOUBLEBUFFER
+      enum_type_c<GL_DOUBLEBUFFER>>
+#else
+      enum_type_i>
+#endif
+      doublebuffer;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_STEREO
+      enum_type_c<GL_STEREO>>
+#else
+      enum_type_i>
+#endif
+      stereo;
 
     opt_c_api_constant<
       mp_list<integer_query>,
@@ -4341,6 +4407,16 @@ public:
       enum_type_i>
 #endif
       max_label_length;
+
+    opt_c_api_constant<
+      mp_list<integer_query>,
+#ifdef GL_SHADER_COMPILER
+      enum_type_c<GL_SHADER_COMPILER>,
+#else
+      enum_type_i,
+#endif
+      true_false>
+      shader_compiler;
 
     opt_c_api_constant<
       mp_list<integer_query>,
@@ -7381,19 +7457,21 @@ public:
     opt_c_api_constant<
       mp_list<pixel_store_parameter>,
 #ifdef GL_PACK_SWAP_BYTES
-      enum_type_c<GL_PACK_SWAP_BYTES>>
+      enum_type_c<GL_PACK_SWAP_BYTES>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      true_false>
       pack_swap_bytes;
 
     opt_c_api_constant<
       mp_list<pixel_store_parameter>,
 #ifdef GL_PACK_LSB_FIRST
-      enum_type_c<GL_PACK_LSB_FIRST>>
+      enum_type_c<GL_PACK_LSB_FIRST>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      true_false>
       pack_lsb_first;
 
     opt_c_api_constant<
@@ -7489,19 +7567,21 @@ public:
     opt_c_api_constant<
       mp_list<pixel_store_parameter>,
 #ifdef GL_UNPACK_SWAP_BYTES
-      enum_type_c<GL_UNPACK_SWAP_BYTES>>
+      enum_type_c<GL_UNPACK_SWAP_BYTES>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      true_false>
       unpack_swap_bytes;
 
     opt_c_api_constant<
       mp_list<pixel_store_parameter>,
 #ifdef GL_UNPACK_LSB_FIRST
-      enum_type_c<GL_UNPACK_LSB_FIRST>>
+      enum_type_c<GL_UNPACK_LSB_FIRST>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      true_false>
       unpack_lsb_first;
 
     opt_c_api_constant<
@@ -8726,37 +8806,41 @@ public:
     opt_c_api_constant<
       mp_list<hint_target>,
 #ifdef GL_LINE_SMOOTH_HINT
-      enum_type_c<GL_LINE_SMOOTH_HINT>>
+      enum_type_c<GL_LINE_SMOOTH_HINT>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      hint_option>
       line_smooth_hint;
 
     opt_c_api_constant<
       mp_list<hint_target>,
 #ifdef GL_POLYGON_SMOOTH_HINT
-      enum_type_c<GL_POLYGON_SMOOTH_HINT>>
+      enum_type_c<GL_POLYGON_SMOOTH_HINT>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      hint_option>
       polygon_smooth_hint;
 
     opt_c_api_constant<
       mp_list<hint_target>,
 #ifdef GL_TEXTURE_COMPRESSION_HINT
-      enum_type_c<GL_TEXTURE_COMPRESSION_HINT>>
+      enum_type_c<GL_TEXTURE_COMPRESSION_HINT>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      hint_option>
       texture_compression_hint;
 
     opt_c_api_constant<
       mp_list<hint_target>,
 #ifdef GL_FRAGMENT_SHADER_DERIVATIVE_HINT
-      enum_type_c<GL_FRAGMENT_SHADER_DERIVATIVE_HINT>>
+      enum_type_c<GL_FRAGMENT_SHADER_DERIVATIVE_HINT>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      hint_option>
       fragment_shader_derivative_hint;
 
     // hint option
@@ -10018,6 +10102,8 @@ public:
       , compile_status("COMPILE_STATUS", traits, api)
       , info_log_length("INFO_LOG_LENGTH", traits, api)
       , shader_source_length("SHADER_SOURCE_LENGTH", traits, api)
+      , spir_v_binary("SPIR_V_BINARY", traits, api)
+      , program_separable("PROGRAM_SEPARABLE", traits, api)
       , completion_status("COMPLETION_STATUS", traits, api)
       , link_status("LINK_STATUS", traits, api)
       , validate_status("VALIDATE_STATUS", traits, api)
@@ -10038,6 +10124,7 @@ public:
       , geometry_vertices_out("GEOMETRY_VERTICES_OUT", traits, api)
       , geometry_input_type("GEOMETRY_INPUT_TYPE", traits, api)
       , geometry_output_type("GEOMETRY_OUTPUT_TYPE", traits, api)
+      , tess_gen_point_mode("TESS_GEN_POINT_MODE", traits, api)
       , gl_program_binary_format_mesa("PROGRAM_BINARY_FORMAT_MESA", traits, api)
       , active_program("ACTIVE_PROGRAM", traits, api)
       , renderbuffer_width("RENDERBUFFER_WIDTH", traits, api)
@@ -10399,6 +10486,7 @@ public:
           "TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY", traits, api)
       , transform_feedback_binding("TRANSFORM_FEEDBACK_BINDING", traits, api)
       , vertex_array_binding("VERTEX_ARRAY_BINDING", traits, api)
+      , program_pipeline_binding("PROGRAM_PIPELINE_BINDING", traits, api)
       , current_program("CURRENT_PROGRAM", traits, api)
       , draw_buffer0("DRAW_BUFFER0", traits, api)
       , major_version("MAJOR_VERSION", traits, api)
@@ -10410,6 +10498,8 @@ public:
       , num_spir_v_extensions("NUM_SPIR_V_EXTENSIONS", traits, api)
       , context_flags("CONTEXT_FLAGS", traits, api)
       , context_profile_mask("CONTEXT_PROFILE_MASK", traits, api)
+      , doublebuffer("DOUBLEBUFFER", traits, api)
+      , stereo("STEREO", traits, api)
       , clip_origin("CLIP_ORIGIN", traits, api)
       , clip_depth_mode("CLIP_DEPTH_MODE", traits, api)
       , clamp_read_color("CLAMP_READ_COLOR", traits, api)
@@ -10470,6 +10560,7 @@ public:
       , max_debug_group_stack_depth("MAX_DEBUG_GROUP_STACK_DEPTH", traits, api)
       , debug_group_stack_depth("DEBUG_GROUP_STACK_DEPTH", traits, api)
       , max_label_length("MAX_LABEL_LENGTH", traits, api)
+      , shader_compiler("SHADER_COMPILER", traits, api)
       , max_shader_compiler_threads(
           "MAX_SHADER_COMPILER_THREADS_ARB", traits, api)
       , line_width("LINE_WIDTH", traits, api)
