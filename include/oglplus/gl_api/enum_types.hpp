@@ -14,7 +14,7 @@
 namespace eagine {
 namespace oglp {
 //------------------------------------------------------------------------------
-struct true_false : gl_enum_class<true_false, EAGINE_ID_V(TrueFalse)> {
+struct true_false : gl_bool_class<true_false, EAGINE_ID_V(TrueFalse)> {
     using enum_class::enum_class;
 
     constexpr explicit operator bool() const noexcept {
@@ -197,6 +197,11 @@ struct texture_mag_filter
 };
 
 struct texture_filter : gl_enum_class<texture_filter, EAGINE_ID_V(TexFilter)> {
+    using enum_class::enum_class;
+};
+
+struct texture_level_parameter
+  : gl_enum_class<texture_level_parameter, EAGINE_ID_V(TexLvlParm)> {
     using enum_class::enum_class;
 };
 
@@ -386,6 +391,11 @@ struct sl_data_type : gl_enum_class<sl_data_type, EAGINE_ID_V(SLDataType)> {
 
 struct point_parameter
   : gl_enum_class<point_parameter, EAGINE_ID_V(PtParametr)> {
+    using enum_class::enum_class;
+};
+
+struct point_sprite_coord_origin
+  : gl_enum_class<point_sprite_coord_origin, EAGINE_ID_V(PtSprCrdOr)> {
     using enum_class::enum_class;
 };
 

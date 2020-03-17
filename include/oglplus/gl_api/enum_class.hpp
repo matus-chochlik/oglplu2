@@ -29,6 +29,10 @@ template <typename Self, identifier_t Id>
 using gl_ubyte_class =
   enum_class<Self, gl_types::ubyte_type, EAGINE_ID_V(GL), Id>;
 
+template <typename Self, identifier_t Id>
+using gl_bool_class =
+  enum_class<Self, gl_types::bool_type, EAGINE_ID_V(GL), Id>;
+
 using gl_any_enum_class = any_enum_class<EAGINE_ID_V(GL)>;
 using gl_any_enum_value = any_enum_value<EAGINE_ID_V(GL)>;
 

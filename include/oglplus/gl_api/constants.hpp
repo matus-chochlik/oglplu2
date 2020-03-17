@@ -2014,6 +2014,96 @@ public:
       linear_mipmap_linear;
 
     opt_c_api_constant<
+      mp_list<texture_level_parameter>,
+#ifdef GL_TEXTURE_WIDTH
+      enum_type_c<GL_TEXTURE_WIDTH>>
+#else
+      enum_type_i>
+#endif
+      texture_width;
+
+    opt_c_api_constant<
+      mp_list<texture_level_parameter>,
+#ifdef GL_TEXTURE_HEIGHT
+      enum_type_c<GL_TEXTURE_HEIGHT>>
+#else
+      enum_type_i>
+#endif
+      texture_height;
+
+    opt_c_api_constant<
+      mp_list<texture_level_parameter>,
+#ifdef GL_TEXTURE_DEPTH
+      enum_type_c<GL_TEXTURE_DEPTH>>
+#else
+      enum_type_i>
+#endif
+      texture_depth;
+
+    opt_c_api_constant<
+      mp_list<texture_level_parameter>,
+#ifdef GL_TEXTURE_RED_SIZE
+      enum_type_c<GL_TEXTURE_RED_SIZE>>
+#else
+      enum_type_i>
+#endif
+      texture_red_size;
+
+    opt_c_api_constant<
+      mp_list<texture_level_parameter>,
+#ifdef GL_TEXTURE_GREEN_SIZE
+      enum_type_c<GL_TEXTURE_GREEN_SIZE>>
+#else
+      enum_type_i>
+#endif
+      texture_green_size;
+
+    opt_c_api_constant<
+      mp_list<texture_level_parameter>,
+#ifdef GL_TEXTURE_BLUE_SIZE
+      enum_type_c<GL_TEXTURE_BLUE_SIZE>>
+#else
+      enum_type_i>
+#endif
+      texture_blue_size;
+
+    opt_c_api_constant<
+      mp_list<texture_level_parameter>,
+#ifdef GL_TEXTURE_ALPHA_SIZE
+      enum_type_c<GL_TEXTURE_ALPHA_SIZE>>
+#else
+      enum_type_i>
+#endif
+      texture_alpha_size;
+
+    opt_c_api_constant<
+      mp_list<texture_level_parameter>,
+#ifdef GL_TEXTURE_DEPTH_SIZE
+      enum_type_c<GL_TEXTURE_DEPTH_SIZE>>
+#else
+      enum_type_i>
+#endif
+      texture_depth_size;
+
+    opt_c_api_constant<
+      mp_list<texture_level_parameter>,
+#ifdef GL_TEXTURE_STENCIL_SIZE
+      enum_type_c<GL_TEXTURE_STENCIL_SIZE>>
+#else
+      enum_type_i>
+#endif
+      texture_stencil_size;
+
+    opt_c_api_constant<
+      mp_list<texture_level_parameter>,
+#ifdef GL_TEXTURE_SHARED_SIZE
+      enum_type_c<GL_TEXTURE_SHARED_SIZE>>
+#else
+      enum_type_i>
+#endif
+      texture_shared_size;
+
+    opt_c_api_constant<
       mp_list<texture_parameter>,
 #ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
       enum_type_c<GL_DEPTH_STENCIL_TEXTURE_MODE>>
@@ -2052,20 +2142,32 @@ public:
     opt_c_api_constant<
       mp_list<texture_parameter, sampler_parameter>,
 #ifdef GL_TEXTURE_COMPARE_MODE
-      enum_type_c<GL_TEXTURE_COMPARE_MODE>>
+      enum_type_c<GL_TEXTURE_COMPARE_MODE>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      oglp::texture_compare_mode>
       texture_compare_mode;
 
     opt_c_api_constant<
       mp_list<texture_parameter, sampler_parameter>,
 #ifdef GL_TEXTURE_COMPARE_FUNC
-      enum_type_c<GL_TEXTURE_COMPARE_FUNC>>
+      enum_type_c<GL_TEXTURE_COMPARE_FUNC>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      oglp::compare_function>
       texture_compare_func;
+
+    opt_c_api_constant<
+      mp_list<texture_level_parameter>,
+#ifdef GL_TEXTURE_INTERNAL_FORMAT
+      enum_type_c<GL_TEXTURE_INTERNAL_FORMAT>,
+#else
+      enum_type_i,
+#endif
+      pixel_internal_format>
+      texture_internal_format;
 
     opt_c_api_constant<
       mp_list<texture_parameter>,
@@ -2098,10 +2200,11 @@ public:
     opt_c_api_constant<
       mp_list<texture_parameter, sampler_parameter>,
 #ifdef GL_TEXTURE_MAG_FILTER
-      enum_type_c<GL_TEXTURE_MAG_FILTER>>
+      enum_type_c<GL_TEXTURE_MAG_FILTER>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      oglp::texture_mag_filter>
       texture_mag_filter;
 
     opt_c_api_constant<
@@ -2125,10 +2228,11 @@ public:
     opt_c_api_constant<
       mp_list<texture_parameter, sampler_parameter>,
 #ifdef GL_TEXTURE_MIN_FILTER
-      enum_type_c<GL_TEXTURE_MIN_FILTER>>
+      enum_type_c<GL_TEXTURE_MIN_FILTER>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      oglp::texture_min_filter>
       texture_min_filter;
 
     opt_c_api_constant<
@@ -2143,37 +2247,41 @@ public:
     opt_c_api_constant<
       mp_list<texture_parameter, texture_swizzle_mode>,
 #ifdef GL_TEXTURE_SWIZZLE_R
-      enum_type_c<GL_TEXTURE_SWIZZLE_R>>
+      enum_type_c<GL_TEXTURE_SWIZZLE_R>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      texture_swizzle_mode>
       texture_swizzle_r;
 
     opt_c_api_constant<
       mp_list<texture_parameter, texture_swizzle_mode>,
 #ifdef GL_TEXTURE_SWIZZLE_G
-      enum_type_c<GL_TEXTURE_SWIZZLE_G>>
+      enum_type_c<GL_TEXTURE_SWIZZLE_G>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      texture_swizzle_mode>
       texture_swizzle_g;
 
     opt_c_api_constant<
       mp_list<texture_parameter, texture_swizzle_mode>,
 #ifdef GL_TEXTURE_SWIZZLE_B
-      enum_type_c<GL_TEXTURE_SWIZZLE_B>>
+      enum_type_c<GL_TEXTURE_SWIZZLE_B>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      texture_swizzle_mode>
       texture_swizzle_b;
 
     opt_c_api_constant<
       mp_list<texture_parameter, texture_swizzle_mode>,
 #ifdef GL_TEXTURE_SWIZZLE_A
-      enum_type_c<GL_TEXTURE_SWIZZLE_A>>
+      enum_type_c<GL_TEXTURE_SWIZZLE_A>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      texture_swizzle_mode>
       texture_swizzle_a;
 
     opt_c_api_constant<
@@ -2188,10 +2296,11 @@ public:
     opt_c_api_constant<
       mp_list<texture_parameter>,
 #ifdef GL_TEXTURE_TARGET
-      enum_type_c<GL_TEXTURE_TARGET>>
+      enum_type_c<GL_TEXTURE_TARGET>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      oglp::texture_target>
       texture_target;
 
     opt_c_api_constant<
@@ -2231,7 +2340,7 @@ public:
       texture_view_num_levels;
 
     opt_c_api_constant<
-      mp_list<texture_parameter>,
+      mp_list<texture_level_parameter>,
 #ifdef GL_TEXTURE_FIXED_SAMPLE_LOCATIONS
       enum_type_c<GL_TEXTURE_FIXED_SAMPLE_LOCATIONS>,
 #else
@@ -2243,28 +2352,31 @@ public:
     opt_c_api_constant<
       mp_list<texture_parameter, texture_wrap_coord, sampler_parameter>,
 #ifdef GL_TEXTURE_WRAP_S
-      enum_type_c<GL_TEXTURE_WRAP_S>>
+      enum_type_c<GL_TEXTURE_WRAP_S>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      oglp::texture_wrap_mode>
       texture_wrap_s;
 
     opt_c_api_constant<
       mp_list<texture_parameter, texture_wrap_coord, sampler_parameter>,
 #ifdef GL_TEXTURE_WRAP_T
-      enum_type_c<GL_TEXTURE_WRAP_T>>
+      enum_type_c<GL_TEXTURE_WRAP_T>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      oglp::texture_wrap_mode>
       texture_wrap_t;
 
     opt_c_api_constant<
       mp_list<texture_parameter, texture_wrap_coord, sampler_parameter>,
 #ifdef GL_TEXTURE_WRAP_R
-      enum_type_c<GL_TEXTURE_WRAP_R>>
+      enum_type_c<GL_TEXTURE_WRAP_R>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      oglp::texture_wrap_mode>
       texture_wrap_r;
 
     opt_c_api_constant<
@@ -3981,19 +4093,21 @@ public:
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_CULL_FACE_MODE
-      enum_type_c<GL_CULL_FACE_MODE>>
+      enum_type_c<GL_CULL_FACE_MODE>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      face_mode>
       cull_face_mode;
 
     opt_c_api_constant<
       mp_list<integer_query>,
 #ifdef GL_FRONT_FACE
-      enum_type_c<GL_FRONT_FACE>>
+      enum_type_c<GL_FRONT_FACE>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      face_orientation>
       front_face;
 
     opt_c_api_constant<
@@ -6080,11 +6194,30 @@ public:
     opt_c_api_constant<
       mp_list<point_parameter, integer_query>,
 #ifdef GL_POINT_SPRITE_COORD_ORIGIN
-      enum_type_c<GL_POINT_SPRITE_COORD_ORIGIN>>
+      enum_type_c<GL_POINT_SPRITE_COORD_ORIGIN>,
+#else
+      enum_type_i,
+#endif
+      oglp::point_sprite_coord_origin>
+      point_sprite_coord_origin;
+
+    opt_c_api_constant<
+      mp_list<oglp::point_sprite_coord_origin>,
+#ifdef GL_LOWER_LEFT
+      enum_type_c<GL_LOWER_LEFT>>
 #else
       enum_type_i>
 #endif
-      point_sprite_coord_origin;
+      lower_left;
+
+    opt_c_api_constant<
+      mp_list<oglp::point_sprite_coord_origin>,
+#ifdef GL_UPPER_LEFT
+      enum_type_c<GL_UPPER_LEFT>>
+#else
+      enum_type_i>
+#endif
+      upper_left;
 
     opt_c_api_constant<
       mp_list<oglp::polygon_mode>,
@@ -10261,6 +10394,16 @@ public:
       , nearest_mipmap_linear("NEAREST_MIPMAP_LINEAR", traits, api)
       , linear_mipmap_nearest("LINEAR_MIPMAP_NEAREST", traits, api)
       , linear_mipmap_linear("LINEAR_MIPMAP_LINEAR", traits, api)
+      , texture_width("TEXTURE_WIDTH", traits, api)
+      , texture_height("TEXTURE_HEIGHT", traits, api)
+      , texture_depth("TEXTURE_DEPTH", traits, api)
+      , texture_red_size("TEXTURE_RED_SIZE", traits, api)
+      , texture_green_size("TEXTURE_GREEN_SIZE", traits, api)
+      , texture_blue_size("TEXTURE_BLUE_SIZE", traits, api)
+      , texture_alpha_size("TEXTURE_ALPHA_SIZE", traits, api)
+      , texture_depth_size("TEXTURE_DEPTH_SIZE", traits, api)
+      , texture_stencil_size("TEXTURE_STENCIL_SIZE", traits, api)
+      , texture_shared_size("TEXTURE_SHARED_SIZE", traits, api)
       , depth_stencil_texture_mode("DEPTH_STENCIL_TEXTURE_MODE", traits, api)
       , image_format_compatibility_type(
           "IMAGE_FORMAT_COMPATIBILITY_TYPE", traits, api)
@@ -10268,6 +10411,7 @@ public:
       , texture_border_color("TEXTURE_BORDER_COLOR", traits, api)
       , texture_compare_mode("TEXTURE_COMPARE_MODE", traits, api)
       , texture_compare_func("TEXTURE_COMPARE_FUNC", traits, api)
+      , texture_internal_format("TEXTURE_INTERNAL_FORMAT", traits, api)
       , texture_immutable_format("TEXTURE_IMMUTABLE_FORMAT", traits, api)
       , texture_immutable_levels("TEXTURE_IMMUTABLE_LEVELS", traits, api)
       , texture_lod_bias("TEXTURE_LOD_BIAS", traits, api)
@@ -10763,6 +10907,8 @@ public:
       , point_size_max("POINT_SIZE_MAX", traits, api)
       , point_fade_threshold_size("POINT_FADE_THRESHOLD_SIZE", traits, api)
       , point_sprite_coord_origin("POINT_SPRITE_COORD_ORIGIN", traits, api)
+      , lower_left("LOWER_LEFT", traits, api)
+      , upper_left("UPPER_LEFT", traits, api)
       , point("POINT", traits, api)
       , line("LINE", traits, api)
       , fill("FILL", traits, api)
