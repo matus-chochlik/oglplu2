@@ -366,10 +366,11 @@ public:
             return bool(this->api().*IsObject);
         }
 
-        constexpr bool operator()(gl_object_name<ObjTag> name) const noexcept {
+        constexpr true_false operator()(gl_object_name<ObjTag> name) const
+          noexcept {
             return this
               ->_check(this->call(this->api().*IsObject, name_type(name)))
-              .transformed([](bool_type b) { return b == GL_TRUE; });
+              .cast_to(identity<true_false>{});
         }
     };
 
@@ -423,6 +424,48 @@ public:
 
     is_object_func<path_nv_tag, decltype(c_api::IsPathNV), &c_api::IsPathNV>
       is_path_nv;
+
+    // enable
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().Enable);
+        }
+
+        constexpr auto operator()(capability cap) const noexcept {
+            return this->_check(this->call(this->api().Enable, enum_type(cap)));
+        }
+    } enable;
+
+    // disable
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().Disable);
+        }
+
+        constexpr auto operator()(capability cap) const noexcept {
+            return this->_check(
+              this->call(this->api().Disable, enum_type(cap)));
+        }
+    } disable;
+
+    // is_enabled
+    struct : derived_func {
+        using derived_func::derived_func;
+
+        explicit constexpr operator bool() const noexcept {
+            return bool(this->api().IsEnabled);
+        }
+
+        constexpr auto operator()(capability cap) const noexcept {
+            return this
+              ->_check(this->call(this->api().IsEnabled, enum_type(cap)))
+              .cast_to(identity<true_false>{});
+        }
+    } is_enabled;
 
     // viewport
     struct : derived_func {
@@ -676,6 +719,9 @@ public:
       , is_transform_feedback("is_transform_feedback", traits, *this)
       , is_vertex_array("is_vertex_array", traits, *this)
       , is_path_nv("is_path_nv", traits, *this)
+      , enable("enable", traits, *this)
+      , disable("disable", traits, *this)
+      , is_enabled("is_enabled", traits, *this)
       , viewport("viewport", traits, *this)
       , clear_color("clear_color", traits, *this)
       , clear_depth("clear_depth", traits, *this)

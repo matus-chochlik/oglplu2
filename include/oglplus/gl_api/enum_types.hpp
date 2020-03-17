@@ -14,6 +14,26 @@
 namespace eagine {
 namespace oglp {
 //------------------------------------------------------------------------------
+struct true_false : gl_enum_class<true_false, EAGINE_ID_V(TrueFalse)> {
+    using enum_class::enum_class;
+
+    constexpr explicit operator bool() const noexcept {
+#ifdef GL_TRUE
+        return this->_value == GL_TRUE;
+#else
+        return false;
+#endif
+    }
+
+    constexpr bool operator!() const noexcept {
+#ifdef GL_FALSE
+        return this->_value == GL_FALSE;
+#else
+        return false;
+#endif
+    }
+};
+
 struct error_code : gl_enum_class<error_code, EAGINE_ID_V(ErrorCode)> {
     using enum_class::enum_class;
 };

@@ -125,6 +125,24 @@ public:
       out_of_memory;
 
     opt_c_api_constant<
+      mp_list<oglp::true_false>,
+#ifdef GL_TRUE
+      enum_type_c<GL_TRUE>>
+#else
+      enum_type_i>
+#endif
+      true_;
+
+    opt_c_api_constant<
+      mp_list<oglp::true_false>,
+#ifdef GL_FALSE
+      enum_type_c<GL_FALSE>>
+#else
+      enum_type_i>
+#endif
+      false_;
+
+    opt_c_api_constant<
       mp_list<context_flag_bit>,
 #ifdef GL_CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT
       bitfield_type_c<GL_CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT>>
@@ -1490,19 +1508,21 @@ public:
     opt_c_api_constant<
       mp_list<buffer_parameter>,
 #ifdef GL_BUFFER_IMMUTABLE_STORAGE
-      enum_type_c<GL_BUFFER_IMMUTABLE_STORAGE>>
+      enum_type_c<GL_BUFFER_IMMUTABLE_STORAGE>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      true_false>
       buffer_immutable_storage;
 
     opt_c_api_constant<
       mp_list<buffer_parameter>,
 #ifdef GL_BUFFER_MAPPED
-      enum_type_c<GL_BUFFER_MAPPED>>
+      enum_type_c<GL_BUFFER_MAPPED>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      true_false>
       buffer_mapped;
 
     opt_c_api_constant<
@@ -2582,19 +2602,21 @@ public:
     opt_c_api_constant<
       mp_list<vertex_attrib_parameter>,
 #ifdef GL_VERTEX_ATTRIB_ARRAY_ENABLED
-      enum_type_c<GL_VERTEX_ATTRIB_ARRAY_ENABLED>>
+      enum_type_c<GL_VERTEX_ATTRIB_ARRAY_ENABLED>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      true_false>
       vertex_attrib_array_enabled;
 
     opt_c_api_constant<
       mp_list<vertex_attrib_parameter>,
 #ifdef GL_VERTEX_ATTRIB_ARRAY_INTEGER
-      enum_type_c<GL_VERTEX_ATTRIB_ARRAY_INTEGER>>
+      enum_type_c<GL_VERTEX_ATTRIB_ARRAY_INTEGER>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      true_false>
       vertex_attrib_array_integer;
 
     opt_c_api_constant<
@@ -2609,19 +2631,21 @@ public:
     opt_c_api_constant<
       mp_list<vertex_attrib_parameter>,
 #ifdef GL_VERTEX_ATTRIB_ARRAY_LONG
-      enum_type_c<GL_VERTEX_ATTRIB_ARRAY_LONG>>
+      enum_type_c<GL_VERTEX_ATTRIB_ARRAY_LONG>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      true_false>
       vertex_attrib_array_long;
 
     opt_c_api_constant<
       mp_list<vertex_attrib_parameter>,
 #ifdef GL_VERTEX_ATTRIB_ARRAY_NORMALIZED
-      enum_type_c<GL_VERTEX_ATTRIB_ARRAY_NORMALIZED>>
+      enum_type_c<GL_VERTEX_ATTRIB_ARRAY_NORMALIZED>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      true_false>
       vertex_attrib_array_normalized;
 
     opt_c_api_constant<
@@ -9902,6 +9926,8 @@ public:
       , table_too_large("TABLE_TOO_LARGE", traits, api)
       , context_lost("CONTEXT_LOST", traits, api)
       , out_of_memory("OUT_OF_MEMORY", traits, api)
+      , true_("TRUE", traits, api)
+      , false_("FALSE", traits, api)
       , context_flag_forward_compatible_bit(
           "CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT", traits, api)
       , context_flag_debug_bit("CONTEXT_FLAG_DEBUG_BIT", traits, api)
