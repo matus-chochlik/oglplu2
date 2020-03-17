@@ -125,10 +125,11 @@ public:
     opt_c_api_constant<
       mp_list<al_integer_query>,
 #ifdef AL_DISTANCE_MODEL
-      enum_type_c<AL_DISTANCE_MODEL>>
+      enum_type_c<AL_DISTANCE_MODEL>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      oalp::distance_model>
       distance_model;
 
     opt_c_api_constant<
