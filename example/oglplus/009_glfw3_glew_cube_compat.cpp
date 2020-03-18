@@ -1,5 +1,5 @@
 /**
- *  @example oglplus/009_glfw3_glew_cube.cpp
+ *  @example oglplus/009_glfw3_glew_cube_compat.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.

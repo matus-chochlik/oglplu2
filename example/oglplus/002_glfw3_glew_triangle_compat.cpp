@@ -1,5 +1,5 @@
 /**
- *  @example oglplus/003_glfw3_glew_checker.cpp
+ *  @example oglplus/002_glfw3_glew_triangle_compat.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -10,9 +10,6 @@
 
 #include <oglplus/constant_defs.hpp>
 #include <oglplus/constants.hpp>
-#include <oglplus/error/format.hpp>
-#include <oglplus/glsl/string_ref.hpp>
-#include <oglplus/math/vector.hpp>
 #include <oglplus/operations.hpp>
 
 #include <eagine/scope_exit.hpp>
@@ -32,46 +29,20 @@ static void handle_resize(int width, int height) {
     const GLdouble h = 2;
     const GLdouble w = h * asp;
 
+#ifdef GL_EXT_direct_state_access
+    gl.load_identity(GL.projection);
+    gl.ortho(GL.projection, -w, +w, -h, +h, 0, 1);
+#else
     gl.matrix_mode(GL.projection);
     gl.load_identity();
     gl.ortho(-w, +w, -h, +h, 0, 1);
+#endif
 }
 
 static void run_loop(GLFWwindow* window, int width, int height) {
     using namespace oglplus;
 
-    shader fs(GL.fragment_shader);
-
-    gl.shader_source(
-      fs,
-      glsl_literal("#version 120\n"
-
-                   "uniform vec3 Color1;\n"
-                   "uniform vec3 Color2;\n"
-
-                   "float checker(vec2 c)\n"
-                   "{\n"
-                   "	return mod(int(c.x*8)+int(c.y*8), 2);\n"
-                   "}\n"
-
-                   "void main()\n"
-                   "{\n"
-                   "	float c = checker(gl_TexCoord[0].st);\n"
-                   "	gl_FragColor = vec4(mix(Color1, Color2, c),1);\n"
-                   "}\n"));
-    gl.compile_shader(fs);
-
-    program prog;
-
-    gl.attach_shader(prog, fs);
-    gl.link_program(prog);
-    gl.use_program(prog);
-
-    gl.uniform(uniform<GLfloat>(prog, "Color1"), 0.2f, 0.2f, 0.2f);
-    gl.uniform(
-      uniform<GLfloat[3]>(prog, "Color2"), 1, view({0.4f, 0.4f, 0.6f}));
-
-    gl.clear_color(vec4(0.6f, 0.7f, 0.6f, 0.0f));
+    gl.clear_color(0.4f, 0.4f, 0.4f, 0.0f);
 
     handle_resize(width, height);
 
@@ -101,34 +72,33 @@ static void run_loop(GLFWwindow* window, int width, int height) {
 
         gl.clear(GL.color_buffer_bit);
 
+#ifdef GL_EXT_direct_state_access
+        gl.load_identity(GL.modelview);
+        gl.rotate_f(GL.modelview, degrees_(deg++), 0, 0, 1);
+#else
         gl.matrix_mode(GL.modelview);
         gl.load_identity();
         gl.rotate_f(degrees_(deg++), 0, 0, 1);
+#endif
 
-        gl.begin(GL.quads);
-        gl.tex_coord_i(0, 0);
-        gl.vertex_i(-1, -1);
+        gl.begin(GL.triangles);
+        gl.color_f(1, 0, 0);
+        gl.vertex_f(0, 1);
 
-        gl.tex_coord_i(1, 0);
-        gl.vertex_i(1, -1);
+        gl.color_f(0, 1, 0);
+        gl.vertex_f(-0.866f, -0.5f);
 
-        gl.tex_coord_i(1, 1);
-        gl.vertex_i(1, 1);
-
-        gl.tex_coord_i(0, 1);
-        gl.vertex_i(-1, 1);
+        gl.color_f(0, 0, 1);
+        gl.vertex_f(0.866f, -0.5f);
         gl.end();
 
         gl.begin(GL.line_loop);
-        gl.color_f(1, 1, 1);
+        gl.color_f(0, 0, 0);
+        gl.vertex_f(0, 1);
 
-        gl.vertex_i(-1, -1);
+        gl.vertex_f(-0.866f, -0.5f);
 
-        gl.vertex_i(1, -1);
-
-        gl.vertex_i(1, 1);
-
-        gl.vertex_i(-1, 1);
+        gl.vertex_f(0.866f, -0.5f);
         gl.end();
 
         glfwSwapBuffers(window);
@@ -146,7 +116,7 @@ static void init_and_run() {
         glfwWindowHint(GLFW_BLUE_BITS, 8);
         glfwWindowHint(GLFW_GREEN_BITS, 8);
         glfwWindowHint(GLFW_ALPHA_BITS, 0);
-        glfwWindowHint(GLFW_DEPTH_BITS, 0);
+        glfwWindowHint(GLFW_DEPTH_BITS, 24);
         glfwWindowHint(GLFW_STENCIL_BITS, 0);
 
         glfwWindowHint(GLFW_SAMPLES, GLFW_DONT_CARE);
@@ -177,15 +147,8 @@ int main() {
         init_and_run();
         return 0;
     } catch(oglplus::error& gle) {
-        oglplus::format_error(
-          gle,
-          "OpenGL error\n"
-          "in GL function: %(gl_function_name)\n"
-          "with enum parameter: %(gl_enum_value)\n"
-          "from source file: %(source_file)\n"
-          "%(message)",
-          std::cerr)
-          << std::endl;
+        std::cerr << "OpenGL error: " << gle.what() << " in "
+                  << gle.info().gl_function_name() << std::endl;
     } catch(std::runtime_error& sre) {
         std::cerr << "Runtime error: " << sre.what() << std::endl;
     } catch(std::exception& se) {
