@@ -13,7 +13,8 @@
 #include <eagine/assert.hpp>
 #include <eagine/math/functions.hpp>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 
 class example_state : public example_state_view {
 public:
@@ -32,15 +33,15 @@ public:
         _new_user_idle = true;
     }
 
-    bool set_width(eagine::valid_if_positive<int> new_width) noexcept {
+    bool set_width(valid_if_positive<int> new_width) noexcept {
         return _notice_user_activity(_width.assign(new_width));
     }
 
-    bool set_height(eagine::valid_if_positive<int> new_height) noexcept {
+    bool set_height(valid_if_positive<int> new_height) noexcept {
         return _notice_user_activity(_height.assign(new_height));
     }
 
-    bool set_depth(eagine::valid_if_positive<int> new_depth) noexcept {
+    bool set_depth(valid_if_positive<int> new_depth) noexcept {
         return _notice_user_activity(_depth.assign(new_depth));
     }
 
@@ -73,8 +74,8 @@ public:
     }
 
     bool set_size(
-      eagine::valid_if_positive<int> new_width,
-      eagine::valid_if_positive<int> new_height) noexcept {
+      valid_if_positive<int> new_width,
+      valid_if_positive<int> new_height) noexcept {
         // intentional to bypass short circuiting
         bool ws = set_width(new_width);
         bool hs = set_height(new_height);
@@ -98,7 +99,7 @@ public:
     }
 
     bool set_mouse_pos(int new_mouse_x, int new_mouse_y) noexcept {
-        using eagine::math::clamp;
+        using math::clamp;
         const bool x_chng =
           _mouse_x.assign(clamp(new_mouse_x, 0, _width.value()));
         const bool y_chng =
@@ -122,6 +123,7 @@ public:
     }
 };
 
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif // OGLPLUS_EXAMPLE_STATE_HPP

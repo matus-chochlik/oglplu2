@@ -9,7 +9,8 @@
 #include <eagine/assert.hpp>
 #include <vector>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace shapes {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -61,5 +62,6 @@ eagine::optionally_valid<GLfloat> adapted_generator::ray_intersection(
 }
 //------------------------------------------------------------------------------
 } // namespace shapes
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 //------------------------------------------------------------------------------

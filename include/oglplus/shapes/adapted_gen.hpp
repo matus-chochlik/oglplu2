@@ -18,28 +18,23 @@
 #include <eagine/shapes/vertex_attrib.hpp>
 #include <memory>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace shapes {
-//------------------------------------------------------------------------------
-using eagine::shapes::generator_capability;
-using eagine::shapes::vertex_attrib_and_location;
-using eagine::shapes::vertex_attrib_bits;
-using eagine::shapes::vertex_attrib_kind;
-using eagine::shapes::vertex_attribs_and_locations;
 //------------------------------------------------------------------------------
 class adapted_generator {
 private:
-    std::unique_ptr<eagine::shapes::generator_intf> _gen;
+    std::unique_ptr<generator_intf> _gen;
 
     template <typename Gen>
     static inline auto _copy_gen(const Gen& gen) {
-        return std::unique_ptr<eagine::shapes::generator_intf>{new Gen(gen)};
+        return std::unique_ptr<generator_intf>{new Gen(gen)};
     }
 
     static span_size_t _index_type_size(eagine::shapes::index_data_type type);
 
 public:
-    adapted_generator(std::unique_ptr<eagine::shapes::generator_intf>&& gen)
+    adapted_generator(std::unique_ptr<generator_intf>&& gen)
       : _gen{std::move(gen)} {
 #if defined(GL_TRIANGLE_FAN)
         _gen->enable(generator_capability::element_fans);
@@ -54,8 +49,7 @@ public:
 
     template <
       typename Gen,
-      typename = std::enable_if_t<
-        std::is_base_of_v<eagine::shapes::generator_intf, Gen>>>
+      typename = std::enable_if_t<std::is_base_of_v<generator_intf, Gen>>>
     adapted_generator(const Gen& gen)
       : adapted_generator(_copy_gen(gen)) {
     }
@@ -77,11 +71,9 @@ public:
         return value_count(attr) * span_size(sizeof(GLfloat));
     }
 
-    void attrib_data(
-      vertex_attrib_kind attrib, eagine::memory::block data) const {
+    void attrib_data(vertex_attrib_kind attrib, memory::block data) const {
         // TODO other attrib data types
-        _gen->attrib_values(
-          attrib, accomodate(data, eagine::identity<GLfloat>()));
+        _gen->attrib_values(attrib, accomodate(data, identity<GLfloat>()));
     }
 
     bool indexed() const {
@@ -100,18 +92,18 @@ public:
         return index_count() * index_type_size();
     }
 
-    void index_data(eagine::memory::block data) const {
+    void index_data(memory::block data) const {
         switch(_gen->index_type()) {
-            case eagine::shapes::index_data_type::unsigned_32:
-                _gen->indices(accomodate(data, eagine::identity<GLuint>()));
+            case index_data_type::unsigned_32:
+                _gen->indices(accomodate(data, identity<GLuint>()));
                 break;
-            case eagine::shapes::index_data_type::unsigned_16:
-                _gen->indices(accomodate(data, eagine::identity<GLushort>()));
+            case index_data_type::unsigned_16:
+                _gen->indices(accomodate(data, identity<GLushort>()));
                 break;
-            case eagine::shapes::index_data_type::unsigned_8:
-                _gen->indices(accomodate(data, eagine::identity<GLubyte>()));
+            case index_data_type::unsigned_8:
+                _gen->indices(accomodate(data, identity<GLubyte>()));
                 break;
-            case eagine::shapes::index_data_type::none:
+            case index_data_type::none:
                 break;
         }
     }
@@ -124,10 +116,10 @@ public:
 
     sphere bounding_sphere() const;
 
-    eagine::optionally_valid<GLfloat> ray_intersection(const line&) const;
+    optionally_valid<GLfloat> ray_intersection(const line&) const;
 
-    eagine::optionally_valid<GLfloat> ray_intersection(
-      const eagine::optionally_valid<line>&) const;
+    optionally_valid<GLfloat> ray_intersection(
+      const optionally_valid<line>&) const;
 };
 //------------------------------------------------------------------------------
 template <typename Generator>
@@ -140,7 +132,8 @@ public:
 };
 //------------------------------------------------------------------------------
 } // namespace shapes
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/shapes/adapted_gen.inl>

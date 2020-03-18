@@ -18,9 +18,7 @@ namespace eagine {
 class program_arg;
 class program_args;
 
-} // namespace eagine
-
-namespace oglplus {
+namespace oglp {
 
 class example_arg;
 class example_args;
@@ -44,9 +42,9 @@ template <typename T>
 class example_param;
 
 template <typename T, typename P>
-class example_param<eagine::valid_if<T, P>> : public example_param_tags {
+class example_param<valid_if<T, P>> : public example_param_tags {
 private:
-    eagine::valid_if<T, P> _value;
+    valid_if<T, P> _value;
 
     friend class example_args;
 
@@ -61,15 +59,14 @@ public:
     }
 };
 
-using example_string_param =
-  example_param<eagine::valid_if_not_empty<string_view>>;
+using example_string_param = example_param<valid_if_not_empty<string_view>>;
 
 class example_arg {
 private:
-    const eagine::program_arg& _arg;
+    const program_arg& _arg;
 
 public:
-    example_arg(const eagine::program_arg& arg) noexcept
+    example_arg(const program_arg& arg) noexcept
       : _arg(arg) {
     }
 
@@ -78,14 +75,14 @@ public:
 
 class example_args {
 private:
-    const eagine::program_args& _args;
+    const program_args& _args;
     std::ostream& _errlog;
 
     template <typename T>
     bool _parse_param(example_param<T>& param) const;
 
 public:
-    example_args(const eagine::program_args& args, std::ostream& log) noexcept
+    example_args(const program_args& args, std::ostream& log) noexcept
       : _args(args)
       , _errlog(log) {
     }
@@ -99,6 +96,7 @@ public:
     bool parse_param(example_string_param& param) const;
 };
 
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif // OGLPLUS_EXAMPLE_ARGS_HPP

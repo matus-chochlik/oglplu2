@@ -16,7 +16,8 @@
 #include <cassert>
 #include <stdexcept>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace x11 {
 
 class Window : public DisplayObject<::Window> {
@@ -84,6 +85,7 @@ public:
 };
 
 } // namespace x11
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif // include guard

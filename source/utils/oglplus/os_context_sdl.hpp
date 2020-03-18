@@ -12,7 +12,8 @@
 #include <SDL/SDL.h>
 #include <stdexcept>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 
 class offscreen_context_sdl {
 public:
@@ -40,6 +41,7 @@ public:
     }
 };
 
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif

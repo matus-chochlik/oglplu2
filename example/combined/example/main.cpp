@@ -9,39 +9,39 @@
 
 // clang-format off
 #include <oglplus/gl.hpp>
-#include <oglplus/constants.hpp>
-#include <oglplus/constant_defs.hpp>
 #include "../example.hpp"
 #include "state.hpp"
+#include "main.hpp"
+// clang-format on
 
-#include <oglplus/error/error.hpp>
-#include <oglplus/error/format.hpp>
-#include <oglplus/utils/string_span.hpp>
 #include <eagine/program_args.hpp>
-
 #include <iostream>
 #include <stdexcept>
 #include <cstdlib>
-// clang-format on
+#include <map>
+#include <vector>
 
-int example_main(
-  oglplus::example_args&, oglplus::example_params&, oglplus::example_state&);
-
-bool parse_arg(
-  eagine::program_arg& a,
-  oglplus::example_state& state,
-  oglplus::example_params& params);
-
+namespace eagine {
+namespace oglp {
+//------------------------------------------------------------------------------
+bool parse_arg(program_arg& a, example_state& state, example_params& params);
+//------------------------------------------------------------------------------
+std::unique_ptr<example_main_intf> choose_example_main_impl(
+  const program_args&);
+//------------------------------------------------------------------------------
+} // namespace oglp
+} // namespace eagine
+//------------------------------------------------------------------------------
 int main(int argc, const char** argv) {
     try {
         eagine::program_args args(argc, argv);
 
-        using namespace oglplus;
+        using namespace eagine::oglp;
 
         example_params params;
         example_state state;
 
-        oglplus::adjust_params(params);
+        adjust_params(params);
 
         state.set_size(800, 600);
 
@@ -56,20 +56,8 @@ int main(int argc, const char** argv) {
         state.set_tiles(params.x_tiles(), params.y_tiles());
 
         example_args eargs(args, std::cerr);
-        return example_main(eargs, params, state);
-    } catch(oglplus::error& gle) {
-        oglplus::format_error(
-          gle,
-          "OpenGL error\n"
-          "in GL function: %(gl_function_name)\n"
-          "with object: %(gl_object)\n"
-          "with enum parameter: %(gl_enum_value)\n"
-          "with index: %(gl_index)\n"
-          "from source file: %(source_file)\n"
-          "%(message)\n"
-          "%(info_log)\n",
-          std::cerr)
-          << std::endl;
+
+        return choose_example_main_impl(args)->run(eargs, params, state);
     } catch(std::runtime_error& sre) {
         std::cerr << "Runtime error: " << sre.what() << std::endl;
     } catch(std::exception& se) {
@@ -77,35 +65,35 @@ int main(int argc, const char** argv) {
     }
     return 1;
 }
-
-bool example_knows_arg(const eagine::program_arg& arg) {
-    using namespace oglplus;
+//------------------------------------------------------------------------------
+namespace eagine {
+namespace oglp {
+//------------------------------------------------------------------------------
+bool example_knows_arg(const program_arg& arg) {
     return is_example_param(example_arg(arg)) ||
            is_example_param(example_arg(arg.prev()));
 }
-
+//------------------------------------------------------------------------------
+bool is_special_argument(const program_arg& arg);
+//------------------------------------------------------------------------------
 template <typename T, typename Errstr>
 bool consume_next_arg(
-  eagine::program_arg& a, T& dest, const char* value_type, Errstr& errstr) {
-    auto handle_missing = [&value_type,
-                           &errstr](const eagine::string_view arg_tag) {
+  program_arg& a, T& dest, const char* value_type, Errstr& errstr) {
+    auto handle_missing = [&value_type, &errstr](const string_view arg_tag) {
         errstr() << "Missing " << value_type << " after '" << arg_tag << "'."
                  << std::endl;
     };
     auto handle_invalid = [&value_type, &errstr](
-                            const eagine::string_view arg_tag,
-                            const eagine::string_view arg_val,
-                            const eagine::string_view log_str) {
+                            const string_view arg_tag,
+                            const string_view arg_val,
+                            const string_view log_str) {
         errstr() << "Invalid " << value_type << " '" << arg_val << "' after '"
                  << arg_tag << "'. " << log_str << std::endl;
     };
     return a.do_consume_next(dest, handle_missing, handle_invalid);
 }
-
-bool parse_arg(
-  eagine::program_arg& a,
-  oglplus::example_state& state,
-  oglplus::example_params& params) {
+//------------------------------------------------------------------------------
+bool parse_arg(program_arg& a, example_state& state, example_params& params) {
     using namespace eagine;
 
     auto errstr = []() -> std::ostream& {
@@ -193,9 +181,74 @@ bool parse_arg(
         params.demo_mode(true);
     } else if(a == "--high-quality") {
         params.high_quality(true);
-    } else if(!example_knows_arg(a)) {
+    } else if(!(example_knows_arg(a) || is_special_argument(a))) {
         errstr() << "Unknown command-line option '" << a.get() << "'."
                  << std::endl;
     }
     return true;
 }
+//------------------------------------------------------------------------------
+std::unique_ptr<example_main_intf> make_example_main_glx();
+std::unique_ptr<example_main_intf> make_example_main_glfw3();
+std::unique_ptr<example_main_intf> make_example_main_glfw();
+std::unique_ptr<example_main_intf> make_example_main_glut();
+std::unique_ptr<example_main_intf> make_example_main_sdl();
+//------------------------------------------------------------------------------
+static inline auto choose_example_main_impls_from_args(
+  const program_args& args) {
+    std::map<int, std::unique_ptr<example_main_intf>> result;
+
+    if(auto found{args.find("--use-glx")}) {
+        result[found.position()] = make_example_main_glx();
+    }
+    if(auto found{args.find("--use-glfw3")}) {
+        result[found.position()] = make_example_main_glfw3();
+    }
+    if(auto found{args.find("--use-glfw")}) {
+        result[found.position()] = make_example_main_glfw();
+    }
+    if(auto found{args.find("--use-glut")}) {
+        result[found.position()] = make_example_main_glut();
+    }
+    if(auto found{args.find("--use-sdl")}) {
+        result[found.position()] = make_example_main_sdl();
+    }
+    return result;
+}
+//------------------------------------------------------------------------------
+static inline std::array<std::unique_ptr<example_main_intf>, 5>
+make_all_main_impls() {
+    return {{make_example_main_glx(),
+             make_example_main_glfw3(),
+             make_example_main_glfw(),
+             make_example_main_glut(),
+             make_example_main_sdl()}};
+}
+//------------------------------------------------------------------------------
+bool is_special_argument(const program_arg& arg) {
+    return arg.is_tag("--use-glx") || arg.is_tag("--use-sdl") ||
+           arg.is_tag("--use-glfw3") || arg.is_tag("--use-glfw") ||
+           arg.is_tag("--use-glut");
+}
+//------------------------------------------------------------------------------
+std::unique_ptr<example_main_intf> choose_example_main_impl(
+  const program_args& args) {
+
+    for(auto& [pos, pimpl] : choose_example_main_impls_from_args(args)) {
+        EAGINE_MAYBE_UNUSED(pos);
+        if(pimpl && pimpl->is_implemented()) {
+            return std::move(pimpl);
+        }
+    }
+    for(auto& pimpl : make_all_main_impls()) {
+        if(pimpl && pimpl->is_implemented()) {
+            return std::move(pimpl);
+        }
+    }
+
+    throw std::runtime_error("no OpenGL window API available");
+}
+//------------------------------------------------------------------------------
+} // namespace oglp
+} // namespace eagine
+

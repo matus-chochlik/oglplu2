@@ -293,6 +293,10 @@ public:
         return !is_valid();
     }
 
+    int position() const noexcept {
+        return _argi;
+    }
+
     value_type get() const noexcept {
         if(is_valid()) {
             return value_type(_argv[_argi]);
@@ -1006,6 +1010,19 @@ public:
 
     iterator end() const noexcept {
         return {program_arg(_argc, _argc, _argv)};
+    }
+
+    program_arg find(string_view what) const noexcept {
+        int i = 1;
+        while(i < _argc) {
+            if((_argv != nullptr) && (_argv[i] != nullptr)) {
+                if(are_equal(string_view(_argv[i]), what)) {
+                    break;
+                }
+            }
+            ++i;
+        }
+        return {i, _argc, _argv};
     }
 
     template <typename T>

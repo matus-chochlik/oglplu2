@@ -12,7 +12,8 @@
 #include <GLFW/glfw3.h>
 #include <stdexcept>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 
 class offscreen_context_glfw3 {
 private:
@@ -41,6 +42,7 @@ public:
     }
 };
 
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif

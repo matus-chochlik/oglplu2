@@ -18,7 +18,8 @@
 #include <sstream>
 #include <stdexcept>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 //------------------------------------------------------------------------------
 example_wrapper::example_wrapper(
   example_args& args, example_params& params, example_state& state)
@@ -55,6 +56,9 @@ example_wrapper::example_wrapper(
 }
 //------------------------------------------------------------------------------
 void example_wrapper::destroy() {
+    EAGINE_ASSERT(_example);
+
+    _example->cleanup(_context);
     _example.reset();
 }
 //------------------------------------------------------------------------------
@@ -220,4 +224,5 @@ void example_wrapper::set_mouse_wheel(int w) {
     }
 }
 //------------------------------------------------------------------------------
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine

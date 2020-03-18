@@ -17,7 +17,8 @@
 #include <GL/glut.h>
 #endif
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 
 #if EAGINE_APPLE && defined(__clang__)
 #pragma clang diagnostic push
@@ -44,6 +45,7 @@ public:
 #pragma clang diagnostic pop
 #endif
 
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif

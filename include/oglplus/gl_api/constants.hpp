@@ -4927,7 +4927,7 @@ public:
       never;
 
     opt_c_api_constant<
-      mp_list<sl_data_type, pixel_data_type>,
+      mp_list<data_type, sl_data_type, pixel_data_type>,
 #ifdef GL_FLOAT
       enum_type_c<GL_FLOAT>>
 #else
@@ -4963,7 +4963,7 @@ public:
       float_vec4;
 
     opt_c_api_constant<
-      mp_list<sl_data_type>,
+      mp_list<data_type, sl_data_type>,
 #ifdef GL_DOUBLE
       enum_type_c<GL_DOUBLE>>
 #else
@@ -4999,7 +4999,7 @@ public:
       double_vec4;
 
     opt_c_api_constant<
-      mp_list<sl_data_type, pixel_data_type>,
+      mp_list<data_type, sl_data_type, pixel_data_type>,
 #ifdef GL_INT
       enum_type_c<GL_INT>>
 #else
@@ -5035,7 +5035,7 @@ public:
       int_vec4;
 
     opt_c_api_constant<
-      mp_list<sl_data_type, pixel_data_type, index_data_type>,
+      mp_list<data_type, sl_data_type, pixel_data_type, index_data_type>,
 #ifdef GL_UNSIGNED_INT
       enum_type_c<GL_UNSIGNED_INT>>
 #else
@@ -5071,7 +5071,7 @@ public:
       unsigned_int_vec4;
 
     opt_c_api_constant<
-      mp_list<sl_data_type>,
+      mp_list<data_type, sl_data_type>,
 #ifdef GL_BOOL
       enum_type_c<GL_BOOL>>
 #else
@@ -6837,7 +6837,7 @@ public:
       one_minus_src1_alpha;
 
     opt_c_api_constant<
-      mp_list<pixel_data_type, index_data_type>,
+      mp_list<data_type, pixel_data_type, index_data_type>,
 #ifdef GL_UNSIGNED_BYTE
       enum_type_c<GL_UNSIGNED_BYTE>>
 #else
@@ -6846,7 +6846,7 @@ public:
       unsigned_byte_;
 
     opt_c_api_constant<
-      mp_list<pixel_data_type>,
+      mp_list<data_type, pixel_data_type>,
 #ifdef GL_BYTE
       enum_type_c<GL_BYTE>>
 #else

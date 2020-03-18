@@ -16,7 +16,8 @@
 #include <oglplus/math/sign.hpp>
 #include <oglplus/math/vector.hpp>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 
 class example_orbiting_camera {
 public:
@@ -32,26 +33,24 @@ public:
         return *this;
     }
 
-    example_orbiting_camera& set_near(
-      eagine::valid_if_positive<float> dist) noexcept {
+    example_orbiting_camera& set_near(valid_if_positive<float> dist) noexcept {
         _near = dist.value();
         return *this;
     }
 
-    example_orbiting_camera& set_far(
-      eagine::valid_if_positive<float> dist) noexcept {
+    example_orbiting_camera& set_far(valid_if_positive<float> dist) noexcept {
         _far = dist.value();
         return *this;
     }
 
     example_orbiting_camera& set_orbit_min(
-      eagine::valid_if_positive<float> orbit) noexcept {
+      valid_if_positive<float> orbit) noexcept {
         _orbit_min = orbit.value();
         return *this;
     }
 
     example_orbiting_camera& set_orbit_max(
-      eagine::valid_if_positive<float> orbit) noexcept {
+      valid_if_positive<float> orbit) noexcept {
         _orbit_max = orbit.value();
         return *this;
     }
@@ -66,7 +65,7 @@ public:
 
     example_orbiting_camera& idle_update(
       const example_state_view& state,
-      const eagine::valid_if_positive<float>& divisor) noexcept;
+      const valid_if_positive<float>& divisor) noexcept;
 
     auto orbit() const noexcept {
         return smooth_lerp(_orbit_min, _orbit_max, _orbit_factor);
@@ -107,13 +106,13 @@ public:
         return matrix(state.aspect());
     }
 
-    eagine::optionally_valid<vec3> target_plane_point(
+    optionally_valid<vec3> target_plane_point(
       float ndcx, float ndcy, float aspect) const noexcept;
 
-    eagine::optionally_valid<vec3> target_plane_pointer(
+    optionally_valid<vec3> target_plane_pointer(
       const example_state_view& state, int pointer = 0) const noexcept;
 
-    eagine::optionally_valid<line> pointer_ray(
+    optionally_valid<line> pointer_ray(
       const example_state_view& state, int pointer = 0) const noexcept;
 
     float grab_sphere_radius() const noexcept;
@@ -143,6 +142,7 @@ private:
     bool _is_grabbing{false};
 };
 
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif // OGLPLUS_EXAMPLE_CAMERA_HPP

@@ -9,7 +9,8 @@
 #include <eagine/memory/null_ptr.hpp>
 #include <oglplus/utils/gl_func.hpp>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace shapes {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -108,6 +109,7 @@ const void* draw_operation::_idx_ptr() const noexcept {
     return eagine::memory::typed_nullptr<const GLubyte> + _first;
 }
 //------------------------------------------------------------------------------
+/* TODO
 OGLPLUS_LIB_FUNC
 outcome<void> draw_operation::draw() const noexcept {
     OGLPLUS_GLFUNC(FrontFace)(_cw_face_winding ? GL_CW : GL_CCW);
@@ -147,7 +149,9 @@ outcome<void> draw_using_instructions(span<const draw_operation> ops) noexcept {
     }
     return {};
 }
+*/
 //------------------------------------------------------------------------------
 } // namespace shapes
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 //------------------------------------------------------------------------------

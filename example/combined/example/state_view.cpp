@@ -10,7 +10,8 @@
 #include "state_view.hpp"
 #include <cmath>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 //------------------------------------------------------------------------------
 example_state_view::example_state_view() noexcept
   : _width(1)
@@ -40,8 +41,8 @@ bool example_state_view::_notice_user_activity(
     return something_changed;
 }
 //------------------------------------------------------------------------------
-example_state_value<bool>
-example_state_view::mouse_button_pressed(int button) const noexcept {
+example_state_value<bool> example_state_view::mouse_button_pressed(
+  int button) const noexcept {
     if((button >= 0) && (button < _mouse_btn_count)) {
         return _mouse_btn[button];
     }
@@ -102,12 +103,13 @@ example_state_value<float> example_state_view::pointer_radius(int index) const
       ndc_pointer_y(index));
 }
 //------------------------------------------------------------------------------
-example_state_value<radians_t<float>>
-example_state_view::pointer_angle(int index) const noexcept {
+example_state_value<radians_t<float>> example_state_view::pointer_angle(
+  int index) const noexcept {
     return transform(
       [](float x, float y) { return arctan(y, x); },
       ndc_pointer_x(index),
       ndc_pointer_y(index));
 }
 //------------------------------------------------------------------------------
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine

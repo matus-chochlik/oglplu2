@@ -16,19 +16,21 @@
 #include <eagine/any_iterator.hpp>
 #include <eagine/memory/buffer.hpp>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace shapes {
 
 outcome<void> initialize_vao_and_buffers(
   vertex_array_name vao,
-  const eagine::any_copying_forward_range<buffer_name>& bufs,
+  const any_copying_forward_range<buffer_name>& bufs,
   span<const vertex_attrib_and_location> vaals,
   span<draw_operation> ops,
   const adapted_generator& gen,
-  eagine::memory::buffer& data);
+  memory::buffer& data);
 
 } // namespace shapes
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/shapes/init.inl>

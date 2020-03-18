@@ -12,7 +12,8 @@
 #include "example/context.hpp"
 #include <memory>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 //------------------------------------------------------------------------------
 struct example {
     virtual ~example() = default;
@@ -37,6 +38,9 @@ struct example {
     virtual void resize(const example_context&) = 0;
 
     virtual void render(const example_context&) = 0;
+
+    virtual void cleanup(const example_context&) {
+    }
 };
 //------------------------------------------------------------------------------
 extern std::unique_ptr<example> make_example(
@@ -44,6 +48,7 @@ extern std::unique_ptr<example> make_example(
 //------------------------------------------------------------------------------
 extern bool is_example_param(const example_arg&);
 //------------------------------------------------------------------------------
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif // OGLPLUS_EXAMPLE_OGLPLUS_EXAMPLE_HPP

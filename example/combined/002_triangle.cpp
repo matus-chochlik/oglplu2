@@ -1,5 +1,5 @@
 /**
- *  example oglplus/001_clear.cpp
+ *  example oglplus/002_triangle.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -16,30 +16,43 @@
 namespace eagine {
 namespace oglp {
 
-class example_clear : public example {
+class example_triangle : public example {
+    owned_shader_name vs;
+    owned_shader_name fs;
+
 public:
+    example_triangle(const example_context& ctx) {
+        auto& [gl, GL] = ctx.gl();
+
+        gl.clear_color(0.4f, 0.4f, 0.4f, 0.0f);
+
+        gl.create_shader(GL.vertex_shader) >> vs;
+        gl.create_shader(GL.fragment_shader) >> fs;
+    }
+
+    void cleanup(const example_context& ctx) final {
+        auto& gl = ctx.gl();
+
+        gl.delete_shader(std::move(vs));
+        gl.delete_shader(std::move(fs));
+    }
+
     void resize(const example_context& ctx) final {
-        ctx.gl().viewport(ctx.state().width(), ctx.state().height());
+        auto& gl = ctx.gl();
+
+        gl.viewport(ctx.state().width(), ctx.state().height());
     }
 
     void render(const example_context& ctx) final {
         auto& [gl, GL] = ctx.gl();
-
-        int sec = int(ctx.state().exec_time());
-
-        gl.clear_color(
-          (sec % 3 == 0) ? 1.f : 0.f,
-          (sec % 3 == 1) ? 1.f : 0.f,
-          (sec % 3 == 2) ? 1.f : 0.f,
-          0.0f);
 
         gl.clear(GL.color_buffer_bit);
     }
 };
 
 std::unique_ptr<example> make_example(
-  const example_args&, const example_context&) {
-    return {std::make_unique<example_clear>()};
+  const example_args&, const example_context& ctx) {
+    return {std::make_unique<example_triangle>(ctx)};
 }
 
 void adjust_params(example_params& params) {

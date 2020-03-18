@@ -11,12 +11,12 @@
 #define OGLPLUS_SHAPES_DRAWING_HPP
 
 #include "../config/basic.hpp"
-#include "../enum/types.hpp"
-#include "../error/outcome.hpp"
+#include "../gl_api/enum_types.hpp"
 #include "../utils/span.hpp"
 #include <eagine/shapes/drawing.hpp>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace shapes {
 
 class draw_operation {
@@ -47,7 +47,7 @@ public:
       , _cw_face_winding(false) {
     }
 
-    draw_operation(const eagine::shapes::draw_operation& draw_op) noexcept;
+    draw_operation(const shapes::draw_operation& draw_op) noexcept;
 
     bool indexed() const noexcept;
 
@@ -57,7 +57,8 @@ public:
 outcome<void> draw_using_instructions(span<const draw_operation> ops) noexcept;
 
 } // namespace shapes
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/shapes/drawing.inl>

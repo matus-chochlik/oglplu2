@@ -12,12 +12,13 @@
 #include "config.hpp"
 #include <eagine/math/tvec.hpp>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 
-using eagine::math::vector;
+using math::vector;
 
 template <typename T, unsigned N, bool V = math_use_simd>
-using tvec = eagine::math::tvec<T, N, V>;
+using tvec = math::tvec<T, N, V>;
 
 using vec2 = tvec<GLfloat, 2>;
 
@@ -25,6 +26,7 @@ using vec3 = tvec<GLfloat, 3>;
 
 using vec4 = tvec<GLfloat, 4>;
 
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif // OGLPLUS_MATH_VECTOR_HPP

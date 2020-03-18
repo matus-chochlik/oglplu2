@@ -14,7 +14,8 @@
 #include <chrono>
 #include <vector>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 
 class example_wrapper {
 private:
@@ -53,6 +54,7 @@ public:
     void set_mouse_wheel(int w);
 };
 
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif // OGLPLUS_EXAMPLE_WRAPPER_HPP

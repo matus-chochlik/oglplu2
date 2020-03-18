@@ -7,26 +7,24 @@
 
 #include <oglplus/os_context.hpp>
 
-bool query_gl(int argc, char **argv)
-{
+bool query_gl(int argc, char** argv) {
 #if OGLPLUS_HAS_OS_CONTEXT
-	oglplus::offscreen_context_params context_params;
-	context_params.version_major = OGLPLUS_CONFIG_QUERY_GL_VER_MAJOR;
-	context_params.version_minor = OGLPLUS_CONFIG_QUERY_GL_VER_MINOR;
-	context_params.argc = argc;
-	context_params.argv = argv;
-	context_params.title = "GL feature detection";
+    eagine::oglp::offscreen_context_params context_params;
+    context_params.version_major = OGLPLUS_CONFIG_QUERY_GL_VER_MAJOR;
+    context_params.version_minor = OGLPLUS_CONFIG_QUERY_GL_VER_MINOR;
+    context_params.argc = argc;
+    context_params.argv = argv;
+    context_params.title = "GL feature detection";
 
-	oglplus::offscreen_context gl_context(context_params);
-	oglplus::api_initializer gl_api;
+    eagine::oglp::offscreen_context gl_context(context_params);
+    eagine::oglp::api_initializer gl_api;
 
-	return do_query_gl();
+    return do_query_gl();
 #else
-	return false;
+    return false;
 #endif
 }
 
-int main(int argc, char **argv)
-{
-	return query_gl(argc,argv)?0:1;
+int main(int argc, char** argv) {
+    return query_gl(argc, argv) ? 0 : 1;
 }

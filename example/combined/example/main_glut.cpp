@@ -6,6 +6,10 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+
+#include "main.hpp"
+#include <oglplus/config/basic.hpp>
+#if OGLPLUS_GLUT_FOUND
 #include "state.hpp"
 #include "wrapper.hpp"
 #include <oglplus/gl.hpp>
@@ -24,11 +28,17 @@
 
 #include <cassert>
 #include <iostream>
+#endif // OGLPLUS_GLUT_FOUND
 
 #if defined(__APPLE__) && __APPLE__ && defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 #endif
+
+namespace eagine {
+namespace oglp {
+
+#if OGLPLUS_GLUT_FOUND
 
 class single_glut_context {
 private:
@@ -42,15 +52,13 @@ private:
         return *instance_ptr();
     }
 
-    oglplus::example_wrapper example;
+    example_wrapper example;
     int _height;
     int _wheel;
 
 public:
     single_glut_context(
-      oglplus::example_args& args,
-      oglplus::example_params& params,
-      oglplus::example_state& state)
+      example_args& args, example_params& params, example_state& state)
       : example(args, params, state)
       , _height(state.height())
       , _wheel(0) {
@@ -175,38 +183,70 @@ private:
     }
 };
 
-int example_main(
-  oglplus::example_args& args,
-  oglplus::example_params& params,
-  oglplus::example_state& state) {
-    int argc = args.argc();
-    char** argv = const_cast<char**>(args.argv());
+#endif // OGLPLUS_GLUT_FOUND
 
-    glutInit(&argc, argv);
-    glutInitDisplayMode(
+class example_main_glut : public example_main_intf {
+public:
+    bool is_implemented() final {
+        return (OGLPLUS_GLUT_FOUND != 0);
+    }
+
+    string_view implementation_name() final {
+#if OGLPLUS_FREEGLUT_FOUND
+        return {"FREEGLUT"};
+#else
+        return {"GLUT"};
+#endif
+    }
+
+    int run(
+      example_args& args, example_params& params, example_state& state) final {
+#if OGLPLUS_GLX_FOUND
+
+        int argc = args.argc();
+        char** argv = const_cast<char**>(args.argv());
+
+        glutInit(&argc, argv);
+        glutInitDisplayMode(
 #if defined(__APPLE__) && __APPLE__
-      GLUT_3_2_CORE_PROFILE |
+          GLUT_3_2_CORE_PROFILE |
 #endif
-      // NOLINTNEXTLINE(hicpp-signed-bitwise)
-      GLUT_DOUBLE | GLUT_RGBA | (params.depth_buffer() ? GLUT_DEPTH : 0) |
-      (params.stencil_buffer() ? GLUT_STENCIL : 0));
+          // NOLINTNEXTLINE(hicpp-signed-bitwise)
+          GLUT_DOUBLE | GLUT_RGBA | (params.depth_buffer() ? GLUT_DEPTH : 0) |
+          (params.stencil_buffer() ? GLUT_STENCIL : 0));
 #ifdef FREEGLUT
-    glutInitContextVersion(OGLPLUS_GL_VERSION_MAJOR, OGLPLUS_GL_VERSION_MINOR);
+        glutInitContextVersion(
+          OGLPLUS_GL_VERSION_MAJOR, OGLPLUS_GL_VERSION_MINOR);
 #endif
-    glutInitWindowSize(state.width(), state.height());
-    glutInitWindowPosition(params.window_x_pos(), params.window_y_pos());
-    glutCreateWindow("OGLplus example");
+        glutInitWindowSize(state.width(), state.height());
+        glutInitWindowPosition(params.window_x_pos(), params.window_y_pos());
+#ifdef FREEGLUT
+        glutCreateWindow("OGLplus example (FREEGLUT)");
+#else
+        glutCreateWindow("OGLplus example (GLUT)");
+#endif
 
-    oglplus::api_initializer gl_api_init;
+        api_initializer gl_api_init;
 
-    std::srand(params.rand_seed());
-    state.set_depth(16);
+        std::srand(params.rand_seed());
+        state.set_depth(16);
 
-    single_glut_context ctx(args, params, state);
-    glutMainLoop();
+        single_glut_context ctx(args, params, state);
+        glutMainLoop();
 
-    return 0;
+        return 0;
+#else
+        return 1;
+#endif
+    }
+};
+
+std::unique_ptr<example_main_intf> make_example_main_glut() {
+    return {std::make_unique<example_main_glut>()};
 }
+
+} // namespace oglp
+} // namespace eagine
 
 #if defined(__APPLE__) && __APPLE__ && defined(__clang__)
 #pragma clang diagnostic pop

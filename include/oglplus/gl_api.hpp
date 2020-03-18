@@ -65,9 +65,39 @@ public:
         return *this;
     }
 };
+
+template <std::size_t I>
+typename std::tuple_element<I, gl_api>::type& get(gl_api& x) noexcept {
+    return x;
+}
+
+template <std::size_t I>
+const typename std::tuple_element<I, gl_api>::type& get(
+  const gl_api& x) noexcept {
+    return x;
+}
 //------------------------------------------------------------------------------
 } // namespace oglp
 } // namespace eagine
+
+// NOLINTNEXTLINE(cert-dcl58-cpp)
+namespace std {
+
+template <>
+struct tuple_size<eagine::oglp::gl_api>
+  : public std::integral_constant<std::size_t, 2> {};
+
+template <>
+struct tuple_element<0, eagine::oglp::gl_api> {
+    using type = eagine::oglp::basic_gl_api<eagine::oglp::gl_api_traits>;
+};
+
+template <>
+struct tuple_element<1, eagine::oglp::gl_api> {
+    using type = eagine::oglp::basic_gl_constants<eagine::oglp::gl_api_traits>;
+};
+
+} // namespace std
 
 #endif // OGLPLUS_GL_API_HPP
 

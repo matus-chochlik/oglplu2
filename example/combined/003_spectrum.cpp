@@ -9,21 +9,20 @@
 
 // clang-format off
 #include <oglplus/gl.hpp>
-#include <oglplus/constants.hpp>
-#include <oglplus/operations.hpp>
+#include <oglplus/gl_api.hpp>
 
 #include "example.hpp"
 // clang-format on
 
 namespace oglplus {
 
-class example_clear : public example {
+class example_spectrum : public example {
 private:
     constants GL;
     operations gl;
 
 public:
-    example_clear() {
+    example_spectrum() {
         gl.clear_color(0.4f, 0.4f, 0.4f, 0.0f);
     }
 
@@ -100,7 +99,7 @@ public:
 
 std::unique_ptr<example> make_example(
   const example_args&, const example_context&) {
-    return std::unique_ptr<example>(new example_clear());
+    return std::unique_ptr<example>(new example_spectrum());
 }
 
 void adjust_params(example_params& params) {

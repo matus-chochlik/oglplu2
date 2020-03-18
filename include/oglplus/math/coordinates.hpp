@@ -12,14 +12,16 @@
 #include "config.hpp"
 #include <eagine/math/coordinates.hpp>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 
 using unit_spherical_coordinates =
-  eagine::math::unit_spherical_coordinates<GLfloat, math_use_simd>;
+  math::unit_spherical_coordinates<GLfloat, math_use_simd>;
 
-using eagine::math::to_cartesian;
-using eagine::math::to_unit_spherical;
+using math::to_cartesian;
+using math::to_unit_spherical;
 
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif // OGLPLUS_MATH_COORDINATES_HPP

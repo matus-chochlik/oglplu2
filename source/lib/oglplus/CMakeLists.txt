@@ -7,12 +7,12 @@ set(OGLPLUS_LIB_SOURCES
 	gl.cpp
 	error.cpp
 	objects.cpp
-	shapes.cpp
+	# shapes.cpp
 	enum_value_names.cpp
 	enum_value_range.cpp
-	texgen_common.cpp
-	texgen_nodes.cpp
-	texgen_graph.cpp
+	# texgen_common.cpp
+	# texgen_nodes.cpp
+	# texgen_graph.cpp
 )
 
 add_library(oglplus EXCLUDE_FROM_ALL ${OGLPLUS_LIB_SOURCES})

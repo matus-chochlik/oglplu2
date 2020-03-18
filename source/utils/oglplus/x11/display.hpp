@@ -15,7 +15,8 @@
 #include <string>
 #include <vector>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace x11 {
 
 template <typename ObjectType, typename Deleter = int(ObjectType*)>
@@ -182,6 +183,7 @@ public:
 };
 
 } // namespace x11
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif // include guard

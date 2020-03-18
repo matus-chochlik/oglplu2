@@ -14,9 +14,10 @@
 #include "state_view.hpp"
 #include <memory>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 
-class debug_output;
+class gl_api;
 
 class example_context {
 public:
@@ -33,14 +34,17 @@ public:
         return _params;
     }
 
+    gl_api& gl() const noexcept;
+
     const example_context& debug_notification(string_view message) const;
 
 private:
     example_params& _params;
     example_state& _state;
-    std::shared_ptr<debug_output> _debug;
+    std::shared_ptr<gl_api> _gl_ptr{};
 };
 
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif // OGLPLUS_EXAMPLE_CONTEXT_HPP

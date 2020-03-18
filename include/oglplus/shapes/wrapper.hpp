@@ -18,7 +18,8 @@
 #include <eagine/memory/buffer.hpp>
 #include <vector>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace shapes {
 //------------------------------------------------------------------------------
 template <std::size_t N, bool InclElemBuf = true>
@@ -68,6 +69,7 @@ public:
 };
 //------------------------------------------------------------------------------
 } // namespace shapes
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif // OGLPLUS_SHAPES_WRAPPER_HPP

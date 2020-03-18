@@ -14,20 +14,21 @@
 #include <eagine/value_with_history.hpp>
 #include <oglplus/utils/quantities.hpp>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 
 template <typename T>
-using example_state_value = eagine::value_with_history<T, 3>;
+using example_state_value = value_with_history<T, 3>;
 
 template <typename T>
-using example_state_variable = eagine::variable_with_history<T, 3>;
+using example_state_variable = variable_with_history<T, 3>;
 
 class example_state_view {
 
 protected:
-    example_state_variable<eagine::valid_if_positive<int>> _width;
-    example_state_variable<eagine::valid_if_positive<int>> _height;
-    example_state_variable<eagine::valid_if_positive<int>> _depth;
+    example_state_variable<valid_if_positive<int>> _width;
+    example_state_variable<valid_if_positive<int>> _height;
+    example_state_variable<valid_if_positive<int>> _depth;
 
     example_state_variable<int> _mouse_x;
     example_state_variable<int> _mouse_y;
@@ -172,6 +173,7 @@ public:
 
 class example_state;
 
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif // OGLPLUS_EXAMPLE_STATE_VIEW_HPP

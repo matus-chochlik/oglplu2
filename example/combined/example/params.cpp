@@ -12,7 +12,8 @@
 #include <fstream>
 #include <sstream>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 //------------------------------------------------------------------------------
 example_params::example_params() noexcept
   : _rand_seed(0)
@@ -39,9 +40,9 @@ bool example_params::is_readable_file(string_view path) const noexcept {
     return std::ifstream(c_str(path)).good();
 }
 //------------------------------------------------------------------------------
-eagine::valid_if_not_empty<std::string> example_params::find_resource_file_path(
+valid_if_not_empty<std::string> example_params::find_resource_file_path(
   string_view res_group, string_view res_name) const {
-    using eagine::filesystem::string_path;
+    using filesystem::string_path;
 
     string_path relpath;
     if(!res_group.empty()) {
@@ -97,7 +98,7 @@ static inline string_view resource_type_to_group_name(
     return string_view();
 }
 //------------------------------------------------------------------------------
-eagine::valid_if_not_empty<std::string> example_params::find_resource_file_path(
+valid_if_not_empty<std::string> example_params::find_resource_file_path(
   example_resource_type type, string_view res_name) const {
     return find_resource_file_path(resource_type_to_group_name(type), res_name);
 }
@@ -116,4 +117,5 @@ std::string example_params::get_resource_file_path(
     return path.value();
 }
 //------------------------------------------------------------------------------
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine

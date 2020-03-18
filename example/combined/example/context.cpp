@@ -8,14 +8,16 @@
  */
 // clang-format off
 #include <oglplus/gl.hpp>
-#include <oglplus/debug_output.hpp>
+#include <oglplus/gl_api.hpp>
 // clang-format on
 #include "context.hpp"
 #include "state.hpp"
 #include <iostream>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 //------------------------------------------------------------------------------
+/* TODO
 static inline void print_debug_message(
   debug_output_source,
   debug_output_type,
@@ -27,28 +29,31 @@ static inline void print_debug_message(
     std::cerr << '"' << message << '"';
     std::cerr << std::endl;
 }
+*/
 //------------------------------------------------------------------------------
-static inline std::shared_ptr<debug_output> make_debug_output(
-  example_args&, example_params& params, example_state&) {
-    if(params.debugging_context()) {
-        return std::make_shared<debug_output>(&print_debug_message);
-    }
-    return {};
+static inline auto init_gl_api(example_args&, example_params&, example_state&) {
+    return std::make_shared<gl_api>();
 }
 //------------------------------------------------------------------------------
 example_context::example_context(
   example_args& args, example_params& params, example_state& state)
   : _params{params}
   , _state{state}
-  , _debug{make_debug_output(args, params, state)} {
-    if(_debug) {
-        _debug->set_notification_marker("created example context");
-    }
+  , _gl_ptr{init_gl_api(args, params, state)} {
+    /* TODO
+  if(_debug) {
+      _debug->set_notification_marker("created example context");
+  }
+  */
 }
 //------------------------------------------------------------------------------
 example_context::~example_context() noexcept {
-    if(_debug) {
-        _debug->set_notification_marker("destroying example context");
+    if(_gl_ptr) {
+        /*
+        if(_debug) {
+            _debug->set_notification_marker("destroying example context");
+        }
+        */
     }
 }
 //------------------------------------------------------------------------------
@@ -56,12 +61,21 @@ const example_state_view& example_context::state() const noexcept {
     return _state;
 }
 //------------------------------------------------------------------------------
+gl_api& example_context::gl() const noexcept {
+    EAGINE_ASSERT(_gl_ptr);
+    return *_gl_ptr;
+}
+//------------------------------------------------------------------------------
 const example_context& example_context::debug_notification(
   string_view message) const {
+    (void)message;
+    /* TODO
     if(_debug) {
         _debug->set_notification_marker(message);
     }
+    */
     return *this;
 }
 //------------------------------------------------------------------------------
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine

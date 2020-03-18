@@ -14,7 +14,8 @@
 #include <eagine/math/intersection.hpp>
 #include <oglplus/math/coordinates.hpp>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 //------------------------------------------------------------------------------
 vec3 example_orbiting_camera::target_to_camera_direction() const noexcept {
     return to_cartesian(unit_spherical_coordinates(azimuth(), elevation()));
@@ -24,22 +25,22 @@ vec3 example_orbiting_camera::camera_to_target_direction() const noexcept {
     return -target_to_camera_direction();
 }
 //------------------------------------------------------------------------------
-eagine::optionally_valid<vec3> example_orbiting_camera::target_plane_point(
+optionally_valid<vec3> example_orbiting_camera::target_plane_point(
   float ndcx, float ndcy, float aspect) const noexcept {
-    using eagine::math::inverse_matrix;
-    using eagine::math::multiply;
+    using math::inverse_matrix;
+    using math::multiply;
 
     const auto mat = matrix(aspect);
 
     if(auto inv = inverse_matrix(mat)) {
         auto ndct = multiply(mat, vec4(_target, 1.f));
         auto ndc = vec4{ndcx * ndct.w(), ndcy * ndct.w(), ndct.z(), ndct.w()};
-        return {vec3(eagine::math::multiply(inv.value(), ndc)), true};
+        return {vec3(math::multiply(inv.value(), ndc)), true};
     }
     return {};
 }
 //------------------------------------------------------------------------------
-eagine::optionally_valid<vec3> example_orbiting_camera::target_plane_pointer(
+optionally_valid<vec3> example_orbiting_camera::target_plane_pointer(
   const example_state_view& state, int pointer) const noexcept {
     return target_plane_point(
       state.ndc_pointer_x(pointer).get(),
@@ -47,7 +48,7 @@ eagine::optionally_valid<vec3> example_orbiting_camera::target_plane_pointer(
       state.aspect());
 }
 //------------------------------------------------------------------------------
-eagine::optionally_valid<line> example_orbiting_camera::pointer_ray(
+optionally_valid<line> example_orbiting_camera::pointer_ray(
   const example_state_view& state, int pointer) const noexcept {
     if(const auto ptr = target_plane_pointer(state, pointer)) {
         return {line(position(), ptr.value_anyway() - position()), true};
@@ -57,7 +58,7 @@ eagine::optionally_valid<line> example_orbiting_camera::pointer_ray(
 //------------------------------------------------------------------------------
 float example_orbiting_camera::grab_sphere_radius() const noexcept {
     const auto orb = orbit();
-    return eagine::math::minimum(orb * tan(_fov * 0.5f), orb * 0.75f);
+    return math::minimum(orb * tan(_fov * 0.5f), orb * 0.75f);
 }
 //------------------------------------------------------------------------------
 sphere example_orbiting_camera::grab_sphere() const noexcept {
@@ -71,9 +72,8 @@ bool example_orbiting_camera::apply_pointer_motion(
         if(const auto ray = pointer_ray(state)) {
 
             if(
-              const auto intersection =
-                eagine::math::nearest_line_sphere_intersection(
-                  ray.value_anyway(), grab_sphere())) {
+              const auto intersection = math::nearest_line_sphere_intersection(
+                ray.value_anyway(), grab_sphere())) {
                 const auto grab_point =
                   normalized(intersection.value_anyway() - target());
                 const auto grab_coords = to_unit_spherical(grab_point);
@@ -152,9 +152,10 @@ example_orbiting_camera& example_orbiting_camera::update_pitch(
 //------------------------------------------------------------------------------
 example_orbiting_camera& example_orbiting_camera::idle_update(
   const example_state_view& state,
-  const eagine::valid_if_positive<float>& divisor) noexcept {
+  const valid_if_positive<float>& divisor) noexcept {
     const auto s = state.frame_duration().value() / divisor.value_or(1);
     return update_orbit(s).update_turns(s).update_pitch(s);
 }
 //------------------------------------------------------------------------------
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine

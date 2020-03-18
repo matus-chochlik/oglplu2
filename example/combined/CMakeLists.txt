@@ -7,20 +7,6 @@ cmake_minimum_required(VERSION 3.10)
 
 string(TOLOWER ${OGLPLUS_GL_INIT_LIB} OGLPLUS_EXAMPLE_HARNESS)
 
-# check the harness dependencies and requirements
-set(HARNESS_CAN_BE_BUILT true)
-require_all_dependencies(main_${OGLPLUS_EXAMPLE_HARNESS} HARNESS_CAN_BE_BUILT)
-if(NOT ${HARNESS_CAN_BE_BUILT})
-	message(
-		FATAL_ERROR
-		"Some of the requirements for the '${OGLPLUS_EXAMPLE_HARNESS}' "
-		"example harness were not met. Please choose a different build "
-		"configuration or install the required libraries or use "
-		"a different compiler."
-	)
-	return()
-endif()
-
 # add a target for the examples
 add_custom_target(combined-examples ALL)
 set_target_properties(
@@ -42,28 +28,32 @@ elseif("${OGLPLUS_EXAMPLE_HARNESS}" STREQUAL "egl")
 elseif("${OGLPLUS_EXAMPLE_HARNESS}" STREQUAL "qt4gl")
 	qt4_wrap_cpp(
 		OGLPLUS_EXAMPLE_HARNESS_ADDITIONAL_SOURCES
-		"${CMAKE_CURRENT_SOURCE_DIR}/example/main_${OGLPLUS_EXAMPLE_HARNESS}.hpp"
+		"${CMAKE_CURRENT_SOURCE_DIR}/example/main_qt5gl.hpp"
 	)
 elseif("${OGLPLUS_EXAMPLE_HARNESS}" STREQUAL "qt5gl")
 	qt5_generate_moc(
-		"${CMAKE_CURRENT_SOURCE_DIR}/example/main_${OGLPLUS_EXAMPLE_HARNESS}.hpp"
-		"${CMAKE_CURRENT_BINARY_DIR}/example/main_${OGLPLUS_EXAMPLE_HARNESS}-moc.cpp"
+		"${CMAKE_CURRENT_SOURCE_DIR}/example/main_qt5gl.hpp"
+		"${CMAKE_CURRENT_BINARY_DIR}/example/main_qt5gl-moc.cpp"
 	)
 	set(
 		OGLPLUS_EXAMPLE_HARNESS_ADDITIONAL_SOURCES
-		"${CMAKE_CURRENT_BINARY_DIR}/example/main_${OGLPLUS_EXAMPLE_HARNESS}-moc.cpp"
+		"${CMAKE_CURRENT_BINARY_DIR}/example/main_qt5gl-moc.cpp"
 	)
 endif()
 
 set(OGLPLUS_EXAMPLE_HARNESS_COMMON_SOURCES
-		"${CMAKE_CURRENT_SOURCE_DIR}/example/main.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/example/args.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/example/wrapper.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/example/params.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/example/state_view.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/example/context.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/example/camera.cpp"
-		"${CMAKE_CURRENT_SOURCE_DIR}/example/main_${OGLPLUS_EXAMPLE_HARNESS}.cpp"
+		"${CMAKE_CURRENT_SOURCE_DIR}/example/main.cpp"
+		"${CMAKE_CURRENT_SOURCE_DIR}/example/main_glx.cpp"
+		"${CMAKE_CURRENT_SOURCE_DIR}/example/main_glfw3.cpp"
+		"${CMAKE_CURRENT_SOURCE_DIR}/example/main_glfw.cpp"
+		"${CMAKE_CURRENT_SOURCE_DIR}/example/main_glut.cpp"
+		"${CMAKE_CURRENT_SOURCE_DIR}/example/main_sdl.cpp"
 )
 
 # build the code common to all the examples into this library
@@ -85,7 +75,11 @@ endif()
 target_link_libraries(oglplus_example_harness eagine)
 target_link_libraries(oglplus_example_harness oglplus)
 # add the dependencies for the harness
-add_all_dependencies(main_${OGLPLUS_EXAMPLE_HARNESS} oglplus_example_harness)
+add_all_dependencies(main_glx oglplus_example_harness)
+add_all_dependencies(main_glfw3 oglplus_example_harness)
+add_all_dependencies(main_glfw oglplus_example_harness)
+add_all_dependencies(main_glut oglplus_example_harness)
+add_all_dependencies(main_sdl oglplus_example_harness)
 # optional dependencies for the harness with library
 # TODO
 #add_oglplus_lib_dependencies(oglplus_example_harness)
@@ -147,7 +141,9 @@ endfunction(add_examples)
 set(EXAMPLE_LIBS oglplus_example_harness ${OGLPLUS_GL_LIBRARIES})
 
 # add examples
-add_examples(combined "[0-9][0-9][0-9]*" "${EXAMPLE_LIBS}")
+#add_examples(combined "[0-9][0-9][0-9]*" "${EXAMPLE_LIBS}")
+add_examples(combined "001_clear*" "${EXAMPLE_LIBS}")
+add_examples(combined "002_triangle*" "${EXAMPLE_LIBS}")
 
 add_custom_target(glsl_program_sources ALL)
 add_custom_target(glsl_shader_sources ALL)

@@ -13,6 +13,30 @@
 #include <oglplus/config/site.hpp>
 #endif
 
+#ifndef OGLPLUS_GLX_FOUND
+#define OGLPLUS_GLX_FOUND 0
+#endif
+
+#ifndef OGLPLUS_GLFW3_FOUND
+#define OGLPLUS_GLFW3_FOUND 0
+#endif
+
+#ifndef OGLPLUS_GLFW_FOUND
+#define OGLPLUS_GLFW_FOUND 0
+#endif
+
+#ifndef OGLPLUS_GLUT_FOUND
+#define OGLPLUS_GLUT_FOUND 0
+#endif
+
+#ifndef OGLPLUS_FREEGLUT_FOUND
+#define OGLPLUS_FREEGLUT_FOUND 0
+#endif
+
+#ifndef OGLPLUS_SDL_FOUND
+#define OGLPLUS_SDL_FOUND 0
+#endif
+
 #ifndef OGLPLUS_LOW_PROFILE
 #define OGLPLUS_LOW_PROFILE 0
 #endif

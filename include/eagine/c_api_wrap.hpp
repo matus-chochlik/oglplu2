@@ -146,6 +146,17 @@ template <
 using opt_c_api_constant =
   typename get_opt_c_api_constant<ClassList, Constant, Tag, is_indexed>::type;
 //------------------------------------------------------------------------------
+template <typename Info>
+class bad_result
+  : public std::runtime_error
+  , public Info {
+public:
+    bad_result(Info&& info) noexcept
+      : std::runtime_error("bad operation result")
+      , Info(std::move(info)) {
+    }
+};
+//------------------------------------------------------------------------------
 template <typename Result, typename Info>
 class api_no_result;
 template <typename Result, typename Info>
@@ -175,7 +186,7 @@ protected:
         return result;
     }
 };
-
+//------------------------------------------------------------------------------
 template <typename Result>
 static constexpr inline Result& extract(api_no_result_value<Result>&) noexcept {
     EAGINE_UNREACHABLE();
@@ -187,6 +198,12 @@ static constexpr inline const Result& extract(
   const api_no_result_value<Result>&) noexcept {
     EAGINE_UNREACHABLE();
     return *static_cast<const Result*>(nullptr);
+}
+
+template <typename Result, typename Info>
+inline Result& operator>>(api_no_result<Result, Info> result, Result& dest) {
+    throw bad_result<Info>(static_cast<Info&&>(result));
+    return dest = std::move(result._value);
 }
 //------------------------------------------------------------------------------
 template <>
@@ -289,7 +306,7 @@ protected:
 public:
     Result _value{};
 };
-
+//------------------------------------------------------------------------------
 template <typename Result>
 static constexpr Result extract(api_result_value<Result>&& result) noexcept {
     return std::move(result._value);
@@ -304,6 +321,12 @@ template <typename Result>
 static constexpr const Result& extract(
   const api_result_value<Result>& result) noexcept {
     return result._value;
+}
+
+template <typename Result>
+inline Result& operator>>(
+  api_result_value<Result> result, Result& dest) noexcept {
+    return dest = std::move(result._value);
 }
 //------------------------------------------------------------------------------
 template <>
@@ -417,7 +440,7 @@ public:
     Result _value{};
     bool _valid{false};
 };
-
+//------------------------------------------------------------------------------
 template <typename Result>
 static constexpr inline Result extract(
   api_opt_result_value<Result>&& result) noexcept {
@@ -434,6 +457,14 @@ template <typename Result>
 static constexpr inline const Result& extract(
   const api_opt_result_value<Result>& result) noexcept {
     return EAGINE_CONSTEXPR_ASSERT(result._valid, result._value);
+}
+
+template <typename Result, typename Info>
+inline Result& operator>>(api_opt_result<Result, Info> result, Result& dest) {
+    if(!result._valid) {
+        throw bad_result<Info>(static_cast<Info&&>(result));
+    }
+    return dest = std::move(result._value);
 }
 //------------------------------------------------------------------------------
 template <>

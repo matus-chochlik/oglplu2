@@ -385,6 +385,10 @@ struct string_query : gl_enum_class<string_query, EAGINE_ID_V(StrQuery)> {
     using enum_class::enum_class;
 };
 
+struct data_type : gl_enum_class<data_type, EAGINE_ID_V(DataType)> {
+    using enum_class::enum_class;
+};
+
 struct index_data_type
   : gl_enum_class<index_data_type, EAGINE_ID_V(IdxDtaType)> {
     using enum_class::enum_class;

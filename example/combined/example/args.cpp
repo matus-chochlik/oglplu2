@@ -10,7 +10,8 @@
 #include "args.hpp"
 #include <eagine/program_args.hpp>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 
 bool example_arg::operator==(const example_param_tags& tags) const noexcept {
     return _arg == tags._stag || _arg == tags._ltag;
@@ -30,7 +31,7 @@ string_view example_args::command() const noexcept { // NOLINT
 
 template <typename T>
 bool example_args::_parse_param(example_param<T>& param) const {
-    eagine::program_parameter<T> temp(param._stag, param._ltag, param._value);
+    program_parameter<T> temp(param._stag, param._ltag, param._value);
     if(_args.parse_param(temp, _errlog)) {
         param._value = temp.value();
     }
@@ -41,4 +42,5 @@ bool example_args::parse_param(example_string_param& param) const {
     return _parse_param(param);
 }
 
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine

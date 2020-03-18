@@ -11,7 +11,8 @@
 #include <oglplus/constants.hpp>
 #include <oglplus/operations.hpp>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace shapes {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -96,5 +97,6 @@ outcome<void> initialize_vao_and_buffers(
 }
 //------------------------------------------------------------------------------
 } // namespace shapes
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 //------------------------------------------------------------------------------
