@@ -730,10 +730,11 @@ public:
     opt_c_api_constant<
       mp_list<shader_parameter>,
 #ifdef GL_SHADER_TYPE
-      enum_type_c<GL_SHADER_TYPE>>
+      enum_type_c<GL_SHADER_TYPE>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      oglp::shader_type>
       shader_type;
 
     opt_c_api_constant<

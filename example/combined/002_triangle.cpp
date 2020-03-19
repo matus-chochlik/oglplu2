@@ -26,6 +26,8 @@ class example_triangle : public example {
     owned_shader_name vs;
     owned_shader_name fs;
 
+    owned_program_name prog;
+
 public:
     example_triangle(const example_context& ctx) {
         auto& [gl, GL] = ctx.gl();
@@ -60,12 +62,20 @@ public:
                        "void main()\n"
                        "{\n"
                        "	fragColor = vertColor;\n"
-                       "} \n"));
+                       "}\n"));
         gl.compile_shader(fs);
+
+        gl.create_program() >> prog;
+        gl.attach_shader(prog, vs);
+        gl.attach_shader(prog, fs);
+        gl.link_program(prog);
+        gl.use_program(prog);
     }
 
     void cleanup(const example_context& ctx) final {
         auto& gl = ctx.gl();
+
+        gl.delete_program(std::move(prog));
 
         gl.delete_shader(std::move(fs));
         gl.delete_shader(std::move(vs));

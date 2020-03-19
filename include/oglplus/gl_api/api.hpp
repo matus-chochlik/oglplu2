@@ -43,17 +43,6 @@ public:
     using sync_type = typename gl_types::sync_type;
     using name_type = typename gl_types::name_type;
 
-    struct derived_func : derived_c_api_function<c_api, api_traits, nothing_t> {
-        using base = derived_c_api_function<c_api, api_traits, nothing_t>;
-        using base::base;
-
-        template <typename Res>
-        constexpr auto _check(Res&& res) const noexcept {
-            res.error_code(this->api().GetError());
-            return std::forward<Res>(res);
-        }
-    };
-
     template <typename W, W c_api::*F>
     class func : public c_api_function<c_api, api_traits, nothing_t, W, F> {
         using base = c_api_function<c_api, api_traits, nothing_t, W, F>;
@@ -425,24 +414,11 @@ public:
     } clear_color;
 
     // clear_depth
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().ClearDepthf) ||
-                   bool(this->api().ClearDepth);
-        }
+    struct : func<OGLPAFP(ClearDepth)> {
+        using func<OGLPAFP(ClearDepth)>::func;
 
         constexpr auto operator()(float_type d) const noexcept {
-            if(EAGINE_LIKELY(this->api().ClearDepthf)) {
-                return this->_check(this->call(this->api().ClearDepthf, d));
-            }
-            return this->_check(
-              this->call(this->api().ClearDepth, double_type(d)));
-        }
-
-        constexpr auto operator()(double_type d) const noexcept {
-            return this->_check(this->call(this->api().ClearDepth, d));
+            return this->_chkcall(d);
         }
     } clear_depth;
 
@@ -470,9 +446,9 @@ public:
         using func<OGLPAFP(ShaderSource)>::func;
 
         constexpr auto operator()(
-          shader_name name, const glsl_source_ref& source) const noexcept {
+          shader_name shdr, const glsl_source_ref& source) const noexcept {
             return this->_chkcall(
-              name_type(name),
+              name_type(shdr),
               source.count(),
               source.parts(),
               source.lengths());
@@ -483,10 +459,102 @@ public:
     struct : func<OGLPAFP(CompileShader)> {
         using func<OGLPAFP(CompileShader)>::func;
 
-        constexpr auto operator()(shader_name name) const noexcept {
-            return this->_chkcall(name_type(name));
+        constexpr auto operator()(shader_name shdr) const noexcept {
+            return this->_chkcall(name_type(shdr));
         }
     } compile_shader;
+
+    // get_shaderi
+    struct : func<OGLPAFP(GetShaderiv)> {
+        using func<OGLPAFP(GetShaderiv)>::func;
+
+        template <
+          typename Query,
+          typename =
+            std::enable_if_t<is_enum_class_value_v<shader_parameter, Query>>,
+          typename =
+            std::enable_if_t<!std::is_array_v<typename Query::tag_type>>>
+        constexpr auto operator()(shader_name shdr, Query query) const
+          noexcept {
+            using RV = typename Query::tag_type;
+            int_type result{};
+            return this->_chkcall(name_type(shdr), enum_type(query), &result)
+              .replaced_with(result)
+              .cast_to(identity<RV>{});
+        }
+
+        constexpr auto operator()(
+          shader_name shdr, shader_parameter param, span<int_type> dest) const
+          noexcept {
+            return this->_chkcall(
+              name_type(shdr), enum_type(param), dest.data());
+        }
+    } get_shaderi;
+
+    // attach_shader
+    struct : func<OGLPAFP(AttachShader)> {
+        using func<OGLPAFP(AttachShader)>::func;
+
+        constexpr auto operator()(program_name prog, shader_name shdr) const
+          noexcept {
+            return this->_chkcall(name_type(prog), name_type(shdr));
+        }
+    } attach_shader;
+
+    // detach_shader
+    struct : func<OGLPAFP(DetachShader)> {
+        using func<OGLPAFP(DetachShader)>::func;
+
+        constexpr auto operator()(program_name prog, shader_name shdr) const
+          noexcept {
+            return this->_chkcall(name_type(prog), name_type(shdr));
+        }
+    } detach_shader;
+
+    // link_program
+    struct : func<OGLPAFP(LinkProgram)> {
+        using func<OGLPAFP(LinkProgram)>::func;
+
+        constexpr auto operator()(program_name prog) const noexcept {
+            return this->_chkcall(name_type(prog));
+        }
+    } link_program;
+
+    // get_programi
+    struct : func<OGLPAFP(GetProgramiv)> {
+        using func<OGLPAFP(GetProgramiv)>::func;
+
+        template <
+          typename Query,
+          typename =
+            std::enable_if_t<is_enum_class_value_v<program_parameter, Query>>,
+          typename =
+            std::enable_if_t<!std::is_array_v<typename Query::tag_type>>>
+        constexpr auto operator()(program_name prog, Query query) const
+          noexcept {
+            using RV = typename Query::tag_type;
+            int_type result{};
+            return this->_chkcall(name_type(prog), enum_type(query), &result)
+              .replaced_with(result)
+              .cast_to(identity<RV>{});
+        }
+
+        constexpr auto operator()(
+          program_name shdr, program_parameter param, span<int_type> dest) const
+          noexcept {
+            return this->_chkcall(
+              name_type(shdr), enum_type(param), dest.data());
+        }
+    } get_programi;
+
+    // use_program
+    struct : func<OGLPAFP(UseProgram)> {
+        using func<OGLPAFP(UseProgram)>::func;
+
+        constexpr auto operator()(program_name prog) const noexcept {
+            return this->_chkcall(name_type(prog));
+        }
+    } use_program;
 
     // get_integer
     struct : func<OGLPAFP(GetIntegerv)> {
@@ -651,6 +719,12 @@ public:
       , clear("clear", traits, *this)
       , shader_source("shader_source", traits, *this)
       , compile_shader("compile_shader", traits, *this)
+      , get_shaderi("get_shaderi", traits, *this)
+      , attach_shader("attach_shader", traits, *this)
+      , detach_shader("detach_shader", traits, *this)
+      , link_program("link_program", traits, *this)
+      , get_programi("get_programi", traits, *this)
+      , use_program("use_program", traits, *this)
       , get_integer("get_integer", traits, *this)
       , get_integer64("get_integer64", traits, *this)
       , get_float("get_float", traits, *this)
