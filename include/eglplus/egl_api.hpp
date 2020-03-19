@@ -33,9 +33,40 @@ public:
       : egl_api{egl_api_traits{}} {
     }
 };
+
+template <std::size_t I>
+typename std::tuple_element<I, egl_api>::type& get(egl_api& x) noexcept {
+    return x;
+}
+
+template <std::size_t I>
+const typename std::tuple_element<I, egl_api>::type& get(
+  const egl_api& x) noexcept {
+    return x;
+}
 //------------------------------------------------------------------------------
 } // namespace eglp
 } // namespace eagine
+
+// NOLINTNEXTLINE(cert-dcl58-cpp)
+namespace std {
+
+template <>
+struct tuple_size<eagine::eglp::egl_api>
+  : public std::integral_constant<std::size_t, 2> {};
+
+template <>
+struct tuple_element<0, eagine::eglp::egl_api> {
+    using type = eagine::eglp::basic_egl_api<eagine::eglp::egl_api_traits>;
+};
+
+template <>
+struct tuple_element<1, eagine::eglp::egl_api> {
+    using type =
+      eagine::eglp::basic_egl_constants<eagine::eglp::egl_api_traits>;
+};
+
+} // namespace std
 
 #endif // EGLPLUS_EGL_API_HPP
 
