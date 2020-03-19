@@ -10,6 +10,7 @@
 // clang-format off
 #include <oglplus/gl.hpp>
 #include <oglplus/gl_api.hpp>
+#include <oglplus/glsl/string_ref.hpp>
 #include "example.hpp"
 // clang-format on
 
@@ -17,6 +18,11 @@ namespace eagine {
 namespace oglp {
 
 class example_triangle : public example {
+    owned_buffer_name pos;
+    owned_buffer_name clr;
+
+    owned_vertex_array_name vao;
+
     owned_shader_name vs;
     owned_shader_name fs;
 
@@ -26,15 +32,48 @@ public:
 
         gl.clear_color(0.4f, 0.4f, 0.4f, 0.0f);
 
+        gl.gen_buffers() >> pos;
+        gl.gen_buffers() >> clr;
+
+        gl.gen_vertex_arrays() >> vao;
+
         gl.create_shader(GL.vertex_shader) >> vs;
+        gl.shader_source(
+          vs,
+          glsl_literal("#version 140\n"
+                       "in vec2 Position;\n"
+                       "in vec3 Color;\n"
+                       "out vec3 vertColor;\n"
+                       "void main()\n"
+                       "{\n"
+                       "	gl_Position = vec4(Position, 0.0, 1.0);\n"
+                       "	vertColor = Color;\n"
+                       "}\n"));
+        gl.compile_shader(vs);
+
         gl.create_shader(GL.fragment_shader) >> fs;
+        gl.shader_source(
+          fs,
+          glsl_literal("#version 140\n"
+                       "in vec3 vertColor;\n"
+                       "out vec3 fragColor;\n"
+                       "void main()\n"
+                       "{\n"
+                       "	fragColor = vertColor;\n"
+                       "} \n"));
+        gl.compile_shader(fs);
     }
 
     void cleanup(const example_context& ctx) final {
         auto& gl = ctx.gl();
 
-        gl.delete_shader(std::move(vs));
         gl.delete_shader(std::move(fs));
+        gl.delete_shader(std::move(vs));
+
+        gl.delete_vertex_arrays(std::move(vao));
+
+        gl.delete_buffers(std::move(clr));
+        gl.delete_buffers(std::move(pos));
     }
 
     void resize(const example_context& ctx) final {

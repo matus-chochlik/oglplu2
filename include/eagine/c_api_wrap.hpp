@@ -831,6 +831,29 @@ private:
     Api& _parent;
 };
 //------------------------------------------------------------------------------
+template <
+  typename Api,
+  typename ApiTraits,
+  typename Tag,
+  typename WrapperType,
+  WrapperType Api::*Function>
+class c_api_function : public derived_c_api_function<Api, ApiTraits, Tag> {
+    using base = derived_c_api_function<Api, ApiTraits, Tag>;
+
+protected:
+    template <typename... Args>
+    constexpr auto call(Args&&... args) const noexcept {
+        return base::call(this->api().*Function, std::forward<Args>(args)...);
+    }
+
+public:
+    using base::base;
+
+    explicit constexpr operator bool() const noexcept {
+        return bool((this->api()).*Function);
+    }
+};
+//------------------------------------------------------------------------------
 
 } // namespace eagine
 

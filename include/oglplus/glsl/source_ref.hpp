@@ -9,23 +9,28 @@
 #ifndef OGLPLUS_GLSL_SOURCE_REF_HPP
 #define OGLPLUS_GLSL_SOURCE_REF_HPP
 
-#include "../utils/string_span.hpp"
-#include "../utils/types.hpp"
+#include "../gl_api/config.hpp"
 #include <eagine/assert.hpp>
+#include <eagine/string_span.hpp>
 #include <cstddef>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 //------------------------------------------------------------------------------
 class glsl_source_ref {
 private:
-    const GLchar* _part = nullptr;
-    const GLint _length = 0;
-    GLsizei _count = 0;
-    const GLchar** _parts = nullptr;
-    const GLint* _lengths = nullptr;
+    using char_type = gl_types::char_type;
+    using int_type = gl_types::int_type;
+    using sizei_type = gl_types::sizei_type;
+
+    const char_type* _part = nullptr;
+    const int_type _length = 0;
+    sizei_type _count = 0;
+    const char_type** _parts = nullptr;
+    const int_type* _lengths = nullptr;
 
 public:
-    constexpr glsl_source_ref(const GLchar* part, GLint length) noexcept
+    constexpr glsl_source_ref(const char_type* part, int_type length) noexcept
       : _part{part}
       , _length{length}
       , _count{1}
@@ -35,31 +40,33 @@ public:
 
     constexpr glsl_source_ref(string_view source_str) noexcept
       : glsl_source_ref(
-          accomodate<const GLchar>(source_str).data(),
-          eagine::limit_cast<GLint>(source_str.size())) {
+          memory::accomodate<const char_type>(source_str).data(),
+          eagine::limit_cast<int_type>(source_str.size())) {
     }
 
-    glsl_source_ref(span_size_t n, const GLchar** ps, const GLint* ls) noexcept
-      : _count(eagine::limit_cast<GLsizei>(n))
+    glsl_source_ref(
+      span_size_t n, const char_type** ps, const int_type* ls) noexcept
+      : _count(eagine::limit_cast<sizei_type>(n))
       , _parts(ps)
       , _lengths(ls) {
         EAGINE_ASSERT(_count >= 0);
         EAGINE_ASSERT(_parts != nullptr);
     }
 
-    inline GLsizei count() const noexcept {
+    inline sizei_type count() const noexcept {
         return _count;
     }
 
-    inline const GLchar** parts() const noexcept {
+    inline const char_type** parts() const noexcept {
         return _parts;
     }
 
-    inline const GLint* lengths() const noexcept {
+    inline const int_type* lengths() const noexcept {
         return _lengths;
     }
 };
 //------------------------------------------------------------------------------
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif // OGLPLUS_GLSL_SOURCE_REF_HPP

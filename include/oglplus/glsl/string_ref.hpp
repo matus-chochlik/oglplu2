@@ -11,17 +11,21 @@
 
 #include "source_ref.hpp"
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 //------------------------------------------------------------------------------
 class glsl_string_ref {
 private:
-    mutable const GLchar* _src_str{};
-    GLint _length{};
+    using char_type = gl_types::char_type;
+    using int_type = gl_types::int_type;
+
+    mutable const char_type* _src_str{};
+    int_type _length{};
 
 public:
     glsl_string_ref(const char* src_str, span_size_t n) noexcept
-      : _src_str(static_cast<const GLchar*>(src_str))
-      , _length(GLint(n == 0 ? 0 : (src_str[n - 1] == '\0' ? n - 1 : n))) {
+      : _src_str(static_cast<const char_type*>(src_str))
+      , _length(int_type(n == 0 ? 0 : (src_str[n - 1] == '\0' ? n - 1 : n))) {
     }
 
     template <typename String>
@@ -47,6 +51,7 @@ static inline glsl_string_ref operator"" _glsl(
     return {src_str, span_size(n)};
 }
 //------------------------------------------------------------------------------
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif // OGLPLUS_GLSL_STRING_REF_HPP

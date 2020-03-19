@@ -9,6 +9,7 @@
 #ifndef OGLPLUS_GL_API_API_HPP
 #define OGLPLUS_GL_API_API_HPP
 
+#include "../glsl/source_ref.hpp"
 #include "c_api.hpp"
 #include "enum_types.hpp"
 #include "object_name.hpp"
@@ -17,6 +18,8 @@
 
 namespace eagine {
 namespace oglp {
+//------------------------------------------------------------------------------
+#define OGLPAFP(FUNC) decltype(c_api::FUNC), &c_api::FUNC
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
 class basic_gl_api : public basic_gl_c_api<ApiTraits> {
@@ -51,203 +54,134 @@ public:
         }
     };
 
-    // generate / create objects
-    struct : derived_func {
-        using derived_func::derived_func;
+    template <typename W, W c_api::*F>
+    class func : public c_api_function<c_api, api_traits, nothing_t, W, F> {
+        using base = c_api_function<c_api, api_traits, nothing_t, W, F>;
 
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().FenceSync);
+    private:
+        template <typename Res>
+        constexpr auto _check(Res&& res) const noexcept {
+            res.error_code(this->api().GetError());
+            return std::forward<Res>(res);
         }
 
+    protected:
+        template <typename... Args>
+        constexpr auto _chkcall(Args&&... args) const noexcept {
+            return this->_check(this->call(std::forward<Args>(args)...));
+        }
+
+    public:
+        using base::base;
+    };
+
+    // generate / create objects
+    struct : func<OGLPAFP(FenceSync)> {
+        using func<OGLPAFP(FenceSync)>::func;
+
         constexpr auto operator()(sync_condition cond) const noexcept {
-            return this->_check(this->call(
-              this->api().FenceSync, enum_type(cond), bitfield_type(0)));
+            return this->_chkcall(enum_type(cond), bitfield_type(0));
         }
 
         constexpr auto operator()(
           sync_condition cond, enum_bitfield<sync_flag_bit> flags) const
           noexcept {
-            return this->_check(this->call(
-              this->api().FenceSync, enum_type(cond), bitfield_type(flags)));
+            return this->_chkcall(enum_type(cond), bitfield_type(flags));
         }
     } fence_sync;
 
     template <typename ObjTag, typename W, W c_api::*GenObjects>
-    struct make_object_func : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().*GenObjects);
-        }
+    struct make_object_func : func<W, GenObjects> {
+        using func<W, GenObjects>::func;
 
         constexpr auto operator()(span<name_type> names) const noexcept {
-            return this->_check(this->call(
-              this->api().*GenObjects, sizei_type(names.size()), names.data()));
+            return this->_chkcall(sizei_type(names.size()), names.data());
         }
 
         constexpr auto operator()() const noexcept {
             name_type n{};
-            return this->_check(this->call(this->api().*GenObjects, 1, &n))
-              .replaced_with(n)
-              .cast_to(identity<gl_owned_object_name<ObjTag>>{});
+            return this->_chkcall(1, &n).replaced_with(n).cast_to(
+              identity<gl_owned_object_name<ObjTag>>{});
         }
     };
 
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().CreateShader);
-        }
+    struct : func<OGLPAFP(CreateShader)> {
+        using func<OGLPAFP(CreateShader)>::func;
 
         constexpr auto operator()(shader_type type) const noexcept {
-            return this
-              ->_check(this->call(this->api().CreateShader, enum_type(type)))
+            return this->_chkcall(enum_type(type))
               .cast_to(identity<owned_shader_name>{});
         }
     } create_shader;
 
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().CreateProgram);
-        }
+    struct : func<OGLPAFP(CreateProgram)> {
+        using func<OGLPAFP(CreateProgram)>::func;
 
         constexpr auto operator()() const noexcept {
-            return this->_check(this->call(this->api().CreateProgram))
-              .cast_to(identity<owned_program_name>{});
+            return this->_chkcall().cast_to(identity<owned_program_name>{});
         }
     } create_program;
 
-    make_object_func<
-      buffer_tag,
-      decltype(c_api::GenBuffers),
-      &c_api::GenBuffers>
-      gen_buffers;
+    make_object_func<buffer_tag, OGLPAFP(GenBuffers)> gen_buffers;
 
-    make_object_func<
-      buffer_tag,
-      decltype(c_api::CreateBuffers),
-      &c_api::CreateBuffers>
-      create_buffers;
+    make_object_func<buffer_tag, OGLPAFP(CreateBuffers)> create_buffers;
 
-    make_object_func<
-      framebuffer_tag,
-      decltype(c_api::GenFramebuffers),
-      &c_api::GenFramebuffers>
+    make_object_func<framebuffer_tag, OGLPAFP(GenFramebuffers)>
       gen_framebuffers;
 
-    make_object_func<
-      framebuffer_tag,
-      decltype(c_api::CreateFramebuffers),
-      &c_api::CreateFramebuffers>
+    make_object_func<framebuffer_tag, OGLPAFP(CreateFramebuffers)>
       create_framebuffers;
 
-    make_object_func<
-      program_pipeline_tag,
-      decltype(c_api::GenProgramPipelines),
-      &c_api::GenProgramPipelines>
+    make_object_func<program_pipeline_tag, OGLPAFP(GenProgramPipelines)>
       gen_program_pipelines;
 
-    make_object_func<
-      program_pipeline_tag,
-      decltype(c_api::CreateProgramPipelines),
-      &c_api::CreateProgramPipelines>
+    make_object_func<program_pipeline_tag, OGLPAFP(CreateProgramPipelines)>
       create_program_pipelines;
 
-    make_object_func<query_tag, decltype(c_api::GenQueries), &c_api::GenQueries>
-      gen_queries;
+    make_object_func<query_tag, OGLPAFP(GenQueries)> gen_queries;
 
-    make_object_func<
-      query_tag,
-      decltype(c_api::CreateQueries),
-      &c_api::CreateQueries>
-      create_queries;
+    make_object_func<query_tag, OGLPAFP(CreateQueries)> create_queries;
 
-    make_object_func<
-      renderbuffer_tag,
-      decltype(c_api::GenRenderbuffers),
-      &c_api::GenRenderbuffers>
+    make_object_func<renderbuffer_tag, OGLPAFP(GenRenderbuffers)>
       gen_renderbuffers;
 
-    make_object_func<
-      renderbuffer_tag,
-      decltype(c_api::CreateRenderbuffers),
-      &c_api::CreateRenderbuffers>
+    make_object_func<renderbuffer_tag, OGLPAFP(CreateRenderbuffers)>
       create_renderbuffers;
 
-    make_object_func<
-      sampler_tag,
-      decltype(c_api::GenSamplers),
-      &c_api::GenSamplers>
-      gen_samplers;
+    make_object_func<sampler_tag, OGLPAFP(GenSamplers)> gen_samplers;
 
-    make_object_func<
-      sampler_tag,
-      decltype(c_api::CreateSamplers),
-      &c_api::CreateSamplers>
-      create_samplers;
+    make_object_func<sampler_tag, OGLPAFP(CreateSamplers)> create_samplers;
 
-    make_object_func<
-      texture_tag,
-      decltype(c_api::GenTextures),
-      &c_api::GenTextures>
-      gen_textures;
+    make_object_func<texture_tag, OGLPAFP(GenTextures)> gen_textures;
 
-    make_object_func<
-      texture_tag,
-      decltype(c_api::CreateTextures),
-      &c_api::CreateTextures>
-      create_textures;
+    make_object_func<texture_tag, OGLPAFP(CreateTextures)> create_textures;
 
-    make_object_func<
-      transform_feedback_tag,
-      decltype(c_api::GenTransformFeedbacks),
-      &c_api::GenTransformFeedbacks>
+    make_object_func<transform_feedback_tag, OGLPAFP(GenTransformFeedbacks)>
       gen_transform_feedbacks;
 
-    make_object_func<
-      transform_feedback_tag,
-      decltype(c_api::CreateTransformFeedbacks),
-      &c_api::CreateTransformFeedbacks>
+    make_object_func<transform_feedback_tag, OGLPAFP(CreateTransformFeedbacks)>
       create_transform_feedbacks;
 
-    make_object_func<
-      vertex_array_tag,
-      decltype(c_api::GenVertexArrays),
-      &c_api::GenVertexArrays>
+    make_object_func<vertex_array_tag, OGLPAFP(GenVertexArrays)>
       gen_vertex_arrays;
 
-    make_object_func<
-      vertex_array_tag,
-      decltype(c_api::CreateVertexArrays),
-      &c_api::CreateVertexArrays>
+    make_object_func<vertex_array_tag, OGLPAFP(CreateVertexArrays)>
       create_vertex_arrays;
 
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().GenPathsNV);
-        }
+    struct : func<OGLPAFP(GenPathsNV)> {
+        using func<OGLPAFP(GenPathsNV)>::func;
 
         constexpr auto operator()() const noexcept {
-            return this->_check(this->call(this->api().GenPathsNV, 1))
-              .cast_to(identity<owned_path_nv_name>{});
+            return this->_chkcall(1).cast_to(identity<owned_path_nv_name>{});
         }
     } create_paths_nv;
 
     // delete objects
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().DeleteSync);
-        }
+    struct : func<OGLPAFP(DeleteSync)> {
+        using func<OGLPAFP(DeleteSync)>::func;
 
         constexpr auto operator()(sync_type sync) const noexcept {
-            return this->_check(this->call(this->api().DeleteSync, sync));
+            return this->_chkcall(sync);
         }
 
         auto raii(sync_type& sync) noexcept {
@@ -256,24 +190,17 @@ public:
     } delete_sync;
 
     template <typename ObjTag, typename W, W c_api::*DeleteObjects>
-    struct delete_object_func : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().*DeleteObjects);
-        }
+    struct delete_object_func : func<W, DeleteObjects> {
+        using func<W, DeleteObjects>::func;
 
         constexpr auto operator()(span<const name_type> names) const noexcept {
-            return this->_check(this->call(
-              this->api().*DeleteObjects,
-              sizei_type(names.size()),
-              names.data()));
+            return this->_chkcall(sizei_type(names.size()), names.data());
         }
 
-        constexpr auto operator()(gl_owned_object_name<ObjTag>& name) const
+        constexpr auto operator()(gl_owned_object_name<ObjTag> name) const
           noexcept {
             auto n = name.release();
-            return this->_check(this->call(this->api().*DeleteObjects, 1, &n));
+            return this->_chkcall(1, &n);
         }
 
         auto raii(gl_owned_object_name<ObjTag>& name) noexcept {
@@ -290,16 +217,11 @@ public:
         }
     };
 
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().DeleteShader);
-        }
+    struct : func<OGLPAFP(DeleteShader)> {
+        using func<OGLPAFP(DeleteShader)>::func;
 
         constexpr auto operator()(owned_shader_name name) const noexcept {
-            return this->_check(
-              this->call(this->api().DeleteShader, name.release()));
+            return this->_chkcall(name.release());
         }
 
         auto raii(owned_shader_name& name) noexcept {
@@ -307,16 +229,11 @@ public:
         }
     } delete_shader;
 
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().DeleteProgram);
-        }
+    struct : func<OGLPAFP(DeleteProgram)> {
+        using func<OGLPAFP(DeleteProgram)>::func;
 
         constexpr auto operator()(owned_program_name name) const noexcept {
-            return this->_check(
-              this->call(this->api().DeleteProgram, name.release()));
+            return this->_chkcall(name.release());
         }
 
         auto raii(owned_program_name& name) noexcept {
@@ -324,70 +241,36 @@ public:
         }
     } delete_program;
 
-    delete_object_func<
-      buffer_tag,
-      decltype(c_api::DeleteBuffers),
-      &c_api::DeleteBuffers>
-      delete_buffers;
+    delete_object_func<buffer_tag, OGLPAFP(DeleteBuffers)> delete_buffers;
 
-    delete_object_func<
-      framebuffer_tag,
-      decltype(c_api::DeleteFramebuffers),
-      &c_api::DeleteFramebuffers>
+    delete_object_func<framebuffer_tag, OGLPAFP(DeleteFramebuffers)>
       delete_framebuffers;
 
-    delete_object_func<
-      program_pipeline_tag,
-      decltype(c_api::DeleteProgramPipelines),
-      &c_api::DeleteProgramPipelines>
+    delete_object_func<program_pipeline_tag, OGLPAFP(DeleteProgramPipelines)>
       delete_program_pipelines;
 
-    delete_object_func<
-      query_tag,
-      decltype(c_api::DeleteQueries),
-      &c_api::DeleteQueries>
-      delete_queries;
+    delete_object_func<query_tag, OGLPAFP(DeleteQueries)> delete_queries;
 
-    delete_object_func<
-      renderbuffer_tag,
-      decltype(c_api::DeleteRenderbuffers),
-      &c_api::DeleteRenderbuffers>
+    delete_object_func<renderbuffer_tag, OGLPAFP(DeleteRenderbuffers)>
       delete_renderbuffers;
 
-    delete_object_func<
-      sampler_tag,
-      decltype(c_api::DeleteSamplers),
-      &c_api::DeleteSamplers>
-      delete_samplers;
+    delete_object_func<sampler_tag, OGLPAFP(DeleteSamplers)> delete_samplers;
 
-    delete_object_func<
-      texture_tag,
-      decltype(c_api::DeleteTextures),
-      &c_api::DeleteTextures>
-      delete_textures;
+    delete_object_func<texture_tag, OGLPAFP(DeleteTextures)> delete_textures;
 
     delete_object_func<
       transform_feedback_tag,
-      decltype(c_api::DeleteTransformFeedbacks),
-      &c_api::DeleteTransformFeedbacks>
+      OGLPAFP(DeleteTransformFeedbacks)>
       delete_transform_feedbacks;
 
-    delete_object_func<
-      vertex_array_tag,
-      decltype(c_api::DeleteVertexArrays),
-      &c_api::DeleteVertexArrays>
+    delete_object_func<vertex_array_tag, OGLPAFP(DeleteVertexArrays)>
       delete_vertex_arrays;
 
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().DeletePathsNV);
-        }
+    struct : func<OGLPAFP(DeletePathsNV)> {
+        using func<OGLPAFP(DeletePathsNV)>::func;
 
         constexpr auto operator()(owned_path_nv_name name) const noexcept {
-            return this->_check(
-              this->call(this->api().DeletePathsNV, name.release(), 1));
+            return this->_chkcall(name.release(), 1);
         }
 
         auto raii(owned_path_nv_name& name) noexcept {
@@ -396,230 +279,148 @@ public:
     } delete_paths_nv;
 
     // is_object
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().IsSync);
-        }
+    struct : func<OGLPAFP(IsSync)> {
+        using func<OGLPAFP(IsSync)>::func;
 
         constexpr true_false operator()(sync_type sync) const noexcept {
-            return this->_check(this->call(this->api().IsSync, sync))
-              .cast_to(identity<true_false>{});
+            return this->_chkcall(sync).cast_to(identity<true_false>{});
         }
     } is_sync;
 
     template <typename ObjTag, typename W, W c_api::*IsObject>
-    struct is_object_func : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().*IsObject);
-        }
+    struct is_object_func : func<W, IsObject> {
+        using func<W, IsObject>::func;
 
         constexpr true_false operator()(gl_object_name<ObjTag> name) const
           noexcept {
-            return this
-              ->_check(this->call(this->api().*IsObject, name_type(name)))
+            return this->_chkcall(name_type(name))
               .cast_to(identity<true_false>{});
         }
     };
 
-    is_object_func<buffer_tag, decltype(c_api::IsBuffer), &c_api::IsBuffer>
-      is_buffer;
+    is_object_func<buffer_tag, OGLPAFP(IsBuffer)> is_buffer;
 
-    is_object_func<
-      framebuffer_tag,
-      decltype(c_api::IsFramebuffer),
-      &c_api::IsFramebuffer>
-      is_framebuffer;
+    is_object_func<framebuffer_tag, OGLPAFP(IsFramebuffer)> is_framebuffer;
 
-    is_object_func<
-      program_pipeline_tag,
-      decltype(c_api::IsProgramPipeline),
-      &c_api::IsProgramPipeline>
+    is_object_func<program_pipeline_tag, OGLPAFP(IsProgramPipeline)>
       is_program_pipeline;
 
-    is_object_func<program_tag, decltype(c_api::IsProgram), &c_api::IsProgram>
-      is_program;
+    is_object_func<program_tag, OGLPAFP(IsProgram)> is_program;
 
-    is_object_func<query_tag, decltype(c_api::IsQuery), &c_api::IsQuery>
-      is_query;
+    is_object_func<query_tag, OGLPAFP(IsQuery)> is_query;
 
-    is_object_func<
-      renderbuffer_tag,
-      decltype(c_api::IsRenderbuffer),
-      &c_api::IsRenderbuffer>
-      is_renderbuffer;
+    is_object_func<renderbuffer_tag, OGLPAFP(IsRenderbuffer)> is_renderbuffer;
 
-    is_object_func<sampler_tag, decltype(c_api::IsSampler), &c_api::IsSampler>
-      is_sampler;
+    is_object_func<sampler_tag, OGLPAFP(IsSampler)> is_sampler;
 
-    is_object_func<shader_tag, decltype(c_api::IsShader), &c_api::IsShader>
-      is_shader;
+    is_object_func<shader_tag, OGLPAFP(IsShader)> is_shader;
 
-    is_object_func<texture_tag, decltype(c_api::IsTexture), &c_api::IsTexture>
-      is_texture;
+    is_object_func<texture_tag, OGLPAFP(IsTexture)> is_texture;
 
-    is_object_func<
-      transform_feedback_tag,
-      decltype(c_api::IsTransformFeedback),
-      &c_api::IsTransformFeedback>
+    is_object_func<transform_feedback_tag, OGLPAFP(IsTransformFeedback)>
       is_transform_feedback;
 
-    is_object_func<
-      vertex_array_tag,
-      decltype(c_api::IsVertexArray),
-      &c_api::IsVertexArray>
-      is_vertex_array;
+    is_object_func<vertex_array_tag, OGLPAFP(IsVertexArray)> is_vertex_array;
 
-    is_object_func<path_nv_tag, decltype(c_api::IsPathNV), &c_api::IsPathNV>
-      is_path_nv;
+    is_object_func<path_nv_tag, OGLPAFP(IsPathNV)> is_path_nv;
 
     // enable
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().Enable);
-        }
+    struct : func<OGLPAFP(Enable)> {
+        using func<OGLPAFP(Enable)>::func;
 
         constexpr auto operator()(capability cap) const noexcept {
-            return this->_check(this->call(this->api().Enable, enum_type(cap)));
+            return this->_chkcall(enum_type(cap));
         }
     } enable;
 
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().Enablei);
-        }
+    struct : func<OGLPAFP(Enablei)> {
+        using func<OGLPAFP(Enablei)>::func;
 
         constexpr auto operator()(capability cap, uint_type idx) const
           noexcept {
-            return this->_check(
-              this->call(this->api().Enablei, enum_type(cap), idx));
+            return this->_chkcall(enum_type(cap), idx);
         }
     } enablei;
 
     // disable
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().Disable);
-        }
+    struct : func<OGLPAFP(Disable)> {
+        using func<OGLPAFP(Disable)>::func;
 
         constexpr auto operator()(capability cap) const noexcept {
-            return this->_check(
-              this->call(this->api().Disable, enum_type(cap)));
+            return this->_chkcall(enum_type(cap));
         }
     } disable;
 
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().Disablei);
-        }
+    struct : func<OGLPAFP(Disablei)> {
+        using func<OGLPAFP(Disablei)>::func;
 
         constexpr auto operator()(capability cap, uint_type idx) const
           noexcept {
-            return this->_check(
-              this->call(this->api().Disablei, enum_type(cap), idx));
+            return this->_chkcall(enum_type(cap), idx);
         }
     } disablei;
 
     // is_enabled
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().IsEnabled);
-        }
+    struct : func<OGLPAFP(IsEnabled)> {
+        using func<OGLPAFP(IsEnabled)>::func;
 
         constexpr auto operator()(capability cap) const noexcept {
-            return this
-              ->_check(this->call(this->api().IsEnabled, enum_type(cap)))
+            return this->_chkcall(enum_type(cap))
               .cast_to(identity<true_false>{});
         }
     } is_enabled;
 
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().IsEnabledi);
-        }
+    struct : func<OGLPAFP(IsEnabledi)> {
+        using func<OGLPAFP(IsEnabledi)>::func;
 
         constexpr auto operator()(capability cap, uint_type idx) const
           noexcept {
-            return this
-              ->_check(this->call(this->api().IsEnabledi, enum_type(cap), idx))
+            return this->_chkcall(enum_type(cap), idx)
               .cast_to(identity<true_false>{});
         }
     } is_enabledi;
 
     // memory barrier
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().MemoryBarrier);
-        }
+    struct : func<OGLPAFP(MemoryBarrier)> {
+        using func<OGLPAFP(MemoryBarrier)>::func;
 
         constexpr auto operator()(enum_bitfield<memory_barrier_bit> bits) const
           noexcept {
-            return this->_check(
-              this->call(this->api().MemoryBarrier, bitfield_type(bits)));
+            return this->_chkcall(bitfield_type(bits));
         }
     } memory_barrier;
 
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().MemoryBarrierRegion);
-        }
+    struct : func<OGLPAFP(MemoryBarrierByRegion)> {
+        using func<OGLPAFP(MemoryBarrierByRegion)>::func;
 
         constexpr auto operator()(enum_bitfield<memory_barrier_bit> bits) const
           noexcept {
-            return this->_check(
-              this->call(this->api().MemoryBarrierRegion, bitfield_type(bits)));
+            return this->_chkcall(bitfield_type(bits));
         }
     } memory_barrier_by_region;
 
     // viewport
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().Viewport);
-        }
+    struct : func<OGLPAFP(Viewport)> {
+        using func<OGLPAFP(Viewport)>::func;
 
         constexpr auto operator()(
           int_type x, int_type y, sizei_type w, sizei_type h) const noexcept {
-            return this->_check(this->call(this->api().Viewport, x, y, w, h));
+            return this->_chkcall(x, y, w, h);
         }
 
         constexpr auto operator()(sizei_type w, sizei_type h) const noexcept {
-            return this->_check(this->call(this->api().Viewport, 0, 0, w, h));
+            return this->_chkcall(0, 0, w, h);
         }
     } viewport;
 
     // clear_color
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().ClearColor);
-        }
+    struct : func<OGLPAFP(ClearColor)> {
+        using func<OGLPAFP(ClearColor)>::func;
 
         constexpr auto operator()(
           float_type r, float_type g, float_type b, float_type a) const
           noexcept {
-            return this->_check(this->call(this->api().ClearColor, r, g, b, a));
+            return this->_chkcall(r, g, b, a);
         }
     } clear_color;
 
@@ -646,40 +447,50 @@ public:
     } clear_depth;
 
     // clear_stencil
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().ClearStencil);
-        }
+    struct : func<OGLPAFP(ClearStencil)> {
+        using func<OGLPAFP(ClearStencil)>::func;
 
         constexpr auto operator()(int_type s) const noexcept {
-            return this->_check(this->call(this->api().ClearStencil, s));
+            return this->_chkcall(s);
         }
     } clear_stencil;
 
     // clear
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().Clear);
-        }
+    struct : func<OGLPAFP(Clear)> {
+        using func<OGLPAFP(Clear)>::func;
 
         constexpr auto operator()(enum_bitfield<buffer_clear_bit> mask) const
           noexcept {
-            return this->_check(
-              this->call(this->api().Clear, bitfield_type(mask)));
+            return this->_chkcall(bitfield_type(mask));
         }
     } clear;
 
-    // get_integer
-    struct : derived_func {
-        using derived_func::derived_func;
+    // shader_source
+    struct : func<OGLPAFP(ShaderSource)> {
+        using func<OGLPAFP(ShaderSource)>::func;
 
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().GetIntegerv);
+        constexpr auto operator()(
+          shader_name name, const glsl_source_ref& source) const noexcept {
+            return this->_chkcall(
+              name_type(name),
+              source.count(),
+              source.parts(),
+              source.lengths());
         }
+    } shader_source;
+
+    // compile_shader
+    struct : func<OGLPAFP(CompileShader)> {
+        using func<OGLPAFP(CompileShader)>::func;
+
+        constexpr auto operator()(shader_name name) const noexcept {
+            return this->_chkcall(name_type(name));
+        }
+    } compile_shader;
+
+    // get_integer
+    struct : func<OGLPAFP(GetIntegerv)> {
+        using func<OGLPAFP(GetIntegerv)>::func;
 
         template <
           typename Query,
@@ -691,9 +502,7 @@ public:
         constexpr auto operator()(Query query) const noexcept {
             using RV = typename Query::tag_type;
             int_type result{};
-            return this
-              ->_check(
-                this->call(this->api().GetIntegerv, enum_type(query), &result))
+            return this->_chkcall(enum_type(query), &result)
               .replaced_with(result)
               .cast_to(identity<RV>{});
         }
@@ -706,70 +515,52 @@ public:
         auto operator()(integer_query query, span<int_type> dest) const
           noexcept {
             EAGINE_ASSERT(dest.size());
-            return this->_check(this->call(
-              this->api().GetIntegerv, enum_type(query), dest.data()));
+            return this->_chkcall(enum_type(query), dest.data());
         }
     } get_integer;
 
     // get_integer64
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().GetInteger64v);
-        }
+    struct : func<OGLPAFP(GetInteger64v)> {
+        using func<OGLPAFP(GetInteger64v)>::func;
 
         constexpr auto operator()(integer_query query) const noexcept {
             int64_type result{};
-            return this
-              ->_check(this->call(
-                this->api().GetInteger64v, enum_type(query), &result))
+            return this->_chkcall(enum_type(query), &result)
               .replaced_with(result);
         }
 
         constexpr auto operator()(
           integer_query query, span<int64_type> dest) const noexcept {
-            return this->_check(this->call(
-              this->api().GetInteger64v, enum_type(query), dest.data()));
+            EAGINE_ASSERT(dest.size());
+            return this->_chkcall(enum_type(query), dest.data());
         }
     } get_integer64;
 
     // get_float
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().GetFloatv);
-        }
+    struct : func<OGLPAFP(GetFloatv)> {
+        using func<OGLPAFP(GetFloatv)>::func;
 
         constexpr auto operator()(float_query query) const noexcept {
             float_type result{};
-            return this
-              ->_check(
-                this->call(this->api().GetFloatv, enum_type(query), &result))
+            return this->_chkcall(enum_type(query), &result)
               .replaced_with(result);
         }
 
         constexpr auto operator()(
           float_query query, span<float_type> dest) const noexcept {
-            return this->_check(
-              this->call(this->api().GetFloatv, enum_type(query), dest.data()));
+            EAGINE_ASSERT(dest.size());
+            return this->_chkcall(enum_type(query), dest.data());
         }
     } get_float;
 
     // get_string
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().GetString);
-        }
+    struct : func<OGLPAFP(GetString)> {
+        using func<OGLPAFP(GetString)>::func;
 
         constexpr auto operator()(string_query query) const noexcept {
-            return this
-              ->_check(this->call(this->api().GetString, enum_type(query)))
-              .transformed(
-                [](auto src) { return reinterpret_cast<const char*>(src); });
+            return this->_chkcall(enum_type(query)).transformed([](auto src) {
+                return reinterpret_cast<const char*>(src);
+            });
         }
 
         constexpr auto operator()() const noexcept {
@@ -858,12 +649,16 @@ public:
       , clear_depth("clear_depth", traits, *this)
       , clear_stencil("clear_stencil", traits, *this)
       , clear("clear", traits, *this)
+      , shader_source("shader_source", traits, *this)
+      , compile_shader("compile_shader", traits, *this)
       , get_integer("get_integer", traits, *this)
       , get_integer64("get_integer64", traits, *this)
       , get_float("get_float", traits, *this)
       , get_string("get_string", traits, *this) {
     }
 };
+//------------------------------------------------------------------------------
+#undef OGLPAFP
 //------------------------------------------------------------------------------
 } // namespace oglp
 } // namespace eagine
