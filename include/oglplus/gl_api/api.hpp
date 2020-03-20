@@ -13,8 +13,10 @@
 #include "c_api.hpp"
 #include "enum_types.hpp"
 #include "object_name.hpp"
+#include "prog_var_loc.hpp"
 #include <eagine/scope_exit.hpp>
 #include <eagine/string_list.hpp>
+#include <oglplus/utils/buffer_data.hpp>
 
 namespace eagine {
 namespace oglp {
@@ -28,7 +30,6 @@ public:
     using api_traits = ApiTraits;
     using c_api = basic_gl_c_api<ApiTraits>;
 
-    using void_ptr_type = typename gl_types::void_ptr_type;
     using sizei_type = typename gl_types::sizei_type;
     using int_type = typename gl_types::int_type;
     using uint_type = typename gl_types::uint_type;
@@ -42,6 +43,9 @@ public:
 
     using sync_type = typename gl_types::sync_type;
     using name_type = typename gl_types::name_type;
+
+    using void_ptr_type = typename gl_types::void_ptr_type;
+    using const_void_ptr_type = typename gl_types::const_void_ptr_type;
 
     template <typename W, W c_api::*F>
     class func
@@ -442,7 +446,7 @@ public:
         }
     } clear;
 
-    // shader_source
+    // shader ops
     struct : func<OGLPAFP(ShaderSource)> {
         using func<OGLPAFP(ShaderSource)>::func;
 
@@ -456,7 +460,6 @@ public:
         }
     } shader_source;
 
-    // compile_shader
     struct : func<OGLPAFP(CompileShader)> {
         using func<OGLPAFP(CompileShader)>::func;
 
@@ -465,7 +468,6 @@ public:
         }
     } compile_shader;
 
-    // get_shaderi
     struct : func<OGLPAFP(GetShaderiv)> {
         using func<OGLPAFP(GetShaderiv)>::func;
 
@@ -492,7 +494,23 @@ public:
         }
     } get_shaderi;
 
-    // attach_shader
+    struct : func<OGLPAFP(GetShaderInfoLog)> {
+        using func<OGLPAFP(GetShaderInfoLog)>::func;
+
+        constexpr auto operator()(shader_name shdr, span<char_type> dest) const
+          noexcept {
+            sizei_type real_len{0};
+            return this
+              ->_chkcall(
+                name_type(shdr),
+                sizei_type(dest.size()),
+                &real_len,
+                dest.data())
+              .replaced_with(head(dest, span_size(real_len)));
+        }
+    } get_shader_info_log;
+
+    // program ops
     struct : func<OGLPAFP(AttachShader)> {
         using func<OGLPAFP(AttachShader)>::func;
 
@@ -502,7 +520,6 @@ public:
         }
     } attach_shader;
 
-    // detach_shader
     struct : func<OGLPAFP(DetachShader)> {
         using func<OGLPAFP(DetachShader)>::func;
 
@@ -512,7 +529,6 @@ public:
         }
     } detach_shader;
 
-    // link_program
     struct : func<OGLPAFP(LinkProgram)> {
         using func<OGLPAFP(LinkProgram)>::func;
 
@@ -521,7 +537,6 @@ public:
         }
     } link_program;
 
-    // get_programi
     struct : func<OGLPAFP(GetProgramiv)> {
         using func<OGLPAFP(GetProgramiv)>::func;
 
@@ -548,7 +563,22 @@ public:
         }
     } get_programi;
 
-    // use_program
+    struct : func<OGLPAFP(GetProgramInfoLog)> {
+        using func<OGLPAFP(GetProgramInfoLog)>::func;
+
+        constexpr auto operator()(program_name prog, span<char_type> dest) const
+          noexcept {
+            sizei_type real_len{0};
+            return this
+              ->_chkcall(
+                name_type(prog),
+                sizei_type(dest.size()),
+                &real_len,
+                dest.data())
+              .replaced_with(head(dest, span_size(real_len)));
+        }
+    } get_program_info_log;
+
     struct : func<OGLPAFP(UseProgram)> {
         using func<OGLPAFP(UseProgram)>::func;
 
@@ -556,6 +586,165 @@ public:
             return this->_chkcall(name_type(prog));
         }
     } use_program;
+
+    struct : func<OGLPAFP(GetAttribLocation)> {
+        using func<OGLPAFP(GetAttribLocation)>::func;
+
+        constexpr auto operator()(program_name prog, string_view name) const
+          noexcept {
+            return this->_chkcall(name_type(prog), c_str(name))
+              .cast_to(identity<vertex_attrib_location>{});
+        }
+    } get_attrib_location;
+
+    // buffer ops
+    struct : func<OGLPAFP(BindBuffer)> {
+        using func<OGLPAFP(BindBuffer)>::func;
+
+        constexpr auto operator()(buffer_target tgt, buffer_name buf) const
+          noexcept {
+            return this->_chkcall(enum_type(tgt), name_type(buf));
+        }
+    } bind_buffer;
+
+    struct : func<OGLPAFP(BufferData)> {
+        using func<OGLPAFP(BufferData)>::func;
+
+        constexpr auto operator()(
+          buffer_target tgt,
+          const buffer_data_spec& values,
+          buffer_usage usg) const noexcept {
+            return this->_chkcall(
+              enum_type(tgt), values.size(), values.data(), enum_type(usg));
+        }
+    } buffer_data;
+
+    // vertex_array ops
+    struct : func<OGLPAFP(BindVertexArray)> {
+        using func<OGLPAFP(BindVertexArray)>::func;
+
+        constexpr auto operator()(vertex_array_name vao) const noexcept {
+            return this->_chkcall(name_type(vao));
+        }
+    } bind_vertex_array;
+
+    struct : func<OGLPAFP(EnableVertexAttribArray)> {
+        using func<OGLPAFP(EnableVertexAttribArray)>::func;
+
+        constexpr auto operator()(vertex_attrib_location val) const noexcept {
+            return this->_chkcall(val.index());
+        }
+    } enable_vertex_attrib_array;
+
+    struct : func<OGLPAFP(EnableVertexArrayAttrib)> {
+        using func<OGLPAFP(EnableVertexArrayAttrib)>::func;
+
+        constexpr auto operator()(
+          vertex_array_name vao, vertex_attrib_location val) const noexcept {
+            return this->_chkcall(name_type(vao), val.index());
+        }
+    } enable_vertex_array_attrib;
+
+    struct : func<OGLPAFP(DisableVertexAttribArray)> {
+        using func<OGLPAFP(DisableVertexAttribArray)>::func;
+
+        constexpr auto operator()(vertex_attrib_location val) const noexcept {
+            return this->_chkcall(val.index());
+        }
+    } disable_vertex_attrib_array;
+
+    struct : func<OGLPAFP(DisableVertexArrayAttrib)> {
+        using func<OGLPAFP(DisableVertexArrayAttrib)>::func;
+
+        constexpr auto operator()(
+          vertex_array_name vao, vertex_attrib_location val) const noexcept {
+            return this->_chkcall(name_type(vao), val.index());
+        }
+    } disable_vertex_array_attrib;
+
+    struct : func<OGLPAFP(VertexAttribPointer)> {
+        using func<OGLPAFP(VertexAttribPointer)>::func;
+
+        constexpr auto operator()(
+          vertex_attrib_location val,
+          int_type elements,
+          data_type type,
+          true_false normalized,
+          sizei_type stride,
+          const_void_ptr_type pointer) const noexcept {
+            return this->_chkcall(
+              val.index(),
+              elements,
+              enum_type(type),
+              bool_type(normalized),
+              stride,
+              pointer);
+        }
+
+        constexpr auto operator()(
+          vertex_attrib_location val,
+          int_type elements,
+          data_type type,
+          true_false normalized) const noexcept {
+            return this->_chkcall(
+              val.index(),
+              elements,
+              enum_type(type),
+              bool_type(normalized),
+              0,
+              nullptr);
+        }
+    } vertex_attrib_pointer;
+
+    // drawing
+    struct : func<OGLPAFP(DrawArrays)> {
+        using func<OGLPAFP(DrawArrays)>::func;
+
+        constexpr auto operator()(
+          primitive_type mode, int_type first, sizei_type count) const
+          noexcept {
+            return this->_chkcall(enum_type(mode), first, count);
+        }
+    } draw_arrays;
+
+    struct : func<OGLPAFP(DrawArraysInstanced)> {
+        using func<OGLPAFP(DrawArraysInstanced)>::func;
+
+        constexpr auto operator()(
+          primitive_type mode,
+          int_type first,
+          sizei_type count,
+          sizei_type instcount) const noexcept {
+            return this->_chkcall(enum_type(mode), first, count, instcount);
+        }
+    } draw_arrays_instanced;
+
+    struct : func<OGLPAFP(DrawElements)> {
+        using func<OGLPAFP(DrawElements)>::func;
+
+        constexpr auto operator()(
+          primitive_type mode,
+          sizei_type count,
+          index_data_type type,
+          const_void_ptr_type indices) const noexcept {
+            return this->_chkcall(
+              enum_type(mode), count, enum_type(type), indices);
+        }
+    } draw_elements;
+
+    struct : func<OGLPAFP(DrawElementsInstanced)> {
+        using func<OGLPAFP(DrawElementsInstanced)>::func;
+
+        constexpr auto operator()(
+          primitive_type mode,
+          sizei_type count,
+          index_data_type type,
+          const_void_ptr_type indices,
+          sizei_type instcount) const noexcept {
+            return this->_chkcall(
+              enum_type(mode), count, enum_type(type), indices, instcount);
+        }
+    } draw_elements_instanced;
 
     // get_integer
     struct : func<OGLPAFP(GetIntegerv)> {
@@ -633,7 +822,7 @@ public:
         }
 
         constexpr auto operator()() const noexcept {
-            return this->fake(this->api().GetString, "");
+            return this->fake("");
         }
     } get_string;
 
@@ -721,11 +910,28 @@ public:
       , shader_source("shader_source", traits, *this)
       , compile_shader("compile_shader", traits, *this)
       , get_shaderi("get_shaderi", traits, *this)
+      , get_shader_info_log("get_shader_info_log", traits, *this)
       , attach_shader("attach_shader", traits, *this)
       , detach_shader("detach_shader", traits, *this)
       , link_program("link_program", traits, *this)
       , get_programi("get_programi", traits, *this)
+      , get_program_info_log("get_program_info_log", traits, *this)
       , use_program("use_program", traits, *this)
+      , get_attrib_location("get_attrib_location", traits, *this)
+      , bind_buffer("bind_buffer", traits, *this)
+      , buffer_data("buffer_data", traits, *this)
+      , bind_vertex_array("bind_vertex_array", traits, *this)
+      , enable_vertex_attrib_array("enable_vertex_attrib_array", traits, *this)
+      , enable_vertex_array_attrib("enable_vertex_array_attrib", traits, *this)
+      , disable_vertex_attrib_array(
+          "disable_vertex_attrib_array", traits, *this)
+      , disable_vertex_array_attrib(
+          "disable_vertex_array_attrib", traits, *this)
+      , vertex_attrib_pointer("vertex_attrib_pointer", traits, *this)
+      , draw_arrays("draw_arrays", traits, *this)
+      , draw_arrays_instanced("draw_arrays_instanced", traits, *this)
+      , draw_elements("draw_elements", traits, *this)
+      , draw_elements_instanced("draw_elements_instanced", traits, *this)
       , get_integer("get_integer", traits, *this)
       , get_integer64("get_integer64", traits, *this)
       , get_float("get_float", traits, *this)

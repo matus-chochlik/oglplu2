@@ -11,12 +11,13 @@
 
 #include "config.hpp"
 #include <eagine/math/coordinates.hpp>
+#include <oglplus/gl_api/config.hpp>
 
 namespace eagine {
 namespace oglp {
 
 using unit_spherical_coordinates =
-  math::unit_spherical_coordinates<GLfloat, math_use_simd>;
+  math::unit_spherical_coordinates<gl_types::float_type, math_use_simd>;
 
 using math::to_cartesian;
 using math::to_unit_spherical;

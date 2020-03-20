@@ -18,6 +18,8 @@
 namespace eagine {
 namespace oalp {
 //------------------------------------------------------------------------------
+#define OALPAFP(FUNC) decltype(c_api::FUNC), &c_api::FUNC
+//------------------------------------------------------------------------------
 template <typename ApiTraits>
 class basic_alut_api : public basic_alut_c_api<ApiTraits> {
 
@@ -39,43 +41,52 @@ public:
         }
     };
 
-    // init
-    struct : derived_func {
-        using derived_func::derived_func;
+    template <typename W, W c_api::*F>
+    class func
+      : public wrapped_c_api_function<c_api, api_traits, nothing_t, W, F> {
+        using base = wrapped_c_api_function<c_api, api_traits, nothing_t, W, F>;
 
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().Init);
+    private:
+        template <typename Res>
+        constexpr auto _check(Res&& res) const noexcept {
+            res.error_code(this->api().GetError());
+            return std::forward<Res>(res);
         }
 
+    protected:
+        template <typename... Args>
+        constexpr auto _chkcall(Args&&... args) const noexcept {
+            return this->_check(this->call(std::forward<Args>(args)...));
+        }
+
+    public:
+        using base::base;
+    };
+
+    // init
+    struct : func<OALPAFP(Init)> {
+        using func<OALPAFP(Init)>::func;
+
         constexpr auto operator()(int* argcp, char** argvp) const noexcept {
-            return this->_check(this->call(this->api().Init, argcp, argvp));
+            return this->_chkcall(argcp, argvp);
         }
     } init;
 
     // create_buffer_hello_world
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().CreateBufferHelloWorld);
-        }
+    struct : func<OALPAFP(CreateBufferHelloWorld)> {
+        using func<OALPAFP(CreateBufferHelloWorld)>::func;
 
         constexpr auto operator()() const noexcept {
-            return this->_check(this->call(this->api().CreateBufferHelloWorld))
-              .transformed([](auto n) { return owned_buffer_name(n); });
+            return this->_chkcall().cast_to(identity<owned_buffer_name>{});
         }
     } create_buffer_hello_world;
 
     // exit
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().Exit);
-        }
+    struct : func<OALPAFP(Exit)> {
+        using func<OALPAFP(Exit)>::func;
 
         constexpr auto operator()() const noexcept {
-            return this->_check(this->call(this->api().Exit));
+            return this->_chkcall();
         }
 
         auto raii() noexcept {
@@ -90,6 +101,8 @@ public:
       , exit("exit", traits, *this) {
     }
 };
+//------------------------------------------------------------------------------
+#undef OALPAFP
 //------------------------------------------------------------------------------
 } // namespace oalp
 } // namespace eagine

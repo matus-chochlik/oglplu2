@@ -83,7 +83,7 @@ public:
 #ifdef EGL_DEFAULT_DISPLAY
             return this->_chkcall(EGL_DEFAULT_DISPLAY);
 #else
-            return this->fake(this->api().GetDisplay, {});
+            return this->fake({});
 #endif
         }
     } get_display;
@@ -244,7 +244,7 @@ public:
         }
 
         constexpr auto operator()() const noexcept {
-            return this->fake(this->api().QueryString, "");
+            return this->fake("");
         }
     } query_string;
 

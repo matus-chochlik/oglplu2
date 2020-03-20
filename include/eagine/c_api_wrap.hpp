@@ -847,6 +847,11 @@ protected:
         return base::call(this->api().*Function, std::forward<Args>(args)...);
     }
 
+    template <typename F>
+    constexpr auto fake(F&& fallback) const noexcept {
+        return base::fake(this->api().*Function, std::forward<F>(fallback));
+    }
+
 public:
     using base::base;
 

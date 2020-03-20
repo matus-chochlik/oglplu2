@@ -18,6 +18,8 @@
 namespace eagine {
 namespace oalp {
 //------------------------------------------------------------------------------
+#define OALPAFP(FUNC) decltype(c_api::FUNC), &c_api::FUNC
+//------------------------------------------------------------------------------
 template <typename ApiTraits>
 class basic_alc_api : public basic_alc_c_api<ApiTraits> {
 
@@ -32,46 +34,48 @@ public:
     using char_type = typename alc_types::char_type;
     using int_type = typename alc_types::int_type;
 
-    struct derived_func : derived_c_api_function<c_api, api_traits, nothing_t> {
-        using base = derived_c_api_function<c_api, api_traits, nothing_t>;
-        using base::base;
+    template <typename W, W c_api::*F>
+    class func
+      : public wrapped_c_api_function<c_api, api_traits, nothing_t, W, F> {
+        using base = wrapped_c_api_function<c_api, api_traits, nothing_t, W, F>;
 
+    private:
         template <typename Res>
-        constexpr auto _check(Res&& res, device_handle dev = nullptr) const
-          noexcept {
+        constexpr auto _check(device_handle dev, Res&& res) const noexcept {
             res.error_code(this->api().GetError(dev));
             return std::forward<Res>(res);
         }
+
+    protected:
+        template <typename... Args>
+        constexpr auto _chkcall(device_handle dev, Args&&... args) const
+          noexcept {
+            return this->_check(dev, this->call(std::forward<Args>(args)...));
+        }
+
+    public:
+        using base::base;
     };
 
     // open_device
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().OpenDevice);
-        }
+    struct : func<OALPAFP(OpenDevice)> {
+        using func<OALPAFP(OpenDevice)>::func;
 
         constexpr auto operator()() const noexcept {
-            return this->_check(this->call(this->api().OpenDevice, nullptr));
+            return this->_chkcall(nullptr, nullptr);
         }
 
         auto operator()(string_view name) const noexcept {
-            return this->_check(
-              this->call(this->api().OpenDevice, c_str(name)));
+            return this->_chkcall(nullptr, c_str(name));
         }
     } open_device;
 
     // close_device
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().CloseDevice);
-        }
+    struct : func<OALPAFP(CloseDevice)> {
+        using func<OALPAFP(CloseDevice)>::func;
 
         constexpr auto operator()(device_handle dev) const noexcept {
-            return this->_check(this->call(this->api().CloseDevice, dev), dev);
+            return this->_chkcall(dev, dev);
         }
 
         auto raii(device_handle dev) noexcept {
@@ -80,38 +84,26 @@ public:
     } close_device;
 
     // create_context
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().CreateContext);
-        }
+    struct : func<OALPAFP(CreateContext)> {
+        using func<OALPAFP(CreateContext)>::func;
 
         constexpr auto operator()(device_handle dev) const noexcept {
-            return this->_check(
-              this->call(this->api().CreateContext, dev, nullptr), dev);
+            return this->_chkcall(dev, dev, nullptr);
         }
 
         constexpr auto operator()(
           device_handle dev, span<const int_type> attributes) const noexcept {
-            return this->_check(
-              this->call(this->api().CreateContext, dev, attributes.data()),
-              dev);
+            return this->_chkcall(dev, dev, attributes.data());
         }
     } create_context;
 
     // destroy_context
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().DestroyContext);
-        }
+    struct : func<OALPAFP(DestroyContext)> {
+        using func<OALPAFP(DestroyContext)>::func;
 
         constexpr auto operator()(device_handle dev, context_handle ctx) const
           noexcept {
-            return this->_check(
-              this->call(this->api().DestroyContext, ctx), dev);
+            return this->_chkcall(dev, ctx);
         }
 
         auto raii(device_handle dev, context_handle ctx) noexcept {
@@ -120,32 +112,24 @@ public:
     } destroy_context;
 
     // make_context_current
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().MakeContextCurrent);
-        }
+    struct : func<OALPAFP(MakeContextCurrent)> {
+        using func<OALPAFP(MakeContextCurrent)>::func;
 
         constexpr auto operator()(device_handle dev, context_handle ctx) const
           noexcept {
-            return this->_check(
-              this->call(this->api().MakeContextCurrent, ctx), dev);
+            return this->_chkcall(dev, ctx);
         }
 
         constexpr auto operator()(device_handle dev) const noexcept {
-            return this->_check(
-              this->call(this->api().MakeContextCurrent, nullptr), dev);
+            return this->_chkcall(dev, nullptr);
         }
 
         constexpr auto operator()(context_handle ctx) const noexcept {
-            return this->_check(
-              this->call(this->api().MakeContextCurrent, ctx), nullptr);
+            return this->_chkcall(nullptr, ctx);
         }
 
         constexpr auto operator()() const noexcept {
-            return this->_check(
-              this->call(this->api().MakeContextCurrent, nullptr), nullptr);
+            return this->_chkcall(nullptr, nullptr);
         }
 
         auto raii(device_handle dev) noexcept {
@@ -158,90 +142,49 @@ public:
     } make_context_current;
 
     // get_current_context
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().GetCurrentContext);
-        }
+    struct : func<OALPAFP(GetCurrentContext)> {
+        using func<OALPAFP(GetCurrentContext)>::func;
 
         constexpr auto operator()(device_handle dev) const noexcept {
-            return this->_check(this->call(this->api().GetCurrentContext), dev);
+            return this->_chkcall(dev);
         }
 
         constexpr auto operator()() const noexcept {
-            return this->_check(
-              this->call(this->api().GetCurrentContext), nullptr);
+            return this->_chkcall(nullptr);
         }
     } get_current_context;
 
     // get_integer
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().GetIntegerv);
-        }
+    struct : func<OALPAFP(GetIntegerv)> {
+        using func<OALPAFP(GetIntegerv)>::func;
 
         constexpr auto operator()(
           device_handle dev, alc_integer_query query) const noexcept {
             int_type result{};
             return this
-              ->_check(
-                this->call(
-                  this->api().GetIntegerv,
-                  dev,
-                  enum_type(query),
-                  size_type(1),
-                  &result),
-                dev)
-              .transformed([&result]() { return result; });
+              ->_chkcall(dev, dev, enum_type(query), size_type(1), &result)
+              .replaced_with(result);
         }
 
         constexpr auto operator()(alc_integer_query query) const noexcept {
             return (*this)(nullptr, query);
         }
-    } get_integer;
-
-    // get_integerv
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().GetIntegerv);
-        }
 
         constexpr auto operator()(
           device_handle dev, alc_integer_query query, span<int_type> dst) const
           noexcept {
-            return this->_check(
-              this->call(
-                this->api().GetIntegerv,
-                dev,
-                enum_type(query),
-                size_type(dst.size()),
-                dst.data()),
-              dev);
+            return this->_chkcall(
+              dev, dev, enum_type(query), size_type(dst.size()), dst.data());
         }
-
-        constexpr auto operator()(
-          alc_integer_query query, span<int_type> dst) const noexcept {
-            return (*this)(nullptr, query, dst);
-        }
-    } get_integerv;
+    } get_integer;
 
     // get_string
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().GetString);
-        }
+    struct : func<OALPAFP(GetString)> {
+        using func<OALPAFP(GetString)>::func;
 
         constexpr auto operator()(
           device_handle dev, alc_string_query query) const noexcept {
-            return this->_check(
-              this->call(this->api().GetString, dev, enum_type(query)), dev);
+            return this->_chkcall(dev, dev, enum_type(query));
         }
 
         constexpr auto operator()(alc_string_query query) const noexcept {
@@ -249,7 +192,7 @@ public:
         }
 
         constexpr auto operator()(device_handle) const noexcept {
-            return this->fake(this->api().GetString, "");
+            return this->fake("");
         }
     } get_string;
 
@@ -327,10 +270,11 @@ public:
       , make_context_current("make_context_current", traits, *this)
       , get_current_context("get_current_context", traits, *this)
       , get_integer("get_integer", traits, *this)
-      , get_integerv("get_integerv", traits, *this)
       , get_string("get_string", traits, *this) {
     }
 };
+//------------------------------------------------------------------------------
+#undef OALPAFP
 //------------------------------------------------------------------------------
 } // namespace oalp
 } // namespace eagine

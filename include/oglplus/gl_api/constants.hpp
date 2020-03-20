@@ -34,6 +34,11 @@ public:
     template <ubyte_type value>
     using ubyte_type_c = std::integral_constant<ubyte_type, value>;
 
+    using bool_type = typename gl_types::bool_type;
+    using bool_type_i = identity<bool_type>;
+    template <bool_type value>
+    using bool_type_c = std::integral_constant<bool_type, value>;
+
     opt_c_api_constant<
       mp_list<error_code, graphics_reset_status>,
 #ifdef GL_NO_ERROR
@@ -127,18 +132,18 @@ public:
     opt_c_api_constant<
       mp_list<oglp::true_false>,
 #ifdef GL_TRUE
-      enum_type_c<GL_TRUE>>
+      bool_type_c<GL_TRUE>>
 #else
-      enum_type_i>
+      bool_type_i>
 #endif
       true_;
 
     opt_c_api_constant<
       mp_list<oglp::true_false>,
 #ifdef GL_FALSE
-      enum_type_c<GL_FALSE>>
+      bool_type_c<GL_FALSE>>
 #else
-      enum_type_i>
+      bool_type_i>
 #endif
       false_;
 

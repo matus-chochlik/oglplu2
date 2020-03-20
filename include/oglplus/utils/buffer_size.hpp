@@ -10,11 +10,14 @@
 #define OGLPLUS_UTILS_BUFFER_SIZE_HPP
 
 #include <eagine/buffer_size.hpp>
+#include <oglplus/gl_api/config.hpp>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 
-using buffer_size = eagine::buffer_size<GLsizeiptr>;
+using buffer_size = eagine::buffer_size<gl_types::sizeiptr_type>;
 
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif // OGLPLUS_UTILS_BUFFER_SIZE_HPP

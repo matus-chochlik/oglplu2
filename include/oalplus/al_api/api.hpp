@@ -573,7 +573,7 @@ public:
         }
 
         constexpr auto operator()() const noexcept {
-            return this->fake(this->api().GetString, "");
+            return this->fake("");
         }
     } get_string;
 

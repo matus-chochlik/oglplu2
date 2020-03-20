@@ -6,7 +6,7 @@
 set(OGLPLUS_LIB_SOURCES
 	gl.cpp
 	error.cpp
-	objects.cpp
+	# objects.cpp
 	# shapes.cpp
 	enum_value_names.cpp
 	enum_value_range.cpp

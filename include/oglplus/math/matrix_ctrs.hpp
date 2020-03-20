@@ -21,36 +21,47 @@
 #include <eagine/math/matrix_perspective.hpp>
 
 #include "config.hpp"
+#include <oglplus/gl_api/config.hpp>
 
 namespace eagine {
 namespace oglp {
 
-using matrix_uniform_scale = math::matrix_uniform_scale<GLfloat, math_use_simd>;
+using matrix_uniform_scale =
+  math::matrix_uniform_scale<gl_types::float_type, math_use_simd>;
 
-using matrix_scale = math::matrix_scale<GLfloat, math_use_simd>;
+using matrix_scale = math::matrix_scale<gl_types::float_type, math_use_simd>;
 
-using matrix_rotation_x = math::matrix_rotation_x<GLfloat, math_use_simd>;
+using matrix_rotation_x =
+  math::matrix_rotation_x<gl_types::float_type, math_use_simd>;
 
-using matrix_rotation_y = math::matrix_rotation_y<GLfloat, math_use_simd>;
+using matrix_rotation_y =
+  math::matrix_rotation_y<gl_types::float_type, math_use_simd>;
 
-using matrix_rotation_z = math::matrix_rotation_z<GLfloat, math_use_simd>;
+using matrix_rotation_z =
+  math::matrix_rotation_z<gl_types::float_type, math_use_simd>;
 
-using matrix_translation = math::matrix_translation<GLfloat, math_use_simd>;
+using matrix_translation =
+  math::matrix_translation<gl_types::float_type, math_use_simd>;
 
-using matrix_reflection_x = math::matrix_reflection_x<GLfloat, math_use_simd>;
+using matrix_reflection_x =
+  math::matrix_reflection_x<gl_types::float_type, math_use_simd>;
 
-using matrix_reflection_y = math::matrix_reflection_y<GLfloat, math_use_simd>;
+using matrix_reflection_y =
+  math::matrix_reflection_y<gl_types::float_type, math_use_simd>;
 
-using matrix_reflection_z = math::matrix_reflection_z<GLfloat, math_use_simd>;
+using matrix_reflection_z =
+  math::matrix_reflection_z<gl_types::float_type, math_use_simd>;
 
-using matrix_orbiting_y_up = math::matrix_orbiting_y_up<GLfloat, math_use_simd>;
+using matrix_orbiting_y_up =
+  math::matrix_orbiting_y_up<gl_types::float_type, math_use_simd>;
 
 using matrix_looking_at_y_up =
-  math::matrix_looking_at_y_up<GLfloat, math_use_simd>;
+  math::matrix_looking_at_y_up<gl_types::float_type, math_use_simd>;
 
-using matrix_ortho = math::matrix_ortho<GLfloat, math_use_simd>;
+using matrix_ortho = math::matrix_ortho<gl_types::float_type, math_use_simd>;
 
-using matrix_perspective = math::matrix_perspective<GLfloat, math_use_simd>;
+using matrix_perspective =
+  math::matrix_perspective<gl_types::float_type, math_use_simd>;
 
 } // namespace oglp
 } // namespace eagine
