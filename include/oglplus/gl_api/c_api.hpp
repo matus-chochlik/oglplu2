@@ -3515,7 +3515,88 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(GetDebugMessageLog)>
       GetDebugMessageLog;
 
+    // arb compatibility
+    gl_api_function<void(enum_type), nullptr> MatrixMode;
+
+    gl_api_function<void(void), nullptr> PushMatrix;
+    gl_api_function<void(void), nullptr> PopMatrix;
+
+    gl_api_function<void(), nullptr> LoadIdentity;
+
+    gl_api_function<void(float_type, float_type, float_type), nullptr>
+      Translatef;
+
+    gl_api_function<void(double_type, double_type, double_type), nullptr>
+      Translated;
+
+    gl_api_function<
+      void(float_type, float_type, float_type, float_type),
+      nullptr>
+      Rotatef;
+
+    gl_api_function<
+      void(double_type, double_type, double_type, double_type),
+      nullptr>
+      Rotated;
+
+    gl_api_function<void(float_type, float_type, float_type), nullptr> Scalef;
+
+    gl_api_function<void(double_type, double_type, double_type), nullptr>
+      Scaled;
+
+    gl_api_function<
+      void(double_type, double_type, double_type, double_type, double_type),
+      nullptr>
+      Frustum;
+
+    gl_api_function<
+      void(double_type, double_type, double_type, double_type, double_type),
+      nullptr>
+      Ortho;
+
+    gl_api_function<void(const float_type[16]), nullptr> LoadMatrixf;
+    gl_api_function<void(const double_type[16]), nullptr> LoadMatrixd;
+
+    gl_api_function<void(const float_type[16]), nullptr> MultMatrixf;
+    gl_api_function<void(const double_type[16]), nullptr> MultMatrixd;
+
+    gl_api_function<void(const float_type[16]), nullptr> LoadTransposeMatrixf;
+    gl_api_function<void(const double_type[16]), nullptr> LoadTransposeMatrixd;
+
+    gl_api_function<void(const float_type[16]), nullptr> MultTransposeMatrixf;
+    gl_api_function<void(const double_type[16]), nullptr> MultTransposeMatrixd;
+
     // nv path rendering
+    gl_api_function<
+      void(enum_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(MatrixLoad3x2fNV)>
+      MatrixLoad3x2fNV;
+
+    gl_api_function<
+      void(enum_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(MatrixLoad3x3fNV)>
+      MatrixLoad3x3fNV;
+
+    gl_api_function<
+      void(enum_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(MatrixLoadTranspose3x3fNV)>
+      MatrixLoadTranspose3x3fNV;
+
+    gl_api_function<
+      void(enum_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(MatrixMult3x2fNV)>
+      MatrixMult3x2fNV;
+
+    gl_api_function<
+      void(enum_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(MatrixMult3x3fNV)>
+      MatrixMult3x3fNV;
+
+    gl_api_function<
+      void(enum_type, const float_type*),
+      OGLPLUS_GL_STATIC_FUNC(MatrixMultTranspose3x3fNV)>
+      MatrixMultTranspose3x3fNV;
+
     gl_api_function<uint_type(sizei_type), OGLPLUS_GL_STATIC_FUNC(GenPathsNV)>
       GenPathsNV;
 
@@ -3917,36 +3998,6 @@ struct basic_gl_c_api {
         float_type*),
       OGLPLUS_GL_STATIC_FUNC(PointAlongPathNV)>
       PointAlongPathNV;
-
-    gl_api_function<
-      void(enum_type, const float_type*),
-      OGLPLUS_GL_STATIC_FUNC(MatrixLoad3x2fNV)>
-      MatrixLoad3x2fNV;
-
-    gl_api_function<
-      void(enum_type, const float_type*),
-      OGLPLUS_GL_STATIC_FUNC(MatrixLoad3x3fNV)>
-      MatrixLoad3x3fNV;
-
-    gl_api_function<
-      void(enum_type, const float_type*),
-      OGLPLUS_GL_STATIC_FUNC(MatrixLoadTranspose3x3fNV)>
-      MatrixLoadTranspose3x3fNV;
-
-    gl_api_function<
-      void(enum_type, const float_type*),
-      OGLPLUS_GL_STATIC_FUNC(MatrixMult3x2fNV)>
-      MatrixMult3x2fNV;
-
-    gl_api_function<
-      void(enum_type, const float_type*),
-      OGLPLUS_GL_STATIC_FUNC(MatrixMult3x3fNV)>
-      MatrixMult3x3fNV;
-
-    gl_api_function<
-      void(enum_type, const float_type*),
-      OGLPLUS_GL_STATIC_FUNC(MatrixMultTranspose3x3fNV)>
-      MatrixMultTranspose3x3fNV;
 
     // hints
     gl_api_function<
@@ -4607,6 +4658,32 @@ struct basic_gl_c_api {
       , GetObjectLabel("GetObjectLabel", traits, *this)
       , GetObjectPtrLabel("GetObjectPtrLabel", traits, *this)
       , GetDebugMessageLog("GetDebugMessageLog", traits, *this)
+      , MatrixMode("MatrixMode", traits, *this)
+      , PushMatrix("PushMatrix", traits, *this)
+      , PopMatrix("PopMatrix", traits, *this)
+      , LoadIdentity("LoadIdentity", traits, *this)
+      , Translatef("Translatef", traits, *this)
+      , Translated("Translated", traits, *this)
+      , Rotatef("Rotatef", traits, *this)
+      , Rotated("Rotated", traits, *this)
+      , Scalef("Scalef", traits, *this)
+      , Scaled("Scaled", traits, *this)
+      , Frustum("Frustum", traits, *this)
+      , Ortho("Ortho", traits, *this)
+      , LoadMatrixf("LoadMatrixf", traits, *this)
+      , LoadMatrixd("LoadMatrixd", traits, *this)
+      , MultMatrixf("MultMatrixf", traits, *this)
+      , MultMatrixd("MultMatrixd", traits, *this)
+      , LoadTransposeMatrixf("LoadTransposeMatrixf", traits, *this)
+      , LoadTransposeMatrixd("LoadTransposeMatrixd", traits, *this)
+      , MultTransposeMatrixf("MultTransposeMatrixf", traits, *this)
+      , MultTransposeMatrixd("MultTransposeMatrixd", traits, *this)
+      , MatrixLoad3x2fNV("MatrixLoad3x2fNV", traits, *this)
+      , MatrixLoad3x3fNV("MatrixLoad3x3fNV", traits, *this)
+      , MatrixLoadTranspose3x3fNV("MatrixLoadTranspose3x3fNV", traits, *this)
+      , MatrixMult3x2fNV("MatrixMult3x2fNV", traits, *this)
+      , MatrixMult3x3fNV("MatrixMult3x3fNV", traits, *this)
+      , MatrixMultTranspose3x3fNV("MatrixMultTranspose3x3fNV", traits, *this)
       , GenPathsNV("GenPathsNV", traits, *this)
       , DeletePathsNV("DeletePathsNV", traits, *this)
       , IsPathNV("IsPathNV", traits, *this)
@@ -4669,12 +4746,6 @@ struct basic_gl_c_api {
       , IsPointInFillPathNV("IsPointInFillPathNV", traits, *this)
       , IsPointInStrokePathNV("IsPointInStrokePathNV", traits, *this)
       , PointAlongPathNV("PointAlongPathNV", traits, *this)
-      , MatrixLoad3x2fNV("MatrixLoad3x2fNV", traits, *this)
-      , MatrixLoad3x3fNV("MatrixLoad3x3fNV", traits, *this)
-      , MatrixLoadTranspose3x3fNV("MatrixLoadTranspose3x3fNV", traits, *this)
-      , MatrixMult3x2fNV("MatrixMult3x2fNV", traits, *this)
-      , MatrixMult3x3fNV("MatrixMult3x3fNV", traits, *this)
-      , MatrixMultTranspose3x3fNV("MatrixMultTranspose3x3fNV", traits, *this)
       , MaxShaderCompilerThreadsARB(
           "MaxShaderCompilerThreadsARB", traits, *this)
       , Hint("Hint", traits, *this)
