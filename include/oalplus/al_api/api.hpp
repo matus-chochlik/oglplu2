@@ -18,6 +18,8 @@
 namespace eagine {
 namespace oalp {
 //------------------------------------------------------------------------------
+#define OALPAFP(FUNC) decltype(c_api::FUNC), &c_api::FUNC
+//------------------------------------------------------------------------------
 template <typename ApiTraits>
 class basic_al_api : public basic_al_c_api<ApiTraits> {
 
@@ -44,68 +46,71 @@ public:
         }
     };
 
-    template <typename ObjTag, typename W, W c_api::*GenObjects>
-    struct gen_object_func : derived_func {
-        using derived_func::derived_func;
+    template <typename W, W c_api::*F>
+    class func
+      : public wrapped_c_api_function<c_api, api_traits, nothing_t, W, F> {
+        using base = wrapped_c_api_function<c_api, api_traits, nothing_t, W, F>;
 
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().*GenObjects);
+    private:
+        template <typename Res>
+        constexpr auto _check(Res&& res) const noexcept {
+            res.error_code(this->api().GetError());
+            return std::forward<Res>(res);
         }
 
+    protected:
+        template <typename... Args>
+        constexpr auto _chkcall(Args&&... args) const noexcept {
+            return this->_check(this->call(std::forward<Args>(args)...));
+        }
+
+    public:
+        using base::base;
+    };
+
+    template <typename ObjTag, typename W, W c_api::*GenObjects>
+    struct gen_object_func : func<W, GenObjects> {
+        using func<W, GenObjects>::func;
+
         constexpr auto operator()(span<name_type> names) const noexcept {
-            return this->_check(this->call(
-              this->api().*GenObjects, size_type(names.size()), names.data()));
+            return this->_chkcall(size_type(names.size()), names.data());
         }
 
         constexpr auto operator()() const noexcept {
             name_type n{};
-            return this->_check(this->call(this->api().*GenObjects, 1, &n))
-              .transformed([&n]() { return al_owned_object_name<ObjTag>(n); });
+            return this->_chkcall(1, &n).transformed(
+              [&n]() { return al_owned_object_name<ObjTag>(n); });
         }
     };
 
     // gen_sources
-    gen_object_func<source_tag, decltype(c_api::GenSources), &c_api::GenSources>
-      gen_sources;
+    gen_object_func<source_tag, OALPAFP(GenSources)> gen_sources;
 
     // gen_buffers
-    gen_object_func<buffer_tag, decltype(c_api::GenBuffers), &c_api::GenBuffers>
-      gen_buffers;
+    gen_object_func<buffer_tag, OALPAFP(GenBuffers)> gen_buffers;
 
     // gen_effects
-    gen_object_func<effect_tag, decltype(c_api::GenEffects), &c_api::GenEffects>
-      gen_effects;
+    gen_object_func<effect_tag, OALPAFP(GenEffects)> gen_effects;
 
     // gen_filters
-    gen_object_func<filter_tag, decltype(c_api::GenFilters), &c_api::GenFilters>
-      gen_filters;
+    gen_object_func<filter_tag, OALPAFP(GenFilters)> gen_filters;
 
     // gen_auxiliary_effect_slots
-    gen_object_func<
-      auxiliary_effect_slot_tag,
-      decltype(c_api::GenAuxiliaryEffectSlots),
-      &c_api::GenAuxiliaryEffectSlots>
+    gen_object_func<auxiliary_effect_slot_tag, OALPAFP(GenAuxiliaryEffectSlots)>
       gen_auxiliary_effect_slots;
 
     template <typename ObjTag, typename W, W c_api::*DeleteObjects>
-    struct delete_object_func : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().*DeleteObjects);
-        }
+    struct delete_object_func : func<W, DeleteObjects> {
+        using func<W, DeleteObjects>::func;
 
         constexpr auto operator()(span<const name_type> names) const noexcept {
-            return this->_check(this->call(
-              this->api().*DeleteObjects,
-              size_type(names.size()),
-              names.data()));
+            return this->_chkcall(size_type(names.size()), names.data());
         }
 
         constexpr auto operator()(al_owned_object_name<ObjTag>& name) const
           noexcept {
             auto n = name.release();
-            return this->_check(this->call(this->api().*DeleteObjects, 1, &n));
+            return this->_chkcall(1, &n);
         }
 
         auto raii(al_owned_object_name<ObjTag>& name) noexcept {
@@ -123,75 +128,46 @@ public:
     };
 
     // delete_sources
-    delete_object_func<
-      source_tag,
-      decltype(c_api::GenSources),
-      &c_api::GenSources>
-      delete_sources;
+    delete_object_func<source_tag, OALPAFP(DeleteSources)> delete_sources;
 
     // delete_buffers
-    delete_object_func<
-      buffer_tag,
-      decltype(c_api::GenBuffers),
-      &c_api::GenBuffers>
-      delete_buffers;
+    delete_object_func<buffer_tag, OALPAFP(DeleteBuffers)> delete_buffers;
 
     // delete_effects
-    delete_object_func<
-      effect_tag,
-      decltype(c_api::GenEffects),
-      &c_api::GenEffects>
-      delete_effects;
+    delete_object_func<effect_tag, OALPAFP(DeleteEffects)> delete_effects;
 
     // delete_filters
-    delete_object_func<
-      filter_tag,
-      decltype(c_api::GenFilters),
-      &c_api::GenFilters>
-      delete_filters;
+    delete_object_func<filter_tag, OALPAFP(DeleteFilters)> delete_filters;
 
     // delete_auxiliary_effect_slots
     delete_object_func<
       auxiliary_effect_slot_tag,
-      decltype(c_api::GenAuxiliaryEffectSlots),
-      &c_api::GenAuxiliaryEffectSlots>
+      OALPAFP(DeleteAuxiliaryEffectSlots)>
       delete_auxiliary_effect_slots;
 
     template <typename ObjTag, typename W, W c_api::*IsObject>
-    struct is_object_func : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().*IsObject);
-        }
+    struct is_object_func : func<W, IsObject> {
+        using func<W, IsObject>::func;
 
         constexpr auto operator()(al_object_name<ObjTag> name) const noexcept {
-            return this->_check(
-              this->call(this->api().*IsObject, name_type(name)));
+            return this->_chkcall(name_type(name));
         }
     };
 
     // is_source
-    is_object_func<source_tag, decltype(c_api::IsSource), &c_api::IsSource>
-      is_source;
+    is_object_func<source_tag, OALPAFP(IsSource)> is_source;
 
     // is_buffer
-    is_object_func<buffer_tag, decltype(c_api::IsBuffer), &c_api::IsBuffer>
-      is_buffer;
+    is_object_func<buffer_tag, OALPAFP(IsBuffer)> is_buffer;
 
     // is_effect
-    is_object_func<effect_tag, decltype(c_api::IsEffect), &c_api::IsEffect>
-      is_effect;
+    is_object_func<effect_tag, OALPAFP(IsEffect)> is_effect;
 
     // is_filter
-    is_object_func<filter_tag, decltype(c_api::IsFilter), &c_api::IsFilter>
-      is_filter;
+    is_object_func<filter_tag, OALPAFP(IsFilter)> is_filter;
 
     // is_auxiliary_effect_slot
-    is_object_func<
-      auxiliary_effect_slot_tag,
-      decltype(c_api::IsAuxiliaryEffectSlot),
-      &c_api::IsAuxiliaryEffectSlot>
+    is_object_func<auxiliary_effect_slot_tag, OALPAFP(IsAuxiliaryEffectSlot)>
       is_auxiliary_effect_slot;
 
     // listener_i
@@ -255,32 +231,22 @@ public:
     } listener_f;
 
     // get_listener_i
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().GetListeneriv);
-        }
+    struct : func<OALPAFP(GetListeneriv)> {
+        using func<OALPAFP(GetListeneriv)>::func;
 
         constexpr auto operator()(
           listener_attribute attr, span<int_type> v) const noexcept {
-            return this->_check(
-              this->call(this->api().GetListeneriv, enum_type(attr), v.data()));
+            return this->_chkcall(enum_type(attr), v.data());
         }
     } get_listener_i;
 
     // get_listener_f
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().GetListenerfv);
-        }
+    struct : func<OALPAFP(GetListenerfv)> {
+        using func<OALPAFP(GetListenerfv)>::func;
 
         constexpr auto operator()(
           listener_attribute attr, span<float_type> v) const noexcept {
-            return this->_check(
-              this->call(this->api().GetListenerfv, enum_type(attr), v.data()));
+            return this->_chkcall(enum_type(attr), v.data());
         }
     } get_listener_f;
 
@@ -363,40 +329,24 @@ public:
     } buffer_f;
 
     // get_buffer_i
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().GetBufferiv);
-        }
+    struct : func<OALPAFP(GetBufferiv)> {
+        using func<OALPAFP(GetBufferiv)>::func;
 
         constexpr auto operator()(
           buffer_name src, buffer_attribute attr, span<int_type> v) const
           noexcept {
-            return this->_check(this->call(
-              this->api().GetBufferiv,
-              name_type(src),
-              enum_type(attr),
-              v.data()));
+            return this->_chkcall(name_type(src), enum_type(attr), v.data());
         }
     } get_buffer_i;
 
     // get_buffer_f
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().GetBufferfv);
-        }
+    struct : func<OALPAFP(GetBufferfv)> {
+        using func<OALPAFP(GetBufferfv)>::func;
 
         constexpr auto operator()(
           buffer_name src, buffer_attribute attr, span<float_type> v) const
           noexcept {
-            return this->_check(this->call(
-              this->api().GetBufferfv,
-              name_type(src),
-              enum_type(attr),
-              v.data()));
+            return this->_chkcall(name_type(src), enum_type(attr), v.data());
         }
     } get_buffer_f;
 
@@ -479,90 +429,58 @@ public:
     } source_f;
 
     // get_source_i
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().GetSourceiv);
-        }
+    struct : func<OALPAFP(GetSourceiv)> {
+        using func<OALPAFP(GetSourceiv)>::func;
 
         constexpr auto operator()(
           source_name src, source_attribute attr, span<int_type> v) const
           noexcept {
-            return this->_check(this->call(
-              this->api().GetSourceiv,
-              name_type(src),
-              enum_type(attr),
-              v.data()));
+            return this->_chkcall(name_type(src), enum_type(attr), v.data());
         }
     } get_source_i;
 
     // get_source_f
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().GetSourcefv);
-        }
+    struct : func<OALPAFP(GetSourcefv)> {
+        using func<OALPAFP(GetSourcefv)>::func;
 
         constexpr auto operator()(
           source_name src, source_attribute attr, span<float_type> v) const
           noexcept {
-            return this->_check(this->call(
-              this->api().GetSourcefv,
-              name_type(src),
-              enum_type(attr),
-              v.data()));
+            return this->_chkcall(name_type(src), enum_type(attr), v.data());
         }
     } get_source_f;
 
     // source_queue_buffers
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().SourceQueueBuffers);
-        }
+    struct : func<OALPAFP(SourceQueueBuffers)> {
+        using func<OALPAFP(SourceQueueBuffers)>::func;
 
         constexpr auto operator()(source_name src, buffer_name buf) const
           noexcept {
             const auto n = name_type(buf);
-            return this->_check(this->call(
-              this->api().SourceQueueBuffers, name_type(src), 1, &n));
+            return this->_chkcall(name_type(src), 1, &n);
         }
 
         constexpr auto operator()(
           source_name src, span<const name_type> bufs) const noexcept {
-            return this->_check(this->call(
-              this->api().SourceQueueBuffers,
-              name_type(src),
-              size_type(bufs.size()),
-              bufs.data()));
+            return this->_chkcall(
+              name_type(src), size_type(bufs.size()), bufs.data());
         }
     } source_queue_buffers;
 
     // source_unqueue_buffers
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().SourceUnqueueBuffers);
-        }
+    struct : func<OALPAFP(SourceUnqueueBuffers)> {
+        using func<OALPAFP(SourceUnqueueBuffers)>::func;
 
         constexpr auto operator()(source_name src, buffer_name buf) const
           noexcept {
             auto n = name_type(buf);
-            return this->_check(this->call(
-              this->api().SourceUnqueueBuffers, name_type(src), 1, &n));
+            return this->_chkcall(name_type(src), 1, &n);
         }
 
         constexpr auto operator()(source_name src, span<name_type> bufs) const
           noexcept {
-            return this->_check(this->call(
-              this->api().SourceUnqueueBuffers,
-              name_type(src),
-              size_type(bufs.size()),
-              bufs.data()));
+            return this->_chkcall(
+              name_type(src), size_type(bufs.size()), bufs.data());
         }
     } source_unqueue_buffers;
 
@@ -647,16 +565,11 @@ public:
     } source_rewind;
 
     // get_string
-    struct : derived_func {
-        using derived_func::derived_func;
-
-        explicit constexpr operator bool() const noexcept {
-            return bool(this->api().GetString);
-        }
+    struct : func<OALPAFP(GetString)> {
+        using func<OALPAFP(GetString)>::func;
 
         constexpr auto operator()(al_string_query query) const noexcept {
-            return this->_check(
-              this->call(this->api().GetString, enum_type(query)));
+            return this->_chkcall(enum_type(query));
         }
 
         constexpr auto operator()() const noexcept {
@@ -721,6 +634,8 @@ public:
       , get_string("get_string", traits, *this) {
     }
 };
+//------------------------------------------------------------------------------
+#undef OALPAFP
 //------------------------------------------------------------------------------
 } // namespace oalp
 } // namespace eagine

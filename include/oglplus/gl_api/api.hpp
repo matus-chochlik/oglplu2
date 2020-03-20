@@ -44,8 +44,9 @@ public:
     using name_type = typename gl_types::name_type;
 
     template <typename W, W c_api::*F>
-    class func : public c_api_function<c_api, api_traits, nothing_t, W, F> {
-        using base = c_api_function<c_api, api_traits, nothing_t, W, F>;
+    class func
+      : public wrapped_c_api_function<c_api, api_traits, nothing_t, W, F> {
+        using base = wrapped_c_api_function<c_api, api_traits, nothing_t, W, F>;
 
     private:
         template <typename Res>

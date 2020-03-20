@@ -837,7 +837,8 @@ template <
   typename Tag,
   typename WrapperType,
   WrapperType Api::*Function>
-class c_api_function : public derived_c_api_function<Api, ApiTraits, Tag> {
+class wrapped_c_api_function
+  : public derived_c_api_function<Api, ApiTraits, Tag> {
     using base = derived_c_api_function<Api, ApiTraits, Tag>;
 
 protected:
