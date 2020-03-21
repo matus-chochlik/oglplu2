@@ -25,41 +25,53 @@ example_wrapper::example_wrapper(
   example_args& args, example_params& params, example_state& state)
   : _context(args, params, state)
   , _example(make_example(args, _context))
-  , _screenshot_done(false)
-  , _start(clock_type::now())
-  , _now(_start) {
+  , _screenshot_done(false) {
 
-    EAGINE_ASSERT(_example);
+    if(_example) {
+        if(_example->check_requirements(_context)) {
+            _example->init(_context);
 
-    state.sync_size();
-    _example->resize(_context);
+            state.sync_size();
+            _example->resize(_context);
 
-    state.center_mouse();
-    _example->pointer_motion(_context);
+            state.center_mouse();
+            _example->pointer_motion(_context);
 
-    if(params.doing_framedump()) {
-        textbuf(1024);
-        std::cin.getline(_textbuf.data(), std::streamsize(_textbuf.size()));
+            if(params.doing_framedump()) {
+                textbuf(1024);
+                std::cin.getline(
+                  _textbuf.data(), std::streamsize(_textbuf.size()));
 
-        if(
-          std::strncmp(
-            c_str(params.framedump_prefix()),
-            _textbuf.data(),
-            _textbuf.size()) != 0) {
-            throw std::runtime_error("Expected frame-dump prefix on stdin");
+                if(
+                  std::strncmp(
+                    c_str(params.framedump_prefix()),
+                    _textbuf.data(),
+                    _textbuf.size()) != 0) {
+                    throw std::runtime_error(
+                      "Expected frame-dump prefix on stdin");
+                }
+            }
+
+            if(state.multiple_tiles() && params.auto_tiles()) {
+                glEnable(GL_SCISSOR_TEST);
+            }
+        } else {
+            _example.reset();
         }
     }
-
-    if(state.multiple_tiles() && params.auto_tiles()) {
-        glEnable(GL_SCISSOR_TEST);
-    }
+    _start = clock_type::now();
+    _now = _start;
+}
+//------------------------------------------------------------------------------
+bool example_wrapper::is_ready() const {
+    return bool(_example);
 }
 //------------------------------------------------------------------------------
 void example_wrapper::destroy() {
-    EAGINE_ASSERT(_example);
-
-    _example->cleanup(_context);
-    _example.reset();
+    if(_example) {
+        _example->cleanup(_context);
+        _example.reset();
+    }
 }
 //------------------------------------------------------------------------------
 std::vector<char>& example_wrapper::pixels() {

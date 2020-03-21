@@ -70,6 +70,9 @@ public:
 
         example_wrapper example(args, params, state);
 
+        if(!example.is_ready()) {
+            return 2;
+        }
         example_loop(state, example);
 
         return 0;

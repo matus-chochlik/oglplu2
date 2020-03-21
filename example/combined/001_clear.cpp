@@ -18,9 +18,18 @@ namespace oglp {
 //------------------------------------------------------------------------------
 class example_clear : public example {
 public:
+    bool check_requirements(const example_context& ctx) final;
     void resize(const example_context& ctx) final;
     void render(const example_context& ctx) final;
 };
+//------------------------------------------------------------------------------
+bool example_clear::check_requirements(const example_context& ctx) {
+    const auto& [gl, GL] = ctx.gl();
+    auto r = ctx.req_mark();
+
+    return r(gl.viewport) && r(gl.clear_color) && r(gl.clear) &&
+           r(GL.color_buffer_bit);
+}
 //------------------------------------------------------------------------------
 void example_clear::resize(const example_context& ctx) {
     ctx.gl().viewport(ctx.state().width(), ctx.state().height());

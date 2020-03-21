@@ -64,22 +64,28 @@ public:
       , _wheel(0) {
         EAGINE_ASSERT(!instance_ptr());
         instance_ptr() = this;
+        if(example.is_ready()) {
 
-        glutDisplayFunc(&display_func);
-        glutIdleFunc(&display_func);
-        glutReshapeFunc(&reshape_func);
+            glutDisplayFunc(&display_func);
+            glutIdleFunc(&display_func);
+            glutReshapeFunc(&reshape_func);
 
-        glutMotionFunc(&motion_func);
-        glutPassiveMotionFunc(&motion_func);
+            glutMotionFunc(&motion_func);
+            glutPassiveMotionFunc(&motion_func);
 
-        glutMouseFunc(&mouse_func);
-        glutKeyboardFunc(&keyboard_func);
+            glutMouseFunc(&mouse_func);
+            glutKeyboardFunc(&keyboard_func);
 
 #ifdef FREEGLUT
-        glutSetOption(
-          GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
-        glutCloseFunc(&close_func);
+            glutSetOption(
+              GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
+            glutCloseFunc(&close_func);
 #endif
+        }
+    }
+
+    bool is_ready() const {
+        return example.is_ready();
     }
 
     single_glut_context(single_glut_context&&) = delete;
@@ -232,6 +238,9 @@ public:
         state.set_depth(16);
 
         single_glut_context ctx(args, params, state);
+        if(!ctx.is_ready()) {
+            return 2;
+        }
         glutMainLoop();
 
         return 0;

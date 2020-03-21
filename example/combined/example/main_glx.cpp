@@ -114,8 +114,10 @@ public:
 
         example_wrapper example(args, params, state);
 
+        if(!example.is_ready()) {
+            return 2;
+        }
         _example_loop(display, win, ctx, state, example);
-
         return 0;
 #else
         EAGINE_MAYBE_UNUSED(args);

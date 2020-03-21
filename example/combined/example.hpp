@@ -18,6 +18,11 @@ namespace oglp {
 struct example {
     virtual ~example() = default;
 
+    virtual bool check_requirements(const example_context& ctx) = 0;
+
+    virtual void init(const example_context&) {
+    }
+
     virtual seconds_t<float> default_timeout() {
         return seconds_(10);
     }

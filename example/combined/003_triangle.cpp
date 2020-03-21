@@ -20,7 +20,9 @@ namespace eagine {
 namespace oglp {
 //------------------------------------------------------------------------------
 class example_triangle : public example {
-    triangle tri;
+    triangle tri{vec3{-0.2f, 0.5f, 0.0f},
+                 vec3{-0.7f, -0.6f, 0.0f},
+                 vec3{0.6f, 0.2f, 0.0f}};
 
     owned_vertex_array_name vao;
 
@@ -33,18 +35,28 @@ class example_triangle : public example {
     owned_program_name prog;
 
 public:
-    example_triangle(const example_context& ctx);
-
+    bool check_requirements(const example_context& ctx) final;
+    void init(const example_context& ctx) final;
     void cleanup(const example_context& ctx) final;
     void resize(const example_context& ctx) final;
     void render(const example_context& ctx) final;
 };
 //------------------------------------------------------------------------------
-example_triangle::example_triangle(const example_context& ctx)
-  : tri(
-      vec3(-0.2f, 0.5f, 0.0f),
-      vec3(-0.7f, -0.6f, 0.0f),
-      vec3(0.6f, 0.2f, 0.0f)) {
+bool example_triangle ::check_requirements(const example_context& ctx) {
+    const auto& [gl, GL] = ctx.gl();
+    auto r = ctx.req_mark();
+
+    return r(gl.disable) && r(gl.clear_color) && r(gl.create_shader) &&
+           r(gl.shader_source) && r(gl.compile_shader) &&
+           r(gl.create_program) && r(gl.attach_shader) && r(gl.link_program) &&
+           r(gl.use_program) && r(gl.gen_buffers) && r(gl.bind_buffer) &&
+           r(gl.buffer_data) && r(gl.gen_vertex_arrays) &&
+           r(gl.bind_vertex_array) && r(gl.get_attrib_location) &&
+           r(gl.vertex_attrib_pointer) && r(gl.enable_vertex_attrib_array) &&
+           r(gl.draw_arrays);
+}
+//------------------------------------------------------------------------------
+void example_triangle::init(const example_context& ctx) {
 
     const auto& [gl, GL] = ctx.gl();
 
@@ -151,8 +163,8 @@ void example_triangle::render(const example_context& ctx) {
 }
 //------------------------------------------------------------------------------
 std::unique_ptr<example> make_example(
-  const example_args&, const example_context& ctx) {
-    return {std::make_unique<example_triangle>(ctx)};
+  const example_args&, const example_context&) {
+    return {std::make_unique<example_triangle>()};
 }
 //------------------------------------------------------------------------------
 void adjust_params(example_params& params) {

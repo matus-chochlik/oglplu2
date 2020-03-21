@@ -71,6 +71,9 @@ public:
                 state.set_depth(16);
                 example_wrapper example(args, params, state);
 
+                if(!example.is_ready()) {
+                    return 2;
+                }
                 _example_loop(state, example);
             }
         }

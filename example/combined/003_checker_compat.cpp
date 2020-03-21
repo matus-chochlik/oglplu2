@@ -19,21 +19,34 @@
 namespace eagine {
 namespace oglp {
 //------------------------------------------------------------------------------
-class example_spectrum : public example {
+class example_checked : public example {
 
     owned_shader_name fs;
 
     owned_program_name prog;
 
 public:
-    example_spectrum(const example_context& ctx);
-
+    bool check_requirements(const example_context& ctx) final;
+    void init(const example_context& ctx) final;
     void resize(const example_context& ctx) final;
-
     void render(const example_context& ctx) final;
 };
 //------------------------------------------------------------------------------
-example_spectrum::example_spectrum(const example_context& ctx) {
+bool example_checked::check_requirements(const example_context& ctx) {
+    const auto& [gl, GL] = ctx.gl();
+    auto r = ctx.req_mark();
+
+    return r(gl.viewport) && r(gl.clear_color) && r(gl.clear) &&
+           r(GL.color_buffer_bit) && r(gl.load_identity) && r(gl.ortho) &&
+           r(gl.rotate_f) && r(gl.begin) && r(gl.end) && r(gl.vertex2i) &&
+           r(gl.color3f) && r(gl.tex_coord2i) && r(GL.modelview) &&
+           r(GL.projection) && r(GL.triangle_fan) && r(GL.line_loop) &&
+           r(gl.create_shader) && r(gl.shader_source) && r(gl.compile_shader) &&
+           r(GL.fragment_shader) && r(gl.create_program) &&
+           r(gl.attach_shader) && r(gl.link_program);
+}
+//------------------------------------------------------------------------------
+void example_checked::init(const example_context& ctx) {
     const auto& [gl, GL] = ctx.gl();
 
     gl.clear_color(0.4f, 0.4f, 0.4f, 0.0f);
@@ -63,7 +76,7 @@ example_spectrum::example_spectrum(const example_context& ctx) {
     gl.use_program(prog);
 }
 //------------------------------------------------------------------------------
-void example_spectrum::resize(const example_context& ctx) {
+void example_checked::resize(const example_context& ctx) {
     const auto& state = ctx.state();
     const auto& [gl, GL] = ctx.gl();
 
@@ -77,7 +90,7 @@ void example_spectrum::resize(const example_context& ctx) {
     gl.ortho(-w, +w, -h, +h, 0, 1);
 }
 //------------------------------------------------------------------------------
-void example_spectrum::render(const example_context& ctx) {
+void example_checked::render(const example_context& ctx) {
     const auto& [gl, GL] = ctx.gl();
     gl.clear(GL.color_buffer_bit);
 
@@ -107,8 +120,8 @@ void example_spectrum::render(const example_context& ctx) {
 }
 //------------------------------------------------------------------------------
 std::unique_ptr<example> make_example(
-  const example_args&, const example_context& ctx) {
-    return std::make_unique<example_spectrum>(ctx);
+  const example_args&, const example_context&) {
+    return std::make_unique<example_checked>();
 }
 //------------------------------------------------------------------------------
 void adjust_params(example_params& params) {

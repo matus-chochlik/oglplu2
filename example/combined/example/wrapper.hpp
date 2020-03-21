@@ -26,8 +26,8 @@ private:
     bool _screenshot_done;
 
     using clock_type = std::chrono::system_clock;
-    const std::chrono::time_point<clock_type> _start;
-    std::chrono::time_point<clock_type> _now;
+    std::chrono::time_point<clock_type> _start{};
+    std::chrono::time_point<clock_type> _now{};
 
     std::vector<char> _pixel_data;
     std::vector<char>& pixels();
@@ -36,6 +36,8 @@ private:
 
 public:
     example_wrapper(example_args&, example_params&, example_state&);
+
+    bool is_ready() const;
 
     void destroy();
 

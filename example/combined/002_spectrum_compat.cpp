@@ -21,14 +21,24 @@ namespace oglp {
 class example_spectrum : public example {
 
 public:
-    example_spectrum(const example_context& ctx);
-
+    bool check_requirements(const example_context& ctx) final;
+    void init(const example_context& ctx) final;
     void resize(const example_context& ctx) final;
-
     void render(const example_context& ctx) final;
 };
 //------------------------------------------------------------------------------
-example_spectrum::example_spectrum(const example_context& ctx) {
+bool example_spectrum::check_requirements(const example_context& ctx) {
+    const auto& [gl, GL] = ctx.gl();
+    auto r = ctx.req_mark();
+
+    return r(gl.viewport) && r(gl.clear_color) && r(gl.clear) &&
+           r(GL.color_buffer_bit) && r(gl.load_identity) && r(gl.ortho) &&
+           r(gl.rotate_f) && r(gl.begin) && r(gl.end) && r(gl.vertex2f) &&
+           r(gl.color3f) && r(GL.modelview) && r(GL.projection) &&
+           r(GL.triangle_fan) && r(GL.line_loop);
+}
+//------------------------------------------------------------------------------
+void example_spectrum::init(const example_context& ctx) {
     const auto& gl = ctx.gl();
     gl.clear_color(0.4f, 0.4f, 0.4f, 0.0f);
 }
@@ -107,8 +117,8 @@ void example_spectrum::render(const example_context& ctx) {
 }
 //------------------------------------------------------------------------------
 std::unique_ptr<example> make_example(
-  const example_args&, const example_context& ctx) {
-    return std::make_unique<example_spectrum>(ctx);
+  const example_args&, const example_context&) {
+    return std::make_unique<example_spectrum>();
 }
 //------------------------------------------------------------------------------
 void adjust_params(example_params& params) {

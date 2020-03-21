@@ -19,6 +19,15 @@ namespace oglp {
 
 class gl_api;
 
+class example_requirement_marker {
+public:
+    template <typename X>
+    bool operator()(const X& x) const noexcept {
+        // TODO
+        return bool(x);
+    }
+};
+
 class example_context {
 public:
     example_context(example_args&, example_params&, example_state&);
@@ -32,6 +41,10 @@ public:
 
     const example_params& params() const noexcept {
         return _params;
+    }
+
+    example_requirement_marker req_mark() const {
+        return {};
     }
 
     gl_api& gl() const noexcept;
