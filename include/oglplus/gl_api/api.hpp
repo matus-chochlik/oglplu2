@@ -757,12 +757,56 @@ public:
     func<OGLPAFP(Begin), void(old_primitive_type)> begin;
     func<OGLPAFP(End)> end;
 
+    func<OGLPAFP(Vertex2i)> vertex2i;
+    func<OGLPAFP(Vertex3i)> vertex3i;
+    func<OGLPAFP(Vertex4i)> vertex4i;
     func<OGLPAFP(Vertex2f)> vertex2f;
     func<OGLPAFP(Vertex3f)> vertex3f;
     func<OGLPAFP(Vertex4f)> vertex4f;
 
+    func<OGLPAFP(Color3i)> color3i;
+    func<OGLPAFP(Color4i)> color4i;
     func<OGLPAFP(Color3f)> color3f;
     func<OGLPAFP(Color4f)> color4f;
+
+    func<OGLPAFP(SecondaryColor3i)> secondary_color3i;
+    func<OGLPAFP(SecondaryColor4i)> secondary_color4i;
+    func<OGLPAFP(SecondaryColor3f)> secondary_color3f;
+    func<OGLPAFP(SecondaryColor4f)> secondary_color4f;
+
+    func<OGLPAFP(TexCoord1i)> tex_coord1i;
+    func<OGLPAFP(TexCoord2i)> tex_coord2i;
+    func<OGLPAFP(TexCoord3i)> tex_coord3i;
+    func<OGLPAFP(TexCoord4i)> tex_coord4i;
+    func<OGLPAFP(TexCoord1f)> tex_coord1f;
+    func<OGLPAFP(TexCoord2f)> tex_coord2f;
+    func<OGLPAFP(TexCoord3f)> tex_coord3f;
+    func<OGLPAFP(TexCoord4f)> tex_coord4f;
+
+    func<OGLPAFP(MultiTexCoord1i), void(texture_unit, int_type)>
+      multi_tex_coord1i;
+    func<OGLPAFP(MultiTexCoord2i), void(texture_unit, int_type, int_type)>
+      multi_tex_coord2i;
+    func<
+      OGLPAFP(MultiTexCoord3i),
+      void(texture_unit, int_type, int_type, int_type)>
+      multi_tex_coord3i;
+    func<
+      OGLPAFP(MultiTexCoord4i),
+      void(texture_unit, int_type, int_type, int_type, int_type)>
+      multi_tex_coord4i;
+    func<OGLPAFP(MultiTexCoord1f), void(texture_unit, float_type)>
+      multi_tex_coord1f;
+    func<OGLPAFP(MultiTexCoord2f), void(texture_unit, float_type, float_type)>
+      multi_tex_coord2f;
+    func<
+      OGLPAFP(MultiTexCoord3f),
+      void(texture_unit, float_type, float_type, float_type)>
+      multi_tex_coord3f;
+    func<
+      OGLPAFP(MultiTexCoord4f),
+      void(texture_unit, float_type, float_type, float_type, float_type)>
+      multi_tex_coord4f;
 
     func<OGLPAFP(MatrixMode), void(matrix_mode)> matrix_mode;
     func<OGLPAFP(PushMatrix)> push_matrix;
@@ -923,11 +967,36 @@ public:
       , get_string("get_string", traits, *this)
       , begin("begin", traits, *this)
       , end("end", traits, *this)
+      , vertex2i("vertex2i", traits, *this)
+      , vertex3i("vertex3i", traits, *this)
+      , vertex4i("vertex4i", traits, *this)
       , vertex2f("vertex2f", traits, *this)
       , vertex3f("vertex3f", traits, *this)
       , vertex4f("vertex4f", traits, *this)
+      , color3i("color3i", traits, *this)
+      , color4i("color4i", traits, *this)
       , color3f("color3f", traits, *this)
       , color4f("color4f", traits, *this)
+      , secondary_color3i("secondary_color3i", traits, *this)
+      , secondary_color4i("secondary_color4i", traits, *this)
+      , secondary_color3f("secondary_color3f", traits, *this)
+      , secondary_color4f("secondary_color4f", traits, *this)
+      , tex_coord1i("tex_coord1i", traits, *this)
+      , tex_coord2i("tex_coord2i", traits, *this)
+      , tex_coord3i("tex_coord3i", traits, *this)
+      , tex_coord4i("tex_coord4i", traits, *this)
+      , tex_coord1f("tex_coord1f", traits, *this)
+      , tex_coord2f("tex_coord2f", traits, *this)
+      , tex_coord3f("tex_coord3f", traits, *this)
+      , tex_coord4f("tex_coord4f", traits, *this)
+      , multi_tex_coord1i("multi_tex_coord1i", traits, *this)
+      , multi_tex_coord2i("multi_tex_coord2i", traits, *this)
+      , multi_tex_coord3i("multi_tex_coord3i", traits, *this)
+      , multi_tex_coord4i("multi_tex_coord4i", traits, *this)
+      , multi_tex_coord1f("multi_tex_coord1f", traits, *this)
+      , multi_tex_coord2f("multi_tex_coord2f", traits, *this)
+      , multi_tex_coord3f("multi_tex_coord3f", traits, *this)
+      , multi_tex_coord4f("multi_tex_coord4f", traits, *this)
       , matrix_mode("matrix_mode", traits, *this)
       , push_matrix("push_matrix", traits, *this)
       , pop_matrix("pop_matrix", traits, *this)

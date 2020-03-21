@@ -3520,6 +3520,11 @@ struct basic_gl_c_api {
     gl_api_function<void(), nullptr> End;
 
     // vertex position
+    gl_api_function<void(int_type, int_type), nullptr> Vertex2i;
+    gl_api_function<void(int_type, int_type, int_type), nullptr> Vertex3i;
+    gl_api_function<void(int_type, int_type, int_type, int_type), nullptr>
+      Vertex4i;
+
     gl_api_function<void(float_type, float_type), nullptr> Vertex2f;
     gl_api_function<void(float_type, float_type, float_type), nullptr> Vertex3f;
     gl_api_function<
@@ -3528,11 +3533,66 @@ struct basic_gl_c_api {
       Vertex4f;
 
     // vertex color
+    gl_api_function<void(int_type, int_type, int_type), nullptr> Color3i;
+    gl_api_function<void(int_type, int_type, int_type, int_type), nullptr>
+      Color4i;
+
     gl_api_function<void(float_type, float_type, float_type), nullptr> Color3f;
     gl_api_function<
       void(float_type, float_type, float_type, float_type),
       nullptr>
       Color4f;
+
+    gl_api_function<void(int_type, int_type, int_type), nullptr>
+      SecondaryColor3i;
+    gl_api_function<void(int_type, int_type, int_type, int_type), nullptr>
+      SecondaryColor4i;
+
+    gl_api_function<void(float_type, float_type, float_type), nullptr>
+      SecondaryColor3f;
+    gl_api_function<
+      void(float_type, float_type, float_type, float_type),
+      nullptr>
+      SecondaryColor4f;
+
+    // vertex texture coord
+    gl_api_function<void(int_type), nullptr> TexCoord1i;
+    gl_api_function<void(int_type, int_type), nullptr> TexCoord2i;
+    gl_api_function<void(int_type, int_type, int_type), nullptr> TexCoord3i;
+    gl_api_function<void(int_type, int_type, int_type, int_type), nullptr>
+      TexCoord4i;
+
+    gl_api_function<void(float_type), nullptr> TexCoord1f;
+    gl_api_function<void(float_type, float_type), nullptr> TexCoord2f;
+    gl_api_function<void(float_type, float_type, float_type), nullptr>
+      TexCoord3f;
+    gl_api_function<
+      void(float_type, float_type, float_type, float_type),
+      nullptr>
+      TexCoord4f;
+
+    // vertex multi texture coord
+    gl_api_function<void(enum_type, int_type), nullptr> MultiTexCoord1i;
+    gl_api_function<void(enum_type, int_type, int_type), nullptr>
+      MultiTexCoord2i;
+    gl_api_function<void(enum_type, int_type, int_type, int_type), nullptr>
+      MultiTexCoord3i;
+    gl_api_function<
+      void(enum_type, int_type, int_type, int_type, int_type),
+      nullptr>
+      MultiTexCoord4i;
+
+    gl_api_function<void(enum_type, float_type), nullptr> MultiTexCoord1f;
+    gl_api_function<void(enum_type, float_type, float_type), nullptr>
+      MultiTexCoord2f;
+    gl_api_function<
+      void(enum_type, float_type, float_type, float_type),
+      nullptr>
+      MultiTexCoord3f;
+    gl_api_function<
+      void(enum_type, float_type, float_type, float_type, float_type),
+      nullptr>
+      MultiTexCoord4f;
 
     // matrix compatibility
     gl_api_function<void(enum_type), nullptr> MatrixMode;
@@ -4767,11 +4827,36 @@ struct basic_gl_c_api {
       , GetDebugMessageLog("GetDebugMessageLog", traits, *this)
       , Begin("Begin", traits, *this)
       , End("End", traits, *this)
+      , Vertex2i("Vertex2i", traits, *this)
+      , Vertex3i("Vertex3i", traits, *this)
+      , Vertex4i("Vertex4i", traits, *this)
       , Vertex2f("Vertex2f", traits, *this)
       , Vertex3f("Vertex3f", traits, *this)
       , Vertex4f("Vertex4f", traits, *this)
+      , Color3i("Color3i", traits, *this)
+      , Color4i("Color4i", traits, *this)
       , Color3f("Color3f", traits, *this)
       , Color4f("Color4f", traits, *this)
+      , SecondaryColor3i("SecondaryColor3i", traits, *this)
+      , SecondaryColor4i("SecondaryColor4i", traits, *this)
+      , SecondaryColor3f("SecondaryColor3f", traits, *this)
+      , SecondaryColor4f("SecondaryColor4f", traits, *this)
+      , TexCoord1i("TexCoord1i", traits, *this)
+      , TexCoord2i("TexCoord2i", traits, *this)
+      , TexCoord3i("TexCoord3i", traits, *this)
+      , TexCoord4i("TexCoord4i", traits, *this)
+      , TexCoord1f("TexCoord1f", traits, *this)
+      , TexCoord2f("TexCoord2f", traits, *this)
+      , TexCoord3f("TexCoord3f", traits, *this)
+      , TexCoord4f("TexCoord4f", traits, *this)
+      , MultiTexCoord1i("MultiTexCoord1i", traits, *this)
+      , MultiTexCoord2i("MultiTexCoord2i", traits, *this)
+      , MultiTexCoord3i("MultiTexCoord3i", traits, *this)
+      , MultiTexCoord4i("MultiTexCoord4i", traits, *this)
+      , MultiTexCoord1f("MultiTexCoord1f", traits, *this)
+      , MultiTexCoord2f("MultiTexCoord2f", traits, *this)
+      , MultiTexCoord3f("MultiTexCoord3f", traits, *this)
+      , MultiTexCoord4f("MultiTexCoord4f", traits, *this)
       , MatrixMode("MatrixMode", traits, *this)
       , PushMatrix("PushMatrix", traits, *this)
       , PopMatrix("PopMatrix", traits, *this)
