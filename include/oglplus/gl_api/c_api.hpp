@@ -3519,6 +3519,22 @@ struct basic_gl_c_api {
     gl_api_function<void(enum_type), nullptr> Begin;
     gl_api_function<void(), nullptr> End;
 
+    // vertex position
+    gl_api_function<void(float_type, float_type), nullptr> Vertex2f;
+    gl_api_function<void(float_type, float_type, float_type), nullptr> Vertex3f;
+    gl_api_function<
+      void(float_type, float_type, float_type, float_type),
+      nullptr>
+      Vertex4f;
+
+    // vertex color
+    gl_api_function<void(float_type, float_type, float_type), nullptr> Color3f;
+    gl_api_function<
+      void(float_type, float_type, float_type, float_type),
+      nullptr>
+      Color4f;
+
+    // matrix compatibility
     gl_api_function<void(enum_type), nullptr> MatrixMode;
 
     gl_api_function<void(void), nullptr> PushMatrix;
@@ -3582,12 +3598,24 @@ struct basic_gl_c_api {
       MatrixScaledEXT;
 
     gl_api_function<
-      void(double_type, double_type, double_type, double_type, double_type),
+      void(
+        double_type,
+        double_type,
+        double_type,
+        double_type,
+        double_type,
+        double_type),
       nullptr>
       Frustum;
 
     gl_api_function<
-      void(double_type, double_type, double_type, double_type, double_type),
+      void(
+        double_type,
+        double_type,
+        double_type,
+        double_type,
+        double_type,
+        double_type),
       nullptr>
       Ortho;
 
@@ -4739,6 +4767,11 @@ struct basic_gl_c_api {
       , GetDebugMessageLog("GetDebugMessageLog", traits, *this)
       , Begin("Begin", traits, *this)
       , End("End", traits, *this)
+      , Vertex2f("Vertex2f", traits, *this)
+      , Vertex3f("Vertex3f", traits, *this)
+      , Vertex4f("Vertex4f", traits, *this)
+      , Color3f("Color3f", traits, *this)
+      , Color4f("Color4f", traits, *this)
       , MatrixMode("MatrixMode", traits, *this)
       , PushMatrix("PushMatrix", traits, *this)
       , PopMatrix("PopMatrix", traits, *this)

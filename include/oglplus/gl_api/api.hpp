@@ -10,6 +10,7 @@
 #define OGLPLUS_GL_API_API_HPP
 
 #include "../glsl/source_ref.hpp"
+#include "../utils/quantities.hpp"
 #include "c_api.hpp"
 #include "enum_types.hpp"
 #include "object_name.hpp"
@@ -76,6 +77,11 @@ public:
         template <identifier_t I>
         static constexpr inline auto _conv(prog_var_location<I> loc) noexcept {
             return loc.index();
+        }
+
+        template <typename T>
+        static constexpr inline auto _conv(degrees_t<T> angle) noexcept {
+            return angle.value();
         }
 
     public:
@@ -747,10 +753,53 @@ public:
             [](auto src) { return split_c_str_into_string_list(src, ' '); });
     }
 
+    // arb compatibility
     func<OGLPAFP(Begin), void(old_primitive_type)> begin;
     func<OGLPAFP(End)> end;
 
+    func<OGLPAFP(Vertex2f)> vertex2f;
+    func<OGLPAFP(Vertex3f)> vertex3f;
+    func<OGLPAFP(Vertex4f)> vertex4f;
+
+    func<OGLPAFP(Color3f)> color3f;
+    func<OGLPAFP(Color4f)> color4f;
+
     func<OGLPAFP(MatrixMode), void(matrix_mode)> matrix_mode;
+    func<OGLPAFP(PushMatrix)> push_matrix;
+    func<OGLPAFP(PopMatrix)> pop_matrix;
+
+    func<OGLPAFP(LoadIdentity)> load_identity;
+
+    func<OGLPAFP(Translatef)> translate_f;
+    func<OGLPAFP(Translated)> translate_d;
+
+    func<
+      OGLPAFP(Rotatef),
+      void(degrees_t<float_type>, float_type, float_type, float_type)>
+      rotate_f;
+
+    func<
+      OGLPAFP(Rotated),
+      void(degrees_t<double_type>, double_type, double_type, double_type)>
+      rotate_d;
+
+    func<OGLPAFP(Scalef)> scale_f;
+    func<OGLPAFP(Scaled)> scale_d;
+
+    func<OGLPAFP(Frustum)> frustum;
+    func<OGLPAFP(Ortho)> ortho;
+
+    func<OGLPAFP(LoadMatrixf)> load_matrix_f;
+    func<OGLPAFP(LoadMatrixd)> load_matrix_d;
+
+    func<OGLPAFP(MultMatrixf)> mult_matrix_f;
+    func<OGLPAFP(MultMatrixd)> mult_matrix_d;
+
+    func<OGLPAFP(LoadTransposeMatrixf)> load_transpose_matrix_f;
+    func<OGLPAFP(LoadTransposeMatrixd)> load_transpose_matrix_d;
+
+    func<OGLPAFP(MultTransposeMatrixf)> mult_transpose_matrix_f;
+    func<OGLPAFP(MultTransposeMatrixd)> mult_transpose_matrix_d;
 
     func<OGLPAFP(Flush)> flush;
     func<OGLPAFP(Finish)> finish;
@@ -874,7 +923,31 @@ public:
       , get_string("get_string", traits, *this)
       , begin("begin", traits, *this)
       , end("end", traits, *this)
+      , vertex2f("vertex2f", traits, *this)
+      , vertex3f("vertex3f", traits, *this)
+      , vertex4f("vertex4f", traits, *this)
+      , color3f("color3f", traits, *this)
+      , color4f("color4f", traits, *this)
       , matrix_mode("matrix_mode", traits, *this)
+      , push_matrix("push_matrix", traits, *this)
+      , pop_matrix("pop_matrix", traits, *this)
+      , load_identity("load_identity", traits, *this)
+      , translate_f("translate_f", traits, *this)
+      , translate_d("translate_d", traits, *this)
+      , rotate_f("rotate_f", traits, *this)
+      , rotate_d("rotate_d", traits, *this)
+      , scale_f("scale_f", traits, *this)
+      , scale_d("scale_d", traits, *this)
+      , frustum("frustum", traits, *this)
+      , ortho("ortho", traits, *this)
+      , load_matrix_f("load_matrix_f", traits, *this)
+      , load_matrix_d("load_matrix_d", traits, *this)
+      , mult_matrix_f("mult_matrix_f", traits, *this)
+      , mult_matrix_d("mult_matrix_d", traits, *this)
+      , load_transpose_matrix_f("load_transpose_matrix_f", traits, *this)
+      , load_transpose_matrix_d("load_transpose_matrix_d", traits, *this)
+      , mult_transpose_matrix_f("mult_transpose_matrix_f", traits, *this)
+      , mult_transpose_matrix_d("mult_transpose_matrix_d", traits, *this)
       , flush("flush", traits, *this)
       , finish("finish", traits, *this) {
     }
