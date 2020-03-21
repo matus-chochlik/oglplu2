@@ -480,6 +480,74 @@ public:
       uniform_location(program_name, string_view)>
       get_uniform_location;
 
+    // uniform
+    // uint
+    func<OGLPAFP(Uniform1ui), void(uniform_location, uint_type)> uniform1ui;
+    func<OGLPAFP(Uniform2ui), void(uniform_location, uint_type, uint_type)>
+      uniform2ui;
+    func<
+      OGLPAFP(Uniform3ui),
+      void(uniform_location, uint_type, uint_type, uint_type)>
+      uniform3ui;
+    func<
+      OGLPAFP(Uniform4ui),
+      void(uniform_location, uint_type, uint_type, uint_type, uint_type)>
+      uniform4ui;
+
+    func<
+      OGLPAFP(Uniform1uiv),
+      void(uniform_location, sizei_type, const uint_type*)>
+      uniform1uiv;
+
+    func<
+      OGLPAFP(Uniform2uiv),
+      void(uniform_location, sizei_type, const uint_type*)>
+      uniform2uiv;
+
+    func<
+      OGLPAFP(Uniform3uiv),
+      void(uniform_location, sizei_type, const uint_type*)>
+      uniform3uiv;
+
+    func<
+      OGLPAFP(Uniform4uiv),
+      void(uniform_location, sizei_type, const uint_type*)>
+      uniform4uiv;
+
+    // int
+    func<OGLPAFP(Uniform1i), void(uniform_location, int_type)> uniform1i;
+    func<OGLPAFP(Uniform2i), void(uniform_location, int_type, int_type)>
+      uniform2i;
+    func<
+      OGLPAFP(Uniform3i),
+      void(uniform_location, int_type, int_type, int_type)>
+      uniform3i;
+    func<
+      OGLPAFP(Uniform4i),
+      void(uniform_location, int_type, int_type, int_type, int_type)>
+      uniform4i;
+
+    func<
+      OGLPAFP(Uniform1iv),
+      void(uniform_location, sizei_type, const int_type*)>
+      uniform1iv;
+
+    func<
+      OGLPAFP(Uniform2iv),
+      void(uniform_location, sizei_type, const int_type*)>
+      uniform2iv;
+
+    func<
+      OGLPAFP(Uniform3iv),
+      void(uniform_location, sizei_type, const int_type*)>
+      uniform3iv;
+
+    func<
+      OGLPAFP(Uniform4iv),
+      void(uniform_location, sizei_type, const int_type*)>
+      uniform4iv;
+
+    // float
     func<OGLPAFP(Uniform1f), void(uniform_location, float_type)> uniform1f;
     func<OGLPAFP(Uniform2f), void(uniform_location, float_type, float_type)>
       uniform2f;
@@ -491,6 +559,26 @@ public:
       OGLPAFP(Uniform4f),
       void(uniform_location, float_type, float_type, float_type, float_type)>
       uniform4f;
+
+    func<
+      OGLPAFP(Uniform1fv),
+      void(uniform_location, sizei_type, const float_type*)>
+      uniform1fv;
+
+    func<
+      OGLPAFP(Uniform2fv),
+      void(uniform_location, sizei_type, const float_type*)>
+      uniform2fv;
+
+    func<
+      OGLPAFP(Uniform3fv),
+      void(uniform_location, sizei_type, const float_type*)>
+      uniform3fv;
+
+    func<
+      OGLPAFP(Uniform4fv),
+      void(uniform_location, sizei_type, const float_type*)>
+      uniform4fv;
 
     // buffer ops
     func<OGLPAFP(BindBuffer), void(buffer_target, buffer_name)> bind_buffer;
@@ -737,10 +825,30 @@ public:
       , use_program("use_program", traits, *this)
       , get_attrib_location("get_attrib_location", traits, *this)
       , get_uniform_location("get_uniform_location", traits, *this)
+      , uniform1ui("uniform1ui", traits, *this)
+      , uniform2ui("uniform2ui", traits, *this)
+      , uniform3ui("uniform3ui", traits, *this)
+      , uniform4ui("uniform4ui", traits, *this)
+      , uniform1uiv("uniform1uiv", traits, *this)
+      , uniform2uiv("uniform2uiv", traits, *this)
+      , uniform3uiv("uniform3uiv", traits, *this)
+      , uniform4uiv("uniform4uiv", traits, *this)
+      , uniform1i("uniform1i", traits, *this)
+      , uniform2i("uniform2i", traits, *this)
+      , uniform3i("uniform3i", traits, *this)
+      , uniform4i("uniform4i", traits, *this)
+      , uniform1iv("uniform1iv", traits, *this)
+      , uniform2iv("uniform2iv", traits, *this)
+      , uniform3iv("uniform3iv", traits, *this)
+      , uniform4iv("uniform4iv", traits, *this)
       , uniform1f("uniform1f", traits, *this)
       , uniform2f("uniform2f", traits, *this)
       , uniform3f("uniform3f", traits, *this)
       , uniform4f("uniform4f", traits, *this)
+      , uniform1fv("uniform1fv", traits, *this)
+      , uniform2fv("uniform2fv", traits, *this)
+      , uniform3fv("uniform3fv", traits, *this)
+      , uniform4fv("uniform4fv", traits, *this)
       , bind_buffer("bind_buffer", traits, *this)
       , buffer_data("buffer_data", traits, *this)
       , bind_vertex_array("bind_vertex_array", traits, *this)
