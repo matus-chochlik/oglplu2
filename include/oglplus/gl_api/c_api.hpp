@@ -3516,6 +3516,9 @@ struct basic_gl_c_api {
       GetDebugMessageLog;
 
     // arb compatibility
+    gl_api_function<void(enum_type), nullptr> Begin;
+    gl_api_function<void(), nullptr> End;
+
     gl_api_function<void(enum_type), nullptr> MatrixMode;
 
     gl_api_function<void(void), nullptr> PushMatrix;
@@ -4734,6 +4737,8 @@ struct basic_gl_c_api {
       , GetObjectLabel("GetObjectLabel", traits, *this)
       , GetObjectPtrLabel("GetObjectPtrLabel", traits, *this)
       , GetDebugMessageLog("GetDebugMessageLog", traits, *this)
+      , Begin("Begin", traits, *this)
+      , End("End", traits, *this)
       , MatrixMode("MatrixMode", traits, *this)
       , PushMatrix("PushMatrix", traits, *this)
       , PopMatrix("PopMatrix", traits, *this)

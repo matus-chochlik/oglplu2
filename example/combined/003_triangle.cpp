@@ -1,5 +1,5 @@
 /**
- *  example oglplus/002_triangle.cpp
+ *  example oglplus/003_triangle.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -46,7 +46,7 @@ example_triangle::example_triangle(const example_context& ctx)
       vec3(-0.7f, -0.6f, 0.0f),
       vec3(0.6f, 0.2f, 0.0f)) {
 
-    auto& [gl, GL] = ctx.gl();
+    const auto& [gl, GL] = ctx.gl();
 
     gl.clear_color(0.4f, 0.4f, 0.4f, 0.0f);
 
@@ -90,16 +90,17 @@ example_triangle::example_triangle(const example_context& ctx)
     gl.bind_vertex_array(vao);
 
     // positions
-    gl_types::float_type position_data[6]{tri.a().x(),
-                                          tri.a().y(),
-                                          tri.b().x(),
-                                          tri.b().y(),
-                                          tri.c().x(),
-                                          tri.c().y()};
+    const auto position_data = GL.float_.array(
+      tri.a().x(),
+      tri.a().y(),
+      tri.b().x(),
+      tri.b().y(),
+      tri.c().x(),
+      tri.c().y());
 
     gl.gen_buffers() >> positions;
     gl.bind_buffer(GL.array_buffer, positions);
-    gl.buffer_data(GL.array_buffer, position_data, GL.static_draw);
+    gl.buffer_data(GL.array_buffer, view(position_data), GL.static_draw);
     vertex_attrib_location position_loc;
     gl.get_attrib_location(prog, "Position") >> position_loc;
 
@@ -107,12 +108,12 @@ example_triangle::example_triangle(const example_context& ctx)
     gl.enable_vertex_attrib_array(position_loc);
 
     // color colors
-    gl_types::float_type color_data[9]{
-      1.0f, 0.1f, 0.1f, 0.1f, 1.0f, 0.1f, 0.1f, 0.1f, 1.0f};
+    const auto color_data =
+      GL.float_.array(1.0f, 0.1f, 0.1f, 0.1f, 1.0f, 0.1f, 0.1f, 0.1f, 1.0f);
 
     gl.gen_buffers() >> colors;
     gl.bind_buffer(GL.array_buffer, colors);
-    gl.buffer_data(GL.array_buffer, color_data, GL.static_draw);
+    gl.buffer_data(GL.array_buffer, view(color_data), GL.static_draw);
     vertex_attrib_location color_loc;
     gl.get_attrib_location(prog, "Color") >> color_loc;
 
@@ -123,7 +124,7 @@ example_triangle::example_triangle(const example_context& ctx)
 }
 //------------------------------------------------------------------------------
 void example_triangle::cleanup(const example_context& ctx) {
-    auto& gl = ctx.gl();
+    const auto& gl = ctx.gl();
 
     gl.delete_program(std::move(prog));
 
@@ -137,13 +138,13 @@ void example_triangle::cleanup(const example_context& ctx) {
 }
 //------------------------------------------------------------------------------
 void example_triangle::resize(const example_context& ctx) {
-    auto& gl = ctx.gl();
+    const auto& gl = ctx.gl();
 
     gl.viewport(ctx.state().width(), ctx.state().height());
 }
 //------------------------------------------------------------------------------
 void example_triangle::render(const example_context& ctx) {
-    auto& [gl, GL] = ctx.gl();
+    const auto& [gl, GL] = ctx.gl();
 
     gl.clear(GL.color_buffer_bit);
     gl.draw_arrays(GL.triangles, 0, 3);

@@ -142,9 +142,10 @@ set(EXAMPLE_LIBS oglplus_example_harness ${OGLPLUS_GL_LIBRARIES})
 
 # add examples
 #add_examples(combined "[0-9][0-9][0-9]*" "${EXAMPLE_LIBS}")
-add_examples(combined "001_clear*" "${EXAMPLE_LIBS}")
-add_examples(combined "002_triangle*" "${EXAMPLE_LIBS}")
-add_examples(combined "004_pick*" "${EXAMPLE_LIBS}")
+add_examples(combined "001_*" "${EXAMPLE_LIBS}")
+add_examples(combined "002_*" "${EXAMPLE_LIBS}")
+add_examples(combined "003_*" "${EXAMPLE_LIBS}")
+add_examples(combined "004_*" "${EXAMPLE_LIBS}")
 
 add_custom_target(glsl_program_sources ALL)
 add_custom_target(glsl_shader_sources ALL)

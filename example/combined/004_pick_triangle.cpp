@@ -56,7 +56,7 @@ example_triangle::example_triangle(const example_context& ctx)
       vec3(-0.7f, -0.6f, 0.0f),
       vec3(0.6f, 0.2f, 0.0f)) {
 
-    auto& [gl, GL] = ctx.gl();
+    const auto& [gl, GL] = ctx.gl();
 
     gl.clear_color(0.4f, 0.4f, 0.4f, 0.0f);
 
@@ -126,7 +126,7 @@ example_triangle::example_triangle(const example_context& ctx)
 }
 //------------------------------------------------------------------------------
 void example_triangle::cleanup(const example_context& ctx) {
-    auto& gl = ctx.gl();
+    const auto& gl = ctx.gl();
 
     gl.delete_program(std::move(prog));
 
@@ -139,7 +139,7 @@ void example_triangle::cleanup(const example_context& ctx) {
 }
 //------------------------------------------------------------------------------
 void example_triangle::update_highlight(const example_context& ctx, float dt) {
-    auto& [gl, GL] = ctx.gl();
+    const auto& [gl, GL] = ctx.gl();
     EAGINE_MAYBE_UNUSED(GL);
 
     if(is_inside) {
@@ -165,7 +165,7 @@ void example_triangle::user_idle(const example_context& ctx) {
 }
 //------------------------------------------------------------------------------
 void example_triangle::resize(const example_context& ctx) {
-    auto& [gl, GL] = ctx.gl();
+    const auto& [gl, GL] = ctx.gl();
     EAGINE_MAYBE_UNUSED(GL);
     const auto& state = ctx.state();
     gl.viewport(state.width(), state.height());
@@ -176,7 +176,7 @@ seconds_t<float> example_triangle::default_timeout() {
 }
 //------------------------------------------------------------------------------
 void example_triangle::render(const example_context& ctx) {
-    auto& [gl, GL] = ctx.gl();
+    const auto& [gl, GL] = ctx.gl();
     gl.draw_arrays(GL.triangles, 0, 3);
 }
 //------------------------------------------------------------------------------

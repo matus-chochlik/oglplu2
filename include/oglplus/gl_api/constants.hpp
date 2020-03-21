@@ -12,6 +12,7 @@
 #include "c_api.hpp"
 #include "enum_types.hpp"
 #include "object_name.hpp"
+#include <array>
 
 namespace eagine {
 namespace oglp {
@@ -19,6 +20,28 @@ namespace oglp {
 template <typename ApiTraits>
 struct basic_gl_constants {
 public:
+    template <typename Wrap, typename T>
+    struct _type_constructor_constant;
+
+    template <typename Wrap, typename T>
+    struct _type_constructor_constant : Wrap {
+        using Wrap::Wrap;
+
+        template <typename X>
+        std::enable_if_t<std::is_convertible_v<X, T>, T> operator()(X&& x) const
+          noexcept {
+            return T(std::forward<X>(x));
+        }
+
+        template <typename... X>
+        std::enable_if_t<
+          (true && ... && std::is_convertible_v<std::decay_t<X>, T>),
+          std::array<T, sizeof...(X)>>
+        array(X&&... x) const noexcept {
+            return {{T(std::forward<X>(x))...}};
+        }
+    };
+
     using enum_type = typename gl_types::enum_type;
     using enum_type_i = identity<enum_type>;
     template <enum_type value>
@@ -4932,13 +4955,15 @@ public:
 #endif
       never;
 
-    opt_c_api_constant<
-      mp_list<data_type, sl_data_type, pixel_data_type>,
+    _type_constructor_constant<
+      opt_c_api_constant<
+        mp_list<data_type, sl_data_type, pixel_data_type>,
 #ifdef GL_FLOAT
-      enum_type_c<GL_FLOAT>>
+        enum_type_c<GL_FLOAT>>,
 #else
-      enum_type_i>
+        enum_type_i>,
 #endif
+      typename gl_types::float_type>
       float_;
 
     opt_c_api_constant<
@@ -4968,13 +4993,15 @@ public:
 #endif
       float_vec4;
 
-    opt_c_api_constant<
-      mp_list<data_type, sl_data_type>,
+    _type_constructor_constant<
+      opt_c_api_constant<
+        mp_list<data_type, sl_data_type>,
 #ifdef GL_DOUBLE
-      enum_type_c<GL_DOUBLE>>
+        enum_type_c<GL_DOUBLE>>,
 #else
-      enum_type_i>
+        enum_type_i>,
 #endif
+      typename gl_types::double_type>
       double_;
 
     opt_c_api_constant<

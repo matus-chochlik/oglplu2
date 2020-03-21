@@ -27,7 +27,7 @@ void example_clear::resize(const example_context& ctx) {
 }
 //------------------------------------------------------------------------------
 void example_clear::render(const example_context& ctx) {
-    auto& [gl, GL] = ctx.gl();
+    const auto& [gl, GL] = ctx.gl();
 
     int sec = int(ctx.state().exec_time());
 

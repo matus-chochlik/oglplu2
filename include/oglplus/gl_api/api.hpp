@@ -747,6 +747,11 @@ public:
             [](auto src) { return split_c_str_into_string_list(src, ' '); });
     }
 
+    func<OGLPAFP(Begin), void(old_primitive_type)> begin;
+    func<OGLPAFP(End)> end;
+
+    func<OGLPAFP(MatrixMode), void(matrix_mode)> matrix_mode;
+
     func<OGLPAFP(Flush)> flush;
     func<OGLPAFP(Finish)> finish;
 
@@ -867,6 +872,9 @@ public:
       , get_integer64("get_integer64", traits, *this)
       , get_float("get_float", traits, *this)
       , get_string("get_string", traits, *this)
+      , begin("begin", traits, *this)
+      , end("end", traits, *this)
+      , matrix_mode("matrix_mode", traits, *this)
       , flush("flush", traits, *this)
       , finish("finish", traits, *this) {
     }
