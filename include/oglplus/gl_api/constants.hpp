@@ -9,6 +9,8 @@
 #ifndef OGLPLUS_GL_API_CONSTANTS_HPP
 #define OGLPLUS_GL_API_CONSTANTS_HPP
 
+#include "../math/matrix.hpp"
+#include "../math/vector.hpp"
 #include "c_api.hpp"
 #include "enum_types.hpp"
 #include "object_name.hpp"
@@ -19,11 +21,8 @@ namespace oglp {
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
 struct basic_gl_constants {
-public:
-    template <typename Wrap, typename T>
-    struct _type_constructor_constant;
 
-    template <typename Wrap, typename T>
+    template <typename Wrap, typename T = typename Wrap::tag_type>
     struct _type_constructor_constant : Wrap {
         using Wrap::Wrap;
 
@@ -42,6 +41,33 @@ public:
         }
     };
 
+    template <typename Wrap, typename T, std::size_t N>
+    struct _type_constructor_constant<Wrap, T[N]> : Wrap {
+        using Wrap::Wrap;
+
+        template <typename... X>
+        std::enable_if_t<
+          ((sizeof...(X) == N) && ... && std::is_convertible_v<X, T>),
+          tvec<T, N>>
+        operator()(X&&... x) const noexcept {
+            return tvec<T, N>(T(std::forward<X>(x))...);
+        }
+    };
+
+    template <typename Wrap, typename T, std::size_t C, std::size_t R>
+    struct _type_constructor_constant<Wrap, T[C][R]> : Wrap {
+        using Wrap::Wrap;
+
+        template <typename... X>
+        std::enable_if_t<
+          ((sizeof...(X) == C * R) && ... && std::is_convertible_v<X, T>),
+          tmat<T, C, R>>
+        operator()(X&&... x) const noexcept {
+            return tmat<T, C, R>(T(std::forward<X>(x))...);
+        }
+    };
+
+public:
     using enum_type = typename gl_types::enum_type;
     using enum_type_i = identity<enum_type>;
     template <enum_type value>
@@ -4955,350 +4981,384 @@ public:
 #endif
       never;
 
-    _type_constructor_constant<
-      opt_c_api_constant<
-        mp_list<data_type, sl_data_type, pixel_data_type>,
+    _type_constructor_constant<opt_c_api_constant<
+      mp_list<data_type, sl_data_type, pixel_data_type>,
 #ifdef GL_FLOAT
-        enum_type_c<GL_FLOAT>>,
+      enum_type_c<GL_FLOAT>,
 #else
-        enum_type_i>,
+      enum_type_i,
 #endif
-      typename gl_types::float_type>
+      typename gl_types::float_type>>
       float_;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_FLOAT_VEC2
-      enum_type_c<GL_FLOAT_VEC2>>
+      enum_type_c<GL_FLOAT_VEC2>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::float_type[2]>>
       float_vec2;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_FLOAT_VEC3
-      enum_type_c<GL_FLOAT_VEC3>>
+      enum_type_c<GL_FLOAT_VEC3>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::float_type[3]>>
       float_vec3;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_FLOAT_VEC4
-      enum_type_c<GL_FLOAT_VEC4>>
+      enum_type_c<GL_FLOAT_VEC4>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::float_type[4]>>
       float_vec4;
 
-    _type_constructor_constant<
-      opt_c_api_constant<
-        mp_list<data_type, sl_data_type>,
+    _type_constructor_constant<opt_c_api_constant<
+      mp_list<data_type, sl_data_type>,
 #ifdef GL_DOUBLE
-        enum_type_c<GL_DOUBLE>>,
+      enum_type_c<GL_DOUBLE>,
 #else
-        enum_type_i>,
+      enum_type_i,
 #endif
-      typename gl_types::double_type>
+      typename gl_types::double_type>>
       double_;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_DOUBLE_VEC2
-      enum_type_c<GL_DOUBLE_VEC2>>
+      enum_type_c<GL_DOUBLE_VEC2>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::double_type[2]>>
       double_vec2;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_DOUBLE_VEC3
-      enum_type_c<GL_DOUBLE_VEC3>>
+      enum_type_c<GL_DOUBLE_VEC3>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::double_type[3]>>
       double_vec3;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_DOUBLE_VEC4
-      enum_type_c<GL_DOUBLE_VEC4>>
+      enum_type_c<GL_DOUBLE_VEC4>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::double_type[4]>>
       double_vec4;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<data_type, sl_data_type, pixel_data_type>,
 #ifdef GL_INT
-      enum_type_c<GL_INT>>
+      enum_type_c<GL_INT>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::int_type>>
       int_;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_INT_VEC2
-      enum_type_c<GL_INT_VEC2>>
+      enum_type_c<GL_INT_VEC2>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::int_type[2]>>
       int_vec2;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_INT_VEC3
-      enum_type_c<GL_INT_VEC3>>
+      enum_type_c<GL_INT_VEC3>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::int_type[3]>>
       int_vec3;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_INT_VEC4
-      enum_type_c<GL_INT_VEC4>>
+      enum_type_c<GL_INT_VEC4>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::int_type[4]>>
       int_vec4;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<data_type, sl_data_type, pixel_data_type, index_data_type>,
 #ifdef GL_UNSIGNED_INT
-      enum_type_c<GL_UNSIGNED_INT>>
+      enum_type_c<GL_UNSIGNED_INT>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::uint_type>>
       unsigned_int_;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_UNSIGNED_INT_VEC2
-      enum_type_c<GL_UNSIGNED_INT_VEC2>>
+      enum_type_c<GL_UNSIGNED_INT_VEC2>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::uint_type[2]>>
       unsigned_int_vec2;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_UNSIGNED_INT_VEC3
-      enum_type_c<GL_UNSIGNED_INT_VEC3>>
+      enum_type_c<GL_UNSIGNED_INT_VEC3>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::uint_type[3]>>
       unsigned_int_vec3;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_UNSIGNED_INT_VEC4
-      enum_type_c<GL_UNSIGNED_INT_VEC4>>
+      enum_type_c<GL_UNSIGNED_INT_VEC4>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::uint_type[4]>>
       unsigned_int_vec4;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<data_type, sl_data_type>,
 #ifdef GL_BOOL
-      enum_type_c<GL_BOOL>>
+      enum_type_c<GL_BOOL>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::bool_type>>
       bool_;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_BOOL_VEC2
-      enum_type_c<GL_BOOL_VEC2>>
+      enum_type_c<GL_BOOL_VEC2>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::bool_type[2]>>
       bool_vec2;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_BOOL_VEC3
-      enum_type_c<GL_BOOL_VEC3>>
+      enum_type_c<GL_BOOL_VEC3>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::bool_type[3]>>
       bool_vec3;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_BOOL_VEC4
-      enum_type_c<GL_BOOL_VEC4>>
+      enum_type_c<GL_BOOL_VEC4>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::bool_type[4]>>
       bool_vec4;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_FLOAT_MAT2
-      enum_type_c<GL_FLOAT_MAT2>>
+      enum_type_c<GL_FLOAT_MAT2>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::float_type[2][2]>>
       float_mat2;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_FLOAT_MAT3
-      enum_type_c<GL_FLOAT_MAT3>>
+      enum_type_c<GL_FLOAT_MAT3>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::float_type[3][3]>>
       float_mat3;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_FLOAT_MAT4
-      enum_type_c<GL_FLOAT_MAT4>>
+      enum_type_c<GL_FLOAT_MAT4>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::float_type[4][4]>>
       float_mat4;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_FLOAT_MAT2x3
-      enum_type_c<GL_FLOAT_MAT2x3>>
+      enum_type_c<GL_FLOAT_MAT2x3>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::float_type[2][3]>>
       float_mat2x3;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_FLOAT_MAT2x4
-      enum_type_c<GL_FLOAT_MAT2x4>>
+      enum_type_c<GL_FLOAT_MAT2x4>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::float_type[2][4]>>
       float_mat2x4;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_FLOAT_MAT3x2
-      enum_type_c<GL_FLOAT_MAT3x2>>
+      enum_type_c<GL_FLOAT_MAT3x2>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::float_type[3][2]>>
       float_mat3x2;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_FLOAT_MAT3x4
-      enum_type_c<GL_FLOAT_MAT3x4>>
+      enum_type_c<GL_FLOAT_MAT3x4>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::float_type[3][4]>>
       float_mat3x4;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_FLOAT_MAT4x2
-      enum_type_c<GL_FLOAT_MAT4x2>>
+      enum_type_c<GL_FLOAT_MAT4x2>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::float_type[4][2]>>
       float_mat4x2;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_FLOAT_MAT4x3
-      enum_type_c<GL_FLOAT_MAT4x3>>
+      enum_type_c<GL_FLOAT_MAT4x3>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::float_type[4][3]>>
       float_mat4x3;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_DOUBLE_MAT2
-      enum_type_c<GL_DOUBLE_MAT2>>
+      enum_type_c<GL_DOUBLE_MAT2>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::double_type[2][2]>>
       double_mat2;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_DOUBLE_MAT3
-      enum_type_c<GL_DOUBLE_MAT3>>
+      enum_type_c<GL_DOUBLE_MAT3>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::double_type[3][3]>>
       double_mat3;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_DOUBLE_MAT4
-      enum_type_c<GL_DOUBLE_MAT4>>
+      enum_type_c<GL_DOUBLE_MAT4>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::double_type[4][4]>>
       double_mat4;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_DOUBLE_MAT2x3
-      enum_type_c<GL_DOUBLE_MAT2x3>>
+      enum_type_c<GL_DOUBLE_MAT2x3>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::double_type[2][3]>>
       double_mat2x3;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_DOUBLE_MAT2x4
-      enum_type_c<GL_DOUBLE_MAT2x4>>
+      enum_type_c<GL_DOUBLE_MAT2x4>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::double_type[2][4]>>
       double_mat2x4;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_DOUBLE_MAT3x2
-      enum_type_c<GL_DOUBLE_MAT3x2>>
+      enum_type_c<GL_DOUBLE_MAT3x2>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::double_type[3][2]>>
       double_mat3x2;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_DOUBLE_MAT3x4
-      enum_type_c<GL_DOUBLE_MAT3x4>>
+      enum_type_c<GL_DOUBLE_MAT3x4>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::double_type[3][4]>>
       double_mat3x4;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_DOUBLE_MAT4x2
-      enum_type_c<GL_DOUBLE_MAT4x2>>
+      enum_type_c<GL_DOUBLE_MAT4x2>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::double_type[4][2]>>
       double_mat4x2;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<sl_data_type>,
 #ifdef GL_DOUBLE_MAT4x3
-      enum_type_c<GL_DOUBLE_MAT4x3>>
+      enum_type_c<GL_DOUBLE_MAT4x3>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::double_type[4][3]>>
       double_mat4x3;
 
     opt_c_api_constant<

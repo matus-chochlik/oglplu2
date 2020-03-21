@@ -102,16 +102,17 @@ example_triangle::example_triangle(const example_context& ctx)
     gl.bind_vertex_array(vao);
 
     // positions
-    gl_types::float_type position_data[6]{tri.a().x(),
-                                          tri.a().y(),
-                                          tri.b().x(),
-                                          tri.b().y(),
-                                          tri.c().x(),
-                                          tri.c().y()};
+    const auto position_data = GL.float_.array(
+      tri.a().x(),
+      tri.a().y(),
+      tri.b().x(),
+      tri.b().y(),
+      tri.c().x(),
+      tri.c().y());
 
     gl.gen_buffers() >> positions;
     gl.bind_buffer(GL.array_buffer, positions);
-    gl.buffer_data(GL.array_buffer, position_data, GL.static_draw);
+    gl.buffer_data(GL.array_buffer, view(position_data), GL.static_draw);
     vertex_attrib_location position_loc;
     gl.get_attrib_location(prog, "Position") >> position_loc;
 
