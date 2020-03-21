@@ -15,42 +15,45 @@
 
 namespace eagine {
 namespace oglp {
-
+//------------------------------------------------------------------------------
 class example_clear : public example {
 public:
-    void resize(const example_context& ctx) final {
-        ctx.gl().viewport(ctx.state().width(), ctx.state().height());
-    }
-
-    void render(const example_context& ctx) final {
-        auto& [gl, GL] = ctx.gl();
-
-        int sec = int(ctx.state().exec_time());
-
-        gl.clear_color(
-          (sec % 3 == 0) ? 1.f : 0.f,
-          (sec % 3 == 1) ? 1.f : 0.f,
-          (sec % 3 == 2) ? 1.f : 0.f,
-          0.0f);
-
-        gl.clear(GL.color_buffer_bit);
-    }
+    void resize(const example_context& ctx) final;
+    void render(const example_context& ctx) final;
 };
+//------------------------------------------------------------------------------
+void example_clear::resize(const example_context& ctx) {
+    ctx.gl().viewport(ctx.state().width(), ctx.state().height());
+}
+//------------------------------------------------------------------------------
+void example_clear::render(const example_context& ctx) {
+    auto& [gl, GL] = ctx.gl();
 
+    int sec = int(ctx.state().exec_time());
+
+    gl.clear_color(
+      (sec % 3 == 0) ? 1.f : 0.f,
+      (sec % 3 == 1) ? 1.f : 0.f,
+      (sec % 3 == 2) ? 1.f : 0.f,
+      0.0f);
+
+    gl.clear(GL.color_buffer_bit);
+}
+//------------------------------------------------------------------------------
 std::unique_ptr<example> make_example(
   const example_args&, const example_context&) {
     return {std::make_unique<example_clear>()};
 }
-
+//------------------------------------------------------------------------------
 void adjust_params(example_params& params) {
     params.depth_buffer(false);
     params.stencil_buffer(false);
 }
-
+//------------------------------------------------------------------------------
 bool is_example_param(const example_arg&) {
     return false;
 }
-
+//------------------------------------------------------------------------------
 } // namespace oglp
 } // namespace eagine
 
