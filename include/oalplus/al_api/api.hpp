@@ -46,8 +46,14 @@ public:
         }
     };
 
-    template <typename W, W c_api::*F>
-    class func
+    template <
+      typename W,
+      W c_api::*F,
+      typename Signature = typename W::signature>
+    class func;
+
+    template <typename W, W c_api::*F, typename RVC, typename... Params>
+    class func<W, F, RVC(Params...)>
       : public wrapped_c_api_function<c_api, api_traits, nothing_t, W, F> {
         using base = wrapped_c_api_function<c_api, api_traits, nothing_t, W, F>;
 
@@ -61,11 +67,17 @@ public:
     protected:
         template <typename... Args>
         constexpr auto _chkcall(Args&&... args) const noexcept {
-            return this->_check(this->call(std::forward<Args>(args)...));
+            return this->_check(this->_call(std::forward<Args>(args)...));
         }
+
+        using base::_conv;
 
     public:
         using base::base;
+
+        constexpr auto operator()(Params... params) const noexcept {
+            return this->_chkcall(_conv(params)...).cast_to(identity<RVC>{});
+        }
     };
 
     template <typename ObjTag, typename W, W c_api::*GenObjects>
@@ -182,20 +194,20 @@ public:
         constexpr auto operator()(listener_attribute attr, int_type v0) const
           noexcept {
             return this->_check(
-              this->call(this->api().Listeneri, enum_type(attr), v0));
+              this->_call(this->api().Listeneri, enum_type(attr), v0));
         }
 
         constexpr auto operator()(
           listener_attribute attr, int_type v0, int_type v1, int_type v2) const
           noexcept {
             return this->_check(
-              this->call(this->api().Listener3i, enum_type(attr), v0, v1, v2));
+              this->_call(this->api().Listener3i, enum_type(attr), v0, v1, v2));
         }
 
         constexpr auto operator()(
           listener_attribute attr, span<const int_type> v) const noexcept {
             return this->_check(
-              this->call(this->api().Listeneriv, enum_type(attr), v.data()));
+              this->_call(this->api().Listeneriv, enum_type(attr), v.data()));
         }
     } listener_i;
 
@@ -211,7 +223,7 @@ public:
         constexpr auto operator()(listener_attribute attr, float_type v0) const
           noexcept {
             return this->_check(
-              this->call(this->api().Listenerf, enum_type(attr), v0));
+              this->_call(this->api().Listenerf, enum_type(attr), v0));
         }
 
         constexpr auto operator()(
@@ -220,13 +232,13 @@ public:
           float_type v1,
           float_type v2) const noexcept {
             return this->_check(
-              this->call(this->api().Listener3f, enum_type(attr), v0, v1, v2));
+              this->_call(this->api().Listener3f, enum_type(attr), v0, v1, v2));
         }
 
         constexpr auto operator()(
           listener_attribute attr, span<const float_type> v) const noexcept {
             return this->_check(
-              this->call(this->api().Listenerfv, enum_type(attr), v.data()));
+              this->_call(this->api().Listenerfv, enum_type(attr), v.data()));
         }
     } listener_f;
 
@@ -261,7 +273,7 @@ public:
 
         constexpr auto operator()(
           buffer_name src, buffer_attribute attr, int_type v0) const noexcept {
-            return this->_check(this->call(
+            return this->_check(this->_call(
               this->api().Bufferi, name_type(src), enum_type(attr), v0));
         }
 
@@ -271,7 +283,7 @@ public:
           int_type v0,
           int_type v1,
           int_type v2) const noexcept {
-            return this->_check(this->call(
+            return this->_check(this->_call(
               this->api().Buffer3i,
               name_type(src),
               enum_type(attr),
@@ -283,7 +295,7 @@ public:
         constexpr auto operator()(
           buffer_name src, buffer_attribute attr, span<const int_type> v) const
           noexcept {
-            return this->_check(this->call(
+            return this->_check(this->_call(
               this->api().Bufferiv, name_type(src), enum_type(attr), v.data()));
         }
     } buffer_i;
@@ -300,7 +312,7 @@ public:
         constexpr auto operator()(
           buffer_name src, buffer_attribute attr, float_type v0) const
           noexcept {
-            return this->_check(this->call(
+            return this->_check(this->_call(
               this->api().Bufferf, name_type(src), enum_type(attr), v0));
         }
 
@@ -310,7 +322,7 @@ public:
           float_type v0,
           float_type v1,
           float_type v2) const noexcept {
-            return this->_check(this->call(
+            return this->_check(this->_call(
               this->api().Buffer3f,
               name_type(src),
               enum_type(attr),
@@ -323,7 +335,7 @@ public:
           buffer_name src,
           buffer_attribute attr,
           span<const float_type> v) const noexcept {
-            return this->_check(this->call(
+            return this->_check(this->_call(
               this->api().Bufferfv, name_type(src), enum_type(attr), v.data()));
         }
     } buffer_f;
@@ -361,7 +373,7 @@ public:
 
         constexpr auto operator()(
           source_name src, source_attribute attr, int_type v0) const noexcept {
-            return this->_check(this->call(
+            return this->_check(this->_call(
               this->api().Sourcei, name_type(src), enum_type(attr), v0));
         }
 
@@ -371,7 +383,7 @@ public:
           int_type v0,
           int_type v1,
           int_type v2) const noexcept {
-            return this->_check(this->call(
+            return this->_check(this->_call(
               this->api().Source3i,
               name_type(src),
               enum_type(attr),
@@ -383,7 +395,7 @@ public:
         constexpr auto operator()(
           source_name src, source_attribute attr, span<const int_type> v) const
           noexcept {
-            return this->_check(this->call(
+            return this->_check(this->_call(
               this->api().Sourceiv, name_type(src), enum_type(attr), v.data()));
         }
     } source_i;
@@ -400,7 +412,7 @@ public:
         constexpr auto operator()(
           source_name src, source_attribute attr, float_type v0) const
           noexcept {
-            return this->_check(this->call(
+            return this->_check(this->_call(
               this->api().Sourcef, name_type(src), enum_type(attr), v0));
         }
 
@@ -410,7 +422,7 @@ public:
           float_type v0,
           float_type v1,
           float_type v2) const noexcept {
-            return this->_check(this->call(
+            return this->_check(this->_call(
               this->api().Source3f,
               name_type(src),
               enum_type(attr),
@@ -423,7 +435,7 @@ public:
           source_name src,
           source_attribute attr,
           span<const float_type> v) const noexcept {
-            return this->_check(this->call(
+            return this->_check(this->_call(
               this->api().Sourcefv, name_type(src), enum_type(attr), v.data()));
         }
     } source_f;
@@ -495,11 +507,11 @@ public:
 
         constexpr auto operator()(source_name src) const noexcept {
             return this->_check(
-              this->call(this->api().SourcePlay, name_type(src)));
+              this->_call(this->api().SourcePlay, name_type(src)));
         }
 
         constexpr auto operator()(span<const name_type> srcs) const noexcept {
-            return this->_check(this->call(
+            return this->_check(this->_call(
               this->api().SourcePlayv, size_type(srcs.size()), srcs.data()));
         }
     } source_play;
@@ -515,11 +527,11 @@ public:
 
         constexpr auto operator()(source_name src) const noexcept {
             return this->_check(
-              this->call(this->api().SourcePausev, name_type(src)));
+              this->_call(this->api().SourcePausev, name_type(src)));
         }
 
         constexpr auto operator()(span<const name_type> srcs) const noexcept {
-            return this->_check(this->call(
+            return this->_check(this->_call(
               this->api().SourcePausev, size_type(srcs.size()), srcs.data()));
         }
     } source_pause;
@@ -535,11 +547,11 @@ public:
 
         constexpr auto operator()(source_name src) const noexcept {
             return this->_check(
-              this->call(this->api().SourceStop, name_type(src)));
+              this->_call(this->api().SourceStop, name_type(src)));
         }
 
         constexpr auto operator()(span<const name_type> srcs) const noexcept {
-            return this->_check(this->call(
+            return this->_check(this->_call(
               this->api().SourceStopv, size_type(srcs.size()), srcs.data()));
         }
     } source_stop;
@@ -555,11 +567,11 @@ public:
 
         constexpr auto operator()(source_name src) const noexcept {
             return this->_check(
-              this->call(this->api().SourceRewind, name_type(src)));
+              this->_call(this->api().SourceRewind, name_type(src)));
         }
 
         constexpr auto operator()(span<const name_type> srcs) const noexcept {
-            return this->_check(this->call(
+            return this->_check(this->_call(
               this->api().SourceRewindv, size_type(srcs.size()), srcs.data()));
         }
     } source_rewind;
@@ -573,7 +585,7 @@ public:
         }
 
         constexpr auto operator()() const noexcept {
-            return this->fake("");
+            return this->_fake("");
         }
     } get_string;
 

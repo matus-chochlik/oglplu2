@@ -37,8 +37,14 @@ public:
     using display_type = typename egl_types::display_type;
     using config_type = typename egl_types::config_type;
 
-    template <typename W, W c_api::*F>
-    class func
+    template <
+      typename W,
+      W c_api::*F,
+      typename Signature = typename W::signature>
+    class func;
+
+    template <typename W, W c_api::*F, typename RVC, typename... Params>
+    class func<W, F, RVC(Params...)>
       : public wrapped_c_api_function<c_api, api_traits, nothing_t, W, F> {
         using base = wrapped_c_api_function<c_api, api_traits, nothing_t, W, F>;
 
@@ -52,11 +58,17 @@ public:
     protected:
         template <typename... Args>
         constexpr auto _chkcall(Args&&... args) const noexcept {
-            return this->_check(this->call(std::forward<Args>(args)...));
+            return this->_check(this->_call(std::forward<Args>(args)...));
         }
+
+        using base::_conv;
 
     public:
         using base::base;
+
+        constexpr auto operator()(Params... params) const noexcept {
+            return this->_chkcall(_conv(params)...).cast_to(identity<RVC>{});
+        }
     };
 
     // get_platform_display
@@ -83,19 +95,16 @@ public:
 #ifdef EGL_DEFAULT_DISPLAY
             return this->_chkcall(EGL_DEFAULT_DISPLAY);
 #else
-            return this->fake({});
+            return this->_fake({});
 #endif
         }
     } get_display;
 
     // initialize
     struct : func<EGLPAFP(Initialize)> {
-        using func<EGLPAFP(Initialize)>::func;
-
-        constexpr auto operator()(
-          display_type disp, int_type* maj, int_type* min) const noexcept {
-            return this->_chkcall(disp, maj, min);
-        }
+        using base = func<EGLPAFP(Initialize)>;
+        using base::base;
+        using base::operator();
 
         constexpr auto operator()(display_type disp) const noexcept {
             int_type maj{-1};
@@ -109,10 +118,6 @@ public:
     // terminate
     struct : func<EGLPAFP(Terminate)> {
         using func<EGLPAFP(Terminate)>::func;
-
-        constexpr auto operator()(display_type disp) const noexcept {
-            return this->_chkcall(disp);
-        }
 
         auto raii(display_type disp) noexcept {
             return eagine::finally([=]() { (*this)(disp); });
@@ -244,7 +249,7 @@ public:
         }
 
         constexpr auto operator()() const noexcept {
-            return this->fake("");
+            return this->_fake("");
         }
     } query_string;
 
@@ -290,13 +295,7 @@ public:
     }
 
     // swap_buffers
-    struct : func<EGLPAFP(SwapBuffers)> {
-        using func<EGLPAFP(SwapBuffers)>::func;
-
-        constexpr auto operator()() const noexcept {
-            return this->_chkcall();
-        }
-    } swap_buffers;
+    func<EGLPAFP(SwapBuffers)> swap_buffers;
 
     constexpr basic_egl_api(api_traits& traits)
       : c_api{traits}

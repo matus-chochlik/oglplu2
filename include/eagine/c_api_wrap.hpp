@@ -11,8 +11,10 @@
 #define EAGINE_C_API_WRAP_HPP
 
 #include "assert.hpp"
+#include "enum_bitfield.hpp"
 #include "enum_class.hpp"
 #include "extract.hpp"
+#include "handle.hpp"
 #include "identity.hpp"
 #include "int_constant.hpp"
 #include "is_within_limits.hpp"
@@ -766,7 +768,7 @@ template <typename Api, typename ApiTraits, typename Tag>
 class derived_c_api_function {
 protected:
     template <typename RV, typename... Params, typename... Args>
-    static constexpr typename ApiTraits::template no_result<RV> call(
+    static constexpr typename ApiTraits::template no_result<RV> _call(
       const unimplemented_c_api_function<ApiTraits, Tag, RV(Params...)>&,
       Args&&...) noexcept {
         return {};
@@ -777,14 +779,14 @@ protected:
       typename... Params,
       typename... Args,
       RV (*Func)(Params...)>
-    static constexpr typename ApiTraits::template result<RV> call(
+    static constexpr typename ApiTraits::template result<RV> _call(
       static_c_api_function<ApiTraits, Tag, RV(Params...), Func>& function,
       Args&&... args) noexcept {
         return {std::move(function(std::forward<Args>(args)...))};
     }
 
     template <typename... Params, typename... Args, void (*Func)(Params...)>
-    static constexpr typename ApiTraits::template result<void> call(
+    static constexpr typename ApiTraits::template result<void> _call(
       static_c_api_function<ApiTraits, Tag, void(Params...), Func>& function,
       Args&&... args) noexcept {
         function(std::forward<Args>(args)...);
@@ -792,7 +794,7 @@ protected:
     }
 
     template <typename RV, typename... Params, typename... Args>
-    static constexpr typename ApiTraits::template opt_result<RV> call(
+    static constexpr typename ApiTraits::template opt_result<RV> _call(
       dynamic_c_api_function<ApiTraits, Tag, RV(Params...)>& function,
       Args&&... args) noexcept {
         return {
@@ -800,7 +802,7 @@ protected:
     }
 
     template <typename... Params, typename... Args>
-    static constexpr typename ApiTraits::template opt_result<void> call(
+    static constexpr typename ApiTraits::template opt_result<void> _call(
       dynamic_c_api_function<ApiTraits, Tag, void(Params...)>& function,
       Args&&... args) noexcept {
         function(std::forward<Args>(args)...);
@@ -808,7 +810,7 @@ protected:
     }
 
     template <typename RV, typename... Params>
-    static constexpr typename ApiTraits::template result<RV> fake(
+    static constexpr typename ApiTraits::template result<RV> _fake(
       const unimplemented_c_api_function<ApiTraits, Tag, RV(Params...)>&,
       RV fallback) noexcept {
         return {std::move(fallback)};
@@ -819,14 +821,14 @@ protected:
       typename... Params,
       RV (*Func)(Params...),
       typename F>
-    static constexpr typename ApiTraits::template result<RV> fake(
+    static constexpr typename ApiTraits::template result<RV> _fake(
       const static_c_api_function<ApiTraits, Tag, RV(Params...), Func>&,
       F&& fallback) noexcept {
         return {std::forward<F>(fallback)};
     }
 
     template <typename RV, typename... Params, typename F>
-    static constexpr typename ApiTraits::template result<RV> fake(
+    static constexpr typename ApiTraits::template result<RV> _fake(
       const dynamic_c_api_function<ApiTraits, Tag, RV(Params...)>&,
       F&& fallback) noexcept {
         return {std::forward<F>(fallback)};
@@ -865,13 +867,38 @@ class wrapped_c_api_function
 
 protected:
     template <typename... Args>
-    constexpr auto call(Args&&... args) const noexcept {
-        return base::call(this->api().*Function, std::forward<Args>(args)...);
+    constexpr auto _call(Args&&... args) const noexcept {
+        return base::_call(this->api().*Function, std::forward<Args>(args)...);
     }
 
     template <typename F>
-    constexpr auto fake(F&& fallback) const noexcept {
-        return base::fake(this->api().*Function, std::forward<F>(fallback));
+    constexpr auto _fake(F&& fallback) const noexcept {
+        return base::_fake(this->api().*Function, std::forward<F>(fallback));
+    }
+
+    template <typename Arg>
+    static constexpr inline std::enable_if_t<std::is_scalar_v<Arg>, Arg> _conv(
+      Arg arg) noexcept {
+        return arg;
+    }
+
+    template <typename S, typename T, identifier_t L, identifier_t I>
+    static constexpr inline auto _conv(enum_class<S, T, L, I> value) noexcept {
+        return T(value);
+    }
+
+    template <typename EC>
+    static constexpr inline auto _conv(enum_bitfield<EC> bits) noexcept {
+        return _conv(bits._value);
+    }
+
+    template <typename Tg, typename T, T inv>
+    static constexpr inline auto _conv(basic_handle<Tg, T, inv> hndl) noexcept {
+        return T(hndl);
+    }
+
+    static constexpr inline auto _conv(string_view str) noexcept {
+        return c_str(str);
     }
 
 public:

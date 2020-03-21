@@ -105,7 +105,8 @@ public:
         vertex_attrib_location position_loc;
         gl.get_attrib_location(prog, "Position") >> position_loc;
 
-        gl.vertex_attrib_pointer(position_loc, 2, GL.float_, GL.false_);
+        gl.vertex_attrib_pointer(
+          position_loc, 2, GL.float_, GL.false_, 0, nullptr);
         gl.enable_vertex_attrib_array(position_loc);
 
         // uniform

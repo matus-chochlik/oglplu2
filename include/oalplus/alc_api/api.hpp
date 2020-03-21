@@ -34,8 +34,14 @@ public:
     using char_type = typename alc_types::char_type;
     using int_type = typename alc_types::int_type;
 
-    template <typename W, W c_api::*F>
-    class func
+    template <
+      typename W,
+      W c_api::*F,
+      typename Signature = typename W::signature>
+    class func;
+
+    template <typename W, W c_api::*F, typename RVC, typename... Params>
+    class func<W, F, RVC(Params...)>
       : public wrapped_c_api_function<c_api, api_traits, nothing_t, W, F> {
         using base = wrapped_c_api_function<c_api, api_traits, nothing_t, W, F>;
 
@@ -50,11 +56,17 @@ public:
         template <typename... Args>
         constexpr auto _chkcall(device_handle dev, Args&&... args) const
           noexcept {
-            return this->_check(dev, this->call(std::forward<Args>(args)...));
+            return this->_check(dev, this->_call(std::forward<Args>(args)...));
         }
+
+        using base::_conv;
 
     public:
         using base::base;
+
+        constexpr auto operator()(Params... params) const noexcept {
+            return this->_chkcall(_conv(params)...).cast_to(identity<RVC>{});
+        }
     };
 
     // open_device
@@ -192,7 +204,7 @@ public:
         }
 
         constexpr auto operator()(device_handle) const noexcept {
-            return this->fake("");
+            return this->_fake("");
         }
     } get_string;
 

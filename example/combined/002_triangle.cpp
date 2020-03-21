@@ -96,7 +96,8 @@ public:
         vertex_attrib_location position_loc;
         gl.get_attrib_location(prog, "Position") >> position_loc;
 
-        gl.vertex_attrib_pointer(position_loc, 2, GL.float_, GL.false_);
+        gl.vertex_attrib_pointer(
+          position_loc, 2, GL.float_, GL.false_, 0, nullptr);
         gl.enable_vertex_attrib_array(position_loc);
 
         // color colors
@@ -109,7 +110,8 @@ public:
         vertex_attrib_location color_loc;
         gl.get_attrib_location(prog, "Color") >> color_loc;
 
-        gl.vertex_attrib_pointer(color_loc, 3, GL.float_, GL.false_);
+        gl.vertex_attrib_pointer(
+          color_loc, 3, GL.float_, GL.false_, 0, nullptr);
         gl.enable_vertex_attrib_array(color_loc);
 
         gl.disable(GL.depth_test);

@@ -41,8 +41,14 @@ public:
         }
     };
 
-    template <typename W, W c_api::*F>
-    class func
+    template <
+      typename W,
+      W c_api::*F,
+      typename Signature = typename W::signature>
+    class func;
+
+    template <typename W, W c_api::*F, typename RVC, typename... Params>
+    class func<W, F, RVC(Params...)>
       : public wrapped_c_api_function<c_api, api_traits, nothing_t, W, F> {
         using base = wrapped_c_api_function<c_api, api_traits, nothing_t, W, F>;
 
@@ -56,38 +62,31 @@ public:
     protected:
         template <typename... Args>
         constexpr auto _chkcall(Args&&... args) const noexcept {
-            return this->_check(this->call(std::forward<Args>(args)...));
+            return this->_check(this->_call(std::forward<Args>(args)...));
         }
+
+        using base::_conv;
 
     public:
         using base::base;
+
+        constexpr auto operator()(Params... params) const noexcept {
+            return this->_chkcall(_conv(params)...).cast_to(identity<RVC>{});
+        }
     };
 
     // init
-    struct : func<OALPAFP(Init)> {
-        using func<OALPAFP(Init)>::func;
-
-        constexpr auto operator()(int* argcp, char** argvp) const noexcept {
-            return this->_chkcall(argcp, argvp);
-        }
-    } init;
+    func<OALPAFP(Init)> init;
 
     // create_buffer_hello_world
-    struct : func<OALPAFP(CreateBufferHelloWorld)> {
-        using func<OALPAFP(CreateBufferHelloWorld)>::func;
-
-        constexpr auto operator()() const noexcept {
-            return this->_chkcall().cast_to(identity<owned_buffer_name>{});
-        }
-    } create_buffer_hello_world;
+    func<OALPAFP(CreateBufferHelloWorld), owned_buffer_name()>
+      create_buffer_hello_world;
 
     // exit
     struct : func<OALPAFP(Exit)> {
-        using func<OALPAFP(Exit)>::func;
-
-        constexpr auto operator()() const noexcept {
-            return this->_chkcall();
-        }
+        using base = func<OALPAFP(Exit)>;
+        using base::base;
+        using base::operator();
 
         auto raii() noexcept {
             return eagine::finally([=]() { (*this)(); });
