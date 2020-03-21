@@ -47,8 +47,14 @@ public:
     using void_ptr_type = typename gl_types::void_ptr_type;
     using const_void_ptr_type = typename gl_types::const_void_ptr_type;
 
-    template <typename W, W c_api::*F>
-    class func
+    template <
+      typename W,
+      W c_api::*F,
+      typename Signature = typename W::signature>
+    class func;
+
+    template <typename W, W c_api::*F, typename RVC, typename... Params>
+    class func<W, F, RVC(Params...)>
       : public wrapped_c_api_function<c_api, api_traits, nothing_t, W, F> {
         using base = wrapped_c_api_function<c_api, api_traits, nothing_t, W, F>;
 
@@ -65,8 +71,34 @@ public:
             return this->_check(this->call(std::forward<Args>(args)...));
         }
 
+        template <typename Arg>
+        static constexpr inline std::enable_if_t<std::is_scalar_v<Arg>, Arg>
+        _conv(Arg arg) noexcept {
+            return arg;
+        }
+
+        template <typename S, typename T, identifier_t L, identifier_t I>
+        static constexpr inline auto _conv(
+          enum_class<S, T, L, I> value) noexcept {
+            return T(value);
+        }
+
+        template <typename EC>
+        static constexpr inline auto _conv(enum_bitfield<EC> bits) noexcept {
+            return _conv(bits._value);
+        }
+
+        template <typename Tag>
+        static constexpr inline auto _conv(gl_object_name<Tag> name) noexcept {
+            return name_type(name);
+        }
+
     public:
         using base::base;
+
+        constexpr auto operator()(Params... params) const noexcept {
+            return this->_chkcall(_conv(params)...).cast_to(identity<RVC>{});
+        }
     };
 
     // generate / create objects
@@ -273,24 +305,11 @@ public:
     } delete_paths_nv;
 
     // is_object
-    struct : func<OGLPAFP(IsSync)> {
-        using func<OGLPAFP(IsSync)>::func;
-
-        constexpr true_false operator()(sync_type sync) const noexcept {
-            return this->_chkcall(sync).cast_to(identity<true_false>{});
-        }
-    } is_sync;
+    func<OGLPAFP(IsSync), true_false(sync_type)> is_sync;
 
     template <typename ObjTag, typename W, W c_api::*IsObject>
-    struct is_object_func : func<W, IsObject> {
-        using func<W, IsObject>::func;
-
-        constexpr true_false operator()(gl_object_name<ObjTag> name) const
-          noexcept {
-            return this->_chkcall(name_type(name))
-              .cast_to(identity<true_false>{});
-        }
-    };
+    using is_object_func =
+      func<W, IsObject, true_false(gl_object_name<ObjTag>)>;
 
     is_object_func<buffer_tag, OGLPAFP(IsBuffer)> is_buffer;
 
@@ -319,132 +338,43 @@ public:
     is_object_func<path_nv_tag, OGLPAFP(IsPathNV)> is_path_nv;
 
     // enable
-    struct : func<OGLPAFP(Enable)> {
-        using func<OGLPAFP(Enable)>::func;
-
-        constexpr auto operator()(capability cap) const noexcept {
-            return this->_chkcall(enum_type(cap));
-        }
-    } enable;
-
-    struct : func<OGLPAFP(Enablei)> {
-        using func<OGLPAFP(Enablei)>::func;
-
-        constexpr auto operator()(capability cap, uint_type idx) const
-          noexcept {
-            return this->_chkcall(enum_type(cap), idx);
-        }
-    } enablei;
+    func<OGLPAFP(Enable), void(capability)> enable;
+    func<OGLPAFP(Enablei), void(capability, uint_type)> enablei;
 
     // disable
-    struct : func<OGLPAFP(Disable)> {
-        using func<OGLPAFP(Disable)>::func;
-
-        constexpr auto operator()(capability cap) const noexcept {
-            return this->_chkcall(enum_type(cap));
-        }
-    } disable;
-
-    struct : func<OGLPAFP(Disablei)> {
-        using func<OGLPAFP(Disablei)>::func;
-
-        constexpr auto operator()(capability cap, uint_type idx) const
-          noexcept {
-            return this->_chkcall(enum_type(cap), idx);
-        }
-    } disablei;
+    func<OGLPAFP(Disable), void(capability)> disable;
+    func<OGLPAFP(Disablei), void(capability, uint_type)> disablei;
 
     // is_enabled
-    struct : func<OGLPAFP(IsEnabled)> {
-        using func<OGLPAFP(IsEnabled)>::func;
-
-        constexpr auto operator()(capability cap) const noexcept {
-            return this->_chkcall(enum_type(cap))
-              .cast_to(identity<true_false>{});
-        }
-    } is_enabled;
-
-    struct : func<OGLPAFP(IsEnabledi)> {
-        using func<OGLPAFP(IsEnabledi)>::func;
-
-        constexpr auto operator()(capability cap, uint_type idx) const
-          noexcept {
-            return this->_chkcall(enum_type(cap), idx)
-              .cast_to(identity<true_false>{});
-        }
-    } is_enabledi;
+    func<OGLPAFP(IsEnabled), true_false(capability)> is_enabled;
+    func<OGLPAFP(IsEnabledi), true_false(capability, uint_type)> is_enabledi;
 
     // memory barrier
-    struct : func<OGLPAFP(MemoryBarrier)> {
-        using func<OGLPAFP(MemoryBarrier)>::func;
+    func<OGLPAFP(MemoryBarrier), void(enum_bitfield<memory_barrier_bit>)>
+      memory_barrier;
 
-        constexpr auto operator()(enum_bitfield<memory_barrier_bit> bits) const
-          noexcept {
-            return this->_chkcall(bitfield_type(bits));
-        }
-    } memory_barrier;
-
-    struct : func<OGLPAFP(MemoryBarrierByRegion)> {
-        using func<OGLPAFP(MemoryBarrierByRegion)>::func;
-
-        constexpr auto operator()(enum_bitfield<memory_barrier_bit> bits) const
-          noexcept {
-            return this->_chkcall(bitfield_type(bits));
-        }
-    } memory_barrier_by_region;
+    func<
+      OGLPAFP(MemoryBarrierByRegion),
+      void(enum_bitfield<memory_barrier_bit>)>
+      memory_barrier_by_region;
 
     // viewport
     struct : func<OGLPAFP(Viewport)> {
-        using func<OGLPAFP(Viewport)>::func;
+        using base = func<OGLPAFP(Viewport)>;
 
-        constexpr auto operator()(
-          int_type x, int_type y, sizei_type w, sizei_type h) const noexcept {
-            return this->_chkcall(x, y, w, h);
-        }
+        using base::base;
+        using base::operator();
 
         constexpr auto operator()(sizei_type w, sizei_type h) const noexcept {
-            return this->_chkcall(0, 0, w, h);
+            return base::operator()(0, 0, w, h);
         }
     } viewport;
 
-    // clear_color
-    struct : func<OGLPAFP(ClearColor)> {
-        using func<OGLPAFP(ClearColor)>::func;
-
-        constexpr auto operator()(
-          float_type r, float_type g, float_type b, float_type a) const
-          noexcept {
-            return this->_chkcall(r, g, b, a);
-        }
-    } clear_color;
-
-    // clear_depth
-    struct : func<OGLPAFP(ClearDepth)> {
-        using func<OGLPAFP(ClearDepth)>::func;
-
-        constexpr auto operator()(float_type d) const noexcept {
-            return this->_chkcall(d);
-        }
-    } clear_depth;
-
-    // clear_stencil
-    struct : func<OGLPAFP(ClearStencil)> {
-        using func<OGLPAFP(ClearStencil)>::func;
-
-        constexpr auto operator()(int_type s) const noexcept {
-            return this->_chkcall(s);
-        }
-    } clear_stencil;
-
     // clear
-    struct : func<OGLPAFP(Clear)> {
-        using func<OGLPAFP(Clear)>::func;
-
-        constexpr auto operator()(enum_bitfield<buffer_clear_bit> mask) const
-          noexcept {
-            return this->_chkcall(bitfield_type(mask));
-        }
-    } clear;
+    func<OGLPAFP(ClearColor)> clear_color;
+    func<OGLPAFP(ClearDepth)> clear_depth;
+    func<OGLPAFP(ClearStencil)> clear_stencil;
+    func<OGLPAFP(Clear), void(enum_bitfield<buffer_clear_bit>)> clear;
 
     // shader ops
     struct : func<OGLPAFP(ShaderSource)> {
@@ -596,6 +526,16 @@ public:
               .cast_to(identity<vertex_attrib_location>{});
         }
     } get_attrib_location;
+
+    struct : func<OGLPAFP(GetUniformLocation)> {
+        using func<OGLPAFP(GetUniformLocation)>::func;
+
+        constexpr auto operator()(program_name prog, string_view name) const
+          noexcept {
+            return this->_chkcall(name_type(prog), c_str(name))
+              .cast_to(identity<uniform_location>{});
+        }
+    } get_uniform_location;
 
     // buffer ops
     struct : func<OGLPAFP(BindBuffer)> {
@@ -918,6 +858,7 @@ public:
       , get_program_info_log("get_program_info_log", traits, *this)
       , use_program("use_program", traits, *this)
       , get_attrib_location("get_attrib_location", traits, *this)
+      , get_uniform_location("get_uniform_location", traits, *this)
       , bind_buffer("bind_buffer", traits, *this)
       , buffer_data("buffer_data", traits, *this)
       , bind_vertex_array("bind_vertex_array", traits, *this)

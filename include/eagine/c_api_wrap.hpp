@@ -256,6 +256,14 @@ public:
         return this->_cast_to(*this, tid);
     }
 
+    const auto& cast_to(identity<void>) const noexcept {
+        return *this;
+    }
+
+    const auto& cast_to(identity<nothing_t>) const noexcept {
+        return *this;
+    }
+
     template <typename Transform>
     auto transformed(Transform transform) const {
         return this->_transformed(*this, transform);
@@ -376,6 +384,10 @@ public:
     template <typename T>
     auto cast_to(identity<T> tid) const {
         return this->_cast_to(*this, tid);
+    }
+
+    const auto& cast_to(identity<void>) const noexcept {
+        return *this;
     }
 
     const auto& cast_to(identity<nothing_t>) const noexcept {
@@ -530,6 +542,10 @@ public:
         return this->_cast_to(*this, tid);
     }
 
+    const auto& cast_to(identity<void>) const noexcept {
+        return *this;
+    }
+
     const auto& cast_to(identity<nothing_t>) const noexcept {
         return *this;
     }
@@ -654,6 +670,8 @@ class unimplemented_c_api_function<ApiTraits, Tag, RV(Params...)>
     using base = c_api_function_base<ApiTraits, false>;
 
 public:
+    using signature = RV(Params...);
+
     template <typename Api>
     constexpr unimplemented_c_api_function(
       string_view name, const ApiTraits&, Api&)
@@ -678,6 +696,8 @@ class static_c_api_function<ApiTraits, Tag, RV(Params...), function>
     using base = c_api_function_base<ApiTraits, true>;
 
 public:
+    using signature = RV(Params...);
+
     template <typename Api>
     constexpr static_c_api_function(string_view name, const ApiTraits&, Api&)
       : base(name) {
@@ -699,6 +719,8 @@ class dynamic_c_api_function<ApiTraits, Tag, RV(Params...)>
     using function_pointer = c_api_function_ptr<ApiTraits, Tag, RV(Params...)>;
 
 public:
+    using signature = RV(Params...);
+
     template <typename Api>
     constexpr dynamic_c_api_function(
       string_view name, ApiTraits& traits, Api& api)

@@ -15,7 +15,6 @@
 #include <oglplus/math/primitives.hpp>
 #include "example.hpp"
 // clang-format on
-#include <iostream>
 
 namespace eagine {
 namespace oglp {
@@ -83,7 +82,7 @@ public:
         gl.gen_vertex_arrays() >> vao;
         gl.bind_vertex_array(vao);
 
-        // position loc
+        // positions
         gl_types::float_type position_data[6]{tri.a().x(),
                                               tri.a().y(),
                                               tri.b().x(),
@@ -100,7 +99,7 @@ public:
         gl.vertex_attrib_pointer(position_loc, 2, GL.float_, GL.false_);
         gl.enable_vertex_attrib_array(position_loc);
 
-        // color buffer
+        // color colors
         gl_types::float_type color_data[9]{
           1.0f, 0.1f, 0.1f, 0.1f, 1.0f, 0.1f, 0.1f, 0.1f, 1.0f};
 
