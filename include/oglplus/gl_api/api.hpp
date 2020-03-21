@@ -35,6 +35,7 @@ public:
     using int_type = typename gl_types::int_type;
     using uint_type = typename gl_types::uint_type;
     using int64_type = typename gl_types::int64_type;
+    using intptr_type = typename gl_types::intptr_type;
     using bool_type = typename gl_types::bool_type;
     using char_type = typename gl_types::char_type;
     using enum_type = typename gl_types::enum_type;
@@ -632,18 +633,70 @@ public:
       vertex_attrib_pointer;
 
     // drawing
+    // arrays
     func<OGLPAFP(DrawArrays), void(primitive_type, int_type, sizei_type)>
       draw_arrays;
+
+    func<
+      OGLPAFP(DrawArraysInstancedBaseInstance),
+      void(primitive_type, int_type, sizei_type, sizei_type, uint_type)>
+      draw_arrays_instanced_base_instance;
 
     func<
       OGLPAFP(DrawArraysInstanced),
       void(primitive_type, int_type, sizei_type, sizei_type)>
       draw_arrays_instanced;
 
+    func<OGLPAFP(DrawArraysIndirect), void(primitive_type, const_void_ptr_type)>
+      draw_arrays_indirect;
+
+    func<
+      OGLPAFP(MultiDrawArrays),
+      void(primitive_type, const int_type*, const sizei_type*, sizei_type)>
+      multi_draw_arrays;
+
+    func<
+      OGLPAFP(MultiDrawArraysIndirect),
+      void(primitive_type, const_void_ptr_type, sizei_type, sizei_type)>
+      multi_draw_arrays_indirect;
+
+    func<
+      OGLPAFP(MultiDrawArraysIndirectCount),
+      void(
+        primitive_type,
+        const_void_ptr_type,
+        intptr_type,
+        sizei_type,
+        sizei_type)>
+      multi_draw_arrays_indirect_count;
+
+    // elements
     func<
       OGLPAFP(DrawElements),
       void(primitive_type, sizei_type, index_data_type, const_void_ptr_type)>
       draw_elements;
+
+    func<
+      OGLPAFP(DrawRangeElements),
+      void(
+        primitive_type,
+        uint_type,
+        uint_type,
+        sizei_type,
+        index_data_type,
+        const_void_ptr_type)>
+      draw_range_elements;
+
+    func<
+      OGLPAFP(DrawElementsInstancedBaseInstance),
+      void(
+        primitive_type,
+        sizei_type,
+        index_data_type,
+        const_void_ptr_type,
+        sizei_type,
+        uint_type)>
+      draw_elements_instanced_base_instance;
 
     func<
       OGLPAFP(DrawElementsInstanced),
@@ -654,6 +707,60 @@ public:
         const_void_ptr_type,
         sizei_type)>
       draw_elements_instanced;
+
+    func<
+      OGLPAFP(DrawElementsIndirect),
+      void(primitive_type, index_data_type, const_void_ptr_type)>
+      draw_elements_indirect;
+
+    func<
+      OGLPAFP(DrawElementsBaseVertex),
+      void(
+        primitive_type,
+        sizei_type,
+        index_data_type,
+        const_void_ptr_type,
+        int_type)>
+      draw_elements_base_vertex;
+
+    func<
+      OGLPAFP(DrawRangeElements),
+      void(
+        primitive_type,
+        uint_type,
+        uint_type,
+        sizei_type,
+        index_data_type,
+        const_void_ptr_type,
+        int_type)>
+      draw_range_elements_base_vertex;
+
+    func<
+      OGLPAFP(DrawElementsInstancedBaseVertex),
+      void(
+        primitive_type,
+        sizei_type,
+        index_data_type,
+        const_void_ptr_type,
+        sizei_type,
+        int_type)>
+      draw_elements_instanced_base_vertex;
+
+    func<
+      OGLPAFP(DrawElementsInstancedBaseVertexBaseInstance),
+      void(
+        primitive_type,
+        sizei_type,
+        index_data_type,
+        const_void_ptr_type,
+        sizei_type,
+        int_type,
+        uint_type)>
+      draw_elements_instanced_base_vertex_base_instance;
+
+    // computing
+    func<OGLPAFP(DispatchCompute)> dispatch_compute;
+    func<OGLPAFP(DispatchComputeIndirect)> dispatch_compute_indirect;
 
     // get_integer
     struct : func<OGLPAFP(GetIntegerv)> {
@@ -958,9 +1065,29 @@ public:
           "disable_vertex_array_attrib", traits, *this)
       , vertex_attrib_pointer("vertex_attrib_pointer", traits, *this)
       , draw_arrays("draw_arrays", traits, *this)
+      , draw_arrays_instanced_base_instance(
+          "draw_arrays_instanced_base_instance", traits, *this)
       , draw_arrays_instanced("draw_arrays_instanced", traits, *this)
+      , draw_arrays_indirect("draw_arrays_indirect", traits, *this)
+      , multi_draw_arrays("multi_draw_arrays", traits, *this)
+      , multi_draw_arrays_indirect("multi_draw_arrays_indirect", traits, *this)
+      , multi_draw_arrays_indirect_count(
+          "multi_draw_arrays_indirect_count", traits, *this)
       , draw_elements("draw_elements", traits, *this)
+      , draw_range_elements("draw_range_elements", traits, *this)
+      , draw_elements_instanced_base_instance(
+          "draw_elements_instanced_base_instance", traits, *this)
       , draw_elements_instanced("draw_elements_instanced", traits, *this)
+      , draw_elements_indirect("draw_elements_indirect", traits, *this)
+      , draw_elements_base_vertex("draw_elements_base_vertex", traits, *this)
+      , draw_range_elements_base_vertex(
+          "draw_range_elements_base_vertex", traits, *this)
+      , draw_elements_instanced_base_vertex(
+          "draw_elements_instanced_base_vertex", traits, *this)
+      , draw_elements_instanced_base_vertex_base_instance(
+          "draw_elements_instanced_base_vertex_base_instance", traits, *this)
+      , dispatch_compute("dispatch_compute", traits, *this)
+      , dispatch_compute_indirect("dispatch_compute_indirect", traits, *this)
       , get_integer("get_integer", traits, *this)
       , get_integer64("get_integer64", traits, *this)
       , get_float("get_float", traits, *this)
