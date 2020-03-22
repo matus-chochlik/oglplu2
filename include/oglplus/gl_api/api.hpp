@@ -766,6 +766,48 @@ public:
         bool_type)>
       texture_storage2d_multisample;
 
+    func<
+      OGLPAFP(TexImage3D),
+      void(
+        texture_target,
+        int_level,
+        pixel_internal_format,
+        sizei_type,
+        sizei_type,
+        sizei_type,
+        int_type,
+        pixel_format,
+        pixel_data_type,
+        const_void_ptr_type)>
+      tex_image3d;
+
+    func<
+      OGLPAFP(TexImage2D),
+      void(
+        texture_target,
+        int_level,
+        pixel_internal_format,
+        sizei_type,
+        sizei_type,
+        int_type,
+        pixel_format,
+        pixel_data_type,
+        const_void_ptr_type)>
+      tex_image2d;
+
+    func<
+      OGLPAFP(TexImage1D),
+      void(
+        texture_target,
+        int_level,
+        pixel_internal_format,
+        sizei_type,
+        int_type,
+        pixel_format,
+        pixel_data_type,
+        const_void_ptr_type)>
+      tex_image1d;
+
     // drawing
     // arrays
     func<OGLPAFP(DrawArrays), void(primitive_type, int_type, sizei_type)>
@@ -1215,6 +1257,9 @@ public:
       , tex_storage2d_multisample("tex_storage2d_multisample", traits, *this)
       , texture_storage2d_multisample(
           "texture_storage2d_multisample", traits, *this)
+      , tex_image3d("tex_image3d", traits, *this)
+      , tex_image2d("tex_image2d", traits, *this)
+      , tex_image1d("tex_image1d", traits, *this)
       , draw_arrays("draw_arrays", traits, *this)
       , draw_arrays_instanced_base_instance(
           "draw_arrays_instanced_base_instance", traits, *this)
