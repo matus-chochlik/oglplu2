@@ -1,5 +1,5 @@
 /**
- *  .file oglplus/example/camera.cpp
+ *  .file oglplus/example/context.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.

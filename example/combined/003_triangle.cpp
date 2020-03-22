@@ -15,6 +15,7 @@
 #include <oglplus/math/primitives.hpp>
 #include "example.hpp"
 // clang-format on
+#include <iostream>
 
 namespace eagine {
 namespace oglp {
@@ -36,8 +37,7 @@ class example_triangle : public example {
 
 public:
     bool check_requirements(const example_context& ctx) final;
-    void init(const example_context& ctx) final;
-    void cleanup(const example_context& ctx) final;
+    void init(example_context& ctx) final;
     void resize(const example_context& ctx) final;
     void render(const example_context& ctx) final;
 };
@@ -56,7 +56,9 @@ bool example_triangle ::check_requirements(const example_context& ctx) {
            r(gl.draw_arrays) && r(GL.vertex_shader) && r(GL.fragment_shader);
 }
 //------------------------------------------------------------------------------
-void example_triangle::init(const example_context& ctx) {
+void example_triangle::init(example_context& ctx) {
+    auto& cleanup = ctx.cleanup();
+    cleanup.add([] { std::cout << "BAGER" << std::endl; });
 
     const auto& [gl, GL] = ctx.gl();
 
@@ -64,6 +66,7 @@ void example_triangle::init(const example_context& ctx) {
 
     // vertex shader
     gl.create_shader(GL.vertex_shader) >> vs;
+    gl.delete_shader.later_by(cleanup, vs);
     gl.shader_source(
       vs,
       glsl_literal("#version 140\n"
@@ -79,6 +82,7 @@ void example_triangle::init(const example_context& ctx) {
 
     // fragment shader
     gl.create_shader(GL.fragment_shader) >> fs;
+    gl.delete_shader.later_by(cleanup, fs);
     gl.shader_source(
       fs,
       glsl_literal("#version 140\n"
@@ -92,6 +96,7 @@ void example_triangle::init(const example_context& ctx) {
 
     // program
     gl.create_program() >> prog;
+    gl.delete_program.later_by(cleanup, prog);
     gl.attach_shader(prog, vs);
     gl.attach_shader(prog, fs);
     gl.link_program(prog);
@@ -99,6 +104,7 @@ void example_triangle::init(const example_context& ctx) {
 
     // vao
     gl.gen_vertex_arrays() >> vao;
+    gl.delete_vertex_arrays.later_by(cleanup, vao);
     gl.bind_vertex_array(vao);
 
     // positions
@@ -111,6 +117,7 @@ void example_triangle::init(const example_context& ctx) {
       tri.c().y());
 
     gl.gen_buffers() >> positions;
+    gl.delete_buffers.later_by(cleanup, positions);
     gl.bind_buffer(GL.array_buffer, positions);
     gl.buffer_data(GL.array_buffer, view(position_data), GL.static_draw);
     vertex_attrib_location position_loc;
@@ -124,6 +131,7 @@ void example_triangle::init(const example_context& ctx) {
       GL.float_.array(1.0f, 0.1f, 0.1f, 0.1f, 1.0f, 0.1f, 0.1f, 0.1f, 1.0f);
 
     gl.gen_buffers() >> colors;
+    gl.delete_buffers.later_by(cleanup, colors);
     gl.bind_buffer(GL.array_buffer, colors);
     gl.buffer_data(GL.array_buffer, view(color_data), GL.static_draw);
     vertex_attrib_location color_loc;
@@ -133,20 +141,8 @@ void example_triangle::init(const example_context& ctx) {
     gl.enable_vertex_attrib_array(color_loc);
 
     gl.disable(GL.depth_test);
-}
-//------------------------------------------------------------------------------
-void example_triangle::cleanup(const example_context& ctx) {
-    const auto& gl = ctx.gl();
 
-    gl.delete_program(std::move(prog));
-
-    gl.delete_shader(std::move(fs));
-    gl.delete_shader(std::move(vs));
-
-    gl.delete_vertex_arrays(std::move(vao));
-
-    gl.delete_buffers(std::move(colors));
-    gl.delete_buffers(std::move(positions));
+    cleanup.add([] { std::cout << "MEDVED" << std::endl; });
 }
 //------------------------------------------------------------------------------
 void example_triangle::resize(const example_context& ctx) {

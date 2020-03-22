@@ -20,7 +20,7 @@ struct example {
 
     virtual bool check_requirements(const example_context& ctx) = 0;
 
-    virtual void init(const example_context&) {
+    virtual void init(example_context&) {
     }
 
     virtual seconds_t<float> default_timeout() {
@@ -44,7 +44,8 @@ struct example {
 
     virtual void render(const example_context&) = 0;
 
-    virtual void cleanup(const example_context&) {
+    virtual void cleanup(example_context& ctx) {
+        ctx.cleanup().clear();
     }
 };
 //------------------------------------------------------------------------------

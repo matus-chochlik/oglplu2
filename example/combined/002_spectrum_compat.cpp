@@ -22,7 +22,7 @@ class example_spectrum : public example {
 
 public:
     bool check_requirements(const example_context& ctx) final;
-    void init(const example_context& ctx) final;
+    void init(example_context& ctx) final;
     void resize(const example_context& ctx) final;
     void render(const example_context& ctx) final;
 };
@@ -38,7 +38,7 @@ bool example_spectrum::check_requirements(const example_context& ctx) {
            r(GL.triangle_fan) && r(GL.line_loop);
 }
 //------------------------------------------------------------------------------
-void example_spectrum::init(const example_context& ctx) {
+void example_spectrum::init(example_context& ctx) {
     const auto& gl = ctx.gl();
     gl.clear_color(0.4f, 0.4f, 0.4f, 0.0f);
 }

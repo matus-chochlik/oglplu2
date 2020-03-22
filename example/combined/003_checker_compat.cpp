@@ -27,7 +27,7 @@ class example_checked : public example {
 
 public:
     bool check_requirements(const example_context& ctx) final;
-    void init(const example_context& ctx) final;
+    void init(example_context& ctx) final;
     void resize(const example_context& ctx) final;
     void render(const example_context& ctx) final;
 };
@@ -46,13 +46,15 @@ bool example_checked::check_requirements(const example_context& ctx) {
            r(gl.attach_shader) && r(gl.link_program);
 }
 //------------------------------------------------------------------------------
-void example_checked::init(const example_context& ctx) {
+void example_checked::init(example_context& ctx) {
+    auto& cleanup = ctx.cleanup();
     const auto& [gl, GL] = ctx.gl();
 
     gl.clear_color(0.4f, 0.4f, 0.4f, 0.0f);
 
     // fragment shader
     gl.create_shader(GL.fragment_shader) >> fs;
+    gl.delete_shader.later_by(cleanup, fs);
     gl.shader_source(
       fs,
       glsl_literal(
@@ -71,6 +73,7 @@ void example_checked::init(const example_context& ctx) {
 
     // program
     gl.create_program() >> prog;
+    gl.delete_program.later_by(cleanup, prog);
     gl.attach_shader(prog, fs);
     gl.link_program(prog);
     gl.use_program(prog);

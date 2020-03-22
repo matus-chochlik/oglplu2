@@ -70,6 +70,7 @@ bool example_wrapper::is_ready() const {
 void example_wrapper::destroy() {
     if(_example) {
         _example->cleanup(_context);
+        EAGINE_ASSERT(_context.cleanup().is_empty());
         _example.reset();
     }
 }

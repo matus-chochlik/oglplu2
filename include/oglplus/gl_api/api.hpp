@@ -92,6 +92,10 @@ public:
         constexpr auto operator()(Params... params) const noexcept {
             return this->_chkcall(_conv(params)...).cast_to(identity<RVC>{});
         }
+
+        auto bind(Params... params) const noexcept {
+            return [=] { return (*this)(params...); };
+        }
     };
 
     // generate / create objects
@@ -203,8 +207,18 @@ public:
             return this->_chkcall(sync);
         }
 
+        auto bind(sync_type sync) const noexcept {
+            return [this, sync] { return (*this)(sync); };
+        }
+
+        template <typename Alloc>
+        auto& later_by(
+          basic_cleanup_group<Alloc>& cleanup, sync_type sync) const {
+            return cleanup.add_ret(bind(sync));
+        }
+
         auto raii(sync_type& sync) noexcept {
-            return eagine::finally([this, &sync]() { (*this)(sync); });
+            return eagine::finally(bind(sync));
         }
     } delete_sync;
 
@@ -222,17 +236,19 @@ public:
             return this->_chkcall(1, &n);
         }
 
-        auto raii(gl_owned_object_name<ObjTag>& name) noexcept {
-            return eagine::finally([this, &name]() { (*this)(name); });
+        auto bind(gl_owned_object_name<ObjTag>& name) const noexcept {
+            return [this, &name] { (*this)(std::move(name)); };
         }
 
-        template <typename Res>
-        auto raii_opt(Res& res) noexcept {
-            return eagine::finally([this, &res]() {
-                if(res) {
-                    (*this)(extract(res));
-                }
-            });
+        template <typename Alloc>
+        auto& later_by(
+          basic_cleanup_group<Alloc>& cleanup,
+          gl_owned_object_name<ObjTag>& name) const {
+            return cleanup.add_ret(bind(name));
+        }
+
+        auto raii(gl_owned_object_name<ObjTag>& name) noexcept {
+            return eagine::finally(bind(name));
         }
     };
 
@@ -243,8 +259,18 @@ public:
             return this->_chkcall(name.release());
         }
 
+        auto bind(owned_shader_name& name) const noexcept {
+            return [this, &name] { return (*this)(std::move(name)); };
+        }
+
+        template <typename Alloc>
+        auto& later_by(
+          basic_cleanup_group<Alloc>& cleanup, owned_shader_name& name) const {
+            return cleanup.add_ret(bind(name));
+        }
+
         auto raii(owned_shader_name& name) noexcept {
-            return eagine::finally([this, &name]() { (*this)(name); });
+            return eagine::finally(bind(name));
         }
     } delete_shader;
 
@@ -255,8 +281,18 @@ public:
             return this->_chkcall(name.release());
         }
 
+        auto bind(owned_program_name& name) const noexcept {
+            return [this, &name] { return (*this)(std::move(name)); };
+        }
+
+        template <typename Alloc>
+        auto& later_by(
+          basic_cleanup_group<Alloc>& cleanup, owned_program_name& name) const {
+            return cleanup.add_ret(bind(name));
+        }
+
         auto raii(owned_program_name& name) noexcept {
-            return eagine::finally([this, &name]() { (*this)(name); });
+            return eagine::finally(bind(name));
         }
     } delete_program;
 

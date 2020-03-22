@@ -43,8 +43,8 @@ private:
 
 public:
     bool check_requirements(const example_context& ctx) final;
-    void init(const example_context& ctx) final;
-    void cleanup(const example_context& ctx) final;
+    void init(example_context& ctx) final;
+    void cleanup(example_context& ctx) final;
     void update_highlight(const example_context& ctx, float dt);
     void pointer_motion(const example_context& ctx);
     void user_idle(const example_context& ctx);
@@ -68,7 +68,7 @@ bool example_triangle::check_requirements(const example_context& ctx) {
            r(GL.vertex_shader) && r(GL.fragment_shader);
 }
 //------------------------------------------------------------------------------
-void example_triangle::init(const example_context& ctx) {
+void example_triangle::init(example_context& ctx) {
 
     const auto& [gl, GL] = ctx.gl();
 
@@ -140,7 +140,7 @@ void example_triangle::init(const example_context& ctx) {
     gl.disable(GL.depth_test);
 }
 //------------------------------------------------------------------------------
-void example_triangle::cleanup(const example_context& ctx) {
+void example_triangle::cleanup(example_context& ctx) {
     const auto& gl = ctx.gl();
 
     gl.delete_program(std::move(prog));

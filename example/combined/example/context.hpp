@@ -12,13 +12,18 @@
 #include "args.hpp"
 #include "params.hpp"
 #include "state_view.hpp"
+#include <eagine/cleanup_group.hpp>
+#include <eagine/memory/c_realloc.hpp>
 #include <memory>
 
 namespace eagine {
 namespace oglp {
-
+//------------------------------------------------------------------------------
 class gl_api;
-
+//------------------------------------------------------------------------------
+using example_cleanup_group = basic_cleanup_group<
+  memory::c_byte_reallocator<memory::byte_alloc_managed_policy>>;
+//------------------------------------------------------------------------------
 class example_requirement_marker {
 public:
     template <typename X>
@@ -27,11 +32,15 @@ public:
         return bool(x);
     }
 };
-
+//------------------------------------------------------------------------------
 class example_context {
 public:
     example_context(example_args&, example_params&, example_state&);
     ~example_context() noexcept;
+
+    example_cleanup_group& cleanup() noexcept {
+        return _cleanup;
+    }
 
     example_state& state() noexcept {
         return _state;
@@ -52,11 +61,12 @@ public:
     const example_context& debug_notification(string_view message) const;
 
 private:
+    example_cleanup_group _cleanup{};
     example_params& _params;
     example_state& _state;
     std::shared_ptr<gl_api> _gl_ptr{};
 };
-
+//------------------------------------------------------------------------------
 } // namespace oglp
 } // namespace eagine
 
