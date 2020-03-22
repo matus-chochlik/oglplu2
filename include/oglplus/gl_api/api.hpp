@@ -32,6 +32,7 @@ public:
     using c_api = basic_gl_c_api<ApiTraits>;
 
     using sizei_type = typename gl_types::sizei_type;
+    using sizeiptr_type = typename gl_types::sizeiptr_type;
     using int_type = typename gl_types::int_type;
     using uint_type = typename gl_types::uint_type;
     using int64_type = typename gl_types::int64_type;
@@ -770,7 +771,7 @@ public:
       OGLPAFP(TexImage3D),
       void(
         texture_target,
-        int_level,
+        int_type,
         pixel_internal_format,
         sizei_type,
         sizei_type,
@@ -785,7 +786,7 @@ public:
       OGLPAFP(TexImage2D),
       void(
         texture_target,
-        int_level,
+        int_type,
         pixel_internal_format,
         sizei_type,
         sizei_type,
@@ -799,7 +800,7 @@ public:
       OGLPAFP(TexImage1D),
       void(
         texture_target,
-        int_level,
+        int_type,
         pixel_internal_format,
         sizei_type,
         int_type,
@@ -807,6 +808,209 @@ public:
         pixel_data_type,
         const_void_ptr_type)>
       tex_image1d;
+
+    func<
+      OGLPAFP(TexSubImage3D),
+      void(
+        texture_target,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type,
+        sizei_type,
+        pixel_format,
+        pixel_data_type,
+        const_void_ptr_type)>
+      tex_sub_image3d;
+
+    func<
+      OGLPAFP(TextureSubImage3D),
+      void(
+        texture_name,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type,
+        sizei_type,
+        pixel_format,
+        pixel_data_type,
+        const_void_ptr_type)>
+      texture_sub_image3d;
+
+    func<
+      OGLPAFP(TexSubImage2D),
+      void(
+        texture_target,
+        int_type,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type,
+        pixel_format,
+        pixel_data_type,
+        const_void_ptr_type)>
+      tex_sub_image2d;
+
+    func<
+      OGLPAFP(TextureSubImage2D),
+      void(
+        texture_name,
+        int_type,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type,
+        pixel_format,
+        pixel_data_type,
+        const_void_ptr_type)>
+      texture_sub_image2d;
+
+    func<
+      OGLPAFP(TexSubImage1D),
+      void(
+        texture_target,
+        int_type,
+        int_type,
+        sizei_type,
+        pixel_format,
+        pixel_data_type,
+        const_void_ptr_type)>
+      tex_sub_image1d;
+
+    func<
+      OGLPAFP(TexSubImage1D),
+      void(
+        texture_name,
+        int_type,
+        int_type,
+        sizei_type,
+        pixel_format,
+        pixel_data_type,
+        const_void_ptr_type)>
+      texture_sub_image1d;
+
+    func<
+      OGLPAFP(CopyTexImage2D),
+      void(
+        texture_target,
+        int_type,
+        pixel_internal_format,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type,
+        int_type)>
+      copy_tex_image2d;
+
+    func<
+      OGLPAFP(CopyTexImage1D),
+      void(
+        texture_target,
+        int_type,
+        pixel_internal_format,
+        int_type,
+        int_type,
+        sizei_type,
+        int_type)>
+      copy_tex_image1d;
+
+    func<
+      OGLPAFP(CopyTexSubImage3D),
+      void(
+        texture_target,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type)>
+      copy_tex_sub_image3d;
+
+    func<
+      OGLPAFP(CopyTextureSubImage3D),
+      void(
+        texture_name,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type)>
+      copy_texture_sub_image3d;
+
+    func<
+      OGLPAFP(CopyTexSubImage2D),
+      void(
+        texture_target,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type)>
+      copy_tex_sub_image2d;
+
+    func<
+      OGLPAFP(CopyTextureSubImage2D),
+      void(
+        texture_name,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type)>
+      copy_texture_sub_image2d;
+
+    func<
+      OGLPAFP(CopyTexSubImage1D),
+      void(texture_target, int_type, int_type, int_type, int_type, sizei_type)>
+      copy_tex_sub_image1d;
+
+    func<
+      OGLPAFP(CopyTextureSubImage1D),
+      void(texture_name, int_type, int_type, int_type, int_type, sizei_type)>
+      copy_texture_sub_image1d;
+
+    func<
+      OGLPAFP(TexBuffer),
+      void(texture_target, pixel_internal_format, buffer_name)>
+      tex_buffer;
+
+    func<
+      OGLPAFP(TextureBuffer),
+      void(texture_name, pixel_internal_format, buffer_name)>
+      texture_buffer;
+
+    func<
+      OGLPAFP(TexBufferRange),
+      void(
+        texture_target,
+        pixel_internal_format,
+        buffer_name,
+        intptr_type,
+        sizeiptr_type)>
+      tex_buffer_range;
+
+    func<
+      OGLPAFP(TextureBufferRange),
+      void(
+        texture_name,
+        pixel_internal_format,
+        buffer_name,
+        intptr_type,
+        sizeiptr_type)>
+      texture_buffer_range;
 
     // drawing
     // arrays
@@ -1260,6 +1464,24 @@ public:
       , tex_image3d("tex_image3d", traits, *this)
       , tex_image2d("tex_image2d", traits, *this)
       , tex_image1d("tex_image1d", traits, *this)
+      , tex_sub_image3d("tex_sub_image3d", traits, *this)
+      , texture_sub_image3d("texture_sub_image3d", traits, *this)
+      , tex_sub_image2d("tex_sub_image2d", traits, *this)
+      , texture_sub_image2d("texture_sub_image2d", traits, *this)
+      , tex_sub_image1d("tex_sub_image1d", traits, *this)
+      , texture_sub_image1d("texture_sub_image1d", traits, *this)
+      , copy_tex_image2d("copy_tex_image2d", traits, *this)
+      , copy_tex_image1d("copy_tex_image1d", traits, *this)
+      , copy_tex_sub_image3d("copy_tex_sub_image3d", traits, *this)
+      , copy_texture_sub_image3d("copy_texture_sub_image3d", traits, *this)
+      , copy_tex_sub_image2d("copy_tex_sub_image2d", traits, *this)
+      , copy_texture_sub_image2d("copy_texture_sub_image2d", traits, *this)
+      , copy_tex_sub_image1d("copy_tex_sub_image1d", traits, *this)
+      , copy_texture_sub_image1d("copy_texture_sub_image1d", traits, *this)
+      , tex_buffer("tex_buffer", traits, *this)
+      , texture_buffer("texture_buffer", traits, *this)
+      , tex_buffer_range("tex_buffer_range", traits, *this)
+      , texture_buffer_range("texture_buffer_range", traits, *this)
       , draw_arrays("draw_arrays", traits, *this)
       , draw_arrays_instanced_base_instance(
           "draw_arrays_instanced_base_instance", traits, *this)
