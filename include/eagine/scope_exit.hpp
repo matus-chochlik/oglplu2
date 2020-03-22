@@ -63,8 +63,10 @@ public:
     on_scope_exit(const on_scope_exit&) = delete;
     on_scope_exit& operator=(const on_scope_exit&) = delete;
 
-    on_scope_exit(on_scope_exit&&) noexcept = default;
-    on_scope_exit& operator=(on_scope_exit&&) noexcept = default;
+    on_scope_exit(on_scope_exit&& temp) noexcept
+      : on_scope_exit(temp.release()) {
+    }
+    on_scope_exit& operator=(on_scope_exit&&) = delete;
 
     ~on_scope_exit() noexcept(false) {
         _invoke(OnException());

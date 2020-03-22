@@ -46,6 +46,12 @@ public:
         clear();
     }
 
+    bool is_empty() const noexcept {
+        EAGINE_ASSERT(_blks.size() == _alns.size());
+        EAGINE_ASSERT(_blks.size() == _dtrs.size());
+        return _blks.empty();
+    }
+
     template <typename T, typename... Args>
     std::remove_const_t<T>& emplace(Args&&... args) {
         using A = std::remove_const_t<T>;

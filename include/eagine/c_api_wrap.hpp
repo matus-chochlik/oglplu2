@@ -11,6 +11,7 @@
 #define EAGINE_C_API_WRAP_HPP
 
 #include "assert.hpp"
+#include "cleanup_group.hpp"
 #include "enum_bitfield.hpp"
 #include "enum_class.hpp"
 #include "extract.hpp"
