@@ -668,6 +668,104 @@ public:
         image_unit_format)>
       bind_image_texture;
 
+    func<
+      OGLPAFP(TexStorage3D),
+      void(
+        texture_target,
+        sizei_type,
+        pixel_internal_format,
+        sizei_type,
+        sizei_type,
+        sizei_type)>
+      tex_storage3d;
+
+    func<
+      OGLPAFP(TextureStorage3D),
+      void(
+        texture_name,
+        sizei_type,
+        pixel_internal_format,
+        sizei_type,
+        sizei_type,
+        sizei_type)>
+      texture_storage3d;
+
+    func<
+      OGLPAFP(TexStorage2D),
+      void(
+        texture_target,
+        sizei_type,
+        pixel_internal_format,
+        sizei_type,
+        sizei_type)>
+      tex_storage2d;
+
+    func<
+      OGLPAFP(TextureStorage2D),
+      void(
+        texture_name,
+        sizei_type,
+        pixel_internal_format,
+        sizei_type,
+        sizei_type)>
+      texture_storage2d;
+
+    func<
+      OGLPAFP(TexStorage1D),
+      void(texture_target, sizei_type, pixel_internal_format, sizei_type)>
+      tex_storage1d;
+
+    func<
+      OGLPAFP(TextureStorage1D),
+      void(texture_name, sizei_type, pixel_internal_format, sizei_type)>
+      texture_storage1d;
+
+    func<
+      OGLPAFP(TexStorage3DMultisample),
+      void(
+        texture_target,
+        sizei_type,
+        pixel_internal_format,
+        sizei_type,
+        sizei_type,
+        sizei_type,
+        bool_type)>
+      tex_storage3d_multisample;
+
+    func<
+      OGLPAFP(TextureStorage3DMultisample),
+      void(
+        texture_name,
+        sizei_type,
+        pixel_internal_format,
+        sizei_type,
+        sizei_type,
+        sizei_type,
+        bool_type)>
+      texture_storage3d_multisample;
+
+    func<
+      OGLPAFP(TexStorage2DMultisample),
+      void(
+        texture_target,
+        sizei_type,
+        pixel_internal_format,
+        sizei_type,
+        sizei_type,
+        bool_type)>
+      tex_storage2d_multisample;
+
+    func<
+      OGLPAFP(TextureStorage2DMultisample),
+      void(
+        texture_name,
+        sizei_type,
+        pixel_internal_format,
+        sizei_type,
+        sizei_type,
+        bool_type)>
+      texture_storage2d_multisample;
+
     // drawing
     // arrays
     func<OGLPAFP(DrawArrays), void(primitive_type, int_type, sizei_type)>
@@ -1105,6 +1203,18 @@ public:
       , bind_textures("bind_textures", traits, *this)
       , bind_texture_unit("bind_texture_unit", traits, *this)
       , bind_image_texture("bind_image_texture", traits, *this)
+      , tex_storage3d("tex_storage3d", traits, *this)
+      , texture_storage3d("texture_storage3d", traits, *this)
+      , tex_storage2d("tex_storage2d", traits, *this)
+      , texture_storage2d("texture_storage2d", traits, *this)
+      , tex_storage1d("tex_storage1d", traits, *this)
+      , texture_storage1d("texture_storage1d", traits, *this)
+      , tex_storage3d_multisample("tex_storage3d_multisample", traits, *this)
+      , texture_storage3d_multisample(
+          "texture_storage3d_multisample", traits, *this)
+      , tex_storage2d_multisample("tex_storage2d_multisample", traits, *this)
+      , texture_storage2d_multisample(
+          "texture_storage2d_multisample", traits, *this)
       , draw_arrays("draw_arrays", traits, *this)
       , draw_arrays_instanced_base_instance(
           "draw_arrays_instanced_base_instance", traits, *this)
