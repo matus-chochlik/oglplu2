@@ -53,7 +53,7 @@ bool example_triangle ::check_requirements(const example_context& ctx) {
            r(gl.buffer_data) && r(gl.gen_vertex_arrays) &&
            r(gl.bind_vertex_array) && r(gl.get_attrib_location) &&
            r(gl.vertex_attrib_pointer) && r(gl.enable_vertex_attrib_array) &&
-           r(gl.draw_arrays);
+           r(gl.draw_arrays) && r(GL.vertex_shader) && r(GL.fragment_shader);
 }
 //------------------------------------------------------------------------------
 void example_triangle::init(const example_context& ctx) {

@@ -443,6 +443,11 @@ struct pixel_format : gl_enum_class<pixel_format, EAGINE_ID_V(PixelFrmat)> {
     using enum_class::enum_class;
 };
 
+struct image_unit_format
+  : gl_enum_class<image_unit_format, EAGINE_ID_V(ImgUnitFmt)> {
+    using enum_class::enum_class;
+};
+
 struct pixel_internal_format
   : gl_enum_class<pixel_internal_format, EAGINE_ID_V(PixIntlFmt)> {
     using enum_class::enum_class;

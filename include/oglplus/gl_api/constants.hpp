@@ -7272,7 +7272,7 @@ public:
       rgba;
 
     opt_c_api_constant<
-      mp_list<pixel_internal_format>,
+      mp_list<pixel_internal_format, image_unit_format>,
 #ifdef GL_R8
       enum_type_c<GL_R8>>
 #else
@@ -7281,7 +7281,7 @@ public:
       r8;
 
     opt_c_api_constant<
-      mp_list<pixel_internal_format>,
+      mp_list<pixel_internal_format, image_unit_format>,
 #ifdef GL_R8_SNORM
       enum_type_c<GL_R8_SNORM>>
 #else
@@ -7299,7 +7299,7 @@ public:
       r16;
 
     opt_c_api_constant<
-      mp_list<pixel_internal_format>,
+      mp_list<pixel_internal_format, image_unit_format>,
 #ifdef GL_R16_SNORM
       enum_type_c<GL_R16_SNORM>>
 #else
@@ -7317,7 +7317,16 @@ public:
       rg8;
 
     opt_c_api_constant<
-      mp_list<pixel_internal_format>,
+      mp_list<image_unit_format>,
+#ifdef GL_RG8UI
+      enum_type_c<GL_RG8UI>>
+#else
+      enum_type_i>
+#endif
+      rg8ui;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format, image_unit_format>,
 #ifdef GL_RG8_SNORM
       enum_type_c<GL_RG8_SNORM>>
 #else
@@ -7335,13 +7344,31 @@ public:
       rg16;
 
     opt_c_api_constant<
-      mp_list<pixel_internal_format>,
+      mp_list<image_unit_format>,
+#ifdef GL_RG16UI
+      enum_type_c<GL_RG16UI>>
+#else
+      enum_type_i>
+#endif
+      rg16ui;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format, image_unit_format>,
 #ifdef GL_RG16_SNORM
       enum_type_c<GL_RG16_SNORM>>
 #else
       enum_type_i>
 #endif
       rg16_snorm;
+
+    opt_c_api_constant<
+      mp_list<image_unit_format>,
+#ifdef GL_RG32UI
+      enum_type_c<GL_RG32UI>>
+#else
+      enum_type_i>
+#endif
+      rg32ui;
 
     opt_c_api_constant<
       mp_list<pixel_internal_format>,
@@ -7461,7 +7488,16 @@ public:
       rgba8;
 
     opt_c_api_constant<
-      mp_list<pixel_internal_format>,
+      mp_list<image_unit_format>,
+#ifdef GL_RGBA8
+      enum_type_c<GL_RGBA8UI>>
+#else
+      enum_type_i>
+#endif
+      rgba8ui;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format, image_unit_format>,
 #ifdef GL_RGBA8_SNORM
       enum_type_c<GL_RGBA8_SNORM>>
 #else
@@ -7479,7 +7515,7 @@ public:
       rgb10_a2;
 
     opt_c_api_constant<
-      mp_list<pixel_internal_format>,
+      mp_list<pixel_internal_format, image_unit_format>,
 #ifdef GL_RGB10_A2UI
       enum_type_c<GL_RGB10_A2UI>>
 #else
@@ -7497,7 +7533,7 @@ public:
       rgba12;
 
     opt_c_api_constant<
-      mp_list<pixel_internal_format>,
+      mp_list<pixel_internal_format, image_unit_format>,
 #ifdef GL_RGBA16
       enum_type_c<GL_RGBA16>>
 #else
@@ -7506,7 +7542,16 @@ public:
       rgba16;
 
     opt_c_api_constant<
-      mp_list<pixel_internal_format>,
+      mp_list<pixel_internal_format, image_unit_format>,
+#ifdef GL_RGBA16UI
+      enum_type_c<GL_RGBA16UI>>
+#else
+      enum_type_i>
+#endif
+      rgba16ui;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format, image_unit_format>,
 #ifdef GL_RGBA16_SNORM
       enum_type_c<GL_RGBA16_SNORM>>
 #else
@@ -7515,7 +7560,7 @@ public:
       rgba16_snorm;
 
     opt_c_api_constant<
-      mp_list<pixel_internal_format>,
+      mp_list<pixel_internal_format, image_unit_format>,
 #ifdef GL_R16F
       enum_type_c<GL_R16F>>
 #else
@@ -7524,7 +7569,7 @@ public:
       r16f;
 
     opt_c_api_constant<
-      mp_list<pixel_internal_format>,
+      mp_list<pixel_internal_format, image_unit_format>,
 #ifdef GL_RG16F
       enum_type_c<GL_RG16F>>
 #else
@@ -7542,7 +7587,7 @@ public:
       rgb16f;
 
     opt_c_api_constant<
-      mp_list<pixel_internal_format>,
+      mp_list<pixel_internal_format, image_unit_format>,
 #ifdef GL_RGBA16F
       enum_type_c<GL_RGBA16F>>
 #else
@@ -7551,7 +7596,7 @@ public:
       rgba16f;
 
     opt_c_api_constant<
-      mp_list<pixel_internal_format>,
+      mp_list<pixel_internal_format, image_unit_format>,
 #ifdef GL_R32F
       enum_type_c<GL_R32F>>
 #else
@@ -7560,7 +7605,7 @@ public:
       r32f;
 
     opt_c_api_constant<
-      mp_list<pixel_internal_format>,
+      mp_list<pixel_internal_format, image_unit_format>,
 #ifdef GL_RG32F
       enum_type_c<GL_RG32F>>
 #else
@@ -7578,7 +7623,7 @@ public:
       rgb32f;
 
     opt_c_api_constant<
-      mp_list<pixel_internal_format>,
+      mp_list<pixel_internal_format, image_unit_format>,
 #ifdef GL_RGBA32F
       enum_type_c<GL_RGBA32F>>
 #else
@@ -7587,7 +7632,16 @@ public:
       rgba32f;
 
     opt_c_api_constant<
-      mp_list<pixel_internal_format>,
+      mp_list<pixel_internal_format, image_unit_format>,
+#ifdef GL_RGBA32UI
+      enum_type_c<GL_RGBA32UI>>
+#else
+      enum_type_i>
+#endif
+      rgba32ui;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format, image_unit_format>,
 #ifdef GL_R11F_G11F_B10F
       enum_type_c<GL_R11F_G11F_B10F>>
 #else
@@ -7614,7 +7668,7 @@ public:
       r8i;
 
     opt_c_api_constant<
-      mp_list<pixel_internal_format>,
+      mp_list<pixel_internal_format, image_unit_format>,
 #ifdef GL_R8UI
       enum_type_c<GL_R8UI>>
 #else
@@ -7632,13 +7686,31 @@ public:
       r16i;
 
     opt_c_api_constant<
-      mp_list<pixel_internal_format>,
+      mp_list<pixel_internal_format, image_unit_format>,
 #ifdef GL_R16UI
       enum_type_c<GL_R16UI>>
 #else
       enum_type_i>
 #endif
       r16ui;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format, image_unit_format>,
+#ifdef GL_R32I
+      enum_type_c<GL_R32I>>
+#else
+      enum_type_i>
+#endif
+      r32i;
+
+    opt_c_api_constant<
+      mp_list<pixel_internal_format, image_unit_format>,
+#ifdef GL_R16UI
+      enum_type_c<GL_R32UI>>
+#else
+      enum_type_i>
+#endif
+      r32ui;
 
     opt_c_api_constant<
       mp_list<pixel_internal_format>,
@@ -11174,9 +11246,12 @@ public:
       , r16("R16", traits, api)
       , r16_snorm("R16_SNORM", traits, api)
       , rg8("RG8", traits, api)
+      , rg8ui("RG8UI", traits, api)
       , rg8_snorm("RG8_SNORM", traits, api)
       , rg16("RG16", traits, api)
+      , rg16ui("RG16UI", traits, api)
       , rg16_snorm("RG16_SNORM", traits, api)
+      , rg32ui("RG32UI", traits, api)
       , r3_g3_b2("R3_G3_B2", traits, api)
       , rgb4("RGB4", traits, api)
       , rgb5("RGB5", traits, api)
@@ -11190,11 +11265,13 @@ public:
       , rgba4("RGBA4", traits, api)
       , rgb5_a1("RGB5_A1", traits, api)
       , rgba8("RGBA8", traits, api)
+      , rgba8ui("RGBA8UI", traits, api)
       , rgba8_snorm("RGBA8_SNORM", traits, api)
       , rgb10_a2("RGB10_A2", traits, api)
       , rgb10_a2ui("RGB10_A2UI", traits, api)
       , rgba12("RGBA12", traits, api)
       , rgba16("RGBA16", traits, api)
+      , rgba16ui("RGBA16UI", traits, api)
       , rgba16_snorm("RGBA16_SNORM", traits, api)
       , r16f("R16F", traits, api)
       , rg16f("RG16F", traits, api)
@@ -11204,12 +11281,15 @@ public:
       , rg32f("RG32F", traits, api)
       , rgb32f("RGB32F", traits, api)
       , rgba32f("RGBA32F", traits, api)
+      , rgba32ui("RGBA32UI", traits, api)
       , r11f_g11f_b10f("R11F_G11F_B10F", traits, api)
       , rgb9_e5("RGB9_E5", traits, api)
       , r8i("R8I", traits, api)
       , r8ui("R8UI", traits, api)
       , r16i("R16I", traits, api)
       , r16ui("R16UI", traits, api)
+      , r32i("R32I", traits, api)
+      , r32ui("R32UI", traits, api)
       , srgb("SRGB", traits, api)
       , srgb8("SRGB8", traits, api)
       , srgb_alpha("SRGB_ALPHA", traits, api)

@@ -632,6 +632,42 @@ public:
         const_void_ptr_type)>
       vertex_attrib_pointer;
 
+    // texture ops
+    func<OGLPAFP(ActiveTexture), void(texture_unit)> active_texture;
+    func<OGLPAFP(BindTexture), void(texture_target, texture_name)> bind_texture;
+
+    struct
+      : func<
+          OGLPAFP(BindTextures),
+          void(uint_type, sizei_type, const name_type*)> {
+        using base = func<
+          OGLPAFP(BindTextures),
+          void(uint_type, sizei_type, const name_type*)>;
+
+        using base::base;
+
+        constexpr auto operator()(
+          uint_type first, span<const name_type> texs) const noexcept {
+            return base::operator()(
+              first, sizei_type(texs.size()), texs.data());
+        }
+    } bind_textures;
+
+    func<OGLPAFP(BindTextureUnit), void(uint_type, texture_name)>
+      bind_texture_unit;
+
+    func<
+      OGLPAFP(BindImageTexture),
+      void(
+        uint_type,
+        texture_name,
+        int_type,
+        true_false,
+        int_type,
+        access_specifier,
+        image_unit_format)>
+      bind_image_texture;
+
     // drawing
     // arrays
     func<OGLPAFP(DrawArrays), void(primitive_type, int_type, sizei_type)>
@@ -1064,6 +1100,11 @@ public:
       , disable_vertex_array_attrib(
           "disable_vertex_array_attrib", traits, *this)
       , vertex_attrib_pointer("vertex_attrib_pointer", traits, *this)
+      , active_texture("active_texture", traits, *this)
+      , bind_texture("bind_texture", traits, *this)
+      , bind_textures("bind_textures", traits, *this)
+      , bind_texture_unit("bind_texture_unit", traits, *this)
+      , bind_image_texture("bind_image_texture", traits, *this)
       , draw_arrays("draw_arrays", traits, *this)
       , draw_arrays_instanced_base_instance(
           "draw_arrays_instanced_base_instance", traits, *this)
