@@ -1122,6 +1122,42 @@ public:
         }
     } buffer_data;
 
+    struct : func<OGLPAFP(NamedBufferData)> {
+        using func<OGLPAFP(NamedBufferData)>::func;
+
+        constexpr auto operator()(
+          buffer_name buf,
+          const buffer_data_spec& values,
+          buffer_usage usg) const noexcept {
+            return this->_cnvchkcall(
+              buf, sizei_type(values.size()), values.data(), usg);
+        }
+    } named_buffer_data;
+
+    struct : func<OGLPAFP(BufferSubData)> {
+        using func<OGLPAFP(BufferSubData)>::func;
+
+        constexpr auto operator()(
+          buffer_target tgt,
+          intptr_type offs,
+          const buffer_data_spec& values) const noexcept {
+            return this->_cnvchkcall(
+              tgt, offs, sizei_type(values.size()), values.data());
+        }
+    } buffer_sub_data;
+
+    struct : func<OGLPAFP(NamedBufferSubData)> {
+        using func<OGLPAFP(NamedBufferSubData)>::func;
+
+        constexpr auto operator()(
+          buffer_name buf,
+          intptr_type offs,
+          const buffer_data_spec& values) const noexcept {
+            return this->_cnvchkcall(
+              buf, offs, sizei_type(values.size()), values.data());
+        }
+    } named_buffer_sub_data;
+
     // vertex_array ops
     func<OGLPAFP(BindVertexArray), void(vertex_array_name)> bind_vertex_array;
 
@@ -2000,6 +2036,9 @@ public:
           "program_uniform_matrix4x3fv", traits, *this)
       , bind_buffer("bind_buffer", traits, *this)
       , buffer_data("buffer_data", traits, *this)
+      , named_buffer_data("named_buffer_data", traits, *this)
+      , buffer_sub_data("buffer_sub_data", traits, *this)
+      , named_buffer_sub_data("named_buffer_sub_data", traits, *this)
       , bind_vertex_array("bind_vertex_array", traits, *this)
       , enable_vertex_attrib_array("enable_vertex_attrib_array", traits, *this)
       , enable_vertex_array_attrib("enable_vertex_array_attrib", traits, *this)

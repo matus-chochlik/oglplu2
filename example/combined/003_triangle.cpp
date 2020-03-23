@@ -58,7 +58,6 @@ bool example_triangle ::check_requirements(const example_context& ctx) {
 //------------------------------------------------------------------------------
 void example_triangle::init(example_context& ctx) {
     auto& cleanup = ctx.cleanup();
-    cleanup.add([] { std::cout << "BAGER" << std::endl; });
 
     const auto& [gl, GL] = ctx.gl();
 
@@ -141,8 +140,6 @@ void example_triangle::init(example_context& ctx) {
     gl.enable_vertex_attrib_array(color_loc);
 
     gl.disable(GL.depth_test);
-
-    cleanup.add([] { std::cout << "MEDVED" << std::endl; });
 }
 //------------------------------------------------------------------------------
 void example_triangle::resize(const example_context& ctx) {
