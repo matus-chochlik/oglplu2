@@ -68,9 +68,6 @@ void example_checked::init(example_context& ctx) {
         "}\n"));
     gl.compile_shader(fs);
 
-    std::array<char, 1024> x;
-    std::cout << extract(gl.get_shader_info_log(fs, cover(x))) << std::endl;
-
     // program
     gl.create_program() >> prog;
     gl.delete_program.later_by(cleanup, prog);

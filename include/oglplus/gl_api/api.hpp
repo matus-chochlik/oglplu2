@@ -86,6 +86,11 @@ public:
             return angle.value();
         }
 
+        template <typename... Args>
+        constexpr auto _cnvchkcall(Args&&... args) const noexcept {
+            return this->_chkcall(_conv(args)...).cast_to(identity<RVC>{});
+        }
+
     public:
         using base::base;
 
@@ -103,13 +108,13 @@ public:
         using func<OGLPAFP(FenceSync)>::func;
 
         constexpr auto operator()(sync_condition cond) const noexcept {
-            return this->_chkcall(enum_type(cond), bitfield_type(0));
+            return this->_cnvchkcall(cond, bitfield_type(0));
         }
 
         constexpr auto operator()(
           sync_condition cond, enum_bitfield<sync_flag_bit> flags) const
           noexcept {
-            return this->_chkcall(enum_type(cond), bitfield_type(flags));
+            return this->_cnvchkcall(cond, bitfield_type(flags));
         }
     } fence_sync;
 
@@ -132,8 +137,8 @@ public:
         using func<OGLPAFP(CreateShader)>::func;
 
         constexpr auto operator()(shader_type type) const noexcept {
-            return this->_chkcall(enum_type(type))
-              .cast_to(identity<owned_shader_name>{});
+            return this->_cnvchkcall(type).cast_to(
+              identity<owned_shader_name>{});
         }
     } create_shader;
 
@@ -434,7 +439,7 @@ public:
           noexcept {
             using RV = typename Query::tag_type;
             int_type result{};
-            return this->_chkcall(name_type(shdr), enum_type(query), &result)
+            return this->_cnvchkcall(shdr, query, &result)
               .replaced_with(result)
               .cast_to(identity<RV>{});
         }
@@ -442,8 +447,7 @@ public:
         constexpr auto operator()(
           shader_name shdr, shader_parameter param, span<int_type> dest) const
           noexcept {
-            return this->_chkcall(
-              name_type(shdr), enum_type(param), dest.data());
+            return this->_chkcall(shdr, param, dest.data());
         }
     } get_shaderi;
 
@@ -483,7 +487,7 @@ public:
           noexcept {
             using RV = typename Query::tag_type;
             int_type result{};
-            return this->_chkcall(name_type(prog), enum_type(query), &result)
+            return this->_cnvchkcall(prog, query, &result)
               .replaced_with(result)
               .cast_to(identity<RV>{});
         }
@@ -491,8 +495,7 @@ public:
         constexpr auto operator()(
           program_name shdr, program_parameter param, span<int_type> dest) const
           noexcept {
-            return this->_chkcall(
-              name_type(shdr), enum_type(param), dest.data());
+            return this->_cnvchkcall(shdr, param, dest.data());
         }
     } get_programi;
 
@@ -538,25 +541,41 @@ public:
       void(uniform_location, uint_type, uint_type, uint_type, uint_type)>
       uniform4ui;
 
-    func<
-      OGLPAFP(Uniform1uiv),
-      void(uniform_location, sizei_type, const uint_type*)>
-      uniform1uiv;
+    struct : func<OGLPAFP(Uniform1uiv)> {
+        using func<OGLPAFP(Uniform1uiv)>::func;
 
-    func<
-      OGLPAFP(Uniform2uiv),
-      void(uniform_location, sizei_type, const uint_type*)>
-      uniform2uiv;
+        constexpr auto operator()(
+          uniform_location loc, span<const uint_type> v) const noexcept {
+            return this->_cnvchkcall(loc, sizei_type(v.size()), v.data());
+        }
+    } uniform1uiv;
 
-    func<
-      OGLPAFP(Uniform3uiv),
-      void(uniform_location, sizei_type, const uint_type*)>
-      uniform3uiv;
+    struct : func<OGLPAFP(Uniform2uiv)> {
+        using func<OGLPAFP(Uniform2uiv)>::func;
 
-    func<
-      OGLPAFP(Uniform4uiv),
-      void(uniform_location, sizei_type, const uint_type*)>
-      uniform4uiv;
+        constexpr auto operator()(
+          uniform_location loc, span<const uint_type> v) const noexcept {
+            return this->_cnvchkcall(loc, sizei_type(v.size()), v.data());
+        }
+    } uniform2uiv;
+
+    struct : func<OGLPAFP(Uniform3uiv)> {
+        using func<OGLPAFP(Uniform3uiv)>::func;
+
+        constexpr auto operator()(
+          uniform_location loc, span<const uint_type> v) const noexcept {
+            return this->_cnvchkcall(loc, sizei_type(v.size()), v.data());
+        }
+    } uniform3uiv;
+
+    struct : func<OGLPAFP(Uniform4uiv)> {
+        using func<OGLPAFP(Uniform4uiv)>::func;
+
+        constexpr auto operator()(
+          uniform_location loc, span<const uint_type> v) const noexcept {
+            return this->_cnvchkcall(loc, sizei_type(v.size()), v.data());
+        }
+    } uniform4uiv;
 
     // int
     func<OGLPAFP(Uniform1i), void(uniform_location, int_type)> uniform1i;
@@ -571,25 +590,41 @@ public:
       void(uniform_location, int_type, int_type, int_type, int_type)>
       uniform4i;
 
-    func<
-      OGLPAFP(Uniform1iv),
-      void(uniform_location, sizei_type, const int_type*)>
-      uniform1iv;
+    struct : func<OGLPAFP(Uniform1iv)> {
+        using func<OGLPAFP(Uniform1iv)>::func;
 
-    func<
-      OGLPAFP(Uniform2iv),
-      void(uniform_location, sizei_type, const int_type*)>
-      uniform2iv;
+        constexpr auto operator()(
+          uniform_location loc, span<const int_type> v) const noexcept {
+            return this->_cnvchkcall(loc, sizei_type(v.size()), v.data());
+        }
+    } uniform1iv;
 
-    func<
-      OGLPAFP(Uniform3iv),
-      void(uniform_location, sizei_type, const int_type*)>
-      uniform3iv;
+    struct : func<OGLPAFP(Uniform2iv)> {
+        using func<OGLPAFP(Uniform2iv)>::func;
 
-    func<
-      OGLPAFP(Uniform4iv),
-      void(uniform_location, sizei_type, const int_type*)>
-      uniform4iv;
+        constexpr auto operator()(
+          uniform_location loc, span<const int_type> v) const noexcept {
+            return this->_cnvchkcall(loc, sizei_type(v.size()), v.data());
+        }
+    } uniform2iv;
+
+    struct : func<OGLPAFP(Uniform3iv)> {
+        using func<OGLPAFP(Uniform3iv)>::func;
+
+        constexpr auto operator()(
+          uniform_location loc, span<const int_type> v) const noexcept {
+            return this->_cnvchkcall(loc, sizei_type(v.size()), v.data());
+        }
+    } uniform3iv;
+
+    struct : func<OGLPAFP(Uniform4iv)> {
+        using func<OGLPAFP(Uniform4iv)>::func;
+
+        constexpr auto operator()(
+          uniform_location loc, span<const int_type> v) const noexcept {
+            return this->_cnvchkcall(loc, sizei_type(v.size()), v.data());
+        }
+    } uniform4iv;
 
     // float
     func<OGLPAFP(Uniform1f), void(uniform_location, float_type)> uniform1f;
@@ -604,25 +639,150 @@ public:
       void(uniform_location, float_type, float_type, float_type, float_type)>
       uniform4f;
 
-    func<
-      OGLPAFP(Uniform1fv),
-      void(uniform_location, sizei_type, const float_type*)>
-      uniform1fv;
+    struct : func<OGLPAFP(Uniform1fv)> {
+        using func<OGLPAFP(Uniform1fv)>::func;
 
-    func<
-      OGLPAFP(Uniform2fv),
-      void(uniform_location, sizei_type, const float_type*)>
-      uniform2fv;
+        constexpr auto operator()(
+          uniform_location loc, span<const float_type> v) const noexcept {
+            return this->_cnvchkcall(loc, sizei_type(v.size()), v.data());
+        }
+    } uniform1fv;
 
-    func<
-      OGLPAFP(Uniform3fv),
-      void(uniform_location, sizei_type, const float_type*)>
-      uniform3fv;
+    struct : func<OGLPAFP(Uniform2fv)> {
+        using func<OGLPAFP(Uniform2fv)>::func;
 
-    func<
-      OGLPAFP(Uniform4fv),
-      void(uniform_location, sizei_type, const float_type*)>
-      uniform4fv;
+        constexpr auto operator()(
+          uniform_location loc, span<const float_type> v) const noexcept {
+            return this->_cnvchkcall(loc, sizei_type(v.size()), v.data());
+        }
+    } uniform2fv;
+
+    struct : func<OGLPAFP(Uniform3fv)> {
+        using func<OGLPAFP(Uniform3fv)>::func;
+
+        constexpr auto operator()(
+          uniform_location loc, span<const float_type> v) const noexcept {
+            return this->_cnvchkcall(loc, sizei_type(v.size()), v.data());
+        }
+    } uniform3fv;
+
+    struct : func<OGLPAFP(Uniform4fv)> {
+        using func<OGLPAFP(Uniform4fv)>::func;
+
+        constexpr auto operator()(
+          uniform_location loc, span<const float_type> v) const noexcept {
+            return this->_cnvchkcall(loc, sizei_type(v.size()), v.data());
+        }
+    } uniform4fv;
+
+    // matrix float
+    struct : func<OGLPAFP(UniformMatrix2fv)> {
+        using func<OGLPAFP(UniformMatrix2fv)>::func;
+
+        constexpr auto operator()(
+          uniform_location loc,
+          true_false transp,
+          span<const float_type> v) const noexcept {
+            return this->_cnvchkcall(
+              loc, sizei_type(v.size()), transp, v.data());
+        }
+    } uniform_matrix2fv;
+
+    struct : func<OGLPAFP(UniformMatrix3fv)> {
+        using func<OGLPAFP(UniformMatrix3fv)>::func;
+
+        constexpr auto operator()(
+          uniform_location loc,
+          true_false transp,
+          span<const float_type> v) const noexcept {
+            return this->_cnvchkcall(
+              loc, sizei_type(v.size()), transp, v.data());
+        }
+    } uniform_matrix3fv;
+
+    struct : func<OGLPAFP(UniformMatrix4fv)> {
+        using func<OGLPAFP(UniformMatrix4fv)>::func;
+
+        constexpr auto operator()(
+          uniform_location loc,
+          true_false transp,
+          span<const float_type> v) const noexcept {
+            return this->_cnvchkcall(
+              loc, sizei_type(v.size()), transp, v.data());
+        }
+    } uniform_matrix4fv;
+
+    struct : func<OGLPAFP(UniformMatrix2x3fv)> {
+        using func<OGLPAFP(UniformMatrix2x3fv)>::func;
+
+        constexpr auto operator()(
+          uniform_location loc,
+          true_false transp,
+          span<const float_type> v) const noexcept {
+            return this->_cnvchkcall(
+              loc, sizei_type(v.size()), transp, v.data());
+        }
+    } uniform_matrix2x3fv;
+
+    struct : func<OGLPAFP(UniformMatrix2x4fv)> {
+        using func<OGLPAFP(UniformMatrix2x4fv)>::func;
+
+        constexpr auto operator()(
+          uniform_location loc,
+          true_false transp,
+          span<const float_type> v) const noexcept {
+            return this->_cnvchkcall(
+              loc, sizei_type(v.size()), transp, v.data());
+        }
+    } uniform_matrix2x4fv;
+
+    struct : func<OGLPAFP(UniformMatrix3x2fv)> {
+        using func<OGLPAFP(UniformMatrix3x2fv)>::func;
+
+        constexpr auto operator()(
+          uniform_location loc,
+          true_false transp,
+          span<const float_type> v) const noexcept {
+            return this->_cnvchkcall(
+              loc, sizei_type(v.size()), transp, v.data());
+        }
+    } uniform_matrix3x2fv;
+
+    struct : func<OGLPAFP(UniformMatrix3x4fv)> {
+        using func<OGLPAFP(UniformMatrix3x4fv)>::func;
+
+        constexpr auto operator()(
+          uniform_location loc,
+          true_false transp,
+          span<const float_type> v) const noexcept {
+            return this->_cnvchkcall(
+              loc, sizei_type(v.size()), transp, v.data());
+        }
+    } uniform_matrix3x4fv;
+
+    struct : func<OGLPAFP(UniformMatrix4x2fv)> {
+        using func<OGLPAFP(UniformMatrix4x2fv)>::func;
+
+        constexpr auto operator()(
+          uniform_location loc,
+          true_false transp,
+          span<const float_type> v) const noexcept {
+            return this->_cnvchkcall(
+              loc, sizei_type(v.size()), transp, v.data());
+        }
+    } uniform_matrix4x2fv;
+
+    struct : func<OGLPAFP(UniformMatrix4x3fv)> {
+        using func<OGLPAFP(UniformMatrix4x3fv)>::func;
+
+        constexpr auto operator()(
+          uniform_location loc,
+          true_false transp,
+          span<const float_type> v) const noexcept {
+            return this->_cnvchkcall(
+              loc, sizei_type(v.size()), transp, v.data());
+        }
+    } uniform_matrix4x3fv;
 
     // buffer ops
     func<OGLPAFP(BindBuffer), void(buffer_target, buffer_name)> bind_buffer;
@@ -634,8 +794,8 @@ public:
           buffer_target tgt,
           const buffer_data_spec& values,
           buffer_usage usg) const noexcept {
-            return this->_chkcall(
-              enum_type(tgt), values.size(), values.data(), enum_type(usg));
+            return this->_cnvchkcall(
+              tgt, sizei_type(values.size()), values.data(), usg);
         }
     } buffer_data;
 
@@ -1215,14 +1375,13 @@ public:
 
         constexpr auto operator()(integer_query query) const noexcept {
             int64_type result{};
-            return this->_chkcall(enum_type(query), &result)
-              .replaced_with(result);
+            return this->_cnvchkcall(query, &result).replaced_with(result);
         }
 
         constexpr auto operator()(
           integer_query query, span<int64_type> dest) const noexcept {
             EAGINE_ASSERT(dest.size());
-            return this->_chkcall(enum_type(query), dest.data());
+            return this->_cnvchkcall(query, dest.data());
         }
     } get_integer64;
 
@@ -1232,14 +1391,13 @@ public:
 
         constexpr auto operator()(float_query query) const noexcept {
             float_type result{};
-            return this->_chkcall(enum_type(query), &result)
-              .replaced_with(result);
+            return this->_cnvchkcall(query, &result).replaced_with(result);
         }
 
         constexpr auto operator()(
           float_query query, span<float_type> dest) const noexcept {
             EAGINE_ASSERT(dest.size());
-            return this->_chkcall(enum_type(query), dest.data());
+            return this->_cnvchkcall(query, dest.data());
         }
     } get_float;
 
@@ -1248,9 +1406,8 @@ public:
         using func<OGLPAFP(GetString)>::func;
 
         constexpr auto operator()(string_query query) const noexcept {
-            return this->_chkcall(enum_type(query)).transformed([](auto src) {
-                return reinterpret_cast<const char*>(src);
-            });
+            return this->_cnvchkcall(query).transformed(
+              [](auto src) { return reinterpret_cast<const char*>(src); });
         }
 
         constexpr auto operator()() const noexcept {
@@ -1470,6 +1627,15 @@ public:
       , uniform2fv("uniform2fv", traits, *this)
       , uniform3fv("uniform3fv", traits, *this)
       , uniform4fv("uniform4fv", traits, *this)
+      , uniform_matrix2fv("uniform_matrix2fv", traits, *this)
+      , uniform_matrix3fv("uniform_matrix3fv", traits, *this)
+      , uniform_matrix4fv("uniform_matrix4fv", traits, *this)
+      , uniform_matrix2x3fv("uniform_matrix2x3fv", traits, *this)
+      , uniform_matrix2x4fv("uniform_matrix2x4fv", traits, *this)
+      , uniform_matrix3x2fv("uniform_matrix3x2fv", traits, *this)
+      , uniform_matrix3x4fv("uniform_matrix3x4fv", traits, *this)
+      , uniform_matrix4x2fv("uniform_matrix4x2fv", traits, *this)
+      , uniform_matrix4x3fv("uniform_matrix4x3fv", traits, *this)
       , bind_buffer("bind_buffer", traits, *this)
       , buffer_data("buffer_data", traits, *this)
       , bind_vertex_array("bind_vertex_array", traits, *this)
