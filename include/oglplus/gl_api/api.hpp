@@ -784,6 +784,329 @@ public:
         }
     } uniform_matrix4x3fv;
 
+    // program uniform
+    // uint
+    func<
+      OGLPAFP(ProgramUniform1ui),
+      void(program_name, uniform_location, uint_type)>
+      program_uniform1ui;
+
+    func<
+      OGLPAFP(ProgramUniform2ui),
+      void(program_name, uniform_location, uint_type, uint_type)>
+      program_uniform2ui;
+
+    func<
+      OGLPAFP(ProgramUniform3ui),
+      void(program_name, uniform_location, uint_type, uint_type, uint_type)>
+      program_uniform3ui;
+
+    func<
+      OGLPAFP(ProgramUniform4ui),
+      void(
+        program_name,
+        uniform_location,
+        uint_type,
+        uint_type,
+        uint_type,
+        uint_type)>
+      program_uniform4ui;
+
+    struct : func<OGLPAFP(ProgramUniform1uiv)> {
+        using func<OGLPAFP(ProgramUniform1uiv)>::func;
+
+        constexpr auto operator()(
+          program_name prog,
+          uniform_location loc,
+          span<const uint_type> v) const noexcept {
+            return this->_cnvchkcall(prog, loc, sizei_type(v.size()), v.data());
+        }
+    } program_uniform1uiv;
+
+    struct : func<OGLPAFP(ProgramUniform2uiv)> {
+        using func<OGLPAFP(ProgramUniform2uiv)>::func;
+
+        constexpr auto operator()(
+          program_name prog,
+          uniform_location loc,
+          span<const uint_type> v) const noexcept {
+            return this->_cnvchkcall(prog, loc, sizei_type(v.size()), v.data());
+        }
+    } program_uniform2uiv;
+
+    struct : func<OGLPAFP(ProgramUniform3uiv)> {
+        using func<OGLPAFP(ProgramUniform3uiv)>::func;
+
+        constexpr auto operator()(
+          program_name prog,
+          uniform_location loc,
+          span<const uint_type> v) const noexcept {
+            return this->_cnvchkcall(prog, loc, sizei_type(v.size()), v.data());
+        }
+    } program_uniform3uiv;
+
+    struct : func<OGLPAFP(ProgramUniform4uiv)> {
+        using func<OGLPAFP(ProgramUniform4uiv)>::func;
+
+        constexpr auto operator()(
+          program_name prog,
+          uniform_location loc,
+          span<const uint_type> v) const noexcept {
+            return this->_cnvchkcall(prog, loc, sizei_type(v.size()), v.data());
+        }
+    } program_uniform4uiv;
+
+    // int
+    func<
+      OGLPAFP(ProgramUniform1i),
+      void(program_name, uniform_location, int_type)>
+      program_uniform1i;
+
+    func<
+      OGLPAFP(ProgramUniform2i),
+      void(program_name, uniform_location, int_type, int_type)>
+      program_uniform2i;
+
+    func<
+      OGLPAFP(ProgramUniform3i),
+      void(program_name, uniform_location, int_type, int_type, int_type)>
+      program_uniform3i;
+
+    func<
+      OGLPAFP(ProgramUniform4i),
+      void(
+        program_name, uniform_location, int_type, int_type, int_type, int_type)>
+      program_uniform4i;
+
+    struct : func<OGLPAFP(ProgramUniform1iv)> {
+        using func<OGLPAFP(ProgramUniform1iv)>::func;
+
+        constexpr auto operator()(
+          program_name prog, uniform_location loc, span<const int_type> v) const
+          noexcept {
+            return this->_cnvchkcall(prog, loc, sizei_type(v.size()), v.data());
+        }
+    } program_uniform1iv;
+
+    struct : func<OGLPAFP(ProgramUniform2iv)> {
+        using func<OGLPAFP(ProgramUniform2iv)>::func;
+
+        constexpr auto operator()(
+          program_name prog, uniform_location loc, span<const int_type> v) const
+          noexcept {
+            return this->_cnvchkcall(prog, loc, sizei_type(v.size()), v.data());
+        }
+    } program_uniform2iv;
+
+    struct : func<OGLPAFP(ProgramUniform3iv)> {
+        using func<OGLPAFP(ProgramUniform3iv)>::func;
+
+        constexpr auto operator()(
+          program_name prog, uniform_location loc, span<const int_type> v) const
+          noexcept {
+            return this->_cnvchkcall(prog, loc, sizei_type(v.size()), v.data());
+        }
+    } program_uniform3iv;
+
+    struct : func<OGLPAFP(ProgramUniform4iv)> {
+        using func<OGLPAFP(ProgramUniform4iv)>::func;
+
+        constexpr auto operator()(
+          program_name prog, uniform_location loc, span<const int_type> v) const
+          noexcept {
+            return this->_cnvchkcall(prog, loc, sizei_type(v.size()), v.data());
+        }
+    } program_uniform4iv;
+
+    // float
+    func<
+      OGLPAFP(ProgramUniform1f),
+      void(program_name, uniform_location, float_type)>
+      program_uniform1f;
+
+    func<
+      OGLPAFP(ProgramUniform2f),
+      void(program_name, uniform_location, float_type, float_type)>
+      program_uniform2f;
+
+    func<
+      OGLPAFP(ProgramUniform3f),
+      void(program_name, uniform_location, float_type, float_type, float_type)>
+      program_uniform3f;
+
+    func<
+      OGLPAFP(ProgramUniform4f),
+      void(
+        program_name,
+        uniform_location,
+        float_type,
+        float_type,
+        float_type,
+        float_type)>
+      program_uniform4f;
+
+    struct : func<OGLPAFP(ProgramUniform1fv)> {
+        using func<OGLPAFP(ProgramUniform1fv)>::func;
+
+        constexpr auto operator()(
+          program_name prog,
+          uniform_location loc,
+          span<const float_type> v) const noexcept {
+            return this->_cnvchkcall(prog, loc, sizei_type(v.size()), v.data());
+        }
+    } program_uniform1fv;
+
+    struct : func<OGLPAFP(ProgramUniform2fv)> {
+        using func<OGLPAFP(ProgramUniform2fv)>::func;
+
+        constexpr auto operator()(
+          program_name prog,
+          uniform_location loc,
+          span<const float_type> v) const noexcept {
+            return this->_cnvchkcall(prog, loc, sizei_type(v.size()), v.data());
+        }
+    } program_uniform2fv;
+
+    struct : func<OGLPAFP(ProgramUniform3fv)> {
+        using func<OGLPAFP(ProgramUniform3fv)>::func;
+
+        constexpr auto operator()(
+          program_name prog,
+          uniform_location loc,
+          span<const float_type> v) const noexcept {
+            return this->_cnvchkcall(prog, loc, sizei_type(v.size()), v.data());
+        }
+    } program_uniform3fv;
+
+    struct : func<OGLPAFP(ProgramUniform4fv)> {
+        using func<OGLPAFP(ProgramUniform4fv)>::func;
+
+        constexpr auto operator()(
+          program_name prog,
+          uniform_location loc,
+          span<const float_type> v) const noexcept {
+            return this->_cnvchkcall(prog, loc, sizei_type(v.size()), v.data());
+        }
+    } program_uniform4fv;
+
+    // matrix float
+    struct : func<OGLPAFP(ProgramUniformMatrix2fv)> {
+        using func<OGLPAFP(ProgramUniformMatrix2fv)>::func;
+
+        constexpr auto operator()(
+          program_name prog,
+          uniform_location loc,
+          true_false transp,
+          span<const float_type> v) const noexcept {
+            return this->_cnvchkcall(
+              prog, loc, sizei_type(v.size()), transp, v.data());
+        }
+    } program_uniform_matrix2fv;
+
+    struct : func<OGLPAFP(ProgramUniformMatrix3fv)> {
+        using func<OGLPAFP(ProgramUniformMatrix3fv)>::func;
+
+        constexpr auto operator()(
+          program_name prog,
+          uniform_location loc,
+          true_false transp,
+          span<const float_type> v) const noexcept {
+            return this->_cnvchkcall(
+              prog, loc, sizei_type(v.size()), transp, v.data());
+        }
+    } program_uniform_matrix3fv;
+
+    struct : func<OGLPAFP(ProgramUniformMatrix4fv)> {
+        using func<OGLPAFP(ProgramUniformMatrix4fv)>::func;
+
+        constexpr auto operator()(
+          program_name prog,
+          uniform_location loc,
+          true_false transp,
+          span<const float_type> v) const noexcept {
+            return this->_cnvchkcall(
+              prog, loc, sizei_type(v.size()), transp, v.data());
+        }
+    } program_uniform_matrix4fv;
+
+    struct : func<OGLPAFP(ProgramUniformMatrix2x3fv)> {
+        using func<OGLPAFP(ProgramUniformMatrix2x3fv)>::func;
+
+        constexpr auto operator()(
+          program_name prog,
+          uniform_location loc,
+          true_false transp,
+          span<const float_type> v) const noexcept {
+            return this->_cnvchkcall(
+              prog, loc, sizei_type(v.size()), transp, v.data());
+        }
+    } program_uniform_matrix2x3fv;
+
+    struct : func<OGLPAFP(ProgramUniformMatrix2x4fv)> {
+        using func<OGLPAFP(ProgramUniformMatrix2x4fv)>::func;
+
+        constexpr auto operator()(
+          program_name prog,
+          uniform_location loc,
+          true_false transp,
+          span<const float_type> v) const noexcept {
+            return this->_cnvchkcall(
+              prog, loc, sizei_type(v.size()), transp, v.data());
+        }
+    } program_uniform_matrix2x4fv;
+
+    struct : func<OGLPAFP(ProgramUniformMatrix3x2fv)> {
+        using func<OGLPAFP(ProgramUniformMatrix3x2fv)>::func;
+
+        constexpr auto operator()(
+          program_name prog,
+          uniform_location loc,
+          true_false transp,
+          span<const float_type> v) const noexcept {
+            return this->_cnvchkcall(
+              prog, loc, sizei_type(v.size()), transp, v.data());
+        }
+    } program_uniform_matrix3x2fv;
+
+    struct : func<OGLPAFP(ProgramUniformMatrix3x4fv)> {
+        using func<OGLPAFP(ProgramUniformMatrix3x4fv)>::func;
+
+        constexpr auto operator()(
+          program_name prog,
+          uniform_location loc,
+          true_false transp,
+          span<const float_type> v) const noexcept {
+            return this->_cnvchkcall(
+              prog, loc, sizei_type(v.size()), transp, v.data());
+        }
+    } program_uniform_matrix3x4fv;
+
+    struct : func<OGLPAFP(ProgramUniformMatrix4x2fv)> {
+        using func<OGLPAFP(ProgramUniformMatrix4x2fv)>::func;
+
+        constexpr auto operator()(
+          program_name prog,
+          uniform_location loc,
+          true_false transp,
+          span<const float_type> v) const noexcept {
+            return this->_cnvchkcall(
+              prog, loc, sizei_type(v.size()), transp, v.data());
+        }
+    } program_uniform_matrix4x2fv;
+
+    struct : func<OGLPAFP(ProgramUniformMatrix4x3fv)> {
+        using func<OGLPAFP(ProgramUniformMatrix4x3fv)>::func;
+
+        constexpr auto operator()(
+          program_name prog,
+          uniform_location loc,
+          true_false transp,
+          span<const float_type> v) const noexcept {
+            return this->_cnvchkcall(
+              prog, loc, sizei_type(v.size()), transp, v.data());
+        }
+    } program_uniform_matrix4x3fv;
+
     // buffer ops
     func<OGLPAFP(BindBuffer), void(buffer_target, buffer_name)> bind_buffer;
 
@@ -1636,6 +1959,45 @@ public:
       , uniform_matrix3x4fv("uniform_matrix3x4fv", traits, *this)
       , uniform_matrix4x2fv("uniform_matrix4x2fv", traits, *this)
       , uniform_matrix4x3fv("uniform_matrix4x3fv", traits, *this)
+      , program_uniform1ui("program_uniform1ui", traits, *this)
+      , program_uniform2ui("program_uniform2ui", traits, *this)
+      , program_uniform3ui("program_uniform3ui", traits, *this)
+      , program_uniform4ui("program_uniform4ui", traits, *this)
+      , program_uniform1uiv("program_uniform1uiv", traits, *this)
+      , program_uniform2uiv("program_uniform2uiv", traits, *this)
+      , program_uniform3uiv("program_uniform3uiv", traits, *this)
+      , program_uniform4uiv("program_uniform4uiv", traits, *this)
+      , program_uniform1i("program_uniform1i", traits, *this)
+      , program_uniform2i("program_uniform2i", traits, *this)
+      , program_uniform3i("program_uniform3i", traits, *this)
+      , program_uniform4i("program_uniform4i", traits, *this)
+      , program_uniform1iv("program_uniform1iv", traits, *this)
+      , program_uniform2iv("program_uniform2iv", traits, *this)
+      , program_uniform3iv("program_uniform3iv", traits, *this)
+      , program_uniform4iv("program_uniform4iv", traits, *this)
+      , program_uniform1f("program_uniform1f", traits, *this)
+      , program_uniform2f("program_uniform2f", traits, *this)
+      , program_uniform3f("program_uniform3f", traits, *this)
+      , program_uniform4f("program_uniform4f", traits, *this)
+      , program_uniform1fv("program_uniform1fv", traits, *this)
+      , program_uniform2fv("program_uniform2fv", traits, *this)
+      , program_uniform3fv("program_uniform3fv", traits, *this)
+      , program_uniform4fv("program_uniform4fv", traits, *this)
+      , program_uniform_matrix2fv("program_uniform_matrix2fv", traits, *this)
+      , program_uniform_matrix3fv("program_uniform_matrix3fv", traits, *this)
+      , program_uniform_matrix4fv("program_uniform_matrix4fv", traits, *this)
+      , program_uniform_matrix2x3fv(
+          "program_uniform_matrix2x3fv", traits, *this)
+      , program_uniform_matrix2x4fv(
+          "program_uniform_matrix2x4fv", traits, *this)
+      , program_uniform_matrix3x2fv(
+          "program_uniform_matrix3x2fv", traits, *this)
+      , program_uniform_matrix3x4fv(
+          "program_uniform_matrix3x4fv", traits, *this)
+      , program_uniform_matrix4x2fv(
+          "program_uniform_matrix4x2fv", traits, *this)
+      , program_uniform_matrix4x3fv(
+          "program_uniform_matrix4x3fv", traits, *this)
       , bind_buffer("bind_buffer", traits, *this)
       , buffer_data("buffer_data", traits, *this)
       , bind_vertex_array("bind_vertex_array", traits, *this)
