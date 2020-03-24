@@ -50,6 +50,8 @@ public:
     using void_ptr_type = typename gl_types::void_ptr_type;
     using const_void_ptr_type = typename gl_types::const_void_ptr_type;
 
+    using vertex_buffer_binding = uint_type;
+
     template <
       typename W,
       W c_api::*F,
@@ -1161,6 +1163,26 @@ public:
     // vertex_array ops
     func<OGLPAFP(BindVertexArray), void(vertex_array_name)> bind_vertex_array;
 
+    func<
+      OGLPAFP(BindVertexBuffer),
+      void(vertex_buffer_binding, buffer_name, intptr_type, sizei_type)>
+      bind_vertex_buffer;
+
+    func<
+      OGLPAFP(VertexArrayVertexBuffer),
+      void(
+        vertex_array_name,
+        vertex_buffer_binding,
+        buffer_name,
+        intptr_type,
+        sizei_type)>
+      vertex_array_vertex_buffer;
+
+    func<
+      OGLPAFP(VertexArrayElementBuffer),
+      void(vertex_array_name, buffer_name)>
+      vertex_array_element_buffer;
+
     func<OGLPAFP(EnableVertexAttribArray), void(vertex_attrib_location)>
       enable_vertex_attrib_array;
 
@@ -1178,6 +1200,52 @@ public:
       disable_vertex_array_attrib;
 
     func<
+      OGLPAFP(VertexAttribFormat),
+      void(vertex_attrib_location, int_type, data_type, true_false, uint_type)>
+      vertex_attrib_format;
+
+    func<
+      OGLPAFP(VertexAttribIFormat),
+      void(vertex_attrib_location, int_type, data_type, uint_type)>
+      vertex_attrib_iformat;
+
+    func<
+      OGLPAFP(VertexAttribLFormat),
+      void(vertex_attrib_location, int_type, data_type, uint_type)>
+      vertex_attrib_lformat;
+
+    func<
+      OGLPAFP(VertexArrayAttribFormat),
+      void(
+        vertex_array_name,
+        vertex_attrib_location,
+        int_type,
+        data_type,
+        true_false,
+        uint_type)>
+      vertex_array_attrib_format;
+
+    func<
+      OGLPAFP(VertexArrayAttribIFormat),
+      void(
+        vertex_array_name,
+        vertex_attrib_location,
+        int_type,
+        data_type,
+        uint_type)>
+      vertex_array_attrib_iformat;
+
+    func<
+      OGLPAFP(VertexArrayAttribLFormat),
+      void(
+        vertex_array_name,
+        vertex_attrib_location,
+        int_type,
+        data_type,
+        uint_type)>
+      vertex_array_attrib_lformat;
+
+    func<
       OGLPAFP(VertexAttribPointer),
       void(
         vertex_attrib_location,
@@ -1187,6 +1255,47 @@ public:
         sizei_type,
         const_void_ptr_type)>
       vertex_attrib_pointer;
+
+    func<
+      OGLPAFP(VertexAttribIPointer),
+      void(
+        vertex_attrib_location,
+        int_type,
+        data_type,
+        sizei_type,
+        const_void_ptr_type)>
+      vertex_attrib_ipointer;
+
+    func<
+      OGLPAFP(VertexAttribLPointer),
+      void(
+        vertex_attrib_location,
+        int_type,
+        data_type,
+        sizei_type,
+        const_void_ptr_type)>
+      vertex_attrib_lpointer;
+
+    func<
+      OGLPAFP(VertexAttribBinding),
+      void(vertex_attrib_location, vertex_buffer_binding)>
+      vertex_attrib_binding;
+
+    func<
+      OGLPAFP(VertexArrayAttribBinding),
+      void(vertex_array_name, vertex_attrib_location, vertex_buffer_binding)>
+      vertex_array_attrib_binding;
+
+    func<OGLPAFP(VertexBindingDivisor), void(vertex_buffer_binding, uint_type)>
+      vertex_binding_divisor;
+
+    func<
+      OGLPAFP(VertexArrayBindingDivisor),
+      void(vertex_buffer_binding, uint_type)>
+      vertex_array_binding_divisor;
+
+    func<OGLPAFP(VertexAttribDivisor), void(vertex_attrib_location, uint_type)>
+      vertex_attrib_divisor;
 
     // texture ops
     func<OGLPAFP(ActiveTexture), void(texture_unit)> active_texture;
@@ -2040,13 +2149,34 @@ public:
       , buffer_sub_data("buffer_sub_data", traits, *this)
       , named_buffer_sub_data("named_buffer_sub_data", traits, *this)
       , bind_vertex_array("bind_vertex_array", traits, *this)
+      , bind_vertex_buffer("bind_vertex_buffer", traits, *this)
+      , vertex_array_vertex_buffer("vertex_array_vertex_buffer", traits, *this)
+      , vertex_array_element_buffer(
+          "vertex_array_element_buffer", traits, *this)
       , enable_vertex_attrib_array("enable_vertex_attrib_array", traits, *this)
       , enable_vertex_array_attrib("enable_vertex_array_attrib", traits, *this)
       , disable_vertex_attrib_array(
           "disable_vertex_attrib_array", traits, *this)
       , disable_vertex_array_attrib(
           "disable_vertex_array_attrib", traits, *this)
+      , vertex_attrib_format("vertex_attrib_format", traits, *this)
+      , vertex_attrib_iformat("vertex_attrib_iformat", traits, *this)
+      , vertex_attrib_lformat("vertex_attrib_lformat", traits, *this)
+      , vertex_array_attrib_format("vertex_array_attrib_format", traits, *this)
+      , vertex_array_attrib_iformat(
+          "vertex_array_attrib_iformat", traits, *this)
+      , vertex_array_attrib_lformat(
+          "vertex_array_attrib_lformat", traits, *this)
       , vertex_attrib_pointer("vertex_attrib_pointer", traits, *this)
+      , vertex_attrib_ipointer("vertex_attrib_ipointer", traits, *this)
+      , vertex_attrib_lpointer("vertex_attrib_lpointer", traits, *this)
+      , vertex_attrib_binding("vertex_attrib_binding", traits, *this)
+      , vertex_array_attrib_binding(
+          "vertex_array_attrib_binding", traits, *this)
+      , vertex_binding_divisor("vertex_binding_divisor", traits, *this)
+      , vertex_array_binding_divisor(
+          "vertex_array_binding_divisor", traits, *this)
+      , vertex_attrib_divisor("vertex_attrib_divisor", traits, *this)
       , active_texture("active_texture", traits, *this)
       , bind_texture("bind_texture", traits, *this)
       , bind_textures("bind_textures", traits, *this)
