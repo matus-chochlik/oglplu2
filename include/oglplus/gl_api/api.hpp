@@ -1112,6 +1112,32 @@ public:
     // buffer ops
     func<OGLPAFP(BindBuffer), void(buffer_target, buffer_name)> bind_buffer;
 
+    func<OGLPAFP(BindBufferBase), void(buffer_target, uint_type, buffer_name)>
+      bind_buffer_base;
+
+    func<
+      OGLPAFP(BindBufferRange),
+      void(buffer_target, uint_type, buffer_name, intptr_type, sizeiptr_type)>
+      bind_buffer_range;
+
+    func<
+      OGLPAFP(BufferStorage),
+      void(
+        buffer_target,
+        sizeiptr_type,
+        const_void_ptr_type,
+        enum_bitfield<buffer_storage_bit>)>
+      buffer_storage;
+
+    func<
+      OGLPAFP(NamedBufferStorage),
+      void(
+        buffer_name,
+        sizeiptr_type,
+        const_void_ptr_type,
+        enum_bitfield<buffer_storage_bit>)>
+      named_buffer_storage;
+
     struct : func<OGLPAFP(BufferData)> {
         using func<OGLPAFP(BufferData)>::func;
 
@@ -1159,6 +1185,91 @@ public:
               buf, offs, sizei_type(values.size()), values.data());
         }
     } named_buffer_sub_data;
+
+    func<
+      OGLPAFP(ClearBufferData),
+      void(
+        buffer_target,
+        pixel_internal_format,
+        pixel_format,
+        pixel_data_type,
+        const_void_ptr_type)>
+      clear_buffer_data;
+
+    func<
+      OGLPAFP(ClearNamedBufferData),
+      void(
+        buffer_name,
+        pixel_internal_format,
+        pixel_format,
+        pixel_data_type,
+        const_void_ptr_type)>
+      clear_named_buffer_data;
+
+    func<
+      OGLPAFP(ClearBufferSubData),
+      void(
+        buffer_target,
+        pixel_internal_format,
+        intptr_type,
+        sizeiptr_type pixel_format,
+        pixel_data_type,
+        const_void_ptr_type)>
+      clear_buffer_sub_data;
+
+    func<
+      OGLPAFP(ClearNamedBufferSubData),
+      void(
+        buffer_name,
+        pixel_internal_format,
+        intptr_type,
+        sizeiptr_type pixel_format,
+        pixel_data_type,
+        const_void_ptr_type)>
+      clear_named_buffer_sub_data;
+
+    func<
+      OGLPAFP(MapBuffer),
+      void_ptr_type(buffer_target, enum_bitfield<buffer_map_access_bit>)>
+      map_buffer;
+
+    func<
+      OGLPAFP(MapNamedBuffer),
+      void_ptr_type(buffer_name, enum_bitfield<buffer_map_access_bit>)>
+      map_named_buffer;
+
+    func<
+      OGLPAFP(MapBufferRange),
+      void_ptr_type(
+        buffer_target,
+        intptr_type,
+        sizeiptr_type,
+        enum_bitfield<buffer_map_access_bit>)>
+      map_buffer_range;
+
+    func<
+      OGLPAFP(MapNamedBufferRange),
+      void_ptr_type(
+        buffer_name,
+        intptr_type,
+        sizeiptr_type,
+        enum_bitfield<buffer_map_access_bit>)>
+      map_named_buffer_range;
+
+    func<
+      OGLPAFP(FlushMappedBufferRange),
+      void_ptr_type(buffer_target, intptr_type, sizeiptr_type)>
+      flush_mapped_buffer_range;
+
+    func<
+      OGLPAFP(FlushMappedNamedBufferRange),
+      void_ptr_type(buffer_name, intptr_type, sizeiptr_type)>
+      flush_mapped_named_buffer_range;
+
+    func<OGLPAFP(UnmapBuffer), void_ptr_type(buffer_target)> unmap_buffer;
+
+    func<OGLPAFP(UnmapNamedBuffer), void_ptr_type(buffer_name)>
+      unmap_named_buffer;
 
     // vertex_array ops
     func<OGLPAFP(BindVertexArray), void(vertex_array_name)> bind_vertex_array;
@@ -2144,10 +2255,28 @@ public:
       , program_uniform_matrix4x3fv(
           "program_uniform_matrix4x3fv", traits, *this)
       , bind_buffer("bind_buffer", traits, *this)
+      , bind_buffer_base("bind_buffer_base", traits, *this)
+      , bind_buffer_range("bind_buffer_range", traits, *this)
+      , buffer_storage("buffer_storage", traits, *this)
+      , named_buffer_storage("named_buffer_storage", traits, *this)
       , buffer_data("buffer_data", traits, *this)
       , named_buffer_data("named_buffer_data", traits, *this)
       , buffer_sub_data("buffer_sub_data", traits, *this)
       , named_buffer_sub_data("named_buffer_sub_data", traits, *this)
+      , clear_buffer_data("clear_buffer_data", traits, *this)
+      , clear_named_buffer_data("clear_named_buffer_data", traits, *this)
+      , clear_buffer_sub_data("clear_buffer_sub_data", traits, *this)
+      , clear_named_buffer_sub_data(
+          "clear_named_buffer_sub_data", traits, *this)
+      , map_buffer("map_buffer", traits, *this)
+      , map_named_buffer("map_named_buffer", traits, *this)
+      , map_buffer_range("map_buffer_range", traits, *this)
+      , map_named_buffer_range("map_named_buffer_range", traits, *this)
+      , flush_mapped_buffer_range("flush_mapped_buffer_range", traits, *this)
+      , flush_mapped_named_buffer_range(
+          "flush_mapped_named_buffer_range", traits, *this)
+      , unmap_buffer("unmap_buffer", traits, *this)
+      , unmap_named_buffer("unmap_named_buffer", traits, *this)
       , bind_vertex_array("bind_vertex_array", traits, *this)
       , bind_vertex_buffer("bind_vertex_buffer", traits, *this)
       , vertex_array_vertex_buffer("vertex_array_vertex_buffer", traits, *this)
