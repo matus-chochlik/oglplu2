@@ -1271,6 +1271,25 @@ public:
     func<OGLPAFP(UnmapNamedBuffer), void_ptr_type(buffer_name)>
       unmap_named_buffer;
 
+    func<OGLPAFP(InvalidateBufferData), void(buffer_name)>
+      invalidate_buffer_data;
+
+    func<
+      OGLPAFP(InvalidateBufferData),
+      void(buffer_name, intptr_type, sizeiptr_type)>
+      invalidate_buffer_sub_data;
+
+    func<
+      OGLPAFP(CopyBufferSubData),
+      void(
+        buffer_target, buffer_target, intptr_type, intptr_type, sizeiptr_type)>
+      copy_buffer_sub_data;
+
+    func<
+      OGLPAFP(CopyBufferSubData),
+      void(buffer_name, buffer_name, intptr_type, intptr_type, sizeiptr_type)>
+      copy_named_buffer_sub_data;
+
     // vertex_array ops
     func<OGLPAFP(BindVertexArray), void(vertex_array_name)> bind_vertex_array;
 
@@ -2277,6 +2296,10 @@ public:
           "flush_mapped_named_buffer_range", traits, *this)
       , unmap_buffer("unmap_buffer", traits, *this)
       , unmap_named_buffer("unmap_named_buffer", traits, *this)
+      , invalidate_buffer_data("invalidate_buffer_data", traits, *this)
+      , invalidate_buffer_sub_data("invalidate_buffer_sub_data", traits, *this)
+      , copy_buffer_sub_data("copy_buffer_sub_data", traits, *this)
+      , copy_named_buffer_sub_data("copy_named_buffer_sub_data", traits, *this)
       , bind_vertex_array("bind_vertex_array", traits, *this)
       , bind_vertex_buffer("bind_vertex_buffer", traits, *this)
       , vertex_array_vertex_buffer("vertex_array_vertex_buffer", traits, *this)
