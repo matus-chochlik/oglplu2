@@ -1777,6 +1777,129 @@ public:
       copy_texture_sub_image1d;
 
     func<
+      OGLPAFP(CompressedTexImage3D),
+      void(
+        texture_target,
+        int_type,
+        pixel_internal_format,
+        sizei_type,
+        sizei_type,
+        sizei_type,
+        int_type,
+        sizei_type,
+        const_void_ptr_type)>
+      compressed_tex_image3d;
+
+    func<
+      OGLPAFP(CompressedTexImage2D),
+      void(
+        texture_target,
+        int_type,
+        pixel_internal_format,
+        sizei_type,
+        sizei_type,
+        int_type,
+        sizei_type,
+        const_void_ptr_type)>
+      compressed_tex_image2d;
+
+    func<
+      OGLPAFP(CompressedTexImage1D),
+      void(
+        texture_target,
+        int_type,
+        pixel_internal_format,
+        sizei_type,
+        int_type,
+        sizei_type,
+        const_void_ptr_type)>
+      compressed_tex_image1d;
+
+    func<
+      OGLPAFP(CompressedTexSubImage3D),
+      void(
+        texture_target,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type,
+        sizei_type,
+        pixel_format,
+        sizei_type,
+        const_void_ptr_type)>
+      compressed_tex_sub_image3d;
+
+    func<
+      OGLPAFP(CompressedTextureSubImage3D),
+      void(
+        texture_name,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type,
+        sizei_type,
+        pixel_format,
+        sizei_type,
+        const_void_ptr_type)>
+      compressed_texture_sub_image3d;
+
+    func<
+      OGLPAFP(CompressedTexSubImage2D),
+      void(
+        texture_target,
+        int_type,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type,
+        pixel_format,
+        sizei_type,
+        const_void_ptr_type)>
+      compressed_tex_sub_image2d;
+
+    func<
+      OGLPAFP(CompressedTextureSubImage2D),
+      void(
+        texture_name,
+        int_type,
+        int_type,
+        int_type,
+        sizei_type,
+        sizei_type,
+        pixel_format,
+        sizei_type,
+        const_void_ptr_type)>
+      compressed_texture_sub_image2d;
+
+    func<
+      OGLPAFP(CompressedTexSubImage1D),
+      void(
+        texture_target,
+        int_type,
+        int_type,
+        sizei_type,
+        pixel_format,
+        sizei_type,
+        const_void_ptr_type)>
+      compressed_tex_sub_image1d;
+
+    func<
+      OGLPAFP(CompressedTextureSubImage1D),
+      void(
+        texture_name,
+        int_type,
+        int_type,
+        sizei_type,
+        pixel_format,
+        sizei_type,
+        const_void_ptr_type)>
+      compressed_texture_sub_image1d;
+
+    func<
       OGLPAFP(TexBuffer),
       void(texture_target, pixel_internal_format, buffer_name)>
       tex_buffer;
@@ -2363,6 +2486,18 @@ public:
       , copy_texture_sub_image2d("copy_texture_sub_image2d", traits, *this)
       , copy_tex_sub_image1d("copy_tex_sub_image1d", traits, *this)
       , copy_texture_sub_image1d("copy_texture_sub_image1d", traits, *this)
+      , compressed_tex_image3d("compressed_tex_image3d", traits, *this)
+      , compressed_tex_image2d("compressed_tex_image2d", traits, *this)
+      , compressed_tex_image1d("compressed_tex_image1d", traits, *this)
+      , compressed_tex_sub_image3d("compressed_tex_sub_image3d", traits, *this)
+      , compressed_texture_sub_image3d(
+          "compressed_texture_sub_image3d", traits, *this)
+      , compressed_tex_sub_image2d("compressed_tex_sub_image2d", traits, *this)
+      , compressed_texture_sub_image2d(
+          "compressed_texture_sub_image2d", traits, *this)
+      , compressed_tex_sub_image1d("compressed_tex_sub_image1d", traits, *this)
+      , compressed_texture_sub_image1d(
+          "compressed_texture_sub_image1d", traits, *this)
       , tex_buffer("tex_buffer", traits, *this)
       , texture_buffer("texture_buffer", traits, *this)
       , tex_buffer_range("tex_buffer_range", traits, *this)
