@@ -1929,6 +1929,63 @@ public:
         sizeiptr_type)>
       texture_buffer_range;
 
+    // sampler ops
+    func<OGLPAFP(BindSampler), void(uint_type, sampler_name)> bind_sampler;
+
+    func<
+      OGLPAFP(SamplerParameterf),
+      void(sampler_name, sampler_parameter, float_type)>
+      sampler_parameter_f;
+
+    func<
+      OGLPAFP(SamplerParameteri),
+      void(sampler_name, sampler_parameter, int_type)>
+      sampler_parameter_i;
+
+    struct : func<OGLPAFP(SamplerParameterfv)> {
+        using func<OGLPAFP(SamplerParameterfv)>::func;
+
+        constexpr auto operator()(
+          sampler_name sam,
+          sampler_parameter param,
+          span<const float_type> values) noexcept {
+            return this->_cnvchkcall(sam, param, values.data());
+        }
+    } sampler_parameter_fv;
+
+    struct : func<OGLPAFP(SamplerParameteriv)> {
+        using func<OGLPAFP(SamplerParameteriv)>::func;
+
+        constexpr auto operator()(
+          sampler_name sam,
+          sampler_parameter param,
+          span<const int_type> values) noexcept {
+            return this->_cnvchkcall(sam, param, values.data());
+        }
+    } sampler_parameter_iv;
+
+    struct : func<OGLPAFP(SamplerParameterIiv)> {
+        using func<OGLPAFP(SamplerParameterIiv)>::func;
+
+        constexpr auto operator()(
+          sampler_name sam,
+          sampler_parameter param,
+          span<const int_type> values) noexcept {
+            return this->_cnvchkcall(sam, param, values.data());
+        }
+    } sampler_parameter_iiv;
+
+    struct : func<OGLPAFP(SamplerParameterIuiv)> {
+        using func<OGLPAFP(SamplerParameterIuiv)>::func;
+
+        constexpr auto operator()(
+          sampler_name sam,
+          sampler_parameter param,
+          span<const uint_type> values) noexcept {
+            return this->_cnvchkcall(sam, param, values.data());
+        }
+    } sampler_parameter_iuiv;
+
     // drawing
     // arrays
     func<OGLPAFP(DrawArrays), void(primitive_type, int_type, sizei_type)>
@@ -2502,6 +2559,13 @@ public:
       , texture_buffer("texture_buffer", traits, *this)
       , tex_buffer_range("tex_buffer_range", traits, *this)
       , texture_buffer_range("texture_buffer_range", traits, *this)
+      , bind_sampler("bind_sampler", traits, *this)
+      , sampler_parameter_f("sampler_parameter_f", traits, *this)
+      , sampler_parameter_i("sampler_parameter_i", traits, *this)
+      , sampler_parameter_fv("sampler_parameter_fv", traits, *this)
+      , sampler_parameter_iv("sampler_parameter_iv", traits, *this)
+      , sampler_parameter_iiv("sampler_parameter_iiv", traits, *this)
+      , sampler_parameter_iuiv("sampler_parameter_iuiv", traits, *this)
       , draw_arrays("draw_arrays", traits, *this)
       , draw_arrays_instanced_base_instance(
           "draw_arrays_instanced_base_instance", traits, *this)

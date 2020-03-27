@@ -1186,7 +1186,7 @@ struct basic_gl_c_api {
       IsSampler;
 
     gl_api_function<
-      void(enum_type, uint_type),
+      void(uint_type, uint_type),
       OGLPLUS_GL_STATIC_FUNC(BindSampler)>
       BindSampler;
 
