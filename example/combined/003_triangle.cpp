@@ -15,7 +15,6 @@
 #include <oglplus/math/primitives.hpp>
 #include "example.hpp"
 // clang-format on
-#include <iostream>
 
 namespace eagine {
 namespace oglp {
@@ -58,7 +57,6 @@ bool example_triangle ::check_requirements(const example_context& ctx) {
 //------------------------------------------------------------------------------
 void example_triangle::init(example_context& ctx) {
     auto& cleanup = ctx.cleanup();
-
     const auto& [gl, GL] = ctx.gl();
 
     gl.clear_color(0.4f, 0.4f, 0.4f, 0.0f);

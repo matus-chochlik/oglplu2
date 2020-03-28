@@ -14,6 +14,7 @@
 #include "c_api.hpp"
 #include "enum_types.hpp"
 #include "object_name.hpp"
+#include <eagine/int_constant.hpp>
 #include <array>
 
 namespace eagine {
@@ -21,7 +22,7 @@ namespace oglp {
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
 struct basic_gl_constants {
-
+private:
     template <typename Wrap, typename T = typename Wrap::tag_type>
     struct _type_constructor_constant : Wrap {
         using Wrap::Wrap;
@@ -32,13 +33,21 @@ struct basic_gl_constants {
             return T(std::forward<X>(x));
         }
 
-        template <typename... X>
-        std::enable_if_t<
-          (true && ... && std::is_convertible_v<std::decay_t<X>, T>),
-          std::array<T, sizeof...(X)>>
-        array(X&&... x) const noexcept {
-            return {{T(std::forward<X>(x))...}};
-        }
+        struct {
+            template <typename... X>
+            std::enable_if_t<
+              ((sizeof...(X) > 0) && ... &&
+               std::is_convertible_v<std::decay_t<X>, T>),
+              std::array<T, sizeof...(X)>>
+            operator()(X&&... x) const noexcept {
+                return {{T(std::forward<X>(x))...}};
+            }
+
+            template <std::size_t L>
+            std::array<T, L> operator()(size_constant<L> = {}) const noexcept {
+                return {{}};
+            }
+        } array;
     };
 
     template <typename Wrap, typename T, std::size_t N>

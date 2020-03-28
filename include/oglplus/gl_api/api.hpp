@@ -1687,7 +1687,7 @@ public:
         int_type,
         pixel_format,
         pixel_data_type,
-        const_void_ptr_type)>
+        memory::const_block)>
       tex_image1d;
 
     func<

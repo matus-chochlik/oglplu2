@@ -146,6 +146,7 @@ add_examples(combined "001_*" "${EXAMPLE_LIBS}")
 add_examples(combined "002_*" "${EXAMPLE_LIBS}")
 add_examples(combined "003_*" "${EXAMPLE_LIBS}")
 add_examples(combined "004_*" "${EXAMPLE_LIBS}")
+add_examples(combined "011_mandel*" "${EXAMPLE_LIBS}")
 
 add_custom_target(glsl_program_sources ALL)
 add_custom_target(glsl_shader_sources ALL)

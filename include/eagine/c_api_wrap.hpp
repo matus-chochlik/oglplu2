@@ -902,6 +902,10 @@ protected:
         return c_str(str);
     }
 
+    static constexpr inline auto _conv(memory::const_block blk) noexcept {
+        return blk.data();
+    }
+
 public:
     using base::base;
 
