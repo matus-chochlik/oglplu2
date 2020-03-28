@@ -128,6 +128,11 @@ public:
             return this->_chkcall(sizei_type(names.size()), names.data());
         }
 
+        constexpr auto operator()(
+          gl_object_name_span<gl_object_name<ObjTag>> names) const noexcept {
+            return (*this)(names.raw_handles());
+        }
+
         constexpr auto operator()() const noexcept {
             name_type n{};
             return this->_chkcall(1, &n).replaced_with(n).cast_to(
@@ -235,6 +240,11 @@ public:
 
         constexpr auto operator()(span<const name_type> names) const noexcept {
             return this->_chkcall(sizei_type(names.size()), names.data());
+        }
+
+        constexpr auto operator()(
+          gl_object_name_view<gl_object_name<ObjTag>> names) const noexcept {
+            return (*this)(names.raw_handles());
         }
 
         constexpr auto operator()(gl_owned_object_name<ObjTag> name) const

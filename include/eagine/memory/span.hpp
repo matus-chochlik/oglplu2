@@ -85,6 +85,7 @@ public:
     using address_type = basic_address<std::is_const_v<ValueType>>;
     using pointer = Pointer;
     using iterator = Pointer;
+    using const_iterator = Pointer;
     using reverse_iterator = std::reverse_iterator<iterator>;
 
     constexpr basic_span(pointer addr, size_type len) noexcept

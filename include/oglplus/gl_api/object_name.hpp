@@ -22,6 +22,12 @@ using gl_object_name = basic_handle<Tag, gl_types::name_type>;
 template <typename Tag>
 using gl_owned_object_name = basic_owned_handle<Tag, gl_types::name_type>;
 
+template <typename Tag>
+using gl_object_name_span = basic_handle_span<gl_object_name<Tag>>;
+
+template <typename Tag>
+using gl_object_name_view = basic_handle_view<gl_object_name<Tag>>;
+
 template <typename Tag, std::size_t N>
 using gl_object_name_array = basic_handle_array<gl_object_name<Tag>, N>;
 //------------------------------------------------------------------------------

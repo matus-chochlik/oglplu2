@@ -20,6 +20,9 @@ namespace eagine {
 template <typename Tag, typename Handle, Handle invalid = ~Handle(0)>
 class basic_handle {
 public:
+    using tag_type = Tag;
+    using handle_type = Handle;
+
     ~basic_handle() noexcept = default;
     constexpr basic_handle() noexcept = default;
     constexpr basic_handle(basic_handle&& tmp) noexcept
@@ -132,7 +135,7 @@ private:
     }
 
 public:
-    using handle_type = basic_handle<Tag, Handle, invalid>;
+    using basic_handle_type = basic_handle<Tag, Handle, invalid>;
 
     constexpr basic_handle_container() noexcept {
         _invalidate_handles(_handles);
@@ -155,6 +158,17 @@ public:
 
     ~basic_handle_container() noexcept = default;
 
+    operator basic_handle_container<
+      basic_handle_type,
+      span<Handle>>() noexcept {
+        return {cover(_handles)};
+    }
+
+    operator basic_handle_container<basic_handle_type, span<const Handle>>()
+      const noexcept {
+        return {view(_handles)};
+    }
+
     constexpr bool empty() const noexcept {
         return _handles.empty();
     }
@@ -164,22 +178,22 @@ public:
     }
 
     constexpr auto operator[](span_size_t index) const noexcept {
-        return handle_type(_handles[range_index<Container>(index)]);
+        return basic_handle_type(_handles[range_index<Container>(index)]);
     }
 
     auto at(span_size_t index) const {
-        return handle_type(_handles.at(range_index<Container>(index)));
+        return basic_handle_type(_handles.at(range_index<Container>(index)));
     }
 
-    using iterator = basic_handle_wrapping_iterator<
-      handle_type,
+    using const_iterator = basic_handle_wrapping_iterator<
+      basic_handle_type,
       typename Container::const_iterator>;
 
-    constexpr iterator begin() const noexcept {
+    constexpr const_iterator begin() const noexcept {
         return {_handles.begin()};
     }
 
-    constexpr iterator end() const noexcept {
+    constexpr const_iterator end() const noexcept {
         return {_handles.end()};
     }
 
@@ -192,6 +206,15 @@ public:
     }
 };
 //------------------------------------------------------------------------------
+template <typename BasicHandle>
+using basic_handle_span =
+  basic_handle_container<BasicHandle, span<typename BasicHandle::handle_type>>;
+
+template <typename BasicHandle>
+using basic_handle_view = basic_handle_container<
+  BasicHandle,
+  span<const typename BasicHandle::handle_type>>;
+
 template <typename BasicHandle, std::size_t N>
 using basic_handle_array =
   basic_handle_container<BasicHandle, std::array<BasicHandle, N>>;
