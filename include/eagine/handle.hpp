@@ -10,6 +10,11 @@
 #ifndef EAGINE_HANDLE_HPP
 #define EAGINE_HANDLE_HPP
 
+#include "iterator.hpp"
+#include "range_types.hpp"
+#include "span.hpp"
+#include <array>
+
 namespace eagine {
 //------------------------------------------------------------------------------
 template <typename Tag, typename Handle, Handle invalid = ~Handle(0)>
@@ -42,6 +47,12 @@ public:
     explicit constexpr operator Handle() const noexcept {
         return _name;
     }
+
+    struct transform {
+        constexpr auto operator()(Handle hndl) noexcept {
+            return basic_handle<Tag, Handle, invalid>{hndl};
+        }
+    };
 
 protected:
     Handle _release() noexcept {
@@ -78,6 +89,112 @@ public:
         return this->_release();
     }
 };
+//------------------------------------------------------------------------------
+template <typename Iterator, typename BasicHandle>
+struct basic_handle_wrapping_iterator;
+
+template <typename Iterator, typename Tag, typename Handle, Handle invalid>
+struct basic_handle_wrapping_iterator<
+  Iterator,
+  basic_handle<Tag, Handle, invalid>>
+  : transforming_iterator<
+      Iterator,
+      basic_handle<Tag, Handle, invalid>,
+      Handle,
+      typename basic_handle<Tag, Handle, invalid>::transform> {
+    using transforming_iterator<
+      Iterator,
+      basic_handle<Tag, Handle, invalid>,
+      Handle,
+      typename basic_handle<Tag, Handle, invalid>::transform>::
+      transforming_iterator;
+};
+//------------------------------------------------------------------------------
+template <typename BasicHandle, typename Container>
+class basic_handle_container;
+
+template <typename Tag, typename Handle, Handle invalid, typename Container>
+class basic_handle_container<basic_handle<Tag, Handle, invalid>, Container> {
+private:
+    Container _handles;
+
+    static constexpr void _invalidate_handles(Container& handles) {
+        using std::begin;
+        using std::end;
+        using std::fill;
+        fill(begin(handles), end(handles), invalid);
+    }
+
+    auto _release_handles() noexcept {
+        Container handles{std::move(_handles)};
+        _invalidate_handles(_handles);
+        return handles;
+    }
+
+public:
+    using handle_type = basic_handle<Tag, Handle, invalid>;
+
+    constexpr basic_handle_container() noexcept {
+        _invalidate_handles(_handles);
+    }
+
+    basic_handle_container(const basic_handle_container&) = default;
+    basic_handle_container& operator=(const basic_handle_container&) = default;
+
+    basic_handle_container(basic_handle_container&& temp) noexcept
+      : _handles{temp._release_handles()} {
+    }
+
+    basic_handle_container& operator=(basic_handle_container&& temp) noexcept {
+        using std::swap;
+
+        auto handles{temp._release_handles()};
+        swap(handles, _handles);
+        return *this;
+    }
+
+    ~basic_handle_container() noexcept = default;
+
+    constexpr bool empty() const noexcept {
+        return _handles.empty();
+    }
+
+    constexpr auto size() const noexcept {
+        return span_size(_handles.size());
+    }
+
+    constexpr auto operator[](span_size_t index) const noexcept {
+        return handle_type(_handles[range_index<Container>(index)]);
+    }
+
+    auto at(span_size_t index) const {
+        return handle_type(_handles.at(range_index<Container>(index)));
+    }
+
+    using iterator = basic_handle_wrapping_iterator<
+      handle_type,
+      typename Container::const_iterator>;
+
+    constexpr iterator begin() const noexcept {
+        return {_handles.begin()};
+    }
+
+    constexpr iterator end() const noexcept {
+        return {_handles.end()};
+    }
+
+    constexpr span<Handle> raw_handles() noexcept {
+        return cover(_handles);
+    }
+
+    constexpr span<const Handle> raw_handles() const noexcept {
+        return view(_handles);
+    }
+};
+//------------------------------------------------------------------------------
+template <typename BasicHandle, std::size_t N>
+using basic_handle_array =
+  basic_handle_container<BasicHandle, std::array<BasicHandle, N>>;
 //------------------------------------------------------------------------------
 } // namespace eagine
 

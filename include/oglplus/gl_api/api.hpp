@@ -2037,6 +2037,11 @@ public:
         }
     } texture_parameter_iuiv;
 
+    func<OGLPAFP(GenerateMipmap), void(texture_target)> generate_mipmap;
+
+    func<OGLPAFP(GenerateTextureMipmap), void(texture_name)>
+      generate_texture_mipmap;
+
     // sampler ops
     func<OGLPAFP(BindSampler), void(uint_type, sampler_name)> bind_sampler;
 
@@ -2679,6 +2684,8 @@ public:
       , texture_parameter_iiv("texture_parameter_iiv", traits, *this)
       , tex_parameter_iuiv("tex_parameter_iuiv", traits, *this)
       , texture_parameter_iuiv("texture_parameter_iuiv", traits, *this)
+      , generate_mipmap("generate_mipmap", traits, *this)
+      , generate_texture_mipmap("generate_texture_mipmap", traits, *this)
       , bind_sampler("bind_sampler", traits, *this)
       , sampler_parameter_f("sampler_parameter_f", traits, *this)
       , sampler_parameter_i("sampler_parameter_i", traits, *this)

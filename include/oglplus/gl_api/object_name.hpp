@@ -21,6 +21,9 @@ using gl_object_name = basic_handle<Tag, gl_types::name_type>;
 
 template <typename Tag>
 using gl_owned_object_name = basic_owned_handle<Tag, gl_types::name_type>;
+
+template <typename Tag, std::size_t N>
+using gl_object_name_array = basic_handle_array<gl_object_name<Tag>, N>;
 //------------------------------------------------------------------------------
 using buffer_tag = EAGINE_MSG_TYPE(gl, Buffer);
 using framebuffer_tag = EAGINE_MSG_TYPE(gl, Frmebuffer);
@@ -61,6 +64,31 @@ using owned_transform_feedback_name =
   gl_owned_object_name<transform_feedback_tag>;
 using owned_vertex_array_name = gl_owned_object_name<vertex_array_tag>;
 using owned_path_nv_name = gl_owned_object_name<path_nv_tag>;
+//------------------------------------------------------------------------------
+template <std::size_t N>
+using buffer_name_array = gl_object_name_array<buffer_tag, N>;
+template <std::size_t N>
+using framebuffer_name_array = gl_object_name_array<framebuffer_tag, N>;
+template <std::size_t N>
+using program_pipeline_name_array =
+  gl_object_name_array<program_pipeline_tag, N>;
+template <std::size_t N>
+using program_name_array = gl_object_name_array<program_tag, N>;
+template <std::size_t N>
+using query_name_array = gl_object_name_array<query_tag, N>;
+template <std::size_t N>
+using renderbuffer_name_array = gl_object_name_array<renderbuffer_tag, N>;
+template <std::size_t N>
+using sampler_name_array = gl_object_name_array<sampler_tag, N>;
+template <std::size_t N>
+using shader_name_array = gl_object_name_array<shader_tag, N>;
+template <std::size_t N>
+using texture_name_array = gl_object_name_array<texture_tag, N>;
+template <std::size_t N>
+using transform_feedback_name_array =
+  gl_object_name_array<transform_feedback_tag, N>;
+template <std::size_t N>
+using vertex_array_name_array = gl_object_name_array<vertex_array_tag, N>;
 //------------------------------------------------------------------------------
 } // namespace oglp
 } // namespace eagine
