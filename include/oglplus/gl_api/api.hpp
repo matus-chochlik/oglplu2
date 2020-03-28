@@ -1345,9 +1345,37 @@ public:
       copy_buffer_sub_data;
 
     func<
-      OGLPAFP(CopyBufferSubData),
+      OGLPAFP(CopyNamedBufferSubData),
       void(buffer_name, buffer_name, intptr_type, intptr_type, sizeiptr_type)>
       copy_named_buffer_sub_data;
+
+    query_func<
+      mp_list<buffer_target>,
+      mp_list<buffer_parameter>,
+      int_type,
+      OGLPAFP(GetBufferParameteriv)>
+      get_buffer_parameter_i;
+
+    query_func<
+      mp_list<buffer_name>,
+      mp_list<buffer_parameter>,
+      int_type,
+      OGLPAFP(GetNamedBufferParameteriv)>
+      get_named_buffer_parameter_i;
+
+    query_func<
+      mp_list<buffer_target>,
+      mp_list<buffer_parameter>,
+      int64_type,
+      OGLPAFP(GetBufferParameteri64v)>
+      get_buffer_parameter_i64;
+
+    query_func<
+      mp_list<buffer_name>,
+      mp_list<buffer_parameter>,
+      int64_type,
+      OGLPAFP(GetNamedBufferParameteri64v)>
+      get_named_buffer_parameter_i64;
 
     // vertex_array ops
     func<OGLPAFP(BindVertexArray), void(vertex_array_name)> bind_vertex_array;
@@ -2096,6 +2124,62 @@ public:
         }
     } texture_parameter_iuiv;
 
+    query_func<
+      mp_list<texture_target>,
+      mp_list<texture_parameter>,
+      float_type,
+      OGLPAFP(GetTexParameterfv)>
+      get_tex_parameter_f;
+
+    query_func<
+      mp_list<texture_name>,
+      mp_list<texture_parameter>,
+      float_type,
+      OGLPAFP(GetTextureParameterfv)>
+      get_texture_parameter_f;
+
+    query_func<
+      mp_list<texture_target>,
+      mp_list<texture_parameter>,
+      int_type,
+      OGLPAFP(GetTexParameteriv)>
+      get_tex_parameter_i;
+
+    query_func<
+      mp_list<texture_name>,
+      mp_list<texture_parameter>,
+      int_type,
+      OGLPAFP(GetTextureParameteriv)>
+      get_texture_parameter_i;
+
+    query_func<
+      mp_list<texture_target>,
+      mp_list<texture_parameter>,
+      int_type,
+      OGLPAFP(GetTexParameterIiv)>
+      get_tex_parameter_ii;
+
+    query_func<
+      mp_list<texture_name>,
+      mp_list<texture_parameter>,
+      int_type,
+      OGLPAFP(GetTextureParameterIiv)>
+      get_texture_parameter_ii;
+
+    query_func<
+      mp_list<texture_target>,
+      mp_list<texture_parameter>,
+      uint_type,
+      OGLPAFP(GetTexParameterIuiv)>
+      get_tex_parameter_iui;
+
+    query_func<
+      mp_list<texture_name>,
+      mp_list<texture_parameter>,
+      uint_type,
+      OGLPAFP(GetTextureParameterIuiv)>
+      get_texture_parameter_iui;
+
     func<OGLPAFP(GenerateMipmap), void(texture_target)> generate_mipmap;
 
     func<OGLPAFP(GenerateTextureMipmap), void(texture_name)>
@@ -2617,6 +2701,12 @@ public:
       , invalidate_buffer_sub_data("invalidate_buffer_sub_data", traits, *this)
       , copy_buffer_sub_data("copy_buffer_sub_data", traits, *this)
       , copy_named_buffer_sub_data("copy_named_buffer_sub_data", traits, *this)
+      , get_buffer_parameter_i("get_buffer_parameter_i", traits, *this)
+      , get_named_buffer_parameter_i(
+          "get_named_buffer_parameter_i", traits, *this)
+      , get_buffer_parameter_i64("get_buffer_parameter_i64", traits, *this)
+      , get_named_buffer_parameter_i64(
+          "get_named_buffer_parameter_i64", traits, *this)
       , bind_vertex_array("bind_vertex_array", traits, *this)
       , bind_vertex_buffer("bind_vertex_buffer", traits, *this)
       , vertex_array_vertex_buffer("vertex_array_vertex_buffer", traits, *this)
@@ -2708,6 +2798,14 @@ public:
       , texture_parameter_iiv("texture_parameter_iiv", traits, *this)
       , tex_parameter_iuiv("tex_parameter_iuiv", traits, *this)
       , texture_parameter_iuiv("texture_parameter_iuiv", traits, *this)
+      , get_tex_parameter_f("get_tex_parameter_f", traits, *this)
+      , get_texture_parameter_f("get_texture_parameter_f", traits, *this)
+      , get_tex_parameter_i("get_tex_parameter_i", traits, *this)
+      , get_texture_parameter_i("get_texture_parameter_i", traits, *this)
+      , get_tex_parameter_ii("get_tex_parameter_ii", traits, *this)
+      , get_texture_parameter_ii("get_texture_parameter_ii", traits, *this)
+      , get_tex_parameter_iui("get_tex_parameter_iui", traits, *this)
+      , get_texture_parameter_iui("get_texture_parameter_iui", traits, *this)
       , generate_mipmap("generate_mipmap", traits, *this)
       , generate_texture_mipmap("generate_texture_mipmap", traits, *this)
       , bind_sampler("bind_sampler", traits, *this)
