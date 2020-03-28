@@ -1929,6 +1929,114 @@ public:
         sizeiptr_type)>
       texture_buffer_range;
 
+    func<
+      OGLPAFP(TexParameterf),
+      void(texture_target, texture_parameter, float_type)>
+      tex_parameter_f;
+
+    func<
+      OGLPAFP(TextureParameterf),
+      void(texture_name, texture_parameter, float_type)>
+      texture_parameter_f;
+
+    func<
+      OGLPAFP(TexParameteri),
+      void(texture_target, texture_parameter, int_type)>
+      tex_parameter_i;
+
+    func<
+      OGLPAFP(TextureParameteri),
+      void(texture_name, texture_parameter, int_type)>
+      texture_parameter_i;
+
+    struct : func<OGLPAFP(TexParameterfv)> {
+        using func<OGLPAFP(TexParameterfv)>::func;
+
+        constexpr auto operator()(
+          texture_target tgt,
+          texture_parameter param,
+          span<const float_type> values) noexcept {
+            return this->_cnvchkcall(tgt, param, values.data());
+        }
+    } tex_parameter_fv;
+
+    struct : func<OGLPAFP(TextureParameterfv)> {
+        using func<OGLPAFP(TextureParameterfv)>::func;
+
+        constexpr auto operator()(
+          texture_name tex,
+          texture_parameter param,
+          span<const float_type> values) noexcept {
+            return this->_cnvchkcall(tex, param, values.data());
+        }
+    } texture_parameter_fv;
+
+    struct : func<OGLPAFP(TexParameteriv)> {
+        using func<OGLPAFP(TexParameteriv)>::func;
+
+        constexpr auto operator()(
+          texture_target tgt,
+          texture_parameter param,
+          span<const int_type> values) noexcept {
+            return this->_cnvchkcall(tgt, param, values.data());
+        }
+    } tex_parameter_iv;
+
+    struct : func<OGLPAFP(TextureParameteriv)> {
+        using func<OGLPAFP(TextureParameteriv)>::func;
+
+        constexpr auto operator()(
+          texture_name tex,
+          texture_parameter param,
+          span<const int_type> values) noexcept {
+            return this->_cnvchkcall(tex, param, values.data());
+        }
+    } texture_parameter_iv;
+
+    struct : func<OGLPAFP(TexParameterIiv)> {
+        using func<OGLPAFP(TexParameterIiv)>::func;
+
+        constexpr auto operator()(
+          texture_target tgt,
+          texture_parameter param,
+          span<const int_type> values) noexcept {
+            return this->_cnvchkcall(tgt, param, values.data());
+        }
+    } tex_parameter_iiv;
+
+    struct : func<OGLPAFP(TextureParameterIiv)> {
+        using func<OGLPAFP(TextureParameterIiv)>::func;
+
+        constexpr auto operator()(
+          texture_name tex,
+          texture_parameter param,
+          span<const int_type> values) noexcept {
+            return this->_cnvchkcall(tex, param, values.data());
+        }
+    } texture_parameter_iiv;
+
+    struct : func<OGLPAFP(TexParameterIuiv)> {
+        using func<OGLPAFP(TexParameterIuiv)>::func;
+
+        constexpr auto operator()(
+          texture_target tgt,
+          texture_parameter param,
+          span<const uint_type> values) noexcept {
+            return this->_cnvchkcall(tgt, param, values.data());
+        }
+    } tex_parameter_iuiv;
+
+    struct : func<OGLPAFP(TextureParameterIuiv)> {
+        using func<OGLPAFP(TextureParameterIuiv)>::func;
+
+        constexpr auto operator()(
+          texture_name tex,
+          texture_parameter param,
+          span<const uint_type> values) noexcept {
+            return this->_cnvchkcall(tex, param, values.data());
+        }
+    } texture_parameter_iuiv;
+
     // sampler ops
     func<OGLPAFP(BindSampler), void(uint_type, sampler_name)> bind_sampler;
 
@@ -2559,6 +2667,18 @@ public:
       , texture_buffer("texture_buffer", traits, *this)
       , tex_buffer_range("tex_buffer_range", traits, *this)
       , texture_buffer_range("texture_buffer_range", traits, *this)
+      , tex_parameter_f("tex_parameter_f", traits, *this)
+      , texture_parameter_f("texture_parameter_f", traits, *this)
+      , tex_parameter_i("tex_parameter_i", traits, *this)
+      , texture_parameter_i("texture_parameter_i", traits, *this)
+      , tex_parameter_fv("tex_parameter_fv", traits, *this)
+      , texture_parameter_fv("texture_parameter_fv", traits, *this)
+      , tex_parameter_iv("tex_parameter_iv", traits, *this)
+      , texture_parameter_iv("texture_parameter_iv", traits, *this)
+      , tex_parameter_iiv("tex_parameter_iiv", traits, *this)
+      , texture_parameter_iiv("texture_parameter_iiv", traits, *this)
+      , tex_parameter_iuiv("tex_parameter_iuiv", traits, *this)
+      , texture_parameter_iuiv("texture_parameter_iuiv", traits, *this)
       , bind_sampler("bind_sampler", traits, *this)
       , sampler_parameter_f("sampler_parameter_f", traits, *this)
       , sampler_parameter_i("sampler_parameter_i", traits, *this)
