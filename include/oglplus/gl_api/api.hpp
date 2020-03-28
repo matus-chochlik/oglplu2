@@ -2232,6 +2232,84 @@ public:
         }
     } sampler_parameter_iuiv;
 
+    query_func<
+      mp_list<sampler_name>,
+      mp_list<sampler_parameter>,
+      float_type,
+      OGLPAFP(GetSamplerParameterfv)>
+      get_sampler_parameter_f;
+
+    query_func<
+      mp_list<sampler_name>,
+      mp_list<sampler_parameter>,
+      int_type,
+      OGLPAFP(GetSamplerParameteriv)>
+      get_sampler_parameter_i;
+
+    query_func<
+      mp_list<sampler_name>,
+      mp_list<sampler_parameter>,
+      int_type,
+      OGLPAFP(GetSamplerParameterIiv)>
+      get_sampler_parameter_ii;
+
+    query_func<
+      mp_list<sampler_name>,
+      mp_list<sampler_parameter>,
+      uint_type,
+      OGLPAFP(GetSamplerParameterIuiv)>
+      get_sampler_parameter_iui;
+
+    // renderbuffer ops
+    func<
+      OGLPAFP(BindRenderbuffer),
+      void(renderbuffer_target, renderbuffer_name)>
+      bind_renderbuffer;
+
+    func<
+      OGLPAFP(RenderbufferStorage),
+      void(renderbuffer_target, pixel_internal_format, sizei_type, sizei_type)>
+      renderbuffer_storage;
+
+    func<
+      OGLPAFP(NamedRenderbufferStorage),
+      void(renderbuffer_target, pixel_internal_format, sizei_type, sizei_type)>
+      named_renderbuffer_storage;
+
+    func<
+      OGLPAFP(RenderbufferStorageMultisample),
+      void(
+        renderbuffer_target,
+        sizei_type,
+        pixel_internal_format,
+        sizei_type,
+        sizei_type)>
+      renderbuffer_storage_multisample;
+
+    func<
+      OGLPAFP(NamedRenderbufferStorageMultisample),
+      void(
+        renderbuffer_target,
+        sizei_type,
+        pixel_internal_format,
+        sizei_type,
+        sizei_type)>
+      named_renderbuffer_storage_multisample;
+
+    query_func<
+      mp_list<renderbuffer_target>,
+      mp_list<renderbuffer_parameter>,
+      int_type,
+      OGLPAFP(GetRenderbufferParameteriv)>
+      get_renderbuffer_parameter_i;
+
+    query_func<
+      mp_list<renderbuffer_name>,
+      mp_list<renderbuffer_parameter>,
+      int_type,
+      OGLPAFP(GetNamedRenderbufferParameteriv)>
+      get_named_renderbuffer_parameter_i;
+
     // drawing
     // arrays
     func<OGLPAFP(DrawArrays), void(primitive_type, int_type, sizei_type)>
@@ -2805,6 +2883,21 @@ public:
       , sampler_parameter_iv("sampler_parameter_iv", traits, *this)
       , sampler_parameter_iiv("sampler_parameter_iiv", traits, *this)
       , sampler_parameter_iuiv("sampler_parameter_iuiv", traits, *this)
+      , get_sampler_parameter_f("get_sampler_parameter_f", traits, *this)
+      , get_sampler_parameter_i("get_sampler_parameter_i", traits, *this)
+      , get_sampler_parameter_ii("get_sampler_parameter_ii", traits, *this)
+      , get_sampler_parameter_iui("get_sampler_parameter_iui", traits, *this)
+      , bind_renderbuffer("bind_renderbuffer", traits, *this)
+      , renderbuffer_storage("renderbuffer_storage", traits, *this)
+      , named_renderbuffer_storage("named_renderbuffer_storage", traits, *this)
+      , renderbuffer_storage_multisample(
+          "renderbuffer_storage_multisample", traits, *this)
+      , named_renderbuffer_storage_multisample(
+          "named_renderbuffer_storage_multisample", traits, *this)
+      , get_renderbuffer_parameter_i(
+          "get_renderbuffer_parameter_i", traits, *this)
+      , get_named_renderbuffer_parameter_i(
+          "get_named_renderbuffer_parameter_i", traits, *this)
       , draw_arrays("draw_arrays", traits, *this)
       , draw_arrays_instanced_base_instance(
           "draw_arrays_instanced_base_instance", traits, *this)
