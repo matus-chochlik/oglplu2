@@ -169,11 +169,9 @@ void example_mandelbrot::init(example_context& ctx) {
     gl.delete_textures.later_by(cleanup, gradient);
     gl.active_texture(GL.texture0);
     gl.bind_texture(GL.texture_1d, gradient);
-    /* TODO
     gl.tex_parameter_i(GL.texture_1d, GL.texture_min_filter, GL.linear);
     gl.tex_parameter_i(GL.texture_1d, GL.texture_mag_filter, GL.linear);
     gl.tex_parameter_i(GL.texture_1d, GL.texture_wrap_s, GL.repeat);
-    */
     gl.tex_image1d(
       GL.texture_1d,
       0,

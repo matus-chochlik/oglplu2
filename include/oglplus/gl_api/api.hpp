@@ -487,30 +487,12 @@ public:
 
     func<OGLPAFP(CompileShader), void(shader_name)> compile_shader;
 
-    struct : func<OGLPAFP(GetShaderiv)> {
-        using func<OGLPAFP(GetShaderiv)>::func;
-
-        template <
-          typename Query,
-          typename =
-            std::enable_if_t<is_enum_class_value_v<shader_parameter, Query>>,
-          typename =
-            std::enable_if_t<!std::is_array_v<typename Query::tag_type>>>
-        constexpr auto operator()(shader_name shdr, Query query) const
-          noexcept {
-            using RV = typename Query::tag_type;
-            int_type result{};
-            return this->_cnvchkcall(shdr, query, &result)
-              .replaced_with(result)
-              .cast_to(identity<RV>{});
-        }
-
-        constexpr auto operator()(
-          shader_name shdr, shader_parameter param, span<int_type> dest) const
-          noexcept {
-            return this->_chkcall(shdr, param, dest.data());
-        }
-    } get_shaderi;
+    query_func<
+      mp_list<shader_name>,
+      mp_list<shader_parameter>,
+      int_type,
+      OGLPAFP(GetShaderiv)>
+      get_shader_i;
 
     struct : func<OGLPAFP(GetShaderInfoLog)> {
         using func<OGLPAFP(GetShaderInfoLog)>::func;
@@ -535,30 +517,12 @@ public:
 
     func<OGLPAFP(LinkProgram), void(program_name)> link_program;
 
-    struct : func<OGLPAFP(GetProgramiv)> {
-        using func<OGLPAFP(GetProgramiv)>::func;
-
-        template <
-          typename Query,
-          typename =
-            std::enable_if_t<is_enum_class_value_v<program_parameter, Query>>,
-          typename =
-            std::enable_if_t<!std::is_array_v<typename Query::tag_type>>>
-        constexpr auto operator()(program_name prog, Query query) const
-          noexcept {
-            using RV = typename Query::tag_type;
-            int_type result{};
-            return this->_cnvchkcall(prog, query, &result)
-              .replaced_with(result)
-              .cast_to(identity<RV>{});
-        }
-
-        constexpr auto operator()(
-          program_name shdr, program_parameter param, span<int_type> dest) const
-          noexcept {
-            return this->_cnvchkcall(shdr, param, dest.data());
-        }
-    } get_programi;
+    query_func<
+      mp_list<program_name>,
+      mp_list<program_parameter>,
+      int_type,
+      OGLPAFP(GetProgramiv)>
+      get_program_i;
 
     struct : func<OGLPAFP(GetProgramInfoLog)> {
         using func<OGLPAFP(GetProgramInfoLog)>::func;
@@ -2026,15 +1990,41 @@ public:
       void(texture_name, texture_parameter, float_type)>
       texture_parameter_f;
 
-    func<
-      OGLPAFP(TexParameteri),
-      void(texture_target, texture_parameter, int_type)>
-      tex_parameter_i;
+    struct : func<OGLPAFP(TexParameteri)> {
+        using func<OGLPAFP(TexParameteri)>::func;
 
-    func<
-      OGLPAFP(TextureParameteri),
-      void(texture_name, texture_parameter, int_type)>
-      texture_parameter_i;
+        template <
+          typename TexParam,
+          typename Value,
+          typename = std::enable_if_t<is_enum_parameter_value_v<
+            texture_parameter,
+            TexParam,
+            int_type,
+            Value>>>
+        constexpr auto operator()(
+          texture_target tgt, TexParam param, Value value) const noexcept {
+            return this->_chkcall(
+              enum_type(tgt), enum_type(param), enum_type(value));
+        }
+    } tex_parameter_i;
+
+    struct : func<OGLPAFP(TextureParameteri)> {
+        using func<OGLPAFP(TextureParameteri)>::func;
+
+        template <
+          typename TexParam,
+          typename Value,
+          typename = std::enable_if_t<is_enum_parameter_value_v<
+            texture_parameter,
+            TexParam,
+            int_type,
+            Value>>>
+        constexpr auto operator()(
+          texture_name tex, TexParam param, Value value) noexcept {
+            return this->_chkcall(
+              name_type(tex), enum_type(param), enum_type(value));
+        }
+    } texture_parameter_i;
 
     struct : func<OGLPAFP(TexParameterfv)> {
         using func<OGLPAFP(TexParameterfv)>::func;
@@ -2592,12 +2582,12 @@ public:
       , clear("clear", traits, *this)
       , shader_source("shader_source", traits, *this)
       , compile_shader("compile_shader", traits, *this)
-      , get_shaderi("get_shaderi", traits, *this)
+      , get_shader_i("get_shader_i", traits, *this)
       , get_shader_info_log("get_shader_info_log", traits, *this)
       , attach_shader("attach_shader", traits, *this)
       , detach_shader("detach_shader", traits, *this)
       , link_program("link_program", traits, *this)
-      , get_programi("get_programi", traits, *this)
+      , get_program_i("get_program_i", traits, *this)
       , get_program_info_log("get_program_info_log", traits, *this)
       , use_program("use_program", traits, *this)
       , get_attrib_location("get_attrib_location", traits, *this)

@@ -41,6 +41,17 @@ static constexpr inline bool same_enum_class(
     return ::eagine::same_enum_class(a, b);
 }
 //------------------------------------------------------------------------------
+template <
+  typename ParameterEnumClass,
+  typename Parameter,
+  typename ValueType,
+  typename Value>
+constexpr static bool is_enum_parameter_value_v =
+  is_enum_class_value_v<ParameterEnumClass, Parameter>&&
+      std::is_same_v<typename Parameter::tag_type, nothing_t>
+    ? std::is_convertible_v<Value, ValueType>
+    : is_enum_class_value_v<typename Parameter::tag_type, Value>;
+//------------------------------------------------------------------------------
 } // namespace oglp
 } // namespace eagine
 
