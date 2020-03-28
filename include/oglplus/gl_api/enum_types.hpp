@@ -356,7 +356,7 @@ struct face_orientation
     using enum_class::enum_class;
 };
 
-struct color_buffer : gl_enum_class<color_buffer, EAGINE_ID_V(ColorBuffr)> {
+struct surface_buffer : gl_enum_class<surface_buffer, EAGINE_ID_V(SrfceBuffr)> {
     using enum_class::enum_class;
 };
 

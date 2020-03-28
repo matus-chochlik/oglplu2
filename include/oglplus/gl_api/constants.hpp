@@ -1432,7 +1432,7 @@ public:
       color;
 
     opt_c_api_constant<
-      mp_list<framebuffer_buffer>,
+      mp_list<framebuffer_buffer, framebuffer_attachment>,
 #ifdef GL_DEPTH
       enum_type_c<GL_DEPTH>>
 #else
@@ -1441,7 +1441,7 @@ public:
       depth;
 
     opt_c_api_constant<
-      mp_list<framebuffer_buffer>,
+      mp_list<framebuffer_buffer, framebuffer_attachment>,
 #ifdef GL_STENCIL
       enum_type_c<GL_STENCIL>>
 #else
@@ -3623,7 +3623,7 @@ public:
       uniform_buffer_unified_nv;
 
     opt_c_api_constant<
-      mp_list<color_buffer>,
+      mp_list<surface_buffer, framebuffer_attachment>,
 #ifdef GL_FRONT_LEFT
       enum_type_c<GL_FRONT_LEFT>>
 #else
@@ -3632,7 +3632,7 @@ public:
       front_left;
 
     opt_c_api_constant<
-      mp_list<color_buffer>,
+      mp_list<surface_buffer, framebuffer_attachment>,
 #ifdef GL_FRONT_RIGHT
       enum_type_c<GL_FRONT_RIGHT>>
 #else
@@ -3641,7 +3641,7 @@ public:
       front_right;
 
     opt_c_api_constant<
-      mp_list<color_buffer>,
+      mp_list<surface_buffer, framebuffer_attachment>,
 #ifdef GL_BACK_LEFT
       enum_type_c<GL_BACK_LEFT>>
 #else
@@ -3650,7 +3650,7 @@ public:
       back_left;
 
     opt_c_api_constant<
-      mp_list<color_buffer>,
+      mp_list<surface_buffer, framebuffer_attachment>,
 #ifdef GL_BACK_RIGHT
       enum_type_c<GL_BACK_RIGHT>>
 #else
@@ -3659,7 +3659,7 @@ public:
       back_right;
 
     opt_c_api_constant<
-      mp_list<color_buffer, face_mode>,
+      mp_list<surface_buffer, face_mode, framebuffer_attachment>,
 #ifdef GL_FRONT
       enum_type_c<GL_FRONT>>
 #else
@@ -3668,7 +3668,7 @@ public:
       front;
 
     opt_c_api_constant<
-      mp_list<color_buffer, face_mode>,
+      mp_list<surface_buffer, face_mode, framebuffer_attachment>,
 #ifdef GL_BACK
       enum_type_c<GL_BACK>>
 #else
@@ -3677,7 +3677,7 @@ public:
       back;
 
     opt_c_api_constant<
-      mp_list<color_buffer>,
+      mp_list<surface_buffer>,
 #ifdef GL_LEFT
       enum_type_c<GL_LEFT>>
 #else
@@ -3686,7 +3686,7 @@ public:
       left;
 
     opt_c_api_constant<
-      mp_list<color_buffer>,
+      mp_list<surface_buffer>,
 #ifdef GL_RIGHT
       enum_type_c<GL_RIGHT>>
 #else
@@ -3695,7 +3695,7 @@ public:
       right;
 
     opt_c_api_constant<
-      mp_list<color_buffer, face_mode>,
+      mp_list<surface_buffer, face_mode>,
 #ifdef GL_FRONT_AND_BACK
       enum_type_c<GL_FRONT_AND_BACK>>
 #else
@@ -10362,7 +10362,7 @@ public:
     opt_c_api_constant<
       mp_list<
         support_level,
-        color_buffer,
+        surface_buffer,
         sl_data_type,
         oglp::texture_compare_mode,
         oglp::context_release_behavior,

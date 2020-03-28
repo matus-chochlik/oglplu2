@@ -2310,6 +2310,88 @@ public:
       OGLPAFP(GetNamedRenderbufferParameteriv)>
       get_named_renderbuffer_parameter_i;
 
+    // framebuffer ops
+    func<OGLPAFP(BindFramebuffer), void(framebuffer_target, framebuffer_name)>
+      bind_framebuffer;
+
+    func<OGLPAFP(DrawBuffer), void(surface_buffer)> draw_buffer;
+
+    func<
+      OGLPAFP(NamedFramebufferDrawBuffer),
+      void(framebuffer_name, surface_buffer)>
+      named_framebuffer_draw_buffer;
+
+    func<
+      OGLPAFP(FramebufferParameteri),
+      void(framebuffer_target, framebuffer_parameter, int_type)>
+      framebuffer_parameter_i;
+
+    func<
+      OGLPAFP(NamedFramebufferParameteri),
+      void(framebuffer_name, framebuffer_parameter, int_type)>
+      named_framebuffer_parameter_i;
+
+    query_func<
+      mp_list<framebuffer_target>,
+      mp_list<framebuffer_parameter>,
+      int_type,
+      OGLPAFP(GetFramebufferParameteriv)>
+      get_framebuffer_parameter_i;
+
+    query_func<
+      mp_list<framebuffer_name>,
+      mp_list<framebuffer_parameter>,
+      int_type,
+      OGLPAFP(GetNamedFramebufferParameteriv)>
+      get_named_framebuffer_parameter_i;
+
+    query_func<
+      mp_list<framebuffer_target, framebuffer_attachment>,
+      mp_list<framebuffer_attachment_parameter>,
+      int_type,
+      OGLPAFP(GetFramebufferAttachmentParameteriv)>
+      get_framebuffer_attachment_parameter_i;
+
+    query_func<
+      mp_list<framebuffer_name, framebuffer_attachment>,
+      mp_list<framebuffer_attachment_parameter>,
+      int_type,
+      OGLPAFP(GetNamedFramebufferAttachmentParameteriv)>
+      get_named_framebuffer_attachment_parameter_i;
+
+    func<
+      OGLPAFP(FramebufferRenderbuffer),
+      void(
+        framebuffer_target,
+        oglp::framebuffer_attachment,
+        renderbuffer_target,
+        renderbuffer_name)>
+      framebuffer_renderbuffer;
+
+    func<
+      OGLPAFP(NamedFramebufferRenderbuffer),
+      void(
+        framebuffer_name,
+        oglp::framebuffer_attachment,
+        renderbuffer_target,
+        renderbuffer_name)>
+      named_framebuffer_renderbuffer;
+
+    func<
+      OGLPAFP(FramebufferTexture),
+      void(
+        framebuffer_target,
+        oglp::framebuffer_attachment,
+        texture_name,
+        int_type)>
+      framebuffer_texture;
+
+    func<
+      OGLPAFP(NamedFramebufferTexture),
+      void(
+        framebuffer_name, oglp::framebuffer_attachment, texture_name, int_type)>
+      named_framebuffer_texture;
+
     // drawing
     // arrays
     func<OGLPAFP(DrawArrays), void(primitive_type, int_type, sizei_type)>
@@ -2898,6 +2980,26 @@ public:
           "get_renderbuffer_parameter_i", traits, *this)
       , get_named_renderbuffer_parameter_i(
           "get_named_renderbuffer_parameter_i", traits, *this)
+      , bind_framebuffer("bind_framebuffer", traits, *this)
+      , draw_buffer("draw_buffer", traits, *this)
+      , named_framebuffer_draw_buffer(
+          "named_framebuffer_draw_buffer", traits, *this)
+      , framebuffer_parameter_i("framebuffer_parameter_i", traits, *this)
+      , named_framebuffer_parameter_i(
+          "named_framebuffer_parameter_i", traits, *this)
+      , get_framebuffer_parameter_i(
+          "get_framebuffer_parameter_i", traits, *this)
+      , get_named_framebuffer_parameter_i(
+          "get_named_framebuffer_parameter_i", traits, *this)
+      , get_framebuffer_attachment_parameter_i(
+          "get_framebuffer_attachment_parameter_i", traits, *this)
+      , get_named_framebuffer_attachment_parameter_i(
+          "get_named_framebuffer_attachment_parameter_i", traits, *this)
+      , framebuffer_renderbuffer("framebuffer_renderbuffer", traits, *this)
+      , named_framebuffer_renderbuffer(
+          "named_framebuffer_renderbuffer", traits, *this)
+      , framebuffer_texture("framebuffer_texture", traits, *this)
+      , named_framebuffer_texture("named_framebuffer_texture", traits, *this)
       , draw_arrays("draw_arrays", traits, *this)
       , draw_arrays_instanced_base_instance(
           "draw_arrays_instanced_base_instance", traits, *this)
