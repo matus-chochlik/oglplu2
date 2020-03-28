@@ -105,6 +105,55 @@ public:
         }
     };
 
+    // numerc query function
+    template <
+      typename ParamTypeList,
+      typename QueryClassList,
+      typename QueryResult,
+      typename W,
+      W c_api::*F>
+    struct query_func;
+
+    template <
+      typename... Params,
+      typename... QueryClasses,
+      typename QueryResult,
+      typename W,
+      W c_api::*F>
+    struct query_func<
+      mp_list<Params...>,
+      mp_list<QueryClasses...>,
+      QueryResult,
+      W,
+      F> : func<W, F> {
+        using func<W, F>::func;
+
+        template <
+          typename Query,
+          typename = std::enable_if_t<
+            (true || ... || is_enum_class_value_v<QueryClasses, Query>)>,
+          typename =
+            std::enable_if_t<!std::is_array_v<typename Query::tag_type>>>
+        constexpr auto operator()(Params... params, Query query) const
+          noexcept {
+            using RV = typename Query::tag_type;
+            QueryResult result{};
+            return this->_cnvchkcall(params..., enum_type(query), &result)
+              .replaced_with(result)
+              .cast_to(identity<RV>{});
+        }
+
+        template <
+          typename Query,
+          typename = std::enable_if_t<
+            (true || ... || is_enum_class_value_v<QueryClasses, Query>)>>
+        auto operator()(Params... params, Query query, span<QueryResult> dest)
+          const noexcept {
+            EAGINE_ASSERT(dest.size());
+            return this->_cnvchkcall(params..., enum_type(query), dest.data());
+        }
+    };
+
     // generate / create objects
     struct : func<OGLPAFP(FenceSync)> {
         using func<OGLPAFP(FenceSync)>::func;
@@ -2240,67 +2289,32 @@ public:
     func<OGLPAFP(DispatchComputeIndirect)> dispatch_compute_indirect;
 
     // get_integer
-    struct : func<OGLPAFP(GetIntegerv)> {
-        using func<OGLPAFP(GetIntegerv)>::func;
-
-        template <
-          typename Query,
-          typename = std::enable_if_t<
-            is_enum_class_value_v<integer_query, Query> ||
-            is_enum_class_value_v<binding_query, Query>>,
-          typename =
-            std::enable_if_t<!std::is_array_v<typename Query::tag_type>>>
-        constexpr auto operator()(Query query) const noexcept {
-            using RV = typename Query::tag_type;
-            int_type result{};
-            return this->_chkcall(enum_type(query), &result)
-              .replaced_with(result)
-              .cast_to(identity<RV>{});
-        }
-
-        template <
-          typename Query,
-          typename = std::enable_if_t<
-            is_enum_class_value_v<integer_query, Query> ||
-            is_enum_class_value_v<binding_query, Query>>>
-        auto operator()(integer_query query, span<int_type> dest) const
-          noexcept {
-            EAGINE_ASSERT(dest.size());
-            return this->_chkcall(enum_type(query), dest.data());
-        }
-    } get_integer;
+    query_func<
+      mp_list<>,
+      mp_list<integer_query, binding_query>,
+      int_type,
+      OGLPAFP(GetIntegerv)>
+      get_integer;
 
     // get_integer64
-    struct : func<OGLPAFP(GetInteger64v)> {
-        using func<OGLPAFP(GetInteger64v)>::func;
-
-        constexpr auto operator()(integer_query query) const noexcept {
-            int64_type result{};
-            return this->_cnvchkcall(query, &result).replaced_with(result);
-        }
-
-        constexpr auto operator()(
-          integer_query query, span<int64_type> dest) const noexcept {
-            EAGINE_ASSERT(dest.size());
-            return this->_cnvchkcall(query, dest.data());
-        }
-    } get_integer64;
+    query_func<
+      mp_list<>,
+      mp_list<integer_query>,
+      int64_type,
+      OGLPAFP(GetInteger64v)>
+      get_integer64;
 
     // get_float
-    struct : func<OGLPAFP(GetFloatv)> {
-        using func<OGLPAFP(GetFloatv)>::func;
+    query_func<mp_list<>, mp_list<float_query>, float_type, OGLPAFP(GetFloatv)>
+      get_float;
 
-        constexpr auto operator()(float_query query) const noexcept {
-            float_type result{};
-            return this->_cnvchkcall(query, &result).replaced_with(result);
-        }
-
-        constexpr auto operator()(
-          float_query query, span<float_type> dest) const noexcept {
-            EAGINE_ASSERT(dest.size());
-            return this->_cnvchkcall(query, dest.data());
-        }
-    } get_float;
+    // get_double
+    query_func<
+      mp_list<>,
+      mp_list<float_query>,
+      double_type,
+      OGLPAFP(GetDoublev)>
+      get_double;
 
     // get_string
     struct : func<OGLPAFP(GetString)> {
@@ -2730,6 +2744,7 @@ public:
       , get_integer("get_integer", traits, *this)
       , get_integer64("get_integer64", traits, *this)
       , get_float("get_float", traits, *this)
+      , get_double("get_double", traits, *this)
       , get_string("get_string", traits, *this)
       , begin("begin", traits, *this)
       , end("end", traits, *this)
