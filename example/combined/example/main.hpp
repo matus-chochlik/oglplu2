@@ -14,7 +14,6 @@
 #include <oglplus/config/site.hpp>
 
 namespace eagine {
-namespace oglp {
 //------------------------------------------------------------------------------
 class example_args;
 class example_params;
@@ -33,7 +32,6 @@ struct example_main_intf {
     virtual int run(example_args&, example_params&, example_state&) = 0;
 };
 //------------------------------------------------------------------------------
-} // namespace oglp
 } // namespace eagine
 
 #endif // OGLPLUS_EXAMPLE_MAIN_HPP

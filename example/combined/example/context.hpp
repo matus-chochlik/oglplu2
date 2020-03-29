@@ -11,15 +11,17 @@
 
 #include "args.hpp"
 #include "params.hpp"
+#include "random.hpp"
 #include "state_view.hpp"
 #include <eagine/cleanup_group.hpp>
 #include <eagine/memory/c_realloc.hpp>
 #include <memory>
 
 namespace eagine {
-namespace oglp {
 //------------------------------------------------------------------------------
+namespace oglp {
 class gl_api;
+} // namespace oglp
 //------------------------------------------------------------------------------
 using example_cleanup_group = basic_cleanup_group<
   memory::c_byte_reallocator<memory::byte_alloc_managed_policy>>;
@@ -46,6 +48,11 @@ public:
         return _state;
     }
 
+    example_random_generator& random() noexcept {
+        EAGINE_ASSERT(_random);
+        return *_random;
+    }
+
     const example_state_view& state() const noexcept;
 
     const example_params& params() const noexcept {
@@ -56,7 +63,7 @@ public:
         return {};
     }
 
-    gl_api& gl() const noexcept;
+    oglp::gl_api& gl() const noexcept;
 
     const example_context& debug_notification(string_view message) const;
 
@@ -64,10 +71,10 @@ private:
     example_cleanup_group _cleanup{};
     example_params& _params;
     example_state& _state;
-    std::shared_ptr<gl_api> _gl_ptr{};
+    std::shared_ptr<example_random_generator> _random{};
+    std::shared_ptr<oglp::gl_api> _gl_ptr{};
 };
 //------------------------------------------------------------------------------
-} // namespace oglp
 } // namespace eagine
 
 #endif // OGLPLUS_EXAMPLE_CONTEXT_HPP

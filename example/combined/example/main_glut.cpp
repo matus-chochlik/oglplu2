@@ -36,8 +36,7 @@
 #endif
 
 namespace eagine {
-namespace oglp {
-
+//------------------------------------------------------------------------------
 #if OGLPLUS_GLUT_FOUND
 
 class single_glut_context {
@@ -190,7 +189,7 @@ private:
 };
 
 #endif // OGLPLUS_GLUT_FOUND
-
+//------------------------------------------------------------------------------
 class example_main_glut : public example_main_intf {
 public:
     bool is_implemented() final {
@@ -232,9 +231,8 @@ public:
         glutCreateWindow("OGLplus example (GLUT)");
 #endif
 
-        api_initializer gl_api_init;
+        oglp::api_initializer gl_api_init;
 
-        std::srand(params.rand_seed());
         state.set_depth(16);
 
         single_glut_context ctx(args, params, state);
@@ -249,12 +247,11 @@ public:
 #endif
     }
 };
-
+//------------------------------------------------------------------------------
 std::unique_ptr<example_main_intf> make_example_main_glut() {
     return {std::make_unique<example_main_glut>()};
 }
-
-} // namespace oglp
+//------------------------------------------------------------------------------
 } // namespace eagine
 
 #if defined(__APPLE__) && __APPLE__ && defined(__clang__)

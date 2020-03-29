@@ -13,7 +13,6 @@
 #include <memory>
 
 namespace eagine {
-namespace oglp {
 //------------------------------------------------------------------------------
 struct example {
     virtual ~example() = default;
@@ -54,7 +53,6 @@ extern std::unique_ptr<example> make_example(
 //------------------------------------------------------------------------------
 extern bool is_example_param(const example_arg&);
 //------------------------------------------------------------------------------
-} // namespace oglp
 } // namespace eagine
 
 #endif // OGLPLUS_EXAMPLE_OGLPLUS_EXAMPLE_HPP

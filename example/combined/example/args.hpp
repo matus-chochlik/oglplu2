@@ -9,16 +9,14 @@
 #ifndef OGLPLUS_EXAMPLE_ARGS_HPP
 #define OGLPLUS_EXAMPLE_ARGS_HPP
 
+#include <eagine/string_span.hpp>
 #include <eagine/valid_if/not_empty.hpp>
-#include <oglplus/utils/string_span.hpp>
 #include <iosfwd>
 
 namespace eagine {
 
 class program_arg;
 class program_args;
-
-namespace oglp {
 
 class example_arg;
 class example_args;
@@ -96,7 +94,6 @@ public:
     bool parse_param(example_string_param& param) const;
 };
 
-} // namespace oglp
 } // namespace eagine
 
 #endif // OGLPLUS_EXAMPLE_ARGS_HPP

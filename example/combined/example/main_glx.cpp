@@ -34,8 +34,8 @@
 #endif // OGLPLUS_GLX_FOUND
 
 namespace eagine {
-namespace oglp {
-
+//------------------------------------------------------------------------------
+using namespace oglp;
 class example_main_glx : public example_main_intf {
 public:
     bool is_implemented() final {
@@ -107,9 +107,8 @@ public:
 
         ctx.MakeCurrent(win);
 
-        api_initializer gl_api_init;
+        oglp::api_initializer gl_api_init;
 
-        std::srand(params.rand_seed());
         state.set_depth(16);
 
         example_wrapper example(args, params, state);
@@ -195,10 +194,9 @@ private:
     }
 #endif
 };
-
+//------------------------------------------------------------------------------
 std::unique_ptr<example_main_intf> make_example_main_glx() {
     return {std::make_unique<example_main_glx>()};
 }
-
-} // namespace oglp
+//------------------------------------------------------------------------------
 } // namespace eagine

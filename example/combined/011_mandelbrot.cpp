@@ -17,7 +17,7 @@
 
 namespace eagine {
 namespace oglp {
-
+//------------------------------------------------------------------------------
 class example_mandelbrot : public example {
 private:
     owned_vertex_array_name vao;
@@ -53,6 +53,8 @@ public:
     seconds_t<float> default_timeout() final;
     void render(const example_context&) final;
 };
+//------------------------------------------------------------------------------
+// example_mandelbrot
 //------------------------------------------------------------------------------
 bool example_mandelbrot::check_requirements(const example_context& ctx) {
     const auto& [gl, GL] = ctx.gl();
@@ -159,11 +161,7 @@ void example_mandelbrot::init(example_context& ctx) {
 
     // gradient texture
     auto gradient_data = GL.float_.array(size_constant<8 * 3>{});
-
-    for(auto& g : gradient_data) {
-        // TODO context.random01
-        g = (std::rand() % 10000) / 10000.f;
-    }
+    ctx.random().uniform_01(cover(gradient_data));
 
     gl.gen_textures() >> gradient;
     gl.delete_textures.later_by(cleanup, gradient);
@@ -253,13 +251,15 @@ void example_mandelbrot::render(const example_context& ctx) {
     gl.draw_arrays(GL.triangle_strip, 0, 4);
 }
 //------------------------------------------------------------------------------
+} // namespace oglp
+//------------------------------------------------------------------------------
 std::unique_ptr<example> make_example(
   const example_args&, const example_context&) {
-    return std::make_unique<example_mandelbrot>();
+    return std::make_unique<oglp::example_mandelbrot>();
 }
 //------------------------------------------------------------------------------
 void adjust_params(example_params& params) {
-    params.rand_seed(1234);
+    params.rand_seed(2345);
     params.depth_buffer(false);
     params.stencil_buffer(false);
 }
@@ -268,5 +268,4 @@ bool is_example_param(const example_arg&) {
     return false;
 }
 //------------------------------------------------------------------------------
-} // namespace oglp
 } // namespace eagine

@@ -24,8 +24,7 @@
 #endif // OGLPLUS_GLFW_FOUND
 
 namespace eagine {
-namespace oglp {
-
+//------------------------------------------------------------------------------
 class example_main_glfw : public example_main_intf {
 public:
     bool is_implemented() final {
@@ -65,9 +64,8 @@ public:
                 glfwSetWindowTitle("OGLplus example (GLFW)");
                 glfwSetWindowPos(params.window_x_pos(), params.window_y_pos());
 
-                api_initializer gl_api_init;
+                oglp::api_initializer gl_api_init;
 
-                std::srand(params.rand_seed());
                 state.set_depth(16);
                 example_wrapper example(args, params, state);
 
@@ -126,11 +124,10 @@ private:
     }
 #endif
 };
-
+//------------------------------------------------------------------------------
 std::unique_ptr<example_main_intf> make_example_main_glfw() {
     return {std::make_unique<example_main_glfw>()};
 }
-
-} // namespace oglp
+//------------------------------------------------------------------------------
 } // namespace eagine
 

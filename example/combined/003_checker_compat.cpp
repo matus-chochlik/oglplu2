@@ -19,7 +19,7 @@
 namespace eagine {
 namespace oglp {
 //------------------------------------------------------------------------------
-class example_checked : public example {
+class example_checker : public example {
 
     owned_shader_name fs;
 
@@ -32,7 +32,9 @@ public:
     void render(const example_context& ctx) final;
 };
 //------------------------------------------------------------------------------
-bool example_checked::check_requirements(const example_context& ctx) {
+// example_checker
+//------------------------------------------------------------------------------
+bool example_checker::check_requirements(const example_context& ctx) {
     const auto& [gl, GL] = ctx.gl();
     auto r = ctx.req_mark();
 
@@ -46,7 +48,7 @@ bool example_checked::check_requirements(const example_context& ctx) {
            r(gl.attach_shader) && r(gl.link_program);
 }
 //------------------------------------------------------------------------------
-void example_checked::init(example_context& ctx) {
+void example_checker::init(example_context& ctx) {
     auto& cleanup = ctx.cleanup();
     const auto& [gl, GL] = ctx.gl();
 
@@ -76,7 +78,7 @@ void example_checked::init(example_context& ctx) {
     gl.use_program(prog);
 }
 //------------------------------------------------------------------------------
-void example_checked::resize(const example_context& ctx) {
+void example_checker::resize(const example_context& ctx) {
     const auto& state = ctx.state();
     const auto& [gl, GL] = ctx.gl();
 
@@ -90,7 +92,7 @@ void example_checked::resize(const example_context& ctx) {
     gl.ortho(-w, +w, -h, +h, 0, 1);
 }
 //------------------------------------------------------------------------------
-void example_checked::render(const example_context& ctx) {
+void example_checker::render(const example_context& ctx) {
     const auto& [gl, GL] = ctx.gl();
     gl.clear(GL.color_buffer_bit);
 
@@ -119,9 +121,11 @@ void example_checked::render(const example_context& ctx) {
     gl.end();
 }
 //------------------------------------------------------------------------------
+} // namespace oglp
+//------------------------------------------------------------------------------
 std::unique_ptr<example> make_example(
   const example_args&, const example_context&) {
-    return std::make_unique<example_checked>();
+    return std::make_unique<oglp::example_checker>();
 }
 //------------------------------------------------------------------------------
 void adjust_params(example_params& params) {
@@ -134,5 +138,4 @@ bool is_example_param(const example_arg&) {
     return false;
 }
 //------------------------------------------------------------------------------
-} // namespace oglp
 } // namespace eagine

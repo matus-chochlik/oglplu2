@@ -13,27 +13,6 @@
 #include <sstream>
 
 namespace eagine {
-namespace oglp {
-//------------------------------------------------------------------------------
-example_params::example_params() noexcept
-  : _rand_seed(0)
-  , _screenshot_time(3)
-  , _fixed_fps(30)
-  , _x_pos(64)
-  , _y_pos(64)
-  , _x_tiles(1)
-  , _y_tiles(1)
-  , _samples(4)
-  , _color_bits(8)
-  , _alpha_bits(0)
-  , _depth_bits(24)
-  , _stencil_bits(0)
-  , _compat_ctxt(false)
-  , _debug_ctxt(true)
-  , _auto_tiles(true)
-  , _demo_mode(false)
-  , _high_quality(false) {
-}
 //------------------------------------------------------------------------------
 bool example_params::is_readable_file(string_view path) const noexcept {
     // TODO something more efficient?
@@ -117,5 +96,4 @@ std::string example_params::get_resource_file_path(
     return path.value();
 }
 //------------------------------------------------------------------------------
-} // namespace oglp
 } // namespace eagine

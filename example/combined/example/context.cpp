@@ -15,7 +15,6 @@
 #include <iostream>
 
 namespace eagine {
-namespace oglp {
 //------------------------------------------------------------------------------
 /* TODO
 static inline void print_debug_message(
@@ -32,13 +31,14 @@ static inline void print_debug_message(
 */
 //------------------------------------------------------------------------------
 static inline auto init_gl_api(example_args&, example_params&, example_state&) {
-    return std::make_shared<gl_api>();
+    return std::make_shared<oglp::gl_api>();
 }
 //------------------------------------------------------------------------------
 example_context::example_context(
   example_args& args, example_params& params, example_state& state)
   : _params{params}
   , _state{state}
+  , _random{make_example_random_generator(args, params)}
   , _gl_ptr{init_gl_api(args, params, state)} {
     /* TODO
   if(_debug) {
@@ -61,7 +61,7 @@ const example_state_view& example_context::state() const noexcept {
     return _state;
 }
 //------------------------------------------------------------------------------
-gl_api& example_context::gl() const noexcept {
+oglp::gl_api& example_context::gl() const noexcept {
     EAGINE_ASSERT(_gl_ptr);
     return *_gl_ptr;
 }
@@ -77,5 +77,4 @@ const example_context& example_context::debug_notification(
     return *this;
 }
 //------------------------------------------------------------------------------
-} // namespace oglp
 } // namespace eagine

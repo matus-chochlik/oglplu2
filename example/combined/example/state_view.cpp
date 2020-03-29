@@ -11,7 +11,6 @@
 #include <cmath>
 
 namespace eagine {
-namespace oglp {
 //------------------------------------------------------------------------------
 example_state_view::example_state_view() noexcept
   : _width(1)
@@ -111,5 +110,4 @@ example_state_value<radians_t<float>> example_state_view::pointer_angle(
       ndc_pointer_y(index));
 }
 //------------------------------------------------------------------------------
-} // namespace oglp
 } // namespace eagine

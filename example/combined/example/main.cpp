@@ -22,21 +22,19 @@
 #include <vector>
 
 namespace eagine {
-namespace oglp {
 //------------------------------------------------------------------------------
 bool parse_arg(program_arg& a, example_state& state, example_params& params);
 //------------------------------------------------------------------------------
 std::unique_ptr<example_main_intf> choose_example_main_impl(
   const program_args&);
 //------------------------------------------------------------------------------
-} // namespace oglp
 } // namespace eagine
 //------------------------------------------------------------------------------
 int main(int argc, const char** argv) {
     try {
-        eagine::program_args args(argc, argv);
+        using namespace eagine;
 
-        using namespace eagine::oglp;
+        program_args args(argc, argv);
 
         example_params params;
         example_state state;
@@ -67,7 +65,6 @@ int main(int argc, const char** argv) {
 }
 //------------------------------------------------------------------------------
 namespace eagine {
-namespace oglp {
 //------------------------------------------------------------------------------
 bool example_knows_arg(const program_arg& arg) {
     return is_example_param(example_arg(arg)) ||
@@ -249,6 +246,5 @@ std::unique_ptr<example_main_intf> choose_example_main_impl(
     throw std::runtime_error("no OpenGL window API available");
 }
 //------------------------------------------------------------------------------
-} // namespace oglp
 } // namespace eagine
 

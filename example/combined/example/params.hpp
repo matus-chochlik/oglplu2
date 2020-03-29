@@ -10,13 +10,12 @@
 #define OGLPLUS_EXAMPLE_PARAMS_HPP
 
 #include <eagine/assert.hpp>
+#include <eagine/string_span.hpp>
 #include <eagine/valid_if/not_empty.hpp>
 #include <eagine/valid_if/positive.hpp>
 #include <oglplus/utils/quantities.hpp>
-#include <oglplus/utils/string_span.hpp>
 
 namespace eagine {
-namespace oglp {
 
 enum class example_resource_type {
     texture_image,
@@ -26,35 +25,35 @@ enum class example_resource_type {
 
 class example_params {
 private:
-    unsigned _rand_seed;
+    unsigned _rand_seed{0};
 
-    string_view _exec_cmd;
-    string_view _framedump_prefix;
-    string_view _screenshot_path;
-    float _screenshot_time;
-    float _fixed_fps;
+    string_view _exec_cmd{};
+    string_view _framedump_prefix{};
+    string_view _screenshot_path{};
+    float _screenshot_time{3.f};
+    float _fixed_fps{30.f};
 
-    int _x_pos;
-    int _y_pos;
+    int _x_pos{64};
+    int _y_pos{64};
 
-    int _x_tiles;
-    int _y_tiles;
+    int _x_tiles{1};
+    int _y_tiles{1};
 
-    int _samples;
+    int _samples{4};
 
-    int _color_bits;
-    int _alpha_bits;
-    int _depth_bits;
-    int _stencil_bits;
+    int _color_bits{8};
+    int _alpha_bits{0};
+    int _depth_bits{24};
+    int _stencil_bits{0};
 
-    bool _compat_ctxt;
-    bool _debug_ctxt;
-    bool _auto_tiles;
-    bool _demo_mode;
-    bool _high_quality;
+    bool _compat_ctxt{false};
+    bool _debug_ctxt{true};
+    bool _auto_tiles{true};
+    bool _demo_mode{false};
+    bool _high_quality{false};
 
 public:
-    example_params() noexcept;
+    example_params() noexcept = default;
 
     example_params& exec_command(valid_if_not_empty<string_view> cmd) {
         _exec_cmd = cmd.value();
@@ -152,8 +151,8 @@ public:
         return *this;
     }
 
-    unsigned rand_seed() const noexcept {
-        return _rand_seed;
+    valid_if_positive<unsigned> rand_seed() const noexcept {
+        return {_rand_seed};
     }
 
     example_params& compatibility_context(bool v) noexcept {
@@ -281,7 +280,6 @@ public:
 
 extern void adjust_params(example_params&);
 
-} // namespace oglp
 } // namespace eagine
 
 #endif // OGLPLUS_EXAMPLE_PARAMS_HPP

@@ -38,8 +38,7 @@ void example_scroll_callback(GLFWwindow*, double /*x*/, double y) {
 #endif // OGLPLUS_GLFW3_FOUND
 
 namespace eagine {
-namespace oglp {
-
+//------------------------------------------------------------------------------
 class example_main_glfw3 : public example_main_intf {
 public:
     bool is_implemented() final {
@@ -90,9 +89,8 @@ public:
                   window, params.window_x_pos(), params.window_y_pos());
                 glfwSetScrollCallback(window, example_scroll_callback);
 
-                api_initializer gl_api_init;
+                oglp::api_initializer gl_api_init;
 
-                std::srand(params.rand_seed());
                 state.set_depth(16);
                 example_wrapper example(args, params, state);
 
@@ -153,11 +151,10 @@ public:
     }
 #endif
 };
-
+//------------------------------------------------------------------------------
 std::unique_ptr<example_main_intf> make_example_main_glfw3() {
     return {std::make_unique<example_main_glfw3>()};
 }
-
-} // namespace oglp
+//------------------------------------------------------------------------------
 } // namespace eagine
 

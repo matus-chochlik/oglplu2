@@ -14,8 +14,7 @@
 #include <eagine/math/functions.hpp>
 
 namespace eagine {
-namespace oglp {
-
+//------------------------------------------------------------------------------
 class example_state : public example_state_view {
 public:
     void set_time(float new_time) noexcept {
@@ -122,8 +121,7 @@ public:
         _mouse_z.sync();
     }
 };
-
-} // namespace oglp
+//------------------------------------------------------------------------------
 } // namespace eagine
 
 #endif // OGLPLUS_EXAMPLE_STATE_HPP

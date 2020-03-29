@@ -19,7 +19,6 @@
 #include <stdexcept>
 
 namespace eagine {
-namespace oglp {
 //------------------------------------------------------------------------------
 example_wrapper::example_wrapper(
   example_args& args, example_params& params, example_state& state)
@@ -237,5 +236,4 @@ void example_wrapper::set_mouse_wheel(int w) {
     }
 }
 //------------------------------------------------------------------------------
-} // namespace oglp
 } // namespace eagine

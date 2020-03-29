@@ -16,7 +16,6 @@
 #include <iostream>
 
 namespace eagine {
-namespace oglp {
 //------------------------------------------------------------------------------
 class example_spectrum : public example {
 
@@ -26,6 +25,8 @@ public:
     void resize(const example_context& ctx) final;
     void render(const example_context& ctx) final;
 };
+//------------------------------------------------------------------------------
+// example_spectrum
 //------------------------------------------------------------------------------
 bool example_spectrum::check_requirements(const example_context& ctx) {
     const auto& [gl, GL] = ctx.gl();
@@ -131,5 +132,4 @@ bool is_example_param(const example_arg&) {
     return false;
 }
 //------------------------------------------------------------------------------
-} // namespace oglp
 } // namespace eagine

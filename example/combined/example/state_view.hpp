@@ -15,14 +15,13 @@
 #include <oglplus/utils/quantities.hpp>
 
 namespace eagine {
-namespace oglp {
-
+//------------------------------------------------------------------------------
 template <typename T>
 using example_state_value = value_with_history<T, 3>;
 
 template <typename T>
 using example_state_variable = variable_with_history<T, 3>;
-
+//------------------------------------------------------------------------------
 class example_state_view {
 
 protected:
@@ -172,8 +171,7 @@ public:
 };
 
 class example_state;
-
-} // namespace oglp
+//------------------------------------------------------------------------------
 } // namespace eagine
 
 #endif // OGLPLUS_EXAMPLE_STATE_VIEW_HPP

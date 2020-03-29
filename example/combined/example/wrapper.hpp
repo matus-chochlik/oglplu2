@@ -15,8 +15,7 @@
 #include <vector>
 
 namespace eagine {
-namespace oglp {
-
+//------------------------------------------------------------------------------
 class example_wrapper {
 private:
     example_context _context;
@@ -55,8 +54,7 @@ public:
 
     void set_mouse_wheel(int w);
 };
-
-} // namespace oglp
+//------------------------------------------------------------------------------
 } // namespace eagine
 
 #endif // OGLPLUS_EXAMPLE_WRAPPER_HPP

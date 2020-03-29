@@ -53,6 +53,8 @@ public:
     seconds_t<float> default_timeout();
 };
 //------------------------------------------------------------------------------
+// example_triangle
+//------------------------------------------------------------------------------
 bool example_triangle::check_requirements(const example_context& ctx) {
     const auto& [gl, GL] = ctx.gl();
     auto r = ctx.req_mark();
@@ -195,9 +197,11 @@ void example_triangle::render(const example_context& ctx) {
     gl.draw_arrays(GL.triangles, 0, 3);
 }
 //------------------------------------------------------------------------------
+} // namespace oglp
+//------------------------------------------------------------------------------
 std::unique_ptr<example> make_example(
   const example_args&, const example_context&) {
-    return std::make_unique<example_triangle>();
+    return std::make_unique<oglp::example_triangle>();
 }
 //------------------------------------------------------------------------------
 void adjust_params(example_params& params) {
@@ -209,5 +213,4 @@ bool is_example_param(const example_arg&) {
     return false;
 }
 //------------------------------------------------------------------------------
-} // namespace oglp
 } // namespace eagine

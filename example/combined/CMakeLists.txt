@@ -48,6 +48,7 @@ set(OGLPLUS_EXAMPLE_HARNESS_COMMON_SOURCES
 		"${CMAKE_CURRENT_SOURCE_DIR}/example/state_view.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/example/context.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/example/camera.cpp"
+		"${CMAKE_CURRENT_SOURCE_DIR}/example/random.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/example/main.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/example/main_glx.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/example/main_glfw3.cpp"

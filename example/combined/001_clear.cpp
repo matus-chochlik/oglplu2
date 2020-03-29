@@ -14,7 +14,6 @@
 // clang-format on
 
 namespace eagine {
-namespace oglp {
 //------------------------------------------------------------------------------
 class example_clear : public example {
 public:
@@ -22,6 +21,8 @@ public:
     void resize(const example_context& ctx) final;
     void render(const example_context& ctx) final;
 };
+//------------------------------------------------------------------------------
+// example_clear
 //------------------------------------------------------------------------------
 bool example_clear::check_requirements(const example_context& ctx) {
     const auto& [gl, GL] = ctx.gl();
@@ -63,6 +64,5 @@ bool is_example_param(const example_arg&) {
     return false;
 }
 //------------------------------------------------------------------------------
-} // namespace oglp
 } // namespace eagine
 

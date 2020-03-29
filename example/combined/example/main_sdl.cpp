@@ -24,8 +24,7 @@
 #endif // OGLPLUS_SDL_FOUND
 
 namespace eagine {
-namespace oglp {
-
+//------------------------------------------------------------------------------
 class example_main_sdl : public example_main_intf {
 public:
     bool is_implemented() final {
@@ -62,9 +61,7 @@ public:
         }
         SDL_WM_SetCaption("OGLplus example (SDL)", nullptr);
 
-        api_initializer gl_api_init;
-
-        std::srand(params.rand_seed());
+        oglp::api_initializer gl_api_init;
 
         state.set_depth(16);
 
@@ -148,10 +145,9 @@ private:
     }
 #endif
 };
-
+//------------------------------------------------------------------------------
 std::unique_ptr<example_main_intf> make_example_main_sdl() {
     return {std::make_unique<example_main_sdl>()};
 }
-
-} // namespace oglp
+//------------------------------------------------------------------------------
 } // namespace eagine
