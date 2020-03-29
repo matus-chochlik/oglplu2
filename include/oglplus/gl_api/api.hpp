@@ -2422,6 +2422,13 @@ public:
       void(framebuffer_name, surface_buffer)>
       named_framebuffer_draw_buffer;
 
+    func<OGLPAFP(ReadBuffer), void(surface_buffer)> read_buffer;
+
+    func<
+      OGLPAFP(NamedFramebufferReadBuffer),
+      void(framebuffer_name, surface_buffer)>
+      named_framebuffer_read_buffer;
+
     func<
       OGLPAFP(FramebufferParameteri),
       void(framebuffer_target, framebuffer_parameter, int_type)>
@@ -2492,6 +2499,95 @@ public:
       void(
         framebuffer_name, oglp::framebuffer_attachment, texture_name, int_type)>
       named_framebuffer_texture;
+
+    func<
+      OGLPAFP(FramebufferTexture1D),
+      void(
+        framebuffer_target,
+        oglp::framebuffer_attachment,
+        texture_name,
+        int_type)>
+      framebuffer_texture1d;
+
+    func<
+      OGLPAFP(FramebufferTexture2D),
+      void(
+        framebuffer_target,
+        oglp::framebuffer_attachment,
+        texture_name,
+        int_type)>
+      framebuffer_texture2d;
+
+    func<
+      OGLPAFP(FramebufferTexture3D),
+      void(
+        framebuffer_target,
+        oglp::framebuffer_attachment,
+        texture_name,
+        int_type)>
+      framebuffer_texture3d;
+
+    func<
+      OGLPAFP(FramebufferTextureLayer),
+      void(
+        framebuffer_target,
+        oglp::framebuffer_attachment,
+        texture_name,
+        int_type,
+        int_type)>
+      framebuffer_texture_layer;
+
+    func<
+      OGLPAFP(NamedFramebufferTextureLayer),
+      void(
+        framebuffer_name,
+        oglp::framebuffer_attachment,
+        texture_name,
+        int_type,
+        int_type)>
+      named_framebuffer_texture_layer;
+
+    func<
+      OGLPAFP(CheckFramebufferStatus),
+      framebuffer_status(framebuffer_target)>
+      check_framebuffer_status;
+
+    func<
+      OGLPAFP(CheckNamedFramebufferStatus),
+      framebuffer_status(framebuffer_name, framebuffer_target)>
+      check_named_framebuffer_status;
+
+    func<
+      OGLPAFP(BlitFramebuffer),
+      void(
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        enum_bitfield<buffer_blit_bit>,
+        blit_filter)>
+      blit_framebuffer;
+
+    func<
+      OGLPAFP(BlitNamedFramebuffer),
+      void(
+        framebuffer_name,
+        framebuffer_name,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        int_type,
+        enum_bitfield<buffer_blit_bit>,
+        blit_filter)>
+      blit_named_framebuffer;
 
     // drawing
     // arrays
@@ -3085,6 +3181,9 @@ public:
       , draw_buffer("draw_buffer", traits, *this)
       , named_framebuffer_draw_buffer(
           "named_framebuffer_draw_buffer", traits, *this)
+      , read_buffer("read_buffer", traits, *this)
+      , named_framebuffer_read_buffer(
+          "named_framebuffer_read_buffer", traits, *this)
       , framebuffer_parameter_i("framebuffer_parameter_i", traits, *this)
       , named_framebuffer_parameter_i(
           "named_framebuffer_parameter_i", traits, *this)
@@ -3101,6 +3200,17 @@ public:
           "named_framebuffer_renderbuffer", traits, *this)
       , framebuffer_texture("framebuffer_texture", traits, *this)
       , named_framebuffer_texture("named_framebuffer_texture", traits, *this)
+      , framebuffer_texture1d("framebuffer_texture1d", traits, *this)
+      , framebuffer_texture2d("framebuffer_texture2d", traits, *this)
+      , framebuffer_texture3d("framebuffer_texture3d", traits, *this)
+      , framebuffer_texture_layer("framebuffer_texture_layer", traits, *this)
+      , named_framebuffer_texture_layer(
+          "named_framebuffer_texture_layer", traits, *this)
+      , check_framebuffer_status("check_framebuffer_status", traits, *this)
+      , check_named_framebuffer_status(
+          "check_named_framebuffer_status", traits, *this)
+      , blit_framebuffer("blit_framebuffer", traits, *this)
+      , blit_named_framebuffer("blit_named_framebuffer", traits, *this)
       , draw_arrays("draw_arrays", traits, *this)
       , draw_arrays_instanced_base_instance(
           "draw_arrays_instanced_base_instance", traits, *this)

@@ -174,7 +174,12 @@ struct program_property
 };
 
 struct buffer_clear_bit
-  : gl_bitfield_class<buffer_clear_bit, EAGINE_ID_V(BuffClrBit)> {
+  : gl_bitfield_class<buffer_clear_bit, EAGINE_ID_V(BufClerBit)> {
+    using enum_class::enum_class;
+};
+
+struct buffer_blit_bit
+  : gl_bitfield_class<buffer_blit_bit, EAGINE_ID_V(BufBlitBit)> {
     using enum_class::enum_class;
 };
 

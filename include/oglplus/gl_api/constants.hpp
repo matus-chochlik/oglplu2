@@ -1133,6 +1133,15 @@ public:
 
     opt_c_api_constant<
       mp_list<framebuffer_target>,
+#ifdef GL_FRAMEBUFFER_FRAMEBUFFER
+      enum_type_c<GL_FRAMEBUFFER_FRAMEBUFFER>>
+#else
+      enum_type_i>
+#endif
+      framebuffer_framebuffer;
+
+    opt_c_api_constant<
+      mp_list<framebuffer_target>,
 #ifdef GL_DRAW_FRAMEBUFFER
       enum_type_c<GL_DRAW_FRAMEBUFFER>>
 #else
@@ -4892,7 +4901,7 @@ public:
       extensions;
 
     opt_c_api_constant<
-      mp_list<buffer_clear_bit>,
+      mp_list<buffer_clear_bit, buffer_blit_bit>,
 #ifdef GL_COLOR_BUFFER_BIT
       bitfield_type_c<GL_COLOR_BUFFER_BIT>>
 #else
@@ -4901,7 +4910,7 @@ public:
       color_buffer_bit;
 
     opt_c_api_constant<
-      mp_list<buffer_clear_bit>,
+      mp_list<buffer_clear_bit, buffer_blit_bit>,
 #ifdef GL_DEPTH_BUFFER_BIT
       bitfield_type_c<GL_DEPTH_BUFFER_BIT>>
 #else
@@ -4910,7 +4919,7 @@ public:
       depth_buffer_bit;
 
     opt_c_api_constant<
-      mp_list<buffer_clear_bit>,
+      mp_list<buffer_clear_bit, buffer_blit_bit>,
 #ifdef GL_STENCIL_BUFFER_BIT
       bitfield_type_c<GL_STENCIL_BUFFER_BIT>>
 #else
@@ -10504,6 +10513,7 @@ public:
       , renderbuffer_alpha_size("RENDERBUFFER_ALPHA_SIZE", traits, api)
       , renderbuffer_depth_size("RENDERBUFFER_DEPTH_SIZE", traits, api)
       , renderbuffer_stencil_size("RENDERBUFFER_STENCIL_SIZE", traits, api)
+      , framebuffer_framebuffer("FRAMEBUFFER_FRAMEBUFFER", traits, api)
       , draw_framebuffer("DRAW_FRAMEBUFFER", traits, api)
       , read_framebuffer("READ_FRAMEBUFFER", traits, api)
       , framebuffer_complete("FRAMEBUFFER_COMPLETE", traits, api)
