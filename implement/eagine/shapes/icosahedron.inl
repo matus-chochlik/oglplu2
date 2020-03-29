@@ -83,8 +83,8 @@ void unit_icosahedron_gen::positions(span<float> dest) noexcept {
 }
 //------------------------------------------------------------------------------
 void unit_icosahedron_gen::attrib_values(
-  vertex_attrib_kind attr, span<float> dest) {
-    switch(attr) {
+  vertex_attrib_kind attrib, span<float> dest, span_size_t variant_index) {
+    switch(attrib) {
         case vertex_attrib_kind::position:
             positions(dest);
             break;
@@ -97,12 +97,12 @@ void unit_icosahedron_gen::attrib_values(
         case vertex_attrib_kind::bitangential:
         case vertex_attrib_kind::face_coord:
         case vertex_attrib_kind::box_coord:
-        case vertex_attrib_kind::wrap_coord_0:
-        case vertex_attrib_kind::wrap_coord_1:
-        case vertex_attrib_kind::wrap_coord_2:
-        case vertex_attrib_kind::wrap_coord_3:
+        case vertex_attrib_kind::wrap_coord:
+        case vertex_attrib_kind::weight:
+        case vertex_attrib_kind::color:
+        case vertex_attrib_kind::emission:
         case vertex_attrib_kind::occlusion:
-            _base::attrib_values(attr, dest);
+            _base::attrib_values(attrib, dest, variant_index);
             break;
     }
 }

@@ -21,6 +21,7 @@ struct example_random_generator {
     virtual ~example_random_generator() noexcept = default;
 
     virtual void uniform_01(span<float>) = 0;
+    virtual void normal(span<float>) = 0;
 };
 //------------------------------------------------------------------------------
 std::unique_ptr<example_random_generator> make_example_random_generator(

@@ -28,6 +28,8 @@ enum class primitive_type {
     patches
 };
 //------------------------------------------------------------------------------
+enum class attrib_data_type { float_ };
+//------------------------------------------------------------------------------
 enum class index_data_type {
     none = 0,
     unsigned_8 = 8,

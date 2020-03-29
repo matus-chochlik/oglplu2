@@ -52,7 +52,7 @@ public:
 
     void wrap_coords(span<float> dest) noexcept;
 
-    void attrib_values(vertex_attrib_kind attr, span<float> dest) override;
+    void attrib_values(vertex_attrib_kind, span<float>, span_size_t) override;
 
     index_data_type index_type() override;
 

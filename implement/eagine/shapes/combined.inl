@@ -55,23 +55,35 @@ span_size_t combined_gen::vertex_count() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t combined_gen::values_per_vertex(vertex_attrib_kind attr) {
+span_size_t combined_gen::attribute_variants(vertex_attrib_kind attrib) {
     span_size_t result{0};
     for(auto& gen : _gens) {
-        result = math::maximum(result, gen->values_per_vertex(attr));
+        result = math::maximum(result, gen->attribute_variants(attrib));
     }
     return result;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void combined_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
-    const auto vpv = values_per_vertex(attr);
+span_size_t combined_gen::values_per_vertex(
+  vertex_attrib_kind attrib, span_size_t variant_index) {
+    span_size_t result{0};
+    for(auto& gen : _gens) {
+        result =
+          math::maximum(result, gen->values_per_vertex(attrib, variant_index));
+    }
+    return result;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void combined_gen::attrib_values(
+  vertex_attrib_kind attrib, span<float> dest, span_size_t variant_index) {
+    const auto vpv = values_per_vertex(attrib, variant_index);
     span_size_t offset{0};
     for(const auto& gen : _gens) {
-        const auto gvpv = gen->values_per_vertex(attr);
+        const auto gvpv = gen->values_per_vertex(attrib, variant_index);
         const auto gvc = gen->vertex_count();
         auto tmp = head(skip(dest, offset), gvc * vpv);
-        gen->attrib_values(attr, tmp);
+        gen->attrib_values(attrib, tmp, variant_index);
         EAGINE_ASSERT(gvpv == vpv);
         // TODO: adjust if gvpv < vpv
         offset += gvc * vpv;

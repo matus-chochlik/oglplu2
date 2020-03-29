@@ -39,9 +39,11 @@ public:
 
     span_size_t vertex_count() override;
 
-    span_size_t values_per_vertex(vertex_attrib_kind attr) override;
+    span_size_t attribute_variants(vertex_attrib_kind attrib) override;
 
-    void attrib_values(vertex_attrib_kind attr, span<float> dest) override;
+    span_size_t values_per_vertex(vertex_attrib_kind, span_size_t) override;
+
+    void attrib_values(vertex_attrib_kind, span<float>, span_size_t) override;
 
     index_data_type index_type() override;
 

@@ -9,16 +9,20 @@ namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void translated_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
-    delegated_gen::attrib_values(attr, dest);
+void translated_gen::attrib_values(
+  vertex_attrib_kind attrib, span<float> dest, span_size_t variant_index) {
+    delegated_gen::attrib_values(attrib, dest, variant_index);
 
-    const bool is_translated_attrib = attr == vertex_attrib_kind::position ||
-                                      attr == vertex_attrib_kind::pivot ||
-                                      attr == vertex_attrib_kind::vertex_pivot;
+    const bool is_translated_attrib =
+      attrib == vertex_attrib_kind::position ||
+      attrib == vertex_attrib_kind::pivot ||
+      attrib == vertex_attrib_kind::vertex_pivot;
 
     if(is_translated_attrib) {
-        for(span_size_t v = 0, n = vertex_count(); v < n; ++v) {
-            for(span_size_t c = 0, m = values_per_vertex(attr); c < m; ++c) {
+        const auto m = values_per_vertex(attrib, variant_index);
+        const auto n = vertex_count();
+        for(span_size_t v = 0; v < n; ++v) {
+            for(span_size_t c = 0; c < m; ++c) {
                 dest[v * m + c] += _d[std_size(c)];
             }
         }

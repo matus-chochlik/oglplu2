@@ -42,12 +42,20 @@ public:
         return _gen->vertex_count();
     }
 
-    span_size_t values_per_vertex(vertex_attrib_kind attr) override {
-        return _gen->values_per_vertex(attr);
+    span_size_t attribute_variants(vertex_attrib_kind attrib) override {
+        return _gen->attribute_variants(attrib);
     }
 
-    void attrib_values(vertex_attrib_kind attr, span<float> dest) override {
-        _gen->attrib_values(attr, dest);
+    span_size_t values_per_vertex(
+      vertex_attrib_kind attrib, span_size_t variant_count) override {
+        return _gen->values_per_vertex(attrib, variant_count);
+    }
+
+    void attrib_values(
+      vertex_attrib_kind attrib,
+      span<float> dest,
+      span_size_t variant_count) override {
+        _gen->attrib_values(attrib, dest, variant_count);
     }
 
     index_data_type index_type() override {

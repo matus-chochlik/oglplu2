@@ -24,7 +24,7 @@ public:
       : delegated_gen(std::move(gen)) {
     }
 
-    void attrib_values(vertex_attrib_kind attr, span<float> dest) override;
+    void attrib_values(vertex_attrib_kind, span<float>, span_size_t) override;
 };
 //------------------------------------------------------------------------------
 static inline auto rebox(std::unique_ptr<generator_intf>&& gen) noexcept {

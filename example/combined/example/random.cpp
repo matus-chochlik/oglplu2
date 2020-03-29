@@ -25,9 +25,14 @@ public:
         generate(dest, [this] { return _dist_uniform_float_01(_gen); });
     }
 
+    void normal(span<float> dest) final {
+        generate(dest, [this] { return _dist_normal_float(_gen); });
+    }
+
 private:
     std::mt19937 _gen;
     std::uniform_real_distribution<float> _dist_uniform_float_01{0.f, 1.f};
+    std::normal_distribution<float> _dist_normal_float{0.f, 1.f};
 
     static std::random_device::result_type _get_seed(
       example_args&, example_params& params) {

@@ -28,7 +28,7 @@ public:
       , _d{d} {
     }
 
-    void attrib_values(vertex_attrib_kind attr, span<float> dest) override;
+    void attrib_values(vertex_attrib_kind, span<float>, span_size_t) override;
 
     math::sphere<float, true> bounding_sphere() override;
 };

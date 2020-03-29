@@ -15,9 +15,10 @@ namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void occluded_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
+void occluded_gen::attrib_values(
+  vertex_attrib_kind attrib, span<float> dest, span_size_t variant_index) {
 
-    if(attr == vertex_attrib_kind::occlusion) {
+    if(attrib == vertex_attrib_kind::occlusion) {
         std::random_device rd;
         std::mt19937 rho_re(rd());
         std::mt19937 phi_re(rd());
@@ -26,19 +27,20 @@ void occluded_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
         const auto vc = delegated_gen::vertex_count();
         const auto pva = vertex_attrib_kind::position;
         const auto nva = vertex_attrib_kind::normal;
-        const auto pvpv = delegated_gen::values_per_vertex(pva);
-        const auto nvpv = delegated_gen::values_per_vertex(nva);
+        const auto pvpv = delegated_gen::values_per_vertex(pva, 0);
+        const auto nvpv = delegated_gen::values_per_vertex(nva, 0);
         const auto ns = _samples;
 
         if((pvpv == 3) && (nvpv == 3)) {
             EAGINE_ASSERT(
-              dest.size() >= vc * delegated_gen::values_per_vertex(attr));
+              dest.size() >=
+              vc * delegated_gen::values_per_vertex(attrib, variant_index));
 
             std::vector<float> positions(std_size(vc * pvpv));
             std::vector<float> normals(std_size(vc * nvpv));
 
-            delegated_gen::attrib_values(pva, cover(positions));
-            delegated_gen::attrib_values(nva, cover(normals));
+            delegated_gen::attrib_values(pva, cover(positions), 0);
+            delegated_gen::attrib_values(nva, cover(normals), 0);
 
             std::vector<math::line<float, true>> rays(std_size(vc * ns));
             std::vector<float> weights(rays.size());
@@ -96,7 +98,7 @@ void occluded_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
             fill(dest, 0.f);
         }
     } else {
-        delegated_gen::attrib_values(attr, dest);
+        delegated_gen::attrib_values(attrib, dest, variant_index);
     }
 }
 //------------------------------------------------------------------------------

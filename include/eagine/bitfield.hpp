@@ -77,7 +77,7 @@ public:
 
     friend constexpr inline bitfield operator|(
       bitfield a, bitfield b) noexcept {
-        return bitfield(BF{a._bits} | BF{b._bits});
+        return bitfield(a._bits | b._bits);
     }
 
     bitfield& operator|=(bitfield b) noexcept {
@@ -87,7 +87,7 @@ public:
 
     friend constexpr inline bitfield operator&(
       bitfield a, bitfield b) noexcept {
-        return bitfield{a._bits & b._bits};
+        return bitfield(a._bits & b._bits);
     }
 
     bitfield& operator&=(bitfield b) noexcept {

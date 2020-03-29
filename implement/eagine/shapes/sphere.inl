@@ -22,7 +22,7 @@ EAGINE_LIB_FUNC
 vertex_attrib_bits unit_sphere_gen::_attr_mask() noexcept {
     return vertex_attrib_kind::position | vertex_attrib_kind::normal |
            vertex_attrib_kind::tangential | vertex_attrib_kind::bitangential |
-           vertex_attrib_kind::box_coord | vertex_attrib_kind::wrap_coord_0;
+           vertex_attrib_kind::box_coord | vertex_attrib_kind::wrap_coord;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -134,7 +134,7 @@ void unit_sphere_gen::bitangentials(span<float> dest) noexcept {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void unit_sphere_gen::wrap_coords(span<float> dest) noexcept {
-    EAGINE_ASSERT(has(vertex_attrib_kind::wrap_coord_0));
+    EAGINE_ASSERT(has(vertex_attrib_kind::wrap_coord));
     EAGINE_ASSERT(dest.size() >= vertex_count() * 2);
 
     span_size_t k = 0;
@@ -151,8 +151,9 @@ void unit_sphere_gen::wrap_coords(span<float> dest) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_sphere_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
-    switch(attr) {
+void unit_sphere_gen::attrib_values(
+  vertex_attrib_kind attrib, span<float> dest, span_size_t variant_index) {
+    switch(attrib) {
         case vertex_attrib_kind::position:
             positions(dest);
             break;
@@ -165,20 +166,20 @@ void unit_sphere_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
         case vertex_attrib_kind::bitangential:
             bitangentials(dest);
             break;
-        case vertex_attrib_kind::wrap_coord_0:
+        case vertex_attrib_kind::wrap_coord:
             wrap_coords(dest);
             break;
         case vertex_attrib_kind::pivot:
         case vertex_attrib_kind::vertex_pivot:
         case vertex_attrib_kind::box_coord:
         case vertex_attrib_kind::face_coord:
-        case vertex_attrib_kind::wrap_coord_1:
-        case vertex_attrib_kind::wrap_coord_2:
-        case vertex_attrib_kind::wrap_coord_3:
         case vertex_attrib_kind::object_id:
         case vertex_attrib_kind::material_id:
+        case vertex_attrib_kind::weight:
+        case vertex_attrib_kind::color:
+        case vertex_attrib_kind::emission:
         case vertex_attrib_kind::occlusion:
-            _base::attrib_values(attr, dest);
+            _base::attrib_values(attrib, dest, variant_index);
             break;
     }
 }

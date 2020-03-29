@@ -11,15 +11,17 @@ namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void centered_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
+void centered_gen::attrib_values(
+  vertex_attrib_kind attrib, span<float> dest, span_size_t variant_index) {
 
-    const bool is_centered_attrib = attr == vertex_attrib_kind::position ||
-                                    attr == vertex_attrib_kind::pivot ||
-                                    attr == vertex_attrib_kind::vertex_pivot;
+    const bool is_centered_attrib = attrib == vertex_attrib_kind::position ||
+                                    attrib == vertex_attrib_kind::pivot ||
+                                    attrib == vertex_attrib_kind::vertex_pivot;
 
     if(is_centered_attrib) {
 
-        delegated_gen::attrib_values(vertex_attrib_kind::position, dest);
+        delegated_gen::attrib_values(
+          vertex_attrib_kind::position, dest, variant_index);
 
         std::array<float, 4> min{std::numeric_limits<float>::max(),
                                  std::numeric_limits<float>::max(),
@@ -31,8 +33,10 @@ void centered_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
                                  std::numeric_limits<float>::lowest(),
                                  std::numeric_limits<float>::lowest()};
 
+        const span_size_t m = values_per_vertex(attrib, variant_index);
+
         for(span_size_t v = 0, n = vertex_count(); v < n; ++v) {
-            for(span_size_t c = 0, m = values_per_vertex(attr); c < m; ++c) {
+            for(span_size_t c = 0; c < m; ++c) {
                 const auto k = std_size(c);
 
                 min[k] = eagine::math::minimum(min[k], dest[v * m + c]);
@@ -41,22 +45,22 @@ void centered_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
         }
 
         std::array<float, 4> offs{{}};
-        for(span_size_t c = 0, m = values_per_vertex(attr); c < m; ++c) {
+        for(span_size_t c = 0; c < m; ++c) {
             const auto k = std_size(c);
             offs[k] = (min[k] + max[k]) * 0.5f;
         }
 
-        if(attr != vertex_attrib_kind::position) {
-            delegated_gen::attrib_values(attr, dest);
+        if(attrib != vertex_attrib_kind::position) {
+            delegated_gen::attrib_values(attrib, dest, variant_index);
         }
 
         for(span_size_t v = 0, n = vertex_count(); v < n; ++v) {
-            for(span_size_t c = 0, m = values_per_vertex(attr); c < m; ++c) {
+            for(span_size_t c = 0; c < m; ++c) {
                 dest[v * m + c] -= offs[std_size(c)];
             }
         }
     } else {
-        delegated_gen::attrib_values(attr, dest);
+        delegated_gen::attrib_values(attrib, dest, variant_index);
     }
 }
 //------------------------------------------------------------------------------

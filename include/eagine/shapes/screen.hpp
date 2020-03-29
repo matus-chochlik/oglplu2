@@ -38,7 +38,7 @@ public:
 
     void face_coords(span<float> dest) noexcept;
 
-    void attrib_values(vertex_attrib_kind attr, span<float> dest) override;
+    void attrib_values(vertex_attrib_kind, span<float>, span_size_t) override;
 
     span_size_t operation_count() override;
 
