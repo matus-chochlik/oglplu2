@@ -35,8 +35,7 @@ public:
 //------------------------------------------------------------------------------
 static inline auto translate(
   std::unique_ptr<generator_intf>&& gen, std::array<float, 3> d) noexcept {
-    return std::unique_ptr<generator_intf>(
-      new translated_gen(std::move(gen), d));
+    return std::make_unique<translated_gen>(std::move(gen), d);
 }
 //------------------------------------------------------------------------------
 

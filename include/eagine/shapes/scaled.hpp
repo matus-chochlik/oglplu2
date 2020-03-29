@@ -36,7 +36,7 @@ public:
 //------------------------------------------------------------------------------
 static inline auto scale(
   std::unique_ptr<generator_intf>&& gen, std::array<float, 3> s) noexcept {
-    return std::unique_ptr<generator_intf>(new scaled_gen(std::move(gen), s));
+    return std::make_unique<scaled_gen>(std::move(gen), s);
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

@@ -60,8 +60,7 @@ static inline auto array(
   std::unique_ptr<generator_intf>&& gen,
   std::array<float, 3> d,
   span_size_t count) noexcept {
-    return std::unique_ptr<generator_intf>(
-      new array_gen(std::move(gen), d, count));
+    return std::make_unique<array_gen>(std::move(gen), d, count);
 }
 //------------------------------------------------------------------------------
 static inline auto ortho_array_xyz(

@@ -34,8 +34,7 @@ private:
 //------------------------------------------------------------------------------
 static inline auto occlude(
   std::unique_ptr<generator_intf>&& gen, span_size_t samples = 8) noexcept {
-    return std::unique_ptr<generator_intf>(
-      new occluded_gen(std::move(gen), samples));
+    return std::make_unique<occluded_gen>(std::move(gen), samples);
 }
 //------------------------------------------------------------------------------
 

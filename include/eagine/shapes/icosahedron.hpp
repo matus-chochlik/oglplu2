@@ -57,7 +57,7 @@ public:
 };
 //------------------------------------------------------------------------------
 static inline auto unit_icosahedron(vertex_attrib_bits attr_bits) {
-    return std::unique_ptr<generator_intf>{new unit_icosahedron_gen(attr_bits)};
+    return std::make_unique<unit_icosahedron_gen>(attr_bits);
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

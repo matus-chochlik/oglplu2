@@ -48,7 +48,7 @@ public:
 };
 //------------------------------------------------------------------------------
 static inline auto unit_screen(vertex_attrib_bits attr_bits) {
-    return std::unique_ptr<generator_intf>{new unit_screen_gen(attr_bits)};
+    return std::make_unique<unit_screen_gen>(attr_bits);
 }
 //------------------------------------------------------------------------------
 

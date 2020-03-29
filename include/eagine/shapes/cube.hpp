@@ -77,7 +77,7 @@ public:
 };
 //------------------------------------------------------------------------------
 static inline auto unit_cube(vertex_attrib_bits attr_bits) {
-    return std::unique_ptr<generator_intf>{new unit_cube_gen(attr_bits)};
+    return std::make_unique<unit_cube_gen>(attr_bits);
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

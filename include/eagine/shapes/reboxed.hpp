@@ -28,7 +28,7 @@ public:
 };
 //------------------------------------------------------------------------------
 static inline auto rebox(std::unique_ptr<generator_intf>&& gen) noexcept {
-    return std::unique_ptr<generator_intf>(new reboxed_gen(std::move(gen)));
+    return std::make_unique<reboxed_gen>(std::move(gen));
 }
 //------------------------------------------------------------------------------
 

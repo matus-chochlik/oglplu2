@@ -79,8 +79,8 @@ static inline auto unit_sphere(
   vertex_attrib_bits attr_bits,
   valid_if_greater_than<int, 2> rings,
   valid_if_greater_than<int, 3> sections) {
-    return std::unique_ptr<generator_intf>{
-      new unit_sphere_gen(attr_bits, std::move(rings), std::move(sections))};
+    return std::make_unique<unit_sphere_gen>(
+      attr_bits, std::move(rings), std::move(sections));
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

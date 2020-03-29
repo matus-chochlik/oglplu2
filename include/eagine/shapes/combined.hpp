@@ -68,7 +68,7 @@ static inline auto combine(std::unique_ptr<generator_intf>&& gen) {
     std::vector<std::unique_ptr<generator_intf>> v;
     v.reserve(1);
     v.emplace_back(std::move(gen));
-    return std::unique_ptr<generator_intf>(new combined_gen(std::move(v)));
+    return std::make_unique<combined_gen>(std::move(v));
 }
 //------------------------------------------------------------------------------
 template <std::size_t N>
@@ -79,7 +79,7 @@ static inline auto combine(
     for(auto& gen : gens) {
         v.emplace_back(std::move(gen));
     }
-    return std::unique_ptr<generator_intf>(new combined_gen(std::move(v)));
+    return std::make_unique<combined_gen>(std::move(v));
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

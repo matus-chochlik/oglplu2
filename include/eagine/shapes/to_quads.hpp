@@ -40,7 +40,7 @@ public:
 };
 //------------------------------------------------------------------------------
 static inline auto to_quads(std::unique_ptr<generator_intf>&& gen) noexcept {
-    return std::unique_ptr<generator_intf>(new to_quads_gen(std::move(gen)));
+    return std::make_unique<to_quads_gen>(std::move(gen));
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

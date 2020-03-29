@@ -30,7 +30,7 @@ public:
 };
 //------------------------------------------------------------------------------
 static inline auto center(std::unique_ptr<generator_intf>&& gen) noexcept {
-    return std::unique_ptr<generator_intf>(new centered_gen(std::move(gen)));
+    return std::make_unique<centered_gen>(std::move(gen));
 }
 //------------------------------------------------------------------------------
 } // namespace shapes
