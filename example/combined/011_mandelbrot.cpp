@@ -141,7 +141,7 @@ void example_mandelbrot::init(example_context& ctx) {
     vertex_attrib_location position_loc;
     gl.get_attrib_location(prog, "Position") >> position_loc;
 
-    gl.vertex_attrib_pointer(position_loc, 2, GL.float_, GL.false_, 0, nullptr);
+    gl.vertex_attrib_pointer(position_loc, 2, GL.float_, GL.false_);
     gl.enable_vertex_attrib_array(position_loc);
 
     const auto coord_data =
@@ -154,7 +154,7 @@ void example_mandelbrot::init(example_context& ctx) {
     vertex_attrib_location coord_loc;
     gl.get_attrib_location(prog, "Coord") >> coord_loc;
 
-    gl.vertex_attrib_pointer(coord_loc, 2, GL.float_, GL.false_, 0, nullptr);
+    gl.vertex_attrib_pointer(coord_loc, 2, GL.float_, GL.false_);
     gl.enable_vertex_attrib_array(coord_loc);
 
     // gradient texture

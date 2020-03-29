@@ -1426,36 +1426,65 @@ public:
         uint_type)>
       vertex_array_attrib_lformat;
 
-    func<
-      OGLPAFP(VertexAttribPointer),
-      void(
-        vertex_attrib_location,
-        int_type,
-        data_type,
-        true_false,
-        sizei_type,
-        const_void_ptr_type)>
-      vertex_attrib_pointer;
+    struct : func<OGLPAFP(VertexAttribPointer)> {
+        using func<OGLPAFP(VertexAttribPointer)>::func;
 
-    func<
-      OGLPAFP(VertexAttribIPointer),
-      void(
-        vertex_attrib_location,
-        int_type,
-        data_type,
-        sizei_type,
-        const_void_ptr_type)>
-      vertex_attrib_ipointer;
+        constexpr auto operator()(
+          vertex_attrib_location loc,
+          int_type size,
+          data_type type,
+          true_false norm) const noexcept {
+            return this->_cnvchkcall(loc, size, type, norm, 0, nullptr);
+        }
 
-    func<
-      OGLPAFP(VertexAttribLPointer),
-      void(
-        vertex_attrib_location,
-        int_type,
-        data_type,
-        sizei_type,
-        const_void_ptr_type)>
-      vertex_attrib_lpointer;
+        constexpr auto operator()(
+          vertex_attrib_location loc,
+          int_type size,
+          data_type type,
+          true_false norm,
+          sizei_type stride,
+          const_void_ptr_type pointer) const noexcept {
+            return this->_cnvchkcall(loc, size, type, norm, stride, pointer);
+        }
+    } vertex_attrib_pointer;
+
+    struct : func<OGLPAFP(VertexAttribIPointer)> {
+        using func<OGLPAFP(VertexAttribIPointer)>::func;
+
+        constexpr auto operator()(
+          vertex_attrib_location loc, int_type size, data_type type) const
+          noexcept {
+            return this->_cnvchkcall(loc, size, type, 0, nullptr);
+        }
+
+        constexpr auto operator()(
+          vertex_attrib_location loc,
+          int_type size,
+          data_type type,
+          sizei_type stride,
+          const_void_ptr_type pointer) const noexcept {
+            return this->_cnvchkcall(loc, size, type, stride, pointer);
+        }
+    } vertex_attrib_ipointer;
+
+    struct : func<OGLPAFP(VertexAttribLPointer)> {
+        using func<OGLPAFP(VertexAttribLPointer)>::func;
+
+        constexpr auto operator()(
+          vertex_attrib_location loc, int_type size, data_type type) const
+          noexcept {
+            return this->_cnvchkcall(loc, size, type, 0, nullptr);
+        }
+
+        constexpr auto operator()(
+          vertex_attrib_location loc,
+          int_type size,
+          data_type type,
+          sizei_type stride,
+          const_void_ptr_type pointer) const noexcept {
+            return this->_cnvchkcall(loc, size, type, stride, pointer);
+        }
+    } vertex_attrib_lpointer;
 
     func<
       OGLPAFP(VertexAttribBinding),
@@ -1624,7 +1653,7 @@ public:
         int_type,
         pixel_format,
         pixel_data_type,
-        const_void_ptr_type)>
+        memory::const_block)>
       tex_image3d;
 
     func<
@@ -1638,7 +1667,7 @@ public:
         int_type,
         pixel_format,
         pixel_data_type,
-        const_void_ptr_type)>
+        memory::const_block)>
       tex_image2d;
 
     func<
@@ -1667,7 +1696,7 @@ public:
         sizei_type,
         pixel_format,
         pixel_data_type,
-        const_void_ptr_type)>
+        memory::const_block)>
       tex_sub_image3d;
 
     func<
@@ -1683,7 +1712,7 @@ public:
         sizei_type,
         pixel_format,
         pixel_data_type,
-        const_void_ptr_type)>
+        memory::const_block)>
       texture_sub_image3d;
 
     func<
@@ -1697,7 +1726,7 @@ public:
         sizei_type,
         pixel_format,
         pixel_data_type,
-        const_void_ptr_type)>
+        memory::const_block)>
       tex_sub_image2d;
 
     func<
@@ -1711,7 +1740,7 @@ public:
         sizei_type,
         pixel_format,
         pixel_data_type,
-        const_void_ptr_type)>
+        memory::const_block)>
       texture_sub_image2d;
 
     func<
@@ -1723,7 +1752,7 @@ public:
         sizei_type,
         pixel_format,
         pixel_data_type,
-        const_void_ptr_type)>
+        memory::const_block)>
       tex_sub_image1d;
 
     func<
@@ -1735,7 +1764,7 @@ public:
         sizei_type,
         pixel_format,
         pixel_data_type,
-        const_void_ptr_type)>
+        memory::const_block)>
       texture_sub_image1d;
 
     func<
@@ -1827,128 +1856,200 @@ public:
       void(texture_name, int_type, int_type, int_type, int_type, sizei_type)>
       copy_texture_sub_image1d;
 
-    func<
-      OGLPAFP(CompressedTexImage3D),
-      void(
-        texture_target,
-        int_type,
-        pixel_internal_format,
-        sizei_type,
-        sizei_type,
-        sizei_type,
-        int_type,
-        sizei_type,
-        const_void_ptr_type)>
-      compressed_tex_image3d;
+    struct : func<OGLPAFP(CompressedTexImage3D)> {
+        using func<OGLPAFP(CompressedTexImage3D)>::func;
 
-    func<
-      OGLPAFP(CompressedTexImage2D),
-      void(
-        texture_target,
-        int_type,
-        pixel_internal_format,
-        sizei_type,
-        sizei_type,
-        int_type,
-        sizei_type,
-        const_void_ptr_type)>
-      compressed_tex_image2d;
+        constexpr auto operator()(
+          texture_target tgt,
+          int_type level,
+          pixel_internal_format ifmt,
+          sizei_type width,
+          sizei_type height,
+          sizei_type depth,
+          int_type border,
+          memory::const_block data) const noexcept {
+            return this->_cnvchkcall(
+              tgt,
+              level,
+              ifmt,
+              width,
+              height,
+              depth,
+              border,
+              data.size(),
+              data.data());
+        }
+    } compressed_tex_image3d;
 
-    func<
-      OGLPAFP(CompressedTexImage1D),
-      void(
-        texture_target,
-        int_type,
-        pixel_internal_format,
-        sizei_type,
-        int_type,
-        sizei_type,
-        const_void_ptr_type)>
-      compressed_tex_image1d;
+    struct : func<OGLPAFP(CompressedTexImage2D)> {
+        using func<OGLPAFP(CompressedTexImage2D)>::func;
 
-    func<
-      OGLPAFP(CompressedTexSubImage3D),
-      void(
-        texture_target,
-        int_type,
-        int_type,
-        int_type,
-        int_type,
-        sizei_type,
-        sizei_type,
-        sizei_type,
-        pixel_format,
-        sizei_type,
-        const_void_ptr_type)>
-      compressed_tex_sub_image3d;
+        constexpr auto operator()(
+          texture_target tgt,
+          int_type level,
+          pixel_internal_format ifmt,
+          sizei_type width,
+          sizei_type height,
+          int_type border,
+          memory::const_block data) const noexcept {
+            return this->_cnvchkcall(
+              tgt,
+              level,
+              ifmt,
+              width,
+              height,
+              border,
+              data.size(),
+              data.data());
+        }
+    } compressed_tex_image2d;
 
-    func<
-      OGLPAFP(CompressedTextureSubImage3D),
-      void(
-        texture_name,
-        int_type,
-        int_type,
-        int_type,
-        int_type,
-        sizei_type,
-        sizei_type,
-        sizei_type,
-        pixel_format,
-        sizei_type,
-        const_void_ptr_type)>
-      compressed_texture_sub_image3d;
+    struct : func<OGLPAFP(CompressedTexImage1D)> {
+        using func<OGLPAFP(CompressedTexImage1D)>::func;
 
-    func<
-      OGLPAFP(CompressedTexSubImage2D),
-      void(
-        texture_target,
-        int_type,
-        int_type,
-        int_type,
-        sizei_type,
-        sizei_type,
-        pixel_format,
-        sizei_type,
-        const_void_ptr_type)>
-      compressed_tex_sub_image2d;
+        constexpr auto operator()(
+          texture_target tgt,
+          int_type level,
+          pixel_internal_format ifmt,
+          sizei_type width,
+          int_type border,
+          memory::const_block data) const noexcept {
+            return this->_cnvchkcall(
+              tgt, level, ifmt, width, border, data.size(), data.data());
+        }
+    } compressed_tex_image1d;
 
-    func<
-      OGLPAFP(CompressedTextureSubImage2D),
-      void(
-        texture_name,
-        int_type,
-        int_type,
-        int_type,
-        sizei_type,
-        sizei_type,
-        pixel_format,
-        sizei_type,
-        const_void_ptr_type)>
-      compressed_texture_sub_image2d;
+    struct : func<OGLPAFP(CompressedTexSubImage3D)> {
+        using func<OGLPAFP(CompressedTexSubImage3D)>::func;
+        constexpr auto operator()(
+          texture_target tgt,
+          int_type level,
+          int_type xoffset,
+          int_type yoffset,
+          int_type zoffset,
+          sizei_type width,
+          sizei_type height,
+          sizei_type depth,
+          pixel_format fmt,
+          memory::const_block data) const noexcept {
+            return this->_cnvchkcall(
+              tgt,
+              level,
+              xoffset,
+              yoffset,
+              zoffset,
+              width,
+              height,
+              depth,
+              fmt,
+              data.size(),
+              data.data());
+        }
+    } compressed_tex_sub_image3d;
 
-    func<
-      OGLPAFP(CompressedTexSubImage1D),
-      void(
-        texture_target,
-        int_type,
-        int_type,
-        sizei_type,
-        pixel_format,
-        sizei_type,
-        const_void_ptr_type)>
-      compressed_tex_sub_image1d;
+    struct : func<OGLPAFP(CompressedTextureSubImage3D)> {
+        using func<OGLPAFP(CompressedTextureSubImage3D)>::func;
+        constexpr auto operator()(
+          texture_name tex,
+          int_type level,
+          int_type xoffset,
+          int_type yoffset,
+          int_type zoffset,
+          sizei_type width,
+          sizei_type height,
+          sizei_type depth,
+          pixel_format fmt,
+          memory::const_block data) const noexcept {
+            return this->_cnvchkcall(
+              tex,
+              level,
+              xoffset,
+              yoffset,
+              zoffset,
+              width,
+              height,
+              depth,
+              fmt,
+              data.size(),
+              data.data());
+        }
+    } compressed_texture_sub_image3d;
 
-    func<
-      OGLPAFP(CompressedTextureSubImage1D),
-      void(
-        texture_name,
-        int_type,
-        int_type,
-        sizei_type,
-        pixel_format,
-        sizei_type,
-        const_void_ptr_type)>
-      compressed_texture_sub_image1d;
+    struct : func<OGLPAFP(CompressedTexSubImage2D)> {
+        using func<OGLPAFP(CompressedTexSubImage2D)>::func;
+        constexpr auto operator()(
+          texture_target tgt,
+          int_type level,
+          int_type xoffset,
+          int_type yoffset,
+          sizei_type width,
+          sizei_type height,
+          pixel_format fmt,
+          memory::const_block data) const noexcept {
+            return this->_cnvchkcall(
+              tgt,
+              level,
+              xoffset,
+              yoffset,
+              width,
+              height,
+              fmt,
+              data.size(),
+              data.data());
+        }
+    } compressed_tex_sub_image2d;
+
+    struct : func<OGLPAFP(CompressedTextureSubImage2D)> {
+        using func<OGLPAFP(CompressedTextureSubImage2D)>::func;
+        constexpr auto operator()(
+          texture_name tex,
+          int_type level,
+          int_type xoffset,
+          int_type yoffset,
+          sizei_type width,
+          sizei_type height,
+          pixel_format fmt,
+          memory::const_block data) const noexcept {
+            return this->_cnvchkcall(
+              tex,
+              level,
+              xoffset,
+              yoffset,
+              width,
+              height,
+              fmt,
+              data.size(),
+              data.data());
+        }
+    } compressed_texture_sub_image2d;
+
+    struct : func<OGLPAFP(CompressedTexSubImage1D)> {
+        using func<OGLPAFP(CompressedTexSubImage1D)>::func;
+        constexpr auto operator()(
+          texture_target tgt,
+          int_type level,
+          int_type xoffset,
+          sizei_type width,
+          pixel_format fmt,
+          memory::const_block data) const noexcept {
+            return this->_cnvchkcall(
+              tgt, level, xoffset, width, fmt, data.size(), data.data());
+        }
+    } compressed_tex_sub_image1d;
+
+    struct : func<OGLPAFP(CompressedTextureSubImage1D)> {
+        using func<OGLPAFP(CompressedTextureSubImage1D)>::func;
+        constexpr auto operator()(
+          texture_name tex,
+          int_type level,
+          int_type xoffset,
+          sizei_type width,
+          pixel_format fmt,
+          memory::const_block data) const noexcept {
+            return this->_cnvchkcall(
+              tex, level, xoffset, width, fmt, data.size(), data.data());
+        }
+    } compressed_texture_sub_image1d;
 
     func<
       OGLPAFP(TexBuffer),
