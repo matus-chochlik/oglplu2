@@ -107,22 +107,25 @@ public:
 
     // numerc query function
     template <
-      typename ParamTypeList,
+      typename PreTypeList,
       typename QueryClassList,
+      typename PostTypeList,
       typename QueryResult,
       typename W,
       W c_api::*F>
     struct query_func;
 
     template <
-      typename... Params,
+      typename... PreParams,
       typename... QueryClasses,
+      typename... PostParams,
       typename QueryResult,
       typename W,
       W c_api::*F>
     struct query_func<
-      mp_list<Params...>,
+      mp_list<PreParams...>,
       mp_list<QueryClasses...>,
+      mp_list<PostParams...>,
       QueryResult,
       W,
       F> : func<W, F> {
@@ -134,11 +137,14 @@ public:
             (true || ... || is_enum_class_value_v<QueryClasses, Query>)>,
           typename =
             std::enable_if_t<!std::is_array_v<typename Query::tag_type>>>
-        constexpr auto operator()(Params... params, Query query) const
+        constexpr auto operator()(
+          PreParams... pre_params, Query query, PostParams... post_params) const
           noexcept {
             using RV = typename Query::tag_type;
             QueryResult result{};
-            return this->_cnvchkcall(params..., enum_type(query), &result)
+            return this
+              ->_cnvchkcall(
+                pre_params..., enum_type(query), post_params..., &result)
               .replaced_with(result)
               .cast_to(identity<RV>{});
         }
@@ -147,10 +153,14 @@ public:
           typename Query,
           typename = std::enable_if_t<
             (true || ... || is_enum_class_value_v<QueryClasses, Query>)>>
-        auto operator()(Params... params, Query query, span<QueryResult> dest)
-          const noexcept {
+        auto operator()(
+          PreParams... pre_params,
+          Query query,
+          PostParams... post_params,
+          span<QueryResult> dest) const noexcept {
             EAGINE_ASSERT(dest.size());
-            return this->_cnvchkcall(params..., enum_type(query), dest.data());
+            return this->_cnvchkcall(
+              pre_params..., enum_type(query), post_params..., dest.data());
         }
     };
 
@@ -490,6 +500,7 @@ public:
     query_func<
       mp_list<shader_name>,
       mp_list<shader_parameter>,
+      mp_list<>,
       int_type,
       OGLPAFP(GetShaderiv)>
       get_shader_i;
@@ -520,6 +531,7 @@ public:
     query_func<
       mp_list<program_name>,
       mp_list<program_parameter>,
+      mp_list<>,
       int_type,
       OGLPAFP(GetProgramiv)>
       get_program_i;
@@ -1316,6 +1328,7 @@ public:
     query_func<
       mp_list<buffer_target>,
       mp_list<buffer_parameter>,
+      mp_list<>,
       int_type,
       OGLPAFP(GetBufferParameteriv)>
       get_buffer_parameter_i;
@@ -1323,6 +1336,7 @@ public:
     query_func<
       mp_list<buffer_name>,
       mp_list<buffer_parameter>,
+      mp_list<>,
       int_type,
       OGLPAFP(GetNamedBufferParameteriv)>
       get_named_buffer_parameter_i;
@@ -1330,6 +1344,7 @@ public:
     query_func<
       mp_list<buffer_target>,
       mp_list<buffer_parameter>,
+      mp_list<>,
       int64_type,
       OGLPAFP(GetBufferParameteri64v)>
       get_buffer_parameter_i64;
@@ -1337,6 +1352,7 @@ public:
     query_func<
       mp_list<buffer_name>,
       mp_list<buffer_parameter>,
+      mp_list<>,
       int64_type,
       OGLPAFP(GetNamedBufferParameteri64v)>
       get_named_buffer_parameter_i64;
@@ -2218,6 +2234,7 @@ public:
     query_func<
       mp_list<texture_target>,
       mp_list<texture_parameter>,
+      mp_list<>,
       float_type,
       OGLPAFP(GetTexParameterfv)>
       get_tex_parameter_f;
@@ -2225,6 +2242,7 @@ public:
     query_func<
       mp_list<texture_name>,
       mp_list<texture_parameter>,
+      mp_list<>,
       float_type,
       OGLPAFP(GetTextureParameterfv)>
       get_texture_parameter_f;
@@ -2232,6 +2250,7 @@ public:
     query_func<
       mp_list<texture_target>,
       mp_list<texture_parameter>,
+      mp_list<>,
       int_type,
       OGLPAFP(GetTexParameteriv)>
       get_tex_parameter_i;
@@ -2239,6 +2258,7 @@ public:
     query_func<
       mp_list<texture_name>,
       mp_list<texture_parameter>,
+      mp_list<>,
       int_type,
       OGLPAFP(GetTextureParameteriv)>
       get_texture_parameter_i;
@@ -2246,6 +2266,7 @@ public:
     query_func<
       mp_list<texture_target>,
       mp_list<texture_parameter>,
+      mp_list<>,
       int_type,
       OGLPAFP(GetTexParameterIiv)>
       get_tex_parameter_ii;
@@ -2253,6 +2274,7 @@ public:
     query_func<
       mp_list<texture_name>,
       mp_list<texture_parameter>,
+      mp_list<>,
       int_type,
       OGLPAFP(GetTextureParameterIiv)>
       get_texture_parameter_ii;
@@ -2260,6 +2282,7 @@ public:
     query_func<
       mp_list<texture_target>,
       mp_list<texture_parameter>,
+      mp_list<>,
       uint_type,
       OGLPAFP(GetTexParameterIuiv)>
       get_tex_parameter_iui;
@@ -2267,6 +2290,7 @@ public:
     query_func<
       mp_list<texture_name>,
       mp_list<texture_parameter>,
+      mp_list<>,
       uint_type,
       OGLPAFP(GetTextureParameterIuiv)>
       get_texture_parameter_iui;
@@ -2336,6 +2360,7 @@ public:
     query_func<
       mp_list<sampler_name>,
       mp_list<sampler_parameter>,
+      mp_list<>,
       float_type,
       OGLPAFP(GetSamplerParameterfv)>
       get_sampler_parameter_f;
@@ -2343,6 +2368,7 @@ public:
     query_func<
       mp_list<sampler_name>,
       mp_list<sampler_parameter>,
+      mp_list<>,
       int_type,
       OGLPAFP(GetSamplerParameteriv)>
       get_sampler_parameter_i;
@@ -2350,6 +2376,7 @@ public:
     query_func<
       mp_list<sampler_name>,
       mp_list<sampler_parameter>,
+      mp_list<>,
       int_type,
       OGLPAFP(GetSamplerParameterIiv)>
       get_sampler_parameter_ii;
@@ -2357,6 +2384,7 @@ public:
     query_func<
       mp_list<sampler_name>,
       mp_list<sampler_parameter>,
+      mp_list<>,
       uint_type,
       OGLPAFP(GetSamplerParameterIuiv)>
       get_sampler_parameter_iui;
@@ -2400,6 +2428,7 @@ public:
     query_func<
       mp_list<renderbuffer_target>,
       mp_list<renderbuffer_parameter>,
+      mp_list<>,
       int_type,
       OGLPAFP(GetRenderbufferParameteriv)>
       get_renderbuffer_parameter_i;
@@ -2407,6 +2436,7 @@ public:
     query_func<
       mp_list<renderbuffer_name>,
       mp_list<renderbuffer_parameter>,
+      mp_list<>,
       int_type,
       OGLPAFP(GetNamedRenderbufferParameteriv)>
       get_named_renderbuffer_parameter_i;
@@ -2442,6 +2472,7 @@ public:
     query_func<
       mp_list<framebuffer_target>,
       mp_list<framebuffer_parameter>,
+      mp_list<>,
       int_type,
       OGLPAFP(GetFramebufferParameteriv)>
       get_framebuffer_parameter_i;
@@ -2449,6 +2480,7 @@ public:
     query_func<
       mp_list<framebuffer_name>,
       mp_list<framebuffer_parameter>,
+      mp_list<>,
       int_type,
       OGLPAFP(GetNamedFramebufferParameteriv)>
       get_named_framebuffer_parameter_i;
@@ -2456,6 +2488,7 @@ public:
     query_func<
       mp_list<framebuffer_target, framebuffer_attachment>,
       mp_list<framebuffer_attachment_parameter>,
+      mp_list<>,
       int_type,
       OGLPAFP(GetFramebufferAttachmentParameteriv)>
       get_framebuffer_attachment_parameter_i;
@@ -2463,6 +2496,7 @@ public:
     query_func<
       mp_list<framebuffer_name, framebuffer_attachment>,
       mp_list<framebuffer_attachment_parameter>,
+      mp_list<>,
       int_type,
       OGLPAFP(GetNamedFramebufferAttachmentParameteriv)>
       get_named_framebuffer_attachment_parameter_i;
@@ -2624,9 +2658,26 @@ public:
     query_func<
       mp_list<transform_feedback_name>,
       mp_list<transform_feedback_parameter>,
+      mp_list<>,
       int_type,
       OGLPAFP(GetTransformFeedbackiv)>
       get_transform_feedback_i;
+
+    query_func<
+      mp_list<transform_feedback_name>,
+      mp_list<transform_feedback_parameter>,
+      mp_list<uint_type>,
+      int_type,
+      OGLPAFP(GetTransformFeedbacki_v)>
+      get_transform_feedback_ii;
+
+    query_func<
+      mp_list<transform_feedback_name>,
+      mp_list<transform_feedback_parameter>,
+      mp_list<uint_type>,
+      int64_type,
+      OGLPAFP(GetTransformFeedbacki64_v)>
+      get_transform_feedback_i64i;
 
     // drawing
     // arrays
@@ -2762,6 +2813,7 @@ public:
     query_func<
       mp_list<>,
       mp_list<integer_query, binding_query>,
+      mp_list<>,
       int_type,
       OGLPAFP(GetIntegerv)>
       get_integer;
@@ -2770,18 +2822,25 @@ public:
     query_func<
       mp_list<>,
       mp_list<integer_query>,
+      mp_list<>,
       int64_type,
       OGLPAFP(GetInteger64v)>
       get_integer64;
 
     // get_float
-    query_func<mp_list<>, mp_list<float_query>, float_type, OGLPAFP(GetFloatv)>
+    query_func<
+      mp_list<>,
+      mp_list<float_query>,
+      mp_list<>,
+      float_type,
+      OGLPAFP(GetFloatv)>
       get_float;
 
     // get_double
     query_func<
       mp_list<>,
       mp_list<float_query>,
+      mp_list<>,
       double_type,
       OGLPAFP(GetDoublev)>
       get_double;
@@ -3260,6 +3319,9 @@ public:
       , transform_feedback_buffer_range(
           "transform_feedback_buffer_range", traits, *this)
       , get_transform_feedback_i("get_transform_feedback_i", traits, *this)
+      , get_transform_feedback_ii("get_transform_feedback_ii", traits, *this)
+      , get_transform_feedback_i64i(
+          "get_transform_feedback_i64i", traits, *this)
       , draw_arrays("draw_arrays", traits, *this)
       , draw_arrays_instanced_base_instance(
           "draw_arrays_instanced_base_instance", traits, *this)
