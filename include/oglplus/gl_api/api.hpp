@@ -36,6 +36,7 @@ public:
     using int_type = typename gl_types::int_type;
     using uint_type = typename gl_types::uint_type;
     using int64_type = typename gl_types::int64_type;
+    using uint64_type = typename gl_types::uint64_type;
     using intptr_type = typename gl_types::intptr_type;
     using bool_type = typename gl_types::bool_type;
     using char_type = typename gl_types::char_type;
@@ -2679,6 +2680,75 @@ public:
       OGLPAFP(GetTransformFeedbacki64_v)>
       get_transform_feedback_i64i;
 
+    // query ops
+    query_func<
+      mp_list<query_target>,
+      mp_list<query_parameter>,
+      mp_list<>,
+      int_type,
+      OGLPAFP(GetQueryiv)>
+      get_query_i;
+
+    query_func<
+      mp_list<query_target, uint_type>,
+      mp_list<query_parameter>,
+      mp_list<>,
+      int_type,
+      OGLPAFP(GetQueryIndexediv)>
+      get_query_indexed_i;
+
+    query_func<
+      mp_list<query_name>,
+      mp_list<query_parameter>,
+      mp_list<>,
+      int_type,
+      OGLPAFP(GetQueryObjectiv)>
+      get_query_object_i;
+
+    query_func<
+      mp_list<query_name>,
+      mp_list<query_parameter>,
+      mp_list<>,
+      uint_type,
+      OGLPAFP(GetQueryObjectuiv)>
+      get_query_object_ui;
+
+    query_func<
+      mp_list<query_name>,
+      mp_list<query_parameter>,
+      mp_list<>,
+      int64_type,
+      OGLPAFP(GetQueryObjecti64v)>
+      get_query_object_i64;
+
+    query_func<
+      mp_list<query_name>,
+      mp_list<query_parameter>,
+      mp_list<>,
+      uint64_type,
+      OGLPAFP(GetQueryObjectui64v)>
+      get_query_object_ui64;
+
+    func<
+      OGLPAFP(GetQueryBufferObjectiv),
+      void(query_name, buffer_name, query_parameter, intptr_type)>
+      get_query_buffer_object_i;
+
+    func<
+      OGLPAFP(GetQueryBufferObjectuiv),
+      void(query_name, buffer_name, query_parameter, intptr_type)>
+      get_query_buffer_object_ui;
+
+    func<
+      OGLPAFP(GetQueryBufferObjecti64v),
+      void(query_name, buffer_name, query_parameter, intptr_type)>
+      get_query_buffer_object_i64;
+
+    func<
+      OGLPAFP(GetQueryBufferObjectui64v),
+      void(query_name, buffer_name, query_parameter, intptr_type)>
+      get_query_buffer_object_ui64;
+
     // drawing
     // arrays
     func<OGLPAFP(DrawArrays), void(primitive_type, int_type, sizei_type)>
@@ -3322,6 +3392,18 @@ public:
       , get_transform_feedback_ii("get_transform_feedback_ii", traits, *this)
       , get_transform_feedback_i64i(
           "get_transform_feedback_i64i", traits, *this)
+      , get_query_i("get_query_i", traits, *this)
+      , get_query_indexed_i("get_query_indexed_i", traits, *this)
+      , get_query_object_i("get_query_object_i", traits, *this)
+      , get_query_object_ui("get_query_object_ui", traits, *this)
+      , get_query_object_i64("get_query_object_i64", traits, *this)
+      , get_query_object_ui64("get_query_object_ui64", traits, *this)
+      , get_query_buffer_object_i("get_query_buffer_object_i", traits, *this)
+      , get_query_buffer_object_ui("get_query_buffer_object_ui", traits, *this)
+      , get_query_buffer_object_i64(
+          "get_query_buffer_object_i64", traits, *this)
+      , get_query_buffer_object_ui64(
+          "get_query_buffer_object_ui64", traits, *this)
       , draw_arrays("draw_arrays", traits, *this)
       , draw_arrays_instanced_base_instance(
           "draw_arrays_instanced_base_instance", traits, *this)
