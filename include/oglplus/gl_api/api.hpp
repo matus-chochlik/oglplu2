@@ -2589,6 +2589,45 @@ public:
         blit_filter)>
       blit_named_framebuffer;
 
+    // transform feedback ops
+    func<
+      OGLPAFP(BindTransformFeedback),
+      void(transform_feedback_target, transform_feedback_name)>
+      bind_transform_feedback;
+
+    func<
+      OGLPAFP(BeginTransformFeedback),
+      void(transform_feedback_primitive_type)>
+      begin_transform_feedback;
+
+    func<OGLPAFP(PauseTransformFeedback)> pause_transform_feedback;
+
+    func<OGLPAFP(ResumeTransformFeedback)> resume_transform_feedback;
+
+    func<OGLPAFP(EndTransformFeedback)> end_transform_feedback;
+
+    func<
+      OGLPAFP(TransformFeedbackBufferBase),
+      void(transform_feedback_name, uint_type, buffer_name)>
+      transform_feedback_buffer_base;
+
+    func<
+      OGLPAFP(TransformFeedbackBufferRange),
+      void(
+        transform_feedback_name,
+        uint_type,
+        buffer_name,
+        intptr_type,
+        sizeiptr_type)>
+      transform_feedback_buffer_range;
+
+    query_func<
+      mp_list<transform_feedback_name>,
+      mp_list<transform_feedback_parameter>,
+      int_type,
+      OGLPAFP(GetTransformFeedbackiv)>
+      get_transform_feedback_i;
+
     // drawing
     // arrays
     func<OGLPAFP(DrawArrays), void(primitive_type, int_type, sizei_type)>
@@ -3211,6 +3250,16 @@ public:
           "check_named_framebuffer_status", traits, *this)
       , blit_framebuffer("blit_framebuffer", traits, *this)
       , blit_named_framebuffer("blit_named_framebuffer", traits, *this)
+      , bind_transform_feedback("bind_transform_feedback", traits, *this)
+      , begin_transform_feedback("begin_transform_feedback", traits, *this)
+      , pause_transform_feedback("pause_transform_feedback", traits, *this)
+      , resume_transform_feedback("resume_transform_feedback", traits, *this)
+      , end_transform_feedback("end_transform_feedback", traits, *this)
+      , transform_feedback_buffer_base(
+          "transform_feedback_buffer_base", traits, *this)
+      , transform_feedback_buffer_range(
+          "transform_feedback_buffer_range", traits, *this)
+      , get_transform_feedback_i("get_transform_feedback_i", traits, *this)
       , draw_arrays("draw_arrays", traits, *this)
       , draw_arrays_instanced_base_instance(
           "draw_arrays_instanced_base_instance", traits, *this)
