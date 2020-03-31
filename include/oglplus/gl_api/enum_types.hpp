@@ -289,6 +289,11 @@ struct query_target : gl_enum_class<query_target, EAGINE_ID_V(QryTarget)> {
     using enum_class::enum_class;
 };
 
+struct counter_query_target
+  : gl_enum_class<counter_query_target, EAGINE_ID_V(CntrQryTgt)> {
+    using enum_class::enum_class;
+};
+
 struct query_parameter
   : gl_enum_class<query_parameter, EAGINE_ID_V(QryParamtr)> {
     using enum_class::enum_class;

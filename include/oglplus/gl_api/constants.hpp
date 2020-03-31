@@ -2674,7 +2674,7 @@ public:
       time_elapsed;
 
     opt_c_api_constant<
-      mp_list<query_target>,
+      mp_list<query_target, counter_query_target>,
 #ifdef GL_TIMESTAMP
       enum_type_c<GL_TIMESTAMP>>
 #else

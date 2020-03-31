@@ -2749,6 +2749,26 @@ public:
       void(query_name, buffer_name, query_parameter, intptr_type)>
       get_query_buffer_object_ui64;
 
+    func<OGLPAFP(BeginQuery), void(query_target, query_name)> begin_query;
+
+    func<OGLPAFP(BeginQueryIndexed), void(query_target, uint_type, query_name)>
+      begin_query_indexed;
+
+    func<OGLPAFP(EndQuery), void(query_target)> end_query;
+
+    func<OGLPAFP(EndQueryIndexed), void(query_target, uint_type)>
+      end_query_indexed;
+
+    func<OGLPAFP(QueryCounter), void(query_name, counter_query_target)>
+      query_counter;
+
+    func<
+      OGLPAFP(BeginConditionalRender),
+      void(query_name, conditional_render_mode)>
+      begin_conditional_render;
+
+    func<OGLPAFP(EndConditionalRender)> end_conditional_render;
+
     // drawing
     // arrays
     func<OGLPAFP(DrawArrays), void(primitive_type, int_type, sizei_type)>
@@ -3404,6 +3424,13 @@ public:
           "get_query_buffer_object_i64", traits, *this)
       , get_query_buffer_object_ui64(
           "get_query_buffer_object_ui64", traits, *this)
+      , begin_query("begin_query", traits, *this)
+      , begin_query_indexed("begin_query_indexed", traits, *this)
+      , end_query("end_query", traits, *this)
+      , end_query_indexed("end_query_indexed", traits, *this)
+      , query_counter("query_counter", traits, *this)
+      , begin_conditional_render("begin_conditional_render", traits, *this)
+      , end_conditional_render("end_conditional_render", traits, *this)
       , draw_arrays("draw_arrays", traits, *this)
       , draw_arrays_instanced_base_instance(
           "draw_arrays_instanced_base_instance", traits, *this)
