@@ -2782,6 +2782,43 @@ public:
         program_pipeline_name, enum_bitfield<program_stage_bit>, program_name)>
       use_program_stages;
 
+    query_func<
+      mp_list<program_name, shader_type>,
+      mp_list<program_stage_parameter>,
+      mp_list<>,
+      int_type,
+      OGLPAFP(GetProgramStageiv)>
+      get_program_stage_i;
+
+    query_func<
+      mp_list<program_name>,
+      mp_list<program_pipeline_parameter>,
+      mp_list<>,
+      int_type,
+      OGLPAFP(GetProgramPipelineiv)>
+      get_program_pipeline_i;
+
+    struct : func<OGLPAFP(GetProgramPipelineInfoLog)> {
+        using func<OGLPAFP(GetProgramPipelineInfoLog)>::func;
+
+        constexpr auto operator()(
+          program_pipeline_name pipe, span<char_type> dest) const noexcept {
+            sizei_type real_len{0};
+            return this
+              ->_chkcall(
+                name_type(pipe),
+                sizei_type(dest.size()),
+                &real_len,
+                dest.data())
+              .replaced_with(head(dest, span_size(real_len)));
+        }
+    } get_program_pipeline_info_log;
+
+    func<
+      OGLPAFP(ActiveShaderProgram),
+      void(program_pipeline_name, program_name)>
+      active_shader_program;
+
     // drawing
     // arrays
     func<OGLPAFP(DrawArrays), void(primitive_type, int_type, sizei_type)>
@@ -3447,6 +3484,11 @@ public:
       , bind_program_pipeline("bind_program_pipeline", traits, *this)
       , validate_program_pipeline("validate_program_pipeline", traits, *this)
       , use_program_stages("use_program_stages", traits, *this)
+      , get_program_stage_i("get_program_stage_i", traits, *this)
+      , get_program_pipeline_i("get_program_pipeline_i", traits, *this)
+      , get_program_pipeline_info_log(
+          "get_program_pipeline_info_log", traits, *this)
+      , active_shader_program("active_shader_program", traits, *this)
       , draw_arrays("draw_arrays", traits, *this)
       , draw_arrays_instanced_base_instance(
           "draw_arrays_instanced_base_instance", traits, *this)

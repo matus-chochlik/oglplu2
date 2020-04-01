@@ -130,6 +130,11 @@ struct program_stage_bit
     using enum_class::enum_class;
 };
 
+struct program_stage_parameter
+  : gl_enum_class<program_stage_parameter, EAGINE_ID_V(PrgStgePrm)> {
+    using enum_class::enum_class;
+};
+
 struct program_parameter
   : gl_enum_class<program_parameter, EAGINE_ID_V(ProgPrmter)> {
     using enum_class::enum_class;

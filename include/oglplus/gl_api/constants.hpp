@@ -864,6 +864,51 @@ public:
       all_shader_bits;
 
     opt_c_api_constant<
+      mp_list<program_stage_parameter>,
+#ifdef GL_ACTIVE_SUBROUTINE_UNIFORMS
+      enum_type_c<GL_ACTIVE_SUBROUTINE_UNIFORMS>>
+#else
+      enum_type_i>
+#endif
+      active_subroutine_uniforms;
+
+    opt_c_api_constant<
+      mp_list<program_stage_parameter>,
+#ifdef GL_ACTIVE_SUBROUTINE_UNIFORM_LOCATIONS
+      enum_type_c<GL_ACTIVE_SUBROUTINE_UNIFORM_LOCATIONS>>
+#else
+      enum_type_i>
+#endif
+      active_subroutine_uniform_locations;
+
+    opt_c_api_constant<
+      mp_list<program_stage_parameter>,
+#ifdef GL_ACTIVE_SUBROUTINES
+      enum_type_c<GL_ACTIVE_SUBROUTINES>>
+#else
+      enum_type_i>
+#endif
+      active_subroutines;
+
+    opt_c_api_constant<
+      mp_list<program_stage_parameter>,
+#ifdef GL_ACTIVE_SUBROUTINE_UNIFORM_MAX_LENGTH
+      enum_type_c<GL_ACTIVE_SUBROUTINE_UNIFORM_MAX_LENGTH>>
+#else
+      enum_type_i>
+#endif
+      active_subroutine_uniform_max_length;
+
+    opt_c_api_constant<
+      mp_list<program_stage_parameter>,
+#ifdef GL_ACTIVE_SUBROUTINE_MAX_LENGTH
+      enum_type_c<GL_ACTIVE_SUBROUTINE_MAX_LENGTH>>
+#else
+      enum_type_i>
+#endif
+      active_subroutine_max_length;
+
+    opt_c_api_constant<
       mp_list<shader_parameter, program_parameter>,
 #ifdef GL_DELETE_STATUS
       enum_type_c<GL_DELETE_STATUS>,
@@ -10543,6 +10588,14 @@ public:
       , geometry_shader_bit("GEOMETRY_SHADER_BIT", traits, api)
       , fragment_shader_bit("FRAGMENT_SHADER_BIT", traits, api)
       , all_shader_bits("ALL_SHADER_BITS", traits, api)
+      , active_subroutine_uniforms("ACTIVE_SUBROUTINE_UNIFORMS", traits, api)
+      , active_subroutine_uniform_locations(
+          "ACTIVE_SUBROUTINE_UNIFORM_LOCATIONS", traits, api)
+      , active_subroutines("ACTIVE_SUBROUTINES", traits, api)
+      , active_subroutine_uniform_max_length(
+          "ACTIVE_SUBROUTINE_UNIFORM_MAX_LENGTH", traits, api)
+      , active_subroutine_max_length(
+          "ACTIVE_SUBROUTINE_MAX_LENGTH", traits, api)
       , delete_status("DELETE_STATUS", traits, api)
       , compile_status("COMPILE_STATUS", traits, api)
       , info_log_length("INFO_LOG_LENGTH", traits, api)
