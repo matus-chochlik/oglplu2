@@ -75,6 +75,22 @@ span_size_t combined_gen::values_per_vertex(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+attrib_data_type combined_gen::attrib_type(
+  vertex_attrib_kind attrib, span_size_t variant_index) {
+    auto result = attrib_data_type::none;
+    for(const auto& gen : _gens) {
+        auto temp = gen->attrib_type(attrib, variant_index);
+        if(result == attrib_data_type::none) {
+            result = temp;
+        } else if(result != temp) {
+            result = attrib_data_type::float_;
+            break;
+        }
+    }
+    return result;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 void combined_gen::attrib_values(
   vertex_attrib_kind attrib, span<float> dest, span_size_t variant_index) {
     const auto vpv = values_per_vertex(attrib, variant_index);

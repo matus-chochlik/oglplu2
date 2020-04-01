@@ -67,6 +67,9 @@ struct generator_intf {
     virtual span_size_t values_per_vertex(
       vertex_attrib_kind attrib, span_size_t variant_index) = 0;
 
+    virtual attrib_data_type attrib_type(
+      vertex_attrib_kind attrib, span_size_t variant_index) = 0;
+
     virtual void attrib_values(
       vertex_attrib_kind attrib,
       span<float> dest,
@@ -147,6 +150,10 @@ public:
     span_size_t value_count(
       vertex_attrib_kind attrib, span_size_t variant_index) {
         return vertex_count() * values_per_vertex(attrib, variant_index);
+    }
+
+    attrib_data_type attrib_type(vertex_attrib_kind, span_size_t) override {
+        return attrib_data_type::float_;
     }
 
     void attrib_values(vertex_attrib_kind, span<float>, span_size_t) override {
