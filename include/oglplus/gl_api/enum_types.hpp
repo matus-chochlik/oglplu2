@@ -125,6 +125,11 @@ struct shader_parameter
     using enum_class::enum_class;
 };
 
+struct program_stage_bit
+  : gl_bitfield_class<program_stage_bit, EAGINE_ID_V(PrgStgeBit)> {
+    using enum_class::enum_class;
+};
+
 struct program_parameter
   : gl_enum_class<program_parameter, EAGINE_ID_V(ProgPrmter)> {
     using enum_class::enum_class;

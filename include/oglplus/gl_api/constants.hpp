@@ -801,6 +801,69 @@ public:
       shader_type;
 
     opt_c_api_constant<
+      mp_list<program_stage_bit>,
+#ifdef GL_COMPUTE_SHADER_BIT
+      bitfield_type_c<GL_COMPUTE_SHADER_BIT>>
+#else
+      bitfield_type_i>
+#endif
+      compute_shader_bit;
+
+    opt_c_api_constant<
+      mp_list<program_stage_bit>,
+#ifdef GL_VERTEX_SHADER_BIT
+      bitfield_type_c<GL_VERTEX_SHADER_BIT>>
+#else
+      bitfield_type_i>
+#endif
+      vertex_shader_bit;
+
+    opt_c_api_constant<
+      mp_list<program_stage_bit>,
+#ifdef GL_TESS_CONTROL_SHADER_BIT
+      bitfield_type_c<GL_TESS_CONTROL_SHADER_BIT>>
+#else
+      bitfield_type_i>
+#endif
+      tess_control_shader_bit;
+
+    opt_c_api_constant<
+      mp_list<program_stage_bit>,
+#ifdef GL_TESS_EVALUATION_SHADER_BIT
+      bitfield_type_c<GL_TESS_EVALUATION_SHADER_BIT>>
+#else
+      bitfield_type_i>
+#endif
+      tess_evaluation_shader_bit;
+
+    opt_c_api_constant<
+      mp_list<program_stage_bit>,
+#ifdef GL_GEOMETRY_SHADER_BIT
+      bitfield_type_c<GL_GEOMETRY_SHADER_BIT>>
+#else
+      bitfield_type_i>
+#endif
+      geometry_shader_bit;
+
+    opt_c_api_constant<
+      mp_list<program_stage_bit>,
+#ifdef GL_FRAGMENT_SHADER_BIT
+      bitfield_type_c<GL_FRAGMENT_SHADER_BIT>>
+#else
+      bitfield_type_i>
+#endif
+      fragment_shader_bit;
+
+    opt_c_api_constant<
+      mp_list<program_stage_bit>,
+#ifdef GL_ALL_SHADER_BITS
+      bitfield_type_c<GL_ALL_SHADER_BITS>>
+#else
+      bitfield_type_i>
+#endif
+      all_shader_bits;
+
+    opt_c_api_constant<
       mp_list<shader_parameter, program_parameter>,
 #ifdef GL_DELETE_STATUS
       enum_type_c<GL_DELETE_STATUS>,
@@ -10473,6 +10536,13 @@ public:
       , timeout_expired("TIMEOUT_EXPIRED", traits, api)
       , wait_failed("WAIT_FAILED", traits, api)
       , shader_type("SHADER_TYPE", traits, api)
+      , compute_shader_bit("COMPUTE_SHADER_BIT", traits, api)
+      , vertex_shader_bit("VERTEX_SHADER_BIT", traits, api)
+      , tess_control_shader_bit("TESS_CONTROL_SHADER_BIT", traits, api)
+      , tess_evaluation_shader_bit("TESS_EVALUATION_SHADER_BIT", traits, api)
+      , geometry_shader_bit("GEOMETRY_SHADER_BIT", traits, api)
+      , fragment_shader_bit("FRAGMENT_SHADER_BIT", traits, api)
+      , all_shader_bits("ALL_SHADER_BITS", traits, api)
       , delete_status("DELETE_STATUS", traits, api)
       , compile_status("COMPILE_STATUS", traits, api)
       , info_log_length("INFO_LOG_LENGTH", traits, api)

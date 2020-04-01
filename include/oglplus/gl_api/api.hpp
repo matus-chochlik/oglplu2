@@ -2769,6 +2769,19 @@ public:
 
     func<OGLPAFP(EndConditionalRender)> end_conditional_render;
 
+    // program pipeline ops
+    func<OGLPAFP(BindProgramPipeline), void(program_pipeline_name)>
+      bind_program_pipeline;
+
+    func<OGLPAFP(ValidateProgramPipeline), void(program_pipeline_name)>
+      validate_program_pipeline;
+
+    func<
+      OGLPAFP(UseProgramStages),
+      void(
+        program_pipeline_name, enum_bitfield<program_stage_bit>, program_name)>
+      use_program_stages;
+
     // drawing
     // arrays
     func<OGLPAFP(DrawArrays), void(primitive_type, int_type, sizei_type)>
@@ -3431,6 +3444,9 @@ public:
       , query_counter("query_counter", traits, *this)
       , begin_conditional_render("begin_conditional_render", traits, *this)
       , end_conditional_render("end_conditional_render", traits, *this)
+      , bind_program_pipeline("bind_program_pipeline", traits, *this)
+      , validate_program_pipeline("validate_program_pipeline", traits, *this)
+      , use_program_stages("use_program_stages", traits, *this)
       , draw_arrays("draw_arrays", traits, *this)
       , draw_arrays_instanced_base_instance(
           "draw_arrays_instanced_base_instance", traits, *this)
