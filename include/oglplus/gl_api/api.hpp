@@ -556,6 +556,11 @@ public:
     func<OGLPAFP(UseProgram), void(program_name)> use_program;
 
     func<
+      OGLPAFP(BindAttribLocation),
+      vertex_attrib_location(program_name, uint_type, string_view)>
+      bind_attrib_location;
+
+    func<
       OGLPAFP(GetAttribLocation),
       vertex_attrib_location(program_name, string_view)>
       get_attrib_location;
@@ -564,6 +569,11 @@ public:
       OGLPAFP(GetUniformLocation),
       uniform_location(program_name, string_view)>
       get_uniform_location;
+
+    func<
+      OGLPAFP(GetSubroutineUniformLocation),
+      uniform_location(program_name, shader_type, string_view)>
+      get_subroutine_uniform_location;
 
     // uniform
     // uint
@@ -3185,8 +3195,11 @@ public:
       , get_program_i("get_program_i", traits, *this)
       , get_program_info_log("get_program_info_log", traits, *this)
       , use_program("use_program", traits, *this)
+      , bind_attrib_location("bind_attrib_location", traits, *this)
       , get_attrib_location("get_attrib_location", traits, *this)
       , get_uniform_location("get_uniform_location", traits, *this)
+      , get_subroutine_uniform_location(
+          "get_subroutine_uniform_location", traits, *this)
       , uniform1ui("uniform1ui", traits, *this)
       , uniform2ui("uniform2ui", traits, *this)
       , uniform3ui("uniform3ui", traits, *this)
