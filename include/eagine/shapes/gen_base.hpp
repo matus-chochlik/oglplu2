@@ -26,27 +26,27 @@ namespace shapes {
 //------------------------------------------------------------------------------
 struct data_sink_intf {
     data_sink_intf() = default;
-    data_sink_intf(generator_intf&&) noexcept = default;
-    data_sink_intf(const generator_intf&) = default;
-    data_sink_intf& operator=(generator_intf&&) = delete;
-    data_sink_intf& operator=(const generator_intf&) = delete;
+    data_sink_intf(data_sink_intf&&) noexcept = default;
+    data_sink_intf(const data_sink_intf&) = default;
+    data_sink_intf& operator=(data_sink_intf&&) = delete;
+    data_sink_intf& operator=(const data_sink_intf&) = delete;
     virtual ~data_sink_intf() = default;
 
     virtual void begin(
-      attrib_type type,
+      attrib_data_type type,
       span_size_t vertex_count,
       span_size_t values_per_vertex) = 0;
     virtual void add(span<const float>) = 0;
     virtual void finish(
-      attrib_type type,
+      attrib_data_type type,
       span_size_t vertex_count,
       span_size_t values_per_vertex) = 0;
 
-    virtual void begin(index_type type, span_size_t index_count) = 0;
+    virtual void begin(index_data_type type, span_size_t index_count) = 0;
     virtual void add(span<const std::uint8_t>) = 0;
     virtual void add(span<const std::uint16_t>) = 0;
     virtual void add(span<const std::uint32_t>) = 0;
-    virtual void finish(index_type type, span_size_t index_count) = 0;
+    virtual void finish(index_data_type type, span_size_t index_count) = 0;
 };
 //------------------------------------------------------------------------------
 struct generator_intf {
