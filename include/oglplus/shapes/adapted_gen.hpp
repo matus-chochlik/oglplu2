@@ -11,11 +11,11 @@
 #define OGLPLUS_SHAPES_ADAPTED_GEN_HPP
 
 #include "../math/primitives.hpp"
-#include "../utils/span.hpp"
 #include "drawing.hpp"
 #include <eagine/memory/block.hpp>
 #include <eagine/shapes/gen_base.hpp>
 #include <eagine/shapes/vertex_attrib.hpp>
+#include <eagine/span.hpp>
 #include <memory>
 
 namespace eagine {
@@ -24,17 +24,17 @@ namespace shapes {
 //------------------------------------------------------------------------------
 class adapted_generator {
 private:
-    std::unique_ptr<generator_intf> _gen;
+    std::unique_ptr<eagine::shapes::generator_intf> _gen;
 
     template <typename Gen>
     static inline auto _copy_gen(const Gen& gen) {
-        return std::unique_ptr<generator_intf>{new Gen(gen)};
+        return std::make_unique<Gen>(gen);
     }
 
     static span_size_t _index_type_size(eagine::shapes::index_data_type type);
 
 public:
-    adapted_generator(std::unique_ptr<generator_intf>&& gen)
+    adapted_generator(std::unique_ptr<eagine::shapes::generator_intf>&& gen)
       : _gen{std::move(gen)} {
 #if defined(GL_TRIANGLE_FAN)
         _gen->enable(generator_capability::element_fans);

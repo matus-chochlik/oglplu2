@@ -13,83 +13,84 @@ namespace eagine {
 namespace oglp {
 namespace shapes {
 //------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
+template <typename A>
 primitive_type draw_operation::_translate(
-  eagine::shapes::primitive_type mode) noexcept {
+  const basic_gl_api<A>& api, eagine::shapes::primitive_type mode) noexcept {
+    const basic_gl_constants<A>& GL = api;
     switch(mode) {
         case eagine::shapes::primitive_type::points:
-            return primitive_type(GL_POINTS);
+            return GL.points;
         case eagine::shapes::primitive_type::lines:
-            return primitive_type(GL_LINES);
+            return GL.lines;
         case eagine::shapes::primitive_type::quads:
-#if defined(GL_LINES_ADJACENCY)
-            return primitive_type(GL_LINES_ADJACENCY);
-#else
-            break;
-#endif
+            return GL.lines_adjacency;
         case eagine::shapes::primitive_type::tetrahedrons:
-#if defined(GL_LINES_ADJACENCY)
-            return primitive_type(GL_LINES_ADJACENCY);
-#else
-            break;
-#endif
+            return GL.lines_adjacency;
         case eagine::shapes::primitive_type::line_strip:
-            return primitive_type(GL_LINE_STRIP);
+            return GL.line_strip;
         case eagine::shapes::primitive_type::line_loop:
-            return primitive_type(GL_LINE_LOOP);
+            return GL.line_loop;
         case eagine::shapes::primitive_type::triangles:
-            return primitive_type(GL_TRIANGLES);
+            return GL.triangles;
         case eagine::shapes::primitive_type::triangle_strip:
-            return primitive_type(GL_TRIANGLE_STRIP);
+            return GL.triangle_strip;
         case eagine::shapes::primitive_type::triangle_fan:
-            return primitive_type(GL_TRIANGLE_FAN);
+            return GL.triangle_fan;
         case eagine::shapes::primitive_type::patches:
-#if defined(GL_PATCHES)
-            return primitive_type(GL_PATCHES);
-#else
-            break;
-#endif
+            return GL.patches;
     }
-    return primitive_type(GL_NONE);
+    return GL.none;
 }
 //------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
+template <typename A>
 data_type draw_operation::_translate(
-  eagine::shapes::index_data_type type) noexcept {
+  const basic_gl_api<A>& api, eagine::shapes::attrib_data_type type) noexcept {
+    const basic_gl_constants<A>& GL = api;
+    switch(type) {
+        case eagine::shapes::attrib_data_type::float_:
+            return GL.float_;
+    }
+    return GL.none;
+}
+//------------------------------------------------------------------------------
+template <typename A>
+data_type draw_operation::_translate(
+  const basic_gl_api<A>& api, eagine::shapes::index_data_type type) noexcept {
+    const basic_gl_constants<A>& GL = api;
     switch(type) {
         case eagine::shapes::index_data_type::unsigned_8:
-            return data_type(GL_UNSIGNED_BYTE);
+            return GL.unsigned_byte_;
         case eagine::shapes::index_data_type::unsigned_16:
-            return data_type(GL_UNSIGNED_SHORT);
+            return GL.unsigned_short_;
         case eagine::shapes::index_data_type::unsigned_32:
-            return data_type(GL_UNSIGNED_INT);
+            return GL.unsigned_int_;
         case eagine::shapes::index_data_type::none:
             break;
     }
-    return data_type(GL_NONE);
+    return GL.none;
 }
 //------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
 span_size_t draw_operation::_byte_mult(
   eagine::shapes::index_data_type type) noexcept {
     switch(type) {
         case eagine::shapes::index_data_type::unsigned_8:
-            return span_size(sizeof(GLubyte));
+            return span_size(sizeof(gl_types::ubyte_type));
         case eagine::shapes::index_data_type::unsigned_16:
-            return span_size(sizeof(GLushort));
+            return span_size(sizeof(gl_types::ushort_type));
         case eagine::shapes::index_data_type::unsigned_32:
-            return span_size(sizeof(GLuint));
+            return span_size(sizeof(gl_types::uint_type));
         case eagine::shapes::index_data_type::none:
             break;
     }
     return 1;
 }
 //------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
+template <typename A>
 draw_operation::draw_operation(
+  const basic_gl_api<A>& api,
   const eagine::shapes::draw_operation& draw_op) noexcept
-  : _mode(_translate(draw_op.mode))
-  , _idx_type(_translate(draw_op.idx_type))
+  : _mode(_translate(api, draw_op.mode))
+  , _idx_type(_translate(api, draw_op.idx_type))
   , _first(GLint(draw_op.first * _byte_mult(draw_op.idx_type)))
   , _count(GLsizei(draw_op.count))
   , _phase(GLuint(draw_op.phase))
@@ -99,48 +100,43 @@ draw_operation::draw_operation(
   , _cw_face_winding(draw_op.cw_face_winding) {
 }
 //------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-bool draw_operation::indexed() const noexcept {
-    return GLenum(_idx_type) != GL_NONE;
+gl_types::const_void_ptr_type draw_operation::_idx_ptr() const noexcept {
+    return eagine::memory::typed_nullptr<const gl_types::ubyte_type> + _first;
 }
 //------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-const void* draw_operation::_idx_ptr() const noexcept {
-    return eagine::memory::typed_nullptr<const GLubyte> + _first;
-}
-//------------------------------------------------------------------------------
-/* TODO
-OGLPLUS_LIB_FUNC
-outcome<void> draw_operation::draw() const noexcept {
-    OGLPLUS_GLFUNC(FrontFace)(_cw_face_winding ? GL_CW : GL_CCW);
+template <typename A>
+void draw_operation::draw(const basic_gl_api<A>& api) const noexcept {
+    auto& [gl, GL] = api;
 
-#if defined(GL_PRIMITIVE_RESTART)
-    if(_primitive_restart) {
-        OGLPLUS_GLFUNC(Enable)(GL_PRIMITIVE_RESTART);
-        OGLPLUS_GLFUNC(PrimitiveRestartIndex)(_primitive_restart_index);
+    if(_cw_face_winding) {
+        gl.front_face(GL.cw);
     } else {
-        OGLPLUS_GLFUNC(Disable)(GL_PRIMITIVE_RESTART);
+        gl.front_face(GL.ccw);
     }
-#endif
-#if defined(GL_PATCHES)
-    if(_mode == primitive_type(GL_PATCHES)) {
-        OGLPLUS_GLFUNC(PatchParameteri)(GL_PATCH_VERTICES, _patch_vertices);
-    }
-#endif
 
-    if(indexed()) {
-        OGLPLUS_GLFUNC(DrawElements)
-        (GLenum(_mode), GLsizei(_count), GLenum(_idx_type), _idx_ptr());
-        OGLPLUS_VERIFY(DrawElements, gl_enum_value(_mode), debug);
-    } else {
-        OGLPLUS_GLFUNC(DrawArrays)
-        (GLenum(_mode), GLint(_first), GLsizei(_count));
-        OGLPLUS_VERIFY(DrawArrays, gl_enum_value(_mode), debug);
+    if(GL.primitive_restart) {
+        if(_primitive_restart) {
+            gl.enable(GL.primitive_restart);
+            gl.primitive_restart_index(_primitive_restart_index);
+        } else {
+            gl.disable(GL.primitive_restart);
+        }
     }
-    return {};
+
+    if(GL.patches) {
+        if(_mode == GL.patches) {
+            gl.patch_parameter_i(GL.patch_vertices, _patch_vertices);
+        }
+    }
+
+    if(is_indexed(api)) {
+        gl.draw_elements(_mode, _count, _idx_type, _idx_ptr());
+    } else {
+        gl.draw_arrays(_mode, _first, _count);
+    }
 }
 //------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
+/*
 outcome<void> draw_using_instructions(span<const draw_operation> ops) noexcept {
     for(const draw_operation& op : ops) {
         if(auto res = failure(op.draw())) {

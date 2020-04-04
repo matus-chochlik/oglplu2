@@ -2916,6 +2916,31 @@ public:
       void(program_pipeline_name, program_name)>
       active_shader_program;
 
+    // draw parameters
+    func<OGLPAFP(PrimitiveRestartIndex)> primitive_restart_index;
+
+    func<OGLPAFP(ProvokingVertex), void(provoke_mode)> provoking_vertex;
+
+    func<OGLPAFP(PointSize)> point_size;
+    func<OGLPAFP(LineWidth)> line_width;
+
+    func<OGLPAFP(PointParameteri), void(point_parameter, int_type)>
+      point_parameter_i;
+
+    func<OGLPAFP(PointParameterf), void(point_parameter, float_type)>
+      point_parameter_f;
+
+    func<OGLPAFP(PatchParameteri), void(patch_parameter, int_type)>
+      patch_parameter_i;
+
+    func<
+      OGLPAFP(PatchParameterfv),
+      void(patch_parameter, span<const float_type>)>
+      patch_parameter_fv;
+
+    func<OGLPAFP(FrontFace), void(face_orientation)> front_face;
+    func<OGLPAFP(CullFace), void(face_mode)> cull_face;
+
     // drawing
     // arrays
     func<OGLPAFP(DrawArrays), void(primitive_type, int_type, sizei_type)>
@@ -3596,6 +3621,16 @@ public:
       , get_program_pipeline_info_log(
           "get_program_pipeline_info_log", traits, *this)
       , active_shader_program("active_shader_program", traits, *this)
+      , primitive_restart_index("primitive_restart_index", traits, *this)
+      , provoking_vertex("provoking_vertex", traits, *this)
+      , point_size("point_size", traits, *this)
+      , line_width("line_width", traits, *this)
+      , point_parameter_i("point_parameter_i", traits, *this)
+      , point_parameter_f("point_parameter_f", traits, *this)
+      , patch_parameter_i("patch_parameter_i", traits, *this)
+      , patch_parameter_fv("patch_parameter_fv", traits, *this)
+      , front_face("front_face", traits, *this)
+      , cull_face("cull_face", traits, *this)
       , draw_arrays("draw_arrays", traits, *this)
       , draw_arrays_instanced_base_instance(
           "draw_arrays_instanced_base_instance", traits, *this)
