@@ -13,8 +13,10 @@
 #include "assert.hpp"
 #include "identifier_t.hpp"
 #include "identity.hpp"
+#include "iterator.hpp"
 #include "mp_list.hpp"
 #include "nothing.hpp"
+#include "wrapping_container.hpp"
 #include <tuple>
 #include <type_traits>
 
@@ -170,6 +172,12 @@ struct enum_class {
       enum_class a, enum_class b) noexcept {
         return a._value != b._value;
     }
+
+    struct transform {
+        constexpr auto operator()(T value) noexcept {
+            return enum_class<Self, T, LibId, Id>{value};
+        }
+    };
 };
 //------------------------------------------------------------------------------
 template <typename T>
@@ -306,6 +314,48 @@ static constexpr inline bool same_enum_class(
   any_enum_class<LibId> a, any_enum_class<LibId> b) noexcept {
     return a._type_id == b._type_id;
 }
+//------------------------------------------------------------------------------
+template <typename EnumClass, typename Container>
+class enum_class_container;
+
+template <
+  typename Container,
+  typename Self,
+  typename T,
+  identifier_t LibId,
+  identifier_t Id>
+class enum_class_container<enum_class<Self, T, LibId, Id>, Container>
+  : public basic_wrapping_container<
+      Container,
+      enum_class<Self, T, LibId, Id>,
+      T> {
+    using base =
+      basic_wrapping_container<Container, enum_class<Self, T, LibId, Id>, T>;
+
+public:
+    using base::base;
+
+    constexpr auto raw_enums() noexcept {
+        return this->raw_items();
+    }
+
+    constexpr auto raw_enums() const noexcept {
+        return this->raw_items();
+    }
+};
+//------------------------------------------------------------------------------
+template <typename EnumClass>
+using enum_class_span =
+  enum_class_container<EnumClass, span<typename EnumClass::value_type>>;
+
+template <typename EnumClass>
+using enum_class_view =
+  enum_class_container<EnumClass, span<const typename EnumClass::value_type>>;
+
+template <typename EnumClass, std::size_t N>
+using enum_class_array = enum_class_container<
+  EnumClass,
+  std::array<typename EnumClass::value_type, N>>;
 //------------------------------------------------------------------------------
 } // namespace eagine
 

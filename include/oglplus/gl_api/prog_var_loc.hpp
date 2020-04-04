@@ -74,6 +74,7 @@ public:
     }
 };
 //------------------------------------------------------------------------------
+using program_resource_location = prog_var_location<EAGINE_ID_V(Resource)>;
 using vertex_attrib_location = prog_var_location<EAGINE_ID_V(VertexAttr)>;
 using uniform_location = prog_var_location<EAGINE_ID_V(Uniform)>;
 using subroutine_uniform_location = prog_var_location<EAGINE_ID_V(SubrtUnfrm)>;

@@ -556,6 +556,45 @@ public:
     func<OGLPAFP(UseProgram), void(program_name)> use_program;
 
     func<
+      OGLPAFP(GetProgramResourceIndex),
+      uint_type(program_name, program_interface, string_view)>
+      get_program_resource_index;
+
+    func<
+      OGLPAFP(GetProgramResourceIndex),
+      program_resource_location(program_name, program_interface, string_view)>
+      get_program_resource_location;
+
+    struct : func<OGLPAFP(GetProgramResourceName)> {
+        using func<OGLPAFP(GetProgramResourceName)>::func;
+
+        constexpr auto operator()(
+          program_name prog,
+          program_interface intf,
+          uint_type index,
+          span<char_type> dest) const noexcept {
+            sizei_type real_len{0};
+            return this
+              ->_chkcall(
+                name_type(prog),
+                enum_type(intf),
+                index,
+                sizei_type(dest.size()),
+                &real_len,
+                dest.data())
+              .replaced_with(head(dest, span_size(real_len)));
+        }
+    } get_program_resource_name;
+
+    query_func<
+      mp_list<program_name, program_interface>,
+      mp_list<program_property>,
+      mp_list<>,
+      int_type,
+      OGLPAFP(GetProgramInterfaceiv)>
+      get_program_interface_i;
+
+    func<
       OGLPAFP(BindAttribLocation),
       vertex_attrib_location(program_name, uint_type, string_view)>
       bind_attrib_location;
@@ -3195,6 +3234,11 @@ public:
       , get_program_i("get_program_i", traits, *this)
       , get_program_info_log("get_program_info_log", traits, *this)
       , use_program("use_program", traits, *this)
+      , get_program_resource_index("get_program_resource_index", traits, *this)
+      , get_program_resource_location(
+          "get_program_resource_location", traits, *this)
+      , get_program_resource_name("get_program_resource_name", traits, *this)
+      , get_program_interface_i("get_program_interface_i", traits, *this)
       , bind_attrib_location("bind_attrib_location", traits, *this)
       , get_attrib_location("get_attrib_location", traits, *this)
       , get_uniform_location("get_uniform_location", traits, *this)

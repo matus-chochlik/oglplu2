@@ -10,9 +10,8 @@
 #ifndef EAGINE_HANDLE_HPP
 #define EAGINE_HANDLE_HPP
 
-#include "iterator.hpp"
-#include "range_types.hpp"
 #include "span.hpp"
+#include "wrapping_container.hpp"
 #include <array>
 
 namespace eagine {
@@ -93,116 +92,31 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-template <typename Iterator, typename BasicHandle>
-struct basic_handle_wrapping_iterator;
-
-template <typename Iterator, typename Tag, typename Handle, Handle invalid>
-struct basic_handle_wrapping_iterator<
-  Iterator,
-  basic_handle<Tag, Handle, invalid>>
-  : transforming_iterator<
-      Iterator,
-      basic_handle<Tag, Handle, invalid>,
-      Handle,
-      typename basic_handle<Tag, Handle, invalid>::transform> {
-    using transforming_iterator<
-      Iterator,
-      basic_handle<Tag, Handle, invalid>,
-      Handle,
-      typename basic_handle<Tag, Handle, invalid>::transform>::
-      transforming_iterator;
-};
-//------------------------------------------------------------------------------
 template <typename BasicHandle, typename Container>
 class basic_handle_container;
 
 template <typename Tag, typename Handle, Handle invalid, typename Container>
-class basic_handle_container<basic_handle<Tag, Handle, invalid>, Container> {
-private:
-    Container _handles;
-
-    static constexpr void _invalidate_handles(Container& handles) {
-        using std::begin;
-        using std::end;
-        using std::fill;
-        fill(begin(handles), end(handles), invalid);
-    }
-
-    auto _release_handles() noexcept {
-        Container handles{std::move(_handles)};
-        _invalidate_handles(_handles);
-        return handles;
-    }
+class basic_handle_container<basic_handle<Tag, Handle, invalid>, Container>
+  : public basic_wrapping_container<
+      Container,
+      basic_handle<Tag, Handle, invalid>,
+      Handle,
+      invalid> {
+    using base = basic_wrapping_container<
+      Container,
+      basic_handle<Tag, Handle, invalid>,
+      Handle,
+      invalid>;
 
 public:
-    using basic_handle_type = basic_handle<Tag, Handle, invalid>;
+    using base::base;
 
-    constexpr basic_handle_container() noexcept {
-        _invalidate_handles(_handles);
+    constexpr auto raw_handles() noexcept {
+        return this->raw_items();
     }
 
-    basic_handle_container(const basic_handle_container&) = default;
-    basic_handle_container& operator=(const basic_handle_container&) = default;
-
-    basic_handle_container(basic_handle_container&& temp) noexcept
-      : _handles{temp._release_handles()} {
-    }
-
-    basic_handle_container& operator=(basic_handle_container&& temp) noexcept {
-        using std::swap;
-
-        auto handles{temp._release_handles()};
-        swap(handles, _handles);
-        return *this;
-    }
-
-    ~basic_handle_container() noexcept = default;
-
-    operator basic_handle_container<
-      basic_handle_type,
-      span<Handle>>() noexcept {
-        return {cover(_handles)};
-    }
-
-    operator basic_handle_container<basic_handle_type, span<const Handle>>()
-      const noexcept {
-        return {view(_handles)};
-    }
-
-    constexpr bool empty() const noexcept {
-        return _handles.empty();
-    }
-
-    constexpr auto size() const noexcept {
-        return span_size(_handles.size());
-    }
-
-    constexpr auto operator[](span_size_t index) const noexcept {
-        return basic_handle_type(_handles[range_index<Container>(index)]);
-    }
-
-    auto at(span_size_t index) const {
-        return basic_handle_type(_handles.at(range_index<Container>(index)));
-    }
-
-    using const_iterator = basic_handle_wrapping_iterator<
-      basic_handle_type,
-      typename Container::const_iterator>;
-
-    constexpr const_iterator begin() const noexcept {
-        return {_handles.begin()};
-    }
-
-    constexpr const_iterator end() const noexcept {
-        return {_handles.end()};
-    }
-
-    constexpr span<Handle> raw_handles() noexcept {
-        return cover(_handles);
-    }
-
-    constexpr span<const Handle> raw_handles() const noexcept {
-        return view(_handles);
+    constexpr auto raw_handles() const noexcept {
+        return this->raw_items();
     }
 };
 //------------------------------------------------------------------------------
@@ -216,8 +130,9 @@ using basic_handle_view = basic_handle_container<
   span<const typename BasicHandle::handle_type>>;
 
 template <typename BasicHandle, std::size_t N>
-using basic_handle_array =
-  basic_handle_container<BasicHandle, std::array<BasicHandle, N>>;
+using basic_handle_array = basic_handle_container<
+  BasicHandle,
+  std::array<typename BasicHandle::handle_type, N>>;
 //------------------------------------------------------------------------------
 } // namespace eagine
 
