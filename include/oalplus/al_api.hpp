@@ -12,36 +12,39 @@
 #include "al_api/api.hpp"
 #include "al_api/api_traits.hpp"
 #include "al_api/constants.hpp"
+#include "al_api_fwd.hpp"
 
 namespace eagine {
 namespace oalp {
 //------------------------------------------------------------------------------
-class al_api
-  : protected al_api_traits
-  , public basic_al_api<al_api_traits>
-  , public basic_al_constants<al_api_traits> {
+template <typename ApiTraits>
+class basic_al_api
+  : protected ApiTraits
+  , public basic_al_operations<ApiTraits>
+  , public basic_al_constants<ApiTraits> {
 public:
-    al_api(al_api_traits traits)
-      : al_api_traits{std::move(traits)}
-      , basic_al_api<al_api_traits>{*static_cast<al_api_traits*>(this)}
-      , basic_al_constants<al_api_traits>{
-          *static_cast<al_api_traits*>(this),
-          *static_cast<basic_al_api<al_api_traits>*>(this)} {
+    basic_al_api(ApiTraits traits)
+      : ApiTraits{std::move(traits)}
+      , basic_al_operations<ApiTraits>{*static_cast<ApiTraits*>(this)}
+      , basic_al_constants<ApiTraits>{
+          *static_cast<ApiTraits*>(this),
+          *static_cast<basic_al_operations<ApiTraits>*>(this)} {
     }
 
-    al_api()
-      : al_api{al_api_traits{}} {
+    basic_al_api()
+      : basic_al_api{ApiTraits{}} {
     }
 };
 
-template <std::size_t I>
-typename std::tuple_element<I, al_api>::type& get(al_api& x) noexcept {
+template <std::size_t I, typename ApiTraits>
+typename std::tuple_element<I, basic_al_api<ApiTraits>>::type& get(
+  basic_al_api<ApiTraits>& x) noexcept {
     return x;
 }
 
-template <std::size_t I>
-const typename std::tuple_element<I, al_api>::type& get(
-  const al_api& x) noexcept {
+template <std::size_t I, typename ApiTraits>
+const typename std::tuple_element<I, basic_al_api<ApiTraits>>::type& get(
+  const basic_al_api<ApiTraits>& x) noexcept {
     return x;
 }
 //------------------------------------------------------------------------------
@@ -50,21 +53,21 @@ const typename std::tuple_element<I, al_api>::type& get(
 
 // NOLINTNEXTLINE(cert-dcl58-cpp)
 namespace std {
-
-template <>
-struct tuple_size<eagine::oalp::al_api>
+//------------------------------------------------------------------------------
+template <typename ApiTraits>
+struct tuple_size<eagine::oalp::basic_al_api<ApiTraits>>
   : public std::integral_constant<std::size_t, 2> {};
 
-template <>
-struct tuple_element<0, eagine::oalp::al_api> {
-    using type = eagine::oalp::basic_al_api<eagine::oalp::al_api_traits>;
+template <typename ApiTraits>
+struct tuple_element<0, eagine::oalp::basic_al_api<ApiTraits>> {
+    using type = eagine::oalp::basic_al_operations<ApiTraits>;
 };
 
-template <>
-struct tuple_element<1, eagine::oalp::al_api> {
-    using type = eagine::oalp::basic_al_constants<eagine::oalp::al_api_traits>;
+template <typename ApiTraits>
+struct tuple_element<1, eagine::oalp::basic_al_api<ApiTraits>> {
+    using type = eagine::oalp::basic_al_constants<ApiTraits>;
 };
-
+//------------------------------------------------------------------------------
 } // namespace std
 
 #endif // OALPLUS_AL_API_HPP

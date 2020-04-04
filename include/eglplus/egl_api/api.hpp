@@ -21,7 +21,7 @@ namespace eglp {
 #define EGLPAFP(FUNC) decltype(c_api::FUNC), &c_api::FUNC
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
-class basic_egl_api : public basic_egl_c_api<ApiTraits> {
+class basic_egl_operations : public basic_egl_c_api<ApiTraits> {
 
 public:
     using api_traits = ApiTraits;
@@ -297,7 +297,7 @@ public:
     // swap_buffers
     func<EGLPAFP(SwapBuffers)> swap_buffers;
 
-    constexpr basic_egl_api(api_traits& traits)
+    constexpr basic_egl_operations(api_traits& traits)
       : c_api{traits}
       , get_platform_display("get_platform_display", traits, *this)
       , get_display("get_display", traits, *this)

@@ -21,7 +21,7 @@ namespace oalp {
 #define OALPAFP(FUNC) decltype(c_api::FUNC), &c_api::FUNC
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
-class basic_alut_api : public basic_alut_c_api<ApiTraits> {
+class basic_alut_operations : public basic_alut_c_api<ApiTraits> {
 
 public:
     using api_traits = ApiTraits;
@@ -93,7 +93,7 @@ public:
         }
     } exit;
 
-    constexpr basic_alut_api(api_traits& traits)
+    constexpr basic_alut_operations(api_traits& traits)
       : c_api{traits}
       , init("init", traits, *this)
       , create_buffer_hello_world("create_buffer_hello_world", traits, *this)

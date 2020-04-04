@@ -12,36 +12,39 @@
 #include "alut_api/api.hpp"
 #include "alut_api/api_traits.hpp"
 #include "alut_api/constants.hpp"
+#include "alut_api_fwd.hpp"
 
 namespace eagine {
 namespace oalp {
 //------------------------------------------------------------------------------
-class alut_api
-  : protected alut_api_traits
-  , public basic_alut_api<alut_api_traits>
-  , public basic_alut_constants<alut_api_traits> {
+template <typename ApiTraits>
+class basic_alut_api
+  : protected ApiTraits
+  , public basic_alut_operations<ApiTraits>
+  , public basic_alut_constants<ApiTraits> {
 public:
-    alut_api(alut_api_traits traits)
-      : alut_api_traits{std::move(traits)}
-      , basic_alut_api<alut_api_traits>{*static_cast<alut_api_traits*>(this)}
-      , basic_alut_constants<alut_api_traits>{
-          *static_cast<alut_api_traits*>(this),
-          *static_cast<basic_alut_api<alut_api_traits>*>(this)} {
+    basic_alut_api(ApiTraits traits)
+      : ApiTraits{std::move(traits)}
+      , basic_alut_operations<ApiTraits>{*static_cast<ApiTraits*>(this)}
+      , basic_alut_constants<ApiTraits>{
+          *static_cast<ApiTraits*>(this),
+          *static_cast<basic_alut_operations<ApiTraits>*>(this)} {
     }
 
-    alut_api()
-      : alut_api{alut_api_traits{}} {
+    basic_alut_api()
+      : basic_alut_api{ApiTraits{}} {
     }
 };
 
-template <std::size_t I>
-typename std::tuple_element<I, alut_api>::type& get(alut_api& x) noexcept {
+template <std::size_t I, typename ApiTraits>
+typename std::tuple_element<I, basic_alut_api<ApiTraits>>::type& get(
+  basic_alut_api<ApiTraits>& x) noexcept {
     return x;
 }
 
-template <std::size_t I>
-const typename std::tuple_element<I, alut_api>::type& get(
-  const alut_api& x) noexcept {
+template <std::size_t I, typename ApiTraits>
+const typename std::tuple_element<I, basic_alut_api<ApiTraits>>::type& get(
+  const basic_alut_api<ApiTraits>& x) noexcept {
     return x;
 }
 //------------------------------------------------------------------------------
@@ -50,22 +53,21 @@ const typename std::tuple_element<I, alut_api>::type& get(
 
 // NOLINTNEXTLINE(cert-dcl58-cpp)
 namespace std {
-
-template <>
-struct tuple_size<eagine::oalp::alut_api>
+//------------------------------------------------------------------------------
+template <typename ApiTraits>
+struct tuple_size<eagine::oalp::basic_alut_api<ApiTraits>>
   : public std::integral_constant<std::size_t, 2> {};
 
-template <>
-struct tuple_element<0, eagine::oalp::alut_api> {
-    using type = eagine::oalp::basic_alut_api<eagine::oalp::alut_api_traits>;
+template <typename ApiTraits>
+struct tuple_element<0, eagine::oalp::basic_alut_api<ApiTraits>> {
+    using type = eagine::oalp::basic_alut_operations<ApiTraits>;
 };
 
-template <>
-struct tuple_element<1, eagine::oalp::alut_api> {
-    using type =
-      eagine::oalp::basic_alut_constants<eagine::oalp::alut_api_traits>;
+template <typename ApiTraits>
+struct tuple_element<1, eagine::oalp::basic_alut_api<ApiTraits>> {
+    using type = eagine::oalp::basic_alut_constants<ApiTraits>;
 };
-
+//------------------------------------------------------------------------------
 } // namespace std
 
 #endif // OALPLUS_ALUT_API_HPP

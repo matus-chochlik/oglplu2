@@ -12,36 +12,39 @@
 #include "egl_api/api.hpp"
 #include "egl_api/api_traits.hpp"
 #include "egl_api/constants.hpp"
+#include "egl_api_fwd.hpp"
 
 namespace eagine {
 namespace eglp {
 //------------------------------------------------------------------------------
-class egl_api
-  : protected egl_api_traits
-  , public basic_egl_api<egl_api_traits>
-  , public basic_egl_constants<egl_api_traits> {
+template <typename ApiTraits>
+class basic_egl_api
+  : protected ApiTraits
+  , public basic_egl_operations<ApiTraits>
+  , public basic_egl_constants<ApiTraits> {
 public:
-    egl_api(egl_api_traits traits)
-      : egl_api_traits{std::move(traits)}
-      , basic_egl_api<egl_api_traits>{*static_cast<egl_api_traits*>(this)}
-      , basic_egl_constants<egl_api_traits>{
-          *static_cast<egl_api_traits*>(this),
-          *static_cast<basic_egl_api<egl_api_traits>*>(this)} {
+    basic_egl_api(ApiTraits traits)
+      : ApiTraits{std::move(traits)}
+      , basic_egl_operations<ApiTraits>{*static_cast<ApiTraits*>(this)}
+      , basic_egl_constants<ApiTraits>{
+          *static_cast<ApiTraits*>(this),
+          *static_cast<basic_egl_operations<ApiTraits>*>(this)} {
     }
 
-    egl_api()
-      : egl_api{egl_api_traits{}} {
+    basic_egl_api()
+      : basic_egl_api{ApiTraits{}} {
     }
 };
 
-template <std::size_t I>
-typename std::tuple_element<I, egl_api>::type& get(egl_api& x) noexcept {
+template <std::size_t I, typename ApiTraits>
+typename std::tuple_element<I, basic_egl_api<ApiTraits>>::type& get(
+  basic_egl_api<ApiTraits>& x) noexcept {
     return x;
 }
 
-template <std::size_t I>
-const typename std::tuple_element<I, egl_api>::type& get(
-  const egl_api& x) noexcept {
+template <std::size_t I, typename ApiTraits>
+const typename std::tuple_element<I, basic_egl_api<ApiTraits>>::type& get(
+  const basic_egl_api<ApiTraits>& x) noexcept {
     return x;
 }
 //------------------------------------------------------------------------------
@@ -50,22 +53,21 @@ const typename std::tuple_element<I, egl_api>::type& get(
 
 // NOLINTNEXTLINE(cert-dcl58-cpp)
 namespace std {
-
-template <>
-struct tuple_size<eagine::eglp::egl_api>
+//------------------------------------------------------------------------------
+template <typename ApiTraits>
+struct tuple_size<eagine::eglp::basic_egl_api<ApiTraits>>
   : public std::integral_constant<std::size_t, 2> {};
 
-template <>
-struct tuple_element<0, eagine::eglp::egl_api> {
-    using type = eagine::eglp::basic_egl_api<eagine::eglp::egl_api_traits>;
+template <typename ApiTraits>
+struct tuple_element<0, eagine::eglp::basic_egl_api<ApiTraits>> {
+    using type = eagine::eglp::basic_egl_operations<ApiTraits>;
 };
 
-template <>
-struct tuple_element<1, eagine::eglp::egl_api> {
-    using type =
-      eagine::eglp::basic_egl_constants<eagine::eglp::egl_api_traits>;
+template <typename ApiTraits>
+struct tuple_element<1, eagine::eglp::basic_egl_api<ApiTraits>> {
+    using type = eagine::eglp::basic_egl_constants<ApiTraits>;
 };
-
+//------------------------------------------------------------------------------
 } // namespace std
 
 #endif // EGLPLUS_EGL_API_HPP

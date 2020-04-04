@@ -21,7 +21,7 @@ namespace oalp {
 #define OALPAFP(FUNC) decltype(c_api::FUNC), &c_api::FUNC
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
-class basic_al_api : public basic_al_c_api<ApiTraits> {
+class basic_al_operations : public basic_al_c_api<ApiTraits> {
 
 public:
     using api_traits = ApiTraits;
@@ -607,7 +607,7 @@ public:
             [](auto src) { return split_c_str_into_string_list(src, ' '); });
     }
 
-    constexpr basic_al_api(api_traits& traits)
+    constexpr basic_al_operations(api_traits& traits)
       : c_api{traits}
       , gen_sources("gen_sources", traits, *this)
       , gen_buffers("gen_buffers", traits, *this)
