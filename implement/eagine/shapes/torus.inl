@@ -191,7 +191,7 @@ void unit_torus_gen::wrap_coords(span<float> dest) noexcept {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void unit_torus_gen::attrib_values(
-  vertex_attrib_kind attrib, span<float> dest, span_size_t variant_index) {
+  vertex_attrib_kind attrib, span_size_t variant_index, span<float> dest) {
     switch(attrib) {
         case vertex_attrib_kind::position:
             positions(dest);
@@ -221,7 +221,7 @@ void unit_torus_gen::attrib_values(
         case vertex_attrib_kind::emission:
         case vertex_attrib_kind::occlusion:
             centered_unit_shape_generator_base::attrib_values(
-              attrib, dest, variant_index);
+              attrib, variant_index, dest);
             break;
     }
 }

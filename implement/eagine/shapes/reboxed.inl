@@ -12,11 +12,11 @@ namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void reboxed_gen::attrib_values(
-  vertex_attrib_kind attrib, span<float> dest, span_size_t variant_index) {
+  vertex_attrib_kind attrib, span_size_t variant_index, span<float> dest) {
 
     if(attrib == vertex_attrib_kind::box_coord) {
 
-        delegated_gen::attrib_values(vertex_attrib_kind::position, dest, 0);
+        delegated_gen::attrib_values(vertex_attrib_kind::position, 0, dest);
 
         std::array<float, 4> min{std::numeric_limits<float>::max(),
                                  std::numeric_limits<float>::max(),
@@ -54,7 +54,7 @@ void reboxed_gen::attrib_values(
             }
         }
     } else {
-        delegated_gen::attrib_values(attrib, dest, variant_index);
+        delegated_gen::attrib_values(attrib, variant_index, dest);
     }
 }
 //------------------------------------------------------------------------------

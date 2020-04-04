@@ -11,7 +11,7 @@
 #define OGLPLUS_SHAPES_DRAWING_HPP
 
 #include "../config/basic.hpp"
-#include "../gl_api/c_api.hpp"
+#include "../gl_api/api.hpp"
 #include <eagine/shapes/drawing.hpp>
 #include <eagine/span.hpp>
 
@@ -19,22 +19,28 @@ namespace eagine {
 namespace oglp {
 namespace shapes {
 //------------------------------------------------------------------------------
+template <typename A>
+primitive_type translate(
+  const basic_gl_api<A>&, eagine::shapes::primitive_type) noexcept;
+//------------------------------------------------------------------------------
+template <typename A>
+data_type translate(
+  const basic_gl_api<A>&, eagine::shapes::attrib_data_type) noexcept;
+//------------------------------------------------------------------------------
+template <typename A>
+data_type translate(
+  const basic_gl_api<A>&, eagine::shapes::index_data_type) noexcept;
+//------------------------------------------------------------------------------
+template <typename A>
+span_size_t type_size(
+  const basic_gl_api<A>&, eagine::shapes::attrib_data_type) noexcept;
+//------------------------------------------------------------------------------
+template <typename A>
+span_size_t type_size(
+  const basic_gl_api<A>&, eagine::shapes::index_data_type) noexcept;
+//------------------------------------------------------------------------------
 class draw_operation {
 private:
-    template <typename A>
-    static primitive_type _translate(
-      const basic_gl_api<A>&, eagine::shapes::primitive_type) noexcept;
-
-    template <typename A>
-    static data_type _translate(
-      const basic_gl_api<A>&, eagine::shapes::attrib_data_type) noexcept;
-
-    template <typename A>
-    static data_type _translate(
-      const basic_gl_api<A>&, eagine::shapes::index_data_type) noexcept;
-
-    static span_size_t _byte_mult(eagine::shapes::index_data_type) noexcept;
-
     primitive_type _mode{0};
     data_type _idx_type{0};
     gl_types::int_type _first{0};

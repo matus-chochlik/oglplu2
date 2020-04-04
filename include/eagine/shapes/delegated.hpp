@@ -58,9 +58,9 @@ public:
 
     void attrib_values(
       vertex_attrib_kind attrib,
-      span<float> dest,
-      span_size_t variant_index) override {
-        _gen->attrib_values(attrib, dest, variant_index);
+      span_size_t variant_index,
+      span<float> dest) override {
+        _gen->attrib_values(attrib, variant_index, dest);
     }
 
     index_data_type index_type() override {

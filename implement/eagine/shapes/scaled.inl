@@ -11,8 +11,8 @@ namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void scaled_gen::attrib_values(
-  vertex_attrib_kind attrib, span<float> dest, span_size_t variant_index) {
-    delegated_gen::attrib_values(attrib, dest, variant_index);
+  vertex_attrib_kind attrib, span_size_t variant_index, span<float> dest) {
+    delegated_gen::attrib_values(attrib, variant_index, dest);
 
     const bool is_scaled_attrib = attrib == vertex_attrib_kind::position ||
                                   attrib == vertex_attrib_kind::pivot ||

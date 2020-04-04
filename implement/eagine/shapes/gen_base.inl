@@ -34,7 +34,7 @@ math::sphere<float, true> generator_intf::bounding_sphere() {
 
     std::vector<float> temp(std_size(n * m));
     auto pos = cover(temp);
-    attrib_values(attrib, pos, 0);
+    attrib_values(attrib, 0, pos);
 
     for(span_size_t v = 0; v < n; ++v) {
         for(span_size_t c = 0; c < m; ++c) {
@@ -72,7 +72,7 @@ void generator_intf::ray_intersections(
     const auto vpv = values_per_vertex(pvak, 0);
 
     std::vector<float> pos(std_size(vertex_count() * vpv));
-    attrib_values(pvak, cover(pos), 0);
+    attrib_values(pvak, 0, cover(pos));
 
     std::vector<std::size_t> ray_idx;
 
@@ -198,9 +198,9 @@ void generator_base::indices(span<std::uint32_t> dest) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void centered_unit_shape_generator_base::attrib_values(
-  vertex_attrib_kind attrib, span<float> dest, span_size_t variant_index) {
+  vertex_attrib_kind attrib, span_size_t variant_index, span<float> dest) {
     if(attrib == vertex_attrib_kind::box_coord) {
-        this->attrib_values(vertex_attrib_kind::position, dest, variant_index);
+        this->attrib_values(vertex_attrib_kind::position, variant_index, dest);
         for(float& x : dest) {
             x += 0.5f;
         }
@@ -209,7 +209,7 @@ void centered_unit_shape_generator_base::attrib_values(
     } else if(attrib == vertex_attrib_kind::vertex_pivot) {
         fill(head(dest, this->vertex_count() * 3), 0.f);
     } else {
-        generator_base::attrib_values(attrib, dest, variant_index);
+        generator_base::attrib_values(attrib, variant_index, dest);
     }
 }
 //------------------------------------------------------------------------------

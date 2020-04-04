@@ -16,12 +16,12 @@ span_size_t array_gen::vertex_count() {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void array_gen::attrib_values(
-  vertex_attrib_kind attrib, span<float> dest, span_size_t variant_index) {
+  vertex_attrib_kind attrib, span_size_t variant_index, span<float> dest) {
 
     const auto n = delegated_gen::vertex_count();
     const auto m = values_per_vertex(attrib, variant_index);
 
-    delegated_gen::attrib_values(attrib, head(dest, n * m), variant_index);
+    delegated_gen::attrib_values(attrib, variant_index, head(dest, n * m));
 
     const bool is_translated_attrib =
       attrib == vertex_attrib_kind::position ||

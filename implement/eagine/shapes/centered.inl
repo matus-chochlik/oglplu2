@@ -12,7 +12,7 @@ namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void centered_gen::attrib_values(
-  vertex_attrib_kind attrib, span<float> dest, span_size_t variant_index) {
+  vertex_attrib_kind attrib, span_size_t variant_index, span<float> dest) {
 
     const bool is_centered_attrib = attrib == vertex_attrib_kind::position ||
                                     attrib == vertex_attrib_kind::pivot ||
@@ -21,7 +21,7 @@ void centered_gen::attrib_values(
     if(is_centered_attrib) {
 
         delegated_gen::attrib_values(
-          vertex_attrib_kind::position, dest, variant_index);
+          vertex_attrib_kind::position, variant_index, dest);
 
         std::array<float, 4> min{std::numeric_limits<float>::max(),
                                  std::numeric_limits<float>::max(),
@@ -51,7 +51,7 @@ void centered_gen::attrib_values(
         }
 
         if(attrib != vertex_attrib_kind::position) {
-            delegated_gen::attrib_values(attrib, dest, variant_index);
+            delegated_gen::attrib_values(attrib, variant_index, dest);
         }
 
         for(span_size_t v = 0, n = vertex_count(); v < n; ++v) {
@@ -60,7 +60,7 @@ void centered_gen::attrib_values(
             }
         }
     } else {
-        delegated_gen::attrib_values(attrib, dest, variant_index);
+        delegated_gen::attrib_values(attrib, variant_index, dest);
     }
 }
 //------------------------------------------------------------------------------

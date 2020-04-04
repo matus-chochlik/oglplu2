@@ -16,7 +16,7 @@ namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void occluded_gen::attrib_values(
-  vertex_attrib_kind attrib, span<float> dest, span_size_t variant_index) {
+  vertex_attrib_kind attrib, span_size_t variant_index, span<float> dest) {
 
     if(attrib == vertex_attrib_kind::occlusion) {
         std::random_device rd;
@@ -39,8 +39,8 @@ void occluded_gen::attrib_values(
             std::vector<float> positions(std_size(vc * pvpv));
             std::vector<float> normals(std_size(vc * nvpv));
 
-            delegated_gen::attrib_values(pva, cover(positions), 0);
-            delegated_gen::attrib_values(nva, cover(normals), 0);
+            delegated_gen::attrib_values(pva, 0, cover(positions));
+            delegated_gen::attrib_values(nva, 0, cover(normals));
 
             std::vector<math::line<float, true>> rays(std_size(vc * ns));
             std::vector<float> weights(rays.size());
@@ -98,7 +98,7 @@ void occluded_gen::attrib_values(
             fill(dest, 0.f);
         }
     } else {
-        delegated_gen::attrib_values(attrib, dest, variant_index);
+        delegated_gen::attrib_values(attrib, variant_index, dest);
     }
 }
 //------------------------------------------------------------------------------

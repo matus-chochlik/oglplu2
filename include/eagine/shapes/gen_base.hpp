@@ -72,8 +72,8 @@ struct generator_intf {
 
     virtual void attrib_values(
       vertex_attrib_kind attrib,
-      span<float> dest,
-      span_size_t variant_index) = 0;
+      span_size_t variant_index,
+      span<float> dest) = 0;
 
     virtual index_data_type index_type() = 0;
 
@@ -156,7 +156,7 @@ public:
         return attrib_data_type::float_;
     }
 
-    void attrib_values(vertex_attrib_kind, span<float>, span_size_t) override {
+    void attrib_values(vertex_attrib_kind, span_size_t, span<float>) override {
         EAGINE_UNREACHABLE(
           "Generator failed to handle the specified attribute kind.");
     }
@@ -181,8 +181,8 @@ protected:
 public:
     void attrib_values(
       vertex_attrib_kind attrib,
-      span<float> dest,
-      span_size_t variant_index) override;
+      span_size_t variant_index,
+      span<float> dest) override;
 };
 //------------------------------------------------------------------------------
 static inline std::array<std::unique_ptr<generator_intf>, 2> operator+(

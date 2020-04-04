@@ -92,14 +92,14 @@ attrib_data_type combined_gen::attrib_type(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void combined_gen::attrib_values(
-  vertex_attrib_kind attrib, span<float> dest, span_size_t variant_index) {
+  vertex_attrib_kind attrib, span_size_t variant_index, span<float> dest) {
     const auto vpv = values_per_vertex(attrib, variant_index);
     span_size_t offset{0};
     for(const auto& gen : _gens) {
         const auto gvpv = gen->values_per_vertex(attrib, variant_index);
         const auto gvc = gen->vertex_count();
         auto tmp = head(skip(dest, offset), gvc * vpv);
-        gen->attrib_values(attrib, tmp, variant_index);
+        gen->attrib_values(attrib, variant_index, tmp);
         EAGINE_ASSERT(gvpv == vpv);
         // TODO: adjust if gvpv < vpv
         offset += gvc * vpv;

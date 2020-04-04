@@ -10,6 +10,7 @@
 #ifndef OGLPLUS_SHAPES_ADAPTED_GEN_HPP
 #define OGLPLUS_SHAPES_ADAPTED_GEN_HPP
 
+#include "../gl_api/api.hpp"
 #include "../math/primitives.hpp"
 #include "drawing.hpp"
 #include <eagine/memory/block.hpp>
@@ -24,59 +25,56 @@ namespace shapes {
 //------------------------------------------------------------------------------
 class adapted_generator {
 private:
-    std::unique_ptr<eagine::shapes::generator_intf> _gen;
-
-    template <typename Gen>
-    static inline auto _copy_gen(const Gen& gen) {
-        return std::make_unique<Gen>(gen);
-    }
-
-    static span_size_t _index_type_size(eagine::shapes::index_data_type type);
+    using generator_intf = eagine::shapes::generator_intf;
+    std::unique_ptr<generator_intf> _gen{};
 
 public:
-    adapted_generator(std::unique_ptr<eagine::shapes::generator_intf>&& gen)
-      : _gen{std::move(gen)} {
-#if defined(GL_TRIANGLE_FAN)
-        _gen->enable(generator_capability::element_fans);
-#endif
-#if defined(GL_TRIANGLE_STRIP)
-        _gen->enable(generator_capability::element_strips);
-#endif
-#if defined(GL_PRIMITIVE_RESTART)
-        _gen->enable(generator_capability::primitive_restart);
-#endif
-    }
+    template <typename A>
+    adapted_generator(
+      const basic_gl_api<A>&, std::unique_ptr<generator_intf>&&);
 
     template <
       typename Gen,
       typename = std::enable_if_t<std::is_base_of_v<generator_intf, Gen>>>
-    adapted_generator(const Gen& gen)
-      : adapted_generator(_copy_gen(gen)) {
+    adapted_generator(Gen gen)
+      : adapted_generator(std::make_unique<Gen>(std::move(gen))) {
     }
 
     span_size_t vertex_count() const {
         return _gen->vertex_count();
     }
 
-    span_size_t values_per_vertex(vertex_attrib_kind attr) const {
-        return _gen->values_per_vertex(attr);
+    span_size_t values_per_vertex(
+      eagine::shapes::vertex_attrib_kind attrib,
+      span_size_t variant_index) const {
+        return _gen->values_per_vertex(attrib, variant_index);
     }
 
-    span_size_t value_count(vertex_attrib_kind attr) const {
-        return vertex_count() * values_per_vertex(attr);
+    span_size_t value_count(
+      eagine::shapes::vertex_attrib_kind attrib,
+      span_size_t variant_index) const {
+        return vertex_count() * values_per_vertex(attrib, variant_index);
     }
 
-    span_size_t attrib_data_block_size(vertex_attrib_kind attr) const {
-        // TODO other attrib data types
-        return value_count(attr) * span_size(sizeof(GLfloat));
+    span_size_t attrib_type_size(
+      eagine::shapes::vertex_attrib_kind attrib,
+      span_size_t variant_index) const {
+        return type_size(_gen->attrib_type(attrib, variant_index));
     }
 
-    void attrib_data(vertex_attrib_kind attrib, memory::block data) const {
-        // TODO other attrib data types
-        _gen->attrib_values(attrib, accomodate(data, identity<GLfloat>()));
+    span_size_t attrib_data_block_size(
+      eagine::shapes::vertex_attrib_kind attrib,
+      span_size_t variant_index) const {
+        return value_count(attrib, variant_index) *
+               attrib_type_size(attrib, variant_index);
     }
 
-    bool indexed() const {
+    void attrib_data(
+      eagine::shapes::vertex_attrib_kind attrib,
+      span_size_t variant_index,
+      memory::block data) const;
+
+    bool is_indexed() const {
         return _gen->index_count() > 0;
     }
 
@@ -85,48 +83,45 @@ public:
     }
 
     span_size_t index_type_size() const {
-        return _index_type_size(_gen->index_type());
+        return type_size(_gen->index_type());
     }
 
     span_size_t index_data_block_size() const {
         return index_count() * index_type_size();
     }
 
-    void index_data(memory::block data) const {
-        switch(_gen->index_type()) {
-            case index_data_type::unsigned_32:
-                _gen->indices(accomodate(data, identity<GLuint>()));
-                break;
-            case index_data_type::unsigned_16:
-                _gen->indices(accomodate(data, identity<GLushort>()));
-                break;
-            case index_data_type::unsigned_8:
-                _gen->indices(accomodate(data, identity<GLubyte>()));
-                break;
-            case index_data_type::none:
-                break;
-        }
-    }
+    void index_data(memory::block data) const;
 
     span_size_t operation_count() const {
         return _gen->operation_count();
     }
 
-    void instructions(span<draw_operation> ops) const;
+    template <typename A>
+    void instructions(const basic_gl_api<A>&, span<draw_operation>) const;
 
-    sphere bounding_sphere() const;
+    sphere bounding_sphere() const {
+        return _gen->bounding_sphere();
+    }
 
-    optionally_valid<GLfloat> ray_intersection(const line&) const;
+    optionally_valid<float> ray_intersection(const line& ray) const {
+        return _gen->ray_intersection(ray);
+    }
 
-    optionally_valid<GLfloat> ray_intersection(
-      const optionally_valid<line>&) const;
+    optionally_valid<float> ray_intersection(
+      const optionally_valid<line>& opt_ray) const {
+        if(opt_ray) {
+            return ray_intersection(extract(opt_ray));
+        }
+        return {};
+    }
 };
 //------------------------------------------------------------------------------
 template <typename Generator>
 class concrete_adapted_generator : public adapted_generator {
 public:
     template <typename... P>
-    concrete_adapted_generator(vertex_attrib_bits bits, P&&... p)
+    concrete_adapted_generator(
+      eagine::shapes::vertex_attrib_bits bits, P&&... p)
       : adapted_generator(Generator(bits, std::forward<P>(p)...)) {
     }
 };
@@ -135,8 +130,6 @@ public:
 } // namespace oglp
 } // namespace eagine
 
-#if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/shapes/adapted_gen.inl>
-#endif
 
 #endif // OGLPLUS_SHAPES_ADAPTED_GEN_HPP
