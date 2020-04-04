@@ -594,6 +594,54 @@ public:
       OGLPAFP(GetProgramInterfaceiv)>
       get_program_interface_i;
 
+    struct : func<OGLPAFP(GetProgramResourceiv)> {
+        using func<OGLPAFP(GetProgramResourceiv)>::func;
+
+        auto operator()(
+          program_name prog,
+          program_interface intf,
+          uint_type index,
+          enum_class_view<program_property> props,
+          span<int_type> dest) const noexcept {
+            sizei_type real_len{0};
+            return this
+              ->_chkcall(
+                name_type(prog),
+                enum_type(intf),
+                index,
+                sizei_type(props.size()),
+                props.raw_enums(),
+                sizei_type(dest.size()),
+                &real_len,
+                dest.data())
+              .replaced_with(head(dest, span_size(real_len)));
+        }
+    } get_program_resource_i;
+
+    struct : func<OGLPAFP(GetProgramResourcefvNV)> {
+        using func<OGLPAFP(GetProgramResourcefvNV)>::func;
+
+        auto operator()(
+          program_name prog,
+          program_interface intf,
+          uint_type index,
+          enum_class_view<program_property> props,
+          span<float_type> dest) const noexcept {
+            sizei_type real_len{0};
+            return this
+              ->_chkcall(
+                name_type(prog),
+                enum_type(intf),
+                index,
+                sizei_type(props.size()),
+                props.raw_enums(),
+                sizei_type(dest.size()),
+                &real_len,
+                dest.data())
+              .replaced_with(head(dest, span_size(real_len)));
+        }
+    } get_program_resource_f;
+
     func<
       OGLPAFP(BindAttribLocation),
       vertex_attrib_location(program_name, uint_type, string_view)>
@@ -3239,6 +3287,8 @@ public:
           "get_program_resource_location", traits, *this)
       , get_program_resource_name("get_program_resource_name", traits, *this)
       , get_program_interface_i("get_program_interface_i", traits, *this)
+      , get_program_resource_i("get_program_resource_i", traits, *this)
+      , get_program_resource_f("get_program_resource_f", traits, *this)
       , bind_attrib_location("bind_attrib_location", traits, *this)
       , get_attrib_location("get_attrib_location", traits, *this)
       , get_uniform_location("get_uniform_location", traits, *this)

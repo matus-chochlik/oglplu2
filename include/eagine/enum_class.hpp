@@ -316,21 +316,15 @@ static constexpr inline bool same_enum_class(
 }
 //------------------------------------------------------------------------------
 template <typename EnumClass, typename Container>
-class enum_class_container;
-
-template <
-  typename Container,
-  typename Self,
-  typename T,
-  identifier_t LibId,
-  identifier_t Id>
-class enum_class_container<enum_class<Self, T, LibId, Id>, Container>
+class enum_class_container
   : public basic_wrapping_container<
       Container,
-      enum_class<Self, T, LibId, Id>,
-      T> {
-    using base =
-      basic_wrapping_container<Container, enum_class<Self, T, LibId, Id>, T>;
+      EnumClass,
+      typename EnumClass::value_type> {
+    using base = basic_wrapping_container<
+      Container,
+      EnumClass,
+      typename EnumClass::value_type>;
 
 public:
     using base::base;

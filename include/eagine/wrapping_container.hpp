@@ -25,7 +25,7 @@ template <
   typename Transform = typename Wrapper::transform>
 class basic_wrapping_container : private Transform {
 private:
-    const Transform& _transf() const noexcept {
+    constexpr const Transform& _transf() const noexcept {
         return *this;
     }
 
@@ -51,9 +51,10 @@ public:
         _initialize(_items);
     }
 
-    basic_wrapping_container(const basic_wrapping_container&) = default;
-    basic_wrapping_container& operator=(const basic_wrapping_container&) =
+    constexpr basic_wrapping_container(const basic_wrapping_container&) =
       default;
+    constexpr basic_wrapping_container& operator=(
+      const basic_wrapping_container&) = default;
 
     basic_wrapping_container(basic_wrapping_container&& temp) noexcept
       : _items{temp._release_items()} {
@@ -70,7 +71,7 @@ public:
 
     ~basic_wrapping_container() noexcept = default;
 
-    operator basic_wrapping_container<
+    constexpr operator basic_wrapping_container<
       span<T>,
       Wrapper,
       T,
@@ -79,7 +80,7 @@ public:
         return {cover(_items)};
     }
 
-    operator basic_wrapping_container<
+    constexpr operator basic_wrapping_container<
       span<const T>,
       Wrapper,
       T,
@@ -100,7 +101,7 @@ public:
         return _transf()(_items[range_index<Container>(index)]);
     }
 
-    auto at(span_size_t index) const {
+    constexpr auto at(span_size_t index) const {
         return _transf()(_items.at(range_index<Container>(index)));
     }
 
@@ -118,11 +119,15 @@ public:
         return {_items.end()};
     }
 
-    constexpr span<T> raw_items() noexcept {
-        return cover(_items);
+    constexpr auto raw_items() noexcept {
+        if constexpr(std::is_const_v<typename Container::value_type>) {
+            return view(_items);
+        } else {
+            return cover(_items);
+        }
     }
 
-    constexpr span<const T> raw_items() const noexcept {
+    constexpr auto raw_items() const noexcept {
         return view(_items);
     }
 };
