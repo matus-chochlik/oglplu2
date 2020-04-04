@@ -25,7 +25,7 @@ namespace oglp {
 #define OGLPAFP(FUNC) decltype(c_api::FUNC), &c_api::FUNC
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
-class basic_gl_api : public basic_gl_c_api<ApiTraits> {
+class basic_gl_operations : public basic_gl_c_api<ApiTraits> {
 
 public:
     using api_traits = ApiTraits;
@@ -3234,7 +3234,7 @@ public:
     func<OGLPAFP(Flush)> flush;
     func<OGLPAFP(Finish)> finish;
 
-    constexpr basic_gl_api(api_traits& traits)
+    constexpr basic_gl_operations(api_traits& traits)
       : c_api{traits}
       , fence_sync("fence_sync", traits, *this)
       , create_shader("create_shader", traits, *this)

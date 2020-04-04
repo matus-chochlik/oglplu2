@@ -10,7 +10,7 @@
 #ifndef OGLPLUS_SHAPES_ADAPTED_GEN_HPP
 #define OGLPLUS_SHAPES_ADAPTED_GEN_HPP
 
-#include "../gl_api/api.hpp"
+#include "../gl_api.hpp"
 #include "../math/primitives.hpp"
 #include "drawing.hpp"
 #include <eagine/memory/block.hpp>
@@ -33,11 +33,10 @@ public:
     adapted_generator(
       const basic_gl_api<A>&, std::unique_ptr<generator_intf>&&);
 
-    template <
-      typename Gen,
-      typename = std::enable_if_t<std::is_base_of_v<generator_intf, Gen>>>
-    adapted_generator(Gen gen)
-      : adapted_generator(std::make_unique<Gen>(std::move(gen))) {
+    template <typename A, typename Gen>
+    adapted_generator(const basic_gl_api<A>& api, std::unique_ptr<Gen>&& gen)
+      : adapted_generator(
+          api, std::unique_ptr<generator_intf>(std::move(gen))) {
     }
 
     span_size_t vertex_count() const {
@@ -113,16 +112,6 @@ public:
             return ray_intersection(extract(opt_ray));
         }
         return {};
-    }
-};
-//------------------------------------------------------------------------------
-template <typename Generator>
-class concrete_adapted_generator : public adapted_generator {
-public:
-    template <typename... P>
-    concrete_adapted_generator(
-      eagine::shapes::vertex_attrib_bits bits, P&&... p)
-      : adapted_generator(Generator(bits, std::forward<P>(p)...)) {
     }
 };
 //------------------------------------------------------------------------------

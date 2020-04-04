@@ -15,13 +15,10 @@
 #include "state_view.hpp"
 #include <eagine/cleanup_group.hpp>
 #include <eagine/memory/c_realloc.hpp>
+#include <oglplus/gl_api_fwd.hpp>
 #include <memory>
 
 namespace eagine {
-//------------------------------------------------------------------------------
-namespace oglp {
-class gl_api;
-} // namespace oglp
 //------------------------------------------------------------------------------
 using example_cleanup_group = basic_cleanup_group<
   memory::c_byte_reallocator<memory::byte_alloc_managed_policy>>;

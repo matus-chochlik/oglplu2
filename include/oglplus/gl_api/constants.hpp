@@ -3564,6 +3564,15 @@ public:
 
     opt_c_api_constant<
       mp_list<capability>,
+#ifdef GL_PRIMITIVE_RESTART
+      enum_type_c<GL_PRIMITIVE_RESTART>>
+#else
+      enum_type_i>
+#endif
+      primitive_restart;
+
+    opt_c_api_constant<
+      mp_list<capability>,
 #ifdef GL_CLIP_DISTANCE0
       enum_type_c<GL_CLIP_DISTANCE0>,
 #else
@@ -10931,6 +10940,7 @@ public:
       , path_gen_components_nv("PATH_GEN_COMPONENTS_NV", traits, api)
       , path_gen_coeff_nv("PATH_GEN_COEFF_NV", traits, api)
       , blend("BLEND", traits, api)
+      , primitive_restart("PRIMITIVE_RESTART", traits, api)
       , clip_distance0("CLIP_DISTANCE0", traits, api)
       , cull_face("CULL_FACE", traits, api)
       , depth_clamp("DEPTH_CLAMP", traits, api)

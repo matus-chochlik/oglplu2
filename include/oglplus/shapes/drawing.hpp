@@ -11,7 +11,7 @@
 #define OGLPLUS_SHAPES_DRAWING_HPP
 
 #include "../config/basic.hpp"
-#include "../gl_api/api.hpp"
+#include "../gl_api.hpp"
 #include <eagine/shapes/drawing.hpp>
 #include <eagine/span.hpp>
 

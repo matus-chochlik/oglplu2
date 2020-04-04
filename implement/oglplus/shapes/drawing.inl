@@ -16,7 +16,8 @@ namespace shapes {
 template <typename A>
 inline primitive_type translate(
   const basic_gl_api<A>& api, eagine::shapes::primitive_type mode) noexcept {
-    const basic_gl_constants<A>& GL = api;
+    auto& GL = api.constants();
+
     switch(mode) {
         case eagine::shapes::primitive_type::points:
             return GL.points;
@@ -45,7 +46,8 @@ inline primitive_type translate(
 template <typename A>
 inline data_type translate(
   const basic_gl_api<A>& api, eagine::shapes::attrib_data_type type) noexcept {
-    const basic_gl_constants<A>& GL = api;
+    auto& GL = api.constants();
+
     switch(type) {
         case eagine::shapes::attrib_data_type::float_:
             return GL.float_;
@@ -56,7 +58,8 @@ inline data_type translate(
 template <typename A>
 inline data_type translate(
   const basic_gl_api<A>& api, eagine::shapes::index_data_type type) noexcept {
-    const basic_gl_constants<A>& GL = api;
+    auto& GL = api.constants();
+
     switch(type) {
         case eagine::shapes::index_data_type::unsigned_8:
             return GL.unsigned_byte_;

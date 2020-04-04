@@ -19,7 +19,7 @@ inline adapted_generator::adapted_generator(
   std::unique_ptr<eagine::shapes::generator_intf>&& gen)
   : _gen{std::move(gen)} {
     using eagine::shapes::generator_capability;
-    const basic_gl_constants<A>& GL = api;
+    auto& GL = api.constants();
 
     if(GL.triangle_fan) {
         _gen->enable(generator_capability::element_fans);
