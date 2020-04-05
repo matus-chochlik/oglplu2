@@ -13,7 +13,7 @@
 #include "../gl_api.hpp"
 #include "../math/primitives.hpp"
 #include "drawing.hpp"
-#include <eagine/memory/block.hpp>
+#include <eagine/memory/buffer.hpp>
 #include <eagine/shapes/gen_base.hpp>
 #include <eagine/shapes/vertex_attrib.hpp>
 #include <eagine/span.hpp>
@@ -55,6 +55,23 @@ public:
         return vertex_count() * values_per_vertex(attrib, variant_index);
     }
 
+    template <typename A>
+    data_type attrib_type(
+      const basic_gl_api<A>& api,
+      eagine::shapes::vertex_attrib_kind attrib,
+      span_size_t variant_index) const {
+        return translate(api, _gen->attrib_type(attrib, variant_index));
+    }
+
+    template <typename A>
+    true_false is_attrib_normalized(
+      const basic_gl_api<A>& api,
+      eagine::shapes::vertex_attrib_kind attrib,
+      span_size_t variant_index) const {
+        return translate(
+          api, _gen->is_attrib_normalized(attrib, variant_index));
+    }
+
     span_size_t attrib_type_size(
       eagine::shapes::vertex_attrib_kind attrib,
       span_size_t variant_index) const {
@@ -94,6 +111,16 @@ public:
     span_size_t operation_count() const {
         return _gen->operation_count();
     }
+
+    template <typename A>
+    void attrib_setup(
+      const basic_gl_api<A>& api,
+      vertex_array_name vao,
+      buffer_name buf,
+      vertex_attrib_location loc,
+      eagine::shapes::vertex_attrib_kind attrib,
+      span_size_t variant_index,
+      memory::buffer& temp) const;
 
     template <typename A>
     void instructions(const basic_gl_api<A>&, span<draw_operation>) const;

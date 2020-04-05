@@ -70,6 +70,9 @@ struct generator_intf {
     virtual attrib_data_type attrib_type(
       vertex_attrib_kind attrib, span_size_t variant_index) = 0;
 
+    virtual bool is_attrib_normalized(
+      vertex_attrib_kind attrib, span_size_t variant_index) = 0;
+
     virtual void attrib_values(
       vertex_attrib_kind attrib,
       span_size_t variant_index,
@@ -154,6 +157,10 @@ public:
 
     attrib_data_type attrib_type(vertex_attrib_kind, span_size_t) override {
         return attrib_data_type::float_;
+    }
+
+    bool is_attrib_normalized(vertex_attrib_kind, span_size_t) override {
+        return false;
     }
 
     void attrib_values(vertex_attrib_kind, span_size_t, span<float>) override {

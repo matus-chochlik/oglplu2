@@ -14,6 +14,16 @@ namespace oglp {
 namespace shapes {
 //------------------------------------------------------------------------------
 template <typename A>
+inline true_false translate(const basic_gl_api<A>& api, bool b) noexcept {
+    auto& GL = api.constants();
+
+    if(b) {
+        return GL.true_;
+    }
+    return GL.false_;
+}
+//------------------------------------------------------------------------------
+template <typename A>
 inline primitive_type translate(
   const basic_gl_api<A>& api, eagine::shapes::primitive_type mode) noexcept {
     auto& GL = api.constants();

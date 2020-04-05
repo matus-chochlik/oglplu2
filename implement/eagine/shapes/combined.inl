@@ -91,6 +91,16 @@ attrib_data_type combined_gen::attrib_type(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+bool combined_gen::is_attrib_normalized(
+  vertex_attrib_kind attrib, span_size_t variant_index) {
+    bool result = true;
+    for(const auto& gen : _gens) {
+        result &= gen->is_attrib_normalized(attrib, variant_index);
+    }
+    return result;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 void combined_gen::attrib_values(
   vertex_attrib_kind attrib, span_size_t variant_index, span<float> dest) {
     const auto vpv = values_per_vertex(attrib, variant_index);

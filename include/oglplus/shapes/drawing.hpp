@@ -20,6 +20,9 @@ namespace oglp {
 namespace shapes {
 //------------------------------------------------------------------------------
 template <typename A>
+primitive_type translate(const basic_gl_api<A>&, bool) noexcept;
+//------------------------------------------------------------------------------
+template <typename A>
 primitive_type translate(
   const basic_gl_api<A>&, eagine::shapes::primitive_type) noexcept;
 //------------------------------------------------------------------------------

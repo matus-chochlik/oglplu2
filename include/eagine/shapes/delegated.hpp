@@ -56,6 +56,11 @@ public:
         return _gen->attrib_type(attrib, variant_index);
     }
 
+    bool is_attrib_normalized(
+      vertex_attrib_kind attrib, span_size_t variant_index) override {
+        return _gen->is_attrib_normalized(attrib, variant_index);
+    }
+
     void attrib_values(
       vertex_attrib_kind attrib,
       span_size_t variant_index,

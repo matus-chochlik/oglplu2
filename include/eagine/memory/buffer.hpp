@@ -90,25 +90,27 @@ public:
         return _storage.size();
     }
 
-    void reserve(span_size_t new_size) {
+    buffer& reserve(span_size_t new_size) {
         if(capacity() < new_size) {
             _reallocate(new_size);
         }
         EAGINE_ASSERT(_is_ok());
+        return *this;
     }
 
-    void resize(span_size_t new_size) {
+    buffer& resize(span_size_t new_size) {
         reserve(new_size);
         _size = new_size;
         EAGINE_ASSERT(_is_ok());
+        return *this;
     }
 
-    void clear() {
-        resize(0);
+    buffer& clear() {
+        return resize(0);
     }
 
-    void enlarge_by(span_size_t inc_size) {
-        resize(size() + inc_size);
+    buffer& enlarge_by(span_size_t inc_size) {
+        return resize(size() + inc_size);
     }
 
     void free() {

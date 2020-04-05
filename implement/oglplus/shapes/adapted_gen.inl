@@ -69,7 +69,34 @@ inline void adapted_generator::index_data(memory::block data) const {
 }
 //------------------------------------------------------------------------------
 template <typename A>
-void adapted_generator::instructions(
+inline void adapted_generator::attrib_setup(
+  const basic_gl_api<A>& api,
+  vertex_array_name vao,
+  buffer_name buf,
+  vertex_attrib_location loc,
+  eagine::shapes::vertex_attrib_kind attrib,
+  span_size_t variant_index,
+  memory::buffer& temp) const {
+    using eagine::shapes::attrib_data_type;
+    auto& [gl, GL] = api;
+
+    const auto size = attrib_data_block_size(attrib, variant_index);
+    auto data = head(cover(temp.reserve(size)), size);
+    attrib_data(attrib, variant_index, data);
+
+    gl.bind_buffer(GL.array_buffer, buf);
+    gl.buffer_data(GL.array_buffer, data, GL.static_draw);
+
+    gl.vertex_attrib_pointer(
+      loc,
+      values_per_vertex(attrib, variant_index),
+      attrib_type(api, attrib, variant_index),
+      GL.false_);
+    gl.enable_vertex_attrib_array(loc);
+}
+//------------------------------------------------------------------------------
+template <typename A>
+inline void adapted_generator::instructions(
   const basic_gl_api<A>& api, span<draw_operation> ops) const {
     EAGINE_ASSERT(ops.size() >= operation_count());
 
