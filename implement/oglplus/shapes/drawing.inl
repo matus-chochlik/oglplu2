@@ -60,9 +60,11 @@ inline data_type translate(
 
     switch(type) {
         case eagine::shapes::attrib_data_type::float_:
-            return GL.float_;
+            break;
+        case eagine::shapes::attrib_data_type::none:
+            break;
     }
-    return GL.none;
+    return GL.float_;
 }
 //------------------------------------------------------------------------------
 template <typename A>

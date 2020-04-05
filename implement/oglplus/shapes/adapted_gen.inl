@@ -7,7 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/assert.hpp>
-#include <vector>
+#include <iostream>
 
 namespace eagine {
 namespace oglp {
@@ -81,7 +81,7 @@ inline void adapted_generator::attrib_setup(
     auto& [gl, GL] = api;
 
     const auto size = attrib_data_block_size(attrib, variant_index);
-    auto data = head(cover(temp.reserve(size)), size);
+    auto data = head(cover(temp.ensure(size)), size);
     attrib_data(attrib, variant_index, data);
 
     gl.bind_buffer(GL.array_buffer, buf);
@@ -91,8 +91,13 @@ inline void adapted_generator::attrib_setup(
       loc,
       values_per_vertex(attrib, variant_index),
       attrib_type(api, attrib, variant_index),
-      GL.false_);
-    gl.enable_vertex_attrib_array(loc);
+      is_attrib_normalized(api, attrib, variant_index));
+
+    if(gl.enable_vertex_array_attrib) {
+        gl.enable_vertex_array_attrib(vao, loc);
+    } else {
+        gl.enable_vertex_attrib_array(loc);
+    }
 }
 //------------------------------------------------------------------------------
 template <typename A>

@@ -105,6 +105,14 @@ public:
         return *this;
     }
 
+    buffer& ensure(span_size_t new_size) {
+        if(size() < new_size) {
+            return resize(new_size);
+        }
+        EAGINE_ASSERT(_is_ok());
+        return *this;
+    }
+
     buffer& clear() {
         return resize(0);
     }

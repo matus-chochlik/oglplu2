@@ -20,7 +20,7 @@ namespace oglp {
 namespace shapes {
 //------------------------------------------------------------------------------
 template <typename A>
-primitive_type translate(const basic_gl_api<A>&, bool) noexcept;
+true_false translate(const basic_gl_api<A>&, bool) noexcept;
 //------------------------------------------------------------------------------
 template <typename A>
 primitive_type translate(

@@ -14,6 +14,7 @@
 #include "random.hpp"
 #include "state_view.hpp"
 #include <eagine/cleanup_group.hpp>
+#include <eagine/memory/buffer.hpp>
 #include <eagine/memory/c_realloc.hpp>
 #include <oglplus/gl_api_fwd.hpp>
 #include <memory>
@@ -36,6 +37,10 @@ class example_context {
 public:
     example_context(example_args&, example_params&, example_state&);
     ~example_context() noexcept;
+
+    auto& buffer() noexcept {
+        return _scratch_space;
+    }
 
     example_cleanup_group& cleanup() noexcept {
         return _cleanup;
@@ -65,6 +70,7 @@ public:
     const example_context& debug_notification(string_view message) const;
 
 private:
+    memory::buffer _scratch_space;
     example_cleanup_group _cleanup{};
     example_params& _params;
     example_state& _state;

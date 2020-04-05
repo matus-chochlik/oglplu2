@@ -644,7 +644,7 @@ public:
 
     func<
       OGLPAFP(BindAttribLocation),
-      vertex_attrib_location(program_name, uint_type, string_view)>
+      void(program_name, vertex_attrib_location, string_view)>
       bind_attrib_location;
 
     func<
