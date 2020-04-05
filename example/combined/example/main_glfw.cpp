@@ -73,6 +73,7 @@ public:
                     return 2;
                 }
                 _example_loop(state, example);
+                example.destroy();
             }
         }
         return 0;

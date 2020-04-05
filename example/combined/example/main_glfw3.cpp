@@ -98,6 +98,7 @@ public:
                     return 2;
                 }
                 _example_loop(window, state, example);
+                example.destroy();
             }
         }
         return 0;

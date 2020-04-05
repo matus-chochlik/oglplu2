@@ -15,14 +15,10 @@
 #include "state_view.hpp"
 #include <eagine/cleanup_group.hpp>
 #include <eagine/memory/buffer.hpp>
-#include <eagine/memory/c_realloc.hpp>
 #include <oglplus/gl_api_fwd.hpp>
 #include <memory>
 
 namespace eagine {
-//------------------------------------------------------------------------------
-using example_cleanup_group = basic_cleanup_group<
-  memory::c_byte_reallocator<memory::byte_alloc_managed_policy>>;
 //------------------------------------------------------------------------------
 class example_requirement_marker {
 public:
@@ -42,15 +38,15 @@ public:
         return _scratch_space;
     }
 
-    example_cleanup_group& cleanup() noexcept {
+    auto& cleanup() noexcept {
         return _cleanup;
     }
 
-    example_state& state() noexcept {
+    auto& state() noexcept {
         return _state;
     }
 
-    example_random_generator& random() noexcept {
+    auto& random() noexcept {
         EAGINE_ASSERT(_random);
         return *_random;
     }
@@ -71,7 +67,7 @@ public:
 
 private:
     memory::buffer _scratch_space;
-    example_cleanup_group _cleanup{};
+    cleanup_group _cleanup{};
     example_params& _params;
     example_state& _state;
     std::shared_ptr<example_random_generator> _random{};

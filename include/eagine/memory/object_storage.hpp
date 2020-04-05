@@ -13,16 +13,16 @@
 #include "../assert.hpp"
 #include "../types.hpp"
 #include "block.hpp"
-#include "byte_alloc.hpp"
+#include "default_alloc.hpp"
+#include "shared_alloc.hpp"
 #include <vector>
 
 namespace eagine {
 namespace memory {
 //------------------------------------------------------------------------------
-template <typename Alloc>
-class basic_object_storage {
+class object_storage {
 private:
-    Alloc _alloc;
+    shared_byte_allocator _alloc{default_byte_allocator()};
 
     template <typename T>
     static void _destroy(block blk) noexcept {
@@ -32,17 +32,26 @@ private:
         x.~T();
     }
 
-    std::vector<owned_block> _blks;
-    std::vector<span_size_t> _alns;
-    std::vector<void (*)(block)> _dtrs;
+    // TODO: use _alloc
+    std::vector<owned_block> _blks{};
+    std::vector<span_size_t> _alns{};
+    std::vector<void (*)(block)> _dtrs{};
 
 public:
-    basic_object_storage() noexcept = default;
-    basic_object_storage(basic_object_storage&&) noexcept = default;
-    basic_object_storage(const basic_object_storage&) = delete;
-    basic_object_storage& operator=(basic_object_storage&&) = delete;
-    basic_object_storage& operator=(const basic_object_storage&) = delete;
-    ~basic_object_storage() noexcept {
+    object_storage() noexcept = default;
+
+    template <
+      typename X,
+      typename = shared_byte_allocator::enable_if_compatible_t<X>>
+    object_storage(X&& x) noexcept
+      : _alloc(std::forward<X>(x)) {
+    }
+
+    object_storage(object_storage&&) noexcept = default;
+    object_storage(const object_storage&) = delete;
+    object_storage& operator=(object_storage&&) = delete;
+    object_storage& operator=(const object_storage&) = delete;
+    ~object_storage() noexcept {
         clear();
     }
 
@@ -75,6 +84,13 @@ public:
         return *result;
     }
 
+    template <typename Func>
+    void for_each_block(Func& func) noexcept {
+        for(std_size_t i = 0; i < _blks.size(); ++i) {
+            func(i, block(_blks[i]));
+        }
+    }
+
     void clear() noexcept {
         EAGINE_ASSERT(_blks.size() == _alns.size());
         EAGINE_ASSERT(_blks.size() == _dtrs.size());
@@ -90,6 +106,48 @@ public:
         _dtrs.clear();
         _alns.clear();
         _blks.clear();
+    }
+};
+//------------------------------------------------------------------------------
+template <typename Signature>
+class callable_storage;
+
+template <typename... Params>
+class callable_storage<void(Params...)> {
+private:
+    std::vector<void (*)(block, Params...)> _clrs{};
+    memory::object_storage _storage;
+
+    template <typename T>
+    static void _call(block blk, Params... params) noexcept {
+        auto spn = accomodate<T>(blk);
+        EAGINE_ASSERT(spn);
+        auto& x{extract(spn)};
+        x(params...);
+    }
+
+public:
+    template <
+      typename T,
+      typename = std::enable_if_t<std::is_invocable_v<T, Params...>>>
+    auto& add(T x) {
+        using A = std::remove_const_t<T>;
+        _clrs.push_back(&_call<A>);
+        return _storage.template emplace<A>(std::move(x));
+    }
+
+    bool is_empty() const noexcept {
+        return _storage.is_empty();
+    }
+
+    void clear() noexcept {
+        _storage.clear();
+        _clrs.clear();
+    }
+
+    void operator()(Params... params) noexcept {
+        auto fn = [&](auto i, block blk) { this->_clrs[i](blk, params...); };
+        _storage.for_each_block(fn);
     }
 };
 //------------------------------------------------------------------------------

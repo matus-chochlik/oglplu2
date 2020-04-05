@@ -117,6 +117,7 @@ public:
             return 2;
         }
         _example_loop(display, win, ctx, state, example);
+        example.destroy();
         return 0;
 #else
         EAGINE_MAYBE_UNUSED(args);

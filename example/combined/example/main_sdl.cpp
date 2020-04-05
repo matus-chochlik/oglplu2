@@ -71,6 +71,7 @@ public:
             return 2;
         }
         example_loop(state, example);
+        example.destroy();
 
         return 0;
 #else

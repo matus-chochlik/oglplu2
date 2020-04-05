@@ -283,9 +283,7 @@ public:
             return [this, sync] { return (*this)(sync); };
         }
 
-        template <typename Alloc>
-        auto& later_by(
-          basic_cleanup_group<Alloc>& cleanup, sync_type sync) const {
+        auto& later_by(cleanup_group& cleanup, sync_type sync) const {
             return cleanup.add_ret(bind(sync));
         }
 
@@ -317,10 +315,8 @@ public:
             return [this, &name] { (*this)(std::move(name)); };
         }
 
-        template <typename Alloc>
         auto& later_by(
-          basic_cleanup_group<Alloc>& cleanup,
-          gl_owned_object_name<ObjTag>& name) const {
+          cleanup_group& cleanup, gl_owned_object_name<ObjTag>& name) const {
             return cleanup.add_ret(bind(name));
         }
 
@@ -340,9 +336,7 @@ public:
             return [this, &name] { return (*this)(std::move(name)); };
         }
 
-        template <typename Alloc>
-        auto& later_by(
-          basic_cleanup_group<Alloc>& cleanup, owned_shader_name& name) const {
+        auto& later_by(cleanup_group& cleanup, owned_shader_name& name) const {
             return cleanup.add_ret(bind(name));
         }
 
@@ -362,9 +356,7 @@ public:
             return [this, &name] { return (*this)(std::move(name)); };
         }
 
-        template <typename Alloc>
-        auto& later_by(
-          basic_cleanup_group<Alloc>& cleanup, owned_program_name& name) const {
+        auto& later_by(cleanup_group& cleanup, owned_program_name& name) const {
             return cleanup.add_ret(bind(name));
         }
 

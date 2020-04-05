@@ -15,10 +15,9 @@
 
 namespace eagine {
 
-template <typename Alloc>
-class basic_cleanup_group {
+class cleanup_group {
 private:
-    memory::basic_object_storage<Alloc> _storage;
+    memory::object_storage _storage;
 
 public:
     template <

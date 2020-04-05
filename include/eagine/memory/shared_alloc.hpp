@@ -24,14 +24,23 @@ namespace memory {
 // shared_byte_allocator
 template <typename Base>
 class basic_shared_byte_alloc : public Base {
+public:
+    using value_type = byte;
+    using size_type = span_size_t;
+
+    template <typename X>
+    static constexpr const bool is_compatible_v =
+      std::is_convertible_v<std::decay_t<X>*, byte_allocator*>;
+
+    template <typename X, typename T = void>
+    using enable_if_compatible_t = std::enable_if_t<is_compatible_v<X>, T>;
+
 private:
     byte_allocator* _pballoc = nullptr;
 
     template <typename X>
-    static byte_allocator* _get_new(
-      X&& that,
-      std::enable_if_t<std::is_convertible_v<X*, byte_allocator*>>* =
-        nullptr) noexcept {
+    static enable_if_compatible_t<X, byte_allocator*> _get_new(
+      X&& that) noexcept {
         try {
             return that.accomodate_self();
         } catch(std::bad_alloc&) {
@@ -62,9 +71,6 @@ private:
     }
 
 public:
-    using value_type = byte;
-    using size_type = span_size_t;
-
     basic_shared_byte_alloc() noexcept
       : basic_shared_byte_alloc(nullptr) {
     }
@@ -77,9 +83,7 @@ public:
       : basic_shared_byte_alloc(tmp._release()) {
     }
 
-    template <
-      typename X,
-      typename = std::enable_if_t<std::is_convertible_v<X*, byte_allocator*>>>
+    template <typename X, typename = enable_if_compatible_t<X>>
     basic_shared_byte_alloc(X&& x) noexcept
       : basic_shared_byte_alloc(_get_new(std::forward<X>(x))) {
     }
