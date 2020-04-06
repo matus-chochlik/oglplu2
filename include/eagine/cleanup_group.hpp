@@ -14,7 +14,7 @@
 #include <eagine/scope_exit.hpp>
 
 namespace eagine {
-
+//------------------------------------------------------------------------------
 class cleanup_group {
 private:
     memory::object_storage _storage;
@@ -36,6 +36,10 @@ public:
         return add([func{std::move(func)}]() { func(); });
     }
 
+    void reserve(span_size_t n) {
+        _storage.reserve(n);
+    }
+
     bool is_empty() const noexcept {
         return _storage.is_empty();
     }
@@ -44,7 +48,7 @@ public:
         _storage.clear();
     }
 };
-
+//------------------------------------------------------------------------------
 } // namespace eagine
 
 #endif // EAGINE_CLEANUP_GROUP_HPP

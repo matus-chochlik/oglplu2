@@ -40,6 +40,7 @@ example_context::example_context(
   , _state{state}
   , _random{make_example_random_generator(args, params)}
   , _gl_ptr{init_gl_api(args, params, state)} {
+    _cleanup.reserve(16);
     /* TODO
   if(_debug) {
       _debug->set_notification_marker("created example context");

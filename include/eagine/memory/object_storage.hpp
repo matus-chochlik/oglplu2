@@ -67,10 +67,11 @@ public:
         clear();
     }
 
-    void reserve(std::size_t n) {
-        _blks.reserve(n);
-        _alns.reserve(n);
-        _dtrs.reserve(n);
+    void reserve(span_size_t n) {
+        const auto sz = std_size(n);
+        _blks.reserve(sz);
+        _alns.reserve(sz);
+        _dtrs.reserve(sz);
     }
 
     bool is_empty() const noexcept {
@@ -153,9 +154,10 @@ public:
       : callable_storage(default_byte_allocator()) {
     }
 
-    void reserve(std::size_t n) {
+    void reserve(span_size_t n) {
+        const auto sz = std_size(n);
         base::reserve(n);
-        _clrs.reserve(n);
+        _clrs.reserve(sz);
     }
 
     template <
