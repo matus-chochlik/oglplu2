@@ -15,14 +15,15 @@
 #include "block.hpp"
 #include "default_alloc.hpp"
 #include "shared_alloc.hpp"
+#include "std_alloc.hpp"
 #include <vector>
 
 namespace eagine {
 namespace memory {
 //------------------------------------------------------------------------------
 class object_storage {
-private:
-    shared_byte_allocator _alloc{default_byte_allocator()};
+protected:
+    shared_byte_allocator _alloc;
 
     template <typename T>
     static void _destroy(block blk) noexcept {
@@ -32,27 +33,44 @@ private:
         x.~T();
     }
 
-    // TODO: use _alloc
-    std::vector<owned_block> _blks{};
-    std::vector<span_size_t> _alns{};
-    std::vector<void (*)(block)> _dtrs{};
+    std::vector<owned_block, std_allocator<owned_block>> _blks;
+    std::vector<span_size_t, std_allocator<span_size_t>> _alns;
+    std::vector<void (*)(block), std_allocator<void (*)(block)>> _dtrs;
+
+    template <typename Func>
+    void for_each_block(Func& func) noexcept {
+        for(std_size_t i = 0; i < _blks.size(); ++i) {
+            func(i, block(_blks[i]));
+        }
+    }
 
 public:
-    object_storage() noexcept = default;
-
     template <
       typename X,
       typename = shared_byte_allocator::enable_if_compatible_t<X>>
     object_storage(X&& x) noexcept
-      : _alloc(std::forward<X>(x)) {
+      : _alloc(std::forward<X>(x))
+      , _blks{std_allocator<owned_block>{_alloc}}
+      , _alns{std_allocator<span_size_t>{_alloc}}
+      , _dtrs{std_allocator<void (*)(block)>{_alloc}} {
     }
 
-    object_storage(object_storage&&) noexcept = default;
+    object_storage() noexcept
+      : object_storage{default_byte_allocator()} {
+    }
+
+    object_storage(object_storage&&) = delete;
     object_storage(const object_storage&) = delete;
     object_storage& operator=(object_storage&&) = delete;
     object_storage& operator=(const object_storage&) = delete;
     ~object_storage() noexcept {
         clear();
+    }
+
+    void reserve(std::size_t n) {
+        _blks.reserve(n);
+        _alns.reserve(n);
+        _dtrs.reserve(n);
     }
 
     bool is_empty() const noexcept {
@@ -84,13 +102,6 @@ public:
         return *result;
     }
 
-    template <typename Func>
-    void for_each_block(Func& func) noexcept {
-        for(std_size_t i = 0; i < _blks.size(); ++i) {
-            func(i, block(_blks[i]));
-        }
-    }
-
     void clear() noexcept {
         EAGINE_ASSERT(_blks.size() == _alns.size());
         EAGINE_ASSERT(_blks.size() == _dtrs.size());
@@ -113,10 +124,13 @@ template <typename Signature>
 class callable_storage;
 
 template <typename... Params>
-class callable_storage<void(Params...)> {
+class callable_storage<void(Params...)> : private memory::object_storage {
 private:
-    std::vector<void (*)(block, Params...)> _clrs{};
-    memory::object_storage _storage;
+    using base = memory::object_storage;
+    std::vector<
+      void (*)(block, Params...),
+      std_allocator<void (*)(block, Params...)>>
+      _clrs{};
 
     template <typename T>
     static void _call(block blk, Params... params) noexcept {
@@ -128,26 +142,45 @@ private:
 
 public:
     template <
+      typename X,
+      typename = shared_byte_allocator::enable_if_compatible_t<X>>
+    callable_storage(X&& x) noexcept
+      : base(std::forward<X>(x))
+      , _clrs{std_allocator<void (*)(block, Params...)>{base::_alloc}} {
+    }
+
+    callable_storage() noexcept
+      : callable_storage(default_byte_allocator()) {
+    }
+
+    void reserve(std::size_t n) {
+        base::reserve(n);
+        _clrs.reserve(n);
+    }
+
+    template <
       typename T,
       typename = std::enable_if_t<std::is_invocable_v<T, Params...>>>
     auto& add(T x) {
         using A = std::remove_const_t<T>;
+        auto& result = base::template emplace<A>(std::move(x));
         _clrs.push_back(&_call<A>);
-        return _storage.template emplace<A>(std::move(x));
+        return result;
     }
 
     bool is_empty() const noexcept {
-        return _storage.is_empty();
+        EAGINE_ASSERT(_blks.size() == _clrs.size());
+        return base::is_empty();
     }
 
     void clear() noexcept {
-        _storage.clear();
+        base::clear();
         _clrs.clear();
     }
 
     void operator()(Params... params) noexcept {
         auto fn = [&](auto i, block blk) { this->_clrs[i](blk, params...); };
-        _storage.for_each_block(fn);
+        base::for_each_block(fn);
     }
 };
 //------------------------------------------------------------------------------

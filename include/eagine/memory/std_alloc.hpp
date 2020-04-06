@@ -47,7 +47,7 @@ public:
       : _sba(that._get_sba()) {
     }
 
-    std_allocator(shared_byte_allocator&& sba) noexcept
+    std_allocator(shared_byte_allocator sba) noexcept
       : _sba(std::move(sba)) {
     }
 
