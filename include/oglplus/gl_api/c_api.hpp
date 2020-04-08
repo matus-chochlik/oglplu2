@@ -1983,6 +1983,11 @@ struct basic_gl_c_api {
       GetUniformLocation;
 
     gl_api_function<
+      void(uint_type, uint_type, sizei_type, sizei_type*, char_type*),
+      OGLPLUS_GL_STATIC_FUNC(GetActiveUniformName)>
+      GetActiveUniformName;
+
+    gl_api_function<
       uint_type(uint_type, enum_type, const char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetSubroutineIndex)>
       GetSubroutineIndex;
@@ -4518,6 +4523,7 @@ struct basic_gl_c_api {
       , GetAttribLocation("GetAttribLocation", traits, *this)
       , GetActiveAttrib("GetActiveAttrib", traits, *this)
       , GetUniformLocation("GetUniformLocation", traits, *this)
+      , GetActiveUniformName("GetActiveUniformName", traits, *this)
       , GetSubroutineIndex("GetSubroutineIndex", traits, *this)
       , GetActiveSubroutineName("GetActiveSubroutineName", traits, *this)
       , GetActiveSubroutineUniformName(

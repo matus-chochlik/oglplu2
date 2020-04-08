@@ -644,15 +644,119 @@ public:
       vertex_attrib_location(program_name, string_view)>
       get_attrib_location;
 
+    struct : func<OGLPAFP(GetActiveAttrib)> {
+        using func<OGLPAFP(GetActiveAttrib)>::func;
+
+        constexpr auto operator()(
+          program_name prog,
+          vertex_attrib_location loc,
+          span<char_type> dest) const noexcept {
+            int_type size{0};
+            enum_type type{0};
+            sizei_type real_len{0};
+            return this
+              ->_chkcall(
+                name_type(prog),
+                loc.index(),
+                sizei_type(dest.size()),
+                &real_len,
+                &size,
+                &type,
+                dest.data())
+              .replaced_with(head(dest, span_size(real_len)));
+        }
+    } get_active_attrib_name;
+
+    func<
+      OGLPAFP(BindFragDataLocation),
+      void(program_name, frag_data_location, string_view)>
+      bind_frag_data_location;
+
+    func<
+      OGLPAFP(GetFragDataLocation),
+      frag_data_location(program_name, string_view)>
+      get_frag_data_location;
+
+    func<OGLPAFP(GetFragDataIndex), int_type(program_name, string_view)>
+      get_frag_data_index;
+
+    func<
+      OGLPAFP(BindFragDataLocationIndexed),
+      void(program_name, uint_type, frag_data_location, string_view)>
+      bind_frag_data_location_indexed;
+
     func<
       OGLPAFP(GetUniformLocation),
       uniform_location(program_name, string_view)>
       get_uniform_location;
 
+    struct : func<OGLPAFP(GetActiveUniformName)> {
+        using func<OGLPAFP(GetActiveUniformName)>::func;
+
+        constexpr auto operator()(
+          program_name prog, uniform_location loc, span<char_type> dest) const
+          noexcept {
+            sizei_type real_len{0};
+            return this
+              ->_chkcall(
+                name_type(prog),
+                loc.index(),
+                sizei_type(dest.size()),
+                &real_len,
+                dest.data())
+              .replaced_with(head(dest, span_size(real_len)));
+        }
+    } get_active_uniform_name;
+
     func<
       OGLPAFP(GetSubroutineUniformLocation),
-      uniform_location(program_name, shader_type, string_view)>
+      subroutine_uniform_location(program_name, shader_type, string_view)>
       get_subroutine_uniform_location;
+
+    struct : func<OGLPAFP(GetActiveSubroutineUniformName)> {
+        using func<OGLPAFP(GetActiveSubroutineUniformName)>::func;
+
+        constexpr auto operator()(
+          program_name prog,
+          shader_type shdr_type,
+          uniform_location loc,
+          span<char_type> dest) const noexcept {
+            sizei_type real_len{0};
+            return this
+              ->_chkcall(
+                name_type(prog),
+                enum_type(shdr_type),
+                loc.index(),
+                sizei_type(dest.size()),
+                &real_len,
+                dest.data())
+              .replaced_with(head(dest, span_size(real_len)));
+        }
+    } get_active_subroutine_uniform_name;
+
+    func<
+      OGLPAFP(GetSubroutineIndex),
+      subroutine_location(program_name, shader_type, string_view)>
+      get_subroutine_index;
+
+    struct : func<OGLPAFP(GetActiveSubroutineName)> {
+        using func<OGLPAFP(GetActiveSubroutineName)>::func;
+
+        constexpr auto operator()(
+          program_name prog,
+          subroutine_location loc,
+          span<char_type> dest) const noexcept {
+            sizei_type real_len{0};
+            return this
+              ->_chkcall(
+                name_type(prog),
+                loc.index(),
+                sizei_type(dest.size()),
+                &real_len,
+                dest.data())
+              .replaced_with(head(dest, span_size(real_len)));
+        }
+    } get_active_subroutine_name;
 
     // uniform
     // uint
@@ -3308,9 +3412,20 @@ public:
       , get_program_resource_f("get_program_resource_f", traits, *this)
       , bind_attrib_location("bind_attrib_location", traits, *this)
       , get_attrib_location("get_attrib_location", traits, *this)
+      , get_active_attrib_name("get_active_attrib_name", traits, *this)
+      , bind_frag_data_location("bind_frag_data_location", traits, *this)
+      , get_frag_data_location("get_frag_data_location", traits, *this)
+      , get_frag_data_index("get_frag_data_index", traits, *this)
+      , bind_frag_data_location_indexed(
+          "bind_frag_data_location_indexed", traits, *this)
       , get_uniform_location("get_uniform_location", traits, *this)
+      , get_active_uniform_name("get_active_uniform_name", traits, *this)
       , get_subroutine_uniform_location(
           "get_subroutine_uniform_location", traits, *this)
+      , get_active_subroutine_uniform_name(
+          "get_active_subroutine_uniform_name", traits, *this)
+      , get_subroutine_index("get_subroutine_index", traits, *this)
+      , get_active_subroutine_name("get_active_subroutine_name", traits, *this)
       , uniform1ui("uniform1ui", traits, *this)
       , uniform2ui("uniform2ui", traits, *this)
       , uniform3ui("uniform3ui", traits, *this)
