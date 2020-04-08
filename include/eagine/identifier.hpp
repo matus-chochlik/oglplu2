@@ -142,7 +142,7 @@ public:
     basic_identifier() = default;
 
     template <std::size_t L, typename = std::enable_if_t<(L <= M + 1)>>
-    constexpr inline basic_identifier(const char (&init)[L]) noexcept
+    explicit constexpr inline basic_identifier(const char (&init)[L]) noexcept
       : _bites{_make_bites(
           static_cast<const char*>(init), L, std::make_index_sequence<M>{})} {
     }
