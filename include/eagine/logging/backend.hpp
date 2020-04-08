@@ -11,8 +11,11 @@
 #define EAGINE_LOGGING_BACKEND_HPP
 
 #include "../identifier.hpp"
+#include "../memory/block.hpp"
 #include "../string_span.hpp"
 #include "severity.hpp"
+#include <chrono>
+#include <cstdint>
 
 namespace eagine {
 //------------------------------------------------------------------------------
@@ -34,9 +37,58 @@ struct logger_backend {
 
     virtual void add_identifier(identifier name, identifier value) noexcept = 0;
 
+    virtual void add_integer(identifier name, std::intmax_t value) noexcept = 0;
+
+    virtual void add_unsigned(
+      identifier name, std::uintmax_t value) noexcept = 0;
+
+    virtual void add_float(identifier name, float value) noexcept = 0;
+
     virtual void add_string(identifier name, string_view value) noexcept = 0;
 
+    virtual void add_duration(
+      identifier name, std::chrono::duration<float> value) noexcept = 0;
+
+    virtual void add_blob(
+      identifier name, memory::const_block value) noexcept = 0;
+
     virtual void finish_message() noexcept = 0;
+};
+//------------------------------------------------------------------------------
+struct null_log_backend : logger_backend {
+    logger_backend* entry_backend(
+      identifier, log_event_severity) noexcept final {
+        return nullptr;
+    }
+
+    bool begin_message(
+      identifier, log_event_severity, string_view) noexcept final {
+        return false;
+    }
+
+    void add_identifier(identifier, identifier) noexcept final {
+    }
+
+    void add_integer(identifier, std::intmax_t) noexcept final {
+    }
+
+    void add_unsigned(identifier, std::uintmax_t) noexcept final {
+    }
+
+    void add_float(identifier, float) noexcept final {
+    }
+
+    void add_string(identifier, string_view) noexcept final {
+    }
+
+    void add_duration(identifier, std::chrono::duration<float>) noexcept final {
+    }
+
+    void add_blob(identifier, memory::const_block) noexcept final {
+    }
+
+    void finish_message() noexcept final {
+    }
 };
 //------------------------------------------------------------------------------
 } // namespace eagine
