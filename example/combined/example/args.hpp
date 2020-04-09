@@ -85,6 +85,10 @@ public:
       , _errlog(log) {
     }
 
+    const program_args& args() const noexcept {
+        return _args;
+    }
+
     int argc() const noexcept;
 
     const char** argv() const noexcept;

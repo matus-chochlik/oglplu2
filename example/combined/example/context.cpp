@@ -36,7 +36,8 @@ static inline auto init_gl_api(example_args&, example_params&, example_state&) {
 //------------------------------------------------------------------------------
 example_context::example_context(
   example_args& args, example_params& params, example_state& state)
-  : _params{params}
+  : _log_root(EAGINE_ID(Example), args.args())
+  , _params{params}
   , _state{state}
   , _random{make_example_random_generator(args, params)}
   , _gl_ptr{init_gl_api(args, params, state)} {

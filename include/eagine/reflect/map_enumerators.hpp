@@ -41,6 +41,7 @@ private:
     static std::false_type _test(...);
 
 public:
+    // NOLINTNEXTLINE(hicpp-vararg)
     using type = decltype(_test(static_cast<std::remove_cv_t<T>*>(nullptr)));
 };
 //------------------------------------------------------------------------------
