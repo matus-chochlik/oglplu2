@@ -36,6 +36,10 @@ private:
 public:
     example_wrapper(example_args&, example_params&, example_state&);
 
+    example_context& context() noexcept {
+        return _context;
+    }
+
     bool is_ready() const;
 
     void destroy();

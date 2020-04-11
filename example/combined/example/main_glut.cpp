@@ -64,7 +64,6 @@ public:
         EAGINE_ASSERT(!instance_ptr());
         instance_ptr() = this;
         if(example.is_ready()) {
-
             glutDisplayFunc(&display_func);
             glutIdleFunc(&display_func);
             glutReshapeFunc(&reshape_func);
@@ -79,6 +78,9 @@ public:
             glutSetOption(
               GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
             glutCloseFunc(&close_func);
+            example.context().log().info("using FreeGLUT context");
+#else
+            example.context().log().info("using GLUT context");
 #endif
         }
     }

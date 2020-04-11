@@ -30,6 +30,10 @@ struct logger_backend {
     virtual logger_backend* entry_backend(
       identifier source, log_event_severity severity) noexcept = 0;
 
+    virtual void enter_scope(identifier scope) noexcept = 0;
+
+    virtual void leave_scope(identifier scope) noexcept = 0;
+
     virtual bool begin_message(
       identifier source,
       log_event_severity severity,
@@ -59,6 +63,12 @@ struct null_log_backend : logger_backend {
     logger_backend* entry_backend(
       identifier, log_event_severity) noexcept final {
         return nullptr;
+    }
+
+    void enter_scope(identifier) noexcept final {
+    }
+
+    void leave_scope(identifier) noexcept final {
     }
 
     bool begin_message(

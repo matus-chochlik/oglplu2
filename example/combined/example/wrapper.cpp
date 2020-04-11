@@ -27,13 +27,17 @@ example_wrapper::example_wrapper(
   , _screenshot_done(false) {
 
     if(_example) {
+        _context.log().debug("checking example requirements");
         if(_example->check_requirements(_context)) {
+            _context.log().debug("initializing example");
             _example->init(_context);
 
             state.sync_size();
+            _context.log().debug("initial surface resize");
             _example->resize(_context);
 
             state.center_mouse();
+            _context.log().trace("initial pointer centering");
             _example->pointer_motion(_context);
 
             if(params.doing_framedump()) {
@@ -55,11 +59,14 @@ example_wrapper::example_wrapper(
                 glEnable(GL_SCISSOR_TEST);
             }
         } else {
+            _context.log().warning(
+              "example requirement check failed; cleaning up");
             _example.reset();
         }
     }
     _start = clock_type::now();
     _now = _start;
+    _context.log().trace("example wrapper initialized");
 }
 //------------------------------------------------------------------------------
 bool example_wrapper::is_ready() const {
@@ -68,10 +75,12 @@ bool example_wrapper::is_ready() const {
 //------------------------------------------------------------------------------
 void example_wrapper::destroy() {
     if(_example) {
+        _context.log().debug("cleaning-up example");
         _example->cleanup(_context);
         EAGINE_ASSERT(_context.cleanup().is_empty());
         _example.reset();
     }
+    _context.log().trace("example wrapper destroyed");
 }
 //------------------------------------------------------------------------------
 std::vector<char>& example_wrapper::pixels() {

@@ -66,6 +66,7 @@ public:
         state.set_depth(16);
 
         example_wrapper example(args, params, state);
+        example.context().log().info("using SDL context");
 
         if(!example.is_ready()) {
             return 2;
