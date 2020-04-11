@@ -68,8 +68,6 @@ public:
 
     oglp::gl_api& gl() const noexcept;
 
-    const example_context& debug_notification(string_view message) const;
-
 private:
     root_logger _log_root;
     memory::buffer _scratch_space;

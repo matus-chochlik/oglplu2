@@ -22,11 +22,14 @@ class ostream_log_backend : public logger_backend {
 private:
     Lockable _lockable{};
     std::ostream& _out;
+    log_event_severity _min_severity;
     const std::chrono::steady_clock::time_point _start;
 
 public:
-    ostream_log_backend(std::ostream& out) noexcept
+    ostream_log_backend(
+      std::ostream& out, log_event_severity min_severity) noexcept
       : _out{out}
+      , _min_severity{min_severity}
       , _start{std::chrono::steady_clock::now()} {
         try {
             std::unique_lock lock{_lockable};
@@ -43,8 +46,11 @@ public:
     ostream_log_backend& operator=(const ostream_log_backend&) = delete;
 
     logger_backend* entry_backend(
-      identifier, log_event_severity) noexcept final {
-        return this;
+      identifier, log_event_severity severity) noexcept final {
+        if(severity >= _min_severity) {
+            return this;
+        }
+        return nullptr;
     }
 
     void enter_scope(identifier scope) noexcept final {

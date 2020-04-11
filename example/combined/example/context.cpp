@@ -42,20 +42,13 @@ example_context::example_context(
   , _random{make_example_random_generator(args, params)}
   , _gl_ptr{init_gl_api(args, params, state)} {
     _cleanup.reserve(16);
-    /* TODO
-  if(_debug) {
-      _debug->set_notification_marker("created example context");
-  }
-  */
+
+    log().debug("created example context");
 }
 //------------------------------------------------------------------------------
 example_context::~example_context() noexcept {
     if(_gl_ptr) {
-        /*
-        if(_debug) {
-            _debug->set_notification_marker("destroying example context");
-        }
-        */
+        log().debug("destroying example context");
     }
 }
 //------------------------------------------------------------------------------
@@ -66,17 +59,6 @@ const example_state_view& example_context::state() const noexcept {
 oglp::gl_api& example_context::gl() const noexcept {
     EAGINE_ASSERT(_gl_ptr);
     return *_gl_ptr;
-}
-//------------------------------------------------------------------------------
-const example_context& example_context::debug_notification(
-  string_view message) const {
-    (void)message;
-    /* TODO
-    if(_debug) {
-        _debug->set_notification_marker(message);
-    }
-    */
-    return *this;
 }
 //------------------------------------------------------------------------------
 } // namespace eagine

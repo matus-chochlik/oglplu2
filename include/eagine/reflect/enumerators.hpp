@@ -124,7 +124,7 @@ from_string(string_view name, identity<T> id, Selector sel) noexcept {
 //------------------------------------------------------------------------------
 template <typename T>
 std::enable_if_t<has_enumerator_mapping_v<T, selector<0>>, optionally_valid<T>>
-from_string(string_view name, identity<T> id = {}) noexcept {
+from_string(string_view name, identity<T> id) noexcept {
     return from_string(name, id, selector<0>());
 }
 //------------------------------------------------------------------------------

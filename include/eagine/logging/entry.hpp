@@ -17,19 +17,32 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-template <typename T>
-struct log_entry_arg_adapter;
+static constexpr inline auto adapt_log_entry_arg(
+  identifier name, identifier value) {
+    return
+      [=](logger_backend& backend) { backend.add_identifier(name, value); };
+}
+//------------------------------------------------------------------------------
+template <typename T, typename = std::enable_if_t<has_enumerator_mapping_v<T>>>
+static constexpr inline auto adapt_log_entry_arg(identifier name, T value) {
+    return [=](logger_backend& backend) {
+        backend.add_string(name, enumerator_name(value));
+    };
+}
 //------------------------------------------------------------------------------
 template <typename T>
 struct does_have_log_entry_adapter {
 private:
-    template <typename X, std::size_t = sizeof(log_entry_arg_adapter<X>)>
+    template <
+      typename X,
+      typename = decltype(
+        adapt_log_entry_arg(std::declval<identifier>(), std::declval<X>()))>
     static std::true_type _test(X*);
 
     static std::false_type _test(...);
 
 public:
-    using type = decltype(_test(static_cast<std::decay_t<T>*>(nullptr)));
+    using type = decltype(_test(static_cast<T*>(nullptr)));
 };
 
 template <typename T>
@@ -38,20 +51,6 @@ using has_log_entry_adapter_t = typename does_have_log_entry_adapter<T>::type;
 template <typename T>
 constexpr const bool has_log_entry_adapter_v =
   has_log_entry_adapter_t<T>::value;
-//------------------------------------------------------------------------------
-template <typename T>
-static constexpr inline auto adapt_log_entry_arg(identifier name, T&& value) {
-    return log_entry_arg_adapter<std::decay_t<T>>::apply(
-      name, std::forward<T>(value));
-}
-//------------------------------------------------------------------------------
-template <>
-struct log_entry_arg_adapter<identifier> {
-    static constexpr auto apply(identifier name, identifier value) noexcept {
-        return
-          [=](logger_backend& backend) { backend.add_identifier(name, value); };
-    }
-};
 //------------------------------------------------------------------------------
 class logger;
 
