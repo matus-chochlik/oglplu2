@@ -17,44 +17,6 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-static constexpr inline auto adapt_log_entry_arg(
-  identifier name, identifier value) {
-    return
-      [=](logger_backend& backend) { backend.add_identifier(name, value); };
-}
-//------------------------------------------------------------------------------
-static constexpr inline auto adapt_log_entry_arg(identifier name, bool value) {
-    return [=](logger_backend& backend) { backend.add_bool(name, value); };
-}
-//------------------------------------------------------------------------------
-static constexpr inline auto adapt_log_entry_arg(identifier name, int value) {
-    return [=](logger_backend& backend) { backend.add_integer(name, value); };
-}
-//------------------------------------------------------------------------------
-static constexpr inline auto adapt_log_entry_arg(identifier name, long value) {
-    return [=](logger_backend& backend) { backend.add_integer(name, value); };
-}
-//------------------------------------------------------------------------------
-static constexpr inline auto adapt_log_entry_arg(
-  identifier name, unsigned value) {
-    return [=](logger_backend& backend) { backend.add_unsigned(name, value); };
-}
-//------------------------------------------------------------------------------
-static constexpr inline auto adapt_log_entry_arg(
-  identifier name, unsigned long value) {
-    return [=](logger_backend& backend) { backend.add_unsigned(name, value); };
-}
-//------------------------------------------------------------------------------
-static constexpr inline auto adapt_log_entry_arg(identifier name, float value) {
-    return [=](logger_backend& backend) { backend.add_float(name, value); };
-}
-//------------------------------------------------------------------------------
-static constexpr inline auto adapt_log_entry_arg(
-  identifier name, double value) {
-    return
-      [=](logger_backend& backend) { backend.add_float(name, float(value)); };
-}
-//------------------------------------------------------------------------------
 template <typename T, typename = std::enable_if_t<has_enumerator_mapping_v<T>>>
 static constexpr inline auto adapt_log_entry_arg(identifier name, T value) {
     return [=](logger_backend& backend) {
@@ -74,6 +36,7 @@ private:
     static std::false_type _test(...);
 
 public:
+    // NOLINTNEXTLINE(hicpp-vararg)
     using type = decltype(_test(static_cast<T*>(nullptr)));
 };
 
@@ -109,21 +72,84 @@ public:
         }
     }
 
-    log_entry& arg(identifier name, string_view value) noexcept {
+    log_entry& arg(identifier name, identifier tag, identifier value) noexcept {
         if(_backend) {
             _args.add([=](logger_backend& backend) {
-                backend.add_string(name, value);
+                backend.add_identifier(name, tag, value);
+            });
+        }
+        return *this;
+    }
+
+    log_entry& arg(identifier name, identifier value) noexcept {
+        return arg(name, EAGINE_ID(id), value);
+    }
+
+    log_entry& arg(identifier name, identifier tag, int value) noexcept {
+        if(_backend) {
+            _args.add([=](logger_backend& backend) {
+                backend.add_integer(name, tag, value);
+            });
+        }
+        return *this;
+    }
+
+    log_entry& arg(identifier name, int value) noexcept {
+        return arg(name, EAGINE_ID(int), value);
+    }
+
+    log_entry& arg(identifier name, identifier tag, unsigned value) noexcept {
+        if(_backend) {
+            _args.add([=](logger_backend& backend) {
+                backend.add_unsigned(name, tag, value);
+            });
+        }
+        return *this;
+    }
+
+    log_entry& arg(identifier name, unsigned value) noexcept {
+        return arg(name, EAGINE_ID(uint), value);
+    }
+
+    log_entry& arg(identifier name, identifier tag, float value) noexcept {
+        if(_backend) {
+            _args.add([=](logger_backend& backend) {
+                backend.add_float(name, tag, value);
+            });
+        }
+        return *this;
+    }
+
+    log_entry& arg(identifier name, float value) noexcept {
+        return arg(name, EAGINE_ID(real), value);
+    }
+
+    log_entry& arg(
+      identifier name, identifier tag, string_view value) noexcept {
+        if(_backend) {
+            _args.add([=](logger_backend& backend) {
+                backend.add_string(name, tag, value);
+            });
+        }
+        return *this;
+    }
+
+    log_entry& arg(identifier name, string_view value) noexcept {
+        return arg(name, EAGINE_ID(str), value);
+    }
+
+    log_entry& arg(
+      identifier name, identifier tag, memory::const_block value) noexcept {
+        if(_backend) {
+            _args.add([=](logger_backend& backend) {
+                backend.add_blob(name, tag, value);
             });
         }
         return *this;
     }
 
     log_entry& arg(identifier name, memory::const_block value) noexcept {
-        if(_backend) {
-            _args.add(
-              [=](logger_backend& backend) { backend.add_blob(name, value); });
-        }
-        return *this;
+        return arg(name, EAGINE_ID(blk), value);
     }
 
     template <typename T>

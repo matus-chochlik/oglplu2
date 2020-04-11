@@ -39,24 +39,31 @@ struct logger_backend {
       log_event_severity severity,
       string_view format) noexcept = 0;
 
-    virtual void add_identifier(identifier arg, identifier value) noexcept = 0;
+    virtual void add_identifier(
+      identifier arg, identifier tag, identifier value) noexcept = 0;
 
-    virtual void add_bool(identifier arg, bool value) noexcept = 0;
+    virtual void add_bool(
+      identifier arg, identifier tag, bool value) noexcept = 0;
 
-    virtual void add_integer(identifier arg, std::intmax_t value) noexcept = 0;
+    virtual void add_integer(
+      identifier arg, identifier tag, std::intmax_t value) noexcept = 0;
 
     virtual void add_unsigned(
-      identifier arg, std::uintmax_t value) noexcept = 0;
+      identifier arg, identifier tag, std::uintmax_t value) noexcept = 0;
 
-    virtual void add_float(identifier arg, float value) noexcept = 0;
-
-    virtual void add_string(identifier arg, string_view value) noexcept = 0;
+    virtual void add_float(
+      identifier arg, identifier tag, float value) noexcept = 0;
 
     virtual void add_duration(
-      identifier arg, std::chrono::duration<float> value) noexcept = 0;
+      identifier arg,
+      identifier tag,
+      std::chrono::duration<float> value) noexcept = 0;
+
+    virtual void add_string(
+      identifier arg, identifier tag, string_view value) noexcept = 0;
 
     virtual void add_blob(
-      identifier arg, memory::const_block value) noexcept = 0;
+      identifier arg, identifier tag, memory::const_block value) noexcept = 0;
 
     virtual void finish_message() noexcept = 0;
 };

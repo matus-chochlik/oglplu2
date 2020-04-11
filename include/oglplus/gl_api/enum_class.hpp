@@ -44,8 +44,9 @@ static constexpr inline bool same_enum_class(
 //------------------------------------------------------------------------------
 static constexpr inline auto adapt_log_entry_arg(
   identifier name, gl_any_enum_value ae) {
-    return
-      [=](logger_backend& backend) { backend.add_integer(name, ae._value); };
+    return [=](logger_backend& backend) {
+        backend.add_integer(name, EAGINE_ID(GLconst), ae._value);
+    };
 }
 //------------------------------------------------------------------------------
 template <

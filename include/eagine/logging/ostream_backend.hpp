@@ -87,7 +87,8 @@ public:
         return true;
     }
 
-    void add_identifier(identifier arg, identifier value) noexcept final {
+    void add_identifier(
+      identifier arg, identifier, identifier value) noexcept final {
         try {
             _out << "<a n='" << arg.name() << "' t='id'>" << value.name()
                  << "</a>";
@@ -95,7 +96,7 @@ public:
         }
     }
 
-    void add_bool(identifier arg, bool value) noexcept final {
+    void add_bool(identifier arg, identifier, bool value) noexcept final {
         try {
             _out << "<a n='" << arg.name() << "' t='bl'>"
                  << (value ? "true" : "false") << "</a>";
@@ -103,21 +104,23 @@ public:
         }
     }
 
-    void add_integer(identifier arg, std::intmax_t value) noexcept final {
+    void add_integer(
+      identifier arg, identifier, std::intmax_t value) noexcept final {
         try {
             _out << "<a n='" << arg.name() << "' t='int'>" << value << "</a>";
         } catch(...) {
         }
     }
 
-    void add_unsigned(identifier arg, std::uintmax_t value) noexcept final {
+    void add_unsigned(
+      identifier arg, identifier, std::uintmax_t value) noexcept final {
         try {
             _out << "<a n='" << arg.name() << "' t='uint'>" << value << "</a>";
         } catch(...) {
         }
     }
 
-    void add_float(identifier arg, float value) noexcept final {
+    void add_float(identifier arg, identifier, float value) noexcept final {
         try {
             _out << "<a n='" << arg.name() << "' t='real'>" << value << "</a>";
         } catch(...) {
@@ -125,7 +128,9 @@ public:
     }
 
     void add_duration(
-      identifier arg, std::chrono::duration<float> value) noexcept final {
+      identifier arg,
+      identifier,
+      std::chrono::duration<float> value) noexcept final {
         try {
             _out << "<a n='" << arg.name() << "' t='dur' u='s'>"
                  << value.count() << "</a>";
@@ -133,7 +138,8 @@ public:
         }
     }
 
-    void add_blob(identifier arg, memory::const_block value) noexcept final {
+    void add_blob(
+      identifier arg, identifier, memory::const_block value) noexcept final {
         try {
             _out << "<a n='" << arg.name() << "' t='blk'>" << hexdump(value)
                  << "</a>";
@@ -141,7 +147,8 @@ public:
         }
     }
 
-    void add_string(identifier arg, string_view value) noexcept final {
+    void add_string(
+      identifier arg, identifier, string_view value) noexcept final {
         try {
             _out << "<a n='" << arg.name() << "' t='str'>" << value << "</a>";
         } catch(...) {
