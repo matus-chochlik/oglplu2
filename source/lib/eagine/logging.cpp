@@ -10,6 +10,7 @@
 // clang-format off
 #include "prologue.inl"
 #include <eagine/type_name.hpp>
+#include <eagine/hexdump.hpp>
 
 #include "implement.inl"
 #include <eagine/logging/root_logger.hpp>

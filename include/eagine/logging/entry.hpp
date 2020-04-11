@@ -87,6 +87,14 @@ public:
         return *this;
     }
 
+    log_entry& arg(identifier name, memory::const_block value) noexcept {
+        if(_backend) {
+            _args.add(
+              [=](logger_backend& backend) { backend.add_blob(name, value); });
+        }
+        return *this;
+    }
+
     template <typename T>
     std::enable_if_t<has_log_entry_adapter_v<std::decay_t<T>>, log_entry&> arg(
       identifier name, T&& value) noexcept {

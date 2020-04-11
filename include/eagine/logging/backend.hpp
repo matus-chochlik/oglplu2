@@ -35,22 +35,22 @@ struct logger_backend {
       log_event_severity severity,
       string_view format) noexcept = 0;
 
-    virtual void add_identifier(identifier name, identifier value) noexcept = 0;
+    virtual void add_identifier(identifier arg, identifier value) noexcept = 0;
 
-    virtual void add_integer(identifier name, std::intmax_t value) noexcept = 0;
+    virtual void add_integer(identifier arg, std::intmax_t value) noexcept = 0;
 
     virtual void add_unsigned(
-      identifier name, std::uintmax_t value) noexcept = 0;
+      identifier arg, std::uintmax_t value) noexcept = 0;
 
-    virtual void add_float(identifier name, float value) noexcept = 0;
+    virtual void add_float(identifier arg, float value) noexcept = 0;
 
-    virtual void add_string(identifier name, string_view value) noexcept = 0;
+    virtual void add_string(identifier arg, string_view value) noexcept = 0;
 
     virtual void add_duration(
-      identifier name, std::chrono::duration<float> value) noexcept = 0;
+      identifier arg, std::chrono::duration<float> value) noexcept = 0;
 
     virtual void add_blob(
-      identifier name, memory::const_block value) noexcept = 0;
+      identifier arg, memory::const_block value) noexcept = 0;
 
     virtual void finish_message() noexcept = 0;
 };
