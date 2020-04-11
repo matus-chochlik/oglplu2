@@ -13,6 +13,7 @@
 #include <eagine/enum_bitfield.hpp>
 #include <eagine/enum_class.hpp>
 #include <eagine/identifier.hpp>
+#include <eagine/logging/backend.hpp>
 
 namespace eagine {
 namespace oglp {
@@ -39,6 +40,12 @@ using gl_any_enum_value = any_enum_value<EAGINE_ID_V(GL)>;
 static constexpr inline bool same_enum_class(
   gl_any_enum_class a, gl_any_enum_class b) noexcept {
     return ::eagine::same_enum_class(a, b);
+}
+//------------------------------------------------------------------------------
+static constexpr inline auto adapt_log_entry_arg(
+  identifier name, gl_any_enum_value ae) {
+    return
+      [=](logger_backend& backend) { backend.add_integer(name, ae._value); };
 }
 //------------------------------------------------------------------------------
 template <

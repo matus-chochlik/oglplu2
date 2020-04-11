@@ -23,6 +23,38 @@ static constexpr inline auto adapt_log_entry_arg(
       [=](logger_backend& backend) { backend.add_identifier(name, value); };
 }
 //------------------------------------------------------------------------------
+static constexpr inline auto adapt_log_entry_arg(identifier name, bool value) {
+    return [=](logger_backend& backend) { backend.add_bool(name, value); };
+}
+//------------------------------------------------------------------------------
+static constexpr inline auto adapt_log_entry_arg(identifier name, int value) {
+    return [=](logger_backend& backend) { backend.add_integer(name, value); };
+}
+//------------------------------------------------------------------------------
+static constexpr inline auto adapt_log_entry_arg(identifier name, long value) {
+    return [=](logger_backend& backend) { backend.add_integer(name, value); };
+}
+//------------------------------------------------------------------------------
+static constexpr inline auto adapt_log_entry_arg(
+  identifier name, unsigned value) {
+    return [=](logger_backend& backend) { backend.add_unsigned(name, value); };
+}
+//------------------------------------------------------------------------------
+static constexpr inline auto adapt_log_entry_arg(
+  identifier name, unsigned long value) {
+    return [=](logger_backend& backend) { backend.add_unsigned(name, value); };
+}
+//------------------------------------------------------------------------------
+static constexpr inline auto adapt_log_entry_arg(identifier name, float value) {
+    return [=](logger_backend& backend) { backend.add_float(name, value); };
+}
+//------------------------------------------------------------------------------
+static constexpr inline auto adapt_log_entry_arg(
+  identifier name, double value) {
+    return
+      [=](logger_backend& backend) { backend.add_float(name, float(value)); };
+}
+//------------------------------------------------------------------------------
 template <typename T, typename = std::enable_if_t<has_enumerator_mapping_v<T>>>
 static constexpr inline auto adapt_log_entry_arg(identifier name, T value) {
     return [=](logger_backend& backend) {

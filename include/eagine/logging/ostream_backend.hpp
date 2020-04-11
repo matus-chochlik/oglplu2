@@ -95,6 +95,14 @@ public:
         }
     }
 
+    void add_bool(identifier arg, bool value) noexcept final {
+        try {
+            _out << "<a n='" << arg.name() << "' t='bl'>"
+                 << (value ? "true" : "false") << "</a>";
+        } catch(...) {
+        }
+    }
+
     void add_integer(identifier arg, std::intmax_t value) noexcept final {
         try {
             _out << "<a n='" << arg.name() << "' t='int'>" << value << "</a>";

@@ -34,6 +34,9 @@ struct null_log_backend : logger_backend {
     void add_identifier(identifier, identifier) noexcept final {
     }
 
+    void add_bool(identifier, bool) noexcept final {
+    }
+
     void add_integer(identifier, std::intmax_t) noexcept final {
     }
 

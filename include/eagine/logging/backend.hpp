@@ -41,6 +41,8 @@ struct logger_backend {
 
     virtual void add_identifier(identifier arg, identifier value) noexcept = 0;
 
+    virtual void add_bool(identifier arg, bool value) noexcept = 0;
+
     virtual void add_integer(identifier arg, std::intmax_t value) noexcept = 0;
 
     virtual void add_unsigned(
