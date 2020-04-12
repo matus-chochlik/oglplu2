@@ -88,69 +88,75 @@ public:
     }
 
     void add_identifier(
-      identifier arg, identifier, identifier value) noexcept final {
+      identifier arg, identifier tag, identifier value) noexcept final {
         try {
-            _out << "<a n='" << arg.name() << "' t='id'>" << value.name()
-                 << "</a>";
+            _out << "<a n='" << arg.name() << "' t='" << tag.name() << "'>"
+                 << value.name() << "</a>";
         } catch(...) {
         }
     }
 
-    void add_bool(identifier arg, identifier, bool value) noexcept final {
+    void add_bool(identifier arg, identifier tag, bool value) noexcept final {
         try {
-            _out << "<a n='" << arg.name() << "' t='bl'>"
+            _out << "<a n='" << arg.name() << "' t='" << tag.name() << "'>"
                  << (value ? "true" : "false") << "</a>";
         } catch(...) {
         }
     }
 
     void add_integer(
-      identifier arg, identifier, std::intmax_t value) noexcept final {
+      identifier arg, identifier tag, std::intmax_t value) noexcept final {
         try {
-            _out << "<a n='" << arg.name() << "' t='int'>" << value << "</a>";
+            _out << "<a n='" << arg.name() << "' t='" << tag.name() << "'>"
+                 << value << "</a>";
         } catch(...) {
         }
     }
 
     void add_unsigned(
-      identifier arg, identifier, std::uintmax_t value) noexcept final {
+      identifier arg, identifier tag, std::uintmax_t value) noexcept final {
         try {
-            _out << "<a n='" << arg.name() << "' t='uint'>" << value << "</a>";
+            _out << "<a n='" << arg.name() << "' t='" << tag.name() << "'>"
+                 << value << "</a>";
         } catch(...) {
         }
     }
 
-    void add_float(identifier arg, identifier, float value) noexcept final {
+    void add_float(identifier arg, identifier tag, float value) noexcept final {
         try {
-            _out << "<a n='" << arg.name() << "' t='real'>" << value << "</a>";
+            _out << "<a n='" << arg.name() << "' t='" << tag.name() << "'>"
+                 << value << "</a>";
         } catch(...) {
         }
     }
 
     void add_duration(
       identifier arg,
-      identifier,
+      identifier tag,
       std::chrono::duration<float> value) noexcept final {
         try {
-            _out << "<a n='" << arg.name() << "' t='dur' u='s'>"
-                 << value.count() << "</a>";
+            _out << "<a n='" << arg.name() << "' t='" << tag.name()
+                 << "' u='s'>" << value.count() << "</a>";
         } catch(...) {
         }
     }
 
     void add_blob(
-      identifier arg, identifier, memory::const_block value) noexcept final {
+      identifier arg,
+      identifier tag,
+      memory::const_block value) noexcept final {
         try {
-            _out << "<a n='" << arg.name() << "' t='blk'>" << hexdump(value)
-                 << "</a>";
+            _out << "<a n='" << arg.name() << "' t='" << tag.name() << "'>"
+                 << hexdump(value) << "</a>";
         } catch(...) {
         }
     }
 
     void add_string(
-      identifier arg, identifier, string_view value) noexcept final {
+      identifier arg, identifier tag, string_view value) noexcept final {
         try {
-            _out << "<a n='" << arg.name() << "' t='str'>" << value << "</a>";
+            _out << "<a n='" << arg.name() << "' t='" << tag.name() << "'>"
+                 << value << "</a>";
         } catch(...) {
         }
     }

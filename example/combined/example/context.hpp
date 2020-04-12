@@ -14,6 +14,7 @@
 #include "random.hpp"
 #include "state_view.hpp"
 #include <eagine/cleanup_group.hpp>
+#include <eagine/enum_log.hpp>
 #include <eagine/logging/root_logger.hpp>
 #include <eagine/memory/buffer.hpp>
 #include <oglplus/gl_api_fwd.hpp>

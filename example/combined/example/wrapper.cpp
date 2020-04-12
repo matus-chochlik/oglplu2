@@ -33,12 +33,18 @@ example_wrapper::example_wrapper(
             _example->init(_context);
 
             state.sync_size();
-            _context.log().debug("initial surface resize");
             _example->resize(_context);
+            _context.log()
+              .debug("initial surface resize to ${width}x${height}")
+              .arg(EAGINE_ID(width), _context.state().width())
+              .arg(EAGINE_ID(height), _context.state().height());
 
             state.center_mouse();
-            _context.log().trace("initial pointer centering");
             _example->pointer_motion(_context);
+            _context.log()
+              .trace("initial pointer centering to ${x},${y}")
+              .arg(EAGINE_ID(x), _context.state().mouse_x())
+              .arg(EAGINE_ID(y), _context.state().mouse_y());
 
             if(params.doing_framedump()) {
                 textbuf(1024);
