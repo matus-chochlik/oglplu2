@@ -10490,6 +10490,7 @@ public:
         support_level,
         surface_buffer,
         sl_data_type,
+        index_data_type,
         oglp::texture_compare_mode,
         oglp::context_release_behavior,
         oglp::path_join_style_nv,

@@ -1,5 +1,5 @@
 /**
- *  @file oglplus/shapes/adapted_gen.hpp
+ *  @file oglplus/shapes/generator.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_SHAPES_ADAPTED_GEN_HPP
-#define OGLPLUS_SHAPES_ADAPTED_GEN_HPP
+#ifndef OGLPLUS_SHAPES_GENERATOR_HPP
+#define OGLPLUS_SHAPES_GENERATOR_HPP
 
 #include "../gl_api.hpp"
 #include "../math/primitives.hpp"
@@ -21,22 +21,19 @@
 
 namespace eagine {
 namespace oglp {
-namespace shapes {
 //------------------------------------------------------------------------------
-class adapted_generator {
+class shape_generator {
 private:
-    using generator_intf = eagine::shapes::generator_intf;
+    using generator_intf = shapes::generator_intf;
     std::unique_ptr<generator_intf> _gen{};
 
 public:
     template <typename A>
-    adapted_generator(
-      const basic_gl_api<A>&, std::unique_ptr<generator_intf>&&);
+    shape_generator(const basic_gl_api<A>&, std::unique_ptr<generator_intf>&&);
 
     template <typename A, typename Gen>
-    adapted_generator(const basic_gl_api<A>& api, std::unique_ptr<Gen>&& gen)
-      : adapted_generator(
-          api, std::unique_ptr<generator_intf>(std::move(gen))) {
+    shape_generator(const basic_gl_api<A>& api, std::unique_ptr<Gen>&& gen)
+      : shape_generator(api, std::unique_ptr<generator_intf>(std::move(gen))) {
     }
 
     span_size_t vertex_count() const {
@@ -44,21 +41,19 @@ public:
     }
 
     span_size_t values_per_vertex(
-      eagine::shapes::vertex_attrib_kind attrib,
-      span_size_t variant_index) const {
+      shapes::vertex_attrib_kind attrib, span_size_t variant_index) const {
         return _gen->values_per_vertex(attrib, variant_index);
     }
 
     span_size_t value_count(
-      eagine::shapes::vertex_attrib_kind attrib,
-      span_size_t variant_index) const {
+      shapes::vertex_attrib_kind attrib, span_size_t variant_index) const {
         return vertex_count() * values_per_vertex(attrib, variant_index);
     }
 
     template <typename A>
     data_type attrib_type(
       const basic_gl_api<A>& api,
-      eagine::shapes::vertex_attrib_kind attrib,
+      shapes::vertex_attrib_kind attrib,
       span_size_t variant_index) const {
         return translate(api, _gen->attrib_type(attrib, variant_index));
     }
@@ -66,27 +61,25 @@ public:
     template <typename A>
     true_false is_attrib_normalized(
       const basic_gl_api<A>& api,
-      eagine::shapes::vertex_attrib_kind attrib,
+      shapes::vertex_attrib_kind attrib,
       span_size_t variant_index) const {
         return translate(
           api, _gen->is_attrib_normalized(attrib, variant_index));
     }
 
     span_size_t attrib_type_size(
-      eagine::shapes::vertex_attrib_kind attrib,
-      span_size_t variant_index) const {
+      shapes::vertex_attrib_kind attrib, span_size_t variant_index) const {
         return type_size(_gen->attrib_type(attrib, variant_index));
     }
 
     span_size_t attrib_data_block_size(
-      eagine::shapes::vertex_attrib_kind attrib,
-      span_size_t variant_index) const {
+      shapes::vertex_attrib_kind attrib, span_size_t variant_index) const {
         return value_count(attrib, variant_index) *
                attrib_type_size(attrib, variant_index);
     }
 
     void attrib_data(
-      eagine::shapes::vertex_attrib_kind attrib,
+      shapes::vertex_attrib_kind attrib,
       span_size_t variant_index,
       memory::block data) const;
 
@@ -118,12 +111,12 @@ public:
       vertex_array_name vao,
       buffer_name buf,
       vertex_attrib_location loc,
-      eagine::shapes::vertex_attrib_kind attrib,
+      shapes::vertex_attrib_kind attrib,
       span_size_t variant_index,
       memory::buffer& temp) const;
 
     template <typename A>
-    void instructions(const basic_gl_api<A>&, span<draw_operation>) const;
+    void instructions(const basic_gl_api<A>&, span<shape_draw_operation>) const;
 
     sphere bounding_sphere() const {
         return _gen->bounding_sphere();
@@ -142,10 +135,9 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-} // namespace shapes
 } // namespace oglp
 } // namespace eagine
 
-#include <oglplus/shapes/adapted_gen.inl>
+#include <oglplus/shapes/generator.inl>
 
-#endif // OGLPLUS_SHAPES_ADAPTED_GEN_HPP
+#endif // OGLPLUS_SHAPES_GENERATOR_HPP

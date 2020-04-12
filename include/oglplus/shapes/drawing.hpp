@@ -17,35 +17,29 @@
 
 namespace eagine {
 namespace oglp {
-namespace shapes {
-//------------------------------------------------------------------------------
-template <typename A>
-true_false translate(const basic_gl_api<A>&, bool) noexcept;
 //------------------------------------------------------------------------------
 template <typename A>
 primitive_type translate(
-  const basic_gl_api<A>&, eagine::shapes::primitive_type) noexcept;
+  const basic_gl_api<A>&, shapes::primitive_type) noexcept;
 //------------------------------------------------------------------------------
 template <typename A>
-data_type translate(
-  const basic_gl_api<A>&, eagine::shapes::attrib_data_type) noexcept;
+data_type translate(const basic_gl_api<A>&, shapes::attrib_data_type) noexcept;
 //------------------------------------------------------------------------------
 template <typename A>
-data_type translate(
-  const basic_gl_api<A>&, eagine::shapes::index_data_type) noexcept;
-//------------------------------------------------------------------------------
-template <typename A>
-span_size_t type_size(
-  const basic_gl_api<A>&, eagine::shapes::attrib_data_type) noexcept;
+index_data_type translate(
+  const basic_gl_api<A>&, shapes::index_data_type) noexcept;
 //------------------------------------------------------------------------------
 template <typename A>
 span_size_t type_size(
-  const basic_gl_api<A>&, eagine::shapes::index_data_type) noexcept;
+  const basic_gl_api<A>&, shapes::attrib_data_type) noexcept;
 //------------------------------------------------------------------------------
-class draw_operation {
+template <typename A>
+span_size_t type_size(const basic_gl_api<A>&, shapes::index_data_type) noexcept;
+//------------------------------------------------------------------------------
+class shape_draw_operation {
 private:
     primitive_type _mode{0};
-    data_type _idx_type{0};
+    index_data_type _idx_type{0};
     gl_types::int_type _first{0};
     gl_types::sizei_type _count{0};
     gl_types::uint_type _phase{0};
@@ -57,12 +51,12 @@ private:
     gl_types::const_void_ptr_type _idx_ptr() const noexcept;
 
 public:
-    constexpr draw_operation() noexcept = default;
+    constexpr shape_draw_operation() noexcept = default;
 
     template <typename A>
-    draw_operation(
+    shape_draw_operation(
       const basic_gl_api<A>& api,
-      const eagine::shapes::draw_operation& draw_op) noexcept;
+      const shapes::draw_operation& draw_op) noexcept;
 
     auto phase() const noexcept {
         return _phase;
@@ -78,9 +72,10 @@ public:
     void draw(const basic_gl_api<A>& api) const noexcept;
 };
 //------------------------------------------------------------------------------
-void draw_using_instructions(span<const draw_operation> ops) noexcept;
+template <typename A>
+void draw_using_instructions(
+  const basic_gl_api<A>& api, span<const shape_draw_operation> ops) noexcept;
 //------------------------------------------------------------------------------
-} // namespace shapes
 } // namespace oglp
 } // namespace eagine
 

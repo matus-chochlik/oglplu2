@@ -1,5 +1,5 @@
 /**
- *  @file oglplus/shapes/adapted_gen.inl
+ *  @file oglplus/shapes/generator.inl
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -11,14 +11,12 @@
 
 namespace eagine {
 namespace oglp {
-namespace shapes {
 //------------------------------------------------------------------------------
 template <typename A>
-inline adapted_generator::adapted_generator(
-  const basic_gl_api<A>& api,
-  std::unique_ptr<eagine::shapes::generator_intf>&& gen)
+inline shape_generator::shape_generator(
+  const basic_gl_api<A>& api, std::unique_ptr<shapes::generator_intf>&& gen)
   : _gen{std::move(gen)} {
-    using eagine::shapes::generator_capability;
+    using shapes::generator_capability;
     auto& GL = api.constants();
 
     if(GL.triangle_fan) {
@@ -32,11 +30,11 @@ inline adapted_generator::adapted_generator(
     }
 }
 //------------------------------------------------------------------------------
-inline void adapted_generator::attrib_data(
-  eagine::shapes::vertex_attrib_kind attrib,
+inline void shape_generator::attrib_data(
+  shapes::vertex_attrib_kind attrib,
   span_size_t variant_index,
   memory::block data) const {
-    using eagine::shapes::attrib_data_type;
+    using shapes::attrib_data_type;
 
     switch(_gen->attrib_type(attrib, variant_index)) {
         case attrib_data_type::float_:
@@ -50,8 +48,8 @@ inline void adapted_generator::attrib_data(
     }
 }
 //------------------------------------------------------------------------------
-inline void adapted_generator::index_data(memory::block data) const {
-    using eagine::shapes::index_data_type;
+inline void shape_generator::index_data(memory::block data) const {
+    using shapes::index_data_type;
 
     switch(_gen->index_type()) {
         case index_data_type::unsigned_32:
@@ -69,15 +67,15 @@ inline void adapted_generator::index_data(memory::block data) const {
 }
 //------------------------------------------------------------------------------
 template <typename A>
-inline void adapted_generator::attrib_setup(
+inline void shape_generator::attrib_setup(
   const basic_gl_api<A>& api,
   vertex_array_name vao,
   buffer_name buf,
   vertex_attrib_location loc,
-  eagine::shapes::vertex_attrib_kind attrib,
+  shapes::vertex_attrib_kind attrib,
   span_size_t variant_index,
   memory::buffer& temp) const {
-    using eagine::shapes::attrib_data_type;
+    using shapes::attrib_data_type;
     auto& [gl, GL] = api;
 
     const auto size = attrib_data_block_size(attrib, variant_index);
@@ -101,20 +99,18 @@ inline void adapted_generator::attrib_setup(
 }
 //------------------------------------------------------------------------------
 template <typename A>
-inline void adapted_generator::instructions(
-  const basic_gl_api<A>& api, span<draw_operation> ops) const {
+inline void shape_generator::instructions(
+  const basic_gl_api<A>& api, span<shape_draw_operation> ops) const {
     EAGINE_ASSERT(ops.size() >= operation_count());
 
-    std::vector<eagine::shapes::draw_operation> tmp(
-      std_size(operation_count()));
+    std::vector<shapes::draw_operation> tmp(std_size(operation_count()));
     _gen->instructions(cover(tmp));
 
     for(decltype(tmp.size()) i = 0; i < tmp.size(); ++i) {
-        ops[span_size(i)] = draw_operation(api, tmp[i]);
+        ops[span_size(i)] = shape_draw_operation(api, tmp[i]);
     }
 }
 //------------------------------------------------------------------------------
-} // namespace shapes
 } // namespace oglp
 } // namespace eagine
 //------------------------------------------------------------------------------

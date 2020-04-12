@@ -80,6 +80,14 @@ const typename std::tuple_element<I, basic_gl_api<ApiTraits>>::type& get(
     return x;
 }
 //------------------------------------------------------------------------------
+template <typename A>
+true_false translate(const basic_gl_api<A>& api, bool value) noexcept {
+    if(value) {
+        return api.true_;
+    }
+    return api.false_;
+}
+//------------------------------------------------------------------------------
 } // namespace oglp
 } // namespace eagine
 
