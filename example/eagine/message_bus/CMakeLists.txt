@@ -11,6 +11,14 @@ target_link_libraries("message_bus-loopback" eagine)
 add_executable("message_bus-direct" "002_direct.cpp")
 target_link_libraries("message_bus-direct" eagine)
 
+add_executable("message_bus-ping" "003_ping.cpp")
+target_link_libraries("message_bus-ping" eagine)
+target_link_libraries("message_bus-ping" "${CMAKE_THREAD_LIBS_INIT}")
+
+add_executable("message_bus-pong" "003_pong.cpp")
+target_link_libraries("message_bus-pong" eagine)
+target_link_libraries("message_bus-pong" "${CMAKE_THREAD_LIBS_INIT}")
+
 add_executable("message_bus-fibonacci" "004_fibonacci.cpp")
 target_link_libraries("message_bus-fibonacci" eagine)
 
