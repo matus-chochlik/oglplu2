@@ -106,7 +106,7 @@ public:
         }
     };
 
-    // numerc query function
+    // numeric query function
     template <
       typename PreTypeList,
       typename QueryClassList,

@@ -17,7 +17,7 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-static void GLAPIENTRY example_context_gl_debug_message(
+static void example_context_gl_debug_message(
   oglp::gl_types::enum_type source,
   oglp::gl_types::enum_type type,
   oglp::gl_types::uint_type id,
