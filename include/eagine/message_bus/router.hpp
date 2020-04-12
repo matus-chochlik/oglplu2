@@ -11,6 +11,7 @@
 #define EAGINE_MESSAGE_BUS_ROUTER_HPP
 
 #include "../branch_predict.hpp"
+#include "../logging/logger.hpp"
 #include "acceptor.hpp"
 #include "serialize.hpp"
 #include <map>
@@ -50,8 +51,15 @@ struct routed_endpoint {
 //------------------------------------------------------------------------------
 class router : public acceptor_user {
 public:
+    router() noexcept = default;
+
+    router(logger& parent) noexcept
+      : _log(EAGINE_ID(MsgBusRutr), parent) {
+    }
+
     bool add_acceptor(std::unique_ptr<acceptor> an_acceptor) final {
         if(an_acceptor) {
+            _log.info("adding connection acceptor");
             _acceptors.emplace_back(std::move(an_acceptor));
             return true;
         }
@@ -59,6 +67,7 @@ public:
     }
 
     void update() {
+        _log.trace("updating");
         _remove_timeouted();
         _remove_disconnected();
         _handle_pending();
@@ -264,6 +273,7 @@ private:
         }
     }
 
+    logger _log{};
     const std::chrono::seconds _pending_timeout{30};
     identifier_t _id_sequence{0};
     std::vector<std::unique_ptr<acceptor>> _acceptors;

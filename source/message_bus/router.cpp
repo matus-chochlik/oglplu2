@@ -17,12 +17,14 @@ int main(int argc, const char** argv) {
     signal_switch done;
 
     program_args args(argc, argv);
-    root_logger log(args);
 
-    msgbus::connection_setup conn_setup;
+    root_logger log(args);
+    log.info("message bus router starting up");
+
+    msgbus::connection_setup conn_setup(log);
     conn_setup.default_init(args);
 
-    msgbus::router router;
+    msgbus::router router(log);
     conn_setup.setup_acceptors(
       router,
       msgbus::connection_kind::in_process |
@@ -32,6 +34,7 @@ int main(int argc, const char** argv) {
         router.update();
     }
 
+    log.debug("message bus router finishing");
     return 0;
 }
 

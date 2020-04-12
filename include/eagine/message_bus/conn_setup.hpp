@@ -11,6 +11,7 @@
 #define EAGINE_MESSAGE_BUS_CONN_SETUP_HPP
 
 #include "../enum_map.hpp"
+#include "../logging/logger.hpp"
 #include "../program_args.hpp"
 #include "conn_factory.hpp"
 #include <memory>
@@ -26,6 +27,7 @@ void connection_setup_default_init(connection_setup&, const program_args&);
 //------------------------------------------------------------------------------
 class connection_setup {
     std::mutex _mutex{};
+    logger _log{};
 
     using _factory_list = std::vector<std::unique_ptr<connection_factory>>;
 
@@ -75,6 +77,12 @@ class connection_setup {
     }
 
 public:
+    connection_setup() noexcept = default;
+
+    connection_setup(logger& parent) noexcept
+      : _log{EAGINE_ID(ConnSetup), parent} {
+    }
+
     void setup_acceptors(acceptor_user& target, string_view address) {
         std::unique_lock lock{_mutex};
         _factory_map.visit_all(_make_call_setup_acceptors(target, address));

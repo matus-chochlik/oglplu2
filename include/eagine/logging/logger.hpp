@@ -51,6 +51,8 @@ public:
         return log(log_event_severity::trace, format);
     }
 
+    logger() noexcept = default;
+
     logger(identifier logger_id, logger& parent) noexcept
       : _logger_id{logger_id}
       , _backend{parent._backend} {
@@ -64,7 +66,7 @@ protected:
     }
 
 private:
-    identifier _logger_id{};
+    identifier _logger_id{EAGINE_ID(Logger)};
     std::shared_ptr<logger_backend> _backend{};
 
     inline logger_backend* _entry_backend(
