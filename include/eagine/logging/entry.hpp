@@ -14,6 +14,7 @@
 #include "../memory/default_alloc.hpp"
 #include "../memory/object_storage.hpp"
 #include "backend.hpp"
+#include <stdexcept>
 
 namespace eagine {
 //------------------------------------------------------------------------------

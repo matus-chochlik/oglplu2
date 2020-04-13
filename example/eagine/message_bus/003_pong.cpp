@@ -7,6 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/interop/valgrind.hpp>
+#include <eagine/logging/root_logger.hpp>
 #include <eagine/message_bus/actor.hpp>
 #include <eagine/message_bus/conn_setup.hpp>
 
@@ -51,8 +52,9 @@ int main(int argc, const char** argv) {
     using namespace eagine;
 
     program_args args(argc, argv);
+    root_logger log(args);
 
-    msgbus::connection_setup conn_setup;
+    msgbus::connection_setup conn_setup(log);
     conn_setup.default_init(args);
 
     msgbus::pong pong(conn_setup);
