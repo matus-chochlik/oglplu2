@@ -9,6 +9,7 @@
 import os
 import re
 import sys
+import stat
 import xml.sax
 import threading
 
@@ -21,12 +22,12 @@ class XmlLogFormatter(object):
         self._out = log_output
         with self._lock:
             self._sources = []
-            self._out.write("┐\n")
+            self._out.write("╮\n")
 
     # --------------------------------------------------------------------------
     def __del__(self):
         with self._lock:
-            self._out.write("┘\n")
+            self._out.write("╯\n")
             self._out.close()
 
     # --------------------------------------------------------------------------
@@ -35,7 +36,11 @@ class XmlLogFormatter(object):
             self._out.write("┝")
             for sid in self._sources:
                 self._out.write("━┿")
-            self._out.write("━┯━(starting log)\n")
+            self._out.write("━┯━┥starting log│\n")
+            self._out.write("┊")
+            for sid in self._sources:
+                self._out.write(" ┊")
+            self._out.write(" ┊ ╰┄┄┄┄┄┄┄┄┄┄┄┄╯\n")
             self._sources.append(srcid)
 
     # --------------------------------------------------------------------------
@@ -45,7 +50,11 @@ class XmlLogFormatter(object):
             self._out.write("┝")
             for sid in self._sources:
                 self._out.write("━┿")
-            self._out.write("━┷━(finished log)\n")
+            self._out.write("━┷━┥finished log│\n")
+            self._out.write("┊")
+            for sid in self._sources:
+                self._out.write(" ┊")
+            self._out.write("   ╰┄┄┄┄┄┄┄┄┄┄┄┄╯\n")
 
     # --------------------------------------------------------------------------
     def translateArg(self, arg, info):
@@ -84,9 +93,14 @@ class XmlLogFormatter(object):
                     self._out.write("━┿")
                 else:
                     self._out.write(" ┊")
-            self._out.write("━")
+            self._out.write("━┥")
+            self._out.write("%7s│" % info["level"])
             self._out.write(message)
             self._out.write("\n")
+            self._out.write("┊")
+            for sid in self._sources:
+                self._out.write(" ┊")
+            self._out.write(" ╰┄┄┄┄┄┄┄╯\n")
             self._out.flush()
 
 # ------------------------------------------------------------------------------
@@ -123,6 +137,7 @@ class XmlLogProcessor(threading.Thread, xml.sax.ContentHandler):
         elif tag == "a":
             self._carg = attr["n"]
             self._info["args"][self._carg] = {
+                "value": "''",
                 "type": attr["t"],
                 "used": False
             }
@@ -160,6 +175,10 @@ class XmlLogProcessor(threading.Thread, xml.sax.ContentHandler):
 
 # ------------------------------------------------------------------------------
 def main(args):
+    for arg in args:
+        if not os.path.exists(arg):
+            os.mkfifo(arg)
+
     formatter = XmlLogFormatter(sys.stdout)
     procs = [XmlLogProcessor(open(arg, "rt"), formatter) for arg in args]
 

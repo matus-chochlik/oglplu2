@@ -362,21 +362,21 @@ private:
     std::vector<asio::ip::tcp::socket> _accepted;
 
     void _start_accept() {
-        this->_log.debug("accepting connection on address ${addr}")
-          .arg(EAGINE_ID(addr), EAGINE_ID(IpV4Addr), _addr_str);
+        this->_log.debug("accepting connection on address ${address}")
+          .arg(EAGINE_ID(address), EAGINE_ID(IpV4Addr), _addr_str);
 
         _socket = asio::ip::tcp::socket(this->_asio_state->context);
         _acceptor.async_accept(_socket, [this](std::error_code error) {
             if(error) {
                 this->_log
                   .error(
-                    "failed to accept connection on address ${addr}: "
+                    "failed to accept connection on address ${address}: "
                     "${error}")
                   .arg(EAGINE_ID(error), error)
-                  .arg(EAGINE_ID(addr), EAGINE_ID(IpV4Addr), _addr_str);
+                  .arg(EAGINE_ID(address), EAGINE_ID(IpV4Addr), _addr_str);
             } else {
-                this->_log.debug("accepted connection on address ${addr}")
-                  .arg(EAGINE_ID(addr), EAGINE_ID(IpV4Addr), _addr_str);
+                this->_log.debug("accepted connection on address ${address}")
+                  .arg(EAGINE_ID(address), EAGINE_ID(IpV4Addr), _addr_str);
                 this->_accepted.emplace_back(std::move(this->_socket));
             }
             _start_accept();
@@ -398,7 +398,7 @@ public:
     void update() final {
         EAGINE_ASSERT(this->_asio_state);
         if(!_acceptor.is_open()) {
-            // TODO: addr string
+            // TODO: address string
             asio::ip::tcp::endpoint endpoint(asio::ip::tcp::v4(), 34912);
             _acceptor.open(endpoint.protocol());
             _acceptor.bind(endpoint);
@@ -519,8 +519,8 @@ private:
     std::vector<asio::local::stream_protocol::socket> _accepted;
 
     void _start_accept() {
-        this->_log.debug("accepting connection on address ${addr}")
-          .arg(EAGINE_ID(addr), EAGINE_ID(FsPath), _addr_str);
+        this->_log.debug("accepting connection on address ${address}")
+          .arg(EAGINE_ID(address), EAGINE_ID(FsPath), _addr_str);
 
         _accepting = true;
         _acceptor.async_accept([this](
@@ -530,13 +530,13 @@ private:
                 this->_accepting = false;
                 this->_log
                   .error(
-                    "failed to accept connection on address ${addr}: "
+                    "failed to accept connection on address ${address}: "
                     "${error}")
                   .arg(EAGINE_ID(error), error)
-                  .arg(EAGINE_ID(addr), EAGINE_ID(FsPath), _addr_str);
+                  .arg(EAGINE_ID(address), EAGINE_ID(FsPath), _addr_str);
             } else {
-                this->_log.debug("accepted connection on address ${addr}")
-                  .arg(EAGINE_ID(addr), EAGINE_ID(FsPath), _addr_str);
+                this->_log.debug("accepted connection on address ${address}")
+                  .arg(EAGINE_ID(address), EAGINE_ID(FsPath), _addr_str);
                 this->_accepted.emplace_back(std::move(socket));
             }
             _start_accept();
