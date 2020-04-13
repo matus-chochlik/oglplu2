@@ -51,11 +51,45 @@ public:
         return log(log_event_severity::trace, format);
     }
 
+    inline auto backtrace(string_view format) noexcept {
+        return log(log_event_severity::backtrace, format);
+    }
+
+    inline auto lifetime(string_view format) noexcept {
+        // TODO: switch depending on Debug/Release ?
+        return info(format);
+    }
+
     logger() noexcept = default;
 
     logger(identifier logger_id, logger& parent) noexcept
       : _logger_id{logger_id}
       , _backend{parent._backend} {
+        lifetime("${self} created as a child of ${parent}")
+          .arg(EAGINE_ID(parent), EAGINE_ID(LogId), parent._logger_id)
+          .arg(EAGINE_ID(self), EAGINE_ID(LogId), _logger_id);
+    }
+
+    logger(logger&& temp) noexcept
+      : _logger_id{temp._logger_id}
+      , _backend{std::move(temp._backend)} {
+        lifetime("${self} being moved")
+          .arg(EAGINE_ID(self), EAGINE_ID(LogId), _logger_id);
+    }
+
+    logger(const logger& that) noexcept
+      : _logger_id{that._logger_id}
+      , _backend{that._backend} {
+        lifetime("${self} being copied")
+          .arg(EAGINE_ID(self), EAGINE_ID(LogId), _logger_id);
+    }
+
+    logger& operator=(logger&&) = delete;
+    logger& operator=(const logger&) = delete;
+
+    ~logger() noexcept {
+        lifetime("${self} being destroyed")
+          .arg(EAGINE_ID(self), EAGINE_ID(LogId), _logger_id);
     }
 
 protected:
@@ -63,6 +97,9 @@ protected:
       identifier logger_id, std::shared_ptr<logger_backend> backend) noexcept
       : _logger_id{logger_id}
       , _backend{std::move(backend)} {
+        lifetime("${self} created with ${backend} backend")
+          .arg(EAGINE_ID(backend), _backend)
+          .arg(EAGINE_ID(self), EAGINE_ID(LogId), _logger_id);
     }
 
 private:

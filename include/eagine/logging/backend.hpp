@@ -27,6 +27,8 @@ struct logger_backend {
     logger_backend& operator=(const logger_backend&) noexcept = default;
     virtual ~logger_backend() noexcept = default;
 
+    virtual identifier type_id() noexcept = 0;
+
     virtual logger_backend* entry_backend(
       identifier source, log_event_severity severity) noexcept = 0;
 
@@ -38,6 +40,8 @@ struct logger_backend {
       identifier source,
       log_event_severity severity,
       string_view format) noexcept = 0;
+
+    virtual void add_nothing(identifier arg, identifier tag) noexcept = 0;
 
     virtual void add_identifier(
       identifier arg, identifier tag, identifier value) noexcept = 0;

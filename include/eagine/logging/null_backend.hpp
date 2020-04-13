@@ -20,6 +20,10 @@ struct null_log_backend : logger_backend {
         return nullptr;
     }
 
+    identifier type_id() noexcept final {
+        return EAGINE_ID(Null);
+    }
+
     void enter_scope(identifier) noexcept final {
     }
 
@@ -29,6 +33,9 @@ struct null_log_backend : logger_backend {
     bool begin_message(
       identifier, log_event_severity, string_view) noexcept final {
         return false;
+    }
+
+    void add_nothing(identifier, identifier) noexcept final {
     }
 
     void add_identifier(identifier, identifier, identifier) noexcept final {

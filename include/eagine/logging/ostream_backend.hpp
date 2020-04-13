@@ -40,6 +40,10 @@ public:
         }
     }
 
+    identifier type_id() noexcept final {
+        return EAGINE_ID(OutStream);
+    }
+
     ostream_log_backend(ostream_log_backend&&) = delete;
     ostream_log_backend(const ostream_log_backend&) = delete;
     ostream_log_backend& operator=(ostream_log_backend&&) = delete;
@@ -85,6 +89,13 @@ public:
         } catch(...) {
         }
         return true;
+    }
+
+    void add_nothing(identifier arg, identifier tag) noexcept final {
+        try {
+            _out << "<a n='" << arg.name() << "' t='" << tag.name() << "'/>";
+        } catch(...) {
+        }
     }
 
     void add_identifier(
