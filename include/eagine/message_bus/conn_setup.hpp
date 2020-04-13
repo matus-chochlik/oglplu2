@@ -25,6 +25,18 @@ class connection_setup;
 void connection_setup_default_init(connection_setup&);
 void connection_setup_default_init(connection_setup&, const program_args&);
 //------------------------------------------------------------------------------
+static inline auto adapt_log_entry_arg(
+  identifier name, const std::unique_ptr<connection_factory>& value) {
+    return [name, &value](logger_backend& backend) {
+        if(value) {
+            backend.add_identifier(
+              name, EAGINE_ID(ConnFactry), value->type_id());
+        } else {
+            backend.add_nothing(name, EAGINE_ID(ConnFactry));
+        }
+    };
+}
+//------------------------------------------------------------------------------
 class connection_setup {
     std::mutex _mutex{};
     logger _log{};
@@ -46,6 +58,13 @@ class connection_setup {
       acceptor_user& target, string_view address, _factory_list& factories) {
         for(auto& factory : factories) {
             EAGINE_ASSERT(factory);
+            _log
+              .debug(
+                "setting up acceptors on address ${address} "
+                "with factory type ${factory}")
+              .arg(EAGINE_ID(factory), factory)
+              .arg(EAGINE_ID(address), EAGINE_ID(MsgBusAddr), address);
+
             if(auto acceptor = factory->make_acceptor(address)) {
                 target.add_acceptor(std::move(acceptor));
             }
@@ -56,6 +75,13 @@ class connection_setup {
       connection_user& target, string_view address, _factory_list& factories) {
         for(auto& factory : factories) {
             EAGINE_ASSERT(factory);
+            _log
+              .debug(
+                "setting up connectors on address ${address} "
+                "with factory type ${factory}")
+              .arg(EAGINE_ID(factory), factory)
+              .arg(EAGINE_ID(address), EAGINE_ID(MsgBusAddr), address);
+
             if(auto connector = factory->make_connector(address)) {
                 target.add_connection(std::move(connector));
             }
@@ -173,6 +199,11 @@ public:
         std::unique_lock lock{_mutex};
         EAGINE_ASSERT(factory);
         const auto kind{factory->kind()};
+
+        _log.debug("adding ${kind} connection factory ${type}")
+          .arg(EAGINE_ID(kind), kind)
+          .arg(EAGINE_ID(factory), factory);
+
         _factory_map.visit(
           kind, [factory{std::move(factory)}](auto, auto& factories) mutable {
               factories.emplace_back(std::move(factory));
@@ -182,7 +213,8 @@ public:
     template <typename Factory, typename... Args>
     std::enable_if_t<std::is_base_of_v<connection_factory, Factory>, void>
     make_factory(Args&&... args) {
-        add_factory(std::make_unique<Factory>(std::forward<Args>(args)...));
+        add_factory(
+          std::make_unique<Factory>(_log, std::forward<Args>(args)...));
     }
 
     void default_init() {

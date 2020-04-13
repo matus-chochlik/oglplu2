@@ -18,8 +18,8 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 static inline auto adapt_log_entry_arg(
-  identifier name, std::shared_ptr<logger_backend> value) {
-    return [name, value{std::move(value)}](logger_backend& backend) {
+  identifier name, const std::shared_ptr<logger_backend>& value) {
+    return [name, &value](logger_backend& backend) {
         if(value) {
             backend.add_identifier(
               name, EAGINE_ID(LogBkEndId), value->type_id());
@@ -32,7 +32,7 @@ static inline auto adapt_log_entry_arg(
 template <typename T, typename = std::enable_if_t<has_enumerator_mapping_v<T>>>
 static constexpr inline auto adapt_log_entry_arg(identifier name, T value) {
     return [=](logger_backend& backend) {
-        backend.add_string(name, enumerator_name(value));
+        backend.add_string(name, EAGINE_ID(enum), enumerator_name(value));
     };
 }
 //------------------------------------------------------------------------------

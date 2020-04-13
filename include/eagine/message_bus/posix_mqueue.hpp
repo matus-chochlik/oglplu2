@@ -11,6 +11,7 @@
 #define EAGINE_MESSAGE_BUS_POSIX_MQUEUE_HPP
 
 #include "../branch_predict.hpp"
+#include "../logging/logger.hpp"
 #include "../random_identifier.hpp"
 #include "../serialize/block_sink.hpp"
 #include "../serialize/block_source.hpp"
@@ -496,8 +497,16 @@ private:
     posix_mqueue _accept_queue{};
 };
 //------------------------------------------------------------------------------
-struct posix_mqueue_connection_factory
-  : posix_mqueue_connection_info<connection_factory> {
+class posix_mqueue_connection_factory
+  : public posix_mqueue_connection_info<connection_factory> {
+private:
+    logger _log{};
+
+public:
+    posix_mqueue_connection_factory(logger& parent)
+      : _log{EAGINE_ID(MQueConnFc), parent} {
+    }
+
     using connection_factory::make_acceptor;
     using connection_factory::make_connector;
 

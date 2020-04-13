@@ -11,6 +11,7 @@
 #define EAGINE_MESSAGE_BUS_DIRECT_HPP
 
 #include "../branch_predict.hpp"
+#include "../logging/logger.hpp"
 #include "conn_factory.hpp"
 #include <map>
 #include <mutex>
@@ -19,7 +20,17 @@ namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
 class direct_connection_state {
+private:
+    logger _log{};
+    std::mutex _mutex;
+    message_storage _server_to_client;
+    message_storage _client_to_server;
+
 public:
+    direct_connection_state(logger& parent)
+      : _log{EAGINE_ID(DrctConnSt), parent} {
+    }
+
     void send_to_server(
       identifier_t class_id,
       identifier_t method_id,
@@ -45,11 +56,6 @@ public:
         std::unique_lock lock{_mutex};
         _server_to_client.fetch_all(handler);
     }
-
-public:
-    std::mutex _mutex;
-    message_storage _server_to_client;
-    message_storage _client_to_server;
 };
 //------------------------------------------------------------------------------
 class direct_connection_address {
@@ -57,8 +63,17 @@ public:
     using shared_state = std::shared_ptr<direct_connection_state>;
     using process_handler = callable_ref<void(shared_state&)>;
 
+private:
+    logger _log{};
+    std::vector<shared_state> _pending;
+
+public:
+    direct_connection_address(logger& parent)
+      : _log{EAGINE_ID(DrctConnAd), parent} {
+    }
+
     shared_state connect() {
-        auto state = std::make_shared<direct_connection_state>();
+        auto state = std::make_shared<direct_connection_state>(_log);
         _pending.push_back(state);
         return state;
     }
@@ -69,14 +84,13 @@ public:
         }
         _pending.clear();
     }
-
-private:
-    std::vector<shared_state> _pending;
 };
 //------------------------------------------------------------------------------
 template <typename Base>
 class direct_connection_info : public Base {
 public:
+    using Base::Base;
+
     connection_kind kind() final {
         return connection_kind::in_process;
     }
@@ -87,6 +101,18 @@ public:
 };
 //------------------------------------------------------------------------------
 class direct_client_connection : public direct_connection_info<connection> {
+
+private:
+    std::weak_ptr<direct_connection_address> _weak_address;
+    std::shared_ptr<direct_connection_state> _state;
+
+    inline void _checkup() {
+        if(EAGINE_UNLIKELY(!_state)) {
+            if(auto address = _weak_address.lock()) {
+                _state = address->connect();
+            }
+        }
+    }
 
 public:
     direct_client_connection(
@@ -118,21 +144,12 @@ public:
             _state->fetch_from_server(handler);
         }
     }
-
-private:
-    inline void _checkup() {
-        if(EAGINE_UNLIKELY(!_state)) {
-            if(auto address = _weak_address.lock()) {
-                _state = address->connect();
-            }
-        }
-    }
-
-    std::weak_ptr<direct_connection_address> _weak_address;
-    std::shared_ptr<direct_connection_state> _state;
 };
 //------------------------------------------------------------------------------
 class direct_server_connection : public direct_connection_info<connection> {
+private:
+    std::weak_ptr<direct_connection_state> _weak_state;
+
 public:
     direct_server_connection(std::shared_ptr<direct_connection_state>& state)
       : _weak_state{state} {
@@ -154,21 +171,30 @@ public:
             state->fetch_from_client(handler);
         }
     }
-
-private:
-    std::weak_ptr<direct_connection_state> _weak_state;
 };
 //------------------------------------------------------------------------------
 class direct_acceptor : public acceptor {
     using shared_state = std::shared_ptr<direct_connection_state>;
 
+private:
+    logger _log{};
+    std::shared_ptr<direct_connection_address> _address;
+
 public:
-    direct_acceptor(std::shared_ptr<direct_connection_address> address) noexcept
-      : _address{std::move(address)} {
+    direct_acceptor(
+      logger& parent,
+      std::shared_ptr<direct_connection_address> address) noexcept
+      : _log{EAGINE_ID(DrctAccptr), parent}
+      , _address{std::move(address)} {
+    }
+
+    direct_acceptor(logger& parent)
+      : _log{EAGINE_ID(DrctAccptr), parent}
+      , _address{std::make_shared<direct_connection_address>(_log)} {
     }
 
     direct_acceptor()
-      : direct_acceptor(std::make_shared<direct_connection_address>()) {
+      : _address{std::make_shared<direct_connection_address>(_log)} {
     }
 
     void process_accepted(const accept_handler& handler) final {
@@ -189,14 +215,12 @@ public:
         }
         return {};
     }
-
-private:
-    std::shared_ptr<direct_connection_address> _address;
 };
 //------------------------------------------------------------------------------
 class direct_connection_factory
   : public direct_connection_info<connection_factory> {
 private:
+    logger _log{};
     std::shared_ptr<direct_connection_address> _default_addr;
     std::map<
       std::string,
@@ -205,7 +229,7 @@ private:
       _addrs;
 
     auto _make_addr() {
-        return std::make_shared<direct_connection_address>();
+        return std::make_shared<direct_connection_address>(_log);
     }
 
     auto& _get(string_view addr_str) {
@@ -221,15 +245,16 @@ public:
     using connection_factory::make_acceptor;
     using connection_factory::make_connector;
 
-    direct_connection_factory()
-      : _default_addr{_make_addr()} {
+    direct_connection_factory(logger& parent)
+      : _log{EAGINE_ID(DrctConnFc), parent}
+      , _default_addr{_make_addr()} {
     }
 
     std::unique_ptr<acceptor> make_acceptor(string_view addr_str) final {
         if(addr_str) {
-            return std::make_unique<direct_acceptor>(_get(addr_str));
+            return std::make_unique<direct_acceptor>(_log, _get(addr_str));
         }
-        return std::make_unique<direct_acceptor>(_default_addr);
+        return std::make_unique<direct_acceptor>(_log, _default_addr);
     }
 
     std::unique_ptr<connection> make_connector(string_view addr_str) final {

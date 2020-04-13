@@ -12,6 +12,7 @@
 
 #include "../branch_predict.hpp"
 #include "../config/platform.hpp"
+#include "../logging/logger.hpp"
 #include "../serialize/size_and_data.hpp"
 #include "conn_factory.hpp"
 #include "serialize.hpp"
@@ -51,6 +52,7 @@ template <typename Socket>
 struct asio_connection_state
   : std::enable_shared_from_this<asio_connection_state<Socket>> {
 
+    logger _log{};
     std::mutex mutex;
     std::shared_ptr<asio_common_state> common;
     Socket socket;
@@ -63,8 +65,11 @@ struct asio_connection_state
     bool is_recving{false};
 
     asio_connection_state(
-      std::shared_ptr<asio_common_state> asio_state, Socket sock)
-      : common{std::move(asio_state)}
+      logger& parent,
+      std::shared_ptr<asio_common_state> asio_state,
+      Socket sock)
+      : _log{EAGINE_ID(AsioConnSt), parent}
+      , common{std::move(asio_state)}
       , socket{std::move(sock)} {
         EAGINE_ASSERT(common);
         read_buffer.resize(8 * 1024);
@@ -74,8 +79,9 @@ struct asio_connection_state
     }
 
     asio_connection_state(
+      logger& parent,
       const std::shared_ptr<asio_common_state>& asio_state) noexcept
-      : asio_connection_state{asio_state, Socket{asio_state->context}} {
+      : asio_connection_state{parent, asio_state, Socket{asio_state->context}} {
     }
 
     bool is_usable() const {
@@ -180,19 +186,25 @@ class asio_connection_base
   : public asio_connection_info<connection, Kind, Proto> {
 
 protected:
+    logger _log{};
     std::shared_ptr<asio_connection_state<Socket>> _state;
 
 public:
-    asio_connection_base(std::shared_ptr<asio_common_state> asio_state)
-      : _state{std::make_shared<asio_connection_state<Socket>>(
-          std::move(asio_state))} {
+    asio_connection_base(
+      logger& parent, std::shared_ptr<asio_common_state> asio_state)
+      : _log{EAGINE_ID(AsioConnBs), parent}
+      , _state{std::make_shared<asio_connection_state<Socket>>(
+          _log, std::move(asio_state))} {
         EAGINE_ASSERT(_state);
     }
 
     asio_connection_base(
-      std::shared_ptr<asio_common_state> asio_state, Socket socket)
-      : _state{std::make_shared<asio_connection_state<Socket>>(
-          std::move(asio_state), std::move(socket))} {
+      logger& parent,
+      std::shared_ptr<asio_common_state> asio_state,
+      Socket socket)
+      : _log{EAGINE_ID(AsioConnBs), parent}
+      , _state{std::make_shared<asio_connection_state<Socket>>(
+          _log, std::move(asio_state), std::move(socket))} {
         EAGINE_ASSERT(_state);
     }
 
@@ -309,9 +321,10 @@ class asio_connector<
 
 public:
     asio_connector(
+      logger& parent,
       const std::shared_ptr<asio_common_state>& asio_state,
       string_view addr_str)
-      : base{asio_state}
+      : base{parent, asio_state}
       , _resolver{asio_state->context}
       , _addr_str{to_string(addr_str)} {
     }
@@ -334,6 +347,7 @@ class asio_acceptor<
   asio_connection_addr_kind::ipv4,
   asio_connection_protocol::stream> : public acceptor {
 private:
+    logger _log{};
     std::shared_ptr<asio_common_state> _asio_state;
     std::string _addr_str;
     asio::ip::tcp::acceptor _acceptor;
@@ -353,9 +367,11 @@ private:
 
 public:
     asio_acceptor(
+      logger& parent,
       std::shared_ptr<asio_common_state> asio_state,
       string_view addr_str) noexcept
-      : _asio_state{std::move(asio_state)}
+      : _log{EAGINE_ID(AsioAccptr), parent}
+      , _asio_state{std::move(asio_state)}
       , _addr_str{to_string(addr_str)}
       , _acceptor{_asio_state->context}
       , _socket{_asio_state->context} {
@@ -379,7 +395,7 @@ public:
             auto conn = std::make_unique<asio_connection<
               asio_connection_addr_kind::ipv4,
               asio_connection_protocol::stream>>(
-              _asio_state, std::move(socket));
+              _log, _asio_state, std::move(socket));
             handler(std::move(conn));
         }
         _accepted.clear();
@@ -451,9 +467,10 @@ class asio_connector<
 
 public:
     asio_connector(
+      logger& parent,
       const std::shared_ptr<asio_common_state>& asio_state,
       string_view addr_str)
-      : base{asio_state}
+      : base{parent, asio_state}
       , _endpoint{c_str(addr_str)} {
     }
 
@@ -475,6 +492,7 @@ class asio_acceptor<
   asio_connection_addr_kind::local,
   asio_connection_protocol::stream> : public acceptor {
 private:
+    logger _log{};
     std::shared_ptr<asio_common_state> _asio_state;
     std::string _addr_str;
     asio::local::stream_protocol::acceptor _acceptor;
@@ -504,9 +522,11 @@ private:
 
 public:
     asio_acceptor(
+      logger& parent,
       std::shared_ptr<asio_common_state> asio_state,
       string_view addr_str) noexcept
-      : _asio_state{_prepare(std::move(asio_state), addr_str)}
+      : _log{EAGINE_ID(AsioAccptr), parent}
+      , _asio_state{_prepare(std::move(asio_state), addr_str)}
       , _addr_str{to_string(addr_str)}
       , _acceptor{_asio_state->context,
                   asio::local::stream_protocol::endpoint(_addr_str.c_str())} {
@@ -542,7 +562,7 @@ public:
             auto conn = std::make_unique<asio_connection<
               asio_connection_addr_kind::local,
               asio_connection_protocol::stream>>(
-              _asio_state, std::move(socket));
+              _log, _asio_state, std::move(socket));
             handler(std::move(conn));
         }
         _accepted.clear();
@@ -557,6 +577,7 @@ template <asio_connection_addr_kind Kind, asio_connection_protocol Proto>
 class asio_connection_factory
   : public asio_connection_info<connection_factory, Kind, Proto> {
 private:
+    logger _log{};
     std::shared_ptr<asio_common_state> _asio_state;
 
 public:
@@ -564,22 +585,23 @@ public:
     using connection_factory::make_connector;
 
     asio_connection_factory(
-      std::shared_ptr<asio_common_state> asio_state) noexcept
-      : _asio_state{std::move(asio_state)} {
+      logger& parent, std::shared_ptr<asio_common_state> asio_state) noexcept
+      : _log{EAGINE_ID(AsioConnFc), parent}
+      , _asio_state{std::move(asio_state)} {
     }
 
-    asio_connection_factory()
-      : asio_connection_factory{std::make_shared<asio_common_state>()} {
+    asio_connection_factory(logger& parent)
+      : asio_connection_factory{parent, std::make_shared<asio_common_state>()} {
     }
 
     std::unique_ptr<acceptor> make_acceptor(string_view addr_str) final {
         return std::make_unique<asio_acceptor<Kind, Proto>>(
-          _asio_state, addr_str);
+          _log, _asio_state, addr_str);
     }
 
     std::unique_ptr<connection> make_connector(string_view addr_str) final {
         return std::make_unique<asio_connector<Kind, Proto>>(
-          _asio_state, addr_str);
+          _log, _asio_state, addr_str);
     }
 };
 //------------------------------------------------------------------------------
