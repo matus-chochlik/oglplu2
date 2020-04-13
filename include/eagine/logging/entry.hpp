@@ -97,7 +97,8 @@ public:
         return arg(name, EAGINE_ID(id), value);
     }
 
-    log_entry& arg(identifier name, identifier tag, int value) noexcept {
+    log_entry& arg(
+      identifier name, identifier tag, std::int64_t value) noexcept {
         if(_backend) {
             _args.add([=](logger_backend& backend) {
                 backend.add_integer(name, tag, value);
@@ -106,11 +107,40 @@ public:
         return *this;
     }
 
-    log_entry& arg(identifier name, int value) noexcept {
-        return arg(name, EAGINE_ID(int), value);
+    log_entry& arg(identifier name, std::int64_t value) noexcept {
+        return arg(name, EAGINE_ID(int64), value);
     }
 
-    log_entry& arg(identifier name, identifier tag, unsigned value) noexcept {
+    log_entry& arg(
+      identifier name, identifier tag, std::int32_t value) noexcept {
+        if(_backend) {
+            _args.add([=](logger_backend& backend) {
+                backend.add_integer(name, tag, value);
+            });
+        }
+        return *this;
+    }
+
+    log_entry& arg(identifier name, std::int32_t value) noexcept {
+        return arg(name, EAGINE_ID(int32), value);
+    }
+
+    log_entry& arg(
+      identifier name, identifier tag, std::int16_t value) noexcept {
+        if(_backend) {
+            _args.add([=](logger_backend& backend) {
+                backend.add_integer(name, tag, value);
+            });
+        }
+        return *this;
+    }
+
+    log_entry& arg(identifier name, std::int16_t value) noexcept {
+        return arg(name, EAGINE_ID(int16), value);
+    }
+
+    log_entry& arg(
+      identifier name, identifier tag, std::uint64_t value) noexcept {
         if(_backend) {
             _args.add([=](logger_backend& backend) {
                 backend.add_unsigned(name, tag, value);
@@ -119,8 +149,36 @@ public:
         return *this;
     }
 
-    log_entry& arg(identifier name, unsigned value) noexcept {
-        return arg(name, EAGINE_ID(uint), value);
+    log_entry& arg(identifier name, std::uint64_t value) noexcept {
+        return arg(name, EAGINE_ID(uint64), value);
+    }
+
+    log_entry& arg(
+      identifier name, identifier tag, std::uint32_t value) noexcept {
+        if(_backend) {
+            _args.add([=](logger_backend& backend) {
+                backend.add_unsigned(name, tag, value);
+            });
+        }
+        return *this;
+    }
+
+    log_entry& arg(identifier name, std::uint32_t value) noexcept {
+        return arg(name, EAGINE_ID(uint32), value);
+    }
+
+    log_entry& arg(
+      identifier name, identifier tag, std::uint16_t value) noexcept {
+        if(_backend) {
+            _args.add([=](logger_backend& backend) {
+                backend.add_unsigned(name, tag, value);
+            });
+        }
+        return *this;
+    }
+
+    log_entry& arg(identifier name, std::uint16_t value) noexcept {
+        return arg(name, EAGINE_ID(uint16), value);
     }
 
     log_entry& arg(identifier name, identifier tag, float value) noexcept {

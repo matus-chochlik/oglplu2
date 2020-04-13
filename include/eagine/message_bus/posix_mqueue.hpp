@@ -230,6 +230,8 @@ public:
 template <typename Base>
 class posix_mqueue_connection_info : public Base {
 public:
+    using Base::Base;
+
     connection_kind kind() final {
         return connection_kind::local_interprocess;
     }
@@ -246,7 +248,8 @@ class posix_mqueue_connection
 public:
     using fetch_handler = connection::fetch_handler;
 
-    posix_mqueue_connection() {
+    posix_mqueue_connection(logger& parent)
+      : _log{EAGINE_ID(MQueConn), parent} {
         _buffer.resize(_data_queue.data_size());
     }
 
@@ -352,6 +355,7 @@ protected:
         });
     }
 
+    logger _log{};
     std::mutex _mutex;
     memory::buffer _buffer;
     message_storage _incoming;
@@ -361,15 +365,19 @@ protected:
 };
 //------------------------------------------------------------------------------
 class posix_mqueue_connector : public posix_mqueue_connection {
+    using base = posix_mqueue_connection;
+
 public:
     using fetch_handler = connection::fetch_handler;
 
-    posix_mqueue_connector(std::string name) noexcept
-      : _connect_queue{std::move(name)} {
+    posix_mqueue_connector(logger& parent, std::string name) noexcept
+      : base{parent}
+      , _connect_queue{std::move(name)} {
     }
 
-    posix_mqueue_connector(identifier id)
-      : _connect_queue{posix_mqueue::name_from(id)} {
+    posix_mqueue_connector(logger& parent, identifier id)
+      : base{parent}
+      , _connect_queue{posix_mqueue::name_from(id)} {
     }
 
     posix_mqueue_connector(posix_mqueue_connector&&) = delete;
@@ -406,13 +414,14 @@ class posix_mqueue_acceptor : public acceptor {
 public:
     using accept_handler = acceptor::accept_handler;
 
-    posix_mqueue_acceptor(std::string name) noexcept
-      : _accept_queue{std::move(name)} {
+    posix_mqueue_acceptor(logger& parent, std::string name) noexcept
+      : _log{EAGINE_ID(MQueConnAc), parent}
+      , _accept_queue{std::move(name)} {
         _buffer.resize(_accept_queue.data_size());
     }
 
-    posix_mqueue_acceptor(identifier id)
-      : posix_mqueue_acceptor{posix_mqueue::name_from(id)} {
+    posix_mqueue_acceptor(logger& parent, identifier id)
+      : posix_mqueue_acceptor{parent, posix_mqueue::name_from(id)} {
     }
 
     posix_mqueue_acceptor(posix_mqueue_acceptor&&) noexcept = default;
@@ -475,14 +484,14 @@ private:
     }
 
     void _process(const accept_handler& handler) {
-        auto fetch_handler = [&handler](
+        auto fetch_handler = [this, &handler](
                                identifier_t class_id,
                                identifier_t method_id,
                                const message_view& message) -> bool {
             EAGINE_ASSERT((EAGINE_MSG_ID(eagiMsgBus, pmqConnect)
                              .matches(class_id, method_id)));
 
-            if(auto conn = std::make_unique<posix_mqueue_connection>()) {
+            if(auto conn = std::make_unique<posix_mqueue_connection>(_log)) {
                 if(conn->open(to_string(as_chars(message.data)))) {
                     handler(std::move(conn));
                 }
@@ -492,8 +501,9 @@ private:
         _requests.fetch_all(message_storage::fetch_handler{fetch_handler});
     }
 
-    memory::buffer _buffer;
-    message_storage _requests;
+    logger _log{};
+    memory::buffer _buffer{};
+    message_storage _requests{};
     posix_mqueue _accept_queue{};
 };
 //------------------------------------------------------------------------------
@@ -511,11 +521,13 @@ public:
     using connection_factory::make_connector;
 
     std::unique_ptr<acceptor> make_acceptor(string_view address) final {
-        return std::make_unique<posix_mqueue_acceptor>(to_string(address));
+        return std::make_unique<posix_mqueue_acceptor>(
+          _log, to_string(address));
     }
 
     std::unique_ptr<connection> make_connector(string_view address) final {
-        return std::make_unique<posix_mqueue_connector>(to_string(address));
+        return std::make_unique<posix_mqueue_connector>(
+          _log, to_string(address));
     }
 };
 //------------------------------------------------------------------------------

@@ -76,6 +76,11 @@ struct asio_connection_state
         zero(cover(read_buffer));
         write_buffer.resize(read_buffer.size());
         zero(cover(write_buffer));
+
+        _log.debug("allocating write buffer of ${size}")
+          .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), write_buffer.size());
+        _log.debug("allocating read buffer of ${size}")
+          .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), read_buffer.size());
     }
 
     asio_connection_state(
@@ -359,6 +364,8 @@ private:
         _socket = asio::ip::tcp::socket(this->_asio_state->context);
         _acceptor.async_accept(_socket, [this](std::error_code error) {
             if(!error) {
+                this->_log.debug("accepted connection on address ${addr}")
+                  .arg(EAGINE_ID(addr), _addr_str);
                 this->_accepted.emplace_back(std::move(this->_socket));
             }
             _start_accept();
@@ -508,6 +515,8 @@ private:
             if(error) {
                 this->_accepting = false;
             } else {
+                this->_log.debug("accepted connection on address ${addr}")
+                  .arg(EAGINE_ID(addr), _addr_str);
                 this->_accepted.emplace_back(std::move(socket));
             }
             _start_accept();
