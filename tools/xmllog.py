@@ -1,5 +1,4 @@
-
-#!/usr/bin/env python3
+#!/usr/bin/python3
 # coding=utf-8
 # Copyright Matus Chochlik.
 # Distributed under the Boost Software License, Version 1.0.
@@ -36,7 +35,7 @@ class XmlLogFormatter(object):
             self._out.write("┝")
             for sid in self._sources:
                 self._out.write("━┿")
-            self._out.write("━┯━┥starting log│\n")
+            self._out.write("━┯━┑starting log│\n")
             self._out.write("┊")
             for sid in self._sources:
                 self._out.write(" ┊")
@@ -46,15 +45,43 @@ class XmlLogFormatter(object):
     # --------------------------------------------------------------------------
     def finishLog(self, srcid):
         with self._lock:
-            self._sources = [sid for sid in self._sources if sid != srcid]
-            self._out.write("┝")
-            for sid in self._sources:
-                self._out.write("━┿")
-            self._out.write("━┷━┥finished log│\n")
+            # L1
             self._out.write("┊")
+            conn = False
             for sid in self._sources:
-                self._out.write(" ┊")
-            self._out.write("   ╰┄┄┄┄┄┄┄┄┄┄┄┄╯\n")
+                if sid == srcid:
+                    conn = True
+                    self._out.write(" ┝")
+                elif conn:
+                    self._out.write("━┿")
+                else:
+                    self._out.write(" ┊")
+            self._out.write("━┑closing  log│\n")
+            # L2
+            self._out.write("├")
+            conn = False
+            for sid in self._sources:
+                if sid == srcid:
+                    conn = True
+                    self._out.write("┈╯")
+                elif conn:
+                    self._out.write("╭╯")
+                else:
+                    self._out.write("┈┼")
+            self._out.write(" ╰┄┄┄┄┄┄┄┄┄┄┄┄╯\n")
+            # L3
+            self._out.write("┊")
+            conn = False
+            for sid in self._sources:
+                if sid == srcid:
+                    conn = True
+                    self._out.write(" ")
+                elif conn:
+                    self._out.write("╭╯")
+                else:
+                    self._out.write(" ┊")
+            self._out.write("\n")
+            self._sources = [sid for sid in self._sources if sid != srcid]
 
     # --------------------------------------------------------------------------
     def translateArg(self, arg, info):
@@ -93,7 +120,7 @@ class XmlLogFormatter(object):
                     self._out.write("━┿")
                 else:
                     self._out.write(" ┊")
-            self._out.write("━┥")
+            self._out.write("━┑")
             self._out.write("%7s│" % info["level"])
             self._out.write(message)
             self._out.write("\n")
