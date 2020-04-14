@@ -115,6 +115,8 @@ private:
                   connection::fetch_handler(handler));
                 // if we got the endpoint id message from the connection
                 if(id != 0) {
+                    _log.debug("adopting pending ${type} connection")
+                      .arg(EAGINE_ID(type), pending.the_connection->type_id());
                     _endpoints[id].connections.emplace_back(
                       std::move(pending.the_connection));
                     _pending.erase(_pending.begin() + pos);
@@ -131,7 +133,14 @@ private:
             _pending.begin(),
             _pending.end(),
             [this](auto& pending) {
-                return pending.age() > this->_pending_timeout;
+                if(pending.age() > this->_pending_timeout) {
+                    this->_log
+                      .debug("removing timeouted pending ${type} connection")
+                      .arg(EAGINE_ID(type), pending.the_connection->type_id())
+                      .arg(EAGINE_ID(age), pending.age());
+                    return true;
+                }
+                return false;
             }),
           _pending.end());
     }
@@ -147,7 +156,14 @@ private:
                   std::remove_if(
                     conns.begin(),
                     conns.end(),
-                    [](auto& conn) { return !conn || !conn->is_usable(); }),
+                    [this](auto& conn) {
+                        if(!conn || !conn->is_usable()) {
+                            this->_log.debug(
+                              "removing disconnected connection");
+                            return true;
+                        }
+                        return false;
+                    }),
                   conns.end());
             }
         }
@@ -188,9 +204,12 @@ private:
             if(EAGINE_ID(notARouter).matches(method_id)) {
                 if(incoming_id == message.source_id) {
                     endpoint.maybe_router = false;
+                    _log.debug("endpoint ${source} is not a router")
+                      .arg(EAGINE_ID(source), identifier(message.source_id));
                     return true;
                 }
             } else if(EAGINE_ID(clrBlkList).matches(method_id)) {
+                _log.debug("clearing blacklist");
                 endpoint.message_blacklist.clear();
                 return true;
             } else if(EAGINE_ID(msgBlkList).matches(method_id)) {
@@ -200,11 +219,21 @@ private:
                 if(default_deserialize(blk_msg_id, message.data)) {
                     // messages with eagiMsgBus class cannot be blacklisted
                     if(!emb_id.matches(blk_class_id)) {
+                        _log
+                          .debug(
+                            "blacklisting message ${clss}.${method} from "
+                            "endpoint ${source}")
+                          .arg(EAGINE_ID(clss), identifier(class_id))
+                          .arg(EAGINE_ID(method), identifier(method_id))
+                          .arg(
+                            EAGINE_ID(source), identifier(message.source_id));
                         endpoint.message_blacklist.insert(blk_msg_id);
                     }
                 }
                 return true;
             } else if(EAGINE_ID(byeBye).matches(method_id)) {
+                _log.debug("received bye-bye from endpoint ${source}")
+                  .arg(EAGINE_ID(source), identifier(message.source_id));
                 endpoint.do_disconnect = true;
                 return true;
             }

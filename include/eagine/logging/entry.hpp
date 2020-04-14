@@ -195,6 +195,29 @@ public:
         return arg(name, EAGINE_ID(real), value);
     }
 
+    template <typename R, typename P>
+    log_entry& arg(
+      identifier name,
+      identifier tag,
+      std::chrono::duration<R, P> value) noexcept {
+        if(_backend) {
+            _args.add([=](logger_backend& backend) {
+                backend.add_duration(
+                  name,
+                  tag,
+                  std::chrono::duration_cast<std::chrono::duration<float>>(
+                    value));
+            });
+        }
+        return *this;
+    }
+
+    template <typename R, typename P>
+    log_entry& arg(
+      identifier name, std::chrono::duration<R, P> value) noexcept {
+        return arg(name, EAGINE_ID(real), value);
+    }
+
     log_entry& arg(
       identifier name, identifier tag, string_view value) noexcept {
         if(_backend) {
