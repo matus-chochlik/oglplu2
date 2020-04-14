@@ -483,13 +483,17 @@ class asio_connector<
           [this](std::error_code) mutable { this->_connecting = false; });
     }
 
+    static inline auto _fix_addr(string_view addr_str) noexcept {
+        return addr_str ? addr_str : string_view{"/tmp/eagine-msgbus.socket"};
+    }
+
 public:
     asio_connector(
       logger& parent,
       const std::shared_ptr<asio_common_state>& asio_state,
       string_view addr_str)
       : base{parent, asio_state}
-      , _endpoint{c_str(addr_str)} {
+      , _endpoint{c_str(_fix_addr(addr_str))} {
     }
 
     void update() final {
@@ -543,6 +547,10 @@ private:
         });
     }
 
+    static inline auto _fix_addr(string_view addr_str) noexcept {
+        return addr_str ? addr_str : string_view{"/tmp/eagine-msgbus.socket"};
+    }
+
     static inline std::shared_ptr<asio_common_state> _prepare(
       std::shared_ptr<asio_common_state> asio_state, string_view addr_str) {
         std::remove(c_str(addr_str));
@@ -555,8 +563,8 @@ public:
       std::shared_ptr<asio_common_state> asio_state,
       string_view addr_str) noexcept
       : _log{EAGINE_ID(AsioAccptr), parent}
-      , _asio_state{_prepare(std::move(asio_state), addr_str)}
-      , _addr_str{to_string(addr_str)}
+      , _asio_state{_prepare(std::move(asio_state), _fix_addr(addr_str))}
+      , _addr_str{to_string(_fix_addr(addr_str))}
       , _acceptor{_asio_state->context,
                   asio::local::stream_protocol::endpoint(_addr_str.c_str())} {
     }
