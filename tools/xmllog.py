@@ -122,12 +122,13 @@ class XmlLogFormatter(object):
                     self._out.write(" ┊")
             self._out.write("━┑")
             self._out.write("%7s│" % info["level"])
+            self._out.write("%10s│" % info["source"])
             self._out.write(message)
             self._out.write("\n")
             self._out.write("┊")
             for sid in self._sources:
                 self._out.write(" ┊")
-            self._out.write(" ╰┄┄┄┄┄┄┄╯\n")
+            self._out.write(" ╰┄┄┄┄┄┄┄┴┄┄┄┄┄┄┄┄┄┄╯\n")
             self._out.flush()
 
 # ------------------------------------------------------------------------------
