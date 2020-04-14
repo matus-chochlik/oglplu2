@@ -19,21 +19,27 @@ public:
     using base = actor<2>;
     using base::bus;
 
-    pong(connection_setup& conn_setup)
+    pong(logger& parent, connection_setup& conn_setup)
       : base(
           this,
           EAGINE_MSG_MAP(PingPong, Ping, pong, ping),
-          EAGINE_MSG_MAP(PingPong, Shutdown, pong, shutdown)) {
+          EAGINE_MSG_MAP(PingPong, Shutdown, pong, shutdown))
+      , _log{EAGINE_ID(ExamplPong), parent}
+      , _lmod{running_on_valgrind() ? 1000U : 10000U} {
         conn_setup.setup_connectors(*this, connection_kind::local_interprocess);
     }
 
     bool ping(stored_message& msg_in) {
         bus().respond_to(msg_in, EAGINE_MSG_ID(PingPong, Pong));
+        if(++_sent % _lmod == 0) {
+            _log.info("sent ${count} pongs").arg(EAGINE_ID(count), _sent);
+        }
         return true;
     }
 
     bool shutdown(stored_message&) {
         _done = true;
+        _log.info("received shutdown message");
         return true;
     }
 
@@ -42,6 +48,9 @@ public:
     }
 
 private:
+    logger _log{};
+    std::size_t _lmod{1};
+    std::size_t _sent{0};
     bool _done{false};
 };
 //------------------------------------------------------------------------------
@@ -57,7 +66,7 @@ int main(int argc, const char** argv) {
     msgbus::connection_setup conn_setup(log);
     conn_setup.default_init(args);
 
-    msgbus::pong pong(conn_setup);
+    msgbus::pong pong(log, conn_setup);
 
     while(!pong.is_done()) {
         pong.process_one();
