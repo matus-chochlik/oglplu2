@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 # coding=utf-8
 # Copyright Matus Chochlik.
 # Distributed under the Boost Software License, Version 1.0.
@@ -217,7 +217,15 @@ def main(args):
             os.mkfifo(arg)
 
     formatter = XmlLogFormatter(sys.stdout)
-    procs = [XmlLogProcessor(open(arg, "rt"), arg, formatter) for arg in args]
+    if args:
+        procs = [
+            XmlLogProcessor(open(arg, "rt"), arg, formatter)
+            for arg in args
+        ]
+    else:
+        procs = [
+            XmlLogProcessor(sys.stdin, "stdin", formatter)
+        ]
 
     for proc in procs:
         try:
