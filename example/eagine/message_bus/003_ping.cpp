@@ -22,7 +22,8 @@ public:
     ping(logger& parent, connection_setup& conn_setup)
       : base(this, EAGINE_MSG_MAP(PingPong, Pong, ping, pong))
       , _log{EAGINE_ID(ExamplPing), parent}
-      , _lmod{running_on_valgrind() ? 1000U : 10000U} {
+      , _lmod{running_on_valgrind() ? 1000U : 10000U}
+      , _max{running_on_valgrind() ? 100000U : 1000000U} {
         conn_setup.setup_connectors(*this, connection_kind::local_interprocess);
     }
 
@@ -39,14 +40,16 @@ public:
     }
 
     void update() {
-        bus().send(EAGINE_MSG_ID(PingPong, Ping));
-        if(++_sent % _lmod == 0) {
-            _log.info("sent ${count} pings").arg(EAGINE_ID(count), _sent);
+        if((_sent < _max) || (_rcvd > 0)) {
+            bus().send(EAGINE_MSG_ID(PingPong, Ping));
+            if(++_sent % _lmod == 0) {
+                _log.info("sent ${count} pings").arg(EAGINE_ID(count), _sent);
+            }
         }
     }
 
     bool is_done() const noexcept {
-        return _rcvd >= _max;
+        return (_rcvd >= _max) || (_sent >= _max * 2);
     }
 
 private:
@@ -54,7 +57,7 @@ private:
     std::size_t _lmod{1};
     std::size_t _sent{0};
     std::size_t _rcvd{0};
-    const std::size_t _max{10};
+    const std::size_t _max{1000000};
 };
 //------------------------------------------------------------------------------
 } // namespace msgbus

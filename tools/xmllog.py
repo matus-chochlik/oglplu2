@@ -30,20 +30,22 @@ class XmlLogFormatter(object):
             self._out.close()
 
     # --------------------------------------------------------------------------
-    def beginLog(self, srcid, info):
+    def beginLog(self, srcid, name, info):
         with self._lock:
             self._out.write("┝")
             for sid in self._sources:
                 self._out.write("━┿")
-            self._out.write("━┯━┑starting log│\n")
+            self._out.write("━┯━┑starting log│")
+            self._out.write(name)
+            self._out.write("\n")
             self._out.write("┊")
             for sid in self._sources:
-                self._out.write(" ┊")
-            self._out.write(" ┊ ╰┄┄┄┄┄┄┄┄┄┄┄┄╯\n")
+                self._out.write(" │")
+            self._out.write(" │ ╰────────────╯\n")
             self._sources.append(srcid)
 
     # --------------------------------------------------------------------------
-    def finishLog(self, srcid):
+    def finishLog(self, srcid, name):
         with self._lock:
             # L1
             self._out.write("┊")
@@ -51,24 +53,26 @@ class XmlLogFormatter(object):
             for sid in self._sources:
                 if sid == srcid:
                     conn = True
-                    self._out.write(" ┝")
+                    self._out.write(" ┕")
                 elif conn:
                     self._out.write("━┿")
                 else:
-                    self._out.write(" ┊")
-            self._out.write("━┑closing  log│\n")
+                    self._out.write(" │")
+            self._out.write("━┑closing  log│")
+            self._out.write(name)
+            self._out.write("\n")
             # L2
-            self._out.write("├")
+            self._out.write("┊")
             conn = False
             for sid in self._sources:
                 if sid == srcid:
                     conn = True
-                    self._out.write("┈╯")
+                    self._out.write("  ")
                 elif conn:
                     self._out.write("╭╯")
                 else:
-                    self._out.write("┈┼")
-            self._out.write(" ╰┄┄┄┄┄┄┄┄┄┄┄┄╯\n")
+                    self._out.write(" │")
+            self._out.write(" ╰────────────╯\n")
             # L3
             self._out.write("┊")
             conn = False
@@ -79,7 +83,7 @@ class XmlLogFormatter(object):
                 elif conn:
                     self._out.write("╭╯")
                 else:
-                    self._out.write(" ┊")
+                    self._out.write(" │")
             self._out.write("\n")
             self._sources = [sid for sid in self._sources if sid != srcid]
 
@@ -107,7 +111,7 @@ class XmlLogFormatter(object):
         with self._lock:
             self._out.write("┊")
             for sid in self._sources:
-                self._out.write(" ┊")
+                self._out.write(" │")
             self._out.write("\n")
 
             self._out.write("┊")
@@ -119,7 +123,7 @@ class XmlLogFormatter(object):
                 elif conn:
                     self._out.write("━┿")
                 else:
-                    self._out.write(" ┊")
+                    self._out.write(" │")
             self._out.write("━┑")
             self._out.write("%7s│" % info["level"])
             self._out.write("%10s│" % info["source"])
@@ -127,16 +131,18 @@ class XmlLogFormatter(object):
             self._out.write("\n")
             self._out.write("┊")
             for sid in self._sources:
-                self._out.write(" ┊")
-            self._out.write(" ╰┄┄┄┄┄┄┄┴┄┄┄┄┄┄┄┄┄┄╯\n")
+                self._out.write(" │")
+            self._out.write(" ╰───────┴──────────╯")
+            self._out.write("\n")
             self._out.flush()
 
 # ------------------------------------------------------------------------------
 class XmlLogProcessor(threading.Thread, xml.sax.ContentHandler):
     # --------------------------------------------------------------------------
-    def __init__(self, xml_input, processor):
+    def __init__(self, xml_input, name, processor):
         threading.Thread.__init__(self, target=self.run)
         self._xmlin = xml_input
+        self._name = name
         self._srcid = hash(self._xmlin)
         self._proc = processor
         self._ctag = None
@@ -152,7 +158,7 @@ class XmlLogProcessor(threading.Thread, xml.sax.ContentHandler):
     def startElement(self, tag, attr):
         self._ctag = tag
         if tag == "log":
-            self._proc.beginLog(self._srcid, attr)
+            self._proc.beginLog(self._srcid, self._name, attr)
         elif tag == "m":
             self._info = {
                 r: attr[k] for k, r in [
@@ -175,7 +181,7 @@ class XmlLogProcessor(threading.Thread, xml.sax.ContentHandler):
     # --------------------------------------------------------------------------
     def endElement(self, tag):
         if tag == "log":
-            self._proc.finishLog(self._srcid)
+            self._proc.finishLog(self._srcid, self._name)
         elif tag == "m":
             self._proc.addMessage(self._srcid, self._info)
             self._info = None
@@ -199,7 +205,10 @@ class XmlLogProcessor(threading.Thread, xml.sax.ContentHandler):
 
     # --------------------------------------------------------------------------
     def run(self):
-        self.process()
+        try:
+            self.process()
+        except KeyboardInterrupt:
+            pass
 
 # ------------------------------------------------------------------------------
 def main(args):
@@ -208,14 +217,20 @@ def main(args):
             os.mkfifo(arg)
 
     formatter = XmlLogFormatter(sys.stdout)
-    procs = [XmlLogProcessor(open(arg, "rt"), formatter) for arg in args]
+    procs = [XmlLogProcessor(open(arg, "rt"), arg, formatter) for arg in args]
 
-    for p in procs:
-        p.join()
+    for proc in procs:
+        try:
+            proc.join()
+        except KeyboardInterrupt:
+            pass
 
     return 0
 
 # ------------------------------------------------------------------------------
 if __name__ == "__main__":
-    sys.exit(main(sys.argv[1:]))
+    try:
+        sys.exit(main(sys.argv[1:]))
+    except KeyboardInterrupt:
+        pass
 
