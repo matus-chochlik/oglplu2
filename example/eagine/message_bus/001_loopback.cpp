@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/logging/root_logger.hpp>
 #include <eagine/memory/span_algo.hpp>
 #include <eagine/message_bus/endpoint.hpp>
 #include <eagine/message_bus/loopback.hpp>
@@ -20,17 +21,21 @@ struct str_utils_server : subscriber<1> {
     using base = subscriber<1>;
     using base::bus;
 
-    str_utils_server(endpoint& ep)
-      : base(
-          ep, this, EAGINE_MSG_MAP(StrUtilReq, Reverse, this_class, reverse)) {
+    str_utils_server(logger& parent, endpoint& ep)
+      : base(ep, this, EAGINE_MSG_MAP(StrUtilReq, Reverse, this_class, reverse))
+      , _log{EAGINE_ID(Server), parent} {
     }
 
     bool reverse(stored_message& msg) {
         auto str = as_chars(cover(msg.data));
+        _log.trace("received request: ${content}").arg(EAGINE_ID(content), str);
         memory::reverse(str);
         bus().send(EAGINE_MSG_ID(StrUtilRes, Reverse), as_bytes(str));
         return true;
     }
+
+private:
+    logger _log{};
 };
 //------------------------------------------------------------------------------
 struct str_utils_client : subscriber<1> {
@@ -38,8 +43,9 @@ struct str_utils_client : subscriber<1> {
     using base = subscriber<1>;
     using base::bus;
 
-    str_utils_client(endpoint& ep)
-      : base(ep, this, EAGINE_MSG_MAP(StrUtilRes, Reverse, this_class, print)) {
+    str_utils_client(logger& parent, endpoint& ep)
+      : base(ep, this, EAGINE_MSG_MAP(StrUtilRes, Reverse, this_class, print))
+      , _log{EAGINE_ID(Client), parent} {
     }
 
     void call_reverse(string_view str) {
@@ -48,7 +54,8 @@ struct str_utils_client : subscriber<1> {
     }
 
     bool print(stored_message& msg) {
-        std::cout << view(msg.data) << std::endl;
+        _log.info("received response: ${content}")
+          .arg(EAGINE_ID(content), as_chars(view(msg.data)));
         --_remaining;
         return true;
     }
@@ -58,21 +65,25 @@ struct str_utils_client : subscriber<1> {
     }
 
 private:
+    logger _log{};
     int _remaining{0};
 };
 //------------------------------------------------------------------------------
 } // namespace msgbus
 } // namespace eagine
 
-int main() {
+int main(int argc, const char** argv) {
     using namespace eagine;
+
+    program_args args(argc, argv);
+    root_logger log(args);
 
     msgbus::endpoint bus;
     bus.set_id(EAGINE_ID(BusExample));
     bus.add_connection(std::make_unique<msgbus::loopback_connection>());
 
-    msgbus::str_utils_server server(bus);
-    msgbus::str_utils_client client(bus);
+    msgbus::str_utils_server server(log, bus);
+    msgbus::str_utils_client client(log, bus);
 
     client.call_reverse("foo");
     client.call_reverse("bar");
