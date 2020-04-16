@@ -277,6 +277,17 @@ private:
     const log_event_severity _severity{log_event_severity::info};
 };
 //------------------------------------------------------------------------------
+struct no_log_entry {
+    template <typename T>
+    constexpr inline no_log_entry& arg(identifier, T&&) noexcept {
+        return *this;
+    }
+    template <typename T>
+    constexpr inline no_log_entry& arg(identifier, identifier, T&&) noexcept {
+        return *this;
+    }
+};
+//------------------------------------------------------------------------------
 } // namespace eagine
 
 #endif // EAGINE_LOGGING_ENTRY_HPP
