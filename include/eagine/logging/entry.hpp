@@ -13,6 +13,7 @@
 #include "../branch_predict.hpp"
 #include "../memory/default_alloc.hpp"
 #include "../memory/object_storage.hpp"
+#include "../message_id.hpp"
 #include "backend.hpp"
 #include <stdexcept>
 
@@ -96,6 +97,42 @@ public:
 
     log_entry& arg(identifier name, identifier value) noexcept {
         return arg(name, EAGINE_ID(id), value);
+    }
+
+    log_entry& arg(
+      identifier name, identifier tag, message_id_tuple value) noexcept {
+        if(_backend) {
+            _args.add([=](logger_backend& backend) {
+                backend.add_message_id(
+                  name,
+                  tag,
+                  identifier(std::get<0>(value)),
+                  identifier(std::get<1>(value)));
+            });
+        }
+        return *this;
+    }
+
+    log_entry& arg(identifier name, message_id_tuple value) noexcept {
+        return arg(name, EAGINE_ID(MessageId), value);
+    }
+
+    template <identifier_t ClassId, identifier_t MethodId>
+    log_entry& arg(
+      identifier name, identifier tag, message_id<ClassId, MethodId>) noexcept {
+        if(_backend) {
+            _args.add([=](logger_backend& backend) {
+                backend.add_message_id(
+                  name, tag, identifier(ClassId), identifier(MethodId));
+            });
+        }
+        return *this;
+    }
+
+    template <identifier_t ClassId, identifier_t MethodId>
+    log_entry& arg(
+      identifier name, message_id<ClassId, MethodId> value) noexcept {
+        return arg(name, EAGINE_ID(MessageId), value);
     }
 
     log_entry& arg(

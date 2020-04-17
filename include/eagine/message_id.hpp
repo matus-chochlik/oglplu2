@@ -25,8 +25,12 @@ struct message_id {
     }
 };
 //------------------------------------------------------------------------------
+struct message_id_tuple : std::tuple<identifier_t, identifier_t> {
+    using std::tuple<identifier_t, identifier_t>::tuple;
+};
+//------------------------------------------------------------------------------
 template <identifier_t ClassId, identifier_t MethodId>
-constexpr inline std::tuple<identifier_t, identifier_t> as_tuple(
+constexpr inline message_id_tuple as_tuple(
   message_id<ClassId, MethodId>) noexcept {
     return {ClassId, MethodId};
 }

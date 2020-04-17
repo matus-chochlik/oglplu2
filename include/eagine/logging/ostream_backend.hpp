@@ -107,6 +107,18 @@ public:
         }
     }
 
+    void add_message_id(
+      identifier arg,
+      identifier tag,
+      identifier clss,
+      identifier method) noexcept final {
+        try {
+            _out << "<a n='" << arg.name() << "' t='" << tag.name() << "'>"
+                 << clss.name() << "." << method.name() << "</a>";
+        } catch(...) {
+        }
+    }
+
     void add_bool(identifier arg, identifier tag, bool value) noexcept final {
         try {
             _out << "<a n='" << arg.name() << "' t='" << tag.name() << "'>"

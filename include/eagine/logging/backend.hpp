@@ -46,6 +46,12 @@ struct logger_backend {
     virtual void add_identifier(
       identifier arg, identifier tag, identifier value) noexcept = 0;
 
+    virtual void add_message_id(
+      identifier arg,
+      identifier tag,
+      identifier clss,
+      identifier method) noexcept = 0;
+
     virtual void add_bool(
       identifier arg, identifier tag, bool value) noexcept = 0;
 

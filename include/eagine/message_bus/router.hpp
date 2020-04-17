@@ -93,7 +93,7 @@ private:
 
         if(!_pending.empty()) {
             identifier_t id = 0;
-            auto handler = [&id](
+            auto handler = [this, &id](
                              identifier_t class_id,
                              identifier_t method_id,
                              const message_view& msg) {
@@ -101,6 +101,8 @@ private:
                 if(EAGINE_MSG_ID(eagiMsgBus, announceId)
                      .matches(class_id, method_id)) {
                     id = msg.source_id;
+                    this->_log.debug("received endpoint id ${id}")
+                      .arg(EAGINE_ID(id), id);
                     return true;
                 }
                 return false;
@@ -115,8 +117,9 @@ private:
                   connection::fetch_handler(handler));
                 // if we got the endpoint id message from the connection
                 if(id != 0) {
-                    _log.debug("adopting pending ${type} connection")
-                      .arg(EAGINE_ID(type), pending.the_connection->type_id());
+                    _log.debug("adopting pending ${type} connection from ${id}")
+                      .arg(EAGINE_ID(type), pending.the_connection->type_id())
+                      .arg(EAGINE_ID(id), id);
                     _endpoints[id].connections.emplace_back(
                       std::move(pending.the_connection));
                     _pending.erase(_pending.begin() + pos);
@@ -209,7 +212,7 @@ private:
                     return true;
                 }
             } else if(EAGINE_ID(clrBlkList).matches(method_id)) {
-                _log.debug("clearing blacklist");
+                _log.debug("clearing router blacklist");
                 endpoint.message_blacklist.clear();
                 return true;
             } else if(EAGINE_ID(msgBlkList).matches(method_id)) {
@@ -221,10 +224,11 @@ private:
                     if(!emb_id.matches(blk_class_id)) {
                         _log
                           .debug(
-                            "blacklisting message ${clss}.${method} from "
+                            "blacklisting message ${message} from "
                             "endpoint ${source}")
-                          .arg(EAGINE_ID(clss), identifier(class_id))
-                          .arg(EAGINE_ID(method), identifier(method_id))
+                          .arg(
+                            EAGINE_ID(message),
+                            message_id_tuple(class_id, method_id))
                           .arg(
                             EAGINE_ID(source), identifier(message.source_id));
                         endpoint.message_blacklist.insert(blk_msg_id);
@@ -265,6 +269,9 @@ private:
                     }
                 }
             }
+        } else {
+            _log.warning("message ${message} discarded after too many hops")
+              .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id));
         }
         return true;
     }
