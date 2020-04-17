@@ -8,3 +8,8 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
 	set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Build type (default Release)")
 endif()
 
+if("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
+	set(EAGINE_DEBUG 0)
+else()
+	set(EAGINE_DEBUG 1)
+endif()

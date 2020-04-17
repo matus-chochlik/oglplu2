@@ -17,6 +17,10 @@
 #define EAGINE_LOW_PROFILE 0
 #endif
 
+#ifndef EAGINE_DEBUG
+#define EAGINE_DEBUG 1
+#endif
+
 #ifndef EAGINE_LINK_LIBRARY
 #define EAGINE_LINK_LIBRARY 0
 #endif

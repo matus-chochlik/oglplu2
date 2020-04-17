@@ -10,10 +10,23 @@
 #ifndef EAGINE_LOGGING_CONFIG_HPP
 #define EAGINE_LOGGING_CONFIG_HPP
 
+#include "../config/basic.hpp"
 #include "../int_constant.hpp"
 #include "severity.hpp"
 
 namespace eagine {
+//------------------------------------------------------------------------------
+#ifndef EAGINE_MIN_LOG_SEVERITY
+#if EAGINE_LOW_PROFILE
+#define EAGINE_MIN_LOG_SEVERITY warning
+#else
+#if EAGINE_DEBUG
+#define EAGINE_MIN_LOG_SEVERITY info
+#else
+#define EAGINE_MIN_LOG_SEVERITY trace
+#endif
+#endif
+#endif
 //------------------------------------------------------------------------------
 template <log_event_severity severity>
 using log_event_severity_constant =
@@ -21,7 +34,7 @@ using log_event_severity_constant =
 //------------------------------------------------------------------------------
 // TODO switch with PP
 using min_log_severity_t =
-  log_event_severity_constant<log_event_severity::trace>;
+  log_event_severity_constant<log_event_severity::EAGINE_MIN_LOG_SEVERITY>;
 //------------------------------------------------------------------------------
 template <log_event_severity severity>
 using is_log_level_enabled_t =
