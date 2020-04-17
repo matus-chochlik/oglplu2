@@ -21,9 +21,9 @@ namespace eagine {
 #define EAGINE_MIN_LOG_SEVERITY warning
 #else
 #if EAGINE_DEBUG
-#define EAGINE_MIN_LOG_SEVERITY info
-#else
 #define EAGINE_MIN_LOG_SEVERITY trace
+#else
+#define EAGINE_MIN_LOG_SEVERITY info
 #endif
 #endif
 #endif
