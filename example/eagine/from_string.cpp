@@ -9,16 +9,17 @@
 #include <iostream>
 
 #include <eagine/from_string.hpp>
+#include <eagine/main.hpp>
 #include <eagine/program_args.hpp>
 #include <chrono>
 #include <iomanip>
 
-int main(int argc, const char** argv) {
-    using namespace eagine;
+namespace eagine {
 
+int main(main_ctx& ctx) {
     using duration = std::chrono::duration<float, std::milli>;
 
-    for(auto& arg : program_args(argc, argv)) {
+    for(auto& arg : ctx.args()) {
         if(auto opt_int = from_string<int>(arg)) {
             std::cout << "integer: " << extract(opt_int) << std::endl;
         } else if(auto opt_float = from_string<float>(arg)) {
@@ -40,3 +41,5 @@ int main(int argc, const char** argv) {
 
     return 0;
 }
+
+} // namespace eagine

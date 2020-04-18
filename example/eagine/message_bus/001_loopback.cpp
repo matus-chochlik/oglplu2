@@ -6,7 +6,6 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <eagine/logging/root_logger.hpp>
 #include <eagine/main.hpp>
 #include <eagine/memory/span_algo.hpp>
 #include <eagine/message_bus/endpoint.hpp>
@@ -72,15 +71,14 @@ private:
 //------------------------------------------------------------------------------
 } // namespace msgbus
 
-int main(program_args args) {
-    root_logger log(args);
+int main(main_ctx& ctx) {
 
-    msgbus::endpoint bus;
+    msgbus::endpoint bus(ctx.log());
     bus.set_id(EAGINE_ID(BusExample));
     bus.add_connection(std::make_unique<msgbus::loopback_connection>());
 
-    msgbus::str_utils_server server(log, bus);
-    msgbus::str_utils_client client(log, bus);
+    msgbus::str_utils_server server(ctx.log(), bus);
+    msgbus::str_utils_client client(ctx.log(), bus);
 
     client.call_reverse("foo");
     client.call_reverse("bar");

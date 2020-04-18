@@ -8,15 +8,15 @@
  */
 #include <eagine/file_contents.hpp>
 #include <eagine/hexdump.hpp>
+#include <eagine/main.hpp>
 #include <eagine/program_args.hpp>
 #include <iostream>
 
-int main(int argc, const char** argv) {
-    using namespace eagine;
+namespace eagine {
 
-    program_args args(argc, argv);
+int main(main_ctx& ctx) {
 
-    for(auto& arg : args) {
+    for(auto& arg : ctx.args()) {
         if(!arg.starts_with("-")) {
             if(arg.prev().is_tag("-f", "--file")) {
                 file_contents fc(arg.get());
@@ -42,3 +42,4 @@ int main(int argc, const char** argv) {
 
     return 0;
 }
+} // namespace eagine

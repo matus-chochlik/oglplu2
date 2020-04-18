@@ -7,7 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/interop/valgrind.hpp>
-#include <eagine/logging/root_logger.hpp>
+#include <eagine/main.hpp>
 #include <eagine/message_bus/actor.hpp>
 #include <eagine/message_bus/conn_setup.hpp>
 
@@ -54,18 +54,12 @@ private:
 };
 //------------------------------------------------------------------------------
 } // namespace msgbus
-} // namespace eagine
 
-int main(int argc, const char** argv) {
-    using namespace eagine;
+int main(main_ctx& ctx) {
+    msgbus::connection_setup conn_setup(ctx.log());
+    conn_setup.default_init(ctx.args());
 
-    program_args args(argc, argv);
-    root_logger log(args);
-
-    msgbus::connection_setup conn_setup(log);
-    conn_setup.default_init(args);
-
-    msgbus::pong pong(log, conn_setup);
+    msgbus::pong pong(ctx.log(), conn_setup);
 
     while(!pong.is_done()) {
         pong.process_one();
@@ -73,3 +67,5 @@ int main(int argc, const char** argv) {
 
     return 0;
 }
+} // namespace eagine
+

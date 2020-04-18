@@ -7,7 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/interop/valgrind.hpp>
-#include <eagine/logging/root_logger.hpp>
+#include <eagine/main.hpp>
 #include <eagine/memory/span_algo.hpp>
 #include <eagine/message_bus/acceptor.hpp>
 #include <eagine/message_bus/actor.hpp>
@@ -169,13 +169,9 @@ private:
 };
 //------------------------------------------------------------------------------
 } // namespace msgbus
-} // namespace eagine
 
-int main(int argc, const char** argv) {
-    using namespace eagine;
-
-    program_args args(argc, argv);
-    root_logger log(args);
+int main(main_ctx& ctx) {
+    auto& log = ctx.log();
 
     system_info si;
     const auto thread_count = extract_or(si.cpu_concurrent_threads(), 4);
@@ -221,3 +217,4 @@ int main(int argc, const char** argv) {
 
     return 0;
 }
+} // namespace eagine

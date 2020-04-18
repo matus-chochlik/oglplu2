@@ -6,7 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <eagine/logging/root_logger.hpp>
+#include <eagine/main.hpp>
 #include <eagine/memory/span_algo.hpp>
 #include <eagine/message_bus/acceptor.hpp>
 #include <eagine/message_bus/direct.hpp>
@@ -92,15 +92,9 @@ private:
 };
 //------------------------------------------------------------------------------
 } // namespace msgbus
-} // namespace eagine
 
-int main(int argc, const char** argv) {
-    using namespace eagine;
-
-    program_args args(argc, argv);
-    root_logger log(args);
-
-    auto acceptor = std::make_unique<msgbus::direct_acceptor>(log);
+int main(main_ctx& ctx) {
+    auto acceptor = std::make_unique<msgbus::direct_acceptor>(ctx.log());
 
     msgbus::endpoint server_endpoint;
     msgbus::endpoint client_endpoint;
@@ -108,11 +102,11 @@ int main(int argc, const char** argv) {
     server_endpoint.add_connection(acceptor->make_connection());
     client_endpoint.add_connection(acceptor->make_connection());
 
-    msgbus::router router(log);
+    msgbus::router router(ctx.log());
     router.add_acceptor(std::move(acceptor));
 
-    msgbus::str_utils_server server(log, server_endpoint);
-    msgbus::str_utils_client client(log, client_endpoint);
+    msgbus::str_utils_server server(ctx.log(), server_endpoint);
+    msgbus::str_utils_client client(ctx.log(), client_endpoint);
 
     client.call_reverse("foo");
     client.call_reverse("bar");
@@ -134,3 +128,5 @@ int main(int argc, const char** argv) {
 
     return 0;
 }
+} // namespace eagine
+
