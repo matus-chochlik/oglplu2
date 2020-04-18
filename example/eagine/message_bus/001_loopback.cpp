@@ -7,6 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/logging/root_logger.hpp>
+#include <eagine/main.hpp>
 #include <eagine/memory/span_algo.hpp>
 #include <eagine/message_bus/endpoint.hpp>
 #include <eagine/message_bus/loopback.hpp>
@@ -70,12 +71,8 @@ private:
 };
 //------------------------------------------------------------------------------
 } // namespace msgbus
-} // namespace eagine
 
-int main(int argc, const char** argv) {
-    using namespace eagine;
-
-    program_args args(argc, argv);
+int main(program_args args) {
     root_logger log(args);
 
     msgbus::endpoint bus;
@@ -98,3 +95,6 @@ int main(int argc, const char** argv) {
 
     return 0;
 }
+
+} // namespace eagine
+
