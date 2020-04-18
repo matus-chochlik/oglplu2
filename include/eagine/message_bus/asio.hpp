@@ -109,6 +109,8 @@ struct asio_connection_state
             outgoing.push(sink.done());
             return true;
         }
+        _log.error("failed to serialize message ${message}")
+          .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id));
         return false;
     }
 
@@ -136,6 +138,8 @@ struct asio_connection_state
                               this->handle_sent(span_size(length));
                               this->start_send();
                           } else {
+                              _log.error("failed to send data: ${error}")
+                                .arg(EAGINE_ID(error), error);
                               this->is_sending = false;
                           }
                       });
@@ -173,6 +177,8 @@ struct asio_connection_state
                       this->handle_received(head(blk, span_size(length)));
                       this->start_receive();
                   } else {
+                      _log.error("failed to receive data: ${error}")
+                        .arg(EAGINE_ID(error), error);
                       this->is_recving = false;
                   }
               });
@@ -240,6 +246,10 @@ public:
 //------------------------------------------------------------------------------
 // TCP/IPv4
 //------------------------------------------------------------------------------
+static constexpr inline auto asio_connection_port() noexcept {
+    return 34912;
+}
+//------------------------------------------------------------------------------
 template <typename Base>
 class asio_connection_info<
   Base,
@@ -297,15 +307,37 @@ class asio_connector<
 
     void _start_connect(asio::ip::tcp::resolver::iterator resolved) {
         asio::ip::tcp::endpoint ep = *resolved;
-        ep.port(34912);
+        ep.port(asio_connection_port());
+
+        this->_log.debug("connecting to ${address}:${port}")
+          .arg(EAGINE_ID(port), EAGINE_ID(IpV4Port), asio_connection_port())
+          .arg(EAGINE_ID(address), EAGINE_ID(IpV4Addr), _addr_str);
+
         this->_state->socket.async_connect(
           ep, [this, resolved](std::error_code error) mutable {
               if(!error) {
+                  this->_log.debug("connected on address ${address}:${port}")
+                    .arg(
+                      EAGINE_ID(port),
+                      EAGINE_ID(IpV4Port),
+                      asio_connection_port())
+                    .arg(EAGINE_ID(address), EAGINE_ID(IpV4Addr), _addr_str);
                   this->_connecting = false;
               } else {
                   if(++resolved != asio::ip::tcp::resolver::iterator{}) {
                       this->_start_connect(resolved);
                   } else {
+                      this->_log
+                        .error(
+                          "failed to connect on address ${address}:${port}: "
+                          "${error}")
+                        .arg(EAGINE_ID(error), error)
+                        .arg(
+                          EAGINE_ID(port),
+                          EAGINE_ID(IpV4Port),
+                          asio_connection_port())
+                        .arg(
+                          EAGINE_ID(address), EAGINE_ID(IpV4Addr), _addr_str);
                       this->_connecting = false;
                   }
               }
@@ -320,6 +352,8 @@ class asio_connector<
               if(!error) {
                   this->_start_connect(resolved);
               } else {
+                  _log.error("failed to resolve address: ${error}")
+                    .arg(EAGINE_ID(error), error);
                   this->_connecting = false;
               }
           });
@@ -362,22 +396,33 @@ private:
     std::vector<asio::ip::tcp::socket> _accepted;
 
     void _start_accept() {
-        this->_log.debug("accepting connection on address ${address}")
+        this->_log.debug("accepting connection on address ${address}:${port}")
+          .arg(EAGINE_ID(port), EAGINE_ID(IpV4Port), asio_connection_port())
           .arg(EAGINE_ID(address), EAGINE_ID(IpV4Addr), _addr_str);
 
         _socket = asio::ip::tcp::socket(this->_asio_state->context);
         _acceptor.async_accept(_socket, [this](std::error_code error) {
-            if(error) {
+            if(!error) {
                 this->_log
-                  .error(
-                    "failed to accept connection on address ${address}: "
-                    "${error}")
-                  .arg(EAGINE_ID(error), error)
-                  .arg(EAGINE_ID(address), EAGINE_ID(IpV4Addr), _addr_str);
-            } else {
-                this->_log.debug("accepted connection on address ${address}")
+                  .debug("accepted connection on address ${address}:${port}")
+                  .arg(
+                    EAGINE_ID(port),
+                    EAGINE_ID(IpV4Port),
+                    asio_connection_port())
                   .arg(EAGINE_ID(address), EAGINE_ID(IpV4Addr), _addr_str);
                 this->_accepted.emplace_back(std::move(this->_socket));
+            } else {
+                this->_log
+                  .error(
+                    "failed to accept connection on address "
+                    "${address}:${port}: "
+                    "${error}")
+                  .arg(EAGINE_ID(error), error)
+                  .arg(
+                    EAGINE_ID(port),
+                    EAGINE_ID(IpV4Port),
+                    asio_connection_port())
+                  .arg(EAGINE_ID(address), EAGINE_ID(IpV4Addr), _addr_str);
             }
             _start_accept();
         });
@@ -399,7 +444,8 @@ public:
         EAGINE_ASSERT(this->_asio_state);
         if(!_acceptor.is_open()) {
             // TODO: address string
-            asio::ip::tcp::endpoint endpoint(asio::ip::tcp::v4(), 34912);
+            asio::ip::tcp::endpoint endpoint(
+              asio::ip::tcp::v4(), asio_connection_port());
             _acceptor.open(endpoint.protocol());
             _acceptor.bind(endpoint);
             _acceptor.listen();
@@ -474,13 +520,26 @@ class asio_connector<
       asio_connection_addr_kind::local,
       asio_connection_protocol::stream>;
 
+    std::string _addr_str;
     asio::local::stream_protocol::endpoint _endpoint;
     bool _connecting{false};
 
     void _start_connect() {
+        this->_log.debug("connecting to ${address}")
+          .arg(EAGINE_ID(address), EAGINE_ID(FsPath), this->_addr_str);
+
         this->_state->socket.async_connect(
-          _endpoint,
-          [this](std::error_code) mutable { this->_connecting = false; });
+          _endpoint, [this](std::error_code error) mutable {
+              if(!error) {
+                  this->_log.debug("connected on address ${address}")
+                    .arg(EAGINE_ID(address), EAGINE_ID(FsPath), _addr_str);
+                  this->_connecting = false;
+              } else {
+                  this->_log.error("failed to connect: ${error}")
+                    .arg(EAGINE_ID(error), error);
+                  this->_connecting = false;
+              }
+          });
     }
 
     static inline auto _fix_addr(string_view addr_str) noexcept {
@@ -493,7 +552,8 @@ public:
       const std::shared_ptr<asio_common_state>& asio_state,
       string_view addr_str)
       : base{parent, asio_state}
-      , _endpoint{c_str(_fix_addr(addr_str))} {
+      , _addr_str{_fix_addr(addr_str)}
+      , _endpoint{_addr_str.c_str()} {
     }
 
     void update() final {

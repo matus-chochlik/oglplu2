@@ -191,6 +191,10 @@ private:
               (_endpoints.find(_id_sequence) != _endpoints.end())) {
             ++_id_sequence;
         }
+        //
+        _log.debug("assigning id ${id} to accepted ${type} connection")
+          .arg(EAGINE_ID(type), conn->type_id())
+          .arg(EAGINE_ID(id), _id_sequence);
         // send the special message assigning the endpoint id
         message_view msg{};
         msg.set_target_id(_id_sequence);

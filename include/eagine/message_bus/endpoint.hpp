@@ -262,6 +262,10 @@ public:
 
         const bool had_id = has_id();
 
+        if(EAGINE_UNLIKELY(_connections.empty())) {
+            log().warning("endpoint has no connections");
+        }
+
         for(auto& connection : _connections) {
             EAGINE_ASSERT(connection);
             connection->update();
