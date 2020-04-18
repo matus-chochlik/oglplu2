@@ -10,6 +10,7 @@
 #ifndef EAGINE_MESSAGE_BUS_ENDPOINT_HPP
 #define EAGINE_MESSAGE_BUS_ENDPOINT_HPP
 
+#include "../logging/logger.hpp"
 #include "connection.hpp"
 #include "serialize.hpp"
 #include <map>
@@ -33,6 +34,8 @@ public:
 
 private:
     friend class friend_of_endpoint;
+
+    logger _log{};
 
     identifier_t _id{invalid_id()};
 
@@ -138,12 +141,15 @@ private:
         return false;
     }
 
-    explicit endpoint(connection::fetch_handler store_message) noexcept
-      : _store_handler{std::move(store_message)} {
+    explicit endpoint(
+      logger log, connection::fetch_handler store_message) noexcept
+      : _log{std::move(log)}
+      , _store_handler{std::move(store_message)} {
     }
 
     endpoint(endpoint&& temp) noexcept
-      : _id{temp._id}
+      : _log{std::move(temp._log)}
+      , _id{temp._id}
       , _connections{std::move(temp._connections)}
       , _outgoing{std::move(temp._outgoing)}
       , _incoming{std::move(temp._incoming)}
@@ -152,7 +158,8 @@ private:
     }
 
     endpoint(endpoint&& temp, connection::fetch_handler store_message) noexcept
-      : _id{temp._id}
+      : _log{std::move(temp._log)}
+      , _id{temp._id}
       , _connections{std::move(temp._connections)}
       , _outgoing{std::move(temp._outgoing)}
       , _incoming{std::move(temp._incoming)}
@@ -165,9 +172,18 @@ public:
       : _store_handler{this, EAGINE_MEM_FUNC_C(endpoint, _store_message)} {
     }
 
+    endpoint(logger log) noexcept
+      : _log{std::move(log)}
+      , _store_handler{this, EAGINE_MEM_FUNC_C(endpoint, _store_message)} {
+    }
+
     endpoint(const endpoint&) = delete;
     endpoint& operator=(endpoint&&) = delete;
     endpoint& operator=(const endpoint&) = delete;
+
+    logger& log() noexcept {
+        return _log;
+    }
 
     endpoint& set_id(identifier id) {
         _id = id.value();
@@ -469,8 +485,8 @@ public:
 class friend_of_endpoint {
 protected:
     static auto _make_endpoint(
-      connection::fetch_handler store_message) noexcept {
-        return endpoint{store_message};
+      logger log, connection::fetch_handler store_message) noexcept {
+        return endpoint{std::move(log), std::move(store_message)};
     }
 
     static auto _move_endpoint(

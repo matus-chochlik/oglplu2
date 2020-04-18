@@ -7,6 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/interop/valgrind.hpp>
+#include <eagine/logging/root_logger.hpp>
 #include <eagine/memory/span_algo.hpp>
 #include <eagine/message_bus/acceptor.hpp>
 #include <eagine/message_bus/direct.hpp>
@@ -139,18 +140,21 @@ private:
 } // namespace msgbus
 } // namespace eagine
 
-int main() {
+int main(int argc, const char** argv) {
     using namespace eagine;
 
-    auto acceptor = std::make_unique<msgbus::direct_acceptor>();
+    program_args args(argc, argv);
+    root_logger log(args);
 
-    msgbus::endpoint server_endpoint;
-    msgbus::endpoint client_endpoint;
+    auto acceptor = std::make_unique<msgbus::direct_acceptor>(log);
+
+    msgbus::endpoint server_endpoint(logger{EAGINE_ID(Server), log});
+    msgbus::endpoint client_endpoint(logger{EAGINE_ID(Client), log});
 
     server_endpoint.add_connection(acceptor->make_connection());
     client_endpoint.add_connection(acceptor->make_connection());
 
-    msgbus::router router;
+    msgbus::router router(log);
     router.add_acceptor(std::move(acceptor));
 
     msgbus::fibonacci_server server(server_endpoint);

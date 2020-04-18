@@ -7,6 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/interop/valgrind.hpp>
+#include <eagine/logging/root_logger.hpp>
 #include <eagine/memory/span_algo.hpp>
 #include <eagine/message_bus/acceptor.hpp>
 #include <eagine/message_bus/actor.hpp>
@@ -33,8 +34,9 @@ public:
     using base = actor<3>;
     using base::bus;
 
-    fibonacci_server()
+    fibonacci_server(logger log)
       : base(
+          std::move(log),
           this,
           EAGINE_MSG_MAP(Fibonacci, FindServer, this_class, is_ready),
           EAGINE_MSG_MAP(Fibonacci, Calculate, this_class, calculate),
@@ -91,8 +93,9 @@ public:
     using base = actor<2>;
     using base::bus;
 
-    fibonacci_client()
+    fibonacci_client(logger log)
       : base(
+          std::move(log),
           this,
           EAGINE_MSG_MAP(Fibonacci, IsReady, this_class, dispatch),
           EAGINE_MSG_MAP(Fibonacci, Result, this_class, print)) {
@@ -157,15 +160,18 @@ private:
 } // namespace msgbus
 } // namespace eagine
 
-int main() {
+int main(int argc, const char** argv) {
     using namespace eagine;
+
+    program_args args(argc, argv);
+    root_logger log(args);
 
     system_info si;
     const auto thread_count = extract_or(si.cpu_concurrent_threads(), 4);
 
-    auto acceptor = std::make_unique<msgbus::direct_acceptor>();
+    auto acceptor = std::make_unique<msgbus::direct_acceptor>(log);
 
-    msgbus::fibonacci_client client;
+    msgbus::fibonacci_client client({EAGINE_ID(FibClient), log});
     client.add_connection(acceptor->make_connection());
 
     std::vector<std::thread> workers;
@@ -173,8 +179,9 @@ int main() {
 
     for(span_size_t i = 0; i < thread_count; ++i) {
         workers.emplace_back(
-          [connection{acceptor->make_connection()}]() mutable {
-              msgbus::fibonacci_server server;
+          [srv_log{logger{EAGINE_ID(FibServer), log}},
+           connection{acceptor->make_connection()}]() mutable {
+              msgbus::fibonacci_server server(std::move(srv_log));
               server.add_connection(std::move(connection));
 
               while(!server.is_done()) {
@@ -183,7 +190,7 @@ int main() {
           });
     }
 
-    msgbus::router router;
+    msgbus::router router(log);
     router.add_acceptor(std::move(acceptor));
 
     const std::int64_t n = running_on_valgrind() ? 34 : 46;

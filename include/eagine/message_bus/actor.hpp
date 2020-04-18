@@ -40,9 +40,9 @@ protected:
       typename Class,
       typename... MsgMaps,
       typename = std::enable_if_t<sizeof...(MsgMaps) == N>>
-    actor(Class* instance, MsgMaps... msg_maps)
+    actor(logger log, Class* instance, MsgMaps... msg_maps)
       : _endpoint{_make_endpoint(
-          {this, EAGINE_MEM_FUNC_C(actor, _process_message)})}
+          std::move(log), {this, EAGINE_MEM_FUNC_C(actor, _process_message)})}
       , _subscriber{_endpoint, instance, msg_maps...} {
         _endpoint.say_not_a_router();
         _subscriber.announce_subscriptions();
@@ -78,6 +78,10 @@ protected:
 public:
     endpoint& bus() noexcept {
         return _endpoint;
+    }
+
+    logger& log() noexcept {
+        return _endpoint.log();
     }
 
     bool add_connection(std::unique_ptr<connection> conn) final {

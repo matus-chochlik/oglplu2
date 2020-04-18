@@ -40,7 +40,7 @@ std::unique_ptr<logger_backend> root_logger_choose_backend(
 EAGINE_LIB_FUNC
 std::unique_ptr<logger_backend> root_logger::_init_backend(
   const program_args& args) {
-    auto min_severity{log_event_severity::info};
+    auto min_severity{log_event_severity::EAGINE_MIN_LOG_SEVERITY};
 
     for(auto arg = args.first(); arg; arg = arg.next()) {
         if(arg.is_tag("--min-log-severity")) {

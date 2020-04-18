@@ -21,10 +21,10 @@ public:
 
     pong(logger& parent, connection_setup& conn_setup)
       : base(
+          {EAGINE_ID(ExamplPong), parent},
           this,
           EAGINE_MSG_MAP(PingPong, Ping, pong, ping),
           EAGINE_MSG_MAP(PingPong, Shutdown, pong, shutdown))
-      , _log{EAGINE_ID(ExamplPong), parent}
       , _lmod{running_on_valgrind() ? 1000U : 10000U} {
         conn_setup.setup_connectors(*this, connection_kind::local_interprocess);
     }
@@ -32,14 +32,14 @@ public:
     bool ping(stored_message& msg_in) {
         bus().respond_to(msg_in, EAGINE_MSG_ID(PingPong, Pong));
         if(++_sent % _lmod == 0) {
-            _log.info("sent ${count} pongs").arg(EAGINE_ID(count), _sent);
+            log().info("sent ${count} pongs").arg(EAGINE_ID(count), _sent);
         }
         return true;
     }
 
     bool shutdown(stored_message&) {
         _done = true;
-        _log.info("received shutdown message");
+        log().info("received shutdown message");
         return true;
     }
 
@@ -48,7 +48,6 @@ public:
     }
 
 private:
-    logger _log{};
     std::size_t _lmod{1};
     std::size_t _sent{0};
     bool _done{false};
