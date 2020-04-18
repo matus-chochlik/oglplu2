@@ -127,20 +127,24 @@ struct asio_connection_state
         is_sending = false;
     }
 
+    auto weak_ref() noexcept {
+        return std::weak_ptr(this->shared_from_this());
+    }
+
     void start_send() {
         if(auto to_be_sent = outgoing.top()) {
             if(!is_sending) {
                 if(store_data_with_size(to_be_sent, cover(write_buffer))) {
                     is_sending = true;
+                    auto blk = view(write_buffer);
+
                     _log.trace("writing data (size: ${size})")
-                      .arg(
-                        EAGINE_ID(size),
-                        EAGINE_ID(ByteSize),
-                        write_buffer.size());
+                      .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), blk.size());
+
                     asio::async_write(
                       socket,
-                      asio::buffer(write_buffer.data(), write_buffer.size()),
-                      [this, selfref{std::weak_ptr(this->shared_from_this())}](
+                      asio::buffer(blk.data(), blk.size()),
+                      [this, selfref{weak_ref()}](
                         std::error_code error, std::size_t length) {
                           if(const auto self{selfref.lock()}) {
                               EAGINE_MAYBE_UNUSED(self);
@@ -160,6 +164,7 @@ struct asio_connection_state
                               }
                           }
                       });
+                    update();
                 }
             }
         }
@@ -202,7 +207,7 @@ struct asio_connection_state
             asio::async_read(
               socket,
               asio::buffer(blk.data(), blk.size()),
-              [this, selfref{std::weak_ptr(this->shared_from_this())}, blk](
+              [this, selfref{weak_ref()}, blk](
                 std::error_code error, std::size_t length) {
                   if(const auto self{selfref.lock()}) {
                       EAGINE_MAYBE_UNUSED(self);
@@ -219,6 +224,7 @@ struct asio_connection_state
                       }
                   }
               });
+            update();
         }
     }
 
@@ -382,8 +388,7 @@ class asio_connector<
     }
 
     void _start_resolve() {
-        auto host = _addr_str.empty() ? asio::string_view("localhost")
-                                      : asio::string_view(_addr_str);
+        auto host = asio::string_view(_addr_str);
         _resolver.async_resolve(
           host, {}, [this](std::error_code error, auto resolved) {
               if(!error) {
@@ -396,6 +401,10 @@ class asio_connector<
           });
     }
 
+    static inline auto _fix_addr(string_view addr_str) noexcept {
+        return addr_str ? addr_str : string_view{"localhost"};
+    }
+
 public:
     asio_connector(
       logger& parent,
@@ -403,7 +412,7 @@ public:
       string_view addr_str)
       : base{parent, asio_state}
       , _resolver{asio_state->context}
-      , _addr_str{to_string(addr_str)} {
+      , _addr_str{to_string(_fix_addr(addr_str))} {
     }
 
     void update() final {
@@ -465,6 +474,10 @@ private:
         });
     }
 
+    static inline auto _fix_addr(string_view addr_str) noexcept {
+        return addr_str ? addr_str : string_view{"localhost"};
+    }
+
 public:
     asio_acceptor(
       logger& parent,
@@ -472,7 +485,7 @@ public:
       string_view addr_str) noexcept
       : _log{EAGINE_ID(AsioAccptr), parent}
       , _asio_state{std::move(asio_state)}
-      , _addr_str{to_string(addr_str)}
+      , _addr_str{to_string(_fix_addr(addr_str))}
       , _acceptor{_asio_state->context}
       , _socket{_asio_state->context} {
     }
@@ -562,6 +575,7 @@ class asio_connector<
     bool _connecting{false};
 
     void _start_connect() {
+        _connecting = true;
         this->_log.debug("connecting to ${address}")
           .arg(EAGINE_ID(address), EAGINE_ID(FsPath), this->_addr_str);
 
@@ -599,7 +613,6 @@ public:
             this->_state->start_receive();
             this->_state->start_send();
         } else if(!_connecting) {
-            _connecting = true;
             _start_connect();
         }
         this->_state->update();

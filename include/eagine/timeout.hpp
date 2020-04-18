@@ -23,11 +23,18 @@ public:
     }
 
     timeout(_clock::duration duration) noexcept
-      : _timeout{_clock::now() + duration} {
+      : _duration{duration}
+      , _timeout{_clock::now() + _duration} {
+    }
+
+    timeout& reset() noexcept {
+        _timeout = std::chrono::steady_clock::now() + _duration;
+        return *this;
     }
 
     timeout& reset(_clock::duration duration) noexcept {
-        _timeout = std::chrono::steady_clock::now() + duration;
+        _duration = duration;
+        _timeout = std::chrono::steady_clock::now() + _duration;
         return *this;
     }
 
@@ -44,6 +51,7 @@ public:
     }
 
 private:
+    _clock::duration _duration{};
     _clock::time_point _timeout;
 };
 

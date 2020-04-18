@@ -12,10 +12,13 @@
 
 #include "../branch_predict.hpp"
 #include "../logging/logger.hpp"
+#include "../program_args.hpp"
+#include "../timeout.hpp"
 #include "acceptor.hpp"
 #include "serialize.hpp"
 #include <map>
 #include <set>
+#include <thread>
 #include <vector>
 
 namespace eagine {
@@ -57,6 +60,11 @@ public:
       : _log(EAGINE_ID(MsgBusRutr), parent) {
     }
 
+    router(logger& parent, const program_args& args) noexcept
+      : _log(EAGINE_ID(MsgBusRutr), parent) {
+        _setup_from_args(args);
+    }
+
     bool add_acceptor(std::unique_ptr<acceptor> an_acceptor) final {
         if(an_acceptor) {
             _log.info("adding connection acceptor");
@@ -75,7 +83,19 @@ public:
         _update_connections();
     }
 
+    auto& no_connection_timeout() const noexcept {
+        return _no_connection_timeout;
+    }
+
+    bool is_done() const noexcept {
+        return bool(no_connection_timeout());
+    }
+
 private:
+    void _setup_from_args(const program_args&) {
+        // TODO
+    }
+
     void _handle_accept() {
         if(EAGINE_LIKELY(!_acceptors.empty())) {
             acceptor::accept_handler handler{
@@ -140,7 +160,7 @@ private:
             [this](auto& pending) {
                 if(pending.age() > this->_pending_timeout) {
                     this->_log
-                      .debug("removing timeouted pending ${type} connection")
+                      .warning("removing timeouted pending ${type} connection")
                       .arg(EAGINE_ID(type), pending.the_connection->type_id())
                       .arg(EAGINE_ID(age), pending.age());
                     return true;
@@ -313,10 +333,16 @@ private:
                 }
             }
         }
+        if(_endpoints.empty() && _pending.empty()) {
+            std::this_thread::yield();
+        } else {
+            _no_connection_timeout.reset();
+        }
     }
 
     logger _log{};
     const std::chrono::seconds _pending_timeout{30};
+    timeout _no_connection_timeout{std::chrono::seconds{30}};
     identifier_t _id_sequence{0};
     std::vector<std::unique_ptr<acceptor>> _acceptors;
     std::vector<router_pending> _pending;

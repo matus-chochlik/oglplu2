@@ -28,7 +28,10 @@ public:
           EAGINE_MSG_MAP(PingPong, Pong, ping, pong))
       , _lmod{running_on_valgrind() ? 10000U : 100000U}
       , _max{running_on_valgrind() ? 100000U : 1000000U} {
-        conn_setup.setup_connectors(*this, connection_kind::local_interprocess);
+        conn_setup.setup_connectors(
+          *this,
+          connection_kind::local_interprocess |
+            connection_kind::remote_interprocess);
     }
 
     bool pong(stored_message&) {
