@@ -107,6 +107,8 @@ struct asio_connection_state
         string_serializer_backend backend(sink);
         auto errors = serialize_message(class_id, method_id, message, backend);
         if(!errors) {
+            _log.trace("enqueuing message ${message} to be sent")
+              .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id));
             outgoing.push(sink.done());
             return true;
         }
@@ -130,6 +132,11 @@ struct asio_connection_state
             if(!is_sending) {
                 if(store_data_with_size(to_be_sent, cover(write_buffer))) {
                     is_sending = true;
+                    _log.trace("writing data (size: ${size})")
+                      .arg(
+                        EAGINE_ID(size),
+                        EAGINE_ID(ByteSize),
+                        write_buffer.size());
                     asio::async_write(
                       socket,
                       asio::buffer(write_buffer.data(), write_buffer.size()),
@@ -138,6 +145,12 @@ struct asio_connection_state
                           if(const auto self{selfref.lock()}) {
                               EAGINE_MAYBE_UNUSED(self);
                               if(!error) {
+                                  _log.trace("sent data (size: ${size})")
+                                    .arg(
+                                      EAGINE_ID(size),
+                                      EAGINE_ID(ByteSize),
+                                      length);
+
                                   this->handle_sent(span_size(length));
                                   this->start_send();
                               } else {
@@ -154,7 +167,7 @@ struct asio_connection_state
 
     void handle_received(memory::const_block data) {
         if(const auto blk = get_data_with_size(data)) {
-            incoming.push_if([blk](
+            incoming.push_if([this, blk](
                                identifier_t& class_id,
                                identifier_t& method_id,
                                stored_message& message) {
@@ -162,7 +175,17 @@ struct asio_connection_state
                 string_deserializer_backend backend(source);
                 const auto errors =
                   deserialize_message(class_id, method_id, message, backend);
-                return !errors;
+                if(!errors) {
+                    this->_log.trace("received message ${message}")
+                      .arg(
+                        EAGINE_ID(message),
+                        message_id_tuple(class_id, method_id));
+                    return true;
+                }
+                _log.error("failed to deserialize message ${message}")
+                  .arg(
+                    EAGINE_ID(message), message_id_tuple(class_id, method_id));
+                return false;
             });
         }
         is_recving = false;
@@ -172,6 +195,10 @@ struct asio_connection_state
         if(!is_recving) {
             is_recving = true;
             auto blk = cover(read_buffer);
+
+            _log.trace("reading data (size: ${size})")
+              .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), blk.size());
+
             asio::async_read(
               socket,
               asio::buffer(blk.data(), blk.size()),
@@ -180,6 +207,9 @@ struct asio_connection_state
                   if(const auto self{selfref.lock()}) {
                       EAGINE_MAYBE_UNUSED(self);
                       if(!error) {
+                          _log.trace("received data (size: ${size})")
+                            .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), length);
+
                           this->handle_received(head(blk, span_size(length)));
                           this->start_receive();
                       } else {

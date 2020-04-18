@@ -67,7 +67,6 @@ public:
     }
 
     void update() {
-        _log.trace("updating");
         _remove_timeouted();
         _remove_disconnected();
         _handle_pending();

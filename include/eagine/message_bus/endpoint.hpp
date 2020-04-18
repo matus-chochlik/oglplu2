@@ -281,6 +281,9 @@ public:
 
         // if we have a valid id and we have messages in outbox
         if(EAGINE_UNLIKELY(has_id() && !_outgoing.empty())) {
+            log()
+              .debug("sending ${count} messages from outbox")
+              .arg(EAGINE_ID(count), _outgoing.size());
             _outgoing.fetch_all(message_storage::fetch_handler{
               this, EAGINE_MEM_FUNC_C(endpoint, _handle_send)});
         }
