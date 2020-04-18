@@ -73,6 +73,10 @@ class XmlLogFormatter(object):
         return self._ttyEsc("\x1b[1;34m")
 
     # --------------------------------------------------------------------------
+    def _ttyBoldCyan(self):
+        return self._ttyEsc("\x1b[1;36m")
+
+    # --------------------------------------------------------------------------
     def _ttyBoldWhite(self):
         return self._ttyEsc("\x1b[1;37m")
 
@@ -126,12 +130,23 @@ class XmlLogFormatter(object):
     # --------------------------------------------------------------------------
     def beginLog(self, srcid, name, info):
         with self._lock:
+            #
+            self._out.write("┊")
+            for sid in self._sources:
+                self._out.write(" │")
+            self._out.write("   ╭────────────╮\n")
+            #
             self._out.write("┝")
             for sid in self._sources:
                 self._out.write("━━")
-            self._out.write("━┯━┑starting log│")
+            self._out.write("━┯━┥")
+            self._out.write(self._ttyGreen())
+            self._out.write("starting log")
+            self._out.write(self._ttyReset())
+            self._out.write("│")
             self._out.write(name)
             self._out.write("\n")
+            #
             self._out.write("┊")
             for sid in self._sources:
                 self._out.write(" │")
@@ -141,6 +156,11 @@ class XmlLogFormatter(object):
     # --------------------------------------------------------------------------
     def finishLog(self, srcid, name):
         with self._lock:
+            # L0
+            self._out.write("┊")
+            for sid in self._sources:
+                self._out.write(" │")
+            self._out.write(" ╭────────────╮\n")
             # L1
             self._out.write("┊")
             conn = False
@@ -152,7 +172,11 @@ class XmlLogFormatter(object):
                     self._out.write("━━")
                 else:
                     self._out.write(" │")
-            self._out.write("━┑closing  log│")
+            self._out.write("━┥")
+            self._out.write(self._ttyBlue())
+            self._out.write("closing  log")
+            self._out.write(self._ttyReset())
+            self._out.write("│")
             self._out.write(name)
             self._out.write("\n")
             # L2
@@ -184,7 +208,7 @@ class XmlLogFormatter(object):
     # --------------------------------------------------------------------------
     def translateLevel(self, level):
         if level == "debug":
-            return self._ttyWhite()      + "  debug  " + self._ttyReset()
+            return self._ttyBoldCyan()   + "  debug  " + self._ttyReset()
         if level == "info":
             return self._ttyBoldWhite()  + "  info   " + self._ttyReset()
         if level == "warning":
