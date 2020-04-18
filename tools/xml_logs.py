@@ -15,14 +15,108 @@ import threading
 # ------------------------------------------------------------------------------
 class XmlLogFormatter(object):
     # --------------------------------------------------------------------------
+    def _ttyEsc(self, escseq):
+        if self._out.isatty():
+            return escseq
+        return ""
+
+    # --------------------------------------------------------------------------
+    def _ttyReset(self):
+        return self._ttyEsc("\x1b[0m")
+
+    # --------------------------------------------------------------------------
+    def _ttyGray(self):
+        return self._ttyEsc("\x1b[0;30m")
+
+    # --------------------------------------------------------------------------
+    def _ttyRed(self):
+        return self._ttyEsc("\x1b[0;31m")
+
+    # --------------------------------------------------------------------------
+    def _ttyGreen(self):
+        return self._ttyEsc("\x1b[0;32m")
+
+    # --------------------------------------------------------------------------
+    def _ttyYellow(self):
+        return self._ttyEsc("\x1b[0;33m")
+
+    # --------------------------------------------------------------------------
+    def _ttyBlue(self):
+        return self._ttyEsc("\x1b[0;34m")
+
+    # --------------------------------------------------------------------------
+    def _ttyCyan(self):
+        return self._ttyEsc("\x1b[0;36m")
+
+    # --------------------------------------------------------------------------
+    def _ttyWhite(self):
+        return self._ttyEsc("\x1b[0;37m")
+
+    # --------------------------------------------------------------------------
+    def _ttyBoldGray(self):
+        return self._ttyEsc("\x1b[0;37m")
+
+    # --------------------------------------------------------------------------
+    def _ttyBoldRed(self):
+        return self._ttyEsc("\x1b[1;31m")
+
+    # --------------------------------------------------------------------------
+    def _ttyBoldGreen(self):
+        return self._ttyEsc("\x1b[1;32m")
+
+    # --------------------------------------------------------------------------
+    def _ttyBoldYellow(self):
+        return self._ttyEsc("\x1b[1;33m")
+
+    # --------------------------------------------------------------------------
+    def _ttyBoldBlue(self):
+        return self._ttyEsc("\x1b[1;34m")
+
+    # --------------------------------------------------------------------------
+    def _ttyBoldWhite(self):
+        return self._ttyEsc("\x1b[1;37m")
+
+    # --------------------------------------------------------------------------
+    def _formatByteSize(self, n):
+        result = None
+        if n > 0:
+            umult = ["GiB", "MiB", "kiB"]
+            l = len(umult)
+            for i in range(l):
+                m = 1024**(l-i)
+                if (n / m > 1024) or (n % m == 0):
+                    result = str(int(n / m)) + " " + umult[i]
+                    break
+        if not result:
+            result = str(n) + " B"
+
+        return self._ttyBoldWhite() + result + self._ttyReset()
+
+    # --------------------------------------------------------------------------
+    def _formatFsPath(self, p):
+        if os.path.exists(p):
+            if os.path.islink(p):
+                return self._ttyBlue() + p + self._ttyReset()
+            if os.path.isdir(p):
+                return self._ttyGreen() + p + self._ttyReset()
+            return self._ttyBoldGreen() + p + self._ttyReset()
+
+        return self._ttyBoldRed() + p + self._ttyReset()
+
+    # --------------------------------------------------------------------------
     def __init__(self, log_output):
         self._re_var = re.compile(".*(\${([A-Za-z][A-Za-z_0-9]*)}).*")
         self._lock = threading.Lock()
         self._out = log_output
+
+        self._decorators = {
+            "FsPath": self._formatFsPath,
+            "ByteSize": lambda x: self._formatByteSize(int(x))
+        }
+
         with self._lock:
             self._sources = []
             self._out.write("╮\n")
-
     # --------------------------------------------------------------------------
     def __del__(self):
         with self._lock:
@@ -34,7 +128,7 @@ class XmlLogFormatter(object):
         with self._lock:
             self._out.write("┝")
             for sid in self._sources:
-                self._out.write("━┿")
+                self._out.write("━━")
             self._out.write("━┯━┑starting log│")
             self._out.write(name)
             self._out.write("\n")
@@ -55,7 +149,7 @@ class XmlLogFormatter(object):
                     conn = True
                     self._out.write(" ┕")
                 elif conn:
-                    self._out.write("━┿")
+                    self._out.write("━━")
                 else:
                     self._out.write(" │")
             self._out.write("━┑closing  log│")
@@ -88,9 +182,31 @@ class XmlLogFormatter(object):
             self._sources = [sid for sid in self._sources if sid != srcid]
 
     # --------------------------------------------------------------------------
+    def translateLevel(self, level):
+        if level == "debug":
+            return self._ttyWhite()      + "  debug  " + self._ttyReset()
+        if level == "info":
+            return self._ttyBoldWhite()  + "  info   " + self._ttyReset()
+        if level == "warning":
+            return self._ttyYellow()     + " warning " + self._ttyReset()
+        if level == "error":
+            return self._ttyBoldRed()    + "  error  " + self._ttyReset()
+        if level == "trace":
+            return self._ttyCyan()       + "  trace  " + self._ttyReset()
+        if level == "critical":
+            return self._ttyRed()        + " critical" + self._ttyReset()
+        if level == "backtrace":
+            return self._ttyCyan()       + "backtrace" + self._ttyReset()
+        return "%7s" % level
+
+    # --------------------------------------------------------------------------
     def translateArg(self, arg, info):
         info["used"] = True
-        value = info.get("value", arg)
+        decorate = self._decorators.get(info.get("type"), lambda x: x)
+        try:
+            value = decorate(info["value"])
+        except KeyError:
+            value = arg
         return value
 
     # --------------------------------------------------------------------------
@@ -121,18 +237,18 @@ class XmlLogFormatter(object):
                     conn = True
                     self._out.write(" ┝")
                 elif conn:
-                    self._out.write("━┿")
+                    self._out.write("━━")
                 else:
                     self._out.write(" │")
             self._out.write("━┑")
-            self._out.write("%7s│" % info["level"])
+            self._out.write("%s│" % self.translateLevel(info["level"]))
             self._out.write("%10s│" % info["source"])
             self._out.write(message)
             self._out.write("\n")
             self._out.write("┊")
             for sid in self._sources:
                 self._out.write(" │")
-            self._out.write(" ╰───────┴──────────╯")
+            self._out.write(" ╰─────────┴──────────╯")
             self._out.write("\n")
             self._out.flush()
 
