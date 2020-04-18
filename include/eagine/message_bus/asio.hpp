@@ -74,7 +74,7 @@ struct asio_connection_state
       , common{std::move(asio_state)}
       , socket{std::move(sock)} {
         EAGINE_ASSERT(common);
-        read_buffer.resize(8 * 1024);
+        read_buffer.resize(4 * 1024);
         zero(cover(read_buffer));
         write_buffer.resize(read_buffer.size());
         zero(cover(write_buffer));
@@ -147,7 +147,6 @@ struct asio_connection_state
                       [this, selfref{weak_ref()}](
                         std::error_code error, std::size_t length) {
                           if(const auto self{selfref.lock()}) {
-                              EAGINE_MAYBE_UNUSED(self);
                               if(!error) {
                                   _log.trace("sent data (size: ${size})")
                                     .arg(
@@ -156,7 +155,7 @@ struct asio_connection_state
                                       length);
 
                                   this->handle_sent(span_size(length));
-                                  this->start_send();
+                                  self->start_send();
                               } else {
                                   _log.error("failed to send data: ${error}")
                                     .arg(EAGINE_ID(error), error);
@@ -210,13 +209,12 @@ struct asio_connection_state
               [this, selfref{weak_ref()}, blk](
                 std::error_code error, std::size_t length) {
                   if(const auto self{selfref.lock()}) {
-                      EAGINE_MAYBE_UNUSED(self);
                       if(!error) {
                           _log.trace("received data (size: ${size})")
                             .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), length);
 
                           this->handle_received(head(blk, span_size(length)));
-                          this->start_receive();
+                          self->start_receive();
                       } else {
                           _log.error("failed to receive data: ${error}")
                             .arg(EAGINE_ID(error), error);
@@ -229,7 +227,10 @@ struct asio_connection_state
     }
 
     void update() {
-        common->context.poll();
+        if(auto count = common->context.poll()) {
+            _log.trace("called ready handlers (count: ${count})")
+              .arg(EAGINE_ID(count), count);
+        }
     }
 };
 //------------------------------------------------------------------------------
