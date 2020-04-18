@@ -35,7 +35,7 @@ public:
         return _clock::now() >= _timeout;
     }
 
-    operator bool() const noexcept {
+    explicit operator bool() const noexcept {
         return elapsed();
     }
 

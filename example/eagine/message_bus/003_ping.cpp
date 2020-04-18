@@ -10,6 +10,7 @@
 #include <eagine/main.hpp>
 #include <eagine/message_bus/actor.hpp>
 #include <eagine/message_bus/conn_setup.hpp>
+#include <eagine/timeout.hpp>
 
 namespace eagine {
 namespace msgbus {
@@ -52,7 +53,7 @@ public:
     }
 
     bool is_done() const noexcept {
-        return (_rcvd >= _max) || (_sent >= _max * 2);
+        return (_rcvd >= _max) || (_sent >= _max * 2) || _timeout;
     }
 
 private:
@@ -60,6 +61,7 @@ private:
     std::size_t _sent{0};
     std::size_t _rcvd{0};
     const std::size_t _max{1000000};
+    timeout _timeout{std::chrono::seconds(30)};
 };
 //------------------------------------------------------------------------------
 } // namespace msgbus
