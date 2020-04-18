@@ -14,6 +14,7 @@
 #include "../config/platform.hpp"
 #include "../logging/exception.hpp"
 #include "../logging/logger.hpp"
+#include "../maybe_unused.hpp"
 #include "../serialize/size_and_data.hpp"
 #include "conn_factory.hpp"
 #include "serialize.hpp"
@@ -132,15 +133,18 @@ struct asio_connection_state
                     asio::async_write(
                       socket,
                       asio::buffer(write_buffer.data(), write_buffer.size()),
-                      [this, self{this->shared_from_this()}](
+                      [this, selfref{std::weak_ptr(this->shared_from_this())}](
                         std::error_code error, std::size_t length) {
-                          if(!error) {
-                              this->handle_sent(span_size(length));
-                              this->start_send();
-                          } else {
-                              _log.error("failed to send data: ${error}")
-                                .arg(EAGINE_ID(error), error);
-                              this->is_sending = false;
+                          if(const auto self{selfref.lock()}) {
+                              EAGINE_MAYBE_UNUSED(self);
+                              if(!error) {
+                                  this->handle_sent(span_size(length));
+                                  this->start_send();
+                              } else {
+                                  _log.error("failed to send data: ${error}")
+                                    .arg(EAGINE_ID(error), error);
+                                  this->is_sending = false;
+                              }
                           }
                       });
                 }
@@ -171,15 +175,18 @@ struct asio_connection_state
             asio::async_read(
               socket,
               asio::buffer(blk.data(), blk.size()),
-              [this, self{this->shared_from_this()}, blk](
+              [this, selfref{std::weak_ptr(this->shared_from_this())}, blk](
                 std::error_code error, std::size_t length) {
-                  if(!error) {
-                      this->handle_received(head(blk, span_size(length)));
-                      this->start_receive();
-                  } else {
-                      _log.error("failed to receive data: ${error}")
-                        .arg(EAGINE_ID(error), error);
-                      this->is_recving = false;
+                  if(const auto self{selfref.lock()}) {
+                      EAGINE_MAYBE_UNUSED(self);
+                      if(!error) {
+                          this->handle_received(head(blk, span_size(length)));
+                          this->start_receive();
+                      } else {
+                          _log.error("failed to receive data: ${error}")
+                            .arg(EAGINE_ID(error), error);
+                          this->is_recving = false;
+                      }
                   }
               });
         }
