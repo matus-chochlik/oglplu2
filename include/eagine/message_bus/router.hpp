@@ -117,7 +117,10 @@ private:
                   connection::fetch_handler(handler));
                 // if we got the endpoint id message from the connection
                 if(id != 0) {
-                    _log.debug("adopting pending ${type} connection from ${id}")
+                    _log
+                      .debug(
+                        "adopting pending ${type} connection from endpoint "
+                        "${id}")
                       .arg(EAGINE_ID(type), pending.the_connection->type_id())
                       .arg(EAGINE_ID(id), id);
                     _endpoints[id].connections.emplace_back(

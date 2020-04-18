@@ -67,14 +67,16 @@ private:
     connection::fetch_handler _store_handler{};
 
     bool _do_send(
-      identifier_t class_id,
-      identifier_t method_id,
-      message_view message) const {
+      identifier_t class_id, identifier_t method_id, message_view message) {
         EAGINE_ASSERT(has_id());
         message.set_source_id(_id);
         for(auto& connection : _connections) {
             EAGINE_ASSERT(connection);
             if(connection->send(class_id, method_id, message)) {
+                log()
+                  .trace("sending message ${message}")
+                  .arg(
+                    EAGINE_ID(message), message_id_tuple(class_id, method_id));
                 return true;
             }
         }
@@ -82,15 +84,14 @@ private:
     }
 
     template <identifier_t ClassId, identifier_t MethodId>
-    bool _do_send(
-      message_id<ClassId, MethodId>, const message_view& message) const {
+    bool _do_send(message_id<ClassId, MethodId>, const message_view& message) {
         return _do_send(ClassId, MethodId, message);
     }
 
     bool _handle_send(
       identifier_t class_id,
       identifier_t method_id,
-      const message_view& message) const {
+      const message_view& message) {
         return _do_send(class_id, method_id, message);
     }
 
@@ -102,6 +103,9 @@ private:
                              .matches(class_id, method_id))) {
             if(!has_id()) {
                 _id = message.target_id;
+                log()
+                  .debug("assigned endpoint id ${id}")
+                  .arg(EAGINE_ID(id), _id);
             }
             return true;
         }
@@ -116,6 +120,11 @@ private:
             if((message.target_id == _id) || !is_valid_id(message.target_id)) {
                 auto pos = _incoming.find(_make_key(class_id, method_id));
                 if(pos != _incoming.end()) {
+                    log()
+                      .trace("stored message ${message}")
+                      .arg(
+                        EAGINE_ID(message),
+                        message_id_tuple(class_id, method_id));
                     _get_queue(pos).push(message);
                     return true;
                 }
@@ -134,6 +143,10 @@ private:
         auto pos = _incoming.find(_make_key(class_id, method_id));
         if(pos != _incoming.end()) {
             if((message.target_id == _id) || !is_valid_id(message.target_id)) {
+                log()
+                  .trace("accepted message ${message}")
+                  .arg(
+                    EAGINE_ID(message), message_id_tuple(class_id, method_id));
                 _get_queue(pos).push(message);
             }
             return true;
@@ -192,6 +205,9 @@ public:
 
     bool add_connection(std::unique_ptr<connection> conn) final {
         if(conn) {
+            log()
+              .debug("adding connection type ${type}")
+              .arg(EAGINE_ID(type), conn->type_id());
             _connections.emplace_back(std::move(conn));
             return true;
         }
@@ -234,6 +250,9 @@ public:
 
     void flush_outbox() {
         if(has_id()) {
+            log()
+              .debug("flushing outbox (size: ${size})")
+              .arg(EAGINE_ID(size), _outgoing.size());
             _outgoing.fetch_all(message_storage::fetch_handler{
               this, EAGINE_MEM_FUNC_C(endpoint, _handle_send)});
         }
@@ -251,6 +270,7 @@ public:
 
         // if processing the messages assigned the endpoint id
         if(EAGINE_UNLIKELY(has_id() && !had_id)) {
+            log().debug("announcing endpoint id ${id}").arg(EAGINE_ID(id), _id);
             // send the endpoint id through all connections
             _do_send(EAGINE_MSG_ID(eagiMsgBus, announceId), {});
         }
@@ -267,6 +287,9 @@ public:
         auto [pos, newone] = _incoming.try_emplace(key);
         if(newone) {
             _get_counter(pos) = 0;
+            log()
+              .debug("subscribing to message ${message}")
+              .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id));
         }
         ++_get_counter(pos);
     }
@@ -281,6 +304,10 @@ public:
         if(pos != _incoming.end()) {
             if(--_get_counter(pos) <= 0) {
                 _incoming.erase(pos);
+                log()
+                  .debug("unsubscribing from message ${message}")
+                  .arg(
+                    EAGINE_ID(message), message_id_tuple(class_id, method_id));
             }
         }
     }
@@ -356,10 +383,12 @@ public:
     }
 
     bool say_not_a_router() {
+        log().debug("saying not a router");
         return send(EAGINE_MSG_ID(eagiMsgBus, notARouter));
     }
 
     bool say_bye() {
+        log().debug("saying bye-bye");
         return send(EAGINE_MSG_ID(eagiMsgBus, byeBye));
     }
 
@@ -377,6 +406,9 @@ public:
     }
 
     void say_subscribes_to(identifier_t class_id, identifier_t method_id) {
+        log()
+          .debug("subscribing to message ${message}")
+          .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id));
         post_meta_message(
           EAGINE_MSG_ID(eagiMsgBus, subscribTo), class_id, method_id);
     }
@@ -397,10 +429,14 @@ public:
     }
 
     void clear_blacklist() {
+        log().debug("sending clear blacklist");
         post(EAGINE_MSG_ID(eagiMsgBus, clrBlkList), {});
     }
 
     void blacklist_message_type(identifier_t class_id, identifier_t method_id) {
+        log()
+          .debug("blacklisting message ${message}")
+          .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id));
         post_meta_message(
           EAGINE_MSG_ID(eagiMsgBus, msgBlkList), class_id, method_id);
     }

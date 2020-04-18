@@ -141,6 +141,10 @@ public:
         return _messages.empty();
     }
 
+    span_size_t size() const noexcept {
+        return span_size(_messages.size());
+    }
+
     void push(
       identifier_t class_id,
       identifier_t method_id,

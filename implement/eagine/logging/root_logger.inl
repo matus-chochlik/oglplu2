@@ -12,6 +12,13 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
+static constexpr inline log_event_severity default_log_severity() noexcept {
+    return static_cast<log_event_severity>(
+      static_cast<std::underlying_type_t<log_event_severity>>(
+        log_event_severity::EAGINE_MIN_LOG_SEVERITY) +
+      1);
+}
+//------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 std::unique_ptr<logger_backend> root_logger_choose_backend(
   const program_args& args, log_event_severity min_severity) {
@@ -40,7 +47,7 @@ std::unique_ptr<logger_backend> root_logger_choose_backend(
 EAGINE_LIB_FUNC
 std::unique_ptr<logger_backend> root_logger::_init_backend(
   const program_args& args) {
-    auto min_severity{log_event_severity::EAGINE_MIN_LOG_SEVERITY};
+    auto min_severity{default_log_severity()};
 
     for(auto arg = args.first(); arg; arg = arg.next()) {
         if(arg.is_tag("--min-log-severity")) {
