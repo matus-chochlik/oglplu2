@@ -50,18 +50,20 @@ public:
     }
 
     void update() {
-        bus().send(EAGINE_MSG_ID(PingPong, Ping));
-        if(++_sent % _lmod == 0) {
-            log().info("sent ${count} pings").arg(EAGINE_ID(count), _sent);
+        if(_sent <= _max) {
+            bus().send(EAGINE_MSG_ID(PingPong, Ping));
+            if(++_sent % _lmod == 0) {
+                log().info("sent ${count} pings").arg(EAGINE_ID(count), _sent);
+            }
         }
     }
 
     bool is_done() const noexcept {
-        return (_rcvd >= _max) || (_sent >= _max * 2) || _timeout;
+        return (_rcvd >= _max) || _timeout;
     }
 
-    auto messages_per_second(std::chrono::duration<float> s) const noexcept {
-        return float(_sent + _rcvd) / s.count();
+    auto pings_per_second(std::chrono::duration<float> s) const noexcept {
+        return float(_rcvd) / s.count();
     }
 
 private:
@@ -83,16 +85,18 @@ int main(main_ctx& ctx) {
     const time_measure run_time;
 
     while(!ping.is_done()) {
-        ping.process_one();
-        ping.update();
+        for(int i = 0; i < 10; ++i) {
+            ping.update();
+        }
+        ping.process_all();
     }
 
     const auto elapsed = run_time.seconds();
 
     ctx.log()
-      .info("execution time ${time}, ${mps} per second")
+      .info("execution time ${time}, ${pps} per second")
       .arg(EAGINE_ID(time), elapsed)
-      .arg(EAGINE_ID(mps), ping.messages_per_second(elapsed));
+      .arg(EAGINE_ID(pps), ping.pings_per_second(elapsed));
 
     ping.shutdown();
     ping.update();

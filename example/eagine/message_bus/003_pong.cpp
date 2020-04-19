@@ -68,7 +68,7 @@ int main(main_ctx& ctx) {
     msgbus::pong pong(ctx.log(), conn_setup);
 
     while(!pong.is_done()) {
-        pong.process_one();
+        pong.process_all();
     }
 
     return 0;
