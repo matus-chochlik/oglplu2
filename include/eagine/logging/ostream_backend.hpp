@@ -10,7 +10,7 @@
 #ifndef EAGINE_LOGGING_OSTREAM_BACKEND_HPP
 #define EAGINE_LOGGING_OSTREAM_BACKEND_HPP
 
-#include "../hexdump.hpp"
+#include "../base64dump.hpp"
 #include "backend.hpp"
 #include <mutex>
 #include <ostream>
@@ -169,8 +169,8 @@ public:
       identifier tag,
       memory::const_block value) noexcept final {
         try {
-            _out << "<a n='" << arg.name() << "' t='" << tag.name() << "'>"
-                 << hexdump(value) << "</a>";
+            _out << "<a n='" << arg.name() << "' t='" << tag.name()
+                 << "' blob='true'>" << base64dump(value) << "</a>";
         } catch(...) {
         }
     }

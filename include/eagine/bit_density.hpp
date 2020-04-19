@@ -52,7 +52,7 @@ static inline bool do_dissolve_bits(
 
     span_size_t r = 0;
     double_byte w = 0U;
-    const auto m = byte((1U << bits) - 1U);
+    const auto m = byte((1U << bits) - 1U); // NOLINT(hicpp-signed-bitwise)
 
     auto push = [&]() -> bool {
         while(r >= bits) {
@@ -67,7 +67,7 @@ static inline bool do_dissolve_bits(
     while(true) {
         if(r < bits) {
             if(auto src = get()) {
-                w <<= byte_bits();
+                w <<= byte_bits(); // NOLINT(hicpp-signed-bitwise)
                 w |= double_byte(extract(src));
                 r += byte_bits();
             } else {
@@ -96,14 +96,14 @@ static inline bool do_concentrate_bits(
 
     span_size_t r = 0;
     double_byte w = 0U;
-    const double_byte m = (1U << bits) - 1U;
+    const double_byte m = (1U << bits) - 1U; // NOLINT(hicpp-signed-bitwise)
 
     bool done = false;
 
     while(!done) {
         while(r < byte_bits()) {
             if(auto src = get()) {
-                w <<= bits;
+                w <<= bits; // NOLINT(hicpp-signed-bitwise)
                 // NOLINTNEXTLINE(hicpp-signed-bitwise)
                 w = (w & ~m) | (double_byte(extract(src)) & m);
                 r += bits;

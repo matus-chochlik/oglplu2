@@ -59,6 +59,7 @@ struct asio_connection_state
     std::shared_ptr<asio_common_state> common;
     Socket socket;
 
+    memory::buffer push_buffer;
     memory::buffer read_buffer;
     memory::buffer write_buffer;
     message_storage incoming;
@@ -74,9 +75,11 @@ struct asio_connection_state
       , common{std::move(asio_state)}
       , socket{std::move(sock)} {
         EAGINE_ASSERT(common);
-        read_buffer.resize(4 * 1024);
+        push_buffer.resize(4 * 1024);
+        zero(cover(push_buffer));
+        read_buffer.resize(push_buffer.size());
         zero(cover(read_buffer));
-        write_buffer.resize(read_buffer.size());
+        write_buffer.resize(push_buffer.size());
         zero(cover(write_buffer));
 
         _log.debug("allocating write buffer of ${size}")
@@ -103,7 +106,7 @@ struct asio_connection_state
       identifier_t method_id,
       const message_view& message) {
         std::unique_lock lock{mutex};
-        block_data_sink sink(cover(write_buffer));
+        block_data_sink sink(cover(push_buffer));
         string_serializer_backend backend(sink);
         auto errors = serialize_message(class_id, method_id, message, backend);
         if(!errors) {
@@ -136,9 +139,10 @@ struct asio_connection_state
             if(!is_sending) {
                 if(store_data_with_size(to_be_sent, cover(write_buffer))) {
                     is_sending = true;
-                    auto blk = view(write_buffer);
+                    const auto blk = view(write_buffer);
 
                     _log.trace("writing data (size: ${size})")
+                      .arg(EAGINE_ID(block), blk)
                       .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), blk.size());
 
                     asio::async_write(
@@ -163,7 +167,6 @@ struct asio_connection_state
                               }
                           }
                       });
-                    update();
                 }
             }
         }
@@ -186,9 +189,9 @@ struct asio_connection_state
                         message_id_tuple(class_id, method_id));
                     return true;
                 }
-                _log.error("failed to deserialize message ${message}")
-                  .arg(
-                    EAGINE_ID(message), message_id_tuple(class_id, method_id));
+                _log.error("failed to deserialize message)")
+                  .arg(EAGINE_ID(errorBits), errors.bits())
+                  .arg(EAGINE_ID(block), blk);
                 return false;
             });
         }
@@ -222,7 +225,6 @@ struct asio_connection_state
                       }
                   }
               });
-            update();
         }
     }
 
@@ -230,6 +232,8 @@ struct asio_connection_state
         if(auto count = common->context.poll()) {
             _log.trace("called ready handlers (count: ${count})")
               .arg(EAGINE_ID(count), count);
+        } else {
+            common->context.reset();
         }
     }
 };
@@ -502,7 +506,9 @@ public:
             _acceptor.listen();
             _start_accept();
         }
-        this->_asio_state->context.poll();
+        if(!this->_asio_state->context.poll()) {
+            this->_asio_state->context.reset();
+        }
     }
 
     void process_accepted(const accept_handler& handler) final {
@@ -702,7 +708,9 @@ public:
         if(_acceptor.is_open() && !_accepting) {
             _start_accept();
         }
-        this->_asio_state->context.poll();
+        if(!this->_asio_state->context.poll()) {
+            this->_asio_state->context.reset();
+        }
     }
 
     void process_accepted(const accept_handler& handler) final {

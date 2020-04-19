@@ -239,11 +239,10 @@ private:
     result _sscanf_one(T& value, char delimiter, const char (&fmt)[L]) {
         result errors{};
         if(auto src = this->string_before(delimiter)) {
-            if(
-              // TODO: to_chars from_chars when available
-              // NOLINTNEXTLINE(hicpp-vararg)
-              std::sscanf(src.data(), static_cast<const char*>(fmt), &value) ==
-              1) {
+            auto fmtstr = static_cast<const char*>(fmt);
+            // TODO: to_chars from_chars when available
+            // NOLINTNEXTLINE(hicpp-vararg)
+            if(std::sscanf(src.data(), fmtstr, &value) == 1) {
                 pop(src.size() + 1);
             } else {
                 errors |= error_code::invalid_format;

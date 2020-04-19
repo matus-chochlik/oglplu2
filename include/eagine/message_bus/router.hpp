@@ -234,7 +234,7 @@ private:
                 if(incoming_id == message.source_id) {
                     endpoint.maybe_router = false;
                     _log.debug("endpoint ${source} is not a router")
-                      .arg(EAGINE_ID(source), identifier(message.source_id));
+                      .arg(EAGINE_ID(source), message.source_id);
                     return true;
                 }
             } else if(EAGINE_ID(clrBlkList).matches(method_id)) {
@@ -255,15 +255,14 @@ private:
                           .arg(
                             EAGINE_ID(message),
                             message_id_tuple(class_id, method_id))
-                          .arg(
-                            EAGINE_ID(source), identifier(message.source_id));
+                          .arg(EAGINE_ID(source), message.source_id);
                         endpoint.message_blacklist.insert(blk_msg_id);
                     }
                 }
                 return true;
             } else if(EAGINE_ID(byeBye).matches(method_id)) {
                 _log.debug("received bye-bye from endpoint ${source}")
-                  .arg(EAGINE_ID(source), identifier(message.source_id));
+                  .arg(EAGINE_ID(source), message.source_id);
                 endpoint.do_disconnect = true;
                 return true;
             }

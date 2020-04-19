@@ -51,6 +51,10 @@ public:
         return _bits;
     }
 
+    constexpr inline value_type bits() const noexcept {
+        return _bits;
+    }
+
     constexpr inline bool is_empty() const noexcept {
         return _bits == BF(0);
     }

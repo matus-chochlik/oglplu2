@@ -9,6 +9,8 @@ import os
 import re
 import sys
 import stat
+import string
+import base64
 import xml.sax
 import threading
 
@@ -225,7 +227,11 @@ class XmlLogFormatter(object):
 
     # --------------------------------------------------------------------------
     def translateArg(self, arg, info):
+        if info.get("blob", False):
+            return "BLOB"
+
         info["used"] = True
+
         decorate = self._decorators.get(info.get("type"), lambda x: x)
         try:
             value = decorate(info["value"])
@@ -274,6 +280,49 @@ class XmlLogFormatter(object):
                 self._out.write(" │")
             self._out.write(" ╰─────────┴──────────╯")
             self._out.write("\n")
+            # BLOBs
+            for name, info in args.items():
+                if not info["used"]:
+                    self._out.write("┊")
+                    for sid in self._sources:
+                        self._out.write(" │")
+                    self._out.write("  ")
+                    self._out.write(name)
+                    self._out.write(": ")
+                    self._out.write(self.translateArg(name, info))
+                    self._out.write("\n")
+                    if info["blob"]:
+                        blob = info["value"]
+                        if len(blob) % 4 != 0:
+                            blob += '=' * (4 - len(blob) % 4)
+                        blob = base64.standard_b64decode(blob)
+                        while blob:
+                            self._out.write("┊")
+                            for sid in self._sources:
+                                self._out.write(" │")
+                            self._out.write("  ")
+                            for i in range(16):
+                                if i == 8:
+                                    self._out.write(" ")
+                                try:
+                                    self._out.write(" %02x" % blob[i])
+                                except IndexError:
+                                    self._out.write(" ..")
+                            self._out.write(" │ ")
+
+                            for i in range(16):
+                                if i == 8:
+                                    self._out.write(" ")
+                                try:
+                                    c = bytes([blob[i]]).decode('ascii')
+                                    assert c.isprintable()
+                                    self._out.write(c)
+                                except:
+                                    self._out.write(".")
+                            self._out.write("\n")
+                            blob = blob[16:]
+
+            #
             self._out.flush()
 
 # ------------------------------------------------------------------------------
@@ -313,6 +362,7 @@ class XmlLogProcessor(threading.Thread, xml.sax.ContentHandler):
             self._info["args"][self._carg] = {
                 "value": "''",
                 "type": attr["t"],
+                "blob": attr.get("blob", False),
                 "used": False
             }
         elif tag == "a":

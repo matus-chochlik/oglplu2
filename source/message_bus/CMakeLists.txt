@@ -4,6 +4,13 @@
 #  http://www.boost.org/LICENSE_1_0.txt
 
 add_executable(message_bus-router router.cpp)
-target_link_libraries(message_bus-router eagine)
-target_link_libraries(message_bus-router "${CMAKE_THREAD_LIBS_INIT}")
-
+target_compile_definitions(
+	message_bus-router
+	PRIVATE "-DEAGINE_LINK_LIBRARY=1"
+)
+target_link_libraries(
+	message_bus-router
+	PUBLIC
+		eagine
+		"${CMAKE_THREAD_LIBS_INIT}"
+)

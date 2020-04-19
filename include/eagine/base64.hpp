@@ -17,7 +17,7 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-static inline auto make_base64_encode_transform() {
+static constexpr inline auto make_base64_encode_transform() {
     return [](byte b) -> always_valid<char> {
         const auto i = int(b);
         if(i < 26) {
@@ -39,7 +39,7 @@ static inline auto make_base64_encode_transform() {
     };
 }
 //------------------------------------------------------------------------------
-static inline auto make_base64_decode_transform() {
+static constexpr inline auto make_base64_decode_transform() {
     return [](char c) -> optionally_valid<byte> {
         if((c >= 'A') && (c <= 'Z')) {
             return {byte(c - 'A'), true};

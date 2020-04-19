@@ -38,6 +38,7 @@ public:
         if(++_sent % _lmod == 0) {
             log().info("sent ${count} pongs").arg(EAGINE_ID(count), _sent);
         }
+        _timeout.reset();
         return true;
     }
 

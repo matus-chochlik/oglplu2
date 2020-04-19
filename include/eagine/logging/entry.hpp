@@ -10,6 +10,7 @@
 #ifndef EAGINE_LOGGING_ENTRY_HPP
 #define EAGINE_LOGGING_ENTRY_HPP
 
+#include "../bitfield.hpp"
 #include "../branch_predict.hpp"
 #include "../memory/default_alloc.hpp"
 #include "../memory/object_storage.hpp"
@@ -35,6 +36,16 @@ template <typename T, typename = std::enable_if_t<has_enumerator_mapping_v<T>>>
 static constexpr inline auto adapt_log_entry_arg(identifier name, T value) {
     return [=](logger_backend& backend) {
         backend.add_string(name, EAGINE_ID(enum), enumerator_name(value));
+    };
+}
+//------------------------------------------------------------------------------
+template <typename T, typename = std::enable_if_t<has_enumerator_mapping_v<T>>>
+static constexpr inline auto adapt_log_entry_arg(
+  identifier name,
+  bitfield<T> bf,
+  std::enable_if_t<std::is_unsigned_v<T>, T> = {}) {
+    return [=](logger_backend& backend) {
+        backend.add_unsigned(name, EAGINE_ID(bitfield), bf.bits());
     };
 }
 //------------------------------------------------------------------------------
