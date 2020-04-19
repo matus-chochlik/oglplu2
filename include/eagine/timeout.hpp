@@ -13,7 +13,27 @@
 #include <chrono>
 
 namespace eagine {
+//------------------------------------------------------------------------------
+class time_measure {
+    using _clock = std::chrono::steady_clock;
 
+public:
+    time_measure() noexcept
+      : _start{_clock::now()} {
+    }
+
+    auto get() const noexcept {
+        return _clock::now() - _start;
+    }
+
+    auto seconds() const noexcept {
+        return std::chrono::duration_cast<std::chrono::duration<float>>(get());
+    }
+
+private:
+    _clock::time_point _start;
+};
+//------------------------------------------------------------------------------
 class timeout {
     using _clock = std::chrono::steady_clock;
 

@@ -62,6 +62,10 @@ public:
         return (_rcvd >= _max) || (_sent >= _max * 2) || _timeout;
     }
 
+    auto messages_per_second(std::chrono::duration<float> s) const noexcept {
+        return float(_sent + _rcvd) / s.count();
+    }
+
 private:
     std::size_t _lmod{1};
     std::size_t _sent{0};
@@ -78,10 +82,19 @@ int main(main_ctx& ctx) {
 
     msgbus::ping ping(ctx.log(), conn_setup);
 
+    const time_measure run_time;
+
     while(!ping.is_done()) {
         ping.process_one();
         ping.update();
     }
+
+    const auto elapsed = run_time.seconds();
+
+    ctx.log()
+      .info("execution time ${time}, ${mps} per second")
+      .arg(EAGINE_ID(time), elapsed)
+      .arg(EAGINE_ID(mps), ping.messages_per_second(elapsed));
 
     ping.shutdown();
     ping.update();
