@@ -222,6 +222,7 @@ struct asio_connection_state
                           _log.error("failed to receive data: ${error}")
                             .arg(EAGINE_ID(error), error);
                           this->is_recving = false;
+                          this->socket.close();
                       }
                   }
               });
@@ -332,8 +333,10 @@ public:
 
     void update() override {
         EAGINE_ASSERT(this->_state);
-        this->_state->start_receive();
-        this->_state->start_send();
+        if(this->_state->socket.is_open()) {
+            this->_state->start_receive();
+            this->_state->start_send();
+        }
         this->_state->update();
     }
 };
@@ -560,8 +563,10 @@ public:
 
     void update() override {
         EAGINE_ASSERT(this->_state);
-        this->_state->start_receive();
-        this->_state->start_send();
+        if(this->_state->socket.is_open()) {
+            this->_state->start_receive();
+            this->_state->start_send();
+        }
         this->_state->update();
     }
 };

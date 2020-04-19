@@ -38,7 +38,9 @@ public:
         if(++_rcvd % _lmod == 0) {
             log().info("received ${count} pongs").arg(EAGINE_ID(count), _rcvd);
         }
-        _timeout.reset();
+        if(_rcvd < _max) {
+            _timeout.reset();
+        }
         return true;
     }
 
@@ -48,7 +50,7 @@ public:
     }
 
     void update() {
-        if((_sent < _max) || (_rcvd > 0)) {
+        if(_sent < _max) {
             bus().send(EAGINE_MSG_ID(PingPong, Ping));
             if(++_sent % _lmod == 0) {
                 log().info("sent ${count} pings").arg(EAGINE_ID(count), _sent);
