@@ -25,7 +25,7 @@ static void run_loop(GLFWwindow* window, int width, int height) {
     if(gl.operations().clear) {
 
         gl.clear_color(0.3f, 0.3f, 0.9f, 0.0f);
-        gl.clear_depth(1.0f);
+        gl.clear_depth(1);
 
         while(true) {
             glfwPollEvents();

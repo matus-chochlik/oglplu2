@@ -11,6 +11,7 @@
 #define EAGINE_MESSAGE_BUS_SERIALIZE_HPP
 
 #include "../extract.hpp"
+#include "../message_id.hpp"
 #include "../serialize/block_sink.hpp"
 #include "../serialize/block_source.hpp"
 #include "../serialize/read.hpp"

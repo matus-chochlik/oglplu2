@@ -61,7 +61,7 @@ private:
     bool _ensure_cached(span_size_t count) {
         EAGINE_ASSERT(_cache.size() == _locs.size());
         while(_input.good() && (span_size(_cache.size()) < count)) {
-            _cache.push_back(_input.get());
+            _cache.push_back(char(_input.get()));
             if(_locs.empty()) {
                 _locs.emplace_back();
             } else {

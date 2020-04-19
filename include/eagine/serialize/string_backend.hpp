@@ -14,6 +14,11 @@
 #include "write_backend.hpp"
 #include <cstdio>
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wformat-nonliteral"
+#endif
+
 namespace eagine {
 //------------------------------------------------------------------------------
 class string_serializer_backend
@@ -429,6 +434,10 @@ public:
 };
 //------------------------------------------------------------------------------
 } // namespace eagine
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 #endif // EAGINE_SERIALIZE_STRING_BACKEND_HPP
 

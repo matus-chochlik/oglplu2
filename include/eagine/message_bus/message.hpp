@@ -11,6 +11,7 @@
 #define EAGINE_MESSAGE_BUS_MESSAGE_HPP
 
 #include "../assert.hpp"
+#include "../callable_ref.hpp"
 #include "../identifier.hpp"
 #include "../memory/buffer_pool.hpp"
 #include "../memory/span_algo.hpp"

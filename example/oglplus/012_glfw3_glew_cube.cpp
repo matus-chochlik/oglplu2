@@ -207,7 +207,7 @@ static void run_loop(GLFWwindow* window, int width, int height) {
     gl.enable_vertex_array_attrib(va_c);
 
     gl.clear_color(0.7f, 0.7f, 0.7f, 0.0f);
-    gl.clear_depth(1.0f);
+    gl.clear_depth(1);
 
     gl.enable(GL.depth_test);
 

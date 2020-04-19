@@ -189,11 +189,11 @@ private:
 
     Transform& _transf() noexcept {
         return *this;
-    };
+    }
 
     const Transform& _transf() const noexcept {
         return *this;
-    };
+    }
 
     const _base& _base_iter() const noexcept {
         return *this;

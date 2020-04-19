@@ -194,7 +194,7 @@ static void run_loop(GLFWwindow* window, int width, int height) {
     gl.enable_vertex_array_attrib(va_c);
 
     gl.clear_color(0.8f, 0.8f, 0.8f, 0.0f);
-    gl.clear_depth(1.0f);
+    gl.clear_depth(1);
 
     GLsizei tex_side = 512;
     texture_array<2> texs;

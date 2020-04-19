@@ -18,6 +18,17 @@
 #include "../serialize/size_and_data.hpp"
 #include "conn_factory.hpp"
 #include "serialize.hpp"
+#include <mutex>
+
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdisabled-macro-expansion"
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#pragma clang diagnostic ignored "-Wzero-as-null-pointer-constant"
+#pragma clang diagnostic ignored "-Wshorten-64-to-32"
+#pragma clang diagnostic ignored "-Wdeprecated"
+#endif
+
 #include <asio/connect.hpp>
 #include <asio/io_context.hpp>
 #include <asio/ip/tcp.hpp>
@@ -26,7 +37,10 @@
 #endif
 #include <asio/read.hpp>
 #include <asio/write.hpp>
-#include <mutex>
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 namespace eagine {
 namespace msgbus {
