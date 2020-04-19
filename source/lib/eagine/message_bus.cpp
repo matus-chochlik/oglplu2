@@ -10,5 +10,6 @@
 
 #include "implement.inl"
 #include <eagine/message_bus/conn_setup.hpp>
+#include <eagine/message_bus/endpoint.hpp>
 #include "epilogue.inl"
 // clang-format on

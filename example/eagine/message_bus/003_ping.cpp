@@ -50,11 +50,9 @@ public:
     }
 
     void update() {
-        if(_sent < _max) {
-            bus().send(EAGINE_MSG_ID(PingPong, Ping));
-            if(++_sent % _lmod == 0) {
-                log().info("sent ${count} pings").arg(EAGINE_ID(count), _sent);
-            }
+        bus().send(EAGINE_MSG_ID(PingPong, Ping));
+        if(++_sent % _lmod == 0) {
+            log().info("sent ${count} pings").arg(EAGINE_ID(count), _sent);
         }
     }
 
