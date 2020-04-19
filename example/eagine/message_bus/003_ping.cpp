@@ -51,9 +51,13 @@ public:
 
     void update() {
         if(_sent <= _max) {
-            bus().send(EAGINE_MSG_ID(PingPong, Ping));
-            if(++_sent % _lmod == 0) {
-                log().info("sent ${count} pings").arg(EAGINE_ID(count), _sent);
+            for(int i = 0; i < 10; ++i) {
+                bus().send(EAGINE_MSG_ID(PingPong, Ping));
+                if(++_sent % _lmod == 0) {
+                    log()
+                      .info("sent ${count} pings")
+                      .arg(EAGINE_ID(count), _sent);
+                }
             }
         }
     }
@@ -85,16 +89,14 @@ int main(main_ctx& ctx) {
     const time_measure run_time;
 
     while(!ping.is_done()) {
-        for(int i = 0; i < 10; ++i) {
-            ping.update();
-        }
+        ping.update();
         ping.process_all();
     }
 
     const auto elapsed = run_time.seconds();
 
     ctx.log()
-      .info("execution time ${time}, ${pps} per second")
+      .info("execution time ${time}, ${pps} pings per second")
       .arg(EAGINE_ID(time), elapsed)
       .arg(EAGINE_ID(pps), ping.pings_per_second(elapsed));
 

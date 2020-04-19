@@ -13,6 +13,7 @@
 #include "../logging/logger.hpp"
 #include "../program_args.hpp"
 #include "../timeout.hpp"
+#include "../valid_if/positive.hpp"
 #include "acceptor.hpp"
 #include <map>
 #include <set>
@@ -64,7 +65,10 @@ public:
 
     bool add_acceptor(std::unique_ptr<acceptor> an_acceptor) final;
 
-    void update();
+    void update(const valid_if_positive<int>& count);
+    void update() {
+        return update(2);
+    }
 
     auto& no_connection_timeout() const noexcept {
         return _no_connection_timeout;
@@ -103,6 +107,7 @@ private:
     const std::chrono::seconds _pending_timeout{30};
     timeout _no_connection_timeout{std::chrono::seconds{30}};
     identifier_t _id_sequence{0};
+    std::intmax_t _forwarded_messages{0};
     std::vector<std::unique_ptr<acceptor>> _acceptors;
     std::vector<router_pending> _pending;
     std::map<identifier_t, routed_endpoint> _endpoints;

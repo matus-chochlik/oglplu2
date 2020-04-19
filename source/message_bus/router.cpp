@@ -33,7 +33,7 @@ int main(main_ctx& ctx) {
         msgbus::connection_kind::remote_interprocess);
 
     while(!(interrupted || router.is_done())) {
-        router.update();
+        router.update(8);
     }
 
     log.debug("message bus router finishing");

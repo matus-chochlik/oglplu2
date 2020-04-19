@@ -220,6 +220,10 @@ bool router::_do_route_message(
                (outgoing_id == message.target_id) || !message.target_id);
             should_forward &= !endpoint_out.is_blacklisted(class_id, method_id);
             if(should_forward) {
+                if(EAGINE_UNLIKELY(++_forwarded_messages % 100000 == 0)) {
+                    _log.info("forwarded ${count} messages")
+                      .arg(EAGINE_ID(count), _forwarded_messages);
+                }
                 for(auto& conn_out : endpoint_out.connections) {
                     if(EAGINE_LIKELY(conn_out && conn_out->is_usable())) {
                         if(conn_out->send(class_id, method_id, message)) {
@@ -252,8 +256,7 @@ void router::_route_messages() {
               class_id, method_id, incoming_id, message);
         };
 
-        auto& [incoming_id, endpoint_in] = ep;
-        for(auto& conn_in : endpoint_in.connections) {
+        for(auto& conn_in : std::get<1>(ep).connections) {
             if(EAGINE_LIKELY(conn_in && conn_in->is_usable())) {
                 conn_in->fetch_messages(connection::fetch_handler(handler));
             }
@@ -279,13 +282,17 @@ void router::_update_connections() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void router::update() {
+void router::update(const valid_if_positive<int>& count) {
     _remove_timeouted();
     _remove_disconnected();
-    _handle_pending();
-    _handle_accept();
-    _route_messages();
-    _update_connections();
+
+    int n = extract_or(count, 2);
+    while(n-- > 0) {
+        _handle_pending();
+        _handle_accept();
+        _route_messages();
+        _update_connections();
+    }
 }
 //------------------------------------------------------------------------------
 } // namespace msgbus
