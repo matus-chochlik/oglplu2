@@ -5,14 +5,23 @@
 
 file(GLOB EAGINE_LIB_SOURCES *.cpp)
 
-add_library(eagine EXCLUDE_FROM_ALL ${EAGINE_LIB_SOURCES})
-foreach(COMMON_LIBRARY ${COMMON_LIBRARIES})
-	target_link_libraries(eagine ${COMMON_LIBRARY})
-endforeach()
+add_library(
+	eagine EXCLUDE_FROM_ALL
+	${EAGINE_LIB_SOURCES}
+)
+
+target_link_libraries(
+	eagine
+	PUBLIC
+		EAGine::Required
+		Threads::Threads
+)
+
 set_target_properties(
 	eagine 
 	PROPERTIES FOLDER "Library/EAGine"
 )
+
 if(INVOKE_CLANG_TIDY)
 	set_target_properties(
 		eagine

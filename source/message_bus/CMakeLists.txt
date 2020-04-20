@@ -10,7 +10,5 @@ target_compile_definitions(
 )
 target_link_libraries(
 	message_bus-router
-	PUBLIC
-		eagine
-		"${CMAKE_THREAD_LIBS_INIT}"
+	PUBLIC eagine
 )

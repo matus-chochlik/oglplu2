@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/logging/asio_backend.hpp>
 #include <eagine/logging/null_backend.hpp>
 #include <eagine/logging/ostream_backend.hpp>
 #include <iostream>
@@ -33,6 +34,10 @@ std::unique_ptr<logger_backend> root_logger_choose_backend(
         } else if(arg.is_tag("--use-cout-log")) {
             result =
               std::make_unique<ostream_log_backend<>>(std::cout, min_severity);
+#if EAGINE_HAS_ASIO_LOG_BACKEND
+        } else if(arg.is_tag("--use-asio-log")) {
+            result = std::make_unique<asio_ostream_log_backend<>>(min_severity);
+#endif
         }
     }
 

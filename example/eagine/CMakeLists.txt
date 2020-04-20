@@ -7,7 +7,10 @@ cmake_minimum_required(VERSION 3.10)
 
 function(eagine_example_common EXAMPLE_NAME)
 	add_executable("${EXAMPLE_NAME}" "${EXAMPLE_NAME}.cpp")
-	target_link_libraries("${EXAMPLE_NAME}" eagine)
+	target_link_libraries(
+		${EXAMPLE_NAME}
+		PUBLIC eagine
+	)
 endfunction()
 
 eagine_example_common(valgrind)

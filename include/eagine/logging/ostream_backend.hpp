@@ -25,6 +25,10 @@ private:
     log_event_severity _min_severity;
     const std::chrono::steady_clock::time_point _start;
 
+protected:
+    virtual void flush() noexcept {
+    }
+
 public:
     ostream_log_backend(
       std::ostream& out, log_event_severity min_severity) noexcept
@@ -187,15 +191,17 @@ public:
     void finish_message() noexcept final {
         try {
             _out << "</m>\n";
+            flush();
             _lockable.unlock();
         } catch(...) {
         }
     }
 
-    ~ostream_log_backend() noexcept final {
+    ~ostream_log_backend() noexcept override {
         try {
             std::unique_lock lock{_lockable};
             _out << "</log>\n" << std::flush;
+            flush();
         } catch(...) {
         }
     }

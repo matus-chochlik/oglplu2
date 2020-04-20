@@ -2,23 +2,10 @@
 # Distributed under the Boost Software License, Version 1.0.
 # See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
-
+#
 cmake_minimum_required(VERSION 3.10)
-if(POLICY CMP0054)
-	cmake_policy(SET CMP0054 NEW)
-endif()
 
-if(POLICY CMP0056)
-	cmake_policy(SET CMP0056 NEW)
-endif()
-
-if(POLICY CMP0066)
-	cmake_policy(SET CMP0066 NEW)
-endif()
-
-if(POLICY CMP0067)
-	cmake_policy(SET CMP0067 NEW)
-endif()
+include(config/Policies.cmake)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(CMAKE_DEBUG_POSTFIX d)
@@ -39,9 +26,10 @@ if(NOT ${CONFIG_INFO_ONLY})
 endif()
 
 include(config/Tools.cmake)
+
+include(config/FindThreads.cmake)
 include(config/CommonLibs.cmake)
 
-include(FindPkgConfig)
 include(config/CommonFindMod.cmake)
 
 # GL-libraries
@@ -80,8 +68,6 @@ if(${CONFIG_INFO_ONLY})
 	add_subdirectory("config")
 	return()
 endif()
-
-find_package(Threads)
 
 # now create the site-configuration headers
 include(config/SiteConfig.cmake)

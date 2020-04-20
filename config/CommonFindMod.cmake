@@ -3,6 +3,8 @@
 #  See accompanying file LICENSE_1_0.txt or copy at
 #   http://www.boost.org/LICENSE_1_0.txt
 #
+include(FindPkgConfig)
+
 macro(eagine_common_find_module PREFIX PC_NAME HEADER LIBRARY)
 	unset(${PREFIX}_FOUND)
 	unset(${PREFIX}_DEFINITIONS)
