@@ -3327,6 +3327,64 @@ public:
     func<OGLPAFP(MultTransposeMatrixf)> mult_transpose_matrix_f;
     func<OGLPAFP(MultTransposeMatrixd)> mult_transpose_matrix_d;
 
+    struct : func<OGLPAFP(DebugMessageControl)> {
+        using func<OGLPAFP(DebugMessageControl)>::func;
+
+        constexpr auto operator()(
+          debug_output_source source,
+          debug_output_type type,
+          debug_output_severity severity,
+          span<const uint_type> ids,
+          true_false enabled) const noexcept {
+            return this->_cnvchkcall(
+              source, type, severity, ids.size(), ids.data(), enabled);
+        }
+
+    } debug_message_control;
+
+    struct : func<OGLPAFP(DebugMessageInsert)> {
+        using func<OGLPAFP(DebugMessageInsert)>::func;
+
+        constexpr auto operator()(
+          debug_output_source source,
+          debug_output_type type,
+          debug_output_severity severity,
+          uint_type id,
+          string_view message) const noexcept {
+            return this->_cnvchkcall(
+              source, type, id, severity, message.size(), message.data());
+        }
+
+    } debug_message_insert;
+
+    struct : func<OGLPAFP(PushDebugGroup)> {
+        using func<OGLPAFP(PushDebugGroup)>::func;
+
+        constexpr auto operator()(
+          debug_output_source source, uint_type id, string_view message) const
+          noexcept {
+            return this->_cnvchkcall(
+              source, id, message.size(), message.data());
+        }
+
+    } push_debug_group;
+
+    func<OGLPAFP(PopDebugGroup)> pop_debug_group;
+
+    struct : func<OGLPAFP(ObjectLabel)> {
+        using func<OGLPAFP(ObjectLabel)>::func;
+
+        template <typename ObjTag>
+        constexpr auto operator()(
+          object_type type,
+          gl_object_name<ObjTag> name,
+          string_view message) const noexcept {
+            return this->_cnvchkcall(
+              type, name, message.size(), message.data());
+        }
+
+    } object_label;
+
     func<OGLPAFP(Flush)> flush;
     func<OGLPAFP(Finish)> finish;
 
@@ -3819,6 +3877,11 @@ public:
       , load_transpose_matrix_d("load_transpose_matrix_d", traits, *this)
       , mult_transpose_matrix_f("mult_transpose_matrix_f", traits, *this)
       , mult_transpose_matrix_d("mult_transpose_matrix_d", traits, *this)
+      , debug_message_control("debug_message_control", traits, *this)
+      , debug_message_insert("debug_message_insert", traits, *this)
+      , push_debug_group("push_debug_group", traits, *this)
+      , pop_debug_group("pop_debug_group", traits, *this)
+      , object_label("object_label", traits, *this)
       , flush("flush", traits, *this)
       , finish("finish", traits, *this) {
     }
