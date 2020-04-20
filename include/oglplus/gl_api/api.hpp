@@ -53,6 +53,94 @@ public:
 
     using vertex_buffer_binding = uint_type;
 
+    constexpr auto type_of(buffer_name) const noexcept {
+#ifdef GL_BUFFER
+        return object_type(GL_BUFFER);
+#else
+        return object_type(0);
+#endif
+    }
+
+    constexpr auto type_of(framebuffer_name) const noexcept {
+#ifdef GL_FRAMEBUFFER
+        return object_type(GL_FRAMEBUFFER);
+#else
+        return object_type(0);
+#endif
+    }
+
+    constexpr auto type_of(program_pipeline_name) const noexcept {
+#ifdef GL_PROGRAM_PIPELINE
+        return object_type(GL_PROGRAM_PIPELINE);
+#else
+        return object_type(0);
+#endif
+    }
+
+    constexpr auto type_of(program_name) const noexcept {
+#ifdef GL_PROGRAM
+        return object_type(GL_PROGRAM);
+#else
+        return object_type(0);
+#endif
+    }
+
+    constexpr auto type_of(query_name) const noexcept {
+#ifdef GL_QUERY
+        return object_type(GL_QUERY);
+#else
+        return object_type(0);
+#endif
+    }
+
+    constexpr auto type_of(renderbuffer_name) const noexcept {
+#ifdef GL_RENDERBUFFER
+        return object_type(GL_RENDERBUFFER);
+#else
+        return object_type(0);
+#endif
+    }
+
+    constexpr auto type_of(sampler_name) const noexcept {
+#ifdef GL_SAMPLER
+        return object_type(GL_SAMPLER);
+#else
+        return object_type(0);
+#endif
+    }
+
+    constexpr auto type_of(shader_name) const noexcept {
+#ifdef GL_SHADER
+        return object_type(GL_SHADER);
+#else
+        return object_type(0);
+#endif
+    }
+
+    constexpr auto type_of(texture_name) const noexcept {
+#ifdef GL_TEXTURE
+        return object_type(GL_TEXTURE);
+#else
+        return object_type(0);
+#endif
+    }
+
+    constexpr auto type_of(transform_feedback_name) const noexcept {
+#ifdef GL_TRANSFORM_FEEDBACK
+        return object_type(GL_TRANSFORM_FEEDBACK);
+#else
+        return object_type(0);
+#endif
+    }
+
+    constexpr auto type_of(vertex_array_name) const noexcept {
+#ifdef GL_VERTEX_ARRAY
+        return object_type(GL_VERTEX_ARRAY);
+#else
+        return object_type(0);
+#endif
+    }
+
     template <
       typename W,
       W c_api::*F,
@@ -3376,11 +3464,9 @@ public:
 
         template <typename ObjTag>
         constexpr auto operator()(
-          object_type type,
-          gl_object_name<ObjTag> name,
-          string_view message) const noexcept {
+          gl_object_name<ObjTag> name, string_view message) const noexcept {
             return this->_cnvchkcall(
-              type, name, message.size(), message.data());
+              type_of(name), name, message.size(), message.data());
         }
 
     } object_label;
