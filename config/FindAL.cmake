@@ -91,5 +91,15 @@ endif()
 if(OPENAL_AL_H_FOUND AND OPENAL_ALUT_H_FOUND)
 	if(${OPENAL_AL_H_FOUND} AND ${OPENAL_ALUT_H_FOUND})
 		set(OPENAL_FOUND 1)
+
+		add_library(OpenAL::OpenAL INTERFACE IMPORTED)
+		set_target_properties(
+			OpenAL::OpenAL PROPERTIES
+			INTERFACE_INCLUDE_DIRECTORIES "${OPENAL_INCLUDE_DIRS}"
+		)
+		set_target_properties(
+			OpenAL::OpenAL PROPERTIES
+			INTERFACE_LINK_LIBRARIES "${OPENAL_LIBRARIES}"
+		)
 	endif()
 endif()

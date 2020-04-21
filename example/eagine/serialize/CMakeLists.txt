@@ -5,11 +5,6 @@
 #
 cmake_minimum_required(VERSION 3.10)
 
-add_executable("serialize-basic" "001_basic.cpp")
-target_link_libraries("serialize-basic" eagine)
-
-add_executable("serialize-string" "002_string.cpp")
-target_link_libraries("serialize-string" eagine)
-
-add_executable("serialize-fragmented" "005_fragmented.cpp")
-target_link_libraries("serialize-fragmented" eagine)
+eagine_example_common(001_basic)
+eagine_example_common(002_string)
+eagine_example_common(005_fragmented)

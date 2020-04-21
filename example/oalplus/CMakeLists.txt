@@ -19,12 +19,12 @@ function(oalplus_example_common EXAMPLE_NAME)
 		${EXAMPLE_NAME}.cpp
 	)
 	add_dependencies(oalplus-examples oalplus-${EXAMPLE_NAME})
-	foreach(DEP OPENAL ${ARGN})
-		target_link_libraries(
-			oalplus-${EXAMPLE_NAME}
-			${${DEP}_LIBRARIES}
-		)
-	endforeach()
+	target_link_libraries(
+		oalplus-${EXAMPLE_NAME}
+		PUBLIC
+			OpenAL::OpenAL
+			oalplus
+	)
 
 	if(INVOKE_CLANG_TIDY)
 		set_property(

@@ -169,6 +169,12 @@ macro(eagine_common_import_lib PREFIX PC_NAME HEADER LIBRARY)
 				INTERFACE_LINK_LIBRARIES
 				"${PC_${PREFIX}_LIBRARIES}"
 			)
+			message(STATUS
+				"Found ${PREFIX}: "
+				"${PC_${PREFIX}_INCLUDE_DIRS} "
+				"${PC_${PREFIX}_LIBRARIES}"
+			)
+			set(${PREFIX}_FOUND 1)
 		endif()
 		unset(PC_${PREFIX}_CFLAGS)
 		unset(PC_${PREFIX}_CFLAGS_OTHER)

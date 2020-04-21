@@ -222,8 +222,7 @@ public:
           GLUT_DOUBLE | GLUT_RGBA | (params.depth_buffer() ? GLUT_DEPTH : 0) |
           (params.stencil_buffer() ? GLUT_STENCIL : 0));
 #ifdef FREEGLUT
-        glutInitContextVersion(
-          OGLPLUS_GL_VERSION_MAJOR, OGLPLUS_GL_VERSION_MINOR);
+        glutInitContextVersion(3, 0);
 #endif
         glutInitWindowSize(state.width(), state.height());
         glutInitWindowPosition(params.window_x_pos(), params.window_y_pos());

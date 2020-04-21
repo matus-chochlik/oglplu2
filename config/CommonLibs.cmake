@@ -12,7 +12,7 @@ if(UNIX AND NOT APPLE)
 		INTERFACE_LINK_LIBRARIES rt
 	)
 
-add_library(EAGreq::DynLib INTERFACE IMPORTED)
+	add_library(EAGreq::DynLib INTERFACE IMPORTED)
 	set_target_properties(
 		EAGreq::DynLib PROPERTIES
 		INTERFACE_LINK_LIBRARIES dl

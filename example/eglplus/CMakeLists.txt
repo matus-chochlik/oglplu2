@@ -15,16 +15,15 @@ set_target_properties(
 function(eglplus_example_common EXAMPLE_NAME)
 	add_executable(
 		eglplus-${EXAMPLE_NAME}
-		EXCLUDE_FROM_ALL
 		${EXAMPLE_NAME}.cpp
 	)
 	add_dependencies(eglplus-examples eglplus-${EXAMPLE_NAME})
-	foreach(DEP EGL ${ARGN})
-		target_link_libraries(
-			eglplus-${EXAMPLE_NAME}
-			${${DEP}_LIBRARIES}
-		)
-	endforeach()
+	target_link_libraries(
+		eglplus-${EXAMPLE_NAME}
+		PUBLIC
+			EGL::EGL
+			eglplus
+	)
 
 	if(INVOKE_CLANG_TIDY)
 		set_property(
@@ -39,7 +38,7 @@ function(eglplus_example_common EXAMPLE_NAME)
 	)
 endfunction()
 
-if(OPENAL_FOUND)
+if(EGL_FOUND)
 	eglplus_example_common(001_basic_info)
 	eglplus_example_common(002_list_apis)
 	eglplus_example_common(003_list_extensions)

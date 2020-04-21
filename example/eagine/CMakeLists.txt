@@ -5,11 +5,26 @@
 #
 cmake_minimum_required(VERSION 3.10)
 
+add_custom_target(eagine-examples ALL)
+set_target_properties(
+	eagine-examples
+	PROPERTIES FOLDER "Example/EAGine"
+)
+
 function(eagine_example_common EXAMPLE_NAME)
-	add_executable("${EXAMPLE_NAME}" "${EXAMPLE_NAME}.cpp")
+	add_executable(
+		eagine-${EXAMPLE_NAME}
+		EXCLUDE_FROM_ALL
+		"${EXAMPLE_NAME}.cpp"
+	)
 	target_link_libraries(
-		${EXAMPLE_NAME}
+		eagine-${EXAMPLE_NAME}
 		PUBLIC eagine
+	)
+
+	set_target_properties(
+		eagine-${EXAMPLE_NAME}
+		PROPERTIES FOLDER "Example/EAGine"
 	)
 endfunction()
 

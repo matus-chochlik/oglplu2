@@ -234,8 +234,9 @@ void example_mandelbrot::user_idle(const example_context& ctx) {
         offset_y = c * dest_offset_y + (1 - c) * offset_y;
 
         scale *= (1 - 0.01f * s);
-        if(scale < min_scale)
+        if(scale < min_scale) {
             scale = min_scale;
+        }
 
         gl.uniform2f(offset_loc, offset_x, offset_y);
         gl.uniform2f(scale_loc, scale * aspect, scale);

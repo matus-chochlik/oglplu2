@@ -46,11 +46,11 @@ public:
     void init(example_context& ctx) final;
     void cleanup(example_context& ctx) final;
     void update_highlight(const example_context& ctx, float dt);
-    void pointer_motion(const example_context& ctx);
-    void user_idle(const example_context& ctx);
-    void resize(const example_context& ctx);
-    void render(const example_context& ctx);
-    seconds_t<float> default_timeout();
+    void pointer_motion(const example_context& ctx) final;
+    void user_idle(const example_context& ctx) final;
+    void resize(const example_context& ctx) final;
+    void render(const example_context& ctx) final;
+    seconds_t<float> default_timeout() final;
 };
 //------------------------------------------------------------------------------
 // example_triangle
