@@ -9,10 +9,18 @@ import os
 import re
 import sys
 import stat
+import errno
+import socket
+import signal
 import string
 import base64
 import xml.sax
 import threading
+
+try:
+    import selectors
+except ImportError:
+    import selectors2 as selectors
 
 # ------------------------------------------------------------------------------
 class XmlLogFormatter(object):
@@ -110,7 +118,7 @@ class XmlLogFormatter(object):
         return self._ttyBoldRed() + p + self._ttyReset()
 
     # --------------------------------------------------------------------------
-    def __init__(self, log_output):
+    def __init__(self, selector, log_output):
         self._re_var = re.compile(".*(\${([A-Za-z][A-Za-z_0-9]*)}).*")
         self._lock = threading.Lock()
         self._out = log_output
@@ -119,9 +127,9 @@ class XmlLogFormatter(object):
             "FsPath": self._formatFsPath,
             "ByteSize": lambda x: self._formatByteSize(int(x))
         }
+        self._sources = []
 
         with self._lock:
-            self._sources = []
             self._out.write("╮\n")
     # --------------------------------------------------------------------------
     def __del__(self):
@@ -130,7 +138,7 @@ class XmlLogFormatter(object):
             self._out.close()
 
     # --------------------------------------------------------------------------
-    def beginLog(self, srcid, name, info):
+    def beginLog(self, srcid, info):
         with self._lock:
             #
             self._out.write("┊")
@@ -146,7 +154,6 @@ class XmlLogFormatter(object):
             self._out.write("starting log")
             self._out.write(self._ttyReset())
             self._out.write("│")
-            self._out.write(name)
             self._out.write("\n")
             #
             self._out.write("┊")
@@ -156,7 +163,7 @@ class XmlLogFormatter(object):
             self._sources.append(srcid)
 
     # --------------------------------------------------------------------------
-    def finishLog(self, srcid, name):
+    def finishLog(self, srcid):
         with self._lock:
             # L0
             self._out.write("┊")
@@ -179,7 +186,6 @@ class XmlLogFormatter(object):
             self._out.write("closing  log")
             self._out.write(self._ttyReset())
             self._out.write("│")
-            self._out.write(name)
             self._out.write("\n")
             # L2
             self._out.write("┊")
@@ -326,28 +332,29 @@ class XmlLogFormatter(object):
             self._out.flush()
 
 # ------------------------------------------------------------------------------
-class XmlLogProcessor(threading.Thread, xml.sax.ContentHandler):
+class XmlLogProcessor(xml.sax.ContentHandler):
     # --------------------------------------------------------------------------
-    def __init__(self, xml_input, name, processor):
-        threading.Thread.__init__(self, target=self.run)
-        self._xmlin = xml_input
-        self._name = name
-        self._srcid = hash(self._xmlin)
-        self._proc = processor
+    def __init__(self, srcid, connection, formatter, selector):
+        self._srcid = srcid
         self._ctag = None
         self._carg = None
         self._info = None
-        threading.Thread.start(self)
+        self._connection = connection
+        self._formatter= formatter
+        self._parser = xml.sax.make_parser()
+        self._parser.setContentHandler(self)
+        self._selector = selector 
+        self._buffer = str()
 
     # --------------------------------------------------------------------------
     def __del__(self):
-        self._xmlin.close()
+        self._connection.close()
 
     # --------------------------------------------------------------------------
     def startElement(self, tag, attr):
         self._ctag = tag
         if tag == "log":
-            self._proc.beginLog(self._srcid, self._name, attr)
+            self._formatter.beginLog(self._srcid, attr)
         elif tag == "m":
             self._info = {
                 r: attr[k] for k, r in [
@@ -371,9 +378,9 @@ class XmlLogProcessor(threading.Thread, xml.sax.ContentHandler):
     # --------------------------------------------------------------------------
     def endElement(self, tag):
         if tag == "log":
-            self._proc.finishLog(self._srcid, self._name)
+            self._formatter.finishLog(self._srcid)
         elif tag == "m":
-            self._proc.addMessage(self._srcid, self._info)
+            self._formatter.addMessage(self._srcid, self._info)
             self._info = None
 
     # --------------------------------------------------------------------------
@@ -385,50 +392,92 @@ class XmlLogProcessor(threading.Thread, xml.sax.ContentHandler):
                 self._info["args"][self._carg]["value"] = content
 
     # --------------------------------------------------------------------------
-    def process(self):
-        parser = xml.sax.make_parser()
-        parser.setContentHandler(self)
-        line = self._xmlin.readline()
-        while line:
-            parser.feed(line)
-            line = self._xmlin.readline()
+    def disconnect(self):
+        self._parser.feed(self._buffer)
+        self._selector.unregister(self._connection)
 
     # --------------------------------------------------------------------------
-    def run(self):
+    def handleRead(self):
         try:
-            self.process()
-        except KeyboardInterrupt:
-            pass
+            data = self._connection.recv(4096)
+            if data:
+                self._buffer += data.decode("utf-8")
+                lines = self._buffer.split('\n')
+                for line in lines[:-1]:
+                    self._parser.feed(line)
+                self._buffer = lines[-1]
+            else:
+                self.disconnect()
+        except socket.error:
+            self.disconnect()
 
 # ------------------------------------------------------------------------------
-def main(args):
-    for arg in args:
-        if not os.path.exists(arg):
-            os.mkfifo(arg)
+def open_socket(socket_path):
+    try: os.unlink(socket_path)
+    except OSError as os_error:
+        if os_error.errno != errno.ENOENT:
+            raise
+    uds = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+    uds.bind(socket_path)
+    uds.listen(50)
+    uds.setblocking(False)
+    return uds
 
-    formatter = XmlLogFormatter(sys.stdout)
-    if args:
-        procs = [
-            XmlLogProcessor(open(arg, "rt"), arg, formatter)
-            for arg in args
-        ]
-    else:
-        procs = [
-            XmlLogProcessor(sys.stdin, "stdin", formatter)
-        ]
+# ------------------------------------------------------------------------------
+keep_running = True
+# ------------------------------------------------------------------------------
+def display_logs(socket_path):
+    try:
+        global keep_running
+        lsock = open_socket(socket_path)
+        with selectors.DefaultSelector() as selector:
+            selector.register(
+                lsock,
+                selectors.EVENT_READ,
+                data = XmlLogFormatter(selector, sys.stdout)
+            )
 
-    for proc in procs:
+            source_id = 0
+            while keep_running:
+                events = selector.select(timeout=1.0)
+                for key, mask in events:
+                    if type(key.data) is XmlLogFormatter:
+                        connection, addr = lsock.accept()
+                        connection.setblocking(False)
+                        selector.register(
+                            connection,
+                            selectors.EVENT_READ,
+                            data = XmlLogProcessor(
+                                source_id,
+                                connection,
+                                key.data,
+                                selector
+                            )
+                        )
+                        source_id += 1
+                    elif type(key.data) is XmlLogProcessor:
+                        if mask & selectors.EVENT_READ:
+                            key.data.handleRead()
+    finally:
         try:
-            proc.join()
-        except KeyboardInterrupt:
-            pass
+            lsock.close()
+            os.unlink(socket_path)
+        except: pass
 
+# ------------------------------------------------------------------------------
+def handle_interrupt(sig, frame):
+    global keep_running
+    keep_running = False
+# ------------------------------------------------------------------------------
+def main():
+    signal.signal(signal.SIGINT, handle_interrupt)
+    signal.signal(signal.SIGTERM, handle_interrupt)
+    display_logs("/tmp/eagine-xmllog")
     return 0
-
 # ------------------------------------------------------------------------------
 if __name__ == "__main__":
     try:
-        sys.exit(main(sys.argv[1:]))
+        sys.exit(main())
     except KeyboardInterrupt:
         pass
 

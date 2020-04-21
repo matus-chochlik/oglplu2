@@ -17,6 +17,7 @@ function(eagine_example_common EXAMPLE_NAME)
 		EXCLUDE_FROM_ALL
 		"${EXAMPLE_NAME}.cpp"
 	)
+	add_dependencies(eagine-examples eagine-${EXAMPLE_NAME})
 	target_link_libraries(
 		eagine-${EXAMPLE_NAME}
 		PUBLIC eagine
