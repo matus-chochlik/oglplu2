@@ -6,15 +6,22 @@
 add_library(EAGine::Required INTERFACE IMPORTED)
 
 if(UNIX AND NOT APPLE)
-	add_library(Linux::RT INTERFACE IMPORTED)
+	add_library(EAGreq::RunTime INTERFACE IMPORTED)
 	set_target_properties(
-		Linux::RT PROPERTIES
+		EAGreq::RunTime PROPERTIES
 		INTERFACE_LINK_LIBRARIES rt
+	)
+
+add_library(EAGreq::DynLib INTERFACE IMPORTED)
+	set_target_properties(
+		EAGreq::DynLib PROPERTIES
+		INTERFACE_LINK_LIBRARIES dl
 	)
 
 	set_target_properties(
 		EAGine::Required PROPERTIES
-		INTERFACE_LINK_LIBRARIES Linux::RT
+		INTERFACE_LINK_LIBRARIES
+		"EAGreq::RunTime;EAGreq::DynLib"
 	)
 
 endif()

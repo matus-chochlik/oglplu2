@@ -6,10 +6,12 @@
 add_executable(bake_noise_image bake_noise_image.cpp)
 add_executable(bake_checker_image bake_checker_image.cpp)
 
-if(PNG_FOUND)
-	do_use_single_dependency(bake_png_image PNG)
+if(TARGET PNG::PNG)
 	add_executable(bake_png_image bake_png_image.cpp)
-	target_link_libraries(bake_png_image ${PNG_LIBRARIES})
+	target_link_libraries(
+		bake_png_image
+		PUBLIC PNG::PNG
+	)
 endif()
 
 add_executable(bake_shader_source bake_shader_source.cpp)
@@ -23,7 +25,7 @@ if(INVOKE_CLANG_TIDY)
 		bake_shader_source 
 		bake_program_source 
 	)
-	if(PNG_FOUND)
+	if(TARGET bake_png_image)
 		list(APPEND EAGINE_TOOL_EXECUTABLES bake_png_image)
 	endif()
 

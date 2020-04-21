@@ -31,7 +31,7 @@ macro(eagine_common_find_module PREFIX PC_NAME HEADER LIBRARY)
 						HINTS ${PC_${PREFIX}_STATIC_LIBRARY_DIRS}
 					)
 					set(${PREFIX}_LIBRARIES ${${PREFIX}_LIBRARIES} ${${TMP_LIBRARY}_FULL_LIB_PATH})
-					unset(TMP_FULL_LIB_PATH)
+					unset(${TMP_LIBRARY}_FULL_LIB_PATH)
 				endforeach()
 			else()
 				set(${PREFIX}_DEFINITIONS "${PC_${PREFIX}_DEFINITIONS}")
@@ -43,7 +43,7 @@ macro(eagine_common_find_module PREFIX PC_NAME HEADER LIBRARY)
 						HINTS ${LIBRARY_SEARCH_PATHS} ${PC_${PREFIX}_LIBRARY_DIRS}
 					)
 					set(${PREFIX}_LIBRARIES ${${PREFIX}_LIBRARIES} ${${TMP_LIBRARY}_FULL_LIB_PATH})
-					unset(TMP_FULL_LIB_PATH)
+					unset(${TMP_LIBRARY}_FULL_LIB_PATH)
 				endforeach()
 			endif()
 			unset(${PREFIX}_FULL_LIB_PATH)
@@ -131,4 +131,56 @@ macro(eagine_common_find_module PREFIX PC_NAME HEADER LIBRARY)
 		endif()
 		message(STATUS "${FAIL_MSG}")
 	endif()
+endmacro()
+
+macro(eagine_common_import_lib PREFIX PC_NAME HEADER LIBRARY)
+	unset(${PREFIX}_FOUND)
+	unset(${PREFIX}_DEFINITIONS)
+	unset(${PREFIX}_INCLUDE_DIRS)
+	unset(${PREFIX}_LIBRARY_DIRS)
+	unset(${PREFIX}_LIBRARIES)
+
+	if(PKG_CONFIG_FOUND)
+		pkg_check_modules(PC_${PREFIX} QUIET ${PC_NAME})
+		if(PC_${PREFIX}_FOUND)
+			add_library(${PREFIX}::${PREFIX} INTERFACE IMPORTED)
+			set_target_properties(
+				${PREFIX}::${PREFIX} PROPERTIES
+				INTERFACE_COMPILE_OPTIONS
+				"${PC_${PREFIX}_CFLAGS_OTHER}"
+			)
+			set_target_properties(
+				${PREFIX}::${PREFIX} PROPERTIES
+				INTERFACE_COMPILE_OPTIONS
+				"${PC_${PREFIX}_INCLUDE_DIRECTORIES}"
+			)
+			set_target_properties(
+				${PREFIX}::${PREFIX} PROPERTIES
+				INTERFACE_LINK_OPTIONS
+				"${PC_${PREFIX}_LDFLAGS_OTHER}"
+			)
+			set_target_properties(
+				${PREFIX}::${PREFIX} PROPERTIES
+				INTERFACE_LINK_DIRECTORIES
+				"${PC_${PREFIX}_LIBRARY_DIRS}"
+			)
+			set_target_properties(
+				${PREFIX}::${PREFIX} PROPERTIES
+				INTERFACE_LINK_LIBRARIES
+				"${PC_${PREFIX}_LIBRARIES}"
+			)
+		endif()
+		unset(PC_${PREFIX}_CFLAGS)
+		unset(PC_${PREFIX}_CFLAGS_OTHER)
+		unset(PC_${PREFIX}_INCLUDE_DIRS)
+		unset(PC_${PREFIX}_LDFLAGS)
+		unset(PC_${PREFIX}_LDFLAGS_OTHER)
+		unset(PC_${PREFIX}_LIBRARY_DIRS)
+		unset(PC_${PREFIX}_LIBRARIES)
+	endif()
+
+	unset(${PREFIX}_DEFINITIONS)
+	unset(${PREFIX}_INCLUDE_DIRS)
+	unset(${PREFIX}_LIBRARY_DIRS)
+	unset(${PREFIX}_LIBRARIES)
 endmacro()

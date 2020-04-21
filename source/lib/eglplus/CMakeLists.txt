@@ -5,12 +5,20 @@
 
 if(EGL_FOUND)
 	include_directories(${EGL_INCLUDE_DIRS})
-	set(EGLPLUS_LIB_SOURCES
+
+	add_library(
+		eglplus
+		EXCLUDE_FROM_ALL
 		enum_value_names.cpp
 		enum_value_range.cpp
 	)
 
-	add_library(eglplus EXCLUDE_FROM_ALL ${EGLPLUS_LIB_SOURCES})
+	target_link_libraries(
+		eglplus
+		PUBLIC
+			eagine
+	)
+
 	set_target_properties(
 		eglplus
 		PROPERTIES FOLDER "Library/EGLplus"
@@ -21,6 +29,4 @@ if(EGL_FOUND)
 			PROPERTIES CXX_CLANG_TIDY "${INVOKE_CLANG_TIDY}"
 		)
 	endif()
-
-	target_link_libraries(eglplus eagine)
 endif()
