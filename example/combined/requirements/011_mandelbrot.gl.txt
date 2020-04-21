@@ -1,2 +1,0 @@
-GL_VERSION_3_0
-GL_texture_1d
