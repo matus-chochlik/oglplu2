@@ -76,6 +76,8 @@ struct logger_backend {
       identifier arg, identifier tag, memory::const_block value) noexcept = 0;
 
     virtual void finish_message() noexcept = 0;
+
+    virtual void finish_log() noexcept = 0;
 };
 //------------------------------------------------------------------------------
 } // namespace eagine

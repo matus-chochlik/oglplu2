@@ -97,6 +97,16 @@ public:
     asio_ostream_log_backend(log_event_severity min_severity)
       : asio_ostream_log_backend(string_view{}, min_severity) {
     }
+
+    asio_ostream_log_backend(asio_ostream_log_backend&&) = delete;
+    asio_ostream_log_backend(const asio_ostream_log_backend&) = delete;
+    asio_ostream_log_backend& operator=(asio_ostream_log_backend&&) = delete;
+    asio_ostream_log_backend& operator=(const asio_ostream_log_backend&) =
+      delete;
+
+    ~asio_ostream_log_backend() noexcept override {
+        this->finish_log();
+    }
 };
 //------------------------------------------------------------------------------
 } // namespace eagine

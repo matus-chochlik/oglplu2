@@ -69,6 +69,9 @@ struct null_log_backend : logger_backend {
 
     void finish_message() noexcept final {
     }
+
+    void finish_log() noexcept final {
+    }
 };
 //------------------------------------------------------------------------------
 } // namespace eagine

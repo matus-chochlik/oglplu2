@@ -44,14 +44,14 @@ public:
         }
     }
 
-    identifier type_id() noexcept final {
-        return EAGINE_ID(OutStream);
-    }
-
     ostream_log_backend(ostream_log_backend&&) = delete;
     ostream_log_backend(const ostream_log_backend&) = delete;
     ostream_log_backend& operator=(ostream_log_backend&&) = delete;
     ostream_log_backend& operator=(const ostream_log_backend&) = delete;
+
+    identifier type_id() noexcept final {
+        return EAGINE_ID(OutStream);
+    }
 
     logger_backend* entry_backend(
       identifier, log_event_severity severity) noexcept final {
@@ -197,13 +197,17 @@ public:
         }
     }
 
-    ~ostream_log_backend() noexcept override {
+    void finish_log() noexcept final {
         try {
             std::unique_lock lock{_lockable};
             _out << "</log>\n" << std::flush;
             flush();
         } catch(...) {
         }
+    }
+
+    ~ostream_log_backend() noexcept override {
+        finish_log();
     }
 };
 //------------------------------------------------------------------------------
