@@ -18,8 +18,13 @@ target_link_libraries(
 )
 
 set_target_properties(
-	eagine 
-	PROPERTIES FOLDER "Library/EAGine"
+	eagine PROPERTIES
+	INTERFACE_COMPILE_DEFINITIONS EAGINE_LINK_LIB=1
+)
+
+set_target_properties(
+	eagine PROPERTIES
+	FOLDER "Library/EAGine"
 )
 
 if(INVOKE_CLANG_TIDY)

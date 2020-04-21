@@ -15,8 +15,12 @@ if(EGL_FOUND)
 
 	target_link_libraries(
 		eglplus
-		PUBLIC
-			eagine
+		PUBLIC eagine
+	)
+
+	set_target_properties(
+		eglplus PROPERTIES
+		INTERFACE_COMPILE_DEFINITIONS EGLPLUS_LINK_LIB=1
 	)
 
 	set_target_properties(

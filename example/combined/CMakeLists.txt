@@ -16,7 +16,6 @@ set_target_properties(
 
 unset(OGLPLUS_EXAMPLE_HARNESS_ADDITIONAL_SOURCES)
 
-add_definitions("-DEAGINE_LINK_LIBRARY=1")
 add_definitions("-DOGLPLUS_LINK_LIBRARY=1")
 
 if("${OGLPLUS_EXAMPLE_HARNESS}" STREQUAL "glx")
