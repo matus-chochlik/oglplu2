@@ -15,7 +15,6 @@
 #include "../logging/exception.hpp"
 #include "../logging/logger.hpp"
 #include "../maybe_unused.hpp"
-#include "../serialize/size_and_data.hpp"
 #include "conn_factory.hpp"
 #include "serialize.hpp"
 #include <mutex>
@@ -76,8 +75,9 @@ struct asio_connection_state
     memory::buffer push_buffer;
     memory::buffer read_buffer;
     memory::buffer write_buffer;
-    message_storage incoming;
+    serialized_message_storage incoming;
     serialized_message_storage outgoing;
+    message_storage unpacked;
     bool is_sending{false};
     bool is_recving{false};
 
@@ -89,7 +89,7 @@ struct asio_connection_state
       , common{std::move(asio_state)}
       , socket{std::move(sock)} {
         EAGINE_ASSERT(common);
-        push_buffer.resize(4 * 1024);
+        push_buffer.resize(8 * 1024);
         zero(cover(push_buffer));
         read_buffer.resize(push_buffer.size());
         zero(cover(read_buffer));
@@ -106,6 +106,10 @@ struct asio_connection_state
       logger& parent,
       const std::shared_ptr<asio_common_state>& asio_state) noexcept
       : asio_connection_state{parent, asio_state, Socket{asio_state->context}} {
+    }
+
+    auto weak_ref() noexcept {
+        return std::weak_ptr(this->shared_from_this());
     }
 
     bool is_usable() const {
@@ -136,79 +140,78 @@ struct asio_connection_state
 
     void fetch_messages(connection::fetch_handler handler) {
         std::unique_lock lock{mutex};
-        incoming.fetch_all(handler);
+        auto unpacker = [this, &handler](memory::const_block data) {
+            for_each_data_with_size(data, [this](memory::const_block blk) {
+                unpacked.push_if([this, blk](
+                                   identifier_t& class_id,
+                                   identifier_t& method_id,
+                                   stored_message& message) {
+                    block_data_source source(blk);
+                    string_deserializer_backend backend(source);
+                    const auto errors = deserialize_message(
+                      class_id, method_id, message, backend);
+                    if(!errors) {
+                        this->_log.trace("received message ${message}")
+                          .arg(
+                            EAGINE_ID(message),
+                            message_id_tuple(class_id, method_id));
+                        return true;
+                    } else {
+                        _log.error("failed to deserialize message)")
+                          .arg(EAGINE_ID(errorBits), errors.bits())
+                          .arg(EAGINE_ID(block), blk);
+                        return false;
+                    }
+                });
+            });
+            unpacked.fetch_all(handler);
+            return true;
+        };
+
+        incoming.fetch_all(serialized_message_storage::fetch_handler(unpacker));
     }
 
-    void handle_sent(span_size_t) {
-        outgoing.pop();
+    void handle_sent(serialized_message_storage::bit_set to_be_removed) {
+        outgoing.cleanup(to_be_removed);
         is_sending = false;
     }
 
-    auto weak_ref() noexcept {
-        return std::weak_ptr(this->shared_from_this());
-    }
-
     void start_send() {
-        if(auto to_be_sent = outgoing.top()) {
-            if(!is_sending) {
-                if(store_data_with_size(to_be_sent, cover(write_buffer))) {
-                    is_sending = true;
-                    const auto blk = view(write_buffer);
+        if(!is_sending) {
+            if(auto packed_messages = outgoing.pack_into(cover(write_buffer))) {
+                is_sending = true;
+                const auto blk = view(write_buffer);
 
-                    _log.trace("writing data (size: ${size})")
-                      .arg(EAGINE_ID(block), blk)
-                      .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), blk.size());
+                _log.trace("writing data (size: ${size})")
+                  .arg(EAGINE_ID(block), blk)
+                  .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), blk.size());
 
-                    asio::async_write(
-                      socket,
-                      asio::buffer(blk.data(), blk.size()),
-                      [this, selfref{weak_ref()}](
-                        std::error_code error, std::size_t length) {
-                          if(const auto self{selfref.lock()}) {
-                              if(!error) {
-                                  _log.trace("sent data (size: ${size})")
-                                    .arg(
-                                      EAGINE_ID(size),
-                                      EAGINE_ID(ByteSize),
-                                      length);
+                asio::async_write(
+                  socket,
+                  asio::buffer(blk.data(), blk.size()),
+                  [this, packed_messages, selfref{weak_ref()}](
+                    std::error_code error, std::size_t length) {
+                      if(const auto self{selfref.lock()}) {
+                          if(!error) {
+                              _log.trace("sent data (size: ${size})")
+                                .arg(
+                                  EAGINE_ID(size), EAGINE_ID(ByteSize), length);
 
-                                  this->handle_sent(span_size(length));
-                                  self->start_send();
-                              } else {
-                                  _log.error("failed to send data: ${error}")
-                                    .arg(EAGINE_ID(error), error);
-                                  this->is_sending = false;
-                              }
+                              this->handle_sent(packed_messages);
+                              self->start_send();
+                          } else {
+                              _log.error("failed to send data: ${error}")
+                                .arg(EAGINE_ID(error), error);
+                              this->is_sending = false;
                           }
-                      });
-                }
+                      }
+                  });
             }
         }
     }
 
     void handle_received(memory::const_block data) {
-        if(const auto blk = get_data_with_size(data)) {
-            incoming.push_if([this, blk](
-                               identifier_t& class_id,
-                               identifier_t& method_id,
-                               stored_message& message) {
-                block_data_source source(blk);
-                string_deserializer_backend backend(source);
-                const auto errors =
-                  deserialize_message(class_id, method_id, message, backend);
-                if(!errors) {
-                    this->_log.trace("received message ${message}")
-                      .arg(
-                        EAGINE_ID(message),
-                        message_id_tuple(class_id, method_id));
-                    return true;
-                }
-                _log.error("failed to deserialize message)")
-                  .arg(EAGINE_ID(errorBits), errors.bits())
-                  .arg(EAGINE_ID(block), blk);
-                return false;
-            });
-        }
+        incoming.push(data);
         is_recving = false;
     }
 
@@ -394,7 +397,8 @@ class asio_connector<
                   } else {
                       this->_log
                         .error(
-                          "failed to connect on address ${address}:${port}: "
+                          "failed to connect on address "
+                          "${address}:${port}: "
                           "${error}")
                         .arg(EAGINE_ID(error), error)
                         .arg(

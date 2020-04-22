@@ -11,6 +11,7 @@
 #include <eagine/message_bus/actor.hpp>
 #include <eagine/message_bus/conn_setup.hpp>
 #include <eagine/timeout.hpp>
+#include <thread>
 
 namespace eagine {
 namespace msgbus {
@@ -69,6 +70,7 @@ int main(main_ctx& ctx) {
 
     while(!pong.is_done()) {
         pong.process_all();
+        std::this_thread::yield();
     }
 
     return 0;

@@ -11,6 +11,7 @@
 #include <eagine/message_bus/actor.hpp>
 #include <eagine/message_bus/conn_setup.hpp>
 #include <eagine/timeout.hpp>
+#include <thread>
 
 namespace eagine {
 namespace msgbus {
@@ -50,15 +51,13 @@ public:
     }
 
     void update() {
-        if(_sent <= _max) {
-            for(int i = 0; i < 10; ++i) {
-                bus().send(EAGINE_MSG_ID(PingPong, Ping));
-                if(++_sent % _lmod == 0) {
-                    log()
-                      .info("sent ${count} pings")
-                      .arg(EAGINE_ID(count), _sent);
-                }
+        if(_sent <= _max + _lmod) {
+            bus().send(EAGINE_MSG_ID(PingPong, Ping));
+            if(++_sent % _lmod == 0) {
+                log().info("sent ${count} pings").arg(EAGINE_ID(count), _sent);
             }
+        } else {
+            std::this_thread::yield();
         }
     }
 

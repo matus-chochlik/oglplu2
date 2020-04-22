@@ -16,6 +16,7 @@
 #include "../memory/buffer_pool.hpp"
 #include "../memory/span_algo.hpp"
 #include "../reflect/map_enumerators.hpp"
+#include "../serialize/size_and_data.hpp"
 #include "../types.hpp"
 #include <cstdint>
 #include <limits>
@@ -118,6 +119,8 @@ struct message_view : message_info {
 struct stored_message : message_info {
 
     memory::buffer data{};
+
+    stored_message() = default;
 
     stored_message(message_view message, memory::buffer buf) noexcept
       : message_info{message}
@@ -256,6 +259,43 @@ public:
         } else {
             _messages.clear();
         }
+    }
+
+    using bit_set = std::uint32_t;
+
+    bit_set pack_into(memory::block dest) {
+        bit_set result{0U};
+        bit_set current{1U};
+
+        for(auto& message : _messages) {
+            if(current == 0U) {
+                break;
+            }
+            if(auto packed = store_data_with_size(view(message), dest)) {
+                dest = skip(dest, packed.size());
+                result |= current;
+            }
+            current <<= 1U;
+        }
+        zero(dest);
+
+        return result;
+    }
+
+    void cleanup(bit_set to_be_removed) {
+        _messages.erase(
+          std::remove_if(
+            _messages.begin(),
+            _messages.end(),
+            [this, to_be_removed](auto& message) mutable {
+                const bool do_remove = (to_be_removed & 1U) == 1U;
+                if(do_remove) {
+                    _buffers.eat(std::move(message));
+                }
+                to_be_removed >>= 1U;
+                return do_remove;
+            }),
+          _messages.end());
     }
 
 private:
