@@ -89,7 +89,7 @@ struct asio_connection_state
       , common{std::move(asio_state)}
       , socket{std::move(sock)} {
         EAGINE_ASSERT(common);
-        push_buffer.resize(8 * 1024);
+        push_buffer.resize(1 * 1024);
         zero(cover(push_buffer));
         read_buffer.resize(push_buffer.size());
         zero(cover(read_buffer));
@@ -176,7 +176,8 @@ struct asio_connection_state
         is_sending = false;
     }
 
-    void start_send() {
+    bool start_send() {
+        std::unique_lock lock{mutex};
         if(!is_sending) {
             if(auto packed_messages = outgoing.pack_into(cover(write_buffer))) {
                 is_sending = true;
@@ -206,8 +207,10 @@ struct asio_connection_state
                           }
                       }
                   });
+                return true;
             }
         }
+        return is_sending;
     }
 
     void handle_received(memory::const_block data) {
@@ -216,6 +219,7 @@ struct asio_connection_state
     }
 
     void start_receive() {
+        std::unique_lock lock{mutex};
         if(!is_recving) {
             is_recving = true;
             auto blk = cover(read_buffer);
@@ -230,10 +234,13 @@ struct asio_connection_state
                 std::error_code error, std::size_t length) {
                   if(const auto self{selfref.lock()}) {
                       if(!error) {
+                          memory::const_block rcvd =
+                            head(blk, span_size(length));
                           _log.trace("received data (size: ${size})")
+                            .arg(EAGINE_ID(block), rcvd)
                             .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), length);
 
-                          this->handle_received(head(blk, span_size(length)));
+                          this->handle_received(rcvd);
                           self->start_receive();
                       } else {
                           _log.error("failed to receive data: ${error}")
@@ -252,6 +259,14 @@ struct asio_connection_state
               .arg(EAGINE_ID(count), count);
         } else {
             common->context.reset();
+        }
+    }
+
+    void flush() {
+        _log.trace("flushing connection outbox (count: ${count})")
+          .arg(EAGINE_ID(count), outgoing.size());
+        while(start_send()) {
+            update();
         }
     }
 };
@@ -355,6 +370,10 @@ public:
             this->_state->start_send();
         }
         this->_state->update();
+    }
+
+    void flush() final {
+        this->_state->flush();
     }
 };
 //------------------------------------------------------------------------------
@@ -586,6 +605,10 @@ public:
             this->_state->start_send();
         }
         this->_state->update();
+    }
+
+    void flush() final {
+        this->_state->flush();
     }
 };
 //------------------------------------------------------------------------------

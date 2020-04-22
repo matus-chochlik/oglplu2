@@ -130,6 +130,10 @@ void endpoint::flush_outbox() {
           .arg(EAGINE_ID(size), _outgoing.size());
         _outgoing.fetch_all(message_storage::fetch_handler{
           this, EAGINE_MEM_FUNC_C(endpoint, _handle_send)});
+        for(auto& connection : _connections) {
+            EAGINE_ASSERT(connection);
+            connection->flush();
+        }
     }
 }
 //------------------------------------------------------------------------------

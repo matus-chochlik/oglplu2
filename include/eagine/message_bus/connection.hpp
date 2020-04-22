@@ -63,6 +63,9 @@ struct connection : connection_info {
     virtual void update() {
     }
 
+    virtual void flush() {
+    }
+
     virtual bool is_usable() {
         return true;
     }

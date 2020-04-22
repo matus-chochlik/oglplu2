@@ -49,6 +49,15 @@ public:
         return true;
     }
 
+    void update() {
+        if(!_sent && _ready_timeout) {
+            bus().send(EAGINE_MSG_ID(PingPong, Ready));
+            _ready_timeout.reset();
+        } else {
+            std::this_thread::yield();
+        }
+    }
+
     bool is_done() const noexcept {
         return _done || _timeout;
     }
@@ -57,6 +66,7 @@ private:
     std::size_t _lmod{1};
     std::size_t _sent{0};
     timeout _timeout{std::chrono::seconds(30)};
+    timeout _ready_timeout{std::chrono::seconds(1)};
     bool _done{false};
 };
 //------------------------------------------------------------------------------
@@ -70,7 +80,7 @@ int main(main_ctx& ctx) {
 
     while(!pong.is_done()) {
         pong.process_all();
-        std::this_thread::yield();
+        pong.update();
     }
 
     return 0;

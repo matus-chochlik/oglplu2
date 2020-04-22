@@ -16,9 +16,9 @@
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
-class ping : public actor<1> {
+class ping : public actor<2> {
 public:
-    using base = actor<1>;
+    using base = actor<2>;
     using base::bus;
     using base::log;
 
@@ -26,7 +26,8 @@ public:
       : base(
           {EAGINE_ID(ExamplPing), parent},
           this,
-          EAGINE_MSG_MAP(PingPong, Pong, ping, pong))
+          EAGINE_MSG_MAP(PingPong, Pong, ping, pong),
+          EAGINE_MSG_MAP(PingPong, Ready, ping, ready))
       , _lmod{running_on_valgrind() ? 1000U : 10000U}
       , _max{running_on_valgrind() ? 10000U : 100000U} {
         conn_setup.setup_connectors(
@@ -45,13 +46,19 @@ public:
         return true;
     }
 
+    bool ready(stored_message&) {
+        _ready = true;
+        log().info("received pong ready message");
+        return true;
+    }
+
     void shutdown() {
         bus().send(EAGINE_MSG_ID(PingPong, Shutdown));
         log().info("sent shutdown message");
     }
 
     void update() {
-        if(_sent <= _max + _lmod) {
+        if(_ready && (_sent <= _max * 2)) {
             bus().send(EAGINE_MSG_ID(PingPong, Ping));
             if(++_sent % _lmod == 0) {
                 log().info("sent ${count} pings").arg(EAGINE_ID(count), _sent);
@@ -75,6 +82,7 @@ private:
     std::size_t _rcvd{0};
     const std::size_t _max{1000000};
     timeout _timeout{std::chrono::seconds(30)};
+    bool _ready{false};
 };
 //------------------------------------------------------------------------------
 } // namespace msgbus
@@ -100,7 +108,6 @@ int main(main_ctx& ctx) {
       .arg(EAGINE_ID(pps), ping.pings_per_second(elapsed));
 
     ping.shutdown();
-    ping.update();
 
     return 0;
 }

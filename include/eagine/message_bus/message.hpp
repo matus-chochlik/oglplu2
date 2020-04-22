@@ -219,6 +219,14 @@ public:
     /// and should be removed.
     using fetch_handler = callable_ref<bool(memory::const_block)>;
 
+    bool empty() const noexcept {
+        return _messages.empty();
+    }
+
+    span_size_t size() const noexcept {
+        return span_size(_messages.size());
+    }
+
     memory::const_block top() const noexcept {
         if(!_messages.empty()) {
             return view(_messages.front());
@@ -261,7 +269,7 @@ public:
         }
     }
 
-    using bit_set = std::uint32_t;
+    using bit_set = std::uint64_t;
 
     bit_set pack_into(memory::block dest) {
         bit_set result{0U};

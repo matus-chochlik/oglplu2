@@ -57,9 +57,8 @@ static inline void for_each_data_with_size(
   memory::const_block src, Function function) noexcept {
     while(src) {
         const auto opt_skip_len = mbs::decode_sequence_length(src);
-        if(
-          const auto opt_data_len =
-            mbs::do_decode_code_point(src, opt_skip_len)) {
+        const auto opt_data_len = mbs::do_decode_code_point(src, opt_skip_len);
+        if(opt_data_len) {
             const auto skip_len = extract(opt_skip_len);
             const auto data_len = extract(opt_data_len);
             if(data_len > 0) {
