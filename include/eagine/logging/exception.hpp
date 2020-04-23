@@ -36,6 +36,10 @@ static inline auto adapt_log_entry_arg(
     return [name, value](logger_backend& backend) {
         backend.add_string(
           name, EAGINE_ID(SystmError), string_view(value.what()));
+        backend.add_string(
+          EAGINE_ID(category),
+          EAGINE_ID(ErrorCtgry),
+          string_view(value.code().category().name()));
     };
 }
 //------------------------------------------------------------------------------
