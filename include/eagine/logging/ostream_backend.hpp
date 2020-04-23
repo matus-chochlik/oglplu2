@@ -11,6 +11,7 @@
 #define EAGINE_LOGGING_OSTREAM_BACKEND_HPP
 
 #include "../base64dump.hpp"
+#include "../memory/default_alloc.hpp"
 #include "backend.hpp"
 #include <mutex>
 #include <ostream>
@@ -23,6 +24,7 @@ private:
     Lockable _lockable{};
     std::ostream& _out;
     log_event_severity _min_severity;
+    memory::shared_byte_allocator _allocator;
     const std::chrono::steady_clock::time_point _start;
 
 protected:
@@ -34,6 +36,7 @@ public:
       std::ostream& out, log_event_severity min_severity) noexcept
       : _out{out}
       , _min_severity{min_severity}
+      , _allocator{memory::default_byte_allocator()}
       , _start{std::chrono::steady_clock::now()} {
         try {
             std::unique_lock lock{_lockable};
@@ -48,6 +51,10 @@ public:
     ostream_log_backend(const ostream_log_backend&) = delete;
     ostream_log_backend& operator=(ostream_log_backend&&) = delete;
     ostream_log_backend& operator=(const ostream_log_backend&) = delete;
+
+    memory::shared_byte_allocator allocator() noexcept final {
+        return _allocator;
+    }
 
     identifier type_id() noexcept final {
         return EAGINE_ID(OutStream);

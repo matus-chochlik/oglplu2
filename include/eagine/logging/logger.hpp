@@ -26,7 +26,11 @@ public:
       log_event_severity severity,
       std::true_type,
       string_view format) noexcept {
-        return {source, severity, format, _entry_backend(source, severity)};
+        return {source,
+                reinterpret_cast<logger_instance_id>(this),
+                severity,
+                format,
+                _entry_backend(source, severity)};
     }
 
     constexpr no_log_entry log(
@@ -55,7 +59,11 @@ public:
       identifier source,
       log_event_severity severity,
       string_view format) noexcept {
-        return {source, severity, format, _entry_backend(source, severity)};
+        return {source,
+                reinterpret_cast<logger_instance_id>(this),
+                severity,
+                format,
+                _entry_backend(source, severity)};
     }
 
     log_entry log(log_event_severity severity, string_view format) noexcept {

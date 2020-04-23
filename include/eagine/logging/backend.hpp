@@ -12,6 +12,7 @@
 
 #include "../identifier.hpp"
 #include "../memory/block.hpp"
+#include "../memory/shared_alloc.hpp"
 #include "../string_span.hpp"
 #include "severity.hpp"
 #include <chrono>
@@ -29,6 +30,8 @@ struct logger_backend {
     logger_backend& operator=(logger_backend&&) noexcept = default;
     logger_backend& operator=(const logger_backend&) noexcept = default;
     virtual ~logger_backend() noexcept = default;
+
+    virtual memory::shared_byte_allocator allocator() noexcept = 0;
 
     virtual identifier type_id() noexcept = 0;
 

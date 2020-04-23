@@ -12,7 +12,6 @@
 
 #include "../bitfield.hpp"
 #include "../branch_predict.hpp"
-#include "../memory/default_alloc.hpp"
 #include "../memory/object_storage.hpp"
 #include "../message_id.hpp"
 #include "backend.hpp"
@@ -75,11 +74,19 @@ constexpr const bool has_log_entry_adapter_v =
 class logger;
 
 class log_entry {
+    static memory::shared_byte_allocator _be_alloc(
+      logger_backend* backend) noexcept {
+        if(backend) {
+            return backend->allocator();
+        }
+        return {};
+    }
+
 public:
     log_entry(log_entry&& temp) noexcept
       : _backend{temp._backend}
       , _format{temp._format}
-      , _args{memory::c_byte_reallocator<>()}
+      , _args{_be_alloc(_backend)}
       , _severity{temp._severity} {
         temp._backend = nullptr;
     }
@@ -90,10 +97,7 @@ public:
     ~log_entry() noexcept {
         if(_backend) {
             if(EAGINE_LIKELY(_backend->begin_message(
-                 _source_id,
-                 reinterpret_cast<logger_instance_id>(this),
-                 _severity,
-                 _format))) {
+                 _source_id, _instance_id, _severity, _format))) {
                 _args(*_backend);
                 _backend->finish_message();
             }
@@ -311,17 +315,20 @@ private:
 
     log_entry(
       identifier source_id,
+      logger_instance_id instance_id,
       log_event_severity severity,
       string_view format,
       logger_backend* backend) noexcept
       : _source_id{source_id}
+      , _instance_id{instance_id}
       , _backend{backend}
       , _format{format}
-      , _args{memory::default_byte_allocator()} // TODO: arena alloc
+      , _args{_be_alloc(_backend)}
       , _severity{severity} {
     }
 
     identifier _source_id{};
+    logger_instance_id _instance_id{};
     logger_backend* _backend{nullptr};
     const string_view _format{};
     memory::callable_storage<void(logger_backend&)> _args;

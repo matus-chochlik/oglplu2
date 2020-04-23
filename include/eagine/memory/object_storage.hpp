@@ -55,6 +55,13 @@ public:
       , _dtrs{std_allocator<void (*)(block)>{_alloc}} {
     }
 
+    object_storage(shared_byte_allocator a) noexcept
+      : _alloc(std::move(a))
+      , _blks{std_allocator<owned_block>{_alloc}}
+      , _alns{std_allocator<span_size_t>{_alloc}}
+      , _dtrs{std_allocator<void (*)(block)>{_alloc}} {
+    }
+
     object_storage() noexcept
       : object_storage{default_byte_allocator()} {
     }
@@ -147,6 +154,11 @@ public:
       typename = shared_byte_allocator::enable_if_compatible_t<X>>
     callable_storage(X&& x) noexcept
       : base(std::forward<X>(x))
+      , _clrs{std_allocator<void (*)(block, Params...)>{base::_alloc}} {
+    }
+
+    callable_storage(shared_byte_allocator a) noexcept
+      : base(std::move(a))
       , _clrs{std_allocator<void (*)(block, Params...)>{base::_alloc}} {
     }
 

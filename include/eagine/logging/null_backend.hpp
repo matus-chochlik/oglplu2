@@ -20,6 +20,10 @@ struct null_log_backend : logger_backend {
         return nullptr;
     }
 
+    memory::shared_byte_allocator allocator() noexcept final {
+        return {};
+    }
+
     identifier type_id() noexcept final {
         return EAGINE_ID(Null);
     }
