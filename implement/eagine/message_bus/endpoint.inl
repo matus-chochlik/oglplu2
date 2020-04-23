@@ -132,7 +132,7 @@ void endpoint::flush_outbox() {
           this, EAGINE_MEM_FUNC_C(endpoint, _handle_send)});
         for(auto& connection : _connections) {
             EAGINE_ASSERT(connection);
-            connection->flush();
+            connection->cleanup();
         }
     }
 }

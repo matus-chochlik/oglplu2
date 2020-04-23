@@ -15,9 +15,11 @@
 #include "../logging/exception.hpp"
 #include "../logging/logger.hpp"
 #include "../maybe_unused.hpp"
+#include "../timeout.hpp"
 #include "conn_factory.hpp"
 #include "serialize.hpp"
 #include <mutex>
+#include <thread>
 
 #ifdef __clang__
 #pragma clang diagnostic push
@@ -47,8 +49,90 @@ namespace msgbus {
 enum class asio_connection_addr_kind { local, ipv4 };
 enum class asio_connection_protocol { stream, datagram };
 //------------------------------------------------------------------------------
+template <typename Socket>
+class flushing_sockets {
+public:
+    void adopt(Socket& sckt) {
+        _waiting.emplace_back(std::chrono::seconds(3), std::move(sckt));
+    }
+
+    bool empty() const noexcept {
+        return _waiting.empty();
+    }
+
+    void update() noexcept {
+        _waiting.erase(
+          std::remove_if(
+            _waiting.begin(),
+            _waiting.end(),
+            [](auto& waiting) { return bool(std::get<0>(waiting)); }),
+          _waiting.end());
+    }
+
+private:
+    std::vector<std::tuple<timeout, Socket>> _waiting;
+};
+//------------------------------------------------------------------------------
 struct asio_common_state {
     asio::io_context context;
+
+    asio_common_state() = default;
+    asio_common_state(asio_common_state&&) = delete;
+    asio_common_state(const asio_common_state&) = delete;
+    asio_common_state& operator=(asio_common_state&&) = delete;
+    asio_common_state& operator=(const asio_common_state&) = delete;
+
+    ~asio_common_state() noexcept {
+        while(has_flushing()) {
+            update();
+            std::this_thread::yield();
+        }
+    }
+
+    template <typename Socket>
+    void adopt_flushing(Socket& sckt) {
+        std::get<flushing_sockets<Socket>>(_flushing).adopt(sckt);
+    }
+
+    void update() noexcept {
+        _update_flushing(_flushing);
+    }
+
+    bool has_flushing() const noexcept {
+        return _has_flushing(_flushing);
+    }
+
+private:
+    template <typename Tup, std::size_t... I>
+    static void _do_update_flushing(
+      Tup& flushing, std::index_sequence<I...>) noexcept {
+        (..., std::get<I>(flushing).update());
+    }
+
+    template <typename Tup>
+    static void _update_flushing(Tup& flushing) noexcept {
+        _do_update_flushing(
+          flushing, std::make_index_sequence<std::tuple_size_v<Tup>>());
+    }
+
+    template <typename Tup, std::size_t... I>
+    static bool _does_have_flushing(
+      Tup& flushing, std::index_sequence<I...>) noexcept {
+        return (false || ... || !std::get<I>(flushing).empty());
+    }
+
+    template <typename Tup>
+    static bool _has_flushing(Tup& flushing) noexcept {
+        return _does_have_flushing(
+          flushing, std::make_index_sequence<std::tuple_size_v<Tup>>());
+    }
+
+    std::tuple<
+#if EAGINE_POSIX
+      flushing_sockets<asio::local::stream_protocol::socket>,
+#endif
+      flushing_sockets<asio::ip::tcp::socket>>
+      _flushing;
 };
 //------------------------------------------------------------------------------
 template <typename Base, asio_connection_addr_kind, asio_connection_protocol>
@@ -89,7 +173,8 @@ struct asio_connection_state
       , common{std::move(asio_state)}
       , socket{std::move(sock)} {
         EAGINE_ASSERT(common);
-        push_buffer.resize(1 * 1024);
+        common->update();
+        push_buffer.resize(8 * 1024);
         zero(cover(push_buffer));
         read_buffer.resize(push_buffer.size());
         zero(cover(read_buffer));
@@ -207,7 +292,6 @@ struct asio_connection_state
                           }
                       }
                   });
-                return true;
             }
         }
         return is_sending;
@@ -233,9 +317,8 @@ struct asio_connection_state
               [this, selfref{weak_ref()}, blk](
                 std::error_code error, std::size_t length) {
                   if(const auto self{selfref.lock()}) {
+                      memory::const_block rcvd = head(blk, span_size(length));
                       if(!error) {
-                          memory::const_block rcvd =
-                            head(blk, span_size(length));
                           _log.trace("received data (size: ${size})")
                             .arg(EAGINE_ID(block), rcvd)
                             .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), length);
@@ -243,8 +326,14 @@ struct asio_connection_state
                           this->handle_received(rcvd);
                           self->start_receive();
                       } else {
-                          _log.error("failed to receive data: ${error}")
-                            .arg(EAGINE_ID(error), error);
+                          if(rcvd) {
+                              _log.warning("failed receiving data: ${error}")
+                                .arg(EAGINE_ID(error), error);
+                              this->handle_received(rcvd);
+                          } else {
+                              _log.error("failed to receive data: ${error}")
+                                .arg(EAGINE_ID(error), error);
+                          }
                           this->is_recving = false;
                           this->socket.close();
                       }
@@ -262,12 +351,14 @@ struct asio_connection_state
         }
     }
 
-    void flush() {
-        _log.trace("flushing connection outbox (count: ${count})")
-          .arg(EAGINE_ID(count), outgoing.size());
+    void cleanup() {
         while(start_send()) {
+            _log.debug("flushing connection outbox (count: ${count})")
+              .arg(EAGINE_ID(count), outgoing.size());
             update();
         }
+        common->adopt_flushing(socket);
+        common->update();
     }
 };
 //------------------------------------------------------------------------------
@@ -372,8 +463,8 @@ public:
         this->_state->update();
     }
 
-    void flush() final {
-        this->_state->flush();
+    void cleanup() final {
+        this->_state->cleanup();
     }
 };
 //------------------------------------------------------------------------------
@@ -607,8 +698,8 @@ public:
         this->_state->update();
     }
 
-    void flush() final {
-        this->_state->flush();
+    void cleanup() final {
+        this->_state->cleanup();
     }
 };
 //------------------------------------------------------------------------------

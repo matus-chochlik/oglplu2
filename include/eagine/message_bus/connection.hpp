@@ -63,7 +63,7 @@ struct connection : connection_info {
     virtual void update() {
     }
 
-    virtual void flush() {
+    virtual void cleanup() {
     }
 
     virtual bool is_usable() {
