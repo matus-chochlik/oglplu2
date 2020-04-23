@@ -9,6 +9,7 @@
 #include <eagine/logging/asio_backend.hpp>
 #include <eagine/logging/null_backend.hpp>
 #include <eagine/logging/ostream_backend.hpp>
+#include <cerrno>
 #include <iostream>
 
 namespace eagine {
@@ -40,6 +41,19 @@ std::unique_ptr<logger_backend> root_logger_choose_backend(
 #endif
         }
     }
+#if EAGINE_DEBUG
+#if EAGINE_HAS_ASIO_LOG_BACKEND
+    if(!result) {
+        try {
+            result = std::make_unique<asio_ostream_log_backend<>>(min_severity);
+        } catch(std::system_error& err) {
+            if(err.code().value() != ENOENT) {
+                throw;
+            }
+        }
+    }
+#endif
+#endif
 
     if(!result) {
         result =
