@@ -31,7 +31,10 @@ struct null_log_backend : logger_backend {
     }
 
     bool begin_message(
-      identifier, log_event_severity, string_view) noexcept final {
+      identifier,
+      logger_instance_id,
+      log_event_severity,
+      string_view) noexcept final {
         return false;
     }
 

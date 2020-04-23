@@ -19,7 +19,10 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
+using logger_instance_id = std::uintptr_t;
+
 struct logger_backend {
+
     logger_backend() noexcept = default;
     logger_backend(logger_backend&&) noexcept = default;
     logger_backend(const logger_backend&) noexcept = default;
@@ -38,6 +41,7 @@ struct logger_backend {
 
     virtual bool begin_message(
       identifier source,
+      logger_instance_id instance,
       log_event_severity severity,
       string_view format) noexcept = 0;
 

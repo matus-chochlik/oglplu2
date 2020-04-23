@@ -89,8 +89,11 @@ public:
 
     ~log_entry() noexcept {
         if(_backend) {
-            if(EAGINE_LIKELY(
-                 _backend->begin_message(_source_id, _severity, _format))) {
+            if(EAGINE_LIKELY(_backend->begin_message(
+                 _source_id,
+                 reinterpret_cast<logger_instance_id>(this),
+                 _severity,
+                 _format))) {
                 _args(*_backend);
                 _backend->finish_message();
             }

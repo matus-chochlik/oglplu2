@@ -79,6 +79,7 @@ public:
 
     bool begin_message(
       identifier source,
+      logger_instance_id instance,
       log_event_severity severity,
       string_view format) noexcept final {
         try {
@@ -87,6 +88,7 @@ public:
             _out << "<m";
             _out << " lvl='" << enumerator_name(severity) << "'";
             _out << " src='" << source.name() << "'";
+            _out << " iid='" << instance << "'";
             _out << " ts='" << (now - _start).count() << "'";
             _out << ">";
             _out << "<f>" << format << "</f>";
