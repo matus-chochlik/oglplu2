@@ -28,39 +28,32 @@ std::unique_ptr<logger_backend> root_logger_choose_backend(
 
     for(auto& arg : args) {
         if(arg.is_tag("--use-null-log")) {
-            result = std::make_unique<null_log_backend>();
+            return std::make_unique<null_log_backend>();
         } else if(arg.is_tag("--use-cerr-log")) {
-            result =
-              std::make_unique<ostream_log_backend<>>(std::cerr, min_severity);
+            return std::make_unique<ostream_log_backend<>>(
+              std::cerr, min_severity);
         } else if(arg.is_tag("--use-cout-log")) {
-            result =
-              std::make_unique<ostream_log_backend<>>(std::cout, min_severity);
+            return std::make_unique<ostream_log_backend<>>(
+              std::cout, min_severity);
 #if EAGINE_HAS_ASIO_LOG_BACKEND
         } else if(arg.is_tag("--use-asio-log")) {
-            result = std::make_unique<asio_ostream_log_backend<>>(min_severity);
+            return std::make_unique<asio_ostream_log_backend<>>(min_severity);
 #endif
         }
     }
 #if EAGINE_DEBUG
 #if EAGINE_HAS_ASIO_LOG_BACKEND
-    if(!result) {
-        try {
-            result = std::make_unique<asio_ostream_log_backend<>>(min_severity);
-        } catch(std::system_error& err) {
-            if(err.code().value() != ENOENT) {
-                throw;
-            }
+    try {
+        return std::make_unique<asio_ostream_log_backend<>>(min_severity);
+    } catch(std::system_error& err) {
+        if(err.code().value() != ENOENT) {
+            throw;
         }
     }
 #endif
 #endif
 
-    if(!result) {
-        result =
-          std::make_unique<ostream_log_backend<>>(std::clog, min_severity);
-    }
-
-    return result;
+    return std::make_unique<ostream_log_backend<>>(std::clog, min_severity);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
