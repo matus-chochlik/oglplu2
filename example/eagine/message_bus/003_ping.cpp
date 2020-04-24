@@ -11,6 +11,7 @@
 #include <eagine/message_bus/actor.hpp>
 #include <eagine/message_bus/conn_setup.hpp>
 #include <eagine/timeout.hpp>
+#include <eagine/valid_if/positive.hpp>
 #include <thread>
 
 namespace eagine {
@@ -22,14 +23,17 @@ public:
     using base::bus;
     using base::log;
 
-    ping(logger& parent, connection_setup& conn_setup)
+    ping(
+      logger& parent,
+      connection_setup& conn_setup,
+      valid_if_positive<std::size_t> max)
       : base(
           {EAGINE_ID(ExamplPing), parent},
           this,
           EAGINE_MSG_MAP(PingPong, Pong, ping, pong),
           EAGINE_MSG_MAP(PingPong, Ready, ping, ready))
       , _lmod{running_on_valgrind() ? 1000U : 10000U}
-      , _max{running_on_valgrind() ? 10000U : 100000U} {
+      , _max{extract_or(max, running_on_valgrind() ? 10000U : 100000U)} {
         conn_setup.setup_connectors(
           *this,
           connection_kind::local_interprocess |
@@ -91,7 +95,12 @@ int main(main_ctx& ctx) {
     msgbus::connection_setup conn_setup(ctx.log());
     conn_setup.default_init(ctx.args());
 
-    msgbus::ping ping(ctx.log(), conn_setup);
+    valid_if_positive<std::size_t> ping_count{};
+    if(auto arg{ctx.args().find("--ping-count")}) {
+        arg.next().parse(ping_count, ctx.log().error_stream());
+    }
+
+    msgbus::ping ping(ctx.log(), conn_setup, ping_count);
 
     const time_measure run_time;
 

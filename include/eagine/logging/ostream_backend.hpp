@@ -39,7 +39,7 @@ public:
       , _min_severity{min_severity}
       , _alloc_buffer{}
       , _start{std::chrono::steady_clock::now()} {
-        _alloc_buffer.resize(8 * 1024);
+        _alloc_buffer.resize(4 * 1024);
         try {
             std::unique_lock lock{_lockable};
             _out << "<?xml version='1.0' encoding='UTF-8'?>\n";

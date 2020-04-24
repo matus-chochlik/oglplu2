@@ -15,7 +15,7 @@
 #include "../memory/object_storage.hpp"
 #include "../message_id.hpp"
 #include "backend.hpp"
-#include <stdexcept>
+#include <sstream>
 
 namespace eagine {
 //------------------------------------------------------------------------------
@@ -100,8 +100,14 @@ public:
                  _source_id, _instance_id, _severity, _format))) {
                 _args(*_backend);
                 _backend->finish_message();
+                _backend = nullptr;
             }
         }
+    }
+
+    log_entry& set_format(string_view format) noexcept {
+        _format = format;
+        return *this;
     }
 
     log_entry& arg(identifier name, identifier tag, identifier value) noexcept {
@@ -330,7 +336,7 @@ private:
     identifier _source_id{};
     logger_instance_id _instance_id{};
     logger_backend* _backend{nullptr};
-    const string_view _format{};
+    string_view _format{};
     memory::callable_storage<void(logger_backend&)> _args;
     const log_event_severity _severity{log_event_severity::info};
 };
@@ -344,6 +350,54 @@ struct no_log_entry {
     constexpr inline no_log_entry& arg(identifier, identifier, T&&) noexcept {
         return *this;
     }
+};
+//------------------------------------------------------------------------------
+class stream_log_entry {
+public:
+    operator std::ostream&() noexcept {
+        return _out;
+    }
+
+    stream_log_entry(stream_log_entry&&) = default;
+    stream_log_entry(const stream_log_entry&) = delete;
+    stream_log_entry& operator=(stream_log_entry&&) = delete;
+    stream_log_entry& operator=(const stream_log_entry&) = delete;
+
+    ~stream_log_entry() noexcept {
+        try {
+            auto fmt_str(_out.str());
+            if(!fmt_str.empty()) {
+                if(_backend) {
+                    if(EAGINE_LIKELY(_backend->begin_message(
+                         _source_id, _instance_id, _severity, fmt_str))) {
+                        _backend->finish_message();
+                        _backend = nullptr;
+                    }
+                }
+            }
+        } catch(...) {
+        }
+    }
+
+private:
+    friend class logger;
+
+    stream_log_entry(
+      identifier source_id,
+      logger_instance_id instance_id,
+      log_event_severity severity,
+      logger_backend* backend) noexcept
+      : _source_id{source_id}
+      , _instance_id{instance_id}
+      , _backend{backend}
+      , _severity{severity} {
+    }
+
+    std::stringstream _out{};
+    identifier _source_id{};
+    logger_instance_id _instance_id{};
+    logger_backend* _backend{nullptr};
+    const log_event_severity _severity{log_event_severity::info};
 };
 //------------------------------------------------------------------------------
 } // namespace eagine

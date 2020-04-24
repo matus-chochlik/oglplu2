@@ -110,6 +110,22 @@ public:
         return info(format);
     }
 
+    stream_log_entry log_stream(
+      identifier source, log_event_severity severity) noexcept {
+        return {source,
+                reinterpret_cast<logger_instance_id>(this),
+                severity,
+                _entry_backend(source, severity)};
+    }
+
+    auto log_stream(log_event_severity severity) noexcept {
+        return log_stream(_logger_id, severity);
+    }
+
+    auto error_stream() noexcept {
+        return log_stream(log_event_severity::error);
+    }
+
     logger() noexcept = default;
 
     logger(identifier logger_id, logger& parent) noexcept
