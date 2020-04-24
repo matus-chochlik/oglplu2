@@ -70,6 +70,7 @@ public:
         return _allocated().size();
     }
 
+    bool contains(const owned_block& b) const noexcept;
     tribool has_allocated(const owned_block& b) const noexcept;
 
     owned_block allocate(size_type n) noexcept;

@@ -12,6 +12,8 @@
 namespace eagine {
 namespace memory {
 //------------------------------------------------------------------------------
+// base_stack_allocator
+//------------------------------------------------------------------------------
 template <typename T>
 inline const_block base_stack_allocator<T>::_store() const noexcept {
     EAGINE_ASSERT(_btm <= _top);
@@ -76,13 +78,15 @@ inline base_stack_allocator<T>::~base_stack_allocator() noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename T>
+inline bool base_stack_allocator<T>::contains(const owned_block& b) const
+  noexcept {
+    return _store().contains(b);
+}
+//------------------------------------------------------------------------------
+template <typename T>
 inline tribool base_stack_allocator<T>::has_allocated(
   const owned_block& b) const noexcept {
-    if(_store().contains(b)) {
-        EAGINE_ASSERT(_allocated().contains(b));
-        return true;
-    }
-    return false;
+    return _allocated().contains(b);
 }
 //------------------------------------------------------------------------------
 template <typename T>
@@ -158,6 +162,8 @@ inline void base_stack_allocator<T>::deallocate(owned_block&& b) noexcept {
     }
 }
 //------------------------------------------------------------------------------
+// stack_byte_allocator_only
+//------------------------------------------------------------------------------
 template <typename Policy>
 inline bool stack_byte_allocator_only<Policy>::equal(byte_allocator* a) const
   noexcept {
@@ -178,7 +184,7 @@ inline owned_block stack_byte_allocator_only<Policy>::allocate(
 
     EAGINE_ASSERT(m <= b.size());
 
-    owned_block r = this->acquire_block({b.begin() + m, b.end()});
+    owned_block r{this->acquire_block({b.begin() + m, b.end()})};
 
     this->release_block(std::move(b));
 
@@ -191,6 +197,8 @@ inline void stack_byte_allocator_only<Policy>::deallocate(
     EAGINE_ASSERT(_alloc.has_allocated(b));
     this->release_block(std::move(b));
 }
+//------------------------------------------------------------------------------
+// stack_byte_allocator
 //------------------------------------------------------------------------------
 template <typename Policy>
 inline bool stack_byte_allocator<Policy>::equal(byte_allocator* a) const
