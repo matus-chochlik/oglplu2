@@ -249,6 +249,10 @@ class XmlLogFormatter(object):
     def addMessage(self, srcid, info):
         args = info["args"]
         message = info["format"]
+        instance = hash(info["instance"]) % ((sys.maxsize + 1) * 2)
+        instance = instance.to_bytes(8, byteorder='big')
+        instance = base64.b64encode(instance, altchars=b'=-')
+        instance = instance.decode("utf-8")
         found = re.match(self._re_var, message)
         while found:
             prev = message[:found.start(1)]
@@ -279,12 +283,19 @@ class XmlLogFormatter(object):
             self._out.write("━┑")
             self._out.write("%s│" % self.translateLevel(info["level"]))
             self._out.write("%10s│" % info["source"])
-            self._out.write(message)
+            self._out.write("%12s│" % instance)
             self._out.write("\n")
             self._out.write("┊")
             for sid in self._sources:
                 self._out.write(" │")
-            self._out.write(" ╰─────────┴──────────╯")
+            self._out.write(" ├─────────┴──────────┴────────────╯")
+            self._out.write("\n")
+
+            self._out.write("┊")
+            for sid in self._sources:
+                self._out.write(" │")
+            self._out.write(" ╰╴")
+            self._out.write(message)
             self._out.write("\n")
             # BLOBs
             for name, info in args.items():
@@ -360,6 +371,7 @@ class XmlLogProcessor(xml.sax.ContentHandler):
                 r: attr[k] for k, r in [
                     ("lvl", "level"),
                     ("src", "source"),
+                    ("iid", "instance"),
                     ("ts",  "timestamp")
                 ]
             }
