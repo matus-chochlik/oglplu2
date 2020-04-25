@@ -22,7 +22,11 @@ class basic_gl_api
   : protected ApiTraits
   , public basic_gl_operations<ApiTraits>
   , public basic_gl_constants<ApiTraits> {
+
 public:
+    template <typename R>
+    using combined_result = typename ApiTraits::template combined_result<R>;
+
     basic_gl_api(ApiTraits traits)
       : ApiTraits{std::move(traits)}
       , basic_gl_operations<ApiTraits>{*static_cast<ApiTraits*>(this)}
@@ -65,6 +69,158 @@ public:
 
     const basic_gl_constants<ApiTraits>& operator~() const noexcept {
         return *this;
+    }
+
+    // convenience functions
+    constexpr true_false true_or_false(bool b) const noexcept {
+        return b ? true_false(this->true_) : true_false(this->false_);
+    }
+
+    // uniform
+private:
+    template <typename ProgramUniformFunc, typename UniformFunc, typename T>
+    combined_result<void> _set_uniform(
+      ProgramUniformFunc& program_uniform_func,
+      UniformFunc& uniform_func,
+      program_name prog,
+      uniform_location loc,
+      T&& value) const {
+        if(program_uniform_func) {
+            return program_uniform_func(prog, loc, std::forward<T>(value));
+        } else {
+            if(auto use_res{this->use_program(prog)}) {
+                return uniform_func(loc, std::forward<T>(value));
+            } else {
+                return use_res;
+            }
+        }
+    }
+
+    template <typename ProgramUniformFunc, typename UniformFunc, typename T>
+    combined_result<void> _set_uniform_matrix(
+      ProgramUniformFunc& program_uniform_func,
+      UniformFunc& uniform_func,
+      program_name prog,
+      uniform_location loc,
+      T&& value,
+      true_false transpose) const {
+        if(program_uniform_func) {
+            return program_uniform_func(
+              prog, loc, transpose, std::forward<T>(value));
+        } else {
+            if(auto use_res{this->use_program(prog)}) {
+                return uniform_func(loc, transpose, std::forward<T>(value));
+            } else {
+                return use_res;
+            }
+        }
+    }
+
+public:
+    combined_result<void> uniform(
+      program_name prog, uniform_location loc, float value) const {
+        return _set_uniform(
+          this->program_uniform1f, this->uniform1f, prog, loc, value);
+    }
+
+    combined_result<void> uniform(
+      program_name prog,
+      uniform_location loc,
+      span<const float> value,
+      identity<float[1]>) const {
+        return _set_uniform(
+          this->program_uniform1fv, this->uniform1fv, prog, loc, value);
+    }
+
+    combined_result<void> uniform(
+      program_name prog,
+      uniform_location loc,
+      span<const float> value,
+      identity<float[2]>) const {
+        return _set_uniform(
+          this->program_uniform2fv, this->uniform2fv, prog, loc, value);
+    }
+
+    combined_result<void> uniform(
+      program_name prog,
+      uniform_location loc,
+      span<const float> value,
+      identity<float[3]>) const {
+        return _set_uniform(
+          this->program_uniform3fv, this->uniform3fv, prog, loc, value);
+    }
+
+    combined_result<void> uniform(
+      program_name prog,
+      uniform_location loc,
+      span<const float> value,
+      identity<float[4]>) const {
+        return _set_uniform(
+          this->program_uniform4fv, this->uniform4fv, prog, loc, value);
+    }
+
+    template <typename T>
+    std::enable_if_t<is_known_vector_type_v<T>, combined_result<void>> uniform(
+      program_name prog, uniform_location loc, const T& value) const {
+        return uniform(
+          prog, loc, element_view(value), canonical_compound_type<T>());
+    }
+
+    // uniform matrix
+    combined_result<void> uniform_matrix(
+      program_name prog,
+      uniform_location loc,
+      span<const float> value,
+      true_false transpose,
+      identity<float[2][2]>) const {
+        return _set_uniform_matrix(
+          this->program_uniform_matrix2fv,
+          this->uniform_matrix2fv,
+          prog,
+          loc,
+          value,
+          transpose);
+    }
+
+    combined_result<void> uniform_matrix(
+      program_name prog,
+      uniform_location loc,
+      span<const float> value,
+      true_false transpose,
+      identity<float[3][3]>) const {
+        return _set_uniform_matrix(
+          this->program_uniform_matrix3fv,
+          this->uniform_matrix3fv,
+          prog,
+          loc,
+          value,
+          transpose);
+    }
+
+    combined_result<void> uniform_matrix(
+      program_name prog,
+      uniform_location loc,
+      span<const float> value,
+      true_false transpose,
+      identity<float[4][4]>) const {
+        return _set_uniform_matrix(
+          this->program_uniform_matrix4fv,
+          this->uniform_matrix4fv,
+          prog,
+          loc,
+          value,
+          transpose);
+    }
+
+    template <typename T>
+    std::enable_if_t<is_known_matrix_type_v<T>, combined_result<void>> uniform(
+      program_name prog, uniform_location loc, const T& value) const {
+        return uniform_matrix(
+          prog,
+          loc,
+          element_view(value),
+          true_or_false(math::is_row_major_v<T>),
+          canonical_compound_type<T>());
     }
 };
 
