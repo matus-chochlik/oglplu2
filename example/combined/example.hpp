@@ -10,6 +10,7 @@
 #define OGLPLUS_EXAMPLE_OGLPLUS_EXAMPLE_HPP
 
 #include "example/context.hpp"
+#include "example/state.hpp"
 #include <memory>
 
 namespace eagine {

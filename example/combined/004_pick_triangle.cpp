@@ -72,7 +72,8 @@ bool example_triangle::check_requirements(const example_context& ctx) {
 //------------------------------------------------------------------------------
 void example_triangle::init(example_context& ctx) {
 
-    const auto& [gl, GL] = ctx.gl();
+    const auto& glapi = ctx.gl();
+    const auto& [gl, GL] = glapi;
 
     gl.clear_color(0.4f, 0.4f, 0.4f, 0.0f);
 
@@ -137,7 +138,7 @@ void example_triangle::init(example_context& ctx) {
 
     // uniform
     gl.get_uniform_location(prog, "Highlight") >> highlight_loc;
-    gl.uniform1f(highlight_loc, hl_value);
+    glapi.uniform(prog, highlight_loc, hl_value);
 
     gl.disable(GL.depth_test);
 }
@@ -156,15 +157,14 @@ void example_triangle::cleanup(example_context& ctx) {
 }
 //------------------------------------------------------------------------------
 void example_triangle::update_highlight(const example_context& ctx, float dt) {
-    const auto& [gl, GL] = ctx.gl();
-    EAGINE_MAYBE_UNUSED(GL);
+    const auto& glapi = ctx.gl();
 
     if(is_inside) {
         hl_value = math::minimum(hl_value + dt * 3.0f, 1.f);
     } else {
         hl_value = math::maximum(hl_value - dt * 1.0f, 0.f);
     }
-    gl.uniform1f(highlight_loc, hl_value);
+    glapi.uniform(prog, highlight_loc, hl_value);
 }
 //------------------------------------------------------------------------------
 void example_triangle::pointer_motion(const example_context& ctx) {
