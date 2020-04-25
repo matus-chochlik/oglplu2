@@ -99,6 +99,19 @@ inline void shape_generator::attrib_setup(
 }
 //------------------------------------------------------------------------------
 template <typename A>
+inline void shape_generator::index_setup(
+  const basic_gl_api<A>& api, buffer_name buf, memory::buffer& temp) const {
+    auto& [gl, GL] = api;
+
+    const auto size = index_data_block_size();
+    auto data = head(cover(temp.ensure(size)), size);
+    index_data(data);
+
+    gl.bind_buffer(GL.element_array_buffer, buf);
+    gl.buffer_data(GL.element_array_buffer, data, GL.static_draw);
+}
+//------------------------------------------------------------------------------
+template <typename A>
 inline void shape_generator::instructions(
   const basic_gl_api<A>& api, span<shape_draw_operation> ops) const {
     EAGINE_ASSERT(ops.size() >= operation_count());

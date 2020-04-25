@@ -116,6 +116,10 @@ public:
       memory::buffer& temp) const;
 
     template <typename A>
+    void index_setup(
+      const basic_gl_api<A>& api, buffer_name buf, memory::buffer& temp) const;
+
+    template <typename A>
     void instructions(const basic_gl_api<A>&, span<shape_draw_operation>) const;
 
     sphere bounding_sphere() const {
