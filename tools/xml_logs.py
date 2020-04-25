@@ -277,7 +277,7 @@ class XmlLogFormatter(object):
     def formatInstance(self, instance):
         instance = hash(instance) % ((sys.maxsize + 1) * 2)
         instance = instance.to_bytes(8, byteorder='big')
-        instance = base64.b64encode(instance, altchars=b'=-')
+        instance = base64.b64encode(instance, altchars=b"'-")
         instance = instance.decode("utf-8")
         return instance
 

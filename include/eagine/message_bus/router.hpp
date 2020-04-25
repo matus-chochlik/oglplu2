@@ -50,7 +50,9 @@ struct routed_endpoint {
     }
 };
 //------------------------------------------------------------------------------
-class router : public acceptor_user {
+class router
+  : public acceptor_user
+  , public connection_user {
 public:
     router() = default;
 
@@ -63,7 +65,8 @@ public:
         _setup_from_args(args);
     }
 
-    bool add_acceptor(std::unique_ptr<acceptor> an_acceptor) final;
+    bool add_acceptor(std::unique_ptr<acceptor>) final;
+    bool add_connection(std::unique_ptr<connection>) final;
 
     void update(const valid_if_positive<int>& count);
     void update() {
@@ -109,6 +112,7 @@ private:
     identifier_t _id_sequence{0};
     std::intmax_t _forwarded_messages{0};
     std::vector<std::unique_ptr<acceptor>> _acceptors;
+    std::vector<std::unique_ptr<connection>> _connectors;
     std::vector<router_pending> _pending;
     std::map<identifier_t, routed_endpoint> _endpoints;
 };

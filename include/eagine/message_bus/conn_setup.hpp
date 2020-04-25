@@ -55,52 +55,13 @@ class connection_setup {
       _factory_map{};
 
     void _do_setup_acceptors(
-      acceptor_user& target, string_view address, _factory_list& factories) {
-        for(auto& factory : factories) {
-            EAGINE_ASSERT(factory);
-            _log
-              .debug(
-                "setting up acceptors on address ${address} "
-                "with factory type ${factory}")
-              .arg(EAGINE_ID(factory), factory)
-              .arg(EAGINE_ID(address), EAGINE_ID(MsgBusAddr), address);
-
-            if(auto acceptor = factory->make_acceptor(address)) {
-                target.add_acceptor(std::move(acceptor));
-            }
-        }
-    }
+      acceptor_user& target, string_view address, _factory_list& factories);
 
     void _do_setup_connectors(
-      connection_user& target, string_view address, _factory_list& factories) {
-        for(auto& factory : factories) {
-            EAGINE_ASSERT(factory);
-            _log
-              .debug(
-                "setting up connectors on address ${address} "
-                "with factory type ${factory}")
-              .arg(EAGINE_ID(factory), factory)
-              .arg(EAGINE_ID(address), EAGINE_ID(MsgBusAddr), address);
+      connection_user& target, string_view address, _factory_list& factories);
 
-            if(auto connector = factory->make_connector(address)) {
-                target.add_connection(std::move(connector));
-            }
-        }
-    }
-
-    auto _make_call_setup_acceptors(
-      acceptor_user& target, string_view address) {
-        return [this, &target, address](auto, auto& factories) {
-            _do_setup_acceptors(target, address, factories);
-        };
-    }
-
-    auto _make_call_setup_connectors(
-      connection_user& target, string_view address) {
-        return [this, &target, address](auto, auto& factories) {
-            _do_setup_connectors(target, address, factories);
-        };
-    }
+    auto _make_call_setup_acceptors(acceptor_user&, string_view address);
+    auto _make_call_setup_connectors(connection_user&, string_view address);
 
 public:
     connection_setup() noexcept = default;
@@ -109,10 +70,7 @@ public:
       : _log{EAGINE_ID(ConnSetup), parent} {
     }
 
-    void setup_acceptors(acceptor_user& target, string_view address) {
-        std::unique_lock lock{_mutex};
-        _factory_map.visit_all(_make_call_setup_acceptors(target, address));
-    }
+    void setup_acceptors(acceptor_user& target, string_view address);
 
     void setup_acceptors(acceptor_user& target, identifier address) {
         setup_acceptors(target, address.name());
@@ -123,10 +81,7 @@ public:
     }
 
     void setup_acceptors(
-      acceptor_user& target, connection_kinds kinds, string_view address) {
-        std::unique_lock lock{_mutex};
-        _factory_map.visit(kinds, _make_call_setup_acceptors(target, address));
-    }
+      acceptor_user& target, connection_kinds kinds, string_view address);
 
     void setup_acceptors(
       acceptor_user& target, connection_kinds kinds, identifier address) {
@@ -138,10 +93,7 @@ public:
     }
 
     void setup_acceptors(
-      acceptor_user& target, connection_kind kind, string_view address) {
-        std::unique_lock lock{_mutex};
-        _factory_map.visit(kind, _make_call_setup_acceptors(target, address));
-    }
+      acceptor_user& target, connection_kind kind, string_view address);
 
     void setup_acceptors(
       acceptor_user& target, connection_kind kind, identifier address) {
@@ -152,10 +104,7 @@ public:
         setup_acceptors(target, kind, string_view{});
     }
 
-    void setup_connectors(connection_user& target, string_view address) {
-        std::unique_lock lock{_mutex};
-        _factory_map.visit_all(_make_call_setup_connectors(target, address));
-    }
+    void setup_connectors(connection_user& target, string_view address);
 
     void setup_connectors(connection_user& target, identifier address) {
         setup_connectors(target, address.name());
@@ -166,10 +115,7 @@ public:
     }
 
     void setup_connectors(
-      connection_user& target, connection_kinds kinds, string_view address) {
-        std::unique_lock lock{_mutex};
-        _factory_map.visit(kinds, _make_call_setup_connectors(target, address));
-    }
+      connection_user& target, connection_kinds kinds, string_view address);
 
     void setup_connectors(
       connection_user& target, connection_kinds kinds, identifier address) {
@@ -181,10 +127,7 @@ public:
     }
 
     void setup_connectors(
-      connection_user& target, connection_kind kind, string_view address) {
-        std::unique_lock lock{_mutex};
-        _factory_map.visit(kind, _make_call_setup_connectors(target, address));
-    }
+      connection_user& target, connection_kind kind, string_view address);
 
     void setup_connectors(
       connection_user& target, connection_kind kind, identifier address) {
@@ -195,20 +138,7 @@ public:
         setup_connectors(target, kind, string_view{});
     }
 
-    void add_factory(std::unique_ptr<connection_factory> factory) {
-        std::unique_lock lock{_mutex};
-        EAGINE_ASSERT(factory);
-        const auto kind{factory->kind()};
-
-        _log.debug("adding ${kind} connection factory ${type}")
-          .arg(EAGINE_ID(kind), kind)
-          .arg(EAGINE_ID(factory), factory);
-
-        _factory_map.visit(
-          kind, [factory{std::move(factory)}](auto, auto& factories) mutable {
-              factories.emplace_back(std::move(factory));
-          });
-    }
+    void add_factory(std::unique_ptr<connection_factory> factory);
 
     template <typename Factory, typename... Args>
     std::enable_if_t<std::is_base_of_v<connection_factory, Factory>, void>

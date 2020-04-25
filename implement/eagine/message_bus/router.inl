@@ -22,6 +22,16 @@ bool router::add_acceptor(std::unique_ptr<acceptor> an_acceptor) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+bool router::add_connection(std::unique_ptr<connection> a_connection) {
+    if(a_connection) {
+        _log.info("adding connection");
+        _connectors.emplace_back(std::move(a_connection));
+        return true;
+    }
+    return false;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 void router::_setup_from_args(const program_args&) {
     // TODO
 }
