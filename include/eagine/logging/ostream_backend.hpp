@@ -92,11 +92,12 @@ public:
         try {
             _lockable.lock();
             const auto now = std::chrono::steady_clock::now();
+            const auto sec = std::chrono::duration<float>(now - _start);
             _out << "<m";
             _out << " lvl='" << enumerator_name(severity) << "'";
             _out << " src='" << source.name() << "'";
             _out << " iid='" << instance << "'";
-            _out << " ts='" << (now - _start).count() << "'";
+            _out << " ts='" << sec.count() << "'";
             _out << ">";
             _out << "<f>" << format << "</f>";
         } catch(...) {

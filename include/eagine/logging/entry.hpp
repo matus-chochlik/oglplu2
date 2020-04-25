@@ -276,7 +276,7 @@ public:
     template <typename R, typename P>
     log_entry& arg(
       identifier name, std::chrono::duration<R, P> value) noexcept {
-        return arg(name, EAGINE_ID(real), value);
+        return arg(name, EAGINE_ID(duration), value);
     }
 
     log_entry& arg(

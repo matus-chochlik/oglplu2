@@ -23,6 +23,24 @@ except ImportError:
     import selectors2 as selectors
 
 # ------------------------------------------------------------------------------
+def formatRelTime(s):
+    if s >= 60480000:
+        return "%dw" % (int(s) / 604800)
+    if s >= 604800:
+        return "%2dw %2dd" % (int(s) / 604800, (int(s) % 604800) / 86400)
+    if s >= 86400:
+        return "%2dd %2dh" % (int(s) / 86400, (int(s) % 86400) / 3600)
+    if s >= 3600:
+        return "%2dh %2dm" % (int(s) / 3600, (int(s) % 3600) / 60)
+    if s >= 60:
+        return "%2dm %2ds" % (int(s) / 60, int(s) % 60)
+    if s >= 10:
+        return "%3ds" % int(s)
+    if s >= 0.01:
+        return "%4dms" % int(s*10**3)
+    return "%dμs" % int(s*10**6)
+
+# ------------------------------------------------------------------------------
 class XmlLogFormatter(object):
     # --------------------------------------------------------------------------
     def _ttyEsc(self, escseq):
@@ -91,6 +109,25 @@ class XmlLogFormatter(object):
         return self._ttyEsc("\x1b[1;37m")
 
     # --------------------------------------------------------------------------
+    def _formatFsPath(self, p):
+        if os.path.exists(p):
+            if os.path.islink(p):
+                return self._ttyBlue() + p + self._ttyReset()
+            if os.path.isdir(p):
+                return self._ttyGreen() + p + self._ttyReset()
+            return self._ttyBoldGreen() + p + self._ttyReset()
+
+        return self._ttyBoldRed() + p + self._ttyReset()
+
+    # --------------------------------------------------------------------------
+    def _formatDuration(self, sec):
+        return self._ttyBoldWhite() + formatRelTime(float(sec)) + self._ttyReset()
+
+    # --------------------------------------------------------------------------
+    def _formatTimestamp(self, sec):
+        return formatRelTime(float(sec))
+
+    # --------------------------------------------------------------------------
     def _formatByteSize(self, n):
         result = None
         if n > 0:
@@ -107,17 +144,6 @@ class XmlLogFormatter(object):
         return self._ttyBoldWhite() + result + self._ttyReset()
 
     # --------------------------------------------------------------------------
-    def _formatFsPath(self, p):
-        if os.path.exists(p):
-            if os.path.islink(p):
-                return self._ttyBlue() + p + self._ttyReset()
-            if os.path.isdir(p):
-                return self._ttyGreen() + p + self._ttyReset()
-            return self._ttyBoldGreen() + p + self._ttyReset()
-
-        return self._ttyBoldRed() + p + self._ttyReset()
-
-    # --------------------------------------------------------------------------
     def __init__(self, log_output):
         self._re_var = re.compile(".*(\${([A-Za-z][A-Za-z_0-9]*)}).*")
         self._lock = threading.Lock()
@@ -125,6 +151,7 @@ class XmlLogFormatter(object):
 
         self._decorators = {
             "FsPath": self._formatFsPath,
+            "duration": lambda x: self._formatDuration(float(x)),
             "ByteSize": lambda x: self._formatByteSize(int(x))
         }
         self._source_id = 0
@@ -286,6 +313,7 @@ class XmlLogFormatter(object):
                 else:
                     self._out.write(" │")
             self._out.write("━┑")
+            self._out.write("%9s│" % self._formatTimestamp(info["timestamp"]))
             self._out.write("%s│" % self.translateLevel(info["level"]))
             self._out.write("%10s│" % info["source"])
             self._out.write("%12s│" % self.formatInstance(info["instance"]))
@@ -293,7 +321,7 @@ class XmlLogFormatter(object):
             self._out.write("┊")
             for sid in self._sources:
                 self._out.write(" │")
-            self._out.write(" ├─────────┴──────────┴────────────╯")
+            self._out.write(" ├─────────┴─────────┴──────────┴────────────╯")
             self._out.write("\n")
 
             self._out.write("┊")
@@ -308,7 +336,7 @@ class XmlLogFormatter(object):
                     self._out.write("┊")
                     for sid in self._sources:
                         self._out.write(" │")
-                    self._out.write("  ")
+                    self._out.write("   ")
                     self._out.write(name)
                     self._out.write(": ")
                     self._out.write(self.translateArg(name, info))
