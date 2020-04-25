@@ -138,7 +138,7 @@ void example_triangle::init(example_context& ctx) {
 
     // uniform
     gl.get_uniform_location(prog, "Highlight") >> highlight_loc;
-    glapi.uniform(prog, highlight_loc, hl_value);
+    glapi.set_uniform(prog, highlight_loc, hl_value);
 
     gl.disable(GL.depth_test);
 }
@@ -164,7 +164,7 @@ void example_triangle::update_highlight(const example_context& ctx, float dt) {
     } else {
         hl_value = math::maximum(hl_value - dt * 1.0f, 0.f);
     }
-    glapi.uniform(prog, highlight_loc, hl_value);
+    glapi.set_uniform(prog, highlight_loc, hl_value);
 }
 //------------------------------------------------------------------------------
 void example_triangle::pointer_motion(const example_context& ctx) {
