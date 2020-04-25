@@ -865,7 +865,7 @@ public:
 
         constexpr auto operator()(
           uniform_location loc, span<const uint_type> v) const noexcept {
-            return this->_cnvchkcall(loc, sizei_type(v.size()), v.data());
+            return this->_cnvchkcall(loc, sizei_type(v.size() / 1), v.data());
         }
     } uniform1uiv;
 
@@ -874,7 +874,7 @@ public:
 
         constexpr auto operator()(
           uniform_location loc, span<const uint_type> v) const noexcept {
-            return this->_cnvchkcall(loc, sizei_type(v.size()), v.data());
+            return this->_cnvchkcall(loc, sizei_type(v.size() / 2), v.data());
         }
     } uniform2uiv;
 
@@ -883,7 +883,7 @@ public:
 
         constexpr auto operator()(
           uniform_location loc, span<const uint_type> v) const noexcept {
-            return this->_cnvchkcall(loc, sizei_type(v.size()), v.data());
+            return this->_cnvchkcall(loc, sizei_type(v.size() / 3), v.data());
         }
     } uniform3uiv;
 
@@ -892,7 +892,7 @@ public:
 
         constexpr auto operator()(
           uniform_location loc, span<const uint_type> v) const noexcept {
-            return this->_cnvchkcall(loc, sizei_type(v.size()), v.data());
+            return this->_cnvchkcall(loc, sizei_type(v.size() / 4), v.data());
         }
     } uniform4uiv;
 
@@ -914,7 +914,7 @@ public:
 
         constexpr auto operator()(
           uniform_location loc, span<const int_type> v) const noexcept {
-            return this->_cnvchkcall(loc, sizei_type(v.size()), v.data());
+            return this->_cnvchkcall(loc, sizei_type(v.size() / 1), v.data());
         }
     } uniform1iv;
 
@@ -923,7 +923,7 @@ public:
 
         constexpr auto operator()(
           uniform_location loc, span<const int_type> v) const noexcept {
-            return this->_cnvchkcall(loc, sizei_type(v.size()), v.data());
+            return this->_cnvchkcall(loc, sizei_type(v.size() / 2), v.data());
         }
     } uniform2iv;
 
@@ -932,7 +932,7 @@ public:
 
         constexpr auto operator()(
           uniform_location loc, span<const int_type> v) const noexcept {
-            return this->_cnvchkcall(loc, sizei_type(v.size()), v.data());
+            return this->_cnvchkcall(loc, sizei_type(v.size() / 3), v.data());
         }
     } uniform3iv;
 
@@ -941,7 +941,7 @@ public:
 
         constexpr auto operator()(
           uniform_location loc, span<const int_type> v) const noexcept {
-            return this->_cnvchkcall(loc, sizei_type(v.size()), v.data());
+            return this->_cnvchkcall(loc, sizei_type(v.size() / 4), v.data());
         }
     } uniform4iv;
 
@@ -963,7 +963,7 @@ public:
 
         constexpr auto operator()(
           uniform_location loc, span<const float_type> v) const noexcept {
-            return this->_cnvchkcall(loc, sizei_type(v.size()), v.data());
+            return this->_cnvchkcall(loc, sizei_type(v.size() / 1), v.data());
         }
     } uniform1fv;
 
@@ -972,7 +972,7 @@ public:
 
         constexpr auto operator()(
           uniform_location loc, span<const float_type> v) const noexcept {
-            return this->_cnvchkcall(loc, sizei_type(v.size()), v.data());
+            return this->_cnvchkcall(loc, sizei_type(v.size() / 2), v.data());
         }
     } uniform2fv;
 
@@ -981,7 +981,7 @@ public:
 
         constexpr auto operator()(
           uniform_location loc, span<const float_type> v) const noexcept {
-            return this->_cnvchkcall(loc, sizei_type(v.size()), v.data());
+            return this->_cnvchkcall(loc, sizei_type(v.size() / 3), v.data());
         }
     } uniform3fv;
 
@@ -990,7 +990,7 @@ public:
 
         constexpr auto operator()(
           uniform_location loc, span<const float_type> v) const noexcept {
-            return this->_cnvchkcall(loc, sizei_type(v.size()), v.data());
+            return this->_cnvchkcall(loc, sizei_type(v.size() / 4), v.data());
         }
     } uniform4fv;
 
@@ -1003,7 +1003,7 @@ public:
           true_false transp,
           span<const float_type> v) const noexcept {
             return this->_cnvchkcall(
-              loc, sizei_type(v.size()), transp, v.data());
+              loc, sizei_type(v.size() / 4), transp, v.data());
         }
     } uniform_matrix2fv;
 
@@ -1015,7 +1015,7 @@ public:
           true_false transp,
           span<const float_type> v) const noexcept {
             return this->_cnvchkcall(
-              loc, sizei_type(v.size()), transp, v.data());
+              loc, sizei_type(v.size() / 9), transp, v.data());
         }
     } uniform_matrix3fv;
 
@@ -1027,7 +1027,7 @@ public:
           true_false transp,
           span<const float_type> v) const noexcept {
             return this->_cnvchkcall(
-              loc, sizei_type(v.size()), transp, v.data());
+              loc, sizei_type(v.size() / 16), transp, v.data());
         }
     } uniform_matrix4fv;
 
@@ -1039,7 +1039,7 @@ public:
           true_false transp,
           span<const float_type> v) const noexcept {
             return this->_cnvchkcall(
-              loc, sizei_type(v.size()), transp, v.data());
+              loc, sizei_type(v.size() / 6), transp, v.data());
         }
     } uniform_matrix2x3fv;
 
@@ -1051,7 +1051,7 @@ public:
           true_false transp,
           span<const float_type> v) const noexcept {
             return this->_cnvchkcall(
-              loc, sizei_type(v.size()), transp, v.data());
+              loc, sizei_type(v.size() / 8), transp, v.data());
         }
     } uniform_matrix2x4fv;
 
@@ -1063,7 +1063,7 @@ public:
           true_false transp,
           span<const float_type> v) const noexcept {
             return this->_cnvchkcall(
-              loc, sizei_type(v.size()), transp, v.data());
+              loc, sizei_type(v.size() / 6), transp, v.data());
         }
     } uniform_matrix3x2fv;
 
@@ -1075,7 +1075,7 @@ public:
           true_false transp,
           span<const float_type> v) const noexcept {
             return this->_cnvchkcall(
-              loc, sizei_type(v.size()), transp, v.data());
+              loc, sizei_type(v.size() / 12), transp, v.data());
         }
     } uniform_matrix3x4fv;
 
@@ -1087,7 +1087,7 @@ public:
           true_false transp,
           span<const float_type> v) const noexcept {
             return this->_cnvchkcall(
-              loc, sizei_type(v.size()), transp, v.data());
+              loc, sizei_type(v.size() / 8), transp, v.data());
         }
     } uniform_matrix4x2fv;
 
@@ -1099,7 +1099,7 @@ public:
           true_false transp,
           span<const float_type> v) const noexcept {
             return this->_cnvchkcall(
-              loc, sizei_type(v.size()), transp, v.data());
+              loc, sizei_type(v.size() / 12), transp, v.data());
         }
     } uniform_matrix4x3fv;
 
@@ -1138,7 +1138,8 @@ public:
           program_name prog,
           uniform_location loc,
           span<const uint_type> v) const noexcept {
-            return this->_cnvchkcall(prog, loc, sizei_type(v.size()), v.data());
+            return this->_cnvchkcall(
+              prog, loc, sizei_type(v.size() / 1), v.data());
         }
     } program_uniform1uiv;
 
@@ -1149,7 +1150,8 @@ public:
           program_name prog,
           uniform_location loc,
           span<const uint_type> v) const noexcept {
-            return this->_cnvchkcall(prog, loc, sizei_type(v.size()), v.data());
+            return this->_cnvchkcall(
+              prog, loc, sizei_type(v.size() / 2), v.data());
         }
     } program_uniform2uiv;
 
@@ -1160,7 +1162,8 @@ public:
           program_name prog,
           uniform_location loc,
           span<const uint_type> v) const noexcept {
-            return this->_cnvchkcall(prog, loc, sizei_type(v.size()), v.data());
+            return this->_cnvchkcall(
+              prog, loc, sizei_type(v.size() / 3), v.data());
         }
     } program_uniform3uiv;
 
@@ -1171,7 +1174,8 @@ public:
           program_name prog,
           uniform_location loc,
           span<const uint_type> v) const noexcept {
-            return this->_cnvchkcall(prog, loc, sizei_type(v.size()), v.data());
+            return this->_cnvchkcall(
+              prog, loc, sizei_type(v.size() / 4), v.data());
         }
     } program_uniform4uiv;
 
@@ -1203,7 +1207,8 @@ public:
         constexpr auto operator()(
           program_name prog, uniform_location loc, span<const int_type> v) const
           noexcept {
-            return this->_cnvchkcall(prog, loc, sizei_type(v.size()), v.data());
+            return this->_cnvchkcall(
+              prog, loc, sizei_type(v.size() / 1), v.data());
         }
     } program_uniform1iv;
 
@@ -1213,7 +1218,8 @@ public:
         constexpr auto operator()(
           program_name prog, uniform_location loc, span<const int_type> v) const
           noexcept {
-            return this->_cnvchkcall(prog, loc, sizei_type(v.size()), v.data());
+            return this->_cnvchkcall(
+              prog, loc, sizei_type(v.size() / 2), v.data());
         }
     } program_uniform2iv;
 
@@ -1223,7 +1229,8 @@ public:
         constexpr auto operator()(
           program_name prog, uniform_location loc, span<const int_type> v) const
           noexcept {
-            return this->_cnvchkcall(prog, loc, sizei_type(v.size()), v.data());
+            return this->_cnvchkcall(
+              prog, loc, sizei_type(v.size() / 3), v.data());
         }
     } program_uniform3iv;
 
@@ -1233,7 +1240,8 @@ public:
         constexpr auto operator()(
           program_name prog, uniform_location loc, span<const int_type> v) const
           noexcept {
-            return this->_cnvchkcall(prog, loc, sizei_type(v.size()), v.data());
+            return this->_cnvchkcall(
+              prog, loc, sizei_type(v.size() / 4), v.data());
         }
     } program_uniform4iv;
 
@@ -1271,7 +1279,8 @@ public:
           program_name prog,
           uniform_location loc,
           span<const float_type> v) const noexcept {
-            return this->_cnvchkcall(prog, loc, sizei_type(v.size()), v.data());
+            return this->_cnvchkcall(
+              prog, loc, sizei_type(v.size() / 1), v.data());
         }
     } program_uniform1fv;
 
@@ -1282,7 +1291,8 @@ public:
           program_name prog,
           uniform_location loc,
           span<const float_type> v) const noexcept {
-            return this->_cnvchkcall(prog, loc, sizei_type(v.size()), v.data());
+            return this->_cnvchkcall(
+              prog, loc, sizei_type(v.size() / 2), v.data());
         }
     } program_uniform2fv;
 
@@ -1293,7 +1303,8 @@ public:
           program_name prog,
           uniform_location loc,
           span<const float_type> v) const noexcept {
-            return this->_cnvchkcall(prog, loc, sizei_type(v.size()), v.data());
+            return this->_cnvchkcall(
+              prog, loc, sizei_type(v.size() / 3), v.data());
         }
     } program_uniform3fv;
 
@@ -1304,7 +1315,8 @@ public:
           program_name prog,
           uniform_location loc,
           span<const float_type> v) const noexcept {
-            return this->_cnvchkcall(prog, loc, sizei_type(v.size()), v.data());
+            return this->_cnvchkcall(
+              prog, loc, sizei_type(v.size() / 4), v.data());
         }
     } program_uniform4fv;
 
@@ -1318,7 +1330,7 @@ public:
           true_false transp,
           span<const float_type> v) const noexcept {
             return this->_cnvchkcall(
-              prog, loc, sizei_type(v.size()), transp, v.data());
+              prog, loc, sizei_type(v.size() / 4), transp, v.data());
         }
     } program_uniform_matrix2fv;
 
@@ -1331,7 +1343,7 @@ public:
           true_false transp,
           span<const float_type> v) const noexcept {
             return this->_cnvchkcall(
-              prog, loc, sizei_type(v.size()), transp, v.data());
+              prog, loc, sizei_type(v.size() / 9), transp, v.data());
         }
     } program_uniform_matrix3fv;
 
@@ -1344,7 +1356,7 @@ public:
           true_false transp,
           span<const float_type> v) const noexcept {
             return this->_cnvchkcall(
-              prog, loc, sizei_type(v.size()), transp, v.data());
+              prog, loc, sizei_type(v.size() / 16), transp, v.data());
         }
     } program_uniform_matrix4fv;
 
@@ -1357,7 +1369,7 @@ public:
           true_false transp,
           span<const float_type> v) const noexcept {
             return this->_cnvchkcall(
-              prog, loc, sizei_type(v.size()), transp, v.data());
+              prog, loc, sizei_type(v.size() / 6), transp, v.data());
         }
     } program_uniform_matrix2x3fv;
 
@@ -1370,7 +1382,7 @@ public:
           true_false transp,
           span<const float_type> v) const noexcept {
             return this->_cnvchkcall(
-              prog, loc, sizei_type(v.size()), transp, v.data());
+              prog, loc, sizei_type(v.size() / 8), transp, v.data());
         }
     } program_uniform_matrix2x4fv;
 
@@ -1383,7 +1395,7 @@ public:
           true_false transp,
           span<const float_type> v) const noexcept {
             return this->_cnvchkcall(
-              prog, loc, sizei_type(v.size()), transp, v.data());
+              prog, loc, sizei_type(v.size() / 6), transp, v.data());
         }
     } program_uniform_matrix3x2fv;
 
@@ -1396,7 +1408,7 @@ public:
           true_false transp,
           span<const float_type> v) const noexcept {
             return this->_cnvchkcall(
-              prog, loc, sizei_type(v.size()), transp, v.data());
+              prog, loc, sizei_type(v.size() / 12), transp, v.data());
         }
     } program_uniform_matrix3x4fv;
 
@@ -1409,7 +1421,7 @@ public:
           true_false transp,
           span<const float_type> v) const noexcept {
             return this->_cnvchkcall(
-              prog, loc, sizei_type(v.size()), transp, v.data());
+              prog, loc, sizei_type(v.size() / 8), transp, v.data());
         }
     } program_uniform_matrix4x2fv;
 
@@ -1422,7 +1434,7 @@ public:
           true_false transp,
           span<const float_type> v) const noexcept {
             return this->_cnvchkcall(
-              prog, loc, sizei_type(v.size()), transp, v.data());
+              prog, loc, sizei_type(v.size() / 12), transp, v.data());
         }
     } program_uniform_matrix4x3fv;
 
