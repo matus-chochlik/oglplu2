@@ -31,9 +31,9 @@ def formatRelTime(s):
     if s >= 86400:
         return "%2dd %2dh" % (int(s) / 86400, (int(s) % 86400) / 3600)
     if s >= 3600:
-        return "%2dh %2dm" % (int(s) / 3600, (int(s) % 3600) / 60)
+        return "%2dh %02dm" % (int(s) / 3600, (int(s) % 3600) / 60)
     if s >= 60:
-        return "%2dm %2ds" % (int(s) / 60, int(s) % 60)
+        return "%2dm %02ds" % (int(s) / 60, int(s) % 60)
     if s >= 10:
         return "%3ds" % int(s)
     if s >= 0.01:

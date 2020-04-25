@@ -141,6 +141,10 @@ public:
     using fetch_handler =
       callable_ref<bool(identifier_t, identifier_t, const message_view&)>;
 
+    message_storage() {
+        _messages.reserve(64);
+    }
+
     bool empty() const noexcept {
         return _messages.empty();
     }
@@ -218,6 +222,10 @@ public:
     /// The return value indicates if the message is considered handled
     /// and should be removed.
     using fetch_handler = callable_ref<bool(memory::const_block)>;
+
+    serialized_message_storage() {
+        _messages.reserve(32);
+    }
 
     bool empty() const noexcept {
         return _messages.empty();
@@ -314,6 +322,10 @@ private:
 class message_priority_queue {
 public:
     using handler_type = callable_ref<bool(stored_message&)>;
+
+    message_priority_queue() {
+        _messages.reserve(128);
+    }
 
     void push(const message_view& message) {
         auto pos = std::lower_bound(
