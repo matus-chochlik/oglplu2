@@ -118,7 +118,7 @@ class XmlLogFormatter(object):
         return self._ttyBoldRed() + p + self._ttyReset()
 
     # --------------------------------------------------------------------------
-    def __init__(self, selector, log_output):
+    def __init__(self, log_output):
         self._re_var = re.compile(".*(\${([A-Za-z][A-Za-z_0-9]*)}).*")
         self._lock = threading.Lock()
         self._out = log_output
@@ -127,6 +127,7 @@ class XmlLogFormatter(object):
             "FsPath": self._formatFsPath,
             "ByteSize": lambda x: self._formatByteSize(int(x))
         }
+        self._source_id = 0
         self._sources = []
 
         with self._lock:
@@ -246,13 +247,17 @@ class XmlLogFormatter(object):
         return value
 
     # --------------------------------------------------------------------------
-    def addMessage(self, srcid, info):
-        args = info["args"]
-        message = info["format"]
-        instance = hash(info["instance"]) % ((sys.maxsize + 1) * 2)
+    def formatInstance(self, instance):
+        instance = hash(instance) % ((sys.maxsize + 1) * 2)
         instance = instance.to_bytes(8, byteorder='big')
         instance = base64.b64encode(instance, altchars=b'=-')
         instance = instance.decode("utf-8")
+        return instance
+
+    # --------------------------------------------------------------------------
+    def addMessage(self, srcid, info):
+        args = info["args"]
+        message = info["format"]
         found = re.match(self._re_var, message)
         while found:
             prev = message[:found.start(1)]
@@ -283,7 +288,7 @@ class XmlLogFormatter(object):
             self._out.write("━┑")
             self._out.write("%s│" % self.translateLevel(info["level"]))
             self._out.write("%10s│" % info["source"])
-            self._out.write("%12s│" % instance)
+            self._out.write("%12s│" % self.formatInstance(info["instance"]))
             self._out.write("\n")
             self._out.write("┊")
             for sid in self._sources:
@@ -342,24 +347,22 @@ class XmlLogFormatter(object):
             #
             self._out.flush()
 
+    # --------------------------------------------------------------------------
+    def makeProcessor(self):
+        self._source_id += 1
+        return XmlLogProcessor(self._source_id, self)
+
 # ------------------------------------------------------------------------------
 class XmlLogProcessor(xml.sax.ContentHandler):
     # --------------------------------------------------------------------------
-    def __init__(self, srcid, connection, formatter, selector):
+    def __init__(self, srcid, formatter):
         self._srcid = srcid
         self._ctag = None
         self._carg = None
         self._info = None
-        self._connection = connection
         self._formatter= formatter
         self._parser = xml.sax.make_parser()
         self._parser.setContentHandler(self)
-        self._selector = selector 
-        self._buffer = str()
-
-    # --------------------------------------------------------------------------
-    def __del__(self):
-        self._connection.close()
 
     # --------------------------------------------------------------------------
     def startElement(self, tag, attr):
@@ -404,8 +407,26 @@ class XmlLogProcessor(xml.sax.ContentHandler):
                 self._info["args"][self._carg]["value"] = content
 
     # --------------------------------------------------------------------------
+    def processLine(self, line):
+        self._parser.feed(line)
+
+# ------------------------------------------------------------------------------
+class XmlLogClientHandler(xml.sax.ContentHandler):
+
+    # --------------------------------------------------------------------------
+    def __init__(self, processor, connection, selector):
+        self._processor = processor
+        self._connection = connection
+        self._selector = selector 
+        self._buffer = str()
+
+    # --------------------------------------------------------------------------
+    def __del__(self):
+        self._connection.close()
+
+    # --------------------------------------------------------------------------
     def disconnect(self):
-        self._parser.feed(self._buffer)
+        self._processor.processLine(self._buffer)
         self._selector.unregister(self._connection)
 
     # --------------------------------------------------------------------------
@@ -416,7 +437,7 @@ class XmlLogProcessor(xml.sax.ContentHandler):
                 self._buffer += data.decode("utf-8")
                 lines = self._buffer.split('\n')
                 for line in lines[:-1]:
-                    self._parser.feed(line)
+                    self._processor.processLine(line)
                 self._buffer = lines[-1]
             else:
                 self.disconnect()
@@ -438,7 +459,7 @@ def open_socket(socket_path):
 # ------------------------------------------------------------------------------
 keep_running = True
 # ------------------------------------------------------------------------------
-def display_logs(socket_path):
+def handle_connections(socket_path, formatter):
     try:
         global keep_running
         lsock = open_socket(socket_path)
@@ -446,10 +467,9 @@ def display_logs(socket_path):
             selector.register(
                 lsock,
                 selectors.EVENT_READ,
-                data = XmlLogFormatter(selector, sys.stdout)
+                data = formatter
             )
 
-            source_id = 0
             while keep_running:
                 events = selector.select(timeout=1.0)
                 for key, mask in events:
@@ -459,15 +479,13 @@ def display_logs(socket_path):
                         selector.register(
                             connection,
                             selectors.EVENT_READ,
-                            data = XmlLogProcessor(
-                                source_id,
+                            data = XmlLogClientHandler(
+                                key.data.makeProcessor(),
                                 connection,
-                                key.data,
                                 selector
                             )
                         )
-                        source_id += 1
-                    elif type(key.data) is XmlLogProcessor:
+                    elif type(key.data) is XmlLogClientHandler:
                         if mask & selectors.EVENT_READ:
                             key.data.handleRead()
     finally:
@@ -482,14 +500,14 @@ def handle_interrupt(sig, frame):
     keep_running = False
 # ------------------------------------------------------------------------------
 def main():
-    signal.signal(signal.SIGINT, handle_interrupt)
-    signal.signal(signal.SIGTERM, handle_interrupt)
-    display_logs("/tmp/eagine-xmllog")
-    return 0
+    try:
+        signal.signal(signal.SIGINT, handle_interrupt)
+        signal.signal(signal.SIGTERM, handle_interrupt)
+        formatter = XmlLogFormatter(sys.stdout)
+        handle_connections("/tmp/eagine-xmllog", formatter)
+    except KeyboardInterrupt:
+        return 0
 # ------------------------------------------------------------------------------
 if __name__ == "__main__":
-    try:
         sys.exit(main())
-    except KeyboardInterrupt:
-        pass
 
