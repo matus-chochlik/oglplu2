@@ -29,6 +29,9 @@ public:
     template <typename R>
     using opt_result = gl_opt_result<R>;
 
+    template <typename R>
+    using combined_result = gl_combined_result<R>;
+
     template <typename Api, typename Tag, typename Signature>
     std::add_pointer_t<Signature> link_function(
       Api&, Tag, string_view name, identity<Signature>) {

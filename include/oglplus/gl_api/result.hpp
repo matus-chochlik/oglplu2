@@ -116,6 +116,9 @@ using gl_result = api_result<Result, gl_result_info>;
 template <typename Result>
 using gl_opt_result = api_opt_result<Result, gl_result_info>;
 //------------------------------------------------------------------------------
+template <typename Result>
+using gl_combined_result = api_combined_result<Result, gl_result_info>;
+//------------------------------------------------------------------------------
 } // namespace oglp
 } // namespace eagine
 

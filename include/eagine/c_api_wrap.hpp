@@ -167,6 +167,8 @@ class api_result;
 template <typename Result, typename Info>
 class api_opt_result;
 //------------------------------------------------------------------------------
+// api_no_result
+//------------------------------------------------------------------------------
 template <typename Result>
 class api_no_result_value {
 public:
@@ -287,6 +289,8 @@ static constexpr inline Result extract_or(
     EAGINE_UNREACHABLE();
     return {std::forward<Fallback>(fallback)};
 }
+//------------------------------------------------------------------------------
+// api_result
 //------------------------------------------------------------------------------
 template <typename Result>
 class api_result_value {
@@ -419,6 +423,8 @@ static constexpr inline Result extract_or(
     }
     return {std::forward<Fallback>(fallback)};
 }
+//------------------------------------------------------------------------------
+// api_opt_result
 //------------------------------------------------------------------------------
 template <typename Result>
 class api_opt_result_value {
@@ -575,6 +581,53 @@ static constexpr inline Result extract_or(
     }
     return {std::forward<Fallback>(fallback)};
 }
+//------------------------------------------------------------------------------
+// api_combined_result
+//------------------------------------------------------------------------------
+template <typename Result, typename Info>
+class api_combined_result : public api_opt_result<Result, Info> {
+    using base = api_opt_result<Result, Info>;
+
+public:
+    api_combined_result(api_no_result<Result, Info> src)
+      : base{} {
+        static_cast<Info&>(*this) = static_cast<Info&&>(src);
+    }
+
+    api_combined_result(api_result<Result, Info> src)
+      : base{extract(static_cast<api_result_value<Result>&&>(src)),
+             src.is_valid()} {
+        static_cast<Info&>(*this) = static_cast<Info&&>(src);
+    }
+
+    api_combined_result(api_opt_result<Result, Info> src)
+      : base{std::move(src)} {
+    }
+};
+//------------------------------------------------------------------------------
+template <typename Info>
+class api_combined_result<void, Info> : public api_opt_result<void, Info> {
+    using base = api_opt_result<void, Info>;
+
+public:
+    template <typename R>
+    api_combined_result(const api_no_result<R, Info>& src)
+      : base{} {
+        static_cast<Info&>(*this) = static_cast<const Info&>(src);
+    }
+
+    template <typename R>
+    api_combined_result(const api_result<R, Info>& src)
+      : base{src.is_valid()} {
+        static_cast<Info&>(*this) = static_cast<const Info&>(src);
+    }
+
+    template <typename R>
+    api_combined_result(const api_opt_result<R, Info>& src)
+      : base{src.is_valid()} {
+        static_cast<Info&>(*this) = static_cast<const Info&>(src);
+    }
+};
 //------------------------------------------------------------------------------
 template <typename ApiTraits, typename Tag, typename Signature>
 using c_api_function_ptr =
