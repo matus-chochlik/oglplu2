@@ -150,51 +150,80 @@ void unit_torus_gen::normals(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_torus_gen::tangentials(span<float> dest) noexcept {
+void unit_torus_gen::tangentials(
+  span<float> dest, unit_torus_gen::offset_getter get_offs) noexcept {
     EAGINE_ASSERT(has(vertex_attrib_kind::tangential));
     EAGINE_ASSERT(dest.size() >= vertex_count() * 3);
 
-    span_size_t k = 0;
+    auto k = [this](span_size_t s, span_size_t r, span_size_t c) {
+        return 3 * (s * (_rings + 1) + r) + c;
+    };
 
     const auto s_step = 2 * math::pi / _sections;
 
-    for(span_size_t s = 0; s < (_sections + 1); ++s) {
-        const auto tx = -std::sin(s * s_step);
-        const auto tz = -std::cos(s * s_step);
+    for(span_size_t s = 0; s < _sections; ++s) {
+        for(span_size_t r = 0; r < _rings; ++r) {
+            const auto [rd, sd, td] = get_offs(s, r);
+            EAGINE_MAYBE_UNUSED(rd);
+            EAGINE_MAYBE_UNUSED(td);
 
-        for(span_size_t r = 0; r < (_rings + 1); ++r) {
-            dest[k++] = float(tx);
-            dest[k++] = float(0);
-            dest[k++] = float(tz);
+            const auto tx = -std::sin((s + sd) * s_step);
+            const auto tz = -std::cos((s + sd) * s_step);
+
+            dest[k(s, r, 0)] = float(tx);
+            dest[k(s, r, 1)] = float(0);
+            dest[k(s, r, 2)] = float(tz);
         }
+        dest[k(s, _rings, 0)] = dest[k(s, 0, 0)];
+        dest[k(s, _rings, 1)] = dest[k(s, 0, 1)];
+        dest[k(s, _rings, 2)] = dest[k(s, 0, 2)];
+    }
+    for(span_size_t r = 0; r <= _rings; ++r) {
+        dest[k(_sections, r, 0)] = dest[k(0, r, 0)];
+        dest[k(_sections, r, 1)] = dest[k(0, r, 1)];
+        dest[k(_sections, r, 2)] = dest[k(0, r, 2)];
     }
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_torus_gen::bitangentials(span<float> dest) noexcept {
+void unit_torus_gen::bitangentials(
+  span<float> dest, unit_torus_gen::offset_getter get_offs) noexcept {
     EAGINE_ASSERT(has(vertex_attrib_kind::bitangential));
     EAGINE_ASSERT(dest.size() >= vertex_count() * 3);
 
-    span_size_t k = 0;
+    auto k = [this](span_size_t s, span_size_t r, span_size_t c) {
+        return 3 * (s * (_rings + 1) + r) + c;
+    };
 
     const auto s_step = 2 * math::pi / _sections;
     const auto r_step = 2 * math::pi / _rings;
+
     const auto ty = 0;
 
-    for(span_size_t s = 0; s < (_sections + 1); ++s) {
-        const auto tx = -std::sin(s * s_step);
-        const auto tz = -std::cos(s * s_step);
+    for(span_size_t s = 0; s < _sections; ++s) {
+        for(span_size_t r = 0; r < _rings; ++r) {
+            const auto [rd, sd, td] = get_offs(s, r);
+            EAGINE_MAYBE_UNUSED(td);
 
-        for(span_size_t r = 0; r < (_rings + 1); ++r) {
-            const auto nr = -std::cos(r * r_step);
-            const auto ny = std::sin(r * r_step);
+            const auto tx = -std::sin((s + sd) * s_step);
+            const auto tz = -std::cos((s + sd) * s_step);
+            const auto nr = -std::cos((r + rd) * r_step);
+            const auto ny = std::sin((r + rd) * r_step);
             const auto nx = -tz * nr;
             const auto nz = tx * nr;
 
-            dest[k++] = float(ny * tz - nz * ty);
-            dest[k++] = float(nz * tx - nx * tz);
-            dest[k++] = float(nx * ty - ny * tx);
+            dest[k(s, r, 0)] = float(ny * tz - nz * ty);
+            dest[k(s, r, 1)] = float(nz * tx - nx * tz);
+            dest[k(s, r, 2)] = float(nx * ty - ny * tx);
         }
+        dest[k(s, _rings, 0)] = dest[k(s, 0, 0)];
+        dest[k(s, _rings, 1)] = dest[k(s, 0, 1)];
+        dest[k(s, _rings, 2)] = dest[k(s, 0, 2)];
+    }
+    for(span_size_t r = 0; r <= _rings; ++r) {
+        dest[k(_sections, r, 0)] = dest[k(0, r, 0)];
+        dest[k(_sections, r, 1)] = dest[k(0, r, 1)];
+        dest[k(_sections, r, 2)] = dest[k(0, r, 2)];
     }
 }
 //------------------------------------------------------------------------------
@@ -219,13 +248,13 @@ void unit_torus_gen::wrap_coords(span<float> dest) noexcept {
 EAGINE_LIB_FUNC
 span_size_t unit_torus_gen::attribute_variants(vertex_attrib_kind attrib) {
     switch(attrib) {
-        case vertex_attrib_kind::position:
-            return 2;
         case vertex_attrib_kind::vertex_pivot:
+            break;
+        case vertex_attrib_kind::position:
         case vertex_attrib_kind::normal:
-            return 2;
         case vertex_attrib_kind::tangential:
         case vertex_attrib_kind::bitangential:
+            return 2;
         case vertex_attrib_kind::wrap_coord:
         case vertex_attrib_kind::pivot:
         case vertex_attrib_kind::box_coord:
@@ -281,10 +310,22 @@ void unit_torus_gen::attrib_values(
             }
             break;
         case vertex_attrib_kind::tangential:
-            tangentials(dest);
+            if(variant_index == 1) {
+                auto get_offs =
+                  unit_torus_gen_make_get_norm_offs(_r_seed, _s_seed);
+                tangentials(dest, offset_getter{get_offs});
+            } else {
+                tangentials(dest, offset_getter{no_offs});
+            }
             break;
         case vertex_attrib_kind::bitangential:
-            bitangentials(dest);
+            if(variant_index == 1) {
+                auto get_offs =
+                  unit_torus_gen_make_get_norm_offs(_r_seed, _s_seed);
+                bitangentials(dest, offset_getter{get_offs});
+            } else {
+                bitangentials(dest, offset_getter{no_offs});
+            }
             break;
         case vertex_attrib_kind::wrap_coord:
             wrap_coords(dest);
