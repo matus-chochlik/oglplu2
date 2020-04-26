@@ -497,6 +497,11 @@ struct hint_option : gl_enum_class<hint_option, EAGINE_ID_V(HintOption)> {
     using enum_class::enum_class;
 };
 
+struct sample_parameter
+  : gl_enum_class<sample_parameter, EAGINE_ID_V(SampleParm)> {
+    using enum_class::enum_class;
+};
+
 struct hint_target : gl_enum_class<hint_target, EAGINE_ID_V(HintTarget)> {
     using enum_class::enum_class;
 };

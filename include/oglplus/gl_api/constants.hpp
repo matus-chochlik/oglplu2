@@ -9068,6 +9068,15 @@ public:
       view_compatibility_class;
 
     opt_c_api_constant<
+      mp_list<sample_parameter>,
+#ifdef GL_SAMPLE_POSITION
+      enum_type_c<GL_SAMPLE_POSITION>>
+#else
+      enum_type_i>
+#endif
+      sample_position;
+
+    opt_c_api_constant<
       mp_list<matrix_mode>,
 #ifdef GL_PROJECTION
       enum_type_c<GL_PROJECTION>>
@@ -11595,6 +11604,7 @@ public:
       , clear_texture("CLEAR_TEXTURE", traits, api)
       , texture_view("TEXTURE_VIEW", traits, api)
       , view_compatibility_class("VIEW_COMPATIBILITY_CLASS", traits, api)
+      , sample_position("SAMPLE_POSITION", traits, api)
       , projection("PROJECTION", traits, api)
       , modelview("MODELVIEW", traits, api)
       , debug_severity_high("DEBUG_SEVERITY_HIGH", traits, api)

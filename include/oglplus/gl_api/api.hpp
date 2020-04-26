@@ -3137,6 +3137,24 @@ public:
     func<OGLPAFP(FrontFace), void(face_orientation)> front_face;
     func<OGLPAFP(CullFace), void(face_mode)> cull_face;
 
+    func<OGLPAFP(PolygonMode), void(face_mode, oglp::polygon_mode)>
+      polygon_mode;
+
+    func<OGLPAFP(PolygonOffset)> polygon_offset;
+    func<OGLPAFP(PolygonOffsetClamp)> polygon_offset_clamp;
+
+    func<OGLPAFP(SampleCoverage)> sample_coverage;
+    func<OGLPAFP(SampleMaski)> sample_mask_i;
+    func<OGLPAFP(MinSampleShading)> min_sample_shading;
+
+    query_func<
+      mp_list<>,
+      mp_list<sample_parameter>,
+      mp_list<uint_type>,
+      float_type,
+      OGLPAFP(GetMultisamplefv)>
+      get_multisample_f;
+
     // drawing
     // arrays
     func<OGLPAFP(DrawArrays), void(primitive_type, int_type, sizei_type)>
@@ -3894,6 +3912,13 @@ public:
       , patch_parameter_fv("patch_parameter_fv", traits, *this)
       , front_face("front_face", traits, *this)
       , cull_face("cull_face", traits, *this)
+      , polygon_mode("polygon_mode", traits, *this)
+      , polygon_offset("polygon_offset", traits, *this)
+      , polygon_offset_clamp("polygon_offset_clamp", traits, *this)
+      , sample_coverage("sample_coverage", traits, *this)
+      , sample_mask_i("sample_mask_i", traits, *this)
+      , min_sample_shading("min_sample_shading", traits, *this)
+      , get_multisample_f("get_multisample_f", traits, *this)
       , draw_arrays("draw_arrays", traits, *this)
       , draw_arrays_instanced_base_instance(
           "draw_arrays_instanced_base_instance", traits, *this)
