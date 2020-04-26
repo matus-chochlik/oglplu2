@@ -47,20 +47,34 @@ static inline optionally_valid<char> from_string(
 }
 //------------------------------------------------------------------------------
 template <typename T, typename N>
+optionally_valid<T> multiply_and_convert_if_fits(N n, const char* c) noexcept {
+    if(!c[0]) {
+        return convert_if_fits<T>(n);
+    } else if((c[0] == 'k') && (!c[1])) {
+        return convert_if_fits<T>(n * 1000);
+    } else if((c[0] == 'M') && (!c[1])) {
+        return convert_if_fits<T>(n * 1000000);
+    } else if((c[0] == 'G') && (!c[1])) {
+        return convert_if_fits<T>(n * 1000000000);
+    }
+
+    return {};
+}
+//------------------------------------------------------------------------------
+template <typename T, typename N>
 optionally_valid<T> convert_from_string_with(
   N (*converter)(const char*, char**), string_view src, identity<T>) noexcept {
     char* end = nullptr;
     auto cstr = c_str(src);
     errno = 0;
-    const N result = converter(cstr, &end);
-    if(
-      (errno != ERANGE) && (end != cstr) && (end != nullptr) &&
-      (*end == '\0')) {
-        return convert_if_fits<T>(result);
+    const N result{converter(cstr, &end)};
+    if((errno != ERANGE) && (end != cstr) && (end != nullptr)) {
+        return multiply_and_convert_if_fits<T>(result, end);
     }
+
     return {};
 }
-
+//------------------------------------------------------------------------------
 template <typename T, typename N>
 optionally_valid<T> convert_from_string_with(
   N (*converter)(const char*, char**, int),
@@ -71,10 +85,8 @@ optionally_valid<T> convert_from_string_with(
     auto cstr = c_str(src);
     errno = 0;
     const N result = converter(cstr, &end, base);
-    if(
-      (errno != ERANGE) && (end != cstr) && (end != nullptr) &&
-      (*end == '\0')) {
-        return convert_if_fits<T>(result);
+    if((errno != ERANGE) && (end != cstr) && (end != nullptr)) {
+        return multiply_and_convert_if_fits<T>(result, end);
     }
     return {};
 }
