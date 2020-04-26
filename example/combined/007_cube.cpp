@@ -22,7 +22,7 @@
 namespace eagine {
 namespace oglp {
 //------------------------------------------------------------------------------
-class example_triangle : public example {
+class example_cube : public example {
     example_orbiting_camera camera;
 
     owned_vertex_array_name vao;
@@ -50,9 +50,9 @@ public:
     void render(const example_context& ctx) final;
 };
 //------------------------------------------------------------------------------
-// example_triangle
+// example_cube
 //------------------------------------------------------------------------------
-bool example_triangle ::check_requirements(const example_context& ctx) {
+bool example_cube ::check_requirements(const example_context& ctx) {
     const auto& [gl, GL] = ctx.gl();
     auto r = ctx.req_mark();
 
@@ -66,11 +66,11 @@ bool example_triangle ::check_requirements(const example_context& ctx) {
            r(gl.draw_arrays) && r(GL.vertex_shader) && r(GL.fragment_shader);
 }
 //------------------------------------------------------------------------------
-void example_triangle::set_projection(const example_context& ctx) {
+void example_cube::set_projection(const example_context& ctx) {
     ctx.gl().set_uniform(prog, camera_loc, camera.matrix(ctx.state()));
 }
 //------------------------------------------------------------------------------
-void example_triangle::init(example_context& ctx) {
+void example_cube::init(example_context& ctx) {
     auto& cleanup = ctx.cleanup();
     const auto& [gl, GL] = ctx.gl();
 
@@ -169,21 +169,21 @@ void example_triangle::init(example_context& ctx) {
     set_projection(ctx);
 }
 //------------------------------------------------------------------------------
-void example_triangle::pointer_motion(const example_context& ctx) {
+void example_cube::pointer_motion(const example_context& ctx) {
     const auto& state = ctx.state();
     if(camera.apply_pointer_motion(state)) {
         set_projection(ctx);
     }
 }
 //------------------------------------------------------------------------------
-void example_triangle::pointer_scrolling(const example_context& ctx) {
+void example_cube::pointer_scrolling(const example_context& ctx) {
     const auto& state = ctx.state();
     if(camera.apply_pointer_scrolling(state)) {
         set_projection(ctx);
     }
 }
 //------------------------------------------------------------------------------
-void example_triangle::user_idle(const example_context& ctx) {
+void example_cube::user_idle(const example_context& ctx) {
     const auto& state = ctx.state();
     if(state.user_idle_time() > seconds_(1)) {
         camera.idle_update(state, 2);
@@ -191,7 +191,7 @@ void example_triangle::user_idle(const example_context& ctx) {
     }
 }
 //------------------------------------------------------------------------------
-void example_triangle::resize(const example_context& ctx) {
+void example_cube::resize(const example_context& ctx) {
     const auto& state = ctx.state();
     const auto& gl = ctx.gl();
 
@@ -199,7 +199,7 @@ void example_triangle::resize(const example_context& ctx) {
     set_projection(ctx);
 }
 //------------------------------------------------------------------------------
-void example_triangle::render(const example_context& ctx) {
+void example_cube::render(const example_context& ctx) {
     const auto& [gl, GL] = ctx.gl();
 
     gl.clear(GL.color_buffer_bit | GL.depth_buffer_bit);
@@ -210,7 +210,7 @@ void example_triangle::render(const example_context& ctx) {
 //------------------------------------------------------------------------------
 std::unique_ptr<example> make_example(
   const example_args&, const example_context&) {
-    return {std::make_unique<oglp::example_triangle>()};
+    return {std::make_unique<oglp::example_cube>()};
 }
 //------------------------------------------------------------------------------
 void adjust_params(example_params& params) {
