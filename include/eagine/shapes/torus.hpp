@@ -74,6 +74,12 @@ public:
 
     span_size_t attribute_variants(vertex_attrib_kind attrib) override;
 
+    void make_special_attrib_values(
+      void (unit_torus_gen::*function)(
+        span<float>, unit_torus_gen::offset_getter),
+      span_size_t,
+      span<float>);
+
     void attrib_values(vertex_attrib_kind, span_size_t, span<float>) override;
 
     index_data_type index_type() override;

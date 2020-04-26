@@ -7,6 +7,7 @@
 
 #include <eagine/assert.hpp>
 #include <eagine/math/constants.hpp>
+#include <eagine/math/functions.hpp>
 #include <cmath>
 #include <random>
 
@@ -246,6 +247,39 @@ void unit_torus_gen::wrap_coords(span<float> dest) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+void unit_torus_gen::make_special_attrib_values(
+  void (unit_torus_gen::*function)(span<float>, unit_torus_gen::offset_getter),
+  span_size_t variant_index,
+  span<float> dest) {
+    if(variant_index == 1) {
+        auto get_offs = [rrg{std::mt19937{_r_seed}},
+                         srg{std::mt19937{_s_seed}},
+                         rnd{std::normal_distribution<float>{0.f, 0.15f}},
+                         snd{std::normal_distribution<float>{0.f, 0.15f}}](
+                          span_size_t,
+                          span_size_t) mutable -> std::array<float, 3> {
+            return {{rnd(rrg), snd(srg), 0.f}};
+        };
+        (this->*function)(dest, offset_getter{get_offs});
+    } else if(variant_index == 2) {
+        auto get_offs =
+          [this](span_size_t s, span_size_t r) -> std::array<float, 3> {
+            const auto x = float(s) / float(this->_sections);
+            const auto y = float(r) / float(this->_rings);
+            return {
+              {float(math::sine_wave01(x)), float(math::sine_wave01(y)), 0.f}};
+        };
+        (this->*function)(dest, offset_getter{get_offs});
+    } else {
+        const auto no_offs =
+          [](span_size_t, span_size_t) -> std::array<float, 3> {
+            return {{0.f, 0.f, 0.f}};
+        };
+        (this->*function)(dest, offset_getter{no_offs});
+    }
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 span_size_t unit_torus_gen::attribute_variants(vertex_attrib_kind attrib) {
     switch(attrib) {
         case vertex_attrib_kind::vertex_pivot:
@@ -254,7 +288,7 @@ span_size_t unit_torus_gen::attribute_variants(vertex_attrib_kind attrib) {
         case vertex_attrib_kind::normal:
         case vertex_attrib_kind::tangential:
         case vertex_attrib_kind::bitangential:
-            return 2;
+            return 3;
         case vertex_attrib_kind::wrap_coord:
         case vertex_attrib_kind::pivot:
         case vertex_attrib_kind::box_coord:
@@ -270,62 +304,28 @@ span_size_t unit_torus_gen::attribute_variants(vertex_attrib_kind attrib) {
     return _base::attribute_variants(attrib);
 }
 //------------------------------------------------------------------------------
-static inline auto unit_torus_gen_make_get_norm_offs(
-  std::size_t r_seed, std::size_t s_seed) {
-    return [rrg{std::mt19937{r_seed}},
-            srg{std::mt19937{s_seed}},
-            rnd{std::normal_distribution<float>{0.f, 0.15f}},
-            snd{std::normal_distribution<float>{0.f, 0.15f}}](
-             span_size_t, span_size_t) mutable -> std::array<float, 3> {
-        return {{rnd(rrg), snd(srg), 0.f}};
-    };
-}
-//------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void unit_torus_gen::attrib_values(
   vertex_attrib_kind attrib, span_size_t variant_index, span<float> dest) {
-    const auto no_offs = [](span_size_t, span_size_t) -> std::array<float, 3> {
-        return {{0.f, 0.f, 0.f}};
-    };
     switch(attrib) {
         case vertex_attrib_kind::vertex_pivot:
             vertex_pivots(dest);
             break;
         case vertex_attrib_kind::position:
-            if(variant_index == 1) {
-                auto get_offs =
-                  unit_torus_gen_make_get_norm_offs(_r_seed, _s_seed);
-                positions(dest, offset_getter{get_offs});
-            } else {
-                positions(dest, offset_getter{no_offs});
-            }
+            make_special_attrib_values(
+              &unit_torus_gen::positions, variant_index, dest);
             break;
         case vertex_attrib_kind::normal:
-            if(variant_index == 1) {
-                auto get_offs =
-                  unit_torus_gen_make_get_norm_offs(_r_seed, _s_seed);
-                normals(dest, offset_getter{get_offs});
-            } else {
-                normals(dest, offset_getter{no_offs});
-            }
+            make_special_attrib_values(
+              &unit_torus_gen::normals, variant_index, dest);
             break;
         case vertex_attrib_kind::tangential:
-            if(variant_index == 1) {
-                auto get_offs =
-                  unit_torus_gen_make_get_norm_offs(_r_seed, _s_seed);
-                tangentials(dest, offset_getter{get_offs});
-            } else {
-                tangentials(dest, offset_getter{no_offs});
-            }
+            make_special_attrib_values(
+              &unit_torus_gen::tangentials, variant_index, dest);
             break;
         case vertex_attrib_kind::bitangential:
-            if(variant_index == 1) {
-                auto get_offs =
-                  unit_torus_gen_make_get_norm_offs(_r_seed, _s_seed);
-                bitangentials(dest, offset_getter{get_offs});
-            } else {
-                bitangentials(dest, offset_getter{no_offs});
-            }
+            make_special_attrib_values(
+              &unit_torus_gen::bitangentials, variant_index, dest);
             break;
         case vertex_attrib_kind::wrap_coord:
             wrap_coords(dest);
