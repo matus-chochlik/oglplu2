@@ -15,10 +15,9 @@ namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void occluded_gen::attrib_values(
-  vertex_attrib_kind attrib, span_size_t variant_index, span<float> dest) {
+void occluded_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
 
-    if(attrib == vertex_attrib_kind::occlusion) {
+    if(vav == vertex_attrib_kind::occlusion) {
         std::random_device rd;
         std::mt19937 rho_re(rd());
         std::mt19937 phi_re(rd());
@@ -27,20 +26,19 @@ void occluded_gen::attrib_values(
         const auto vc = delegated_gen::vertex_count();
         const auto pva = vertex_attrib_kind::position;
         const auto nva = vertex_attrib_kind::normal;
-        const auto pvpv = delegated_gen::values_per_vertex(pva, 0);
-        const auto nvpv = delegated_gen::values_per_vertex(nva, 0);
+        const auto pvpv = delegated_gen::values_per_vertex({pva, vav});
+        const auto nvpv = delegated_gen::values_per_vertex({nva, vav});
         const auto ns = _samples;
 
         if((pvpv == 3) && (nvpv == 3)) {
             EAGINE_ASSERT(
-              dest.size() >=
-              vc * delegated_gen::values_per_vertex(attrib, variant_index));
+              dest.size() >= vc * delegated_gen::values_per_vertex(vav));
 
             std::vector<float> positions(std_size(vc * pvpv));
             std::vector<float> normals(std_size(vc * nvpv));
 
-            delegated_gen::attrib_values(pva, 0, cover(positions));
-            delegated_gen::attrib_values(nva, 0, cover(normals));
+            delegated_gen::attrib_values({pva, vav}, cover(positions));
+            delegated_gen::attrib_values({nva, vav}, cover(normals));
 
             std::vector<math::line<float, true>> rays(std_size(vc * ns));
             std::vector<float> weights(rays.size());
@@ -98,7 +96,7 @@ void occluded_gen::attrib_values(
             fill(dest, 0.f);
         }
     } else {
-        delegated_gen::attrib_values(attrib, variant_index, dest);
+        delegated_gen::attrib_values(vav, dest);
     }
 }
 //------------------------------------------------------------------------------

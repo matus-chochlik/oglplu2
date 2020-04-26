@@ -29,7 +29,7 @@ public:
       , _s{s} {
     }
 
-    void attrib_values(vertex_attrib_kind, span_size_t, span<float>) override;
+    void attrib_values(vertex_attrib_variant, span<float>) override;
 
     math::sphere<float, true> bounding_sphere() override;
 };

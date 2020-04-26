@@ -11,12 +11,11 @@ namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void reboxed_gen::attrib_values(
-  vertex_attrib_kind attrib, span_size_t variant_index, span<float> dest) {
+void reboxed_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
 
-    if(attrib == vertex_attrib_kind::box_coord) {
+    if(vav == vertex_attrib_kind::box_coord) {
 
-        delegated_gen::attrib_values(vertex_attrib_kind::position, 0, dest);
+        delegated_gen::attrib_values(vertex_attrib_kind::position / 0, dest);
 
         std::array<float, 4> min{std::numeric_limits<float>::max(),
                                  std::numeric_limits<float>::max(),
@@ -29,7 +28,7 @@ void reboxed_gen::attrib_values(
                                  std::numeric_limits<float>::lowest()};
 
         const auto n = vertex_count();
-        const auto m = values_per_vertex(attrib, variant_index);
+        const auto m = values_per_vertex(vav);
 
         for(span_size_t v = 0; v < n; ++v) {
             for(span_size_t c = 0; c < m; ++c) {
@@ -54,7 +53,7 @@ void reboxed_gen::attrib_values(
             }
         }
     } else {
-        delegated_gen::attrib_values(attrib, variant_index, dest);
+        delegated_gen::attrib_values(vav, dest);
     }
 }
 //------------------------------------------------------------------------------

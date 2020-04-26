@@ -15,18 +15,16 @@ span_size_t array_gen::vertex_count() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void array_gen::attrib_values(
-  vertex_attrib_kind attrib, span_size_t variant_index, span<float> dest) {
+void array_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
 
     const auto n = delegated_gen::vertex_count();
-    const auto m = values_per_vertex(attrib, variant_index);
+    const auto m = values_per_vertex(vav);
 
-    delegated_gen::attrib_values(attrib, variant_index, head(dest, n * m));
+    delegated_gen::attrib_values(vav, head(dest, n * m));
 
-    const bool is_translated_attrib =
-      attrib == vertex_attrib_kind::position ||
-      attrib == vertex_attrib_kind::pivot ||
-      attrib == vertex_attrib_kind::vertex_pivot;
+    const bool is_translated_attrib = vav == vertex_attrib_kind::position ||
+                                      vav == vertex_attrib_kind::pivot ||
+                                      vav == vertex_attrib_kind::vertex_pivot;
 
     if(is_translated_attrib) {
         for(span_size_t i = 1; i < _copies; ++i) {

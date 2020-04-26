@@ -31,17 +31,13 @@ inline shape_generator::shape_generator(
 }
 //------------------------------------------------------------------------------
 inline void shape_generator::attrib_data(
-  shapes::vertex_attrib_kind attrib,
-  span_size_t variant_index,
-  memory::block data) const {
+  shapes::vertex_attrib_variant vav, memory::block data) const {
     using shapes::attrib_data_type;
 
-    switch(_gen->attrib_type(attrib, variant_index)) {
+    switch(_gen->attrib_type(vav)) {
         case attrib_data_type::float_:
             _gen->attrib_values(
-              attrib,
-              variant_index,
-              accomodate(data, identity<gl_types::float_type>()));
+              vav, accomodate(data, identity<gl_types::float_type>()));
             break;
         case attrib_data_type::none:
             break;
@@ -72,24 +68,23 @@ inline void shape_generator::attrib_setup(
   vertex_array_name vao,
   buffer_name buf,
   vertex_attrib_location loc,
-  shapes::vertex_attrib_kind attrib,
-  span_size_t variant_index,
+  shapes::vertex_attrib_variant vav,
   memory::buffer& temp) const {
     using shapes::attrib_data_type;
     auto& [gl, GL] = api;
 
-    const auto size = attrib_data_block_size(attrib, variant_index);
+    const auto size = attrib_data_block_size(vav);
     auto data = head(cover(temp.ensure(size)), size);
-    attrib_data(attrib, variant_index, data);
+    attrib_data(vav, data);
 
     gl.bind_buffer(GL.array_buffer, buf);
     gl.buffer_data(GL.array_buffer, data, GL.static_draw);
 
     gl.vertex_attrib_pointer(
       loc,
-      values_per_vertex(attrib, variant_index),
-      attrib_type(api, attrib, variant_index),
-      is_attrib_normalized(api, attrib, variant_index));
+      values_per_vertex(vav),
+      attrib_type(api, vav),
+      is_attrib_normalized(api, vav));
 
     if(gl.enable_vertex_array_attrib) {
         gl.enable_vertex_array_attrib(vao, loc);

@@ -152,8 +152,8 @@ void unit_sphere_gen::wrap_coords(span<float> dest) noexcept {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void unit_sphere_gen::attrib_values(
-  vertex_attrib_kind attrib, span_size_t variant_index, span<float> dest) {
-    switch(attrib) {
+  vertex_attrib_variant vav, span<float> dest) {
+    switch(vav.attrib) {
         case vertex_attrib_kind::position:
             positions(dest);
             break;
@@ -179,7 +179,7 @@ void unit_sphere_gen::attrib_values(
         case vertex_attrib_kind::color:
         case vertex_attrib_kind::emission:
         case vertex_attrib_kind::occlusion:
-            _base::attrib_values(attrib, variant_index, dest);
+            _base::attrib_values(vav, dest);
             break;
     }
 }

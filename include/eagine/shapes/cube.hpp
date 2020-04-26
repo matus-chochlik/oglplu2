@@ -57,7 +57,7 @@ public:
 
     void face_coords(span<float> dest) noexcept;
 
-    void attrib_values(vertex_attrib_kind, span_size_t, span<float>) override;
+    void attrib_values(vertex_attrib_variant, span<float>) override;
 
     index_data_type index_type() override;
 

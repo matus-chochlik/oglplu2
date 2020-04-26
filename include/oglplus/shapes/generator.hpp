@@ -40,48 +40,36 @@ public:
         return _gen->vertex_count();
     }
 
-    span_size_t values_per_vertex(
-      shapes::vertex_attrib_kind attrib, span_size_t variant_index) const {
-        return _gen->values_per_vertex(attrib, variant_index);
+    span_size_t values_per_vertex(shapes::vertex_attrib_variant vav) const {
+        return _gen->values_per_vertex(vav);
     }
 
-    span_size_t value_count(
-      shapes::vertex_attrib_kind attrib, span_size_t variant_index) const {
-        return vertex_count() * values_per_vertex(attrib, variant_index);
+    span_size_t value_count(shapes::vertex_attrib_variant vav) const {
+        return vertex_count() * values_per_vertex(vav);
     }
 
     template <typename A>
     data_type attrib_type(
-      const basic_gl_api<A>& api,
-      shapes::vertex_attrib_kind attrib,
-      span_size_t variant_index) const {
-        return translate(api, _gen->attrib_type(attrib, variant_index));
+      const basic_gl_api<A>& api, shapes::vertex_attrib_variant vav) const {
+        return translate(api, _gen->attrib_type(vav));
     }
 
     template <typename A>
     true_false is_attrib_normalized(
-      const basic_gl_api<A>& api,
-      shapes::vertex_attrib_kind attrib,
-      span_size_t variant_index) const {
-        return translate(
-          api, _gen->is_attrib_normalized(attrib, variant_index));
+      const basic_gl_api<A>& api, shapes::vertex_attrib_variant vav) const {
+        return translate(api, _gen->is_attrib_normalized(vav));
     }
 
-    span_size_t attrib_type_size(
-      shapes::vertex_attrib_kind attrib, span_size_t variant_index) const {
-        return type_size(_gen->attrib_type(attrib, variant_index));
+    span_size_t attrib_type_size(shapes::vertex_attrib_variant vav) const {
+        return type_size(_gen->attrib_type(vav));
     }
 
     span_size_t attrib_data_block_size(
-      shapes::vertex_attrib_kind attrib, span_size_t variant_index) const {
-        return value_count(attrib, variant_index) *
-               attrib_type_size(attrib, variant_index);
+      shapes::vertex_attrib_variant vav) const {
+        return value_count(vav) * attrib_type_size(vav);
     }
 
-    void attrib_data(
-      shapes::vertex_attrib_kind attrib,
-      span_size_t variant_index,
-      memory::block data) const;
+    void attrib_data(shapes::vertex_attrib_variant, memory::block data) const;
 
     bool is_indexed() const {
         return _gen->index_count() > 0;
@@ -111,8 +99,7 @@ public:
       vertex_array_name vao,
       buffer_name buf,
       vertex_attrib_location loc,
-      shapes::vertex_attrib_kind attrib,
-      span_size_t variant_index,
+      shapes::vertex_attrib_variant attrib_variant,
       memory::buffer& temp) const;
 
     template <typename A>

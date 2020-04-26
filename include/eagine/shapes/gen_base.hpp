@@ -64,19 +64,13 @@ struct generator_intf {
 
     virtual span_size_t attribute_variants(vertex_attrib_kind attrib) = 0;
 
-    virtual span_size_t values_per_vertex(
-      vertex_attrib_kind attrib, span_size_t variant_index) = 0;
+    virtual span_size_t values_per_vertex(vertex_attrib_variant vav) = 0;
 
-    virtual attrib_data_type attrib_type(
-      vertex_attrib_kind attrib, span_size_t variant_index) = 0;
+    virtual attrib_data_type attrib_type(vertex_attrib_variant vav) = 0;
 
-    virtual bool is_attrib_normalized(
-      vertex_attrib_kind attrib, span_size_t variant_index) = 0;
+    virtual bool is_attrib_normalized(vertex_attrib_variant vav) = 0;
 
-    virtual void attrib_values(
-      vertex_attrib_kind attrib,
-      span_size_t variant_index,
-      span<float> dest) = 0;
+    virtual void attrib_values(vertex_attrib_variant vav, span<float> dest) = 0;
 
     virtual index_data_type index_type() = 0;
 
@@ -138,32 +132,28 @@ public:
         return has(attrib) ? 1U : 0U;
     }
 
-    bool has_variant(vertex_attrib_kind attrib, span_size_t variant_index) {
-        EAGINE_ASSERT(variant_index >= 0);
-        return variant_index < attribute_variants(attrib);
+    bool has_variant(vertex_attrib_variant vav) {
+        EAGINE_ASSERT(vav.has_valid_index());
+        return vav.index() < attribute_variants(vav.attrib);
     }
 
-    span_size_t values_per_vertex(
-      vertex_attrib_kind attrib, span_size_t variant_index) override {
-        return has_variant(attrib, variant_index)
-                 ? attrib_values_per_vertex(attrib)
-                 : 0U;
+    span_size_t values_per_vertex(vertex_attrib_variant vav) override {
+        return has_variant(vav) ? attrib_values_per_vertex(vav) : 0U;
     }
 
-    span_size_t value_count(
-      vertex_attrib_kind attrib, span_size_t variant_index) {
-        return vertex_count() * values_per_vertex(attrib, variant_index);
+    span_size_t value_count(vertex_attrib_variant vav) {
+        return vertex_count() * values_per_vertex(vav);
     }
 
-    attrib_data_type attrib_type(vertex_attrib_kind, span_size_t) override {
+    attrib_data_type attrib_type(vertex_attrib_variant) override {
         return attrib_data_type::float_;
     }
 
-    bool is_attrib_normalized(vertex_attrib_kind, span_size_t) override {
+    bool is_attrib_normalized(vertex_attrib_variant) override {
         return false;
     }
 
-    void attrib_values(vertex_attrib_kind, span_size_t, span<float>) override {
+    void attrib_values(vertex_attrib_variant, span<float>) override {
         EAGINE_UNREACHABLE(
           "Generator failed to handle the specified attribute kind.");
     }
@@ -186,10 +176,7 @@ protected:
     }
 
 public:
-    void attrib_values(
-      vertex_attrib_kind attrib,
-      span_size_t variant_index,
-      span<float> dest) override;
+    void attrib_values(vertex_attrib_variant vav, span<float> dest) override;
 };
 //------------------------------------------------------------------------------
 static inline std::array<std::unique_ptr<generator_intf>, 2> operator+(

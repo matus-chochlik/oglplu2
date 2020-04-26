@@ -46,26 +46,20 @@ public:
         return _gen->attribute_variants(attrib);
     }
 
-    span_size_t values_per_vertex(
-      vertex_attrib_kind attrib, span_size_t variant_index) override {
-        return _gen->values_per_vertex(attrib, variant_index);
+    span_size_t values_per_vertex(vertex_attrib_variant vav) override {
+        return _gen->values_per_vertex(vav);
     }
 
-    attrib_data_type attrib_type(
-      vertex_attrib_kind attrib, span_size_t variant_index) override {
-        return _gen->attrib_type(attrib, variant_index);
+    attrib_data_type attrib_type(vertex_attrib_variant vav) override {
+        return _gen->attrib_type(vav);
     }
 
-    bool is_attrib_normalized(
-      vertex_attrib_kind attrib, span_size_t variant_index) override {
-        return _gen->is_attrib_normalized(attrib, variant_index);
+    bool is_attrib_normalized(vertex_attrib_variant vav) override {
+        return _gen->is_attrib_normalized(vav);
     }
 
-    void attrib_values(
-      vertex_attrib_kind attrib,
-      span_size_t variant_index,
-      span<float> dest) override {
-        _gen->attrib_values(attrib, variant_index, dest);
+    void attrib_values(vertex_attrib_variant vav, span<float> dest) override {
+        _gen->attrib_values(vav, dest);
     }
 
     index_data_type index_type() override {

@@ -41,13 +41,13 @@ public:
 
     span_size_t attribute_variants(vertex_attrib_kind attrib) override;
 
-    span_size_t values_per_vertex(vertex_attrib_kind, span_size_t) override;
+    span_size_t values_per_vertex(vertex_attrib_variant) override;
 
-    attrib_data_type attrib_type(vertex_attrib_kind, span_size_t) override;
+    attrib_data_type attrib_type(vertex_attrib_variant) override;
 
-    bool is_attrib_normalized(vertex_attrib_kind, span_size_t) override;
+    bool is_attrib_normalized(vertex_attrib_variant) override;
 
-    void attrib_values(vertex_attrib_kind, span_size_t, span<float>) override;
+    void attrib_values(vertex_attrib_variant, span<float>) override;
 
     index_data_type index_type() override;
 

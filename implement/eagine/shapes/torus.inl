@@ -306,26 +306,26 @@ span_size_t unit_torus_gen::attribute_variants(vertex_attrib_kind attrib) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void unit_torus_gen::attrib_values(
-  vertex_attrib_kind attrib, span_size_t variant_index, span<float> dest) {
-    switch(attrib) {
+  vertex_attrib_variant vav, span<float> dest) {
+    switch(vav.attrib) {
         case vertex_attrib_kind::vertex_pivot:
             vertex_pivots(dest);
             break;
         case vertex_attrib_kind::position:
             make_special_attrib_values(
-              &unit_torus_gen::positions, variant_index, dest);
+              &unit_torus_gen::positions, vav.index(), dest);
             break;
         case vertex_attrib_kind::normal:
             make_special_attrib_values(
-              &unit_torus_gen::normals, variant_index, dest);
+              &unit_torus_gen::normals, vav.index(), dest);
             break;
         case vertex_attrib_kind::tangential:
             make_special_attrib_values(
-              &unit_torus_gen::tangentials, variant_index, dest);
+              &unit_torus_gen::tangentials, vav.index(), dest);
             break;
         case vertex_attrib_kind::bitangential:
             make_special_attrib_values(
-              &unit_torus_gen::bitangentials, variant_index, dest);
+              &unit_torus_gen::bitangentials, vav.index(), dest);
             break;
         case vertex_attrib_kind::wrap_coord:
             wrap_coords(dest);
@@ -339,8 +339,7 @@ void unit_torus_gen::attrib_values(
         case vertex_attrib_kind::color:
         case vertex_attrib_kind::emission:
         case vertex_attrib_kind::occlusion:
-            centered_unit_shape_generator_base::attrib_values(
-              attrib, variant_index, dest);
+            centered_unit_shape_generator_base::attrib_values(vav, dest);
             break;
     }
 }

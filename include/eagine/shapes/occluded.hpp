@@ -26,7 +26,7 @@ public:
       , _samples{samples} {
     }
 
-    void attrib_values(vertex_attrib_kind, span_size_t, span<float>) override;
+    void attrib_values(vertex_attrib_variant, span<float>) override;
 
 private:
     span_size_t _samples{64};

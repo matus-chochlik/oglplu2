@@ -139,7 +139,6 @@ void example_cube::init(example_context& ctx) {
       positions,
       position_loc,
       eagine::shapes::vertex_attrib_kind::position,
-      0,
       ctx.buffer());
     gl.bind_attrib_location(prog, position_loc, "Position");
 
@@ -153,7 +152,6 @@ void example_cube::init(example_context& ctx) {
       normals,
       normal_loc,
       eagine::shapes::vertex_attrib_kind::normal,
-      0,
       ctx.buffer());
     gl.bind_attrib_location(prog, normal_loc, "Normal");
 

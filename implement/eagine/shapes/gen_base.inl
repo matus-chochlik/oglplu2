@@ -30,11 +30,11 @@ math::sphere<float, true> generator_intf::bounding_sphere() {
 
     const auto attrib = vertex_attrib_kind::position;
     const auto n = vertex_count();
-    const auto m = values_per_vertex(attrib, 0);
+    const auto m = values_per_vertex(attrib);
 
     std::vector<float> temp(std_size(n * m));
     auto pos = cover(temp);
-    attrib_values(attrib, 0, pos);
+    attrib_values(attrib, pos);
 
     for(span_size_t v = 0; v < n; ++v) {
         for(span_size_t c = 0; c < m; ++c) {
@@ -69,10 +69,10 @@ void generator_intf::ray_intersections(
     indices(cover(idx));
 
     const auto pvak = vertex_attrib_kind::position;
-    const auto vpv = values_per_vertex(pvak, 0);
+    const auto vpv = values_per_vertex(pvak);
 
     std::vector<float> pos(std_size(vertex_count() * vpv));
-    attrib_values(pvak, 0, cover(pos));
+    attrib_values(pvak, cover(pos));
 
     std::vector<std::size_t> ray_idx;
 
@@ -198,18 +198,18 @@ void generator_base::indices(span<std::uint32_t> dest) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void centered_unit_shape_generator_base::attrib_values(
-  vertex_attrib_kind attrib, span_size_t variant_index, span<float> dest) {
-    if(attrib == vertex_attrib_kind::box_coord) {
-        this->attrib_values(vertex_attrib_kind::position, variant_index, dest);
+  vertex_attrib_variant vav, span<float> dest) {
+    if(vav.attrib == vertex_attrib_kind::box_coord) {
+        this->attrib_values({vertex_attrib_kind::position, vav}, dest);
         for(float& x : dest) {
             x += 0.5f;
         }
-    } else if(attrib == vertex_attrib_kind::pivot) {
+    } else if(vav == vertex_attrib_kind::pivot) {
         fill(head(dest, this->vertex_count() * 3), 0.f);
-    } else if(attrib == vertex_attrib_kind::vertex_pivot) {
+    } else if(vav == vertex_attrib_kind::vertex_pivot) {
         fill(head(dest, this->vertex_count() * 3), 0.f);
     } else {
-        generator_base::attrib_values(attrib, variant_index, dest);
+        generator_base::attrib_values(vav, dest);
     }
 }
 //------------------------------------------------------------------------------

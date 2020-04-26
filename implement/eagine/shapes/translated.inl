@@ -10,16 +10,15 @@ namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void translated_gen::attrib_values(
-  vertex_attrib_kind attrib, span_size_t variant_index, span<float> dest) {
-    delegated_gen::attrib_values(attrib, variant_index, dest);
+  vertex_attrib_variant vav, span<float> dest) {
+    delegated_gen::attrib_values(vav, dest);
 
-    const bool is_translated_attrib =
-      attrib == vertex_attrib_kind::position ||
-      attrib == vertex_attrib_kind::pivot ||
-      attrib == vertex_attrib_kind::vertex_pivot;
+    const bool is_translated_attrib = vav == vertex_attrib_kind::position ||
+                                      vav == vertex_attrib_kind::pivot ||
+                                      vav == vertex_attrib_kind::vertex_pivot;
 
     if(is_translated_attrib) {
-        const auto m = values_per_vertex(attrib, variant_index);
+        const auto m = values_per_vertex(vav);
         const auto n = vertex_count();
         for(span_size_t v = 0; v < n; ++v) {
             for(span_size_t c = 0; c < m; ++c) {

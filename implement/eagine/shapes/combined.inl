@@ -64,22 +64,19 @@ span_size_t combined_gen::attribute_variants(vertex_attrib_kind attrib) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t combined_gen::values_per_vertex(
-  vertex_attrib_kind attrib, span_size_t variant_index) {
+span_size_t combined_gen::values_per_vertex(vertex_attrib_variant vav) {
     span_size_t result{0};
     for(auto& gen : _gens) {
-        result =
-          math::maximum(result, gen->values_per_vertex(attrib, variant_index));
+        result = math::maximum(result, gen->values_per_vertex(vav));
     }
     return result;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-attrib_data_type combined_gen::attrib_type(
-  vertex_attrib_kind attrib, span_size_t variant_index) {
+attrib_data_type combined_gen::attrib_type(vertex_attrib_variant vav) {
     auto result = attrib_data_type::none;
     for(const auto& gen : _gens) {
-        auto temp = gen->attrib_type(attrib, variant_index);
+        auto temp = gen->attrib_type(vav);
         if(result == attrib_data_type::none) {
             result = temp;
         } else if(result != temp) {
@@ -91,25 +88,23 @@ attrib_data_type combined_gen::attrib_type(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool combined_gen::is_attrib_normalized(
-  vertex_attrib_kind attrib, span_size_t variant_index) {
+bool combined_gen::is_attrib_normalized(vertex_attrib_variant vav) {
     bool result = true;
     for(const auto& gen : _gens) {
-        result &= gen->is_attrib_normalized(attrib, variant_index);
+        result &= gen->is_attrib_normalized(vav);
     }
     return result;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void combined_gen::attrib_values(
-  vertex_attrib_kind attrib, span_size_t variant_index, span<float> dest) {
-    const auto vpv = values_per_vertex(attrib, variant_index);
+void combined_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
+    const auto vpv = values_per_vertex(vav);
     span_size_t offset{0};
     for(const auto& gen : _gens) {
-        const auto gvpv = gen->values_per_vertex(attrib, variant_index);
+        const auto gvpv = gen->values_per_vertex(vav);
         const auto gvc = gen->vertex_count();
         auto tmp = head(skip(dest, offset), gvc * vpv);
-        gen->attrib_values(attrib, variant_index, tmp);
+        gen->attrib_values(vav, tmp);
         EAGINE_ASSERT(gvpv == vpv);
         // TODO: adjust if gvpv < vpv
         offset += gvc * vpv;
