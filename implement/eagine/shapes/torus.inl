@@ -8,6 +8,7 @@
 #include <eagine/assert.hpp>
 #include <eagine/math/constants.hpp>
 #include <cmath>
+#include <random>
 
 #ifdef __clang__
 #pragma clang diagnostic push
@@ -43,36 +44,6 @@ span_size_t unit_torus_gen::vertex_count() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_torus_gen::positions(span<float> dest) noexcept {
-    EAGINE_ASSERT(has(vertex_attrib_kind::position));
-    EAGINE_ASSERT(dest.size() >= vertex_count() * 3);
-
-    span_size_t k = 0;
-
-    const auto ro = 0.50;
-    const auto ri = ro * _radius_ratio;
-    const auto r1 = ri;
-    const auto r2 = ro - ri;
-
-    const auto s_step = 2 * math::pi / _sections;
-    const auto r_step = 2 * math::pi / _rings;
-
-    for(span_size_t s = 0; s < (_sections + 1); ++s) {
-        const auto vx = std::cos(s * s_step);
-        const auto vz = -std::sin(s * s_step);
-
-        for(span_size_t r = 0; r < (_rings + 1); ++r) {
-            const auto vr = -std::cos(r * r_step);
-            const auto vy = std::sin(r * r_step);
-
-            dest[k++] = float(vx * (r1 + r2 * (1 + vr)));
-            dest[k++] = float(vy * r2);
-            dest[k++] = float(vz * (r1 + r2 * (1 + vr)));
-        }
-    }
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
 void unit_torus_gen::vertex_pivots(span<float> dest) noexcept {
     EAGINE_ASSERT(has(vertex_attrib_kind::position));
     EAGINE_ASSERT(dest.size() >= vertex_count() * 3);
@@ -98,27 +69,83 @@ void unit_torus_gen::vertex_pivots(span<float> dest) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_torus_gen::normals(span<float> dest) noexcept {
-    EAGINE_ASSERT(has(vertex_attrib_kind::normal));
+void unit_torus_gen::positions(
+  span<float> dest, unit_torus_gen::offset_getter get_offs) noexcept {
+    EAGINE_ASSERT(has(vertex_attrib_kind::position));
     EAGINE_ASSERT(dest.size() >= vertex_count() * 3);
 
-    span_size_t k = 0;
+    const auto ro = 0.50;
+    const auto ri = ro * _radius_ratio;
+    const auto r1 = ri;
+    const auto r2 = ro - ri;
 
     const auto s_step = 2 * math::pi / _sections;
     const auto r_step = 2 * math::pi / _rings;
 
-    for(span_size_t s = 0; s < (_sections + 1); ++s) {
-        const auto nx = std::cos(s * s_step);
-        const auto nz = -std::sin(s * s_step);
+    auto k = [this](span_size_t s, span_size_t r, span_size_t c) {
+        return 3 * (s * (_rings + 1) + r) + c;
+    };
 
-        for(span_size_t r = 0; r < (_rings + 1); ++r) {
-            const auto nr = -std::cos(r * r_step);
-            const auto ny = std::sin(r * r_step);
+    for(span_size_t s = 0; s < _sections; ++s) {
+        for(span_size_t r = 0; r < _rings; ++r) {
+            const auto [rd, sd, td] = get_offs(s, r);
 
-            dest[k++] = float(nx * nr);
-            dest[k++] = float(ny);
-            dest[k++] = float(nz * nr);
+            const auto vr = -std::cos((r + rd) * r_step);
+            const auto vx = std::cos((s + sd) * s_step);
+            const auto vy = std::sin((r + rd) * r_step);
+            const auto vz = -std::sin((s + sd) * s_step);
+            const auto rt = r2 * (1 + td);
+
+            dest[k(s, r, 0)] = float(vx * (r1 + rt * (1 + vr)));
+            dest[k(s, r, 1)] = float(vy * rt);
+            dest[k(s, r, 2)] = float(vz * (r1 + rt * (1 + vr)));
         }
+        dest[k(s, _rings, 0)] = dest[k(s, 0, 0)];
+        dest[k(s, _rings, 1)] = dest[k(s, 0, 1)];
+        dest[k(s, _rings, 2)] = dest[k(s, 0, 2)];
+    }
+    for(span_size_t r = 0; r <= _rings; ++r) {
+        dest[k(_sections, r, 0)] = dest[k(0, r, 0)];
+        dest[k(_sections, r, 1)] = dest[k(0, r, 1)];
+        dest[k(_sections, r, 2)] = dest[k(0, r, 2)];
+    }
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void unit_torus_gen::normals(
+  span<float> dest, unit_torus_gen::offset_getter get_offs) noexcept {
+    EAGINE_ASSERT(has(vertex_attrib_kind::normal));
+    EAGINE_ASSERT(dest.size() >= vertex_count() * 3);
+
+    const auto s_step = 2 * math::pi / _sections;
+    const auto r_step = 2 * math::pi / _rings;
+
+    auto k = [this](span_size_t s, span_size_t r, span_size_t c) {
+        return 3 * (s * (_rings + 1) + r) + c;
+    };
+
+    for(span_size_t s = 0; s < _sections; ++s) {
+        for(span_size_t r = 0; r < _rings; ++r) {
+            const auto [rd, sd, td] = get_offs(s, r);
+            EAGINE_MAYBE_UNUSED(td);
+
+            const auto nr = -std::cos((r + rd) * r_step);
+            const auto nx = std::cos((s + sd) * s_step);
+            const auto ny = std::sin((r + rd) * r_step);
+            const auto nz = -std::sin((s + sd) * s_step);
+
+            dest[k(s, r, 0)] = float(nx * nr);
+            dest[k(s, r, 1)] = float(ny);
+            dest[k(s, r, 2)] = float(nz * nr);
+        }
+        dest[k(s, _rings, 0)] = dest[k(s, 0, 0)];
+        dest[k(s, _rings, 1)] = dest[k(s, 0, 1)];
+        dest[k(s, _rings, 2)] = dest[k(s, 0, 2)];
+    }
+    for(span_size_t r = 0; r <= _rings; ++r) {
+        dest[k(_sections, r, 0)] = dest[k(0, r, 0)];
+        dest[k(_sections, r, 1)] = dest[k(0, r, 1)];
+        dest[k(_sections, r, 2)] = dest[k(0, r, 2)];
     }
 }
 //------------------------------------------------------------------------------
@@ -190,17 +217,68 @@ void unit_torus_gen::wrap_coords(span<float> dest) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_torus_gen::attrib_values(
-  vertex_attrib_kind attrib, span_size_t variant_index, span<float> dest) {
+span_size_t unit_torus_gen::attribute_variants(vertex_attrib_kind attrib) {
     switch(attrib) {
         case vertex_attrib_kind::position:
-            positions(dest);
+            return 2;
+        case vertex_attrib_kind::vertex_pivot:
+        case vertex_attrib_kind::normal:
+            return 2;
+        case vertex_attrib_kind::tangential:
+        case vertex_attrib_kind::bitangential:
+        case vertex_attrib_kind::wrap_coord:
+        case vertex_attrib_kind::pivot:
+        case vertex_attrib_kind::box_coord:
+        case vertex_attrib_kind::face_coord:
+        case vertex_attrib_kind::object_id:
+        case vertex_attrib_kind::material_id:
+        case vertex_attrib_kind::weight:
+        case vertex_attrib_kind::color:
+        case vertex_attrib_kind::emission:
+        case vertex_attrib_kind::occlusion:
             break;
+    }
+    return _base::attribute_variants(attrib);
+}
+//------------------------------------------------------------------------------
+static inline auto unit_torus_gen_make_get_norm_offs(
+  std::size_t r_seed, std::size_t s_seed) {
+    return [rrg{std::mt19937{r_seed}},
+            srg{std::mt19937{s_seed}},
+            rnd{std::normal_distribution<float>{0.f, 0.15f}},
+            snd{std::normal_distribution<float>{0.f, 0.15f}}](
+             span_size_t, span_size_t) mutable -> std::array<float, 3> {
+        return {{rnd(rrg), snd(srg), 0.f}};
+    };
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void unit_torus_gen::attrib_values(
+  vertex_attrib_kind attrib, span_size_t variant_index, span<float> dest) {
+    const auto no_offs = [](span_size_t, span_size_t) -> std::array<float, 3> {
+        return {{0.f, 0.f, 0.f}};
+    };
+    switch(attrib) {
         case vertex_attrib_kind::vertex_pivot:
             vertex_pivots(dest);
             break;
+        case vertex_attrib_kind::position:
+            if(variant_index == 1) {
+                auto get_offs =
+                  unit_torus_gen_make_get_norm_offs(_r_seed, _s_seed);
+                positions(dest, offset_getter{get_offs});
+            } else {
+                positions(dest, offset_getter{no_offs});
+            }
+            break;
         case vertex_attrib_kind::normal:
-            normals(dest);
+            if(variant_index == 1) {
+                auto get_offs =
+                  unit_torus_gen_make_get_norm_offs(_r_seed, _s_seed);
+                normals(dest, offset_getter{get_offs});
+            } else {
+                normals(dest, offset_getter{no_offs});
+            }
             break;
         case vertex_attrib_kind::tangential:
             tangentials(dest);

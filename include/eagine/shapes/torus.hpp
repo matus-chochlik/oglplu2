@@ -10,10 +10,12 @@
 #ifndef EAGINE_SHAPES_TORUS_HPP
 #define EAGINE_SHAPES_TORUS_HPP
 
+#include "../callable_ref.hpp"
 #include "../config/basic.hpp"
 #include "../valid_if/ge0_lt1.hpp"
 #include "../valid_if/greater_than.hpp"
 #include "gen_base.hpp"
+#include <array>
 #include <cassert>
 #include <memory>
 
@@ -24,6 +26,8 @@ class unit_torus_gen : public centered_unit_shape_generator_base {
 private:
     using _base = centered_unit_shape_generator_base;
 
+    const std::size_t _r_seed{1234};
+    const std::size_t _s_seed{2345};
     span_size_t _rings;
     span_size_t _sections;
     float _radius_ratio;
@@ -51,19 +55,24 @@ public:
       : unit_torus_gen(attr_bits, 24, 36) {
     }
 
-    span_size_t vertex_count() override;
+    using offset_getter =
+      callable_ref<std::array<float, 3>(span_size_t, span_size_t)>;
 
-    void positions(span<float> dest) noexcept;
+    span_size_t vertex_count() override;
 
     void vertex_pivots(span<float> dest) noexcept;
 
-    void normals(span<float> dest) noexcept;
+    void positions(span<float> dest, offset_getter) noexcept;
+
+    void normals(span<float> dest, offset_getter) noexcept;
 
     void tangentials(span<float> dest) noexcept;
 
     void bitangentials(span<float> dest) noexcept;
 
     void wrap_coords(span<float> dest) noexcept;
+
+    span_size_t attribute_variants(vertex_attrib_kind attrib) override;
 
     void attrib_values(vertex_attrib_kind, span_size_t, span<float>) override;
 
@@ -94,6 +103,10 @@ static inline auto unit_torus(
       std::move(rings),
       std::move(sections),
       std::move(radius_ratio));
+}
+//------------------------------------------------------------------------------
+static inline auto unit_torus(vertex_attrib_bits attr_bits) {
+    return unit_torus(attr_bits, 18, 36, 0.5f);
 }
 //------------------------------------------------------------------------------
 } // namespace shapes
