@@ -10,14 +10,11 @@
 #ifndef OGLPLUS_EXAMPLE_MAIN_HPP
 #define OGLPLUS_EXAMPLE_MAIN_HPP
 
+#include "run_context.hpp"
 #include <eagine/string_span.hpp>
 #include <oglplus/config/site.hpp>
 
 namespace eagine {
-//------------------------------------------------------------------------------
-class example_args;
-class example_params;
-class example_state;
 //------------------------------------------------------------------------------
 struct example_main_intf {
     virtual ~example_main_intf() noexcept = default;
@@ -29,7 +26,7 @@ struct example_main_intf {
 
     virtual bool is_implemented() = 0;
     virtual string_view implementation_name() = 0;
-    virtual int run(example_args&, example_params&, example_state&) = 0;
+    virtual int run(example_run_context&) = 0;
 };
 //------------------------------------------------------------------------------
 } // namespace eagine

@@ -10,6 +10,7 @@
 #define OGLPLUS_EXAMPLE_WRAPPER_HPP
 
 #include "../example.hpp"
+#include "run_context.hpp"
 #include <cassert>
 #include <chrono>
 #include <vector>
@@ -34,7 +35,7 @@ private:
     std::vector<char>& textbuf(std::size_t);
 
 public:
-    example_wrapper(example_args&, example_params&, example_state&);
+    example_wrapper(example_run_context&);
 
     example_context& context() noexcept {
         return _context;

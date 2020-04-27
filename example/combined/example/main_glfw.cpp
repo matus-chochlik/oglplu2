@@ -35,11 +35,10 @@ public:
         return {"GLFW"};
     }
 
-    int run(
-      example_args& args, example_params& params, example_state& state) final {
+    int run(example_run_context& erc) final {
 #if OGLPLUS_GLFW_FOUND
-        auto errstr = [&args]() -> std::ostream& {
-            return std::cerr << args.command() << ": ";
+        auto errstr = [&erc]() -> std::ostream& {
+            return std::cerr << erc.args.command() << ": ";
         };
 
         if(!glfwInit()) {
@@ -49,46 +48,46 @@ public:
             auto ensure_glfw_cleanup = finally(glfwTerminate);
 
             if(!glfwOpenWindow(
-                 state.width(),
-                 state.height(),
-                 params.color_bits(),
-                 params.color_bits(),
-                 params.color_bits(),
-                 params.alpha_bits(),
-                 params.depth_bits(),
-                 params.stencil_bits(),
+                 erc.state.width(),
+                 erc.state.height(),
+                 erc.params.color_bits(),
+                 erc.params.color_bits(),
+                 erc.params.color_bits(),
+                 erc.params.alpha_bits(),
+                 erc.params.depth_bits(),
+                 erc.params.stencil_bits(),
                  GLFW_WINDOW)) {
                 errstr() << "Failed to create GLFW window" << std::endl;
                 return 2;
             } else {
                 glfwSetWindowTitle("OGLplus example (GLFW)");
-                glfwSetWindowPos(params.window_x_pos(), params.window_y_pos());
+                glfwSetWindowPos(
+                  erc.params.window_x_pos(), erc.params.window_y_pos());
 
                 oglp::api_initializer gl_api_init;
 
-                state.set_depth(16);
-                example_wrapper example(args, params, state);
+                erc.state.set_depth(16);
+                example_wrapper example(erc);
                 example.context().log().info("using GLFW context");
 
                 if(!example.is_ready()) {
                     return 2;
                 }
-                _example_loop(state, example);
+                _example_loop(erc, example);
                 example.destroy();
             }
         }
         return 0;
 #else
-        EAGINE_MAYBE_UNUSED(args);
-        EAGINE_MAYBE_UNUSED(params);
-        EAGINE_MAYBE_UNUSED(state);
+        EAGINE_MAYBE_UNUSED(erc);
         return 1;
 #endif
     }
 
 private:
 #if OGLPLUS_GLFW_FOUND
-    void _example_loop(example_state& state, example_wrapper& example) {
+    void _example_loop(example_run_context& erc, example_wrapper& example) {
+        auto& state = erc.state;
         int w = state.width();
         int h = state.height();
         int x, y;

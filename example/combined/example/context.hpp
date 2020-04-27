@@ -12,6 +12,7 @@
 #include "args.hpp"
 #include "params.hpp"
 #include "random.hpp"
+#include "run_context.hpp"
 #include "state_view.hpp"
 #include <eagine/cleanup_group.hpp>
 #include <eagine/enum_log.hpp>
@@ -33,7 +34,7 @@ public:
 //------------------------------------------------------------------------------
 class example_context {
 public:
-    example_context(example_args&, example_params&, example_state&);
+    example_context(example_run_context&);
     ~example_context() noexcept;
 
     auto& log() noexcept {
@@ -49,7 +50,7 @@ public:
     }
 
     auto& state() noexcept {
-        return _state;
+        return _erc.state;
     }
 
     auto& random() noexcept {
@@ -60,7 +61,7 @@ public:
     const example_state_view& state() const noexcept;
 
     const example_params& params() const noexcept {
-        return _params;
+        return _erc.params;
     }
 
     example_requirement_marker req_mark() const {
@@ -73,8 +74,7 @@ private:
     root_logger _log_root;
     memory::buffer _scratch_space;
     cleanup_group _cleanup{};
-    example_params& _params;
-    example_state& _state;
+    example_run_context& _erc;
     std::shared_ptr<example_random_generator> _random{};
     std::shared_ptr<oglp::gl_api> _gl_ptr{};
 };

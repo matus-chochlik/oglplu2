@@ -45,8 +45,8 @@ private:
 };
 //------------------------------------------------------------------------------
 std::unique_ptr<example_random_generator> make_example_random_generator(
-  example_args& args, example_params& params) {
-    return std::make_unique<random_generator_impl>(args, params);
+  example_run_context& erc) {
+    return std::make_unique<random_generator_impl>(erc.args, erc.params);
 }
 //------------------------------------------------------------------------------
 } // namespace eagine

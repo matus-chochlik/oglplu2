@@ -35,11 +35,10 @@ public:
         return {"SDL"};
     }
 
-    int run(
-      example_args& args, example_params& params, example_state& state) final {
+    int run(example_run_context& erc) final {
 #if OGLPLUS_SDL_FOUND
-        auto errstr = [&args]() -> std::ostream& {
-            return std::cerr << args.command() << ": ";
+        auto errstr = [&erc]() -> std::ostream& {
+            return std::cerr << erc.args.command() << ": ";
         };
 
         if(SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -51,8 +50,8 @@ public:
         auto ensure_sdl_cleanup = finally(SDL_Quit);
 
         if(!SDL_SetVideoMode(
-             state.width(),
-             state.height(),
+             erc.state.width(),
+             erc.state.height(),
              32,
              // NOLINTNEXTLINE(hicpp-signed-bitwise)
              SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER | SDL_OPENGL)) {
@@ -63,15 +62,15 @@ public:
 
         oglp::api_initializer gl_api_init;
 
-        state.set_depth(16);
+        erc.state.set_depth(16);
 
-        example_wrapper example(args, params, state);
+        example_wrapper example(erc);
         example.context().log().info("using SDL context");
 
         if(!example.is_ready()) {
             return 2;
         }
-        example_loop(state, example);
+        example_loop(erc, example);
         example.destroy();
 
         return 0;
@@ -85,7 +84,8 @@ public:
 
 private:
 #if OGLPLUS_SDL_FOUND
-    void example_loop(example_state& state, example_wrapper& example) {
+    void example_loop(example_run_context& erc, example_wrapper& example) {
+        auto& state = erc.state;
         int w = state.width();
         int h = state.height();
         int x, y, z = 0;

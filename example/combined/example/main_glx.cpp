@@ -46,8 +46,7 @@ public:
         return {"GLX"};
     }
 
-    int run(
-      example_args& args, example_params& params, example_state& state) final {
+    int run(example_run_context& erc) final {
 #if OGLPLUS_GLX_FOUND
         x11::Display display;
 
@@ -63,23 +62,23 @@ public:
                                        GLX_X_VISUAL_TYPE,
                                        GLX_TRUE_COLOR,
                                        GLX_RED_SIZE,
-                                       params.color_bits(),
+                                       erc.params.color_bits(),
                                        GLX_GREEN_SIZE,
-                                       params.color_bits(),
+                                       erc.params.color_bits(),
                                        GLX_BLUE_SIZE,
-                                       params.color_bits(),
+                                       erc.params.color_bits(),
                                        GLX_ALPHA_SIZE,
-                                       params.alpha_bits(),
+                                       erc.params.alpha_bits(),
                                        GLX_DEPTH_SIZE,
-                                       params.depth_bits(),
+                                       erc.params.depth_bits(),
                                        GLX_STENCIL_SIZE,
-                                       params.stencil_bits(),
+                                       erc.params.stencil_bits(),
                                        GLX_DOUBLEBUFFER,
                                        True,
                                        GLX_SAMPLE_BUFFERS,
-                                       params.samples() ? 1 : 0,
+                                       erc.params.samples() ? 1 : 0,
                                        GLX_SAMPLES,
-                                       params.samples() / 0,
+                                       erc.params.samples() / 0,
                                        None};
         glx::FBConfig fbc =
           // NOLINTNEXTLINE(hicpp-no-array-decay)
@@ -92,10 +91,10 @@ public:
           vi,
           x11::Colormap(display, vi),
           "OGLplus example (glX)",
-          params.window_x_pos(),
-          params.window_y_pos(),
-          unsigned(state.width()),
-          unsigned(state.height()));
+          erc.params.window_x_pos(),
+          erc.params.window_y_pos(),
+          unsigned(erc.state.width()),
+          unsigned(erc.state.height()));
 
         win.SelectInput(
           // NOLINTNEXTLINE(hicpp-signed-bitwise)
@@ -109,21 +108,19 @@ public:
 
         oglp::api_initializer gl_api_init;
 
-        state.set_depth(16);
+        erc.state.set_depth(16);
 
-        example_wrapper example(args, params, state);
+        example_wrapper example(erc);
         example.context().log().info("using GLX context");
 
         if(!example.is_ready()) {
             return 2;
         }
-        _example_loop(display, win, ctx, state, example);
+        _example_loop(display, win, ctx, erc, example);
         example.destroy();
         return 0;
 #else
-        EAGINE_MAYBE_UNUSED(args);
-        EAGINE_MAYBE_UNUSED(params);
-        EAGINE_MAYBE_UNUSED(state);
+        EAGINE_MAYBE_UNUSED(erc);
         return 1;
 #endif
     }
@@ -134,8 +131,10 @@ private:
       const x11::Display& display,
       const x11::Window& win,
       const glx::Context& ctx,
-      example_state& state,
+      example_run_context& erc,
       example_wrapper& example) {
+        auto& state = erc.state;
+
         XEvent event;
 
         int w = state.width();

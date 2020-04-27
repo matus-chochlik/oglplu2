@@ -49,11 +49,10 @@ public:
         return {"GLFW3"};
     }
 
-    int run(
-      example_args& args, example_params& params, example_state& state) final {
+    int run(example_run_context& erc) final {
 #if OGLPLUS_GLFW3_FOUND
-        auto errstr = [&args]() -> std::ostream& {
-            return std::cerr << args.command() << ": ";
+        auto errstr = [&erc]() -> std::ostream& {
+            return std::cerr << erc.args.command() << ": ";
         };
 
         if(!glfwInit()) {
@@ -63,18 +62,18 @@ public:
             auto ensure_glfw_cleanup = eagine::finally(glfwTerminate);
 
             glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
-            glfwWindowHint(GLFW_RED_BITS, params.color_bits());
-            glfwWindowHint(GLFW_BLUE_BITS, params.color_bits());
-            glfwWindowHint(GLFW_GREEN_BITS, params.color_bits());
-            glfwWindowHint(GLFW_ALPHA_BITS, params.alpha_bits());
-            glfwWindowHint(GLFW_DEPTH_BITS, params.depth_bits());
-            glfwWindowHint(GLFW_STENCIL_BITS, params.stencil_bits());
+            glfwWindowHint(GLFW_RED_BITS, erc.params.color_bits());
+            glfwWindowHint(GLFW_BLUE_BITS, erc.params.color_bits());
+            glfwWindowHint(GLFW_GREEN_BITS, erc.params.color_bits());
+            glfwWindowHint(GLFW_ALPHA_BITS, erc.params.alpha_bits());
+            glfwWindowHint(GLFW_DEPTH_BITS, erc.params.depth_bits());
+            glfwWindowHint(GLFW_STENCIL_BITS, erc.params.stencil_bits());
 
-            glfwWindowHint(GLFW_SAMPLES, params.samples() / GLFW_DONT_CARE);
+            glfwWindowHint(GLFW_SAMPLES, erc.params.samples() / GLFW_DONT_CARE);
 
             GLFWwindow* window = glfwCreateWindow(
-              state.width(),
-              state.height(),
+              erc.state.width(),
+              erc.state.height(),
               "OGLplus example (GLFW3)",
               nullptr,
               nullptr);
@@ -86,19 +85,19 @@ public:
                 glfwMakeContextCurrent(window);
                 glfwSetWindowTitle(window, "OGLplus example (GLFW3)");
                 glfwSetWindowPos(
-                  window, params.window_x_pos(), params.window_y_pos());
+                  window, erc.params.window_x_pos(), erc.params.window_y_pos());
                 glfwSetScrollCallback(window, example_scroll_callback);
 
                 oglp::api_initializer gl_api_init;
 
-                state.set_depth(16);
-                example_wrapper example(args, params, state);
+                erc.state.set_depth(16);
+                example_wrapper example(erc);
                 example.context().log().info("using GLFW3 context");
 
                 if(!example.is_ready()) {
                     return 2;
                 }
-                _example_loop(window, state, example);
+                _example_loop(window, erc, example);
                 example.destroy();
             }
         }
@@ -113,7 +112,8 @@ public:
 
 #if OGLPLUS_GLFW3_FOUND
     void _example_loop(
-      GLFWwindow* window, example_state& state, example_wrapper& example) {
+      GLFWwindow* window, example_run_context& erc, example_wrapper& example) {
+        auto& state = erc.state;
         int w = state.width();
         int h = state.height();
         double x, y;

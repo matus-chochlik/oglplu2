@@ -56,10 +56,9 @@ private:
     int _wheel;
 
 public:
-    single_glut_context(
-      example_args& args, example_params& params, example_state& state)
-      : example(args, params, state)
-      , _height(state.height())
+    single_glut_context(example_run_context& erc)
+      : example(erc)
+      , _height(erc.state.height())
       , _wheel(0) {
         EAGINE_ASSERT(!instance_ptr());
         instance_ptr() = this;
@@ -206,12 +205,11 @@ public:
 #endif
     }
 
-    int run(
-      example_args& args, example_params& params, example_state& state) final {
+    int run(example_run_context& erc) final {
 #if OGLPLUS_GLX_FOUND
 
-        int argc = args.argc();
-        char** argv = const_cast<char**>(args.argv());
+        int argc = erc.args.argc();
+        char** argv = const_cast<char**>(erc.args.argv());
 
         glutInit(&argc, argv);
         glutInitDisplayMode(
@@ -219,13 +217,15 @@ public:
           GLUT_3_2_CORE_PROFILE |
 #endif
           // NOLINTNEXTLINE(hicpp-signed-bitwise)
-          GLUT_DOUBLE | GLUT_RGBA | (params.depth_buffer() ? GLUT_DEPTH : 0) |
-          (params.stencil_buffer() ? GLUT_STENCIL : 0));
+          GLUT_DOUBLE | GLUT_RGBA |
+          (erc.params.depth_buffer() ? GLUT_DEPTH : 0) |
+          (erc.params.stencil_buffer() ? GLUT_STENCIL : 0));
 #ifdef FREEGLUT
         glutInitContextVersion(3, 0);
 #endif
-        glutInitWindowSize(state.width(), state.height());
-        glutInitWindowPosition(params.window_x_pos(), params.window_y_pos());
+        glutInitWindowSize(erc.state.width(), erc.state.height());
+        glutInitWindowPosition(
+          erc.params.window_x_pos(), erc.params.window_y_pos());
 #ifdef FREEGLUT
         glutCreateWindow("OGLplus example (FREEGLUT)");
 #else
@@ -234,9 +234,9 @@ public:
 
         oglp::api_initializer gl_api_init;
 
-        state.set_depth(16);
+        erc.state.set_depth(16);
 
-        single_glut_context ctx(args, params, state);
+        single_glut_context ctx(erc);
         if(!ctx.is_ready()) {
             return 2;
         }

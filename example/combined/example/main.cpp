@@ -54,8 +54,9 @@ int main(int argc, const char** argv) {
         state.set_tiles(params.x_tiles(), params.y_tiles());
 
         example_args eargs(args, std::cerr);
+        example_run_context erc{eargs, params, state};
 
-        return choose_example_main_impl(args)->run(eargs, params, state);
+        return choose_example_main_impl(args)->run(erc);
     } catch(std::runtime_error& sre) {
         std::cerr << "Runtime error: " << sre.what() << std::endl;
     } catch(std::exception& se) {

@@ -20,10 +20,9 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-example_wrapper::example_wrapper(
-  example_args& args, example_params& params, example_state& state)
-  : _context(args, params, state)
-  , _example(make_example(args, _context))
+example_wrapper::example_wrapper(example_run_context& erc)
+  : _context(erc)
+  , _example(make_example(erc.args, _context))
   , _screenshot_done(false) {
 
     if(_example) {
@@ -32,28 +31,28 @@ example_wrapper::example_wrapper(
             _context.log().debug("initializing example");
             _example->init(_context);
 
-            state.sync_size();
+            erc.state.sync_size();
             _example->resize(_context);
             _context.log()
               .debug("initial surface resize to ${width}x${height}")
               .arg(EAGINE_ID(width), _context.state().width())
               .arg(EAGINE_ID(height), _context.state().height());
 
-            state.center_mouse();
+            erc.state.center_mouse();
             _example->pointer_motion(_context);
             _context.log()
               .trace("initial pointer centering to ${x},${y}")
               .arg(EAGINE_ID(x), _context.state().mouse_x())
               .arg(EAGINE_ID(y), _context.state().mouse_y());
 
-            if(params.doing_framedump()) {
+            if(erc.params.doing_framedump()) {
                 textbuf(1024);
                 std::cin.getline(
                   _textbuf.data(), std::streamsize(_textbuf.size()));
 
                 if(
                   std::strncmp(
-                    c_str(params.framedump_prefix()),
+                    c_str(erc.params.framedump_prefix()),
                     _textbuf.data(),
                     _textbuf.size()) != 0) {
                     throw std::runtime_error(
@@ -61,7 +60,7 @@ example_wrapper::example_wrapper(
                 }
             }
 
-            if(state.multiple_tiles() && params.auto_tiles()) {
+            if(erc.state.multiple_tiles() && erc.params.auto_tiles()) {
                 glEnable(GL_SCISSOR_TEST);
             }
         } else {

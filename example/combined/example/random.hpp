@@ -9,6 +9,7 @@
 #ifndef OGLPLUS_EXAMPLE_RANDOM_HPP
 #define OGLPLUS_EXAMPLE_RANDOM_HPP
 
+#include "run_context.hpp"
 #include <eagine/span.hpp>
 #include <memory>
 
@@ -25,7 +26,7 @@ struct example_random_generator {
 };
 //------------------------------------------------------------------------------
 std::unique_ptr<example_random_generator> make_example_random_generator(
-  example_args&, example_params&);
+  example_run_context&);
 //------------------------------------------------------------------------------
 } // namespace eagine
 
