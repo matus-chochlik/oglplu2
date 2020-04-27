@@ -11,10 +11,10 @@
 
 #include <eagine/string_span.hpp>
 #include <eagine/valid_if/not_empty.hpp>
-#include <iosfwd>
 
 namespace eagine {
 
+class logger;
 class program_arg;
 class program_args;
 
@@ -74,15 +74,15 @@ public:
 class example_args {
 private:
     const program_args& _args;
-    std::ostream& _errlog;
+    logger& _log;
 
     template <typename T>
     bool _parse_param(example_param<T>& param) const;
 
 public:
-    example_args(const program_args& args, std::ostream& log) noexcept
+    example_args(const program_args& args, logger& log) noexcept
       : _args(args)
-      , _errlog(log) {
+      , _log(log) {
     }
 
     const program_args& args() const noexcept {

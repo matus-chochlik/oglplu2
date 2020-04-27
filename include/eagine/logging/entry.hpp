@@ -307,6 +307,14 @@ public:
         return arg(name, EAGINE_ID(blk), value);
     }
 
+    template <typename Func>
+    log_entry& arg_func(Func function) {
+        if(_backend) {
+            _args.add(std::move(function));
+        }
+        return *this;
+    }
+
     template <typename T>
     std::enable_if_t<has_log_entry_adapter_v<std::decay_t<T>>, log_entry&> arg(
       identifier name, T&& value) noexcept {

@@ -7,6 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include "main.hpp"
+#include <eagine/main_ctx.hpp>
 #include <eagine/maybe_unused.hpp>
 #include <oglplus/config/basic.hpp>
 #if OGLPLUS_SDL_FOUND
@@ -37,13 +38,15 @@ public:
 
     int run(example_run_context& erc) final {
 #if OGLPLUS_SDL_FOUND
-        auto errstr = [&erc]() -> std::ostream& {
-            return std::cerr << erc.args.command() << ": ";
-        };
-
         if(SDL_Init(SDL_INIT_VIDEO) != 0) {
-            errstr() << "SDL initialization error: " << SDL_GetError()
-                     << std::endl;
+            erc.main.log()
+              .error("SDL initialization error: ${reason}")
+              .arg_func([](logger_backend& backend) {
+                  backend.add_string(
+                    EAGINE_ID(reason),
+                    EAGINE_ID(string),
+                    string_view(SDL_GetError()));
+              });
             return 2;
         }
 
@@ -55,7 +58,14 @@ public:
              32,
              // NOLINTNEXTLINE(hicpp-signed-bitwise)
              SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER | SDL_OPENGL)) {
-            errstr() << SDL_GetError() << std::endl;
+            erc.main.log()
+              .error("failed to set SDL video mode: ${reason}")
+              .arg_func([](logger_backend& backend) {
+                  backend.add_string(
+                    EAGINE_ID(reason),
+                    EAGINE_ID(string),
+                    string_view(SDL_GetError()));
+              });
             return 2;
         }
         SDL_WM_SetCaption("OGLplus example (SDL)", nullptr);

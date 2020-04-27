@@ -7,6 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include "main.hpp"
+#include <eagine/main_ctx.hpp>
 #include <eagine/maybe_unused.hpp>
 #include <oglplus/config/basic.hpp>
 #if OGLPLUS_GLFW3_FOUND
@@ -51,12 +52,8 @@ public:
 
     int run(example_run_context& erc) final {
 #if OGLPLUS_GLFW3_FOUND
-        auto errstr = [&erc]() -> std::ostream& {
-            return std::cerr << erc.args.command() << ": ";
-        };
-
         if(!glfwInit()) {
-            errstr() << "GLFW initialization error." << std::endl;
+            erc.main.log().error("GLFW initialization error");
             return 2;
         } else {
             auto ensure_glfw_cleanup = eagine::finally(glfwTerminate);
@@ -79,7 +76,7 @@ public:
               nullptr);
 
             if(!window) {
-                errstr() << "Failed to create GLFW window" << std::endl;
+                erc.main.log().error("Failed to create GLFW window");
                 return 2;
             } else {
                 glfwMakeContextCurrent(window);

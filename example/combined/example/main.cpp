@@ -16,6 +16,7 @@
 // clang-format on
 
 #include <eagine/program_args.hpp>
+#include <eagine/logging/exception.hpp>
 #include <iostream>
 #include <stdexcept>
 #include <cstdlib>
@@ -24,7 +25,7 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-bool parse_arg(program_arg& a, example_state& state, example_params& params);
+bool parse_arg(program_arg& a, example_run_context&);
 //------------------------------------------------------------------------------
 std::unique_ptr<example_main_intf> choose_example_main_impl(
   const program_args&);
@@ -41,22 +42,22 @@ int main(main_ctx& ctx) {
 
         params.exec_command(args.command());
 
+        example_args eargs(args, ctx.log());
+        example_run_context erc{ctx, eargs, params, state};
+
         for(auto a = args.first(); a; a = a.next()) {
-            if(!parse_arg(a, state, params)) {
+            if(!parse_arg(a, erc)) {
                 return 1;
             }
         }
 
         state.set_tiles(params.x_tiles(), params.y_tiles());
 
-        example_args eargs(args, std::cerr);
-        example_run_context erc{ctx, eargs, params, state};
-
         return choose_example_main_impl(args)->run(erc);
     } catch(std::runtime_error& sre) {
-        std::cerr << "Runtime error: " << sre.what() << std::endl;
+        ctx.log().error("runtime error: ${error}").arg(EAGINE_ID(error), sre);
     } catch(std::exception& se) {
-        std::cerr << "Unknown error: " << se.what() << std::endl;
+        ctx.log().error("runtime error: ${error}").arg(EAGINE_ID(error), se);
     }
     return 1;
 }
@@ -68,114 +69,114 @@ bool example_knows_arg(const program_arg& arg) {
 //------------------------------------------------------------------------------
 bool is_special_argument(const program_arg& arg);
 //------------------------------------------------------------------------------
-template <typename T, typename Errstr>
+template <typename T>
 bool consume_next_arg(
-  program_arg& a, T& dest, const char* value_type, Errstr& errstr) {
-    auto handle_missing = [&value_type, &errstr](const string_view arg_tag) {
-        errstr() << "Missing " << value_type << " after '" << arg_tag << "'."
-                 << std::endl;
+  program_arg& a, T& dest, string_view value_type, logger& log) {
+    auto handle_missing = [&value_type, &log](const string_view arg_tag) {
+        log.error("missing ${valueType} after '${argTag}'")
+          .arg(EAGINE_ID(valueType), value_type)
+          .arg(EAGINE_ID(argTag), arg_tag);
     };
-    auto handle_invalid = [&value_type, &errstr](
-                            const string_view arg_tag,
-                            const string_view arg_val,
-                            const string_view log_str) {
-        errstr() << "Invalid " << value_type << " '" << arg_val << "' after '"
-                 << arg_tag << "'. " << log_str << std::endl;
-    };
+    auto handle_invalid =
+      [&value_type, &log](
+        string_view arg_tag, string_view arg_val, string_view log_str) {
+          log
+            .error(
+              "invalid ${valueType} '${argValue}' "
+              "after '${argTag}': ${message}")
+            .arg(EAGINE_ID(valueType), value_type)
+            .arg(EAGINE_ID(argTag), arg_tag)
+            .arg(EAGINE_ID(argValue), arg_val)
+            .arg(EAGINE_ID(message), log_str);
+      };
     return a.do_consume_next(dest, handle_missing, handle_invalid);
 }
 //------------------------------------------------------------------------------
-bool parse_arg(program_arg& a, example_state& state, example_params& params) {
-    using namespace eagine;
-
-    auto errstr = []() -> std::ostream& {
-        return std::cerr << "oglplus-example: ";
-    };
+bool parse_arg(program_arg& a, example_run_context& erc) {
+    auto& log = erc.main.log();
 
     if(a == "--screenshot") {
-        if(params.doing_framedump()) {
-            errstr() << "Cannot specify --screenshot "
-                     << "together with --framedump." << std::endl;
+        if(erc.params.doing_framedump()) {
+            log.error("cannot specify --screenshot together with --framedump");
             return false;
         }
         valid_if_not_empty<string_view> path;
-        if(consume_next_arg(a, path, "path", errstr)) {
-            params.screenshot_path(path);
+        if(consume_next_arg(a, path, "path", log)) {
+            erc.params.screenshot_path(path);
         } else {
             return false;
         }
     } else if(a == "--framedump") {
-        if(params.doing_screenshot()) {
-            errstr() << "Cannot specify --framedump"
-                     << "together with --screenshot ." << std::endl;
+        if(erc.params.doing_screenshot()) {
+            log.error("cannot specify --screenshot together with --framedump");
             return false;
         }
         valid_if_not_empty<string_view> prefix;
-        if(consume_next_arg(a, prefix, "prefix", errstr)) {
-            params.framedump_prefix(prefix);
+        if(consume_next_arg(a, prefix, "prefix", log)) {
+            erc.params.framedump_prefix(prefix);
         } else {
             return false;
         }
     } else if(a == "--fixed-fps") {
         valid_if_positive<float> fps;
-        if(consume_next_arg(a, fps, "float", errstr)) {
-            params.fixed_fps(fps);
+        if(consume_next_arg(a, fps, "float", log)) {
+            erc.params.fixed_fps(fps);
         } else {
             return false;
         }
     } else if(a == "--window-x") {
         int x = {};
-        if(consume_next_arg(a, x, "integer", errstr)) {
-            params.window_x_pos(x);
+        if(consume_next_arg(a, x, "integer", log)) {
+            erc.params.window_x_pos(x);
         } else {
             return false;
         }
     } else if(a == "--window-y") {
         int y = {};
-        if(consume_next_arg(a, y, "integer", errstr)) {
-            params.window_y_pos(y);
+        if(consume_next_arg(a, y, "integer", log)) {
+            erc.params.window_y_pos(y);
         } else {
             return false;
         }
     } else if(a == "--width") {
         valid_if_positive<int> w;
-        if(consume_next_arg(a, w, "integer", errstr)) {
-            state.set_width(w);
+        if(consume_next_arg(a, w, "integer", log)) {
+            erc.state.set_width(w);
         } else {
             return false;
         }
     } else if(a == "--height") {
         valid_if_positive<int> h;
-        if(consume_next_arg(a, h, "integer", errstr)) {
-            state.set_height(h);
+        if(consume_next_arg(a, h, "integer", log)) {
+            erc.state.set_height(h);
         } else {
             return false;
         }
     } else if(a == "--hd") {
-        state.set_size(1280, 720);
+        erc.state.set_size(1280, 720);
     } else if(a == "--full-hd") {
-        state.set_size(1920, 1080);
+        erc.state.set_size(1920, 1080);
     } else if(a == "--x-tiles") {
         valid_if_positive<int> x;
-        if(consume_next_arg(a, x, "integer", errstr)) {
-            params.x_tiles(x);
+        if(consume_next_arg(a, x, "integer", log)) {
+            erc.params.x_tiles(x);
         } else {
             return false;
         }
     } else if(a == "--y-tiles") {
         valid_if_positive<int> y;
-        if(consume_next_arg(a, y, "integer", errstr)) {
-            params.y_tiles(y);
+        if(consume_next_arg(a, y, "integer", log)) {
+            erc.params.y_tiles(y);
         } else {
             return false;
         }
     } else if(a == "--demo") {
-        params.demo_mode(true);
+        erc.params.demo_mode(true);
     } else if(a == "--high-quality") {
-        params.high_quality(true);
+        erc.params.high_quality(true);
     } else if(!(example_knows_arg(a) || is_special_argument(a))) {
-        errstr() << "Unknown command-line option '" << a.get() << "'."
-                 << std::endl;
+        log.error("Unknown command-line option '${arg}'")
+          .arg(EAGINE_ID(arg), a.get());
     }
     return true;
 }

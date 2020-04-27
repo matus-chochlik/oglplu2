@@ -8,6 +8,7 @@
  */
 
 #include "args.hpp"
+#include <eagine/logging/logger.hpp>
 #include <eagine/program_args.hpp>
 
 namespace eagine {
@@ -31,7 +32,7 @@ string_view example_args::command() const noexcept { // NOLINT
 template <typename T>
 bool example_args::_parse_param(example_param<T>& param) const {
     program_parameter<T> temp(param._stag, param._ltag, param._value);
-    if(_args.parse_param(temp, _errlog)) {
+    if(_args.parse_param(temp, _log.error_stream())) {
         param._value = temp.value();
     }
     return false;
