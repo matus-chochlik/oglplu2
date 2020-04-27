@@ -9,35 +9,15 @@
 #ifndef EAGINE_MAIN_HPP
 #define EAGINE_MAIN_HPP
 
-#include "logging/root_logger.hpp"
-#include "program_args.hpp"
+#include "main_ctx.hpp"
 
 namespace eagine {
 
-class main_ctx {
-private:
-    program_args _args;
-    root_logger _log_root;
-
-public:
-    main_ctx(int argc, const char** argv) noexcept
-      : _args{argc, argv}
-      , _log_root{_args} {
-    }
-
-    auto& args() noexcept {
-        return _args;
-    }
-
-    logger& log() noexcept {
-        return _log_root;
-    }
-};
-
-static int main(main_ctx& ctx);
+int main(main_ctx& ctx);
 
 } // namespace eagine
 
+// NOLINTNEXTLINE(misc-definitions-in-headers)
 int main(int argc, const char** argv) {
     eagine::main_ctx ctx{argc, argv};
     return eagine::main(ctx);

@@ -8,6 +8,7 @@
  */
 
 // clang-format off
+#include <eagine/main.hpp>
 #include <oglplus/gl.hpp>
 #include "../example.hpp"
 #include "state.hpp"
@@ -28,14 +29,9 @@ bool parse_arg(program_arg& a, example_state& state, example_params& params);
 std::unique_ptr<example_main_intf> choose_example_main_impl(
   const program_args&);
 //------------------------------------------------------------------------------
-} // namespace eagine
-//------------------------------------------------------------------------------
-int main(int argc, const char** argv) {
+int main(main_ctx& ctx) {
     try {
-        using namespace eagine;
-
-        program_args args(argc, argv);
-
+        auto& args = ctx.args();
         example_params params;
         example_state state;
 
@@ -54,7 +50,7 @@ int main(int argc, const char** argv) {
         state.set_tiles(params.x_tiles(), params.y_tiles());
 
         example_args eargs(args, std::cerr);
-        example_run_context erc{eargs, params, state};
+        example_run_context erc{ctx, eargs, params, state};
 
         return choose_example_main_impl(args)->run(erc);
     } catch(std::runtime_error& sre) {
@@ -64,8 +60,6 @@ int main(int argc, const char** argv) {
     }
     return 1;
 }
-//------------------------------------------------------------------------------
-namespace eagine {
 //------------------------------------------------------------------------------
 bool example_knows_arg(const program_arg& arg) {
     return is_example_param(example_arg(arg)) ||

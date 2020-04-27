@@ -11,6 +11,7 @@
 #include <oglplus/gl_api.hpp>
 // clang-format on
 #include <eagine/branch_predict.hpp>
+#include <eagine/main_ctx.hpp>
 #include "context.hpp"
 #include "state.hpp"
 #include <iostream>
@@ -41,7 +42,7 @@ static inline auto init_gl_api(example_run_context&) {
 }
 //------------------------------------------------------------------------------
 example_context::example_context(example_run_context& erc)
-  : _log_root(EAGINE_ID(Example), erc.args.args())
+  : _log(EAGINE_ID(Example), erc.main.log())
   , _erc{erc}
   , _random{make_example_random_generator(_erc)}
   , _gl_ptr{init_gl_api(_erc)} {
@@ -51,9 +52,7 @@ example_context::example_context(example_run_context& erc)
     if(erc.params.debugging_context()) {
         log().trace("installing GL debug handler");
         if(gl().DebugMessageCallback) {
-            gl().DebugMessageCallback(
-              example_context_gl_debug_message,
-              static_cast<logger*>(&_log_root));
+            gl().DebugMessageCallback(example_context_gl_debug_message, &_log);
         }
     }
 }

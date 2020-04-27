@@ -12,11 +12,13 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
+class main_ctx;
 class example_args;
 class example_params;
 class example_state;
 //------------------------------------------------------------------------------
 struct example_run_context {
+    main_ctx& main;
     example_args& args;
     example_params& params;
     example_state& state;
