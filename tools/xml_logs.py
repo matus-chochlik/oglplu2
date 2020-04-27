@@ -15,6 +15,7 @@ import signal
 import string
 import base64
 import xml.sax
+import textwrap
 import threading
 
 try:
@@ -324,12 +325,19 @@ class XmlLogFormatter(object):
             self._out.write(" ├─────────┴─────────┴──────────┴────────────╯")
             self._out.write("\n")
 
-            self._out.write("┊")
-            for sid in self._sources:
-                self._out.write(" │")
-            self._out.write(" ╰╴")
-            self._out.write(message)
-            self._out.write("\n")
+            cols = 80 - (len(self._sources) * 2)
+            lno = 0
+            for line in textwrap.wrap(message, cols):
+                self._out.write("┊")
+                for sid in self._sources:
+                    self._out.write(" │")
+                if lno == 0:
+                    self._out.write(" ╰╴")
+                else:
+                    self._out.write("   ")
+                lno += 1
+                self._out.write(line)
+                self._out.write("\n")
             # BLOBs
             for name, info in args.items():
                 if not info["used"]:
