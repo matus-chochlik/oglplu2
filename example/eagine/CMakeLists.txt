@@ -59,6 +59,9 @@ eagine_example_common(network_sort)
 eagine_example_common(make_index)
 eagine_example_common(memoized)
 eagine_example_common(c_api_wrap)
-
+#
+eagine_example_common(embed_self)
+eagine_embed_resources(eagine-embed_self)
+#
 add_subdirectory(serialize)
 add_subdirectory(message_bus)

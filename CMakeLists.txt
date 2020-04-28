@@ -26,6 +26,7 @@ if(NOT ${CONFIG_INFO_ONLY})
 endif()
 
 include(config/Tools.cmake)
+include(config/Embed.cmake)
 
 include(config/FindThreads.cmake)
 include(config/CommonLibs.cmake)

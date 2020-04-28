@@ -10,6 +10,7 @@
 #ifndef EAGINE_INT_CONSTANT_HPP
 #define EAGINE_INT_CONSTANT_HPP
 
+#include "identifier_t.hpp"
 #include <type_traits>
 
 namespace eagine {
@@ -25,6 +26,9 @@ using unsigned_constant = std::integral_constant<unsigned, U>;
 
 template <std::size_t S>
 using size_constant = std::integral_constant<std::size_t, S>;
+
+template <identifier_t Id>
+using id_constant = std::integral_constant<identifier_t, Id>;
 
 } // namespace eagine
 
