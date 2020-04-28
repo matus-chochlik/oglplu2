@@ -13,10 +13,4 @@ add_executable(
 	validator.cpp
 	main.cpp
 )
-
-if(INVOKE_CLANG_TIDY)
-	set_target_properties(
-		oglplus-texgen
-		PROPERTIES CXX_CLANG_TIDY "${INVOKE_CLANG_TIDY}"
-	)
-endif()
+eagine_add_exe_analysis(oglplus-texgen)
