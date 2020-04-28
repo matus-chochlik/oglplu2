@@ -4,38 +4,16 @@
 #   http://www.boost.org/LICENSE_1_0.txt
 #
 # enable warnings on gcc
+set(EAGINE_GNUCXX_COMPILER FALSE)
+set(EAGINE_CLANGXX_COMPILER FALSE)
+set(EAGINE_GXX_COMPILER FALSE)
+
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-	add_definitions(
-		-pedantic
-		-Wall
-		-Weverything
-		-Werror
-		#-Wno-float-equal
-		-Wno-sign-conversion
-		-Wno-old-style-cast
-		-Wno-c++98-compat
-		-Wno-c++98-compat-pedantic
-		-Wno-undef
-		-Wno-global-constructors
-		-Wno-exit-time-destructors
-		-Wno-date-time
-		-Wno-weak-vtables
-		-Wno-padded
-		-Wno-missing-prototypes
-		-Wno-documentation-unknown-command
-		-Wno-switch-enum
-		-Wno-c++1z-extensions
-	)
+	set(EAGINE_GNUCXX_COMPILER TRUE)
+	set(EAGINE_CLANGXX_COMPILER TRUE)
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-	add_definitions(
-		-pedantic
-		#-Werror
-		-Wall
-		-Wextra
-		-Wshadow
-		-Wno-noexcept-type
-		-Wno-attributes
-	)
+	set(EAGINE_GNUCXX_COMPILER TRUE)
+	set(EAGINE_GXX_COMPILER TRUE)
 endif()
 
 add_definitions(-D_USE_MATH_DEFINES)
