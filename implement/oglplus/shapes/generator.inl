@@ -82,7 +82,7 @@ inline void shape_generator::attrib_setup(
 
     gl.vertex_attrib_pointer(
       loc,
-      values_per_vertex(vav),
+      gl_types::int_type(values_per_vertex(vav)),
       attrib_type(api, vav),
       is_attrib_normalized(api, vav));
 

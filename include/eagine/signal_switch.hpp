@@ -64,8 +64,8 @@ public:
 
 private:
     using _sighandler_t = void(int);
-    const _sighandler_t* _intr_handler{nullptr};
-    const _sighandler_t* _term_handler{nullptr};
+    _sighandler_t* _intr_handler{nullptr};
+    _sighandler_t* _term_handler{nullptr};
 };
 
 } // namespace eagine

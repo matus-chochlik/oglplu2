@@ -61,7 +61,7 @@ protected:
       , _subscriber{_endpoint, instance, msg_maps...} {
     }
 
-    actor(actor&&) noexcept = default;
+    actor(actor&&) = default;
     actor(const actor&) = delete;
     actor& operator=(actor&&) = delete;
     actor& operator=(const actor&) = delete;
