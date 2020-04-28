@@ -57,9 +57,6 @@ include(config/FindEGL.cmake)
 # OpenAL
 include(config/FindAL.cmake)
 
-# setting up executable requirements
-include(config/ExeRequirements.cmake)
-
 # configure GL API and Context-init libraries
 include(config/ConfigGL.cmake)
 

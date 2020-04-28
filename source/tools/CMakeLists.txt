@@ -4,10 +4,14 @@
 #  http://www.boost.org/LICENSE_1_0.txt
 
 add_executable(bake_noise_image bake_noise_image.cpp)
+eagine_add_exe_analysis(bake_noise_image)
+
 add_executable(bake_checker_image bake_checker_image.cpp)
+eagine_add_exe_analysis(bake_checker_image)
 
 if(TARGET PNG::PNG)
 	add_executable(bake_png_image bake_png_image.cpp)
+	eagine_add_exe_analysis(bake_png_image )
 	target_link_libraries(
 		bake_png_image
 		PUBLIC PNG::PNG
@@ -15,26 +19,9 @@ if(TARGET PNG::PNG)
 endif()
 
 add_executable(bake_shader_source bake_shader_source.cpp)
+eagine_add_exe_analysis(bake_shader_source)
+
 add_executable(bake_program_source bake_program_source.cpp)
-
-# clang-tidy
-if(INVOKE_CLANG_TIDY)
-	set(EAGINE_TOOL_EXECUTABLES
-		bake_noise_image
-		bake_checker_image 
-		bake_shader_source 
-		bake_program_source 
-	)
-	if(TARGET bake_png_image)
-		list(APPEND EAGINE_TOOL_EXECUTABLES bake_png_image)
-	endif()
-
-	foreach(TOOL ${EAGINE_TOOL_EXECUTABLES})
-		set_target_properties(
-			${TOOL}
-			PROPERTIES CXX_CLANG_TIDY "${INVOKE_CLANG_TIDY}"
-		)
-	endforeach()
-endif()
+eagine_add_exe_analysis(bake_program_source)
 
 add_subdirectory(texgen)
