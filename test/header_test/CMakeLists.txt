@@ -38,10 +38,5 @@ foreach(TESTED_HEADER ${TESTED_HEADERS})
 		EXCLUDE_FROM_ALL
 		"${HELPER_SOURCE}"
 	)
-	if(INVOKE_CLANG_TIDY)
-		set_property(
-			TARGET ${TEST_NAME}
-			PROPERTY CXX_CLANG_TIDY "${INVOKE_CLANG_TIDY}"
-		)
-	endif()
+	eagine_add_exe_analysis(${TEST_NAME})
 endforeach()

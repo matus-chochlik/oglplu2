@@ -17,6 +17,7 @@ function(eglplus_example_common EXAMPLE_NAME)
 		eglplus-${EXAMPLE_NAME}
 		${EXAMPLE_NAME}.cpp
 	)
+	eagine_add_exe_analysis(eglplus-${EXAMPLE_NAME})
 	add_dependencies(eglplus-examples eglplus-${EXAMPLE_NAME})
 	target_link_libraries(
 		eglplus-${EXAMPLE_NAME}
@@ -24,14 +25,6 @@ function(eglplus_example_common EXAMPLE_NAME)
 			EGL::EGL
 			eglplus
 	)
-
-	if(INVOKE_CLANG_TIDY)
-		set_property(
-			TARGET eglplus-${EXAMPLE_NAME}
-			PROPERTY CXX_CLANG_TIDY "${INVOKE_CLANG_TIDY}"
-		)
-	endif()
-
 	set_property(
 		TARGET eglplus-${EXAMPLE_NAME}
 		PROPERTY FOLDER "Example/EGLplus"

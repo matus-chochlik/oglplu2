@@ -51,6 +51,7 @@ add_library(
 		example/main_glut.cpp
 		example/main_sdl.cpp
 )
+eagine_add_lib_analysis(oglplus_example_harness)
 set_target_properties(
 	oglplus_example_harness
 	PROPERTIES FOLDER "Example/Combined"
@@ -67,13 +68,6 @@ target_link_libraries(
 		EAGXharness::SDL
 )
 
-if(INVOKE_CLANG_TIDY)
-	set_target_properties(
-		oglplus_example_harness
-		PROPERTIES CXX_CLANG_TIDY "${INVOKE_CLANG_TIDY}"
-	)
-endif()
-
 # helper function used in the directories containing examples
 function(add_examples EXAMPLE_PATTERN)
 	file(GLOB EXAMPLES "${CMAKE_CURRENT_SOURCE_DIR}/${EXAMPLE_PATTERN}.cpp")
@@ -86,6 +80,7 @@ function(add_examples EXAMPLE_PATTERN)
 			${TARGET_NAME} EXCLUDE_FROM_ALL
 			${EXAMPLE_PATH}
 		)
+		eagine_add_exe_analysis(${TARGET_NAME})
 		set_target_properties(
 			${TARGET_NAME}
 			PROPERTIES FOLDER "Example/Combined"
@@ -97,12 +92,6 @@ function(add_examples EXAMPLE_PATTERN)
 				GLEW::GLEW
 				oglplus_example_harness
 		)
-		if(INVOKE_CLANG_TIDY)
-			set_property(
-				TARGET ${TARGET_NAME}
-				PROPERTY CXX_CLANG_TIDY "${INVOKE_CLANG_TIDY}"
-			)
-		endif()
 	endforeach()
 endfunction(add_examples)
 

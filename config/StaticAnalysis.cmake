@@ -15,3 +15,17 @@ if(WITH_CLANG_TIDY)
 		set(INVOKE_CLANG_TIDY "${CLANG_TIDY_PROG}")
 	endif()
 endif()
+
+macro(eagine_add_exe_analysis TARGETNAME)
+	if(INVOKE_CLANG_TIDY)
+		set_target_properties(
+			${TARGETNAME}
+			PROPERTIES CXX_CLANG_TIDY "${INVOKE_CLANG_TIDY}"
+		)
+	endif()
+endmacro()
+
+macro(eagine_add_lib_analysis TARGETNAME)
+	eagine_add_exe_analysis(${TARGETNAME})
+endmacro()
+

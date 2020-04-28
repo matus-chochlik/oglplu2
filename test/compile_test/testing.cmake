@@ -9,12 +9,7 @@ macro(add_compile_test LIBRARY TEST_NAME)
 		EXCLUDE_FROM_ALL
 		${TEST_NAME}.cpp
 	)
-	if(INVOKE_CLANG_TIDY)
-		set_target_properties(
-			${LIBRARY}-${TEST_NAME}-compile_test
-			PROPERTIES CXX_CLANG_TIDY "${INVOKE_CLANG_TIDY}"
-		)
-	endif()
+	eagine_add_exe_analysis(${LIBRARY}-${TEST_NAME}-compile_test)
 	add_test(
 		${LIBRARY}-${TEST_NAME}-compile_test
 		"${CMAKE_COMMAND}"

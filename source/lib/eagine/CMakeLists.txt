@@ -23,11 +23,11 @@ set(EAGINE_LIB_SOURCES
 	random.cpp
 )
 
-
 add_library(
 	eagine EXCLUDE_FROM_ALL
 	${EAGINE_LIB_SOURCES}
 )
+eagine_add_lib_analysis(eagine)
 
 target_link_libraries(
 	eagine
@@ -45,11 +45,3 @@ set_target_properties(
 	eagine PROPERTIES
 	FOLDER "Library/EAGine"
 )
-
-if(INVOKE_CLANG_TIDY)
-	set_target_properties(
-		eagine
-		PROPERTIES CXX_CLANG_TIDY "${INVOKE_CLANG_TIDY}"
-	)
-endif()
-

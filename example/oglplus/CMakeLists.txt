@@ -15,6 +15,7 @@ function(standalone_example_glfw3_glew EXAMPLE_NAME)
 			EXCLUDE_FROM_ALL
 			${EXAMPLE_NAME}.cpp
 		)
+		eagine_add_exe_analysis(${EXAMPLE_NAME})
 		add_dependencies(oglplus-examples ${EXAMPLE_NAME})
 		target_link_libraries(
 			${EXAMPLE_NAME}
@@ -23,14 +24,6 @@ function(standalone_example_glfw3_glew EXAMPLE_NAME)
 				GLEW::GLEW
 				oglplus
 		)
-
-		if(INVOKE_CLANG_TIDY)
-			set_property(
-				TARGET ${EXAMPLE_NAME}
-				PROPERTY CXX_CLANG_TIDY "${INVOKE_CLANG_TIDY}"
-			)
-		endif()
-
 		set_property(
 			TARGET ${EXAMPLE_NAME}
 			PROPERTY FOLDER "Example/OGLplus"

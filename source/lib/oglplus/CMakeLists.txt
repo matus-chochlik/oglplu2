@@ -8,6 +8,7 @@ add_library(
 	EXCLUDE_FROM_ALL
 	gl.cpp
 )
+eagine_add_lib_analysis(oglplus)
 set_target_properties(
 	oglplus
 	PROPERTIES FOLDER "Library/OGLplus"
@@ -20,10 +21,3 @@ target_link_libraries(
 	oglplus
 	PUBLIC eagine
 )
-
-if(INVOKE_CLANG_TIDY)
-	set_target_properties(
-		oglplus
-		PROPERTIES CXX_CLANG_TIDY "${INVOKE_CLANG_TIDY}"
-	)
-endif()

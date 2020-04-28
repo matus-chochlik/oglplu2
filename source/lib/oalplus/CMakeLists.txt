@@ -9,6 +9,7 @@ if(OPENAL_FOUND)
 		enum_value_names.cpp
 		enum_value_range.cpp
 	)
+	eagine_add_lib_analysis(oalplus)
 	set_target_properties(
 		oalplus
 		PROPERTIES FOLDER "Library/OALplus"
@@ -21,11 +22,4 @@ if(OPENAL_FOUND)
 		oalplus
 		PUBLIC eagine
 	)
-
-	if(INVOKE_CLANG_TIDY)
-		set_target_properties(
-			oalplus
-			PROPERTIES CXX_CLANG_TIDY "${INVOKE_CLANG_TIDY}"
-		)
-	endif()
 endif()

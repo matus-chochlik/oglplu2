@@ -18,6 +18,7 @@ function(oalplus_example_common EXAMPLE_NAME)
 		EXCLUDE_FROM_ALL
 		${EXAMPLE_NAME}.cpp
 	)
+	eagine_add_exe_analysis(oalplus-${EXAMPLE_NAME})
 	add_dependencies(oalplus-examples oalplus-${EXAMPLE_NAME})
 	target_link_libraries(
 		oalplus-${EXAMPLE_NAME}
@@ -25,14 +26,6 @@ function(oalplus_example_common EXAMPLE_NAME)
 			OpenAL::OpenAL
 			oalplus
 	)
-
-	if(INVOKE_CLANG_TIDY)
-		set_property(
-			TARGET oalplus-${EXAMPLE_NAME}
-			PROPERTY CXX_CLANG_TIDY "${INVOKE_CLANG_TIDY}"
-		)
-	endif()
-
 	set_property(
 		TARGET oalplus-${EXAMPLE_NAME}
 		PROPERTY FOLDER "Example/OALplus"
