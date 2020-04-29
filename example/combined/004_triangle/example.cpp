@@ -64,33 +64,17 @@ void example_triangle::init(example_context& ctx) {
     gl.clear_color(0.4f, 0.4f, 0.4f, 0.0f);
 
     // vertex shader
+    auto vs_source = embed(EAGINE_ID(VertShader), "vertex.glsl");
     gl.create_shader(GL.vertex_shader) >> vs;
     gl.delete_shader.later_by(cleanup, vs);
-    gl.shader_source(
-      vs,
-      glsl_literal("#version 140\n"
-                   "in vec2 Position;\n"
-                   "in vec3 Color;\n"
-                   "out vec3 vertColor;\n"
-                   "void main()\n"
-                   "{\n"
-                   "	gl_Position = vec4(Position, 0.0, 1.0);\n"
-                   "	vertColor = Color;\n"
-                   "}\n"));
+    gl.shader_source(vs, glsl_string_ref(vs_source));
     gl.compile_shader(vs);
 
     // fragment shader
+    auto fs_src = embed(EAGINE_ID(FragShader), "fragment.glsl");
     gl.create_shader(GL.fragment_shader) >> fs;
     gl.delete_shader.later_by(cleanup, fs);
-    gl.shader_source(
-      fs,
-      glsl_literal("#version 140\n"
-                   "in vec3 vertColor;\n"
-                   "out vec3 fragColor;\n"
-                   "void main()\n"
-                   "{\n"
-                   "	fragColor = vertColor;\n"
-                   "}\n"));
+    gl.shader_source(fs, glsl_string_ref(fs_src));
     gl.compile_shader(fs);
 
     // program

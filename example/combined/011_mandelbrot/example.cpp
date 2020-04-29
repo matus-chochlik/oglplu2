@@ -68,49 +68,17 @@ void example_mandelbrot::init(example_context& ctx) {
     const auto& [gl, GL] = ctx.gl();
 
     // vertex shader
+    auto vs_src = embed(EAGINE_ID(VertShader), "vertex.glsl");
     gl.create_shader(GL.vertex_shader) >> vs;
     gl.delete_shader.later_by(cleanup, vs);
-    gl.shader_source(
-      vs,
-      glsl_literal("#version 140\n"
-                   "uniform vec2 Offset;\n"
-                   "uniform vec2 Scale;\n"
-                   "in vec2 Position;\n"
-                   "in vec2 Coord;\n"
-                   "out vec2 vertCoord;\n"
-                   "void main()\n"
-                   "{\n"
-                   "	vertCoord = Coord*Scale+Offset;\n"
-                   "	gl_Position = vec4(Position, 0.0, 1.0);\n"
-                   "}\n"));
+    gl.shader_source(vs, glsl_string_ref(vs_src));
     gl.compile_shader(vs);
 
     // fragment shader
+    auto fs_src = embed(EAGINE_ID(FragShader), "fragment.glsl");
     gl.create_shader(GL.fragment_shader) >> fs;
     gl.delete_shader.later_by(cleanup, fs);
-    gl.shader_source(
-      fs,
-      glsl_literal("#version 140\n"
-                   "uniform sampler1D gradient;\n"
-                   "in vec2 vertCoord;\n"
-                   "out vec4 fragColor;\n"
-                   "void main()\n"
-                   "{\n"
-                   "	vec2 z = vec2(0.0, 0.0);\n"
-                   "	vec2 c = vertCoord;\n"
-                   "	int i = 0, max = 256;\n"
-                   "	while((i != max) && (distance(z, c) < 2.0))\n"
-                   "	{\n"
-                   "		vec2 zn = vec2(\n"
-                   "			z.x * z.x - z.y * z.y + c.x,\n"
-                   "			2.0 * z.x * z.y + c.y\n"
-                   "		);\n"
-                   "		z = zn;\n"
-                   "		++i;\n"
-                   "	}\n"
-                   "	float a = float(i)/float(max);\n"
-                   "	fragColor = texture(gradient, a+sqrt(length(c))*0.1);\n"
-                   "} \n"));
+    gl.shader_source(fs, glsl_string_ref(fs_src));
     gl.compile_shader(fs);
 
     // program

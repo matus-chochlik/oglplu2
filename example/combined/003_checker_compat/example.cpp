@@ -7,7 +7,6 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-// clang-format off
 #include <oglplus/gl.hpp>
 #include <oglplus/gl_api.hpp>
 
@@ -54,11 +53,10 @@ void example_checker::init(example_context& ctx) {
     gl.clear_color(0.4f, 0.4f, 0.4f, 0.0f);
 
     // fragment shader
+    auto fs_src = embed(EAGINE_ID(FragShader), "fragment.glsl");
     gl.create_shader(GL.fragment_shader) >> fs;
     gl.delete_shader.later_by(cleanup, fs);
-    gl.shader_source(
-      fs,
-      glsl_string_ref(embed(EAGINE_ID(FragShader), "fragment.glsl")));
+    gl.shader_source(fs, glsl_string_ref(fs_src));
     gl.compile_shader(fs);
 
     // program
