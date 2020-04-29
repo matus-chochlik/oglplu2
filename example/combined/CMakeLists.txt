@@ -3,7 +3,6 @@
 # See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
 #
-cmake_minimum_required(VERSION 3.10)
 
 # add a target for the examples
 add_custom_target(combined-examples ALL)
@@ -35,7 +34,7 @@ foreach(LIB GLFW3 GLFW GLUT SDL)
 endforeach()
 
 add_library(
-	oglplus_example_harness STATIC
+	combined_example_harness STATIC
 	EXCLUDE_FROM_ALL
 		example/args.cpp
 		example/wrapper.cpp
@@ -51,13 +50,13 @@ add_library(
 		example/main_glut.cpp
 		example/main_sdl.cpp
 )
-eagine_add_lib_analysis(oglplus_example_harness)
+eagine_add_lib_analysis(combined_example_harness)
 set_target_properties(
-	oglplus_example_harness
+	combined_example_harness
 	PROPERTIES FOLDER "Example/Combined"
 )
 target_link_libraries(
-	oglplus_example_harness
+	combined_example_harness
 	PUBLIC
 		eagine
 		oglplus
@@ -90,18 +89,47 @@ function(add_examples EXAMPLE_PATTERN)
 			${TARGET_NAME}
 			PUBLIC
 				GLEW::GLEW
-				oglplus_example_harness
+				combined_example_harness
 		)
 	endforeach()
 endfunction(add_examples)
 
+function(eagine_add_example)
+	get_filename_component(
+		EXAMPLE_NAME
+		"${CMAKE_CURRENT_SOURCE_DIR}"
+		NAME
+	)
+	set(TARGET_NAME "combined-${EXAMPLE_NAME}")
+
+	add_executable(
+		${TARGET_NAME} EXCLUDE_FROM_ALL
+		${ARGN}
+	)
+	eagine_add_exe_analysis(${TARGET_NAME})
+	set_target_properties(
+		${TARGET_NAME}
+		PROPERTIES FOLDER "Example/Combined/${EXAMPLE_NAME}"
+	)
+	add_dependencies("combined-examples" ${TARGET_NAME})
+	target_link_libraries(
+		${TARGET_NAME}
+		PUBLIC
+			GLEW::GLEW
+			combined_example_harness
+	)
+	eagine_install_example(${TARGET_NAME})
+endfunction()
+
+add_subdirectory(001_clear)
+add_subdirectory(002_spectrum_compat)
+add_subdirectory(003_checker_compat)
+add_subdirectory(004_triangle)
+add_subdirectory(005_pick_triangle)
+add_subdirectory(007_cube)
+add_subdirectory(011_mandelbrot)
+
 # add examples
-#add_examples(combined "[0-9][0-9][0-9]*")
-add_examples("001_*")
-add_examples("002_*")
-add_examples("003_*")
-add_examples("004_*")
-add_examples("007_*")
 add_examples("011_mandel*")
 
 add_custom_target(glsl_program_sources ALL)

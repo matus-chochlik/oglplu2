@@ -1,5 +1,5 @@
 /**
- *  example oglplus/001_clear.cpp
+ *  example combined/001_clear/example.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,11 +7,10 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-// clang-format off
 #include <oglplus/gl.hpp>
 #include <oglplus/gl_api.hpp>
-#include "example.hpp"
-// clang-format on
+
+#include "../example.hpp"
 
 namespace eagine {
 //------------------------------------------------------------------------------

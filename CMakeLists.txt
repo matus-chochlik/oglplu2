@@ -85,6 +85,8 @@ include_directories("third_party/asio/asio/include")
 
 # re-create the site-configuration header
 include(config/SiteConfig.cmake)
+# installation
+include(config/Installation.cmake)
 
 # tools, textures, etc.
 if(NOT ${NO_EXAMPLES})
@@ -101,5 +103,3 @@ if(NOT ${NO_TESTS})
 	add_subdirectory("test")
 endif()
 
-# installation
-include(config/Installation.cmake)

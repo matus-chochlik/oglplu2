@@ -1,5 +1,5 @@
 /**
- *  example oglplus/003_checker_compat.cpp
+ *  example combined/003_checker_compat/example.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -10,11 +10,10 @@
 // clang-format off
 #include <oglplus/gl.hpp>
 #include <oglplus/gl_api.hpp>
+
 #include <oglplus/glsl/string_ref.hpp>
 
-#include "example.hpp"
-// clang-format on
-#include <iostream>
+#include "../example.hpp"
 
 namespace eagine {
 namespace oglp {

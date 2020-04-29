@@ -1,5 +1,5 @@
 /**
- *  example oglplus/011_mandelbrot.cpp
+ *  example combined/011_mandelbrot/example.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,13 +7,12 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-// clang-format off
 #include <oglplus/gl.hpp>
 #include <oglplus/gl_api.hpp>
+
 #include <oglplus/glsl/string_ref.hpp>
 
-#include "example.hpp"
-// clang-format on
+#include "../example.hpp"
 
 namespace eagine {
 namespace oglp {

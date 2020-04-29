@@ -131,7 +131,6 @@ def make_resource_file(options):
                 source += line
                 embeds = re.findall(embed_re, source)
                 if embeds:
-                    print(embeds)
                     for ident, res_path in embeds:
                         if not some_output:
                             make_prologue(options)

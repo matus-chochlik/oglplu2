@@ -1,5 +1,5 @@
 /**
- *  example oglplus/003_triangle.cpp
+ *  example combined/007_cube/example.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,43 +7,52 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-// clang-format off
 #include <oglplus/gl.hpp>
 #include <oglplus/gl_api.hpp>
+
+#include <eagine/shapes/cube.hpp>
 #include <oglplus/glsl/string_ref.hpp>
+#include <oglplus/math/matrix.hpp>
 #include <oglplus/math/vector.hpp>
-#include <oglplus/math/primitives.hpp>
-#include "example.hpp"
-// clang-format on
+#include <oglplus/shapes/generator.hpp>
+
+#include "../example.hpp"
+#include "../example/camera.hpp"
 
 namespace eagine {
 namespace oglp {
 //------------------------------------------------------------------------------
-class example_triangle : public example {
-    triangle tri{vec3{-0.2f, 0.5f, 0.0f},
-                 vec3{-0.7f, -0.6f, 0.0f},
-                 vec3{0.6f, 0.2f, 0.0f}};
+class example_cube : public example {
+    example_orbiting_camera camera;
 
     owned_vertex_array_name vao;
 
     owned_buffer_name positions;
-    owned_buffer_name colors;
+    owned_buffer_name normals;
 
     owned_shader_name vs;
     owned_shader_name fs;
 
     owned_program_name prog;
+    uniform_location camera_loc;
+
+    std::vector<shape_draw_operation> _ops;
+
+    void set_projection(const example_context& ctx);
 
 public:
     bool check_requirements(const example_context& ctx) final;
     void init(example_context& ctx) final;
+    void pointer_motion(const example_context& ctx) final;
+    void pointer_scrolling(const example_context& ctx) final;
+    void user_idle(const example_context& ctx) final;
     void resize(const example_context& ctx) final;
     void render(const example_context& ctx) final;
 };
 //------------------------------------------------------------------------------
-// example_triangle
+// example_cube
 //------------------------------------------------------------------------------
-bool example_triangle ::check_requirements(const example_context& ctx) {
+bool example_cube ::check_requirements(const example_context& ctx) {
     const auto& [gl, GL] = ctx.gl();
     auto r = ctx.req_mark();
 
@@ -57,9 +66,22 @@ bool example_triangle ::check_requirements(const example_context& ctx) {
            r(gl.draw_arrays) && r(GL.vertex_shader) && r(GL.fragment_shader);
 }
 //------------------------------------------------------------------------------
-void example_triangle::init(example_context& ctx) {
+void example_cube::set_projection(const example_context& ctx) {
+    ctx.gl().set_uniform(prog, camera_loc, camera.matrix(ctx.state()));
+}
+//------------------------------------------------------------------------------
+void example_cube::init(example_context& ctx) {
     auto& cleanup = ctx.cleanup();
     const auto& [gl, GL] = ctx.gl();
+
+    shape_generator shape(
+      ctx.gl(),
+      shapes::unit_cube(
+        shapes::vertex_attrib_kind::position |
+        shapes::vertex_attrib_kind::normal));
+
+    _ops.resize(std_size(shape.operation_count()));
+    shape.instructions(ctx.gl(), cover(_ops));
 
     gl.clear_color(0.4f, 0.4f, 0.4f, 0.0f);
 
@@ -69,13 +91,14 @@ void example_triangle::init(example_context& ctx) {
     gl.shader_source(
       vs,
       glsl_literal("#version 140\n"
-                   "in vec2 Position;\n"
-                   "in vec3 Color;\n"
+                   "in vec3 Position;\n"
+                   "in vec3 Normal;\n"
                    "out vec3 vertColor;\n"
+                   "uniform mat4 Camera;\n"
                    "void main()\n"
                    "{\n"
-                   "	gl_Position = vec4(Position, 0.0, 1.0);\n"
-                   "	vertColor = Color;\n"
+                   "	gl_Position = Camera * vec4(Position, 1.0);\n"
+                   "	vertColor = normalize(vec3(1.0)+Normal);\n"
                    "}\n"));
     gl.compile_shader(vs);
 
@@ -107,63 +130,88 @@ void example_triangle::init(example_context& ctx) {
     gl.bind_vertex_array(vao);
 
     // positions
-    const auto position_data = GL.float_.array(
-      tri.a().x(),
-      tri.a().y(),
-      tri.b().x(),
-      tri.b().y(),
-      tri.c().x(),
-      tri.c().y());
-
+    vertex_attrib_location position_loc(0);
     gl.gen_buffers() >> positions;
     gl.delete_buffers.later_by(cleanup, positions);
-    gl.bind_buffer(GL.array_buffer, positions);
-    gl.buffer_data(GL.array_buffer, view(position_data), GL.static_draw);
-    vertex_attrib_location position_loc;
-    gl.get_attrib_location(prog, "Position") >> position_loc;
+    shape.attrib_setup(
+      ctx.gl(),
+      vao,
+      positions,
+      position_loc,
+      eagine::shapes::vertex_attrib_kind::position,
+      ctx.buffer());
+    gl.bind_attrib_location(prog, position_loc, "Position");
 
-    gl.vertex_attrib_pointer(position_loc, 2, GL.float_, GL.false_);
-    gl.enable_vertex_attrib_array(position_loc);
+    // normals
+    vertex_attrib_location normal_loc(1);
+    gl.gen_buffers() >> normals;
+    gl.delete_buffers.later_by(cleanup, normals);
+    shape.attrib_setup(
+      ctx.gl(),
+      vao,
+      normals,
+      normal_loc,
+      eagine::shapes::vertex_attrib_kind::normal,
+      ctx.buffer());
+    gl.bind_attrib_location(prog, normal_loc, "Normal");
 
-    // color colors
-    const auto color_data =
-      GL.float_.array(1.0f, 0.1f, 0.1f, 0.1f, 1.0f, 0.1f, 0.1f, 0.1f, 1.0f);
+    gl.enable(GL.depth_test);
 
-    gl.gen_buffers() >> colors;
-    gl.delete_buffers.later_by(cleanup, colors);
-    gl.bind_buffer(GL.array_buffer, colors);
-    gl.buffer_data(GL.array_buffer, view(color_data), GL.static_draw);
-    vertex_attrib_location color_loc;
-    gl.get_attrib_location(prog, "Color") >> color_loc;
-
-    gl.vertex_attrib_pointer(color_loc, 3, GL.float_, GL.false_);
-    gl.enable_vertex_attrib_array(color_loc);
-
-    gl.disable(GL.depth_test);
+    // camera
+    gl.get_uniform_location(prog, "Camera") >> camera_loc;
+    camera.set_near(0.1f)
+      .set_far(50.f)
+      .set_orbit_min(1.1f)
+      .set_orbit_max(3.5f)
+      .set_fov(right_angle_());
+    set_projection(ctx);
 }
 //------------------------------------------------------------------------------
-void example_triangle::resize(const example_context& ctx) {
+void example_cube::pointer_motion(const example_context& ctx) {
+    const auto& state = ctx.state();
+    if(camera.apply_pointer_motion(state)) {
+        set_projection(ctx);
+    }
+}
+//------------------------------------------------------------------------------
+void example_cube::pointer_scrolling(const example_context& ctx) {
+    const auto& state = ctx.state();
+    if(camera.apply_pointer_scrolling(state)) {
+        set_projection(ctx);
+    }
+}
+//------------------------------------------------------------------------------
+void example_cube::user_idle(const example_context& ctx) {
+    const auto& state = ctx.state();
+    if(state.user_idle_time() > seconds_(1)) {
+        camera.idle_update(state, 2);
+        set_projection(ctx);
+    }
+}
+//------------------------------------------------------------------------------
+void example_cube::resize(const example_context& ctx) {
+    const auto& state = ctx.state();
     const auto& gl = ctx.gl();
 
-    gl.viewport(ctx.state().width(), ctx.state().height());
+    gl.viewport(state.width(), state.height());
+    set_projection(ctx);
 }
 //------------------------------------------------------------------------------
-void example_triangle::render(const example_context& ctx) {
+void example_cube::render(const example_context& ctx) {
     const auto& [gl, GL] = ctx.gl();
 
-    gl.clear(GL.color_buffer_bit);
-    gl.draw_arrays(GL.triangles, 0, 3);
+    gl.clear(GL.color_buffer_bit | GL.depth_buffer_bit);
+    draw_using_instructions(ctx.gl(), view(_ops));
 }
 //------------------------------------------------------------------------------
 } // namespace oglp
 //------------------------------------------------------------------------------
 std::unique_ptr<example> make_example(
   const example_args&, const example_context&) {
-    return {std::make_unique<oglp::example_triangle>()};
+    return {std::make_unique<oglp::example_cube>()};
 }
 //------------------------------------------------------------------------------
 void adjust_params(example_params& params) {
-    params.depth_buffer(false);
     params.stencil_buffer(false);
 }
 //------------------------------------------------------------------------------
