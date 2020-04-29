@@ -11,6 +11,7 @@
 
 #include "example/context.hpp"
 #include "example/state.hpp"
+#include <eagine/embed.hpp>
 #include <memory>
 
 namespace eagine {

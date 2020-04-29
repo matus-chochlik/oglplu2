@@ -58,15 +58,7 @@ void example_checker::init(example_context& ctx) {
     gl.delete_shader.later_by(cleanup, fs);
     gl.shader_source(
       fs,
-      glsl_literal(
-        "#version 140\n"
-        "out vec3 fragColor;\n"
-        "void main()\n"
-        "{\n"
-        "	vec2 co = gl_TexCoord[0].xy * vec2(8.0);\n"
-        "	float ck = mod(mod(int(co.x), 2) + mod(int(co.y), 2), 2);\n"
-        "	fragColor = mix(vec3(0.0), gl_Color.rgb, ck);\n"
-        "}\n"));
+      glsl_string_ref(embed(EAGINE_ID(FragShader), "fragment.glsl")));
     gl.compile_shader(fs);
 
     // program

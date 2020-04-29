@@ -106,6 +106,7 @@ function(eagine_add_example)
 		${TARGET_NAME} EXCLUDE_FROM_ALL
 		${ARGN}
 	)
+	eagine_embed_resources(${TARGET_NAME})
 	eagine_add_exe_analysis(${TARGET_NAME})
 	set_target_properties(
 		${TARGET_NAME}
@@ -129,8 +130,6 @@ add_subdirectory(005_pick_triangle)
 add_subdirectory(007_cube)
 add_subdirectory(011_mandelbrot)
 
-# add examples
-add_examples("011_mandel*")
 
 add_custom_target(glsl_program_sources ALL)
 add_custom_target(glsl_shader_sources ALL)

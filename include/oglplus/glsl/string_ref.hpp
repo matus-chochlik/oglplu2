@@ -1,5 +1,5 @@
 /**
- *  @file oglplus/glsl/source_ref.hpp
+ *  @file oglplus/glsl/string_ref.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -10,6 +10,7 @@
 #define OGLPLUS_GLSL_STRING_REF_HPP
 
 #include "source_ref.hpp"
+#include <eagine/memory/block.hpp>
 
 namespace eagine {
 namespace oglp {
@@ -28,9 +29,12 @@ public:
       , _length(int_type(n == 0 ? 0 : (src_str[n - 1] == '\0' ? n - 1 : n))) {
     }
 
-    template <typename String>
-    explicit glsl_string_ref(const String& str) noexcept
-      : glsl_string_ref(str.data(), span_size(str.size())) {
+    explicit glsl_string_ref(string_view str) noexcept
+      : glsl_string_ref(str.data(), str.size()) {
+    }
+
+    explicit glsl_string_ref(memory::const_block blk) noexcept
+      : glsl_string_ref(as_chars(blk)) {
     }
 
     operator glsl_source_ref() const noexcept {

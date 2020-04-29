@@ -27,5 +27,7 @@ function(eagine_embed_resources TARGET_NAME)
 			${TARGET_NAME}
 			PRIVATE ${RESOURCE_FILE}
 		)
+	else()
+		message(FATAL_ERROR "failed to compile resources for ${TARGET_NAME}")
 	endif()
 endfunction()

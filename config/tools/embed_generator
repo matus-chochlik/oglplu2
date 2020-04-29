@@ -122,7 +122,7 @@ def make_epilogue(options):
     options.output.write("} // namespace eagine\n")
 # ------------------------------------------------------------------------------
 def make_resource_file(options):
-    embed_re = r'embed\(\s*EAGINE_ID\(([a-zA-Z0-9_]+)\),\s*("[^"]+"|__FILE__)\s*\)'
+    embed_re = r'embed\(\s*EAGINE_ID\(([a-zA-Z0-9_]+)\),\s*("([^"]+)"|__FILE__)\s*\)'
     some_output = False
     for path in options.input:
         with open(path, "rt") as ifd:
@@ -131,11 +131,11 @@ def make_resource_file(options):
                 source += line
                 embeds = re.findall(embed_re, source)
                 if embeds:
-                    for ident, res_path in embeds:
+                    for ident, res_expr, res_path in embeds:
                         if not some_output:
                             make_prologue(options)
                             some_output = True
-                        if res_path == "__FILE__":
+                        if res_expr == "__FILE__":
                             make_res_code(options, ident, path)
                         else:
                             make_res_code(options, ident, res_path)

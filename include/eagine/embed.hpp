@@ -19,7 +19,8 @@ namespace eagine {
 
 extern memory::const_block get_embedded_resource(identifier);
 
-memory::const_block embed(identifier res_id, string_view) noexcept {
+static inline memory::const_block embed(
+  identifier res_id, string_view) noexcept {
     return get_embedded_resource(res_id);
 }
 
