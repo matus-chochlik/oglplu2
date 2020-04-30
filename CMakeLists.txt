@@ -89,9 +89,7 @@ include(config/SiteConfig.cmake)
 include(config/Installation.cmake)
 
 # tools, textures, etc.
-if(NOT ${NO_EXAMPLES})
-	add_subdirectory("source")
-endif()
+add_subdirectory("source")
 
 # examples
 if(NOT ${NO_EXAMPLES})
