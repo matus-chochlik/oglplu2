@@ -7064,13 +7064,14 @@ public:
 #endif
       one_minus_src1_alpha;
 
-    opt_c_api_constant<
+    _type_constructor_constant<opt_c_api_constant<
       mp_list<data_type, pixel_data_type, index_data_type>,
 #ifdef GL_UNSIGNED_BYTE
-      enum_type_c<GL_UNSIGNED_BYTE>>
+      enum_type_c<GL_UNSIGNED_BYTE>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::ubyte_type>>
       unsigned_byte_;
 
     opt_c_api_constant<

@@ -21,6 +21,10 @@ public:
       : _gen{_get_seed(args, params)} {
     }
 
+    void uniform(span<byte> dest) final {
+        generate(dest, [this] { return _dist_uniform_byte(_gen); });
+    }
+
     void uniform_01(span<float> dest) final {
         generate(dest, [this] { return _dist_uniform_float_01(_gen); });
     }
@@ -31,6 +35,7 @@ public:
 
 private:
     std::mt19937 _gen;
+    std::uniform_int_distribution<byte> _dist_uniform_byte{0x00, 0xFF};
     std::uniform_real_distribution<float> _dist_uniform_float_01{0.f, 1.f};
     std::normal_distribution<float> _dist_normal_float{0.f, 1.f};
 

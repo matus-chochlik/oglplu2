@@ -49,6 +49,7 @@ add_subdirectory(005_pick_triangle)
 add_subdirectory(007_cube)
 add_subdirectory(010_newton)
 add_subdirectory(011_mandelbrot)
+add_subdirectory(014_voronoi)
 
 add_subdirectory(shaders)
 add_subdirectory(programs)

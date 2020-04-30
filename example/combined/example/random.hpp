@@ -21,6 +21,7 @@ class example_params;
 struct example_random_generator {
     virtual ~example_random_generator() noexcept = default;
 
+    virtual void uniform(span<byte>) = 0;
     virtual void uniform_01(span<float>) = 0;
     virtual void normal(span<float>) = 0;
 };
