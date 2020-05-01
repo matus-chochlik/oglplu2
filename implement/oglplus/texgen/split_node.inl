@@ -11,14 +11,15 @@
 #include <iostream>
 #include <string>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 split_output::split_output(
   node_intf& parent,
   input_with_const_default<float[4]>& input,
-  eagine::valid_if_between<span_size_t, 0, 3> index)
+  valid_if_between<span_size_t, 0, 3> index)
   : base_output(parent)
   , _input(input)
   , _index(index.value()) {
@@ -109,5 +110,6 @@ output_intf& split_node::output(span_size_t index) {
 }
 //------------------------------------------------------------------------------
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 //------------------------------------------------------------------------------

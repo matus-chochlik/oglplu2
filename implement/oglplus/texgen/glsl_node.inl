@@ -9,7 +9,8 @@
 #include <eagine/str_var_subst.hpp>
 #include <iostream>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -40,7 +41,7 @@ std::ostream& glsl_output::definitions(
     input_defs(out, ctxt);
     opening_expr(out, ctxt);
 
-    std::map<std::string, std::string, eagine::str_view_less> dict;
+    std::map<std::string, std::string, str_view_less> dict;
 
     dict["NORMALIZED_COORDS"] = "oglptg_nc";
     dict["NC"] = "oglptg_nc";
@@ -70,7 +71,7 @@ std::ostream& glsl_output::definitions(
     }
 
     out << "\treturn ";
-    out << eagine::substitute_variables(_glsl, dict);
+    out << substitute_variables(_glsl, dict);
     out << ";" << std::endl;
 
     return closing_expr(out, ctxt);
@@ -82,5 +83,6 @@ glsl_node::glsl_node()
 }
 //------------------------------------------------------------------------------
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 //------------------------------------------------------------------------------

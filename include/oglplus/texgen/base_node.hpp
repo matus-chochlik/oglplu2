@@ -14,7 +14,8 @@
 #include <eagine/assert.hpp>
 #include <eagine/maybe_unused.hpp>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 
 class base_node : public node_intf {
@@ -108,7 +109,8 @@ public:
 };
 
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/texgen/base_node.inl>

@@ -11,7 +11,8 @@
 
 #include "base_node.hpp"
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 
 enum class coord_type { normalized, frag_coord };
@@ -35,8 +36,8 @@ public:
 
     slot_data_type value_type() override;
 
-    std::ostream&
-    definitions(std::ostream& out, compile_context& ctxt) override;
+    std::ostream& definitions(
+      std::ostream& out, compile_context& ctxt) override;
 };
 
 class coord_node : public single_output_node<coord_output> {
@@ -48,7 +49,8 @@ public:
 };
 
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/texgen/coord_node.inl>

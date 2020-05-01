@@ -9,8 +9,8 @@
 
 #include "wrapper.hpp"
 #include "state.hpp"
+#include <eagine/span.hpp>
 #include <oglplus/gl.hpp>
-#include <oglplus/utils/span.hpp>
 #include <cassert>
 #include <fstream>
 #include <iomanip>

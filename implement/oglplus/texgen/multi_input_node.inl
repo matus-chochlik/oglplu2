@@ -9,7 +9,8 @@
 #include <eagine/assert.hpp>
 #include <iostream>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -52,7 +53,7 @@ input_intf& multi_input_node::input(span_size_t index) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-eagine::optional_reference_wrapper<input_intf> multi_input_node::input_by_name(
+optional_reference_wrapper<input_intf> multi_input_node::input_by_name(
   string_view name) {
     // TODO: string / span compare
     auto p = single_output()._inputs.find(name.to_string());
@@ -73,11 +74,12 @@ input_with_const_default<float[4]>& multi_input_node::add_input(
     auto p = single_output()._inputs.emplace(
       name.to_string(),
       input_with_const_default<float[4]>(*this, name, 0.f, 0.f, 0.f, 0.f));
-    p.first->second.set_name(string_view(
-      p.first->first.data(), eagine::span_size_t(p.first->first.size())));
+    p.first->second.set_name(
+      string_view(p.first->first.data(), span_size_t(p.first->first.size())));
     return p.first->second;
 }
 //------------------------------------------------------------------------------
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 //------------------------------------------------------------------------------

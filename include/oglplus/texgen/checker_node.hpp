@@ -12,7 +12,8 @@
 #include "base_node.hpp"
 #include "fallback_input.hpp"
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 
 class checker_output : public base_output {
@@ -25,8 +26,8 @@ public:
 
     slot_data_type value_type() override;
 
-    std::ostream&
-    definitions(std::ostream& out, compile_context& ctxt) override;
+    std::ostream& definitions(
+      std::ostream& out, compile_context& ctxt) override;
 };
 
 class checker_node
@@ -49,14 +50,15 @@ public:
 
     slot_data_type value_type() override;
 
-    std::ostream&
-    definitions(std::ostream& out, compile_context& ctxt) override;
+    std::ostream& definitions(
+      std::ostream& out, compile_context& ctxt) override;
 };
 
 using pixel_checker_node = single_output_node<pixel_checker_output>;
 
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/texgen/checker_node.inl>

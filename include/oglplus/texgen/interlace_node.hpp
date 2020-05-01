@@ -12,7 +12,8 @@
 #include "base_node.hpp"
 #include "fallback_input.hpp"
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 
 enum class interlace_mode { columns, rows, layers };
@@ -34,8 +35,8 @@ public:
 
     slot_data_type value_type() override;
 
-    std::ostream&
-    definitions(std::ostream& out, compile_context& ctxt) override;
+    std::ostream& definitions(
+      std::ostream& out, compile_context& ctxt) override;
 };
 
 class interlace_node : public single_output_node<interlace_output> {
@@ -47,7 +48,8 @@ public:
 };
 
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/texgen/interlace_node.inl>

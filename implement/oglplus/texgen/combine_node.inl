@@ -13,7 +13,8 @@
 #include <sstream>
 #include <string>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -122,5 +123,6 @@ input_intf& combine_node::input(span_size_t index) {
 }
 //------------------------------------------------------------------------------
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 //------------------------------------------------------------------------------

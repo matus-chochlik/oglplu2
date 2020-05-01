@@ -13,7 +13,8 @@
 #include "multi_input_node.hpp"
 #include <map>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 
 enum class fold_function {
@@ -41,8 +42,8 @@ public:
 
     slot_data_type value_type() override;
 
-    std::ostream&
-    definitions(std::ostream& out, compile_context& ctxt) override;
+    std::ostream& definitions(
+      std::ostream& out, compile_context& ctxt) override;
 };
 
 class fold_node : public multi_input_node {
@@ -63,7 +64,8 @@ public:
 };
 
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/texgen/fold_node.inl>

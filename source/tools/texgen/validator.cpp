@@ -9,7 +9,8 @@
 
 #include "validator.hpp"
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 //------------------------------------------------------------------------------
 void validator::begin() {
@@ -19,4 +20,5 @@ void validator::finish() {
 }
 //------------------------------------------------------------------------------
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine

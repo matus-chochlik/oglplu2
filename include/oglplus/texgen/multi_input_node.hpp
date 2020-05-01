@@ -13,7 +13,8 @@
 #include "fallback_input.hpp"
 #include <map>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 
 class multi_input_output : public base_output {
@@ -37,15 +38,14 @@ public:
 
     input_intf& input(span_size_t) override;
 
-    eagine::optional_reference_wrapper<input_intf>
-      input_by_name(string_view) override;
+    optional_reference_wrapper<input_intf> input_by_name(string_view) override;
 
     bool can_add_input() override;
 
     input_with_const_default<float[4]>& add_input(string_view) override;
 
-    multi_input_node&
-    add_input(string_view name, float x, float y, float z, float w) {
+    multi_input_node& add_input(
+      string_view name, float x, float y, float z, float w) {
         add_input(name).fallback().set(x, y, z, w);
         return *this;
     }
@@ -57,7 +57,8 @@ public:
 };
 
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/texgen/multi_input_node.inl>

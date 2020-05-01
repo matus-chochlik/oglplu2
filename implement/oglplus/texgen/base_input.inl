@@ -9,7 +9,8 @@
 #include <eagine/assert.hpp>
 #include <string>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -83,8 +84,7 @@ output_intf& base_input::connected_output() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-bool base_input::set_default_value(
-  eagine::valid_if_between<span_size_t, 0, 3>, float) {
+bool base_input::set_default_value(valid_if_between<span_size_t, 0, 3>, float) {
     return false;
 }
 //------------------------------------------------------------------------------
@@ -109,5 +109,6 @@ bool base_input::render_connected(const render_params& params) {
 }
 //------------------------------------------------------------------------------
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 //------------------------------------------------------------------------------

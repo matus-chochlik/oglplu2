@@ -15,7 +15,8 @@
 #include <string>
 #include <vector>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 
 template <typename Node>
@@ -112,38 +113,37 @@ public:
     render_node& renderer();
 
     void set_dimensions(
-      const eagine::valid_if_positive<int>& w,
-      const eagine::valid_if_positive<int>& h);
+      const valid_if_positive<int>& w, const valid_if_positive<int>& h);
 
     void render();
 
     // find node
-    eagine::optional_reference_wrapper<node_intf> find_node(
+    optional_reference_wrapper<node_intf> find_node(
       const std::string& node_name);
 
     // find input / output
-    eagine::optional_reference_wrapper<input_intf> find_node_input(
+    optional_reference_wrapper<input_intf> find_node_input(
       node_intf& node, span_size_t index);
 
-    eagine::optional_reference_wrapper<output_intf> find_node_output(
+    optional_reference_wrapper<output_intf> find_node_output(
       node_intf& node, span_size_t index);
 
-    eagine::optional_reference_wrapper<input_intf> find_node_input(
+    optional_reference_wrapper<input_intf> find_node_input(
       node_intf& node, string_view iname);
 
-    eagine::optional_reference_wrapper<output_intf> find_node_output(
+    optional_reference_wrapper<output_intf> find_node_output(
       node_intf& node, string_view oname);
 
-    eagine::optional_reference_wrapper<input_intf> find_node_input(
+    optional_reference_wrapper<input_intf> find_node_input(
       const std::string& node_name, span_size_t index);
 
-    eagine::optional_reference_wrapper<output_intf> find_node_output(
+    optional_reference_wrapper<output_intf> find_node_output(
       const std::string& node_name, span_size_t index);
 
-    eagine::optional_reference_wrapper<input_intf> find_node_input(
+    optional_reference_wrapper<input_intf> find_node_input(
       const std::string& node_name, string_view iname);
 
-    eagine::optional_reference_wrapper<output_intf> find_node_output(
+    optional_reference_wrapper<output_intf> find_node_output(
       const std::string& node_name, string_view oname);
 
     // connect to renderer
@@ -204,7 +204,8 @@ public:
 };
 
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/texgen/render_graph.inl>

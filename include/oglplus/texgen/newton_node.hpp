@@ -11,7 +11,8 @@
 
 #include "base_node.hpp"
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 
 enum class newton_function { xe3minus1, xe4minus1 };
@@ -35,8 +36,8 @@ public:
 
     slot_data_type value_type() override;
 
-    std::ostream&
-    definitions(std::ostream& out, compile_context& ctxt) override;
+    std::ostream& definitions(
+      std::ostream& out, compile_context& ctxt) override;
 };
 
 class newton_node : public single_output_node<newton_output> {
@@ -48,7 +49,8 @@ public:
 };
 
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/texgen/newton_node.inl>

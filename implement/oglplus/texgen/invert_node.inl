@@ -11,7 +11,8 @@
 #include <set>
 #include <string>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -47,6 +48,8 @@ std::ostream& invert_output::definitions(
 
     return closing_expr(out, ctxt);
 }
+//------------------------------------------------------------------------------
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 //------------------------------------------------------------------------------

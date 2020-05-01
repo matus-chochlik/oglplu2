@@ -9,9 +9,10 @@
 #ifndef TEXGEN_INPUT_LOCATION_HPP
 #define TEXGEN_INPUT_LOCATION_HPP
 
-#include <oglplus/utils/types.hpp>
+#include <eagine/types.hpp>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 //------------------------------------------------------------------------------
 class input_location {
@@ -43,6 +44,7 @@ private:
 };
 //------------------------------------------------------------------------------
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif // TEXGEN_INPUT_LOCATION_HPP

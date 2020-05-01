@@ -12,7 +12,8 @@
 #include "interface.hpp"
 #include <string>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 namespace expr {
 struct constant_id {
@@ -50,7 +51,8 @@ public:
 };
 
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/texgen/constants.inl>

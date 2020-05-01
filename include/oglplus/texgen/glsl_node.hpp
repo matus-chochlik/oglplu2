@@ -13,7 +13,8 @@
 #include "multi_input_node.hpp"
 #include <map>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 
 class glsl_output : public multi_input_output {
@@ -61,7 +62,8 @@ public:
 };
 
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/texgen/glsl_node.inl>

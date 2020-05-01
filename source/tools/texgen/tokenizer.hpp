@@ -13,7 +13,8 @@
 #include "token_info.hpp"
 #include <regex>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 //------------------------------------------------------------------------------
 class tokenizer {
@@ -35,6 +36,7 @@ private:
 };
 //------------------------------------------------------------------------------
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif // TEXGEN_TOKENIZER_HPP

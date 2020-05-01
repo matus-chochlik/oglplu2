@@ -8,7 +8,8 @@
  */
 #include "token_info.hpp"
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 //------------------------------------------------------------------------------
 string_view token_description(token_kind kind) {
@@ -58,4 +59,5 @@ string_view token_description(token_kind kind) {
 }
 //------------------------------------------------------------------------------
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine

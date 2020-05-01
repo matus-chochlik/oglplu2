@@ -21,7 +21,8 @@
 #include <oglplus/constants.hpp>
 #include <oglplus/operations.hpp>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -29,7 +30,7 @@ void render_node::_init_screen() {
     operations gl;
     constants GL;
 
-    using eagine::memory::typed_nullptr;
+    using memory::typed_nullptr;
 
     if(_data) {
         buffer::delete_(_data);
@@ -256,8 +257,7 @@ bool render_node::render() {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void render_node::set_divisions(
-  const eagine::valid_if_positive<int>& xdiv,
-  const eagine::valid_if_positive<int>& ydiv) {
+  const valid_if_positive<int>& xdiv, const valid_if_positive<int>& ydiv) {
     _xdiv = xdiv.value_or(1);
     _ydiv = ydiv.value_or(1);
     _tile = 0;
@@ -265,12 +265,12 @@ void render_node::set_divisions(
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void render_node::set_dimensions(
-  const eagine::valid_if_positive<int>& width,
-  const eagine::valid_if_positive<int>& height) {
+  const valid_if_positive<int>& width, const valid_if_positive<int>& height) {
     _render_params.width = width.value_or(1);
     _render_params.height = height.value_or(1);
 }
 //------------------------------------------------------------------------------
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 //------------------------------------------------------------------------------

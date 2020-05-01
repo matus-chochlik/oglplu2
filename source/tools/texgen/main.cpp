@@ -11,7 +11,7 @@
 #include <iostream>
 
 static void test(std::istream& input) {
-    using namespace oglplus::texgen;
+    using namespace eagine::oglp::texgen;
 
     tokenizer tzr{input_stream(input)};
 

@@ -8,7 +8,8 @@
  */
 #include <iostream>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -90,7 +91,7 @@ span_size_t data_type_dims(slot_data_type type) noexcept {
 OGLPLUS_LIB_FUNC
 slot_data_type make_data_type(
   scalar_data_type type,
-  const eagine::valid_if_between<span_size_t, 1, 4>& dims) noexcept {
+  const valid_if_between<span_size_t, 1, 4>& dims) noexcept {
     if(dims) {
         switch(type) {
             case scalar_data_type::bool_:
@@ -214,21 +215,22 @@ namespace expr {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 std::ostream& operator<<(std::ostream& out, conversion_prefix e) {
-    return oglplus::texgen::conversion_prefix(out, e.from, e.to);
+    return oglp::texgen::conversion_prefix(out, e.from, e.to);
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 std::ostream& operator<<(std::ostream& out, conversion_suffix e) {
-    return oglplus::texgen::conversion_suffix(out, e.from, e.to);
+    return oglp::texgen::conversion_suffix(out, e.from, e.to);
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 std::ostream& operator<<(std::ostream& out, conversion_suffix_v e) {
-    return oglplus::texgen::conversion_suffix(
+    return oglp::texgen::conversion_suffix(
       out, e.from, e.to, e.val[0], e.val[1], e.val[2], e.val[3]);
 }
 //------------------------------------------------------------------------------
 } // namespace expr
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 //------------------------------------------------------------------------------

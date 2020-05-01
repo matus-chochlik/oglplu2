@@ -13,7 +13,8 @@
 #include "token_info.hpp"
 #include <memory>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 //------------------------------------------------------------------------------
 struct semantic_actions_intf {
@@ -51,6 +52,7 @@ private:
 };
 //------------------------------------------------------------------------------
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif // TEXGEN_SEMANTIC_ACTIONS_HPP

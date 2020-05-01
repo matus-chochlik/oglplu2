@@ -10,12 +10,13 @@
 #define TEXGEN_INPUT_STREAM_HPP
 
 #include "input_location.hpp"
-#include <oglplus/utils/string_span.hpp>
+#include <eagine/string_span.hpp>
 #include <iosfwd>
 #include <iterator>
 #include <memory>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 //------------------------------------------------------------------------------
 struct input_stream_intf {
@@ -153,6 +154,7 @@ private:
 };
 //------------------------------------------------------------------------------
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif // TEXGEN_INPUT_STREAM_HPP

@@ -10,7 +10,8 @@
 #include "parser.hpp"
 #include "token_stream.hpp"
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 //------------------------------------------------------------------------------
 void parser::begin() {
@@ -47,4 +48,5 @@ void parser::finish() {
 }
 //------------------------------------------------------------------------------
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine

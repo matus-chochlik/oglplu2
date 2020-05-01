@@ -17,7 +17,8 @@
 #include "fallback_input.hpp"
 #include <eagine/valid_if/positive.hpp>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 
 class render_node : public base_node {
@@ -67,16 +68,16 @@ public:
     bool render();
 
     void set_divisions(
-      const eagine::valid_if_positive<int>& xdiv,
-      const eagine::valid_if_positive<int>& ydiv);
+      const valid_if_positive<int>& xdiv, const valid_if_positive<int>& ydiv);
 
     void set_dimensions(
-      const eagine::valid_if_positive<int>& width,
-      const eagine::valid_if_positive<int>& height);
+      const valid_if_positive<int>& width,
+      const valid_if_positive<int>& height);
 };
 
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/texgen/render_node.inl>
