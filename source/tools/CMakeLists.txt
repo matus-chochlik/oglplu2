@@ -30,8 +30,16 @@ endif()
 
 add_executable(bake_shader_source bake_shader_source.cpp)
 eagine_add_exe_analysis(bake_shader_source)
+target_link_libraries(
+	bake_shader_source
+	PUBLIC eagine
+)
 
 add_executable(bake_program_source bake_program_source.cpp)
 eagine_add_exe_analysis(bake_program_source)
+target_link_libraries(
+	bake_program_source
+	PUBLIC eagine
+)
 
 add_subdirectory(texgen)

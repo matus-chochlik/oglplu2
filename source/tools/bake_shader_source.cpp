@@ -7,6 +7,7 @@
 
 #include <eagine/data_baking.hpp>
 #include <eagine/input_data.hpp>
+#include <eagine/main.hpp>
 #include <eagine/program_args.hpp>
 #include <eagine/valid_if/not_empty.hpp>
 #include <eagine/valid_if/one_of.hpp>
@@ -14,12 +15,13 @@
 #include <oglplus/utils/program_file_hdr.hpp>
 #include <fstream>
 #include <iostream>
+
+namespace eagine {
 //------------------------------------------------------------------------------
 struct options {
-    using _str_param_t = eagine::program_parameter<
-      eagine::valid_if_not_empty<eagine::string_view>>;
+    using _str_param_t = program_parameter<valid_if_not_empty<string_view>>;
 
-    using _sht_param_t = eagine::program_parameter<eagine::valid_if_one_of<
+    using _sht_param_t = program_parameter<valid_if_one_of<
       GLenum,
       GL_VERTEX_SHADER,
 #ifdef GL_GEOMETRY_SHADER
@@ -41,8 +43,8 @@ struct options {
     _sht_param_t shader_type;
 
     options()
-      : input_path("-i", "--input", eagine::string_view())
-      , output_path("-o", "--output", eagine::string_view("a.oglpshdr"))
+      : input_path("-i", "--input", string_view())
+      , output_path("-o", "--output", string_view("a.oglpshdr"))
       , shader_type("-t", "--shader-type", GL_NONE) {
     }
 
@@ -77,23 +79,22 @@ struct options {
                shader_type.validate(log);
     }
 
-    bool parse(eagine::program_arg& a, std::ostream& log) {
-        const eagine::string_view shader_type_names[] = {"vertex",
+    bool parse(program_arg& a, std::ostream& log) {
+        const string_view shader_type_names[] = {"vertex",
 #ifdef GL_GEOMETRY_SHADER
-                                                         "geometry",
+                                                 "geometry",
 #endif
 #ifdef GL_TESS_CONTROL_SHADER
-                                                         "tess_control",
+                                                 "tess_control",
 #endif
 #ifdef GL_TESS_EVALUATION_SHADER
-                                                         "tess_evaluation",
+                                                 "tess_evaluation",
 #endif
 #ifdef GL_COMPUTE_SHADER
-                                                         "compute",
+                                                 "compute",
 #endif
-                                                         "fragment"};
-        const eagine::span<const eagine::string_view> shtnames =
-          eagine::view(shader_type_names);
+                                                 "fragment"};
+        const span<const string_view> shtnames = view(shader_type_names);
 
         const GLenum shader_type_values[] = {GL_VERTEX_SHADER,
 #ifdef GL_GEOMETRY_SHADER
@@ -109,8 +110,7 @@ struct options {
                                              GL_COMPUTE_SHADER,
 #endif
                                              GL_FRAGMENT_SHADER};
-        const eagine::span<const GLenum> shtvalues =
-          eagine::view(shader_type_values);
+        const span<const GLenum> shtvalues = view(shader_type_values);
 
         return a.parse_param(output_path, log) ||
                a.parse_param(input_path, log) ||
@@ -120,41 +120,37 @@ struct options {
 //------------------------------------------------------------------------------
 void write_output(
   std::istream& input, std::ostream& output, const options& opts) {
-    oglplus::shader_source_header hdr;
+    oglp::shader_source_header hdr;
 
-    eagine::memory::buffer source_text;
-    eagine::read_stream_data(input, source_text);
+    memory::buffer source_text;
+    read_stream_data(input, source_text);
 
-    eagine::memory::buffer buf;
+    memory::buffer buf;
     buf.resize(
-      eagine::span_size(sizeof(oglplus::shader_source_header)) +
-      source_text.size() * 2);
+      span_size(sizeof(oglp::shader_source_header)) + source_text.size() * 2);
 
-    eagine::data_bake_arena bakery(buf);
+    data_bake_arena bakery(buf);
 
-    auto& shdr_src_hdr = bakery.make<oglplus::shader_source_header>();
+    auto& shdr_src_hdr = bakery.make<oglp::shader_source_header>();
 
     shdr_src_hdr.shader_type = opts.shader_type.value();
-    shdr_src_hdr.source_text =
-      bakery.copy_array(eagine::memory::accomodate<const GLchar>(
-        eagine::memory::const_block(source_text)));
+    shdr_src_hdr.source_text = bakery.copy_array(
+      memory::accomodate<const GLchar>(memory::const_block(source_text)));
 
-    eagine::write_to_stream(output, bakery.baked_data());
+    write_to_stream(output, bakery.baked_data());
 }
 //------------------------------------------------------------------------------
-int parse_options(int argc, const char** argv, options& opts);
+int parse_options(const program_args& args, options& opts);
 //------------------------------------------------------------------------------
-int run(int argc, const char** argv) {
+int run(const program_args& args) {
     options opts;
 
-    if(int err = parse_options(argc, argv, opts)) {
+    if(int err = parse_options(args, opts)) {
         return err;
     }
 
-    bool from_stdin =
-      are_equal(opts.input_path.value(), eagine::string_view("-"));
-    bool to_stdout =
-      are_equal(opts.output_path.value(), eagine::string_view("-"));
+    bool from_stdin = are_equal(opts.input_path.value(), string_view("-"));
+    bool to_stdout = are_equal(opts.output_path.value(), string_view("-"));
 
     if(from_stdin && to_stdout) {
         write_output(std::cin, std::cout, opts);
@@ -172,17 +168,17 @@ int run(int argc, const char** argv) {
     return 0;
 }
 //------------------------------------------------------------------------------
-int main(int argc, const char** argv) {
+int main(main_ctx& ctx) {
 
     try {
-        return run(argc, argv);
+        return run(ctx.args());
     } catch(std::exception& err) {
         std::cerr << "Error: " << err.what() << std::endl;
     }
     return 1;
 }
 //------------------------------------------------------------------------------
-bool parse_argument(eagine::program_arg& a, options& opts) {
+bool parse_argument(program_arg& a, options& opts) {
 
     if(!opts.parse(a, std::cerr)) {
         std::cerr << "Failed to parse argument '" << a.get() << "'"
@@ -192,9 +188,7 @@ bool parse_argument(eagine::program_arg& a, options& opts) {
     return true;
 }
 //------------------------------------------------------------------------------
-int parse_options(int argc, const char** argv, options& opts) {
-
-    eagine::program_args args(argc, argv);
+int parse_options(const program_args& args, options& opts) {
 
     for(auto a = args.first(); a; a = a.next()) {
         if(a.is_help_arg()) {
@@ -214,3 +208,4 @@ int parse_options(int argc, const char** argv, options& opts) {
     return 0;
 }
 //------------------------------------------------------------------------------
+} // namespace eagine
