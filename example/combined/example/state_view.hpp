@@ -10,9 +10,9 @@
 #define OGLPLUS_EXAMPLE_STATE_VIEW_HPP
 
 #include <eagine/assert.hpp>
+#include <eagine/quantities.hpp>
 #include <eagine/valid_if/positive.hpp>
 #include <eagine/value_with_history.hpp>
-#include <oglplus/utils/quantities.hpp>
 
 namespace eagine {
 //------------------------------------------------------------------------------

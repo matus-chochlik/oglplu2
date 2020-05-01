@@ -7,7 +7,6 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/memory/null_ptr.hpp>
-#include <oglplus/utils/gl_func.hpp>
 
 namespace eagine {
 namespace oglp {

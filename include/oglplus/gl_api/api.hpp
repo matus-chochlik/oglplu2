@@ -10,11 +10,11 @@
 #define OGLPLUS_GL_API_API_HPP
 
 #include "../glsl/source_ref.hpp"
-#include "../utils/quantities.hpp"
 #include "c_api.hpp"
 #include "enum_types.hpp"
 #include "object_name.hpp"
 #include "prog_var_loc.hpp"
+#include <eagine/quantities.hpp>
 #include <eagine/scope_exit.hpp>
 #include <eagine/string_list.hpp>
 #include <oglplus/utils/buffer_data.hpp>

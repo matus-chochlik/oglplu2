@@ -10,10 +10,10 @@
 #define OGLPLUS_EXAMPLE_PARAMS_HPP
 
 #include <eagine/assert.hpp>
+#include <eagine/quantities.hpp>
 #include <eagine/string_span.hpp>
 #include <eagine/valid_if/not_empty.hpp>
 #include <eagine/valid_if/positive.hpp>
-#include <oglplus/utils/quantities.hpp>
 
 namespace eagine {
 
