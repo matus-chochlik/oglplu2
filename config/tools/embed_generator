@@ -39,6 +39,16 @@ class EmberArgumentParser(argparse.ArgumentParser):
         )
 
         self.add_argument(
+            '-s', '--search',
+            dest='search_path',
+            metavar='DIRECTORY',
+            nargs='?',
+            type=os.path.realpath,
+            default=[],
+            action="append"
+        )
+
+        self.add_argument(
             '-l', '--max-line-len',
             dest='max_line_len',
             metavar='COLUMNS',
@@ -83,7 +93,14 @@ def make_res_code(options, ident, path):
     options.output.write("        static const byte res[] = {\n")
     linelen = 0
     first = True
-    with open(path, "rb") as rfd:
+    resource_path = path
+    if not os.path.isfile(resource_path):
+        for search_dir in options.search_path:
+            if os.path.isfile(os.path.join(search_dir, path)):
+                resource_path = os.path.realpath(os.path.join(search_dir, path))
+                break
+    
+    with open(resource_path, "rb") as rfd:
         while True:
             byte = rfd.read(1)
             if not byte:
