@@ -117,7 +117,7 @@ bool example_orbiting_camera::apply_pointer_scrolling(
 //------------------------------------------------------------------------------
 example_orbiting_camera& example_orbiting_camera::update_orbit(
   float inc) noexcept {
-    _orbit_factor += inc;
+    _orbit_factor += (inc * _orbit_dir);
     if(_orbit_factor > 1.f) {
         _orbit_factor = 1.f;
         _orbit_dir.flip();
