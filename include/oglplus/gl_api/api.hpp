@@ -375,7 +375,7 @@ public:
             return cleanup.add_ret(bind(sync));
         }
 
-        auto raii(sync_type& sync) noexcept {
+        auto raii(sync_type& sync) const noexcept {
             return eagine::finally(bind(sync));
         }
     } delete_sync;
@@ -408,7 +408,7 @@ public:
             return cleanup.add_ret(bind(name));
         }
 
-        auto raii(gl_owned_object_name<ObjTag>& name) noexcept {
+        auto raii(gl_owned_object_name<ObjTag>& name) const noexcept {
             return eagine::finally(bind(name));
         }
     };
@@ -428,7 +428,7 @@ public:
             return cleanup.add_ret(bind(name));
         }
 
-        auto raii(owned_shader_name& name) noexcept {
+        auto raii(owned_shader_name& name) const noexcept {
             return eagine::finally(bind(name));
         }
     } delete_shader;
@@ -448,7 +448,7 @@ public:
             return cleanup.add_ret(bind(name));
         }
 
-        auto raii(owned_program_name& name) noexcept {
+        auto raii(owned_program_name& name) const noexcept {
             return eagine::finally(bind(name));
         }
     } delete_program;
@@ -485,7 +485,7 @@ public:
             return this->_chkcall(name.release(), 1);
         }
 
-        auto raii(owned_path_nv_name& name) noexcept {
+        auto raii(owned_path_nv_name& name) const noexcept {
             return eagine::finally([this, &name]() { (*this)(name); });
         }
     } delete_paths_nv;

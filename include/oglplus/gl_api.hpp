@@ -13,6 +13,8 @@
 #include "gl_api/api_traits.hpp"
 #include "gl_api/constants.hpp"
 #include "gl_api_fwd.hpp"
+//
+#include "utils/program_file.hpp"
 
 namespace eagine {
 namespace oglp {
@@ -76,6 +78,24 @@ public:
     // convenience functions
     constexpr true_false true_or_false(bool b) const noexcept {
         return b ? true_false(this->true_) : true_false(this->false_);
+    }
+
+    // build program
+    combined_result<void> build_program(
+      program_name prog, const program_source_block& prog_src_blk) const {
+        if(prog_src_blk.is_valid()) {
+            const span_size_t n = prog_src_blk.shader_source_count();
+            for(span_size_t i = 0; i < n; ++i) {
+                auto shdr_src_blk{prog_src_blk.shader_source(i)};
+                owned_shader_name shdr;
+                this->create_shader(shdr_src_blk.type()) >> shdr;
+                auto cleanup = this->delete_shader.raii(shdr);
+                this->shader_source(shdr, shdr_src_blk);
+                this->compile_shader(shdr);
+                this->attach_shader(prog, shdr);
+            }
+        }
+        return this->link_program(prog);
     }
 
     // set_uniform

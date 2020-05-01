@@ -34,14 +34,26 @@ private:
     static RV _cls_fn_call_op(void* that, P... p) {
         EAGINE_ASSERT(that);
         C& obj = *(static_cast<C*>(that));
-        return obj(std::forward<P>(p)...);
+
+        // NOLINTNEXTLINE(hicpp-braces-around-statements,readability-braces-around-statements)
+        if constexpr(std::is_void_v<RV>) {
+            obj(std::forward<P>(p)...);
+        } else {
+            return obj(std::forward<P>(p)...);
+        }
     }
 
     template <typename C>
     static RV _cls_fn_call_op_c(void* that, P... p) {
         EAGINE_ASSERT(that);
         const C& obj = *(static_cast<const C*>(that));
-        return obj(std::forward<P>(p)...);
+
+        // NOLINTNEXTLINE(hicpp-braces-around-statements,readability-braces-around-statements)
+        if constexpr(std::is_void_v<RV>) {
+            obj(std::forward<P>(p)...);
+        } else {
+            return obj(std::forward<P>(p)...);
+        }
     }
 
 public:

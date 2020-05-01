@@ -26,7 +26,7 @@ private:
     structured_memory_block<const shader_source_header> _header;
 
 public:
-    shader_source_block(const_memory_block blk)
+    shader_source_block(memory::const_block blk)
       : _header(blk) {
     }
 
@@ -38,7 +38,7 @@ public:
         return _header->magic.is_valid();
     }
 
-    auto shader_type() const noexcept {
+    shader_type type() const noexcept {
         EAGINE_ASSERT(is_valid());
         return shader_type(_header->shader_type);
     }
@@ -78,7 +78,7 @@ private:
     structured_memory_block<const program_source_header> _header;
 
 public:
-    program_source_block(const_memory_block blk)
+    program_source_block(memory::const_block blk)
       : _header(blk) {
     }
 
@@ -95,18 +95,6 @@ public:
         EAGINE_ASSERT(is_valid());
         EAGINE_ASSERT(index < _header->shader_sources.size());
         return {_header->shader_sources[index]};
-    }
-
-    shader_type shader_type(span_size_t index) const noexcept {
-        EAGINE_ASSERT(is_valid());
-        EAGINE_ASSERT(index < shader_source_count());
-        return shader_type(_header->shader_sources[index]->shader_type);
-    }
-
-    string_view shader_source_text(span_size_t index) const noexcept {
-        EAGINE_ASSERT(is_valid());
-        EAGINE_ASSERT(index < shader_source_count());
-        return {_header->shader_sources[index]->source_text};
     }
 };
 //------------------------------------------------------------------------------
