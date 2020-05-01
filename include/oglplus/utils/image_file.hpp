@@ -12,14 +12,15 @@
 
 #include "image_file_hdr.hpp"
 #include "image_spec.hpp"
-#include "string_span.hpp"
 #include <eagine/file_contents.hpp>
+#include <eagine/string_span.hpp>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 
 class texture_image_file {
 private:
-    eagine::structured_file_content<image_data_header> _header;
+    structured_file_content<image_data_header> _header;
 
 public:
     texture_image_file(string_view path)
@@ -30,7 +31,7 @@ public:
       : _header(string_view(path)) {
     }
 
-    texture_image_file(eagine::file_contents&& fc)
+    texture_image_file(file_contents&& fc)
       : _header(std::move(fc)) {
     }
 
@@ -74,6 +75,7 @@ public:
     }
 };
 
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif // OGLPLUS_UTILS_IMAGE_FILE_HPP

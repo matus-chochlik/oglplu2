@@ -5,6 +5,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+#include <eagine/main.hpp>
 #include <eagine/program_args.hpp>
 #include <eagine/valid_if/positive.hpp>
 #include <oglplus/gl.hpp>
@@ -13,12 +14,14 @@
 #include <fstream>
 #include <random>
 
+namespace eagine {
+//------------------------------------------------------------------------------
 struct options {
-    using _str_param_t = eagine::program_parameter<eagine::string_view>;
-    using _pos_int_t = eagine::valid_if_positive<GLsizei>;
-    using _int_param_t = eagine::program_parameter<_pos_int_t>;
-    using _int_alias_t = eagine::program_parameter_alias<_pos_int_t>;
-    using _opt_param_t = eagine::program_option;
+    using _str_param_t = program_parameter<string_view>;
+    using _pos_int_t = valid_if_positive<GLsizei>;
+    using _int_param_t = program_parameter<_pos_int_t>;
+    using _int_alias_t = program_parameter_alias<_pos_int_t>;
+    using _opt_param_t = program_option;
 
     _str_param_t output_path;
     _int_param_t components;
@@ -28,7 +31,7 @@ struct options {
     _int_param_t depth;
     _opt_param_t verbosity;
 
-    eagine::program_parameters all;
+    program_parameters all;
 
     options()
       : output_path("-o", "--output", "a.oglptex")
@@ -64,14 +67,12 @@ struct options {
         return all.validate(log);
     }
 
-    bool parse(eagine::program_arg& a, std::ostream& log) {
-        const eagine::string_view fmtnamevals[] = {
-          "R8", "RG8", "RGB8", "RGBA8"};
-        const eagine::span<const eagine::string_view> fmtnames =
-          eagine::view(fmtnamevals);
+    bool parse(program_arg& a, std::ostream& log) {
+        const string_view fmtnamevals[] = {"R8", "RG8", "RGB8", "RGBA8"};
+        const span<const string_view> fmtnames = view(fmtnamevals);
 
         const GLsizei cmpbytevals[] = {1, 2, 3, 4};
-        const eagine::span<const GLsizei> cmpbytes = eagine::view(cmpbytevals);
+        const span<const GLsizei> cmpbytes = view(cmpbytevals);
 
         return a.parse_param(output_path, log) ||
                a.parse_param(components, cmpbytes, log) ||
@@ -80,9 +81,9 @@ struct options {
                a.parse_param(depth, log) || a.parse_param(verbosity, log);
     }
 };
-
+//------------------------------------------------------------------------------
 void write_output(std::ostream& output, const options& opts) {
-    oglplus::image_data_header hdr(opts.width, opts.height, opts.depth);
+    oglp::image_data_header hdr(opts.width, opts.height, opts.depth);
     switch(opts.components.value()) {
         case 1:
             hdr.format = GL_RED;
@@ -104,33 +105,33 @@ void write_output(std::ostream& output, const options& opts) {
 
     hdr.data_type = GL_UNSIGNED_BYTE;
 
-    const auto size = eagine::span_size(
+    const auto size = span_size(
       opts.width.value() * opts.height.value() * opts.depth.value() *
       opts.components.value());
 
-    oglplus::write_and_pad_texture_image_data_header(output, hdr, size);
+    oglp::write_and_pad_texture_image_data_header(output, hdr, size);
 
     const unsigned mask = ((1u << unsigned(CHAR_BIT)) - 1u);
 
     std::random_device rd;
     std::independent_bits_engine<std::mt19937, CHAR_BIT, unsigned> ibe(rd());
 
-    for(eagine::span_size_t i = 0; i < size; ++i) {
+    for(span_size_t i = 0; i < size; ++i) {
         output.put(char(ibe() & mask));
     }
 }
-
-int parse_options(int argc, const char** argv, options& opts);
-
-int main(int argc, const char** argv) {
+//------------------------------------------------------------------------------
+int parse_options(const program_args& args, options& opts);
+//------------------------------------------------------------------------------
+int main(main_ctx& ctx) {
     try {
         options opts;
 
-        if(int err = parse_options(argc, argv, opts)) {
+        if(int err = parse_options(ctx.args(), opts)) {
             return err;
         }
 
-        if(are_equal(opts.output_path.value(), eagine::string_view("-"))) {
+        if(are_equal(opts.output_path.value(), string_view("-"))) {
             write_output(std::cout, opts);
         } else {
             std::ofstream output_file(c_str(opts.output_path.value()));
@@ -141,8 +142,8 @@ int main(int argc, const char** argv) {
     }
     return 0;
 }
-
-bool parse_argument(eagine::program_arg& a, options& opts) {
+//------------------------------------------------------------------------------
+bool parse_argument(program_arg& a, options& opts) {
 
     if(!opts.parse(a, std::cerr)) {
         std::cerr << "Failed to parse argument '" << a.get() << "'"
@@ -151,11 +152,10 @@ bool parse_argument(eagine::program_arg& a, options& opts) {
     }
     return true;
 }
+//------------------------------------------------------------------------------
+int parse_options(const program_args& args, options& opts) {
 
-int parse_options(int argc, const char** argv, options& opts) {
-    eagine::program_args args(argc, argv);
-
-    for(eagine::program_arg a = args.first(); a; a = a.next()) {
+    for(program_arg a = args.first(); a; a = a.next()) {
 
         if(a.is_help_arg()) {
             opts.print_usage(std::cout);
@@ -173,3 +173,5 @@ int parse_options(int argc, const char** argv, options& opts) {
 
     return 0;
 }
+//------------------------------------------------------------------------------
+} // namespace eagine

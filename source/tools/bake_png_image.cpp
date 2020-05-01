@@ -5,6 +5,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+#include <eagine/main.hpp>
 #include <eagine/program_args.hpp>
 #include <eagine/valid_if/not_empty.hpp>
 #include <oglplus/gl.hpp>
@@ -16,25 +17,26 @@
 #include <stdexcept>
 #include <vector>
 
+namespace eagine {
+//------------------------------------------------------------------------------
 #ifdef GL_RGBA16
 constexpr const bool has_rgba16 = true;
 #else
 constexpr const bool has_rgba16 = false;
 #endif
-
+//------------------------------------------------------------------------------
 // program options
 struct options {
-    using _str_param_t = eagine::program_parameter<
-      eagine::valid_if_not_empty<eagine::string_view>>;
+    using _str_param_t = program_parameter<valid_if_not_empty<string_view>>;
 
     _str_param_t input_path;
     _str_param_t output_path;
 
-    eagine::program_parameters all;
+    program_parameters all;
 
     options()
-      : input_path("-i", "--input", eagine::string_view())
-      , output_path("-o", "--output", eagine::string_view("a.oglptex"))
+      : input_path("-i", "--input", string_view())
+      , output_path("-o", "--output", string_view("a.oglptex"))
       , all(input_path, output_path) {
         input_path.description(
           "Path to existing PNG input file, or '-' for standard input.");
@@ -50,17 +52,17 @@ struct options {
         return all.validate(log);
     }
 
-    bool parse(eagine::program_arg& arg, std::ostream& log) {
+    bool parse(program_arg& arg, std::ostream& log) {
         return all.parse(arg, log);
     }
 };
-
+//------------------------------------------------------------------------------
 // png_header_validator
 class png_header_validator {
 public:
     explicit png_header_validator(std::istream& input);
 };
-
+//------------------------------------------------------------------------------
 class png_read_driver;
 
 // png_read_struct
@@ -82,7 +84,7 @@ public:
     png_read_struct& operator=(const png_read_struct&) = delete;
     ~png_read_struct() noexcept;
 };
-
+//------------------------------------------------------------------------------
 // png_read_info_struct
 class png_read_info_struct : public png_read_struct {
 protected:
@@ -110,7 +112,7 @@ public:
     void set_tRNS_to_alpha();
     png_uint_32 get_valid(png_uint_32);
 };
-
+//------------------------------------------------------------------------------
 // png_read_info_end_struct
 class png_read_info_end_struct : public png_read_info_struct {
 protected:
@@ -128,9 +130,8 @@ public:
       delete;
     ~png_read_info_end_struct() noexcept;
 };
-
+//------------------------------------------------------------------------------
 class png_reader;
-
 // png_read_driver
 class png_read_driver {
 private:
@@ -147,7 +148,7 @@ private:
 public:
     explicit png_read_driver(png_reader& reader);
 };
-
+//------------------------------------------------------------------------------
 // png_reader
 class png_reader {
 private:
@@ -183,7 +184,7 @@ public:
     GLenum gl_format();
     GLenum gl_iformat();
 };
-
+//------------------------------------------------------------------------------
 void convert_image(
   std::istream& input, std::ostream& output, const options& /*opts*/
 ) {
@@ -192,7 +193,7 @@ void convert_image(
     int width = int(reader.image_width());
     int height = int(reader.image_height());
 
-    oglplus::image_data_header hdr(width, height, 1);
+    oglp::image_data_header hdr(width, height, 1);
 
     hdr.data_type = reader.gl_data_type();
     hdr.format = reader.gl_format();
@@ -201,10 +202,9 @@ void convert_image(
     auto row_size = reader.row_bytes();
     auto size = reader.data_size();
 
-    oglplus::write_and_pad_texture_image_data_header(
-      output, hdr, eagine::span_size(size));
+    oglp::write_and_pad_texture_image_data_header(output, hdr, span_size(size));
 
-    std::vector<::png_byte> buffer(eagine::std_size(size));
+    std::vector<::png_byte> buffer(std_size(size));
 
     for(png_uint_32 r = 0, h = reader.image_height(); r < h; ++r) {
         reader.read_row(buffer.data() + (h - 1 - r) * row_size);
@@ -214,21 +214,19 @@ void convert_image(
       reinterpret_cast<const char*>(buffer.data()),
       static_cast<std::streamsize>(buffer.size()));
 }
-
-int parse_options(int argc, const char** argv, options& opts);
-
-int main(int argc, const char** argv) {
+//------------------------------------------------------------------------------
+int parse_options(const program_args& args, options& opts);
+//------------------------------------------------------------------------------
+int main(main_ctx& ctx) {
     try {
         options opts;
 
-        if(int err = parse_options(argc, argv, opts)) {
+        if(int err = parse_options(ctx.args(), opts)) {
             return err;
         }
 
-        bool from_stdin =
-          are_equal(opts.input_path.value(), eagine::string_view("-"));
-        bool to_stdout =
-          are_equal(opts.output_path.value(), eagine::string_view("-"));
+        bool from_stdin = are_equal(opts.input_path.value(), string_view("-"));
+        bool to_stdout = are_equal(opts.output_path.value(), string_view("-"));
 
         if(from_stdin && to_stdout) {
             convert_image(std::cin, std::cout, opts);
@@ -248,8 +246,8 @@ int main(int argc, const char** argv) {
     }
     return 0;
 }
-
-bool parse_argument(eagine::program_arg& a, options& opts) {
+//------------------------------------------------------------------------------
+bool parse_argument(program_arg& a, options& opts) {
     if(!opts.parse(a, std::cerr)) {
         std::cerr << "Failed to parse argument '" << a.get() << "'"
                   << std::endl;
@@ -257,11 +255,10 @@ bool parse_argument(eagine::program_arg& a, options& opts) {
     }
     return true;
 }
+//------------------------------------------------------------------------------
+int parse_options(const program_args& args, options& opts) {
 
-int parse_options(int argc, const char** argv, options& opts) {
-    eagine::program_args args(argc, argv);
-
-    for(eagine::program_arg a = args.first(); a; a = a.next()) {
+    for(program_arg a = args.first(); a; a = a.next()) {
         if(a.is_help_arg()) {
             opts.print_usage(std::cout);
             return 1;
@@ -278,7 +275,7 @@ int parse_options(int argc, const char** argv, options& opts) {
 
     return 0;
 }
-
+//------------------------------------------------------------------------------
 png_header_validator::png_header_validator(std::istream& input) {
     if(!input.good()) {
         throw std::runtime_error("Unable to read PNG input stream");
@@ -296,16 +293,16 @@ png_header_validator::png_header_validator(std::istream& input) {
         throw std::runtime_error("Invalid PNG signature");
     }
 }
-
+//------------------------------------------------------------------------------
 [[noreturn]] void png_read_struct::_handle_error(
   ::png_structp, const char* message) {
     throw ::std::runtime_error(message);
 }
-
+//------------------------------------------------------------------------------
 void png_read_struct::_handle_warning(::png_structp, const char* message) {
     ::std::cerr << "libpng warning: " << message << ::std::endl;
 }
-
+//------------------------------------------------------------------------------
 png_read_struct::png_read_struct()
   : _read(::png_create_read_struct(
       PNG_LIBPNG_VER_STRING,
@@ -316,14 +313,14 @@ png_read_struct::png_read_struct()
         throw std::runtime_error("Unable to create PNG read struct");
     }
 }
-
+//------------------------------------------------------------------------------
 png_read_struct::~png_read_struct() noexcept {
     try {
         ::png_destroy_read_struct(&_read, nullptr, nullptr);
     } catch(...) {
     }
 }
-
+//------------------------------------------------------------------------------
 png_read_info_struct::png_read_info_struct()
   : png_read_struct()
   , _info(::png_create_info_struct(_read)) {
@@ -331,54 +328,54 @@ png_read_info_struct::png_read_info_struct()
         throw std::runtime_error("Unable to create PNG info struct");
     }
 }
-
+//------------------------------------------------------------------------------
 png_read_info_struct::~png_read_info_struct() noexcept {
     try {
         ::png_destroy_read_struct(&_read, &_info, nullptr);
     } catch(...) {
     }
 }
-
+//------------------------------------------------------------------------------
 png_uint_32 png_read_info_struct::row_bytes() {
     return png_uint_32(::png_get_rowbytes(_read, _info));
 }
-
+//------------------------------------------------------------------------------
 png_uint_32 png_read_info_struct::image_width() {
     return ::png_get_image_width(_read, _info);
 }
-
+//------------------------------------------------------------------------------
 png_uint_32 png_read_info_struct::image_height() {
     return ::png_get_image_height(_read, _info);
 }
-
+//------------------------------------------------------------------------------
 png_byte png_read_info_struct::bit_depth() {
     return ::png_get_bit_depth(_read, _info);
 }
-
+//------------------------------------------------------------------------------
 png_byte png_read_info_struct::channels() {
     return ::png_get_channels(_read, _info);
 }
-
+//------------------------------------------------------------------------------
 png_byte png_read_info_struct::color_type() {
     return ::png_get_color_type(_read, _info);
 }
-
+//------------------------------------------------------------------------------
 void png_read_info_struct::set_palette_to_rgb() {
     ::png_set_palette_to_rgb(_read);
 }
-
+//------------------------------------------------------------------------------
 void png_read_info_struct::set_expand_gray_1_2_4_to_8() {
     ::png_set_expand_gray_1_2_4_to_8(_read);
 }
-
+//------------------------------------------------------------------------------
 void png_read_info_struct::set_tRNS_to_alpha() {
     ::png_set_tRNS_to_alpha(_read);
 }
-
+//------------------------------------------------------------------------------
 png_uint_32 png_read_info_struct::get_valid(png_uint_32 flag) {
     return ::png_get_valid(_read, _info, flag);
 }
-
+//------------------------------------------------------------------------------
 png_read_info_end_struct::png_read_info_end_struct()
   : png_read_info_struct()
   , _endi(::png_create_info_struct(_read)) {
@@ -386,29 +383,29 @@ png_read_info_end_struct::png_read_info_end_struct()
         throw std::runtime_error("Unable to create PNG end info struct");
     }
 }
-
+//------------------------------------------------------------------------------
 png_read_info_end_struct::~png_read_info_end_struct() noexcept {
     try {
         ::png_destroy_read_struct(&_read, &_info, &_endi);
     } catch(...) {
     }
 }
-
+//------------------------------------------------------------------------------
 void png_read_driver::_read_data(
   ::png_structp png, ::png_bytep data, ::png_size_t size) {
     ::png_voidp p = ::png_get_io_ptr(png);
     assert(p != nullptr); // NOLINT
     (reinterpret_cast<png_reader*>(p))->do_read_data(data, size);
 }
-
+//------------------------------------------------------------------------------
 int png_read_driver::_read_user_chunk(::png_structp, ::png_unknown_chunkp) {
     return 0;
 }
-
+//------------------------------------------------------------------------------
 void png_read_driver::_read_row(::png_bytep data) {
     ::png_read_row(_png._read, data, nullptr);
 }
-
+//------------------------------------------------------------------------------
 png_read_driver::png_read_driver(png_reader& reader)
   : _png(reader._png) {
     ::png_set_read_fn(_png._read, &reader, &_read_data);
@@ -420,7 +417,7 @@ png_read_driver::png_read_driver(png_reader& reader)
     ::png_set_sig_bytes(_png._read, sig_size);
     ::png_read_info(_png._read, _png._info);
 }
-
+//------------------------------------------------------------------------------
 png_reader::png_reader(std::istream& input)
   : _input(input)
   , _validator(_input)
@@ -443,7 +440,7 @@ png_reader::png_reader(std::istream& input)
         _driver._png.set_tRNS_to_alpha();
     }
 }
-
+//------------------------------------------------------------------------------
 GLenum png_reader::gl_data_type() {
     switch(_driver._png.bit_depth()) {
         case 1:
@@ -464,7 +461,7 @@ GLenum png_reader::gl_data_type() {
 
     return GL_NONE;
 }
-
+//------------------------------------------------------------------------------
 GLenum png_reader::gl_format() {
     switch(_driver._png.color_type()) {
         case PNG_COLOR_TYPE_GRAY:
@@ -479,7 +476,7 @@ GLenum png_reader::gl_format() {
         default: { throw std::runtime_error("Unsupported PNG color type"); }
     }
 }
-
+//------------------------------------------------------------------------------
 GLenum png_reader::gl_iformat() {
     if(_driver._png.bit_depth() == 16) {
         if(has_rgba16) {
@@ -513,10 +510,12 @@ GLenum png_reader::gl_iformat() {
 
     return GL_NONE;
 }
-
+//------------------------------------------------------------------------------
 void png_reader::do_read_data(::png_bytep data, ::png_size_t size) {
     _input.read(reinterpret_cast<char*>(data), std::streamsize(size));
     if(!_input.good()) {
         throw std::runtime_error("Unable to read PNG data");
     }
 }
+//------------------------------------------------------------------------------
+} // namespace eagine
