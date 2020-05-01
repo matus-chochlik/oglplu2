@@ -11,16 +11,10 @@
 
 #include "main_ctx.hpp"
 
-namespace eagine {
-
-int main(main_ctx& ctx);
-
-} // namespace eagine
-
 // NOLINTNEXTLINE(misc-definitions-in-headers)
 int main(int argc, const char** argv) {
-    eagine::main_ctx ctx{argc, argv};
-    return eagine::main(ctx);
+    eagine::main_ctx_options options;
+    return eagine::main_impl(argc, argv, options);
 }
 
 #endif // EAGINE_MAIN_HPP

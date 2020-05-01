@@ -12,19 +12,28 @@
 
 #include "../program_args.hpp"
 #include "logger.hpp"
+#include "root_logger_opts.hpp"
 
 namespace eagine {
 //------------------------------------------------------------------------------
 class root_logger : public logger {
-    static std::unique_ptr<logger_backend> _init_backend(const program_args&);
+    static std::unique_ptr<logger_backend> _init_backend(
+      const program_args&, const root_logger_options&);
 
 public:
-    root_logger(identifier logger_id, const program_args& args)
-      : logger{logger_id, _init_backend(args)} {
+    root_logger(
+      identifier logger_id,
+      const program_args& args,
+      const root_logger_options& opts)
+      : logger{logger_id, _init_backend(args, opts)} {
+    }
+
+    root_logger(const program_args& args, const root_logger_options& opts)
+      : root_logger(EAGINE_ID(RootLogger), args, opts) {
     }
 
     root_logger(const program_args& args)
-      : root_logger(EAGINE_ID(RootLogger), args) {
+      : root_logger(EAGINE_ID(RootLogger), args, root_logger_options{}) {
     }
 };
 //------------------------------------------------------------------------------

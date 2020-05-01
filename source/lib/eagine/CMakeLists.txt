@@ -4,6 +4,7 @@
 #  http://www.boost.org/LICENSE_1_0.txt
 
 set(EAGINE_LIB_SOURCES
+	main_wrap.cpp
 	debug.cpp
 	logging.cpp
 	filesystem.cpp

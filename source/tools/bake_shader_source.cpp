@@ -7,7 +7,7 @@
 
 #include <eagine/data_baking.hpp>
 #include <eagine/input_data.hpp>
-#include <eagine/main.hpp>
+#include <eagine/main_ctx.hpp>
 #include <eagine/program_args.hpp>
 #include <eagine/valid_if/not_empty.hpp>
 #include <eagine/valid_if/one_of.hpp>
@@ -209,3 +209,11 @@ int parse_options(const program_args& args, options& opts) {
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
+
+int main(int argc, const char** argv) {
+    eagine::main_ctx_options options;
+    options.logger_id = EAGINE_ID(BakeSLShdr);
+    options.logger_opts.default_no_log = true;
+    return eagine::main_impl(argc, argv, options);
+}
+

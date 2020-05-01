@@ -23,7 +23,9 @@ static constexpr inline log_event_severity default_log_severity() noexcept {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 std::unique_ptr<logger_backend> root_logger_choose_backend(
-  const program_args& args, log_event_severity min_severity) {
+  const program_args& args,
+  const root_logger_options& opts,
+  log_event_severity min_severity) {
     std::unique_ptr<logger_backend> result{};
 
     for(auto& arg : args) {
@@ -41,6 +43,11 @@ std::unique_ptr<logger_backend> root_logger_choose_backend(
 #endif
         }
     }
+
+    if(opts.default_no_log) {
+        return std::make_unique<null_log_backend>();
+    }
+
 #if EAGINE_DEBUG
 #if EAGINE_HAS_ASIO_LOG_BACKEND
     try {
@@ -58,7 +65,7 @@ std::unique_ptr<logger_backend> root_logger_choose_backend(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 std::unique_ptr<logger_backend> root_logger::_init_backend(
-  const program_args& args) {
+  const program_args& args, const root_logger_options& opts) {
     auto min_severity{default_log_severity()};
 
     for(auto arg = args.first(); arg; arg = arg.next()) {
@@ -69,7 +76,7 @@ std::unique_ptr<logger_backend> root_logger::_init_backend(
         }
     }
 
-    auto backend = root_logger_choose_backend(args, min_severity);
+    auto backend = root_logger_choose_backend(args, opts, min_severity);
 
     return backend;
 }
