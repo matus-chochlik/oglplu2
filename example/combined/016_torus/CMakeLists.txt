@@ -3,15 +3,14 @@
 # See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
 #
-add_custom_target(
-	example.oglpprog
+add_custom_command(
+	OUTPUT example.oglpprog
 	COMMAND bake_program_source
 		--vertex vertex.glsl
 		--fragment fragment.glsl
 		--output "${CMAKE_CURRENT_BINARY_DIR}/example.oglpprog"
 	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 	DEPENDS bake_shader_source vertex.glsl fragment.glsl
-	COMMENT "Baking program source"
 )
 set_source_files_properties(
 	example.oglpprog
