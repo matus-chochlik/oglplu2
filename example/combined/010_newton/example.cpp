@@ -49,8 +49,8 @@ public:
     void pointer_scrolling(const example_context& ctx) final;
     void resize(const example_context& ctx) final;
     void user_idle(const example_context& ctx) final;
-    seconds_t<float> default_timeout() final;
     void render(const example_context&) final;
+    seconds_t<float> default_timeout() final;
 };
 //------------------------------------------------------------------------------
 // example_newton
