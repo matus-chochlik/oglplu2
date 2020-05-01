@@ -262,6 +262,11 @@ void unit_torus_gen::make_special_attrib_values(
         };
         (this->*function)(dest, offset_getter{get_offs});
     } else if(variant_index == 2) {
+        auto get_offs = [](span_size_t s, span_size_t) -> std::array<float, 3> {
+            return {{float(s), 0.f, 0.f}};
+        };
+        (this->*function)(dest, offset_getter{get_offs});
+    } else if(variant_index == 3) {
         auto get_offs =
           [this](span_size_t s, span_size_t r) -> std::array<float, 3> {
             const auto x = float(s) / float(this->_sections);
@@ -288,7 +293,7 @@ span_size_t unit_torus_gen::attribute_variants(vertex_attrib_kind attrib) {
         case vertex_attrib_kind::normal:
         case vertex_attrib_kind::tangential:
         case vertex_attrib_kind::bitangential:
-            return 3;
+            return 4;
         case vertex_attrib_kind::wrap_coord:
         case vertex_attrib_kind::pivot:
         case vertex_attrib_kind::box_coord:
