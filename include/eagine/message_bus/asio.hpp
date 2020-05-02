@@ -53,7 +53,7 @@ template <typename Socket>
 class flushing_sockets {
 public:
     void adopt(Socket& sckt) {
-        _waiting.emplace_back(std::chrono::seconds(3), std::move(sckt));
+        _waiting.emplace_back(std::chrono::seconds(10), std::move(sckt));
     }
 
     bool empty() const noexcept {
@@ -147,9 +147,9 @@ class asio_connector;
 template <asio_connection_addr_kind, asio_connection_protocol>
 class asio_acceptor;
 //------------------------------------------------------------------------------
-template <typename Socket>
+template <typename Socket, span_size_t Batch>
 struct asio_connection_state
-  : std::enable_shared_from_this<asio_connection_state<Socket>> {
+  : std::enable_shared_from_this<asio_connection_state<Socket, Batch>> {
 
     logger _log{};
     std::mutex mutex;
@@ -253,7 +253,8 @@ struct asio_connection_state
             return true;
         };
 
-        incoming.fetch_all(serialized_message_storage::fetch_handler(unpacker));
+        incoming.fetch_some(
+          serialized_message_storage::fetch_handler(unpacker), Batch);
     }
 
     void handle_sent(serialized_message_storage::bit_set to_be_removed) {
@@ -365,19 +366,20 @@ struct asio_connection_state
 template <
   asio_connection_addr_kind Kind,
   asio_connection_protocol Proto,
-  typename Socket>
+  typename Socket,
+  span_size_t Batch>
 class asio_connection_base
   : public asio_connection_info<connection, Kind, Proto> {
 
 protected:
     logger _log{};
-    std::shared_ptr<asio_connection_state<Socket>> _state;
+    std::shared_ptr<asio_connection_state<Socket, Batch>> _state;
 
 public:
     asio_connection_base(
       logger& parent, std::shared_ptr<asio_common_state> asio_state)
       : _log{EAGINE_ID(AsioConnBs), parent}
-      , _state{std::make_shared<asio_connection_state<Socket>>(
+      , _state{std::make_shared<asio_connection_state<Socket, Batch>>(
           _log, std::move(asio_state))} {
         EAGINE_ASSERT(_state);
     }
@@ -387,7 +389,7 @@ public:
       std::shared_ptr<asio_common_state> asio_state,
       Socket socket)
       : _log{EAGINE_ID(AsioConnBs), parent}
-      , _state{std::make_shared<asio_connection_state<Socket>>(
+      , _state{std::make_shared<asio_connection_state<Socket, Batch>>(
           _log, std::move(asio_state), std::move(socket))} {
         EAGINE_ASSERT(_state);
     }
@@ -444,12 +446,14 @@ class asio_connection<
   : public asio_connection_base<
       asio_connection_addr_kind::ipv4,
       asio_connection_protocol::stream,
-      asio::ip::tcp::socket> {
+      asio::ip::tcp::socket,
+      64> {
 
     using base = asio_connection_base<
       asio_connection_addr_kind::ipv4,
       asio_connection_protocol::stream,
-      asio::ip::tcp::socket>;
+      asio::ip::tcp::socket,
+      64>;
 
 public:
     using base::base;
@@ -679,12 +683,14 @@ class asio_connection<
   : public asio_connection_base<
       asio_connection_addr_kind::local,
       asio_connection_protocol::stream,
-      asio::local::stream_protocol::socket> {
+      asio::local::stream_protocol::socket,
+      8> {
 
     using base = asio_connection_base<
       asio_connection_addr_kind::local,
       asio_connection_protocol::stream,
-      asio::local::stream_protocol::socket>;
+      asio::local::stream_protocol::socket,
+      8>;
 
 public:
     using base::base;

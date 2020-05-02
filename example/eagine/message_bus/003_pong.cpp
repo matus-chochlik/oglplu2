@@ -66,7 +66,7 @@ public:
 private:
     std::size_t _lmod{1};
     std::size_t _sent{0};
-    timeout _timeout{std::chrono::seconds(30)};
+    timeout _timeout{std::chrono::minutes(1)};
     timeout _ready_timeout{std::chrono::seconds(1)};
     bool _done{false};
 };

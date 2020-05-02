@@ -256,6 +256,23 @@ public:
         _messages.emplace_back(std::move(buf));
     }
 
+    void fetch_some(fetch_handler handler, span_size_t n) {
+        for(auto& message : _messages) {
+            if(n-- <= 0) {
+                break;
+            }
+            if(handler(view(message))) {
+                _buffers.eat(std::move(message));
+            }
+        }
+        _messages.erase(
+          std::remove_if(
+            _messages.begin(),
+            _messages.end(),
+            [](auto& buf) { return buf.empty(); }),
+          _messages.end());
+    }
+
     void fetch_all(fetch_handler handler) {
         bool keep_some = false;
         for(auto& message : _messages) {
