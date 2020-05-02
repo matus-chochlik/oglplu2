@@ -13,21 +13,48 @@ namespace msgbus {
 //------------------------------------------------------------------------------
 // routed_endpoint
 //------------------------------------------------------------------------------
+static inline bool routed_endpoint_list_contains(
+  const std::vector<std::tuple<identifier_t, identifier_t>>& list,
+  const std::tuple<identifier_t, identifier_t>& entry) noexcept {
+    return std::find(list.begin(), list.end(), entry) != list.end();
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+routed_endpoint::routed_endpoint() {
+    message_block_list.reserve(8);
+    message_allow_list.reserve(8);
+}
+//------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool routed_endpoint::is_allowed(
   identifier_t class_id, identifier_t method_id) const noexcept {
     if(EAGINE_UNLIKELY(EAGINE_ID(eagiMsgBus).matches(class_id))) {
         return true;
     }
+    const auto entry{std::make_tuple(class_id, method_id)};
     if(!message_allow_list.empty()) {
-        return message_allow_list.find(std::make_tuple(class_id, method_id)) !=
-               message_allow_list.end();
+        return routed_endpoint_list_contains(message_allow_list, entry);
     }
     if(!message_block_list.empty()) {
-        return message_block_list.find(std::make_tuple(class_id, method_id)) ==
-               message_block_list.end();
+        return !routed_endpoint_list_contains(message_block_list, entry);
     }
     return true;
+}
+//------------------------------------------------------------------------------
+void routed_endpoint::block_message(
+  identifier_t class_id, identifier_t method_id) {
+    const auto entry{std::make_tuple(class_id, method_id)};
+    if(!routed_endpoint_list_contains(message_block_list, entry)) {
+        message_block_list.push_back(entry);
+    }
+}
+//------------------------------------------------------------------------------
+void routed_endpoint::allow_message(
+  identifier_t class_id, identifier_t method_id) {
+    const auto entry{std::make_tuple(class_id, method_id)};
+    if(!routed_endpoint_list_contains(message_allow_list, entry)) {
+        message_allow_list.push_back(entry);
+    }
 }
 //------------------------------------------------------------------------------
 // router
@@ -222,23 +249,21 @@ bool router::_handle_special(
                         EAGINE_ID(message),
                         message_id_tuple(blk_class_id, blk_method_id))
                       .arg(EAGINE_ID(source), message.source_id);
-                    endpoint.message_block_list.insert(
-                      std::make_tuple(blk_class_id, blk_method_id));
+                    endpoint.block_message(blk_class_id, blk_method_id);
                     return true;
                 }
             }
         } else if(EAGINE_ID(msgAlwList).matches(method_id)) {
-            identifier_t wht_class_id{};
-            identifier_t wht_method_id{};
+            identifier_t alw_class_id{};
+            identifier_t alw_method_id{};
             if(default_deserialize_message_type(
-                 wht_class_id, wht_method_id, message.data)) {
+                 alw_class_id, alw_method_id, message.data)) {
                 _log.debug("endpoint ${source} allowing message ${message}")
                   .arg(
                     EAGINE_ID(message),
-                    message_id_tuple(wht_class_id, wht_method_id))
+                    message_id_tuple(alw_class_id, alw_method_id))
                   .arg(EAGINE_ID(source), message.source_id);
-                endpoint.message_allow_list.insert(
-                  std::make_tuple(wht_class_id, wht_method_id));
+                endpoint.allow_message(alw_class_id, alw_method_id);
                 return true;
             }
         } else if(EAGINE_ID(byeBye).matches(method_id)) {

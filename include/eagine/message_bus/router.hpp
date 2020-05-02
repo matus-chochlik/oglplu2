@@ -16,7 +16,6 @@
 #include "../valid_if/positive.hpp"
 #include "acceptor.hpp"
 #include <map>
-#include <set>
 #include <vector>
 
 namespace eagine {
@@ -40,10 +39,15 @@ struct router_pending {
 //------------------------------------------------------------------------------
 struct routed_endpoint {
     std::vector<std::unique_ptr<connection>> connections;
-    std::set<std::tuple<identifier_t, identifier_t>> message_block_list;
-    std::set<std::tuple<identifier_t, identifier_t>> message_allow_list;
+    std::vector<std::tuple<identifier_t, identifier_t>> message_block_list;
+    std::vector<std::tuple<identifier_t, identifier_t>> message_allow_list;
     bool maybe_router{true};
     bool do_disconnect{false};
+
+    routed_endpoint();
+
+    void block_message(identifier_t, identifier_t);
+    void allow_message(identifier_t, identifier_t);
 
     bool is_allowed(identifier_t, identifier_t) const noexcept;
 };
