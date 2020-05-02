@@ -40,14 +40,12 @@ struct router_pending {
 //------------------------------------------------------------------------------
 struct routed_endpoint {
     std::vector<std::unique_ptr<connection>> connections;
-    std::set<std::tuple<identifier_t, identifier_t>> message_blacklist;
+    std::set<std::tuple<identifier_t, identifier_t>> message_block_list;
+    std::set<std::tuple<identifier_t, identifier_t>> message_allow_list;
     bool maybe_router{true};
     bool do_disconnect{false};
 
-    bool is_blacklisted(identifier_t class_id, identifier_t method_id) {
-        return message_blacklist.find(std::make_tuple(class_id, method_id)) !=
-               message_blacklist.end();
-    }
+    bool is_allowed(identifier_t, identifier_t) const noexcept;
 };
 //------------------------------------------------------------------------------
 class router

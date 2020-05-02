@@ -208,6 +208,24 @@ bool endpoint::say_bye() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+void endpoint::post_meta_message(
+  identifier_t meta_class_id,
+  identifier_t meta_method_id,
+  identifier_t class_id,
+  identifier_t method_id) {
+    std::array<byte, 64> temp{};
+    if(
+      auto serialized =
+        default_serialize_message_type(class_id, method_id, cover(temp))) {
+        post(meta_class_id, meta_method_id, message_view(extract(serialized)));
+    } else {
+        _log.debug("failed to serialize meta-message ${meta}")
+          .arg(EAGINE_ID(meta), message_id_tuple(meta_class_id, meta_method_id))
+          .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id));
+    }
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 void endpoint::say_subscribes_to(
   identifier_t class_id, identifier_t method_id) {
     log()
@@ -228,19 +246,35 @@ void endpoint::say_unsubscribes_from(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void endpoint::clear_blacklist() {
-    log().debug("sending clear blacklist");
+void endpoint::clear_block_list() {
+    log().debug("sending clear block list");
     post(EAGINE_MSG_ID(eagiMsgBus, clrBlkList), {});
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void endpoint::blacklist_message_type(
+void endpoint::block_message_type(
   identifier_t class_id, identifier_t method_id) {
     log()
-      .debug("blacklisting message ${message}")
+      .debug("blocking message ${message}")
       .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id));
     post_meta_message(
       EAGINE_MSG_ID(eagiMsgBus, msgBlkList), class_id, method_id);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void endpoint::clear_allow_list() {
+    log().debug("sending clear allow list");
+    post(EAGINE_MSG_ID(eagiMsgBus, clrAlwList), {});
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void endpoint::allow_message_type(
+  identifier_t class_id, identifier_t method_id) {
+    log()
+      .debug("allowing message ${message}")
+      .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id));
+    post_meta_message(
+      EAGINE_MSG_ID(eagiMsgBus, msgAlwList), class_id, method_id);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

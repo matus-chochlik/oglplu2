@@ -30,7 +30,7 @@ protected:
       const message_view& message) {
         if(!_accept_message(_endpoint, class_id, method_id, message)) {
             if(!EAGINE_ID(eagiMsgBus).matches(class_id)) {
-                _endpoint.blacklist_message_type(class_id, method_id);
+                _endpoint.block_message_type(class_id, method_id);
             }
         }
         return true;
@@ -86,6 +86,10 @@ public:
 
     bool add_connection(std::unique_ptr<connection> conn) final {
         return _endpoint.add_connection(std::move(conn));
+    }
+
+    void allow_subscriptions() {
+        _subscriber.allow_subscriptions();
     }
 
     void process_one() {

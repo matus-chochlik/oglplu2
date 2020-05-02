@@ -28,6 +28,7 @@ public:
           EAGINE_MSG_MAP(PingPong, Ping, pong, ping),
           EAGINE_MSG_MAP(PingPong, Shutdown, pong, shutdown))
       , _lmod{running_on_valgrind() ? 1000U : 10000U} {
+        this->allow_subscriptions();
         conn_setup.setup_connectors(
           *this,
           connection_kind::local_interprocess |

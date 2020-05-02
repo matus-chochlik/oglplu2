@@ -145,6 +145,15 @@ public:
         }
     }
 
+    void allow_subscriptions() {
+        if(_endpoint) {
+            for(auto& [class_id, method_id, unused] : _msg_handlers) {
+                EAGINE_MAYBE_UNUSED(unused);
+                _endpoint->allow_message_type(class_id, method_id);
+            }
+        }
+    }
+
     void retract_subscriptions() {
         if(_endpoint) {
             for(auto& [class_id, method_id, unused] : _msg_handlers) {

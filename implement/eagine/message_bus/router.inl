@@ -11,6 +11,27 @@
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
+// routed_endpoint
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+bool routed_endpoint::is_allowed(
+  identifier_t class_id, identifier_t method_id) const noexcept {
+    if(EAGINE_UNLIKELY(EAGINE_ID(eagiMsgBus).matches(class_id))) {
+        return true;
+    }
+    if(!message_allow_list.empty()) {
+        return message_allow_list.find(std::make_tuple(class_id, method_id)) !=
+               message_allow_list.end();
+    }
+    if(!message_block_list.empty()) {
+        return message_block_list.find(std::make_tuple(class_id, method_id)) ==
+               message_block_list.end();
+    }
+    return true;
+}
+//------------------------------------------------------------------------------
+// router
+//------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool router::add_acceptor(std::unique_ptr<acceptor> an_acceptor) {
     if(an_acceptor) {
@@ -183,34 +204,79 @@ bool router::_handle_special(
                 return true;
             }
         } else if(EAGINE_ID(clrBlkList).matches(method_id)) {
-            _log.debug("clearing router blacklist");
-            endpoint.message_blacklist.clear();
+            _log.debug("clearing router block_list");
+            endpoint.message_block_list.clear();
+            return true;
+        } else if(EAGINE_ID(clrAlwList).matches(method_id)) {
+            _log.debug("clearing router allow_list");
+            endpoint.message_allow_list.clear();
             return true;
         } else if(EAGINE_ID(msgBlkList).matches(method_id)) {
-            identifier_t blk_class_id{0};
-            identifier_t blk_method_id{0};
-            auto blk_msg_id = std::tie(blk_class_id, blk_method_id);
-            if(default_deserialize(blk_msg_id, message.data)) {
-                // messages with eagiMsgBus class cannot be blacklisted
+            identifier_t blk_class_id{};
+            identifier_t blk_method_id{};
+            if(default_deserialize_message_type(
+                 blk_class_id, blk_method_id, message.data)) {
                 if(!emb_id.matches(blk_class_id)) {
-                    _log
-                      .debug(
-                        "blacklisting message ${message} from "
-                        "endpoint ${source}")
+                    _log.debug("endpoint ${source} blocking message ${message}")
                       .arg(
                         EAGINE_ID(message),
-                        message_id_tuple(class_id, method_id))
+                        message_id_tuple(blk_class_id, blk_method_id))
                       .arg(EAGINE_ID(source), message.source_id);
-                    endpoint.message_blacklist.insert(blk_msg_id);
+                    endpoint.message_block_list.insert(
+                      std::make_tuple(blk_class_id, blk_method_id));
+                    return true;
                 }
             }
-            return true;
+        } else if(EAGINE_ID(msgAlwList).matches(method_id)) {
+            identifier_t wht_class_id{};
+            identifier_t wht_method_id{};
+            if(default_deserialize_message_type(
+                 wht_class_id, wht_method_id, message.data)) {
+                _log.debug("endpoint ${source} allowing message ${message}")
+                  .arg(
+                    EAGINE_ID(message),
+                    message_id_tuple(wht_class_id, wht_method_id))
+                  .arg(EAGINE_ID(source), message.source_id);
+                endpoint.message_allow_list.insert(
+                  std::make_tuple(wht_class_id, wht_method_id));
+                return true;
+            }
         } else if(EAGINE_ID(byeBye).matches(method_id)) {
             _log.debug("received bye-bye from endpoint ${source}")
               .arg(EAGINE_ID(source), message.source_id);
             endpoint.do_disconnect = true;
             return true;
+        } else if(EAGINE_ID(subscribTo).matches(method_id)) {
+            identifier_t sub_class_id{};
+            identifier_t sub_method_id{};
+            if(default_deserialize_message_type(
+                 sub_class_id, sub_method_id, message.data)) {
+                _log.debug("endpoint ${source} subscribes to ${message}")
+                  .arg(EAGINE_ID(source), message.source_id)
+                  .arg(
+                    EAGINE_ID(message),
+                    message_id_tuple(sub_class_id, sub_method_id));
+                // this should be routed
+                return false;
+            }
+        } else if(EAGINE_ID(unsubFrom).matches(method_id)) {
+            identifier_t sub_class_id{};
+            identifier_t sub_method_id{};
+            if(default_deserialize_message_type(
+                 sub_class_id, sub_method_id, message.data)) {
+                _log.debug("endpoint ${source} unsubscribes from ${message}")
+                  .arg(EAGINE_ID(source), message.source_id)
+                  .arg(
+                    EAGINE_ID(message),
+                    message_id_tuple(sub_class_id, sub_method_id));
+                // this should be routed
+                return false;
+            }
         }
+        _log.warning("unhandled special message ${message} from ${source}")
+          .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id))
+          .arg(EAGINE_ID(source), message.source_id)
+          .arg(EAGINE_ID(data), message.data);
     }
     return false;
 }
@@ -228,7 +294,7 @@ bool router::_do_route_message(
             should_forward &=
               (endpoint_out.maybe_router ||
                (outgoing_id == message.target_id) || !message.target_id);
-            should_forward &= !endpoint_out.is_blacklisted(class_id, method_id);
+            should_forward &= endpoint_out.is_allowed(class_id, method_id);
             if(should_forward) {
                 if(EAGINE_UNLIKELY(++_forwarded_messages % 100000 == 0)) {
                     _log.info("forwarded ${count} messages")

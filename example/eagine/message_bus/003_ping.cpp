@@ -34,6 +34,7 @@ public:
           EAGINE_MSG_MAP(PingPong, Ready, ping, ready))
       , _lmod{running_on_valgrind() ? 1000U : 10000U}
       , _max{extract_or(max, running_on_valgrind() ? 10000U : 100000U)} {
+        this->allow_subscriptions();
         conn_setup.setup_connectors(
           *this,
           connection_kind::local_interprocess |

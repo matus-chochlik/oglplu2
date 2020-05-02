@@ -238,17 +238,18 @@ public:
     bool say_not_a_router();
     bool say_bye();
 
+    void post_meta_message(
+      identifier_t meta_class_id,
+      identifier_t meta_method_id,
+      identifier_t class_id,
+      identifier_t method_id);
+
     template <identifier_t ClassId, identifier_t MethodId>
     void post_meta_message(
-      message_id<ClassId, MethodId> meta_msg_id,
+      message_id<ClassId, MethodId>,
       identifier_t class_id,
       identifier_t method_id) {
-        auto msg_id{
-          std::make_tuple(identifier(class_id), identifier(method_id))};
-        std::array<byte, 64> temp{};
-        if(auto serialized = default_serialize(msg_id, cover(temp))) {
-            post(meta_msg_id, message_view(extract(serialized)));
-        }
+        post_meta_message(ClassId, MethodId, class_id, method_id);
     }
 
     void say_subscribes_to(identifier_t class_id, identifier_t method_id);
@@ -265,12 +266,20 @@ public:
         say_unsubscribes_from(ClassId, MethodId);
     }
 
-    void clear_blacklist();
-    void blacklist_message_type(identifier_t class_id, identifier_t method_id);
+    void clear_block_list();
+    void block_message_type(identifier_t class_id, identifier_t method_id);
 
     template <identifier_t ClassId, identifier_t MethodId>
-    void blacklist_message_type(message_id<ClassId, MethodId>) {
-        blacklist_message_type(ClassId, MethodId);
+    void block_message_type(message_id<ClassId, MethodId>) {
+        block_message_type(ClassId, MethodId);
+    }
+
+    void clear_allow_list();
+    void allow_message_type(identifier_t class_id, identifier_t method_id);
+
+    template <identifier_t ClassId, identifier_t MethodId>
+    void allow_message_type(message_id<ClassId, MethodId>) {
+        allow_message_type(ClassId, MethodId);
     }
 
     bool respond_to(

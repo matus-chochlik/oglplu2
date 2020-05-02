@@ -121,7 +121,7 @@ deserialize_message(
 // default_serialize
 //------------------------------------------------------------------------------
 template <typename T>
-serialization_result<memory::const_block> default_serialize(
+inline serialization_result<memory::const_block> default_serialize(
   T& value, memory::block blk) {
     block_data_sink sink(blk);
     default_serializer_backend backend(sink);
@@ -129,15 +129,33 @@ serialization_result<memory::const_block> default_serialize(
     return {sink.done(), errors};
 }
 //------------------------------------------------------------------------------
+inline auto default_serialize_message_type(
+  identifier_t class_id, identifier_t method_id, memory::block blk) {
+    const auto value{
+      std::make_tuple(identifier(class_id), identifier(method_id))};
+    return default_serialize(value, blk);
+}
+//------------------------------------------------------------------------------
 // default_deserialize
 //------------------------------------------------------------------------------
 template <typename T>
-deserialization_result<memory::const_block> default_deserialize(
+inline deserialization_result<memory::const_block> default_deserialize(
   T& value, memory::const_block blk) {
     block_data_source source(blk);
     default_deserializer_backend backend(source);
     auto errors = deserialize(value, backend);
     return {source.remaining(), errors};
+}
+//------------------------------------------------------------------------------
+inline auto default_deserialize_message_type(
+  identifier_t& class_id, identifier_t& method_id, memory::const_block blk) {
+    std::tuple<identifier, identifier> value{};
+    auto result = default_deserialize(value, blk);
+    if(result) {
+        class_id = std::get<0>(value).value();
+        method_id = std::get<1>(value).value();
+    }
+    return result;
 }
 //------------------------------------------------------------------------------
 } // namespace msgbus
