@@ -33,24 +33,25 @@ private:
 class ossl_result_info {
 public:
     explicit constexpr operator bool() const noexcept {
-        return _error_code == 1;
+        return _error_code == 0;
     }
 
     constexpr bool operator!() const noexcept {
-        return _error_code != 1;
+        return _error_code != 0;
     }
 
-    constexpr ossl_result_info& error_code(int ec) noexcept {
+    constexpr ossl_result_info& error_code(unsigned long ec) noexcept {
         _error_code = ec;
         return *this;
     }
 
     string_view message() const noexcept {
+        // TODO: get error string from OpenSSL
         return {"unknown error"};
     }
 
 private:
-    int _error_code{0};
+    unsigned long _error_code{0};
 };
 //------------------------------------------------------------------------------
 template <typename Result>
