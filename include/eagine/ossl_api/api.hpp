@@ -76,6 +76,16 @@ public:
     // message_digest_new
     func<OSSLPAFP(evp_md_ctx_new)> message_digest_new;
 
+    // message_digest_free
+    struct : func<OSSLPAFP(evp_md_ctx_free)> {
+        using func<OSSLPAFP(evp_md_ctx_free)>::func;
+
+        auto raii(evp_md_ctx_type* ctx) noexcept {
+            return eagine::finally([=]() { (*this)(ctx); });
+        }
+
+    } message_digest_free;
+
     // message_digest_init
     func<OSSLPAFP(evp_digest_init)> message_digest_init;
 
@@ -116,6 +126,7 @@ public:
       , message_digest_sha512("message_digest_sha512", traits, *this)
       , message_digest_size("message_digest_size", traits, *this)
       , message_digest_new("message_digest_new", traits, *this)
+      , message_digest_free("message_digest_free", traits, *this)
       , message_digest_init("message_digest_init", traits, *this)
       , message_digest_init_ex("message_digest_init_ex", traits, *this)
       , message_digest_update("message_digest_update", traits, *this)

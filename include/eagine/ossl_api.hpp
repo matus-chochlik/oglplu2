@@ -38,16 +38,17 @@ public:
       : basic_ossl_api{ApiTraits{}} {
     }
 
-    memory::const_block data_digest(
+    memory::block data_digest(
       memory::const_block data, memory::block dst, const evp_md_type* mdtype) {
         if(mdtype) {
             if(dst.size() >= span_size(this->evp_md_size(mdtype))) {
-                if(auto mdctx = this->message_digest_new()) {
-                    this->message_digest_init(extract(mdctx), mdtype);
-                    this->message_digest_update(extract(mdctx), data);
+                if(auto optmdctx = this->message_digest_new()) {
+                    auto mdctx{extract(optmdctx)};
+                    auto cleanup{this->message_digest_free.raii(mdctx)};
+                    this->message_digest_init(mdctx, mdtype);
+                    this->message_digest_update(mdctx, data);
                     return extract_or(
-                      this->message_digest_final(extract(mdctx), dst),
-                      memory::block{});
+                      this->message_digest_final(mdctx, dst), memory::block{});
                 }
             }
         }
