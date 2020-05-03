@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/logging/exception.hpp>
 #include <eagine/logging/root_logger.hpp>
 
 namespace eagine {
@@ -43,7 +44,18 @@ EAGINE_LIB_FUNC
 int main_impl(int argc, const char** argv, const main_ctx_options& options) {
     master_ctx master{argc, argv, options};
     main_ctx ctx{master};
-    return eagine::main(ctx);
+    try {
+        return eagine::main(ctx);
+    } catch(std::system_error& sys_err) {
+        ctx.log()
+          .error("unhandled system error: ${error}")
+          .arg(EAGINE_ID(error), sys_err);
+    } catch(std::exception& err) {
+        ctx.log()
+          .error("unhandled generic error: ${error}")
+          .arg(EAGINE_ID(error), err);
+    }
+    return 1;
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
