@@ -39,11 +39,14 @@ public:
     }
 
     memory::block data_digest(
-      memory::const_block data, memory::block dst, const evp_md_type* mdtype) {
+      memory::const_block data, memory::block dst, message_digest_type mdtype) {
         if(mdtype) {
-            if(dst.size() >= span_size(this->evp_md_size(mdtype))) {
+            const auto req_size =
+              extract_or(this->message_digest_size(mdtype), 0);
+
+            if(dst.size() >= span_size(req_size)) {
                 if(auto optmdctx = this->message_digest_new()) {
-                    auto mdctx{extract(optmdctx)};
+                    auto& mdctx{extract(optmdctx)};
                     auto cleanup{this->message_digest_free.raii(mdctx)};
                     this->message_digest_init(mdctx, mdtype);
                     this->message_digest_update(mdctx, data);
@@ -55,28 +58,37 @@ public:
         return {};
     }
 
+    template <typename OptMdt>
+    memory::block make_data_digest(
+      memory::const_block data, memory::block dst, OptMdt opt_mdtype) {
+        if(opt_mdtype) {
+            return data_digest(data, dst, extract(opt_mdtype));
+        }
+        return {};
+    }
+
     auto md5_digest(memory::const_block data, memory::block dst) {
-        return data_digest(data, dst, this->evp_md5());
+        return make_data_digest(data, dst, this->message_digest_md5());
     }
 
     auto sha1_digest(memory::const_block data, memory::block dst) {
-        return data_digest(data, dst, this->evp_sha1());
+        return make_data_digest(data, dst, this->message_digest_sha1());
     }
 
     auto sha224_digest(memory::const_block data, memory::block dst) {
-        return data_digest(data, dst, this->evp_sha224());
+        return make_data_digest(data, dst, this->message_digest_sha224());
     }
 
     auto sha256_digest(memory::const_block data, memory::block dst) {
-        return data_digest(data, dst, this->evp_sha256());
+        return make_data_digest(data, dst, this->message_digest_sha256());
     }
 
     auto sha384_digest(memory::const_block data, memory::block dst) {
-        return data_digest(data, dst, this->evp_sha384());
+        return make_data_digest(data, dst, this->message_digest_sha384());
     }
 
     auto sha512_digest(memory::const_block data, memory::block dst) {
-        return data_digest(data, dst, this->evp_sha512());
+        return make_data_digest(data, dst, this->message_digest_sha512());
     }
 };
 //------------------------------------------------------------------------------

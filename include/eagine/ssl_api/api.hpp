@@ -26,11 +26,8 @@ public:
     using api_traits = ApiTraits;
     using c_api = basic_ssl_c_api<ApiTraits>;
 
-    using bio_method_type = ssl_types::bio_method_type;
-    using bio_type = ssl_types::bio_type;
     using evp_pkey_type = ssl_types::evp_pkey_type;
     using evp_md_ctx_type = ssl_types::evp_md_ctx_type;
-    using evp_md_type = ssl_types::evp_md_type;
 
     template <
       typename W,
@@ -58,6 +55,17 @@ public:
 
         using base::_conv;
 
+        template <typename Tag, typename Handle>
+        static constexpr inline auto _conv(
+          basic_handle<Tag, Handle> obj) noexcept {
+            return static_cast<Handle>(obj);
+        }
+
+        template <typename... Args>
+        constexpr auto _cnvchkcall(Args&&... args) const noexcept {
+            return this->_chkcall(_conv(args)...).cast_to(identity<RVC>{});
+        }
+
     public:
         using base::base;
 
@@ -70,8 +78,8 @@ public:
     struct : func<SSLPAFP(bio_new)> {
         using func<SSLPAFP(bio_new)>::func;
 
-        constexpr auto operator()() const noexcept {
-            return this->_chkcall().cast_to(identity<owned_basic_io>{});
+        constexpr auto operator()(basic_io_method method) const noexcept {
+            return this->_chkcall(method).cast_to(identity<owned_basic_io>{});
         }
     } basic_io_new;
 
@@ -125,42 +133,122 @@ public:
     } pkey_free;
 
     // message_digest_null
-    func<SSLPAFP(evp_md_null)> message_digest_noop;
-    func<SSLPAFP(evp_md5)> message_digest_md5;
-    func<SSLPAFP(evp_sha1)> message_digest_sha1;
-    func<SSLPAFP(evp_sha224)> message_digest_sha224;
-    func<SSLPAFP(evp_sha256)> message_digest_sha256;
-    func<SSLPAFP(evp_sha384)> message_digest_sha384;
-    func<SSLPAFP(evp_sha512)> message_digest_sha512;
+    struct : func<SSLPAFP(evp_md_null)> {
+        using func<SSLPAFP(evp_md_null)>::func;
 
-    func<SSLPAFP(evp_md_size)> message_digest_size;
+        constexpr auto operator()() const noexcept {
+            return this->_chkcall().cast_to(identity<message_digest_type>{});
+        }
+    } message_digest_noop;
+
+    struct : func<SSLPAFP(evp_md5)> {
+        using func<SSLPAFP(evp_md5)>::func;
+
+        constexpr auto operator()() const noexcept {
+            return this->_chkcall().cast_to(identity<message_digest_type>{});
+        }
+    } message_digest_md5;
+
+    struct : func<SSLPAFP(evp_sha1)> {
+        using func<SSLPAFP(evp_sha1)>::func;
+
+        constexpr auto operator()() const noexcept {
+            return this->_chkcall().cast_to(identity<message_digest_type>{});
+        }
+    } message_digest_sha1;
+
+    struct : func<SSLPAFP(evp_sha224)> {
+        using func<SSLPAFP(evp_sha224)>::func;
+
+        constexpr auto operator()() const noexcept {
+            return this->_chkcall().cast_to(identity<message_digest_type>{});
+        }
+    } message_digest_sha224;
+
+    struct : func<SSLPAFP(evp_sha256)> {
+        using func<SSLPAFP(evp_sha256)>::func;
+
+        constexpr auto operator()() const noexcept {
+            return this->_chkcall().cast_to(identity<message_digest_type>{});
+        }
+    } message_digest_sha256;
+
+    struct : func<SSLPAFP(evp_sha384)> {
+        using func<SSLPAFP(evp_sha384)>::func;
+
+        constexpr auto operator()() const noexcept {
+            return this->_chkcall().cast_to(identity<message_digest_type>{});
+        }
+    } message_digest_sha384;
+
+    struct : func<SSLPAFP(evp_sha512)> {
+        using func<SSLPAFP(evp_sha512)>::func;
+
+        constexpr auto operator()() const noexcept {
+            return this->_chkcall().cast_to(identity<message_digest_type>{});
+        }
+    } message_digest_sha512;
+
+    struct : func<SSLPAFP(evp_md_size)> {
+        using func<SSLPAFP(evp_md_size)>::func;
+
+        constexpr auto operator()(message_digest_type mdt) const noexcept {
+            return this->_cnvchkcall(mdt);
+        }
+    } message_digest_size;
 
     // message_digest_new
-    func<SSLPAFP(evp_md_ctx_new)> message_digest_new;
+    struct : func<SSLPAFP(evp_md_ctx_new)> {
+        using func<SSLPAFP(evp_md_ctx_new)>::func;
+
+        constexpr auto operator()() const noexcept {
+            return this->_chkcall().cast_to(identity<owned_message_digest>{});
+        }
+    } message_digest_new;
 
     // message_digest_free
     struct : func<SSLPAFP(evp_md_ctx_free)> {
         using func<SSLPAFP(evp_md_ctx_free)>::func;
 
-        auto raii(evp_md_ctx_type* ctx) noexcept {
-            return eagine::finally([=]() { (*this)(ctx); });
+        constexpr auto operator()(owned_message_digest& mdc) const noexcept {
+            return eagine::finally(
+              [this, &mdc]() { this->_chkcall(mdc.release()); });
+        }
+
+        auto raii(owned_message_digest& mdc) noexcept {
+            return eagine::finally([this, &mdc]() { (*this)(mdc); });
         }
 
     } message_digest_free;
 
     // message_digest_init
-    func<SSLPAFP(evp_digest_init)> message_digest_init;
+    struct : func<SSLPAFP(evp_digest_init)> {
+        using func<SSLPAFP(evp_digest_init)>::func;
+
+        constexpr auto operator()(
+          message_digest mdc, message_digest_type mdt) const noexcept {
+            return this->_cnvchkcall(mdc, mdt);
+        }
+    } message_digest_init;
 
     // message_digest_init_ex
-    func<SSLPAFP(evp_digest_init_ex)> message_digest_init_ex;
+    struct : func<SSLPAFP(evp_digest_init_ex)> {
+        using func<SSLPAFP(evp_digest_init_ex)>::func;
+
+        constexpr auto operator()(
+          message_digest mdc, message_digest_type mdt, engine eng) const
+          noexcept {
+            return this->_cnvchkcall(mdc, mdt, eng);
+        }
+    } message_digest_init_ex;
 
     // message_digest_update
     struct : func<SSLPAFP(evp_digest_update)> {
         using func<SSLPAFP(evp_digest_update)>::func;
 
         constexpr auto operator()(
-          evp_md_ctx_type* ctx, memory::const_block blk) const noexcept {
-            return this->_chkcall(ctx, blk.data(), std_size(blk.size()));
+          message_digest mdc, memory::const_block blk) const noexcept {
+            return this->_cnvchkcall(mdc, blk.data(), std_size(blk.size()));
         }
 
     } message_digest_update;
@@ -169,13 +257,25 @@ public:
     struct : func<SSLPAFP(evp_digest_final)> {
         using func<SSLPAFP(evp_digest_final)>::func;
 
-        constexpr auto operator()(evp_md_ctx_type* ctx, memory::block blk) const
+        constexpr auto operator()(message_digest mdc, memory::block blk) const
           noexcept {
             unsigned int size{0U};
-            return this->_chkcall(ctx, blk.data(), &size)
+            return this->_cnvchkcall(mdc, blk.data(), &size)
               .replaced_with(head(blk, span_size(size)));
         }
     } message_digest_final;
+
+    // message_digest_final
+    struct : func<SSLPAFP(evp_digest_final_ex)> {
+        using func<SSLPAFP(evp_digest_final_ex)>::func;
+
+        constexpr auto operator()(message_digest mdc, memory::block blk) const
+          noexcept {
+            unsigned int size{0U};
+            return this->_cnvchkcall(mdc, blk.data(), &size)
+              .replaced_with(head(blk, span_size(size)));
+        }
+    } message_digest_final_ex;
 
     constexpr basic_ssl_operations(api_traits& traits)
       : c_api{traits}
@@ -197,7 +297,8 @@ public:
       , message_digest_init("message_digest_init", traits, *this)
       , message_digest_init_ex("message_digest_init_ex", traits, *this)
       , message_digest_update("message_digest_update", traits, *this)
-      , message_digest_final("message_digest_final", traits, *this) {
+      , message_digest_final("message_digest_final", traits, *this)
+      , message_digest_final_ex("message_digest_final", traits, *this) {
     }
 };
 //------------------------------------------------------------------------------
