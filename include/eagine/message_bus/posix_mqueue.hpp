@@ -490,6 +490,8 @@ private:
                                const message_view& message) -> bool {
             EAGINE_ASSERT((EAGINE_MSG_ID(eagiMsgBus, pmqConnect)
                              .matches(class_id, method_id)));
+            EAGINE_MAYBE_UNUSED(class_id);
+            EAGINE_MAYBE_UNUSED(method_id);
 
             if(auto conn = std::make_unique<posix_mqueue_connection>(_log)) {
                 if(conn->open(to_string(as_chars(message.data)))) {
