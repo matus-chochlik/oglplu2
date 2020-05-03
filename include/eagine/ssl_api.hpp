@@ -1,41 +1,41 @@
 /**
- *  @file eagine/ossl_api.hpp
+ *  @file eagine/ssl_api.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_OSSL_API_HPP
-#define EAGINE_OSSL_API_HPP
+#ifndef EAGINE_SSL_API_HPP
+#define EAGINE_SSL_API_HPP
 
 #include "memory/block.hpp"
-#include "ossl_api/api.hpp"
-#include "ossl_api/api_traits.hpp"
-#include "ossl_api/constants.hpp"
-#include "ossl_api_fwd.hpp"
+#include "ssl_api/api.hpp"
+#include "ssl_api/api_traits.hpp"
+#include "ssl_api/constants.hpp"
+#include "ssl_api_fwd.hpp"
 
 namespace eagine {
-namespace osslp {
+namespace sslp {
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
-class basic_ossl_api
+class basic_ssl_api
   : protected ApiTraits
-  , public basic_ossl_operations<ApiTraits>
-  , public basic_ossl_constants<ApiTraits> {
+  , public basic_ssl_operations<ApiTraits>
+  , public basic_ssl_constants<ApiTraits> {
 public:
-    using evp_md_type = ossl_types::evp_md_type;
+    using evp_md_type = ssl_types::evp_md_type;
 
-    basic_ossl_api(ApiTraits traits)
+    basic_ssl_api(ApiTraits traits)
       : ApiTraits{std::move(traits)}
-      , basic_ossl_operations<ApiTraits>{*static_cast<ApiTraits*>(this)}
-      , basic_ossl_constants<ApiTraits>{
+      , basic_ssl_operations<ApiTraits>{*static_cast<ApiTraits*>(this)}
+      , basic_ssl_constants<ApiTraits>{
           *static_cast<ApiTraits*>(this),
-          *static_cast<basic_ossl_operations<ApiTraits>*>(this)} {
+          *static_cast<basic_ssl_operations<ApiTraits>*>(this)} {
     }
 
-    basic_ossl_api()
-      : basic_ossl_api{ApiTraits{}} {
+    basic_ssl_api()
+      : basic_ssl_api{ApiTraits{}} {
     }
 
     memory::block data_digest(
@@ -81,38 +81,38 @@ public:
 };
 //------------------------------------------------------------------------------
 template <std::size_t I, typename ApiTraits>
-typename std::tuple_element<I, basic_ossl_api<ApiTraits>>::type& get(
-  basic_ossl_api<ApiTraits>& x) noexcept {
+typename std::tuple_element<I, basic_ssl_api<ApiTraits>>::type& get(
+  basic_ssl_api<ApiTraits>& x) noexcept {
     return x;
 }
 
 template <std::size_t I, typename ApiTraits>
-const typename std::tuple_element<I, basic_ossl_api<ApiTraits>>::type& get(
-  const basic_ossl_api<ApiTraits>& x) noexcept {
+const typename std::tuple_element<I, basic_ssl_api<ApiTraits>>::type& get(
+  const basic_ssl_api<ApiTraits>& x) noexcept {
     return x;
 }
 //------------------------------------------------------------------------------
-} // namespace osslp
+} // namespace sslp
 } // namespace eagine
 
 // NOLINTNEXTLINE(cert-dcl58-cpp)
 namespace std {
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
-struct tuple_size<eagine::osslp::basic_ossl_api<ApiTraits>>
+struct tuple_size<eagine::sslp::basic_ssl_api<ApiTraits>>
   : public std::integral_constant<std::size_t, 2> {};
 
 template <typename ApiTraits>
-struct tuple_element<0, eagine::osslp::basic_ossl_api<ApiTraits>> {
-    using type = eagine::osslp::basic_ossl_operations<ApiTraits>;
+struct tuple_element<0, eagine::sslp::basic_ssl_api<ApiTraits>> {
+    using type = eagine::sslp::basic_ssl_operations<ApiTraits>;
 };
 
 template <typename ApiTraits>
-struct tuple_element<1, eagine::osslp::basic_ossl_api<ApiTraits>> {
-    using type = eagine::osslp::basic_ossl_constants<ApiTraits>;
+struct tuple_element<1, eagine::sslp::basic_ssl_api<ApiTraits>> {
+    using type = eagine::sslp::basic_ssl_constants<ApiTraits>;
 };
 //------------------------------------------------------------------------------
 } // namespace std
 
-#endif // EAGINE_OSSL_API_HPP
+#endif // EAGINE_SSL_API_HPP
 

@@ -1,35 +1,36 @@
 /**
- *  @file eagine/ossl_api/api.hpp
+ *  @file eagine/ssl_api/api.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_OSSL_API_API_HPP
-#define EAGINE_OSSL_API_API_HPP
+#ifndef EAGINE_SSL_API_API_HPP
+#define EAGINE_SSL_API_API_HPP
 
 #include "c_api.hpp"
+#include "object_handle.hpp"
 #include <eagine/scope_exit.hpp>
 #include <eagine/string_list.hpp>
 
 namespace eagine {
-namespace osslp {
+namespace sslp {
 //------------------------------------------------------------------------------
-#define OSSLPAFP(FUNC) decltype(c_api::FUNC), &c_api::FUNC
+#define SSLPAFP(FUNC) decltype(c_api::FUNC), &c_api::FUNC
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
-class basic_ossl_operations : public basic_ossl_c_api<ApiTraits> {
+class basic_ssl_operations : public basic_ssl_c_api<ApiTraits> {
 
 public:
     using api_traits = ApiTraits;
-    using c_api = basic_ossl_c_api<ApiTraits>;
+    using c_api = basic_ssl_c_api<ApiTraits>;
 
-    using bio_method_type = ossl_types::bio_method_type;
-    using bio_type = ossl_types::bio_type;
-    using evp_pkey_type = ossl_types::evp_pkey_type;
-    using evp_md_ctx_type = ossl_types::evp_md_ctx_type;
-    using evp_md_type = ossl_types::evp_md_type;
+    using bio_method_type = ssl_types::bio_method_type;
+    using bio_type = ssl_types::bio_type;
+    using evp_pkey_type = ssl_types::evp_pkey_type;
+    using evp_md_ctx_type = ssl_types::evp_md_ctx_type;
+    using evp_md_type = ssl_types::evp_md_type;
 
     template <
       typename W,
@@ -65,41 +66,57 @@ public:
         }
     };
 
-    func<OSSLPAFP(bio_new)> basic_io_new;
+    // basic_io_new
+    struct : func<SSLPAFP(bio_new)> {
+        using func<SSLPAFP(bio_new)>::func;
+
+        constexpr auto operator()() const noexcept {
+            return this->_chkcall().cast_to(identity<owned_basic_io>{});
+        }
+    } basic_io_new;
 
     // basic_io_block_new
-    struct : func<OSSLPAFP(bio_new_mem_buf)> {
-        using func<OSSLPAFP(bio_new_mem_buf)>::func;
+    struct : func<SSLPAFP(bio_new_mem_buf)> {
+        using func<SSLPAFP(bio_new_mem_buf)>::func;
 
         constexpr auto operator()(memory::const_block blk) const noexcept {
-            return this->_chkcall(blk.data(), limit_cast<int>(blk.size()));
+            return this->_chkcall(blk.data(), limit_cast<int>(blk.size()))
+              .cast_to(identity<owned_basic_io>{});
         }
 
     } basic_io_block_new;
 
     // basic_io_free
-    struct : func<OSSLPAFP(bio_free)> {
-        using func<OSSLPAFP(bio_free)>::func;
+    struct : func<SSLPAFP(bio_free)> {
+        using func<SSLPAFP(bio_free)>::func;
 
-        auto raii(bio_type* bio) noexcept {
-            return eagine::finally([=]() { (*this)(bio); });
+        constexpr auto operator()(owned_basic_io& bio) const noexcept {
+            return this->_chkcall(bio.release());
+        }
+
+        auto raii(owned_basic_io& bio) const noexcept {
+            return eagine::finally([this, &bio]() { (*this)(bio); });
         }
 
     } basic_io_free;
 
     // basic_io_free_all
-    struct : func<OSSLPAFP(bio_free_all)> {
-        using func<OSSLPAFP(bio_free_all)>::func;
+    struct : func<SSLPAFP(bio_free_all)> {
+        using func<SSLPAFP(bio_free_all)>::func;
 
-        auto raii(bio_type* bio) noexcept {
-            return eagine::finally([=]() { (*this)(bio); });
+        constexpr auto operator()(owned_basic_io& bio) const noexcept {
+            return this->_chkcall(bio.release());
+        }
+
+        auto raii(owned_basic_io& bio) const noexcept {
+            return eagine::finally([this, &bio]() { (*this)(bio); });
         }
 
     } basic_io_free_all;
 
     // pkey_free
-    struct : func<OSSLPAFP(evp_pkey_free)> {
-        using func<OSSLPAFP(evp_pkey_free)>::func;
+    struct : func<SSLPAFP(evp_pkey_free)> {
+        using func<SSLPAFP(evp_pkey_free)>::func;
 
         auto raii(evp_pkey_type* pky) noexcept {
             return eagine::finally([=]() { (*this)(pky); });
@@ -108,22 +125,22 @@ public:
     } pkey_free;
 
     // message_digest_null
-    func<OSSLPAFP(evp_md_null)> message_digest_noop;
-    func<OSSLPAFP(evp_md5)> message_digest_md5;
-    func<OSSLPAFP(evp_sha1)> message_digest_sha1;
-    func<OSSLPAFP(evp_sha224)> message_digest_sha224;
-    func<OSSLPAFP(evp_sha256)> message_digest_sha256;
-    func<OSSLPAFP(evp_sha384)> message_digest_sha384;
-    func<OSSLPAFP(evp_sha512)> message_digest_sha512;
+    func<SSLPAFP(evp_md_null)> message_digest_noop;
+    func<SSLPAFP(evp_md5)> message_digest_md5;
+    func<SSLPAFP(evp_sha1)> message_digest_sha1;
+    func<SSLPAFP(evp_sha224)> message_digest_sha224;
+    func<SSLPAFP(evp_sha256)> message_digest_sha256;
+    func<SSLPAFP(evp_sha384)> message_digest_sha384;
+    func<SSLPAFP(evp_sha512)> message_digest_sha512;
 
-    func<OSSLPAFP(evp_md_size)> message_digest_size;
+    func<SSLPAFP(evp_md_size)> message_digest_size;
 
     // message_digest_new
-    func<OSSLPAFP(evp_md_ctx_new)> message_digest_new;
+    func<SSLPAFP(evp_md_ctx_new)> message_digest_new;
 
     // message_digest_free
-    struct : func<OSSLPAFP(evp_md_ctx_free)> {
-        using func<OSSLPAFP(evp_md_ctx_free)>::func;
+    struct : func<SSLPAFP(evp_md_ctx_free)> {
+        using func<SSLPAFP(evp_md_ctx_free)>::func;
 
         auto raii(evp_md_ctx_type* ctx) noexcept {
             return eagine::finally([=]() { (*this)(ctx); });
@@ -132,14 +149,14 @@ public:
     } message_digest_free;
 
     // message_digest_init
-    func<OSSLPAFP(evp_digest_init)> message_digest_init;
+    func<SSLPAFP(evp_digest_init)> message_digest_init;
 
     // message_digest_init_ex
-    func<OSSLPAFP(evp_digest_init_ex)> message_digest_init_ex;
+    func<SSLPAFP(evp_digest_init_ex)> message_digest_init_ex;
 
     // message_digest_update
-    struct : func<OSSLPAFP(evp_digest_update)> {
-        using func<OSSLPAFP(evp_digest_update)>::func;
+    struct : func<SSLPAFP(evp_digest_update)> {
+        using func<SSLPAFP(evp_digest_update)>::func;
 
         constexpr auto operator()(
           evp_md_ctx_type* ctx, memory::const_block blk) const noexcept {
@@ -149,8 +166,8 @@ public:
     } message_digest_update;
 
     // message_digest_final
-    struct : func<OSSLPAFP(evp_digest_final)> {
-        using func<OSSLPAFP(evp_digest_final)>::func;
+    struct : func<SSLPAFP(evp_digest_final)> {
+        using func<SSLPAFP(evp_digest_final)>::func;
 
         constexpr auto operator()(evp_md_ctx_type* ctx, memory::block blk) const
           noexcept {
@@ -160,7 +177,7 @@ public:
         }
     } message_digest_final;
 
-    constexpr basic_ossl_operations(api_traits& traits)
+    constexpr basic_ssl_operations(api_traits& traits)
       : c_api{traits}
       , basic_io_new("basic_io_new", traits, *this)
       , basic_io_block_new("basic_io_block_new", traits, *this)
@@ -184,10 +201,10 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-#undef OSSLPAFP
+#undef SSLPAFP
 //------------------------------------------------------------------------------
-} // namespace osslp
+} // namespace sslp
 } // namespace eagine
 
-#endif // EAGINE_OSSL_API_API_HPP
+#endif // EAGINE_SSL_API_API_HPP
 

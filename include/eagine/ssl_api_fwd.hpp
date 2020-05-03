@@ -1,26 +1,26 @@
 /**
- *  @file eagine/ossl_api_fwd.hpp
+ *  @file eagine/ssl_api_fwd.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_OSSL_API_FWD_HPP
-#define EAGINE_OSSL_API_FWD_HPP
+#ifndef EAGINE_SSL_API_FWD_HPP
+#define EAGINE_SSL_API_FWD_HPP
 
 namespace eagine {
-namespace osslp {
+namespace sslp {
 //------------------------------------------------------------------------------
-class ossl_api_traits;
+class ssl_api_traits;
 
 template <typename ApiTraits>
-class basic_ossl_api;
+class basic_ssl_api;
 
-using ossl_api = basic_ossl_api<ossl_api_traits>;
+using ssl_api = basic_ssl_api<ssl_api_traits>;
 //------------------------------------------------------------------------------
-} // namespace osslp
+} // namespace sslp
 } // namespace eagine
 
-#endif // EAGINE_OSSL_API_FWD_HPP
+#endif // EAGINE_SSL_API_FWD_HPP
 

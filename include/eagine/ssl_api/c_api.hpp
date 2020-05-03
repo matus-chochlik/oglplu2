@@ -1,43 +1,43 @@
 /**
- *  @file eagine/ossl_api/c_api.hpp
+ *  @file eagine/ssl_api/c_api.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_OSSL_API_C_API_HPP
-#define EAGINE_OSSL_API_C_API_HPP
+#ifndef EAGINE_SSL_API_C_API_HPP
+#define EAGINE_SSL_API_C_API_HPP
 
 #include "api_traits.hpp"
 #include "config.hpp"
 #include <eagine/nothing.hpp>
 #include <eagine/preprocessor.hpp>
 
-#ifndef EAGINE_OSSL_STATIC_FUNC
-#if EAGINE_HAS_OSSL
-#define EAGINE_OSSL_STATIC_FUNC(NAME) &::NAME
+#ifndef EAGINE_SSL_STATIC_FUNC
+#if EAGINE_HAS_SSL
+#define EAGINE_SSL_STATIC_FUNC(NAME) &::NAME
 #else
-#define EAGINE_OSSL_STATIC_FUNC(NAME) nullptr
+#define EAGINE_SSL_STATIC_FUNC(NAME) nullptr
 #endif
 #endif
 
 namespace eagine {
-namespace osslp {
+namespace sslp {
 //------------------------------------------------------------------------------
 template <typename Traits>
-struct basic_ossl_c_api {
+struct basic_ssl_c_api {
 
-    using this_api = basic_ossl_c_api;
+    using this_api = basic_ssl_c_api;
     using api_traits = Traits;
 
-    static constexpr bool has_api = ossl_types::has_api;
-    using engine_type = ossl_types::engine_type;
-    using bio_method_type = ossl_types::bio_method_type;
-    using bio_type = ossl_types::bio_type;
-    using evp_pkey_type = ossl_types::evp_pkey_type;
-    using evp_md_ctx_type = ossl_types::evp_md_ctx_type;
-    using evp_md_type = ossl_types::evp_md_type;
+    static constexpr bool has_api = ssl_types::has_api;
+    using engine_type = ssl_types::engine_type;
+    using bio_method_type = ssl_types::bio_method_type;
+    using bio_type = ssl_types::bio_type;
+    using evp_pkey_type = ssl_types::evp_pkey_type;
+    using evp_md_ctx_type = ssl_types::evp_md_ctx_type;
+    using evp_md_type = ssl_types::evp_md_type;
 
 #ifdef __GNUC__
 #pragma GCC diagnostic push
@@ -46,7 +46,7 @@ struct basic_ossl_c_api {
     template <
       typename Signature,
       c_api_function_ptr<api_traits, nothing_t, Signature> Function>
-    using ossl_api_function = eagine::opt_c_api_function<
+    using ssl_api_function = eagine::opt_c_api_function<
       api_traits,
       nothing_t,
       Signature,
@@ -57,128 +57,123 @@ struct basic_ossl_c_api {
 #pragma GCC diagnostic pop
 #endif
 
-    ossl_api_function<unsigned long(), EAGINE_OSSL_STATIC_FUNC(ERR_get_error)>
+    ssl_api_function<unsigned long(), EAGINE_SSL_STATIC_FUNC(ERR_get_error)>
       err_get_error;
 
-    ossl_api_function<unsigned long(), EAGINE_OSSL_STATIC_FUNC(ERR_peek_error)>
+    ssl_api_function<unsigned long(), EAGINE_SSL_STATIC_FUNC(ERR_peek_error)>
       err_peek_error;
 
-    ossl_api_function<
+    ssl_api_function<
       void(unsigned long, char*, size_t),
-      EAGINE_OSSL_STATIC_FUNC(ERR_error_string_n)>
+      EAGINE_SSL_STATIC_FUNC(ERR_error_string_n)>
       err_error_string_n;
 
-    ossl_api_function<
+    ssl_api_function<
       bio_type*(const bio_method_type*),
-      EAGINE_OSSL_STATIC_FUNC(BIO_new)>
+      EAGINE_SSL_STATIC_FUNC(BIO_new)>
       bio_new;
 
-    ossl_api_function<
+    ssl_api_function<
       bio_type*(const void*, int),
-      EAGINE_OSSL_STATIC_FUNC(BIO_new_mem_buf)>
+      EAGINE_SSL_STATIC_FUNC(BIO_new_mem_buf)>
       bio_new_mem_buf;
 
-    ossl_api_function<int(bio_type*), EAGINE_OSSL_STATIC_FUNC(BIO_up_ref)>
+    ssl_api_function<int(bio_type*), EAGINE_SSL_STATIC_FUNC(BIO_up_ref)>
       bio_up_ref;
 
-    ossl_api_function<int(bio_type*), EAGINE_OSSL_STATIC_FUNC(BIO_free)>
-      bio_free;
+    ssl_api_function<int(bio_type*), EAGINE_SSL_STATIC_FUNC(BIO_free)> bio_free;
 
-    ossl_api_function<void(bio_type*), EAGINE_OSSL_STATIC_FUNC(BIO_free_all)>
+    ssl_api_function<void(bio_type*), EAGINE_SSL_STATIC_FUNC(BIO_free_all)>
       bio_free_all;
 
-    ossl_api_function<evp_pkey_type*(), EAGINE_OSSL_STATIC_FUNC(EVP_PKEY_new)>
+    ssl_api_function<evp_pkey_type*(), EAGINE_SSL_STATIC_FUNC(EVP_PKEY_new)>
       evp_pkey_new;
 
-    ossl_api_function<
+    ssl_api_function<
       int(evp_pkey_type*),
-      EAGINE_OSSL_STATIC_FUNC(EVP_PKEY_up_ref)>
+      EAGINE_SSL_STATIC_FUNC(EVP_PKEY_up_ref)>
       evp_pkey_up_ref;
 
-    ossl_api_function<
+    ssl_api_function<
       void(evp_pkey_type*),
-      EAGINE_OSSL_STATIC_FUNC(EVP_PKEY_free)>
+      EAGINE_SSL_STATIC_FUNC(EVP_PKEY_free)>
       evp_pkey_free;
 
-    ossl_api_function<
-      const evp_md_type*(),
-      EAGINE_OSSL_STATIC_FUNC(EVP_md_null)>
+    ssl_api_function<const evp_md_type*(), EAGINE_SSL_STATIC_FUNC(EVP_md_null)>
       evp_md_null;
 
-    ossl_api_function<const evp_md_type*(), EAGINE_OSSL_STATIC_FUNC(EVP_md5)>
+    ssl_api_function<const evp_md_type*(), EAGINE_SSL_STATIC_FUNC(EVP_md5)>
       evp_md5;
 
-    ossl_api_function<const evp_md_type*(), EAGINE_OSSL_STATIC_FUNC(EVP_sha1)>
+    ssl_api_function<const evp_md_type*(), EAGINE_SSL_STATIC_FUNC(EVP_sha1)>
       evp_sha1;
 
-    ossl_api_function<const evp_md_type*(), EAGINE_OSSL_STATIC_FUNC(EVP_sha224)>
+    ssl_api_function<const evp_md_type*(), EAGINE_SSL_STATIC_FUNC(EVP_sha224)>
       evp_sha224;
 
-    ossl_api_function<const evp_md_type*(), EAGINE_OSSL_STATIC_FUNC(EVP_sha256)>
+    ssl_api_function<const evp_md_type*(), EAGINE_SSL_STATIC_FUNC(EVP_sha256)>
       evp_sha256;
 
-    ossl_api_function<const evp_md_type*(), EAGINE_OSSL_STATIC_FUNC(EVP_sha384)>
+    ssl_api_function<const evp_md_type*(), EAGINE_SSL_STATIC_FUNC(EVP_sha384)>
       evp_sha384;
 
-    ossl_api_function<const evp_md_type*(), EAGINE_OSSL_STATIC_FUNC(EVP_sha512)>
+    ssl_api_function<const evp_md_type*(), EAGINE_SSL_STATIC_FUNC(EVP_sha512)>
       evp_sha512;
 
-    ossl_api_function<
+    ssl_api_function<
       const evp_md_type*(const char*),
-      EAGINE_OSSL_STATIC_FUNC(EVP_get_digestbyname)>
+      EAGINE_SSL_STATIC_FUNC(EVP_get_digestbyname)>
       evp_get_digest_by_name;
 
-    ossl_api_function<
+    ssl_api_function<
       int(const evp_md_type*),
-      EAGINE_OSSL_STATIC_FUNC(EVP_MD_size)>
+      EAGINE_SSL_STATIC_FUNC(EVP_MD_size)>
       evp_md_size;
 
-    ossl_api_function<
+    ssl_api_function<
       int(const evp_md_type*),
-      EAGINE_OSSL_STATIC_FUNC(EVP_MD_block_size)>
+      EAGINE_SSL_STATIC_FUNC(EVP_MD_block_size)>
       evp_md_block_size;
 
-    ossl_api_function<
-      evp_md_ctx_type*(),
-      EAGINE_OSSL_STATIC_FUNC(EVP_MD_CTX_new)>
+    ssl_api_function<evp_md_ctx_type*(), EAGINE_SSL_STATIC_FUNC(EVP_MD_CTX_new)>
       evp_md_ctx_new;
 
-    ossl_api_function<
+    ssl_api_function<
       int(evp_md_ctx_type*),
-      EAGINE_OSSL_STATIC_FUNC(EVP_MD_CTX_reset)>
+      EAGINE_SSL_STATIC_FUNC(EVP_MD_CTX_reset)>
       evp_md_ctx_reset;
 
-    ossl_api_function<
+    ssl_api_function<
       void(evp_md_ctx_type*),
-      EAGINE_OSSL_STATIC_FUNC(EVP_MD_CTX_free)>
+      EAGINE_SSL_STATIC_FUNC(EVP_MD_CTX_free)>
       evp_md_ctx_free;
 
-    ossl_api_function<
+    ssl_api_function<
       int(evp_md_ctx_type*, const evp_md_type*),
-      EAGINE_OSSL_STATIC_FUNC(EVP_DigestInit)>
+      EAGINE_SSL_STATIC_FUNC(EVP_DigestInit)>
       evp_digest_init;
 
-    ossl_api_function<
+    ssl_api_function<
       int(evp_md_ctx_type*, const evp_md_type*, engine_type*),
-      EAGINE_OSSL_STATIC_FUNC(EVP_DigestInit_ex)>
+      EAGINE_SSL_STATIC_FUNC(EVP_DigestInit_ex)>
       evp_digest_init_ex;
 
-    ossl_api_function<
+    ssl_api_function<
       int(evp_md_ctx_type*, const void*, size_t),
-      EAGINE_OSSL_STATIC_FUNC(EVP_DigestUpdate)>
+      EAGINE_SSL_STATIC_FUNC(EVP_DigestUpdate)>
       evp_digest_update;
 
-    ossl_api_function<
+    ssl_api_function<
       int(evp_md_ctx_type*, unsigned char*, unsigned int*),
-      EAGINE_OSSL_STATIC_FUNC(EVP_DigestFinal_ex)>
+      EAGINE_SSL_STATIC_FUNC(EVP_DigestFinal_ex)>
       evp_digest_final;
 
-    ossl_api_function<
+    ssl_api_function<
       int(evp_md_ctx_type*, unsigned char*, unsigned int*),
-      EAGINE_OSSL_STATIC_FUNC(EVP_DigestFinal_ex)>
+      EAGINE_SSL_STATIC_FUNC(EVP_DigestFinal_ex)>
       evp_digest_final_ex;
 
-    constexpr basic_ossl_c_api(api_traits& traits)
+    constexpr basic_ssl_c_api(api_traits& traits)
       : err_get_error("ERR_get_error", traits, *this)
       , err_peek_error("ERR_peek_error", traits, *this)
       , err_error_string_n("ERR_error_string_n", traits, *this)
@@ -211,9 +206,9 @@ struct basic_ossl_c_api {
     }
 };
 //------------------------------------------------------------------------------
-using ossl_c_api = basic_ossl_c_api<ossl_api_traits>;
+using ssl_c_api = basic_ssl_c_api<ssl_api_traits>;
 //------------------------------------------------------------------------------
-} // namespace osslp
+} // namespace sslp
 } // namespace eagine
 
 #endif
