@@ -31,11 +31,17 @@ struct ossl_types {
 #if EAGINE_HAS_OSSL
     static constexpr bool has_api = true;
     using engine_type = ::ENGINE;
+    using bio_method_type = ::BIO_METHOD;
+    using bio_type = ::BIO;
+    using evp_pkey_type = ::EVP_PKEY;
     using evp_md_ctx_type = ::EVP_MD_CTX;
     using evp_md_type = ::EVP_MD;
 #else
     static constexpr bool has_api = false;
     using engine_type = nothing_t;
+    using bio_method_type = nothing_t;
+    using bio_type = nothing_t;
+    using evp_pkey_type = nothing_t;
     using evp_md_ctx_type = nothing_t;
     using evp_md_type = nothing_t;
 #endif

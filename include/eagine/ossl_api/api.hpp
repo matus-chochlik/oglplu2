@@ -25,6 +25,9 @@ public:
     using api_traits = ApiTraits;
     using c_api = basic_ossl_c_api<ApiTraits>;
 
+    using bio_method_type = ossl_types::bio_method_type;
+    using bio_type = ossl_types::bio_type;
+    using evp_pkey_type = ossl_types::evp_pkey_type;
     using evp_md_ctx_type = ossl_types::evp_md_ctx_type;
     using evp_md_type = ossl_types::evp_md_type;
 
@@ -61,6 +64,48 @@ public:
             return this->_chkcall(_conv(params)...).cast_to(identity<RVC>{});
         }
     };
+
+    func<OSSLPAFP(bio_new)> basic_io_new;
+
+    // basic_io_block_new
+    struct : func<OSSLPAFP(bio_new_mem_buf)> {
+        using func<OSSLPAFP(bio_new_mem_buf)>::func;
+
+        constexpr auto operator()(memory::const_block blk) const noexcept {
+            return this->_chkcall(blk.data(), limit_cast<int>(blk.size()));
+        }
+
+    } basic_io_block_new;
+
+    // basic_io_free
+    struct : func<OSSLPAFP(bio_free)> {
+        using func<OSSLPAFP(bio_free)>::func;
+
+        auto raii(bio_type* bio) noexcept {
+            return eagine::finally([=]() { (*this)(bio); });
+        }
+
+    } basic_io_free;
+
+    // basic_io_free_all
+    struct : func<OSSLPAFP(bio_free_all)> {
+        using func<OSSLPAFP(bio_free_all)>::func;
+
+        auto raii(bio_type* bio) noexcept {
+            return eagine::finally([=]() { (*this)(bio); });
+        }
+
+    } basic_io_free_all;
+
+    // pkey_free
+    struct : func<OSSLPAFP(evp_pkey_free)> {
+        using func<OSSLPAFP(evp_pkey_free)>::func;
+
+        auto raii(evp_pkey_type* pky) noexcept {
+            return eagine::finally([=]() { (*this)(pky); });
+        }
+
+    } pkey_free;
 
     // message_digest_null
     func<OSSLPAFP(evp_md_null)> message_digest_noop;
@@ -117,6 +162,11 @@ public:
 
     constexpr basic_ossl_operations(api_traits& traits)
       : c_api{traits}
+      , basic_io_new("basic_io_new", traits, *this)
+      , basic_io_block_new("basic_io_block_new", traits, *this)
+      , basic_io_free("basic_io_free", traits, *this)
+      , basic_io_free_all("basic_io_free_all", traits, *this)
+      , pkey_free("pkey_free", traits, *this)
       , message_digest_noop("message_digest_noop", traits, *this)
       , message_digest_md5("message_digest_md5", traits, *this)
       , message_digest_sha1("message_digest_sha1", traits, *this)

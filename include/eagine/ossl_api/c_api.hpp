@@ -33,6 +33,9 @@ struct basic_ossl_c_api {
 
     static constexpr bool has_api = ossl_types::has_api;
     using engine_type = ossl_types::engine_type;
+    using bio_method_type = ossl_types::bio_method_type;
+    using bio_type = ossl_types::bio_type;
+    using evp_pkey_type = ossl_types::evp_pkey_type;
     using evp_md_ctx_type = ossl_types::evp_md_ctx_type;
     using evp_md_type = ossl_types::evp_md_type;
 
@@ -64,6 +67,38 @@ struct basic_ossl_c_api {
       void(unsigned long, char*, size_t),
       EAGINE_OSSL_STATIC_FUNC(ERR_error_string_n)>
       err_error_string_n;
+
+    ossl_api_function<
+      bio_type*(const bio_method_type*),
+      EAGINE_OSSL_STATIC_FUNC(BIO_new)>
+      bio_new;
+
+    ossl_api_function<
+      bio_type*(const void*, int),
+      EAGINE_OSSL_STATIC_FUNC(BIO_new_mem_buf)>
+      bio_new_mem_buf;
+
+    ossl_api_function<int(bio_type*), EAGINE_OSSL_STATIC_FUNC(BIO_up_ref)>
+      bio_up_ref;
+
+    ossl_api_function<int(bio_type*), EAGINE_OSSL_STATIC_FUNC(BIO_free)>
+      bio_free;
+
+    ossl_api_function<void(bio_type*), EAGINE_OSSL_STATIC_FUNC(BIO_free_all)>
+      bio_free_all;
+
+    ossl_api_function<evp_pkey_type*(), EAGINE_OSSL_STATIC_FUNC(EVP_PKEY_new)>
+      evp_pkey_new;
+
+    ossl_api_function<
+      int(evp_pkey_type*),
+      EAGINE_OSSL_STATIC_FUNC(EVP_PKEY_up_ref)>
+      evp_pkey_up_ref;
+
+    ossl_api_function<
+      void(evp_pkey_type*),
+      EAGINE_OSSL_STATIC_FUNC(EVP_PKEY_free)>
+      evp_pkey_free;
 
     ossl_api_function<
       const evp_md_type*(),
@@ -147,6 +182,14 @@ struct basic_ossl_c_api {
       : err_get_error("ERR_get_error", traits, *this)
       , err_peek_error("ERR_peek_error", traits, *this)
       , err_error_string_n("ERR_error_string_n", traits, *this)
+      , bio_new("BIO_new", traits, *this)
+      , bio_new_mem_buf("BIO_new_mem_buf", traits, *this)
+      , bio_up_ref("BIO_up_ref", traits, *this)
+      , bio_free("BIO_free", traits, *this)
+      , bio_free_all("BIO_free_all", traits, *this)
+      , evp_pkey_new("EVP_PKEY_new", traits, *this)
+      , evp_pkey_up_ref("EVP_PKEY_up_ref", traits, *this)
+      , evp_pkey_free("EVP_PKEY_free", traits, *this)
       , evp_md_null("EVP_md_null", traits, *this)
       , evp_md5("EVP_md5", traits, *this)
       , evp_sha1("EVP_sha1", traits, *this)
