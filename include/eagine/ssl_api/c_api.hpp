@@ -35,6 +35,7 @@ struct basic_ssl_c_api {
     using engine_type = ssl_types::engine_type;
     using bio_method_type = ssl_types::bio_method_type;
     using bio_type = ssl_types::bio_type;
+    using evp_pkey_ctx_type = ssl_types::evp_pkey_ctx_type;
     using evp_pkey_type = ssl_types::evp_pkey_type;
     using evp_md_ctx_type = ssl_types::evp_md_ctx_type;
     using evp_md_type = ssl_types::evp_md_type;
@@ -185,6 +186,46 @@ struct basic_ssl_c_api {
       EAGINE_SSL_STATIC_FUNC(EVP_DigestFinal_ex)>
       evp_digest_final_ex;
 
+    ssl_api_function<
+      int(
+        evp_md_ctx_type*,
+        evp_pkey_ctx_type**,
+        const evp_md_type*,
+        engine_type*,
+        evp_pkey_type*),
+      EAGINE_SSL_STATIC_FUNC(EVP_DigestSignInit)>
+      evp_digest_sign_init;
+
+    ssl_api_function<
+      int(evp_md_ctx_type*, const void*, size_t),
+      EAGINE_SSL_STATIC_FUNC(EVP_DigestUpdate)>
+      evp_digest_sign_update;
+
+    ssl_api_function<
+      int(evp_md_ctx_type*, unsigned char*, size_t*),
+      EAGINE_SSL_STATIC_FUNC(EVP_DigestSignFinal)>
+      evp_digest_sign_final;
+
+    ssl_api_function<
+      int(
+        evp_md_ctx_type*,
+        evp_pkey_ctx_type**,
+        const evp_md_type*,
+        engine_type*,
+        evp_pkey_type*),
+      EAGINE_SSL_STATIC_FUNC(EVP_DigestVerifyInit)>
+      evp_digest_verify_init;
+
+    ssl_api_function<
+      int(evp_md_ctx_type*, const void*, size_t),
+      EAGINE_SSL_STATIC_FUNC(EVP_DigestUpdate)>
+      evp_digest_verify_update;
+
+    ssl_api_function<
+      int(evp_md_ctx_type*, const unsigned char*, size_t),
+      EAGINE_SSL_STATIC_FUNC(EVP_DigestVerifyFinal)>
+      evp_digest_verify_final;
+
     constexpr basic_ssl_c_api(api_traits& traits)
       : err_get_error("ERR_get_error", traits, *this)
       , err_peek_error("ERR_peek_error", traits, *this)
@@ -216,7 +257,13 @@ struct basic_ssl_c_api {
       , evp_digest_init_ex("EVP_DigestInit_ex", traits, *this)
       , evp_digest_update("EVP_DigestUpdate", traits, *this)
       , evp_digest_final("EVP_DigestFinal", traits, *this)
-      , evp_digest_final_ex("EVP_DigestFinal_ex", traits, *this) {
+      , evp_digest_final_ex("EVP_DigestFinal_ex", traits, *this)
+      , evp_digest_sign_init("EVP_DigestSignInit", traits, *this)
+      , evp_digest_sign_update("EVP_DigestSignUpdate", traits, *this)
+      , evp_digest_sign_final("EVP_DigestSignFinal", traits, *this)
+      , evp_digest_verify_init("EVP_DigestVerifyInit", traits, *this)
+      , evp_digest_verify_update("EVP_DigestVerifyUpdate", traits, *this)
+      , evp_digest_verify_final("EVP_DigestVerifyFinal", traits, *this) {
     }
 };
 //------------------------------------------------------------------------------
