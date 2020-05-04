@@ -293,7 +293,7 @@ public:
         }
     } message_digest_final;
 
-    // message_digest_final
+    // message_digest_final_ex
     struct : func<SSLPAFP(evp_digest_final_ex)> {
         using func<SSLPAFP(evp_digest_final_ex)>::func;
 
@@ -304,6 +304,78 @@ public:
               .replaced_with(head(blk, span_size(size)));
         }
     } message_digest_final_ex;
+
+    // message_digest_sign_init
+    struct : func<SSLPAFP(evp_digest_sign_init)> {
+        using func<SSLPAFP(evp_digest_sign_init)>::func;
+
+        constexpr auto operator()(
+          message_digest mdc,
+          message_digest_type mdt,
+          engine eng,
+          pkey pky) const noexcept {
+            return this->_cnvchkcall(mdc, nullptr, mdt, eng, pky);
+        }
+    } message_digest_sign_init;
+
+    // message_digest_sign_update
+    struct : func<SSLPAFP(evp_digest_sign_update)> {
+        using func<SSLPAFP(evp_digest_sign_update)>::func;
+
+        constexpr auto operator()(
+          message_digest mdc, memory::const_block blk) const noexcept {
+            return this->_cnvchkcall(mdc, blk.data(), std_size(blk.size()));
+        }
+
+    } message_digest_sign_update;
+
+    // message_digest_sign_final
+    struct : func<SSLPAFP(evp_digest_sign_final)> {
+        using func<SSLPAFP(evp_digest_sign_final)>::func;
+
+        constexpr auto operator()(message_digest mdc, memory::block blk) const
+          noexcept {
+            unsigned int size{0U};
+            return this->_cnvchkcall(mdc, blk.data(), &size)
+              .replaced_with(head(blk, span_size(size)));
+        }
+    } message_digest_sign_final;
+
+    // message_digest_verify_init
+    struct : func<SSLPAFP(evp_digest_verify_init)> {
+        using func<SSLPAFP(evp_digest_verify_init)>::func;
+
+        constexpr auto operator()(
+          message_digest mdc,
+          message_digest_type mdt,
+          engine eng,
+          pkey pky) const noexcept {
+            return this->_cnvchkcall(mdc, nullptr, mdt, eng, pky);
+        }
+    } message_digest_verify_init;
+
+    // message_digest_verify_update
+    struct : func<SSLPAFP(evp_digest_verify_update)> {
+        using func<SSLPAFP(evp_digest_verify_update)>::func;
+
+        constexpr auto operator()(
+          message_digest mdc, memory::const_block blk) const noexcept {
+            return this->_cnvchkcall(mdc, blk.data(), std_size(blk.size()));
+        }
+
+    } message_digest_verify_update;
+
+    // message_digest_verify_final
+    struct : func<SSLPAFP(evp_digest_verify_final)> {
+        using func<SSLPAFP(evp_digest_verify_final)>::func;
+
+        constexpr auto operator()(message_digest mdc, memory::block blk) const
+          noexcept {
+            unsigned int size{0U};
+            return this->_cnvchkcall(mdc, blk.data(), &size)
+              .replaced_with(head(blk, span_size(size)));
+        }
+    } message_digest_verify_final;
 
     constexpr basic_ssl_operations(api_traits& traits)
       : c_api{traits}
@@ -328,7 +400,15 @@ public:
       , message_digest_init_ex("message_digest_init_ex", traits, *this)
       , message_digest_update("message_digest_update", traits, *this)
       , message_digest_final("message_digest_final", traits, *this)
-      , message_digest_final_ex("message_digest_final", traits, *this) {
+      , message_digest_final_ex("message_digest_final", traits, *this)
+      , message_digest_sign_init("message_digest_sign_init", traits, *this)
+      , message_digest_sign_update("message_digest_sign_update", traits, *this)
+      , message_digest_sign_final("message_digest_sign_final", traits, *this)
+      , message_digest_verify_init("message_digest_verify_init", traits, *this)
+      , message_digest_verify_update(
+          "message_digest_verify_update", traits, *this)
+      , message_digest_verify_final(
+          "message_digest_verify_final", traits, *this) {
     }
 };
 //------------------------------------------------------------------------------
