@@ -5,10 +5,7 @@
 #
 set (CMAKE_CXX_STANDARD 17)
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
-
-if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-	list(APPEND CMAKE_CXX_FLAGS --std=c++${CMAKE_CXX_STANDARD})
-endif()
+set (CMAKE_CXX_EXTENSIONS OFF)
 
 configure_file(
 	${PROJECT_SOURCE_DIR}/config/cpp/test_compiler.cpp
