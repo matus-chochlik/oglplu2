@@ -160,7 +160,56 @@ public:
 
     } pkey_free;
 
-    // message_digest_null
+    // cipher
+    struct : func<SSLPAFP(evp_aes_128_ctr)> {
+        using func<SSLPAFP(evp_aes_128_ctr)>::func;
+
+        constexpr auto operator()() const noexcept {
+            return this->_chkcall().cast_to(identity<cipher_type>{});
+        }
+    } cipher_aes_128_ctr;
+
+    struct : func<SSLPAFP(evp_aes_128_ccm)> {
+        using func<SSLPAFP(evp_aes_128_ccm)>::func;
+
+        constexpr auto operator()() const noexcept {
+            return this->_chkcall().cast_to(identity<cipher_type>{});
+        }
+    } cipher_aes_128_ccm;
+
+    struct : func<SSLPAFP(evp_aes_128_gcm)> {
+        using func<SSLPAFP(evp_aes_128_gcm)>::func;
+
+        constexpr auto operator()() const noexcept {
+            return this->_chkcall().cast_to(identity<cipher_type>{});
+        }
+    } cipher_aes_128_gcm;
+
+    struct : func<SSLPAFP(evp_aes_128_xts)> {
+        using func<SSLPAFP(evp_aes_128_xts)>::func;
+
+        constexpr auto operator()() const noexcept {
+            return this->_chkcall().cast_to(identity<cipher_type>{});
+        }
+    } cipher_aes_128_xts;
+
+    struct : func<SSLPAFP(evp_aes_192_ecb)> {
+        using func<SSLPAFP(evp_aes_192_ecb)>::func;
+
+        constexpr auto operator()() const noexcept {
+            return this->_chkcall().cast_to(identity<cipher_type>{});
+        }
+    } cipher_aes_192_ecb;
+
+    struct : func<SSLPAFP(evp_aes_192_cbc)> {
+        using func<SSLPAFP(evp_aes_192_cbc)>::func;
+
+        constexpr auto operator()() const noexcept {
+            return this->_chkcall().cast_to(identity<cipher_type>{});
+        }
+    } cipher_aes_192_cbc;
+
+    // message_digest
     struct : func<SSLPAFP(evp_md_null)> {
         using func<SSLPAFP(evp_md_null)>::func;
 
@@ -403,6 +452,12 @@ public:
       , read_bio_private_key("read_bio_private_key", traits, *this)
       , read_bio_public_key("read_bio_public_key", traits, *this)
       , pkey_free("pkey_free", traits, *this)
+      , cipher_aes_128_ctr("cipher_aes_128_ctr", traits, *this)
+      , cipher_aes_128_ccm("cipher_aes_128_ccm", traits, *this)
+      , cipher_aes_128_gcm("cipher_aes_128_gcm", traits, *this)
+      , cipher_aes_128_xts("cipher_aes_128_xts", traits, *this)
+      , cipher_aes_192_ecb("cipher_aes_192_ecb", traits, *this)
+      , cipher_aes_192_cbc("cipher_aes_192_cbc", traits, *this)
       , message_digest_noop("message_digest_noop", traits, *this)
       , message_digest_md5("message_digest_md5", traits, *this)
       , message_digest_sha1("message_digest_sha1", traits, *this)

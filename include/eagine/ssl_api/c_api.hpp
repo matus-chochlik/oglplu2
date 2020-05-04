@@ -37,6 +37,7 @@ struct basic_ssl_c_api {
     using bio_type = ssl_types::bio_type;
     using evp_pkey_ctx_type = ssl_types::evp_pkey_ctx_type;
     using evp_pkey_type = ssl_types::evp_pkey_type;
+    using evp_cipher_type = ssl_types::evp_cipher_type;
     using evp_md_ctx_type = ssl_types::evp_md_ctx_type;
     using evp_md_type = ssl_types::evp_md_type;
 
@@ -111,6 +112,36 @@ struct basic_ssl_c_api {
       void(evp_pkey_type*),
       EAGINE_SSL_STATIC_FUNC(EVP_PKEY_free)>
       evp_pkey_free;
+
+    ssl_api_function<
+      const evp_cipher_type*(),
+      EAGINE_SSL_STATIC_FUNC(EVP_aes_128_ctr)>
+      evp_aes_128_ctr;
+
+    ssl_api_function<
+      const evp_cipher_type*(),
+      EAGINE_SSL_STATIC_FUNC(EVP_aes_128_ccm)>
+      evp_aes_128_ccm;
+
+    ssl_api_function<
+      const evp_cipher_type*(),
+      EAGINE_SSL_STATIC_FUNC(EVP_aes_128_gcm)>
+      evp_aes_128_gcm;
+
+    ssl_api_function<
+      const evp_cipher_type*(),
+      EAGINE_SSL_STATIC_FUNC(EVP_aes_128_xts)>
+      evp_aes_128_xts;
+
+    ssl_api_function<
+      const evp_cipher_type*(),
+      EAGINE_SSL_STATIC_FUNC(EVP_aes_192_ecb)>
+      evp_aes_192_ecb;
+
+    ssl_api_function<
+      const evp_cipher_type*(),
+      EAGINE_SSL_STATIC_FUNC(EVP_aes_192_cbc)>
+      evp_aes_192_cbc;
 
     ssl_api_function<const evp_md_type*(), EAGINE_SSL_STATIC_FUNC(EVP_md_null)>
       evp_md_null;
@@ -240,6 +271,12 @@ struct basic_ssl_c_api {
       , evp_pkey_new("EVP_PKEY_new", traits, *this)
       , evp_pkey_up_ref("EVP_PKEY_up_ref", traits, *this)
       , evp_pkey_free("EVP_PKEY_free", traits, *this)
+      , evp_aes_128_ctr("evp_aes_128_ctr", traits, *this)
+      , evp_aes_128_ccm("evp_aes_128_ccm", traits, *this)
+      , evp_aes_128_gcm("evp_aes_128_gcm", traits, *this)
+      , evp_aes_128_xts("evp_aes_128_xts", traits, *this)
+      , evp_aes_192_ecb("evp_aes_192_ecb", traits, *this)
+      , evp_aes_192_cbc("evp_aes_192_cbc", traits, *this)
       , evp_md_null("EVP_md_null", traits, *this)
       , evp_md5("EVP_md5", traits, *this)
       , evp_sha1("EVP_sha1", traits, *this)

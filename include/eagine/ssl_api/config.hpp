@@ -35,6 +35,7 @@ struct ssl_types {
     using bio_type = ::BIO;
     using evp_pkey_ctx_type = ::EVP_PKEY_CTX;
     using evp_pkey_type = ::EVP_PKEY;
+    using evp_cipher_type = ::EVP_CIPHER;
     using evp_md_ctx_type = ::EVP_MD_CTX;
     using evp_md_type = ::EVP_MD;
 #else
@@ -44,6 +45,7 @@ struct ssl_types {
     using bio_type = nothing_t;
     using evp_pkey_ctx_type = nothing_t;
     using evp_pkey_type = nothing_t;
+    using evp_cipher_type = nothing_t;
     using evp_md_ctx_type = nothing_t;
     using evp_md_type = nothing_t;
 #endif

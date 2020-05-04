@@ -19,6 +19,7 @@ namespace sslp {
 using engine_tag = EAGINE_MSG_TYPE(ssl, Engine);
 using basic_io_tag = EAGINE_MSG_TYPE(ssl, BIO);
 using basic_io_method_tag = EAGINE_MSG_TYPE(ssl, BIOMethod);
+using cipher_type_tag = EAGINE_MSG_TYPE(ssl, CipherType);
 using message_digest_type_tag = EAGINE_MSG_TYPE(ssl, MsgDgstTyp);
 using message_digest_tag = EAGINE_MSG_TYPE(ssl, MsgDigest);
 using pkey_tag = EAGINE_MSG_TYPE(ssl, PKey);
@@ -28,6 +29,8 @@ using engine = basic_handle<engine_tag, ssl_types::engine_type*, nullptr>;
 using basic_io = basic_handle<basic_io_tag, ssl_types::bio_type*, nullptr>;
 using basic_io_method =
   basic_handle<basic_io_method_tag, const ssl_types::bio_method_type*, nullptr>;
+using cipher_type =
+  basic_handle<cipher_type_tag, const ssl_types::evp_cipher_type*, nullptr>;
 using message_digest_type =
   basic_handle<message_digest_type_tag, const ssl_types::evp_md_type*, nullptr>;
 using message_digest =
