@@ -310,6 +310,12 @@ public:
         using func<SSLPAFP(evp_digest_sign_init)>::func;
 
         constexpr auto operator()(
+          message_digest mdc, message_digest_type mdt, pkey pky) const
+          noexcept {
+            return this->_cnvchkcall(mdc, nullptr, mdt, nullptr, pky);
+        }
+
+        constexpr auto operator()(
           message_digest mdc,
           message_digest_type mdt,
           engine eng,
@@ -333,9 +339,15 @@ public:
     struct : func<SSLPAFP(evp_digest_sign_final)> {
         using func<SSLPAFP(evp_digest_sign_final)>::func;
 
+        constexpr auto required_size(message_digest mdc) const noexcept {
+            size_t size{0U};
+            return this->_cnvchkcall(mdc, nullptr, &size)
+              .replaced_with(span_size(size));
+        }
+
         constexpr auto operator()(message_digest mdc, memory::block blk) const
           noexcept {
-            unsigned int size{0U};
+            auto size = limit_cast<size_t>(blk.size());
             return this->_cnvchkcall(mdc, blk.data(), &size)
               .replaced_with(head(blk, span_size(size)));
         }
@@ -344,6 +356,12 @@ public:
     // message_digest_verify_init
     struct : func<SSLPAFP(evp_digest_verify_init)> {
         using func<SSLPAFP(evp_digest_verify_init)>::func;
+
+        constexpr auto operator()(
+          message_digest mdc, message_digest_type mdt, pkey pky) const
+          noexcept {
+            return this->_cnvchkcall(mdc, nullptr, mdt, nullptr, pky);
+        }
 
         constexpr auto operator()(
           message_digest mdc,
@@ -369,11 +387,10 @@ public:
     struct : func<SSLPAFP(evp_digest_verify_final)> {
         using func<SSLPAFP(evp_digest_verify_final)>::func;
 
-        constexpr auto operator()(message_digest mdc, memory::block blk) const
-          noexcept {
-            unsigned int size{0U};
-            return this->_cnvchkcall(mdc, blk.data(), &size)
-              .replaced_with(head(blk, span_size(size)));
+        constexpr auto operator()(
+          message_digest mdc, memory::const_block blk) const noexcept {
+            return this->_cnvchkcall(mdc, blk.data(), std_size(blk.size()))
+              .transformed([](int result) { return result == 1; });
         }
     } message_digest_verify_final;
 

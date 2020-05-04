@@ -59,7 +59,7 @@ public:
     }
 
     template <typename OptMdt>
-    memory::block make_data_digest(
+    memory::block do_data_digest(
       memory::const_block data, memory::block dst, OptMdt opt_mdtype) {
         if(opt_mdtype) {
             return data_digest(data, dst, extract(opt_mdtype));
@@ -68,27 +68,63 @@ public:
     }
 
     auto md5_digest(memory::const_block data, memory::block dst) {
-        return make_data_digest(data, dst, this->message_digest_md5());
+        return do_data_digest(data, dst, this->message_digest_md5());
     }
 
     auto sha1_digest(memory::const_block data, memory::block dst) {
-        return make_data_digest(data, dst, this->message_digest_sha1());
+        return do_data_digest(data, dst, this->message_digest_sha1());
     }
 
     auto sha224_digest(memory::const_block data, memory::block dst) {
-        return make_data_digest(data, dst, this->message_digest_sha224());
+        return do_data_digest(data, dst, this->message_digest_sha224());
     }
 
     auto sha256_digest(memory::const_block data, memory::block dst) {
-        return make_data_digest(data, dst, this->message_digest_sha256());
+        return do_data_digest(data, dst, this->message_digest_sha256());
     }
 
     auto sha384_digest(memory::const_block data, memory::block dst) {
-        return make_data_digest(data, dst, this->message_digest_sha384());
+        return do_data_digest(data, dst, this->message_digest_sha384());
     }
 
     auto sha512_digest(memory::const_block data, memory::block dst) {
-        return make_data_digest(data, dst, this->message_digest_sha512());
+        return do_data_digest(data, dst, this->message_digest_sha512());
+    }
+
+    memory::block data_digest_sign(
+      memory::const_block data,
+      memory::block dst,
+      message_digest_type mdtype,
+      pkey pky) {
+        if(mdtype && pky) {
+            if(auto optmdctx = this->message_digest_new()) {
+                auto& mdctx{extract(optmdctx)};
+                auto cleanup{this->message_digest_free.raii(mdctx)};
+                this->message_digest_sign_init(mdctx, mdtype, pky);
+                this->message_digest_sign_update(mdctx, data);
+                return extract_or(
+                  this->message_digest_sign_final(mdctx, dst), memory::block{});
+            }
+        }
+        return {};
+    }
+
+    bool data_digest_verify(
+      memory::const_block data,
+      memory::const_block sig,
+      message_digest_type mdtype,
+      pkey pky) {
+        if(mdtype && pky) {
+            if(auto optmdctx = this->message_digest_new()) {
+                auto& mdctx{extract(optmdctx)};
+                auto cleanup{this->message_digest_free.raii(mdctx)};
+                this->message_digest_verify_init(mdctx, mdtype, pky);
+                this->message_digest_verify_update(mdctx, data);
+                return extract_or(
+                  this->message_digest_verify_final(mdctx, sig), false);
+            }
+        }
+        return false;
     }
 };
 //------------------------------------------------------------------------------
