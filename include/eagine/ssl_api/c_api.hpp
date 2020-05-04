@@ -39,6 +39,8 @@ struct basic_ssl_c_api {
     using evp_md_ctx_type = ssl_types::evp_md_ctx_type;
     using evp_md_type = ssl_types::evp_md_type;
 
+    using passwd_callback_type = int(char*, int, int, void*);
+
 #ifdef __GNUC__
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Waddress"
@@ -85,6 +87,16 @@ struct basic_ssl_c_api {
 
     ssl_api_function<void(bio_type*), EAGINE_SSL_STATIC_FUNC(BIO_free_all)>
       bio_free_all;
+
+    ssl_api_function<
+      evp_pkey_type*(bio_type*, evp_pkey_type**, passwd_callback_type*, void*),
+      EAGINE_SSL_STATIC_FUNC(PEM_read_bio_PrivateKey)>
+      pem_read_bio_private_key;
+
+    ssl_api_function<
+      evp_pkey_type*(bio_type*, evp_pkey_type**, passwd_callback_type*, void*),
+      EAGINE_SSL_STATIC_FUNC(PEM_read_bio_PUBKEY)>
+      pem_read_bio_pubkey;
 
     ssl_api_function<evp_pkey_type*(), EAGINE_SSL_STATIC_FUNC(EVP_PKEY_new)>
       evp_pkey_new;
@@ -182,6 +194,8 @@ struct basic_ssl_c_api {
       , bio_up_ref("BIO_up_ref", traits, *this)
       , bio_free("BIO_free", traits, *this)
       , bio_free_all("BIO_free_all", traits, *this)
+      , pem_read_bio_private_key("pem_read_bio_private_key", traits, *this)
+      , pem_read_bio_pubkey("pem_read_bio_pubkey", traits, *this)
       , evp_pkey_new("EVP_PKEY_new", traits, *this)
       , evp_pkey_up_ref("EVP_PKEY_up_ref", traits, *this)
       , evp_pkey_free("EVP_PKEY_free", traits, *this)

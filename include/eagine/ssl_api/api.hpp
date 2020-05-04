@@ -25,9 +25,7 @@ class basic_ssl_operations : public basic_ssl_c_api<ApiTraits> {
 public:
     using api_traits = ApiTraits;
     using c_api = basic_ssl_c_api<ApiTraits>;
-
-    using evp_pkey_type = ssl_types::evp_pkey_type;
-    using evp_md_ctx_type = ssl_types::evp_md_ctx_type;
+    using passwd_callback_type = int(char*, int, int, void*);
 
     template <
       typename W,
@@ -122,11 +120,41 @@ public:
 
     } basic_io_free_all;
 
+    // read_bio_private_key
+    struct : func<SSLPAFP(pem_read_bio_private_key)> {
+        using func<SSLPAFP(pem_read_bio_private_key)>::func;
+
+        constexpr auto operator()(
+          basic_io bio, passwd_callback_type get_passwd, void* param) const
+          noexcept {
+            return this->_cnvchkcall(bio, nullptr, get_passwd, param)
+              .cast_to(identity<owned_pkey>{});
+        }
+
+    } read_bio_private_key;
+
+    // read_bio_public_key
+    struct : func<SSLPAFP(pem_read_bio_pubkey)> {
+        using func<SSLPAFP(pem_read_bio_pubkey)>::func;
+
+        constexpr auto operator()(
+          basic_io bio, passwd_callback_type get_passwd, void* param) const
+          noexcept {
+            return this->_cnvchkcall(bio, nullptr, get_passwd, param)
+              .cast_to(identity<owned_pkey>{});
+        }
+
+    } read_bio_public_key;
+
     // pkey_free
     struct : func<SSLPAFP(evp_pkey_free)> {
         using func<SSLPAFP(evp_pkey_free)>::func;
 
-        auto raii(evp_pkey_type* pky) noexcept {
+        constexpr auto operator()(owned_pkey& pky) const noexcept {
+            return this->_chkcall(pky.release());
+        }
+
+        auto raii(owned_pkey& pky) noexcept {
             return eagine::finally([=]() { (*this)(pky); });
         }
 
@@ -283,6 +311,8 @@ public:
       , basic_io_block_new("basic_io_block_new", traits, *this)
       , basic_io_free("basic_io_free", traits, *this)
       , basic_io_free_all("basic_io_free_all", traits, *this)
+      , read_bio_private_key("read_bio_private_key", traits, *this)
+      , read_bio_public_key("read_bio_public_key", traits, *this)
       , pkey_free("pkey_free", traits, *this)
       , message_digest_noop("message_digest_noop", traits, *this)
       , message_digest_md5("message_digest_md5", traits, *this)
