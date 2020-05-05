@@ -106,6 +106,7 @@ private:
 class input_stream {
 public:
     using iterator = input_stream_iter;
+    using const_iterator = input_stream_iter;
 
     input_stream(std::unique_ptr<input_stream_intf> pimpl)
       : _pimpl(std::move(pimpl)) {
@@ -141,12 +142,12 @@ public:
         return {};
     }
 
-    iterator begin() {
-        return iterator(_pimpl.get(), 0);
+    auto begin() const {
+        return const_iterator(_pimpl.get(), 0);
     }
 
-    iterator end() {
-        return iterator();
+    auto end() const {
+        return const_iterator();
     }
 
 private:

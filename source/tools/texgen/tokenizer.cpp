@@ -56,7 +56,10 @@ bool tokenizer::_match_str(
 bool tokenizer::_match_re(
   token_info& token, const std::regex& re, token_kind kind) {
 
-    std::match_results<input_stream::iterator, std::allocator<char>> res;
+    std::match_results<
+      input_stream::const_iterator,
+      std::allocator<std::sub_match<input_stream::const_iterator>>>
+      res;
 
     if(std::regex_search(_input.begin(), _input.end(), res, re)) {
         const auto len = span_size(res.length(0));

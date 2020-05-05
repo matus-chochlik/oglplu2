@@ -42,5 +42,4 @@ target_link_libraries(
 	PUBLIC eagine
 )
 
-# TODO
-# add_subdirectory(texgen)
+add_subdirectory(texgen)

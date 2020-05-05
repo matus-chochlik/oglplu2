@@ -14,3 +14,4 @@ add_executable(
 	main.cpp
 )
 eagine_add_exe_analysis(oglplus-texgen)
+eagine_install_exe(oglplus-texgen)

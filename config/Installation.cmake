@@ -18,7 +18,14 @@ install(
 	DIRECTORY ${PROJECT_BINARY_DIR}/include/
 	DESTINATION include
 )
-#
+# install executable
+function(eagine_install_exe TARGET_NAME)
+	install(
+		TARGETS ${TARGET_NAME}
+		DESTINATION bin
+	)
+endfunction()
+# install example
 function(eagine_install_example TARGET_NAME)
 	install(
 		TARGETS ${TARGET_NAME}
