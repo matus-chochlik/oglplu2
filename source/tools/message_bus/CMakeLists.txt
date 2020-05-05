@@ -3,7 +3,9 @@
 # See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
 
-add_subdirectory(lib)
-add_subdirectory(tools)
-add_subdirectory(textures)
-
+add_executable(eagine-message_bus-router router.cpp)
+target_link_libraries(
+	eagine-message_bus-router
+	PUBLIC eagine
+)
+eagine_install_tool(eagine-message_bus-router)

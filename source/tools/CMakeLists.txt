@@ -3,43 +3,10 @@
 # See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
 
-add_executable(bake_noise_image bake_noise_image.cpp)
-eagine_add_exe_analysis(bake_noise_image)
-target_link_libraries(
-	bake_noise_image
-	PUBLIC eagine
-)
-
-add_executable(bake_checker_image bake_checker_image.cpp)
-eagine_add_exe_analysis(bake_checker_image)
-target_link_libraries(
-	bake_checker_image
-	PUBLIC eagine
-)
-
-if(TARGET PNG::PNG)
-	add_executable(bake_png_image bake_png_image.cpp)
-	eagine_add_exe_analysis(bake_png_image )
-	target_link_libraries(
-		bake_png_image
-		PUBLIC
-			eagine
-			PNG::PNG
-	)
-endif()
-
-add_executable(bake_shader_source bake_shader_source.cpp)
-eagine_add_exe_analysis(bake_shader_source)
-target_link_libraries(
-	bake_shader_source
-	PUBLIC eagine
-)
-
-add_executable(bake_program_source bake_program_source.cpp)
-eagine_add_exe_analysis(bake_program_source)
-target_link_libraries(
-	bake_program_source
-	PUBLIC eagine
-)
-
+add_subdirectory(bake_noise_image)
+add_subdirectory(bake_checker_image)
+add_subdirectory(bake_png_image)
+add_subdirectory(bake_shader_source)
+add_subdirectory(bake_program_source)
+add_subdirectory(message_bus)
 add_subdirectory(texgen)

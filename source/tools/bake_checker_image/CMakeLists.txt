@@ -3,7 +3,9 @@
 # See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
 
-add_subdirectory(lib)
-add_subdirectory(tools)
-add_subdirectory(textures)
-
+add_executable(oglplus-bake_checker_image main.cpp)
+eagine_add_exe_analysis(oglplus-bake_checker_image)
+target_link_libraries(
+	oglplus-bake_checker_image
+	PUBLIC eagine
+)

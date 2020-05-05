@@ -10,7 +10,7 @@ file(MAKE_DIRECTORY "${PROJECT_BINARY_DIR}/textures/")
 function(add_procedural_texture DIR TEX_NAME)
 	get_filename_component(GENERATOR ${TEX_NAME} NAME_WE)
 
-	if(TARGET "bake_${GENERATOR}_image")
+	if(TARGET "oglplus-bake_${GENERATOR}_image")
 		set(
 			OUTPUT
 			"${PROJECT_BINARY_DIR}/textures/${TEX_NAME}.oglptex"
@@ -31,7 +31,7 @@ function(add_procedural_texture DIR TEX_NAME)
 
 		add_custom_command(
 			OUTPUT ${OUTPUT}
-			COMMAND bake_${GENERATOR}_image
+			COMMAND oglplus-bake_${GENERATOR}_image
 			ARGS ${PARAMETERS};--output;${OUTPUT}
 			DEPENDS ${INPUT}
 			COMMENT "Baking image ${TEX_NAME}"

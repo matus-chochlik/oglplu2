@@ -25,6 +25,14 @@ function(eagine_install_exe TARGET_NAME)
 		DESTINATION bin
 	)
 endfunction()
+# install tool
+function(eagine_install_tool TARGET_NAME)
+	install(
+		TARGETS ${TARGET_NAME}
+		COMPONENT tools
+		DESTINATION bin
+	)
+endfunction()
 # install example
 function(eagine_install_example TARGET_NAME)
 	install(
