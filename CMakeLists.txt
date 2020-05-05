@@ -49,6 +49,9 @@ include(config/FindQT5GL.cmake)
 
 include(config/FindGLM.cmake)
 
+# SSL
+include(config/FindSSL.cmake)
+
 # PNG
 include(config/FindPNG.cmake)
 
