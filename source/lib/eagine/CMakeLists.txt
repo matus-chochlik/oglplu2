@@ -34,7 +34,7 @@ target_link_libraries(
 	eagine
 	PUBLIC
 		EAGine::Required
-		EAGreq::OpenSSL
+		EAGopt::OpenSSL
 		Threads::Threads
 )
 

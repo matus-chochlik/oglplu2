@@ -5,24 +5,24 @@
 #
 find_package(OpenSSL)
 
-add_library(EAGreq::OpenSSL INTERFACE IMPORTED)
+add_library(EAGopt::OpenSSL INTERFACE IMPORTED)
 if(OpenSSL_FOUND)
 	if(OPENSSL_INCLUDE_DIRS)
 		set_target_properties(
-			EAGreq::OpenSSL PROPERTIES
+			EAGopt::OpenSSL PROPERTIES
 			INTERFACE_INCLUDE_DIRECTORIES "${OPENSSL_INCLUDE_DIRS}"
 		)
 	endif()
 
 	if(OPENSSL_LIBRARY_DIRS)
 		set_target_properties(
-			EAGreq::OpenSSL PROPERTIES
+			EAGopt::OpenSSL PROPERTIES
 			INTERFACE_LINK_DIRECTORIES "${OPENSSL_LIBRARY_DIRS}"
 		)
 	endif()
 
 	set_target_properties(
-		EAGreq::OpenSSL PROPERTIES
+		EAGopt::OpenSSL PROPERTIES
 		INTERFACE_LINK_LIBRARIES "${OPENSSL_LIBRARIES}"
 	)
 endif()

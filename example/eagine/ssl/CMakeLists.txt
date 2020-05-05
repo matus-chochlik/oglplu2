@@ -4,6 +4,5 @@
 #  http://www.boost.org/LICENSE_1_0.txt
 #
 
-eagine_example_common(001_basic)
-eagine_example_common(002_string)
-eagine_example_common(005_fragmented)
+eagine_example_common(001_hash_self)
+
