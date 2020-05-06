@@ -196,6 +196,76 @@ struct basic_ssl_c_api {
       EAGINE_SSL_STATIC_FUNC(EVP_CipherFinal_ex)>
       evp_cipher_final_ex;
 
+    ssl_api_function<
+      int(
+        evp_cipher_ctx_type*,
+        const evp_cipher_type*,
+        const unsigned char*,
+        const unsigned char*),
+      EAGINE_SSL_STATIC_FUNC(EVP_EncryptInit)>
+      evp_encrypt_init;
+
+    ssl_api_function<
+      int(
+        evp_cipher_ctx_type*,
+        const evp_cipher_type*,
+        engine_type*,
+        const unsigned char*,
+        const unsigned char*),
+      EAGINE_SSL_STATIC_FUNC(EVP_EncryptInit_ex)>
+      evp_encrypt_init_ex;
+
+    ssl_api_function<
+      int(
+        evp_cipher_ctx_type*, unsigned char*, int*, const unsigned char*, int),
+      EAGINE_SSL_STATIC_FUNC(EVP_EncryptUpdate)>
+      evp_encrypt_update;
+
+    ssl_api_function<
+      int(evp_cipher_ctx_type*, unsigned char*, int*),
+      EAGINE_SSL_STATIC_FUNC(EVP_EncryptFinal_ex)>
+      evp_encrypt_final;
+
+    ssl_api_function<
+      int(evp_cipher_ctx_type*, unsigned char*, int*),
+      EAGINE_SSL_STATIC_FUNC(EVP_EncryptFinal_ex)>
+      evp_encrypt_final_ex;
+
+    ssl_api_function<
+      int(
+        evp_cipher_ctx_type*,
+        const evp_cipher_type*,
+        const unsigned char*,
+        const unsigned char*),
+      EAGINE_SSL_STATIC_FUNC(EVP_DecryptInit)>
+      evp_decrypt_init;
+
+    ssl_api_function<
+      int(
+        evp_cipher_ctx_type*,
+        const evp_cipher_type*,
+        engine_type*,
+        const unsigned char*,
+        const unsigned char*),
+      EAGINE_SSL_STATIC_FUNC(EVP_DecryptInit_ex)>
+      evp_decrypt_init_ex;
+
+    ssl_api_function<
+      int(
+        evp_cipher_ctx_type*, unsigned char*, int*, const unsigned char*, int),
+      EAGINE_SSL_STATIC_FUNC(EVP_DecryptUpdate)>
+      evp_decrypt_update;
+
+    ssl_api_function<
+      int(evp_cipher_ctx_type*, unsigned char*, int*),
+      EAGINE_SSL_STATIC_FUNC(EVP_DecryptFinal_ex)>
+      evp_decrypt_final;
+
+    ssl_api_function<
+      int(evp_cipher_ctx_type*, unsigned char*, int*),
+      EAGINE_SSL_STATIC_FUNC(EVP_DecryptFinal_ex)>
+      evp_decrypt_final_ex;
+
     ssl_api_function<const evp_md_type*(), EAGINE_SSL_STATIC_FUNC(EVP_md_null)>
       evp_md_null;
 
@@ -338,6 +408,16 @@ struct basic_ssl_c_api {
       , evp_cipher_update("EVP_CipherUpdate", traits, *this)
       , evp_cipher_final("EVP_CipherFinal", traits, *this)
       , evp_cipher_final_ex("EVP_CipherFinal_ex", traits, *this)
+      , evp_encrypt_init("EVP_EncryptInit", traits, *this)
+      , evp_encrypt_init_ex("EVP_EncryptInit_ex", traits, *this)
+      , evp_encrypt_update("EVP_EncryptUpdate", traits, *this)
+      , evp_encrypt_final("EVP_EncryptFinal", traits, *this)
+      , evp_encrypt_final_ex("EVP_EncryptFinal_ex", traits, *this)
+      , evp_decrypt_init("EVP_DecryptInit", traits, *this)
+      , evp_decrypt_init_ex("EVP_DecryptInit_ex", traits, *this)
+      , evp_decrypt_update("EVP_DecryptUpdate", traits, *this)
+      , evp_decrypt_final("EVP_DecryptFinal", traits, *this)
+      , evp_decrypt_final_ex("EVP_DecryptFinal_ex", traits, *this)
       , evp_md_null("EVP_md_null", traits, *this)
       , evp_md5("EVP_md5", traits, *this)
       , evp_sha1("EVP_sha1", traits, *this)
