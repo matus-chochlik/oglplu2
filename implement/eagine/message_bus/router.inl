@@ -5,6 +5,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/branch_predict.hpp>
+#include <eagine/message_bus/context.hpp>
 #include <eagine/message_bus/serialize.hpp>
 #include <thread>
 

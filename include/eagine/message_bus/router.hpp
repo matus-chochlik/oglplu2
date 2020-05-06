@@ -15,6 +15,7 @@
 #include "../timeout.hpp"
 #include "../valid_if/positive.hpp"
 #include "acceptor.hpp"
+#include "context_fwd.hpp"
 #include <map>
 #include <vector>
 
@@ -59,11 +60,13 @@ public:
     router() = default;
 
     router(logger& parent) noexcept
-      : _log(EAGINE_ID(MsgBusRutr), parent) {
+      : _log(EAGINE_ID(MsgBusRutr), parent)
+      , _context{make_context(_log)} {
     }
 
     router(logger& parent, const program_args& args) noexcept
-      : _log(EAGINE_ID(MsgBusRutr), parent) {
+      : _log(EAGINE_ID(MsgBusRutr), parent)
+      , _context{make_context(_log, args)} {
         _setup_from_args(args);
     }
 
@@ -109,6 +112,7 @@ private:
     void _update_connections();
 
     logger _log{};
+    shared_context _context{};
     const std::chrono::seconds _pending_timeout{30};
     timeout _no_connection_timeout{std::chrono::seconds{30}};
     identifier_t _id_sequence{0};

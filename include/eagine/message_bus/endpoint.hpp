@@ -12,6 +12,7 @@
 
 #include "../logging/logger.hpp"
 #include "connection.hpp"
+#include "context_fwd.hpp"
 #include "serialize.hpp"
 #include <map>
 #include <tuple>
@@ -36,6 +37,8 @@ private:
     friend class friend_of_endpoint;
 
     logger _log{};
+
+    shared_context _context{};
 
     identifier_t _id{invalid_id()};
 
@@ -99,6 +102,7 @@ private:
 
     endpoint(endpoint&& temp) noexcept
       : _log{std::move(temp._log)}
+      , _context{std::move(temp._context)}
       , _id{temp._id}
       , _connections{std::move(temp._connections)}
       , _outgoing{std::move(temp._outgoing)}
@@ -109,6 +113,7 @@ private:
 
     endpoint(endpoint&& temp, connection::fetch_handler store_message) noexcept
       : _log{std::move(temp._log)}
+      , _context{std::move(temp._context)}
       , _id{temp._id}
       , _connections{std::move(temp._connections)}
       , _outgoing{std::move(temp._outgoing)}
@@ -124,6 +129,13 @@ public:
 
     endpoint(logger log) noexcept
       : _log{std::move(log)}
+      , _context{make_context(_log)}
+      , _store_handler{this, EAGINE_MEM_FUNC_C(endpoint, _store_message)} {
+    }
+
+    endpoint(logger log, const program_args& args) noexcept
+      : _log{std::move(log)}
+      , _context{make_context(_log, args)}
       , _store_handler{this, EAGINE_MEM_FUNC_C(endpoint, _store_message)} {
     }
 
