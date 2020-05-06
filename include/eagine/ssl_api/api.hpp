@@ -209,6 +209,39 @@ public:
         }
     } cipher_aes_192_cbc;
 
+    // cipher_new
+    struct : func<SSLPAFP(evp_cipher_ctx_new)> {
+        using func<SSLPAFP(evp_cipher_ctx_new)>::func;
+
+        constexpr auto operator()() const noexcept {
+            return this->_chkcall().cast_to(identity<owned_cipher>{});
+        }
+    } cipher_new;
+
+    // cipher_free
+    struct : func<SSLPAFP(evp_cipher_ctx_free)> {
+        using func<SSLPAFP(evp_cipher_ctx_free)>::func;
+
+        constexpr auto operator()(owned_cipher& cyc) const noexcept {
+            return this->_chkcall(cyc.release());
+        }
+
+        auto raii(owned_cipher& cyc) noexcept {
+            return eagine::finally([this, &cyc]() { (*this)(cyc); });
+        }
+
+    } cipher_free;
+
+    // cipher_reset
+    struct : func<SSLPAFP(evp_cipher_ctx_reset)> {
+        using func<SSLPAFP(evp_cipher_ctx_reset)>::func;
+
+        constexpr auto operator()(cipher cyc) const noexcept {
+            return this->_cnvchkcall(cyc);
+        }
+
+    } cipher_reset;
+
     // message_digest
     struct : func<SSLPAFP(evp_md_null)> {
         using func<SSLPAFP(evp_md_null)>::func;
@@ -288,8 +321,7 @@ public:
         using func<SSLPAFP(evp_md_ctx_free)>::func;
 
         constexpr auto operator()(owned_message_digest& mdc) const noexcept {
-            return eagine::finally(
-              [this, &mdc]() { this->_chkcall(mdc.release()); });
+            return this->_chkcall(mdc.release());
         }
 
         auto raii(owned_message_digest& mdc) noexcept {
@@ -297,6 +329,16 @@ public:
         }
 
     } message_digest_free;
+
+    // message_digest_reset
+    struct : func<SSLPAFP(evp_md_ctx_reset)> {
+        using func<SSLPAFP(evp_md_ctx_reset)>::func;
+
+        constexpr auto operator()(message_digest mdc) const noexcept {
+            return this->_cnvchkcall(mdc);
+        }
+
+    } message_digest_reset;
 
     // message_digest_init
     struct : func<SSLPAFP(evp_digest_init)> {
@@ -458,6 +500,9 @@ public:
       , cipher_aes_128_xts("cipher_aes_128_xts", traits, *this)
       , cipher_aes_192_ecb("cipher_aes_192_ecb", traits, *this)
       , cipher_aes_192_cbc("cipher_aes_192_cbc", traits, *this)
+      , cipher_new("cipher_new", traits, *this)
+      , cipher_free("cipher_free", traits, *this)
+      , cipher_reset("cipher_reset", traits, *this)
       , message_digest_noop("message_digest_noop", traits, *this)
       , message_digest_md5("message_digest_md5", traits, *this)
       , message_digest_sha1("message_digest_sha1", traits, *this)
@@ -468,6 +513,7 @@ public:
       , message_digest_size("message_digest_size", traits, *this)
       , message_digest_new("message_digest_new", traits, *this)
       , message_digest_free("message_digest_free", traits, *this)
+      , message_digest_reset("message_digest_reset", traits, *this)
       , message_digest_init("message_digest_init", traits, *this)
       , message_digest_init_ex("message_digest_init_ex", traits, *this)
       , message_digest_update("message_digest_update", traits, *this)
