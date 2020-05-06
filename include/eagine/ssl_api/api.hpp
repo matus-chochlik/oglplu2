@@ -9,6 +9,7 @@
 #ifndef EAGINE_SSL_API_API_HPP
 #define EAGINE_SSL_API_API_HPP
 
+#include "../memory/split_block.hpp"
 #include "c_api.hpp"
 #include "object_handle.hpp"
 #include <eagine/scope_exit.hpp>
@@ -241,6 +242,231 @@ public:
         }
 
     } cipher_reset;
+
+    // cipher_init
+    struct : func<SSLPAFP(evp_cipher_init)> {
+        using func<SSLPAFP(evp_cipher_init)>::func;
+
+        constexpr auto operator()(
+          cipher cyc,
+          cipher_type cyt,
+          memory::const_block key,
+          memory::const_block iv,
+          bool enc) const noexcept {
+            return this->_cnvchkcall(
+              cyc, cyt, key.data(), iv.data(), enc ? 1 : 0);
+        }
+    } cipher_init;
+
+    // cipher_init_ex
+    struct : func<SSLPAFP(evp_cipher_init_ex)> {
+        using func<SSLPAFP(evp_cipher_init_ex)>::func;
+
+        constexpr auto operator()(
+          cipher cyc,
+          cipher_type cyt,
+          engine eng,
+          memory::const_block key,
+          memory::const_block iv,
+          bool enc) const noexcept {
+            return this->_cnvchkcall(
+              cyc, cyt, eng, key.data(), iv.data(), enc ? 1 : 0);
+        }
+    } cipher_init_ex;
+
+    // cipher_update
+    struct : func<SSLPAFP(evp_cipher_update)> {
+        using func<SSLPAFP(evp_cipher_update)>::func;
+
+        constexpr auto operator()(
+          cipher cyc, memory::split_block out, memory::const_block in) const
+          noexcept {
+            int outl{0};
+            return this
+              ->_cnvchkcall(
+                cyc,
+                out.tail().data(),
+                &outl,
+                in.data(),
+                limit_cast<int>(in.size()))
+              .replaced_with(out.advance(span_size(outl)));
+        }
+
+    } cipher_update;
+
+    // cipher_final
+    struct : func<SSLPAFP(evp_cipher_final)> {
+        using func<SSLPAFP(evp_cipher_final)>::func;
+
+        constexpr auto operator()(cipher cyc, memory::split_block out) const
+          noexcept {
+            int outl{0U};
+            return this->_cnvchkcall(cyc, out.tail().data(), &outl)
+              .replaced_with(out.advance(span_size(outl)));
+        }
+    } cipher_final;
+
+    // cipher_final_ex
+    struct : func<SSLPAFP(evp_cipher_final_ex)> {
+        using func<SSLPAFP(evp_cipher_final_ex)>::func;
+
+        constexpr auto operator()(cipher cyc, memory::split_block out) const
+          noexcept {
+            int outl{0U};
+            return this->_cnvchkcall(cyc, out.tail().data(), &outl)
+              .replaced_with(out.advance(span_size(outl)));
+        }
+    } cipher_final_ex;
+
+    // encrypt_init
+    struct : func<SSLPAFP(evp_encrypt_init)> {
+        using func<SSLPAFP(evp_encrypt_init)>::func;
+
+        constexpr auto operator()(
+          cipher cyc,
+          cipher_type cyt,
+          memory::const_block key,
+          memory::const_block iv,
+          bool enc) const noexcept {
+            return this->_cnvchkcall(
+              cyc, cyt, key.data(), iv.data(), enc ? 1 : 0);
+        }
+    } encrypt_init;
+
+    // encrypt_init_ex
+    struct : func<SSLPAFP(evp_encrypt_init_ex)> {
+        using func<SSLPAFP(evp_encrypt_init_ex)>::func;
+
+        constexpr auto operator()(
+          cipher cyc,
+          cipher_type cyt,
+          engine eng,
+          memory::const_block key,
+          memory::const_block iv,
+          bool enc) const noexcept {
+            return this->_cnvchkcall(
+              cyc, cyt, eng, key.data(), iv.data(), enc ? 1 : 0);
+        }
+    } encrypt_init_ex;
+
+    // encrypt_update
+    struct : func<SSLPAFP(evp_encrypt_update)> {
+        using func<SSLPAFP(evp_encrypt_update)>::func;
+
+        constexpr auto operator()(
+          cipher cyc, memory::split_block out, memory::const_block in) const
+          noexcept {
+            int outl{0};
+            return this
+              ->_cnvchkcall(
+                cyc,
+                out.tail().data(),
+                &outl,
+                in.data(),
+                limit_cast<int>(in.size()))
+              .replaced_with(out.advance(span_size(outl)));
+        }
+
+    } encrypt_update;
+
+    // encrypt_final
+    struct : func<SSLPAFP(evp_encrypt_final)> {
+        using func<SSLPAFP(evp_encrypt_final)>::func;
+
+        constexpr auto operator()(cipher cyc, memory::split_block out) const
+          noexcept {
+            int outl{0U};
+            return this->_cnvchkcall(cyc, out.tail().data(), &outl)
+              .replaced_with(out.advance(span_size(outl)));
+        }
+    } encrypt_final;
+
+    // encrypt_final_ex
+    struct : func<SSLPAFP(evp_encrypt_final_ex)> {
+        using func<SSLPAFP(evp_encrypt_final_ex)>::func;
+
+        constexpr auto operator()(cipher cyc, memory::split_block out) const
+          noexcept {
+            int outl{0U};
+            return this->_cnvchkcall(cyc, out.tail().data(), &outl)
+              .replaced_with(out.advance(span_size(outl)));
+        }
+    } encrypt_final_ex;
+
+    // decrypt_init
+    struct : func<SSLPAFP(evp_decrypt_init)> {
+        using func<SSLPAFP(evp_decrypt_init)>::func;
+
+        constexpr auto operator()(
+          cipher cyc,
+          cipher_type cyt,
+          memory::const_block key,
+          memory::const_block iv,
+          bool enc) const noexcept {
+            return this->_cnvchkcall(
+              cyc, cyt, key.data(), iv.data(), enc ? 1 : 0);
+        }
+    } decrypt_init;
+
+    // decrypt_init_ex
+    struct : func<SSLPAFP(evp_decrypt_init_ex)> {
+        using func<SSLPAFP(evp_decrypt_init_ex)>::func;
+
+        constexpr auto operator()(
+          cipher cyc,
+          cipher_type cyt,
+          engine eng,
+          memory::const_block key,
+          memory::const_block iv,
+          bool enc) const noexcept {
+            return this->_cnvchkcall(
+              cyc, cyt, eng, key.data(), iv.data(), enc ? 1 : 0);
+        }
+    } decrypt_init_ex;
+
+    // decrypt_update
+    struct : func<SSLPAFP(evp_decrypt_update)> {
+        using func<SSLPAFP(evp_decrypt_update)>::func;
+
+        constexpr auto operator()(
+          cipher cyc, memory::split_block out, memory::const_block in) const
+          noexcept {
+            int outl{0};
+            return this
+              ->_cnvchkcall(
+                cyc,
+                out.tail().data(),
+                &outl,
+                in.data(),
+                limit_cast<int>(in.size()))
+              .replaced_with(out.advance(span_size(outl)));
+        }
+
+    } decrypt_update;
+
+    // decrypt_final
+    struct : func<SSLPAFP(evp_decrypt_final)> {
+        using func<SSLPAFP(evp_decrypt_final)>::func;
+
+        constexpr auto operator()(cipher cyc, memory::split_block out) const
+          noexcept {
+            int outl{0U};
+            return this->_cnvchkcall(cyc, out.tail().data(), &outl)
+              .replaced_with(out.advance(span_size(outl)));
+        }
+    } decrypt_final;
+
+    // decrypt_final_ex
+    struct : func<SSLPAFP(evp_decrypt_final_ex)> {
+        using func<SSLPAFP(evp_decrypt_final_ex)>::func;
+
+        constexpr auto operator()(cipher cyc, memory::split_block out) const
+          noexcept {
+            int outl{0U};
+            return this->_cnvchkcall(cyc, out.tail().data(), &outl)
+              .replaced_with(out.advance(span_size(outl)));
+        }
+    } decrypt_final_ex;
 
     // message_digest
     struct : func<SSLPAFP(evp_md_null)> {
@@ -503,6 +729,21 @@ public:
       , cipher_new("cipher_new", traits, *this)
       , cipher_free("cipher_free", traits, *this)
       , cipher_reset("cipher_reset", traits, *this)
+      , cipher_init("cipher_init", traits, *this)
+      , cipher_init_ex("cipher_init_ex", traits, *this)
+      , cipher_update("cipher_update", traits, *this)
+      , cipher_final("cipher_final", traits, *this)
+      , cipher_final_ex("cipher_final", traits, *this)
+      , encrypt_init("encrypt_init", traits, *this)
+      , encrypt_init_ex("encrypt_init_ex", traits, *this)
+      , encrypt_update("encrypt_update", traits, *this)
+      , encrypt_final("encrypt_final", traits, *this)
+      , encrypt_final_ex("encrypt_final", traits, *this)
+      , decrypt_init("decrypt_init", traits, *this)
+      , decrypt_init_ex("decrypt_init_ex", traits, *this)
+      , decrypt_update("decrypt_update", traits, *this)
+      , decrypt_final("decrypt_final", traits, *this)
+      , decrypt_final_ex("decrypt_final", traits, *this)
       , message_digest_noop("message_digest_noop", traits, *this)
       , message_digest_md5("message_digest_md5", traits, *this)
       , message_digest_sha1("message_digest_sha1", traits, *this)
