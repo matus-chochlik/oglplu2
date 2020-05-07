@@ -73,6 +73,44 @@ public:
         }
     };
 
+    // get_first_engine
+    struct : func<SSLPAFP(engine_get_first)> {
+        using func<SSLPAFP(engine_get_first)>::func;
+
+        constexpr auto operator()() const noexcept {
+            return this->_chkcall().cast_to(identity<owned_engine>{});
+        }
+    } get_first_engine;
+
+    // get_last_engine
+    struct : func<SSLPAFP(engine_get_last)> {
+        using func<SSLPAFP(engine_get_last)>::func;
+
+        constexpr auto operator()() const noexcept {
+            return this->_chkcall().cast_to(identity<owned_engine>{});
+        }
+    } get_last_engine;
+
+    // get_next_engine
+    struct : func<SSLPAFP(engine_get_next)> {
+        using func<SSLPAFP(engine_get_next)>::func;
+
+        constexpr auto operator()(owned_engine& eng) const noexcept {
+            return this->_cnvchkcall(eng.release())
+              .cast_to(identity<owned_engine>{});
+        }
+    } get_next_engine;
+
+    // get_prev_engine
+    struct : func<SSLPAFP(engine_get_prev)> {
+        using func<SSLPAFP(engine_get_prev)>::func;
+
+        constexpr auto operator()(owned_engine& eng) const noexcept {
+            return this->_cnvchkcall(eng.release())
+              .cast_to(identity<owned_engine>{});
+        }
+    } get_prev_engine;
+
     // new_engine
     struct : func<SSLPAFP(engine_new)> {
         using func<SSLPAFP(engine_new)>::func;
@@ -95,8 +133,8 @@ public:
     struct : func<SSLPAFP(engine_up_ref)> {
         using func<SSLPAFP(engine_up_ref)>::func;
 
-        constexpr auto operator()(const owned_engine& eng) const noexcept {
-            return this->_cnvchkcall(eng).cast_to(identity<owned_engine>{});
+        constexpr auto operator()(engine eng) const noexcept {
+            return this->_cnvchkcall(eng).replaced_with(owned_engine(eng));
         }
     } copy_engine;
 
@@ -131,6 +169,24 @@ public:
             return this->_cnvchkcall(eng).cast_to(identity<bool>{});
         }
     } finish_engine;
+
+    // get_engine_id
+    struct : func<SSLPAFP(engine_get_id)> {
+        using func<SSLPAFP(engine_get_id)>::func;
+
+        constexpr auto operator()(engine eng) const noexcept {
+            return this->_cnvchkcall(eng).cast_to(identity<string_view>{});
+        }
+    } get_engine_id;
+
+    // get_engine_name
+    struct : func<SSLPAFP(engine_get_name)> {
+        using func<SSLPAFP(engine_get_name)>::func;
+
+        constexpr auto operator()(engine eng) const noexcept {
+            return this->_cnvchkcall(eng).cast_to(identity<string_view>{});
+        }
+    } get_engine_name;
 
     // new_basic_io
     struct : func<SSLPAFP(bio_new)> {
@@ -772,12 +828,18 @@ public:
 
     constexpr basic_ssl_operations(api_traits& traits)
       : c_api{traits}
+      , get_first_engine("get_first_engine", traits, *this)
+      , get_last_engine("get_last_engine", traits, *this)
+      , get_next_engine("get_next_engine", traits, *this)
+      , get_prev_engine("get_prev_engine", traits, *this)
       , new_engine("new_engine", traits, *this)
       , open_engine("open_engine", traits, *this)
       , copy_engine("copy_engine", traits, *this)
       , delete_engine("delete_engine", traits, *this)
       , init_engine("init_engine", traits, *this)
       , finish_engine("finish_engine", traits, *this)
+      , get_engine_id("get_engine_id", traits, *this)
+      , get_engine_name("get_engine_name", traits, *this)
       , new_basic_io("new_basic_io", traits, *this)
       , new_block_basic_io("new_block_basic_io", traits, *this)
       , delete_basic_io("delete_basic_io", traits, *this)

@@ -83,6 +83,10 @@ public:
     basic_owned_handle(const basic_owned_handle&) = delete;
     basic_owned_handle& operator=(const basic_owned_handle&) = delete;
 
+    explicit constexpr basic_owned_handle(base adopted) noexcept
+      : base{adopted} {
+    }
+
     explicit constexpr basic_owned_handle(Handle name) noexcept
       : base{name} {
     }

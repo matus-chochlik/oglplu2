@@ -75,6 +75,22 @@ struct basic_ssl_c_api {
       err_error_string_n;
 
     // engine
+    ssl_api_function<engine_type*(), EAGINE_SSL_STATIC_FUNC(ENGINE_get_first)>
+      engine_get_first;
+
+    ssl_api_function<engine_type*(), EAGINE_SSL_STATIC_FUNC(ENGINE_get_last)>
+      engine_get_last;
+
+    ssl_api_function<
+      engine_type*(engine_type*),
+      EAGINE_SSL_STATIC_FUNC(ENGINE_get_next)>
+      engine_get_next;
+
+    ssl_api_function<
+      engine_type*(engine_type*),
+      EAGINE_SSL_STATIC_FUNC(ENGINE_get_prev)>
+      engine_get_prev;
+
     ssl_api_function<engine_type*(), EAGINE_SSL_STATIC_FUNC(ENGINE_new)>
       engine_new;
 
@@ -94,6 +110,16 @@ struct basic_ssl_c_api {
 
     ssl_api_function<int(engine_type*), EAGINE_SSL_STATIC_FUNC(ENGINE_finish)>
       engine_finish;
+
+    ssl_api_function<
+      const char*(const engine_type*),
+      EAGINE_SSL_STATIC_FUNC(ENGINE_get_id)>
+      engine_get_id;
+
+    ssl_api_function<
+      const char*(const engine_type*),
+      EAGINE_SSL_STATIC_FUNC(ENGINE_get_name)>
+      engine_get_name;
 
     // bio
     ssl_api_function<
@@ -407,12 +433,18 @@ struct basic_ssl_c_api {
       : err_get_error("ERR_get_error", traits, *this)
       , err_peek_error("ERR_peek_error", traits, *this)
       , err_error_string_n("ERR_error_string_n", traits, *this)
+      , engine_get_first("ENGINE_get_first", traits, *this)
+      , engine_get_last("ENGINE_get_last", traits, *this)
+      , engine_get_next("ENGINE_get_next", traits, *this)
+      , engine_get_prev("ENGINE_get_prev", traits, *this)
       , engine_new("ENGINE_new", traits, *this)
       , engine_by_id("ENGINE_by_id", traits, *this)
       , engine_up_ref("ENGINE_up_ref", traits, *this)
       , engine_free("ENGINE_free", traits, *this)
       , engine_init("ENGINE_init", traits, *this)
       , engine_finish("ENGINE_finish", traits, *this)
+      , engine_get_id("ENGINE_get_id", traits, *this)
+      , engine_get_name("ENGINE_get_name", traits, *this)
       , bio_new("BIO_new", traits, *this)
       , bio_new_mem_buf("BIO_new_mem_buf", traits, *this)
       , bio_up_ref("BIO_up_ref", traits, *this)
