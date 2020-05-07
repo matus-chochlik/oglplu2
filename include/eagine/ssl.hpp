@@ -16,6 +16,7 @@
 #include <openssl/err.h>
 #include <openssl/evp.h>
 #include <openssl/pem.h>
+#include <openssl/rand.h>
 #endif
 
 #endif // EAGINE_SSL_HPP

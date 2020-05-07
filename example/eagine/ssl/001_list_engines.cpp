@@ -19,6 +19,8 @@ int main(main_ctx& ctx) {
 
     sslp::ssl_api ssl{};
 
+    ssl.load_builtin_engines();
+
     auto func = [&ctx, &ssl](sslp::engine eng) {
         const string_view na("N/A");
         ctx.log()

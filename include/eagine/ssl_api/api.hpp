@@ -73,6 +73,15 @@ public:
         }
     };
 
+    // load_builtin_engines
+    struct : func<SSLPAFP(engine_load_builtin_engines)> {
+        using func<SSLPAFP(engine_load_builtin_engines)>::func;
+
+        constexpr auto operator()() const noexcept {
+            return this->_chkcall();
+        }
+    } load_builtin_engines;
+
     // get_first_engine
     struct : func<SSLPAFP(engine_get_first)> {
         using func<SSLPAFP(engine_get_first)>::func;
@@ -124,8 +133,8 @@ public:
     struct : func<SSLPAFP(engine_by_id)> {
         using func<SSLPAFP(engine_by_id)>::func;
 
-        constexpr auto operator()(string_view) const noexcept {
-            return this->_cnvchkcall().cast_to(identity<owned_engine>{});
+        constexpr auto operator()(string_view id) const noexcept {
+            return this->_cnvchkcall(id).cast_to(identity<owned_engine>{});
         }
     } open_engine;
 
@@ -146,8 +155,8 @@ public:
             return this->_chkcall(eng.release());
         }
 
-        auto raii(owned_engine& bio) const noexcept {
-            return eagine::finally([this, &bio]() { (*this)(bio); });
+        auto raii(owned_engine& eng) const noexcept {
+            return eagine::finally([this, &eng]() { (*this)(eng); });
         }
 
     } delete_engine;
@@ -168,6 +177,10 @@ public:
         constexpr auto operator()(engine eng) const noexcept {
             return this->_cnvchkcall(eng).cast_to(identity<bool>{});
         }
+
+        auto raii(owned_engine& eng) const noexcept {
+            return eagine::finally([this, &eng]() { (*this)(eng); });
+        }
     } finish_engine;
 
     // get_engine_id
@@ -187,6 +200,60 @@ public:
             return this->_cnvchkcall(eng).cast_to(identity<string_view>{});
         }
     } get_engine_name;
+
+    // set_default_rsa
+    struct : func<SSLPAFP(engine_set_default_rsa)> {
+        using func<SSLPAFP(engine_set_default_rsa)>::func;
+
+        constexpr auto operator()(engine eng) const noexcept {
+            return this->_cnvchkcall(eng);
+        }
+    } set_default_rsa;
+
+    // set_default_dsa
+    struct : func<SSLPAFP(engine_set_default_dsa)> {
+        using func<SSLPAFP(engine_set_default_dsa)>::func;
+
+        constexpr auto operator()(engine eng) const noexcept {
+            return this->_cnvchkcall(eng);
+        }
+    } set_default_dsa;
+
+    // set_default_dh
+    struct : func<SSLPAFP(engine_set_default_dh)> {
+        using func<SSLPAFP(engine_set_default_dh)>::func;
+
+        constexpr auto operator()(engine eng) const noexcept {
+            return this->_cnvchkcall(eng);
+        }
+    } set_default_dh;
+
+    // set_default_rand
+    struct : func<SSLPAFP(engine_set_default_rand)> {
+        using func<SSLPAFP(engine_set_default_rand)>::func;
+
+        constexpr auto operator()(engine eng) const noexcept {
+            return this->_cnvchkcall(eng);
+        }
+    } set_default_rand;
+
+    // set_default_ciphers
+    struct : func<SSLPAFP(engine_set_default_ciphers)> {
+        using func<SSLPAFP(engine_set_default_ciphers)>::func;
+
+        constexpr auto operator()(engine eng) const noexcept {
+            return this->_cnvchkcall(eng);
+        }
+    } set_default_ciphers;
+
+    // set_default_digests
+    struct : func<SSLPAFP(engine_set_default_digests)> {
+        using func<SSLPAFP(engine_set_default_digests)>::func;
+
+        constexpr auto operator()(engine eng) const noexcept {
+            return this->_cnvchkcall(eng);
+        }
+    } set_default_digests;
 
     // new_basic_io
     struct : func<SSLPAFP(bio_new)> {
@@ -235,6 +302,16 @@ public:
         }
 
     } delete_all_basic_ios;
+
+    // random_bytes
+    struct : func<SSLPAFP(rand_bytes)> {
+        using func<SSLPAFP(rand_bytes)>::func;
+
+        constexpr auto operator()(memory::block blk) const noexcept {
+            return this->_cnvchkcall(blk.data(), limit_cast<int>(blk.size()));
+        }
+
+    } random_bytes;
 
     // read_bio_private_key
     struct : func<SSLPAFP(pem_read_bio_private_key)> {
@@ -828,6 +905,7 @@ public:
 
     constexpr basic_ssl_operations(api_traits& traits)
       : c_api{traits}
+      , load_builtin_engines("load_builtin_engines", traits, *this)
       , get_first_engine("get_first_engine", traits, *this)
       , get_last_engine("get_last_engine", traits, *this)
       , get_next_engine("get_next_engine", traits, *this)
@@ -840,10 +918,17 @@ public:
       , finish_engine("finish_engine", traits, *this)
       , get_engine_id("get_engine_id", traits, *this)
       , get_engine_name("get_engine_name", traits, *this)
+      , set_default_rsa("set_default_rsa", traits, *this)
+      , set_default_dsa("set_default_dsa", traits, *this)
+      , set_default_dh("set_default_dh", traits, *this)
+      , set_default_rand("set_default_rand", traits, *this)
+      , set_default_ciphers("set_default_ciphers", traits, *this)
+      , set_default_digests("set_default_digests", traits, *this)
       , new_basic_io("new_basic_io", traits, *this)
       , new_block_basic_io("new_block_basic_io", traits, *this)
       , delete_basic_io("delete_basic_io", traits, *this)
       , delete_all_basic_ios("delete_all_basic_ios", traits, *this)
+      , random_bytes("random_bytes", traits, *this)
       , read_bio_private_key("read_bio_private_key", traits, *this)
       , read_bio_public_key("read_bio_public_key", traits, *this)
       , delete_pkey("delete_pkey", traits, *this)

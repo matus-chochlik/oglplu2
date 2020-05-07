@@ -75,6 +75,11 @@ struct basic_ssl_c_api {
       err_error_string_n;
 
     // engine
+    ssl_api_function<
+      void(),
+      EAGINE_SSL_STATIC_FUNC(ENGINE_load_builtin_engines)>
+      engine_load_builtin_engines;
+
     ssl_api_function<engine_type*(), EAGINE_SSL_STATIC_FUNC(ENGINE_get_first)>
       engine_get_first;
 
@@ -121,6 +126,36 @@ struct basic_ssl_c_api {
       EAGINE_SSL_STATIC_FUNC(ENGINE_get_name)>
       engine_get_name;
 
+    ssl_api_function<
+      int(engine_type*),
+      EAGINE_SSL_STATIC_FUNC(ENGINE_set_default_RSA)>
+      engine_set_default_rsa;
+
+    ssl_api_function<
+      int(engine_type*),
+      EAGINE_SSL_STATIC_FUNC(ENGINE_set_default_DSA)>
+      engine_set_default_dsa;
+
+    ssl_api_function<
+      int(engine_type*),
+      EAGINE_SSL_STATIC_FUNC(ENGINE_set_default_DH)>
+      engine_set_default_dh;
+
+    ssl_api_function<
+      int(engine_type*),
+      EAGINE_SSL_STATIC_FUNC(ENGINE_set_default_RAND)>
+      engine_set_default_rand;
+
+    ssl_api_function<
+      int(engine_type*),
+      EAGINE_SSL_STATIC_FUNC(ENGINE_set_default_ciphers)>
+      engine_set_default_ciphers;
+
+    ssl_api_function<
+      int(engine_type*),
+      EAGINE_SSL_STATIC_FUNC(ENGINE_set_default_digests)>
+      engine_set_default_digests;
+
     // bio
     ssl_api_function<
       bio_type*(const bio_method_type*),
@@ -140,6 +175,13 @@ struct basic_ssl_c_api {
     ssl_api_function<void(bio_type*), EAGINE_SSL_STATIC_FUNC(BIO_free_all)>
       bio_free_all;
 
+    // random
+    ssl_api_function<
+      int(unsigned char*, int num),
+      EAGINE_SSL_STATIC_FUNC(RAND_bytes)>
+      rand_bytes;
+
+    // pem
     ssl_api_function<
       evp_pkey_type*(bio_type*, evp_pkey_type**, passwd_callback_type*, void*),
       EAGINE_SSL_STATIC_FUNC(PEM_read_bio_PrivateKey)>
@@ -150,6 +192,7 @@ struct basic_ssl_c_api {
       EAGINE_SSL_STATIC_FUNC(PEM_read_bio_PUBKEY)>
       pem_read_bio_pubkey;
 
+    // pkey
     ssl_api_function<evp_pkey_type*(), EAGINE_SSL_STATIC_FUNC(EVP_PKEY_new)>
       evp_pkey_new;
 
@@ -433,6 +476,8 @@ struct basic_ssl_c_api {
       : err_get_error("ERR_get_error", traits, *this)
       , err_peek_error("ERR_peek_error", traits, *this)
       , err_error_string_n("ERR_error_string_n", traits, *this)
+      , engine_load_builtin_engines(
+          "ENGINE_load_builtin_engines", traits, *this)
       , engine_get_first("ENGINE_get_first", traits, *this)
       , engine_get_last("ENGINE_get_last", traits, *this)
       , engine_get_next("ENGINE_get_next", traits, *this)
@@ -445,13 +490,20 @@ struct basic_ssl_c_api {
       , engine_finish("ENGINE_finish", traits, *this)
       , engine_get_id("ENGINE_get_id", traits, *this)
       , engine_get_name("ENGINE_get_name", traits, *this)
+      , engine_set_default_rsa("ENGINE_set_default_RSA", traits, *this)
+      , engine_set_default_dsa("ENGINE_set_default_DSA", traits, *this)
+      , engine_set_default_dh("ENGINE_set_default_DH", traits, *this)
+      , engine_set_default_rand("ENGINE_set_default_RAND", traits, *this)
+      , engine_set_default_ciphers("ENGINE_set_default_CIPHERS", traits, *this)
+      , engine_set_default_digests("ENGINE_set_default_DIGESTS", traits, *this)
       , bio_new("BIO_new", traits, *this)
       , bio_new_mem_buf("BIO_new_mem_buf", traits, *this)
       , bio_up_ref("BIO_up_ref", traits, *this)
       , bio_free("BIO_free", traits, *this)
       , bio_free_all("BIO_free_all", traits, *this)
-      , pem_read_bio_private_key("pem_read_bio_private_key", traits, *this)
-      , pem_read_bio_pubkey("pem_read_bio_pubkey", traits, *this)
+      , rand_bytes("RAND_bytes", traits, *this)
+      , pem_read_bio_private_key("PEM_read_bio_PrivateKey", traits, *this)
+      , pem_read_bio_pubkey("PEM_read_bio_PUBKEY", traits, *this)
       , evp_pkey_new("EVP_PKEY_new", traits, *this)
       , evp_pkey_up_ref("EVP_PKEY_up_ref", traits, *this)
       , evp_pkey_free("EVP_PKEY_free", traits, *this)

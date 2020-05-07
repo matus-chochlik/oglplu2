@@ -47,7 +47,7 @@ public:
 
     string_view message() const noexcept {
         // TODO: get error string from OpenSSL
-        return {"unknown error"};
+        return {"unknown ssl error"};
     }
 
 private:

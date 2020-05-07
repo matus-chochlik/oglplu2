@@ -6,4 +6,5 @@
 
 eagine_example_common(001_list_engines)
 eagine_example_common(002_hash_self)
+eagine_example_common(005_random_engine)
 
