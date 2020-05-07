@@ -41,6 +41,7 @@ struct basic_ssl_c_api {
     using evp_cipher_type = ssl_types::evp_cipher_type;
     using evp_md_ctx_type = ssl_types::evp_md_ctx_type;
     using evp_md_type = ssl_types::evp_md_type;
+    using x509_type = ssl_types::x509_type;
 
     using passwd_callback_type = int(char*, int, int, void*);
 
@@ -180,17 +181,6 @@ struct basic_ssl_c_api {
       int(unsigned char*, int num),
       EAGINE_SSL_STATIC_FUNC(RAND_bytes)>
       rand_bytes;
-
-    // pem
-    ssl_api_function<
-      evp_pkey_type*(bio_type*, evp_pkey_type**, passwd_callback_type*, void*),
-      EAGINE_SSL_STATIC_FUNC(PEM_read_bio_PrivateKey)>
-      pem_read_bio_private_key;
-
-    ssl_api_function<
-      evp_pkey_type*(bio_type*, evp_pkey_type**, passwd_callback_type*, void*),
-      EAGINE_SSL_STATIC_FUNC(PEM_read_bio_PUBKEY)>
-      pem_read_bio_pubkey;
 
     // pkey
     ssl_api_function<evp_pkey_type*(), EAGINE_SSL_STATIC_FUNC(EVP_PKEY_new)>
@@ -472,6 +462,28 @@ struct basic_ssl_c_api {
       EAGINE_SSL_STATIC_FUNC(EVP_DigestVerifyFinal)>
       evp_digest_verify_final;
 
+    // x509
+    ssl_api_function<x509_type*(), EAGINE_SSL_STATIC_FUNC(X509_new)> x509_new;
+
+    ssl_api_function<void(x509_type*), EAGINE_SSL_STATIC_FUNC(X509_free)>
+      x509_free;
+
+    // pem
+    ssl_api_function<
+      evp_pkey_type*(bio_type*, evp_pkey_type**, passwd_callback_type*, void*),
+      EAGINE_SSL_STATIC_FUNC(PEM_read_bio_PrivateKey)>
+      pem_read_bio_private_key;
+
+    ssl_api_function<
+      evp_pkey_type*(bio_type*, evp_pkey_type**, passwd_callback_type*, void*),
+      EAGINE_SSL_STATIC_FUNC(PEM_read_bio_PUBKEY)>
+      pem_read_bio_pubkey;
+
+    ssl_api_function<
+      x509_type*(bio_type*, x509_type**, passwd_callback_type*, void*),
+      EAGINE_SSL_STATIC_FUNC(PEM_read_bio_X509)>
+      pem_read_bio_x509;
+
     constexpr basic_ssl_c_api(api_traits& traits)
       : err_get_error("ERR_get_error", traits, *this)
       , err_peek_error("ERR_peek_error", traits, *this)
@@ -502,8 +514,6 @@ struct basic_ssl_c_api {
       , bio_free("BIO_free", traits, *this)
       , bio_free_all("BIO_free_all", traits, *this)
       , rand_bytes("RAND_bytes", traits, *this)
-      , pem_read_bio_private_key("PEM_read_bio_PrivateKey", traits, *this)
-      , pem_read_bio_pubkey("PEM_read_bio_PUBKEY", traits, *this)
       , evp_pkey_new("EVP_PKEY_new", traits, *this)
       , evp_pkey_up_ref("EVP_PKEY_up_ref", traits, *this)
       , evp_pkey_free("EVP_PKEY_free", traits, *this)
@@ -554,7 +564,12 @@ struct basic_ssl_c_api {
       , evp_digest_sign_final("EVP_DigestSignFinal", traits, *this)
       , evp_digest_verify_init("EVP_DigestVerifyInit", traits, *this)
       , evp_digest_verify_update("EVP_DigestVerifyUpdate", traits, *this)
-      , evp_digest_verify_final("EVP_DigestVerifyFinal", traits, *this) {
+      , evp_digest_verify_final("EVP_DigestVerifyFinal", traits, *this)
+      , x509_new("X509_new", traits, *this)
+      , x509_free("X509_free", traits, *this)
+      , pem_read_bio_private_key("PEM_read_bio_PrivateKey", traits, *this)
+      , pem_read_bio_pubkey("PEM_read_bio_PUBKEY", traits, *this)
+      , pem_read_bio_x509("PEM_read_bio_X509", traits, *this) {
     }
 };
 //------------------------------------------------------------------------------

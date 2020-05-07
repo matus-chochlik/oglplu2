@@ -313,32 +313,6 @@ public:
 
     } random_bytes;
 
-    // read_bio_private_key
-    struct : func<SSLPAFP(pem_read_bio_private_key)> {
-        using func<SSLPAFP(pem_read_bio_private_key)>::func;
-
-        constexpr auto operator()(
-          basic_io bio, passwd_callback_type get_passwd, void* param) const
-          noexcept {
-            return this->_cnvchkcall(bio, nullptr, get_passwd, param)
-              .cast_to(identity<owned_pkey>{});
-        }
-
-    } read_bio_private_key;
-
-    // read_bio_public_key
-    struct : func<SSLPAFP(pem_read_bio_pubkey)> {
-        using func<SSLPAFP(pem_read_bio_pubkey)>::func;
-
-        constexpr auto operator()(
-          basic_io bio, passwd_callback_type get_passwd, void* param) const
-          noexcept {
-            return this->_cnvchkcall(bio, nullptr, get_passwd, param)
-              .cast_to(identity<owned_pkey>{});
-        }
-
-    } read_bio_public_key;
-
     // delete_pkey
     struct : func<SSLPAFP(evp_pkey_free)> {
         using func<SSLPAFP(evp_pkey_free)>::func;
@@ -903,6 +877,68 @@ public:
         }
     } message_digest_verify_final;
 
+    // new_x509
+    struct : func<SSLPAFP(x509_new)> {
+        using func<SSLPAFP(x509_new)>::func;
+
+        constexpr auto operator()() const noexcept {
+            return this->_chkcall().cast_to(identity<owned_x509>{});
+        }
+    } new_x509;
+
+    // delete_x509
+    struct : func<SSLPAFP(x509_free)> {
+        using func<SSLPAFP(x509_free)>::func;
+
+        constexpr auto operator()(owned_x509& crt) const noexcept {
+            return this->_chkcall(crt.release());
+        }
+
+        auto raii(owned_x509& crt) const noexcept {
+            return eagine::finally([this, &crt]() { (*this)(crt); });
+        }
+
+    } delete_x509;
+
+    // read_bio_private_key
+    struct : func<SSLPAFP(pem_read_bio_private_key)> {
+        using func<SSLPAFP(pem_read_bio_private_key)>::func;
+
+        constexpr auto operator()(
+          basic_io bio, passwd_callback_type get_passwd, void* param) const
+          noexcept {
+            return this->_cnvchkcall(bio, nullptr, get_passwd, param)
+              .cast_to(identity<owned_pkey>{});
+        }
+
+    } read_bio_private_key;
+
+    // read_bio_public_key
+    struct : func<SSLPAFP(pem_read_bio_pubkey)> {
+        using func<SSLPAFP(pem_read_bio_pubkey)>::func;
+
+        constexpr auto operator()(
+          basic_io bio, passwd_callback_type get_passwd, void* param) const
+          noexcept {
+            return this->_cnvchkcall(bio, nullptr, get_passwd, param)
+              .cast_to(identity<owned_pkey>{});
+        }
+
+    } read_bio_public_key;
+
+    // read_bio_x509
+    struct : func<SSLPAFP(pem_read_bio_x509)> {
+        using func<SSLPAFP(pem_read_bio_x509)>::func;
+
+        constexpr auto operator()(
+          basic_io bio, passwd_callback_type get_passwd, void* param) const
+          noexcept {
+            return this->_cnvchkcall(bio, nullptr, get_passwd, param)
+              .cast_to(identity<owned_x509>{});
+        }
+
+    } read_bio_x509;
+
     constexpr basic_ssl_operations(api_traits& traits)
       : c_api{traits}
       , load_builtin_engines("load_builtin_engines", traits, *this)
@@ -929,8 +965,6 @@ public:
       , delete_basic_io("delete_basic_io", traits, *this)
       , delete_all_basic_ios("delete_all_basic_ios", traits, *this)
       , random_bytes("random_bytes", traits, *this)
-      , read_bio_private_key("read_bio_private_key", traits, *this)
-      , read_bio_public_key("read_bio_public_key", traits, *this)
       , delete_pkey("delete_pkey", traits, *this)
       , cipher_aes_128_ctr("cipher_aes_128_ctr", traits, *this)
       , cipher_aes_128_ccm("cipher_aes_128_ccm", traits, *this)
@@ -979,7 +1013,12 @@ public:
       , message_digest_verify_update(
           "message_digest_verify_update", traits, *this)
       , message_digest_verify_final(
-          "message_digest_verify_final", traits, *this) {
+          "message_digest_verify_final", traits, *this)
+      , new_x509("new_x509", traits, *this)
+      , delete_x509("delete_x509", traits, *this)
+      , read_bio_private_key("read_bio_private_key", traits, *this)
+      , read_bio_public_key("read_bio_public_key", traits, *this)
+      , read_bio_x509("read_bio_x509", traits, *this) {
     }
 };
 //------------------------------------------------------------------------------

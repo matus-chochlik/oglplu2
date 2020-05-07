@@ -39,6 +39,7 @@ struct ssl_types {
     using evp_cipher_type = ::EVP_CIPHER;
     using evp_md_ctx_type = ::EVP_MD_CTX;
     using evp_md_type = ::EVP_MD;
+    using x509_type = ::X509;
 #else
     static constexpr bool has_api = false;
     using engine_type = nothing_t;
@@ -50,6 +51,7 @@ struct ssl_types {
     using evp_cipher_type = nothing_t;
     using evp_md_ctx_type = nothing_t;
     using evp_md_type = nothing_t;
+    using x509_type = nothing_t;
 #endif
 };
 //------------------------------------------------------------------------------
