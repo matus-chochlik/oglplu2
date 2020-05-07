@@ -50,6 +50,9 @@ using pkey = basic_handle<pkey_tag, ssl_types::evp_pkey_type*, nullptr>;
 using pkey_ctx =
   basic_handle<pkey_ctx_tag, ssl_types::evp_pkey_ctx_type*, nullptr>;
 //------------------------------------------------------------------------------
+using owned_engine =
+  basic_owned_handle<engine_tag, ssl_types::engine_type*, nullptr>;
+
 using owned_basic_io =
   basic_owned_handle<basic_io_tag, ssl_types::bio_type*, nullptr>;
 

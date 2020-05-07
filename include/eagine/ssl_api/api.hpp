@@ -73,16 +73,75 @@ public:
         }
     };
 
-    // basic_io_new
+    // new_engine
+    struct : func<SSLPAFP(engine_new)> {
+        using func<SSLPAFP(engine_new)>::func;
+
+        constexpr auto operator()() const noexcept {
+            return this->_chkcall().cast_to(identity<owned_engine>{});
+        }
+    } new_engine;
+
+    // open_engine
+    struct : func<SSLPAFP(engine_by_id)> {
+        using func<SSLPAFP(engine_by_id)>::func;
+
+        constexpr auto operator()(string_view) const noexcept {
+            return this->_cnvchkcall().cast_to(identity<owned_engine>{});
+        }
+    } open_engine;
+
+    // copy_engine
+    struct : func<SSLPAFP(engine_up_ref)> {
+        using func<SSLPAFP(engine_up_ref)>::func;
+
+        constexpr auto operator()(const owned_engine& eng) const noexcept {
+            return this->_cnvchkcall(eng).cast_to(identity<owned_engine>{});
+        }
+    } copy_engine;
+
+    // delete_engine
+    struct : func<SSLPAFP(engine_free)> {
+        using func<SSLPAFP(engine_free)>::func;
+
+        constexpr auto operator()(owned_engine& eng) const noexcept {
+            return this->_chkcall(eng.release());
+        }
+
+        auto raii(owned_engine& bio) const noexcept {
+            return eagine::finally([this, &bio]() { (*this)(bio); });
+        }
+
+    } delete_engine;
+
+    // init_engine
+    struct : func<SSLPAFP(engine_init)> {
+        using func<SSLPAFP(engine_init)>::func;
+
+        constexpr auto operator()(engine eng) const noexcept {
+            return this->_cnvchkcall(eng).cast_to(identity<bool>{});
+        }
+    } init_engine;
+
+    // finish_engine
+    struct : func<SSLPAFP(engine_finish)> {
+        using func<SSLPAFP(engine_finish)>::func;
+
+        constexpr auto operator()(engine eng) const noexcept {
+            return this->_cnvchkcall(eng).cast_to(identity<bool>{});
+        }
+    } finish_engine;
+
+    // new_basic_io
     struct : func<SSLPAFP(bio_new)> {
         using func<SSLPAFP(bio_new)>::func;
 
         constexpr auto operator()(basic_io_method method) const noexcept {
             return this->_chkcall(method).cast_to(identity<owned_basic_io>{});
         }
-    } basic_io_new;
+    } new_basic_io;
 
-    // basic_io_block_new
+    // new_block_basic_io
     struct : func<SSLPAFP(bio_new_mem_buf)> {
         using func<SSLPAFP(bio_new_mem_buf)>::func;
 
@@ -91,9 +150,9 @@ public:
               .cast_to(identity<owned_basic_io>{});
         }
 
-    } basic_io_block_new;
+    } new_block_basic_io;
 
-    // basic_io_free
+    // delete_basic_io
     struct : func<SSLPAFP(bio_free)> {
         using func<SSLPAFP(bio_free)>::func;
 
@@ -105,9 +164,9 @@ public:
             return eagine::finally([this, &bio]() { (*this)(bio); });
         }
 
-    } basic_io_free;
+    } delete_basic_io;
 
-    // basic_io_free_all
+    // delete_all_basic_ios
     struct : func<SSLPAFP(bio_free_all)> {
         using func<SSLPAFP(bio_free_all)>::func;
 
@@ -119,7 +178,7 @@ public:
             return eagine::finally([this, &bio]() { (*this)(bio); });
         }
 
-    } basic_io_free_all;
+    } delete_all_basic_ios;
 
     // read_bio_private_key
     struct : func<SSLPAFP(pem_read_bio_private_key)> {
@@ -147,7 +206,7 @@ public:
 
     } read_bio_public_key;
 
-    // pkey_free
+    // delete_pkey
     struct : func<SSLPAFP(evp_pkey_free)> {
         using func<SSLPAFP(evp_pkey_free)>::func;
 
@@ -159,7 +218,7 @@ public:
             return eagine::finally([=]() { (*this)(pky); });
         }
 
-    } pkey_free;
+    } delete_pkey;
 
     // cipher
     struct : func<SSLPAFP(evp_aes_128_ctr)> {
@@ -210,16 +269,16 @@ public:
         }
     } cipher_aes_192_cbc;
 
-    // cipher_new
+    // new_cipher
     struct : func<SSLPAFP(evp_cipher_ctx_new)> {
         using func<SSLPAFP(evp_cipher_ctx_new)>::func;
 
         constexpr auto operator()() const noexcept {
             return this->_chkcall().cast_to(identity<owned_cipher>{});
         }
-    } cipher_new;
+    } new_cipher;
 
-    // cipher_free
+    // delete_cipher
     struct : func<SSLPAFP(evp_cipher_ctx_free)> {
         using func<SSLPAFP(evp_cipher_ctx_free)>::func;
 
@@ -231,7 +290,7 @@ public:
             return eagine::finally([this, &cyc]() { (*this)(cyc); });
         }
 
-    } cipher_free;
+    } delete_cipher;
 
     // cipher_reset
     struct : func<SSLPAFP(evp_cipher_ctx_reset)> {
@@ -533,16 +592,16 @@ public:
         }
     } message_digest_size;
 
-    // message_digest_new
+    // new_message_digest
     struct : func<SSLPAFP(evp_md_ctx_new)> {
         using func<SSLPAFP(evp_md_ctx_new)>::func;
 
         constexpr auto operator()() const noexcept {
             return this->_chkcall().cast_to(identity<owned_message_digest>{});
         }
-    } message_digest_new;
+    } new_message_digest;
 
-    // message_digest_free
+    // delete_message_digest
     struct : func<SSLPAFP(evp_md_ctx_free)> {
         using func<SSLPAFP(evp_md_ctx_free)>::func;
 
@@ -554,7 +613,7 @@ public:
             return eagine::finally([this, &mdc]() { (*this)(mdc); });
         }
 
-    } message_digest_free;
+    } delete_message_digest;
 
     // message_digest_reset
     struct : func<SSLPAFP(evp_md_ctx_reset)> {
@@ -713,21 +772,27 @@ public:
 
     constexpr basic_ssl_operations(api_traits& traits)
       : c_api{traits}
-      , basic_io_new("basic_io_new", traits, *this)
-      , basic_io_block_new("basic_io_block_new", traits, *this)
-      , basic_io_free("basic_io_free", traits, *this)
-      , basic_io_free_all("basic_io_free_all", traits, *this)
+      , new_engine("new_engine", traits, *this)
+      , open_engine("open_engine", traits, *this)
+      , copy_engine("copy_engine", traits, *this)
+      , delete_engine("delete_engine", traits, *this)
+      , init_engine("init_engine", traits, *this)
+      , finish_engine("finish_engine", traits, *this)
+      , new_basic_io("new_basic_io", traits, *this)
+      , new_block_basic_io("new_block_basic_io", traits, *this)
+      , delete_basic_io("delete_basic_io", traits, *this)
+      , delete_all_basic_ios("delete_all_basic_ios", traits, *this)
       , read_bio_private_key("read_bio_private_key", traits, *this)
       , read_bio_public_key("read_bio_public_key", traits, *this)
-      , pkey_free("pkey_free", traits, *this)
+      , delete_pkey("delete_pkey", traits, *this)
       , cipher_aes_128_ctr("cipher_aes_128_ctr", traits, *this)
       , cipher_aes_128_ccm("cipher_aes_128_ccm", traits, *this)
       , cipher_aes_128_gcm("cipher_aes_128_gcm", traits, *this)
       , cipher_aes_128_xts("cipher_aes_128_xts", traits, *this)
       , cipher_aes_192_ecb("cipher_aes_192_ecb", traits, *this)
       , cipher_aes_192_cbc("cipher_aes_192_cbc", traits, *this)
-      , cipher_new("cipher_new", traits, *this)
-      , cipher_free("cipher_free", traits, *this)
+      , new_cipher("new_cipher", traits, *this)
+      , delete_cipher("delete_cipher", traits, *this)
       , cipher_reset("cipher_reset", traits, *this)
       , cipher_init("cipher_init", traits, *this)
       , cipher_init_ex("cipher_init_ex", traits, *this)
@@ -752,8 +817,8 @@ public:
       , message_digest_sha384("message_digest_sha384", traits, *this)
       , message_digest_sha512("message_digest_sha512", traits, *this)
       , message_digest_size("message_digest_size", traits, *this)
-      , message_digest_new("message_digest_new", traits, *this)
-      , message_digest_free("message_digest_free", traits, *this)
+      , new_message_digest("new_message_digest", traits, *this)
+      , delete_message_digest("delete_message_digest", traits, *this)
       , message_digest_reset("message_digest_reset", traits, *this)
       , message_digest_init("message_digest_init", traits, *this)
       , message_digest_init_ex("message_digest_init_ex", traits, *this)

@@ -45,9 +45,9 @@ public:
               extract_or(this->message_digest_size(mdtype), 0);
 
             if(dst.size() >= span_size(req_size)) {
-                if(auto optmdctx = this->message_digest_new()) {
+                if(auto optmdctx = this->new_message_digest()) {
                     auto& mdctx{extract(optmdctx)};
-                    auto cleanup{this->message_digest_free.raii(mdctx)};
+                    auto cleanup{this->delete_message_digest.raii(mdctx)};
                     this->message_digest_init(mdctx, mdtype);
                     this->message_digest_update(mdctx, data);
                     return extract_or(
@@ -97,9 +97,9 @@ public:
       message_digest_type mdtype,
       pkey pky) {
         if(mdtype && pky) {
-            if(auto optmdctx = this->message_digest_new()) {
+            if(auto optmdctx = this->new_message_digest()) {
                 auto& mdctx{extract(optmdctx)};
-                auto cleanup{this->message_digest_free.raii(mdctx)};
+                auto cleanup{this->delete_message_digest.raii(mdctx)};
                 this->message_digest_sign_init(mdctx, mdtype, pky);
                 this->message_digest_sign_update(mdctx, data);
                 return extract_or(
@@ -115,9 +115,9 @@ public:
       message_digest_type mdtype,
       pkey pky) {
         if(mdtype && pky) {
-            if(auto optmdctx = this->message_digest_new()) {
+            if(auto optmdctx = this->new_message_digest()) {
                 auto& mdctx{extract(optmdctx)};
-                auto cleanup{this->message_digest_free.raii(mdctx)};
+                auto cleanup{this->delete_message_digest.raii(mdctx)};
                 this->message_digest_verify_init(mdctx, mdtype, pky);
                 this->message_digest_verify_update(mdctx, data);
                 return extract_or(

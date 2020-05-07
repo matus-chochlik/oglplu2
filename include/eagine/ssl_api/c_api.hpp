@@ -62,6 +62,7 @@ struct basic_ssl_c_api {
 #pragma GCC diagnostic pop
 #endif
 
+    // error
     ssl_api_function<unsigned long(), EAGINE_SSL_STATIC_FUNC(ERR_get_error)>
       err_get_error;
 
@@ -73,6 +74,28 @@ struct basic_ssl_c_api {
       EAGINE_SSL_STATIC_FUNC(ERR_error_string_n)>
       err_error_string_n;
 
+    // engine
+    ssl_api_function<engine_type*(), EAGINE_SSL_STATIC_FUNC(ENGINE_new)>
+      engine_new;
+
+    ssl_api_function<
+      engine_type*(const char*),
+      EAGINE_SSL_STATIC_FUNC(ENGINE_by_id)>
+      engine_by_id;
+
+    ssl_api_function<int(engine_type*), EAGINE_SSL_STATIC_FUNC(ENGINE_up_ref)>
+      engine_up_ref;
+
+    ssl_api_function<int(engine_type*), EAGINE_SSL_STATIC_FUNC(ENGINE_free)>
+      engine_free;
+
+    ssl_api_function<int(engine_type*), EAGINE_SSL_STATIC_FUNC(ENGINE_init)>
+      engine_init;
+
+    ssl_api_function<int(engine_type*), EAGINE_SSL_STATIC_FUNC(ENGINE_finish)>
+      engine_finish;
+
+    // bio
     ssl_api_function<
       bio_type*(const bio_method_type*),
       EAGINE_SSL_STATIC_FUNC(BIO_new)>
@@ -384,6 +407,12 @@ struct basic_ssl_c_api {
       : err_get_error("ERR_get_error", traits, *this)
       , err_peek_error("ERR_peek_error", traits, *this)
       , err_error_string_n("ERR_error_string_n", traits, *this)
+      , engine_new("ENGINE_new", traits, *this)
+      , engine_by_id("ENGINE_by_id", traits, *this)
+      , engine_up_ref("ENGINE_up_ref", traits, *this)
+      , engine_free("ENGINE_free", traits, *this)
+      , engine_init("ENGINE_init", traits, *this)
+      , engine_finish("ENGINE_finish", traits, *this)
       , bio_new("BIO_new", traits, *this)
       , bio_new_mem_buf("BIO_new_mem_buf", traits, *this)
       , bio_up_ref("BIO_up_ref", traits, *this)
