@@ -41,8 +41,11 @@ struct basic_ssl_c_api {
     using evp_cipher_type = ssl_types::evp_cipher_type;
     using evp_md_ctx_type = ssl_types::evp_md_ctx_type;
     using evp_md_type = ssl_types::evp_md_type;
+    using x509_lookup_method_type = ssl_types::x509_lookup_method_type;
+    using x509_lookup_type = ssl_types::x509_lookup_type;
     using x509_store_ctx_type = ssl_types::x509_store_ctx_type;
     using x509_store_type = ssl_types::x509_store_type;
+    using x509_crl_type = ssl_types::x509_crl_type;
     using x509_type = ssl_types::x509_type;
     using x509_stack_type = ssl_types::x509_stack_type;
 
@@ -467,6 +470,17 @@ struct basic_ssl_c_api {
       EAGINE_SSL_STATIC_FUNC(EVP_DigestVerifyFinal)>
       evp_digest_verify_final;
 
+    // x509 lookup
+    ssl_api_function<
+      x509_lookup_method_type*(),
+      EAGINE_SSL_STATIC_FUNC(X509_LOOKUP_hash_dir)>
+      x509_lookup_hash_dir;
+
+    ssl_api_function<
+      x509_lookup_method_type*(),
+      EAGINE_SSL_STATIC_FUNC(X509_LOOKUP_file)>
+      x509_lookup_file;
+
     // x509 store context
     ssl_api_function<
       x509_store_ctx_type*(),
@@ -533,9 +547,28 @@ struct basic_ssl_c_api {
       x509_store_free;
 
     ssl_api_function<
+      int(x509_store_type*, x509_type*),
+      EAGINE_SSL_STATIC_FUNC(X509_STORE_add_cert)>
+      x509_store_add_cert;
+
+    ssl_api_function<
+      int(x509_store_type*, x509_crl_type*),
+      EAGINE_SSL_STATIC_FUNC(X509_STORE_add_crl)>
+      x509_store_add_crl;
+
+    ssl_api_function<
       int(x509_store_type*, const char*, const char*),
       EAGINE_SSL_STATIC_FUNC(X509_STORE_load_locations)>
       x509_store_load_locations;
+
+    // x509_crl
+    ssl_api_function<x509_crl_type*(), EAGINE_SSL_STATIC_FUNC(X509_CRL_new)>
+      x509_crl_new;
+
+    ssl_api_function<
+      void(x509_crl_type*),
+      EAGINE_SSL_STATIC_FUNC(X509_CRL_free)>
+      x509_crl_free;
 
     // x509
     ssl_api_function<x509_type*(), EAGINE_SSL_STATIC_FUNC(X509_new)> x509_new;
@@ -553,6 +586,11 @@ struct basic_ssl_c_api {
       evp_pkey_type*(bio_type*, evp_pkey_type**, passwd_callback_type*, void*),
       EAGINE_SSL_STATIC_FUNC(PEM_read_bio_PUBKEY)>
       pem_read_bio_pubkey;
+
+    ssl_api_function<
+      x509_crl_type*(bio_type*, x509_crl_type**, passwd_callback_type*, void*),
+      EAGINE_SSL_STATIC_FUNC(PEM_read_bio_X509_CRL)>
+      pem_read_bio_x509_crl;
 
     ssl_api_function<
       x509_type*(bio_type*, x509_type**, passwd_callback_type*, void*),
@@ -640,6 +678,8 @@ struct basic_ssl_c_api {
       , evp_digest_verify_init("EVP_DigestVerifyInit", traits, *this)
       , evp_digest_verify_update("EVP_DigestVerifyUpdate", traits, *this)
       , evp_digest_verify_final("EVP_DigestVerifyFinal", traits, *this)
+      , x509_lookup_hash_dir("X509_LOOKUP_hash_dir", traits, *this)
+      , x509_lookup_file("X509_LOOKUP_file", traits, *this)
       , x509_store_ctx_new("X509_STORE_CTX_new", traits, *this)
       , x509_store_ctx_init("X509_STORE_CTX_init", traits, *this)
       , x509_store_ctx_set0_trusted_stack(
@@ -656,11 +696,16 @@ struct basic_ssl_c_api {
       , x509_store_lock("X509_STORE_lock", traits, *this)
       , x509_store_unlock("X509_STORE_unlock", traits, *this)
       , x509_store_free("X509_STORE_free", traits, *this)
+      , x509_store_add_cert("X509_STORE_add_cert", traits, *this)
+      , x509_store_add_crl("X509_STORE_add_crl", traits, *this)
       , x509_store_load_locations("X509_STORE_load_locations", traits, *this)
+      , x509_crl_new("X509_crl_new", traits, *this)
+      , x509_crl_free("X509_crl_free", traits, *this)
       , x509_new("X509_new", traits, *this)
       , x509_free("X509_free", traits, *this)
       , pem_read_bio_private_key("PEM_read_bio_PrivateKey", traits, *this)
       , pem_read_bio_pubkey("PEM_read_bio_PUBKEY", traits, *this)
+      , pem_read_bio_x509_crl("PEM_read_bio_X509_CRL", traits, *this)
       , pem_read_bio_x509("PEM_read_bio_X509", traits, *this) {
     }
 };

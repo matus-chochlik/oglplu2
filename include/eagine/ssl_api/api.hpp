@@ -1046,6 +1046,26 @@ public:
 
     } delete_x509_store;
 
+    // add_cert_into_x509_store
+    struct : func<SSLPAFP(x509_store_add_cert)> {
+        using func<SSLPAFP(x509_store_add_cert)>::func;
+
+        constexpr auto operator()(x509_store xst, x509 crt) const noexcept {
+            return this->_cnvchkcall(xst, crt);
+        }
+
+    } add_cert_into_x509_store;
+
+    // add_crl_into_x509_store
+    struct : func<SSLPAFP(x509_store_add_crl)> {
+        using func<SSLPAFP(x509_store_add_crl)>::func;
+
+        constexpr auto operator()(x509_store xst, x509_crl crl) const noexcept {
+            return this->_cnvchkcall(xst, crl);
+        }
+
+    } add_crl_into_x509_store;
+
     // load_into_x509_store
     struct : func<SSLPAFP(x509_store_load_locations)> {
         using func<SSLPAFP(x509_store_load_locations)>::func;
@@ -1056,6 +1076,29 @@ public:
         }
 
     } load_into_x509_store;
+
+    // new_x509_crl
+    struct : func<SSLPAFP(x509_crl_new)> {
+        using func<SSLPAFP(x509_crl_new)>::func;
+
+        constexpr auto operator()() const noexcept {
+            return this->_chkcall().cast_to(identity<owned_x509_crl>{});
+        }
+    } new_x509_crl;
+
+    // delete_x509_crl
+    struct : func<SSLPAFP(x509_crl_free)> {
+        using func<SSLPAFP(x509_crl_free)>::func;
+
+        constexpr auto operator()(owned_x509_crl& crl) const noexcept {
+            return this->_chkcall(crl.release());
+        }
+
+        auto raii(owned_x509_crl& crl) const noexcept {
+            return eagine::finally([this, &crl]() { (*this)(crl); });
+        }
+
+    } delete_x509_crl;
 
     // new_x509
     struct : func<SSLPAFP(x509_new)> {
@@ -1123,6 +1166,28 @@ public:
         }
 
     } read_bio_public_key;
+
+    // read_bio_x509_crl
+    struct : func<SSLPAFP(pem_read_bio_x509_crl)> {
+        using func<SSLPAFP(pem_read_bio_x509_crl)>::func;
+
+        constexpr auto operator()(basic_io bio) const noexcept {
+            return this->_cnvchkcall(bio, nullptr, nullptr, nullptr)
+              .cast_to(identity<owned_x509_crl>{});
+        }
+
+        constexpr auto operator()(
+          basic_io bio, password_callback get_passwd) const noexcept {
+            return this
+              ->_cnvchkcall(
+                bio,
+                nullptr,
+                get_passwd.native_func(),
+                get_passwd.native_data())
+              .cast_to(identity<owned_x509_crl>{});
+        }
+
+    } read_bio_x509_crl;
 
     // read_bio_x509
     struct : func<SSLPAFP(pem_read_bio_x509)> {
@@ -1234,11 +1299,16 @@ public:
       , new_x509_store("new_x509_store", traits, *this)
       , copy_x509_store("copy_x509_store", traits, *this)
       , delete_x509_store("delete_x509_store", traits, *this)
+      , add_cert_into_x509_store("add_cert_into_x509_store", traits, *this)
+      , add_crl_into_x509_store("add_crl_into_x509_store", traits, *this)
       , load_into_x509_store("load_into_x509_store", traits, *this)
+      , new_x509_crl("new_x509_crl", traits, *this)
+      , delete_x509_crl("delete_x509_crl", traits, *this)
       , new_x509("new_x509", traits, *this)
       , delete_x509("delete_x509", traits, *this)
       , read_bio_private_key("read_bio_private_key", traits, *this)
       , read_bio_public_key("read_bio_public_key", traits, *this)
+      , read_bio_x509_crl("read_bio_x509_crl", traits, *this)
       , read_bio_x509("read_bio_x509", traits, *this) {
     }
 };

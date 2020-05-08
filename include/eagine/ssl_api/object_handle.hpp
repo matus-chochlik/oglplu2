@@ -25,8 +25,11 @@ using message_digest_type_tag = EAGINE_MSG_TYPE(ssl, MsgDgstTyp);
 using message_digest_tag = EAGINE_MSG_TYPE(ssl, MsgDigest);
 using pkey_tag = EAGINE_MSG_TYPE(ssl, PKey);
 using pkey_ctx_tag = EAGINE_MSG_TYPE(ssl, PKeyCtx);
+using x509_lookup_method_tag = EAGINE_MSG_TYPE(ssl, X509LkpMtd);
+using x509_lookup_tag = EAGINE_MSG_TYPE(ssl, X509Lookup);
 using x509_store_ctx_tag = EAGINE_MSG_TYPE(ssl, X509StrCtx);
 using x509_store_tag = EAGINE_MSG_TYPE(ssl, X509Store);
+using x509_crl_tag = EAGINE_MSG_TYPE(ssl, X509Crl);
 using x509_tag = EAGINE_MSG_TYPE(ssl, X509);
 //------------------------------------------------------------------------------
 using engine = basic_handle<engine_tag, ssl_types::engine_type*, nullptr>;
@@ -53,11 +56,18 @@ using pkey = basic_handle<pkey_tag, ssl_types::evp_pkey_type*, nullptr>;
 using pkey_ctx =
   basic_handle<pkey_ctx_tag, ssl_types::evp_pkey_ctx_type*, nullptr>;
 
+using x509_lookup_method = basic_handle<
+  x509_lookup_method_tag,
+  ssl_types::x509_lookup_method_type*,
+  nullptr>;
+
 using x509_store_ctx =
   basic_handle<x509_store_ctx_tag, ssl_types::x509_store_ctx_type*, nullptr>;
 
 using x509_store =
   basic_handle<x509_store_tag, ssl_types::x509_store_type*, nullptr>;
+
+using x509_crl = basic_handle<x509_crl_tag, ssl_types::x509_crl_type*, nullptr>;
 
 using x509 = basic_handle<x509_tag, ssl_types::x509_type*, nullptr>;
 //------------------------------------------------------------------------------
@@ -83,6 +93,9 @@ using owned_x509_store_ctx = basic_owned_handle<
 
 using owned_x509_store =
   basic_owned_handle<x509_store_tag, ssl_types::x509_store_type*, nullptr>;
+
+using owned_x509_crl =
+  basic_owned_handle<x509_crl_tag, ssl_types::x509_crl_type*, nullptr>;
 
 using owned_x509 = basic_owned_handle<x509_tag, ssl_types::x509_type*, nullptr>;
 //------------------------------------------------------------------------------
