@@ -503,6 +503,11 @@ struct basic_ssl_c_api {
       EAGINE_SSL_STATIC_FUNC(X509_STORE_CTX_free)>
       x509_store_ctx_free;
 
+    ssl_api_function<
+      int(x509_store_ctx_type*),
+      EAGINE_SSL_STATIC_FUNC(X509_verify_cert)>
+      x509_verify_cert;
+
     // x509 store
     ssl_api_function<x509_store_type*(), EAGINE_SSL_STATIC_FUNC(X509_STORE_new)>
       x509_store_new;
@@ -640,6 +645,7 @@ struct basic_ssl_c_api {
           "X509_STORE_CTX_set0_untrusted", traits, *this)
       , x509_store_ctx_cleanup("X509_STORE_CTX_cleanup", traits, *this)
       , x509_store_ctx_free("X509_STORE_CTX_free", traits, *this)
+      , x509_verify_cert("X509_verify_cert", traits, *this)
       , x509_store_new("X509_STORE_new", traits, *this)
       , x509_store_up_ref("X509_STORE_up_ref", traits, *this)
       , x509_store_lock("X509_STORE_lock", traits, *this)

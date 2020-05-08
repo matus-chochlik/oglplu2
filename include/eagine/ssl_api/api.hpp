@@ -61,9 +61,9 @@ public:
             return static_cast<Handle>(obj);
         }
 
-        template <typename Tag, typename Handle>
+        template <typename Object>
         static constexpr inline auto _conv(
-          const object_stack<basic_handle<Tag, Handle>>& stk) noexcept {
+          const object_stack<Object>& stk) noexcept {
             return stk.native();
         }
 
@@ -968,6 +968,16 @@ public:
 
     } delete_x509_store_ctx;
 
+    // x509_verify_certificate
+    struct : func<SSLPAFP(x509_verify_cert)> {
+        using func<SSLPAFP(x509_verify_cert)>::func;
+
+        constexpr auto operator()(x509_store_ctx xsc) const noexcept {
+            return this->_cnvchkcall(xsc);
+        }
+
+    } x509_verify_certificate;
+
     // new_x509_store
     struct : func<SSLPAFP(x509_store_new)> {
         using func<SSLPAFP(x509_store_new)>::func;
@@ -1146,6 +1156,7 @@ public:
       , set_x509_store_untrusted("set_x509_store_untrusted", traits, *this)
       , cleanup_x509_store_ctx("cleanup_x509_store_ctx", traits, *this)
       , delete_x509_store_ctx("delete_x509_store_ctx", traits, *this)
+      , x509_verify_certificate("x509_verify_certificate", traits, *this)
       , new_x509_store("new_x509_store", traits, *this)
       , copy_x509_store("copy_x509_store", traits, *this)
       , delete_x509_store("delete_x509_store", traits, *this)
