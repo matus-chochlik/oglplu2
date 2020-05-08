@@ -149,8 +149,33 @@ public:
         return false;
     }
 
+    combined_result<owned_pkey> parse_private_key(
+      memory::const_block blk, password_callback get_passwd = {}) const
+      noexcept {
+        if(ok mbio{this->new_block_basic_io(blk)}) {
+            auto del_bio{this->delete_basic_io.raii(mbio)};
+
+            return this->read_bio_private_key(mbio, get_passwd);
+        }
+
+        return {owned_pkey{}};
+    }
+
+    combined_result<owned_pkey> parse_public_key(
+      memory::const_block blk, password_callback get_passwd = {}) const
+      noexcept {
+        if(ok mbio{this->new_block_basic_io(blk)}) {
+            auto del_bio{this->delete_basic_io.raii(mbio)};
+
+            return this->read_bio_public_key(mbio, get_passwd);
+        }
+
+        return {owned_pkey{}};
+    }
+
     combined_result<owned_x509> parse_x509(
-      memory::const_block blk, password_callback get_passwd) const noexcept {
+      memory::const_block blk, password_callback get_passwd = {}) const
+      noexcept {
         if(ok mbio{this->new_block_basic_io(blk)}) {
             auto del_bio{this->delete_basic_io.raii(mbio)};
 
