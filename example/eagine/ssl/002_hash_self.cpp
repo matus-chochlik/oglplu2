@@ -1,5 +1,5 @@
 /**
- *  @example eagine/ssh/001_hash_self.cpp
+ *  @example eagine/ssh/002_hash_self.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.

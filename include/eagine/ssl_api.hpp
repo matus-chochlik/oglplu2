@@ -24,6 +24,9 @@ class basic_ssl_api
   , public basic_ssl_operations<ApiTraits>
   , public basic_ssl_constants<ApiTraits> {
 public:
+    template <typename R>
+    using combined_result = typename ApiTraits::template combined_result<R>;
+
     using evp_md_type = ssl_types::evp_md_type;
 
     basic_ssl_api(ApiTraits traits)
@@ -59,9 +62,9 @@ public:
               extract_or(this->message_digest_size(mdtype), 0);
 
             if(dst.size() >= span_size(req_size)) {
-                if(auto optmdctx = this->new_message_digest()) {
-                    auto& mdctx{extract(optmdctx)};
+                if(ok mdctx{this->new_message_digest()}) {
                     auto cleanup{this->delete_message_digest.raii(mdctx)};
+
                     this->message_digest_init(mdctx, mdtype);
                     this->message_digest_update(mdctx, data);
                     return extract_or(
@@ -105,37 +108,73 @@ public:
         return do_data_digest(data, dst, this->message_digest_sha512());
     }
 
-    memory::block data_digest_sign(
+    memory::block sign_data_digest(
       memory::const_block data,
       memory::block dst,
       message_digest_type mdtype,
       pkey pky) {
         if(mdtype && pky) {
-            if(auto optmdctx = this->new_message_digest()) {
-                auto& mdctx{extract(optmdctx)};
+            if(ok mdctx{this->new_message_digest()}) {
                 auto cleanup{this->delete_message_digest.raii(mdctx)};
-                this->message_digest_sign_init(mdctx, mdtype, pky);
-                this->message_digest_sign_update(mdctx, data);
-                return extract_or(
-                  this->message_digest_sign_final(mdctx, dst), memory::block{});
+
+                if(this->message_digest_sign_init(mdctx, mdtype, pky)) {
+                    if(this->message_digest_sign_update(mdctx, data)) {
+                        return extract_or(
+                          this->message_digest_sign_final(mdctx, dst),
+                          memory::block{});
+                    }
+                }
             }
         }
         return {};
     }
 
-    bool data_digest_verify(
+    bool verify_data_digest(
       memory::const_block data,
       memory::const_block sig,
       message_digest_type mdtype,
       pkey pky) {
         if(mdtype && pky) {
-            if(auto optmdctx = this->new_message_digest()) {
-                auto& mdctx{extract(optmdctx)};
+            if(ok mdctx{this->new_message_digest()}) {
                 auto cleanup{this->delete_message_digest.raii(mdctx)};
-                this->message_digest_verify_init(mdctx, mdtype, pky);
-                this->message_digest_verify_update(mdctx, data);
-                return extract_or(
-                  this->message_digest_verify_final(mdctx, sig), false);
+
+                if(this->message_digest_verify_init(mdctx, mdtype, pky)) {
+                    if(this->message_digest_verify_update(mdctx, data)) {
+                        return extract_or(
+                          this->message_digest_verify_final(mdctx, sig), false);
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    combined_result<owned_x509> parse_x509(
+      memory::const_block blk, password_callback get_passwd) const noexcept {
+        if(ok mbio{this->new_block_basic_io(blk)}) {
+            auto del_bio{this->delete_basic_io.raii(mbio)};
+
+            return this->read_bio_x509(mbio, get_passwd);
+        }
+
+        return {owned_x509{}};
+    }
+
+    bool ca_verify_certificate(string_view ca_file_path, x509 cert) {
+        if(ok store{this->new_x509_store()}) {
+            auto del_store{this->delete_x509_store.raii(store)};
+
+            if(this->load_into_x509_store(store, ca_file_path)) {
+                if(ok vrfy_ctx{this->new_x509_store_ctx()}) {
+                    auto del_vrfy{this->delete_x509_store_ctx.raii(vrfy_ctx)};
+
+                    if(this->init_x509_store_ctx(vrfy_ctx, store, cert)) {
+                        if(ok verify_res{
+                             this->x509_verify_certificate(vrfy_ctx)}) {
+                            return verify_res.get();
+                        }
+                    }
+                }
             }
         }
         return false;

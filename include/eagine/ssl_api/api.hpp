@@ -9,6 +9,7 @@
 #ifndef EAGINE_SSL_API_API_HPP
 #define EAGINE_SSL_API_API_HPP
 
+#include "../callable_ref.hpp"
 #include "../memory/split_block.hpp"
 #include "c_api.hpp"
 #include "object_handle.hpp"
@@ -21,13 +22,43 @@ namespace sslp {
 //------------------------------------------------------------------------------
 #define SSLPAFP(FUNC) decltype(c_api::FUNC), &c_api::FUNC
 //------------------------------------------------------------------------------
+class password_callback {
+public:
+    constexpr password_callback() noexcept = default;
+
+    constexpr password_callback(
+      callable_ref<bool(string_span, bool)> callback) noexcept
+      : _callback{callback} {
+    }
+
+    constexpr auto* native_func() noexcept {
+        return _callback ? &_impl : nullptr;
+    }
+
+    constexpr auto* native_data() noexcept {
+        return _callback ? static_cast<void*>(this) : nullptr;
+    }
+
+private:
+    static int _impl(char* dst, int len, int writing, void* ptr) {
+        if(auto* self = static_cast<password_callback*>(ptr)) {
+            return self->_callback(
+                     string_span(dst, span_size_t(len)), writing != 0)
+                     ? 1
+                     : 0;
+        }
+        return 0;
+    }
+
+    callable_ref<bool(string_span, bool)> _callback{};
+};
+//------------------------------------------------------------------------------
 template <typename ApiTraits>
 class basic_ssl_operations : public basic_ssl_c_api<ApiTraits> {
 
 public:
     using api_traits = ApiTraits;
     using c_api = basic_ssl_c_api<ApiTraits>;
-    using passwd_callback_type = int(char*, int, int, void*);
 
     template <
       typename W,
@@ -898,6 +929,11 @@ public:
         using func<SSLPAFP(x509_store_ctx_init)>::func;
 
         constexpr auto operator()(
+          x509_store_ctx xsc, x509_store xst, x509 crt) const noexcept {
+            return this->_cnvchkcall(xsc, xst, crt, nullptr);
+        }
+
+        constexpr auto operator()(
           x509_store_ctx xsc,
           x509_store xst,
           x509 crt,
@@ -1010,6 +1046,17 @@ public:
 
     } delete_x509_store;
 
+    // load_into_x509_store
+    struct : func<SSLPAFP(x509_store_load_locations)> {
+        using func<SSLPAFP(x509_store_load_locations)>::func;
+
+        constexpr auto operator()(x509_store xst, string_view file_path) const
+          noexcept {
+            return this->_cnvchkcall(xst, file_path, nullptr);
+        }
+
+    } load_into_x509_store;
+
     // new_x509
     struct : func<SSLPAFP(x509_new)> {
         using func<SSLPAFP(x509_new)>::func;
@@ -1037,10 +1084,19 @@ public:
     struct : func<SSLPAFP(pem_read_bio_private_key)> {
         using func<SSLPAFP(pem_read_bio_private_key)>::func;
 
+        constexpr auto operator()(basic_io bio) const noexcept {
+            return this->_cnvchkcall(bio, nullptr, nullptr, nullptr)
+              .cast_to(identity<owned_pkey>{});
+        }
+
         constexpr auto operator()(
-          basic_io bio, passwd_callback_type get_passwd, void* param) const
-          noexcept {
-            return this->_cnvchkcall(bio, nullptr, get_passwd, param)
+          basic_io bio, password_callback get_passwd) const noexcept {
+            return this
+              ->_cnvchkcall(
+                bio,
+                nullptr,
+                get_passwd.native_func(),
+                get_passwd.native_data())
               .cast_to(identity<owned_pkey>{});
         }
 
@@ -1050,10 +1106,19 @@ public:
     struct : func<SSLPAFP(pem_read_bio_pubkey)> {
         using func<SSLPAFP(pem_read_bio_pubkey)>::func;
 
+        constexpr auto operator()(basic_io bio) const noexcept {
+            return this->_cnvchkcall(bio, nullptr, nullptr, nullptr)
+              .cast_to(identity<owned_pkey>{});
+        }
+
         constexpr auto operator()(
-          basic_io bio, passwd_callback_type get_passwd, void* param) const
-          noexcept {
-            return this->_cnvchkcall(bio, nullptr, get_passwd, param)
+          basic_io bio, password_callback get_passwd) const noexcept {
+            return this
+              ->_cnvchkcall(
+                bio,
+                nullptr,
+                get_passwd.native_func(),
+                get_passwd.native_data())
               .cast_to(identity<owned_pkey>{});
         }
 
@@ -1063,10 +1128,19 @@ public:
     struct : func<SSLPAFP(pem_read_bio_x509)> {
         using func<SSLPAFP(pem_read_bio_x509)>::func;
 
+        constexpr auto operator()(basic_io bio) const noexcept {
+            return this->_cnvchkcall(bio, nullptr, nullptr, nullptr)
+              .cast_to(identity<owned_x509>{});
+        }
+
         constexpr auto operator()(
-          basic_io bio, passwd_callback_type get_passwd, void* param) const
-          noexcept {
-            return this->_cnvchkcall(bio, nullptr, get_passwd, param)
+          basic_io bio, password_callback get_passwd) const noexcept {
+            return this
+              ->_cnvchkcall(
+                bio,
+                nullptr,
+                get_passwd.native_func(),
+                get_passwd.native_data())
               .cast_to(identity<owned_x509>{});
         }
 
@@ -1160,6 +1234,7 @@ public:
       , new_x509_store("new_x509_store", traits, *this)
       , copy_x509_store("copy_x509_store", traits, *this)
       , delete_x509_store("delete_x509_store", traits, *this)
+      , load_into_x509_store("load_into_x509_store", traits, *this)
       , new_x509("new_x509", traits, *this)
       , delete_x509("delete_x509", traits, *this)
       , read_bio_private_key("read_bio_private_key", traits, *this)

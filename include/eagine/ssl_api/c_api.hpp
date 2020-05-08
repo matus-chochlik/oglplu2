@@ -532,6 +532,11 @@ struct basic_ssl_c_api {
       EAGINE_SSL_STATIC_FUNC(X509_STORE_free)>
       x509_store_free;
 
+    ssl_api_function<
+      int(x509_store_type*, const char*, const char*),
+      EAGINE_SSL_STATIC_FUNC(X509_STORE_load_locations)>
+      x509_store_load_locations;
+
     // x509
     ssl_api_function<x509_type*(), EAGINE_SSL_STATIC_FUNC(X509_new)> x509_new;
 
@@ -651,6 +656,7 @@ struct basic_ssl_c_api {
       , x509_store_lock("X509_STORE_lock", traits, *this)
       , x509_store_unlock("X509_STORE_unlock", traits, *this)
       , x509_store_free("X509_STORE_free", traits, *this)
+      , x509_store_load_locations("X509_STORE_load_locations", traits, *this)
       , x509_new("X509_new", traits, *this)
       , x509_free("X509_free", traits, *this)
       , pem_read_bio_private_key("PEM_read_bio_PrivateKey", traits, *this)

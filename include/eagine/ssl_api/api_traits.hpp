@@ -23,6 +23,9 @@ public:
     template <typename R>
     using opt_result = ssl_opt_result<R>;
 
+    template <typename Result>
+    using combined_result = api_combined_result<Result, ssl_result_info>;
+
 private:
 };
 //------------------------------------------------------------------------------

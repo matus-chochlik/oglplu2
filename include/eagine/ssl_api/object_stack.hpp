@@ -181,7 +181,7 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-// object_stack
+// object_stack owned
 //------------------------------------------------------------------------------
 template <typename Tag, typename T>
 class object_stack<basic_owned_handle<Tag, T*, nullptr>>

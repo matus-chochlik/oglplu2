@@ -301,6 +301,10 @@ public:
       : _value{std::move(value)} {
     }
 
+    constexpr bool is_valid() const noexcept {
+        return true;
+    }
+
 protected:
     template <typename Info, typename T>
     auto _cast_to(const api_result<Result, Info>& src, identity<T>) const {
@@ -346,6 +350,11 @@ inline Result& operator>>(
 //------------------------------------------------------------------------------
 template <>
 class api_result_value<void> {
+
+    constexpr bool is_valid() const noexcept {
+        return true;
+    }
+
 protected:
     template <typename Info, typename T>
     auto _cast_to(const api_result<void, Info>& src, identity<T>) const {
