@@ -12,6 +12,7 @@
 #include "../memory/split_block.hpp"
 #include "c_api.hpp"
 #include "object_handle.hpp"
+#include "object_stack.hpp"
 #include <eagine/scope_exit.hpp>
 #include <eagine/string_list.hpp>
 
@@ -58,6 +59,12 @@ public:
         static constexpr inline auto _conv(
           basic_handle<Tag, Handle> obj) noexcept {
             return static_cast<Handle>(obj);
+        }
+
+        template <typename Tag, typename Handle>
+        static constexpr inline auto _conv(
+          const object_stack<basic_handle<Tag, Handle>>& stk) noexcept {
+            return stk.native();
         }
 
         template <typename... Args>
@@ -886,6 +893,67 @@ public:
         }
     } new_x509_store_ctx;
 
+    // init_x509_store_ctx
+    struct : func<SSLPAFP(x509_store_ctx_init)> {
+        using func<SSLPAFP(x509_store_ctx_init)>::func;
+
+        constexpr auto operator()(
+          x509_store_ctx xsc,
+          x509_store xst,
+          x509 crt,
+          const object_stack<x509>& chain) const noexcept {
+            return this->_cnvchkcall(xsc, xst, crt, chain);
+        }
+
+    } init_x509_store_ctx;
+
+    // set_x509_store_trusted_stack
+    struct : func<SSLPAFP(x509_store_ctx_set0_trusted_stack)> {
+        using func<SSLPAFP(x509_store_ctx_set0_trusted_stack)>::func;
+
+        constexpr auto operator()(
+          x509_store_ctx xsc, const object_stack<x509>& stk) const noexcept {
+            return this->_cnvchkcall(xsc, stk);
+        }
+
+    } set_x509_store_trusted_stack;
+
+    // set_x509_store_verified_chain
+    struct : func<SSLPAFP(x509_store_ctx_set0_verified_chain)> {
+        using func<SSLPAFP(x509_store_ctx_set0_verified_chain)>::func;
+
+        constexpr auto operator()(
+          x509_store_ctx xsc, const object_stack<x509>& stk) const noexcept {
+            return this->_cnvchkcall(xsc, stk);
+        }
+
+    } set_x509_store_verified_chain;
+
+    // set_x509_store_untrusted
+    struct : func<SSLPAFP(x509_store_ctx_set0_untrusted)> {
+        using func<SSLPAFP(x509_store_ctx_set0_untrusted)>::func;
+
+        constexpr auto operator()(
+          x509_store_ctx xsc, const object_stack<x509>& stk) const noexcept {
+            return this->_cnvchkcall(xsc, stk);
+        }
+
+    } set_x509_store_untrusted;
+
+    // cleanup_x509_store_ctx
+    struct : func<SSLPAFP(x509_store_ctx_cleanup)> {
+        using func<SSLPAFP(x509_store_ctx_cleanup)>::func;
+
+        constexpr auto operator()(x509_store_ctx xsc) const noexcept {
+            return this->_chkcall(xsc);
+        }
+
+        auto raii(x509_store_ctx xsc) const noexcept {
+            return eagine::finally([this, xsc]() { (*this)(xsc); });
+        }
+
+    } cleanup_x509_store_ctx;
+
     // delete_x509_store_ctx
     struct : func<SSLPAFP(x509_store_ctx_free)> {
         using func<SSLPAFP(x509_store_ctx_free)>::func;
@@ -1070,6 +1138,13 @@ public:
       , message_digest_verify_final(
           "message_digest_verify_final", traits, *this)
       , new_x509_store_ctx("new_x509_store_ctx", traits, *this)
+      , init_x509_store_ctx("init_x509_store_ctx", traits, *this)
+      , set_x509_store_trusted_stack(
+          "set_x509_store_trusted_stack", traits, *this)
+      , set_x509_store_verified_chain(
+          "set_x509_store_verified_chain", traits, *this)
+      , set_x509_store_untrusted("set_x509_store_untrusted", traits, *this)
+      , cleanup_x509_store_ctx("cleanup_x509_store_ctx", traits, *this)
       , delete_x509_store_ctx("delete_x509_store_ctx", traits, *this)
       , new_x509_store("new_x509_store", traits, *this)
       , copy_x509_store("copy_x509_store", traits, *this)
