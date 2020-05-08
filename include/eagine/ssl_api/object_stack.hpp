@@ -48,15 +48,61 @@ public:
 };
 //------------------------------------------------------------------------------
 #if EAGINE_HAS_SSL
+//------------------------------------------------------------------------------
+template <typename Tag>
+struct stack_api;
+//------------------------------------------------------------------------------
 template <>
-class object_stack<x509> {
-    static auto* _unpack(x509 obj) noexcept {
+struct stack_api<x509_tag> {
+    using stack_type = STACK_OF(X509);
+    using element_type = ::X509;
+
+    static auto* unpack(x509 obj) noexcept {
         return static_cast<::X509*>(obj);
     }
 
+    static auto* new_null() noexcept {
+        return sk_X509_new_null();
+    }
+
+    static auto free(stack_type* h) noexcept {
+        return sk_X509_free(h);
+    }
+
+    static auto num(stack_type* h) noexcept {
+        return sk_X509_num(h);
+    }
+
+    static auto push(stack_type* h, element_type* e) noexcept {
+        return sk_X509_push(h, e);
+    }
+
+    static auto pop(stack_type* h) noexcept {
+        return sk_X509_pop(h);
+    }
+
+    static auto set(stack_type* h, int i, element_type* e) noexcept {
+        return sk_X509_set(h, i, e);
+    }
+
+    static auto* value(stack_type* h, int i) noexcept {
+        return sk_X509_value(h, i);
+    }
+};
+//------------------------------------------------------------------------------
+// object_stack
+//------------------------------------------------------------------------------
+template <typename Tag, typename T>
+class object_stack<basic_handle<Tag, T*, nullptr>> : stack_api<Tag> {
+    const stack_api<Tag>& _api() const noexcept {
+        return *this;
+    }
+
 public:
+    using wrapper = basic_handle<Tag, T*, nullptr>;
+
     object_stack() noexcept
-      : _top{sk_X509_new_null()} {
+      : _top{_api().new_null()} {
     }
 
     object_stack(object_stack&& temp) noexcept
@@ -75,40 +121,40 @@ public:
     object_stack& operator=(const object_stack&) = delete;
 
     ~object_stack() noexcept {
-        sk_X509_free(_top);
+        _api.free()(_top);
     }
 
     int size() const noexcept {
-        return sk_X509_num(_top);
+        return _api().num(_top);
     }
 
-    object_stack& push(x509 obj) {
-        sk_X509_push(_top, _unpack(obj));
+    object_stack& push(wrapper obj) {
+        _api().push(_top, _unpack(obj));
         return *this;
     }
 
     object_stack& pop() {
-        sk_X509_pop(_top);
+        _api().pop(_top);
         return *this;
     }
 
-    object_stack& set(int pos, x509 obj) {
+    object_stack& set(int pos, wrapper obj) {
         EAGINE_ASSERT(pos < size());
-        sk_X509_set(_top, pos, _unpack(obj));
+        _api().set(_top, pos, _unpack(obj));
         return *this;
     }
 
-    x509 get(int pos) {
+    auto get(int pos) {
         EAGINE_ASSERT(pos < size());
-        return x509{sk_X509_value(_top, pos)};
+        return wrapper{_api().value(_top, pos)};
     }
 
-    STACK_OF(X509) * native() const noexcept {
+    auto* native() const noexcept {
         return _top;
     }
 
 private:
-    STACK_OF(X509) * _top{nullptr};
+    typename stack_api<Tag>::stack_type* _top{nullptr};
 };
 #endif
 //------------------------------------------------------------------------------
