@@ -877,6 +877,61 @@ public:
         }
     } message_digest_verify_final;
 
+    // new_x509_store_ctx
+    struct : func<SSLPAFP(x509_store_ctx_new)> {
+        using func<SSLPAFP(x509_store_ctx_new)>::func;
+
+        constexpr auto operator()() const noexcept {
+            return this->_chkcall().cast_to(identity<owned_x509_store_ctx>{});
+        }
+    } new_x509_store_ctx;
+
+    // delete_x509_store_ctx
+    struct : func<SSLPAFP(x509_store_ctx_free)> {
+        using func<SSLPAFP(x509_store_ctx_free)>::func;
+
+        constexpr auto operator()(owned_x509_store_ctx& xsc) const noexcept {
+            return this->_chkcall(xsc.release());
+        }
+
+        auto raii(owned_x509_store_ctx& xsc) const noexcept {
+            return eagine::finally([this, &xsc]() { (*this)(xsc); });
+        }
+
+    } delete_x509_store_ctx;
+
+    // new_x509_store
+    struct : func<SSLPAFP(x509_store_new)> {
+        using func<SSLPAFP(x509_store_new)>::func;
+
+        constexpr auto operator()() const noexcept {
+            return this->_chkcall().cast_to(identity<owned_x509_store>{});
+        }
+    } new_x509_store;
+
+    // copy_x509_store
+    struct : func<SSLPAFP(x509_store_up_ref)> {
+        using func<SSLPAFP(x509_store_up_ref)>::func;
+
+        constexpr auto operator()(x509_store xst) const noexcept {
+            return this->_chkcall().replaced_with(owned_x509_store{xst});
+        }
+    } copy_x509_store;
+
+    // delete_x509_store
+    struct : func<SSLPAFP(x509_store_free)> {
+        using func<SSLPAFP(x509_store_free)>::func;
+
+        constexpr auto operator()(owned_x509_store& xst) const noexcept {
+            return this->_chkcall(xst.release());
+        }
+
+        auto raii(owned_x509_store& xst) const noexcept {
+            return eagine::finally([this, &xst]() { (*this)(xst); });
+        }
+
+    } delete_x509_store;
+
     // new_x509
     struct : func<SSLPAFP(x509_new)> {
         using func<SSLPAFP(x509_new)>::func;
@@ -1014,6 +1069,11 @@ public:
           "message_digest_verify_update", traits, *this)
       , message_digest_verify_final(
           "message_digest_verify_final", traits, *this)
+      , new_x509_store_ctx("new_x509_store_ctx", traits, *this)
+      , delete_x509_store_ctx("delete_x509_store_ctx", traits, *this)
+      , new_x509_store("new_x509_store", traits, *this)
+      , copy_x509_store("copy_x509_store", traits, *this)
+      , delete_x509_store("delete_x509_store", traits, *this)
       , new_x509("new_x509", traits, *this)
       , delete_x509("delete_x509", traits, *this)
       , read_bio_private_key("read_bio_private_key", traits, *this)
