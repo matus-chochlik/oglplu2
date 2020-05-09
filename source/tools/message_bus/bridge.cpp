@@ -7,8 +7,8 @@
 
 #include <eagine/logging/root_logger.hpp>
 #include <eagine/main.hpp>
+#include <eagine/message_bus/bridge.hpp>
 #include <eagine/message_bus/conn_setup.hpp>
-#include <eagine/message_bus/router.hpp>
 #include <eagine/signal_switch.hpp>
 
 namespace eagine {
@@ -19,25 +19,23 @@ int main(main_ctx& ctx) {
     auto& args = ctx.args();
     auto& log = ctx.log();
 
-    log.info("message bus router starting up");
+    log.info("message bus bridge starting up");
 
     msgbus::connection_setup conn_setup(log);
     conn_setup.default_init(args);
 
-    msgbus::router router(log, args);
-    conn_setup.setup_acceptors(
-      router,
+    msgbus::bridge bridge(log, args);
+    conn_setup.setup_connectors(
+      bridge,
       msgbus::connection_kind::in_process |
-        msgbus::connection_kind::local_interprocess |
-        msgbus::connection_kind::remote_interprocess);
+        msgbus::connection_kind::local_interprocess);
 
-    while(!(interrupted || router.is_done())) {
-        router.update(8);
+    while(!(interrupted || bridge.is_done())) {
+        bridge.update();
     }
 
-    log.debug("message bus router finishing");
+    log.debug("message bus bridge finishing");
     return 0;
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
-

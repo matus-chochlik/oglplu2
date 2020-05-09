@@ -15,6 +15,7 @@ set(EAGINE_LIB_SOURCES
 	message_bus_setup.cpp
 	message_bus_endpoint.cpp
 	message_bus_router.cpp
+	message_bus_bridge.cpp
 	shapes_base.cpp
 	shapes_cube.cpp
 	shapes_torus.cpp
