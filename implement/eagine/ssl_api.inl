@@ -134,5 +134,26 @@ bool basic_ssl_api<ApiTraits>::ca_verify_certificate(
     return false;
 }
 //------------------------------------------------------------------------------
+template <typename ApiTraits>
+bool basic_ssl_api<ApiTraits>::ca_verify_certificate(
+  x509 ca_cert, x509 cert) const noexcept {
+    if(ok store{this->new_x509_store()}) {
+        auto del_store{this->delete_x509_store.raii(store)};
+
+        if(this->add_cert_into_x509_store(store, ca_cert)) {
+            if(ok vrfy_ctx{this->new_x509_store_ctx()}) {
+                auto del_vrfy{this->delete_x509_store_ctx.raii(vrfy_ctx)};
+
+                if(this->init_x509_store_ctx(vrfy_ctx, store, cert)) {
+                    if(ok verify_res{this->x509_verify_certificate(vrfy_ctx)}) {
+                        return verify_res.get();
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+//------------------------------------------------------------------------------
 } // namespace sslp
 } // namespace eagine

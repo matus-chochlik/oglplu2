@@ -126,6 +126,8 @@ public:
 
     bool ca_verify_certificate(string_view ca_file_path, x509 cert) const
       noexcept;
+
+    bool ca_verify_certificate(x509 ca_cert, x509 cert) const noexcept;
 };
 //------------------------------------------------------------------------------
 template <std::size_t I, typename ApiTraits>

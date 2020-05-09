@@ -24,6 +24,8 @@ int main(main_ctx& ctx) {
     sslp::ssl_api ssl{};
 
     if(ok cert{ssl.parse_x509(cert_pem, {})}) {
+        auto del_cert{ssl.delete_x509.raii(cert)};
+
         if(ssl.ca_verify_certificate("example-ca.crt", cert)) {
             ctx.log()
               .info("successfully verified certificate ${certPath}")
