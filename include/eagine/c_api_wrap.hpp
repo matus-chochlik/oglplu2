@@ -191,6 +191,14 @@ protected:
         static_cast<Info&>(result) = static_cast<const Info&>(src);
         return result;
     }
+
+    template <typename Info, typename Check, typename IfFalse>
+    auto _collapsed(
+      const api_no_result<Result, Info>& src, Check&, IfFalse&) const {
+        api_no_result<void, Info> result{};
+        static_cast<Info&>(result) = static_cast<const Info&>(src);
+        return result;
+    }
 };
 //------------------------------------------------------------------------------
 template <typename Result>
@@ -228,6 +236,12 @@ protected:
         api_no_result<T, Info> result{};
         static_cast<Info&>(result) = static_cast<const Info&>(src);
         return result;
+    }
+
+    template <typename Info, typename Check, typename IfFalse>
+    auto& _collapsed(
+      const api_no_result<void, Info>& src, Check&, IfFalse&) const {
+        return src;
     }
 };
 //------------------------------------------------------------------------------
@@ -272,7 +286,17 @@ public:
     auto transformed(Transform transform) const {
         return this->_transformed(*this, transform);
     }
+
+    template <typename Check, typename IfFalse>
+    auto collapsed(Check check, IfFalse if_false) const {
+        return this->_collapsed(*this, check, if_false);
+    }
 };
+//------------------------------------------------------------------------------
+static constexpr inline nothing_t extract(
+  const api_no_result_value<void>&) noexcept {
+    return {};
+}
 //------------------------------------------------------------------------------
 template <typename Result, typename Info>
 struct ok_traits<api_no_result<Result, Info>> {
@@ -317,6 +341,19 @@ protected:
         using T = decltype(transform(std::declval<Result>()));
         api_result<T, Info> result{transform(_value)};
         static_cast<Info&>(result) = static_cast<const Info&>(src);
+        return result;
+    }
+
+    template <typename Info, typename Check, typename IfFalse>
+    auto _collapsed(
+      const api_result<Result, Info>& src,
+      Check& check,
+      IfFalse& if_false) const {
+        api_result<void, Info> result{};
+        static_cast<Info&>(result) = static_cast<const Info&>(src);
+        if(!check(_value)) {
+            if_false(static_cast<Info&>(result));
+        }
         return result;
     }
 
@@ -369,6 +406,12 @@ protected:
         static_cast<Info&>(result) = static_cast<const Info&>(src);
         return result;
     }
+
+    template <typename Info, typename Check, typename IfFalse>
+    auto& _collapsed(
+      const api_result<void, Info>& src, Check&, IfFalse&) const {
+        return src;
+    }
 };
 //------------------------------------------------------------------------------
 template <typename Result, typename Info>
@@ -412,7 +455,17 @@ public:
     auto transformed(Transform transform) const {
         return this->_transformed(*this, transform);
     }
+
+    template <typename Check, typename IfFalse>
+    auto collapsed(Check check, IfFalse if_false) const {
+        return this->_collapsed(*this, check, if_false);
+    }
 };
+//------------------------------------------------------------------------------
+static constexpr inline nothing_t extract(
+  const api_result_value<void>&) noexcept {
+    return {};
+}
 //------------------------------------------------------------------------------
 template <typename Result, typename Info>
 struct ok_traits<api_result<Result, Info>> {
@@ -461,6 +514,19 @@ protected:
         using T = decltype(transform(std::declval<Result>()));
         api_opt_result<T, Info> result{transform(_value), src.is_valid()};
         static_cast<Info&>(result) = static_cast<const Info&>(src);
+        return result;
+    }
+
+    template <typename Info, typename Check, typename IfFalse>
+    auto _collapsed(
+      const api_opt_result<Result, Info>& src,
+      Check& check,
+      IfFalse& if_false) const {
+        api_opt_result<void, Info> result{};
+        static_cast<Info&>(result) = static_cast<const Info&>(src);
+        if(src.is_valid() && !check(_value)) {
+            if_false(static_cast<Info&>(result));
+        }
         return result;
     }
 
@@ -525,6 +591,12 @@ protected:
         return result;
     }
 
+    template <typename Info, typename Check, typename IfFalse>
+    auto& _collapsed(
+      const api_opt_result<void, Info>& src, Check&, IfFalse&) const {
+        return src;
+    }
+
 public:
     bool _valid{false};
 };
@@ -570,7 +642,17 @@ public:
     auto transformed(Transform transform) const {
         return this->_transformed(*this, transform);
     }
+
+    template <typename Check, typename IfFalse>
+    auto collapsed(Check check, IfFalse if_false) const {
+        return this->_collapsed(*this, check, if_false);
+    }
 };
+//------------------------------------------------------------------------------
+static constexpr inline nothing_t extract(
+  const api_opt_result_value<void>&) noexcept {
+    return {};
+}
 //------------------------------------------------------------------------------
 template <typename Result, typename Info>
 struct ok_traits<api_opt_result<Result, Info>> {
