@@ -21,6 +21,7 @@
 #include "is_within_limits.hpp"
 #include "nothing.hpp"
 #include "string_span.hpp"
+#include "unreachable_reference.hpp"
 #include "valid_if/always.hpp"
 #include "valid_if/never.hpp"
 #include <tuple>
@@ -194,15 +195,13 @@ protected:
 //------------------------------------------------------------------------------
 template <typename Result>
 static constexpr inline Result& extract(api_no_result_value<Result>&) noexcept {
-    EAGINE_UNREACHABLE();
-    return *static_cast<Result*>(nullptr);
+    return unreachable_reference(identity<Result>{});
 }
 
 template <typename Result>
 static constexpr inline const Result& extract(
   const api_no_result_value<Result>&) noexcept {
-    EAGINE_UNREACHABLE();
-    return *static_cast<const Result*>(nullptr);
+    return unreachable_reference(identity<Result>{});
 }
 
 template <typename Result, typename Info>
@@ -286,7 +285,6 @@ struct ok_traits<api_no_result<Result, Info>> {
 template <typename Result, typename Info, typename Fallback>
 static constexpr inline Result extract_or(
   const api_no_result<Result, Info>&, Fallback&& fallback) noexcept {
-    EAGINE_UNREACHABLE();
     return {std::forward<Fallback>(fallback)};
 }
 //------------------------------------------------------------------------------
