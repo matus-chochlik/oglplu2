@@ -10,6 +10,8 @@
 #ifndef EAGINE_MESSAGE_BUS_CONTEXT_HPP
 #define EAGINE_MESSAGE_BUS_CONTEXT_HPP
 
+#include "../memory/buffer.hpp"
+#include "../ssl.hpp"
 #include "../ssl_api.hpp"
 #include "context_fwd.hpp"
 
@@ -21,9 +23,19 @@ public:
     context(logger& parent);
     context(logger& parent, const program_args& args);
 
+    context(context&&) = delete;
+    context(const context&) = delete;
+    context& operator=(context&&) = delete;
+    context& operator=(const context&) = delete;
+
+    ~context() noexcept;
+
 private:
     logger _log{};
+    //
     sslp::ssl_api _ssl{};
+    sslp::owned_engine _ssl_engine{};
+    sslp::owned_x509_store _ssl_store{};
 };
 //------------------------------------------------------------------------------
 } // namespace msgbus

@@ -45,23 +45,49 @@ public:
         return *this;
     }
 
+    constexpr ssl_result_info& set_unknown_error() noexcept {
+        _error_code = ~0UL;
+        return *this;
+    }
+
     string_view message() const noexcept {
         // TODO: get error string from OpenSSL
         return {"unknown ssl error"};
     }
 
 private:
-    unsigned long _error_code{0};
+    unsigned long _error_code{0UL};
 };
 //------------------------------------------------------------------------------
 template <typename Result>
 using ssl_no_result = api_no_result<Result, ssl_no_result_info>;
 //------------------------------------------------------------------------------
 template <typename Result>
+inline auto collapse_bool(ssl_no_result<Result>&& r) noexcept {
+    return r.collapsed(
+      [](const auto&) { return false; },
+      [](auto& info) { info.set_unknown_error(); });
+}
+//------------------------------------------------------------------------------
+template <typename Result>
 using ssl_result = api_result<Result, ssl_result_info>;
 //------------------------------------------------------------------------------
 template <typename Result>
+inline auto collapse_bool(ssl_result<Result>&& r) noexcept {
+    return r.collapsed(
+      [](int value) { return value == 1; },
+      [](auto& info) { info.set_unknown_error(); });
+}
+//------------------------------------------------------------------------------
+template <typename Result>
 using ssl_opt_result = api_opt_result<Result, ssl_result_info>;
+//------------------------------------------------------------------------------
+template <typename Result>
+inline auto collapse_bool(ssl_opt_result<Result>&& r) noexcept {
+    return r.collapsed(
+      [](int value) { return value == 1; },
+      [](auto& info) { info.set_unknown_error(); });
+}
 //------------------------------------------------------------------------------
 } // namespace sslp
 } // namespace eagine

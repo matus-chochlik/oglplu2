@@ -204,7 +204,7 @@ public:
         using func<SSLPAFP(engine_init)>::func;
 
         constexpr auto operator()(engine eng) const noexcept {
-            return this->_cnvchkcall(eng).cast_to(identity<bool>{});
+            return collapse_bool(this->_cnvchkcall(eng));
         }
     } init_engine;
 
@@ -213,7 +213,7 @@ public:
         using func<SSLPAFP(engine_finish)>::func;
 
         constexpr auto operator()(engine eng) const noexcept {
-            return this->_cnvchkcall(eng).cast_to(identity<bool>{});
+            return collapse_bool(this->_cnvchkcall(eng));
         }
 
         auto raii(owned_engine& eng) const noexcept {

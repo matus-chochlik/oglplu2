@@ -11,12 +11,56 @@ namespace msgbus {
 EAGINE_LIB_FUNC
 context::context(logger& parent)
   : _log{EAGINE_ID(MsgBusCtxt), parent} {
+
+    if(ok make_result{_ssl.new_x509_store()}) {
+        _ssl_store = std::move(make_result.get());
+    } else {
+        _log.error("failed to create certificate store: ${reason}")
+          .arg(EAGINE_ID(reason), (!make_result).message());
+    }
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-context::context(logger& parent, const program_args&)
+context::context(logger& parent, const program_args& args)
   : context{parent} {
-    // TODO
+    std::string temp;
+    for(auto arg = args.first(); arg; arg = arg.next()) {
+        if(arg.is_tag("--msgbus-ssl-engine")) {
+            if(arg.next().parse(temp, _log.error_stream())) {
+                _ssl.load_builtin_engines();
+
+                if(ok open_result{_ssl.open_engine(temp)}) {
+                    _ssl_engine = std::move(open_result.get());
+                    if(ok init_result{_ssl.init_engine(_ssl_engine)}) {
+                        _log.info("successfully loaded ssl engine ${name}")
+                          .arg(EAGINE_ID(name), temp);
+                    } else {
+                        _log
+                          .error("failed to init ssl engine ${name}: ${reason}")
+                          .arg(EAGINE_ID(name), temp)
+                          .arg(EAGINE_ID(reason), (!init_result).message());
+                    }
+                } else {
+                    _log.error("failed to load ssl engine ${name}: ${reason}")
+                      .arg(EAGINE_ID(name), temp)
+                      .arg(EAGINE_ID(reason), (!open_result).message());
+                }
+                arg = arg.next();
+            }
+        }
+    }
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+context::~context() noexcept {
+    if(_ssl_engine) {
+        _ssl.finish_engine(_ssl_engine);
+        _ssl.delete_engine(_ssl_engine);
+    }
+
+    if(_ssl_store) {
+        _ssl.delete_x509_store(_ssl_store);
+    }
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

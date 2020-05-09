@@ -117,6 +117,8 @@ protected:
         return (i >= 0) && (i < size());
     }
 
+    ~object_stack_base() noexcept = default;
+
 public:
     using wrapper = basic_handle<Tag, T*, nullptr>;
 
@@ -125,11 +127,15 @@ public:
         temp._top = nullptr;
     }
 
+    object_stack_base(const object_stack_base&) = delete;
+
     object_stack_base& operator=(object_stack_base&& temp) noexcept {
         using std::swap;
         swap(_top, temp._top);
         return *this;
     }
+
+    object_stack_base& operator=(const object_stack_base&) = delete;
 
     int size() const noexcept {
         return _api().num(_top);
