@@ -161,95 +161,117 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-template <typename Result, typename Info>
-class api_no_result;
-template <typename Result, typename Info>
-class api_result;
-template <typename Result, typename Info>
-class api_opt_result;
+enum class api_result_validity { always, maybe, never };
 //------------------------------------------------------------------------------
-// api_no_result
+template <typename Result, api_result_validity>
+class api_result_value;
+
+template <
+  typename Result,
+  typename Info,
+  api_result_validity = api_result_validity::always>
+class api_result;
+
+template <typename Result, typename Info>
+using api_opt_result = api_result<Result, Info, api_result_validity::maybe>;
+
+template <typename Result, typename Info>
+using api_no_result = api_result<Result, Info, api_result_validity::never>;
+//------------------------------------------------------------------------------
+// api no result
 //------------------------------------------------------------------------------
 template <typename Result>
-class api_no_result_value {
+class api_result_value<Result, api_result_validity::never> {
 public:
-    constexpr api_no_result_value() noexcept = default;
+    constexpr api_result_value() noexcept = default;
 
 protected:
     template <typename Info, typename T>
-    auto _cast_to(const api_no_result<Result, Info>& src, identity<T>) const {
-        api_no_result<T, Info> result{};
+    auto _cast_to(
+      const api_result<Result, Info, api_result_validity::never>& src,
+      identity<T>) const {
+        api_result<T, Info, api_result_validity::never> result{};
         static_cast<Info&>(result) = static_cast<const Info&>(src);
         return result;
     }
 
     template <typename Info, typename Transform>
     auto _transformed(
-      const api_no_result<Result, Info>& src, Transform& transform) const {
+      const api_result<Result, Info, api_result_validity::never>& src,
+      Transform& transform) const {
         using T = decltype(transform(std::declval<Result>()));
-        api_no_result<T, Info> result{};
+        api_result<T, Info, api_result_validity::never> result{};
         static_cast<Info&>(result) = static_cast<const Info&>(src);
         return result;
     }
 
     template <typename Info, typename Check, typename IfFalse>
     auto _collapsed(
-      const api_no_result<Result, Info>& src, Check&, IfFalse&) const {
-        api_no_result<void, Info> result{};
+      const api_result<Result, Info, api_result_validity::never>& src,
+      Check&,
+      IfFalse&) const {
+        api_result<void, Info, api_result_validity::never> result{};
         static_cast<Info&>(result) = static_cast<const Info&>(src);
         return result;
     }
 };
 //------------------------------------------------------------------------------
 template <typename Result>
-static constexpr inline Result& extract(api_no_result_value<Result>&) noexcept {
+static constexpr inline Result& extract(
+  api_result_value<Result, api_result_validity::never>&) noexcept {
     return unreachable_reference(identity<Result>{});
 }
 
 template <typename Result>
 static constexpr inline const Result& extract(
-  const api_no_result_value<Result>&) noexcept {
+  const api_result_value<Result, api_result_validity::never>&) noexcept {
     return unreachable_reference(identity<Result>{});
 }
 
 template <typename Result, typename Info>
-inline Result& operator>>(api_no_result<Result, Info> result, Result& dest) {
+inline Result& operator>>(
+  api_result<Result, Info, api_result_validity::never> result, Result& dest) {
     throw bad_result<Info>(static_cast<Info&&>(result));
     return dest = std::move(result._value);
 }
 //------------------------------------------------------------------------------
 template <>
-class api_no_result_value<void> {
+class api_result_value<void, api_result_validity::never> {
 public:
 protected:
     template <typename Info, typename T>
-    auto _cast_to(const api_no_result<void, Info>& src, identity<T>) const {
-        api_no_result<T, Info> result{};
+    auto _cast_to(
+      const api_result<void, Info, api_result_validity::never>& src,
+      identity<T>) const {
+        api_result<T, Info, api_result_validity::never> result{};
         static_cast<Info&>(result) = static_cast<const Info&>(src);
         return result;
     }
 
     template <typename Info, typename Transform>
     auto _transformed(
-      const api_no_result<void, Info>& src, Transform& transform) const {
+      const api_result<void, Info, api_result_validity::never>& src,
+      Transform& transform) const {
         using T = decltype(transform());
-        api_no_result<T, Info> result{};
+        api_result<T, Info, api_result_validity::never> result{};
         static_cast<Info&>(result) = static_cast<const Info&>(src);
         return result;
     }
 
     template <typename Info, typename Check, typename IfFalse>
     auto& _collapsed(
-      const api_no_result<void, Info>& src, Check&, IfFalse&) const {
+      const api_result<void, Info, api_result_validity::never>& src,
+      Check&,
+      IfFalse&) const {
         return src;
     }
 };
 //------------------------------------------------------------------------------
 template <typename Result, typename Info>
-class api_no_result
+class api_result<Result, Info, api_result_validity::never>
   : public Info
-  , public api_no_result_value<Result> {
-    using base = api_no_result_value<Result>;
+  , public api_result_value<Result, api_result_validity::never> {
+    using base = api_result_value<Result, api_result_validity::never>;
 
 public:
     using base::base;
@@ -264,7 +286,7 @@ public:
 
     template <typename T>
     auto replaced_with(T) const {
-        api_no_result<T, Info> result{};
+        api_result<T, Info, api_result_validity::never> result{};
         static_cast<Info&>(result) = static_cast<const Info&>(*this);
         return result;
     }
@@ -294,28 +316,29 @@ public:
 };
 //------------------------------------------------------------------------------
 static constexpr inline nothing_t extract(
-  const api_no_result_value<void>&) noexcept {
+  const api_result_value<void, api_result_validity::never>&) noexcept {
     return {};
 }
 //------------------------------------------------------------------------------
 template <typename Result, typename Info>
-struct ok_traits<api_no_result<Result, Info>> {
+struct ok_traits<api_result<Result, Info, api_result_validity::never>> {
     static constexpr const Info& nok_info(
-      const api_no_result<Result, Info>& r) noexcept {
+      const api_result<Result, Info, api_result_validity::never>& r) noexcept {
         return r;
     }
 };
 //------------------------------------------------------------------------------
 template <typename Result, typename Info, typename Fallback>
 static constexpr inline Result extract_or(
-  const api_no_result<Result, Info>&, Fallback&& fallback) noexcept {
+  const api_result<Result, Info, api_result_validity::never>&,
+  Fallback&& fallback) noexcept {
     return {std::forward<Fallback>(fallback)};
 }
 //------------------------------------------------------------------------------
 // api_result
 //------------------------------------------------------------------------------
 template <typename Result>
-class api_result_value {
+class api_result_value<Result, api_result_validity::always> {
 public:
     constexpr api_result_value() noexcept(noexcept(Result{})) = default;
 
@@ -329,27 +352,31 @@ public:
 
 protected:
     template <typename Info, typename T>
-    auto _cast_to(const api_result<Result, Info>& src, identity<T>) const {
-        api_result<T, Info> result{T(_value)};
+    auto _cast_to(
+      const api_result<Result, Info, api_result_validity::always>& src,
+      identity<T>) const {
+        api_result<T, Info, api_result_validity::always> result{T(_value)};
         static_cast<Info&>(result) = static_cast<const Info&>(src);
         return result;
     }
 
     template <typename Info, typename Transform>
     auto _transformed(
-      const api_result<Result, Info>& src, Transform& transform) const {
+      const api_result<Result, Info, api_result_validity::always>& src,
+      Transform& transform) const {
         using T = decltype(transform(std::declval<Result>()));
-        api_result<T, Info> result{transform(_value)};
+        api_result<T, Info, api_result_validity::always> result{
+          transform(_value)};
         static_cast<Info&>(result) = static_cast<const Info&>(src);
         return result;
     }
 
     template <typename Info, typename Check, typename IfFalse>
     auto _collapsed(
-      const api_result<Result, Info>& src,
+      const api_result<Result, Info, api_result_validity::always>& src,
       Check& check,
       IfFalse& if_false) const {
-        api_result<void, Info> result{};
+        api_result<void, Info, api_result_validity::always> result{};
         static_cast<Info&>(result) = static_cast<const Info&>(src);
         if(!check(_value)) {
             if_false(static_cast<Info&>(result));
@@ -362,29 +389,33 @@ public:
 };
 //------------------------------------------------------------------------------
 template <typename Result>
-static constexpr Result extract(api_result_value<Result>&& result) noexcept {
+static constexpr Result extract(
+  api_result_value<Result, api_result_validity::always>&& result) noexcept {
     return std::move(result._value);
 }
 
 template <typename Result>
-static constexpr Result& extract(api_result_value<Result>& result) noexcept {
+static constexpr Result& extract(
+  api_result_value<Result, api_result_validity::always>& result) noexcept {
     return result._value;
 }
 
 template <typename Result>
 static constexpr const Result& extract(
-  const api_result_value<Result>& result) noexcept {
+  const api_result_value<Result, api_result_validity::always>&
+    result) noexcept {
     return result._value;
 }
 
 template <typename Result>
 inline Result& operator>>(
-  api_result_value<Result> result, Result& dest) noexcept {
+  api_result_value<Result, api_result_validity::always> result,
+  Result& dest) noexcept {
     return dest = std::move(result._value);
 }
 //------------------------------------------------------------------------------
 template <>
-class api_result_value<void> {
+class api_result_value<void, api_result_validity::always> {
 
     constexpr bool is_valid() const noexcept {
         return true;
@@ -392,33 +423,38 @@ class api_result_value<void> {
 
 protected:
     template <typename Info, typename T>
-    auto _cast_to(const api_result<void, Info>& src, identity<T>) const {
-        api_result<T, Info> result{};
+    auto _cast_to(
+      const api_result<void, Info, api_result_validity::always>& src,
+      identity<T>) const {
+        api_result<T, Info, api_result_validity::always> result{};
         static_cast<Info&>(result) = static_cast<const Info&>(src);
         return result;
     }
 
     template <typename Info, typename Transform>
     auto _transformed(
-      const api_result<void, Info>& src, Transform& transform) const {
+      const api_result<void, Info, api_result_validity::always>& src,
+      Transform& transform) const {
         using T = decltype(transform());
-        api_result<T, Info> result{transform()};
+        api_result<T, Info, api_result_validity::always> result{transform()};
         static_cast<Info&>(result) = static_cast<const Info&>(src);
         return result;
     }
 
     template <typename Info, typename Check, typename IfFalse>
     auto& _collapsed(
-      const api_result<void, Info>& src, Check&, IfFalse&) const {
+      const api_result<void, Info, api_result_validity::always>& src,
+      Check&,
+      IfFalse&) const {
         return src;
     }
 };
 //------------------------------------------------------------------------------
 template <typename Result, typename Info>
-class api_result
+class api_result<Result, Info, api_result_validity::always>
   : public Info
-  , public api_result_value<Result> {
-    using base = api_result_value<Result>;
+  , public api_result_value<Result, api_result_validity::always> {
+    using base = api_result_value<Result, api_result_validity::always>;
 
 public:
     using base::base;
@@ -433,7 +469,8 @@ public:
 
     template <typename T>
     auto replaced_with(T value) const {
-        api_result<T, Info> result{std::move(value)};
+        api_result<T, Info, api_result_validity::always> result{
+          std::move(value)};
         static_cast<Info&>(result) = static_cast<const Info&>(*this);
         return result;
     }
@@ -463,35 +500,36 @@ public:
 };
 //------------------------------------------------------------------------------
 static constexpr inline nothing_t extract(
-  const api_result_value<void>&) noexcept {
+  const api_result_value<void, api_result_validity::always>&) noexcept {
     return {};
 }
 //------------------------------------------------------------------------------
 template <typename Result, typename Info>
-struct ok_traits<api_result<Result, Info>> {
+struct ok_traits<api_result<Result, Info, api_result_validity::always>> {
     static constexpr const Info& nok_info(
-      const api_result<Result, Info>& r) noexcept {
+      const api_result<Result, Info, api_result_validity::always>& r) noexcept {
         return r;
     }
 };
 //------------------------------------------------------------------------------
 template <typename Result, typename Info, typename Fallback>
 static constexpr inline Result extract_or(
-  const api_result<Result, Info>& result, Fallback&& fallback) noexcept {
+  const api_result<Result, Info, api_result_validity::always>& result,
+  Fallback&& fallback) noexcept {
     if(result) {
         return extract(result);
     }
     return {std::forward<Fallback>(fallback)};
 }
 //------------------------------------------------------------------------------
-// api_opt_result
+// api opt result
 //------------------------------------------------------------------------------
 template <typename Result>
-class api_opt_result_value {
+class api_result_value<Result, api_result_validity::maybe> {
 public:
-    constexpr api_opt_result_value() noexcept = default;
+    constexpr api_result_value() noexcept = default;
 
-    constexpr api_opt_result_value(Result value, bool valid) noexcept
+    constexpr api_result_value(Result value, bool valid) noexcept
       : _value{std::move(value)}
       , _valid{valid} {
     }
@@ -502,27 +540,32 @@ public:
 
 protected:
     template <typename Info, typename T>
-    auto _cast_to(const api_opt_result<Result, Info>& src, identity<T>) const {
-        api_opt_result<T, Info> result{T(_value), src.is_valid()};
+    auto _cast_to(
+      const api_result<Result, Info, api_result_validity::maybe>& src,
+      identity<T>) const {
+        api_result<T, Info, api_result_validity::maybe> result{
+          T(_value), src.is_valid()};
         static_cast<Info&>(result) = static_cast<const Info&>(src);
         return result;
     }
 
     template <typename Info, typename Transform>
     auto _transformed(
-      const api_opt_result<Result, Info>& src, Transform& transform) const {
+      const api_result<Result, Info, api_result_validity::maybe>& src,
+      Transform& transform) const {
         using T = decltype(transform(std::declval<Result>()));
-        api_opt_result<T, Info> result{transform(_value), src.is_valid()};
+        api_result<T, Info, api_result_validity::maybe> result{
+          transform(_value), src.is_valid()};
         static_cast<Info&>(result) = static_cast<const Info&>(src);
         return result;
     }
 
     template <typename Info, typename Check, typename IfFalse>
     auto _collapsed(
-      const api_opt_result<Result, Info>& src,
+      const api_result<Result, Info, api_result_validity::maybe>& src,
       Check& check,
       IfFalse& if_false) const {
-        api_opt_result<void, Info> result{};
+        api_result<void, Info, api_result_validity::maybe> result{};
         static_cast<Info&>(result) = static_cast<const Info&>(src);
         if(src.is_valid() && !check(_value)) {
             if_false(static_cast<Info&>(result));
@@ -537,24 +580,25 @@ public:
 //------------------------------------------------------------------------------
 template <typename Result>
 static constexpr inline Result extract(
-  api_opt_result_value<Result>&& result) noexcept {
+  api_result_value<Result, api_result_validity::maybe>&& result) noexcept {
     return EAGINE_CONSTEXPR_ASSERT(result._valid, std::move(result._value));
 }
 
 template <typename Result>
 static constexpr inline Result& extract(
-  api_opt_result_value<Result>& result) noexcept {
+  api_result_value<Result, api_result_validity::maybe>& result) noexcept {
     return EAGINE_CONSTEXPR_ASSERT(result._valid, result._value);
 }
 
 template <typename Result>
 static constexpr inline const Result& extract(
-  const api_opt_result_value<Result>& result) noexcept {
+  const api_result_value<Result, api_result_validity::maybe>& result) noexcept {
     return EAGINE_CONSTEXPR_ASSERT(result._valid, result._value);
 }
 
 template <typename Result, typename Info>
-inline Result& operator>>(api_opt_result<Result, Info> result, Result& dest) {
+inline Result& operator>>(
+  api_result<Result, Info, api_result_validity::maybe> result, Result& dest) {
     if(!result._valid) {
         throw bad_result<Info>(static_cast<Info&&>(result));
     }
@@ -562,11 +606,11 @@ inline Result& operator>>(api_opt_result<Result, Info> result, Result& dest) {
 }
 //------------------------------------------------------------------------------
 template <>
-class api_opt_result_value<void> {
+class api_result_value<void, api_result_validity::maybe> {
 public:
-    constexpr api_opt_result_value() noexcept = default;
+    constexpr api_result_value() noexcept = default;
 
-    constexpr api_opt_result_value(bool valid) noexcept
+    constexpr api_result_value(bool valid) noexcept
       : _valid{valid} {
     }
 
@@ -576,24 +620,31 @@ public:
 
 protected:
     template <typename Info, typename T>
-    auto _cast_to(const api_opt_result<void, Info>& src, identity<T>) const {
-        api_opt_result<T, Info> result{T{}, src.is_valid()};
+    auto _cast_to(
+      const api_result<void, Info, api_result_validity::maybe>& src,
+      identity<T>) const {
+        api_result<T, Info, api_result_validity::maybe> result{
+          T{}, src.is_valid()};
         static_cast<Info&>(result) = static_cast<const Info&>(src);
         return result;
     }
 
     template <typename Info, typename Transform>
     auto _transformed(
-      const api_opt_result<void, Info>& src, Transform& transform) const {
+      const api_result<void, Info, api_result_validity::maybe>& src,
+      Transform& transform) const {
         using T = decltype(transform());
-        api_opt_result<T, Info> result{transform(), src.is_valid()};
+        api_result<T, Info, api_result_validity::maybe> result{
+          transform(), src.is_valid()};
         static_cast<Info&>(result) = static_cast<const Info&>(src);
         return result;
     }
 
     template <typename Info, typename Check, typename IfFalse>
     auto& _collapsed(
-      const api_opt_result<void, Info>& src, Check&, IfFalse&) const {
+      const api_result<void, Info, api_result_validity::maybe>& src,
+      Check&,
+      IfFalse&) const {
         return src;
     }
 
@@ -602,10 +653,10 @@ public:
 };
 //------------------------------------------------------------------------------
 template <typename Result, typename Info>
-class api_opt_result
+class api_result<Result, Info, api_result_validity::maybe>
   : public Info
-  , public api_opt_result_value<Result> {
-    using base = api_opt_result_value<Result>;
+  , public api_result_value<Result, api_result_validity::maybe> {
+    using base = api_result_value<Result, api_result_validity::maybe>;
 
 public:
     using base::base;
@@ -620,7 +671,8 @@ public:
 
     template <typename T>
     auto replaced_with(T value) const {
-        api_opt_result<T, Info> result{std::move(value), this->is_valid()};
+        api_result<T, Info, api_result_validity::maybe> result{
+          std::move(value), this->is_valid()};
         static_cast<Info&>(result) = static_cast<const Info&>(*this);
         return result;
     }
@@ -650,21 +702,22 @@ public:
 };
 //------------------------------------------------------------------------------
 static constexpr inline nothing_t extract(
-  const api_opt_result_value<void>&) noexcept {
+  const api_result_value<void, api_result_validity::maybe>&) noexcept {
     return {};
 }
 //------------------------------------------------------------------------------
 template <typename Result, typename Info>
-struct ok_traits<api_opt_result<Result, Info>> {
+struct ok_traits<api_result<Result, Info, api_result_validity::maybe>> {
     static constexpr const Info& nok_info(
-      const api_opt_result<Result, Info>& r) noexcept {
+      const api_result<Result, Info, api_result_validity::maybe>& r) noexcept {
         return r;
     }
 };
 //------------------------------------------------------------------------------
 template <typename Result, typename Info, typename Fallback>
 static constexpr inline Result extract_or(
-  const api_opt_result<Result, Info>& result, Fallback&& fallback) noexcept {
+  const api_result<Result, Info, api_result_validity::maybe>& result,
+  Fallback&& fallback) noexcept {
     if(result) {
         return extract(result);
     }
@@ -674,33 +727,40 @@ static constexpr inline Result extract_or(
 // api_combined_result
 //------------------------------------------------------------------------------
 template <typename Result, typename Info>
-class api_combined_result : public api_opt_result<Result, Info> {
-    using base = api_opt_result<Result, Info>;
+class api_combined_result
+  : public api_result<Result, Info, api_result_validity::maybe> {
+    using base = api_result<Result, Info, api_result_validity::maybe>;
 
 public:
-    api_combined_result(api_no_result<Result, Info> src)
+    api_combined_result(
+      api_result<Result, Info, api_result_validity::never> src)
       : base{} {
         static_cast<Info&>(*this) = static_cast<Info&&>(src);
     }
 
     api_combined_result(api_result<Result, Info> src)
-      : base{extract(static_cast<api_result_value<Result>&&>(src)),
+      : base{extract(
+               static_cast<
+                 api_result_value<Result, api_result_validity::always>&&>(src)),
              src.is_valid()} {
         static_cast<Info&>(*this) = static_cast<Info&&>(src);
     }
 
-    api_combined_result(api_opt_result<Result, Info> src)
+    api_combined_result(
+      api_result<Result, Info, api_result_validity::maybe> src)
       : base{std::move(src)} {
     }
 };
 //------------------------------------------------------------------------------
 template <typename Info>
-class api_combined_result<void, Info> : public api_opt_result<void, Info> {
-    using base = api_opt_result<void, Info>;
+class api_combined_result<void, Info>
+  : public api_result<void, Info, api_result_validity::maybe> {
+    using base = api_result<void, Info, api_result_validity::maybe>;
 
 public:
     template <typename R>
-    api_combined_result(const api_no_result<R, Info>& src)
+    api_combined_result(
+      const api_result<R, Info, api_result_validity::never>& src)
       : base{} {
         static_cast<Info&>(*this) = static_cast<const Info&>(src);
     }
@@ -712,7 +772,8 @@ public:
     }
 
     template <typename R>
-    api_combined_result(const api_opt_result<R, Info>& src)
+    api_combined_result(
+      const api_result<R, Info, api_result_validity::maybe>& src)
       : base{src.is_valid()} {
         static_cast<Info&>(*this) = static_cast<const Info&>(src);
     }

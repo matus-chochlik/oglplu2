@@ -46,7 +46,9 @@ public:
     }
 
     constexpr ssl_result_info& set_unknown_error() noexcept {
-        _error_code = ~0UL;
+        if(!_error_code) {
+            _error_code = ~0UL;
+        }
         return *this;
     }
 
@@ -63,27 +65,14 @@ template <typename Result>
 using ssl_no_result = api_no_result<Result, ssl_no_result_info>;
 //------------------------------------------------------------------------------
 template <typename Result>
-inline auto collapse_bool(ssl_no_result<Result>&& r) noexcept {
-    return r.collapsed(
-      [](const auto&) { return false; },
-      [](auto& info) { info.set_unknown_error(); });
-}
-//------------------------------------------------------------------------------
-template <typename Result>
 using ssl_result = api_result<Result, ssl_result_info>;
-//------------------------------------------------------------------------------
-template <typename Result>
-inline auto collapse_bool(ssl_result<Result>&& r) noexcept {
-    return r.collapsed(
-      [](int value) { return value == 1; },
-      [](auto& info) { info.set_unknown_error(); });
-}
 //------------------------------------------------------------------------------
 template <typename Result>
 using ssl_opt_result = api_opt_result<Result, ssl_result_info>;
 //------------------------------------------------------------------------------
-template <typename Result>
-inline auto collapse_bool(ssl_opt_result<Result>&& r) noexcept {
+template <typename Result, api_result_validity Validity>
+inline auto collapse_bool(
+  api_result<Result, ssl_result_info, Validity>&& r) noexcept {
     return r.collapsed(
       [](int value) { return value == 1; },
       [](auto& info) { info.set_unknown_error(); });
