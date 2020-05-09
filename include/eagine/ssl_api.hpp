@@ -42,7 +42,7 @@ public:
     }
 
     template <typename Function>
-    void for_each_engine(Function function) {
+    void for_each_engine(Function function) const {
         if(auto opt_eng = this->get_first_engine()) {
             owned_engine eng = std::move(extract(opt_eng));
             while(eng) {
@@ -56,55 +56,47 @@ public:
     }
 
     memory::block data_digest(
-      memory::const_block data, memory::block dst, message_digest_type mdtype) {
-        if(mdtype) {
-            const auto req_size =
-              extract_or(this->message_digest_size(mdtype), 0);
-
-            if(dst.size() >= span_size(req_size)) {
-                if(ok mdctx{this->new_message_digest()}) {
-                    auto cleanup{this->delete_message_digest.raii(mdctx)};
-
-                    this->message_digest_init(mdctx, mdtype);
-                    this->message_digest_update(mdctx, data);
-                    return extract_or(
-                      this->message_digest_final(mdctx, dst), memory::block{});
-                }
-            }
-        }
-        return {};
-    }
+      memory::const_block data,
+      memory::block dst,
+      message_digest_type mdtype) const noexcept;
 
     template <typename OptMdt>
     memory::block do_data_digest(
-      memory::const_block data, memory::block dst, OptMdt opt_mdtype) {
+      memory::const_block data, memory::block dst, OptMdt opt_mdtype) const
+      noexcept {
         if(opt_mdtype) {
             return data_digest(data, dst, extract(opt_mdtype));
         }
         return {};
     }
 
-    auto md5_digest(memory::const_block data, memory::block dst) {
+    auto md5_digest(memory::const_block data, memory::block dst) const
+      noexcept {
         return do_data_digest(data, dst, this->message_digest_md5());
     }
 
-    auto sha1_digest(memory::const_block data, memory::block dst) {
+    auto sha1_digest(memory::const_block data, memory::block dst) const
+      noexcept {
         return do_data_digest(data, dst, this->message_digest_sha1());
     }
 
-    auto sha224_digest(memory::const_block data, memory::block dst) {
+    auto sha224_digest(memory::const_block data, memory::block dst) const
+      noexcept {
         return do_data_digest(data, dst, this->message_digest_sha224());
     }
 
-    auto sha256_digest(memory::const_block data, memory::block dst) {
+    auto sha256_digest(memory::const_block data, memory::block dst) const
+      noexcept {
         return do_data_digest(data, dst, this->message_digest_sha256());
     }
 
-    auto sha384_digest(memory::const_block data, memory::block dst) {
+    auto sha384_digest(memory::const_block data, memory::block dst) const
+      noexcept {
         return do_data_digest(data, dst, this->message_digest_sha384());
     }
 
-    auto sha512_digest(memory::const_block data, memory::block dst) {
+    auto sha512_digest(memory::const_block data, memory::block dst) const
+      noexcept {
         return do_data_digest(data, dst, this->message_digest_sha512());
     }
 
@@ -112,98 +104,28 @@ public:
       memory::const_block data,
       memory::block dst,
       message_digest_type mdtype,
-      pkey pky) {
-        if(mdtype && pky) {
-            if(ok mdctx{this->new_message_digest()}) {
-                auto cleanup{this->delete_message_digest.raii(mdctx)};
-
-                if(this->message_digest_sign_init(mdctx, mdtype, pky)) {
-                    if(this->message_digest_sign_update(mdctx, data)) {
-                        return extract_or(
-                          this->message_digest_sign_final(mdctx, dst),
-                          memory::block{});
-                    }
-                }
-            }
-        }
-        return {};
-    }
+      pkey pky) const noexcept;
 
     bool verify_data_digest(
       memory::const_block data,
       memory::const_block sig,
       message_digest_type mdtype,
-      pkey pky) {
-        if(mdtype && pky) {
-            if(ok mdctx{this->new_message_digest()}) {
-                auto cleanup{this->delete_message_digest.raii(mdctx)};
-
-                if(this->message_digest_verify_init(mdctx, mdtype, pky)) {
-                    if(this->message_digest_verify_update(mdctx, data)) {
-                        return extract_or(
-                          this->message_digest_verify_final(mdctx, sig), false);
-                    }
-                }
-            }
-        }
-        return false;
-    }
+      pkey pky) const noexcept;
 
     combined_result<owned_pkey> parse_private_key(
       memory::const_block blk, password_callback get_passwd = {}) const
-      noexcept {
-        if(ok mbio{this->new_block_basic_io(blk)}) {
-            auto del_bio{this->delete_basic_io.raii(mbio)};
-
-            return this->read_bio_private_key(mbio, get_passwd);
-        }
-
-        return {owned_pkey{}};
-    }
+      noexcept;
 
     combined_result<owned_pkey> parse_public_key(
       memory::const_block blk, password_callback get_passwd = {}) const
-      noexcept {
-        if(ok mbio{this->new_block_basic_io(blk)}) {
-            auto del_bio{this->delete_basic_io.raii(mbio)};
-
-            return this->read_bio_public_key(mbio, get_passwd);
-        }
-
-        return {owned_pkey{}};
-    }
+      noexcept;
 
     combined_result<owned_x509> parse_x509(
       memory::const_block blk, password_callback get_passwd = {}) const
-      noexcept {
-        if(ok mbio{this->new_block_basic_io(blk)}) {
-            auto del_bio{this->delete_basic_io.raii(mbio)};
+      noexcept;
 
-            return this->read_bio_x509(mbio, get_passwd);
-        }
-
-        return {owned_x509{}};
-    }
-
-    bool ca_verify_certificate(string_view ca_file_path, x509 cert) {
-        if(ok store{this->new_x509_store()}) {
-            auto del_store{this->delete_x509_store.raii(store)};
-
-            if(this->load_into_x509_store(store, ca_file_path)) {
-                if(ok vrfy_ctx{this->new_x509_store_ctx()}) {
-                    auto del_vrfy{this->delete_x509_store_ctx.raii(vrfy_ctx)};
-
-                    if(this->init_x509_store_ctx(vrfy_ctx, store, cert)) {
-                        if(ok verify_res{
-                             this->x509_verify_certificate(vrfy_ctx)}) {
-                            return verify_res.get();
-                        }
-                    }
-                }
-            }
-        }
-        return false;
-    }
+    bool ca_verify_certificate(string_view ca_file_path, x509 cert) const
+      noexcept;
 };
 //------------------------------------------------------------------------------
 template <std::size_t I, typename ApiTraits>
@@ -220,6 +142,8 @@ const typename std::tuple_element<I, basic_ssl_api<ApiTraits>>::type& get(
 //------------------------------------------------------------------------------
 } // namespace sslp
 } // namespace eagine
+
+#include <eagine/ssl_api.inl>
 
 // NOLINTNEXTLINE(cert-dcl58-cpp)
 namespace std {

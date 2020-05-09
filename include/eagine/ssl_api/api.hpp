@@ -359,7 +359,7 @@ public:
             return this->_chkcall(pky.release());
         }
 
-        auto raii(owned_pkey& pky) noexcept {
+        auto raii(owned_pkey& pky) const noexcept {
             return eagine::finally([=]() { (*this)(pky); });
         }
 
@@ -431,7 +431,7 @@ public:
             return this->_chkcall(cyc.release());
         }
 
-        auto raii(owned_cipher& cyc) noexcept {
+        auto raii(owned_cipher& cyc) const noexcept {
             return eagine::finally([this, &cyc]() { (*this)(cyc); });
         }
 
@@ -754,7 +754,7 @@ public:
             return this->_chkcall(mdc.release());
         }
 
-        auto raii(owned_message_digest& mdc) noexcept {
+        auto raii(owned_message_digest& mdc) const noexcept {
             return eagine::finally([this, &mdc]() { (*this)(mdc); });
         }
 
