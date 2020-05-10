@@ -15,10 +15,12 @@
 #include "../timeout.hpp"
 #include "connection.hpp"
 #include "context_fwd.hpp"
+#include <memory>
 
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
+class bridge_state;
 class bridge : public connection_user {
 public:
     bridge(logger& parent) noexcept
@@ -47,6 +49,7 @@ public:
 private:
     void _setup_from_args(const program_args&);
 
+    bool _check_state();
     bool _update_connections();
     bool _handle_special(identifier_t, identifier_t, message_view);
     bool _do_forward_message(identifier_t, identifier_t, message_view);
@@ -54,6 +57,7 @@ private:
 
     logger _log{};
     shared_context _context{};
+    std::shared_ptr<bridge_state> _state{};
     timeout _no_connection_timeout{std::chrono::seconds{30}};
     std::vector<std::unique_ptr<connection>> _connections{};
 };

@@ -7,6 +7,10 @@
 #include <eagine/bool_aggregate.hpp>
 #include <eagine/branch_predict.hpp>
 #include <eagine/message_bus/context.hpp>
+#include <eagine/message_bus/message.hpp>
+#include <eagine/message_bus/serialize.hpp>
+#include <eagine/serialize/ostream_sink.hpp>
+#include <condition_variable>
 #include <fstream>
 #include <iostream>
 #include <mutex>
@@ -15,12 +19,82 @@
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
-struct bridge_state {
-    bridge_state() noexcept = default;
+// bridge_state
+//------------------------------------------------------------------------------
+class bridge_state : public std::enable_shared_from_this<bridge_state> {
+public:
+    bridge_state() = default;
 
-    std::istream& input{std::cin};
-    std::ostream& output{std::cout};
+    auto weak_ref() noexcept {
+        return std::weak_ptr(this->shared_from_this());
+    }
+
+    auto make_output_main() {
+        return [selfref{weak_ref()}]() {
+            while(auto self{selfref.lock()}) {
+                self->send_output();
+            }
+        };
+    }
+
+    void start() {
+        std::thread(make_output_main()).detach();
+    }
+
+    bool input_usable() noexcept {
+        std::unique_lock lock{_input_mutex};
+        return _input.good();
+    }
+
+    bool output_usable() noexcept {
+        std::unique_lock lock{_output_mutex};
+        return _output.good();
+    }
+
+    bool is_usable() noexcept {
+        return input_usable() && output_usable();
+    }
+
+    void push(
+      identifier_t class_id,
+      identifier_t method_id,
+      const message_view& message) {
+        std::unique_lock lock{_output_mutex};
+        _outgoing.push(class_id, method_id, message);
+        _output_ready.notify_one();
+    }
+
+    void send_output() {
+        std::unique_lock lock{_output_mutex};
+        _output_ready.wait(lock, [this]() { return !_outgoing.empty(); });
+        _outgoing.fetch_all(
+          {this, EAGINE_MEM_FUNC_C(bridge_state, _handle_send)});
+    }
+
+private:
+    bool _handle_send(
+      identifier_t class_id,
+      identifier_t method_id,
+      const message_view& message) {
+        ostream_data_sink sink(_output << '!');
+        string_serializer_backend backend(sink);
+        serialize_message(class_id, method_id, message, backend);
+        _output << '\n';
+        return true;
+    }
+
+    std::mutex _input_mutex{};
+    std::mutex _output_mutex{};
+
+    std::condition_variable _output_ready{};
+
+    std::istream& _input{std::cin};
+    std::ostream& _output{std::cout};
+
+    message_storage _outgoing{};
 };
+//------------------------------------------------------------------------------
+// bridge
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool bridge::add_connection(std::unique_ptr<connection> conn) {
@@ -46,11 +120,11 @@ bool bridge::_handle_special(
 EAGINE_LIB_FUNC
 bool bridge::_do_forward_message(
   identifier_t class_id, identifier_t method_id, message_view message) {
-    // TODO
-    EAGINE_MAYBE_UNUSED(class_id);
-    EAGINE_MAYBE_UNUSED(method_id);
-    EAGINE_MAYBE_UNUSED(message);
-    return true;
+    if(EAGINE_LIKELY(_state)) {
+        _state->push(class_id, method_id, message);
+        return true;
+    }
+    return false;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -77,6 +151,19 @@ bool bridge::_forward_messages() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+bool bridge::_check_state() {
+    some_true something_done{};
+
+    if(EAGINE_UNLIKELY(!(_state && _state->is_usable()))) {
+        _state = std::make_shared<bridge_state>();
+        _state->start();
+        something_done();
+    }
+
+    return something_done;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 bool bridge::_update_connections() {
     some_true something_done{};
 
@@ -94,6 +181,7 @@ bool bridge::_update_connections() {
 EAGINE_LIB_FUNC
 bool bridge::update() {
     some_true something_done{};
+    something_done(_check_state());
     something_done(_update_connections());
     something_done(_forward_messages());
     return something_done;
