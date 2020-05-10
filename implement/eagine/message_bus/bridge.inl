@@ -110,10 +110,31 @@ void bridge::_setup_from_args(const program_args&) {
 EAGINE_LIB_FUNC
 bool bridge::_handle_special(
   identifier_t class_id, identifier_t method_id, message_view message) {
-    // TODO
-    EAGINE_MAYBE_UNUSED(class_id);
-    EAGINE_MAYBE_UNUSED(method_id);
-    EAGINE_MAYBE_UNUSED(message);
+    if(EAGINE_UNLIKELY(EAGINE_ID(eagiMsgBus).matches(class_id))) {
+        if(EAGINE_ID(assignId).matches(method_id)) {
+            if(!has_id()) {
+                _id = message.target_id;
+                _log.debug("assigned id ${id}").arg(EAGINE_ID(id), _id);
+            }
+            return true;
+        }
+    }
+    return false;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+bool bridge::_do_send(
+  identifier_t class_id, identifier_t method_id, message_view message) {
+    EAGINE_ASSERT(has_id());
+    message.set_source_id(_id);
+    for(auto& connection : _connections) {
+        EAGINE_ASSERT(connection);
+        if(connection->send(class_id, method_id, message)) {
+            _log.trace("sending message ${message}")
+              .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id));
+            return true;
+        }
+    }
     return false;
 }
 //------------------------------------------------------------------------------
@@ -181,9 +202,19 @@ bool bridge::_update_connections() {
 EAGINE_LIB_FUNC
 bool bridge::update() {
     some_true something_done{};
+
+    const bool had_id = has_id();
     something_done(_check_state());
     something_done(_update_connections());
     something_done(_forward_messages());
+
+    // if processing the messages assigned the id
+    if(EAGINE_UNLIKELY(has_id() && !had_id)) {
+        _log.debug("announcing id ${id}").arg(EAGINE_ID(id), _id);
+        _do_send(EAGINE_MSG_ID(eagiMsgBus, announceId), {});
+        something_done();
+    }
+
     return something_done;
 }
 //------------------------------------------------------------------------------

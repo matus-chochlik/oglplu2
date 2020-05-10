@@ -22,6 +22,14 @@ namespace msgbus {
 //------------------------------------------------------------------------------
 class bridge_state;
 class bridge : public connection_user {
+    static constexpr identifier_t invalid_id() noexcept {
+        return 0U;
+    }
+
+    static constexpr bool is_valid_id(identifier_t id) noexcept {
+        return id != invalid_id();
+    }
+
 public:
     bridge(logger& parent) noexcept
       : _log(EAGINE_ID(MsgBusBrdg), parent)
@@ -35,6 +43,10 @@ public:
     }
 
     bool add_connection(std::unique_ptr<connection>) final;
+
+    bool has_id() const noexcept {
+        return is_valid_id(_id);
+    }
 
     bool update();
 
@@ -51,12 +63,22 @@ private:
 
     bool _check_state();
     bool _update_connections();
+
+    bool _do_send(identifier_t, identifier_t, message_view);
+    template <identifier_t ClassId, identifier_t MethodId>
+    bool _do_send(message_id<ClassId, MethodId>, const message_view& message) {
+        return _do_send(ClassId, MethodId, message);
+    }
+
     bool _handle_special(identifier_t, identifier_t, message_view);
     bool _do_forward_message(identifier_t, identifier_t, message_view);
     bool _forward_messages();
 
     logger _log{};
     shared_context _context{};
+
+    identifier_t _id{invalid_id()};
+
     std::shared_ptr<bridge_state> _state{};
     timeout _no_connection_timeout{std::chrono::seconds{30}};
     std::vector<std::unique_ptr<connection>> _connections{};
