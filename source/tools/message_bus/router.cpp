@@ -9,6 +9,7 @@
 #include <eagine/main.hpp>
 #include <eagine/message_bus/conn_setup.hpp>
 #include <eagine/message_bus/router.hpp>
+#include <eagine/message_bus/router_address.hpp>
 #include <eagine/signal_switch.hpp>
 #include <cstdint>
 
@@ -22,15 +23,13 @@ int main(main_ctx& ctx) {
 
     log.info("message bus router starting up");
 
+    msgbus::router_address address(log, args);
+
     msgbus::connection_setup conn_setup(log);
     conn_setup.default_init(args);
 
     msgbus::router router(log, args);
-    conn_setup.setup_acceptors(
-      router,
-      msgbus::connection_kind::in_process |
-        msgbus::connection_kind::local_interprocess |
-        msgbus::connection_kind::remote_interprocess);
+    conn_setup.setup_acceptors(router, address);
 
     std::uintmax_t cycles_work{0};
     std::uintmax_t cycles_idle{0};

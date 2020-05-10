@@ -10,6 +10,7 @@
 #include <eagine/main.hpp>
 #include <eagine/message_bus/actor.hpp>
 #include <eagine/message_bus/conn_setup.hpp>
+#include <eagine/message_bus/router_address.hpp>
 #include <eagine/timeout.hpp>
 #include <thread>
 
@@ -21,7 +22,7 @@ public:
     using base = actor<2>;
     using base::bus;
 
-    pong(logger& parent, connection_setup& conn_setup)
+    pong(logger& parent, connection_setup& conn_setup, string_view address)
       : base(
           {EAGINE_ID(ExamplPong), parent},
           this,
@@ -32,7 +33,8 @@ public:
         conn_setup.setup_connectors(
           *this,
           connection_kind::local_interprocess |
-            connection_kind::remote_interprocess);
+            connection_kind::remote_interprocess,
+          address);
     }
 
     bool ping(stored_message& msg_in) {
@@ -74,10 +76,11 @@ private:
 } // namespace msgbus
 
 int main(main_ctx& ctx) {
+    msgbus::router_address address{ctx.log(), ctx.args()};
     msgbus::connection_setup conn_setup(ctx.log());
     conn_setup.default_init(ctx.args());
 
-    msgbus::pong pong(ctx.log(), conn_setup);
+    msgbus::pong pong(ctx.log(), conn_setup, address);
 
     while(!pong.is_done()) {
         pong.process_all();

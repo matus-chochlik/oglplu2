@@ -10,6 +10,7 @@
 #include <eagine/main.hpp>
 #include <eagine/message_bus/actor.hpp>
 #include <eagine/message_bus/conn_setup.hpp>
+#include <eagine/message_bus/router_address.hpp>
 #include <eagine/timeout.hpp>
 #include <eagine/valid_if/positive.hpp>
 #include <thread>
@@ -26,6 +27,7 @@ public:
     ping(
       logger& parent,
       connection_setup& conn_setup,
+      string_view address,
       valid_if_positive<std::size_t> max)
       : base(
           {EAGINE_ID(ExamplPing), parent},
@@ -35,10 +37,12 @@ public:
       , _lmod{running_on_valgrind() ? 1000U : 10000U}
       , _max{extract_or(max, running_on_valgrind() ? 10000U : 100000U)} {
         this->allow_subscriptions();
+
         conn_setup.setup_connectors(
           *this,
           connection_kind::local_interprocess |
-            connection_kind::remote_interprocess);
+            connection_kind::remote_interprocess,
+          address);
     }
 
     bool pong(stored_message&) {
@@ -93,6 +97,7 @@ private:
 } // namespace msgbus
 
 int main(main_ctx& ctx) {
+    msgbus::router_address address{ctx.log(), ctx.args()};
     msgbus::connection_setup conn_setup(ctx.log());
     conn_setup.default_init(ctx.args());
 
@@ -101,7 +106,7 @@ int main(main_ctx& ctx) {
         arg.next().parse(ping_count, ctx.log().error_stream());
     }
 
-    msgbus::ping ping(ctx.log(), conn_setup, ping_count);
+    msgbus::ping ping(ctx.log(), conn_setup, address, ping_count);
 
     const time_measure run_time;
 

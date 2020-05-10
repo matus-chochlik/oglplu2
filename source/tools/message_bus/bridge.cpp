@@ -9,6 +9,7 @@
 #include <eagine/main.hpp>
 #include <eagine/message_bus/bridge.hpp>
 #include <eagine/message_bus/conn_setup.hpp>
+#include <eagine/message_bus/router_address.hpp>
 #include <eagine/signal_switch.hpp>
 
 namespace eagine {
@@ -21,14 +22,13 @@ int main(main_ctx& ctx) {
 
     log.info("message bus bridge starting up");
 
+    msgbus::router_address address(log, args);
+
     msgbus::connection_setup conn_setup(log);
     conn_setup.default_init(args);
 
     msgbus::bridge bridge(log, args);
-    conn_setup.setup_connectors(
-      bridge,
-      msgbus::connection_kind::in_process |
-        msgbus::connection_kind::local_interprocess);
+    conn_setup.setup_connectors(bridge, address);
 
     std::uintmax_t cycles_work{0};
     std::uintmax_t cycles_idle{0};
