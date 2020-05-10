@@ -10,6 +10,7 @@
 #ifndef EAGINE_MESSAGE_BUS_DIRECT_HPP
 #define EAGINE_MESSAGE_BUS_DIRECT_HPP
 
+#include "../bool_aggregate.hpp"
 #include "../branch_predict.hpp"
 #include "../logging/logger.hpp"
 #include "conn_factory.hpp"
@@ -78,11 +79,14 @@ public:
         return state;
     }
 
-    void process_all(process_handler handler) {
+    bool process_all(process_handler handler) {
+        some_true something_done{};
         for(auto& state : _pending) {
             handler(state);
+            something_done();
         }
         _pending.clear();
+        return something_done;
     }
 };
 //------------------------------------------------------------------------------
@@ -199,15 +203,17 @@ public:
       : _address{std::make_shared<direct_connection_address>(_log)} {
     }
 
-    void process_accepted(const accept_handler& handler) final {
+    bool process_accepted(const accept_handler& handler) final {
+        some_true something_done{};
         if(_address) {
             auto wrapped_handler = [&handler](shared_state& state) {
                 handler(std::unique_ptr<connection>{
                   std::make_unique<direct_server_connection>(state)});
             };
-            _address->process_all(
-              direct_connection_address::process_handler{wrapped_handler});
+            something_done(_address->process_all(
+              direct_connection_address::process_handler{wrapped_handler}));
         }
+        return something_done;
     }
 
     std::unique_ptr<connection> make_connection() {

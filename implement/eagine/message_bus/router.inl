@@ -4,6 +4,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/bool_aggregate.hpp>
 #include <eagine/branch_predict.hpp>
 #include <eagine/message_bus/context.hpp>
 #include <eagine/message_bus/serialize.hpp>
@@ -86,20 +87,24 @@ void router::_setup_from_args(const program_args&) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void router::_handle_accept() {
+bool router::_handle_accept() {
+    some_true something_done{};
+
     if(EAGINE_LIKELY(!_acceptors.empty())) {
         acceptor::accept_handler handler{
           this, EAGINE_MEM_FUNC_C(router, _handle_connection)};
         for(auto& an_acceptor : _acceptors) {
             EAGINE_ASSERT(an_acceptor);
-            an_acceptor->update();
-            an_acceptor->process_accepted(handler);
+            something_done(an_acceptor->update());
+            something_done(an_acceptor->process_accepted(handler));
         }
     }
+    return something_done;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void router::_handle_pending() {
+bool router::_handle_pending() {
+    some_true something_done{};
 
     if(!_pending.empty()) {
         identifier_t id = 0;
@@ -122,9 +127,9 @@ void router::_handle_pending() {
         while(pos < _pending.size()) {
             id = 0;
             auto& pending = _pending[pos];
-            pending.the_connection->update();
-            pending.the_connection->fetch_messages(
-              connection::fetch_handler(handler));
+            something_done(pending.the_connection->update());
+            something_done(pending.the_connection->fetch_messages(
+              connection::fetch_handler(handler)));
             // if we got the endpoint id message from the connection
             if(id != 0) {
                 _log
@@ -136,21 +141,26 @@ void router::_handle_pending() {
                 _endpoints[id].connections.emplace_back(
                   std::move(pending.the_connection));
                 _pending.erase(_pending.begin() + pos);
+                something_done();
             } else {
                 ++pos;
             }
         }
     }
+    return something_done;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void router::_remove_timeouted() {
+bool router::_remove_timeouted() {
+    some_true something_done{};
+
     _pending.erase(
       std::remove_if(
         _pending.begin(),
         _pending.end(),
-        [this](auto& pending) {
+        [this, &something_done](auto& pending) {
             if(pending.age() > this->_pending_timeout) {
+                something_done();
                 this->_log
                   .warning("removing timeouted pending ${type} connection")
                   .arg(EAGINE_ID(type), pending.the_connection->type_id())
@@ -160,10 +170,13 @@ void router::_remove_timeouted() {
             return false;
         }),
       _pending.end());
+    return something_done;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void router::_remove_disconnected() {
+bool router::_remove_disconnected() {
+    some_true something_done{};
+
     for(auto& p : _endpoints) {
         auto& rep = std::get<1>(p);
         auto& conns = rep.connections;
@@ -188,10 +201,12 @@ void router::_remove_disconnected() {
     while(it != _endpoints.end()) {
         if(it->second.connections.empty()) {
             _endpoints.erase(it++);
+            something_done();
         } else {
             ++it;
         }
     }
+    return something_done;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -343,7 +358,9 @@ bool router::_do_route_message(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void router::_route_messages() {
+bool router::_route_messages() {
+    some_true something_done{};
+
     for(auto& ep : _endpoints) {
         auto handler = [this, &ep](
                          identifier_t class_id,
@@ -360,19 +377,23 @@ void router::_route_messages() {
 
         for(auto& conn_in : std::get<1>(ep).connections) {
             if(EAGINE_LIKELY(conn_in && conn_in->is_usable())) {
-                conn_in->fetch_messages(connection::fetch_handler(handler));
+                something_done(
+                  conn_in->fetch_messages(connection::fetch_handler(handler)));
             }
         }
     }
+    return something_done;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void router::_update_connections() {
+bool router::_update_connections() {
+    some_true something_done{};
+
     for(auto& [id, endpoint] : _endpoints) {
         EAGINE_MAYBE_UNUSED(id);
         for(auto& conn : endpoint.connections) {
             if(EAGINE_LIKELY(conn)) {
-                conn->update();
+                something_done(conn->update());
             }
         }
     }
@@ -381,20 +402,24 @@ void router::_update_connections() {
     } else {
         _no_connection_timeout.reset();
     }
+    return something_done;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void router::update(const valid_if_positive<int>& count) {
-    _remove_timeouted();
-    _remove_disconnected();
+bool router::update(const valid_if_positive<int>& count) {
+    some_true something_done{};
+
+    something_done(_remove_timeouted());
+    something_done(_remove_disconnected());
 
     int n = extract_or(count, 2);
-    while(n-- > 0) {
-        _handle_pending();
-        _handle_accept();
-        _route_messages();
-        _update_connections();
-    }
+    do {
+        something_done(_handle_pending());
+        something_done(_handle_accept());
+        something_done(_route_messages());
+        something_done(_update_connections());
+    } while((n-- > 0) && something_done);
+    return something_done;
 }
 //------------------------------------------------------------------------------
 } // namespace msgbus

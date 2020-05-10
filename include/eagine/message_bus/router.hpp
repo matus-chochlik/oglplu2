@@ -73,8 +73,8 @@ public:
     bool add_acceptor(std::unique_ptr<acceptor>) final;
     bool add_connection(std::unique_ptr<connection>) final;
 
-    void update(const valid_if_positive<int>& count);
-    void update() {
+    bool update(const valid_if_positive<int>& count);
+    bool update() {
         return update(2);
     }
 
@@ -89,10 +89,10 @@ public:
 private:
     void _setup_from_args(const program_args&);
 
-    void _handle_accept();
-    void _handle_pending();
-    void _remove_timeouted();
-    void _remove_disconnected();
+    bool _handle_accept();
+    bool _handle_pending();
+    bool _remove_timeouted();
+    bool _remove_disconnected();
     void _handle_connection(std::unique_ptr<connection> conn);
 
     bool _handle_special(
@@ -108,8 +108,8 @@ private:
       identifier_t incoming_id,
       message_view message);
 
-    void _route_messages();
-    void _update_connections();
+    bool _route_messages();
+    bool _update_connections();
 
     logger _log{};
     shared_context _context{};

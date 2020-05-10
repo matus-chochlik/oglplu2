@@ -661,15 +661,18 @@ public:
         return something_done;
     }
 
-    void process_accepted(const accept_handler& handler) final {
+    bool process_accepted(const accept_handler& handler) final {
+        some_true something_done{};
         for(auto& socket : _accepted) {
             auto conn = std::make_unique<asio_connection<
               asio_connection_addr_kind::ipv4,
               asio_connection_protocol::stream>>(
               _log, _asio_state, std::move(socket));
             handler(std::move(conn));
+            something_done();
         }
         _accepted.clear();
+        return something_done;
     }
 };
 //------------------------------------------------------------------------------
@@ -882,15 +885,18 @@ public:
         return something_done;
     }
 
-    void process_accepted(const accept_handler& handler) final {
+    bool process_accepted(const accept_handler& handler) final {
+        some_true something_done{};
         for(auto& socket : _accepted) {
             auto conn = std::make_unique<asio_connection<
               asio_connection_addr_kind::local,
               asio_connection_protocol::stream>>(
               _log, _asio_state, std::move(socket));
             handler(std::move(conn));
+            something_done();
         }
         _accepted.clear();
+        return something_done;
     }
 };
 //------------------------------------------------------------------------------

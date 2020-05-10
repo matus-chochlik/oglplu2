@@ -455,8 +455,8 @@ public:
         return something_done;
     }
 
-    void process_accepted(const accept_handler& handler) final {
-        _process(handler);
+    bool process_accepted(const accept_handler& handler) final {
+        return _process(handler);
     }
 
 private:
@@ -506,7 +506,7 @@ private:
         });
     }
 
-    void _process(const accept_handler& handler) {
+    bool _process(const accept_handler& handler) {
         auto fetch_handler = [this, &handler](
                                identifier_t class_id,
                                identifier_t method_id,
@@ -523,7 +523,8 @@ private:
             }
             return true;
         };
-        _requests.fetch_all(message_storage::fetch_handler{fetch_handler});
+        return _requests.fetch_all(
+          message_storage::fetch_handler{fetch_handler});
     }
 
     logger _log{};

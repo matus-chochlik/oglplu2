@@ -32,7 +32,9 @@ int main(main_ctx& ctx) {
         msgbus::connection_kind::remote_interprocess);
 
     while(!(interrupted || router.is_done())) {
-        router.update(8);
+        if(!router.update(8)) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        }
     }
 
     log.debug("message bus router finishing");

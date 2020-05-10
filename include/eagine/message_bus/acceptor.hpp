@@ -29,7 +29,7 @@ struct acceptor {
         return false;
     }
 
-    virtual void process_accepted(const accept_handler& handler) = 0;
+    virtual bool process_accepted(const accept_handler& handler) = 0;
 };
 //------------------------------------------------------------------------------
 struct acceptor_user {
