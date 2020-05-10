@@ -10,6 +10,7 @@
 #ifndef EAGINE_MESSAGE_BUS_ASIO_HPP
 #define EAGINE_MESSAGE_BUS_ASIO_HPP
 
+#include "../bool_aggregate.hpp"
 #include "../branch_predict.hpp"
 #include "../config/platform.hpp"
 #include "../logging/exception.hpp"
@@ -223,7 +224,7 @@ struct asio_connection_state
         return false;
     }
 
-    void fetch_messages(connection::fetch_handler handler) {
+    bool fetch_messages(connection::fetch_handler handler) {
         std::unique_lock lock{mutex};
         auto unpacker = [this, &handler](memory::const_block data) {
             for_each_data_with_size(data, [this](memory::const_block blk) {
@@ -253,7 +254,7 @@ struct asio_connection_state
             return true;
         };
 
-        incoming.fetch_some(
+        return incoming.fetch_some(
           serialized_message_storage::fetch_handler(unpacker), Batch);
     }
 
@@ -303,7 +304,7 @@ struct asio_connection_state
         is_recving = false;
     }
 
-    void start_receive() {
+    bool start_receive() {
         std::unique_lock lock{mutex};
         if(!is_recving) {
             is_recving = true;
@@ -341,15 +342,19 @@ struct asio_connection_state
                   }
               });
         }
+        return is_recving;
     }
 
-    void update() {
+    bool update() {
+        some_true something_done{};
         if(auto count = common->context.poll()) {
             _log.trace("called ready handlers (count: ${count})")
               .arg(EAGINE_ID(count), count);
+            something_done();
         } else {
             common->context.reset();
         }
+        return something_done;
     }
 
     void cleanup() {
@@ -412,9 +417,9 @@ public:
         return _state->enqueue(class_id, method_id, message);
     }
 
-    void fetch_messages(connection::fetch_handler handler) final {
+    bool fetch_messages(connection::fetch_handler handler) final {
         EAGINE_ASSERT(_state);
-        _state->fetch_messages(handler);
+        return _state->fetch_messages(handler);
     }
 };
 //------------------------------------------------------------------------------
@@ -458,13 +463,15 @@ class asio_connection<
 public:
     using base::base;
 
-    void update() override {
+    bool update() override {
         EAGINE_ASSERT(this->_state);
+        some_true something_done{};
         if(this->_state->socket.is_open()) {
-            this->_state->start_receive();
-            this->_state->start_send();
+            something_done(this->_state->start_receive());
+            something_done(this->_state->start_send());
         }
-        this->_state->update();
+        something_done(this->_state->update());
+        return something_done;
     }
 
     void cleanup() final {
@@ -555,16 +562,19 @@ public:
       , _addr_str{to_string(_fix_addr(addr_str))} {
     }
 
-    void update() final {
+    bool update() final {
         EAGINE_ASSERT(this->_state);
+        some_true something_done{};
         if(this->_state->socket.is_open()) {
-            this->_state->start_receive();
-            this->_state->start_send();
+            something_done(this->_state->start_receive());
+            something_done(this->_state->start_send());
         } else if(!_connecting) {
             _connecting = true;
             _start_resolve();
+            something_done();
         }
-        this->_state->update();
+        something_done(this->_state->update());
+        return something_done;
     }
 };
 //------------------------------------------------------------------------------
@@ -630,8 +640,9 @@ public:
       , _socket{_asio_state->context} {
     }
 
-    void update() final {
+    bool update() final {
         EAGINE_ASSERT(this->_asio_state);
+        some_true something_done{};
         if(!_acceptor.is_open()) {
             // TODO: address string
             asio::ip::tcp::endpoint endpoint(
@@ -640,10 +651,14 @@ public:
             _acceptor.bind(endpoint);
             _acceptor.listen();
             _start_accept();
+            something_done();
         }
-        if(!this->_asio_state->context.poll()) {
+        if(this->_asio_state->context.poll()) {
+            something_done();
+        } else {
             this->_asio_state->context.reset();
         }
+        return something_done;
     }
 
     void process_accepted(const accept_handler& handler) final {
@@ -695,13 +710,15 @@ class asio_connection<
 public:
     using base::base;
 
-    void update() override {
+    bool update() override {
         EAGINE_ASSERT(this->_state);
+        some_true something_done{};
         if(this->_state->socket.is_open()) {
-            this->_state->start_receive();
-            this->_state->start_send();
+            something_done(this->_state->start_receive());
+            something_done(this->_state->start_send());
         }
-        this->_state->update();
+        something_done(this->_state->update());
+        return something_done;
     }
 
     void cleanup() final {
@@ -757,15 +774,18 @@ public:
       , _endpoint{_addr_str.c_str()} {
     }
 
-    void update() final {
+    bool update() final {
         EAGINE_ASSERT(this->_state);
+        some_true something_done{};
         if(this->_state->socket.is_open()) {
-            this->_state->start_receive();
-            this->_state->start_send();
+            something_done(this->_state->start_receive());
+            something_done(this->_state->start_send());
         } else if(!_connecting) {
             _start_connect();
+            something_done();
         }
-        this->_state->update();
+        something_done(this->_state->update());
+        return something_done;
     }
 };
 //------------------------------------------------------------------------------
@@ -841,19 +861,25 @@ public:
     asio_acceptor& operator=(asio_acceptor&&) = delete;
     asio_acceptor& operator=(const asio_acceptor&) = delete;
 
-    void update() final {
+    bool update() final {
         EAGINE_ASSERT(this->_asio_state);
+        some_true something_done{};
         if(EAGINE_UNLIKELY(!_acceptor.is_open())) {
             _acceptor = {
               _asio_state->context,
               asio::local::stream_protocol::endpoint(_addr_str.c_str())};
+            something_done();
         }
         if(_acceptor.is_open() && !_accepting) {
             _start_accept();
+            something_done();
         }
-        if(!this->_asio_state->context.poll()) {
+        if(this->_asio_state->context.poll()) {
+            something_done();
+        } else {
             this->_asio_state->context.reset();
         }
+        return something_done;
     }
 
     void process_accepted(const accept_handler& handler) final {

@@ -60,7 +60,8 @@ struct connection : connection_info {
     using fetch_handler =
       callable_ref<bool(identifier_t, identifier_t, const message_view&)>;
 
-    virtual void update() {
+    virtual bool update() {
+        return false;
     }
 
     virtual void cleanup() {
@@ -82,7 +83,7 @@ struct connection : connection_info {
         return send(ClassId, MethodId, msg);
     }
 
-    virtual void fetch_messages(fetch_handler handler) = 0;
+    virtual bool fetch_messages(fetch_handler handler) = 0;
 };
 //------------------------------------------------------------------------------
 struct connection_user {

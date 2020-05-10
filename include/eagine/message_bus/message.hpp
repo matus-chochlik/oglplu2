@@ -186,13 +186,15 @@ public:
         return true;
     }
 
-    void fetch_all(fetch_handler handler) {
+    bool fetch_all(fetch_handler handler) {
+        bool fetched_some = false;
         bool keep_some = false;
         for(auto& [class_id, method_id, message] : _messages) {
             if(handler(class_id, method_id, message)) {
                 class_id = 0;
                 method_id = 0;
                 _buffers.eat(std::move(message.data));
+                fetched_some = true;
             } else {
                 keep_some = true;
             }
@@ -209,6 +211,7 @@ public:
         } else {
             _messages.clear();
         }
+        return fetched_some;
     }
 
 private:
@@ -256,7 +259,8 @@ public:
         _messages.emplace_back(std::move(buf));
     }
 
-    void fetch_some(fetch_handler handler, span_size_t n) {
+    bool fetch_some(fetch_handler handler, span_size_t n) {
+        bool fetched_some = false;
         for(auto& message : _messages) {
             if(n-- <= 0) {
                 break;
@@ -271,13 +275,16 @@ public:
             _messages.end(),
             [](auto& buf) { return buf.empty(); }),
           _messages.end());
+        return fetched_some;
     }
 
-    void fetch_all(fetch_handler handler) {
+    bool fetch_all(fetch_handler handler) {
+        bool fetched_some = false;
         bool keep_some = false;
         for(auto& message : _messages) {
             if(handler(view(message))) {
                 _buffers.eat(std::move(message));
+                fetched_some = true;
             } else {
                 keep_some = true;
             }
@@ -292,6 +299,7 @@ public:
         } else {
             _messages.clear();
         }
+        return fetched_some;
     }
 
     using bit_set = std::uint64_t;

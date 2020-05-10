@@ -47,14 +47,14 @@ public:
         _server_to_client.push(class_id, method_id, message);
     }
 
-    void fetch_from_client(connection::fetch_handler handler) noexcept {
+    bool fetch_from_client(connection::fetch_handler handler) noexcept {
         std::unique_lock lock{_mutex};
-        _client_to_server.fetch_all(handler);
+        return _client_to_server.fetch_all(handler);
     }
 
-    void fetch_from_server(connection::fetch_handler handler) noexcept {
+    bool fetch_from_server(connection::fetch_handler handler) noexcept {
         std::unique_lock lock{_mutex};
-        _server_to_client.fetch_all(handler);
+        return _server_to_client.fetch_all(handler);
     }
 };
 //------------------------------------------------------------------------------
@@ -138,11 +138,12 @@ public:
         return false;
     }
 
-    void fetch_messages(connection::fetch_handler handler) final {
+    bool fetch_messages(connection::fetch_handler handler) final {
         _checkup();
         if(EAGINE_LIKELY(_state)) {
-            _state->fetch_from_server(handler);
+            return _state->fetch_from_server(handler);
         }
+        return false;
     }
 };
 //------------------------------------------------------------------------------
@@ -166,10 +167,11 @@ public:
         return false;
     }
 
-    void fetch_messages(connection::fetch_handler handler) final {
+    bool fetch_messages(connection::fetch_handler handler) final {
         if(auto state = _weak_state.lock()) {
-            state->fetch_from_client(handler);
+            return state->fetch_from_client(handler);
         }
+        return false;
     }
 };
 //------------------------------------------------------------------------------

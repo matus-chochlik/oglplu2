@@ -10,6 +10,7 @@
 #ifndef EAGINE_MESSAGE_BUS_POSIX_MQUEUE_HPP
 #define EAGINE_MESSAGE_BUS_POSIX_MQUEUE_HPP
 
+#include "../bool_aggregate.hpp"
 #include "../branch_predict.hpp"
 #include "../logging/logger.hpp"
 #include "../random_identifier.hpp"
@@ -265,10 +266,12 @@ public:
         return {_buffer.size()};
     }
 
-    void update() override {
+    bool update() override {
         std::unique_lock lock{_mutex};
-        _receive();
-        _send();
+        some_true something_done{};
+        something_done(_receive());
+        something_done(_send());
+        return something_done;
     }
 
     bool send(
@@ -286,13 +289,14 @@ public:
         return false;
     }
 
-    void fetch_messages(fetch_handler handler) final {
+    bool fetch_messages(fetch_handler handler) final {
         std::unique_lock lock{_mutex};
-        _incoming.fetch_all(handler);
+        return _incoming.fetch_all(handler);
     }
 
 protected:
-    void _checkup(posix_mqueue& connect_queue) {
+    bool _checkup(posix_mqueue& connect_queue) {
+        some_true something_done{};
         if(connect_queue.is_usable()) {
             if(!_data_queue.is_usable()) {
                 _data_queue.close();
@@ -314,11 +318,14 @@ protected:
                         _buffer.resize(_data_queue.data_size());
                     }
                 }
+                something_done();
             }
         }
+        return something_done;
     }
 
-    void _receive() {
+    bool _receive() {
+        some_true something_done{};
         if(_data_queue.is_usable()) {
             while(!_data_queue
                      .receive(
@@ -326,15 +333,18 @@ protected:
                        posix_mqueue::receive_handler(
                          this, EAGINE_MEM_FUNC_C(this_class, _handle_receive)))
                      .had_error()) {
+                something_done();
             }
         }
+        return something_done;
     }
 
-    void _send() {
+    bool _send() {
         if(_data_queue.is_usable()) {
-            _outgoing.fetch_all(
+            return _outgoing.fetch_all(
               {this, EAGINE_MEM_FUNC_C(this_class, _handle_send)});
         }
+        return false;
     }
 
 protected:
@@ -389,20 +399,25 @@ public:
         _data_queue.unlink();
     }
 
-    void update() final {
+    bool update() final {
         std::unique_lock lock{_mutex};
-        _checkup();
-        _receive();
-        _send();
+        some_true something_done{};
+        something_done(_checkup());
+        something_done(_receive());
+        something_done(_send());
+        return something_done;
     }
 
 private:
-    void _checkup() {
+    bool _checkup() {
+        some_true something_done{};
         if(!_connect_queue.is_usable()) {
             _connect_queue.close();
             _connect_queue.open();
+            something_done();
         }
-        posix_mqueue_connection::_checkup(_connect_queue);
+        return posix_mqueue_connection::_checkup(_connect_queue) &&
+               something_done;
     }
 
     posix_mqueue _connect_queue{};
@@ -433,9 +448,11 @@ public:
         _accept_queue.unlink();
     }
 
-    void update() final {
-        _checkup();
-        _receive();
+    bool update() final {
+        some_true something_done{};
+        something_done(_checkup());
+        something_done(_receive());
+        return something_done;
     }
 
     void process_accepted(const accept_handler& handler) final {
@@ -443,17 +460,21 @@ public:
     }
 
 private:
-    void _checkup() {
+    bool _checkup() {
+        some_true something_done{};
         if(!_accept_queue.is_usable()) {
             _accept_queue.close();
             _accept_queue.unlink();
             if(!_accept_queue.create().had_error()) {
                 _buffer.resize(_accept_queue.data_size());
             }
+            something_done();
         }
+        return something_done;
     }
 
-    void _receive() {
+    bool _receive() {
+        some_true something_done{};
         if(_accept_queue.is_usable()) {
             while(!_accept_queue
                      .receive(
@@ -461,8 +482,10 @@ private:
                        posix_mqueue::receive_handler(
                          this, EAGINE_MEM_FUNC_C(this_class, _handle_receive)))
                      .had_error()) {
+                something_done();
             }
         }
+        return something_done;
     }
 
     void _handle_receive(unsigned, memory::span<const char> data) {

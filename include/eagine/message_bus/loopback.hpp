@@ -35,9 +35,9 @@ public:
         return true;
     }
 
-    void fetch_messages(connection::fetch_handler handler) final {
+    bool fetch_messages(connection::fetch_handler handler) final {
         std::unique_lock lock{_mutex};
-        _messages.fetch_all(handler);
+        return _messages.fetch_all(handler);
     }
 
 private:
