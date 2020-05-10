@@ -35,6 +35,10 @@ public:
         return _idx ? _values.back() : _values.front();
     }
 
+    T& back() noexcept {
+        return _idx ? _values.front() : _values.back();
+    }
+
     const T& back() const noexcept {
         return _idx ? _values.front() : _values.back();
     }

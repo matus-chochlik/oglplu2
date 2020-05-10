@@ -6,9 +6,11 @@
  */
 #include <eagine/bool_aggregate.hpp>
 #include <eagine/branch_predict.hpp>
+#include <eagine/double_buffer.hpp>
 #include <eagine/message_bus/context.hpp>
 #include <eagine/message_bus/message.hpp>
 #include <eagine/message_bus/serialize.hpp>
+#include <eagine/serialize/istream_source.hpp>
 #include <eagine/serialize/ostream_sink.hpp>
 #include <condition_variable>
 #include <fstream>
@@ -24,9 +26,24 @@ namespace msgbus {
 class bridge_state : public std::enable_shared_from_this<bridge_state> {
 public:
     bridge_state() = default;
+    bridge_state(bridge_state&&) = delete;
+    bridge_state(const bridge_state&) = delete;
+    bridge_state& operator=(bridge_state&&) = delete;
+    bridge_state& operator=(const bridge_state&) = delete;
+    ~bridge_state() noexcept {
+        _output_ready.notify_all();
+    }
 
     auto weak_ref() noexcept {
         return std::weak_ptr(this->shared_from_this());
+    }
+
+    auto make_input_main() {
+        return [selfref{weak_ref()}]() {
+            while(auto self{selfref.lock()}) {
+                self->recv_input();
+            }
+        };
     }
 
     auto make_output_main() {
@@ -38,6 +55,7 @@ public:
     }
 
     void start() {
+        std::thread(make_input_main()).detach();
         std::thread(make_output_main()).detach();
     }
 
@@ -60,15 +78,56 @@ public:
       identifier_t method_id,
       const message_view& message) {
         std::unique_lock lock{_output_mutex};
-        _outgoing.push(class_id, method_id, message);
+        _outgoing.front().push(class_id, method_id, message);
         _output_ready.notify_one();
     }
 
     void send_output() {
-        std::unique_lock lock{_output_mutex};
-        _output_ready.wait(lock, [this]() { return !_outgoing.empty(); });
-        _outgoing.fetch_all(
-          {this, EAGINE_MEM_FUNC_C(bridge_state, _handle_send)});
+        {
+            std::unique_lock lock{_output_mutex};
+            _output_ready.wait(lock);
+            _outgoing.swap();
+        }
+        auto handler = [this](
+                         identifier_t class_id,
+                         identifier_t method_id,
+                         const message_view& message) {
+            ostream_data_sink sink(_output << '!');
+            string_serializer_backend backend(sink);
+            serialize_message(class_id, method_id, message, backend);
+            _output << '\n';
+            return true;
+        };
+        _outgoing.back().fetch_all(fetch_handler(handler));
+    }
+
+    using fetch_handler = message_storage::fetch_handler;
+
+    void fetch_all(fetch_handler handler) {
+        {
+            std::unique_lock lock{_input_mutex};
+            _incoming.swap();
+        }
+        _incoming.back().fetch_all(handler);
+    }
+
+    void recv_input() {
+        char c{'\0'};
+        while(_input.get(c).good()) {
+            if(c == '!') {
+                break;
+            }
+        }
+        identifier_t class_id{};
+        identifier_t method_id{};
+        istream_data_source source(_input);
+        string_deserializer_backend backend(source);
+        const auto errors =
+          deserialize_message(class_id, method_id, _recv_dest, backend);
+        if(!errors) {
+            std::unique_lock lock{_input_mutex};
+            _incoming.front().push(class_id, method_id, _recv_dest);
+        }
     }
 
 private:
@@ -91,7 +150,9 @@ private:
     std::istream& _input{std::cin};
     std::ostream& _output{std::cout};
 
-    message_storage _outgoing{};
+    double_buffer<message_storage> _outgoing{};
+    double_buffer<message_storage> _incoming{};
+    stored_message _recv_dest{};
 };
 //------------------------------------------------------------------------------
 // bridge
