@@ -121,6 +121,10 @@ class XmlLogFormatter(object):
         return self._ttyBoldRed() + p + self._ttyReset()
 
     # --------------------------------------------------------------------------
+    def _formatRatio(self, x):
+        return self._ttyBoldWhite() + ("%3.1f%%" % float(x * 100)) + self._ttyReset()
+
+    # --------------------------------------------------------------------------
     def _formatDuration(self, sec):
         return self._ttyBoldWhite() + formatRelTime(float(sec)) + self._ttyReset()
 
@@ -152,6 +156,7 @@ class XmlLogFormatter(object):
 
         self._decorators = {
             "FsPath": self._formatFsPath,
+            "Ratio": lambda x: self._formatRatio(float(x)),
             "duration": lambda x: self._formatDuration(float(x)),
             "ByteSize": lambda x: self._formatByteSize(int(x))
         }

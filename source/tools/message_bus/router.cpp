@@ -10,6 +10,7 @@
 #include <eagine/message_bus/conn_setup.hpp>
 #include <eagine/message_bus/router.hpp>
 #include <eagine/signal_switch.hpp>
+#include <cstdint>
 
 namespace eagine {
 //------------------------------------------------------------------------------
@@ -31,13 +32,30 @@ int main(main_ctx& ctx) {
         msgbus::connection_kind::local_interprocess |
         msgbus::connection_kind::remote_interprocess);
 
+    std::uintmax_t cycles_work{0};
+    std::uintmax_t cycles_idle{0};
+
     while(!(interrupted || router.is_done())) {
-        if(!router.update(8)) {
+        if(router.update(8)) {
+            ++cycles_work;
+        } else {
+            ++cycles_idle;
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
         }
     }
 
-    log.debug("message bus router finishing");
+    log.debug("message bus router finishing")
+      .arg(EAGINE_ID(working), cycles_work)
+      .arg(EAGINE_ID(idling), cycles_idle)
+      .arg(
+        EAGINE_ID(workRate),
+        EAGINE_ID(Ratio),
+        float(cycles_work) / (float(cycles_idle) + float(cycles_work)))
+      .arg(
+        EAGINE_ID(idleRate),
+        EAGINE_ID(Ratio),
+        float(cycles_idle) / (float(cycles_idle) + float(cycles_work)));
+
     return 0;
 }
 //------------------------------------------------------------------------------
