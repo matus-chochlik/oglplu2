@@ -34,7 +34,7 @@ public:
 
     bool add_connection(std::unique_ptr<connection>) final;
 
-    void update();
+    bool update();
 
     auto& no_connection_timeout() const noexcept {
         return _no_connection_timeout;
@@ -47,9 +47,15 @@ public:
 private:
     void _setup_from_args(const program_args&);
 
+    bool _update_connections();
+    bool _handle_special(identifier_t, identifier_t, message_view);
+    bool _do_forward_message(identifier_t, identifier_t, message_view);
+    bool _forward_messages();
+
     logger _log{};
     shared_context _context{};
     timeout _no_connection_timeout{std::chrono::seconds{30}};
+    std::vector<std::unique_ptr<connection>> _connections{};
 };
 //------------------------------------------------------------------------------
 } // namespace msgbus

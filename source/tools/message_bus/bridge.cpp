@@ -30,11 +30,30 @@ int main(main_ctx& ctx) {
       msgbus::connection_kind::in_process |
         msgbus::connection_kind::local_interprocess);
 
+    std::uintmax_t cycles_work{0};
+    std::uintmax_t cycles_idle{0};
+
     while(!(interrupted || bridge.is_done())) {
-        bridge.update();
+        if(bridge.update()) {
+            ++cycles_work;
+        } else {
+            ++cycles_idle;
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        }
     }
 
-    log.debug("message bus bridge finishing");
+    log.debug("message bus bridge finishing")
+      .arg(EAGINE_ID(working), cycles_work)
+      .arg(EAGINE_ID(idling), cycles_idle)
+      .arg(
+        EAGINE_ID(workRate),
+        EAGINE_ID(Ratio),
+        float(cycles_work) / (float(cycles_idle) + float(cycles_work)))
+      .arg(
+        EAGINE_ID(idleRate),
+        EAGINE_ID(Ratio),
+        float(cycles_idle) / (float(cycles_idle) + float(cycles_work)));
+
     return 0;
 }
 //------------------------------------------------------------------------------
