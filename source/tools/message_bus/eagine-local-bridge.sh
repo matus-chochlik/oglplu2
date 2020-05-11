@@ -21,9 +21,10 @@ do
 done
 
 PIPE=$(mktemp -u)
-mkfifo ${PIPE} &&\
-exec 3<${PIPE} &&\
-exec 4>${PIPE} &&\
-rm ${PIPE} &&\
-$(dirname ${0})/eagine-msg_bus-router ${common_args} ${router_0_args[@]} <&3 |\
-$(dirname ${0})/eagine-msg_bus-router ${common_args} ${router_1_args[@]} >&4
+function cleanup {
+	rm -f "${PIPE}"
+}
+trap cleanup EXIT 
+mkfifo "${PIPE}"
+$(dirname ${0})/eagine-message_bus-bridge ${common_args} ${router_0_args[@]} < "${PIPE}" |\
+$(dirname ${0})/eagine-message_bus-bridge ${common_args} ${router_1_args[@]} > "${PIPE}"
