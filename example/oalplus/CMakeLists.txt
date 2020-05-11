@@ -30,6 +30,7 @@ function(oalplus_example_common EXAMPLE_NAME)
 		TARGET oalplus-${EXAMPLE_NAME}
 		PROPERTY FOLDER "Example/OALplus"
 	)
+	eagine_install_example(oalplus-${EXAMPLE_NAME})
 endfunction()
 
 if(OPENAL_FOUND)

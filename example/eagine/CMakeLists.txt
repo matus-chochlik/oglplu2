@@ -27,6 +27,7 @@ function(eagine_example_common EXAMPLE_NAME)
 		eagine-${EXAMPLE_NAME}
 		PROPERTIES FOLDER "Example/EAGine"
 	)
+	eagine_install_example(eagine-${EXAMPLE_NAME})
 endfunction()
 
 eagine_example_common(valgrind)

@@ -496,6 +496,16 @@ def get_argument_parser():
         """
     )
     argparser.add_argument(
+        "--install",
+        default=False,
+        action="store_true",
+        help="""
+            If possible, after running cmake also build and install
+            the project. This is currently supported only
+            for certain build tools.
+        """
+    )
+    argparser.add_argument(
         "--no-tests",
         default=False,
         action="store_true",
@@ -675,6 +685,9 @@ def main(argv):
 
     # if we are in quiet mode we may also go to quick mode
     if options.quiet: options.quick = True
+
+    # if we also want to install the project enable building
+    if options.install: options.build= True
 
     # if we also want to build the project disable quick mode
     if options.build: options.quick = False
@@ -866,32 +879,15 @@ def main(argv):
 
     # if the user requested build after config is done
     if options.build:
-        cmake_build_tool = cmake_info.get("CMAKE_BUILD_TOOL")
-
-        if cmake_build_tool:
-            build_tool_name = os.path.basename(cmake_build_tool)
-        else:
-            build_tool_name = str()
-
-        if build_tool_name in ("make",):
-            build_cmd_line = [cmake_build_tool];
-            if job_count:
-                build_cmd_line += ["-j", str(job_count)]
-        elif build_tool_name in ("devenv.com", "devenv.exe"):
-            build_cmd_line = [
-                cmake_build_tool,
-                os.path.join(options.build_dir, "OGLplus.sln"),
-                "/Build",
-                "Release"
-            ]
-        else:
-            build_cmd_line = [
-                "cmake",
-                "--build",
-                options.build_dir
-            ]
-            if job_count:
-                build_cmd_line += ["--", "-j", str(job_count)]
+        build_cmd_line = [
+            "cmake",
+            "--build",
+            options.build_dir
+        ]
+        if options.install:
+            build_cmd_line += ["--target", "install"]
+        if job_count:
+            build_cmd_line += ["--", "-j", str(job_count)]
 
 
         if build_cmd_line:

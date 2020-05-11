@@ -11,23 +11,24 @@ set_property(TARGET oglplus-examples PROPERTY FOLDER "Example/OGLplus")
 function(standalone_example_glfw3_glew EXAMPLE_NAME)
 	if(GLFW3_FOUND AND GLEW_FOUND)
 		add_executable(
-			${EXAMPLE_NAME}
+			oglplus-${EXAMPLE_NAME}
 			EXCLUDE_FROM_ALL
 			${EXAMPLE_NAME}.cpp
 		)
-		eagine_add_exe_analysis(${EXAMPLE_NAME})
-		add_dependencies(oglplus-examples ${EXAMPLE_NAME})
+		eagine_add_exe_analysis(oglplus-${EXAMPLE_NAME})
+		add_dependencies(oglplus-examples oglplus-${EXAMPLE_NAME})
 		target_link_libraries(
-			${EXAMPLE_NAME}
+			oglplus-${EXAMPLE_NAME}
 			PUBLIC
 				GLFW3::GLFW3
 				GLEW::GLEW
 				oglplus
 		)
 		set_property(
-			TARGET ${EXAMPLE_NAME}
+			TARGET oglplus-${EXAMPLE_NAME}
 			PROPERTY FOLDER "Example/OGLplus"
 		)
+		eagine_install_example(oglplus-${EXAMPLE_NAME})
 	endif()
 endfunction()
 

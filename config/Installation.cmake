@@ -29,7 +29,6 @@ endfunction()
 function(eagine_install_tool TARGET_NAME)
 	install(
 		TARGETS ${TARGET_NAME}
-		COMPONENT tools
 		DESTINATION bin
 	)
 endfunction()
@@ -37,8 +36,6 @@ endfunction()
 function(eagine_install_example TARGET_NAME)
 	install(
 		TARGETS ${TARGET_NAME}
-		OPTIONAL EXCLUDE_FROM_ALL
-		COMPONENT examples
 		DESTINATION share/oglplus/examples
 	)
 endfunction()

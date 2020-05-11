@@ -29,6 +29,7 @@ function(eglplus_example_common EXAMPLE_NAME)
 		TARGET eglplus-${EXAMPLE_NAME}
 		PROPERTY FOLDER "Example/EGLplus"
 	)
+	eagine_install_example(eglplus-${EXAMPLE_NAME})
 endfunction()
 
 if(EGL_FOUND)
