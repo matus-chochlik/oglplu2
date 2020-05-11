@@ -16,3 +16,11 @@ target_link_libraries(
 	PUBLIC eagine
 )
 eagine_install_tool(eagine-message_bus-bridge)
+
+install(
+	PROGRAMS eagine-local-bridge.sh
+	RENAME eagine-local-bridge
+	DESTINATION bin
+	COMPONENT tools
+)
+
