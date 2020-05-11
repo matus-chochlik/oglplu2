@@ -25,7 +25,7 @@ context::context(logger& parent, const program_args& args)
   : context{parent} {
     std::string temp;
     for(auto arg = args.first(); arg; arg = arg.next()) {
-        if(arg.is_tag("--msgbus-ssl-engine")) {
+        if(arg.is_tag("--msg-bus-ssl-engine")) {
             if(arg.next().parse(temp, _log.error_stream())) {
                 _ssl.load_builtin_engines();
 
