@@ -103,12 +103,12 @@ public:
 
     using fetch_handler = message_storage::fetch_handler;
 
-    void fetch_all(fetch_handler handler) {
+    bool fetch_all(fetch_handler handler) {
         {
             std::unique_lock lock{_input_mutex};
             _incoming.swap();
         }
-        _incoming.back().fetch_all(handler);
+        return _incoming.back().fetch_all(handler);
     }
 
     void recv_input() {
@@ -200,7 +200,7 @@ bool bridge::_do_send(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool bridge::_do_forward_message(
+bool bridge::_do_push(
   identifier_t class_id, identifier_t method_id, message_view message) {
     if(EAGINE_LIKELY(_state)) {
         _state->push(class_id, method_id, message);
@@ -213,22 +213,38 @@ EAGINE_LIB_FUNC
 bool bridge::_forward_messages() {
     some_true something_done{};
 
-    auto handler = [this](
-                     identifier_t class_id,
-                     identifier_t method_id,
-                     const message_view& message) {
+    auto handler_conn_to_output = [this](
+                                    identifier_t class_id,
+                                    identifier_t method_id,
+                                    const message_view& message) {
         if(this->_handle_special(class_id, method_id, message)) {
             return true;
         }
-        return this->_do_forward_message(class_id, method_id, message);
+        return this->_do_push(class_id, method_id, message);
     };
 
     for(auto& conn : _connections) {
         if(EAGINE_LIKELY(conn && conn->is_usable())) {
-            something_done(
-              conn->fetch_messages(connection::fetch_handler(handler)));
+            something_done(conn->fetch_messages(
+              connection::fetch_handler(handler_conn_to_output)));
         }
     }
+
+    auto handler_input_to_conn = [this](
+                                   identifier_t class_id,
+                                   identifier_t method_id,
+                                   const message_view& message) {
+        if(this->_handle_special(class_id, method_id, message)) {
+            return true;
+        }
+        return this->_do_send(class_id, method_id, message);
+    };
+
+    if(EAGINE_LIKELY(_state)) {
+        something_done(
+          _state->fetch_all(connection::fetch_handler(handler_input_to_conn)));
+    }
+
     return something_done;
 }
 //------------------------------------------------------------------------------

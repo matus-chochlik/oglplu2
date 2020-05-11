@@ -19,8 +19,11 @@ namespace msgbus {
 class router_address {
 public:
     router_address(logger& log, const program_args& args) {
-        if(auto arg = args.find("--msg-bus-router-address").next()) {
-            arg.parse(_addr, log.error_stream());
+        if(auto arg = args.find("--msg-bus-router-address")) {
+            if(arg.next().parse(_addr, log.error_stream())) {
+                log.debug("parsed router address ${addr}")
+                  .arg(EAGINE_ID(addr), _addr);
+            }
         }
     }
 

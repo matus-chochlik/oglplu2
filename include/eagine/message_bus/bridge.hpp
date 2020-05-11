@@ -37,7 +37,7 @@ public:
     }
 
     bridge(logger& parent, const program_args& args) noexcept
-      : _log(EAGINE_ID(MsgBusRutr), parent)
+      : _log(EAGINE_ID(MsgBusBrdg), parent)
       , _context{make_context(_log, args)} {
         _setup_from_args(args);
     }
@@ -71,7 +71,7 @@ private:
     }
 
     bool _handle_special(identifier_t, identifier_t, message_view);
-    bool _do_forward_message(identifier_t, identifier_t, message_view);
+    bool _do_push(identifier_t, identifier_t, message_view);
     bool _forward_messages();
 
     logger _log{};
