@@ -169,6 +169,19 @@ static constexpr inline optionally_valid<S> find_element(
     return {};
 }
 //------------------------------------------------------------------------------
+template <typename T, typename P, typename S, typename F>
+static constexpr inline optionally_valid<S> find_element_if(
+  basic_span<T, P, S> spn, F predicate) noexcept {
+    auto pos = S(0);
+    while(pos < spn.size()) {
+        if(predicate(spn[pos])) {
+            return {pos, true};
+        }
+        ++pos;
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
 template <
   typename T1,
   typename P1,

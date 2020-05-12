@@ -202,6 +202,7 @@ class string_deserializer_backend
 
 public:
     using base::base;
+    using base::consume_until;
     using base::require;
     using error_code = deserialization_error_code;
     using result = deserialization_errors;
@@ -243,7 +244,7 @@ private:
     template <typename T, std::size_t L>
     result _sscanf_one(T& value, char delimiter, const char (&fmt)[L]) {
         result errors{};
-        if(auto src = this->string_before(delimiter)) {
+        if(auto src = this->string_before(delimiter, 128)) {
             auto fmtstr = static_cast<const char*>(fmt);
             // TODO: to_chars from_chars when available
             // NOLINTNEXTLINE(hicpp-vararg)
@@ -320,7 +321,7 @@ private:
 
     result _read_one(identifier& value, char delimiter) {
         result errors{};
-        if(auto src = this->string_before(delimiter)) {
+        if(auto src = this->string_before(delimiter, 32)) {
             value = identifier(src);
             pop(src.size() + 1);
         } else {
@@ -331,7 +332,8 @@ private:
 
     result _read_one(decl_name_storage& value, char delimiter) {
         result errors{};
-        if(auto src = this->string_before(delimiter)) {
+        const auto max = decl_name_storage::max_length + 1;
+        if(auto src = this->string_before(delimiter, max)) {
             value.assign(src);
             pop(src.size() + 1);
         } else {
@@ -380,7 +382,12 @@ public:
         return true;
     }
 
+    void skip_whitespaces() {
+        consume_until([](byte b) { return !std::isspace(b); });
+    }
+
     result begin() final {
+        skip_whitespaces();
         return require('<');
     }
 

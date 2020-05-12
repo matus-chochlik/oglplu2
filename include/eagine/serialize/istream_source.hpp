@@ -10,6 +10,7 @@
 #ifndef EAGINE_SERIALIZE_ISTREAM_SOURCE_HPP
 #define EAGINE_SERIALIZE_ISTREAM_SOURCE_HPP
 
+#include "../assert.hpp"
 #include "../memory/buffer.hpp"
 #include "../memory/span_algo.hpp"
 #include "data_source.hpp"
@@ -47,6 +48,7 @@ public:
             memory::copy(skip(sw, del_size), sw);
             _cur_size -= del_size;
         }
+        EAGINE_ASSERT(_cur_size >= 0);
     }
 
 private:

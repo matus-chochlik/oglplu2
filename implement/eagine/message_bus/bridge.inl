@@ -7,6 +7,7 @@
 #include <eagine/bool_aggregate.hpp>
 #include <eagine/branch_predict.hpp>
 #include <eagine/double_buffer.hpp>
+#include <eagine/math/functions.hpp>
 #include <eagine/message_bus/context.hpp>
 #include <eagine/message_bus/message.hpp>
 #include <eagine/message_bus/serialize.hpp>
@@ -25,7 +26,9 @@ namespace msgbus {
 //------------------------------------------------------------------------------
 class bridge_state : public std::enable_shared_from_this<bridge_state> {
 public:
-    bridge_state() = default;
+    bridge_state(const valid_if_positive<span_size_t>& max_data_size)
+      : _max_read{extract_or(max_data_size, 512) * 2} {
+    }
     bridge_state(bridge_state&&) = delete;
     bridge_state(const bridge_state&) = delete;
     bridge_state& operator=(bridge_state&&) = delete;
@@ -92,8 +95,7 @@ public:
                          identifier_t class_id,
                          identifier_t method_id,
                          const message_view& message) {
-            ostream_data_sink sink(_output << '!');
-            string_serializer_backend backend(sink);
+            string_serializer_backend backend(_sink);
             serialize_message(class_id, method_id, message, backend);
             _output << '\n';
             return true;
@@ -112,16 +114,10 @@ public:
     }
 
     void recv_input() {
-        char c{'\0'};
-        while(_input.get(c).good()) {
-            if(c == '!') {
-                break;
-            }
-        }
+        string_deserializer_backend backend(_source);
         identifier_t class_id{};
         identifier_t method_id{};
-        istream_data_source source(_input);
-        string_deserializer_backend backend(source);
+        _recv_dest.data.clear();
         const auto errors =
           deserialize_message(class_id, method_id, _recv_dest, backend);
         if(!errors) {
@@ -142,6 +138,8 @@ private:
         return true;
     }
 
+    const span_size_t _max_read;
+
     std::mutex _input_mutex{};
     std::mutex _output_mutex{};
 
@@ -149,6 +147,9 @@ private:
 
     std::istream& _input{std::cin};
     std::ostream& _output{std::cout};
+
+    istream_data_source _source{_input};
+    ostream_data_sink _sink{_output};
 
     double_buffer<message_storage> _outgoing{};
     double_buffer<message_storage> _incoming{};
@@ -213,7 +214,7 @@ EAGINE_LIB_FUNC
 bool bridge::_forward_messages() {
     some_true something_done{};
 
-    auto handler_conn_to_output = [this](
+    auto forward_conn_to_output = [this](
                                     identifier_t class_id,
                                     identifier_t method_id,
                                     const message_view& message) {
@@ -226,11 +227,11 @@ bool bridge::_forward_messages() {
     for(auto& conn : _connections) {
         if(EAGINE_LIKELY(conn && conn->is_usable())) {
             something_done(conn->fetch_messages(
-              connection::fetch_handler(handler_conn_to_output)));
+              connection::fetch_handler(forward_conn_to_output)));
         }
     }
 
-    auto handler_input_to_conn = [this](
+    auto forward_input_to_conn = [this](
                                    identifier_t class_id,
                                    identifier_t method_id,
                                    const message_view& message) {
@@ -242,7 +243,7 @@ bool bridge::_forward_messages() {
 
     if(EAGINE_LIKELY(_state)) {
         something_done(
-          _state->fetch_all(connection::fetch_handler(handler_input_to_conn)));
+          _state->fetch_all(connection::fetch_handler(forward_input_to_conn)));
     }
 
     return something_done;
@@ -253,7 +254,13 @@ bool bridge::_check_state() {
     some_true something_done{};
 
     if(EAGINE_UNLIKELY(!(_state && _state->is_usable()))) {
-        _state = std::make_shared<bridge_state>();
+        span_size_t max_size{0};
+        for(auto& conn : _connections) {
+            if(auto max_data_size = conn->max_data_size()) {
+                max_size = math::maximum(max_size, extract(max_data_size));
+            }
+        }
+        _state = std::make_shared<bridge_state>(max_size);
         _state->start();
         something_done();
     }
