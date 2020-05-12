@@ -165,6 +165,7 @@ struct asio_connection_state
     message_storage unpacked;
     bool is_sending{false};
     bool is_recving{false};
+    bool has_recved{false};
 
     asio_connection_state(
       logger& parent,
@@ -302,12 +303,14 @@ struct asio_connection_state
     void handle_received(memory::const_block data) {
         incoming.push(data);
         is_recving = false;
+        has_recved = true;
     }
 
     bool start_receive() {
         std::unique_lock lock{mutex};
         if(!is_recving) {
             is_recving = true;
+            has_recved = false;
             auto blk = cover(read_buffer);
 
             _log.trace("reading data (size: ${size})")
@@ -342,7 +345,7 @@ struct asio_connection_state
                   }
               });
         }
-        return is_recving;
+        return has_recved;
     }
 
     bool update() {
