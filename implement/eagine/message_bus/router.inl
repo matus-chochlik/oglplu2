@@ -82,8 +82,13 @@ bool router::add_connection(std::unique_ptr<connection> a_connection) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void router::_setup_from_args(const program_args&) {
-    // TODO
+void router::_setup_from_args(const program_args& args) {
+    if(auto arg = args.find("--msg-bus-router-id-base")) {
+        if(arg.next().parse(_id_sequence, _log.error_stream())) {
+            _log.debug("parsed router id base ${base}")
+              .arg(EAGINE_ID(base), _id_sequence);
+        }
+    }
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

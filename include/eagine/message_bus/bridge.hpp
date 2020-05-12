@@ -65,11 +65,11 @@ private:
     bool _update_connections();
 
     bool _do_send(identifier_t, identifier_t, message_view);
+    bool _send(identifier_t, identifier_t, message_view);
     template <identifier_t ClassId, identifier_t MethodId>
-    bool _do_send(message_id<ClassId, MethodId>, const message_view& message) {
-        return _do_send(ClassId, MethodId, message);
+    bool _send(message_id<ClassId, MethodId>, const message_view& message) {
+        return _send(ClassId, MethodId, message);
     }
-
     bool _handle_special(identifier_t, identifier_t, message_view);
     bool _do_push(identifier_t, identifier_t, message_view);
     bool _forward_messages();
@@ -78,6 +78,7 @@ private:
     shared_context _context{};
 
     identifier_t _id{invalid_id()};
+    std::intmax_t _forwarded_messages{0};
 
     std::shared_ptr<bridge_state> _state{};
     timeout _no_connection_timeout{std::chrono::seconds{30}};

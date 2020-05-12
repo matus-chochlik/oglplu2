@@ -20,13 +20,12 @@ do
 	esac
 done
 
-PIPE=$(mktemp -u)
-function cleanup {
-	rm -f "${PIPE}"
-}
-trap cleanup EXIT 
-mkfifo "${PIPE}"
+coproc \
 $(dirname ${0})/eagine-message_bus-bridge \
-	"${common_args[@]}" "${router_0_args[@]}" < "${PIPE}" |\
+	"${common_args[@]}" "${router_0_args[@]}"
+
 $(dirname ${0})/eagine-message_bus-bridge \
-	"${common_args[@]}" "${router_1_args[@]}" > "${PIPE}"
+	"${common_args[@]}" "${router_1_args[@]}" \
+	<&${COPROC[0]} >&${COPROC[1]}
+
+wait ${COPROC_PID}

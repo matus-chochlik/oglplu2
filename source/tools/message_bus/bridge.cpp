@@ -6,7 +6,7 @@
 ///
 
 #include <eagine/logging/root_logger.hpp>
-#include <eagine/main.hpp>
+#include <eagine/main_ctx.hpp>
 #include <eagine/math/functions.hpp>
 #include <eagine/message_bus/bridge.hpp>
 #include <eagine/message_bus/conn_setup.hpp>
@@ -65,3 +65,10 @@ int main(main_ctx& ctx) {
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
+
+int main(int argc, const char** argv) {
+    eagine::main_ctx_options options;
+    options.logger_id = EAGINE_ID(BridgeExe);
+    return eagine::main_impl(argc, argv, options);
+}
+
