@@ -78,7 +78,8 @@ private:
     shared_context _context{};
 
     identifier_t _id{invalid_id()};
-    std::intmax_t _forwarded_messages{0};
+    std::intmax_t _forwarded_messages_i2c{0};
+    std::intmax_t _forwarded_messages_c2o{0};
 
     std::shared_ptr<bridge_state> _state{};
     timeout _no_connection_timeout{std::chrono::seconds{30}};

@@ -121,8 +121,8 @@ public:
         if(auto pos{_source.scan_for('\n', _max_read)}) {
             block_data_source source(_source.top(extract(pos)));
             string_deserializer_backend backend(source);
-            identifier_t class_id{};
-            identifier_t method_id{};
+            identifier_t class_id{0};
+            identifier_t method_id{0};
             _recv_dest.data.clear();
             const auto errors =
               deserialize_message(class_id, method_id, _recv_dest, backend);
@@ -130,7 +130,7 @@ public:
                 std::unique_lock lock{_input_mutex};
                 _incoming.front().push(class_id, method_id, _recv_dest);
             }
-            source.pop(extract(pos) + 1);
+            _source.pop(extract(pos) + 1);
         }
     }
 
@@ -227,9 +227,9 @@ bool bridge::_forward_messages() {
                                     identifier_t class_id,
                                     identifier_t method_id,
                                     const message_view& message) {
-        if(EAGINE_UNLIKELY(++_forwarded_messages % 100000 == 0)) {
-            _log.info("forwarded ${count} messages")
-              .arg(EAGINE_ID(count), _forwarded_messages);
+        if(EAGINE_UNLIKELY(++_forwarded_messages_c2o % 100000 == 0)) {
+            _log.info("forwarded ${count} messages to output")
+              .arg(EAGINE_ID(count), _forwarded_messages_c2o);
         }
         if(this->_handle_special(class_id, method_id, message)) {
             return true;
@@ -249,9 +249,9 @@ bool bridge::_forward_messages() {
                                    identifier_t class_id,
                                    identifier_t method_id,
                                    const message_view& message) {
-        if(EAGINE_UNLIKELY(++_forwarded_messages % 100000 == 0)) {
-            _log.info("forwarded ${count} messages")
-              .arg(EAGINE_ID(count), _forwarded_messages);
+        if(EAGINE_UNLIKELY(++_forwarded_messages_i2c % 100000 == 0)) {
+            _log.info("forwarded ${count} messages from input")
+              .arg(EAGINE_ID(count), _forwarded_messages_i2c);
         }
         if(this->_handle_special(class_id, method_id, message)) {
             return true;
