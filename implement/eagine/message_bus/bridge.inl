@@ -104,6 +104,7 @@ public:
             return true;
         };
         _outgoing.back().fetch_all(fetch_handler(handler));
+        _output << std::flush;
     }
 
     using fetch_handler = message_storage::fetch_handler;
@@ -255,7 +256,8 @@ bool bridge::_forward_messages() {
         if(this->_handle_special(class_id, method_id, message)) {
             return true;
         }
-        return this->_do_send(class_id, method_id, message);
+        this->_do_send(class_id, method_id, message);
+        return true;
     };
 
     if(EAGINE_LIKELY(_state)) {
