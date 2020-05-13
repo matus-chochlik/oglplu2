@@ -1,4 +1,5 @@
 /BINARY_DIR
+/INSTALL_PREFIX
 /_*
 .*.swp
 *.sdf
