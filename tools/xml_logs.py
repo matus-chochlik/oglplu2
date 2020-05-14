@@ -121,6 +121,10 @@ class XmlLogFormatter(object):
         return self._ttyBoldRed() + p + self._ttyReset()
 
     # --------------------------------------------------------------------------
+    def _formatProgArg(self, p):
+        return '|' + self._ttyBoldWhite() + p + self._ttyReset() + '|'
+
+    # --------------------------------------------------------------------------
     def _formatRatio(self, x):
         return self._ttyBoldWhite() + ("%3.1f%%" % float(x * 100)) + self._ttyReset()
 
@@ -156,6 +160,7 @@ class XmlLogFormatter(object):
 
         self._decorators = {
             "FsPath": self._formatFsPath,
+            "ProgramArg": self._formatProgArg,
             "Ratio": lambda x: self._formatRatio(float(x)),
             "duration": lambda x: self._formatDuration(float(x)),
             "ByteSize": lambda x: self._formatByteSize(int(x))
@@ -266,7 +271,7 @@ class XmlLogFormatter(object):
         return "%7s" % level
 
     # --------------------------------------------------------------------------
-    def translateArg(self, arg, info):
+    def doTranslateArg(self, arg, info):
         if info.get("blob", False):
             return "BLOB"
 
@@ -278,6 +283,13 @@ class XmlLogFormatter(object):
         except KeyError:
             value = arg
         return value
+
+    # --------------------------------------------------------------------------
+    def translateArg(self, arg, info):
+        values = info["values"]
+        if len(values) == 1:
+            return self.doTranslateArg(arg, values[0])
+        return '[' + ", ".join([self.doTranslateArg(v) for v in values]) + ']'
 
     # --------------------------------------------------------------------------
     def formatInstance(self, instance):
@@ -296,7 +308,7 @@ class XmlLogFormatter(object):
             prev = message[:found.start(1)]
             repl = self.translateArg(
                 found.group(2),
-                args.get(found.group(2), {})
+                args.get(found.group(2), [{}])
             )
             folw = message[found.end(1):]
             message = prev + repl + folw
@@ -346,44 +358,45 @@ class XmlLogFormatter(object):
             # BLOBs
             for name, info in args.items():
                 if not info["used"]:
-                    self._out.write("┊")
-                    for sid in self._sources:
-                        self._out.write(" │")
-                    self._out.write("   ")
-                    self._out.write(name)
-                    self._out.write(": ")
-                    self._out.write(self.translateArg(name, info))
-                    self._out.write("\n")
-                    if info["blob"]:
-                        blob = info["value"]
-                        if len(blob) % 4 != 0:
-                            blob += '=' * (4 - len(blob) % 4)
-                        blob = base64.standard_b64decode(blob)
-                        while blob:
-                            self._out.write("┊")
-                            for sid in self._sources:
-                                self._out.write(" │")
-                            self._out.write("  ")
-                            for i in range(16):
-                                if i == 8:
-                                    self._out.write(" ")
-                                try:
-                                    self._out.write(" %02x" % blob[i])
-                                except IndexError:
-                                    self._out.write(" ..")
-                            self._out.write(" │ ")
+                    for value in info["values"]:
+                        self._out.write("┊")
+                        for sid in self._sources:
+                            self._out.write(" │")
+                        self._out.write("   ")
+                        self._out.write(name)
+                        self._out.write(": ")
+                        self._out.write(self.doTranslateArg(name, value))
+                        self._out.write("\n")
+                        if value["blob"]:
+                            blob = value["value"]
+                            if len(blob) % 4 != 0:
+                                blob += '=' * (4 - len(blob) % 4)
+                            blob = base64.standard_b64decode(blob)
+                            while blob:
+                                self._out.write("┊")
+                                for sid in self._sources:
+                                    self._out.write(" │")
+                                self._out.write("  ")
+                                for i in range(16):
+                                    if i == 8:
+                                        self._out.write(" ")
+                                    try:
+                                        self._out.write(" %02x" % blob[i])
+                                    except IndexError:
+                                        self._out.write(" ..")
+                                self._out.write(" │ ")
 
-                            for i in range(16):
-                                if i == 8:
-                                    self._out.write(" ")
-                                try:
-                                    c = bytes([blob[i]]).decode('ascii')
-                                    assert c.isprintable()
-                                    self._out.write(c)
-                                except:
-                                    self._out.write(".")
-                            self._out.write("\n")
-                            blob = blob[16:]
+                                for i in range(16):
+                                    if i == 8:
+                                        self._out.write(" ")
+                                    try:
+                                        c = bytes([blob[i]]).decode('ascii')
+                                        assert c.isprintable()
+                                        self._out.write(c)
+                                    except:
+                                        self._out.write(".")
+                                self._out.write("\n")
+                                blob = blob[16:]
 
             #
             self._out.flush()
@@ -422,15 +435,18 @@ class XmlLogProcessor(xml.sax.ContentHandler):
             self._info["args"] = {}
         elif tag == "a":
             self._carg = attr["n"]
-            self._info["args"][self._carg] = {
+            iarg = {
                 "value": "''",
                 "type": attr["t"],
-                "blob": attr.get("blob", False),
-                "used": False
+                "blob": attr.get("blob", False)
             }
-        elif tag == "a":
-            self._carg = None
-
+            try: self._info["args"][self._carg]["values"].append(iarg)
+            except KeyError:
+                self._info["args"][self._carg] = {
+                    "used": False,
+                    "values": [iarg]
+                }
+            
     # --------------------------------------------------------------------------
     def endElement(self, tag):
         if tag == "log":
@@ -445,7 +461,7 @@ class XmlLogProcessor(xml.sax.ContentHandler):
             if self._ctag == "f":
                 self._info["format"] = content
             elif self._ctag == "a":
-                self._info["args"][self._carg]["value"] = content
+                self._info["args"][self._carg]["values"][-1]["value"] = content
 
     # --------------------------------------------------------------------------
     def processLine(self, line):
