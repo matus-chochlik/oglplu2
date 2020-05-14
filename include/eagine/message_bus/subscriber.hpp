@@ -11,6 +11,7 @@
 #define EAGINE_MESSAGE_BUS_SUBSCRIBER_HPP
 
 #include "../maybe_unused.hpp"
+#include "../span.hpp"
 #include "endpoint.hpp"
 #include <array>
 #include <type_traits>
@@ -26,8 +27,118 @@ struct message_handler_map {};
       EAGINE_MSG_TYPE(CLASS_ID, METHOD_ID),                \
       EAGINE_MEM_FUNC_T(CLASS, METHOD)>()
 //------------------------------------------------------------------------------
+class subscriber_base {
+public:
+    explicit operator bool() noexcept {
+        return _endpoint != nullptr;
+    }
+
+    bool operator!() noexcept {
+        return _endpoint == nullptr;
+    }
+
+    endpoint& bus() noexcept {
+        EAGINE_ASSERT(_endpoint != nullptr);
+        return *_endpoint;
+    }
+
+    const endpoint& bus() const noexcept {
+        EAGINE_ASSERT(_endpoint != nullptr);
+        return *_endpoint;
+    }
+
+protected:
+    using handler_type = typename endpoint::handler_type;
+    using handler_entry = std::tuple<identifier_t, identifier_t, handler_type>;
+
+    ~subscriber_base() noexcept = default;
+    constexpr subscriber_base() noexcept = default;
+    constexpr subscriber_base(endpoint& bus) noexcept
+      : _endpoint{&bus} {
+    }
+    subscriber_base(subscriber_base&& temp) noexcept
+      : _endpoint{temp._endpoint} {
+        temp._endpoint = nullptr;
+    }
+    subscriber_base(const subscriber_base&) = delete;
+    subscriber_base& operator=(subscriber_base&&) = delete;
+    subscriber_base& operator=(const subscriber_base&) = delete;
+
+    inline void _subscribe_to(span<const handler_entry> msg_handlers) const {
+        if(EAGINE_LIKELY(_endpoint)) {
+            for(auto& [class_id, method_id, unused] : msg_handlers) {
+                EAGINE_MAYBE_UNUSED(unused);
+                _endpoint->subscribe(class_id, method_id);
+            }
+        }
+    }
+
+    inline void _unsubscribe_from(span<const handler_entry> msg_handlers) const
+      noexcept {
+        if(_endpoint) {
+            for(auto& [class_id, method_id, unused] : msg_handlers) {
+                try {
+                    EAGINE_MAYBE_UNUSED(unused);
+                    _endpoint->unsubscribe(class_id, method_id);
+                } catch(...) {
+                }
+            }
+        }
+    }
+
+    inline void _announce_subscriptions(
+      span<const handler_entry> msg_handlers) const {
+        if(EAGINE_LIKELY(_endpoint)) {
+            for(auto& [class_id, method_id, unused] : msg_handlers) {
+                EAGINE_MAYBE_UNUSED(unused);
+                _endpoint->say_subscribes_to(class_id, method_id);
+            }
+        }
+    }
+
+    inline void _allow_subscriptions(
+      span<const handler_entry> msg_handlers) const {
+        if(EAGINE_LIKELY(_endpoint)) {
+            for(auto& [class_id, method_id, unused] : msg_handlers) {
+                EAGINE_MAYBE_UNUSED(unused);
+                _endpoint->allow_message_type(class_id, method_id);
+            }
+        }
+    }
+
+    inline void _retract_subscriptions(
+      span<const handler_entry> msg_handlers) const {
+        if(EAGINE_LIKELY(_endpoint)) {
+            for(auto& [class_id, method_id, unused] : msg_handlers) {
+                EAGINE_MAYBE_UNUSED(unused);
+                _endpoint->say_unsubscribes_from(class_id, method_id);
+            }
+        }
+    }
+
+    bool _process_one(span<const handler_entry> msg_handlers) {
+        for(auto& [class_id, method_id, handler] : msg_handlers) {
+            if(bus().process_one(class_id, method_id, handler)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    span_size_t _process_all(span<const handler_entry> msg_handlers) {
+        span_size_t result{0};
+        for(auto& [class_id, method_id, handler] : msg_handlers) {
+            result += bus().process_all(class_id, method_id, handler);
+        }
+        return result;
+    }
+
+private:
+    endpoint* _endpoint{nullptr};
+};
+//------------------------------------------------------------------------------
 template <std::size_t N>
-class subscriber {
+class subscriber : public subscriber_base {
 public:
     using handler_type = typename endpoint::handler_type;
 
@@ -79,9 +190,9 @@ public:
       typename... MsgHandlers,
       typename = std::enable_if_t<sizeof...(MsgHandlers) == N>>
     subscriber(endpoint& bus, MsgHandlers&&... msg_handlers)
-      : _endpoint{&bus}
+      : subscriber_base{bus}
       , _msg_handlers{{std::forward<MsgHandlers>(msg_handlers)...}} {
-        _subscribe();
+        this->_subscribe_to(view(_msg_handlers));
     }
 
     template <
@@ -98,96 +209,32 @@ public:
     subscriber& operator=(const subscriber&) = delete;
 
     ~subscriber() noexcept {
-        _unsubscribe();
-    }
-
-    explicit operator bool() noexcept {
-        return _endpoint != nullptr;
-    }
-
-    bool operator!() noexcept {
-        return _endpoint == nullptr;
-    }
-
-    endpoint& bus() noexcept {
-        EAGINE_ASSERT(_endpoint != nullptr);
-        return *_endpoint;
-    }
-
-    const endpoint& bus() const noexcept {
-        EAGINE_ASSERT(_endpoint != nullptr);
-        return *_endpoint;
+        this->_unsubscribe_from(view(_msg_handlers));
     }
 
     bool process_one() {
-        for(auto& [class_id, method_id, handler] : _msg_handlers) {
-            if(bus().process_one(class_id, method_id, handler)) {
-                return true;
-            }
-        }
-        return false;
+        return this->_process_one(view(_msg_handlers));
     }
 
     span_size_t process_all() {
-        span_size_t result{0};
-        for(auto& [class_id, method_id, handler] : _msg_handlers) {
-            result += bus().process_all(class_id, method_id, handler);
-        }
-        return result;
+        return this->_process_all(view(_msg_handlers));
     }
 
     void announce_subscriptions() {
-        if(_endpoint) {
-            for(auto& [class_id, method_id, unused] : _msg_handlers) {
-                EAGINE_MAYBE_UNUSED(unused);
-                _endpoint->say_subscribes_to(class_id, method_id);
-            }
-        }
+        this->_announce_subscriptions(view(_msg_handlers));
     }
 
     void allow_subscriptions() {
-        if(_endpoint) {
-            for(auto& [class_id, method_id, unused] : _msg_handlers) {
-                EAGINE_MAYBE_UNUSED(unused);
-                _endpoint->allow_message_type(class_id, method_id);
-            }
-        }
+        this->_allow_subscriptions(view(_msg_handlers));
     }
 
     void retract_subscriptions() {
-        if(_endpoint) {
-            for(auto& [class_id, method_id, unused] : _msg_handlers) {
-                EAGINE_MAYBE_UNUSED(unused);
-                _endpoint->say_unsubscribes_from(class_id, method_id);
-            }
-        }
+        this->_retract_subscriptions(view(_msg_handlers));
     }
 
 private:
-    endpoint* _endpoint{nullptr};
     std::array<const std::tuple<identifier_t, identifier_t, handler_type>, N>
       _msg_handlers;
-
-    void _subscribe() {
-        if(_endpoint) {
-            for(auto& [class_id, method_id, unused] : _msg_handlers) {
-                EAGINE_MAYBE_UNUSED(unused);
-                _endpoint->subscribe(class_id, method_id);
-            }
-        }
-    }
-
-    void _unsubscribe() noexcept {
-        if(_endpoint) {
-            for(auto& [class_id, method_id, unused] : _msg_handlers) {
-                try {
-                    EAGINE_MAYBE_UNUSED(unused);
-                    _endpoint->unsubscribe(class_id, method_id);
-                } catch(...) {
-                }
-            }
-        }
-    }
 };
 //------------------------------------------------------------------------------
 } // namespace msgbus
