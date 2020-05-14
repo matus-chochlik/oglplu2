@@ -9,6 +9,7 @@
 #include <eagine/logging/asio_backend.hpp>
 #include <eagine/logging/null_backend.hpp>
 #include <eagine/logging/ostream_backend.hpp>
+#include <eagine/logging/program_args.hpp>
 #include <cerrno>
 #include <iostream>
 
@@ -79,6 +80,14 @@ std::unique_ptr<logger_backend> root_logger::_init_backend(
     auto backend = root_logger_choose_backend(args, opts, min_severity);
 
     return backend;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void root_logger::_log_args(const program_args& args) {
+    auto args_entry{debug("program arguments")};
+    for(auto& arg : args) {
+        args_entry.arg(EAGINE_ID(arg), arg);
+    }
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
