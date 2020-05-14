@@ -122,7 +122,7 @@ class XmlLogFormatter(object):
 
     # --------------------------------------------------------------------------
     def _formatProgArg(self, p):
-        return '|' + self._ttyBoldWhite() + p + self._ttyReset() + '|'
+        return "«" + self._ttyBoldWhite() + p + self._ttyReset() + "»"
 
     # --------------------------------------------------------------------------
     def _formatRatio(self, x):
