@@ -7,6 +7,7 @@ cmake_minimum_required(VERSION 3.10)
 
 eagine_example_common(001_loopback)
 eagine_example_common(002_direct)
+eagine_example_common(002_discovery)
 eagine_example_common(003_ping)
 eagine_example_common(003_pong)
 eagine_example_common(004_fibonacci)
