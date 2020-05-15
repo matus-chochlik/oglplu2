@@ -15,7 +15,9 @@
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
-template <std::size_t N, template <std::size_t> class Subscriber = subscriber>
+template <
+  std::size_t N,
+  template <std::size_t> class Subscriber = static_subscriber>
 class actor
   : public connection_user
   , public friend_of_endpoint {

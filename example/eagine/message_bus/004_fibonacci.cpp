@@ -26,9 +26,9 @@
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
-struct fibonacci_server : subscriber<2> {
+struct fibonacci_server : static_subscriber<2> {
     using this_class = fibonacci_server;
-    using base = subscriber<2>;
+    using base = static_subscriber<2>;
     using base::bus;
 
     fibonacci_server(endpoint& ep)
@@ -71,9 +71,9 @@ struct fibonacci_server : subscriber<2> {
     }
 };
 //------------------------------------------------------------------------------
-struct fibonacci_client : subscriber<2> {
+struct fibonacci_client : static_subscriber<2> {
     using this_class = fibonacci_client;
-    using base = subscriber<2>;
+    using base = static_subscriber<2>;
     using base::bus;
 
     fibonacci_client(endpoint& ep)

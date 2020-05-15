@@ -138,7 +138,7 @@ private:
 };
 //------------------------------------------------------------------------------
 template <std::size_t N>
-class subscriber : public subscriber_base {
+class static_subscriber : public subscriber_base {
 public:
     using handler_type = typename endpoint::handler_type;
 
@@ -189,7 +189,7 @@ public:
     template <
       typename... MsgHandlers,
       typename = std::enable_if_t<sizeof...(MsgHandlers) == N>>
-    subscriber(endpoint& bus, MsgHandlers&&... msg_handlers)
+    static_subscriber(endpoint& bus, MsgHandlers&&... msg_handlers)
       : subscriber_base{bus}
       , _msg_handlers{{std::forward<MsgHandlers>(msg_handlers)...}} {
         this->_subscribe_to(view(_msg_handlers));
@@ -199,16 +199,16 @@ public:
       typename Class,
       typename... MsgMaps,
       typename = std::enable_if_t<sizeof...(MsgMaps) == N>>
-    subscriber(endpoint& bus, Class* instance, MsgMaps... msg_maps)
-      : subscriber(bus, as_tuple(instance, msg_maps)...) {
+    static_subscriber(endpoint& bus, Class* instance, MsgMaps... msg_maps)
+      : static_subscriber(bus, as_tuple(instance, msg_maps)...) {
     }
 
-    subscriber(subscriber&& temp) = delete;
-    subscriber(const subscriber&) = delete;
-    subscriber& operator=(subscriber&&) = delete;
-    subscriber& operator=(const subscriber&) = delete;
+    static_subscriber(static_subscriber&& temp) = delete;
+    static_subscriber(const static_subscriber&) = delete;
+    static_subscriber& operator=(static_subscriber&&) = delete;
+    static_subscriber& operator=(const static_subscriber&) = delete;
 
-    ~subscriber() noexcept {
+    ~static_subscriber() noexcept {
         this->_unsubscribe_from(view(_msg_handlers));
     }
 

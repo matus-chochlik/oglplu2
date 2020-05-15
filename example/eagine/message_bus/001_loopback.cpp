@@ -16,9 +16,9 @@
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
-struct str_utils_server : subscriber<1> {
+struct str_utils_server : static_subscriber<1> {
     using this_class = str_utils_server;
-    using base = subscriber<1>;
+    using base = static_subscriber<1>;
     using base::bus;
 
     str_utils_server(logger& parent, endpoint& ep)
@@ -38,9 +38,9 @@ private:
     logger _log{};
 };
 //------------------------------------------------------------------------------
-struct str_utils_client : subscriber<1> {
+struct str_utils_client : static_subscriber<1> {
     using this_class = str_utils_client;
-    using base = subscriber<1>;
+    using base = static_subscriber<1>;
     using base::bus;
 
     str_utils_client(logger& parent, endpoint& ep)
