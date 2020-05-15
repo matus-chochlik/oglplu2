@@ -15,18 +15,39 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
+struct message_id_tuple : std::tuple<identifier_t, identifier_t> {
+    using base = std::tuple<identifier_t, identifier_t>;
+    using base::base;
+
+    constexpr identifier_t class_id() const noexcept {
+        return std::get<0>(*this);
+    }
+
+    constexpr auto class_() const noexcept {
+        return identifier{class_id()};
+    }
+
+    constexpr identifier_t method_id() const noexcept {
+        return std::get<1>(*this);
+    }
+
+    constexpr auto method() const noexcept {
+        return identifier{method_id()};
+    }
+};
+//------------------------------------------------------------------------------
 template <identifier_t ClassId, identifier_t MethodId>
 struct message_id {
     using type = message_id;
+
+    static constexpr bool matches(const message_id_tuple& mid) noexcept {
+        return (ClassId == mid.class_id()) && (MethodId == mid.method_id());
+    }
 
     static constexpr bool matches(
       identifier_t class_id, identifier_t method_id) noexcept {
         return (ClassId == class_id) && (MethodId == method_id);
     }
-};
-//------------------------------------------------------------------------------
-struct message_id_tuple : std::tuple<identifier_t, identifier_t> {
-    using std::tuple<identifier_t, identifier_t>::tuple;
 };
 //------------------------------------------------------------------------------
 template <identifier_t ClassId, identifier_t MethodId>

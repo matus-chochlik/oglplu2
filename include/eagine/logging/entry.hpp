@@ -124,14 +124,11 @@ public:
     }
 
     log_entry& arg(
-      identifier name, identifier tag, message_id_tuple value) noexcept {
+      identifier name, identifier tag, const message_id_tuple& value) noexcept {
         if(_backend) {
             _args.add([=](logger_backend& backend) {
                 backend.add_message_id(
-                  name,
-                  tag,
-                  identifier(std::get<0>(value)),
-                  identifier(std::get<1>(value)));
+                  name, tag, value.class_(), value.method());
             });
         }
         return *this;
