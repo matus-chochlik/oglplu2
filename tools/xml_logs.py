@@ -286,7 +286,7 @@ class XmlLogFormatter(object):
 
     # --------------------------------------------------------------------------
     def translateArg(self, arg, info):
-        values = info["values"]
+        values = info.get("values", [])
         if len(values) == 1:
             return self.doTranslateArg(arg, values[0])
         return '[' + ", ".join([self.doTranslateArg(v) for v in values]) + ']'
@@ -308,7 +308,7 @@ class XmlLogFormatter(object):
             prev = message[:found.start(1)]
             repl = self.translateArg(
                 found.group(2),
-                args.get(found.group(2), [{}])
+                args.get(found.group(2), {})
             )
             folw = message[found.end(1):]
             message = prev + repl + folw
