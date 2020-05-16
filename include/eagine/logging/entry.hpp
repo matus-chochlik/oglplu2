@@ -40,11 +40,14 @@ static constexpr inline auto adapt_log_entry_arg(identifier name, T value) {
 //------------------------------------------------------------------------------
 template <typename T, typename = std::enable_if_t<has_enumerator_mapping_v<T>>>
 static constexpr inline auto adapt_log_entry_arg(
-  identifier name,
-  bitfield<T> bf,
-  std::enable_if_t<std::is_unsigned_v<T>, T> = {}) {
+  identifier name, bitfield<T> bf) {
     return [=](logger_backend& backend) {
-        backend.add_unsigned(name, EAGINE_ID(bitfield), bf.bits());
+        auto func = [&backend, name, bf](const auto& info) {
+            if(bf.has(static_cast<T>(info.value))) {
+                backend.add_string(name, EAGINE_ID(bitfield), info.name);
+            }
+        };
+        for_each_enumerator(func, identity<T>{});
     };
 }
 //------------------------------------------------------------------------------

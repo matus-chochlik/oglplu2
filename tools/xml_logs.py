@@ -285,11 +285,18 @@ class XmlLogFormatter(object):
         return value
 
     # --------------------------------------------------------------------------
+    def alwaysTranslateAsList(self, values):
+        for v in values:
+            if v["type"] == "bitfield":
+                return True
+        return False
+
+    # --------------------------------------------------------------------------
     def translateArg(self, arg, info):
         values = info.get("values", [])
-        if len(values) == 1:
+        if len(values) == 1 and not self.alwaysTranslateAsList(values):
             return self.doTranslateArg(arg, values[0])
-        return '[' + ", ".join([self.doTranslateArg(v) for v in values]) + ']'
+        return '[' + ", ".join([self.doTranslateArg(arg, v) for v in values]) + ']'
 
     # --------------------------------------------------------------------------
     def formatInstance(self, instance):

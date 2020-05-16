@@ -128,6 +128,20 @@ from_string(string_view name, identity<T> id) noexcept {
     return from_string(name, id, selector<0>());
 }
 //------------------------------------------------------------------------------
+template <typename Function, typename T, typename Selector>
+std::enable_if_t<has_enumerator_mapping_v<T, Selector>> for_each_enumerator(
+  Function& function, identity<T> id, Selector sel) noexcept {
+    for(const auto& info : enumerator_mapping(id, sel)) {
+        function(enum_value_and_name<T>{info});
+    }
+}
+//------------------------------------------------------------------------------
+template <typename Function, typename T>
+std::enable_if_t<has_enumerator_mapping_v<T, selector<0>>> for_each_enumerator(
+  Function& function, identity<T> id) noexcept {
+    for_each_enumerator(function, id, selector<0>{});
+}
+//------------------------------------------------------------------------------
 } // namespace eagine
 
 #endif // EAGINE_REFLECT_ENUMERATORS_HPP
