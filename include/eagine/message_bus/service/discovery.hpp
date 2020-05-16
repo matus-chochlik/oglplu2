@@ -10,6 +10,7 @@
 #ifndef EAGINE_MESSAGE_BUS_SERVICE_DISCOVERY_HPP
 #define EAGINE_MESSAGE_BUS_SERVICE_DISCOVERY_HPP
 
+#include "../serialize.hpp"
 #include "../subscriber.hpp"
 
 namespace eagine {
