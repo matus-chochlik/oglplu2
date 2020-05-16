@@ -48,13 +48,14 @@ public:
     void on_shutdown(
       std::chrono::milliseconds age,
       identifier_t subscriber_id,
-      bool is_verified) final {
+      verification_bits verified) final {
         _log.info("received ${age} old shutdown request from ${subscrbr}")
           .arg(EAGINE_ID(age), age)
           .arg(EAGINE_ID(subscrbr), subscriber_id)
-          .arg(EAGINE_ID(verified), is_verified);
+          .arg(EAGINE_ID(verified), verified);
 
-        if(is_verified && (age < std::chrono::seconds(2))) {
+        // TODO: verification
+        if(age < std::chrono::seconds(2)) {
             _done = true;
         }
     }

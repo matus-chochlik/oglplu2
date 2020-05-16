@@ -12,6 +12,7 @@
 
 #include "../serialize.hpp"
 #include "../subscriber.hpp"
+#include "../verification.hpp"
 #include <chrono>
 
 namespace eagine {
@@ -39,7 +40,9 @@ protected:
 
 public:
     virtual void on_shutdown(
-      std::chrono::milliseconds age, identifier_t source, bool is_verified) = 0;
+      std::chrono::milliseconds age,
+      identifier_t source,
+      verification_bits) = 0;
 
 private:
     bool _handle_shutdown(stored_message& message) {
@@ -52,7 +55,7 @@ private:
             on_shutdown(
               std::chrono::duration_cast<std::chrono::milliseconds>(age),
               message.source_id,
-              false);
+              {});
         }
         return true;
     }
