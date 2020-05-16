@@ -6,8 +6,6 @@
 if(OPENAL_FOUND)
 	add_library(
 		oalplus EXCLUDE_FROM_ALL
-		enum_value_names.cpp
-		enum_value_range.cpp
 	)
 	eagine_add_lib_analysis(oalplus)
 	set_target_properties(
