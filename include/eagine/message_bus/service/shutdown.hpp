@@ -35,7 +35,7 @@ protected:
     void add_methods() {
         Base::add_methods();
         Base::add_method(
-          this, EAGINE_MSG_MAP(eagiMsgBus, shutdown, This, _handle_shutdown));
+          this, EAGINE_MSG_MAP(Shutdown, shutdown, This, _handle_shutdown));
     }
 
 public:
@@ -83,7 +83,7 @@ public:
 
         message_view message{extract(serialized)};
         message.target_id = target_id;
-        this->bus().send_signed(EAGINE_MSG_ID(eagiMsgBus, shutdown), message);
+        this->bus().send_signed(EAGINE_MSG_ID(Shutdown, shutdown), message);
     }
 };
 //------------------------------------------------------------------------------
