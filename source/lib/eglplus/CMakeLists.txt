@@ -6,8 +6,6 @@
 if(EGL_FOUND)
 	add_library(
 		eglplus EXCLUDE_FROM_ALL
-		enum_value_names.cpp
-		enum_value_range.cpp
 	)
 	eagine_add_lib_analysis(eglplus)
 	set_target_properties(
