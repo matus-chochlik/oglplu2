@@ -227,6 +227,7 @@ struct asio_connection_state
 
     bool fetch_messages(connection::fetch_handler handler) {
         std::unique_lock lock{mutex};
+        unpacked.fetch_all(handler);
         auto unpacker = [this, &handler](memory::const_block data) {
             for_each_data_with_size(data, [this](memory::const_block blk) {
                 unpacked.push_if([this, blk](

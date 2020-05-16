@@ -72,7 +72,7 @@ protected:
     using Base::Base;
 
 public:
-    void shutdown_one(identifier_t target) {
+    void shutdown_one(identifier_t target_id) {
         std::array<byte, 32> temp{};
         const auto ts{this->now()};
         const auto ticks{std::chrono::duration_cast<shutdown_service_duration>(
@@ -80,8 +80,10 @@ public:
         const auto count{ticks.count()};
         auto serialized{default_serialize(count, cover(temp))};
         EAGINE_ASSERT(serialized);
-        this->bus().send_signed(
-          EAGINE_MSG_ID(eagiMsgBus, shutdown), {serialized});
+
+        message_view message{extract(serialized)};
+        message.target_id = target_id;
+        this->bus().send_signed(EAGINE_MSG_ID(eagiMsgBus, shutdown), message);
     }
 };
 //------------------------------------------------------------------------------

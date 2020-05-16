@@ -275,8 +275,6 @@ class XmlLogFormatter(object):
         if info.get("blob", False):
             return "BLOB"
 
-        info["used"] = True
-
         decorate = self._decorators.get(info.get("type"), lambda x: x)
         try:
             value = decorate(info["value"])
@@ -293,10 +291,12 @@ class XmlLogFormatter(object):
 
     # --------------------------------------------------------------------------
     def translateArg(self, arg, info):
+        info["used"] = True
         values = info.get("values", [])
         if len(values) == 1 and not self.alwaysTranslateAsList(values):
             return self.doTranslateArg(arg, values[0])
-        return '[' + ", ".join([self.doTranslateArg(arg, v) for v in values]) + ']'
+        values = [self.doTranslateArg(arg, v) for v in values]
+        return '[' + ", ".join(values) + ']'
 
     # --------------------------------------------------------------------------
     def formatInstance(self, instance):

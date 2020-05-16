@@ -231,7 +231,7 @@ EAGINE_LIB_FUNC
 void endpoint::say_subscribes_to(
   identifier_t class_id, identifier_t method_id) {
     log()
-      .debug("subscribing to message ${message}")
+      .debug("requesting subscription to message ${message}")
       .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id));
     post_meta_message(
       EAGINE_MSG_ID(eagiMsgBus, subscribTo), class_id, method_id);
@@ -241,7 +241,7 @@ EAGINE_LIB_FUNC
 void endpoint::say_unsubscribes_from(
   identifier_t class_id, identifier_t method_id) {
     log()
-      .debug("unsubscribing from message ${message}")
+      .debug("retracting subscription to message ${message}")
       .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id));
     post_meta_message(
       EAGINE_MSG_ID(eagiMsgBus, unsubFrom), class_id, method_id);

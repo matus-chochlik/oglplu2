@@ -6,7 +6,6 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <eagine/interop/valgrind.hpp>
 #include <eagine/main.hpp>
 #include <eagine/message_bus/conn_setup.hpp>
 #include <eagine/message_bus/router_address.hpp>
@@ -78,7 +77,7 @@ int main(main_ctx& ctx) {
     msgbus::router_address address{ctx.log(), ctx.args()};
     msgbus::connection_setup conn_setup(ctx.log(), ctx.args());
 
-    msgbus::endpoint bus{ctx.log()};
+    msgbus::endpoint bus{logger{EAGINE_ID(DiscoverEx), ctx.log()}};
     msgbus::subscription_logger sub_log{bus};
 
     conn_setup.setup_connectors(sub_log, address);

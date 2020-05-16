@@ -116,7 +116,7 @@ void connection_setup::add_factory(
     EAGINE_ASSERT(factory);
     const auto kind{factory->kind()};
 
-    _log.debug("adding ${kind} connection factory ${type}")
+    _log.debug("adding ${kind} connection factory ${factory}")
       .arg(EAGINE_ID(kind), kind)
       .arg(EAGINE_ID(factory), factory);
 
