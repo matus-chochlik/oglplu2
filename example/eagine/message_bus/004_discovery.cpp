@@ -1,5 +1,5 @@
 /**
- *  @example eagine/message_bus/002_discovery.cpp
+ *  @example eagine/message_bus/004_discovery.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.

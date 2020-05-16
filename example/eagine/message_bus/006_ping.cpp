@@ -1,5 +1,5 @@
 /**
- *  @example eagine/message_bus/003_ping.cpp
+ *  @example eagine/message_bus/006_ping.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.

@@ -33,13 +33,13 @@ ${install_prefix}/bin/eagine-local-bridge \
 	-r --msg-bus-router-address ${pong_addr} \
 	& pids+=($!)
 sleep 1
-${install_prefix}/share/oglplus/examples/eagine-003_pong \
+${install_prefix}/share/oglplus/examples/eagine-006_pong \
 	"${log_args[@]}" \
 	${conn_type} \
 	--msg-bus-router-address ${pong_addr} \
 	& pids+=($!)
 sleep 1
-${install_prefix}/share/oglplus/examples/eagine-003_ping \
+${install_prefix}/share/oglplus/examples/eagine-006_ping \
 	"${log_args[@]}" \
 	--ping-count 1M \
 	${conn_type} \
