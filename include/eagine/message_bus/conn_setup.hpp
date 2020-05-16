@@ -70,6 +70,11 @@ public:
       : _log{EAGINE_ID(ConnSetup), parent} {
     }
 
+    connection_setup(logger& parent, const program_args& args) noexcept
+      : connection_setup{parent} {
+        default_init(args);
+    }
+
     void setup_acceptors(acceptor_user& target, string_view address);
 
     void setup_acceptors(acceptor_user& target, identifier address) {

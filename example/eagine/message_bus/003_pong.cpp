@@ -77,8 +77,7 @@ private:
 
 int main(main_ctx& ctx) {
     msgbus::router_address address{ctx.log(), ctx.args()};
-    msgbus::connection_setup conn_setup(ctx.log());
-    conn_setup.default_init(ctx.args());
+    msgbus::connection_setup conn_setup(ctx.log(), ctx.args());
 
     msgbus::pong pong(ctx.log(), conn_setup, address);
 
