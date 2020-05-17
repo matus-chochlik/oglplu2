@@ -4,6 +4,7 @@
 # See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
 #
+variant=${1:-006}
 install_prefix="$(<$(dirname ${0})/../INSTALL_PREFIX)"
 log_args=("--use-asio-log" "--min-log-severity" "info")
 conn_type="--msg-bus-asio-local-stream"
@@ -33,13 +34,13 @@ ${install_prefix}/bin/eagine-local-bridge \
 	-r --msg-bus-router-address ${pong_addr} \
 	& pids+=($!)
 sleep 1
-${install_prefix}/share/oglplus/examples/eagine-006_pong \
+${install_prefix}/share/oglplus/examples/eagine-${variant}_pong \
 	"${log_args[@]}" \
 	${conn_type} \
 	--msg-bus-router-address ${pong_addr} \
 	& pids+=($!)
 sleep 1
-${install_prefix}/share/oglplus/examples/eagine-006_ping \
+${install_prefix}/share/oglplus/examples/eagine-${variant}_ping \
 	"${log_args[@]}" \
 	--ping-count 1M \
 	${conn_type} \
