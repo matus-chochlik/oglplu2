@@ -92,6 +92,7 @@ struct message_info {
 
     message_info& setup_response(const message_info& info) noexcept {
         target_id = info.source_id;
+        sequence_no = info.sequence_no;
         return *this;
     }
 
