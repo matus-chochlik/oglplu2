@@ -17,7 +17,7 @@
 #include "../memory/span_algo.hpp"
 #include "../reflect/map_enumerators.hpp"
 #include "../serialize/size_and_data.hpp"
-#include "../types.hpp"
+#include "types.hpp"
 #include <cstdint>
 #include <limits>
 #include <vector>
@@ -52,6 +52,10 @@ struct message_info {
     identifier_t source_id{invalid_id()};
     identifier_t target_id{invalid_id()};
     identifier_t serializer_id{invalid_id()};
+
+    using sequence_t = message_sequence_t;
+    sequence_t sequence_no{0U};
+
     message_priority priority{message_priority::normal};
 
     using hop_count_t = std::int8_t;
@@ -78,6 +82,11 @@ struct message_info {
 
     message_info& set_serializer_id(identifier id) noexcept {
         serializer_id = id.value();
+        return *this;
+    }
+
+    message_info& set_sequence_no(message_sequence_t no) noexcept {
+        sequence_no = no;
         return *this;
     }
 

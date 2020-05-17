@@ -42,6 +42,7 @@ serialize_message(
       msg.source_id,
       msg.target_id,
       msg.serializer_id,
+      msg.sequence_no,
       msg.priority,
       msg.hop_count);
     serialization_errors errors = serialize(message_params, backend);
@@ -82,6 +83,7 @@ deserialize_message(
       msg.source_id,
       msg.target_id,
       msg.serializer_id,
+      msg.sequence_no,
       msg.priority,
       msg.hop_count);
     deserialization_errors errors = deserialize(message_params, backend);

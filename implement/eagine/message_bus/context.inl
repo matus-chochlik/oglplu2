@@ -64,6 +64,21 @@ context::~context() noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+message_sequence_t context::next_sequence_no(
+  identifier_t class_id, identifier_t method_id) noexcept {
+
+    auto [pos, newone] =
+      _msg_id_seq.try_emplace(std::make_tuple(class_id, method_id));
+
+    if(newone) {
+        std::get<1>(*pos) = 0U;
+        _log.debug("creating sequence for message type ${message}")
+          .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id));
+    }
+    return std::get<1>(*pos)++;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 std::unique_ptr<context> make_context(logger& parent) {
     return std::make_unique<context>(parent);
 }

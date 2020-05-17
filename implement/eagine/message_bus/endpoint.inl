@@ -15,6 +15,10 @@ bool endpoint::_do_send(
   identifier_t class_id, identifier_t method_id, message_view message) {
     EAGINE_ASSERT(has_id());
     message.set_source_id(_id);
+    if(EAGINE_LIKELY(_context)) {
+        message.set_sequence_no(
+          _context->next_sequence_no(class_id, method_id));
+    }
     for(auto& connection : _connections) {
         EAGINE_ASSERT(connection);
         if(connection->send(class_id, method_id, message)) {
@@ -138,6 +142,17 @@ void endpoint::flush_outbox() {
             connection->cleanup();
         }
     }
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+bool endpoint::set_next_sequence_id(
+  identifier_t class_id, identifier_t method_id, message_info& message) {
+    if(EAGINE_LIKELY(_context)) {
+        message.set_sequence_no(
+          _context->next_sequence_no(class_id, method_id));
+        return true;
+    }
+    return false;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

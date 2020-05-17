@@ -11,9 +11,12 @@
 #define EAGINE_MESSAGE_BUS_CONTEXT_HPP
 
 #include "../memory/buffer.hpp"
+#include "../message_id.hpp"
 #include "../ssl.hpp"
 #include "../ssl_api.hpp"
 #include "context_fwd.hpp"
+#include "types.hpp"
+#include <map>
 
 namespace eagine {
 namespace msgbus {
@@ -30,8 +33,14 @@ public:
 
     ~context() noexcept;
 
+    message_sequence_t next_sequence_no(
+      identifier_t class_id, identifier_t method_id) noexcept;
+
 private:
     logger _log{};
+    //
+    std::map<std::tuple<identifier_t, identifier_t>, message_sequence_t>
+      _msg_id_seq{};
     //
     sslp::ssl_api _ssl{};
     sslp::owned_engine _ssl_engine{};

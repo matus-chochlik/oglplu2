@@ -182,6 +182,15 @@ public:
         unsubscribe(ClassId, MethodId);
     }
 
+    bool set_next_sequence_id(
+      identifier_t class_id, identifier_t method_id, message_info&);
+
+    template <identifier_t ClassId, identifier_t MethodId>
+    bool set_next_sequence_id(
+      message_id<ClassId, MethodId>, message_info& message) {
+        return set_next_sequence_id(ClassId, MethodId, message);
+    }
+
     void post(
       identifier_t class_id, identifier_t method_id, message_view message) {
         _outgoing.push(class_id, method_id, message);

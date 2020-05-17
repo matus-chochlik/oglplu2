@@ -80,7 +80,7 @@ public:
         EAGINE_ASSERT(serialized);
 
         message_view message{extract(serialized)};
-        message.target_id = target_id;
+        message.set_target_id(target_id);
         this->bus().send_signed(EAGINE_MSG_ID(Shutdown, shutdown), message);
     }
 };
