@@ -22,12 +22,13 @@ public:
       : _start{_clock::now()} {
     }
 
-    auto get() const noexcept {
+    auto elapsed_time() const noexcept {
         return _clock::now() - _start;
     }
 
     auto seconds() const noexcept {
-        return std::chrono::duration_cast<std::chrono::duration<float>>(get());
+        return std::chrono::duration_cast<std::chrono::duration<float>>(
+          elapsed_time());
     }
 
 private:
@@ -58,16 +59,20 @@ public:
         return *this;
     }
 
-    bool elapsed() const noexcept {
+    auto elapsed_time() const noexcept {
+        return _clock::now() - _timeout + _duration;
+    }
+
+    bool is_elapsed() const noexcept {
         return _clock::now() >= _timeout;
     }
 
     explicit operator bool() const noexcept {
-        return elapsed();
+        return is_elapsed();
     }
 
     bool operator!() const noexcept {
-        return !elapsed();
+        return !is_elapsed();
     }
 
 private:
