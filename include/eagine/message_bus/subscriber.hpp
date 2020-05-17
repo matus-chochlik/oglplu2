@@ -13,6 +13,7 @@
 #include "../maybe_unused.hpp"
 #include "../span.hpp"
 #include "endpoint.hpp"
+#include "verification.hpp"
 #include <array>
 #include <type_traits>
 #include <vector>
@@ -54,6 +55,18 @@ public:
     const endpoint& bus() const noexcept {
         EAGINE_ASSERT(_endpoint != nullptr);
         return *_endpoint;
+    }
+
+    bool update() const noexcept {
+        if(EAGINE_LIKELY(_endpoint)) {
+            return _endpoint->update();
+        }
+        return false;
+    }
+
+    verification_bits verify_bits(const stored_message&) const noexcept {
+        // TODO: message verification
+        return {};
     }
 
 protected:

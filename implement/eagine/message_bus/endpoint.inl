@@ -4,6 +4,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/bool_aggregate.hpp>
 #include <eagine/message_bus/context.hpp>
 
 namespace eagine {
@@ -140,7 +141,8 @@ void endpoint::flush_outbox() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void endpoint::update() {
+bool endpoint::update() {
+    some_true something_done{};
 
     const bool had_id = has_id();
 
@@ -150,8 +152,8 @@ void endpoint::update() {
 
     for(auto& connection : _connections) {
         EAGINE_ASSERT(connection);
-        connection->update();
-        connection->fetch_messages(_store_handler);
+        something_done(connection->update());
+        something_done(connection->fetch_messages(_store_handler));
     }
 
     // if processing the messages assigned the endpoint id
@@ -159,6 +161,7 @@ void endpoint::update() {
         log().debug("announcing endpoint id ${id}").arg(EAGINE_ID(id), _id);
         // send the endpoint id through all connections
         _do_send(EAGINE_MSG_ID(eagiMsgBus, announceId), {});
+        something_done();
     }
 
     // if we have a valid id and we have messages in outbox
@@ -166,9 +169,11 @@ void endpoint::update() {
         log()
           .debug("sending ${count} messages from outbox")
           .arg(EAGINE_ID(count), _outgoing.size());
-        _outgoing.fetch_all(message_storage::fetch_handler{
-          this, EAGINE_MEM_FUNC_C(endpoint, _handle_send)});
+        something_done(_outgoing.fetch_all(message_storage::fetch_handler{
+          this, EAGINE_MEM_FUNC_C(endpoint, _handle_send)}));
     }
+
+    return something_done;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

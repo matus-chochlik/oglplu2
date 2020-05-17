@@ -83,7 +83,7 @@ int main(main_ctx& ctx) {
     conn_setup.setup_connectors(sub_log, address);
 
     while(!(interrupted || sub_log.is_done())) {
-        bus.update();
+        sub_log.update();
         if(!sub_log.process_all()) {
             std::this_thread::sleep_for(std::chrono::milliseconds(250));
         }

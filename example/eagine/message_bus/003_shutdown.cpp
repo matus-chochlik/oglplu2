@@ -72,7 +72,7 @@ int main(main_ctx& ctx) {
     timeout wait_done{std::chrono::seconds(10)};
 
     while(!wait_done) {
-        bus.update();
+        trgr.update();
         if(!trgr.process_all()) {
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }
@@ -82,7 +82,7 @@ int main(main_ctx& ctx) {
     wait_done.reset();
 
     while(!wait_done) {
-        bus.update();
+        trgr.update();
         if(!trgr.process_all()) {
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }

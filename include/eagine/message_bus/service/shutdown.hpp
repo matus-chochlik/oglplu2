@@ -12,7 +12,6 @@
 
 #include "../serialize.hpp"
 #include "../subscriber.hpp"
-#include "../verification.hpp"
 #include <chrono>
 
 namespace eagine {
@@ -51,11 +50,10 @@ private:
             const shutdown_service_duration ticks{count};
             const typename shutdown_service_clock::time_point ts{ticks};
             const auto age{this->now() - ts};
-            // TODO: message verification
             on_shutdown(
               std::chrono::duration_cast<std::chrono::milliseconds>(age),
               message.source_id,
-              {});
+              this->verify_bits(message));
         }
         return true;
     }

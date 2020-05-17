@@ -166,7 +166,7 @@ public:
 
     void flush_outbox();
 
-    void update();
+    bool update();
 
     void subscribe(identifier_t class_id, identifier_t method_id);
 
@@ -325,6 +325,23 @@ public:
     template <identifier_t ClassId, identifier_t MethodId>
     bool respond_to(const message_info& info, message_id<ClassId, MethodId>) {
         return respond_to(info, ClassId, MethodId, {});
+    }
+
+    bool respond_signed_to(
+      const message_info& info,
+      identifier_t class_id,
+      identifier_t method_id,
+      message_view message) {
+        // TODO: add signatures
+        return respond_to(info, class_id, method_id, message);
+    }
+
+    template <identifier_t ClassId, identifier_t MethodId>
+    bool respond_signed_to(
+      const message_info& info,
+      message_id<ClassId, MethodId>,
+      message_view message) {
+        return respond_signed_to(info, ClassId, MethodId, message);
     }
 
     using handler_type = callable_ref<bool(stored_message&)>;
