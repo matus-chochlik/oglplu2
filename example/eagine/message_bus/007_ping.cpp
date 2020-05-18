@@ -7,6 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/main.hpp>
+#include <eagine/math/functions.hpp>
 #include <eagine/message_bus/conn_setup.hpp>
 #include <eagine/message_bus/router_address.hpp>
 #include <eagine/message_bus/service.hpp>
@@ -42,12 +43,12 @@ struct ping_stats {
         return float(responded) + float(timeouted);
     }
 
-    float respond_rate() const noexcept {
-        return (float(responded)) / (total_count() + 1.f);
+    auto respond_rate() const noexcept {
+        return math::ratio(float(responded), total_count());
     }
 
-    float responds_per_second() const noexcept {
-        return float(responded) / time_interval().count();
+    auto responds_per_second() const noexcept {
+        return math::ratio(float(responded), time_interval().count());
     }
 };
 //------------------------------------------------------------------------------
@@ -138,6 +139,7 @@ public:
     }
 
     void log_stats() {
+        const string_view not_avail{"N/A"};
         for(auto& [id, info] : _targets) {
             _log.info("pingable ${id} stats:")
               .arg(EAGINE_ID(id), id)
@@ -145,12 +147,17 @@ public:
               .arg(EAGINE_ID(maxTime), info.max_time)
               .arg(EAGINE_ID(responded), info.responded)
               .arg(EAGINE_ID(timeouted), info.timeouted)
-              .arg(EAGINE_ID(rspdRate), EAGINE_ID(Ratio), info.respond_rate())
               .arg(EAGINE_ID(duration), info.time_interval())
+              .arg(
+                EAGINE_ID(rspdRate),
+                EAGINE_ID(Ratio),
+                info.respond_rate(),
+                not_avail)
               .arg(
                 EAGINE_ID(rspdPerSec),
                 EAGINE_ID(RatePerSec),
-                info.responds_per_second());
+                info.responds_per_second(),
+                not_avail);
         }
     }
 

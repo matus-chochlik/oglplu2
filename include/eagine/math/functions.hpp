@@ -57,6 +57,14 @@ static constexpr inline T maximum(T a, T b, T c, P... d) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename T>
+static constexpr inline optionally_valid<T> ratio(T a, T b) noexcept {
+    if(b > T(0) || (b < T(0))) {
+        return {a / b, true};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+template <typename T>
 static constexpr inline optionally_valid<T> reciprocal(T x) noexcept {
     using std::abs;
     if(abs(x) > std::numeric_limits<T>::epsilon()) {
