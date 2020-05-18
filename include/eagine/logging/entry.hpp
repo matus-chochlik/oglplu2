@@ -14,6 +14,7 @@
 #include "../branch_predict.hpp"
 #include "../memory/object_storage.hpp"
 #include "../message_id.hpp"
+#include "../valid_if/decl.hpp"
 #include "backend.hpp"
 #include <sstream>
 
@@ -73,6 +74,16 @@ using has_log_entry_adapter_t = typename does_have_log_entry_adapter<T>::type;
 template <typename T>
 constexpr const bool has_log_entry_adapter_v =
   has_log_entry_adapter_t<T>::value;
+//------------------------------------------------------------------------------
+template <typename T>
+struct does_have_log_entry_function;
+
+template <typename T>
+using has_log_entry_function_t = typename does_have_log_entry_function<T>::type;
+
+template <typename T>
+constexpr const bool has_log_entry_function_v =
+  has_log_entry_function_t<T>::value;
 //------------------------------------------------------------------------------
 class logger;
 
@@ -324,6 +335,30 @@ public:
         return *this;
     }
 
+    template <typename T, typename P, typename F>
+    std::enable_if_t<
+      has_log_entry_function_v<std::decay_t<T>> &&
+        has_log_entry_function_v<std::decay_t<F>>,
+      log_entry&>
+    arg(
+      identifier name,
+      identifier tag,
+      valid_if_or_fallback<T, P, F>&& opt) noexcept {
+        if(opt.is_valid()) {
+            return arg(name, tag, std::move(opt.value()));
+        }
+        return arg(name, std::move(opt.fallback()));
+    }
+
+    template <typename T, typename P, typename F>
+    std::enable_if_t<
+      has_log_entry_function_v<std::decay_t<T>> &&
+        has_log_entry_function_v<std::decay_t<F>>,
+      log_entry&>
+    arg(identifier name, identifier tag, valid_if<T, P> opt, F fbck) noexcept {
+        return arg(name, tag, either_or(std::move(opt), std::move(fbck)));
+    }
+
 private:
     friend class logger;
 
@@ -358,6 +393,24 @@ struct no_log_entry {
     constexpr inline no_log_entry& arg(identifier, identifier, T&&) noexcept {
         return *this;
     }
+};
+//------------------------------------------------------------------------------
+template <typename T>
+struct does_have_log_entry_function {
+private:
+    template <
+      typename X,
+      typename = decltype(std::declval<log_entry>().arg(
+        std::declval<identifier>(),
+        std::declval<identifier>(),
+        std::declval<X>()))>
+    static std::true_type _test(X*);
+
+    static std::false_type _test(...);
+
+public:
+    // NOLINTNEXTLINE(hicpp-vararg)
+    using type = decltype(_test(static_cast<T*>(nullptr)));
 };
 //------------------------------------------------------------------------------
 class stream_log_entry {

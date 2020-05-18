@@ -206,6 +206,36 @@ static constexpr inline T& extract_or(
     return fallback;
 }
 //------------------------------------------------------------------------------
+template <typename T, typename P, typename F>
+class valid_if_or_fallback : public valid_if<T, P> {
+public:
+    valid_if_or_fallback(valid_if<T, P> vi, F fallback) noexcept(
+      noexcept(valid_if<T, P>(std::declval<valid_if<T, P>&&>())) &&
+      noexcept(F(std::declval<F&&>())))
+      : valid_if<T, P>{std::move(vi)}
+      , _fallback{std::move(fallback)} {
+    }
+
+    const F& fallback() const noexcept {
+        return _fallback;
+    }
+
+    F& fallback() noexcept {
+        return _fallback;
+    }
+
+private:
+    F _fallback{};
+};
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename F>
+static inline valid_if_or_fallback<T, P, F>
+either_or(valid_if<T, P> vi, F f) noexcept(
+  noexcept(valid_if<T, P>(std::declval<valid_if<T, P>&&>())) &&
+  noexcept(F(std::declval<F&&>()))) {
+    return {std::move(vi), std::move(f)};
+}
+//------------------------------------------------------------------------------
 template <typename T>
 using optionally_valid = valid_if<T, valid_flag_policy>;
 //------------------------------------------------------------------------------
