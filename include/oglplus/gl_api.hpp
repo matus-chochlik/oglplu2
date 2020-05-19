@@ -184,7 +184,7 @@ public:
     template <typename T>
     std::enable_if_t<is_known_vector_type_v<T>, combined_result<void>>
     set_uniform(program_name prog, uniform_location loc, const T& value) const {
-        return uniform(
+        return set_uniform(
           prog, loc, element_view(value), canonical_compound_type<T>());
     }
 
