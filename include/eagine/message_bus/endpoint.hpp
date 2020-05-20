@@ -11,15 +11,30 @@
 #define EAGINE_MESSAGE_BUS_ENDPOINT_HPP
 
 #include "../logging/logger.hpp"
+#include "../memory/buffer_pool.hpp"
+#include "../memory/split_block.hpp"
+#include "../timeout.hpp"
 #include "connection.hpp"
 #include "context_fwd.hpp"
 #include "serialize.hpp"
+#include <cstdint>
 #include <map>
 #include <tuple>
 #include <vector>
 
 namespace eagine {
 namespace msgbus {
+//------------------------------------------------------------------------------
+struct pending_blob {
+    identifier_t class_id{message_info::invalid_id()};
+    identifier_t method_id{message_info::invalid_id()};
+    identifier_t target_id{message_info::invalid_id()};
+    std::uint64_t blob_id{0U};
+    memory::buffer blob{};
+    memory::const_split_block current{};
+    timeout max_time{};
+    message_priority priority{message_priority::normal};
+};
 //------------------------------------------------------------------------------
 class friend_of_endpoint;
 //------------------------------------------------------------------------------
@@ -42,15 +57,20 @@ private:
 
     identifier_t _id{invalid_id()};
 
-    std::vector<std::unique_ptr<connection>> _connections;
+    std::vector<std::unique_ptr<connection>> _connections{};
 
-    message_storage _outgoing;
+    message_storage _outgoing{};
 
     // TODO: flat map
     std::map<
       std::tuple<identifier_t, identifier_t>,
       std::tuple<span_size_t, message_priority_queue>>
-      _incoming;
+      _incoming{};
+
+    std::uint64_t _blob_id_sequence{0};
+    memory::buffer_pool _buffers{};
+    std::vector<pending_blob> _outgoing_blobs{};
+    std::vector<pending_blob> _incoming_blobs{};
 
     static inline auto _make_key(
       identifier_t class_id, identifier_t method_id) noexcept {
@@ -68,6 +88,9 @@ private:
     }
 
     connection::fetch_handler _store_handler{};
+
+    bool _cleanup_blobs();
+    bool _process_blobs();
 
     bool _do_send(identifier_t class_id, identifier_t method_id, message_view);
 
@@ -191,14 +214,15 @@ public:
         return set_next_sequence_id(ClassId, MethodId, message);
     }
 
-    void post(
+    bool post(
       identifier_t class_id, identifier_t method_id, message_view message) {
         _outgoing.push(class_id, method_id, message);
+        return true;
     }
 
     template <identifier_t ClassId, identifier_t MethodId>
-    void post(message_id<ClassId, MethodId>, message_view message) {
-        post(ClassId, MethodId, message);
+    bool post(message_id<ClassId, MethodId>, message_view message) {
+        return post(ClassId, MethodId, message);
     }
 
     template <typename T>
@@ -234,6 +258,43 @@ public:
     bool post_value(
       message_id<ClassId, MethodId>, T& value, const message_info& info = {}) {
         return post_value(ClassId, MethodId, value, info);
+    }
+
+    bool post_blob(
+      identifier_t class_id,
+      identifier_t method_id,
+      identifier_t target_id,
+      memory::const_block blob,
+      timeout max_time,
+      message_priority priority);
+
+    bool post_blob(
+      identifier_t class_id,
+      identifier_t method_id,
+      identifier_t target_id,
+      memory::const_block blob,
+      timeout max_time) {
+        return post_blob(
+          class_id,
+          method_id,
+          target_id,
+          blob,
+          max_time,
+          message_priority::normal);
+    }
+
+    bool broadcast_blob(
+      identifier_t class_id,
+      identifier_t method_id,
+      memory::const_block blob,
+      timeout max_time) {
+        return post_blob(
+          class_id,
+          method_id,
+          invalid_id(),
+          blob,
+          max_time,
+          message_priority::normal);
     }
 
     bool send(

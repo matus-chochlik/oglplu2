@@ -28,6 +28,8 @@ class fragment_serialize_wrapper;
 template <typename T>
 class fragment_serialize_wrapper<span<const T>> {
 public:
+    constexpr fragment_serialize_wrapper() noexcept = default;
+
     fragment_serialize_wrapper(span<const T> src) noexcept
       : _src{src} {
     }

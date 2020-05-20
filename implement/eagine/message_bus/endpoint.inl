@@ -11,6 +11,107 @@ namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+bool endpoint::_cleanup_blobs() {
+    some_true something_done{};
+    auto predicate = [&something_done](auto& pending) {
+        if(pending.max_time.is_elapsed()) {
+            something_done();
+            return true;
+        }
+        return false;
+    };
+
+    _incoming_blobs.erase(
+      std::remove_if(_incoming_blobs.begin(), _incoming_blobs.end(), predicate),
+      _incoming_blobs.end());
+
+    _outgoing_blobs.erase(
+      std::remove_if(_outgoing_blobs.begin(), _outgoing_blobs.end(), predicate),
+      _outgoing_blobs.end());
+
+    return something_done;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+bool endpoint::_process_blobs() {
+    some_true something_done{};
+
+    std::array<byte, 4096> temp{};
+
+    for(auto& pending : _outgoing_blobs) {
+        if(pending.current.tail()) {
+            const auto header =
+              std::tie(pending.class_id, pending.method_id, pending.blob_id);
+
+            block_data_sink sink(cover(temp));
+            default_serializer_backend backend(sink);
+            if(auto serialized = serialize(header, backend)) {
+                if(auto written = sink.write_some(pending.current)) {
+                    pending.current = extract(written);
+                    message_view message(sink.done());
+                    message.set_target_id(pending.target_id);
+                    message.set_priority(pending.priority);
+                    something_done(
+                      post(EAGINE_MSG_ID(eagiMsgBus, blobFrgmnt), message));
+                } else {
+                    _log.debug("failed to write fragment of blob ${message}")
+                      .arg(
+                        EAGINE_ID(message),
+                        message_id_tuple(pending.class_id, pending.method_id));
+                }
+            } else {
+                _log.debug("failed to serialize header of blob ${message}")
+                  .arg(
+                    EAGINE_ID(message),
+                    message_id_tuple(pending.class_id, pending.method_id));
+            }
+        }
+    }
+
+    return something_done;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+bool endpoint::post_blob(
+  identifier_t class_id,
+  identifier_t method_id,
+  identifier_t target_id,
+  memory::const_block blob,
+  timeout max_time,
+  message_priority priority) {
+    _outgoing_blobs.emplace_back();
+    auto& pending = _outgoing_blobs.back();
+    pending.class_id = class_id;
+    pending.method_id = method_id;
+    pending.target_id = target_id;
+    pending.blob_id = _blob_id_sequence++;
+    pending.blob = _buffers.get(blob.size());
+    copy(blob, cover(pending.blob));
+    pending.current = {view(pending.blob)};
+    pending.max_time = max_time;
+    pending.priority = priority;
+
+    std::array<byte, 128> temp{};
+
+    const auto header =
+      std::tie(pending.class_id, pending.method_id, pending.blob_id);
+
+    if(auto serialized = default_serialize(header, cover(temp))) {
+        message_view message(extract(serialized));
+        message.set_target_id(pending.target_id);
+        message.set_priority(pending.priority);
+        return post(EAGINE_MSG_ID(eagiMsgBus, blobHeader), message);
+    } else {
+        _log.debug("failed to serialize header of blob ${message}")
+          .arg(
+            EAGINE_ID(message),
+            message_id_tuple(pending.class_id, pending.method_id));
+    }
+
+    return false;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 bool endpoint::_do_send(
   identifier_t class_id, identifier_t method_id, message_view message) {
     EAGINE_ASSERT(has_id());
@@ -154,6 +255,9 @@ bool endpoint::set_next_sequence_id(
 EAGINE_LIB_FUNC
 bool endpoint::update() {
     some_true something_done{};
+
+    something_done(_cleanup_blobs());
+    something_done(_process_blobs());
 
     const bool had_id = has_id();
 

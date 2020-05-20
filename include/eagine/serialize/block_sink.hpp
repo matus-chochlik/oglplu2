@@ -39,7 +39,9 @@ public:
     serialization_errors write(memory::const_block blk) final {
         auto dst = free();
         if(dst.size() < blk.size()) {
-            return {serialization_error_code::too_much_data};
+            copy(head(blk, dst.size()), dst);
+            _done += dst.size();
+            return {serialization_error_code::incomplete_write};
         }
         copy(blk, dst);
         _done += blk.size();

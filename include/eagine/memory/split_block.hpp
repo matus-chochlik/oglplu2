@@ -37,6 +37,11 @@ public:
         return *this;
     }
 
+    basic_split_block& skip_to_end() noexcept {
+        _split = _block.size();
+        return *this;
+    }
+
 private:
     basic_block<IsConst> _block{};
     span_size_t _split{0};

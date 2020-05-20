@@ -10,7 +10,7 @@
 #ifndef EAGINE_SERIALIZE_DATA_SINK_HPP
 #define EAGINE_SERIALIZE_DATA_SINK_HPP
 
-#include "../memory/block.hpp"
+#include "../memory/split_block.hpp"
 #include "../span.hpp"
 #include "../string_span.hpp"
 #include "result.hpp"
@@ -37,6 +37,19 @@ struct serializer_data_sink {
 
     inline result write(string_view str) {
         return this->write(as_bytes(str));
+    }
+
+    inline serialization_result<memory::const_split_block> write_some(
+      memory::const_split_block data) {
+        const auto before{remaining_size()};
+        const auto errors{write(data.tail())};
+        if(!errors) {
+            return {data.skip_to_end()};
+        }
+        if(errors.has_at_most(serialization_error_code::incomplete_write)) {
+            return {data.advance(before)};
+        }
+        return {data, errors};
     }
 
     using transaction_handle = std::uintptr_t;
