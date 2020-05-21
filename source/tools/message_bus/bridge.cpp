@@ -48,7 +48,7 @@ int main(main_ctx& ctx) {
         }
     }
 
-    log.debug("message bus bridge finishing")
+    log.stat("message bus bridge finishing")
       .arg(EAGINE_ID(working), cycles_work)
       .arg(EAGINE_ID(idling), cycles_idle)
       .arg(

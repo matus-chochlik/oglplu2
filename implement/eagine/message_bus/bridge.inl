@@ -228,7 +228,7 @@ bool bridge::_forward_messages() {
                                     identifier_t method_id,
                                     const message_view& message) {
         if(EAGINE_UNLIKELY(++_forwarded_messages_c2o % 100000 == 0)) {
-            _log.info("forwarded ${count} messages to output")
+            _log.stat("forwarded ${count} messages to output")
               .arg(EAGINE_ID(count), _forwarded_messages_c2o);
         }
         if(this->_handle_special(class_id, method_id, message)) {
@@ -250,7 +250,7 @@ bool bridge::_forward_messages() {
                                    identifier_t method_id,
                                    const message_view& message) {
         if(EAGINE_UNLIKELY(++_forwarded_messages_i2c % 100000 == 0)) {
-            _log.info("forwarded ${count} messages from input")
+            _log.stat("forwarded ${count} messages from input")
               .arg(EAGINE_ID(count), _forwarded_messages_i2c);
         }
         if(this->_handle_special(class_id, method_id, message)) {

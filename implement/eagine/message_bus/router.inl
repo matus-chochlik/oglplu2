@@ -347,7 +347,7 @@ bool router::_do_route_message(
             should_forward &= endpoint_out.is_allowed(class_id, method_id);
             if(should_forward) {
                 if(EAGINE_UNLIKELY(++_forwarded_messages % 100000 == 0)) {
-                    _log.info("forwarded ${count} messages")
+                    _log.stat("forwarded ${count} messages")
                       .arg(EAGINE_ID(count), _forwarded_messages);
                 }
                 for(auto& conn_out : endpoint_out.connections) {

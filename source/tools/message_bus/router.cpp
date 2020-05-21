@@ -49,7 +49,7 @@ int main(main_ctx& ctx) {
         }
     }
 
-    log.debug("message bus router finishing")
+    log.stat("message bus router finishing")
       .arg(EAGINE_ID(working), cycles_work)
       .arg(EAGINE_ID(idling), cycles_idle)
       .arg(

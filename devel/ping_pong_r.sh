@@ -6,7 +6,7 @@
 #
 variant=${1:-006}
 install_prefix="$(<$(dirname ${0})/../INSTALL_PREFIX)"
-log_args=("--use-asio-log" "--min-log-severity" "info")
+log_args=("--use-asio-log" "--min-log-severity" "stat")
 conn_type="--msg-bus-asio-local-stream"
 #
 pids=()

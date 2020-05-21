@@ -141,7 +141,7 @@ public:
     void log_stats() {
         const string_view not_avail{"N/A"};
         for(auto& [id, info] : _targets) {
-            _log.info("pingable ${id} stats:")
+            _log.stat("pingable ${id} stats:")
               .arg(EAGINE_ID(id), id)
               .arg(EAGINE_ID(minTime), info.min_time)
               .arg(EAGINE_ID(maxTime), info.max_time)

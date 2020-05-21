@@ -90,6 +90,11 @@ public:
           log_event_severity_constant<log_event_severity::info>{}, format);
     }
 
+    inline auto stat(string_view format) noexcept {
+        return log(
+          log_event_severity_constant<log_event_severity::stat>{}, format);
+    }
+
     inline auto debug(string_view format) noexcept {
         return log(
           log_event_severity_constant<log_event_severity::debug>{}, format);
