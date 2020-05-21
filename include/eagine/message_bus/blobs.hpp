@@ -50,9 +50,19 @@ public:
       std::chrono::seconds max_time,
       message_priority priority);
 
-    using handler = callable_ref<void(pending_blob&)>;
+    void push_incoming(
+      identifier_t class_id,
+      identifier_t method_id,
+      identifier_t source_id,
+      identifier_t blob_id,
+      std::int64_t offset,
+      memory::const_block fragment,
+      message_priority priority);
 
-    void for_each_outgoing(handler);
+    using receive_handler =
+      callable_ref<bool(identifier_t, identifier_t, const message_view&)>;
+
+    bool process_incoming(const message_view&, logger&);
 
     using send_handler =
       callable_ref<bool(identifier_t, identifier_t, const message_view&)>;

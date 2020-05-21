@@ -53,6 +53,8 @@ bool endpoint::_handle_special(
   const message_view& message) noexcept {
     if(EAGINE_UNLIKELY(EAGINE_ID(eagiMsgBus).matches(class_id))) {
         if(EAGINE_ID(blobFrgmnt).matches(method_id)) {
+            _blobs.process_incoming(message, _log);
+            return true;
         } else if(EAGINE_ID(assignId).matches(method_id)) {
             if(!has_id()) {
                 _id = message.target_id;

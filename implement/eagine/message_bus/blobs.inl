@@ -7,6 +7,7 @@
 #include <eagine/bool_aggregate.hpp>
 #include <eagine/message_bus/serialize.hpp>
 #include <eagine/serialize/block_sink.hpp>
+#include <eagine/serialize/block_source.hpp>
 
 namespace eagine {
 namespace msgbus {
@@ -56,10 +57,52 @@ void blob_manipulator::push_outgoing(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void blob_manipulator::for_each_outgoing(handler handle) {
-    for(auto& pending : _outgoing) {
-        handle(pending);
+void blob_manipulator::push_incoming(
+  identifier_t class_id,
+  identifier_t method_id,
+  identifier_t source_id,
+  identifier_t blob_id,
+  std::int64_t offset,
+  memory::const_block fragment,
+  message_priority priority) {
+    // TODO
+    EAGINE_MAYBE_UNUSED(class_id);
+    EAGINE_MAYBE_UNUSED(method_id);
+    EAGINE_MAYBE_UNUSED(source_id);
+    EAGINE_MAYBE_UNUSED(blob_id);
+    EAGINE_MAYBE_UNUSED(offset);
+    EAGINE_MAYBE_UNUSED(fragment);
+    EAGINE_MAYBE_UNUSED(priority);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+bool blob_manipulator::process_incoming(
+  const message_view& message, logger& log) {
+    identifier class_id{};
+    identifier method_id{};
+    identifier_t blob_id{0U};
+    std::int64_t offset{0};
+
+    auto header = std::tie(class_id, method_id, blob_id, offset);
+    block_data_source source{message.data};
+    default_deserializer_backend backend(source);
+    auto errors = deserialize(header, backend);
+    if(!errors) {
+        push_incoming(
+          class_id.value(),
+          method_id.value(),
+          blob_id,
+          message.source_id,
+          offset,
+          source.remaining(),
+          message.priority);
+        return true;
+    } else {
+        log.debug("failed to deserialize header of blob")
+          .arg(EAGINE_ID(errors), errors)
+          .arg(EAGINE_ID(data), message.data);
     }
+    return false;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -77,7 +120,7 @@ bool blob_manipulator::process_outgoing(
               identifier(pending.class_id),
               identifier(pending.method_id),
               pending.blob_id,
-              pending.current.split_position());
+              limit_cast<std::int64_t>(pending.current.split_position()));
 
             block_data_sink sink(cover(temp));
             default_serializer_backend backend(sink);
