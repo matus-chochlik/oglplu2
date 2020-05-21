@@ -25,10 +25,6 @@ const char** example_args::argv() const noexcept {
     return _args.argv();
 }
 //------------------------------------------------------------------------------
-string_view example_args::command() const noexcept { // NOLINT
-    return _args.command();
-}
-//------------------------------------------------------------------------------
 template <typename T>
 bool example_args::_parse_param(example_param<T>& param) const {
     program_parameter<T> temp(param._stag, param._ltag, param._value);

@@ -15,12 +15,15 @@ class master_ctx {
 private:
     program_args _args;
     root_logger _log_root;
+    std::string _exe_path;
 
 public:
     master_ctx(
       int argc, const char** argv, const main_ctx_options& options) noexcept
       : _args{argc, argv}
       , _log_root{options.logger_id, _args, options.logger_opts} {
+        // TODO: realpath
+        _exe_path = to_string(_args.command());
     }
 
     auto& args() noexcept {
@@ -30,12 +33,17 @@ public:
     logger& log() noexcept {
         return _log_root;
     }
+
+    string_view exe_path() const noexcept {
+        return {_exe_path};
+    }
 };
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 main_ctx::main_ctx(master_ctx& master) noexcept
   : _args{master.args()}
-  , _log{master.log()} {
+  , _log{master.log()}
+  , _exe_path{master.exe_path()} {
 }
 //------------------------------------------------------------------------------
 extern int main(main_ctx& ctx);

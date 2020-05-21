@@ -40,7 +40,7 @@ int main(main_ctx& ctx) {
 
         state.set_size(800, 600);
 
-        params.exec_command(args.command());
+        params.exec_command(ctx.exe_path());
 
         example_args eargs(args, ctx.log());
         example_run_context erc{ctx, eargs, params, state};

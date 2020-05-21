@@ -17,7 +17,7 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 int main(main_ctx& ctx) {
-    file_contents data(ctx.args().command());
+    file_contents data(ctx.exe_path());
     std::array<byte, 32> temp{};
 
     sslp::ssl_api ssl{};

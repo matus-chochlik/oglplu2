@@ -93,8 +93,6 @@ public:
 
     const char** argv() const noexcept;
 
-    string_view command() const noexcept;
-
     bool parse_param(example_string_param& param) const;
 };
 

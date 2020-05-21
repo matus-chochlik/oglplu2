@@ -26,6 +26,7 @@ class main_ctx {
 private:
     program_args& _args;
     logger& _log;
+    string_view _exe_path;
 
 public:
     main_ctx(master_ctx&) noexcept;
@@ -36,6 +37,10 @@ public:
 
     logger& log() noexcept {
         return _log;
+    }
+
+    string_view exe_path() const noexcept {
+        return _exe_path;
     }
 };
 
