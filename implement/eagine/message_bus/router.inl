@@ -318,6 +318,10 @@ bool router::_handle_special(
                 // this should be routed
                 return false;
             }
+        } else if(EAGINE_ID(blobFrgmnt).matches(method_id)) {
+            // TODO: examine if it's an interesting BLOB
+            // this should be routed
+            return false;
         }
         _log.warning("unhandled special message ${message} from ${source}")
           .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id))

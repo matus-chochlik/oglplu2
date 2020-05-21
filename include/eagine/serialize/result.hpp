@@ -75,8 +75,20 @@ using serialization_result =
   valid_if_indicated<T, serialization_errors, bool, false>;
 //------------------------------------------------------------------------------
 template <typename T>
+static inline serialization_errors get_errors(
+  const serialization_result<T>& result) noexcept {
+    return result.policy()._indicator;
+}
+//------------------------------------------------------------------------------
+template <typename T>
 using deserialization_result =
   valid_if_indicated<T, deserialization_errors, bool, false>;
+//------------------------------------------------------------------------------
+template <typename T>
+static inline deserialization_errors get_errors(
+  const deserialization_result<T>& result) noexcept {
+    return result.policy()._indicator;
+}
 //------------------------------------------------------------------------------
 } // namespace eagine
 

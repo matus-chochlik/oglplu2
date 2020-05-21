@@ -36,7 +36,7 @@ struct valid_if_indicated_policy {
 
         template <typename Log, typename T>
         void operator()(Log& log, const T&) const {
-            log << "Getting the value of an empty optional";
+            log << "indicator is " << Value;
         }
     };
 };

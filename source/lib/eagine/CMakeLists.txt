@@ -13,6 +13,7 @@ set(EAGINE_LIB_SOURCES
 	str_var_subst.cpp
 	message_bus_context.cpp
 	message_bus_setup.cpp
+	message_bus_blobs.cpp
 	message_bus_endpoint.cpp
 	message_bus_router.cpp
 	message_bus_bridge.cpp

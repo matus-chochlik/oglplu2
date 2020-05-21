@@ -11,30 +11,16 @@
 #define EAGINE_MESSAGE_BUS_ENDPOINT_HPP
 
 #include "../logging/logger.hpp"
-#include "../memory/buffer_pool.hpp"
-#include "../memory/split_block.hpp"
-#include "../timeout.hpp"
+#include "blobs.hpp"
 #include "connection.hpp"
 #include "context_fwd.hpp"
 #include "serialize.hpp"
-#include <cstdint>
 #include <map>
 #include <tuple>
 #include <vector>
 
 namespace eagine {
 namespace msgbus {
-//------------------------------------------------------------------------------
-struct pending_blob {
-    identifier_t class_id{message_info::invalid_id()};
-    identifier_t method_id{message_info::invalid_id()};
-    identifier_t target_id{message_info::invalid_id()};
-    std::uint64_t blob_id{0U};
-    memory::buffer blob{};
-    memory::const_split_block current{};
-    timeout max_time{};
-    message_priority priority{message_priority::normal};
-};
 //------------------------------------------------------------------------------
 class friend_of_endpoint;
 //------------------------------------------------------------------------------
@@ -67,11 +53,6 @@ private:
       std::tuple<span_size_t, message_priority_queue>>
       _incoming{};
 
-    std::uint64_t _blob_id_sequence{0};
-    memory::buffer_pool _buffers{};
-    std::vector<pending_blob> _outgoing_blobs{};
-    std::vector<pending_blob> _incoming_blobs{};
-
     static inline auto _make_key(
       identifier_t class_id, identifier_t method_id) noexcept {
         return std::make_tuple(class_id, method_id);
@@ -87,10 +68,12 @@ private:
         return std::get<1>(std::get<1>(*iter));
     }
 
-    connection::fetch_handler _store_handler{};
+    blob_manipulator _blobs{};
 
     bool _cleanup_blobs();
     bool _process_blobs();
+
+    connection::fetch_handler _store_handler{};
 
     bool _do_send(identifier_t class_id, identifier_t method_id, message_view);
 
@@ -265,15 +248,19 @@ public:
       identifier_t method_id,
       identifier_t target_id,
       memory::const_block blob,
-      timeout max_time,
-      message_priority priority);
+      std::chrono::seconds max_time,
+      message_priority priority) {
+        _blobs.push_outgoing(
+          class_id, method_id, target_id, blob, max_time, priority);
+        return true;
+    }
 
     bool post_blob(
       identifier_t class_id,
       identifier_t method_id,
       identifier_t target_id,
       memory::const_block blob,
-      timeout max_time) {
+      std::chrono::seconds max_time) {
         return post_blob(
           class_id,
           method_id,
@@ -287,14 +274,36 @@ public:
       identifier_t class_id,
       identifier_t method_id,
       memory::const_block blob,
-      timeout max_time) {
+      std::chrono::seconds max_time,
+      message_priority priority) {
         return post_blob(
-          class_id,
-          method_id,
-          invalid_id(),
-          blob,
-          max_time,
-          message_priority::normal);
+          class_id, method_id, invalid_id(), blob, max_time, priority);
+    }
+
+    template <identifier_t ClassId, identifier_t MethodId>
+    bool broadcast_blob(
+      message_id<ClassId, MethodId>,
+      memory::const_block blob,
+      std::chrono::seconds max_time,
+      message_priority priority) {
+        return broadcast_blob(ClassId, MethodId, blob, max_time, priority);
+    }
+
+    bool broadcast_blob(
+      identifier_t class_id,
+      identifier_t method_id,
+      memory::const_block blob,
+      std::chrono::seconds max_time) {
+        return broadcast_blob(
+          class_id, method_id, blob, max_time, message_priority::normal);
+    }
+
+    template <identifier_t ClassId, identifier_t MethodId>
+    bool broadcast_blob(
+      message_id<ClassId, MethodId>,
+      memory::const_block blob,
+      std::chrono::seconds max_time) {
+        return broadcast_blob(ClassId, MethodId, blob, max_time);
     }
 
     bool send(
