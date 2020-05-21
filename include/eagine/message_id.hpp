@@ -40,6 +40,22 @@ template <identifier_t ClassId, identifier_t MethodId>
 struct message_id {
     using type = message_id;
 
+    static constexpr identifier_t class_id() noexcept {
+        return ClassId;
+    }
+
+    static constexpr auto class_() noexcept {
+        return identifier{class_id()};
+    }
+
+    static constexpr identifier_t method_id() noexcept {
+        return MethodId;
+    }
+
+    static constexpr auto method() noexcept {
+        return identifier{method_id()};
+    }
+
     static constexpr bool matches(const message_id_tuple& mid) noexcept {
         return (ClassId == mid.class_id()) && (MethodId == mid.method_id());
     }

@@ -89,6 +89,13 @@ private:
         return _do_send(class_id, method_id, message);
     }
 
+    bool _handle_post(
+      identifier_t class_id,
+      identifier_t method_id,
+      const message_view& message) {
+        return post(class_id, method_id, message);
+    }
+
     bool _handle_special(
       identifier_t class_id,
       identifier_t method_id,

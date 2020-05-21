@@ -24,6 +24,10 @@ public:
       : _block{blk} {
     }
 
+    constexpr span_size_t split_position() const noexcept {
+        return _split;
+    }
+
     constexpr auto head() const noexcept {
         return head(_block, _split);
     }

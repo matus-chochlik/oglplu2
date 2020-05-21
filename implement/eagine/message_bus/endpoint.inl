@@ -5,6 +5,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/bool_aggregate.hpp>
+#include <eagine/branch_predict.hpp>
 #include <eagine/message_bus/context.hpp>
 
 namespace eagine {
@@ -17,49 +18,15 @@ bool endpoint::_cleanup_blobs() {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool endpoint::_process_blobs() {
-    some_true something_done{};
-
-    // TODO: variable fragment size depending on priority
-    std::array<byte, 4096> temp{};
-    // TODO: move this to blobs.*
-    auto handle_outgoing = [this, &something_done, &temp](
-                             pending_blob& pending) {
-        if(pending.current.tail()) {
-            const auto header = std::make_tuple(
-              identifier(pending.class_id),
-              identifier(pending.method_id),
-              pending.blob_id);
-
-            block_data_sink sink(cover(temp));
-            default_serializer_backend backend(sink);
-            auto errors = serialize(header, backend);
-            if(!errors) {
-                if(auto written = sink.write_some(pending.current)) {
-                    pending.current = extract(written);
-                    message_view message(sink.done());
-                    message.set_target_id(pending.target_id);
-                    message.set_priority(pending.priority);
-                    something_done(
-                      post(EAGINE_MSG_ID(eagiMsgBus, blobFrgmnt), message));
-                } else {
-                    _log.debug("failed to write fragment of blob ${message}")
-                      .arg(EAGINE_ID(errors), get_errors(written))
-                      .arg(
-                        EAGINE_ID(message),
-                        message_id_tuple(pending.class_id, pending.method_id));
-                }
-            } else {
-                _log.debug("failed to serialize header of blob ${message}")
-                  .arg(EAGINE_ID(errors), errors)
-                  .arg(
-                    EAGINE_ID(message),
-                    message_id_tuple(pending.class_id, pending.method_id));
-            }
-        }
-    };
-    _blobs.for_each_outgoing(blob_manipulator::handler{handle_outgoing});
-
-    return something_done;
+    const auto opt_max_size = max_data_size();
+    if(EAGINE_LIKELY(opt_max_size)) {
+        return _blobs.process_outgoing(
+          blob_manipulator::send_handler{
+            this, EAGINE_MEM_FUNC_C(endpoint, _handle_post)},
+          extract(opt_max_size),
+          _log);
+    }
+    return false;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -84,13 +51,17 @@ bool endpoint::_handle_special(
   identifier_t class_id,
   identifier_t method_id,
   const message_view& message) noexcept {
-    if(EAGINE_UNLIKELY(
-         EAGINE_MSG_ID(eagiMsgBus, assignId).matches(class_id, method_id))) {
-        if(!has_id()) {
-            _id = message.target_id;
-            log().debug("assigned endpoint id ${id}").arg(EAGINE_ID(id), _id);
+    if(EAGINE_UNLIKELY(EAGINE_ID(eagiMsgBus).matches(class_id))) {
+        if(EAGINE_ID(blobFrgmnt).matches(method_id)) {
+        } else if(EAGINE_ID(assignId).matches(method_id)) {
+            if(!has_id()) {
+                _id = message.target_id;
+                log()
+                  .debug("assigned endpoint id ${id}")
+                  .arg(EAGINE_ID(id), _id);
+            }
+            return true;
         }
-        return true;
     }
     return false;
 }

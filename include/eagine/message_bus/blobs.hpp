@@ -11,6 +11,7 @@
 #define EAGINE_MESSAGE_BUS_BLOBS_HPP
 
 #include "../callable_ref.hpp"
+#include "../logging/logger.hpp"
 #include "../memory/buffer_pool.hpp"
 #include "../memory/split_block.hpp"
 #include "../timeout.hpp"
@@ -52,6 +53,11 @@ public:
     using handler = callable_ref<void(pending_blob&)>;
 
     void for_each_outgoing(handler);
+
+    using send_handler =
+      callable_ref<bool(identifier_t, identifier_t, const message_view&)>;
+
+    bool process_outgoing(send_handler, span_size_t message_size, logger&);
 };
 //------------------------------------------------------------------------------
 } // namespace msgbus

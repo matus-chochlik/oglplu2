@@ -5,6 +5,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/bool_aggregate.hpp>
+#include <eagine/message_bus/serialize.hpp>
+#include <eagine/serialize/block_sink.hpp>
 
 namespace eagine {
 namespace msgbus {
@@ -58,6 +60,54 @@ void blob_manipulator::for_each_outgoing(handler handle) {
     for(auto& pending : _outgoing) {
         handle(pending);
     }
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+bool blob_manipulator::process_outgoing(
+  send_handler do_send, span_size_t, logger& log) {
+    some_true something_done{};
+
+    const auto msg_id = EAGINE_MSG_ID(eagiMsgBus, blobFrgmnt);
+    // TODO: variable fragment size depending on priority and message_size
+    std::array<byte, 4096> temp{};
+
+    for(auto& pending : _outgoing) {
+        if(pending.current.tail()) {
+            const auto header = std::make_tuple(
+              identifier(pending.class_id),
+              identifier(pending.method_id),
+              pending.blob_id,
+              pending.current.split_position());
+
+            block_data_sink sink(cover(temp));
+            default_serializer_backend backend(sink);
+            auto errors = serialize(header, backend);
+            if(!errors) {
+                if(auto written = sink.write_some(pending.current)) {
+                    pending.current = extract(written);
+                    message_view message(sink.done());
+                    message.set_target_id(pending.target_id);
+                    message.set_priority(pending.priority);
+                    something_done(
+                      do_send(msg_id.class_id(), msg_id.method_id(), message));
+                } else {
+                    log.debug("failed to write fragment of blob ${message}")
+                      .arg(EAGINE_ID(errors), get_errors(written))
+                      .arg(
+                        EAGINE_ID(message),
+                        message_id_tuple(pending.class_id, pending.method_id));
+                }
+            } else {
+                log.debug("failed to serialize header of blob ${message}")
+                  .arg(EAGINE_ID(errors), errors)
+                  .arg(
+                    EAGINE_ID(message),
+                    message_id_tuple(pending.class_id, pending.method_id));
+            }
+        }
+    }
+
+    return something_done;
 }
 //------------------------------------------------------------------------------
 } // namespace msgbus
