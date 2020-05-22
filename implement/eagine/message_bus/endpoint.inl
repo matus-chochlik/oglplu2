@@ -23,8 +23,7 @@ bool endpoint::_process_blobs() {
         return _blobs.process_outgoing(
           blob_manipulator::send_handler{
             this, EAGINE_MEM_FUNC_C(endpoint, _handle_post)},
-          extract(opt_max_size),
-          _log);
+          extract(opt_max_size));
     }
     return false;
 }
@@ -53,7 +52,7 @@ bool endpoint::_handle_special(
   const message_view& message) noexcept {
     if(EAGINE_UNLIKELY(EAGINE_ID(eagiMsgBus).matches(class_id))) {
         if(EAGINE_ID(blobFrgmnt).matches(method_id)) {
-            _blobs.process_incoming(message, _log);
+            _blobs.process_incoming(_store_handler, message);
             return true;
         } else if(EAGINE_ID(assignId).matches(method_id)) {
             if(!has_id()) {

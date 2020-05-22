@@ -110,6 +110,7 @@ private:
     explicit endpoint(
       logger log, connection::fetch_handler store_message) noexcept
       : _log{std::move(log)}
+      , _blobs{_log}
       , _store_handler{store_message} {
     }
 
@@ -120,6 +121,7 @@ private:
       , _connections{std::move(temp._connections)}
       , _outgoing{std::move(temp._outgoing)}
       , _incoming{std::move(temp._incoming)}
+      , _blobs{std::move(temp._blobs)}
       , _store_handler{this, EAGINE_MEM_FUNC_C(endpoint, _store_message)} {
         temp._id = invalid_id();
     }
@@ -131,6 +133,7 @@ private:
       , _connections{std::move(temp._connections)}
       , _outgoing{std::move(temp._outgoing)}
       , _incoming{std::move(temp._incoming)}
+      , _blobs{std::move(temp._blobs)}
       , _store_handler{store_message} {
         temp._id = invalid_id();
     }
@@ -143,12 +146,14 @@ public:
     endpoint(logger log) noexcept
       : _log{std::move(log)}
       , _context{make_context(_log)}
+      , _blobs{_log}
       , _store_handler{this, EAGINE_MEM_FUNC_C(endpoint, _store_message)} {
     }
 
     endpoint(logger log, const program_args& args) noexcept
       : _log{std::move(log)}
       , _context{make_context(_log, args)}
+      , _blobs{_log}
       , _store_handler{this, EAGINE_MEM_FUNC_C(endpoint, _store_message)} {
     }
 

@@ -15,6 +15,7 @@
 #include "../memory/buffer_pool.hpp"
 #include "../memory/split_block.hpp"
 #include "../timeout.hpp"
+#include "../valid_if/positive.hpp"
 #include "message.hpp"
 #include <cstdint>
 
@@ -34,12 +35,23 @@ struct pending_blob {
 //------------------------------------------------------------------------------
 class blob_manipulator {
 private:
+    logger _log{};
+    std::int64_t _max_blob_size{16 * 1024 * 1024};
     std::uint64_t _blob_id_sequence{0};
     memory::buffer_pool _buffers{};
     std::vector<pending_blob> _outgoing{};
     std::vector<pending_blob> _incoming{};
 
 public:
+    blob_manipulator() noexcept = default;
+    blob_manipulator(logger& parent)
+      : _log{EAGINE_ID(BlobManipl), parent} {
+    }
+
+    valid_if_positive<span_size_t> max_blob_size() const noexcept {
+        return {span_size(_max_blob_size)};
+    }
+
     bool cleanup();
 
     void push_outgoing(
@@ -50,24 +62,25 @@ public:
       std::chrono::seconds max_time,
       message_priority priority);
 
-    void push_incoming(
+    bool push_incoming_fragment(
       identifier_t class_id,
       identifier_t method_id,
       identifier_t source_id,
       identifier_t blob_id,
       std::int64_t offset,
+      std::int64_t total,
       memory::const_block fragment,
       message_priority priority);
 
-    using receive_handler =
+    using fetch_handler =
       callable_ref<bool(identifier_t, identifier_t, const message_view&)>;
 
-    bool process_incoming(const message_view&, logger&);
+    bool process_incoming(fetch_handler, const message_view&);
 
     using send_handler =
       callable_ref<bool(identifier_t, identifier_t, const message_view&)>;
 
-    bool process_outgoing(send_handler, span_size_t message_size, logger&);
+    bool process_outgoing(send_handler, span_size_t max_data_size);
 };
 //------------------------------------------------------------------------------
 } // namespace msgbus
