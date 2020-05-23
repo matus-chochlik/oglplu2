@@ -5,7 +5,7 @@
 #
 find_package(Boost COMPONENTS unit_test_framework)
 
-function(eagine_add_boost_test LIBRARY TEST_NAME)
+function(do_add_boost_test LIBRARY TEST_NAME)
 	add_executable(
 		test-boost-${LIBRARY}-${TEST_NAME}
 		EXCLUDE_FROM_ALL

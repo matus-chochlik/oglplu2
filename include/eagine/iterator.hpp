@@ -146,16 +146,12 @@ template <
   typename Transform,
   typename Derived>
 class basic_transforming_iterator
-  : public basic_selfref_iterator<Iterator, Derived>
-  , private Transform {
+  : public basic_selfref_iterator<Iterator, Derived> {
 private:
     using _base = basic_selfref_iterator<Iterator, Derived>;
+    Transform _transf{};
 
-    const Transform& _transf() const noexcept {
-        return *this;
-    }
-
-    mutable S _tempval;
+    mutable S _tempval{};
 
     const _base& _base_iter() const noexcept {
         return *this;
@@ -165,9 +161,8 @@ public:
     basic_transforming_iterator() = default;
 
     basic_transforming_iterator(Iterator iter, Transform transf)
-      : _base(iter)
-      , Transform(transf)
-      , _tempval() {
+      : _base{iter}
+      , _transf{std::move(transf)} {
     }
 
     using value_type = T;
@@ -175,25 +170,17 @@ public:
     using pointer = const T*;
 
     const T& operator*() const {
-        _tempval = _transf()(**_base_iter());
+        _tempval = _transf(**_base_iter());
         return _tempval;
     }
 };
 //------------------------------------------------------------------------------
 template <typename Iterator, typename T, typename Transform, typename Derived>
 class basic_transforming_iterator<Iterator, T, T&, Transform, Derived>
-  : public basic_selfref_iterator<Iterator, Derived>
-  , private Transform {
+  : public basic_selfref_iterator<Iterator, Derived> {
 private:
     using _base = basic_selfref_iterator<Iterator, Derived>;
-
-    Transform& _transf() noexcept {
-        return *this;
-    }
-
-    const Transform& _transf() const noexcept {
-        return *this;
-    }
+    Transform _transf{};
 
     const _base& _base_iter() const noexcept {
         return *this;
@@ -204,7 +191,7 @@ public:
 
     basic_transforming_iterator(Iterator iter, Transform transf)
       : _base(iter)
-      , Transform(transf) {
+      , _transf{std::move(transf)} {
     }
 
     using value_type = T;
@@ -212,11 +199,11 @@ public:
     using pointer = const T*;
 
     T& operator*() {
-        return _transf()(**_base_iter());
+        return _transf(**_base_iter());
     }
 
     const T& operator*() const {
-        return _transf()(**_base_iter());
+        return _transf(**_base_iter());
     }
 };
 //------------------------------------------------------------------------------

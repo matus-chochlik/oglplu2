@@ -28,7 +28,7 @@ BOOST_AUTO_TEST_CASE(mp_list_contains) {
     BOOST_CHECK((mp_contains_v<lDCB, type_D>));
     BOOST_CHECK((mp_contains_v<lDCB, type_C>));
     BOOST_CHECK((mp_contains_v<lDCB, type_B>));
-    BOOST_CHECK((!mp_contain_vs<lDCB, type_A>));
+    BOOST_CHECK((!mp_contains_v<lDCB, type_A>));
 }
 
 BOOST_AUTO_TEST_CASE(mp_list_1) {

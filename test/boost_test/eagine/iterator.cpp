@@ -8,6 +8,7 @@
 #define BOOST_TEST_MODULE EAGINE_iterator
 #include "../unit_test_begin.inl"
 
+#include <functional>
 #include <string>
 
 using int_iterator = eagine::selfref_iterator<int>;
@@ -16,7 +17,7 @@ using strint_iterator = eagine::transforming_iterator<
   int_iterator,
   std::string,
   std::string,
-  std::string (*)(int)>;
+  std::function<std::string(int)>>;
 
 BOOST_AUTO_TEST_SUITE(iterator_tests)
 
@@ -84,9 +85,11 @@ BOOST_AUTO_TEST_CASE(iterator_2) {
     const int bi = rg.get_int(0, 1000);
     const int ei = bi + 1 + rg.get_int(0, 1000);
     int ii = bi;
+    std::function<std::string(int)> test_transform(
+      static_cast<std::string (*)(int)>(&std::to_string));
 
-    const strint_iterator b(bi, &std::to_string);
-    const strint_iterator e(ei, &std::to_string);
+    const strint_iterator b(bi, test_transform);
+    const strint_iterator e(ei, test_transform);
     strint_iterator i = b;
 
     BOOST_CHECK(b == i);
