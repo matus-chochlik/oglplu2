@@ -11,9 +11,21 @@
 
 #include "identifier.hpp"
 #include "identity.hpp"
-#include "random_bites.hpp"
+#include "int_constant.hpp"
+#include <random>
 
 namespace eagine {
+//------------------------------------------------------------------------------
+template <std::size_t S, std::size_t... I, typename Engine>
+void fill_random_charset_string(
+  span<char> dst,
+  const char (&charset)[S],
+  std::index_sequence<I...>,
+  Engine& engine) {
+    std::uniform_int_distribution<std::size_t> dist(0, S - 1);
+    dst[sizeof...(I)] = '\0';
+    ((dst[I] = charset[dist(engine)]), ...);
+}
 //------------------------------------------------------------------------------
 template <
   std::size_t M,
@@ -23,8 +35,10 @@ template <
   typename Engine>
 auto make_random_basic_identifier(
   identity<basic_identifier<M, B, CharSet, UIntT>>, Engine& engine) {
-    return basic_identifier<M, B, CharSet, UIntT>{
-      random_biteset<M, B, std::uint8_t>(0, (1U << B) - 1, engine)};
+    char temp[M + 1];
+    fill_random_charset_string(
+      cover(temp), CharSet::values, std::make_index_sequence<M>(), engine);
+    return basic_identifier<M, B, CharSet, UIntT>{temp};
 }
 //------------------------------------------------------------------------------
 template <typename Engine>

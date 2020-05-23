@@ -37,27 +37,6 @@ bool blob_manipulator::cleanup() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void blob_manipulator::push_outgoing(
-  identifier_t class_id,
-  identifier_t method_id,
-  identifier_t target_id,
-  memory::const_block blob,
-  std::chrono::seconds max_time,
-  message_priority priority) {
-    _outgoing.emplace_back();
-    auto& pending = _outgoing.back();
-    pending.class_id = class_id;
-    pending.method_id = method_id;
-    pending.endpoint_id = target_id;
-    pending.blob_id = _blob_id_sequence++;
-    pending.blob = _buffers.get(blob.size());
-    copy(blob, cover(pending.blob));
-    pending.current = {view(pending.blob)};
-    pending.max_time = timeout{max_time};
-    pending.priority = priority;
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
 bool pending_blob::merge_fragment(
   span_size_t offset, memory::const_block fragment) {
     if(missing_parts.size() == 1) {
@@ -75,8 +54,8 @@ bool pending_blob::merge_fragment(
             }
         }
     } else if(missing_parts.size() > 1) {
+        // TODO: the other cases
     }
-    // TODO: the other cases
     return false;
 }
 //------------------------------------------------------------------------------
@@ -99,7 +78,7 @@ bool blob_manipulator::push_incoming_fragment(
         auto& pending = *pos;
         if(EAGINE_LIKELY(pending.blob.size() == span_size(total_size))) {
             if(EAGINE_LIKELY(pending.class_id == class_id)) {
-                if(EAGINE_LIKELY(pending.class_id == class_id)) {
+                if(EAGINE_LIKELY(pending.method_id == method_id)) {
                     pending.max_time.reset();
                     if(EAGINE_UNLIKELY(pending.priority < priority)) {
                         pending.priority = priority;
@@ -117,12 +96,12 @@ bool blob_manipulator::push_incoming_fragment(
             }
         } else {
             _log.debug("total size mismatch in blob fragment message")
-              .arg(EAGINE_ID(pending), identifier(pending.class_id))
-              .arg(EAGINE_ID(message), identifier(class_id));
+              .arg(EAGINE_ID(pending), identifier(pending.blob.size()))
+              .arg(EAGINE_ID(message), identifier(total_size));
         }
     } else {
         _incoming.emplace_back();
-        auto& pending = _outgoing.back();
+        auto& pending = _incoming.back();
         pending.class_id = class_id;
         pending.method_id = method_id;
         pending.endpoint_id = source_id;
@@ -164,8 +143,8 @@ bool blob_manipulator::process_incoming(
                         return push_incoming_fragment(
                           class_id.value(),
                           method_id.value(),
-                          blob_id,
                           message.source_id,
+                          blob_id,
                           offset,
                           total_size,
                           fragment,
@@ -214,6 +193,27 @@ span_size_t blob_manipulator::message_size(
 //------------------------------------------------------------------------------
 inline memory::block blob_manipulator::_scratch_block(span_size_t size) {
     return cover(_scratch_buffer.resize(size));
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void blob_manipulator::push_outgoing(
+  identifier_t class_id,
+  identifier_t method_id,
+  identifier_t target_id,
+  memory::const_block blob,
+  std::chrono::seconds max_time,
+  message_priority priority) {
+    _outgoing.emplace_back();
+    auto& pending = _outgoing.back();
+    pending.class_id = class_id;
+    pending.method_id = method_id;
+    pending.endpoint_id = target_id;
+    pending.blob_id = ++_blob_id_sequence;
+    pending.blob = _buffers.get(blob.size());
+    copy(blob, cover(pending.blob));
+    pending.current = {view(pending.blob)};
+    pending.max_time = timeout{max_time};
+    pending.priority = priority;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -268,25 +268,27 @@ bool blob_manipulator::process_outgoing(
 EAGINE_LIB_FUNC
 span_size_t blob_manipulator::fetch_all(
   blob_manipulator::fetch_handler handle_fetch) {
-    span_size_t removed_count{0};
+
+    span_size_t done_count{0};
+    for(auto& pending : _incoming) {
+        if(pending.missing_parts.empty()) {
+            message_view message{view(pending.blob)};
+            message.set_source_id(pending.endpoint_id);
+            message.set_priority(pending.priority);
+            handle_fetch(pending.class_id, pending.method_id, message);
+            _buffers.eat(std::move(pending.blob));
+            ++done_count;
+        }
+    }
+
     _incoming.erase(
       std::remove_if(
         _incoming.begin(),
         _incoming.end(),
-        [this, &removed_count, &handle_fetch](auto& pending) {
-            if(pending.missing_parts.empty()) {
-                message_view message{view(pending.blob)};
-                message.source_id = pending.endpoint_id;
-                message.priority = pending.priority;
-                handle_fetch(pending.class_id, pending.method_id, message);
-                _buffers.eat(std::move(pending.blob));
-                ++removed_count;
-                return true;
-            }
-            return false;
-        }),
+        [](auto& pending) { return pending.blob.empty(); }),
       _incoming.end());
-    return removed_count;
+
+    return done_count;
 }
 //------------------------------------------------------------------------------
 } // namespace msgbus
