@@ -25,6 +25,7 @@ function(do_add_boost_test LIBRARY TEST_NAME)
 	set_tests_properties(
 		test-boost-${LIBRARY}-${TEST_NAME}-build
 		PROPERTIES
+		TIMEOUT 120
 		FOLDER "test/${LIBRARY}"
 		FIXTURES_SETUP "test-boost-${LIBRARY}-${TEST_NAME}-built"
 	)
@@ -36,6 +37,7 @@ function(do_add_boost_test LIBRARY TEST_NAME)
 	set_tests_properties(
 		test-boost-${LIBRARY}-${TEST_NAME}-execute
 		PROPERTIES
+		TIMEOUT 200
 		FOLDER "test/${LIBRARY}"
 		FIXTURES_REQUIRED "test-boost-${LIBRARY}-${TEST_NAME}-built"
 	)

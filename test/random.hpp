@@ -8,6 +8,7 @@
 #ifndef EAGINE_TEST_RANDOM_HPP
 #define EAGINE_TEST_RANDOM_HPP
 
+#include <eagine/random_bytes.hpp>
 #include <eagine/random_identifier.hpp>
 #include <eagine/span.hpp>
 #include <eagine/string_span.hpp>
@@ -137,6 +138,10 @@ public:
             c = get_char_from(chars);
         }
         return result;
+    }
+
+    void fill(memory::block blk) {
+        fill_with_random_bytes(blk);
     }
 
     template <typename T>

@@ -8,19 +8,82 @@
 #define BOOST_TEST_MODULE EAGINE_msgbus_blobs
 #include "../unit_test_begin.inl"
 
-#include <eagine/random_bytes.hpp>
 #include <map>
 
 BOOST_AUTO_TEST_SUITE(msgbus_blobs_tests)
 
 static eagine::test_random_generator rg;
 //------------------------------------------------------------------------------
-BOOST_AUTO_TEST_CASE(msgbus_blobs_1) {
+BOOST_AUTO_TEST_CASE(msgbus_pending_blob_1) {
+    using namespace eagine;
+
+    for(int i = 0; i < 1000; ++i) {
+
+        memory::buffer test_blob{};
+        test_blob.resize(rg.get_span_size(16, 16 * 1024));
+        rg.fill(cover(test_blob));
+
+        msgbus::pending_blob pending{};
+        pending.blob = memory::buffer{};
+        pending.blob.resize(test_blob.size());
+        pending.init();
+
+        span_size_t pos = 0;
+        while(pos < pending.blob.size()) {
+            auto fragment = head(
+              skip(view(test_blob), pos),
+              rg.get_span_size(0, test_blob.size() - pos));
+
+            BOOST_CHECK(pending.merge_fragment(pos, fragment));
+            pos += fragment.size();
+        }
+
+        BOOST_CHECK(pending.is_complete());
+        BOOST_CHECK(are_equal(view(test_blob), view(pending.blob)));
+    }
+}
+//------------------------------------------------------------------------------
+BOOST_AUTO_TEST_CASE(msgbus_pending_blob_2) {
+    using namespace eagine;
+
+    for(int i = 0; i < 100; ++i) {
+
+        memory::buffer test_blob{};
+        test_blob.resize(rg.get_span_size(16, 16 * 1024));
+        rg.fill(cover(test_blob));
+
+        msgbus::pending_blob pending{};
+        pending.blob = memory::buffer{};
+        pending.blob.resize(test_blob.size());
+        pending.init();
+
+        span_size_t pos = 0;
+        while(!pending.is_complete() && (pos < test_blob.size())) {
+            if(rg.get_bool()) {
+                auto fragment = head(skip(view(test_blob), pos), 33);
+                BOOST_CHECK(pending.merge_fragment(pos, fragment));
+                pos += 17;
+            } else {
+                const auto rnd = rg.get_span_size(0, test_blob.size());
+                auto fragment = head(
+                  skip(view(test_blob), rnd),
+                  rg.get_span_size(0, test_blob.size() - rnd));
+
+                BOOST_CHECK(pending.merge_fragment(rnd, fragment));
+            }
+        }
+
+        BOOST_CHECK(pending.is_complete());
+        BOOST_CHECK(are_equal(view(test_blob), view(pending.blob)));
+    }
+}
+//------------------------------------------------------------------------------
+BOOST_AUTO_TEST_CASE(msgbus_blob_manipulator_1) {
     using namespace eagine;
 
     std::map<message_id_tuple, memory::buffer> test_blobs{};
 
-    while(test_blobs.size() < 100) {
+    while(test_blobs.size() < 1000) {
         const auto key = message_id_tuple(
           rg.get_identifier().value(), rg.get_identifier().value());
 
@@ -28,7 +91,7 @@ BOOST_AUTO_TEST_CASE(msgbus_blobs_1) {
             test_blobs[key] = memory::buffer{};
             auto& test_blob = test_blobs[key];
             test_blob.resize(rg.get_span_size(16, 1024));
-            fill_with_random_bytes(cover(test_blob));
+            rg.fill(cover(test_blob));
         }
     }
 
@@ -80,12 +143,12 @@ BOOST_AUTO_TEST_CASE(msgbus_blobs_1) {
     BOOST_CHECK_EQUAL(count, test_blobs.size());
 }
 //------------------------------------------------------------------------------
-BOOST_AUTO_TEST_CASE(msgbus_blobs_2) {
+BOOST_AUTO_TEST_CASE(msgbus_blob_manipulator_2) {
     using namespace eagine;
 
     std::map<message_id_tuple, memory::buffer> test_blobs{};
 
-    while(test_blobs.size() < 100) {
+    while(test_blobs.size() < 1000) {
         const auto key = message_id_tuple(
           rg.get_identifier().value(), rg.get_identifier().value());
 
@@ -93,7 +156,7 @@ BOOST_AUTO_TEST_CASE(msgbus_blobs_2) {
             test_blobs[key] = memory::buffer{};
             auto& test_blob = test_blobs[key];
             test_blob.resize(rg.get_span_size(16, 1024));
-            fill_with_random_bytes(cover(test_blob));
+            rg.fill(cover(test_blob));
         }
     }
 

@@ -11,6 +11,7 @@
 #define EAGINE_MESSAGE_BUS_BLOBS_HPP
 
 #include "../callable_ref.hpp"
+#include "../double_buffer.hpp"
 #include "../logging/logger.hpp"
 #include "../memory/buffer_pool.hpp"
 #include "../memory/split_block.hpp"
@@ -28,13 +29,22 @@ struct pending_blob {
     identifier_t method_id{0U};
     identifier_t endpoint_id{0U};
     std::uint64_t blob_id{0U};
-    // TODO: recycle the missing parts vector?
-    std::vector<std::tuple<span_size_t, span_size_t>> missing_parts{};
     memory::buffer blob{};
     memory::const_split_block current{};
+    // TODO: recycle the done parts vectors?
+    double_buffer<std::vector<std::tuple<span_size_t, span_size_t>>>
+      done_parts{};
     timeout max_time{};
     message_priority priority{message_priority::normal};
 
+    void init();
+    bool is_complete() const noexcept {
+        if(done_parts.front().size() == 1) {
+            const auto [bgn, end] = done_parts.front().front();
+            return (bgn == 0) && (end >= blob.size());
+        }
+        return false;
+    }
     bool merge_fragment(span_size_t offset, memory::const_block fragment);
 };
 //------------------------------------------------------------------------------

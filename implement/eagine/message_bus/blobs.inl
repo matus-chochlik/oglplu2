@@ -37,26 +37,85 @@ bool blob_manipulator::cleanup() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+void pending_blob::init() {
+    zero(cover(blob));
+    current = view(blob);
+    done_parts.front().clear();
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 bool pending_blob::merge_fragment(
-  span_size_t offset, memory::const_block fragment) {
-    if(missing_parts.size() == 1) {
-        auto& [mis_offs, mis_size] = missing_parts.front();
-        if(offset == mis_offs) {
-            const auto size = fragment.size();
-            if(size <= mis_size) {
-                copy(fragment, skip(cover(blob), mis_offs));
-                mis_offs += size;
-                mis_size -= size;
-                if(mis_size <= 0) {
-                    missing_parts.clear();
-                }
-                return true;
-            }
-        }
-    } else if(missing_parts.size() > 1) {
-        // TODO: the other cases
+  span_size_t bgn, memory::const_block fragment) {
+    const auto end = bgn + fragment.size();
+    done_parts.swap();
+    auto& dst = done_parts.front();
+    auto& src = done_parts.back();
+    dst.clear();
+
+    bool result = true;
+
+    if(src.empty()) {
+        dst.emplace_back(bgn, end);
+        copy(fragment, head(skip(cover(blob), bgn), end - bgn));
     }
-    return false;
+    bool new_done = false;
+    for(const auto [src_bgn, src_end] : src) {
+        if(bgn < src_bgn) {
+            if(end < src_bgn) {
+                if(!new_done) {
+                    dst.emplace_back(bgn, end);
+                    copy(fragment, head(skip(cover(blob), bgn), end - bgn));
+                    new_done = true;
+                }
+                dst.emplace_back(src_bgn, src_end);
+            } else if(end <= src_end) {
+                if(!new_done) {
+                    dst.emplace_back(bgn, src_end);
+                    copy(
+                      head(fragment, src_bgn - bgn),
+                      head(skip(cover(blob), bgn), src_bgn - bgn));
+                    new_done = true;
+                }
+                result &= are_equal(
+                  skip(fragment, src_bgn - bgn),
+                  head(skip(view(blob), src_bgn), end - src_bgn));
+            } else {
+                if(!new_done) {
+                    dst.emplace_back(bgn, end);
+                    copy(
+                      head(fragment, src_bgn - bgn),
+                      head(skip(cover(blob), bgn), src_bgn - bgn));
+                    copy(
+                      skip(fragment, src_end - bgn),
+                      head(skip(cover(blob), src_end), end - src_end));
+                    new_done = true;
+                }
+                result &= are_equal(
+                  head(skip(fragment, src_bgn - bgn), src_end - src_bgn),
+                  head(skip(view(blob), src_bgn), src_end - src_bgn));
+            }
+        } else if(bgn <= src_end) {
+            if(end <= src_end) {
+                dst.emplace_back(src_bgn, src_end);
+                new_done = true;
+                result &=
+                  are_equal(fragment, head(skip(view(blob), bgn), end - bgn));
+            } else {
+                dst.emplace_back(src_bgn, end);
+                copy(
+                  skip(fragment, src_end - bgn),
+                  head(skip(cover(blob), src_end), end - src_end));
+                new_done = true;
+                result &= are_equal(
+                  head(fragment, src_end - bgn),
+                  head(skip(view(blob), bgn), src_end - bgn));
+            }
+        } else {
+            dst.emplace_back(src_bgn, src_end);
+        }
+    }
+
+    return result;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -107,12 +166,9 @@ bool blob_manipulator::push_incoming_fragment(
         pending.endpoint_id = source_id;
         pending.blob_id = blob_id;
         pending.blob = _buffers.get(span_size(total_size));
-        zero(cover(pending.blob));
-        pending.current = {view(pending.blob)};
         pending.max_time = timeout{std::chrono::seconds(60)};
         pending.priority = priority;
-        pending.missing_parts.clear();
-        pending.missing_parts.emplace_back(0, pending.blob.size());
+        pending.init();
         pending.merge_fragment(span_size(offset), fragment);
     }
     return true;
@@ -270,22 +326,21 @@ span_size_t blob_manipulator::fetch_all(
   blob_manipulator::fetch_handler handle_fetch) {
 
     span_size_t done_count{0};
-    for(auto& pending : _incoming) {
-        if(pending.missing_parts.empty()) {
+    auto predicate = [this, &done_count, &handle_fetch](auto& pending) {
+        if(pending.is_complete()) {
             message_view message{view(pending.blob)};
             message.set_source_id(pending.endpoint_id);
             message.set_priority(pending.priority);
             handle_fetch(pending.class_id, pending.method_id, message);
             _buffers.eat(std::move(pending.blob));
             ++done_count;
+            return true;
         }
-    }
+        return false;
+    };
 
     _incoming.erase(
-      std::remove_if(
-        _incoming.begin(),
-        _incoming.end(),
-        [](auto& pending) { return pending.blob.empty(); }),
+      std::remove_if(_incoming.begin(), _incoming.end(), predicate),
       _incoming.end());
 
     return done_count;
