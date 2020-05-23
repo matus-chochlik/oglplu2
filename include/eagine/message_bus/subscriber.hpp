@@ -71,7 +71,54 @@ public:
 
 protected:
     using handler_type = typename endpoint::handler_type;
-    using handler_entry = std::tuple<identifier_t, identifier_t, handler_type>;
+    struct handler_entry {
+        identifier_t class_id{};
+        identifier_t method_id{};
+        handler_type handler{};
+
+        constexpr handler_entry() noexcept = default;
+
+        constexpr handler_entry(
+          identifier_t cls_id, identifier_t mtd_id, handler_type hndlr) noexcept
+          : class_id{cls_id}
+          , method_id{mtd_id}
+          , handler{hndlr} {
+        }
+
+        template <
+          identifier_t ClassId,
+          identifier_t MethodId,
+          typename Class,
+          bool (Class::*HandlerFunc)(stored_message&)>
+        handler_entry(
+          Class* instance,
+          message_handler_map<
+            message_id<ClassId, MethodId>,
+            member_function_constant<
+              bool (Class::*)(stored_message&),
+              HandlerFunc>> msg_map) noexcept
+          : class_id{ClassId}
+          , method_id{MethodId}
+          , handler{instance, msg_map.method()} {
+        }
+
+        template <
+          identifier_t ClassId,
+          identifier_t MethodId,
+          typename Class,
+          bool (Class::*HandlerFunc)(stored_message&)>
+        handler_entry(
+          Class* instance,
+          message_handler_map<
+            message_id<ClassId, MethodId>,
+            member_function_constant<
+              bool (Class::*)(stored_message&) const,
+              HandlerFunc>> msg_map) noexcept
+          : class_id{ClassId}
+          , method_id{MethodId}
+          , handler{instance, msg_map.method()} {
+        }
+    };
 
     ~subscriber_base() noexcept = default;
     constexpr subscriber_base() noexcept = default;
@@ -88,9 +135,8 @@ protected:
 
     inline void _subscribe_to(span<const handler_entry> msg_handlers) const {
         if(EAGINE_LIKELY(_endpoint)) {
-            for(auto& [class_id, method_id, unused] : msg_handlers) {
-                EAGINE_MAYBE_UNUSED(unused);
-                _endpoint->subscribe(class_id, method_id);
+            for(auto& entry : msg_handlers) {
+                _endpoint->subscribe(entry.class_id, entry.method_id);
             }
         }
     }
@@ -98,10 +144,9 @@ protected:
     inline void _unsubscribe_from(span<const handler_entry> msg_handlers) const
       noexcept {
         if(_endpoint) {
-            for(auto& [class_id, method_id, unused] : msg_handlers) {
+            for(auto& entry : msg_handlers) {
                 try {
-                    EAGINE_MAYBE_UNUSED(unused);
-                    _endpoint->unsubscribe(class_id, method_id);
+                    _endpoint->unsubscribe(entry.class_id, entry.method_id);
                 } catch(...) {
                 }
             }
@@ -111,9 +156,8 @@ protected:
     inline void _announce_subscriptions(
       span<const handler_entry> msg_handlers) const {
         if(EAGINE_LIKELY(_endpoint)) {
-            for(auto& [class_id, method_id, unused] : msg_handlers) {
-                EAGINE_MAYBE_UNUSED(unused);
-                _endpoint->say_subscribes_to(class_id, method_id);
+            for(auto& entry : msg_handlers) {
+                _endpoint->say_subscribes_to(entry.class_id, entry.method_id);
             }
         }
     }
@@ -121,9 +165,8 @@ protected:
     inline void _allow_subscriptions(
       span<const handler_entry> msg_handlers) const {
         if(EAGINE_LIKELY(_endpoint)) {
-            for(auto& [class_id, method_id, unused] : msg_handlers) {
-                EAGINE_MAYBE_UNUSED(unused);
-                _endpoint->allow_message_type(class_id, method_id);
+            for(auto& entry : msg_handlers) {
+                _endpoint->allow_message_type(entry.class_id, entry.method_id);
             }
         }
     }
@@ -131,10 +174,10 @@ protected:
     inline void _retract_subscriptions(
       span<const handler_entry> msg_handlers) const noexcept {
         if(EAGINE_LIKELY(_endpoint)) {
-            for(auto& [class_id, method_id, unused] : msg_handlers) {
+            for(auto& entry : msg_handlers) {
                 try {
-                    EAGINE_MAYBE_UNUSED(unused);
-                    _endpoint->say_unsubscribes_from(class_id, method_id);
+                    _endpoint->say_unsubscribes_from(
+                      entry.class_id, entry.method_id);
                 } catch(...) {
                 }
             }
@@ -142,8 +185,9 @@ protected:
     }
 
     bool _process_one(span<const handler_entry> msg_handlers) {
-        for(auto& [class_id, method_id, handler] : msg_handlers) {
-            if(bus().process_one(class_id, method_id, handler)) {
+        for(auto& entry : msg_handlers) {
+            if(bus().process_one(
+                 entry.class_id, entry.method_id, entry.handler)) {
                 return true;
             }
         }
@@ -152,8 +196,9 @@ protected:
 
     span_size_t _process_all(span<const handler_entry> msg_handlers) {
         span_size_t result{0};
-        for(auto& [class_id, method_id, handler] : msg_handlers) {
-            result += bus().process_all(class_id, method_id, handler);
+        for(auto& entry : msg_handlers) {
+            result +=
+              bus().process_all(entry.class_id, entry.method_id, entry.handler);
         }
         return result;
     }
@@ -175,38 +220,7 @@ public:
     using handler_type = typename endpoint::handler_type;
 
 protected:
-    using handler_entry = std::tuple<identifier_t, identifier_t, handler_type>;
-
-    template <
-      identifier_t ClassId,
-      identifier_t MethodId,
-      typename Class,
-      bool (Class::*HandlerFunc)(stored_message&)>
-    static constexpr inline std::tuple<identifier_t, identifier_t, handler_type>
-    as_tuple(
-      Class* instance,
-      message_handler_map<
-        message_id<ClassId, MethodId>,
-        member_function_constant<bool (Class::*)(stored_message&), HandlerFunc>>
-        msg_map) noexcept {
-        return {ClassId, MethodId, handler_type{instance, msg_map.method()}};
-    }
-
-    template <
-      identifier_t ClassId,
-      identifier_t MethodId,
-      typename Class,
-      bool (Class::*HandlerFunc)(stored_message&) const>
-    static constexpr inline std::tuple<identifier_t, identifier_t, handler_type>
-    as_tuple(
-      const Class* instance,
-      message_handler_map<
-        message_id<ClassId, MethodId>,
-        member_function_constant<
-          bool (Class::*)(stored_message&) const,
-          HandlerFunc>> msg_map) noexcept {
-        return {ClassId, MethodId, handler_type{instance, msg_map.method()}};
-    }
+    using handler_entry = typename subscriber_base::handler_entry;
 
 public:
     template <
@@ -223,7 +237,7 @@ public:
       typename... MsgMaps,
       typename = std::enable_if_t<sizeof...(MsgMaps) == N>>
     static_subscriber(endpoint& bus, Class* instance, MsgMaps... msg_maps)
-      : static_subscriber(bus, as_tuple(instance, msg_maps)...) {
+      : static_subscriber(bus, handler_entry(instance, msg_maps)...) {
     }
 
     static_subscriber(static_subscriber&& temp) = delete;
@@ -261,7 +275,7 @@ private:
 //------------------------------------------------------------------------------
 class subscriber : public subscriber_base {
 public:
-    using handler_entry = std::tuple<identifier_t, identifier_t, handler_type>;
+    using handler_entry = subscriber_base::handler_entry;
     using handler_type = callable_ref<bool(stored_message&)>;
 
     virtual ~subscriber() noexcept = default;

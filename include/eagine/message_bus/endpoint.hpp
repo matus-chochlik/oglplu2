@@ -68,6 +68,7 @@ private:
         return std::get<1>(std::get<1>(*iter));
     }
 
+    blob_manipulator::filter_function _allow_blob{};
     blob_manipulator _blobs{};
 
     bool _cleanup_blobs();

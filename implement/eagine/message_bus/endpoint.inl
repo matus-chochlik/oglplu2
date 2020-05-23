@@ -52,7 +52,7 @@ bool endpoint::_handle_special(
   const message_view& message) noexcept {
     if(EAGINE_UNLIKELY(EAGINE_ID(eagiMsgBus).matches(class_id))) {
         if(EAGINE_ID(blobFrgmnt).matches(method_id)) {
-            _blobs.process_incoming(_store_handler, message);
+            _blobs.process_incoming(_allow_blob, _store_handler, message);
             return true;
         } else if(EAGINE_ID(assignId).matches(method_id)) {
             if(!has_id()) {

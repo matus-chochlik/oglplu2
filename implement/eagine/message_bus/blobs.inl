@@ -64,7 +64,7 @@ bool blob_manipulator::push_incoming_fragment(
   identifier_t source_id,
   identifier_t blob_id,
   std::int64_t offset,
-  std::int64_t total,
+  std::int64_t total_size,
   memory::const_block fragment,
   message_priority priority) {
 
@@ -74,7 +74,7 @@ bool blob_manipulator::push_incoming_fragment(
       });
     if(pos != _incoming.end()) {
         auto& pending = *pos;
-        if(EAGINE_LIKELY(pending.blob.size() == span_size(total))) {
+        if(EAGINE_LIKELY(pending.blob.size() == span_size(total_size))) {
             if(EAGINE_LIKELY(pending.class_id == class_id)) {
                 if(EAGINE_LIKELY(pending.class_id == class_id)) {
                     pending.max_time.reset();
@@ -107,7 +107,7 @@ bool blob_manipulator::push_incoming_fragment(
         pending.class_id = class_id;
         pending.method_id = method_id;
         pending.blob_id = blob_id;
-        pending.blob = _buffers.get(span_size(total));
+        pending.blob = _buffers.get(span_size(total_size));
         zero(cover(pending.blob));
         pending.current = {view(pending.blob)};
         pending.max_time = timeout{std::chrono::seconds(60)};
@@ -123,48 +123,54 @@ bool blob_manipulator::push_incoming_fragment(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool blob_manipulator::process_incoming(
-  blob_manipulator::fetch_handler, const message_view& message) {
+  blob_manipulator::filter_function filter,
+  blob_manipulator::fetch_handler,
+  const message_view& message) {
     identifier class_id{};
     identifier method_id{};
     identifier_t blob_id{0U};
     std::int64_t offset{0};
-    std::int64_t total{0};
+    std::int64_t total_size{0};
 
-    auto header = std::tie(class_id, method_id, blob_id, offset, total);
+    auto header = std::tie(class_id, method_id, blob_id, offset, total_size);
     block_data_source source{message.data};
     default_deserializer_backend backend(source);
     auto errors = deserialize(header, backend);
     if(EAGINE_LIKELY(!errors)) {
-        if(EAGINE_LIKELY(total <= _max_blob_size)) {
-            if((offset >= 0) && (offset < total)) {
-                const auto fragment = source.remaining();
-                const auto max_frag_size = span_size(total - offset);
-                if(EAGINE_LIKELY(fragment.size() <= max_frag_size)) {
-                    push_incoming_fragment(
-                      class_id.value(),
-                      method_id.value(),
-                      blob_id,
-                      message.source_id,
-                      offset,
-                      total,
-                      fragment,
-                      message.priority);
-                    return true;
+        if(EAGINE_LIKELY(total_size <= _max_blob_size)) {
+            const bool should_accept =
+              !filter || filter(class_id.value(), method_id.value());
+            if(should_accept) {
+                if((offset >= 0) && (offset < total_size)) {
+                    const auto fragment = source.remaining();
+                    const auto max_frag_size = span_size(total_size - offset);
+                    if(EAGINE_LIKELY(fragment.size() <= max_frag_size)) {
+                        push_incoming_fragment(
+                          class_id.value(),
+                          method_id.value(),
+                          blob_id,
+                          message.source_id,
+                          offset,
+                          total_size,
+                          fragment,
+                          message.priority);
+                        return true;
+                    } else {
+                        _log.debug("invalid blob fragment size ${size}")
+                          .arg(EAGINE_ID(size), fragment.size())
+                          .arg(EAGINE_ID(offset), offset)
+                          .arg(EAGINE_ID(total), total_size);
+                    }
                 } else {
-                    _log.debug("invalid blob fragment size ${size}")
-                      .arg(EAGINE_ID(size), fragment.size())
+                    _log.debug("invalid blob fragment offset ${offset}")
                       .arg(EAGINE_ID(offset), offset)
-                      .arg(EAGINE_ID(total), total);
+                      .arg(EAGINE_ID(total), total_size);
                 }
-            } else {
-                _log.debug("invalid blob fragment offset ${offset}")
-                  .arg(EAGINE_ID(offset), offset)
-                  .arg(EAGINE_ID(total), total);
             }
         } else {
             _log.debug("invalid blob fragment offset ${offset}")
               .arg(EAGINE_ID(offset), offset)
-              .arg(EAGINE_ID(total), total);
+              .arg(EAGINE_ID(total), total_size);
         }
     } else {
         _log.debug("failed to deserialize header of blob")

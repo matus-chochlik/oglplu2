@@ -72,10 +72,12 @@ public:
       memory::const_block fragment,
       message_priority priority);
 
+    using filter_function = callable_ref<bool(identifier_t, identifier_t)>;
+
     using fetch_handler =
       callable_ref<bool(identifier_t, identifier_t, const message_view&)>;
 
-    bool process_incoming(fetch_handler, const message_view&);
+    bool process_incoming(filter_function, fetch_handler, const message_view&);
 
     using send_handler =
       callable_ref<bool(identifier_t, identifier_t, const message_view&)>;
