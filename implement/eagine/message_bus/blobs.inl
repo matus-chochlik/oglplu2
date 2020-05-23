@@ -48,13 +48,22 @@ void blob_manipulator::push_outgoing(
     auto& pending = _outgoing.back();
     pending.class_id = class_id;
     pending.method_id = method_id;
-    pending.target_id = target_id;
+    pending.endpoint_id = target_id;
     pending.blob_id = _blob_id_sequence++;
     pending.blob = _buffers.get(blob.size());
     copy(blob, cover(pending.blob));
     pending.current = {view(pending.blob)};
     pending.max_time = timeout{max_time};
     pending.priority = priority;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+bool pending_blob::merge_fragment(
+  span_size_t offset, memory::const_block fragment) {
+    // TODO
+    EAGINE_MAYBE_UNUSED(offset);
+    EAGINE_MAYBE_UNUSED(fragment);
+    return false;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -81,11 +90,7 @@ bool blob_manipulator::push_incoming_fragment(
                     if(EAGINE_UNLIKELY(pending.priority < priority)) {
                         pending.priority = priority;
                     }
-                    // TODO
-                    EAGINE_MAYBE_UNUSED(source_id);
-                    EAGINE_MAYBE_UNUSED(offset);
-                    EAGINE_MAYBE_UNUSED(fragment);
-                    return true;
+                    pending.merge_fragment(span_size(offset), fragment);
                 } else {
                     _log.debug("method_id mismatch in blob fragment message")
                       .arg(EAGINE_ID(pending), identifier(pending.method_id))
@@ -106,26 +111,23 @@ bool blob_manipulator::push_incoming_fragment(
         auto& pending = _outgoing.back();
         pending.class_id = class_id;
         pending.method_id = method_id;
+        pending.endpoint_id = source_id;
         pending.blob_id = blob_id;
         pending.blob = _buffers.get(span_size(total_size));
         zero(cover(pending.blob));
         pending.current = {view(pending.blob)};
         pending.max_time = timeout{std::chrono::seconds(60)};
         pending.priority = priority;
-        // TODO
-        EAGINE_MAYBE_UNUSED(source_id);
-        EAGINE_MAYBE_UNUSED(offset);
-        EAGINE_MAYBE_UNUSED(fragment);
-        return true;
+        pending.missing_parts.clear();
+        pending.missing_parts.emplace_back(0, pending.blob.size());
+        pending.merge_fragment(span_size(offset), fragment);
     }
     return true;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool blob_manipulator::process_incoming(
-  blob_manipulator::filter_function filter,
-  blob_manipulator::fetch_handler,
-  const message_view& message) {
+  blob_manipulator::filter_function filter, const message_view& message) {
     identifier class_id{};
     identifier method_id{};
     identifier_t blob_id{0U};
@@ -145,7 +147,7 @@ bool blob_manipulator::process_incoming(
                     const auto fragment = source.remaining();
                     const auto max_frag_size = span_size(total_size - offset);
                     if(EAGINE_LIKELY(fragment.size() <= max_frag_size)) {
-                        push_incoming_fragment(
+                        return push_incoming_fragment(
                           class_id.value(),
                           method_id.value(),
                           blob_id,
@@ -154,7 +156,6 @@ bool blob_manipulator::process_incoming(
                           total_size,
                           fragment,
                           message.priority);
-                        return true;
                     } else {
                         _log.debug("invalid blob fragment size ${size}")
                           .arg(EAGINE_ID(size), fragment.size())
@@ -181,12 +182,32 @@ bool blob_manipulator::process_incoming(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool blob_manipulator::process_outgoing(send_handler do_send, span_size_t) {
+span_size_t blob_manipulator::message_size(
+  const pending_blob& pending, span_size_t max_message_size) const noexcept {
+    switch(pending.priority) {
+        case message_priority::critical:
+            break;
+        case message_priority::high:
+        case message_priority::normal:
+            return max_message_size / 2;
+        case message_priority::low:
+            return max_message_size / 4;
+        case message_priority::idle:
+            return max_message_size / 8;
+    }
+    return max_message_size;
+}
+//------------------------------------------------------------------------------
+inline memory::block blob_manipulator::_scratch_block(span_size_t size) {
+    return cover(_scratch_buffer.resize(size));
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+bool blob_manipulator::process_outgoing(
+  send_handler do_send, span_size_t max_message_size) {
     some_true something_done{};
 
     const auto msg_id = EAGINE_MSG_ID(eagiMsgBus, blobFrgmnt);
-    // TODO: variable fragment size depending on priority and message_size
-    std::array<byte, 4096> temp{};
 
     for(auto& pending : _outgoing) {
         if(pending.current.tail()) {
@@ -197,14 +218,16 @@ bool blob_manipulator::process_outgoing(send_handler do_send, span_size_t) {
               limit_cast<std::int64_t>(pending.current.split_position()),
               limit_cast<std::int64_t>(pending.blob.size()));
 
-            block_data_sink sink(cover(temp));
+            block_data_sink sink(
+              _scratch_block(message_size(pending, max_message_size)));
             default_serializer_backend backend(sink);
+
             auto errors = serialize(header, backend);
             if(!errors) {
                 if(auto written = sink.write_some(pending.current)) {
                     pending.current = extract(written);
                     message_view message(sink.done());
-                    message.set_target_id(pending.target_id);
+                    message.set_target_id(pending.endpoint_id);
                     message.set_priority(pending.priority);
                     something_done(
                       do_send(msg_id.class_id(), msg_id.method_id(), message));
@@ -226,6 +249,30 @@ bool blob_manipulator::process_outgoing(send_handler do_send, span_size_t) {
     }
 
     return something_done;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+span_size_t blob_manipulator::fetch_all(
+  blob_manipulator::fetch_handler handle_fetch) {
+    span_size_t removed_count{0};
+    _incoming.erase(
+      std::remove_if(
+        _incoming.begin(),
+        _incoming.end(),
+        [this, &removed_count, &handle_fetch](auto& pending) {
+            if(pending.missing_parts.empty()) {
+                message_view message{view(pending.blob)};
+                message.source_id = pending.endpoint_id;
+                message.priority = pending.priority;
+                handle_fetch(pending.class_id, pending.method_id, message);
+                _buffers.eat(std::move(pending.blob));
+                ++removed_count;
+                return true;
+            }
+            return false;
+        }),
+      _incoming.end());
+    return removed_count;
 }
 //------------------------------------------------------------------------------
 } // namespace msgbus

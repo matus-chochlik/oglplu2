@@ -18,6 +18,7 @@
 #include "../valid_if/positive.hpp"
 #include "message.hpp"
 #include <cstdint>
+#include <vector>
 
 namespace eagine {
 namespace msgbus {
@@ -25,12 +26,16 @@ namespace msgbus {
 struct pending_blob {
     identifier_t class_id{0U};
     identifier_t method_id{0U};
-    identifier_t target_id{0U};
+    identifier_t endpoint_id{0U};
     std::uint64_t blob_id{0U};
+    // TODO: recycle the missing parts vector?
+    std::vector<std::tuple<span_size_t, span_size_t>> missing_parts{};
     memory::buffer blob{};
     memory::const_split_block current{};
     timeout max_time{};
     message_priority priority{message_priority::normal};
+
+    bool merge_fragment(span_size_t offset, memory::const_block fragment);
 };
 //------------------------------------------------------------------------------
 class blob_manipulator {
@@ -38,12 +43,15 @@ private:
     logger _log{};
     std::int64_t _max_blob_size{16 * 1024 * 1024};
     std::uint64_t _blob_id_sequence{0};
+    memory::buffer _scratch_buffer{};
     memory::buffer_pool _buffers{};
     std::vector<pending_blob> _outgoing{};
     std::vector<pending_blob> _incoming{};
 
+    memory::block _scratch_block(span_size_t size);
+
 public:
-    blob_manipulator() noexcept = default;
+    blob_manipulator() = default;
     blob_manipulator(logger& parent)
       : _log{EAGINE_ID(BlobManipl), parent} {
     }
@@ -51,6 +59,9 @@ public:
     valid_if_positive<span_size_t> max_blob_size() const noexcept {
         return {span_size(_max_blob_size)};
     }
+
+    span_size_t message_size(
+      const pending_blob&, span_size_t max_message_size) const noexcept;
 
     bool cleanup();
 
@@ -74,10 +85,12 @@ public:
 
     using filter_function = callable_ref<bool(identifier_t, identifier_t)>;
 
+    bool process_incoming(filter_function, const message_view&);
+
     using fetch_handler =
       callable_ref<bool(identifier_t, identifier_t, const message_view&)>;
 
-    bool process_incoming(filter_function, fetch_handler, const message_view&);
+    span_size_t fetch_all(fetch_handler);
 
     using send_handler =
       callable_ref<bool(identifier_t, identifier_t, const message_view&)>;
