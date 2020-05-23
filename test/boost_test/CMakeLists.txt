@@ -13,6 +13,7 @@ function(do_add_boost_test LIBRARY TEST_NAME)
 	)
 	target_link_libraries(
 		test-boost-${LIBRARY}-${TEST_NAME}
+		eagine
 		Boost::unit_test_framework
 	)
 	add_test(
@@ -29,11 +30,11 @@ function(do_add_boost_test LIBRARY TEST_NAME)
 	)
 
 	add_test(
-		NAME test-boost-${LIBRARY}-${TEST_NAME}-exec
+		NAME test-boost-${LIBRARY}-${TEST_NAME}-execute
 		COMMAND "$<TARGET_FILE:test-boost-${LIBRARY}-${TEST_NAME}>"
 	)
 	set_tests_properties(
-		test-boost-${LIBRARY}-${TEST_NAME}-exec
+		test-boost-${LIBRARY}-${TEST_NAME}-execute
 		PROPERTIES
 		FOLDER "test/${LIBRARY}"
 		FIXTURES_REQUIRED "test-boost-${LIBRARY}-${TEST_NAME}-built"

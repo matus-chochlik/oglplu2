@@ -60,9 +60,23 @@ void blob_manipulator::push_outgoing(
 EAGINE_LIB_FUNC
 bool pending_blob::merge_fragment(
   span_size_t offset, memory::const_block fragment) {
-    // TODO
-    EAGINE_MAYBE_UNUSED(offset);
-    EAGINE_MAYBE_UNUSED(fragment);
+    if(missing_parts.size() == 1) {
+        auto& [mis_offs, mis_size] = missing_parts.front();
+        if(offset == mis_offs) {
+            const auto size = fragment.size();
+            if(size <= mis_size) {
+                copy(fragment, skip(cover(blob), mis_offs));
+                mis_offs += size;
+                mis_size -= size;
+                if(mis_size <= 0) {
+                    missing_parts.clear();
+                }
+                return true;
+            }
+        }
+    } else if(missing_parts.size() > 1) {
+    }
+    // TODO: the other cases
     return false;
 }
 //------------------------------------------------------------------------------
