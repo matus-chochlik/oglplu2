@@ -57,32 +57,32 @@ void test_network_sorter_1_N(int n) {
 }
 
 BOOST_AUTO_TEST_CASE(network_sorter_1_1) {
-    test_network_sorter_1_N<1>(1000);
-    test_network_sorter_1_N<2>(1000);
-    test_network_sorter_1_N<3>(1000);
-    test_network_sorter_1_N<4>(1000);
-    test_network_sorter_1_N<5>(1000);
-    test_network_sorter_1_N<6>(1000);
-    test_network_sorter_1_N<7>(900);
-    test_network_sorter_1_N<8>(800);
-    test_network_sorter_1_N<9>(700);
+    test_network_sorter_1_N<1>(eagine::test_repeats(250, 1000));
+    test_network_sorter_1_N<2>(eagine::test_repeats(250, 1000));
+    test_network_sorter_1_N<3>(eagine::test_repeats(250, 1000));
+    test_network_sorter_1_N<4>(eagine::test_repeats(250, 1000));
+    test_network_sorter_1_N<5>(eagine::test_repeats(250, 1000));
+    test_network_sorter_1_N<6>(eagine::test_repeats(250, 1000));
+    test_network_sorter_1_N<7>(eagine::test_repeats(200, 900));
+    test_network_sorter_1_N<8>(eagine::test_repeats(200, 800));
+    test_network_sorter_1_N<9>(eagine::test_repeats(200, 700));
     // TODO
 }
 
 BOOST_AUTO_TEST_CASE(network_sorter_1_2) {
-    test_network_sorter_1_N<10>(700);
-    test_network_sorter_1_N<11>(700);
-    test_network_sorter_1_N<12>(700);
-    test_network_sorter_1_N<14>(650);
-    test_network_sorter_1_N<16>(600);
-    test_network_sorter_1_N<32>(400);
-    test_network_sorter_1_N<64>(200);
+    test_network_sorter_1_N<10>(eagine::test_repeats(170, 700));
+    test_network_sorter_1_N<11>(eagine::test_repeats(170, 700));
+    test_network_sorter_1_N<12>(eagine::test_repeats(170, 700));
+    test_network_sorter_1_N<14>(eagine::test_repeats(150, 650));
+    test_network_sorter_1_N<16>(eagine::test_repeats(150, 600));
+    test_network_sorter_1_N<32>(eagine::test_repeats(100, 400));
+    test_network_sorter_1_N<64>(eagine::test_repeats(100, 200));
     // TODO
 }
 
 BOOST_AUTO_TEST_CASE(network_sorter_1_3) {
-    test_network_sorter_1_N<128>(100);
-    test_network_sorter_1_N<256>(70);
+    test_network_sorter_1_N<128>(eagine::test_repeats(40, 100));
+    test_network_sorter_1_N<256>(eagine::test_repeats(30, 70));
     // TODO
 }
 

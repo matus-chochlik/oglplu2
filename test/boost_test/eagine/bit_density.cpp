@@ -18,7 +18,7 @@ static eagine::test_random_generator rg;
 BOOST_AUTO_TEST_CASE(bit_density_length_trip) {
     using namespace eagine;
 
-    for(int i = 0; i < 1000; ++i) {
+    for(int i = 0; i < test_repeats(100, 1000); ++i) {
         for(span_size_t bits = 1; bits <= byte_bits(); ++bits) {
 
             const auto orig_size = rg.get<span_size_t>(0, 10000);
@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_CASE(bit_density_trip) {
     std::vector<byte> comp;
     bool res = false;
 
-    for(int i = 0; i < 1000; ++i) {
+    for(int i = 0; i < test_repeats(100, 1000); ++i) {
         orig.resize(rg.get<std::size_t>(0, 10000));
         rg.fill(orig);
         for(span_size_t bits = 1; bits <= byte_bits(); ++bits) {

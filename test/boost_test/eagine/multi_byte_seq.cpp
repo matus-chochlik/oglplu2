@@ -47,7 +47,7 @@ BOOST_AUTO_TEST_CASE(multi_byte_seq_2) {
     std::vector<mbs::code_point> cps, cps2;
     std::vector<byte> bytes;
 
-    for(int i = 0; i < 10000; ++i) {
+    for(int i = 0; i < test_repeats(200, 10000); ++i) {
 
         std::size_t len = rg.get<std::size_t>(1, 100);
         cps.resize(len);

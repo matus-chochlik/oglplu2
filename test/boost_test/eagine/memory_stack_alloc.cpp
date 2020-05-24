@@ -81,7 +81,7 @@ void eagine_test_memory_stack_alloc_A() {
 
     std::size_t f[2] = {0, 1};
 
-    for(int i = 0; i < 20; ++i) {
+    for(int i = 0; i < eagine::test_repeats(10, 20); ++i) {
         std::size_t n = f[(i + 0) % 2] + f[(i + 1) % 2];
         f[i % 2] = n;
 
@@ -119,7 +119,7 @@ BOOST_AUTO_TEST_CASE(memory_stack_alloc_3) {
 
     std::deque<memory::owned_block> blks;
 
-    for(int i = 0; i < 100; ++i) {
+    for(int i = 0; i < eagine::test_repeats(40, 100); ++i) {
         std::size_t n = rg.get<std::size_t>(0, 10);
 
         switch(rg.get<std::size_t>(0, 10)) {

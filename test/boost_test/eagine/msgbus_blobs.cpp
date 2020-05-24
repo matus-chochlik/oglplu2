@@ -17,7 +17,7 @@ static eagine::test_random_generator rg;
 BOOST_AUTO_TEST_CASE(msgbus_pending_blob_1) {
     using namespace eagine;
 
-    for(int i = 0; i < 1000; ++i) {
+    for(int i = 0; i < test_repeats(100, 1000); ++i) {
 
         memory::buffer test_blob{};
         test_blob.resize(rg.get_span_size(16, 16 * 1024));
@@ -46,7 +46,7 @@ BOOST_AUTO_TEST_CASE(msgbus_pending_blob_1) {
 BOOST_AUTO_TEST_CASE(msgbus_pending_blob_2) {
     using namespace eagine;
 
-    for(int i = 0; i < 100; ++i) {
+    for(int i = 0; i < test_repeats(50, 200); ++i) {
 
         memory::buffer test_blob{};
         test_blob.resize(rg.get_span_size(16, 16 * 1024));
@@ -59,7 +59,7 @@ BOOST_AUTO_TEST_CASE(msgbus_pending_blob_2) {
 
         span_size_t pos = 0;
         while(!pending.is_complete() && (pos < test_blob.size())) {
-            if(rg.get_bool()) {
+            if(rg.get_int(0, 2) == 0) {
                 auto fragment = head(skip(view(test_blob), pos), 33);
                 BOOST_CHECK(pending.merge_fragment(pos, fragment));
                 pos += 17;
@@ -83,7 +83,7 @@ BOOST_AUTO_TEST_CASE(msgbus_blob_manipulator_1) {
 
     std::map<message_id_tuple, memory::buffer> test_blobs{};
 
-    while(test_blobs.size() < 1000) {
+    while(test_blobs.size() < test_repeats(200, 1000)) {
         const auto key = message_id_tuple(
           rg.get_identifier().value(), rg.get_identifier().value());
 
@@ -148,7 +148,7 @@ BOOST_AUTO_TEST_CASE(msgbus_blob_manipulator_2) {
 
     std::map<message_id_tuple, memory::buffer> test_blobs{};
 
-    while(test_blobs.size() < 1000) {
+    while(test_blobs.size() < test_repeats(200, 1000)) {
         const auto key = message_id_tuple(
           rg.get_identifier().value(), rg.get_identifier().value());
 

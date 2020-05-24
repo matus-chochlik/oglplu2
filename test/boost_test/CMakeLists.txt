@@ -41,6 +41,22 @@ function(do_add_boost_test LIBRARY TEST_NAME)
 		FOLDER "test/${LIBRARY}"
 		FIXTURES_REQUIRED "test-boost-${LIBRARY}-${TEST_NAME}-built"
 	)
+	if(VALGRIND_COMMAND)
+		add_test(
+			NAME test-boost-${LIBRARY}-${TEST_NAME}-memcheck
+			COMMAND "${VALGRIND_COMMAND}"
+				"--leak-check=full"
+				"--error-exitcode=1"
+				"$<TARGET_FILE:test-boost-${LIBRARY}-${TEST_NAME}>"
+		)
+		set_tests_properties(
+			test-boost-${LIBRARY}-${TEST_NAME}-memcheck
+			PROPERTIES
+			TIMEOUT 800
+			FOLDER "test/${LIBRARY}"
+			FIXTURES_REQUIRED "test-boost-${LIBRARY}-${TEST_NAME}-built"
+		)
+	endif()
 endfunction()
 
 if(Boost_FOUND)

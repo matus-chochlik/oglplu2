@@ -22,7 +22,7 @@ BOOST_AUTO_TEST_CASE(base64_trip) {
     std::vector<byte> deco;
     std::string enco;
 
-    for(int i = 0; i < 10000; ++i) {
+    for(int i = 0; i < test_repeats(1000, 10000); ++i) {
 
         orig.resize(rg.get<std::size_t>(0, 10000));
         rg.fill(orig);
