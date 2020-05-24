@@ -73,6 +73,7 @@ private:
 
     bool _cleanup_blobs();
     bool _process_blobs();
+    bool _do_allow_blob(identifier_t class_id, identifier_t method_id);
 
     connection::fetch_handler _store_handler{};
 

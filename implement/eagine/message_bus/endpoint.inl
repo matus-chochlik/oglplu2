@@ -29,6 +29,14 @@ bool endpoint::_process_blobs() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+bool endpoint::_do_allow_blob(identifier_t class_id, identifier_t method_id) {
+    if(EAGINE_UNLIKELY(EAGINE_ID(eagiMsgBus).matches(class_id))) {
+        // TODO: special endpoint-related blobs
+    }
+    return _allow_blob && _allow_blob(class_id, method_id);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 bool endpoint::_do_send(
   identifier_t class_id, identifier_t method_id, message_view message) {
     EAGINE_ASSERT(has_id());
@@ -52,7 +60,10 @@ bool endpoint::_handle_special(
   const message_view& message) noexcept {
     if(EAGINE_UNLIKELY(EAGINE_ID(eagiMsgBus).matches(class_id))) {
         if(EAGINE_ID(blobFrgmnt).matches(method_id)) {
-            if(_blobs.process_incoming(_allow_blob, message)) {
+            if(_blobs.process_incoming(
+                 blob_manipulator::filter_function(
+                   this, EAGINE_MEM_FUNC_C(endpoint, _do_allow_blob)),
+                 message)) {
                 _blobs.fetch_all(_store_handler);
             }
             return true;
