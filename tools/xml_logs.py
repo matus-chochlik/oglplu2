@@ -153,7 +153,8 @@ class XmlLogFormatter(object):
         return self._ttyBoldWhite() + result + self._ttyReset()
 
     # --------------------------------------------------------------------------
-    def _formatValueBar(self, mn, x, mx, width):
+    def _formatValueBar(self, mn, x, mx):
+        width = 65;
         coef = (x - mn) / (mx - mn)
         pos = coef * float(width)
         cnt = int(pos)
@@ -186,7 +187,7 @@ class XmlLogFormatter(object):
         self._decorators = {
             "FsPath": self._formatFsPath,
             "ProgramArg": self._formatProgArg,
-            "Histogram": lambda x: self._formatValueBar(0.0, float(x), 1.0, 35),
+            "Histogram": lambda x: self._formatValueBar(0.0, float(x), 1.0),
             "Ratio": lambda x: self._formatRatio(float(x)),
             "duration": lambda x: self._formatDuration(float(x)),
             "ByteSize": lambda x: self._formatByteSize(int(x))
@@ -303,9 +304,18 @@ class XmlLogFormatter(object):
         if info.get("blob", False):
             return "BLOB"
 
-        decorate = self._decorators.get(info.get("type"), lambda x: x)
         try:
-            value = decorate(info["value"])
+            mn = info["min"]
+            mx = info["max"]
+            if mn is not None and mx is not None:
+                value = self._formatValueBar(
+                    float(mn),
+                    float(info["value"]),
+                    float(mx)
+                );
+            else:
+                decorate = self._decorators.get(info.get("type"), lambda x: x)
+                value = decorate(info["value"])
         except KeyError:
             value = arg
         return value
@@ -472,6 +482,8 @@ class XmlLogProcessor(xml.sax.ContentHandler):
             self._carg = attr["n"]
             iarg = {
                 "value": "''",
+                "min": attr.get("min"),
+                "max": attr.get("max"),
                 "type": attr["t"],
                 "blob": attr.get("blob", False)
             }

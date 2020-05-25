@@ -175,7 +175,7 @@ public:
       float max) noexcept final {
         try {
             _out << "<a n='" << arg.name() << "' t='" << tag.name() << "' min='"
-                 << min << "' max=' " << max << "'>" << value << "</a>";
+                 << min << "' max='" << max << "'>" << value << "</a>";
         } catch(...) {
         }
     }

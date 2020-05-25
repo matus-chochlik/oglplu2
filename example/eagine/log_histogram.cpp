@@ -36,7 +36,9 @@ int main(main_ctx& ctx) {
         entry.arg(
           byte_to_identifier(i),
           EAGINE_ID(Histogram),
-          float(byte_counts[i]) / max_count);
+          float(0),
+          float(byte_counts[i]),
+          float(max_count));
     }
 
     return 0;
