@@ -26,7 +26,7 @@ private:
     std::ostream& _out;
     log_event_severity _min_severity;
     const std::chrono::steady_clock::time_point _start;
-    memory::aligned_block<3840> _alloc_block{};
+    memory::aligned_block<63 * 1024> _alloc_block{};
 
 protected:
     virtual void flush() noexcept {

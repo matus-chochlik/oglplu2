@@ -159,7 +159,7 @@ class XmlLogFormatter(object):
         cnt = int(pos)
 
         i = 0
-        result = ""
+        result = "│"
         while i < cnt:
             result += "█"
             i += 1
@@ -173,6 +173,8 @@ class XmlLogFormatter(object):
             result += " "
             i += 1
 
+        result += "│"
+
         return result
 
     # --------------------------------------------------------------------------
@@ -184,6 +186,7 @@ class XmlLogFormatter(object):
         self._decorators = {
             "FsPath": self._formatFsPath,
             "ProgramArg": self._formatProgArg,
+            "Histogram": lambda x: self._formatValueBar(0.0, float(x), 1.0, 35),
             "Ratio": lambda x: self._formatRatio(float(x)),
             "duration": lambda x: self._formatDuration(float(x)),
             "ByteSize": lambda x: self._formatByteSize(int(x))
