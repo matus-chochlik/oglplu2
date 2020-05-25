@@ -153,6 +153,29 @@ class XmlLogFormatter(object):
         return self._ttyBoldWhite() + result + self._ttyReset()
 
     # --------------------------------------------------------------------------
+    def _formatValueBar(self, mn, x, mx, width):
+        coef = (x - mn) / (mx - mn)
+        pos = coef * float(width)
+        cnt = int(pos)
+
+        i = 0
+        result = ""
+        while i < cnt:
+            result += "█"
+            i += 1
+
+        if i < width:
+            parts = [" ", "▏", "▎", "▍", "▌", "▋", "▊", "▉", "█"]
+            result += parts[int(9 * (pos - float(cnt)))]
+            i += 1
+
+        while i < width:
+            result += " "
+            i += 1
+
+        return result
+
+    # --------------------------------------------------------------------------
     def __init__(self, log_output):
         self._re_var = re.compile(".*(\${([A-Za-z][A-Za-z_0-9]*)}).*")
         self._lock = threading.Lock()

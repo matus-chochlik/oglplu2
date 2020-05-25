@@ -64,6 +64,9 @@ struct null_log_backend : logger_backend {
     void add_float(identifier, identifier, float) noexcept final {
     }
 
+    void add_float(identifier, identifier, float, float, float) noexcept final {
+    }
+
     void add_duration(
       identifier, identifier, std::chrono::duration<float>) noexcept final {
     }

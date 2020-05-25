@@ -55,7 +55,7 @@ private:
     std::size_t _idx{0};
     std::string _buffer;
 };
-
+//------------------------------------------------------------------------------
 } // namespace eagine
 
 #include <eagine/progress_bar.inl>

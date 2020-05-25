@@ -71,6 +71,13 @@ struct logger_backend {
     virtual void add_float(
       identifier arg, identifier tag, float value) noexcept = 0;
 
+    virtual void add_float(
+      identifier arg,
+      identifier tag,
+      float min,
+      float value,
+      float max) noexcept = 0;
+
     virtual void add_duration(
       identifier arg,
       identifier tag,

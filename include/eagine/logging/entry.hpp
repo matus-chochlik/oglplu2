@@ -267,6 +267,25 @@ public:
         return arg(name, EAGINE_ID(real), value);
     }
 
+    log_entry& arg(
+      identifier name,
+      identifier tag,
+      float min,
+      float value,
+      float max) noexcept {
+        if(_backend) {
+            _args.add([=](logger_backend& backend) {
+                backend.add_float(name, tag, min, value, max);
+            });
+        }
+        return *this;
+    }
+
+    log_entry& arg(
+      identifier name, float min, float value, float max) noexcept {
+        return arg(name, EAGINE_ID(real), min, value, max);
+    }
+
     template <typename R, typename P>
     log_entry& arg(
       identifier name,

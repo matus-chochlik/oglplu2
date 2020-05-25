@@ -167,6 +167,19 @@ public:
         }
     }
 
+    void add_float(
+      identifier arg,
+      identifier tag,
+      float min,
+      float value,
+      float max) noexcept final {
+        try {
+            _out << "<a n='" << arg.name() << "' t='" << tag.name() << "' min='"
+                 << min << "' max=' " << max << "'>" << value << "</a>";
+        } catch(...) {
+        }
+    }
+
     void add_duration(
       identifier arg,
       identifier tag,
