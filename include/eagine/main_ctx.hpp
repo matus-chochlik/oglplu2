@@ -28,8 +28,20 @@ private:
     logger& _log;
     string_view _exe_path;
 
+    static main_ctx*& _single_ptr() noexcept;
+
 public:
     main_ctx(master_ctx&) noexcept;
+    main_ctx(main_ctx&&) = delete;
+    main_ctx(const main_ctx&) = delete;
+    main_ctx& operator=(main_ctx&&) = delete;
+    main_ctx& operator=(const main_ctx&) = delete;
+    ~main_ctx() noexcept;
+
+    static inline main_ctx& get() noexcept {
+        EAGINE_ASSERT(_single_ptr());
+        return *_single_ptr();
+    }
 
     auto& args() noexcept {
         return _args;

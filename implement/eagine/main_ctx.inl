@@ -40,10 +40,24 @@ public:
 };
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+main_ctx*& main_ctx::_single_ptr() noexcept {
+    static main_ctx* the_ptr{nullptr};
+    return the_ptr;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 main_ctx::main_ctx(master_ctx& master) noexcept
   : _args{master.args()}
   , _log{master.log()}
   , _exe_path{master.exe_path()} {
+    EAGINE_ASSERT(!_single_ptr());
+    _single_ptr() = this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+main_ctx::~main_ctx() noexcept {
+    EAGINE_ASSERT(_single_ptr());
+    _single_ptr() = nullptr;
 }
 //------------------------------------------------------------------------------
 extern int main(main_ctx& ctx);
