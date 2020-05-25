@@ -90,7 +90,9 @@ public:
         stats.max_time = std::max(stats.max_time, age);
         stats.finish = std::chrono::steady_clock::now();
         if(EAGINE_UNLIKELY((++_rcvd % _mod) == 0)) {
-            _log.info("received ${rcvd} pongs").arg(EAGINE_ID(rcvd), _rcvd);
+            _log.info("received ${rcvd} pongs")
+              .arg(EAGINE_ID(rcvd), _rcvd)
+              .arg(EAGINE_ID(done), EAGINE_ID(Progress), 0, _rcvd, _max);
         }
     }
 

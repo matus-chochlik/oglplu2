@@ -54,6 +54,10 @@ class XmlLogFormatter(object):
         return self._ttyEsc("\x1b[0m")
 
     # --------------------------------------------------------------------------
+    def _ttyInvert(self):
+        return self._ttyEsc("\x1b[7m")
+
+    # --------------------------------------------------------------------------
     def _ttyGray(self):
         return self._ttyEsc("\x1b[0;30m")
 
@@ -153,14 +157,15 @@ class XmlLogFormatter(object):
         return self._ttyBoldWhite() + result + self._ttyReset()
 
     # --------------------------------------------------------------------------
-    def _formatValueBar(self, mn, x, mx):
-        width = 65;
+    def _formatValueBar(self, mn, x, mx, width, invert):
         coef = (x - mn) / (mx - mn)
         pos = coef * float(width)
         cnt = int(pos)
 
         i = 0
         result = "│"
+        if invert:
+            result += self._ttyInvert();
         while i < cnt:
             result += "█"
             i += 1
@@ -174,7 +179,10 @@ class XmlLogFormatter(object):
             result += " "
             i += 1
 
-        result += "│"
+        if invert:
+            result += self._ttyReset();
+        else:
+            result += "│"
 
         return result
 
@@ -187,7 +195,6 @@ class XmlLogFormatter(object):
         self._decorators = {
             "FsPath": self._formatFsPath,
             "ProgramArg": self._formatProgArg,
-            "Histogram": lambda x: self._formatValueBar(0.0, float(x), 1.0),
             "Ratio": lambda x: self._formatRatio(float(x)),
             "duration": lambda x: self._formatDuration(float(x)),
             "ByteSize": lambda x: self._formatByteSize(int(x))
@@ -305,17 +312,8 @@ class XmlLogFormatter(object):
             return "BLOB"
 
         try:
-            mn = info["min"]
-            mx = info["max"]
-            if mn is not None and mx is not None:
-                value = self._formatValueBar(
-                    float(mn),
-                    float(info["value"]),
-                    float(mx)
-                );
-            else:
-                decorate = self._decorators.get(info.get("type"), lambda x: x)
-                value = decorate(info["value"])
+            decorate = self._decorators.get(info.get("type"), lambda x: x)
+            value = decorate(info["value"])
         except KeyError:
             value = arg
         return value
@@ -400,7 +398,7 @@ class XmlLogFormatter(object):
                 lno += 1
                 self._out.write(line)
                 self._out.write("\n")
-            # BLOBs
+            # BLOBs and progress
             for name, info in args.items():
                 if not info["used"]:
                     for value in info["values"]:
@@ -410,8 +408,20 @@ class XmlLogFormatter(object):
                         self._out.write("   ")
                         self._out.write(name)
                         self._out.write(": ")
-                        self._out.write(self.doTranslateArg(name, value))
-                        self._out.write("\n")
+                        if value["min"] is not None and value["max"] is not None:
+                            self._out.write(
+                                self._formatValueBar(
+                                    float(value["min"]),
+                                    float(value["value"]),
+                                    float(value["max"]),
+                                    cols - len(name) - 2,
+                                    value["type"] in ["Progress"]
+                                )
+                            )
+                            self._out.write("\n")
+                        else:
+                            self._out.write(self.doTranslateArg(name, value))
+                            self._out.write("\n")
                         if value["blob"]:
                             blob = value["value"]
                             if len(blob) % 4 != 0:
