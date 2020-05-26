@@ -93,7 +93,7 @@ public:
       memory::const_block fragment,
       message_priority priority);
 
-    using filter_function = callable_ref<bool(identifier_t, identifier_t)>;
+    using filter_function = callable_ref<bool(message_id_tuple)>;
 
     bool process_incoming(filter_function, const message_view&);
 

@@ -34,6 +34,9 @@ public:
         return id != invalid_id();
     }
 
+    using fetch_handler = connection::fetch_handler;
+    using blob_filter_function = blob_manipulator::filter_function;
+
 private:
     friend class friend_of_endpoint;
 
@@ -48,15 +51,8 @@ private:
     message_storage _outgoing{};
 
     // TODO: flat map
-    std::map<
-      std::tuple<identifier_t, identifier_t>,
-      std::tuple<span_size_t, message_priority_queue>>
+    std::map<message_id_tuple, std::tuple<span_size_t, message_priority_queue>>
       _incoming{};
-
-    static inline auto _make_key(
-      identifier_t class_id, identifier_t method_id) noexcept {
-        return std::make_tuple(class_id, method_id);
-    }
 
     template <typename Iter>
     static inline auto& _get_counter(Iter& iter) {
@@ -68,14 +64,14 @@ private:
         return std::get<1>(std::get<1>(*iter));
     }
 
-    blob_manipulator::filter_function _allow_blob{};
     blob_manipulator _blobs{};
+    blob_manipulator::filter_function _allow_blob{};
 
     bool _cleanup_blobs();
     bool _process_blobs();
-    bool _do_allow_blob(identifier_t class_id, identifier_t method_id);
+    bool _do_allow_blob(message_id_tuple);
 
-    connection::fetch_handler _store_handler{};
+    fetch_handler _store_handler{};
 
     bool _do_send(identifier_t class_id, identifier_t method_id, message_view);
 
@@ -109,10 +105,19 @@ private:
     bool _accept_message(
       identifier_t class_id, identifier_t method_id, const message_view&);
 
-    explicit endpoint(
-      logger log, connection::fetch_handler store_message) noexcept
+    explicit endpoint(logger log, fetch_handler store_message) noexcept
       : _log{std::move(log)}
       , _blobs{_log}
+      , _store_handler{store_message} {
+    }
+
+    explicit endpoint(
+      logger log,
+      blob_filter_function allow_blob,
+      fetch_handler store_message) noexcept
+      : _log{std::move(log)}
+      , _blobs{_log}
+      , _allow_blob{allow_blob}
       , _store_handler{store_message} {
     }
 
@@ -128,7 +133,10 @@ private:
         temp._id = invalid_id();
     }
 
-    endpoint(endpoint&& temp, connection::fetch_handler store_message) noexcept
+    endpoint(
+      endpoint&& temp,
+      blob_filter_function allow_blob,
+      fetch_handler store_message) noexcept
       : _log{std::move(temp._log)}
       , _context{std::move(temp._context)}
       , _id{temp._id}
@@ -136,6 +144,7 @@ private:
       , _outgoing{std::move(temp._outgoing)}
       , _incoming{std::move(temp._incoming)}
       , _blobs{std::move(temp._blobs)}
+      , _allow_blob{allow_blob}
       , _store_handler{store_message} {
         temp._id = invalid_id();
     }
@@ -149,6 +158,13 @@ public:
       : _log{std::move(log)}
       , _context{make_context(_log)}
       , _blobs{_log}
+      , _store_handler{this, EAGINE_MEM_FUNC_C(endpoint, _store_message)} {
+    }
+
+    explicit endpoint(logger log, blob_filter_function allow_blob) noexcept
+      : _log{std::move(log)}
+      , _blobs{_log}
+      , _allow_blob{allow_blob}
       , _store_handler{this, EAGINE_MEM_FUNC_C(endpoint, _store_message)} {
     }
 
@@ -437,28 +453,15 @@ public:
         return respond_signed_to(info, ClassId, MethodId, message);
     }
 
-    using handler_type = callable_ref<bool(stored_message&)>;
+    using method_handler = callable_ref<bool(stored_message&)>;
 
     bool process_one(
-      identifier_t class_id,
-      identifier_t method_id,
-      const handler_type& handler);
-
-    span_size_t process_all(
-      identifier_t class_id,
-      identifier_t method_id,
-      const handler_type& handler);
+      identifier_t class_id, identifier_t method_id, method_handler handler);
 
     template <identifier_t ClassId, identifier_t MethodId>
     inline bool process_one(
-      message_id<ClassId, MethodId>, const handler_type& handler) {
+      message_id<ClassId, MethodId>, method_handler handler) {
         return process_one(ClassId, MethodId, handler);
-    }
-
-    template <identifier_t ClassId, identifier_t MethodId>
-    inline span_size_t process_all(
-      message_id<ClassId, MethodId>, const handler_type& handler) {
-        return process_all(ClassId, MethodId, handler);
     }
 
     template <
@@ -473,18 +476,46 @@ public:
       Class* instance) {
         return process_one(mid, {instance, method});
     }
+
+    span_size_t process_all(
+      identifier_t class_id, identifier_t method_id, method_handler handler);
+
+    template <identifier_t ClassId, identifier_t MethodId>
+    inline span_size_t process_all(
+      message_id<ClassId, MethodId>, method_handler handler) {
+        return process_all(ClassId, MethodId, handler);
+    }
+
+    using generic_handler =
+      callable_ref<bool(message_id_tuple, stored_message&)>;
+
+    span_size_t process_everything(generic_handler handler);
 };
 //------------------------------------------------------------------------------
 class friend_of_endpoint {
 protected:
     static auto _make_endpoint(
-      logger log, connection::fetch_handler store_message) noexcept {
+      logger log, endpoint::fetch_handler store_message) noexcept {
         return endpoint{std::move(log), store_message};
     }
 
+    static auto _make_endpoint(
+      logger log,
+      endpoint::blob_filter_function allow_blob,
+      endpoint::fetch_handler store_message) noexcept {
+        return endpoint{std::move(log), allow_blob, store_message};
+    }
+
     static auto _move_endpoint(
-      endpoint&& bus, connection::fetch_handler store_message) noexcept {
-        return endpoint{std::move(bus), store_message};
+      endpoint&& bus, endpoint::fetch_handler store_message) noexcept {
+        return endpoint{std::move(bus), {}, store_message};
+    }
+
+    static auto _move_endpoint(
+      endpoint&& bus,
+      endpoint::blob_filter_function allow_blob,
+      endpoint::fetch_handler store_message) noexcept {
+        return endpoint{std::move(bus), allow_blob, store_message};
     }
 
     inline bool _accept_message(

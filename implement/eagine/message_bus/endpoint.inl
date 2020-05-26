@@ -29,11 +29,11 @@ bool endpoint::_process_blobs() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool endpoint::_do_allow_blob(identifier_t class_id, identifier_t method_id) {
-    if(EAGINE_UNLIKELY(EAGINE_ID(eagiMsgBus).matches(class_id))) {
+bool endpoint::_do_allow_blob(message_id_tuple mit) {
+    if(EAGINE_UNLIKELY(EAGINE_ID(eagiMsgBus).matches(mit.class_id()))) {
         // TODO: special endpoint-related blobs
     }
-    return _allow_blob && _allow_blob(class_id, method_id);
+    return _allow_blob && _allow_blob(mit);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -85,7 +85,7 @@ bool endpoint::_store_message(
   identifier_t class_id, identifier_t method_id, const message_view& message) {
     if(!_handle_special(class_id, method_id, message)) {
         if((message.target_id == _id) || !is_valid_id(message.target_id)) {
-            auto pos = _incoming.find(_make_key(class_id, method_id));
+            auto pos = _incoming.find(message_id_tuple(class_id, method_id));
             if(pos != _incoming.end()) {
                 log()
                   .trace("stored message ${message}")
@@ -105,7 +105,7 @@ bool endpoint::_accept_message(
     if(_handle_special(class_id, method_id, message)) {
         return true;
     }
-    auto pos = _incoming.find(_make_key(class_id, method_id));
+    auto pos = _incoming.find(message_id_tuple(class_id, method_id));
     if(pos != _incoming.end()) {
         if((message.target_id == _id) || !is_valid_id(message.target_id)) {
             log()
@@ -229,7 +229,7 @@ bool endpoint::update() {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void endpoint::subscribe(identifier_t class_id, identifier_t method_id) {
-    auto key = _make_key(class_id, method_id);
+    auto key = message_id_tuple(class_id, method_id);
     auto [pos, newone] = _incoming.try_emplace(key);
     if(newone) {
         _get_counter(pos) = 0;
@@ -242,7 +242,7 @@ void endpoint::subscribe(identifier_t class_id, identifier_t method_id) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void endpoint::unsubscribe(identifier_t class_id, identifier_t method_id) {
-    auto pos = _incoming.find(_make_key(class_id, method_id));
+    auto pos = _incoming.find(message_id_tuple(class_id, method_id));
     if(pos != _incoming.end()) {
         if(--_get_counter(pos) <= 0) {
             _incoming.erase(pos);
@@ -337,8 +337,8 @@ void endpoint::allow_message_type(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool endpoint::process_one(
-  identifier_t class_id, identifier_t method_id, const handler_type& handler) {
-    auto pos = _incoming.find(_make_key(class_id, method_id));
+  identifier_t class_id, identifier_t method_id, method_handler handler) {
+    auto pos = _incoming.find(message_id_tuple(class_id, method_id));
     if(pos != _incoming.end()) {
         return _get_queue(pos).process_one(handler);
     }
@@ -347,12 +347,24 @@ bool endpoint::process_one(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 span_size_t endpoint::process_all(
-  identifier_t class_id, identifier_t method_id, const handler_type& handler) {
-    auto pos = _incoming.find(_make_key(class_id, method_id));
+  identifier_t class_id, identifier_t method_id, method_handler handler) {
+    auto pos = _incoming.find(message_id_tuple(class_id, method_id));
     if(pos != _incoming.end()) {
         return _get_queue(pos).process_all(handler);
     }
     return 0;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+span_size_t endpoint::process_everything(generic_handler handler) {
+    span_size_t result = 0;
+    for(auto& [msg_id, entry] : _incoming) {
+        auto wrapped_handler = [msg_id, handler](stored_message& message) {
+            return handler(msg_id, message);
+        };
+        std::get<1>(entry).do_process_all(wrapped_handler);
+    }
+    return result;
 }
 //------------------------------------------------------------------------------
 } // namespace msgbus

@@ -17,7 +17,14 @@ namespace eagine {
 //------------------------------------------------------------------------------
 struct message_id_tuple : std::tuple<identifier_t, identifier_t> {
     using base = std::tuple<identifier_t, identifier_t>;
-    using base::base;
+
+    constexpr message_id_tuple(identifier_t c, identifier_t m) noexcept
+      : base{c, m} {
+    }
+
+    constexpr message_id_tuple(identifier c, identifier m) noexcept
+      : base{c.value(), m.value()} {
+    }
 
     constexpr identifier_t class_id() const noexcept {
         return std::get<0>(*this);

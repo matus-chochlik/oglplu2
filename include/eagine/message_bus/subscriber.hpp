@@ -70,16 +70,18 @@ public:
     }
 
 protected:
-    using handler_type = typename endpoint::handler_type;
+    using method_handler = typename endpoint::method_handler;
     struct handler_entry {
         identifier_t class_id{};
         identifier_t method_id{};
-        handler_type handler{};
+        method_handler handler{};
 
         constexpr handler_entry() noexcept = default;
 
         constexpr handler_entry(
-          identifier_t cls_id, identifier_t mtd_id, handler_type hndlr) noexcept
+          identifier_t cls_id,
+          identifier_t mtd_id,
+          method_handler hndlr) noexcept
           : class_id{cls_id}
           , method_id{mtd_id}
           , handler{hndlr} {
@@ -217,7 +219,7 @@ private:
 template <std::size_t N>
 class static_subscriber : public subscriber_base {
 public:
-    using handler_type = typename endpoint::handler_type;
+    using method_handler = typename endpoint::method_handler;
 
 protected:
     using handler_entry = typename subscriber_base::handler_entry;
@@ -276,7 +278,7 @@ private:
 class subscriber : public subscriber_base {
 public:
     using handler_entry = subscriber_base::handler_entry;
-    using handler_type = callable_ref<bool(stored_message&)>;
+    using method_handler = callable_ref<bool(stored_message&)>;
 
     virtual ~subscriber() noexcept = default;
     subscriber() noexcept = default;
@@ -299,7 +301,7 @@ public:
       member_function_constant<bool (Class::*)(stored_message&), Method>
         method) {
         _msg_handlers.emplace_back(
-          ClassId, MethodId, handler_type{instance, method});
+          ClassId, MethodId, method_handler{instance, method});
     }
 
     template <

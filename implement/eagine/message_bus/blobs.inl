@@ -190,7 +190,7 @@ bool blob_manipulator::process_incoming(
     if(EAGINE_LIKELY(!errors)) {
         if(EAGINE_LIKELY(total_size <= _max_blob_size)) {
             const bool should_accept =
-              !filter || filter(class_id.value(), method_id.value());
+              !filter || filter(message_id_tuple(class_id, method_id));
             if(should_accept) {
                 if((offset >= 0) && (offset < total_size)) {
                     const auto fragment = source.remaining();

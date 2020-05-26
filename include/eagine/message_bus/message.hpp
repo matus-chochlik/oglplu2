@@ -383,7 +383,8 @@ public:
         return false;
     }
 
-    span_size_t process_all(handler_type handler) {
+    template <typename Handler>
+    span_size_t do_process_all(Handler& handler) {
         span_size_t count{0};
         std::size_t pos = 0;
         while(pos < _messages.size()) {
@@ -396,6 +397,10 @@ public:
             }
         }
         return count;
+    }
+
+    span_size_t process_all(handler_type handler) {
+        return do_process_all(handler);
     }
 
 private:
