@@ -91,7 +91,7 @@ bool endpoint::_store_message(
                   .trace("stored message ${message}")
                   .arg(
                     EAGINE_ID(message), message_id_tuple(class_id, method_id));
-                _get_queue(pos).push(message);
+                _get_queue(*pos).push(message);
                 return true;
             }
         }
@@ -111,7 +111,7 @@ bool endpoint::_accept_message(
             log()
               .trace("accepted message ${message}")
               .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id));
-            _get_queue(pos).push(message);
+            _get_queue(*pos).push(message);
         }
         return true;
     }
@@ -232,19 +232,19 @@ void endpoint::subscribe(identifier_t class_id, identifier_t method_id) {
     auto key = message_id_tuple(class_id, method_id);
     auto [pos, newone] = _incoming.try_emplace(key);
     if(newone) {
-        _get_counter(pos) = 0;
+        _get_counter(*pos) = 0;
         log()
           .debug("subscribing to message ${message}")
           .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id));
     }
-    ++_get_counter(pos);
+    ++_get_counter(*pos);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void endpoint::unsubscribe(identifier_t class_id, identifier_t method_id) {
     auto pos = _incoming.find(message_id_tuple(class_id, method_id));
     if(pos != _incoming.end()) {
-        if(--_get_counter(pos) <= 0) {
+        if(--_get_counter(*pos) <= 0) {
             _incoming.erase(pos);
             log()
               .debug("unsubscribing from message ${message}")
@@ -340,7 +340,7 @@ bool endpoint::process_one(
   identifier_t class_id, identifier_t method_id, method_handler handler) {
     auto pos = _incoming.find(message_id_tuple(class_id, method_id));
     if(pos != _incoming.end()) {
-        return _get_queue(pos).process_one(handler);
+        return _get_queue(*pos).process_one(handler);
     }
     return false;
 }
@@ -350,7 +350,7 @@ span_size_t endpoint::process_all(
   identifier_t class_id, identifier_t method_id, method_handler handler) {
     auto pos = _incoming.find(message_id_tuple(class_id, method_id));
     if(pos != _incoming.end()) {
-        return _get_queue(pos).process_all(handler);
+        return _get_queue(*pos).process_all(handler);
     }
     return 0;
 }
@@ -358,11 +358,11 @@ span_size_t endpoint::process_all(
 EAGINE_LIB_FUNC
 span_size_t endpoint::process_everything(generic_handler handler) {
     span_size_t result = 0;
-    for(auto& [msg_id, entry] : _incoming) {
-        auto wrapped_handler = [msg_id, handler](stored_message& message) {
-            return handler(msg_id, message);
+    for(auto& entry : _incoming) {
+        auto wrapped_handler = [&entry, handler](stored_message& message) {
+            return handler(std::get<0>(entry), message);
         };
-        std::get<1>(entry).do_process_all(wrapped_handler);
+        _get_queue(entry).do_process_all(wrapped_handler);
     }
     return result;
 }

@@ -54,14 +54,14 @@ private:
     std::map<message_id_tuple, std::tuple<span_size_t, message_priority_queue>>
       _incoming{};
 
-    template <typename Iter>
-    static inline auto& _get_counter(Iter& iter) {
-        return std::get<0>(std::get<1>(*iter));
+    template <typename Entry>
+    static inline auto& _get_counter(Entry& entry) {
+        return std::get<0>(std::get<1>(entry));
     }
 
-    template <typename Iter>
-    static inline auto& _get_queue(Iter& iter) {
-        return std::get<1>(std::get<1>(*iter));
+    template <typename Entry>
+    static inline auto& _get_queue(Entry& entry) {
+        return std::get<1>(std::get<1>(entry));
     }
 
     blob_manipulator _blobs{};
