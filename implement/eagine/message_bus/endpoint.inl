@@ -59,6 +59,11 @@ bool endpoint::_handle_special(
   identifier_t method_id,
   const message_view& message) noexcept {
     if(EAGINE_UNLIKELY(EAGINE_ID(eagiMsgBus).matches(class_id))) {
+        log()
+          .debug("handling special message ${message}")
+          .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id))
+          .arg(EAGINE_ID(source), message.source_id);
+
         if(EAGINE_ID(blobFrgmnt).matches(method_id)) {
             if(_blobs.process_incoming(
                  blob_manipulator::filter_function(
@@ -75,7 +80,15 @@ bool endpoint::_handle_special(
                   .arg(EAGINE_ID(id), _id);
             }
             return true;
+        } else if(EAGINE_ID(subscribTo).matches(method_id)) {
+            return false;
+        } else if(EAGINE_ID(unsubFrom).matches(method_id)) {
+            return false;
         }
+        _log.warning("unhandled special message ${message} from ${source}")
+          .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id))
+          .arg(EAGINE_ID(source), message.source_id)
+          .arg(EAGINE_ID(data), message.data);
     }
     return false;
 }
@@ -83,7 +96,9 @@ bool endpoint::_handle_special(
 EAGINE_LIB_FUNC
 bool endpoint::_store_message(
   identifier_t class_id, identifier_t method_id, const message_view& message) {
-    if(!_handle_special(class_id, method_id, message)) {
+    if(_handle_special(class_id, method_id, message)) {
+        return true;
+    } else {
         if((message.target_id == _id) || !is_valid_id(message.target_id)) {
             auto pos = _incoming.find(message_id_tuple(class_id, method_id));
             if(pos != _incoming.end()) {
@@ -362,7 +377,7 @@ span_size_t endpoint::process_everything(generic_handler handler) {
         auto wrapped_handler = [&entry, handler](stored_message& message) {
             return handler(std::get<0>(entry), message);
         };
-        _get_queue(entry).do_process_all(wrapped_handler);
+        result += _get_queue(entry).do_process_all(wrapped_handler);
     }
     return result;
 }

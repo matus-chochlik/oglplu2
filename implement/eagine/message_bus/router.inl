@@ -244,6 +244,10 @@ bool router::_handle_special(
   const message_view& message) {
     const auto emb_id = EAGINE_ID(eagiMsgBus);
     if(EAGINE_UNLIKELY(emb_id.matches(class_id))) {
+        _log.debug("handling special message ${message}")
+          .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id))
+          .arg(EAGINE_ID(source), message.source_id);
+
         if(EAGINE_ID(notARouter).matches(method_id)) {
             if(incoming_id == message.source_id) {
                 endpoint.maybe_router = false;
@@ -337,7 +341,10 @@ bool router::_do_route_message(
   identifier_t method_id,
   identifier_t incoming_id,
   message_view message) {
-    if(!message.too_many_hops()) {
+    if(EAGINE_UNLIKELY(message.too_many_hops())) {
+        _log.warning("message ${message} discarded after too many hops")
+          .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id));
+    } else {
         message.add_hop();
         for(auto& [outgoing_id, endpoint_out] : this->_endpoints) {
             bool should_forward = (incoming_id != outgoing_id);
@@ -353,15 +360,15 @@ bool router::_do_route_message(
                 for(auto& conn_out : endpoint_out.connections) {
                     if(EAGINE_LIKELY(conn_out && conn_out->is_usable())) {
                         if(conn_out->send(class_id, method_id, message)) {
-                            break;
+                            return true;
                         }
+                    } else {
+                        _log.debug("missing or unusable connection");
                     }
                 }
+                return false;
             }
         }
-    } else {
-        _log.warning("message ${message} discarded after too many hops")
-          .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id));
     }
     return true;
 }

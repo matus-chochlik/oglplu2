@@ -273,8 +273,9 @@ struct asio_connection_state
                 const auto blk = view(write_buffer);
 
                 _log.trace("writing data (size: ${size})")
-                  .arg(EAGINE_ID(block), blk)
-                  .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), blk.size());
+                  .arg(EAGINE_ID(packed), EAGINE_ID(bits), packed_messages)
+                  .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), blk.size())
+                  .arg(EAGINE_ID(block), blk);
 
                 asio::async_write(
                   socket,

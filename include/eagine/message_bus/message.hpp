@@ -338,7 +338,7 @@ public:
           std::remove_if(
             _messages.begin(),
             _messages.end(),
-            [this, to_be_removed](auto& message) mutable {
+            [this, &to_be_removed](auto& message) mutable {
                 const bool do_remove = (to_be_removed & 1U) == 1U;
                 if(do_remove) {
                     _buffers.eat(std::move(message));

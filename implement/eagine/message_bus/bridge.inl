@@ -170,6 +170,10 @@ EAGINE_LIB_FUNC
 bool bridge::_handle_special(
   identifier_t class_id, identifier_t method_id, message_view message) {
     if(EAGINE_UNLIKELY(EAGINE_ID(eagiMsgBus).matches(class_id))) {
+        _log.debug("handling special message ${message}")
+          .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id))
+          .arg(EAGINE_ID(source), message.source_id);
+
         if(EAGINE_ID(assignId).matches(method_id)) {
             if(!has_id()) {
                 _id = message.target_id;

@@ -38,13 +38,12 @@ struct pending_blob {
     message_priority priority{message_priority::normal};
 
     void init();
-    bool is_complete() const noexcept {
-        if(done_parts.front().size() == 1) {
-            const auto [bgn, end] = done_parts.front().front();
-            return (bgn == 0) && (end >= blob.size());
-        }
-        return false;
+    span_size_t done_size() const noexcept;
+    span_size_t total_size() const noexcept {
+        return blob.size();
     }
+
+    bool is_complete() const noexcept;
     bool merge_fragment(span_size_t offset, memory::const_block fragment);
 };
 //------------------------------------------------------------------------------
