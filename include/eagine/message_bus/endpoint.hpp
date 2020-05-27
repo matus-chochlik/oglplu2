@@ -72,6 +72,9 @@ private:
     bool _do_allow_blob(message_id_tuple);
 
     fetch_handler _store_handler{};
+    auto _default_store_handler() noexcept {
+        return fetch_handler{this, EAGINE_MEM_FUNC_C(endpoint, _store_message)};
+    }
 
     bool _do_send(identifier_t class_id, identifier_t method_id, message_view);
 
@@ -129,7 +132,7 @@ private:
       , _outgoing{std::move(temp._outgoing)}
       , _incoming{std::move(temp._incoming)}
       , _blobs{std::move(temp._blobs)}
-      , _store_handler{this, EAGINE_MEM_FUNC_C(endpoint, _store_message)} {
+      , _store_handler{_default_store_handler()} {
         temp._id = invalid_id();
     }
 
@@ -151,28 +154,28 @@ private:
 
 public:
     endpoint() noexcept
-      : _store_handler{this, EAGINE_MEM_FUNC_C(endpoint, _store_message)} {
+      : _store_handler{_default_store_handler()} {
     }
 
     endpoint(logger log) noexcept
       : _log{std::move(log)}
       , _context{make_context(_log)}
       , _blobs{_log}
-      , _store_handler{this, EAGINE_MEM_FUNC_C(endpoint, _store_message)} {
+      , _store_handler{_default_store_handler()} {
     }
 
     explicit endpoint(logger log, blob_filter_function allow_blob) noexcept
       : _log{std::move(log)}
       , _blobs{_log}
       , _allow_blob{allow_blob}
-      , _store_handler{this, EAGINE_MEM_FUNC_C(endpoint, _store_message)} {
+      , _store_handler{_default_store_handler()} {
     }
 
     endpoint(logger log, const program_args& args) noexcept
       : _log{std::move(log)}
       , _context{make_context(_log, args)}
       , _blobs{_log}
-      , _store_handler{this, EAGINE_MEM_FUNC_C(endpoint, _store_message)} {
+      , _store_handler{_default_store_handler()} {
     }
 
     endpoint(const endpoint&) = delete;
@@ -203,6 +206,11 @@ public:
     void flush_outbox();
 
     bool update();
+
+    void finish() {
+        say_bye();
+        flush_outbox();
+    }
 
     void subscribe(identifier_t class_id, identifier_t method_id);
 

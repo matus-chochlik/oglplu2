@@ -71,8 +71,7 @@ protected:
     ~actor() noexcept override {
         try {
             _subscriber.retract_subscriptions();
-            _endpoint.say_bye();
-            _endpoint.flush_outbox();
+            _endpoint.finish();
         } catch(...) {
         }
     }

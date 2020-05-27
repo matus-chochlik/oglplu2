@@ -45,6 +45,10 @@ struct pending_blob {
 
     bool is_complete() const noexcept;
     bool merge_fragment(span_size_t offset, memory::const_block fragment);
+
+    message_id_tuple msg_id() const noexcept {
+        return {class_id, method_id};
+    }
 };
 //------------------------------------------------------------------------------
 class blob_manipulator {

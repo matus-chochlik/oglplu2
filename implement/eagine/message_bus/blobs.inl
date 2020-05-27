@@ -377,6 +377,7 @@ span_size_t blob_manipulator::fetch_all(
         if(pending.is_complete()) {
             _log.debug("handling complete blob ${id}")
               .arg(EAGINE_ID(id), pending.blob_id)
+              .arg(EAGINE_ID(message), pending.msg_id())
               .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), pending.blob.size());
 
             message_view message{view(pending.blob)};

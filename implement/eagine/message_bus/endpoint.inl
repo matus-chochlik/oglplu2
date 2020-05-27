@@ -29,11 +29,11 @@ bool endpoint::_process_blobs() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool endpoint::_do_allow_blob(message_id_tuple mit) {
-    if(EAGINE_UNLIKELY(EAGINE_ID(eagiMsgBus).matches(mit.class_id()))) {
+bool endpoint::_do_allow_blob(message_id_tuple msg_id) {
+    if(EAGINE_UNLIKELY(EAGINE_ID(eagiMsgBus).matches(msg_id.class_id()))) {
         // TODO: special endpoint-related blobs
     }
-    return _allow_blob && _allow_blob(mit);
+    return _allow_blob && _allow_blob(msg_id);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -46,7 +46,7 @@ bool endpoint::_do_send(
         if(connection->send(class_id, method_id, message)) {
             log()
               .trace("sending message ${message}")
-              .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id));
+              .arg(EAGINE_ID(message), message_id_tuple{class_id, method_id});
             return true;
         }
     }
@@ -61,7 +61,7 @@ bool endpoint::_handle_special(
     if(EAGINE_UNLIKELY(EAGINE_ID(eagiMsgBus).matches(class_id))) {
         log()
           .debug("handling special message ${message}")
-          .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id))
+          .arg(EAGINE_ID(message), message_id_tuple{class_id, method_id})
           .arg(EAGINE_ID(source), message.source_id);
 
         if(EAGINE_ID(blobFrgmnt).matches(method_id)) {
@@ -86,7 +86,7 @@ bool endpoint::_handle_special(
             return false;
         }
         _log.warning("unhandled special message ${message} from ${source}")
-          .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id))
+          .arg(EAGINE_ID(message), message_id_tuple{class_id, method_id})
           .arg(EAGINE_ID(source), message.source_id)
           .arg(EAGINE_ID(data), message.data);
     }
@@ -99,16 +99,30 @@ bool endpoint::_store_message(
     if(_handle_special(class_id, method_id, message)) {
         return true;
     } else {
+        const message_id_tuple msg_id{class_id, method_id};
         if((message.target_id == _id) || !is_valid_id(message.target_id)) {
-            auto pos = _incoming.find(message_id_tuple(class_id, method_id));
+            auto pos = _incoming.find(msg_id);
             if(pos != _incoming.end()) {
                 log()
                   .trace("stored message ${message}")
-                  .arg(
-                    EAGINE_ID(message), message_id_tuple(class_id, method_id));
+                  .arg(EAGINE_ID(message), msg_id);
                 _get_queue(*pos).push(message);
                 return true;
+            } else if(_allow_blob && _allow_blob(msg_id)) {
+                auto [newpos, newone] = _incoming.try_emplace(msg_id);
+                EAGINE_ASSERT(newone);
+                _get_counter(*newpos) = 0;
+                log()
+                  .debug("storing new type of message ${message}")
+                  .arg(EAGINE_ID(message), msg_id);
+                _get_queue(*newpos).push(message);
+                return true;
             }
+        } else {
+            log()
+              .warning("trying to store message for target ${target}")
+              .arg(EAGINE_ID(target), message.target_id)
+              .arg(EAGINE_ID(message), msg_id);
         }
     }
     return false;
@@ -120,12 +134,13 @@ bool endpoint::_accept_message(
     if(_handle_special(class_id, method_id, message)) {
         return true;
     }
-    auto pos = _incoming.find(message_id_tuple(class_id, method_id));
+    const message_id_tuple msg_id{class_id, method_id};
+    auto pos = _incoming.find(msg_id);
     if(pos != _incoming.end()) {
         if((message.target_id == _id) || !is_valid_id(message.target_id)) {
             log()
               .trace("accepted message ${message}")
-              .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id));
+              .arg(EAGINE_ID(message), msg_id);
             _get_queue(*pos).push(message);
         }
         return true;
@@ -244,26 +259,27 @@ bool endpoint::update() {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void endpoint::subscribe(identifier_t class_id, identifier_t method_id) {
-    auto key = message_id_tuple(class_id, method_id);
-    auto [pos, newone] = _incoming.try_emplace(key);
+    const message_id_tuple msg_id{class_id, method_id};
+    auto [pos, newone] = _incoming.try_emplace(msg_id);
     if(newone) {
         _get_counter(*pos) = 0;
         log()
           .debug("subscribing to message ${message}")
-          .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id));
+          .arg(EAGINE_ID(message), msg_id);
     }
     ++_get_counter(*pos);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void endpoint::unsubscribe(identifier_t class_id, identifier_t method_id) {
-    auto pos = _incoming.find(message_id_tuple(class_id, method_id));
+    const message_id_tuple msg_id{class_id, method_id};
+    auto pos = _incoming.find(msg_id);
     if(pos != _incoming.end()) {
         if(--_get_counter(*pos) <= 0) {
             _incoming.erase(pos);
             log()
               .debug("unsubscribing from message ${message}")
-              .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id));
+              .arg(EAGINE_ID(message), msg_id);
         }
     }
 }
@@ -293,8 +309,8 @@ void endpoint::post_meta_message(
         post(meta_class_id, meta_method_id, message_view(extract(serialized)));
     } else {
         _log.debug("failed to serialize meta-message ${meta}")
-          .arg(EAGINE_ID(meta), message_id_tuple(meta_class_id, meta_method_id))
-          .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id));
+          .arg(EAGINE_ID(meta), message_id_tuple{meta_class_id, meta_method_id})
+          .arg(EAGINE_ID(message), message_id_tuple{class_id, method_id});
     }
 }
 //------------------------------------------------------------------------------
@@ -303,7 +319,7 @@ void endpoint::say_subscribes_to(
   identifier_t class_id, identifier_t method_id) {
     log()
       .debug("requesting subscription to message ${message}")
-      .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id));
+      .arg(EAGINE_ID(message), message_id_tuple{class_id, method_id});
     post_meta_message(
       EAGINE_MSG_ID(eagiMsgBus, subscribTo), class_id, method_id);
 }
@@ -313,7 +329,7 @@ void endpoint::say_unsubscribes_from(
   identifier_t class_id, identifier_t method_id) {
     log()
       .debug("retracting subscription to message ${message}")
-      .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id));
+      .arg(EAGINE_ID(message), message_id_tuple{class_id, method_id});
     post_meta_message(
       EAGINE_MSG_ID(eagiMsgBus, unsubFrom), class_id, method_id);
 }
@@ -329,7 +345,7 @@ void endpoint::block_message_type(
   identifier_t class_id, identifier_t method_id) {
     log()
       .debug("blocking message ${message}")
-      .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id));
+      .arg(EAGINE_ID(message), message_id_tuple{class_id, method_id});
     post_meta_message(
       EAGINE_MSG_ID(eagiMsgBus, msgBlkList), class_id, method_id);
 }
@@ -345,7 +361,7 @@ void endpoint::allow_message_type(
   identifier_t class_id, identifier_t method_id) {
     log()
       .debug("allowing message ${message}")
-      .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id));
+      .arg(EAGINE_ID(message), message_id_tuple{class_id, method_id});
     post_meta_message(
       EAGINE_MSG_ID(eagiMsgBus, msgAlwList), class_id, method_id);
 }
@@ -353,7 +369,7 @@ void endpoint::allow_message_type(
 EAGINE_LIB_FUNC
 bool endpoint::process_one(
   identifier_t class_id, identifier_t method_id, method_handler handler) {
-    auto pos = _incoming.find(message_id_tuple(class_id, method_id));
+    auto pos = _incoming.find(message_id_tuple{class_id, method_id});
     if(pos != _incoming.end()) {
         return _get_queue(*pos).process_one(handler);
     }
@@ -363,7 +379,7 @@ bool endpoint::process_one(
 EAGINE_LIB_FUNC
 span_size_t endpoint::process_all(
   identifier_t class_id, identifier_t method_id, method_handler handler) {
-    auto pos = _incoming.find(message_id_tuple(class_id, method_id));
+    auto pos = _incoming.find(message_id_tuple{class_id, method_id});
     if(pos != _incoming.end()) {
         return _get_queue(*pos).process_all(handler);
     }

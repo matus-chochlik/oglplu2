@@ -207,8 +207,10 @@ protected:
 
     void _finish() noexcept {
         if(EAGINE_LIKELY(_endpoint)) {
-            _endpoint->say_bye();
-            _endpoint->flush_outbox();
+            try {
+                _endpoint->finish();
+            } catch(...) {
+            }
         }
     }
 
