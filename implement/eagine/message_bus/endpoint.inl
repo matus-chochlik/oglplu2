@@ -110,6 +110,7 @@ bool endpoint::_store_message(
                 return true;
             } else if(_allow_blob && _allow_blob(msg_id)) {
                 auto [newpos, newone] = _incoming.try_emplace(msg_id);
+                EAGINE_MAYBE_UNUSED(newone);
                 EAGINE_ASSERT(newone);
                 _get_counter(*newpos) = 0;
                 log()

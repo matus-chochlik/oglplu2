@@ -412,6 +412,17 @@ struct no_log_entry {
     constexpr inline no_log_entry& arg(identifier, identifier, T&&) noexcept {
         return *this;
     }
+
+    template <typename T, typename P, typename F>
+    constexpr inline no_log_entry& arg(
+      identifier, identifier, valid_if<T, P>, const F&) noexcept {
+        return *this;
+    }
+
+    template <typename Func>
+    constexpr inline no_log_entry& arg_func(const Func&) {
+        return *this;
+    }
 };
 //------------------------------------------------------------------------------
 template <typename T>

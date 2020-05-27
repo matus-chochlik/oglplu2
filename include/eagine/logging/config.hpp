@@ -23,7 +23,7 @@ namespace eagine {
 #if EAGINE_DEBUG
 #define EAGINE_MIN_LOG_SEVERITY trace
 #else
-#define EAGINE_MIN_LOG_SEVERITY info
+#define EAGINE_MIN_LOG_SEVERITY stat
 #endif
 #endif
 #endif
