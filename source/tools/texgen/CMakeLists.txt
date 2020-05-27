@@ -13,5 +13,9 @@ add_executable(
 	validator.cpp
 	main.cpp
 )
+target_link_libraries(
+	oglplus-texgen
+	EAGopt::Stacktrace
+)
 eagine_add_exe_analysis(oglplus-texgen)
 eagine_install_tool(oglplus-texgen)

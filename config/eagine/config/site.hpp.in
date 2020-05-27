@@ -21,6 +21,14 @@
 #ifndef EAGINE_DEBUG
 #define EAGINE_DEBUG @EAGINE_DEBUG@
 #endif
+
+#ifndef EAGINE_USE_BACKTRACE
+#define EAGINE_USE_BACKTRACE @EAGINE_USE_BACKTRACE@
+#endif
+
+#ifndef EAGINE_USE_STACKTRACE
+#define EAGINE_USE_STACKTRACE @EAGINE_USE_STACKTRACE@
+#endif
 // clang-format on
 
 #endif

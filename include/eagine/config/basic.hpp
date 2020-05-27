@@ -21,6 +21,14 @@
 #define EAGINE_DEBUG 1
 #endif
 
+#ifndef EAGINE_USE_BACKTRACE
+#define EAGINE_USE_BACKTRACE 0
+#endif
+
+#ifndef EAGINE_USE_STACKTRACE
+#define EAGINE_USE_STACKTRACE 0
+#endif
+
 #ifndef EAGINE_LINK_LIBRARY
 #define EAGINE_LINK_LIBRARY 0
 #endif

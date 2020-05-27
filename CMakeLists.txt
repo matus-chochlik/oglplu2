@@ -30,6 +30,7 @@ include(config/Embed.cmake)
 
 include(config/FindThreads.cmake)
 include(config/FindValgrind.cmake)
+include(config/FindStacktrace.cmake)
 include(config/CommonLibs.cmake)
 
 include(config/CommonFindMod.cmake)

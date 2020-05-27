@@ -38,6 +38,7 @@ target_link_libraries(
 	PUBLIC
 		EAGine::Required
 		EAGopt::OpenSSL
+		EAGopt::Stacktrace
 		Threads::Threads
 )
 

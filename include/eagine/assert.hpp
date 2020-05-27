@@ -22,10 +22,84 @@
 #endif
 #endif
 
+#if EAGINE_USE_STACKTRACE
+#include <iostream>
+
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wshadow"
+#endif
+
+#if EAGINE_USE_BACKTRACE
+#define BOOST_STACKTRACE_USE_BACKTRACE 1
+#endif
+
+#define BOOST_ENABLE_ASSERT_DEBUG_HANDLER 1
+
+#include <boost/assert.hpp>
+#include <boost/stacktrace/stacktrace.hpp>
+
+// clang-format off
+
+namespace boost {
+//------------------------------------------------------------------------------
+inline void assertion_failed(
+    const char* expression,
+    const char* function,
+    const char* filepath,
+    long linenumber) {
+    std::cerr
+        << filepath << ':' << linenumber
+        << ": assertion '"
+        << expression
+        << "' failed in function `"
+        << function
+        << "`\n"
+        << "Backtrace:\n"
+        << ::boost::stacktrace::stacktrace()
+        << std::endl;
+    std::abort();
+}
+//------------------------------------------------------------------------------
+inline void assertion_failed_msg(
+    const char* expression,
+    const char* message,
+    const char* function,
+    const char* filepath,
+    long linenumber) {
+    std::cerr
+        << filepath << ':' << linenumber
+        << ": assertion '"
+        << expression
+        << "' failed in function `"
+        << function
+        << "`: "
+        << (message ? message : "<...>")
+        << '\n'
+        << "Backtrace:\n"
+        << ::boost::stacktrace::stacktrace()
+        << std::endl;
+    std::abort();
+}
+//------------------------------------------------------------------------------
+} // namespace boost
+
+#define EAGINE_ASSERT(EXPR) \
+    BOOST_ASSERT(EXPR) // NOLINT(hicpp-no-array-decay)
+// clang-format on
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+
+#else // EAGINE_USE_STACKTRACE
+
 // clang-format off
 #define EAGINE_ASSERT(EXPR) \
     assert(EXPR) // NOLINT(cert-dcl03-c,hicpp-static-assert,hicpp-no-array-decay)
 // clang-format on
+
+#endif
 
 #if EAGINE_CHECK_LIMIT_CAST
 #define EAGINE_CONSTEXPR_ASSERT(UNUSED, RESULT) \
