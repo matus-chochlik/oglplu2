@@ -12,8 +12,6 @@ set_target_properties(
 )
 
 add_subdirectory(example)
-add_subdirectory(shaders)
-add_subdirectory(programs)
 
 function(eagine_add_directory_resources)
 	get_filename_component(
