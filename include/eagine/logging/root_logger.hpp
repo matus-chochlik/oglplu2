@@ -21,6 +21,7 @@ class root_logger : public logger {
     static std::unique_ptr<logger_backend> _init_backend(
       const program_args&, const root_logger_options&);
 
+    void _log_git_info();
     void _log_args(const program_args&);
 
 public:
@@ -30,6 +31,7 @@ public:
       const root_logger_options& opts)
       : logger{logger_id, _init_backend(args, opts)} {
         _log_args(args);
+        _log_git_info();
     }
 
     root_logger(const program_args& args, const root_logger_options& opts)

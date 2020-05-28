@@ -6,6 +6,7 @@
 set(EAGINE_LIB_SOURCES
 	main_wrap.cpp
 	debug.cpp
+	git_info.cpp
 	logging.cpp
 	filesystem.cpp
 	file_contents.cpp

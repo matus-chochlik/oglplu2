@@ -74,6 +74,7 @@ endif()
 
 # now create the site-configuration headers
 include(config/SiteConfig.cmake)
+include(config/GitInfo.cmake)
 
 include_directories("${PROJECT_BINARY_DIR}/include")
 include_directories("include")

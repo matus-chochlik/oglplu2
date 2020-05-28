@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/git_info.hpp>
 #include <eagine/logging/asio_backend.hpp>
 #include <eagine/logging/null_backend.hpp>
 #include <eagine/logging/ostream_backend.hpp>
@@ -88,6 +89,14 @@ void root_logger::_log_args(const program_args& args) {
     for(auto& arg : args) {
         args_entry.arg(EAGINE_ID(arg), arg);
     }
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void root_logger::_log_git_info() {
+    const string_view n_a{"N/A"};
+    info("build configuration information")
+      .arg(EAGINE_ID(gitBranch), EAGINE_ID(GitBranch), config_git_branch(), n_a)
+      .arg(EAGINE_ID(gitHashId), EAGINE_ID(GitHash), config_git_hash_id(), n_a);
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
