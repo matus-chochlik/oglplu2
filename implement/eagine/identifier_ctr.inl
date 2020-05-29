@@ -32,6 +32,7 @@ static identifier _ident_dec_to_str(int i, char (&tmp)[L]) noexcept {
     std::size_t l = L - 1;
     while(l-- > 0) {
         tmp[l] = char(i % 10 + '0');
+        i /= 10;
     }
     return identifier{tmp};
 }

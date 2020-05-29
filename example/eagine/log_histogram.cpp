@@ -30,16 +30,18 @@ int main(main_ctx& ctx) {
         max_count = math::maximum(max_count, ++byte_counts[std_size(b)]);
     }
 
-    auto entry = ctx.log().info("byte histogram");
-
-    for(std::size_t i = 0; i < 256; ++i) {
-        entry.arg(
-          byte_to_identifier(i),
-          EAGINE_ID(Histogram),
-          float(0),
-          float(byte_counts[i]),
-          float(max_count));
-    }
+    ctx.log()
+      .info("byte histogram")
+      .arg_func([max_count, &byte_counts](logger_backend& backend) {
+          for(std::size_t i = 0; i < 256; ++i) {
+              backend.add_float(
+                byte_to_identifier(i),
+                EAGINE_ID(Histogram),
+                float(0),
+                float(byte_counts[i]),
+                float(max_count));
+          }
+      });
 
     return 0;
 }
