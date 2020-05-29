@@ -79,6 +79,11 @@ message_sequence_t context::next_sequence_no(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+void context::add_ca_certificate_pem(memory::const_block) {
+    // TODO
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 std::unique_ptr<context> make_context(logger& parent) {
     return std::make_unique<context>(parent);
 }

@@ -3,20 +3,25 @@
 # See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
 
+# router
 add_executable(eagine-message_bus-router router.cpp)
 target_link_libraries(
 	eagine-message_bus-router
 	PUBLIC eagine
+	PRIVATE eagine-tools-common
 )
 eagine_install_tool(eagine-message_bus-router)
 
+# bridge
 add_executable(eagine-message_bus-bridge bridge.cpp)
 target_link_libraries(
 	eagine-message_bus-bridge
 	PUBLIC eagine
+	PRIVATE eagine-tools-common
 )
 eagine_install_tool(eagine-message_bus-bridge)
 
+# scripts
 install(
 	PROGRAMS eagine-local-bridge.sh
 	RENAME eagine-local-bridge

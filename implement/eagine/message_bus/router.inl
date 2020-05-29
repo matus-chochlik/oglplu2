@@ -62,6 +62,13 @@ void routed_endpoint::allow_message(
 // router
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+void router::add_ca_certificate_pem(memory::const_block blk) {
+    if(_context) {
+        _context->add_ca_certificate_pem(blk);
+    }
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 bool router::add_acceptor(std::unique_ptr<acceptor> an_acceptor) {
     if(an_acceptor) {
         _log.info("adding connection acceptor");

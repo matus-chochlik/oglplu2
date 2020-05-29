@@ -156,6 +156,13 @@ private:
 // bridge
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+void bridge::add_ca_certificate_pem(memory::const_block blk) {
+    if(_context) {
+        _context->add_ca_certificate_pem(blk);
+    }
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 bool bridge::add_connection(std::unique_ptr<connection> conn) {
     _connections.emplace_back(std::move(conn));
     return true;

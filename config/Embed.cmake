@@ -22,9 +22,14 @@ function(eagine_embed_target_resources TARGET_NAME)
 	list(APPEND GEN_OPTIONS -o)
 	list(APPEND GEN_OPTIONS ${CMAKE_CURRENT_BINARY_DIR}/${RESOURCE_FILE})
 	foreach(TARGET_SOURCE ${TARGET_SOURCES})
+		if(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_SOURCE})
+			set(DIR ${CMAKE_CURRENT_BINARY_DIR})
+		else()
+			set(DIR ${CMAKE_CURRENT_SOURCE_DIR})
+		endif()
 		list(APPEND GEN_OPTIONS -i)
-		list(APPEND GEN_OPTIONS ${TARGET_SOURCE})
-		list(APPEND GEN_DEPENDS ${TARGET_SOURCE})
+		list(APPEND GEN_OPTIONS ${DIR}/${TARGET_SOURCE})
+		list(APPEND GEN_DEPENDS ${DIR}/${TARGET_SOURCE})
 	endforeach()
 	add_custom_command(
 		OUTPUT ${RESOURCE_FILE}
@@ -41,3 +46,6 @@ function(eagine_embed_target_resources TARGET_NAME)
 		PRIVATE ${RESOURCE_FILE}
 	)
 endfunction()
+
+file(WRITE "${PROJECT_BINARY_DIR}/empty" "")
+set(EAGINE_EMPTY_FILE "${PROJECT_BINARY_DIR}/empty")

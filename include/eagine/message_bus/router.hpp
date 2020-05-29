@@ -70,6 +70,8 @@ public:
         _setup_from_args(args);
     }
 
+    void add_ca_certificate_pem(memory::const_block blk);
+
     bool add_acceptor(std::unique_ptr<acceptor>) final;
     bool add_connection(std::unique_ptr<connection>) final;
 

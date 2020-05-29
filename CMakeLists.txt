@@ -27,6 +27,7 @@ endif()
 
 include(config/Tools.cmake)
 include(config/Embed.cmake)
+include(config/PKI.cmake)
 
 include(config/FindThreads.cmake)
 include(config/FindValgrind.cmake)

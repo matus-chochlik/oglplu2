@@ -89,8 +89,6 @@ def make_argparser():
     )
 # ------------------------------------------------------------------------------
 def make_res_code(options, ident, path):
-    options.output.write("    if(res_id == EAGINE_ID(%s)) {\n" % ident)
-    options.output.write("        static const byte res[] = {\n")
     linelen = 0
     first = True
     resource_path = path
@@ -99,30 +97,37 @@ def make_res_code(options, ident, path):
             if os.path.isfile(os.path.join(search_dir, path)):
                 resource_path = os.path.realpath(os.path.join(search_dir, path))
                 break
-    
-    with open(resource_path, "rb") as rfd:
-        while True:
-            byte = rfd.read(1)
-            if not byte:
-                break
 
-            temp = ""
-            if first:
-                first = False
-                temp += "  "
-            else:
-                temp += ", "
+    options.output.write("    if(res_id == EAGINE_ID(%s)) {\n" % ident)
 
-            temp += "0x%x" % ord(byte)
-            
-            if linelen > options.max_line_len - 16:
-                linelen = 0
-                temp += "\n"
-            else:
-                linelen += len(temp)
-            options.output.write(temp)
-    options.output.write("\n        };\n")
-    options.output.write("        return view(res);\n")
+    if os.stat(resource_path).st_size > 0:
+        options.output.write("        static const byte res[] = {\n")
+        
+        with open(resource_path, "rb") as rfd:
+            while True:
+                byte = rfd.read(1)
+                if not byte:
+                    break
+
+                temp = ""
+                if first:
+                    first = False
+                    temp += "  "
+                else:
+                    temp += ", "
+
+                temp += "0x%x" % ord(byte)
+                
+                if linelen > options.max_line_len - 16:
+                    linelen = 0
+                    temp += "\n"
+                else:
+                    linelen += len(temp)
+                options.output.write(temp)
+        options.output.write("\n        };\n")
+        options.output.write("        return view(res);\n")
+    else:
+        options.output.write("        return {};\n")
     options.output.write("    }\n")
 # ------------------------------------------------------------------------------
 def make_prologue(options):

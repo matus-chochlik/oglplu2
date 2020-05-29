@@ -5,6 +5,7 @@
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
 
+#include "resources.hpp"
 #include <eagine/logging/root_logger.hpp>
 #include <eagine/main_ctx.hpp>
 #include <eagine/math/functions.hpp>
@@ -29,6 +30,7 @@ int main(main_ctx& ctx) {
     conn_setup.default_init(args);
 
     msgbus::bridge bridge(log, args);
+    bridge.add_ca_certificate_pem(ca_certificate_pem(args, log));
     conn_setup.setup_connectors(bridge, address);
 
     std::uintmax_t cycles_work{0};
