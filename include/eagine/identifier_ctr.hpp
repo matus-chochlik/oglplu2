@@ -15,28 +15,13 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-static inline auto byte_to_identifier(byte b) noexcept {
-    static const char hd[16] = {'0',
-                                '1',
-                                '2',
-                                '3',
-                                '4',
-                                '5',
-                                '6',
-                                '7',
-                                '8',
-                                '9',
-                                'a',
-                                'b',
-                                'c',
-                                'd',
-                                'e',
-                                'f'};
-    const char src[5] = {
-      '0', 'x', hd[std_size((b >> 4) & 0xFU)], hd[std_size(b & 0xFU)], '\0'};
-    return identifier{src};
-}
+identifier byte_to_identifier(byte b) noexcept;
+identifier dec_to_identifier(int i) noexcept;
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-#endif // EAGINE_IDENTIFIER_T_HPP
+#if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
+#include <eagine/identifier_ctr.inl>
+#endif
+
+#endif // EAGINE_IDENTIFIER_CTR_HPP

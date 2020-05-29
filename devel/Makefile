@@ -35,6 +35,7 @@ test%.o: test%.cpp
 		-Wno-unused-function \
 		-Wno-documentation \
 		-Wno-documentation-unknown-command \
+		-DEAGINE_USE_STACKTRACE=0 \
 		-I$(BINARY_DIR)/include \
 		-I../include \
 		-I../implement \

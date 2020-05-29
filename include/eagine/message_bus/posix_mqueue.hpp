@@ -24,6 +24,7 @@
 #include <fcntl.h>
 #include <mqueue.h>
 #include <mutex>
+#include <random>
 #include <sys/stat.h>
 
 namespace eagine {
@@ -301,7 +302,8 @@ protected:
             if(!_data_queue.is_usable()) {
                 _data_queue.close();
                 _data_queue.unlink();
-                if(!_data_queue.set_name(random_identifier(_rand_eng))
+                if(!_data_queue
+                      .set_name(random_identifier(any_random_engine(_rand_eng)))
                       .create()
                       .had_error()) {
 
