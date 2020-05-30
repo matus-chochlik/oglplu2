@@ -37,14 +37,15 @@ public:
       identifier_t class_id, identifier_t method_id) noexcept;
 
     void add_node_certificate_pem(memory::const_block);
-
     void add_ca_certificate_pem(memory::const_block);
 
 private:
     logger _log{};
     //
-    std::map<std::tuple<identifier_t, identifier_t>, message_sequence_t>
-      _msg_id_seq{};
+    std::map<message_id_tuple, message_sequence_t> _msg_id_seq{};
+    //
+    memory::buffer _node_cert_pem{};
+    memory::buffer _ca_cert_pem{};
     //
     sslp::ssl_api _ssl{};
     sslp::owned_engine _ssl_engine{};

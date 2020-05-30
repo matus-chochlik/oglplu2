@@ -193,6 +193,9 @@ public:
         return *this;
     }
 
+    void add_certificate_pem(memory::const_block blk);
+    void add_ca_certificate_pem(memory::const_block blk);
+
     bool add_connection(std::unique_ptr<connection> conn) final;
 
     bool is_usable() const;

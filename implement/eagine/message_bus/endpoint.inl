@@ -150,6 +150,20 @@ bool endpoint::_accept_message(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+void endpoint::add_certificate_pem(memory::const_block blk) {
+    if(_context) {
+        _context->add_node_certificate_pem(blk);
+    }
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void endpoint::add_ca_certificate_pem(memory::const_block blk) {
+    if(_context) {
+        _context->add_ca_certificate_pem(blk);
+    }
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 bool endpoint::add_connection(std::unique_ptr<connection> conn) {
     if(conn) {
         log()

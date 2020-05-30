@@ -35,6 +35,7 @@ add_library(
 	${EAGINE_LIB_SOURCES}
 )
 eagine_add_lib_analysis(eagine)
+eagine_embed_target_resources(eagine)
 
 target_link_libraries(
 	eagine

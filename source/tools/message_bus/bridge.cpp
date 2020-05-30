@@ -31,8 +31,8 @@ int main(main_ctx& ctx) {
     conn_setup.default_init(args);
 
     msgbus::bridge bridge(log, args);
-    bridge.add_ca_certificate_pem(ca_certificate_pem(buf, args, log));
-    bridge.add_certificate_pem(msgbus_bridge_certificate_pem(buf, args, log));
+    bridge.add_ca_certificate_pem(ca_certificate_pem(ctx));
+    bridge.add_certificate_pem(msgbus_bridge_certificate_pem(ctx));
     conn_setup.setup_connectors(bridge, address);
 
     std::uintmax_t cycles_work{0};

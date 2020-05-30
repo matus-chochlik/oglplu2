@@ -4,6 +4,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/memory/copy.hpp>
 
 namespace eagine {
 namespace msgbus {
@@ -68,7 +69,7 @@ message_sequence_t context::next_sequence_no(
   identifier_t class_id, identifier_t method_id) noexcept {
 
     auto [pos, newone] =
-      _msg_id_seq.try_emplace(std::make_tuple(class_id, method_id));
+      _msg_id_seq.try_emplace(message_id_tuple{class_id, method_id});
 
     if(newone) {
         std::get<1>(*pos) = 0U;
@@ -79,13 +80,15 @@ message_sequence_t context::next_sequence_no(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void context::add_node_certificate_pem(memory::const_block) {
-    // TODO
+void context::add_node_certificate_pem(memory::const_block blk) {
+    memory::copy_into(blk, _node_cert_pem);
+    // TODO: process by ssl
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void context::add_ca_certificate_pem(memory::const_block) {
-    // TODO
+void context::add_ca_certificate_pem(memory::const_block blk) {
+    memory::copy_into(blk, _ca_cert_pem);
+    // TODO: process by ssl
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

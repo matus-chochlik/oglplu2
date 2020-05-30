@@ -83,5 +83,21 @@ memory::const_block fetch_resource(
     return {};
 }
 //------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+memory::const_block ca_certificate_pem(
+  memory::const_block embedded_blk,
+  memory::buffer& buf,
+  const program_args& args,
+  logger& log) {
+    return fetch_resource(
+      string_view{"CA certificate"},
+      string_view{"EAGINE_CA_CERT_PATH"},
+      string_view{"--ca-cert-path"},
+      embedded_blk,
+      buf,
+      args,
+      log);
+}
+//------------------------------------------------------------------------------
 } // namespace eagine
 

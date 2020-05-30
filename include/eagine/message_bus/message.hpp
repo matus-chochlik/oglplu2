@@ -14,6 +14,7 @@
 #include "../callable_ref.hpp"
 #include "../identifier.hpp"
 #include "../memory/buffer_pool.hpp"
+#include "../memory/copy.hpp"
 #include "../memory/span_algo.hpp"
 #include "../reflect/map_enumerators.hpp"
 #include "../serialize/size_and_data.hpp"
@@ -135,8 +136,7 @@ struct stored_message : message_info {
     stored_message(message_view message, memory::buffer buf) noexcept
       : message_info{message}
       , data{std::move(buf)} {
-        data.resize(message.data.size());
-        memory::copy(view(message.data), cover(data));
+        memory::copy_into(view(message.data), data);
     }
 
     operator message_view() const {
@@ -264,8 +264,7 @@ public:
     void push(memory::const_block message) {
         EAGINE_ASSERT(!message.empty());
         auto buf = _buffers.get(message.size());
-        buf.resize(message.size());
-        memory::copy(message, cover(buf));
+        memory::copy_into(message, buf);
         _messages.emplace_back(std::move(buf));
     }
 
