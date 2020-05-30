@@ -36,6 +36,8 @@ public:
     message_sequence_t next_sequence_no(
       identifier_t class_id, identifier_t method_id) noexcept;
 
+    void add_node_certificate_pem(memory::const_block);
+
     void add_ca_certificate_pem(memory::const_block);
 
 private:

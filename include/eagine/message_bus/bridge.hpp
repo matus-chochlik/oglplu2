@@ -42,6 +42,7 @@ public:
         _setup_from_args(args);
     }
 
+    void add_certificate_pem(memory::const_block blk);
     void add_ca_certificate_pem(memory::const_block blk);
 
     bool add_connection(std::unique_ptr<connection>) final;

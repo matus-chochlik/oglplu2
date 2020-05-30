@@ -4,37 +4,38 @@
 #   http://www.boost.org/LICENSE_1_0.txt
 #
 
-if(NOT EAGINE_EMBED_CA_CERT)
-	if(DEFINED ENV{EAGINE_EMBED_CA_CERT})
-		if(EXISTS $ENV{EAGINE_EMBED_CA_CERT})
-			set(EAGINE_EMBED_CA_CERT "$ENV{EAGINE_EMBED_CA_CERT}")
+foreach(RES CA_CERT ROUTER_CERT BRIDGE_CERT)
+	if(NOT EAGINE_EMBED_${RES})
+		if(DEFINED ENV{EAGINE_EMBED_${RES}})
+			if(EXISTS $ENV{EAGINE_EMBED_${RES}})
+				set(EAGINE_EMBED_${RES} "$ENV{EAGINE_EMBED_${RES}}")
+			else()
+				message(
+					WARNING
+					"$ENV{EAGINE_EMBED_${RES}} exported but does not exist"
+				)
+			endif()
+		endif()
+	endif()
+
+	if(EAGINE_EMBED_${RES})
+		if(EXISTS ${EAGINE_EMBED_${RES}})
+			message(
+				STATUS
+				"using ${EAGINE_EMBED_${RES}} as embedded ${RES}"
+			)
 		else()
 			message(
 				WARNING
-				"$ENV{EAGINE_EMBED_CA_CERT} exported but does not exist"
+				"${EAGINE_EMBED_${RES}} set but does not exist"
 			)
+			set(EAGINE_EMBED_${RES}"${EAGINE_EMPTY_FILE}")
 		endif()
-	endif()
-endif()
-
-if(EAGINE_EMBED_CA_CERT)
-	if(EXISTS ${EAGINE_EMBED_CA_CERT})
-		message(
-			STATUS
-			"using ${EAGINE_EMBED_CA_CERT} as embedded CA certificate"
-		)
 	else()
 		message(
-			WARNING
-			"${EAGINE_EMBED_CA_CERT} set but does not exist"
+			STATUS
+			"using empty file as embedded ${RES}"
 		)
-		set(EAGINE_EMBED_CA_CERT "${EAGINE_EMPTY_FILE}")
+		set(EAGINE_EMBED_${RES} "${EAGINE_EMPTY_FILE}")
 	endif()
-else()
-	message(
-		STATUS
-		"using empty file as embedded CA certificate"
-	)
-	set(EAGINE_EMBED_CA_CERT "${EAGINE_EMPTY_FILE}")
-endif()
-
+endforeach()

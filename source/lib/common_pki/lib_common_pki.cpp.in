@@ -22,4 +22,30 @@ memory::const_block ca_certificate_pem(
       log);
 }
 //------------------------------------------------------------------------------
+memory::const_block msgbus_router_certificate_pem(
+  memory::buffer& buf, const program_args& args, logger& log) {
+
+    return fetch_resource(
+      string_view{"message bus router certificate"},
+      string_view{"EAGINE_ROUTER_CERT_PATH"},
+      string_view{"--router-cert-path"},
+      eagine::embed(EAGINE_ID(mbusRtrCrt), "@EAGINE_EMBED_ROUTER_CERT@"),
+      buf,
+      args,
+      log);
+}
+//------------------------------------------------------------------------------
+memory::const_block msgbus_bridge_certificate_pem(
+  memory::buffer& buf, const program_args& args, logger& log) {
+
+    return fetch_resource(
+      string_view{"message bus bridge certificate"},
+      string_view{"EAGINE_BRIDGE_CERT_PATH"},
+      string_view{"--bridge-cert-path"},
+      eagine::embed(EAGINE_ID(mbusBrgCrt), "@EAGINE_EMBED_BRIDGE_CERT@"),
+      buf,
+      args,
+      log);
+}
+//------------------------------------------------------------------------------
 } // namespace eagine

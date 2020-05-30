@@ -156,6 +156,13 @@ private:
 // bridge
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+void bridge::add_certificate_pem(memory::const_block blk) {
+    if(_context) {
+        _context->add_node_certificate_pem(blk);
+    }
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 void bridge::add_ca_certificate_pem(memory::const_block blk) {
     if(_context) {
         _context->add_ca_certificate_pem(blk);

@@ -79,6 +79,11 @@ message_sequence_t context::next_sequence_no(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+void context::add_node_certificate_pem(memory::const_block) {
+    // TODO
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 void context::add_ca_certificate_pem(memory::const_block) {
     // TODO
 }

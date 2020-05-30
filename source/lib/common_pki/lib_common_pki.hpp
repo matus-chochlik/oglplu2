@@ -12,5 +12,11 @@ namespace eagine {
 //------------------------------------------------------------------------------
 memory::const_block ca_certificate_pem(
   memory::buffer&, const program_args&, logger&);
+
+memory::const_block msgbus_router_certificate_pem(
+  memory::buffer&, const program_args&, logger&);
+
+memory::const_block msgbus_bridge_certificate_pem(
+  memory::buffer&, const program_args&, logger&);
 //------------------------------------------------------------------------------
 } // namespace eagine

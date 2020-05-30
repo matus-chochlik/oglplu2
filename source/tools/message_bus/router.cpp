@@ -33,6 +33,7 @@ int main(main_ctx& ctx) {
 
     msgbus::router router(log, args);
     router.add_ca_certificate_pem(ca_certificate_pem(buf, args, log));
+    router.add_certificate_pem(msgbus_router_certificate_pem(buf, args, log));
     conn_setup.setup_acceptors(router, address);
 
     std::uintmax_t cycles_work{0};
