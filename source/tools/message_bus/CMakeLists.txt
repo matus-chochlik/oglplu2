@@ -8,7 +8,7 @@ add_executable(eagine-message_bus-router router.cpp)
 target_link_libraries(
 	eagine-message_bus-router
 	PUBLIC eagine
-	PRIVATE eagine-tools-common
+	PRIVATE eagine-common-pki
 )
 eagine_install_tool(eagine-message_bus-router)
 
@@ -17,7 +17,7 @@ add_executable(eagine-message_bus-bridge bridge.cpp)
 target_link_libraries(
 	eagine-message_bus-bridge
 	PUBLIC eagine
-	PRIVATE eagine-tools-common
+	PRIVATE eagine-common-pki
 )
 eagine_install_tool(eagine-message_bus-bridge)
 

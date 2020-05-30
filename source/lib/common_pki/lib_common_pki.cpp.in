@@ -1,0 +1,24 @@
+///
+/// Copyright Matus Chochlik.
+/// Distributed under the Boost Software License, Version 1.0.
+/// See accompanying file LICENSE_1_0.txt or copy at
+///  http://www.boost.org/LICENSE_1_0.txt
+///
+#include "lib_common_pki.hpp"
+#include <eagine/embed.hpp>
+
+namespace eagine {
+//------------------------------------------------------------------------------
+memory::const_block ca_certificate_pem(const program_args&, logger& log) {
+    // TODO: try get pem file path from environment variable
+    // TODO: try get pem file path from args
+    if(
+      auto embedded_blk =
+        eagine::embed(EAGINE_ID(eagiCaCert), "@EAGINE_EMBED_CA_CERT@")) {
+        log.debug("using embedded CA certificate")
+          .arg(EAGINE_ID(pemBlob), embedded_blk);
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+} // namespace eagine

@@ -5,7 +5,7 @@
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
 
-#include "resources.hpp"
+#include "lib_common_pki.hpp"
 #include <eagine/logging/root_logger.hpp>
 #include <eagine/main_ctx.hpp>
 #include <eagine/math/functions.hpp>
