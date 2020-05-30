@@ -623,6 +623,10 @@ public:
     }
 };
 //------------------------------------------------------------------------------
+static inline auto extract(const program_arg& arg) noexcept {
+    return arg.get();
+}
+//------------------------------------------------------------------------------
 static inline std::ostream& operator<<(
   std::ostream& out, const program_arg& arg) {
     return out << arg.get();

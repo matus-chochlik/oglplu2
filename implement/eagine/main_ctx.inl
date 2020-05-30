@@ -8,6 +8,7 @@
  */
 #include <eagine/logging/exception.hpp>
 #include <eagine/logging/root_logger.hpp>
+#include <eagine/memory/buffer.hpp>
 
 namespace eagine {
 //------------------------------------------------------------------------------
@@ -15,7 +16,8 @@ class master_ctx {
 private:
     program_args _args;
     root_logger _log_root;
-    std::string _exe_path;
+    memory::buffer _scratch_space{};
+    std::string _exe_path{};
 
 public:
     master_ctx(
@@ -34,6 +36,10 @@ public:
         return _log_root;
     }
 
+    memory::buffer& scratch_space() noexcept {
+        return _scratch_space;
+    }
+
     string_view exe_path() const noexcept {
         return {_exe_path};
     }
@@ -49,6 +55,7 @@ EAGINE_LIB_FUNC
 main_ctx::main_ctx(master_ctx& master) noexcept
   : _args{master.args()}
   , _log{master.log()}
+  , _scratch_space{master.scratch_space()}
   , _exe_path{master.exe_path()} {
     EAGINE_ASSERT(!_single_ptr());
     _single_ptr() = this;

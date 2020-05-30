@@ -5,20 +5,21 @@
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
 #include "lib_common_pki.hpp"
-#include <eagine/embed.hpp>
+#include <eagine/resources.hpp>
 
 namespace eagine {
 //------------------------------------------------------------------------------
-memory::const_block ca_certificate_pem(const program_args&, logger& log) {
-    // TODO: try get pem file path from environment variable
-    // TODO: try get pem file path from args
-    if(
-      auto embedded_blk =
-        eagine::embed(EAGINE_ID(eagiCaCert), "@EAGINE_EMBED_CA_CERT@")) {
-        log.debug("using embedded CA certificate")
-          .arg(EAGINE_ID(pemBlob), embedded_blk);
-    }
-    return {};
+memory::const_block ca_certificate_pem(
+  memory::buffer& buf, const program_args& args, logger& log) {
+
+    return fetch_resource(
+      string_view{"CA certificate"},
+      string_view{"EAGINE_CA_CERT_PATH"},
+      string_view{"--ca-cert-path"},
+      eagine::embed(EAGINE_ID(eagiCaCert), "@EAGINE_EMBED_CA_CERT@"),
+      buf,
+      args,
+      log);
 }
 //------------------------------------------------------------------------------
 } // namespace eagine

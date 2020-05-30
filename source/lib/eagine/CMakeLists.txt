@@ -27,6 +27,7 @@ set(EAGINE_LIB_SOURCES
 	shapes_modifiers.cpp
 	shapes_to_quads.cpp
 	random.cpp
+	resources.cpp
 )
 
 add_library(

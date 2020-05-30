@@ -5,11 +5,12 @@
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
 #include <eagine/logging/logger.hpp>
-#include <eagine/memory/block.hpp>
+#include <eagine/memory/buffer.hpp>
 #include <eagine/program_args.hpp>
 
 namespace eagine {
 //------------------------------------------------------------------------------
-memory::const_block ca_certificate_pem(const program_args&, logger&);
+memory::const_block ca_certificate_pem(
+  memory::buffer&, const program_args&, logger&);
 //------------------------------------------------------------------------------
 } // namespace eagine

@@ -21,6 +21,7 @@ int main(main_ctx& ctx) {
 
     auto& args = ctx.args();
     auto& log = ctx.log();
+    auto& buf = ctx.scratch_space();
 
     log.info("message bus bridge starting up");
 
@@ -30,7 +31,7 @@ int main(main_ctx& ctx) {
     conn_setup.default_init(args);
 
     msgbus::bridge bridge(log, args);
-    bridge.add_ca_certificate_pem(ca_certificate_pem(args, log));
+    bridge.add_ca_certificate_pem(ca_certificate_pem(buf, args, log));
     conn_setup.setup_connectors(bridge, address);
 
     std::uintmax_t cycles_work{0};

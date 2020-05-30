@@ -11,6 +11,7 @@
 
 #include "logging/logger.hpp"
 #include "logging/root_logger_opts.hpp"
+#include "memory/buffer_fwd.hpp"
 #include "program_args.hpp"
 
 namespace eagine {
@@ -26,6 +27,7 @@ class main_ctx {
 private:
     program_args& _args;
     logger& _log;
+    memory::buffer& _scratch_space;
     string_view _exe_path;
 
     static main_ctx*& _single_ptr() noexcept;
@@ -49,6 +51,10 @@ public:
 
     logger& log() noexcept {
         return _log;
+    }
+
+    memory::buffer& scratch_space() noexcept {
+        return _scratch_space;
     }
 
     string_view exe_path() const noexcept {
