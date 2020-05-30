@@ -39,6 +39,14 @@ public:
     void add_node_certificate_pem(memory::const_block);
     void add_ca_certificate_pem(memory::const_block);
 
+    memory::const_block get_node_certificate_pem() const noexcept {
+        return view(_node_cert_pem);
+    }
+
+    memory::const_block get_ca_certificate_pem() const noexcept {
+        return view(_ca_cert_pem);
+    }
+
 private:
     logger _log{};
     //
@@ -50,6 +58,8 @@ private:
     sslp::ssl_api _ssl{};
     sslp::owned_engine _ssl_engine{};
     sslp::owned_x509_store _ssl_store{};
+    sslp::owned_x509 _node_cert{};
+    sslp::owned_x509 _ca_cert{};
 };
 //------------------------------------------------------------------------------
 } // namespace msgbus

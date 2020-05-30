@@ -54,13 +54,21 @@ context::context(logger& parent, const program_args& args)
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 context::~context() noexcept {
-    if(_ssl_engine) {
-        _ssl.finish_engine(_ssl_engine);
-        _ssl.delete_engine(_ssl_engine);
+    if(_ca_cert) {
+        _ssl.delete_x509(_ca_cert);
+    }
+
+    if(_node_cert) {
+        _ssl.delete_x509(_node_cert);
     }
 
     if(_ssl_store) {
         _ssl.delete_x509_store(_ssl_store);
+    }
+
+    if(_ssl_engine) {
+        _ssl.finish_engine(_ssl_engine);
+        _ssl.delete_engine(_ssl_engine);
     }
 }
 //------------------------------------------------------------------------------
@@ -81,14 +89,34 @@ message_sequence_t context::next_sequence_no(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void context::add_node_certificate_pem(memory::const_block blk) {
-    memory::copy_into(blk, _node_cert_pem);
-    // TODO: process by ssl
+    if(blk) {
+        if(ok cert{_ssl.parse_x509(blk, {})}) {
+            if(_node_cert) {
+                _ssl.delete_x509(_node_cert);
+            }
+            _node_cert = std::move(cert.get());
+            memory::copy_into(blk, _node_cert_pem);
+        } else {
+            _log.error("failed to parse x509 node certificate from pem")
+              .arg(EAGINE_ID(pem), blk);
+        }
+    }
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void context::add_ca_certificate_pem(memory::const_block blk) {
-    memory::copy_into(blk, _ca_cert_pem);
-    // TODO: process by ssl
+    if(blk) {
+        if(ok cert{_ssl.parse_x509(blk, {})}) {
+            if(_ca_cert) {
+                _ssl.delete_x509(_ca_cert);
+            }
+            _ca_cert = std::move(cert.get());
+            memory::copy_into(blk, _ca_cert_pem);
+        } else {
+            _log.error("failed to parse x509 CA certificate from pem")
+              .arg(EAGINE_ID(pem), blk);
+        }
+    }
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
