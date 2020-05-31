@@ -296,19 +296,15 @@ public:
         return true;
     }
 
+    template <identifier_t ClassId, identifier_t MethodId>
     bool post_blob(
-      identifier_t class_id,
-      identifier_t method_id,
+      message_id<ClassId, MethodId>,
       identifier_t target_id,
       memory::const_block blob,
-      std::chrono::seconds max_time) {
+      std::chrono::seconds max_time,
+      message_priority priority) {
         return post_blob(
-          class_id,
-          method_id,
-          target_id,
-          blob,
-          max_time,
-          message_priority::normal);
+          ClassId, MethodId, target_id, blob, max_time, priority);
     }
 
     bool broadcast_blob(
@@ -346,6 +342,9 @@ public:
       std::chrono::seconds max_time) {
         return broadcast_blob(ClassId, MethodId, blob, max_time);
     }
+
+    bool post_certificate(identifier_t target_id);
+    bool broadcast_certificate();
 
     bool send(
       identifier_t class_id, identifier_t method_id, message_view message) {

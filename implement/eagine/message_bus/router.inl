@@ -250,6 +250,27 @@ void router::_handle_connection(std::unique_ptr<connection> conn) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+bool router::_do_allow_blob(message_id_tuple msg_id) {
+    if(EAGINE_UNLIKELY(EAGINE_ID(eagiMsgBus).matches(msg_id.class_id()))) {
+        if(EAGINE_ID(eptCertPem).matches(msg_id.method_id())) {
+            return true;
+        }
+    }
+    return false;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+bool router::_handle_blob(
+  identifier_t class_id, identifier_t method_id, const message_view&) {
+    if(EAGINE_UNLIKELY(EAGINE_ID(eagiMsgBus).matches(class_id))) {
+        if(EAGINE_ID(eptCertPem).matches(method_id)) {
+            // TODO: store/verify endpoint cert
+        }
+    }
+    return true;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 bool router::_handle_special(
   identifier_t class_id,
   identifier_t method_id,
@@ -337,7 +358,13 @@ bool router::_handle_special(
                 return false;
             }
         } else if(EAGINE_ID(blobFrgmnt).matches(method_id)) {
-            // TODO: examine if it's an interesting BLOB
+            if(_blobs.process_incoming(
+                 blob_manipulator::filter_function(
+                   this, EAGINE_MEM_FUNC_C(router, _do_allow_blob)),
+                 message)) {
+                _blobs.fetch_all(blob_manipulator::fetch_handler(
+                  this, EAGINE_MEM_FUNC_C(router, _handle_blob)));
+            }
             // this should be routed
             return false;
         }

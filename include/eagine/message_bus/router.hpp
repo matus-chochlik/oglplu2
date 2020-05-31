@@ -15,6 +15,7 @@
 #include "../timeout.hpp"
 #include "../valid_if/positive.hpp"
 #include "acceptor.hpp"
+#include "blobs.hpp"
 #include "context_fwd.hpp"
 #include <map>
 #include <vector>
@@ -98,6 +99,10 @@ private:
     bool _remove_disconnected();
     void _handle_connection(std::unique_ptr<connection> conn);
 
+    bool _do_allow_blob(message_id_tuple);
+    bool _handle_blob(
+      identifier_t class_id, identifier_t method_id, const message_view&);
+
     bool _handle_special(
       identifier_t class_id,
       identifier_t method_id,
@@ -124,6 +129,7 @@ private:
     std::vector<std::unique_ptr<connection>> _connectors;
     std::vector<router_pending> _pending;
     std::map<identifier_t, routed_endpoint> _endpoints;
+    blob_manipulator _blobs{};
 };
 //------------------------------------------------------------------------------
 } // namespace msgbus

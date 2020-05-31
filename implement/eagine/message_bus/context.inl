@@ -88,7 +88,21 @@ message_sequence_t context::next_sequence_no(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void context::add_node_certificate_pem(memory::const_block blk) {
+bool context::verify_node_certificate() {
+    if(ok vrfy_ctx{_ssl.new_x509_store_ctx()}) {
+        auto del_vrfy{_ssl.delete_x509_store_ctx.raii(vrfy_ctx)};
+
+        if(_ssl.init_x509_store_ctx(vrfy_ctx, _ssl_store, _node_cert)) {
+            if(ok verify_res{_ssl.x509_verify_certificate(vrfy_ctx)}) {
+                return verify_res.get();
+            }
+        }
+    }
+    return false;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+bool context::add_node_certificate_pem(memory::const_block blk) {
     if(blk) {
         if(ok cert{_ssl.parse_x509(blk, {})}) {
             if(_node_cert) {
@@ -96,27 +110,39 @@ void context::add_node_certificate_pem(memory::const_block blk) {
             }
             _node_cert = std::move(cert.get());
             memory::copy_into(blk, _node_cert_pem);
+            return verify_node_certificate();
         } else {
             _log.error("failed to parse x509 node certificate from pem")
+              .arg(EAGINE_ID(reason), (!cert).message())
               .arg(EAGINE_ID(pem), blk);
         }
     }
+    return false;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void context::add_ca_certificate_pem(memory::const_block blk) {
+bool context::add_ca_certificate_pem(memory::const_block blk) {
     if(blk) {
         if(ok cert{_ssl.parse_x509(blk, {})}) {
-            if(_ca_cert) {
-                _ssl.delete_x509(_ca_cert);
+            if(_ssl.add_cert_into_x509_store(_ssl_store, cert)) {
+                if(_ca_cert) {
+                    _ssl.delete_x509(_ca_cert);
+                }
+                _ca_cert = std::move(cert.get());
+                memory::copy_into(blk, _ca_cert_pem);
+                return verify_node_certificate();
+            } else {
+                _log.error("failed to add x509 CA certificate to store")
+                  .arg(EAGINE_ID(reason), (!cert).message())
+                  .arg(EAGINE_ID(pem), blk);
             }
-            _ca_cert = std::move(cert.get());
-            memory::copy_into(blk, _ca_cert_pem);
         } else {
             _log.error("failed to parse x509 CA certificate from pem")
+              .arg(EAGINE_ID(reason), (!cert).message())
               .arg(EAGINE_ID(pem), blk);
         }
     }
+    return false;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

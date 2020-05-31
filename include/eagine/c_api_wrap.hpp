@@ -779,6 +779,14 @@ public:
     }
 };
 //------------------------------------------------------------------------------
+template <typename Result, typename Info>
+struct ok_traits<api_combined_result<Result, Info>> {
+    static constexpr const Info& nok_info(
+      const api_combined_result<Result, Info>& r) noexcept {
+        return r;
+    }
+};
+//------------------------------------------------------------------------------
 template <typename ApiTraits, typename Tag, typename Signature>
 using c_api_function_ptr =
   typename ApiTraits::template function_pointer<Tag, Signature>::type;

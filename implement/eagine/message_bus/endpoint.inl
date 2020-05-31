@@ -80,6 +80,9 @@ bool endpoint::_handle_special(
                   .arg(EAGINE_ID(id), _id);
             }
             return true;
+        } else if(EAGINE_ID(eptCertQry).matches(method_id)) {
+            post_certificate(message.source_id);
+            return true;
         } else if(EAGINE_ID(subscribTo).matches(method_id)) {
             return false;
         } else if(EAGINE_ID(unsubFrom).matches(method_id)) {
@@ -152,14 +155,18 @@ bool endpoint::_accept_message(
 EAGINE_LIB_FUNC
 void endpoint::add_certificate_pem(memory::const_block blk) {
     if(_context) {
-        _context->add_node_certificate_pem(blk);
+        if(_context->add_node_certificate_pem(blk)) {
+            broadcast_certificate();
+        }
     }
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void endpoint::add_ca_certificate_pem(memory::const_block blk) {
     if(_context) {
-        _context->add_ca_certificate_pem(blk);
+        if(_context->add_ca_certificate_pem(blk)) {
+            broadcast_certificate();
+        }
     }
 }
 //------------------------------------------------------------------------------
@@ -369,6 +376,33 @@ EAGINE_LIB_FUNC
 void endpoint::clear_allow_list() {
     log().debug("sending clear allow list");
     post(EAGINE_MSG_ID(eagiMsgBus, clrAlwList), {});
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+bool endpoint::post_certificate(identifier_t target_id) {
+    if(auto cert_pem{_context->get_node_certificate_pem()}) {
+        return post_blob(
+          EAGINE_MSG_ID(eagiMsgBus, eptCertPem),
+          target_id,
+          cert_pem,
+          std::chrono::seconds(30),
+          message_priority::normal);
+    }
+    _log.warning("no endpoint certificate to send");
+    return false;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+bool endpoint::broadcast_certificate() {
+    if(auto cert_pem{_context->get_node_certificate_pem()}) {
+        return broadcast_blob(
+          EAGINE_MSG_ID(eagiMsgBus, eptCertPem),
+          cert_pem,
+          std::chrono::seconds(30),
+          message_priority::normal);
+    }
+    _log.warning("no endpoint certificate to broadcast");
+    return false;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
