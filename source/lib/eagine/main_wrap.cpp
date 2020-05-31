@@ -12,5 +12,6 @@
 
 #include "implement.inl"
 #include <eagine/main.hpp>
+#include <eagine/system_info.hpp>
 #include "epilogue.inl"
 // clang-format on

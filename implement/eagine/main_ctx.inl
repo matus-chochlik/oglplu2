@@ -16,6 +16,7 @@ class master_ctx {
 private:
     program_args _args;
     root_logger _log_root;
+    system_info _sys_info{};
     memory::buffer _scratch_space{};
     std::string _exe_path{};
 
@@ -34,6 +35,10 @@ public:
 
     logger& log() noexcept {
         return _log_root;
+    }
+
+    system_info& system() noexcept {
+        return _sys_info;
     }
 
     memory::buffer& scratch_space() noexcept {
@@ -55,6 +60,7 @@ EAGINE_LIB_FUNC
 main_ctx::main_ctx(master_ctx& master) noexcept
   : _args{master.args()}
   , _log{master.log()}
+  , _sys_info{master.system()}
   , _scratch_space{master.scratch_space()}
   , _exe_path{master.exe_path()} {
     EAGINE_ASSERT(!_single_ptr());

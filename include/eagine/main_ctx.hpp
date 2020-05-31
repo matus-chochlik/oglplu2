@@ -13,6 +13,7 @@
 #include "logging/root_logger_opts.hpp"
 #include "memory/buffer_fwd.hpp"
 #include "program_args.hpp"
+#include "system_info.hpp"
 
 namespace eagine {
 
@@ -27,6 +28,7 @@ class main_ctx {
 private:
     program_args& _args;
     logger& _log;
+    system_info& _sys_info;
     memory::buffer& _scratch_space;
     string_view _exe_path;
 
@@ -51,6 +53,10 @@ public:
 
     logger& log() noexcept {
         return _log;
+    }
+
+    system_info& system() noexcept {
+        return _sys_info;
     }
 
     memory::buffer& scratch_space() noexcept {
