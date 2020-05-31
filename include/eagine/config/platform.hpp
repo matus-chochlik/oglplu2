@@ -17,6 +17,14 @@
 #endif
 #endif
 
+#ifndef EAGINE_LINUX
+#if defined(__linux__)
+#define EAGINE_LINUX 1
+#else
+#define EAGINE_LINUX 0
+#endif
+#endif
+
 #ifndef EAGINE_APPLE
 #if defined(__APPLE__) && __APPLE__
 #define EAGINE_APPLE 1

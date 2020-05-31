@@ -32,7 +32,7 @@ public:
     }
 
 private:
-    _clock::time_point _start;
+    _clock::time_point _start{};
 };
 //------------------------------------------------------------------------------
 class timeout {
@@ -43,9 +43,17 @@ public:
       : _timeout{_clock::now()} {
     }
 
-    timeout(_clock::duration duration) noexcept
+    timeout(_clock::duration duration, _clock::duration initial) noexcept
       : _duration{duration}
-      , _timeout{_clock::now() + _duration} {
+      , _timeout{_clock::now() + initial} {
+    }
+
+    timeout(_clock::duration duration, nothing_t) noexcept
+      : timeout{duration, _clock::duration::zero()} {
+    }
+
+    timeout(_clock::duration duration) noexcept
+      : timeout{duration, duration} {
     }
 
     timeout& reset() noexcept {
@@ -77,7 +85,7 @@ public:
 
 private:
     _clock::duration _duration{};
-    _clock::time_point _timeout;
+    _clock::time_point _timeout{};
 };
 
 } // namespace eagine
