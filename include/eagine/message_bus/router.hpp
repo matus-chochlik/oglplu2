@@ -90,6 +90,17 @@ public:
         return bool(no_connection_timeout());
     }
 
+    template <identifier_t ClassId, identifier_t MethodId>
+    void post_blob(
+      message_id<ClassId, MethodId>,
+      identifier_t target_id,
+      memory::const_block blob,
+      std::chrono::seconds max_time,
+      message_priority priority) {
+        _blobs.push_outgoing(
+          ClassId, MethodId, target_id, blob, max_time, priority);
+    }
+
 private:
     void _setup_from_args(const program_args&);
 
@@ -99,6 +110,8 @@ private:
     bool _remove_disconnected();
     void _handle_connection(std::unique_ptr<connection> conn);
 
+    bool _cleanup_blobs();
+    bool _process_blobs();
     bool _do_allow_blob(message_id_tuple);
     bool _handle_blob(
       identifier_t class_id, identifier_t method_id, const message_view&);

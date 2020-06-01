@@ -108,6 +108,9 @@ public:
     using send_handler =
       callable_ref<bool(identifier_t, identifier_t, const message_view&)>;
 
+    bool has_outgoing() const noexcept {
+        return !_outgoing.empty();
+    }
     bool process_outgoing(send_handler, span_size_t max_data_size);
 };
 //------------------------------------------------------------------------------

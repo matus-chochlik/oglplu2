@@ -250,6 +250,44 @@ void router::_handle_connection(std::unique_ptr<connection> conn) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+bool router::_cleanup_blobs() {
+    return _blobs.cleanup();
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+bool router::_process_blobs() {
+    some_true something_done{};
+
+    if(_blobs.has_outgoing()) {
+        for(auto& ep : _endpoints) {
+            const auto endpoint_id = std::get<0>(ep);
+            for(auto& conn : std::get<1>(ep).connections) {
+                if(EAGINE_LIKELY(conn && conn->is_usable())) {
+                    if(auto opt_max_size{conn->max_data_size()}) {
+                        auto handle_send = [endpoint_id, &conn](
+                                             identifier_t class_id,
+                                             identifier_t method_id,
+                                             const message_view& message) {
+                            if(endpoint_id == message.target_id) {
+                                return conn->send(class_id, method_id, message);
+                            }
+                            return false;
+                        };
+                        if(_blobs.process_outgoing(
+                             blob_manipulator::send_handler{handle_send},
+                             extract(opt_max_size))) {
+                            something_done();
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return something_done;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 bool router::_do_allow_blob(message_id_tuple msg_id) {
     if(EAGINE_UNLIKELY(EAGINE_ID(eagiMsgBus).matches(msg_id.class_id()))) {
         if(EAGINE_ID(eptCertPem).matches(msg_id.method_id())) {
@@ -371,8 +409,17 @@ bool router::_handle_special(
             // this should be routed
             return false;
         } else if(EAGINE_ID(rtrCertReq).matches(method_id)) {
-            // TODO: reply to source with certificate
+            post_blob(
+              EAGINE_MSG_ID(eagiMsgBus, rtrCertPem),
+              incoming_id,
+              _context->get_node_certificate_pem(),
+              std::chrono::seconds(30),
+              message_priority::high);
             return true;
+        } else if(EAGINE_ID(eptCertReq).matches(method_id)) {
+            // TODO: try to find and send he certificate here
+            // and route only if not found
+            return false;
         }
         _log.warning("unhandled special message ${message} from ${source}")
           .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id))
@@ -471,6 +518,9 @@ bool router::_update_connections() {
 EAGINE_LIB_FUNC
 bool router::update(const valid_if_positive<int>& count) {
     some_true something_done{};
+
+    something_done(_cleanup_blobs());
+    something_done(_process_blobs());
 
     something_done(_remove_timeouted());
     something_done(_remove_disconnected());
