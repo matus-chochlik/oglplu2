@@ -21,6 +21,7 @@ function(eagine_example_common EXAMPLE_NAME)
 	target_link_libraries(
 		eagine-${EXAMPLE_NAME}
 		PUBLIC eagine
+		PRIVATE ${ARGN}
 	)
 
 	set_target_properties(

@@ -261,9 +261,12 @@ bool router::_do_allow_blob(message_id_tuple msg_id) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool router::_handle_blob(
-  identifier_t class_id, identifier_t method_id, const message_view&) {
+  identifier_t class_id, identifier_t method_id, const message_view& message) {
     if(EAGINE_UNLIKELY(EAGINE_ID(eagiMsgBus).matches(class_id))) {
         if(EAGINE_ID(eptCertPem).matches(method_id)) {
+            _log.trace("received endpoint certificate")
+              .arg(EAGINE_ID(source), message.source_id)
+              .arg(EAGINE_ID(pem), message.data);
             // TODO: store/verify endpoint cert
         }
     }
@@ -367,6 +370,9 @@ bool router::_handle_special(
             }
             // this should be routed
             return false;
+        } else if(EAGINE_ID(rtrCertReq).matches(method_id)) {
+            // TODO: reply to source with certificate
+            return true;
         }
         _log.warning("unhandled special message ${message} from ${source}")
           .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id))

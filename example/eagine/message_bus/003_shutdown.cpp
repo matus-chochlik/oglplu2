@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include "lib_common_pki.hpp"
 #include <eagine/main.hpp>
 #include <eagine/message_bus/conn_setup.hpp>
 #include <eagine/message_bus/router_address.hpp>
@@ -65,8 +66,10 @@ int main(main_ctx& ctx) {
     msgbus::connection_setup conn_setup(ctx.log(), ctx.args());
 
     msgbus::endpoint bus{logger{EAGINE_ID(ShutdownEx), ctx.log()}};
-    msgbus::shutdown_trigger trgr{bus};
+    bus.add_ca_certificate_pem(ca_certificate_pem(ctx));
+    bus.add_certificate_pem(msgbus_endpoint_certificate_pem(ctx));
 
+    msgbus::shutdown_trigger trgr{bus};
     conn_setup.setup_connectors(trgr, address);
 
     timeout wait_done{std::chrono::seconds(10)};

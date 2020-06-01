@@ -31,7 +31,12 @@ bool endpoint::_process_blobs() {
 EAGINE_LIB_FUNC
 bool endpoint::_do_allow_blob(message_id_tuple msg_id) {
     if(EAGINE_UNLIKELY(EAGINE_ID(eagiMsgBus).matches(msg_id.class_id()))) {
-        // TODO: special endpoint-related blobs
+        if(EAGINE_ID(eptCertPem).matches(msg_id.method_id())) {
+            return true;
+        }
+        if(EAGINE_ID(rtrCertPem).matches(msg_id.method_id())) {
+            return true;
+        }
     }
     return _allow_blob && _allow_blob(msg_id);
 }
@@ -82,6 +87,17 @@ bool endpoint::_handle_special(
             return true;
         } else if(EAGINE_ID(eptCertQry).matches(method_id)) {
             post_certificate(message.source_id);
+            return true;
+        } else if(EAGINE_ID(eptCertPem).matches(method_id)) {
+            _log.trace("received remote endpoint certificate")
+              .arg(EAGINE_ID(source), message.source_id)
+              .arg(EAGINE_ID(pem), message.data);
+            // TODO: store/verify endpoint cert
+            return true;
+        } else if(EAGINE_ID(rtrCertPem).matches(method_id)) {
+            _log.trace("received router certificate")
+              .arg(EAGINE_ID(pem), message.data);
+            // TODO: store/verify router cert
             return true;
         } else if(EAGINE_ID(subscribTo).matches(method_id)) {
             return false;
@@ -264,6 +280,8 @@ bool endpoint::update() {
         log().debug("announcing endpoint id ${id}").arg(EAGINE_ID(id), _id);
         // send the endpoint id through all connections
         _do_send(EAGINE_MSG_ID(eagiMsgBus, announceId), {});
+        // send request for router certificate
+        _do_send(EAGINE_MSG_ID(eagiMsgBus, rtrCertReq), {});
         something_done();
     }
 

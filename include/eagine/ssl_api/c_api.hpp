@@ -573,6 +573,16 @@ struct basic_ssl_c_api {
     // x509
     ssl_api_function<x509_type*(), EAGINE_SSL_STATIC_FUNC(X509_new)> x509_new;
 
+    ssl_api_function<
+      evp_pkey_type*(x509_type*),
+      EAGINE_SSL_STATIC_FUNC(X509_get_pubkey)>
+      x509_get_pubkey;
+
+    ssl_api_function<
+      evp_pkey_type*(const x509_type*),
+      EAGINE_SSL_STATIC_FUNC(X509_get0_pubkey)>
+      x509_get0_pubkey;
+
     ssl_api_function<void(x509_type*), EAGINE_SSL_STATIC_FUNC(X509_free)>
       x509_free;
 
@@ -702,6 +712,8 @@ struct basic_ssl_c_api {
       , x509_crl_new("X509_crl_new", traits, *this)
       , x509_crl_free("X509_crl_free", traits, *this)
       , x509_new("X509_new", traits, *this)
+      , x509_get_pubkey("X509_get_pubkey", traits, *this)
+      , x509_get0_pubkey("X509_get0_pubkey", traits, *this)
       , x509_free("X509_free", traits, *this)
       , pem_read_bio_private_key("PEM_read_bio_PrivateKey", traits, *this)
       , pem_read_bio_pubkey("PEM_read_bio_PUBKEY", traits, *this)

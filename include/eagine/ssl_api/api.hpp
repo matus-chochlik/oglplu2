@@ -1109,6 +1109,15 @@ public:
         }
     } new_x509;
 
+    // get_x509_pubkey
+    struct : func<SSLPAFP(x509_get_pubkey)> {
+        using func<SSLPAFP(x509_get_pubkey)>::func;
+
+        constexpr auto operator()(x509 crt) const noexcept {
+            return this->_cnvchkcall(crt).cast_to(identity<owned_pkey>{});
+        }
+    } get_x509_pubkey;
+
     // delete_x509
     struct : func<SSLPAFP(x509_free)> {
         using func<SSLPAFP(x509_free)>::func;
@@ -1305,6 +1314,7 @@ public:
       , new_x509_crl("new_x509_crl", traits, *this)
       , delete_x509_crl("delete_x509_crl", traits, *this)
       , new_x509("new_x509", traits, *this)
+      , get_x509_pubkey("get_x509_pubkey", traits, *this)
       , delete_x509("delete_x509", traits, *this)
       , read_bio_private_key("read_bio_private_key", traits, *this)
       , read_bio_public_key("read_bio_public_key", traits, *this)
