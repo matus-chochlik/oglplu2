@@ -24,6 +24,7 @@ namespace msgbus {
 struct context_remote_node {
     memory::buffer cert_pem;
     sslp::owned_x509 cert{};
+    sslp::owned_pkey pubkey{};
 };
 //------------------------------------------------------------------------------
 class context {

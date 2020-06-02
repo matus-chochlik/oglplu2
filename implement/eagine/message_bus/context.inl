@@ -55,7 +55,9 @@ context::context(logger& parent, const program_args& args)
 EAGINE_LIB_FUNC
 context::~context() noexcept {
     for(auto& remote : _remotes) {
-        _ssl.delete_x509(std::get<1>(remote).cert);
+        auto& info = std::get<1>(remote);
+        _ssl.delete_pkey(info.pubkey);
+        _ssl.delete_x509(info.cert);
     }
 
     if(_ca_cert) {
@@ -158,9 +160,22 @@ bool context::add_remote_certificate_pem(
             if(info.cert) {
                 _ssl.delete_x509(info.cert);
             }
+            if(info.pubkey) {
+                _ssl.delete_pkey(info.pubkey);
+            }
             info.cert = std::move(cert.get());
             memory::copy_into(blk, info.cert_pem);
-            return verify_certificate(info.cert);
+            if(verify_certificate(info.cert)) {
+                if(ok pubkey{_ssl.get_x509_pubkey(info.cert)}) {
+                    info.pubkey = std::move(pubkey.get());
+                    return true;
+                } else {
+                    _log.error("failed to get remote node x509 public key")
+                      .arg(EAGINE_ID(nodeId), node_id)
+                      .arg(EAGINE_ID(reason), (!pubkey).message())
+                      .arg(EAGINE_ID(pem), blk);
+                }
+            }
         } else {
             _log.error("failed to parse remote node x509 certificate from pem")
               .arg(EAGINE_ID(nodeId), node_id)
