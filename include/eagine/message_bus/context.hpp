@@ -21,6 +21,11 @@
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
+struct context_remote_node {
+    memory::buffer cert_pem;
+    sslp::owned_x509 cert{};
+};
+//------------------------------------------------------------------------------
 class context {
 public:
     context(logger& parent);
@@ -36,16 +41,26 @@ public:
     message_sequence_t next_sequence_no(
       identifier_t class_id, identifier_t method_id) noexcept;
 
-    bool verify_node_certificate();
-    bool add_node_certificate_pem(memory::const_block);
-    bool add_ca_certificate_pem(memory::const_block);
+    bool verify_certificate(sslp::x509 cert);
 
-    memory::const_block get_node_certificate_pem() const noexcept {
-        return view(_node_cert_pem);
+    bool add_own_certificate_pem(memory::const_block);
+    bool add_ca_certificate_pem(memory::const_block);
+    bool add_remote_certificate_pem(identifier_t node_id, memory::const_block);
+    bool add_router_certificate_pem(memory::const_block blk) {
+        return add_remote_certificate_pem(0, blk);
+    }
+
+    memory::const_block get_own_certificate_pem() const noexcept {
+        return view(_own_cert_pem);
     }
 
     memory::const_block get_ca_certificate_pem() const noexcept {
         return view(_ca_cert_pem);
+    }
+
+    memory::const_block get_remote_certificate_pem(identifier_t) const noexcept;
+    memory::const_block get_router_certificate_pem() const noexcept {
+        return get_remote_certificate_pem(0);
     }
 
 private:
@@ -53,14 +68,16 @@ private:
     //
     std::map<message_id_tuple, message_sequence_t> _msg_id_seq{};
     //
-    memory::buffer _node_cert_pem{};
+    memory::buffer _own_cert_pem{};
     memory::buffer _ca_cert_pem{};
     //
     sslp::ssl_api _ssl{};
     sslp::owned_engine _ssl_engine{};
     sslp::owned_x509_store _ssl_store{};
-    sslp::owned_x509 _node_cert{};
+    sslp::owned_x509 _own_cert{};
     sslp::owned_x509 _ca_cert{};
+    //
+    std::map<identifier_t, context_remote_node> _remotes{};
 };
 //------------------------------------------------------------------------------
 } // namespace msgbus

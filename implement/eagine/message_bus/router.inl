@@ -16,8 +16,8 @@ namespace msgbus {
 // routed_endpoint
 //------------------------------------------------------------------------------
 static inline bool routed_endpoint_list_contains(
-  const std::vector<std::tuple<identifier_t, identifier_t>>& list,
-  const std::tuple<identifier_t, identifier_t>& entry) noexcept {
+  const std::vector<message_id_tuple>& list,
+  const message_id_tuple& entry) noexcept {
     return std::find(list.begin(), list.end(), entry) != list.end();
 }
 //------------------------------------------------------------------------------
@@ -33,7 +33,7 @@ bool routed_endpoint::is_allowed(
     if(EAGINE_UNLIKELY(EAGINE_ID(eagiMsgBus).matches(class_id))) {
         return true;
     }
-    const auto entry{std::make_tuple(class_id, method_id)};
+    const message_id_tuple entry{class_id, method_id};
     if(!message_allow_list.empty()) {
         return routed_endpoint_list_contains(message_allow_list, entry);
     }
@@ -45,7 +45,7 @@ bool routed_endpoint::is_allowed(
 //------------------------------------------------------------------------------
 void routed_endpoint::block_message(
   identifier_t class_id, identifier_t method_id) {
-    const auto entry{std::make_tuple(class_id, method_id)};
+    const message_id_tuple entry{class_id, method_id};
     if(!routed_endpoint_list_contains(message_block_list, entry)) {
         message_block_list.push_back(entry);
     }
@@ -53,7 +53,7 @@ void routed_endpoint::block_message(
 //------------------------------------------------------------------------------
 void routed_endpoint::allow_message(
   identifier_t class_id, identifier_t method_id) {
-    const auto entry{std::make_tuple(class_id, method_id)};
+    const message_id_tuple entry{class_id, method_id};
     if(!routed_endpoint_list_contains(message_allow_list, entry)) {
         message_allow_list.push_back(entry);
     }
@@ -64,7 +64,7 @@ void routed_endpoint::allow_message(
 EAGINE_LIB_FUNC
 void router::add_certificate_pem(memory::const_block blk) {
     if(_context) {
-        _context->add_node_certificate_pem(blk);
+        _context->add_own_certificate_pem(blk);
     }
 }
 //------------------------------------------------------------------------------
@@ -412,7 +412,7 @@ bool router::_handle_special(
             post_blob(
               EAGINE_MSG_ID(eagiMsgBus, rtrCertPem),
               incoming_id,
-              _context->get_node_certificate_pem(),
+              _context->get_own_certificate_pem(),
               std::chrono::seconds(30),
               message_priority::high);
             return true;

@@ -54,12 +54,16 @@ context::context(logger& parent, const program_args& args)
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 context::~context() noexcept {
+    for(auto& remote : _remotes) {
+        _ssl.delete_x509(std::get<1>(remote).cert);
+    }
+
     if(_ca_cert) {
         _ssl.delete_x509(_ca_cert);
     }
 
-    if(_node_cert) {
-        _ssl.delete_x509(_node_cert);
+    if(_own_cert) {
+        _ssl.delete_x509(_own_cert);
     }
 
     if(_ssl_store) {
@@ -88,11 +92,11 @@ message_sequence_t context::next_sequence_no(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool context::verify_node_certificate() {
+bool context::verify_certificate(sslp::x509 cert) {
     if(ok vrfy_ctx{_ssl.new_x509_store_ctx()}) {
         auto del_vrfy{_ssl.delete_x509_store_ctx.raii(vrfy_ctx)};
 
-        if(_ssl.init_x509_store_ctx(vrfy_ctx, _ssl_store, _node_cert)) {
+        if(_ssl.init_x509_store_ctx(vrfy_ctx, _ssl_store, cert)) {
             if(ok verify_res{_ssl.x509_verify_certificate(vrfy_ctx)}) {
                 return verify_res.get();
             }
@@ -102,17 +106,17 @@ bool context::verify_node_certificate() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool context::add_node_certificate_pem(memory::const_block blk) {
+bool context::add_own_certificate_pem(memory::const_block blk) {
     if(blk) {
         if(ok cert{_ssl.parse_x509(blk, {})}) {
-            if(_node_cert) {
-                _ssl.delete_x509(_node_cert);
+            if(_own_cert) {
+                _ssl.delete_x509(_own_cert);
             }
-            _node_cert = std::move(cert.get());
-            memory::copy_into(blk, _node_cert_pem);
-            return verify_node_certificate();
+            _own_cert = std::move(cert.get());
+            memory::copy_into(blk, _own_cert_pem);
+            return verify_certificate(_own_cert);
         } else {
-            _log.error("failed to parse x509 node certificate from pem")
+            _log.error("failed to parse own x509 certificate from pem")
               .arg(EAGINE_ID(reason), (!cert).message())
               .arg(EAGINE_ID(pem), blk);
         }
@@ -130,14 +134,14 @@ bool context::add_ca_certificate_pem(memory::const_block blk) {
                 }
                 _ca_cert = std::move(cert.get());
                 memory::copy_into(blk, _ca_cert_pem);
-                return verify_node_certificate();
+                return verify_certificate(_own_cert);
             } else {
                 _log.error("failed to add x509 CA certificate to store")
                   .arg(EAGINE_ID(reason), (!cert).message())
                   .arg(EAGINE_ID(pem), blk);
             }
         } else {
-            _log.error("failed to parse x509 CA certificate from pem")
+            _log.error("failed to parse CA x509 certificate from pem")
               .arg(EAGINE_ID(reason), (!cert).message())
               .arg(EAGINE_ID(pem), blk);
         }
@@ -146,7 +150,38 @@ bool context::add_ca_certificate_pem(memory::const_block blk) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-std::unique_ptr<context> make_context(logger& parent) {
+bool context::add_remote_certificate_pem(
+  identifier_t node_id, memory::const_block blk) {
+    if(blk) {
+        if(ok cert{_ssl.parse_x509(blk, {})}) {
+            auto& info = _remotes[node_id];
+            if(info.cert) {
+                _ssl.delete_x509(info.cert);
+            }
+            info.cert = std::move(cert.get());
+            memory::copy_into(blk, info.cert_pem);
+            return verify_certificate(info.cert);
+        } else {
+            _log.error("failed to parse remote node x509 certificate from pem")
+              .arg(EAGINE_ID(nodeId), node_id)
+              .arg(EAGINE_ID(reason), (!cert).message())
+              .arg(EAGINE_ID(pem), blk);
+        }
+    }
+    return false;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+memory::const_block context::get_remote_certificate_pem(
+  identifier_t node_id) const noexcept {
+    auto pos = _remotes.find(node_id);
+    if(pos != _remotes.end()) {
+        return view(std::get<1>(*pos).cert_pem);
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC std::unique_ptr<context> make_context(logger& parent) {
     return std::make_unique<context>(parent);
 }
 //------------------------------------------------------------------------------

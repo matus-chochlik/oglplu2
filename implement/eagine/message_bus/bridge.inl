@@ -158,7 +158,7 @@ private:
 EAGINE_LIB_FUNC
 void bridge::add_certificate_pem(memory::const_block blk) {
     if(_context) {
-        _context->add_node_certificate_pem(blk);
+        _context->add_own_certificate_pem(blk);
     }
 }
 //------------------------------------------------------------------------------

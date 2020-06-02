@@ -85,6 +85,10 @@ bool endpoint::_handle_special(
                   .arg(EAGINE_ID(id), _id);
             }
             return true;
+        } else if(EAGINE_ID(subscribTo).matches(method_id)) {
+            return false;
+        } else if(EAGINE_ID(unsubFrom).matches(method_id)) {
+            return false;
         } else if(EAGINE_ID(eptCertQry).matches(method_id)) {
             post_certificate(message.source_id);
             return true;
@@ -92,17 +96,21 @@ bool endpoint::_handle_special(
             _log.trace("received remote endpoint certificate")
               .arg(EAGINE_ID(source), message.source_id)
               .arg(EAGINE_ID(pem), message.data);
-            // TODO: store/verify endpoint cert
+
+            if(_context->add_remote_certificate_pem(
+                 message.source_id, view(message.data))) {
+                _log.debug("verified and stored remote endpoint certificate")
+                  .arg(EAGINE_ID(source), message.source_id);
+            }
             return true;
         } else if(EAGINE_ID(rtrCertPem).matches(method_id)) {
             _log.trace("received router certificate")
               .arg(EAGINE_ID(pem), message.data);
-            // TODO: store/verify router cert
+
+            if(_context->add_router_certificate_pem(view(message.data))) {
+                _log.debug("verified and stored router certificate");
+            }
             return true;
-        } else if(EAGINE_ID(subscribTo).matches(method_id)) {
-            return false;
-        } else if(EAGINE_ID(unsubFrom).matches(method_id)) {
-            return false;
         }
         _log.warning("unhandled special message ${message} from ${source}")
           .arg(EAGINE_ID(message), message_id_tuple{class_id, method_id})
@@ -171,7 +179,7 @@ bool endpoint::_accept_message(
 EAGINE_LIB_FUNC
 void endpoint::add_certificate_pem(memory::const_block blk) {
     if(_context) {
-        if(_context->add_node_certificate_pem(blk)) {
+        if(_context->add_own_certificate_pem(blk)) {
             broadcast_certificate();
         }
     }
@@ -398,7 +406,7 @@ void endpoint::clear_allow_list() {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool endpoint::post_certificate(identifier_t target_id) {
-    if(auto cert_pem{_context->get_node_certificate_pem()}) {
+    if(auto cert_pem{_context->get_own_certificate_pem()}) {
         return post_blob(
           EAGINE_MSG_ID(eagiMsgBus, eptCertPem),
           target_id,
@@ -412,7 +420,7 @@ bool endpoint::post_certificate(identifier_t target_id) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool endpoint::broadcast_certificate() {
-    if(auto cert_pem{_context->get_node_certificate_pem()}) {
+    if(auto cert_pem{_context->get_own_certificate_pem()}) {
         return broadcast_blob(
           EAGINE_MSG_ID(eagiMsgBus, eptCertPem),
           cert_pem,

@@ -41,8 +41,8 @@ struct router_pending {
 //------------------------------------------------------------------------------
 struct routed_endpoint {
     std::vector<std::unique_ptr<connection>> connections;
-    std::vector<std::tuple<identifier_t, identifier_t>> message_block_list;
-    std::vector<std::tuple<identifier_t, identifier_t>> message_allow_list;
+    std::vector<message_id_tuple> message_block_list;
+    std::vector<message_id_tuple> message_allow_list;
     bool maybe_router{true};
     bool do_disconnect{false};
 
