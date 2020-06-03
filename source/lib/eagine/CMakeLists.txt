@@ -14,6 +14,7 @@ set(EAGINE_LIB_SOURCES
 	input_data.cpp
 	str_var_subst.cpp
 	message_bus_context.cpp
+	message_bus_message.cpp
 	message_bus_setup.cpp
 	message_bus_blobs.cpp
 	message_bus_endpoint.cpp

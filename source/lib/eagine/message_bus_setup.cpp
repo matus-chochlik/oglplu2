@@ -8,6 +8,7 @@
 // clang-format off
 #include "prologue.inl"
 #include <eagine/random_identifier.hpp>
+#include <eagine/message_bus/message.hpp>
 #include <eagine/message_bus/serialize.hpp>
 #include "implement.inl"
 #include <eagine/message_bus/conn_setup.hpp>

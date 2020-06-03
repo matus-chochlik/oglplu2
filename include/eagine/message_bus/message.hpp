@@ -11,6 +11,7 @@
 #define EAGINE_MESSAGE_BUS_MESSAGE_HPP
 
 #include "../assert.hpp"
+#include "../bitfield.hpp"
 #include "../callable_ref.hpp"
 #include "../identifier.hpp"
 #include "../memory/buffer_pool.hpp"
@@ -45,6 +46,22 @@ constexpr auto enumerator_mapping(
        {"idle", message_priority::idle}}};
 }
 //------------------------------------------------------------------------------
+enum class message_crypto_flag : std::uint8_t {
+    asymmetric,
+    signed_header,
+    signed_data
+};
+using message_crypto_flags = bitfield<message_crypto_flag>;
+//------------------------------------------------------------------------------
+template <typename Selector>
+constexpr auto enumerator_mapping(
+  identity<message_crypto_flag>, Selector) noexcept {
+    return enumerator_map_type<message_crypto_flag, 3>{
+      {{"asymmetric", message_crypto_flag::asymmetric},
+       {"signed_header", message_crypto_flag::signed_header},
+       {"signed_data", message_crypto_flag::signed_data}}};
+}
+//------------------------------------------------------------------------------
 struct message_info {
     static constexpr identifier_t inline invalid_id() noexcept {
         return 0U;
@@ -57,13 +74,25 @@ struct message_info {
     using sequence_t = message_sequence_t;
     sequence_t sequence_no{0U};
 
-    message_priority priority{message_priority::normal};
-
     using hop_count_t = std::int8_t;
     hop_count_t hop_count{0};
 
+    message_priority priority{message_priority::normal};
+
+    message_crypto_flags crypto_flags{};
+
     message_info& assign(const message_info& that) noexcept {
         return *this = that;
+    }
+
+    bool too_many_hops() const noexcept {
+        return hop_count >= hop_count_t(64);
+    }
+
+    message_info& add_hop() noexcept {
+        EAGINE_ASSERT(hop_count < std::numeric_limits<hop_count_t>::max());
+        ++hop_count;
+        return *this;
     }
 
     message_info& set_priority(message_priority new_priority) noexcept {
@@ -94,16 +123,6 @@ struct message_info {
     message_info& setup_response(const message_info& info) noexcept {
         target_id = info.source_id;
         sequence_no = info.sequence_no;
-        return *this;
-    }
-
-    bool too_many_hops() const noexcept {
-        return hop_count >= hop_count_t(64);
-    }
-
-    message_info& add_hop() noexcept {
-        EAGINE_ASSERT(hop_count < std::numeric_limits<hop_count_t>::max());
-        ++hop_count;
         return *this;
     }
 };
@@ -196,33 +215,7 @@ public:
         return true;
     }
 
-    bool fetch_all(fetch_handler handler) {
-        bool fetched_some = false;
-        bool keep_some = false;
-        for(auto& [class_id, method_id, message] : _messages) {
-            if(handler(class_id, method_id, message)) {
-                class_id = 0;
-                method_id = 0;
-                _buffers.eat(std::move(message.data));
-                fetched_some = true;
-            } else {
-                keep_some = true;
-            }
-        }
-        if(keep_some) {
-            _messages.erase(
-              std::remove_if(
-                _messages.begin(),
-                _messages.end(),
-                [](auto& t) {
-                    return (std::get<0>(t) == 0) && (std::get<1>(t) == 0);
-                }),
-              _messages.end());
-        } else {
-            _messages.clear();
-        }
-        return fetched_some;
-    }
+    bool fetch_all(fetch_handler handler);
 
 private:
     memory::buffer_pool _buffers;
@@ -268,85 +261,14 @@ public:
         _messages.emplace_back(std::move(buf));
     }
 
-    bool fetch_some(fetch_handler handler, span_size_t n) {
-        bool fetched_some = false;
-        for(auto& message : _messages) {
-            if(n-- <= 0) {
-                break;
-            }
-            if(handler(view(message))) {
-                _buffers.eat(std::move(message));
-            }
-        }
-        _messages.erase(
-          std::remove_if(
-            _messages.begin(),
-            _messages.end(),
-            [](auto& buf) { return buf.empty(); }),
-          _messages.end());
-        return fetched_some;
-    }
-
-    bool fetch_all(fetch_handler handler) {
-        bool fetched_some = false;
-        bool keep_some = false;
-        for(auto& message : _messages) {
-            if(handler(view(message))) {
-                _buffers.eat(std::move(message));
-                fetched_some = true;
-            } else {
-                keep_some = true;
-            }
-        }
-        if(keep_some) {
-            _messages.erase(
-              std::remove_if(
-                _messages.begin(),
-                _messages.end(),
-                [](auto& buf) { return buf.empty(); }),
-              _messages.end());
-        } else {
-            _messages.clear();
-        }
-        return fetched_some;
-    }
+    bool fetch_some(fetch_handler handler, span_size_t n);
+    bool fetch_all(fetch_handler handler);
 
     using bit_set = std::uint64_t;
 
-    bit_set pack_into(memory::block dest) {
-        bit_set result{0U};
-        bit_set current{1U};
+    bit_set pack_into(memory::block dest);
 
-        for(auto& message : _messages) {
-            if(current == 0U) {
-                break;
-            }
-            if(auto packed = store_data_with_size(view(message), dest)) {
-                dest = skip(dest, packed.size());
-                result |= current;
-            }
-            current <<= 1U;
-        }
-        zero(dest);
-
-        return result;
-    }
-
-    void cleanup(bit_set to_be_removed) {
-        _messages.erase(
-          std::remove_if(
-            _messages.begin(),
-            _messages.end(),
-            [this, &to_be_removed](auto& message) mutable {
-                const bool do_remove = (to_be_removed & 1U) == 1U;
-                if(do_remove) {
-                    _buffers.eat(std::move(message));
-                }
-                to_be_removed >>= 1U;
-                return do_remove;
-            }),
-          _messages.end());
-    }
+    void cleanup(bit_set to_be_removed);
 
 private:
     memory::buffer_pool _buffers;
@@ -409,6 +331,10 @@ private:
 //------------------------------------------------------------------------------
 } // namespace msgbus
 } // namespace eagine
+
+#if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
+#include <eagine/message_bus/message.inl>
+#endif
 
 #endif // EAGINE_MESSAGE_BUS_MESSAGE_HPP
 
