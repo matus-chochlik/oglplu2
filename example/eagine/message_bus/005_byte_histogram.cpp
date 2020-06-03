@@ -64,7 +64,7 @@ int main(main_ctx& ctx) {
 
     msgbus::endpoint::generic_handler handler{log_byte_hist};
 
-    timeout idle_too_long{std::chrono::seconds{30}};
+    timeout idle_too_long{std::chrono::minutes{1}};
     while(!idle_too_long) {
         if(bus.update()) {
             idle_too_long.reset();

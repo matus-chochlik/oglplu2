@@ -171,6 +171,7 @@ public:
     endpoint& operator=(const endpoint&) = delete;
 
     context& ctx() noexcept {
+        EAGINE_ASSERT(_context);
         return *_context;
     }
 

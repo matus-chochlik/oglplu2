@@ -63,6 +63,8 @@ bool endpoint::_handle_special(
   identifier_t class_id,
   identifier_t method_id,
   const message_view& message) noexcept {
+
+    EAGINE_ASSERT(_context);
     if(EAGINE_UNLIKELY(EAGINE_ID(eagiMsgBus).matches(class_id))) {
         log()
           .debug("handling special message ${message}")
@@ -178,6 +180,7 @@ bool endpoint::_accept_message(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void endpoint::add_certificate_pem(memory::const_block blk) {
+    EAGINE_ASSERT(_context);
     if(_context) {
         if(_context->add_own_certificate_pem(blk)) {
             broadcast_certificate();
@@ -187,6 +190,7 @@ void endpoint::add_certificate_pem(memory::const_block blk) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void endpoint::add_ca_certificate_pem(memory::const_block blk) {
+    EAGINE_ASSERT(_context);
     if(_context) {
         if(_context->add_ca_certificate_pem(blk)) {
             broadcast_certificate();
@@ -256,12 +260,9 @@ void endpoint::flush_outbox() {
 EAGINE_LIB_FUNC
 bool endpoint::set_next_sequence_id(
   identifier_t class_id, identifier_t method_id, message_info& message) {
-    if(EAGINE_LIKELY(_context)) {
-        message.set_sequence_no(
-          _context->next_sequence_no(class_id, method_id));
-        return true;
-    }
-    return false;
+    EAGINE_ASSERT(_context);
+    message.set_sequence_no(_context->next_sequence_no(class_id, method_id));
+    return true;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -406,6 +407,7 @@ void endpoint::clear_allow_list() {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool endpoint::post_certificate(identifier_t target_id) {
+    EAGINE_ASSERT(_context);
     if(auto cert_pem{_context->get_own_certificate_pem()}) {
         return post_blob(
           EAGINE_MSG_ID(eagiMsgBus, eptCertPem),
@@ -420,6 +422,7 @@ bool endpoint::post_certificate(identifier_t target_id) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool endpoint::broadcast_certificate() {
+    EAGINE_ASSERT(_context);
     if(auto cert_pem{_context->get_own_certificate_pem()}) {
         return broadcast_blob(
           EAGINE_MSG_ID(eagiMsgBus, eptCertPem),
