@@ -44,7 +44,7 @@ private:
         identifier_t sub_class_id{};
         identifier_t sub_method_id{};
         if(default_deserialize_message_type(
-             sub_class_id, sub_method_id, message.data)) {
+             sub_class_id, sub_method_id, message.content())) {
             on_subscribed(message.source_id, {sub_class_id, sub_method_id});
         }
         return true;
@@ -54,7 +54,7 @@ private:
         identifier_t sub_class_id{};
         identifier_t sub_method_id{};
         if(default_deserialize_message_type(
-             sub_class_id, sub_method_id, message.data)) {
+             sub_class_id, sub_method_id, message.content())) {
             on_unsubscribed(message.source_id, {sub_class_id, sub_method_id});
         }
         return true;

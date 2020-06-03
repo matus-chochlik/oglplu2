@@ -14,12 +14,14 @@
 #include "../bitfield.hpp"
 #include "../callable_ref.hpp"
 #include "../identifier.hpp"
+#include "../logging/fwd.hpp"
 #include "../memory/buffer_pool.hpp"
 #include "../memory/copy.hpp"
 #include "../memory/span_algo.hpp"
 #include "../reflect/map_enumerators.hpp"
-#include "../serialize/size_and_data.hpp"
+#include "context_fwd.hpp"
 #include "types.hpp"
+#include "verification.hpp"
 #include <cstdint>
 #include <limits>
 #include <vector>
@@ -146,21 +148,61 @@ struct message_view : message_info {
     }
 };
 //------------------------------------------------------------------------------
-struct stored_message : message_info {
+class stored_message : public message_info {
+private:
+    memory::buffer _buffer{};
 
-    memory::buffer data{};
-
+public:
     stored_message() = default;
 
     stored_message(message_view message, memory::buffer buf) noexcept
       : message_info{message}
-      , data{std::move(buf)} {
-        memory::copy_into(view(message.data), data);
+      , _buffer{std::move(buf)} {
+        memory::copy_into(view(message.data), _buffer);
     }
 
     operator message_view() const {
-        return {*this, view(data)};
+        return {*this, view(_buffer)};
     }
+
+    template <typename Source>
+    void fetch_all_from(Source& source) {
+        _buffer.clear();
+        source.fetch_all(_buffer);
+    }
+
+    template <typename Backend, typename Value>
+    bool do_store_value(const Value& value, span_size_t max_size);
+
+    template <typename Value>
+    bool store_value(const Value& value, span_size_t max_size);
+
+    memory::block content() noexcept {
+        return cover(_buffer);
+    }
+
+    memory::const_block content() const noexcept {
+        return view(_buffer);
+    }
+
+    auto text() noexcept {
+        return as_chars(content());
+    }
+
+    auto text() const noexcept {
+        return as_chars(content());
+    }
+
+    void clear_data() noexcept {
+        _buffer.clear();
+    }
+
+    memory::buffer release_buffer() noexcept {
+        return std::move(_buffer);
+    }
+
+    bool sign_message(context&, logger&);
+    verification_bits verify_bits(context&, logger&) const noexcept;
 };
 //------------------------------------------------------------------------------
 class message_storage {
@@ -208,7 +250,7 @@ public:
             rollback = true;
         }
         if(rollback) {
-            _buffers.eat(std::move(message.data));
+            _buffers.eat(message.release_buffer());
             _messages.pop_back();
             return false;
         }
@@ -296,7 +338,7 @@ public:
     bool process_one(handler_type handler) {
         if(!_messages.empty()) {
             if(handler(_messages.back())) {
-                _buffers.eat(std::move(_messages.back().data));
+                _buffers.eat(_messages.back().release_buffer());
                 _messages.pop_back();
                 return true;
             }
@@ -311,7 +353,7 @@ public:
         while(pos < _messages.size()) {
             if(handler(_messages[pos])) {
                 ++count;
-                _buffers.eat(std::move(_messages[pos].data));
+                _buffers.eat(_messages[pos].release_buffer());
                 _messages.erase(_messages.begin() + pos);
             } else {
                 ++pos;

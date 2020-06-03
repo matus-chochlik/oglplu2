@@ -64,8 +64,11 @@ public:
         return false;
     }
 
-    verification_bits verify_bits(const stored_message&) const noexcept {
-        // TODO: message verification
+    verification_bits verify_bits(const stored_message& message) const
+      noexcept {
+        if(EAGINE_LIKELY(_endpoint)) {
+            return message.verify_bits(_endpoint->ctx(), _endpoint->log());
+        }
         return {};
     }
 

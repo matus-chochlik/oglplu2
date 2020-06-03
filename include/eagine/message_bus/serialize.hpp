@@ -90,8 +90,7 @@ deserialize_message(
 
     if(!errors) {
         if(auto source = backend.source()) {
-            msg.data.clear();
-            extract(source).fetch_all(msg.data);
+            msg.fetch_all_from(extract(source));
         } else {
             errors |= deserialization_error_code::backend_error;
         }
@@ -158,6 +157,27 @@ inline auto default_deserialize_message_type(
         method_id = std::get<1>(value).value();
     }
     return result;
+}
+//------------------------------------------------------------------------------
+template <typename Backend, typename Value>
+inline bool stored_message::do_store_value(
+  const Value& value, span_size_t max_size) {
+    _buffer.resize(max_size);
+    block_data_sink sink(cover(_buffer));
+    Backend backend(sink);
+    auto errors = serialize(value, backend);
+    if(!errors) {
+        set_serializer_id(backend.type_id());
+        _buffer.resize(sink.done().size());
+        return true;
+    }
+    return false;
+}
+//------------------------------------------------------------------------------
+template <typename Value>
+inline bool stored_message::store_value(
+  const Value& value, span_size_t max_size) {
+    return do_store_value<default_serializer_backend>(value, max_size);
 }
 //------------------------------------------------------------------------------
 } // namespace msgbus

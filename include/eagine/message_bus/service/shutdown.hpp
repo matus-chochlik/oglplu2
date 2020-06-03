@@ -46,7 +46,7 @@ public:
 private:
     bool _handle_shutdown(stored_message& message) {
         typename shutdown_service_duration::rep count{0};
-        if(default_deserialize(count, message.data)) {
+        if(default_deserialize(count, message.content())) {
             const shutdown_service_duration ticks{count};
             const typename shutdown_service_clock::time_point ts{ticks};
             const auto age{this->now() - ts};

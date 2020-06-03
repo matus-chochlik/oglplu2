@@ -5,6 +5,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/memory/copy.hpp>
+#include <eagine/message_bus/context.hpp>
 
 namespace eagine {
 namespace msgbus {

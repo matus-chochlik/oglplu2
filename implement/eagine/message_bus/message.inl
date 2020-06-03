@@ -4,8 +4,21 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/serialize/size_and_data.hpp>
+
 namespace eagine {
 namespace msgbus {
+//------------------------------------------------------------------------------
+bool stored_message::sign_message(context&, logger&) {
+    // TODO
+    return false;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+verification_bits stored_message::verify_bits(context&, logger&) const
+  noexcept {
+    return {};
+}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool message_storage::fetch_all(fetch_handler handler) {
@@ -15,7 +28,7 @@ bool message_storage::fetch_all(fetch_handler handler) {
         if(handler(class_id, method_id, message)) {
             class_id = 0;
             method_id = 0;
-            _buffers.eat(std::move(message.data));
+            _buffers.eat(message.release_buffer());
             fetched_some = true;
         } else {
             keep_some = true;

@@ -182,6 +182,10 @@ public:
     endpoint& operator=(endpoint&&) = delete;
     endpoint& operator=(const endpoint&) = delete;
 
+    context& ctx() noexcept {
+        return *_context;
+    }
+
     logger& log() noexcept {
         return _log;
     }
@@ -255,25 +259,22 @@ public:
       identifier_t method_id,
       T& value,
       const message_info& info = {}) {
-        if(auto opt_size = max_data_size()) {
+        if(const auto opt_size = max_data_size()) {
+            const auto max_size = extract(opt_size);
             return _outgoing.push_if(
-              [this, class_id, method_id, &info, &value](
+              [this, class_id, method_id, &info, &value, max_size](
                 identifier_t& dst_class_id,
                 identifier_t& dst_method_id,
                 stored_message& message) {
-                  block_data_sink sink(cover(message.data));
-                  default_serializer_backend backend(sink);
-                  auto errors = serialize(value, backend);
-                  if(!errors) {
+                  if(message.store_value(value, max_size)) {
+                      message.assign(info);
                       dst_class_id = class_id;
                       dst_method_id = method_id;
-                      message.assign(info).set_serializer_id(backend.type_id());
-                      message.data.resize(sink.done().size());
                       return true;
                   }
                   return false;
               },
-              extract(opt_size));
+              max_size);
         }
         return false;
     }

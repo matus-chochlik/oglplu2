@@ -72,7 +72,7 @@ public:
         std::int64_t result{0};
         auto tup = std::tie(arg, result);
         // deserialize
-        block_data_source source(msg_in.data);
+        block_data_source source(msg_in.content());
         fast_deserializer_backend read_backend(source);
         deserialize(arg, read_backend);
         // call
@@ -149,7 +149,7 @@ public:
         std::int64_t result{0};
         auto tup = std::tie(arg, result);
         // deserialize
-        block_data_source source(msg_in.data);
+        block_data_source source(msg_in.content());
         fast_deserializer_backend read_backend(source);
         deserialize(tup, read_backend);
         // print

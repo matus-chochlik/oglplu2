@@ -10,6 +10,7 @@
 #ifndef EAGINE_MESSAGE_BUS_CONTEXT_HPP
 #define EAGINE_MESSAGE_BUS_CONTEXT_HPP
 
+#include "../logging/logger.hpp"
 #include "../memory/buffer.hpp"
 #include "../message_id.hpp"
 #include "../ssl.hpp"

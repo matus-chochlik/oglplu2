@@ -123,7 +123,7 @@ public:
             string_deserializer_backend backend(source);
             identifier_t class_id{0};
             identifier_t method_id{0};
-            _recv_dest.data.clear();
+            _recv_dest.clear_data();
             const auto errors =
               deserialize_message(class_id, method_id, _recv_dest, backend);
             if(!errors) {

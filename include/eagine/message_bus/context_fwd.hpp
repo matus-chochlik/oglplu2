@@ -10,7 +10,7 @@
 #ifndef EAGINE_MESSAGE_BUS_CONTEXT_FWD_HPP
 #define EAGINE_MESSAGE_BUS_CONTEXT_FWD_HPP
 
-#include "../logging/logger.hpp"
+#include "../logging/fwd.hpp"
 #include "../program_args.hpp"
 #include <memory>
 

@@ -16,6 +16,7 @@
 #include "../logging/exception.hpp"
 #include "../logging/logger.hpp"
 #include "../maybe_unused.hpp"
+#include "../serialize/size_and_data.hpp"
 #include "../timeout.hpp"
 #include "conn_factory.hpp"
 #include "serialize.hpp"

@@ -30,7 +30,7 @@ int main(main_ctx& ctx) {
         zero(cover(byte_counts));
 
         span_size_t max_count{0};
-        for(auto b : view(message.data)) {
+        for(auto b : message.content()) {
             max_count = math::maximum(max_count, ++byte_counts[std_size(b)]);
         }
 
