@@ -42,7 +42,7 @@ private:
 
     logger _log{};
 
-    shared_context _context{};
+    shared_context _context{make_context(_log)};
 
     identifier_t _id{invalid_id()};
 
@@ -64,17 +64,17 @@ private:
         return std::get<1>(std::get<1>(entry));
     }
 
-    blob_manipulator _blobs{};
+    blob_manipulator _blobs{_log};
     blob_manipulator::filter_function _allow_blob{};
 
     bool _cleanup_blobs();
     bool _process_blobs();
     bool _do_allow_blob(message_id_tuple);
 
-    fetch_handler _store_handler{};
-    auto _default_store_handler() noexcept {
+    fetch_handler _default_store_handler() noexcept {
         return fetch_handler{this, EAGINE_MEM_FUNC_C(endpoint, _store_message)};
     }
+    fetch_handler _store_handler{_default_store_handler()};
 
     bool _do_send(identifier_t class_id, identifier_t method_id, message_view);
 
@@ -110,7 +110,6 @@ private:
 
     explicit endpoint(logger log, fetch_handler store_message) noexcept
       : _log{std::move(log)}
-      , _blobs{_log}
       , _store_handler{store_message} {
     }
 
@@ -119,7 +118,6 @@ private:
       blob_filter_function allow_blob,
       fetch_handler store_message) noexcept
       : _log{std::move(log)}
-      , _blobs{_log}
       , _allow_blob{allow_blob}
       , _store_handler{store_message} {
     }
@@ -131,8 +129,7 @@ private:
       , _connections{std::move(temp._connections)}
       , _outgoing{std::move(temp._outgoing)}
       , _incoming{std::move(temp._incoming)}
-      , _blobs{std::move(temp._blobs)}
-      , _store_handler{_default_store_handler()} {
+      , _blobs{std::move(temp._blobs)} {
         temp._id = invalid_id();
     }
 
@@ -153,29 +150,20 @@ private:
     }
 
 public:
-    endpoint() noexcept
-      : _store_handler{_default_store_handler()} {
-    }
+    endpoint() = default;
 
     endpoint(logger log) noexcept
-      : _log{std::move(log)}
-      , _context{make_context(_log)}
-      , _blobs{_log}
-      , _store_handler{_default_store_handler()} {
+      : _log{std::move(log)} {
     }
 
     explicit endpoint(logger log, blob_filter_function allow_blob) noexcept
       : _log{std::move(log)}
-      , _blobs{_log}
-      , _allow_blob{allow_blob}
-      , _store_handler{_default_store_handler()} {
+      , _allow_blob{allow_blob} {
     }
 
     endpoint(logger log, const program_args& args) noexcept
       : _log{std::move(log)}
-      , _context{make_context(_log, args)}
-      , _blobs{_log}
-      , _store_handler{_default_store_handler()} {
+      , _context{make_context(_log, args)} {
     }
 
     endpoint(const endpoint&) = delete;

@@ -185,11 +185,11 @@ public:
         return view(_buffer);
     }
 
-    auto text() noexcept {
+    auto text_content() noexcept {
         return as_chars(content());
     }
 
-    auto text() const noexcept {
+    auto text_content() const noexcept {
         return as_chars(content());
     }
 
