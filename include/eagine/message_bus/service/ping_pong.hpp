@@ -75,7 +75,7 @@ public:
         auto msg_id{EAGINE_MSG_ID(eagiPing, ping)};
         message.set_target_id(pingable_id);
         this->bus().set_next_sequence_id(msg_id, message);
-        this->bus().send_signed(msg_id, message);
+        this->bus().send(msg_id, message);
         _pending.emplace_back(message.target_id, message.sequence_no, max_time);
     }
 

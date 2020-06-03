@@ -9,9 +9,11 @@
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
-bool stored_message::sign_message(context&, logger&) {
+bool stored_message::store_and_sign(
+  memory::const_block data, span_size_t, context&, logger&) {
     // TODO
-    return false;
+    copy_into(data, _buffer);
+    return true;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

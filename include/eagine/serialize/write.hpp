@@ -11,6 +11,7 @@
 #define EAGINE_SERIALIZE_WRITE_HPP
 
 #include "../assert.hpp"
+#include "../bitfield.hpp"
 #include "../nothing.hpp"
 #include "../reflect/enumerators.hpp"
 #include "write_backend.hpp"
@@ -269,6 +270,18 @@ private:
     }
 
     std::tuple<serializer<T>...> _serializers{};
+};
+//------------------------------------------------------------------------------
+template <typename Bit>
+struct serializer<bitfield<Bit>> : common_serializer<bitfield<Bit>> {
+
+    template <typename Backend>
+    serialization_errors write(bitfield<Bit> value, Backend& backend) {
+        return _serializer.write(value.bits(), backend);
+    }
+
+private:
+    serializer<typename bitfield<Bit>::value_type> _serializer{};
 };
 //------------------------------------------------------------------------------
 template <std::size_t N>

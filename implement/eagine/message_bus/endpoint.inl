@@ -266,6 +266,30 @@ bool endpoint::set_next_sequence_id(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+bool endpoint::post_signed(
+  identifier_t class_id, identifier_t method_id, message_view msg_view) {
+    if(const auto opt_size = max_data_size()) {
+        const auto max_size = extract(opt_size);
+        return _outgoing.push_if(
+          [this, class_id, method_id, &msg_view, max_size](
+            identifier_t& dst_class_id,
+            identifier_t& dst_method_id,
+            stored_message& message) {
+              if(message.store_and_sign(
+                   msg_view.data, max_size, ctx(), log())) {
+                  message.assign(msg_view);
+                  dst_class_id = class_id;
+                  dst_method_id = method_id;
+                  return true;
+              }
+              return false;
+          },
+          max_size);
+    }
+    return false;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 bool endpoint::update() {
     some_true something_done{};
 

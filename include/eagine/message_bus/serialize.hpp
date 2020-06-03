@@ -43,8 +43,9 @@ serialize_message(
       msg.target_id,
       msg.serializer_id,
       msg.sequence_no,
+      msg.hop_count,
       msg.priority,
-      msg.hop_count);
+      msg.crypto_flags);
     serialization_errors errors = serialize(message_params, backend);
 
     if(!errors) {
@@ -84,8 +85,9 @@ deserialize_message(
       msg.target_id,
       msg.serializer_id,
       msg.sequence_no,
+      msg.hop_count,
       msg.priority,
-      msg.hop_count);
+      msg.crypto_flags);
     deserialization_errors errors = deserialize(message_params, backend);
 
     if(!errors) {
@@ -178,6 +180,19 @@ template <typename Value>
 inline bool stored_message::store_value(
   const Value& value, span_size_t max_size) {
     return do_store_value<default_serializer_backend>(value, max_size);
+}
+//------------------------------------------------------------------------------
+template <typename Backend, typename Value>
+inline bool stored_message::do_fetch_value(Value& value) {
+    block_data_source source(view(_buffer));
+    Backend backend(source);
+    auto errors = deserialize(value, backend);
+    return !errors;
+}
+//------------------------------------------------------------------------------
+template <typename Value>
+inline bool stored_message::fetch_value(Value& value) {
+    return do_fetch_value<default_deserializer_backend>(value);
 }
 //------------------------------------------------------------------------------
 } // namespace msgbus

@@ -177,6 +177,12 @@ public:
     template <typename Value>
     bool store_value(const Value& value, span_size_t max_size);
 
+    template <typename Backend, typename Value>
+    bool do_fetch_value(Value& value);
+
+    template <typename Value>
+    bool fetch_value(Value& value);
+
     memory::block content() noexcept {
         return cover(_buffer);
     }
@@ -201,7 +207,8 @@ public:
         return std::move(_buffer);
     }
 
-    bool sign_message(context&, logger&);
+    bool store_and_sign(
+      memory::const_block data, span_size_t max_size, context&, logger&);
     verification_bits verify_bits(context&, logger&) const noexcept;
 };
 //------------------------------------------------------------------------------

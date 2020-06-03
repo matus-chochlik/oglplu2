@@ -81,7 +81,7 @@ public:
 
         message_view message{extract(serialized)};
         message.set_target_id(target_id);
-        this->bus().send_signed(EAGINE_MSG_ID(Shutdown, shutdown), message);
+        this->bus().post_signed(EAGINE_MSG_ID(Shutdown, shutdown), message);
     }
 };
 //------------------------------------------------------------------------------

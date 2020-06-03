@@ -141,6 +141,23 @@ struct common_deserializer {
     }
 };
 //------------------------------------------------------------------------------
+template <typename Bit>
+struct deserializer<bitfield<Bit>> : common_deserializer<bitfield<Bit>> {
+
+    template <typename Backend>
+    deserialization_errors read(bitfield<Bit>& value, Backend& backend) const {
+        typename bitfield<Bit>::value_type temp{0};
+        auto errors{_deserializer.read(temp, backend)};
+        if(!errors) {
+            value = bitfield<Bit>{temp};
+        }
+        return errors;
+    }
+
+private:
+    deserializer<typename bitfield<Bit>::value_type> _deserializer{};
+};
+//------------------------------------------------------------------------------
 template <typename... T>
 struct deserializer<std::tuple<T...>> : common_deserializer<std::tuple<T...>> {
 

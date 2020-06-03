@@ -242,6 +242,14 @@ public:
         return post(ClassId, MethodId, message);
     }
 
+    bool post_signed(
+      identifier_t class_id, identifier_t method_id, message_view message);
+
+    template <identifier_t ClassId, identifier_t MethodId>
+    bool post_signed(message_id<ClassId, MethodId>, message_view message) {
+        return post_signed(ClassId, MethodId, message);
+    }
+
     template <typename T>
     bool post_value(
       identifier_t class_id,
@@ -354,17 +362,6 @@ public:
     template <identifier_t ClassId, identifier_t MethodId>
     bool send(message_id<ClassId, MethodId>) {
         return send(ClassId, MethodId, {});
-    }
-
-    bool send_signed(
-      identifier_t class_id, identifier_t method_id, message_view message) {
-        // TODO: add signatures
-        return send(class_id, method_id, message);
-    }
-
-    template <identifier_t ClassId, identifier_t MethodId>
-    bool send_signed(message_id<ClassId, MethodId>, message_view message) {
-        return send_signed(ClassId, MethodId, message);
     }
 
     bool say_not_a_router();
