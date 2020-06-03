@@ -275,14 +275,11 @@ public:
         return something_done;
     }
 
-    bool send(
-      identifier_t class_id,
-      identifier_t method_id,
-      const message_view& message) final {
+    bool send(message_id_tuple msg_id, const message_view& message) final {
         std::unique_lock lock{_mutex};
         block_data_sink sink(cover(_buffer));
         string_serializer_backend backend(sink);
-        auto errors = serialize_message(class_id, method_id, message, backend);
+        auto errors = serialize_message(msg_id, message, backend);
         if(!errors) {
             _outgoing.push(sink.done());
             return true;
@@ -355,16 +352,13 @@ protected:
     }
 
     void _handle_receive(unsigned, memory::span<const char> data) {
-        _incoming.push_if([data](
-                            identifier_t& class_id,
-                            identifier_t& method_id,
-                            stored_message& message) {
-            block_data_source source(as_bytes(data));
-            string_deserializer_backend backend(source);
-            const auto errors =
-              deserialize_message(class_id, method_id, message, backend);
-            return !errors;
-        });
+        _incoming.push_if(
+          [data](message_id_tuple& msg_id, stored_message& message) {
+              block_data_source source(as_bytes(data));
+              string_deserializer_backend backend(source);
+              const auto errors = deserialize_message(msg_id, message, backend);
+              return !errors;
+          });
     }
 
     logger _log{};
@@ -491,32 +485,26 @@ private:
     }
 
     void _handle_receive(unsigned, memory::span<const char> data) {
-        _requests.push_if([data](
-                            identifier_t& class_id,
-                            identifier_t& method_id,
-                            stored_message& message) {
-            block_data_source source(as_bytes(data));
-            string_deserializer_backend backend(source);
-            const auto errors =
-              deserialize_message(class_id, method_id, message, backend);
-            if(EAGINE_LIKELY(EAGINE_ID(eagiMsgBus).matches(class_id))) {
-                if(EAGINE_LIKELY(EAGINE_ID(pmqConnect).matches(method_id))) {
-                    return !errors;
-                }
-            }
-            return false;
-        });
+        _requests.push_if(
+          [data](message_id_tuple& msg_id, stored_message& message) {
+              block_data_source source(as_bytes(data));
+              string_deserializer_backend backend(source);
+              const auto errors = deserialize_message(msg_id, message, backend);
+              if(EAGINE_LIKELY(msg_id.has_class(EAGINE_ID(eagiMsgBus)))) {
+                  if(EAGINE_LIKELY(msg_id.has_method(EAGINE_ID(pmqConnect)))) {
+                      return !errors;
+                  }
+              }
+              return false;
+          });
     }
 
     bool _process(const accept_handler& handler) {
         auto fetch_handler = [this, &handler](
-                               identifier_t class_id,
-                               identifier_t method_id,
+                               message_id_tuple msg_id,
                                const message_view& message) -> bool {
-            EAGINE_ASSERT((EAGINE_MSG_ID(eagiMsgBus, pmqConnect)
-                             .matches(class_id, method_id)));
-            EAGINE_MAYBE_UNUSED(class_id);
-            EAGINE_MAYBE_UNUSED(method_id);
+            EAGINE_ASSERT((msg_id == EAGINE_MSG_ID(eagiMsgBus, pmqConnect)));
+            EAGINE_MAYBE_UNUSED(msg_id);
 
             if(auto conn = std::make_unique<posix_mqueue_connection>(_log)) {
                 if(conn->open(to_string(as_chars(message.data)))) {

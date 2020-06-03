@@ -25,8 +25,7 @@ namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
 struct pending_blob {
-    identifier_t class_id{0U};
-    identifier_t method_id{0U};
+    message_id_tuple msg_id{};
     identifier_t endpoint_id{0U};
     std::uint64_t blob_id{0U};
     memory::buffer blob{};
@@ -45,10 +44,6 @@ struct pending_blob {
 
     bool is_complete() const noexcept;
     bool merge_fragment(span_size_t offset, memory::const_block fragment);
-
-    message_id_tuple msg_id() const noexcept {
-        return {class_id, method_id};
-    }
 };
 //------------------------------------------------------------------------------
 class blob_manipulator {
@@ -79,16 +74,14 @@ public:
     bool cleanup();
 
     void push_outgoing(
-      identifier_t class_id,
-      identifier_t method_id,
+      message_id_tuple msg_id,
       identifier_t target_id,
       memory::const_block blob,
       std::chrono::seconds max_time,
       message_priority priority);
 
     bool push_incoming_fragment(
-      identifier_t class_id,
-      identifier_t method_id,
+      message_id_tuple msg_id,
       identifier_t source_id,
       identifier_t blob_id,
       std::int64_t offset,
@@ -101,12 +94,12 @@ public:
     bool process_incoming(filter_function, const message_view&);
 
     using fetch_handler =
-      callable_ref<bool(identifier_t, identifier_t, const message_view&)>;
+      callable_ref<bool(message_id_tuple, const message_view&)>;
 
     span_size_t fetch_all(fetch_handler);
 
     using send_handler =
-      callable_ref<bool(identifier_t, identifier_t, const message_view&)>;
+      callable_ref<bool(message_id_tuple, const message_view&)>;
 
     bool has_outgoing() const noexcept {
         return !_outgoing.empty();

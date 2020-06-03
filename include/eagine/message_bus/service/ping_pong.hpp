@@ -42,8 +42,7 @@ private:
              message.source_id,
              message.sequence_no,
              this->verify_bits(message))) {
-            this->bus().respond_signed_to(
-              message, EAGINE_MSG_ID(eagiPing, pong), {});
+            this->bus().respond_to(message, EAGINE_MSG_ID(eagiPing, pong), {});
         }
         return true;
     }

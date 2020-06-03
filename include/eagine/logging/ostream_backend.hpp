@@ -122,13 +122,11 @@ public:
     }
 
     void add_message_id(
-      identifier arg,
-      identifier tag,
-      identifier clss,
-      identifier method) noexcept final {
+      identifier arg, identifier tag, message_id_tuple msg_id) noexcept final {
         try {
             _out << "<a n='" << arg.name() << "' t='" << tag.name() << "'>"
-                 << clss.name() << "." << method.name() << "</a>";
+                 << msg_id.class_().name() << "." << msg_id.method().name()
+                 << "</a>";
         } catch(...) {
         }
     }

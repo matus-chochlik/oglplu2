@@ -10,9 +10,9 @@
 #ifndef EAGINE_LOGGING_BACKEND_HPP
 #define EAGINE_LOGGING_BACKEND_HPP
 
-#include "../identifier.hpp"
 #include "../memory/block.hpp"
 #include "../memory/shared_alloc.hpp"
+#include "../message_id.hpp"
 #include "../string_span.hpp"
 #include "severity.hpp"
 #include <chrono>
@@ -54,10 +54,7 @@ struct logger_backend {
       identifier arg, identifier tag, identifier value) noexcept = 0;
 
     virtual void add_message_id(
-      identifier arg,
-      identifier tag,
-      identifier clss,
-      identifier method) noexcept = 0;
+      identifier arg, identifier tag, message_id_tuple) noexcept = 0;
 
     virtual void add_bool(
       identifier arg, identifier tag, bool value) noexcept = 0;

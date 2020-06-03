@@ -80,16 +80,14 @@ context::~context() noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-message_sequence_t context::next_sequence_no(
-  identifier_t class_id, identifier_t method_id) noexcept {
+message_sequence_t context::next_sequence_no(message_id_tuple msg_id) noexcept {
 
-    auto [pos, newone] =
-      _msg_id_seq.try_emplace(message_id_tuple{class_id, method_id});
+    auto [pos, newone] = _msg_id_seq.try_emplace(msg_id);
 
     if(newone) {
         std::get<1>(*pos) = 0U;
         _log.debug("creating sequence for message type ${message}")
-          .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id));
+          .arg(EAGINE_ID(message), msg_id);
     }
     return std::get<1>(*pos)++;
 }

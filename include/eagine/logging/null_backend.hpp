@@ -49,7 +49,7 @@ struct null_log_backend : logger_backend {
     }
 
     void add_message_id(
-      identifier, identifier, identifier, identifier) noexcept final {
+      identifier, identifier, message_id_tuple) noexcept final {
     }
 
     void add_bool(identifier, identifier, bool) noexcept final {

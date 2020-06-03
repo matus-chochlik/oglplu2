@@ -26,11 +26,10 @@ EAGINE_LIB_FUNC
 bool message_storage::fetch_all(fetch_handler handler) {
     bool fetched_some = false;
     bool keep_some = false;
-    for(auto& [class_id, method_id, message] : _messages) {
-        if(handler(class_id, method_id, message)) {
-            class_id = 0;
-            method_id = 0;
+    for(auto& [msg_id, message] : _messages) {
+        if(handler(msg_id, message)) {
             _buffers.eat(message.release_buffer());
+            msg_id = {};
             fetched_some = true;
         } else {
             keep_some = true;
@@ -41,9 +40,7 @@ bool message_storage::fetch_all(fetch_handler handler) {
           std::remove_if(
             _messages.begin(),
             _messages.end(),
-            [](auto& t) {
-                return (std::get<0>(t) == 0) && (std::get<1>(t) == 0);
-            }),
+            [](auto& t) { return !std::get<0>(t).is_valid(); }),
           _messages.end());
     } else {
         _messages.clear();

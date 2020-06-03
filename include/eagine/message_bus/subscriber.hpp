@@ -75,18 +75,14 @@ public:
 protected:
     using method_handler = typename endpoint::method_handler;
     struct handler_entry {
-        identifier_t class_id{};
-        identifier_t method_id{};
+        message_id_tuple msg_id{};
         method_handler handler{};
 
         constexpr handler_entry() noexcept = default;
 
         constexpr handler_entry(
-          identifier_t cls_id,
-          identifier_t mtd_id,
-          method_handler hndlr) noexcept
-          : class_id{cls_id}
-          , method_id{mtd_id}
+          message_id_tuple id, method_handler hndlr) noexcept
+          : msg_id{id}
           , handler{hndlr} {
         }
 
@@ -98,12 +94,11 @@ protected:
         handler_entry(
           Class* instance,
           message_handler_map<
-            message_id<ClassId, MethodId>,
+            static_message_id<ClassId, MethodId>,
             member_function_constant<
               bool (Class::*)(stored_message&),
               HandlerFunc>> msg_map) noexcept
-          : class_id{ClassId}
-          , method_id{MethodId}
+          : msg_id{ClassId, MethodId}
           , handler{instance, msg_map.method()} {
         }
 
@@ -115,12 +110,11 @@ protected:
         handler_entry(
           Class* instance,
           message_handler_map<
-            message_id<ClassId, MethodId>,
+            static_message_id<ClassId, MethodId>,
             member_function_constant<
               bool (Class::*)(stored_message&) const,
               HandlerFunc>> msg_map) noexcept
-          : class_id{ClassId}
-          , method_id{MethodId}
+          : msg_id{ClassId, MethodId}
           , handler{instance, msg_map.method()} {
         }
     };
@@ -141,7 +135,7 @@ protected:
     inline void _subscribe_to(span<const handler_entry> msg_handlers) const {
         if(EAGINE_LIKELY(_endpoint)) {
             for(auto& entry : msg_handlers) {
-                _endpoint->subscribe(entry.class_id, entry.method_id);
+                _endpoint->subscribe(entry.msg_id);
             }
         }
     }
@@ -151,7 +145,7 @@ protected:
         if(_endpoint) {
             for(auto& entry : msg_handlers) {
                 try {
-                    _endpoint->unsubscribe(entry.class_id, entry.method_id);
+                    _endpoint->unsubscribe(entry.msg_id);
                 } catch(...) {
                 }
             }
@@ -162,7 +156,7 @@ protected:
       span<const handler_entry> msg_handlers) const {
         if(EAGINE_LIKELY(_endpoint)) {
             for(auto& entry : msg_handlers) {
-                _endpoint->say_subscribes_to(entry.class_id, entry.method_id);
+                _endpoint->say_subscribes_to(entry.msg_id);
             }
         }
     }
@@ -171,7 +165,7 @@ protected:
       span<const handler_entry> msg_handlers) const {
         if(EAGINE_LIKELY(_endpoint)) {
             for(auto& entry : msg_handlers) {
-                _endpoint->allow_message_type(entry.class_id, entry.method_id);
+                _endpoint->allow_message_type(entry.msg_id);
             }
         }
     }
@@ -181,8 +175,7 @@ protected:
         if(EAGINE_LIKELY(_endpoint)) {
             for(auto& entry : msg_handlers) {
                 try {
-                    _endpoint->say_unsubscribes_from(
-                      entry.class_id, entry.method_id);
+                    _endpoint->say_unsubscribes_from(entry.msg_id);
                 } catch(...) {
                 }
             }
@@ -191,8 +184,7 @@ protected:
 
     bool _process_one(span<const handler_entry> msg_handlers) {
         for(auto& entry : msg_handlers) {
-            if(bus().process_one(
-                 entry.class_id, entry.method_id, entry.handler)) {
+            if(bus().process_one(entry.msg_id, entry.handler)) {
                 return true;
             }
         }
@@ -202,8 +194,7 @@ protected:
     span_size_t _process_all(span<const handler_entry> msg_handlers) {
         span_size_t result{0};
         for(auto& entry : msg_handlers) {
-            result +=
-              bus().process_all(entry.class_id, entry.method_id, entry.handler);
+            result += bus().process_all(entry.msg_id, entry.handler);
         }
         return result;
     }
@@ -295,18 +286,13 @@ public:
     subscriber& operator=(subscriber&&) = delete;
     subscriber& operator=(const subscriber&) = delete;
 
-    template <
-      typename Class,
-      bool (Class::*Method)(stored_message&),
-      identifier_t ClassId,
-      identifier_t MethodId>
+    template <typename Class, bool (Class::*Method)(stored_message&)>
     void add_method(
       Class* instance,
-      message_id<ClassId, MethodId>,
+      message_id_tuple msg_id,
       member_function_constant<bool (Class::*)(stored_message&), Method>
         method) {
-        _msg_handlers.emplace_back(
-          ClassId, MethodId, method_handler{instance, method});
+        _msg_handlers.emplace_back(msg_id, method_handler{instance, method});
     }
 
     template <
@@ -317,7 +303,7 @@ public:
     void add_method(
       Class* instance,
       message_handler_map<
-        message_id<ClassId, MethodId>,
+        static_message_id<ClassId, MethodId>,
         member_function_constant<bool (Class::*)(stored_message&), Method>>
         msg_map) noexcept {
         add_method(instance, msg_map.msg_id(), msg_map.method());

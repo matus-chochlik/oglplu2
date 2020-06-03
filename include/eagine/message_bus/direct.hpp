@@ -32,20 +32,14 @@ public:
       : _log{EAGINE_ID(DrctConnSt), parent} {
     }
 
-    void send_to_server(
-      identifier_t class_id,
-      identifier_t method_id,
-      const message_view& message) {
+    void send_to_server(message_id_tuple msg_id, const message_view& message) {
         std::unique_lock lock{_mutex};
-        _client_to_server.push(class_id, method_id, message);
+        _client_to_server.push(msg_id, message);
     }
 
-    void send_to_client(
-      identifier_t class_id,
-      identifier_t method_id,
-      const message_view& message) {
+    void send_to_client(message_id_tuple msg_id, const message_view& message) {
         std::unique_lock lock{_mutex};
-        _server_to_client.push(class_id, method_id, message);
+        _server_to_client.push(msg_id, message);
     }
 
     bool fetch_from_client(connection::fetch_handler handler) noexcept {
@@ -130,13 +124,10 @@ public:
         return bool(_state);
     }
 
-    bool send(
-      identifier_t class_id,
-      identifier_t method_id,
-      const message_view& message) final {
+    bool send(message_id_tuple msg_id, const message_view& message) final {
         _checkup();
         if(EAGINE_LIKELY(_state)) {
-            _state->send_to_server(class_id, method_id, message);
+            _state->send_to_server(msg_id, message);
             return true;
         }
         return false;
@@ -160,12 +151,9 @@ public:
       : _weak_state{state} {
     }
 
-    bool send(
-      identifier_t class_id,
-      identifier_t method_id,
-      const message_view& message) final {
+    bool send(message_id_tuple msg_id, const message_view& message) final {
         if(auto state = _weak_state.lock()) {
-            state->send_to_client(class_id, method_id, message);
+            state->send_to_client(msg_id, message);
             return true;
         }
         return false;

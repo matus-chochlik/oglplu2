@@ -27,12 +27,10 @@ class actor
 
 protected:
     bool _process_message(
-      identifier_t class_id,
-      identifier_t method_id,
-      const message_view& message) {
-        if(!_accept_message(_endpoint, class_id, method_id, message)) {
-            if(!EAGINE_ID(eagiMsgBus).matches(class_id)) {
-                _endpoint.block_message_type(class_id, method_id);
+      message_id_tuple msg_id, const message_view& message) {
+        if(!_accept_message(_endpoint, msg_id, message)) {
+            if(!is_special_message(msg_id)) {
+                _endpoint.block_message_type(msg_id);
             }
         }
         return true;

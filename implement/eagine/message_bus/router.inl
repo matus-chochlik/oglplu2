@@ -28,34 +28,28 @@ routed_endpoint::routed_endpoint() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool routed_endpoint::is_allowed(
-  identifier_t class_id, identifier_t method_id) const noexcept {
-    if(EAGINE_UNLIKELY(EAGINE_ID(eagiMsgBus).matches(class_id))) {
+bool routed_endpoint::is_allowed(message_id_tuple msg_id) const noexcept {
+    if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
         return true;
     }
-    const message_id_tuple entry{class_id, method_id};
     if(!message_allow_list.empty()) {
-        return routed_endpoint_list_contains(message_allow_list, entry);
+        return routed_endpoint_list_contains(message_allow_list, msg_id);
     }
     if(!message_block_list.empty()) {
-        return !routed_endpoint_list_contains(message_block_list, entry);
+        return !routed_endpoint_list_contains(message_block_list, msg_id);
     }
     return true;
 }
 //------------------------------------------------------------------------------
-void routed_endpoint::block_message(
-  identifier_t class_id, identifier_t method_id) {
-    const message_id_tuple entry{class_id, method_id};
-    if(!routed_endpoint_list_contains(message_block_list, entry)) {
-        message_block_list.push_back(entry);
+void routed_endpoint::block_message(message_id_tuple msg_id) {
+    if(!routed_endpoint_list_contains(message_block_list, msg_id)) {
+        message_block_list.push_back(msg_id);
     }
 }
 //------------------------------------------------------------------------------
-void routed_endpoint::allow_message(
-  identifier_t class_id, identifier_t method_id) {
-    const message_id_tuple entry{class_id, method_id};
-    if(!routed_endpoint_list_contains(message_allow_list, entry)) {
-        message_allow_list.push_back(entry);
+void routed_endpoint::allow_message(message_id_tuple msg_id) {
+    if(!routed_endpoint_list_contains(message_allow_list, msg_id)) {
+        message_allow_list.push_back(msg_id);
     }
 }
 //------------------------------------------------------------------------------
@@ -128,12 +122,9 @@ bool router::_handle_pending() {
     if(!_pending.empty()) {
         identifier_t id = 0;
         auto handler = [this, &id](
-                         identifier_t class_id,
-                         identifier_t method_id,
-                         const message_view& msg) {
+                         message_id_tuple msg_id, const message_view& msg) {
             // this is a special message containing endpoint id
-            if(EAGINE_MSG_ID(eagiMsgBus, announceId)
-                 .matches(class_id, method_id)) {
+            if(msg_id == EAGINE_MSG_ID(eagiMsgBus, announceId)) {
                 id = msg.source_id;
                 this->_log.debug("received endpoint id ${id}")
                   .arg(EAGINE_ID(id), id);
@@ -265,11 +256,10 @@ bool router::_process_blobs() {
                 if(EAGINE_LIKELY(conn && conn->is_usable())) {
                     if(auto opt_max_size{conn->max_data_size()}) {
                         auto handle_send = [endpoint_id, &conn](
-                                             identifier_t class_id,
-                                             identifier_t method_id,
+                                             message_id_tuple msg_id,
                                              const message_view& message) {
                             if(endpoint_id == message.target_id) {
-                                return conn->send(class_id, method_id, message);
+                                return conn->send(msg_id, message);
                             }
                             return false;
                         };
@@ -289,8 +279,8 @@ bool router::_process_blobs() {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool router::_do_allow_blob(message_id_tuple msg_id) {
-    if(EAGINE_UNLIKELY(EAGINE_ID(eagiMsgBus).matches(msg_id.class_id()))) {
-        if(EAGINE_ID(eptCertPem).matches(msg_id.method_id())) {
+    if(is_special_message(msg_id)) {
+        if(msg_id.has_method(EAGINE_ID(eptCertPem))) {
             return true;
         }
     }
@@ -299,9 +289,9 @@ bool router::_do_allow_blob(message_id_tuple msg_id) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool router::_handle_blob(
-  identifier_t class_id, identifier_t method_id, const message_view& message) {
-    if(EAGINE_UNLIKELY(EAGINE_ID(eagiMsgBus).matches(class_id))) {
-        if(EAGINE_ID(eptCertPem).matches(method_id)) {
+  message_id_tuple msg_id, const message_view& message) {
+    if(is_special_message(msg_id)) {
+        if(msg_id.has_method(EAGINE_ID(eptCertPem))) {
             _log.trace("received endpoint certificate")
               .arg(EAGINE_ID(source), message.source_id)
               .arg(EAGINE_ID(pem), message.data);
@@ -313,92 +303,74 @@ bool router::_handle_blob(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool router::_handle_special(
-  identifier_t class_id,
-  identifier_t method_id,
+  message_id_tuple msg_id,
   identifier_t incoming_id,
   routed_endpoint& endpoint,
   const message_view& message) {
-    const auto emb_id = EAGINE_ID(eagiMsgBus);
-    if(EAGINE_UNLIKELY(emb_id.matches(class_id))) {
+    if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
         _log.debug("handling special message ${message}")
-          .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id))
+          .arg(EAGINE_ID(message), msg_id)
           .arg(EAGINE_ID(source), message.source_id);
 
-        if(EAGINE_ID(notARouter).matches(method_id)) {
+        if(msg_id.has_method(EAGINE_ID(notARouter))) {
             if(incoming_id == message.source_id) {
                 endpoint.maybe_router = false;
                 _log.debug("endpoint ${source} is not a router")
                   .arg(EAGINE_ID(source), message.source_id);
                 return true;
             }
-        } else if(EAGINE_ID(clrBlkList).matches(method_id)) {
+        } else if(msg_id.has_method(EAGINE_ID(clrBlkList))) {
             _log.debug("clearing router block_list");
             endpoint.message_block_list.clear();
             return true;
-        } else if(EAGINE_ID(clrAlwList).matches(method_id)) {
+        } else if(msg_id.has_method(EAGINE_ID(clrAlwList))) {
             _log.debug("clearing router allow_list");
             endpoint.message_allow_list.clear();
             return true;
-        } else if(EAGINE_ID(msgBlkList).matches(method_id)) {
-            identifier_t blk_class_id{};
-            identifier_t blk_method_id{};
-            if(default_deserialize_message_type(
-                 blk_class_id, blk_method_id, message.data)) {
-                if(!emb_id.matches(blk_class_id)) {
+        } else if(msg_id.has_method(EAGINE_ID(msgBlkList))) {
+            message_id_tuple blk_msg_id{};
+            if(default_deserialize_message_type(blk_msg_id, message.data)) {
+                if(!is_special_message(msg_id)) {
                     _log.debug("endpoint ${source} blocking message ${message}")
-                      .arg(
-                        EAGINE_ID(message),
-                        message_id_tuple(blk_class_id, blk_method_id))
+                      .arg(EAGINE_ID(message), blk_msg_id)
                       .arg(EAGINE_ID(source), message.source_id);
-                    endpoint.block_message(blk_class_id, blk_method_id);
+                    endpoint.block_message(blk_msg_id);
                     return true;
                 }
             }
-        } else if(EAGINE_ID(msgAlwList).matches(method_id)) {
-            identifier_t alw_class_id{};
-            identifier_t alw_method_id{};
-            if(default_deserialize_message_type(
-                 alw_class_id, alw_method_id, message.data)) {
+        } else if(msg_id.has_method(EAGINE_ID(msgAlwList))) {
+            message_id_tuple alw_msg_id{};
+            if(default_deserialize_message_type(alw_msg_id, message.data)) {
                 _log.debug("endpoint ${source} allowing message ${message}")
-                  .arg(
-                    EAGINE_ID(message),
-                    message_id_tuple(alw_class_id, alw_method_id))
+                  .arg(EAGINE_ID(message), alw_msg_id)
                   .arg(EAGINE_ID(source), message.source_id);
-                endpoint.allow_message(alw_class_id, alw_method_id);
+                endpoint.allow_message(alw_msg_id);
                 return true;
             }
-        } else if(EAGINE_ID(byeBye).matches(method_id)) {
+        } else if(msg_id.has_method(EAGINE_ID(byeBye))) {
             _log.debug("received bye-bye from endpoint ${source}")
               .arg(EAGINE_ID(source), message.source_id);
             endpoint.do_disconnect = true;
             return true;
-        } else if(EAGINE_ID(subscribTo).matches(method_id)) {
-            identifier_t sub_class_id{};
-            identifier_t sub_method_id{};
-            if(default_deserialize_message_type(
-                 sub_class_id, sub_method_id, message.data)) {
+        } else if(msg_id.has_method(EAGINE_ID(subscribTo))) {
+            message_id_tuple sub_msg_id{};
+            if(default_deserialize_message_type(sub_msg_id, message.data)) {
                 _log.debug("endpoint ${source} subscribes to ${message}")
                   .arg(EAGINE_ID(source), message.source_id)
-                  .arg(
-                    EAGINE_ID(message),
-                    message_id_tuple(sub_class_id, sub_method_id));
+                  .arg(EAGINE_ID(message), sub_msg_id);
                 // this should be routed
                 return false;
             }
-        } else if(EAGINE_ID(unsubFrom).matches(method_id)) {
-            identifier_t sub_class_id{};
-            identifier_t sub_method_id{};
-            if(default_deserialize_message_type(
-                 sub_class_id, sub_method_id, message.data)) {
+        } else if(msg_id.has_method(EAGINE_ID(unsubFrom))) {
+            message_id_tuple sub_msg_id{};
+            if(default_deserialize_message_type(sub_msg_id, message.data)) {
                 _log.debug("endpoint ${source} unsubscribes from ${message}")
                   .arg(EAGINE_ID(source), message.source_id)
-                  .arg(
-                    EAGINE_ID(message),
-                    message_id_tuple(sub_class_id, sub_method_id));
+                  .arg(EAGINE_ID(message), sub_msg_id);
                 // this should be routed
                 return false;
             }
-        } else if(EAGINE_ID(blobFrgmnt).matches(method_id)) {
+        } else if(msg_id.has_method(EAGINE_ID(blobFrgmnt))) {
             if(_blobs.process_incoming(
                  blob_manipulator::filter_function(
                    this, EAGINE_MEM_FUNC_C(router, _do_allow_blob)),
@@ -408,7 +380,7 @@ bool router::_handle_special(
             }
             // this should be routed
             return false;
-        } else if(EAGINE_ID(rtrCertReq).matches(method_id)) {
+        } else if(msg_id.has_method(EAGINE_ID(rtrCertReq))) {
             post_blob(
               EAGINE_MSG_ID(eagiMsgBus, rtrCertPem),
               incoming_id,
@@ -416,13 +388,13 @@ bool router::_handle_special(
               std::chrono::seconds(30),
               message_priority::high);
             return true;
-        } else if(EAGINE_ID(eptCertReq).matches(method_id)) {
+        } else if(msg_id.has_method(EAGINE_ID(eptCertReq))) {
             // TODO: try to find and send he certificate here
             // and route only if not found
             return false;
         }
         _log.warning("unhandled special message ${message} from ${source}")
-          .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id))
+          .arg(EAGINE_ID(message), msg_id)
           .arg(EAGINE_ID(source), message.source_id)
           .arg(EAGINE_ID(data), message.data);
     }
@@ -431,13 +403,10 @@ bool router::_handle_special(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool router::_do_route_message(
-  identifier_t class_id,
-  identifier_t method_id,
-  identifier_t incoming_id,
-  message_view message) {
+  message_id_tuple msg_id, identifier_t incoming_id, message_view message) {
     if(EAGINE_UNLIKELY(message.too_many_hops())) {
         _log.warning("message ${message} discarded after too many hops")
-          .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id));
+          .arg(EAGINE_ID(message), msg_id);
     } else {
         message.add_hop();
         for(auto& [outgoing_id, endpoint_out] : this->_endpoints) {
@@ -445,7 +414,7 @@ bool router::_do_route_message(
             should_forward &=
               (endpoint_out.maybe_router ||
                (outgoing_id == message.target_id) || !message.target_id);
-            should_forward &= endpoint_out.is_allowed(class_id, method_id);
+            should_forward &= endpoint_out.is_allowed(msg_id);
             if(should_forward) {
                 if(EAGINE_UNLIKELY(++_forwarded_messages % 100000 == 0)) {
                     _log.stat("forwarded ${count} messages")
@@ -453,7 +422,7 @@ bool router::_do_route_message(
                 }
                 for(auto& conn_out : endpoint_out.connections) {
                     if(EAGINE_LIKELY(conn_out && conn_out->is_usable())) {
-                        if(conn_out->send(class_id, method_id, message)) {
+                        if(conn_out->send(msg_id, message)) {
                             return true;
                         }
                     } else {
@@ -473,16 +442,13 @@ bool router::_route_messages() {
 
     for(auto& ep : _endpoints) {
         auto handler = [this, &ep](
-                         identifier_t class_id,
-                         identifier_t method_id,
-                         const message_view& message) {
+                         message_id_tuple msg_id, const message_view& message) {
             auto& [incoming_id, endpoint_in] = ep;
             if(this->_handle_special(
-                 class_id, method_id, incoming_id, endpoint_in, message)) {
+                 msg_id, incoming_id, endpoint_in, message)) {
                 return true;
             }
-            return this->_do_route_message(
-              class_id, method_id, incoming_id, message);
+            return this->_do_route_message(msg_id, incoming_id, message);
         };
 
         for(auto& conn_in : std::get<1>(ep).connections) {

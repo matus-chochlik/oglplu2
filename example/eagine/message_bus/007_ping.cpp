@@ -66,7 +66,7 @@ public:
     }
 
     void on_subscribed(identifier_t id, const message_id_tuple& sub_msg) final {
-        if(EAGINE_MSG_ID(eagiPing, ping).matches(sub_msg)) {
+        if(sub_msg == EAGINE_MSG_ID(eagiPing, ping)) {
             _log.info("pingable ${id} appeared").arg(EAGINE_ID(id), id);
             _targets.try_emplace(id, ping_stats{});
         }
@@ -74,7 +74,7 @@ public:
 
     void on_unsubscribed(
       identifier_t id, const message_id_tuple& sub_msg) final {
-        if(EAGINE_MSG_ID(eagiPing, ping).matches(sub_msg)) {
+        if(sub_msg == EAGINE_MSG_ID(eagiPing, ping)) {
             _log.info("pingable ${id} disappeared").arg(EAGINE_ID(id), id);
         }
     }

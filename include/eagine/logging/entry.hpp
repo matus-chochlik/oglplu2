@@ -138,35 +138,16 @@ public:
     }
 
     log_entry& arg(
-      identifier name, identifier tag, const message_id_tuple& value) noexcept {
+      identifier name, identifier tag, message_id_tuple value) noexcept {
         if(_backend) {
             _args.add([=](logger_backend& backend) {
-                backend.add_message_id(
-                  name, tag, value.class_(), value.method());
+                backend.add_message_id(name, tag, value);
             });
         }
         return *this;
     }
 
     log_entry& arg(identifier name, message_id_tuple value) noexcept {
-        return arg(name, EAGINE_ID(MessageId), value);
-    }
-
-    template <identifier_t ClassId, identifier_t MethodId>
-    log_entry& arg(
-      identifier name, identifier tag, message_id<ClassId, MethodId>) noexcept {
-        if(_backend) {
-            _args.add([=](logger_backend& backend) {
-                backend.add_message_id(
-                  name, tag, identifier(ClassId), identifier(MethodId));
-            });
-        }
-        return *this;
-    }
-
-    template <identifier_t ClassId, identifier_t MethodId>
-    log_entry& arg(
-      identifier name, message_id<ClassId, MethodId> value) noexcept {
         return arg(name, EAGINE_ID(MessageId), value);
     }
 

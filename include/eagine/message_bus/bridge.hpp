@@ -67,14 +67,10 @@ private:
     bool _check_state();
     bool _update_connections();
 
-    bool _do_send(identifier_t, identifier_t, message_view);
-    bool _send(identifier_t, identifier_t, message_view);
-    template <identifier_t ClassId, identifier_t MethodId>
-    bool _send(message_id<ClassId, MethodId>, const message_view& message) {
-        return _send(ClassId, MethodId, message);
-    }
-    bool _handle_special(identifier_t, identifier_t, message_view);
-    bool _do_push(identifier_t, identifier_t, message_view);
+    bool _do_send(message_id_tuple, message_view);
+    bool _send(message_id_tuple, message_view);
+    bool _handle_special(message_id_tuple, message_view);
+    bool _do_push(message_id_tuple, message_view);
     bool _forward_messages();
 
     logger _log{};

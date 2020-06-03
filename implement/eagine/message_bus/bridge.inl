@@ -76,12 +76,9 @@ public:
         return input_usable() && output_usable();
     }
 
-    void push(
-      identifier_t class_id,
-      identifier_t method_id,
-      const message_view& message) {
+    void push(message_id_tuple msg_id, const message_view& message) {
         std::unique_lock lock{_output_mutex};
-        _outgoing.front().push(class_id, method_id, message);
+        _outgoing.front().push(msg_id, message);
     }
 
     void notify_output_ready() {
@@ -95,11 +92,9 @@ public:
             _outgoing.swap();
         }
         auto handler = [this](
-                         identifier_t class_id,
-                         identifier_t method_id,
-                         const message_view& message) {
+                         message_id_tuple msg_id, const message_view& message) {
             string_serializer_backend backend(_sink);
-            serialize_message(class_id, method_id, message, backend);
+            serialize_message(msg_id, message, backend);
             _output << '\n';
             return true;
         };
@@ -121,14 +116,13 @@ public:
         if(auto pos{_source.scan_for('\n', _max_read)}) {
             block_data_source source(_source.top(extract(pos)));
             string_deserializer_backend backend(source);
-            identifier_t class_id{0};
-            identifier_t method_id{0};
+            message_id_tuple msg_id{};
             _recv_dest.clear_data();
             const auto errors =
-              deserialize_message(class_id, method_id, _recv_dest, backend);
+              deserialize_message(msg_id, _recv_dest, backend);
             if(!errors) {
                 std::unique_lock lock{_input_mutex};
-                _incoming.front().push(class_id, method_id, _recv_dest);
+                _incoming.front().push(msg_id, _recv_dest);
             }
             _source.pop(extract(pos) + 1);
         }
@@ -181,14 +175,13 @@ void bridge::_setup_from_args(const program_args&) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool bridge::_handle_special(
-  identifier_t class_id, identifier_t method_id, message_view message) {
-    if(EAGINE_UNLIKELY(EAGINE_ID(eagiMsgBus).matches(class_id))) {
+bool bridge::_handle_special(message_id_tuple msg_id, message_view message) {
+    if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
         _log.debug("handling special message ${message}")
-          .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id))
+          .arg(EAGINE_ID(message), msg_id)
           .arg(EAGINE_ID(source), message.source_id);
 
-        if(EAGINE_ID(assignId).matches(method_id)) {
+        if(msg_id.has_method(EAGINE_ID(assignId))) {
             if(!has_id()) {
                 _id = message.target_id;
                 _log.debug("assigned id ${id}").arg(EAGINE_ID(id), _id);
@@ -200,14 +193,13 @@ bool bridge::_handle_special(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool bridge::_do_send(
-  identifier_t class_id, identifier_t method_id, message_view message) {
+bool bridge::_do_send(message_id_tuple msg_id, message_view message) {
     message.add_hop();
     for(auto& connection : _connections) {
         EAGINE_ASSERT(connection);
-        if(connection->send(class_id, method_id, message)) {
+        if(connection->send(msg_id, message)) {
             _log.trace("forwarding message ${message} to connection")
-              .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id))
+              .arg(EAGINE_ID(message), msg_id)
               .arg(EAGINE_ID(data), message.data);
             return true;
         }
@@ -216,21 +208,19 @@ bool bridge::_do_send(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool bridge::_send(
-  identifier_t class_id, identifier_t method_id, message_view message) {
+bool bridge::_send(message_id_tuple msg_id, message_view message) {
     EAGINE_ASSERT(has_id());
     message.set_source_id(_id);
-    return _do_send(class_id, method_id, message);
+    return _do_send(msg_id, message);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool bridge::_do_push(
-  identifier_t class_id, identifier_t method_id, message_view message) {
+bool bridge::_do_push(message_id_tuple msg_id, message_view message) {
     if(EAGINE_LIKELY(_state)) {
         message.add_hop();
-        _state->push(class_id, method_id, message);
+        _state->push(msg_id, message);
         _log.trace("forwarding message ${message} to stream")
-          .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id))
+          .arg(EAGINE_ID(message), msg_id)
           .arg(EAGINE_ID(data), message.data);
         return true;
     }
@@ -241,19 +231,17 @@ EAGINE_LIB_FUNC
 bool bridge::_forward_messages() {
     some_true something_done{};
 
-    auto forward_conn_to_output = [this](
-                                    identifier_t class_id,
-                                    identifier_t method_id,
-                                    const message_view& message) {
-        if(EAGINE_UNLIKELY(++_forwarded_messages_c2o % 100000 == 0)) {
-            _log.stat("forwarded ${count} messages to output")
-              .arg(EAGINE_ID(count), _forwarded_messages_c2o);
-        }
-        if(this->_handle_special(class_id, method_id, message)) {
-            return true;
-        }
-        return this->_do_push(class_id, method_id, message);
-    };
+    auto forward_conn_to_output =
+      [this](message_id_tuple msg_id, const message_view& message) {
+          if(EAGINE_UNLIKELY(++_forwarded_messages_c2o % 100000 == 0)) {
+              _log.stat("forwarded ${count} messages to output")
+                .arg(EAGINE_ID(count), _forwarded_messages_c2o);
+          }
+          if(this->_handle_special(msg_id, message)) {
+              return true;
+          }
+          return this->_do_push(msg_id, message);
+      };
 
     for(auto& conn : _connections) {
         if(EAGINE_LIKELY(conn && conn->is_usable())) {
@@ -263,20 +251,18 @@ bool bridge::_forward_messages() {
     }
     _state->notify_output_ready();
 
-    auto forward_input_to_conn = [this](
-                                   identifier_t class_id,
-                                   identifier_t method_id,
-                                   const message_view& message) {
-        if(EAGINE_UNLIKELY(++_forwarded_messages_i2c % 100000 == 0)) {
-            _log.stat("forwarded ${count} messages from input")
-              .arg(EAGINE_ID(count), _forwarded_messages_i2c);
-        }
-        if(this->_handle_special(class_id, method_id, message)) {
-            return true;
-        }
-        this->_do_send(class_id, method_id, message);
-        return true;
-    };
+    auto forward_input_to_conn =
+      [this](message_id_tuple msg_id, const message_view& message) {
+          if(EAGINE_UNLIKELY(++_forwarded_messages_i2c % 100000 == 0)) {
+              _log.stat("forwarded ${count} messages from input")
+                .arg(EAGINE_ID(count), _forwarded_messages_i2c);
+          }
+          if(this->_handle_special(msg_id, message)) {
+              return true;
+          }
+          this->_do_send(msg_id, message);
+          return true;
+      };
 
     if(EAGINE_LIKELY(_state)) {
         something_done(_state->fetch_messages(

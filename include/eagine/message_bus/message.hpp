@@ -13,11 +13,11 @@
 #include "../assert.hpp"
 #include "../bitfield.hpp"
 #include "../callable_ref.hpp"
-#include "../identifier.hpp"
 #include "../logging/fwd.hpp"
 #include "../memory/buffer_pool.hpp"
 #include "../memory/copy.hpp"
 #include "../memory/span_algo.hpp"
+#include "../message_id.hpp"
 #include "../reflect/map_enumerators.hpp"
 #include "context_fwd.hpp"
 #include "types.hpp"
@@ -62,6 +62,11 @@ constexpr auto enumerator_mapping(
       {{"asymmetric", message_crypto_flag::asymmetric},
        {"signed_header", message_crypto_flag::signed_header},
        {"signed_data", message_crypto_flag::signed_data}}};
+}
+//------------------------------------------------------------------------------
+static constexpr inline bool is_special_message(
+  message_id_tuple msg_id) noexcept {
+    return msg_id.has_class(EAGINE_ID(eagiMsgBus));
 }
 //------------------------------------------------------------------------------
 struct message_info {
@@ -217,7 +222,7 @@ public:
     /// The return value indicates if the message is considered handled
     /// and should be removed.
     using fetch_handler =
-      callable_ref<bool(identifier_t, identifier_t, const message_view&)>;
+      callable_ref<bool(message_id_tuple, const message_view&)>;
 
     message_storage() {
         _messages.reserve(64);
@@ -231,26 +236,19 @@ public:
         return span_size(_messages.size());
     }
 
-    void push(
-      identifier_t class_id,
-      identifier_t method_id,
-      const message_view& message) {
+    void push(message_id_tuple msg_id, const message_view& message) {
         _messages.emplace_back(
-          class_id,
-          method_id,
-          stored_message{message, _buffers.get(message.data.size())});
+          msg_id, stored_message{message, _buffers.get(message.data.size())});
     }
 
     template <typename Function>
     bool push_if(Function function, span_size_t req_size = 0) {
         _messages.emplace_back(
-          identifier_t{0},
-          identifier_t{0},
-          stored_message{{}, _buffers.get(req_size)});
-        auto& [class_id, method_id, message] = _messages.back();
+          message_id_tuple{}, stored_message{{}, _buffers.get(req_size)});
+        auto& [msg_id, message] = _messages.back();
         bool rollback = false;
         try {
-            if(!function(class_id, method_id, message)) {
+            if(!function(msg_id, message)) {
                 rollback = true;
             }
         } catch(...) {
@@ -268,8 +266,7 @@ public:
 
 private:
     memory::buffer_pool _buffers;
-    std::vector<std::tuple<identifier_t, identifier_t, stored_message>>
-      _messages;
+    std::vector<std::tuple<message_id_tuple, stored_message>> _messages;
 };
 //------------------------------------------------------------------------------
 class serialized_message_storage {

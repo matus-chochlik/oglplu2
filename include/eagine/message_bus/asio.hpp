@@ -207,22 +207,19 @@ struct asio_connection_state
         return false;
     }
 
-    bool enqueue(
-      identifier_t class_id,
-      identifier_t method_id,
-      const message_view& message) {
+    bool enqueue(message_id_tuple msg_id, const message_view& message) {
         std::unique_lock lock{mutex};
         block_data_sink sink(cover(push_buffer));
         string_serializer_backend backend(sink);
-        auto errors = serialize_message(class_id, method_id, message, backend);
+        auto errors = serialize_message(msg_id, message, backend);
         if(!errors) {
             _log.trace("enqueuing message ${message} to be sent")
-              .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id));
+              .arg(EAGINE_ID(message), msg_id);
             outgoing.push(sink.done());
             return true;
         }
         _log.error("failed to serialize message ${message}")
-          .arg(EAGINE_ID(message), message_id_tuple(class_id, method_id));
+          .arg(EAGINE_ID(message), msg_id);
         return false;
     }
 
@@ -231,27 +228,24 @@ struct asio_connection_state
         unpacked.fetch_all(handler);
         auto unpacker = [this, &handler](memory::const_block data) {
             for_each_data_with_size(data, [this](memory::const_block blk) {
-                unpacked.push_if([this, blk](
-                                   identifier_t& class_id,
-                                   identifier_t& method_id,
-                                   stored_message& message) {
-                    block_data_source source(blk);
-                    string_deserializer_backend backend(source);
-                    const auto errors = deserialize_message(
-                      class_id, method_id, message, backend);
-                    if(!errors) {
-                        this->_log.trace("received message ${message}")
-                          .arg(
-                            EAGINE_ID(message),
-                            message_id_tuple(class_id, method_id));
-                        return true;
-                    } else {
-                        _log.error("failed to deserialize message)")
-                          .arg(EAGINE_ID(errorBits), errors.bits())
-                          .arg(EAGINE_ID(block), blk);
-                        return false;
-                    }
-                });
+                unpacked.push_if(
+                  [this, blk](
+                    message_id_tuple& msg_id, stored_message& message) {
+                      block_data_source source(blk);
+                      string_deserializer_backend backend(source);
+                      const auto errors =
+                        deserialize_message(msg_id, message, backend);
+                      if(!errors) {
+                          this->_log.trace("received message ${message}")
+                            .arg(EAGINE_ID(message), msg_id);
+                          return true;
+                      } else {
+                          _log.error("failed to deserialize message)")
+                            .arg(EAGINE_ID(errorBits), errors.bits())
+                            .arg(EAGINE_ID(block), blk);
+                          return false;
+                      }
+                  });
             });
             unpacked.fetch_all(handler);
             return true;
@@ -415,12 +409,9 @@ public:
         return _state->is_usable();
     }
 
-    bool send(
-      identifier_t class_id,
-      identifier_t method_id,
-      const message_view& message) final {
+    bool send(message_id_tuple msg_id, const message_view& message) final {
         EAGINE_ASSERT(_state);
-        return _state->enqueue(class_id, method_id, message);
+        return _state->enqueue(msg_id, message);
     }
 
     bool fetch_messages(connection::fetch_handler handler) final {

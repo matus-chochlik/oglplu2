@@ -76,37 +76,21 @@ private:
     }
     fetch_handler _store_handler{_default_store_handler()};
 
-    bool _do_send(identifier_t class_id, identifier_t method_id, message_view);
+    bool _do_send(message_id_tuple msg_id, message_view);
 
-    template <identifier_t ClassId, identifier_t MethodId>
-    bool _do_send(message_id<ClassId, MethodId>, const message_view& message) {
-        return _do_send(ClassId, MethodId, message);
+    bool _handle_send(message_id_tuple msg_id, const message_view& message) {
+        return _do_send(msg_id, message);
     }
 
-    bool _handle_send(
-      identifier_t class_id,
-      identifier_t method_id,
-      const message_view& message) {
-        return _do_send(class_id, method_id, message);
+    bool _handle_post(message_id_tuple msg_id, const message_view& message) {
+        return post(msg_id, message);
     }
 
-    bool _handle_post(
-      identifier_t class_id,
-      identifier_t method_id,
-      const message_view& message) {
-        return post(class_id, method_id, message);
-    }
+    bool _handle_special(message_id_tuple msg_id, const message_view&) noexcept;
 
-    bool _handle_special(
-      identifier_t class_id,
-      identifier_t method_id,
-      const message_view&) noexcept;
+    bool _store_message(message_id_tuple msg_id, const message_view&);
 
-    bool _store_message(
-      identifier_t class_id, identifier_t method_id, const message_view&);
-
-    bool _accept_message(
-      identifier_t class_id, identifier_t method_id, const message_view&);
+    bool _accept_message(message_id_tuple msg_id, const message_view&);
 
     explicit endpoint(logger log, fetch_handler store_message) noexcept
       : _log{std::move(log)}
@@ -208,65 +192,29 @@ public:
         flush_outbox();
     }
 
-    void subscribe(identifier_t class_id, identifier_t method_id);
+    void subscribe(message_id_tuple);
+    void unsubscribe(message_id_tuple);
 
-    template <identifier_t ClassId, identifier_t MethodId>
-    void subscribe(message_id<ClassId, MethodId>) {
-        subscribe(ClassId, MethodId);
-    }
+    bool set_next_sequence_id(message_id_tuple, message_info&);
 
-    void unsubscribe(identifier_t class_id, identifier_t method_id);
-
-    template <identifier_t ClassId, identifier_t MethodId>
-    void unsubscribe(message_id<ClassId, MethodId>) {
-        unsubscribe(ClassId, MethodId);
-    }
-
-    bool set_next_sequence_id(
-      identifier_t class_id, identifier_t method_id, message_info&);
-
-    template <identifier_t ClassId, identifier_t MethodId>
-    bool set_next_sequence_id(
-      message_id<ClassId, MethodId>, message_info& message) {
-        return set_next_sequence_id(ClassId, MethodId, message);
-    }
-
-    bool post(
-      identifier_t class_id, identifier_t method_id, message_view message) {
-        _outgoing.push(class_id, method_id, message);
+    bool post(message_id_tuple msg_id, message_view message) {
+        _outgoing.push(msg_id, message);
         return true;
     }
 
-    template <identifier_t ClassId, identifier_t MethodId>
-    bool post(message_id<ClassId, MethodId>, message_view message) {
-        return post(ClassId, MethodId, message);
-    }
-
-    bool post_signed(
-      identifier_t class_id, identifier_t method_id, message_view message);
-
-    template <identifier_t ClassId, identifier_t MethodId>
-    bool post_signed(message_id<ClassId, MethodId>, message_view message) {
-        return post_signed(ClassId, MethodId, message);
-    }
+    bool post_signed(message_id_tuple, message_view message);
 
     template <typename T>
     bool post_value(
-      identifier_t class_id,
-      identifier_t method_id,
-      T& value,
-      const message_info& info = {}) {
+      message_id_tuple msg_id, T& value, const message_info& info = {}) {
         if(const auto opt_size = max_data_size()) {
             const auto max_size = extract(opt_size);
             return _outgoing.push_if(
-              [this, class_id, method_id, &info, &value, max_size](
-                identifier_t& dst_class_id,
-                identifier_t& dst_method_id,
-                stored_message& message) {
+              [this, msg_id, &info, &value, max_size](
+                message_id_tuple& dst_msg_id, stored_message& message) {
                   if(message.store_value(value, max_size)) {
                       message.assign(info);
-                      dst_class_id = class_id;
-                      dst_method_id = method_id;
+                      dst_msg_id = msg_id;
                       return true;
                   }
                   return false;
@@ -276,212 +224,86 @@ public:
         return false;
     }
 
-    template <identifier_t ClassId, identifier_t MethodId, typename T>
-    bool post_value(
-      message_id<ClassId, MethodId>, T& value, const message_info& info = {}) {
-        return post_value(ClassId, MethodId, value, info);
-    }
-
     bool post_blob(
-      identifier_t class_id,
-      identifier_t method_id,
+      message_id_tuple msg_id,
       identifier_t target_id,
       memory::const_block blob,
       std::chrono::seconds max_time,
       message_priority priority) {
-        _blobs.push_outgoing(
-          class_id, method_id, target_id, blob, max_time, priority);
+        _blobs.push_outgoing(msg_id, target_id, blob, max_time, priority);
         return true;
     }
 
-    template <identifier_t ClassId, identifier_t MethodId>
-    bool post_blob(
-      message_id<ClassId, MethodId>,
-      identifier_t target_id,
+    bool broadcast_blob(
+      message_id_tuple msg_id,
       memory::const_block blob,
       std::chrono::seconds max_time,
       message_priority priority) {
-        return post_blob(
-          ClassId, MethodId, target_id, blob, max_time, priority);
+        return post_blob(msg_id, invalid_id(), blob, max_time, priority);
     }
 
     bool broadcast_blob(
-      identifier_t class_id,
-      identifier_t method_id,
-      memory::const_block blob,
-      std::chrono::seconds max_time,
-      message_priority priority) {
-        return post_blob(
-          class_id, method_id, invalid_id(), blob, max_time, priority);
-    }
-
-    template <identifier_t ClassId, identifier_t MethodId>
-    bool broadcast_blob(
-      message_id<ClassId, MethodId>,
-      memory::const_block blob,
-      std::chrono::seconds max_time,
-      message_priority priority) {
-        return broadcast_blob(ClassId, MethodId, blob, max_time, priority);
-    }
-
-    bool broadcast_blob(
-      identifier_t class_id,
-      identifier_t method_id,
+      message_id_tuple msg_id,
       memory::const_block blob,
       std::chrono::seconds max_time) {
-        return broadcast_blob(
-          class_id, method_id, blob, max_time, message_priority::normal);
-    }
-
-    template <identifier_t ClassId, identifier_t MethodId>
-    bool broadcast_blob(
-      message_id<ClassId, MethodId>,
-      memory::const_block blob,
-      std::chrono::seconds max_time) {
-        return broadcast_blob(ClassId, MethodId, blob, max_time);
+        return broadcast_blob(msg_id, blob, max_time, message_priority::normal);
     }
 
     bool post_certificate(identifier_t target_id);
     bool broadcast_certificate();
 
-    bool send(
-      identifier_t class_id, identifier_t method_id, message_view message) {
+    bool send(message_id_tuple msg_id, message_view message) {
         if(has_id()) {
-            return _do_send(class_id, method_id, message);
+            return _do_send(msg_id, message);
         } else {
-            post(class_id, method_id, message);
+            post(msg_id, message);
         }
         return false;
     }
 
-    template <identifier_t ClassId, identifier_t MethodId>
-    bool send(message_id<ClassId, MethodId>, message_view message) {
-        return send(ClassId, MethodId, message);
-    }
-
-    template <identifier_t ClassId, identifier_t MethodId>
-    bool send(message_id<ClassId, MethodId>) {
-        return send(ClassId, MethodId, {});
+    bool send(message_id_tuple msg_id) {
+        return send(msg_id, {});
     }
 
     bool say_not_a_router();
     bool say_bye();
 
     void post_meta_message(
-      identifier_t meta_class_id,
-      identifier_t meta_method_id,
-      identifier_t class_id,
-      identifier_t method_id);
+      message_id_tuple meta_msg_id, message_id_tuple msg_id);
 
-    template <identifier_t ClassId, identifier_t MethodId>
-    void post_meta_message(
-      message_id<ClassId, MethodId>,
-      identifier_t class_id,
-      identifier_t method_id) {
-        post_meta_message(ClassId, MethodId, class_id, method_id);
-    }
-
-    void say_subscribes_to(identifier_t class_id, identifier_t method_id);
-
-    template <identifier_t ClassId, identifier_t MethodId>
-    void say_subscribes_to(message_id<ClassId, MethodId>) {
-        say_subscribes_to(ClassId, MethodId);
-    }
-
-    void say_unsubscribes_from(identifier_t class_id, identifier_t method_id);
-
-    template <identifier_t ClassId, identifier_t MethodId>
-    void say_unsubscribes_from(message_id<ClassId, MethodId>) {
-        say_unsubscribes_from(ClassId, MethodId);
-    }
+    void say_subscribes_to(message_id_tuple);
+    void say_unsubscribes_from(message_id_tuple);
 
     void clear_block_list();
-    void block_message_type(identifier_t class_id, identifier_t method_id);
-
-    template <identifier_t ClassId, identifier_t MethodId>
-    void block_message_type(message_id<ClassId, MethodId>) {
-        block_message_type(ClassId, MethodId);
-    }
+    void block_message_type(message_id_tuple);
 
     void clear_allow_list();
-    void allow_message_type(identifier_t class_id, identifier_t method_id);
-
-    template <identifier_t ClassId, identifier_t MethodId>
-    void allow_message_type(message_id<ClassId, MethodId>) {
-        allow_message_type(ClassId, MethodId);
-    }
+    void allow_message_type(message_id_tuple);
 
     bool respond_to(
-      const message_info& info,
-      identifier_t class_id,
-      identifier_t method_id,
-      message_view message) {
+      const message_info& info, message_id_tuple msg_id, message_view message) {
         message.setup_response(info);
-        return send(class_id, method_id, message);
+        return send(msg_id, message);
     }
 
-    template <identifier_t ClassId, identifier_t MethodId>
-    bool respond_to(
-      const message_info& info,
-      message_id<ClassId, MethodId>,
-      message_view message) {
-        return respond_to(info, ClassId, MethodId, message);
-    }
-
-    template <identifier_t ClassId, identifier_t MethodId>
-    bool respond_to(const message_info& info, message_id<ClassId, MethodId>) {
-        return respond_to(info, ClassId, MethodId, {});
-    }
-
-    bool respond_signed_to(
-      const message_info& info,
-      identifier_t class_id,
-      identifier_t method_id,
-      message_view message) {
-        // TODO: add signatures
-        return respond_to(info, class_id, method_id, message);
-    }
-
-    template <identifier_t ClassId, identifier_t MethodId>
-    bool respond_signed_to(
-      const message_info& info,
-      message_id<ClassId, MethodId>,
-      message_view message) {
-        return respond_signed_to(info, ClassId, MethodId, message);
+    bool respond_to(const message_info& info, message_id_tuple msg_id) {
+        return respond_to(info, msg_id);
     }
 
     using method_handler = callable_ref<bool(stored_message&)>;
 
-    bool process_one(
-      identifier_t class_id, identifier_t method_id, method_handler handler);
+    bool process_one(message_id_tuple msg_id, method_handler handler);
 
-    template <identifier_t ClassId, identifier_t MethodId>
+    template <typename Class, bool (Class::*MemFnPtr)(stored_message&)>
     inline bool process_one(
-      message_id<ClassId, MethodId>, method_handler handler) {
-        return process_one(ClassId, MethodId, handler);
-    }
-
-    template <
-      identifier_t ClassId,
-      identifier_t MethodId,
-      typename Class,
-      bool (Class::*MemFnPtr)(stored_message&)>
-    inline bool process_one(
-      message_id<ClassId, MethodId> mid,
+      message_id_tuple msg_id,
       member_function_constant<bool (Class::*)(stored_message&), MemFnPtr>
         method,
       Class* instance) {
-        return process_one(mid, {instance, method});
+        return process_one(msg_id, {instance, method});
     }
 
-    span_size_t process_all(
-      identifier_t class_id, identifier_t method_id, method_handler handler);
-
-    template <identifier_t ClassId, identifier_t MethodId>
-    inline span_size_t process_all(
-      message_id<ClassId, MethodId>, method_handler handler) {
-        return process_all(ClassId, MethodId, handler);
-    }
+    span_size_t process_all(message_id_tuple msg_id, method_handler handler);
 
     using generic_handler =
       callable_ref<bool(message_id_tuple, stored_message&)>;
@@ -516,11 +338,8 @@ protected:
     }
 
     inline bool _accept_message(
-      endpoint& ep,
-      identifier_t class_id,
-      identifier_t method_id,
-      const message_view& message) {
-        return ep._accept_message(class_id, method_id, message);
+      endpoint& ep, message_id_tuple msg_id, const message_view& message) {
+        return ep._accept_message(msg_id, message);
     }
 };
 //------------------------------------------------------------------------------

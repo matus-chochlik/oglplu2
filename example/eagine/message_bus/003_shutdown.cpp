@@ -33,7 +33,7 @@ public:
     }
 
     void on_subscribed(identifier_t id, const message_id_tuple& sub_msg) final {
-        if(EAGINE_MSG_ID(Shutdown, shutdown).matches(sub_msg)) {
+        if(sub_msg == EAGINE_MSG_ID(Shutdown, shutdown)) {
             _log.info("target ${id} appeared").arg(EAGINE_ID(id), id);
             _targets.insert(id);
         }
@@ -41,7 +41,7 @@ public:
 
     void on_unsubscribed(
       identifier_t id, const message_id_tuple& sub_msg) final {
-        if(EAGINE_MSG_ID(Shutdown, shutdown).matches(sub_msg)) {
+        if(sub_msg == EAGINE_MSG_ID(Shutdown, shutdown)) {
             _log.info("target ${id} disappeared").arg(EAGINE_ID(id), id);
             _targets.erase(id);
         }

@@ -40,8 +40,7 @@ public:
 
     ~context() noexcept;
 
-    message_sequence_t next_sequence_no(
-      identifier_t class_id, identifier_t method_id) noexcept;
+    message_sequence_t next_sequence_no(message_id_tuple) noexcept;
 
     bool verify_certificate(sslp::x509 cert);
 
