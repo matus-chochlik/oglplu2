@@ -57,8 +57,7 @@ struct connection_info {
 //------------------------------------------------------------------------------
 struct connection : connection_info {
 
-    using fetch_handler =
-      callable_ref<bool(message_id_tuple, const message_view&)>;
+    using fetch_handler = callable_ref<bool(message_id, const message_view&)>;
 
     virtual bool update() {
         return false;
@@ -75,7 +74,7 @@ struct connection : connection_info {
         return {0};
     }
 
-    virtual bool send(message_id_tuple msg_id, const message_view&) = 0;
+    virtual bool send(message_id msg_id, const message_view&) = 0;
 
     virtual bool fetch_messages(fetch_handler handler) = 0;
 };

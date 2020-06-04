@@ -16,8 +16,7 @@ namespace msgbus {
 // routed_endpoint
 //------------------------------------------------------------------------------
 static inline bool routed_endpoint_list_contains(
-  const std::vector<message_id_tuple>& list,
-  const message_id_tuple& entry) noexcept {
+  const std::vector<message_id>& list, const message_id& entry) noexcept {
     return std::find(list.begin(), list.end(), entry) != list.end();
 }
 //------------------------------------------------------------------------------
@@ -28,7 +27,7 @@ routed_endpoint::routed_endpoint() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool routed_endpoint::is_allowed(message_id_tuple msg_id) const noexcept {
+bool routed_endpoint::is_allowed(message_id msg_id) const noexcept {
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
         return true;
     }
@@ -41,13 +40,13 @@ bool routed_endpoint::is_allowed(message_id_tuple msg_id) const noexcept {
     return true;
 }
 //------------------------------------------------------------------------------
-void routed_endpoint::block_message(message_id_tuple msg_id) {
+void routed_endpoint::block_message(message_id msg_id) {
     if(!routed_endpoint_list_contains(message_block_list, msg_id)) {
         message_block_list.push_back(msg_id);
     }
 }
 //------------------------------------------------------------------------------
-void routed_endpoint::allow_message(message_id_tuple msg_id) {
+void routed_endpoint::allow_message(message_id msg_id) {
     if(!routed_endpoint_list_contains(message_allow_list, msg_id)) {
         message_allow_list.push_back(msg_id);
     }
@@ -121,8 +120,7 @@ bool router::_handle_pending() {
 
     if(!_pending.empty()) {
         identifier_t id = 0;
-        auto handler = [this, &id](
-                         message_id_tuple msg_id, const message_view& msg) {
+        auto handler = [this, &id](message_id msg_id, const message_view& msg) {
             // this is a special message containing endpoint id
             if(msg_id == EAGINE_MSG_ID(eagiMsgBus, announceId)) {
                 id = msg.source_id;
@@ -256,7 +254,7 @@ bool router::_process_blobs() {
                 if(EAGINE_LIKELY(conn && conn->is_usable())) {
                     if(auto opt_max_size{conn->max_data_size()}) {
                         auto handle_send = [endpoint_id, &conn](
-                                             message_id_tuple msg_id,
+                                             message_id msg_id,
                                              const message_view& message) {
                             if(endpoint_id == message.target_id) {
                                 return conn->send(msg_id, message);
@@ -278,7 +276,7 @@ bool router::_process_blobs() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool router::_do_allow_blob(message_id_tuple msg_id) {
+bool router::_do_allow_blob(message_id msg_id) {
     if(is_special_message(msg_id)) {
         if(msg_id.has_method(EAGINE_ID(eptCertPem))) {
             return true;
@@ -288,8 +286,7 @@ bool router::_do_allow_blob(message_id_tuple msg_id) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool router::_handle_blob(
-  message_id_tuple msg_id, const message_view& message) {
+bool router::_handle_blob(message_id msg_id, const message_view& message) {
     if(is_special_message(msg_id)) {
         if(msg_id.has_method(EAGINE_ID(eptCertPem))) {
             _log.trace("received endpoint certificate")
@@ -303,7 +300,7 @@ bool router::_handle_blob(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool router::_handle_special(
-  message_id_tuple msg_id,
+  message_id msg_id,
   identifier_t incoming_id,
   routed_endpoint& endpoint,
   const message_view& message) {
@@ -328,7 +325,7 @@ bool router::_handle_special(
             endpoint.message_allow_list.clear();
             return true;
         } else if(msg_id.has_method(EAGINE_ID(msgBlkList))) {
-            message_id_tuple blk_msg_id{};
+            message_id blk_msg_id{};
             if(default_deserialize_message_type(blk_msg_id, message.data)) {
                 if(!is_special_message(msg_id)) {
                     _log.debug("endpoint ${source} blocking message ${message}")
@@ -339,7 +336,7 @@ bool router::_handle_special(
                 }
             }
         } else if(msg_id.has_method(EAGINE_ID(msgAlwList))) {
-            message_id_tuple alw_msg_id{};
+            message_id alw_msg_id{};
             if(default_deserialize_message_type(alw_msg_id, message.data)) {
                 _log.debug("endpoint ${source} allowing message ${message}")
                   .arg(EAGINE_ID(message), alw_msg_id)
@@ -353,7 +350,7 @@ bool router::_handle_special(
             endpoint.do_disconnect = true;
             return true;
         } else if(msg_id.has_method(EAGINE_ID(subscribTo))) {
-            message_id_tuple sub_msg_id{};
+            message_id sub_msg_id{};
             if(default_deserialize_message_type(sub_msg_id, message.data)) {
                 _log.debug("endpoint ${source} subscribes to ${message}")
                   .arg(EAGINE_ID(source), message.source_id)
@@ -362,7 +359,7 @@ bool router::_handle_special(
                 return false;
             }
         } else if(msg_id.has_method(EAGINE_ID(unsubFrom))) {
-            message_id_tuple sub_msg_id{};
+            message_id sub_msg_id{};
             if(default_deserialize_message_type(sub_msg_id, message.data)) {
                 _log.debug("endpoint ${source} unsubscribes from ${message}")
                   .arg(EAGINE_ID(source), message.source_id)
@@ -403,7 +400,7 @@ bool router::_handle_special(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool router::_do_route_message(
-  message_id_tuple msg_id, identifier_t incoming_id, message_view message) {
+  message_id msg_id, identifier_t incoming_id, message_view message) {
     if(EAGINE_UNLIKELY(message.too_many_hops())) {
         _log.warning("message ${message} discarded after too many hops")
           .arg(EAGINE_ID(message), msg_id);
@@ -442,7 +439,7 @@ bool router::_route_messages() {
 
     for(auto& ep : _endpoints) {
         auto handler = [this, &ep](
-                         message_id_tuple msg_id, const message_view& message) {
+                         message_id msg_id, const message_view& message) {
             auto& [incoming_id, endpoint_in] = ep;
             if(this->_handle_special(
                  msg_id, incoming_id, endpoint_in, message)) {

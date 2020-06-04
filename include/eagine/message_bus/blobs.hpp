@@ -25,7 +25,7 @@ namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
 struct pending_blob {
-    message_id_tuple msg_id{};
+    message_id msg_id{};
     identifier_t endpoint_id{0U};
     std::uint64_t blob_id{0U};
     memory::buffer blob{};
@@ -74,14 +74,14 @@ public:
     bool cleanup();
 
     void push_outgoing(
-      message_id_tuple msg_id,
+      message_id msg_id,
       identifier_t target_id,
       memory::const_block blob,
       std::chrono::seconds max_time,
       message_priority priority);
 
     bool push_incoming_fragment(
-      message_id_tuple msg_id,
+      message_id msg_id,
       identifier_t source_id,
       identifier_t blob_id,
       std::int64_t offset,
@@ -89,17 +89,15 @@ public:
       memory::const_block fragment,
       message_priority priority);
 
-    using filter_function = callable_ref<bool(message_id_tuple)>;
+    using filter_function = callable_ref<bool(message_id)>;
 
     bool process_incoming(filter_function, const message_view&);
 
-    using fetch_handler =
-      callable_ref<bool(message_id_tuple, const message_view&)>;
+    using fetch_handler = callable_ref<bool(message_id, const message_view&)>;
 
     span_size_t fetch_all(fetch_handler);
 
-    using send_handler =
-      callable_ref<bool(message_id_tuple, const message_view&)>;
+    using send_handler = callable_ref<bool(message_id, const message_view&)>;
 
     bool has_outgoing() const noexcept {
         return !_outgoing.empty();

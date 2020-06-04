@@ -41,17 +41,17 @@ struct router_pending {
 //------------------------------------------------------------------------------
 struct routed_endpoint {
     std::vector<std::unique_ptr<connection>> connections;
-    std::vector<message_id_tuple> message_block_list;
-    std::vector<message_id_tuple> message_allow_list;
+    std::vector<message_id> message_block_list;
+    std::vector<message_id> message_allow_list;
     bool maybe_router{true};
     bool do_disconnect{false};
 
     routed_endpoint();
 
-    void block_message(message_id_tuple);
-    void allow_message(message_id_tuple);
+    void block_message(message_id);
+    void allow_message(message_id);
 
-    bool is_allowed(message_id_tuple) const noexcept;
+    bool is_allowed(message_id) const noexcept;
 };
 //------------------------------------------------------------------------------
 class router
@@ -91,7 +91,7 @@ public:
     }
 
     void post_blob(
-      message_id_tuple msg_id,
+      message_id msg_id,
       identifier_t target_id,
       memory::const_block blob,
       std::chrono::seconds max_time,
@@ -110,17 +110,17 @@ private:
 
     bool _cleanup_blobs();
     bool _process_blobs();
-    bool _do_allow_blob(message_id_tuple);
-    bool _handle_blob(message_id_tuple msg_id, const message_view&);
+    bool _do_allow_blob(message_id);
+    bool _handle_blob(message_id msg_id, const message_view&);
 
     bool _handle_special(
-      message_id_tuple msg_id,
+      message_id msg_id,
       identifier_t incoming_id,
       routed_endpoint&,
       const message_view&);
 
     bool _do_route_message(
-      message_id_tuple msg_id, identifier_t incoming_id, message_view message);
+      message_id msg_id, identifier_t incoming_id, message_view message);
 
     bool _route_messages();
     bool _update_connections();

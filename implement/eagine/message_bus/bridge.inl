@@ -76,7 +76,7 @@ public:
         return input_usable() && output_usable();
     }
 
-    void push(message_id_tuple msg_id, const message_view& message) {
+    void push(message_id msg_id, const message_view& message) {
         std::unique_lock lock{_output_mutex};
         _outgoing.front().push(msg_id, message);
     }
@@ -91,8 +91,7 @@ public:
             _output_ready.wait(lock);
             _outgoing.swap();
         }
-        auto handler = [this](
-                         message_id_tuple msg_id, const message_view& message) {
+        auto handler = [this](message_id msg_id, const message_view& message) {
             string_serializer_backend backend(_sink);
             serialize_message(msg_id, message, backend);
             _output << '\n';
@@ -116,7 +115,7 @@ public:
         if(auto pos{_source.scan_for('\n', _max_read)}) {
             block_data_source source(_source.top(extract(pos)));
             string_deserializer_backend backend(source);
-            message_id_tuple msg_id{};
+            message_id msg_id{};
             _recv_dest.clear_data();
             const auto errors =
               deserialize_message(msg_id, _recv_dest, backend);
@@ -175,7 +174,7 @@ void bridge::_setup_from_args(const program_args&) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool bridge::_handle_special(message_id_tuple msg_id, message_view message) {
+bool bridge::_handle_special(message_id msg_id, message_view message) {
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
         _log.debug("handling special message ${message}")
           .arg(EAGINE_ID(message), msg_id)
@@ -193,7 +192,7 @@ bool bridge::_handle_special(message_id_tuple msg_id, message_view message) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool bridge::_do_send(message_id_tuple msg_id, message_view message) {
+bool bridge::_do_send(message_id msg_id, message_view message) {
     message.add_hop();
     for(auto& connection : _connections) {
         EAGINE_ASSERT(connection);
@@ -208,14 +207,14 @@ bool bridge::_do_send(message_id_tuple msg_id, message_view message) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool bridge::_send(message_id_tuple msg_id, message_view message) {
+bool bridge::_send(message_id msg_id, message_view message) {
     EAGINE_ASSERT(has_id());
     message.set_source_id(_id);
     return _do_send(msg_id, message);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool bridge::_do_push(message_id_tuple msg_id, message_view message) {
+bool bridge::_do_push(message_id msg_id, message_view message) {
     if(EAGINE_LIKELY(_state)) {
         message.add_hop();
         _state->push(msg_id, message);
@@ -232,7 +231,7 @@ bool bridge::_forward_messages() {
     some_true something_done{};
 
     auto forward_conn_to_output =
-      [this](message_id_tuple msg_id, const message_view& message) {
+      [this](message_id msg_id, const message_view& message) {
           if(EAGINE_UNLIKELY(++_forwarded_messages_c2o % 100000 == 0)) {
               _log.stat("forwarded ${count} messages to output")
                 .arg(EAGINE_ID(count), _forwarded_messages_c2o);
@@ -252,7 +251,7 @@ bool bridge::_forward_messages() {
     _state->notify_output_ready();
 
     auto forward_input_to_conn =
-      [this](message_id_tuple msg_id, const message_view& message) {
+      [this](message_id msg_id, const message_view& message) {
           if(EAGINE_UNLIKELY(++_forwarded_messages_i2c % 100000 == 0)) {
               _log.stat("forwarded ${count} messages from input")
                 .arg(EAGINE_ID(count), _forwarded_messages_i2c);

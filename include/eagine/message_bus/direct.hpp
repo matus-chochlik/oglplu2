@@ -32,12 +32,12 @@ public:
       : _log{EAGINE_ID(DrctConnSt), parent} {
     }
 
-    void send_to_server(message_id_tuple msg_id, const message_view& message) {
+    void send_to_server(message_id msg_id, const message_view& message) {
         std::unique_lock lock{_mutex};
         _client_to_server.push(msg_id, message);
     }
 
-    void send_to_client(message_id_tuple msg_id, const message_view& message) {
+    void send_to_client(message_id msg_id, const message_view& message) {
         std::unique_lock lock{_mutex};
         _server_to_client.push(msg_id, message);
     }
@@ -124,7 +124,7 @@ public:
         return bool(_state);
     }
 
-    bool send(message_id_tuple msg_id, const message_view& message) final {
+    bool send(message_id msg_id, const message_view& message) final {
         _checkup();
         if(EAGINE_LIKELY(_state)) {
             _state->send_to_server(msg_id, message);
@@ -151,7 +151,7 @@ public:
       : _weak_state{state} {
     }
 
-    bool send(message_id_tuple msg_id, const message_view& message) final {
+    bool send(message_id msg_id, const message_view& message) final {
         if(auto state = _weak_state.lock()) {
             state->send_to_client(msg_id, message);
             return true;

@@ -26,7 +26,7 @@ public:
         return EAGINE_ID(Loopback);
     }
 
-    bool send(message_id_tuple msg_id, const message_view& message) final {
+    bool send(message_id msg_id, const message_view& message) final {
         std::unique_lock lock{_mutex};
         _messages.push(msg_id, message);
         return true;

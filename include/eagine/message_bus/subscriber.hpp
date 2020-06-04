@@ -75,13 +75,12 @@ public:
 protected:
     using method_handler = typename endpoint::method_handler;
     struct handler_entry {
-        message_id_tuple msg_id{};
+        message_id msg_id{};
         method_handler handler{};
 
         constexpr handler_entry() noexcept = default;
 
-        constexpr handler_entry(
-          message_id_tuple id, method_handler hndlr) noexcept
+        constexpr handler_entry(message_id id, method_handler hndlr) noexcept
           : msg_id{id}
           , handler{hndlr} {
         }
@@ -289,7 +288,7 @@ public:
     template <typename Class, bool (Class::*Method)(stored_message&)>
     void add_method(
       Class* instance,
-      message_id_tuple msg_id,
+      message_id msg_id,
       member_function_constant<bool (Class::*)(stored_message&), Method>
         method) {
         _msg_handlers.emplace_back(msg_id, method_handler{instance, method});

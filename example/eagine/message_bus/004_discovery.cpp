@@ -30,15 +30,13 @@ public:
       , _log{EAGINE_ID(SubscrLog), bus.log()} {
     }
 
-    void on_subscribed(
-      identifier_t subscriber_id, const message_id_tuple& sub_msg) final {
+    void on_subscribed(identifier_t subscriber_id, message_id sub_msg) final {
         _log.info("endpoint ${subscrbr} subscribed to ${message}")
           .arg(EAGINE_ID(subscrbr), subscriber_id)
           .arg(EAGINE_ID(message), sub_msg);
     }
 
-    void on_unsubscribed(
-      identifier_t subscriber_id, const message_id_tuple& sub_msg) final {
+    void on_unsubscribed(identifier_t subscriber_id, message_id sub_msg) final {
         _log.info("endpoint ${subscrbr} unsubscribed from ${message}")
           .arg(EAGINE_ID(subscrbr), subscriber_id)
           .arg(EAGINE_ID(message), sub_msg);

@@ -275,7 +275,7 @@ public:
         return something_done;
     }
 
-    bool send(message_id_tuple msg_id, const message_view& message) final {
+    bool send(message_id msg_id, const message_view& message) final {
         std::unique_lock lock{_mutex};
         block_data_sink sink(cover(_buffer));
         string_serializer_backend backend(sink);
@@ -352,13 +352,12 @@ protected:
     }
 
     void _handle_receive(unsigned, memory::span<const char> data) {
-        _incoming.push_if(
-          [data](message_id_tuple& msg_id, stored_message& message) {
-              block_data_source source(as_bytes(data));
-              string_deserializer_backend backend(source);
-              const auto errors = deserialize_message(msg_id, message, backend);
-              return !errors;
-          });
+        _incoming.push_if([data](message_id& msg_id, stored_message& message) {
+            block_data_source source(as_bytes(data));
+            string_deserializer_backend backend(source);
+            const auto errors = deserialize_message(msg_id, message, backend);
+            return !errors;
+        });
     }
 
     logger _log{};
@@ -485,23 +484,22 @@ private:
     }
 
     void _handle_receive(unsigned, memory::span<const char> data) {
-        _requests.push_if(
-          [data](message_id_tuple& msg_id, stored_message& message) {
-              block_data_source source(as_bytes(data));
-              string_deserializer_backend backend(source);
-              const auto errors = deserialize_message(msg_id, message, backend);
-              if(EAGINE_LIKELY(msg_id.has_class(EAGINE_ID(eagiMsgBus)))) {
-                  if(EAGINE_LIKELY(msg_id.has_method(EAGINE_ID(pmqConnect)))) {
-                      return !errors;
-                  }
-              }
-              return false;
-          });
+        _requests.push_if([data](message_id& msg_id, stored_message& message) {
+            block_data_source source(as_bytes(data));
+            string_deserializer_backend backend(source);
+            const auto errors = deserialize_message(msg_id, message, backend);
+            if(EAGINE_LIKELY(msg_id.has_class(EAGINE_ID(eagiMsgBus)))) {
+                if(EAGINE_LIKELY(msg_id.has_method(EAGINE_ID(pmqConnect)))) {
+                    return !errors;
+                }
+            }
+            return false;
+        });
     }
 
     bool _process(const accept_handler& handler) {
         auto fetch_handler = [this, &handler](
-                               message_id_tuple msg_id,
+                               message_id msg_id,
                                const message_view& message) -> bool {
             EAGINE_ASSERT((msg_id == EAGINE_MSG_ID(eagiMsgBus, pmqConnect)));
             EAGINE_MAYBE_UNUSED(msg_id);

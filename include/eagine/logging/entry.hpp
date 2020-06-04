@@ -137,8 +137,7 @@ public:
         return arg(name, EAGINE_ID(id), value);
     }
 
-    log_entry& arg(
-      identifier name, identifier tag, message_id_tuple value) noexcept {
+    log_entry& arg(identifier name, identifier tag, message_id value) noexcept {
         if(_backend) {
             _args.add([=](logger_backend& backend) {
                 backend.add_message_id(name, tag, value);
@@ -147,7 +146,7 @@ public:
         return *this;
     }
 
-    log_entry& arg(identifier name, message_id_tuple value) noexcept {
+    log_entry& arg(identifier name, message_id value) noexcept {
         return arg(name, EAGINE_ID(MessageId), value);
     }
 

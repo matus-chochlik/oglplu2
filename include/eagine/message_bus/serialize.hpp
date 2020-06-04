@@ -31,7 +31,7 @@ std::enable_if_t<
   std::is_base_of_v<serializer_backend, Backend>,
   serialization_errors>
 serialize_message(
-  message_id_tuple msg_id, const message_view& msg, Backend& backend) {
+  message_id msg_id, const message_view& msg, Backend& backend) {
 
     auto message_params = std::make_tuple(
       msg_id.class_(),
@@ -93,8 +93,7 @@ template <typename Backend>
 std::enable_if_t<
   std::is_base_of_v<deserializer_backend, Backend>,
   deserialization_errors>
-deserialize_message(
-  message_id_tuple& msg_id, stored_message& msg, Backend& backend) {
+deserialize_message(message_id& msg_id, stored_message& msg, Backend& backend) {
     identifier class_id{};
     identifier method_id{};
     deserialization_errors errors =
@@ -117,7 +116,7 @@ inline serialization_result<memory::const_block> default_serialize(
 }
 //------------------------------------------------------------------------------
 inline auto default_serialize_message_type(
-  message_id_tuple msg_id, memory::block blk) {
+  message_id msg_id, memory::block blk) {
     const auto value{msg_id.id_tuple()};
     return default_serialize(value, blk);
 }
@@ -134,7 +133,7 @@ inline deserialization_result<memory::const_block> default_deserialize(
 }
 //------------------------------------------------------------------------------
 inline auto default_deserialize_message_type(
-  message_id_tuple& msg_id, memory::const_block blk) {
+  message_id& msg_id, memory::const_block blk) {
     std::tuple<identifier, identifier> value{};
     auto result = default_deserialize(value, blk);
     if(result) {

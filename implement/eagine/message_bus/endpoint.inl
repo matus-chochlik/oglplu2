@@ -29,7 +29,7 @@ bool endpoint::_process_blobs() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool endpoint::_do_allow_blob(message_id_tuple msg_id) {
+bool endpoint::_do_allow_blob(message_id msg_id) {
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
         if(EAGINE_UNLIKELY(msg_id.has_method(EAGINE_ID(eptCertPem)))) {
             return true;
@@ -42,7 +42,7 @@ bool endpoint::_do_allow_blob(message_id_tuple msg_id) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool endpoint::_do_send(message_id_tuple msg_id, message_view message) {
+bool endpoint::_do_send(message_id msg_id, message_view message) {
     EAGINE_ASSERT(has_id());
     message.set_source_id(_id);
     for(auto& connection : _connections) {
@@ -59,7 +59,7 @@ bool endpoint::_do_send(message_id_tuple msg_id, message_view message) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool endpoint::_handle_special(
-  message_id_tuple msg_id, const message_view& message) noexcept {
+  message_id msg_id, const message_view& message) noexcept {
 
     EAGINE_ASSERT(_context);
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
@@ -120,8 +120,7 @@ bool endpoint::_handle_special(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool endpoint::_store_message(
-  message_id_tuple msg_id, const message_view& message) {
+bool endpoint::_store_message(message_id msg_id, const message_view& message) {
     if(_handle_special(msg_id, message)) {
         return true;
     } else {
@@ -155,8 +154,7 @@ bool endpoint::_store_message(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool endpoint::_accept_message(
-  message_id_tuple msg_id, const message_view& message) {
+bool endpoint::_accept_message(message_id msg_id, const message_view& message) {
     if(_handle_special(msg_id, message)) {
         return true;
     }
@@ -253,20 +251,19 @@ void endpoint::flush_outbox() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool endpoint::set_next_sequence_id(
-  message_id_tuple msg_id, message_info& message) {
+bool endpoint::set_next_sequence_id(message_id msg_id, message_info& message) {
     EAGINE_ASSERT(_context);
     message.set_sequence_no(_context->next_sequence_no(msg_id));
     return true;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool endpoint::post_signed(message_id_tuple msg_id, message_view msg_view) {
+bool endpoint::post_signed(message_id msg_id, message_view msg_view) {
     if(const auto opt_size = max_data_size()) {
         const auto max_size = extract(opt_size);
         return _outgoing.push_if(
           [this, msg_id, &msg_view, max_size](
-            message_id_tuple& dst_msg_id, stored_message& message) {
+            message_id& dst_msg_id, stored_message& message) {
               if(message.store_and_sign(
                    msg_view.data, max_size, ctx(), log())) {
                   message.assign(msg_view);
@@ -322,7 +319,7 @@ bool endpoint::update() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void endpoint::subscribe(message_id_tuple msg_id) {
+void endpoint::subscribe(message_id msg_id) {
     auto [pos, newone] = _incoming.try_emplace(msg_id);
     if(newone) {
         _get_counter(*pos) = 0;
@@ -334,7 +331,7 @@ void endpoint::subscribe(message_id_tuple msg_id) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void endpoint::unsubscribe(message_id_tuple msg_id) {
+void endpoint::unsubscribe(message_id msg_id) {
     auto pos = _incoming.find(msg_id);
     if(pos != _incoming.end()) {
         if(--_get_counter(*pos) <= 0) {
@@ -359,8 +356,7 @@ bool endpoint::say_bye() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void endpoint::post_meta_message(
-  message_id_tuple meta_msg_id, message_id_tuple msg_id) {
+void endpoint::post_meta_message(message_id meta_msg_id, message_id msg_id) {
     std::array<byte, 64> temp{};
     if(auto serialized = default_serialize_message_type(msg_id, cover(temp))) {
         post(meta_msg_id, message_view(extract(serialized)));
@@ -372,7 +368,7 @@ void endpoint::post_meta_message(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void endpoint::say_subscribes_to(message_id_tuple msg_id) {
+void endpoint::say_subscribes_to(message_id msg_id) {
     log()
       .debug("requesting subscription to message ${message}")
       .arg(EAGINE_ID(message), msg_id);
@@ -380,7 +376,7 @@ void endpoint::say_subscribes_to(message_id_tuple msg_id) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void endpoint::say_unsubscribes_from(message_id_tuple msg_id) {
+void endpoint::say_unsubscribes_from(message_id msg_id) {
     log()
       .debug("retracting subscription to message ${message}")
       .arg(EAGINE_ID(message), msg_id);
@@ -394,7 +390,7 @@ void endpoint::clear_block_list() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void endpoint::block_message_type(message_id_tuple msg_id) {
+void endpoint::block_message_type(message_id msg_id) {
     log().debug("blocking message ${message}").arg(EAGINE_ID(message), msg_id);
     post_meta_message(EAGINE_MSG_ID(eagiMsgBus, msgBlkList), msg_id);
 }
@@ -435,13 +431,13 @@ bool endpoint::broadcast_certificate() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void endpoint::allow_message_type(message_id_tuple msg_id) {
+void endpoint::allow_message_type(message_id msg_id) {
     log().debug("allowing message ${message}").arg(EAGINE_ID(message), msg_id);
     post_meta_message(EAGINE_MSG_ID(eagiMsgBus, msgAlwList), msg_id);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool endpoint::process_one(message_id_tuple msg_id, method_handler handler) {
+bool endpoint::process_one(message_id msg_id, method_handler handler) {
     auto pos = _incoming.find(msg_id);
     if(pos != _incoming.end()) {
         return _get_queue(*pos).process_one(handler);
@@ -450,8 +446,7 @@ bool endpoint::process_one(message_id_tuple msg_id, method_handler handler) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t endpoint::process_all(
-  message_id_tuple msg_id, method_handler handler) {
+span_size_t endpoint::process_all(message_id msg_id, method_handler handler) {
     auto pos = _incoming.find(msg_id);
     if(pos != _incoming.end()) {
         return _get_queue(*pos).process_all(handler);

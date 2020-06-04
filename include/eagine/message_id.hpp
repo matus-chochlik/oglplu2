@@ -18,28 +18,27 @@ namespace eagine {
 template <identifier_t ClassId, identifier_t MethodId>
 struct static_message_id;
 //------------------------------------------------------------------------------
-struct message_id_tuple : std::tuple<identifier_t, identifier_t> {
+struct message_id : std::tuple<identifier_t, identifier_t> {
     using base = std::tuple<identifier_t, identifier_t>;
 
-    constexpr message_id_tuple() noexcept
+    constexpr message_id() noexcept
       : base{0U, 0U} {
     }
 
-    constexpr message_id_tuple(identifier_t c, identifier_t m) noexcept
+    constexpr message_id(identifier_t c, identifier_t m) noexcept
       : base{c, m} {
     }
 
-    constexpr message_id_tuple(identifier c, identifier m) noexcept
+    constexpr message_id(identifier c, identifier m) noexcept
       : base{c.value(), m.value()} {
     }
 
-    constexpr message_id_tuple(std::tuple<identifier, identifier> t) noexcept
-      : message_id_tuple{std::get<0>(t), std::get<1>(t)} {
+    constexpr message_id(std::tuple<identifier, identifier> t) noexcept
+      : message_id{std::get<0>(t), std::get<1>(t)} {
     }
 
     template <identifier_t ClassId, identifier_t MethodId>
-    constexpr message_id_tuple(
-      const static_message_id<ClassId, MethodId>&) noexcept
+    constexpr message_id(const static_message_id<ClassId, MethodId>&) noexcept
       : base{ClassId, MethodId} {
     }
 
@@ -99,8 +98,8 @@ struct static_message_id {
 //------------------------------------------------------------------------------
 template <identifier_t ClassId, identifier_t MethodId>
 inline bool operator==(
-  message_id_tuple l, static_message_id<ClassId, MethodId> r) noexcept {
-    return l == message_id_tuple{r};
+  message_id l, static_message_id<ClassId, MethodId> r) noexcept {
+    return l == message_id{r};
 }
 //------------------------------------------------------------------------------
 #define EAGINE_MSG_TYPE(API, NAME) \

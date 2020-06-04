@@ -32,15 +32,14 @@ public:
       , _log{EAGINE_ID(ShtdwnTrgr), bus.log()} {
     }
 
-    void on_subscribed(identifier_t id, const message_id_tuple& sub_msg) final {
+    void on_subscribed(identifier_t id, message_id sub_msg) final {
         if(sub_msg == EAGINE_MSG_ID(Shutdown, shutdown)) {
             _log.info("target ${id} appeared").arg(EAGINE_ID(id), id);
             _targets.insert(id);
         }
     }
 
-    void on_unsubscribed(
-      identifier_t id, const message_id_tuple& sub_msg) final {
+    void on_unsubscribed(identifier_t id, message_id sub_msg) final {
         if(sub_msg == EAGINE_MSG_ID(Shutdown, shutdown)) {
             _log.info("target ${id} disappeared").arg(EAGINE_ID(id), id);
             _targets.erase(id);

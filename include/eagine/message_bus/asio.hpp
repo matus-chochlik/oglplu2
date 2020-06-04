@@ -207,7 +207,7 @@ struct asio_connection_state
         return false;
     }
 
-    bool enqueue(message_id_tuple msg_id, const message_view& message) {
+    bool enqueue(message_id msg_id, const message_view& message) {
         std::unique_lock lock{mutex};
         block_data_sink sink(cover(push_buffer));
         string_serializer_backend backend(sink);
@@ -229,8 +229,7 @@ struct asio_connection_state
         auto unpacker = [this, &handler](memory::const_block data) {
             for_each_data_with_size(data, [this](memory::const_block blk) {
                 unpacked.push_if(
-                  [this, blk](
-                    message_id_tuple& msg_id, stored_message& message) {
+                  [this, blk](message_id& msg_id, stored_message& message) {
                       block_data_source source(blk);
                       string_deserializer_backend backend(source);
                       const auto errors =
@@ -409,7 +408,7 @@ public:
         return _state->is_usable();
     }
 
-    bool send(message_id_tuple msg_id, const message_view& message) final {
+    bool send(message_id msg_id, const message_view& message) final {
         EAGINE_ASSERT(_state);
         return _state->enqueue(msg_id, message);
     }

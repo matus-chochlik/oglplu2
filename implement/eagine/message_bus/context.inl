@@ -80,7 +80,7 @@ context::~context() noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-message_sequence_t context::next_sequence_no(message_id_tuple msg_id) noexcept {
+message_sequence_t context::next_sequence_no(message_id msg_id) noexcept {
 
     auto [pos, newone] = _msg_id_seq.try_emplace(msg_id);
 

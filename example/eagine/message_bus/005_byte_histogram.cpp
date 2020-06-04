@@ -25,8 +25,7 @@ int main(main_ctx& ctx) {
     std::array<span_size_t, 256> byte_counts{};
 
     auto log_byte_hist = [&ctx, &byte_counts](
-                           message_id_tuple msg_id,
-                           msgbus::stored_message& message) {
+                           message_id msg_id, msgbus::stored_message& message) {
         zero(cover(byte_counts));
 
         span_size_t max_count{0};
@@ -51,7 +50,7 @@ int main(main_ctx& ctx) {
         return true;
     };
 
-    auto allow_all_blobs = [&ctx](message_id_tuple) { return true; };
+    auto allow_all_blobs = [&ctx](message_id) { return true; };
 
     msgbus::router_address address{ctx.log(), ctx.args()};
     msgbus::connection_setup conn_setup(ctx.log(), ctx.args());

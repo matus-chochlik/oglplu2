@@ -64,8 +64,7 @@ constexpr auto enumerator_mapping(
        {"signed_data", message_crypto_flag::signed_data}}};
 }
 //------------------------------------------------------------------------------
-static constexpr inline bool is_special_message(
-  message_id_tuple msg_id) noexcept {
+static constexpr inline bool is_special_message(message_id msg_id) noexcept {
     return msg_id.has_class(EAGINE_ID(eagiMsgBus));
 }
 //------------------------------------------------------------------------------
@@ -221,8 +220,7 @@ class message_storage {
 public:
     /// The return value indicates if the message is considered handled
     /// and should be removed.
-    using fetch_handler =
-      callable_ref<bool(message_id_tuple, const message_view&)>;
+    using fetch_handler = callable_ref<bool(message_id, const message_view&)>;
 
     message_storage() {
         _messages.reserve(64);
@@ -236,7 +234,7 @@ public:
         return span_size(_messages.size());
     }
 
-    void push(message_id_tuple msg_id, const message_view& message) {
+    void push(message_id msg_id, const message_view& message) {
         _messages.emplace_back(
           msg_id, stored_message{message, _buffers.get(message.data.size())});
     }
@@ -244,7 +242,7 @@ public:
     template <typename Function>
     bool push_if(Function function, span_size_t req_size = 0) {
         _messages.emplace_back(
-          message_id_tuple{}, stored_message{{}, _buffers.get(req_size)});
+          message_id{}, stored_message{{}, _buffers.get(req_size)});
         auto& [msg_id, message] = _messages.back();
         bool rollback = false;
         try {
@@ -266,7 +264,7 @@ public:
 
 private:
     memory::buffer_pool _buffers;
-    std::vector<std::tuple<message_id_tuple, stored_message>> _messages;
+    std::vector<std::tuple<message_id, stored_message>> _messages;
 };
 //------------------------------------------------------------------------------
 class serialized_message_storage {

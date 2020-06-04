@@ -34,14 +34,12 @@ protected:
     }
 
 public:
-    virtual void on_subscribed(
-      identifier_t subscriber_id, const message_id_tuple&) = 0;
-    virtual void on_unsubscribed(
-      identifier_t subscriber_id, const message_id_tuple&) = 0;
+    virtual void on_subscribed(identifier_t subscriber_id, message_id) = 0;
+    virtual void on_unsubscribed(identifier_t subscriber_id, message_id) = 0;
 
 private:
     bool _handle_subscribed(stored_message& message) {
-        message_id_tuple sub_msg_id{};
+        message_id sub_msg_id{};
         if(default_deserialize_message_type(sub_msg_id, message.content())) {
             on_subscribed(message.source_id, sub_msg_id);
         }
@@ -49,7 +47,7 @@ private:
     }
 
     bool _handle_unsubscribed(stored_message& message) {
-        message_id_tuple sub_msg_id{};
+        message_id sub_msg_id{};
         if(default_deserialize_message_type(sub_msg_id, message.content())) {
             on_unsubscribed(message.source_id, sub_msg_id);
         }

@@ -67,10 +67,10 @@ private:
     bool _check_state();
     bool _update_connections();
 
-    bool _do_send(message_id_tuple, message_view);
-    bool _send(message_id_tuple, message_view);
-    bool _handle_special(message_id_tuple, message_view);
-    bool _do_push(message_id_tuple, message_view);
+    bool _do_send(message_id, message_view);
+    bool _send(message_id, message_view);
+    bool _handle_special(message_id, message_view);
+    bool _do_push(message_id, message_view);
     bool _forward_messages();
 
     logger _log{};

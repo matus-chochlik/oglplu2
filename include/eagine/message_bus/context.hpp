@@ -40,7 +40,7 @@ public:
 
     ~context() noexcept;
 
-    message_sequence_t next_sequence_no(message_id_tuple) noexcept;
+    message_sequence_t next_sequence_no(message_id) noexcept;
 
     bool verify_certificate(sslp::x509 cert);
 
@@ -67,7 +67,7 @@ public:
 private:
     logger _log{};
     //
-    std::map<message_id_tuple, message_sequence_t> _msg_id_seq{};
+    std::map<message_id, message_sequence_t> _msg_id_seq{};
     //
     memory::buffer _own_cert_pem{};
     memory::buffer _ca_cert_pem{};

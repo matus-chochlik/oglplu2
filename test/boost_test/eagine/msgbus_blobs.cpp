@@ -81,11 +81,11 @@ BOOST_AUTO_TEST_CASE(msgbus_pending_blob_2) {
 BOOST_AUTO_TEST_CASE(msgbus_blob_manipulator_1) {
     using namespace eagine;
 
-    std::map<message_id_tuple, memory::buffer> test_blobs{};
+    std::map<message_id, memory::buffer> test_blobs{};
 
     while(test_blobs.size() < test_repeats(200, 1000)) {
-        const auto key = message_id_tuple(
-          rg.get_identifier().value(), rg.get_identifier().value());
+        const auto key =
+          message_id(rg.get_identifier().value(), rg.get_identifier().value());
 
         if(!EAGINE_MSG_ID(eagiMsgBus, blobFrgmnt).matches(key)) {
             test_blobs[key] = memory::buffer{};
@@ -127,7 +127,7 @@ BOOST_AUTO_TEST_CASE(msgbus_blob_manipulator_1) {
                         const msgbus::message_view& msg) -> bool {
         BOOST_CHECK(msg.priority == msgbus::message_priority::critical);
 
-        auto pos = test_blobs.find(message_id_tuple(cid, mid));
+        auto pos = test_blobs.find(message_id(cid, mid));
         BOOST_CHECK(pos != test_blobs.end());
         if(pos != test_blobs.end()) {
             auto& test_blob = pos->second;
@@ -146,11 +146,11 @@ BOOST_AUTO_TEST_CASE(msgbus_blob_manipulator_1) {
 BOOST_AUTO_TEST_CASE(msgbus_blob_manipulator_2) {
     using namespace eagine;
 
-    std::map<message_id_tuple, memory::buffer> test_blobs{};
+    std::map<message_id, memory::buffer> test_blobs{};
 
     while(test_blobs.size() < test_repeats(200, 1000)) {
-        const auto key = message_id_tuple(
-          rg.get_identifier().value(), rg.get_identifier().value());
+        const auto key =
+          message_id(rg.get_identifier().value(), rg.get_identifier().value());
 
         if(!EAGINE_MSG_ID(eagiMsgBus, blobFrgmnt).matches(key)) {
             test_blobs[key] = memory::buffer{};
@@ -179,7 +179,7 @@ BOOST_AUTO_TEST_CASE(msgbus_blob_manipulator_2) {
                         const msgbus::message_view& msg) -> bool {
         BOOST_CHECK(msg.priority == msgbus::message_priority::high);
 
-        auto pos = test_blobs.find(message_id_tuple(cid, mid));
+        auto pos = test_blobs.find(message_id(cid, mid));
         BOOST_CHECK(pos != test_blobs.end());
         if(pos != test_blobs.end()) {
             const auto& test_blob = pos->second;

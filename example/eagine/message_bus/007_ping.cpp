@@ -65,15 +65,14 @@ public:
       , _max{extract_or(max, 100000)} {
     }
 
-    void on_subscribed(identifier_t id, const message_id_tuple& sub_msg) final {
+    void on_subscribed(identifier_t id, message_id sub_msg) final {
         if(sub_msg == EAGINE_MSG_ID(eagiPing, ping)) {
             _log.info("pingable ${id} appeared").arg(EAGINE_ID(id), id);
             _targets.try_emplace(id, ping_stats{});
         }
     }
 
-    void on_unsubscribed(
-      identifier_t id, const message_id_tuple& sub_msg) final {
+    void on_unsubscribed(identifier_t id, message_id sub_msg) final {
         if(sub_msg == EAGINE_MSG_ID(eagiPing, ping)) {
             _log.info("pingable ${id} disappeared").arg(EAGINE_ID(id), id);
         }

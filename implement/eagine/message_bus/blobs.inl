@@ -138,7 +138,7 @@ bool pending_blob::merge_fragment(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool blob_manipulator::push_incoming_fragment(
-  message_id_tuple msg_id,
+  message_id msg_id,
   identifier_t source_id,
   identifier_t blob_id,
   std::int64_t offset,
@@ -227,7 +227,7 @@ bool blob_manipulator::process_incoming(
     block_data_source source{message.data};
     default_deserializer_backend backend(source);
     auto errors = deserialize(header, backend);
-    const message_id_tuple msg_id{class_id, method_id};
+    const message_id msg_id{class_id, method_id};
     if(EAGINE_LIKELY(!errors)) {
         if(EAGINE_LIKELY(total_size <= _max_blob_size)) {
             const bool should_accept = !filter || filter(msg_id);
@@ -291,7 +291,7 @@ inline memory::block blob_manipulator::_scratch_block(span_size_t size) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void blob_manipulator::push_outgoing(
-  message_id_tuple msg_id,
+  message_id msg_id,
   identifier_t target_id,
   memory::const_block blob,
   std::chrono::seconds max_time,
