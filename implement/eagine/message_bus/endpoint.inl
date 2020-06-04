@@ -264,9 +264,9 @@ bool endpoint::post_signed(message_id msg_id, message_view msg_view) {
         return _outgoing.push_if(
           [this, msg_id, &msg_view, max_size](
             message_id& dst_msg_id, stored_message& message) {
+              message.assign(msg_view);
               if(message.store_and_sign(
                    msg_view.data, max_size, ctx(), log())) {
-                  message.assign(msg_view);
                   dst_msg_id = msg_id;
                   return true;
               }

@@ -40,9 +40,28 @@ static inline memory::block store_data_with_size(
     return {};
 }
 //------------------------------------------------------------------------------
+static inline span_size_t skip_data_with_size(
+  memory::const_block src) noexcept {
+    const auto opt_skip_len = mbs::decode_sequence_length(src);
+    if(const auto opt_data_len = mbs::do_decode_code_point(src, opt_skip_len)) {
+        return extract(opt_skip_len) + extract(opt_data_len);
+    }
+    return 0;
+}
+//------------------------------------------------------------------------------
+static inline memory::block get_data_with_size(memory::block src) noexcept {
+    const memory::const_block tmp{src};
+    const auto opt_skip_len = mbs::decode_sequence_length(tmp);
+    if(const auto opt_data_len = mbs::do_decode_code_point(tmp, opt_skip_len)) {
+        return head(
+          skip(src, extract(opt_skip_len)),
+          limit_cast<span_size_t>(extract(opt_data_len)));
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
 static inline memory::const_block get_data_with_size(
   memory::const_block src) noexcept {
-
     const auto opt_skip_len = mbs::decode_sequence_length(src);
     if(const auto opt_data_len = mbs::do_decode_code_point(src, opt_skip_len)) {
         return head(

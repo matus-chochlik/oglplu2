@@ -4,14 +4,44 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <eagine/serialize/size_and_data.hpp>
+#include <eagine/message_bus/context.hpp>
 
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
 bool stored_message::store_and_sign(
-  memory::const_block data, span_size_t, context&, logger&) {
-    // TODO
+  memory::const_block data, span_size_t max_size, context& ctx, logger& log) {
+
+    auto& ssl = ctx.ssl();
+    if(ok md_type{ssl.message_digest_sha256()}) {
+        _buffer.resize(max_size);
+        /* TODO
+        if(auto used = store_data_with_size(data, storage())) {
+            if(ok md_ctx{ssl.new_message_digest()}) {
+                auto cleanup{ssl.delete_message_digest.raii(md_ctx)};
+
+                ctx.message_digest_sign_init(md_ctx, md_type);
+                ssl.message_digest_sign_update(md_ctx, data);
+
+                auto sig{skip(storage(), used.size())};
+                if(sig = ssl.message_digest_sign_final(md_ctx, sig)) {
+                    crypto_flags |= message_crypto_flag::asymmetric;
+                    crypto_flags |= message_crypto_flag::signed_content;
+                    _buffer.resize(used.size() + sig.size());
+                    return true;
+                } else {
+                    log.debug("failed to finish ssl message digest");
+                }
+            } else {
+                log.debug("failed to create ssl message digest")
+                  .arg(EAGINE_ID(reason), (!md_ctx).message());
+            }
+        }
+        */
+    } else {
+        log.debug("failed to get ssl message digest type")
+          .arg(EAGINE_ID(reason), (!md_type).message());
+    }
     copy_into(data, _buffer);
     return true;
 }
@@ -21,6 +51,8 @@ verification_bits stored_message::verify_bits(context&, logger&) const
   noexcept {
     return {};
 }
+//------------------------------------------------------------------------------
+// message_storage
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool message_storage::fetch_all(fetch_handler handler) {

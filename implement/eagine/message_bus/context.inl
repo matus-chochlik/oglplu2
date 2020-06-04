@@ -195,7 +195,8 @@ memory::const_block context::get_remote_certificate_pem(
     return {};
 }
 //------------------------------------------------------------------------------
-EAGINE_LIB_FUNC std::unique_ptr<context> make_context(logger& parent) {
+EAGINE_LIB_FUNC
+std::unique_ptr<context> make_context(logger& parent) {
     return std::make_unique<context>(parent);
 }
 //------------------------------------------------------------------------------

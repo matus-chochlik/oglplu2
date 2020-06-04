@@ -40,6 +40,10 @@ public:
 
     ~context() noexcept;
 
+    auto& ssl() noexcept {
+        return _ssl;
+    }
+
     message_sequence_t next_sequence_no(message_id) noexcept;
 
     bool verify_certificate(sslp::x509 cert);
@@ -64,6 +68,11 @@ public:
         return get_remote_certificate_pem(0);
     }
 
+    auto message_digest_sign_init(
+      sslp::message_digest mdc, sslp::message_digest_type mdt) noexcept {
+        return _ssl.message_digest_sign_init(mdc, mdt, _own_pkey);
+    }
+
 private:
     logger _log{};
     //
@@ -77,6 +86,7 @@ private:
     sslp::owned_x509_store _ssl_store{};
     sslp::owned_x509 _own_cert{};
     sslp::owned_x509 _ca_cert{};
+    sslp::owned_pkey _own_pkey{};
     //
     std::map<identifier_t, context_remote_node> _remotes{};
 };

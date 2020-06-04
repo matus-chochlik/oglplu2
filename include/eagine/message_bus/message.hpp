@@ -19,6 +19,7 @@
 #include "../memory/span_algo.hpp"
 #include "../message_id.hpp"
 #include "../reflect/map_enumerators.hpp"
+#include "../serialize/size_and_data.hpp"
 #include "context_fwd.hpp"
 #include "types.hpp"
 #include "verification.hpp"
@@ -51,7 +52,7 @@ constexpr auto enumerator_mapping(
 enum class message_crypto_flag : std::uint8_t {
     asymmetric,
     signed_header,
-    signed_data
+    signed_content
 };
 using message_crypto_flags = bitfield<message_crypto_flag>;
 //------------------------------------------------------------------------------
@@ -61,7 +62,7 @@ constexpr auto enumerator_mapping(
     return enumerator_map_type<message_crypto_flag, 3>{
       {{"asymmetric", message_crypto_flag::asymmetric},
        {"signed_header", message_crypto_flag::signed_header},
-       {"signed_data", message_crypto_flag::signed_data}}};
+       {"signed_content", message_crypto_flag::signed_content}}};
 }
 //------------------------------------------------------------------------------
 static constexpr inline bool is_special_message(message_id msg_id) noexcept {
@@ -166,7 +167,7 @@ public:
     }
 
     operator message_view() const {
-        return {*this, view(_buffer)};
+        return {*this, data()};
     }
 
     template <typename Source>
@@ -187,12 +188,38 @@ public:
     template <typename Value>
     bool fetch_value(Value& value);
 
-    memory::block content() noexcept {
+    memory::block storage() noexcept {
         return cover(_buffer);
     }
 
-    memory::const_block content() const noexcept {
+    memory::const_block data() const noexcept {
         return view(_buffer);
+    }
+
+    bool is_signed() const noexcept {
+        return crypto_flags.has(message_crypto_flag::signed_content) ||
+               crypto_flags.has(message_crypto_flag::signed_header);
+    }
+
+    memory::const_block signature() const noexcept {
+        if(is_signed()) {
+            return skip(data(), skip_data_with_size(data()));
+        }
+        return {};
+    }
+
+    memory::block content() noexcept {
+        if(EAGINE_UNLIKELY(is_signed())) {
+            return get_data_with_size(storage());
+        }
+        return storage();
+    }
+
+    memory::const_block content() const noexcept {
+        if(EAGINE_UNLIKELY(is_signed())) {
+            return get_data_with_size(data());
+        }
+        return data();
     }
 
     auto text_content() noexcept {
