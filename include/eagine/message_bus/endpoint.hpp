@@ -286,7 +286,7 @@ public:
     }
 
     bool respond_to(const message_info& info, message_id msg_id) {
-        return respond_to(info, msg_id);
+        return respond_to(info, msg_id, {});
     }
 
     using method_handler = callable_ref<bool(stored_message&)>;
