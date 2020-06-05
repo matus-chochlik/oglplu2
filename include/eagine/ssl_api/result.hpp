@@ -27,6 +27,10 @@ public:
         return {"OpenSSL function not available"};
     }
 
+    constexpr ssl_no_result_info& set_unknown_error() noexcept {
+        return *this;
+    }
+
 private:
 };
 //------------------------------------------------------------------------------

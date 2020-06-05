@@ -70,7 +70,10 @@ public:
 
     auto message_digest_sign_init(
       sslp::message_digest mdc, sslp::message_digest_type mdt) noexcept {
-        return _ssl.message_digest_sign_init(mdc, mdt, _own_pkey);
+        if(_own_pkey) {
+            return _ssl.message_digest_sign_init(mdc, mdt, _own_pkey);
+        }
+        return _ssl.message_digest_sign_init.fake();
     }
 
 private:

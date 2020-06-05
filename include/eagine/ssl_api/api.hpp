@@ -109,6 +109,12 @@ public:
         constexpr auto operator()(Params... params) const noexcept {
             return this->_chkcall(_conv(params)...).cast_to(identity<RVC>{});
         }
+
+        constexpr auto fake() const noexcept {
+            auto result{this->_fake(0)};
+            result.set_unknown_error();
+            return result;
+        }
     };
 
     // null_ui
