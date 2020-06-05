@@ -32,6 +32,7 @@ struct basic_ssl_c_api {
     using api_traits = Traits;
 
     static constexpr bool has_api = ssl_types::has_api;
+    using ui_method_type = ssl_types::ui_method_type;
     using engine_type = ssl_types::engine_type;
     using bio_method_type = ssl_types::bio_method_type;
     using bio_type = ssl_types::bio_type;
@@ -82,6 +83,18 @@ struct basic_ssl_c_api {
       void(unsigned long, char*, size_t),
       EAGINE_SSL_STATIC_FUNC(ERR_error_string_n)>
       err_error_string_n;
+
+    // ui method
+    ssl_api_function<const ui_method_type*(), EAGINE_SSL_STATIC_FUNC(UI_null)>
+      ui_null;
+
+    ssl_api_function<ui_method_type*(), EAGINE_SSL_STATIC_FUNC(UI_OpenSSL)>
+      ui_openssl;
+
+    ssl_api_function<
+      const ui_method_type*(),
+      EAGINE_SSL_STATIC_FUNC(UI_get_default_method)>
+      ui_get_default_method;
 
     // engine
     ssl_api_function<
@@ -164,6 +177,16 @@ struct basic_ssl_c_api {
       int(engine_type*),
       EAGINE_SSL_STATIC_FUNC(ENGINE_set_default_digests)>
       engine_set_default_digests;
+
+    ssl_api_function<
+      evp_pkey_type*(engine_type*, const char*, ui_method_type*, void*),
+      EAGINE_SSL_STATIC_FUNC(ENGINE_load_private_key)>
+      engine_load_private_key;
+
+    ssl_api_function<
+      evp_pkey_type*(engine_type*, const char*, ui_method_type*, void*),
+      EAGINE_SSL_STATIC_FUNC(ENGINE_load_public_key)>
+      engine_load_public_key;
 
     // bio
     ssl_api_function<
@@ -611,6 +634,9 @@ struct basic_ssl_c_api {
       : err_get_error("ERR_get_error", traits, *this)
       , err_peek_error("ERR_peek_error", traits, *this)
       , err_error_string_n("ERR_error_string_n", traits, *this)
+      , ui_null("UI_null", traits, *this)
+      , ui_openssl("UI_OpenSSL", traits, *this)
+      , ui_get_default_method("UI_get_default_method", traits, *this)
       , engine_load_builtin_engines(
           "ENGINE_load_builtin_engines", traits, *this)
       , engine_get_first("ENGINE_get_first", traits, *this)
@@ -631,6 +657,8 @@ struct basic_ssl_c_api {
       , engine_set_default_rand("ENGINE_set_default_RAND", traits, *this)
       , engine_set_default_ciphers("ENGINE_set_default_CIPHERS", traits, *this)
       , engine_set_default_digests("ENGINE_set_default_DIGESTS", traits, *this)
+      , engine_load_private_key("ENGINE_load_private_key", traits, *this)
+      , engine_load_public_key("ENGINE_load_public_key", traits, *this)
       , bio_new("BIO_new", traits, *this)
       , bio_new_mem_buf("BIO_new_mem_buf", traits, *this)
       , bio_up_ref("BIO_up_ref", traits, *this)

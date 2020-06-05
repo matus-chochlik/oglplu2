@@ -16,6 +16,7 @@
 namespace eagine {
 namespace sslp {
 //------------------------------------------------------------------------------
+using ui_method_tag = EAGINE_MSG_TYPE(ssl, UIMethod);
 using engine_tag = EAGINE_MSG_TYPE(ssl, Engine);
 using basic_io_tag = EAGINE_MSG_TYPE(ssl, BIO);
 using basic_io_method_tag = EAGINE_MSG_TYPE(ssl, BIOMethod);
@@ -32,6 +33,9 @@ using x509_store_tag = EAGINE_MSG_TYPE(ssl, X509Store);
 using x509_crl_tag = EAGINE_MSG_TYPE(ssl, X509Crl);
 using x509_tag = EAGINE_MSG_TYPE(ssl, X509);
 //------------------------------------------------------------------------------
+using ui_method =
+  basic_handle<ui_method_tag, ssl_types::ui_method_type*, nullptr>;
+
 using engine = basic_handle<engine_tag, ssl_types::engine_type*, nullptr>;
 
 using basic_io = basic_handle<basic_io_tag, ssl_types::bio_type*, nullptr>;

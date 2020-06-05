@@ -30,6 +30,7 @@ namespace sslp {
 struct ssl_types {
 #if EAGINE_HAS_SSL
     static constexpr bool has_api = true;
+    using ui_method_type = ::UI_METHOD;
     using engine_type = ::ENGINE;
     using bio_method_type = ::BIO_METHOD;
     using bio_type = ::BIO;

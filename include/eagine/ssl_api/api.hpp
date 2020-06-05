@@ -111,6 +111,24 @@ public:
         }
     };
 
+    // null_ui
+    struct : func<SSLPAFP(ui_null)> {
+        using func<SSLPAFP(ui_null)>::func;
+
+        constexpr auto operator()() const noexcept {
+            return this->_chkcall().cast_to(identity<ui_method>{});
+        }
+    } null_ui;
+
+    // openssl_ui
+    struct : func<SSLPAFP(ui_openssl)> {
+        using func<SSLPAFP(ui_openssl)>::func;
+
+        constexpr auto operator()() const noexcept {
+            return this->_chkcall().cast_to(identity<ui_method>{});
+        }
+    } openssl_ui;
+
     // load_builtin_engines
     struct : func<SSLPAFP(engine_load_builtin_engines)> {
         using func<SSLPAFP(engine_load_builtin_engines)>::func;
@@ -293,6 +311,26 @@ public:
         }
     } set_default_digests;
 
+    // load_engine_private_key
+    struct : func<SSLPAFP(engine_load_private_key)> {
+        using func<SSLPAFP(engine_load_private_key)>::func;
+
+        constexpr auto operator()(engine eng, string_view key_id) const
+          noexcept {
+            return this->_cnvchkcall(eng, key_id, this->ui_openssl());
+        }
+    } load_engine_private_key;
+
+    // load_engine_public_key
+    struct : func<SSLPAFP(engine_load_public_key)> {
+        using func<SSLPAFP(engine_load_public_key)>::func;
+
+        constexpr auto operator()(engine eng, string_view key_id) const
+          noexcept {
+            return this->_cnvchkcall(eng, key_id, this->ui_openssl());
+        }
+    } load_engine_public_key;
+
     // new_basic_io
     struct : func<SSLPAFP(bio_new)> {
         using func<SSLPAFP(bio_new)>::func;
@@ -350,6 +388,15 @@ public:
         }
 
     } random_bytes;
+
+    // copy_pkey
+    struct : func<SSLPAFP(evp_pkey_up_ref)> {
+        using func<SSLPAFP(evp_pkey_up_ref)>::func;
+
+        constexpr auto operator()(pkey pky) const noexcept {
+            return this->_cnvchkcall(pky).replaced_with(owned_pkey(pky));
+        }
+    } copy_pkey;
 
     // delete_pkey
     struct : func<SSLPAFP(evp_pkey_free)> {
@@ -1222,6 +1269,8 @@ public:
 
     constexpr basic_ssl_operations(api_traits& traits)
       : c_api{traits}
+      , null_ui("null_ui", traits, *this)
+      , openssl_ui("openssl_ui", traits, *this)
       , load_builtin_engines("load_builtin_engines", traits, *this)
       , get_first_engine("get_first_engine", traits, *this)
       , get_last_engine("get_last_engine", traits, *this)
@@ -1241,11 +1290,14 @@ public:
       , set_default_rand("set_default_rand", traits, *this)
       , set_default_ciphers("set_default_ciphers", traits, *this)
       , set_default_digests("set_default_digests", traits, *this)
+      , load_engine_private_key("load_engine_private_key", traits, *this)
+      , load_engine_public_key("load_engine_public_key", traits, *this)
       , new_basic_io("new_basic_io", traits, *this)
       , new_block_basic_io("new_block_basic_io", traits, *this)
       , delete_basic_io("delete_basic_io", traits, *this)
       , delete_all_basic_ios("delete_all_basic_ios", traits, *this)
       , random_bytes("random_bytes", traits, *this)
+      , copy_pkey("copy_pkey", traits, *this)
       , delete_pkey("delete_pkey", traits, *this)
       , cipher_aes_128_ctr("cipher_aes_128_ctr", traits, *this)
       , cipher_aes_128_ccm("cipher_aes_128_ccm", traits, *this)
