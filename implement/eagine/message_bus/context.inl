@@ -49,6 +49,28 @@ context::context(logger& parent, const program_args& args)
                 }
                 arg = arg.next();
             }
+        } else if(arg.is_tag("--msg-bus-pkey-id")) {
+            if(arg.next().parse(temp, _log.error_stream())) {
+                if(ok uim_result{_ssl.openssl_ui()}) {
+                    if(ok pkey_result{_ssl.load_engine_private_key(
+                         _ssl_engine, temp, uim_result)}) {
+                        if(_own_pkey) {
+                            _ssl.delete_pkey(_own_pkey);
+                        }
+                        _own_pkey = std::move(pkey_result.get());
+                        _log.info("successfully loaded ssl key ${keyId}")
+                          .arg(EAGINE_ID(keyId), temp);
+                    } else {
+                        _log.error("failed load ssl key ${keyId}: ${reason}")
+                          .arg(EAGINE_ID(keyId), temp)
+                          .arg(EAGINE_ID(reason), (!pkey_result).message());
+                    }
+                } else {
+                    _log.error("failed get ssl ui method: ${reason}")
+                      .arg(EAGINE_ID(reason), (!uim_result).message());
+                }
+                arg = arg.next();
+            }
         }
     }
 }
@@ -59,6 +81,10 @@ context::~context() noexcept {
         auto& info = std::get<1>(remote);
         _ssl.delete_pkey(info.pubkey);
         _ssl.delete_x509(info.cert);
+    }
+
+    if(_own_pkey) {
+        _ssl.delete_pkey(_own_pkey);
     }
 
     if(_ca_cert) {
