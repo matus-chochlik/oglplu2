@@ -315,9 +315,10 @@ public:
     struct : func<SSLPAFP(engine_load_private_key)> {
         using func<SSLPAFP(engine_load_private_key)>::func;
 
-        constexpr auto operator()(engine eng, string_view key_id) const
-          noexcept {
-            return this->_cnvchkcall(eng, key_id, this->ui_openssl());
+        constexpr auto operator()(
+          engine eng, string_view key_id, ui_method uim) const noexcept {
+            return this->_cnvchkcall(eng, key_id, uim, nullptr)
+              .cast_to(identity<owned_pkey>{});
         }
     } load_engine_private_key;
 
@@ -327,7 +328,8 @@ public:
 
         constexpr auto operator()(engine eng, string_view key_id) const
           noexcept {
-            return this->_cnvchkcall(eng, key_id, this->ui_openssl());
+            return this->_cnvchkcall(eng, key_id, this->ui_openssl())
+              .cast_to(identity<owned_pkey>{});
         }
     } load_engine_public_key;
 
@@ -407,7 +409,7 @@ public:
         }
 
         auto raii(owned_pkey& pky) const noexcept {
-            return eagine::finally([=]() { (*this)(pky); });
+            return eagine::finally([this, &pky]() { (*this)(pky); });
         }
 
     } delete_pkey;
