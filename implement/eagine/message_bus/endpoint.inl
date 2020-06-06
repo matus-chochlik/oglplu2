@@ -31,10 +31,16 @@ bool endpoint::_process_blobs() {
 EAGINE_LIB_FUNC
 bool endpoint::_do_allow_blob(message_id msg_id) {
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
-        if(EAGINE_UNLIKELY(msg_id.has_method(EAGINE_ID(eptCertPem)))) {
+        if(msg_id.has_method(EAGINE_ID(eptCertPem))) {
             return true;
         }
-        if(EAGINE_UNLIKELY(msg_id.has_method(EAGINE_ID(rtrCertPem)))) {
+        if(msg_id.has_method(EAGINE_ID(eptSigNnce))) {
+            return true;
+        }
+        if(msg_id.has_method(EAGINE_ID(eptNnceSig))) {
+            return true;
+        }
+        if(msg_id.has_method(EAGINE_ID(rtrCertPem))) {
             return true;
         }
     }
@@ -100,6 +106,36 @@ bool endpoint::_handle_special(
                  message.source_id, view(message.data))) {
                 _log.debug("verified and stored remote endpoint certificate")
                   .arg(EAGINE_ID(source), message.source_id);
+
+                if(auto nonce{_context->get_remote_nonce(message.source_id)}) {
+                    post_blob(
+                      EAGINE_MSG_ID(eagiMsgBus, eptSigNnce),
+                      message.source_id,
+                      nonce,
+                      std::chrono::seconds(30),
+                      message_priority::normal);
+                    _log.debug("sending nonce sign request")
+                      .arg(EAGINE_ID(target), message.source_id);
+                }
+            }
+            return true;
+        } else if(msg_id.has_method(EAGINE_ID(eptSigNnce))) {
+            if(auto signature{_context->get_own_signature(message.data)}) {
+                post_blob(
+                  EAGINE_MSG_ID(eagiMsgBus, eptNnceSig),
+                  message.source_id,
+                  signature,
+                  std::chrono::seconds(30),
+                  message_priority::normal);
+                _log.debug("sending nonce signature")
+                  .arg(EAGINE_ID(target), message.source_id);
+            }
+            return true;
+        } else if(msg_id.has_method(EAGINE_ID(eptNnceSig))) {
+            if(_context->verify_remote_signature(
+                 message.data, message.source_id)) {
+                _log.debug("verified nonce signature")
+                  .arg(EAGINE_ID(source), message.source_id);
             }
             return true;
         } else if(msg_id.has_method(EAGINE_ID(rtrCertPem))) {
@@ -117,7 +153,7 @@ bool endpoint::_handle_special(
           .arg(EAGINE_ID(data), message.data);
     }
     return false;
-}
+} // namespace msgbus
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool endpoint::_store_message(message_id msg_id, const message_view& message) {

@@ -17,15 +17,19 @@
 #include "../ssl_api.hpp"
 #include "context_fwd.hpp"
 #include "types.hpp"
+#include <array>
 #include <map>
+#include <random>
 
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
 struct context_remote_node {
+    std::array<byte, 256> nonce{};
     memory::buffer cert_pem;
     sslp::owned_x509 cert{};
     sslp::owned_pkey pubkey{};
+    bool verified_key{false};
 };
 //------------------------------------------------------------------------------
 class context {
@@ -68,6 +72,9 @@ public:
         return get_remote_certificate_pem(0);
     }
 
+    memory::const_block get_remote_nonce(identifier_t) const noexcept;
+    bool verified_remote_key(identifier_t) const noexcept;
+
     decltype(std::declval<sslp::ssl_api&>().message_digest_sign_init.fake())
     message_digest_sign_init(
       sslp::message_digest mdc, sslp::message_digest_type mdt) noexcept;
@@ -78,9 +85,13 @@ public:
       sslp::message_digest_type mdt,
       identifier_t node_id) noexcept;
 
+    memory::const_block get_own_signature(memory::const_block);
+    bool verify_remote_signature(memory::const_block, identifier_t);
+
 private:
     logger _log{};
     //
+    std::mt19937_64 _rand_engine{std::random_device{}()};
     std::map<message_id, message_sequence_t> _msg_id_seq{};
     //
     memory::buffer _own_cert_pem{};

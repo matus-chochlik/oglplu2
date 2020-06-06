@@ -75,6 +75,10 @@ verification_bits stored_message::verify_bits(context& ctx, logger& log) const
                          ssl.message_digest_verify_final(md_ctx, signature()),
                          false)) {
 
+                        if(ctx.verified_remote_key(source_id)) {
+                            result |= verification_bit::source_private_key;
+                        }
+
                         result |= verification_bit::source_certificate;
                         result |= verification_bit::message_content;
 

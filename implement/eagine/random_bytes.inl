@@ -13,20 +13,36 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-// demangle_type_name
+template <typename Engine>
+void do_fill_with_random_bytes(span<byte> buffer, Engine& engine) {
+
+    using ui_t = typename Engine::result_type;
+
+    const ui_t mask = ((1U << unsigned(CHAR_BIT)) - 1U);
+    std::independent_bits_engine<Engine, CHAR_BIT, ui_t> ibe(engine);
+
+    auto gen = [&ibe, mask] { return static_cast<byte>(ibe() & mask); };
+
+    std::generate(buffer.begin(), buffer.end(), gen);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void fill_with_random_bytes(
+  span<byte> buffer, any_random_engine<std::uint32_t> engine) {
+    return do_fill_with_random_bytes(buffer, engine);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void fill_with_random_bytes(
+  span<byte> buffer, any_random_engine<std::uint64_t> engine) {
+    return do_fill_with_random_bytes(buffer, engine);
+}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void fill_with_random_bytes(span<byte> buffer) {
-
-    const unsigned mask = ((1U << unsigned(CHAR_BIT)) - 1U);
-
     std::random_device rd;
     std::mt19937 re(rd());
-    std::independent_bits_engine<std::mt19937, CHAR_BIT, unsigned> ibe(re);
-
-    auto gen = [&ibe] { return static_cast<byte>(ibe() & mask); };
-
-    std::generate(buffer.begin(), buffer.end(), gen);
+    return do_fill_with_random_bytes(buffer, re);
 }
 //------------------------------------------------------------------------------
 } // namespace eagine

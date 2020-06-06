@@ -6,6 +6,7 @@
  */
 #include <eagine/memory/copy.hpp>
 #include <eagine/message_bus/context.hpp>
+#include <eagine/random_bytes.hpp>
 
 namespace eagine {
 namespace msgbus {
@@ -193,6 +194,8 @@ bool context::add_remote_certificate_pem(
             if(verify_certificate(info.cert)) {
                 if(ok pubkey{_ssl.get_x509_pubkey(info.cert)}) {
                     info.pubkey = std::move(pubkey.get());
+                    fill_with_random_bytes(
+                      cover(info.nonce), any_random_engine{_rand_engine});
                     return true;
                 } else {
                     _log.error("failed to get remote node x509 public key")
@@ -222,6 +225,25 @@ memory::const_block context::get_remote_certificate_pem(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+memory::const_block context::get_remote_nonce(identifier_t node_id) const
+  noexcept {
+    auto pos = _remotes.find(node_id);
+    if(pos != _remotes.end()) {
+        return view(std::get<1>(*pos).nonce);
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+bool context::verified_remote_key(identifier_t node_id) const noexcept {
+    auto pos = _remotes.find(node_id);
+    if(pos != _remotes.end()) {
+        return std::get<1>(*pos).verified_key;
+    }
+    return false;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 decltype(std::declval<sslp::ssl_api&>().message_digest_sign_init.fake())
 context::message_digest_sign_init(
   sslp::message_digest mdc, sslp::message_digest_type mdt) noexcept {
@@ -246,6 +268,22 @@ context::message_digest_verify_init(
           .arg(EAGINE_ID(endpoint), node_id);
     }
     return _ssl.message_digest_verify_init.fake();
+}
+//------------------------------------------------------------------------------
+memory::const_block context::get_own_signature(memory::const_block nonce) {
+    // TODO
+    return nonce;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+bool context::verify_remote_signature(
+  memory::const_block, identifier_t node_id) {
+    auto pos = _remotes.find(node_id);
+    if(pos != _remotes.end()) {
+        // TODO
+        return false;
+    }
+    return false;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
