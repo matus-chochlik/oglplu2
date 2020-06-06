@@ -75,6 +75,7 @@ verification_bits stored_message::verify_bits(context& ctx, logger& log) const
                          ssl.message_digest_verify_final(md_ctx, signature()),
                          false)) {
 
+                        result |= verification_bit::source_certificate;
                         result |= verification_bit::message_content;
 
                     } else {
