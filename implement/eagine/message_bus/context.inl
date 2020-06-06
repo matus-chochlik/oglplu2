@@ -222,6 +222,30 @@ memory::const_block context::get_remote_certificate_pem(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+decltype(std::declval<sslp::ssl_api&>().message_digest_sign_init.fake())
+context::message_digest_sign_init(
+  sslp::message_digest mdc, sslp::message_digest_type mdt) noexcept {
+    if(_own_pkey) {
+        return _ssl.message_digest_sign_init(mdc, mdt, _own_pkey);
+    }
+    return _ssl.message_digest_sign_init.fake();
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+decltype(std::declval<sslp::ssl_api&>().message_digest_verify_init.fake())
+context::message_digest_verify_init(
+  sslp::message_digest mdc,
+  sslp::message_digest_type mdt,
+  identifier_t node_id) noexcept {
+    auto pos = _remotes.find(node_id);
+    if(pos != _remotes.end()) {
+        return _ssl.message_digest_verify_init(
+          mdc, mdt, std::get<1>(*pos).pubkey);
+    }
+    return _ssl.message_digest_verify_init.fake();
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 std::unique_ptr<context> make_context(logger& parent) {
     return std::make_unique<context>(parent);
 }

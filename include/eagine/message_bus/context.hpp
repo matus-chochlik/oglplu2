@@ -68,13 +68,15 @@ public:
         return get_remote_certificate_pem(0);
     }
 
-    auto message_digest_sign_init(
-      sslp::message_digest mdc, sslp::message_digest_type mdt) noexcept {
-        if(_own_pkey) {
-            return _ssl.message_digest_sign_init(mdc, mdt, _own_pkey);
-        }
-        return _ssl.message_digest_sign_init.fake();
-    }
+    decltype(std::declval<sslp::ssl_api&>().message_digest_sign_init.fake())
+    message_digest_sign_init(
+      sslp::message_digest mdc, sslp::message_digest_type mdt) noexcept;
+
+    decltype(std::declval<sslp::ssl_api&>().message_digest_verify_init.fake())
+    message_digest_verify_init(
+      sslp::message_digest mdc,
+      sslp::message_digest_type mdt,
+      identifier_t node_id) noexcept;
 
 private:
     logger _log{};

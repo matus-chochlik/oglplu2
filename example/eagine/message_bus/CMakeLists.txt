@@ -7,7 +7,7 @@
 eagine_example_common(001_loopback)
 eagine_example_common(002_direct)
 eagine_example_common(003_shutdown eagine-common-pki)
-eagine_example_common(004_discovery)
+eagine_example_common(004_discovery eagine-common-pki)
 eagine_example_common(005_broadcast_blob)
 eagine_example_common(005_byte_histogram)
 eagine_example_common(006_ping)

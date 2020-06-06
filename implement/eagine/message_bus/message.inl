@@ -19,19 +19,25 @@ bool stored_message::store_and_sign(
             if(ok md_ctx{ssl.new_message_digest()}) {
                 auto cleanup{ssl.delete_message_digest.raii(md_ctx)};
 
-                if(ctx.message_digest_sign_init(md_ctx, md_type)) {
-                    ssl.message_digest_sign_update(md_ctx, data);
+                if(EAGINE_LIKELY(
+                     ctx.message_digest_sign_init(md_ctx, md_type))) {
+                    if(EAGINE_LIKELY(
+                         ssl.message_digest_sign_update(md_ctx, data))) {
 
-                    auto free{skip(storage(), used.size())};
-                    if(ok sig{ssl.message_digest_sign_final(md_ctx, free)}) {
-                        crypto_flags |= message_crypto_flag::asymmetric;
-                        crypto_flags |= message_crypto_flag::signed_content;
-                        _buffer.resize(used.size() + sig.get().size());
-                        return true;
+                        auto free{skip(storage(), used.size())};
+                        if(ok sig{
+                             ssl.message_digest_sign_final(md_ctx, free)}) {
+                            crypto_flags |= message_crypto_flag::asymmetric;
+                            crypto_flags |= message_crypto_flag::signed_content;
+                            _buffer.resize(used.size() + sig.get().size());
+                            return true;
+                        } else {
+                            log.debug("failed to finish ssl signature")
+                              .arg(EAGINE_ID(freeSize), free.size())
+                              .arg(EAGINE_ID(reason), (!sig).message());
+                        }
                     } else {
-                        log.debug("failed to finish ssl sign context")
-                          .arg(EAGINE_ID(freeSize), free.size())
-                          .arg(EAGINE_ID(reason), (!sig).message());
+                        log.debug("failed to update ssl signature");
                     }
                 } else {
                     log.debug("failed to init ssl sign context");
@@ -53,9 +59,42 @@ bool stored_message::store_and_sign(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-verification_bits stored_message::verify_bits(context&, logger&) const
+verification_bits stored_message::verify_bits(context& ctx, logger& log) const
   noexcept {
-    return {};
+    verification_bits result{};
+    auto& ssl = ctx.ssl();
+    if(ok md_type{ssl.message_digest_sha256()}) {
+        if(ok md_ctx{ssl.new_message_digest()}) {
+            auto cleanup{ssl.delete_message_digest.raii(md_ctx)};
+
+            if(EAGINE_LIKELY(
+                 ctx.message_digest_verify_init(md_ctx, md_type, source_id))) {
+                if(EAGINE_LIKELY(
+                     ssl.message_digest_verify_update(md_ctx, content()))) {
+                    if(extract_or(
+                         ssl.message_digest_verify_final(md_ctx, signature()),
+                         false)) {
+
+                        result |= verification_bit::message_content;
+
+                    } else {
+                        log.debug("failed to finish ssl verification");
+                    }
+                } else {
+                    log.debug("failed to update ssl verify context");
+                }
+            } else {
+                log.debug("failed to init ssl verify context");
+            }
+        } else {
+            log.debug("failed to create ssl message digest")
+              .arg(EAGINE_ID(reason), (!md_ctx).message());
+        }
+    } else {
+        log.debug("failed to get ssl message digest type")
+          .arg(EAGINE_ID(reason), (!md_type).message());
+    }
+    return result;
 }
 //------------------------------------------------------------------------------
 // message_storage

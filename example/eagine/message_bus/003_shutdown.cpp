@@ -71,7 +71,7 @@ int main(main_ctx& ctx) {
     msgbus::shutdown_trigger trgr{bus};
     conn_setup.setup_connectors(trgr, address);
 
-    timeout wait_done{std::chrono::seconds(10)};
+    timeout wait_done{std::chrono::seconds(30)};
 
     while(!wait_done) {
         trgr.update();

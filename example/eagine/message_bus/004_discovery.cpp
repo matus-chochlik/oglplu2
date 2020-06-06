@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include "lib_common_pki.hpp"
 #include <eagine/main.hpp>
 #include <eagine/message_bus/conn_setup.hpp>
 #include <eagine/message_bus/router_address.hpp>
@@ -76,11 +77,14 @@ int main(main_ctx& ctx) {
     msgbus::connection_setup conn_setup(ctx.log(), ctx.args());
 
     msgbus::endpoint bus{logger{EAGINE_ID(DiscoverEx), ctx.log()}};
+    bus.add_ca_certificate_pem(ca_certificate_pem(ctx));
+
     msgbus::subscription_logger sub_log{bus};
 
     conn_setup.setup_connectors(sub_log, address);
+    timeout waited_too_long{std::chrono::minutes(1)};
 
-    while(!(interrupted || sub_log.is_done())) {
+    while(!(interrupted || sub_log.is_done() || waited_too_long)) {
         sub_log.update();
         if(!sub_log.process_all()) {
             std::this_thread::sleep_for(std::chrono::milliseconds(250));

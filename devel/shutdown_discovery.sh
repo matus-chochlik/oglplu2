@@ -26,7 +26,7 @@ ${install_prefix}/share/oglplus/examples/eagine-003_shutdown \
 	"${ssl_args[@]}" \
 	"${conn_args[@]}" \
 	& pids+=($!)
-sleep 5
+sleep 10
 ${install_prefix}/share/oglplus/examples/eagine-004_discovery \
 	"${log_args[@]}" \
 	"${conn_args[@]}" \
