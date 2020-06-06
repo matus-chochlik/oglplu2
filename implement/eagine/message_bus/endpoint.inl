@@ -302,7 +302,7 @@ bool endpoint::update() {
         // send the endpoint id through all connections
         _do_send(EAGINE_MSG_ID(eagiMsgBus, announceId), {});
         // send request for router certificate
-        _do_send(EAGINE_MSG_ID(eagiMsgBus, rtrCertReq), {});
+        _do_send(EAGINE_MSG_ID(eagiMsgBus, rtrCertQry), {});
         something_done();
     }
 
@@ -434,6 +434,16 @@ EAGINE_LIB_FUNC
 void endpoint::allow_message_type(message_id msg_id) {
     log().debug("allowing message ${message}").arg(EAGINE_ID(message), msg_id);
     post_meta_message(EAGINE_MSG_ID(eagiMsgBus, msgAlwList), msg_id);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void endpoint::query_certificate_of(identifier_t endpoint_id) {
+    log()
+      .debug("querying certificate of endpoint ${endpoint}")
+      .arg(EAGINE_ID(endpoint), endpoint_id);
+    message_view msg{};
+    msg.set_target_id(endpoint_id);
+    post(EAGINE_MSG_ID(eagiMsgBus, eptCertQry), msg);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

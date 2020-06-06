@@ -190,7 +190,7 @@ bool blob_manipulator::push_incoming_fragment(
         _incoming.emplace_back();
         auto& pending = _incoming.back();
         pending.msg_id = msg_id;
-        pending.endpoint_id = source_id;
+        pending.source_id = source_id;
         pending.blob_id = blob_id;
         pending.blob = _buffers.get(span_size(total_size));
         pending.max_time = timeout{std::chrono::seconds(60)};
@@ -292,6 +292,7 @@ inline memory::block blob_manipulator::_scratch_block(span_size_t size) {
 EAGINE_LIB_FUNC
 void blob_manipulator::push_outgoing(
   message_id msg_id,
+  identifier_t source_id,
   identifier_t target_id,
   memory::const_block blob,
   std::chrono::seconds max_time,
@@ -299,7 +300,8 @@ void blob_manipulator::push_outgoing(
     _outgoing.emplace_back();
     auto& pending = _outgoing.back();
     pending.msg_id = msg_id;
-    pending.endpoint_id = target_id;
+    pending.source_id = source_id;
+    pending.target_id = target_id;
     pending.blob_id = ++_blob_id_sequence;
     pending.blob = _buffers.get(blob.size());
     copy(blob, cover(pending.blob));
@@ -333,7 +335,8 @@ bool blob_manipulator::process_outgoing(
                 if(auto written = sink.write_some(pending.current)) {
                     pending.current = extract(written);
                     message_view message(sink.done());
-                    message.set_target_id(pending.endpoint_id);
+                    message.set_source_id(pending.source_id);
+                    message.set_target_id(pending.target_id);
                     message.set_priority(pending.priority);
                     something_done(do_send(msg_id, message));
                 } else {
@@ -365,7 +368,8 @@ span_size_t blob_manipulator::fetch_all(
               .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), pending.blob.size());
 
             message_view message{view(pending.blob)};
-            message.set_source_id(pending.endpoint_id);
+            message.set_source_id(pending.source_id);
+            message.set_target_id(pending.target_id);
             message.set_priority(pending.priority);
             handle_fetch(pending.msg_id, message);
             _buffers.eat(std::move(pending.blob));

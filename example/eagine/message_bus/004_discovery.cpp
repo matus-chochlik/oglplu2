@@ -35,6 +35,7 @@ public:
         _log.info("endpoint ${subscrbr} subscribed to ${message}")
           .arg(EAGINE_ID(subscrbr), subscriber_id)
           .arg(EAGINE_ID(message), sub_msg);
+        this->bus().query_certificate_of(subscriber_id);
     }
 
     void on_unsubscribed(identifier_t subscriber_id, message_id sub_msg) final {
@@ -78,6 +79,7 @@ int main(main_ctx& ctx) {
 
     msgbus::endpoint bus{logger{EAGINE_ID(DiscoverEx), ctx.log()}};
     bus.add_ca_certificate_pem(ca_certificate_pem(ctx));
+    bus.add_certificate_pem(msgbus_endpoint_certificate_pem(ctx));
 
     msgbus::subscription_logger sub_log{bus};
 

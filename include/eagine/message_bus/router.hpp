@@ -92,11 +92,13 @@ public:
 
     void post_blob(
       message_id msg_id,
+      identifier_t source_id,
       identifier_t target_id,
       memory::const_block blob,
       std::chrono::seconds max_time,
       message_priority priority) {
-        _blobs.push_outgoing(msg_id, target_id, blob, max_time, priority);
+        _blobs.push_outgoing(
+          msg_id, source_id, target_id, blob, max_time, priority);
     }
 
 private:

@@ -292,7 +292,23 @@ bool router::_handle_blob(message_id msg_id, const message_view& message) {
             _log.trace("received endpoint certificate")
               .arg(EAGINE_ID(source), message.source_id)
               .arg(EAGINE_ID(pem), message.data);
-            // TODO: store/verify endpoint cert
+            auto pos = _endpoints.find(message.source_id);
+            if(pos != _endpoints.end()) {
+                if(_context->add_remote_certificate_pem(
+                     message.source_id, message.data)) {
+                    _log.debug("verified and stored endpoint certificate")
+                      .arg(EAGINE_ID(source), message.source_id);
+                }
+            }
+            if(message.target_id) {
+                post_blob(
+                  EAGINE_MSG_ID(eagiMsgBus, eptCertPem),
+                  message.source_id,
+                  message.target_id,
+                  message.data,
+                  std::chrono::seconds(30),
+                  message_priority::high);
+            }
         }
     }
     return true;
@@ -377,17 +393,27 @@ bool router::_handle_special(
             }
             // this should be routed
             return false;
-        } else if(msg_id.has_method(EAGINE_ID(rtrCertReq))) {
+        } else if(msg_id.has_method(EAGINE_ID(rtrCertQry))) {
             post_blob(
               EAGINE_MSG_ID(eagiMsgBus, rtrCertPem),
+              0U,
               incoming_id,
               _context->get_own_certificate_pem(),
               std::chrono::seconds(30),
               message_priority::high);
             return true;
-        } else if(msg_id.has_method(EAGINE_ID(eptCertReq))) {
-            // TODO: try to find and send he certificate here
-            // and route only if not found
+        } else if(msg_id.has_method(EAGINE_ID(eptCertQry))) {
+            if(auto cert_pem{
+                 _context->get_remote_certificate_pem(message.target_id)}) {
+                post_blob(
+                  EAGINE_MSG_ID(eagiMsgBus, eptCertPem),
+                  message.target_id,
+                  incoming_id,
+                  cert_pem,
+                  std::chrono::seconds(30),
+                  message_priority::high);
+                return true;
+            }
             return false;
         }
         _log.warning("unhandled special message ${message} from ${source}")

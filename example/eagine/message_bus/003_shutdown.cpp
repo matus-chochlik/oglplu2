@@ -36,6 +36,7 @@ public:
         if(sub_msg == EAGINE_MSG_ID(Shutdown, shutdown)) {
             _log.info("target ${id} appeared").arg(EAGINE_ID(id), id);
             _targets.insert(id);
+            this->bus().post_certificate(id);
         }
     }
 
@@ -76,7 +77,7 @@ int main(main_ctx& ctx) {
     while(!wait_done) {
         trgr.update();
         if(!trgr.process_all()) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
     }
 
@@ -86,7 +87,7 @@ int main(main_ctx& ctx) {
     while(!wait_done) {
         trgr.update();
         if(!trgr.process_all()) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
     }
 

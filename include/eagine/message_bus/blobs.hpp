@@ -26,7 +26,8 @@ namespace msgbus {
 //------------------------------------------------------------------------------
 struct pending_blob {
     message_id msg_id{};
-    identifier_t endpoint_id{0U};
+    identifier_t source_id{0U};
+    identifier_t target_id{0U};
     std::uint64_t blob_id{0U};
     memory::buffer blob{};
     memory::const_split_block current{};
@@ -75,6 +76,7 @@ public:
 
     void push_outgoing(
       message_id msg_id,
+      identifier_t source_id,
       identifier_t target_id,
       memory::const_block blob,
       std::chrono::seconds max_time,

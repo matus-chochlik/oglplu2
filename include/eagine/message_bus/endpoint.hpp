@@ -230,7 +230,7 @@ public:
       memory::const_block blob,
       std::chrono::seconds max_time,
       message_priority priority) {
-        _blobs.push_outgoing(msg_id, target_id, blob, max_time, priority);
+        _blobs.push_outgoing(msg_id, _id, target_id, blob, max_time, priority);
         return true;
     }
 
@@ -278,6 +278,8 @@ public:
 
     void clear_allow_list();
     void allow_message_type(message_id);
+
+    void query_certificate_of(identifier_t endpoint_id);
 
     bool respond_to(
       const message_info& info, message_id msg_id, message_view message) {

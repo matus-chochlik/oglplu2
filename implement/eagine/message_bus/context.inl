@@ -241,6 +241,9 @@ context::message_digest_verify_init(
     if(pos != _remotes.end()) {
         return _ssl.message_digest_verify_init(
           mdc, mdt, std::get<1>(*pos).pubkey);
+    } else {
+        _log.debug("could not find remote node ${endpoint} for verification")
+          .arg(EAGINE_ID(endpoint), node_id);
     }
     return _ssl.message_digest_verify_init.fake();
 }
