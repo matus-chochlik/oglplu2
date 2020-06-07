@@ -1,5 +1,5 @@
 /**
- *  @file eagine/value_tree/rapidjson.hpp
+ *  @file eagine/value_tree/json.inl
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,11 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_VALUE_TREE_RAPIDJSON_HPP
-#define EAGINE_VALUE_TREE_RAPIDJSON_HPP
-
-#include "../is_within_limits.hpp"
-#include "interface.hpp"
+#include <eagine/is_within_limits.hpp>
 #include <rapidjson/document.h>
 #include <vector>
 
@@ -385,8 +381,11 @@ struct get_rapidjson_document_compound<
 using default_rapidjson_document_compound =
   get_rapidjson_document_compound_t<rapidjson::Document>;
 //------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+compound from_json_text(string_view json_text) {
+    return compound::make<default_rapidjson_document_compound>(json_text);
+}
+//------------------------------------------------------------------------------
 } // namespace valtree
 } // namespace eagine
-
-#endif // EAGINE_VALUE_TREE_RAPIDJSON_HPP
 
