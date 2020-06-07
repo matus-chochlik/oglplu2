@@ -176,7 +176,7 @@ void bridge::_setup_from_args(const program_args&) {
 EAGINE_LIB_FUNC
 bool bridge::_handle_special(message_id msg_id, message_view message) {
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
-        _log.debug("handling special message ${message}")
+        _log.debug("router handling special message ${message}")
           .arg(EAGINE_ID(message), msg_id)
           .arg(EAGINE_ID(source), message.source_id);
 

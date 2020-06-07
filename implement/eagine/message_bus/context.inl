@@ -244,6 +244,12 @@ bool context::verified_remote_key(identifier_t node_id) const noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+decltype(std::declval<sslp::ssl_api&>().message_digest_sha256())
+context::default_message_digest() noexcept {
+    return _ssl.message_digest_sha256();
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 decltype(std::declval<sslp::ssl_api&>().message_digest_sign_init.fake())
 context::message_digest_sign_init(
   sslp::message_digest mdc, sslp::message_digest_type mdt) noexcept {
@@ -271,17 +277,102 @@ context::message_digest_verify_init(
 }
 //------------------------------------------------------------------------------
 memory::const_block context::get_own_signature(memory::const_block nonce) {
-    // TODO
-    return nonce;
+    if(ok md_type{default_message_digest()}) {
+        if(ok md_ctx{_ssl.new_message_digest()}) {
+            auto cleanup{_ssl.delete_message_digest.raii(md_ctx)};
+
+            if(EAGINE_LIKELY(message_digest_sign_init(md_ctx, md_type))) {
+                if(EAGINE_LIKELY(
+                     _ssl.message_digest_sign_update(md_ctx, nonce))) {
+                    const auto req_size{
+                      _ssl.message_digest_sign_final.required_size(md_ctx)};
+
+                    _scratch_space.ensure(extract_or(req_size, 0));
+                    auto free{cover(_scratch_space)};
+
+                    if(ok sig{_ssl.message_digest_sign_final(md_ctx, free)}) {
+                        return sig.get();
+                    } else {
+                        _log.debug("failed to finish ssl signature")
+                          .arg(EAGINE_ID(freeSize), free.size())
+                          .arg(EAGINE_ID(reason), (!sig).message());
+                    }
+                } else {
+                    _log.debug("failed to update ssl signature");
+                }
+            } else {
+                _log.debug("failed to init ssl sign context");
+            }
+        } else {
+            _log.debug("failed to create ssl message digest")
+              .arg(EAGINE_ID(reason), (!md_ctx).message());
+        }
+    } else {
+        _log.debug("failed to get ssl message digest type")
+          .arg(EAGINE_ID(reason), (!md_type).message());
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+verification_bits context::verify_remote_signature(
+  memory::const_block content,
+  memory::const_block signature,
+  identifier_t node_id,
+  bool verified_key) {
+    verification_bits result{};
+
+    if(ok md_type{default_message_digest()}) {
+        if(ok md_ctx{_ssl.new_message_digest()}) {
+            auto cleanup{_ssl.delete_message_digest.raii(md_ctx)};
+
+            if(EAGINE_LIKELY(
+                 message_digest_verify_init(md_ctx, md_type, node_id))) {
+                if(EAGINE_LIKELY(
+                     _ssl.message_digest_verify_update(md_ctx, content))) {
+                    if(extract_or(
+                         _ssl.message_digest_verify_final(md_ctx, signature),
+                         false)) {
+
+                        if(verified_key || verified_remote_key(node_id)) {
+                            result |= verification_bit::source_private_key;
+                        }
+
+                        result |= verification_bit::source_certificate;
+                        result |= verification_bit::message_content;
+
+                    } else {
+                        _log.debug("failed to finish ssl verification");
+                    }
+                } else {
+                    _log.debug("failed to update ssl verify context");
+                }
+            } else {
+                _log.debug("failed to init ssl verify context");
+            }
+        } else {
+            _log.debug("failed to create ssl message digest")
+              .arg(EAGINE_ID(reason), (!md_ctx).message());
+        }
+    } else {
+        _log.debug("failed to get ssl message digest type")
+          .arg(EAGINE_ID(reason), (!md_type).message());
+    }
+    return result;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool context::verify_remote_signature(
-  memory::const_block, identifier_t node_id) {
+  memory::const_block sig, identifier_t node_id) {
     auto pos = _remotes.find(node_id);
     if(pos != _remotes.end()) {
-        // TODO
-        return false;
+        auto& remote{std::get<1>(*pos)};
+        const auto result{
+          verify_remote_signature(view(remote.nonce), sig, node_id, true)};
+        if(result.has(verification_bit::message_content)) {
+            remote.verified_key = true;
+            return true;
+        }
     }
     return false;
 }

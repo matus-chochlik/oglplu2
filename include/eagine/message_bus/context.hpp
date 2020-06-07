@@ -17,6 +17,7 @@
 #include "../ssl_api.hpp"
 #include "context_fwd.hpp"
 #include "types.hpp"
+#include "verification.hpp"
 #include <array>
 #include <map>
 #include <random>
@@ -75,6 +76,9 @@ public:
     memory::const_block get_remote_nonce(identifier_t) const noexcept;
     bool verified_remote_key(identifier_t) const noexcept;
 
+    decltype(std::declval<sslp::ssl_api&>().message_digest_sha256())
+    default_message_digest() noexcept;
+
     decltype(std::declval<sslp::ssl_api&>().message_digest_sign_init.fake())
     message_digest_sign_init(
       sslp::message_digest mdc, sslp::message_digest_type mdt) noexcept;
@@ -86,7 +90,14 @@ public:
       identifier_t node_id) noexcept;
 
     memory::const_block get_own_signature(memory::const_block);
-    bool verify_remote_signature(memory::const_block, identifier_t);
+
+    verification_bits verify_remote_signature(
+      memory::const_block data,
+      memory::const_block sig,
+      identifier_t,
+      bool = false);
+
+    bool verify_remote_signature(memory::const_block sig, identifier_t);
 
 private:
     logger _log{};
@@ -94,6 +105,7 @@ private:
     std::mt19937_64 _rand_engine{std::random_device{}()};
     std::map<message_id, message_sequence_t> _msg_id_seq{};
     //
+    memory::buffer _scratch_space{};
     memory::buffer _own_cert_pem{};
     memory::buffer _ca_cert_pem{};
     //

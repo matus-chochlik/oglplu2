@@ -72,6 +72,7 @@ bool endpoint::_handle_special(
         log()
           .debug("handling special message ${message}")
           .arg(EAGINE_ID(message), msg_id)
+          .arg(EAGINE_ID(endpoint), _id)
           .arg(EAGINE_ID(source), message.source_id);
 
         if(msg_id.has_method(EAGINE_ID(blobFrgmnt))) {
@@ -105,6 +106,7 @@ bool endpoint::_handle_special(
             if(_context->add_remote_certificate_pem(
                  message.source_id, view(message.data))) {
                 _log.debug("verified and stored remote endpoint certificate")
+                  .arg(EAGINE_ID(endpoint), _id)
                   .arg(EAGINE_ID(source), message.source_id);
 
                 if(auto nonce{_context->get_remote_nonce(message.source_id)}) {
@@ -115,6 +117,7 @@ bool endpoint::_handle_special(
                       std::chrono::seconds(30),
                       message_priority::normal);
                     _log.debug("sending nonce sign request")
+                      .arg(EAGINE_ID(endpoint), _id)
                       .arg(EAGINE_ID(target), message.source_id);
                 }
             }
@@ -128,6 +131,7 @@ bool endpoint::_handle_special(
                   std::chrono::seconds(30),
                   message_priority::normal);
                 _log.debug("sending nonce signature")
+                  .arg(EAGINE_ID(endpoint), _id)
                   .arg(EAGINE_ID(target), message.source_id);
             }
             return true;
@@ -135,6 +139,7 @@ bool endpoint::_handle_special(
             if(_context->verify_remote_signature(
                  message.data, message.source_id)) {
                 _log.debug("verified nonce signature")
+                  .arg(EAGINE_ID(endpoint), _id)
                   .arg(EAGINE_ID(source), message.source_id);
             }
             return true;

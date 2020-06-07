@@ -12,8 +12,8 @@ namespace msgbus {
 bool stored_message::store_and_sign(
   memory::const_block data, span_size_t max_size, context& ctx, logger& log) {
 
-    auto& ssl = ctx.ssl();
-    if(ok md_type{ssl.message_digest_sha256()}) {
+    if(ok md_type{ctx.default_message_digest()}) {
+        auto& ssl = ctx.ssl();
         _buffer.resize(max_size);
         if(auto used = store_data_with_size(data, storage())) {
             if(ok md_ctx{ssl.new_message_digest()}) {
@@ -59,47 +59,9 @@ bool stored_message::store_and_sign(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-verification_bits stored_message::verify_bits(context& ctx, logger& log) const
+verification_bits stored_message::verify_bits(context& ctx, logger&) const
   noexcept {
-    verification_bits result{};
-    auto& ssl = ctx.ssl();
-    if(ok md_type{ssl.message_digest_sha256()}) {
-        if(ok md_ctx{ssl.new_message_digest()}) {
-            auto cleanup{ssl.delete_message_digest.raii(md_ctx)};
-
-            if(EAGINE_LIKELY(
-                 ctx.message_digest_verify_init(md_ctx, md_type, source_id))) {
-                if(EAGINE_LIKELY(
-                     ssl.message_digest_verify_update(md_ctx, content()))) {
-                    if(extract_or(
-                         ssl.message_digest_verify_final(md_ctx, signature()),
-                         false)) {
-
-                        if(ctx.verified_remote_key(source_id)) {
-                            result |= verification_bit::source_private_key;
-                        }
-
-                        result |= verification_bit::source_certificate;
-                        result |= verification_bit::message_content;
-
-                    } else {
-                        log.debug("failed to finish ssl verification");
-                    }
-                } else {
-                    log.debug("failed to update ssl verify context");
-                }
-            } else {
-                log.debug("failed to init ssl verify context");
-            }
-        } else {
-            log.debug("failed to create ssl message digest")
-              .arg(EAGINE_ID(reason), (!md_ctx).message());
-        }
-    } else {
-        log.debug("failed to get ssl message digest type")
-          .arg(EAGINE_ID(reason), (!md_type).message());
-    }
-    return result;
+    return ctx.verify_remote_signature(content(), signature(), source_id);
 }
 //------------------------------------------------------------------------------
 // message_storage
