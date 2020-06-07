@@ -10,10 +10,10 @@
 #ifndef EAGINE_VALUE_TREE_INTERFACE_HPP
 #define EAGINE_VALUE_TREE_INTERFACE_HPP
 
-#include "../callable_ref.hpp"
 #include "../string_path.hpp"
 #include "../string_span.hpp"
 #include <memory>
+#include <string>
 
 namespace eagine {
 namespace valtree {
@@ -46,14 +46,15 @@ struct compound_interface {
     virtual span_size_t value_count(
       const std::shared_ptr<attribute_interface>&) = 0;
 
-    using fetch_strings_handler =
-      callable_ref<void(span_size_t, span<const string_view>)>;
-
-    virtual span_size_t fetch_strings(
+    virtual span_size_t fetch_values(
       const std::shared_ptr<attribute_interface>&,
       span_size_t offset,
-      span_size_t size,
-      fetch_strings_handler handler) = 0;
+      span<float> dest) = 0;
+
+    virtual span_size_t fetch_values(
+      const std::shared_ptr<attribute_interface>&,
+      span_size_t offset,
+      span<std::string> dest) = 0;
 };
 //------------------------------------------------------------------------------
 } // namespace valtree

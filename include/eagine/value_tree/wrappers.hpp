@@ -10,6 +10,7 @@
 #ifndef EAGINE_VALUE_TREE_WRAPPERS_HPP
 #define EAGINE_VALUE_TREE_WRAPPERS_HPP
 
+#include "../memory/span_algo.hpp"
 #include "interface.hpp"
 
 namespace eagine {
@@ -78,7 +79,7 @@ public:
     static std::
       enable_if_t<std::is_base_of_v<compound_interface, Compound>, compound>
       make(Args&&... args) {
-        return {std::make_shared<Compound>(std::forward<Args>(args)...)};
+        return {Compound::make_shared(std::forward<Args>(args)...)};
     }
 
     explicit operator bool() const {
@@ -103,18 +104,24 @@ public:
         return 0;
     }
 
-    using fetch_strings_handler =
-      callable_ref<void(span_size_t, span<const string_view>)>;
-
-    span_size_t fetch_strings(
-      const attribute& attrib,
-      span_size_t offset,
-      span_size_t size,
-      fetch_strings_handler handler) {
+    template <typename T>
+    span<T> fetch_values(
+      const attribute& attrib, span_size_t offset, span<T> dest) {
         if(_pimpl) {
-            return _pimpl->fetch_strings(attrib._pimpl, offset, size, handler);
+            return head(
+              dest, _pimpl->fetch_values(attrib._pimpl, offset, dest));
         }
-        return 0;
+        return {};
+    }
+
+    template <typename T>
+    span<T> fetch_values(const attribute& attrib, span<T> dest) {
+        return fetch_values(attrib, 0, dest);
+    }
+
+    template <typename T>
+    bool fetch_value(const attribute& attrib, span_size_t offset, T& dest) {
+        return !fetch_values(attrib, offset, cover_one(dest)).empty();
     }
 
 private:
