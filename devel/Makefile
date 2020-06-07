@@ -42,6 +42,7 @@ test%.o: test%.cpp
 		-I../source/utils \
 		-I../third_party/include \
 		-I../third_party/asio/asio/include \
+		-I../third_party/rapidjson/include \
 		$(shell pkg-config --cflags openssl) \
 		$(shell pkg-config --cflags openal) \
 		$(shell pkg-config --cflags egl) \
