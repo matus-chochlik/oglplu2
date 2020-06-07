@@ -309,7 +309,7 @@ protected:
                     block_data_sink sink(cover(_buffer));
                     string_serializer_backend backend(sink);
                     auto errors = serialize_message(
-                      EAGINE_MSG_ID(eagiMsgBus, pmqConnect),
+                      EAGINE_MSGBUS_ID(pmqConnect),
                       message_view(_data_queue.get_name()),
                       backend);
                     if(!errors) {
@@ -488,7 +488,7 @@ private:
             block_data_source source(as_bytes(data));
             string_deserializer_backend backend(source);
             const auto errors = deserialize_message(msg_id, message, backend);
-            if(EAGINE_LIKELY(msg_id.has_class(EAGINE_ID(eagiMsgBus)))) {
+            if(EAGINE_LIKELY(is_special_message(msg_id))) {
                 if(EAGINE_LIKELY(msg_id.has_method(EAGINE_ID(pmqConnect)))) {
                     return !errors;
                 }
@@ -501,7 +501,7 @@ private:
         auto fetch_handler = [this, &handler](
                                message_id msg_id,
                                const message_view& message) -> bool {
-            EAGINE_ASSERT((msg_id == EAGINE_MSG_ID(eagiMsgBus, pmqConnect)));
+            EAGINE_ASSERT((msg_id == EAGINE_MSGBUS_ID(pmqConnect)));
             EAGINE_MAYBE_UNUSED(msg_id);
 
             if(auto conn = std::make_unique<posix_mqueue_connection>(_log)) {

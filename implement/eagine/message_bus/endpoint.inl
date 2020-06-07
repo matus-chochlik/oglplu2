@@ -109,7 +109,7 @@ bool endpoint::_handle_special(
 
                 if(auto nonce{_context->get_remote_nonce(message.source_id)}) {
                     post_blob(
-                      EAGINE_MSG_ID(eagiMsgBus, eptSigNnce),
+                      EAGINE_MSGBUS_ID(eptSigNnce),
                       message.source_id,
                       nonce,
                       std::chrono::seconds(30),
@@ -122,7 +122,7 @@ bool endpoint::_handle_special(
         } else if(msg_id.has_method(EAGINE_ID(eptSigNnce))) {
             if(auto signature{_context->get_own_signature(message.data)}) {
                 post_blob(
-                  EAGINE_MSG_ID(eagiMsgBus, eptNnceSig),
+                  EAGINE_MSGBUS_ID(eptNnceSig),
                   message.source_id,
                   signature,
                   std::chrono::seconds(30),
@@ -336,9 +336,9 @@ bool endpoint::update() {
     if(EAGINE_UNLIKELY(has_id() && !had_id)) {
         log().debug("announcing endpoint id ${id}").arg(EAGINE_ID(id), _id);
         // send the endpoint id through all connections
-        _do_send(EAGINE_MSG_ID(eagiMsgBus, announceId), {});
+        _do_send(EAGINE_MSGBUS_ID(announceId), {});
         // send request for router certificate
-        _do_send(EAGINE_MSG_ID(eagiMsgBus, rtrCertQry), {});
+        _do_send(EAGINE_MSGBUS_ID(rtrCertQry), {});
         something_done();
     }
 
@@ -382,13 +382,13 @@ void endpoint::unsubscribe(message_id msg_id) {
 EAGINE_LIB_FUNC
 bool endpoint::say_not_a_router() {
     log().debug("saying not a router");
-    return send(EAGINE_MSG_ID(eagiMsgBus, notARouter));
+    return send(EAGINE_MSGBUS_ID(notARouter));
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool endpoint::say_bye() {
     log().debug("saying bye-bye");
-    return send(EAGINE_MSG_ID(eagiMsgBus, byeBye));
+    return send(EAGINE_MSGBUS_ID(byeBye));
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -408,7 +408,7 @@ void endpoint::say_subscribes_to(message_id msg_id) {
     log()
       .debug("requesting subscription to message ${message}")
       .arg(EAGINE_ID(message), msg_id);
-    post_meta_message(EAGINE_MSG_ID(eagiMsgBus, subscribTo), msg_id);
+    post_meta_message(EAGINE_MSGBUS_ID(subscribTo), msg_id);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -416,25 +416,25 @@ void endpoint::say_unsubscribes_from(message_id msg_id) {
     log()
       .debug("retracting subscription to message ${message}")
       .arg(EAGINE_ID(message), msg_id);
-    post_meta_message(EAGINE_MSG_ID(eagiMsgBus, unsubFrom), msg_id);
+    post_meta_message(EAGINE_MSGBUS_ID(unsubFrom), msg_id);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void endpoint::clear_block_list() {
     log().debug("sending clear block list");
-    post(EAGINE_MSG_ID(eagiMsgBus, clrBlkList), {});
+    post(EAGINE_MSGBUS_ID(clrBlkList), {});
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void endpoint::block_message_type(message_id msg_id) {
     log().debug("blocking message ${message}").arg(EAGINE_ID(message), msg_id);
-    post_meta_message(EAGINE_MSG_ID(eagiMsgBus, msgBlkList), msg_id);
+    post_meta_message(EAGINE_MSGBUS_ID(msgBlkList), msg_id);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void endpoint::clear_allow_list() {
     log().debug("sending clear allow list");
-    post(EAGINE_MSG_ID(eagiMsgBus, clrAlwList), {});
+    post(EAGINE_MSGBUS_ID(clrAlwList), {});
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -442,7 +442,7 @@ bool endpoint::post_certificate(identifier_t target_id) {
     EAGINE_ASSERT(_context);
     if(auto cert_pem{_context->get_own_certificate_pem()}) {
         return post_blob(
-          EAGINE_MSG_ID(eagiMsgBus, eptCertPem),
+          EAGINE_MSGBUS_ID(eptCertPem),
           target_id,
           cert_pem,
           std::chrono::seconds(30),
@@ -457,7 +457,7 @@ bool endpoint::broadcast_certificate() {
     EAGINE_ASSERT(_context);
     if(auto cert_pem{_context->get_own_certificate_pem()}) {
         return broadcast_blob(
-          EAGINE_MSG_ID(eagiMsgBus, eptCertPem),
+          EAGINE_MSGBUS_ID(eptCertPem),
           cert_pem,
           std::chrono::seconds(30),
           message_priority::normal);
@@ -469,7 +469,7 @@ bool endpoint::broadcast_certificate() {
 EAGINE_LIB_FUNC
 void endpoint::allow_message_type(message_id msg_id) {
     log().debug("allowing message ${message}").arg(EAGINE_ID(message), msg_id);
-    post_meta_message(EAGINE_MSG_ID(eagiMsgBus, msgAlwList), msg_id);
+    post_meta_message(EAGINE_MSGBUS_ID(msgAlwList), msg_id);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -479,7 +479,7 @@ void endpoint::query_certificate_of(identifier_t endpoint_id) {
       .arg(EAGINE_ID(endpoint), endpoint_id);
     message_view msg{};
     msg.set_target_id(endpoint_id);
-    post(EAGINE_MSG_ID(eagiMsgBus, eptCertQry), msg);
+    post(EAGINE_MSGBUS_ID(eptCertQry), msg);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

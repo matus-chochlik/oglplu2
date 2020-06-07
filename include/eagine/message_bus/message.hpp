@@ -30,6 +30,12 @@
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
+#define EAGINE_MSGBUS_ID(METHOD) EAGINE_MSG_ID(eagiMsgBus, METHOD)
+//------------------------------------------------------------------------------
+static constexpr inline bool is_special_message(message_id msg_id) noexcept {
+    return msg_id.has_class(EAGINE_ID(eagiMsgBus));
+}
+//------------------------------------------------------------------------------
 enum class message_priority : std::uint8_t {
     idle,
     low,
@@ -63,10 +69,6 @@ constexpr auto enumerator_mapping(
       {{"asymmetric", message_crypto_flag::asymmetric},
        {"signed_header", message_crypto_flag::signed_header},
        {"signed_content", message_crypto_flag::signed_content}}};
-}
-//------------------------------------------------------------------------------
-static constexpr inline bool is_special_message(message_id msg_id) noexcept {
-    return msg_id.has_class(EAGINE_ID(eagiMsgBus));
 }
 //------------------------------------------------------------------------------
 struct message_info {

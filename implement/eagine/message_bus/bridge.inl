@@ -317,7 +317,7 @@ bool bridge::update() {
     // if processing the messages assigned the id
     if(EAGINE_UNLIKELY(has_id() && !had_id)) {
         _log.debug("announcing id ${id}").arg(EAGINE_ID(id), _id);
-        _send(EAGINE_MSG_ID(eagiMsgBus, announceId), {});
+        _send(EAGINE_MSGBUS_ID(announceId), {});
         something_done();
     }
 

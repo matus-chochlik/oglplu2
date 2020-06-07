@@ -315,7 +315,7 @@ bool blob_manipulator::process_outgoing(
   send_handler do_send, span_size_t max_message_size) {
     some_true something_done{};
 
-    const auto msg_id = EAGINE_MSG_ID(eagiMsgBus, blobFrgmnt);
+    const auto msg_id = EAGINE_MSGBUS_ID(blobFrgmnt);
 
     for(auto& pending : _outgoing) {
         if(pending.current.tail()) {

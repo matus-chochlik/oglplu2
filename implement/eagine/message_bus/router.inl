@@ -122,7 +122,7 @@ bool router::_handle_pending() {
         identifier_t id = 0;
         auto handler = [this, &id](message_id msg_id, const message_view& msg) {
             // this is a special message containing endpoint id
-            if(msg_id == EAGINE_MSG_ID(eagiMsgBus, announceId)) {
+            if(msg_id == EAGINE_MSGBUS_ID(announceId)) {
                 id = msg.source_id;
                 this->_log.debug("received endpoint id ${id}")
                   .arg(EAGINE_ID(id), id);
@@ -233,7 +233,7 @@ void router::_handle_connection(std::unique_ptr<connection> conn) {
     // send the special message assigning the endpoint id
     message_view msg{};
     msg.set_target_id(_id_sequence);
-    conn->send(EAGINE_MSG_ID(eagiMsgBus, assignId), msg);
+    conn->send(EAGINE_MSGBUS_ID(assignId), msg);
     conn->update();
     _pending.emplace_back(std::move(conn));
 }
@@ -302,7 +302,7 @@ bool router::_handle_blob(message_id msg_id, const message_view& message) {
             }
             if(message.target_id) {
                 post_blob(
-                  EAGINE_MSG_ID(eagiMsgBus, eptCertPem),
+                  EAGINE_MSGBUS_ID(eptCertPem),
                   message.source_id,
                   message.target_id,
                   message.data,
@@ -395,7 +395,7 @@ bool router::_handle_special(
             return false;
         } else if(msg_id.has_method(EAGINE_ID(rtrCertQry))) {
             post_blob(
-              EAGINE_MSG_ID(eagiMsgBus, rtrCertPem),
+              EAGINE_MSGBUS_ID(rtrCertPem),
               0U,
               incoming_id,
               _context->get_own_certificate_pem(),
@@ -406,7 +406,7 @@ bool router::_handle_special(
             if(auto cert_pem{
                  _context->get_remote_certificate_pem(message.target_id)}) {
                 post_blob(
-                  EAGINE_MSG_ID(eagiMsgBus, eptCertPem),
+                  EAGINE_MSGBUS_ID(eptCertPem),
                   message.target_id,
                   incoming_id,
                   cert_pem,
