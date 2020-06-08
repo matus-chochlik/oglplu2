@@ -10,6 +10,7 @@
 #ifndef EAGINE_SHAPES_DRAWING_HPP
 #define EAGINE_SHAPES_DRAWING_HPP
 
+#include "../reflect/map_enumerators.hpp"
 #include "../types.hpp"
 
 namespace eagine {
@@ -27,6 +28,21 @@ enum class primitive_type {
     tetrahedrons,
     patches
 };
+//------------------------------------------------------------------------------
+template <typename Selector>
+constexpr auto enumerator_mapping(identity<primitive_type>, Selector) noexcept {
+    return enumerator_map_type<primitive_type, 10>{
+      {{"points", primitive_type::points},
+       {"lines", primitive_type::lines},
+       {"line_strip", primitive_type::line_strip},
+       {"line_loop", primitive_type::line_loop},
+       {"triangles", primitive_type::triangles},
+       {"triangle_strip", primitive_type::triangle_strip},
+       {"triangle_fan", primitive_type::triangle_fan},
+       {"quads", primitive_type::quads},
+       {"tetrahedrons", primitive_type::tetrahedrons},
+       {"patches", primitive_type::patches}}};
+}
 //------------------------------------------------------------------------------
 enum class attrib_data_type { none, float_ };
 //------------------------------------------------------------------------------

@@ -11,6 +11,7 @@
 #define EAGINE_SHAPES_VERTEX_ATTRIB_HPP
 
 #include "../bitfield.hpp"
+#include "../reflect/map_enumerators.hpp"
 #include "../types.hpp"
 #include <array>
 #include <cstdint>
@@ -38,6 +39,27 @@ enum class vertex_attrib_kind : std::uint16_t {
     material_id = 1U << 14U
     // also fix all_vertex_attrib_bits
 };
+//------------------------------------------------------------------------------
+template <typename Selector>
+constexpr auto enumerator_mapping(
+  identity<vertex_attrib_kind>, Selector) noexcept {
+    return enumerator_map_type<vertex_attrib_kind, 15>{
+      {{"object_id", vertex_attrib_kind::object_id},
+       {"position", vertex_attrib_kind::position},
+       {"normal", vertex_attrib_kind::normal},
+       {"tangential", vertex_attrib_kind::tangential},
+       {"bitangential", vertex_attrib_kind::bitangential},
+       {"pivot", vertex_attrib_kind::pivot},
+       {"vertex_pivot", vertex_attrib_kind::vertex_pivot},
+       {"box_coord", vertex_attrib_kind::box_coord},
+       {"face_coord", vertex_attrib_kind::face_coord},
+       {"wrap_coord", vertex_attrib_kind::wrap_coord},
+       {"color", vertex_attrib_kind::color},
+       {"emission", vertex_attrib_kind::emission},
+       {"weight", vertex_attrib_kind::weight},
+       {"occlusion", vertex_attrib_kind::occlusion},
+       {"material_id", vertex_attrib_kind::material_id}}};
+}
 //------------------------------------------------------------------------------
 using vertex_attrib_bits = bitfield<vertex_attrib_kind>;
 //------------------------------------------------------------------------------
