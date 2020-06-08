@@ -12,6 +12,7 @@
 #include "assert.hpp"
 #include "int_constant.hpp"
 #include "valid_if/decl.hpp"
+#include <cstdint>
 #include <limits>
 #include <type_traits>
 #include <utility>
@@ -33,6 +34,21 @@ struct implicitly_within_limits
 
 template <typename Dst>
 struct implicitly_within_limits<Dst, bool> : std::is_integral<Dst> {};
+
+template <>
+struct implicitly_within_limits<float, std::int16_t> : std::true_type {};
+
+template <>
+struct implicitly_within_limits<float, std::int32_t> : std::true_type {};
+
+template <>
+struct implicitly_within_limits<double, std::int16_t> : std::true_type {};
+
+template <>
+struct implicitly_within_limits<double, std::int32_t> : std::true_type {};
+
+template <>
+struct implicitly_within_limits<double, std::int64_t> : std::true_type {};
 //------------------------------------------------------------------------------
 template <
   typename Dst,
