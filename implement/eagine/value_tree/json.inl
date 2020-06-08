@@ -323,7 +323,7 @@ private:
     _doc_t _rj_doc{};
     _node_t _root{};
 
-    std::vector<std::tuple<span_size_t, _node_t>> _nodes{};
+    std::vector<std::tuple<span_size_t, std::unique_ptr<_node_t>>> _nodes{};
 
     static inline auto& _unwrap(attribute_interface& attrib) {
         EAGINE_ASSERT(dynamic_cast<_node_t*>(&attrib));
@@ -348,20 +348,20 @@ public:
 
     _node_t* make_new(_val_t& rj_val, _val_t* rj_name) {
         _node_t temp{rj_val, rj_name};
-        for(auto& [ref_count, node] : _nodes) {
-            if(temp == node) {
+        for(auto& [ref_count, node_ptr] : _nodes) {
+            if(temp == *node_ptr) {
                 ++ref_count;
-                return &node;
+                return node_ptr.get();
             }
         }
-        _nodes.emplace_back(1, std::move(temp));
-        return &std::get<1>(_nodes.back());
+        _nodes.emplace_back(1, std::make_unique<_node_t>(std::move(temp)));
+        return std::get<1>(_nodes.back()).get();
     }
 
     void add_ref(attribute_interface& attrib) noexcept final {
         auto& that = _unwrap(attrib);
-        for(auto& [ref_count, node] : _nodes) {
-            if(that == node) {
+        for(auto& [ref_count, node_ptr] : _nodes) {
+            if(that == *node_ptr) {
                 ++ref_count;
             }
         }
@@ -370,8 +370,8 @@ public:
     void release(attribute_interface& attrib) noexcept final {
         auto& that = _unwrap(attrib);
         for(auto pos = _nodes.begin(); pos != _nodes.end(); ++pos) {
-            auto& [ref_count, node] = *pos;
-            if(that == node) {
+            auto& [ref_count, node_ptr] = *pos;
+            if(that == *node_ptr) {
                 if(--ref_count <= 0) {
                     _nodes.erase(pos);
                     break;

@@ -136,11 +136,27 @@ public:
         return !_pimpl;
     }
 
-    attribute structure() {
+    attribute structure() const {
         if(_pimpl) {
             return {_pimpl, _pimpl->structure()};
         }
         return {};
+    }
+
+    attribute find(const basic_string_path& path) const {
+        return structure().find(path);
+    }
+
+    attribute find(string_view path_str) const {
+        return structure().find(path_str);
+    }
+
+    bool has(const basic_string_path& path) const {
+        return bool(find(path));
+    }
+
+    bool has(string_view path_str) const {
+        return bool(find(path_str));
     }
 
     span_size_t value_count(const attribute& attrib) {
@@ -163,7 +179,7 @@ public:
     template <typename T>
     span<T> fetch_values(
       string_view path_str, span_size_t offset, span<T> dest) {
-        return fetch_values(structure().find(path_str), offset, dest);
+        return fetch_values(find(path_str), offset, dest);
     }
 
     template <typename T>
@@ -179,6 +195,21 @@ public:
     template <typename T>
     bool fetch_value(const attribute& attrib, span_size_t offset, T& dest) {
         return !fetch_values(attrib, offset, cover_one(dest)).empty();
+    }
+
+    template <typename T>
+    bool fetch_value(const attribute& attrib, T& dest) {
+        return fetch_value(attrib, 0, dest);
+    }
+
+    template <typename T>
+    bool fetch_value(string_view path_str, span_size_t offset, T& dest) {
+        return fetch_value(find(path_str), offset, dest);
+    }
+
+    template <typename T>
+    bool fetch_value(string_view path_str, T& dest) {
+        return fetch_value(find(path_str), dest);
     }
 
 private:
