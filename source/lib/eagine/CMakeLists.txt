@@ -29,6 +29,7 @@ set(EAGINE_LIB_SOURCES
 	shapes_to_quads.cpp
 	random.cpp
 	resources.cpp
+	value_tree_json.cpp
 )
 
 add_library(

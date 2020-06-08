@@ -82,6 +82,7 @@ include_directories("include")
 include_directories("implement")
 include_directories("third_party/include")
 include_directories("third_party/asio/asio/include")
+include_directories("third_party/rapidjson/include")
 
 # common functions for GL version and extension detection
 # include(config/GLVerFeat.cmake)

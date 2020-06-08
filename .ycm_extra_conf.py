@@ -99,6 +99,7 @@ project_include_dirs = [
     'implement',
     'third_party/include',
     'third_party/asio/asio/include',
+    'third_party/rapidjson/include',
     'source/utils'
 ]
 #------------------------------------------------------------------------------#

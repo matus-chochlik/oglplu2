@@ -7,6 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+#include <eagine/from_string.hpp>
 #include <eagine/is_within_limits.hpp>
 #include <rapidjson/document.h>
 #include <vector>
