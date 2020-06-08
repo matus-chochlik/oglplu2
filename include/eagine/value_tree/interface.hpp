@@ -55,6 +55,9 @@ struct compound_interface {
     virtual span_size_t value_count(attribute_interface&) = 0;
 
     virtual span_size_t fetch_values(
+      attribute_interface&, span_size_t offset, span<bool> dest) = 0;
+
+    virtual span_size_t fetch_values(
       attribute_interface&, span_size_t offset, span<std::int16_t> dest) = 0;
 
     virtual span_size_t fetch_values(
@@ -64,10 +67,87 @@ struct compound_interface {
       attribute_interface&, span_size_t offset, span<std::int64_t> dest) = 0;
 
     virtual span_size_t fetch_values(
+      attribute_interface&, span_size_t offset, span<std::uint16_t> dest) = 0;
+
+    virtual span_size_t fetch_values(
+      attribute_interface&, span_size_t offset, span<std::uint32_t> dest) = 0;
+
+    virtual span_size_t fetch_values(
+      attribute_interface&, span_size_t offset, span<std::uint64_t> dest) = 0;
+
+    virtual span_size_t fetch_values(
       attribute_interface&, span_size_t offset, span<float> dest) = 0;
 
     virtual span_size_t fetch_values(
       attribute_interface&, span_size_t offset, span<std::string> dest) = 0;
+};
+//------------------------------------------------------------------------------
+template <typename Derived>
+class compound_implementation : public compound_interface {
+private:
+    Derived& derived() noexcept {
+        return *static_cast<Derived*>(this);
+    }
+
+public:
+    span_size_t fetch_values(
+      attribute_interface& attrib, span_size_t offset, span<bool> dest) final {
+        return derived().do_fetch_values(attrib, offset, dest);
+    }
+
+    span_size_t fetch_values(
+      attribute_interface& attrib,
+      span_size_t offset,
+      span<std::int16_t> dest) final {
+        return derived().do_fetch_values(attrib, offset, dest);
+    }
+
+    span_size_t fetch_values(
+      attribute_interface& attrib,
+      span_size_t offset,
+      span<std::int32_t> dest) final {
+        return derived().do_fetch_values(attrib, offset, dest);
+    }
+
+    span_size_t fetch_values(
+      attribute_interface& attrib,
+      span_size_t offset,
+      span<std::int64_t> dest) final {
+        return derived().do_fetch_values(attrib, offset, dest);
+    }
+
+    span_size_t fetch_values(
+      attribute_interface& attrib,
+      span_size_t offset,
+      span<std::uint16_t> dest) final {
+        return derived().do_fetch_values(attrib, offset, dest);
+    }
+
+    span_size_t fetch_values(
+      attribute_interface& attrib,
+      span_size_t offset,
+      span<std::uint32_t> dest) final {
+        return derived().do_fetch_values(attrib, offset, dest);
+    }
+
+    span_size_t fetch_values(
+      attribute_interface& attrib,
+      span_size_t offset,
+      span<std::uint64_t> dest) final {
+        return derived().do_fetch_values(attrib, offset, dest);
+    }
+
+    span_size_t fetch_values(
+      attribute_interface& attrib, span_size_t offset, span<float> dest) final {
+        return derived().do_fetch_values(attrib, offset, dest);
+    }
+
+    span_size_t fetch_values(
+      attribute_interface& attrib,
+      span_size_t offset,
+      span<std::string> dest) final {
+        return derived().do_fetch_values(attrib, offset, dest);
+    }
 };
 //------------------------------------------------------------------------------
 } // namespace valtree

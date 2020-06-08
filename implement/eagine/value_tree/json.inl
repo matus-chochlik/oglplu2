@@ -130,6 +130,29 @@ public:
     }
 
     template <typename T>
+    bool convert_bool(_val_t& val, T& dest) {
+        if(val.IsBool()) {
+            if(auto converted{convert_if_fits<T>(val.GetBool())}) {
+                dest = extract(converted);
+                return true;
+            }
+        }
+        if(val.IsInt()) {
+            if(auto converted{convert_if_fits<T>(val.GetInt())}) {
+                dest = extract(converted);
+                return true;
+            }
+        }
+        if(val.IsString()) {
+            if(auto converted{from_string<T>(view(val))}) {
+                dest = extract(converted);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    template <typename T>
     bool convert_int(_val_t& val, T& dest) {
         if(val.IsInt()) {
             if(auto converted{convert_if_fits<T>(val.GetInt())}) {
@@ -139,6 +162,29 @@ public:
         }
         if(val.IsInt64()) {
             if(auto converted{convert_if_fits<T>(val.GetInt64())}) {
+                dest = extract(converted);
+                return true;
+            }
+        }
+        if(val.IsString()) {
+            if(auto converted{from_string<T>(view(val))}) {
+                dest = extract(converted);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    template <typename T>
+    bool convert_uint(_val_t& val, T& dest) {
+        if(val.IsUint()) {
+            if(auto converted{convert_if_fits<T>(val.GetUint())}) {
+                dest = extract(converted);
+                return true;
+            }
+        }
+        if(val.IsUint64()) {
+            if(auto converted{convert_if_fits<T>(val.GetUint64())}) {
                 dest = extract(converted);
                 return true;
             }
@@ -181,6 +227,10 @@ public:
         return false;
     }
 
+    bool convert(_val_t& val, bool& dest) {
+        return convert_bool(val, dest);
+    }
+
     bool convert(_val_t& val, std::int16_t& dest) {
         return convert_int(val, dest);
     }
@@ -191,6 +241,18 @@ public:
 
     bool convert(_val_t& val, std::int64_t& dest) {
         return convert_int(val, dest);
+    }
+
+    bool convert(_val_t& val, std::uint16_t& dest) {
+        return convert_uint(val, dest);
+    }
+
+    bool convert(_val_t& val, std::uint32_t& dest) {
+        return convert_uint(val, dest);
+    }
+
+    bool convert(_val_t& val, std::uint64_t& dest) {
+        return convert_uint(val, dest);
     }
 
     bool convert(_val_t& val, float& dest) {
@@ -250,7 +312,9 @@ public:
 };
 //------------------------------------------------------------------------------
 template <typename Encoding, typename Allocator, typename StackAlloc>
-class rapidjson_document_compound : public compound_interface {
+class rapidjson_document_compound
+  : public compound_implementation<
+      rapidjson_document_compound<Encoding, Allocator, StackAlloc>> {
 private:
     using _doc_t = rapidjson::GenericDocument<Encoding, Allocator, StackAlloc>;
     using _val_t = rapidjson::GenericValue<Encoding, Allocator>;
@@ -324,36 +388,9 @@ public:
         return _unwrap(attrib).value_count();
     }
 
-    span_size_t fetch_values(
-      attribute_interface& attrib,
-      span_size_t offset,
-      span<std::int16_t> dest) final {
-        return _unwrap(attrib).fetch_values(offset, dest);
-    }
-
-    span_size_t fetch_values(
-      attribute_interface& attrib,
-      span_size_t offset,
-      span<std::int32_t> dest) final {
-        return _unwrap(attrib).fetch_values(offset, dest);
-    }
-
-    span_size_t fetch_values(
-      attribute_interface& attrib,
-      span_size_t offset,
-      span<std::int64_t> dest) final {
-        return _unwrap(attrib).fetch_values(offset, dest);
-    }
-
-    span_size_t fetch_values(
-      attribute_interface& attrib, span_size_t offset, span<float> dest) final {
-        return _unwrap(attrib).fetch_values(offset, dest);
-    }
-
-    span_size_t fetch_values(
-      attribute_interface& attrib,
-      span_size_t offset,
-      span<std::string> dest) final {
+    template <typename T>
+    span_size_t do_fetch_values(
+      attribute_interface& attrib, span_size_t offset, span<T> dest) {
         return _unwrap(attrib).fetch_values(offset, dest);
     }
 };
