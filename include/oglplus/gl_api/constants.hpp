@@ -7084,7 +7084,7 @@ public:
       byte_;
 
     opt_c_api_constant<
-      mp_list<pixel_data_type, index_data_type>,
+      mp_list<pixel_data_type, data_type, index_data_type>,
 #ifdef GL_UNSIGNED_SHORT
       enum_type_c<GL_UNSIGNED_SHORT>>
 #else
@@ -7092,13 +7092,14 @@ public:
 #endif
       unsigned_short_;
 
-    opt_c_api_constant<
-      mp_list<pixel_data_type>,
+    _type_constructor_constant<opt_c_api_constant<
+      mp_list<pixel_data_type, data_type>,
 #ifdef GL_SHORT
-      enum_type_c<GL_SHORT>>
+      enum_type_c<GL_SHORT>,
 #else
-      enum_type_i>
+      enum_type_i,
 #endif
+      typename gl_types::short_type>>
       short_;
 
     opt_c_api_constant<

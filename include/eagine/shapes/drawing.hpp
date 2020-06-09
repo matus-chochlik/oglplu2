@@ -10,11 +10,14 @@
 #ifndef EAGINE_SHAPES_DRAWING_HPP
 #define EAGINE_SHAPES_DRAWING_HPP
 
+#include "../identifier.hpp"
 #include "../reflect/map_enumerators.hpp"
 #include "../types.hpp"
 
 namespace eagine {
 namespace shapes {
+//------------------------------------------------------------------------------
+using value_tree_tag = EAGINE_TAG_TYPE(ValueTree);
 //------------------------------------------------------------------------------
 enum class primitive_type {
     points,
@@ -44,7 +47,25 @@ constexpr auto enumerator_mapping(identity<primitive_type>, Selector) noexcept {
        {"patches", primitive_type::patches}}};
 }
 //------------------------------------------------------------------------------
-enum class attrib_data_type { none, float_ };
+enum class attrib_data_type { none, int_16, int_32, float_ };
+//------------------------------------------------------------------------------
+template <typename Selector>
+constexpr auto enumerator_mapping(
+  identity<attrib_data_type>, Selector) noexcept {
+    return enumerator_map_type<attrib_data_type, 4>{
+      {{"none", attrib_data_type::none},
+       {"int_16", attrib_data_type::int_16},
+       {"int_32", attrib_data_type::int_32},
+       {"float_", attrib_data_type::float_}}};
+}
+//------------------------------------------------------------------------------
+constexpr auto enumerator_mapping(
+  identity<attrib_data_type>, value_tree_tag) noexcept {
+    return enumerator_map_type<attrib_data_type, 3>{
+      {{"int_16", attrib_data_type::int_16},
+       {"int_32", attrib_data_type::int_32},
+       {"float", attrib_data_type::float_}}};
+}
 //------------------------------------------------------------------------------
 enum class index_data_type {
     none = 0,
@@ -52,6 +73,24 @@ enum class index_data_type {
     unsigned_16 = 16,
     unsigned_32 = 32
 };
+//------------------------------------------------------------------------------
+template <typename Selector>
+constexpr auto enumerator_mapping(
+  identity<index_data_type>, Selector) noexcept {
+    return enumerator_map_type<index_data_type, 4>{
+      {{"none", index_data_type::none},
+       {"unsigned_8", index_data_type::unsigned_8},
+       {"unsigned_16", index_data_type::unsigned_16},
+       {"unsigned_32", index_data_type::unsigned_32}}};
+}
+//------------------------------------------------------------------------------
+constexpr auto enumerator_mapping(
+  identity<index_data_type>, value_tree_tag) noexcept {
+    return enumerator_map_type<index_data_type, 3>{
+      {{"none", index_data_type::none},
+       {"unsigned_16", index_data_type::unsigned_16},
+       {"unsigned_32", index_data_type::unsigned_32}}};
+}
 //------------------------------------------------------------------------------
 static inline bool operator<(index_data_type l, index_data_type r) noexcept {
     using UT = std::underlying_type_t<index_data_type>;

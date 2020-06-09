@@ -47,8 +47,12 @@ inline data_type translate(
     auto& GL = api.constants();
 
     switch(type) {
+        case shapes::attrib_data_type::int_16:
+            return GL.short_;
+        case shapes::attrib_data_type::int_32:
+            return GL.int_;
         case shapes::attrib_data_type::float_:
-            break;
+            return GL.float_;
         case shapes::attrib_data_type::none:
             break;
     }
@@ -75,6 +79,10 @@ inline index_data_type translate(
 //------------------------------------------------------------------------------
 inline span_size_t type_size(shapes::attrib_data_type type) noexcept {
     switch(type) {
+        case shapes::attrib_data_type::int_16:
+            return span_size(sizeof(gl_types::short_type));
+        case shapes::attrib_data_type::int_32:
+            return span_size(sizeof(gl_types::int_type));
         case shapes::attrib_data_type::float_:
             return span_size(sizeof(gl_types::float_type));
         case shapes::attrib_data_type::none:
