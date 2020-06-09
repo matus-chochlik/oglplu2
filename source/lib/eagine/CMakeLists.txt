@@ -25,6 +25,7 @@ set(EAGINE_LIB_SOURCES
 	shapes_torus.cpp
 	shapes_sphere.cpp
 	shapes_icosahedron.cpp
+	shapes_value_tree.cpp
 	shapes_modifiers.cpp
 	shapes_to_quads.cpp
 	random.cpp
