@@ -19,7 +19,7 @@ namespace shapes {
 //------------------------------------------------------------------------------
 using value_tree_tag = EAGINE_TAG_TYPE(ValueTree);
 //------------------------------------------------------------------------------
-enum class primitive_type {
+enum class primitive_type : std::uint8_t {
     points,
     lines,
     line_strip,
@@ -67,7 +67,7 @@ constexpr auto enumerator_mapping(
        {"float", attrib_data_type::float_}}};
 }
 //------------------------------------------------------------------------------
-enum class index_data_type {
+enum class index_data_type : std::uint8_t {
     none = 0,
     unsigned_8 = 8,
     unsigned_16 = 16,
@@ -113,13 +113,13 @@ static inline bool operator>=(index_data_type l, index_data_type r) noexcept {
 }
 //------------------------------------------------------------------------------
 struct draw_operation {
-    primitive_type mode{primitive_type::points};
-    index_data_type idx_type{index_data_type::none};
     span_size_t first{0};
     span_size_t count{0};
     std::uint32_t phase{0};
     std::uint32_t primitive_restart_index{0};
     std::uint16_t patch_vertices{3};
+    primitive_type mode{primitive_type::points};
+    index_data_type idx_type{index_data_type::none};
     bool primitive_restart : 1;
     bool cw_face_winding : 1;
 

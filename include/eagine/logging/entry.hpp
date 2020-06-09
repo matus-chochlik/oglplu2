@@ -221,6 +221,24 @@ public:
     }
 
     log_entry& arg(
+      identifier name,
+      identifier tag,
+      span<const std::uint32_t> values) noexcept {
+        if(_backend) {
+            _args.add([=](logger_backend& backend) {
+                for(auto value : values) {
+                    backend.add_unsigned(name, tag, value);
+                }
+            });
+        }
+        return *this;
+    }
+
+    log_entry& arg(identifier name, span<const std::uint32_t> values) noexcept {
+        return arg(name, EAGINE_ID(uint32), values);
+    }
+
+    log_entry& arg(
       identifier name, identifier tag, std::uint16_t value) noexcept {
         if(_backend) {
             _args.add([=](logger_backend& backend) {
@@ -234,6 +252,24 @@ public:
         return arg(name, EAGINE_ID(uint16), value);
     }
 
+    log_entry& arg(
+      identifier name,
+      identifier tag,
+      span<const std::uint16_t> values) noexcept {
+        if(_backend) {
+            _args.add([=](logger_backend& backend) {
+                for(auto value : values) {
+                    backend.add_unsigned(name, tag, value);
+                }
+            });
+        }
+        return *this;
+    }
+
+    log_entry& arg(identifier name, span<const std::uint16_t> values) noexcept {
+        return arg(name, EAGINE_ID(uint16), values);
+    }
+
     log_entry& arg(identifier name, identifier tag, float value) noexcept {
         if(_backend) {
             _args.add([=](logger_backend& backend) {
@@ -245,6 +281,22 @@ public:
 
     log_entry& arg(identifier name, float value) noexcept {
         return arg(name, EAGINE_ID(real), value);
+    }
+
+    log_entry& arg(
+      identifier name, identifier tag, span<const float> values) noexcept {
+        if(_backend) {
+            for(auto value : values) {
+                _args.add([=](logger_backend& backend) {
+                    backend.add_float(name, tag, value);
+                });
+            }
+        }
+        return *this;
+    }
+
+    log_entry& arg(identifier name, span<const float> values) noexcept {
+        return arg(name, EAGINE_ID(real), values);
     }
 
     log_entry& arg(

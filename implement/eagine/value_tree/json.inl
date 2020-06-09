@@ -200,6 +200,12 @@ public:
 
     template <typename T>
     bool convert_real(_val_t& val, T& dest) {
+        if(val.IsFloat()) {
+            if(auto converted{convert_if_fits<T>(val.GetFloat())}) {
+                dest = extract(converted);
+                return true;
+            }
+        }
         if(val.IsDouble()) {
             if(auto converted{convert_if_fits<T>(val.GetDouble())}) {
                 dest = extract(converted);
@@ -285,7 +291,7 @@ public:
     }
 
     attribute_interface* find(
-      compound_interface& owner, const basic_string_path& path) {
+      compound_interface& owner, const basic_string_path& path) final {
         _val_t* result = _rj_val;
         _val_t* name = nullptr;
         for(auto& entry : path) {

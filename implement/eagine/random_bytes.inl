@@ -21,7 +21,7 @@ void do_fill_with_random_bytes(span<byte> buffer, Engine& engine) {
     const ui_t mask = ((1U << unsigned(CHAR_BIT)) - 1U);
     std::independent_bits_engine<Engine, CHAR_BIT, ui_t> ibe(engine);
 
-    auto gen = [&ibe, mask] { return static_cast<byte>(ibe() & mask); };
+    auto gen = [&] { return static_cast<byte>(ibe() & mask); };
 
     std::generate(buffer.begin(), buffer.end(), gen);
 }

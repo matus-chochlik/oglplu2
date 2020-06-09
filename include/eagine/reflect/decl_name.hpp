@@ -41,6 +41,10 @@ public:
         return false;
     }
 
+    auto get() noexcept {
+        return head(cover(_storage), _length);
+    }
+
     auto get() const noexcept {
         return head(view(_storage), _length);
     }
