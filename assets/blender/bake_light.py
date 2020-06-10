@@ -5,7 +5,7 @@
 # See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
 #
-# usage: blender -b myfile.blend -P render_cubemap.py [-- [--help|options...]]
+# usage: blender -b myfile.blend -P bake_light.py [-- [--help|options...]]
 
 import os
 import sys
