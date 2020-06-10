@@ -334,8 +334,8 @@ void value_tree_loader::instructions(span<draw_operation> ops) {
                       .arg(EAGINE_ID(prmRstrIdx), op.primitive_restart_index)
                       .arg(EAGINE_ID(mode), op.mode)
                       .arg(EAGINE_ID(indexType), op.idx_type)
-                      .arg(EAGINE_ID(primRstrt), op.primitive_restart)
-                      .arg(EAGINE_ID(cwFaceWndg), op.cw_face_winding);
+                      .arg(EAGINE_ID(primRstrt), bool(op.primitive_restart))
+                      .arg(EAGINE_ID(cwFaceWndg), bool(op.cw_face_winding));
                 } else {
                     _log.error("could not get shape draw instruction")
                       .arg(EAGINE_ID(index), i);
