@@ -165,6 +165,13 @@ public:
     }
 
     log_entry& arg(
+      identifier name, identifier tag, span<const std::int64_t>) noexcept;
+
+    log_entry& arg(identifier name, span<const std::int64_t> values) noexcept {
+        return arg(name, EAGINE_ID(int64), values);
+    }
+
+    log_entry& arg(
       identifier name, identifier tag, std::int32_t value) noexcept {
         if(_backend) {
             _args.add([=](logger_backend& backend) {
@@ -176,6 +183,13 @@ public:
 
     log_entry& arg(identifier name, std::int32_t value) noexcept {
         return arg(name, EAGINE_ID(int32), value);
+    }
+
+    log_entry& arg(
+      identifier name, identifier tag, span<const std::int32_t>) noexcept;
+
+    log_entry& arg(identifier name, span<const std::int32_t> values) noexcept {
+        return arg(name, EAGINE_ID(int32), values);
     }
 
     log_entry& arg(
@@ -193,6 +207,13 @@ public:
     }
 
     log_entry& arg(
+      identifier name, identifier tag, span<const std::int16_t>) noexcept;
+
+    log_entry& arg(identifier name, span<const std::int16_t> values) noexcept {
+        return arg(name, EAGINE_ID(int16), values);
+    }
+
+    log_entry& arg(
       identifier name, identifier tag, std::uint64_t value) noexcept {
         if(_backend) {
             _args.add([=](logger_backend& backend) {
@@ -203,7 +224,14 @@ public:
     }
 
     log_entry& arg(identifier name, std::uint64_t value) noexcept {
-        return arg(name, EAGINE_ID(uint64), value);
+        return arg(name, EAGINE_ID(int64), value);
+    }
+
+    log_entry& arg(
+      identifier name, identifier tag, span<const std::uint64_t>) noexcept;
+
+    log_entry& arg(identifier name, span<const std::uint64_t> values) noexcept {
+        return arg(name, EAGINE_ID(uint64), values);
     }
 
     log_entry& arg(
@@ -221,18 +249,7 @@ public:
     }
 
     log_entry& arg(
-      identifier name,
-      identifier tag,
-      span<const std::uint32_t> values) noexcept {
-        if(_backend) {
-            _args.add([=](logger_backend& backend) {
-                for(auto value : values) {
-                    backend.add_unsigned(name, tag, value);
-                }
-            });
-        }
-        return *this;
-    }
+      identifier name, identifier tag, span<const std::uint32_t>) noexcept;
 
     log_entry& arg(identifier name, span<const std::uint32_t> values) noexcept {
         return arg(name, EAGINE_ID(uint32), values);
@@ -253,18 +270,7 @@ public:
     }
 
     log_entry& arg(
-      identifier name,
-      identifier tag,
-      span<const std::uint16_t> values) noexcept {
-        if(_backend) {
-            _args.add([=](logger_backend& backend) {
-                for(auto value : values) {
-                    backend.add_unsigned(name, tag, value);
-                }
-            });
-        }
-        return *this;
-    }
+      identifier name, identifier tag, span<const std::uint16_t>) noexcept;
 
     log_entry& arg(identifier name, span<const std::uint16_t> values) noexcept {
         return arg(name, EAGINE_ID(uint16), values);
@@ -283,17 +289,7 @@ public:
         return arg(name, EAGINE_ID(real), value);
     }
 
-    log_entry& arg(
-      identifier name, identifier tag, span<const float> values) noexcept {
-        if(_backend) {
-            for(auto value : values) {
-                _args.add([=](logger_backend& backend) {
-                    backend.add_float(name, tag, value);
-                });
-            }
-        }
-        return *this;
-    }
+    log_entry& arg(identifier name, identifier tag, span<const float>) noexcept;
 
     log_entry& arg(identifier name, span<const float> values) noexcept {
         return arg(name, EAGINE_ID(real), values);
@@ -445,6 +441,17 @@ struct no_log_entry {
         return *this;
     }
 
+    template <typename T>
+    constexpr inline no_log_entry& arg(identifier, span<const T>) noexcept {
+        return *this;
+    }
+
+    template <typename T>
+    constexpr inline no_log_entry& arg(
+      identifier, identifier, span<const T>) noexcept {
+        return *this;
+    }
+
     template <typename T, typename P, typename F>
     constexpr inline no_log_entry& arg(
       identifier, identifier, valid_if<T, P>, const F&) noexcept {
@@ -524,5 +531,9 @@ private:
 };
 //------------------------------------------------------------------------------
 } // namespace eagine
+
+#if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
+#include <eagine/logging/entry.inl>
+#endif
 
 #endif // EAGINE_LOGGING_ENTRY_HPP
