@@ -10,9 +10,18 @@
 import os
 import sys
 import math
+import pathlib
 import argparse
 # ------------------------------------------------------------------------------
 class BakeLightArgParser(argparse.ArgumentParser):
+    # --------------------------------------------------------------------------
+    def _distance(self, x):
+        try:
+            f = float(x)
+            assert(f >= 0.0)
+            return f
+        except:
+            self.error("`%s' is not a valid distance value" % str(x))
     # --------------------------------------------------------------------------
     def _index(self, x):
         try:
@@ -61,10 +70,17 @@ class BakeLightArgParser(argparse.ArgumentParser):
         )
 
         self.add_argument(
-            '--light', '-l',
+            '--distances', '-d',
+            type=self._distance,
+            action="append",
+            default=[]
+        )
+
+        self.add_argument(
+            '--lights', '-l',
             type=str,
-            action="store",
-            default="Light"
+            action="append",
+            default=[]
         )
 
         self.add_argument(
@@ -93,8 +109,7 @@ class BakeLightArgParser(argparse.ArgumentParser):
                 "EMIT",
                 "DIFFUSE",
                 "GLOSSY",
-                "TRANSMISSION",
-                "SUBSURFACE"
+                "TRANSMISSION"
             ]
         )
 
@@ -114,6 +129,13 @@ class BakeLightArgParser(argparse.ArgumentParser):
         )
     # --------------------------------------------------------------------------
     def process_parsed_options(self, options):
+        if not options.distances:
+            options.distances = [1.0]
+        if not options.lights:
+            options.lights = ["Light"]
+        while len(options.distances) < len(options.lights):
+            options.distances.append(options.distances[-1])
+
         return options
     # --------------------------------------------------------------------------
     def parse_args(self, args):
@@ -134,6 +156,9 @@ def do_bake(options):
     try:
         import bpy
 
+        if not os.path.isdir(options.prefix):
+            pathlib.Path(options.prefix).mkdir(parents=True, exist_ok=True)
+
         scene = bpy.context.scene
         if options.engine:
             scene.render.engine = options.engine
@@ -143,28 +168,29 @@ def do_bake(options):
 
         target = bpy.data.objects[options.target]
         positions = bpy.data.objects[options.positions]
-        light = bpy.data.objects[options.light]
+        lights = [bpy.data.objects[l] for l in options.lights]
         bake_mat = target.active_material
         bake_mat.use_nodes = True
         bake_node = bake_mat.node_tree.nodes.new("ShaderNodeTexImage")
 
         if options.index:
             indices = options.index
-        else: range(len(positions.data.vertices))
-
-        baked_image = bpy.data.images.new(
-            "BakeImage",
-            alpha=False,
-            width=options.size,
-            height=options.size
-        )
-        baked_image.file_format = 'PNG'
-        bake_node.image = baked_image
+        else: indices = range(len(positions.data.vertices))
 
         target.select_set(True)
         for i in indices:
             pos = positions.data.vertices[i].co
-            light.location = pos
+            for l in range(len(lights)):
+                lights[l].location = pos * options.distances[l]
+
+            baked_image = bpy.data.images.new(
+                "BakeImage",
+                alpha=False,
+                width=options.size,
+                height=options.size
+            )
+            baked_image.file_format = 'PNG'
+            bake_node.image = baked_image
 
             baked_image.filepath = os.path.realpath("%s/%s_%f_%f_%f.png" % (
                 options.prefix,
@@ -179,7 +205,6 @@ def do_bake(options):
                 use_clear=True
             )
             baked_image.save()
-
 
         bpy.data.images.remove(baked_image)
         bpy.data.materials.remove(bake_mat)
