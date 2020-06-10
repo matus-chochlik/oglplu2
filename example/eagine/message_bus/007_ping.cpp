@@ -27,12 +27,17 @@ namespace msgbus {
 struct ping_stats {
     std::chrono::microseconds min_time{std::chrono::microseconds::max()};
     std::chrono::microseconds max_time{std::chrono::microseconds::zero()};
+    std::chrono::microseconds sum_time{std::chrono::microseconds::zero()};
     std::chrono::steady_clock::time_point start{
       std::chrono::steady_clock::now()};
     std::chrono::steady_clock::time_point finish{
       std::chrono::steady_clock::now()};
     std::intmax_t responded{0};
     std::intmax_t timeouted{0};
+
+    auto avg_time() const noexcept {
+        return sum_time / responded;
+    }
 
     auto time_interval() const noexcept {
         return std::chrono::duration_cast<std::chrono::duration<float>>(
@@ -87,6 +92,7 @@ public:
         stats.responded++;
         stats.min_time = std::min(stats.min_time, age);
         stats.max_time = std::max(stats.max_time, age);
+        stats.sum_time += age;
         stats.finish = std::chrono::steady_clock::now();
         if(EAGINE_UNLIKELY((++_rcvd % _mod) == 0)) {
             _log.info("received ${rcvd} pongs")
@@ -146,6 +152,7 @@ public:
               .arg(EAGINE_ID(id), id)
               .arg(EAGINE_ID(minTime), info.min_time)
               .arg(EAGINE_ID(maxTime), info.max_time)
+              .arg(EAGINE_ID(avgTime), info.avg_time())
               .arg(EAGINE_ID(responded), info.responded)
               .arg(EAGINE_ID(timeouted), info.timeouted)
               .arg(EAGINE_ID(duration), info.time_interval())
