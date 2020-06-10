@@ -23,7 +23,7 @@ ${install_prefix}/share/oglplus/examples/eagine-${variant}_pong \
 sleep 1
 ${install_prefix}/share/oglplus/examples/eagine-${variant}_ping \
 	"${log_args[@]}" \
-	--ping-count 1M \
+	--ping-count ${2:-1M} \
 	${conn_type} \
 	& pids+=($!)
 
