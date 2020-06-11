@@ -171,6 +171,7 @@ void unit_screen_gen::attrib_values(
             face_coords(dest);
             break;
         case vertex_attrib_kind::pivot:
+        case vertex_attrib_kind::pivot_pivot:
         case vertex_attrib_kind::vertex_pivot:
         case vertex_attrib_kind::object_id:
         case vertex_attrib_kind::material_id:

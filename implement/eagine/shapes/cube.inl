@@ -337,6 +337,7 @@ void unit_cube_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
             face_coords(dest);
             break;
         case vertex_attrib_kind::pivot:
+        case vertex_attrib_kind::pivot_pivot:
         case vertex_attrib_kind::vertex_pivot:
         case vertex_attrib_kind::object_id:
         case vertex_attrib_kind::material_id:

@@ -206,6 +206,8 @@ void centered_unit_shape_generator_base::attrib_values(
         }
     } else if(vav == vertex_attrib_kind::pivot) {
         fill(head(dest, this->vertex_count() * 3), 0.f);
+    } else if(vav == vertex_attrib_kind::pivot_pivot) {
+        fill(head(dest, this->vertex_count() * 3), 0.f);
     } else if(vav == vertex_attrib_kind::vertex_pivot) {
         fill(head(dest, this->vertex_count() * 3), 0.f);
     } else {

@@ -15,6 +15,7 @@ void centered_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
 
     const bool is_centered_attrib = vav == vertex_attrib_kind::position ||
                                     vav == vertex_attrib_kind::pivot ||
+                                    vav == vertex_attrib_kind::pivot_pivot ||
                                     vav == vertex_attrib_kind::vertex_pivot;
 
     if(is_centered_attrib) {

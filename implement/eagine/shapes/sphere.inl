@@ -170,6 +170,7 @@ void unit_sphere_gen::attrib_values(
             wrap_coords(dest);
             break;
         case vertex_attrib_kind::pivot:
+        case vertex_attrib_kind::pivot_pivot:
         case vertex_attrib_kind::vertex_pivot:
         case vertex_attrib_kind::box_coord:
         case vertex_attrib_kind::face_coord:

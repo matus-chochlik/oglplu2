@@ -23,8 +23,9 @@ EAGINE_LIB_FUNC
 vertex_attrib_bits unit_torus_gen::_attr_mask() noexcept {
     return vertex_attrib_kind::position | vertex_attrib_kind::normal |
            vertex_attrib_kind::tangential | vertex_attrib_kind::bitangential |
-           vertex_attrib_kind::pivot | vertex_attrib_kind::vertex_pivot |
-           vertex_attrib_kind::box_coord | vertex_attrib_kind::wrap_coord;
+           vertex_attrib_kind::pivot | vertex_attrib_kind::pivot_pivot |
+           vertex_attrib_kind::vertex_pivot | vertex_attrib_kind::box_coord |
+           vertex_attrib_kind::wrap_coord;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -287,6 +288,7 @@ void unit_torus_gen::make_special_attrib_values(
 EAGINE_LIB_FUNC
 span_size_t unit_torus_gen::attribute_variants(vertex_attrib_kind attrib) {
     switch(attrib) {
+        case vertex_attrib_kind::pivot_pivot:
         case vertex_attrib_kind::vertex_pivot:
             break;
         case vertex_attrib_kind::position:
@@ -336,6 +338,7 @@ void unit_torus_gen::attrib_values(
             wrap_coords(dest);
             break;
         case vertex_attrib_kind::pivot:
+        case vertex_attrib_kind::pivot_pivot:
         case vertex_attrib_kind::box_coord:
         case vertex_attrib_kind::face_coord:
         case vertex_attrib_kind::object_id:
