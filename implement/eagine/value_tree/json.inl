@@ -233,6 +233,42 @@ public:
         return false;
     }
 
+    template <typename R, typename P>
+    bool convert_duration(_val_t& val, std::chrono::duration<R, P>& dest) {
+        using _dur_t = std::chrono::duration<R, P>;
+        if(val.IsFloat()) {
+            if(auto converted{convert_if_fits<R>(val.GetFloat())}) {
+                dest = _dur_t{extract(converted)};
+                return true;
+            }
+        }
+        if(val.IsDouble()) {
+            if(auto converted{convert_if_fits<R>(val.GetDouble())}) {
+                dest = _dur_t{extract(converted)};
+                return true;
+            }
+        }
+        if(val.IsInt()) {
+            if(auto converted{convert_if_fits<R>(val.GetInt())}) {
+                dest = _dur_t{extract(converted)};
+                return true;
+            }
+        }
+        if(val.IsInt64()) {
+            if(auto converted{convert_if_fits<R>(val.GetInt64())}) {
+                dest = _dur_t{extract(converted)};
+                return true;
+            }
+        }
+        if(val.IsString()) {
+            if(auto converted{from_string<_dur_t>(view(val))}) {
+                dest = extract(converted);
+                return true;
+            }
+        }
+        return false;
+    }
+
     bool convert(_val_t& val, bool& dest) {
         return convert_bool(val, dest);
     }
@@ -263,6 +299,10 @@ public:
 
     bool convert(_val_t& val, float& dest) {
         return convert_real(val, dest);
+    }
+
+    bool convert(_val_t& val, std::chrono::duration<float>& dest) {
+        return convert_duration(val, dest);
     }
 
     template <typename T>

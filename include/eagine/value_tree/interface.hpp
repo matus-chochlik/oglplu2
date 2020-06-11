@@ -12,6 +12,7 @@
 
 #include "../string_path.hpp"
 #include "../string_span.hpp"
+#include <chrono>
 #include <cstdint>
 #include <memory>
 #include <string>
@@ -79,6 +80,11 @@ struct compound_interface {
       attribute_interface&, span_size_t offset, span<float> dest) = 0;
 
     virtual span_size_t fetch_values(
+      attribute_interface&,
+      span_size_t offset,
+      span<std::chrono::duration<float>> dest) = 0;
+
+    virtual span_size_t fetch_values(
       attribute_interface&, span_size_t offset, span<std::string> dest) = 0;
 };
 //------------------------------------------------------------------------------
@@ -139,6 +145,13 @@ public:
 
     span_size_t fetch_values(
       attribute_interface& attrib, span_size_t offset, span<float> dest) final {
+        return derived().do_fetch_values(attrib, offset, dest);
+    }
+
+    span_size_t fetch_values(
+      attribute_interface& attrib,
+      span_size_t offset,
+      span<std::chrono::duration<float>> dest) final {
         return derived().do_fetch_values(attrib, offset, dest);
     }
 

@@ -11,6 +11,7 @@
 #define EAGINE_MP_STRING_HPP
 
 #include "int_constant.hpp"
+#include "string_span.hpp"
 #include <utility>
 
 namespace eagine {
@@ -22,6 +23,10 @@ struct mp_string {
 
     using value_type = const char[sizeof...(C) + 1];
     static constexpr const char value[sizeof...(C) + 1] = {C..., '\0'};
+
+    constexpr operator string_view() const noexcept {
+        return {value};
+    }
 };
 
 template <char... C>

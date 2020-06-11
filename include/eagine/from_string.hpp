@@ -156,8 +156,8 @@ static inline optionally_valid<std::chrono::duration<Rep, Period>>
 convert_from_string(
   string_view src,
   identity<std::chrono::duration<Rep, Period>>,
-  Symbol) noexcept {
-    const string_view symbol(Symbol::value);
+  Symbol sym_const) noexcept {
+    const string_view symbol{sym_const};
     if(memory::ends_with(src, symbol)) {
         if(
           auto opt_val =
@@ -190,6 +190,13 @@ static inline optionally_valid<std::chrono::duration<Rep, Period>> from_string(
     if(
       auto d = convert_from_string(
         str,
+        identity<std::chrono::duration<Rep, std::micro>>(),
+        mp_string<char(0xc2), char(0xb5), 's'>())) {
+        return {std::chrono::duration_cast<dur_t>(extract(d)), true};
+    }
+    if(
+      auto d = convert_from_string(
+        str,
         identity<std::chrono::duration<Rep, std::nano>>(),
         mp_string<'n', 's'>())) {
         return {std::chrono::duration_cast<dur_t>(extract(d)), true};
@@ -199,6 +206,13 @@ static inline optionally_valid<std::chrono::duration<Rep, Period>> from_string(
         str,
         identity<std::chrono::duration<Rep, std::ratio<60>>>(),
         mp_string<'m', 'i', 'n'>())) {
+        return {std::chrono::duration_cast<dur_t>(extract(d)), true};
+    }
+    if(
+      auto d = convert_from_string(
+        str,
+        identity<std::chrono::duration<Rep, std::ratio<3600>>>(),
+        mp_string<'h', 'r'>())) {
         return {std::chrono::duration_cast<dur_t>(extract(d)), true};
     }
     return {};
