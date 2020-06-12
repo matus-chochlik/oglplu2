@@ -27,7 +27,8 @@ static void example_context_gl_debug_message(
   const oglp::gl_types::char_type* message,
   oglp::gl_types::const_void_ptr_type user_param) {
     if(EAGINE_LIKELY(user_param)) {
-        auto log = *const_cast<logger*>(static_cast<const logger*>(user_param));
+        auto& log =
+          *const_cast<logger*>(static_cast<const logger*>(user_param));
 
         log.debug(string_view(message, span_size(length)))
           .arg(EAGINE_ID(type), oglp::debug_output_type(type))
