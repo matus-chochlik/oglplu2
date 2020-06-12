@@ -30,15 +30,11 @@ class ExportMeshArgParser(argparse.ArgumentParser):
             action="store",
             default=None
         )
-        self.add_argument(
-            '--attrib', '-a',
-            dest="attributes",
-            action="append",
-            default=[],
-            choices=[
+
+        self.attrib_types = [
                 "object_id",
-                "position",
-                "normal",
+                "face_normal",
+                "vertex_normal",
                 "tangential",
                 "bitangential",
                 "pivot",
@@ -53,6 +49,12 @@ class ExportMeshArgParser(argparse.ArgumentParser):
                 "occlusion",
                 "material_id"
             ]
+        self.add_argument(
+            '--attrib', '-a',
+            dest="attributes",
+            action="append",
+            default=[],
+            choices=self.attrib_types
         )
 
         self.add_argument(
@@ -72,6 +74,10 @@ class ExportMeshArgParser(argparse.ArgumentParser):
         else:
             options.prefix = None
             options.output = sys.stdout
+
+        for attr_type in self.attrib_types:
+            do_exp = attr_type in options.attributes
+            options.__dict__["exp_%s" % attr_type] = do_exp
 
         if not options.attributes:
             options.attributes = ["position"]
@@ -112,27 +118,85 @@ def triangulate(options, obj):
 def fixnum(x):
     return x if x != round(x) else int(x)
 # ------------------------------------------------------------------------------
+def has_same_values(options, mesh, fl, vl, fr, vr):
+    if vl.co != vr.co:
+        return False
+    if options.exp_vertex_normal:
+        if vl.normal != vr.normal:
+            return False
+    if options.exp_face_normal:
+        if fl.normal != fr.normal:
+            return False
+    return True
+
+# ------------------------------------------------------------------------------
 def export_single(options, name, mesh):
     result = {}
     result["name"] = name
-    vertex_count = 0
-    positions = []
-    for poly in mesh.polygons:
-        s = poly.loop_start
-        c = poly.loop_total
-        for loop_index in range(s, s + c):
-            coord = mesh.vertices[mesh.loops[loop_index].vertex_index].co
-            positions += [fixnum(x) for x in coord]
-            vertex_count += 1
 
-    result["positions"] = [{
+    emitted = {}
+    for meshvert in mesh.vertices:
+        emitted[meshvert.index] = {
+            "face_index": []
+        }
+
+    vertex_count = 0
+    indices = []
+    positions = []
+
+    normals = {}
+    if options.exp_vertex_normal:
+        normals["vertex"] = []
+    if options.exp_face_normal:
+        normals["face"] = []
+
+    for face in mesh.polygons:
+        s = face.loop_start
+        c = face.loop_total
+        fn = [fixnum(x) for x in face.normal]
+        for loop_index in range(s, s + c):
+            meshvert = mesh.vertices[mesh.loops[loop_index].vertex_index]
+
+            emitted_vert = emitted[meshvert.index]
+            reused_vertex = False
+            for old_face_index in emitted_vert["face_index"]:
+                if has_same_values(
+                    options,
+                    mesh,
+                    mesh.polygons[old_face_index],
+                    meshvert,
+                    face,
+                    meshvert
+                ):
+                    reused_vertex = True
+                    indices.append(emitted_vert["emit_index"])
+
+            if not reused_vertex:
+                positions += [fixnum(x) for x in meshvert.co]
+                if options.exp_vertex_normal:
+                    normals["vertex"] += [fixnum(x) for x in meshvert.normal]
+                if options.exp_face_normal:
+                    normals["face"] += fn
+                emitted_vert["emit_index"] = vertex_count
+                emitted_vert["face_index"].append(face.index)
+                indices.append(vertex_count)
+
+                vertex_count += 1
+
+    result["position"] = [{
         "data": positions
     }]
 
+    if options.exp_vertex_normal:
+        result["normal"] = [
+            {variant: {"data": data}} for variant, data in normals.items()
+        ]
+
     result["vertex_count"] = vertex_count
+    result["indices"] = indices
     result["instructions"] = [{
         "first": 0,
-        "count": vertex_count
+        "count": len(indices)
     }]
     return result
 # ------------------------------------------------------------------------------
