@@ -41,7 +41,6 @@ class ExportMeshArgParser(argparse.ArgumentParser):
                 "pivot",
                 "pivot_pivot",
                 "vertex_pivot",
-                "box_coord",
                 "face_coord",
                 "wrap_coord",
                 "color",
@@ -56,6 +55,20 @@ class ExportMeshArgParser(argparse.ArgumentParser):
             action="append",
             default=[],
             choices=self.attrib_types
+        )
+
+        self.add_argument(
+            '--color-names', '-C',
+            dest="color_names",
+            action="append",
+            default=[]
+        )
+
+        self.add_argument(
+            '--uv-names', '-U',
+            dest="uv_names",
+            action="append",
+            default=[]
         )
 
         self.add_argument(
@@ -141,17 +154,24 @@ def has_same_values(options, mesh, fl, ll, vl, fr, lr, vr):
         for vcs in mesh.vertex_colors:
             if vcs.data[vl.index].color != vcs.data[vr.index].color:
                 return False
+    if options.exp_wrap_coord:
+        for uvs in mesh.uv_layers:
+            if uvs.data[vl.index].uv != uvs.data[vr.index].uv:
+                return False
 
     return True
 
 # ------------------------------------------------------------------------------
-def export_single(options, name, mesh):
+def export_single(options, name, obj, mesh):
     if options.exp_normal or options.exp_tangential or options.exp_bitangential:
         mesh.calc_tangents() # TODO for each uv-map?
 
     result = {}
     result["name"] = name
     result["position"] = []
+
+    if options.exp_pivot:
+        result["pivot"] = []
 
     if options.exp_normal or options.exp_vert_normal or options.exp_face_normal:
         result["normal"] = []
@@ -165,6 +185,9 @@ def export_single(options, name, mesh):
     if options.exp_color:
         result["color"] = []
 
+    if options.exp_wrap_coord:
+        result["wrap_coord"] = []
+
     emitted = {}
     for meshvert in mesh.vertices:
         emitted[meshvert.index] = {
@@ -174,13 +197,24 @@ def export_single(options, name, mesh):
     vertex_index = 0
     indices = []
     positions = []
+    pivots = []
     vert_normals = []
     face_normals = []
     normals = []
     tangentials = []
     bitangentials = []
 
-    colors = {vcs.name: [] for vcs in mesh.vertex_colors}
+    colors = {
+        vcs.name: []
+        for vcs in mesh.vertex_colors
+        if (vcs.name in options.color_names) or (not options.color_names)
+    }
+
+    coords = {
+        uvs.name: []
+        for uvs in mesh.uv_layers
+        if (uvs.name in options.uv_names) or (not options.uv_names)
+    }
 
     for meshface in mesh.polygons:
         s = meshface.loop_start
@@ -208,6 +242,8 @@ def export_single(options, name, mesh):
 
             if not reused_vertex:
                 positions += [fixnum(x) for x in meshvert.co]
+                if options.exp_pivot:
+                    pivots += [fixnum(x) for x in obj.location]
                 if options.exp_vert_normal:
                     vert_normals += [fixnum(x) for x in meshvert.normal]
                 if options.exp_face_normal:
@@ -220,8 +256,18 @@ def export_single(options, name, mesh):
                     bitangentials += [fixnum(x) for x in meshloop.bitangent]
                 if options.exp_color:
                     for vcs in mesh.vertex_colors:
-                        vc = vcs.data[meshvert.index]
-                        colors[vcs.name] += [fixnum(x) for x in vc.color]
+                        vc = vcs.data[meshvert.index].color
+                        try:
+                            colors[vcs.name] += [fixnum(x) for x in vc]
+                        except KeyError:
+                            pass
+                if options.exp_wrap_coord:
+                    for uvs in mesh.uv_layers:
+                        uv = uvs.data[meshvert.index].uv
+                        try:
+                            coords[uvs.name] += [fixnum(x) for x in uv]
+                        except KeyError:
+                            pass
 
                 emitted_vert["emit_index"] = vertex_index
                 emitted_vert["index"].add((meshface.index, meshloop.index))
@@ -232,6 +278,11 @@ def export_single(options, name, mesh):
     result["position"].append({
         "data": positions
     })
+
+    if options.exp_pivot:
+        result["pivot"].append({
+            "data": pivots
+        })
 
     if options.exp_normal:
         result["normal"].append({
@@ -268,9 +319,16 @@ def export_single(options, name, mesh):
                 "data": data
             })
 
-    vertex_count = len(positions)
-    index_type = "unsigned_16" if vertex_count < 2**16 else "unsigned_32"
-    result["vertex_count"] = vertex_count
+    if options.exp_wrap_coord:
+        for name, data in coords.items():
+            result["wrap_coord"].append({
+                "values_per_vertex": 2,
+                "name": name,
+                "data": data
+            })
+
+    index_type = "unsigned_16" if vertex_index < 2**16 else "unsigned_32"
+    result["vertex_count"] = vertex_index
     result["index_type"] = index_type
     result["indices"] = indices
     result["instructions"] = [{
@@ -288,7 +346,7 @@ def do_export(options):
 
         for name, obj in [(n, bpy.data.objects[n]) for n in options.meshes]:
             mesh = triangulate(options, obj)
-            result.append(export_single(options, name, mesh))
+            result.append(export_single(options, name, obj, mesh))
             del mesh
 
         if len(result) == 1:
