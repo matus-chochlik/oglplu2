@@ -34,7 +34,8 @@ class ExportMeshArgParser(argparse.ArgumentParser):
         self.attrib_types = [
                 "object_id",
                 "face_normal",
-                "vertex_normal",
+                "vert_normal",
+                "normal",
                 "tangential",
                 "bitangential",
                 "pivot",
@@ -118,54 +119,88 @@ def triangulate(options, obj):
 def fixnum(x):
     return x if x != round(x) else int(x)
 # ------------------------------------------------------------------------------
-def has_same_values(options, mesh, fl, vl, fr, vr):
+def has_same_values(options, mesh, fl, ll, vl, fr, lr, vr):
     if vl.co != vr.co:
         return False
-    if options.exp_vertex_normal:
+    if options.exp_vert_normal:
         if vl.normal != vr.normal:
             return False
     if options.exp_face_normal:
         if fl.normal != fr.normal:
             return False
+    if options.exp_normal:
+        if ll.normal != lr.normal:
+            return False
+    if options.exp_tangential:
+        if ll.tangent != lr.tangent:
+            return False
+    if options.exp_bitangential:
+        if ll.bitangent != lr.bitangent:
+            return False
+    if options.exp_color:
+        for vcs in mesh.vertex_colors:
+            if vcs.data[vl.index].color != vcs.data[vr.index].color:
+                return False
+
     return True
 
 # ------------------------------------------------------------------------------
 def export_single(options, name, mesh):
+    if options.exp_normal or options.exp_tangential or options.exp_bitangential:
+        mesh.calc_tangents() # TODO for each uv-map?
+
     result = {}
     result["name"] = name
+    result["position"] = []
+
+    if options.exp_normal or options.exp_vert_normal or options.exp_face_normal:
+        result["normal"] = []
+
+    if options.exp_tangential:
+        result["tangential"] = []
+
+    if options.exp_bitangential:
+        result["bitangential"] = []
+
+    if options.exp_color:
+        result["color"] = []
 
     emitted = {}
     for meshvert in mesh.vertices:
         emitted[meshvert.index] = {
-            "face_index": []
+            "index": set()
         }
 
-    vertex_count = 0
+    vertex_index = 0
     indices = []
     positions = []
+    vert_normals = []
+    face_normals = []
+    normals = []
+    tangentials = []
+    bitangentials = []
 
-    normals = {}
-    if options.exp_vertex_normal:
-        normals["vertex"] = []
-    if options.exp_face_normal:
-        normals["face"] = []
+    colors = {vcs.name: [] for vcs in mesh.vertex_colors}
 
-    for face in mesh.polygons:
-        s = face.loop_start
-        c = face.loop_total
-        fn = [fixnum(x) for x in face.normal]
+    for meshface in mesh.polygons:
+        s = meshface.loop_start
+        c = meshface.loop_total
+        fn = [fixnum(x) for x in meshface.normal]
         for loop_index in range(s, s + c):
-            meshvert = mesh.vertices[mesh.loops[loop_index].vertex_index]
+            meshloop = mesh.loops[loop_index]
+            meshvert = mesh.vertices[meshloop.vertex_index]
 
             emitted_vert = emitted[meshvert.index]
             reused_vertex = False
-            for old_face_index in emitted_vert["face_index"]:
+            for old_face_index, old_loop_index in emitted_vert["index"]:
                 if has_same_values(
                     options,
                     mesh,
                     mesh.polygons[old_face_index],
+                    mesh.loops[old_loop_index],
                     meshvert,
-                    face,
+                    meshface,
+                    meshloop,
                     meshvert
                 ):
                     reused_vertex = True
@@ -173,30 +208,76 @@ def export_single(options, name, mesh):
 
             if not reused_vertex:
                 positions += [fixnum(x) for x in meshvert.co]
-                if options.exp_vertex_normal:
-                    normals["vertex"] += [fixnum(x) for x in meshvert.normal]
+                if options.exp_vert_normal:
+                    vert_normals += [fixnum(x) for x in meshvert.normal]
                 if options.exp_face_normal:
-                    normals["face"] += fn
-                emitted_vert["emit_index"] = vertex_count
-                emitted_vert["face_index"].append(face.index)
-                indices.append(vertex_count)
+                    face_normals += fn
+                if options.exp_normal:
+                    normals += [fixnum(x) for x in meshloop.normal]
+                if options.exp_tangential:
+                    tangentials += [fixnum(x) for x in meshloop.tangent]
+                if options.exp_bitangential:
+                    bitangentials += [fixnum(x) for x in meshloop.bitangent]
+                if options.exp_color:
+                    for vcs in mesh.vertex_colors:
+                        vc = vcs.data[meshvert.index]
+                        colors[vcs.name] += [fixnum(x) for x in vc.color]
 
-                vertex_count += 1
+                emitted_vert["emit_index"] = vertex_index
+                emitted_vert["index"].add((meshface.index, meshloop.index))
+                indices.append(vertex_index)
 
-    result["position"] = [{
+                vertex_index += 1
+
+    result["position"].append({
         "data": positions
-    }]
+    })
 
-    if options.exp_vertex_normal:
-        result["normal"] = [
-            {variant: {"data": data}} for variant, data in normals.items()
-        ]
+    if options.exp_normal:
+        result["normal"].append({
+            "data": normals
+        })
 
+    if options.exp_vert_normal:
+        result["normal"].append({
+            "name": "vertex",
+            "data": vert_normals
+        })
+
+    if options.exp_face_normal:
+        result["normal"].append({
+            "name": "face",
+            "data": face_normals
+        })
+
+    if options.exp_tangential:
+        result["tangential"].append({
+            "data": tangentials
+        })
+
+    if options.exp_bitangential:
+        result["bitangential"].append({
+            "data": bitangentials
+        })
+
+    if options.exp_color:
+        for name, data in colors.items():
+            result["color"].append({
+                "values_per_vertex": 4,
+                "name": name,
+                "data": data
+            })
+
+    vertex_count = len(positions)
+    index_type = "unsigned_16" if vertex_count < 2**16 else "unsigned_32"
     result["vertex_count"] = vertex_count
+    result["index_type"] = index_type
     result["indices"] = indices
     result["instructions"] = [{
+        "mode": "triangles",
         "first": 0,
-        "count": len(indices)
+        "count": len(indices),
+        "index_type": index_type
     }]
     return result
 # ------------------------------------------------------------------------------
@@ -210,6 +291,8 @@ def do_export(options):
             result.append(export_single(options, name, mesh))
             del mesh
 
+        if len(result) == 1:
+            result = result[0]
         json.dump(result, options.output, separators=(',', ':'))
     except ModuleNotFoundError:
         sys.stderr.write("must be run from blender!\n")
