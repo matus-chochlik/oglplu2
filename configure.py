@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # coding=utf-8
 # Copyright Matus Chochlik.
 # Distributed under the Boost Software License, Version 1.0.
@@ -363,8 +363,8 @@ def get_argument_parser():
         """
     )
 
-    path2idus = string.maketrans("/.","__")
-    path2idmi = string.maketrans("/.","--")
+    path2idus = str.maketrans("/.","__")
+    path2idmi = str.maketrans("/.","--")
     gl_api_libs = {
         "glcorearb.h"  : "GL/glcorearb.h header",
         "GL3/gl3.h"    : "GL3/gl3.h header",

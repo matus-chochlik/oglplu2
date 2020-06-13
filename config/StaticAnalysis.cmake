@@ -29,7 +29,7 @@ macro(eagine_add_exe_analysis TARGETNAME)
 
 	target_compile_options(
 		${TARGETNAME}
-		PRIVATE $<$<BOOL:${EAGINE_GXX_COMPILER}>:-Wextra;-Wshadow;-Wno-noexcept-type;-Wno-attributes;-Wno-psabi>
+		PRIVATE $<$<BOOL:${EAGINE_GXX_COMPILER}>:-Wextra;-Wshadow;-Wno-noexcept-type;-Wno-attributes;-Wno-psabi;-Wno-unknown-warning-option>
 	)
 	
 	if(INVOKE_CLANG_TIDY)
