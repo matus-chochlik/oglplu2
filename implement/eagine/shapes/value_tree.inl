@@ -172,8 +172,7 @@ void value_tree_loader::attrib_values(
                 if(_source.fetch_values(data_a, dest)) {
                     _log.debug("loaded vertex attribute data")
                       .arg(EAGINE_ID(attribute), vav.attrib)
-                      .arg(EAGINE_ID(variant), vav.index())
-                      .arg(EAGINE_ID(data), view(dest));
+                      .arg(EAGINE_ID(variant), vav.index());
                 } else {
                     _log.error("could not fetch vertex attribute data")
                       .arg(EAGINE_ID(attribute), vav.attrib)
@@ -224,7 +223,7 @@ EAGINE_LIB_FUNC
 void value_tree_loader::indices(span<std::uint16_t> dest) {
     if(auto indices_a{_source.find("indices")}) {
         if(_source.fetch_values(indices_a, dest)) {
-            _log.debug("loaded indices").arg(EAGINE_ID(indices), view(dest));
+            _log.debug("loaded indices");
         } else {
             _log.error("could not fetch shape 32-bit indices");
         }

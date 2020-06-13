@@ -44,6 +44,8 @@ class ExportMeshArgParser(argparse.ArgumentParser):
                 "face_coord",
                 "wrap_coord",
                 "color",
+                "material_diffuse_color",
+                "material_specular_color",
                 "emission",
                 "weight",
                 "occlusion",
@@ -129,10 +131,21 @@ def triangulate(options, obj):
     bmsh.free()
     return mesh
 # ------------------------------------------------------------------------------
+def fixvec(v):
+    return (v.x, v.z,-v.y)
+# ------------------------------------------------------------------------------
 def fixnum(x):
     return x if x != round(x) else int(x)
 # ------------------------------------------------------------------------------
-def has_same_values(options, mesh, fl, ll, vl, fr, lr, vr):
+def get_diffuse_color(mat):
+    # TODO Material.use_nodes / Material.node_tree
+    return mat.diffuse_color
+# ------------------------------------------------------------------------------
+def get_specular_color(mat):
+    # TODO Material.use_nodes / Material.node_tree
+    return mat.specular_color
+# ------------------------------------------------------------------------------
+def has_same_values(options, obj, mesh, fl, ll, vl, fr, lr, vr):
     if vl.co != vr.co:
         return False
     if options.exp_vert_normal:
@@ -154,6 +167,16 @@ def has_same_values(options, mesh, fl, ll, vl, fr, lr, vr):
         for vcs in mesh.vertex_colors:
             if vcs.data[vl.index].color != vcs.data[vr.index].color:
                 return False
+    if options.exp_material_diffuse_color:
+        ml = obj.material_slots[fl.material_index].material
+        mr = obj.material_slots[fr.material_index].material
+        if get_diffuse_color(ml) != get_diffuse_color(mr):
+            return False;
+    if options.exp_material_specular_color:
+        ml = obj.material_slots[fl.material_index].material
+        mr = obj.material_slots[fr.material_index].material
+        if get_specular_color(ml) != get_specular_color(mr):
+            return False;
     if options.exp_wrap_coord:
         for uvs in mesh.uv_layers:
             if uvs.data[vl.index].uv != uvs.data[vr.index].uv:
@@ -162,7 +185,7 @@ def has_same_values(options, mesh, fl, ll, vl, fr, lr, vr):
     return True
 
 # ------------------------------------------------------------------------------
-def export_single(options, name, obj, mesh):
+def export_single(options, bdata, name, obj, mesh):
     if options.exp_normal or options.exp_tangential or options.exp_bitangential:
         mesh.calc_tangents() # TODO for each uv-map?
 
@@ -182,7 +205,9 @@ def export_single(options, name, obj, mesh):
     if options.exp_bitangential:
         result["bitangential"] = []
 
-    if options.exp_color:
+    if options.exp_color or\
+        options.exp_material_diffuse_color or\
+        options.exp_material_specular_color:
         result["color"] = []
 
     if options.exp_wrap_coord:
@@ -190,9 +215,7 @@ def export_single(options, name, obj, mesh):
 
     emitted = {}
     for meshvert in mesh.vertices:
-        emitted[meshvert.index] = {
-            "index": set()
-        }
+        emitted[meshvert.index] = set()
 
     vertex_index = 0
     indices = []
@@ -204,11 +227,16 @@ def export_single(options, name, obj, mesh):
     tangentials = []
     bitangentials = []
 
-    colors = {
-        vcs.name: []
-        for vcs in mesh.vertex_colors
-        if (vcs.name in options.color_names) or (not options.color_names)
-    }
+    colors = {}
+    if options.exp_color:
+        for vcs in mesh.vertex_colors:
+            if (vcs.name in options.color_names) or (not options.color_names):
+                colors[vcs.name] = []
+
+    if options.exp_material_diffuse_color:
+        colors["material.diffuse"] = []
+    if options.exp_material_specular_color:
+        colors["material.specular"] = []
 
     coords = {
         uvs.name: []
@@ -219,16 +247,17 @@ def export_single(options, name, obj, mesh):
     for meshface in mesh.polygons:
         s = meshface.loop_start
         c = meshface.loop_total
-        fn = [fixnum(x) for x in meshface.normal]
+        fn = [fixnum(x) for x in fixvec(meshface.normal)]
         for loop_index in range(s, s + c):
             meshloop = mesh.loops[loop_index]
             meshvert = mesh.vertices[meshloop.vertex_index]
 
             emitted_vert = emitted[meshvert.index]
             reused_vertex = False
-            for old_face_index, old_loop_index in emitted_vert["index"]:
+            for old_face_index, old_loop_index, emit_index in emitted_vert:
                 if has_same_values(
                     options,
+                    obj,
                     mesh,
                     mesh.polygons[old_face_index],
                     mesh.loops[old_loop_index],
@@ -238,22 +267,25 @@ def export_single(options, name, obj, mesh):
                     meshvert
                 ):
                     reused_vertex = True
-                    indices.append(emitted_vert["emit_index"])
+                    indices.append(emit_index)
 
             if not reused_vertex:
-                positions += [fixnum(x) for x in meshvert.co]
+                positions += [fixnum(x) for x in fixvec(meshvert.co)]
                 if options.exp_pivot:
-                    pivots += [fixnum(x) for x in obj.location]
+                    pivots += [fixnum(x) for x in fixvec(obj.location)]
                 if options.exp_vert_normal:
-                    vert_normals += [fixnum(x) for x in meshvert.normal]
+                    vert_normals += [fixnum(x) for x in fixvec(meshvert.normal)]
                 if options.exp_face_normal:
                     face_normals += fn
                 if options.exp_normal:
-                    normals += [fixnum(x) for x in meshloop.normal]
+                    normals +=\
+                        [fixnum(x) for x in fixvec(meshloop.normal)]
                 if options.exp_tangential:
-                    tangentials += [fixnum(x) for x in meshloop.tangent]
+                    tangentials +=\
+                        [fixnum(x) for x in fixvec(meshloop.tangent)]
                 if options.exp_bitangential:
-                    bitangentials += [fixnum(x) for x in meshloop.bitangent]
+                    bitangentials +=\
+                        [fixnum(x) for x in fixvec(meshloop.bitangent)]
                 if options.exp_color:
                     for vcs in mesh.vertex_colors:
                         vc = vcs.data[meshvert.index].color
@@ -261,6 +293,14 @@ def export_single(options, name, obj, mesh):
                             colors[vcs.name] += [fixnum(x) for x in vc]
                         except KeyError:
                             pass
+                if options.exp_material_diffuse_color:
+                    mat = obj.material_slots[meshface.material_index].material
+                    dc = get_diffuse_color(mat)
+                    colors["material.diffuse"] += [fixnum(x) for x in dc]
+                if options.exp_material_specular_color:
+                    mat = obj.material_slots[meshface.material_index].material
+                    sc = get_specular_color(mat)
+                    colors["material.specular"] += [fixnum(x) for x in sc]
                 if options.exp_wrap_coord:
                     for uvs in mesh.uv_layers:
                         uv = uvs.data[meshvert.index].uv
@@ -269,8 +309,9 @@ def export_single(options, name, obj, mesh):
                         except KeyError:
                             pass
 
-                emitted_vert["emit_index"] = vertex_index
-                emitted_vert["index"].add((meshface.index, meshloop.index))
+                emitted_vert.add(
+                    (meshface.index, meshloop.index, vertex_index)
+                )
                 indices.append(vertex_index)
 
                 vertex_index += 1
@@ -311,7 +352,9 @@ def export_single(options, name, obj, mesh):
             "data": bitangentials
         })
 
-    if options.exp_color:
+    if options.exp_color or\
+        options.exp_material_diffuse_color or\
+        options.exp_material_specular_color:
         for name, data in colors.items():
             result["color"].append({
                 "values_per_vertex": 4,
@@ -335,7 +378,8 @@ def export_single(options, name, obj, mesh):
         "mode": "triangles",
         "first": 0,
         "count": len(indices),
-        "index_type": index_type
+        "index_type": index_type,
+        "cw_face_winding": False
     }]
     return result
 # ------------------------------------------------------------------------------
@@ -346,7 +390,7 @@ def do_export(options):
 
         for name, obj in [(n, bpy.data.objects[n]) for n in options.meshes]:
             mesh = triangulate(options, obj)
-            result.append(export_single(options, name, obj, mesh))
+            result.append(export_single(options, bpy.data, name, obj, mesh))
             del mesh
 
         if len(result) == 1:
