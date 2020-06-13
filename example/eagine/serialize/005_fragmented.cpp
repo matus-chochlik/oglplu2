@@ -96,7 +96,7 @@ template <typename T>
 void serialize_data(const std::vector<T>& instance) {
 
     deserial_data_state<T> state{};
-    std::array<byte, 256> chunk;
+    std::array<byte, 256> chunk{};
 
     block_data_sink sink(cover(chunk));
     fast_serializer_backend backend{sink};

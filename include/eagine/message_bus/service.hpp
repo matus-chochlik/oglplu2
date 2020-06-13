@@ -31,6 +31,8 @@ public:
       : Base{bus} {
         _init();
     }
+
+    // NOLINTNEXTLINE(hicpp-noexcept-move,performance-noexcept-move-constructor)
     service_composition(service_composition&& that)
       : Base{static_cast<Base&&>(that)} {
         _init();
@@ -39,7 +41,7 @@ public:
     service_composition& operator=(service_composition&&) = delete;
     service_composition& operator=(const service_composition&) = delete;
 
-    ~service_composition() noexcept {
+    ~service_composition() noexcept override {
         this->retract_subscriptions();
         this->finish();
     }

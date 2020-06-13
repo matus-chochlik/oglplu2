@@ -37,6 +37,7 @@ protected:
       format_string_and_list_base&&) noexcept = default;
     format_string_and_list_base& operator=(const format_string_and_list_base&) =
       default;
+    ~format_string_and_list_base() noexcept = default;
 
     std::string _fmt(span<const std::string> values) const;
 };

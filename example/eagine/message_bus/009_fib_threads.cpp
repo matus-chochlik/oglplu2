@@ -67,6 +67,7 @@ public:
         deserialize(arg, read_backend);
         // call
         result = fib(arg);
+        EAGINE_MAYBE_UNUSED(result);
         // serialize
         std::array<byte, 64> buffer{};
         block_data_sink sink(cover(buffer));

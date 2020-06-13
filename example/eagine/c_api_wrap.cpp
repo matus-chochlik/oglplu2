@@ -51,14 +51,14 @@ struct example_file_api {
         using base::base;
 
         explicit constexpr operator bool() const noexcept {
-            return bool(EAGINE_POSIX);
+            return EAGINE_POSIX != 0;
         }
 
         ssize_t operator()(const char* path, int flags) noexcept {
             EAGINE_MAYBE_UNUSED(path);
             EAGINE_MAYBE_UNUSED(flags);
 #if EAGINE_POSIX
-            return ::open(path, flags);
+            return ::open(path, flags); // NOLINT(hicpp-vararg)
 #else
             return -1;
 #endif

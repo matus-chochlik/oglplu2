@@ -64,7 +64,7 @@ class ping_example : public ping_base {
     using base = ping_base;
 
 public:
-    ping_example(endpoint& bus, valid_if_positive<std::intmax_t> max)
+    ping_example(endpoint& bus, const valid_if_positive<std::intmax_t>& max)
       : base{bus}
       , _log{EAGINE_ID(PingExampl), bus.log()}
       , _max{extract_or(max, 100000)} {

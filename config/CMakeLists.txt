@@ -3,8 +3,6 @@
 #  See accompanying file LICENSE_1_0.txt or copy at
 #   http://www.boost.org/LICENSE_1_0.txt
 #
-cmake_minimum_required(VERSION 3.5)
-
 # make the info.py script
 set(INFO_PY "${CMAKE_CURRENT_BINARY_DIR}/info.py")
 file(WRITE ${INFO_PY} "# coding=utf-8\n")

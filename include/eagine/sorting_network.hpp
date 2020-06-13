@@ -16,7 +16,7 @@ class bitonic_sorting_network_base {
 protected:
     static constexpr inline std::size_t _next_log(
       std::size_t n, std::size_t pot = 1) noexcept {
-        return (n > pot) ? 1 + _next_log(n, pot << 1) : 0;
+        return (n > pot) ? 1U + _next_log(n, pot << 1U) : 0U;
     }
 
     static constexpr inline std::size_t _hlp(std::size_t n) noexcept {
@@ -28,17 +28,17 @@ protected:
         std::size_t r = 0;
         for(std::size_t k = 0, l = _next_log(N); k < l; ++k) {
             for(std::size_t m = 0; m <= k; ++m, ++r) {
-                std::size_t d = 1 << (k - m);
+                std::size_t d = 1U << (k - m);
                 std::array<std::size_t, N>& row = idx[r];
 
                 for(std::size_t i = 0; i < N; ++i) {
-                    std::size_t inv = ((i >> k) & 2) >> 1;
+                    std::size_t inv = ((i >> k) & 2U) >> 1U;
                     std::size_t j = i + ((i & d) == 0 ? d : -d);
 
                     if(j >= N) {
                         j = i;
                     }
-                    row[i] = (j << 1) | inv;
+                    row[i] = (j << 1U) | inv;
                 }
             }
         }
@@ -82,11 +82,11 @@ public:
     }
 
     static inline span_size_t index(span_size_t r, span_size_t i) {
-        return span_size(_c(r, i) >> 1);
+        return span_size(_c(r, i) >> 1U);
     }
 
     static inline bool inv(span_size_t r, span_size_t i) {
-        return (_c(r, i) & 1) == 1;
+        return (_c(r, i) & 1U) == 1U;
     }
 
     static inline bool min(span_size_t r, span_size_t i, span_size_t j) {

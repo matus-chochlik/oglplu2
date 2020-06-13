@@ -28,7 +28,7 @@ public:
       logger& parent,
       connection_setup& conn_setup,
       string_view address,
-      valid_if_positive<std::size_t> max)
+      const valid_if_positive<std::size_t>& max)
       : base(
           {EAGINE_ID(ExamplPing), parent},
           this,

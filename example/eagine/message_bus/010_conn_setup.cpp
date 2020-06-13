@@ -52,6 +52,10 @@ public:
           EAGINE_MSG_MAP(Fibonacci, Calculate, this_class, calculate),
           EAGINE_MSG_MAP(Fibonacci, Shutdown, this_class, shutdown)) {
     }
+    fibonacci_server(const fibonacci_server&) = delete;
+    fibonacci_server& operator=(fibonacci_server&& temp) = delete;
+    fibonacci_server& operator=(const fibonacci_server&) = delete;
+    ~fibonacci_server() noexcept final = default;
 
     bool shutdown(stored_message&) {
         _done = true;
@@ -77,6 +81,7 @@ public:
         deserialize(arg, read_backend);
         // call
         result = fib(arg);
+        EAGINE_MAYBE_UNUSED(result);
         // serialize
         std::array<byte, 64> buffer{};
         block_data_sink sink(cover(buffer));

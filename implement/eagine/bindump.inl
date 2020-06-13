@@ -24,8 +24,8 @@ void _bindump_to_bin_b(Putter& put_char, byte b) {
     for(unsigned o = 0; o < 4; ++o) {
         byte c = (b >> ((4 - o - 1) * 2));
         put_char(' ');
-        put_char(bd[(c >> 1) & 0x01]);
-        put_char(bd[c & 0x01]);
+        put_char(bd[(c >> 1U) & 0x01U]); // NOLINT(hicpp-signed-bitwise)
+        put_char(bd[c & 0x01U]);
     }
 }
 //------------------------------------------------------------------------------

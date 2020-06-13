@@ -12,7 +12,6 @@
 
 int main() {
     using namespace eagine;
-
     std::cout << hexdump(embed(EAGINE_ID(self), __FILE__));
 
     return 0;

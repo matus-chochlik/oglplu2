@@ -68,14 +68,17 @@ protected:
     }
 
 public:
-    void ping(
-      identifier_t pingable_id, std::chrono::milliseconds max_time = {5000}) {
+    void ping(identifier_t pingable_id, std::chrono::milliseconds max_time) {
         message_view message{};
         auto msg_id{EAGINE_MSG_ID(eagiPing, ping)};
         message.set_target_id(pingable_id);
         this->bus().set_next_sequence_id(msg_id, message);
         this->bus().send(msg_id, message);
         _pending.emplace_back(message.target_id, message.sequence_no, max_time);
+    }
+
+    void ping(identifier_t pingable_id) {
+        ping(pingable_id, std::chrono::milliseconds{5000});
     }
 
     bool update() {
@@ -147,5 +150,5 @@ private:
 } // namespace msgbus
 } // namespace eagine
 
-#endif // EAGINE_MESSAGE_BUS_SERVICE_SHUTDOWN_HPP
+#endif // EAGINE_MESSAGE_BUS_SERVICE_PING_PONG_HPP
 

@@ -23,13 +23,13 @@ int main() {
         shuffle(
           generate(cover(vec), [i{0}]() mutable { return i++; }),
           std::random_device());
-    } while(is_sorted(view(vec), std::less<int>()));
+    } while(is_sorted(view(vec), std::less<>()));
 
     std::cout << "shuffled: " << view(vec) << std::endl;
-    std::cout << "ascending: " << network_sort<32, std::less<int>>(cover(vec))
+    std::cout << "ascending: " << network_sort<32, std::less<>>(cover(vec))
               << std::endl;
-    std::cout << "decending: "
-              << network_sort<32, std::greater<int>>(cover(vec)) << std::endl;
+    std::cout << "decending: " << network_sort<32, std::greater<>>(cover(vec))
+              << std::endl;
 
     return 0;
 }

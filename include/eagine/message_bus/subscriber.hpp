@@ -38,6 +38,8 @@ struct message_handler_map {
       EAGINE_MEM_FUNC_T(CLASS, METHOD)>()
 //------------------------------------------------------------------------------
 class subscriber_base {
+    endpoint* _endpoint{nullptr};
+
 public:
     explicit operator bool() noexcept {
         return _endpoint != nullptr;
@@ -72,6 +74,10 @@ public:
         return {};
     }
 
+    subscriber_base(const subscriber_base&) = delete;
+    subscriber_base& operator=(subscriber_base&&) = delete;
+    subscriber_base& operator=(const subscriber_base&) = delete;
+
 protected:
     using method_handler = typename endpoint::method_handler;
     struct handler_entry {
@@ -81,7 +87,7 @@ protected:
         constexpr handler_entry() noexcept = default;
 
         constexpr handler_entry(message_id id, method_handler hndlr) noexcept
-          : msg_id{id}
+          : msg_id{std::move(id)}
           , handler{hndlr} {
         }
 
@@ -127,9 +133,6 @@ protected:
       : _endpoint{temp._endpoint} {
         temp._endpoint = nullptr;
     }
-    subscriber_base(const subscriber_base&) = delete;
-    subscriber_base& operator=(subscriber_base&&) = delete;
-    subscriber_base& operator=(const subscriber_base&) = delete;
 
     inline void _subscribe_to(span<const handler_entry> msg_handlers) const {
         if(EAGINE_LIKELY(_endpoint)) {
@@ -206,9 +209,6 @@ protected:
             }
         }
     }
-
-private:
-    endpoint* _endpoint{nullptr};
 };
 //------------------------------------------------------------------------------
 template <std::size_t N>

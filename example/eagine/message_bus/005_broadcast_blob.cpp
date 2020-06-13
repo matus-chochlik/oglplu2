@@ -32,7 +32,7 @@ int main(main_ctx& ctx) {
           EAGINE_MSG_ID(Example, Content), data, std::chrono::minutes(5));
     } else {
         for(auto& arg : ctx.args()) {
-            if(file_contents data{ctx.exe_path()}) {
+            if(file_contents data{arg}) {
 
                 bus.broadcast_blob(
                   EAGINE_MSG_ID(Example, Content),

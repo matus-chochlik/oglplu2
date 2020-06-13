@@ -28,7 +28,7 @@ int main() {
         std::cout << list[i] << std::endl;
     }
 
-    make_index(view(list), cover(index), std::greater<std::string>());
+    make_index(view(list), cover(index), std::greater<>());
 
     for(auto i : index) {
         std::cout << list[i] << std::endl;

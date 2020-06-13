@@ -60,11 +60,6 @@ protected:
       , _subscriber{_endpoint, instance, msg_maps...} {
     }
 
-    actor(actor&&) = delete;
-    actor(const actor&) = delete;
-    actor& operator=(actor&&) = delete;
-    actor& operator=(const actor&) = delete;
-
     ~actor() noexcept override {
         try {
             _subscriber.retract_subscriptions();
@@ -74,6 +69,11 @@ protected:
     }
 
 public:
+    actor(actor&&) = delete;
+    actor(const actor&) = delete;
+    actor& operator=(actor&&) = delete;
+    actor& operator=(const actor&) = delete;
+
     endpoint& bus() noexcept {
         return _endpoint;
     }

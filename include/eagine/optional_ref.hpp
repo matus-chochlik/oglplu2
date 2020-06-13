@@ -96,7 +96,7 @@ static inline std::enable_if_t<std::is_convertible_v<F, T>, T> extract_or(
     if(ref) {
         return ref.get();
     }
-    return T{std::forward<F>(fallback)};
+    return T{std::forward<F>(fallback)}; // NOLINT(hicpp-no-array-decay)
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
