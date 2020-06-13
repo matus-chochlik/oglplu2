@@ -6,6 +6,7 @@
 if(EGL_FOUND)
 	add_library(
 		eglplus EXCLUDE_FROM_ALL
+		_dummy.cpp
 	)
 	eagine_add_lib_analysis(eglplus)
 	set_target_properties(
