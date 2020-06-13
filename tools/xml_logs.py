@@ -24,6 +24,41 @@ except ImportError:
     import selectors2 as selectors
 
 # ------------------------------------------------------------------------------
+def permanentTranslations():
+    return {
+        "DbgOutSrce": {
+            "type": int,
+            "opts": {
+                0x8246: "API",
+                0x8247: "window system",
+                0x8248: "shader compiler",
+                0x8249: "third party",
+                0x824A: "application",
+                0x824B: "other"
+            }
+        },
+        "DbgOutType": {
+            "type": int,
+            "opts": {
+                0x824C: "error",
+                0x824D: "deprecated behavior",
+                0x824E: "undefined  behavior",
+                0x824F: "portability",
+                0x8250: "performance",
+                0x8251: "other"
+            }
+        },
+        "DbgOutSvrt": {
+            "type": int,
+            "opts": {
+                0x9146: "high",
+                0x9147: "medium",
+                0x9148: "low",
+                0x826B: "notification"
+            }
+        }
+    }
+# ------------------------------------------------------------------------------
 def formatRelTime(s):
     if s >= 60480000:
         return "%dw" % (int(s) / 604800)
@@ -192,6 +227,8 @@ class XmlLogFormatter(object):
         self._lock = threading.Lock()
         self._out = log_output
 
+        self._translations = permanentTranslations()
+
         self._decorators = {
             "FsPath": self._formatFsPath,
             "ProgramArg": self._formatProgArg,
@@ -312,8 +349,14 @@ class XmlLogFormatter(object):
             return "BLOB"
 
         try:
-            decorate = self._decorators.get(info.get("type"), lambda x: x)
-            value = decorate(info["value"])
+            typ = info.get("type")
+            value = info.get("value")
+            try:
+                trans = self._translations[typ]
+                value = trans["opts"][trans["type"](value)] 
+            except: pass
+            decorate = self._decorators.get(typ, lambda x: x)
+            value = decorate(value)
         except KeyError:
             value = arg
         return value
