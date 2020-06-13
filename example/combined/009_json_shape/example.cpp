@@ -23,6 +23,8 @@
 namespace eagine {
 namespace oglp {
 //------------------------------------------------------------------------------
+example_string_param color_variant_name{"-c", "--color", "color_1"};
+//------------------------------------------------------------------------------
 class example_cube : public example {
     example_orbiting_camera camera;
 
@@ -135,7 +137,8 @@ void example_cube::init(example_context& ctx) {
       vao,
       colors,
       color_loc,
-      eagine::shapes::vertex_attrib_kind::color,
+      shape.find_variant_or(
+        eagine::shapes::vertex_attrib_kind::color, color_variant_name, 0),
       ctx.buffer());
     gl.bind_attrib_location(prog, color_loc, "Color");
 
@@ -198,7 +201,8 @@ void example_cube::render(const example_context& ctx) {
 } // namespace oglp
 //------------------------------------------------------------------------------
 std::unique_ptr<example> make_example(
-  const example_args&, const example_context&) {
+  const example_args& args, const example_context&) {
+    args.parse_param(oglp::color_variant_name);
     return {std::make_unique<oglp::example_cube>()};
 }
 //------------------------------------------------------------------------------
@@ -206,7 +210,10 @@ void adjust_params(example_params& params) {
     params.stencil_buffer(false);
 }
 //------------------------------------------------------------------------------
-bool is_example_param(const example_arg&) {
+bool is_example_param(const example_arg& arg) {
+    if(arg == oglp::color_variant_name) {
+        return true;
+    }
     return false;
 }
 //------------------------------------------------------------------------------

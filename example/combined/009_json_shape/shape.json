@@ -12,12 +12,23 @@
 	}],
 	"color": [{
 		"values_per_vertex": 3,
+		"name": "color_1",
 		"type": "float",
 		"data": [
 			1, 0, 0,
 			0, 1, 0,
 			0, 0, 1,
 			1, 1, 1
+		]
+	},{
+		"values_per_vertex": 3,
+		"name": "color_2",
+		"type": "float",
+		"data": [
+			0, 1, 1,
+			1, 0, 1,
+			1, 1, 0,
+			0, 0, 0
 		]
 	}],
 	"index_type": "unsigned_16",

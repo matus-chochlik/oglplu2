@@ -36,6 +36,21 @@ public:
       : shape_generator(api, std::unique_ptr<generator_intf>(std::move(gen))) {
     }
 
+    shapes::vertex_attrib_variant find_variant(
+      shapes::vertex_attrib_kind attrib, string_view name) const {
+        return _gen->find_variant(attrib, name);
+    }
+
+    shapes::vertex_attrib_variant find_variant_or(
+      shapes::vertex_attrib_kind attrib,
+      string_view name,
+      span_size_t index) const {
+        if(auto found{find_variant(attrib, name)}) {
+            return found;
+        }
+        return {attrib, index};
+    }
+
     span_size_t vertex_count() const {
         return _gen->vertex_count();
     }

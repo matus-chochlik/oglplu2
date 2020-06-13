@@ -14,6 +14,7 @@
 #include "../logging/logger.hpp"
 #include "../value_tree/wrappers.hpp"
 #include "gen_base.hpp"
+#include <map>
 
 namespace eagine {
 namespace shapes {
@@ -25,6 +26,7 @@ private:
 
     valtree::compound _source{};
     std::string _temp{};
+    std::map<vertex_attrib_variant, std::string> _variant_names{};
 
     static vertex_attrib_bits _attr_mask(const valtree::compound&) noexcept;
 
@@ -34,6 +36,8 @@ public:
     span_size_t vertex_count() override;
 
     span_size_t attribute_variants(vertex_attrib_kind attrib) override;
+
+    string_view variant_name(vertex_attrib_variant) override;
 
     span_size_t values_per_vertex(vertex_attrib_variant) override;
 

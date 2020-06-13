@@ -46,6 +46,10 @@ public:
         return _gen->attribute_variants(attrib);
     }
 
+    string_view variant_name(vertex_attrib_variant vav) override {
+        return _gen->variant_name(vav);
+    }
+
     span_size_t values_per_vertex(vertex_attrib_variant vav) override {
         return _gen->values_per_vertex(vav);
     }

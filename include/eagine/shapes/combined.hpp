@@ -41,6 +41,8 @@ public:
 
     span_size_t attribute_variants(vertex_attrib_kind attrib) override;
 
+    string_view variant_name(vertex_attrib_variant) override;
+
     span_size_t values_per_vertex(vertex_attrib_variant) override;
 
     attrib_data_type attrib_type(vertex_attrib_variant) override;

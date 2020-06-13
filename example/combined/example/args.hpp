@@ -47,9 +47,10 @@ private:
     friend class example_args;
 
 public:
-    example_param(string_view stag, string_view ltag, T initial)
+    example_param(string_view stag, string_view ltag, T initial) noexcept(
+      noexcept(valid_if<T, P>(std::declval<T&&>())))
       : example_param_tags(stag, ltag)
-      , _value(initial) {
+      , _value(std::move(initial)) {
     }
 
     operator const T&() const noexcept {
@@ -67,6 +68,8 @@ public:
     example_arg(const program_arg& arg) noexcept
       : _arg(arg) {
     }
+
+    bool is_tag(string_view tag) const noexcept;
 
     bool operator==(const example_param_tags& tags) const noexcept;
 };

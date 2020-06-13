@@ -64,6 +64,14 @@ span_size_t combined_gen::attribute_variants(vertex_attrib_kind attrib) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+string_view combined_gen::variant_name(vertex_attrib_variant vav) {
+    if(!_gens.empty()) {
+        return _gens.front()->variant_name(vav);
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 span_size_t combined_gen::values_per_vertex(vertex_attrib_variant vav) {
     span_size_t result{0};
     for(auto& gen : _gens) {

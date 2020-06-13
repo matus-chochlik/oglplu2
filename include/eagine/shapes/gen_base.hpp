@@ -11,6 +11,7 @@
 #define EAGINE_SHAPES_GEN_BASE_HPP
 
 #include "../assert.hpp"
+#include "../compare.hpp"
 #include "../math/primitives.hpp"
 #include "../span.hpp"
 #include "../types.hpp"
@@ -63,6 +64,21 @@ struct generator_intf {
     virtual span_size_t vertex_count() = 0;
 
     virtual span_size_t attribute_variants(vertex_attrib_kind attrib) = 0;
+
+    virtual string_view variant_name(vertex_attrib_variant vav) = 0;
+
+    vertex_attrib_variant find_variant(
+      vertex_attrib_kind attrib, string_view name) {
+        const span_size_t n = attribute_variants(attrib);
+        span_size_t index{-1};
+        for(span_size_t i = 0; i < n; ++i) {
+            if(are_equal(name, variant_name({attrib, i}))) {
+                index = i;
+                break;
+            }
+        }
+        return {attrib, index};
+    }
 
     virtual span_size_t values_per_vertex(vertex_attrib_variant vav) = 0;
 
@@ -130,6 +146,10 @@ public:
 
     span_size_t attribute_variants(vertex_attrib_kind attrib) override {
         return has(attrib) ? 1U : 0U;
+    }
+
+    string_view variant_name(vertex_attrib_variant) override {
+        return {};
     }
 
     bool has_variant(vertex_attrib_variant vav) {

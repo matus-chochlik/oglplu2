@@ -72,6 +72,40 @@ span_size_t value_tree_loader::attribute_variants(vertex_attrib_kind attrib) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+string_view value_tree_loader::variant_name(vertex_attrib_variant vav) {
+    if(auto attrib_a{_source.find(vertex_attrib_name(vav.attrib))}) {
+        if(auto variant_a{attrib_a.nested(vav.index())}) {
+            if(auto vpv_a{variant_a.find("name")}) {
+                auto pos = _variant_names.find(vav);
+                if(pos != _variant_names.end()) {
+                    return {std::get<1>(*pos)};
+                }
+                auto& name = _variant_names[vav] = {};
+                if(_source.fetch_value(vpv_a, name)) {
+                    _log.debug("cached attribute variant name")
+                      .arg(EAGINE_ID(attribute), vav.attrib)
+                      .arg(EAGINE_ID(variant), vav.index())
+                      .arg(EAGINE_ID(name), name);
+                    return {name};
+                } else {
+                    _log.error("could not fetch attribute variant name")
+                      .arg(EAGINE_ID(attribute), vav.attrib)
+                      .arg(EAGINE_ID(variant), vav.index());
+                }
+            }
+        } else {
+            _log.error("could not find vertex attribute variant")
+              .arg(EAGINE_ID(attribute), vav.attrib)
+              .arg(EAGINE_ID(variant), vav.index());
+        }
+    } else {
+        _log.error("could not find vertex attribute")
+          .arg(EAGINE_ID(attribute), vav.attrib);
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 span_size_t value_tree_loader::values_per_vertex(vertex_attrib_variant vav) {
     if(auto attrib_a{_source.find(vertex_attrib_name(vav.attrib))}) {
         if(auto variant_a{attrib_a.nested(vav.index())}) {

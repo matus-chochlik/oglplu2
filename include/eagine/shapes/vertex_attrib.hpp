@@ -99,6 +99,10 @@ struct vertex_attrib_variant {
         return _index >= 0;
     }
 
+    constexpr explicit operator bool() const noexcept {
+        return has_valid_index();
+    }
+
     constexpr span_size_t index() const noexcept {
         return _index;
     }
@@ -106,6 +110,25 @@ struct vertex_attrib_variant {
     constexpr operator std::array<const vertex_attrib_variant, 1>() const
       noexcept {
         return {{*this}};
+    }
+
+    constexpr auto as_tuple() const noexcept {
+        return std::make_tuple(attrib, _index);
+    }
+
+    friend constexpr bool operator==(
+      vertex_attrib_variant l, vertex_attrib_variant r) noexcept {
+        return l.as_tuple() == r.as_tuple();
+    }
+
+    friend constexpr bool operator!=(
+      vertex_attrib_variant l, vertex_attrib_variant r) noexcept {
+        return l.as_tuple() != r.as_tuple();
+    }
+
+    friend constexpr bool operator<(
+      vertex_attrib_variant l, vertex_attrib_variant r) noexcept {
+        return l.as_tuple() < r.as_tuple();
     }
 
     friend constexpr bool operator==(

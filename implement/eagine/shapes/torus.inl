@@ -248,6 +248,14 @@ void unit_torus_gen::wrap_coords(span<float> dest) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+string_view unit_torus_gen::special_variant_name(span_size_t index) {
+    if(index == 1) {
+        return {"random"};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 void unit_torus_gen::make_special_attrib_values(
   void (unit_torus_gen::*function)(span<float>, unit_torus_gen::offset_getter),
   span_size_t variant_index,
@@ -309,6 +317,31 @@ span_size_t unit_torus_gen::attribute_variants(vertex_attrib_kind attrib) {
             break;
     }
     return _base::attribute_variants(attrib);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+string_view unit_torus_gen::variant_name(vertex_attrib_variant vav) {
+    switch(vav.attrib) {
+        case vertex_attrib_kind::position:
+        case vertex_attrib_kind::normal:
+        case vertex_attrib_kind::tangential:
+        case vertex_attrib_kind::bitangential:
+        case vertex_attrib_kind::wrap_coord:
+            return special_variant_name(vav.index());
+        case vertex_attrib_kind::vertex_pivot:
+        case vertex_attrib_kind::pivot:
+        case vertex_attrib_kind::pivot_pivot:
+        case vertex_attrib_kind::box_coord:
+        case vertex_attrib_kind::face_coord:
+        case vertex_attrib_kind::object_id:
+        case vertex_attrib_kind::material_id:
+        case vertex_attrib_kind::weight:
+        case vertex_attrib_kind::color:
+        case vertex_attrib_kind::emission:
+        case vertex_attrib_kind::occlusion:
+            break;
+    }
+    return centered_unit_shape_generator_base::variant_name(vav);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
