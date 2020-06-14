@@ -10,6 +10,7 @@
 #include "main.hpp"
 #include <oglplus/config/basic.hpp>
 #if OGLPLUS_GLUT_FOUND
+#include "args.hpp"
 #include "state.hpp"
 #include "wrapper.hpp"
 #include <oglplus/gl.hpp>
@@ -206,7 +207,8 @@ public:
     }
 
     int run(example_run_context& erc) final {
-#if OGLPLUS_GLX_FOUND
+	EAGINE_MAYBE_UNUSED(erc);
+#if OGLPLUS_GLUT_FOUND
 
         int argc = erc.args.argc();
         char** argv = const_cast<char**>(erc.args.argv());

@@ -85,9 +85,7 @@ public:
 
         return 0;
 #else
-        EAGINE_MAYBE_UNUSED(args);
-        EAGINE_MAYBE_UNUSED(params);
-        EAGINE_MAYBE_UNUSED(state);
+        EAGINE_MAYBE_UNUSED(erc);
         return 1;
 #endif
     }

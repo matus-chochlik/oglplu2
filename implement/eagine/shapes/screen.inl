@@ -192,6 +192,7 @@ EAGINE_LIB_FUNC
 void unit_screen_gen::instructions(
   drawing_variant var, span<draw_operation> ops) {
     EAGINE_ASSERT(ops.size() >= operation_count(var));
+    EAGINE_MAYBE_UNUSED(var);
 
     draw_operation& op = ops[0];
     op.mode = primitive_type::triangle_strip;
