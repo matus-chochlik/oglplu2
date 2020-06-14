@@ -5,6 +5,7 @@
 
 # router
 add_executable(eagine-message_bus-router router.cpp)
+eagine_add_exe_analysis(eagine-message_bus-router)
 target_link_libraries(
 	eagine-message_bus-router
 	PUBLIC eagine
@@ -14,6 +15,7 @@ eagine_install_tool(eagine-message_bus-router)
 
 # bridge
 add_executable(eagine-message_bus-bridge bridge.cpp)
+eagine_add_exe_analysis(eagine-message_bus-bridge)
 target_link_libraries(
 	eagine-message_bus-bridge
 	PUBLIC eagine

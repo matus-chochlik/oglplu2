@@ -22,7 +22,6 @@ int main(main_ctx& ctx) {
 
     auto& args = ctx.args();
     auto& log = ctx.log();
-    auto& buf = ctx.scratch_space();
 
     log.info("message bus router starting up");
 
