@@ -8,6 +8,7 @@ set(EAGINE_LIB_SOURCES
 	debug.cpp
 	git_info.cpp
 	identifier.cpp
+	from_string.cpp
 	logging.cpp
 	filesystem.cpp
 	file_contents.cpp

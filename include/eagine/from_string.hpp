@@ -21,6 +21,30 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
+bool _parse_from_string(string_view src, long long int&) noexcept;
+//------------------------------------------------------------------------------
+template <typename T>
+static inline std::enable_if_t<std::is_integral_v<T>, optionally_valid<T>>
+parse_from_string(string_view src, identity<T>) noexcept {
+    long long int parsed{};
+    if(_parse_from_string(src, parsed)) {
+        return convert_if_fits<T>(parsed);
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+bool _parse_from_string(string_view src, long double&) noexcept;
+//------------------------------------------------------------------------------
+template <typename T>
+static inline std::enable_if_t<std::is_floating_point_v<T>, optionally_valid<T>>
+parse_from_string(string_view src, identity<T>) noexcept {
+    long double parsed{};
+    if(_parse_from_string(src, parsed)) {
+        return convert_if_fits<T>(parsed);
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
 static inline optionally_valid<bool> from_string(
   string_view src, identity<bool>) noexcept {
 
@@ -63,16 +87,20 @@ optionally_valid<T> multiply_and_convert_if_fits(N n, const char* c) noexcept {
 //------------------------------------------------------------------------------
 template <typename T, typename N>
 optionally_valid<T> convert_from_string_with(
-  N (*converter)(const char*, char**), string_view src, identity<T>) noexcept {
+  N (*converter)(const char*, char**),
+  string_view src,
+  identity<T> tid) noexcept {
     char* end = nullptr;
     auto cstr = c_str(src);
     errno = 0;
     const N result{converter(cstr, &end)};
     if((errno != ERANGE) && (end != cstr) && (end != nullptr)) {
-        return multiply_and_convert_if_fits<T>(result, end);
+        if(auto converted{multiply_and_convert_if_fits<T>(result, end)}) {
+            return converted;
+        }
     }
 
-    return {};
+    return parse_from_string(src, tid);
 }
 //------------------------------------------------------------------------------
 template <typename T, typename N>
@@ -80,15 +108,18 @@ optionally_valid<T> convert_from_string_with(
   N (*converter)(const char*, char**, int),
   int base,
   string_view src,
-  identity<T>) noexcept {
+  identity<T> tid) noexcept {
     char* end = nullptr;
     auto cstr = c_str(src);
     errno = 0;
     const N result = converter(cstr, &end, base);
     if((errno != ERANGE) && (end != cstr) && (end != nullptr)) {
-        return multiply_and_convert_if_fits<T>(result, end);
+        if(auto converted{multiply_and_convert_if_fits<T>(result, end)}) {
+            return converted;
+        }
     }
-    return {};
+
+    return parse_from_string(src, tid);
 }
 //------------------------------------------------------------------------------
 static inline optionally_valid<short> from_string(
@@ -224,5 +255,9 @@ optionally_valid<T> from_string(string_view src) noexcept {
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
+
+#if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
+#include <eagine/from_string.inl>
+#endif
 
 #endif // EAGINE_FROM_STRING_HPP
