@@ -37,13 +37,15 @@ struct deserializer_backend {
     virtual result read(span<bool>, span_size_t&) = 0;
     virtual result read(span<char>, span_size_t&) = 0;
     virtual result read(span<std::int8_t>, span_size_t&) = 0;
-    virtual result read(span<std::int16_t>, span_size_t&) = 0;
-    virtual result read(span<std::int32_t>, span_size_t&) = 0;
-    virtual result read(span<std::int64_t>, span_size_t&) = 0;
+    virtual result read(span<short>, span_size_t&) = 0;
+    virtual result read(span<int>, span_size_t&) = 0;
+    virtual result read(span<long>, span_size_t&) = 0;
+    virtual result read(span<long long>, span_size_t&) = 0;
     virtual result read(span<std::uint8_t>, span_size_t&) = 0;
-    virtual result read(span<std::uint16_t>, span_size_t&) = 0;
-    virtual result read(span<std::uint32_t>, span_size_t&) = 0;
-    virtual result read(span<std::uint64_t>, span_size_t&) = 0;
+    virtual result read(span<unsigned short>, span_size_t&) = 0;
+    virtual result read(span<unsigned>, span_size_t&) = 0;
+    virtual result read(span<unsigned long>, span_size_t&) = 0;
+    virtual result read(span<unsigned long long>, span_size_t&) = 0;
     virtual result read(span<float>, span_size_t&) = 0;
     virtual result read(span<double>, span_size_t&) = 0;
     virtual result read(span<identifier>, span_size_t&) = 0;
@@ -100,15 +102,19 @@ public:
         return derived().do_read(values, done);
     }
 
-    result read(span<std::int16_t> values, span_size_t& done) override {
+    result read(span<short> values, span_size_t& done) override {
         return derived().do_read(values, done);
     }
 
-    result read(span<std::int32_t> values, span_size_t& done) override {
+    result read(span<int> values, span_size_t& done) override {
         return derived().do_read(values, done);
     }
 
-    result read(span<std::int64_t> values, span_size_t& done) override {
+    result read(span<long> values, span_size_t& done) override {
+        return derived().do_read(values, done);
+    }
+
+    result read(span<long long> values, span_size_t& done) override {
         return derived().do_read(values, done);
     }
 
@@ -116,15 +122,19 @@ public:
         return derived().do_read(values, done);
     }
 
-    result read(span<std::uint16_t> values, span_size_t& done) override {
+    result read(span<unsigned short> values, span_size_t& done) override {
         return derived().do_read(values, done);
     }
 
-    result read(span<std::uint32_t> values, span_size_t& done) override {
+    result read(span<unsigned> values, span_size_t& done) override {
         return derived().do_read(values, done);
     }
 
-    result read(span<std::uint64_t> values, span_size_t& done) override {
+    result read(span<unsigned long> values, span_size_t& done) override {
+        return derived().do_read(values, done);
+    }
+
+    result read(span<unsigned long long> values, span_size_t& done) override {
         return derived().do_read(values, done);
     }
 
