@@ -14,7 +14,7 @@
 #if defined(__clang__) || defined(__GNUC__)
 #define EAGINE_USE_SIMD __SSE__
 #else
-#define EAGINE_USE_SIMD 1
+#define EAGINE_USE_SIMD 0
 #endif
 
 #endif
