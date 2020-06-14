@@ -100,19 +100,23 @@ struct serializer<char> : plain_serializer<char> {};
 template <>
 struct serializer<std::int8_t> : plain_serializer<std::int8_t> {};
 template <>
-struct serializer<std::int16_t> : plain_serializer<std::int16_t> {};
+struct serializer<short> : plain_serializer<short> {};
 template <>
-struct serializer<std::int32_t> : plain_serializer<std::int32_t> {};
+struct serializer<int> : plain_serializer<int> {};
 template <>
-struct serializer<std::int64_t> : plain_serializer<std::int64_t> {};
+struct serializer<long> : plain_serializer<long> {};
+template <>
+struct serializer<long long> : plain_serializer<long long> {};
 template <>
 struct serializer<std::uint8_t> : plain_serializer<std::uint8_t> {};
 template <>
-struct serializer<std::uint16_t> : plain_serializer<std::uint16_t> {};
+struct serializer<unsigned short> : plain_serializer<unsigned short> {};
 template <>
-struct serializer<std::uint32_t> : plain_serializer<std::uint32_t> {};
+struct serializer<unsigned> : plain_serializer<unsigned> {};
 template <>
-struct serializer<std::uint64_t> : plain_serializer<std::uint64_t> {};
+struct serializer<unsigned long> : plain_serializer<unsigned long> {};
+template <>
+struct serializer<unsigned long long> : plain_serializer<unsigned long long> {};
 template <>
 struct serializer<float> : plain_serializer<float> {};
 template <>

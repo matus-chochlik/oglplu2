@@ -96,19 +96,24 @@ struct deserializer<char> : plain_deserializer<char> {};
 template <>
 struct deserializer<std::int8_t> : plain_deserializer<std::int8_t> {};
 template <>
-struct deserializer<std::int16_t> : plain_deserializer<std::int16_t> {};
+struct deserializer<short> : plain_deserializer<short> {};
 template <>
-struct deserializer<std::int32_t> : plain_deserializer<std::int32_t> {};
+struct deserializer<int> : plain_deserializer<int> {};
 template <>
-struct deserializer<std::int64_t> : plain_deserializer<std::int64_t> {};
+struct deserializer<long> : plain_deserializer<long> {};
+template <>
+struct deserializer<long long> : plain_deserializer<long long> {};
 template <>
 struct deserializer<std::uint8_t> : plain_deserializer<std::uint8_t> {};
 template <>
-struct deserializer<std::uint16_t> : plain_deserializer<std::uint16_t> {};
+struct deserializer<unsigned short> : plain_deserializer<unsigned short> {};
 template <>
-struct deserializer<std::uint32_t> : plain_deserializer<std::uint32_t> {};
+struct deserializer<unsigned> : plain_deserializer<unsigned> {};
 template <>
-struct deserializer<std::uint64_t> : plain_deserializer<std::uint64_t> {};
+struct deserializer<unsigned long> : plain_deserializer<unsigned long> {};
+template <>
+struct deserializer<unsigned long long>
+  : plain_deserializer<unsigned long long> {};
 template <>
 struct deserializer<float> : plain_deserializer<float> {};
 template <>
