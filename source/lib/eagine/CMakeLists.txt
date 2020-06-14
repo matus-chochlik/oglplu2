@@ -51,7 +51,7 @@ target_link_libraries(
 
 set_target_properties(
 	eagine PROPERTIES
-	INTERFACE_COMPILE_DEFINITIONS EAGINE_LINK_LIB=1
+	INTERFACE_COMPILE_DEFINITIONS EAGINE_LINK_LIBRARY=1
 )
 
 set_target_properties(

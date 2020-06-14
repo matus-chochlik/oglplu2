@@ -10,6 +10,7 @@
 #include <eagine/message_bus/blobs.hpp>
 #include <eagine/message_bus/serialize.hpp>
 #include <eagine/message_bus/context.hpp>
+#include <eagine/logging/entry.hpp>
 #include "implement.inl"
 #include <eagine/message_bus/endpoint.hpp>
 #include "epilogue.inl"

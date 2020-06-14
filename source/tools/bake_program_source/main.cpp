@@ -8,6 +8,7 @@
 #include <eagine/data_baking.hpp>
 #include <eagine/file_contents.hpp>
 #include <eagine/main_ctx.hpp>
+#include <eagine/memory/buffer.hpp>
 #include <eagine/program_args.hpp>
 #include <eagine/valid_if/not_empty.hpp>
 #include <oglplus/gl.hpp>

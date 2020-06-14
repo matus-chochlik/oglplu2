@@ -11,6 +11,7 @@
 #include "prologue.inl"
 
 #include "implement.inl"
+#include <eagine/bindump.hpp>
 #include <eagine/hexdump.hpp>
 #include <eagine/type_name.hpp>
 #include "epilogue.inl"

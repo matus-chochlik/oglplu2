@@ -11,6 +11,7 @@
 #include "prologue.inl"
 
 #include "implement.inl"
+#include <eagine/str_format.hpp>
 #include <eagine/str_var_subst.hpp>
 #include "epilogue.inl"
 // clang-format on

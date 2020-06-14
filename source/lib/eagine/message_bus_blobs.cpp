@@ -8,6 +8,7 @@
 // clang-format off
 #include "prologue.inl"
 #include <eagine/message_bus/serialize.hpp>
+#include <eagine/logging/entry.hpp>
 #include "implement.inl"
 #include <eagine/message_bus/blobs.hpp>
 #include "epilogue.inl"

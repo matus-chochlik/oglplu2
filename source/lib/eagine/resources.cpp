@@ -9,6 +9,9 @@
 
 // clang-format off
 #include "prologue.inl"
+#include <eagine/logging/entry.hpp>
+#include <eagine/logging/root_logger.hpp>
+#include <eagine/system_info.hpp>
 
 #include "implement.inl"
 #include <eagine/resources.hpp>

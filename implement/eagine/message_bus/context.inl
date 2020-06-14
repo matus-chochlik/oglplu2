@@ -378,13 +378,13 @@ bool context::verify_remote_signature(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-std::unique_ptr<context> make_context(logger& parent) {
-    return std::make_unique<context>(parent);
+std::shared_ptr<context> make_context(logger& parent) {
+    return std::make_shared<context>(parent);
 }
 //------------------------------------------------------------------------------
-EAGINE_LIB_FUNC std::unique_ptr<context> make_context(
+EAGINE_LIB_FUNC std::shared_ptr<context> make_context(
   logger& parent, const program_args& args) {
-    return std::make_unique<context>(parent, args);
+    return std::make_shared<context>(parent, args);
 }
 //------------------------------------------------------------------------------
 } // namespace msgbus

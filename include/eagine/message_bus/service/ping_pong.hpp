@@ -10,6 +10,7 @@
 #ifndef EAGINE_MESSAGE_BUS_SERVICE_PING_PONG_HPP
 #define EAGINE_MESSAGE_BUS_SERVICE_PING_PONG_HPP
 
+#include "../../bool_aggregate.hpp"
 #include "../../maybe_unused.hpp"
 #include "../serialize.hpp"
 #include "../subscriber.hpp"

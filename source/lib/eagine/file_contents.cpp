@@ -9,6 +9,7 @@
 
 // clang-format off
 #include "prologue.inl"
+#include <eagine/system_info.hpp>
 
 #include "implement.inl"
 #include <eagine/file_contents.hpp>
