@@ -40,9 +40,9 @@ public:
 
     void attrib_values(vertex_attrib_variant, span<float>) override;
 
-    span_size_t operation_count() override;
+    span_size_t operation_count(drawing_variant) override;
 
-    void instructions(span<draw_operation> ops) override;
+    void instructions(drawing_variant, span<draw_operation> ops) override;
 
     math::sphere<float, true> bounding_sphere() override;
 };

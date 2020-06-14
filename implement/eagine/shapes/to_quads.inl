@@ -13,17 +13,17 @@ namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t to_quads_gen::index_count() {
+span_size_t to_quads_gen::index_count(drawing_variant var) {
 
     span_size_t count{0};
 
     std::vector<draw_operation> ops;
-    ops.resize(std_size(delegated_gen::operation_count()));
-    delegated_gen::instructions(cover(ops));
+    ops.resize(std_size(delegated_gen::operation_count(var)));
+    delegated_gen::instructions(var, cover(ops));
 
     std::vector<std::uint32_t> idx;
-    idx.resize(std_size(delegated_gen::index_count()));
-    delegated_gen::indices(cover(idx));
+    idx.resize(std_size(delegated_gen::index_count(var)));
+    delegated_gen::indices(var, cover(idx));
 
     const auto num_verts = [](auto n) {
         return n > 0 ? span_size(((n / 2) - 1) * 4) : 0;
@@ -60,19 +60,19 @@ span_size_t to_quads_gen::index_count() {
 }
 //------------------------------------------------------------------------------
 template <typename T>
-void to_quads_gen::_indices(span<T> dest) noexcept {
+void to_quads_gen::_indices(drawing_variant var, span<T> dest) noexcept {
 
-    EAGINE_ASSERT(dest.size() >= index_count());
+    EAGINE_ASSERT(dest.size() >= index_count(var));
 
     span_size_t i = 0;
 
     std::vector<draw_operation> ops;
-    ops.resize(std_size(delegated_gen::operation_count()));
-    delegated_gen::instructions(cover(ops));
+    ops.resize(std_size(delegated_gen::operation_count(var)));
+    delegated_gen::instructions(var, cover(ops));
 
     std::vector<std::uint32_t> del_idx;
-    del_idx.resize(std_size(delegated_gen::index_count()));
-    delegated_gen::indices(cover(del_idx));
+    del_idx.resize(std_size(delegated_gen::index_count(var)));
+    delegated_gen::indices(var, cover(del_idx));
 
     for(const auto& op : ops) {
         if(op.mode == primitive_type::triangle_strip) {
@@ -125,39 +125,39 @@ void to_quads_gen::_indices(span<T> dest) noexcept {
         }
     }
 
-    EAGINE_ASSERT(i == index_count());
+    EAGINE_ASSERT(i == index_count(var));
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void to_quads_gen::indices(span<std::uint8_t> dest) {
-    _indices(dest);
+void to_quads_gen::indices(drawing_variant var, span<std::uint8_t> dest) {
+    _indices(var, dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void to_quads_gen::indices(span<std::uint16_t> dest) {
-    _indices(dest);
+void to_quads_gen::indices(drawing_variant var, span<std::uint16_t> dest) {
+    _indices(var, dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void to_quads_gen::indices(span<std::uint32_t> dest) {
-    _indices(dest);
+void to_quads_gen::indices(drawing_variant var, span<std::uint32_t> dest) {
+    _indices(var, dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t to_quads_gen::operation_count() {
-    return delegated_gen::operation_count();
+span_size_t to_quads_gen::operation_count(drawing_variant var) {
+    return delegated_gen::operation_count(var);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void to_quads_gen::instructions(span<draw_operation> ops) {
+void to_quads_gen::instructions(drawing_variant var, span<draw_operation> ops) {
 
-    delegated_gen::instructions(ops);
+    delegated_gen::instructions(var, ops);
 
     std::vector<std::uint32_t> idx;
-    idx.resize(std_size(delegated_gen::index_count()));
-    delegated_gen::indices(cover(idx));
+    idx.resize(std_size(delegated_gen::index_count(var)));
+    delegated_gen::indices(var, cover(idx));
 
-    const auto it = index_type();
+    const auto it = index_type(var);
 
     const auto num_verts = [](auto n) {
         return n > 0 ? span_size(((n / 2) - 1) * 4) : 0;

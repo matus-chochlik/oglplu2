@@ -22,7 +22,7 @@ private:
     std::vector<std::unique_ptr<generator_intf>> _gens;
 
     template <typename T>
-    void _indices(span<T> dest);
+    void _indices(drawing_variant, span<T> dest);
 
 public:
     combined_gen(std::vector<std::unique_ptr<generator_intf>>&& gens) noexcept
@@ -51,21 +51,24 @@ public:
 
     void attrib_values(vertex_attrib_variant, span<float>) override;
 
-    index_data_type index_type() override;
+    span_size_t draw_variants() override;
 
-    span_size_t index_count() override;
+    index_data_type index_type(drawing_variant) override;
 
-    void indices(span<std::uint8_t> dest) override;
+    span_size_t index_count(drawing_variant) override;
 
-    void indices(span<std::uint16_t> dest) override;
+    void indices(drawing_variant, span<std::uint8_t> dest) override;
 
-    void indices(span<std::uint32_t> dest) override;
+    void indices(drawing_variant, span<std::uint16_t> dest) override;
 
-    span_size_t operation_count() override;
+    void indices(drawing_variant, span<std::uint32_t> dest) override;
 
-    void instructions(span<draw_operation> ops) override;
+    span_size_t operation_count(drawing_variant) override;
+
+    void instructions(drawing_variant, span<draw_operation> ops) override;
 
     void ray_intersections(
+      drawing_variant,
       span<const math::line<float, true>> rays,
       span<optionally_valid<float>> intersections) override;
 };

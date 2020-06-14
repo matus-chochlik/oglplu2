@@ -119,9 +119,18 @@ void combined_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-index_data_type combined_gen::index_type() {
+span_size_t combined_gen::draw_variants() {
+    span_size_t result{0};
     for(auto& gen : _gens) {
-        if(gen->index_type() != index_data_type::none) {
+        result = math::maximum(result, gen->draw_variants());
+    }
+    return result;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+index_data_type combined_gen::index_type(drawing_variant var) {
+    for(auto& gen : _gens) {
+        if(gen->index_type(var) != index_data_type::none) {
             // TODO: smaller type if the indices fit
             return index_data_type::unsigned_32;
         }
@@ -130,24 +139,24 @@ index_data_type combined_gen::index_type() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t combined_gen::index_count() {
+span_size_t combined_gen::index_count(drawing_variant var) {
     span_size_t result{0};
     for(const auto& gen : _gens) {
-        result += gen->index_count();
+        result += gen->index_count(var);
     }
     return result;
 }
 //------------------------------------------------------------------------------
 template <typename T>
-void combined_gen::_indices(span<T> dest) {
+void combined_gen::_indices(drawing_variant var, span<T> dest) {
     const auto npri = limit_cast<T>(vertex_count());
     span_size_t idx_offset{0};
     span_size_t spn_offset{0};
     for(const auto& gen : _gens) {
-        const auto count = gen->index_count();
+        const auto count = gen->index_count(var);
         const auto opri = limit_cast<T>(gen->vertex_count());
         auto temp = slice(dest, spn_offset, count);
-        gen->indices(temp);
+        gen->indices(var, temp);
         for(T& idx : temp) {
             if(idx == opri) {
                 idx = npri;
@@ -161,52 +170,52 @@ void combined_gen::_indices(span<T> dest) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void combined_gen::indices(span<std::uint8_t> dest) {
-    if(index_type() <= index_data_type::unsigned_8) {
-        _indices(dest);
+void combined_gen::indices(drawing_variant var, span<std::uint8_t> dest) {
+    if(index_type(var) <= index_data_type::unsigned_8) {
+        _indices(var, dest);
     } else {
         EAGINE_UNREACHABLE("Invalid function called for this index data type");
     }
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void combined_gen::indices(span<std::uint16_t> dest) {
-    if(index_type() <= index_data_type::unsigned_16) {
-        _indices(dest);
+void combined_gen::indices(drawing_variant var, span<std::uint16_t> dest) {
+    if(index_type(var) <= index_data_type::unsigned_16) {
+        _indices(var, dest);
     } else {
         EAGINE_UNREACHABLE("Invalid function called for this index data type");
     }
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void combined_gen::indices(span<std::uint32_t> dest) {
-    if(index_type() <= index_data_type::unsigned_32) {
-        _indices(dest);
+void combined_gen::indices(drawing_variant var, span<std::uint32_t> dest) {
+    if(index_type(var) <= index_data_type::unsigned_32) {
+        _indices(var, dest);
     } else {
         EAGINE_UNREACHABLE("Invalid function called for this index data type");
     }
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t combined_gen::operation_count() {
+span_size_t combined_gen::operation_count(drawing_variant var) {
     span_size_t result{0};
     for(const auto& gen : _gens) {
-        result += gen->operation_count();
+        result += gen->operation_count(var);
     }
     return result;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void combined_gen::instructions(span<draw_operation> ops) {
+void combined_gen::instructions(drawing_variant var, span<draw_operation> ops) {
     const auto npri = limit_cast<unsigned>(vertex_count());
-    const auto it = index_type();
+    const auto it = index_type(var);
     span_size_t op_offset{0};
     span_size_t idxoffset{0};
     for(auto& gen : _gens) {
         const auto opri = limit_cast<unsigned>(gen->vertex_count());
         const auto op_count = gen->operation_count();
         auto temp = slice(ops, op_offset, op_count);
-        gen->instructions(temp);
+        gen->instructions(var, temp);
         for(auto& op : temp) {
             if(op.idx_type != index_data_type::none) {
                 op.idx_type = it;
@@ -225,11 +234,12 @@ void combined_gen::instructions(span<draw_operation> ops) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void combined_gen::ray_intersections(
+  drawing_variant var,
   span<const math::line<float, true>> rays,
   span<optionally_valid<float>> intersections) {
 
     for(auto& gen : _gens) {
-        gen->ray_intersections(rays, intersections);
+        gen->ray_intersections(var, rays, intersections);
     }
 }
 //------------------------------------------------------------------------------

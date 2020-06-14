@@ -25,6 +25,8 @@
 namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
+using drawing_variant = span_size_t;
+//------------------------------------------------------------------------------
 struct generator_intf {
 
     generator_intf() = default;
@@ -88,30 +90,71 @@ struct generator_intf {
 
     virtual void attrib_values(vertex_attrib_variant vav, span<float> dest) = 0;
 
-    virtual index_data_type index_type() = 0;
+    virtual span_size_t draw_variants() = 0;
 
-    virtual span_size_t index_count() = 0;
+    drawing_variant draw_variant(span_size_t index) {
+        return index;
+    }
 
-    virtual void indices(span<std::uint8_t> dest) = 0;
+    virtual index_data_type index_type(drawing_variant) = 0;
+    index_data_type index_type() {
+        return index_type(0);
+    }
 
-    virtual void indices(span<std::uint16_t> dest) = 0;
+    virtual span_size_t index_count(drawing_variant) = 0;
+    span_size_t index_count() {
+        return index_count(0);
+    }
 
-    virtual void indices(span<std::uint32_t> dest) = 0;
+    virtual void indices(drawing_variant, span<std::uint8_t> dest) = 0;
+    void indices(span<std::uint8_t> dest) {
+        indices(0, dest);
+    }
 
-    virtual span_size_t operation_count() = 0;
+    virtual void indices(drawing_variant, span<std::uint16_t> dest) = 0;
+    void indices(span<std::uint16_t> dest) {
+        indices(0, dest);
+    }
 
-    virtual void instructions(span<draw_operation> dest) = 0;
+    virtual void indices(drawing_variant, span<std::uint32_t> dest) = 0;
+    void indices(span<std::uint32_t> dest) {
+        indices(0, dest);
+    }
+
+    virtual span_size_t operation_count(drawing_variant) = 0;
+    span_size_t operation_count() {
+        return operation_count(0);
+    }
+
+    virtual void instructions(drawing_variant, span<draw_operation> dest) = 0;
+    void instructions(span<draw_operation> dest) {
+        return instructions(0, dest);
+    }
 
     virtual math::sphere<float, true> bounding_sphere();
 
     virtual void ray_intersections(
+      drawing_variant,
       span<const math::line<float, true>> rays,
       span<optionally_valid<float>> intersections);
+
+    void ray_intersections(
+      span<const math::line<float, true>> rays,
+      span<optionally_valid<float>> intersections) {
+        return ray_intersections(0, rays, intersections);
+    }
+
+    optionally_valid<float> ray_intersection(
+      drawing_variant var, const math::line<float, true>& ray) {
+        optionally_valid<float> result{};
+        ray_intersections(var, view_one(ray), cover_one(result));
+        return result;
+    }
 
     optionally_valid<float> ray_intersection(
       const math::line<float, true>& ray) {
         optionally_valid<float> result{};
-        ray_intersections(view_one(ray), cover_one(result));
+        ray_intersections(0, view_one(ray), cover_one(result));
         return result;
     }
 };
@@ -178,15 +221,19 @@ public:
           "Generator failed to handle the specified attribute kind.");
     }
 
-    index_data_type index_type() override;
+    span_size_t draw_variants() override {
+        return 1;
+    }
 
-    span_size_t index_count() override;
+    index_data_type index_type(drawing_variant) override;
 
-    void indices(span<std::uint8_t> dest) override;
+    span_size_t index_count(drawing_variant) override;
 
-    void indices(span<std::uint16_t> dest) override;
+    void indices(drawing_variant, span<std::uint8_t> dest) override;
 
-    void indices(span<std::uint32_t> dest) override;
+    void indices(drawing_variant, span<std::uint16_t> dest) override;
+
+    void indices(drawing_variant, span<std::uint32_t> dest) override;
 };
 //------------------------------------------------------------------------------
 class centered_unit_shape_generator_base : public generator_base {

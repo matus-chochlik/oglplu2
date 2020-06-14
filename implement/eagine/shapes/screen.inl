@@ -184,13 +184,14 @@ void unit_screen_gen::attrib_values(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t unit_screen_gen::operation_count() {
+span_size_t unit_screen_gen::operation_count(drawing_variant) {
     return 1;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_screen_gen::instructions(span<draw_operation> ops) {
-    EAGINE_ASSERT(ops.size() >= operation_count());
+void unit_screen_gen::instructions(
+  drawing_variant var, span<draw_operation> ops) {
+    EAGINE_ASSERT(ops.size() >= operation_count(var));
 
     draw_operation& op = ops[0];
     op.mode = primitive_type::triangle_strip;

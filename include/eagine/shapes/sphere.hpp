@@ -28,7 +28,7 @@ private:
     static vertex_attrib_bits _attr_mask() noexcept;
 
     template <typename T>
-    void _indices(span<T> dest) noexcept;
+    void _indices(drawing_variant, span<T> dest) noexcept;
 
 public:
     unit_sphere_gen(
@@ -54,23 +54,24 @@ public:
 
     void attrib_values(vertex_attrib_variant, span<float>) override;
 
-    index_data_type index_type() override;
+    index_data_type index_type(drawing_variant) override;
 
-    span_size_t index_count() override;
+    span_size_t index_count(drawing_variant) override;
 
-    void indices(span<std::uint8_t> dest) override;
+    void indices(drawing_variant, span<std::uint8_t> dest) override;
 
-    void indices(span<std::uint16_t> dest) override;
+    void indices(drawing_variant, span<std::uint16_t> dest) override;
 
-    void indices(span<std::uint32_t> dest) override;
+    void indices(drawing_variant, span<std::uint32_t> dest) override;
 
-    span_size_t operation_count() override;
+    span_size_t operation_count(drawing_variant) override;
 
-    void instructions(span<draw_operation> ops) override;
+    void instructions(drawing_variant, span<draw_operation> ops) override;
 
     math::sphere<float, true> bounding_sphere() override;
 
     void ray_intersections(
+      drawing_variant,
       span<const math::line<float, true>> rays,
       span<optionally_valid<float>> intersections) override;
 };

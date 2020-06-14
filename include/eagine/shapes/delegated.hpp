@@ -66,32 +66,36 @@ public:
         _gen->attrib_values(vav, dest);
     }
 
-    index_data_type index_type() override {
-        return _gen->index_type();
+    span_size_t draw_variants() override {
+        return _gen->draw_variants();
     }
 
-    span_size_t index_count() override {
-        return _gen->index_count();
+    index_data_type index_type(drawing_variant var) override {
+        return _gen->index_type(var);
     }
 
-    void indices(span<std::uint8_t> dest) override {
-        _gen->indices(dest);
+    span_size_t index_count(drawing_variant var) override {
+        return _gen->index_count(var);
     }
 
-    void indices(span<std::uint16_t> dest) override {
-        _gen->indices(dest);
+    void indices(drawing_variant var, span<std::uint8_t> dest) override {
+        _gen->indices(var, dest);
     }
 
-    void indices(span<std::uint32_t> dest) override {
-        _gen->indices(dest);
+    void indices(drawing_variant var, span<std::uint16_t> dest) override {
+        _gen->indices(var, dest);
     }
 
-    span_size_t operation_count() override {
-        return _gen->operation_count();
+    void indices(drawing_variant var, span<std::uint32_t> dest) override {
+        _gen->indices(var, dest);
     }
 
-    void instructions(span<draw_operation> ops) override {
-        _gen->instructions(ops);
+    span_size_t operation_count(drawing_variant var) override {
+        return _gen->operation_count(var);
+    }
+
+    void instructions(drawing_variant var, span<draw_operation> ops) override {
+        _gen->instructions(var, ops);
     }
 
     math::sphere<float, true> bounding_sphere() override {

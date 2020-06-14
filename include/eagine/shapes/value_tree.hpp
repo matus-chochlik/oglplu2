@@ -45,16 +45,16 @@ public:
 
     void attrib_values(vertex_attrib_variant, span<float>) override;
 
-    index_data_type index_type() override;
+    index_data_type index_type(drawing_variant) override;
 
-    span_size_t index_count() override;
+    span_size_t index_count(drawing_variant) override;
 
-    void indices(span<std::uint16_t> dest) override;
-    void indices(span<std::uint32_t> dest) override;
+    void indices(drawing_variant, span<std::uint16_t> dest) override;
+    void indices(drawing_variant, span<std::uint32_t> dest) override;
 
-    span_size_t operation_count() override;
+    span_size_t operation_count(drawing_variant) override;
 
-    void instructions(span<draw_operation> ops) override;
+    void instructions(drawing_variant, span<draw_operation> ops) override;
 };
 //------------------------------------------------------------------------------
 static inline auto from_value_tree(valtree::compound source, logger& log) {

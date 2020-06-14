@@ -195,7 +195,7 @@ void value_tree_loader::attrib_values(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-index_data_type value_tree_loader::index_type() {
+index_data_type value_tree_loader::index_type(drawing_variant) {
     if(auto type_a{_source.find("index_type")}) {
         if(_source.fetch_value(type_a, _temp)) {
             if(auto type{index_data_type_from(view(_temp))}) {
@@ -212,7 +212,7 @@ index_data_type value_tree_loader::index_type() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t value_tree_loader::index_count() {
+span_size_t value_tree_loader::index_count(drawing_variant) {
     if(auto indices_a{_source.find("indices")}) {
         return _source.value_count(indices_a);
     }
@@ -220,7 +220,7 @@ span_size_t value_tree_loader::index_count() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void value_tree_loader::indices(span<std::uint16_t> dest) {
+void value_tree_loader::indices(drawing_variant, span<std::uint16_t> dest) {
     if(auto indices_a{_source.find("indices")}) {
         if(_source.fetch_values(indices_a, dest)) {
             _log.debug("loaded indices");
@@ -231,7 +231,7 @@ void value_tree_loader::indices(span<std::uint16_t> dest) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void value_tree_loader::indices(span<std::uint32_t> dest) {
+void value_tree_loader::indices(drawing_variant, span<std::uint32_t> dest) {
     if(auto indices_a{_source.find("indices")}) {
         if(_source.fetch_values(indices_a, dest)) {
             _log.debug("loaded indices").arg(EAGINE_ID(indices), view(dest));
@@ -242,7 +242,7 @@ void value_tree_loader::indices(span<std::uint32_t> dest) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t value_tree_loader::operation_count() {
+span_size_t value_tree_loader::operation_count(drawing_variant) {
     if(auto instrs_a{_source.find("instructions")}) {
         return instrs_a.nested_count();
     } else {
@@ -252,7 +252,8 @@ span_size_t value_tree_loader::operation_count() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void value_tree_loader::instructions(span<draw_operation> ops) {
+void value_tree_loader::instructions(
+  drawing_variant, span<draw_operation> ops) {
     bool btemp{};
     if(auto instrs_a{_source.find("instructions")}) {
         if(ops.size() == instrs_a.nested_count()) {

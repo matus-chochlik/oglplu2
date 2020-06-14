@@ -186,24 +186,25 @@ void unit_sphere_gen::attrib_values(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-index_data_type unit_sphere_gen::index_type() {
-    if(index_count() < span_size(std::numeric_limits<std::uint8_t>::max())) {
+index_data_type unit_sphere_gen::index_type(drawing_variant v) {
+    if(index_count(v) < span_size(std::numeric_limits<std::uint8_t>::max())) {
         return index_data_type::unsigned_8;
     }
-    if(index_count() < span_size(std::numeric_limits<std::uint16_t>::max())) {
+    if(index_count(v) < span_size(std::numeric_limits<std::uint16_t>::max())) {
         return index_data_type::unsigned_16;
     }
     return index_data_type::unsigned_32;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t unit_sphere_gen::index_count() {
+span_size_t unit_sphere_gen::index_count(drawing_variant) {
     return _sections * ((_rings + 1) * 2 + (primitive_restart() ? 1 : 0));
 }
 //------------------------------------------------------------------------------
 template <typename T>
-void unit_sphere_gen::_indices(span<T> dest) noexcept {
-    EAGINE_ASSERT(dest.size() >= index_count());
+void unit_sphere_gen::_indices(drawing_variant var, span<T> dest) noexcept {
+    EAGINE_ASSERT(dest.size() >= index_count(var));
+    EAGINE_MAYBE_UNUSED(var);
 
     const auto pri = limit_cast<T>(vertex_count());
     span_size_t k = 0;
@@ -222,22 +223,22 @@ void unit_sphere_gen::_indices(span<T> dest) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_sphere_gen::indices(span<std::uint8_t> dest) {
-    _indices(dest);
+void unit_sphere_gen::indices(drawing_variant var, span<std::uint8_t> dest) {
+    _indices(var, dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_sphere_gen::indices(span<std::uint16_t> dest) {
-    _indices(dest);
+void unit_sphere_gen::indices(drawing_variant var, span<std::uint16_t> dest) {
+    _indices(var, dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_sphere_gen::indices(span<std::uint32_t> dest) {
-    _indices(dest);
+void unit_sphere_gen::indices(drawing_variant var, span<std::uint32_t> dest) {
+    _indices(var, dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t unit_sphere_gen::operation_count() {
+span_size_t unit_sphere_gen::operation_count(drawing_variant) {
     if(primitive_restart()) {
         return 1;
     } else {
@@ -246,15 +247,16 @@ span_size_t unit_sphere_gen::operation_count() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_sphere_gen::instructions(span<draw_operation> ops) {
-    EAGINE_ASSERT(ops.size() >= operation_count());
+void unit_sphere_gen::instructions(
+  drawing_variant var, span<draw_operation> ops) {
+    EAGINE_ASSERT(ops.size() >= operation_count(var));
 
     if(primitive_restart()) {
         draw_operation& op = ops[0];
         op.mode = primitive_type::triangle_strip;
-        op.idx_type = index_type();
+        op.idx_type = index_type(var);
         op.first = 0;
-        op.count = index_count();
+        op.count = index_count(var);
         op.primitive_restart_index = unsigned(vertex_count());
         op.primitive_restart = true;
         op.cw_face_winding = true;
@@ -263,7 +265,7 @@ void unit_sphere_gen::instructions(span<draw_operation> ops) {
         for(span_size_t s = 0; s < _sections; ++s) {
             draw_operation& op = ops[s];
             op.mode = primitive_type::triangle_strip;
-            op.idx_type = index_type();
+            op.idx_type = index_type(var);
             op.first = s * step;
             op.count = step;
             op.primitive_restart = false;
@@ -279,6 +281,7 @@ math::sphere<float, true> unit_sphere_gen::bounding_sphere() {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void unit_sphere_gen::ray_intersections(
+  drawing_variant,
   span<const math::line<float, true>> rays,
   span<optionally_valid<float>> intersections) {
 

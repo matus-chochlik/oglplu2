@@ -57,16 +57,17 @@ math::sphere<float, true> generator_intf::bounding_sphere() {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void generator_intf::ray_intersections(
+  drawing_variant var,
   span<const math::line<float, true>> rays,
   span<optionally_valid<float>> intersections) {
 
     EAGINE_ASSERT(intersections.size() >= rays.size());
 
-    std::vector<draw_operation> ops(std_size(operation_count()));
-    instructions(cover(ops));
+    std::vector<draw_operation> ops(std_size(operation_count(var)));
+    instructions(var, cover(ops));
 
-    std::vector<std::uint32_t> idx(std_size(index_count()));
-    indices(cover(idx));
+    std::vector<std::uint32_t> idx(std_size(index_count(var)));
+    indices(var, cover(idx));
 
     const auto pvak = vertex_attrib_kind::position;
     const auto vpv = values_per_vertex(pvak);
@@ -158,38 +159,39 @@ void generator_intf::ray_intersections(
 //------------------------------------------------------------------------------
 // generator_base
 //------------------------------------------------------------------------------
-EAGINE_LIB_FUNC index_data_type generator_base::index_type() {
+EAGINE_LIB_FUNC index_data_type generator_base::index_type(drawing_variant) {
     return index_data_type::none;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t generator_base::index_count() {
+span_size_t generator_base::index_count(drawing_variant) {
     return 0;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void generator_base::indices(span<std::uint8_t>) {
+void generator_base::indices(drawing_variant, span<std::uint8_t>) {
     EAGINE_UNREACHABLE("Invalid function called for this index data type");
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void generator_base::indices(span<std::uint16_t> dest) {
-    if(index_type() == index_data_type::unsigned_8) {
-        std::vector<std::uint8_t> tmp(std_size(index_count()));
-        indices(cover(tmp));
+void generator_base::indices(drawing_variant var, span<std::uint16_t> dest) {
+    if(index_type(var) == index_data_type::unsigned_8) {
+        std::vector<std::uint8_t> tmp(std_size(index_count(var)));
+        indices(var, cover(tmp));
         copy(view(tmp), dest);
     }
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void generator_base::indices(span<std::uint32_t> dest) {
-    if(index_type() == index_data_type::unsigned_8) {
-        std::vector<std::uint8_t> tmp(std_size(index_count()));
-        indices(cover(tmp));
+void generator_base::indices(drawing_variant var, span<std::uint32_t> dest) {
+    const auto ity = index_type(var);
+    if(ity == index_data_type::unsigned_8) {
+        std::vector<std::uint8_t> tmp(std_size(index_count(var)));
+        indices(var, cover(tmp));
         copy(view(tmp), dest);
-    } else if(index_type() == index_data_type::unsigned_16) {
-        std::vector<std::uint16_t> tmp(std_size(index_count()));
-        indices(cover(tmp));
+    } else if(ity == index_data_type::unsigned_16) {
+        std::vector<std::uint16_t> tmp(std_size(index_count(var)));
+        indices(var, cover(tmp));
         copy(view(tmp), dest);
     }
 }

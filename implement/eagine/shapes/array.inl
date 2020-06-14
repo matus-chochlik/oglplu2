@@ -47,13 +47,13 @@ void array_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t array_gen::index_count() {
-    return delegated_gen::index_count() * _copies;
+span_size_t array_gen::index_count(drawing_variant var) {
+    return delegated_gen::index_count(var) * _copies;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-index_data_type array_gen::index_type() {
-    if(delegated_gen::index_type() != index_data_type::none) {
+index_data_type array_gen::index_type(drawing_variant var) {
+    if(delegated_gen::index_type(var) != index_data_type::none) {
         if(
           vertex_count() <
           span_size(std::numeric_limits<std::uint8_t>::max())) {
@@ -70,13 +70,13 @@ index_data_type array_gen::index_type() {
 }
 //------------------------------------------------------------------------------
 template <typename T>
-void array_gen::_indices(span<T> dest) noexcept {
+void array_gen::_indices(drawing_variant var, span<T> dest) noexcept {
     const auto vc = delegated_gen::vertex_count();
-    const auto ic = delegated_gen::index_count();
+    const auto ic = delegated_gen::index_count(var);
     const auto opri = limit_cast<T>(delegated_gen::vertex_count());
     const auto npri = limit_cast<T>(vertex_count());
 
-    delegated_gen::indices(head(dest, ic));
+    delegated_gen::indices(var, head(dest, ic));
 
     for(span_size_t i = 1; i < _copies; ++i) {
         const auto k = i * ic;
@@ -92,26 +92,26 @@ void array_gen::_indices(span<T> dest) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void array_gen::indices(span<std::uint8_t> dest) {
-    _indices(dest);
+void array_gen::indices(drawing_variant var, span<std::uint8_t> dest) {
+    _indices(var, dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void array_gen::indices(span<std::uint16_t> dest) {
-    _indices(dest);
+void array_gen::indices(drawing_variant var, span<std::uint16_t> dest) {
+    _indices(var, dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void array_gen::indices(span<std::uint32_t> dest) {
-    _indices(dest);
+void array_gen::indices(drawing_variant var, span<std::uint32_t> dest) {
+    _indices(var, dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t array_gen::operation_count() {
-    const auto oc = delegated_gen::operation_count();
+span_size_t array_gen::operation_count(drawing_variant var) {
+    const auto oc = delegated_gen::operation_count(var);
     if(oc == 1) {
         draw_operation op{};
-        delegated_gen::instructions(cover_one(op));
+        delegated_gen::instructions(var, cover_one(op));
         if(op.first == 0) {
             if(op.idx_type != index_data_type::none) {
                 return 1;
@@ -122,16 +122,16 @@ span_size_t array_gen::operation_count() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void array_gen::instructions(span<draw_operation> ops) {
-    const auto oc = delegated_gen::operation_count();
-    const auto ic = delegated_gen::index_count();
+void array_gen::instructions(drawing_variant var, span<draw_operation> ops) {
+    const auto oc = delegated_gen::operation_count(var);
+    const auto ic = delegated_gen::index_count(var);
     const auto vc = delegated_gen::vertex_count();
     const auto opri = unsigned(vc);
     const auto npri = unsigned(vertex_count());
-    const auto it = index_type();
+    const auto it = index_type(var);
 
-    if(operation_count() == 1) {
-        delegated_gen::instructions(head(ops, 1));
+    if(operation_count(var) == 1) {
+        delegated_gen::instructions(var, head(ops, 1));
         draw_operation& op{ops[0]};
         op.count *= _copies;
         if(op.primitive_restart_index == opri) {
@@ -139,7 +139,7 @@ void array_gen::instructions(span<draw_operation> ops) {
         }
         op.idx_type = it;
     } else {
-        delegated_gen::instructions(head(ops, oc));
+        delegated_gen::instructions(var, head(ops, oc));
 
         if(it != index_data_type::none) {
 

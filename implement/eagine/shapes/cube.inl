@@ -353,7 +353,7 @@ void unit_cube_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-index_data_type unit_cube_gen::index_type() {
+index_data_type unit_cube_gen::index_type(drawing_variant) {
     if(_only_shared_attribs()) {
         return index_data_type::unsigned_8;
     }
@@ -361,7 +361,7 @@ index_data_type unit_cube_gen::index_type() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t unit_cube_gen::index_count() {
+span_size_t unit_cube_gen::index_count(drawing_variant) {
     if(_only_shared_attribs()) {
         return 6 * 2 * 3;
     }
@@ -369,8 +369,10 @@ span_size_t unit_cube_gen::index_count() {
 }
 //------------------------------------------------------------------------------
 template <typename T>
-inline void unit_cube_gen::_indices(span<T> dest) noexcept {
-    EAGINE_ASSERT(dest.size() >= index_count());
+inline void unit_cube_gen::_indices(
+  drawing_variant var, span<T> dest) noexcept {
+    EAGINE_ASSERT(dest.size() >= index_count(var));
+    EAGINE_MAYBE_UNUSED(var);
 
     span_size_t k = 0;
 
@@ -384,39 +386,40 @@ inline void unit_cube_gen::_indices(span<T> dest) noexcept {
         }
     }
 
-    EAGINE_ASSERT(k == index_count());
+    EAGINE_ASSERT(k == index_count(var));
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_cube_gen::indices(span<std::uint8_t> dest) {
-    _indices(dest);
+void unit_cube_gen::indices(drawing_variant var, span<std::uint8_t> dest) {
+    _indices(var, dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_cube_gen::indices(span<std::uint16_t> dest) {
-    _indices(dest);
+void unit_cube_gen::indices(drawing_variant var, span<std::uint16_t> dest) {
+    _indices(var, dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_cube_gen::indices(span<std::uint32_t> dest) {
-    _indices(dest);
+void unit_cube_gen::indices(drawing_variant var, span<std::uint32_t> dest) {
+    _indices(var, dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t unit_cube_gen::operation_count() {
+span_size_t unit_cube_gen::operation_count(drawing_variant) {
     return 1;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_cube_gen::instructions(span<draw_operation> ops) {
-    EAGINE_ASSERT(ops.size() >= operation_count());
+void unit_cube_gen::instructions(
+  drawing_variant var, span<draw_operation> ops) {
+    EAGINE_ASSERT(ops.size() >= operation_count(var));
 
     if(_only_shared_attribs()) {
         draw_operation& op = ops[0];
         op.mode = primitive_type::triangles;
-        op.idx_type = index_type();
+        op.idx_type = index_type(var);
         op.first = 0;
-        op.count = index_count();
+        op.count = index_count(var);
         op.primitive_restart = false;
         op.cw_face_winding = false;
     } else {
