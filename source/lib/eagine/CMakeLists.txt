@@ -47,6 +47,7 @@ target_link_libraries(
 		EAGine::Required
 		EAGopt::OpenSSL
 		EAGopt::Stacktrace
+		EAGopt::BoostSpirit
 		Threads::Threads
 )
 

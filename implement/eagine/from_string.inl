@@ -7,6 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+#if EAGINE_USE_BOOST_SPIRIT
 #if __has_include(<boost/spirit/home/x3.hpp>)
 #include <eagine/assert.hpp>
 #include <eagine/math/constants.hpp>
@@ -17,9 +18,13 @@
 #include <tuple>
 #include <utility>
 #endif
+#else
+#undef EAGINE_USE_BOOST_SPIRIT
+#define EAGINE_USE_BOOST_SPIRIT 0
+#endif
 
 namespace eagine {
-#if __has_include(<boost/spirit/home/x3.hpp>)
+#if EAGINE_USE_BOOST_SPIRIT
 namespace numexpr {
 //------------------------------------------------------------------------------
 namespace bs = boost::spirit::x3;
