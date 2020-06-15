@@ -13,6 +13,7 @@ set(EAGINE_LIB_SOURCES
 	filesystem.cpp
 	file_contents.cpp
 	input_data.cpp
+	compression.cpp
 	str_var_subst.cpp
 	message_bus_context.cpp
 	message_bus_message.cpp
@@ -46,6 +47,7 @@ target_link_libraries(
 	PUBLIC
 		EAGine::Required
 		EAGopt::OpenSSL
+		EAGopt::ZLIB
 		EAGopt::Stacktrace
 		EAGopt::BoostSpirit
 		Threads::Threads

@@ -53,6 +53,9 @@ include(config/FindQT5GL.cmake)
 
 include(config/FindGLM.cmake)
 
+# ZLIB
+include(config/FindZLIB.cmake)
+
 # SSL
 include(config/FindSSL.cmake)
 

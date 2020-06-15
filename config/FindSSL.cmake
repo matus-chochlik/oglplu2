@@ -23,6 +23,11 @@ if(OpenSSL_FOUND)
 
 	set_target_properties(
 		EAGopt::OpenSSL PROPERTIES
+		INTERFACE_COMPILE_DEFINITIONS EAGINE_USE_OPENSSL=1
+	)
+
+	set_target_properties(
+		EAGopt::OpenSSL PROPERTIES
 		INTERFACE_LINK_LIBRARIES "${OPENSSL_LIBRARIES}"
 	)
 endif()

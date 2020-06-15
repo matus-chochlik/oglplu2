@@ -21,6 +21,14 @@
 #define EAGINE_DEBUG 1
 #endif
 
+#ifndef EAGINE_USE_ZLIB
+#define EAGINE_USE_ZLIB 0
+#endif
+
+#ifndef EAGINE_USE_OPENSSL
+#define EAGINE_USE_OPENSSL 0
+#endif
+
 #ifndef EAGINE_USE_BACKTRACE
 #define EAGINE_USE_BACKTRACE 0
 #endif

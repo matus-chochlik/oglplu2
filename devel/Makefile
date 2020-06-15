@@ -19,6 +19,7 @@ test%: test%.o
 		$(shell pkg-config --libs openal) \
 		$(shell pkg-config --libs egl) \
 		$(shell pkg-config --libs gl) \
+		$(shell pkg-config --libs zlib) \
 		-rdynamic \
 		-pthread \
 		-o $@ $<
