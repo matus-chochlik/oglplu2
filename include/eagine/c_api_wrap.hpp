@@ -833,16 +833,20 @@ struct default_c_api_traits {
 
     template <typename RV, typename Tag, typename... Params, typename... Args>
     static constexpr RV call_static(
-      Tag, RV (*function)(Params...), Args&&... args) {
-        return function(
-          std::forward<Args>(args)...); // NOLINT(hicpp-no-array-decay)
+      Tag tag, RV (*function)(Params...), Args&&... args) {
+        if(function) {
+            return function(
+              std::forward<Args>(args)...); // NOLINT(hicpp-no-array-decay)
+        }
+        return fallback(tag, identity<RV>());
     }
 
     template <typename RV, typename Tag, typename... Params, typename... Args>
     static constexpr RV call_dynamic(
       Tag tag, RV (*function)(Params...), Args&&... args) {
         if(function) {
-            return function(std::forward<Args>(args)...);
+            return function(
+              std::forward<Args>(args)...); // NOLINT(hicpp-no-array-decay)
         }
         return fallback(tag, identity<RV>());
     }

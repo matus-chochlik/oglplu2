@@ -27,7 +27,7 @@ ${install_prefix}/share/oglplus/examples/eagine-003_shutdown \
 	"${conn_args[@]}" \
 	& pids+=($!)
 sleep 10
-${install_prefix}/share/oglplus/examples/eagine-004_discovery \
+valgrind ${install_prefix}/share/oglplus/examples/eagine-004_discovery \
 	"${log_args[@]}" \
 	"${conn_args[@]}" \
 	& pids+=($!)

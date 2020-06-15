@@ -322,41 +322,44 @@ verification_bits context::verify_remote_signature(
   bool verified_key) {
     verification_bits result{};
 
-    if(ok md_type{default_message_digest()}) {
-        if(ok md_ctx{_ssl.new_message_digest()}) {
-            auto cleanup{_ssl.delete_message_digest.raii(md_ctx)};
+    if(content && signature) {
+        if(ok md_type{default_message_digest()}) {
+            if(ok md_ctx{_ssl.new_message_digest()}) {
+                auto cleanup{_ssl.delete_message_digest.raii(md_ctx)};
 
-            if(EAGINE_LIKELY(
-                 message_digest_verify_init(md_ctx, md_type, node_id))) {
                 if(EAGINE_LIKELY(
-                     _ssl.message_digest_verify_update(md_ctx, content))) {
-                    if(extract_or(
-                         _ssl.message_digest_verify_final(md_ctx, signature),
-                         false)) {
+                     message_digest_verify_init(md_ctx, md_type, node_id))) {
+                    if(EAGINE_LIKELY(
+                         _ssl.message_digest_verify_update(md_ctx, content))) {
+                        if(extract_or(
+                             _ssl.message_digest_verify_final(
+                               md_ctx, signature),
+                             false)) {
 
-                        if(verified_key || verified_remote_key(node_id)) {
-                            result |= verification_bit::source_private_key;
+                            if(verified_key || verified_remote_key(node_id)) {
+                                result |= verification_bit::source_private_key;
+                            }
+
+                            result |= verification_bit::source_certificate;
+                            result |= verification_bit::message_content;
+
+                        } else {
+                            _log.debug("failed to finish ssl verification");
                         }
-
-                        result |= verification_bit::source_certificate;
-                        result |= verification_bit::message_content;
-
                     } else {
-                        _log.debug("failed to finish ssl verification");
+                        _log.debug("failed to update ssl verify context");
                     }
                 } else {
-                    _log.debug("failed to update ssl verify context");
+                    _log.debug("failed to init ssl verify context");
                 }
             } else {
-                _log.debug("failed to init ssl verify context");
+                _log.debug("failed to create ssl message digest")
+                  .arg(EAGINE_ID(reason), (!md_ctx).message());
             }
         } else {
-            _log.debug("failed to create ssl message digest")
-              .arg(EAGINE_ID(reason), (!md_ctx).message());
+            _log.debug("failed to get ssl message digest type")
+              .arg(EAGINE_ID(reason), (!md_type).message());
         }
-    } else {
-        _log.debug("failed to get ssl message digest type")
-          .arg(EAGINE_ID(reason), (!md_type).message());
     }
     return result;
 }
