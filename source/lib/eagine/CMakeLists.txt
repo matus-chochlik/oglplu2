@@ -33,6 +33,7 @@ set(EAGINE_LIB_SOURCES
 	random.cpp
 	resources.cpp
 	value_tree_json.cpp
+	value_tree_yaml.cpp
 )
 
 add_library(
@@ -48,6 +49,7 @@ target_link_libraries(
 		EAGine::Required
 		EAGopt::OpenSSL
 		EAGopt::ZLIB
+		EAGopt::RYML
 		EAGopt::Stacktrace
 		EAGopt::BoostSpirit
 		Threads::Threads

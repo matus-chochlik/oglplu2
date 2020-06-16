@@ -78,31 +78,6 @@ public:
         return {};
     }
 
-    span_size_t nested_count() const {
-        if(_owner && _pimpl) {
-            return _pimpl->nested_count(*_owner);
-        }
-        return 0;
-    }
-
-    attribute nested(span_size_t index) const {
-        if(_owner && _pimpl) {
-            return {_owner, _pimpl->nested(*_owner, index)};
-        }
-        return {};
-    }
-
-    attribute find(const basic_string_path& path) const {
-        if(_owner && _pimpl) {
-            return {_owner, _pimpl->find(*_owner, path)};
-        }
-        return {};
-    }
-
-    attribute find(string_view str_path) const {
-        return find(basic_string_path{str_path, EAGINE_TAG(split_by), "/"});
-    }
-
 private:
     friend class compound;
 
@@ -143,20 +118,45 @@ public:
         return {};
     }
 
+    span_size_t nested_count(const attribute& attrib) const {
+        if(_pimpl && attrib._pimpl) {
+            return _pimpl->nested_count(*attrib._pimpl);
+        }
+        return 0;
+    }
+
+    attribute nested(const attribute& attrib, span_size_t index) const {
+        if(_pimpl && attrib._pimpl) {
+            return {_pimpl, _pimpl->nested(*attrib._pimpl, index)};
+        }
+        return {};
+    }
+
+    attribute nested(const attribute& attrib, string_view name) const {
+        if(_pimpl && attrib._pimpl) {
+            return {_pimpl, _pimpl->nested(*attrib._pimpl, name)};
+        }
+        return {};
+    }
+
+    attribute nested(string_view name) const {
+        return nested(structure(), name);
+    }
+
+    attribute find(
+      const attribute& attrib, const basic_string_path& path) const {
+        if(_pimpl && attrib._pimpl) {
+            return {_pimpl, _pimpl->find(*attrib._pimpl, path)};
+        }
+        return {};
+    }
+
     attribute find(const basic_string_path& path) const {
-        return structure().find(path);
+        return find(structure(), path);
     }
 
-    attribute find(string_view path_str) const {
-        return structure().find(path_str);
-    }
-
-    bool has(const basic_string_path& path) const {
-        return bool(find(path));
-    }
-
-    bool has(string_view path_str) const {
-        return bool(find(path_str));
+    attribute find(string_view str_path) const {
+        return find(basic_string_path{str_path, EAGINE_TAG(split_by), "/"});
     }
 
     span_size_t value_count(const attribute& attrib) {

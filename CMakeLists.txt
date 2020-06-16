@@ -56,6 +56,9 @@ include(config/FindGLM.cmake)
 # ZLIB
 include(config/FindZLIB.cmake)
 
+# RYML
+include(config/FindRYML.cmake)
+
 # SSL
 include(config/FindSSL.cmake)
 

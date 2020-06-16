@@ -82,7 +82,7 @@ public:
         return {};
     }
 
-    span_size_t nested_count(compound_interface&) final {
+    span_size_t nested_count() {
         if(_rj_val) {
             const auto& val = extract(_rj_val);
             if(val.IsArray()) {
@@ -95,19 +95,53 @@ public:
         return 0;
     }
 
-    attribute_interface* nested(
-      compound_interface& owner, span_size_t index) final {
+    attribute_interface* nested(_comp_t& owner, span_size_t index) {
         if(_rj_val) {
             auto& val = extract(_rj_val);
             if(val.IsArray()) {
                 if(index < span_size(val.Size())) {
-                    EAGINE_ASSERT(dynamic_cast<_comp_t*>(&owner));
                     return rapidjson_make_value_node(
-                      *static_cast<_comp_t*>(&owner),
-                      val[rapidjson_size(index)]);
+                      owner, val[rapidjson_size(index)]);
                 }
             }
         }
+        return {};
+    }
+
+    attribute_interface* nested(_comp_t& owner, string_view name) {
+        if(_rj_val) {
+            auto& val = extract(_rj_val);
+            if(val.IsObject()) {
+                auto found = val.FindMember(c_str(name));
+                if(found != val.MemberEnd()) {
+                    return rapidjson_make_value_node(
+                      owner, found->value, &found->name);
+                }
+            }
+        }
+        return {};
+    }
+
+    attribute_interface* find(_comp_t& owner, const basic_string_path& path) {
+        _val_t* result = _rj_val;
+        _val_t* name = nullptr;
+        for(auto& entry : path) {
+            if(result && result->IsObject()) {
+                auto found = result->FindMember(c_str(entry));
+                if(found != result->MemberEnd()) {
+                    result = &found->value;
+                    name = &found->name;
+                    continue;
+                }
+            }
+            result = nullptr;
+            break;
+        }
+
+        if(result) {
+            return rapidjson_make_value_node(owner, *result, name);
+        }
+
         return {};
     }
 
@@ -329,32 +363,6 @@ public:
         }
         return 0;
     }
-
-    attribute_interface* find(
-      compound_interface& owner, const basic_string_path& path) final {
-        _val_t* result = _rj_val;
-        _val_t* name = nullptr;
-        for(auto& entry : path) {
-            if(result && result->IsObject()) {
-                auto found = result->FindMember(c_str(entry));
-                if(found != result->MemberEnd()) {
-                    result = &found->value;
-                    name = &found->name;
-                    continue;
-                }
-            }
-            result = nullptr;
-            break;
-        }
-
-        if(result) {
-            EAGINE_ASSERT(dynamic_cast<_comp_t*>(&owner));
-            return rapidjson_make_value_node(
-              *static_cast<_comp_t*>(&owner), *result, name);
-        }
-
-        return {};
-    }
 };
 //------------------------------------------------------------------------------
 template <typename Encoding, typename Allocator, typename StackAlloc>
@@ -428,6 +436,25 @@ public:
 
     attribute_interface* structure() final {
         return &_root;
+    }
+
+    span_size_t nested_count(attribute_interface& attrib) final {
+        return _unwrap(attrib).nested_count();
+    }
+
+    attribute_interface* nested(
+      attribute_interface& attrib, span_size_t index) final {
+        return _unwrap(attrib).nested(*this, index);
+    }
+
+    attribute_interface* nested(
+      attribute_interface& attrib, string_view name) final {
+        return _unwrap(attrib).nested(*this, name);
+    }
+
+    attribute_interface* find(
+      attribute_interface& attrib, const basic_string_path& path) final {
+        return _unwrap(attrib).find(*this, path);
     }
 
     span_size_t value_count(attribute_interface& attrib) final {

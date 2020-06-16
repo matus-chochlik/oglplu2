@@ -34,7 +34,7 @@ vertex_attrib_bits value_tree_loader::_attr_mask(
     vertex_attrib_bits result;
     for(auto& info :
         enumerator_mapping(identity<vertex_attrib_kind>{}, value_tree_tag{})) {
-        if(source.has(info.name)) {
+        if(source.nested(info.name)) {
             result |= info.enumerator;
         }
     }
@@ -62,8 +62,8 @@ span_size_t value_tree_loader::vertex_count() {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 span_size_t value_tree_loader::attribute_variants(vertex_attrib_kind attrib) {
-    if(auto attrib_a{_source.find(vertex_attrib_name(attrib))}) {
-        return attrib_a.nested_count();
+    if(auto attrib_a{_source.nested(vertex_attrib_name(attrib))}) {
+        return _source.nested_count(attrib_a);
     } else {
         _log.error("could not query vertex attribute variant count")
           .arg(EAGINE_ID(attribute), attrib);
@@ -73,9 +73,9 @@ span_size_t value_tree_loader::attribute_variants(vertex_attrib_kind attrib) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 string_view value_tree_loader::variant_name(vertex_attrib_variant vav) {
-    if(auto attrib_a{_source.find(vertex_attrib_name(vav.attrib))}) {
-        if(auto variant_a{attrib_a.nested(vav.index())}) {
-            if(auto vpv_a{variant_a.find("name")}) {
+    if(auto attrib_a{_source.nested(vertex_attrib_name(vav.attrib))}) {
+        if(auto variant_a{_source.nested(attrib_a, vav.index())}) {
+            if(auto vpv_a{_source.nested(variant_a, "name")}) {
                 auto pos = _variant_names.find(vav);
                 if(pos != _variant_names.end()) {
                     return {std::get<1>(*pos)};
@@ -107,9 +107,9 @@ string_view value_tree_loader::variant_name(vertex_attrib_variant vav) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 span_size_t value_tree_loader::values_per_vertex(vertex_attrib_variant vav) {
-    if(auto attrib_a{_source.find(vertex_attrib_name(vav.attrib))}) {
-        if(auto variant_a{attrib_a.nested(vav.index())}) {
-            if(auto vpv_a{variant_a.find("values_per_vertex")}) {
+    if(auto attrib_a{_source.nested(vertex_attrib_name(vav.attrib))}) {
+        if(auto variant_a{_source.nested(attrib_a, vav.index())}) {
+            if(auto vpv_a{_source.nested(variant_a, "values_per_vertex")}) {
                 span_size_t result{};
                 if(_source.fetch_value(vpv_a, result)) {
                     return result;
@@ -133,9 +133,9 @@ span_size_t value_tree_loader::values_per_vertex(vertex_attrib_variant vav) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 attrib_data_type value_tree_loader::attrib_type(vertex_attrib_variant vav) {
-    if(auto attrib_a{_source.find(vertex_attrib_name(vav.attrib))}) {
-        if(auto variant_a{attrib_a.nested(vav.index())}) {
-            if(auto type_a{variant_a.find("type")}) {
+    if(auto attrib_a{_source.nested(vertex_attrib_name(vav.attrib))}) {
+        if(auto variant_a{_source.nested(attrib_a, vav.index())}) {
+            if(auto type_a{_source.nested(variant_a, "type")}) {
                 if(_source.fetch_value(type_a, _temp)) {
                     if(auto type{attrib_data_type_from(view(_temp))}) {
                         return extract(type);
@@ -166,9 +166,9 @@ attrib_data_type value_tree_loader::attrib_type(vertex_attrib_variant vav) {
 EAGINE_LIB_FUNC
 void value_tree_loader::attrib_values(
   vertex_attrib_variant vav, span<float> dest) {
-    if(auto attrib_a{_source.find(vertex_attrib_name(vav.attrib))}) {
-        if(auto variant_a{attrib_a.nested(vav.index())}) {
-            if(auto data_a{variant_a.find("data")}) {
+    if(auto attrib_a{_source.nested(vertex_attrib_name(vav.attrib))}) {
+        if(auto variant_a{_source.nested(attrib_a, vav.index())}) {
+            if(auto data_a{_source.nested(variant_a, "data")}) {
                 if(_source.fetch_values(data_a, dest)) {
                     _log.debug("loaded vertex attribute data")
                       .arg(EAGINE_ID(attribute), vav.attrib)
@@ -196,7 +196,7 @@ void value_tree_loader::attrib_values(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 index_data_type value_tree_loader::index_type(drawing_variant) {
-    if(auto type_a{_source.find("index_type")}) {
+    if(auto type_a{_source.nested("index_type")}) {
         if(_source.fetch_value(type_a, _temp)) {
             if(auto type{index_data_type_from(view(_temp))}) {
                 return extract(type);
@@ -213,7 +213,7 @@ index_data_type value_tree_loader::index_type(drawing_variant) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 span_size_t value_tree_loader::index_count(drawing_variant) {
-    if(auto indices_a{_source.find("indices")}) {
+    if(auto indices_a{_source.nested("indices")}) {
         return _source.value_count(indices_a);
     }
     return 0;
@@ -221,7 +221,7 @@ span_size_t value_tree_loader::index_count(drawing_variant) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void value_tree_loader::indices(drawing_variant, span<std::uint16_t> dest) {
-    if(auto indices_a{_source.find("indices")}) {
+    if(auto indices_a{_source.nested("indices")}) {
         if(_source.fetch_values(indices_a, dest)) {
             _log.debug("loaded indices");
         } else {
@@ -232,7 +232,7 @@ void value_tree_loader::indices(drawing_variant, span<std::uint16_t> dest) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void value_tree_loader::indices(drawing_variant, span<std::uint32_t> dest) {
-    if(auto indices_a{_source.find("indices")}) {
+    if(auto indices_a{_source.nested("indices")}) {
         if(_source.fetch_values(indices_a, dest)) {
             _log.debug("loaded indices").arg(EAGINE_ID(indices), view(dest));
         } else {
@@ -243,8 +243,8 @@ void value_tree_loader::indices(drawing_variant, span<std::uint32_t> dest) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 span_size_t value_tree_loader::operation_count(drawing_variant) {
-    if(auto instrs_a{_source.find("instructions")}) {
-        return instrs_a.nested_count();
+    if(auto instrs_a{_source.nested("instructions")}) {
+        return _source.nested_count(instrs_a);
     } else {
         _log.error("could not query shape draw instructions count");
     }
@@ -255,14 +255,14 @@ EAGINE_LIB_FUNC
 void value_tree_loader::instructions(
   drawing_variant, span<draw_operation> ops) {
     bool btemp{};
-    if(auto instrs_a{_source.find("instructions")}) {
-        if(ops.size() == instrs_a.nested_count()) {
+    if(auto instrs_a{_source.nested("instructions")}) {
+        if(ops.size() == _source.nested_count(instrs_a)) {
             for(span_size_t i = 0; i < ops.size(); ++i) {
-                if(auto instr_a{instrs_a.nested(i)}) {
+                if(auto instr_a{_source.nested(instrs_a, i)}) {
                     auto& op = ops[i];
 
                     // first
-                    if(auto first_a{instr_a.find("first")}) {
+                    if(auto first_a{_source.nested(instr_a, "first")}) {
                         if(!_source.fetch_value(first_a, op.first)) {
                             _log.error("could not fetch shape draw offset")
                               .arg(EAGINE_ID(index), i);
@@ -273,7 +273,7 @@ void value_tree_loader::instructions(
                     }
 
                     // count
-                    if(auto count_a{instr_a.find("count")}) {
+                    if(auto count_a{_source.nested(instr_a, "count")}) {
                         if(!_source.fetch_value(count_a, op.count)) {
                             _log.error("could not fetch shape draw count")
                               .arg(EAGINE_ID(index), i);
@@ -284,7 +284,7 @@ void value_tree_loader::instructions(
                     }
 
                     // phase
-                    if(auto phase_a{instr_a.find("phase")}) {
+                    if(auto phase_a{_source.nested(instr_a, "phase")}) {
                         if(!_source.fetch_value(phase_a, op.phase)) {
                             _log.error("could not fetch draw phase value")
                               .arg(EAGINE_ID(index), i);
@@ -292,7 +292,8 @@ void value_tree_loader::instructions(
                     }
 
                     // primitive restart index
-                    if(auto pri_a{instr_a.find("primitive_restart_index")}) {
+                    if(auto pri_a{
+                         _source.nested(instr_a, "primitive_restart_index")}) {
                         if(!_source.fetch_value(
                              pri_a, op.primitive_restart_index)) {
                             _log.error("could not fetch restart index")
@@ -301,7 +302,8 @@ void value_tree_loader::instructions(
                     }
 
                     // patch_vertices
-                    if(auto ptch_vert_a{instr_a.find("patch_vertices")}) {
+                    if(auto ptch_vert_a{
+                         _source.nested(instr_a, "patch_vertices")}) {
                         if(!_source.fetch_value(
                              ptch_vert_a, op.patch_vertices)) {
                             _log.error("could not fetch patch vertex count")
@@ -310,7 +312,7 @@ void value_tree_loader::instructions(
                     }
 
                     // draw mode
-                    if(auto mode_a{instr_a.find("mode")}) {
+                    if(auto mode_a{_source.nested(instr_a, "mode")}) {
                         if(_source.fetch_value(mode_a, _temp)) {
                             if(auto mode{primitive_type_from(view(_temp))}) {
                                 op.mode = extract(mode);
@@ -329,7 +331,7 @@ void value_tree_loader::instructions(
                     }
 
                     // index type
-                    if(auto type_a{instr_a.find("index_type")}) {
+                    if(auto type_a{_source.nested(instr_a, "index_type")}) {
                         if(_source.fetch_value(type_a, _temp)) {
                             if(auto type{index_data_type_from(view(_temp))}) {
                                 op.idx_type = extract(type);
@@ -343,7 +345,8 @@ void value_tree_loader::instructions(
                     }
 
                     // primitive restart
-                    if(auto prirest_a{instr_a.find("primitive_restart")}) {
+                    if(auto prirest_a{
+                         _source.nested(instr_a, "primitive_restart")}) {
                         if(!_source.fetch_value(prirest_a, btemp)) {
                             op.primitive_restart = btemp;
                         } else {
@@ -353,7 +356,8 @@ void value_tree_loader::instructions(
                     }
 
                     // face winding direction
-                    if(auto cwfw_a{instr_a.find("cw_face_winding")}) {
+                    if(auto cwfw_a{
+                         _source.nested(instr_a, "cw_face_winding")}) {
                         if(_source.fetch_value(cwfw_a, btemp)) {
                             op.cw_face_winding = btemp;
                         } else {
@@ -378,7 +382,7 @@ void value_tree_loader::instructions(
         } else {
             _log.error("shape draw instructions destination size mismatch")
               .arg(EAGINE_ID(dest), ops.size())
-              .arg(EAGINE_ID(actual), instrs_a.nested_count());
+              .arg(EAGINE_ID(actual), _source.nested_count(instrs_a));
         }
     } else {
         _log.error("could not find shape draw instructions");

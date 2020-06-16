@@ -30,14 +30,6 @@ struct attribute_interface {
     virtual ~attribute_interface() noexcept = default;
 
     virtual string_view name(compound_interface&) = 0;
-
-    virtual span_size_t nested_count(compound_interface&) = 0;
-
-    virtual attribute_interface* nested(
-      compound_interface&, span_size_t index) = 0;
-
-    virtual attribute_interface* find(
-      compound_interface&, const basic_string_path&) = 0;
 };
 //------------------------------------------------------------------------------
 struct compound_interface {
@@ -52,6 +44,17 @@ struct compound_interface {
 
     virtual void add_ref(attribute_interface&) noexcept = 0;
     virtual void release(attribute_interface&) noexcept = 0;
+
+    virtual span_size_t nested_count(attribute_interface&) = 0;
+
+    virtual attribute_interface* nested(
+      attribute_interface&, span_size_t index) = 0;
+
+    virtual attribute_interface* nested(
+      attribute_interface&, string_view name) = 0;
+
+    virtual attribute_interface* find(
+      attribute_interface&, const basic_string_path&) = 0;
 
     virtual span_size_t value_count(attribute_interface&) = 0;
 
