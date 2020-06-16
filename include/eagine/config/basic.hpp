@@ -25,6 +25,10 @@
 #define EAGINE_USE_ZLIB 0
 #endif
 
+#ifndef EAGINE_USE_RYML
+#define EAGINE_USE_RYML 0
+#endif
+
 #ifndef EAGINE_USE_OPENSSL
 #define EAGINE_USE_OPENSSL 0
 #endif

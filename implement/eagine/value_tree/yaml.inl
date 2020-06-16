@@ -9,12 +9,16 @@
 
 #include <eagine/from_string.hpp>
 #include <eagine/is_within_limits.hpp>
-#include <ryml.hpp>
 #include <vector>
+
+#if EAGINE_USE_RYML
+#include <ryml.hpp>
+#endif
 
 namespace eagine {
 namespace valtree {
 //------------------------------------------------------------------------------
+#if EAGINE_USE_RYML
 class rapidyaml_tree_compound
   : public compound_implementation<rapidyaml_tree_compound> {
 public:
@@ -66,6 +70,12 @@ EAGINE_LIB_FUNC
 compound from_yaml_text(string_view yaml_text) {
     return compound::make<rapidyaml_tree_compound>(yaml_text);
 }
+#else  // EAGINE_USE_RYML
+EAGINE_LIB_FUNC
+compound from_yaml_text(string_view) {
+    return {};
+}
+#endif // EAGINE_USE_RYML
 //------------------------------------------------------------------------------
 } // namespace valtree
 } // namespace eagine
