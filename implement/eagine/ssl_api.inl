@@ -125,7 +125,7 @@ bool basic_ssl_api<ApiTraits>::ca_verify_certificate(
 
                 if(this->init_x509_store_ctx(vrfy_ctx, store, cert)) {
                     if(ok verify_res{this->x509_verify_certificate(vrfy_ctx)}) {
-                        return verify_res.get();
+                        return true;
                     }
                 }
             }
@@ -146,7 +146,7 @@ bool basic_ssl_api<ApiTraits>::ca_verify_certificate(
 
                 if(this->init_x509_store_ctx(vrfy_ctx, store, cert)) {
                     if(ok verify_res{this->x509_verify_certificate(vrfy_ctx)}) {
-                        return verify_res.get();
+                        return true;
                     }
                 }
             }

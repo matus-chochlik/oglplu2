@@ -126,9 +126,17 @@ bool context::verify_certificate(sslp::x509 cert) {
 
         if(_ssl.init_x509_store_ctx(vrfy_ctx, _ssl_store, cert)) {
             if(ok verify_res{_ssl.x509_verify_certificate(vrfy_ctx)}) {
-                return verify_res.get();
+                return true;
+            } else {
+                _log.debug("failed to verify x509 certificate")
+                  .arg(EAGINE_ID(reason), (!verify_res).message());
             }
+        } else {
+            _log.debug("failed to init x509 certificate store context");
         }
+    } else {
+        _log.error("failed to create x509 certificate store")
+          .arg(EAGINE_ID(reason), (!vrfy_ctx).message());
     }
     return false;
 }
@@ -162,7 +170,7 @@ bool context::add_ca_certificate_pem(memory::const_block blk) {
                 }
                 _ca_cert = std::move(cert.get());
                 memory::copy_into(blk, _ca_cert_pem);
-                return verify_certificate(_own_cert);
+                return !_own_cert || verify_certificate(_own_cert);
             } else {
                 _log.error("failed to add x509 CA certificate to store")
                   .arg(EAGINE_ID(reason), (!cert).message())
@@ -203,6 +211,9 @@ bool context::add_remote_certificate_pem(
                       .arg(EAGINE_ID(reason), (!pubkey).message())
                       .arg(EAGINE_ID(pem), blk);
                 }
+            } else {
+                _log.debug("failed to verify remote node certificate")
+                  .arg(EAGINE_ID(nodeId), node_id);
             }
         } else {
             _log.error("failed to parse remote node x509 certificate from pem")
@@ -210,6 +221,10 @@ bool context::add_remote_certificate_pem(
               .arg(EAGINE_ID(reason), (!cert).message())
               .arg(EAGINE_ID(pem), blk);
         }
+    } else {
+        _log.error("received empty x509 certificate pem")
+          .arg(EAGINE_ID(nodeId), node_id)
+          .arg(EAGINE_ID(pem), blk);
     }
     return false;
 }
@@ -267,8 +282,10 @@ context::message_digest_verify_init(
   identifier_t node_id) noexcept {
     auto pos = _remotes.find(node_id);
     if(pos != _remotes.end()) {
-        return _ssl.message_digest_verify_init(
-          mdc, mdt, std::get<1>(*pos).pubkey);
+        auto& info = std::get<1>(*pos);
+        if(info.pubkey) {
+            return _ssl.message_digest_verify_init(mdc, mdt, info.pubkey);
+        }
     } else {
         _log.debug("could not find remote node ${endpoint} for verification")
           .arg(EAGINE_ID(endpoint), node_id);

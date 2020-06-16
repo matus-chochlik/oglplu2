@@ -453,7 +453,7 @@ bool endpoint::post_certificate(identifier_t target_id) {
           std::chrono::seconds(30),
           message_priority::normal);
     }
-    _log.warning("no endpoint certificate to send");
+    _log.debug("no endpoint certificate to send yet");
     return false;
 }
 //------------------------------------------------------------------------------
@@ -467,7 +467,7 @@ bool endpoint::broadcast_certificate() {
           std::chrono::seconds(30),
           message_priority::normal);
     }
-    _log.warning("no endpoint certificate to broadcast");
+    _log.debug("no endpoint certificate to broadcast yet");
     return false;
 }
 //------------------------------------------------------------------------------

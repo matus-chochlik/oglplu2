@@ -1064,7 +1064,7 @@ public:
         using func<SSLPAFP(x509_verify_cert)>::func;
 
         constexpr auto operator()(x509_store_ctx xsc) const noexcept {
-            return this->_cnvchkcall(xsc);
+            return collapse_bool(this->_cnvchkcall(xsc));
         }
 
     } x509_verify_certificate;
