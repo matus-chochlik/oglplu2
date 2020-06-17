@@ -30,7 +30,7 @@ struct attribute_interface {
     attribute_interface& operator=(const attribute_interface&) = default;
     virtual ~attribute_interface() noexcept = default;
 
-    virtual identifier_t type_id() noexcept = 0;
+    virtual identifier_t type_id() const noexcept = 0;
 };
 //------------------------------------------------------------------------------
 struct compound_interface {
@@ -41,7 +41,7 @@ struct compound_interface {
     compound_interface& operator=(const compound_interface&) = delete;
     virtual ~compound_interface() noexcept = default;
 
-    virtual identifier_t type_id() noexcept = 0;
+    virtual identifier_t type_id() const noexcept = 0;
     virtual void add_ref(attribute_interface&) noexcept = 0;
     virtual void release(attribute_interface&) noexcept = 0;
 

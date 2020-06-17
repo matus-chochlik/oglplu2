@@ -26,6 +26,13 @@ except ImportError:
 # ------------------------------------------------------------------------------
 def permanentTranslations():
     return {
+        "bool": {
+            "type": int,
+            "opts": {
+                0: "False",
+                1: "True"
+            }
+        },
         "DbgOutSrce": {
             "type": int,
             "opts": {

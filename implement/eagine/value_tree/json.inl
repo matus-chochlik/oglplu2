@@ -76,7 +76,7 @@ public:
         return (l._rj_val == r._rj_val);
     }
 
-    identifier_t type_id() noexcept final {
+    identifier_t type_id() const noexcept final {
         return EAGINE_ID_V(rapidjson);
     }
 
@@ -399,7 +399,8 @@ private:
 
     std::vector<std::tuple<span_size_t, std::unique_ptr<_node_t>>> _nodes{};
 
-    static inline auto& _unwrap(attribute_interface& attrib) {
+    inline auto& _unwrap(attribute_interface& attrib) const noexcept {
+        EAGINE_ASSERT(attrib.type_id() == type_id());
         EAGINE_ASSERT(dynamic_cast<_node_t*>(&attrib));
         return static_cast<_node_t&>(attrib);
     }
@@ -433,7 +434,7 @@ public:
         return std::get<1>(_nodes.back()).get();
     }
 
-    identifier_t type_id() noexcept final {
+    identifier_t type_id() const noexcept final {
         return EAGINE_ID_V(rapidjson);
     }
 

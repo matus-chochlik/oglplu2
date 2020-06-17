@@ -352,6 +352,20 @@ public:
     }
 
     log_entry& arg(
+      identifier name, identifier tag, const std::string& value) noexcept {
+        if(_backend) {
+            _args.add([=](logger_backend& backend) {
+                backend.add_string(name, tag, value);
+            });
+        }
+        return *this;
+    }
+
+    log_entry& arg(identifier name, const std::string& value) noexcept {
+        return arg(name, EAGINE_ID(str), value);
+    }
+
+    log_entry& arg(
       identifier name, identifier tag, memory::const_block value) noexcept {
         if(_backend) {
             _args.add([=](logger_backend& backend) {

@@ -15,6 +15,7 @@
 #include "memory/span_algo.hpp"
 #include "mp_string.hpp"
 #include "string_span.hpp"
+#include "valid_if/always.hpp"
 #include "valid_if/decl.hpp"
 #include <chrono>
 #include <cstdlib>
@@ -177,7 +178,7 @@ static inline optionally_valid<long double> from_string(
     return convert_from_string_with(&std::strtold, src, id);
 }
 
-static inline optionally_valid<std::string> from_string(
+static inline always_valid<std::string> from_string(
   string_view src, identity<std::string>) noexcept {
     return to_string(src);
 }
@@ -250,7 +251,7 @@ static inline optionally_valid<std::chrono::duration<Rep, Period>> from_string(
 }
 //------------------------------------------------------------------------------
 template <typename T>
-optionally_valid<T> from_string(string_view src) noexcept {
+auto from_string(string_view src) noexcept {
     return from_string(src, identity<T>());
 }
 //------------------------------------------------------------------------------
