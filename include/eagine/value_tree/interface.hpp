@@ -10,6 +10,7 @@
 #ifndef EAGINE_VALUE_TREE_INTERFACE_HPP
 #define EAGINE_VALUE_TREE_INTERFACE_HPP
 
+#include "../identifier_t.hpp"
 #include "../string_path.hpp"
 #include "../string_span.hpp"
 #include <chrono>
@@ -29,7 +30,7 @@ struct attribute_interface {
     attribute_interface& operator=(const attribute_interface&) = default;
     virtual ~attribute_interface() noexcept = default;
 
-    virtual string_view name(compound_interface&) = 0;
+    virtual identifier_t type_id() noexcept = 0;
 };
 //------------------------------------------------------------------------------
 struct compound_interface {
@@ -40,10 +41,13 @@ struct compound_interface {
     compound_interface& operator=(const compound_interface&) = delete;
     virtual ~compound_interface() noexcept = default;
 
-    virtual attribute_interface* structure() = 0;
-
+    virtual identifier_t type_id() noexcept = 0;
     virtual void add_ref(attribute_interface&) noexcept = 0;
     virtual void release(attribute_interface&) noexcept = 0;
+
+    virtual attribute_interface* structure() = 0;
+
+    virtual string_view attribute_name(attribute_interface&) = 0;
 
     virtual span_size_t nested_count(attribute_interface&) = 0;
 

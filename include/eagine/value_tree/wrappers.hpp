@@ -71,9 +71,16 @@ public:
         return _owner && _pimpl;
     }
 
+    identifier_t type_id() const noexcept {
+        if(_pimpl) {
+            return _pimpl->type_id();
+        }
+        return 0;
+    }
+
     string_view name() const {
         if(_owner && _pimpl) {
-            return _pimpl->name(*_owner);
+            return _owner->attribute_name(*_pimpl);
         }
         return {};
     }
@@ -103,17 +110,31 @@ public:
         return {Compound::make_shared(std::forward<Args>(args)...)};
     }
 
-    explicit operator bool() const {
+    explicit operator bool() const noexcept {
         return bool(_pimpl);
     }
 
-    bool operator!() const {
+    bool operator!() const noexcept {
         return !_pimpl;
+    }
+
+    identifier_t type_id() const noexcept {
+        if(_pimpl) {
+            return _pimpl->type_id();
+        }
+        return 0;
     }
 
     attribute structure() const {
         if(_pimpl) {
             return {_pimpl, _pimpl->structure()};
+        }
+        return {};
+    }
+
+    string_view attribute_name(const attribute& attrib) const {
+        if(_pimpl && attrib._pimpl) {
+            return _pimpl->attribute_name(*attrib._pimpl);
         }
         return {};
     }

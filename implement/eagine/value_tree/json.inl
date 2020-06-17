@@ -8,6 +8,7 @@
  */
 
 #include <eagine/from_string.hpp>
+#include <eagine/identifier.hpp>
 #include <eagine/is_within_limits.hpp>
 #include <rapidjson/document.h>
 #include <vector>
@@ -74,7 +75,11 @@ public:
         return (l._rj_val == r._rj_val);
     }
 
-    string_view name(compound_interface&) final {
+    identifier_t type_id() noexcept final {
+        return EAGINE_ID_V(rapidjson);
+    }
+
+    string_view name() {
         if(_rj_name) {
             const auto& name = extract(_rj_name);
             return {name.GetString(), span_size(name.GetStringLength())};
@@ -412,6 +417,10 @@ public:
         return std::get<1>(_nodes.back()).get();
     }
 
+    identifier_t type_id() noexcept final {
+        return EAGINE_ID_V(rapidjson);
+    }
+
     void add_ref(attribute_interface& attrib) noexcept final {
         auto& that = _unwrap(attrib);
         for(auto& [ref_count, node_ptr] : _nodes) {
@@ -436,6 +445,10 @@ public:
 
     attribute_interface* structure() final {
         return &_root;
+    }
+
+    string_view attribute_name(attribute_interface& attrib) final {
+        return _unwrap(attrib).name();
     }
 
     span_size_t nested_count(attribute_interface& attrib) final {
