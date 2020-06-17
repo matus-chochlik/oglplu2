@@ -135,7 +135,7 @@ public:
       rapidyaml_tree_compound& owner, string_view name) const noexcept {
         if(_usable(_node)) {
             if(_node.is_map()) {
-                auto child{_node[rapidyaml_cstrref(name)]};
+                auto child{_node.find_child(rapidyaml_cstrref(name))};
                 if(_usable(child)) {
                     return rapidyaml_make_new_node(owner, child);
                 }
@@ -151,7 +151,7 @@ public:
         for(auto& entry : path) {
             if(_usable(result)) {
                 if(result.is_map()) {
-                    result = result[rapidyaml_cstrref(entry)];
+                    result = result.find_child(rapidyaml_cstrref(entry));
                     continue;
                 }
                 if(result.is_seq()) {

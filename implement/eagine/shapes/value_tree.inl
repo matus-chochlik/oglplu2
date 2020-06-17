@@ -52,10 +52,14 @@ value_tree_loader::value_tree_loader(
 EAGINE_LIB_FUNC
 span_size_t value_tree_loader::vertex_count() {
     span_size_t result{};
-    if(_source.fetch_value("vertex_count", result)) {
-        return result;
+    if(auto count_a{_source.nested("vertex_count")}) {
+        if(_source.fetch_value(count_a, result)) {
+            return result;
+        } else {
+            _log.error("could not fetch shape vertex count");
+        }
     } else {
-        _log.error("could not query shape vertex count");
+        _log.error("could not find shape vertex count attribute");
     }
     return 0;
 }
