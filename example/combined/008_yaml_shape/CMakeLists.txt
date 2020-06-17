@@ -4,5 +4,5 @@
 #  http://www.boost.org/LICENSE_1_0.txt
 #
 eagine_add_directory_example(example.cpp)
-eagine_add_directory_resources(vertex.glsl fragment.glsl shape.json)
+eagine_add_directory_resources(vertex.glsl fragment.glsl shape.yaml)
 

@@ -134,9 +134,11 @@ public:
     attribute_interface* nested(
       rapidyaml_tree_compound& owner, string_view name) const noexcept {
         if(_usable(_node)) {
-            auto child{_node[rapidyaml_cstrref(name)]};
-            if(_usable(child)) {
-                return rapidyaml_make_new_node(owner, child);
+            if(_node.is_map()) {
+                auto child{_node[rapidyaml_cstrref(name)]};
+                if(_usable(child)) {
+                    return rapidyaml_make_new_node(owner, child);
+                }
             }
         }
         return nullptr;
@@ -212,7 +214,7 @@ class rapidyaml_tree_compound
     using _node_t = rapidyaml_attribute;
 
     ryml::Tree _tree{};
-    rapidyaml_attribute _root{_tree};
+    rapidyaml_attribute _root;
 
     std::vector<std::tuple<span_size_t, std::unique_ptr<_node_t>>> _nodes{};
 
@@ -224,16 +226,25 @@ class rapidyaml_tree_compound
 
 public:
     rapidyaml_tree_compound(ryml::Tree tree)
-      : _tree{std::move(tree)} {
-        _tree.resolve();
+      : _tree{std::move(tree)}
+      , _root{_tree} {
     }
+
+    rapidyaml_tree_compound(rapidyaml_tree_compound&&) = delete;
+    rapidyaml_tree_compound(const rapidyaml_tree_compound&) = delete;
+    rapidyaml_tree_compound& operator=(rapidyaml_tree_compound&&) = delete;
+    rapidyaml_tree_compound& operator=(const rapidyaml_tree_compound&) = delete;
+
+    ~rapidyaml_tree_compound() noexcept final = default;
 
     static std::shared_ptr<rapidyaml_tree_compound> make_shared(
       string_view yaml_text, logger& log) {
         try {
             rapidyaml_callbacks cbks{};
             c4::csubstr src{yaml_text.data(), std_size(yaml_text.size())};
-            return std::make_shared<rapidyaml_tree_compound>(ryml::parse(src));
+            auto tree{ryml::parse(src)};
+            tree.resolve();
+            return std::make_shared<rapidyaml_tree_compound>(std::move(tree));
         } catch(std::runtime_error& err) {
             log.error("YAML parse error: ${message}")
               .arg(EAGINE_ID(message), string_view(err.what()));
