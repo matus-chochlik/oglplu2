@@ -8,6 +8,7 @@
 // clang-format off
 #include "prologue.inl"
 #include <eagine/from_string.hpp>
+#include <eagine/logging/entry.hpp>
 #include "implement.inl"
 #include <eagine/value_tree/json.hpp>
 #include "epilogue.inl"

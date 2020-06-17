@@ -10,6 +10,7 @@
 #include <eagine/from_string.hpp>
 #include <eagine/identifier.hpp>
 #include <eagine/is_within_limits.hpp>
+#include <eagine/logging/logger.hpp>
 #include <rapidjson/document.h>
 #include <vector>
 
@@ -123,6 +124,9 @@ public:
                       owner, found->value, &found->name);
                 }
             }
+            if(auto opt_idx{from_string<span_size_t>(name)}) {
+                return nested(owner, extract(opt_idx));
+            }
         }
         return {};
     }
@@ -131,12 +135,23 @@ public:
         _val_t* result = _rj_val;
         _val_t* name = nullptr;
         for(auto& entry : path) {
-            if(result && result->IsObject()) {
-                auto found = result->FindMember(c_str(entry));
-                if(found != result->MemberEnd()) {
-                    result = &found->value;
-                    name = &found->name;
-                    continue;
+            if(result) {
+                if(result->IsObject()) {
+                    auto found = result->FindMember(c_str(entry));
+                    if(found != result->MemberEnd()) {
+                        result = &found->value;
+                        name = &found->name;
+                        continue;
+                    }
+                }
+                if(result->IsArray()) {
+                    if(auto opt_idx{from_string<span_size_t>(entry)}) {
+                        const auto index{extract(opt_idx)};
+                        if(index < span_size(result->Size())) {
+                            result = &(*result)[rapidjson_size(index)];
+                            continue;
+                        }
+                    }
                 }
             }
             result = nullptr;
@@ -396,12 +411,13 @@ public:
     }
 
     static std::shared_ptr<rapidjson_document_compound> make_shared(
-      string_view json_str) {
+      string_view json_str, logger& log) {
         _doc_t rj_doc{};
         rj_doc.Parse(rapidjson_string_ref(json_str));
         if(!rj_doc.HasParseError()) {
             return std::make_shared<rapidjson_document_compound>(rj_doc);
         }
+        log.error("JSON parse error");
         return {};
     }
 
@@ -506,8 +522,8 @@ using default_rapidjson_document_compound =
   get_rapidjson_document_compound_t<rapidjson::Document>;
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-compound from_json_text(string_view json_text) {
-    return compound::make<default_rapidjson_document_compound>(json_text);
+compound from_json_text(string_view json_text, logger& log) {
+    return compound::make<default_rapidjson_document_compound>(json_text, log);
 }
 //------------------------------------------------------------------------------
 } // namespace valtree

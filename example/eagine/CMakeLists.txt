@@ -61,6 +61,7 @@ eagine_example_common(units)
 eagine_example_common(variable_history)
 eagine_example_common(network_sort)
 eagine_example_common(make_index)
+eagine_example_common(value_tree)
 eagine_example_common(memoized)
 eagine_example_common(c_api_wrap)
 #

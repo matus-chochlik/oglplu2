@@ -11,7 +11,9 @@
 #define EAGINE_VALUE_TREE_WRAPPERS_HPP
 
 #include "../assert.hpp"
+#include "../identity.hpp"
 #include "../memory/span_algo.hpp"
+#include "../valid_if/decl.hpp"
 #include "interface.hpp"
 #include <utility>
 
@@ -231,6 +233,21 @@ public:
     template <typename T>
     bool fetch_value(string_view path_str, T& dest) {
         return fetch_value(find(path_str), dest);
+    }
+
+    template <typename T>
+    optionally_valid<T> get(
+      string_view path_str, span_size_t offset, identity<T> = {}) {
+        T temp{};
+        if(fetch_value(path_str, offset, temp)) {
+            return {std::move(temp), true};
+        }
+        return {};
+    }
+
+    template <typename T>
+    optionally_valid<T> get(string_view path_str, identity<T> tid = {}) {
+        return get<T>(path_str, 0, tid);
     }
 
 private:

@@ -81,7 +81,8 @@ void example_cube::init(example_context& ctx) {
     auto json_text = as_chars(embed(EAGINE_ID(ShapeJson), "shape.json"));
     shape_generator shape(
       ctx.gl(),
-      shapes::from_value_tree(valtree::from_json_text(json_text), ctx.log()));
+      shapes::from_value_tree(
+        valtree::from_json_text(json_text, ctx.log()), ctx.log()));
 
     _ops.resize(std_size(shape.operation_count()));
     shape.instructions(ctx.gl(), cover(_ops));
