@@ -95,6 +95,8 @@ bool endpoint::_handle_special(
             return false;
         } else if(msg_id.has_method(EAGINE_ID(unsubFrom))) {
             return false;
+        } else if(msg_id.has_method(EAGINE_ID(qrySubscrb))) {
+            return false;
         } else if(msg_id.has_method(EAGINE_ID(eptCertQry))) {
             post_certificate(message.source_id);
             return true;
@@ -409,11 +411,44 @@ void endpoint::post_meta_message(message_id meta_msg_id, message_id msg_id) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+void endpoint::post_meta_message_to(
+  identifier_t target_id, message_id meta_msg_id, message_id msg_id) {
+    std::array<byte, 64> temp{};
+    if(auto serialized = default_serialize_message_type(msg_id, cover(temp))) {
+        message_view msg{extract(serialized)};
+        msg.set_target_id(target_id);
+        post(meta_msg_id, msg);
+    } else {
+        _log.debug("failed to serialize meta-message ${meta}")
+          .arg(EAGINE_ID(meta), meta_msg_id)
+          .arg(EAGINE_ID(target), target_id)
+          .arg(EAGINE_ID(message), msg_id);
+    }
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 void endpoint::say_subscribes_to(message_id msg_id) {
     log()
-      .debug("requesting subscription to message ${message}")
+      .debug("announces subscription to message ${message}")
       .arg(EAGINE_ID(message), msg_id);
     post_meta_message(EAGINE_MSGBUS_ID(subscribTo), msg_id);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void endpoint::say_subscribes_to(identifier_t target_id, message_id msg_id) {
+    log()
+      .debug("announces subscription to message ${message}")
+      .arg(EAGINE_ID(target), target_id)
+      .arg(EAGINE_ID(message), msg_id);
+    post_meta_message_to(target_id, EAGINE_MSGBUS_ID(subscribTo), msg_id);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void endpoint::query_subscribers_of(message_id msg_id) {
+    log()
+      .debug("querying subscribers of message ${message}")
+      .arg(EAGINE_ID(message), msg_id);
+    post_meta_message(EAGINE_MSGBUS_ID(qrySubscrb), msg_id);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

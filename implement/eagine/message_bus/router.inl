@@ -383,6 +383,9 @@ bool router::_handle_special(
                 // this should be routed
                 return false;
             }
+        } else if(msg_id.has_method(EAGINE_ID(qrySubscrb))) {
+            // this should be routed
+            return false;
         } else if(msg_id.has_method(EAGINE_ID(blobFrgmnt))) {
             if(_blobs.process_incoming(
                  blob_manipulator::filter_function(

@@ -269,9 +269,13 @@ public:
     bool say_bye();
 
     void post_meta_message(message_id meta_msg_id, message_id msg_id);
+    void post_meta_message_to(
+      identifier_t target_id, message_id meta_msg_id, message_id msg_id);
 
     void say_subscribes_to(message_id);
+    void say_subscribes_to(identifier_t target_id, message_id);
     void say_unsubscribes_from(message_id);
+    void query_subscribers_of(message_id);
 
     void clear_block_list();
     void block_message_type(message_id);

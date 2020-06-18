@@ -20,6 +20,25 @@ class service_composition
   : public Base
   , public connection_user {
 
+    using This = service_composition;
+
+protected:
+    void add_methods() {
+        Base::add_methods();
+        Base::add_method(
+          this,
+          EAGINE_MSG_MAP(eagiMsgBus, qrySubscrb, This, _handle_sub_query));
+    }
+
+private:
+    bool _handle_sub_query(stored_message& message) {
+        message_id sub_msg_id{};
+        if(default_deserialize_message_type(sub_msg_id, message.content())) {
+            this->respond_to_subscription_query(message.source_id, sub_msg_id);
+        }
+        return true;
+    }
+
     void _init() {
         this->add_methods();
         this->init();
@@ -49,8 +68,6 @@ public:
     bool add_connection(std::unique_ptr<connection> conn) final {
         return this->bus().add_connection(std::move(conn));
     }
-
-private:
 };
 //------------------------------------------------------------------------------
 } // namespace msgbus

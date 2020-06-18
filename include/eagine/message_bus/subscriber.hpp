@@ -184,6 +184,20 @@ protected:
         }
     }
 
+    inline void _respond_to_subscription_query(
+      identifier_t source_id,
+      message_id sub_msg,
+      span<const handler_entry> msg_handlers) const noexcept {
+        if(EAGINE_LIKELY(_endpoint)) {
+            for(auto& entry : msg_handlers) {
+                if(entry.msg_id == sub_msg) {
+                    _endpoint->say_subscribes_to(source_id, entry.msg_id);
+                    break;
+                }
+            }
+        }
+    }
+
     bool _process_one(span<const handler_entry> msg_handlers) {
         for(auto& entry : msg_handlers) {
             if(bus().process_one(entry.msg_id, entry.handler)) {
@@ -266,6 +280,12 @@ public:
         this->_retract_subscriptions(view(_msg_handlers));
     }
 
+    void respond_to_subscription_query(
+      identifier_t source_id, message_id sub_msg) const noexcept {
+        this->_respond_to_subscription_query(
+          source_id, sub_msg, view(_msg_handlers));
+    }
+
 private:
     std::array<handler_entry, N> _msg_handlers;
 };
@@ -326,6 +346,12 @@ public:
 
     void retract_subscriptions() const noexcept {
         this->_retract_subscriptions(view(_msg_handlers));
+    }
+
+    void respond_to_subscription_query(
+      identifier_t source_id, message_id sub_msg) const noexcept {
+        this->_respond_to_subscription_query(
+          source_id, sub_msg, view(_msg_handlers));
     }
 
 protected:
