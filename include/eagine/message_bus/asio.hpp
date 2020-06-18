@@ -488,6 +488,7 @@ class asio_connector<
 
     asio::ip::tcp::resolver _resolver;
     std::string _addr_str;
+    timeout _should_reconnect{std::chrono::seconds{1}, nothing};
     bool _connecting{false};
 
     void _start_connect(asio::ip::tcp::resolver::iterator resolved) {
@@ -531,6 +532,7 @@ class asio_connector<
     }
 
     void _start_resolve() {
+        _connecting = true;
         auto host = asio::string_view(_addr_str);
         _resolver.async_resolve(
           host, {}, [this](std::error_code error, auto resolved) {
@@ -565,9 +567,11 @@ public:
             something_done(this->_state->start_receive());
             something_done(this->_state->start_send());
         } else if(!_connecting) {
-            _connecting = true;
-            _start_resolve();
-            something_done();
+            if(_should_reconnect) {
+                _should_reconnect.reset();
+                _start_resolve();
+                something_done();
+            }
         }
         something_done(this->_state->update());
         return something_done;
@@ -738,6 +742,7 @@ class asio_connector<
 
     std::string _addr_str;
     asio::local::stream_protocol::endpoint _endpoint;
+    timeout _should_reconnect{std::chrono::seconds{1}, nothing};
     bool _connecting{false};
 
     void _start_connect() {
@@ -780,8 +785,11 @@ public:
             something_done(this->_state->start_receive());
             something_done(this->_state->start_send());
         } else if(!_connecting) {
-            _start_connect();
-            something_done();
+            if(_should_reconnect) {
+                _should_reconnect.reset();
+                _start_connect();
+                something_done();
+            }
         }
         something_done(this->_state->update());
         return something_done;
