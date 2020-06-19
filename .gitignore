@@ -1,6 +1,7 @@
 /BINARY_DIR
 /INSTALL_PREFIX
 /_*
+/.valgrindrc
 .*.swp
 *.sdf
 *.user

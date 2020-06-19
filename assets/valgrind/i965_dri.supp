@@ -1,0 +1,48 @@
+{
+   oglplus/i965_dri_Addr4
+   Memcheck:Addr4
+   obj:/usr/*lib*/i965_dri.so
+   ...
+}
+{
+   oglplus/i965_dri_Addr8
+   Memcheck:Addr8
+   obj:/usr/*lib*/i965_dri.so
+   ...
+}
+{
+   oglplus/i965_dri_Addr8_memset
+   Memcheck:Addr8
+   fun:memset
+   obj:/usr/*lib*/i965_dri.so
+   ...
+}
+{
+   oglplus/i965_dri_Addr2_memmove
+   Memcheck:Addr2
+   fun:memmove
+   obj:/usr/*lib*/i965_dri.so
+   ...
+}
+{
+   oglplus/i965_dri_Addr8_memmove
+   Memcheck:Addr8
+   fun:memmove
+   obj:/usr/*lib*/i965_dri.so
+   ...
+}
+{
+   oglplus/i965_dri_Leak_malloc
+   Memcheck:Leak
+   fun:malloc
+   obj:/usr/*lib*/i965_dri.so
+   ...
+}
+{
+   oglplus/i965_dri_Leak_calloc
+   Memcheck:Leak
+   fun:calloc
+   obj:/usr/*lib*/i965_dri.so
+   ...
+}
+

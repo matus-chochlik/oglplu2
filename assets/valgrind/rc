@@ -1,0 +1,3 @@
+--suppressions=assets/valgrind/dl.supp
+--suppressions=assets/valgrind/glx.supp
+--suppressions=assets/valgrind/i965_dri.supp

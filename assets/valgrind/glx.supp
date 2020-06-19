@@ -1,0 +1,25 @@
+{
+   oglplus/glx_Leak_glapi_get_proc_address
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:_glapi_get_proc_address
+   ...
+}
+{
+   oglplus/glx_Leak_choose_fb_config
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:glXChooseFBConfig
+   ...
+}
+{
+   oglplus/glx_Leak_get_client_config
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:glXGetClientString
+   ...
+}
+
