@@ -1,0 +1,7 @@
+valgrind \
+	--leak-check=full \
+	--show-reachable=yes \
+	--error-limit=no \
+	--gen-suppressions=all \
+	--log-file=vgsupp.log \
+	./executable
