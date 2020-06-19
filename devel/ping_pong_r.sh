@@ -16,14 +16,14 @@ ${install_prefix}/bin/eagine-message_bus-router \
 	${conn_type} \
 	& pids+=($!)
 sleep 1
-${install_prefix}/share/oglplus/examples/eagine-${variant}_pong \
-	"${log_args[@]}" \
-	${conn_type} \
-	& pids+=($!)
-sleep 1
 ${install_prefix}/share/oglplus/examples/eagine-${variant}_ping \
 	"${log_args[@]}" \
 	--ping-count ${2:-1M} \
+	${conn_type} \
+	& pids+=($!)
+sleep 5
+${install_prefix}/share/oglplus/examples/eagine-${variant}_pong \
+	"${log_args[@]}" \
 	${conn_type} \
 	& pids+=($!)
 

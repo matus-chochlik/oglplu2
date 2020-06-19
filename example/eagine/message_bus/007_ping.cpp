@@ -119,19 +119,27 @@ public:
     bool update() {
         some_true something_done{};
         something_done(base::update());
-        for(auto& entry : _targets) {
-            const auto pingable_id = std::get<0>(entry);
-            if(_rcvd < _max) {
-                if(_sent < (_rcvd + _tout + _mod)) {
-                    this->ping(pingable_id, std::chrono::seconds(5));
-                    if(EAGINE_UNLIKELY((++_sent % _mod) == 0)) {
-                        _log.info("sent ${sent} pings")
-                          .arg(EAGINE_ID(sent), _sent);
+        if(_targets.empty()) {
+            if(_should_query_pingable) {
+                _log.info("searching for pingables");
+                query_subscribers_of(EAGINE_MSG_ID(eagiPing, ping));
+                _should_query_pingable.reset();
+            }
+        } else {
+            for(auto& entry : _targets) {
+                const auto pingable_id = std::get<0>(entry);
+                if(_rcvd < _max) {
+                    if(_sent < (_rcvd + _tout + _mod)) {
+                        this->ping(pingable_id, std::chrono::seconds(5));
+                        if(EAGINE_UNLIKELY((++_sent % _mod) == 0)) {
+                            _log.info("sent ${sent} pings")
+                              .arg(EAGINE_ID(sent), _sent);
+                        }
+                        something_done();
                     }
-                    something_done();
+                } else {
+                    break;
                 }
-            } else {
-                break;
             }
         }
         something_done(base::process_all() > 0);
@@ -171,6 +179,7 @@ public:
 
 private:
     logger _log{};
+    timeout _should_query_pingable{std::chrono::seconds(2)};
     std::map<identifier_t, ping_stats> _targets{};
     std::intmax_t _mod{10000};
     std::intmax_t _max{100000};

@@ -74,6 +74,13 @@ public:
         return {};
     }
 
+    void query_subscribers_of(message_id sub_msg) {
+
+        if(EAGINE_LIKELY(_endpoint)) {
+            _endpoint->query_subscribers_of(sub_msg);
+        }
+    }
+
     subscriber_base(const subscriber_base&) = delete;
     subscriber_base& operator=(subscriber_base&&) = delete;
     subscriber_base& operator=(const subscriber_base&) = delete;
@@ -187,7 +194,7 @@ protected:
     inline void _respond_to_subscription_query(
       identifier_t source_id,
       message_id sub_msg,
-      span<const handler_entry> msg_handlers) const noexcept {
+      span<const handler_entry> msg_handlers) const {
         if(EAGINE_LIKELY(_endpoint)) {
             for(auto& entry : msg_handlers) {
                 if(entry.msg_id == sub_msg) {
