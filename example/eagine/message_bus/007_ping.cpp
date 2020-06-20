@@ -119,8 +119,8 @@ public:
     bool update() {
         some_true something_done{};
         something_done(base::update());
-        if(_targets.empty()) {
-            if(_should_query_pingable) {
+        if(EAGINE_UNLIKELY(_targets.empty())) {
+            if(EAGINE_UNLIKELY(_should_query_pingable)) {
                 _log.info("searching for pingables");
                 query_subscribers_of(EAGINE_MSG_ID(eagiPing, ping));
                 _should_query_pingable.reset();
