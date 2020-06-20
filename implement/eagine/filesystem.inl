@@ -61,23 +61,23 @@ string_view dirname(string_view path) noexcept {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 string_path::string_path(
-  const str_span& path_str, const str_span& sep, const str_span& alt_sep) {
+  string_view path_str, string_view sep, string_view alt_sep) {
     span_size_t s = 0;
 
-    auto count = [&s](const str_span& name) {
+    auto count = [&s](string_view name) {
         s += basic_string_path::required_bytes(name);
     };
 
-    auto count_alt = [&count, &alt_sep](const str_span& name) {
+    auto count_alt = [&count, &alt_sep](string_view name) {
         for_each_delimited(name, alt_sep, count);
     };
 
     for_each_delimited(path_str, sep, count_alt);
     _p.reserve_bytes(s);
 
-    auto push_back = [this](const str_span& name) { _p.push_back(name); };
+    auto push_back = [this](string_view name) { _p.push_back(name); };
 
-    auto push_back_alt = [&push_back, &alt_sep](const str_span& name) {
+    auto push_back_alt = [&push_back, &alt_sep](string_view name) {
         for_each_delimited(name, alt_sep, push_back);
     };
 
@@ -85,23 +85,23 @@ string_path::string_path(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-string_path::string_path(const str_span& path_str, const str_span& sep) {
+string_path::string_path(string_view path_str, string_view sep) {
     span_size_t s = 0;
 
-    auto count = [&s](const str_span& name) {
+    auto count = [&s](string_view name) {
         s += basic_string_path::required_bytes(name);
     };
 
     for_each_delimited(path_str, sep, count);
     _p.reserve_bytes(s);
 
-    auto push_back = [this](const str_span& name) { _p.push_back(name); };
+    auto push_back = [this](string_view name) { _p.push_back(name); };
 
     for_each_delimited(path_str, sep, push_back);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-string_path::string_path(str_span path_str)
+string_path::string_path(string_view path_str)
 #if EAGINE_WINDOWS
   : string_path(path_str, path_separator(), alt_path_separator())
 #else
@@ -162,7 +162,7 @@ string_path string_path::parent_path() const {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool string_path::is_root_name(const str_span& name) noexcept {
+bool string_path::is_root_name(string_view name) noexcept {
 #if EAGINE_WINDOWS
     return ends_with(name, string_view(":"));
 #else

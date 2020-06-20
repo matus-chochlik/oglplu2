@@ -37,18 +37,16 @@ private:
 
 public:
     using size_type = basic_string_path::size_type;
-    using str_span = basic_string_path::str_span;
     using iterator = basic_string_path::iterator;
     using reverse_iterator = basic_string_path::reverse_iterator;
 
     string_path() = default;
 
-    string_path(
-      const str_span& path_str, const str_span& sep, const str_span& alt_sep);
+    string_path(string_view path_str, string_view sep, string_view alt_sep);
 
-    string_path(const str_span& path_str, const str_span& sep);
+    string_path(string_view path_str, string_view sep);
 
-    explicit string_path(str_span path_str);
+    explicit string_path(string_view path_str);
 
     explicit string_path(const std::string& path_str)
       : string_path(string_view(path_str)) {
@@ -101,15 +99,15 @@ public:
         return _p.size();
     }
 
-    inline str_span front() const {
+    inline string_view front() const {
         return _p.front();
     }
 
-    inline str_span back() const {
+    inline string_view back() const {
         return _p.back();
     }
 
-    inline string_path& push_back(const str_span& name) {
+    inline string_path& push_back(string_view name) {
         _p.push_back(name);
         return *this;
     }
@@ -146,7 +144,7 @@ public:
 
     string_path parent_path() const;
 
-    static bool is_root_name(const str_span& name) noexcept;
+    static bool is_root_name(string_view name) noexcept;
 
     bool is_root_path() const noexcept;
 

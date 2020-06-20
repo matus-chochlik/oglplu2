@@ -59,7 +59,6 @@ private:
 
 public:
     using value_type = string_view;
-    using str_span = string_view;
     using size_type = span_size_t;
     using iterator = string_list::iterator<const char*>;
     using reverse_iterator = string_list::rev_iterator<const char*>;
@@ -75,7 +74,7 @@ public:
 
     ~basic_string_path() noexcept = default;
 
-    basic_string_path(const str_span& str, span_size_t size)
+    basic_string_path(string_view str, span_size_t size)
       : _size{size}
       , _str(str.data(), std_size(str.size())) {
     }
@@ -90,7 +89,7 @@ public:
     }
 
     basic_string_path(
-      const str_span& path, EAGINE_TAG_TYPE(split_by), const str_span& sep)
+      string_view path, EAGINE_TAG_TYPE(split_by), string_view sep)
       : basic_string_path(string_list::split(path, sep)) {
     }
 
@@ -102,19 +101,19 @@ public:
       , _str(a._str + b._str) {
     }
 
-    explicit basic_string_path(span<const str_span> names)
+    explicit basic_string_path(span<const string_view> names)
       : _size(0) {
         _init(names);
     }
 
     template <std::size_t N>
-    explicit basic_string_path(const std::array<str_span, N>& names)
+    explicit basic_string_path(const std::array<string_view, N>& names)
       : basic_string_path(view(names)) {
     }
 
     template <typename... Str>
     explicit basic_string_path(
-      EAGINE_TAG_TYPE(from_pack), const str_span& name, const Str&... names)
+      EAGINE_TAG_TYPE(from_pack), string_view name, const Str&... names)
       : basic_string_path(_pack_names(name, view(names)...)) {
     }
 
@@ -172,7 +171,7 @@ public:
         return l + 2 * required_sequence_length(code_point_t(l)).value();
     }
 
-    static size_type required_bytes(str_span str) {
+    static size_type required_bytes(string_view str) {
         return required_bytes(size_type(str.size()));
     }
 
@@ -180,17 +179,17 @@ public:
         _str.reserve(std_size(s));
     }
 
-    str_span front() const noexcept {
+    string_view front() const noexcept {
         EAGINE_ASSERT(!empty());
         return string_list::front_value(_str);
     }
 
-    str_span back() const noexcept {
+    string_view back() const noexcept {
         EAGINE_ASSERT(!empty());
         return string_list::back_value(_str);
     }
 
-    void push_back(str_span name) {
+    void push_back(string_view name) {
         string_list::push_back(_str, _fix(name));
         ++_size;
     }
@@ -245,7 +244,7 @@ public:
         string_list::rev_for_each(view(_str), func);
     }
 
-    std::string as_string(const str_span& sep, bool trail_sep) const {
+    std::string as_string(string_view sep, bool trail_sep) const {
         return string_list::join(view(_str), sep, trail_sep);
     }
 
