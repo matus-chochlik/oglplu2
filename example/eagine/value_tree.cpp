@@ -22,6 +22,18 @@ int main(main_ctx& ctx) {
         return basic_string_path(str, EAGINE_TAG(split_by), "/");
     };
 
+    auto visitor = [&ctx](
+                     valtree::compound& c,
+                     const valtree::attribute& a,
+                     const basic_string_path& p) {
+        ctx.log()
+          .debug("visit")
+          .arg(EAGINE_ID(nested), c.nested_count(a))
+          .arg(EAGINE_ID(values), c.value_count(a))
+          .arg(EAGINE_ID(path), p.as_string("/", true));
+        return true;
+    };
+
     const string_view json_text(R"({
 		"attribA" : {
 			"attribB": 123
@@ -58,6 +70,7 @@ int main(main_ctx& ctx) {
             EAGINE_ID(bool),
             json_tree.get<bool>(path("attribC/3/zero")),
             n_a);
+        json_tree.traverse(valtree::compound::visit_handler(visitor));
     }
 
     const string_view yaml_text(
@@ -92,6 +105,7 @@ int main(main_ctx& ctx) {
             EAGINE_ID(bool),
             yaml_tree.get<bool>(path("attribC/3/zero")),
             n_a);
+        yaml_tree.traverse(valtree::compound::visit_handler(visitor));
     }
 
     return 0;

@@ -110,6 +110,13 @@ public:
                       owner, val[rapidjson_size(index)]);
                 }
             }
+            if(val.IsObject()) {
+                if(index < span_size(val.MemberCount())) {
+                    auto pos = val.MemberBegin() + index;
+                    return rapidjson_make_value_node(
+                      owner, pos->value, &pos->name);
+                }
+            }
         }
         return {};
     }

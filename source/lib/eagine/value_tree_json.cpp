@@ -9,6 +9,7 @@
 #include "prologue.inl"
 #include <eagine/from_string.hpp>
 #include <eagine/logging/entry.hpp>
+#include <eagine/value_tree/wrappers.hpp>
 #include "implement.inl"
 #include <eagine/value_tree/json.hpp>
 #include "epilogue.inl"

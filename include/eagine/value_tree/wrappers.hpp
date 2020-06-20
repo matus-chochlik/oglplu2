@@ -11,6 +11,7 @@
 #define EAGINE_VALUE_TREE_WRAPPERS_HPP
 
 #include "../assert.hpp"
+#include "../callable_ref.hpp"
 #include "../identity.hpp"
 #include "../memory/span_algo.hpp"
 #include "../valid_if/decl.hpp"
@@ -304,6 +305,11 @@ public:
         return get<T>(name, 0, tid);
     }
 
+    using visit_handler =
+      callable_ref<bool(compound&, const attribute&, const basic_string_path&)>;
+
+    void traverse(visit_handler visitor);
+
 private:
     compound(std::shared_ptr<compound_interface> pimpl) noexcept
       : _pimpl{std::move(pimpl)} {
@@ -314,6 +320,10 @@ private:
 //------------------------------------------------------------------------------
 } // namespace valtree
 } // namespace eagine
+
+#if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
+#include <eagine/value_tree/wrappers.inl>
+#endif
 
 #endif // EAGINE_VALUE_TREE_WRAPPERS_HPP
 
