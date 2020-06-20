@@ -18,6 +18,10 @@ int main(main_ctx& ctx) {
     auto& log = ctx.log();
     const string_view n_a{"N/A"};
 
+    auto path = [](string_view str) {
+        return basic_string_path(str, EAGINE_TAG(split_by), "/");
+    };
+
     const string_view json_text(R"({
 		"attribA" : {
 			"attribB": 123
@@ -32,27 +36,27 @@ int main(main_ctx& ctx) {
           .arg(
             EAGINE_ID(attribB),
             EAGINE_ID(int),
-            json_tree.get<int>("attribA/attribB"),
+            json_tree.get<int>(path("attribA/attribB")),
             n_a)
           .arg(
             EAGINE_ID(attribC0),
             EAGINE_ID(int),
-            json_tree.get<int>("attribC/0"),
+            json_tree.get<int>(path("attribC/0")),
             n_a)
           .arg(
             EAGINE_ID(attribC1),
             EAGINE_ID(string),
-            json_tree.get<std::string>("attribC/1"),
+            json_tree.get<std::string>(path("attribC/1")),
             n_a)
           .arg(
             EAGINE_ID(attribC2),
             EAGINE_ID(float),
-            json_tree.get<float>("attribC/2"),
+            json_tree.get<float>(path("attribC/2")),
             n_a)
           .arg(
             EAGINE_ID(attribC3z),
             EAGINE_ID(bool),
-            json_tree.get<bool>("attribC/3/zero"),
+            json_tree.get<bool>(path("attribC/3/zero")),
             n_a);
     }
 
@@ -66,27 +70,27 @@ int main(main_ctx& ctx) {
           .arg(
             EAGINE_ID(attribB),
             EAGINE_ID(int),
-            yaml_tree.get<int>("attribA/attribB"),
+            yaml_tree.get<int>(path("attribA/attribB")),
             n_a)
           .arg(
             EAGINE_ID(attribC0),
             EAGINE_ID(int),
-            yaml_tree.get<int>("attribC/0"),
+            yaml_tree.get<int>(path("attribC/0")),
             n_a)
           .arg(
             EAGINE_ID(attribC1),
             EAGINE_ID(string),
-            yaml_tree.get<std::string>("attribC/1"),
+            yaml_tree.get<std::string>(path("attribC/1")),
             n_a)
           .arg(
             EAGINE_ID(attribC2),
             EAGINE_ID(float),
-            yaml_tree.get<float>("attribC/2"),
+            yaml_tree.get<float>(path("attribC/2")),
             n_a)
           .arg(
             EAGINE_ID(attribC3z),
             EAGINE_ID(bool),
-            yaml_tree.get<bool>("attribC/3/zero"),
+            yaml_tree.get<bool>(path("attribC/3/zero")),
             n_a);
     }
 

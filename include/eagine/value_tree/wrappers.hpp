@@ -176,15 +176,19 @@ public:
         return find(structure(), path);
     }
 
-    attribute find(string_view str_path) const {
-        return find(basic_string_path{str_path, EAGINE_TAG(split_by), "/"});
-    }
-
     span_size_t value_count(const attribute& attrib) {
         if(_pimpl && attrib._pimpl) {
             return _pimpl->value_count(*attrib._pimpl);
         }
         return 0;
+    }
+
+    span_size_t value_count(const basic_string_path& path) {
+        return value_count(find(path));
+    }
+
+    span_size_t value_count(string_view name) {
+        return value_count(nested(name));
     }
 
     template <typename T>
@@ -199,8 +203,13 @@ public:
 
     template <typename T>
     span<T> fetch_values(
-      string_view path_str, span_size_t offset, span<T> dest) {
-        return fetch_values(find(path_str), offset, dest);
+      const basic_string_path& path, span_size_t offset, span<T> dest) {
+        return fetch_values(find(path), offset, dest);
+    }
+
+    template <typename T>
+    span<T> fetch_values(string_view name, span_size_t offset, span<T> dest) {
+        return fetch_values(nested(name), offset, dest);
     }
 
     template <typename T>
@@ -209,8 +218,13 @@ public:
     }
 
     template <typename T>
-    span<T> fetch_values(string_view path_str, span<T> dest) {
-        return fetch_values(path_str, 0, dest);
+    span<T> fetch_values(const basic_string_path& path, span<T> dest) {
+        return fetch_values(path, 0, dest);
+    }
+
+    template <typename T>
+    span<T> fetch_values(string_view name, span<T> dest) {
+        return fetch_values(name, 0, dest);
     }
 
     template <typename T>
@@ -219,33 +233,75 @@ public:
     }
 
     template <typename T>
+    bool fetch_value(string_view name, span_size_t offset, T& dest) {
+        return fetch_value(nested(name), offset, dest);
+    }
+
+    template <typename T>
+    bool fetch_value(
+      const basic_string_path& path, span_size_t offset, T& dest) {
+        return fetch_value(find(path), offset, dest);
+    }
+
+    template <typename T>
+    bool fetch_value(string_view name, T& dest) {
+        return fetch_value(name, 0, dest);
+    }
+
+    template <typename T>
     bool fetch_value(const attribute& attrib, T& dest) {
         return fetch_value(attrib, 0, dest);
     }
 
     template <typename T>
-    bool fetch_value(string_view path_str, span_size_t offset, T& dest) {
-        return fetch_value(find(path_str), offset, dest);
-    }
-
-    template <typename T>
-    bool fetch_value(string_view path_str, T& dest) {
-        return fetch_value(find(path_str), dest);
+    bool fetch_value(const basic_string_path& path, T& dest) {
+        return fetch_value(path, 0, dest);
     }
 
     template <typename T>
     optionally_valid<T> get(
-      string_view path_str, span_size_t offset, identity<T> = {}) {
+      const attribute& attrib, span_size_t offset, identity<T> = {}) {
         T temp{};
-        if(fetch_value(path_str, offset, temp)) {
+        if(fetch_value(attrib, offset, temp)) {
             return {std::move(temp), true};
         }
         return {};
     }
 
     template <typename T>
-    optionally_valid<T> get(string_view path_str, identity<T> tid = {}) {
-        return get<T>(path_str, 0, tid);
+    optionally_valid<T> get(
+      const basic_string_path& path, span_size_t offset, identity<T> = {}) {
+        T temp{};
+        if(fetch_value(path, offset, temp)) {
+            return {std::move(temp), true};
+        }
+        return {};
+    }
+
+    template <typename T>
+    optionally_valid<T> get(
+      string_view name, span_size_t offset, identity<T> = {}) {
+        T temp{};
+        if(fetch_value(name, offset, temp)) {
+            return {std::move(temp), true};
+        }
+        return {};
+    }
+
+    template <typename T>
+    optionally_valid<T> get(const attribute& attrib, identity<T> tid = {}) {
+        return get<T>(attrib, 0, tid);
+    }
+
+    template <typename T>
+    optionally_valid<T> get(
+      const basic_string_path& path, identity<T> tid = {}) {
+        return get<T>(path, 0, tid);
+    }
+
+    template <typename T>
+    optionally_valid<T> get(string_view name, identity<T> tid = {}) {
+        return get<T>(name, 0, tid);
     }
 
 private:
