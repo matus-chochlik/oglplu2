@@ -17,9 +17,12 @@
 #include <type_traits>
 #include <utility>
 
-#ifdef __clang__
+#if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wshorten-64-to-32"
+#elif defined(__GNUC__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-compare"
 #endif
 
 namespace eagine {
@@ -133,8 +136,10 @@ static constexpr inline std::
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-#ifdef __clang__
+#if defined(__clang__)
 #pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic push
 #endif
 
 #endif // EAGINE_IS_WITHIN_LIMITS_HPP
