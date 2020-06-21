@@ -17,9 +17,12 @@
 #include <memory>
 #include <tuple>
 #include <utility>
-#endif
 #else
 #undef EAGINE_USE_BOOST_SPIRIT
+#endif
+#endif
+
+#ifndef EAGINE_USE_BOOST_SPIRIT
 #define EAGINE_USE_BOOST_SPIRIT 0
 #endif
 
