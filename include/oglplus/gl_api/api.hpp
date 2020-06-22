@@ -227,8 +227,9 @@ public:
           typename =
             std::enable_if_t<!std::is_array_v<typename Query::tag_type>>>
         constexpr auto operator()(
-          PreParams... pre_params, Query query, PostParams... post_params) const
-          noexcept {
+          PreParams... pre_params,
+          Query query,
+          PostParams... post_params) const noexcept {
             using RV = typename Query::tag_type;
             QueryResult result{};
             return this
@@ -262,8 +263,8 @@ public:
         }
 
         constexpr auto operator()(
-          sync_condition cond, enum_bitfield<sync_flag_bit> flags) const
-          noexcept {
+          sync_condition cond,
+          enum_bitfield<sync_flag_bit> flags) const noexcept {
             return this->_cnvchkcall(cond, bitfield_type(flags));
         }
     } fence_sync;
@@ -393,8 +394,8 @@ public:
             return (*this)(names.raw_handles());
         }
 
-        constexpr auto operator()(gl_owned_object_name<ObjTag> name) const
-          noexcept {
+        constexpr auto operator()(
+          gl_owned_object_name<ObjTag> name) const noexcept {
             auto n = name.release();
             return this->_chkcall(1, &n);
         }
@@ -589,8 +590,8 @@ public:
     struct : func<OGLPAFP(GetShaderInfoLog)> {
         using func<OGLPAFP(GetShaderInfoLog)>::func;
 
-        constexpr auto operator()(shader_name shdr, span<char_type> dest) const
-          noexcept {
+        constexpr auto operator()(
+          shader_name shdr, span<char_type> dest) const noexcept {
             sizei_type real_len{0};
             return this
               ->_chkcall(
@@ -620,8 +621,8 @@ public:
     struct : func<OGLPAFP(GetProgramInfoLog)> {
         using func<OGLPAFP(GetProgramInfoLog)>::func;
 
-        constexpr auto operator()(program_name prog, span<char_type> dest) const
-          noexcept {
+        constexpr auto operator()(
+          program_name prog, span<char_type> dest) const noexcept {
             sizei_type real_len{0};
             return this
               ->_chkcall(
@@ -782,8 +783,9 @@ public:
         using func<OGLPAFP(GetActiveUniformName)>::func;
 
         constexpr auto operator()(
-          program_name prog, uniform_location loc, span<char_type> dest) const
-          noexcept {
+          program_name prog,
+          uniform_location loc,
+          span<char_type> dest) const noexcept {
             sizei_type real_len{0};
             return this
               ->_chkcall(
@@ -1205,8 +1207,9 @@ public:
         using func<OGLPAFP(ProgramUniform1iv)>::func;
 
         constexpr auto operator()(
-          program_name prog, uniform_location loc, span<const int_type> v) const
-          noexcept {
+          program_name prog,
+          uniform_location loc,
+          span<const int_type> v) const noexcept {
             return this->_cnvchkcall(
               prog, loc, sizei_type(v.size() / 1), v.data());
         }
@@ -1216,8 +1219,9 @@ public:
         using func<OGLPAFP(ProgramUniform2iv)>::func;
 
         constexpr auto operator()(
-          program_name prog, uniform_location loc, span<const int_type> v) const
-          noexcept {
+          program_name prog,
+          uniform_location loc,
+          span<const int_type> v) const noexcept {
             return this->_cnvchkcall(
               prog, loc, sizei_type(v.size() / 2), v.data());
         }
@@ -1227,8 +1231,9 @@ public:
         using func<OGLPAFP(ProgramUniform3iv)>::func;
 
         constexpr auto operator()(
-          program_name prog, uniform_location loc, span<const int_type> v) const
-          noexcept {
+          program_name prog,
+          uniform_location loc,
+          span<const int_type> v) const noexcept {
             return this->_cnvchkcall(
               prog, loc, sizei_type(v.size() / 3), v.data());
         }
@@ -1238,8 +1243,9 @@ public:
         using func<OGLPAFP(ProgramUniform4iv)>::func;
 
         constexpr auto operator()(
-          program_name prog, uniform_location loc, span<const int_type> v) const
-          noexcept {
+          program_name prog,
+          uniform_location loc,
+          span<const int_type> v) const noexcept {
             return this->_cnvchkcall(
               prog, loc, sizei_type(v.size() / 4), v.data());
         }
@@ -1762,8 +1768,9 @@ public:
         using func<OGLPAFP(VertexAttribIPointer)>::func;
 
         constexpr auto operator()(
-          vertex_attrib_location loc, int_type size, data_type type) const
-          noexcept {
+          vertex_attrib_location loc,
+          int_type size,
+          data_type type) const noexcept {
             return this->_cnvchkcall(loc, size, type, 0, nullptr);
         }
 
@@ -1781,8 +1788,9 @@ public:
         using func<OGLPAFP(VertexAttribLPointer)>::func;
 
         constexpr auto operator()(
-          vertex_attrib_location loc, int_type size, data_type type) const
-          noexcept {
+          vertex_attrib_location loc,
+          int_type size,
+          data_type type) const noexcept {
             return this->_cnvchkcall(loc, size, type, 0, nullptr);
         }
 
@@ -2842,6 +2850,7 @@ public:
       void(
         framebuffer_target,
         oglp::framebuffer_attachment,
+        oglp::texture_target,
         texture_name,
         int_type)>
       framebuffer_texture2d;
@@ -2851,6 +2860,7 @@ public:
       void(
         framebuffer_target,
         oglp::framebuffer_attachment,
+        oglp::texture_target,
         texture_name,
         int_type)>
       framebuffer_texture3d;
@@ -3479,8 +3489,9 @@ public:
         using func<OGLPAFP(PushDebugGroup)>::func;
 
         constexpr auto operator()(
-          debug_output_source source, uint_type id, string_view message) const
-          noexcept {
+          debug_output_source source,
+          uint_type id,
+          string_view message) const noexcept {
             return this->_cnvchkcall(
               source, id, message.size(), message.data());
         }
