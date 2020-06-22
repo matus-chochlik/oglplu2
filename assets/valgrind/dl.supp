@@ -1,33 +1,24 @@
 {
-   oglplus/dl_Leak_malloc
+   oglplus/dl_Leak_dl_error_run
    Memcheck:Leak
-   fun:malloc
+   fun:*
    ...
    fun:*dlerror_run
    ...
 }
 {
-   oglplus/dl_Leak_calloc
+   oglplus/dl_Leak_dlopen_doit
    Memcheck:Leak
-   fun:calloc
-   ...
-   fun:*dlerror_run
-   ...
-}
-{
-   oglplus/dl_Leak_malloc
-   Memcheck:Leak
-   fun:malloc
+   fun:*
    ...
    fun:*dlopen_doit
    ...
 }
 {
-   oglplus/dl_Leak_calloc
+   oglplus/dl_Leak_dl_init
    Memcheck:Leak
-   fun:calloc
+   fun:*
    ...
-   fun:*dlopen_doit
+   fun:*dl_init
    ...
 }
-

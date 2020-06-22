@@ -1,0 +1,15 @@
+{
+   oglplus/radeonsi_dri_Leak
+   Memcheck:Leak
+   fun:*
+   ...
+   obj:/usr/*lib*/radeonsi_dri.so
+   ...
+}
+{
+   oglplus/radeonsi_dri_Cond
+   Memcheck:Cond
+   ...
+   obj:/usr/*lib*/radeonsi_dri.so
+   ...
+}
