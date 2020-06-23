@@ -97,13 +97,7 @@ class log_entry {
     }
 
 public:
-    log_entry(log_entry&& temp) noexcept
-      : _backend{temp._backend}
-      , _format{temp._format}
-      , _args{_be_alloc(_backend)}
-      , _severity{temp._severity} {
-        temp._backend = nullptr;
-    }
+    log_entry(log_entry&&) = delete;
     log_entry(const log_entry&) = delete;
     log_entry& operator=(log_entry&&) = delete;
     log_entry& operator=(const log_entry&) = delete;
@@ -435,6 +429,9 @@ private:
       , _format{format}
       , _args{_be_alloc(_backend)}
       , _severity{severity} {
+        if(_backend) {
+            _args.reserve(16);
+        }
     }
 
     identifier _source_id{};
@@ -498,7 +495,7 @@ public:
 //------------------------------------------------------------------------------
 class stream_log_entry {
 public:
-    operator std::ostream&() noexcept {
+    operator std::ostream &() noexcept {
         return _out;
     }
 

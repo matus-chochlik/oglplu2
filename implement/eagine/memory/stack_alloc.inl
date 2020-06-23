@@ -78,8 +78,8 @@ inline base_stack_allocator<T>::~base_stack_allocator() noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename T>
-inline bool base_stack_allocator<T>::contains(const owned_block& b) const
-  noexcept {
+inline bool base_stack_allocator<T>::contains(
+  const owned_block& b) const noexcept {
     return _store().contains(b);
 }
 //------------------------------------------------------------------------------
@@ -165,8 +165,8 @@ inline void base_stack_allocator<T>::deallocate(owned_block&& b) noexcept {
 // stack_byte_allocator_only
 //------------------------------------------------------------------------------
 template <typename Policy>
-inline bool stack_byte_allocator_only<Policy>::equal(byte_allocator* a) const
-  noexcept {
+inline bool stack_byte_allocator_only<Policy>::equal(
+  byte_allocator* a) const noexcept {
     auto* sba = dynamic_cast<stack_byte_allocator_only*>(a);
 
     return (sba != nullptr) && (this->_alloc == sba->_alloc);
@@ -201,8 +201,8 @@ inline void stack_byte_allocator_only<Policy>::deallocate(
 // stack_byte_allocator
 //------------------------------------------------------------------------------
 template <typename Policy>
-inline bool stack_byte_allocator<Policy>::equal(byte_allocator* a) const
-  noexcept {
+inline bool stack_byte_allocator<Policy>::equal(
+  byte_allocator* a) const noexcept {
     auto* sba = dynamic_cast<stack_byte_allocator*>(a);
 
     return (sba != nullptr) && (this->_alloc == sba->_alloc);
@@ -250,8 +250,8 @@ inline void stack_byte_allocator<Policy>::deallocate(
 }
 //------------------------------------------------------------------------------
 template <typename Policy>
-inline bool stack_aligned_byte_allocator<Policy>::equal(byte_allocator* a) const
-  noexcept {
+inline bool stack_aligned_byte_allocator<Policy>::equal(
+  byte_allocator* a) const noexcept {
     auto* sba = dynamic_cast<_this_class*>(a);
 
     return (sba != nullptr) && (this->_alloc == sba->_alloc);
