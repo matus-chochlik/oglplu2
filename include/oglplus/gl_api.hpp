@@ -13,6 +13,7 @@
 #include "gl_api/api_traits.hpp"
 #include "gl_api/constants.hpp"
 #include "gl_api_fwd.hpp"
+#include <eagine/math/tmat.hpp>
 //
 #include "utils/program_file.hpp"
 
@@ -29,6 +30,7 @@ public:
     template <typename R>
     using combined_result = typename ApiTraits::template combined_result<R>;
 
+    using int_type = typename gl_types::int_type;
     using float_type = typename gl_types::float_type;
 
     basic_gl_api(ApiTraits traits)
@@ -139,6 +141,50 @@ private:
     }
 
 public:
+    // int
+    combined_result<void> set_uniform(
+      program_name prog, uniform_location loc, int_type value) const {
+        return _set_uniform(
+          this->program_uniform1i, this->uniform1i, prog, loc, value);
+    }
+
+    combined_result<void> set_uniform(
+      program_name prog,
+      uniform_location loc,
+      span<const int_type> value,
+      identity<int_type[1]>) const {
+        return _set_uniform(
+          this->program_uniform1iv, this->uniform1iv, prog, loc, value);
+    }
+
+    combined_result<void> set_uniform(
+      program_name prog,
+      uniform_location loc,
+      span<const int_type> value,
+      identity<int_type[2]>) const {
+        return _set_uniform(
+          this->program_uniform2iv, this->uniform2iv, prog, loc, value);
+    }
+
+    combined_result<void> set_uniform(
+      program_name prog,
+      uniform_location loc,
+      span<const int_type> value,
+      identity<int_type[3]>) const {
+        return _set_uniform(
+          this->program_uniform3iv, this->uniform3iv, prog, loc, value);
+    }
+
+    combined_result<void> set_uniform(
+      program_name prog,
+      uniform_location loc,
+      span<const int_type> value,
+      identity<int_type[4]>) const {
+        return _set_uniform(
+          this->program_uniform4iv, this->uniform4iv, prog, loc, value);
+    }
+
+    // float
     combined_result<void> set_uniform(
       program_name prog, uniform_location loc, float_type value) const {
         return _set_uniform(
