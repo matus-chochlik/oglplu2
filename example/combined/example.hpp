@@ -41,7 +41,8 @@ struct example {
     virtual void pointer_scrolling(const example_context&) {
     }
 
-    virtual void resize(const example_context&) = 0;
+    virtual void resize(const example_context&) {
+    }
 
     virtual void render(const example_context&) = 0;
 
