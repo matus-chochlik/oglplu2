@@ -53,7 +53,9 @@ public:
     ostream_log_backend& operator=(const ostream_log_backend&) = delete;
 
     memory::shared_byte_allocator allocator() noexcept final {
-        return {memory::stack_byte_allocator_only<>{_alloc_block}};
+        return memory::default_byte_allocator();
+        // TODO
+        // return {memory::stack_byte_allocator_only<>{_alloc_block}};
     }
 
     identifier type_id() noexcept final {
