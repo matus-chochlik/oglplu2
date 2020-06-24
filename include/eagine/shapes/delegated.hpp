@@ -66,8 +66,8 @@ public:
         _gen->attrib_values(vav, dest);
     }
 
-    span_size_t draw_variants() override {
-        return _gen->draw_variants();
+    span_size_t draw_variant_count() override {
+        return _gen->draw_variant_count();
     }
 
     index_data_type index_type(drawing_variant var) override {

@@ -119,10 +119,10 @@ void combined_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t combined_gen::draw_variants() {
+span_size_t combined_gen::draw_variant_count() {
     span_size_t result{0};
     for(auto& gen : _gens) {
-        result = math::maximum(result, gen->draw_variants());
+        result = math::maximum(result, gen->draw_variant_count());
     }
     return result;
 }

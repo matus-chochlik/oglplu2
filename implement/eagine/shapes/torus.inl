@@ -386,6 +386,11 @@ void unit_torus_gen::attrib_values(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+span_size_t unit_torus_gen::draw_variant_count() {
+    return 2;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 index_data_type unit_torus_gen::index_type(drawing_variant v) {
     if(index_count(v) < span_size(std::numeric_limits<std::uint8_t>::max())) {
         return index_data_type::unsigned_8;
@@ -397,29 +402,57 @@ index_data_type unit_torus_gen::index_type(drawing_variant v) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t unit_torus_gen::index_count(drawing_variant) {
-    return _sections * ((_rings + 1) * 2 + (primitive_restart() ? 1 : 0));
+span_size_t unit_torus_gen::index_count(drawing_variant var) {
+    if(var == 0) {
+        return _sections * ((_rings + 1) * 2 + (primitive_restart() ? 1 : 0));
+    }
+    if(var == 1) {
+        return (_sections * (_rings + (primitive_restart() ? 1 : 0))) +
+               (_rings * (_sections + (primitive_restart() ? 1 : 0)));
+    }
+    return 0;
 }
 //------------------------------------------------------------------------------
 template <typename T>
 void unit_torus_gen::_indices(drawing_variant var, span<T> dest) noexcept {
     EAGINE_ASSERT(dest.size() >= index_count(var));
-    EAGINE_MAYBE_UNUSED(var);
 
     const auto pri = limit_cast<T>(vertex_count());
     span_size_t k = 0;
-    span_size_t step = _rings + 1;
 
-    for(span_size_t s = 0; s < _sections; ++s) {
-        for(span_size_t r = 0; r < step; ++r) {
-            dest[k++] = limit_cast<T>((s + 0) * step + r);
-            dest[k++] = limit_cast<T>((s + 1) * step + r);
+    if(var == 0) {
+        span_size_t step = _rings + 1;
+        for(span_size_t s = 0; s < _sections; ++s) {
+            for(span_size_t r = 0; r < step; ++r) {
+                dest[k++] = limit_cast<T>((s + 0) * step + r);
+                dest[k++] = limit_cast<T>((s + 1) * step + r);
+            }
+
+            if(primitive_restart()) {
+                dest[k++] = pri;
+            }
         }
+    } else if(var == 1) {
+        for(span_size_t s = 0; s < _sections; ++s) {
+            for(span_size_t r = 0; r < _rings; ++r) {
+                dest[k++] = limit_cast<T>(s * (_rings + 1) + r);
+            }
 
-        if(primitive_restart()) {
-            dest[k++] = pri;
+            if(primitive_restart()) {
+                dest[k++] = pri;
+            }
+        }
+        for(span_size_t r = 0; r < _rings; ++r) {
+            for(span_size_t s = 0; s < _sections; ++s) {
+                dest[k++] = limit_cast<T>(s * (_rings + 1) + r);
+            }
+
+            if(primitive_restart()) {
+                dest[k++] = pri;
+            }
         }
     }
+    EAGINE_ASSERT(k == index_count(var));
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -438,12 +471,22 @@ void unit_torus_gen::indices(drawing_variant var, span<std::uint32_t> dest) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t unit_torus_gen::operation_count(drawing_variant) {
-    if(primitive_restart()) {
-        return 1;
-    } else {
-        return _sections;
+span_size_t unit_torus_gen::operation_count(drawing_variant var) {
+    if(var == 0) {
+        if(primitive_restart()) {
+            return 1;
+        } else {
+            return _sections;
+        }
     }
+    if(var == 1) {
+        if(primitive_restart()) {
+            return 1;
+        } else {
+            return _sections + _rings;
+        }
+    }
+    return 0;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -451,25 +494,55 @@ void unit_torus_gen::instructions(
   drawing_variant var, span<draw_operation> ops) {
     EAGINE_ASSERT(ops.size() >= operation_count(var));
 
-    if(primitive_restart()) {
-        draw_operation& op = ops[0];
-        op.mode = primitive_type::triangle_strip;
-        op.idx_type = index_type(var);
-        op.first = 0;
-        op.count = index_count(var);
-        op.primitive_restart_index = unsigned(vertex_count());
-        op.primitive_restart = true;
-        op.cw_face_winding = true;
-    } else {
-        span_size_t step = 2 * (_rings + 1);
-        for(span_size_t s = 0; s < _sections; ++s) {
-            draw_operation& op = ops[s];
+    if(var == 0) {
+        if(primitive_restart()) {
+            draw_operation& op = ops[0];
             op.mode = primitive_type::triangle_strip;
             op.idx_type = index_type(var);
-            op.first = s * step;
-            op.count = step;
-            op.primitive_restart = false;
+            op.first = 0;
+            op.count = index_count(var);
+            op.primitive_restart_index = unsigned(vertex_count());
+            op.primitive_restart = true;
             op.cw_face_winding = true;
+        } else {
+            span_size_t step = 2 * (_rings + 1);
+            for(span_size_t s = 0; s < _sections; ++s) {
+                draw_operation& op = ops[s];
+                op.mode = primitive_type::triangle_strip;
+                op.idx_type = index_type(var);
+                op.first = s * step;
+                op.count = step;
+                op.primitive_restart = false;
+                op.cw_face_winding = true;
+            }
+        }
+    } else if(var == 1) {
+        if(primitive_restart()) {
+            draw_operation& op = ops[0];
+            op.mode = primitive_type::line_loop;
+            op.idx_type = index_type(var);
+            op.first = 0;
+            op.count = index_count(var);
+            op.primitive_restart_index = unsigned(vertex_count());
+            op.primitive_restart = true;
+        } else {
+            span_size_t k = 0;
+            for(span_size_t s = 0; s < _sections; ++s) {
+                draw_operation& op = ops[k++];
+                op.mode = primitive_type::line_loop;
+                op.idx_type = index_type(var);
+                op.first = s * _rings;
+                op.count = _rings;
+                op.primitive_restart = false;
+            }
+            for(span_size_t r = 0; r < _rings; ++r) {
+                draw_operation& op = ops[k++];
+                op.mode = primitive_type::line_loop;
+                op.idx_type = index_type(var);
+                op.first = r * _sections;
+                op.count = _sections;
+                op.primitive_restart = false;
+            }
         }
     }
 }

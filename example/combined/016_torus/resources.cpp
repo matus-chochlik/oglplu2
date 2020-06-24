@@ -64,8 +64,9 @@ void torus_geometry::init(example_context& ctx) {
         shapes::vertex_attrib_kind::normal |
         shapes::vertex_attrib_kind::wrap_coord));
 
-    ops.resize(std_size(shape.operation_count()));
-    shape.instructions(ctx.gl(), cover(ops));
+    auto draw_var = shape.draw_variant(0);
+    ops.resize(std_size(shape.operation_count(draw_var)));
+    shape.instructions(ctx.gl(), draw_var, cover(ops));
 
     // vao
     gl.gen_vertex_arrays() >> vao;
@@ -108,7 +109,7 @@ void torus_geometry::init(example_context& ctx) {
     // indices
     gl.gen_buffers() >> indices;
     gl.delete_buffers.later_by(cleanup, indices);
-    shape.index_setup(ctx.gl(), indices, ctx.buffer());
+    shape.index_setup(ctx.gl(), indices, draw_var, ctx.buffer());
 }
 //------------------------------------------------------------------------------
 void torus_geometry::draw(const example_context& ctx) {

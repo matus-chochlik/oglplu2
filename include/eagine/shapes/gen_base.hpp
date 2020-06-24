@@ -90,7 +90,7 @@ struct generator_intf {
 
     virtual void attrib_values(vertex_attrib_variant vav, span<float> dest) = 0;
 
-    virtual span_size_t draw_variants() = 0;
+    virtual span_size_t draw_variant_count() = 0;
 
     drawing_variant draw_variant(span_size_t index) {
         return index;
@@ -221,7 +221,7 @@ public:
           "Generator failed to handle the specified attribute kind.");
     }
 
-    span_size_t draw_variants() override {
+    span_size_t draw_variant_count() override {
         return 1;
     }
 

@@ -51,7 +51,7 @@ public:
 
     void attrib_values(vertex_attrib_variant, span<float>) override;
 
-    span_size_t draw_variants() override;
+    span_size_t draw_variant_count() override;
 
     index_data_type index_type(drawing_variant) override;
 

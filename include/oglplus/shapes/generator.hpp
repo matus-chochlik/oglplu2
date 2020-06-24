@@ -51,6 +51,14 @@ public:
         return {attrib, index};
     }
 
+    span_size_t draw_variant_count() const {
+        return _gen->draw_variant_count();
+    }
+
+    shapes::drawing_variant draw_variant(span_size_t index) {
+        return _gen->draw_variant(index);
+    }
+
     span_size_t vertex_count() const {
         return _gen->vertex_count();
     }
@@ -94,18 +102,37 @@ public:
         return _gen->index_count();
     }
 
+    span_size_t index_count(shapes::drawing_variant dv) const {
+        return _gen->index_count(dv);
+    }
+
     span_size_t index_type_size() const {
         return type_size(_gen->index_type());
+    }
+
+    span_size_t index_type_size(shapes::drawing_variant dv) const {
+        return type_size(_gen->index_type(dv));
     }
 
     span_size_t index_data_block_size() const {
         return index_count() * index_type_size();
     }
 
-    void index_data(memory::block data) const;
+    span_size_t index_data_block_size(shapes::drawing_variant dv) const {
+        return index_count(dv) * index_type_size(dv);
+    }
+
+    void index_data(shapes::drawing_variant, memory::block data) const;
+    void index_data(memory::block data) const {
+        return index_data(0, data);
+    }
 
     span_size_t operation_count() const {
         return _gen->operation_count();
+    }
+
+    span_size_t operation_count(shapes::drawing_variant dv) const {
+        return _gen->operation_count(dv);
     }
 
     template <typename A>
@@ -119,10 +146,28 @@ public:
 
     template <typename A>
     void index_setup(
-      const basic_gl_api<A>& api, buffer_name buf, memory::buffer& temp) const;
+      const basic_gl_api<A>& api,
+      buffer_name buf,
+      shapes::drawing_variant dv,
+      memory::buffer& temp) const;
 
     template <typename A>
-    void instructions(const basic_gl_api<A>&, span<shape_draw_operation>) const;
+    void index_setup(
+      const basic_gl_api<A>& api, buffer_name buf, memory::buffer& temp) const {
+        return index_setup(api, buf, 0, temp);
+    }
+
+    template <typename A>
+    void instructions(
+      const basic_gl_api<A>&,
+      shapes::drawing_variant dv,
+      span<shape_draw_operation>) const;
+
+    template <typename A>
+    void instructions(
+      const basic_gl_api<A>& api, span<shape_draw_operation> dest) const {
+        return instructions(api, 0, dest);
+    }
 
     sphere bounding_sphere() const {
         return _gen->bounding_sphere();

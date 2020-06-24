@@ -46,18 +46,19 @@ inline void shape_generator::attrib_data(
     }
 }
 //------------------------------------------------------------------------------
-inline void shape_generator::index_data(memory::block data) const {
+inline void shape_generator::index_data(
+  shapes::drawing_variant dv, memory::block data) const {
     using shapes::index_data_type;
 
     switch(_gen->index_type()) {
         case index_data_type::unsigned_32:
-            _gen->indices(accomodate(data, identity<GLuint>()));
+            _gen->indices(dv, accomodate(data, identity<GLuint>()));
             break;
         case index_data_type::unsigned_16:
-            _gen->indices(accomodate(data, identity<GLushort>()));
+            _gen->indices(dv, accomodate(data, identity<GLushort>()));
             break;
         case index_data_type::unsigned_8:
-            _gen->indices(accomodate(data, identity<GLubyte>()));
+            _gen->indices(dv, accomodate(data, identity<GLubyte>()));
             break;
         case index_data_type::none:
             break;
@@ -97,12 +98,15 @@ inline void shape_generator::attrib_setup(
 //------------------------------------------------------------------------------
 template <typename A>
 inline void shape_generator::index_setup(
-  const basic_gl_api<A>& api, buffer_name buf, memory::buffer& temp) const {
+  const basic_gl_api<A>& api,
+  buffer_name buf,
+  shapes::drawing_variant dv,
+  memory::buffer& temp) const {
     auto& [gl, GL] = api;
 
-    const auto size = index_data_block_size();
+    const auto size = index_data_block_size(dv);
     auto data = head(cover(temp.ensure(size)), size);
-    index_data(data);
+    index_data(dv, data);
 
     gl.bind_buffer(GL.element_array_buffer, buf);
     gl.buffer_data(GL.element_array_buffer, data, GL.static_draw);
@@ -110,11 +114,13 @@ inline void shape_generator::index_setup(
 //------------------------------------------------------------------------------
 template <typename A>
 inline void shape_generator::instructions(
-  const basic_gl_api<A>& api, span<shape_draw_operation> ops) const {
-    EAGINE_ASSERT(ops.size() >= operation_count());
+  const basic_gl_api<A>& api,
+  shapes::drawing_variant dv,
+  span<shape_draw_operation> ops) const {
+    EAGINE_ASSERT(ops.size() >= operation_count(dv));
 
-    std::vector<shapes::draw_operation> tmp(std_size(operation_count()));
-    _gen->instructions(cover(tmp));
+    std::vector<shapes::draw_operation> tmp(std_size(operation_count(dv)));
+    _gen->instructions(dv, cover(tmp));
 
     for(decltype(tmp.size()) i = 0; i < tmp.size(); ++i) {
         ops[span_size(i)] = shape_draw_operation(api, tmp[i]);
