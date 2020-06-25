@@ -58,6 +58,11 @@ public:
       const basic_gl_api<A>& api,
       const shapes::draw_operation& draw_op) noexcept;
 
+    shape_draw_operation& offset_first(span_size_t offs) noexcept {
+        _first += offs;
+        return *this;
+    }
+
     auto phase() const noexcept {
         return _phase;
     }
@@ -72,9 +77,20 @@ public:
     void draw(const basic_gl_api<A>& api) const noexcept;
 };
 //------------------------------------------------------------------------------
+struct shape_draw_subset {
+    span_size_t first{0};
+    span_size_t count{0};
+};
+//------------------------------------------------------------------------------
 template <typename A>
 void draw_using_instructions(
   const basic_gl_api<A>& api, span<const shape_draw_operation> ops) noexcept;
+//------------------------------------------------------------------------------
+template <typename A>
+void draw_using_instructions(
+  const basic_gl_api<A>& api,
+  span<const shape_draw_operation> ops,
+  const shape_draw_subset& subs) noexcept;
 //------------------------------------------------------------------------------
 } // namespace oglp
 } // namespace eagine

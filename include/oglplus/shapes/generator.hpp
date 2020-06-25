@@ -135,6 +135,8 @@ public:
         return _gen->operation_count(dv);
     }
 
+    span_size_t operation_count(span<const shapes::drawing_variant> dvs) const;
+
     template <typename A>
     void attrib_setup(
       const basic_gl_api<A>& api,
@@ -158,6 +160,13 @@ public:
     }
 
     template <typename A>
+    void index_setup(
+      const basic_gl_api<A>& api,
+      buffer_name buf,
+      span<const shapes::drawing_variant> dvs,
+      memory::buffer& temp) const;
+
+    template <typename A>
     void instructions(
       const basic_gl_api<A>&,
       shapes::drawing_variant dv,
@@ -168,6 +177,13 @@ public:
       const basic_gl_api<A>& api, span<shape_draw_operation> dest) const {
         return instructions(api, 0, dest);
     }
+
+    template <typename A>
+    void instructions(
+      const basic_gl_api<A>&,
+      span<const shapes::drawing_variant> dvs,
+      span<shape_draw_subset>,
+      span<shape_draw_operation>) const;
 
     sphere bounding_sphere() const {
         return _gen->bounding_sphere();

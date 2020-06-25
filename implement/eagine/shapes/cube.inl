@@ -353,17 +353,30 @@ void unit_cube_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-index_data_type unit_cube_gen::index_type(drawing_variant) {
-    if(_only_shared_attribs()) {
+span_size_t unit_cube_gen::draw_variant_count() {
+    return 2;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+index_data_type unit_cube_gen::index_type(drawing_variant var) {
+    if(var == 0) {
+        if(_only_shared_attribs()) {
+            return index_data_type::unsigned_8;
+        }
+    } else if(var == 1) {
         return index_data_type::unsigned_8;
     }
     return index_data_type::none;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t unit_cube_gen::index_count(drawing_variant) {
-    if(_only_shared_attribs()) {
-        return 6 * 2 * 3;
+span_size_t unit_cube_gen::index_count(drawing_variant var) {
+    if(var == 0) {
+        if(_only_shared_attribs()) {
+            return 6 * 2 * 3;
+        }
+    } else if(var == 1) {
+        return 6 * 8;
     }
     return 0;
 }
@@ -372,17 +385,32 @@ template <typename T>
 inline void unit_cube_gen::_indices(
   drawing_variant var, span<T> dest) noexcept {
     EAGINE_ASSERT(dest.size() >= index_count(var));
-    EAGINE_MAYBE_UNUSED(var);
 
     span_size_t k = 0;
 
-    if(_only_shared_attribs()) {
-        for(span_size_t f = 0; f < 6; ++f) {
-            for(span_size_t t = 0; t < 2; ++t) {
-                for(span_size_t v = 0; v < 3; ++v) {
-                    dest[k++] = T(_face_vert(f, t, v));
+    if(var == 0) {
+        if(_only_shared_attribs()) {
+            for(span_size_t f = 0; f < 6; ++f) {
+                for(span_size_t t = 0; t < 2; ++t) {
+                    for(span_size_t v = 0; v < 3; ++v) {
+                        dest[k++] = T(_face_vert(f, t, v));
+                    }
                 }
             }
+        }
+    } else if(var == 1) {
+        for(span_size_t f = 0; f < 6; ++f) {
+            dest[k++] = T(_face_vert(f, 0, 0));
+            dest[k++] = T(_face_vert(f, 0, 2));
+
+            dest[k++] = T(_face_vert(f, 0, 2));
+            dest[k++] = T(_face_vert(f, 1, 2));
+
+            dest[k++] = T(_face_vert(f, 1, 2));
+            dest[k++] = T(_face_vert(f, 1, 1));
+
+            dest[k++] = T(_face_vert(f, 1, 1));
+            dest[k++] = T(_face_vert(f, 0, 0));
         }
     }
 
@@ -414,22 +442,31 @@ void unit_cube_gen::instructions(
   drawing_variant var, span<draw_operation> ops) {
     EAGINE_ASSERT(ops.size() >= operation_count(var));
 
-    if(_only_shared_attribs()) {
+    if(var == 0) {
+        if(_only_shared_attribs()) {
+            draw_operation& op = ops[0];
+            op.mode = primitive_type::triangles;
+            op.idx_type = index_type(var);
+            op.first = 0;
+            op.count = index_count(var);
+            op.primitive_restart = false;
+            op.cw_face_winding = false;
+        } else {
+            draw_operation& op = ops[0];
+            op.mode = primitive_type::triangles;
+            op.idx_type = index_data_type::none;
+            op.first = 0;
+            op.count = vertex_count();
+            op.primitive_restart = false;
+            op.cw_face_winding = false;
+        }
+    } else if(var == 1) {
         draw_operation& op = ops[0];
-        op.mode = primitive_type::triangles;
+        op.mode = primitive_type::lines;
         op.idx_type = index_type(var);
         op.first = 0;
         op.count = index_count(var);
         op.primitive_restart = false;
-        op.cw_face_winding = false;
-    } else {
-        draw_operation& op = ops[0];
-        op.mode = primitive_type::triangles;
-        op.idx_type = index_data_type::none;
-        op.first = 0;
-        op.count = vertex_count();
-        op.primitive_restart = false;
-        op.cw_face_winding = false;
     }
 }
 //------------------------------------------------------------------------------

@@ -119,14 +119,14 @@ inline shape_draw_operation::shape_draw_operation(
   , _cw_face_winding(draw_op.cw_face_winding) {
 }
 //------------------------------------------------------------------------------
-inline gl_types::const_void_ptr_type shape_draw_operation::_idx_ptr() const
-  noexcept {
+inline gl_types::const_void_ptr_type shape_draw_operation::_idx_ptr()
+  const noexcept {
     return eagine::memory::typed_nullptr<const gl_types::ubyte_type> + _first;
 }
 //------------------------------------------------------------------------------
 template <typename A>
-inline void shape_draw_operation::draw(const basic_gl_api<A>& api) const
-  noexcept {
+inline void shape_draw_operation::draw(
+  const basic_gl_api<A>& api) const noexcept {
     auto& [gl, GL] = api;
 
     if(_cw_face_winding) {
@@ -162,6 +162,18 @@ inline void draw_using_instructions(
   const basic_gl_api<A>& api, span<const shape_draw_operation> ops) noexcept {
     for(const auto& op : ops) {
         op.draw(api);
+    }
+}
+//------------------------------------------------------------------------------
+template <typename A>
+inline void draw_using_instructions(
+  const basic_gl_api<A>& api,
+  span<const shape_draw_operation> ops,
+  const shape_draw_subset& subs) noexcept {
+    for(span_size_t i = subs.first; i < subs.first + subs.count; ++i) {
+        if(i < ops.size()) {
+            ops[i].draw(api);
+        }
     }
 }
 //------------------------------------------------------------------------------

@@ -96,6 +96,15 @@ inline void shape_generator::attrib_setup(
     }
 }
 //------------------------------------------------------------------------------
+inline span_size_t shape_generator::operation_count(
+  span<const shapes::drawing_variant> dvs) const {
+    auto result = 0;
+    for(auto dv : dvs) {
+        result += _gen->operation_count(dv);
+    }
+    return result;
+}
+//------------------------------------------------------------------------------
 template <typename A>
 inline void shape_generator::index_setup(
   const basic_gl_api<A>& api,
@@ -113,6 +122,30 @@ inline void shape_generator::index_setup(
 }
 //------------------------------------------------------------------------------
 template <typename A>
+inline void shape_generator::index_setup(
+  const basic_gl_api<A>& api,
+  buffer_name buf,
+  span<const shapes::drawing_variant> dvs,
+  memory::buffer& temp) const {
+    auto& [gl, GL] = api;
+
+    // TODO: buffer_storage + buffer_sub_data if available
+    span_size_t total_size = 0;
+    for(auto dv : dvs) {
+        const auto size = index_data_block_size(dv);
+        auto data =
+          head(skip(cover(temp.ensure(total_size + size)), total_size), size);
+        index_data(dv, data);
+        total_size += size;
+    }
+
+    auto data = head(cover(temp), total_size);
+
+    gl.bind_buffer(GL.element_array_buffer, buf);
+    gl.buffer_data(GL.element_array_buffer, data, GL.static_draw);
+}
+//------------------------------------------------------------------------------
+template <typename A>
 inline void shape_generator::instructions(
   const basic_gl_api<A>& api,
   shapes::drawing_variant dv,
@@ -124,6 +157,42 @@ inline void shape_generator::instructions(
 
     for(decltype(tmp.size()) i = 0; i < tmp.size(); ++i) {
         ops[span_size(i)] = shape_draw_operation(api, tmp[i]);
+    }
+}
+//------------------------------------------------------------------------------
+template <typename A>
+inline void shape_generator::instructions(
+  const basic_gl_api<A>& api,
+  span<const shapes::drawing_variant> dvs,
+  span<shape_draw_subset> subs,
+  span<shape_draw_operation> ops) const {
+
+    EAGINE_ASSERT(dvs.size() <= subs.size());
+    std::vector<shapes::draw_operation> tmp{};
+    span_size_t total_count = 0;
+    span_size_t elem_offset = 0;
+
+    for(span_size_t s = 0; s < dvs.size(); ++s) {
+        auto& dv = dvs[s];
+        const auto count = operation_count(dv);
+
+        EAGINE_ASSERT(ops.size() >= total_count + count);
+        tmp.resize(std_size(count));
+
+        _gen->instructions(dv, cover(tmp));
+
+        for(decltype(tmp.size()) i = 0; i < tmp.size(); ++i) {
+            const auto k = total_count + span_size(i);
+            ops[k] = shape_draw_operation(api, tmp[i]);
+            ops[k].offset_first(elem_offset);
+        }
+
+        auto& sub = subs[s];
+        sub.first = total_count;
+        sub.count = count;
+
+        total_count += count;
+        elem_offset += index_data_block_size(dv);
     }
 }
 //------------------------------------------------------------------------------
