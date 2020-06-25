@@ -1,5 +1,5 @@
 /**
- *  example combined/017_scaled_cubes/resources.hpp
+ *  example combined/019_scaled_cubes/resources.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -11,6 +11,7 @@
 #include <oglplus/gl_api.hpp>
 
 #include <oglplus/shapes/drawing.hpp>
+#include <array>
 
 namespace eagine {
 class example_context;
@@ -25,6 +26,7 @@ private:
     uniform_location camera_loc;
     uniform_location center_loc;
     uniform_location time_loc;
+    uniform_location edges_loc;
 
 public:
     void init(example_context& ctx);
@@ -38,6 +40,9 @@ public:
       const example_context& ctx, vertex_attrib_location loc);
     void bind_coord_location(
       const example_context& ctx, vertex_attrib_location loc);
+
+    void drawing_surface(const example_context& ctx);
+    void drawing_edges(const example_context& ctx);
 };
 //------------------------------------------------------------------------------
 // geometry
@@ -51,11 +56,13 @@ private:
     owned_buffer_name coords;
     owned_buffer_name indices;
 
-    std::vector<shape_draw_operation> ops;
+    std::vector<shape_draw_operation> ops{};
+    std::array<shape_draw_subset, 2> subs{};
 
 public:
     void init(example_context& ctx);
-    void draw(const example_context& ctx);
+    void draw_surface(const example_context& ctx);
+    void draw_edges(const example_context& ctx);
 
     static auto position_loc() noexcept {
         return vertex_attrib_location{0};

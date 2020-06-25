@@ -1,5 +1,5 @@
 /**
- *  example combined/017_scaled_cubes/resources.cpp
+ *  example combined/019_scaled_cubes/resources.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -36,6 +36,7 @@ void cubes_program::init(example_context& ctx) {
     gl.get_uniform_location(prog, "Camera") >> camera_loc;
     gl.get_uniform_location(prog, "Center") >> center_loc;
     gl.get_uniform_location(prog, "Time") >> time_loc;
+    gl.get_uniform_location(prog, "Edges") >> edges_loc;
 }
 //------------------------------------------------------------------------------
 void cubes_program::set_projection(
@@ -70,6 +71,14 @@ void cubes_program::bind_coord_location(
     ctx.gl().bind_attrib_location(prog, loc, "Coord");
 }
 //------------------------------------------------------------------------------
+void cubes_program::drawing_surface(const example_context& ctx) {
+    ctx.gl().set_uniform(prog, edges_loc, 0.f);
+}
+//------------------------------------------------------------------------------
+void cubes_program::drawing_edges(const example_context& ctx) {
+    ctx.gl().set_uniform(prog, edges_loc, 1.f);
+}
+//------------------------------------------------------------------------------
 // geometry
 //------------------------------------------------------------------------------
 void cubes_geometry::init(example_context& ctx) {
@@ -86,8 +95,11 @@ void cubes_geometry::init(example_context& ctx) {
         {1.f, 1.f, 1.f},
         {10, 10, 10}))));
 
-    ops.resize(std_size(shape.operation_count()));
-    shape.instructions(ctx.gl(), cover(ops));
+    std::array<shapes::drawing_variant, 2> vars{
+      shape.draw_variant(0), shape.draw_variant(1)};
+
+    ops.resize(std_size(shape.operation_count(view(vars))));
+    shape.instructions(ctx.gl(), view(vars), cover(subs), cover(ops));
 
     // vao
     gl.gen_vertex_arrays() >> vao;
@@ -130,11 +142,15 @@ void cubes_geometry::init(example_context& ctx) {
     // indices
     gl.gen_buffers() >> indices;
     gl.delete_buffers.later_by(cleanup, indices);
-    shape.index_setup(ctx.gl(), indices, ctx.buffer());
+    shape.index_setup(ctx.gl(), indices, view(vars), ctx.buffer());
 }
 //------------------------------------------------------------------------------
-void cubes_geometry::draw(const example_context& ctx) {
-    draw_using_instructions(ctx.gl(), view(ops));
+void cubes_geometry::draw_surface(const example_context& ctx) {
+    draw_using_instructions(ctx.gl(), view(ops), subs[0]);
+}
+//------------------------------------------------------------------------------
+void cubes_geometry::draw_edges(const example_context& ctx) {
+    draw_using_instructions(ctx.gl(), view(ops), subs[1]);
 }
 //------------------------------------------------------------------------------
 } // namespace oglp

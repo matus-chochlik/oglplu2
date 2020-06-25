@@ -1,5 +1,5 @@
 /**
- *  example combined/017_scaled_cubes/example.cpp
+ *  example combined/019_scaled_cubes/example.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -68,6 +68,7 @@ void example_cubes::init(example_context& ctx) {
     gl.clear_color(0.4f, 0.4f, 0.4f, 0.0f);
 
     gl.enable(GL.depth_test);
+    gl.depth_func(GL.lequal);
 }
 //------------------------------------------------------------------------------
 void example_cubes::pointer_motion(const example_context& ctx) {
@@ -107,7 +108,12 @@ void example_cubes::render(const example_context& ctx) {
     prog.update(ctx);
 
     gl.clear(GL.color_buffer_bit | GL.depth_buffer_bit);
-    cubes.draw(ctx);
+
+    prog.drawing_surface(ctx);
+    cubes.draw_surface(ctx);
+
+    prog.drawing_edges(ctx);
+    cubes.draw_edges(ctx);
 }
 //------------------------------------------------------------------------------
 seconds_t<float> example_cubes::default_timeout() {
