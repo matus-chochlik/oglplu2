@@ -557,6 +557,29 @@ public:
         }
     } viewport;
 
+    // stencil func
+    func<OGLPAFP(StencilFunc), void(compare_function, int_type, uint_type)>
+      stencil_func;
+
+    func<
+      OGLPAFP(StencilFuncSeparate),
+      void(face_mode, compare_function, int_type, uint_type)>
+      stencil_func_separate;
+
+    // stencil op
+    func<
+      OGLPAFP(StencilOp),
+      void(stencil_operation, stencil_operation, stencil_operation)>
+      stencil_op;
+
+    func<
+      OGLPAFP(StencilOpSeparate),
+      void(face_mode, stencil_operation, stencil_operation, stencil_operation)>
+      stencil_op_separate;
+
+    // depth func
+    func<OGLPAFP(DepthFunc), void(compare_function)> depth_func;
+
     // clear
     func<OGLPAFP(ClearColor)> clear_color;
     func<OGLPAFP(ClearDepth)> clear_depth;
@@ -3574,6 +3597,11 @@ public:
       , memory_barrier("memory_barrier", traits, *this)
       , memory_barrier_by_region("memory_barrier_by_region", traits, *this)
       , viewport("viewport", traits, *this)
+      , stencil_func("stencil_func", traits, *this)
+      , stencil_func_separate("stencil_func_separate", traits, *this)
+      , stencil_op("stencil_op", traits, *this)
+      , stencil_op_separate("stencil_op_separate", traits, *this)
+      , depth_func("depth_func", traits, *this)
       , clear_color("clear_color", traits, *this)
       , clear_depth("clear_depth", traits, *this)
       , clear_stencil("clear_stencil", traits, *this)
