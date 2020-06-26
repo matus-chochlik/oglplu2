@@ -6,6 +6,7 @@
 #  http://www.boost.org/LICENSE_1_0.txt
 #
 import os
+import re
 import sys
 import shutil
 import subprocess
@@ -297,6 +298,12 @@ def parse_args(args):
     import argparse
     import datetime
 
+    def OutputSizeType(arg):
+        if re.match("[0-9]+[kMG]?", arg):
+            return arg
+        msg = "'%s' is not a valid file size specification" % str(arg)
+        raise argparse.ArgumentTypeError(msg)
+
     def FrameDimType(arg):
 
         try: dims = [int(dim) for dim in arg.split('x')]
@@ -307,9 +314,8 @@ def parse_args(args):
 
         if (len(dims) == 2) and all(valid_coord(dim) for dim in dims):
             return dims
-        else:
-            msg = "'%s' is not a valid frame dimension specification" % str(arg)
-            raise argparse.ArgumentTypeError(msg)
+        msg = "'%s' is not a valid frame dimension specification" % str(arg)
+        raise argparse.ArgumentTypeError(msg)
 
 
     argparser = argparse.ArgumentParser(
@@ -332,6 +338,17 @@ def parse_args(args):
     )
 
     argparser.add_argument(
+        "--scale",
+        help="""
+            Scaling factor for the render frame.
+        """,
+        type=int,
+        dest="render_scale",
+        action="store",
+        default="1"
+    )
+
+    argparser.add_argument(
         "--size",
         help="""
             The dimensions in pixels of the video frame,
@@ -341,6 +358,14 @@ def parse_args(args):
         dest="frame_size",
         action="store",
         default="852x480"
+    )
+
+    argparser.add_argument(
+        "--half-hd",
+        help="""Sets the dimensions of the output to 640x360.""",
+        dest="frame_size",
+        action="store_const",
+        const=[640,360]
     )
 
     argparser.add_argument(
@@ -376,6 +401,25 @@ def parse_args(args):
         default="0",
         action="store",
         dest="samples"
+    )
+
+    argparser.add_argument(
+        "--max-bytes",
+        help="""
+            Maximum output video size in bytes.
+        """,
+        type=OutputSizeType,
+        dest="max_bytes",
+        action="store",
+        default=None
+    )
+
+    argparser.add_argument(
+        "--gif",
+        help="""Render output into GIF format""",
+        default=False,
+        action="store_true",
+        dest="gif_output"
     )
 
     argparser.add_argument(
@@ -441,8 +485,8 @@ def render_video(
     try:
         cmd_line = [example_path,
             '--framedump', '%s-'%prefix,
-            '--width', str(options.width),
-            '--height', str(options.height),
+            '--width', str(options.width * options.render_scale),
+            '--height', str(options.height * options.render_scale),
             '--fixed-fps', str(options.fps),
         ]
 
@@ -471,14 +515,18 @@ def render_video(
                 proc.stdin.flush()
 
                 frame_path_raw = frame_path_raw.decode('utf-8').rstrip()
-                frame_path_pic = frame_path_raw.replace('.rgba', '.jpeg')
+                frame_path_pic = frame_path_raw.replace('.rgba', '.png')
 
                 try:
                     run_convert(options.work_dir, [
-                        '-size', '%dx%d' % (options.width, options.height),
+                        '-size', '%dx%d' % (
+                            options.width * options.render_scale,
+                            options.height * options.render_scale
+                        ),
                         '-depth', '8',
                         frame_path_raw,
                         '-flip',
+                        '-scale', '%dx%d' % (options.width, options.height),
                         '-alpha', 'Off',
                         '-gravity', 'SouthEast',
                         main_label_file,
@@ -513,12 +561,24 @@ def render_video(
         cmd_line = ['ffmpeg',
             '-loglevel', 'error',
             '-y', '-f', 'image2',
-            '-i', prefix+'-%06d.jpeg',
-            '-r', str(options.fps),
-            '-vcodec', 'mpeg4',
-            '-b', '8000k',
-            prefix+'.avi'
+            '-i', prefix+'-%06d.png',
+            '-r', str(options.fps)
         ]
+
+        if options.max_bytes:
+            cmd_line += ['-fs', options.max_bytes]
+
+        if options.gif_output:
+            cmd_line += [
+                prefix+'.gif'
+            ]
+        else:
+            cmd_line += [
+                '-vcodec', 'mpeg4',
+                '-b', '8000k',
+                prefix+'.avi'
+            ]
+
         proc = subprocess.Popen(
             cmd_line,
             stdin=None,
@@ -539,7 +599,10 @@ def render_video(
         })
         sys.exit(2)
 
-    shutil.move(prefix+'.avi', 'oglplus-'+options.sample_label+'.avi')
+    if options.gif_output:
+        shutil.move(prefix+'.gif', 'oglplus-'+options.sample_label+'.gif')
+    else:
+        shutil.move(prefix+'.avi', 'oglplus-'+options.sample_label+'.avi')
 
 # ------------------------------------------------------------------------------
 # renders a video for a single example
@@ -553,7 +616,7 @@ def render_example(root_dir, example, options):
 
     example_path = check_example(options.bin_dir, example)
 
-    main_label = "http://oglplus.org/"
+    main_label = "http://oglplus.org"
 
     main_label_file = os.path.join(options.work_dir, 'main_label.png')
     sample_label_file = os.path.join(options.work_dir, 'sample_label.png')
@@ -564,15 +627,15 @@ def render_example(root_dir, example, options):
         # render the main text label
         with ui.simple_action('Rendering main label') as progress:
             run_convert(options.work_dir, [
-                '-size', '%dx28'%(options.width/2), 'xc:none',
+                '-size', '%dx24'%(len(main_label)*12 + 144), 'xc:none',
                 '-background', 'none',
-                '-pointsize', '28',
+                '-pointsize', '24',
                 '-gravity', 'center',
                 '-stroke', 'black',
-                '-strokewidth', '8',
+                '-strokewidth', '7',
                 '-annotate', '0', main_label,
                 '-blur', '0x4',
-                '-shadow', '%dx5+1+1' % (options.width/2),
+                '-shadow', '%dx5+1+1' % int(options.width * 0.5),
                 '+repage',
                 '-stroke', 'none',
                 '-strokewidth', '1',
@@ -584,15 +647,15 @@ def render_example(root_dir, example, options):
         # render the example name label
         with ui.simple_action('Rendering example label') as progress:
             run_convert(options.work_dir, [
-                '-size', '%dx90'%(options.width/3+len(options.sample_label)*4), 'xc:none',
+                '-size', '%dx70'%(len(options.sample_label)*12 + 144), 'xc:none',
                 '-background', 'none',
                 '-pointsize', '16',
                 '-gravity', 'center',
                 '-stroke', 'black',
-                '-strokewidth', '2',
+                '-strokewidth', '3',
                 '-annotate', '0', options.sample_label,
                 '-blur', '0x4',
-                '-shadow', '%dx4+1+1' % (options.width/4),
+                '-shadow', '%dx4+1+1' % int(options.width * 0.6),
                 '+repage',
                 '-stroke', 'none',
                 '-strokewidth', '1',
@@ -611,7 +674,7 @@ def render_example(root_dir, example, options):
                 '-fill', 'white',
                 '-draw', 'circle 72,72, 72,144',
                 '-blur', '2x2',
-                '-shadow', '%dx7' % options.width,
+                '-shadow', '%dx6' % options.width,
                 '+repage',
                 os.path.join(options.root_dir,'doc','logo','oglplus_circular.png'),
                 '-composite',
