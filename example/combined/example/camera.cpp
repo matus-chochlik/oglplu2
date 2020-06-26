@@ -111,7 +111,13 @@ bool example_orbiting_camera::apply_pointer_motion(
 //------------------------------------------------------------------------------
 bool example_orbiting_camera::apply_pointer_scrolling(
   const example_state_view& state) noexcept {
-    update_orbit(-state.norm_pointer_z().delta());
+    _orbit_factor -= state.norm_pointer_z().delta();
+    if(_orbit_factor > 1.f) {
+        _orbit_factor = 1.f;
+    }
+    if(_orbit_factor < 0.f) {
+        _orbit_factor = 0.f;
+    }
     return true;
 }
 //------------------------------------------------------------------------------

@@ -38,7 +38,7 @@ int main(main_ctx& ctx) {
 
         adjust_params(params);
 
-        state.set_size(800, 600);
+        state.set_size(1024, 768);
 
         params.exec_command(ctx.exe_path());
 
@@ -211,11 +211,12 @@ static inline auto choose_example_main_impls_from_args(
 //------------------------------------------------------------------------------
 static inline std::array<std::unique_ptr<example_main_intf>, 5>
 make_all_main_impls() {
-    return {{make_example_main_glx(),
-             make_example_main_glfw3(),
-             make_example_main_glfw(),
-             make_example_main_glut(),
-             make_example_main_sdl()}};
+    return {
+      {make_example_main_glx(),
+       make_example_main_glfw3(),
+       make_example_main_glfw(),
+       make_example_main_glut(),
+       make_example_main_sdl()}};
 }
 //------------------------------------------------------------------------------
 bool is_special_argument(const program_arg& arg) {
