@@ -1,12 +1,16 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # coding=utf-8
 # Copyright Matus Chochlik.
 # Distributed under the Boost Software License, Version 1.0.
 # See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
 #
-import os, sys, shutil
+import os
+import sys
+import shutil
+import subprocess
 
+# ------------------------------------------------------------------------------
 # The fallback console GUI
 class FallbackUI:
     def __init__(self, options):
@@ -16,7 +20,7 @@ class FallbackUI:
 
     # Simple progress class for quick actions
     class SimpleProgress:
-        def __init__(self, title): sys.stdout.write(title+" ... ")
+        def __init__(self, title): sys.stdout.write(title + " ... ")
         def __enter__(self): return self
         def __exit__(self, type, value, traceback):
             sys.stdout.write("Done\n")
@@ -32,7 +36,7 @@ class FallbackUI:
             print("Done")
 
         def update(self, frame_no, frame_path):
-            print("Rendered frame: %d"%frame_no)
+            print("Rendered frame: %d" % frame_no)
 
     def framedump(self, title):
         return FallbackUI.FramedumpProgress(title)
@@ -50,7 +54,7 @@ class FallbackUI:
     def videoenc(self, title):
         return FallbackUI.VideoEncProgress(title)
 
-
+# ------------------------------------------------------------------------------
 # wxPython-based GUI
 try:
     class wxPyGUI:
@@ -249,7 +253,7 @@ try:
 
 except ImportError: pass
 
-
+# ------------------------------------------------------------------------------
 # Creates a user interface
 def create_ui(options):
     try:
@@ -258,13 +262,37 @@ def create_ui(options):
         return FallbackUI(options)
 
 
+# ------------------------------------------------------------------------------
 def remove_dir(work_dir):
     shutil.rmtree(work_dir)
 
+# ------------------------------------------------------------------------------
 def make_work_dir():
     from tempfile import mkdtemp
     return mkdtemp()
 
+# ------------------------------------------------------------------------------
+# returns a normalized path to the project root directory
+def get_root_dir():
+    import sys
+    return os.path.normpath(os.path.dirname(sys.argv[0]))
+
+# ------------------------------------------------------------------------------
+# returns the path to the default build directory
+def get_default_build_dir():
+    try:
+        try:
+            if os.environ['BUILD_DIR']:
+                return os.path.join(os.environ['BUILD_DIR'], 'oglplu2')
+            if os.environ['BINARY_DIR']:
+                return os.path.join(os.environ['BINARY_DIR'], 'oglplu2')
+        except: pass
+
+        with open(os.path.join(get_root_dir(), "BINARY_DIR"), "rt") as bdf:
+            return bdf.read()
+    except: return os.path.join(get_root_dir(), "_build");
+
+# ------------------------------------------------------------------------------
 def parse_args(args):
     import argparse
     import datetime
@@ -298,7 +326,7 @@ def parse_args(args):
     argparser.add_argument(
         "--build-dir",
         help="""The name of the build directory""",
-        default="_build",
+        default=get_default_build_dir(),
         action="store",
         dest="build_dir"
     )
@@ -362,6 +390,7 @@ def parse_args(args):
 
     return argparser.parse_args()
 
+# ------------------------------------------------------------------------------
 # checks if we have everything we need to run the example
 def check_example(root_dir, example):
 
@@ -369,7 +398,13 @@ def check_example(root_dir, example):
         msg = "Could not find directory '%s'." % root_dir
         raise Exception(msg)
 
-    example_path = os.path.join(root_dir, example)
+    example_path = os.path.join(
+        root_dir,
+        "example",
+        "combined",
+        example,
+        "combined-%s" % example
+    )
 
     if not os.path.isfile(example_path) or not os.access(example_path, os.X_OK):
         msg = "Could not find example '%s'." % example
@@ -378,9 +413,9 @@ def check_example(root_dir, example):
     return example_path
 
 
+# ------------------------------------------------------------------------------
 # runs imagemagick convert
 def run_convert(work_dir, args):
-    import subprocess
 
     cmd_line = ['convert'] + args
 
@@ -390,6 +425,7 @@ def run_convert(work_dir, args):
     elif ret > 0:
         raise RuntimeError("Convert failed with code %d" % ret)
 
+# ------------------------------------------------------------------------------
 # runs the example, dumps the frames, renders the video
 def render_video(
     example_path,
@@ -402,7 +438,6 @@ def render_video(
 
     prefix = os.path.join(options.work_dir, 'frame')
 
-    import subprocess
     try:
         cmd_line = [example_path,
             '--framedump', '%s-'%prefix,
@@ -422,8 +457,8 @@ def render_video(
             stdout=subprocess.PIPE,
             stderr=None
         )
-        proc.stdin.write('%s-\n'%prefix)
-
+        proc.stdin.write(('%s-\n' % prefix).encode('utf-8'))
+        proc.stdin.flush()
 
         with ui.framedump('Rendering frames') as progress:
             frame_no = 0
@@ -433,13 +468,14 @@ def render_video(
                 if not frame_path_raw:
                     break
                 proc.stdin.write(frame_path_raw)
+                proc.stdin.flush()
 
-                frame_path_raw = frame_path_raw.translate(None, '\r\n');
+                frame_path_raw = frame_path_raw.decode('utf-8').rstrip()
                 frame_path_pic = frame_path_raw.replace('.rgba', '.jpeg')
 
                 try:
                     run_convert(options.work_dir, [
-                        '-size', '%dx%d'%(options.width, options.height),
+                        '-size', '%dx%d' % (options.width, options.height),
                         '-depth', '8',
                         frame_path_raw,
                         '-flip',
@@ -459,6 +495,8 @@ def render_video(
                 except RuntimeError:
                     shutil.copy2(prev_frame_path_pic, frame_path_pic)
 
+                if os.path.isfile(frame_path_raw):
+                    os.remove(frame_path_raw)
                 prev_frame_path_pic = frame_path_pic
 
                 progress.update(frame_no, frame_path_pic)
@@ -489,7 +527,7 @@ def render_video(
         )
         with ui.videoenc('Encoding video') as progress:
             while True:
-                message = proc.stdout.readline().translate(None, '\r\n')
+                message = proc.stdout.readline().decode('utf-8').rstrip()
                 if not message: break
                 progress.update(message)
 
@@ -503,14 +541,13 @@ def render_video(
 
     shutil.move(prefix+'.avi', 'oglplus-'+options.sample_label+'.avi')
 
-
-
+# ------------------------------------------------------------------------------
 # renders a video for a single example
 def render_example(root_dir, example, options):
 
     options.work_dir = make_work_dir()
     options.root_dir = root_dir
-    options.bin_dir = os.path.join(options.root_dir, options.build_dir)
+    options.bin_dir = options.build_dir
     options.example = example
     options.sample_label = os.path.basename(example)
 
@@ -535,7 +572,7 @@ def render_example(root_dir, example, options):
                 '-strokewidth', '8',
                 '-annotate', '0', main_label,
                 '-blur', '0x4',
-                '-shadow', '%dx7+2+2'%options.width,
+                '-shadow', '%dx5+1+1' % (options.width/2),
                 '+repage',
                 '-stroke', 'none',
                 '-strokewidth', '1',
@@ -555,7 +592,7 @@ def render_example(root_dir, example, options):
                 '-strokewidth', '2',
                 '-annotate', '0', options.sample_label,
                 '-blur', '0x4',
-                '-shadow', '%dx4+1+1'%(options.width/4),
+                '-shadow', '%dx4+1+1' % (options.width/4),
                 '+repage',
                 '-stroke', 'none',
                 '-strokewidth', '1',
@@ -574,7 +611,7 @@ def render_example(root_dir, example, options):
                 '-fill', 'white',
                 '-draw', 'circle 72,72, 72,144',
                 '-blur', '2x2',
-                '-shadow', '%dx7'%options.width,
+                '-shadow', '%dx7' % options.width,
                 '+repage',
                 os.path.join(options.root_dir,'doc','logo','oglplus_circular.png'),
                 '-composite',
@@ -595,6 +632,7 @@ def render_example(root_dir, example, options):
 
         remove_dir(options.work_dir)
 
+# ------------------------------------------------------------------------------
 def main():
 
     options = parse_args(sys.argv)
