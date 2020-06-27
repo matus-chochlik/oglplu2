@@ -8,7 +8,7 @@
  */
 
 #include "params.hpp"
-#include <eagine/filesystem.hpp>
+#include <filesystem>
 #include <fstream>
 #include <sstream>
 
@@ -21,6 +21,11 @@ bool example_params::is_readable_file(string_view path) const noexcept {
 //------------------------------------------------------------------------------
 valid_if_not_empty<std::string> example_params::find_resource_file_path(
   string_view res_group, string_view res_name) const {
+
+    EAGINE_MAYBE_UNUSED(res_group);
+    EAGINE_MAYBE_UNUSED(res_name);
+
+    /* TODO
     using filesystem::string_path;
 
     string_path relpath;
@@ -48,7 +53,8 @@ valid_if_not_empty<std::string> example_params::find_resource_file_path(
             }
         } while((--trials > 0) && (!curdir.is_root_path()));
     }
-    return {result};
+    */
+    return {};
 }
 //------------------------------------------------------------------------------
 static inline string_view resource_type_to_desc(

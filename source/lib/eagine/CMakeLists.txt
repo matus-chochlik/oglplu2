@@ -10,7 +10,6 @@ set(EAGINE_LIB_SOURCES
 	identifier.cpp
 	from_string.cpp
 	logging.cpp
-	filesystem.cpp
 	file_contents.cpp
 	input_data.cpp
 	compression.cpp
