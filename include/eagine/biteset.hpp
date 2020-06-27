@@ -421,9 +421,7 @@ public:
     using iterator = biteset_iterator<biteset>;
     using const_iterator = biteset_iterator<const biteset>;
 
-    constexpr biteset() noexcept
-      : _bytes{} {
-    }
+    constexpr biteset() noexcept = default;
 
     template <
       typename... P,
@@ -516,7 +514,7 @@ public:
     }
 
 private:
-    _bytes_t _bytes;
+    _bytes_t _bytes{};
 
     static constexpr inline std::size_t _min_s(
       std::size_t x, std::size_t y) noexcept {
@@ -660,8 +658,8 @@ private:
                      l);
     }
 
-    constexpr inline T _get_cell_bits(std::size_t bb, std::size_t be) const
-      noexcept {
+    constexpr inline T _get_cell_bits(
+      std::size_t bb, std::size_t be) const noexcept {
         return _get_cell_bits(
           _byte_t(0), bb, be, bb / _byte_s, be / _byte_s, size_constant<1>{});
     }

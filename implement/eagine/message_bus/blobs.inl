@@ -46,7 +46,7 @@ void pending_blob::init() {
 EAGINE_LIB_FUNC
 span_size_t pending_blob::done_size() const noexcept {
     span_size_t result = 0;
-    for(const auto [bgn, end] : done_parts.front()) {
+    for(const auto& [bgn, end] : done_parts.front()) {
         result += end - bgn;
     }
     return result;
@@ -77,7 +77,7 @@ bool pending_blob::merge_fragment(
         copy(fragment, head(skip(cover(blob), bgn), end - bgn));
     }
     bool new_done = false;
-    for(const auto [src_bgn, src_end] : src) {
+    for(const auto& [src_bgn, src_end] : src) {
         if(bgn < src_bgn) {
             if(end < src_bgn) {
                 if(!new_done) {

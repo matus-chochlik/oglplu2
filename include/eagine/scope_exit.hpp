@@ -52,7 +52,7 @@ private:
 
 public:
     on_scope_exit(action_type action) noexcept
-      : _action(action) {
+      : _action(std::move(action)) {
     }
 
     template <typename Func>
@@ -77,7 +77,7 @@ public:
     }
 
     void cancel() noexcept {
-        _action = action_type();
+        _action = {};
     }
 };
 

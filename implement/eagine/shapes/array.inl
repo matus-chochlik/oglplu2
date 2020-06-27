@@ -184,7 +184,7 @@ math::sphere<float, true> array_gen::bounding_sphere() {
     const auto l = length(v);
     const auto bs = delegated_gen::bounding_sphere();
 
-    return {bs.center() + c * 0.5f * v, bs.radius() + c * 0.5f * l};
+    return {bs.center() + c * 0.5F * v, bs.radius() + c * 0.5F * l};
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

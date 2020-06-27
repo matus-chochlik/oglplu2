@@ -17,6 +17,7 @@ add_library(
 	STATIC
 	lib_common_pki.cpp
 )
+eagine_add_lib_analysis(eagine-common-pki)
 set_target_properties(
 	eagine-common-pki PROPERTIES
 	INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}

@@ -22,15 +22,17 @@ void centered_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
 
         delegated_gen::attrib_values({vertex_attrib_kind::position, vav}, dest);
 
-        std::array<float, 4> min{std::numeric_limits<float>::max(),
-                                 std::numeric_limits<float>::max(),
-                                 std::numeric_limits<float>::max(),
-                                 std::numeric_limits<float>::max()};
+        std::array<float, 4> min{
+          std::numeric_limits<float>::max(),
+          std::numeric_limits<float>::max(),
+          std::numeric_limits<float>::max(),
+          std::numeric_limits<float>::max()};
 
-        std::array<float, 4> max{std::numeric_limits<float>::lowest(),
-                                 std::numeric_limits<float>::lowest(),
-                                 std::numeric_limits<float>::lowest(),
-                                 std::numeric_limits<float>::lowest()};
+        std::array<float, 4> max{
+          std::numeric_limits<float>::lowest(),
+          std::numeric_limits<float>::lowest(),
+          std::numeric_limits<float>::lowest(),
+          std::numeric_limits<float>::lowest()};
 
         const span_size_t m = values_per_vertex(vav);
 
@@ -46,7 +48,7 @@ void centered_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
         std::array<float, 4> offs{{}};
         for(span_size_t c = 0; c < m; ++c) {
             const auto k = std_size(c);
-            offs[k] = (min[k] + max[k]) * 0.5f;
+            offs[k] = (min[k] + max[k]) * 0.5F;
         }
 
         if(vav != vertex_attrib_kind::position) {
@@ -66,7 +68,7 @@ void centered_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
 EAGINE_LIB_FUNC
 math::sphere<float, true> centered_gen::bounding_sphere() {
     const auto bs = delegated_gen::bounding_sphere();
-    return {{0.f}, bs.radius()};
+    return {{0.F}, bs.radius()};
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

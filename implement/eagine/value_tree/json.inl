@@ -25,7 +25,7 @@ static inline auto rapidjson_string_ref(string_view str) {
     return rapidjson::StringRef("", 0U);
 }
 //------------------------------------------------------------------------------
-static inline auto view(rapidjson::GenericStringRef<char> str) {
+static inline auto view(const rapidjson::GenericStringRef<char>& str) {
     return string_view{str.s, span_size(str.length)};
 }
 //------------------------------------------------------------------------------

@@ -32,8 +32,8 @@ static inline valid_if<T, P, L> nearest_ray_param(
     const auto& t0 = std::get<0>(params);
     const auto& t1 = std::get<1>(params);
 
-    if(t0 >= 0.f) {
-        if(t1 >= 0.f) {
+    if(t0 >= 0.F) {
+        if(t1 >= 0.F) {
             if(t0 < t1) {
                 return t0;
             } else {
@@ -43,7 +43,7 @@ static inline valid_if<T, P, L> nearest_ray_param(
             return t0;
         }
     } else {
-        if(t1 >= 0.f) {
+        if(t1 >= 0.F) {
             return t1;
         }
     }

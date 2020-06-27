@@ -172,7 +172,7 @@ class direct_acceptor : public acceptor {
 
 private:
     logger _log{};
-    std::shared_ptr<direct_connection_address> _address;
+    std::shared_ptr<direct_connection_address> _address{};
 
 public:
     direct_acceptor(

@@ -94,7 +94,7 @@ private:
 
     explicit endpoint(logger log, fetch_handler store_message) noexcept
       : _log{std::move(log)}
-      , _store_handler{store_message} {
+      , _store_handler{std::move(store_message)} {
     }
 
     explicit endpoint(
@@ -102,8 +102,8 @@ private:
       blob_filter_function allow_blob,
       fetch_handler store_message) noexcept
       : _log{std::move(log)}
-      , _allow_blob{allow_blob}
-      , _store_handler{store_message} {
+      , _allow_blob{std::move(allow_blob)}
+      , _store_handler{std::move(store_message)} {
     }
 
     endpoint(endpoint&& temp) noexcept
@@ -128,8 +128,8 @@ private:
       , _outgoing{std::move(temp._outgoing)}
       , _incoming{std::move(temp._incoming)}
       , _blobs{std::move(temp._blobs)}
-      , _allow_blob{allow_blob}
-      , _store_handler{store_message} {
+      , _allow_blob{std::move(allow_blob)}
+      , _store_handler{std::move(store_message)} {
         temp._id = invalid_id();
     }
 
@@ -142,7 +142,7 @@ public:
 
     explicit endpoint(logger log, blob_filter_function allow_blob) noexcept
       : _log{std::move(log)}
-      , _allow_blob{allow_blob} {
+      , _allow_blob{std::move(allow_blob)} {
     }
 
     endpoint(logger log, const program_args& args) noexcept

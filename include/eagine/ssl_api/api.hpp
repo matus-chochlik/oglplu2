@@ -28,7 +28,7 @@ public:
 
     constexpr password_callback(
       callable_ref<bool(string_span, bool)> callback) noexcept
-      : _callback{callback} {
+      : _callback{std::move(callback)} {
     }
 
     constexpr auto* native_func() noexcept {
@@ -332,8 +332,8 @@ public:
     struct : func<SSLPAFP(engine_load_public_key)> {
         using func<SSLPAFP(engine_load_public_key)>::func;
 
-        constexpr auto operator()(engine eng, string_view key_id) const
-          noexcept {
+        constexpr auto operator()(
+          engine eng, string_view key_id) const noexcept {
             return this->_cnvchkcall(eng, key_id, this->ui_openssl())
               .cast_to(identity<owned_pkey>{});
         }
@@ -538,8 +538,9 @@ public:
         using func<SSLPAFP(evp_cipher_update)>::func;
 
         constexpr auto operator()(
-          cipher cyc, memory::split_block out, memory::const_block in) const
-          noexcept {
+          cipher cyc,
+          memory::split_block out,
+          memory::const_block in) const noexcept {
             int outl{0};
             return this
               ->_cnvchkcall(
@@ -557,8 +558,8 @@ public:
     struct : func<SSLPAFP(evp_cipher_final)> {
         using func<SSLPAFP(evp_cipher_final)>::func;
 
-        constexpr auto operator()(cipher cyc, memory::split_block out) const
-          noexcept {
+        constexpr auto operator()(
+          cipher cyc, memory::split_block out) const noexcept {
             int outl{0U};
             return this->_cnvchkcall(cyc, out.tail().data(), &outl)
               .replaced_with(out.advance(span_size(outl)));
@@ -569,8 +570,8 @@ public:
     struct : func<SSLPAFP(evp_cipher_final_ex)> {
         using func<SSLPAFP(evp_cipher_final_ex)>::func;
 
-        constexpr auto operator()(cipher cyc, memory::split_block out) const
-          noexcept {
+        constexpr auto operator()(
+          cipher cyc, memory::split_block out) const noexcept {
             int outl{0U};
             return this->_cnvchkcall(cyc, out.tail().data(), &outl)
               .replaced_with(out.advance(span_size(outl)));
@@ -613,8 +614,9 @@ public:
         using func<SSLPAFP(evp_encrypt_update)>::func;
 
         constexpr auto operator()(
-          cipher cyc, memory::split_block out, memory::const_block in) const
-          noexcept {
+          cipher cyc,
+          memory::split_block out,
+          memory::const_block in) const noexcept {
             int outl{0};
             return this
               ->_cnvchkcall(
@@ -632,8 +634,8 @@ public:
     struct : func<SSLPAFP(evp_encrypt_final)> {
         using func<SSLPAFP(evp_encrypt_final)>::func;
 
-        constexpr auto operator()(cipher cyc, memory::split_block out) const
-          noexcept {
+        constexpr auto operator()(
+          cipher cyc, memory::split_block out) const noexcept {
             int outl{0U};
             return this->_cnvchkcall(cyc, out.tail().data(), &outl)
               .replaced_with(out.advance(span_size(outl)));
@@ -644,8 +646,8 @@ public:
     struct : func<SSLPAFP(evp_encrypt_final_ex)> {
         using func<SSLPAFP(evp_encrypt_final_ex)>::func;
 
-        constexpr auto operator()(cipher cyc, memory::split_block out) const
-          noexcept {
+        constexpr auto operator()(
+          cipher cyc, memory::split_block out) const noexcept {
             int outl{0U};
             return this->_cnvchkcall(cyc, out.tail().data(), &outl)
               .replaced_with(out.advance(span_size(outl)));
@@ -688,8 +690,9 @@ public:
         using func<SSLPAFP(evp_decrypt_update)>::func;
 
         constexpr auto operator()(
-          cipher cyc, memory::split_block out, memory::const_block in) const
-          noexcept {
+          cipher cyc,
+          memory::split_block out,
+          memory::const_block in) const noexcept {
             int outl{0};
             return this
               ->_cnvchkcall(
@@ -707,8 +710,8 @@ public:
     struct : func<SSLPAFP(evp_decrypt_final)> {
         using func<SSLPAFP(evp_decrypt_final)>::func;
 
-        constexpr auto operator()(cipher cyc, memory::split_block out) const
-          noexcept {
+        constexpr auto operator()(
+          cipher cyc, memory::split_block out) const noexcept {
             int outl{0U};
             return this->_cnvchkcall(cyc, out.tail().data(), &outl)
               .replaced_with(out.advance(span_size(outl)));
@@ -719,8 +722,8 @@ public:
     struct : func<SSLPAFP(evp_decrypt_final_ex)> {
         using func<SSLPAFP(evp_decrypt_final_ex)>::func;
 
-        constexpr auto operator()(cipher cyc, memory::split_block out) const
-          noexcept {
+        constexpr auto operator()(
+          cipher cyc, memory::split_block out) const noexcept {
             int outl{0U};
             return this->_cnvchkcall(cyc, out.tail().data(), &outl)
               .replaced_with(out.advance(span_size(outl)));
@@ -840,8 +843,9 @@ public:
         using func<SSLPAFP(evp_digest_init_ex)>::func;
 
         constexpr auto operator()(
-          message_digest mdc, message_digest_type mdt, engine eng) const
-          noexcept {
+          message_digest mdc,
+          message_digest_type mdt,
+          engine eng) const noexcept {
             return this->_cnvchkcall(mdc, mdt, eng);
         }
     } message_digest_init_ex;
@@ -861,8 +865,8 @@ public:
     struct : func<SSLPAFP(evp_digest_final)> {
         using func<SSLPAFP(evp_digest_final)>::func;
 
-        constexpr auto operator()(message_digest mdc, memory::block blk) const
-          noexcept {
+        constexpr auto operator()(
+          message_digest mdc, memory::block blk) const noexcept {
             unsigned int size{0U};
             return this->_cnvchkcall(mdc, blk.data(), &size)
               .replaced_with(head(blk, span_size(size)));
@@ -873,8 +877,8 @@ public:
     struct : func<SSLPAFP(evp_digest_final_ex)> {
         using func<SSLPAFP(evp_digest_final_ex)>::func;
 
-        constexpr auto operator()(message_digest mdc, memory::block blk) const
-          noexcept {
+        constexpr auto operator()(
+          message_digest mdc, memory::block blk) const noexcept {
             unsigned int size{0U};
             return this->_cnvchkcall(mdc, blk.data(), &size)
               .replaced_with(head(blk, span_size(size)));
@@ -886,8 +890,9 @@ public:
         using func<SSLPAFP(evp_digest_sign_init)>::func;
 
         constexpr auto operator()(
-          message_digest mdc, message_digest_type mdt, pkey pky) const
-          noexcept {
+          message_digest mdc,
+          message_digest_type mdt,
+          pkey pky) const noexcept {
             return this->_cnvchkcall(mdc, nullptr, mdt, nullptr, pky);
         }
 
@@ -921,8 +926,8 @@ public:
               .replaced_with(span_size(size));
         }
 
-        constexpr auto operator()(message_digest mdc, memory::block blk) const
-          noexcept {
+        constexpr auto operator()(
+          message_digest mdc, memory::block blk) const noexcept {
             auto size = limit_cast<size_t>(blk.size());
             return this->_cnvchkcall(mdc, blk.data(), &size)
               .replaced_with(head(blk, span_size(size)));
@@ -934,8 +939,9 @@ public:
         using func<SSLPAFP(evp_digest_verify_init)>::func;
 
         constexpr auto operator()(
-          message_digest mdc, message_digest_type mdt, pkey pky) const
-          noexcept {
+          message_digest mdc,
+          message_digest_type mdt,
+          pkey pky) const noexcept {
             return this->_cnvchkcall(mdc, nullptr, mdt, nullptr, pky);
         }
 
@@ -1125,8 +1131,8 @@ public:
     struct : func<SSLPAFP(x509_store_load_locations)> {
         using func<SSLPAFP(x509_store_load_locations)>::func;
 
-        constexpr auto operator()(x509_store xst, string_view file_path) const
-          noexcept {
+        constexpr auto operator()(
+          x509_store xst, string_view file_path) const noexcept {
             return this->_cnvchkcall(xst, file_path, nullptr);
         }
 

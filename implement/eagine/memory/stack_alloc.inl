@@ -48,21 +48,12 @@ inline base_stack_allocator<T>::base_stack_allocator(
 }
 //------------------------------------------------------------------------------
 template <typename T>
-inline base_stack_allocator<T>::base_stack_allocator() noexcept
-  : _btm(nullptr)
-  , _top(nullptr)
-  , _pos(nullptr)
-  , _min(nullptr) {
-}
-//------------------------------------------------------------------------------
-template <typename T>
 inline base_stack_allocator<T>::base_stack_allocator(
   const block& blk, span_size_t align) noexcept
   : _btm(align_up_to(blk.addr(), identity<T>(), align))
   , _top(align_down_to(blk.end_addr(), identity<T>(), align))
   , _pos(_btm)
-  , _min(_btm)
-  , _dif(0) {
+  , _min(_btm) {
 }
 //------------------------------------------------------------------------------
 template <typename T>
@@ -271,7 +262,7 @@ inline owned_block stack_aligned_byte_allocator<Policy>::allocate(
 
     EAGINE_ASSERT(is_aligned_to(b.addr(), a));
 
-    return std::move(b);
+    return b;
 }
 //------------------------------------------------------------------------------
 template <typename Policy>

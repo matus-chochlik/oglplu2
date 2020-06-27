@@ -59,9 +59,26 @@ private:
 public:
     constexpr callable_ref() noexcept = default;
 
+    constexpr callable_ref(callable_ref&& temp) noexcept
+      : _data{temp._data}
+      , _func{temp._func} {
+        temp._data = nullptr;
+        temp._func = nullptr;
+    }
+    constexpr callable_ref(const callable_ref&) noexcept = default;
+
+    constexpr callable_ref& operator=(callable_ref&& temp) noexcept {
+        using std::swap;
+        swap(temp._data, _data);
+        swap(temp._func, _func);
+        return *this;
+    }
+    constexpr callable_ref& operator=(const callable_ref&) noexcept = default;
+
+    ~callable_ref() noexcept = default;
+
     callable_ref(RV (*func)(P...)) noexcept
-      : _data(nullptr)
-      , _func(reinterpret_cast<_func_t>(func)) {
+      : _func(reinterpret_cast<_func_t>(func)) {
     }
 
     template <typename T>

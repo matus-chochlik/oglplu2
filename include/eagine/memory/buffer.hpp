@@ -39,8 +39,7 @@ private:
 
 public:
     explicit buffer(span_size_t align)
-      : _size(0)
-      , _align(align)
+      : _align(align)
       , _alloc(default_byte_allocator()) {
     }
 

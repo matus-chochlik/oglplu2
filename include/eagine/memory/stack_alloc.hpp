@@ -24,10 +24,10 @@ namespace memory {
 template <typename T>
 class base_stack_allocator : public block_owner {
 private:
-    T* _btm;
-    T* _top;
-    T* _pos;
-    T* _min;
+    T* _btm{nullptr};
+    T* _top{nullptr};
+    T* _pos{nullptr};
+    T* _min{nullptr};
     span_size_t _dif{0};
 
     const_block _store() const noexcept;
@@ -50,7 +50,7 @@ public:
     base_stack_allocator& operator=(base_stack_allocator&& tmp) = delete;
     base_stack_allocator& operator=(const base_stack_allocator&) = delete;
 
-    base_stack_allocator() noexcept;
+    base_stack_allocator() noexcept = default;
 
     base_stack_allocator(const block& blk, span_size_t align) noexcept;
 

@@ -51,7 +51,7 @@ void occluded_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
                   normals[k + 0], normals[k + 1], normals[k + 2]};
 
                 rays[std_size(v * ns)] = math::line<float, true>{pos, nml};
-                weights[std_size(v * ns)] = 1.f;
+                weights[std_size(v * ns)] = 1.F;
 
                 for(span_size_t s = 1; s < ns; ++s) {
                     using std::acos;
@@ -63,7 +63,7 @@ void occluded_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
                     auto dir = math::to_cartesian(usc);
                     auto wght = dot(dir, nml);
 
-                    if(wght < 0.f) {
+                    if(wght < 0.F) {
                         dir = -dir;
                         wght = -wght;
                     }
@@ -79,21 +79,21 @@ void occluded_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
             delegated_gen::ray_intersections(view(rays), cover(params));
 
             for(span_size_t v = 0; v < vc; ++v) {
-                float occl = 0.f;
-                float wght = 0.f;
+                float occl = 0.F;
+                float wght = 0.F;
                 for(span_size_t s = 0; s < ns; ++s) {
                     const auto l = std_size(v * ns + s);
-                    if(params[l] > 0.0f) {
+                    if(params[l] > 0.0F) {
                         using std::exp;
                         occl +=
-                          exp(1.f - params[l].value_anyway()) * weights[l];
+                          exp(1.F - params[l].value_anyway()) * weights[l];
                     }
                     wght += weights[l];
                 }
                 dest[v] = occl / wght;
             }
         } else {
-            fill(dest, 0.f);
+            fill(dest, 0.F);
         }
     } else {
         delegated_gen::attrib_values(vav, dest);

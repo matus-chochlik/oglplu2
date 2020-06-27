@@ -63,9 +63,7 @@ public:
     using iterator = string_list::iterator<const char*>;
     using reverse_iterator = string_list::rev_iterator<const char*>;
 
-    basic_string_path() noexcept
-      : _size{0} {
-    }
+    basic_string_path() noexcept = default;
 
     basic_string_path(basic_string_path&&) noexcept = default;
     basic_string_path(const basic_string_path&) = default;
@@ -101,8 +99,7 @@ public:
       , _str(a._str + b._str) {
     }
 
-    explicit basic_string_path(span<const string_view> names)
-      : _size(0) {
+    explicit basic_string_path(span<const string_view> names) {
         _init(names);
     }
 

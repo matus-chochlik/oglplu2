@@ -55,9 +55,9 @@ void unit_sphere_gen::positions(span<float> dest) noexcept {
             const auto r_lat = std::cos(r * r_step);
             const auto r_rad = std::sin(r * r_step);
 
-            dest[k++] = float(0.5f * r_rad * std::cos(s * s_step));
-            dest[k++] = float(0.5f * r_lat);
-            dest[k++] = float(0.5f * r_rad * -std::sin(s * s_step));
+            dest[k++] = float(0.5F * r_rad * std::cos(s * s_step));
+            dest[k++] = float(0.5F * r_lat);
+            dest[k++] = float(0.5F * r_rad * -std::sin(s * s_step));
         }
     }
 }
@@ -139,8 +139,8 @@ void unit_sphere_gen::wrap_coords(span<float> dest) noexcept {
 
     span_size_t k = 0;
 
-    const auto s_step = 1.f / _sections;
-    const auto r_step = 1.f / _rings;
+    const auto s_step = 1.F / _sections;
+    const auto r_step = 1.F / _rings;
 
     for(span_size_t s = 0; s < (_sections + 1); ++s) {
         for(span_size_t r = 0; r < (_rings + 1); ++r) {
@@ -276,7 +276,7 @@ void unit_sphere_gen::instructions(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 math::sphere<float, true> unit_sphere_gen::bounding_sphere() {
-    return {{0.f, 0.f, 0.f}, 0.5f};
+    return {{0.F, 0.F, 0.F}, 0.5F};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -293,7 +293,7 @@ void unit_sphere_gen::ray_intersections(
         const auto& ray = rays[i];
         const auto nparam = math::nearest_ray_param(
           math::line_sphere_intersection_params(ray, bs));
-        if(nparam > 0.0001f) {
+        if(nparam > 0.0001F) {
             auto& oparam = intersections[i];
             if(!oparam || bool(nparam < oparam)) {
                 oparam = nparam;

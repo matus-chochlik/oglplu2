@@ -100,7 +100,7 @@ private:
 
     template <int... I>
     static inline _dT _do_apply(
-      _dpT v1, _dpT v2, shuffle_mask<I...>, _int<3u>, std::true_type) noexcept {
+      _dpT v1, _dpT v2, shuffle_mask<I...>, _int<3U>, std::true_type) noexcept {
 #if EAGINE_USE_SIMD && defined(__clang__)
         // NOLINTNEXTLINE(hicpp-vararg)
         return _dT(__builtin_shufflevector(v1, v2, I >= 3 ? I + 1 : I...));

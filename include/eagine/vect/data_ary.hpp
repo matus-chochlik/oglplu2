@@ -48,9 +48,10 @@ struct _ary_data {
       typename... Pn,
       typename = std::enable_if_t<(sizeof...(Pn) + 2) == N>>
     constexpr _ary_data(P1&& p1, P2&& p2, Pn&&... pn)
-      : _v{T(std::forward<P1>(p1)),
-           T(std::forward<P2>(p2)),
-           T(std::forward<Pn>(pn))...} {
+      : _v{
+          T(std::forward<P1>(p1)),
+          T(std::forward<P2>(p2)),
+          T(std::forward<Pn>(pn))...} {
     }
 
     constexpr inline T operator[](int i) const noexcept {
@@ -203,7 +204,7 @@ struct _ary_cref {
 };
 
 template <typename T>
-struct _ary_data<T, 0u> {
+struct _ary_data<T, 0U> {
     using type = _ary_data;
 
     T operator[](int i) const;

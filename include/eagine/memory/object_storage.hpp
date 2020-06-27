@@ -23,7 +23,7 @@ namespace memory {
 //------------------------------------------------------------------------------
 class object_storage {
 protected:
-    shared_byte_allocator _alloc;
+    shared_byte_allocator _alloc{};
 
     template <typename T>
     static void _destroy(block blk) noexcept {
@@ -157,8 +157,8 @@ public:
       , _clrs{std_allocator<void (*)(block, Params...)>{base::_alloc}} {
     }
 
-    callable_storage(shared_byte_allocator a) noexcept
-      : base(std::move(a))
+    callable_storage(const shared_byte_allocator& a) noexcept
+      : base(a)
       , _clrs{std_allocator<void (*)(block, Params...)>{base::_alloc}} {
     }
 

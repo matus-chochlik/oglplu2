@@ -48,7 +48,7 @@ public:
       vertex_attrib_bits attr_bits,
       valid_if_greater_than<int, 4> rings,
       valid_if_greater_than<int, 3> sections) noexcept
-      : unit_torus_gen(attr_bits, std::move(rings), std::move(sections), 0.5f) {
+      : unit_torus_gen(attr_bits, std::move(rings), std::move(sections), 0.5F) {
     }
 
     unit_torus_gen(vertex_attrib_bits attr_bits) noexcept
@@ -117,7 +117,7 @@ static inline auto unit_torus(
 }
 //------------------------------------------------------------------------------
 static inline auto unit_torus(vertex_attrib_bits attr_bits) {
-    return unit_torus(attr_bits, 18, 36, 0.5f);
+    return unit_torus(attr_bits, 18, 36, 0.5F);
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

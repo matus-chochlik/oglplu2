@@ -66,13 +66,13 @@ void unit_icosahedron_gen::positions(span<float> dest) noexcept {
      */
 
     const span_size_t qi[3][3] = {{0, 2, 1}, {1, 0, 2}, {2, 1, 0}};
-    const float ps = 1.f;
-    const float ns = -1.f;
+    const float ps = 1.F;
+    const float ns = -1.F;
 
     for(const auto& qip : qi) {
         for(int v = 0; v < 4; ++v) {
             const float sv[3] = {
-              0.f, v % 2 == 0 ? ns : ps, v / 2 == 0 ? ns : ps};
+              0.F, v % 2 == 0 ? ns : ps, v / 2 == 0 ? ns : ps};
             for(const auto qci : qip) {
                 dest[k++] = float(sv[qci] * q[qci]);
             }
@@ -236,7 +236,7 @@ void unit_icosahedron_gen::instructions(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 math::sphere<float, true> unit_icosahedron_gen::bounding_sphere() {
-    return {{0.0f}, 0.5f};
+    return {{0.0F}, 0.5F};
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

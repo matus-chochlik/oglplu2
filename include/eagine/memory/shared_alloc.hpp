@@ -89,16 +89,19 @@ public:
     }
 
     basic_shared_byte_alloc& operator=(
-      const basic_shared_byte_alloc& that) noexcept {
-        _cleanup();
-        _pballoc = that._copy();
-        return *this;
-    }
-
-    basic_shared_byte_alloc& operator=(
       basic_shared_byte_alloc&& that) noexcept {
         _cleanup();
         _pballoc = that._release();
+        return *this;
+    }
+
+    // NOLINTNEXTLINE(bugprone-unhandled-self-assignment,cert-oop54-cpp)
+    basic_shared_byte_alloc& operator=(
+      const basic_shared_byte_alloc& that) noexcept {
+        if(this != &that) {
+            _cleanup();
+            _pballoc = that._copy();
+        }
         return *this;
     }
 

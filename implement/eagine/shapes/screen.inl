@@ -49,21 +49,21 @@ void unit_screen_gen::positions(span<float> dest) noexcept {
 
     span_size_t k = 0;
     // (0)
-    dest[k++] = -1.f;
-    dest[k++] = -1.f;
-    dest[k++] = 0.f;
+    dest[k++] = -1.F;
+    dest[k++] = -1.F;
+    dest[k++] = 0.F;
     // (1)
-    dest[k++] = -1.f;
-    dest[k++] = 1.f;
-    dest[k++] = 0.f;
+    dest[k++] = -1.F;
+    dest[k++] = 1.F;
+    dest[k++] = 0.F;
     // (2)
-    dest[k++] = 1.f;
-    dest[k++] = -1.f;
-    dest[k++] = 0.f;
+    dest[k++] = 1.F;
+    dest[k++] = -1.F;
+    dest[k++] = 0.F;
     // (3)
-    dest[k++] = 1.f;
-    dest[k++] = 1.f;
-    dest[k++] = 0.f;
+    dest[k++] = 1.F;
+    dest[k++] = 1.F;
+    dest[k++] = 0.F;
 
     EAGINE_ASSERT(k == vertex_count() * 3);
 }
@@ -75,9 +75,9 @@ void unit_screen_gen::normals(span<float> dest) noexcept {
 
     span_size_t k = 0;
     for(span_size_t i = 0; i < 4; ++i) {
-        dest[k++] = 0.f;
-        dest[k++] = 0.f;
-        dest[k++] = 1.f;
+        dest[k++] = 0.F;
+        dest[k++] = 0.F;
+        dest[k++] = 1.F;
     }
 
     EAGINE_ASSERT(k == vertex_count() * 3);
@@ -90,9 +90,9 @@ void unit_screen_gen::tangentials(span<float> dest) noexcept {
 
     span_size_t k = 0;
     for(span_size_t i = 0; i < 4; ++i) {
-        dest[k++] = 1.f;
-        dest[k++] = 0.f;
-        dest[k++] = 0.f;
+        dest[k++] = 1.F;
+        dest[k++] = 0.F;
+        dest[k++] = 0.F;
     }
 
     EAGINE_ASSERT(k == vertex_count() * 3);
@@ -105,9 +105,9 @@ void unit_screen_gen::bitangentials(span<float> dest) noexcept {
 
     span_size_t k = 0;
     for(span_size_t i = 0; i < 4; ++i) {
-        dest[k++] = 0.f;
-        dest[k++] = 1.f;
-        dest[k++] = 0.f;
+        dest[k++] = 0.F;
+        dest[k++] = 1.F;
+        dest[k++] = 0.F;
     }
 
     EAGINE_ASSERT(k == vertex_count() * 3);
@@ -130,21 +130,21 @@ void unit_screen_gen::face_coords(span<float> dest) noexcept {
 
     span_size_t k = 0;
     // (0)
-    dest[k++] = 0.f;
-    dest[k++] = 0.f;
-    dest[k++] = 0.f;
+    dest[k++] = 0.F;
+    dest[k++] = 0.F;
+    dest[k++] = 0.F;
     // (1)
-    dest[k++] = 0.f;
-    dest[k++] = 1.f;
-    dest[k++] = 0.f;
+    dest[k++] = 0.F;
+    dest[k++] = 1.F;
+    dest[k++] = 0.F;
     // (2)
-    dest[k++] = 1.f;
-    dest[k++] = 0.f;
-    dest[k++] = 0.f;
+    dest[k++] = 1.F;
+    dest[k++] = 0.F;
+    dest[k++] = 0.F;
     // (3)
-    dest[k++] = 1.f;
-    dest[k++] = 1.f;
-    dest[k++] = 0.f;
+    dest[k++] = 1.F;
+    dest[k++] = 1.F;
+    dest[k++] = 0.F;
 
     EAGINE_ASSERT(k == vertex_count() * 3);
 }
@@ -206,7 +206,7 @@ void unit_screen_gen::instructions(
 EAGINE_LIB_FUNC
 math::sphere<float, true> unit_screen_gen::bounding_sphere() {
     using std::sqrt;
-    return {{0.0f}, float(sqrt(2.f))};
+    return {{0.0F}, float(sqrt(2.F))};
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

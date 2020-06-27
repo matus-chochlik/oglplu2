@@ -136,7 +136,7 @@ void unit_cube_gen::positions(span<float> dest) noexcept {
 
         for(span_size_t v = 0; v < 8; ++v) {
             for(span_size_t c = 0; c < 3; ++c) {
-                dest[k++] = _coord_c(v, c) - 0.5f;
+                dest[k++] = float(_coord_c(v, c)) - 0.5F;
             }
         }
     } else {
@@ -147,7 +147,7 @@ void unit_cube_gen::positions(span<float> dest) noexcept {
                 for(span_size_t i = 0; i < 3; ++i) {
                     span_size_t v = _face_vert(f, t, i);
                     for(span_size_t c = 0; c < 3; ++c) {
-                        dest[k++] = _coord_c(v, c) - 0.5f;
+                        dest[k++] = float(_coord_c(v, c)) - 0.5F;
                     }
                 }
             }
@@ -190,7 +190,7 @@ void unit_cube_gen::normals(span<float> dest) noexcept {
     for(span_size_t f = 0; f < 6; ++f) {
         for(span_size_t i = 0; i < n; ++i) {
             for(span_size_t c = 0; c < 3; ++c) {
-                dest[k++] = _normal_c(f, c);
+                dest[k++] = float(_normal_c(f, c));
             }
         }
     }
@@ -231,7 +231,7 @@ void unit_cube_gen::tangentials(span<float> dest) noexcept {
     for(span_size_t f = 0; f < 6; ++f) {
         for(span_size_t i = 0; i < n; ++i) {
             for(span_size_t c = 0; c < 3; ++c) {
-                dest[k++] = _tangential_c(f, c);
+                dest[k++] = float(_tangential_c(f, c));
             }
         }
     }
@@ -272,7 +272,7 @@ void unit_cube_gen::bitangentials(span<float> dest) noexcept {
     for(span_size_t f = 0; f < 6; ++f) {
         for(span_size_t i = 0; i < n; ++i) {
             for(span_size_t c = 0; c < 3; ++c) {
-                dest[k++] = _bitangential_c(f, c);
+                dest[k++] = float(_bitangential_c(f, c));
             }
         }
     }
@@ -301,7 +301,7 @@ void unit_cube_gen::face_coords(span<float> dest) noexcept {
       {2, 1, 3}  // (II)
     };
 
-    const float uv[4][2] = {{0.f, 0.f}, {1.f, 0.f}, {0.f, 1.f}, {1.f, 1.f}};
+    const float uv[4][2] = {{0.F, 0.F}, {1.F, 0.F}, {0.F, 1.F}, {1.F, 1.F}};
 
     span_size_t k = 0;
 
@@ -473,7 +473,7 @@ void unit_cube_gen::instructions(
 EAGINE_LIB_FUNC
 math::sphere<float, true> unit_cube_gen::bounding_sphere() {
     using std::sqrt;
-    return {{0.0f}, float(sqrt(2.f))};
+    return {{0.0F}, float(sqrt(2.F))};
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

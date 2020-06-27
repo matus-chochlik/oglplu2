@@ -739,10 +739,11 @@ public:
     }
 
     api_combined_result(api_result<Result, Info> src)
-      : base{extract(
-               static_cast<
-                 api_result_value<Result, api_result_validity::always>&&>(src)),
-             src.is_valid()} {
+      : base{
+          extract(
+            static_cast<
+              api_result_value<Result, api_result_validity::always>&&>(src)),
+          src.is_valid()} {
         static_cast<Info&>(*this) = static_cast<Info&&>(src);
     }
 
@@ -996,9 +997,11 @@ protected:
       typename... Params,
       typename... Args,
       RV (*Func)(Params...)>
-    static constexpr typename ApiTraits::template result<RV> _call(
-      static_c_api_function<ApiTraits, Tag, RV(Params...), Func>& function,
-      Args&&... args) noexcept {
+    static constexpr std::
+      enable_if_t<!std::is_void_v<RV>, typename ApiTraits::template result<RV>>
+      _call(
+        static_c_api_function<ApiTraits, Tag, RV(Params...), Func>& function,
+        Args&&... args) noexcept {
         return {std::move(function(std::forward<Args>(args)...))};
     }
 

@@ -81,7 +81,7 @@ private:
     }
 
 public:
-    const Policy& policy() const noexcept {
+    [[nodiscard]] const Policy& policy() const noexcept {
         return *this;
     }
     constexpr basic_valid_if() noexcept

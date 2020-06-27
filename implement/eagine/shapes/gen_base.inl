@@ -20,13 +20,15 @@ namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 math::sphere<float, true> generator_intf::bounding_sphere() {
-    std::array<float, 3> min{std::numeric_limits<float>::max(),
-                             std::numeric_limits<float>::max(),
-                             std::numeric_limits<float>::max()};
+    std::array<float, 3> min{
+      std::numeric_limits<float>::max(),
+      std::numeric_limits<float>::max(),
+      std::numeric_limits<float>::max()};
 
-    std::array<float, 3> max{std::numeric_limits<float>::lowest(),
-                             std::numeric_limits<float>::lowest(),
-                             std::numeric_limits<float>::lowest()};
+    std::array<float, 3> max{
+      std::numeric_limits<float>::lowest(),
+      std::numeric_limits<float>::lowest(),
+      std::numeric_limits<float>::lowest()};
 
     const auto attrib = vertex_attrib_kind::position;
     const auto n = vertex_count();
@@ -46,10 +48,10 @@ math::sphere<float, true> generator_intf::bounding_sphere() {
     }
 
     math::vector<float, 3, true> center{};
-    float radius{0.f};
+    float radius{0.F};
     for(span_size_t c = 0; c < m; ++c) {
         const auto k = std_size(c);
-        radius = eagine::math::maximum(radius, (max[k] - min[k]) * 0.5f);
+        radius = eagine::math::maximum(radius, (max[k] - min[k]) * 0.5F);
     }
 
     return {center, radius};
@@ -82,7 +84,7 @@ void generator_intf::ray_intersections(
     for(span_size_t i = 0; i < rays.size(); ++i) {
         const auto nparam = math::nearest_ray_param(
           math::line_sphere_intersection_params(rays[i], bs));
-        if(nparam >= 0.f) {
+        if(nparam >= 0.F) {
             ray_idx.push_back(std_size(i));
         }
     }
@@ -94,9 +96,9 @@ void generator_intf::ray_intersections(
             const auto nparam =
               math::line_triangle_intersection_param(ray, fce);
 
-            if(nparam > 0.0001f) {
+            if(nparam > 0.0001F) {
                 const auto fnml = fce.normal(cw);
-                if(dot(ray.direction(), fnml) < 0.f) {
+                if(dot(ray.direction(), fnml) < 0.F) {
                     auto& oparam = intersections[i];
                     if(!oparam || bool(nparam < oparam)) {
                         oparam = nparam;
@@ -142,15 +144,16 @@ void generator_intf::ray_intersections(
                     o1 = 0;
                     o2 = -1;
                 }
-                math::triangle<float, true> face{{coord(w + o0, 0, indexed),
-                                                  coord(w + o0, 1, indexed),
-                                                  coord(w + o0, 2, indexed)},
-                                                 {coord(w + o1, 0, indexed),
-                                                  coord(w + o1, 1, indexed),
-                                                  coord(w + o1, 2, indexed)},
-                                                 {coord(w + o2, 0, indexed),
-                                                  coord(w + o2, 1, indexed),
-                                                  coord(w + o2, 2, indexed)}};
+                math::triangle<float, true> face{
+                  {coord(w + o0, 0, indexed),
+                   coord(w + o0, 1, indexed),
+                   coord(w + o0, 2, indexed)},
+                  {coord(w + o1, 0, indexed),
+                   coord(w + o1, 1, indexed),
+                   coord(w + o1, 2, indexed)},
+                  {coord(w + o2, 0, indexed),
+                   coord(w + o2, 1, indexed),
+                   coord(w + o2, 2, indexed)}};
                 intersect(face, op.cw_face_winding);
             }
         }
@@ -204,14 +207,14 @@ void centered_unit_shape_generator_base::attrib_values(
     if(vav.attrib == vertex_attrib_kind::box_coord) {
         this->attrib_values({vertex_attrib_kind::position, vav}, dest);
         for(float& x : dest) {
-            x += 0.5f;
+            x += 0.5F;
         }
     } else if(vav == vertex_attrib_kind::pivot) {
-        fill(head(dest, this->vertex_count() * 3), 0.f);
+        fill(head(dest, this->vertex_count() * 3), 0.F);
     } else if(vav == vertex_attrib_kind::pivot_pivot) {
-        fill(head(dest, this->vertex_count() * 3), 0.f);
+        fill(head(dest, this->vertex_count() * 3), 0.F);
     } else if(vav == vertex_attrib_kind::vertex_pivot) {
-        fill(head(dest, this->vertex_count() * 3), 0.f);
+        fill(head(dest, this->vertex_count() * 3), 0.F);
     } else {
         generator_base::attrib_values(vav, dest);
     }

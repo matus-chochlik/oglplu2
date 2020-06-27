@@ -67,7 +67,7 @@ static inline auto ortho_array_xyz(
   std::unique_ptr<generator_intf>&& gen,
   std::array<float, 3> d,
   std::array<span_size_t, 3> n) noexcept {
-    const float z = 0.0f;
+    const float z = 0.0F;
     return array(
       array(array(std::move(gen), {d[0], z, z}, n[0]), {z, d[1], z}, n[1]),
       {z, z, d[2]},

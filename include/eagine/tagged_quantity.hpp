@@ -281,7 +281,7 @@ template <
   typename T2,
   typename = std::enable_if_t<!units::is_unit_v<T2>>>
 constexpr inline auto operator/(const tagged_quantity<T1, U>& a, const T2& c) {
-    return make_tagged_quantity<U>((1.f * value(a)) / c);
+    return make_tagged_quantity<U>((1.F * value(a)) / c);
 }
 //------------------------------------------------------------------------------
 template <

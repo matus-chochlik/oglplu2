@@ -236,8 +236,8 @@ void unit_torus_gen::wrap_coords(span<float> dest) noexcept {
 
     span_size_t k = 0;
 
-    const auto s_step = 1.f / _sections;
-    const auto r_step = 1.f / _rings;
+    const auto s_step = 1.F / _sections;
+    const auto r_step = 1.F / _rings;
 
     for(span_size_t s = 0; s < (_sections + 1); ++s) {
         for(span_size_t r = 0; r < (_rings + 1); ++r) {
@@ -263,16 +263,16 @@ void unit_torus_gen::make_special_attrib_values(
     if(variant_index == 1) {
         auto get_offs = [rrg{std::mt19937{_r_seed}},
                          srg{std::mt19937{_s_seed}},
-                         rnd{std::normal_distribution<float>{0.f, 0.15f}},
-                         snd{std::normal_distribution<float>{0.f, 0.15f}}](
+                         rnd{std::normal_distribution<float>{0.F, 0.15F}},
+                         snd{std::normal_distribution<float>{0.F, 0.15F}}](
                           span_size_t,
                           span_size_t) mutable -> std::array<float, 3> {
-            return {{rnd(rrg), snd(srg), 0.f}};
+            return {{rnd(rrg), snd(srg), 0.F}};
         };
         (this->*function)(dest, offset_getter{get_offs});
     } else if(variant_index == 2) {
         auto get_offs = [](span_size_t s, span_size_t) -> std::array<float, 3> {
-            return {{float(s), 0.f, 0.f}};
+            return {{float(s), 0.F, 0.F}};
         };
         (this->*function)(dest, offset_getter{get_offs});
     } else if(variant_index == 3) {
@@ -281,13 +281,13 @@ void unit_torus_gen::make_special_attrib_values(
             const auto x = float(s) / float(this->_sections);
             const auto y = float(r) / float(this->_rings);
             return {
-              {float(math::sine_wave01(x)), float(math::sine_wave01(y)), 0.f}};
+              {float(math::sine_wave01(x)), float(math::sine_wave01(y)), 0.F}};
         };
         (this->*function)(dest, offset_getter{get_offs});
     } else {
         const auto no_offs =
           [](span_size_t, span_size_t) -> std::array<float, 3> {
-            return {{0.f, 0.f, 0.f}};
+            return {{0.F, 0.F, 0.F}};
         };
         (this->*function)(dest, offset_getter{no_offs});
     }
@@ -549,7 +549,7 @@ void unit_torus_gen::instructions(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 math::sphere<float, true> unit_torus_gen::bounding_sphere() {
-    return {{0.0f}, 0.5f};
+    return {{0.0F}, 0.5F};
 }
 //------------------------------------------------------------------------------
 } // namespace shapes
