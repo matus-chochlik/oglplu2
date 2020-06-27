@@ -98,21 +98,23 @@ static void run_loop(GLFWwindow* window, int width, int height) {
     gl.bind(vao);
 
     // positions
-    const GLfloat v[8][3] = {{-0.5f, -0.5f, -0.5f},
-                             {+0.5f, -0.5f, -0.5f},
-                             {-0.5f, +0.5f, -0.5f},
-                             {+0.5f, +0.5f, -0.5f},
-                             {-0.5f, -0.5f, +0.5f},
-                             {+0.5f, -0.5f, +0.5f},
-                             {-0.5f, +0.5f, +0.5f},
-                             {+0.5f, +0.5f, +0.5f}};
+    const GLfloat v[8][3] = {
+      {-0.5F, -0.5F, -0.5F},
+      {+0.5F, -0.5F, -0.5F},
+      {-0.5F, +0.5F, -0.5F},
+      {+0.5F, +0.5F, -0.5F},
+      {-0.5F, -0.5F, +0.5F},
+      {+0.5F, -0.5F, +0.5F},
+      {-0.5F, +0.5F, +0.5F},
+      {+0.5F, +0.5F, +0.5F}};
 
-    const GLint f[6][2][3] = {{{0, 4, 2}, {2, 4, 6}},
-                              {{5, 1, 7}, {7, 1, 3}},
-                              {{0, 1, 4}, {4, 1, 5}},
-                              {{6, 7, 2}, {2, 7, 3}},
-                              {{1, 0, 3}, {3, 0, 2}},
-                              {{4, 5, 6}, {6, 5, 7}}};
+    const GLint f[6][2][3] = {
+      {{0, 4, 2}, {2, 4, 6}},
+      {{5, 1, 7}, {7, 1, 3}},
+      {{0, 1, 4}, {4, 1, 5}},
+      {{6, 7, 2}, {2, 7, 3}},
+      {{1, 0, 3}, {3, 0, 2}},
+      {{4, 5, 6}, {6, 5, 7}}};
 
     const GLuint vertex_count = 6 * 2 * 3;
     GLfloat cube_vertices[vertex_count * 3];
@@ -142,12 +144,13 @@ static void run_loop(GLFWwindow* window, int width, int height) {
     gl.enable_vertex_array_attrib(va_p);
 
     // normals
-    const GLfloat n[6][3] = {{-1.0f, 0.0f, 0.0f},
-                             {1.0f, 0.0f, 0.0f},
-                             {0.0f, -1.0f, 0.0f},
-                             {0.0f, 1.0f, 0.0f},
-                             {0.0f, 0.0f, -1.0f},
-                             {0.0f, 0.0f, 1.0f}};
+    const GLfloat n[6][3] = {
+      {-1.0F, 0.0F, 0.0F},
+      {1.0F, 0.0F, 0.0F},
+      {0.0F, -1.0F, 0.0F},
+      {0.0F, 1.0F, 0.0F},
+      {0.0F, 0.0F, -1.0F},
+      {0.0F, 0.0F, 1.0F}};
     GLfloat cube_normals[vertex_count * 3];
     for(GLuint fi = 0; fi != 6; ++fi) {
         for(GLuint vi = 0; vi != 6; ++vi) {
@@ -167,12 +170,13 @@ static void run_loop(GLFWwindow* window, int width, int height) {
     gl.enable_vertex_array_attrib(va_n);
 
     // face-coords
-    const GLfloat c[6][2] = {{-1.0f, -1.0f},
-                             {+1.0f, -1.0f},
-                             {-1.0f, +1.0f},
-                             {-1.0f, +1.0f},
-                             {+1.0f, -1.0f},
-                             {+1.0f, +1.0f}};
+    const GLfloat c[6][2] = {
+      {-1.0F, -1.0F},
+      {+1.0F, -1.0F},
+      {-1.0F, +1.0F},
+      {-1.0F, +1.0F},
+      {+1.0F, -1.0F},
+      {+1.0F, +1.0F}};
 
     GLfloat cube_coords[vertex_count * 2];
 
@@ -193,7 +197,7 @@ static void run_loop(GLFWwindow* window, int width, int height) {
     gl.vertex_array_attrib_pointer(va_c, 2, GL.float_, false, 0, nullptr);
     gl.enable_vertex_array_attrib(va_c);
 
-    gl.clear_color(0.3f, 0.3f, 0.3f, 0.0f);
+    gl.clear_color(0.3F, 0.3F, 0.3F, 0.0F);
     gl.clear_depth(1);
 
     gl.enable(GL.depth_test);
@@ -228,9 +232,9 @@ static void run_loop(GLFWwindow* window, int width, int height) {
 
         gl.matrix_mode(GL.modelview);
         gl.load_identity();
-        gl.rotate_f(degrees_(0.1f * (deg += 1)), 1, 0, 0);
-        gl.rotate_f(degrees_(0.1f * (deg += 2)), 0, 1, 0);
-        gl.rotate_f(degrees_(0.1f * (deg += 3)), 0, 0, 1);
+        gl.rotate_f(degrees_(0.1F * (deg += 1)), 1, 0, 0);
+        gl.rotate_f(degrees_(0.1F * (deg += 2)), 0, 1, 0);
+        gl.rotate_f(degrees_(0.1F * (deg += 3)), 0, 0, 1);
 
         gl.draw_arrays(GL.triangles, 0, 6 * 2 * 3);
 

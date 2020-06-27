@@ -56,7 +56,7 @@ void example_cubes::init(example_context& ctx) {
     prog.bind_normal_location(ctx, cube.normal_loc());
     prog.bind_tex_coord_location(ctx, cube.tex_coord_loc());
 
-    gl.clear_color(0.8f, 0.8f, 0.8f, 0.0f);
+    gl.clear_color(0.8F, 0.8F, 0.8F, 0.0F);
 
     gl.enable(GL.depth_test);
 }
@@ -74,7 +74,7 @@ void example_cubes::render(const example_context& ctx) {
 
     prog.set_projection(
       ctx,
-      matrix_perspective(-0.5f, 0.5f, -0.5f, 0.5f, 1.0f, 5) *
+      matrix_perspective(-0.5F, 0.5F, -0.5F, 0.5F, 1.0F, 5) *
         matrix_translation(0, 0, -2));
 
     gl.clear(GL.color_buffer_bit | GL.depth_buffer_bit);
@@ -84,7 +84,7 @@ void example_cubes::render(const example_context& ctx) {
     gl.bind_framebuffer(GL.draw_framebuffer, framebuffer_name(0));
     gl.viewport(state.width(), state.height());
 
-    float h = 0.55f;
+    float h = 0.55F;
     float w = h * state.aspect();
     prog.set_projection(
       ctx,

@@ -52,13 +52,13 @@ static void run_loop(GLFWwindow* window, int width, int height) {
       64);
 
     GLuint indices[8] = {0, 1, 2, 3, 4, 5, 6, 0};
-    GLfloat spacings[9] = {0.f};
+    GLfloat spacings[9] = {0.F};
 
     text_path.get_spacing(
       GL.accum_adjacent_pairs_nv,
       view(indices),
-      1.0f,
-      1.0f,
+      1.0F,
+      1.0F,
       GL.translate_x_nv,
       skip(cover(spacings), 1));
 
@@ -76,7 +76,7 @@ static void run_loop(GLFWwindow* window, int width, int height) {
       0,
       cover(font_min_max));
 
-    gl.clear_color(vec4(1.0f, 1.0f, 1.0f, 0.0f));
+    gl.clear_color(vec4(1.0F, 1.0F, 1.0F, 0.0F));
     gl.clear_stencil(0);
     gl.stencil_mask(~0u);
     gl.stencil_func(GL.notequal, 0, 0x1F);
@@ -125,7 +125,7 @@ static void run_loop(GLFWwindow* window, int width, int height) {
         gl.matrix_mode(GL.modelview);
         gl.load_identity();
 
-        gl.color_f(0.2f, 0.2f, 1.0f);
+        gl.color_f(0.2F, 0.2F, 1.0F);
 
         text_path.stencil_fill_instanced(
           glyph_indices,
@@ -139,7 +139,7 @@ static void run_loop(GLFWwindow* window, int width, int height) {
           GL.translate_x_nv,
           glyph_spacings);
 
-        gl.color_f(0.0f, 0.0f, 0.0f);
+        gl.color_f(0.0F, 0.0F, 0.0F);
 
         text_path.stencil_stroke_instanced(
           glyph_indices, 1, ~0u, GL.translate_x_nv, glyph_spacings);

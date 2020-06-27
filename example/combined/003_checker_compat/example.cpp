@@ -50,7 +50,7 @@ void example_checker::init(example_context& ctx) {
     auto& cleanup = ctx.cleanup();
     const auto& [gl, GL] = ctx.gl();
 
-    gl.clear_color(0.4f, 0.4f, 0.4f, 0.0f);
+    gl.clear_color(0.4F, 0.4F, 0.4F, 0.0F);
 
     // fragment shader
     auto fs_src = embed(EAGINE_ID(FragShader), "fragment.glsl");
@@ -92,19 +92,19 @@ void example_checker::render(const example_context& ctx) {
     gl.begin(GL.quads);
 
     gl.tex_coord2i(0, 0);
-    gl.color3f(1.0f, 1.0f, 1.0f);
+    gl.color3f(1.0F, 1.0F, 1.0F);
     gl.vertex2i(-1, -1);
 
     gl.tex_coord2i(1, 0);
-    gl.color3f(1.0f, 0.2f, 0.2f);
+    gl.color3f(1.0F, 0.2F, 0.2F);
     gl.vertex2i(+1, -1);
 
     gl.tex_coord2i(1, 1);
-    gl.color3f(0.2f, 1.0f, 0.2f);
+    gl.color3f(0.2F, 1.0F, 0.2F);
     gl.vertex2i(+1, +1);
 
     gl.tex_coord2i(0, 1);
-    gl.color3f(0.2f, 0.2f, 1.0f);
+    gl.color3f(0.2F, 0.2F, 1.0F);
     gl.vertex2i(-1, +1);
 
     gl.end();

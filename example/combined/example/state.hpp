@@ -18,7 +18,7 @@ namespace eagine {
 class example_state : public example_state_view {
 public:
     void set_time(float new_time) noexcept {
-        EAGINE_ASSERT(new_time >= 0.0f);
+        EAGINE_ASSERT(new_time >= 0.0F);
         _exe_time.assign(new_time);
     }
 

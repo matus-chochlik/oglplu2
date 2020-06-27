@@ -38,7 +38,7 @@ bool example_spectrum::check_requirements(const example_context& ctx) {
 //------------------------------------------------------------------------------
 void example_spectrum::init(example_context& ctx) {
     const auto& gl = ctx.gl();
-    gl.clear_color(0.4f, 0.4f, 0.4f, 0.0f);
+    gl.clear_color(0.4F, 0.4F, 0.4F, 0.0F);
 }
 //------------------------------------------------------------------------------
 void example_spectrum::resize(const example_context& ctx) {
@@ -65,35 +65,35 @@ void example_spectrum::render(const example_context& ctx) {
 
     gl.begin(GL.triangle_fan);
 
-    gl.color3f(0.5f, 0.5f, 0.5f);
-    gl.vertex2f(0.000f, 0.000f);
+    gl.color3f(0.5F, 0.5F, 0.5F);
+    gl.vertex2f(0.000F, 0.000F);
 
-    gl.color3f(1.0f, 0.0f, 0.0f);
-    gl.vertex2f(0.000f, 1.000f);
+    gl.color3f(1.0F, 0.0F, 0.0F);
+    gl.vertex2f(0.000F, 1.000F);
 
-    gl.color3f(1.0f, 0.7f, 0.0f);
-    gl.vertex2f(0.707f, 0.707f);
+    gl.color3f(1.0F, 0.7F, 0.0F);
+    gl.vertex2f(0.707F, 0.707F);
 
-    gl.color3f(0.7f, 1.0f, 0.0f);
-    gl.vertex2f(1.000f, 0.000f);
+    gl.color3f(0.7F, 1.0F, 0.0F);
+    gl.vertex2f(1.000F, 0.000F);
 
-    gl.color3f(0.0f, 1.0f, 0.0f);
-    gl.vertex2f(0.707f, -0.707f);
+    gl.color3f(0.0F, 1.0F, 0.0F);
+    gl.vertex2f(0.707F, -0.707F);
 
-    gl.color3f(0.0f, 1.0f, 0.7f);
-    gl.vertex2f(0.000f, -1.000f);
+    gl.color3f(0.0F, 1.0F, 0.7F);
+    gl.vertex2f(0.000F, -1.000F);
 
-    gl.color3f(0.0f, 0.7f, 1.0f);
-    gl.vertex2f(-0.707f, -0.707f);
+    gl.color3f(0.0F, 0.7F, 1.0F);
+    gl.vertex2f(-0.707F, -0.707F);
 
-    gl.color3f(0.0f, 0.0f, 1.0f);
-    gl.vertex2f(-1.000f, 0.000f);
+    gl.color3f(0.0F, 0.0F, 1.0F);
+    gl.vertex2f(-1.000F, 0.000F);
 
-    gl.color3f(0.7f, 0.0f, 0.7f);
-    gl.vertex2f(-0.707f, 0.707f);
+    gl.color3f(0.7F, 0.0F, 0.7F);
+    gl.vertex2f(-0.707F, 0.707F);
 
-    gl.color3f(1.0f, 0.0f, 0.0f);
-    gl.vertex2f(0.000f, 1.000f);
+    gl.color3f(1.0F, 0.0F, 0.0F);
+    gl.vertex2f(0.000F, 1.000F);
 
     gl.end();
 
@@ -101,15 +101,15 @@ void example_spectrum::render(const example_context& ctx) {
 
     gl.color3f(0, 0, 0);
 
-    gl.vertex2f(0.000f, 1.000f);
-    gl.vertex2f(0.707f, 0.707f);
-    gl.vertex2f(1.000f, 0.000f);
-    gl.vertex2f(0.707f, -0.707f);
-    gl.vertex2f(0.000f, -1.000f);
-    gl.vertex2f(-0.707f, -0.707f);
-    gl.vertex2f(-1.000f, 0.000f);
-    gl.vertex2f(-0.707f, 0.707f);
-    gl.vertex2f(0.000f, 1.000f);
+    gl.vertex2f(0.000F, 1.000F);
+    gl.vertex2f(0.707F, 0.707F);
+    gl.vertex2f(1.000F, 0.000F);
+    gl.vertex2f(0.707F, -0.707F);
+    gl.vertex2f(0.000F, -1.000F);
+    gl.vertex2f(-0.707F, -0.707F);
+    gl.vertex2f(-1.000F, 0.000F);
+    gl.vertex2f(-0.707F, 0.707F);
+    gl.vertex2f(0.000F, 1.000F);
 
     gl.end();
 }

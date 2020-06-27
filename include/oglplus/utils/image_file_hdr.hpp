@@ -34,11 +34,7 @@ struct image_data_header {
       valid_if_positive<GLsizei> d) noexcept
       : width(w.value())
       , height(h.value())
-      , depth(d.value())
-      , format(GL_NONE)
-      , internal_format(GL_NONE)
-      , data_type(GL_NONE)
-      , pixels() {
+      , depth(d.value()) {
     }
 };
 

@@ -58,14 +58,14 @@ void example_torus::init(example_context& ctx) {
     prog.bind_normal_location(ctx, torus.normal_loc());
     prog.bind_texcoord_location(ctx, torus.texcoord_loc());
 
-    camera.set_near(0.1f)
-      .set_far(50.f)
-      .set_orbit_min(1.1f)
-      .set_orbit_max(3.5f)
+    camera.set_near(0.1F)
+      .set_far(50.F)
+      .set_orbit_min(1.1F)
+      .set_orbit_max(3.5F)
       .set_fov(right_angle_());
     prog.set_projection(ctx, camera);
 
-    gl.clear_color(0.4f, 0.4f, 0.4f, 0.0f);
+    gl.clear_color(0.4F, 0.4F, 0.4F, 0.0F);
 
     gl.enable(GL.depth_test);
 }

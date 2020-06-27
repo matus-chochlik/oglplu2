@@ -87,7 +87,7 @@ void example_shape::init(example_context& ctx) {
     _ops.resize(std_size(shape.operation_count()));
     shape.instructions(ctx.gl(), cover(_ops));
 
-    gl.clear_color(0.45f, 0.45f, 0.45f, 0.0f);
+    gl.clear_color(0.45F, 0.45F, 0.45F, 0.0F);
 
     // vertex shader
     auto vs_src = embed(EAGINE_ID(VertShader), "vertex.glsl");
@@ -154,10 +154,10 @@ void example_shape::init(example_context& ctx) {
 
     // camera
     gl.get_uniform_location(prog, "Camera") >> camera_loc;
-    camera.set_near(0.1f)
-      .set_far(50.f)
-      .set_orbit_min(1.3f)
-      .set_orbit_max(4.5f)
+    camera.set_near(0.1F)
+      .set_far(50.F)
+      .set_orbit_min(1.3F)
+      .set_orbit_max(4.5F)
       .set_fov(right_angle_());
     set_projection(ctx);
 }

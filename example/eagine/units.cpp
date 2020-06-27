@@ -30,11 +30,11 @@ void print(const qty<Unit>& q) {
 int main() {
     using namespace eagine::units;
 
-    qty<meter> x{2.f};
-    qty<meter> y{3.f};
-    qty<meter> z{4.f};
-    qty<newton> f{12.f};
-    qty<second> t{6.f};
+    qty<meter> x{2.F};
+    qty<meter> y{3.F};
+    qty<meter> z{4.F};
+    qty<newton> f{12.F};
+    qty<second> t{6.F};
     auto a = x * y;
     auto v = a * z;
     auto s = f / a;

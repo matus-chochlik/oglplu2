@@ -31,7 +31,7 @@ int main() {
 
     func(make_identity(false));
     func(make_identity(123));
-    func(make_identity(456.78f));
+    func(make_identity(456.78F));
     func(make_identity('c'));
 
     return 0;

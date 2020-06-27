@@ -88,7 +88,7 @@ void screen_geometry::init(example_context& ctx) {
 
     // positions
     const auto position_data =
-      GL.float_.array(-1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f, 1.0f);
+      GL.float_.array(-1.0F, -1.0F, -1.0F, 1.0F, 1.0F, -1.0F, 1.0F, 1.0F);
 
     gl.gen_buffers() >> positions;
     gl.delete_buffers.later_by(cleanup, positions);
@@ -99,7 +99,7 @@ void screen_geometry::init(example_context& ctx) {
 
     // coords
     const auto tex_coord_data =
-      GL.float_.array(-1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f, 1.0f);
+      GL.float_.array(-1.0F, -1.0F, -1.0F, 1.0F, 1.0F, -1.0F, 1.0F, 1.0F);
 
     gl.gen_buffers() >> tex_coords;
     gl.delete_buffers.later_by(cleanup, tex_coords);

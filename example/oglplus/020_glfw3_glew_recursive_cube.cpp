@@ -98,21 +98,23 @@ static void run_loop(GLFWwindow* window, int width, int height) {
     gl.bind(vao);
 
     // positions
-    const GLfloat v[8][3] = {{-0.5f, -0.5f, -0.5f},
-                             {+0.5f, -0.5f, -0.5f},
-                             {-0.5f, +0.5f, -0.5f},
-                             {+0.5f, +0.5f, -0.5f},
-                             {-0.5f, -0.5f, +0.5f},
-                             {+0.5f, -0.5f, +0.5f},
-                             {-0.5f, +0.5f, +0.5f},
-                             {+0.5f, +0.5f, +0.5f}};
+    const GLfloat v[8][3] = {
+      {-0.5F, -0.5F, -0.5F},
+      {+0.5F, -0.5F, -0.5F},
+      {-0.5F, +0.5F, -0.5F},
+      {+0.5F, +0.5F, -0.5F},
+      {-0.5F, -0.5F, +0.5F},
+      {+0.5F, -0.5F, +0.5F},
+      {-0.5F, +0.5F, +0.5F},
+      {+0.5F, +0.5F, +0.5F}};
 
-    const GLint f[6][2][3] = {{{0, 4, 2}, {2, 4, 6}},
-                              {{5, 1, 7}, {7, 1, 3}},
-                              {{0, 1, 4}, {4, 1, 5}},
-                              {{6, 7, 2}, {2, 7, 3}},
-                              {{1, 0, 3}, {3, 0, 2}},
-                              {{4, 5, 6}, {6, 5, 7}}};
+    const GLint f[6][2][3] = {
+      {{0, 4, 2}, {2, 4, 6}},
+      {{5, 1, 7}, {7, 1, 3}},
+      {{0, 1, 4}, {4, 1, 5}},
+      {{6, 7, 2}, {2, 7, 3}},
+      {{1, 0, 3}, {3, 0, 2}},
+      {{4, 5, 6}, {6, 5, 7}}};
 
     const GLuint vertex_count = 6 * 2 * 3;
     GLfloat cube_vertices[vertex_count * 3];
@@ -142,12 +144,13 @@ static void run_loop(GLFWwindow* window, int width, int height) {
     gl.enable_vertex_array_attrib(va_p);
 
     // normals
-    const GLfloat n[6][3] = {{-1.0f, 0.0f, 0.0f},
-                             {1.0f, 0.0f, 0.0f},
-                             {0.0f, -1.0f, 0.0f},
-                             {0.0f, 1.0f, 0.0f},
-                             {0.0f, 0.0f, -1.0f},
-                             {0.0f, 0.0f, 1.0f}};
+    const GLfloat n[6][3] = {
+      {-1.0F, 0.0F, 0.0F},
+      {1.0F, 0.0F, 0.0F},
+      {0.0F, -1.0F, 0.0F},
+      {0.0F, 1.0F, 0.0F},
+      {0.0F, 0.0F, -1.0F},
+      {0.0F, 0.0F, 1.0F}};
     GLfloat cube_normals[vertex_count * 3];
     for(GLuint fi = 0; fi != 6; ++fi) {
         for(GLuint vi = 0; vi != 6; ++vi) {
@@ -167,12 +170,13 @@ static void run_loop(GLFWwindow* window, int width, int height) {
     gl.enable_vertex_array_attrib(va_n);
 
     // face-coords
-    const GLfloat c[6][2] = {{0.0f, 0.0f},
-                             {1.0f, 0.0f},
-                             {0.0f, 1.0f},
-                             {0.0f, 1.0f},
-                             {1.0f, 0.0f},
-                             {1.0f, 1.0f}};
+    const GLfloat c[6][2] = {
+      {0.0F, 0.0F},
+      {1.0F, 0.0F},
+      {0.0F, 1.0F},
+      {0.0F, 1.0F},
+      {1.0F, 0.0F},
+      {1.0F, 1.0F}};
 
     GLfloat cube_coords[vertex_count * 2];
 
@@ -193,7 +197,7 @@ static void run_loop(GLFWwindow* window, int width, int height) {
     gl.vertex_array_attrib_pointer(va_c, 2, GL.float_, false, 0, nullptr);
     gl.enable_vertex_array_attrib(va_c);
 
-    gl.clear_color(0.8f, 0.8f, 0.8f, 0.0f);
+    gl.clear_color(0.8F, 0.8F, 0.8F, 0.0F);
     gl.clear_depth(1);
 
     GLsizei tex_side = 512;
@@ -246,7 +250,7 @@ static void run_loop(GLFWwindow* window, int width, int height) {
     gl.front_face(GL.ccw);
 
     unsigned current_buf = 0;
-    float rad = 0.0f;
+    float rad = 0.0F;
 
     while(true) {
         glfwPollEvents();
@@ -278,17 +282,17 @@ static void run_loop(GLFWwindow* window, int width, int height) {
             matrix_rotation_y(eagine::radians_(rad * 2)) *
             matrix_rotation_z(eagine::radians_(rad * 3)));
 
-        rad += 0.01f;
+        rad += 0.01F;
 
         // draw into the texture
         gl.bind(GL.draw_framebuffer, fbos[current_buf]);
         gl.viewport(tex_side, tex_side);
 
-        GLfloat s = 0.5f;
+        GLfloat s = 0.5F;
 
         gl.uniform(
           projection,
-          oglplus::matrix_perspective(-s, +s, -s, +s, 1.0f, 5) *
+          oglplus::matrix_perspective(-s, +s, -s, +s, 1.0F, 5) *
             oglplus::matrix_translation(0, 0, -2));
 
         gl.clear(GL.color_buffer_bit | GL.depth_buffer_bit);
@@ -302,7 +306,7 @@ static void run_loop(GLFWwindow* window, int width, int height) {
 
         GLfloat asp = GLfloat(width) / height;
 
-        GLfloat h = 0.55f;
+        GLfloat h = 0.55F;
         GLfloat w = h * asp;
 
         gl.uniform(

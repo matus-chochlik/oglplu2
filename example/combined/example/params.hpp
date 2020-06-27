@@ -30,8 +30,8 @@ private:
     string_view _exec_cmd{};
     string_view _framedump_prefix{};
     string_view _screenshot_path{};
-    float _screenshot_time{3.f};
-    float _fixed_fps{30.f};
+    float _screenshot_time{3.F};
+    float _fixed_fps{30.F};
 
     int _x_pos{64};
     int _y_pos{64};
@@ -125,7 +125,7 @@ public:
     }
 
     float frame_time() const noexcept {
-        return 1.0f / _fixed_fps;
+        return 1.0F / _fixed_fps;
     }
 
     example_params& window_x_pos(int pos) noexcept {

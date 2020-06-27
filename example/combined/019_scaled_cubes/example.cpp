@@ -58,14 +58,14 @@ void example_cubes::init(example_context& ctx) {
     prog.bind_pivot_location(ctx, cubes.pivot_loc());
     prog.bind_coord_location(ctx, cubes.coord_loc());
 
-    camera.set_near(0.1f)
-      .set_far(50.f)
-      .set_orbit_min(10.2f)
-      .set_orbit_max(16.0f)
+    camera.set_near(0.1F)
+      .set_far(50.F)
+      .set_orbit_min(10.2F)
+      .set_orbit_max(16.0F)
       .set_fov(right_angle_());
     prog.set_projection(ctx, camera);
 
-    gl.clear_color(0.4f, 0.4f, 0.4f, 0.0f);
+    gl.clear_color(0.4F, 0.4F, 0.4F, 0.0F);
 
     gl.enable(GL.depth_test);
     gl.depth_func(GL.lequal);

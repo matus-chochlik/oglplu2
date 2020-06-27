@@ -21,16 +21,16 @@ private:
     voronoi_program voi_prog;
     random_texture rand_tex;
 
-    float ofs_x_dir{1.f};
-    float ofs_y_dir{1.f};
-    float offset_x{-0.5f};
-    float offset_y{0.0f};
-    float scale_dir{1.f};
-    float scale{10.f};
-    float aspect{1.0f};
+    float ofs_x_dir{1.F};
+    float ofs_y_dir{1.F};
+    float offset_x{-0.5F};
+    float offset_y{0.0F};
+    float scale_dir{1.F};
+    float scale{10.F};
+    float aspect{1.0F};
 
-    static constexpr const float min_scale{1.f};
-    static constexpr const float max_scale{100.f};
+    static constexpr const float min_scale{1.F};
+    static constexpr const float max_scale{100.F};
 
 public:
     bool check_requirements(const example_context& ctx) final;
@@ -114,16 +114,16 @@ void example_voronoi::user_idle(const example_context& ctx) {
     if(state.user_idle_time() > seconds_(1)) {
         const float s = value(state.frame_duration()) * 60;
 
-        scale *= std::pow(1.f + 0.05f * s, scale_dir);
+        scale *= std::pow(1.F + 0.05F * s, scale_dir);
         if(scale < min_scale) {
-            scale_dir *= -1.f;
-            ofs_x_dir *= -1.f;
+            scale_dir *= -1.F;
+            ofs_x_dir *= -1.F;
             ofs_y_dir *= ofs_x_dir;
             scale = min_scale;
         }
         if(scale > max_scale) {
-            scale_dir *= -1.f;
-            ofs_y_dir *= -1.f;
+            scale_dir *= -1.F;
+            ofs_y_dir *= -1.F;
             ofs_x_dir *= ofs_y_dir;
             scale = max_scale;
         }

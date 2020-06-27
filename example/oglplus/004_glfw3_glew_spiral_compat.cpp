@@ -98,7 +98,7 @@ static void run_loop(GLFWwindow* window, int width, int height) {
     vertex_attrib<GLfloat> color1(prog, "Color1");
     vertex_attrib<GLfloat> color2(prog, "Color2");
 
-    gl.clear_color(0.7f, 0.7f, 0.6f, 0.0f);
+    gl.clear_color(0.7F, 0.7F, 0.6F, 0.0F);
 
     handle_resize(width, height);
 
@@ -107,7 +107,7 @@ static void run_loop(GLFWwindow* window, int width, int height) {
     const auto twopi = std::atan(1) * 8;
     const int nseg = 72;
     const auto sstep = float(twopi / nseg);
-    const auto spart = float(1.0f / nseg);
+    const auto spart = float(1.0F / nseg);
     const float z = 0, o = 1;
     float a;
 
@@ -147,32 +147,32 @@ static void run_loop(GLFWwindow* window, int width, int height) {
             a = (s + 0) * spart;
 
             gl.vertex_attrib(coord, view({z, a}), false);
-            gl.vertex_attrib(color1, 0.2f, 0.1f, 0.1f, false);
-            gl.vertex_attrib(color2, 0.3f, 0.1f, 0.2f, false);
+            gl.vertex_attrib(color1, 0.2F, 0.1F, 0.1F, false);
+            gl.vertex_attrib(color2, 0.3F, 0.1F, 0.2F, false);
             gl.vertex_f(0, 0);
 
             gl.vertex_attrib(coord, view({o, a}), false);
-            gl.vertex_attrib(color1, 0.0f, 0.0f, 0.0f, false);
-            gl.vertex_attrib(color2, 0.9f, 0.3f, 0.4f, false);
+            gl.vertex_attrib(color1, 0.0F, 0.0F, 0.0F, false);
+            gl.vertex_attrib(color2, 0.9F, 0.3F, 0.4F, false);
             gl.vertex_f(cos((s + 0) * sstep), sin((s + 0) * sstep));
 
             a = (s + 1) * spart;
 
             gl.vertex_attrib(coord, view({z, a}), false);
-            gl.vertex_attrib(color1, 0.2f, 0.1f, 0.1f, false);
-            gl.vertex_attrib(color2, 0.3f, 0.1f, 0.2f, false);
+            gl.vertex_attrib(color1, 0.2F, 0.1F, 0.1F, false);
+            gl.vertex_attrib(color2, 0.3F, 0.1F, 0.2F, false);
             gl.vertex_f(0, 0);
 
             gl.vertex_attrib(coord, view({o, a}), false);
-            gl.vertex_attrib(color1, 0.0f, 0.0f, 0.0f, false);
-            gl.vertex_attrib(color2, 0.9f, 0.3f, 0.4f, false);
+            gl.vertex_attrib(color1, 0.0F, 0.0F, 0.0F, false);
+            gl.vertex_attrib(color2, 0.9F, 0.3F, 0.4F, false);
             gl.vertex_f(cos((s + 1) * sstep), sin((s + 1) * sstep));
         }
         gl.end();
 
-        gl.vertex_attrib(color1, 0.2f, 0.1f, 0.1f, true);
+        gl.vertex_attrib(color1, 0.2F, 0.1F, 0.1F, true);
 
-        const GLfloat c2[3] = {0.3f, 0.1f, 0.2f};
+        const GLfloat c2[3] = {0.3F, 0.1F, 0.2F};
         gl.vertex_attrib(color2, c2, true);
 
         gl.begin(GL.line_loop);

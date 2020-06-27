@@ -56,14 +56,14 @@ void example_cel::init(example_context& ctx) {
 
     prog.bind_position_location(ctx, shape.position_loc());
 
-    camera.set_near(0.1f)
-      .set_far(50.f)
-      .set_orbit_min(1.3f)
-      .set_orbit_max(6.0f)
+    camera.set_near(0.1F)
+      .set_far(50.F)
+      .set_orbit_min(1.3F)
+      .set_orbit_max(6.0F)
       .set_fov(right_angle_());
     prog.set_projection(ctx, camera);
 
-    gl.clear_color(0.4f, 0.4f, 0.4f, 0.0f);
+    gl.clear_color(0.4F, 0.4F, 0.4F, 0.0F);
 
     gl.enable(GL.depth_test);
     gl.enable(GL.cull_face);

@@ -20,9 +20,10 @@ namespace eagine {
 namespace oglp {
 //------------------------------------------------------------------------------
 class example_triangle : public example {
-    triangle tri{vec3{-0.2f, 0.5f, 0.0f},
-                 vec3{-0.7f, -0.6f, 0.0f},
-                 vec3{0.6f, 0.2f, 0.0f}};
+    triangle tri{
+      vec3{-0.2F, 0.5F, 0.0F},
+      vec3{-0.7F, -0.6F, 0.0F},
+      vec3{0.6F, 0.2F, 0.0F}};
 
     owned_vertex_array_name vao;
 
@@ -61,7 +62,7 @@ void example_triangle::init(example_context& ctx) {
     auto& cleanup = ctx.cleanup();
     const auto& [gl, GL] = ctx.gl();
 
-    gl.clear_color(0.4f, 0.4f, 0.4f, 0.0f);
+    gl.clear_color(0.4F, 0.4F, 0.4F, 0.0F);
 
     // vertex shader
     auto vs_source = embed(EAGINE_ID(VertShader), "vertex.glsl");
@@ -111,7 +112,7 @@ void example_triangle::init(example_context& ctx) {
 
     // color colors
     const auto color_data =
-      GL.float_.array(1.0f, 0.1f, 0.1f, 0.1f, 1.0f, 0.1f, 0.1f, 0.1f, 1.0f);
+      GL.float_.array(1.0F, 0.1F, 0.1F, 0.1F, 1.0F, 0.1F, 0.1F, 0.1F, 1.0F);
 
     gl.gen_buffers() >> colors;
     gl.delete_buffers.later_by(cleanup, colors);

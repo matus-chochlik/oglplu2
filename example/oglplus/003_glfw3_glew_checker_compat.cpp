@@ -67,11 +67,11 @@ static void run_loop(GLFWwindow* window, int width, int height) {
     gl.link_program(prog);
     gl.use_program(prog);
 
-    gl.uniform(uniform<GLfloat>(prog, "Color1"), 0.2f, 0.2f, 0.2f);
+    gl.uniform(uniform<GLfloat>(prog, "Color1"), 0.2F, 0.2F, 0.2F);
     gl.uniform(
-      uniform<GLfloat[3]>(prog, "Color2"), 1, view({0.4f, 0.4f, 0.6f}));
+      uniform<GLfloat[3]>(prog, "Color2"), 1, view({0.4F, 0.4F, 0.6F}));
 
-    gl.clear_color(vec4(0.6f, 0.7f, 0.6f, 0.0f));
+    gl.clear_color(vec4(0.6F, 0.7F, 0.6F, 0.0F));
 
     handle_resize(width, height);
 

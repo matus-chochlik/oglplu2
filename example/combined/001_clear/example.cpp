@@ -41,10 +41,10 @@ void example_clear::render(const example_context& ctx) {
     int sec = int(ctx.state().exec_time());
 
     gl.clear_color(
-      (sec % 3 == 0) ? 1.f : 0.f,
-      (sec % 3 == 1) ? 1.f : 0.f,
-      (sec % 3 == 2) ? 1.f : 0.f,
-      0.0f);
+      (sec % 3 == 0) ? 1.F : 0.F,
+      (sec % 3 == 1) ? 1.F : 0.F,
+      (sec % 3 == 2) ? 1.F : 0.F,
+      0.0F);
 
     gl.clear(GL.color_buffer_bit);
 }

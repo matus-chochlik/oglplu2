@@ -43,18 +43,18 @@ static void run_loop(GLFWwindow* window, int width, int height) {
     path_nv path;
 
     path.commands(path_nv_spec<GLfloat>(6, 10)
-                    .move_to(0.00f, 0.85f)
-                    .line_to(0.65f, -0.80f)
-                    .line_to(-0.85f, 0.30f)
-                    .line_to(0.85f, 0.30f)
-                    .line_to(-0.65f, -0.80f)
+                    .move_to(0.00F, 0.85F)
+                    .line_to(0.65F, -0.80F)
+                    .line_to(-0.85F, 0.30F)
+                    .line_to(0.85F, 0.30F)
+                    .line_to(-0.65F, -0.80F)
                     .close());
 
-    path.stroke_width(0.01f);
+    path.stroke_width(0.01F);
     path.join_style(GL.round_nv);
-    path.dashes(0.05f, 0.02f);
+    path.dashes(0.05F, 0.02F);
 
-    gl.clear_color(vec4(0.6f, 0.7f, 0.6f, 0.0f));
+    gl.clear_color(vec4(0.6F, 0.7F, 0.6F, 0.0F));
     gl.clear_stencil(0);
     gl.stencil_mask(~0u);
     gl.stencil_func(GL.notequal, 0, 0x1F);
@@ -94,12 +94,12 @@ static void run_loop(GLFWwindow* window, int width, int height) {
         gl.load_identity();
         gl.rotate_f(degrees_(deg++), 0, 0, 1);
 
-        gl.color_f(0.2f, 0.2f, 1.0f);
+        gl.color_f(0.2F, 0.2F, 1.0F);
 
         path.stencil_fill(GL.count_up_nv, 0x1F);
         path.cover_fill(GL.bounding_box_nv);
 
-        gl.color_f(0.1f, 0.1f, 0.1f);
+        gl.color_f(0.1F, 0.1F, 0.1F);
 
         path.stencil_stroke(1, ~0u);
         path.cover_stroke(GL.convex_hull_nv);

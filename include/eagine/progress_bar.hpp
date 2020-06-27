@@ -48,10 +48,10 @@ public:
 
 private:
     int _width{80};
-    float _min{-1.f};
-    float _max{+1.f};
-    float _prev{0.f};
-    float _curr{0.f};
+    float _min{-1.F};
+    float _max{+1.F};
+    float _prev{0.F};
+    float _curr{0.F};
     std::size_t _idx{0};
     std::string _buffer;
 };

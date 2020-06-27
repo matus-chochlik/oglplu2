@@ -34,13 +34,13 @@ private:
 
     owned_texture_name gradient;
 
-    float offset_x{-0.5f};
-    float offset_y{0.0f};
-    float scale{1.0f};
-    float aspect{1.0f};
+    float offset_x{-0.5F};
+    float offset_y{0.0F};
+    float scale{1.0F};
+    float aspect{1.0F};
 
-    static constexpr const float min_scale{0.00001f};
-    static constexpr const float max_scale{10.0f};
+    static constexpr const float min_scale{0.00001F};
+    static constexpr const float max_scale{10.0F};
 
 public:
     bool check_requirements(const example_context& ctx) final;
@@ -101,7 +101,7 @@ void example_mandelbrot::init(example_context& ctx) {
 
     // positions
     const auto position_data =
-      GL.float_.array(-1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f, 1.0f);
+      GL.float_.array(-1.0F, -1.0F, -1.0F, 1.0F, 1.0F, -1.0F, 1.0F, 1.0F);
 
     gl.gen_buffers() >> positions;
     gl.delete_buffers.later_by(cleanup, positions);
@@ -114,7 +114,7 @@ void example_mandelbrot::init(example_context& ctx) {
     gl.enable_vertex_attrib_array(position_loc);
 
     const auto coord_data =
-      GL.float_.array(-1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f, 1.0f);
+      GL.float_.array(-1.0F, -1.0F, -1.0F, 1.0F, 1.0F, -1.0F, 1.0F, 1.0F);
 
     gl.gen_buffers() >> coords;
     gl.delete_buffers.later_by(cleanup, coords);
@@ -193,14 +193,14 @@ void example_mandelbrot::user_idle(const example_context& ctx) {
 
     if(state.user_idle_time() > seconds_(1)) {
         const float s = value(state.frame_duration()) * 60;
-        const float dest_offset_x = -0.525929f;
-        const float dest_offset_y = -0.668547f;
-        const float c = 0.02f * s;
+        const float dest_offset_x = -0.525929F;
+        const float dest_offset_y = -0.668547F;
+        const float c = 0.02F * s;
 
         offset_x = c * dest_offset_x + (1 - c) * offset_x;
         offset_y = c * dest_offset_y + (1 - c) * offset_y;
 
-        scale *= (1 - 0.01f * s);
+        scale *= (1 - 0.01F * s);
         if(scale < min_scale) {
             scale = min_scale;
         }

@@ -25,7 +25,7 @@ int main() {
 
     func(v("zero"));
     func(123);
-    func(45.f);
+    func(45.F);
     func(67.8);
     func('9');
 

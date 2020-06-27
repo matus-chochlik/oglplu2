@@ -42,7 +42,7 @@ static void handle_resize(int width, int height) {
 static void run_loop(GLFWwindow* window, int width, int height) {
     using namespace oglplus;
 
-    gl.clear_color(0.4f, 0.4f, 0.4f, 0.0f);
+    gl.clear_color(0.4F, 0.4F, 0.4F, 0.0F);
 
     handle_resize(width, height);
 
@@ -86,19 +86,19 @@ static void run_loop(GLFWwindow* window, int width, int height) {
         gl.vertex_f(0, 1);
 
         gl.color_f(0, 1, 0);
-        gl.vertex_f(-0.866f, -0.5f);
+        gl.vertex_f(-0.866F, -0.5F);
 
         gl.color_f(0, 0, 1);
-        gl.vertex_f(0.866f, -0.5f);
+        gl.vertex_f(0.866F, -0.5F);
         gl.end();
 
         gl.begin(GL.line_loop);
         gl.color_f(0, 0, 0);
         gl.vertex_f(0, 1);
 
-        gl.vertex_f(-0.866f, -0.5f);
+        gl.vertex_f(-0.866F, -0.5F);
 
-        gl.vertex_f(0.866f, -0.5f);
+        gl.vertex_f(0.866F, -0.5F);
         gl.end();
 
         glfwSwapBuffers(window);

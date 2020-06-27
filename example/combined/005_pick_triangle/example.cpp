@@ -22,11 +22,12 @@ namespace oglp {
 //------------------------------------------------------------------------------
 class example_triangle : public example {
 private:
-    triangle tri{vec3{-0.2f, 0.5f, 0.0f},
-                 vec3{-0.7f, -0.6f, 0.0f},
-                 vec3{0.6f, 0.2f, 0.0f}};
+    triangle tri{
+      vec3{-0.2F, 0.5F, 0.0F},
+      vec3{-0.7F, -0.6F, 0.0F},
+      vec3{0.6F, 0.2F, 0.0F}};
 
-    float hl_value{0.f};
+    float hl_value{0.F};
     bool is_inside{false};
 
     owned_vertex_array_name vao;
@@ -74,7 +75,7 @@ void example_triangle::init(example_context& ctx) {
     const auto& glapi = ctx.gl();
     const auto& [gl, GL] = glapi;
 
-    gl.clear_color(0.4f, 0.4f, 0.4f, 0.0f);
+    gl.clear_color(0.4F, 0.4F, 0.4F, 0.0F);
 
     // vertex shader
     auto vs_src = embed(EAGINE_ID(VertShader), "vertex.glsl");
@@ -141,9 +142,9 @@ void example_triangle::update_highlight(const example_context& ctx, float dt) {
     const auto& glapi = ctx.gl();
 
     if(is_inside) {
-        hl_value = math::minimum(hl_value + dt * 3.0f, 1.f);
+        hl_value = math::minimum(hl_value + dt * 3.0F, 1.F);
     } else {
-        hl_value = math::maximum(hl_value - dt * 1.0f, 0.f);
+        hl_value = math::maximum(hl_value - dt * 1.0F, 0.F);
     }
     glapi.set_uniform(prog, highlight_loc, hl_value);
 }
@@ -152,7 +153,7 @@ void example_triangle::pointer_motion(const example_context& ctx) {
     const auto& state = ctx.state();
     const auto x = state.ndc_pointer_x();
     const auto y = state.ndc_pointer_y();
-    line ray(vec3(x, y, 1.f), vec3(0.f, 0.f, -1.f));
+    line ray(vec3(x, y, 1.F), vec3(0.F, 0.F, -1.F));
 
     is_inside = bool(eagine::math::line_triangle_intersection(ray, tri));
     update_highlight(ctx, state.frame_duration().value());

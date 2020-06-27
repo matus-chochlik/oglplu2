@@ -20,7 +20,7 @@ namespace eagine {
 struct my_struct {
     bool b{false};
     char c{'\0'};
-    float f{0.f};
+    float f{0.F};
     int i{0};
     std::string s{};
     unsigned u{0U};
@@ -82,7 +82,7 @@ int main() {
     my_struct x;
     x.b = true;
     x.c = '2';
-    x.f = 34.5f;
+    x.f = 34.5F;
     x.i = 67;
     x.s = "eight";
     x.u = 90U;

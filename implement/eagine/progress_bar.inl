@@ -14,7 +14,7 @@ inline void format_progress_bar(
   Putter& put, int width, float min, float max, float prev, float curr) {
     int i = 0;
     if(min < max) {
-        const float inorm = 1.f / (max - min);
+        const float inorm = 1.F / (max - min);
         const float pcoef = (prev - min) * inorm;
         const float ccoef = (curr - min) * inorm;
         const float ppos = pcoef * float(width);
