@@ -36,6 +36,12 @@ features and a different design and naming conventions than `OGLplus`_.
 Several examples showing the usage of OGLplus can be found in the ``example/``
 directory and its subdirectories.
 
+Cloning the repo
+================
+::
+
+ git clone --recursive https://github.com/matus-chochlik/oglplu2.git
+
 Requirements
 ============
 
@@ -196,5 +202,5 @@ License
 Copyright Matus Chochlik, 2015-2020.
 Distributed under the Boost Software License, Version 1.0.
 See accompanying file LICENSE_1_0.txt or copy at
- http://www.boost.org/LICENSE_1_0.txt
+http://www.boost.org/LICENSE_1_0.txt
 
