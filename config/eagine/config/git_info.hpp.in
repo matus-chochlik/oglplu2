@@ -14,6 +14,8 @@
 // clang-format off
 #define EAGINE_GIT_HASH_ID "@EAGINE_GIT_HASH_ID@"
 #define EAGINE_GIT_BRANCH "@EAGINE_GIT_BRANCH@"
+#define EAGINE_GIT_DATE "@EAGINE_GIT_DATE@"
+#define EAGINE_GIT_DESCRIBE "@EAGINE_GIT_DESCRIBE@"
 // clang-format on
 
 #endif
