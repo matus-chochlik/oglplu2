@@ -19,28 +19,28 @@ namespace shapes {
 class to_quads_gen : public delegated_gen {
 private:
     template <typename T>
-    void _indices(span<T> dest) noexcept;
+    void _indices(drawing_variant, span<T> dest) noexcept;
 
 public:
     to_quads_gen(std::unique_ptr<generator_intf>&& gen) noexcept
       : delegated_gen(std::move(gen)) {
     }
 
-    span_size_t index_count() override;
+    span_size_t index_count(drawing_variant) override;
 
-    void indices(span<std::uint8_t> dest) override;
+    void indices(drawing_variant, span<std::uint8_t> dest) override;
 
-    void indices(span<std::uint16_t> dest) override;
+    void indices(drawing_variant, span<std::uint16_t> dest) override;
 
-    void indices(span<std::uint32_t> dest) override;
+    void indices(drawing_variant, span<std::uint32_t> dest) override;
 
-    span_size_t operation_count() override;
+    span_size_t operation_count(drawing_variant) override;
 
-    void instructions(span<draw_operation> ops) override;
+    void instructions(drawing_variant, span<draw_operation> ops) override;
 };
 //------------------------------------------------------------------------------
 static inline auto to_quads(std::unique_ptr<generator_intf>&& gen) noexcept {
-    return std::unique_ptr<generator_intf>(new to_quads_gen(std::move(gen)));
+    return std::make_unique<to_quads_gen>(std::move(gen));
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

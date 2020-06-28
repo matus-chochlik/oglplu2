@@ -12,151 +12,72 @@
 
 #include "biteset.hpp"
 #include "fixed_size_str.hpp"
-#include "mp_string.hpp"
+#include "identifier_t.hpp"
 #include "selector.hpp"
 #include <iosfwd>
 
 namespace eagine {
-
+//------------------------------------------------------------------------------
 template <typename CharSet>
-class identifier_encoding;
-
-template <char... C>
-class identifier_encoding<mp_string<C...>> {
+class identifier_encoding {
 public:
-    static constexpr inline std::uint8_t encode(char c) noexcept {
-        return _do_encode(c, 0, mp_string<C...>{});
+    static constexpr inline std::uint8_t encode(const char c) noexcept {
+        return _do_encode(c, 0, CharSet::values);
     }
 
-    static constexpr inline char decode(std::uint8_t i) noexcept {
-        return _do_decode(i, mp_string<C...>{});
+    static constexpr inline char decode(const std::uint8_t i) noexcept {
+        return _do_decode(i, CharSet::values);
     }
 
-    static constexpr inline bool invalid(std::uint8_t c) noexcept {
-        return (c >= std::uint8_t(sizeof...(C)));
+    static constexpr inline auto invalid() noexcept {
+        return _get_invalid(CharSet::values);
+    }
+
+    static constexpr inline bool invalid(const std::uint8_t c) noexcept {
+        return (c >= invalid());
     }
 
     static inline auto chars() {
-        static const char s[] = {C..., '\0'};
-        return string_view(s, span_size(sizeof...(C)));
+        return string_view(CharSet::values);
     }
 
 private:
+    template <std::size_t L>
+    static constexpr inline auto _get_invalid(const char (&)[L]) noexcept {
+        return std::uint8_t(L);
+    }
+
+    template <std::size_t L>
     static constexpr inline std::uint8_t _do_encode(
-      char, std::uint8_t, mp_string<>) noexcept {
-        return std::uint8_t(sizeof...(C));
+      const char c, const std::uint8_t i, const char (&enc)[L]) noexcept {
+        return ((i < L) && (c != '\0'))
+                 ? ((c == enc[i]) ? i : _do_encode(c, i + 1, enc))
+                 : invalid();
     }
 
-    template <char H, char... T>
-    static constexpr inline std::uint8_t _do_encode(
-      char c, std::uint8_t i, mp_string<H, T...>) noexcept {
-        return (c == H) ? i : _do_encode(c, i + 1, mp_string<T...>{});
-    }
-
+    template <std::size_t L>
     static constexpr inline char _do_decode(
-      std::uint8_t, mp_string<>) noexcept {
-        return '\0';
-    }
-
-    template <char H, char... T>
-    static constexpr inline char _do_decode(
-      std::uint8_t i, mp_string<H, T...>) noexcept {
-        return (i == (sizeof...(C) - sizeof...(T) - 1))
-                 ? H
-                 : _do_decode(i, mp_string<T...>{});
+      const std::uint8_t i, const char (&enc)[L]) noexcept {
+        return (i < invalid()) ? enc[i] : '\0';
     }
 };
-
-using default_identifier_char_set = mp_string<
-  'a',
-  'b',
-  'c',
-  'd',
-  'e',
-  'f',
-  'g',
-  'h',
-  'i',
-  'j',
-  'k',
-  'l',
-  'm',
-  'n',
-  'o',
-  'p',
-  'q',
-  'r',
-  's',
-  't',
-  'u',
-  'v',
-  'w',
-  'x',
-  'y',
-  'z',
-  'A',
-  'B',
-  'C',
-  'D',
-  'E',
-  'F',
-  'G',
-  'H',
-  'I',
-  'J',
-  'K',
-  'L',
-  'M',
-  'N',
-  'O',
-  'P',
-  'Q',
-  'R',
-  'S',
-  'T',
-  'U',
-  'V',
-  'W',
-  'X',
-  'Y',
-  'Z',
-  '0',
-  '1',
-  '2',
-  '3',
-  '4',
-  '5',
-  '6',
-  '7',
-  '8',
-  '9',
-  '_'>;
-
-using hex_identifier_char_set = mp_string<
-  '0',
-  '1',
-  '2',
-  '3',
-  '4',
-  '5',
-  '6',
-  '7',
-  '8',
-  '9',
-  'a',
-  'b',
-  'c',
-  'd',
-  'e',
-  'f'>;
-
+//------------------------------------------------------------------------------
+struct default_identifier_char_set {
+    static constexpr const char values[63] = {
+      'e', 't', 'a', 'o', 'i', 'n', 's', 'r', 'h', 'l', 'd', 'c', 'u',
+      'm', 'f', 'p', 'g', 'w', 'y', 'b', 'v', 'k', 'x', 'j', 'q', 'z',
+      'T', 'A', 'I', 'S', 'O', 'W', 'H', 'B', 'C', 'M', 'F', 'P', 'D',
+      'R', 'L', 'E', 'G', 'N', 'Y', 'U', 'K', 'V', 'J', 'Q', 'X', 'Z',
+      '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '_'};
+};
+//------------------------------------------------------------------------------
 template <std::size_t M>
 class identifier_name {
 public:
     template <typename... C>
     identifier_name(span_size_t len, C... c) noexcept
-      : _str{c...}
-      , _len{std::uint8_t(len)} {
+      : _len{std::uint8_t(len)}
+      , _str{c...} {
     }
 
     using size_type = span_size_t;
@@ -180,27 +101,37 @@ public:
         return _str.data() + size();
     }
 
+    string_view view() const {
+        return {data(), size()};
+    }
+
     std::string str() const {
         return {_str.data(), _len};
     }
 
-private:
-    fixed_size_string<M> _str;
-    std::uint8_t _len;
-};
+    std::string& str(std::string& s) const {
+        s.assign(_str.data(), _len);
+        return s;
+    }
 
+private:
+    std::uint8_t _len{0};
+    fixed_size_string<M> _str{};
+};
+//------------------------------------------------------------------------------
 template <std::size_t M>
 static inline std::ostream& operator<<(
   std::ostream& out, const identifier_name<M>& n) {
     return out.write(n.data(), std::streamsize(n.size()));
 }
-
+//------------------------------------------------------------------------------
 template <std::size_t M, std::size_t B, typename CharSet, typename UIntT>
 class basic_identifier {
+    using _bites_t = biteset<M, B, std::uint8_t>;
+
 public:
     static_assert(
-      // NOLINTNEXTLINE(hicpp-signed-bitwise)
-      (1 << B) >= mp_strlen<CharSet>::value,
+      (1U << B) > sizeof(CharSet::values),
       "B-bits are not sufficient to represent CharSet");
 
     using encoding = identifier_encoding<CharSet>;
@@ -211,8 +142,22 @@ public:
     basic_identifier() = default;
 
     template <std::size_t L, typename = std::enable_if_t<(L <= M + 1)>>
-    constexpr inline basic_identifier(const char (&init)[L]) noexcept
-      : _bites{_make_bites(init, std::make_index_sequence<M>{})} {
+    explicit constexpr inline basic_identifier(const char (&init)[L]) noexcept
+      : _bites{_make_bites(
+          static_cast<const char*>(init), L, std::make_index_sequence<M>{})} {
+    }
+
+    explicit constexpr inline basic_identifier(span<const char> init) noexcept
+      : _bites{_make_bites(
+          init.data(), init.size(), std::make_index_sequence<M>{})} {
+    }
+
+    explicit constexpr inline basic_identifier(UIntT init) noexcept
+      : _bites{_bites_t::from_value(init)} {
+    }
+
+    explicit constexpr inline basic_identifier(_bites_t init) noexcept
+      : _bites{std::move(init)} {
     }
 
     static constexpr inline size_type max_size() noexcept {
@@ -229,6 +174,10 @@ public:
 
     constexpr inline UIntT value() const noexcept {
         return _bites.bytes().template as<UIntT>();
+    }
+
+    constexpr inline bool matches(UIntT what) const noexcept {
+        return value() == what;
     }
 
     constexpr inline name_type name() const noexcept {
@@ -270,13 +219,13 @@ public:
     }
 
 private:
-    biteset<M, B, std::uint8_t> _bites;
+    _bites_t _bites;
 
-    template <std::size_t L, std::size_t... I>
+    template <std::size_t... I>
     static constexpr inline auto _make_bites(
-      const char (&init)[L], std::index_sequence<I...>) noexcept {
+      const char* init, std::size_t l, std::index_sequence<I...>) noexcept {
         return biteset<M, B, std::uint8_t>{
-          encoding::encode((I < L) ? init[(I < L) ? I : 0] : '\0')...};
+          encoding::encode((I < l) ? init[I] : '\0')...};
     }
 
     template <std::size_t... I>
@@ -286,22 +235,31 @@ private:
     }
 
     constexpr inline std::size_t _get_size(std::size_t s) const noexcept {
-        return (s < M) ? !encoding::invalid(_bites[size_type(s)])
-                           ? _get_size(s + 1)
-                           : s
+        return (s < M) ? encoding::invalid(_bites[size_type(s)])
+                           ? s
+                           : _get_size(s + 1)
                        : M;
     }
 };
-
+//------------------------------------------------------------------------------
 using identifier =
-  basic_identifier<10, 6, default_identifier_char_set, std::uint64_t>;
-
+  basic_identifier<10, 6, default_identifier_char_set, identifier_t>;
+//------------------------------------------------------------------------------
 #define EAGINE_ID(NAME) ::eagine::identifier(#NAME)
-#define EAGINE_TAG_TYPE(NAME) ::eagine::selector<EAGINE_ID(NAME).value()>
+#define EAGINE_ID_V(NAME) ::eagine::identifier(#NAME).value()
+#define EAGINE_TAG_TYPE(NAME) ::eagine::selector<EAGINE_ID_V(NAME)>
 #define EAGINE_TAG(NAME)    \
     EAGINE_TAG_TYPE(NAME) { \
     }
-
+//------------------------------------------------------------------------------
+#if EAGINE_HAS_LONG_ID
+using long_identifier =
+  basic_identifier<20, 6, default_identifier_char_set, long_identifier_t>;
+//------------------------------------------------------------------------------
+#define EAGINE_LONG_ID(NAME) ::eagine::long_identifier(#NAME)
+#define EAGINE_LONG_ID_V(NAME) ::eagine::long_identifier(#NAME).value()
+#endif
+//------------------------------------------------------------------------------
 } // namespace eagine
 
 #endif // EAGINE_IDENTIFIER_HPP

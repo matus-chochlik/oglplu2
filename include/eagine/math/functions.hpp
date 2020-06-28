@@ -19,6 +19,19 @@ namespace eagine {
 namespace math {
 //------------------------------------------------------------------------------
 template <typename T>
+static constexpr inline std::enable_if_t<std::is_integral_v<T>, bool>
+is_positive_power_of_2(T value) noexcept {
+    using U = std::make_unsigned_t<T>;
+    return (value > 0) && ((U(value) & (U(value) - 1)) == 0);
+}
+//------------------------------------------------------------------------------
+template <typename T>
+static constexpr inline std::enable_if_t<std::is_integral_v<T>, T>
+greatest_common_divisor(T l, T r) {
+    return (r == T(0)) ? l : greatest_common_divisor(r, T(l % r));
+}
+//------------------------------------------------------------------------------
+template <typename T>
 static constexpr inline auto signum(T x) noexcept {
     return (x < 0) ? T(-1) : T(1);
 }
@@ -41,6 +54,14 @@ static constexpr inline T maximum(T a, T b) noexcept {
 template <typename T, typename... P>
 static constexpr inline T maximum(T a, T b, T c, P... d) noexcept {
     return maximum(maximum(a, b), c, d...);
+}
+//------------------------------------------------------------------------------
+template <typename T>
+static constexpr inline optionally_valid<T> ratio(T a, T b) noexcept {
+    if(b > T(0) || (b < T(0))) {
+        return {a / b, true};
+    }
+    return {};
 }
 //------------------------------------------------------------------------------
 template <typename T>
@@ -81,7 +102,7 @@ static constexpr inline auto logistic(T x) noexcept {
 //------------------------------------------------------------------------------
 template <typename T, typename C>
 static constexpr inline auto sigmoid01(T x, C c) noexcept {
-    return logistic(c * invLogistic(x));
+    return logistic(c * inverse_logistic(x));
 }
 //------------------------------------------------------------------------------
 template <typename T>

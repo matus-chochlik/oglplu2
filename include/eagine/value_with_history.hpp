@@ -16,7 +16,7 @@
 #include <utility>
 
 namespace eagine {
-
+//------------------------------------------------------------------------------
 template <typename T>
 static constexpr inline bool value_with_history_changed(
   const T& a, const T& b) noexcept {
@@ -40,7 +40,7 @@ static constexpr inline auto value_with_history_distance(
     using std::abs;
     return abs(value_with_history_delta(new_value, old_value));
 }
-
+//------------------------------------------------------------------------------
 template <typename T, std::size_t N>
 class value_with_history_storage {
 private:
@@ -80,7 +80,7 @@ public:
         }
     }
 };
-
+//------------------------------------------------------------------------------
 template <typename Transform, typename... T, std::size_t N>
 static inline auto transform_stored_values(
   Transform transform_op, const value_with_history_storage<T, N>&... v) {
@@ -94,7 +94,7 @@ static inline auto transform_stored_values(
     }
     return result;
 }
-
+//------------------------------------------------------------------------------
 template <typename Delta, typename T, std::size_t N>
 static inline auto differentiate_stored_values(
   Delta delta_op, const value_with_history_storage<T, N>& v) {
@@ -108,13 +108,13 @@ static inline auto differentiate_stored_values(
     }
     return result;
 }
-
+//------------------------------------------------------------------------------
 template <typename U, typename T, std::size_t N>
 static inline auto convert_stored_values(
   const value_with_history_storage<T, N>& storage) {
     return transform_stored_values([](const T& v) { return U(v); }, storage);
 }
-
+//------------------------------------------------------------------------------
 template <typename T, std::size_t N>
 class value_with_history {
 private:
@@ -218,7 +218,7 @@ public:
         this->values().sync();
     }
 };
-
+//------------------------------------------------------------------------------
 template <typename Transform, typename... T, std::size_t N>
 static inline auto transform(
   Transform transform_op, const value_with_history<T, N>&... v) {
@@ -226,7 +226,7 @@ static inline auto transform(
       decltype(std::declval<Transform>()(std::declval<T>()...)),
       N>(transform_stored_values(transform_op, v.values()...));
 }
-
+//------------------------------------------------------------------------------
 template <typename T1, typename T2, std::size_t N>
 static inline auto operator*(
   const value_with_history<T1, N>& v1,
@@ -234,7 +234,7 @@ static inline auto operator*(
     return transform(
       [](const T1& t1, const T2& t2) { return t1 * t2; }, v1, v2);
 }
-
+//------------------------------------------------------------------------------
 template <typename T1, typename T2, std::size_t N>
 static inline auto operator/(
   const value_with_history<T1, N>& v1,
@@ -242,7 +242,7 @@ static inline auto operator/(
     return transform(
       [](const T1& t1, const T2& t2) { return t1 / t2; }, v1, v2);
 }
-
+//------------------------------------------------------------------------------
 template <typename T, std::size_t N>
 class variable_with_history : public value_with_history<T, N> {
 public:
@@ -260,7 +260,7 @@ public:
         return this->_advance_value(delta_value);
     }
 };
-
+//------------------------------------------------------------------------------
 template <typename T, typename... P, std::size_t N>
 class variable_with_history<valid_if<T, P...>, N>
   : public value_with_history<T, N> {
@@ -278,7 +278,7 @@ public:
         return this->_advance_value(delta_value.value());
     }
 };
-
+//------------------------------------------------------------------------------
 } // namespace eagine
 
 #endif // EAGINE_VALUE_WITH_HISTORY_HPP

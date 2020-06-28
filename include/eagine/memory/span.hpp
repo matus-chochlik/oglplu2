@@ -85,6 +85,7 @@ public:
     using address_type = basic_address<std::is_const_v<ValueType>>;
     using pointer = Pointer;
     using iterator = Pointer;
+    using const_iterator = Pointer;
     using reverse_iterator = std::reverse_iterator<iterator>;
 
     constexpr basic_span(pointer addr, size_type len) noexcept
@@ -234,6 +235,14 @@ public:
 
     inline value_type& ref(size_type index) noexcept {
         return EAGINE_CONSTEXPR_ASSERT(index < size(), _addr[index]);
+    }
+
+    inline value_type& front() noexcept {
+        return EAGINE_CONSTEXPR_ASSERT(0 < size(), _addr[0]);
+    }
+
+    inline value_type& back() noexcept {
+        return EAGINE_CONSTEXPR_ASSERT(0 < size(), _addr[size() - 1]);
     }
 
     constexpr inline std::add_const_t<value_type>& ref(size_type index) const
@@ -398,8 +407,20 @@ accomodate(basic_span<B, P, S> blk, identity<T> tid = {}) noexcept {
 // extract
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S>
-static constexpr inline extracted<T> extract(basic_span<T, P, S> spn) noexcept {
-    return {spn ? spn.data() : nullptr};
+static constexpr inline T& extract(basic_span<T, P, S> spn) noexcept {
+    return EAGINE_CONSTEXPR_ASSERT(spn.size() >= 1, spn.front());
+}
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename S>
+static constexpr inline T& extract_or(
+  basic_span<T, P, S> spn, T& fallback) noexcept {
+    return (spn.size() >= 1) ? spn.front() : fallback;
+}
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename S, typename F>
+static constexpr inline std::enable_if_t<std::is_convertible_v<F, T>, T>
+extract_or(basic_span<T, P, S> spn, F&& fallback) {
+    return (spn.size() >= 1) ? spn.front() : T{std::forward<F>(fallback)};
 }
 //------------------------------------------------------------------------------
 } // namespace memory

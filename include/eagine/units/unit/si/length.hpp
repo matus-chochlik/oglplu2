@@ -19,16 +19,16 @@ namespace base {
 // meter
 struct meter : unit<length, meter> {};
 
+} // namespace base
+
 template <>
-struct unit_name<meter> {
+struct name_of<base::meter> {
     static constexpr const char mp_str[] = "meter";
 };
 template <>
-struct unit_symbol<meter> {
+struct symbol_of<base::meter> {
     static constexpr const char mp_str[] = "m";
 };
-
-} // namespace base
 
 // si::base_unit<length>
 template <>

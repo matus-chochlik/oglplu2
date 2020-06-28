@@ -3,8 +3,6 @@
 #  See accompanying file LICENSE_1_0.txt or copy at
 #   http://www.boost.org/LICENSE_1_0.txt
 #
-cmake_minimum_required(VERSION 3.10)
-
 enable_testing()
 
 set(TEST_SRC_PREFIX "${PROJECT_SOURCE_DIR}/include")
@@ -38,10 +36,5 @@ foreach(TESTED_HEADER ${TESTED_HEADERS})
 		EXCLUDE_FROM_ALL
 		"${HELPER_SOURCE}"
 	)
-	if(INVOKE_CLANG_TIDY)
-		set_property(
-			TARGET ${TEST_NAME}
-			PROPERTY CXX_CLANG_TIDY "${INVOKE_CLANG_TIDY}"
-		)
-	endif()
+	eagine_add_exe_analysis(${TEST_NAME})
 endforeach()

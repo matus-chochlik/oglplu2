@@ -11,6 +11,7 @@
 #define EAGINE_SPAN_HPP
 
 #include "memory/span.hpp"
+#include "valid_if/decl.hpp"
 #include <iosfwd>
 
 namespace eagine {
@@ -57,6 +58,76 @@ static inline std::
   enable_if_t<std::is_same_v<std::remove_const_t<T>, char>, std::ostream&>
   operator<<(std::ostream& out, memory::basic_span<T, P, S> s) {
     return write_to_stream(out, absolute(s));
+}
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename S>
+static inline auto make_span_getter(
+  span_size_t& i, memory::basic_span<T, P, S> spn) {
+    return [&i, spn]() -> optionally_valid<std::remove_const_t<T>> {
+        if(i < spn.size()) {
+            return {spn[i++], true};
+        }
+        return {};
+    };
+}
+//------------------------------------------------------------------------------
+template <typename Src>
+static inline auto make_span_getter(span_size_t& i, const Src& src) {
+    return make_span_getter(i, view(src));
+}
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename S, typename Transform>
+static inline auto make_span_getter(
+  span_size_t& i, memory::basic_span<T, P, S> spn, Transform transform) {
+    return [&i, spn, transform]() -> decltype(transform(std::declval<T>())) {
+        if(i < spn.size()) {
+            return transform(spn[i++]);
+        }
+        return {};
+    };
+}
+//------------------------------------------------------------------------------
+template <typename Src, typename Transform>
+static inline auto make_span_getter(
+  span_size_t& i, const Src& src, Transform transform) {
+    return make_span_getter(i, view(src), std::move(transform));
+}
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename S>
+static inline auto make_span_putter(
+  span_size_t& i, memory::basic_span<T, P, S> spn) {
+    return [&i, spn](auto value) mutable -> bool {
+        if(i < spn.size()) {
+            spn[i++] = T(std::move(value));
+            return true;
+        }
+        return false;
+    };
+}
+//------------------------------------------------------------------------------
+template <typename Dst>
+static inline auto make_span_putter(span_size_t& o, Dst& dst) {
+    return make_span_putter(o, cover(dst));
+}
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename S, typename Transform>
+static inline auto make_span_putter(
+  span_size_t& i, memory::basic_span<T, P, S> spn, Transform transform) {
+    return [&i, spn, transform](auto value) mutable -> bool {
+        if(i < spn.size()) {
+            if(auto transformed = transform(value)) {
+                spn[i++] = T(std::move(extract(transformed)));
+                return true;
+            }
+        }
+        return false;
+    };
+}
+//------------------------------------------------------------------------------
+template <typename Dst, typename Transform>
+static inline auto make_span_putter(
+  span_size_t& o, Dst& dst, Transform transform) {
+    return make_span_putter(o, cover(dst), std::move(transform));
 }
 //------------------------------------------------------------------------------
 } // namespace eagine

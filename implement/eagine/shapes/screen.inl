@@ -19,7 +19,7 @@ EAGINE_LIB_FUNC
 vertex_attrib_bits unit_screen_gen::_attr_mask() noexcept {
     return vertex_attrib_kind::position | vertex_attrib_kind::normal |
            vertex_attrib_kind::tangential | vertex_attrib_kind::bitangential |
-           vertex_attrib_kind::wrap_coord_0 | vertex_attrib_kind::face_coord |
+           vertex_attrib_kind::wrap_coord | vertex_attrib_kind::face_coord |
            vertex_attrib_kind::box_coord;
 }
 //------------------------------------------------------------------------------
@@ -49,21 +49,21 @@ void unit_screen_gen::positions(span<float> dest) noexcept {
 
     span_size_t k = 0;
     // (0)
-    dest[k++] = -1.f;
-    dest[k++] = -1.f;
-    dest[k++] = 0.f;
+    dest[k++] = -1.F;
+    dest[k++] = -1.F;
+    dest[k++] = 0.F;
     // (1)
-    dest[k++] = -1.f;
-    dest[k++] = 1.f;
-    dest[k++] = 0.f;
+    dest[k++] = -1.F;
+    dest[k++] = 1.F;
+    dest[k++] = 0.F;
     // (2)
-    dest[k++] = 1.f;
-    dest[k++] = -1.f;
-    dest[k++] = 0.f;
+    dest[k++] = 1.F;
+    dest[k++] = -1.F;
+    dest[k++] = 0.F;
     // (3)
-    dest[k++] = 1.f;
-    dest[k++] = 1.f;
-    dest[k++] = 0.f;
+    dest[k++] = 1.F;
+    dest[k++] = 1.F;
+    dest[k++] = 0.F;
 
     EAGINE_ASSERT(k == vertex_count() * 3);
 }
@@ -75,9 +75,9 @@ void unit_screen_gen::normals(span<float> dest) noexcept {
 
     span_size_t k = 0;
     for(span_size_t i = 0; i < 4; ++i) {
-        dest[k++] = 0.f;
-        dest[k++] = 0.f;
-        dest[k++] = 1.f;
+        dest[k++] = 0.F;
+        dest[k++] = 0.F;
+        dest[k++] = 1.F;
     }
 
     EAGINE_ASSERT(k == vertex_count() * 3);
@@ -90,9 +90,9 @@ void unit_screen_gen::tangentials(span<float> dest) noexcept {
 
     span_size_t k = 0;
     for(span_size_t i = 0; i < 4; ++i) {
-        dest[k++] = 1.f;
-        dest[k++] = 0.f;
-        dest[k++] = 0.f;
+        dest[k++] = 1.F;
+        dest[k++] = 0.F;
+        dest[k++] = 0.F;
     }
 
     EAGINE_ASSERT(k == vertex_count() * 3);
@@ -105,9 +105,9 @@ void unit_screen_gen::bitangentials(span<float> dest) noexcept {
 
     span_size_t k = 0;
     for(span_size_t i = 0; i < 4; ++i) {
-        dest[k++] = 0.f;
-        dest[k++] = 1.f;
-        dest[k++] = 0.f;
+        dest[k++] = 0.F;
+        dest[k++] = 1.F;
+        dest[k++] = 0.F;
     }
 
     EAGINE_ASSERT(k == vertex_count() * 3);
@@ -130,28 +130,29 @@ void unit_screen_gen::face_coords(span<float> dest) noexcept {
 
     span_size_t k = 0;
     // (0)
-    dest[k++] = 0.f;
-    dest[k++] = 0.f;
-    dest[k++] = 0.f;
+    dest[k++] = 0.F;
+    dest[k++] = 0.F;
+    dest[k++] = 0.F;
     // (1)
-    dest[k++] = 0.f;
-    dest[k++] = 1.f;
-    dest[k++] = 0.f;
+    dest[k++] = 0.F;
+    dest[k++] = 1.F;
+    dest[k++] = 0.F;
     // (2)
-    dest[k++] = 1.f;
-    dest[k++] = 0.f;
-    dest[k++] = 0.f;
+    dest[k++] = 1.F;
+    dest[k++] = 0.F;
+    dest[k++] = 0.F;
     // (3)
-    dest[k++] = 1.f;
-    dest[k++] = 1.f;
-    dest[k++] = 0.f;
+    dest[k++] = 1.F;
+    dest[k++] = 1.F;
+    dest[k++] = 0.F;
 
     EAGINE_ASSERT(k == vertex_count() * 3);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_screen_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
-    switch(attr) {
+void unit_screen_gen::attrib_values(
+  vertex_attrib_variant vav, span<float> dest) {
+    switch(vav.attrib) {
         case vertex_attrib_kind::position:
             positions(dest);
             break;
@@ -166,29 +167,32 @@ void unit_screen_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
             break;
         case vertex_attrib_kind::box_coord:
         case vertex_attrib_kind::face_coord:
-        case vertex_attrib_kind::wrap_coord_0:
+        case vertex_attrib_kind::wrap_coord:
             face_coords(dest);
             break;
         case vertex_attrib_kind::pivot:
+        case vertex_attrib_kind::pivot_pivot:
         case vertex_attrib_kind::vertex_pivot:
-        case vertex_attrib_kind::wrap_coord_1:
-        case vertex_attrib_kind::wrap_coord_2:
-        case vertex_attrib_kind::wrap_coord_3:
         case vertex_attrib_kind::object_id:
         case vertex_attrib_kind::material_id:
+        case vertex_attrib_kind::weight:
+        case vertex_attrib_kind::color:
+        case vertex_attrib_kind::emission:
         case vertex_attrib_kind::occlusion:
-            _base::attrib_values(attr, dest);
+            _base::attrib_values(vav, dest);
     }
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t unit_screen_gen::operation_count() {
+span_size_t unit_screen_gen::operation_count(drawing_variant) {
     return 1;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_screen_gen::instructions(span<draw_operation> ops) {
-    EAGINE_ASSERT(ops.size() >= operation_count());
+void unit_screen_gen::instructions(
+  drawing_variant var, span<draw_operation> ops) {
+    EAGINE_ASSERT(ops.size() >= operation_count(var));
+    EAGINE_MAYBE_UNUSED(var);
 
     draw_operation& op = ops[0];
     op.mode = primitive_type::triangle_strip;
@@ -202,7 +206,7 @@ void unit_screen_gen::instructions(span<draw_operation> ops) {
 EAGINE_LIB_FUNC
 math::sphere<float, true> unit_screen_gen::bounding_sphere() {
     using std::sqrt;
-    return {{0.0f}, float(sqrt(2.f))};
+    return {{0.0F}, float(sqrt(2.F))};
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

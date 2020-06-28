@@ -11,7 +11,8 @@
 #include <eagine/memory/span_algo.hpp>
 #include <cctype>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 //------------------------------------------------------------------------------
 tokenizer::tokenizer(input_stream input)
@@ -25,7 +26,7 @@ tokenizer::tokenizer(input_stream input)
 static inline bool is_word_boundary(char c) noexcept {
 
     return (c == char(0)) || std::isspace(c) ||
-           eagine::memory::find_element(string_view(".,=(){};"), c);
+           memory::find_element(string_view(".,=(){};"), c);
 }
 //------------------------------------------------------------------------------
 bool tokenizer::_match_char(token_info& token, char chr, token_kind kind) {
@@ -55,7 +56,10 @@ bool tokenizer::_match_str(
 bool tokenizer::_match_re(
   token_info& token, const std::regex& re, token_kind kind) {
 
-    std::match_results<input_stream::iterator, std::allocator<char>> res;
+    std::match_results<
+      input_stream::const_iterator,
+      std::allocator<std::sub_match<input_stream::const_iterator>>>
+      res;
 
     if(std::regex_search(_input.begin(), _input.end(), res, re)) {
         const auto len = span_size(res.length(0));
@@ -145,4 +149,5 @@ bool tokenizer::get_next(token_info& token) {
 }
 //------------------------------------------------------------------------------
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine

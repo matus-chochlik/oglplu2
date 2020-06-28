@@ -8,6 +8,8 @@
 #ifndef EAGINE_TEST_RANDOM_HPP
 #define EAGINE_TEST_RANDOM_HPP
 
+#include <eagine/random_bytes.hpp>
+#include <eagine/random_identifier.hpp>
 #include <eagine/span.hpp>
 #include <eagine/string_span.hpp>
 #include <eagine/types.hpp>
@@ -28,6 +30,10 @@ private:
 public:
     test_random_generator()
       : _re(std::random_device()()) {
+    }
+
+    identifier get_identifier() {
+        return random_identifier(_re);
     }
 
     template <typename T>
@@ -132,6 +138,10 @@ public:
             c = get_char_from(chars);
         }
         return result;
+    }
+
+    void fill(memory::block blk) {
+        fill_with_random_bytes(blk);
     }
 
     template <typename T>

@@ -29,12 +29,12 @@ struct si::base_unit<base::number_of_cycles> : base::count_of_cycles {};
 using hertz = unit<frequency, si>;
 
 template <>
-struct unit_name<hertz> {
+struct name_of<hertz> {
     static constexpr const char mp_str[] = "hertz";
 };
 
 template <>
-struct unit_symbol<hertz> {
+struct symbol_of<hertz> {
     static constexpr const char mp_str[] = "Hz";
 };
 

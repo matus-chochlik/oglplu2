@@ -114,6 +114,20 @@ static constexpr inline std::basic_string<C, T, A>& append_to(
 //------------------------------------------------------------------------------
 // are_equal helper
 //------------------------------------------------------------------------------
+template <>
+struct equal_cmp<string_span, string_span> {
+    static inline bool check(string_span l, string_span r) noexcept {
+        return std::strcmp(l.data(), r.data()) == 0;
+    }
+};
+//------------------------------------------------------------------------------
+template <>
+struct equal_cmp<string_view, string_view> {
+    static inline bool check(string_view l, string_view r) noexcept {
+        return std::strcmp(l.data(), r.data()) == 0;
+    }
+};
+//------------------------------------------------------------------------------
 template <typename T, typename P, typename S>
 struct cmp_decay_to<basic_string_span<T, P, S>>
   : identity<memory::basic_span<T, P, S>> {};
@@ -172,6 +186,20 @@ static constexpr inline std::enable_if_t<
   basic_c_str<C, P, S>>
 c_str(memory::basic_span<C, P, S> s) {
     return {s};
+}
+//------------------------------------------------------------------------------
+template <typename C, typename T, typename A, typename Transform>
+static inline auto make_span_putter(
+  span_size_t& i, std::basic_string<C, T, A>& str, Transform transform) {
+    return [&i, &str, transform](auto value) mutable -> bool {
+        if(i < span_size_t(str.size())) {
+            if(auto transformed = transform(value)) {
+                str[i++] = std::move(extract(transformed));
+                return true;
+            }
+        }
+        return false;
+    };
 }
 //------------------------------------------------------------------------------
 } // namespace eagine

@@ -18,7 +18,7 @@ namespace units {
 using power = decltype(energy() / time());
 
 template <>
-struct dim_name<power> {
+struct name_of<power> {
     static constexpr const char mp_str[] = "power";
 };
 

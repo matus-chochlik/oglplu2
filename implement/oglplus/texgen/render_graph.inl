@@ -9,7 +9,8 @@
 #include <eagine/assert.hpp>
 #include <iostream>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -55,8 +56,7 @@ render_node& render_graph::renderer() {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void render_graph::set_dimensions(
-  const eagine::valid_if_positive<int>& w,
-  const eagine::valid_if_positive<int>& h) {
+  const valid_if_positive<int>& w, const valid_if_positive<int>& h) {
     renderer().set_dimensions(w, h);
 }
 //------------------------------------------------------------------------------
@@ -66,7 +66,7 @@ void render_graph::render() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-eagine::optional_reference_wrapper<node_intf> render_graph::find_node(
+optional_reference_wrapper<node_intf> render_graph::find_node(
   const std::string& node_name) {
     auto pos = _nodes.find(node_name);
     if(pos != _nodes.end()) {
@@ -74,11 +74,11 @@ eagine::optional_reference_wrapper<node_intf> render_graph::find_node(
         EAGINE_ASSERT(node);
         return *node.get();
     }
-    return eagine::nothing;
+    return nothing;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-eagine::optional_reference_wrapper<input_intf> render_graph::find_node_input(
+optional_reference_wrapper<input_intf> render_graph::find_node_input(
   node_intf& node, span_size_t index) {
     if(index < node.input_count()) {
         return node.input(index);
@@ -87,7 +87,7 @@ eagine::optional_reference_wrapper<input_intf> render_graph::find_node_input(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-eagine::optional_reference_wrapper<output_intf> render_graph::find_node_output(
+optional_reference_wrapper<output_intf> render_graph::find_node_output(
   node_intf& node, span_size_t index) {
     if(index < node.output_count()) {
         return node.output(index);
@@ -96,19 +96,19 @@ eagine::optional_reference_wrapper<output_intf> render_graph::find_node_output(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-eagine::optional_reference_wrapper<input_intf> render_graph::find_node_input(
+optional_reference_wrapper<input_intf> render_graph::find_node_input(
   node_intf& node, string_view iname) {
     return node.input_by_name(iname);
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-eagine::optional_reference_wrapper<output_intf> render_graph::find_node_output(
+optional_reference_wrapper<output_intf> render_graph::find_node_output(
   node_intf& node, string_view oname) {
     return node.output_by_name(oname);
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-eagine::optional_reference_wrapper<input_intf> render_graph::find_node_input(
+optional_reference_wrapper<input_intf> render_graph::find_node_input(
   const std::string& node_name, span_size_t index) {
     if(auto node = find_node(node_name)) {
         return find_node_input(node.get(), index);
@@ -117,7 +117,7 @@ eagine::optional_reference_wrapper<input_intf> render_graph::find_node_input(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-eagine::optional_reference_wrapper<output_intf> render_graph::find_node_output(
+optional_reference_wrapper<output_intf> render_graph::find_node_output(
   const std::string& node_name, span_size_t index) {
     if(auto node = find_node(node_name)) {
         return find_node_output(node.get(), index);
@@ -126,7 +126,7 @@ eagine::optional_reference_wrapper<output_intf> render_graph::find_node_output(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-eagine::optional_reference_wrapper<input_intf> render_graph::find_node_input(
+optional_reference_wrapper<input_intf> render_graph::find_node_input(
   const std::string& node_name, string_view iname) {
     if(auto node = find_node(node_name)) {
         return find_node_input(node.get(), iname);
@@ -135,7 +135,7 @@ eagine::optional_reference_wrapper<input_intf> render_graph::find_node_input(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-eagine::optional_reference_wrapper<output_intf> render_graph::find_node_output(
+optional_reference_wrapper<output_intf> render_graph::find_node_output(
   const std::string& node_name, string_view oname) {
     if(auto node = find_node(node_name)) {
         return find_node_output(node.get(), oname);
@@ -271,5 +271,6 @@ bool render_graph::finalize() {
 }
 //------------------------------------------------------------------------------
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 //------------------------------------------------------------------------------

@@ -12,7 +12,8 @@
 #include "base_input.hpp"
 #include "const_output.hpp"
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 
 template <typename FallbackOutput>
@@ -49,7 +50,7 @@ public:
     }
 
     bool set_default_value(
-      eagine::valid_if_between<span_size_t, 0, 3> c, float v) override {
+      valid_if_between<span_size_t, 0, 3> c, float v) override {
         return fallback().set_default_value(c.value(), v);
     }
 
@@ -72,6 +73,7 @@ template <typename T>
 using input_with_const_default = fallback_input<constant_output<T>>;
 
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif // OGLPLUS_TEXGEN_FALLBACK_INPUT_HPP

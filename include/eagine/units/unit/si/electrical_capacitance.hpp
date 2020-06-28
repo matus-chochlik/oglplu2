@@ -22,12 +22,12 @@ namespace units {
 using farad = unit<electrical_capacitance, si>;
 
 template <>
-struct unit_name<farad> {
+struct name_of<farad> {
     static constexpr const char mp_str[] = "farad";
 };
 
 template <>
-struct unit_symbol<farad> {
+struct symbol_of<farad> {
     static constexpr const char mp_str[] = "F";
 };
 

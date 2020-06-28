@@ -9,17 +9,18 @@
 #ifndef OGLPLUS_TEXGEN_INTERFACE_HPP
 #define OGLPLUS_TEXGEN_INTERFACE_HPP
 
-#include "../utils/types.hpp"
 #include "data_type.hpp"
 #include "render_params.hpp"
 #include <eagine/assert.hpp>
 #include <eagine/optional_ref.hpp>
+#include <eagine/types.hpp>
 #include <eagine/valid_if/between.hpp>
 #include <cstddef>
 #include <iosfwd>
 #include <memory>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 
 struct constant_intf;
@@ -106,7 +107,7 @@ struct input_intf {
     virtual output_intf& connected_output() = 0;
 
     virtual bool set_default_value(
-      eagine::valid_if_between<span_size_t, 0, 3> c, float v) = 0;
+      valid_if_between<span_size_t, 0, 3> c, float v) = 0;
 
     bool set_default(float x) {
         return set_default_value(0, x);
@@ -186,8 +187,7 @@ struct node_intf {
 
     virtual input_intf& input(span_size_t) = 0;
 
-    virtual eagine::optional_reference_wrapper<input_intf> input_by_name(
-      string_view);
+    virtual optional_reference_wrapper<input_intf> input_by_name(string_view);
 
     virtual bool can_add_input() = 0;
 
@@ -199,8 +199,7 @@ struct node_intf {
 
     virtual output_intf& output(span_size_t) = 0;
 
-    virtual eagine::optional_reference_wrapper<output_intf> output_by_name(
-      string_view);
+    virtual optional_reference_wrapper<output_intf> output_by_name(string_view);
 
     void disconnect_all();
 
@@ -346,7 +345,8 @@ public:
 };
 
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/texgen/interface.inl>

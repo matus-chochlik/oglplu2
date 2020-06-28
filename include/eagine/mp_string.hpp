@@ -11,6 +11,7 @@
 #define EAGINE_MP_STRING_HPP
 
 #include "int_constant.hpp"
+#include "string_span.hpp"
 #include <utility>
 
 namespace eagine {
@@ -22,6 +23,10 @@ struct mp_string {
 
     using value_type = const char[sizeof...(C) + 1];
     static constexpr const char value[sizeof...(C) + 1] = {C..., '\0'};
+
+    constexpr operator string_view() const noexcept {
+        return {value};
+    }
 };
 
 template <char... C>
@@ -67,25 +72,25 @@ template <unsigned I>
 using mp_uint_to_string_t = typename mp_uint_to_string<I>::type;
 
 template <>
-struct mp_uint_to_string<0u> : mp_string<'0'> {};
+struct mp_uint_to_string<0U> : mp_string<'0'> {};
 template <>
-struct mp_uint_to_string<1u> : mp_string<'1'> {};
+struct mp_uint_to_string<1U> : mp_string<'1'> {};
 template <>
-struct mp_uint_to_string<2u> : mp_string<'2'> {};
+struct mp_uint_to_string<2U> : mp_string<'2'> {};
 template <>
-struct mp_uint_to_string<3u> : mp_string<'3'> {};
+struct mp_uint_to_string<3U> : mp_string<'3'> {};
 template <>
-struct mp_uint_to_string<4u> : mp_string<'4'> {};
+struct mp_uint_to_string<4U> : mp_string<'4'> {};
 template <>
-struct mp_uint_to_string<5u> : mp_string<'5'> {};
+struct mp_uint_to_string<5U> : mp_string<'5'> {};
 template <>
-struct mp_uint_to_string<6u> : mp_string<'6'> {};
+struct mp_uint_to_string<6U> : mp_string<'6'> {};
 template <>
-struct mp_uint_to_string<7u> : mp_string<'7'> {};
+struct mp_uint_to_string<7U> : mp_string<'7'> {};
 template <>
-struct mp_uint_to_string<8u> : mp_string<'8'> {};
+struct mp_uint_to_string<8U> : mp_string<'8'> {};
 template <>
-struct mp_uint_to_string<9u> : mp_string<'9'> {};
+struct mp_uint_to_string<9U> : mp_string<'9'> {};
 
 template <unsigned I>
 struct mp_uint_to_string

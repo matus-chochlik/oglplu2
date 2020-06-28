@@ -47,7 +47,7 @@ private:
     template <int... I>
     static constexpr inline data_t<TT, NT, VT> _cast(
       data_param_t<TF, NF, VF> v,
-      data_param_t<TT, 0u, VT>,
+      data_param_t<TT, 0U, VT>,
       _idx_seq<I...>,
       _idx_seq<>) noexcept {
         return data_t<TT, NT, VT>{TT(v[I])...};

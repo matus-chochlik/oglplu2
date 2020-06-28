@@ -19,16 +19,16 @@ namespace base {
 // kelvin
 struct kelvin : unit<temperature, kelvin> {};
 
+} // namespace base
+
 template <>
-struct unit_name<kelvin> {
+struct name_of<base::kelvin> {
     static constexpr const char mp_str[] = "kelvin";
 };
 template <>
-struct unit_symbol<kelvin> {
+struct symbol_of<base::kelvin> {
     static constexpr const char mp_str[] = "K";
 };
-
-} // namespace base
 
 // si::base_unit<temperature>
 template <>

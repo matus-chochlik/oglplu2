@@ -42,40 +42,60 @@ public:
         return _gen->vertex_count();
     }
 
-    span_size_t values_per_vertex(vertex_attrib_kind attr) override {
-        return _gen->values_per_vertex(attr);
+    span_size_t attribute_variants(vertex_attrib_kind attrib) override {
+        return _gen->attribute_variants(attrib);
     }
 
-    void attrib_values(vertex_attrib_kind attr, span<float> dest) override {
-        _gen->attrib_values(attr, dest);
+    string_view variant_name(vertex_attrib_variant vav) override {
+        return _gen->variant_name(vav);
     }
 
-    index_data_type index_type() override {
-        return _gen->index_type();
+    span_size_t values_per_vertex(vertex_attrib_variant vav) override {
+        return _gen->values_per_vertex(vav);
     }
 
-    span_size_t index_count() override {
-        return _gen->index_count();
+    attrib_data_type attrib_type(vertex_attrib_variant vav) override {
+        return _gen->attrib_type(vav);
     }
 
-    void indices(span<std::uint8_t> dest) override {
-        _gen->indices(dest);
+    bool is_attrib_normalized(vertex_attrib_variant vav) override {
+        return _gen->is_attrib_normalized(vav);
     }
 
-    void indices(span<std::uint16_t> dest) override {
-        _gen->indices(dest);
+    void attrib_values(vertex_attrib_variant vav, span<float> dest) override {
+        _gen->attrib_values(vav, dest);
     }
 
-    void indices(span<std::uint32_t> dest) override {
-        _gen->indices(dest);
+    span_size_t draw_variant_count() override {
+        return _gen->draw_variant_count();
     }
 
-    span_size_t operation_count() override {
-        return _gen->operation_count();
+    index_data_type index_type(drawing_variant var) override {
+        return _gen->index_type(var);
     }
 
-    void instructions(span<draw_operation> ops) override {
-        _gen->instructions(ops);
+    span_size_t index_count(drawing_variant var) override {
+        return _gen->index_count(var);
+    }
+
+    void indices(drawing_variant var, span<std::uint8_t> dest) override {
+        _gen->indices(var, dest);
+    }
+
+    void indices(drawing_variant var, span<std::uint16_t> dest) override {
+        _gen->indices(var, dest);
+    }
+
+    void indices(drawing_variant var, span<std::uint32_t> dest) override {
+        _gen->indices(var, dest);
+    }
+
+    span_size_t operation_count(drawing_variant var) override {
+        return _gen->operation_count(var);
+    }
+
+    void instructions(drawing_variant var, span<draw_operation> ops) override {
+        _gen->instructions(var, ops);
     }
 
     math::sphere<float, true> bounding_sphere() override {

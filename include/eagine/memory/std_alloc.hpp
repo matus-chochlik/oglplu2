@@ -47,7 +47,7 @@ public:
       : _sba(that._get_sba()) {
     }
 
-    std_allocator(shared_byte_allocator&& sba) noexcept
+    std_allocator(shared_byte_allocator sba) noexcept
       : _sba(std::move(sba)) {
     }
 
@@ -90,9 +90,10 @@ public:
     }
 
     void deallocate(T* p, size_type n) {
-        _sba.deallocate(
-          acquire_block(as_bytes(cover(p, span_size_of<T>(n)))),
-          span_align_of<T>());
+        if(p && n) {
+            _sba.deallocate(
+              acquire_block(as_bytes(cover(p, n))), span_align_of<T>());
+        }
     }
 
     friend bool operator==(

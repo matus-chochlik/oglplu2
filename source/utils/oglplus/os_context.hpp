@@ -22,7 +22,8 @@
 #include "os_context_glut.hpp"
 #endif
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 
 #if OGLPLUS_USE_GLX
 using offscreen_context = offscreen_context_glx;
@@ -43,6 +44,7 @@ using offscreen_context = offscreen_context_glut;
 #define OGLPLUS_HAS_OS_CONTEXT 0
 #endif
 
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif

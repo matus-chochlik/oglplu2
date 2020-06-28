@@ -23,12 +23,12 @@ namespace units {
 using joule = unit<energy, si>;
 
 template <>
-struct unit_name<joule> {
+struct name_of<joule> {
     static constexpr const char mp_str[] = "joule";
 };
 
 template <>
-struct unit_symbol<joule> {
+struct symbol_of<joule> {
     static constexpr const char mp_str[] = "J";
 };
 

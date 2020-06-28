@@ -1,0 +1,8 @@
+{
+   oglplus/llvm_Leak
+   Memcheck:Leak
+   fun:*
+   ...
+   obj:/usr/*lib*libLLVM*
+   ...
+}

@@ -11,19 +11,26 @@
 #define EAGINE_ENUM_CLASS_HPP
 
 #include "assert.hpp"
+#include "identifier_t.hpp"
+#include "identity.hpp"
+#include "iterator.hpp"
 #include "mp_list.hpp"
+#include "nothing.hpp"
+#include "wrapping_container.hpp"
+#include <tuple>
 #include <type_traits>
 
 namespace eagine {
-
-template <typename T, typename ClassList>
+//------------------------------------------------------------------------------
+template <typename T, typename ClassList, typename Tag = nothing_t>
 struct enum_value;
 
-template <typename T, typename... Classes>
-struct enum_value<T, mp_list<Classes...>> {
+template <typename T, typename... Classes, typename Tag>
+struct enum_value<T, mp_list<Classes...>, Tag> {
     using type = enum_value;
 
     using value_type = T;
+    using tag_type = Tag;
 
     const T value;
 
@@ -34,29 +41,109 @@ struct enum_value<T, mp_list<Classes...>> {
     explicit constexpr inline operator T() const noexcept {
         return value;
     }
-};
 
-template <unsigned LibId>
+    explicit constexpr inline operator bool() const noexcept {
+        return true;
+    }
+
+    constexpr inline bool operator!() const noexcept {
+        return false;
+    }
+};
+//------------------------------------------------------------------------------
+template <typename T, typename ClassList, typename Tag = nothing_t>
+struct opt_enum_value;
+
+template <typename T, typename... Classes, typename Tag>
+struct opt_enum_value<T, mp_list<Classes...>, Tag> {
+    using type = opt_enum_value;
+
+    using value_type = T;
+    using tag_type = Tag;
+
+    const T value{};
+    const bool is_valid{false};
+
+    constexpr inline opt_enum_value(T val, bool valid) noexcept
+      : value(val)
+      , is_valid{valid} {
+    }
+
+    constexpr inline opt_enum_value(std::tuple<T, bool> init) noexcept
+      : value(std::get<0>(init))
+      , is_valid{std::get<1>(init)} {
+    }
+
+    explicit constexpr inline operator T() const noexcept {
+        return value;
+    }
+
+    explicit constexpr inline operator bool() const noexcept {
+        return is_valid;
+    }
+
+    constexpr inline bool operator!() const noexcept {
+        return !is_valid;
+    }
+};
+//------------------------------------------------------------------------------
+template <typename T, typename Tag = nothing_t>
+struct no_enum_value {
+    using type = no_enum_value;
+
+    using value_type = T;
+    using tag_type = Tag;
+
+    const T value{};
+
+    explicit constexpr inline operator T() const noexcept {
+        return value;
+    }
+
+    explicit constexpr inline operator bool() const noexcept {
+        return false;
+    }
+
+    constexpr inline bool operator!() const noexcept {
+        return true;
+    }
+};
+//------------------------------------------------------------------------------
+template <identifier_t LibId>
 struct any_enum_value;
 
-template <typename Self, typename T, unsigned LibId, unsigned Id>
+template <typename Self, typename T, identifier_t LibId, identifier_t Id>
 struct enum_class {
     using type = enum_class;
 
     using value_type = T;
 
-    static constexpr const unsigned lib_id = LibId;
-    static constexpr const unsigned id = Id;
+    static constexpr const identifier_t lib_id = LibId;
+    static constexpr const identifier_t id = Id;
 
-    value_type _value;
+    value_type _value{};
 
     enum_class() = default;
 
     template <
       typename Classes,
-      typename = std::enable_if_t<mp_contains<Classes, Self>::value>>
-    constexpr inline enum_class(enum_value<T, Classes> ev) noexcept
+      typename Tag,
+      typename = std::enable_if_t<mp_contains_v<Classes, Self>>>
+    constexpr inline enum_class(enum_value<T, Classes, Tag> ev) noexcept
       : _value(ev.value) {
+    }
+
+    template <
+      typename Classes,
+      typename Tag,
+      typename = std::enable_if_t<mp_contains_v<Classes, Self>>>
+    constexpr inline enum_class(opt_enum_value<T, Classes, Tag> ev) noexcept
+      : _value(ev.value) {
+        EAGINE_ASSERT(ev.is_valid);
+    }
+
+    constexpr inline enum_class(no_enum_value<T>) noexcept {
+        EAGINE_UNREACHABLE();
     }
 
     constexpr enum_class(const any_enum_value<LibId>& aev) noexcept
@@ -85,29 +172,83 @@ struct enum_class {
       enum_class a, enum_class b) noexcept {
         return a._value != b._value;
     }
-};
 
+    struct transform {
+        constexpr auto operator()(T value) noexcept {
+            return enum_class<Self, T, LibId, Id>{value};
+        }
+    };
+};
+//------------------------------------------------------------------------------
 template <typename T>
 struct is_enum_class : std::false_type {};
-
-template <typename Self, typename T, unsigned LibId, unsigned Id>
-struct is_enum_class<enum_class<Self, T, LibId, Id>> : std::true_type {};
 
 template <typename T>
 constexpr bool is_enum_class_v = is_enum_class<T>::value;
 
-template <unsigned LibId>
+template <typename Self, typename T, identifier_t LibId, identifier_t Id>
+struct is_enum_class<enum_class<Self, T, LibId, Id>> : std::true_type {
+    static_assert(std::is_base_of_v<enum_class<Self, T, LibId, Id>, Self>);
+};
+//------------------------------------------------------------------------------
+template <typename Class, typename Value>
+struct is_enum_class_value : std::false_type {};
+
+template <typename C, typename V>
+constexpr auto is_enum_class_value_v =
+  is_enum_class_value<type_t<C>, type_t<V>>::value;
+
+template <
+  typename Self,
+  typename T,
+  typename Tag,
+  identifier_t LibId,
+  identifier_t Id>
+struct is_enum_class_value<
+  enum_class<Self, T, LibId, Id>,
+  no_enum_value<T, Tag>> : std::true_type {
+    static_assert(std::is_base_of_v<enum_class<Self, T, LibId, Id>, Self>);
+};
+
+template <
+  typename Self,
+  typename T,
+  typename Classes,
+  typename Tag,
+  identifier_t LibId,
+  identifier_t Id>
+struct is_enum_class_value<
+  enum_class<Self, T, LibId, Id>,
+  enum_value<T, Classes, Tag>> : mp_contains<Classes, Self> {
+    static_assert(std::is_base_of_v<enum_class<Self, T, LibId, Id>, Self>);
+};
+
+template <
+  typename Self,
+  typename T,
+  typename Classes,
+  typename Tag,
+  identifier_t LibId,
+  identifier_t Id>
+struct is_enum_class_value<
+  enum_class<Self, T, LibId, Id>,
+  opt_enum_value<T, Classes, Tag>> : mp_contains<Classes, Self> {
+    static_assert(std::is_base_of_v<enum_class<Self, T, LibId, Id>, Self>);
+};
+//------------------------------------------------------------------------------
+template <identifier_t LibId>
 struct any_enum_class {
-    unsigned _type_id;
+    identifier_t _type_id;
 
     constexpr inline any_enum_class() noexcept
-      : _type_id(~unsigned(0)) {
+      : _type_id(~identifier_t(0)) {
     }
 
-    template <typename Self, typename T, unsigned Id>
+    template <typename Self, typename T, identifier_t Id>
     constexpr inline any_enum_class(
       const enum_class<Self, T, LibId, Id>&) noexcept
       : _type_id(Id) {
+        static_assert(std::is_base_of_v<enum_class<Self, T, LibId, Id>, Self>);
     }
 
     constexpr inline any_enum_class(const any_enum_value<LibId>& aev) noexcept
@@ -115,11 +256,11 @@ struct any_enum_class {
     }
 
     explicit constexpr inline operator bool() const noexcept {
-        return _type_id != ~unsigned(0);
+        return _type_id != ~identifier_t(0);
     }
 
     constexpr inline bool operator!() const noexcept {
-        return _type_id == ~unsigned(0);
+        return _type_id == ~identifier_t(0);
     }
 
     friend bool operator==(
@@ -133,27 +274,28 @@ struct any_enum_class {
     }
 };
 
-template <unsigned LibId>
+template <identifier_t LibId>
 struct any_enum_value {
     long _value{0};
-    unsigned _type_id;
+    identifier_t _type_id;
 
     constexpr inline any_enum_value() noexcept
-      : _type_id(~unsigned(0)) {
+      : _type_id(~identifier_t(0)) {
     }
 
-    template <typename Self, typename T, unsigned Id>
+    template <typename Self, typename T, identifier_t Id>
     constexpr inline any_enum_value(enum_class<Self, T, LibId, Id> v) noexcept
       : _value(long(v._value))
       , _type_id(Id) {
+        static_assert(std::is_base_of_v<enum_class<Self, T, LibId, Id>, Self>);
     }
 
     explicit constexpr inline operator bool() const noexcept {
-        return _type_id != ~unsigned(0);
+        return _type_id != ~identifier_t(0);
     }
 
     constexpr inline bool operator!() const noexcept {
-        return _type_id == ~unsigned(0);
+        return _type_id == ~identifier_t(0);
     }
 
     friend bool operator==(
@@ -167,12 +309,48 @@ struct any_enum_value {
     }
 };
 
-template <unsigned LibId>
+template <identifier_t LibId>
 static constexpr inline bool same_enum_class(
   any_enum_class<LibId> a, any_enum_class<LibId> b) noexcept {
     return a._type_id == b._type_id;
 }
+//------------------------------------------------------------------------------
+template <typename EnumClass, typename Container>
+class enum_class_container
+  : public basic_wrapping_container<
+      Container,
+      EnumClass,
+      typename EnumClass::value_type> {
+    using base = basic_wrapping_container<
+      Container,
+      EnumClass,
+      typename EnumClass::value_type>;
 
+public:
+    using base::base;
+
+    constexpr auto raw_enums() noexcept {
+        return this->raw_items();
+    }
+
+    constexpr auto raw_enums() const noexcept {
+        return this->raw_items();
+    }
+};
+//------------------------------------------------------------------------------
+template <typename EnumClass>
+using enum_class_span =
+  enum_class_container<EnumClass, span<typename EnumClass::value_type>>;
+
+template <typename EnumClass>
+using enum_class_view =
+  enum_class_container<EnumClass, span<const typename EnumClass::value_type>>;
+
+template <typename EnumClass, std::size_t N>
+using enum_class_array = enum_class_container<
+  EnumClass,
+  std::array<typename EnumClass::value_type, N>>;
+//------------------------------------------------------------------------------
 } // namespace eagine
 
 #endif // EAGINE_ENUM_CLASS_HPP

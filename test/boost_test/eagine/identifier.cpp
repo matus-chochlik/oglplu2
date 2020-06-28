@@ -39,14 +39,17 @@ BOOST_AUTO_TEST_CASE(identifier_1) {
     using eagine::span_size_t;
     using eagine::std_size;
 
+    const span_size_t l = eagine::identifier::max_size();
+    char name[l + 1];
+
     for(int k = 0; k < 1000; ++k) {
-        const span_size_t l = eagine::identifier::max_size();
-        char name[l + 1];
 
         const span_size_t n = rg.get_span_size(0, l - 1);
         test_gen_ident(name, n);
 
         const eagine::identifier id{name};
+        BOOST_CHECK_EQUAL(id.size(), n);
+
         const std::string s1(name, std_size(n));
         const std::string s2 = id.str();
 

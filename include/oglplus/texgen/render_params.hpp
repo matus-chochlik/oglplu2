@@ -11,7 +11,8 @@
 
 #include <eagine/bitfield.hpp>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 
 struct output_intf;
@@ -23,7 +24,7 @@ enum class render_param_bit : unsigned {
     element_offset = 1U << 3U
 };
 
-using render_param_bits = eagine::bitfield<render_param_bit>;
+using render_param_bits = bitfield<render_param_bit>;
 
 static constexpr inline render_param_bits operator|(
   render_param_bit a, render_param_bit b) noexcept {
@@ -42,6 +43,7 @@ struct render_params {
 };
 
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif // OGLPLUS_TEXGEN_RENDER_PARAMS_HPP

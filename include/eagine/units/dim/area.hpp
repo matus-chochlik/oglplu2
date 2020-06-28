@@ -18,7 +18,7 @@ namespace units {
 using area = decltype(length() * length());
 
 template <>
-struct dim_name<area> {
+struct name_of<area> {
     static constexpr const char mp_str[] = "area";
 };
 

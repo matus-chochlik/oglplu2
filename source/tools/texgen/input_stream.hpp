@@ -10,12 +10,13 @@
 #define TEXGEN_INPUT_STREAM_HPP
 
 #include "input_location.hpp"
-#include <oglplus/utils/string_span.hpp>
+#include <eagine/string_span.hpp>
 #include <iosfwd>
 #include <iterator>
 #include <memory>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 //------------------------------------------------------------------------------
 struct input_stream_intf {
@@ -105,6 +106,7 @@ private:
 class input_stream {
 public:
     using iterator = input_stream_iter;
+    using const_iterator = input_stream_iter;
 
     input_stream(std::unique_ptr<input_stream_intf> pimpl)
       : _pimpl(std::move(pimpl)) {
@@ -140,12 +142,12 @@ public:
         return {};
     }
 
-    iterator begin() {
-        return iterator(_pimpl.get(), 0);
+    auto begin() const {
+        return const_iterator(_pimpl.get(), 0);
     }
 
-    iterator end() {
-        return iterator();
+    auto end() const {
+        return const_iterator();
     }
 
 private:
@@ -153,6 +155,7 @@ private:
 };
 //------------------------------------------------------------------------------
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif // TEXGEN_INPUT_STREAM_HPP

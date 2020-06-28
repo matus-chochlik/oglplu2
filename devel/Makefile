@@ -14,10 +14,21 @@ check%: test%
 
 test%: test%.o
 	$(CXX) -std=c++17 -g3 \
+		-ldl -lrt \
+		$(shell pkg-config --libs openssl) \
+		$(shell pkg-config --libs openal) \
+		$(shell pkg-config --libs egl) \
+		$(shell pkg-config --libs gl) \
+		$(shell pkg-config --libs zlib) \
+		-rdynamic \
+		-pthread \
 		-o $@ $<
+
 test%.o: test%.cpp
 	$(CXX) -std=c++17 -g3 \
 		-Wall -Wextra -Werror \
+		-Wno-unknown-warning-option \
+		-Wno-address \
 		-Wno-padded \
 		-Wno-weak-vtables \
 		-Wno-c++98-compat \
@@ -25,12 +36,18 @@ test%.o: test%.cpp
 		-Wno-unused-function \
 		-Wno-documentation \
 		-Wno-documentation-unknown-command \
+		-DEAGINE_USE_STACKTRACE=0 \
 		-I$(BINARY_DIR)/include \
-		-I../third_party/GSL/include \
-		-I../third_party/include \
 		-I../include \
 		-I../implement \
 		-I../source/utils \
+		-I../third_party/include \
+		-I../third_party/asio/asio/include \
+		-I../third_party/rapidjson/include \
+		$(shell pkg-config --cflags openssl) \
+		$(shell pkg-config --cflags openal) \
+		$(shell pkg-config --cflags egl) \
+		$(shell pkg-config --cflags gl) \
 		-c -o $@ $<
 
 clean:

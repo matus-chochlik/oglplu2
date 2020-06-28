@@ -18,7 +18,7 @@ namespace units {
 using angular_velocity = decltype(angle() / time());
 
 template <>
-struct dim_name<angular_velocity> {
+struct name_of<angular_velocity> {
     static constexpr const char mp_str[] = "angular velocity";
 };
 

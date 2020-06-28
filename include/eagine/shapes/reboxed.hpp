@@ -24,11 +24,11 @@ public:
       : delegated_gen(std::move(gen)) {
     }
 
-    void attrib_values(vertex_attrib_kind attr, span<float> dest) override;
+    void attrib_values(vertex_attrib_variant, span<float>) override;
 };
 //------------------------------------------------------------------------------
 static inline auto rebox(std::unique_ptr<generator_intf>&& gen) noexcept {
-    return std::unique_ptr<generator_intf>(new reboxed_gen(std::move(gen)));
+    return std::make_unique<reboxed_gen>(std::move(gen));
 }
 //------------------------------------------------------------------------------
 

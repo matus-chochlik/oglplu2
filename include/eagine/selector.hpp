@@ -10,11 +10,11 @@
 #ifndef EAGINE_SELECTOR_HPP
 #define EAGINE_SELECTOR_HPP
 
-#include <cstdint>
+#include "identifier_t.hpp"
 
 namespace eagine {
 
-template <std::uint64_t I>
+template <identifier_t>
 struct selector {
     using type = selector;
 };

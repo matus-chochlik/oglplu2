@@ -11,24 +11,26 @@ namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void reboxed_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
+void reboxed_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
 
-    if(attr == vertex_attrib_kind::box_coord) {
+    if(vav == vertex_attrib_kind::box_coord) {
 
-        delegated_gen::attrib_values(vertex_attrib_kind::position, dest);
+        delegated_gen::attrib_values(vertex_attrib_kind::position / 0, dest);
 
-        std::array<float, 4> min{std::numeric_limits<float>::max(),
-                                 std::numeric_limits<float>::max(),
-                                 std::numeric_limits<float>::max(),
-                                 std::numeric_limits<float>::max()};
+        std::array<float, 4> min{
+          std::numeric_limits<float>::max(),
+          std::numeric_limits<float>::max(),
+          std::numeric_limits<float>::max(),
+          std::numeric_limits<float>::max()};
 
-        std::array<float, 4> max{std::numeric_limits<float>::lowest(),
-                                 std::numeric_limits<float>::lowest(),
-                                 std::numeric_limits<float>::lowest(),
-                                 std::numeric_limits<float>::lowest()};
+        std::array<float, 4> max{
+          std::numeric_limits<float>::lowest(),
+          std::numeric_limits<float>::lowest(),
+          std::numeric_limits<float>::lowest(),
+          std::numeric_limits<float>::lowest()};
 
         const auto n = vertex_count();
-        const auto m = values_per_vertex(attr);
+        const auto m = values_per_vertex(vav);
 
         for(span_size_t v = 0; v < n; ++v) {
             for(span_size_t c = 0; c < m; ++c) {
@@ -42,7 +44,7 @@ void reboxed_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
         std::array<float, 4> inorm{{}};
         for(span_size_t c = 0; c < m; ++c) {
             const auto k = std_size(c);
-            inorm[k] = 1.0f / (max[k] - min[k]);
+            inorm[k] = 1.0F / (max[k] - min[k]);
         }
 
         for(span_size_t v = 0; v < n; ++v) {
@@ -53,7 +55,7 @@ void reboxed_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
             }
         }
     } else {
-        delegated_gen::attrib_values(attr, dest);
+        delegated_gen::attrib_values(vav, dest);
     }
 }
 //------------------------------------------------------------------------------

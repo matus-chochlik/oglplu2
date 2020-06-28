@@ -14,7 +14,8 @@
 #include <eagine/valid_if/decl.hpp>
 #include <vector>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 //------------------------------------------------------------------------------
 class token_stream {
@@ -25,14 +26,14 @@ public:
 
     span<const token_info> head(span_size_t length = 1) {
         _ensure_cached(length);
-        return eagine::memory::head(view(_tokens), length);
+        return memory::head(view(_tokens), length);
     }
 
     bool consume(span_size_t length = 1);
 
     span<const token_info> follows(span<const token_kind> kinds) {
         const auto h = head(kinds.size());
-        if(eagine::are_equal(h, kinds)) {
+        if(are_equal(h, kinds)) {
             return h;
         }
         return {};
@@ -43,7 +44,7 @@ public:
     }
 
     span<const token_info> follows(token_kind kind) {
-        return follows(eagine::view_one(kind));
+        return follows(view_one(kind));
     }
 
 private:
@@ -54,6 +55,7 @@ private:
 };
 //------------------------------------------------------------------------------
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif // TEXGEN_TOKEN_STREAM_HPP

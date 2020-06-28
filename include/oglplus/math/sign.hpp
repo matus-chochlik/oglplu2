@@ -11,10 +11,12 @@
 
 #include <eagine/math/sign.hpp>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 
-using sign = eagine::math::sign<float>;
+using sign = math::sign<float>;
 
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif // OGLPLUS_MATH_SIGN_HPP

@@ -18,7 +18,7 @@ namespace units {
 using electric_charge = decltype(electric_current() * time());
 
 template <>
-struct dim_name<electric_charge> {
+struct name_of<electric_charge> {
     static constexpr const char mp_str[] = "electric charge";
 };
 

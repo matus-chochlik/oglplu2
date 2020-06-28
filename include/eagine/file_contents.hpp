@@ -48,6 +48,14 @@ public:
         return bool(_pimpl);
     }
 
+    explicit operator bool() const noexcept {
+        return is_loaded();
+    }
+
+    bool operator!() const noexcept {
+        return !is_loaded();
+    }
+
     memory::const_block block() const noexcept {
         return bool(EAGINE_LIKELY(_pimpl)) ? _pimpl->block()
                                            : memory::const_block();

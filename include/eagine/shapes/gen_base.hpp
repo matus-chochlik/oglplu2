@@ -11,6 +11,7 @@
 #define EAGINE_SHAPES_GEN_BASE_HPP
 
 #include "../assert.hpp"
+#include "../compare.hpp"
 #include "../math/primitives.hpp"
 #include "../span.hpp"
 #include "../types.hpp"
@@ -24,6 +25,8 @@
 namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
+using drawing_variant = span_size_t;
+//------------------------------------------------------------------------------
 struct generator_intf {
 
     generator_intf() = default;
@@ -35,8 +38,8 @@ struct generator_intf {
 
     virtual vertex_attrib_bits attrib_bits() noexcept = 0;
 
-    bool has(vertex_attrib_kind attr) noexcept {
-        return bool(attrib_bits() | attr);
+    bool has(vertex_attrib_kind attrib) noexcept {
+        return bool(attrib_bits() | attrib);
     }
 
     virtual bool enable(
@@ -62,34 +65,96 @@ struct generator_intf {
 
     virtual span_size_t vertex_count() = 0;
 
-    virtual span_size_t values_per_vertex(vertex_attrib_kind attr) = 0;
+    virtual span_size_t attribute_variants(vertex_attrib_kind attrib) = 0;
 
-    virtual void attrib_values(vertex_attrib_kind attr, span<float> dest) = 0;
+    virtual string_view variant_name(vertex_attrib_variant vav) = 0;
 
-    virtual index_data_type index_type() = 0;
+    vertex_attrib_variant find_variant(
+      vertex_attrib_kind attrib, string_view name) {
+        const span_size_t n = attribute_variants(attrib);
+        span_size_t index{-1};
+        for(span_size_t i = 0; i < n; ++i) {
+            if(are_equal(name, variant_name({attrib, i}))) {
+                index = i;
+                break;
+            }
+        }
+        return {attrib, index};
+    }
 
-    virtual span_size_t index_count() = 0;
+    virtual span_size_t values_per_vertex(vertex_attrib_variant vav) = 0;
 
-    virtual void indices(span<std::uint8_t> dest) = 0;
+    virtual attrib_data_type attrib_type(vertex_attrib_variant vav) = 0;
 
-    virtual void indices(span<std::uint16_t> dest) = 0;
+    virtual bool is_attrib_normalized(vertex_attrib_variant vav) = 0;
 
-    virtual void indices(span<std::uint32_t> dest) = 0;
+    virtual void attrib_values(vertex_attrib_variant vav, span<float> dest) = 0;
 
-    virtual span_size_t operation_count() = 0;
+    virtual span_size_t draw_variant_count() = 0;
 
-    virtual void instructions(span<draw_operation> dest) = 0;
+    drawing_variant draw_variant(span_size_t index) {
+        return index;
+    }
+
+    virtual index_data_type index_type(drawing_variant) = 0;
+    index_data_type index_type() {
+        return index_type(0);
+    }
+
+    virtual span_size_t index_count(drawing_variant) = 0;
+    span_size_t index_count() {
+        return index_count(0);
+    }
+
+    virtual void indices(drawing_variant, span<std::uint8_t> dest) = 0;
+    void indices(span<std::uint8_t> dest) {
+        indices(0, dest);
+    }
+
+    virtual void indices(drawing_variant, span<std::uint16_t> dest) = 0;
+    void indices(span<std::uint16_t> dest) {
+        indices(0, dest);
+    }
+
+    virtual void indices(drawing_variant, span<std::uint32_t> dest) = 0;
+    void indices(span<std::uint32_t> dest) {
+        indices(0, dest);
+    }
+
+    virtual span_size_t operation_count(drawing_variant) = 0;
+    span_size_t operation_count() {
+        return operation_count(0);
+    }
+
+    virtual void instructions(drawing_variant, span<draw_operation> dest) = 0;
+    void instructions(span<draw_operation> dest) {
+        return instructions(0, dest);
+    }
 
     virtual math::sphere<float, true> bounding_sphere();
 
     virtual void ray_intersections(
+      drawing_variant,
       span<const math::line<float, true>> rays,
       span<optionally_valid<float>> intersections);
+
+    void ray_intersections(
+      span<const math::line<float, true>> rays,
+      span<optionally_valid<float>> intersections) {
+        return ray_intersections(0, rays, intersections);
+    }
+
+    optionally_valid<float> ray_intersection(
+      drawing_variant var, const math::line<float, true>& ray) {
+        optionally_valid<float> result{};
+        ray_intersections(var, view_one(ray), cover_one(result));
+        return result;
+    }
 
     optionally_valid<float> ray_intersection(
       const math::line<float, true>& ray) {
         optionally_valid<float> result{};
-        ray_intersections(view_one(ray), cover_one(result));
+        ray_intersections(0, view_one(ray), cover_one(result));
         return result;
     }
 };
@@ -122,28 +187,53 @@ public:
         return _caps.has(cap);
     }
 
-    span_size_t values_per_vertex(vertex_attrib_kind attr) override {
-        return has(attr) ? attrib_values_per_vertex(attr) : 0u;
+    span_size_t attribute_variants(vertex_attrib_kind attrib) override {
+        return has(attrib) ? 1U : 0U;
     }
 
-    span_size_t value_count(vertex_attrib_kind attr) {
-        return vertex_count() * values_per_vertex(attr);
+    string_view variant_name(vertex_attrib_variant) override {
+        return {};
     }
 
-    void attrib_values(vertex_attrib_kind, span<float>) override {
+    bool has_variant(vertex_attrib_variant vav) {
+        EAGINE_ASSERT(vav.has_valid_index());
+        return vav.index() < attribute_variants(vav.attrib);
+    }
+
+    span_size_t values_per_vertex(vertex_attrib_variant vav) override {
+        return has_variant(vav) ? attrib_values_per_vertex(vav) : 0U;
+    }
+
+    span_size_t value_count(vertex_attrib_variant vav) {
+        return vertex_count() * values_per_vertex(vav);
+    }
+
+    attrib_data_type attrib_type(vertex_attrib_variant) override {
+        return attrib_data_type::float_;
+    }
+
+    bool is_attrib_normalized(vertex_attrib_variant) override {
+        return false;
+    }
+
+    void attrib_values(vertex_attrib_variant, span<float>) override {
         EAGINE_UNREACHABLE(
           "Generator failed to handle the specified attribute kind.");
     }
 
-    index_data_type index_type() override;
+    span_size_t draw_variant_count() override {
+        return 1;
+    }
 
-    span_size_t index_count() override;
+    index_data_type index_type(drawing_variant) override;
 
-    void indices(span<std::uint8_t> dest) override;
+    span_size_t index_count(drawing_variant) override;
 
-    void indices(span<std::uint16_t> dest) override;
+    void indices(drawing_variant, span<std::uint8_t> dest) override;
 
-    void indices(span<std::uint32_t> dest) override;
+    void indices(drawing_variant, span<std::uint16_t> dest) override;
+
+    void indices(drawing_variant, span<std::uint32_t> dest) override;
 };
 //------------------------------------------------------------------------------
 class centered_unit_shape_generator_base : public generator_base {
@@ -153,7 +243,7 @@ protected:
     }
 
 public:
-    void attrib_values(vertex_attrib_kind attr, span<float> dest) override;
+    void attrib_values(vertex_attrib_variant vav, span<float> dest) override;
 };
 //------------------------------------------------------------------------------
 static inline std::array<std::unique_ptr<generator_intf>, 2> operator+(

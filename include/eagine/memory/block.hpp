@@ -30,6 +30,14 @@ static constexpr inline basic_block<std::is_const_v<T>> as_bytes(
     return {spn.begin_addr(), spn.end_addr()};
 }
 //------------------------------------------------------------------------------
+static constexpr inline auto as_chars(block blk) noexcept {
+    return accomodate<char>(blk);
+}
+//------------------------------------------------------------------------------
+static constexpr inline auto as_chars(const_block blk) noexcept {
+    return accomodate<const char>(blk);
+}
+//------------------------------------------------------------------------------
 class block_owner;
 //------------------------------------------------------------------------------
 class owned_block : public block {

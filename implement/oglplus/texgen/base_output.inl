@@ -11,7 +11,8 @@
 #include <set>
 #include <string>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -134,5 +135,6 @@ std::ostream& operator<<(std::ostream& out, const output_id& e) {
 //------------------------------------------------------------------------------
 } // namespace expr
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 //------------------------------------------------------------------------------

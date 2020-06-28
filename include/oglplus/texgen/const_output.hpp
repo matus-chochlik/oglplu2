@@ -14,7 +14,8 @@
 #include <array>
 #include <type_traits>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 
 template <typename T>
@@ -81,6 +82,7 @@ public:
 };
 
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif // OGLPLUS_TEXGEN_CONST_OUTPUT_HPP

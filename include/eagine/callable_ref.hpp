@@ -34,22 +34,51 @@ private:
     static RV _cls_fn_call_op(void* that, P... p) {
         EAGINE_ASSERT(that);
         C& obj = *(static_cast<C*>(that));
-        return obj(std::forward<P>(p)...);
+
+        // NOLINTNEXTLINE(hicpp-braces-around-statements,readability-braces-around-statements)
+        if constexpr(std::is_void_v<RV>) {
+            obj(std::forward<P>(p)...);
+        } else {
+            return obj(std::forward<P>(p)...);
+        }
     }
 
     template <typename C>
     static RV _cls_fn_call_op_c(void* that, P... p) {
         EAGINE_ASSERT(that);
         const C& obj = *(static_cast<const C*>(that));
-        return obj(std::forward<P>(p)...);
+
+        // NOLINTNEXTLINE(hicpp-braces-around-statements,readability-braces-around-statements)
+        if constexpr(std::is_void_v<RV>) {
+            obj(std::forward<P>(p)...);
+        } else {
+            return obj(std::forward<P>(p)...);
+        }
     }
 
 public:
     constexpr callable_ref() noexcept = default;
 
+    constexpr callable_ref(callable_ref&& temp) noexcept
+      : _data{temp._data}
+      , _func{temp._func} {
+        temp._data = nullptr;
+        temp._func = nullptr;
+    }
+    constexpr callable_ref(const callable_ref&) noexcept = default;
+
+    constexpr callable_ref& operator=(callable_ref&& temp) noexcept {
+        using std::swap;
+        swap(temp._data, _data);
+        swap(temp._func, _func);
+        return *this;
+    }
+    constexpr callable_ref& operator=(const callable_ref&) noexcept = default;
+
+    ~callable_ref() noexcept = default;
+
     callable_ref(RV (*func)(P...)) noexcept
-      : _data(nullptr)
-      , _func(reinterpret_cast<_func_t>(func)) {
+      : _func(reinterpret_cast<_func_t>(func)) {
     }
 
     template <typename T>
@@ -81,14 +110,20 @@ public:
       , _func(reinterpret_cast<_func_t>(&_cls_fn_call_op_c<C>)) {
     }
 
-    template <
-      typename C,
-      typename MF,
-      MF Ptr,
-      typename = std::enable_if_t<
-        std::is_same_v<typename member_function_constant<MF, Ptr>::scope, C>>>
-    callable_ref(C* obj, member_function_constant<MF, Ptr> mfc) noexcept
+    template <typename C, RV (C::*Ptr)(P...)>
+    callable_ref(
+      C* obj, member_function_constant<RV (C::*)(P...), Ptr> mfc) noexcept
       : _data(static_cast<void*>(obj))
+      , _func(reinterpret_cast<_func_t>(mfc.make_free())) {
+        EAGINE_ASSERT(_data != nullptr);
+        EAGINE_ASSERT(_func != nullptr);
+    }
+
+    template <typename C, RV (C::*Ptr)(P...) const>
+    callable_ref(
+      const C* obj,
+      member_function_constant<RV (C::*)(P...) const, Ptr> mfc) noexcept
+      : _data(static_cast<void*>(const_cast<C*>(obj)))
       , _func(reinterpret_cast<_func_t>(mfc.make_free())) {
         EAGINE_ASSERT(_data != nullptr);
         EAGINE_ASSERT(_func != nullptr);

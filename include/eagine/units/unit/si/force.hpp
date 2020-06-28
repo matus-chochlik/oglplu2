@@ -23,12 +23,12 @@ namespace units {
 using newton = unit<force, si>;
 
 template <>
-struct unit_name<newton> {
+struct name_of<newton> {
     static constexpr const char mp_str[] = "newton";
 };
 
 template <>
-struct unit_symbol<newton> {
+struct symbol_of<newton> {
     static constexpr const char mp_str[] = "N";
 };
 

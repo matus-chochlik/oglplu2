@@ -26,6 +26,20 @@ struct identity {
     }
 };
 
+template <typename T, typename F>
+struct get_type {
+    template <typename X>
+    static typename X::type _get(X*);
+
+    template <typename X>
+    static F _get(...);
+
+    using type = decltype(_get<T>(static_cast<T*>(nullptr)));
+};
+
+template <typename T, typename F = void>
+using type_t = typename get_type<T, F>::type;
+
 template <typename T>
 static constexpr inline identity<T> make_identity(const T&) noexcept {
     return {};

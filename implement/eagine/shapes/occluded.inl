@@ -15,9 +15,9 @@ namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void occluded_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
+void occluded_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
 
-    if(attr == vertex_attrib_kind::occlusion) {
+    if(vav == vertex_attrib_kind::occlusion) {
         std::random_device rd;
         std::mt19937 rho_re(rd());
         std::mt19937 phi_re(rd());
@@ -26,19 +26,19 @@ void occluded_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
         const auto vc = delegated_gen::vertex_count();
         const auto pva = vertex_attrib_kind::position;
         const auto nva = vertex_attrib_kind::normal;
-        const auto pvpv = delegated_gen::values_per_vertex(pva);
-        const auto nvpv = delegated_gen::values_per_vertex(nva);
+        const auto pvpv = delegated_gen::values_per_vertex({pva, vav});
+        const auto nvpv = delegated_gen::values_per_vertex({nva, vav});
         const auto ns = _samples;
 
         if((pvpv == 3) && (nvpv == 3)) {
             EAGINE_ASSERT(
-              dest.size() >= vc * delegated_gen::values_per_vertex(attr));
+              dest.size() >= vc * delegated_gen::values_per_vertex(vav));
 
             std::vector<float> positions(std_size(vc * pvpv));
             std::vector<float> normals(std_size(vc * nvpv));
 
-            delegated_gen::attrib_values(pva, cover(positions));
-            delegated_gen::attrib_values(nva, cover(normals));
+            delegated_gen::attrib_values({pva, vav}, cover(positions));
+            delegated_gen::attrib_values({nva, vav}, cover(normals));
 
             std::vector<math::line<float, true>> rays(std_size(vc * ns));
             std::vector<float> weights(rays.size());
@@ -51,7 +51,7 @@ void occluded_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
                   normals[k + 0], normals[k + 1], normals[k + 2]};
 
                 rays[std_size(v * ns)] = math::line<float, true>{pos, nml};
-                weights[std_size(v * ns)] = 1.f;
+                weights[std_size(v * ns)] = 1.F;
 
                 for(span_size_t s = 1; s < ns; ++s) {
                     using std::acos;
@@ -63,7 +63,7 @@ void occluded_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
                     auto dir = math::to_cartesian(usc);
                     auto wght = dot(dir, nml);
 
-                    if(wght < 0.f) {
+                    if(wght < 0.F) {
                         dir = -dir;
                         wght = -wght;
                     }
@@ -79,24 +79,24 @@ void occluded_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
             delegated_gen::ray_intersections(view(rays), cover(params));
 
             for(span_size_t v = 0; v < vc; ++v) {
-                float occl = 0.f;
-                float wght = 0.f;
+                float occl = 0.F;
+                float wght = 0.F;
                 for(span_size_t s = 0; s < ns; ++s) {
                     const auto l = std_size(v * ns + s);
-                    if(params[l] > 0.0f) {
+                    if(params[l] > 0.0F) {
                         using std::exp;
                         occl +=
-                          exp(1.f - params[l].value_anyway()) * weights[l];
+                          exp(1.F - params[l].value_anyway()) * weights[l];
                     }
                     wght += weights[l];
                 }
                 dest[v] = occl / wght;
             }
         } else {
-            fill(dest, 0.f);
+            fill(dest, 0.F);
         }
     } else {
-        delegated_gen::attrib_values(attr, dest);
+        delegated_gen::attrib_values(vav, dest);
     }
 }
 //------------------------------------------------------------------------------

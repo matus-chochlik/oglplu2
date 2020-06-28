@@ -19,16 +19,16 @@ namespace base {
 // ampere
 struct ampere : unit<electric_current, ampere> {};
 
+} // namespace base
+
 template <>
-struct unit_name<ampere> {
+struct name_of<base::ampere> {
     static constexpr const char mp_str[] = "ampere";
 };
 template <>
-struct unit_symbol<ampere> {
+struct symbol_of<base::ampere> {
     static constexpr const char mp_str[] = "A";
 };
-
-} // namespace base
 
 // si::base_unit<electric_current>
 template <>

@@ -17,17 +17,17 @@
 
 namespace eagine {
 namespace memory {
-
+//------------------------------------------------------------------------------
 class buffer {
 public:
     using size_type = typename block::size_type;
     using pointer = typename block::pointer;
 
 private:
-    span_size_t _size;
-    span_size_t _align;
-    owned_block _storage;
-    shared_byte_allocator _alloc;
+    span_size_t _size{0};
+    span_size_t _align{0};
+    owned_block _storage{};
+    shared_byte_allocator _alloc{};
 
     bool _is_ok() const noexcept {
         return bool(_alloc) && size() <= capacity();
@@ -39,8 +39,7 @@ private:
 
 public:
     explicit buffer(span_size_t align)
-      : _size(0)
-      , _align(align)
+      : _align(align)
       , _alloc(default_byte_allocator()) {
     }
 
@@ -48,10 +47,23 @@ public:
       : buffer(alignof(long double)) {
     }
 
-    buffer(buffer&&) noexcept = default;
+    buffer(buffer&& temp) noexcept
+      : _size{temp._size}
+      , _align{temp._align}
+      , _storage{std::move(temp._storage)}
+      , _alloc{std::move(temp._alloc)} {
+        temp._size = 0;
+    }
+    buffer& operator=(buffer&& temp) noexcept {
+        _size = temp._size;
+        temp._size = 0;
+        _align = temp._align;
+        _storage = std::move(temp._storage);
+        _alloc = std::move(temp._alloc);
+        return *this;
+    }
     buffer(const buffer&) = delete;
     buffer& operator=(const buffer&) = delete;
-    buffer& operator=(buffer&&) = delete;
 
     ~buffer() noexcept {
         free();
@@ -69,21 +81,43 @@ public:
         return _size;
     }
 
+    bool empty() const noexcept {
+        return size() == 0;
+    }
+
     span_size_t capacity() const noexcept {
         return _storage.size();
     }
 
-    void reserve(span_size_t new_size) {
+    buffer& reserve(span_size_t new_size) {
         if(capacity() < new_size) {
             _reallocate(new_size);
         }
         EAGINE_ASSERT(_is_ok());
+        return *this;
     }
 
-    void resize(span_size_t new_size) {
+    buffer& resize(span_size_t new_size) {
         reserve(new_size);
         _size = new_size;
         EAGINE_ASSERT(_is_ok());
+        return *this;
+    }
+
+    buffer& ensure(span_size_t new_size) {
+        if(size() < new_size) {
+            return resize(new_size);
+        }
+        EAGINE_ASSERT(_is_ok());
+        return *this;
+    }
+
+    buffer& clear() {
+        return resize(0);
+    }
+
+    buffer& enlarge_by(span_size_t inc_size) {
+        return resize(size() + inc_size);
     }
 
     void free() {
@@ -101,7 +135,7 @@ public:
         return {_storage.begin(), _size};
     }
 };
-
+//------------------------------------------------------------------------------
 } // namespace memory
 } // namespace eagine
 

@@ -10,7 +10,10 @@
 #define EAGINE_PROGRAM_ARGS_HPP
 
 #include "assert.hpp"
+#include "from_string.hpp"
 #include "identity.hpp"
+#include "memory/block.hpp"
+#include "memory/span_algo.hpp"
 #include "program_args.hpp"
 #include "range_types.hpp"
 #include "span.hpp"
@@ -141,7 +144,7 @@ public:
         return _value;
     }
 };
-
+//------------------------------------------------------------------------------
 template <typename T>
 class program_parameter_alias : public basic_program_parameter {
 private:
@@ -175,7 +178,7 @@ public:
         return static_cast<const T&>(_aliased);
     }
 };
-
+//------------------------------------------------------------------------------
 template <>
 class program_parameter<void> : public basic_program_parameter {
 private:
@@ -209,7 +212,8 @@ public:
 };
 
 using program_option = program_parameter<void>;
-
+//------------------------------------------------------------------------------
+class program_arg_iterator;
 class program_arg {
 private:
     int _argi{0};
@@ -222,12 +226,16 @@ private:
       , _argv(argv) {
     }
 
+    friend class program_arg_iterator;
     friend class program_args;
 
     template <typename T>
     bool _do_parse(T& dest, const std::ostream&) {
-        std::stringstream ss(get_string());
-        return !((ss >> dest).fail() || !ss.eof());
+        if(auto opt_val = from_string<T>(get())) {
+            dest = extract(opt_val);
+            return true;
+        }
+        return false;
     }
 
     bool _do_parse(string_view& dest, const std::ostream&) {
@@ -285,11 +293,19 @@ public:
         return !is_valid();
     }
 
+    int position() const noexcept {
+        return _argi;
+    }
+
     value_type get() const noexcept {
         if(is_valid()) {
             return value_type(_argv[_argi]);
         }
         return value_type();
+    }
+
+    auto block() const noexcept {
+        return memory::as_bytes(get());
     }
 
     std::string get_string() const {
@@ -298,6 +314,18 @@ public:
 
     operator value_type() const noexcept {
         return get();
+    }
+
+    bool starts_with(string_view str) const noexcept {
+        return memory::starts_with(get(), str);
+    }
+
+    bool ends_with(string_view str) const noexcept {
+        return memory::ends_with(get(), str);
+    }
+
+    bool is_tag(string_view tag) const noexcept {
+        return are_equal(get(), tag);
     }
 
     bool is_tag(string_view short_tag, string_view long_tag) const noexcept {
@@ -594,7 +622,123 @@ public:
         return are_equal(get(), v);
     }
 };
+//------------------------------------------------------------------------------
+static inline auto extract(const program_arg& arg) noexcept {
+    return arg.get();
+}
+//------------------------------------------------------------------------------
+static inline std::ostream& operator<<(
+  std::ostream& out, const program_arg& arg) {
+    return out << arg.get();
+}
+//------------------------------------------------------------------------------
+class program_arg_iterator {
+    using this_class = program_arg_iterator;
 
+public:
+    program_arg_iterator(program_arg arg) noexcept
+      : _a{arg} {
+    }
+
+    using value_type = program_arg;
+    using difference_type = int;
+    using reference = program_arg&;
+    using const_reference = const program_arg&;
+    using pointer = program_arg*;
+    using const_pointer = const program_arg*;
+    using iterator_category = std::random_access_iterator_tag;
+
+    friend bool operator==(const this_class& l, const this_class& r) noexcept {
+        return _cmp(l._a, r._a) == 0;
+    }
+
+    friend bool operator!=(const this_class& l, const this_class& r) noexcept {
+        return _cmp(l._a, r._a) != 0;
+    }
+
+    friend bool operator<=(const this_class& l, const this_class& r) noexcept {
+        return _cmp(l._a, r._a) <= 0;
+    }
+
+    friend bool operator>=(const this_class& l, const this_class& r) noexcept {
+        return _cmp(l._a, r._a) >= 0;
+    }
+
+    friend bool operator<(const this_class& l, const this_class& r) noexcept {
+        return _cmp(l._a, r._a) < 0;
+    }
+
+    friend bool operator>(const this_class& l, const this_class& r) noexcept {
+        return _cmp(l._a, r._a) > 0;
+    }
+
+    friend difference_type operator-(
+      const this_class& l, const this_class& r) noexcept {
+        return _cmp(l._a, r._a);
+    }
+
+    this_class& operator++() noexcept {
+        ++_a._argi;
+        return *this;
+    }
+
+    this_class& operator--() noexcept {
+        --_a._argi;
+        return *this;
+    }
+
+    const this_class operator++(int) noexcept {
+        this_class result{*this};
+        ++_a._argi;
+        return result;
+    }
+
+    const this_class operator--(int) noexcept {
+        this_class result{*this};
+        --_a._argi;
+        return result;
+    }
+
+    this_class& operator+=(difference_type dist) noexcept {
+        _a._argi += dist;
+        return *this;
+    }
+
+    this_class& operator-=(difference_type dist) noexcept {
+        _a._argi -= dist;
+        return *this;
+    }
+
+    this_class operator+(difference_type dist) noexcept {
+        this_class result{*this};
+        result._a._argi += dist;
+        return result;
+    }
+
+    this_class operator-(difference_type dist) noexcept {
+        this_class result{*this};
+        result._a._argi -= dist;
+        return result;
+    }
+
+    reference operator*() noexcept {
+        return _a;
+    }
+
+    const_reference operator*() const noexcept {
+        return _a;
+    }
+
+private:
+    static inline int _cmp(
+      const program_arg& l, const program_arg& r) noexcept {
+        EAGINE_ASSERT(l._argv == r._argv);
+        return l._argi - r._argi;
+    }
+
+    program_arg _a{};
+};
+//------------------------------------------------------------------------------
 class program_parameters {
 private:
     struct _intf {
@@ -798,7 +942,7 @@ public:
         return out;
     }
 };
-
+//------------------------------------------------------------------------------
 class program_args {
 private:
     int _argc{0};
@@ -820,6 +964,7 @@ public:
     using value_type = string_view;
     using size_type = int;
     using valid_index = valid_range_index<program_args>;
+    using iterator = program_arg_iterator;
 
     int argc() const noexcept {
         return _argc;
@@ -863,6 +1008,27 @@ public:
         return program_arg(1, _argc, _argv);
     }
 
+    iterator begin() const noexcept {
+        return {program_arg(1, _argc, _argv)};
+    }
+
+    iterator end() const noexcept {
+        return {program_arg(_argc, _argc, _argv)};
+    }
+
+    program_arg find(string_view what) const noexcept {
+        int i = 1;
+        while(i < _argc) {
+            if((_argv != nullptr) && (_argv[i] != nullptr)) {
+                if(are_equal(string_view(_argv[i]), what)) {
+                    break;
+                }
+            }
+            ++i;
+        }
+        return {i, _argc, _argv};
+    }
+
     template <typename T>
     bool parse_param(program_parameter<T>& param, std::ostream& errlog) const {
         for(program_arg a = first(); a; a = a.next()) {
@@ -873,7 +1039,7 @@ public:
         return false;
     }
 };
-
+//------------------------------------------------------------------------------
 } // namespace eagine
 
 #endif // EAGINE_PROGRAM_ARGS_HPP

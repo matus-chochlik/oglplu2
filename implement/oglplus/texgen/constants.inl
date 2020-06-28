@@ -8,7 +8,8 @@
  */
 #include <iostream>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 namespace expr {
 //------------------------------------------------------------------------------
@@ -36,8 +37,8 @@ std::string base_constant::identifier() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-base_constant::definitions(std::ostream& out, compile_context& ctxt) {
+std::ostream& base_constant::definitions(
+  std::ostream& out, compile_context& ctxt) {
     if(!ctxt.remembers_constant(*this)) {
         out << "const " << data_type_name(value_type());
         out << " " << identifier() << " = ";
@@ -74,5 +75,6 @@ std::ostream& constant_phi::value(std::ostream& out, compile_context&) {
 }
 //------------------------------------------------------------------------------
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 //------------------------------------------------------------------------------

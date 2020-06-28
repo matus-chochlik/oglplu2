@@ -18,7 +18,7 @@ namespace units {
 using energy = decltype(force() * length());
 
 template <>
-struct dim_name<energy> {
+struct name_of<energy> {
     static constexpr const char mp_str[] = "energy";
 };
 

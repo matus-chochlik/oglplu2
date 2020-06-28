@@ -169,6 +169,19 @@ static constexpr inline optionally_valid<S> find_element(
     return {};
 }
 //------------------------------------------------------------------------------
+template <typename T, typename P, typename S, typename F>
+static constexpr inline optionally_valid<S> find_element_if(
+  basic_span<T, P, S> spn, F predicate) noexcept {
+    auto pos = S(0);
+    while(pos < spn.size()) {
+        if(predicate(spn[pos])) {
+            return {pos, true};
+        }
+        ++pos;
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
 template <
   typename T1,
   typename P1,
@@ -198,7 +211,7 @@ template <
 static inline basic_span<T1, P1, S1> find(
   basic_span<T1, P1, S1> where, basic_span<T2, P2, S2> what) {
     if(auto pos = find_position(where, what)) {
-        return skip(where, pos.value());
+        return skip(where, extract(pos));
     }
     return {};
 }
@@ -212,7 +225,7 @@ template <
   typename S2>
 static inline basic_span<T1, P1, S1> slice_before(
   basic_span<T1, P1, S1> spn, basic_span<T2, P2, S2> what) {
-    return head(spn, find_position(spn, what).value_or(spn.size()));
+    return head(spn, extract_or(find_position(spn, what), spn.size()));
 }
 //------------------------------------------------------------------------------
 template <
@@ -225,7 +238,7 @@ template <
 static inline basic_span<T1, P1, S1> slice_after(
   basic_span<T1, P1, S1> spn, basic_span<T2, P2, S2> what) {
     return skip(
-      spn, find_position(spn, what).value_or(spn.size()) + what.size());
+      spn, extract_or(find_position(spn, what), spn.size()) + what.size());
 }
 //------------------------------------------------------------------------------
 template <
@@ -237,7 +250,7 @@ template <
   typename S2>
 static inline basic_span<T1, P1, S1> slice_before_last(
   basic_span<T1, P1, S1> spn, basic_span<T2, P2, S2> what) {
-    return head(spn, reverse_find_position(spn, what).value_or(spn.size()));
+    return head(spn, extract_or(reverse_find_position(spn, what), spn.size()));
 }
 //------------------------------------------------------------------------------
 template <
@@ -250,7 +263,8 @@ template <
 static inline basic_span<T1, P1, S1> slice_after_last(
   basic_span<T1, P1, S1> spn, basic_span<T2, P2, S2> what) {
     return skip(
-      spn, reverse_find_position(spn, what).value_or(spn.size()) + what.size());
+      spn,
+      extract_or(reverse_find_position(spn, what), spn.size()) + what.size());
 }
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S, typename B>
@@ -258,7 +272,7 @@ static inline basic_span<T, P, S> slice_inside_brackets(
   basic_span<T, P, S> spn, B left, B right) noexcept {
 
     if(auto found = find_element(spn, left)) {
-        spn = skip(spn, found.value());
+        spn = skip(spn, extract(found));
         int depth = 1;
         auto pos = S(1);
         while((pos < spn.size()) && (depth > 0)) {
@@ -295,6 +309,94 @@ static inline basic_span<T, P, S> fill(basic_span<T, P, S> spn, const V& v) {
     return spn;
 }
 //------------------------------------------------------------------------------
+template <typename T, typename P, typename S>
+static inline std::enable_if_t<
+  std::is_integral_v<T> || std::is_floating_point_v<T>,
+  basic_span<T, P, S>>
+zero(basic_span<T, P, S> spn) {
+    std::fill(spn.begin(), spn.end(), T(0));
+    return spn;
+}
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename S>
+static inline basic_span<T, P, S> reverse(basic_span<T, P, S> spn) {
+    std::reverse(spn.begin(), spn.end());
+    return spn;
+}
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename S, typename Transform>
+static inline basic_span<T, P, S> transform(
+  basic_span<T, P, S> spn, Transform function) {
+    std::transform(spn.begin(), spn.end(), spn.begin(), std::move(function));
+    return spn;
+}
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename S, typename Generator>
+static inline basic_span<T, P, S> generate(
+  basic_span<T, P, S> spn, Generator gen) {
+    std::generate(spn.begin(), spn.end(), std::move(gen));
+    return spn;
+}
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename S, typename RandGen>
+static inline basic_span<T, P, S> shuffle(basic_span<T, P, S> spn, RandGen rg) {
+    std::shuffle(spn.begin(), spn.end(), std::move(rg));
+    return spn;
+}
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename S>
+static inline basic_span<T, P, S> sort(basic_span<T, P, S> spn) {
+    std::sort(spn.begin(), spn.end());
+    return spn;
+}
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename S, typename Compare>
+static inline basic_span<T, P, S> sort(
+  basic_span<T, P, S> spn, Compare compare) {
+    std::sort(spn.begin(), spn.end(), std::move(compare));
+    return spn;
+}
+//------------------------------------------------------------------------------
+template <
+  typename T,
+  typename P,
+  typename S,
+  typename I,
+  typename PI,
+  typename SI,
+  typename Compare>
+static inline bool make_index(
+  basic_span<T, P, S> spn, basic_span<I, PI, SI> idx, Compare compare) {
+    if(spn.size() == idx.size()) {
+        std::sort(idx.begin(), idx.end(), [spn, &compare](auto& l, auto& r) {
+            return compare(spn[l], spn[r]);
+        });
+    }
+    return false;
+}
+//------------------------------------------------------------------------------
+template <
+  typename T,
+  typename P,
+  typename S,
+  typename I,
+  typename PI,
+  typename SI>
+static inline bool make_index(
+  basic_span<T, P, S> spn, basic_span<I, PI, SI> idx) {
+    return make_index(spn, idx, std::less<T>());
+}
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename S>
+static inline bool is_sorted(basic_span<T, P, S> spn) {
+    return std::is_sorted(spn.begin(), spn.end());
+}
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename S, typename Compare>
+static inline bool is_sorted(basic_span<T, P, S> spn, Compare compare) {
+    return std::is_sorted(spn.begin(), spn.end(), std::move(compare));
+}
+//------------------------------------------------------------------------------
 template <
   typename T1,
   typename P1,
@@ -309,8 +411,8 @@ static inline void for_each_delimited(
   UnaryOperation unary_op) {
     basic_span<T1, P1, S1> tmp = spn;
     while(auto pos = find_position(tmp, delim)) {
-        unary_op(head(tmp, pos.value()));
-        tmp = skip(tmp, pos.value() + delim.size());
+        unary_op(head(tmp, extract(pos)));
+        tmp = skip(tmp, extract(pos) + delim.size());
     }
     unary_op(tmp);
 }

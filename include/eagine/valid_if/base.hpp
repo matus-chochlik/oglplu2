@@ -71,54 +71,55 @@ class basic_valid_if
   , private Policy
   , private DoLog {
 private:
-    const Policy& _policy() const noexcept {
-        return *this;
-    }
     const DoLog& _do_log() const noexcept {
         return *this;
     }
 
-    explicit constexpr basic_valid_if(Policy policy) noexcept
-      : Policy(policy)
-      , DoLog(_policy()) {
+    explicit constexpr basic_valid_if(Policy plcy) noexcept
+      : Policy(plcy)
+      , DoLog(policy()) {
     }
 
 public:
+    [[nodiscard]] const Policy& policy() const noexcept {
+        return *this;
+    }
     constexpr basic_valid_if() noexcept
-      : DoLog(_policy()) {
+      : DoLog(policy()) {
     }
 
     constexpr inline basic_valid_if(T val) noexcept
       : basic_valid_if_value<T>(std::move(val))
-      , DoLog(_policy()) {
+      , DoLog(policy()) {
     }
 
-    constexpr inline basic_valid_if(T val, Policy policy) noexcept
+    constexpr inline basic_valid_if(T val, Policy plcy) noexcept
       : basic_valid_if_value<T>(std::move(val))
-      , Policy(std::move(policy))
-      , DoLog(_policy()) {
+      , Policy(std::move(plcy))
+      , DoLog(policy()) {
     }
 
     constexpr basic_valid_if(const basic_valid_if& that)
       : basic_valid_if_value<T>(
           static_cast<const basic_valid_if_value<T>&>(that))
       , Policy(static_cast<const Policy&>(that))
-      , DoLog(_policy()) {
+      , DoLog(policy()) {
     }
 
     basic_valid_if(basic_valid_if&& that) noexcept(
       std::is_nothrow_move_constructible_v<T>)
       : basic_valid_if_value<T>(static_cast<basic_valid_if_value<T>&&>(that))
       , Policy(static_cast<Policy&&>(that))
-      , DoLog(_policy()) {
+      , DoLog(policy()) {
     }
 
+    // NOLINTNEXTLINE(bugprone-unhandled-self-assignment,cert-oop54-cpp)
     basic_valid_if& operator=(const basic_valid_if& that) {
         if(this != std::addressof(that)) {
             static_cast<basic_valid_if_value<T>&>(*this) =
               static_cast<const basic_valid_if_value<T>&>(that);
             static_cast<Policy&>(*this) = static_cast<const Policy&>(that);
-            static_cast<DoLog&>(*this) = DoLog(_policy());
+            static_cast<DoLog&>(*this) = {policy()};
         }
         return *this;
     }
@@ -129,7 +130,7 @@ public:
             static_cast<basic_valid_if_value<T>&>(*this) =
               static_cast<basic_valid_if_value<T>&&>(that);
             static_cast<Policy&>(*this) = static_cast<Policy&&>(that);
-            static_cast<DoLog&>(*this) = DoLog(_policy());
+            static_cast<DoLog&>(*this) = DoLog(policy());
         }
         return *this;
     }
@@ -149,7 +150,7 @@ public:
     ~basic_valid_if() noexcept = default;
 
     constexpr bool is_valid(const T& val, P... p) const noexcept {
-        return _policy()(val, p...);
+        return policy()(val, p...);
     }
 
     constexpr bool is_valid(P... p) const noexcept {
@@ -213,6 +214,10 @@ public:
 
     constexpr const auto& value_anyway(P...) const noexcept {
         return this->_get_value();
+    }
+
+    constexpr auto& value_anyway(P...) noexcept {
+        return this->_ref_value();
     }
 
     template <typename Func>

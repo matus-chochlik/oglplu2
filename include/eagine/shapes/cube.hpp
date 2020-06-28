@@ -37,7 +37,7 @@ private:
     static int _bitangential_c(span_size_t f, span_size_t c) noexcept;
 
     template <typename T>
-    void _indices(span<T> dest) noexcept;
+    void _indices(drawing_variant, span<T> dest) noexcept;
 
     static span_size_t _face_vert(
       span_size_t f, span_size_t t, span_size_t v) noexcept;
@@ -57,27 +57,29 @@ public:
 
     void face_coords(span<float> dest) noexcept;
 
-    void attrib_values(vertex_attrib_kind attr, span<float> dest) override;
+    void attrib_values(vertex_attrib_variant, span<float>) override;
 
-    index_data_type index_type() override;
+    span_size_t draw_variant_count() override;
 
-    span_size_t index_count() override;
+    index_data_type index_type(drawing_variant) override;
 
-    void indices(span<std::uint8_t> dest) override;
+    span_size_t index_count(drawing_variant) override;
 
-    void indices(span<std::uint16_t> dest) override;
+    void indices(drawing_variant, span<std::uint8_t> dest) override;
 
-    void indices(span<std::uint32_t> dest) override;
+    void indices(drawing_variant, span<std::uint16_t> dest) override;
 
-    span_size_t operation_count() override;
+    void indices(drawing_variant, span<std::uint32_t> dest) override;
 
-    void instructions(span<draw_operation> ops) override;
+    span_size_t operation_count(drawing_variant) override;
+
+    void instructions(drawing_variant, span<draw_operation> ops) override;
 
     math::sphere<float, true> bounding_sphere() override;
 };
 //------------------------------------------------------------------------------
 static inline auto unit_cube(vertex_attrib_bits attr_bits) {
-    return std::unique_ptr<generator_intf>{new unit_cube_gen(attr_bits)};
+    return std::make_unique<unit_cube_gen>(attr_bits);
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

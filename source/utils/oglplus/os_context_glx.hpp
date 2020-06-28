@@ -17,7 +17,8 @@
 #include <oglplus/x11/display.hpp>
 #include <oglplus/x11/visual_info.hpp>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 
 class offscreen_context_glx {
 private:
@@ -80,6 +81,7 @@ public:
     }
 };
 
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif

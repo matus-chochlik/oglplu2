@@ -11,7 +11,8 @@
 #include <iostream>
 #include <string>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -54,11 +55,8 @@ std::ostream& random_output::definitions(
     out << expr::conversion_suffix{seed.value_type(), vec3_type};
     out << ";" << std::endl;
 
-    const decltype(eagine::math::phi) sdm[4] = {
-      eagine::math::phi,
-      1 / eagine::math::phi,
-      eagine::math::phi * eagine::math::phi,
-      eagine::math::phi / eagine::math::phi};
+    const decltype(math::phi) sdm[4] = {
+      math::phi, 1 / math::phi, math::phi * math::phi, math::phi / math::phi};
 
     for(span_size_t d = 0; d < dims; ++d) {
         auto s = std::fmod(get_id() / sdm[d], 100.0);
@@ -89,5 +87,6 @@ std::ostream& random_output::definitions(
 }
 //------------------------------------------------------------------------------
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 //------------------------------------------------------------------------------

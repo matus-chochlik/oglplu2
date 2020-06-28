@@ -13,7 +13,8 @@
 #include "fallback_input.hpp"
 #include <string>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 
 bool is_valid_swizzle(string_view) noexcept;
@@ -51,7 +52,8 @@ public:
 };
 
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/texgen/swizzle_node.inl>

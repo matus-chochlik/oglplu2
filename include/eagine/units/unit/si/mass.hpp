@@ -19,29 +19,29 @@ namespace base {
 // gram
 struct gram : unit<mass, gram> {};
 
-template <>
-struct unit_name<gram> {
-    static constexpr const char mp_str[] = "gram";
-};
-template <>
-struct unit_symbol<gram> {
-    static constexpr const char mp_str[] = "g";
-};
-
 // tonne
 using tonne = scaled_unit<scales::mega, gram>;
 
+} // namespace base
+
 template <>
-struct unit_name<tonne> {
+struct name_of<base::gram> {
+    static constexpr const char mp_str[] = "gram";
+};
+template <>
+struct symbol_of<base::gram> {
+    static constexpr const char mp_str[] = "g";
+};
+
+template <>
+struct name_of<base::tonne> {
     static constexpr const char mp_str[] = "tonne";
 };
 
 template <>
-struct unit_symbol<tonne> {
+struct symbol_of<base::tonne> {
     static constexpr const char mp_str[] = "t";
 };
-
-} // namespace base
 
 // si::base_unit<mass>
 template <>

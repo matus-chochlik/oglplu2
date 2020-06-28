@@ -18,7 +18,7 @@ namespace units {
 using frequency = decltype(number_of_cycles() / time());
 
 template <>
-struct dim_name<frequency> {
+struct name_of<frequency> {
     static constexpr const char mp_str[] = "frequency";
 };
 

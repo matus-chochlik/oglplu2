@@ -17,7 +17,8 @@
 #include <X11/Xlib.h>
 #include <stdexcept>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace glx {
 
 class Context
@@ -135,6 +136,7 @@ public:
 };
 
 } // namespace glx
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif // include guard

@@ -11,9 +11,19 @@
 
 #include "assert.hpp"
 #include "int_constant.hpp"
+#include "valid_if/decl.hpp"
+#include <cstdint>
 #include <limits>
 #include <type_traits>
 #include <utility>
+
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wshorten-64-to-32"
+#elif defined(__GNUC__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-compare"
+#endif
 
 namespace eagine {
 //------------------------------------------------------------------------------
@@ -27,6 +37,21 @@ struct implicitly_within_limits
 
 template <typename Dst>
 struct implicitly_within_limits<Dst, bool> : std::is_integral<Dst> {};
+
+template <>
+struct implicitly_within_limits<float, std::int16_t> : std::true_type {};
+
+template <>
+struct implicitly_within_limits<float, std::int32_t> : std::true_type {};
+
+template <>
+struct implicitly_within_limits<double, std::int16_t> : std::true_type {};
+
+template <>
+struct implicitly_within_limits<double, std::int32_t> : std::true_type {};
+
+template <>
+struct implicitly_within_limits<double, std::int64_t> : std::true_type {};
 //------------------------------------------------------------------------------
 template <
   typename Dst,
@@ -99,6 +124,22 @@ limit_cast(Src value) noexcept {
       is_within_limits<Dst>(value), Dst(std::move(value)));
 }
 //------------------------------------------------------------------------------
+template <typename Dst, typename Src>
+static constexpr inline std::
+  enable_if_t<std::is_convertible_v<Src, Dst>, optionally_valid<Dst>>
+  convert_if_fits(Src value) noexcept {
+    if(is_within_limits<Dst>(value)) {
+        return {Dst(std::move(value)), true};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
 } // namespace eagine
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic push
+#endif
 
 #endif // EAGINE_IS_WITHIN_LIMITS_HPP

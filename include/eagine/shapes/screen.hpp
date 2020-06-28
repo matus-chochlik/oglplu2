@@ -38,17 +38,17 @@ public:
 
     void face_coords(span<float> dest) noexcept;
 
-    void attrib_values(vertex_attrib_kind attr, span<float> dest) override;
+    void attrib_values(vertex_attrib_variant, span<float>) override;
 
-    span_size_t operation_count() override;
+    span_size_t operation_count(drawing_variant) override;
 
-    void instructions(span<draw_operation> ops) override;
+    void instructions(drawing_variant, span<draw_operation> ops) override;
 
     math::sphere<float, true> bounding_sphere() override;
 };
 //------------------------------------------------------------------------------
 static inline auto unit_screen(vertex_attrib_bits attr_bits) {
-    return std::unique_ptr<generator_intf>{new unit_screen_gen(attr_bits)};
+    return std::make_unique<unit_screen_gen>(attr_bits);
 }
 //------------------------------------------------------------------------------
 

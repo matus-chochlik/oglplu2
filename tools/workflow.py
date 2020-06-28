@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # coding=utf-8
 # Copyright Matus Chochlik.
 # Distributed under the Boost Software License, Version 1.0.
@@ -54,7 +54,7 @@ def write_file(file_path, contents, simulate=None):
 	if simulate:
 		print("echo '"+contents+"' > "+file_path)
 	else:
-		open(file_path, 'w').write(contents)
+		open(file_path).write(contents)
 
 # executes a command in a subprocess
 def execute_command(cmd_line, root_dir=get_root_dir(), simulate=None):

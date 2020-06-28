@@ -20,15 +20,15 @@ BOOST_AUTO_TEST_CASE(mp_list_contains) {
     using lABC = mp_list<type_A, type_B, type_C>;
     using lDCB = mp_list<type_D, type_C, type_B>;
 
-    BOOST_CHECK((mp_contains<lABC, type_A>::value));
-    BOOST_CHECK((mp_contains<lABC, type_B>::value));
-    BOOST_CHECK((mp_contains<lABC, type_C>::value));
-    BOOST_CHECK((!mp_contains<lABC, type_D>::value));
+    BOOST_CHECK((mp_contains_v<lABC, type_A>));
+    BOOST_CHECK((mp_contains_v<lABC, type_B>));
+    BOOST_CHECK((mp_contains_v<lABC, type_C>));
+    BOOST_CHECK((!mp_contains_v<lABC, type_D>));
 
-    BOOST_CHECK((mp_contains<lDCB, type_D>::value));
-    BOOST_CHECK((mp_contains<lDCB, type_C>::value));
-    BOOST_CHECK((mp_contains<lDCB, type_B>::value));
-    BOOST_CHECK((!mp_contains<lDCB, type_A>::value));
+    BOOST_CHECK((mp_contains_v<lDCB, type_D>));
+    BOOST_CHECK((mp_contains_v<lDCB, type_C>));
+    BOOST_CHECK((mp_contains_v<lDCB, type_B>));
+    BOOST_CHECK((!mp_contains_v<lDCB, type_A>));
 }
 
 BOOST_AUTO_TEST_CASE(mp_list_1) {
@@ -38,10 +38,10 @@ BOOST_AUTO_TEST_CASE(mp_list_1) {
 
     using lBC = mp_union_t<lABC, lDCB>;
 
-    BOOST_CHECK((!mp_contains<lBC, type_A>::value));
-    BOOST_CHECK((mp_contains<lBC, type_B>::value));
-    BOOST_CHECK((mp_contains<lBC, type_C>::value));
-    BOOST_CHECK((!mp_contains<lBC, type_D>::value));
+    BOOST_CHECK((!mp_contains_v<lBC, type_A>));
+    BOOST_CHECK((mp_contains_v<lBC, type_B>));
+    BOOST_CHECK((mp_contains_v<lBC, type_C>));
+    BOOST_CHECK((!mp_contains_v<lBC, type_D>));
 }
 
 BOOST_AUTO_TEST_SUITE_END()

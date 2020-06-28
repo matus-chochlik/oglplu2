@@ -11,9 +11,10 @@
 
 #include "input_location.hpp"
 #include <eagine/compare.hpp>
-#include <oglplus/utils/string_span.hpp>
+#include <eagine/string_span.hpp>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 //------------------------------------------------------------------------------
 enum class token_kind {
@@ -91,24 +92,22 @@ private:
 };
 //------------------------------------------------------------------------------
 } // namespace texgen
-} // namespace oglplus
-//------------------------------------------------------------------------------
-namespace eagine {
+} // namespace oglp
 //------------------------------------------------------------------------------
 template <>
-struct equal_cmp<oglplus::texgen::token_kind, oglplus::texgen::token_info> {
+struct equal_cmp<oglp::texgen::token_kind, oglp::texgen::token_info> {
     static inline bool check(
-      oglplus::texgen::token_kind kind,
-      const oglplus::texgen::token_info& info) noexcept {
+      oglp::texgen::token_kind kind,
+      const oglp::texgen::token_info& info) noexcept {
         return kind == info.kind();
     }
 };
 //------------------------------------------------------------------------------
 template <>
-struct equal_cmp<oglplus::texgen::token_info, oglplus::texgen::token_kind> {
+struct equal_cmp<oglp::texgen::token_info, oglp::texgen::token_kind> {
     static inline bool check(
-      const oglplus::texgen::token_info& info,
-      oglplus::texgen::token_kind kind) noexcept {
+      const oglp::texgen::token_info& info,
+      oglp::texgen::token_kind kind) noexcept {
         return info.kind() == kind;
     }
 };

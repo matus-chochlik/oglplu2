@@ -75,6 +75,9 @@ public:
     }
 };
 
+template <typename T, int C, int R, bool RM, bool V>
+struct is_row_major<math::tmat<T, C, R, RM, V>> : bool_constant<RM> {};
+
 } // namespace math
 
 template <typename T, int C, int R, bool RM, bool V>

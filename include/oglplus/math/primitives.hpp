@@ -11,13 +11,16 @@
 
 #include "config.hpp"
 #include <eagine/math/primitives.hpp>
+#include <oglplus/gl_api/config.hpp>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 
-using line = eagine::math::line<GLfloat, math_use_simd>;
-using sphere = eagine::math::sphere<GLfloat, math_use_simd>;
-using triangle = eagine::math::triangle<GLfloat, math_use_simd>;
+using line = math::line<gl_types::float_type, math_use_simd>;
+using sphere = math::sphere<gl_types::float_type, math_use_simd>;
+using triangle = math::triangle<gl_types::float_type, math_use_simd>;
 
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif // OGLPLUS_MATH_PRIMITIVES_HPP

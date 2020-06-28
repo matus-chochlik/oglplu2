@@ -98,7 +98,8 @@ project_include_dirs = [
     'include',
     'implement',
     'third_party/include',
-    'third_party/GSL/include',
+    'third_party/asio/asio/include',
+    'third_party/rapidjson/include',
     'source/utils'
 ]
 #------------------------------------------------------------------------------#

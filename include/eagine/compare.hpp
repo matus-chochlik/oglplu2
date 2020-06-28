@@ -56,7 +56,7 @@ struct equal_cmp : equal_cmp_pick<L, R> {};
 template <>
 struct equal_cmp<float, float> {
     static constexpr inline bool check(float l, float r) noexcept {
-        return !((l - r) < 0.f || (l - r) > 0.f);
+        return !((l - r) < 0.F || (l - r) > 0.F);
     }
 };
 //------------------------------------------------------------------------------

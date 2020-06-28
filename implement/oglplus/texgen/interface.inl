@@ -10,7 +10,8 @@
 #include <set>
 #include <string>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 //------------------------------------------------------------------------------
 class compile_context_impl {
@@ -118,7 +119,7 @@ std::ostream& node_intf::input_definitions(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-eagine::optional_reference_wrapper<input_intf> node_intf::input_by_name(
+optional_reference_wrapper<input_intf> node_intf::input_by_name(
   string_view name) {
     for(span_size_t i = 0, n = input_count(); i < n; ++i) {
         input_intf& inp = input(i);
@@ -126,11 +127,11 @@ eagine::optional_reference_wrapper<input_intf> node_intf::input_by_name(
             return inp;
         }
     }
-    return eagine::nothing;
+    return nothing;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-eagine::optional_reference_wrapper<output_intf> node_intf::output_by_name(
+optional_reference_wrapper<output_intf> node_intf::output_by_name(
   string_view name) {
     for(span_size_t i = 0, n = output_count(); i < n; ++i) {
         output_intf& outp = output(i);
@@ -138,7 +139,7 @@ eagine::optional_reference_wrapper<output_intf> node_intf::output_by_name(
             return outp;
         }
     }
-    return eagine::nothing;
+    return nothing;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -205,5 +206,6 @@ bool disconnect_output_from_input(output_intf& output, input_intf& input) {
 }
 //------------------------------------------------------------------------------
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 //------------------------------------------------------------------------------

@@ -11,56 +11,90 @@
 #define OGLPLUS_SHAPES_DRAWING_HPP
 
 #include "../config/basic.hpp"
-#include "../enum/types.hpp"
-#include "../error/outcome.hpp"
-#include "../utils/span.hpp"
+#include "../gl_api.hpp"
 #include <eagine/shapes/drawing.hpp>
+#include <eagine/span.hpp>
 
-namespace oglplus {
-namespace shapes {
-
-class draw_operation {
+namespace eagine {
+namespace oglp {
+//------------------------------------------------------------------------------
+template <typename A>
+primitive_type translate(
+  const basic_gl_api<A>&, shapes::primitive_type) noexcept;
+//------------------------------------------------------------------------------
+template <typename A>
+data_type translate(const basic_gl_api<A>&, shapes::attrib_data_type) noexcept;
+//------------------------------------------------------------------------------
+template <typename A>
+index_data_type translate(
+  const basic_gl_api<A>&, shapes::index_data_type) noexcept;
+//------------------------------------------------------------------------------
+template <typename A>
+span_size_t type_size(
+  const basic_gl_api<A>&, shapes::attrib_data_type) noexcept;
+//------------------------------------------------------------------------------
+template <typename A>
+span_size_t type_size(const basic_gl_api<A>&, shapes::index_data_type) noexcept;
+//------------------------------------------------------------------------------
+class shape_draw_operation {
 private:
-    static primitive_type _translate(eagine::shapes::primitive_type) noexcept;
+    primitive_type _mode{0};
+    index_data_type _idx_type{0};
+    gl_types::int_type _first{0};
+    gl_types::sizei_type _count{0};
+    gl_types::uint_type _phase{0};
+    gl_types::uint_type _primitive_restart_index{0};
+    gl_types::int_type _patch_vertices{3};
+    bool _primitive_restart{false};
+    bool _cw_face_winding{false};
 
-    static data_type _translate(eagine::shapes::index_data_type) noexcept;
-
-    static span_size_t _byte_mult(eagine::shapes::index_data_type) noexcept;
-
-    primitive_type _mode;
-    data_type _idx_type;
-    GLint _first{0};
-    GLsizei _count{0};
-    [[maybe_unused]] GLuint _phase{0};
-    [[maybe_unused]] GLuint _primitive_restart_index{0};
-    [[maybe_unused]] GLint _patch_vertices{3};
-    [[maybe_unused]] bool _primitive_restart : 1;
-    bool _cw_face_winding : 1;
-
-    const void* _idx_ptr() const noexcept;
+    gl_types::const_void_ptr_type _idx_ptr() const noexcept;
 
 public:
-    constexpr draw_operation() noexcept
-      : _mode(primitive_type(GL_NONE))
-      , _idx_type(data_type(GL_NONE))
-      , _primitive_restart(false)
-      , _cw_face_winding(false) {
+    constexpr shape_draw_operation() noexcept = default;
+
+    template <typename A>
+    shape_draw_operation(
+      const basic_gl_api<A>& api,
+      const shapes::draw_operation& draw_op) noexcept;
+
+    shape_draw_operation& offset_first(span_size_t offs) noexcept {
+        _first += offs;
+        return *this;
     }
 
-    draw_operation(const eagine::shapes::draw_operation& draw_op) noexcept;
+    auto phase() const noexcept {
+        return _phase;
+    }
 
-    bool indexed() const noexcept;
+    template <typename A>
+    bool is_indexed(const basic_gl_api<A>& api) const noexcept {
+        const basic_gl_constants<A>& GL = api;
+        return _idx_type != GL.none;
+    }
 
-    outcome<void> draw() const noexcept;
+    template <typename A>
+    void draw(const basic_gl_api<A>& api) const noexcept;
 };
+//------------------------------------------------------------------------------
+struct shape_draw_subset {
+    span_size_t first{0};
+    span_size_t count{0};
+};
+//------------------------------------------------------------------------------
+template <typename A>
+void draw_using_instructions(
+  const basic_gl_api<A>& api, span<const shape_draw_operation> ops) noexcept;
+//------------------------------------------------------------------------------
+template <typename A>
+void draw_using_instructions(
+  const basic_gl_api<A>& api,
+  span<const shape_draw_operation> ops,
+  const shape_draw_subset& subs) noexcept;
+//------------------------------------------------------------------------------
+} // namespace oglp
+} // namespace eagine
 
-outcome<void> draw_using_instructions(span<const draw_operation> ops) noexcept;
-
-} // namespace shapes
-} // namespace oglplus
-
-#if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/shapes/drawing.inl>
-#endif
 
 #endif // OGLPLUS_SHAPES_DRAWING_HPP

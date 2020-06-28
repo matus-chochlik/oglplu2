@@ -11,10 +11,9 @@
 #define OGLPLUS_UTILS_IMAGE_SPEC_HPP
 
 #include "../data_type.hpp"
-#include "../enum/types.hpp"
-#include "memory_block.hpp"
-#include "span.hpp"
 #include <eagine/assert.hpp>
+#include <eagine/memory/block.hpp>
+#include <eagine/span.hpp>
 
 namespace oglplus {
 

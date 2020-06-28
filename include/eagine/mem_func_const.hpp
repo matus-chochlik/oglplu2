@@ -59,6 +59,10 @@ struct member_function_constant<RV (C::*)(P...) const, Ptr> {
     }
 };
 
+#define EAGINE_MEM_FUNC_T(CLASS, FUNC) \
+    ::eagine::member_function_constant<decltype(&CLASS::FUNC), &CLASS::FUNC>
+#define EAGINE_MEM_FUNC_C(CLASS, FUNC) EAGINE_MEM_FUNC_T(CLASS, FUNC)()
+
 } // namespace eagine
 
 #endif // EAGINE_MEM_FUNC_CONST_HPP

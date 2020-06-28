@@ -19,7 +19,7 @@ namespace units {
 using electrical_capacitance = decltype(electric_charge() / electric_tension());
 
 template <>
-struct dim_name<electrical_capacitance> {
+struct name_of<electrical_capacitance> {
     static constexpr const char mp_str[] = "electrical capacitance";
 };
 

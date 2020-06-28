@@ -23,17 +23,18 @@ namespace eagine {
 namespace string_list {
 //------------------------------------------------------------------------------
 static inline std::string encode_length(span_size_t len) {
-    return mbs::encode_code_point(mbs::code_point_t(len)).value();
+    return extract(mbs::encode_code_point(mbs::code_point_t(len)));
 }
 //------------------------------------------------------------------------------
 static inline span_size_t element_header_size(string_view elem) noexcept {
-    return mbs::decode_sequence_length(mbs::make_cbyte_span(elem)).value_or(0);
+    return extract_or(
+      mbs::decode_sequence_length(mbs::make_cbyte_span(elem)), 0);
 }
 //------------------------------------------------------------------------------
 static inline span_size_t element_value_size(
   string_view elem, span_size_t l) noexcept {
-    return mbs::do_decode_code_point(mbs::make_cbyte_span(elem), l)
-      .value_or(0U);
+    return extract_or(
+      mbs::do_decode_code_point(mbs::make_cbyte_span(elem), l), 0U);
 }
 //------------------------------------------------------------------------------
 static inline span_size_t element_value_size(string_view elem) noexcept {
@@ -199,15 +200,72 @@ static inline void rev_for_each(string_view list, Func func) noexcept {
     rev_for_each_elem(list, adapted_func);
 }
 //------------------------------------------------------------------------------
+static inline span_size_t split_into(
+  std::string& dst, string_view str, string_view sep) {
+    span_size_t cnt = 0;
+    for_each_delimited(str, sep, [&dst, &cnt](const auto& x) {
+        push_back(dst, x);
+        ++cnt;
+    });
+    return cnt;
+}
+//------------------------------------------------------------------------------
 static inline std::tuple<std::string, span_size_t> split(
   string_view str, string_view sep) {
     std::string res;
+    const auto cnt = split_into(res, str, sep);
+    return std::make_tuple(std::move(res), cnt);
+}
+//------------------------------------------------------------------------------
+template <typename Func>
+static inline span_size_t for_each_separated_c_str(
+  const char* str, const char sep, Func func) {
     span_size_t cnt = 0;
-    for_each_delimited(str, sep, [&res, &cnt](const auto& x) {
-        push_back(res, x);
-        ++cnt;
-    });
-    return std::make_tuple(res, cnt);
+    const char* bgn = str;
+    const char* pos = bgn;
+    if(sep != '\0') {
+        while(bool(str) && (*pos != '\0')) {
+            if(*pos == sep) {
+                if(pos - bgn > 0) {
+                    func(string_view(bgn, pos - bgn));
+                    ++cnt;
+                    bgn = ++pos;
+                } else {
+                    break;
+                }
+            } else {
+                ++pos;
+            }
+        }
+    } else {
+        while(bool(str)) {
+            if((*pos == sep) || (*pos == char(0))) {
+                if(pos - bgn > 1) {
+                    func(string_view(bgn, pos - bgn));
+                    ++cnt;
+                    bgn = ++pos;
+                } else {
+                    break;
+                }
+            } else {
+                ++pos;
+            }
+        }
+    }
+    return cnt;
+}
+//------------------------------------------------------------------------------
+static inline span_size_t split_c_str_into(
+  std::string& dst, const char* str, const char sep) {
+    return for_each_separated_c_str(
+      str, sep, [&dst](auto elem) { push_back(dst, elem); });
+}
+//------------------------------------------------------------------------------
+static inline std::tuple<std::string, span_size_t> split_c_str(
+  const char* str, const char sep) {
+    std::string res;
+    const auto cnt = split_c_str_into(res, str, sep);
+    return std::make_tuple(std::move(res), cnt);
 }
 //------------------------------------------------------------------------------
 static inline std::string join(
@@ -252,27 +310,26 @@ private:
     mutable string_view _tmp;
 
     byte _b() const noexcept {
-        EAGINE_ASSERT(_pos != nullptr);
         return byte(*_pos);
     }
 
     span_size_t _len_len() const noexcept {
         byte b = _b();
         EAGINE_ASSERT(mbs::is_valid_head_byte(b));
-        return mbs::do_decode_sequence_length(b).value_anyway();
+        return extract(mbs::do_decode_sequence_length(b));
     }
 
     span_size_t _val_len(span_size_t ll) const noexcept {
-        string_view el{_pos, ll};
-        return mbs::do_decode_code_point(mbs::make_cbyte_span(el), ll)
-          .value_or(0U);
+        string_view el{&*_pos, ll};
+        return extract_or(
+          mbs::do_decode_code_point(mbs::make_cbyte_span(el), ll), 0U);
     }
 
     void _update() const {
-        if(_pos != nullptr && (_tmp.size() == 0)) {
+        if(_tmp.size() == 0) {
             span_size_t ll = _len_len();
             span_size_t vl = _val_len(ll);
-            _tmp = string_view{_pos + ll, vl};
+            _tmp = string_view{&*(_pos + ll), vl};
         }
     }
 
@@ -282,10 +339,6 @@ public:
     using reference = const value_type&;
     using pointer = const value_type*;
     using iterator_category = std::forward_iterator_tag;
-
-    iterator() noexcept
-      : _pos(nullptr) {
-    }
 
     iterator(Iter pos) noexcept
       : _pos(pos) {
@@ -304,19 +357,16 @@ public:
     }
 
     reference operator*() const noexcept {
-        EAGINE_ASSERT(_pos != nullptr);
         _update();
         return _tmp;
     }
 
     pointer operator->() const noexcept {
-        EAGINE_ASSERT(_pos != nullptr);
         _update();
         return &_tmp;
     }
 
     iterator& operator++() noexcept {
-        EAGINE_ASSERT(_pos != nullptr);
         span_size_t ll = _len_len();
         span_size_t vl = _val_len(ll);
         _pos += ll + vl + ll;
@@ -338,12 +388,10 @@ private:
     mutable string_view _tmp;
 
     byte _b() const noexcept {
-        EAGINE_ASSERT(_pos != nullptr);
         return byte(*_pos);
     }
 
     void _rseek_head() const noexcept {
-        EAGINE_ASSERT(_pos != nullptr);
         while(!mbs::is_valid_head_byte(_b())) {
             --_pos;
         }
@@ -352,21 +400,21 @@ private:
     span_size_t _len_len() const noexcept {
         byte b = _b();
         EAGINE_ASSERT(mbs::is_valid_head_byte(b));
-        return mbs::do_decode_sequence_length(b).value_anyway();
+        return extract(mbs::do_decode_sequence_length(b));
     }
 
     span_size_t _val_len(span_size_t ll) const noexcept {
-        string_view el{_pos, ll};
-        return mbs::do_decode_code_point(mbs::make_cbyte_span(el), ll)
-          .value_or(0U);
+        string_view el{&*_pos, ll};
+        return extract_or(
+          mbs::do_decode_code_point(mbs::make_cbyte_span(el), ll), 0U);
     }
 
     void _update() const {
-        if(_pos != nullptr && (_tmp.size() == 0)) {
+        if(_tmp.size() == 0) {
             _rseek_head();
             span_size_t ll = _len_len();
             span_size_t vl = _val_len(ll);
-            _tmp = string_view{_pos - vl, vl};
+            _tmp = string_view{&*(_pos - vl), vl};
         }
     }
 
@@ -376,10 +424,6 @@ public:
     using reference = const value_type&;
     using pointer = const value_type*;
     using iterator_category = std::forward_iterator_tag;
-
-    rev_iterator() noexcept
-      : _pos(nullptr) {
-    }
 
     rev_iterator(Iter pos) noexcept
       : _pos(pos) {
@@ -398,19 +442,16 @@ public:
     }
 
     reference operator*() const noexcept {
-        EAGINE_ASSERT(_pos != nullptr);
         _update();
         return _tmp;
     }
 
     pointer operator->() const noexcept {
-        EAGINE_ASSERT(_pos != nullptr);
         _update();
         return &_tmp;
     }
 
     rev_iterator& operator++() noexcept {
-        EAGINE_ASSERT(_pos != nullptr);
         _rseek_head();
         span_size_t ll = _len_len();
         span_size_t vl = _val_len(ll);
@@ -426,7 +467,105 @@ public:
     }
 };
 //------------------------------------------------------------------------------
+template <typename Range>
+class range_view {
+
+public:
+    using iterator = eagine::string_list::iterator<typename Range::iterator>;
+
+    range_view(Range& range) noexcept
+      : _range{range} {
+    }
+
+    iterator begin() const noexcept {
+        return {_range.begin()};
+    }
+
+    iterator end() const noexcept {
+        return {_range.end()};
+    }
+
+private:
+    Range& _range;
+};
+//------------------------------------------------------------------------------
+template <typename Range>
+class rev_range_view {
+
+public:
+    using iterator =
+      eagine::string_list::rev_iterator<typename Range::iterator>;
+
+    rev_range_view(Range& range) noexcept
+      : _range{range} {
+    }
+
+    iterator begin() const noexcept {
+        return iterator(_range.end() - 1);
+    }
+
+    iterator end() const noexcept {
+        return iterator(_range.begin() - 1);
+    }
+
+private:
+    Range& _range;
+};
+//------------------------------------------------------------------------------
+template <typename Range>
+class basic_string_list {
+public:
+    using value_type = string_view;
+    using iterator =
+      eagine::string_list::iterator<typename Range::const_iterator>;
+    using reverse_iterator =
+      eagine::string_list::rev_iterator<typename Range::const_iterator>;
+
+    basic_string_list() noexcept = default;
+
+    basic_string_list(Range range) noexcept
+      : _range{std::move(range)} {
+    }
+
+    iterator begin() const noexcept {
+        return {_range.begin()};
+    }
+
+    iterator end() const noexcept {
+        return {_range.end()};
+    }
+
+    reverse_iterator rbegin() const noexcept {
+        return {_range.end() - 1};
+    }
+
+    reverse_iterator rend() const noexcept {
+        return {_range.begin() - 1};
+    }
+
+private:
+    Range _range{};
+};
+//------------------------------------------------------------------------------
 } // namespace string_list
+//------------------------------------------------------------------------------
+static inline string_list::basic_string_list<std::string> make_string_list(
+  std::string str) {
+    return {std::move(str)};
+}
+//------------------------------------------------------------------------------
+static inline auto split_into_string_list(string_view src, char sep) {
+    std::string temp;
+    string_list::split_into(temp, src, cover_one(sep));
+    return make_string_list(std::move(temp));
+}
+//------------------------------------------------------------------------------
+static inline auto split_c_str_into_string_list(const char* src, char sep) {
+    std::string temp;
+    string_list::split_c_str_into(temp, src, sep);
+    return make_string_list(std::move(temp));
+}
+//------------------------------------------------------------------------------
 } // namespace eagine
 
 #endif // EAGINE_STRING_LIST_HPP

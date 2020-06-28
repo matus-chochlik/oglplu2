@@ -10,12 +10,13 @@
 #define OGLPLUS_TEXGEN_DATA_TYPE_HPP
 
 #include "../config/basic.hpp"
-#include "../utils/string_span.hpp"
-#include "../utils/types.hpp"
+#include <eagine/string_span.hpp>
+#include <eagine/types.hpp>
 #include <eagine/valid_if/between.hpp>
 #include <iosfwd>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 
 enum class slot_data_type {
@@ -100,7 +101,7 @@ span_size_t data_type_dims(slot_data_type) noexcept;
 
 slot_data_type make_data_type(
   scalar_data_type type,
-  const eagine::valid_if_between<span_size_t, 1, 4>& dims) noexcept;
+  const valid_if_between<span_size_t, 1, 4>& dims) noexcept;
 
 scalar_data_type common_elem_type(slot_data_type a, slot_data_type b) noexcept;
 
@@ -146,7 +147,8 @@ std::ostream& operator<<(std::ostream&, conversion_suffix_v);
 
 } // namespace expr
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/texgen/data_type.inl>

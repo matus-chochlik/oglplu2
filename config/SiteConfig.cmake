@@ -11,4 +11,8 @@ configure_file(
 	${PROJECT_SOURCE_DIR}/config/oglplus/config/site.hpp.in
 	${PROJECT_BINARY_DIR}/include/oglplus/config/site.hpp
 )
+configure_file(
+	${PROJECT_SOURCE_DIR}/config/oalplus/config/site.hpp.in
+	${PROJECT_BINARY_DIR}/include/oalplus/config/site.hpp
+)
 

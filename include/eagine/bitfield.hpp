@@ -51,8 +51,24 @@ public:
         return _bits;
     }
 
+    constexpr inline value_type bits() const noexcept {
+        return _bits;
+    }
+
+    constexpr inline bool is_empty() const noexcept {
+        return _bits == BF(0);
+    }
+
     constexpr inline bool has(Bit bit) const noexcept {
         return (_bits & BF(bit)) == BF(bit);
+    }
+
+    constexpr inline bool has_only(Bit bit) const noexcept {
+        return _bits == BF(bit);
+    }
+
+    constexpr inline bool has_at_most(Bit bit) const noexcept {
+        return is_empty() || has_only(bit);
     }
 
     friend constexpr inline bool operator==(bitfield a, bitfield b) noexcept {
@@ -65,7 +81,7 @@ public:
 
     friend constexpr inline bitfield operator|(
       bitfield a, bitfield b) noexcept {
-        return bitfield(BF{a._bits} | BF{b._bits});
+        return bitfield(a._bits | b._bits);
     }
 
     bitfield& operator|=(bitfield b) noexcept {
@@ -75,7 +91,7 @@ public:
 
     friend constexpr inline bitfield operator&(
       bitfield a, bitfield b) noexcept {
-        return bitfield{a._bits & b._bits};
+        return bitfield(a._bits & b._bits);
     }
 
     bitfield& operator&=(bitfield b) noexcept {
@@ -84,7 +100,12 @@ public:
     }
 
     friend constexpr inline bitfield operator~(bitfield b) noexcept {
-        return bitfield{~b._bits};
+        return bitfield{BF(~b._bits)};
+    }
+
+    bitfield& clear(Bit b) noexcept {
+        _bits &= ~BF(b);
+        return *this;
     }
 };
 

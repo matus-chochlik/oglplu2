@@ -19,16 +19,16 @@ namespace base {
 // mole
 struct mole : unit<amount_of_substance, mole> {};
 
+} // namespace base
+
 template <>
-struct unit_name<mole> {
+struct name_of<base::mole> {
     static constexpr const char mp_str[] = "mole";
 };
 template <>
-struct unit_symbol<mole> {
+struct symbol_of<base::mole> {
     static constexpr const char mp_str[] = "mol";
 };
-
-} // namespace base
 
 // si::base_unit<amount_of_substance>
 template <>

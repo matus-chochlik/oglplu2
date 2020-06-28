@@ -9,11 +9,12 @@
 #ifndef OGLPLUS_TEXGEN_SPLIT_NODE_HPP
 #define OGLPLUS_TEXGEN_SPLIT_NODE_HPP
 
-#include "../utils/types.hpp"
 #include "base_node.hpp"
 #include "fallback_input.hpp"
+#include <eagine/types.hpp>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 
 class split_output : public base_output {
@@ -25,14 +26,14 @@ public:
     split_output(
       node_intf& parent,
       input_with_const_default<float[4]>& input,
-      eagine::valid_if_between<span_size_t, 0, 3> index);
+      valid_if_between<span_size_t, 0, 3> index);
 
     string_view type_name() override;
 
     slot_data_type value_type() override;
 
-    std::ostream&
-    definitions(std::ostream& out, compile_context& ctxt) override;
+    std::ostream& definitions(
+      std::ostream& out, compile_context& ctxt) override;
 };
 
 class split_node : public base_node {
@@ -58,7 +59,8 @@ public:
 };
 
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/texgen/split_node.inl>

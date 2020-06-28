@@ -12,6 +12,7 @@
 
 #include "compare.hpp"
 #include "count.hpp"
+#include "extract.hpp"
 #include "range_types.hpp"
 #include "valid_if/le_size_ge0.hpp"
 #include "valid_if/nonnegative.hpp"
@@ -22,25 +23,25 @@ namespace ranges {
 template <typename Range1, typename Range2>
 static inline Range1 find(const Range1& where, const Range2& what) {
     if(auto pos = find_pos(where, what)) {
-        return slice(where, pos.value());
+        return slice(where, extract(pos));
     }
     return {};
 }
 //------------------------------------------------------------------------------
 template <typename Range1, typename Range2>
 static inline Range1 slice_before(const Range1& rng, const Range2& what) {
-    return slice(rng, 0, find_pos(rng, what).value_or(rng.size()));
+    return slice(rng, 0, extract_or(find_pos(rng, what), rng.size()));
 }
 //------------------------------------------------------------------------------
 template <typename Range1, typename Range2>
 static inline Range1 slice_before_last(const Range1& rng, const Range2& what) {
-    return slice(rng, 0, rfind_pos(rng, what).value_or(0));
+    return slice(rng, 0, extract_or(rfind_pos(rng, what), 0));
 }
 //------------------------------------------------------------------------------
 template <typename Range1, typename Range2>
 static inline Range1 slice_after(const Range1& rng, const Range2& what) {
     if(auto pos = find_pos(rng, what)) {
-        return slice(rng, pos.value() + what.size());
+        return slice(rng, extract(pos) + what.size());
     }
     return {};
 }
@@ -48,7 +49,7 @@ static inline Range1 slice_after(const Range1& rng, const Range2& what) {
 template <typename Range1, typename Range2>
 static inline Range1 slice_after_last(const Range1& rng, const Range2& what) {
     if(auto pos = rfind_pos(rng, what)) {
-        return slice(rng, pos.value() + what.size());
+        return slice(rng, extract(pos) + what.size());
     }
     return {};
 }
@@ -57,8 +58,8 @@ template <typename Range1, typename Range2, typename Range3>
 static inline Range1 slice_between(
   const Range1& rng, const Range2& bgn, const Range3& end) {
     if(auto bpos = find_pos(rng, bgn)) {
-        if(auto epos = find_pos(slice(rng, bpos.value() + bgn.size()), end)) {
-            return slice(rng, bpos.value() + bgn.size(), epos.value());
+        if(auto epos = find_pos(slice(rng, extract(bpos) + bgn.size()), end)) {
+            return slice(rng, extract(bpos) + bgn.size(), extract(epos));
         }
     }
     return {};
@@ -69,11 +70,11 @@ static inline Range1 slice_inside(
   const Range1& rng, const Range2& bgn, const Range3& end) {
     if(auto bpos = find_pos(rng, bgn)) {
         if(auto epos = rfind_pos(rng, end)) {
-            if(bpos.value() + bgn.size() < epos.value()) {
+            if(extract(bpos) + bgn.size() < extract(epos)) {
                 return slice(
                   rng,
-                  bpos.value() + bgn.size(),
-                  epos.value() - bgn.size() - 1);
+                  extract(bpos) + bgn.size(),
+                  extract(epos) - bgn.size() - 1);
             }
         }
     }
@@ -83,9 +84,9 @@ static inline Range1 slice_inside(
 template <typename Range1, typename Range2>
 static inline span_size_t count(Range1 where, const Range2& what) {
     span_size_t result = 0;
-    while(auto p = find_pos(where, what)) {
+    while(auto pos = find_pos(where, what)) {
         ++result;
-        where = slice(where, p.value() + what.size());
+        where = slice(where, extract(pos) + what.size());
     }
     return result;
 }
@@ -94,9 +95,9 @@ template <typename Range1, typename Range2, typename UnaryOperation>
 static inline UnaryOperation for_each_delimited(
   const Range1& str, const Range2& delim, UnaryOperation unary_op) {
     Range1 tmp = str;
-    while(auto p = find_pos(tmp, delim)) {
-        unary_op(head(tmp, p.value()));
-        tmp = slice(tmp, p.value() + delim.size());
+    while(auto pos = find_pos(tmp, delim)) {
+        unary_op(head(tmp, extract(pos)));
+        tmp = slice(tmp, extract(pos) + delim.size());
     }
     unary_op(tmp);
     return unary_op;
@@ -107,14 +108,14 @@ static inline BinaryOperation for_each_delimiter(
   const Range1& str, const Range2& delim, BinaryOperation binary_op) {
     Range1 tmp = str;
     if(auto p1 = find_pos(tmp, delim)) {
-        Range1 prev = head(tmp, p1.value());
-        tmp = slice(tmp, p1.value() + delim.size());
+        Range1 prev = head(tmp, extract(p1));
+        tmp = slice(tmp, extract(p1) + delim.size());
 
-        while(auto p = find_pos(tmp, delim)) {
-            Range1 curr = head(tmp, p.value());
+        while(auto pos = find_pos(tmp, delim)) {
+            Range1 curr = head(tmp, extract(pos));
             binary_op(prev, curr);
             prev = curr;
-            tmp = slice(tmp, p.value() + delim.size());
+            tmp = slice(tmp, extract(pos) + delim.size());
         }
 
         binary_op(prev, tmp);

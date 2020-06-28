@@ -67,7 +67,7 @@ public:
     }
 
     const char* data() const noexcept {
-        return _str;
+        return static_cast<const char*>(_str);
     }
 
     const char* c_str() const noexcept {

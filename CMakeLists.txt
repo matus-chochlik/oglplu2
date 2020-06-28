@@ -2,23 +2,10 @@
 # Distributed under the Boost Software License, Version 1.0.
 # See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
+#
+cmake_minimum_required(VERSION 3.10)
 
-cmake_minimum_required(VERSION 3.5)
-if(POLICY CMP0054)
-	cmake_policy(SET CMP0054 NEW)
-endif()
-
-if(POLICY CMP0056)
-	cmake_policy(SET CMP0056 NEW)
-endif()
-
-if(POLICY CMP0066)
-	cmake_policy(SET CMP0066 NEW)
-endif()
-
-if(POLICY CMP0067)
-	cmake_policy(SET CMP0067 NEW)
-endif()
+include(config/Policies.cmake)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(CMAKE_DEBUG_POSTFIX d)
@@ -39,8 +26,15 @@ if(NOT ${CONFIG_INFO_ONLY})
 endif()
 
 include(config/Tools.cmake)
+include(config/Embed.cmake)
+include(config/PKI.cmake)
 
-include(FindPkgConfig)
+include(config/FindThreads.cmake)
+include(config/FindValgrind.cmake)
+include(config/FindStacktrace.cmake)
+include(config/FindBoostSpirit.cmake)
+include(config/CommonLibs.cmake)
+
 include(config/CommonFindMod.cmake)
 
 # GL-libraries
@@ -59,6 +53,15 @@ include(config/FindQT5GL.cmake)
 
 include(config/FindGLM.cmake)
 
+# ZLIB
+include(config/FindZLIB.cmake)
+
+# RYML
+include(config/FindRYML.cmake)
+
+# SSL
+include(config/FindSSL.cmake)
+
 # PNG
 include(config/FindPNG.cmake)
 
@@ -67,9 +70,6 @@ include(config/FindEGL.cmake)
 
 # OpenAL
 include(config/FindAL.cmake)
-
-# setting up executable requirements
-include(config/ExeRequirements.cmake)
 
 # configure GL API and Context-init libraries
 include(config/ConfigGL.cmake)
@@ -82,27 +82,29 @@ endif()
 
 # now create the site-configuration headers
 include(config/SiteConfig.cmake)
+include(config/GitInfo.cmake)
 
 include_directories("${PROJECT_BINARY_DIR}/include")
 include_directories("include")
 include_directories("implement")
 include_directories("third_party/include")
-include_directories("third_party/GSL/include")
+include_directories("third_party/asio/asio/include")
+include_directories("third_party/rapidjson/include")
 
 # common functions for GL version and extension detection
-include(config/GLVerFeat.cmake)
+# include(config/GLVerFeat.cmake)
 # GL version detection
-include(config/GLVer.cmake)
+# include(config/GLVer.cmake)
 # GL feature detection
-include(config/GLFeat.cmake)
+# include(config/GLFeat.cmake)
 
 # re-create the site-configuration header
 include(config/SiteConfig.cmake)
+# installation
+include(config/Installation.cmake)
 
 # tools, textures, etc.
-if(NOT ${NO_EXAMPLES})
-	add_subdirectory("source")
-endif()
+add_subdirectory("source")
 
 # examples
 if(NOT ${NO_EXAMPLES})
@@ -114,5 +116,3 @@ if(NOT ${NO_TESTS})
 	add_subdirectory("test")
 endif()
 
-# installation
-include(config/Installation.cmake)

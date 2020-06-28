@@ -3,11 +3,6 @@
 #  See accompanying file LICENSE_1_0.txt or copy at
 #   http://www.boost.org/LICENSE_1_0.txt
 #
-# install the GSL headers
-install(
-	DIRECTORY ${PROJECT_SOURCE_DIR}/third_party/GSL/include/
-	DESTINATION include
-)
 # install the headers
 install(
 	DIRECTORY ${PROJECT_SOURCE_DIR}/include/
@@ -23,4 +18,24 @@ install(
 	DIRECTORY ${PROJECT_BINARY_DIR}/include/
 	DESTINATION include
 )
-
+# install executable
+function(eagine_install_exe TARGET_NAME)
+	install(
+		TARGETS ${TARGET_NAME}
+		DESTINATION bin
+	)
+endfunction()
+# install tool
+function(eagine_install_tool TARGET_NAME)
+	install(
+		TARGETS ${TARGET_NAME}
+		DESTINATION bin
+	)
+endfunction()
+# install example
+function(eagine_install_example TARGET_NAME)
+	install(
+		TARGETS ${TARGET_NAME}
+		DESTINATION share/oglplus/examples
+	)
+endfunction()

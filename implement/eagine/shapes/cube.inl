@@ -136,7 +136,7 @@ void unit_cube_gen::positions(span<float> dest) noexcept {
 
         for(span_size_t v = 0; v < 8; ++v) {
             for(span_size_t c = 0; c < 3; ++c) {
-                dest[k++] = _coord_c(v, c) - 0.5f;
+                dest[k++] = float(_coord_c(v, c)) - 0.5F;
             }
         }
     } else {
@@ -147,7 +147,7 @@ void unit_cube_gen::positions(span<float> dest) noexcept {
                 for(span_size_t i = 0; i < 3; ++i) {
                     span_size_t v = _face_vert(f, t, i);
                     for(span_size_t c = 0; c < 3; ++c) {
-                        dest[k++] = _coord_c(v, c) - 0.5f;
+                        dest[k++] = float(_coord_c(v, c)) - 0.5F;
                     }
                 }
             }
@@ -190,7 +190,7 @@ void unit_cube_gen::normals(span<float> dest) noexcept {
     for(span_size_t f = 0; f < 6; ++f) {
         for(span_size_t i = 0; i < n; ++i) {
             for(span_size_t c = 0; c < 3; ++c) {
-                dest[k++] = _normal_c(f, c);
+                dest[k++] = float(_normal_c(f, c));
             }
         }
     }
@@ -231,7 +231,7 @@ void unit_cube_gen::tangentials(span<float> dest) noexcept {
     for(span_size_t f = 0; f < 6; ++f) {
         for(span_size_t i = 0; i < n; ++i) {
             for(span_size_t c = 0; c < 3; ++c) {
-                dest[k++] = _tangential_c(f, c);
+                dest[k++] = float(_tangential_c(f, c));
             }
         }
     }
@@ -272,7 +272,7 @@ void unit_cube_gen::bitangentials(span<float> dest) noexcept {
     for(span_size_t f = 0; f < 6; ++f) {
         for(span_size_t i = 0; i < n; ++i) {
             for(span_size_t c = 0; c < 3; ++c) {
-                dest[k++] = _bitangential_c(f, c);
+                dest[k++] = float(_bitangential_c(f, c));
             }
         }
     }
@@ -301,7 +301,7 @@ void unit_cube_gen::face_coords(span<float> dest) noexcept {
       {2, 1, 3}  // (II)
     };
 
-    const float uv[4][2] = {{0.f, 0.f}, {1.f, 0.f}, {0.f, 1.f}, {1.f, 1.f}};
+    const float uv[4][2] = {{0.F, 0.F}, {1.F, 0.F}, {0.F, 1.F}, {1.F, 1.F}};
 
     span_size_t k = 0;
 
@@ -319,8 +319,8 @@ void unit_cube_gen::face_coords(span<float> dest) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_cube_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
-    switch(attr) {
+void unit_cube_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
+    switch(vav.attrib) {
         case vertex_attrib_kind::position:
             positions(dest);
             break;
@@ -337,102 +337,143 @@ void unit_cube_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
             face_coords(dest);
             break;
         case vertex_attrib_kind::pivot:
+        case vertex_attrib_kind::pivot_pivot:
         case vertex_attrib_kind::vertex_pivot:
         case vertex_attrib_kind::object_id:
         case vertex_attrib_kind::material_id:
         case vertex_attrib_kind::box_coord:
-        case vertex_attrib_kind::wrap_coord_0:
-        case vertex_attrib_kind::wrap_coord_1:
-        case vertex_attrib_kind::wrap_coord_2:
-        case vertex_attrib_kind::wrap_coord_3:
+        case vertex_attrib_kind::wrap_coord:
+        case vertex_attrib_kind::weight:
+        case vertex_attrib_kind::color:
+        case vertex_attrib_kind::emission:
         case vertex_attrib_kind::occlusion:
-            _base::attrib_values(attr, dest);
+            _base::attrib_values(vav, dest);
             break;
     }
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-index_data_type unit_cube_gen::index_type() {
-    if(_only_shared_attribs()) {
+span_size_t unit_cube_gen::draw_variant_count() {
+    return 2;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+index_data_type unit_cube_gen::index_type(drawing_variant var) {
+    if(var == 0) {
+        if(_only_shared_attribs()) {
+            return index_data_type::unsigned_8;
+        }
+    } else if(var == 1) {
         return index_data_type::unsigned_8;
     }
     return index_data_type::none;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t unit_cube_gen::index_count() {
-    if(_only_shared_attribs()) {
-        return 6 * 2 * 3;
+span_size_t unit_cube_gen::index_count(drawing_variant var) {
+    if(var == 0) {
+        if(_only_shared_attribs()) {
+            return 6 * 2 * 3;
+        }
+    } else if(var == 1) {
+        return 6 * 8;
     }
     return 0;
 }
 //------------------------------------------------------------------------------
 template <typename T>
-inline void unit_cube_gen::_indices(span<T> dest) noexcept {
-    EAGINE_ASSERT(dest.size() >= index_count());
+inline void unit_cube_gen::_indices(
+  drawing_variant var, span<T> dest) noexcept {
+    EAGINE_ASSERT(dest.size() >= index_count(var));
 
     span_size_t k = 0;
 
-    if(_only_shared_attribs()) {
-        for(span_size_t f = 0; f < 6; ++f) {
-            for(span_size_t t = 0; t < 2; ++t) {
-                for(span_size_t v = 0; v < 3; ++v) {
-                    dest[k++] = T(_face_vert(f, t, v));
+    if(var == 0) {
+        if(_only_shared_attribs()) {
+            for(span_size_t f = 0; f < 6; ++f) {
+                for(span_size_t t = 0; t < 2; ++t) {
+                    for(span_size_t v = 0; v < 3; ++v) {
+                        dest[k++] = T(_face_vert(f, t, v));
+                    }
                 }
             }
         }
+    } else if(var == 1) {
+        for(span_size_t f = 0; f < 6; ++f) {
+            dest[k++] = T(_face_vert(f, 0, 0));
+            dest[k++] = T(_face_vert(f, 0, 2));
+
+            dest[k++] = T(_face_vert(f, 0, 2));
+            dest[k++] = T(_face_vert(f, 1, 2));
+
+            dest[k++] = T(_face_vert(f, 1, 2));
+            dest[k++] = T(_face_vert(f, 1, 1));
+
+            dest[k++] = T(_face_vert(f, 1, 1));
+            dest[k++] = T(_face_vert(f, 0, 0));
+        }
     }
 
-    EAGINE_ASSERT(k == index_count());
+    EAGINE_ASSERT(k == index_count(var));
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_cube_gen::indices(span<std::uint8_t> dest) {
-    _indices(dest);
+void unit_cube_gen::indices(drawing_variant var, span<std::uint8_t> dest) {
+    _indices(var, dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_cube_gen::indices(span<std::uint16_t> dest) {
-    _indices(dest);
+void unit_cube_gen::indices(drawing_variant var, span<std::uint16_t> dest) {
+    _indices(var, dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_cube_gen::indices(span<std::uint32_t> dest) {
-    _indices(dest);
+void unit_cube_gen::indices(drawing_variant var, span<std::uint32_t> dest) {
+    _indices(var, dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t unit_cube_gen::operation_count() {
+span_size_t unit_cube_gen::operation_count(drawing_variant) {
     return 1;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_cube_gen::instructions(span<draw_operation> ops) {
-    EAGINE_ASSERT(ops.size() >= operation_count());
+void unit_cube_gen::instructions(
+  drawing_variant var, span<draw_operation> ops) {
+    EAGINE_ASSERT(ops.size() >= operation_count(var));
 
-    if(_only_shared_attribs()) {
+    if(var == 0) {
+        if(_only_shared_attribs()) {
+            draw_operation& op = ops[0];
+            op.mode = primitive_type::triangles;
+            op.idx_type = index_type(var);
+            op.first = 0;
+            op.count = index_count(var);
+            op.primitive_restart = false;
+            op.cw_face_winding = false;
+        } else {
+            draw_operation& op = ops[0];
+            op.mode = primitive_type::triangles;
+            op.idx_type = index_data_type::none;
+            op.first = 0;
+            op.count = vertex_count();
+            op.primitive_restart = false;
+            op.cw_face_winding = false;
+        }
+    } else if(var == 1) {
         draw_operation& op = ops[0];
-        op.mode = primitive_type::triangles;
-        op.idx_type = index_type();
+        op.mode = primitive_type::lines;
+        op.idx_type = index_type(var);
         op.first = 0;
-        op.count = index_count();
+        op.count = index_count(var);
         op.primitive_restart = false;
-        op.cw_face_winding = false;
-    } else {
-        draw_operation& op = ops[0];
-        op.mode = primitive_type::triangles;
-        op.idx_type = index_data_type::none;
-        op.first = 0;
-        op.count = vertex_count();
-        op.primitive_restart = false;
-        op.cw_face_winding = false;
     }
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 math::sphere<float, true> unit_cube_gen::bounding_sphere() {
     using std::sqrt;
-    return {{0.0f}, float(sqrt(2.f))};
+    return {{0.0F}, float(sqrt(2.F))};
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

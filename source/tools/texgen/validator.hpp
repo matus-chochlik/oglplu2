@@ -11,7 +11,8 @@
 
 #include "semantic_actions.hpp"
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 //------------------------------------------------------------------------------
 class validator : public semantic_actions_intf {
@@ -20,6 +21,7 @@ class validator : public semantic_actions_intf {
 };
 //------------------------------------------------------------------------------
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif // TEXGEN_VALIDATOR_HPP

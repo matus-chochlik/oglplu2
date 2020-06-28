@@ -17,12 +17,6 @@
 namespace eagine {
 namespace units {
 
-template <typename Unit>
-struct unit_name;
-
-template <typename Unit>
-struct unit_symbol;
-
 // unit
 template <typename Dims, typename System>
 struct unit {
@@ -31,6 +25,11 @@ struct unit {
     using scale = scales::one;
     using type = unit;
 };
+
+template <typename X>
+dimension_of_t<X> get_dimension(X) noexcept {
+    return {};
+}
 
 // is_convertible
 template <typename D, typename S>

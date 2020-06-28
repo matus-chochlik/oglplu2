@@ -18,7 +18,7 @@ namespace units {
 using momentum = decltype(velocity() * mass());
 
 template <>
-struct dim_name<momentum> {
+struct name_of<momentum> {
     static constexpr const char mp_str[] = "momentum";
 };
 

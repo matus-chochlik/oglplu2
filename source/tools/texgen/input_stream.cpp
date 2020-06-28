@@ -12,7 +12,8 @@
 #include <istream>
 #include <vector>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 //------------------------------------------------------------------------------
 class istream_impl : public input_stream_intf {
@@ -54,14 +55,14 @@ public:
             _ensure_cached(length);
         } catch(...) {
         }
-        return eagine::memory::head(string_view(_cache), length);
+        return memory::head(string_view(_cache), length);
     }
 
 private:
     bool _ensure_cached(span_size_t count) {
         EAGINE_ASSERT(_cache.size() == _locs.size());
         while(_input.good() && (span_size(_cache.size()) < count)) {
-            _cache.push_back(_input.get());
+            _cache.push_back(char(_input.get()));
             if(_locs.empty()) {
                 _locs.emplace_back();
             } else {
@@ -82,4 +83,5 @@ input_stream::input_stream(std::istream& input)
 }
 //------------------------------------------------------------------------------
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine

@@ -4,23 +4,21 @@
 #  http://www.boost.org/LICENSE_1_0.txt
 
 if(OPENAL_FOUND)
-	include_directories(${OPENAL_INCLUDE_DIRS})
-	set(OALPLUS_LIB_SOURCES
-		enum_value_names.cpp
-		enum_value_range.cpp
+	add_library(
+		oalplus EXCLUDE_FROM_ALL
+		_dummy.cpp
 	)
-
-	add_library(oalplus EXCLUDE_FROM_ALL ${OALPLUS_LIB_SOURCES})
+	eagine_add_lib_analysis(oalplus)
 	set_target_properties(
 		oalplus
 		PROPERTIES FOLDER "Library/OALplus"
 	)
-	if(INVOKE_CLANG_TIDY)
-		set_target_properties(
-			oalplus
-			PROPERTIES CXX_CLANG_TIDY "${INVOKE_CLANG_TIDY}"
-		)
-	endif()
-
-	target_link_libraries(oalplus eagine)
+	set_target_properties(
+		oalplus PROPERTIES
+		INTERFACE_COMPILE_DEFINITIONS OALPLUS_LINK_LIB=1
+	)
+	target_link_libraries(
+		oalplus
+		PUBLIC eagine
+	)
 endif()

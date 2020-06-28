@@ -139,7 +139,7 @@ public:
 
     biteset_value_proxy(biteset_value_proxy&&) noexcept = default;
     biteset_value_proxy(const biteset_value_proxy&) = delete;
-    biteset_value_proxy& operator=(biteset_value_proxy&&) noexcept = default;
+    biteset_value_proxy& operator=(biteset_value_proxy&&) = delete;
     biteset_value_proxy& operator=(const biteset_value_proxy&) = delete;
 };
 
@@ -421,9 +421,7 @@ public:
     using iterator = biteset_iterator<biteset>;
     using const_iterator = biteset_iterator<const biteset>;
 
-    constexpr biteset() noexcept
-      : _bytes{} {
-    }
+    constexpr biteset() noexcept = default;
 
     template <
       typename... P,
@@ -432,6 +430,15 @@ public:
         std::conjunction_v<std::true_type, std::is_convertible<P, T>...>>>
     explicit constexpr inline biteset(P... p) noexcept
       : _bytes{_make_bytes(T(p)...)} {
+    }
+
+    explicit constexpr inline biteset(_bytes_t init) noexcept
+      : _bytes{init} {
+    }
+
+    template <typename UIntT>
+    static constexpr inline auto from_value(UIntT init) noexcept {
+        return biteset{_bytes_t{init}};
     }
 
     constexpr inline size_type size() const noexcept {
@@ -507,7 +514,7 @@ public:
     }
 
 private:
-    _bytes_t _bytes;
+    _bytes_t _bytes{};
 
     static constexpr inline std::size_t _min_s(
       std::size_t x, std::size_t y) noexcept {
@@ -651,8 +658,8 @@ private:
                      l);
     }
 
-    constexpr inline T _get_cell_bits(std::size_t bb, std::size_t be) const
-      noexcept {
+    constexpr inline T _get_cell_bits(
+      std::size_t bb, std::size_t be) const noexcept {
         return _get_cell_bits(
           _byte_t(0), bb, be, bb / _byte_s, be / _byte_s, size_constant<1>{});
     }

@@ -11,7 +11,8 @@
 
 #include "interface.hpp"
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace texgen {
 
 class base_input : public input_intf {
@@ -61,7 +62,7 @@ public:
     output_intf& connected_output() override;
 
     bool set_default_value(
-      eagine::valid_if_between<span_size_t, 0, 3> cmp, float val) override;
+      valid_if_between<span_size_t, 0, 3> cmp, float val) override;
 
     void update_needed() override;
 
@@ -71,7 +72,8 @@ public:
 };
 
 } // namespace texgen
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/texgen/base_input.inl>

@@ -53,9 +53,6 @@ using luminous_intensity = dimension<base::luminous_intensity, 1>;
 using amount_of_substance = dimension<base::amount_of_substance, 1>;
 using amount_of_information = dimension<base::amount_of_information, 1>;
 
-template <typename BaseDim>
-struct dim_name<dimension<BaseDim, 1>> : base::dim_name<BaseDim> {};
-
 } // namespace units
 } // namespace eagine
 

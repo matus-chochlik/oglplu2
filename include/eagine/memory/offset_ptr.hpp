@@ -103,13 +103,18 @@ public:
       : _offs{_get_offs(that)} {
     }
 
+    // NOLINTNEXTLINE(bugprone-unhandled-self-assignment,cert-oop54-cpp)
     basic_offset_ptr& operator=(const basic_offset_ptr& that) noexcept {
-        _offs = _get_offs(that);
+        if(this != std::addressof(that)) {
+            _offs = _get_offs(that);
+        }
         return *this;
     }
 
     basic_offset_ptr& operator=(basic_offset_ptr&& that) noexcept {
-        _offs = _get_offs(that);
+        if(this != std::addressof(that)) {
+            _offs = _get_offs(that);
+        }
         return *this;
     }
 
@@ -211,9 +216,20 @@ public:
 // extract
 //------------------------------------------------------------------------------
 template <typename P, typename O>
-static constexpr inline extracted<P> extract(
-  basic_offset_ptr<P, O> ptr) noexcept {
-    return {ptr.get()};
+static constexpr inline P& extract(basic_offset_ptr<P, O> ptr) noexcept {
+    return EAGINE_CONSTEXPR_ASSERT(!ptr.is_null(), ptr.get());
+}
+//------------------------------------------------------------------------------
+template <typename P, typename O>
+static constexpr inline P& extract_or(
+  basic_offset_ptr<P, O> ptr, P& fallback) noexcept {
+    return ptr.is_null() ? fallback : ptr.get();
+}
+//------------------------------------------------------------------------------
+template <typename P, typename O, typename F>
+static constexpr inline std::enable_if_t<std::is_convertible_v<F, P>, P>
+extract_or(basic_offset_ptr<P, O> ptr, P& fallback) {
+    return ptr.is_null() ? P{std::forward<F>(fallback)} : ptr.get();
 }
 //------------------------------------------------------------------------------
 // rebind_pointer

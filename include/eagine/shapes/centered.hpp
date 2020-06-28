@@ -24,13 +24,13 @@ public:
       : delegated_gen(std::move(gen)) {
     }
 
-    void attrib_values(vertex_attrib_kind attr, span<float> dest) override;
+    void attrib_values(vertex_attrib_variant, span<float>) override;
 
     math::sphere<float, true> bounding_sphere() override;
 };
 //------------------------------------------------------------------------------
 static inline auto center(std::unique_ptr<generator_intf>&& gen) noexcept {
-    return std::unique_ptr<generator_intf>(new centered_gen(std::move(gen)));
+    return std::make_unique<centered_gen>(std::move(gen));
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

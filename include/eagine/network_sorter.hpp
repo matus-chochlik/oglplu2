@@ -6,7 +6,9 @@
 #define EAGINE_NETWORK_SORTER_HPP
 
 #include "assert.hpp"
+#include "memory/span_algo.hpp"
 #include "sorting_network.hpp"
+#include "span.hpp"
 #include <array>
 #include <utility>
 
@@ -117,6 +119,16 @@ public:
         return sort().result();
     }
 };
+
+template <std::size_t N, typename Cmp, typename T, typename P, typename S>
+memory::basic_span<T, P, S> network_sort(memory::basic_span<T, P, S> spn) {
+    EAGINE_ASSERT(spn.size() == span_size_t(N));
+    using memory::copy;
+    std::array<T, N> init{};
+    copy(spn, cover(init));
+    network_sorter<T, N, Cmp> sorter(std::move(init));
+    return copy(view(sorter.sort().result()), spn);
+}
 
 } // namespace eagine
 

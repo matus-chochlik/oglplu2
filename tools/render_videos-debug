@@ -1,0 +1,38 @@
+#!/bin/bash
+
+prefix=/tmp/debug-
+width=800
+height=600
+
+while [[ ${#} -gt 0 ]]
+do
+	case "${1}" in
+		--framedump)
+			prefix=${2}
+			shift;;
+		--width)
+			width=${2}
+			shift;;
+		--height)
+			height=${2}
+			shift;;
+		--fixed-fps)
+			shift;;
+	esac
+	shift
+done
+
+echo ${prefix} 1>&2
+echo "${width}x${height}" 1>&2
+
+read prefix
+echo ${prefix} 1>&2
+
+for frame in {0..60}
+do
+	path=$(printf "%s%06d.rgba" ${prefix} ${frame})
+	dd if=/dev/urandom of=${path} bs=$((width*height)) count=4 2> /dev/null
+	echo ${path}
+	read response
+	echo ${response} 1>&2
+done

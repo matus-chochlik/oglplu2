@@ -12,6 +12,8 @@
 namespace eagine {
 namespace memory {
 //------------------------------------------------------------------------------
+// base_stack_allocator
+//------------------------------------------------------------------------------
 template <typename T>
 inline const_block base_stack_allocator<T>::_store() const noexcept {
     EAGINE_ASSERT(_btm <= _top);
@@ -46,21 +48,12 @@ inline base_stack_allocator<T>::base_stack_allocator(
 }
 //------------------------------------------------------------------------------
 template <typename T>
-inline base_stack_allocator<T>::base_stack_allocator() noexcept
-  : _btm(nullptr)
-  , _top(nullptr)
-  , _pos(nullptr)
-  , _min(nullptr) {
-}
-//------------------------------------------------------------------------------
-template <typename T>
 inline base_stack_allocator<T>::base_stack_allocator(
   const block& blk, span_size_t align) noexcept
   : _btm(align_up_to(blk.addr(), identity<T>(), align))
   , _top(align_down_to(blk.end_addr(), identity<T>(), align))
   , _pos(_btm)
-  , _min(_btm)
-  , _dif(0) {
+  , _min(_btm) {
 }
 //------------------------------------------------------------------------------
 template <typename T>
@@ -76,13 +69,15 @@ inline base_stack_allocator<T>::~base_stack_allocator() noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename T>
+inline bool base_stack_allocator<T>::contains(
+  const owned_block& b) const noexcept {
+    return _store().contains(b);
+}
+//------------------------------------------------------------------------------
+template <typename T>
 inline tribool base_stack_allocator<T>::has_allocated(
   const owned_block& b) const noexcept {
-    if(_store().contains(b)) {
-        EAGINE_ASSERT(_allocated().contains(b));
-        return true;
-    }
-    return false;
+    return _allocated().contains(b);
 }
 //------------------------------------------------------------------------------
 template <typename T>
@@ -158,9 +153,11 @@ inline void base_stack_allocator<T>::deallocate(owned_block&& b) noexcept {
     }
 }
 //------------------------------------------------------------------------------
+// stack_byte_allocator_only
+//------------------------------------------------------------------------------
 template <typename Policy>
-inline bool stack_byte_allocator_only<Policy>::equal(byte_allocator* a) const
-  noexcept {
+inline bool stack_byte_allocator_only<Policy>::equal(
+  byte_allocator* a) const noexcept {
     auto* sba = dynamic_cast<stack_byte_allocator_only*>(a);
 
     return (sba != nullptr) && (this->_alloc == sba->_alloc);
@@ -178,7 +175,7 @@ inline owned_block stack_byte_allocator_only<Policy>::allocate(
 
     EAGINE_ASSERT(m <= b.size());
 
-    owned_block r = this->acquire_block({b.begin() + m, b.end()});
+    owned_block r{this->acquire_block({b.begin() + m, b.end()})};
 
     this->release_block(std::move(b));
 
@@ -192,9 +189,11 @@ inline void stack_byte_allocator_only<Policy>::deallocate(
     this->release_block(std::move(b));
 }
 //------------------------------------------------------------------------------
+// stack_byte_allocator
+//------------------------------------------------------------------------------
 template <typename Policy>
-inline bool stack_byte_allocator<Policy>::equal(byte_allocator* a) const
-  noexcept {
+inline bool stack_byte_allocator<Policy>::equal(
+  byte_allocator* a) const noexcept {
     auto* sba = dynamic_cast<stack_byte_allocator*>(a);
 
     return (sba != nullptr) && (this->_alloc == sba->_alloc);
@@ -242,8 +241,8 @@ inline void stack_byte_allocator<Policy>::deallocate(
 }
 //------------------------------------------------------------------------------
 template <typename Policy>
-inline bool stack_aligned_byte_allocator<Policy>::equal(byte_allocator* a) const
-  noexcept {
+inline bool stack_aligned_byte_allocator<Policy>::equal(
+  byte_allocator* a) const noexcept {
     auto* sba = dynamic_cast<_this_class*>(a);
 
     return (sba != nullptr) && (this->_alloc == sba->_alloc);
@@ -263,7 +262,7 @@ inline owned_block stack_aligned_byte_allocator<Policy>::allocate(
 
     EAGINE_ASSERT(is_aligned_to(b.addr(), a));
 
-    return std::move(b);
+    return b;
 }
 //------------------------------------------------------------------------------
 template <typename Policy>

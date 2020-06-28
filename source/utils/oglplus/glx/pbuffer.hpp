@@ -14,7 +14,8 @@
 #include <GL/glx.h>
 #include <stdexcept>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace glx {
 
 class Pbuffer
@@ -33,6 +34,7 @@ public:
 };
 
 } // namespace glx
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif // include guard

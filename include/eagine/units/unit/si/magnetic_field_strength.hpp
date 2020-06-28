@@ -24,12 +24,12 @@ namespace units {
 using tesla = unit<magnetic_field_strength, si>;
 
 template <>
-struct unit_name<tesla> {
+struct name_of<tesla> {
     static constexpr const char mp_str[] = "tesla";
 };
 
 template <>
-struct unit_symbol<tesla> {
+struct symbol_of<tesla> {
     static constexpr const char mp_str[] = "T";
 };
 

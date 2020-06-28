@@ -36,6 +36,7 @@ endif()
 
 if((NOT GLUT_INCLUDE_DIRS))
 	set(GLUT_FOUND 0)
+	set(FREEGLUT_FOUND 0)
 	message(STATUS "GLUT header file not found")
 elseif((NOT GLUT_LIBRARIES))
 	set(GLUT_FOUND 0)

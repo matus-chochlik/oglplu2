@@ -28,10 +28,10 @@ template <typename X>
 using collapse_tail_t = typename collapse_tail<X>::type;
 
 // dim_pow
-template <typename Dim, typename Pow>
+template <typename Dim, int Pow>
 struct dim_pow {
     using dim = Dim;
-    using pow = Pow;
+    using pow = int_constant<Pow>;
 };
 
 // dims
@@ -58,10 +58,10 @@ struct pow_of_dim<D, nothing_t> : int_constant<0> {};
 template <typename D>
 struct pow_of_dim<D, dimless> : int_constant<0> {};
 
-template <typename D, typename P, typename T>
-struct pow_of_dim<D, dims<dim_pow<D, P>, T>> : P {};
+template <typename D, int P, typename T>
+struct pow_of_dim<D, dims<dim_pow<D, P>, T>> : int_constant<P> {};
 
-template <typename D1, typename D2, typename P, typename T>
+template <typename D1, typename D2, int P, typename T>
 struct pow_of_dim<D1, dims<dim_pow<D2, P>, T>> : pow_of_dim<D1, T> {};
 
 // get_pow_of_dim
@@ -96,26 +96,21 @@ struct dim_add<dims<H, T>, dimless> : dims<H, T> {};
 template <typename H, typename T>
 struct dim_add<dimless, dims<H, T>> : dims<H, T> {};
 
-template <
-  typename Dim,
-  typename Pow1,
-  typename Tail1,
-  typename Pow2,
-  typename Tail2>
+template <typename Dim, int Pow1, typename Tail1, int Pow2, typename Tail2>
 struct dim_add<dims<dim_pow<Dim, Pow1>, Tail1>, dims<dim_pow<Dim, Pow2>, Tail2>>
   : std::conditional_t<
-      (Pow1::value + Pow2::value == 0),
+      (Pow1 + Pow2 == 0),
       dim_add_t<Tail1, Tail2>,
       dims<
-        dim_pow<Dim, mp_plus_t<Pow1, Pow2>>,
+        dim_pow<Dim, Pow1 + Pow2>,
         collapse_tail_t<dim_add_t<Tail1, Tail2>>>> {};
 
 template <
   typename Dim1,
-  typename Pow1,
+  int Pow1,
   typename Tail1,
   typename Dim2,
-  typename Pow2,
+  int Pow2,
   typename Tail2>
 struct dim_add<
   dims<dim_pow<Dim1, Pow1>, Tail1>,
@@ -146,10 +141,9 @@ struct dim_sub<nothing_t, dimless> : dimless {};
 template <typename H, typename T>
 struct dim_sub<dims<H, T>, nothing_t> : dims<H, T> {};
 
-template <typename D, typename P, typename T>
+template <typename D, int P, typename T>
 struct dim_sub<nothing_t, dims<dim_pow<D, P>, T>>
-  : dims<dim_pow<D, mp_negate_t<P>>, collapse_tail_t<dim_sub_t<nothing_t, T>>> {
-};
+  : dims<dim_pow<D, -P>, collapse_tail_t<dim_sub_t<nothing_t, T>>> {};
 
 template <>
 struct dim_sub<dimless, dimless> : dimless {};
@@ -157,31 +151,25 @@ struct dim_sub<dimless, dimless> : dimless {};
 template <typename H, typename T>
 struct dim_sub<dims<H, T>, dimless> : dims<H, T> {};
 
-template <typename D, typename P, typename T>
+template <typename D, int P, typename T>
 struct dim_sub<dimless, dims<dim_pow<D, P>, T>>
-  : dims<dim_pow<D, mp_negate_t<P>>, collapse_tail_t<dim_sub_t<nothing_t, T>>> {
-};
+  : dims<dim_pow<D, -P>, collapse_tail_t<dim_sub_t<nothing_t, T>>> {};
 
-template <
-  typename Dim,
-  typename Pow1,
-  typename Tail1,
-  typename Pow2,
-  typename Tail2>
+template <typename Dim, int Pow1, typename Tail1, int Pow2, typename Tail2>
 struct dim_sub<dims<dim_pow<Dim, Pow1>, Tail1>, dims<dim_pow<Dim, Pow2>, Tail2>>
   : std::conditional_t<
-      (Pow1::value - Pow2::value == 0),
+      (Pow1 - Pow2 == 0),
       dim_sub_t<Tail1, Tail2>,
       dims<
-        dim_pow<Dim, mp_minus_t<Pow1, Pow2>>,
+        dim_pow<Dim, Pow1 - Pow2>,
         collapse_tail_t<dim_sub_t<Tail1, Tail2>>>> {};
 
 template <
   typename Dim1,
-  typename Pow1,
+  int Pow1,
   typename Tail1,
   typename Dim2,
-  typename Pow2,
+  int Pow2,
   typename Tail2>
 struct dim_sub<
   dims<dim_pow<Dim1, Pow1>, Tail1>,
@@ -192,7 +180,7 @@ struct dim_sub<
         dim_pow<Dim1, Pow1>,
         collapse_tail_t<dim_sub_t<Tail1, dims<dim_pow<Dim2, Pow2>, Tail2>>>>,
       dims<
-        dim_pow<Dim2, mp_negate_t<Pow2>>,
+        dim_pow<Dim2, -Pow2>,
         collapse_tail_t<dim_sub_t<dims<dim_pow<Dim1, Pow1>, Tail1>, Tail2>>>> {
 };
 
@@ -213,8 +201,8 @@ template <typename H, typename T, typename Dim>
 struct get_pow<dims<H, T>, Dim> : get_pow<T, Dim> {};
 
 // get_pow
-template <typename Dim, typename Pow, typename T>
-struct get_pow<dims<dim_pow<Dim, Pow>, T>, Dim> : Pow {};
+template <typename Dim, int Pow, typename T>
+struct get_pow<dims<dim_pow<Dim, Pow>, T>, Dim> : int_constant<Pow> {};
 
 // uni_sca
 template <typename Unit, typename Scale>
@@ -374,8 +362,7 @@ struct _sc_unit_sc_hlp {
     }
 
     template <typename Dir, typename T, typename D, int E>
-    static constexpr inline auto _hlp2(
-      Dir, T v, dim_pow<D, int_constant<E>>) noexcept {
+    static constexpr inline auto _hlp2(Dir, T v, dim_pow<D, E>) noexcept {
         using SBU = typename System ::template base_unit<D>::type;
         using BS = scales::scale_of_t<SBU>;
 
@@ -385,7 +372,7 @@ struct _sc_unit_sc_hlp {
           int_constant<(Dir::value ? E : -E)>());
     }
 
-    template <typename Dir, typename T, typename D, typename P, typename Dims>
+    template <typename Dir, typename T, typename D, int P, typename Dims>
     static constexpr inline auto _hlp(
       Dir dir, T v, dims<dim_pow<D, P>, Dims>) noexcept {
         return _hlp(dir, _hlp2(dir, v, dim_pow<D, P>()), Dims());

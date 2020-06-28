@@ -10,7 +10,8 @@
 
 #include <oglplus/config/site.hpp>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 
 struct offscreen_context_params {
     int argc;
@@ -35,6 +36,7 @@ struct offscreen_context_params {
     }
 };
 
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif

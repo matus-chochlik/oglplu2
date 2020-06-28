@@ -17,6 +17,52 @@ T rndval() {
     return rg.get<T>(-1000, 1000);
 }
 
+template <typename T>
+void test_math_function_is_ppo2() {
+    using std::pow;
+
+    for(int i = 0; i < 1000; ++i) {
+        const T v = rg.get_any<T>();
+        const bool r1 = eagine::math::is_positive_power_of_2(v);
+        bool r2 = false;
+        T b = 0;
+        while(pow(2, b) <= v) {
+            if(pow(2, b) == v) {
+                r2 = true;
+                break;
+            }
+            ++b;
+        }
+
+        BOOST_CHECK_EQUAL(r1, r2);
+    }
+}
+
+BOOST_AUTO_TEST_CASE(math_functions_is_ppo2) {
+    test_math_function_is_ppo2<short>();
+    test_math_function_is_ppo2<int>();
+    test_math_function_is_ppo2<long>();
+}
+
+template <typename T>
+void test_math_function_gcd() {
+
+    for(int i = 0; i < 1000; ++i) {
+        const T l = rg.get_any<T>();
+        const T r = rg.get_any<T>();
+        const T d = eagine::math::greatest_common_divisor(l, r);
+
+        BOOST_CHECK_EQUAL(l % d, 0);
+        BOOST_CHECK_EQUAL(r % d, 0);
+    }
+}
+
+BOOST_AUTO_TEST_CASE(math_functions_gcd) {
+    test_math_function_gcd<short>();
+    test_math_function_gcd<int>();
+    test_math_function_gcd<long>();
+}
+
 template <typename T, typename... P>
 void test_math_function_min_max_Tv(P... v) {
     T a[sizeof...(P)] = {v...};

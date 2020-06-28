@@ -1,0 +1,27 @@
+/**
+ *  @file oalplus/config/site.hpp
+ *  @brief System configuration options
+ *
+ * Copyright Matus Chochlik.
+ * Distributed under the Boost Software License, Version 1.0.
+ * See accompanying file LICENSE_1_0.txt or copy at
+ *  http://www.boost.org/LICENSE_1_0.txt
+ *
+ */
+#ifndef OALPLUS_CONFIG_SITE_HPP
+#define OALPLUS_CONFIG_SITE_HPP
+
+#include <eagine/config/site.hpp>
+
+// clang-format off
+
+#ifndef OALPLUS_LOW_PROFILE
+#define OALPLUS_LOW_PROFILE EAGINE_LOW_PROFILE
+#endif
+
+#define OALPLUS_AL_H_FOUND @OPENAL_AL_H_FOUND@
+#define OALPLUS_ALC_H_FOUND @OPENAL_ALC_H_FOUND@
+#define OALPLUS_ALUT_H_FOUND @OPENAL_ALUT_H_FOUND@
+// clang-format on
+
+#endif

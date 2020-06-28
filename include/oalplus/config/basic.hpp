@@ -9,7 +9,22 @@
 #ifndef OALPLUS_CONFIG_BASIC_HPP
 #define OALPLUS_CONFIG_BASIC_HPP
 
-// TODO
+#if __has_include(<oalplus/config/site.hpp>)
+#include <oalplus/config/site.hpp>
+#endif
+
+#ifndef OALPLUS_AL_H_FOUND
+#define OALPLUS_AL_H_FOUND __has_include(<AL/al.h>)
+#endif
+
+#ifndef OALPLUS_ALC_H_FOUND
+#define OALPLUS_ALC_H_FOUND __has_include(<AL/alc.h>)
+#endif
+
+#ifndef OALPLUS_ALUT_H_FOUND
+#define OALPLUS_ALUT_H_FOUND __has_include(<AL/alut.h>)
+#endif
+
 #ifndef OALPLUS_LOW_PROFILE
 #define OALPLUS_LOW_PROFILE 0
 #endif

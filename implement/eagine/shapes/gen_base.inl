@@ -20,21 +20,23 @@ namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 math::sphere<float, true> generator_intf::bounding_sphere() {
-    std::array<float, 3> min{std::numeric_limits<float>::max(),
-                             std::numeric_limits<float>::max(),
-                             std::numeric_limits<float>::max()};
+    std::array<float, 3> min{
+      std::numeric_limits<float>::max(),
+      std::numeric_limits<float>::max(),
+      std::numeric_limits<float>::max()};
 
-    std::array<float, 3> max{std::numeric_limits<float>::lowest(),
-                             std::numeric_limits<float>::lowest(),
-                             std::numeric_limits<float>::lowest()};
+    std::array<float, 3> max{
+      std::numeric_limits<float>::lowest(),
+      std::numeric_limits<float>::lowest(),
+      std::numeric_limits<float>::lowest()};
 
-    const auto attr = vertex_attrib_kind::position;
+    const auto attrib = vertex_attrib_kind::position;
     const auto n = vertex_count();
-    const auto m = values_per_vertex(attr);
+    const auto m = values_per_vertex(attrib);
 
     std::vector<float> temp(std_size(n * m));
     auto pos = cover(temp);
-    attrib_values(attr, pos);
+    attrib_values(attrib, pos);
 
     for(span_size_t v = 0; v < n; ++v) {
         for(span_size_t c = 0; c < m; ++c) {
@@ -46,10 +48,10 @@ math::sphere<float, true> generator_intf::bounding_sphere() {
     }
 
     math::vector<float, 3, true> center{};
-    float radius{0.f};
+    float radius{0.F};
     for(span_size_t c = 0; c < m; ++c) {
         const auto k = std_size(c);
-        radius = eagine::math::maximum(radius, (max[k] - min[k]) * 0.5f);
+        radius = eagine::math::maximum(radius, (max[k] - min[k]) * 0.5F);
     }
 
     return {center, radius};
@@ -57,16 +59,17 @@ math::sphere<float, true> generator_intf::bounding_sphere() {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void generator_intf::ray_intersections(
+  drawing_variant var,
   span<const math::line<float, true>> rays,
   span<optionally_valid<float>> intersections) {
 
     EAGINE_ASSERT(intersections.size() >= rays.size());
 
-    std::vector<draw_operation> ops(std_size(operation_count()));
-    instructions(cover(ops));
+    std::vector<draw_operation> ops(std_size(operation_count(var)));
+    instructions(var, cover(ops));
 
-    std::vector<std::uint32_t> idx(std_size(index_count()));
-    indices(cover(idx));
+    std::vector<std::uint32_t> idx(std_size(index_count(var)));
+    indices(var, cover(idx));
 
     const auto pvak = vertex_attrib_kind::position;
     const auto vpv = values_per_vertex(pvak);
@@ -81,7 +84,7 @@ void generator_intf::ray_intersections(
     for(span_size_t i = 0; i < rays.size(); ++i) {
         const auto nparam = math::nearest_ray_param(
           math::line_sphere_intersection_params(rays[i], bs));
-        if(nparam >= 0.f) {
+        if(nparam >= 0.F) {
             ray_idx.push_back(std_size(i));
         }
     }
@@ -93,9 +96,9 @@ void generator_intf::ray_intersections(
             const auto nparam =
               math::line_triangle_intersection_param(ray, fce);
 
-            if(nparam > 0.0001f) {
+            if(nparam > 0.0001F) {
                 const auto fnml = fce.normal(cw);
-                if(dot(ray.direction(), fnml) < 0.f) {
+                if(dot(ray.direction(), fnml) < 0.F) {
                     auto& oparam = intersections[i];
                     if(!oparam || bool(nparam < oparam)) {
                         oparam = nparam;
@@ -141,15 +144,16 @@ void generator_intf::ray_intersections(
                     o1 = 0;
                     o2 = -1;
                 }
-                math::triangle<float, true> face{{coord(w + o0, 0, indexed),
-                                                  coord(w + o0, 1, indexed),
-                                                  coord(w + o0, 2, indexed)},
-                                                 {coord(w + o1, 0, indexed),
-                                                  coord(w + o1, 1, indexed),
-                                                  coord(w + o1, 2, indexed)},
-                                                 {coord(w + o2, 0, indexed),
-                                                  coord(w + o2, 1, indexed),
-                                                  coord(w + o2, 2, indexed)}};
+                math::triangle<float, true> face{
+                  {coord(w + o0, 0, indexed),
+                   coord(w + o0, 1, indexed),
+                   coord(w + o0, 2, indexed)},
+                  {coord(w + o1, 0, indexed),
+                   coord(w + o1, 1, indexed),
+                   coord(w + o1, 2, indexed)},
+                  {coord(w + o2, 0, indexed),
+                   coord(w + o2, 1, indexed),
+                   coord(w + o2, 2, indexed)}};
                 intersect(face, op.cw_face_winding);
             }
         }
@@ -158,38 +162,39 @@ void generator_intf::ray_intersections(
 //------------------------------------------------------------------------------
 // generator_base
 //------------------------------------------------------------------------------
-EAGINE_LIB_FUNC index_data_type generator_base::index_type() {
+EAGINE_LIB_FUNC index_data_type generator_base::index_type(drawing_variant) {
     return index_data_type::none;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t generator_base::index_count() {
+span_size_t generator_base::index_count(drawing_variant) {
     return 0;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void generator_base::indices(span<std::uint8_t>) {
+void generator_base::indices(drawing_variant, span<std::uint8_t>) {
     EAGINE_UNREACHABLE("Invalid function called for this index data type");
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void generator_base::indices(span<std::uint16_t> dest) {
-    if(index_type() == index_data_type::unsigned_8) {
-        std::vector<std::uint8_t> tmp(std_size(index_count()));
-        indices(cover(tmp));
+void generator_base::indices(drawing_variant var, span<std::uint16_t> dest) {
+    if(index_type(var) == index_data_type::unsigned_8) {
+        std::vector<std::uint8_t> tmp(std_size(index_count(var)));
+        indices(var, cover(tmp));
         copy(view(tmp), dest);
     }
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void generator_base::indices(span<std::uint32_t> dest) {
-    if(index_type() == index_data_type::unsigned_8) {
-        std::vector<std::uint8_t> tmp(std_size(index_count()));
-        indices(cover(tmp));
+void generator_base::indices(drawing_variant var, span<std::uint32_t> dest) {
+    const auto ity = index_type(var);
+    if(ity == index_data_type::unsigned_8) {
+        std::vector<std::uint8_t> tmp(std_size(index_count(var)));
+        indices(var, cover(tmp));
         copy(view(tmp), dest);
-    } else if(index_type() == index_data_type::unsigned_16) {
-        std::vector<std::uint16_t> tmp(std_size(index_count()));
-        indices(cover(tmp));
+    } else if(ity == index_data_type::unsigned_16) {
+        std::vector<std::uint16_t> tmp(std_size(index_count(var)));
+        indices(var, cover(tmp));
         copy(view(tmp), dest);
     }
 }
@@ -198,18 +203,20 @@ void generator_base::indices(span<std::uint32_t> dest) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void centered_unit_shape_generator_base::attrib_values(
-  vertex_attrib_kind attr, span<float> dest) {
-    if(attr == vertex_attrib_kind::box_coord) {
-        this->attrib_values(vertex_attrib_kind::position, dest);
+  vertex_attrib_variant vav, span<float> dest) {
+    if(vav.attrib == vertex_attrib_kind::box_coord) {
+        this->attrib_values({vertex_attrib_kind::position, vav}, dest);
         for(float& x : dest) {
-            x += 0.5f;
+            x += 0.5F;
         }
-    } else if(attr == vertex_attrib_kind::pivot) {
-        fill(head(dest, this->vertex_count() * 3), 0.f);
-    } else if(attr == vertex_attrib_kind::vertex_pivot) {
-        fill(head(dest, this->vertex_count() * 3), 0.f);
+    } else if(vav == vertex_attrib_kind::pivot) {
+        fill(head(dest, this->vertex_count() * 3), 0.F);
+    } else if(vav == vertex_attrib_kind::pivot_pivot) {
+        fill(head(dest, this->vertex_count() * 3), 0.F);
+    } else if(vav == vertex_attrib_kind::vertex_pivot) {
+        fill(head(dest, this->vertex_count() * 3), 0.F);
     } else {
-        generator_base::attrib_values(attr, dest);
+        generator_base::attrib_values(vav, dest);
     }
 }
 //------------------------------------------------------------------------------

@@ -22,12 +22,12 @@ namespace units {
 using ohm = unit<electrical_resistance, si>;
 
 template <>
-struct unit_name<ohm> {
+struct name_of<ohm> {
     static constexpr const char mp_str[] = "ohm";
 };
 
 template <>
-struct unit_symbol<ohm> {
+struct symbol_of<ohm> {
     static constexpr const char mp_str[] = {char(0xCE), char(0xA9), '\0'};
 };
 

@@ -41,7 +41,24 @@ public:
         std::
           conjunction_v<std::true_type, std::is_convertible<B, value_type>...>>>
     explicit constexpr inline byteset(B... b) noexcept
-      : _bytes{value_type(b)...} {
+      : _bytes{value_type{b}...} {
+    }
+
+    template <
+      std::size_t... I,
+      typename UInt,
+      typename =
+        std::enable_if_t<(sizeof(UInt) >= N) && std::is_integral_v<UInt>>>
+    constexpr inline byteset(std::index_sequence<I...>, UInt init) noexcept
+      : _bytes{value_type((init >> (8 * (N - I - 1))) & 0xFFU)...} {
+    }
+
+    template <
+      typename UInt,
+      typename =
+        std::enable_if_t<(sizeof(UInt) >= N) && std::is_integral_v<UInt>>>
+    explicit constexpr inline byteset(UInt init) noexcept
+      : byteset(std::make_index_sequence<N>(), init) {
     }
 
     pointer data() noexcept {
@@ -144,7 +161,7 @@ public:
     }
 
 private:
-    value_type _bytes[N];
+    value_type _bytes[N]{};
 
     template <typename UInt>
     constexpr inline UInt _push_back_to(UInt state, std::size_t i) const

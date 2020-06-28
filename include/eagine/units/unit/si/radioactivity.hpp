@@ -32,12 +32,12 @@ using count_of_decays = unit<number_of_decays, si>;
 using becquerel = unit<radioactivity, si>;
 
 template <>
-struct unit_name<becquerel> {
+struct name_of<becquerel> {
     static constexpr const char mp_str[] = "becquerel";
 };
 
 template <>
-struct unit_symbol<becquerel> {
+struct symbol_of<becquerel> {
     static constexpr const char mp_str[] = "Bq";
 };
 

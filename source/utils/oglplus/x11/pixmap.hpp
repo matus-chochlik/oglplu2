@@ -14,7 +14,8 @@
 #include <X11/Xlib.h>
 #include <stdexcept>
 
-namespace oglplus {
+namespace eagine {
+namespace oglp {
 namespace x11 {
 
 class Pixmap : public DisplayObject<::Pixmap> {
@@ -38,6 +39,7 @@ public:
 };
 
 } // namespace x11
-} // namespace oglplus
+} // namespace oglp
+} // namespace eagine
 
 #endif // include guard

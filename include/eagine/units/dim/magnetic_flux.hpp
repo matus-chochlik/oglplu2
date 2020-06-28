@@ -18,7 +18,7 @@ namespace units {
 using magnetic_flux = decltype(energy() / electric_current());
 
 template <>
-struct dim_name<magnetic_flux> {
+struct name_of<magnetic_flux> {
     static constexpr const char mp_str[] = "magnetic flux";
 };
 

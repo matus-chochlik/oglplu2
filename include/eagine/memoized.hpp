@@ -28,7 +28,10 @@ private:
     callable_ref<R(P..., memoized&)> _func;
 
 public:
-    template <typename Func>
+    template <
+      typename Func,
+      typename =
+        std::enable_if_t<!std::is_same_v<std::decay_t<Func>, memoized>>>
     memoized(Func&& func)
       : _func(std::forward<Func>(func)) {
     }

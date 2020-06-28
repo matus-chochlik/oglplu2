@@ -1,0 +1,24 @@
+{
+   oglplus/dl_Leak_dl_error_run
+   Memcheck:Leak
+   fun:*
+   ...
+   fun:*dlerror_run
+   ...
+}
+{
+   oglplus/dl_Leak_dlopen_doit
+   Memcheck:Leak
+   fun:*
+   ...
+   fun:*dlopen_doit
+   ...
+}
+{
+   oglplus/dl_Leak_dl_init
+   Memcheck:Leak
+   fun:*
+   ...
+   fun:*dl_init
+   ...
+}

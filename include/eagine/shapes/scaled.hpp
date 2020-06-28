@@ -29,14 +29,14 @@ public:
       , _s{s} {
     }
 
-    void attrib_values(vertex_attrib_kind attr, span<float> dest) override;
+    void attrib_values(vertex_attrib_variant, span<float>) override;
 
     math::sphere<float, true> bounding_sphere() override;
 };
 //------------------------------------------------------------------------------
 static inline auto scale(
   std::unique_ptr<generator_intf>&& gen, std::array<float, 3> s) noexcept {
-    return std::unique_ptr<generator_intf>(new scaled_gen(std::move(gen), s));
+    return std::make_unique<scaled_gen>(std::move(gen), s);
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

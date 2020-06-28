@@ -66,13 +66,13 @@ void unit_icosahedron_gen::positions(span<float> dest) noexcept {
      */
 
     const span_size_t qi[3][3] = {{0, 2, 1}, {1, 0, 2}, {2, 1, 0}};
-    const float ps = 1.f;
-    const float ns = -1.f;
+    const float ps = 1.F;
+    const float ns = -1.F;
 
     for(const auto& qip : qi) {
         for(int v = 0; v < 4; ++v) {
             const float sv[3] = {
-              0.f, v % 2 == 0 ? ns : ps, v / 2 == 0 ? ns : ps};
+              0.F, v % 2 == 0 ? ns : ps, v / 2 == 0 ? ns : ps};
             for(const auto qci : qip) {
                 dest[k++] = float(sv[qci] * q[qci]);
             }
@@ -83,13 +83,14 @@ void unit_icosahedron_gen::positions(span<float> dest) noexcept {
 }
 //------------------------------------------------------------------------------
 void unit_icosahedron_gen::attrib_values(
-  vertex_attrib_kind attr, span<float> dest) {
-    switch(attr) {
+  vertex_attrib_variant vav, span<float> dest) {
+    switch(vav.attrib) {
         case vertex_attrib_kind::position:
             positions(dest);
             break;
         case vertex_attrib_kind::pivot:
         case vertex_attrib_kind::vertex_pivot:
+        case vertex_attrib_kind::pivot_pivot:
         case vertex_attrib_kind::object_id:
         case vertex_attrib_kind::material_id:
         case vertex_attrib_kind::normal:
@@ -97,29 +98,31 @@ void unit_icosahedron_gen::attrib_values(
         case vertex_attrib_kind::bitangential:
         case vertex_attrib_kind::face_coord:
         case vertex_attrib_kind::box_coord:
-        case vertex_attrib_kind::wrap_coord_0:
-        case vertex_attrib_kind::wrap_coord_1:
-        case vertex_attrib_kind::wrap_coord_2:
-        case vertex_attrib_kind::wrap_coord_3:
+        case vertex_attrib_kind::wrap_coord:
+        case vertex_attrib_kind::weight:
+        case vertex_attrib_kind::color:
+        case vertex_attrib_kind::emission:
         case vertex_attrib_kind::occlusion:
-            _base::attrib_values(attr, dest);
+            _base::attrib_values(vav, dest);
             break;
     }
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-index_data_type unit_icosahedron_gen::index_type() {
+index_data_type unit_icosahedron_gen::index_type(drawing_variant) {
     return index_data_type::unsigned_8;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t unit_icosahedron_gen::index_count() {
+span_size_t unit_icosahedron_gen::index_count(drawing_variant) {
     return 20 * 3;
 }
 //------------------------------------------------------------------------------
 template <typename T>
-void unit_icosahedron_gen::_indices(span<T> dest) noexcept {
-    EAGINE_ASSERT(dest.size() >= index_count());
+void unit_icosahedron_gen::_indices(
+  drawing_variant var, span<T> dest) noexcept {
+    EAGINE_ASSERT(dest.size() >= index_count(var));
+    EAGINE_MAYBE_UNUSED(var);
 
     span_size_t k = 0;
 
@@ -191,45 +194,49 @@ void unit_icosahedron_gen::_indices(span<T> dest) noexcept {
     dest[k++] = H;
     dest[k++] = L;
 
-    EAGINE_ASSERT(k == index_count());
+    EAGINE_ASSERT(k == index_count(var));
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_icosahedron_gen::indices(span<std::uint8_t> dest) {
-    _indices(dest);
+void unit_icosahedron_gen::indices(
+  drawing_variant var, span<std::uint8_t> dest) {
+    _indices(var, dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_icosahedron_gen::indices(span<std::uint16_t> dest) {
-    _indices(dest);
+void unit_icosahedron_gen::indices(
+  drawing_variant var, span<std::uint16_t> dest) {
+    _indices(var, dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_icosahedron_gen::indices(span<std::uint32_t> dest) {
-    _indices(dest);
+void unit_icosahedron_gen::indices(
+  drawing_variant var, span<std::uint32_t> dest) {
+    _indices(var, dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t unit_icosahedron_gen::operation_count() {
+span_size_t unit_icosahedron_gen::operation_count(drawing_variant) {
     return 1;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_icosahedron_gen::instructions(span<draw_operation> ops) {
-    EAGINE_ASSERT(ops.size() >= operation_count());
+void unit_icosahedron_gen::instructions(
+  drawing_variant var, span<draw_operation> ops) {
+    EAGINE_ASSERT(ops.size() >= operation_count(var));
 
     draw_operation& op = ops[0];
     op.mode = primitive_type::triangles;
     op.idx_type = index_data_type::unsigned_8;
     op.first = 0;
-    op.count = index_count();
+    op.count = index_count(var);
     op.primitive_restart = false;
     op.cw_face_winding = false;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 math::sphere<float, true> unit_icosahedron_gen::bounding_sphere() {
-    return {{0.0f}, 0.5f};
+    return {{0.0F}, 0.5F};
 }
 //------------------------------------------------------------------------------
 } // namespace shapes
