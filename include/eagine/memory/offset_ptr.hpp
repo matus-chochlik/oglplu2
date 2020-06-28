@@ -103,13 +103,18 @@ public:
       : _offs{_get_offs(that)} {
     }
 
+    // NOLINTNEXTLINE(bugprone-unhandled-self-assignment,cert-oop54-cpp)
     basic_offset_ptr& operator=(const basic_offset_ptr& that) noexcept {
-        _offs = _get_offs(that);
+        if(this != std::addressof(that)) {
+            _offs = _get_offs(that);
+        }
         return *this;
     }
 
     basic_offset_ptr& operator=(basic_offset_ptr&& that) noexcept {
-        _offs = _get_offs(that);
+        if(this != std::addressof(that)) {
+            _offs = _get_offs(that);
+        }
         return *this;
     }
 

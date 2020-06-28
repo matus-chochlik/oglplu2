@@ -50,9 +50,9 @@ void cubes_program::update(const example_context& ctx) {
       prog,
       center_loc,
       to_cartesian(unit_spherical_coordinates(
-        turns_(t / 3.f),
-        smooth_lerp(right_angles_(1.f), right_angles_(-1.f), t / 5.f))) *
-        smooth_lerp(0.f, 10.f, t / 7.f));
+        turns_(t / 3.F),
+        smooth_lerp(right_angles_(1.F), right_angles_(-1.F), t / 5.F))) *
+        smooth_lerp(0.F, 10.F, t / 7.F));
     ctx.gl().set_uniform(prog, time_loc, t);
 }
 //------------------------------------------------------------------------------
@@ -72,11 +72,11 @@ void cubes_program::bind_coord_location(
 }
 //------------------------------------------------------------------------------
 void cubes_program::drawing_surface(const example_context& ctx) {
-    ctx.gl().set_uniform(prog, edges_loc, 0.f);
+    ctx.gl().set_uniform(prog, edges_loc, 0.F);
 }
 //------------------------------------------------------------------------------
 void cubes_program::drawing_edges(const example_context& ctx) {
-    ctx.gl().set_uniform(prog, edges_loc, 1.f);
+    ctx.gl().set_uniform(prog, edges_loc, 1.F);
 }
 //------------------------------------------------------------------------------
 // geometry
@@ -92,7 +92,7 @@ void cubes_geometry::init(example_context& ctx) {
           shapes::vertex_attrib_kind::position |
           shapes::vertex_attrib_kind::pivot |
           shapes::vertex_attrib_kind::box_coord),
-        {1.f, 1.f, 1.f},
+        {1.F, 1.F, 1.F},
         {10, 10, 10}))));
 
     std::array<shapes::drawing_variant, 2> vars{

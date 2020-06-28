@@ -113,12 +113,13 @@ public:
       , DoLog(policy()) {
     }
 
+    // NOLINTNEXTLINE(bugprone-unhandled-self-assignment,cert-oop54-cpp)
     basic_valid_if& operator=(const basic_valid_if& that) {
         if(this != std::addressof(that)) {
             static_cast<basic_valid_if_value<T>&>(*this) =
               static_cast<const basic_valid_if_value<T>&>(that);
             static_cast<Policy&>(*this) = static_cast<const Policy&>(that);
-            static_cast<DoLog&>(*this) = DoLog(policy());
+            static_cast<DoLog&>(*this) = {policy()};
         }
         return *this;
     }

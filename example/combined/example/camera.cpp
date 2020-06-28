@@ -33,7 +33,7 @@ optionally_valid<vec3> example_orbiting_camera::target_plane_point(
     const auto mat = matrix(aspect);
 
     if(auto inv = inverse_matrix(mat)) {
-        auto ndct = multiply(mat, vec4(_target, 1.f));
+        auto ndct = multiply(mat, vec4(_target, 1.F));
         auto ndc = vec4{ndcx * ndct.w(), ndcy * ndct.w(), ndct.z(), ndct.w()};
         return {vec3(math::multiply(inv.value(), ndc)), true};
     }
@@ -58,7 +58,7 @@ optionally_valid<line> example_orbiting_camera::pointer_ray(
 //------------------------------------------------------------------------------
 float example_orbiting_camera::grab_sphere_radius() const noexcept {
     const auto orb = orbit();
-    return math::minimum(orb * tan(_fov * 0.5f), orb * 0.75f);
+    return math::minimum(orb * tan(_fov * 0.5F), orb * 0.75F);
 }
 //------------------------------------------------------------------------------
 sphere example_orbiting_camera::grab_sphere() const noexcept {
@@ -88,7 +88,7 @@ bool example_orbiting_camera::apply_pointer_motion(
                     _turns += turn_inc;
                     _turn_dir = turn_inc;
 
-                    const auto elev_max = radians_(1.5f);
+                    const auto elev_max = radians_(1.5F);
                     const auto elev_inc =
                       _grab_elevation - grab_coords.elevation();
 
@@ -112,11 +112,11 @@ bool example_orbiting_camera::apply_pointer_motion(
 bool example_orbiting_camera::apply_pointer_scrolling(
   const example_state_view& state) noexcept {
     _orbit_factor -= state.norm_pointer_z().delta();
-    if(_orbit_factor > 1.f) {
-        _orbit_factor = 1.f;
+    if(_orbit_factor > 1.F) {
+        _orbit_factor = 1.F;
     }
-    if(_orbit_factor < 0.f) {
-        _orbit_factor = 0.f;
+    if(_orbit_factor < 0.F) {
+        _orbit_factor = 0.F;
     }
     return true;
 }
@@ -124,12 +124,12 @@ bool example_orbiting_camera::apply_pointer_scrolling(
 example_orbiting_camera& example_orbiting_camera::update_orbit(
   float inc) noexcept {
     _orbit_factor += (inc * _orbit_dir);
-    if(_orbit_factor > 1.f) {
-        _orbit_factor = 1.f;
+    if(_orbit_factor > 1.F) {
+        _orbit_factor = 1.F;
         _orbit_dir.flip();
     }
-    if(_orbit_factor < 0.f) {
-        _orbit_factor = 0.f;
+    if(_orbit_factor < 0.F) {
+        _orbit_factor = 0.F;
         _orbit_dir.flip();
     }
     return *this;
@@ -143,7 +143,7 @@ example_orbiting_camera& example_orbiting_camera::update_turns(
 //------------------------------------------------------------------------------
 example_orbiting_camera& example_orbiting_camera::update_pitch(
   float inc) noexcept {
-    const auto max = right_angles_(1.f);
+    const auto max = right_angles_(1.F);
     _pitch += right_angles_(inc * _pitch_dir);
     if(_pitch > max) {
         _pitch = max;

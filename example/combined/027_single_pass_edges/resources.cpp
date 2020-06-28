@@ -58,8 +58,8 @@ void icosahedron_geometry::init(example_context& ctx) {
       shapes::center(eagine::shapes::ortho_array_xyz(
         shapes::scale(
           shapes::unit_icosahedron(shapes::vertex_attrib_kind::position),
-          {0.5f, 0.5f, 0.5f}),
-        {1.f, 1.f, 1.f},
+          {0.5F, 0.5F, 0.5F}),
+        {1.F, 1.F, 1.F},
         {3, 3, 3})));
 
     ops.resize(std_size(shape.operation_count()));

@@ -52,7 +52,7 @@ void cube_program::set_projection(
 }
 //------------------------------------------------------------------------------
 void cube_program::update(const example_context& ctx) {
-    rad += radians_(0.5f * ctx.state().frame_duration().value());
+    rad += radians_(0.5F * ctx.state().frame_duration().value());
     ctx.gl().set_uniform(
       prog,
       modelview_loc,

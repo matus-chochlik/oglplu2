@@ -66,8 +66,8 @@ public:
         return false;
     }
 
-    verification_bits verify_bits(const stored_message& message) const
-      noexcept {
+    verification_bits verify_bits(
+      const stored_message& message) const noexcept {
         if(EAGINE_LIKELY(_endpoint)) {
             return message.verify_bits(_endpoint->ctx(), _endpoint->log());
         }
@@ -95,7 +95,7 @@ protected:
 
         constexpr handler_entry(message_id id, method_handler hndlr) noexcept
           : msg_id{std::move(id)}
-          , handler{hndlr} {
+          , handler{std::move(hndlr)} {
         }
 
         template <
@@ -149,8 +149,8 @@ protected:
         }
     }
 
-    inline void _unsubscribe_from(span<const handler_entry> msg_handlers) const
-      noexcept {
+    inline void _unsubscribe_from(
+      span<const handler_entry> msg_handlers) const noexcept {
         if(_endpoint) {
             for(auto& entry : msg_handlers) {
                 try {

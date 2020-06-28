@@ -40,7 +40,7 @@ public:
     }
 
     attribute& operator=(attribute&& temp) noexcept {
-        if(this != &temp) {
+        if(this != std::addressof(temp)) {
             using std::swap;
             swap(_owner, temp._owner);
             swap(_pimpl, temp._pimpl);
@@ -49,7 +49,7 @@ public:
     }
 
     attribute& operator=(const attribute& that) {
-        if(this != &that) {
+        if(this != std::addressof(that)) {
             using std::swap;
             attribute temp{std::move(*this)};
             _owner = that._owner;

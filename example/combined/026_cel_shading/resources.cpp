@@ -39,7 +39,7 @@ void cel_program::set_projection(
 }
 //------------------------------------------------------------------------------
 void cel_program::set_modelview(const example_context& ctx) {
-    shp_turns += 0.1f * ctx.state().frame_duration().value();
+    shp_turns += 0.1F * ctx.state().frame_duration().value();
 
     ctx.gl().set_uniform(
       prog,

@@ -347,10 +347,10 @@ static inline vector<T, C, V> row(const matrix<T, C, R, false, V>& m) noexcept {
 // _row_hlp
 template <typename T, int C, int R, bool RM, bool V>
 static inline vector<T, C, V> _row_hlp(
-  const matrix<T, C, R, RM, V>& m, int_constant<0u>, int i) noexcept {
-    EAGINE_ASSERT(i == 0u);
+  const matrix<T, C, R, RM, V>& m, int_constant<0U>, int i) noexcept {
+    EAGINE_ASSERT(i == 0U);
     EAGINE_MAYBE_UNUSED(i);
-    return row<0u>(m);
+    return row<0U>(m);
 }
 //------------------------------------------------------------------------------
 // _row_hlp
@@ -387,7 +387,7 @@ static inline vector<T, R, V> column(
 // _col_hlp
 template <typename T, int C, int R, bool RM, bool V>
 static inline vector<T, R, V> _col_hlp(
-  const matrix<T, C, R, RM, V>& m, int_constant<0u>, int i) noexcept {
+  const matrix<T, C, R, RM, V>& m, int_constant<0U>, int i) noexcept {
     EAGINE_ASSERT(i == 0);
     EAGINE_MAYBE_UNUSED(i);
     return column<0>(m);
@@ -525,8 +525,8 @@ struct canonical_compound_type<math::matrix<T, C, R, RM, V>>
 //------------------------------------------------------------------------------
 template <typename T, int C, int R, bool RM, bool V>
 struct compound_view_maker<math::matrix<T, C, R, RM, V>> {
-    inline auto operator()(const math::matrix<T, C, R, RM, V>& m) const
-      noexcept {
+    inline auto operator()(
+      const math::matrix<T, C, R, RM, V>& m) const noexcept {
         return vect::view < T, RM ? C : R, V > ::apply(m._v);
     }
 };
