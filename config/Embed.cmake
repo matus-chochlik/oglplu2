@@ -8,7 +8,7 @@ set(
 	"${PROJECT_SOURCE_DIR}/config/tools/embed_generator"
 )
 
-function(eagine_embed_target_resources TARGET_NAME)
+function(eagine_do_embed_target_resources TARGET_NAME PACKED)
 	get_target_property(
 		TARGET_SOURCES
 		${TARGET_NAME}
@@ -17,6 +17,9 @@ function(eagine_embed_target_resources TARGET_NAME)
 	set(RESOURCE_FILE ${TARGET_NAME}.resources.cpp)
 	set(GEN_DEPENDS)
 	set(GEN_OPTIONS)
+	if(${PACKED})
+		list(APPEND GEN_OPTIONS --packed)
+	endif()
 	list(APPEND GEN_OPTIONS -s)
 	list(APPEND GEN_OPTIONS ${CMAKE_CURRENT_BINARY_DIR})
 	list(APPEND GEN_OPTIONS -o)
@@ -45,6 +48,14 @@ function(eagine_embed_target_resources TARGET_NAME)
 		${TARGET_NAME}
 		PRIVATE ${RESOURCE_FILE}
 	)
+endfunction()
+
+function(eagine_embed_target_resources TARGET_NAME)
+	eagine_do_embed_target_resources(${TARGET_NAME} FALSE ${ARGN})
+endfunction()
+
+function(eagine_embed_packed_target_resources TARGET_NAME)
+	eagine_do_embed_target_resources(${TARGET_NAME} TRUE ${ARGN})
 endfunction()
 
 file(WRITE "${PROJECT_BINARY_DIR}/empty" "")
