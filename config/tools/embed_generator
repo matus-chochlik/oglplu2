@@ -112,7 +112,12 @@ class PlainResource(object):
         return os.stat(self._path).st_size
     # --------------------------------------------------------------------------
     def get_byte(self):
-        return self._fd.read(1)
+        result = self._fd.read(1)
+        if result:
+            result = ord(result)
+        else:
+            result = None
+        return result
 
 # ------------------------------------------------------------------------------
 class PackedResource(object):
@@ -128,7 +133,7 @@ class PackedResource(object):
         return self
     # --------------------------------------------------------------------------
     def __exit__(self, typ, val, traceback):
-        self._fd.close()
+        del self._zipped
     # --------------------------------------------------------------------------
     def byte_size(self):
         return len(self._zipped)
@@ -136,7 +141,7 @@ class PackedResource(object):
     def get_byte(self):
         result = None
         if self._readpos < 0:
-            result = 0x01
+            result = 1
             self._readpos = 0
         elif self._readpos < len(self._zipped):
             result = self._zipped[self._readpos]
@@ -168,7 +173,7 @@ def make_res_code(options, ident, path):
         
             while True:
                 byte = res.get_byte()
-                if not byte:
+                if byte is None:
                     break
 
                 temp = ""
@@ -178,7 +183,7 @@ def make_res_code(options, ident, path):
                 else:
                     temp += ", "
 
-                temp += "0x%x" % ord(byte)
+                temp += "0x%x" % byte
                 
                 if linelen > options.max_line_len - 16:
                     linelen = 0

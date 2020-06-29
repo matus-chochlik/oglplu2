@@ -30,7 +30,7 @@ void edges_program::init(example_context& ctx) {
     gl.delete_program.later_by(cleanup, prog);
 
     const auto prog_src{embed(EAGINE_ID(prog), "example.oglpprog")};
-    gl.build_program(prog, prog_src);
+    gl.build_program(prog, prog_src.unpack(ctx.main()));
     gl.use_program(prog);
 
     gl.get_uniform_location(prog, "Projection") >> camera_loc;

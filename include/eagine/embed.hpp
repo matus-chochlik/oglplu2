@@ -14,6 +14,7 @@
 #include "compression.hpp"
 #include "identifier.hpp"
 #include "int_constant.hpp"
+#include "main_ctx.hpp"
 #include "memory/buffer.hpp"
 #include "memory/span_algo.hpp"
 #include "string_span.hpp"
@@ -26,9 +27,9 @@ class embedded_resource {
     bool _packed{false};
 
 public:
-    embedded_resource() noexcept = default;
+    constexpr embedded_resource() noexcept = default;
 
-    embedded_resource(
+    constexpr embedded_resource(
       memory::const_block blk,
       string_view src_path,
       bool packed = false) noexcept
@@ -37,19 +38,27 @@ public:
       , _packed{packed} {
     }
 
-    bool is_packed() const noexcept {
+    constexpr string_view source_path() const noexcept {
+        return _src_path;
+    }
+
+    constexpr bool is_packed() const noexcept {
         return _packed;
     }
 
-    operator memory::const_block() const noexcept {
+    constexpr operator memory::const_block() const noexcept {
         EAGINE_ASSERT(!is_packed());
         return _res_blk;
     }
 
     memory::const_block unpack(
-      data_compressor& comp, memory::buffer& buf) const noexcept {
+      data_compressor& comp, memory::buffer& buf) const {
         EAGINE_ASSERT(is_packed());
         return {comp.decompress(_res_blk, buf)};
+    }
+
+    memory::const_block unpack(main_ctx& ctx) const {
+        return unpack(ctx.compressor(), ctx.scratch_space());
     }
 };
 
