@@ -23,6 +23,7 @@ struct main_ctx_options {
 };
 
 class master_ctx;
+class data_compressor;
 
 class main_ctx {
 private:
@@ -30,6 +31,7 @@ private:
     logger& _log;
     system_info& _sys_info;
     memory::buffer& _scratch_space;
+    data_compressor& _compressor;
     string_view _exe_path;
 
     static main_ctx*& _single_ptr() noexcept;
@@ -61,6 +63,10 @@ public:
 
     memory::buffer& scratch_space() noexcept {
         return _scratch_space;
+    }
+
+    data_compressor& compressor() noexcept {
+        return _compressor;
     }
 
     string_view exe_path() const noexcept {

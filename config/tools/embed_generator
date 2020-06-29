@@ -125,18 +125,20 @@ def make_res_code(options, ident, path):
                     linelen += len(temp)
                 options.output.write(temp)
         options.output.write("\n        };\n")
-        options.output.write("        return view(res);\n")
+        options.output.write("        return {view(res), path, false};\n")
     else:
         options.output.write("        return {};\n")
     options.output.write("    }\n")
 # ------------------------------------------------------------------------------
 def make_prologue(options):
-    options.output.write("#include <eagine/identifier.hpp>\n");
-    options.output.write("#include <eagine/memory/block.hpp>\n");
+    options.output.write("#include <eagine/embed.hpp>\n");
+    options.output.write("#include <eagine/maybe_unused.hpp>\n");
     options.output.write("namespace eagine {\n")
     options.output.write(
-        "memory::const_block get_embedded_resource(identifier res_id) {\n"
+        "embedded_resource get_embedded_resource(identifier res_id, string_view path) noexcept {\n"
     )
+    options.output.write("    EAGINE_MAYBE_UNUSED(res_id);\n")
+    options.output.write("    EAGINE_MAYBE_UNUSED(path);\n")
 # ------------------------------------------------------------------------------
 def make_epilogue(options):
     options.output.write("    return {};\n")

@@ -100,6 +100,11 @@ public:
         return this->link_program(prog);
     }
 
+    combined_result<void> build_program(
+      program_name prog, memory::const_block prog_src_blk) const {
+        return build_program(prog, program_source_block(prog_src_blk));
+    }
+
     // set_uniform
 private:
     template <typename ProgramUniformFunc, typename UniformFunc, typename T>

@@ -183,10 +183,12 @@ make_data_compressor_impl() {
 }
 #endif
 //------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 data_compressor::data_compressor()
   : _pimpl{make_data_compressor_impl()} {
 }
 //------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 memory::const_block data_compressor::compress(
   memory::const_block input,
   memory::buffer& output,
@@ -202,6 +204,7 @@ memory::const_block data_compressor::compress(
     return view(output);
 }
 //------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 memory::const_block data_compressor::decompress(
   memory::const_block input, memory::buffer& output) {
     if(input) {

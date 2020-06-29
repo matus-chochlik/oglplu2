@@ -10,6 +10,7 @@
 // clang-format off
 #include "prologue.inl"
 #include <eagine/bindump.hpp>
+#include <eagine/compression.hpp>
 #include <eagine/from_string.hpp>
 #include <eagine/hexdump.hpp>
 #include <eagine/type_name.hpp>
