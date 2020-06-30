@@ -55,7 +55,11 @@ function(eagine_embed_target_resources TARGET_NAME)
 endfunction()
 
 function(eagine_embed_packed_target_resources TARGET_NAME)
-	eagine_do_embed_target_resources(${TARGET_NAME} TRUE ${ARGN})
+	if(${ZLIB_FOUND})
+		eagine_do_embed_target_resources(${TARGET_NAME} TRUE ${ARGN})
+	else()
+		eagine_do_embed_target_resources(${TARGET_NAME} FALSE ${ARGN})
+	endif()
 endfunction()
 
 file(WRITE "${PROJECT_BINARY_DIR}/empty" "")

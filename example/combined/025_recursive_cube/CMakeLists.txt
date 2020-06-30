@@ -17,5 +17,5 @@ set_source_files_properties(
 	PROPERTIES GENERATED 1
 )
 eagine_add_directory_example(example.cpp resources.cpp)
-eagine_add_directory_resources(example.oglpprog)
+eagine_pack_directory_resources(example.oglpprog)
 

@@ -15,8 +15,7 @@
 #include "identifier.hpp"
 #include "int_constant.hpp"
 #include "main_ctx.hpp"
-#include "memory/buffer.hpp"
-#include "memory/span_algo.hpp"
+#include "memory/copy.hpp"
 #include "string_span.hpp"
 
 namespace eagine {
@@ -53,8 +52,10 @@ public:
 
     memory::const_block unpack(
       data_compressor& comp, memory::buffer& buf) const {
-        EAGINE_ASSERT(is_packed());
-        return {comp.decompress(_res_blk, buf)};
+        if(is_packed()) {
+            return {comp.decompress(_res_blk, buf)};
+        }
+        return copy_into(_res_blk, buf);
     }
 
     memory::const_block unpack(main_ctx& ctx) const {
