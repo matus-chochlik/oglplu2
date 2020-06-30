@@ -10,6 +10,7 @@
 #ifndef EAGINE_COMPRESSION_HPP
 #define EAGINE_COMPRESSION_HPP
 
+#include "callable_ref.hpp"
 #include "memory/block.hpp"
 #include "memory/buffer.hpp"
 #include <memory>
@@ -23,6 +24,13 @@ class data_compressor {
 public:
     data_compressor();
 
+    using data_handler = callable_ref<bool(memory::const_block)>;
+
+    bool compress(
+      memory::const_block input,
+      const data_handler& handler,
+      data_compression_level level);
+
     memory::const_block compress(
       memory::const_block input,
       memory::buffer& output,
@@ -32,6 +40,8 @@ public:
       memory::const_block input, memory::buffer& output) {
         return compress(input, output, data_compression_level::normal);
     }
+
+    bool decompress(memory::const_block input, const data_handler& handler);
 
     memory::const_block decompress(
       memory::const_block input, memory::buffer& output);
