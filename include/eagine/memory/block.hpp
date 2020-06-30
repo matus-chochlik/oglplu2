@@ -15,8 +15,7 @@
 #include <cstddef>
 #include <utility>
 
-namespace eagine {
-namespace memory {
+namespace eagine::memory {
 //------------------------------------------------------------------------------
 template <bool IsConst>
 using basic_block = basic_span<std::conditional_t<IsConst, const byte, byte>>;
@@ -83,7 +82,6 @@ protected:
     }
 };
 //------------------------------------------------------------------------------
-} // namespace memory
-} // namespace eagine
+} // namespace eagine::memory
 
 #endif // EAGINE_MEMORY_BLOCK_HPP

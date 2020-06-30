@@ -9,8 +9,7 @@
 #include <eagine/assert.hpp>
 #include <eagine/maybe_unused.hpp>
 
-namespace eagine {
-namespace memory {
+namespace eagine::memory {
 //------------------------------------------------------------------------------
 // base_stack_allocator
 //------------------------------------------------------------------------------
@@ -306,5 +305,4 @@ inline void stack_aligned_byte_allocator<Policy>::eject_self() noexcept {
     this->eject_derived(*this);
 }
 //------------------------------------------------------------------------------
-} // namespace memory
-} // namespace eagine
+} // namespace eagine::memory

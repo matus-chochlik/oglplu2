@@ -14,8 +14,7 @@
 #include "default_alloc.hpp"
 #include "shared_alloc.hpp"
 
-namespace eagine {
-namespace memory {
+namespace eagine::memory {
 
 template <typename Policy = default_byte_allocator_policy>
 class byte_allocator_with_fallback
@@ -85,7 +84,6 @@ public:
     }
 };
 
-} // namespace memory
-} // namespace eagine
+} // namespace eagine::memory
 
 #endif // EAGINE_MEMORY_FALLBACK_ALLOC_HPP

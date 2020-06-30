@@ -15,8 +15,7 @@
 #include "buffer.hpp"
 #include <cstring>
 
-namespace eagine {
-namespace memory {
+namespace eagine::memory {
 
 static inline block copy(const_block source, block dest) {
     EAGINE_ASSERT(dest.size() >= source.size());
@@ -29,7 +28,6 @@ static inline block copy_into(const_block source, buffer& dest) {
     return copy(source, cover(dest));
 }
 
-} // namespace memory
-} // namespace eagine
+} // namespace eagine::memory
 
 #endif // EAGINE_MEMORY_COPY_HPP

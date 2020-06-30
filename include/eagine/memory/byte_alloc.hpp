@@ -16,8 +16,7 @@
 #include "block.hpp"
 #include <cstdint>
 
-namespace eagine {
-namespace memory {
+namespace eagine::memory {
 
 // byte_allocator
 struct byte_allocator : block_owner {
@@ -189,7 +188,6 @@ public:
     }
 };
 
-} // namespace memory
-} // namespace eagine
+} // namespace eagine::memory
 
 #endif // EAGINE_MEMORY_BYTE_ALLOC_HPP

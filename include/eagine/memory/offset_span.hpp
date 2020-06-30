@@ -13,8 +13,7 @@
 #include "offset_ptr.hpp"
 #include "span.hpp"
 
-namespace eagine {
-namespace memory {
+namespace eagine::memory {
 //------------------------------------------------------------------------------
 template <typename T, typename O = span_size_t, typename S = span_size_t>
 using basic_offset_span = memory::basic_span<T, basic_offset_ptr<T, O>, S>;
@@ -43,7 +42,6 @@ relative(basic_span<T, P, S> spn) noexcept {
     return {spn};
 }
 //------------------------------------------------------------------------------
-} // namespace memory
-} // namespace eagine
+} // namespace eagine::memory
 
 #endif // EAGINE_MEMORY_OFFSET_SPAN_HPP

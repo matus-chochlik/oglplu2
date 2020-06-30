@@ -13,8 +13,7 @@
 #include "block.hpp"
 #include "span_algo.hpp"
 
-namespace eagine {
-namespace memory {
+namespace eagine::memory {
 //------------------------------------------------------------------------------
 template <bool IsConst>
 class basic_split_block {
@@ -54,7 +53,6 @@ private:
 using split_block = basic_split_block<false>;
 using const_split_block = basic_split_block<true>;
 //------------------------------------------------------------------------------
-} // namespace memory
-} // namespace eagine
+} // namespace eagine::memory
 
 #endif // EAGINE_MEMORY_SPLIT_BLOCK_HPP

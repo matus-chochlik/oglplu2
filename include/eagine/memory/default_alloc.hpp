@@ -12,12 +12,10 @@
 
 #include "c_realloc.hpp"
 
-namespace eagine {
-namespace memory {
+namespace eagine::memory {
 
 using default_byte_allocator = c_byte_reallocator<>;
 
-} // namespace memory
-} // namespace eagine
+} // namespace eagine::memory
 
 #endif // EAGINE_MEMORY_DEFAULT_ALLOC_HPP

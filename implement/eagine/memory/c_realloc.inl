@@ -10,8 +10,7 @@
 #include <eagine/maybe_unused.hpp>
 #include <cstdlib>
 
-namespace eagine {
-namespace memory {
+namespace eagine::memory {
 //------------------------------------------------------------------------------
 template <typename Policy>
 inline owned_block c_byte_reallocator<Policy>::allocate(
@@ -63,5 +62,4 @@ owned_block c_byte_reallocator<Policy>::reallocate(
     return this->acquire_block({p, n});
 }
 //------------------------------------------------------------------------------
-} // namespace memory
-} // namespace eagine
+} // namespace eagine::memory

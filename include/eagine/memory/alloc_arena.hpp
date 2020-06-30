@@ -18,8 +18,7 @@
 #include <utility>
 #include <vector>
 
-namespace eagine {
-namespace memory {
+namespace eagine::memory {
 
 template <typename Alloc>
 class basic_allocation_arena : public block_owner {
@@ -119,8 +118,7 @@ public:
 using system_allocation_arena =
   basic_allocation_arena<c_byte_reallocator<byte_alloc_managed_policy>>;
 
-} // namespace memory
-} // namespace eagine
+} // namespace eagine::memory
 
 #include <eagine/memory/alloc_arena.inl>
 

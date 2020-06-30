@@ -14,8 +14,7 @@
 #include <cassert>
 #include <limits>
 
-namespace eagine {
-namespace memory {
+namespace eagine::memory {
 
 // c_byte_reallocator
 template <typename Policy = default_byte_allocator_policy>
@@ -49,8 +48,7 @@ public:
       owned_block&& b, size_type n, size_type a) noexcept override;
 };
 
-} // namespace memory
-} // namespace eagine
+} // namespace eagine::memory
 
 #include <eagine/memory/c_realloc.inl>
 

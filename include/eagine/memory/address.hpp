@@ -16,8 +16,7 @@
 #include <cstddef>
 #include <type_traits>
 
-namespace eagine {
-namespace memory {
+namespace eagine::memory {
 //------------------------------------------------------------------------------
 template <bool IsConst>
 class basic_address {
@@ -267,7 +266,6 @@ static constexpr inline T* align_down_to(
     return static_cast<T*>(align_down(addr, align, max));
 }
 //------------------------------------------------------------------------------
-} // namespace memory
-} // namespace eagine
+} // namespace eagine::memory
 
 #endif // EAGINE_MEMORY_ADDRESS_HPP

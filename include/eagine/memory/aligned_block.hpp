@@ -13,8 +13,7 @@
 #include "block.hpp"
 #include <type_traits>
 
-namespace eagine {
-namespace memory {
+namespace eagine::memory {
 //------------------------------------------------------------------------------
 
 template <std::size_t Size>
@@ -31,7 +30,6 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-} // namespace memory
-} // namespace eagine
+} // namespace eagine::memory
 
 #endif // EAGINE_MEMORY_ALIGNED_BLOCK_HPP

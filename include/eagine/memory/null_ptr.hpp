@@ -13,8 +13,7 @@
 #include "../types.hpp"
 #include <cstdint>
 
-namespace eagine {
-namespace memory {
+namespace eagine::memory {
 //------------------------------------------------------------------------------
 template <typename T>
 struct typed_nullptr_t {};
@@ -27,7 +26,6 @@ static constexpr inline T* operator+(typed_nullptr_t<T>, N n) noexcept {
     return reinterpret_cast<T*>(std::uintptr_t(std_size(n) * sizeof(T)));
 }
 //------------------------------------------------------------------------------
-} // namespace memory
-} // namespace eagine
+} // namespace eagine::memory
 
 #endif // EAGINE_MEMORY_NULL_PTR_HPP
