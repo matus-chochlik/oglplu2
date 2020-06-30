@@ -11,8 +11,7 @@
 
 #include "matrix_ctr.hpp"
 
-namespace eagine {
-namespace math {
+namespace eagine::math {
 
 // translation
 template <typename X>
@@ -36,20 +35,22 @@ struct translation<matrix<T, 4, 4, RM, V>> {
       : _v{vx, vy, vz} {
     }
 
-    constexpr inline matrix<T, 4, 4, true, V> _make(std::true_type) const
-      noexcept {
-        return matrix<T, 4, 4, true, V>{{{T(1), T(0), T(0), _v[0]},
-                                         {T(0), T(1), T(0), _v[1]},
-                                         {T(0), T(0), T(1), _v[2]},
-                                         {T(0), T(0), T(0), T(1)}}};
+    constexpr inline matrix<T, 4, 4, true, V> _make(
+      std::true_type) const noexcept {
+        return matrix<T, 4, 4, true, V>{
+          {{T(1), T(0), T(0), _v[0]},
+           {T(0), T(1), T(0), _v[1]},
+           {T(0), T(0), T(1), _v[2]},
+           {T(0), T(0), T(0), T(1)}}};
     }
 
-    constexpr inline matrix<T, 4, 4, false, V> _make(std::false_type) const
-      noexcept {
-        return matrix<T, 4, 4, false, V>{{{T(1), T(0), T(0), T(0)},
-                                          {T(0), T(1), T(0), T(0)},
-                                          {T(0), T(0), T(1), T(0)},
-                                          {_v[0], _v[1], _v[2], T(1)}}};
+    constexpr inline matrix<T, 4, 4, false, V> _make(
+      std::false_type) const noexcept {
+        return matrix<T, 4, 4, false, V>{
+          {{T(1), T(0), T(0), T(0)},
+           {T(0), T(1), T(0), T(0)},
+           {T(0), T(0), T(1), T(0)},
+           {_v[0], _v[1], _v[2], T(1)}}};
     }
 
     constexpr inline matrix<T, 4, 4, RM, V> operator()() const noexcept {
@@ -67,8 +68,8 @@ static constexpr inline translation<matrix<T, N, N, RM1, V>> multiply(
 
 // reorder_mat_ctr(translation)
 template <typename T, int N, bool RM, bool V>
-static constexpr inline translation<matrix<T, N, N, !RM, V>>
-reorder_mat_ctr(const translation<matrix<T, N, N, RM, V>>& c) noexcept {
+static constexpr inline translation<matrix<T, N, N, !RM, V>> reorder_mat_ctr(
+  const translation<matrix<T, N, N, RM, V>>& c) noexcept {
     return {c._v};
 }
 
@@ -77,7 +78,6 @@ template <typename T, bool V>
 using matrix_translation =
   convertible_matrix_constructor<translation<matrix<T, 4, 4, true, V>>>;
 
-} // namespace math
-} // namespace eagine
+} // namespace eagine::math
 
 #endif // EAGINE_MATH_MATRIX_TRANSLATION_HPP

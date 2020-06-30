@@ -12,8 +12,7 @@
 #include "tvec.hpp"
 #include <array>
 
-namespace eagine {
-namespace math {
+namespace eagine::math {
 //------------------------------------------------------------------------------
 template <typename T, bool V>
 class line {
@@ -107,7 +106,6 @@ private:
     vector<T, 4, V> _params{};
 };
 //------------------------------------------------------------------------------
-} // namespace math
-} // namespace eagine
+} // namespace eagine::math
 
 #endif // EAGINE_MATH_PRIMITIVES_HPP

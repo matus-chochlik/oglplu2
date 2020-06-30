@@ -15,8 +15,7 @@
 #include "fwd.hpp"
 #include <type_traits>
 
-namespace eagine {
-namespace math {
+namespace eagine::math {
 //------------------------------------------------------------------------------
 template <typename T, int N, bool V>
 struct scalar {
@@ -66,7 +65,6 @@ struct scalar {
     }
 };
 //------------------------------------------------------------------------------
-} // namespace math
-} // namespace eagine
+} // namespace eagine::math
 
 #endif // EAGINE_MATH_SCALAR_HPP

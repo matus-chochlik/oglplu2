@@ -21,8 +21,7 @@
 #pragma clang diagnostic ignored "-Wdouble-promotion"
 #endif
 
-namespace eagine {
-namespace math {
+namespace eagine::math {
 //------------------------------------------------------------------------------
 // utils
 //------------------------------------------------------------------------------
@@ -176,8 +175,7 @@ static inline optionally_valid<vector<T, 3, V>> line_triangle_intersection(
     return {};
 }
 //------------------------------------------------------------------------------
-} // namespace math
-} // namespace eagine
+} // namespace eagine::math
 
 #ifdef __clang__
 #pragma clang diagnostic pop

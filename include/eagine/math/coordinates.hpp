@@ -16,8 +16,7 @@
 #include "vector.hpp"
 #include <tuple>
 
-namespace eagine {
-namespace math {
+namespace eagine::math {
 //------------------------------------------------------------------------------
 template <typename T, bool V>
 class unit_spherical_coordinates {
@@ -60,7 +59,6 @@ unit_spherical_coordinates<T, V> to_unit_spherical(vector<T, 3, V> v) noexcept {
                              : R(radians_t<T>(0), arcsin(v.y()));
 }
 //------------------------------------------------------------------------------
-} // namespace math
-} // namespace eagine
+} // namespace eagine::math
 
 #endif // EAGINE_MATH_COORDINATES_HPP

@@ -18,8 +18,7 @@
 #pragma clang diagnostic ignored "-Wdouble-promotion"
 #endif
 
-namespace eagine {
-namespace math {
+namespace eagine::math {
 
 // rotation_I
 template <typename X, int I>
@@ -45,26 +44,29 @@ struct rotation_I<matrix<T, 4, 4, RM, V>, I> {
 
     static constexpr inline matrix<T, 4, 4, RM, V> _make(
       T cx, T sx, _x) noexcept {
-        return matrix<T, 4, 4, RM, V>{{{T(1), T(0), T(0), T(0)},
-                                       {T(0), cx, -sx, T(0)},
-                                       {T(0), sx, cx, T(0)},
-                                       {T(0), T(0), T(0), T(1)}}};
+        return matrix<T, 4, 4, RM, V>{
+          {{T(1), T(0), T(0), T(0)},
+           {T(0), cx, -sx, T(0)},
+           {T(0), sx, cx, T(0)},
+           {T(0), T(0), T(0), T(1)}}};
     }
 
     static constexpr inline matrix<T, 4, 4, RM, V> _make(
       T cx, T sx, _y) noexcept {
-        return matrix<T, 4, 4, RM, V>{{{cx, T(0), sx, T(0)},
-                                       {T(0), T(1), T(0), T(0)},
-                                       {-sx, T(0), cx, T(0)},
-                                       {T(0), T(0), T(0), T(1)}}};
+        return matrix<T, 4, 4, RM, V>{
+          {{cx, T(0), sx, T(0)},
+           {T(0), T(1), T(0), T(0)},
+           {-sx, T(0), cx, T(0)},
+           {T(0), T(0), T(0), T(1)}}};
     }
 
     static constexpr inline matrix<T, 4, 4, RM, V> _make(
       T cx, T sx, _z) noexcept {
-        return matrix<T, 4, 4, RM, V>{{{cx, -sx, T(0), T(0)},
-                                       {sx, cx, T(0), T(0)},
-                                       {T(0), T(0), T(1), T(0)},
-                                       {T(0), T(0), T(0), T(1)}}};
+        return matrix<T, 4, 4, RM, V>{
+          {{cx, -sx, T(0), T(0)},
+           {sx, cx, T(0), T(0)},
+           {T(0), T(0), T(1), T(0)},
+           {T(0), T(0), T(0), T(1)}}};
     }
 
     constexpr inline matrix<T, 4, 4, RM, V> operator()() const {
@@ -125,8 +127,7 @@ template <typename T, bool V>
 using matrix_rotation_z =
   convertible_matrix_constructor<rotation_z<matrix<T, 4, 4, true, V>>>;
 
-} // namespace math
-} // namespace eagine
+} // namespace eagine::math
 
 #ifdef __clang__
 #pragma clang diagnostic pop

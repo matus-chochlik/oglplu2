@@ -11,8 +11,7 @@
 
 #include "matrix_ctr.hpp"
 
-namespace eagine {
-namespace math {
+namespace eagine::math {
 
 // scale
 template <typename X>
@@ -36,10 +35,11 @@ struct scale<matrix<T, 4, 4, RM, V>> {
     }
 
     constexpr inline matrix<T, 4, 4, RM, V> operator()() const noexcept {
-        return matrix<T, 4, 4, RM, V>{{{_v[0], T(0), T(0), T(0)},
-                                       {T(0), _v[1], T(0), T(0)},
-                                       {T(0), T(0), _v[2], T(0)},
-                                       {T(0), T(0), T(0), T(1)}}};
+        return matrix<T, 4, 4, RM, V>{
+          {{_v[0], T(0), T(0), T(0)},
+           {T(0), _v[1], T(0), T(0)},
+           {T(0), T(0), _v[2], T(0)},
+           {T(0), T(0), T(0), T(1)}}};
     }
 };
 
@@ -53,8 +53,8 @@ static constexpr inline scale<matrix<T, N, N, RM1, V>> multiply(
 
 // reorder_mat_ctr(scale)
 template <typename T, int N, bool RM, bool V>
-static constexpr inline scale<matrix<T, N, N, !RM, V>>
-reorder_mat_ctr(const scale<matrix<T, N, N, RM, V>>& c) noexcept {
+static constexpr inline scale<matrix<T, N, N, !RM, V>> reorder_mat_ctr(
+  const scale<matrix<T, N, N, RM, V>>& c) noexcept {
     return {c._v};
 }
 
@@ -77,10 +77,11 @@ struct uniform_scale<matrix<T, 4, 4, RM, V>> {
     }
 
     constexpr inline matrix<T, 4, 4, RM, V> operator()() const noexcept {
-        return matrix<T, 4, 4, RM, V>{{{_v, T(0), T(0), T(0)},
-                                       {T(0), _v, T(0), T(0)},
-                                       {T(0), T(0), _v, T(0)},
-                                       {T(0), T(0), T(0), T(1)}}};
+        return matrix<T, 4, 4, RM, V>{
+          {{_v, T(0), T(0), T(0)},
+           {T(0), _v, T(0), T(0)},
+           {T(0), T(0), _v, T(0)},
+           {T(0), T(0), T(0), T(1)}}};
     }
 };
 
@@ -94,8 +95,8 @@ static constexpr inline uniform_scale<matrix<T, N, N, RM1, V>> multiply(
 
 // reorder_mat_ctr(uniform_scale)
 template <typename T, int N, bool RM, bool V>
-static constexpr inline uniform_scale<matrix<T, N, N, !RM, V>>
-reorder_mat_ctr(const uniform_scale<matrix<T, N, N, RM, V>>& c) noexcept {
+static constexpr inline uniform_scale<matrix<T, N, N, !RM, V>> reorder_mat_ctr(
+  const uniform_scale<matrix<T, N, N, RM, V>>& c) noexcept {
     return {c._v};
 }
 
@@ -108,7 +109,6 @@ template <typename T, bool V>
 using matrix_uniform_scale =
   convertible_matrix_constructor<uniform_scale<matrix<T, 4, 4, true, V>>>;
 
-} // namespace math
-} // namespace eagine
+} // namespace eagine::math
 
 #endif // EAGINE_MATH_MATRIX_SCALE_HPP

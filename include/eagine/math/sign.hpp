@@ -11,8 +11,7 @@
 
 #include <type_traits>
 
-namespace eagine {
-namespace math {
+namespace eagine::math {
 //------------------------------------------------------------------------------
 template <typename T>
 class sign {
@@ -75,7 +74,6 @@ private:
     bool _positive{true};
 };
 //------------------------------------------------------------------------------
-} // namespace math
-} // namespace eagine
+} // namespace eagine::math
 
 #endif // EAGINE_MATH_SIGN_HPP

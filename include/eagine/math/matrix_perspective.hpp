@@ -12,8 +12,7 @@
 #include "../quantities.hpp"
 #include "matrix_ctr.hpp"
 
-namespace eagine {
-namespace math {
+namespace eagine::math {
 
 // perspective
 template <typename X>
@@ -132,20 +131,22 @@ struct perspective<matrix<T, 4, 4, RM, V>> {
         return -(T(2) * _z_far() * _z_near()) / (_z_far() - _z_near());
     }
 
-    constexpr inline matrix<T, 4, 4, true, V> _make(std::true_type) const
-      noexcept {
-        return matrix<T, 4, 4, true, V>{{{_m00(), T(0), _m20(), T(0)},
-                                         {T(0), _m11(), _m21(), T(0)},
-                                         {T(0), T(0), _m22(), _m32()},
-                                         {T(0), T(0), _m23(), T(0)}}};
+    constexpr inline matrix<T, 4, 4, true, V> _make(
+      std::true_type) const noexcept {
+        return matrix<T, 4, 4, true, V>{
+          {{_m00(), T(0), _m20(), T(0)},
+           {T(0), _m11(), _m21(), T(0)},
+           {T(0), T(0), _m22(), _m32()},
+           {T(0), T(0), _m23(), T(0)}}};
     }
 
-    constexpr inline matrix<T, 4, 4, false, V> _make(std::false_type) const
-      noexcept {
-        return matrix<T, 4, 4, false, V>{{{_m00(), T(0), T(0), T(0)},
-                                          {T(0), _m11(), T(0), T(0)},
-                                          {_m20(), _m21(), _m22(), _m23()},
-                                          {T(0), T(0), _m32(), T(0)}}};
+    constexpr inline matrix<T, 4, 4, false, V> _make(
+      std::false_type) const noexcept {
+        return matrix<T, 4, 4, false, V>{
+          {{_m00(), T(0), T(0), T(0)},
+           {T(0), _m11(), T(0), T(0)},
+           {_m20(), _m21(), _m22(), _m23()},
+           {T(0), T(0), _m32(), T(0)}}};
     }
 
     constexpr inline matrix<T, 4, 4, RM, V> operator()() const noexcept {
@@ -165,7 +166,6 @@ template <typename T, bool V>
 using matrix_perspective =
   convertible_matrix_constructor<perspective<matrix<T, 4, 4, true, V>>>;
 
-} // namespace math
-} // namespace eagine
+} // namespace eagine::math
 
 #endif // EAGINE_MATH_MATRIX_PERSPECTIVE_HPP
