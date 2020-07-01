@@ -17,8 +17,7 @@
 #include "storage_fwd.hpp"
 #include <cassert>
 
-namespace eagine {
-namespace ecs {
+namespace eagine::ecs {
 
 template <typename Entity>
 struct storage_iterator_intf<Entity, false> {
@@ -162,7 +161,6 @@ struct storage<Entity, Component, false> : base_storage<Entity, false> {
       callable_ref<void(entity_param, manipulator<Component>&)>) = 0;
 };
 
-} // namespace ecs
-} // namespace eagine
+} // namespace eagine::ecs
 
 #endif // EAGINE_ECS_CMP_STORAGE_HPP

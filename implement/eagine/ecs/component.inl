@@ -7,8 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-namespace eagine {
-namespace ecs {
+namespace eagine::ecs {
 //------------------------------------------------------------------------------
 template <>
 EAGINE_LIB_FUNC component_uid_t& component_uid_getter<false>::_curr_uid() {
@@ -22,5 +21,4 @@ EAGINE_LIB_FUNC component_uid_t& component_uid_getter<true>::_curr_uid() {
     return uid;
 }
 //------------------------------------------------------------------------------
-} // namespace ecs
-} // namespace eagine
+} // namespace eagine::ecs

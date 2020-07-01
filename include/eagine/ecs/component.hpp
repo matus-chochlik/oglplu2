@@ -14,8 +14,7 @@
 #include <type_traits>
 #include <vector>
 
-namespace eagine {
-namespace ecs {
+namespace eagine::ecs {
 
 // component unique identifier
 using component_uid_t = unsigned;
@@ -127,8 +126,7 @@ public:
     }
 };
 
-} // namespace ecs
-} // namespace eagine
+} // namespace eagine::ecs
 
 #if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
 #include <eagine/ecs/component.inl>

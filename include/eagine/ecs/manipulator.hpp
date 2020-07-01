@@ -13,8 +13,7 @@
 #include <type_traits>
 #include <utility>
 
-namespace eagine {
-namespace ecs {
+namespace eagine::ecs {
 
 template <typename Component, bool Const>
 class basic_manipulator;
@@ -179,7 +178,6 @@ public:
     }
 };
 
-} // namespace ecs
-} // namespace eagine
+} // namespace eagine::ecs
 
 #endif // EAGINE_ECS_MANIPULATOR_HPP

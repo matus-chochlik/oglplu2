@@ -9,8 +9,7 @@
 #ifndef EAGINE_ECS_ENTITY_TRAITS_HPP
 #define EAGINE_ECS_ENTITY_TRAITS_HPP
 
-namespace eagine {
-namespace ecs {
+namespace eagine::ecs {
 
 template <typename Entity>
 struct entity_traits {
@@ -24,7 +23,6 @@ struct entity_traits {
 template <typename Entity>
 using entity_param_t = typename entity_traits<Entity>::parameter_type;
 
-} // namespace ecs
-} // namespace eagine
+} // namespace eagine::ecs
 
 #endif // EAGINE_ECS_ENTITY_TRAITS_HPP

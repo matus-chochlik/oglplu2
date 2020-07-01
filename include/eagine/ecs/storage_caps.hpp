@@ -11,8 +11,7 @@
 
 #include "../bitfield.hpp"
 
-namespace eagine {
-namespace ecs {
+namespace eagine::ecs {
 
 enum class storage_cap_bit : unsigned short {
     hide = 1 << 0,
@@ -64,7 +63,6 @@ public:
     }
 };
 
-} // namespace ecs
-} // namespace eagine
+} // namespace eagine::ecs
 
 #endif // EAGINE_ECS_STORAGE_CAPS_HPP

@@ -13,8 +13,7 @@
 #include <stdexcept>
 #endif
 
-namespace eagine {
-namespace ecs {
+namespace eagine::ecs {
 //------------------------------------------------------------------------------
 namespace detail {
 #if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
@@ -728,5 +727,4 @@ void basic_manager<Entity>::forget(entity_param_t<Entity> ent) {
     }
 }
 //------------------------------------------------------------------------------
-} // namespace ecs
-} // namespace eagine
+} // namespace eagine::ecs

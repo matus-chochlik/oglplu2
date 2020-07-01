@@ -14,8 +14,7 @@
 #include <eagine/c_api_wrap.hpp>
 #include <eagine/string_span.hpp>
 
-namespace eagine {
-namespace sslp {
+namespace eagine::sslp {
 //------------------------------------------------------------------------------
 class ssl_no_result_info {
 public:
@@ -82,8 +81,7 @@ inline auto collapse_bool(
       [](auto& info) { info.set_unknown_error(); });
 }
 //------------------------------------------------------------------------------
-} // namespace sslp
-} // namespace eagine
+} // namespace eagine::sslp
 
 #endif // EAGINE_SSL_API_RESULT_HPP
 

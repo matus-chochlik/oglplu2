@@ -17,8 +17,7 @@
 #include <memory>
 #include <type_traits>
 
-namespace eagine {
-namespace ecs {
+namespace eagine::ecs {
 
 template <typename Entity>
 class basic_manager;
@@ -539,8 +538,7 @@ public:
     }
 };
 
-} // namespace ecs
-} // namespace eagine
+} // namespace eagine::ecs
 
 #include <eagine/ecs/basic_manager.inl>
 

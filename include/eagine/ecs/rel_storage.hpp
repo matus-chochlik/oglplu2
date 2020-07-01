@@ -16,8 +16,7 @@
 #include "storage_caps.hpp"
 #include "storage_fwd.hpp"
 
-namespace eagine {
-namespace ecs {
+namespace eagine::ecs {
 
 template <typename Entity>
 struct storage_iterator_intf<Entity, true> {
@@ -170,7 +169,6 @@ struct storage<Entity, Relation, true> : base_storage<Entity, true> {
         void(entity_param, entity_param, manipulator<Relation>&)>) = 0;
 };
 
-} // namespace ecs
-} // namespace eagine
+} // namespace eagine::ecs
 
 #endif // EAGINE_ECS_REL_STORAGE_HPP

@@ -11,8 +11,7 @@
 
 #include "result.hpp"
 
-namespace eagine {
-namespace sslp {
+namespace eagine::sslp {
 //------------------------------------------------------------------------------
 class ssl_api_traits : public default_c_api_traits {
 public:
@@ -29,8 +28,7 @@ public:
 private:
 };
 //------------------------------------------------------------------------------
-} // namespace sslp
-} // namespace eagine
+} // namespace eagine::sslp
 
 #endif // EAGINE_SSL_API_API_TRAITS_HPP
 
