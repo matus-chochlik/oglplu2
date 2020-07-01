@@ -10,6 +10,7 @@
 #define EAGINE_ECS_COMPONENT_HPP
 
 #include "../config/basic.hpp"
+#include "../identifier_t.hpp"
 #include <cstddef>
 #include <type_traits>
 #include <vector>
@@ -17,7 +18,7 @@
 namespace eagine::ecs {
 
 // component unique identifier
-using component_uid_t = unsigned;
+using component_uid_t = identifier_t;
 
 // component_uid_getter
 template <bool IsRelation>
