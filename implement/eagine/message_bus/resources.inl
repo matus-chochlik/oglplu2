@@ -7,8 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-namespace eagine {
-namespace msgbus {
+namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 memory::const_block router_certificate_pem(
@@ -58,6 +57,5 @@ memory::const_block endpoint_certificate_pem(
       log);
 }
 //------------------------------------------------------------------------------
-} // namespace msgbus
-} // namespace eagine
+} // namespace eagine::msgbus
 

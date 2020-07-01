@@ -10,8 +10,7 @@
 #include <eagine/message_bus/serialize.hpp>
 #include <thread>
 
-namespace eagine {
-namespace msgbus {
+namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 // routed_endpoint
 //------------------------------------------------------------------------------
@@ -527,6 +526,5 @@ bool router::update(const valid_if_positive<int>& count) {
     return something_done;
 }
 //------------------------------------------------------------------------------
-} // namespace msgbus
-} // namespace eagine
+} // namespace eagine::msgbus
 

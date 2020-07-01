@@ -6,8 +6,7 @@
  */
 #include <eagine/message_bus/context.hpp>
 
-namespace eagine {
-namespace msgbus {
+namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 bool stored_message::store_and_sign(
   memory::const_block data, span_size_t max_size, context& ctx, logger& log) {
@@ -59,8 +58,8 @@ bool stored_message::store_and_sign(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-verification_bits stored_message::verify_bits(context& ctx, logger&) const
-  noexcept {
+verification_bits stored_message::verify_bits(
+  context& ctx, logger&) const noexcept {
     return ctx.verify_remote_signature(content(), signature(), source_id);
 }
 //------------------------------------------------------------------------------
@@ -176,6 +175,5 @@ void serialized_message_storage::cleanup(bit_set to_be_removed) {
       _messages.end());
 }
 //------------------------------------------------------------------------------
-} // namespace msgbus
-} // namespace eagine
+} // namespace eagine::msgbus
 

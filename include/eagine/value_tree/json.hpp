@@ -14,13 +14,11 @@
 #include "../logging/fwd.hpp"
 #include "wrappers.hpp"
 
-namespace eagine {
-namespace valtree {
+namespace eagine::valtree {
 //------------------------------------------------------------------------------
 compound from_json_text(string_view, logger&);
 //------------------------------------------------------------------------------
-} // namespace valtree
-} // namespace eagine
+} // namespace eagine::valtree
 
 #if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
 #include <eagine/value_tree/json.inl>

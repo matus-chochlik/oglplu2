@@ -12,8 +12,7 @@
 
 #include "../reflect/map_enumerators.hpp"
 
-namespace eagine {
-namespace msgbus {
+namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 enum class node_kind : std::uint8_t { endpoint, bridge, router };
 //------------------------------------------------------------------------------
@@ -25,8 +24,7 @@ constexpr auto enumerator_mapping(identity<node_kind>, Selector) noexcept {
        {"router", node_kind::router}}};
 }
 //------------------------------------------------------------------------------
-} // namespace msgbus
-} // namespace eagine
+} // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_NODE_KIND_HPP
 

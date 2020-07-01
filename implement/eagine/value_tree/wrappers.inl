@@ -10,8 +10,7 @@
 #include <string>
 #include <tuple>
 
-namespace eagine {
-namespace valtree {
+namespace eagine::valtree {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void compound::traverse(visit_handler visit) {
@@ -48,6 +47,5 @@ void compound::traverse(visit_handler visit) {
     }
 }
 //------------------------------------------------------------------------------
-} // namespace valtree
-} // namespace eagine
+} // namespace eagine::valtree
 

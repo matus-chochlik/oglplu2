@@ -12,8 +12,7 @@
 
 #include "subscriber.hpp"
 
-namespace eagine {
-namespace msgbus {
+namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 template <
   std::size_t N,
@@ -105,8 +104,7 @@ private:
     Subscriber<N> _subscriber;
 };
 //------------------------------------------------------------------------------
-} // namespace msgbus
-} // namespace eagine
+} // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_ACTOR_HPP
 

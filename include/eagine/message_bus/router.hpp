@@ -20,8 +20,7 @@
 #include <map>
 #include <vector>
 
-namespace eagine {
-namespace msgbus {
+namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 struct router_pending {
 
@@ -140,8 +139,7 @@ private:
     blob_manipulator _blobs{};
 };
 //------------------------------------------------------------------------------
-} // namespace msgbus
-} // namespace eagine
+} // namespace eagine::msgbus
 
 #if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
 #include <eagine/message_bus/router.inl>

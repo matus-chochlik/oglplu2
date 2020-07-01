@@ -20,8 +20,7 @@
 #include "message.hpp"
 #include <array>
 
-namespace eagine {
-namespace msgbus {
+namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 using default_serializer_backend = string_serializer_backend;
 using default_deserializer_backend = string_deserializer_backend;
@@ -176,8 +175,7 @@ inline bool stored_message::fetch_value(Value& value) {
     return do_fetch_value<default_deserializer_backend>(value);
 }
 //------------------------------------------------------------------------------
-} // namespace msgbus
-} // namespace eagine
+} // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_SERIALIZE_HPP
 

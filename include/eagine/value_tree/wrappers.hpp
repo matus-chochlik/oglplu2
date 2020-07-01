@@ -18,8 +18,7 @@
 #include "interface.hpp"
 #include <utility>
 
-namespace eagine {
-namespace valtree {
+namespace eagine::valtree {
 //------------------------------------------------------------------------------
 class compound;
 class attribute {
@@ -318,8 +317,7 @@ private:
     std::shared_ptr<compound_interface> _pimpl{};
 };
 //------------------------------------------------------------------------------
-} // namespace valtree
-} // namespace eagine
+} // namespace eagine::valtree
 
 #if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
 #include <eagine/value_tree/wrappers.inl>

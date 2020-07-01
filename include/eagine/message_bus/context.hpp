@@ -22,8 +22,7 @@
 #include <map>
 #include <random>
 
-namespace eagine {
-namespace msgbus {
+namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 struct context_remote_node {
     std::array<byte, 256> nonce{};
@@ -119,8 +118,7 @@ private:
     std::map<identifier_t, context_remote_node> _remotes{};
 };
 //------------------------------------------------------------------------------
-} // namespace msgbus
-} // namespace eagine
+} // namespace eagine::msgbus
 
 #if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
 #include <eagine/message_bus/context.inl>

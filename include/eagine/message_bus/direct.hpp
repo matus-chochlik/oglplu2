@@ -17,8 +17,7 @@
 #include <map>
 #include <mutex>
 
-namespace eagine {
-namespace msgbus {
+namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 class direct_connection_state {
 private:
@@ -261,8 +260,7 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-} // namespace msgbus
-} // namespace eagine
+} // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_DIRECT_HPP
 

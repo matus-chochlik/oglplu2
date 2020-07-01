@@ -14,8 +14,7 @@
 #include "../reflect/map_enumerators.hpp"
 #include <cstdint>
 
-namespace eagine {
-namespace msgbus {
+namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 enum class verification_bit : std::uint8_t {
     source_id = 1U << 0U,
@@ -38,7 +37,6 @@ constexpr auto enumerator_mapping(
 //------------------------------------------------------------------------------
 using verification_bits = bitfield<verification_bit>;
 //------------------------------------------------------------------------------
-} // namespace msgbus
-} // namespace eagine
+} // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_VERIFICATION_HPP

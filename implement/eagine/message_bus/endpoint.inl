@@ -8,8 +8,7 @@
 #include <eagine/branch_predict.hpp>
 #include <eagine/message_bus/context.hpp>
 
-namespace eagine {
-namespace msgbus {
+namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool endpoint::_cleanup_blobs() {
@@ -552,6 +551,5 @@ span_size_t endpoint::process_everything(generic_handler handler) {
     return result;
 }
 //------------------------------------------------------------------------------
-} // namespace msgbus
-} // namespace eagine
+} // namespace eagine::msgbus
 

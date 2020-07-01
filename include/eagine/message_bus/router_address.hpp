@@ -13,8 +13,7 @@
 #include "../logging/logger.hpp"
 #include "../program_args.hpp"
 
-namespace eagine {
-namespace msgbus {
+namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 class router_address {
 public:
@@ -35,7 +34,6 @@ private:
     std::string _addr{};
 };
 //------------------------------------------------------------------------------
-} // namespace msgbus
-} // namespace eagine
+} // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_ROUTER_ADDRESS_HPP

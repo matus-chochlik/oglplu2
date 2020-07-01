@@ -10,8 +10,7 @@
 #include <eagine/serialize/block_sink.hpp>
 #include <eagine/serialize/block_source.hpp>
 
-namespace eagine {
-namespace msgbus {
+namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool blob_manipulator::cleanup() {
@@ -386,6 +385,5 @@ span_size_t blob_manipulator::fetch_all(
     return done_count;
 }
 //------------------------------------------------------------------------------
-} // namespace msgbus
-} // namespace eagine
+} // namespace eagine::msgbus
 

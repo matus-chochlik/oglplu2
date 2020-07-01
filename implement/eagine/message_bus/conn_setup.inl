@@ -12,8 +12,7 @@
 #include <eagine/message_bus/posix_mqueue.hpp>
 #endif
 
-namespace eagine {
-namespace msgbus {
+namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void connection_setup::_do_setup_acceptors(
@@ -154,6 +153,5 @@ void connection_setup_default_init(
     }
 }
 //------------------------------------------------------------------------------
-} // namespace msgbus
-} // namespace eagine
+} // namespace eagine::msgbus
 

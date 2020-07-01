@@ -18,8 +18,7 @@
 #include <type_traits>
 #include <vector>
 
-namespace eagine {
-namespace msgbus {
+namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 template <typename MessageId, typename MemFuncConst>
 struct message_handler_map {
@@ -378,8 +377,7 @@ private:
     std::vector<handler_entry> _msg_handlers;
 };
 //------------------------------------------------------------------------------
-} // namespace msgbus
-} // namespace eagine
+} // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_SUBSCRIBER_HPP
 

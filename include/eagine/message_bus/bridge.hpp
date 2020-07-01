@@ -17,8 +17,7 @@
 #include "context_fwd.hpp"
 #include <memory>
 
-namespace eagine {
-namespace msgbus {
+namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 class bridge_state;
 class bridge : public connection_user {
@@ -85,8 +84,7 @@ private:
     std::vector<std::unique_ptr<connection>> _connections{};
 };
 //------------------------------------------------------------------------------
-} // namespace msgbus
-} // namespace eagine
+} // namespace eagine::msgbus
 
 #if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
 #include <eagine/message_bus/bridge.inl>

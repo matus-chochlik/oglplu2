@@ -21,8 +21,7 @@
 #include <cstdint>
 #include <vector>
 
-namespace eagine {
-namespace msgbus {
+namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 struct pending_blob {
     message_id msg_id{};
@@ -107,8 +106,7 @@ public:
     bool process_outgoing(send_handler, span_size_t max_data_size);
 };
 //------------------------------------------------------------------------------
-} // namespace msgbus
-} // namespace eagine
+} // namespace eagine::msgbus
 
 #if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
 #include <eagine/message_bus/blobs.inl>
