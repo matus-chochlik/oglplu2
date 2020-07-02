@@ -12,8 +12,7 @@
 
 #include "../dimension.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 using angular_velocity = decltype(angle() / time());
 
@@ -22,7 +21,6 @@ struct name_of<angular_velocity> {
     static constexpr const char mp_str[] = "angular velocity";
 };
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_DIM_ANGULAR_VELOCITY_HPP

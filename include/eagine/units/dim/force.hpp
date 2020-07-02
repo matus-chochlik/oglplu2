@@ -12,8 +12,7 @@
 
 #include "acceleration.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 using force = decltype(acceleration() * mass());
 
@@ -22,7 +21,6 @@ struct name_of<force> {
     static constexpr const char mp_str[] = "force";
 };
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_DIM_FORCE_HPP

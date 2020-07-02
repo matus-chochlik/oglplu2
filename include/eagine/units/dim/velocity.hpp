@@ -12,8 +12,7 @@
 
 #include "../dimension.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 using velocity = decltype(length() / time());
 
@@ -22,7 +21,6 @@ struct name_of<velocity> {
     static constexpr const char mp_str[] = "velocity";
 };
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_DIM_VELOCITY_HPP

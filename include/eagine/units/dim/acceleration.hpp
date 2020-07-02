@@ -12,8 +12,7 @@
 
 #include "velocity.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 using acceleration = decltype(velocity() / time());
 
@@ -22,7 +21,6 @@ struct name_of<acceleration> {
     static constexpr const char mp_str[] = "acceleration";
 };
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_DIM_ACCELERATION_HPP

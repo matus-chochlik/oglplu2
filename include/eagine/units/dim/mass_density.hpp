@@ -12,8 +12,7 @@
 
 #include "volume.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 using mass_density = decltype(mass() / volume());
 
@@ -22,7 +21,6 @@ struct name_of<mass_density> {
     static constexpr const char mp_str[] = "mass density";
 };
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_DIM_MASS_DENSITY_HPP

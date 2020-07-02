@@ -13,8 +13,7 @@
 #include "area.hpp"
 #include "force.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 using pressure = decltype(force() / area());
 
@@ -23,7 +22,6 @@ struct name_of<pressure> {
     static constexpr const char mp_str[] = "pressure";
 };
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_DIM_PRESSURE_HPP

@@ -14,8 +14,7 @@
 #include <cstdint>
 #include <utility>
 
-namespace eagine {
-namespace vect {
+namespace eagine::vect {
 
 #if EAGINE_USE_SIMD
 #if defined(__clang__)
@@ -183,7 +182,6 @@ struct _has_vec_data<double, N>
 };
 #endif // EAGINE_USE_SIMD
 
-} // namespace vect
-} // namespace eagine
+} // namespace eagine::vect
 
 #endif // EAGINE_VECT_DATA_VEC_HPP

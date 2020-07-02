@@ -12,8 +12,7 @@
 
 #include "energy.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 using magnetic_flux = decltype(energy() / electric_current());
 
@@ -22,7 +21,6 @@ struct name_of<magnetic_flux> {
     static constexpr const char mp_str[] = "magnetic flux";
 };
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_DIM_MAGNETIC_FLUX_HPP

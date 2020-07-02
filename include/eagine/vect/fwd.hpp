@@ -11,8 +11,7 @@
 
 #include "../int_constant.hpp"
 
-namespace eagine {
-namespace vect {
+namespace eagine::vect {
 
 template <typename T, int N>
 struct _ary_data;
@@ -41,7 +40,6 @@ struct data_param;
 template <typename T, int N, bool V>
 using data_param_t = typename data_param<T, N, V>::type;
 
-} // namespace vect
-} // namespace eagine
+} // namespace eagine::vect
 
 #endif // EAGINE_VECT_FWD_HPP

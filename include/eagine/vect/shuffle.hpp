@@ -11,8 +11,7 @@
 
 #include "data.hpp"
 
-namespace eagine {
-namespace vect {
+namespace eagine::vect {
 
 template <int... I>
 struct shuffle_mask {};
@@ -122,7 +121,6 @@ public:
     }
 };
 
-} // namespace vect
-} // namespace eagine
+} // namespace eagine::vect
 
 #endif // EAGINE_VECT_SHUFFLE_HPP

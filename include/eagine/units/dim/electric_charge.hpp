@@ -12,8 +12,7 @@
 
 #include "../dimension.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 using electric_charge = decltype(electric_current() * time());
 
@@ -22,7 +21,6 @@ struct name_of<electric_charge> {
     static constexpr const char mp_str[] = "electric charge";
 };
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_DIM_ELECTRIC_CHARGE_HPP

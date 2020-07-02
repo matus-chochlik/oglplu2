@@ -13,8 +13,7 @@
 #include "area.hpp"
 #include "magnetic_flux.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 using magnetic_field_strength = decltype(magnetic_flux() / area());
 
@@ -23,7 +22,6 @@ struct name_of<magnetic_field_strength> {
     static constexpr const char mp_str[] = "magnetic field strength";
 };
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_DIM_MAGNETIC_FIELD_STRENGTH_HPP

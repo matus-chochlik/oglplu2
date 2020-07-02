@@ -12,8 +12,7 @@
 
 #include "power.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 using electric_tension = decltype(power() / electric_current());
 
@@ -22,7 +21,6 @@ struct name_of<electric_tension> {
     static constexpr const char mp_str[] = "electric tension";
 };
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_DIM_ELECTRIC_TENSION_HPP

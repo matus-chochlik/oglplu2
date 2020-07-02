@@ -12,8 +12,7 @@
 
 #include "electric_tension.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 using electrical_resistance = decltype(electric_tension() / electric_current());
 
@@ -22,7 +21,6 @@ struct name_of<electrical_resistance> {
     static constexpr const char mp_str[] = "electrical resistance";
 };
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_DIM_ELECTRICAL_RESISTANCE_HPP

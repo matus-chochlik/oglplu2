@@ -12,8 +12,7 @@
 
 #include "electric_tension.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 using electrical_conductance =
   decltype(electric_current() / electric_tension());
@@ -23,7 +22,6 @@ struct name_of<electrical_conductance> {
     static constexpr const char mp_str[] = "electrical conductance";
 };
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_DIM_ELECTRICAL_CONDUCTANCE_HPP
