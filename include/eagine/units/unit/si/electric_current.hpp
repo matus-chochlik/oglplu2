@@ -12,8 +12,7 @@
 
 #include "common.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 namespace base {
 
 // ampere
@@ -46,7 +45,6 @@ using milliampere = make_scaled_base_dim_unit_t<
   base::scaled_unit<scales::milli, base::ampere>,
   si>;
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_UNIT_SI_ELECTRIC_CURRENT_HPP

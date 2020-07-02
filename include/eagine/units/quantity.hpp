@@ -12,15 +12,13 @@
 
 #include "../tagged_quantity.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 template <typename U, typename T>
 static inline tagged_quantity<T, U> quantity(const T& value) {
     return tagged_quantity<T, U>(value);
 }
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_QUANTITY_HPP

@@ -12,8 +12,7 @@
 
 #include "default.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 namespace scales {
 
 struct pi;
@@ -53,7 +52,6 @@ using degree = scaled_dim_unit<
     nothing_t>,
   si>;
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_TRIVIAL_HPP

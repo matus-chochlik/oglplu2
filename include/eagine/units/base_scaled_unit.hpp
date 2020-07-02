@@ -8,9 +8,7 @@
 
 #include "base_unit.hpp"
 
-namespace eagine {
-namespace units {
-namespace base {
+namespace eagine::units::base {
 
 template <typename Scale, typename Unit>
 struct scaled_unit {
@@ -19,8 +17,6 @@ struct scaled_unit {
     using type = scaled_unit;
 };
 
-} // namespace base
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units::base
 
 #endif // EAGINE_UNITS_BASE_SCALED_UNIT_HPP

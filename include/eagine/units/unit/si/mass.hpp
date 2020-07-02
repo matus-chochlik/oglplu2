@@ -12,8 +12,7 @@
 
 #include "common.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 namespace base {
 
 // gram
@@ -60,7 +59,6 @@ using milligram =
 
 using tonne = make_scaled_base_dim_unit_t<base::tonne, si>;
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_UNIT_SI_MASS_HPP

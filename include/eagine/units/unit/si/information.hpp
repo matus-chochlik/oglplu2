@@ -12,8 +12,7 @@
 
 #include "common.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 namespace base {
 
 // bit
@@ -76,7 +75,6 @@ using mebibyte = make_scaled_base_dim_unit_t<
     base::bit>,
   si>;
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_UNIT_SI_INFORMATION_HPP

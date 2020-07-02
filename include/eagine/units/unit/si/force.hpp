@@ -16,8 +16,7 @@
 #include "mass.hpp"
 #include "time.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 // newton
 using newton = unit<force, si>;
@@ -37,7 +36,6 @@ using kilonewton = make_scaled_unit_t<scales::kilo, newton>;
 using meganewton = make_scaled_unit_t<scales::mega, newton>;
 // TODO
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_UNIT_SI_FORCE_HPP

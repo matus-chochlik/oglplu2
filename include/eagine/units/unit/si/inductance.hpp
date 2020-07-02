@@ -17,8 +17,7 @@
 #include "mass.hpp"
 #include "time.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 // henry
 using henry = unit<inductance, si>;
@@ -38,7 +37,6 @@ using millihenry = make_scaled_unit_t<scales::milli, henry>;
 using kilohenry = make_scaled_unit_t<scales::kilo, henry>;
 // TODO
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_UNIT_SI_INDUCTANCE_HPP

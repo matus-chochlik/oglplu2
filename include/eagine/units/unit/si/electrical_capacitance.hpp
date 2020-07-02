@@ -15,8 +15,7 @@
 #include "electric_charge.hpp"
 #include "electric_tension.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 // farad
 using farad = unit<electrical_capacitance, si>;
@@ -37,7 +36,6 @@ using millifarad = make_scaled_unit_t<scales::milli, farad>;
 using kilofarad = make_scaled_unit_t<scales::kilo, farad>;
 // TODO
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_UNIT_SI_ELECTRICAL_CAPACITANCE_HPP

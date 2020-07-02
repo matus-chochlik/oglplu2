@@ -16,9 +16,7 @@
 #include "fwd.hpp"
 #include "scales.hpp"
 
-namespace eagine {
-namespace units {
-namespace bits {
+namespace eagine::units::bits {
 
 // collapse_tail
 template <typename X>
@@ -379,8 +377,6 @@ struct _sc_unit_sc_hlp {
     }
 };
 
-} // namespace bits
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units::bits
 
 #endif // EAGINE_UNITS_DETAIL_HPP

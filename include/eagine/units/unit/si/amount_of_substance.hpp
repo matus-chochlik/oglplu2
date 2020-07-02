@@ -12,8 +12,7 @@
 
 #include "common.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 namespace base {
 
 // mole
@@ -39,7 +38,6 @@ using mole = unit<amount_of_substance, si>;
 using kilomole =
   make_scaled_base_dim_unit_t<base::scaled_unit<scales::kilo, base::mole>, si>;
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_UNIT_SI_AMOUNT_OF_SUBSTANCE_HPP

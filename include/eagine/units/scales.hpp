@@ -18,8 +18,7 @@
 #pragma clang diagnostic ignored "-Wdouble-promotion"
 #endif
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 namespace scales {
 //------------------------------------------------------------------------------
 template <typename X>
@@ -344,8 +343,7 @@ struct symbol_of<scales::pi> {
     static constexpr const char mp_str[] = {char(0xCF), char(0x80), '\0'};
 };
 //------------------------------------------------------------------------------
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #ifdef __clang__
 #pragma clang diagnostic pop

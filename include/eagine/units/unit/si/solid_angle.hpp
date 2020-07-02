@@ -12,8 +12,7 @@
 
 #include "common.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 namespace base {
 
 // steradian
@@ -38,7 +37,6 @@ struct si::base_unit<base::solid_angle> : base::steradian {};
 // steradian
 using steradian = unit<solid_angle, si>;
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_UNIT_SI_SOLID_ANGLE_HPP

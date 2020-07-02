@@ -17,8 +17,7 @@
 #include <cmath>
 // clang-format on
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 template <typename Dims, typename Scales, typename System>
 struct scaled_dim_unit {
@@ -241,7 +240,6 @@ template <typename D1, typename D2, typename US1, typename US2, typename S>
 struct div_result<scaled_dim_unit<D1, US1, S>, scaled_dim_unit<D2, US2, S>>
   : scaled_dim_unit<bits::dim_sub_t<D1, D2>, bits::merge_t<US1, US2>, S> {};
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_SCALED_UNIT_HPP

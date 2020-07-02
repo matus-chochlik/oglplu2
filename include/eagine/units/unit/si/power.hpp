@@ -16,8 +16,7 @@
 #include "mass.hpp"
 #include "time.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 // watt
 using watt = unit<power, si>;
@@ -37,7 +36,6 @@ using kilowatt = make_scaled_unit_t<scales::kilo, watt>;
 using megawatt = make_scaled_unit_t<scales::mega, watt>;
 // TODO
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_UNIT_SI_POWER_HPP

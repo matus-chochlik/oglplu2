@@ -17,8 +17,7 @@
 #include "mass.hpp"
 #include "time.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 // tesla
 using tesla = unit<magnetic_field_strength, si>;
@@ -37,7 +36,6 @@ struct symbol_of<tesla> {
 using millitesla = make_scaled_unit_t<scales::milli, tesla>;
 // TODO
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_UNIT_SI_MAGNETIC_FIELD_STRENGTH_HPP

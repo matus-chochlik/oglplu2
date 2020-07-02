@@ -13,8 +13,7 @@
 #include "../../dim/frequency.hpp"
 #include "common.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 namespace base {
 
 struct count_of_cycles : unit<number_of_cycles, count_of_cycles> {};
@@ -44,7 +43,6 @@ using megahertz = make_scaled_unit_t<scales::mega, hertz>;
 using gigahertz = make_scaled_unit_t<scales::giga, hertz>;
 // TODO
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_UNIT_SI_FREQUENCY_HPP

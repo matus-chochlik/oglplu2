@@ -14,8 +14,7 @@
 #include "detail.hpp"
 #include "traits.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 // multiplication
 template <typename D1, typename D2>
@@ -53,7 +52,6 @@ using luminous_intensity = dimension<base::luminous_intensity, 1>;
 using amount_of_substance = dimension<base::amount_of_substance, 1>;
 using amount_of_information = dimension<base::amount_of_information, 1>;
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_DIMENSION_HPP

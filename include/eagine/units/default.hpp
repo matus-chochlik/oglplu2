@@ -13,8 +13,7 @@
 #include "../identity.hpp"
 #include "fwd.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 template <typename X, typename Y>
 struct same_dimension : std::false_type {};
@@ -41,7 +40,6 @@ struct trivial_value_conv {
 template <typename U>
 struct value_conv<U, U> : trivial_value_conv {};
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_DEFAULT_HPP
