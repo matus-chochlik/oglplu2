@@ -25,7 +25,7 @@ namespace eagine {
 
 class test_random_generator {
 private:
-    std::mt19937 _re;
+    std::mt19937 _re{};
 
 public:
     test_random_generator()
@@ -33,7 +33,7 @@ public:
     }
 
     identifier get_identifier() {
-        return random_identifier(_re);
+        return random_identifier(any_random_engine(_re));
     }
 
     template <typename T>
