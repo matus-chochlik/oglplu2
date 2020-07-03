@@ -12,8 +12,7 @@
 #include "c_api.hpp"
 #include "enum_types.hpp"
 
-namespace eagine {
-namespace eglp {
+namespace eagine::eglp {
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
 struct basic_egl_constants {
@@ -572,8 +571,7 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-} // namespace eglp
-} // namespace eagine
+} // namespace eagine::eglp
 
 #endif // EGLPLUS_EGL_API_CONSTANTS_HPP
 

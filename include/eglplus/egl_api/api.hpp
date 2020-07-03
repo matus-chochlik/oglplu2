@@ -15,8 +15,7 @@
 #include <eagine/scope_exit.hpp>
 #include <eagine/string_list.hpp>
 
-namespace eagine {
-namespace eglp {
+namespace eagine::eglp {
 //------------------------------------------------------------------------------
 #define EGLPAFP(FUNC) decltype(c_api::FUNC), &c_api::FUNC
 //------------------------------------------------------------------------------
@@ -137,8 +136,8 @@ public:
               });
         }
 
-        auto operator()(display_type disp, span<config_type> dest) const
-          noexcept {
+        auto operator()(
+          display_type disp, span<config_type> dest) const noexcept {
             int_type ret_count{0};
             return this
               ->_chkcall(
@@ -159,8 +158,8 @@ public:
     struct : func<EGLPAFP(ChooseConfig)> {
         using func<EGLPAFP(ChooseConfig)>::func;
 
-        auto count(display_type disp, span<const int_type> attribs) const
-          noexcept {
+        auto count(
+          display_type disp, span<const int_type> attribs) const noexcept {
             int_type ret_count{0};
             return this->_chkcall(disp, attribs.data(), nullptr, 0, &ret_count)
               .transformed([&ret_count](auto ok) {
@@ -229,8 +228,9 @@ public:
         }
 
         constexpr auto operator()(
-          display_type disp, config_type conf, config_attribute attrib) const
-          noexcept {
+          display_type disp,
+          config_type conf,
+          config_attribute attrib) const noexcept {
             int_type value{0};
             return (*this)(disp, conf, attrib, &value)
               .transformed([&value](auto ok) {
@@ -243,8 +243,8 @@ public:
     struct : func<EGLPAFP(QueryString)> {
         using func<EGLPAFP(QueryString)>::func;
 
-        constexpr auto operator()(display_type disp, string_query query) const
-          noexcept {
+        constexpr auto operator()(
+          display_type disp, string_query query) const noexcept {
             return this->_chkcall(disp, int_type(query));
         }
 
@@ -313,8 +313,7 @@ public:
 //------------------------------------------------------------------------------
 #undef OGLPAFP
 //------------------------------------------------------------------------------
-} // namespace eglp
-} // namespace eagine
+} // namespace eagine::eglp
 
 #endif // EGLPLUS_EGL_API_API_HPP
 

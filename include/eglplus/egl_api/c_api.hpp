@@ -22,8 +22,7 @@
 #endif
 #endif
 
-namespace eagine {
-namespace eglp {
+namespace eagine::eglp {
 //------------------------------------------------------------------------------
 template <typename Traits>
 struct basic_egl_c_api {
@@ -316,8 +315,7 @@ struct basic_egl_c_api {
 //------------------------------------------------------------------------------
 using egl_c_api = basic_egl_c_api<egl_api_traits>;
 //------------------------------------------------------------------------------
-} // namespace eglp
-} // namespace eagine
+} // namespace eagine::eglp
 
 #endif // EGLPLUS_EGL_API_C_API_HPP
 

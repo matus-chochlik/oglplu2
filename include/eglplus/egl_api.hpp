@@ -14,8 +14,7 @@
 #include "egl_api/constants.hpp"
 #include "egl_api_fwd.hpp"
 
-namespace eagine {
-namespace eglp {
+namespace eagine::eglp {
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
 class basic_egl_api
@@ -48,8 +47,7 @@ const typename std::tuple_element<I, basic_egl_api<ApiTraits>>::type& get(
     return x;
 }
 //------------------------------------------------------------------------------
-} // namespace eglp
-} // namespace eagine
+} // namespace eagine::eglp
 
 // NOLINTNEXTLINE(cert-dcl58-cpp)
 namespace std {

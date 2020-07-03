@@ -14,8 +14,7 @@
 #include <eagine/c_api_wrap.hpp>
 #include <eagine/string_span.hpp>
 
-namespace eagine {
-namespace eglp {
+namespace eagine::eglp {
 //------------------------------------------------------------------------------
 class egl_no_result_info {
 public:
@@ -141,8 +140,7 @@ using egl_result = api_result<Result, egl_result_info>;
 template <typename Result>
 using egl_opt_result = api_opt_result<Result, egl_result_info>;
 //------------------------------------------------------------------------------
-} // namespace eglp
-} // namespace eagine
+} // namespace eagine::eglp
 
 #endif // EGLPLUS_EGL_API_RESULT_HPP
 
