@@ -11,8 +11,7 @@
 
 #include "enum_class.hpp"
 
-namespace eagine {
-namespace oalp {
+namespace eagine::oalp {
 //------------------------------------------------------------------------------
 struct alc_error_code : alc_enum_class<alc_error_code, EAGINE_ID_V(ErrorCode)> {
     using enum_class::enum_class;
@@ -33,8 +32,7 @@ struct alc_integer_query
     using enum_class::enum_class;
 };
 //------------------------------------------------------------------------------
-} // namespace oalp
-} // namespace eagine
+} // namespace eagine::oalp
 
 #endif // OALPLUS_ALC_API_ENUM_TYPES_HPP
 

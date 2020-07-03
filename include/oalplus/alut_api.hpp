@@ -14,8 +14,7 @@
 #include "alut_api/constants.hpp"
 #include "alut_api_fwd.hpp"
 
-namespace eagine {
-namespace oalp {
+namespace eagine::oalp {
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
 class basic_alut_api
@@ -48,8 +47,7 @@ const typename std::tuple_element<I, basic_alut_api<ApiTraits>>::type& get(
     return x;
 }
 //------------------------------------------------------------------------------
-} // namespace oalp
-} // namespace eagine
+} // namespace eagine::oalp
 
 // NOLINTNEXTLINE(cert-dcl58-cpp)
 namespace std {

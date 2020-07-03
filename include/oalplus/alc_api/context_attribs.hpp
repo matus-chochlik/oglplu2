@@ -13,8 +13,7 @@
 #include "enum_types.hpp"
 #include <eagine/key_val_list.hpp>
 
-namespace eagine {
-namespace oalp {
+namespace eagine::oalp {
 
 struct context_attrib_traits {
     using key_type = context_attribute;
@@ -43,7 +42,6 @@ static constexpr inline context_attribute_value operator|(
 }
 #endif
 
-} // namespace oalp
-} // namespace eagine
+} // namespace eagine::oalp
 
 #endif // OALPLUS_ALC_API_CONTEXT_ATTRIBS_HPP

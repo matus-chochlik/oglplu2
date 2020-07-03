@@ -11,8 +11,7 @@
 
 #include "result.hpp"
 
-namespace eagine {
-namespace oalp {
+namespace eagine::oalp {
 //------------------------------------------------------------------------------
 class alut_api_traits : public default_c_api_traits {
 public:
@@ -27,8 +26,7 @@ private:
     std::string _full_name;
 };
 //------------------------------------------------------------------------------
-} // namespace oalp
-} // namespace eagine
+} // namespace eagine::oalp
 
 #endif // OALPLUS_ALUT_API_API_TRAITS_HPP
 

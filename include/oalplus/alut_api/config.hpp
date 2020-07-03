@@ -25,8 +25,7 @@
 #include <cstdint>
 #endif
 
-namespace eagine {
-namespace oalp {
+namespace eagine::oalp {
 //------------------------------------------------------------------------------
 struct alut_types {
 
@@ -64,8 +63,7 @@ struct alut_types {
     }
 };
 //------------------------------------------------------------------------------
-} // namespace oalp
-} // namespace eagine
+} // namespace eagine::oalp
 
 #endif // OALPLUS_ALUT_API_CONFIG_HPP
 

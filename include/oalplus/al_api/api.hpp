@@ -15,8 +15,7 @@
 #include <eagine/scope_exit.hpp>
 #include <eagine/string_list.hpp>
 
-namespace eagine {
-namespace oalp {
+namespace eagine::oalp {
 //------------------------------------------------------------------------------
 #define OALPAFP(FUNC) decltype(c_api::FUNC), &c_api::FUNC
 //------------------------------------------------------------------------------
@@ -119,8 +118,8 @@ public:
             return this->_chkcall(size_type(names.size()), names.data());
         }
 
-        constexpr auto operator()(al_owned_object_name<ObjTag>& name) const
-          noexcept {
+        constexpr auto operator()(
+          al_owned_object_name<ObjTag>& name) const noexcept {
             auto n = name.release();
             return this->_chkcall(1, &n);
         }
@@ -191,15 +190,17 @@ public:
                    bool(this->api().Listener3i) && bool(this->api().Listeneriv);
         }
 
-        constexpr auto operator()(listener_attribute attr, int_type v0) const
-          noexcept {
+        constexpr auto operator()(
+          listener_attribute attr, int_type v0) const noexcept {
             return this->_check(
               this->_call(this->api().Listeneri, enum_type(attr), v0));
         }
 
         constexpr auto operator()(
-          listener_attribute attr, int_type v0, int_type v1, int_type v2) const
-          noexcept {
+          listener_attribute attr,
+          int_type v0,
+          int_type v1,
+          int_type v2) const noexcept {
             return this->_check(
               this->_call(this->api().Listener3i, enum_type(attr), v0, v1, v2));
         }
@@ -220,8 +221,8 @@ public:
                    bool(this->api().Listener3f) && bool(this->api().Listenerfv);
         }
 
-        constexpr auto operator()(listener_attribute attr, float_type v0) const
-          noexcept {
+        constexpr auto operator()(
+          listener_attribute attr, float_type v0) const noexcept {
             return this->_check(
               this->_call(this->api().Listenerf, enum_type(attr), v0));
         }
@@ -293,8 +294,9 @@ public:
         }
 
         constexpr auto operator()(
-          buffer_name src, buffer_attribute attr, span<const int_type> v) const
-          noexcept {
+          buffer_name src,
+          buffer_attribute attr,
+          span<const int_type> v) const noexcept {
             return this->_check(this->_call(
               this->api().Bufferiv, name_type(src), enum_type(attr), v.data()));
         }
@@ -310,8 +312,9 @@ public:
         }
 
         constexpr auto operator()(
-          buffer_name src, buffer_attribute attr, float_type v0) const
-          noexcept {
+          buffer_name src,
+          buffer_attribute attr,
+          float_type v0) const noexcept {
             return this->_check(this->_call(
               this->api().Bufferf, name_type(src), enum_type(attr), v0));
         }
@@ -345,8 +348,9 @@ public:
         using func<OALPAFP(GetBufferiv)>::func;
 
         constexpr auto operator()(
-          buffer_name src, buffer_attribute attr, span<int_type> v) const
-          noexcept {
+          buffer_name src,
+          buffer_attribute attr,
+          span<int_type> v) const noexcept {
             return this->_chkcall(name_type(src), enum_type(attr), v.data());
         }
     } get_buffer_i;
@@ -356,8 +360,9 @@ public:
         using func<OALPAFP(GetBufferfv)>::func;
 
         constexpr auto operator()(
-          buffer_name src, buffer_attribute attr, span<float_type> v) const
-          noexcept {
+          buffer_name src,
+          buffer_attribute attr,
+          span<float_type> v) const noexcept {
             return this->_chkcall(name_type(src), enum_type(attr), v.data());
         }
     } get_buffer_f;
@@ -393,8 +398,9 @@ public:
         }
 
         constexpr auto operator()(
-          source_name src, source_attribute attr, span<const int_type> v) const
-          noexcept {
+          source_name src,
+          source_attribute attr,
+          span<const int_type> v) const noexcept {
             return this->_check(this->_call(
               this->api().Sourceiv, name_type(src), enum_type(attr), v.data()));
         }
@@ -410,8 +416,9 @@ public:
         }
 
         constexpr auto operator()(
-          source_name src, source_attribute attr, float_type v0) const
-          noexcept {
+          source_name src,
+          source_attribute attr,
+          float_type v0) const noexcept {
             return this->_check(this->_call(
               this->api().Sourcef, name_type(src), enum_type(attr), v0));
         }
@@ -445,8 +452,9 @@ public:
         using func<OALPAFP(GetSourceiv)>::func;
 
         constexpr auto operator()(
-          source_name src, source_attribute attr, span<int_type> v) const
-          noexcept {
+          source_name src,
+          source_attribute attr,
+          span<int_type> v) const noexcept {
             return this->_chkcall(name_type(src), enum_type(attr), v.data());
         }
     } get_source_i;
@@ -456,8 +464,9 @@ public:
         using func<OALPAFP(GetSourcefv)>::func;
 
         constexpr auto operator()(
-          source_name src, source_attribute attr, span<float_type> v) const
-          noexcept {
+          source_name src,
+          source_attribute attr,
+          span<float_type> v) const noexcept {
             return this->_chkcall(name_type(src), enum_type(attr), v.data());
         }
     } get_source_f;
@@ -466,8 +475,8 @@ public:
     struct : func<OALPAFP(SourceQueueBuffers)> {
         using func<OALPAFP(SourceQueueBuffers)>::func;
 
-        constexpr auto operator()(source_name src, buffer_name buf) const
-          noexcept {
+        constexpr auto operator()(
+          source_name src, buffer_name buf) const noexcept {
             const auto n = name_type(buf);
             return this->_chkcall(name_type(src), 1, &n);
         }
@@ -483,14 +492,14 @@ public:
     struct : func<OALPAFP(SourceUnqueueBuffers)> {
         using func<OALPAFP(SourceUnqueueBuffers)>::func;
 
-        constexpr auto operator()(source_name src, buffer_name buf) const
-          noexcept {
+        constexpr auto operator()(
+          source_name src, buffer_name buf) const noexcept {
             auto n = name_type(buf);
             return this->_chkcall(name_type(src), 1, &n);
         }
 
-        constexpr auto operator()(source_name src, span<name_type> bufs) const
-          noexcept {
+        constexpr auto operator()(
+          source_name src, span<name_type> bufs) const noexcept {
             return this->_chkcall(
               name_type(src), size_type(bufs.size()), bufs.data());
         }
@@ -649,8 +658,7 @@ public:
 //------------------------------------------------------------------------------
 #undef OALPAFP
 //------------------------------------------------------------------------------
-} // namespace oalp
-} // namespace eagine
+} // namespace eagine::oalp
 
 #endif // OALPLUS_AL_API_API_HPP
 

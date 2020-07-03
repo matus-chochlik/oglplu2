@@ -14,8 +14,7 @@
 #include <eagine/enum_class.hpp>
 #include <eagine/identifier.hpp>
 
-namespace eagine {
-namespace oalp {
+namespace eagine::oalp {
 //------------------------------------------------------------------------------
 template <typename Self, identifier_t Id>
 using al_enum_class =
@@ -29,8 +28,7 @@ static constexpr inline bool same_enum_class(
     return ::eagine::same_enum_class(a, b);
 }
 //------------------------------------------------------------------------------
-} // namespace oalp
-} // namespace eagine
+} // namespace eagine::oalp
 
 #endif // OALPLUS_AL_API_ENUM_CLASS_HPP
 

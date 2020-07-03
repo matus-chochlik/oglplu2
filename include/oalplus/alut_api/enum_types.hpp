@@ -11,8 +11,7 @@
 
 #include "enum_class.hpp"
 
-namespace eagine {
-namespace oalp {
+namespace eagine::oalp {
 //------------------------------------------------------------------------------
 struct alut_error_code
   : alut_enum_class<alut_error_code, EAGINE_ID_V(ErrorCode)> {
@@ -24,8 +23,7 @@ struct waveform_function
     using enum_class::enum_class;
 };
 //------------------------------------------------------------------------------
-} // namespace oalp
-} // namespace eagine
+} // namespace eagine::oalp
 
 #endif // OALPLUS_ALUT_API_ENUM_TYPES_HPP
 

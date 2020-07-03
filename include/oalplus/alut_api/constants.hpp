@@ -12,8 +12,7 @@
 #include "c_api.hpp"
 #include "enum_types.hpp"
 
-namespace eagine {
-namespace oalp {
+namespace eagine::oalp {
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
 struct basic_alut_constants {
@@ -87,8 +86,7 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-} // namespace oalp
-} // namespace eagine
+} // namespace eagine::oalp
 
 #endif // OALPLUS_ALUT_API_CONSTANTS_HPP
 

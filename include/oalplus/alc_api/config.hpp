@@ -25,8 +25,7 @@
 #include <cstdint>
 #endif
 
-namespace eagine {
-namespace oalp {
+namespace eagine::oalp {
 //------------------------------------------------------------------------------
 struct alc_types {
     using void_ptr_type = void*;
@@ -70,8 +69,7 @@ struct alc_types {
     }
 };
 //------------------------------------------------------------------------------
-} // namespace oalp
-} // namespace eagine
+} // namespace eagine::oalp
 
 #endif // OALPLUS_ALC_API_CONFIG_HPP
 
