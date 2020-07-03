@@ -11,9 +11,7 @@
 #include <set>
 #include <string>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 mandelbrot_output::mandelbrot_output(node_intf& parent)
@@ -75,7 +73,5 @@ std::ostream& mandelbrot_output::definitions(
     return closing_expr(result, context);
 }
 //------------------------------------------------------------------------------
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 //------------------------------------------------------------------------------

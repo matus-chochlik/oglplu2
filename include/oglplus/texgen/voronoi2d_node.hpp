@@ -12,9 +12,7 @@
 #include "base_node.hpp"
 #include "fallback_input.hpp"
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 
 enum class voronoi_output_type {
     distance1,
@@ -85,9 +83,7 @@ public:
     output_intf& output(span_size_t index) override;
 };
 
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/texgen/voronoi2d_node.inl>

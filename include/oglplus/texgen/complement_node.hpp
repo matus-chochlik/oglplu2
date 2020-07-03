@@ -12,9 +12,7 @@
 #include "base_node.hpp"
 #include "fallback_input.hpp"
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 
 class complement_input : public input_with_const_default<float[4]> {
 private:
@@ -60,9 +58,7 @@ public:
     }
 };
 
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/texgen/complement_node.inl>

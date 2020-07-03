@@ -11,9 +11,7 @@
 #include <set>
 #include <string>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 mix_output::mix_output(node_intf& parent)
@@ -87,7 +85,5 @@ input_intf& mix_node::input(span_size_t index) {
     return _output.value;
 }
 //------------------------------------------------------------------------------
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 //------------------------------------------------------------------------------

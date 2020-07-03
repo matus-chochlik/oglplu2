@@ -10,9 +10,7 @@
 #include <eagine/maybe_unused.hpp>
 #include <iostream>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 honeycomb_output::honeycomb_output(
@@ -223,7 +221,5 @@ output_intf& honeycomb_node::output(span_size_t index) {
     return _distance;
 }
 //------------------------------------------------------------------------------
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 //------------------------------------------------------------------------------

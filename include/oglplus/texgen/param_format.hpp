@@ -12,9 +12,7 @@
 #include "interface.hpp"
 #include <iosfwd>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 namespace expr {
 
 struct render_param_decl {
@@ -75,9 +73,7 @@ struct nbors2d_offs_decl {
 std::ostream& operator<<(std::ostream& out, nbors2d_offs_decl);
 
 } // namespace expr
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/texgen/param_format.inl>

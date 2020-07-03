@@ -13,9 +13,7 @@
 #include "base_node.hpp"
 #include "base_output.hpp"
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 
 class uniform_output : public base_output {
 private:
@@ -64,9 +62,7 @@ public:
     void prepare() override;
 };
 
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/texgen/uniform_node.inl>

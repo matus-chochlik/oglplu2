@@ -9,9 +9,7 @@
 #include <cassert>
 #include <iostream>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 unary_function_output::unary_function_output(
@@ -366,7 +364,5 @@ std::ostream& binary_function_output::definitions(
     return closing_expr(out, ctxt);
 }
 //------------------------------------------------------------------------------
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 //------------------------------------------------------------------------------

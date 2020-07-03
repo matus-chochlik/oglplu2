@@ -13,9 +13,7 @@
 #include "base_output.hpp"
 #include "fallback_input.hpp"
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 
 class invert_output : public base_output {
 public:
@@ -36,9 +34,7 @@ using invert_node = unary_single_output_node<
   decltype(invert_output::input),
   &invert_output::input>;
 
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/texgen/invert_node.inl>

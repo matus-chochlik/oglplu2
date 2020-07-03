@@ -11,9 +11,7 @@
 #include <set>
 #include <string>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 complement_output::complement_output(node_intf& parent)
@@ -55,18 +53,17 @@ std::ostream& complement_output::definitions(
     out << expr::conversion_prefix{input.value_type(), dt};
     out << expr::output_id{input.output(), ctxt};
     out << expr::render_param_pass{input.output()};
-    out << expr::conversion_suffix_v{input.value_type(),
-                                     dt,
-                                     {string_view("c.r"),
-                                      string_view("c.g"),
-                                      string_view("c.b"),
-                                      string_view("c.a")}};
+    out << expr::conversion_suffix_v{
+      input.value_type(),
+      dt,
+      {string_view("c.r"),
+       string_view("c.g"),
+       string_view("c.b"),
+       string_view("c.a")}};
     out << ";" << std::endl;
 
     return closing_expr(out, ctxt);
 }
 //------------------------------------------------------------------------------
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 //------------------------------------------------------------------------------

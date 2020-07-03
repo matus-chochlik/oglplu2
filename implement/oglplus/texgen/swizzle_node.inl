@@ -11,9 +11,7 @@
 #include <set>
 #include <string>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 bool is_valid_swizzle(string_view swizzle) noexcept {
@@ -90,7 +88,5 @@ std::ostream& swizzle_output::definitions(
     return closing_expr(out, ctxt);
 }
 //------------------------------------------------------------------------------
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 //------------------------------------------------------------------------------

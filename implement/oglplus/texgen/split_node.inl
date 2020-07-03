@@ -11,9 +11,7 @@
 #include <iostream>
 #include <string>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 split_output::split_output(
@@ -27,10 +25,11 @@ split_output::split_output(
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 string_view split_output::type_name() {
-    string_view names[4] = {string_view("Red"),
-                            string_view("Green"),
-                            string_view("Blue"),
-                            string_view("Alpha")};
+    string_view names[4] = {
+      string_view("Red"),
+      string_view("Green"),
+      string_view("Blue"),
+      string_view("Alpha")};
     return names[_index];
 }
 //------------------------------------------------------------------------------
@@ -109,7 +108,5 @@ output_intf& split_node::output(span_size_t index) {
     return _output_a;
 }
 //------------------------------------------------------------------------------
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 //------------------------------------------------------------------------------

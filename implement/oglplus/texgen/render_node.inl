@@ -21,9 +21,7 @@
 #include <oglplus/constants.hpp>
 #include <oglplus/operations.hpp>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void render_node::_init_screen() {
@@ -270,7 +268,5 @@ void render_node::set_dimensions(
     _render_params.height = height.value_or(1);
 }
 //------------------------------------------------------------------------------
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 //------------------------------------------------------------------------------

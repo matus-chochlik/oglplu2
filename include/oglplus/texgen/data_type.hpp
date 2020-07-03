@@ -15,9 +15,7 @@
 #include <eagine/valid_if/between.hpp>
 #include <iosfwd>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 
 enum class slot_data_type {
     float_,
@@ -146,9 +144,7 @@ struct conversion_suffix_v {
 std::ostream& operator<<(std::ostream&, conversion_suffix_v);
 
 } // namespace expr
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/texgen/data_type.inl>

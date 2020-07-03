@@ -9,9 +9,7 @@
 #include <eagine/assert.hpp>
 #include <eagine/maybe_unused.hpp>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 span_size_t base_node::input_count() {
@@ -96,7 +94,5 @@ output_intf& base_single_output_node::output(span_size_t index) {
     return single_output();
 }
 //------------------------------------------------------------------------------
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 //------------------------------------------------------------------------------

@@ -9,9 +9,7 @@
 #include <eagine/assert.hpp>
 #include <string>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 string_view base_input::name() noexcept {
@@ -108,7 +106,5 @@ bool base_input::render_connected(const render_params& params) {
     return true;
 }
 //------------------------------------------------------------------------------
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 //------------------------------------------------------------------------------

@@ -14,9 +14,7 @@
 #include <array>
 #include <type_traits>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 
 template <typename T>
 class constant_output;
@@ -81,8 +79,6 @@ public:
     }
 };
 
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 
 #endif // OGLPLUS_TEXGEN_CONST_OUTPUT_HPP
