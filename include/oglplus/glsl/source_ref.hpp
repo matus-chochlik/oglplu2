@@ -14,8 +14,7 @@
 #include <eagine/string_span.hpp>
 #include <cstddef>
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 //------------------------------------------------------------------------------
 class glsl_source_ref {
 private:
@@ -66,7 +65,6 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp
 
 #endif // OGLPLUS_GLSL_SOURCE_REF_HPP

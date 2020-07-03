@@ -17,8 +17,7 @@
 //
 #include "utils/program_file.hpp"
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
 class basic_gl_api
@@ -407,8 +406,7 @@ true_false translate(const basic_gl_api<A>& api, bool value) noexcept {
     return api.false_;
 }
 //------------------------------------------------------------------------------
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp
 
 // NOLINTNEXTLINE(cert-dcl58-cpp)
 namespace std {

@@ -19,8 +19,7 @@
 #include <eagine/span.hpp>
 #include <memory>
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 //------------------------------------------------------------------------------
 class shape_generator {
 private:
@@ -202,8 +201,7 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp
 
 #include <oglplus/shapes/generator.inl>
 

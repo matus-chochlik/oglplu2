@@ -14,8 +14,7 @@
 #include <eagine/memory/offset_span.hpp>
 #include <array>
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 //------------------------------------------------------------------------------
 struct shader_source_header {
     file_magic_number<'o', 'g', 'l', '+', 's', 'h', 'd', 'r'> magic;
@@ -33,7 +32,6 @@ struct program_source_header {
     constexpr program_source_header() noexcept = default;
 };
 //------------------------------------------------------------------------------
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp
 
 #endif // OGLPLUS_UTILS_PROGRAM_FILE_HDR_HPP

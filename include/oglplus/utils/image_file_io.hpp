@@ -16,8 +16,7 @@
 #include <eagine/types.hpp>
 #include <iostream>
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 
 inline void write_and_pad_texture_image_data_header(
   std::ostream& output,
@@ -75,7 +74,6 @@ inline void write_texture_image_data(
       std::streamsize(pixels.size()));
 }
 
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp
 
 #endif // OGLPLUS_UTILS_IMAGE_FILE_IO_HPP

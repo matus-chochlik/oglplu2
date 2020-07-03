@@ -18,8 +18,7 @@
 #include <eagine/memory/block.hpp>
 #include <eagine/string_span.hpp>
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 //------------------------------------------------------------------------------
 class shader_source_block {
 private:
@@ -116,7 +115,6 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp
 
 #endif // OGLPLUS_UTILS_PROGRAM_FILE_HPP

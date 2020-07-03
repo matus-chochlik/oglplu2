@@ -23,8 +23,7 @@
 #include "config.hpp"
 #include <oglplus/gl_api/config.hpp>
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 
 using matrix_uniform_scale =
   math::matrix_uniform_scale<gl_types::float_type, math_use_simd>;
@@ -63,7 +62,6 @@ using matrix_ortho = math::matrix_ortho<gl_types::float_type, math_use_simd>;
 using matrix_perspective =
   math::matrix_perspective<gl_types::float_type, math_use_simd>;
 
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp
 
 #endif // OGLPLUS_MATH_MATRIX_CTRS_HPP

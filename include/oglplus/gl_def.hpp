@@ -71,8 +71,7 @@
 //------------------------------------------------------------------------------
 #ifndef OGLPLUS_NO_GL
 //------------------------------------------------------------------------------
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 
 struct api_initializer {
     ~api_initializer() noexcept = default;
@@ -85,8 +84,7 @@ struct api_initializer {
       int /*gl_ver_major*/ = 3, int /*gl_ver_minor*/ = 3);
 };
 
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp
 //------------------------------------------------------------------------------
 #if OGLPLUS_USE_GLCOREARB_H
 #define GLCOREARB_PROTOTYPES

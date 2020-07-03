@@ -15,8 +15,7 @@
 #include <eagine/shapes/drawing.hpp>
 #include <eagine/span.hpp>
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 //------------------------------------------------------------------------------
 template <typename A>
 primitive_type translate(
@@ -92,8 +91,7 @@ void draw_using_instructions(
   span<const shape_draw_operation> ops,
   const shape_draw_subset& subs) noexcept;
 //------------------------------------------------------------------------------
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp
 
 #include <oglplus/shapes/drawing.inl>
 

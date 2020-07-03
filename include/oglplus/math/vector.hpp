@@ -13,8 +13,7 @@
 #include <eagine/math/tvec.hpp>
 #include <oglplus/gl_api/config.hpp>
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 
 using math::vector;
 
@@ -27,7 +26,6 @@ using vec3 = tvec<gl_types::float_type, 3>;
 
 using vec4 = tvec<gl_types::float_type, 4>;
 
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp
 
 #endif // OGLPLUS_MATH_VECTOR_HPP

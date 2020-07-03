@@ -26,8 +26,7 @@
 #endif
 #endif
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 //------------------------------------------------------------------------------
 template <typename Traits>
 struct basic_gl_c_api {
@@ -4980,8 +4979,7 @@ struct basic_gl_c_api {
 //------------------------------------------------------------------------------
 using gl_c_api = basic_gl_c_api<gl_api_traits>;
 //------------------------------------------------------------------------------
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp
 
 #endif // OGLPLUS_GL_API_C_API_HPP
 

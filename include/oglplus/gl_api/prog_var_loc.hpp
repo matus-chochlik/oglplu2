@@ -12,8 +12,7 @@
 #include "config.hpp"
 #include <eagine/identifier.hpp>
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 //------------------------------------------------------------------------------
 template <identifier_t TagId>
 class prog_var_location {
@@ -81,7 +80,6 @@ using subroutine_uniform_location = prog_var_location<EAGINE_ID_V(SubrtUnfrm)>;
 using subroutine_location = prog_var_location<EAGINE_ID_V(Subroutine)>;
 using frag_data_location = prog_var_location<EAGINE_ID_V(FragData)>;
 //------------------------------------------------------------------------------
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp
 
 #endif // OGLPLUS_GL_API_PROG_VAR_LOC_HPP

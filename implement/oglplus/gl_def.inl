@@ -11,8 +11,7 @@
 #include <stdexcept>
 #endif
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 //------------------------------------------------------------------------------
 #ifndef OGLPLUS_NO_GL
 //------------------------------------------------------------------------------
@@ -50,6 +49,5 @@ api_initializer::api_initializer(int gl_ver_major, int gl_ver_minor) {
 #endif
 //------------------------------------------------------------------------------
 #endif // NO_GL
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp
 //------------------------------------------------------------------------------

@@ -13,8 +13,7 @@
 #include <eagine/math/coordinates.hpp>
 #include <oglplus/gl_api/config.hpp>
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 
 using unit_spherical_coordinates =
   math::unit_spherical_coordinates<gl_types::float_type, math_use_simd>;
@@ -22,7 +21,6 @@ using unit_spherical_coordinates =
 using math::to_cartesian;
 using math::to_unit_spherical;
 
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp
 
 #endif // OGLPLUS_MATH_COORDINATES_HPP

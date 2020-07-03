@@ -11,13 +11,11 @@
 
 #include <eagine/math/interpolate.hpp>
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 
 using math::smooth_lerp;
 using math::smooth_oscillate;
 
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp
 
 #endif // OGLPLUS_MATH_INTERPOLATE_HPP
