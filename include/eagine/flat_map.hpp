@@ -220,30 +220,11 @@ private:
       flat_map_view_crtp<Key, Val, Cmp, flat_map<Key, Val, Cmp, Allocator>>;
     using _base::_ops;
 
-    using _calloc_t =
-      typename Allocator::template rebind<std::pair<const Key, Val>>::other;
     using _alloc_t =
       typename Allocator::template rebind<std::pair<Key, Val>>::other;
 
-    using _cvec_t = std::vector<std::pair<const Key, Val>, _calloc_t>;
     using _vec_t = std::vector<std::pair<Key, Val>, _alloc_t>;
     _vec_t _vec{};
-
-    static auto _cast(typename _vec_t::const_iterator i) noexcept {
-        return *reinterpret_cast<typename _cvec_t::const_iterator*>(&i);
-    }
-
-    static auto _cast(typename _vec_t::iterator i) noexcept {
-        return *reinterpret_cast<typename _cvec_t::iterator*>(&i);
-    }
-
-    static auto _cast(typename _cvec_t::const_iterator i) noexcept {
-        return *reinterpret_cast<typename _vec_t::const_iterator*>(&i);
-    }
-
-    static auto _cast(typename _cvec_t::iterator i) noexcept {
-        return *reinterpret_cast<typename _vec_t::iterator*>(&i);
-    }
 
     auto _find_insert_pos(const Key& k) noexcept {
         const auto b = _vec.begin();
@@ -300,8 +281,8 @@ public:
     using typename _base::value_type;
     using size_type = typename _vec_t::size_type;
     using difference_type = typename _vec_t::difference_type;
-    using iterator = typename _cvec_t::iterator;
-    using const_iterator = typename _cvec_t::const_iterator;
+    using iterator = typename _vec_t::iterator;
+    using const_iterator = typename _vec_t::const_iterator;
     using allocator_type = Allocator;
 
     using _base::key_comp;
@@ -354,45 +335,51 @@ public:
     }
 
     iterator begin() {
-        return _cast(_vec.begin());
+        return _vec.begin();
     }
 
     const_iterator begin() const {
-        return _cast(_vec.begin());
+        return _vec.begin();
     }
 
     iterator end() {
-        return _cast(_vec.end());
+        return _vec.end();
     }
 
     const_iterator end() const {
-        return _cast(_vec.end());
+        return _vec.end();
+    }
+
+    auto& operator[](const Key& key) {
+        auto ip = _find_insert_pos(key);
+        ip = _do_emplace(ip, key);
+        return ip.first->second;
     }
 
     template <typename... Args>
     std::pair<iterator, bool> emplace(const Key& key, Args&&... args) {
         auto ip = _find_insert_pos(key);
         ip = _do_emplace(ip, key, std::forward<Args>(args)...);
-        return {_cast(ip.first), ip.second};
+        return {ip.first, ip.second};
     }
 
     std::pair<iterator, bool> insert(const value_type& value) {
         auto ip = _find_insert_pos(value.first);
         ip = _do_insert(ip, value);
-        return {_cast(ip.first), ip.second};
+        return {ip.first, ip.second};
     }
 
     iterator insert(iterator p, const value_type& value) {
-        const auto ip = _find_insert_pos(_cast(p), value.first);
-        return _cast(_do_insert(ip, value).first);
+        const auto ip = _find_insert_pos(p, value.first);
+        return _do_insert(ip, value).first;
     }
 
     iterator erase(iterator p) {
-        return _cast(_vec.erase(_cast(p)));
+        return _vec.erase(p);
     }
 
     iterator erase(iterator f, iterator t) {
-        return _cast(_vec.erase(_cast(f), _cast(t)));
+        return _vec.erase(f, t);
     }
 
     size_type erase(const Key& key) {

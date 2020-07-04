@@ -45,6 +45,7 @@ BOOST_AUTO_TEST_CASE(flat_map_1) {
     while((smi != sm.end()) && (fmi != fm.end())) {
         BOOST_CHECK_EQUAL(smi->first, fmi->first);
         BOOST_CHECK_EQUAL(smi->second, fmi->second);
+        BOOST_CHECK_EQUAL(fm[smi->first], smi->second);
         ++smi;
         ++fmi;
     }
@@ -80,6 +81,7 @@ BOOST_AUTO_TEST_CASE(flat_map_2) {
     while((smi != sm.end()) && (fmi != fm.end())) {
         BOOST_CHECK_EQUAL(smi->first, fmi->first);
         BOOST_CHECK_EQUAL(smi->second, fmi->second);
+        BOOST_CHECK_EQUAL(fm[smi->first], smi->second);
         ++smi;
         ++fmi;
     }
@@ -150,6 +152,7 @@ BOOST_AUTO_TEST_CASE(flat_map_4) {
     while((smi != sm.end()) && (fmi != fm.end())) {
         BOOST_CHECK_EQUAL(smi->first, fmi->first);
         BOOST_CHECK_EQUAL(smi->second, fmi->second);
+        BOOST_CHECK_EQUAL(fm[smi->first], smi->second);
         ++smi;
         ++fmi;
     }
@@ -185,6 +188,7 @@ BOOST_AUTO_TEST_CASE(flat_map_5) {
     while((smi != sm.end()) && (fmi != fm.end())) {
         BOOST_CHECK_EQUAL(smi->first, fmi->first);
         BOOST_CHECK_EQUAL(smi->second, fmi->second);
+        BOOST_CHECK_EQUAL(fm[smi->first], smi->second);
         ++smi;
         ++fmi;
     }
@@ -225,6 +229,7 @@ BOOST_AUTO_TEST_CASE(flat_map_6) {
 
         BOOST_CHECK_EQUAL(smi->first, fmi->first);
         BOOST_CHECK_EQUAL(smi->second, fmi->second);
+        BOOST_CHECK_EQUAL(fm[smi->first], smi->second);
 
         const auto esmc = sm.erase(k);
         const auto efmc = fm.erase(k);
@@ -271,12 +276,44 @@ BOOST_AUTO_TEST_CASE(flat_map_7) {
     while((smi != sm.end()) && (fmi != fm.end())) {
         BOOST_CHECK_EQUAL(smi->first, fmi->first);
         BOOST_CHECK_EQUAL(smi->second, fmi->second);
+        BOOST_CHECK_EQUAL(fm[smi->first], smi->second);
         ++smi;
         ++fmi;
     }
 
     BOOST_CHECK(smi == sm.end());
     BOOST_CHECK(fmi == fm.end());
+}
+
+BOOST_AUTO_TEST_CASE(flat_map_8) {
+    using namespace eagine;
+
+    std::map<int, std::size_t> sm;
+    flat_map<int, std::size_t> fm;
+
+    using p_t = std::pair<const int, std::size_t>;
+
+    std::hash<int> h;
+
+    for(int i = 0; i < test_repeats(1000, 10000); ++i) {
+        int k = rg.get_any<int>();
+        std::size_t v = h(k + k);
+
+        sm.emplace(k, v);
+        fm[k] = v;
+    }
+
+    BOOST_CHECK_EQUAL(sm.empty(), fm.empty());
+    BOOST_CHECK_EQUAL(sm.size(), fm.size());
+
+    auto smi = sm.begin();
+
+    while(smi != sm.end()) {
+        BOOST_CHECK_EQUAL(fm[smi->first], smi->second);
+        ++smi;
+    }
+
+    BOOST_CHECK(smi == sm.end());
 }
 
 BOOST_AUTO_TEST_SUITE_END()
