@@ -6,6 +6,7 @@
  */
 #include <eagine/ecs/basic_manager.hpp>
 #include <eagine/ecs/storage/std_map.hpp>
+#include <eagine/identifier.hpp>
 #define BOOST_TEST_MODULE EAGINE_ecs_integration
 #include "../unit_test_begin.inl"
 
@@ -13,6 +14,10 @@
 #include <set>
 
 struct name_surname : eagine::ecs::component<name_surname> {
+    static constexpr inline auto uid() noexcept {
+        return EAGINE_ID_V(nameSurnme);
+    }
+
     std::string first_name;
     std::string family_name;
 
@@ -52,6 +57,10 @@ struct name_surname_manip
 };
 
 struct measurements : eagine::ecs::component<measurements> {
+    static constexpr inline auto uid() noexcept {
+        return EAGINE_ID_V(measurment);
+    }
+
     float height_m;
     float weight_kg;
 
@@ -70,7 +79,7 @@ struct measurements_manip
       basic_manipulator;
 
     bool has_height_m(float v) const {
-        return this->is_valid() && std::abs(this->read().height_m - v) < 0.01f;
+        return this->is_valid() && std::abs(this->read().height_m - v) < 0.01F;
     }
 
     float get_height_m() const {
@@ -92,8 +101,17 @@ struct measurements_manip
     }
 };
 
-struct father : eagine::ecs::relation<father> {};
-struct mother : eagine::ecs::relation<mother> {};
+struct father : eagine::ecs::relation<father> {
+    static constexpr inline auto uid() noexcept {
+        return EAGINE_ID_V(father);
+    }
+};
+
+struct mother : eagine::ecs::relation<mother> {
+    static constexpr inline auto uid() noexcept {
+        return EAGINE_ID_V(mother);
+    }
+};
 
 namespace eagine {
 namespace ecs {
@@ -187,10 +205,10 @@ BOOST_AUTO_TEST_CASE(ecs_test_component_manip_1) {
 
     mgr.add("johnny", name_surname("Johnny", "Goode"));
     mgr.add("marty", name_surname("Marty", "McFly"));
-    mgr.add("marty", measurements(1.6f, 70.f));
+    mgr.add("marty", measurements(1.6F, 70.F));
     mgr.add("doc", name_surname("Emmett", "Brown"));
-    mgr.add("buford", measurements(2.0f, 110.f));
-    mgr.add("biff", name_surname("Biff", "Tannen"), measurements(1.9f, 100.f));
+    mgr.add("buford", measurements(2.0F, 110.F));
+    mgr.add("biff", name_surname("Biff", "Tannen"), measurements(1.9F, 100.F));
     mgr.add("griff", name_surname("Griff", "Tannen"));
 
     std::set<std::string> names;
@@ -213,14 +231,14 @@ BOOST_AUTO_TEST_CASE(ecs_test_component_manip_1) {
         manipulator<const name_surname>& ns,
         manipulator<measurements>& m) {
           if(ns.get_family_name() == "Tannen") {
-              m.set_height_m(2.0f);
-              m.set_weight_kg(105.f);
+              m.set_height_m(2.0F);
+              m.set_weight_kg(105.F);
           }
       });
 
-    float min_h = 3.0f;
-    float max_h = 1.9f;
-    float max_w = 0.0f;
+    float min_h = 3.0F;
+    float max_h = 1.9F;
+    float max_w = 0.0F;
 
     mgr.for_each_with<const measurements>(
       [&min_h, &max_h, &max_w](
@@ -236,9 +254,9 @@ BOOST_AUTO_TEST_CASE(ecs_test_component_manip_1) {
           }
       });
 
-    BOOST_CHECK_EQUAL(min_h, 1.6f);
-    BOOST_CHECK_EQUAL(max_h, 2.0f);
-    BOOST_CHECK_EQUAL(max_w, 110.f);
+    BOOST_CHECK_EQUAL(min_h, 1.6F);
+    BOOST_CHECK_EQUAL(max_h, 2.0F);
+    BOOST_CHECK_EQUAL(max_w, 110.F);
 
     mgr.add("buford", name_surname("Buford", "Tannen"));
 
@@ -275,7 +293,7 @@ BOOST_AUTO_TEST_CASE(ecs_test_component_manip_1) {
         manipulator<measurements>& m) {
           if(ns.has_family_name("Tannen")) {
               BOOST_ASSERT(m.can_add());
-              m.add(measurements(2.0f, 100.f));
+              m.add(measurements(2.0F, 100.F));
           }
       });
 
@@ -289,7 +307,7 @@ BOOST_AUTO_TEST_CASE(ecs_test_component_manip_1) {
         manipulator<const name_surname>& ns,
         manipulator<const measurements>& m) {
           if(ns.has_family_name("Tannen")) {
-              BOOST_CHECK(m.has_height_m(2.f));
+              BOOST_CHECK(m.has_height_m(2.F));
           }
       });
 

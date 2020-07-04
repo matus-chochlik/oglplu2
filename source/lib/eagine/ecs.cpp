@@ -13,6 +13,5 @@
 
 #include "implement.inl"
 #include <eagine/ecs/basic_manager.hpp>
-#include <eagine/ecs/component.hpp>
 #include "epilogue.inl"
 // clang-format on

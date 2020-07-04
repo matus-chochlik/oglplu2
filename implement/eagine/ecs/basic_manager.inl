@@ -41,13 +41,12 @@ namespace detail {
 template <typename Entity>
 template <typename Data, bool IsR>
 storage<Entity, Data, IsR>& basic_manager<Entity>::_find_storage() {
-    auto pb_storage = _get_storages<IsR>().find(get_component_uid<Data>());
 
     using S = storage<Entity, Data, IsR>;
     S* pd_storage = nullptr;
 
-    if(pb_storage != _get_storages<IsR>().end()) {
-        auto& b_storage = *pb_storage;
+    if(auto found{_get_storages<IsR>().find(Data::uid())}) {
+        auto& b_storage = extract(found);
         if(b_storage) {
             pd_storage = dynamic_cast<S*>(b_storage.get());
             EAGINE_ASSERT(pd_storage);
@@ -69,12 +68,7 @@ inline void basic_manager<Entity>::_do_reg_stg_type(
   std::string (*get_name)()) {
     EAGINE_ASSERT(bool(storage));
 
-    auto& storages = _get_storages<IsRelation>();
-    auto p_storage = storages.find(cid);
-
-    if(p_storage == storages.end()) {
-        storages[cid] = std::move(storage);
-    } else {
+    if(!_get_storages<IsRelation>().emplace(cid, std::move(storage))) {
         detail::mgr_handle_cmp_is_reg(get_name());
     }
 }
@@ -83,12 +77,8 @@ template <typename Entity>
 template <bool IsRelation>
 inline void basic_manager<Entity>::_do_unr_stg_type(
   component_uid_t cid, std::string (*get_name)()) {
-    auto& storages = _get_storages<IsRelation>();
-    auto p_storage = storages.find(cid);
 
-    if(p_storage != storages.end()) {
-        storages.erase(p_storage);
-    } else {
+    if(_get_storages<IsRelation>().erase(cid) != 1) {
         detail::mgr_handle_cmp_not_reg(get_name());
     }
 }
@@ -97,14 +87,8 @@ template <typename Entity>
 template <bool IsRelation>
 inline bool basic_manager<Entity>::_does_know_stg_type(
   component_uid_t cid) const {
-    auto& storages = _get_storages<IsRelation>();
-    auto p_storage = storages.find(cid);
 
-    if(p_storage != storages.end()) {
-        return bool(*p_storage);
-    } else {
-        return false;
-    }
+    return _get_storages<IsRelation>().find(cid).is_valid();
 }
 //------------------------------------------------------------------------------
 template <typename Entity>
@@ -115,10 +99,9 @@ inline Result basic_manager<Entity>::_apply_on_base_stg(
   component_uid_t cid,
   std::string (*get_name)()) const {
     auto& storages = _get_storages<IsRelation>();
-    auto p_storage = storages.find(cid);
 
-    if(p_storage != storages.end()) {
-        auto& bs_storage = *p_storage;
+    if(auto found{storages.find(cid)}) {
+        auto& bs_storage = extract(found);
         if(bs_storage) {
             return func(bs_storage);
         }
@@ -141,7 +124,7 @@ inline Result basic_manager<Entity>::_apply_on_stg(
 
           return func(ct_storage);
       },
-      get_component_uid<Component>(),
+      Component::uid(),
       _cmp_name_getter<Component>());
 }
 //------------------------------------------------------------------------------
