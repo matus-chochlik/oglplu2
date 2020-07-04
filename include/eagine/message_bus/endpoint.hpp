@@ -10,12 +10,12 @@
 #ifndef EAGINE_MESSAGE_BUS_ENDPOINT_HPP
 #define EAGINE_MESSAGE_BUS_ENDPOINT_HPP
 
+#include "../flat_map.hpp"
 #include "../logging/logger.hpp"
 #include "blobs.hpp"
 #include "connection.hpp"
 #include "context_fwd.hpp"
 #include "serialize.hpp"
-#include <map>
 #include <tuple>
 #include <vector>
 
@@ -49,8 +49,7 @@ private:
 
     message_storage _outgoing{};
 
-    // TODO: flat map
-    std::map<message_id, std::tuple<span_size_t, message_priority_queue>>
+    flat_map<message_id, std::tuple<span_size_t, message_priority_queue>>
       _incoming{};
 
     template <typename Entry>

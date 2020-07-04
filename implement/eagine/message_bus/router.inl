@@ -204,15 +204,9 @@ bool router::_remove_disconnected() {
               conns.end());
         }
     }
-    auto it = _endpoints.begin();
-    while(it != _endpoints.end()) {
-        if(it->second.connections.empty()) {
-            _endpoints.erase(it++);
-            something_done();
-        } else {
-            ++it;
-        }
-    }
+    something_done(_endpoints.erase_if([](auto& p) {
+        return p.second.connections.empty();
+    }) > 0);
     return something_done;
 }
 //------------------------------------------------------------------------------

@@ -10,6 +10,7 @@
 #ifndef EAGINE_MESSAGE_BUS_ROUTER_HPP
 #define EAGINE_MESSAGE_BUS_ROUTER_HPP
 
+#include "../flat_map.hpp"
 #include "../logging/logger.hpp"
 #include "../program_args.hpp"
 #include "../timeout.hpp"
@@ -140,7 +141,7 @@ private:
     std::vector<std::unique_ptr<acceptor>> _acceptors;
     std::vector<std::unique_ptr<connection>> _connectors;
     std::vector<router_pending> _pending;
-    std::map<identifier_t, routed_endpoint> _endpoints;
+    flat_map<identifier_t, routed_endpoint> _endpoints;
     blob_manipulator _blobs{};
 };
 //------------------------------------------------------------------------------

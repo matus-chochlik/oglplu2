@@ -10,6 +10,7 @@
 #ifndef EAGINE_MESSAGE_BUS_CONTEXT_HPP
 #define EAGINE_MESSAGE_BUS_CONTEXT_HPP
 
+#include "../flat_map.hpp"
 #include "../logging/logger.hpp"
 #include "../memory/buffer.hpp"
 #include "../message_id.hpp"
@@ -102,7 +103,7 @@ private:
     logger _log{};
     //
     std::mt19937_64 _rand_engine{std::random_device{}()};
-    std::map<message_id, message_sequence_t> _msg_id_seq{};
+    flat_map<message_id, message_sequence_t> _msg_id_seq{};
     //
     memory::buffer _scratch_space{};
     memory::buffer _own_cert_pem{};
