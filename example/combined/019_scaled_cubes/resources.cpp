@@ -19,8 +19,7 @@
 #include <oglplus/math/interpolate.hpp>
 #include <oglplus/shapes/generator.hpp>
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 //------------------------------------------------------------------------------
 // program
 //------------------------------------------------------------------------------
@@ -155,5 +154,4 @@ void cubes_geometry::draw_edges(const example_context& ctx) {
     draw_using_instructions(ctx.gl(), view(ops), subs[1]);
 }
 //------------------------------------------------------------------------------
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp

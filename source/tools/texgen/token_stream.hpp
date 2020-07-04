@@ -14,9 +14,7 @@
 #include <eagine/valid_if/decl.hpp>
 #include <vector>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 class token_stream {
 public:
@@ -54,8 +52,6 @@ private:
     std::vector<token_info> _tokens;
 };
 //------------------------------------------------------------------------------
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 
 #endif // TEXGEN_TOKEN_STREAM_HPP

@@ -12,8 +12,7 @@
 
 #include <oglplus/glsl/string_ref.hpp>
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 //------------------------------------------------------------------------------
 // random texture
 //------------------------------------------------------------------------------
@@ -109,5 +108,4 @@ void screen_geometry::init(example_context& ctx) {
     gl.enable_vertex_attrib_array(tex_coord_loc);
 }
 //------------------------------------------------------------------------------
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp

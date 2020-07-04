@@ -13,9 +13,7 @@
 #include "token_info.hpp"
 #include <memory>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 struct semantic_actions_intf {
     semantic_actions_intf() noexcept = default;
@@ -51,8 +49,6 @@ private:
     std::shared_ptr<semantic_actions_intf> _pimpl;
 };
 //------------------------------------------------------------------------------
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 
 #endif // TEXGEN_SEMANTIC_ACTIONS_HPP

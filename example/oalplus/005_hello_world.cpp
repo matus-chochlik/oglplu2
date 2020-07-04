@@ -50,10 +50,10 @@ int main(int argc, char** argv) {
 
                     al.listener_i(al.position, 0, 0, 0);
                     al.listener_i(al.velocity, 0, 0, 0);
-                    al.listener_f(al.gain, 5.f);
+                    al.listener_f(al.gain, 5.F);
 
-                    al.source_f(src, al.position, 0.f, 0.f, 1.f);
-                    al.source_f(src, al.velocity, 0.f, 0.f, 0.f);
+                    al.source_f(src, al.position, 0.F, 0.F, 1.F);
+                    al.source_f(src, al.velocity, 0.F, 0.F, 0.F);
 
                     al.source_queue_buffers(src, buf);
                     al.source_play(src);

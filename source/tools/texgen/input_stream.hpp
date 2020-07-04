@@ -15,9 +15,7 @@
 #include <iterator>
 #include <memory>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 struct input_stream_intf {
     input_stream_intf() noexcept = default;
@@ -154,8 +152,6 @@ private:
     std::unique_ptr<input_stream_intf> _pimpl;
 };
 //------------------------------------------------------------------------------
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 
 #endif // TEXGEN_INPUT_STREAM_HPP

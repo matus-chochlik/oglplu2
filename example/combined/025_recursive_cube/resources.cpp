@@ -15,8 +15,7 @@
 #include <eagine/shapes/cube.hpp>
 #include <oglplus/shapes/generator.hpp>
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 //------------------------------------------------------------------------------
 // program
 //------------------------------------------------------------------------------
@@ -192,5 +191,4 @@ void cube_draw_buffers::init(example_context& ctx) {
     gl.bind_renderbuffer(GL.renderbuffer, renderbuffer_name(0));
 }
 //------------------------------------------------------------------------------
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp

@@ -9,9 +9,7 @@
 
 #include "token_stream.hpp"
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 bool token_stream::_ensure_cached(span_size_t count) {
     while(span_size(_tokens.size()) < count) {
@@ -34,6 +32,4 @@ bool token_stream::consume(span_size_t length) {
     return false;
 }
 //------------------------------------------------------------------------------
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen

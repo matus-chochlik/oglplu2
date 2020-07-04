@@ -14,8 +14,7 @@
 #include <eagine/shapes/torus.hpp>
 #include <oglplus/shapes/generator.hpp>
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 //------------------------------------------------------------------------------
 // program
 //------------------------------------------------------------------------------
@@ -118,5 +117,4 @@ void torus_geometry::draw(const example_context& ctx) {
     draw_using_instructions(ctx.gl(), view(ops));
 }
 //------------------------------------------------------------------------------
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp

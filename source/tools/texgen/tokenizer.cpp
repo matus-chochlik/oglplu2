@@ -11,9 +11,7 @@
 #include <eagine/memory/span_algo.hpp>
 #include <cctype>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 tokenizer::tokenizer(input_stream input)
   : _input(std::move(input))
@@ -148,6 +146,4 @@ bool tokenizer::get_next(token_info& token) {
     return false;
 }
 //------------------------------------------------------------------------------
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen

@@ -12,9 +12,7 @@
 #include "input_stream.hpp"
 #include "semantic_actions.hpp"
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 class parser {
 public:
@@ -30,8 +28,6 @@ private:
     semantic_actions _actions;
 };
 //------------------------------------------------------------------------------
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 
 #endif // TEXGEN_PARSER_HPP
