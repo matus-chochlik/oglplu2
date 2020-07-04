@@ -86,6 +86,7 @@ std::unique_ptr<logger_backend> root_logger::_init_backend(
 EAGINE_LIB_FUNC
 void root_logger::_log_args(const program_args& args) {
     auto args_entry{info("program arguments:")};
+    args_entry.arg(EAGINE_ID(cmd), args.command());
     for(auto& arg : args) {
         args_entry.arg(EAGINE_ID(arg), arg);
     }
