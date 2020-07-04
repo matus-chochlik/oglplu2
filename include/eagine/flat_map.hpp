@@ -83,7 +83,7 @@ struct flat_map_ops : flat_map_value_compare<Key, Val, Cmp> {
     template <typename I>
     auto find(I b, I e, const Key& key) const noexcept {
         b = lower_bound(b, e, key);
-        if((b != e) && value_comp().key_comp()(b->first, key)) {
+        if((b != e) && value_comp()(key, *b)) {
             b = e;
         }
         return b;
@@ -308,11 +308,12 @@ public:
     using _base::lower_bound;
     using _base::value_comp;
 
-    flat_map() = default;
+    flat_map() noexcept = default;
     flat_map(const flat_map&) = default;
     flat_map(flat_map&&) noexcept = default;
     flat_map& operator=(const flat_map&) = default;
     flat_map& operator=(flat_map&&) noexcept = default;
+    ~flat_map() noexcept = default;
 
     flat_map(std::initializer_list<std::pair<Key, Val>> il) {
         assign(il);
@@ -397,6 +398,7 @@ public:
     size_type erase(const Key& key) {
         const auto p = _ops().equal_range(_vec.begin(), _vec.end(), key);
         const auto res = size_type(std::distance(p.first, p.second));
+        EAGINE_ASSERT(res <= 1);
         _vec.erase(p.first, p.second);
         return res;
     }
