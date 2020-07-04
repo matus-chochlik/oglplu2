@@ -84,10 +84,9 @@ BOOST_AUTO_TEST_CASE(msgbus_blob_manipulator_1) {
     std::map<message_id, memory::buffer> test_blobs{};
 
     while(test_blobs.size() < test_repeats(200, 1000)) {
-        const auto key =
-          message_id(rg.get_identifier().value(), rg.get_identifier().value());
+        const auto key = message_id(rg.get_identifier(), rg.get_identifier());
 
-        if(!EAGINE_MSG_ID(eagiMsgBus, blobFrgmnt).matches(key)) {
+        if(!(key == EAGINE_MSG_ID(eagiMsgBus, blobFrgmnt))) {
             test_blobs[key] = memory::buffer{};
             auto& test_blob = test_blobs[key];
             test_blob.resize(rg.get_span_size(16, 1024));
@@ -99,21 +98,19 @@ BOOST_AUTO_TEST_CASE(msgbus_blob_manipulator_1) {
 
     for(const auto& [key, blob] : test_blobs) {
         blobs.push_outgoing(
-          key.class_id(),
-          key.method_id(),
+          key,
+          0,
           0,
           view(blob),
           {std::chrono::seconds(3600)},
           msgbus::message_priority::critical);
     }
 
-    auto fake_send = [&blobs](
-                       identifier_t cid,
-                       identifier_t mid,
-                       const msgbus::message_view& msg) -> bool {
-        BOOST_CHECK((EAGINE_MSG_ID(eagiMsgBus, blobFrgmnt).matches(cid, mid)));
+    auto fake_send =
+      [&blobs](message_id mid, const msgbus::message_view& msg) -> bool {
+        BOOST_CHECK((mid == EAGINE_MSG_ID(eagiMsgBus, blobFrgmnt)));
 
-        auto allow = [](identifier_t, identifier_t) -> bool { return true; };
+        auto allow = [](message_id) -> bool { return true; };
         return blobs.process_incoming(
           msgbus::blob_manipulator::filter_function(allow), msg);
     };
@@ -121,13 +118,11 @@ BOOST_AUTO_TEST_CASE(msgbus_blob_manipulator_1) {
     blobs.process_outgoing(
       msgbus::blob_manipulator::send_handler(fake_send), 8 * 1024);
 
-    auto test_fetch = [&test_blobs](
-                        identifier_t cid,
-                        identifier_t mid,
-                        const msgbus::message_view& msg) -> bool {
+    auto test_fetch =
+      [&test_blobs](message_id mid, const msgbus::message_view& msg) -> bool {
         BOOST_CHECK(msg.priority == msgbus::message_priority::critical);
 
-        auto pos = test_blobs.find(message_id(cid, mid));
+        auto pos = test_blobs.find(mid);
         BOOST_CHECK(pos != test_blobs.end());
         if(pos != test_blobs.end()) {
             auto& test_blob = pos->second;
@@ -152,7 +147,7 @@ BOOST_AUTO_TEST_CASE(msgbus_blob_manipulator_2) {
         const auto key =
           message_id(rg.get_identifier().value(), rg.get_identifier().value());
 
-        if(!EAGINE_MSG_ID(eagiMsgBus, blobFrgmnt).matches(key)) {
+        if(!(key == EAGINE_MSG_ID(eagiMsgBus, blobFrgmnt))) {
             test_blobs[key] = memory::buffer{};
             auto& test_blob = test_blobs[key];
             test_blob.resize(rg.get_span_size(16, 1024));
@@ -162,24 +157,20 @@ BOOST_AUTO_TEST_CASE(msgbus_blob_manipulator_2) {
 
     msgbus::blob_manipulator blobs{};
 
-    auto fake_send = [&blobs](
-                       identifier_t cid,
-                       identifier_t mid,
-                       const msgbus::message_view& msg) -> bool {
-        BOOST_CHECK((EAGINE_MSG_ID(eagiMsgBus, blobFrgmnt).matches(cid, mid)));
+    auto fake_send =
+      [&blobs](message_id mid, const msgbus::message_view& msg) -> bool {
+        BOOST_CHECK((mid == EAGINE_MSG_ID(eagiMsgBus, blobFrgmnt)));
 
-        auto allow = [](identifier_t, identifier_t) -> bool { return true; };
+        auto allow = [](message_id) -> bool { return true; };
         return blobs.process_incoming(
           msgbus::blob_manipulator::filter_function(allow), msg);
     };
 
-    auto test_fetch = [&test_blobs](
-                        identifier_t cid,
-                        identifier_t mid,
-                        const msgbus::message_view& msg) -> bool {
+    auto test_fetch =
+      [&test_blobs](message_id mid, const msgbus::message_view& msg) -> bool {
         BOOST_CHECK(msg.priority == msgbus::message_priority::high);
 
-        auto pos = test_blobs.find(message_id(cid, mid));
+        auto pos = test_blobs.find(mid);
         BOOST_CHECK(pos != test_blobs.end());
         if(pos != test_blobs.end()) {
             const auto& test_blob = pos->second;
@@ -193,8 +184,8 @@ BOOST_AUTO_TEST_CASE(msgbus_blob_manipulator_2) {
 
     for(const auto& [key, blob] : test_blobs) {
         blobs.push_outgoing(
-          key.class_id(),
-          key.method_id(),
+          key,
+          0,
           0,
           view(blob),
           {std::chrono::seconds(3600)},

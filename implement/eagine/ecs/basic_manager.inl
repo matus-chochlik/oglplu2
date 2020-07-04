@@ -217,7 +217,7 @@ inline bool basic_manager<Entity>::_do_add_c(
   entity_param_t<Entity> ent, Component&& component) {
     return _apply_on_stg<Component, false>(
       false, [&ent, &component](auto& c_storage) -> bool {
-          c_storage->store(ent, std::move(component));
+          c_storage->store(ent, std::forward<Component>(component));
           return true;
       });
 }
@@ -228,7 +228,7 @@ inline bool basic_manager<Entity>::_do_add_r(
   entity_param subj, entity_param obj, Relation&& relation) {
     return _apply_on_stg<Relation, true>(
       false, [&subj, &obj, &relation](auto& c_storage) -> bool {
-          c_storage->store(subj, obj, std::move(relation));
+          c_storage->store(subj, obj, std::forward<Relation>(relation));
           return true;
       });
 }
@@ -389,6 +389,14 @@ protected:
     void _store(entity_param_t<Entity> e, std::remove_const_t<C>&& c) {
         _storage.store(_iter, e, std::move(c));
     }
+
+public:
+    _manager_for_each_c_m_base(_manager_for_each_c_m_base&&) = delete;
+    _manager_for_each_c_m_base(const _manager_for_each_c_m_base&) = delete;
+    _manager_for_each_c_m_base& operator=(_manager_for_each_c_m_base&&) =
+      delete;
+    _manager_for_each_c_m_base& operator=(const _manager_for_each_c_m_base&) =
+      delete;
 };
 //------------------------------------------------------------------------------
 template <typename Entity, typename C>
@@ -534,7 +542,7 @@ public:
     }
 
     void apply() {
-        static_assert(sizeof...(CL) == 0, "");
+        static_assert(sizeof...(CL) == 0);
         EAGINE_ASSERT(!done());
 
         apply(min_entity());
@@ -671,7 +679,7 @@ public:
     }
 
     bool sync() {
-        static_assert(sizeof...(CL) == 0, "");
+        static_assert(sizeof...(CL) == 0);
         return sync_to(max_entity());
     }
 
@@ -689,7 +697,7 @@ public:
     }
 
     void apply() {
-        static_assert(sizeof...(CL) == 0, "");
+        static_assert(sizeof...(CL) == 0);
         EAGINE_ASSERT(!done());
 
         apply(max_entity());
@@ -708,10 +716,12 @@ inline void basic_manager<Entity>::_call_for_each_c_m_r(const Func& func) {
     if(hlp.sync()) {
         while(!hlp.done()) {
             hlp.apply();
-            if(!hlp.next())
+            if(!hlp.next()) {
                 break;
-            if(!hlp.sync())
+            }
+            if(!hlp.sync()) {
                 break;
+            }
         }
     }
 }

@@ -15,12 +15,12 @@
 namespace eagine::ecs {
 //------------------------------------------------------------------------------
 enum class storage_cap_bit : unsigned short {
-    hide = 1 << 0,
-    copy = 1 << 1,
-    swap = 1 << 2,
-    store = 1 << 3,
-    remove = 1 << 4,
-    modify = 1 << 5
+    hide = 1U << 0U,
+    copy = 1U << 1U,
+    swap = 1U << 2U,
+    store = 1U << 3U,
+    remove = 1U << 4U,
+    modify = 1U << 5U
 };
 //------------------------------------------------------------------------------
 template <typename Selector>

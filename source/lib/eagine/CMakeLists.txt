@@ -20,6 +20,7 @@ set(EAGINE_LIB_SOURCES
 	identifier.cpp
 	from_string.cpp
 	logging.cpp
+	ecs.cpp
 	file_contents.cpp
 	input_data.cpp
 	compression.cpp

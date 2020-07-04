@@ -21,6 +21,12 @@ namespace eagine::ecs {
 //------------------------------------------------------------------------------
 template <typename Entity>
 struct storage_iterator_intf<Entity, false> {
+
+    storage_iterator_intf() noexcept = default;
+    storage_iterator_intf(storage_iterator_intf&&) noexcept = default;
+    storage_iterator_intf(const storage_iterator_intf&) = delete;
+    storage_iterator_intf& operator=(storage_iterator_intf&&) = delete;
+    storage_iterator_intf& operator=(const storage_iterator_intf&) = delete;
     virtual ~storage_iterator_intf() = default;
 
     virtual void reset() = 0;
@@ -45,12 +51,14 @@ public:
         EAGINE_ASSERT(_i);
     }
 
-    storage_iterator(const storage_iterator&) = delete;
-
     storage_iterator(storage_iterator&& tmp) noexcept
       : _i(tmp._i) {
         tmp._i = nullptr;
     }
+
+    storage_iterator(const storage_iterator&) = delete;
+    storage_iterator& operator=(storage_iterator&&) = delete;
+    storage_iterator& operator=(const storage_iterator&) = delete;
 
     ~storage_iterator() noexcept {
         EAGINE_ASSERT(_i == nullptr);
@@ -99,6 +107,11 @@ struct base_storage<Entity, false> {
     using entity_param = entity_param_t<Entity>;
     using iterator_t = storage_iterator<Entity, false>;
 
+    base_storage() noexcept = default;
+    base_storage(base_storage&&) noexcept = default;
+    base_storage(const base_storage&) = delete;
+    base_storage& operator=(base_storage&&) = delete;
+    base_storage& operator=(const base_storage&) = delete;
     virtual ~base_storage() = default;
 
     virtual storage_caps capabilities() = 0;

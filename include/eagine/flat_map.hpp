@@ -189,7 +189,7 @@ template <
   typename Key,
   typename Val,
   typename Cmp = std::less<Key>,
-  typename Allocator = std::allocator<std::pair<const Key, Val>>>
+  typename Allocator = std::allocator<std::pair<Key, Val>>>
 class flat_map
   : public flat_map_view_crtp<
       Key,
@@ -200,8 +200,13 @@ private:
     using _base =
       flat_map_view_crtp<Key, Val, Cmp, flat_map<Key, Val, Cmp, Allocator>>;
 
-    using _cvec_t = std::vector<std::pair<const Key, Val>, Allocator>;
-    using _vec_t = std::vector<std::pair<Key, Val>, Allocator>;
+    using _calloc_t =
+      typename Allocator::template rebind<std::pair<const Key, Val>>::other;
+    using _alloc_t =
+      typename Allocator::template rebind<std::pair<Key, Val>>::other;
+
+    using _cvec_t = std::vector<std::pair<const Key, Val>, _calloc_t>;
+    using _vec_t = std::vector<std::pair<Key, Val>, _alloc_t>;
     _vec_t _vec;
 
     typename _cvec_t::const_iterator _cast(typename _vec_t::const_iterator i) {
