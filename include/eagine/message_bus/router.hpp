@@ -31,7 +31,7 @@ struct router_pending {
     std::chrono::steady_clock::time_point create_time{
       std::chrono::steady_clock::now()};
 
-    std::unique_ptr<connection> the_connection;
+    std::unique_ptr<connection> the_connection{};
 
     auto age() const {
         return std::chrono::steady_clock::now() - create_time;
@@ -39,13 +39,18 @@ struct router_pending {
 };
 //------------------------------------------------------------------------------
 struct routed_endpoint {
-    std::vector<std::unique_ptr<connection>> connections;
-    std::vector<message_id> message_block_list;
-    std::vector<message_id> message_allow_list;
+    std::vector<std::unique_ptr<connection>> connections{};
+    std::vector<message_id> message_block_list{};
+    std::vector<message_id> message_allow_list{};
     bool maybe_router{true};
     bool do_disconnect{false};
 
     routed_endpoint();
+    routed_endpoint(routed_endpoint&&) noexcept = default;
+    routed_endpoint(const routed_endpoint&) = default;
+    routed_endpoint& operator=(routed_endpoint&&) noexcept = default;
+    routed_endpoint& operator=(const routed_endpoint&) = default;
+    ~routed_endpoint() noexcept = default;
 
     void block_message(message_id);
     void allow_message(message_id);
