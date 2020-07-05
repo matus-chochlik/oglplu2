@@ -360,7 +360,14 @@ public:
     std::pair<iterator, bool> emplace(const Key& key, Args&&... args) {
         auto ip = _find_insert_pos(key);
         ip = _do_emplace(ip, key, std::forward<Args>(args)...);
-        return {ip.first, ip.second};
+        return ip;
+    }
+
+    template <typename... Args>
+    std::pair<iterator, bool> try_emplace(const Key& key, Args&&... args) {
+        auto ip = _find_insert_pos(key);
+        ip = _do_emplace(ip, key, std::forward<Args>(args)...);
+        return ip;
     }
 
     std::pair<iterator, bool> insert(const value_type& value) {

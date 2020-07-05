@@ -261,6 +261,44 @@ BOOST_AUTO_TEST_CASE(flat_map_7) {
         int k = rg.get_any<int>();
         std::size_t v = h(k + k);
 
+        const bool ism = sm.try_emplace(k, v).second;
+        const bool ifm = fm.try_emplace(k, v).second;
+
+        BOOST_CHECK_EQUAL(ism, ifm);
+    }
+
+    BOOST_CHECK_EQUAL(sm.empty(), fm.empty());
+    BOOST_CHECK_EQUAL(sm.size(), fm.size());
+
+    auto smi = sm.begin();
+    auto fmi = fm.begin();
+
+    while((smi != sm.end()) && (fmi != fm.end())) {
+        BOOST_CHECK_EQUAL(smi->first, fmi->first);
+        BOOST_CHECK_EQUAL(smi->second, fmi->second);
+        BOOST_CHECK_EQUAL(fm[smi->first], smi->second);
+        ++smi;
+        ++fmi;
+    }
+
+    BOOST_CHECK(smi == sm.end());
+    BOOST_CHECK(fmi == fm.end());
+}
+
+BOOST_AUTO_TEST_CASE(flat_map_8) {
+    using namespace eagine;
+
+    std::map<int, std::size_t> sm;
+    flat_map<int, std::size_t> fm;
+
+    using p_t = std::pair<const int, std::size_t>;
+
+    std::hash<int> h;
+
+    for(int i = 0; i < test_repeats(1000, 10000); ++i) {
+        int k = rg.get_any<int>();
+        std::size_t v = h(k + k);
+
         const bool ism = sm.emplace(k, v).second;
         const bool ifm = fm.emplace(k, v).second;
 
@@ -285,7 +323,7 @@ BOOST_AUTO_TEST_CASE(flat_map_7) {
     BOOST_CHECK(fmi == fm.end());
 }
 
-BOOST_AUTO_TEST_CASE(flat_map_8) {
+BOOST_AUTO_TEST_CASE(flat_map_9) {
     using namespace eagine;
 
     std::map<int, std::size_t> sm;
