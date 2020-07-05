@@ -354,6 +354,29 @@ BOOST_AUTO_TEST_CASE(flat_map_9) {
     BOOST_CHECK(smi == sm.end());
 }
 
+BOOST_AUTO_TEST_CASE(flat_map_10) {
+    using namespace eagine;
+
+    flat_map<int, std::size_t> fm;
+
+    using p_t = std::pair<const int, std::size_t>;
+
+    std::hash<int> h;
+
+    for(int i = 0; i < test_repeats(1000, 10000); ++i) {
+        int k = rg.get_any<int>();
+        std::size_t v = h(k + k);
+
+        fm.emplace(k, v);
+    }
+    auto is_odd = [](auto& p) { return p.second % 2 != 0; };
+    fm.erase_if(is_odd);
+
+    for(auto& p : fm) {
+        BOOST_CHECK_EQUAL(p.second % 2, 0);
+    }
+}
+
 BOOST_AUTO_TEST_SUITE_END()
 
 #include "../unit_test_end.inl"

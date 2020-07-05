@@ -396,6 +396,14 @@ public:
         _vec.erase(p.first, p.second);
         return res;
     }
+
+    template <typename Predicate>
+    size_type erase_if(const Predicate& predicate) {
+        const auto p = std::remove_if(_vec.begin(), _vec.end(), predicate);
+        const auto res = size_type(std::distance(p, _vec.end()));
+        _vec.erase(p, _vec.end());
+        return res;
+    }
 };
 //------------------------------------------------------------------------------
 } // namespace eagine
