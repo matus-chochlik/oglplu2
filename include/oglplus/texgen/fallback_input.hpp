@@ -12,9 +12,7 @@
 #include "base_input.hpp"
 #include "const_output.hpp"
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 
 template <typename FallbackOutput>
 class fallback_input : public base_input {
@@ -72,8 +70,6 @@ public:
 template <typename T>
 using input_with_const_default = fallback_input<constant_output<T>>;
 
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 
 #endif // OGLPLUS_TEXGEN_FALLBACK_INPUT_HPP

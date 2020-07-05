@@ -18,8 +18,7 @@
 #include <array>
 #include <utility>
 
-namespace eagine {
-namespace memory {
+namespace eagine::memory {
 
 // multi_align_byte_allocator - fwd
 template <typename AlignSeq, typename Policy = default_byte_allocator_policy>
@@ -100,7 +99,6 @@ public:
     }
 };
 
-} // namespace memory
-} // namespace eagine
+} // namespace eagine::memory
 
 #endif // EAGINE_MEMORY_ALIGN_ALLOC_HPP

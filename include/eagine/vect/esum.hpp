@@ -16,8 +16,7 @@
 #include "data.hpp"
 #endif
 
-namespace eagine {
-namespace vect {
+namespace eagine::vect {
 
 template <typename T, int N, bool V>
 struct esum {
@@ -59,7 +58,6 @@ public:
     }
 };
 
-} // namespace vect
-} // namespace eagine
+} // namespace eagine::vect
 
 #endif // EAGINE_VECT_ESUM_HPP

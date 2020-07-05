@@ -13,8 +13,7 @@
 #include "../assert.hpp"
 #include "byte_alloc.hpp"
 
-namespace eagine {
-namespace memory {
+namespace eagine::memory {
 
 template <typename Policy = default_byte_allocator_policy>
 class null_byte_allocator
@@ -43,7 +42,6 @@ public:
     }
 };
 
-} // namespace memory
-} // namespace eagine
+} // namespace eagine::memory
 
 #endif // EAGINE_MEMORY_NULL_ALLOC_HPP

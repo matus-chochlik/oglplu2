@@ -14,8 +14,7 @@
 #include <rapidjson/document.h>
 #include <vector>
 
-namespace eagine {
-namespace valtree {
+namespace eagine::valtree {
 //------------------------------------------------------------------------------
 static inline auto rapidjson_string_ref(string_view str) {
     if(EAGINE_LIKELY(str)) {
@@ -534,6 +533,5 @@ compound from_json_text(string_view json_text, logger& log) {
     return compound::make<default_rapidjson_document_compound>(json_text, log);
 }
 //------------------------------------------------------------------------------
-} // namespace valtree
-} // namespace eagine
+} // namespace eagine::valtree
 

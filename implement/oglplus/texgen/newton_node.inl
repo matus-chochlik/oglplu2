@@ -9,9 +9,7 @@
 #include <cassert>
 #include <iostream>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 newton_output::newton_output(node_intf& parent, newton_function func)
@@ -186,7 +184,5 @@ std::ostream& newton_output::definitions(
     return closing_expr(result, context);
 }
 //------------------------------------------------------------------------------
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 //------------------------------------------------------------------------------

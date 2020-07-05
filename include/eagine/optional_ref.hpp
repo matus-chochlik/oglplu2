@@ -19,7 +19,7 @@ namespace eagine {
 template <typename T>
 class optional_reference_wrapper {
 private:
-    T* _ptr = nullptr;
+    T* _ptr{nullptr};
 
 public:
     optional_reference_wrapper(T& ref) noexcept

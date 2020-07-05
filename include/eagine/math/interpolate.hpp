@@ -17,8 +17,7 @@
 #pragma clang diagnostic ignored "-Wdouble-promotion"
 #endif
 
-namespace eagine {
-namespace math {
+namespace eagine::math {
 //------------------------------------------------------------------------------
 template <typename T, typename C>
 static inline T interpolate_linear(const T& a, const T& b, C coef) {
@@ -40,8 +39,7 @@ static inline auto smooth_oscillate(const T& a, C coef) {
     return smooth_lerp(-a, a, coef);
 }
 //------------------------------------------------------------------------------
-} // namespace math
-} // namespace eagine
+} // namespace eagine::math
 
 #ifdef __clang__
 #pragma clang diagnostic pop

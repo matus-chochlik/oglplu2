@@ -8,8 +8,7 @@
 #include <eagine/message_bus/context.hpp>
 #include <eagine/random_bytes.hpp>
 
-namespace eagine {
-namespace msgbus {
+namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 context::context(logger& parent)
@@ -240,8 +239,8 @@ memory::const_block context::get_remote_certificate_pem(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-memory::const_block context::get_remote_nonce(identifier_t node_id) const
-  noexcept {
+memory::const_block context::get_remote_nonce(
+  identifier_t node_id) const noexcept {
     auto pos = _remotes.find(node_id);
     if(pos != _remotes.end()) {
         return view(std::get<1>(*pos).nonce);
@@ -407,5 +406,4 @@ EAGINE_LIB_FUNC std::shared_ptr<context> make_context(
     return std::make_shared<context>(parent, args);
 }
 //------------------------------------------------------------------------------
-} // namespace msgbus
-} // namespace eagine
+} // namespace eagine::msgbus

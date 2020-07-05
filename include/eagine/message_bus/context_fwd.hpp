@@ -14,8 +14,7 @@
 #include "../program_args.hpp"
 #include <memory>
 
-namespace eagine {
-namespace msgbus {
+namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 class context;
 //------------------------------------------------------------------------------
@@ -24,8 +23,7 @@ using shared_context = std::shared_ptr<context>;
 std::shared_ptr<context> make_context(logger&);
 std::shared_ptr<context> make_context(logger&, const program_args&);
 //------------------------------------------------------------------------------
-} // namespace msgbus
-} // namespace eagine
+} // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_CONTEXT_FWD_HPP
 

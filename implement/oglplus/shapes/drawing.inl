@@ -8,8 +8,7 @@
  */
 #include <eagine/memory/null_ptr.hpp>
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 //------------------------------------------------------------------------------
 template <typename A>
 inline primitive_type translate(
@@ -177,6 +176,5 @@ inline void draw_using_instructions(
     }
 }
 //------------------------------------------------------------------------------
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp
 //------------------------------------------------------------------------------

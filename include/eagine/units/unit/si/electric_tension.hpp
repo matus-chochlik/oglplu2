@@ -17,8 +17,7 @@
 #include "mass.hpp"
 #include "time.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 // volt
 using volt = unit<electric_tension, si>;
@@ -38,7 +37,6 @@ using millivolt = make_scaled_unit_t<scales::milli, volt>;
 using kilovolt = make_scaled_unit_t<scales::kilo, volt>;
 // TODO
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_UNIT_SI_ELECTRIC_TENSION_HPP

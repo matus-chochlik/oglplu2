@@ -11,9 +11,7 @@
 
 #include "interface.hpp"
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 
 class base_input : public input_intf {
 private:
@@ -71,9 +69,7 @@ public:
     bool render_connected(const render_params&) override;
 };
 
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/texgen/base_input.inl>

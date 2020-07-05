@@ -11,8 +11,7 @@
 
 #include "enum_class.hpp"
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 //------------------------------------------------------------------------------
 struct true_false : gl_bool_class<true_false, EAGINE_ID_V(TrueFalse)> {
     using enum_class::enum_class;
@@ -622,8 +621,7 @@ struct path_transform_type_nv
     using enum_class::enum_class;
 };
 //------------------------------------------------------------------------------
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp
 
 #endif // OGLPLUS_GL_API_ENUM_TYPES_HPP
 

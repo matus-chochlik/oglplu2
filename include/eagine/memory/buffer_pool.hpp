@@ -14,8 +14,7 @@
 #include <algorithm>
 #include <vector>
 
-namespace eagine {
-namespace memory {
+namespace eagine::memory {
 //------------------------------------------------------------------------------
 class buffer_pool {
 public:
@@ -48,7 +47,6 @@ private:
     std::vector<memory::buffer> _pool;
 };
 //------------------------------------------------------------------------------
-} // namespace memory
-} // namespace eagine
+} // namespace eagine::memory
 
 #endif // EAGINE_MEMORY_BUFFER_POOL_HPP

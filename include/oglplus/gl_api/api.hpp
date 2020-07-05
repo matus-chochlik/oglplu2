@@ -19,8 +19,7 @@
 #include <eagine/string_list.hpp>
 #include <oglplus/utils/buffer_data.hpp>
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 //------------------------------------------------------------------------------
 #define OGLPAFP(FUNC) decltype(c_api::FUNC), &c_api::FUNC
 //------------------------------------------------------------------------------
@@ -4051,8 +4050,7 @@ public:
 //------------------------------------------------------------------------------
 #undef OGLPAFP
 //------------------------------------------------------------------------------
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp
 
 #endif // OGLPLUS_GL_API_API_HPP
 

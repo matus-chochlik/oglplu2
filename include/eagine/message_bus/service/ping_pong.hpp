@@ -17,8 +17,7 @@
 #include <chrono>
 #include <vector>
 
-namespace eagine {
-namespace msgbus {
+namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 template <typename Base = subscriber>
 class pingable : public Base {
@@ -148,8 +147,7 @@ private:
     }
 };
 //------------------------------------------------------------------------------
-} // namespace msgbus
-} // namespace eagine
+} // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_SERVICE_PING_PONG_HPP
 

@@ -13,8 +13,7 @@
 #include "../int_constant.hpp"
 #include "../nothing.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 namespace bits {
 
 template <typename Head, typename Tail>
@@ -152,7 +151,6 @@ struct symbol_of {
     static constexpr nothing_t mp_str{};
 };
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_FWD_HPP

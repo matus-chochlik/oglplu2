@@ -9,8 +9,7 @@
 #include <eagine/assert.hpp>
 #include <cstdlib>
 
-namespace eagine {
-namespace memory {
+namespace eagine::memory {
 //------------------------------------------------------------------------------
 template <typename Alloc>
 inline block basic_allocation_arena<Alloc>::_do_allocate(
@@ -90,5 +89,4 @@ inline T& basic_allocation_arena<Alloc>::make_aligned(
     return *p;
 }
 //------------------------------------------------------------------------------
-} // namespace memory
-} // namespace eagine
+} // namespace eagine::memory

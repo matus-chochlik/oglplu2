@@ -13,8 +13,7 @@
 #include <eagine/handle.hpp>
 #include <eagine/message_id.hpp>
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 //------------------------------------------------------------------------------
 template <typename Tag>
 using gl_object_name = basic_handle<Tag, gl_types::name_type>;
@@ -96,8 +95,7 @@ using transform_feedback_name_array =
 template <std::size_t N>
 using vertex_array_name_array = gl_object_name_array<vertex_array_tag, N>;
 //------------------------------------------------------------------------------
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp
 
 #endif // OGLPLUS_GL_API_OBJECT_NAME_HPP
 

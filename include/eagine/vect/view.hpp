@@ -12,8 +12,7 @@
 #include "../span.hpp"
 #include "data.hpp"
 
-namespace eagine {
-namespace vect {
+namespace eagine::vect {
 
 template <typename T, int N, bool V>
 struct view {
@@ -42,7 +41,6 @@ public:
     }
 };
 
-} // namespace vect
-} // namespace eagine
+} // namespace eagine::vect
 
 #endif // EAGINE_VECT_VIEW_HPP

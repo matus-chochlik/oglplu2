@@ -11,8 +11,7 @@
 
 #include "result.hpp"
 
-namespace eagine {
-namespace eglp {
+namespace eagine::eglp {
 //------------------------------------------------------------------------------
 class egl_api_traits : public default_c_api_traits {
 public:
@@ -44,8 +43,7 @@ private:
     std::string _full_name;
 };
 //------------------------------------------------------------------------------
-} // namespace eglp
-} // namespace eagine
+} // namespace eagine::eglp
 
 #endif // EGLPLUS_EGL_API_API_TRAITS_HPP
 

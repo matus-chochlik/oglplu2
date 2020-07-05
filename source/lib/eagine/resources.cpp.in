@@ -4,26 +4,39 @@
 /// See accompanying file LICENSE_1_0.txt or copy at
 ///  http://www.boost.org/LICENSE_1_0.txt
 ///
-#include "lib_common_pki.hpp"
+// clang-format off
+#include "prologue.inl"
+#include <eagine/compression.hpp>
+#include <eagine/logging/entry.hpp>
+#include <eagine/logging/root_logger.hpp>
+#include <eagine/main_ctx.hpp>
+#include <eagine/system_info.hpp>
+#include "implement.inl"
+
 #include <eagine/message_bus/resources.hpp>
+#include "lib_common_pki.hpp"
 
 namespace eagine {
 //------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 memory::const_block ca_certificate_pem(main_ctx& ctx) {
     return ca_certificate_pem(
       eagine::embed(EAGINE_ID(eagiCaCert), "@EAGINE_EMBED_CA_CERT@"), ctx);
 }
 //------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 memory::const_block msgbus_router_certificate_pem(main_ctx& ctx) {
     return msgbus::router_certificate_pem(
       eagine::embed(EAGINE_ID(mbusRtrCrt), "@EAGINE_EMBED_ROUTER_CERT@"), ctx);
 }
 //------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 memory::const_block msgbus_bridge_certificate_pem(main_ctx& ctx) {
     return msgbus::bridge_certificate_pem(
       eagine::embed(EAGINE_ID(mbusRtrCrt), "@EAGINE_EMBED_BRIDGE_CERT@"), ctx);
 }
 //------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 memory::const_block msgbus_endpoint_certificate_pem(main_ctx& ctx) {
     return msgbus::endpoint_certificate_pem(
       eagine::embed(EAGINE_ID(mbusEptCrt), "@EAGINE_EMBED_ENDPOINT_CERT@"),
@@ -31,3 +44,5 @@ memory::const_block msgbus_endpoint_certificate_pem(main_ctx& ctx) {
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
+
+#include "epilogue.inl"

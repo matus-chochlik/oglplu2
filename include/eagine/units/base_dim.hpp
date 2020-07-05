@@ -13,8 +13,7 @@
 #include "fwd.hpp"
 #include <utility>
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 namespace base {
 
 // dimension
@@ -163,7 +162,6 @@ struct name_of<base::amount_of_information> {
     static constexpr const char mp_str[] = "amount of information";
 };
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_BASE_DIM_HPP

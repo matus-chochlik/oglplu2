@@ -13,9 +13,7 @@
 #include "fallback_input.hpp"
 #include <eagine/types.hpp>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 
 class split_output : public base_output {
 private:
@@ -58,9 +56,7 @@ public:
     output_intf& output(span_size_t index) override;
 };
 
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/texgen/split_node.inl>

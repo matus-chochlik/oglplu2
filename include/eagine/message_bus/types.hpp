@@ -12,13 +12,11 @@
 
 #include "../types.hpp"
 
-namespace eagine {
-namespace msgbus {
+namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 using message_sequence_t = std::uint32_t;
 //------------------------------------------------------------------------------
-} // namespace msgbus
-} // namespace eagine
+} // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_TYPES_HPP
 

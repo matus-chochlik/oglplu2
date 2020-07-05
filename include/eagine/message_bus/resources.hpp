@@ -12,8 +12,7 @@
 
 #include "../resources.hpp"
 
-namespace eagine {
-namespace msgbus {
+namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 memory::const_block router_certificate_pem(
   memory::const_block embedded_blk,
@@ -51,8 +50,7 @@ inline memory::const_block endpoint_certificate_pem(
       embedded_blk, ctx.scratch_space(), ctx.args(), ctx.log());
 }
 //------------------------------------------------------------------------------
-} // namespace msgbus
-} // namespace eagine
+} // namespace eagine::msgbus
 
 #if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
 #include <eagine/message_bus/resources.inl>

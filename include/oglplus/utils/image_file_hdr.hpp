@@ -15,8 +15,7 @@
 #include <eagine/valid_if/positive.hpp>
 #include <array>
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 
 struct image_data_header {
     file_magic_number<'o', 'g', 'l', '+', 't', 'e', 'x', 'i'> magic;
@@ -38,7 +37,6 @@ struct image_data_header {
     }
 };
 
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp
 
 #endif // OGLPLUS_UTILS_IMAGE_FILE_HDR_HPP

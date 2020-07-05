@@ -13,8 +13,7 @@
 #include <eagine/handle.hpp>
 #include <eagine/message_id.hpp>
 
-namespace eagine {
-namespace sslp {
+namespace eagine::sslp {
 //------------------------------------------------------------------------------
 using ui_method_tag = EAGINE_MSG_TYPE(ssl, UIMethod);
 using engine_tag = EAGINE_MSG_TYPE(ssl, Engine);
@@ -103,7 +102,6 @@ using owned_x509_crl =
 
 using owned_x509 = basic_owned_handle<x509_tag, ssl_types::x509_type*, nullptr>;
 //------------------------------------------------------------------------------
-} // namespace sslp
-} // namespace eagine
+} // namespace eagine::sslp
 
 #endif // EAGINE_SSL_API_OBJECT_HANDLE_HPP

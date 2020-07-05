@@ -26,8 +26,6 @@ if(NOT ${CONFIG_INFO_ONLY})
 endif()
 
 include(config/Tools.cmake)
-include(config/Embed.cmake)
-include(config/PKI.cmake)
 
 include(config/FindThreads.cmake)
 include(config/FindValgrind.cmake)
@@ -70,6 +68,9 @@ include(config/FindEGL.cmake)
 
 # OpenAL
 include(config/FindAL.cmake)
+
+include(config/Embed.cmake)
+include(config/PKI.cmake)
 
 # configure GL API and Context-init libraries
 include(config/ConfigGL.cmake)

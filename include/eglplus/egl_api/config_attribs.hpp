@@ -13,8 +13,7 @@
 #include "enum_types.hpp"
 #include <eagine/key_val_list.hpp>
 
-namespace eagine {
-namespace eglp {
+namespace eagine::eglp {
 
 struct config_attrib_traits {
     using key_type = config_attribute;
@@ -57,7 +56,6 @@ static constexpr inline config_attribute_value operator|(
 }
 #endif
 
-} // namespace eglp
-} // namespace eagine
+} // namespace eagine::eglp
 
 #endif // EGLPLUS_EGL_API_CONFIG_ATTRIBS_HPP

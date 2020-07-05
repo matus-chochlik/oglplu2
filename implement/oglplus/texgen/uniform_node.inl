@@ -11,9 +11,7 @@
 #include <iostream>
 #include <sstream>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 uniform_output::uniform_output(node_intf& parent, slot_data_type type)
@@ -76,7 +74,5 @@ void uniform_node::prepare() {
     _output.bind_location();
 }
 //------------------------------------------------------------------------------
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 //------------------------------------------------------------------------------

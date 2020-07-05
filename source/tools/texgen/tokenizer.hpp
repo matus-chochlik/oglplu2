@@ -13,9 +13,7 @@
 #include "token_info.hpp"
 #include <regex>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 class tokenizer {
 public:
@@ -35,8 +33,6 @@ private:
     std::regex _float_re;
 };
 //------------------------------------------------------------------------------
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 
 #endif // TEXGEN_TOKENIZER_HPP

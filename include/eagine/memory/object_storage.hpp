@@ -18,8 +18,7 @@
 #include "std_alloc.hpp"
 #include <vector>
 
-namespace eagine {
-namespace memory {
+namespace eagine::memory {
 //------------------------------------------------------------------------------
 class object_storage {
 protected:
@@ -197,7 +196,6 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-} // namespace memory
-} // namespace eagine
+} // namespace eagine::memory
 
 #endif // EAGINE_MEMORY_OBJECT_STORAGE_HPP

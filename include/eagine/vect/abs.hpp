@@ -12,8 +12,7 @@
 #include "data.hpp"
 #include <cmath>
 
-namespace eagine {
-namespace vect {
+namespace eagine::vect {
 
 template <typename T, int N, bool V>
 struct abs {
@@ -27,7 +26,6 @@ struct abs {
     }
 };
 
-} // namespace vect
-} // namespace eagine
+} // namespace eagine::vect
 
 #endif // EAGINE_VECT_ABS_HPP

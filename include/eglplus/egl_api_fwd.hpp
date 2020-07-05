@@ -9,8 +9,7 @@
 #ifndef EGLPLUS_EGL_API_FWD_HPP
 #define EGLPLUS_EGL_API_FWD_HPP
 
-namespace eagine {
-namespace eglp {
+namespace eagine::eglp {
 //------------------------------------------------------------------------------
 class egl_api_traits;
 
@@ -19,8 +18,7 @@ class basic_egl_api;
 
 using egl_api = basic_egl_api<egl_api_traits>;
 //------------------------------------------------------------------------------
-} // namespace eglp
-} // namespace eagine
+} // namespace eagine::eglp
 
 #endif // EGLPLUS_EGL_API_FWD_HPP
 

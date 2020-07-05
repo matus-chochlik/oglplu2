@@ -9,9 +9,7 @@
 
 #include <iostream>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 namespace expr {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -116,7 +114,5 @@ std::ostream& operator<<(std::ostream& out, nhood2d_offs_decl e) {
 }
 //------------------------------------------------------------------------------
 } // namespace expr
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 //------------------------------------------------------------------------------

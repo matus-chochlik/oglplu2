@@ -13,9 +13,7 @@
 #include "base_dim.hpp"
 #include "scales.hpp"
 
-namespace eagine {
-namespace units {
-namespace base {
+namespace eagine::units::base {
 
 template <typename Dimension, typename Derived>
 struct unit {
@@ -24,8 +22,6 @@ struct unit {
     using type = Derived;
 };
 
-} // namespace base
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units::base
 
 #endif // EAGINE_UNITS_BASE_UNIT_HPP

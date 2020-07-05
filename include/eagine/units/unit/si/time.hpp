@@ -12,8 +12,7 @@
 
 #include "common.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 namespace base {
 
 // second
@@ -81,7 +80,6 @@ using minute = make_scaled_base_dim_unit_t<base::minute, si>;
 using hour = make_scaled_base_dim_unit_t<base::hour, si>;
 using day = make_scaled_base_dim_unit_t<base::day, si>;
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_UNIT_SI_TIME_HPP

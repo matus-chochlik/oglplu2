@@ -11,8 +11,7 @@
 
 #include "c_api.hpp"
 
-namespace eagine {
-namespace sslp {
+namespace eagine::sslp {
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
 struct basic_ssl_constants {
@@ -21,8 +20,7 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-} // namespace sslp
-} // namespace eagine
+} // namespace eagine::sslp
 
 #endif // EAGINE_SSL_API_CONSTANTS_HPP
 

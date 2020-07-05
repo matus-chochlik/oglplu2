@@ -16,8 +16,7 @@
 #include "mass.hpp"
 #include "time.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 // joule
 using joule = unit<energy, si>;
@@ -37,7 +36,6 @@ using kilojoule = make_scaled_unit_t<scales::kilo, joule>;
 using megajoule = make_scaled_unit_t<scales::mega, joule>;
 // TODO
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_UNIT_SI_ENERGY_HPP

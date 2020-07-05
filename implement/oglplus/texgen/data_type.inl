@@ -8,9 +8,7 @@
  */
 #include <iostream>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 string_view data_type_name(slot_data_type type) noexcept {
@@ -230,7 +228,5 @@ std::ostream& operator<<(std::ostream& out, conversion_suffix_v e) {
 }
 //------------------------------------------------------------------------------
 } // namespace expr
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 //------------------------------------------------------------------------------

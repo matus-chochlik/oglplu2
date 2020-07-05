@@ -12,8 +12,7 @@
 #include "matrix_ctr.hpp"
 #include <cmath>
 
-namespace eagine {
-namespace math {
+namespace eagine::math {
 
 // reflection_I
 template <typename X, int I>
@@ -38,10 +37,11 @@ struct reflection_I<matrix<T, 4, 4, RM, V>, I> {
     }
 
     constexpr inline matrix<T, 4, 4, RM, V> operator()() const noexcept {
-        return matrix<T, 4, 4, RM, V>{{{v(0), T(0), T(0), T(0)},
-                                       {T(0), v(1), T(0), T(0)},
-                                       {T(0), T(0), v(2), T(0)},
-                                       {T(0), T(0), T(0), T(1)}}};
+        return matrix<T, 4, 4, RM, V>{
+          {{v(0), T(0), T(0), T(0)},
+           {T(0), v(1), T(0), T(0)},
+           {T(0), T(0), v(2), T(0)},
+           {T(0), T(0), T(0), T(1)}}};
     }
 };
 
@@ -85,7 +85,6 @@ template <typename T, bool V>
 using matrix_reflection_z =
   convertible_matrix_constructor<reflection_z<matrix<T, 4, 4, true, V>>>;
 
-} // namespace math
-} // namespace eagine
+} // namespace eagine::math
 
 #endif // EAGINE_MATH_MATRIX_REFLECTION_HPP

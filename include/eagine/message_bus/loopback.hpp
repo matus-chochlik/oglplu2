@@ -13,8 +13,7 @@
 #include "connection.hpp"
 #include <mutex>
 
-namespace eagine {
-namespace msgbus {
+namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 class loopback_connection : public connection {
 public:
@@ -42,8 +41,7 @@ private:
     message_storage _messages;
 };
 //------------------------------------------------------------------------------
-} // namespace msgbus
-} // namespace eagine
+} // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_LOOPBACK_HPP
 

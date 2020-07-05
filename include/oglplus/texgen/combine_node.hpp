@@ -12,9 +12,7 @@
 #include "base_node.hpp"
 #include "fallback_input.hpp"
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 
 class combine_output : public base_output {
 private:
@@ -46,9 +44,7 @@ public:
     input_intf& input(span_size_t index) override;
 };
 
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/texgen/combine_node.inl>

@@ -12,8 +12,7 @@
 
 #include "velocity.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 using momentum = decltype(velocity() * mass());
 
@@ -22,7 +21,6 @@ struct name_of<momentum> {
     static constexpr const char mp_str[] = "momentum";
 };
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_DIM_MOMENTUM_HPP

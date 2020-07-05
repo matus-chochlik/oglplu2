@@ -9,8 +9,7 @@
 #ifndef EAGINE_SSL_API_FWD_HPP
 #define EAGINE_SSL_API_FWD_HPP
 
-namespace eagine {
-namespace sslp {
+namespace eagine::sslp {
 //------------------------------------------------------------------------------
 class ssl_api_traits;
 
@@ -19,8 +18,7 @@ class basic_ssl_api;
 
 using ssl_api = basic_ssl_api<ssl_api_traits>;
 //------------------------------------------------------------------------------
-} // namespace sslp
-} // namespace eagine
+} // namespace eagine::sslp
 
 #endif // EAGINE_SSL_API_FWD_HPP
 

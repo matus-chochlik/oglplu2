@@ -15,8 +15,7 @@
 #include <eagine/file_contents.hpp>
 #include <eagine/string_span.hpp>
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 
 class texture_image_file {
 private:
@@ -50,8 +49,8 @@ public:
           pixel_data_internal_format(_header->internal_format));
     }
 
-    image_pixel_format pixel_format(pixel_data_internal_format ifmt) const
-      noexcept {
+    image_pixel_format pixel_format(
+      pixel_data_internal_format ifmt) const noexcept {
         return image_pixel_format(pixel_data_format(_header->format), ifmt);
     }
 
@@ -75,7 +74,6 @@ public:
     }
 };
 
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp
 
 #endif // OGLPLUS_UTILS_IMAGE_FILE_HPP

@@ -81,13 +81,13 @@ public:
 template <typename Entity, typename Component>
 class std_map_cmp_storage : public component_storage<Entity, Component> {
 private:
-    std::map<Entity, Component> _components;
-    std::set<Entity> _hidden;
+    std::map<Entity, Component> _components{};
+    std::set<Entity> _hidden{};
 
     using _map_iter_t = std_map_cmp_storage_iterator<Entity, Component>;
 
     _map_iter_t& _iter_cast(component_storage_iterator<Entity>& i) noexcept {
-        EAGINE_ASSERT(dynamic_cast<_map_iter_t*>(i.ptr()) != nullptr);
+        EAGINE_ASSERT(dynamic_cast<_map_iter_t*>(i.ptr()));
         return *static_cast<_map_iter_t*>(i.ptr());
     }
 
@@ -107,8 +107,9 @@ public:
     using iterator_t = component_storage_iterator<Entity>;
 
     storage_caps capabilities() override {
-        return storage_caps{storage_cap_bit::hide | storage_cap_bit::remove |
-                            storage_cap_bit::store | storage_cap_bit::modify};
+        return storage_caps{
+          storage_cap_bit::hide | storage_cap_bit::remove |
+          storage_cap_bit::store | storage_cap_bit::modify};
     }
 
     iterator_t new_iterator() override {
@@ -400,8 +401,9 @@ public:
     using iterator_t = relation_storage_iterator<Entity>;
 
     storage_caps capabilities() override {
-        return storage_caps{storage_cap_bit::remove | storage_cap_bit::store |
-                            storage_cap_bit::modify};
+        return storage_caps{
+          storage_cap_bit::remove | storage_cap_bit::store |
+          storage_cap_bit::modify};
     }
 
     iterator_t new_iterator() override {

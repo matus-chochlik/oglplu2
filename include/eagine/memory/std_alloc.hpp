@@ -15,8 +15,7 @@
 #include "shared_alloc.hpp"
 #include <memory>
 
-namespace eagine {
-namespace memory {
+namespace eagine::memory {
 
 // std_allocator
 template <typename T>
@@ -117,7 +116,6 @@ public:
     }
 };
 
-} // namespace memory
-} // namespace eagine
+} // namespace eagine::memory
 
 #endif // EAGINE_MEMORY_STD_ALLOC_HPP

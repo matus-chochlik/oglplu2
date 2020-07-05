@@ -23,6 +23,16 @@ function(eagine_add_directory_resources)
 	eagine_embed_target_resources(${TARGET_NAME} ${ARGN})
 endfunction()
 
+function(eagine_pack_directory_resources)
+	get_filename_component(
+		EXAMPLE_NAME
+		"${CMAKE_CURRENT_SOURCE_DIR}"
+		NAME
+	)
+	set(TARGET_NAME "combined-${EXAMPLE_NAME}")
+	eagine_embed_packed_target_resources(${TARGET_NAME} ${ARGN})
+endfunction()
+
 function(eagine_add_directory_example)
 	get_filename_component(
 		EXAMPLE_NAME

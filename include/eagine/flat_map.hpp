@@ -18,24 +18,41 @@
 #include <vector>
 
 namespace eagine {
-
+//------------------------------------------------------------------------------
 template <typename Key, typename Val, typename Cmp>
-struct flat_map_ops {
+struct flat_map_value_compare : Cmp {
+
+    constexpr const Cmp& key_comp() const noexcept {
+        return *this;
+    }
+
+    template <typename L, typename R>
+    constexpr bool operator()(
+      const std::pair<L, Val>& a, const std::pair<R, Val>& b) const noexcept {
+        return key_comp()(a.first, b.first);
+    }
+
+    template <typename K>
+    constexpr bool operator()(
+      const std::pair<K, Val>& a, const Key& b) const noexcept {
+        return key_comp()(a.first, b);
+    }
+
+    template <typename K>
+    constexpr bool operator()(
+      const Key& a, const std::pair<K, Val>& b) const noexcept {
+        return key_comp()(a, b.first);
+    }
+};
+//------------------------------------------------------------------------------
+template <typename Key, typename Val, typename Cmp>
+struct flat_map_ops : flat_map_value_compare<Key, Val, Cmp> {
     using value_type = std::pair<const Key, Val>;
-    struct value_compare {
-        Cmp key_comp;
-        bool operator()(const value_type& a, const value_type& b) const {
-            return key_comp(a.first, b.first);
-        }
 
-        bool operator()(const value_type& a, const Key& b) const {
-            return key_comp(a.first, b);
-        }
-
-        bool operator()(const Key& a, const value_type& b) const {
-            return key_comp(a, b.first);
-        }
-    } value_comp;
+    constexpr const flat_map_value_compare<Key, Val, Cmp>& value_comp()
+      const noexcept {
+        return *this;
+    }
 
     template <typename I>
     static bool empty(I b, I e) noexcept {
@@ -50,23 +67,23 @@ struct flat_map_ops {
 
     template <typename I>
     auto lower_bound(I b, I e, const Key& key) const noexcept {
-        return ::std::lower_bound(b, e, key, value_comp);
+        return ::std::lower_bound(b, e, key, value_comp());
     }
 
     template <typename I>
     auto upper_bound(I b, I e, const Key& key) const noexcept {
-        return ::std::upper_bound(b, e, key, value_comp);
+        return ::std::upper_bound(b, e, key, value_comp());
     }
 
     template <typename I>
     auto equal_range(I b, I e, const Key& key) const noexcept {
-        return ::std::equal_range(b, e, key, value_comp);
+        return ::std::equal_range(b, e, key, value_comp());
     }
 
     template <typename I>
     auto find(I b, I e, const Key& key) const noexcept {
         b = lower_bound(b, e, key);
-        if((b != e) && value_comp.key_comp(b->first, key)) {
+        if((b != e) && value_comp()(key, *b)) {
             b = e;
         }
         return b;
@@ -82,41 +99,43 @@ struct flat_map_ops {
     }
 
     template <typename I>
-    auto& get(I b, I e, const Key& key) const {
+    auto& get(I b, I e, const Key& key) const noexcept {
         b = find(b, e, key);
         EAGINE_ASSERT(b != e);
         return b->second;
     }
 };
-
+//------------------------------------------------------------------------------
 template <typename Key, typename Val, typename Cmp, typename Derived>
-class flat_map_view_crtp {
+class flat_map_view_crtp : flat_map_ops<Key, Val, Cmp> {
 private:
-    const Derived& _self() const {
+    const Derived& _self() const noexcept {
         return *static_cast<const Derived*>(this);
     }
-
-    Derived& _self() {
+    Derived& _self() noexcept {
         return *static_cast<Derived*>(this);
     }
 
-    auto _b() const {
+    auto _b() const noexcept {
         return _self().begin();
     }
-    auto _b() {
+    auto _b() noexcept {
         return _self().begin();
     }
 
-    auto _e() const {
+    auto _e() const noexcept {
         return _self().end();
     }
-    auto _e() {
+    auto _e() noexcept {
         return _self().end();
     }
 
 protected:
     using _ops_t = flat_map_ops<Key, Val, Cmp>;
-    _ops_t _ops;
+
+    constexpr const _ops_t& _ops() const noexcept {
+        return *this;
+    }
 
 public:
     using key_type = Key;
@@ -126,70 +145,70 @@ public:
     using const_reference = const value_type&;
 
     using key_compare = Cmp;
-    using value_compare = typename _ops_t::value_compare;
+    using value_compare = flat_map_value_compare<Key, Val, Cmp>;
 
-    const key_compare& key_comp() const {
-        return _ops.value_comp.key_comp;
+    const key_compare& key_comp() const noexcept {
+        return _ops().value_comp().key_comp();
     }
 
-    const value_compare& value_comp() const {
-        return _ops.value_comp;
+    const value_compare& value_comp() const noexcept {
+        return _ops().value_comp();
     }
 
-    bool empty() const {
-        return _ops.empty(_b(), _e());
+    bool empty() const noexcept {
+        return _ops().empty(_b(), _e());
     }
 
     auto size() const {
-        return _ops.size(_b(), _e());
+        return _ops().size(_b(), _e());
     }
 
     auto find(const Key& key) {
-        return _ops.find(_b(), _e(), key);
+        return _ops().find(_b(), _e(), key);
     }
 
     auto find(const Key& key) const {
-        return _ops.find(_b(), _e(), key);
+        return _ops().find(_b(), _e(), key);
     }
 
     auto lower_bound(const Key& key) {
-        return _ops.lower_bound(_b(), _e(), key);
+        return _ops().lower_bound(_b(), _e(), key);
     }
 
     auto lower_bound(const Key& key) const {
-        return _ops.lower_bound(_b(), _e(), key);
+        return _ops().lower_bound(_b(), _e(), key);
     }
 
     auto upper_bound(const Key& key) {
-        return _ops.upper_bound(_b(), _e(), key);
+        return _ops().upper_bound(_b(), _e(), key);
     }
 
     auto upper_bound(const Key& key) const {
-        return _ops.upper_bound(_b(), _e(), key);
+        return _ops().upper_bound(_b(), _e(), key);
     }
 
     auto equal_range(const Key& key) {
-        return _ops.equal_range(_b(), _e(), key);
+        return _ops().equal_range(_b(), _e(), key);
     }
 
     auto equal_range(const Key& key) const {
-        return _ops.equal_range(_b(), _e(), key);
+        return _ops().equal_range(_b(), _e(), key);
     }
 
     Val& at(const Key& key) {
-        return _ops.at(_b(), _e(), key);
+        return _ops().at(_b(), _e(), key);
     }
 
     const Val& at(const Key& key) const {
-        return _ops.at(_b(), _e(), key);
+        return _ops().at(_b(), _e(), key);
     }
 };
-
+//------------------------------------------------------------------------------
 template <
   typename Key,
   typename Val,
   typename Cmp = std::less<Key>,
-  typename Allocator = std::allocator<std::pair<const Key, Val>>>
+  typename Allocator = std::allocator<std::pair<Key, Val>>>
 class flat_map
   : public flat_map_view_crtp<
       Key,
@@ -199,65 +218,58 @@ class flat_map
 private:
     using _base =
       flat_map_view_crtp<Key, Val, Cmp, flat_map<Key, Val, Cmp, Allocator>>;
+    using _base::_ops;
 
-    using _cvec_t = std::vector<std::pair<const Key, Val>, Allocator>;
-    using _vec_t = std::vector<std::pair<Key, Val>, Allocator>;
-    _vec_t _vec;
+    using _alloc_t =
+      typename Allocator::template rebind<std::pair<Key, Val>>::other;
 
-    typename _cvec_t::const_iterator _cast(typename _vec_t::const_iterator i) {
-        return *reinterpret_cast<typename _cvec_t::const_iterator*>(&i);
+    using _vec_t = std::vector<std::pair<Key, Val>, _alloc_t>;
+    _vec_t _vec{};
+
+    auto _find_insert_pos(const Key& k) noexcept {
+        const auto b = _vec.begin();
+        const auto e = _vec.end();
+        const auto p = _ops().lower_bound(b, e, k);
+
+        return std::pair{p, (p == e) || (k != p->first)};
     }
 
-    typename _cvec_t::iterator _cast(typename _vec_t::iterator i) {
-        return *reinterpret_cast<typename _cvec_t::iterator*>(&i);
-    }
-
-    typename _vec_t::const_iterator _cast(typename _cvec_t::const_iterator i) {
-        return *reinterpret_cast<typename _vec_t::const_iterator*>(&i);
-    }
-
-    typename _vec_t::iterator _cast(typename _cvec_t::iterator i) {
-        return *reinterpret_cast<typename _vec_t::iterator*>(&i);
-    }
-
-    std::pair<typename _vec_t::iterator, bool> _find_insert_pos(const Key& k) {
-        typename _vec_t::iterator b = _vec.begin();
-        typename _vec_t::iterator e = _vec.end();
-        auto p = this->_ops.lower_bound(b, e, k);
-
-        return {p, (p == e) || (k != p->first)};
-    }
-
-    std::pair<typename _vec_t::iterator, bool> _find_insert_pos(
-      typename _vec_t::iterator p, const Key& k) {
-        typename _vec_t::iterator b = _vec.begin();
-        typename _vec_t::iterator e = _vec.end();
+    template <typename I>
+    auto _find_insert_pos(I p, const Key& k) {
+        auto b = _vec.begin();
+        auto e = _vec.end();
         if(p == e) {
             if(_vec.empty() || value_comp()(_vec.back(), k)) {
-                return {p, true};
+                return std::pair{p, true};
             }
-            p = this->_ops.lower_bound(b, e, k);
+            p = _ops().lower_bound(b, e, k);
         }
         if(k == p->first) {
-            return {p, false};
+            return std::pair{p, false};
         }
         if(key_comp()(k, p->first)) {
             if(p != b) {
-                p = this->_ops.lower_bound(b, p, k);
+                p = _ops().lower_bound(b, p, k);
             }
         } else {
-            p = this->_ops.lower_bound(p, e, k);
+            p = _ops().lower_bound(p, e, k);
         }
-        return {p, true};
+        return std::pair{p, true};
     }
 
-    std::pair<typename _vec_t::iterator, bool> _do_insert(
-      std::pair<typename _vec_t::iterator, bool> ip,
-      const typename _base::value_type& value) {
+    template <typename I, typename... Args>
+    I _do_emplace(I ip, const Key& key, Args&&... args) {
+        if(ip.second) {
+            ip.first =
+              _vec.emplace(ip.first, key, Val{std::forward<Args>(args)...});
+        }
+        return ip;
+    }
+
+    template <typename I, typename V>
+    I _do_insert(I ip, const V& value) {
         if(ip.second) {
             ip.first = _vec.insert(ip.first, value);
-        } else {
-            ip.first->second = value.second;
         }
         return ip;
     }
@@ -269,19 +281,20 @@ public:
     using typename _base::value_type;
     using size_type = typename _vec_t::size_type;
     using difference_type = typename _vec_t::difference_type;
-    using iterator = typename _cvec_t::iterator;
-    using const_iterator = typename _cvec_t::const_iterator;
+    using iterator = typename _vec_t::iterator;
+    using const_iterator = typename _vec_t::const_iterator;
     using allocator_type = Allocator;
 
     using _base::key_comp;
     using _base::lower_bound;
     using _base::value_comp;
 
-    flat_map() = default;
+    flat_map() noexcept = default;
     flat_map(const flat_map&) = default;
-    flat_map(flat_map&&) = default;
+    flat_map(flat_map&&) noexcept = default;
     flat_map& operator=(const flat_map&) = default;
-    flat_map& operator=(flat_map&&) = default;
+    flat_map& operator=(flat_map&&) noexcept = default;
+    ~flat_map() noexcept = default;
 
     flat_map(std::initializer_list<std::pair<Key, Val>> il) {
         assign(il);
@@ -322,47 +335,77 @@ public:
     }
 
     iterator begin() {
-        return _cast(_vec.begin());
+        return _vec.begin();
     }
 
     const_iterator begin() const {
-        return _cast(_vec.begin());
+        return _vec.begin();
     }
 
     iterator end() {
-        return _cast(_vec.end());
+        return _vec.end();
     }
 
     const_iterator end() const {
-        return _cast(_vec.end());
+        return _vec.end();
+    }
+
+    auto& operator[](const Key& key) {
+        auto ip = _find_insert_pos(key);
+        ip = _do_emplace(ip, key);
+        return ip.first->second;
+    }
+
+    template <typename... Args>
+    std::pair<iterator, bool> emplace(const Key& key, Args&&... args) {
+        auto ip = _find_insert_pos(key);
+        ip = _do_emplace(ip, key, std::forward<Args>(args)...);
+        return ip;
+    }
+
+    template <typename... Args>
+    std::pair<iterator, bool> try_emplace(const Key& key, Args&&... args) {
+        auto ip = _find_insert_pos(key);
+        ip = _do_emplace(ip, key, std::forward<Args>(args)...);
+        return ip;
     }
 
     std::pair<iterator, bool> insert(const value_type& value) {
         auto ip = _find_insert_pos(value.first);
         ip = _do_insert(ip, value);
-        return {_cast(ip.first), ip.second};
+        return {ip.first, ip.second};
     }
 
     iterator insert(iterator p, const value_type& value) {
-        auto ip = _find_insert_pos(_cast(p), value.first);
-        return _cast(_do_insert(ip, value).first);
+        const auto ip = _find_insert_pos(p, value.first);
+        return _do_insert(ip, value).first;
     }
 
     iterator erase(iterator p) {
-        return _cast(_vec.erase(_cast(p)));
+        return _vec.erase(p);
     }
 
     iterator erase(iterator f, iterator t) {
-        return _cast(_vec.erase(_cast(f), _cast(t)));
+        return _vec.erase(f, t);
     }
 
     size_type erase(const Key& key) {
-        auto p = this->_ops.equal_range(_vec.begin(), _vec.end(), key);
+        const auto p = _ops().equal_range(_vec.begin(), _vec.end(), key);
+        const auto res = size_type(std::distance(p.first, p.second));
+        EAGINE_ASSERT(res <= 1);
         _vec.erase(p.first, p.second);
-        return size_type(std::distance(p.first, p.second));
+        return res;
+    }
+
+    template <typename Predicate>
+    size_type erase_if(const Predicate& predicate) {
+        const auto p = std::remove_if(_vec.begin(), _vec.end(), predicate);
+        const auto res = size_type(std::distance(p, _vec.end()));
+        _vec.erase(p, _vec.end());
+        return res;
     }
 };
-
+//------------------------------------------------------------------------------
 } // namespace eagine
 
 #endif // EAGINE_FLAT_MAP_HPP

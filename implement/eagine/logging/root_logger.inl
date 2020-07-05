@@ -86,6 +86,7 @@ std::unique_ptr<logger_backend> root_logger::_init_backend(
 EAGINE_LIB_FUNC
 void root_logger::_log_args(const program_args& args) {
     auto args_entry{info("program arguments:")};
+    args_entry.arg(EAGINE_ID(cmd), args.command());
     for(auto& arg : args) {
         args_entry.arg(EAGINE_ID(arg), arg);
     }
@@ -96,7 +97,9 @@ void root_logger::_log_git_info() {
     const string_view n_a{"N/A"};
     info("build configuration information")
       .arg(EAGINE_ID(gitBranch), EAGINE_ID(GitBranch), config_git_branch(), n_a)
-      .arg(EAGINE_ID(gitHashId), EAGINE_ID(GitHash), config_git_hash_id(), n_a);
+      .arg(EAGINE_ID(gitHashId), EAGINE_ID(GitHash), config_git_hash_id(), n_a)
+      .arg(EAGINE_ID(gitDate), EAGINE_ID(RFC2822), config_git_date(), n_a)
+      .arg(EAGINE_ID(gitDescrib), EAGINE_ID(str), config_git_describe(), n_a);
 }
 //------------------------------------------------------------------------------
 } // namespace eagine

@@ -31,4 +31,22 @@ valid_if_not_empty<string_view> config_git_hash_id() noexcept {
 #endif
 }
 //------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+valid_if_not_empty<string_view> config_git_date() noexcept {
+#if defined(EAGINE_CONFIG_GIT_INFO_HPP)
+    return {string_view{EAGINE_GIT_DATE}};
+#else
+    return {};
+#endif
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+valid_if_not_empty<string_view> config_git_describe() noexcept {
+#if defined(EAGINE_CONFIG_GIT_INFO_HPP)
+    return {string_view{EAGINE_GIT_DESCRIBE}};
+#else
+    return {};
+#endif
+}
+//------------------------------------------------------------------------------
 } // namespace eagine

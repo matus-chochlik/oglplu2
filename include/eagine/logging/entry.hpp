@@ -451,6 +451,10 @@ struct no_log_entry {
     constexpr inline no_log_entry& arg(identifier, identifier, T&&) noexcept {
         return *this;
     }
+    constexpr inline no_log_entry& arg(
+      identifier, identifier, float, float, float) noexcept {
+        return *this;
+    }
 
     template <typename T>
     constexpr inline no_log_entry& arg(identifier, span<const T>) noexcept {

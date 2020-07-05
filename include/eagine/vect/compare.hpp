@@ -11,8 +11,7 @@
 
 #include "data.hpp"
 
-namespace eagine {
-namespace vect {
+namespace eagine::vect {
 
 template <typename T, int N, bool V>
 struct is_zero {
@@ -31,7 +30,6 @@ struct is_zero {
 
 // TODO: some optimizations ?
 
-} // namespace vect
-} // namespace eagine
+} // namespace eagine::vect
 
 #endif // EAGINE_VECT_COMPARE_HPP

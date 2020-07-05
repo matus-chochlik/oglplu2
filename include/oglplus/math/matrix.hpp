@@ -13,8 +13,7 @@
 #include <eagine/math/tmat.hpp>
 #include <oglplus/gl_api/config.hpp>
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 
 using math::matrix;
 
@@ -38,7 +37,6 @@ using mat4x2 = tmat<gl_types::float_type, 4, 2>;
 using mat4x3 = tmat<gl_types::float_type, 4, 3>;
 using mat4 = tmat<gl_types::float_type, 4, 4>;
 
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp
 
 #endif // OGLPLUS_MATH_MATRIX_HPP

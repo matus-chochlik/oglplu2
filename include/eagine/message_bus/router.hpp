@@ -10,6 +10,7 @@
 #ifndef EAGINE_MESSAGE_BUS_ROUTER_HPP
 #define EAGINE_MESSAGE_BUS_ROUTER_HPP
 
+#include "../flat_map.hpp"
 #include "../logging/logger.hpp"
 #include "../program_args.hpp"
 #include "../timeout.hpp"
@@ -20,8 +21,7 @@
 #include <map>
 #include <vector>
 
-namespace eagine {
-namespace msgbus {
+namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 struct router_pending {
 
@@ -32,7 +32,7 @@ struct router_pending {
     std::chrono::steady_clock::time_point create_time{
       std::chrono::steady_clock::now()};
 
-    std::unique_ptr<connection> the_connection;
+    std::unique_ptr<connection> the_connection{};
 
     auto age() const {
         return std::chrono::steady_clock::now() - create_time;
@@ -40,13 +40,18 @@ struct router_pending {
 };
 //------------------------------------------------------------------------------
 struct routed_endpoint {
-    std::vector<std::unique_ptr<connection>> connections;
-    std::vector<message_id> message_block_list;
-    std::vector<message_id> message_allow_list;
+    std::vector<std::unique_ptr<connection>> connections{};
+    std::vector<message_id> message_block_list{};
+    std::vector<message_id> message_allow_list{};
     bool maybe_router{true};
     bool do_disconnect{false};
 
     routed_endpoint();
+    routed_endpoint(routed_endpoint&&) noexcept = default;
+    routed_endpoint(const routed_endpoint&) = default;
+    routed_endpoint& operator=(routed_endpoint&&) noexcept = default;
+    routed_endpoint& operator=(const routed_endpoint&) = default;
+    ~routed_endpoint() noexcept = default;
 
     void block_message(message_id);
     void allow_message(message_id);
@@ -136,12 +141,11 @@ private:
     std::vector<std::unique_ptr<acceptor>> _acceptors;
     std::vector<std::unique_ptr<connection>> _connectors;
     std::vector<router_pending> _pending;
-    std::map<identifier_t, routed_endpoint> _endpoints;
+    flat_map<identifier_t, routed_endpoint> _endpoints;
     blob_manipulator _blobs{};
 };
 //------------------------------------------------------------------------------
-} // namespace msgbus
-} // namespace eagine
+} // namespace eagine::msgbus
 
 #if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
 #include <eagine/message_bus/router.inl>

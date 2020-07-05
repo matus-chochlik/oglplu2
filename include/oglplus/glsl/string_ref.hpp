@@ -12,8 +12,7 @@
 #include "source_ref.hpp"
 #include <eagine/memory/block.hpp>
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 //------------------------------------------------------------------------------
 class glsl_string_ref {
 private:
@@ -55,7 +54,6 @@ static inline glsl_string_ref operator"" _glsl(
     return {src_str, span_size(n)};
 }
 //------------------------------------------------------------------------------
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp
 
 #endif // OGLPLUS_GLSL_STRING_REF_HPP

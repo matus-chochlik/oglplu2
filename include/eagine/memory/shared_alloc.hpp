@@ -18,8 +18,7 @@
 #include <typeinfo>
 #include <utility>
 
-namespace eagine {
-namespace memory {
+namespace eagine::memory {
 
 // shared_byte_allocator
 template <typename Base>
@@ -188,7 +187,6 @@ public:
 
 using shared_byte_allocator = basic_shared_byte_alloc<nothing_t>;
 
-} // namespace memory
-} // namespace eagine
+} // namespace eagine::memory
 
 #endif // EAGINE_MEMORY_SHARED_ALLOC_HPP

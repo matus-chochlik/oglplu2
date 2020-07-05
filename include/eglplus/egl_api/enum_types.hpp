@@ -11,8 +11,7 @@
 
 #include "enum_class.hpp"
 
-namespace eagine {
-namespace eglp {
+namespace eagine::eglp {
 //------------------------------------------------------------------------------
 struct error_code : egl_enum_class<error_code, EAGINE_ID_V(ErrorCode)> {
     using enum_class::enum_class;
@@ -50,8 +49,7 @@ struct client_api_bit
     using enum_class::enum_class;
 };
 //------------------------------------------------------------------------------
-} // namespace eglp
-} // namespace eagine
+} // namespace eagine::eglp
 
 #endif // EGLPLUS_EGL_API_ENUM_TYPES_HPP
 

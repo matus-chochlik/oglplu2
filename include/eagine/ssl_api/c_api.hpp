@@ -22,8 +22,7 @@
 #endif
 #endif
 
-namespace eagine {
-namespace sslp {
+namespace eagine::sslp {
 //------------------------------------------------------------------------------
 template <typename Traits>
 struct basic_ssl_c_api {
@@ -752,7 +751,6 @@ struct basic_ssl_c_api {
 //------------------------------------------------------------------------------
 using ssl_c_api = basic_ssl_c_api<ssl_api_traits>;
 //------------------------------------------------------------------------------
-} // namespace sslp
-} // namespace eagine
+} // namespace eagine::sslp
 
 #endif

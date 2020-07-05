@@ -9,9 +9,7 @@
 #include <cassert>
 #include <iostream>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 voronoi2d_output::voronoi2d_output(
@@ -292,7 +290,5 @@ output_intf& voronoi2d_node::output(span_size_t index) {
     return _input_cell_center;
 }
 //------------------------------------------------------------------------------
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 //------------------------------------------------------------------------------

@@ -5,6 +5,7 @@
 import os
 import re
 import sys
+import zlib
 import argparse
 # ------------------------------------------------------------------------------
 class EmberArgumentParser(argparse.ArgumentParser):
@@ -19,6 +20,13 @@ class EmberArgumentParser(argparse.ArgumentParser):
     # --------------------------------------------------------------------------
     def __init__(self, **kw):
         argparse.ArgumentParser.__init__(self, **kw)
+
+        self.add_argument(
+            '-p', '--packed',
+            dest='packed',
+            default=False,
+            action="store_true"
+        )
 
         self.add_argument(
             '-i', '--input',
@@ -88,6 +96,65 @@ def make_argparser():
         """
     )
 # ------------------------------------------------------------------------------
+class PlainResource(object):
+    # --------------------------------------------------------------------------
+    def __init__(self, path):
+        self._path = path
+    # --------------------------------------------------------------------------
+    def __enter__(self):
+        self._fd = open(self._path, "rb")
+        return self
+    # --------------------------------------------------------------------------
+    def __exit__(self, typ, val, traceback):
+        self._fd.close()
+    # --------------------------------------------------------------------------
+    def byte_size(self):
+        return os.stat(self._path).st_size
+    # --------------------------------------------------------------------------
+    def get_byte(self):
+        result = self._fd.read(1)
+        if result:
+            result = ord(result)
+        else:
+            result = None
+        return result
+
+# ------------------------------------------------------------------------------
+class PackedResource(object):
+    # --------------------------------------------------------------------------
+    def __init__(self, path):
+        self._path = path
+        self._zipped = []
+        self._readpos = -1
+    # --------------------------------------------------------------------------
+    def __enter__(self):
+        with open(self._path, "rb") as rfd:
+            self._zipped = zlib.compress(rfd.read(), zlib.Z_BEST_COMPRESSION)
+        return self
+    # --------------------------------------------------------------------------
+    def __exit__(self, typ, val, traceback):
+        del self._zipped
+    # --------------------------------------------------------------------------
+    def byte_size(self):
+        return len(self._zipped)
+    # --------------------------------------------------------------------------
+    def get_byte(self):
+        result = None
+        if self._readpos < 0:
+            result = 1
+            self._readpos = 0
+        elif self._readpos < len(self._zipped):
+            result = self._zipped[self._readpos]
+            self._readpos += 1
+        return result
+
+# ------------------------------------------------------------------------------
+def load_resource(options, resource_path):
+    if options.packed:
+        return PackedResource(resource_path)
+    return PlainResource(resource_path)
+
+# ------------------------------------------------------------------------------
 def make_res_code(options, ident, path):
     linelen = 0
     first = True
@@ -100,13 +167,13 @@ def make_res_code(options, ident, path):
 
     options.output.write("    if(res_id == EAGINE_ID(%s)) {\n" % ident)
 
-    if os.stat(resource_path).st_size > 0:
-        options.output.write("        static const byte res[] = {\n")
+    with load_resource(options, resource_path) as res:
+        if res.byte_size() > 0:
+            options.output.write("        static const byte res[] = {\n")
         
-        with open(resource_path, "rb") as rfd:
             while True:
-                byte = rfd.read(1)
-                if not byte:
+                byte = res.get_byte()
+                if byte is None:
                     break
 
                 temp = ""
@@ -116,7 +183,7 @@ def make_res_code(options, ident, path):
                 else:
                     temp += ", "
 
-                temp += "0x%x" % ord(byte)
+                temp += "0x%x" % byte
                 
                 if linelen > options.max_line_len - 16:
                     linelen = 0
@@ -124,19 +191,23 @@ def make_res_code(options, ident, path):
                 else:
                     linelen += len(temp)
                 options.output.write(temp)
-        options.output.write("\n        };\n")
-        options.output.write("        return view(res);\n")
-    else:
-        options.output.write("        return {};\n")
+            options.output.write("\n        };\n")
+            options.output.write("        return {view(res), path, %s};\n" % (
+                "true" if options.packed else "false"
+            ))
+        else:
+            options.output.write("        return {};\n")
     options.output.write("    }\n")
 # ------------------------------------------------------------------------------
 def make_prologue(options):
-    options.output.write("#include <eagine/identifier.hpp>\n");
-    options.output.write("#include <eagine/memory/block.hpp>\n");
+    options.output.write("#include <eagine/embed.hpp>\n");
+    options.output.write("#include <eagine/maybe_unused.hpp>\n");
     options.output.write("namespace eagine {\n")
     options.output.write(
-        "memory::const_block get_embedded_resource(identifier res_id) {\n"
+        "embedded_resource get_embedded_resource(identifier res_id, string_view path) noexcept {\n"
     )
+    options.output.write("    EAGINE_MAYBE_UNUSED(res_id);\n")
+    options.output.write("    EAGINE_MAYBE_UNUSED(path);\n")
 # ------------------------------------------------------------------------------
 def make_epilogue(options):
     options.output.write("    return {};\n")

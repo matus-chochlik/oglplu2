@@ -11,8 +11,7 @@
 
 #include "matrix_ctr.hpp"
 
-namespace eagine {
-namespace math {
+namespace eagine::math {
 
 // identity
 template <typename X>
@@ -90,7 +89,6 @@ static constexpr inline identity<matrix<T, R, C, !RM, V>> reorder_mat_ctr(
     return {};
 }
 
-} // namespace math
-} // namespace eagine
+} // namespace eagine::math
 
 #endif // EAGINE_MATH_MATRIX_IDENTITY_HPP

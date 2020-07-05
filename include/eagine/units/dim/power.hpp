@@ -12,8 +12,7 @@
 
 #include "energy.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 using power = decltype(energy() / time());
 
@@ -22,7 +21,6 @@ struct name_of<power> {
     static constexpr const char mp_str[] = "power";
 };
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_DIM_POWER_HPP

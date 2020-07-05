@@ -12,8 +12,7 @@
 
 #include "../dimension.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 using radioactivity = decltype(number_of_decays() / time());
 
@@ -22,7 +21,6 @@ struct name_of<radioactivity> {
     static constexpr const char mp_str[] = "radioactivity";
 };
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_DIM_RADIOACTIVITY_HPP

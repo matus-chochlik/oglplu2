@@ -52,7 +52,7 @@ def write_file(file_path, contents, simulate=None):
 
 	if simulate is None: simulate = dry_run
 	if simulate:
-		print("echo '"+contents+"' > "+file_path)
+		print("echo '-n' '"+contents+"' > "+file_path)
 	else:
 		open(file_path).write(contents)
 

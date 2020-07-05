@@ -15,8 +15,7 @@
 #include "electric_current.hpp"
 #include "electric_tension.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 // ohm
 using ohm = unit<electrical_resistance, si>;
@@ -36,7 +35,6 @@ using milliohm = make_scaled_unit_t<scales::milli, ohm>;
 using kiloohm = make_scaled_unit_t<scales::kilo, ohm>;
 // TODO
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_UNIT_SI_ELECTRICAL_RESISTANCE_HPP

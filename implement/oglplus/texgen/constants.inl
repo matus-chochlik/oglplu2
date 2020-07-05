@@ -8,9 +8,7 @@
  */
 #include <iostream>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 namespace expr {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -74,7 +72,5 @@ std::ostream& constant_phi::value(std::ostream& out, compile_context&) {
     return out << "((1.0+sqrt(5.0))*0.5)";
 }
 //------------------------------------------------------------------------------
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 //------------------------------------------------------------------------------

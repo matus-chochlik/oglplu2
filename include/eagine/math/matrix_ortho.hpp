@@ -11,8 +11,7 @@
 
 #include "matrix_ctr.hpp"
 
-namespace eagine {
-namespace math {
+namespace eagine::math {
 
 // ortho
 template <typename X>
@@ -80,20 +79,22 @@ struct ortho<matrix<T, 4, 4, RM, V>> {
         return -(_z_far() + _z_near()) / (_z_far() - _z_near());
     }
 
-    constexpr inline matrix<T, 4, 4, true, V> _make(std::true_type) const
-      noexcept {
-        return matrix<T, 4, 4, true, V>{{{_m00(), T(0), T(0), _m30()},
-                                         {T(0), _m11(), T(0), _m31()},
-                                         {T(0), T(0), _m22(), _m32()},
-                                         {T(0), T(0), T(0), T(1)}}};
+    constexpr inline matrix<T, 4, 4, true, V> _make(
+      std::true_type) const noexcept {
+        return matrix<T, 4, 4, true, V>{
+          {{_m00(), T(0), T(0), _m30()},
+           {T(0), _m11(), T(0), _m31()},
+           {T(0), T(0), _m22(), _m32()},
+           {T(0), T(0), T(0), T(1)}}};
     }
 
-    constexpr inline matrix<T, 4, 4, false, V> _make(std::false_type) const
-      noexcept {
-        return matrix<T, 4, 4, false, V>{{{_m00(), T(0), T(0), T(0)},
-                                          {T(0), _m11(), T(0), T(0)},
-                                          {T(0), T(0), _m22(), T(0)},
-                                          {_m30(), _m31(), _m32(), T(1)}}};
+    constexpr inline matrix<T, 4, 4, false, V> _make(
+      std::false_type) const noexcept {
+        return matrix<T, 4, 4, false, V>{
+          {{_m00(), T(0), T(0), T(0)},
+           {T(0), _m11(), T(0), T(0)},
+           {T(0), T(0), _m22(), T(0)},
+           {_m30(), _m31(), _m32(), T(1)}}};
     }
 
     constexpr inline matrix<T, 4, 4, RM, V> operator()() const noexcept {
@@ -113,7 +114,6 @@ template <typename T, bool V>
 using matrix_ortho =
   convertible_matrix_constructor<ortho<matrix<T, 4, 4, true, V>>>;
 
-} // namespace math
-} // namespace eagine
+} // namespace eagine::math
 
 #endif // EAGINE_MATH_MATRIX_ORTHO_HPP

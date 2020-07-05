@@ -19,8 +19,7 @@
 #include <mutex>
 #include <thread>
 
-namespace eagine {
-namespace msgbus {
+namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 // bridge_state
 //------------------------------------------------------------------------------
@@ -324,6 +323,5 @@ bool bridge::update() {
     return something_done;
 }
 //------------------------------------------------------------------------------
-} // namespace msgbus
-} // namespace eagine
+} // namespace eagine::msgbus
 

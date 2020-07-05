@@ -9,9 +9,7 @@
 #include <eagine/str_var_subst.hpp>
 #include <iostream>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 glsl_output::glsl_output(
@@ -82,7 +80,5 @@ glsl_node::glsl_node()
   : _output(*this) {
 }
 //------------------------------------------------------------------------------
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 //------------------------------------------------------------------------------

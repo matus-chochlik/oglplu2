@@ -11,8 +11,7 @@
 
 #include "result.hpp"
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 //------------------------------------------------------------------------------
 extern "C" {
 
@@ -52,8 +51,7 @@ private:
     std::string _full_name;
 };
 //------------------------------------------------------------------------------
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp
 
 #endif // OGLPLUS_GL_API_API_TRAITS_HPP
 

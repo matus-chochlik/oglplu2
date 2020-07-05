@@ -9,7 +9,6 @@ eagine_add_exe_analysis(eagine-message_bus-router)
 target_link_libraries(
 	eagine-message_bus-router
 	PUBLIC eagine
-	PRIVATE eagine-common-pki
 )
 eagine_install_tool(eagine-message_bus-router)
 
@@ -19,7 +18,6 @@ eagine_add_exe_analysis(eagine-message_bus-bridge)
 target_link_libraries(
 	eagine-message_bus-bridge
 	PUBLIC eagine
-	PRIVATE eagine-common-pki
 )
 eagine_install_tool(eagine-message_bus-bridge)
 

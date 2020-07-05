@@ -12,8 +12,7 @@
 #include "string_ref.hpp"
 #include <string>
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 //------------------------------------------------------------------------------
 template <typename Container>
 class glsl_container {
@@ -44,7 +43,6 @@ public:
 
 using glsl_string = glsl_container<std::string>;
 //------------------------------------------------------------------------------
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp
 
 #endif // OGLPLUS_GLSL_CONTAINER_HPP

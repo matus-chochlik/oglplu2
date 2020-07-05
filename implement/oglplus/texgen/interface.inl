@@ -10,9 +10,7 @@
 #include <set>
 #include <string>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 class compile_context_impl {
 private:
@@ -91,8 +89,8 @@ void compile_context::remember_constant(const constant_intf& constant) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-bool compile_context::remembers_constant(const constant_intf& constant) const
-  noexcept {
+bool compile_context::remembers_constant(
+  const constant_intf& constant) const noexcept {
     return _impl().has_tag(constant.name());
 }
 //------------------------------------------------------------------------------
@@ -103,8 +101,8 @@ void compile_context::remember_output(const output_intf& output) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-bool compile_context::remembers_output(const output_intf& output) const
-  noexcept {
+bool compile_context::remembers_output(
+  const output_intf& output) const noexcept {
     return _impl().remembers_output(
       reinterpret_cast<std::intptr_t>(std::addressof(output)));
 }
@@ -205,7 +203,5 @@ bool disconnect_output_from_input(output_intf& output, input_intf& input) {
     return false;
 }
 //------------------------------------------------------------------------------
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 //------------------------------------------------------------------------------

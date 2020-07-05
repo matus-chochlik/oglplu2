@@ -15,8 +15,7 @@
 #include "default_alloc.hpp"
 #include "shared_alloc.hpp"
 
-namespace eagine {
-namespace memory {
+namespace eagine::memory {
 //------------------------------------------------------------------------------
 class buffer {
 public:
@@ -136,7 +135,6 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-} // namespace memory
-} // namespace eagine
+} // namespace eagine::memory
 
 #endif // EAGINE_MEMORY_BUFFER_HPP

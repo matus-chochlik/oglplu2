@@ -9,8 +9,7 @@
 #include <eagine/assert.hpp>
 #include <iostream>
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 //------------------------------------------------------------------------------
 template <typename A>
 inline shape_generator::shape_generator(
@@ -196,6 +195,5 @@ inline void shape_generator::instructions(
     }
 }
 //------------------------------------------------------------------------------
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp
 //------------------------------------------------------------------------------

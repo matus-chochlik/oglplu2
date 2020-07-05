@@ -16,8 +16,7 @@
 #include "detail.hpp"
 #include "fwd.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 //------------------------------------------------------------------------------
 template <typename MpStr, int Pow>
 struct dim_pow_superscript
@@ -127,7 +126,6 @@ static inline string_view get_name_form(X) noexcept {
     return compose_str_n<name_of, X>::value;
 }
 //------------------------------------------------------------------------------
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_STRINGS_HPP

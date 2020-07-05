@@ -12,8 +12,7 @@
 
 #include "common.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 namespace base {
 
 // candela
@@ -43,7 +42,6 @@ using kilocandela = make_scaled_base_dim_unit_t<
   base::scaled_unit<scales::kilo, base::candela>,
   si>;
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_UNIT_SI_LUMINOUS_INTENSITY_HPP

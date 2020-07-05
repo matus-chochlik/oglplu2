@@ -14,8 +14,7 @@
 #include "detail.hpp"
 #include "traits.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 // unit
 template <typename Dims, typename System>
@@ -104,7 +103,6 @@ static constexpr inline std::
     return {};
 }
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_UNIT_HPP

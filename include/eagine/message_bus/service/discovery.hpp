@@ -13,8 +13,7 @@
 #include "../serialize.hpp"
 #include "../subscriber.hpp"
 
-namespace eagine {
-namespace msgbus {
+namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 template <typename Base = subscriber>
 class subscriber_discovery : public Base {
@@ -55,8 +54,7 @@ private:
     }
 };
 //------------------------------------------------------------------------------
-} // namespace msgbus
-} // namespace eagine
+} // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_SERVICE_DISCOVERY_HPP
 

@@ -12,8 +12,7 @@
 
 #include "../dimension.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 using area = decltype(length() * length());
 
@@ -22,7 +21,6 @@ struct name_of<area> {
     static constexpr const char mp_str[] = "area";
 };
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_DIM_AREA_HPP

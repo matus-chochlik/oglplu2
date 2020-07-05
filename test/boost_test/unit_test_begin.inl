@@ -14,7 +14,7 @@
 #include "../random.hpp"
 #include <eagine/interop/valgrind.hpp>
 #include <eagine/maybe_unused.hpp>
-#include <boost/test/floating_point_comparison.hpp>
+#include <boost/test/tools/floating_point_comparison.hpp>
 #include <boost/test/unit_test.hpp>
 
 namespace eagine {

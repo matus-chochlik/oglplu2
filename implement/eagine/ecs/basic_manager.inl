@@ -13,8 +13,7 @@
 #include <stdexcept>
 #endif
 
-namespace eagine {
-namespace ecs {
+namespace eagine::ecs {
 //------------------------------------------------------------------------------
 namespace detail {
 #if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
@@ -42,13 +41,12 @@ namespace detail {
 template <typename Entity>
 template <typename Data, bool IsR>
 storage<Entity, Data, IsR>& basic_manager<Entity>::_find_storage() {
-    auto pb_storage = _get_storages<IsR>().find(get_component_uid<Data>());
 
     using S = storage<Entity, Data, IsR>;
     S* pd_storage = nullptr;
 
-    if(pb_storage != _get_storages<IsR>().end()) {
-        auto& b_storage = *pb_storage;
+    if(auto found{_get_storages<IsR>().find(Data::uid())}) {
+        auto& b_storage = extract(found);
         if(b_storage) {
             pd_storage = dynamic_cast<S*>(b_storage.get());
             EAGINE_ASSERT(pd_storage);
@@ -70,12 +68,7 @@ inline void basic_manager<Entity>::_do_reg_stg_type(
   std::string (*get_name)()) {
     EAGINE_ASSERT(bool(storage));
 
-    auto& storages = _get_storages<IsRelation>();
-    auto p_storage = storages.find(cid);
-
-    if(p_storage == storages.end()) {
-        storages[cid] = std::move(storage);
-    } else {
+    if(!_get_storages<IsRelation>().emplace(cid, std::move(storage))) {
         detail::mgr_handle_cmp_is_reg(get_name());
     }
 }
@@ -84,12 +77,8 @@ template <typename Entity>
 template <bool IsRelation>
 inline void basic_manager<Entity>::_do_unr_stg_type(
   component_uid_t cid, std::string (*get_name)()) {
-    auto& storages = _get_storages<IsRelation>();
-    auto p_storage = storages.find(cid);
 
-    if(p_storage != storages.end()) {
-        storages.erase(p_storage);
-    } else {
+    if(_get_storages<IsRelation>().erase(cid) != 1) {
         detail::mgr_handle_cmp_not_reg(get_name());
     }
 }
@@ -98,14 +87,8 @@ template <typename Entity>
 template <bool IsRelation>
 inline bool basic_manager<Entity>::_does_know_stg_type(
   component_uid_t cid) const {
-    auto& storages = _get_storages<IsRelation>();
-    auto p_storage = storages.find(cid);
 
-    if(p_storage != storages.end()) {
-        return bool(*p_storage);
-    } else {
-        return false;
-    }
+    return _get_storages<IsRelation>().find(cid).is_valid();
 }
 //------------------------------------------------------------------------------
 template <typename Entity>
@@ -116,10 +99,9 @@ inline Result basic_manager<Entity>::_apply_on_base_stg(
   component_uid_t cid,
   std::string (*get_name)()) const {
     auto& storages = _get_storages<IsRelation>();
-    auto p_storage = storages.find(cid);
 
-    if(p_storage != storages.end()) {
-        auto& bs_storage = *p_storage;
+    if(auto found{storages.find(cid)}) {
+        auto& bs_storage = extract(found);
         if(bs_storage) {
             return func(bs_storage);
         }
@@ -142,7 +124,7 @@ inline Result basic_manager<Entity>::_apply_on_stg(
 
           return func(ct_storage);
       },
-      get_component_uid<Component>(),
+      Component::uid(),
       _cmp_name_getter<Component>());
 }
 //------------------------------------------------------------------------------
@@ -218,7 +200,7 @@ inline bool basic_manager<Entity>::_do_add_c(
   entity_param_t<Entity> ent, Component&& component) {
     return _apply_on_stg<Component, false>(
       false, [&ent, &component](auto& c_storage) -> bool {
-          c_storage->store(ent, std::move(component));
+          c_storage->store(ent, std::forward<Component>(component));
           return true;
       });
 }
@@ -229,7 +211,7 @@ inline bool basic_manager<Entity>::_do_add_r(
   entity_param subj, entity_param obj, Relation&& relation) {
     return _apply_on_stg<Relation, true>(
       false, [&subj, &obj, &relation](auto& c_storage) -> bool {
-          c_storage->store(subj, obj, std::move(relation));
+          c_storage->store(subj, obj, std::forward<Relation>(relation));
           return true;
       });
 }
@@ -390,6 +372,14 @@ protected:
     void _store(entity_param_t<Entity> e, std::remove_const_t<C>&& c) {
         _storage.store(_iter, e, std::move(c));
     }
+
+public:
+    _manager_for_each_c_m_base(_manager_for_each_c_m_base&&) = delete;
+    _manager_for_each_c_m_base(const _manager_for_each_c_m_base&) = delete;
+    _manager_for_each_c_m_base& operator=(_manager_for_each_c_m_base&&) =
+      delete;
+    _manager_for_each_c_m_base& operator=(const _manager_for_each_c_m_base&) =
+      delete;
 };
 //------------------------------------------------------------------------------
 template <typename Entity, typename C>
@@ -535,7 +525,7 @@ public:
     }
 
     void apply() {
-        static_assert(sizeof...(CL) == 0, "");
+        static_assert(sizeof...(CL) == 0);
         EAGINE_ASSERT(!done());
 
         apply(min_entity());
@@ -672,7 +662,7 @@ public:
     }
 
     bool sync() {
-        static_assert(sizeof...(CL) == 0, "");
+        static_assert(sizeof...(CL) == 0);
         return sync_to(max_entity());
     }
 
@@ -690,7 +680,7 @@ public:
     }
 
     void apply() {
-        static_assert(sizeof...(CL) == 0, "");
+        static_assert(sizeof...(CL) == 0);
         EAGINE_ASSERT(!done());
 
         apply(max_entity());
@@ -709,10 +699,12 @@ inline void basic_manager<Entity>::_call_for_each_c_m_r(const Func& func) {
     if(hlp.sync()) {
         while(!hlp.done()) {
             hlp.apply();
-            if(!hlp.next())
+            if(!hlp.next()) {
                 break;
-            if(!hlp.sync())
+            }
+            if(!hlp.sync()) {
                 break;
+            }
         }
     }
 }
@@ -728,5 +720,4 @@ void basic_manager<Entity>::forget(entity_param_t<Entity> ent) {
     }
 }
 //------------------------------------------------------------------------------
-} // namespace ecs
-} // namespace eagine
+} // namespace eagine::ecs

@@ -12,8 +12,7 @@
 
 #include "force.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 using energy = decltype(force() * length());
 
@@ -22,7 +21,6 @@ struct name_of<energy> {
     static constexpr const char mp_str[] = "energy";
 };
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_DIM_ENERGY_HPP

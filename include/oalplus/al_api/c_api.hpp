@@ -22,8 +22,7 @@
 #endif
 #endif
 
-namespace eagine {
-namespace oalp {
+namespace eagine::oalp {
 //------------------------------------------------------------------------------
 template <typename Traits>
 struct basic_al_c_api {
@@ -506,8 +505,7 @@ struct basic_al_c_api {
 //------------------------------------------------------------------------------
 using al_c_api = basic_al_c_api<al_api_traits>;
 //------------------------------------------------------------------------------
-} // namespace oalp
-} // namespace eagine
+} // namespace eagine::oalp
 
 #endif // OALPLUS_AL_API_C_API_HPP
 

@@ -13,8 +13,7 @@
 #include "electric_charge.hpp"
 #include "electric_tension.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 using electrical_capacitance = decltype(electric_charge() / electric_tension());
 
@@ -23,7 +22,6 @@ struct name_of<electrical_capacitance> {
     static constexpr const char mp_str[] = "electrical capacitance";
 };
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_DIM_ELECTRICAL_CAPACITANCE_HPP

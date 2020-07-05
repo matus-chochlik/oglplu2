@@ -10,6 +10,7 @@
 #ifndef EAGINE_MESSAGE_BUS_CONTEXT_HPP
 #define EAGINE_MESSAGE_BUS_CONTEXT_HPP
 
+#include "../flat_map.hpp"
 #include "../logging/logger.hpp"
 #include "../memory/buffer.hpp"
 #include "../message_id.hpp"
@@ -22,8 +23,7 @@
 #include <map>
 #include <random>
 
-namespace eagine {
-namespace msgbus {
+namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 struct context_remote_node {
     std::array<byte, 256> nonce{};
@@ -103,7 +103,7 @@ private:
     logger _log{};
     //
     std::mt19937_64 _rand_engine{std::random_device{}()};
-    std::map<message_id, message_sequence_t> _msg_id_seq{};
+    flat_map<message_id, message_sequence_t> _msg_id_seq{};
     //
     memory::buffer _scratch_space{};
     memory::buffer _own_cert_pem{};
@@ -119,8 +119,7 @@ private:
     std::map<identifier_t, context_remote_node> _remotes{};
 };
 //------------------------------------------------------------------------------
-} // namespace msgbus
-} // namespace eagine
+} // namespace eagine::msgbus
 
 #if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
 #include <eagine/message_bus/context.inl>

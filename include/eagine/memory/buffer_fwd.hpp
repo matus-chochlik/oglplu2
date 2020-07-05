@@ -10,12 +10,10 @@
 #ifndef EAGINE_MEMORY_BUFFER_FWD_HPP
 #define EAGINE_MEMORY_BUFFER_FWD_HPP
 
-namespace eagine {
-namespace memory {
+namespace eagine::memory {
 
 class buffer;
 
-} // namespace memory
-} // namespace eagine
+} // namespace eagine::memory
 
 #endif // EAGINE_MEMORY_BUFFER_FWD_HPP

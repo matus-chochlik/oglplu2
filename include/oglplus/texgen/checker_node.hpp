@@ -12,9 +12,7 @@
 #include "base_node.hpp"
 #include "fallback_input.hpp"
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 
 class checker_output : public base_output {
 public:
@@ -56,9 +54,7 @@ public:
 
 using pixel_checker_node = single_output_node<pixel_checker_output>;
 
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/texgen/checker_node.inl>

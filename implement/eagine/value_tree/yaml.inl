@@ -17,8 +17,7 @@
 #include <stdexcept>
 #endif
 
-namespace eagine {
-namespace valtree {
+namespace eagine::valtree {
 #if EAGINE_USE_RYML
 //------------------------------------------------------------------------------
 static inline auto rapidyaml_cstrref(string_view str) noexcept {
@@ -48,15 +47,17 @@ public:
     rapidyaml_callbacks() {
 #ifdef RYML_NO_DEFAULT_CALLBACKS
         _prev = {c4::yml::get_callbacks()};
-        _cbks = {static_cast<void*>(this),
-                 _prev.m_allocate,
-                 _prev.m_free,
-                 &rapidyaml_callbacks::_handle_error};
+        _cbks = {
+          static_cast<void*>(this),
+          _prev.m_allocate,
+          _prev.m_free,
+          &rapidyaml_callbacks::_handle_error};
 #else
-        _cbks = {static_cast<void*>(this),
-                 nullptr,
-                 nullptr,
-                 &rapidyaml_callbacks::_handle_error};
+        _cbks = {
+          static_cast<void*>(this),
+          nullptr,
+          nullptr,
+          &rapidyaml_callbacks::_handle_error};
 #endif
         c4::yml::set_callbacks(_cbks);
     }
@@ -145,8 +146,8 @@ public:
     }
 
     attribute_interface* find(
-      rapidyaml_tree_compound& owner, const basic_string_path& path) const
-      noexcept {
+      rapidyaml_tree_compound& owner,
+      const basic_string_path& path) const noexcept {
         auto result{_node};
         for(auto& entry : path) {
             if(_usable(result)) {
@@ -345,6 +346,5 @@ compound from_yaml_text(string_view, logger& log) {
 }
 #endif // EAGINE_USE_RYML
 //------------------------------------------------------------------------------
-} // namespace valtree
-} // namespace eagine
+} // namespace eagine::valtree
 

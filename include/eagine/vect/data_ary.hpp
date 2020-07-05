@@ -16,8 +16,7 @@
 #include <type_traits>
 #include <utility>
 
-namespace eagine {
-namespace vect {
+namespace eagine::vect {
 
 template <typename T, int N>
 struct _ary_data {
@@ -210,7 +209,6 @@ struct _ary_data<T, 0U> {
     T operator[](int i) const;
 };
 
-} // namespace vect
-} // namespace eagine
+} // namespace eagine::vect
 
 #endif // EAGINE_VECT_DATA_ARY_HPP

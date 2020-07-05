@@ -14,9 +14,7 @@
 #include "fallback_input.hpp"
 #include <string>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 
 enum class wrap_mode { repeat, mirror, clamp };
 
@@ -49,9 +47,7 @@ public:
     }
 };
 
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/texgen/wrap_node.inl>

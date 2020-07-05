@@ -11,9 +11,7 @@
 
 #include <eagine/types.hpp>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 class input_location {
 public:
@@ -43,8 +41,6 @@ private:
     span_size_t _column{0};
 };
 //------------------------------------------------------------------------------
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 
 #endif // TEXGEN_INPUT_LOCATION_HPP

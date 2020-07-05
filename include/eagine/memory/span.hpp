@@ -173,6 +173,10 @@ public:
         return _size == 0;
     }
 
+    constexpr inline bool is_empty() const noexcept {
+        return _size == 0;
+    }
+
     constexpr inline bool empty() const noexcept {
         return _size == 0;
     }
@@ -237,16 +241,24 @@ public:
         return EAGINE_CONSTEXPR_ASSERT(index < size(), _addr[index]);
     }
 
+    inline const value_type& front() const noexcept {
+        return EAGINE_CONSTEXPR_ASSERT(0 < size(), _addr[0]);
+    }
+
     inline value_type& front() noexcept {
         return EAGINE_CONSTEXPR_ASSERT(0 < size(), _addr[0]);
+    }
+
+    inline const value_type& back() const noexcept {
+        return EAGINE_CONSTEXPR_ASSERT(0 < size(), _addr[size() - 1]);
     }
 
     inline value_type& back() noexcept {
         return EAGINE_CONSTEXPR_ASSERT(0 < size(), _addr[size() - 1]);
     }
 
-    constexpr inline std::add_const_t<value_type>& ref(size_type index) const
-      noexcept {
+    constexpr inline std::add_const_t<value_type>& ref(
+      size_type index) const noexcept {
         return EAGINE_CONSTEXPR_ASSERT(index < size(), _addr[index]);
     }
 

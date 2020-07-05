@@ -11,9 +11,7 @@
 
 #include "base_node.hpp"
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 
 enum class coord_type { normalized, frag_coord };
 
@@ -48,9 +46,7 @@ public:
     }
 };
 
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/texgen/coord_node.inl>

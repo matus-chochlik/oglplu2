@@ -12,9 +12,7 @@
 #include "base_node.hpp"
 #include "fallback_input.hpp"
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 
 class spheres_output : public base_output {
 public:
@@ -35,9 +33,7 @@ using spheres_node = unary_single_output_node<
   decltype(spheres_output::repeat),
   &spheres_output::repeat>;
 
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/texgen/spheres_node.inl>

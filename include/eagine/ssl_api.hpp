@@ -15,8 +15,7 @@
 #include "ssl_api/constants.hpp"
 #include "ssl_api_fwd.hpp"
 
-namespace eagine {
-namespace sslp {
+namespace eagine::sslp {
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
 class basic_ssl_api
@@ -62,41 +61,42 @@ public:
 
     template <typename OptMdt>
     memory::block do_data_digest(
-      memory::const_block data, memory::block dst, OptMdt opt_mdtype) const
-      noexcept {
+      memory::const_block data,
+      memory::block dst,
+      OptMdt opt_mdtype) const noexcept {
         if(opt_mdtype) {
             return data_digest(data, dst, extract(opt_mdtype));
         }
         return {};
     }
 
-    auto md5_digest(memory::const_block data, memory::block dst) const
-      noexcept {
+    auto md5_digest(
+      memory::const_block data, memory::block dst) const noexcept {
         return do_data_digest(data, dst, this->message_digest_md5());
     }
 
-    auto sha1_digest(memory::const_block data, memory::block dst) const
-      noexcept {
+    auto sha1_digest(
+      memory::const_block data, memory::block dst) const noexcept {
         return do_data_digest(data, dst, this->message_digest_sha1());
     }
 
-    auto sha224_digest(memory::const_block data, memory::block dst) const
-      noexcept {
+    auto sha224_digest(
+      memory::const_block data, memory::block dst) const noexcept {
         return do_data_digest(data, dst, this->message_digest_sha224());
     }
 
-    auto sha256_digest(memory::const_block data, memory::block dst) const
-      noexcept {
+    auto sha256_digest(
+      memory::const_block data, memory::block dst) const noexcept {
         return do_data_digest(data, dst, this->message_digest_sha256());
     }
 
-    auto sha384_digest(memory::const_block data, memory::block dst) const
-      noexcept {
+    auto sha384_digest(
+      memory::const_block data, memory::block dst) const noexcept {
         return do_data_digest(data, dst, this->message_digest_sha384());
     }
 
-    auto sha512_digest(memory::const_block data, memory::block dst) const
-      noexcept {
+    auto sha512_digest(
+      memory::const_block data, memory::block dst) const noexcept {
         return do_data_digest(data, dst, this->message_digest_sha512());
     }
 
@@ -113,19 +113,19 @@ public:
       pkey pky) const noexcept;
 
     combined_result<owned_pkey> parse_private_key(
-      memory::const_block blk, password_callback get_passwd = {}) const
-      noexcept;
+      memory::const_block blk,
+      password_callback get_passwd = {}) const noexcept;
 
     combined_result<owned_pkey> parse_public_key(
-      memory::const_block blk, password_callback get_passwd = {}) const
-      noexcept;
+      memory::const_block blk,
+      password_callback get_passwd = {}) const noexcept;
 
     combined_result<owned_x509> parse_x509(
-      memory::const_block blk, password_callback get_passwd = {}) const
-      noexcept;
+      memory::const_block blk,
+      password_callback get_passwd = {}) const noexcept;
 
-    bool ca_verify_certificate(string_view ca_file_path, x509 cert) const
-      noexcept;
+    bool ca_verify_certificate(
+      string_view ca_file_path, x509 cert) const noexcept;
 
     bool ca_verify_certificate(x509 ca_cert, x509 cert) const noexcept;
 };
@@ -142,8 +142,7 @@ const typename std::tuple_element<I, basic_ssl_api<ApiTraits>>::type& get(
     return x;
 }
 //------------------------------------------------------------------------------
-} // namespace sslp
-} // namespace eagine
+} // namespace eagine::sslp
 
 #include <eagine/ssl_api.inl>
 

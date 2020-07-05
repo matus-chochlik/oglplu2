@@ -9,9 +9,7 @@
 #include <cassert>
 #include <iostream>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 border2d_output::border2d_output(node_intf& parent)
@@ -83,7 +81,5 @@ std::ostream& border2d_output::definitions(
     return closing_expr(out, ctxt);
 }
 //------------------------------------------------------------------------------
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 //------------------------------------------------------------------------------

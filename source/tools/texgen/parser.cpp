@@ -10,9 +10,7 @@
 #include "parser.hpp"
 #include "token_stream.hpp"
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 void parser::begin() {
     _actions.begin();
@@ -20,10 +18,11 @@ void parser::begin() {
 //------------------------------------------------------------------------------
 static bool parse_render_expr(token_stream& tokens, semantic_actions&) {
     if(
-      auto rndr_ident = tokens.follows({token_kind::keyword_render,
-                                        token_kind::left_paren,
-                                        token_kind::identifier,
-                                        token_kind::right_paren})) {
+      auto rndr_ident = tokens.follows(
+        {token_kind::keyword_render,
+         token_kind::left_paren,
+         token_kind::identifier,
+         token_kind::right_paren})) {
     }
     return false;
 }
@@ -47,6 +46,4 @@ void parser::finish() {
     _actions.finish();
 }
 //------------------------------------------------------------------------------
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen

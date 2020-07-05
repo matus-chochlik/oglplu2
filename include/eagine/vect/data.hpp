@@ -14,8 +14,7 @@
 #include "data_vec.hpp"
 #endif
 
-namespace eagine {
-namespace vect {
+namespace eagine::vect {
 
 // data
 template <typename T, int N, bool V>
@@ -47,7 +46,6 @@ struct param;
 template <typename T, int N, bool V>
 struct param<data<T, N, V>> : data_param<T, N, V> {};
 
-} // namespace vect
-} // namespace eagine
+} // namespace eagine::vect
 
 #endif // EAGINE_VECT_DATA_HPP

@@ -12,8 +12,7 @@
 
 #include "common.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 namespace base {
 
 // radian
@@ -103,7 +102,6 @@ using turn = make_scaled_base_dim_unit_t<base::turn, si>;
 using pi_rad =
   make_scaled_base_dim_unit_t<base::scaled_unit<scales::pi, base::radian>, si>;
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_UNIT_SI_ANGLE_HPP

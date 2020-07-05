@@ -13,8 +13,7 @@
 #include <algorithm>
 #include <type_traits>
 
-namespace eagine {
-namespace memory {
+namespace eagine::memory {
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S>
 static constexpr inline P clamp_span_iterator(
@@ -417,6 +416,5 @@ static inline void for_each_delimited(
     unary_op(tmp);
 }
 //------------------------------------------------------------------------------
-} // namespace memory
-} // namespace eagine
+} // namespace eagine::memory
 #endif // EAGINE_MEMORY_SPAN_ALGO_HPP

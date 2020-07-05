@@ -15,8 +15,7 @@
 #include "electric_current.hpp"
 #include "time.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 // coulomb
 using coulomb = unit<electric_charge, si>;
@@ -36,7 +35,6 @@ using millicoulomb = make_scaled_unit_t<scales::milli, coulomb>;
 using kilocoulomb = make_scaled_unit_t<scales::kilo, coulomb>;
 // TODO
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_UNIT_SI_ELECTRIC_CHARGE_HPP

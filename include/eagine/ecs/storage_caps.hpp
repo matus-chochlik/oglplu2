@@ -10,24 +10,36 @@
 #define EAGINE_ECS_STORAGE_CAPS_HPP
 
 #include "../bitfield.hpp"
+#include "../reflect/map_enumerators.hpp"
 
-namespace eagine {
-namespace ecs {
-
+namespace eagine::ecs {
+//------------------------------------------------------------------------------
 enum class storage_cap_bit : unsigned short {
-    hide = 1 << 0,
-    copy = 1 << 1,
-    swap = 1 << 2,
-    store = 1 << 3,
-    remove = 1 << 4,
-    modify = 1 << 5
+    hide = 1U << 0U,
+    copy = 1U << 1U,
+    swap = 1U << 2U,
+    store = 1U << 3U,
+    remove = 1U << 4U,
+    modify = 1U << 5U
 };
-
+//------------------------------------------------------------------------------
+template <typename Selector>
+constexpr auto enumerator_mapping(
+  identity<storage_cap_bit>, Selector) noexcept {
+    return enumerator_map_type<storage_cap_bit, 6>{
+      {{"hide", storage_cap_bit::hide},
+       {"copy", storage_cap_bit::copy},
+       {"swap", storage_cap_bit::swap},
+       {"store", storage_cap_bit::store},
+       {"remove", storage_cap_bit::remove},
+       {"modify", storage_cap_bit::modify}}};
+}
+//------------------------------------------------------------------------------
 static inline bitfield<storage_cap_bit> operator|(
   storage_cap_bit a, storage_cap_bit b) noexcept {
     return {a, b};
 }
-
+//------------------------------------------------------------------------------
 class storage_caps : public bitfield<storage_cap_bit> {
 private:
     using _base = bitfield<storage_cap_bit>;
@@ -63,8 +75,7 @@ public:
         return has(storage_cap_bit::modify);
     }
 };
-
-} // namespace ecs
-} // namespace eagine
+//------------------------------------------------------------------------------
+} // namespace eagine::ecs
 
 #endif // EAGINE_ECS_STORAGE_CAPS_HPP

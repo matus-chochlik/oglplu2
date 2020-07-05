@@ -25,8 +25,7 @@
 #include <cstdint>
 #endif
 
-namespace eagine {
-namespace eglp {
+namespace eagine::eglp {
 //------------------------------------------------------------------------------
 struct egl_types {
     using char_type = char;
@@ -85,8 +84,7 @@ struct egl_types {
     }
 };
 //------------------------------------------------------------------------------
-} // namespace eglp
-} // namespace eagine
+} // namespace eagine::eglp
 
 #endif // EGLPLUS_EGL_API_CONFIG_HPP
 

@@ -18,8 +18,7 @@
 #include <memory>
 #include <string>
 
-namespace eagine {
-namespace valtree {
+namespace eagine::valtree {
 //------------------------------------------------------------------------------
 struct compound_interface;
 struct attribute_interface {
@@ -170,7 +169,6 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-} // namespace valtree
-} // namespace eagine
+} // namespace eagine::valtree
 
 #endif // EAGINE_VALUE_TREE_INTERFACE_HPP

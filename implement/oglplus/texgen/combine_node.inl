@@ -13,9 +13,7 @@
 #include <sstream>
 #include <string>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 combine_output::combine_output(node_intf& parent)
@@ -122,7 +120,5 @@ input_intf& combine_node::input(span_size_t index) {
     return _output.input_a;
 }
 //------------------------------------------------------------------------------
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 //------------------------------------------------------------------------------

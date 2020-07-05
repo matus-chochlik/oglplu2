@@ -17,8 +17,7 @@
 #include <eagine/int_constant.hpp>
 #include <array>
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
 struct basic_gl_constants {
@@ -28,8 +27,8 @@ private:
         using Wrap::Wrap;
 
         template <typename X>
-        std::enable_if_t<std::is_convertible_v<X, T>, T> operator()(X&& x) const
-          noexcept {
+        std::enable_if_t<std::is_convertible_v<X, T>, T> operator()(
+          X&& x) const noexcept {
             return T(std::forward<X>(x));
         }
 
@@ -11786,8 +11785,7 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp
 
 #endif // OGLPLUS_GL_API_CONSTANTS_HPP
 

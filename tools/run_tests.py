@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # coding=utf-8
 # Copyright Matus Chochlik.
 # Distributed under the Boost Software License, Version 1.0.
@@ -379,8 +379,9 @@ def main():
             # load configuration info
             info_py_path=os.path.join(get_build_dir(options), 'config', 'info.py')
             info_py=open(info_py_path).read()
-            exec(info_py) in locals()
-            options.config_info = system_config_info;
+            ldict = {}
+            exec(info_py, globals(), ldict)
+            options.config_info = ldict['system_config_info'];
 
         for_each_profile(options, ["--clean", "--with-clang-tidy"])
 

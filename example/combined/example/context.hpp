@@ -17,6 +17,7 @@
 #include <eagine/cleanup_group.hpp>
 #include <eagine/enum_log.hpp>
 #include <eagine/logging/logger.hpp>
+#include <eagine/main_ctx.hpp>
 #include <eagine/memory/buffer.hpp>
 #include <oglplus/gl_api_fwd.hpp>
 #include <memory>
@@ -41,8 +42,12 @@ public:
         return _log;
     }
 
+    auto& main() noexcept {
+        return _erc.main;
+    }
+
     auto& buffer() noexcept {
-        return _scratch_space;
+        return main().scratch_space();
     }
 
     auto& cleanup() noexcept {
@@ -72,7 +77,6 @@ public:
 
 private:
     logger _log;
-    memory::buffer _scratch_space;
     cleanup_group _cleanup{};
     example_run_context& _erc;
     std::shared_ptr<example_random_generator> _random{};

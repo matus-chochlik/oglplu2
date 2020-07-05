@@ -12,9 +12,7 @@
 #include <istream>
 #include <vector>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 class istream_impl : public input_stream_intf {
 public:
@@ -82,6 +80,4 @@ input_stream::input_stream(std::istream& input)
   : input_stream(std::make_unique<istream_impl>(input)) {
 }
 //------------------------------------------------------------------------------
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen

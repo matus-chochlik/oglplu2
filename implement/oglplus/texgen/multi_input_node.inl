@@ -9,9 +9,7 @@
 #include <eagine/assert.hpp>
 #include <iostream>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 multi_input_output::multi_input_output(node_intf& parent)
@@ -79,7 +77,5 @@ input_with_const_default<float[4]>& multi_input_node::add_input(
     return p.first->second;
 }
 //------------------------------------------------------------------------------
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 //------------------------------------------------------------------------------

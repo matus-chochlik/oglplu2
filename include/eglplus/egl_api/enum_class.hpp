@@ -14,8 +14,7 @@
 #include <eagine/enum_class.hpp>
 #include <eagine/identifier.hpp>
 
-namespace eagine {
-namespace eglp {
+namespace eagine::eglp {
 //------------------------------------------------------------------------------
 template <typename Self, identifier_t Id>
 using egl_enum_class =
@@ -29,8 +28,7 @@ static constexpr inline bool same_enum_class(
     return ::eagine::same_enum_class(a, b);
 }
 //------------------------------------------------------------------------------
-} // namespace eglp
-} // namespace eagine
+} // namespace eagine::eglp
 
 #endif // EGLPLUS_EGL_API_ENUM_CLASS_HPP
 

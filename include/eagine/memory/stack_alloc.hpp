@@ -14,8 +14,7 @@
 #include "byte_alloc.hpp"
 #include <type_traits>
 
-namespace eagine {
-namespace memory {
+namespace eagine::memory {
 //------------------------------------------------------------------------------
 // base_stack_allocator
 // non-rebindable non-copyable stack allocator
@@ -221,8 +220,7 @@ public:
     void eject_self() noexcept override;
 };
 //------------------------------------------------------------------------------
-} // namespace memory
-} // namespace eagine
+} // namespace eagine::memory
 
 #include <eagine/memory/stack_alloc.inl>
 

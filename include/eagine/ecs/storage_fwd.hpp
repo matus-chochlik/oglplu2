@@ -9,8 +9,7 @@
 #ifndef EAGINE_ECS_STORAGE_FWD_HPP
 #define EAGINE_ECS_STORAGE_FWD_HPP
 
-namespace eagine {
-namespace ecs {
+namespace eagine::ecs {
 
 template <typename Entity, bool IsRelation>
 struct storage_iterator_intf;
@@ -48,7 +47,6 @@ using component_storage = storage<Entity, Data, false>;
 template <typename Entity, typename Data>
 using relation_storage = storage<Entity, Data, true>;
 
-} // namespace ecs
-} // namespace eagine
+} // namespace eagine::ecs
 
 #endif // EAGINE_ECS_STORAGE_FWD_HPP

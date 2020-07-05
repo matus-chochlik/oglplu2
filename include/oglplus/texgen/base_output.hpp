@@ -13,9 +13,7 @@
 #include "param_format.hpp"
 #include <set>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 
 class base_output : public output_intf {
 private:
@@ -79,9 +77,7 @@ struct output_id {
 };
 std::ostream& operator<<(std::ostream& out, const output_id&);
 } // namespace expr
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/texgen/base_output.inl>

@@ -14,8 +14,7 @@
 #include "connection.hpp"
 #include <memory>
 
-namespace eagine {
-namespace msgbus {
+namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 struct connection_factory : connection_info {
 
@@ -39,8 +38,7 @@ struct connection_factory : connection_info {
     }
 };
 //------------------------------------------------------------------------------
-} // namespace msgbus
-} // namespace eagine
+} // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_CONN_FACTORY_HPP
 

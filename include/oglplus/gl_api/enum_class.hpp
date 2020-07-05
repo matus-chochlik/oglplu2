@@ -15,8 +15,7 @@
 #include <eagine/identifier.hpp>
 #include <eagine/logging/backend.hpp>
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 //------------------------------------------------------------------------------
 template <typename Self, identifier_t Id>
 using gl_enum_class =
@@ -53,8 +52,7 @@ constexpr static bool is_enum_parameter_value_v =
     ? std::is_convertible_v<Value, ValueType>
     : is_enum_class_value_v<typename Parameter::tag_type, Value>;
 //------------------------------------------------------------------------------
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp
 
 #endif // OGLPLUS_GL_API_ENUM_CLASS_HPP
 

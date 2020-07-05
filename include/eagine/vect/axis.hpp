@@ -11,8 +11,7 @@
 
 #include "data.hpp"
 
-namespace eagine {
-namespace vect {
+namespace eagine::vect {
 
 template <typename T, int N, int I, bool V>
 struct axis {
@@ -127,7 +126,6 @@ struct axis<T, 4, I, V> {
 
 #endif
 
-} // namespace vect
-} // namespace eagine
+} // namespace eagine::vect
 
 #endif // EAGINE_VECT_AXIS_HPP

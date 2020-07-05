@@ -15,8 +15,7 @@
 #include <cmath>
 #include <type_traits>
 
-namespace eagine {
-namespace math {
+namespace eagine::math {
 //------------------------------------------------------------------------------
 template <typename T>
 static constexpr inline std::enable_if_t<std::is_integral_v<T>, bool>
@@ -185,7 +184,6 @@ static constexpr inline T bezier(T t, P... p) noexcept {
     return bezier_t<T, sizeof...(P)>()(t, p...);
 }
 //------------------------------------------------------------------------------
-} // namespace math
-} // namespace eagine
+} // namespace eagine::math
 
 #endif // EAGINE_MATH_FUNCTIONS_HPP

@@ -14,8 +14,7 @@
 #include <eagine/c_api_wrap.hpp>
 #include <eagine/string_span.hpp>
 
-namespace eagine {
-namespace oalp {
+namespace eagine::oalp {
 //------------------------------------------------------------------------------
 class al_no_result_info {
 public:
@@ -98,8 +97,7 @@ using al_result = api_result<Result, al_result_info>;
 template <typename Result>
 using al_opt_result = api_opt_result<Result, al_result_info>;
 //------------------------------------------------------------------------------
-} // namespace oalp
-} // namespace eagine
+} // namespace eagine::oalp
 
 #endif // OALPLUS_AL_API_RESULT_HPP
 

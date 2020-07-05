@@ -14,8 +14,7 @@
 #include "vector.hpp"
 #include <iostream>
 
-namespace eagine {
-namespace math {
+namespace eagine::math {
 //------------------------------------------------------------------------------
 template <typename T, int N, bool V>
 static inline std::ostream& operator<<(
@@ -87,7 +86,6 @@ static inline std::ostream& operator<<(std::ostream& o, const sphere<T, V>& s) {
     return o;
 }
 //------------------------------------------------------------------------------
-} // namespace math
-} // namespace eagine
+} // namespace eagine::math
 
 #endif // EAGINE_MATH_IO_HPP

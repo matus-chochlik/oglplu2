@@ -12,8 +12,7 @@
 
 #include "magnetic_flux.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 using inductance = decltype(magnetic_flux() / electric_current());
 
@@ -22,7 +21,6 @@ struct name_of<inductance> {
     static constexpr const char mp_str[] = "inductance";
 };
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_DIM_INDUCTANCE_HPP

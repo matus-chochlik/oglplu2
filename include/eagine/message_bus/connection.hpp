@@ -17,8 +17,7 @@
 #include "../valid_if/positive.hpp"
 #include "message.hpp"
 
-namespace eagine {
-namespace msgbus {
+namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 enum class connection_kind : std::uint8_t {
     in_process = 1U << 0U,
@@ -90,8 +89,7 @@ struct connection_user {
     virtual bool add_connection(std::unique_ptr<connection> a_connection) = 0;
 };
 //------------------------------------------------------------------------------
-} // namespace msgbus
-} // namespace eagine
+} // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_CONNECTION_HPP
 

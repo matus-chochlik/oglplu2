@@ -13,8 +13,7 @@
 #include "fill.hpp"
 #include <utility>
 
-namespace eagine {
-namespace vect {
+namespace eagine::vect {
 
 template <typename TF, int NF, bool VF, typename TT, int NT, bool VT>
 struct cast;
@@ -68,7 +67,6 @@ public:
     }
 };
 
-} // namespace vect
-} // namespace eagine
+} // namespace eagine::vect
 
 #endif // EAGINE_VECT_CAST_HPP

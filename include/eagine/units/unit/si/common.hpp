@@ -15,8 +15,7 @@
 #include "../../scaled_unit.hpp"
 #include "../../unit.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 // international system of units
 struct si {
@@ -33,7 +32,6 @@ struct si::base_unit<nothing_t> : nothing_t {};
 template <typename Dim>
 struct si::base_unit<base::dimension<Dim>> : si::base_unit<Dim> {};
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_UNIT_SI_COMMON_HPP

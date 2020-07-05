@@ -13,14 +13,12 @@
 #include <eagine/math/primitives.hpp>
 #include <oglplus/gl_api/config.hpp>
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 
 using line = math::line<gl_types::float_type, math_use_simd>;
 using sphere = math::sphere<gl_types::float_type, math_use_simd>;
 using triangle = math::triangle<gl_types::float_type, math_use_simd>;
 
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp
 
 #endif // OGLPLUS_MATH_PRIMITIVES_HPP

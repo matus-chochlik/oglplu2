@@ -15,8 +15,7 @@
 #include <eagine/span.hpp>
 #include <eagine/string_list.hpp>
 
-namespace eagine {
-namespace oalp {
+namespace eagine::oalp {
 //------------------------------------------------------------------------------
 #define OALPAFP(FUNC) decltype(c_api::FUNC), &c_api::FUNC
 //------------------------------------------------------------------------------
@@ -54,8 +53,8 @@ public:
 
     protected:
         template <typename... Args>
-        constexpr auto _chkcall(device_handle dev, Args&&... args) const
-          noexcept {
+        constexpr auto _chkcall(
+          device_handle dev, Args&&... args) const noexcept {
             return this->_check(dev, this->_call(std::forward<Args>(args)...));
         }
 
@@ -113,8 +112,8 @@ public:
     struct : func<OALPAFP(DestroyContext)> {
         using func<OALPAFP(DestroyContext)>::func;
 
-        constexpr auto operator()(device_handle dev, context_handle ctx) const
-          noexcept {
+        constexpr auto operator()(
+          device_handle dev, context_handle ctx) const noexcept {
             return this->_chkcall(dev, ctx);
         }
 
@@ -127,8 +126,8 @@ public:
     struct : func<OALPAFP(MakeContextCurrent)> {
         using func<OALPAFP(MakeContextCurrent)>::func;
 
-        constexpr auto operator()(device_handle dev, context_handle ctx) const
-          noexcept {
+        constexpr auto operator()(
+          device_handle dev, context_handle ctx) const noexcept {
             return this->_chkcall(dev, ctx);
         }
 
@@ -183,8 +182,9 @@ public:
         }
 
         constexpr auto operator()(
-          device_handle dev, alc_integer_query query, span<int_type> dst) const
-          noexcept {
+          device_handle dev,
+          alc_integer_query query,
+          span<int_type> dst) const noexcept {
             return this->_chkcall(
               dev, dev, enum_type(query), size_type(dst.size()), dst.data());
         }
@@ -288,8 +288,7 @@ public:
 //------------------------------------------------------------------------------
 #undef OALPAFP
 //------------------------------------------------------------------------------
-} // namespace oalp
-} // namespace eagine
+} // namespace eagine::oalp
 
 #endif // OALPLUS_ALC_API_API_HPP
 

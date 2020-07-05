@@ -17,8 +17,7 @@
 //
 #include "utils/program_file.hpp"
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
 class basic_gl_api
@@ -98,6 +97,11 @@ public:
             }
         }
         return this->link_program(prog);
+    }
+
+    combined_result<void> build_program(
+      program_name prog, memory::const_block prog_src_blk) const {
+        return build_program(prog, program_source_block(prog_src_blk));
     }
 
     // set_uniform
@@ -402,8 +406,7 @@ true_false translate(const basic_gl_api<A>& api, bool value) noexcept {
     return api.false_;
 }
 //------------------------------------------------------------------------------
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp
 
 // NOLINTNEXTLINE(cert-dcl58-cpp)
 namespace std {

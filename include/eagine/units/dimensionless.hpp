@@ -13,8 +13,7 @@
 #include "detail.hpp"
 #include "fwd.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 using dimensionless = bits::dimless;
 
@@ -23,7 +22,6 @@ struct name_of<dimensionless> {
     static constexpr const char mp_str[] = "dimensionless";
 };
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_DIMENSIONLESS_HPP

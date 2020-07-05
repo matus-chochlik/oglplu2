@@ -12,8 +12,7 @@
 
 #include "../dimension.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 using frequency = decltype(number_of_cycles() / time());
 
@@ -22,7 +21,6 @@ struct name_of<frequency> {
     static constexpr const char mp_str[] = "frequency";
 };
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_DIM_FREQUENCY_HPP

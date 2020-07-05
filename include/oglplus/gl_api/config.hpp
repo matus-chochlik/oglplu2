@@ -25,8 +25,7 @@
 #include <cstdint>
 #endif
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 //------------------------------------------------------------------------------
 struct gl_types {
 #if OGLPLUS_HAS_GL
@@ -101,8 +100,7 @@ struct gl_types {
     }
 };
 //------------------------------------------------------------------------------
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp
 
 #endif // OGLPLUS_GL_API_CONFIG_HPP
 

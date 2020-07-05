@@ -11,9 +11,7 @@
 #include <set>
 #include <string>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 map_output::map_output(node_intf& parent)
@@ -61,7 +59,5 @@ std::ostream& map_output::definitions(
     return closing_expr(out, ctxt);
 }
 //------------------------------------------------------------------------------
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 //------------------------------------------------------------------------------

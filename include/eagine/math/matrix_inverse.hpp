@@ -13,8 +13,7 @@
 #include "matrix_gauss.hpp"
 #include "matrix_identity.hpp"
 
-namespace eagine {
-namespace math {
+namespace eagine::math {
 //------------------------------------------------------------------------------
 template <typename T, int N, bool RM, bool V>
 static inline optionally_valid<matrix<T, N, N, RM, V>> inverse_matrix(
@@ -34,7 +33,6 @@ static inline auto inverse_matrix(const Ctr& ctr) noexcept {
     return inverse_matrix(ctr());
 }
 //------------------------------------------------------------------------------
-} // namespace math
-} // namespace eagine
+} // namespace eagine::math
 
 #endif // EAGINE_MATH_MATRIX_INVERSE_HPP

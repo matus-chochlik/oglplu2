@@ -13,9 +13,7 @@
 #include "fallback_input.hpp"
 #include <string>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 
 enum class border2d_mode { min, max };
 
@@ -48,9 +46,7 @@ public:
     }
 };
 
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/texgen/border2d_node.inl>

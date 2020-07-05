@@ -14,8 +14,7 @@
 #include <eagine/math/intersection.hpp>
 #include <oglplus/math/coordinates.hpp>
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 //------------------------------------------------------------------------------
 vec3 example_orbiting_camera::target_to_camera_direction() const noexcept {
     return to_cartesian(unit_spherical_coordinates(azimuth(), elevation()));
@@ -163,5 +162,4 @@ example_orbiting_camera& example_orbiting_camera::idle_update(
     return update_orbit(s).update_turns(s).update_pitch(s);
 }
 //------------------------------------------------------------------------------
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp

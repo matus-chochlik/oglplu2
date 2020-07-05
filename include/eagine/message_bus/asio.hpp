@@ -45,8 +45,7 @@
 #pragma clang diagnostic pop
 #endif
 
-namespace eagine {
-namespace msgbus {
+namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 enum class asio_connection_addr_kind { local, ipv4 };
 enum class asio_connection_protocol { stream, datagram };
@@ -852,8 +851,9 @@ public:
       : _log{EAGINE_ID(AsioAccptr), parent}
       , _asio_state{_prepare(std::move(asio_state), _fix_addr(addr_str))}
       , _addr_str{to_string(_fix_addr(addr_str))}
-      , _acceptor{_asio_state->context,
-                  asio::local::stream_protocol::endpoint(_addr_str.c_str())} {
+      , _acceptor{
+          _asio_state->context,
+          asio::local::stream_protocol::endpoint(_addr_str.c_str())} {
     }
 
     ~asio_acceptor() noexcept override {
@@ -950,7 +950,6 @@ using asio_local_stream_connection_factory = asio_connection_factory<
   asio_connection_protocol::stream>;
 #endif // EAGINE_POSIX
 //------------------------------------------------------------------------------
-} // namespace msgbus
-} // namespace eagine
+} // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_ASIO_HPP

@@ -38,6 +38,8 @@ private:
     }
 
 public:
+    using data_handler = callable_ref<bool(memory::const_block)>;
+
     data_compressor_impl() noexcept {
         zero(as_bytes(cover_one(_zsd)));
         _zsd.zalloc = nullptr;
@@ -49,115 +51,162 @@ public:
         _zsi.opaque = nullptr;
     }
 
-    memory::const_block compress(
+    bool compress(
       memory::const_block input,
-      memory::buffer& output,
+      const data_handler& handler,
       data_compression_level level) {
         _zsd.next_in = const_cast<byte*>(input.data());
         _zsd.avail_in = input.size();
         _zsd.next_out = _temp.data();
         _zsd.avail_out = _temp.size();
 
-        output.resize(1);
-        cover(output).front() = 0x01U;
-
-        auto append = [&](span_size_t size) {
-            const auto sk = output.size();
-            output.enlarge_by(size);
-            copy(head(view(_temp), size), skip(cover(output), sk));
-            _zsd.next_out = _temp.data();
-            _zsd.avail_out = _temp.size();
+        auto append = [&](span_size_t size) -> bool {
+            if(handler(head(view(_temp), size))) {
+                _zsd.next_out = _temp.data();
+                _zsd.avail_out = _temp.size();
+                return true;
+            }
+            return false;
         };
 
         int zres{};
         if((zres = ::deflateInit(&_zsd, _translate(level))) != Z_OK) {
-            return {};
+            return false;
         }
 
         while(_zsd.avail_in > 0) {
             if((zres = ::deflate(&_zsd, Z_NO_FLUSH)) != Z_OK) {
                 if(zres != Z_STREAM_END) {
-                    return {};
+                    return false;
                 }
             }
             if(_zsd.avail_out == 0) {
-                append(span_size(_temp.size()));
+                if(!append(span_size(_temp.size()))) {
+                    return false;
+                }
             }
         }
 
         while(zres == Z_OK) {
             if(_zsd.avail_out == 0) {
-                append(span_size(_temp.size()));
+                if(!append(span_size(_temp.size()))) {
+                    return false;
+                }
             }
             zres = ::deflate(&_zsd, Z_FINISH);
         }
 
         if((zres != Z_OK) && (zres != Z_STREAM_END)) {
-            return {};
+            return false;
         }
 
-        append(span_size(_temp.size() - _zsd.avail_out));
+        if(!append(span_size(_temp.size() - _zsd.avail_out))) {
+            return false;
+        }
         ::deflateEnd(&_zsd);
 
-        return view(output);
+        return true;
     }
 
-    memory::const_block decompress(
-      memory::const_block input, memory::buffer& output) {
+    memory::const_block compress(
+      memory::const_block input,
+      memory::buffer& output,
+      data_compression_level level) {
+        auto append = [&](memory::const_block blk) {
+            const auto sk = output.size();
+            output.enlarge_by(blk.size());
+            copy(blk, skip(cover(output), sk));
+            return true;
+        };
+
+        output.resize(1);
+        cover(output).front() = 0x01U;
+
+        if(compress(input, data_handler(append), level)) {
+            return view(output);
+        }
+        return {};
+    }
+
+    bool decompress(memory::const_block input, const data_handler& handler) {
         if(!input) {
-            return {};
+            return false;
         }
         if(input.front() != 0x01U) {
-            return {};
+            return false;
         }
 
         input = skip(input, 1);
-        output.clear();
 
         _zsi.next_in = const_cast<byte*>(input.data());
         _zsi.avail_in = input.size();
         _zsi.next_out = _temp.data();
         _zsi.avail_out = _temp.size();
 
-        auto append = [&](span_size_t size) {
-            const auto sk = output.size();
-            output.enlarge_by(size);
-            copy(head(view(_temp), size), skip(cover(output), sk));
-            _zsi.next_out = _temp.data();
-            _zsi.avail_out = _temp.size();
+        auto append = [&](span_size_t size) -> bool {
+            if(handler(head(view(_temp), size))) {
+                _zsi.next_out = _temp.data();
+                _zsi.avail_out = _temp.size();
+                return true;
+            }
+            return false;
         };
 
         int zres{};
         if((zres = ::inflateInit(&_zsi)) != Z_OK) {
-            return {};
+            return false;
         }
 
         while(_zsi.avail_in > 0) {
             if((zres = ::inflate(&_zsi, Z_NO_FLUSH)) != Z_OK) {
                 if(zres != Z_STREAM_END) {
-                    return {};
+                    return false;
                 }
             }
             if(_zsi.avail_out == 0) {
-                append(span_size(_temp.size()));
+                if(!append(span_size(_temp.size()))) {
+                    return false;
+                }
             }
         }
 
         while(zres == Z_OK) {
             if(_zsd.avail_out == 0) {
-                append(span_size(_temp.size()));
+                if(!append(span_size(_temp.size()))) {
+                    return false;
+                }
             }
             zres = ::inflate(&_zsd, Z_FINISH);
         }
 
         if((zres != Z_OK) && (zres != Z_STREAM_END)) {
-            return {};
+            return false;
         }
 
-        append(span_size(_temp.size() - _zsi.avail_out));
+        if(!append(span_size(_temp.size() - _zsi.avail_out))) {
+            return false;
+        }
         ::inflateEnd(&_zsi);
 
-        return view(output);
+        return true;
+    }
+
+    memory::const_block decompress(
+      memory::const_block input, memory::buffer& output) {
+        auto append = [&](memory::const_block blk) {
+            const auto sk = output.size();
+            output.enlarge_by(blk.size());
+            copy(blk, skip(cover(output), sk));
+            _zsi.next_out = _temp.data();
+            _zsi.avail_out = _temp.size();
+            return true;
+        };
+        output.clear();
+
+        if(decompress(input, data_handler(append))) {
+            return view(output);
+        }
+        return {};
     }
 };
 static inline auto make_data_compressor_impl() {
@@ -166,9 +215,20 @@ static inline auto make_data_compressor_impl() {
 #else
 class data_compressor_impl {
 public:
+    using data_handler = callable_ref<bool(memory::const_block)>;
+
+    bool compress(
+      memory::const_block, const data_handler&, data_compression_level) {
+        return false;
+    }
+
     constexpr memory::const_block compress(
       memory::const_block, memory::buffer&, data_compression_level) const {
         return {};
+    }
+
+    bool decompress(memory::const_block, const data_handler&) {
+        return false;
     }
 
     constexpr memory::const_block decompress(
@@ -183,10 +243,12 @@ make_data_compressor_impl() {
 }
 #endif
 //------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 data_compressor::data_compressor()
   : _pimpl{make_data_compressor_impl()} {
 }
 //------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 memory::const_block data_compressor::compress(
   memory::const_block input,
   memory::buffer& output,
@@ -202,6 +264,7 @@ memory::const_block data_compressor::compress(
     return view(output);
 }
 //------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 memory::const_block data_compressor::decompress(
   memory::const_block input, memory::buffer& output) {
     if(input) {

@@ -14,8 +14,7 @@
 #include <eagine/string_span.hpp>
 
 namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace oglp::texgen {
 //------------------------------------------------------------------------------
 enum class token_kind {
     comment,
@@ -91,8 +90,7 @@ private:
     std::string _spelling;
 };
 //------------------------------------------------------------------------------
-} // namespace texgen
-} // namespace oglp
+} // namespace oglp::texgen
 //------------------------------------------------------------------------------
 template <>
 struct equal_cmp<oglp::texgen::token_kind, oglp::texgen::token_info> {

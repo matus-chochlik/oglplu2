@@ -17,8 +17,7 @@
 #include "mass.hpp"
 #include "time.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 // weber
 using weber = unit<magnetic_flux, si>;
@@ -38,7 +37,6 @@ using milliweber = make_scaled_unit_t<scales::milli, weber>;
 using kiloweber = make_scaled_unit_t<scales::kilo, weber>;
 // TODO
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_UNIT_SI_MAGNETIC_FLUX_HPP

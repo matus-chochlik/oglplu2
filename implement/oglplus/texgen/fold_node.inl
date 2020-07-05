@@ -9,9 +9,7 @@
 #include <cassert>
 #include <iostream>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 fold_output::fold_output(node_intf& parent, fold_function fn)
@@ -112,7 +110,5 @@ fold_node::fold_node()
   : _output(*this) {
 }
 //------------------------------------------------------------------------------
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 //------------------------------------------------------------------------------

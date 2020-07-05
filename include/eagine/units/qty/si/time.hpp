@@ -13,8 +13,7 @@
 #include "../../quantity.hpp"
 #include "../../unit/si/time.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 template <typename T>
 static inline auto milliseconds(const T& v) {
@@ -41,7 +40,6 @@ static inline auto days(const T& v) {
     return quantity<day>(v);
 }
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_QTY_SI_TIME_HPP

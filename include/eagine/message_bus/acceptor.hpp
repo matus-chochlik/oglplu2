@@ -12,8 +12,7 @@
 
 #include "connection.hpp"
 
-namespace eagine {
-namespace msgbus {
+namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 struct acceptor {
     virtual ~acceptor() noexcept = default;
@@ -43,8 +42,7 @@ struct acceptor_user {
     virtual bool add_acceptor(std::unique_ptr<acceptor> an_acceptor) = 0;
 };
 //------------------------------------------------------------------------------
-} // namespace msgbus
-} // namespace eagine
+} // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_ACCEPTOR_HPP
 

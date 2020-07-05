@@ -13,8 +13,7 @@
 #include "object_handle.hpp"
 #include <utility>
 
-namespace eagine {
-namespace sslp {
+namespace eagine::sslp {
 //------------------------------------------------------------------------------
 template <typename Handle>
 class object_stack;
@@ -224,7 +223,6 @@ public:
 };
 #endif
 //------------------------------------------------------------------------------
-} // namespace sslp
-} // namespace eagine
+} // namespace eagine::sslp
 
 #endif // EAGINE_SSL_API_OBJECT_STACK_HPP

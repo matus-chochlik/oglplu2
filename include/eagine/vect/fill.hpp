@@ -11,8 +11,7 @@
 
 #include "data.hpp"
 
-namespace eagine {
-namespace vect {
+namespace eagine::vect {
 
 template <typename T, int N, bool V>
 struct fill {
@@ -71,7 +70,6 @@ struct fill<T, 8, V> {
 
 #endif
 
-} // namespace vect
-} // namespace eagine
+} // namespace eagine::vect
 
 #endif // EAGINE_VECT_FILL_HPP

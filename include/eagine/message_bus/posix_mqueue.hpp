@@ -27,8 +27,7 @@
 #include <random>
 #include <sys/stat.h>
 
-namespace eagine {
-namespace msgbus {
+namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 class posix_mqueue {
 private:
@@ -545,8 +544,7 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-} // namespace msgbus
-} // namespace eagine
+} // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_POSIX_MQUEUE_HPP
 

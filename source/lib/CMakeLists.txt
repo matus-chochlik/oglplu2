@@ -7,5 +7,3 @@ add_subdirectory(eagine)
 add_subdirectory(eglplus)
 add_subdirectory(oglplus)
 add_subdirectory(oalplus)
-# private libs
-add_subdirectory(common_pki)

@@ -24,8 +24,7 @@
 #include <eagine/nothing.hpp>
 #endif
 
-namespace eagine {
-namespace sslp {
+namespace eagine::sslp {
 //------------------------------------------------------------------------------
 struct ssl_types {
 #if EAGINE_HAS_SSL
@@ -68,8 +67,7 @@ struct ssl_types {
 #endif
 };
 //------------------------------------------------------------------------------
-} // namespace sslp
-} // namespace eagine
+} // namespace eagine::sslp
 
 #endif // EAGINE_SSL_API_CONFIG_HPP
 

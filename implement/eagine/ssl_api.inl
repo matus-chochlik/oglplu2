@@ -7,13 +7,13 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-namespace eagine {
-namespace sslp {
+namespace eagine::sslp {
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
 inline memory::block basic_ssl_api<ApiTraits>::data_digest(
-  memory::const_block data, memory::block dst, message_digest_type mdtype) const
-  noexcept {
+  memory::const_block data,
+  memory::block dst,
+  message_digest_type mdtype) const noexcept {
     if(mdtype) {
         const auto req_size = extract_or(this->message_digest_size(mdtype), 0);
 
@@ -155,5 +155,4 @@ bool basic_ssl_api<ApiTraits>::ca_verify_certificate(
     return false;
 }
 //------------------------------------------------------------------------------
-} // namespace sslp
-} // namespace eagine
+} // namespace eagine::sslp

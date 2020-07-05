@@ -17,12 +17,11 @@
 #include <memory>
 #include <type_traits>
 
-namespace eagine {
-namespace ecs {
-
+namespace eagine::ecs {
+//------------------------------------------------------------------------------
 template <typename Entity>
 class basic_manager;
-
+//------------------------------------------------------------------------------
 template <typename Entity, typename PL>
 class component_relation;
 
@@ -78,7 +77,7 @@ public:
         _apply(_m, func, mp_list<PL...>());
     }
 };
-
+//------------------------------------------------------------------------------
 template <typename Entity>
 class basic_manager {
 public:
@@ -88,7 +87,7 @@ private:
     using _base_cmp_storage_t = base_component_storage<Entity>;
     using _base_cmp_storage_ptr_t = std::unique_ptr<_base_cmp_storage_t>;
 
-    component_uid_map<_base_cmp_storage_ptr_t> _cmp_storages;
+    component_uid_map<_base_cmp_storage_ptr_t> _cmp_storages{};
 
     component_uid_map<_base_cmp_storage_ptr_t>& _get_storages(
       std::false_type) noexcept {
@@ -103,7 +102,7 @@ private:
     using _base_rel_storage_t = base_relation_storage<Entity>;
     using _base_rel_storage_ptr_t = std::unique_ptr<_base_rel_storage_t>;
 
-    component_uid_map<_base_rel_storage_ptr_t> _rel_storages;
+    component_uid_map<_base_rel_storage_ptr_t> _rel_storages{};
 
     component_uid_map<_base_rel_storage_ptr_t>& _get_storages(
       std::true_type) noexcept {
@@ -236,7 +235,7 @@ public:
       std::unique_ptr<component_storage<Entity, Component>>&& storage) {
         _do_reg_stg_type<false>(
           _base_cmp_storage_ptr_t(std::move(storage)),
-          get_component_uid<Component>(),
+          Component::uid(),
           _cmp_name_getter<Component>());
     }
 
@@ -245,7 +244,7 @@ public:
       std::unique_ptr<relation_storage<Entity, Relation>>&& storage) {
         _do_reg_stg_type<true>(
           _base_rel_storage_ptr_t(std::move(storage)),
-          get_component_uid<Relation>(),
+          Relation::uid(),
           _cmp_name_getter<Relation>());
     }
 
@@ -256,8 +255,7 @@ public:
       typename... P>
     void register_component_storage(P&&... p) {
         register_component_type<Component>(
-          std::unique_ptr<Storage<Entity, Component>>(
-            new Storage<Entity, Component>(std::forward<P>(p)...)));
+          std::make_unique<Storage<Entity, Component>>(std::forward<P>(p)...));
     }
 
     template <
@@ -267,55 +265,53 @@ public:
       typename... P>
     void register_relation_storage(P&&... p) {
         register_relation_type<Relation>(
-          std::unique_ptr<Storage<Entity, Relation>>(
-            new Storage<Entity, Relation>(std::forward<P>(p)...)));
+          std::make_unique<Storage<Entity, Relation>>(std::forward<P>(p)...));
     }
 
     template <typename Component>
     void unregister_component_type() {
         _do_unr_stg_type<false>(
-          get_component_uid<Component>(), _cmp_name_getter<Component>());
+          Component::uid(), _cmp_name_getter<Component>());
     }
 
     template <typename Relation>
     void unregister_relation_type() {
-        _do_unr_stg_type<true>(
-          get_component_uid<Relation>(), _cmp_name_getter<Relation>());
+        _do_unr_stg_type<true>(Relation::uid(), _cmp_name_getter<Relation>());
     }
 
     template <typename Component>
     bool knows_component_type() const {
-        return _does_know_stg_type<false>(get_component_uid<Component>());
+        return _does_know_stg_type<false>(Component::uid());
     }
 
     template <typename Relation>
     bool knows_relation_type() const {
-        return _does_know_stg_type<true>(get_component_uid<Relation>());
+        return _does_know_stg_type<true>(Relation::uid());
     }
 
     template <typename Component>
     storage_caps component_storage_caps() const {
         return _get_stg_type_caps<false>(
-          get_component_uid<Component>(), _cmp_name_getter<Component>());
+          Component::uid(), _cmp_name_getter<Component>());
     }
 
     template <typename Relation>
     storage_caps relation_storage_caps() const {
         return _get_stg_type_caps<true>(
-          get_component_uid<Relation>(), _cmp_name_getter<Relation>());
+          Relation::uid(), _cmp_name_getter<Relation>());
     }
 
     template <typename Component>
     bool component_storage_can(storage_cap_bit cap) const {
         return _get_stg_type_caps<false>(
-                 get_component_uid<Component>(), _cmp_name_getter<Component>())
+                 Component::uid(), _cmp_name_getter<Component>())
           .has(cap);
     }
 
     template <typename Relation>
     bool relation_storage_can(storage_cap_bit cap) const {
         return _get_stg_type_caps<true>(
-                 get_component_uid<Relation>(), _cmp_name_getter<Relation>())
+                 Relation::uid(), _cmp_name_getter<Relation>())
           .has(cap);
     }
 
@@ -324,57 +320,43 @@ public:
     template <typename Component>
     bool has(entity_param ent) {
         return _does_have_c(
-          ent, get_component_uid<Component>(), _cmp_name_getter<Component>());
+          ent, Component::uid(), _cmp_name_getter<Component>());
     }
 
     template <typename Relation>
     bool has(entity_param subject, entity_param object) {
         return _does_have_r(
-          subject,
-          object,
-          get_component_uid<Relation>(),
-          _cmp_name_getter<Relation>());
+          subject, object, Relation::uid(), _cmp_name_getter<Relation>());
     }
 
     template <typename... Components>
     bool has_all(entity_param ent) {
         return _count_true(_does_have_c(
-                 ent,
-                 get_component_uid<Components>(),
-                 _cmp_name_getter<Components>())...) == (sizeof...(Components));
+                 ent, Components::uid(), _cmp_name_getter<Components>())...) ==
+               (sizeof...(Components));
     }
 
     template <typename Component>
     bool hidden(entity_param ent) {
-        return _is_hidn(
-          ent, get_component_uid<Component>(), _cmp_name_getter<Component>());
+        return _is_hidn(ent, Component::uid(), _cmp_name_getter<Component>());
     }
 
     template <typename... Components>
     bool all_hidden(entity_param ent) {
         return _count_true(_is_hidn(
-                 ent,
-                 get_component_uid<Components>(),
-                 _cmp_name_getter<Components>())...) == (sizeof...(Components));
+                 ent, Components::uid(), _cmp_name_getter<Components>())...) ==
+               (sizeof...(Components));
     }
 
     template <typename... Components>
     basic_manager& show(entity_param ent) {
-        (...,
-         _do_show(
-           ent,
-           get_component_uid<Components>(),
-           _cmp_name_getter<Components>()));
+        (..., _do_show(ent, Components::uid(), _cmp_name_getter<Components>()));
         return *this;
     }
 
     template <typename... Components>
     basic_manager& hide(entity_param ent) {
-        (...,
-         _do_hide(
-           ent,
-           get_component_uid<Components>(),
-           _cmp_name_getter<Components>()));
+        (..., _do_hide(ent, Components::uid(), _cmp_name_getter<Components>()));
         return *this;
     }
 
@@ -394,52 +376,35 @@ public:
     template <typename Relation>
     basic_manager& add_relation(entity_param subject, entity_param object) {
         _do_add_r(
-          subject,
-          object,
-          get_component_uid<Relation>(),
-          _cmp_name_getter<Relation>());
+          subject, object, Relation::uid(), _cmp_name_getter<Relation>());
         return *this;
     }
 
     template <typename... Components>
     basic_manager& copy(entity_param from, entity_param to) {
         (...,
-         _do_cpy(
-           from,
-           to,
-           get_component_uid<Components>(),
-           _cmp_name_getter<Components>()));
+         _do_cpy(from, to, Components::uid(), _cmp_name_getter<Components>()));
         return *this;
     }
 
     template <typename... Components>
     basic_manager& swap(entity_param e1, entity_param e2) {
         (...,
-         _do_swp(
-           e1,
-           e2,
-           get_component_uid<Components>(),
-           _cmp_name_getter<Components>()));
+         _do_swp(e1, e2, Components::uid(), _cmp_name_getter<Components>()));
         return *this;
     }
 
     template <typename... Components>
     basic_manager& remove(entity_param ent) {
         (...,
-         _do_rem_c(
-           ent,
-           get_component_uid<Components>(),
-           _cmp_name_getter<Components>()));
+         _do_rem_c(ent, Components::uid(), _cmp_name_getter<Components>()));
         return *this;
     }
 
     template <typename Relation>
     basic_manager& remove_relation(entity_param subject, entity_param object) {
         _do_rem_r(
-          subject,
-          object,
-          get_component_uid<Relation>(),
-          _cmp_name_getter<Relation>());
+          subject, object, Relation::uid(), _cmp_name_getter<Relation>());
         return *this;
     }
 
@@ -538,9 +503,8 @@ public:
         return {*this};
     }
 };
-
-} // namespace ecs
-} // namespace eagine
+//------------------------------------------------------------------------------
+} // namespace eagine::ecs
 
 #include <eagine/ecs/basic_manager.inl>
 

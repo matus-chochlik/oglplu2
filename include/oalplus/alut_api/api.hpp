@@ -15,8 +15,7 @@
 #include <eagine/scope_exit.hpp>
 #include <eagine/string_list.hpp>
 
-namespace eagine {
-namespace oalp {
+namespace eagine::oalp {
 //------------------------------------------------------------------------------
 #define OALPAFP(FUNC) decltype(c_api::FUNC), &c_api::FUNC
 //------------------------------------------------------------------------------
@@ -103,8 +102,7 @@ public:
 //------------------------------------------------------------------------------
 #undef OALPAFP
 //------------------------------------------------------------------------------
-} // namespace oalp
-} // namespace eagine
+} // namespace eagine::oalp
 
 #endif // OALPLUS_ALUT_API_API_HPP
 

@@ -14,8 +14,7 @@
 #include "../subscriber.hpp"
 #include <chrono>
 
-namespace eagine {
-namespace msgbus {
+namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 // TODO replace with utc clock when available
 using shutdown_service_clock = std::chrono::system_clock;
@@ -85,8 +84,7 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-} // namespace msgbus
-} // namespace eagine
+} // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_SERVICE_SHUTDOWN_HPP
 

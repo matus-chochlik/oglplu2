@@ -15,8 +15,7 @@
 #include <eagine/shapes/cube.hpp>
 #include <oglplus/shapes/generator.hpp>
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 //------------------------------------------------------------------------------
 // program
 //------------------------------------------------------------------------------
@@ -26,7 +25,9 @@ void cube_program::init(example_context& ctx) {
 
     gl.create_program() >> prog;
     gl.delete_program.later_by(cleanup, prog);
-    gl.build_program(prog, embed(EAGINE_ID(prog), "example.oglpprog"));
+
+    const auto prog_src{embed(EAGINE_ID(prog), "example.oglpprog")};
+    gl.build_program(prog, prog_src.unpack(ctx.main()));
     gl.use_program(prog);
 
     gl.get_uniform_location(prog, "Projection") >> projection_loc;
@@ -190,5 +191,4 @@ void cube_draw_buffers::init(example_context& ctx) {
     gl.bind_renderbuffer(GL.renderbuffer, renderbuffer_name(0));
 }
 //------------------------------------------------------------------------------
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp

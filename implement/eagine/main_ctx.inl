@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/compression.hpp>
 #include <eagine/logging/exception.hpp>
 #include <eagine/logging/root_logger.hpp>
 #include <eagine/memory/buffer.hpp>
@@ -18,6 +19,7 @@ private:
     root_logger _log_root;
     system_info _sys_info{};
     memory::buffer _scratch_space{};
+    data_compressor _compressor{};
     std::string _exe_path{};
 
 public:
@@ -45,6 +47,10 @@ public:
         return _scratch_space;
     }
 
+    data_compressor& compressor() noexcept {
+        return _compressor;
+    }
+
     string_view exe_path() const noexcept {
         return {_exe_path};
     }
@@ -62,6 +68,7 @@ main_ctx::main_ctx(master_ctx& master) noexcept
   , _log{master.log()}
   , _sys_info{master.system()}
   , _scratch_space{master.scratch_space()}
+  , _compressor{master.compressor()}
   , _exe_path{master.exe_path()} {
     EAGINE_ASSERT(!_single_ptr());
     _single_ptr() = this;

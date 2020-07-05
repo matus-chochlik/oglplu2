@@ -11,9 +11,7 @@
 
 #include <eagine/bitfield.hpp>
 
-namespace eagine {
-namespace oglp {
-namespace texgen {
+namespace eagine::oglp::texgen {
 
 struct output_intf;
 
@@ -42,8 +40,6 @@ struct render_params {
     int height;
 };
 
-} // namespace texgen
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp::texgen
 
 #endif // OGLPLUS_TEXGEN_RENDER_PARAMS_HPP

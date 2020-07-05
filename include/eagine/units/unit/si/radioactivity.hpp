@@ -13,8 +13,7 @@
 #include "../../dim/radioactivity.hpp"
 #include "common.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 namespace base {
 
 struct count_of_decays : unit<number_of_decays, count_of_decays> {};
@@ -47,7 +46,6 @@ using megabecquerel = make_scaled_unit_t<scales::mega, becquerel>;
 using gigabecquerel = make_scaled_unit_t<scales::giga, becquerel>;
 // TODO
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_UNIT_SI_RADIOACTIVITY_HPP

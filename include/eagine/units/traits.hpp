@@ -12,8 +12,7 @@
 
 #include "default.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 // is_dimension
 template <typename X>
@@ -51,7 +50,6 @@ template <typename D, typename US1, typename US2, typename S>
 struct same_dimension<scaled_dim_unit<D, US1, S>, scaled_dim_unit<D, US2, S>>
   : std::true_type {};
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_TRAITS_HPP

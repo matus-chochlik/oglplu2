@@ -11,8 +11,7 @@
 
 #include <type_traits>
 
-namespace eagine {
-namespace math {
+namespace eagine::math {
 
 template <typename T, int N, bool V>
 struct scalar;
@@ -38,7 +37,6 @@ struct are_multiplicable : std::false_type {};
 template <typename T1, typename T2>
 struct multiplication_result;
 
-} // namespace math
-} // namespace eagine
+} // namespace eagine::math
 
 #endif // EAGINE_MATH_FWD_HPP

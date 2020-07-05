@@ -14,8 +14,7 @@
 #include <eagine/c_api_wrap.hpp>
 #include <eagine/string_span.hpp>
 
-namespace eagine {
-namespace oglp {
+namespace eagine::oglp {
 //------------------------------------------------------------------------------
 class gl_no_result_info {
 public:
@@ -119,8 +118,7 @@ using gl_opt_result = api_opt_result<Result, gl_result_info>;
 template <typename Result>
 using gl_combined_result = api_combined_result<Result, gl_result_info>;
 //------------------------------------------------------------------------------
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::oglp
 
 #endif // OGLPLUS_GL_API_RESULT_HPP
 

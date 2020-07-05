@@ -15,8 +15,7 @@
 #include "../identity.hpp"
 #include "address.hpp"
 
-namespace eagine {
-namespace memory {
+namespace eagine::memory {
 //------------------------------------------------------------------------------
 // basic_offset_ptr
 //------------------------------------------------------------------------------
@@ -253,7 +252,6 @@ using offset_ptr = basic_offset_ptr<Pointee, std::ptrdiff_t>;
 template <typename Pointee>
 using short_offset_ptr = basic_offset_ptr<Pointee, short>;
 //------------------------------------------------------------------------------
-} // namespace memory
-} // namespace eagine
+} // namespace eagine::memory
 
 #endif // EAGINE_MEMORY_OFFSET_PTR_HPP

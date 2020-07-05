@@ -15,8 +15,7 @@
 #include "electric_current.hpp"
 #include "electric_tension.hpp"
 
-namespace eagine {
-namespace units {
+namespace eagine::units {
 
 // siemens
 using siemens = unit<electrical_conductance, si>;
@@ -35,7 +34,6 @@ struct symbol_of<siemens> {
 using millisiemens = make_scaled_unit_t<scales::milli, siemens>;
 // TODO
 
-} // namespace units
-} // namespace eagine
+} // namespace eagine::units
 
 #endif // EAGINE_UNITS_UNIT_SI_ELECTRICAL_CONDUCTANCE_HPP
