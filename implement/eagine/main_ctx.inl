@@ -10,6 +10,7 @@
 #include <eagine/logging/exception.hpp>
 #include <eagine/logging/root_logger.hpp>
 #include <eagine/memory/buffer.hpp>
+#include <filesystem>
 
 namespace eagine {
 //------------------------------------------------------------------------------
@@ -21,14 +22,23 @@ private:
     memory::buffer _scratch_space{};
     data_compressor _compressor{};
     std::string _exe_path{};
+    std::string _app_name{};
 
 public:
     master_ctx(
       int argc, const char** argv, const main_ctx_options& options) noexcept
       : _args{argc, argv}
-      , _log_root{options.logger_id, _args, options.logger_opts} {
-        // TODO: realpath
-        _exe_path = to_string(_args.command());
+      , _log_root{options.logger_id, _args, options.logger_opts}
+      , _app_name{options.app_name} {
+        auto fs_path = std::filesystem::path(to_string(_args.command()));
+        if(_app_name.empty()) {
+            _app_name = fs_path.stem().string();
+        }
+        _exe_path = fs_path.lexically_normal().string();
+
+        _log_root.info("application ${appName} starting")
+          .arg(EAGINE_ID(appName), _app_name)
+          .arg(EAGINE_ID(exePath), _exe_path);
     }
 
     auto& args() noexcept {
