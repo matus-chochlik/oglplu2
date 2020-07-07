@@ -314,7 +314,7 @@ bool router::_handle_special(
   routed_endpoint& endpoint,
   const message_view& message) {
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
-        _log.debug("bridge handling special message ${message}")
+        _log.debug("router handling special message ${message}")
           .arg(EAGINE_ID(message), msg_id)
           .arg(EAGINE_ID(source), message.source_id);
 
