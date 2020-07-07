@@ -118,6 +118,10 @@ struct message_info {
         return *this;
     }
 
+    bool has_serializer_id(identifier id) const noexcept {
+        return serializer_id == id.value();
+    }
+
     message_info& set_serializer_id(identifier id) noexcept {
         serializer_id = id.value();
         return *this;
