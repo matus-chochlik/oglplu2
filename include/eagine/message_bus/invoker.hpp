@@ -7,13 +7,16 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MESSAGE_BUS_INVOKER_FWD_HPP
-#define EAGINE_MESSAGE_BUS_INVOKER_FWD_HPP
+#ifndef EAGINE_MESSAGE_BUS_INVOKER_HPP
+#define EAGINE_MESSAGE_BUS_INVOKER_HPP
 
 #include "../serialize/block_sink.hpp"
 #include "../serialize/block_source.hpp"
+#include "endpoint.hpp"
 #include "future.hpp"
+#include "serialize.hpp"
 #include <array>
+#include <tuple>
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
@@ -87,5 +90,5 @@ private:
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus
 
-#endif // EAGINE_MESSAGE_BUS_INVOKER_FWD_HPP
+#endif // EAGINE_MESSAGE_BUS_INVOKER_HPP
 

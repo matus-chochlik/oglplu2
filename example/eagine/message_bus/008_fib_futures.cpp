@@ -14,6 +14,7 @@
 #include <eagine/message_bus/endpoint.hpp>
 #include <eagine/message_bus/invoker.hpp>
 #include <eagine/message_bus/router.hpp>
+#include <eagine/message_bus/skeleton.hpp>
 #include <eagine/message_bus/subscriber.hpp>
 #include <eagine/serialize/block_sink.hpp>
 #include <eagine/serialize/block_source.hpp>
@@ -50,24 +51,12 @@ struct fibonacci_server : static_subscriber<2> {
     }
 
     bool calculate(stored_message& msg_in) {
-        std::int64_t arg{0};
-        std::int64_t result{0};
-        auto tupl{std::tie(arg)};
-        // deserialize
-        block_data_source source(msg_in.content());
-        fast_deserializer_backend read_backend(source);
-        deserialize(tupl, read_backend);
-        // call
-        result = fib(arg);
-        // serialize
-        std::array<byte, 64> buffer{};
-        block_data_sink sink(cover(buffer));
-        fast_serializer_backend write_backend(sink);
-        serialize(result, write_backend);
-        // send
-        message_view msg_out{sink.done()};
-        msg_out.set_serializer_id(write_backend.type_id());
-        bus().respond_to(msg_in, EAGINE_MSG_ID(Fibonacci, Result), msg_out);
+        skeleton<
+          std::int64_t(std::int64_t),
+          fast_serializer_backend,
+          fast_deserializer_backend,
+          64>()
+          .call(bus(), msg_in, EAGINE_MSG_ID(Fibonacci, Result), {&fib});
         return true;
     }
 };
@@ -106,7 +95,7 @@ struct fibonacci_client : static_subscriber<2> {
                 msg_in.source_id,
                 EAGINE_MSG_ID(Fibonacci, Calculate),
                 arg)
-              .set_timeout(std::chrono::minutes(3))
+              .set_timeout(std::chrono::minutes(1))
               .on_timeout([this, arg]() { this->_remaining.push(arg); })
               .then([arg](std::int64_t fib) {
                   std::cout << "fib(" << arg << ") = " << fib << std::endl;
