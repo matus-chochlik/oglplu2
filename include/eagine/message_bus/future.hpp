@@ -11,6 +11,7 @@
 #define EAGINE_MESSAGE_BUS_FUTURE_FWD_HPP
 
 #include "../flat_map.hpp"
+#include "../nothing.hpp"
 #include "../timeout.hpp"
 #include <functional>
 #include <memory>
@@ -19,7 +20,7 @@ namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 template <typename T>
 struct future_state {
-    timeout too_late{};
+    timeout too_late{std::chrono::seconds{1}};
     std::function<void(T)> success_handler{};
     std::function<void()> timeout_handler{};
 };
@@ -27,6 +28,7 @@ struct future_state {
 template <typename T>
 class promise {
 public:
+    promise() noexcept = default;
     promise(std::shared_ptr<future_state<T>>& state) noexcept
       : _state{state} {
     }
@@ -67,6 +69,11 @@ private:
 template <typename T>
 class future {
 public:
+    future() = default;
+    future(nothing_t) noexcept
+      : _state{} {
+    }
+
     explicit operator bool() const noexcept {
         return bool(_state);
     }
@@ -79,16 +86,27 @@ public:
         return *this;
     }
 
-    future<T>& then(std::function<void(T)> handler) {
+    template <typename Handler>
+    future<T>& then(Handler handler) {
         if(_state) {
-            _state->on_success = std::move(handler);
+            _state->success_handler = std::function<void(T)>(
+              [state{_state}, handler{std::move(handler)}](T value) {
+                  handler(value);
+              });
+        }
+        return *this;
+    }
+
+    future<T>& on_success(std::function<void(T)> handler) {
+        if(_state) {
+            _state->success_handler = std::move(handler);
         }
         return *this;
     }
 
     future<T>& on_timeout(std::function<void()> handler) {
         if(_state) {
-            _state->on_timeout = std::move(handler);
+            _state->timeout_handler = std::move(handler);
         }
         return *this;
     }
@@ -126,6 +144,14 @@ public:
     bool update() {
         return _promises.erase_if(
                  [](auto& p) { return p.second.should_be_removed(); }) > 0;
+    }
+
+    bool has_some() const noexcept {
+        return !_promises.empty();
+    }
+
+    bool has_none() const noexcept {
+        return _promises.empty();
     }
 
 private:
