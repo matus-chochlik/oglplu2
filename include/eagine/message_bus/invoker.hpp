@@ -45,7 +45,8 @@ public:
         block_data_sink sink(cover(buffer));
         Serializer write_backend(sink);
 
-        if(serialize(tupl, write_backend)) {
+        const auto errors = serialize(tupl, write_backend);
+        if(!errors) {
             message_view message{sink.done()};
             message.set_serializer_id(write_backend.type_id());
             message.set_target_id(target_id);
@@ -60,13 +61,13 @@ public:
     void fulfill_by(const stored_message& message) {
         const auto invocation_id = message.sequence_no;
         std::remove_cv_t<std::remove_reference_t<Result>> result{};
-        auto tupl = std::tie(result);
 
         block_data_source source(message.content());
         Deserializer read_backend(source);
 
         if(message.has_serializer_id(read_backend.type_id())) {
-            if(deserialize(tupl, read_backend)) {
+            const auto errors = deserialize(result, read_backend);
+            if(!errors) {
                 _results.fulfill(invocation_id, result);
             }
         }

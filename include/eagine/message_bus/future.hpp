@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MESSAGE_BUS_FUTURE_FWD_HPP
-#define EAGINE_MESSAGE_BUS_FUTURE_FWD_HPP
+#ifndef EAGINE_MESSAGE_BUS_FUTURE_HPP
+#define EAGINE_MESSAGE_BUS_FUTURE_HPP
 
 #include "../flat_map.hpp"
 #include "../nothing.hpp"
@@ -161,5 +161,5 @@ private:
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus
 
-#endif // EAGINE_MESSAGE_BUS_FUTURE_FWD_HPP
+#endif // EAGINE_MESSAGE_BUS_FUTURE_HPP
 
