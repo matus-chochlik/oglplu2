@@ -1,0 +1,90 @@
+/**
+ *  @file eagine/message_bus/invoker.hpp
+ *
+ *  Copyright Matus Chochlik.
+ *  Distributed under the Boost Software License, Version 1.0.
+ *  See accompanying file LICENSE_1_0.txt or copy at
+ *   http://www.boost.org/LICENSE_1_0.txt
+ */
+
+#ifndef EAGINE_MESSAGE_BUS_INVOKER_FWD_HPP
+#define EAGINE_MESSAGE_BUS_INVOKER_FWD_HPP
+
+#include "../serialize/block_sink.hpp"
+#include "../serialize/block_source.hpp"
+#include "future.hpp"
+#include <array>
+
+namespace eagine::msgbus {
+//------------------------------------------------------------------------------
+template <
+  typename Signature,
+  typename Serializer,
+  typename Deserializer,
+  std::size_t MaxDataSize = 8192 - 128>
+class invoker;
+//------------------------------------------------------------------------------
+template <
+  typename Result,
+  typename... Params,
+  typename Serializer,
+  typename Deserializer,
+  std::size_t MaxDataSize>
+class invoker<Result(Params...), Serializer, Deserializer, MaxDataSize> {
+public:
+    future<Result> invoke_on(
+      endpoint& bus,
+      identifier_t target_id,
+      message_id msg_id,
+      Params... args) {
+        auto [invocation_id, result] = _results.make();
+
+        auto tupl{std::tie(args...)};
+
+        std::array<byte, MaxDataSize> buffer{};
+        block_data_sink sink(cover(buffer));
+        Serializer write_backend(sink);
+
+        if(serialize(tupl, write_backend)) {
+            message_view message{sink.done()};
+            message.set_serializer_id(write_backend.type_id());
+            message.set_target_id(target_id);
+            message.set_sequence_no(invocation_id);
+            bus.send(msg_id, message);
+
+            return result;
+        }
+        return nothing;
+    }
+
+    void fulfill_by(const stored_message& message) {
+        const auto invocation_id = message.sequence_no;
+        std::remove_cv_t<std::remove_reference_t<Result>> result{};
+        auto tupl = std::tie(result);
+
+        block_data_source source(message.content());
+        Deserializer read_backend(source);
+
+        if(message.has_serializer_id(read_backend.type_id())) {
+            if(deserialize(tupl, read_backend)) {
+                _results.fulfill(invocation_id, result);
+            }
+        }
+    }
+
+    bool has_pending() const noexcept {
+        return _results.has_some();
+    }
+
+    bool is_done() const noexcept {
+        return _results.has_none();
+    }
+
+private:
+    pending_promises<Result> _results{};
+};
+//------------------------------------------------------------------------------
+} // namespace eagine::msgbus
+
+#endif // EAGINE_MESSAGE_BUS_INVOKER_FWD_HPP
+
