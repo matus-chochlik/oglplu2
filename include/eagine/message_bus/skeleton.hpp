@@ -23,7 +23,7 @@ template <
   typename Signature,
   typename Serializer,
   typename Deserializer,
-  std::size_t MaxDataSize = 8192 - 128>
+  std::size_t MaxDataSize>
 class skeleton;
 //------------------------------------------------------------------------------
 template <

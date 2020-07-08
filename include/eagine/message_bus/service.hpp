@@ -10,6 +10,9 @@
 #ifndef EAGINE_MESSAGE_BUS_SERVICE_HPP
 #define EAGINE_MESSAGE_BUS_SERVICE_HPP
 
+#include "invoker.hpp"
+#include "serialize.hpp"
+#include "skeleton.hpp"
 #include "subscriber.hpp"
 
 namespace eagine::msgbus {
@@ -68,6 +71,20 @@ public:
         return this->bus().add_connection(std::move(conn));
     }
 };
+//------------------------------------------------------------------------------
+template <typename Signature, std::size_t MaxDataSize = 8192 - 128>
+using default_invoker = invoker<
+  Signature,
+  default_serializer_backend,
+  default_deserializer_backend,
+  MaxDataSize>;
+//------------------------------------------------------------------------------
+template <typename Signature, std::size_t MaxDataSize = 8192 - 128>
+using default_skeleton = skeleton<
+  Signature,
+  default_serializer_backend,
+  default_deserializer_backend,
+  MaxDataSize>;
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus
 
