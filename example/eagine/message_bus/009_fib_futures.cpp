@@ -1,5 +1,5 @@
 /**
- *  @example eagine/message_bus/008_fib_futures.cpp
+ *  @example eagine/message_bus/009_fib_futures.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
