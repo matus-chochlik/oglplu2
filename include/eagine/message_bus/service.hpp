@@ -86,6 +86,13 @@ using default_skeleton = skeleton<
   default_deserializer_backend,
   MaxDataSize>;
 //------------------------------------------------------------------------------
+template <typename Signature, std::size_t MaxDataSize = 8192 - 128>
+using default_lazy_skeleton = lazy_skeleton<
+  Signature,
+  default_serializer_backend,
+  default_deserializer_backend,
+  MaxDataSize>;
+//------------------------------------------------------------------------------
 } // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_SERVICE_HPP
