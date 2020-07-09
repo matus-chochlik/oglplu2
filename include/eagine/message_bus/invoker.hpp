@@ -39,13 +39,13 @@ public:
       endpoint& bus,
       identifier_t target_id,
       message_id msg_id,
-      std::add_const_t<Params>... args) {
+      memory::block buffer,
+      std::add_lvalue_reference_t<std::add_const_t<Params>>... args) {
         auto [invocation_id, result] = _results.make();
 
         auto tupl{std::tie(args...)};
 
-        std::array<byte, MaxDataSize> buffer{};
-        block_data_sink sink(cover(buffer));
+        block_data_sink sink(buffer);
         Serializer write_backend(sink);
 
         const auto errors = serialize(tupl, write_backend);
@@ -61,8 +61,19 @@ public:
         return nothing;
     }
 
+    future<Result> invoke_on(
+      endpoint& bus,
+      identifier_t target_id,
+      message_id msg_id,
+      std::add_lvalue_reference_t<std::add_const_t<Params>>... args) {
+        std::array<byte, MaxDataSize> buffer{};
+        return invoke_on(bus, target_id, msg_id, cover(buffer), args...);
+    }
+
     future<Result> invoke(
-      endpoint& bus, message_id msg_id, std::add_const_t<Params>... args) {
+      endpoint& bus,
+      message_id msg_id,
+      std::add_lvalue_reference_t<std::add_const_t<Params>>... args) {
         return invoke_on(bus, broadcast_endpoint_id(), msg_id, args...);
     }
 
