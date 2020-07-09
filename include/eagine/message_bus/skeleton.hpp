@@ -90,8 +90,7 @@ public:
       : _default_timeout{default_timeout} {
     }
 
-    bool enqueue(
-      const stored_message& msg_in, callable_ref<Result(Params...)> func) {
+    bool enqueue(const stored_message& msg_in) {
         auto [pos, emplaced] = _pending.try_emplace(msg_in.sequence_no);
 
         if(emplaced) {

@@ -23,6 +23,10 @@ namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 class friend_of_endpoint;
 //------------------------------------------------------------------------------
+static constexpr inline identifier_t broadcast_endpoint_id() noexcept {
+    return 0U;
+}
+//------------------------------------------------------------------------------
 class endpoint : public connection_user {
 public:
     static constexpr identifier_t invalid_id() noexcept {
@@ -237,7 +241,8 @@ public:
       memory::const_block blob,
       std::chrono::seconds max_time,
       message_priority priority) {
-        return post_blob(msg_id, invalid_id(), blob, max_time, priority);
+        return post_blob(
+          msg_id, broadcast_endpoint_id(), blob, max_time, priority);
     }
 
     bool broadcast_blob(

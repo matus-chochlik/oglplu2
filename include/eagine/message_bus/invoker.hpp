@@ -39,7 +39,7 @@ public:
       endpoint& bus,
       identifier_t target_id,
       message_id msg_id,
-      Params... args) {
+      std::add_const_t<Params>... args) {
         auto [invocation_id, result] = _results.make();
 
         auto tupl{std::tie(args...)};
@@ -59,6 +59,11 @@ public:
             return result;
         }
         return nothing;
+    }
+
+    future<Result> invoke(
+      endpoint& bus, message_id msg_id, std::add_const_t<Params>... args) {
+        return invoke_on(bus, broadcast_endpoint_id(), msg_id, args...);
     }
 
     void fulfill_by(const stored_message& message) {
