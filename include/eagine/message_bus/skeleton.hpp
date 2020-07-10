@@ -40,6 +40,7 @@ public:
       endpoint& bus,
       const stored_message& msg_in,
       message_id msg_id,
+      memory::block buffer,
       callable_ref<Result(Params...)> func) {
         std::tuple<std::remove_cv_t<std::remove_reference_t<Params>>...> tupl{};
 
@@ -50,8 +51,7 @@ public:
             const auto read_errors = deserialize(tupl, read_backend);
             if(!read_errors) {
                 const auto result{std::apply(func, tupl)};
-                std::array<byte, MaxDataSize> buffer{};
-                block_data_sink sink(cover(buffer));
+                block_data_sink sink(buffer);
                 Serializer write_backend(sink);
 
                 const auto errors = serialize(result, write_backend);
@@ -63,6 +63,15 @@ public:
             }
         }
         return false;
+    }
+
+    bool call(
+      endpoint& bus,
+      const stored_message& msg_in,
+      message_id msg_id,
+      callable_ref<Result(Params...)> func) {
+        std::array<byte, MaxDataSize> buffer{};
+        return call(bus, msg_in, msg_id, cover(buffer), func);
     }
 };
 //------------------------------------------------------------------------------
@@ -113,6 +122,7 @@ public:
     bool handle_one(
       endpoint& bus,
       message_id msg_id,
+      memory::block buffer,
       callable_ref<Result(Params...)> handler) {
         const auto bgn = _pending.begin();
         auto pos = bgn;
@@ -122,7 +132,6 @@ public:
             ++pos;
             if(!too_late) {
                 const auto result{std::apply(handler, args)};
-                std::array<byte, MaxDataSize> buffer{};
                 block_data_sink sink(cover(buffer));
                 Serializer write_backend(sink);
 
@@ -146,27 +155,36 @@ public:
     bool handle_one(
       endpoint& bus,
       message_id msg_id,
+      callable_ref<Result(Params...)> handler) {
+        std::array<byte, MaxDataSize> buffer{};
+        return handle_one(bus, msg_id, cover(buffer), handler);
+    }
+
+    bool handle_one(
+      endpoint& bus,
+      message_id msg_id,
+      memory::block buffer,
       callable_ref<bool(callable_ref<void(Result)>, Params...)> handler) {
         const auto pos = _pending.begin();
         if(pos != _pending.end()) {
             const auto invocation_id = pos->first;
             const auto& [target_id, too_late, args] = pos->second;
             if(!too_late) {
-                auto do_send = [this, &bus, msg_id, invocation_id, target_id](
-                                 Result result) {
-                    std::array<byte, MaxDataSize> buffer{};
-                    block_data_sink sink(cover(buffer));
-                    Serializer write_backend(sink);
+                auto do_send =
+                  [this, &bus, msg_id, buffer, invocation_id, target_id](
+                    Result result) {
+                      block_data_sink sink(buffer);
+                      Serializer write_backend(sink);
 
-                    const auto errors = serialize(result, write_backend);
-                    if(!errors) {
-                        message_view msg_out{sink.done()};
-                        msg_out.set_serializer_id(write_backend.type_id());
-                        msg_out.set_target_id(target_id);
-                        msg_out.set_sequence_no(invocation_id);
-                        bus.send(msg_id, msg_out);
-                    }
-                };
+                      const auto errors = serialize(result, write_backend);
+                      if(!errors) {
+                          message_view msg_out{sink.done()};
+                          msg_out.set_serializer_id(write_backend.type_id());
+                          msg_out.set_target_id(target_id);
+                          msg_out.set_sequence_no(invocation_id);
+                          bus.send(msg_id, msg_out);
+                      }
+                  };
                 if(std::apply(
                      handler,
                      std::tuple_cat(
@@ -178,6 +196,14 @@ public:
             }
         }
         return false;
+    }
+
+    bool handle_one(
+      endpoint& bus,
+      message_id msg_id,
+      callable_ref<bool(callable_ref<void(Result)>, Params...)> handler) {
+        std::array<byte, MaxDataSize> buffer{};
+        return handle_one(bus, msg_id, cover(buffer), handler);
     }
 
 private:
