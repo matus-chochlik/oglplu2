@@ -118,7 +118,8 @@ int main(main_ctx& ctx) {
           .set_timeout(std::chrono::minutes(1))
           .then([i](std::int64_t fib) {
               std::cout << "fib(" << i << ") = " << fib << std::endl;
-          });
+          })
+          .otherwise([]() { std::cout << "failed" << std::endl; });
     }
 
     while(!client.is_done()) {

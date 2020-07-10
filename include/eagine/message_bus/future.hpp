@@ -86,17 +86,6 @@ public:
         return *this;
     }
 
-    template <typename Handler>
-    future<T>& then(Handler handler) {
-        if(_state) {
-            _state->success_handler = std::function<void(T)>(
-              [state{_state}, handler{std::move(handler)}](T value) {
-                  handler(value);
-              });
-        }
-        return *this;
-    }
-
     future<T>& on_success(std::function<void(T)> handler) {
         if(_state) {
             _state->success_handler = std::move(handler);
@@ -107,6 +96,30 @@ public:
     future<T>& on_timeout(std::function<void()> handler) {
         if(_state) {
             _state->timeout_handler = std::move(handler);
+        }
+        return *this;
+    }
+
+    template <
+      typename Handler,
+      typename = std::enable_if_t<std::is_invocable_v<Handler, T>>>
+    future<T>& then(Handler handler) {
+        if(_state) {
+            _state->success_handler = std::function<void(T)>(
+              [state{_state}, handler{std::move(handler)}](T value) {
+                  handler(value);
+              });
+        }
+        return *this;
+    }
+
+    template <
+      typename Handler,
+      typename = std::enable_if_t<std::is_invocable_v<Handler>>>
+    future<T>& otherwise(Handler handler) {
+        if(_state) {
+            _state->timeout_handler = std::function<void()>(
+              [state{_state}, handler{std::move(handler)}]() { handler(); });
         }
         return *this;
     }
