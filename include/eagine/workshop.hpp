@@ -123,6 +123,18 @@ public:
         return *this;
     }
 
+    workshop& ensure_workers(span_size_t n) {
+        const auto c = span_size(_workers.size());
+        if(n > c) {
+            add_workers(n - c);
+        }
+        return *this;
+    }
+
+    workshop& populate() {
+        return ensure_workers(span_size(std::thread::hardware_concurrency()));
+    }
+
     workshop& release_worker() {
         _workers.pop_back();
         return *this;
