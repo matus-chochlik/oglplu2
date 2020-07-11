@@ -10,6 +10,7 @@
 #ifndef EAGINE_WORKSHOP_HPP
 #define EAGINE_WORKSHOP_HPP
 
+#include "branch_predict.hpp"
 #include "extract.hpp"
 #include "types.hpp"
 #include <condition_variable>
@@ -64,7 +65,7 @@ private:
                 if(work.do_it()) {
                     std::unique_lock lock{_mutex};
                     work.deliver();
-                    _cond.notify_one();
+                    _cond.notify_all();
                 } else {
                     enqueue(work);
                 }
@@ -129,8 +130,11 @@ public:
 
     workshop& enqueue(work_unit& work) {
         std::unique_lock lock{_mutex};
+        if(EAGINE_UNLIKELY(_workers.empty())) {
+            add_worker();
+        }
         _work_queue.push(&work);
-        _cond.notify_all();
+        _cond.notify_one();
         return *this;
     }
 };
