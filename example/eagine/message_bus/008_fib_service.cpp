@@ -41,7 +41,8 @@ private:
     }
 
     bool calculate(stored_message& msg_in) {
-        _calc_skeleton.enqueue(msg_in);
+        _calc_skeleton.enqueue(
+          msg_in, EAGINE_MSG_ID(Fibonacci, Result), {&fib});
         return true;
     }
 
@@ -50,8 +51,7 @@ public:
         some_true something_done{};
         something_done(Base::update());
 
-        something_done(_calc_skeleton.handle_one(
-          bus(), EAGINE_MSG_ID(Fibonacci, Result), {&fib}));
+        something_done(_calc_skeleton.handle_one(bus()));
 
         return something_done;
     }
