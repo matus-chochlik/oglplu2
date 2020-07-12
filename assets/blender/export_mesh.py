@@ -81,6 +81,13 @@ class ExportMeshArgParser(argparse.ArgumentParser):
         )
 
         self.add_argument(
+            '--occl-names', '-O',
+            dest="occl_names",
+            action="append",
+            default=[]
+        )
+
+        self.add_argument(
             '--mesh', '-m',
             dest="meshes",
             action="append",
@@ -188,7 +195,7 @@ def has_same_values(options, obj, mesh, fl, ll, vl, fr, lr, vr):
         for uvs in mesh.uv_layers:
             if uvs.data[vl.index].uv != uvs.data[vr.index].uv:
                 return False
-    if options.exp_weight:
+    if options.exp_weight or options.exp_occlusion:
         for grp in obj.vertex_groups:
             if grp.weight(vl.index) != grp.weight(vr.index):
                 return False
@@ -227,6 +234,9 @@ def export_single(options, bdata, name, obj, mesh):
     if options.exp_weight:
         result["weight"] = []
 
+    if options.exp_occlusion:
+        result["occlusion"] = []
+
     emitted = {}
     for meshvert in mesh.vertices:
         emitted[meshvert.index] = set()
@@ -262,6 +272,12 @@ def export_single(options, bdata, name, obj, mesh):
         grp.name: []
         for grp in obj.vertex_groups
         if (grp.name in options.group_names) or (not options.group_names)
+    }
+
+    occls = {
+        grp.name: []
+        for grp in obj.vertex_groups
+        if grp.name in options.occl_names
     }
 
     for meshface in mesh.polygons:
@@ -332,7 +348,14 @@ def export_single(options, bdata, name, obj, mesh):
                     for grp in obj.vertex_groups:
                         w = grp.weight(meshvert.index)
                         try:
-                            groups[grp.name] += [fixnum(w)]
+                            groups[grp.name].append(fixnum(w))
+                        except KeyError:
+                            pass
+                if options.exp_occlusion:
+                    for grp in obj.vertex_groups:
+                        w = grp.weight(meshvert.index)
+                        try:
+                            occls[grp.name].append(fixnum(w))
                         except KeyError:
                             pass
 
@@ -400,6 +423,14 @@ def export_single(options, bdata, name, obj, mesh):
     if options.exp_weight:
         for name, data in groups.items():
             result["weight"].append({
+                "values_per_vertex": 1,
+                "name": name,
+                "data": data
+            })
+
+    if options.exp_occlusion:
+        for name, data in occls.items():
+            result["occlusion"].append({
                 "values_per_vertex": 1,
                 "name": name,
                 "data": data
