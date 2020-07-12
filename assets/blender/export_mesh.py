@@ -74,6 +74,13 @@ class ExportMeshArgParser(argparse.ArgumentParser):
         )
 
         self.add_argument(
+            '--group-names', '-G',
+            dest="group_names",
+            action="append",
+            default=[]
+        )
+
+        self.add_argument(
             '--mesh', '-m',
             dest="meshes",
             action="append",
@@ -181,6 +188,10 @@ def has_same_values(options, obj, mesh, fl, ll, vl, fr, lr, vr):
         for uvs in mesh.uv_layers:
             if uvs.data[vl.index].uv != uvs.data[vr.index].uv:
                 return False
+    if options.exp_weight:
+        for grp in obj.vertex_groups:
+            if grp.weight(vl.index) != grp.weight(vr.index):
+                return False
 
     return True
 
@@ -213,6 +224,9 @@ def export_single(options, bdata, name, obj, mesh):
     if options.exp_wrap_coord:
         result["wrap_coord"] = []
 
+    if options.exp_weight:
+        result["weight"] = []
+
     emitted = {}
     for meshvert in mesh.vertices:
         emitted[meshvert.index] = set()
@@ -242,6 +256,12 @@ def export_single(options, bdata, name, obj, mesh):
         uvs.name: []
         for uvs in mesh.uv_layers
         if (uvs.name in options.uv_names) or (not options.uv_names)
+    }
+
+    groups = {
+        grp.name: []
+        for grp in obj.vertex_groups
+        if (grp.name in options.group_names) or (not options.group_names)
     }
 
     for meshface in mesh.polygons:
@@ -308,6 +328,13 @@ def export_single(options, bdata, name, obj, mesh):
                             coords[uvs.name] += [fixnum(x) for x in uv]
                         except KeyError:
                             pass
+                if options.exp_weight:
+                    for grp in obj.vertex_groups:
+                        w = grp.weight(meshvert.index)
+                        try:
+                            groups[grp.name] += [fixnum(w)]
+                        except KeyError:
+                            pass
 
                 emitted_vert.add(
                     (meshface.index, meshloop.index, vertex_index)
@@ -366,6 +393,14 @@ def export_single(options, bdata, name, obj, mesh):
         for name, data in coords.items():
             result["wrap_coord"].append({
                 "values_per_vertex": 2,
+                "name": name,
+                "data": data
+            })
+
+    if options.exp_weight:
+        for name, data in groups.items():
+            result["weight"].append({
+                "values_per_vertex": 1,
                 "name": name,
                 "data": data
             })
