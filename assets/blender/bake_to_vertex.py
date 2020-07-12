@@ -60,6 +60,12 @@ class BakeLightArgParser(argparse.ArgumentParser):
         )
 
         self.add_argument(
+            '--as-weights', '-w',
+            action="store_true",
+            default=False
+        )
+
+        self.add_argument(
             '--bake-type', '-T',
             dest="bake_type",
             type=str,
@@ -74,6 +80,13 @@ class BakeLightArgParser(argparse.ArgumentParser):
                 "GLOSSY",
                 "TRANSMISSION"
             ]
+        )
+
+        self.add_argument(
+            '--combined',
+            dest="bake_type",
+            action="store_const",
+            const="COMBINED"
         )
 
         self.add_argument(
@@ -95,6 +108,13 @@ class BakeLightArgParser(argparse.ArgumentParser):
             dest="bake_type",
             action="store_const",
             const="EMIT"
+        )
+
+        self.add_argument(
+            '--diffuse',
+            dest="bake_type",
+            action="store_const",
+            const="DIFFUSE"
         )
 
         self.add_argument(
@@ -181,24 +201,46 @@ def do_bake(options):
         )
 
         mesh = target.data
-        vcolors = None
-        if mesh.vertex_colors:
-            try:
-                vcolors = mesh.vertex_colors[options.bake_type]
-            except KeyError:
-                pass
+        if options.as_weights:
+            vgroup = None
+            if target.vertex_groups:
+                try:
+                    vgroup = target.vertex_groups[options.bake_type]
+                except KeyError:
+                    pass
 
-        if not vcolors:
-            vcolors = mesh.vertex_colors.new(
-                name=options.bake_type,
-                do_init=False
-            )
+            if not vgroup:
+                vgroup = target.vertex_groups.new(
+                    name=options.bake_type
+                )
+
+            def _store_vertex_color(vertex_index, loop_index, c):
+                weight = 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
+                vgroup.add([vertex_index], weight, "REPLACE")
+
+        else:
+            vcolors = None
+            if mesh.vertex_colors:
+                try:
+                    vcolors = mesh.vertex_colors[options.bake_type]
+                except KeyError:
+                    pass
+
+            if not vcolors:
+                vcolors = mesh.vertex_colors.new(
+                    name=options.bake_type
+                )
+
+            def _store_vertex_color(vertex_index, loop_index, color):
+                vcolors.data[loop_index].color = color
 
         uvcoords = mesh.uv_layers.active
 
         nc = baked_image.channels
         for meshface in mesh.polygons:
             for loop_index in meshface.loop_indices:
+                meshloop = mesh.loops[loop_index]
+                vertex_index = meshloop.vertex_index
                 uv = uvcoords.data[loop_index].uv
                 w, h = uv * options.size
                 idx = (options.size * int(h) + int(w)) * nc
@@ -206,7 +248,7 @@ def do_bake(options):
                     baked_image.pixels[idx + c] if c < nc else 1.0
                     for c in range(4)
                 )
-                vcolors.data[loop_index].color = pixel
+                _store_vertex_color(vertex_index, loop_index, pixel)
 
         if options.keep_image:
             baked_image.save()
