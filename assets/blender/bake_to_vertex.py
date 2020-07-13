@@ -178,24 +178,31 @@ def do_bake(options):
 
         bpy.ops.object.mode_set(mode = "OBJECT")
         target = bpy.data.objects[options.target]
-        bake_mat = target.active_material
-        bake_mat.use_nodes = True
-        bake_node = bake_mat.node_tree.nodes.new("ShaderNodeTexImage")
-
         target.select_set(True)
-        baked_image = bpy.data.images.new(
-            "BakeImage",
-            alpha=False,
-            width=options.size,
-            height=options.size
-        )
-        bake_node.image = baked_image
-        bake_node.select = True
-        bake_mat.node_tree.nodes.active = bake_node
 
-        if options.keep_image:
-            baked_image.file_format = 'PNG'
-            baked_image.filepath = options.path
+        mat_info = [
+            (
+                mat,
+                mat.node_tree.nodes.new("ShaderNodeTexImage"),
+                bpy.data.images.new(
+                    "%s-BakeImage" % mat.name,
+                    alpha=True,
+                    width=options.size,
+                    height=options.size
+                )
+            ) for mat in target.data.materials
+        ]
+        for bake_mat, bake_node, bake_image in mat_info:
+            bake_mat.use_nodes = True
+            bake_mat.node_tree.nodes.active = bake_node
+            bake_node.image = bake_image
+            bake_node.select = True
+            if options.keep_image:
+                bake_image.file_format = 'PNG'
+                bake_image.filepath = os.path.join(
+                    options.prefix,
+                    "%s-%s" % (bake_mat.name, os.path.basename(options.prefix))
+                )
     
         bpy.ops.object.bake(
             type=options.bake_type,
@@ -238,30 +245,34 @@ def do_bake(options):
 
         uvcoords = mesh.uv_layers.active
 
-        nc = baked_image.channels
-        for meshface in mesh.polygons:
-            for loop_index in meshface.loop_indices:
-                meshloop = mesh.loops[loop_index]
-                vertex_index = meshloop.vertex_index
-                try:
-                    uv = uvcoords.data[loop_index].uv
-                    w, h = uv * options.size
-                except IndexError:
-                    w = 0.5
-                    h = 0.5
-                idx = (options.size * int(h) + int(w)) * nc
-                pixel = tuple(
-                    baked_image.pixels[idx + c] if c < nc else 1.0
-                    for c in range(4)
-                )
-                _store_vertex_color(vertex_index, loop_index, pixel)
+        for bake_mat, bake_node, bake_image in mat_info:
+            for meshface in mesh.polygons:
+                face_mat = target.material_slots[meshface.material_index].material
+                if bake_mat == face_mat:
+                    nc = bake_image.channels
+                    for loop_index in meshface.loop_indices:
+                        meshloop = mesh.loops[loop_index]
+                        vertex_index = meshloop.vertex_index
+                        try:
+                            uv = uvcoords.data[loop_index].uv
+                            w, h = uv * options.size
+                        except IndexError:
+                            w = 0.5
+                            h = 0.5
+                        idx = (options.size * int(h) + int(w)) * nc
+                        pixel = tuple(
+                            bake_image.pixels[idx + c] if c < nc else 1.0
+                            for c in range(4)
+                        )
+                        _store_vertex_color(vertex_index, loop_index, pixel)
 
-        if options.keep_image:
-            baked_image.save()
-            print("saved image to %s" % options.path)
+        for bake_mat, bake_node, bake_image in mat_info:
+            if options.keep_image:
+                bake_image.save()
+                print("saved image to %s" % bake_image.filepath)
+            bpy.data.images.remove(bake_image)
+            bake_mat.node_tree.nodes.remove(bake_node)
 
-        bpy.data.images.remove(baked_image)
-        bake_mat.node_tree.nodes.remove(bake_node)
         bpy.ops.wm.save_as_mainfile()
 
     except ModuleNotFoundError:
