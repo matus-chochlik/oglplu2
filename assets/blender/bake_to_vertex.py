@@ -140,6 +140,7 @@ class BakeLightArgParser(argparse.ArgumentParser):
         )
     # --------------------------------------------------------------------------
     def process_parsed_options(self, options):
+        options.prefix = None
         if options.keep_image:
             if options.path is None:
                 options.path = os.path.join('/tmp', '%s.png' % options.bake_type)
@@ -165,7 +166,7 @@ def do_bake(options):
     try:
         import bpy
 
-        if not os.path.isdir(options.prefix):
+        if options.prefix and not os.path.isdir(options.prefix):
             pathlib.Path(options.prefix).mkdir(parents=True, exist_ok=True)
 
         scene = bpy.context.scene
@@ -175,6 +176,7 @@ def do_bake(options):
             scene.render.bake_samples = options.samples
             scene.cycles.samples = options.samples
 
+        bpy.ops.object.mode_set(mode = "OBJECT")
         target = bpy.data.objects[options.target]
         bake_mat = target.active_material
         bake_mat.use_nodes = True
@@ -241,8 +243,12 @@ def do_bake(options):
             for loop_index in meshface.loop_indices:
                 meshloop = mesh.loops[loop_index]
                 vertex_index = meshloop.vertex_index
-                uv = uvcoords.data[loop_index].uv
-                w, h = uv * options.size
+                try:
+                    uv = uvcoords.data[loop_index].uv
+                    w, h = uv * options.size
+                except IndexError:
+                    w = 0.5
+                    h = 0.5
                 idx = (options.size * int(h) + int(w)) * nc
                 pixel = tuple(
                     baked_image.pixels[idx + c] if c < nc else 1.0
