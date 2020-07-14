@@ -13,6 +13,7 @@
 #include "../bool_aggregate.hpp"
 #include "../branch_predict.hpp"
 #include "../config/platform.hpp"
+#include "../from_string.hpp"
 #include "../logging/exception.hpp"
 #include "../logging/logger.hpp"
 #include "../maybe_unused.hpp"
@@ -493,11 +494,15 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-// TCP/IPv4
+// IPv4
 //------------------------------------------------------------------------------
-static constexpr inline auto connection_port() noexcept {
-    return 34912;
+static inline std::tuple<std::string, int> parse_ipv4_addr(
+  string_view addr_str) {
+    auto [hostname, port_str] = split_by_last(addr_str, string_view(":"));
+    return {to_string(hostname), extract_or(from_string<int>(port_str), 34912)};
 }
+//------------------------------------------------------------------------------
+// TCP/IPv4
 //------------------------------------------------------------------------------
 template <typename Base>
 class asio_connection_info<
@@ -528,30 +533,31 @@ class asio_connector<connection_addr_kind::ipv4, connection_protocol::stream>
       asio_connection<connection_addr_kind::ipv4, connection_protocol::stream>;
 
     asio::ip::tcp::resolver _resolver;
-    std::string _addr_str;
+    std::tuple<std::string, int> _addr;
     timeout _should_reconnect{std::chrono::seconds{1}, nothing};
     bool _connecting{false};
 
-    void _start_connect(asio::ip::tcp::resolver::iterator resolved) {
-        asio::ip::tcp::endpoint ep = *resolved;
-        ep.port(connection_port());
-        this->_state->endpoint = ep;
+    void _start_connect(asio::ip::tcp::resolver::iterator resolved, int port) {
+        this->_state->endpoint = *resolved;
+        this->_state->endpoint.port(port);
 
-        this->_log.debug("connecting to ${address}:${port}")
-          .arg(EAGINE_ID(port), EAGINE_ID(IpV4Port), connection_port())
-          .arg(EAGINE_ID(address), EAGINE_ID(IpV4Addr), _addr_str);
+        this->_log.debug("connecting to ${host}:${port}")
+          .arg(EAGINE_ID(host), EAGINE_ID(IpV4Host), std::get<0>(_addr))
+          .arg(EAGINE_ID(port), EAGINE_ID(IpV4Port), std::get<1>(_addr));
 
         this->_state->socket.async_connect(
-          ep, [this, resolved](std::error_code error) mutable {
+          this->_state->endpoint,
+          [this, resolved, port](std::error_code error) mutable {
               if(!error) {
-                  this->_log.debug("connected on address ${address}:${port}")
+                  this->_log.debug("connected on address ${host}:${port}")
                     .arg(
-                      EAGINE_ID(port), EAGINE_ID(IpV4Port), connection_port())
-                    .arg(EAGINE_ID(address), EAGINE_ID(IpV4Addr), _addr_str);
+                      EAGINE_ID(host), EAGINE_ID(IpV4Host), std::get<0>(_addr))
+                    .arg(
+                      EAGINE_ID(port), EAGINE_ID(IpV4Port), std::get<1>(_addr));
                   this->_connecting = false;
               } else {
                   if(++resolved != asio::ip::tcp::resolver::iterator{}) {
-                      this->_start_connect(resolved);
+                      this->_start_connect(resolved, port);
                   } else {
                       this->_log
                         .error(
@@ -560,11 +566,13 @@ class asio_connector<connection_addr_kind::ipv4, connection_protocol::stream>
                           "${error}")
                         .arg(EAGINE_ID(error), error)
                         .arg(
+                          EAGINE_ID(host),
+                          EAGINE_ID(IpV4Host),
+                          std::get<0>(_addr))
+                        .arg(
                           EAGINE_ID(port),
                           EAGINE_ID(IpV4Port),
-                          connection_port())
-                        .arg(
-                          EAGINE_ID(address), EAGINE_ID(IpV4Addr), _addr_str);
+                          std::get<1>(_addr));
                       this->_connecting = false;
                   }
               }
@@ -573,11 +581,13 @@ class asio_connector<connection_addr_kind::ipv4, connection_protocol::stream>
 
     void _start_resolve() {
         _connecting = true;
-        auto host = asio::string_view(_addr_str);
+        auto& [host, port] = _addr;
         _resolver.async_resolve(
-          host, {}, [this](std::error_code error, auto resolved) {
+          asio::string_view(host.data(), std_size(host.size())),
+          {},
+          [this, port](std::error_code error, auto resolved) {
               if(!error) {
-                  this->_start_connect(resolved);
+                  this->_start_connect(resolved, port);
               } else {
                   _log.error("failed to resolve address: ${error}")
                     .arg(EAGINE_ID(error), error);
@@ -597,7 +607,7 @@ public:
       string_view addr_str)
       : base{parent, asio_state}
       , _resolver{asio_state->context}
-      , _addr_str{to_string(_fix_addr(addr_str))} {
+      , _addr{parse_ipv4_addr(_fix_addr(addr_str))} {
     }
 
     bool update() final {
@@ -624,34 +634,36 @@ class asio_acceptor<connection_addr_kind::ipv4, connection_protocol::stream>
 private:
     logger _log{};
     std::shared_ptr<asio_common_state> _asio_state;
-    std::string _addr_str;
+    std::tuple<std::string, int> _addr;
     asio::ip::tcp::acceptor _acceptor;
     asio::ip::tcp::socket _socket;
 
     std::vector<asio::ip::tcp::socket> _accepted;
 
     void _start_accept() {
-        this->_log.debug("accepting connection on address ${address}:${port}")
-          .arg(EAGINE_ID(port), EAGINE_ID(IpV4Port), connection_port())
-          .arg(EAGINE_ID(address), EAGINE_ID(IpV4Addr), _addr_str);
+        this->_log.debug("accepting connection on address ${host}:${port}")
+          .arg(EAGINE_ID(host), EAGINE_ID(IpV4Host), std::get<0>(_addr))
+          .arg(EAGINE_ID(port), EAGINE_ID(IpV4Port), std::get<1>(_addr));
 
         _socket = asio::ip::tcp::socket(this->_asio_state->context);
         _acceptor.async_accept(_socket, [this](std::error_code error) {
             if(!error) {
                 this->_log
-                  .debug("accepted connection on address ${address}:${port}")
-                  .arg(EAGINE_ID(port), EAGINE_ID(IpV4Port), connection_port())
-                  .arg(EAGINE_ID(address), EAGINE_ID(IpV4Addr), _addr_str);
+                  .debug("accepted connection on address ${host}:${port}")
+                  .arg(EAGINE_ID(host), EAGINE_ID(IpV4Host), std::get<0>(_addr))
+                  .arg(
+                    EAGINE_ID(port), EAGINE_ID(IpV4Port), std::get<1>(_addr));
                 this->_accepted.emplace_back(std::move(this->_socket));
             } else {
                 this->_log
                   .error(
                     "failed to accept connection on address "
-                    "${address}:${port}: "
+                    "${host}:${port}: "
                     "${error}")
                   .arg(EAGINE_ID(error), error)
-                  .arg(EAGINE_ID(port), EAGINE_ID(IpV4Port), connection_port())
-                  .arg(EAGINE_ID(address), EAGINE_ID(IpV4Addr), _addr_str);
+                  .arg(EAGINE_ID(host), EAGINE_ID(IpV4Host), std::get<0>(_addr))
+                  .arg(
+                    EAGINE_ID(port), EAGINE_ID(IpV4Port), std::get<1>(_addr));
             }
             _start_accept();
         });
@@ -668,7 +680,7 @@ public:
       string_view addr_str) noexcept
       : _log{EAGINE_ID(AsioAccptr), parent}
       , _asio_state{std::move(asio_state)}
-      , _addr_str{to_string(_fix_addr(addr_str))}
+      , _addr{parse_ipv4_addr(_fix_addr(addr_str))}
       , _acceptor{_asio_state->context}
       , _socket{_asio_state->context} {
     }
@@ -677,9 +689,8 @@ public:
         EAGINE_ASSERT(this->_asio_state);
         some_true something_done{};
         if(!_acceptor.is_open()) {
-            // TODO: address string
             asio::ip::tcp::endpoint endpoint(
-              asio::ip::tcp::v4(), connection_port());
+              asio::ip::tcp::v4(), std::get<1>(_addr));
             _acceptor.open(endpoint.protocol());
             _acceptor.bind(endpoint);
             _acceptor.listen();
@@ -741,26 +752,27 @@ class asio_connector<connection_addr_kind::ipv4, connection_protocol::datagram>
       connection_protocol::datagram>;
 
     asio::ip::udp::resolver _resolver;
-    std::string _addr_str;
+    std::tuple<std::string, int> _addr;
     timeout _should_reconnect{std::chrono::seconds{1}, nothing};
     bool _connecting{false};
 
-    void _on_resolve(asio::ip::udp::resolver::iterator resolved) {
+    void _on_resolve(asio::ip::udp::resolver::iterator resolved, int port) {
         this->_state->endpoint = *resolved;
+        this->_state->endpoint.port(port);
         this->_connecting = false;
 
-        this->_log.debug("resolved address ${address}:${port}")
-          .arg(EAGINE_ID(port), EAGINE_ID(IpV4Port), connection_port())
-          .arg(EAGINE_ID(address), EAGINE_ID(IpV4Addr), _addr_str);
+        this->_log.debug("resolved address ${host}:${port}")
+          .arg(EAGINE_ID(host), EAGINE_ID(IpV4Host), std::get<0>(_addr))
+          .arg(EAGINE_ID(port), EAGINE_ID(IpV4Port), std::get<1>(_addr));
     }
 
     void _start_resolve() {
         _connecting = true;
-        auto host = asio::string_view(_addr_str);
+        const auto& [host, port] = _addr;
         _resolver.async_resolve(
-          host, {}, [this](std::error_code error, auto resolved) {
+          host, {}, [this, port](std::error_code error, auto resolved) {
               if(!error) {
-                  this->_on_resolve(resolved);
+                  this->_on_resolve(resolved, port);
               } else {
                   _log.error("failed to resolve address: ${error}")
                     .arg(EAGINE_ID(error), error);
@@ -780,7 +792,7 @@ public:
       string_view addr_str)
       : base{parent, asio_state}
       , _resolver{asio_state->context}
-      , _addr_str{to_string(_fix_addr(addr_str))} {
+      , _addr{parse_ipv4_addr(_fix_addr(addr_str))} {
     }
 
     bool update() final {
