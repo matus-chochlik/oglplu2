@@ -339,8 +339,8 @@ struct connection_state
     template <typename Handler>
     void do_start_receive(
       datagram_protocol_tag, memory::block blk, Handler handler) {
-        EAGINE_MAYBE_UNUSED(blk);
-        EAGINE_MAYBE_UNUSED(handler);
+        socket.async_receive_from(
+          asio::buffer(blk.data(), blk.size()), endpoint, handler);
     }
 
     bool start_receive() {
@@ -709,7 +709,7 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-// UDPv4
+// UDP/IPv4
 //------------------------------------------------------------------------------
 template <typename Base>
 class asio_connection_info<
@@ -729,6 +729,76 @@ public:
 template <>
 struct asio_types<connection_addr_kind::ipv4, connection_protocol::datagram> {
     using socket_type = asio::ip::udp::socket;
+};
+//------------------------------------------------------------------------------
+template <>
+class asio_connector<connection_addr_kind::ipv4, connection_protocol::datagram>
+  : public asio_connection<
+      connection_addr_kind::ipv4,
+      connection_protocol::datagram> {
+    using base = asio_connection<
+      connection_addr_kind::ipv4,
+      connection_protocol::datagram>;
+
+    asio::ip::udp::resolver _resolver;
+    std::string _addr_str;
+    timeout _should_reconnect{std::chrono::seconds{1}, nothing};
+    bool _connecting{false};
+
+    void _on_resolve(asio::ip::udp::resolver::iterator resolved) {
+        this->_state->endpoint = *resolved;
+        this->_connecting = false;
+
+        this->_log.debug("resolved address ${address}:${port}")
+          .arg(EAGINE_ID(port), EAGINE_ID(IpV4Port), connection_port())
+          .arg(EAGINE_ID(address), EAGINE_ID(IpV4Addr), _addr_str);
+    }
+
+    void _start_resolve() {
+        _connecting = true;
+        auto host = asio::string_view(_addr_str);
+        _resolver.async_resolve(
+          host, {}, [this](std::error_code error, auto resolved) {
+              if(!error) {
+                  this->_on_resolve(resolved);
+              } else {
+                  _log.error("failed to resolve address: ${error}")
+                    .arg(EAGINE_ID(error), error);
+                  this->_connecting = false;
+              }
+          });
+    }
+
+    static inline auto _fix_addr(string_view addr_str) noexcept {
+        return addr_str ? addr_str : string_view{"localhost"};
+    }
+
+public:
+    asio_connector(
+      logger& parent,
+      const std::shared_ptr<asio_common_state>& asio_state,
+      string_view addr_str)
+      : base{parent, asio_state}
+      , _resolver{asio_state->context}
+      , _addr_str{to_string(_fix_addr(addr_str))} {
+    }
+
+    bool update() final {
+        EAGINE_ASSERT(this->_state);
+        some_true something_done{};
+        if(this->_state->socket.is_open()) {
+            something_done(this->_state->start_receive());
+            something_done(this->_state->start_send());
+        } else if(!_connecting) {
+            if(_should_reconnect) {
+                _should_reconnect.reset();
+                _start_resolve();
+                something_done();
+            }
+        }
+        something_done(this->_state->update());
+        return something_done;
+    }
 };
 //------------------------------------------------------------------------------
 // Local/Stream
