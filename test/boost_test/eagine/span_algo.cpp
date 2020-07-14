@@ -165,6 +165,62 @@ BOOST_AUTO_TEST_CASE(span_algo_slice_r_p_1) {
 }
 
 template <typename T>
+void test_range_split_by(
+  eagine::span<T> rng, eagine::span_size_t p, eagine::span_size_t s) {
+    using namespace eagine;
+
+    eagine::span<T> sep{slice(rng, p, s)};
+    auto [lf, rf] = memory::split_by_first(rng, sep);
+    auto [ll, rl] = memory::split_by_last(rng, sep);
+
+    BOOST_CHECK_EQUAL(lf.size() + sep.size() + rf.size(), rng.size());
+    BOOST_CHECK_EQUAL(ll.size() + sep.size() + rl.size(), rng.size());
+}
+
+template <typename T>
+void test_range_split_by(eagine::span<T> rng) {
+    using namespace eagine;
+
+    test_range_split_by(rng, 0, 0);
+    test_range_split_by(rng, 0, rng.size() / 2);
+    test_range_split_by(rng, 0, rng.size());
+    test_range_split_by(rng, 0, rng.size() * 2);
+
+    test_range_split_by(rng, rng.size() / 2, 0);
+    test_range_split_by(rng, rng.size() / 2, rng.size() / 2);
+    test_range_split_by(rng, rng.size() / 2, rng.size());
+    test_range_split_by(rng, rng.size() / 2, rng.size() * 2);
+
+    test_range_split_by(rng, rng.size() * 2, 0);
+    test_range_split_by(rng, rng.size() * 2, rng.size() / 2);
+    test_range_split_by(rng, rng.size() * 2, rng.size());
+    test_range_split_by(rng, rng.size() * 2, rng.size() * 2);
+
+    for(int i = 0; i < 100; ++i) {
+        test_range_split_by(
+          rng,
+          rg.get_span_size(0, rng.size() * 2),
+          rg.get_span_size(0, rng.size() * 2));
+    }
+}
+
+template <typename T>
+void test_range_split_by(T min, T max) {
+    for(int i = 0; i < 10; ++i) {
+        std::vector<T> v(rg.get_std_size(20, 100));
+        for(T& x : v) {
+            x = rg.get<T>(min, max);
+        }
+        test_range_split_by(eagine::cover(v));
+    }
+}
+
+BOOST_AUTO_TEST_CASE(span_algo_split_by) {
+    test_range_split_by<char>('A', 'Z');
+    test_range_split_by<int>(-100000, 100000);
+}
+
+template <typename T>
 void test_range_head_1(eagine::span<T> rng, eagine::span_size_t l) {
     using namespace eagine;
 
