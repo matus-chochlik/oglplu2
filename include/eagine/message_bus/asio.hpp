@@ -1229,7 +1229,7 @@ using asio_tcp_ipv4_connection_factory = asio_connection_factory<
   connection_addr_kind::ipv4,
   connection_protocol::stream>;
 //------------------------------------------------------------------------------
-using asio_udp_v4_connection_factory = asio_connection_factory<
+using asio_udp_ipv4_connection_factory = asio_connection_factory<
   connection_addr_kind::ipv4,
   connection_protocol::datagram>;
 //------------------------------------------------------------------------------
