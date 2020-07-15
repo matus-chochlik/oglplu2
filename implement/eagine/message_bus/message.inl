@@ -5,6 +5,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/message_bus/context.hpp>
+#include <eagine/message_bus/serialize.hpp>
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
@@ -174,6 +175,39 @@ void serialized_message_storage::cleanup(bit_set to_be_removed) {
         }),
       _messages.end());
 }
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+bool connection_incoming_messages ::fetch_messages(
+  logger& log, fetch_handler handler, span_size_t batch) {
+    unpacked.fetch_all(handler);
+    auto unpacker = [this, &log, &handler](memory::const_block data) {
+        for_each_data_with_size(data, [this, &log](memory::const_block blk) {
+            unpacked.push_if(
+              [&log, blk](message_id& msg_id, stored_message& message) {
+                  block_data_source source(blk);
+                  string_deserializer_backend backend(source);
+                  const auto errors =
+                    deserialize_message(msg_id, message, backend);
+                  if(!errors) {
+                      log.trace("received message ${message}")
+                        .arg(EAGINE_ID(message), msg_id);
+                      return true;
+                  } else {
+                      log.error("failed to deserialize message)")
+                        .arg(EAGINE_ID(errorBits), errors.bits())
+                        .arg(EAGINE_ID(block), blk);
+                      return false;
+                  }
+              });
+        });
+        unpacked.fetch_all(handler);
+        return true;
+    };
+
+    return packed.fetch_some(
+      serialized_message_storage::fetch_handler(unpacker), batch);
+}
+
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus
 

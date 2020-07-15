@@ -405,6 +405,20 @@ private:
     std::vector<stored_message> _messages;
 };
 //------------------------------------------------------------------------------
+struct connection_incoming_messages {
+    using fetch_handler = callable_ref<bool(message_id, const message_view&)>;
+
+    serialized_message_storage packed{};
+    message_storage unpacked{};
+
+    void on_received(memory::const_block data) {
+        packed.push(data);
+    }
+
+    bool fetch_messages(
+      logger& log, fetch_handler handler, span_size_t batch = 64);
+};
+//------------------------------------------------------------------------------
 } // namespace eagine::msgbus
 
 #if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)

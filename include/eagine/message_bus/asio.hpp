@@ -176,47 +176,6 @@ struct connection_sink {
     virtual void on_received(const Endpoint& source, memory::const_block) = 0;
 };
 //------------------------------------------------------------------------------
-struct connection_incoming_messages {
-    serialized_message_storage packed{};
-    message_storage unpacked{};
-
-    void on_received(memory::const_block data) {
-        packed.push(data);
-    }
-
-    bool fetch_messages(
-      logger& log, connection::fetch_handler handler, span_size_t batch = 64) {
-        unpacked.fetch_all(handler);
-        auto unpacker = [this, &log, &handler](memory::const_block data) {
-            for_each_data_with_size(
-              data, [this, &log](memory::const_block blk) {
-                  unpacked.push_if(
-                    [&log, blk](message_id& msg_id, stored_message& message) {
-                        block_data_source source(blk);
-                        string_deserializer_backend backend(source);
-                        const auto errors =
-                          deserialize_message(msg_id, message, backend);
-                        if(!errors) {
-                            log.trace("received message ${message}")
-                              .arg(EAGINE_ID(message), msg_id);
-                            return true;
-                        } else {
-                            log.error("failed to deserialize message)")
-                              .arg(EAGINE_ID(errorBits), errors.bits())
-                              .arg(EAGINE_ID(block), blk);
-                            return false;
-                        }
-                    });
-              });
-            unpacked.fetch_all(handler);
-            return true;
-        };
-
-        return packed.fetch_some(
-          serialized_message_storage::fetch_handler(unpacker), batch);
-    }
-};
-//------------------------------------------------------------------------------
 template <typename Socket, connection_protocol Proto>
 struct connection_state
   : std::enable_shared_from_this<connection_state<Socket, Proto>> {
