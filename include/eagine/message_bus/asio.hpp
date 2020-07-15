@@ -13,6 +13,7 @@
 #include "../bool_aggregate.hpp"
 #include "../branch_predict.hpp"
 #include "../config/platform.hpp"
+#include "../flat_map.hpp"
 #include "../from_string.hpp"
 #include "../logging/exception.hpp"
 #include "../logging/logger.hpp"
@@ -175,23 +176,63 @@ struct connection_sink {
     virtual void on_received(const Endpoint& source, memory::const_block) = 0;
 };
 //------------------------------------------------------------------------------
-template <typename Socket, connection_protocol Proto, span_size_t Batch>
+struct connection_incoming_messages {
+    serialized_message_storage packed{};
+    message_storage unpacked{};
+
+    void on_received(memory::const_block data) {
+        packed.push(data);
+    }
+
+    bool fetch_messages(
+      logger& log, connection::fetch_handler handler, span_size_t batch = 64) {
+        unpacked.fetch_all(handler);
+        auto unpacker = [this, &log, &handler](memory::const_block data) {
+            for_each_data_with_size(
+              data, [this, &log](memory::const_block blk) {
+                  unpacked.push_if(
+                    [&log, blk](message_id& msg_id, stored_message& message) {
+                        block_data_source source(blk);
+                        string_deserializer_backend backend(source);
+                        const auto errors =
+                          deserialize_message(msg_id, message, backend);
+                        if(!errors) {
+                            log.trace("received message ${message}")
+                              .arg(EAGINE_ID(message), msg_id);
+                            return true;
+                        } else {
+                            log.error("failed to deserialize message)")
+                              .arg(EAGINE_ID(errorBits), errors.bits())
+                              .arg(EAGINE_ID(block), blk);
+                            return false;
+                        }
+                    });
+              });
+            unpacked.fetch_all(handler);
+            return true;
+        };
+
+        return packed.fetch_some(
+          serialized_message_storage::fetch_handler(unpacker), batch);
+    }
+};
+//------------------------------------------------------------------------------
+template <typename Socket, connection_protocol Proto>
 struct connection_state
-  : std::enable_shared_from_this<connection_state<Socket, Proto, Batch>> {
+  : std::enable_shared_from_this<connection_state<Socket, Proto>> {
 
     logger _log{};
-    std::mutex mutex;
+    std::mutex mutex{};
     std::shared_ptr<asio_common_state> common;
     Socket socket;
-    typename Socket::endpoint_type endpoint;
-    connection_sink<typename Socket::endpoint_type>* conn_sink{nullptr};
+    using Endpoint = typename Socket::endpoint_type;
+    Endpoint endpoint{};
 
-    memory::buffer push_buffer;
-    memory::buffer read_buffer;
-    memory::buffer write_buffer;
-    serialized_message_storage incoming;
-    serialized_message_storage outgoing;
-    message_storage unpacked;
+    memory::buffer push_buffer{};
+    memory::buffer read_buffer{};
+    memory::buffer write_buffer{};
+    serialized_message_storage outgoing{};
+    connection_incoming_messages incoming{};
     bool is_sending{false};
     bool is_recving{false};
     bool has_recved{false};
@@ -253,33 +294,7 @@ struct connection_state
 
     bool fetch_messages(connection::fetch_handler handler) {
         std::unique_lock lock{mutex};
-        unpacked.fetch_all(handler);
-        auto unpacker = [this, &handler](memory::const_block data) {
-            for_each_data_with_size(data, [this](memory::const_block blk) {
-                unpacked.push_if(
-                  [this, blk](message_id& msg_id, stored_message& message) {
-                      block_data_source source(blk);
-                      string_deserializer_backend backend(source);
-                      const auto errors =
-                        deserialize_message(msg_id, message, backend);
-                      if(!errors) {
-                          this->_log.trace("received message ${message}")
-                            .arg(EAGINE_ID(message), msg_id);
-                          return true;
-                      } else {
-                          _log.error("failed to deserialize message)")
-                            .arg(EAGINE_ID(errorBits), errors.bits())
-                            .arg(EAGINE_ID(block), blk);
-                          return false;
-                      }
-                  });
-            });
-            unpacked.fetch_all(handler);
-            return true;
-        };
-
-        return incoming.fetch_some(
-          serialized_message_storage::fetch_handler(unpacker), Batch);
+        return incoming.fetch_messages(_log, handler);
     }
 
     void handle_sent(serialized_message_storage::bit_set to_be_removed) {
@@ -338,20 +353,27 @@ struct connection_state
         return is_sending;
     }
 
-    void do_handle_received(stream_protocol_tag, memory::const_block data) {
-        incoming.push(data);
+    void do_handle_received(
+      stream_protocol_tag,
+      memory::const_block data,
+      connection_sink<Endpoint>*) {
+        incoming.packed.push(data);
     }
 
-    void do_handle_received(datagram_protocol_tag, memory::const_block data) {
+    void do_handle_received(
+      datagram_protocol_tag,
+      memory::const_block data,
+      connection_sink<Endpoint>* conn_sink) {
         if(conn_sink) {
             conn_sink->on_received(endpoint, data);
         } else {
-            incoming.push(data);
+            incoming.packed.push(data);
         }
     }
 
-    void handle_received(memory::const_block data) {
-        do_handle_received(connection_protocol_tag<Proto>{}, data);
+    void handle_received(
+      memory::const_block data, connection_sink<Endpoint>* conn_sink) {
+        do_handle_received(connection_protocol_tag<Proto>{}, data, conn_sink);
         is_recving = false;
         has_recved = true;
     }
@@ -369,7 +391,7 @@ struct connection_state
           asio::buffer(blk.data(), blk.size()), endpoint, handler);
     }
 
-    bool start_receive() {
+    bool start_receive(connection_sink<Endpoint>* conn_sink = nullptr) {
         std::unique_lock lock{mutex};
         if(!is_recving) {
             is_recving = true;
@@ -382,7 +404,7 @@ struct connection_state
             do_start_receive(
               connection_protocol_tag<Proto>{},
               blk,
-              [this, selfref{weak_ref()}, blk](
+              [this, conn_sink, selfref{weak_ref()}, blk](
                 std::error_code error, std::size_t length) {
                   if(const auto self{selfref.lock()}) {
                       memory::const_block rcvd = head(blk, span_size(length));
@@ -391,13 +413,13 @@ struct connection_state
                             .arg(EAGINE_ID(block), rcvd)
                             .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), length);
 
-                          this->handle_received(rcvd);
-                          self->start_receive();
+                          this->handle_received(rcvd, conn_sink);
+                          self->start_receive(conn_sink);
                       } else {
                           if(rcvd) {
                               _log.warning("failed receiving data: ${error}")
                                 .arg(EAGINE_ID(error), error);
-                              this->handle_received(rcvd);
+                              this->handle_received(rcvd, conn_sink);
                           } else {
                               _log.error("failed to receive data: ${error}")
                                 .arg(EAGINE_ID(error), error);
@@ -434,23 +456,25 @@ struct connection_state
     }
 };
 //------------------------------------------------------------------------------
-template <
-  connection_addr_kind Kind,
-  connection_protocol Proto,
-  typename Socket,
-  span_size_t Batch>
+template <connection_addr_kind Kind, connection_protocol Proto, typename Socket>
 class asio_connection_base
   : public asio_connection_info<connection, Kind, Proto> {
 
 protected:
     logger _log{};
-    std::shared_ptr<connection_state<Socket, Proto, Batch>> _state;
+    std::shared_ptr<connection_state<Socket, Proto>> _state;
+
+    asio_connection_base(
+      logger& parent, std::shared_ptr<connection_state<Socket, Proto>> state)
+      : _log{EAGINE_ID(AsioConnBs), parent}
+      , _state{std::move(state)} {
+    }
 
 public:
     asio_connection_base(
       logger& parent, std::shared_ptr<asio_common_state> asio_state)
       : _log{EAGINE_ID(AsioConnBs), parent}
-      , _state{std::make_shared<connection_state<Socket, Proto, Batch>>(
+      , _state{std::make_shared<connection_state<Socket, Proto>>(
           _log, std::move(asio_state))} {
         EAGINE_ASSERT(_state);
     }
@@ -460,7 +484,7 @@ public:
       std::shared_ptr<asio_common_state> asio_state,
       Socket socket)
       : _log{EAGINE_ID(AsioConnBs), parent}
-      , _state{std::make_shared<connection_state<Socket, Proto, Batch>>(
+      , _state{std::make_shared<connection_state<Socket, Proto>>(
           _log, std::move(asio_state), std::move(socket))} {
         EAGINE_ASSERT(_state);
     }
@@ -480,9 +504,13 @@ public:
         return _state->enqueue(msg_id, message);
     }
 
-    bool fetch_messages(connection::fetch_handler handler) final {
+    bool fetch_messages(connection::fetch_handler handler) override {
         EAGINE_ASSERT(_state);
         return _state->fetch_messages(handler);
+    }
+
+    void cleanup() override {
+        _state->cleanup();
     }
 };
 //------------------------------------------------------------------------------
@@ -491,14 +519,12 @@ class asio_connection
   : public asio_connection_base<
       Kind,
       Proto,
-      typename asio_types<Kind, Proto>::socket_type,
-      64> {
+      typename asio_types<Kind, Proto>::socket_type> {
 
     using base = asio_connection_base<
       Kind,
       Proto,
-      typename asio_types<Kind, Proto>::socket_type,
-      64>;
+      typename asio_types<Kind, Proto>::socket_type>;
 
 public:
     using base::base;
@@ -513,10 +539,116 @@ public:
         something_done(this->_state->update());
         return something_done;
     }
+};
+//------------------------------------------------------------------------------
+template <connection_addr_kind Kind>
+class asio_datagram_client_connection
+  : public asio_connection<Kind, connection_protocol::datagram> {
 
-    void cleanup() final {
-        this->_state->cleanup();
+    using base = asio_connection<Kind, connection_protocol::datagram>;
+    using Socket =
+      typename asio_types<Kind, connection_protocol::datagram>::socket_type;
+    using Endpoint = typename Socket::endpoint_type;
+
+public:
+    asio_datagram_client_connection(
+      logger& parent,
+      std::shared_ptr<connection_state<Socket, connection_protocol::datagram>>
+        state,
+      std::shared_ptr<connection_incoming_messages> incoming,
+      connection_sink<Endpoint>& conn_sink)
+      : base(parent, std::move(state))
+      , _incoming{std::move(incoming)}
+      , _conn_sink{conn_sink} {
     }
+
+    void on_received(memory::const_block data) {
+        EAGINE_ASSERT(_incoming);
+        _incoming->on_received(data);
+    }
+
+    bool fetch_messages(connection::fetch_handler handler) final {
+        EAGINE_ASSERT(this->_state);
+        EAGINE_ASSERT(this->_state->incoming.packed.empty());
+        EAGINE_ASSERT(_incoming);
+        return _incoming->fetch_messages(this->_log, handler);
+    }
+
+    bool update() override {
+        EAGINE_ASSERT(this->_state);
+        some_true something_done{};
+        if(this->_state->socket.is_open()) {
+            something_done(this->_state->start_receive(&_conn_sink));
+            something_done(this->_state->start_send());
+        }
+        something_done(this->_state->update());
+        return something_done;
+    }
+
+private:
+    std::shared_ptr<connection_incoming_messages> _incoming;
+    connection_sink<Endpoint>& _conn_sink;
+};
+//------------------------------------------------------------------------------
+template <connection_addr_kind Kind>
+class asio_datagram_server_connection
+  : public asio_connection<Kind, connection_protocol::datagram>
+  , public connection_sink<typename asio_types<
+      Kind,
+      connection_protocol::datagram>::socket_type::endpoint_type> {
+
+    using base = asio_connection<Kind, connection_protocol::datagram>;
+    using Endpoint = typename asio_types<Kind, connection_protocol::datagram>::
+      socket_type::endpoint_type;
+
+public:
+    using base::base;
+
+    void on_received(const Endpoint& source, memory::const_block data) final {
+        auto pos = _current.find(source);
+        if(pos != _current.end()) {
+            pos->second->on_received(data);
+        } else {
+            pos = _pending.find(source);
+            if(pos != _pending.end()) {
+                pos->second->on_received(data);
+            } else {
+                pos = _pending.try_emplace(source).first;
+                pos->second->on_received(data);
+            }
+        }
+    }
+
+    bool process_accepted(const acceptor::accept_handler& handler) {
+        some_true something_done;
+        for(auto& p : _pending) {
+            handler(std::make_unique<asio_datagram_client_connection<Kind>>(
+              this->_log,
+              this->_state,
+              p.second,
+              *static_cast<connection_sink<Endpoint>*>(this)));
+            something_done();
+        }
+        _pending.clear();
+        return something_done;
+    }
+
+    bool update() override {
+        EAGINE_ASSERT(this->_state);
+        some_true something_done{};
+        if(this->_state->socket.is_open()) {
+            something_done(this->_state->start_receive(this));
+            something_done(this->_state->start_send());
+        }
+        something_done(this->_state->update());
+        return something_done;
+    }
+
+private:
+    flat_map<Endpoint, std::shared_ptr<connection_incoming_messages>>
+      _current{};
+    flat_map<Endpoint, std::shared_ptr<connection_incoming_messages>>
+      _pending{};
 };
 //------------------------------------------------------------------------------
 // IPv4
@@ -833,35 +965,6 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-class asio_udp_ipv4_server_connection
-  : public asio_connection<
-      connection_addr_kind::ipv4,
-      connection_protocol::datagram>
-  , public connection_sink<asio::ip::udp::endpoint> {
-    using base = asio_connection<
-      connection_addr_kind::ipv4,
-      connection_protocol::datagram>;
-
-public:
-    asio_udp_ipv4_server_connection(
-      logger& parent,
-      const std::shared_ptr<asio_common_state>& state,
-      ipv4_port port)
-      : base{parent, state} {
-        this->_state->endpoint = {asio::ip::udp::v4(), port};
-    }
-
-    void on_received(
-      const asio::ip::udp::endpoint&, memory::const_block) final {
-    }
-
-    bool process_accepted(const acceptor::accept_handler&) {
-        return false;
-    }
-
-private:
-};
-//------------------------------------------------------------------------------
 template <>
 class asio_acceptor<connection_addr_kind::ipv4, connection_protocol::datagram>
   : public acceptor {
@@ -870,7 +973,7 @@ private:
     std::shared_ptr<asio_common_state> _asio_state;
     std::tuple<std::string, ipv4_port> _addr;
 
-    asio_udp_ipv4_server_connection _conn;
+    asio_datagram_server_connection<connection_addr_kind::ipv4> _conn;
 
 public:
     asio_acceptor(
@@ -880,7 +983,7 @@ public:
       : _log{EAGINE_ID(AsioAccptr), parent}
       , _asio_state{std::move(asio_state)}
       , _addr{parse_ipv4_addr(addr_str)}
-      , _conn{_log, _asio_state, std::get<1>(_addr)} {
+      , _conn{_log, _asio_state} {
     }
 
     bool update() final {
