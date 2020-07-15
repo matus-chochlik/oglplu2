@@ -163,6 +163,18 @@ class asio_connector;
 template <connection_addr_kind, connection_protocol>
 class asio_acceptor;
 //------------------------------------------------------------------------------
+template <typename Endpoint>
+struct connection_sink {
+    connection_sink() noexcept = default;
+    connection_sink(connection_sink&&) = delete;
+    connection_sink(const connection_sink&) = delete;
+    connection_sink& operator=(connection_sink&&) = delete;
+    connection_sink& operator=(const connection_sink&) = delete;
+    virtual ~connection_sink() noexcept = default;
+
+    virtual void on_received(const Endpoint& source, memory::const_block) = 0;
+};
+//------------------------------------------------------------------------------
 template <typename Socket, connection_protocol Proto, span_size_t Batch>
 struct connection_state
   : std::enable_shared_from_this<connection_state<Socket, Proto, Batch>> {
@@ -172,6 +184,7 @@ struct connection_state
     std::shared_ptr<asio_common_state> common;
     Socket socket;
     typename Socket::endpoint_type endpoint;
+    connection_sink<typename Socket::endpoint_type>* conn_sink{nullptr};
 
     memory::buffer push_buffer;
     memory::buffer read_buffer;
@@ -325,8 +338,20 @@ struct connection_state
         return is_sending;
     }
 
-    void handle_received(memory::const_block data) {
+    void do_handle_received(stream_protocol_tag, memory::const_block data) {
         incoming.push(data);
+    }
+
+    void do_handle_received(datagram_protocol_tag, memory::const_block data) {
+        if(conn_sink) {
+            conn_sink->on_received(endpoint, data);
+        } else {
+            incoming.push(data);
+        }
+    }
+
+    void handle_received(memory::const_block data) {
+        do_handle_received(connection_protocol_tag<Proto>{}, data);
         is_recving = false;
         has_recved = true;
     }
@@ -496,10 +521,14 @@ public:
 //------------------------------------------------------------------------------
 // IPv4
 //------------------------------------------------------------------------------
-static inline std::tuple<std::string, int> parse_ipv4_addr(
+using ipv4_port = unsigned short int;
+static inline std::tuple<std::string, ipv4_port> parse_ipv4_addr(
   string_view addr_str) {
-    auto [hostname, port_str] = split_by_last(addr_str, string_view(":"));
-    return {to_string(hostname), extract_or(from_string<int>(port_str), 34912)};
+    auto [hostname, port_str] = split_by_last(
+      addr_str ? addr_str : string_view{"localhost"}, string_view(":"));
+    return {
+      to_string(hostname),
+      extract_or(from_string<ipv4_port>(port_str), ipv4_port{34912U})};
 }
 //------------------------------------------------------------------------------
 // TCP/IPv4
@@ -533,11 +562,12 @@ class asio_connector<connection_addr_kind::ipv4, connection_protocol::stream>
       asio_connection<connection_addr_kind::ipv4, connection_protocol::stream>;
 
     asio::ip::tcp::resolver _resolver;
-    std::tuple<std::string, int> _addr;
+    std::tuple<std::string, ipv4_port> _addr;
     timeout _should_reconnect{std::chrono::seconds{1}, nothing};
     bool _connecting{false};
 
-    void _start_connect(asio::ip::tcp::resolver::iterator resolved, int port) {
+    void _start_connect(
+      asio::ip::tcp::resolver::iterator resolved, ipv4_port port) {
         this->_state->endpoint = *resolved;
         this->_state->endpoint.port(port);
 
@@ -596,10 +626,6 @@ class asio_connector<connection_addr_kind::ipv4, connection_protocol::stream>
           });
     }
 
-    static inline auto _fix_addr(string_view addr_str) noexcept {
-        return addr_str ? addr_str : string_view{"localhost"};
-    }
-
 public:
     asio_connector(
       logger& parent,
@@ -607,7 +633,7 @@ public:
       string_view addr_str)
       : base{parent, asio_state}
       , _resolver{asio_state->context}
-      , _addr{parse_ipv4_addr(_fix_addr(addr_str))} {
+      , _addr{parse_ipv4_addr(addr_str)} {
     }
 
     bool update() final {
@@ -634,7 +660,7 @@ class asio_acceptor<connection_addr_kind::ipv4, connection_protocol::stream>
 private:
     logger _log{};
     std::shared_ptr<asio_common_state> _asio_state;
-    std::tuple<std::string, int> _addr;
+    std::tuple<std::string, ipv4_port> _addr;
     asio::ip::tcp::acceptor _acceptor;
     asio::ip::tcp::socket _socket;
 
@@ -669,10 +695,6 @@ private:
         });
     }
 
-    static inline auto _fix_addr(string_view addr_str) noexcept {
-        return addr_str ? addr_str : string_view{"localhost"};
-    }
-
 public:
     asio_acceptor(
       logger& parent,
@@ -680,7 +702,7 @@ public:
       string_view addr_str) noexcept
       : _log{EAGINE_ID(AsioAccptr), parent}
       , _asio_state{std::move(asio_state)}
-      , _addr{parse_ipv4_addr(_fix_addr(addr_str))}
+      , _addr{parse_ipv4_addr(addr_str)}
       , _acceptor{_asio_state->context}
       , _socket{_asio_state->context} {
     }
@@ -752,13 +774,15 @@ class asio_connector<connection_addr_kind::ipv4, connection_protocol::datagram>
       connection_protocol::datagram>;
 
     asio::ip::udp::resolver _resolver;
-    std::tuple<std::string, int> _addr;
+    std::tuple<std::string, ipv4_port> _addr;
     timeout _should_reconnect{std::chrono::seconds{1}, nothing};
     bool _connecting{false};
 
-    void _on_resolve(asio::ip::udp::resolver::iterator resolved, int port) {
+    void _on_resolve(
+      asio::ip::udp::resolver::iterator resolved, ipv4_port port) {
         this->_state->endpoint = *resolved;
         this->_state->endpoint.port(port);
+        this->_state->socket.open(asio::ip::udp::v4());
         this->_connecting = false;
 
         this->_log.debug("resolved address ${host}:${port}")
@@ -781,10 +805,6 @@ class asio_connector<connection_addr_kind::ipv4, connection_protocol::datagram>
           });
     }
 
-    static inline auto _fix_addr(string_view addr_str) noexcept {
-        return addr_str ? addr_str : string_view{"localhost"};
-    }
-
 public:
     asio_connector(
       logger& parent,
@@ -792,7 +812,7 @@ public:
       string_view addr_str)
       : base{parent, asio_state}
       , _resolver{asio_state->context}
-      , _addr{parse_ipv4_addr(_fix_addr(addr_str))} {
+      , _addr{parse_ipv4_addr(addr_str)} {
     }
 
     bool update() final {
@@ -810,6 +830,65 @@ public:
         }
         something_done(this->_state->update());
         return something_done;
+    }
+};
+//------------------------------------------------------------------------------
+class asio_udp_ipv4_server_connection
+  : public asio_connection<
+      connection_addr_kind::ipv4,
+      connection_protocol::datagram>
+  , public connection_sink<asio::ip::udp::endpoint> {
+    using base = asio_connection<
+      connection_addr_kind::ipv4,
+      connection_protocol::datagram>;
+
+public:
+    asio_udp_ipv4_server_connection(
+      logger& parent,
+      const std::shared_ptr<asio_common_state>& state,
+      ipv4_port port)
+      : base{parent, state} {
+        this->_state->endpoint = {asio::ip::udp::v4(), port};
+    }
+
+    void on_received(
+      const asio::ip::udp::endpoint&, memory::const_block) final {
+    }
+
+    bool process_accepted(const acceptor::accept_handler&) {
+        return false;
+    }
+
+private:
+};
+//------------------------------------------------------------------------------
+template <>
+class asio_acceptor<connection_addr_kind::ipv4, connection_protocol::datagram>
+  : public acceptor {
+private:
+    logger _log{};
+    std::shared_ptr<asio_common_state> _asio_state;
+    std::tuple<std::string, ipv4_port> _addr;
+
+    asio_udp_ipv4_server_connection _conn;
+
+public:
+    asio_acceptor(
+      logger& parent,
+      std::shared_ptr<asio_common_state> asio_state,
+      string_view addr_str) noexcept
+      : _log{EAGINE_ID(AsioAccptr), parent}
+      , _asio_state{std::move(asio_state)}
+      , _addr{parse_ipv4_addr(addr_str)}
+      , _conn{_log, _asio_state, std::get<1>(_addr)} {
+    }
+
+    bool update() final {
+        return _conn.update();
+    }
+
+    bool process_accepted(const accept_handler& handler) final {
+        return _conn.process_accepted(handler);
     }
 };
 //------------------------------------------------------------------------------
