@@ -42,9 +42,28 @@ static inline connection_kinds operator|(
     return {l, r};
 }
 //------------------------------------------------------------------------------
-enum class connection_addr_kind { local, ipv4 };
-enum class connection_protocol { stream, datagram };
+enum class connection_addr_kind { none, filepath, ipv4 };
 
+template <typename Selector>
+constexpr auto enumerator_mapping(
+  identity<connection_addr_kind>, Selector) noexcept {
+    return enumerator_map_type<connection_addr_kind, 3>{
+      {{"none", connection_addr_kind::none},
+       {"filepath", connection_addr_kind::filepath},
+       {"ipv4", connection_addr_kind::ipv4}}};
+}
+//------------------------------------------------------------------------------
+enum class connection_protocol { stream, datagram, message };
+
+template <typename Selector>
+constexpr auto enumerator_mapping(
+  identity<connection_protocol>, Selector) noexcept {
+    return enumerator_map_type<connection_protocol, 3>{
+      {{"stream", connection_protocol::stream},
+       {"datagram", connection_protocol::datagram},
+       {"message", connection_protocol::message}}};
+}
+//------------------------------------------------------------------------------
 template <connection_protocol Proto>
 using connection_protocol_tag =
   std::integral_constant<connection_protocol, Proto>;
@@ -63,6 +82,8 @@ struct connection_info {
     connection_info& operator=(const connection_info&) = delete;
 
     virtual connection_kind kind() = 0;
+
+    virtual connection_addr_kind addr_kind() = 0;
 
     virtual identifier type_id() = 0;
 };

@@ -21,6 +21,10 @@ public:
         return connection_kind::in_process;
     }
 
+    connection_addr_kind addr_kind() final {
+        return connection_addr_kind::none;
+    }
+
     identifier type_id() final {
         return EAGINE_ID(Loopback);
     }

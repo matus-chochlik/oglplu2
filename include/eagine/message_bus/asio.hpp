@@ -153,13 +153,13 @@ template <connection_addr_kind, connection_protocol>
 class asio_acceptor;
 //------------------------------------------------------------------------------
 template <typename Endpoint>
-struct connection_sink {
-    connection_sink() noexcept = default;
-    connection_sink(connection_sink&&) = delete;
-    connection_sink(const connection_sink&) = delete;
-    connection_sink& operator=(connection_sink&&) = delete;
-    connection_sink& operator=(const connection_sink&) = delete;
-    virtual ~connection_sink() noexcept = default;
+struct asio_connection_sink {
+    asio_connection_sink() noexcept = default;
+    asio_connection_sink(asio_connection_sink&&) = delete;
+    asio_connection_sink(const asio_connection_sink&) = delete;
+    asio_connection_sink& operator=(asio_connection_sink&&) = delete;
+    asio_connection_sink& operator=(const asio_connection_sink&) = delete;
+    virtual ~asio_connection_sink() noexcept = default;
 
     virtual void on_received(const Endpoint& source, memory::const_block) = 0;
 };
@@ -303,14 +303,14 @@ struct asio_connection_state
     void do_handle_received(
       stream_protocol_tag,
       memory::const_block data,
-      connection_sink<Endpoint>*) {
+      asio_connection_sink<Endpoint>*) {
         incoming.packed.push(data);
     }
 
     void do_handle_received(
       datagram_protocol_tag,
       memory::const_block data,
-      connection_sink<Endpoint>* conn_sink) {
+      asio_connection_sink<Endpoint>* conn_sink) {
         if(conn_sink) {
             conn_sink->on_received(endpoint, data);
         } else {
@@ -319,7 +319,7 @@ struct asio_connection_state
     }
 
     void handle_received(
-      memory::const_block data, connection_sink<Endpoint>* conn_sink) {
+      memory::const_block data, asio_connection_sink<Endpoint>* conn_sink) {
         do_handle_received(connection_protocol_tag<Proto>{}, data, conn_sink);
         is_recving = false;
         has_recved = true;
@@ -338,7 +338,7 @@ struct asio_connection_state
           asio::buffer(blk.data(), blk.size()), endpoint, handler);
     }
 
-    bool start_receive(connection_sink<Endpoint>* conn_sink = nullptr) {
+    bool start_receive(asio_connection_sink<Endpoint>* conn_sink = nullptr) {
         std::unique_lock lock{mutex};
         if(!is_recving) {
             is_recving = true;
@@ -504,7 +504,7 @@ public:
       std::shared_ptr<
         asio_connection_state<Socket, connection_protocol::datagram>> state,
       std::shared_ptr<connection_incoming_messages> incoming,
-      connection_sink<Endpoint>& conn_sink)
+      asio_connection_sink<Endpoint>& conn_sink)
       : base(parent, std::move(state))
       , _incoming{std::move(incoming)}
       , _conn_sink{conn_sink} {
@@ -535,13 +535,13 @@ public:
 
 private:
     std::shared_ptr<connection_incoming_messages> _incoming;
-    connection_sink<Endpoint>& _conn_sink;
+    asio_connection_sink<Endpoint>& _conn_sink;
 };
 //------------------------------------------------------------------------------
 template <connection_addr_kind Kind>
 class asio_datagram_server_connection
   : public asio_connection<Kind, connection_protocol::datagram>
-  , public connection_sink<typename asio_types<
+  , public asio_connection_sink<typename asio_types<
       Kind,
       connection_protocol::datagram>::socket_type::endpoint_type> {
 
@@ -574,7 +574,7 @@ public:
               this->_log,
               this->_state,
               p.second,
-              *static_cast<connection_sink<Endpoint>*>(this)));
+              *static_cast<asio_connection_sink<Endpoint>*>(this)));
             something_done();
         }
         _pending.clear();
@@ -609,6 +609,10 @@ class asio_connection_info<
 public:
     connection_kind kind() final {
         return connection_kind::remote_interprocess;
+    }
+
+    connection_addr_kind addr_kind() final {
+        return connection_addr_kind::ipv4;
     }
 
     identifier type_id() final {
@@ -822,6 +826,10 @@ public:
         return connection_kind::remote_interprocess;
     }
 
+    connection_addr_kind addr_kind() final {
+        return connection_addr_kind::ipv4;
+    }
+
     identifier type_id() final {
         return EAGINE_ID(AsioUdpIp4);
     }
@@ -937,11 +945,15 @@ public:
 template <typename Base>
 class asio_connection_info<
   Base,
-  connection_addr_kind::local,
+  connection_addr_kind::filepath,
   connection_protocol::stream> : public Base {
 public:
     connection_kind kind() final {
         return connection_kind::local_interprocess;
+    }
+
+    connection_addr_kind addr_kind() final {
+        return connection_addr_kind::filepath;
     }
 
     identifier type_id() final {
@@ -950,17 +962,20 @@ public:
 };
 //------------------------------------------------------------------------------
 template <>
-struct asio_types<connection_addr_kind::local, connection_protocol::stream> {
+struct asio_types<connection_addr_kind::filepath, connection_protocol::stream> {
     using socket_type = asio::local::stream_protocol::socket;
 };
 //------------------------------------------------------------------------------
 template <>
-class asio_connector<connection_addr_kind::local, connection_protocol::stream>
+class asio_connector<
+  connection_addr_kind::filepath,
+  connection_protocol::stream>
   : public asio_connection<
-      connection_addr_kind::local,
+      connection_addr_kind::filepath,
       connection_protocol::stream> {
-    using base =
-      asio_connection<connection_addr_kind::local, connection_protocol::stream>;
+    using base = asio_connection<
+      connection_addr_kind::filepath,
+      connection_protocol::stream>;
 
     std::string _addr_str;
     timeout _should_reconnect{std::chrono::seconds{1}, nothing};
@@ -1018,7 +1033,7 @@ public:
 };
 //------------------------------------------------------------------------------
 template <>
-class asio_acceptor<connection_addr_kind::local, connection_protocol::stream>
+class asio_acceptor<connection_addr_kind::filepath, connection_protocol::stream>
   : public acceptor {
 private:
     logger _log{};
@@ -1114,7 +1129,7 @@ public:
         some_true something_done{};
         for(auto& socket : _accepted) {
             auto conn = std::make_unique<asio_connection<
-              connection_addr_kind::local,
+              connection_addr_kind::filepath,
               connection_protocol::stream>>(
               _log, _asio_state, std::move(socket));
             handler(std::move(conn));
@@ -1171,7 +1186,7 @@ using asio_udp_ipv4_connection_factory = asio_connection_factory<
 //------------------------------------------------------------------------------
 #if EAGINE_POSIX
 using asio_local_stream_connection_factory = asio_connection_factory<
-  connection_addr_kind::local,
+  connection_addr_kind::filepath,
   connection_protocol::stream>;
 #endif // EAGINE_POSIX
 //------------------------------------------------------------------------------

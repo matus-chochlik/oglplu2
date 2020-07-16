@@ -117,6 +117,7 @@ void connection_setup::add_factory(
 
     _log.debug("adding ${kind} connection factory ${factory}")
       .arg(EAGINE_ID(kind), kind)
+      .arg(EAGINE_ID(addrKind), factory->addr_kind())
       .arg(EAGINE_ID(factory), factory);
 
     _factory_map.visit(
