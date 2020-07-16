@@ -177,7 +177,7 @@ void serialized_message_storage::cleanup(bit_set to_be_removed) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool connection_incoming_messages ::fetch_messages(
+bool connection_incoming_messages::fetch_messages(
   logger& log, fetch_handler handler, span_size_t batch) {
     unpacked.fetch_all(handler);
     auto unpacker = [this, &log, &handler](memory::const_block data) {

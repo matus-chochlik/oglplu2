@@ -177,6 +177,7 @@ bool bridge::_handle_special(message_id msg_id, message_view message) {
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
         _log.debug("router handling special message ${message}")
           .arg(EAGINE_ID(message), msg_id)
+          .arg(EAGINE_ID(target), message.target_id)
           .arg(EAGINE_ID(source), message.source_id);
 
         if(msg_id.has_method(EAGINE_ID(assignId))) {

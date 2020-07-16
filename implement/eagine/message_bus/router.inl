@@ -135,10 +135,10 @@ bool router::_handle_pending() {
             return false;
         };
 
-        std::size_t pos = 0;
-        while(pos < _pending.size()) {
+        std::size_t idx = 0;
+        while(idx < _pending.size()) {
             id = 0;
-            auto& pending = _pending[pos];
+            auto& pending = _pending[idx];
 
             something_done(pending.the_connection->update());
             something_done(pending.the_connection->fetch_messages(
@@ -148,18 +148,19 @@ bool router::_handle_pending() {
             if(~id == 0) {
                 _assign_id(pending.the_connection);
             } else if(id != 0) {
-                _log
-                  .debug(
-                    "adopting pending ${type} connection from endpoint "
-                    "${id}")
+                _log.debug("adopting pending connection from endpoint ${id}")
                   .arg(EAGINE_ID(type), pending.the_connection->type_id())
                   .arg(EAGINE_ID(id), id);
-                _endpoints[id].connections.emplace_back(
+                auto pos = _endpoints.find(id);
+                if(pos == _endpoints.end()) {
+                    pos = _endpoints.try_emplace(id).first;
+                }
+                pos->second.connections.emplace_back(
                   std::move(pending.the_connection));
-                _pending.erase(_pending.begin() + pos);
+                _pending.erase(_pending.begin() + idx);
                 something_done();
             } else {
-                ++pos;
+                ++idx;
             }
         }
     }
@@ -329,6 +330,7 @@ bool router::_handle_special(
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
         _log.debug("router handling special message ${message}")
           .arg(EAGINE_ID(message), msg_id)
+          .arg(EAGINE_ID(target), message.target_id)
           .arg(EAGINE_ID(source), message.source_id);
 
         if(msg_id.has_method(EAGINE_ID(notARouter))) {

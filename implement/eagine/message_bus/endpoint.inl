@@ -72,9 +72,15 @@ bool endpoint::_handle_special(
           .debug("handling special message ${message}")
           .arg(EAGINE_ID(message), msg_id)
           .arg(EAGINE_ID(endpoint), _id)
+          .arg(EAGINE_ID(target), message.target_id)
           .arg(EAGINE_ID(source), message.source_id);
 
-        if(msg_id.has_method(EAGINE_ID(blobFrgmnt))) {
+        if(EAGINE_UNLIKELY(has_id() && (message.source_id == _id))) {
+            log()
+              .warning("received own special message ${message}")
+              .arg(EAGINE_ID(message), msg_id);
+            return true;
+        } else if(msg_id.has_method(EAGINE_ID(blobFrgmnt))) {
             if(_blobs.process_incoming(
                  blob_manipulator::filter_function(
                    this, EAGINE_MEM_FUNC_C(endpoint, _do_allow_blob)),

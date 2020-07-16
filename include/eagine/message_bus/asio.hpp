@@ -448,7 +448,7 @@ public:
         return _state->is_usable();
     }
 
-    bool send(message_id msg_id, const message_view& message) final {
+    bool send(message_id msg_id, const message_view& message) override {
         EAGINE_ASSERT(_state);
         return _state->enqueue(msg_id, message);
     }
@@ -551,21 +551,20 @@ public:
 
     void on_received(const Endpoint& source, memory::const_block data) final {
         auto pos = _current.find(source);
-        if(pos != _current.end()) {
-            pos->second->on_received(data);
-        } else {
+        if(pos == _current.end()) {
             pos = _pending.find(source);
-            if(pos != _pending.end()) {
-                pos->second->on_received(data);
-            } else {
+            if(pos == _pending.end()) {
                 pos =
                   _pending
                     .try_emplace(
                       source, std::make_shared<connection_incoming_messages>())
                     .first;
-                pos->second->on_received(data);
+                this->_log.debug("added pending datagram endpoint")
+                  .arg(EAGINE_ID(pending), _pending.size())
+                  .arg(EAGINE_ID(current), _current.size());
             }
         }
+        pos->second->on_received(data);
     }
 
     bool process_accepted(const acceptor::accept_handler& handler) {
@@ -577,6 +576,10 @@ public:
             something_done();
         }
         _pending.clear();
+        if(something_done) {
+            this->_log.debug("accepted datagram endpoints")
+              .arg(EAGINE_ID(current), _current.size());
+        }
         return something_done;
     }
 
