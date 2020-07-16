@@ -76,6 +76,8 @@ private:
     shared_context _context{};
 
     identifier_t _id{invalid_id()};
+    timeout _no_id_timeout{std::chrono::seconds{2}, nothing};
+
     std::intmax_t _forwarded_messages_i2c{0};
     std::intmax_t _forwarded_messages_c2o{0};
 

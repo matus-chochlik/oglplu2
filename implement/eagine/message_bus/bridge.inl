@@ -295,6 +295,12 @@ bool bridge::_update_connections() {
 
     for(auto& conn : _connections) {
         if(EAGINE_LIKELY(conn)) {
+            if(EAGINE_UNLIKELY(!has_id() && _no_id_timeout)) {
+                _log.debug("requesting bridge id");
+                conn->send(EAGINE_MSGBUS_ID(requestId), {});
+                _no_id_timeout.reset();
+                something_done();
+            }
             if(conn->update()) {
                 something_done();
                 _no_connection_timeout.reset();

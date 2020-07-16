@@ -265,12 +265,13 @@ struct asio_connection_state
 
     bool start_send() {
         std::unique_lock lock{mutex};
+
         if(!is_sending) {
             if(auto packed_messages = outgoing.pack_into(cover(write_buffer))) {
                 is_sending = true;
                 const auto blk = view(write_buffer);
 
-                _log.trace("writing data (size: ${size})")
+                _log.trace("sending data (size: ${size})")
                   .arg(EAGINE_ID(packed), EAGINE_ID(bits), packed_messages)
                   .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), blk.size())
                   .arg(EAGINE_ID(block), blk);
@@ -503,11 +504,9 @@ public:
       logger& parent,
       std::shared_ptr<
         asio_connection_state<Socket, connection_protocol::datagram>> state,
-      std::shared_ptr<connection_incoming_messages> incoming,
-      asio_connection_sink<Endpoint>& conn_sink)
+      std::shared_ptr<connection_incoming_messages> incoming)
       : base(parent, std::move(state))
-      , _incoming{std::move(incoming)}
-      , _conn_sink{conn_sink} {
+      , _incoming{std::move(incoming)} {
     }
 
     void on_received(memory::const_block data) {
@@ -526,7 +525,6 @@ public:
         EAGINE_ASSERT(this->_state);
         some_true something_done{};
         if(this->_state->socket.is_open()) {
-            something_done(this->_state->start_receive(&_conn_sink));
             something_done(this->_state->start_send());
         }
         something_done(this->_state->update());
@@ -535,7 +533,6 @@ public:
 
 private:
     std::shared_ptr<connection_incoming_messages> _incoming;
-    asio_connection_sink<Endpoint>& _conn_sink;
 };
 //------------------------------------------------------------------------------
 template <connection_addr_kind Kind>
@@ -561,7 +558,11 @@ public:
             if(pos != _pending.end()) {
                 pos->second->on_received(data);
             } else {
-                pos = _pending.try_emplace(source).first;
+                pos =
+                  _pending
+                    .try_emplace(
+                      source, std::make_shared<connection_incoming_messages>())
+                    .first;
                 pos->second->on_received(data);
             }
         }
@@ -571,10 +572,8 @@ public:
         some_true something_done;
         for(auto& p : _pending) {
             handler(std::make_unique<asio_datagram_client_connection<Kind>>(
-              this->_log,
-              this->_state,
-              p.second,
-              *static_cast<asio_connection_sink<Endpoint>*>(this)));
+              this->_log, this->_state, p.second));
+            _current.insert(p);
             something_done();
         }
         _pending.clear();
@@ -586,7 +585,6 @@ public:
         some_true something_done{};
         if(this->_state->socket.is_open()) {
             something_done(this->_state->start_receive(this));
-            something_done(this->_state->start_send());
         }
         something_done(this->_state->update());
         return something_done;
@@ -852,14 +850,14 @@ class asio_connector<connection_addr_kind::ipv4, connection_protocol::datagram>
     asio::ip::udp::resolver _resolver;
     std::tuple<std::string, ipv4_port> _addr;
     timeout _should_reconnect{std::chrono::seconds{1}, nothing};
-    bool _connecting{false};
+    bool _establishing{false};
 
     void _on_resolve(
       asio::ip::udp::resolver::iterator resolved, ipv4_port port) {
         auto& ep = this->_state->endpoint = *resolved;
         ep.port(port);
         this->_state->socket.open(ep.protocol());
-        this->_connecting = false;
+        this->_establishing = false;
 
         this->_log.debug("resolved address ${host}:${port}")
           .arg(EAGINE_ID(host), EAGINE_ID(IpV4Host), std::get<0>(_addr))
@@ -867,7 +865,7 @@ class asio_connector<connection_addr_kind::ipv4, connection_protocol::datagram>
     }
 
     void _start_resolve() {
-        _connecting = true;
+        _establishing = true;
         const auto& [host, port] = _addr;
         _resolver.async_resolve(
           host, {}, [this, port](std::error_code error, auto resolved) {
@@ -876,7 +874,7 @@ class asio_connector<connection_addr_kind::ipv4, connection_protocol::datagram>
               } else {
                   _log.error("failed to resolve address: ${error}")
                     .arg(EAGINE_ID(error), error);
-                  this->_connecting = false;
+                  this->_establishing = false;
               }
           });
     }
@@ -897,7 +895,7 @@ public:
         if(this->_state->socket.is_open()) {
             something_done(this->_state->start_receive());
             something_done(this->_state->start_send());
-        } else if(!_connecting) {
+        } else if(!_establishing) {
             if(_should_reconnect) {
                 _should_reconnect.reset();
                 _start_resolve();
@@ -927,7 +925,12 @@ public:
       : _log{EAGINE_ID(AsioAccptr), parent}
       , _asio_state{std::move(asio_state)}
       , _addr{parse_ipv4_addr(addr_str)}
-      , _conn{_log, _asio_state} {
+      , _conn{
+          _log,
+          _asio_state,
+          asio::ip::udp::socket{
+            _asio_state->context,
+            asio::ip::udp::endpoint{asio::ip::udp::v4(), std::get<1>(_addr)}}} {
     }
 
     bool update() final {

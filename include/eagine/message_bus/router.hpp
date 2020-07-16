@@ -113,6 +113,7 @@ private:
     bool _handle_pending();
     bool _remove_timeouted();
     bool _remove_disconnected();
+    void _assign_id(std::unique_ptr<connection>& conn);
     void _handle_connection(std::unique_ptr<connection> conn);
 
     bool _cleanup_blobs();

@@ -12,6 +12,7 @@
 
 #include "../flat_map.hpp"
 #include "../logging/logger.hpp"
+#include "../timeout.hpp"
 #include "blobs.hpp"
 #include "connection.hpp"
 #include "context_fwd.hpp"
@@ -48,6 +49,7 @@ private:
     shared_context _context{make_context(_log)};
 
     identifier_t _id{invalid_id()};
+    timeout _no_id_timeout{std::chrono::seconds{2}, nothing};
 
     std::vector<std::unique_ptr<connection>> _connections{};
 
