@@ -168,24 +168,30 @@ struct asio_connection_group {
     asio_connection_group& operator=(const asio_connection_group&) = delete;
     virtual ~asio_connection_group() noexcept = default;
 
-    virtual void on_received(
-      const asio_endpoint_type<Kind, Proto>& source, memory::const_block) = 0;
+    using bit_set = typename serialized_message_storage::bit_set;
+    using endpoint_type = asio_endpoint_type<Kind, Proto>;
+
+    virtual bit_set pack_into(endpoint_type&, memory::block) = 0;
+
+    virtual void on_sent(const endpoint_type&, bit_set to_be_removed) = 0;
+
+    virtual void on_received(const endpoint_type&, memory::const_block) = 0;
 };
 //------------------------------------------------------------------------------
 template <connection_addr_kind Kind, connection_protocol Proto>
 struct asio_connection_state
   : std::enable_shared_from_this<asio_connection_state<Kind, Proto>> {
+    using endpoint_type = asio_endpoint_type<Kind, Proto>;
 
     logger _log{};
     std::mutex mutex{};
     std::shared_ptr<asio_common_state> common;
     asio_socket_type<Kind, Proto> socket;
-    asio_endpoint_type<Kind, Proto> endpoint{};
+    endpoint_type endpoint{};
 
     memory::buffer push_buffer{};
     memory::buffer read_buffer{};
     memory::buffer write_buffer{};
-    serialized_message_storage outgoing{};
     bool is_sending{false};
     bool is_recving{false};
     bool has_recved{false};
@@ -232,27 +238,6 @@ struct asio_connection_state
         return false;
     }
 
-    bool enqueue(message_id msg_id, const message_view& message) {
-        std::unique_lock lock{mutex};
-        block_data_sink sink(cover(push_buffer));
-        string_serializer_backend backend(sink);
-        auto errors = serialize_message(msg_id, message, backend);
-        if(!errors) {
-            _log.trace("enqueuing message ${message} to be sent")
-              .arg(EAGINE_ID(message), msg_id);
-            outgoing.push(sink.done());
-            return true;
-        }
-        _log.error("failed to serialize message ${message}")
-          .arg(EAGINE_ID(message), msg_id);
-        return false;
-    }
-
-    void handle_sent(serialized_message_storage::bit_set to_be_removed) {
-        outgoing.cleanup(to_be_removed);
-        is_sending = false;
-    }
-
     template <typename Handler>
     void do_start_send(
       stream_protocol_tag, memory::const_block blk, Handler handler) {
@@ -267,49 +252,62 @@ struct asio_connection_state
           asio::buffer(blk.data(), blk.size()), endpoint, handler);
     }
 
-    bool start_send() {
+    void do_start_send(asio_connection_group<Kind, Proto>& group) {
+
+        endpoint_type target_endpoint{};
+        if(const auto packed_messages{
+             group.pack_into(target_endpoint, cover(write_buffer))}) {
+            is_sending = true;
+            const auto blk = view(write_buffer);
+
+            _log.trace("sending data (size: ${size})")
+              .arg(EAGINE_ID(packed), EAGINE_ID(bits), packed_messages)
+              .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), blk.size())
+              .arg(EAGINE_ID(block), blk);
+
+            do_start_send(
+              connection_protocol_tag<Proto>{},
+              blk,
+              [this,
+               &group,
+               target_endpoint,
+               packed_messages,
+               selfref{weak_ref()}](std::error_code error, std::size_t length) {
+                  if(const auto self{selfref.lock()}) {
+                      if(!error) {
+                          _log.trace("sent data (size: ${size})")
+                            .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), length);
+
+                          this->handle_sent(
+                            group, target_endpoint, packed_messages);
+                      } else {
+                          _log.error("failed to send data: ${error}")
+                            .arg(EAGINE_ID(error), error);
+                          this->is_sending = false;
+                      }
+                  }
+              });
+        } else {
+            is_sending = false;
+        }
+    }
+
+    bool start_send(asio_connection_group<Kind, Proto>& group) {
         std::unique_lock lock{mutex};
 
         if(!is_sending) {
-            if(auto packed_messages = outgoing.pack_into(cover(write_buffer))) {
-                is_sending = true;
-                const auto blk = view(write_buffer);
-
-                _log.trace("sending data (size: ${size})")
-                  .arg(EAGINE_ID(packed), EAGINE_ID(bits), packed_messages)
-                  .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), blk.size())
-                  .arg(EAGINE_ID(block), blk);
-
-                do_start_send(
-                  connection_protocol_tag<Proto>{},
-                  blk,
-                  [this, packed_messages, selfref{weak_ref()}](
-                    std::error_code error, std::size_t length) {
-                      if(const auto self{selfref.lock()}) {
-                          if(!error) {
-                              _log.trace("sent data (size: ${size})")
-                                .arg(
-                                  EAGINE_ID(size), EAGINE_ID(ByteSize), length);
-
-                              this->handle_sent(packed_messages);
-                              self->start_send();
-                          } else {
-                              _log.error("failed to send data: ${error}")
-                                .arg(EAGINE_ID(error), error);
-                              this->is_sending = false;
-                          }
-                      }
-                  });
-            }
+            do_start_send(group);
         }
         return is_sending;
     }
 
-    void handle_received(
-      memory::const_block data, asio_connection_group<Kind, Proto>& group) {
-        group.on_received(endpoint, data);
-        is_recving = false;
-        has_recved = true;
+    void handle_sent(
+      asio_connection_group<Kind, Proto>& group,
+      const endpoint_type& ep,
+      serialized_message_storage::bit_set to_be_removed) {
+        std::unique_lock lock{mutex};
+        group.on_sent(ep, to_be_removed);
+        do_start_send(group);
     }
 
     template <typename Handler>
@@ -325,46 +323,58 @@ struct asio_connection_state
           asio::buffer(blk.data(), blk.size()), endpoint, handler);
     }
 
+    void do_start_receive(asio_connection_group<Kind, Proto>& group) {
+        auto blk = cover(read_buffer);
+
+        _log.trace("reading data (size: ${size})")
+          .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), blk.size());
+
+        is_recving = true;
+        has_recved = false;
+        do_start_receive(
+          connection_protocol_tag<Proto>{},
+          blk,
+          [this, &group, selfref{weak_ref()}, blk](
+            std::error_code error, std::size_t length) {
+              if(const auto self{selfref.lock()}) {
+                  memory::const_block rcvd = head(blk, span_size(length));
+                  if(!error) {
+                      _log.trace("received data (size: ${size})")
+                        .arg(EAGINE_ID(block), rcvd)
+                        .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), length);
+
+                      this->handle_received(rcvd, group);
+                  } else {
+                      if(rcvd) {
+                          _log.warning("failed receiving data: ${error}")
+                            .arg(EAGINE_ID(error), error);
+                          this->handle_received(rcvd, group);
+                      } else {
+                          _log.error("failed to receive data: ${error}")
+                            .arg(EAGINE_ID(error), error);
+                      }
+                      this->is_recving = false;
+                      this->socket.close();
+                  }
+              }
+          });
+    }
+
     bool start_receive(asio_connection_group<Kind, Proto>& group) {
         std::unique_lock lock{mutex};
+
         if(!is_recving) {
-            is_recving = true;
-            has_recved = false;
-            auto blk = cover(read_buffer);
-
-            _log.trace("reading data (size: ${size})")
-              .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), blk.size());
-
-            do_start_receive(
-              connection_protocol_tag<Proto>{},
-              blk,
-              [this, &group, selfref{weak_ref()}, blk](
-                std::error_code error, std::size_t length) {
-                  if(const auto self{selfref.lock()}) {
-                      memory::const_block rcvd = head(blk, span_size(length));
-                      if(!error) {
-                          _log.trace("received data (size: ${size})")
-                            .arg(EAGINE_ID(block), rcvd)
-                            .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), length);
-
-                          this->handle_received(rcvd, group);
-                          self->start_receive(group);
-                      } else {
-                          if(rcvd) {
-                              _log.warning("failed receiving data: ${error}")
-                                .arg(EAGINE_ID(error), error);
-                              this->handle_received(rcvd, group);
-                          } else {
-                              _log.error("failed to receive data: ${error}")
-                                .arg(EAGINE_ID(error), error);
-                          }
-                          this->is_recving = false;
-                          this->socket.close();
-                      }
-                  }
-              });
+            do_start_receive(group);
         }
         return has_recved;
+    }
+
+    void handle_received(
+      memory::const_block data, asio_connection_group<Kind, Proto>& group) {
+        std::unique_lock lock{mutex};
+        has_recved = true;
+        group.on_received(endpoint, data);
+        do_start_receive(group);
     }
 
     bool update() {
@@ -379,10 +389,9 @@ struct asio_connection_state
         return something_done;
     }
 
-    void cleanup() {
-        while(start_send()) {
-            _log.debug("flushing connection outbox (count: ${count})")
-              .arg(EAGINE_ID(count), outgoing.size());
+    void cleanup(asio_connection_group<Kind, Proto>& group) {
+        while(start_send(group)) {
+            _log.debug("flushing connection outbox");
             update();
         }
         common->adopt_flushing(socket);
@@ -395,6 +404,8 @@ class asio_connection_base
   : public asio_connection_info<connection, Kind, Proto> {
 
     logger _log{};
+
+    using bit_set = typename connection_outgoing_messages::bit_set;
 
 protected:
     std::shared_ptr<asio_connection_state<Kind, Proto>> _state;
@@ -440,14 +451,6 @@ public:
     bool is_usable() final {
         return conn_state().is_usable();
     }
-
-    bool send(message_id msg_id, const message_view& message) override {
-        return conn_state().enqueue(msg_id, message);
-    }
-
-    void cleanup() override {
-        conn_state().cleanup();
-    }
 };
 //------------------------------------------------------------------------------
 template <connection_addr_kind Kind, connection_protocol Proto>
@@ -456,6 +459,7 @@ class asio_connection
   , public asio_connection_group<Kind, Proto> {
 
     using base = asio_connection_base<Kind, Proto>;
+    using endpoint_type = asio_endpoint_type<Kind, Proto>;
 
 public:
     using base::base;
@@ -466,32 +470,51 @@ public:
         some_true something_done{};
         if(conn_state().socket.is_open()) {
             something_done(conn_state().start_receive(*this));
-            something_done(conn_state().start_send());
+            something_done(conn_state().start_send(*this));
         }
         something_done(conn_state().update());
         return something_done;
     }
 
-    void on_received(
-      const asio_endpoint_type<Kind, Proto>&, memory::const_block data) final {
-        std::unique_lock lock{conn_state().mutex};
-        return _incoming.on_received(data);
+    using bit_set = typename connection_outgoing_messages::bit_set;
+
+    bit_set pack_into(endpoint_type&, memory::block data) final {
+        return _outgoing.pack_into(data);
     }
 
-    bool fetch_messages(connection::fetch_handler handler) override {
+    void on_sent(const endpoint_type&, bit_set to_be_removed) final {
+        return _outgoing.cleanup(to_be_removed);
+    }
+
+    void on_received(const endpoint_type&, memory::const_block data) final {
+        return _incoming.push(data);
+    }
+
+    bool send(message_id msg_id, const message_view& message) final {
+        std::unique_lock lock{conn_state().mutex};
+        return _outgoing.enqueue(
+          log(), msg_id, message, cover(conn_state().push_buffer));
+    }
+
+    bool fetch_messages(connection::fetch_handler handler) final {
         std::unique_lock lock{conn_state().mutex};
         return _incoming.fetch_messages(log(), handler);
     }
 
+    void cleanup() final {
+        conn_state().cleanup(*this);
+    }
+
 private:
+    connection_outgoing_messages _outgoing{};
     connection_incoming_messages _incoming{};
 };
 //------------------------------------------------------------------------------
 template <connection_addr_kind Kind>
 class asio_datagram_client_connection
-  : public asio_connection<Kind, connection_protocol::datagram> {
+  : public asio_connection_base<Kind, connection_protocol::datagram> {
 
-    using base = asio_connection<Kind, connection_protocol::datagram>;
+    using base = asio_connection_base<Kind, connection_protocol::datagram>;
 
 public:
     using base::conn_state;
@@ -501,15 +524,35 @@ public:
       logger& parent,
       std::shared_ptr<
         asio_connection_state<Kind, connection_protocol::datagram>> state,
+      std::shared_ptr<connection_outgoing_messages> outgoing,
       std::shared_ptr<connection_incoming_messages> incoming)
       : base(parent, std::move(state))
+      , _outgoing{std::move(outgoing)}
       , _incoming{std::move(incoming)} {
     }
 
+    using bit_set = typename connection_outgoing_messages::bit_set;
+
+    bit_set pack_into(memory::block data) {
+        EAGINE_ASSERT(_outgoing);
+        return _outgoing->pack_into(data);
+    }
+
+    void on_sent(bit_set to_be_removed) {
+        EAGINE_ASSERT(_outgoing);
+        return _outgoing->cleanup(to_be_removed);
+    }
+
     void on_received(memory::const_block data) {
-        std::unique_lock lock{conn_state().mutex};
         EAGINE_ASSERT(_incoming);
-        _incoming->on_received(data);
+        _incoming->push(data);
+    }
+
+    bool send(message_id msg_id, const message_view& message) final {
+        std::unique_lock lock{conn_state().mutex};
+        EAGINE_ASSERT(_outgoing);
+        return _outgoing->enqueue(
+          log(), msg_id, message, cover(conn_state().push_buffer));
     }
 
     bool fetch_messages(connection::fetch_handler handler) final {
@@ -518,16 +561,14 @@ public:
         return _incoming->fetch_messages(log(), handler);
     }
 
-    bool update() override {
+    bool update() final {
         some_true something_done{};
-        if(conn_state().socket.is_open()) {
-            something_done(conn_state().start_send());
-        }
         something_done(conn_state().update());
         return something_done;
     }
 
 private:
+    std::shared_ptr<connection_outgoing_messages> _outgoing;
     std::shared_ptr<connection_incoming_messages> _incoming;
 };
 //------------------------------------------------------------------------------
@@ -537,32 +578,38 @@ class asio_datagram_server_connection
   , public asio_connection_group<Kind, connection_protocol::datagram> {
 
     using base = asio_connection_base<Kind, connection_protocol::datagram>;
+    using endpoint_type =
+      asio_endpoint_type<Kind, connection_protocol::datagram>;
 
 public:
     using base::base;
     using base::conn_state;
     using base::log;
 
-    void on_received(
-      const asio_endpoint_type<Kind, connection_protocol::datagram>& source,
-      memory::const_block data) final {
-        auto pos = _current.find(source);
-        if(pos == _current.end()) {
-            pos = _pending.find(source);
-            if(pos == _pending.end()) {
-                pos =
-                  _pending
-                    .try_emplace(
-                      source, std::make_shared<connection_incoming_messages>())
-                    .first;
-                log()
-                  .debug("added pending datagram endpoint")
-                  .arg(EAGINE_ID(pending), _pending.size())
-                  .arg(EAGINE_ID(current), _current.size());
+    using bit_set = typename connection_outgoing_messages::bit_set;
+
+    bit_set pack_into(endpoint_type& target, memory::block dest) final {
+        for(auto& [ep, out_in] : _current) {
+            auto& outgoing = std::get<0>(out_in);
+            EAGINE_ASSERT(outgoing);
+            if(const auto packed{outgoing->pack_into(dest)}) {
+                target = ep;
+                return packed;
             }
         }
-        std::unique_lock lock{conn_state().mutex};
-        pos->second->on_received(data);
+        return bit_set(0);
+    }
+
+    void on_sent(const endpoint_type& ep, bit_set to_be_removed) final {
+        _outgoing(ep).cleanup(to_be_removed);
+    }
+
+    void on_received(const endpoint_type& ep, memory::const_block data) final {
+        _incoming(ep).push(data);
+    }
+
+    bool send(message_id, const message_view&) final {
+        return false;
     }
 
     bool fetch_messages(connection::fetch_handler) final {
@@ -573,7 +620,10 @@ public:
         some_true something_done;
         for(auto& p : _pending) {
             handler(std::make_unique<asio_datagram_client_connection<Kind>>(
-              log(), this->_state, p.second));
+              log(),
+              this->_state,
+              std::get<0>(std::get<1>(p)),
+              std::get<1>(std::get<1>(p))));
             _current.insert(p);
             something_done();
         }
@@ -586,25 +636,59 @@ public:
         return something_done;
     }
 
-    bool update() override {
+    bool update() final {
         some_true something_done{};
         if(conn_state().socket.is_open()) {
             something_done(conn_state().start_receive(*this));
+            something_done(conn_state().start_send(*this));
         }
         something_done(conn_state().update());
         return something_done;
     }
 
+    void cleanup() final {
+        conn_state().cleanup(*this);
+    }
+
 private:
-    flat_map<
-      asio_endpoint_type<Kind, connection_protocol::datagram>,
-      std::shared_ptr<connection_incoming_messages>>
-      _current{};
+    auto& _get(const endpoint_type& ep) {
+        auto pos = _current.find(ep);
+        if(pos == _current.end()) {
+            pos = _pending.find(ep);
+            if(pos == _pending.end()) {
+                pos = _pending
+                        .try_emplace(
+                          ep,
+                          std::make_shared<connection_outgoing_messages>(),
+                          std::make_shared<connection_incoming_messages>())
+                        .first;
+                log()
+                  .debug("added pending datagram endpoint")
+                  .arg(EAGINE_ID(pending), _pending.size())
+                  .arg(EAGINE_ID(current), _current.size());
+            }
+        }
+        return std::get<1>(*pos);
+    }
+
+    connection_outgoing_messages& _outgoing(const endpoint_type& ep) {
+        auto& outgoing = std::get<0>(_get(ep));
+        EAGINE_ASSERT(outgoing);
+        return *outgoing;
+    }
+
+    connection_incoming_messages& _incoming(const endpoint_type& ep) {
+        auto& incoming = std::get<1>(_get(ep));
+        EAGINE_ASSERT(incoming);
+        return *incoming;
+    }
 
     flat_map<
-      asio_endpoint_type<Kind, connection_protocol::datagram>,
-      std::shared_ptr<connection_incoming_messages>>
-      _pending{};
+      endpoint_type,
+      std::tuple<
+        std::shared_ptr<connection_outgoing_messages>,
+        std::shared_ptr<connection_incoming_messages>>>
+      _current{}, _pending{};
 };
 //------------------------------------------------------------------------------
 // TCP/IPv4
@@ -726,7 +810,7 @@ public:
         some_true something_done{};
         if(conn_state().socket.is_open()) {
             something_done(conn_state().start_receive(*this));
-            something_done(conn_state().start_send());
+            something_done(conn_state().start_send(*this));
         } else if(!_connecting) {
             if(_should_reconnect) {
                 _should_reconnect.reset();
@@ -912,7 +996,7 @@ public:
         some_true something_done{};
         if(conn_state().socket.is_open()) {
             something_done(conn_state().start_receive(*this));
-            something_done(conn_state().start_send());
+            something_done(conn_state().start_send(*this));
         } else if(!_establishing) {
             if(_should_reconnect) {
                 _should_reconnect.reset();
@@ -1042,7 +1126,7 @@ public:
         some_true something_done{};
         if(conn_state().socket.is_open()) {
             something_done(conn_state().start_receive(*this));
-            something_done(conn_state().start_send());
+            something_done(conn_state().start_send(*this));
         } else if(!_connecting) {
             if(_should_reconnect) {
                 _should_reconnect.reset();

@@ -177,6 +177,28 @@ void serialized_message_storage::cleanup(bit_set to_be_removed) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+bool connection_outgoing_messages::enqueue(
+  logger& log,
+  message_id msg_id,
+  const message_view& message,
+  memory::block temp) {
+
+    block_data_sink sink(temp);
+    string_serializer_backend backend(sink);
+    auto errors = serialize_message(msg_id, message, backend);
+    if(!errors) {
+        log.trace("enqueuing message ${message} to be sent")
+          .arg(EAGINE_ID(message), msg_id);
+        serialized.push(sink.done());
+        return true;
+    }
+    log.error("failed to serialize message ${message}")
+      .arg(EAGINE_ID(message), msg_id);
+    return false;
+}
+
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 bool connection_incoming_messages::fetch_messages(
   logger& log, fetch_handler handler, span_size_t batch) {
     unpacked.fetch_all(handler);
@@ -189,7 +211,7 @@ bool connection_incoming_messages::fetch_messages(
                   const auto errors =
                     deserialize_message(msg_id, message, backend);
                   if(!errors) {
-                      log.trace("received message ${message}")
+                      log.trace("fetched message ${message}")
                         .arg(EAGINE_ID(message), msg_id);
                       return true;
                   } else {

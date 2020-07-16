@@ -405,13 +405,29 @@ private:
     std::vector<stored_message> _messages;
 };
 //------------------------------------------------------------------------------
+struct connection_outgoing_messages {
+    using bit_set = serialized_message_storage::bit_set;
+
+    serialized_message_storage serialized{};
+
+    bool enqueue(logger& log, message_id, const message_view&, memory::block);
+
+    bit_set pack_into(memory::block dest) {
+        return serialized.pack_into(dest);
+    }
+
+    void cleanup(bit_set to_be_removed) {
+        serialized.cleanup(to_be_removed);
+    }
+};
+//------------------------------------------------------------------------------
 struct connection_incoming_messages {
     using fetch_handler = callable_ref<bool(message_id, const message_view&)>;
 
     serialized_message_storage packed{};
     message_storage unpacked{};
 
-    void on_received(memory::const_block data) {
+    void push(memory::const_block data) {
         packed.push(data);
     }
 
