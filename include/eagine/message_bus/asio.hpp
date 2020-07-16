@@ -14,13 +14,13 @@
 #include "../branch_predict.hpp"
 #include "../config/platform.hpp"
 #include "../flat_map.hpp"
-#include "../from_string.hpp"
 #include "../logging/exception.hpp"
 #include "../logging/logger.hpp"
 #include "../maybe_unused.hpp"
 #include "../serialize/size_and_data.hpp"
 #include "../timeout.hpp"
 #include "conn_factory.hpp"
+#include "network.hpp"
 #include "serialize.hpp"
 #include <mutex>
 #include <thread>
@@ -50,20 +50,8 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
-enum class connection_addr_kind { local, ipv4 };
-enum class connection_protocol { stream, datagram };
-
-template <connection_protocol Proto>
-using connection_protocol_tag =
-  std::integral_constant<connection_protocol, Proto>;
-
-using stream_protocol_tag =
-  connection_protocol_tag<connection_protocol::stream>;
-using datagram_protocol_tag =
-  connection_protocol_tag<connection_protocol::datagram>;
-//------------------------------------------------------------------------------
 template <typename Socket>
-class flushing_sockets {
+class asio_flushing_sockets {
 public:
     void adopt(Socket& sckt) {
         _waiting.emplace_back(std::chrono::seconds(10), std::move(sckt));
@@ -104,7 +92,7 @@ struct asio_common_state {
 
     template <typename Socket>
     void adopt_flushing(Socket& sckt) {
-        std::get<flushing_sockets<Socket>>(_flushing).adopt(sckt);
+        std::get<asio_flushing_sockets<Socket>>(_flushing).adopt(sckt);
     }
 
     void update() noexcept {
@@ -142,10 +130,10 @@ private:
 
     std::tuple<
 #if EAGINE_POSIX
-      flushing_sockets<asio::local::stream_protocol::socket>,
+      asio_flushing_sockets<asio::local::stream_protocol::socket>,
 #endif
-      flushing_sockets<asio::ip::tcp::socket>,
-      flushing_sockets<asio::ip::udp::socket>>
+      asio_flushing_sockets<asio::ip::tcp::socket>,
+      asio_flushing_sockets<asio::ip::udp::socket>>
       _flushing;
 };
 //------------------------------------------------------------------------------
@@ -177,8 +165,8 @@ struct connection_sink {
 };
 //------------------------------------------------------------------------------
 template <typename Socket, connection_protocol Proto>
-struct connection_state
-  : std::enable_shared_from_this<connection_state<Socket, Proto>> {
+struct asio_connection_state
+  : std::enable_shared_from_this<asio_connection_state<Socket, Proto>> {
 
     logger _log{};
     std::mutex mutex{};
@@ -196,7 +184,7 @@ struct connection_state
     bool is_recving{false};
     bool has_recved{false};
 
-    connection_state(
+    asio_connection_state(
       logger& parent,
       std::shared_ptr<asio_common_state> asio_state,
       Socket sock)
@@ -218,10 +206,10 @@ struct connection_state
           .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), read_buffer.size());
     }
 
-    connection_state(
+    asio_connection_state(
       logger& parent,
       const std::shared_ptr<asio_common_state>& asio_state) noexcept
-      : connection_state{parent, asio_state, Socket{asio_state->context}} {
+      : asio_connection_state{parent, asio_state, Socket{asio_state->context}} {
     }
 
     auto weak_ref() noexcept {
@@ -421,10 +409,11 @@ class asio_connection_base
 
 protected:
     logger _log{};
-    std::shared_ptr<connection_state<Socket, Proto>> _state;
+    std::shared_ptr<asio_connection_state<Socket, Proto>> _state;
 
     asio_connection_base(
-      logger& parent, std::shared_ptr<connection_state<Socket, Proto>> state)
+      logger& parent,
+      std::shared_ptr<asio_connection_state<Socket, Proto>> state)
       : _log{EAGINE_ID(AsioConnBs), parent}
       , _state{std::move(state)} {
     }
@@ -433,7 +422,7 @@ public:
     asio_connection_base(
       logger& parent, std::shared_ptr<asio_common_state> asio_state)
       : _log{EAGINE_ID(AsioConnBs), parent}
-      , _state{std::make_shared<connection_state<Socket, Proto>>(
+      , _state{std::make_shared<asio_connection_state<Socket, Proto>>(
           _log, std::move(asio_state))} {
         EAGINE_ASSERT(_state);
     }
@@ -443,7 +432,7 @@ public:
       std::shared_ptr<asio_common_state> asio_state,
       Socket socket)
       : _log{EAGINE_ID(AsioConnBs), parent}
-      , _state{std::make_shared<connection_state<Socket, Proto>>(
+      , _state{std::make_shared<asio_connection_state<Socket, Proto>>(
           _log, std::move(asio_state), std::move(socket))} {
         EAGINE_ASSERT(_state);
     }
@@ -512,8 +501,8 @@ class asio_datagram_client_connection
 public:
     asio_datagram_client_connection(
       logger& parent,
-      std::shared_ptr<connection_state<Socket, connection_protocol::datagram>>
-        state,
+      std::shared_ptr<
+        asio_connection_state<Socket, connection_protocol::datagram>> state,
       std::shared_ptr<connection_incoming_messages> incoming,
       connection_sink<Endpoint>& conn_sink)
       : base(parent, std::move(state))
@@ -609,18 +598,6 @@ private:
     flat_map<Endpoint, std::shared_ptr<connection_incoming_messages>>
       _pending{};
 };
-//------------------------------------------------------------------------------
-// IPv4
-//------------------------------------------------------------------------------
-using ipv4_port = unsigned short int;
-static inline std::tuple<std::string, ipv4_port> parse_ipv4_addr(
-  string_view addr_str) {
-    auto [hostname, port_str] = split_by_last(
-      addr_str ? addr_str : string_view{"localhost"}, string_view(":"));
-    return {
-      to_string(hostname),
-      extract_or(from_string<ipv4_port>(port_str), ipv4_port{34912U})};
-}
 //------------------------------------------------------------------------------
 // TCP/IPv4
 //------------------------------------------------------------------------------
@@ -871,9 +848,9 @@ class asio_connector<connection_addr_kind::ipv4, connection_protocol::datagram>
 
     void _on_resolve(
       asio::ip::udp::resolver::iterator resolved, ipv4_port port) {
-        this->_state->endpoint = *resolved;
-        this->_state->endpoint.port(port);
-        this->_state->socket.open(asio::ip::udp::v4());
+        auto& ep = this->_state->endpoint = *resolved;
+        ep.port(port);
+        this->_state->socket.open(ep.protocol());
         this->_connecting = false;
 
         this->_log.debug("resolved address ${host}:${port}")

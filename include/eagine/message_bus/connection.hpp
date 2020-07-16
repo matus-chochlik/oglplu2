@@ -16,6 +16,7 @@
 #include "../message_id.hpp"
 #include "../valid_if/positive.hpp"
 #include "message.hpp"
+#include <type_traits>
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
@@ -40,6 +41,18 @@ static inline connection_kinds operator|(
   connection_kind l, connection_kind r) noexcept {
     return {l, r};
 }
+//------------------------------------------------------------------------------
+enum class connection_addr_kind { local, ipv4 };
+enum class connection_protocol { stream, datagram };
+
+template <connection_protocol Proto>
+using connection_protocol_tag =
+  std::integral_constant<connection_protocol, Proto>;
+
+using stream_protocol_tag =
+  connection_protocol_tag<connection_protocol::stream>;
+using datagram_protocol_tag =
+  connection_protocol_tag<connection_protocol::datagram>;
 //------------------------------------------------------------------------------
 struct connection_info {
     virtual ~connection_info() noexcept = default;
