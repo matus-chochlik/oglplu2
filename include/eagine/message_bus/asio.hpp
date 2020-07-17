@@ -609,10 +609,12 @@ public:
     }
 
     bool send(message_id, const message_view&) final {
+        EAGINE_UNREACHABLE();
         return false;
     }
 
     bool fetch_messages(connection::fetch_handler) final {
+        EAGINE_UNREACHABLE();
         return false;
     }
 
