@@ -187,7 +187,7 @@ struct asio_connection_state
     std::mutex mutex{};
     std::shared_ptr<asio_common_state> common;
     asio_socket_type<Kind, Proto> socket;
-    endpoint_type endpoint{};
+    endpoint_type conn_endpoint{};
 
     memory::buffer push_buffer{};
     memory::buffer read_buffer{};
@@ -240,21 +240,27 @@ struct asio_connection_state
 
     template <typename Handler>
     void do_start_send(
-      stream_protocol_tag, memory::const_block blk, Handler handler) {
+      stream_protocol_tag,
+      const endpoint_type&,
+      memory::const_block blk,
+      Handler handler) {
         asio::async_write(
           socket, asio::buffer(blk.data(), blk.size()), handler);
     }
 
     template <typename Handler>
     void do_start_send(
-      datagram_protocol_tag, memory::const_block blk, Handler handler) {
+      datagram_protocol_tag,
+      const endpoint_type& target_endpoint,
+      memory::const_block blk,
+      Handler handler) {
         socket.async_send_to(
-          asio::buffer(blk.data(), blk.size()), endpoint, handler);
+          asio::buffer(blk.data(), blk.size()), target_endpoint, handler);
     }
 
     void do_start_send(asio_connection_group<Kind, Proto>& group) {
 
-        endpoint_type target_endpoint{};
+        endpoint_type target_endpoint{conn_endpoint};
         if(const auto packed_messages{
              group.pack_into(target_endpoint, cover(write_buffer))}) {
             is_sending = true;
@@ -267,6 +273,7 @@ struct asio_connection_state
 
             do_start_send(
               connection_protocol_tag<Proto>{},
+              target_endpoint,
               blk,
               [this,
                &group,
@@ -320,7 +327,7 @@ struct asio_connection_state
     void do_start_receive(
       datagram_protocol_tag, memory::block blk, Handler handler) {
         socket.async_receive_from(
-          asio::buffer(blk.data(), blk.size()), endpoint, handler);
+          asio::buffer(blk.data(), blk.size()), conn_endpoint, handler);
     }
 
     void do_start_receive(asio_connection_group<Kind, Proto>& group) {
@@ -373,7 +380,7 @@ struct asio_connection_state
       memory::const_block data, asio_connection_group<Kind, Proto>& group) {
         std::unique_lock lock{mutex};
         has_recved = true;
-        group.on_received(endpoint, data);
+        group.on_received(conn_endpoint, data);
         do_start_receive(group);
     }
 
@@ -737,7 +744,7 @@ class asio_connector<connection_addr_kind::ipv4, connection_protocol::stream>
 
     void _start_connect(
       asio::ip::tcp::resolver::iterator resolved, ipv4_port port) {
-        auto& ep = conn_state().endpoint = *resolved;
+        auto& ep = conn_state().conn_endpoint = *resolved;
         ep.port(port);
 
         log()
@@ -746,8 +753,7 @@ class asio_connector<connection_addr_kind::ipv4, connection_protocol::stream>
           .arg(EAGINE_ID(port), EAGINE_ID(IpV4Port), std::get<1>(_addr));
 
         conn_state().socket.async_connect(
-          conn_state().endpoint,
-          [this, resolved, port](std::error_code error) mutable {
+          ep, [this, resolved, port](std::error_code error) mutable {
               if(!error) {
                   log()
                     .debug("connected on address ${host}:${port}")
@@ -957,7 +963,7 @@ class asio_connector<connection_addr_kind::ipv4, connection_protocol::datagram>
 
     void _on_resolve(
       asio::ip::udp::resolver::iterator resolved, ipv4_port port) {
-        auto& ep = conn_state().endpoint = *resolved;
+        auto& ep = conn_state().conn_endpoint = *resolved;
         ep.port(port);
         conn_state().socket.open(ep.protocol());
         this->_establishing = false;
@@ -1095,7 +1101,7 @@ class asio_connector<
           .arg(EAGINE_ID(address), EAGINE_ID(FsPath), this->_addr_str);
 
         conn_state().socket.async_connect(
-          conn_state().endpoint, [this](std::error_code error) mutable {
+          conn_state().conn_endpoint, [this](std::error_code error) mutable {
               if(!error) {
                   log()
                     .debug("connected on address ${address}")
@@ -1121,7 +1127,7 @@ public:
       string_view addr_str)
       : base{parent, asio_state}
       , _addr_str{_fix_addr(addr_str)} {
-        conn_state().endpoint = {_addr_str.c_str()};
+        conn_state().conn_endpoint = {_addr_str.c_str()};
     }
 
     bool update() final {
