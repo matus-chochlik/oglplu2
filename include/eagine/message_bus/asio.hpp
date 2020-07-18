@@ -793,7 +793,7 @@ class asio_connector<connection_addr_kind::ipv4, connection_protocol::stream>
         _resolver.async_resolve(
           asio::string_view(host.data(), std_size(host.size())),
           {},
-          [this, port](std::error_code error, auto resolved) {
+          [this, port{port}](std::error_code error, auto resolved) {
               if(!error) {
                   this->_start_connect(resolved, port);
               } else {
@@ -963,7 +963,7 @@ class asio_connector<connection_addr_kind::ipv4, connection_protocol::datagram>
     bool _establishing{false};
 
     void _on_resolve(
-      asio::ip::udp::resolver::iterator resolved, ipv4_port port) {
+      const asio::ip::udp::resolver::iterator& resolved, ipv4_port port) {
         auto& ep = conn_state().conn_endpoint = *resolved;
         ep.port(port);
         conn_state().socket.open(ep.protocol());
@@ -979,7 +979,7 @@ class asio_connector<connection_addr_kind::ipv4, connection_protocol::datagram>
         _establishing = true;
         const auto& [host, port] = _addr;
         _resolver.async_resolve(
-          host, {}, [this, port](std::error_code error, auto resolved) {
+          host, {}, [this, port{port}](std::error_code error, auto resolved) {
               if(!error) {
                   this->_on_resolve(resolved, port);
               } else {

@@ -86,16 +86,16 @@ public:
         return *this;
     }
 
-    future<T>& on_success(std::function<void(T)> handler) {
+    future<T>& on_success(const std::function<void(T)>& handler) {
         if(_state) {
-            _state->success_handler = std::move(handler);
+            _state->success_handler = handler;
         }
         return *this;
     }
 
-    future<T>& on_timeout(std::function<void()> handler) {
+    future<T>& on_timeout(const std::function<void()>& handler) {
         if(_state) {
-            _state->timeout_handler = std::move(handler);
+            _state->timeout_handler = handler;
         }
         return *this;
     }

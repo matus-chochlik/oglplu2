@@ -78,7 +78,7 @@ private:
 
 public:
     workshop() = default;
-    workshop(workshop&&) noexcept = default;
+    workshop(workshop&&) = delete;
     workshop(const workshop&) = delete;
     workshop& operator=(workshop&&) = delete;
     workshop& operator=(const workshop&) = delete;
