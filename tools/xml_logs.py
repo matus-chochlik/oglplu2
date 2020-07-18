@@ -244,6 +244,8 @@ class XmlLogFormatter(object):
         }
         self._source_id = 0
         self._sources = []
+        self._root_ids = {}
+        self._prev_times = {}
 
         with self._lock:
             self._out.write("╮\n")
@@ -255,8 +257,6 @@ class XmlLogFormatter(object):
 
     # --------------------------------------------------------------------------
     def beginLog(self, srcid, info):
-        self.root_source = None
-        self.prev_timestamp = None
         with self._lock:
             #
             self._out.write("┊")
@@ -279,6 +279,8 @@ class XmlLogFormatter(object):
                 self._out.write(" │")
             self._out.write(" │ ╰────────────╯\n")
             self._sources.append(srcid)
+            self._root_ids[srcid] = None
+            self._prev_times[srcid] = None
 
     # --------------------------------------------------------------------------
     def finishLog(self, srcid):
@@ -330,6 +332,8 @@ class XmlLogFormatter(object):
                     self._out.write(" │")
             self._out.write("\n")
             self._sources = [sid for sid in self._sources if sid != srcid]
+            del self._root_ids[srcid]
+            del self._prev_times[srcid]
 
     # --------------------------------------------------------------------------
     def translateLevel(self, level):
@@ -398,15 +402,15 @@ class XmlLogFormatter(object):
         args = info["args"]
         message = info["format"]
 
-        if not self.root_source:
-            self.root_source = info["source"]
+        if self._root_ids[srcid] is None:
+            self._root_ids[srcid] = info["source"]
 
-        curr_timestamp = time.time()
-        if self.prev_timestamp:
-            time_diff = curr_timestamp - self.prev_timestamp
-        else:
+        curr_time = time.time()
+        if self._prev_times[srcid] is None:
             time_diff = None
-        self.prev_timestamp = curr_timestamp
+        else:
+            time_diff = curr_time - self._prev_times[srcid]
+        self._prev_times[srcid] = curr_time
 
         found = re.match(self._re_var, message)
         while found:
@@ -439,7 +443,7 @@ class XmlLogFormatter(object):
             self._out.write("%9s│" % formatRelTime(float(info["timestamp"])))
             self._out.write("%9s│" % (formatRelTime(time_diff) if time_diff is not None else "   N/A   "))
             self._out.write("%s│" % self.translateLevel(info["level"]))
-            self._out.write("%10s│" % self.root_source)
+            self._out.write("%10s│" % self._root_ids[srcid])
             self._out.write("%10s│" % info["source"])
             self._out.write("%12s│" % self.formatInstance(info["instance"]))
             self._out.write("\n")
