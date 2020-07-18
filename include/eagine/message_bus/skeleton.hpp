@@ -141,6 +141,7 @@ public:
 
                 const auto errors = serialize(result, write_backend);
                 EAGINE_ASSERT(!errors);
+		EAGINE_MAYBE_UNUSED(errors);
                 message_view msg_out{sink.done()};
                 msg_out.set_serializer_id(write_backend.type_id());
                 msg_out.set_target_id(call.invoker_id);
