@@ -179,10 +179,6 @@ class XmlLogFormatter(object):
         return self._ttyBoldWhite() + formatRelTime(float(sec)) + self._ttyReset()
 
     # --------------------------------------------------------------------------
-    def _formatTimestamp(self, sec):
-        return formatRelTime(float(sec))
-
-    # --------------------------------------------------------------------------
     def _formatByteSize(self, n):
         result = None
         if n > 0:
@@ -256,6 +252,8 @@ class XmlLogFormatter(object):
 
     # --------------------------------------------------------------------------
     def beginLog(self, srcid, info):
+        self.root_source = None
+        self.prev_timestamp = None
         with self._lock:
             #
             self._out.write("┊")
@@ -396,6 +394,17 @@ class XmlLogFormatter(object):
     def addMessage(self, srcid, info):
         args = info["args"]
         message = info["format"]
+
+        if not self.root_source:
+            self.root_source = info["source"]
+
+        curr_timestamp = float(info["timestamp"])
+        if self.prev_timestamp:
+            time_diff = curr_timestamp - self.prev_timestamp
+        else:
+            time_diff = None
+        self.prev_timestamp = curr_timestamp
+
         found = re.match(self._re_var, message)
         while found:
             prev = message[:found.start(1)]
@@ -424,15 +433,17 @@ class XmlLogFormatter(object):
                 else:
                     self._out.write(" │")
             self._out.write("━┑")
-            self._out.write("%9s│" % self._formatTimestamp(info["timestamp"]))
+            self._out.write("%9s│" % formatRelTime(curr_timestamp))
+            self._out.write("%9s│" % (formatRelTime(time_diff) if time_diff is not None else "   N/A   "))
             self._out.write("%s│" % self.translateLevel(info["level"]))
+            self._out.write("%10s│" % self.root_source)
             self._out.write("%10s│" % info["source"])
             self._out.write("%12s│" % self.formatInstance(info["instance"]))
             self._out.write("\n")
             self._out.write("┊")
             for sid in self._sources:
                 self._out.write(" │")
-            self._out.write(" ├─────────┴─────────┴──────────┴────────────╯")
+            self._out.write(" ├─────────┴─────────┴─────────┴──────────┴──────────┴────────────╯")
             self._out.write("\n")
 
             cols = 80 - (len(self._sources) * 2)
