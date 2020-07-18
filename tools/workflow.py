@@ -69,7 +69,7 @@ def execute_command(cmd_line, root_dir=get_root_dir(), simulate=None):
             stdout=subprocess.PIPE
         )
         out, err = proc.communicate()
-        return str(out)
+        return out.decode('utf-8')
 
 # executes a git command
 def git_command(parameters, root_dir=get_root_dir(), simulate=None):
