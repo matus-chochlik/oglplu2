@@ -202,11 +202,30 @@ class XmlLogFormatter(object):
         coef = (x - mn) / (mx - mn)
         pos = coef * float(width)
         cnt = int(pos)
+        lbl = "%.1f%%" % (100.0 * coef)
 
         i = 0
         result = "│"
         if invert:
             result += self._ttyInvert();
+
+        if coef >= 0.5:
+            while i + len(lbl) < cnt:
+                result += "█"
+                i += 1
+
+            if i + len(lbl) <= cnt:
+                if invert:
+                    result += self._ttyReset();
+                else:
+                    result += self._ttyInvert();
+                result += lbl
+                i += len(lbl)
+                if invert:
+                    result += self._ttyInvert();
+                else:
+                    result += self._ttyReset();
+
         while i < cnt:
             result += "█"
             i += 1
@@ -215,6 +234,11 @@ class XmlLogFormatter(object):
             parts = [" ", "▏", "▎", "▍", "▌", "▋", "▊", "▉", "█"]
             result += parts[int(9 * (pos - float(cnt)))]
             i += 1
+
+        if coef < 0.5:
+            if i + len(lbl) < width:
+                result += lbl
+                i += len(lbl)
 
         while i < width:
             result += " "
