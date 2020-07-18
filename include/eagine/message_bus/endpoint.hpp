@@ -12,6 +12,7 @@
 
 #include "../flat_map.hpp"
 #include "../logging/logger.hpp"
+#include "../timeout.hpp"
 #include "blobs.hpp"
 #include "connection.hpp"
 #include "context_fwd.hpp"
@@ -22,6 +23,10 @@
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 class friend_of_endpoint;
+//------------------------------------------------------------------------------
+static constexpr inline identifier_t broadcast_endpoint_id() noexcept {
+    return 0U;
+}
 //------------------------------------------------------------------------------
 class endpoint : public connection_user {
 public:
@@ -44,6 +49,7 @@ private:
     shared_context _context{make_context(_log)};
 
     identifier_t _id{invalid_id()};
+    timeout _no_id_timeout{std::chrono::seconds{2}, nothing};
 
     std::vector<std::unique_ptr<connection>> _connections{};
 
@@ -237,7 +243,8 @@ public:
       memory::const_block blob,
       std::chrono::seconds max_time,
       message_priority priority) {
-        return post_blob(msg_id, invalid_id(), blob, max_time, priority);
+        return post_blob(
+          msg_id, broadcast_endpoint_id(), blob, max_time, priority);
     }
 
     bool broadcast_blob(

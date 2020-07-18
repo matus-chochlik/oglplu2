@@ -120,6 +120,11 @@ bool router::_handle_pending() {
     if(!_pending.empty()) {
         identifier_t id = 0;
         auto handler = [this, &id](message_id msg_id, const message_view& msg) {
+            // this is a special message requesting endpoint id assignment
+            if(msg_id == EAGINE_MSGBUS_ID(requestId)) {
+                id = ~id;
+                return true;
+            }
             // this is a special message containing endpoint id
             if(msg_id == EAGINE_MSGBUS_ID(announceId)) {
                 id = msg.source_id;
@@ -130,27 +135,32 @@ bool router::_handle_pending() {
             return false;
         };
 
-        std::size_t pos = 0;
-        while(pos < _pending.size()) {
+        std::size_t idx = 0;
+        while(idx < _pending.size()) {
             id = 0;
-            auto& pending = _pending[pos];
+            auto& pending = _pending[idx];
+
             something_done(pending.the_connection->update());
             something_done(pending.the_connection->fetch_messages(
               connection::fetch_handler(handler)));
+            something_done(pending.the_connection->update());
             // if we got the endpoint id message from the connection
-            if(id != 0) {
-                _log
-                  .debug(
-                    "adopting pending ${type} connection from endpoint "
-                    "${id}")
+            if(~id == 0) {
+                _assign_id(pending.the_connection);
+            } else if(id != 0) {
+                _log.debug("adopting pending connection from endpoint ${id}")
                   .arg(EAGINE_ID(type), pending.the_connection->type_id())
                   .arg(EAGINE_ID(id), id);
-                _endpoints[id].connections.emplace_back(
+                auto pos = _endpoints.find(id);
+                if(pos == _endpoints.end()) {
+                    pos = _endpoints.try_emplace(id).first;
+                }
+                pos->second.connections.emplace_back(
                   std::move(pending.the_connection));
-                _pending.erase(_pending.begin() + pos);
+                _pending.erase(_pending.begin() + idx);
                 something_done();
             } else {
-                ++pos;
+                ++idx;
             }
         }
     }
@@ -211,7 +221,7 @@ bool router::_remove_disconnected() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void router::_handle_connection(std::unique_ptr<connection> conn) {
+void router::_assign_id(std::unique_ptr<connection>& conn) {
     EAGINE_ASSERT(conn);
     // find a currently unused endpoint id value
     ++_id_sequence;
@@ -227,7 +237,11 @@ void router::_handle_connection(std::unique_ptr<connection> conn) {
     message_view msg{};
     msg.set_target_id(_id_sequence);
     conn->send(EAGINE_MSGBUS_ID(assignId), msg);
-    conn->update();
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void router::_handle_connection(std::unique_ptr<connection> conn) {
+    EAGINE_ASSERT(conn);
     _pending.emplace_back(std::move(conn));
 }
 //------------------------------------------------------------------------------
@@ -314,8 +328,9 @@ bool router::_handle_special(
   routed_endpoint& endpoint,
   const message_view& message) {
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
-        _log.debug("bridge handling special message ${message}")
+        _log.debug("router handling special message ${message}")
           .arg(EAGINE_ID(message), msg_id)
+          .arg(EAGINE_ID(target), message.target_id)
           .arg(EAGINE_ID(source), message.source_id);
 
         if(msg_id.has_method(EAGINE_ID(notARouter))) {
@@ -411,6 +426,8 @@ bool router::_handle_special(
                 return true;
             }
             return false;
+        } else if(msg_id.has_method(EAGINE_ID(requestId))) {
+            return true;
         }
         _log.warning("unhandled special message ${message} from ${source}")
           .arg(EAGINE_ID(message), msg_id)

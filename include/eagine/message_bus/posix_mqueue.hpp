@@ -237,6 +237,10 @@ public:
         return connection_kind::local_interprocess;
     }
 
+    connection_addr_kind addr_kind() final {
+        return connection_addr_kind::filepath;
+    }
+
     identifier type_id() final {
         return EAGINE_ID(PosixMQue);
     }

@@ -1,5 +1,5 @@
 /**
- *  @example eagine/message_bus/009_fib_threads.cpp
+ *  @example eagine/message_bus/011_fib_threads.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.

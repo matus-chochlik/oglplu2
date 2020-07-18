@@ -50,9 +50,9 @@ EAGINE_LIB_FUNC
 bool endpoint::_do_send(message_id msg_id, message_view message) {
     EAGINE_ASSERT(has_id());
     message.set_source_id(_id);
-    for(auto& connection : _connections) {
-        EAGINE_ASSERT(connection);
-        if(connection->send(msg_id, message)) {
+    for(auto& conn : _connections) {
+        EAGINE_ASSERT(conn);
+        if(conn->send(msg_id, message)) {
             log()
               .trace("sending message ${message}")
               .arg(EAGINE_ID(message), msg_id);
@@ -72,9 +72,15 @@ bool endpoint::_handle_special(
           .debug("handling special message ${message}")
           .arg(EAGINE_ID(message), msg_id)
           .arg(EAGINE_ID(endpoint), _id)
+          .arg(EAGINE_ID(target), message.target_id)
           .arg(EAGINE_ID(source), message.source_id);
 
-        if(msg_id.has_method(EAGINE_ID(blobFrgmnt))) {
+        if(EAGINE_UNLIKELY(has_id() && (message.source_id == _id))) {
+            log()
+              .warning("received own special message ${message}")
+              .arg(EAGINE_ID(message), msg_id);
+            return true;
+        } else if(msg_id.has_method(EAGINE_ID(blobFrgmnt))) {
             if(_blobs.process_incoming(
                  blob_manipulator::filter_function(
                    this, EAGINE_MEM_FUNC_C(endpoint, _do_allow_blob)),
@@ -247,9 +253,9 @@ bool endpoint::add_connection(std::unique_ptr<connection> conn) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool endpoint::is_usable() const {
-    for(auto& connection : _connections) {
-        EAGINE_ASSERT(connection);
-        if(connection->is_usable()) {
+    for(auto& conn : _connections) {
+        EAGINE_ASSERT(conn);
+        if(conn->is_usable()) {
             return true;
         }
     }
@@ -259,10 +265,10 @@ bool endpoint::is_usable() const {
 EAGINE_LIB_FUNC
 valid_if_positive<span_size_t> endpoint::max_data_size() const {
     span_size_t result{0};
-    for(auto& connection : _connections) {
-        EAGINE_ASSERT(connection);
-        if(connection->is_usable()) {
-            if(const auto opt_max_size = connection->max_data_size()) {
+    for(auto& conn : _connections) {
+        EAGINE_ASSERT(conn);
+        if(conn->is_usable()) {
+            if(const auto opt_max_size = conn->max_data_size()) {
                 const auto max_size = extract(opt_max_size);
                 if(result > 0) {
                     if(result > max_size) {
@@ -285,9 +291,9 @@ void endpoint::flush_outbox() {
           .arg(EAGINE_ID(size), _outgoing.size());
         _outgoing.fetch_all(message_storage::fetch_handler{
           this, EAGINE_MEM_FUNC_C(endpoint, _handle_send)});
-        for(auto& connection : _connections) {
-            EAGINE_ASSERT(connection);
-            connection->cleanup();
+        for(auto& conn : _connections) {
+            EAGINE_ASSERT(conn);
+            conn->cleanup();
         }
     }
 }
@@ -326,16 +332,21 @@ bool endpoint::update() {
     something_done(_cleanup_blobs());
     something_done(_process_blobs());
 
-    const bool had_id = has_id();
-
     if(EAGINE_UNLIKELY(_connections.empty())) {
         log().warning("endpoint has no connections");
     }
 
-    for(auto& connection : _connections) {
-        EAGINE_ASSERT(connection);
-        something_done(connection->update());
-        something_done(connection->fetch_messages(_store_handler));
+    const bool had_id = has_id();
+    for(auto& conn : _connections) {
+        EAGINE_ASSERT(conn);
+        if(EAGINE_UNLIKELY(!had_id && _no_id_timeout)) {
+            log().debug("requesting endpoint id");
+            conn->send(EAGINE_MSGBUS_ID(requestId), {});
+            _no_id_timeout.reset();
+            something_done();
+        }
+        something_done(conn->update());
+        something_done(conn->fetch_messages(_store_handler));
     }
 
     // if processing the messages assigned the endpoint id

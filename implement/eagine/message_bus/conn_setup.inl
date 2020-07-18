@@ -117,6 +117,7 @@ void connection_setup::add_factory(
 
     _log.debug("adding ${kind} connection factory ${factory}")
       .arg(EAGINE_ID(kind), kind)
+      .arg(EAGINE_ID(addrKind), factory->addr_kind())
       .arg(EAGINE_ID(factory), factory);
 
     _factory_map.visit(
@@ -141,6 +142,8 @@ void connection_setup_default_init(
     for(auto& arg : args) {
         if(arg.is_tag("--msg-bus-asio-tcp-ipv4")) {
             setup.make_factory<asio_tcp_ipv4_connection_factory>();
+        } else if(arg.is_tag("--msg-bus-asio-udp-ipv4")) {
+            setup.make_factory<asio_udp_ipv4_connection_factory>();
 #if EAGINE_POSIX
         } else if(arg.is_tag("--msg-bus-asio-local-stream")) {
             setup.make_factory<asio_local_stream_connection_factory>();

@@ -32,7 +32,6 @@ template <log_event_severity severity>
 using log_event_severity_constant =
   std::integral_constant<log_event_severity, severity>;
 //------------------------------------------------------------------------------
-// TODO switch with PP
 using min_log_severity_t =
   log_event_severity_constant<log_event_severity::EAGINE_MIN_LOG_SEVERITY>;
 //------------------------------------------------------------------------------

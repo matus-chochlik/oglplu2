@@ -6,7 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <eagine/main.hpp>
+#include <eagine/main_ctx.hpp>
 #include <eagine/math/functions.hpp>
 #include <eagine/message_bus/conn_setup.hpp>
 #include <eagine/message_bus/router_address.hpp>
@@ -195,7 +195,7 @@ int main(main_ctx& ctx) {
     msgbus::router_address address{ctx.log(), ctx.args()};
     msgbus::connection_setup conn_setup(ctx.log(), ctx.args());
 
-    msgbus::endpoint bus{logger{EAGINE_ID(PingExampl), ctx.log()}};
+    msgbus::endpoint bus{logger{EAGINE_ID(PingEndpt), ctx.log()}};
 
     valid_if_positive<std::intmax_t> ping_count{};
     if(auto arg{ctx.args().find("--ping-count")}) {
@@ -218,4 +218,10 @@ int main(main_ctx& ctx) {
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
+
+int main(int argc, const char** argv) {
+    eagine::main_ctx_options options;
+    options.logger_id = EAGINE_ID(PingExe);
+    return eagine::main_impl(argc, argv, options);
+}
 

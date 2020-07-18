@@ -9,6 +9,7 @@ import os
 import re
 import sys
 import stat
+import time
 import errno
 import socket
 import signal
@@ -81,6 +82,8 @@ def formatRelTime(s):
         return "%3ds" % int(s)
     if s >= 0.01:
         return "%4dms" % int(s*10**3)
+    if s <= 0.0:
+        return "0"
     return "%dμs" % int(s*10**6)
 
 # ------------------------------------------------------------------------------
@@ -179,10 +182,6 @@ class XmlLogFormatter(object):
         return self._ttyBoldWhite() + formatRelTime(float(sec)) + self._ttyReset()
 
     # --------------------------------------------------------------------------
-    def _formatTimestamp(self, sec):
-        return formatRelTime(float(sec))
-
-    # --------------------------------------------------------------------------
     def _formatByteSize(self, n):
         result = None
         if n > 0:
@@ -203,11 +202,30 @@ class XmlLogFormatter(object):
         coef = (x - mn) / (mx - mn)
         pos = coef * float(width)
         cnt = int(pos)
+        lbl = "%.1f%%" % (100.0 * coef)
 
         i = 0
         result = "│"
         if invert:
             result += self._ttyInvert();
+
+        if coef >= 0.5:
+            while i + len(lbl) < cnt:
+                result += "█"
+                i += 1
+
+            if i + len(lbl) <= cnt:
+                if invert:
+                    result += self._ttyReset();
+                else:
+                    result += self._ttyInvert();
+                result += lbl
+                i += len(lbl)
+                if invert:
+                    result += self._ttyInvert();
+                else:
+                    result += self._ttyReset();
+
         while i < cnt:
             result += "█"
             i += 1
@@ -216,6 +234,11 @@ class XmlLogFormatter(object):
             parts = [" ", "▏", "▎", "▍", "▌", "▋", "▊", "▉", "█"]
             result += parts[int(9 * (pos - float(cnt)))]
             i += 1
+
+        if coef < 0.5:
+            if i + len(lbl) < width:
+                result += lbl
+                i += len(lbl)
 
         while i < width:
             result += " "
@@ -245,6 +268,8 @@ class XmlLogFormatter(object):
         }
         self._source_id = 0
         self._sources = []
+        self._root_ids = {}
+        self._prev_times = {}
 
         with self._lock:
             self._out.write("╮\n")
@@ -278,6 +303,8 @@ class XmlLogFormatter(object):
                 self._out.write(" │")
             self._out.write(" │ ╰────────────╯\n")
             self._sources.append(srcid)
+            self._root_ids[srcid] = None
+            self._prev_times[srcid] = None
 
     # --------------------------------------------------------------------------
     def finishLog(self, srcid):
@@ -329,6 +356,8 @@ class XmlLogFormatter(object):
                     self._out.write(" │")
             self._out.write("\n")
             self._sources = [sid for sid in self._sources if sid != srcid]
+            del self._root_ids[srcid]
+            del self._prev_times[srcid]
 
     # --------------------------------------------------------------------------
     def translateLevel(self, level):
@@ -396,6 +425,17 @@ class XmlLogFormatter(object):
     def addMessage(self, srcid, info):
         args = info["args"]
         message = info["format"]
+
+        if self._root_ids[srcid] is None:
+            self._root_ids[srcid] = info["source"]
+
+        curr_time = time.time()
+        if self._prev_times[srcid] is None:
+            time_diff = None
+        else:
+            time_diff = curr_time - self._prev_times[srcid]
+        self._prev_times[srcid] = curr_time
+
         found = re.match(self._re_var, message)
         while found:
             prev = message[:found.start(1)]
@@ -424,15 +464,17 @@ class XmlLogFormatter(object):
                 else:
                     self._out.write(" │")
             self._out.write("━┑")
-            self._out.write("%9s│" % self._formatTimestamp(info["timestamp"]))
+            self._out.write("%9s│" % formatRelTime(float(info["timestamp"])))
+            self._out.write("%9s│" % (formatRelTime(time_diff) if time_diff is not None else "   N/A   "))
             self._out.write("%s│" % self.translateLevel(info["level"]))
+            self._out.write("%10s│" % self._root_ids[srcid])
             self._out.write("%10s│" % info["source"])
             self._out.write("%12s│" % self.formatInstance(info["instance"]))
             self._out.write("\n")
             self._out.write("┊")
             for sid in self._sources:
                 self._out.write(" │")
-            self._out.write(" ├─────────┴─────────┴──────────┴────────────╯")
+            self._out.write(" ├─────────┴─────────┴─────────┴──────────┴──────────┴────────────╯")
             self._out.write("\n")
 
             cols = 80 - (len(self._sources) * 2)

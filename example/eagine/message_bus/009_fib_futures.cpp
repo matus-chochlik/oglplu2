@@ -1,5 +1,5 @@
 /**
- *  @example eagine/message_bus/008_fibonacci.cpp
+ *  @example eagine/message_bus/009_fib_futures.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -12,7 +12,9 @@
 #include <eagine/message_bus/acceptor.hpp>
 #include <eagine/message_bus/direct.hpp>
 #include <eagine/message_bus/endpoint.hpp>
+#include <eagine/message_bus/invoker.hpp>
 #include <eagine/message_bus/router.hpp>
+#include <eagine/message_bus/skeleton.hpp>
 #include <eagine/message_bus/subscriber.hpp>
 #include <eagine/serialize/block_sink.hpp>
 #include <eagine/serialize/block_source.hpp>
@@ -49,25 +51,12 @@ struct fibonacci_server : static_subscriber<2> {
     }
 
     bool calculate(stored_message& msg_in) {
-        std::int64_t arg{0};
-        std::int64_t result{0};
-        auto tup = std::tie(arg, result);
-        // deserialize
-        block_data_source source(msg_in.content());
-        fast_deserializer_backend read_backend(source);
-        deserialize(arg, read_backend);
-        // call
-        result = fib(arg);
-        EAGINE_MAYBE_UNUSED(result);
-        // serialize
-        std::array<byte, 64> buffer{};
-        block_data_sink sink(cover(buffer));
-        fast_serializer_backend write_backend(sink);
-        serialize(tup, write_backend);
-        // send
-        message_view msg_out{sink.done()};
-        msg_out.set_serializer_id(write_backend.type_id());
-        bus().respond_to(msg_in, EAGINE_MSG_ID(Fibonacci, Result), msg_out);
+        skeleton<
+          std::int64_t(std::int64_t),
+          fast_serializer_backend,
+          fast_deserializer_backend,
+          64>()
+          .call(bus(), msg_in, EAGINE_MSG_ID(Fibonacci, Result), {&fib});
         return true;
     }
 };
@@ -82,7 +71,7 @@ struct fibonacci_client : static_subscriber<2> {
           ep,
           this,
           EAGINE_MSG_MAP(Fibonacci, IsReady, this_class, dispatch),
-          EAGINE_MSG_MAP(Fibonacci, Result, this_class, print)) {
+          EAGINE_MSG_MAP(Fibonacci, Result, this_class, fulfill)) {
     }
 
     void enqueue(std::int64_t arg) {
@@ -97,45 +86,41 @@ struct fibonacci_client : static_subscriber<2> {
 
     bool dispatch(stored_message& msg_in) {
         if(!_remaining.empty()) {
-            auto arg = _remaining.front();
-            _pending.insert(arg);
+            const auto arg = _remaining.front();
             _remaining.pop();
-            // serialize
-            std::array<byte, 32> buffer{};
-            block_data_sink sink(cover(buffer));
-            fast_serializer_backend write_backend(sink);
-            serialize(arg, write_backend);
-            //
-            message_view msg_out{sink.done()};
-            msg_out.set_serializer_id(write_backend.type_id());
-            bus().respond_to(
-              msg_in, EAGINE_MSG_ID(Fibonacci, Calculate), msg_out);
+
+            _calc_invoker
+              .invoke_on(
+                bus(),
+                msg_in.source_id,
+                EAGINE_MSG_ID(Fibonacci, Calculate),
+                arg)
+              .set_timeout(std::chrono::minutes(1))
+              .on_timeout([this, arg]() { this->_remaining.push(arg); })
+              .then([arg](std::int64_t fib) {
+                  std::cout << "fib(" << arg << ") = " << fib << std::endl;
+              });
         }
         return true;
     }
 
-    bool print(stored_message& msg_in) {
-        std::int64_t arg{0};
-        std::int64_t result{0};
-        auto tup = std::tie(arg, result);
-        // deserialize
-        block_data_source source(msg_in.content());
-        fast_deserializer_backend read_backend(source);
-        deserialize(tup, read_backend);
-        // print
-        std::cout << "fib(" << arg << ") = " << result << std::endl;
-        // remove
-        _pending.erase(arg);
+    bool fulfill(stored_message& message) {
+        _calc_invoker.fulfill_by(message);
         return true;
     }
 
     bool is_done() const {
-        return _remaining.empty() && _pending.empty();
+        return _remaining.empty() && _calc_invoker.is_done();
     }
 
 private:
+    invoker<
+      std::int64_t(std::int64_t),
+      fast_serializer_backend,
+      fast_deserializer_backend,
+      64>
+      _calc_invoker{};
     std::queue<std::int64_t> _remaining{};
-    std::set<std::int64_t> _pending{};
 };
 //------------------------------------------------------------------------------
 } // namespace msgbus

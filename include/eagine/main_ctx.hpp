@@ -18,6 +18,7 @@
 namespace eagine {
 
 struct main_ctx_options {
+    std::string app_name{};
     identifier logger_id{"RootLogger"};
     root_logger_options logger_opts{};
 };
@@ -33,6 +34,7 @@ private:
     memory::buffer& _scratch_space;
     data_compressor& _compressor;
     string_view _exe_path;
+    string_view _app_name;
 
     static main_ctx*& _single_ptr() noexcept;
 
@@ -71,6 +73,10 @@ public:
 
     string_view exe_path() const noexcept {
         return _exe_path;
+    }
+
+    string_view app_name() const noexcept {
+        return _app_name;
     }
 };
 

@@ -118,6 +118,10 @@ struct message_info {
         return *this;
     }
 
+    bool has_serializer_id(identifier id) const noexcept {
+        return serializer_id == id.value();
+    }
+
     message_info& set_serializer_id(identifier id) noexcept {
         serializer_id = id.value();
         return *this;
@@ -399,6 +403,36 @@ public:
 private:
     memory::buffer_pool _buffers;
     std::vector<stored_message> _messages;
+};
+//------------------------------------------------------------------------------
+struct connection_outgoing_messages {
+    using bit_set = serialized_message_storage::bit_set;
+
+    serialized_message_storage serialized{};
+
+    bool enqueue(logger& log, message_id, const message_view&, memory::block);
+
+    bit_set pack_into(memory::block dest) {
+        return serialized.pack_into(dest);
+    }
+
+    void cleanup(bit_set to_be_removed) {
+        serialized.cleanup(to_be_removed);
+    }
+};
+//------------------------------------------------------------------------------
+struct connection_incoming_messages {
+    using fetch_handler = callable_ref<bool(message_id, const message_view&)>;
+
+    serialized_message_storage packed{};
+    message_storage unpacked{};
+
+    void push(memory::const_block data) {
+        packed.push(data);
+    }
+
+    bool fetch_messages(
+      logger& log, fetch_handler handler, span_size_t batch = 64);
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

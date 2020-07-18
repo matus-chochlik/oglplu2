@@ -11,6 +11,7 @@
 
 #include "span.hpp"
 #include <algorithm>
+#include <tuple>
 #include <type_traits>
 
 namespace eagine::memory {
@@ -247,6 +248,19 @@ template <
   typename T2,
   typename P2,
   typename S2>
+static inline std::tuple<basic_span<T1, P1, S1>, basic_span<T1, P1, S1>>
+split_by_first(basic_span<T1, P1, S1> spn, basic_span<T2, P2, S2> what) {
+    const auto pos{extract_or(find_position(spn, what), spn.size())};
+    return {head(spn, pos), skip(spn, pos + what.size())};
+}
+//------------------------------------------------------------------------------
+template <
+  typename T1,
+  typename P1,
+  typename S1,
+  typename T2,
+  typename P2,
+  typename S2>
 static inline basic_span<T1, P1, S1> slice_before_last(
   basic_span<T1, P1, S1> spn, basic_span<T2, P2, S2> what) {
     return head(spn, extract_or(reverse_find_position(spn, what), spn.size()));
@@ -264,6 +278,19 @@ static inline basic_span<T1, P1, S1> slice_after_last(
     return skip(
       spn,
       extract_or(reverse_find_position(spn, what), spn.size()) + what.size());
+}
+//------------------------------------------------------------------------------
+template <
+  typename T1,
+  typename P1,
+  typename S1,
+  typename T2,
+  typename P2,
+  typename S2>
+static inline std::tuple<basic_span<T1, P1, S1>, basic_span<T1, P1, S1>>
+split_by_last(basic_span<T1, P1, S1> spn, basic_span<T2, P2, S2> what) {
+    const auto pos{extract_or(reverse_find_position(spn, what), spn.size())};
+    return {head(spn, pos), skip(spn, pos + what.size())};
 }
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S, typename B>

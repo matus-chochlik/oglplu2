@@ -207,7 +207,7 @@ def do_bake(options):
             baked_image.save()
 
         bpy.data.images.remove(baked_image)
-        bpy.data.materials.remove(bake_mat)
+        bake_mat.node_tree.nodes.remove(bake_node)
 
     except ModuleNotFoundError:
         sys.stderr.write("must be run from blender!\n")
