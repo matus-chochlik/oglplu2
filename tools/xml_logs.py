@@ -9,6 +9,7 @@ import os
 import re
 import sys
 import stat
+import time
 import errno
 import socket
 import signal
@@ -81,6 +82,8 @@ def formatRelTime(s):
         return "%3ds" % int(s)
     if s >= 0.01:
         return "%4dms" % int(s*10**3)
+    if s <= 0.0:
+        return "0"
     return "%dμs" % int(s*10**6)
 
 # ------------------------------------------------------------------------------
@@ -398,7 +401,7 @@ class XmlLogFormatter(object):
         if not self.root_source:
             self.root_source = info["source"]
 
-        curr_timestamp = float(info["timestamp"])
+        curr_timestamp = time.time()
         if self.prev_timestamp:
             time_diff = curr_timestamp - self.prev_timestamp
         else:
@@ -433,7 +436,7 @@ class XmlLogFormatter(object):
                 else:
                     self._out.write(" │")
             self._out.write("━┑")
-            self._out.write("%9s│" % formatRelTime(curr_timestamp))
+            self._out.write("%9s│" % formatRelTime(float(info["timestamp"])))
             self._out.write("%9s│" % (formatRelTime(time_diff) if time_diff is not None else "   N/A   "))
             self._out.write("%s│" % self.translateLevel(info["level"]))
             self._out.write("%10s│" % self.root_source)
