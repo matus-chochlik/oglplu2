@@ -22,7 +22,6 @@
 #include "conn_factory.hpp"
 #include "network.hpp"
 #include "serialize.hpp"
-#include <mutex>
 #include <thread>
 
 #ifdef __clang__
@@ -184,7 +183,6 @@ struct asio_connection_state
     using endpoint_type = asio_endpoint_type<Kind, Proto>;
 
     logger _log{};
-    std::mutex mutex{};
     std::shared_ptr<asio_common_state> common;
     asio_socket_type<Kind, Proto> socket;
     endpoint_type conn_endpoint{};
@@ -300,8 +298,6 @@ struct asio_connection_state
     }
 
     bool start_send(asio_connection_group<Kind, Proto>& group) {
-        std::unique_lock lock{mutex};
-
         if(!is_sending) {
             do_start_send(group);
         }
@@ -312,7 +308,6 @@ struct asio_connection_state
       asio_connection_group<Kind, Proto>& group,
       const endpoint_type& target_endpoint,
       serialized_message_storage::bit_set to_be_removed) {
-        std::unique_lock lock{mutex};
         group.on_sent(target_endpoint, to_be_removed);
         do_start_send(group);
     }
@@ -333,7 +328,7 @@ struct asio_connection_state
     void do_start_receive(asio_connection_group<Kind, Proto>& group) {
         auto blk = cover(read_buffer);
 
-        _log.trace("reading data (size: ${size})")
+        _log.trace("receiving data (size: ${size})")
           .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), blk.size());
 
         is_recving = true;
@@ -368,8 +363,6 @@ struct asio_connection_state
     }
 
     bool start_receive(asio_connection_group<Kind, Proto>& group) {
-        std::unique_lock lock{mutex};
-
         if(!is_recving) {
             do_start_receive(group);
         }
@@ -378,7 +371,6 @@ struct asio_connection_state
 
     void handle_received(
       memory::const_block data, asio_connection_group<Kind, Proto>& group) {
-        std::unique_lock lock{mutex};
         has_recved = true;
         group.on_received(conn_endpoint, data);
         do_start_receive(group);
@@ -386,7 +378,7 @@ struct asio_connection_state
 
     bool update() {
         some_true something_done{};
-        if(auto count = common->context.poll()) {
+        if(const auto count{common->context.poll()}) {
             _log.trace("called ready handlers (count: ${count})")
               .arg(EAGINE_ID(count), count);
             something_done();
@@ -498,13 +490,11 @@ public:
     }
 
     bool send(message_id msg_id, const message_view& message) final {
-        std::unique_lock lock{conn_state().mutex};
         return _outgoing.enqueue(
           log(), msg_id, message, cover(conn_state().push_buffer));
     }
 
     bool fetch_messages(connection::fetch_handler handler) final {
-        std::unique_lock lock{conn_state().mutex};
         return _incoming.fetch_messages(log(), handler);
     }
 
@@ -556,14 +546,12 @@ public:
     }
 
     bool send(message_id msg_id, const message_view& message) final {
-        std::unique_lock lock{conn_state().mutex};
         EAGINE_ASSERT(_outgoing);
         return _outgoing->enqueue(
           log(), msg_id, message, cover(conn_state().push_buffer));
     }
 
     bool fetch_messages(connection::fetch_handler handler) final {
-        std::unique_lock lock{conn_state().mutex};
         EAGINE_ASSERT(_incoming);
         return _incoming->fetch_messages(log(), handler);
     }
@@ -596,14 +584,24 @@ public:
     using bit_set = typename connection_outgoing_messages::bit_set;
 
     bit_set pack_into(endpoint_type& target, memory::block dest) final {
-        for(auto& [ep, out_in] : _current) {
-            auto& outgoing = std::get<0>(out_in);
-            EAGINE_ASSERT(outgoing);
-            if(const auto packed{outgoing->pack_into(dest)}) {
-                target = ep;
-                return packed;
+        EAGINE_ASSERT(_index >= 0);
+        const auto prev_idx{_index};
+        do {
+            if(_index < span_size(_current.size())) {
+                auto pos = _current.begin();
+                std::advance(pos, _index);
+                ++_index;
+                auto& [ep, out_in] = *pos;
+                auto& outgoing = std::get<0>(out_in);
+                EAGINE_ASSERT(outgoing);
+                if(const auto packed{outgoing->pack_into(dest)}) {
+                    target = ep;
+                    return packed;
+                }
+            } else {
+                _index = 0;
             }
-        }
+        } while(_index != prev_idx);
         return bit_set(0);
     }
 
@@ -650,6 +648,8 @@ public:
         if(conn_state().socket.is_open()) {
             something_done(conn_state().start_receive(*this));
             something_done(conn_state().start_send(*this));
+        } else {
+            log().warning("datagram socket is not open");
         }
         something_done(conn_state().update());
         return something_done;
@@ -698,6 +698,7 @@ private:
         std::shared_ptr<connection_outgoing_messages>,
         std::shared_ptr<connection_incoming_messages>>>
       _current{}, _pending{};
+    span_size_t _index{0};
 };
 //------------------------------------------------------------------------------
 // TCP/IPv4
