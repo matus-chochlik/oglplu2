@@ -310,10 +310,10 @@ struct asio_connection_state
 
     void handle_sent(
       asio_connection_group<Kind, Proto>& group,
-      const endpoint_type& ep,
+      const endpoint_type& target_endpoint,
       serialized_message_storage::bit_set to_be_removed) {
         std::unique_lock lock{mutex};
-        group.on_sent(ep, to_be_removed);
+        group.on_sent(target_endpoint, to_be_removed);
         do_start_send(group);
     }
 
