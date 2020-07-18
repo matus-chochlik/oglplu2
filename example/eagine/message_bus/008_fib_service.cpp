@@ -36,7 +36,7 @@ private:
     default_lazy_skeleton<std::int64_t(std::int64_t), 64> _calc_skeleton{
       std::chrono::minutes(1)};
 
-    static std::int64_t fib(std::int64_t arg) noexcept {
+    static std::int64_t fib(std::int64_t arg) {
         return arg <= 2 ? 1 : fib(arg - 2) + fib(arg - 1);
     }
 
