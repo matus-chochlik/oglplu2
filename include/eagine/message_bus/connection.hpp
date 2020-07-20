@@ -20,6 +20,8 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
+constexpr const span_size_t min_connection_data_size = 1024;
+//------------------------------------------------------------------------------
 enum class connection_kind : std::uint8_t {
     in_process = 1U << 0U,
     local_interprocess = 1U << 1U,
@@ -52,6 +54,10 @@ constexpr auto enumerator_mapping(
        {"filepath", connection_addr_kind::filepath},
        {"ipv4", connection_addr_kind::ipv4}}};
 }
+
+template <connection_addr_kind Kind>
+using connection_addr_kind_tag =
+  std::integral_constant<connection_addr_kind, Kind>;
 //------------------------------------------------------------------------------
 enum class connection_protocol { stream, datagram, message };
 
@@ -63,7 +69,7 @@ constexpr auto enumerator_mapping(
        {"datagram", connection_protocol::datagram},
        {"message", connection_protocol::message}}};
 }
-//------------------------------------------------------------------------------
+
 template <connection_protocol Proto>
 using connection_protocol_tag =
   std::integral_constant<connection_protocol, Proto>;
