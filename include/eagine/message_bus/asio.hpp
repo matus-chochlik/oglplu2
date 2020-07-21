@@ -175,6 +175,8 @@ struct asio_connection_group {
     virtual void on_sent(const endpoint_type&, bit_set to_be_removed) = 0;
 
     virtual void on_received(const endpoint_type&, memory::const_block) = 0;
+
+    virtual bool has_received() = 0;
 };
 //------------------------------------------------------------------------------
 template <connection_addr_kind Kind, connection_protocol Proto>
@@ -192,7 +194,6 @@ struct asio_connection_state
     memory::buffer write_buffer{};
     bool is_sending{false};
     bool is_recving{false};
-    bool has_recved{false};
 
     asio_connection_state(
       logger& parent,
@@ -337,7 +338,6 @@ struct asio_connection_state
           .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), blk.size());
 
         is_recving = true;
-        has_recved = false;
         do_start_receive(
           connection_protocol_tag<Proto>{},
           blk,
@@ -371,12 +371,11 @@ struct asio_connection_state
         if(!is_recving) {
             do_start_receive(group);
         }
-        return has_recved;
+        return group.has_received();
     }
 
     void handle_received(
       memory::const_block data, asio_connection_group<Kind, Proto>& group) {
-        has_recved = true;
         group.on_received(conn_endpoint, data);
         do_start_receive(group);
     }
@@ -495,6 +494,10 @@ public:
 
     void on_received(const endpoint_type&, memory::const_block data) final {
         return _incoming.push(data);
+    }
+
+    bool has_received() final {
+        return !_incoming.empty();
     }
 
     bool send(message_id msg_id, const message_view& message) final {
@@ -619,6 +622,19 @@ public:
 
     void on_received(const endpoint_type& ep, memory::const_block data) final {
         _incoming(ep).push(data);
+    }
+
+    bool has_received() final {
+        for(auto m : {&_current, &_pending}) {
+            for(const auto& p : *m) {
+                const auto& incoming = std::get<1>(std::get<1>(p));
+                EAGINE_ASSERT(incoming);
+                if(!incoming->empty()) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     bool send(message_id, const message_view&) final {
