@@ -1297,21 +1297,33 @@ private:
         return min_connection_data_size;
     }
 
-    span_size_t _block_size{_default_block_size(
-      connection_addr_kind_tag<Kind>{}, connection_protocol_tag<Proto>{})};
+    span_size_t _block_size{default_block_size()};
 
 public:
     using connection_factory::make_acceptor;
     using connection_factory::make_connector;
 
+    static constexpr span_size_t default_block_size() noexcept {
+        return _default_block_size(
+          connection_addr_kind_tag<Kind>{}, connection_protocol_tag<Proto>{});
+    }
+
     asio_connection_factory(
-      logger& parent, std::shared_ptr<asio_common_state> asio_state) noexcept
+      logger& parent,
+      std::shared_ptr<asio_common_state> asio_state,
+      span_size_t block_size) noexcept
       : _log{EAGINE_ID(AsioConnFc), parent}
-      , _asio_state{std::move(asio_state)} {
+      , _asio_state{std::move(asio_state)}
+      , _block_size{block_size} {
+    }
+
+    asio_connection_factory(logger& parent, span_size_t block_size)
+      : asio_connection_factory{
+          parent, std::make_shared<asio_common_state>(), block_size} {
     }
 
     asio_connection_factory(logger& parent)
-      : asio_connection_factory{parent, std::make_shared<asio_common_state>()} {
+      : asio_connection_factory{parent, default_block_size()} {
     }
 
     std::unique_ptr<acceptor> make_acceptor(string_view addr_str) final {
