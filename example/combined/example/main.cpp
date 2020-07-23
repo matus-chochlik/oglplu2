@@ -31,35 +31,28 @@ std::unique_ptr<example_main_intf> choose_example_main_impl(
   const program_args&);
 //------------------------------------------------------------------------------
 int main(main_ctx& ctx) {
-    try {
-        auto& args = ctx.args();
-        example_params params;
-        example_state state;
+    auto& args = ctx.args();
+    example_params params;
+    example_state state;
 
-        adjust_params(params);
+    adjust_params(params);
 
-        state.set_size(1024, 768);
+    state.set_size(1024, 768);
 
-        params.exec_command(ctx.exe_path());
+    params.exec_command(ctx.exe_path());
 
-        example_args eargs(args, ctx.log());
-        example_run_context erc{ctx, eargs, params, state};
+    example_args eargs(args, ctx.log());
+    example_run_context erc{ctx, eargs, params, state};
 
-        for(auto a = args.first(); a; a = a.next()) {
-            if(!parse_arg(a, erc)) {
-                return 1;
-            }
+    for(auto a = args.first(); a; a = a.next()) {
+        if(!parse_arg(a, erc)) {
+            return 1;
         }
-
-        state.set_tiles(params.x_tiles(), params.y_tiles());
-
-        return choose_example_main_impl(args)->run(erc);
-    } catch(std::runtime_error& sre) {
-        ctx.log().error("runtime error: ${error}").arg(EAGINE_ID(error), sre);
-    } catch(std::exception& se) {
-        ctx.log().error("runtime error: ${error}").arg(EAGINE_ID(error), se);
     }
-    return 1;
+
+    state.set_tiles(params.x_tiles(), params.y_tiles());
+
+    return choose_example_main_impl(args)->run(erc);
 }
 //------------------------------------------------------------------------------
 bool example_knows_arg(const program_arg& arg) {
