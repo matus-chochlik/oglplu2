@@ -15,6 +15,14 @@ import argparse
 # ------------------------------------------------------------------------------
 class ExportMeshArgParser(argparse.ArgumentParser):
     # --------------------------------------------------------------------------
+    def _positive_int(self, x):
+        try:
+            i = int(x)
+            assert(i > 0)
+            return i
+        except:
+            self.error("`%s' is not a positive integer value" % str(x))
+    # --------------------------------------------------------------------------
     def __init__(self, **kw):
         argparse.ArgumentParser.__init__(self, **kw)
 
@@ -95,6 +103,38 @@ class ExportMeshArgParser(argparse.ArgumentParser):
         )
 
         self.add_argument(
+            '--precision', '-P',
+            dest="precision",
+            type=self._positive_int,
+            action="store",
+            default=None
+        )
+
+        self.add_argument(
+            '--color-precision', '-CP',
+            dest="color_precision",
+            type=self._positive_int,
+            action="store",
+            default=None
+        )
+
+        self.add_argument(
+            '--weight-precision', '-WP',
+            dest="weight_precision",
+            type=self._positive_int,
+            action="store",
+            default=None
+        )
+
+        self.add_argument(
+            '--occlude-precision', '-OP',
+            dest="occlude_precision",
+            type=self._positive_int,
+            action="store",
+            default=None
+        )
+
+        self.add_argument(
             '--no-alpha', '-A',
             dest="export_alpha",
             action="store_false",
@@ -155,8 +195,8 @@ def triangulate(options, obj):
 def fixvec(v):
     return (v.x, v.z,-v.y)
 # ------------------------------------------------------------------------------
-def fixnum(x):
-    return x if x != round(x) else int(x)
+def fixnum(x, d = None):
+    return (round(x, d) if d is not None else x) if x != round(x) else int(x)
 # ------------------------------------------------------------------------------
 def fix_color(options, c):
     if not options.export_alpha:
@@ -292,10 +332,15 @@ def export_single(options, bdata, name, obj, mesh):
         if grp.name in options.occl_names
     }
 
+    p = options.precision
+    cp = options.color_precision
+    wp = options.weight_precision
+    op = options.occlude_precision
+
     for meshface in mesh.polygons:
         s = meshface.loop_start
         c = meshface.loop_total
-        fn = [fixnum(x) for x in fixvec(meshface.normal)]
+        fn = [fixnum(x, p) for x in fixvec(meshface.normal)]
         for loop_index in range(s, s + c):
             meshloop = mesh.loops[loop_index]
             meshvert = mesh.vertices[meshloop.vertex_index]
@@ -320,62 +365,60 @@ def export_single(options, bdata, name, obj, mesh):
                     indices.append(emit_index)
 
             if not reused_vertex:
-                positions += [fixnum(x) for x in fixvec(meshvert.co)]
+                positions += [fixnum(x, p) for x in fixvec(meshvert.co)]
                 if options.exp_pivot:
-                    pivots += [fixnum(x) for x in fixvec(obj.location)]
+                    pivots += [fixnum(x, p) for x in fixvec(obj.location)]
                 if options.exp_vert_normal:
-                    vert_normals += [fixnum(x) for x in fixvec(meshvert.normal)]
+                    vert_normals += [fixnum(x, p) for x in fixvec(meshvert.normal)]
                 if options.exp_face_normal:
                     face_normals += fn
                 if options.exp_normal:
                     normals +=\
-                        [fixnum(x) for x in fixvec(meshloop.normal)]
+                        [fixnum(x, p) for x in fixvec(meshloop.normal)]
                 if options.exp_tangential:
                     tangentials +=\
-                        [fixnum(x) for x in fixvec(meshloop.tangent)]
+                        [fixnum(x, p) for x in fixvec(meshloop.tangent)]
                 if options.exp_bitangential:
                     bitangentials +=\
-                        [fixnum(x) for x in fixvec(meshloop.bitangent)]
+                        [fixnum(x, p) for x in fixvec(meshloop.bitangent)]
                 if options.exp_color:
                     for vcs in mesh.vertex_colors:
                         vc = fix_color(options, vcs.data[loop_index].color)
                         try:
-                            colors[vcs.name] += [fixnum(x) for x in vc]
+                            colors[vcs.name] += [fixnum(x, cp) for x in vc]
                         except KeyError:
                             pass
                 if options.exp_material_diffuse_color:
                     mat = obj.material_slots[meshface.material_index].material
                     dc = fix_color(options, get_diffuse_color(mat))
-                    colors["material.diffuse"] += [fixnum(x) for x in dc]
+                    colors["material.diffuse"] += [fixnum(x, cp) for x in dc]
                 if options.exp_material_specular_color:
                     mat = obj.material_slots[meshface.material_index].material
                     sc = fix_color(options, get_specular_color(mat))
-                    colors["material.specular"] += [fixnum(x) for x in sc]
+                    colors["material.specular"] += [fixnum(x, cp) for x in sc]
                 if options.exp_wrap_coord:
                     for uvs in mesh.uv_layers:
                         uv = uvs.data[meshvert.index].uv
                         try:
-                            coords[uvs.name] += [fixnum(x) for x in uv]
+                            coords[uvs.name] += [fixnum(x, p) for x in uv]
                         except KeyError:
                             pass
                 if options.exp_weight:
                     for grp in obj.vertex_groups:
                         w = grp.weight(meshvert.index)
                         try:
-                            groups[grp.name].append(fixnum(w))
+                            groups[grp.name].append(fixnum(w, wp))
                         except KeyError:
                             pass
                 if options.exp_occlusion:
                     for grp in obj.vertex_groups:
                         w = grp.weight(meshvert.index)
                         try:
-                            occls[grp.name].append(fixnum(w))
+                            occls[grp.name].append(fixnum(w, op))
                         except KeyError:
                             pass
 
-                emitted_vert.add(
-                    (meshface.index, meshloop.index, vertex_index)
-                )
+                emitted_vert.add((meshface.index, meshloop.index, vertex_index))
                 indices.append(vertex_index)
 
                 vertex_index += 1
