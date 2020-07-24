@@ -94,6 +94,13 @@ class ExportMeshArgParser(argparse.ArgumentParser):
             default=[]
         )
 
+        self.add_argument(
+            '--no-alpha', '-A',
+            dest="export_alpha",
+            action="store_false",
+            default=True
+        )
+
     # --------------------------------------------------------------------------
     def process_parsed_options(self, options):
         if options.output_path:
@@ -150,6 +157,11 @@ def fixvec(v):
 # ------------------------------------------------------------------------------
 def fixnum(x):
     return x if x != round(x) else int(x)
+# ------------------------------------------------------------------------------
+def fix_color(options, c):
+    if not options.export_alpha:
+        return (c[0], c[1], c[2])
+    return c
 # ------------------------------------------------------------------------------
 def get_diffuse_color(mat):
     # TODO Material.use_nodes / Material.node_tree
@@ -324,18 +336,18 @@ def export_single(options, bdata, name, obj, mesh):
                         [fixnum(x) for x in fixvec(meshloop.bitangent)]
                 if options.exp_color:
                     for vcs in mesh.vertex_colors:
-                        vc = vcs.data[meshvert.index].color
+                        vc = fix_color(options, vcs.data[meshvert.index].color)
                         try:
                             colors[vcs.name] += [fixnum(x) for x in vc]
                         except KeyError:
                             pass
                 if options.exp_material_diffuse_color:
                     mat = obj.material_slots[meshface.material_index].material
-                    dc = get_diffuse_color(mat)
+                    dc = fix_color(options, get_diffuse_color(mat))
                     colors["material.diffuse"] += [fixnum(x) for x in dc]
                 if options.exp_material_specular_color:
                     mat = obj.material_slots[meshface.material_index].material
-                    sc = get_specular_color(mat)
+                    sc = fix_color(options, get_specular_color(mat))
                     colors["material.specular"] += [fixnum(x) for x in sc]
                 if options.exp_wrap_coord:
                     for uvs in mesh.uv_layers:
@@ -407,7 +419,7 @@ def export_single(options, bdata, name, obj, mesh):
         options.exp_material_specular_color:
         for name, data in colors.items():
             result["color"].append({
-                "values_per_vertex": 4,
+                "values_per_vertex": 4 if options.export_alpha else 3,
                 "name": name,
                 "data": data
             })
