@@ -171,7 +171,7 @@ def get_specular_color(mat):
     # TODO Material.use_nodes / Material.node_tree
     return mat.specular_color
 # ------------------------------------------------------------------------------
-def has_same_values(options, obj, mesh, fl, ll, vl, fr, lr, vr):
+def has_same_values(options, obj, mesh, lil, fl, ll, vl, lir, fr, lr, vr):
     if vl.co != vr.co:
         return False
     if options.exp_vert_normal:
@@ -191,7 +191,7 @@ def has_same_values(options, obj, mesh, fl, ll, vl, fr, lr, vr):
             return False
     if options.exp_color:
         for vcs in mesh.vertex_colors:
-            if vcs.data[vl.index].color != vcs.data[vr.index].color:
+            if vcs.data[lil].color != vcs.data[lir].color:
                 return False
     if options.exp_material_diffuse_color:
         ml = obj.material_slots[fl.material_index].material
@@ -307,9 +307,11 @@ def export_single(options, bdata, name, obj, mesh):
                     options,
                     obj,
                     mesh,
+                    old_loop_index,
                     mesh.polygons[old_face_index],
                     mesh.loops[old_loop_index],
                     meshvert,
+                    loop_index,
                     meshface,
                     meshloop,
                     meshvert
@@ -336,7 +338,7 @@ def export_single(options, bdata, name, obj, mesh):
                         [fixnum(x) for x in fixvec(meshloop.bitangent)]
                 if options.exp_color:
                     for vcs in mesh.vertex_colors:
-                        vc = fix_color(options, vcs.data[meshvert.index].color)
+                        vc = fix_color(options, vcs.data[loop_index].color)
                         try:
                             colors[vcs.name] += [fixnum(x) for x in vc]
                         except KeyError:
