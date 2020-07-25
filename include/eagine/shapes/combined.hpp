@@ -49,6 +49,7 @@ public:
 
     bool is_attrib_normalized(vertex_attrib_variant) override;
 
+    void attrib_values(vertex_attrib_variant, span<byte>) override;
     void attrib_values(vertex_attrib_variant, span<float>) override;
 
     span_size_t draw_variant_count() override;

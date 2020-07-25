@@ -105,6 +105,20 @@ bool combined_gen::is_attrib_normalized(vertex_attrib_variant vav) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+void combined_gen::attrib_values(vertex_attrib_variant vav, span<byte> dest) {
+    const auto vpv = values_per_vertex(vav);
+    span_size_t offset{0};
+    for(const auto& gen : _gens) {
+        const auto gvc = gen->vertex_count();
+        auto tmp = head(skip(dest, offset), gvc * vpv);
+        gen->attrib_values(vav, tmp);
+        EAGINE_ASSERT(gen->values_per_vertex(vav) == vpv);
+        // TODO: adjust if gvpv < vpv
+        offset += gvc * vpv;
+    }
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 void combined_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
     const auto vpv = values_per_vertex(vav);
     span_size_t offset{0};
