@@ -65,6 +65,9 @@ struct compound_interface {
       attribute_interface&, span_size_t offset, span<bool> dest) = 0;
 
     virtual span_size_t fetch_values(
+      attribute_interface&, span_size_t offset, span<byte> dest) = 0;
+
+    virtual span_size_t fetch_values(
       attribute_interface&, span_size_t offset, span<std::int16_t> dest) = 0;
 
     virtual span_size_t fetch_values(
@@ -104,6 +107,11 @@ private:
 public:
     span_size_t fetch_values(
       attribute_interface& attrib, span_size_t offset, span<bool> dest) final {
+        return derived().do_fetch_values(attrib, offset, dest);
+    }
+
+    span_size_t fetch_values(
+      attribute_interface& attrib, span_size_t offset, span<byte> dest) final {
         return derived().do_fetch_values(attrib, offset, dest);
     }
 

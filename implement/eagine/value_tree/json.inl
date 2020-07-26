@@ -333,6 +333,10 @@ public:
         return convert_bool(val, dest);
     }
 
+    bool convert(_val_t& val, byte& dest) {
+        return convert_uint(val, dest);
+    }
+
     bool convert(_val_t& val, std::int16_t& dest) {
         return convert_int(val, dest);
     }

@@ -162,7 +162,27 @@ static inline optionally_valid<unsigned long long> from_string(
   string_view src, identity<unsigned long long> id, int base = 10) noexcept {
     return convert_from_string_with(&std::strtoull, base, src, id);
 }
-
+//------------------------------------------------------------------------------
+static inline optionally_valid<byte> from_string(
+  string_view src, identity<byte>) noexcept {
+    if(starts_with(src, string_view("0x"))) {
+        if(const auto opt_val{
+             from_string(skip(src, 2), identity<unsigned>(), 16)}) {
+            return {static_cast<byte>(extract(opt_val)), bool(opt_val <= 255U)};
+        }
+    }
+    if(starts_with(src, string_view("0"))) {
+        if(const auto opt_val{
+             from_string(skip(src, 1), identity<unsigned>(), 8)}) {
+            return {static_cast<byte>(extract(opt_val)), bool(opt_val <= 255U)};
+        }
+    }
+    if(const auto opt_val{from_string(src, identity<unsigned>(), 10)}) {
+        return {static_cast<byte>(extract(opt_val)), bool(opt_val <= 255U)};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
 static inline optionally_valid<float> from_string(
   string_view src, identity<float> id) noexcept {
     return convert_from_string_with(&std::strtof, src, id);
