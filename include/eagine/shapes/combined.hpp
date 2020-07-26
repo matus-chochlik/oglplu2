@@ -24,6 +24,9 @@ private:
     template <typename T>
     void _indices(drawing_variant, span<T> dest);
 
+    template <typename T>
+    void _attrib_values(vertex_attrib_variant, span<T>);
+
 public:
     combined_gen(std::vector<std::unique_ptr<generator_intf>>&& gens) noexcept
       : _gens{std::move(gens)} {
@@ -50,6 +53,10 @@ public:
     bool is_attrib_normalized(vertex_attrib_variant) override;
 
     void attrib_values(vertex_attrib_variant, span<byte>) override;
+    void attrib_values(vertex_attrib_variant, span<std::int16_t>) override;
+    void attrib_values(vertex_attrib_variant, span<std::int32_t>) override;
+    void attrib_values(vertex_attrib_variant, span<std::uint16_t>) override;
+    void attrib_values(vertex_attrib_variant, span<std::uint32_t>) override;
     void attrib_values(vertex_attrib_variant, span<float>) override;
 
     span_size_t draw_variant_count() override;
