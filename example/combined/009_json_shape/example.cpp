@@ -10,6 +10,7 @@
 #include <oglplus/gl.hpp>
 #include <oglplus/gl_api.hpp>
 
+#include <eagine/file_contents.hpp>
 #include <eagine/shapes/value_tree.hpp>
 #include <eagine/value_tree/json.hpp>
 #include <oglplus/glsl/string_ref.hpp>
@@ -24,6 +25,7 @@ namespace eagine {
 namespace oglp {
 //------------------------------------------------------------------------------
 example_string_param color_variant_name{"-c", "--color", "color_1"};
+example_string_param shape_file_path{"-s", "--shape", ""};
 //------------------------------------------------------------------------------
 class example_shape : public example {
     example_orbiting_camera camera;
@@ -78,11 +80,21 @@ void example_shape::init(example_context& ctx) {
     auto& cleanup = ctx.cleanup();
     const auto& [gl, GL] = ctx.gl();
 
-    auto json_text = as_chars(embed(EAGINE_ID(ShapeJson), "shape.json"));
+    auto load_shape_data = [&]() {
+        if(shape_file_path.is_valid()) {
+            if(const auto json_content{file_contents(shape_file_path)}) {
+                if(const auto json_text = as_chars(json_content.block())) {
+                    return valtree::from_json_text(json_text, ctx.log());
+                }
+            }
+        }
+        const auto json_text =
+          as_chars(embed(EAGINE_ID(ShapeJson), "shape.json"));
+        return valtree::from_json_text(json_text, ctx.log());
+    };
+
     shape_generator shape(
-      ctx.gl(),
-      shapes::from_value_tree(
-        valtree::from_json_text(json_text, ctx.log()), ctx.log()));
+      ctx.gl(), shapes::from_value_tree(load_shape_data(), ctx.log()));
 
     _ops.resize(std_size(shape.operation_count()));
     shape.instructions(ctx.gl(), cover(_ops));
@@ -204,6 +216,7 @@ void example_shape::render(const example_context& ctx) {
 std::unique_ptr<example> make_example(
   const example_args& args, const example_context&) {
     args.parse_param(oglp::color_variant_name);
+    args.parse_param(oglp::shape_file_path);
     return {std::make_unique<oglp::example_shape>()};
 }
 //------------------------------------------------------------------------------
@@ -213,6 +226,9 @@ void adjust_params(example_params& params) {
 //------------------------------------------------------------------------------
 bool is_example_param(const example_arg& arg) {
     if(arg == oglp::color_variant_name) {
+        return true;
+    }
+    if(arg == oglp::shape_file_path) {
         return true;
     }
     return false;
