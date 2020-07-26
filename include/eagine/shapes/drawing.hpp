@@ -47,23 +47,37 @@ constexpr auto enumerator_mapping(identity<primitive_type>, Selector) noexcept {
        {"patches", primitive_type::patches}}};
 }
 //------------------------------------------------------------------------------
-enum class attrib_data_type { none, int_16, int_32, float_ };
+enum class attrib_data_type {
+    none,
+    ubyte,
+    int_16,
+    int_32,
+    uint_16,
+    uint_32,
+    float_
+};
 //------------------------------------------------------------------------------
 template <typename Selector>
 constexpr auto enumerator_mapping(
   identity<attrib_data_type>, Selector) noexcept {
-    return enumerator_map_type<attrib_data_type, 4>{
+    return enumerator_map_type<attrib_data_type, 7>{
       {{"none", attrib_data_type::none},
+       {"ubyte", attrib_data_type::ubyte},
        {"int_16", attrib_data_type::int_16},
        {"int_32", attrib_data_type::int_32},
+       {"uint_16", attrib_data_type::uint_16},
+       {"uint_32", attrib_data_type::uint_32},
        {"float_", attrib_data_type::float_}}};
 }
 //------------------------------------------------------------------------------
 constexpr auto enumerator_mapping(
   identity<attrib_data_type>, value_tree_tag) noexcept {
-    return enumerator_map_type<attrib_data_type, 3>{
-      {{"int_16", attrib_data_type::int_16},
+    return enumerator_map_type<attrib_data_type, 6>{
+      {{"ubyte", attrib_data_type::ubyte},
+       {"int_16", attrib_data_type::int_16},
        {"int_32", attrib_data_type::int_32},
+       {"uint_16", attrib_data_type::uint_16},
+       {"uint_32", attrib_data_type::uint_32},
        {"float", attrib_data_type::float_}}};
 }
 //------------------------------------------------------------------------------

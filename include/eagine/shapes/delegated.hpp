@@ -62,6 +62,30 @@ public:
         return _gen->is_attrib_normalized(vav);
     }
 
+    void attrib_values(vertex_attrib_variant vav, span<byte> dest) override {
+        _gen->attrib_values(vav, dest);
+    }
+
+    void attrib_values(
+      vertex_attrib_variant vav, span<std::int16_t> dest) override {
+        _gen->attrib_values(vav, dest);
+    }
+
+    void attrib_values(
+      vertex_attrib_variant vav, span<std::int32_t> dest) override {
+        _gen->attrib_values(vav, dest);
+    }
+
+    void attrib_values(
+      vertex_attrib_variant vav, span<std::uint16_t> dest) override {
+        _gen->attrib_values(vav, dest);
+    }
+
+    void attrib_values(
+      vertex_attrib_variant vav, span<std::uint32_t> dest) override {
+        _gen->attrib_values(vav, dest);
+    }
+
     void attrib_values(vertex_attrib_variant vav, span<float> dest) override {
         _gen->attrib_values(vav, dest);
     }

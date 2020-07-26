@@ -88,6 +88,11 @@ struct generator_intf {
 
     virtual bool is_attrib_normalized(vertex_attrib_variant vav) = 0;
 
+    virtual void attrib_values(vertex_attrib_variant vav, span<byte> dest) = 0;
+    virtual void attrib_values(vertex_attrib_variant, span<std::int16_t>) = 0;
+    virtual void attrib_values(vertex_attrib_variant, span<std::int32_t>) = 0;
+    virtual void attrib_values(vertex_attrib_variant, span<std::uint16_t>) = 0;
+    virtual void attrib_values(vertex_attrib_variant, span<std::uint32_t>) = 0;
     virtual void attrib_values(vertex_attrib_variant vav, span<float> dest) = 0;
 
     virtual span_size_t draw_variant_count() = 0;
@@ -216,9 +221,28 @@ public:
         return false;
     }
 
+    void attrib_values(vertex_attrib_variant, span<byte>) override {
+        EAGINE_UNREACHABLE("Generator failed to get byte attribute values.");
+    }
+
+    void attrib_values(vertex_attrib_variant, span<std::int16_t>) override {
+        EAGINE_UNREACHABLE("Generator failed to get int16 attribute values.");
+    }
+
+    void attrib_values(vertex_attrib_variant, span<std::int32_t>) override {
+        EAGINE_UNREACHABLE("Generator failed to get int32 attribute values.");
+    }
+
+    void attrib_values(vertex_attrib_variant, span<std::uint16_t>) override {
+        EAGINE_UNREACHABLE("Generator failed to get uint16 attribute values.");
+    }
+
+    void attrib_values(vertex_attrib_variant, span<std::uint32_t>) override {
+        EAGINE_UNREACHABLE("Generator failed to get uint32 attribute values.");
+    }
+
     void attrib_values(vertex_attrib_variant, span<float>) override {
-        EAGINE_UNREACHABLE(
-          "Generator failed to handle the specified attribute kind.");
+        EAGINE_UNREACHABLE("Generator failed to get float attribute values.");
     }
 
     span_size_t draw_variant_count() override {

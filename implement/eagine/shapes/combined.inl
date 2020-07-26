@@ -104,8 +104,8 @@ bool combined_gen::is_attrib_normalized(vertex_attrib_variant vav) {
     return result;
 }
 //------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-void combined_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
+template <typename T>
+void combined_gen::_attrib_values(vertex_attrib_variant vav, span<T> dest) {
     const auto vpv = values_per_vertex(vav);
     span_size_t offset{0};
     for(const auto& gen : _gens) {
@@ -116,6 +116,40 @@ void combined_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
         // TODO: adjust if gvpv < vpv
         offset += gvc * vpv;
     }
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void combined_gen::attrib_values(vertex_attrib_variant vav, span<byte> dest) {
+    _attrib_values(vav, dest);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void combined_gen::attrib_values(
+  vertex_attrib_variant vav, span<std::int16_t> dest) {
+    _attrib_values(vav, dest);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void combined_gen::attrib_values(
+  vertex_attrib_variant vav, span<std::int32_t> dest) {
+    _attrib_values(vav, dest);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void combined_gen::attrib_values(
+  vertex_attrib_variant vav, span<std::uint16_t> dest) {
+    _attrib_values(vav, dest);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void combined_gen::attrib_values(
+  vertex_attrib_variant vav, span<std::uint32_t> dest) {
+    _attrib_values(vav, dest);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void combined_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
+    _attrib_values(vav, dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

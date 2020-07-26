@@ -30,6 +30,9 @@ private:
 
     static vertex_attrib_bits _attr_mask(const valtree::compound&) noexcept;
 
+    template <typename T>
+    void _attrib_values(vertex_attrib_variant, span<T>);
+
 public:
     value_tree_loader(valtree::compound source, logger&) noexcept;
 
@@ -43,6 +46,13 @@ public:
 
     attrib_data_type attrib_type(vertex_attrib_variant vav) override;
 
+    bool is_attrib_normalized(vertex_attrib_variant) override;
+
+    void attrib_values(vertex_attrib_variant, span<byte>) override;
+    void attrib_values(vertex_attrib_variant, span<std::int16_t>) override;
+    void attrib_values(vertex_attrib_variant, span<std::int32_t>) override;
+    void attrib_values(vertex_attrib_variant, span<std::uint16_t>) override;
+    void attrib_values(vertex_attrib_variant, span<std::uint32_t>) override;
     void attrib_values(vertex_attrib_variant, span<float>) override;
 
     index_data_type index_type(drawing_variant) override;

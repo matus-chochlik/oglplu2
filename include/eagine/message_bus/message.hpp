@@ -427,6 +427,10 @@ struct connection_incoming_messages {
     serialized_message_storage packed{};
     message_storage unpacked{};
 
+    bool empty() const noexcept {
+        return packed.empty();
+    }
+
     void push(memory::const_block data) {
         packed.push(data);
     }
