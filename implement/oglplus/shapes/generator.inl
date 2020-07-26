@@ -38,7 +38,10 @@ inline void shape_generator::attrib_data(
             _gen->attrib_values(
               vav, accomodate(data, identity<gl_types::float_type>()));
             break;
-        case attrib_data_type::ubyte:   // TODO
+        case attrib_data_type::ubyte:
+            _gen->attrib_values(
+              vav, accomodate(data, identity<gl_types::ubyte_type>()));
+            break;
         case attrib_data_type::uint_16: // TODO
         case attrib_data_type::uint_32: // TODO
         case attrib_data_type::int_16:  // TODO

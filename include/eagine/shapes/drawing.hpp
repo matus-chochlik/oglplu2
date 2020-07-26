@@ -72,9 +72,12 @@ constexpr auto enumerator_mapping(
 //------------------------------------------------------------------------------
 constexpr auto enumerator_mapping(
   identity<attrib_data_type>, value_tree_tag) noexcept {
-    return enumerator_map_type<attrib_data_type, 3>{
-      {{"int_16", attrib_data_type::int_16},
+    return enumerator_map_type<attrib_data_type, 6>{
+      {{"ubyte", attrib_data_type::ubyte},
+       {"int_16", attrib_data_type::int_16},
        {"int_32", attrib_data_type::int_32},
+       {"uint_16", attrib_data_type::uint_16},
+       {"uint_32", attrib_data_type::uint_32},
        {"float", attrib_data_type::float_}}};
 }
 //------------------------------------------------------------------------------
