@@ -135,6 +135,14 @@ class ExportMeshArgParser(argparse.ArgumentParser):
         )
 
         self.add_argument(
+            '--color-type', '-CT',
+            dest="color_type",
+            action="store",
+            default="float",
+            choices=["float", "ubyte"]
+        )
+
+        self.add_argument(
             '--no-alpha', '-A',
             dest="export_alpha",
             action="store_false",
@@ -199,6 +207,8 @@ def fixnum(x, d = None):
     return (round(x, d) if d is not None else x) if x != round(x) else int(x)
 # ------------------------------------------------------------------------------
 def fix_color(options, c):
+    if options.color_type == "ubyte":
+        c = tuple(int(x * 255) for x in c)
     if not options.export_alpha:
         return (c[0], c[1], c[2])
     return c
@@ -465,6 +475,7 @@ def export_single(options, bdata, name, obj, mesh):
         for name, data in colors.items():
             result["color"].append({
                 "values_per_vertex": 4 if options.export_alpha else 3,
+                "type": options.color_type,
                 "name": name,
                 "data": data
             })
