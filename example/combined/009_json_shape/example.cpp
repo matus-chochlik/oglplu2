@@ -165,11 +165,12 @@ void example_shape::init(example_context& ctx) {
     gl.cull_face(GL.back);
 
     // camera
+    const auto sr = shape.bounding_sphere().radius();
     gl.get_uniform_location(prog, "Camera") >> camera_loc;
-    camera.set_near(0.1F)
-      .set_far(50.F)
-      .set_orbit_min(1.3F)
-      .set_orbit_max(4.5F)
+    camera.set_near(sr * 0.1F)
+      .set_far(sr * 5.0F)
+      .set_orbit_min(sr * 1.2F)
+      .set_orbit_max(sr * 2.4F)
       .set_fov(right_angle_());
     set_projection(ctx);
 }
