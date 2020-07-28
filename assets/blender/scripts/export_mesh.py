@@ -39,7 +39,7 @@ class ExportMeshArgParser(argparse.ArgumentParser):
             default=None
         )
 
-        self.attrib_types = [
+        self.attrib_kinds = [
                 "object_id",
                 "face_normal",
                 "vert_normal",
@@ -59,12 +59,22 @@ class ExportMeshArgParser(argparse.ArgumentParser):
                 "occlusion",
                 "material_id"
             ]
+
+        self.attrib_data_types = [
+                "float",
+                "int_16",
+                "int_32",
+                "uint_16",
+                "uint_32",
+                "ubyte"
+            ]
+
         self.add_argument(
             '--attrib', '-a',
             dest="attributes",
             action="append",
             default=[],
-            choices=self.attrib_types
+            choices=self.attrib_kinds
         )
 
         self.add_argument(
@@ -139,7 +149,15 @@ class ExportMeshArgParser(argparse.ArgumentParser):
             dest="color_type",
             action="store",
             default="float",
-            choices=["float", "ubyte"]
+            choices=self.attrib_data_types
+        )
+
+        self.add_argument(
+            '--occlude-type', '-OT',
+            dest="occlude_type",
+            action="store",
+            default="float",
+            choices=self.attrib_data_types
         )
 
         self.add_argument(
@@ -160,7 +178,7 @@ class ExportMeshArgParser(argparse.ArgumentParser):
             options.prefix = None
             options.output = sys.stdout
 
-        for attr_type in self.attrib_types:
+        for attr_type in self.attrib_kinds:
             do_exp = attr_type in options.attributes
             options.__dict__["exp_%s" % attr_type] = do_exp
 
@@ -206,12 +224,25 @@ def fixvec(v):
 def fixnum(x, d = None):
     return (round(x, d) if d is not None else x) if x != round(x) else int(x)
 # ------------------------------------------------------------------------------
+def fixcomp(typ, x, d = None):
+    assert -1.0 <= x and x <= 1.0
+    if typ == "ubyte":
+        return int(x * 255)
+    if typ == "int_16":
+        return int(x * 32767)
+    if typ == "uint_16":
+        return int(x * 65535)
+    if typ == "int_32":
+        return int(x * 2147483647)
+    if typ == "uint_32":
+        return int(x * 4294967295)
+    return fixnum(x, d)
+# ------------------------------------------------------------------------------
 def fix_color(options, c):
-    if options.color_type == "ubyte":
-        c = tuple(int(x * 255) for x in c)
+    f = lambda x: fixcomp(options.color_type, x)
     if not options.export_alpha:
-        return (c[0], c[1], c[2])
-    return c
+        return (f(c[0]), f(c[1]), f(c[2]))
+    return (f(c[0]), f(c[1]), f(c[2]), f(c[3]))
 # ------------------------------------------------------------------------------
 def get_diffuse_color(mat):
     # TODO Material.use_nodes / Material.node_tree
@@ -424,7 +455,9 @@ def export_single(options, bdata, name, obj, mesh):
                     for grp in obj.vertex_groups:
                         w = grp.weight(meshvert.index)
                         try:
-                            occls[grp.name].append(fixnum(w, op))
+                            occls[grp.name].append(
+                                fixcomp(options.occlude_type, w, op)
+                            )
                         except KeyError:
                             pass
 
