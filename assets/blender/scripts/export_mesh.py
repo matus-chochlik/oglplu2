@@ -54,7 +54,6 @@ class ExportMeshArgParser(argparse.ArgumentParser):
                 "color",
                 "material_diffuse_color",
                 "material_specular_color",
-                "emission",
                 "weight",
                 "occlusion",
                 "material_id"
@@ -274,16 +273,19 @@ def has_same_values(options, obj, mesh, lil, fl, ll, vl, lir, fr, lr, vr):
         for vcs in mesh.vertex_colors:
             if vcs.data[lil].color != vcs.data[lir].color:
                 return False
+    if options.exp_material_id:
+        if fl.material_index != fr.material_index:
+            return False
     if options.exp_material_diffuse_color:
         ml = obj.material_slots[fl.material_index].material
         mr = obj.material_slots[fr.material_index].material
         if get_diffuse_color(ml) != get_diffuse_color(mr):
-            return False;
+            return False
     if options.exp_material_specular_color:
         ml = obj.material_slots[fl.material_index].material
         mr = obj.material_slots[fr.material_index].material
         if get_specular_color(ml) != get_specular_color(mr):
-            return False;
+            return False
     if options.exp_wrap_coord:
         for uvs in mesh.uv_layers:
             if uvs.data[vl.index].uv != uvs.data[vr.index].uv:
@@ -330,6 +332,9 @@ def export_single(options, bdata, name, obj, mesh):
     if options.exp_occlusion:
         result["occlusion"] = []
 
+    if options.exp_material_id:
+        result["material_id"] = []
+
     emitted = {}
     for meshvert in mesh.vertices:
         emitted[meshvert.index] = set()
@@ -343,6 +348,7 @@ def export_single(options, bdata, name, obj, mesh):
     normals = []
     tangentials = []
     bitangentials = []
+    material_ids = []
 
     colors = {}
     if options.exp_color:
@@ -429,6 +435,8 @@ def export_single(options, bdata, name, obj, mesh):
                             colors[vcs.name] += [fixnum(x, cp) for x in vc]
                         except KeyError:
                             pass
+                if options.exp_material_id:
+                    material_ids += [meshface.material_index]
                 if options.exp_material_diffuse_color:
                     mat = obj.material_slots[meshface.material_index].material
                     dc = fix_color(options, get_diffuse_color(mat))
@@ -536,6 +544,12 @@ def export_single(options, bdata, name, obj, mesh):
                 "name": name,
                 "data": data
             })
+
+    if options.exp_material_id:
+        result["material_id"].append({
+            "values_per_vertex": 1,
+            "data": material_ids
+        })
 
     index_type = "unsigned_16" if vertex_index < 2**16 else "unsigned_32"
     result["vertex_count"] = vertex_index
