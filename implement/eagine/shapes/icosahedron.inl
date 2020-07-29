@@ -92,6 +92,7 @@ void unit_icosahedron_gen::attrib_values(
         case vertex_attrib_kind::vertex_pivot:
         case vertex_attrib_kind::pivot_pivot:
         case vertex_attrib_kind::object_id:
+        case vertex_attrib_kind::polygon_id:
         case vertex_attrib_kind::material_id:
         case vertex_attrib_kind::normal:
         case vertex_attrib_kind::tangential:
@@ -101,7 +102,6 @@ void unit_icosahedron_gen::attrib_values(
         case vertex_attrib_kind::wrap_coord:
         case vertex_attrib_kind::weight:
         case vertex_attrib_kind::color:
-        case vertex_attrib_kind::emission:
         case vertex_attrib_kind::occlusion:
             _base::attrib_values(vav, dest);
             break;

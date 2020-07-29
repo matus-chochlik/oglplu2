@@ -340,12 +340,12 @@ void unit_cube_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
         case vertex_attrib_kind::pivot_pivot:
         case vertex_attrib_kind::vertex_pivot:
         case vertex_attrib_kind::object_id:
+        case vertex_attrib_kind::polygon_id:
         case vertex_attrib_kind::material_id:
         case vertex_attrib_kind::box_coord:
         case vertex_attrib_kind::wrap_coord:
         case vertex_attrib_kind::weight:
         case vertex_attrib_kind::color:
-        case vertex_attrib_kind::emission:
         case vertex_attrib_kind::occlusion:
             _base::attrib_values(vav, dest);
             break;

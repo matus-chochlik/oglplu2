@@ -309,10 +309,10 @@ span_size_t unit_torus_gen::attribute_variants(vertex_attrib_kind attrib) {
         case vertex_attrib_kind::box_coord:
         case vertex_attrib_kind::face_coord:
         case vertex_attrib_kind::object_id:
+        case vertex_attrib_kind::polygon_id:
         case vertex_attrib_kind::material_id:
         case vertex_attrib_kind::weight:
         case vertex_attrib_kind::color:
-        case vertex_attrib_kind::emission:
         case vertex_attrib_kind::occlusion:
             break;
     }
@@ -334,10 +334,10 @@ string_view unit_torus_gen::variant_name(vertex_attrib_variant vav) {
         case vertex_attrib_kind::box_coord:
         case vertex_attrib_kind::face_coord:
         case vertex_attrib_kind::object_id:
+        case vertex_attrib_kind::polygon_id:
         case vertex_attrib_kind::material_id:
         case vertex_attrib_kind::weight:
         case vertex_attrib_kind::color:
-        case vertex_attrib_kind::emission:
         case vertex_attrib_kind::occlusion:
             break;
     }
@@ -375,10 +375,10 @@ void unit_torus_gen::attrib_values(
         case vertex_attrib_kind::box_coord:
         case vertex_attrib_kind::face_coord:
         case vertex_attrib_kind::object_id:
+        case vertex_attrib_kind::polygon_id:
         case vertex_attrib_kind::material_id:
         case vertex_attrib_kind::weight:
         case vertex_attrib_kind::color:
-        case vertex_attrib_kind::emission:
         case vertex_attrib_kind::occlusion:
             centered_unit_shape_generator_base::attrib_values(vav, dest);
             break;

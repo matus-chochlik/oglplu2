@@ -34,9 +34,9 @@ enum class vertex_attrib_kind : std::uint16_t {
     face_coord = 1U << 9U,
     wrap_coord = 1U << 10U,
     color = 1U << 11U,
-    emission = 1U << 12U,
-    weight = 1U << 13U,
-    occlusion = 1U << 14U,
+    weight = 1U << 12U,
+    occlusion = 1U << 13U,
+    polygon_id = 1U << 14U,
     material_id = 1U << 15U
     // also fix all_vertex_attrib_bits
 };
@@ -57,9 +57,9 @@ constexpr auto enumerator_mapping(
        {"face_coord", vertex_attrib_kind::face_coord},
        {"wrap_coord", vertex_attrib_kind::wrap_coord},
        {"color", vertex_attrib_kind::color},
-       {"emission", vertex_attrib_kind::emission},
        {"weight", vertex_attrib_kind::weight},
        {"occlusion", vertex_attrib_kind::occlusion},
+       {"polygon_id", vertex_attrib_kind::polygon_id},
        {"material_id", vertex_attrib_kind::material_id}}};
 }
 //------------------------------------------------------------------------------
@@ -107,8 +107,8 @@ struct vertex_attrib_variant {
         return _index;
     }
 
-    constexpr operator std::array<const vertex_attrib_variant, 1>() const
-      noexcept {
+    constexpr operator std::array<const vertex_attrib_variant, 1>()
+      const noexcept {
         return {{*this}};
     }
 
@@ -197,7 +197,6 @@ static inline span_size_t attrib_values_per_vertex(
   vertex_attrib_kind attr) noexcept {
     switch(attr) {
         case vertex_attrib_kind::color:
-        case vertex_attrib_kind::emission:
             return 4;
         case vertex_attrib_kind::position:
         case vertex_attrib_kind::normal:
@@ -214,6 +213,7 @@ static inline span_size_t attrib_values_per_vertex(
         case vertex_attrib_kind::weight:
         case vertex_attrib_kind::occlusion:
         case vertex_attrib_kind::object_id:
+        case vertex_attrib_kind::polygon_id:
         case vertex_attrib_kind::material_id:
             return 1;
     }
