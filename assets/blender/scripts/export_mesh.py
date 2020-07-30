@@ -56,6 +56,7 @@ class ExportMeshArgParser(argparse.ArgumentParser):
                 "material_specular_color",
                 "weight",
                 "occlusion",
+                "polygon_id",
                 "material_id"
             ]
 
@@ -273,6 +274,9 @@ def has_same_values(options, obj, mesh, lil, fl, ll, vl, lir, fr, lr, vr):
         for vcs in mesh.vertex_colors:
             if vcs.data[lil].color != vcs.data[lir].color:
                 return False
+    if options.exp_polygon_id:
+        if fl.index != fr.index:
+            return False
     if options.exp_material_id:
         if fl.material_index != fr.material_index:
             return False
@@ -296,6 +300,29 @@ def has_same_values(options, obj, mesh, lil, fl, ll, vl, lir, fr, lr, vr):
                 return False
 
     return True
+
+# ------------------------------------------------------------------------------
+def data_type_from(l):
+    mx = max(l)
+    mn = min(l)
+
+    if mx < 2**8:
+        if mn >= 0:
+            return "ubyte"
+    if mx < 2**16:
+        if mn >= 0:
+            return "uint_16"
+        elif mn > -2**15:
+            if mn < 2**15:
+                return "int_16"
+    if mx < 2**32:
+        if mn >= 0:
+            return "uint_32"
+        elif mn > -2**31:
+            if mn < 2**31:
+                return "int_32"
+
+    return "float"
 
 # ------------------------------------------------------------------------------
 def export_single(options, bdata, name, obj, mesh):
@@ -332,6 +359,9 @@ def export_single(options, bdata, name, obj, mesh):
     if options.exp_occlusion:
         result["occlusion"] = []
 
+    if options.exp_polygon_id:
+        result["polygon_id"] = []
+
     if options.exp_material_id:
         result["material_id"] = []
 
@@ -348,6 +378,7 @@ def export_single(options, bdata, name, obj, mesh):
     normals = []
     tangentials = []
     bitangentials = []
+    polygon_ids = []
     material_ids = []
 
     colors = {}
@@ -435,6 +466,8 @@ def export_single(options, bdata, name, obj, mesh):
                             colors[vcs.name] += [fixnum(x, cp) for x in vc]
                         except KeyError:
                             pass
+                if options.exp_polygon_id:
+                    polygon_ids += [meshface.index]
                 if options.exp_material_id:
                     material_ids += [meshface.material_index]
                 if options.exp_material_diffuse_color:
@@ -545,9 +578,17 @@ def export_single(options, bdata, name, obj, mesh):
                 "data": data
             })
 
+    if options.exp_polygon_id:
+        result["polygon_id"].append({
+            "values_per_vertex": 1,
+            "type": data_type_from(polygon_ids),
+            "data": polygon_ids
+        })
+
     if options.exp_material_id:
         result["material_id"].append({
             "values_per_vertex": 1,
+            "type": data_type_from(material_ids),
             "data": material_ids
         })
 
