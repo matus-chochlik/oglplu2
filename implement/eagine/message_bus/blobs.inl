@@ -16,7 +16,7 @@ EAGINE_LIB_FUNC
 bool blob_manipulator::cleanup() {
     some_true something_done{};
     auto predicate = [this, &something_done](auto& pending) {
-        if(pending.max_time.is_elapsed()) {
+        if(pending.max_time.is_expired()) {
             _buffers.eat(std::move(pending.blob));
             something_done();
             return true;

@@ -91,7 +91,7 @@ public:
             _pending.end(),
             [this, &something_done](auto& entry) {
                 auto& [pingable_id, sequence_no, ping_time] = entry;
-                if(ping_time.is_elapsed()) {
+                if(ping_time.is_expired()) {
                     on_ping_timeout(
                       pingable_id,
                       sequence_no,
