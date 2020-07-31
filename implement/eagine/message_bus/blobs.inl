@@ -370,7 +370,7 @@ span_size_t blob_manipulator::fetch_all(
             message.set_source_id(pending.source_id);
             message.set_target_id(pending.target_id);
             message.set_priority(pending.priority);
-            handle_fetch(pending.msg_id, message);
+            handle_fetch(pending.msg_id, pending.age(), message);
             _buffers.eat(std::move(pending.blob));
             ++done_count;
             return true;

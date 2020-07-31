@@ -42,6 +42,10 @@ struct pending_blob {
         return blob.size();
     }
 
+    message_age age() const noexcept {
+        return std::chrono::duration_cast<message_age>(max_time.elapsed_time());
+    }
+
     bool is_complete() const noexcept;
     bool merge_fragment(span_size_t offset, memory::const_block fragment);
 };
@@ -94,7 +98,8 @@ public:
 
     bool process_incoming(filter_function, const message_view&);
 
-    using fetch_handler = callable_ref<bool(message_id, const message_view&)>;
+    using fetch_handler =
+      callable_ref<bool(message_id, message_age, const message_view&)>;
 
     span_size_t fetch_all(fetch_handler);
 

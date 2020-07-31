@@ -119,7 +119,7 @@ private:
     bool _cleanup_blobs();
     bool _process_blobs();
     bool _do_allow_blob(message_id);
-    bool _handle_blob(message_id msg_id, const message_view&);
+    bool _handle_blob(message_id msg_id, message_age, const message_view&);
 
     bool _handle_special(
       message_id msg_id,

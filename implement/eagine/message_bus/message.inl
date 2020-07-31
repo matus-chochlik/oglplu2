@@ -70,8 +70,9 @@ EAGINE_LIB_FUNC
 bool message_storage::fetch_all(fetch_handler handler) {
     bool fetched_some = false;
     bool keep_some = false;
-    for(auto& [msg_id, message] : _messages) {
-        if(handler(msg_id, message)) {
+    for(auto& [msg_id, message, insert_time] : _messages) {
+        const message_age msg_age{_clock_t::now() - insert_time};
+        if(handler(msg_id, msg_age, message)) {
             _buffers.eat(message.release_buffer());
             msg_id = {};
             fetched_some = true;

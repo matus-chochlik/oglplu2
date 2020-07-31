@@ -25,7 +25,9 @@ class actor
     using friend_of_endpoint::_move_endpoint;
 
 protected:
-    bool _process_message(message_id msg_id, const message_view& message) {
+    bool _process_message(
+      message_id msg_id, message_age, const message_view& message) {
+        // TODO: use message age
         if(!_accept_message(_endpoint, msg_id, message)) {
             if(!is_special_message(msg_id)) {
                 _endpoint.block_message_type(msg_id);

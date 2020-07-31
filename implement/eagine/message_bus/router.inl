@@ -119,21 +119,22 @@ bool router::_handle_pending() {
 
     if(!_pending.empty()) {
         identifier_t id = 0;
-        auto handler = [this, &id](message_id msg_id, const message_view& msg) {
-            // this is a special message requesting endpoint id assignment
-            if(msg_id == EAGINE_MSGBUS_ID(requestId)) {
-                id = ~id;
-                return true;
-            }
-            // this is a special message containing endpoint id
-            if(msg_id == EAGINE_MSGBUS_ID(announceId)) {
-                id = msg.source_id;
-                this->_log.debug("received endpoint id ${id}")
-                  .arg(EAGINE_ID(id), id);
-                return true;
-            }
-            return false;
-        };
+        auto handler =
+          [this, &id](message_id msg_id, message_age, const message_view& msg) {
+              // this is a special message requesting endpoint id assignment
+              if(msg_id == EAGINE_MSGBUS_ID(requestId)) {
+                  id = ~id;
+                  return true;
+              }
+              // this is a special message containing endpoint id
+              if(msg_id == EAGINE_MSGBUS_ID(announceId)) {
+                  id = msg.source_id;
+                  this->_log.debug("received endpoint id ${id}")
+                    .arg(EAGINE_ID(id), id);
+                  return true;
+              }
+              return false;
+          };
 
         std::size_t idx = 0;
         while(idx < _pending.size()) {
@@ -293,7 +294,9 @@ bool router::_do_allow_blob(message_id msg_id) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool router::_handle_blob(message_id msg_id, const message_view& message) {
+bool router::_handle_blob(
+  message_id msg_id, message_age, const message_view& message) {
+    // TODO: use message age
     if(is_special_message(msg_id)) {
         if(msg_id.has_method(EAGINE_ID(eptCertPem))) {
             _log.trace("received endpoint certificate")
@@ -477,15 +480,17 @@ bool router::_route_messages() {
     some_true something_done{};
 
     for(auto& ep : _endpoints) {
-        auto handler = [this, &ep](
-                         message_id msg_id, const message_view& message) {
-            auto& [incoming_id, endpoint_in] = ep;
-            if(this->_handle_special(
-                 msg_id, incoming_id, endpoint_in, message)) {
-                return true;
-            }
-            return this->_do_route_message(msg_id, incoming_id, message);
-        };
+        auto handler =
+          [this, &ep](
+            message_id msg_id, message_age, const message_view& message) {
+              auto& [incoming_id, endpoint_in] = ep;
+              if(this->_handle_special(
+                   msg_id, incoming_id, endpoint_in, message)) {
+                  return true;
+              }
+              // TODO: use message age
+              return this->_do_route_message(msg_id, incoming_id, message);
+          };
 
         for(auto& conn_in : std::get<1>(ep).connections) {
             if(EAGINE_LIKELY(conn_in && conn_in->is_usable())) {

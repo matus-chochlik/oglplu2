@@ -90,12 +90,14 @@ public:
             _output_ready.wait(lock);
             _outgoing.swap();
         }
-        auto handler = [this](message_id msg_id, const message_view& message) {
-            string_serializer_backend backend(_sink);
-            serialize_message(msg_id, message, backend);
-            _output << '\n';
-            return true;
-        };
+        auto handler =
+          [this](message_id msg_id, message_age, const message_view& message) {
+              // TODO: use message age
+              string_serializer_backend backend(_sink);
+              serialize_message(msg_id, message, backend);
+              _output << '\n';
+              return true;
+          };
         _outgoing.back().fetch_all(fetch_handler(handler));
         _output << std::flush;
     }
@@ -231,7 +233,8 @@ bool bridge::_forward_messages() {
     some_true something_done{};
 
     auto forward_conn_to_output =
-      [this](message_id msg_id, const message_view& message) {
+      [this](message_id msg_id, message_age, const message_view& message) {
+          // TODO: use message age
           if(EAGINE_UNLIKELY(++_forwarded_messages_c2o % 100000 == 0)) {
               _log.stat("forwarded ${count} messages to output")
                 .arg(EAGINE_ID(count), _forwarded_messages_c2o);
@@ -251,7 +254,8 @@ bool bridge::_forward_messages() {
     _state->notify_output_ready();
 
     auto forward_input_to_conn =
-      [this](message_id msg_id, const message_view& message) {
+      [this](message_id msg_id, message_age, const message_view& message) {
+          // TODO: use message age
           if(EAGINE_UNLIKELY(++_forwarded_messages_i2c % 100000 == 0)) {
               _log.stat("forwarded ${count} messages from input")
                 .arg(EAGINE_ID(count), _forwarded_messages_i2c);
@@ -265,7 +269,7 @@ bool bridge::_forward_messages() {
 
     if(EAGINE_LIKELY(_state)) {
         something_done(_state->fetch_messages(
-          connection::fetch_handler(forward_input_to_conn)));
+          bridge_state::fetch_handler(forward_input_to_conn)));
     }
 
     return something_done;
