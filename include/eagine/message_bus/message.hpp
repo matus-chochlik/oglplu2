@@ -253,11 +253,6 @@ public:
 //------------------------------------------------------------------------------
 class message_storage {
 public:
-    /// The return value indicates if the message is considered handled
-    /// and should be removed.
-    using fetch_handler =
-      callable_ref<bool(message_id, message_age, const message_view&)>;
-
     message_storage() {
         _messages.reserve(64);
     }
@@ -301,7 +296,16 @@ public:
         return true;
     }
 
+    /// The return value indicates if the message is considered handled
+    /// and should be removed.
+    using fetch_handler =
+      callable_ref<bool(message_id, message_age, const message_view&)>;
+
     bool fetch_all(fetch_handler handler);
+
+    using cleanup_predicate = callable_ref<bool(message_age)>;
+
+    void cleanup(cleanup_predicate predicate);
 
 private:
     using _clock_t = std::chrono::steady_clock;

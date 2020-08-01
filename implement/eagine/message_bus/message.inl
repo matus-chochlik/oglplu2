@@ -94,6 +94,21 @@ bool message_storage::fetch_all(fetch_handler handler) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+void message_storage::cleanup(cleanup_predicate predicate) {
+    _messages.erase(
+      std::remove_if(
+        _messages.begin(),
+        _messages.end(),
+        [predicate](auto& t) {
+            const message_age msg_age{_clock_t::now() - std::get<2>(t)};
+            return predicate(msg_age);
+        }),
+      _messages.end());
+}
+//------------------------------------------------------------------------------
+// serialized_message_storage
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 bool serialized_message_storage::fetch_some(
   fetch_handler handler, span_size_t n) {
     bool fetched_some = false;
@@ -177,6 +192,8 @@ void serialized_message_storage::cleanup(bit_set to_be_removed) {
       _messages.end());
 }
 //------------------------------------------------------------------------------
+// connection_outgoing_messages
+//------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool connection_outgoing_messages::enqueue(
   logger& log,
@@ -197,7 +214,8 @@ bool connection_outgoing_messages::enqueue(
       .arg(EAGINE_ID(message), msg_id);
     return false;
 }
-
+//------------------------------------------------------------------------------
+// connection_incoming_messages
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool connection_incoming_messages::fetch_messages(
@@ -230,7 +248,6 @@ bool connection_incoming_messages::fetch_messages(
     return packed.fetch_some(
       serialized_message_storage::fetch_handler(unpacker), batch);
 }
-
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus
 
