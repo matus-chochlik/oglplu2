@@ -47,12 +47,18 @@ math::sphere<float, true> generator_intf::bounding_sphere() {
         }
     }
 
-    math::vector<float, 3, true> center{};
+    math::tvec<float, 3, true> center{
+      (min[0] + max[0]) * 0.5F,
+      (min[1] + max[1]) * 0.5F,
+      (min[2] + max[2]) * 0.5F};
+
     float radius{0.F};
     for(span_size_t c = 0; c < m; ++c) {
         const auto k = std_size(c);
-        radius = eagine::math::maximum(radius, (max[k] - min[k]) * 0.5F);
+        const auto q = (max[k] - min[k]) * 0.5F;
+        radius += q * q;
     }
+    radius = std::sqrt(radius);
 
     return {center, radius};
 }

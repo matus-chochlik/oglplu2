@@ -168,7 +168,9 @@ bool endpoint::_handle_special(
 } // namespace msgbus
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool endpoint::_store_message(message_id msg_id, const message_view& message) {
+bool endpoint::_store_message(
+  message_id msg_id, message_age, const message_view& message) {
+    // TODO: use message age
     if(_handle_special(msg_id, message)) {
         return true;
     } else {

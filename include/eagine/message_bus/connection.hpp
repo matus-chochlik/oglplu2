@@ -96,7 +96,8 @@ struct connection_info {
 //------------------------------------------------------------------------------
 struct connection : connection_info {
 
-    using fetch_handler = callable_ref<bool(message_id, const message_view&)>;
+    using fetch_handler =
+      callable_ref<bool(message_id, message_age, const message_view&)>;
 
     virtual bool update() {
         return false;

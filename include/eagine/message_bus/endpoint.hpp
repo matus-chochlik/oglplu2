@@ -82,7 +82,9 @@ private:
 
     bool _do_send(message_id msg_id, message_view);
 
-    bool _handle_send(message_id msg_id, const message_view& message) {
+    bool _handle_send(
+      message_id msg_id, message_age, const message_view& message) {
+        // TODO: use message age
         return _do_send(msg_id, message);
     }
 
@@ -92,7 +94,7 @@ private:
 
     bool _handle_special(message_id msg_id, const message_view&) noexcept;
 
-    bool _store_message(message_id msg_id, const message_view&);
+    bool _store_message(message_id msg_id, message_age, const message_view&);
 
     bool _accept_message(message_id msg_id, const message_view&);
 

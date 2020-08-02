@@ -53,6 +53,10 @@ public:
       , _value(std::move(initial)) {
     }
 
+    bool is_valid() const noexcept {
+        return _value.is_valid();
+    }
+
     operator const T&() const noexcept {
         return _value.value();
     }

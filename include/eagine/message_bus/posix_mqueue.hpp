@@ -503,6 +503,7 @@ private:
     bool _process(const accept_handler& handler) {
         auto fetch_handler = [this, &handler](
                                message_id msg_id,
+                               message_age,
                                const message_view& message) -> bool {
             EAGINE_ASSERT((msg_id == EAGINE_MSGBUS_ID(pmqConnect)));
             EAGINE_MAYBE_UNUSED(msg_id);

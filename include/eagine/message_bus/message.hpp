@@ -23,6 +23,7 @@
 #include "context_fwd.hpp"
 #include "types.hpp"
 #include "verification.hpp"
+#include <chrono>
 #include <cstdint>
 #include <limits>
 #include <vector>
@@ -34,6 +35,8 @@ namespace eagine::msgbus {
 static constexpr inline bool is_special_message(message_id msg_id) noexcept {
     return msg_id.has_class(EAGINE_ID(eagiMsgBus));
 }
+//------------------------------------------------------------------------------
+using message_age = std::chrono::duration<float>;
 //------------------------------------------------------------------------------
 enum class message_priority : std::uint8_t {
     idle,
@@ -250,10 +253,6 @@ public:
 //------------------------------------------------------------------------------
 class message_storage {
 public:
-    /// The return value indicates if the message is considered handled
-    /// and should be removed.
-    using fetch_handler = callable_ref<bool(message_id, const message_view&)>;
-
     message_storage() {
         _messages.reserve(64);
     }
@@ -268,14 +267,19 @@ public:
 
     void push(message_id msg_id, const message_view& message) {
         _messages.emplace_back(
-          msg_id, stored_message{message, _buffers.get(message.data.size())});
+          msg_id,
+          stored_message{message, _buffers.get(message.data.size())},
+          _clock_t::now());
     }
 
     template <typename Function>
     bool push_if(Function function, span_size_t req_size = 0) {
         _messages.emplace_back(
-          message_id{}, stored_message{{}, _buffers.get(req_size)});
-        auto& [msg_id, message] = _messages.back();
+          message_id{},
+          stored_message{{}, _buffers.get(req_size)},
+          _clock_t::now());
+        auto& [msg_id, message, insert_time] = _messages.back();
+        EAGINE_MAYBE_UNUSED(insert_time);
         bool rollback = false;
         try {
             if(!function(msg_id, message)) {
@@ -292,11 +296,22 @@ public:
         return true;
     }
 
+    /// The return value indicates if the message is considered handled
+    /// and should be removed.
+    using fetch_handler =
+      callable_ref<bool(message_id, message_age, const message_view&)>;
+
     bool fetch_all(fetch_handler handler);
 
+    using cleanup_predicate = callable_ref<bool(message_age)>;
+
+    void cleanup(cleanup_predicate predicate);
+
 private:
+    using _clock_t = std::chrono::steady_clock;
+    using _timestamp_t = _clock_t::time_point;
     memory::buffer_pool _buffers;
-    std::vector<std::tuple<message_id, stored_message>> _messages;
+    std::vector<std::tuple<message_id, stored_message, _timestamp_t>> _messages;
 };
 //------------------------------------------------------------------------------
 class serialized_message_storage {
@@ -422,7 +437,8 @@ struct connection_outgoing_messages {
 };
 //------------------------------------------------------------------------------
 struct connection_incoming_messages {
-    using fetch_handler = callable_ref<bool(message_id, const message_view&)>;
+    using fetch_handler =
+      callable_ref<bool(message_id, message_age, const message_view&)>;
 
     serialized_message_storage packed{};
     message_storage unpacked{};

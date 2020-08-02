@@ -71,16 +71,16 @@ public:
         return _clock::now() - _timeout + _duration;
     }
 
-    bool is_elapsed() const noexcept {
+    bool is_expired() const noexcept {
         return _clock::now() >= _timeout;
     }
 
     explicit operator bool() const noexcept {
-        return is_elapsed();
+        return is_expired();
     }
 
     bool operator!() const noexcept {
-        return !is_elapsed();
+        return !is_expired();
     }
 
 private:
