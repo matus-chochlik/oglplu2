@@ -90,14 +90,17 @@ public:
             _output_ready.wait(lock);
             _outgoing.swap();
         }
-        auto handler =
-          [this](message_id msg_id, message_age, const message_view& message) {
-              // TODO: use message age
-              string_serializer_backend backend(_sink);
-              serialize_message(msg_id, message, backend);
-              _output << '\n';
-              return true;
-          };
+        auto handler = [this](
+                         message_id msg_id,
+                         message_age msg_age,
+                         const message_view& message) {
+            if(EAGINE_LIKELY(msg_age < std::chrono::seconds(30))) {
+                string_serializer_backend backend(_sink);
+                serialize_message(msg_id, message, backend);
+                _output << '\n';
+            }
+            return true;
+        };
         _outgoing.back().fetch_all(fetch_handler(handler));
         _output << std::flush;
     }

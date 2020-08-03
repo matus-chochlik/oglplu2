@@ -480,17 +480,20 @@ bool router::_route_messages() {
     some_true something_done{};
 
     for(auto& ep : _endpoints) {
-        auto handler =
-          [this, &ep](
-            message_id msg_id, message_age, const message_view& message) {
-              auto& [incoming_id, endpoint_in] = ep;
-              if(this->_handle_special(
-                   msg_id, incoming_id, endpoint_in, message)) {
-                  return true;
-              }
-              // TODO: use message age
-              return this->_do_route_message(msg_id, incoming_id, message);
-          };
+        auto handler = [this, &ep](
+                         message_id msg_id,
+                         message_age msg_age,
+                         const message_view& message) {
+            auto& [incoming_id, endpoint_in] = ep;
+            if(this->_handle_special(
+                 msg_id, incoming_id, endpoint_in, message)) {
+                return true;
+            }
+            if(EAGINE_LIKELY(msg_age < std::chrono::seconds(30))) {
+                return this->_do_route_message(msg_id, incoming_id, message);
+            }
+            return true;
+        };
 
         for(auto& conn_in : std::get<1>(ep).connections) {
             if(EAGINE_LIKELY(conn_in && conn_in->is_usable())) {
