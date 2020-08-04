@@ -96,11 +96,10 @@ bool endpoint::_handle_special(
                   .arg(EAGINE_ID(id), _id);
             }
             return true;
-        } else if(msg_id.has_method(EAGINE_ID(subscribTo))) {
-            return false;
-        } else if(msg_id.has_method(EAGINE_ID(unsubFrom))) {
-            return false;
-        } else if(msg_id.has_method(EAGINE_ID(qrySubscrb))) {
+        } else if(
+          msg_id.has_method(EAGINE_ID(subscribTo)) ||
+          msg_id.has_method(EAGINE_ID(unsubFrom)) ||
+          msg_id.has_method(EAGINE_ID(qrySubscrb))) {
             return false;
         } else if(msg_id.has_method(EAGINE_ID(eptCertQry))) {
             post_certificate(message.source_id);
@@ -158,6 +157,14 @@ bool endpoint::_handle_special(
                 _log.debug("verified and stored router certificate");
             }
             return true;
+        } else if(
+          msg_id.has_method(EAGINE_ID(topoRoutCn)) ||
+          msg_id.has_method(EAGINE_ID(topoBrdgCn)) ||
+          msg_id.has_method(EAGINE_ID(topoEndpt))) {
+            return false;
+        } else if(msg_id.has_method(EAGINE_ID(topoQuery))) {
+            // TODO: additional info?
+            return respond_to(message, EAGINE_MSGBUS_ID(topoEndpt));
         }
         _log.warning("unhandled special message ${message} from ${source}")
           .arg(EAGINE_ID(message), msg_id)
@@ -165,7 +172,7 @@ bool endpoint::_handle_special(
           .arg(EAGINE_ID(data), message.data);
     }
     return false;
-} // namespace msgbus
+}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool endpoint::_store_message(

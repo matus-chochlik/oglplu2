@@ -431,6 +431,32 @@ bool router::_handle_special(
             return false;
         } else if(msg_id.has_method(EAGINE_ID(requestId))) {
             return true;
+        } else if(msg_id.has_method(EAGINE_ID(topoQuery))) {
+            std::array<byte, 256> temp{};
+            router_topology_info info{};
+            for(auto& [ep_id, ep] : this->_endpoints) {
+                auto& [conn_ep_id] = info;
+                conn_ep_id = ep_id;
+                if(auto serialized{default_serialize(info, cover(temp))}) {
+                    message_view response{extract(serialized)};
+                    response.set_target_id(incoming_id);
+                    for(auto& conn_out : endpoint.connections) {
+                        if(EAGINE_LIKELY(conn_out && conn_out->is_usable())) {
+                            if(conn_out->send(
+                                 EAGINE_MSGBUS_ID(topoRoutCn), response)) {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            return false;
+        } else if(
+          msg_id.has_method(EAGINE_ID(topoRoutCn)) ||
+          msg_id.has_method(EAGINE_ID(topoBrdgCn)) ||
+          msg_id.has_method(EAGINE_ID(topoEndpt))) {
+            // this should be forwarded
+            return false;
         }
         _log.warning("unhandled special message ${message} from ${source}")
           .arg(EAGINE_ID(message), msg_id)

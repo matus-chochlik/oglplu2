@@ -178,7 +178,8 @@ void bridge::_setup_from_args(const program_args&) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool bridge::_handle_special(message_id msg_id, message_view message) {
+bool bridge::_handle_special(
+  message_id msg_id, message_view message, bool to_connection) {
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
         _log.debug("router handling special message ${message}")
           .arg(EAGINE_ID(message), msg_id)
@@ -189,6 +190,14 @@ bool bridge::_handle_special(message_id msg_id, message_view message) {
             if(!has_id()) {
                 _id = message.target_id;
                 _log.debug("assigned id ${id}").arg(EAGINE_ID(id), _id);
+            } else if(msg_id.has_method(EAGINE_ID(topoQuery))) {
+                if(to_connection) {
+                    // TODO
+                } else {
+                    // TODO
+                }
+                // this also should be forwarded
+                return false;
             }
             return true;
         }
@@ -242,7 +251,7 @@ bool bridge::_forward_messages() {
               _log.stat("forwarded ${count} messages to output")
                 .arg(EAGINE_ID(count), _forwarded_messages_c2o);
           }
-          if(this->_handle_special(msg_id, message)) {
+          if(this->_handle_special(msg_id, message, false)) {
               return true;
           }
           return this->_do_push(msg_id, message);
@@ -263,7 +272,7 @@ bool bridge::_forward_messages() {
               _log.stat("forwarded ${count} messages from input")
                 .arg(EAGINE_ID(count), _forwarded_messages_i2c);
           }
-          if(this->_handle_special(msg_id, message)) {
+          if(this->_handle_special(msg_id, message, true)) {
               return true;
           }
           this->_do_send(msg_id, message);

@@ -68,7 +68,7 @@ private:
 
     bool _do_send(message_id, message_view);
     bool _send(message_id, message_view);
-    bool _handle_special(message_id, message_view);
+    bool _handle_special(message_id, message_view, bool);
     bool _do_push(message_id, message_view);
     bool _forward_messages();
 
