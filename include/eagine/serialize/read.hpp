@@ -12,6 +12,7 @@
 
 #include "../math/functions.hpp"
 #include "../memory/span_algo.hpp"
+#include "../reflect/data_members.hpp"
 #include "../reflect/enumerators.hpp"
 #include "read_backend.hpp"
 #include <algorithm>
@@ -388,11 +389,27 @@ private:
 };
 //------------------------------------------------------------------------------
 template <typename T>
+struct struct_deserializer {
+public:
+    template <typename Backend>
+    deserialization_errors read(T& instance, Backend& backend) {
+        auto member_map = map_data_members(instance);
+        return _deserializer.read(member_map, backend);
+    }
+
+private:
+    deserializer<decltype(map_data_members(std::declval<T>()))> _deserializer{};
+};
+//------------------------------------------------------------------------------
+template <typename T>
 struct deserializer
   : std::conditional_t<
       has_enumerator_mapping_v<T>,
       enum_deserializer<T>,
-      nothing_t> {};
+      std::conditional_t<
+        has_data_member_mapping_v<T>,
+        struct_deserializer<T>,
+        nothing_t>> {};
 //------------------------------------------------------------------------------
 template <typename T, typename Backend>
 std::enable_if_t<

@@ -13,6 +13,7 @@
 #include "../assert.hpp"
 #include "../bitfield.hpp"
 #include "../nothing.hpp"
+#include "../reflect/data_members.hpp"
 #include "../reflect/enumerators.hpp"
 #include "write_backend.hpp"
 #include <array>
@@ -422,11 +423,27 @@ private:
 };
 //------------------------------------------------------------------------------
 template <typename T>
+struct struct_serializer {
+public:
+    template <typename Backend>
+    serialization_errors write(const T& instance, Backend& backend) {
+        auto member_map = map_data_members(instance);
+        return _serializer.write(member_map, backend);
+    }
+
+private:
+    serializer<decltype(map_data_members(std::declval<T>()))> _serializer{};
+};
+//------------------------------------------------------------------------------
+template <typename T>
 struct serializer
   : std::conditional_t<
       has_enumerator_mapping_v<T>,
       enum_serializer<T>,
-      nothing_t> {};
+      std::conditional_t<
+        has_data_member_mapping_v<T>,
+        struct_serializer<T>,
+        nothing_t>> {};
 //------------------------------------------------------------------------------
 template <typename T, typename Backend>
 std::enable_if_t<
