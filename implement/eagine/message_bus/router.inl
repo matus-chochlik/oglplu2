@@ -435,8 +435,8 @@ bool router::_handle_special(
             std::array<byte, 256> temp{};
             router_topology_info info{};
             for(auto& [ep_id, ep] : this->_endpoints) {
-                auto& [conn_ep_id] = info;
-                conn_ep_id = ep_id;
+                info.router_id = 0U; // TODO actual router id
+                info.remote_id = ep_id;
                 if(auto serialized{default_serialize(info, cover(temp))}) {
                     message_view response{extract(serialized)};
                     response.set_target_id(incoming_id);

@@ -11,6 +11,7 @@
 #define EAGINE_MESSAGE_BUS_TYPES_HPP
 
 #include "../identifier_t.hpp"
+#include "../reflect/map_data_members.hpp"
 #include "../types.hpp"
 #include <tuple>
 
@@ -18,7 +19,18 @@ namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 using message_sequence_t = std::uint32_t;
 //------------------------------------------------------------------------------
-using router_topology_info = std::tuple<identifier_t>;
+struct router_topology_info {
+    identifier_t router_id{0};
+    identifier_t remote_id{0};
+};
+
+template <typename Selector>
+constexpr auto data_member_mapping(
+  identity<router_topology_info>, Selector) noexcept {
+    using S = router_topology_info;
+    return make_data_member_mapping<S, identifier_t, identifier_t>(
+      {"router_id", &S::router_id}, {"remote_id", &S::remote_id});
+}
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus
 

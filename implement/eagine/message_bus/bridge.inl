@@ -191,12 +191,20 @@ bool bridge::_handle_special(
                 _id = message.target_id;
                 _log.debug("assigned id ${id}").arg(EAGINE_ID(id), _id);
             } else if(msg_id.has_method(EAGINE_ID(topoQuery))) {
+                message_view response{};
+                response.setup_response(message);
                 if(to_connection) {
-                    // TODO
+                    _send(EAGINE_MSGBUS_ID(topoBrdgCn), response);
                 } else {
-                    // TODO
+                    _do_push(EAGINE_MSGBUS_ID(topoBrdgCn), response);
                 }
                 // this also should be forwarded
+                return false;
+            } else if(
+              msg_id.has_method(EAGINE_ID(topoRoutCn)) ||
+              msg_id.has_method(EAGINE_ID(topoBrdgCn)) ||
+              msg_id.has_method(EAGINE_ID(topoEndpt))) {
+                // this should be forwarded
                 return false;
             }
             return true;
