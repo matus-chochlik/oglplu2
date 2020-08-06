@@ -191,12 +191,17 @@ bool bridge::_handle_special(
                 _id = message.target_id;
                 _log.debug("assigned id ${id}").arg(EAGINE_ID(id), _id);
             } else if(msg_id.has_method(EAGINE_ID(topoQuery))) {
-                message_view response{};
-                response.setup_response(message);
-                if(to_connection) {
-                    _send(EAGINE_MSGBUS_ID(topoBrdgCn), response);
-                } else {
-                    _do_push(EAGINE_MSGBUS_ID(topoBrdgCn), response);
+                std::array<byte, 256> temp{};
+                bridge_topology_info info{};
+                info.bridge_id = _id;
+                if(auto serialized{default_serialize(info, cover(temp))}) {
+                    message_view response{extract(serialized)};
+                    response.setup_response(message);
+                    if(to_connection) {
+                        _send(EAGINE_MSGBUS_ID(topoBrdgCn), response);
+                    } else {
+                        _do_push(EAGINE_MSGBUS_ID(topoBrdgCn), response);
+                    }
                 }
                 // this also should be forwarded
                 return false;

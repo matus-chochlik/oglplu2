@@ -90,9 +90,10 @@ bool router::add_connection(std::unique_ptr<connection> a_connection) {
 EAGINE_LIB_FUNC
 void router::_setup_from_args(const program_args& args) {
     if(auto arg = args.find("--msg-bus-router-id-base")) {
-        if(arg.next().parse(_id_sequence, _log.error_stream())) {
+        if(arg.next().parse(_id_base, _log.error_stream())) {
+            _id_sequence = _id_base;
             _log.debug("parsed router id base ${base}")
-              .arg(EAGINE_ID(base), _id_sequence);
+              .arg(EAGINE_ID(base), _id_base);
         }
     }
 }
@@ -435,7 +436,7 @@ bool router::_handle_special(
             std::array<byte, 256> temp{};
             router_topology_info info{};
             for(auto& [ep_id, ep] : this->_endpoints) {
-                info.router_id = 0U; // TODO actual router id
+                info.router_id = _id_base;
                 info.remote_id = ep_id;
                 if(auto serialized{default_serialize(info, cover(temp))}) {
                     message_view response{extract(serialized)};

@@ -33,24 +33,32 @@ protected:
     }
 
 public:
-    virtual void process_router(const router_topology_info& info) = 0;
+    virtual void router_appeared(const router_topology_info& info) = 0;
+    virtual void bridge_appeared(const bridge_topology_info& info) = 0;
+    virtual void endpoint_appeared(const endpoint_topology_info& info) = 0;
 
 private:
     bool _handle_router(stored_message& message) {
         router_topology_info info{};
         if(default_deserialize(info, message.content())) {
-            process_router(info);
+            router_appeared(info);
         }
         return true;
     }
 
-    bool _handle_bridge(stored_message&) {
-        // TODO
+    bool _handle_bridge(stored_message& message) {
+        bridge_topology_info info{};
+        if(default_deserialize(info, message.content())) {
+            bridge_appeared(info);
+        }
         return true;
     }
 
-    bool _handle_endpoint(stored_message&) {
-        // TODO
+    bool _handle_endpoint(stored_message& message) {
+        endpoint_topology_info info{};
+        if(default_deserialize(info, message.content())) {
+            endpoint_appeared(info);
+        }
         return true;
     }
 };
