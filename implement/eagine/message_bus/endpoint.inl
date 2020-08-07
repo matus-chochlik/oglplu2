@@ -163,8 +163,14 @@ bool endpoint::_handle_special(
           msg_id.has_method(EAGINE_ID(topoEndpt))) {
             return false;
         } else if(msg_id.has_method(EAGINE_ID(topoQuery))) {
-            // TODO: additional info?
-            return respond_to(message, EAGINE_MSGBUS_ID(topoEndpt));
+            std::array<byte, 256> temp{};
+            endpoint_topology_info info{};
+            info.endpoint_id = _id;
+            if(auto serialized{default_serialize(info, cover(temp))}) {
+                message_view response{extract(serialized)};
+                response.setup_response(message);
+                return send(EAGINE_MSGBUS_ID(topoEndpt), response);
+            }
         }
         _log.warning("unhandled special message ${message} from ${source}")
           .arg(EAGINE_ID(message), msg_id)

@@ -16,8 +16,8 @@
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 template <typename Base = subscriber>
-class subscriber_topology : public Base {
-    using This = subscriber_topology;
+class network_topology : public Base {
+    using This = network_topology;
 
 protected:
     using Base::Base;
@@ -33,6 +33,12 @@ protected:
     }
 
 public:
+    void discover_topology() {
+        message_view message{};
+        auto msg_id{EAGINE_MSG_ID(eagiMsgBus, topoQuery)};
+        this->bus().broadcast(msg_id, message);
+    }
+
     virtual void router_appeared(const router_topology_info& info) = 0;
     virtual void bridge_appeared(const bridge_topology_info& info) = 0;
     virtual void endpoint_appeared(const endpoint_topology_info& info) = 0;

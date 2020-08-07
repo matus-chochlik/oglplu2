@@ -205,9 +205,25 @@ bool bridge::_handle_special(
                 }
                 // this also should be forwarded
                 return false;
+            } else if(msg_id.has_method(EAGINE_ID(topoBrdgCn))) {
+                if(to_connection) {
+                    bridge_topology_info info{};
+                    if(default_deserialize(info, message.data)) {
+                        info.opposite_id = _id;
+                        std::array<byte, 256> temp{};
+                        if(auto serialized{
+                             default_serialize(info, cover(temp))}) {
+                            message_view response{message, extract(serialized)};
+                            _send(EAGINE_MSGBUS_ID(topoBrdgCn), response);
+                            return true;
+                        }
+                    }
+                } else {
+                    // this should be forwarded
+                    return false;
+                }
             } else if(
               msg_id.has_method(EAGINE_ID(topoRoutCn)) ||
-              msg_id.has_method(EAGINE_ID(topoBrdgCn)) ||
               msg_id.has_method(EAGINE_ID(topoEndpt))) {
                 // this should be forwarded
                 return false;

@@ -34,14 +34,15 @@ constexpr auto data_member_mapping(
 //------------------------------------------------------------------------------
 struct bridge_topology_info {
     identifier_t bridge_id{0};
+    identifier_t opposite_id{0};
 };
 
 template <typename Selector>
 constexpr auto data_member_mapping(
   identity<bridge_topology_info>, Selector) noexcept {
     using S = bridge_topology_info;
-    return make_data_member_mapping<S, identifier_t>(
-      {"bridge_id", &S::bridge_id});
+    return make_data_member_mapping<S, identifier_t, identifier_t>(
+      {"bridge_id", &S::bridge_id}, {"opposite_id", &S::opposite_id});
 }
 //------------------------------------------------------------------------------
 struct endpoint_topology_info {

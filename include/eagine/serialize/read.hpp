@@ -398,7 +398,8 @@ public:
     }
 
 private:
-    deserializer<decltype(map_data_members(std::declval<T>()))> _deserializer{};
+    deserializer<decltype(map_data_members(std::declval<T&>()))>
+      _deserializer{};
 };
 //------------------------------------------------------------------------------
 template <typename T>
