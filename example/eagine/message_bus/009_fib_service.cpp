@@ -1,5 +1,5 @@
 /**
- *  @example eagine/message_bus/009_fib_futures.cpp
+ *  @example eagine/message_bus/009_fib_service.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -46,7 +46,7 @@ struct fibonacci_server : static_subscriber<2> {
         return true;
     }
 
-    static std::int64_t fib(std::int64_t arg) noexcept {
+    static std::int64_t fib(std::int64_t arg) {
         return arg <= 2 ? 1 : fib(arg - 2) + fib(arg - 1);
     }
 

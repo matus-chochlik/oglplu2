@@ -1,5 +1,5 @@
 /**
- *  @example eagine/message_bus/008_fib_futures.cpp
+ *  @example eagine/message_bus/010_fib_futures.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -30,12 +30,11 @@ protected:
         Base::add_methods();
         Base::add_method(
           this, EAGINE_MSG_MAP(Fibonacci, Calculate, This, calculate));
-        _workers.populate();
     }
 
 private:
-    workshop _workers{};
-    default_async_skeleton<std::int64_t(std::int64_t), 64> _calc_skeleton{};
+    default_lazy_skeleton<std::int64_t(std::int64_t), 64> _calc_skeleton{
+      std::chrono::minutes(1)};
 
     static std::int64_t fib(std::int64_t arg) {
         return arg <= 2 ? 1 : fib(arg - 2) + fib(arg - 1);
@@ -43,7 +42,7 @@ private:
 
     bool calculate(stored_message& msg_in) {
         _calc_skeleton.enqueue(
-          msg_in, EAGINE_MSG_ID(Fibonacci, Result), {&fib}, _workers);
+          msg_in, EAGINE_MSG_ID(Fibonacci, Result), {&fib});
         return true;
     }
 
@@ -112,7 +111,7 @@ int main(main_ctx& ctx) {
     msgbus::fibonacci_server server(server_endpoint);
     msgbus::fibonacci_client client(client_endpoint);
 
-    const std::int64_t n = running_on_valgrind() ? 40 : 50;
+    const std::int64_t n = running_on_valgrind() ? 36 : 45;
 
     for(std::int64_t i = 1; i <= n; ++i) {
         client.fib(i)

@@ -1,5 +1,5 @@
 /**
- *  @example eagine/message_bus/012_conn_setup.cpp
+ *  @example eagine/message_bus/013_conn_setup.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
