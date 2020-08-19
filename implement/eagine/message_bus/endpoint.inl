@@ -209,6 +209,7 @@ bool endpoint::_store_message(
         } else {
             log()
               .warning("trying to store message for target ${target}")
+              .arg(EAGINE_ID(self), _id)
               .arg(EAGINE_ID(target), message.target_id)
               .arg(EAGINE_ID(message), msg_id);
         }

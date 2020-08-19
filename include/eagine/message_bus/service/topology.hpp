@@ -35,8 +35,9 @@ protected:
 public:
     void discover_topology() {
         message_view message{};
+        message.set_target_id(broadcast_endpoint_id());
         auto msg_id{EAGINE_MSG_ID(eagiMsgBus, topoQuery)};
-        this->bus().broadcast(msg_id, message);
+        this->bus().post(msg_id, message);
     }
 
     virtual void router_appeared(const router_topology_info& info) = 0;
