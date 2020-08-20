@@ -83,16 +83,37 @@ def make_argument_parser():
         """
     )
 # ------------------------------------------------------------------------------
+class Metaballs(object):
+    # --------------------------------------------------------------------------
+    def __init__(self, opts):
+        self._metaballs = []
+        self._metaballs.append(((-0.4, 0.0, 0.0), 4))
+        self._metaballs.append(((+0.3, 0.0, 0.0), 4))
+
+    # --------------------------------------------------------------------------
+    def __call__(self, coord):
+        _diff = lambda a, b: tuple(ac-bc for ac, bc in zip(a, b))
+        _dot = lambda a, b: sum(tuple(ac*bc for ac, bc in zip(a, b)))
+        _slen = lambda a: _dot(a, a)
+
+        result = 0.0
+
+        for center, threshold in self._metaballs:
+            result += 1.0/_slen(_diff(coord, center)) - threshold
+
+        return result
+
+# ------------------------------------------------------------------------------
 class CloudGenerator(object):
     # --------------------------------------------------------------------------
     def normalize(self, c):
-        return tuple(float(cc)/self._opts.n_steps for cc in c)
+        return tuple(((2.0*cc)/self._opts.n_steps) - 1.0 for cc in c)
 
     # --------------------------------------------------------------------------
     def __init__(self, opts):
         self._opts = opts
         self._transf = self.normalize
-        self._field = lambda co: -math.sqrt(co[0]*co[0]+co[1]*co[1]+co[2]*co[2]) + 1
+        self._field = Metaballs(opts)
         self._samples = dict()
         self._sections = [dict(), dict(), dict()]
 
@@ -135,16 +156,19 @@ class CloudGenerator(object):
             except KeyError:
                 sa = self.get_sample(a)
                 sb = self.get_sample(b)
-                if sa <= 0 and sb >= 0:
-                    f = -sa/(sb-sa)
-                    c = tuple(bc*f + ac*(1-f) for ac, bc in zip(a, b))
-                    self._sections[d][a] = c
-                    yield c
-                elif sb <= 0 and sa >= 0:
-                    f = -sb/(sa-sb)
-                    c = tuple(ac*f + bc*(1-f) for ac, bc in zip(a, b))
-                    self._sections[d][a] = c
-                    yield c
+                if sa != 0 or sb != 0:
+                    if sa <= 0 and sb >= 0:
+                        f = -sa/(sb-sa)
+                        c = tuple(bc*f + ac*(1-f) for ac, bc in zip(a, b))
+                        c = self.normalize(c)
+                        self._sections[d][a] = c
+                        yield c
+                    elif sb <= 0 and sa >= 0:
+                        f = -sb/(sa-sb)
+                        c = tuple(ac*f + bc*(1-f) for ac, bc in zip(a, b))
+                        c = self.normalize(c)
+                        self._sections[d][a] = c
+                        yield c
 
     # --------------------------------------------------------------------------
     def order_intersections(self, u, v, w):
@@ -167,22 +191,27 @@ class CloudGenerator(object):
                 piv = _plus(piv, pos)
             piv = _div(piv, l)
 
-            issv = [(_norm(_diff(pos, piv)), pos) for pos in iss]
+            try:
+                issv = [(_norm(_diff(pos, piv)), pos) for pos in iss]
 
-            mind = abs(_dot(issv[0][0], issv[0][0]))
-            o = 0
-            for k in range(1, l):
-                d = abs(_dot(issv[0][0], issv[k][0]))
-                if mind > d:
-                    mind = d
-                    o = k
-            assert o != 0
+                mind = abs(_dot(issv[0][0], issv[0][0]))
+                o = 0
+                for k in range(1, l):
+                    d = abs(_dot(issv[0][0], issv[k][0]))
+                    if mind > d:
+                        mind = d
+                        o = k
+                assert o != 0
 
-            n = _norm(_cross(issv[0][0], issv[o][0]))
+                n = _norm(_cross(issv[0][0], issv[o][0]))
 
-            issa = [(_angle(n, issv[0][0], v), pos) for v, pos in issv]
+                issa = [(_angle(n, issv[0][0], v), pos) for v, pos in issv]
 
-            return [pos for a, pos in sorted(issa)]
+                return [pos for a, pos in sorted(issa)]
+            except AssertionError:
+                pass
+            except ZeroDivisionError:
+                pass
 
         return None
 
@@ -216,6 +245,10 @@ class CloudGenerator(object):
         self._bmesh.to_mesh(bpy.context.object.data)
         self._bmesh.free()
         self._bmesh = None
+        bpy.ops.object.mode_set(mode='EDIT')
+        bpy.ops.mesh.select_all(action='SELECT')
+        bpy.ops.mesh.normals_make_consistent(inside=False)
+        bpy.ops.object.mode_set(mode='OBJECT')
         bpy.ops.wm.save_as_mainfile()
 
 # ------------------------------------------------------------------------------
