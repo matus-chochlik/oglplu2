@@ -10,23 +10,23 @@
 import os
 import sys
 import math
-import pathlib
+import random
 import argparse
 # ------------------------------------------------------------------------------
 class CloudGenArgParser(argparse.ArgumentParser):
     # --------------------------------------------------------------------------
-    def _distance(self, x):
+    def _ratio01(self, x):
         try:
             f = float(x)
-            assert(f >= 0.0)
+            assert f > 0 and f < 1
             return f
         except:
-            self.error("`%s' is not a valid distance value" % str(x))
+            self.error("`%s' is not (0, 1) float value" % str(x))
     # --------------------------------------------------------------------------
     def _positive_int(self, x):
         try:
             i = int(x)
-            assert(i > 0)
+            assert i > 0
             return i
         except:
             self.error("`%s' is not a positive integer value" % str(x))
@@ -45,7 +45,7 @@ class CloudGenArgParser(argparse.ArgumentParser):
             type=self._positive_int,
             dest="u_steps",
             action="store",
-            default=512
+            default=128
         )
 
         self.add_argument(
@@ -53,7 +53,7 @@ class CloudGenArgParser(argparse.ArgumentParser):
             type=self._positive_int,
             dest="v_steps",
             action="store",
-            default=512
+            default=128
         )
 
         self.add_argument(
@@ -61,7 +61,15 @@ class CloudGenArgParser(argparse.ArgumentParser):
             type=self._positive_int,
             dest="w_steps",
             action="store",
-            default=256
+            default=128
+        )
+
+        self.add_argument(
+            '--decimate', '-d',
+            type=self._ratio01,
+            dest="decimate_ratio",
+            action="store",
+            default=None
         )
     # --------------------------------------------------------------------------
     def process_parsed_options(self, options):
@@ -87,8 +95,23 @@ class Metaballs(object):
     # --------------------------------------------------------------------------
     def __init__(self, opts):
         self._metaballs = []
-        self._metaballs.append(((-0.4, 0.0, 0.0), 4))
-        self._metaballs.append(((+0.3, 0.0, 0.0), 4))
+        self.recursive_spheres((0.0, 0.0, 0.0), 0.6, 7, 3)
+
+    # --------------------------------------------------------------------------
+    def recursive_spheres(self, center, radius, count, depth):
+        self._metaballs.append((center, radius))
+        o = center
+
+        if depth > 0:
+            for s in range(count):
+                u = random.uniform(-1.0, 1.0)
+                a = random.uniform(0.0, 2.0*math.pi)
+                d = random.uniform(0.8*radius, 0.95*radius)
+                s = math.sqrt(1.0-u**2)
+                c = (d*s*math.cos(a)+o[0], d*s*math.sin(a)+o[1], d*u+o[2])
+                r = random.uniform(radius*0.4, radius*0.6)
+                n = int(random.uniform(count*0.8, count*1.6))
+                self.recursive_spheres(c, r, n, depth-1)
 
     # --------------------------------------------------------------------------
     def __call__(self, coord):
@@ -98,8 +121,8 @@ class Metaballs(object):
 
         result = 0.0
 
-        for center, threshold in self._metaballs:
-            result += 1.0/_slen(_diff(coord, center)) - threshold
+        for center, radius in self._metaballs:
+            result += (radius**2)*(1.0/(_slen(_diff(coord, center))+0.0001) - 4)
 
         return result
 
@@ -248,6 +271,8 @@ class CloudGenerator(object):
         bpy.ops.object.mode_set(mode='EDIT')
         bpy.ops.mesh.select_all(action='SELECT')
         bpy.ops.mesh.normals_make_consistent(inside=False)
+        if self._opts.decimate_ratio is not None:
+            bpy.ops.mesh.decimate(ratio=self._opts.decimate_ratio)
         bpy.ops.object.mode_set(mode='OBJECT')
         bpy.ops.wm.save_as_mainfile()
 
