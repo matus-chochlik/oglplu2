@@ -5,7 +5,7 @@
 # See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
 #
-# usage: blender -b myfile.blend -P cloudgen.py [-- [--help|options...]]
+# usage: blender -b myfile.blend -P volume_gen.py [-- [--help|options...]]
 
 import os
 import sys
@@ -95,7 +95,7 @@ class Metaballs(object):
     # --------------------------------------------------------------------------
     def __init__(self, opts):
         self._metaballs = []
-        self.recursive_spheres((0.0, 0.0, 0.0), 0.6, 7, 3)
+        self.recursive_spheres((0.0, 0.0, 0.0), 0.6, 17, 2)
 
     # --------------------------------------------------------------------------
     def recursive_spheres(self, center, radius, count, depth):
@@ -106,11 +106,11 @@ class Metaballs(object):
             for s in range(count):
                 u = random.uniform(-1.0, 1.0)
                 a = random.uniform(0.0, 2.0*math.pi)
-                d = random.uniform(0.8*radius, 0.95*radius)
+                d = random.uniform(0.75*radius, 0.90*radius)
                 s = math.sqrt(1.0-u**2)
                 c = (d*s*math.cos(a)+o[0], d*s*math.sin(a)+o[1], d*u+o[2])
-                r = random.uniform(radius*0.4, radius*0.6)
-                n = int(random.uniform(count*0.8, count*1.6))
+                r = random.uniform(radius*0.4, radius*0.5)
+                n = int(random.uniform(count*2, count*3))
                 self.recursive_spheres(c, r, n, depth-1)
 
     # --------------------------------------------------------------------------
@@ -122,7 +122,7 @@ class Metaballs(object):
         result = 0.0
 
         for center, radius in self._metaballs:
-            result += (radius**2)*(1.0/(_slen(_diff(coord, center))+0.0001) - 4)
+            result += (radius**2)*(1.0/(_slen(_diff(coord, center))+0.0001) - 3)
 
         return result
 
