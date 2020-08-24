@@ -95,10 +95,10 @@ class Metaballs(object):
     # --------------------------------------------------------------------------
     def __init__(self, opts):
         self._metaballs = []
-        self.recursive_spheres((0.0, 0.0, 0.0), 0.6, 17, 2)
+        self.recursive_spheres((0.0, 0.0, 0.0), 0.6, 0.7, 17, 2)
 
     # --------------------------------------------------------------------------
-    def recursive_spheres(self, center, radius, count, depth):
+    def recursive_spheres(self, center, radius, offset, count, depth):
         self._metaballs.append((center, radius))
         o = center
 
@@ -106,12 +106,12 @@ class Metaballs(object):
             for s in range(count):
                 u = random.uniform(-1.0, 1.0)
                 a = random.uniform(0.0, 2.0*math.pi)
-                d = random.uniform(0.75*radius, 0.90*radius)
+                d = random.uniform(0.95*offset, 1.05*offset)
                 s = math.sqrt(1.0-u**2)
                 c = (d*s*math.cos(a)+o[0], d*s*math.sin(a)+o[1], d*u+o[2])
-                r = random.uniform(radius*0.4, radius*0.5)
+                r = random.uniform(radius*0.6, radius*0.8)
                 n = int(random.uniform(count*2, count*3))
-                self.recursive_spheres(c, r, n, depth-1)
+                self.recursive_spheres(c, r, offset*0.5, n, depth-1)
 
     # --------------------------------------------------------------------------
     def __call__(self, coord):
@@ -122,7 +122,7 @@ class Metaballs(object):
         result = 0.0
 
         for center, radius in self._metaballs:
-            result += (radius**2)*(1.0/(_slen(_diff(coord, center))+0.0001) - 3)
+            result += (radius)*(1.0/(_slen(_diff(coord, center))+0.0001) - 4)
 
         return result
 
@@ -251,10 +251,20 @@ class CloudGenerator(object):
         import bmesh
         self._bmesh = bmesh.new()
 
-        for w in range(self._opts.w_steps):
-            for v in range(self._opts.v_steps):
-                for u in range(self._opts.u_steps):
+        ws = self._opts.w_steps
+        vs = self._opts.v_steps
+        us = self._opts.u_steps
+        it = 100.0 / (us*vs*ws)
+        oldperc = -1
+
+        for w in range(ws):
+            for v in range(vs):
+                for u in range(us):
                     self.process_cube(u, v, w)
+                    newperc = int(it*(w*vs*us + v*us + u))
+                    if oldperc != newperc:
+                        oldperc = newperc
+                        print("% 3d percent done" % newperc)
 
         bmesh.ops.remove_doubles(
             self._bmesh,
