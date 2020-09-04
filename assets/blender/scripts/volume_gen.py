@@ -95,7 +95,7 @@ class Metaballs(object):
     # --------------------------------------------------------------------------
     def __init__(self, opts):
         self._metaballs = []
-        self.recursive_spheres((0.0, 0.0, 0.0), 0.7, 0.65, 17, 2)
+        self.recursive_spheres((0.0, 0.0, 0.0), 0.68, 0.66, 17, 2)
 
     # --------------------------------------------------------------------------
     def recursive_spheres(self, center, radius, offset, count, depth):
