@@ -61,8 +61,9 @@ static constexpr inline auto make_base64_decode_transform() {
 }
 //------------------------------------------------------------------------------
 template <typename P, typename S, typename Dst>
-static inline optional_reference_wrapper<Dst> base64_encode(
-  memory::basic_span<const byte, P, S> src, Dst& dst) {
+static inline auto base64_encode(
+  memory::basic_span<const byte, P, S> src, Dst& dst)
+  -> optional_reference_wrapper<Dst> {
     using Ds = typename Dst::size_type;
     dst.resize(Ds(dissolved_bits_length(src.size(), 6)));
     span_size_t i = 0;
@@ -79,8 +80,9 @@ static inline optional_reference_wrapper<Dst> base64_encode(
 }
 //------------------------------------------------------------------------------
 template <typename P, typename S, typename Dst>
-static inline optional_reference_wrapper<Dst> base64_decode(
-  memory::basic_span<const char, P, S> src, Dst& dst) {
+static inline auto base64_decode(
+  memory::basic_span<const char, P, S> src, Dst& dst)
+  -> optional_reference_wrapper<Dst> {
     using Ds = typename Dst::size_type;
     dst.resize(Ds(concentrated_bits_length(src.size(), 6)));
     span_size_t i = 0;

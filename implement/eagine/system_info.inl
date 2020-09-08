@@ -20,7 +20,7 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 #if EAGINE_LINUX
-static inline struct ::sysinfo& system_info_linux_sysinfo() noexcept {
+static inline auto system_info_linux_sysinfo() noexcept -> struct ::sysinfo& {
     using si_t = struct sysinfo;
     static timeout refresh{std::chrono::milliseconds(10), nothing};
     static si_t _si{};
@@ -31,7 +31,8 @@ static inline struct ::sysinfo& system_info_linux_sysinfo() noexcept {
     return _si;
 }
 
-static inline float system_info_linux_load_avg(std::size_t which) noexcept {
+static inline auto system_info_linux_load_avg(std::size_t which) noexcept
+  -> float {
     return static_cast<float>(system_info_linux_sysinfo().loads[which]) /
            static_cast<float>(
              (1U << static_cast<unsigned>(SI_LOAD_SHIFT)) *
@@ -40,7 +41,8 @@ static inline float system_info_linux_load_avg(std::size_t which) noexcept {
 #endif
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-valid_if_positive<span_size_t> system_info::memory_page_size() const noexcept {
+auto system_info::memory_page_size() const noexcept
+  -> valid_if_positive<span_size_t> {
 #if EAGINE_POSIX
 #if defined(_SC_PAGESIZE)
     return {span_size(::sysconf(_SC_PAGESIZE))};
@@ -50,7 +52,8 @@ valid_if_positive<span_size_t> system_info::memory_page_size() const noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-valid_if_nonnegative<float> system_info::short_average_load() const noexcept {
+auto system_info::short_average_load() const noexcept
+  -> valid_if_nonnegative<float> {
 #if EAGINE_LINUX
     return system_info_linux_load_avg(0);
 #endif
@@ -58,7 +61,8 @@ valid_if_nonnegative<float> system_info::short_average_load() const noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-valid_if_nonnegative<float> system_info::long_average_load() const noexcept {
+auto system_info::long_average_load() const noexcept
+  -> valid_if_nonnegative<float> {
 #if EAGINE_LINUX
     return system_info_linux_load_avg(1);
 #endif
@@ -66,7 +70,7 @@ valid_if_nonnegative<float> system_info::long_average_load() const noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-std::chrono::duration<float> system_info::uptime() const noexcept {
+auto system_info::uptime() const noexcept -> std::chrono::duration<float> {
     using r_t = std::chrono::duration<float>;
 #if EAGINE_LINUX
     return r_t{system_info_linux_sysinfo().uptime};
@@ -75,7 +79,8 @@ std::chrono::duration<float> system_info::uptime() const noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-valid_if_positive<span_size_t> system_info::free_ram_size() const noexcept {
+auto system_info::free_ram_size() const noexcept
+  -> valid_if_positive<span_size_t> {
 #if EAGINE_LINUX
     return {span_size(system_info_linux_sysinfo().freeram)};
 #endif
@@ -83,7 +88,8 @@ valid_if_positive<span_size_t> system_info::free_ram_size() const noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-valid_if_positive<span_size_t> system_info::total_ram_size() const noexcept {
+auto system_info::total_ram_size() const noexcept
+  -> valid_if_positive<span_size_t> {
 #if EAGINE_LINUX
     return {span_size(system_info_linux_sysinfo().totalram)};
 #endif

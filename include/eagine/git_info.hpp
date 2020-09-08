@@ -15,10 +15,10 @@
 
 namespace eagine {
 
-valid_if_not_empty<string_view> config_git_branch() noexcept;
-valid_if_not_empty<string_view> config_git_hash_id() noexcept;
-valid_if_not_empty<string_view> config_git_date() noexcept;
-valid_if_not_empty<string_view> config_git_describe() noexcept;
+auto config_git_branch() noexcept -> valid_if_not_empty<string_view>;
+auto config_git_hash_id() noexcept -> valid_if_not_empty<string_view>;
+auto config_git_date() noexcept -> valid_if_not_empty<string_view>;
+auto config_git_describe() noexcept -> valid_if_not_empty<string_view>;
 
 } // namespace eagine
 

@@ -16,7 +16,7 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-static constexpr inline log_event_severity default_log_severity() noexcept {
+static constexpr inline auto default_log_severity() noexcept {
     return static_cast<log_event_severity>(
       static_cast<std::underlying_type_t<log_event_severity>>(
         log_event_severity::EAGINE_MIN_LOG_SEVERITY) +
@@ -24,10 +24,10 @@ static constexpr inline log_event_severity default_log_severity() noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-std::unique_ptr<logger_backend> root_logger_choose_backend(
+auto root_logger_choose_backend(
   const program_args& args,
   const root_logger_options& opts,
-  log_event_severity min_severity) {
+  log_event_severity min_severity) -> std::unique_ptr<logger_backend> {
     std::unique_ptr<logger_backend> result{};
 
     for(auto& arg : args) {
@@ -66,8 +66,9 @@ std::unique_ptr<logger_backend> root_logger_choose_backend(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-std::unique_ptr<logger_backend> root_logger::_init_backend(
-  const program_args& args, const root_logger_options& opts) {
+auto root_logger::_init_backend(
+  const program_args& args, const root_logger_options& opts)
+  -> std::unique_ptr<logger_backend> {
     auto min_severity{default_log_severity()};
 
     for(auto arg = args.first(); arg; arg = arg.next()) {
@@ -84,7 +85,7 @@ std::unique_ptr<logger_backend> root_logger::_init_backend(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void root_logger::_log_args(const program_args& args) {
+auto root_logger::_log_args(const program_args& args) -> void {
     auto args_entry{info("program arguments:")};
     args_entry.arg(EAGINE_ID(cmd), args.command());
     for(auto& arg : args) {
@@ -93,7 +94,7 @@ void root_logger::_log_args(const program_args& args) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void root_logger::_log_git_info() {
+auto root_logger::_log_git_info() -> void {
     const string_view n_a{"N/A"};
     info("build configuration information")
       .arg(EAGINE_ID(gitBranch), EAGINE_ID(GitBranch), config_git_branch(), n_a)

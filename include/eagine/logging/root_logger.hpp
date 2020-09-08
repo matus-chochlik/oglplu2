@@ -18,11 +18,11 @@ namespace eagine {
 //------------------------------------------------------------------------------
 class root_logger : public logger {
 
-    static std::unique_ptr<logger_backend> _init_backend(
-      const program_args&, const root_logger_options&);
+    static auto _init_backend(const program_args&, const root_logger_options&)
+      -> std::unique_ptr<logger_backend>;
 
-    void _log_git_info();
-    void _log_args(const program_args&);
+    auto _log_git_info() -> void;
+    auto _log_args(const program_args&) -> void;
 
 public:
     root_logger(

@@ -13,8 +13,8 @@
 namespace eagine::memory {
 //------------------------------------------------------------------------------
 template <typename Policy>
-inline owned_block c_byte_reallocator<Policy>::allocate(
-  size_type n, size_type a) noexcept {
+inline auto c_byte_reallocator<Policy>::allocate(
+  size_type n, size_type a) noexcept -> owned_block {
     EAGINE_ASSERT(a > 0);
     EAGINE_MAYBE_UNUSED(a);
 
@@ -42,8 +42,8 @@ void c_byte_reallocator<Policy>::deallocate(
 }
 //------------------------------------------------------------------------------
 template <typename Policy>
-owned_block c_byte_reallocator<Policy>::reallocate(
-  owned_block&& b, size_type n, size_type a) noexcept {
+auto c_byte_reallocator<Policy>::reallocate(
+  owned_block&& b, size_type n, size_type a) noexcept -> owned_block {
     EAGINE_ASSERT(a > 0);
 
     if(n == 0) {
