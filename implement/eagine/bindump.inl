@@ -118,7 +118,7 @@ void bindump::apply(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-std::ostream& operator<<(std::ostream& out, const bindump& hd) {
+auto operator<<(std::ostream& out, const bindump& hd) -> std::ostream& {
     out << std::endl;
 
     span_size_t i = 0;

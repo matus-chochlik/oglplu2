@@ -20,22 +20,23 @@ namespace eagine {
 //------------------------------------------------------------------------------
 template <typename Putter>
 void _hexdump_to_hex_b(Putter& put_char, byte b) {
-    static const char hd[16] = {'0',
-                                '1',
-                                '2',
-                                '3',
-                                '4',
-                                '5',
-                                '6',
-                                '7',
-                                '8',
-                                '9',
-                                'a',
-                                'b',
-                                'c',
-                                'd',
-                                'e',
-                                'f'};
+    static const char hd[16] = {
+      '0',
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7',
+      '8',
+      '9',
+      'a',
+      'b',
+      'c',
+      'd',
+      'e',
+      'f'};
     put_char(' ');
     // NOLINTNEXTLINE(hicpp-signed-bitwise)
     put_char(hd[(b >> 4U) & 0x0FU]);
@@ -130,7 +131,7 @@ void hexdump::apply(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-std::ostream& operator<<(std::ostream& out, const hexdump& hd) {
+auto operator<<(std::ostream& out, const hexdump& hd) -> std::ostream& {
     out << std::endl;
 
     span_size_t i = 0;
