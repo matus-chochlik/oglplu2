@@ -23,7 +23,8 @@ private:
     ::z_stream _zsd{};
     ::z_stream _zsi{};
 
-    static constexpr int _translate(data_compression_level level) noexcept {
+    static constexpr auto _translate(data_compression_level level) noexcept
+      -> int {
         switch(level) {
             case data_compression_level::none:
                 return 0;
@@ -51,10 +52,10 @@ public:
         _zsi.opaque = nullptr;
     }
 
-    bool compress(
+    auto compress(
       memory::const_block input,
       const data_handler& handler,
-      data_compression_level level) {
+      data_compression_level level) -> bool {
         _zsd.next_in = const_cast<byte*>(input.data());
         _zsd.avail_in = input.size();
         _zsd.next_out = _temp.data();
@@ -108,10 +109,10 @@ public:
         return true;
     }
 
-    memory::const_block compress(
+    auto compress(
       memory::const_block input,
       memory::buffer& output,
-      data_compression_level level) {
+      data_compression_level level) -> memory::const_block {
         auto append = [&](memory::const_block blk) {
             const auto sk = output.size();
             output.enlarge_by(blk.size());
@@ -128,7 +129,8 @@ public:
         return {};
     }
 
-    bool decompress(memory::const_block input, const data_handler& handler) {
+    auto decompress(memory::const_block input, const data_handler& handler)
+      -> bool {
         if(!input) {
             return false;
         }
@@ -191,8 +193,8 @@ public:
         return true;
     }
 
-    memory::const_block decompress(
-      memory::const_block input, memory::buffer& output) {
+    auto decompress(memory::const_block input, memory::buffer& output)
+      -> memory::const_block {
         auto append = [&](memory::const_block blk) {
             const auto sk = output.size();
             output.enlarge_by(blk.size());
@@ -217,28 +219,30 @@ class data_compressor_impl {
 public:
     using data_handler = callable_ref<bool(memory::const_block)>;
 
-    bool compress(
-      memory::const_block, const data_handler&, data_compression_level) {
+    auto compress(
+      memory::const_block, const data_handler&, data_compression_level)
+      -> bool {
         return false;
     }
 
-    constexpr memory::const_block compress(
-      memory::const_block, memory::buffer&, data_compression_level) const {
+    constexpr auto compress(
+      memory::const_block, memory::buffer&, data_compression_level) const
+      -> memory::const_block {
         return {};
     }
 
-    bool decompress(memory::const_block, const data_handler&) {
+    auto decompress(memory::const_block, const data_handler&) -> bool {
         return false;
     }
 
-    constexpr memory::const_block decompress(
-      memory::const_block, memory::buffer&) const {
+    constexpr auto decompress(memory::const_block, memory::buffer&) const
+      -> memory::const_block {
         return {};
     }
 };
 
-static inline std::shared_ptr<data_compressor_impl>
-make_data_compressor_impl() {
+static inline auto make_data_compressor_impl()
+  -> std::shared_ptr<data_compressor_impl> {
     return {};
 }
 #endif
@@ -249,10 +253,10 @@ data_compressor::data_compressor()
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-memory::const_block data_compressor::compress(
+auto data_compressor::compress(
   memory::const_block input,
   memory::buffer& output,
-  data_compression_level level) {
+  data_compression_level level) -> memory::const_block {
     if(_pimpl) {
         if(auto result{_pimpl->compress(input, output, level)}) {
             return result;
@@ -265,8 +269,8 @@ memory::const_block data_compressor::compress(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-memory::const_block data_compressor::decompress(
-  memory::const_block input, memory::buffer& output) {
+auto data_compressor::decompress(
+  memory::const_block input, memory::buffer& output) -> memory::const_block {
     if(input) {
         if(input.front() == 0x00U) {
             output.resize(input.size() - 1);

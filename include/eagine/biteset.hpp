@@ -744,13 +744,13 @@ private:
     }
 
     template <std::size_t... I>
-    static constexpr _bytes_t _do_make_bytes(
+    static constexpr auto _do_make_bytes(
       const T (&init)[N], std::index_sequence<I...>) noexcept {
         return _bytes_t{_get_byte(init, size_constant<I>{})...};
     }
 
     template <typename... P>
-    static constexpr _bytes_t _make_bytes(P... p) noexcept {
+    static constexpr auto _make_bytes(P... p) noexcept {
         return _do_make_bytes(
           {T(p)...}, std::make_index_sequence<_store_size>{});
     }

@@ -61,93 +61,93 @@ public:
       : byteset(std::make_index_sequence<N>(), init) {
     }
 
-    pointer data() noexcept {
+    auto data() noexcept -> pointer {
         return _bytes;
     }
 
-    constexpr const_pointer data() const noexcept {
+    constexpr auto data() const noexcept -> const_pointer {
         return _bytes;
     }
 
-    constexpr size_type size() const noexcept {
+    constexpr auto size() const noexcept -> size_type {
         return N;
     }
 
-    memory::const_block block() const noexcept {
+    constexpr auto block() const noexcept -> memory::const_block {
         return {data(), size()};
     }
 
-    constexpr reference operator[](size_type i) noexcept {
+    constexpr auto operator[](size_type i) noexcept -> reference {
         return _bytes[i];
     }
 
-    constexpr const_reference operator[](size_type i) const noexcept {
+    constexpr auto operator[](size_type i) const noexcept -> const_reference {
         return _bytes[i];
     }
 
-    constexpr reference front() noexcept {
+    constexpr auto front() noexcept -> reference {
         return _bytes[0];
     }
 
-    constexpr const_reference front() const noexcept {
+    constexpr auto front() const noexcept -> const_reference {
         return _bytes[0];
     }
 
-    constexpr reference back() noexcept {
+    constexpr auto back() noexcept -> reference {
         return _bytes[N - 1];
     }
 
-    constexpr const_reference back() const noexcept {
+    constexpr auto back() const noexcept -> const_reference {
         return _bytes[N - 1];
     }
 
-    iterator begin() noexcept {
+    auto begin() noexcept -> iterator {
         return _bytes + 0;
     }
 
-    iterator end() noexcept {
+    auto end() noexcept -> iterator {
         return _bytes + N;
     }
 
-    constexpr const_iterator begin() const noexcept {
+    constexpr auto begin() const noexcept -> const_iterator {
         return _bytes + 0;
     }
 
-    constexpr const_iterator end() const noexcept {
+    constexpr auto end() const noexcept -> const_iterator {
         return _bytes + N;
     }
 
-    friend constexpr inline int compare(
+    friend constexpr inline auto compare(
       const byteset& a, const byteset& b) noexcept {
         return _do_cmp(a, b, std::make_index_sequence<N>{});
     }
 
-    friend constexpr inline bool operator==(
+    friend constexpr inline auto operator==(
       const byteset& a, const byteset& b) noexcept {
         return compare(a, b) == 0;
     }
 
-    friend constexpr inline bool operator!=(
+    friend constexpr inline auto operator!=(
       const byteset& a, const byteset& b) noexcept {
         return compare(a, b) != 0;
     }
 
-    friend constexpr inline bool operator<(
+    friend constexpr inline auto operator<(
       const byteset& a, const byteset& b) noexcept {
         return compare(a, b) < 0;
     }
 
-    friend constexpr inline bool operator<=(
+    friend constexpr inline auto operator<=(
       const byteset& a, const byteset& b) noexcept {
         return compare(a, b) <= 0;
     }
 
-    friend constexpr inline bool operator>(
+    friend constexpr inline auto operator>(
       const byteset& a, const byteset& b) noexcept {
         return compare(a, b) > 0;
     }
 
-    friend constexpr inline bool operator>=(
+    friend constexpr inline auto operator>=(
       const byteset& a, const byteset& b) noexcept {
         return compare(a, b) >= 0;
     }
@@ -156,7 +156,7 @@ public:
       typename UInt,
       typename =
         std::enable_if_t<(sizeof(UInt) >= N) && std::is_integral_v<UInt>>>
-    constexpr inline UInt as(UInt i = 0) const noexcept {
+    constexpr inline auto as(UInt i = 0) const noexcept {
         return _push_back_to(i, 0);
     }
 
@@ -164,25 +164,28 @@ private:
     value_type _bytes[N]{};
 
     template <typename UInt>
-    constexpr inline UInt _push_back_to(UInt state, std::size_t i) const
-      noexcept {
+    constexpr inline auto _push_back_to(
+      UInt state, std::size_t i) const noexcept -> UInt {
         // NOLINTNEXTLINE(hicpp-signed-bitwise)
         return (i < N) ? _push_back_to((state << CHAR_BIT) | _bytes[i], i + 1)
                        : state;
     }
 
-    static constexpr inline int _cmp_byte(value_type a, value_type b) noexcept {
+    static constexpr inline auto _cmp_byte(value_type a, value_type b) noexcept
+      -> int {
         return (a == b) ? 0 : (a < b) ? -1 : 1;
     }
 
-    static constexpr inline int _do_cmp(
-      const byteset&, const byteset&, std::index_sequence<>) noexcept {
+    static constexpr inline auto _do_cmp(
+      const byteset&, const byteset&, std::index_sequence<>) noexcept -> int {
         return 0;
     }
 
     template <std::size_t I, std::size_t... In>
-    static constexpr inline int _do_cmp(
-      const byteset& a, const byteset& b, std::index_sequence<I, In...>) {
+    static constexpr inline auto _do_cmp(
+      const byteset& a,
+      const byteset& b,
+      std::index_sequence<I, In...>) noexcept -> int {
         return (a._bytes[I] == b._bytes[I])
                  ? _do_cmp(a, b, std::index_sequence<In...>{})
                  : _cmp_byte(a._bytes[I], b._bytes[I]);

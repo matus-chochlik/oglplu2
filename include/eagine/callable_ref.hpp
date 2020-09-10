@@ -31,7 +31,7 @@ private:
     using _func_vpt = RV (*)(void*, P...);
 
     template <typename C>
-    static RV _cls_fn_call_op(void* that, P... p) {
+    static auto _cls_fn_call_op(void* that, P... p) -> RV {
         EAGINE_ASSERT(that);
         C& obj = *(static_cast<C*>(that));
 
@@ -44,7 +44,7 @@ private:
     }
 
     template <typename C>
-    static RV _cls_fn_call_op_c(void* that, P... p) {
+    static auto _cls_fn_call_op_c(void* that, P... p) -> RV {
         EAGINE_ASSERT(that);
         const C& obj = *(static_cast<const C*>(that));
 
@@ -67,13 +67,14 @@ public:
     }
     constexpr callable_ref(const callable_ref&) noexcept = default;
 
-    constexpr callable_ref& operator=(callable_ref&& temp) noexcept {
+    constexpr auto operator=(callable_ref&& temp) noexcept -> callable_ref& {
         using std::swap;
         swap(temp._data, _data);
         swap(temp._func, _func);
         return *this;
     }
-    constexpr callable_ref& operator=(const callable_ref&) noexcept = default;
+    constexpr auto operator=(const callable_ref&) noexcept
+      -> callable_ref& = default;
 
     ~callable_ref() noexcept = default;
 
@@ -129,7 +130,7 @@ public:
         EAGINE_ASSERT(_func != nullptr);
     }
 
-    constexpr bool is_valid() const noexcept {
+    constexpr auto is_valid() const noexcept {
         return _func != nullptr;
     }
 
@@ -137,12 +138,12 @@ public:
         return is_valid();
     }
 
-    constexpr bool operator!() const noexcept {
+    constexpr auto operator!() const noexcept {
         return !is_valid();
     }
 
     template <typename... A>
-    RV operator()(A&&... a) const {
+    auto operator()(A&&... a) const -> RV {
         EAGINE_ASSERT(is_valid());
         if(_data == nullptr) {
             return (reinterpret_cast<_func_pt>(_func))(std::forward<A>(a)...);

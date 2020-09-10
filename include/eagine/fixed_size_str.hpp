@@ -58,40 +58,40 @@ public:
     using iterator = char*;
     using const_iterator = const char*;
 
-    bool empty() const noexcept {
+    auto empty() const noexcept {
         return _str[0] == '\0';
     }
 
-    span_size_t size() const noexcept {
+    auto size() const noexcept -> span_size_t {
         return N - 1;
     }
 
-    const char* data() const noexcept {
+    auto data() const noexcept {
         return static_cast<const char*>(_str);
     }
 
-    const char* c_str() const noexcept {
+    auto c_str() const noexcept {
         EAGINE_ASSERT(_str[N - 1] == '\0');
         return data();
     }
 
-    iterator begin() noexcept {
+    auto begin() noexcept -> iterator {
         return _str;
     }
 
-    const_iterator begin() const noexcept {
+    auto begin() const noexcept -> const_iterator {
         return _str;
     }
 
-    iterator end() noexcept {
+    auto end() noexcept -> iterator {
         return _str + N - 1;
     }
 
-    const_iterator end() const noexcept {
+    auto end() const noexcept -> const_iterator {
         return _str + N - 1;
     }
 
-    string_view view() const noexcept {
+    auto view() const noexcept -> string_view {
         return {_str, N - 1};
     }
 
@@ -101,13 +101,12 @@ public:
 };
 
 template <span_size_t N>
-static inline fixed_size_string<N> make_fixed_size_string(
-  const char (&str)[N]) noexcept {
+static inline auto make_fixed_size_string(const char (&str)[N]) noexcept {
     return fixed_size_string<N>(str);
 }
 
 template <span_size_t N1, span_size_t N2>
-static inline fixed_size_string<N1 + N2 - 1> operator+(
+static inline auto operator+(
   const fixed_size_string<N1>& s1, const fixed_size_string<N2>& s2) noexcept {
     return fixed_size_string<N1 + N2 - 1>(s1, s2);
 }
