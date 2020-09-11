@@ -33,7 +33,7 @@ public:
 
     static void apply(byte_getter get_byte, char_putter put_char);
 
-    friend std::ostream& operator<<(std::ostream&, const hexdump&);
+    friend auto operator<<(std::ostream&, const hexdump&) -> std::ostream&;
 };
 
 } // namespace eagine

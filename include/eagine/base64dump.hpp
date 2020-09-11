@@ -25,7 +25,8 @@ public:
       : _mb(mb) {
     }
 
-    friend std::ostream& operator<<(std::ostream& out, const base64dump& src) {
+    friend auto operator<<(std::ostream& out, const base64dump& src)
+      -> std::ostream& {
         span_size_t i = 0;
         do_dissolve_bits(
           make_span_getter(i, src._mb),

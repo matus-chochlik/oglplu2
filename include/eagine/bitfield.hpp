@@ -43,7 +43,7 @@ public:
         return _bits != BF(0);
     }
 
-    constexpr inline bool operator!() const noexcept {
+    constexpr inline auto operator!() const noexcept -> bool {
         return _bits == BF(0);
     }
 
@@ -51,59 +51,59 @@ public:
         return _bits;
     }
 
-    constexpr inline value_type bits() const noexcept {
+    constexpr inline auto bits() const noexcept -> value_type {
         return _bits;
     }
 
-    constexpr inline bool is_empty() const noexcept {
+    constexpr inline auto is_empty() const noexcept {
         return _bits == BF(0);
     }
 
-    constexpr inline bool has(Bit bit) const noexcept {
+    constexpr inline auto has(Bit bit) const noexcept {
         return (_bits & BF(bit)) == BF(bit);
     }
 
-    constexpr inline bool has_only(Bit bit) const noexcept {
+    constexpr inline auto has_only(Bit bit) const noexcept {
         return _bits == BF(bit);
     }
 
-    constexpr inline bool has_at_most(Bit bit) const noexcept {
+    constexpr inline auto has_at_most(Bit bit) const noexcept {
         return is_empty() || has_only(bit);
     }
 
-    friend constexpr inline bool operator==(bitfield a, bitfield b) noexcept {
+    friend constexpr inline auto operator==(bitfield a, bitfield b) noexcept {
         return a._bits == b._bits;
     }
 
-    friend constexpr inline bool operator!=(bitfield a, bitfield b) noexcept {
+    friend constexpr inline auto operator!=(bitfield a, bitfield b) noexcept {
         return a._bits != b._bits;
     }
 
-    friend constexpr inline bitfield operator|(
-      bitfield a, bitfield b) noexcept {
+    friend constexpr inline auto operator|(bitfield a, bitfield b) noexcept
+      -> bitfield {
         return bitfield(a._bits | b._bits);
     }
 
-    bitfield& operator|=(bitfield b) noexcept {
+    auto operator|=(bitfield b) noexcept -> bitfield& {
         _bits |= b._bits;
         return *this;
     }
 
-    friend constexpr inline bitfield operator&(
-      bitfield a, bitfield b) noexcept {
+    friend constexpr inline auto operator&(bitfield a, bitfield b) noexcept
+      -> bitfield {
         return bitfield(a._bits & b._bits);
     }
 
-    bitfield& operator&=(bitfield b) noexcept {
+    auto operator&=(bitfield b) noexcept -> bitfield& {
         _bits &= b._bits;
         return *this;
     }
 
-    friend constexpr inline bitfield operator~(bitfield b) noexcept {
+    friend constexpr inline auto operator~(bitfield b) noexcept -> bitfield {
         return bitfield{BF(~b._bits)};
     }
 
-    bitfield& clear(Bit b) noexcept {
+    auto clear(Bit b) noexcept -> bitfield& {
         _bits &= ~BF(b);
         return *this;
     }

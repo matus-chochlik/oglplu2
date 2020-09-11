@@ -67,8 +67,8 @@ public:
 
     object_storage(object_storage&&) = delete;
     object_storage(const object_storage&) = delete;
-    object_storage& operator=(object_storage&&) = delete;
-    object_storage& operator=(const object_storage&) = delete;
+    auto operator=(object_storage&&) = delete;
+    auto operator=(const object_storage&) = delete;
     ~object_storage() noexcept {
         clear();
     }

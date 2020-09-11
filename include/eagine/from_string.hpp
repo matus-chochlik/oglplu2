@@ -22,7 +22,7 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-bool _parse_from_string(string_view src, long long int&) noexcept;
+auto _parse_from_string(string_view src, long long int&) noexcept -> bool;
 //------------------------------------------------------------------------------
 template <typename T>
 static inline auto parse_from_string(string_view src, identity<T>) noexcept
