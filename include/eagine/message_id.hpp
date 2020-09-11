@@ -42,7 +42,7 @@ struct message_id : std::tuple<identifier_t, identifier_t> {
       : base{ClassId, MethodId} {
     }
 
-    constexpr identifier_t class_id() const noexcept {
+    constexpr auto class_id() const noexcept -> identifier_t {
         return std::get<0>(*this);
     }
 
@@ -50,7 +50,7 @@ struct message_id : std::tuple<identifier_t, identifier_t> {
         return identifier{class_id()};
     }
 
-    constexpr identifier_t method_id() const noexcept {
+    constexpr auto method_id() const noexcept -> identifier_t {
         return std::get<1>(*this);
     }
 
@@ -58,7 +58,7 @@ struct message_id : std::tuple<identifier_t, identifier_t> {
         return identifier{method_id()};
     }
 
-    constexpr bool is_valid() const noexcept {
+    constexpr auto is_valid() const noexcept {
         return (class_id() != 0U) && (method_id() != 0U);
     }
 
@@ -66,11 +66,11 @@ struct message_id : std::tuple<identifier_t, identifier_t> {
         return std::make_tuple(class_(), method());
     }
 
-    constexpr bool has_class(identifier id) const noexcept {
+    constexpr auto has_class(identifier id) const noexcept {
         return class_id() == id.value();
     }
 
-    constexpr bool has_method(identifier id) const noexcept {
+    constexpr auto has_method(identifier id) const noexcept {
         return method_id() == id.value();
     }
 };
@@ -79,7 +79,7 @@ template <identifier_t ClassId, identifier_t MethodId>
 struct static_message_id {
     using type = static_message_id;
 
-    static constexpr identifier_t class_id() noexcept {
+    static constexpr auto class_id() noexcept -> identifier_t {
         return ClassId;
     }
 
@@ -87,7 +87,7 @@ struct static_message_id {
         return identifier{class_id()};
     }
 
-    static constexpr identifier_t method_id() noexcept {
+    static constexpr auto method_id() noexcept -> identifier_t {
         return MethodId;
     }
 
@@ -97,7 +97,7 @@ struct static_message_id {
 };
 //------------------------------------------------------------------------------
 template <identifier_t ClassId, identifier_t MethodId>
-inline bool operator==(
+inline auto operator==(
   message_id l, static_message_id<ClassId, MethodId> r) noexcept {
     return l == message_id{r};
 }

@@ -80,14 +80,14 @@ public:
         _dtrs.reserve(sz);
     }
 
-    bool is_empty() const noexcept {
+    auto is_empty() const noexcept {
         EAGINE_ASSERT(_blks.size() == _alns.size());
         EAGINE_ASSERT(_blks.size() == _dtrs.size());
         return _blks.empty();
     }
 
     template <typename T, typename... Args>
-    std::remove_const_t<T>& emplace(Args&&... args) {
+    auto emplace(Args&&... args) -> std::remove_const_t<T>& {
         using A = std::remove_const_t<T>;
         const auto size = span_size_of<A>();
         const auto align = span_align_of<A>();
@@ -173,14 +173,14 @@ public:
     template <
       typename T,
       typename = std::enable_if_t<std::is_invocable_v<T, Params...>>>
-    auto& add(T x) {
+    auto add(T x) -> auto& {
         using A = std::remove_const_t<T>;
         auto& result = base::template emplace<A>(std::move(x));
         _clrs.push_back(&_call<A>);
         return result;
     }
 
-    bool is_empty() const noexcept {
+    auto is_empty() const noexcept {
         EAGINE_ASSERT(_blks.size() == _clrs.size());
         return base::is_empty();
     }
