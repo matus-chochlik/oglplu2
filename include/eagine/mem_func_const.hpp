@@ -25,15 +25,15 @@ struct member_function_constant<RV (C::*)(P...), Ptr> {
     using scope = C;
     using is_const = std::false_type;
 
-    static constexpr pointer get() noexcept {
+    static constexpr auto get() noexcept -> pointer {
         return Ptr;
     }
 
-    static RV free_func(C* c, P... a) {
+    static auto free_func(C* c, P... a) -> RV {
         return (c->*Ptr)(std::forward<P>(a)...);
     }
 
-    static free_pointer make_free() noexcept {
+    static auto make_free() noexcept -> free_pointer {
         return &free_func;
     }
 };
@@ -46,15 +46,15 @@ struct member_function_constant<RV (C::*)(P...) const, Ptr> {
     using scope = C;
     using is_const = std::true_type;
 
-    static constexpr pointer get() noexcept {
+    static constexpr auto get() noexcept -> pointer {
         return Ptr;
     }
 
-    static RV free_func(const C* c, P... a) {
+    static auto free_func(const C* c, P... a) -> RV {
         return (c->*Ptr)(std::forward<P>(a)...);
     }
 
-    static free_pointer make_free() noexcept {
+    static auto make_free() noexcept -> free_pointer {
         return &free_func;
     }
 };

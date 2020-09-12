@@ -36,51 +36,51 @@ private:
     string_view _exe_path;
     string_view _app_name;
 
-    static main_ctx*& _single_ptr() noexcept;
+    static auto _single_ptr() noexcept -> main_ctx*&;
 
 public:
     main_ctx(master_ctx&) noexcept;
     main_ctx(main_ctx&&) = delete;
     main_ctx(const main_ctx&) = delete;
-    main_ctx& operator=(main_ctx&&) = delete;
-    main_ctx& operator=(const main_ctx&) = delete;
+    auto operator=(main_ctx&&) = delete;
+    auto operator=(const main_ctx&) = delete;
     ~main_ctx() noexcept;
 
-    static inline main_ctx& get() noexcept {
+    static inline auto get() noexcept -> main_ctx& {
         EAGINE_ASSERT(_single_ptr());
         return *_single_ptr();
     }
 
-    auto& args() noexcept {
+    auto args() noexcept -> auto& {
         return _args;
     }
 
-    logger& log() noexcept {
+    auto log() noexcept -> auto& {
         return _log;
     }
 
-    system_info& system() noexcept {
+    auto system() noexcept -> auto& {
         return _sys_info;
     }
 
-    memory::buffer& scratch_space() noexcept {
+    auto scratch_space() noexcept -> auto& {
         return _scratch_space;
     }
 
-    data_compressor& compressor() noexcept {
+    auto compressor() noexcept -> auto& {
         return _compressor;
     }
 
-    string_view exe_path() const noexcept {
+    auto exe_path() const noexcept -> string_view {
         return _exe_path;
     }
 
-    string_view app_name() const noexcept {
+    auto app_name() const noexcept -> string_view {
         return _app_name;
     }
 };
 
-int main_impl(int, const char**, const main_ctx_options&);
+auto main_impl(int, const char**, const main_ctx_options&) -> int;
 
 } // namespace eagine
 

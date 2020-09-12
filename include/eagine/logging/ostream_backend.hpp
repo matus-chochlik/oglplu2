@@ -49,21 +49,21 @@ public:
 
     ostream_log_backend(ostream_log_backend&&) = delete;
     ostream_log_backend(const ostream_log_backend&) = delete;
-    ostream_log_backend& operator=(ostream_log_backend&&) = delete;
-    ostream_log_backend& operator=(const ostream_log_backend&) = delete;
+    auto operator=(ostream_log_backend&&) = delete;
+    auto operator=(const ostream_log_backend&) = delete;
 
-    memory::shared_byte_allocator allocator() noexcept final {
+    auto allocator() noexcept -> memory::shared_byte_allocator final {
         return memory::default_byte_allocator();
         // TODO
         // return {memory::stack_byte_allocator_only<>{_alloc_block}};
     }
 
-    identifier type_id() noexcept final {
+    auto type_id() noexcept -> identifier final {
         return EAGINE_ID(OutStream);
     }
 
-    logger_backend* entry_backend(
-      identifier, log_event_severity severity) noexcept final {
+    auto entry_backend(identifier, log_event_severity severity) noexcept
+      -> logger_backend* final {
         if(severity >= _min_severity) {
             return this;
         }
@@ -86,11 +86,11 @@ public:
         }
     }
 
-    bool begin_message(
+    auto begin_message(
       identifier source,
       logger_instance_id instance,
       log_event_severity severity,
-      string_view format) noexcept final {
+      string_view format) noexcept -> bool final {
         try {
             _lockable.lock();
             const auto now = std::chrono::steady_clock::now();

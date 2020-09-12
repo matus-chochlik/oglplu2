@@ -15,16 +15,17 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 struct null_log_backend : logger_backend {
-    logger_backend* entry_backend(
-      identifier, log_event_severity) noexcept final {
+
+    auto entry_backend(identifier, log_event_severity) noexcept
+      -> logger_backend* final {
         return nullptr;
     }
 
-    memory::shared_byte_allocator allocator() noexcept final {
+    auto allocator() noexcept -> memory::shared_byte_allocator final {
         return {};
     }
 
-    identifier type_id() noexcept final {
+    auto type_id() noexcept -> identifier final {
         return EAGINE_ID(Null);
     }
 
@@ -34,11 +35,9 @@ struct null_log_backend : logger_backend {
     void leave_scope(identifier) noexcept final {
     }
 
-    bool begin_message(
-      identifier,
-      logger_instance_id,
-      log_event_severity,
-      string_view) noexcept final {
+    auto begin_message(
+      identifier, logger_instance_id, log_event_severity, string_view) noexcept
+      -> bool final {
         return false;
     }
 

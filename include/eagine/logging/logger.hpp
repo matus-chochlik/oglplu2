@@ -21,106 +21,109 @@ public:
     using entry = std::
       conditional_t<is_log_level_enabled_v<severity>, log_entry, no_log_entry>;
 
-    log_entry log(
+    auto log(
       identifier source,
       log_event_severity severity,
       std::true_type,
-      string_view format) noexcept {
-        return {source,
-                reinterpret_cast<logger_instance_id>(this),
-                severity,
-                format,
-                _entry_backend(source, severity)};
+      string_view format) noexcept -> log_entry {
+        return {
+          source,
+          reinterpret_cast<logger_instance_id>(this),
+          severity,
+          format,
+          _entry_backend(source, severity)};
     }
 
-    constexpr no_log_entry log(
-      identifier, log_event_severity, std::false_type, string_view) noexcept {
+    constexpr auto log(
+      identifier, log_event_severity, std::false_type, string_view) noexcept
+      -> no_log_entry {
         return {};
     }
 
     template <log_event_severity severity>
-    constexpr entry<severity> log(
+    constexpr auto log(
       identifier source,
       log_event_severity_constant<severity>,
-      string_view format) noexcept {
-
+      string_view format) noexcept -> entry<severity> {
         return log(
           source, severity, is_log_level_enabled_t<severity>{}, format);
     }
 
     template <log_event_severity severity>
-    entry<severity> log(
-      log_event_severity_constant<severity> level,
-      string_view format) noexcept {
+    auto log(
+      log_event_severity_constant<severity> level, string_view format) noexcept
+      -> entry<severity> {
         return log(_logger_id, level, format);
     }
 
-    log_entry log(
+    auto log(
       identifier source,
       log_event_severity severity,
-      string_view format) noexcept {
-        return {source,
-                reinterpret_cast<logger_instance_id>(this),
-                severity,
-                format,
-                _entry_backend(source, severity)};
+      string_view format) noexcept -> log_entry {
+        return {
+          source,
+          reinterpret_cast<logger_instance_id>(this),
+          severity,
+          format,
+          _entry_backend(source, severity)};
     }
 
-    log_entry log(log_event_severity severity, string_view format) noexcept {
+    auto log(log_event_severity severity, string_view format) noexcept {
         return log(_logger_id, severity, format);
     }
 
-    inline auto fatal(string_view format) noexcept {
+    auto fatal(string_view format) noexcept {
         return log(
           log_event_severity_constant<log_event_severity::fatal>{}, format);
     }
 
-    inline auto error(string_view format) noexcept {
+    auto error(string_view format) noexcept {
         return log(
           log_event_severity_constant<log_event_severity::error>{}, format);
     }
 
-    inline auto warning(string_view format) noexcept {
+    auto warning(string_view format) noexcept {
         return log(
           log_event_severity_constant<log_event_severity::warning>{}, format);
     }
 
-    inline auto info(string_view format) noexcept {
+    auto info(string_view format) noexcept {
         return log(
           log_event_severity_constant<log_event_severity::info>{}, format);
     }
 
-    inline auto stat(string_view format) noexcept {
+    auto stat(string_view format) noexcept {
         return log(
           log_event_severity_constant<log_event_severity::stat>{}, format);
     }
 
-    inline auto debug(string_view format) noexcept {
+    auto debug(string_view format) noexcept {
         return log(
           log_event_severity_constant<log_event_severity::debug>{}, format);
     }
 
-    inline auto trace(string_view format) noexcept {
+    auto trace(string_view format) noexcept {
         return log(
           log_event_severity_constant<log_event_severity::trace>{}, format);
     }
 
-    inline auto backtrace(string_view format) noexcept {
+    auto backtrace(string_view format) noexcept {
         return log(
           log_event_severity_constant<log_event_severity::backtrace>{}, format);
     }
 
-    inline auto lifetime(string_view format) noexcept {
+    auto lifetime(string_view format) noexcept {
         // TODO: switch depending on Debug/Release ?
         return info(format);
     }
 
-    stream_log_entry log_stream(
-      identifier source, log_event_severity severity) noexcept {
-        return {source,
-                reinterpret_cast<logger_instance_id>(this),
-                severity,
-                _entry_backend(source, severity)};
+    auto log_stream(identifier source, log_event_severity severity) noexcept
+      -> stream_log_entry {
+        return {
+          source,
+          reinterpret_cast<logger_instance_id>(this),
+          severity,
+          _entry_backend(source, severity)};
     }
 
     auto log_stream(log_event_severity severity) noexcept {
@@ -153,8 +156,8 @@ public:
         lifetime("being copied");
     }
 
-    logger& operator=(logger&&) = delete;
-    logger& operator=(const logger&) = delete;
+    auto operator=(logger&&) = delete;
+    auto operator=(const logger&) = delete;
 
     ~logger() noexcept {
         lifetime("being destroyed");
@@ -174,8 +177,9 @@ private:
     identifier _logger_id{EAGINE_ID(Logger)};
     std::shared_ptr<logger_backend> _backend{};
 
-    inline logger_backend* _entry_backend(
-      identifier source, log_event_severity severity) noexcept {
+    inline auto _entry_backend(
+      identifier source, log_event_severity severity) noexcept
+      -> logger_backend* {
         if(is_log_level_enabled(severity)) {
             if(_backend) {
                 return _backend->entry_backend(source, severity);
