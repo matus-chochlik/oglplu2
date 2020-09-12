@@ -77,15 +77,15 @@ public:
     using base::empty;
     using base::size;
 
-    constexpr std_view_type std_view() const {
+    constexpr auto std_view() const noexcept -> std_view_type {
         return {data(), std_size_t(size())};
     }
 
-    constexpr operator std_view_type() const {
+    constexpr operator std_view_type() const noexcept {
         return std_view();
     }
 
-    constexpr string_type to_string() const {
+    constexpr auto to_string() const -> string_type {
         return {data(), std_size_t(size())};
     }
 };
@@ -94,20 +94,21 @@ using string_span = basic_string_span<char>;
 using string_view = basic_string_span<const char>;
 //------------------------------------------------------------------------------
 template <typename C, typename P, typename S>
-static constexpr inline std::basic_string_view<std::remove_const_t<C>> std_view(
-  memory::basic_span<C, P, S> spn) noexcept {
+static constexpr inline auto std_view(memory::basic_span<C, P, S> spn) noexcept
+  -> std::basic_string_view<std::remove_const_t<C>> {
     return {spn.data(), std_size_t(spn.size())};
 }
 //------------------------------------------------------------------------------
 template <typename C, typename P, typename S>
-static constexpr inline std::basic_string<std::remove_const_t<C>> to_string(
-  memory::basic_span<C, P, S> spn) {
+static constexpr inline auto to_string(memory::basic_span<C, P, S> spn)
+  -> std::basic_string<std::remove_const_t<C>> {
     return {spn.data(), std_size_t(spn.size())};
 }
 //------------------------------------------------------------------------------
 template <typename C, typename T, typename A, typename P, typename S>
-static constexpr inline std::basic_string<C, T, A>& append_to(
-  std::basic_string<C, T, A>& str, memory::basic_span<const C, P, S> spn) {
+static constexpr inline auto append_to(
+  std::basic_string<C, T, A>& str, memory::basic_span<const C, P, S> spn)
+  -> auto& {
     str.append(spn.data(), std_size(spn.size()));
     return str;
 }
@@ -116,14 +117,14 @@ static constexpr inline std::basic_string<C, T, A>& append_to(
 //------------------------------------------------------------------------------
 template <>
 struct equal_cmp<string_span, string_span> {
-    static inline bool check(string_span l, string_span r) noexcept {
+    static auto check(string_span l, string_span r) noexcept -> bool {
         return std::strcmp(l.data(), r.data()) == 0;
     }
 };
 //------------------------------------------------------------------------------
 template <>
 struct equal_cmp<string_view, string_view> {
-    static inline bool check(string_view l, string_view r) noexcept {
+    static auto check(string_view l, string_view r) noexcept -> bool {
         return std::strcmp(l.data(), r.data()) == 0;
     }
 };
@@ -138,16 +139,16 @@ template <typename Str, typename Spn>
 struct basic_str_view_less {
     using is_transparent = std::true_type;
 
-    constexpr inline bool operator()(const Str& l, const Str& r) const
-      noexcept {
+    constexpr auto operator()(const Str& l, const Str& r) const noexcept
+      -> bool {
         return l < r;
     }
 
-    constexpr inline bool operator()(const Str& l, Spn r) const noexcept {
+    constexpr auto operator()(const Str& l, Spn r) const noexcept -> bool {
         return std::strncmp(l.data(), r.data(), std_size(r.size())) < 0;
     }
 
-    constexpr inline bool operator()(Spn l, const Str& r) const noexcept {
+    constexpr auto operator()(Spn l, const Str& r) const noexcept -> bool {
         return std::strncmp(l.data(), r.data(), std_size(l.size())) < 0;
     }
 };
@@ -166,7 +167,7 @@ public:
       , _str{is_zero_terminated(s) ? string_type{} : s.to_string()} {
     }
 
-    constexpr P c_str() const noexcept {
+    constexpr auto c_str() const noexcept -> P {
         return _span.empty() ? _str.c_str() : _span.data();
     }
 
@@ -175,16 +176,16 @@ public:
     }
 
 private:
-    basic_string_span<C, P, S> _span = {};
-    string_type _str = {};
+    basic_string_span<C, P, S> _span{};
+    string_type _str{};
 };
 //------------------------------------------------------------------------------
 template <typename C, typename P, typename S>
-static constexpr inline std::enable_if_t<
-  std::
-    is_convertible_v<memory::basic_span<C, P, S>, basic_string_span<C, P, S>>,
-  basic_c_str<C, P, S>>
-c_str(memory::basic_span<C, P, S> s) {
+static constexpr inline auto c_str(memory::basic_span<C, P, S> s)
+  -> std::enable_if_t<
+    std::
+      is_convertible_v<memory::basic_span<C, P, S>, basic_string_span<C, P, S>>,
+    basic_c_str<C, P, S>> {
     return {s};
 }
 //------------------------------------------------------------------------------

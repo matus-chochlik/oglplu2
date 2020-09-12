@@ -43,8 +43,8 @@ template <log_event_severity severity>
 static constexpr const bool is_log_level_enabled_v =
   is_log_level_enabled_t<severity>::value;
 //------------------------------------------------------------------------------
-static constexpr inline bool is_log_level_enabled(
-  log_event_severity severity) noexcept {
+static constexpr inline auto is_log_level_enabled(
+  log_event_severity severity) noexcept -> bool {
     return (severity >= min_log_severity_t::value);
 }
 //------------------------------------------------------------------------------

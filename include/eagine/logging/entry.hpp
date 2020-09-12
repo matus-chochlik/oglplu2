@@ -59,9 +59,8 @@ private:
       typename X,
       typename = decltype(
         adapt_log_entry_arg(std::declval<identifier>(), std::declval<X>()))>
-    static std::true_type _test(X*);
-
-    static std::false_type _test(...);
+    static auto _test(X*) -> std::true_type;
+    static auto _test(...) -> std::false_type;
 
 public:
     // NOLINTNEXTLINE(hicpp-vararg)
@@ -88,8 +87,8 @@ constexpr const bool has_log_entry_function_v =
 class logger;
 
 class log_entry {
-    static memory::shared_byte_allocator _be_alloc(
-      logger_backend* backend) noexcept {
+    static auto _be_alloc(logger_backend* backend) noexcept
+      -> memory::shared_byte_allocator {
         if(backend) {
             return backend->allocator();
         }
@@ -99,8 +98,8 @@ class log_entry {
 public:
     log_entry(log_entry&&) = delete;
     log_entry(const log_entry&) = delete;
-    log_entry& operator=(log_entry&&) = delete;
-    log_entry& operator=(const log_entry&) = delete;
+    auto operator=(log_entry&&) = delete;
+    auto operator=(const log_entry&) = delete;
 
     ~log_entry() noexcept {
         if(_backend) {
@@ -113,12 +112,13 @@ public:
         }
     }
 
-    log_entry& set_format(string_view format) noexcept {
+    auto set_format(string_view format) noexcept -> auto& {
         _format = format;
         return *this;
     }
 
-    log_entry& arg(identifier name, identifier tag, identifier value) noexcept {
+    auto arg(identifier name, identifier tag, identifier value) noexcept
+      -> auto& {
         if(_backend) {
             _args.add([=](logger_backend& backend) {
                 backend.add_identifier(name, tag, value);
@@ -127,11 +127,12 @@ public:
         return *this;
     }
 
-    log_entry& arg(identifier name, identifier value) noexcept {
+    auto arg(identifier name, identifier value) noexcept -> auto& {
         return arg(name, EAGINE_ID(id), value);
     }
 
-    log_entry& arg(identifier name, identifier tag, message_id value) noexcept {
+    auto arg(identifier name, identifier tag, message_id value) noexcept
+      -> auto& {
         if(_backend) {
             _args.add([=](logger_backend& backend) {
                 backend.add_message_id(name, tag, value);
@@ -140,12 +141,12 @@ public:
         return *this;
     }
 
-    log_entry& arg(identifier name, message_id value) noexcept {
+    auto arg(identifier name, message_id value) noexcept -> auto& {
         return arg(name, EAGINE_ID(MessageId), value);
     }
 
-    log_entry& arg(
-      identifier name, identifier tag, std::int64_t value) noexcept {
+    auto arg(identifier name, identifier tag, std::int64_t value) noexcept
+      -> auto& {
         if(_backend) {
             _args.add([=](logger_backend& backend) {
                 backend.add_integer(name, tag, value);
@@ -154,19 +155,20 @@ public:
         return *this;
     }
 
-    log_entry& arg(identifier name, std::int64_t value) noexcept {
+    auto arg(identifier name, std::int64_t value) noexcept -> auto& {
         return arg(name, EAGINE_ID(int64), value);
     }
 
-    log_entry& arg(
-      identifier name, identifier tag, span<const std::int64_t>) noexcept;
+    auto arg(identifier name, identifier tag, span<const std::int64_t>) noexcept
+      -> log_entry&;
 
-    log_entry& arg(identifier name, span<const std::int64_t> values) noexcept {
+    auto arg(identifier name, span<const std::int64_t> values) noexcept
+      -> auto& {
         return arg(name, EAGINE_ID(int64), values);
     }
 
-    log_entry& arg(
-      identifier name, identifier tag, std::int32_t value) noexcept {
+    auto arg(identifier name, identifier tag, std::int32_t value) noexcept
+      -> auto& {
         if(_backend) {
             _args.add([=](logger_backend& backend) {
                 backend.add_integer(name, tag, value);
@@ -175,19 +177,20 @@ public:
         return *this;
     }
 
-    log_entry& arg(identifier name, std::int32_t value) noexcept {
+    auto arg(identifier name, std::int32_t value) noexcept -> auto& {
         return arg(name, EAGINE_ID(int32), value);
     }
 
-    log_entry& arg(
-      identifier name, identifier tag, span<const std::int32_t>) noexcept;
+    auto arg(identifier name, identifier tag, span<const std::int32_t>) noexcept
+      -> log_entry&;
 
-    log_entry& arg(identifier name, span<const std::int32_t> values) noexcept {
+    auto arg(identifier name, span<const std::int32_t> values) noexcept
+      -> auto& {
         return arg(name, EAGINE_ID(int32), values);
     }
 
-    log_entry& arg(
-      identifier name, identifier tag, std::int16_t value) noexcept {
+    auto arg(identifier name, identifier tag, std::int16_t value) noexcept
+      -> auto& {
         if(_backend) {
             _args.add([=](logger_backend& backend) {
                 backend.add_integer(name, tag, value);
@@ -196,19 +199,20 @@ public:
         return *this;
     }
 
-    log_entry& arg(identifier name, std::int16_t value) noexcept {
+    auto arg(identifier name, std::int16_t value) noexcept -> auto& {
         return arg(name, EAGINE_ID(int16), value);
     }
 
-    log_entry& arg(
-      identifier name, identifier tag, span<const std::int16_t>) noexcept;
+    auto arg(identifier name, identifier tag, span<const std::int16_t>) noexcept
+      -> log_entry&;
 
-    log_entry& arg(identifier name, span<const std::int16_t> values) noexcept {
+    auto arg(identifier name, span<const std::int16_t> values) noexcept
+      -> auto& {
         return arg(name, EAGINE_ID(int16), values);
     }
 
-    log_entry& arg(
-      identifier name, identifier tag, std::uint64_t value) noexcept {
+    auto arg(identifier name, identifier tag, std::uint64_t value) noexcept
+      -> auto& {
         if(_backend) {
             _args.add([=](logger_backend& backend) {
                 backend.add_unsigned(name, tag, value);
@@ -217,19 +221,21 @@ public:
         return *this;
     }
 
-    log_entry& arg(identifier name, std::uint64_t value) noexcept {
+    auto arg(identifier name, std::uint64_t value) noexcept -> auto& {
         return arg(name, EAGINE_ID(int64), value);
     }
 
-    log_entry& arg(
-      identifier name, identifier tag, span<const std::uint64_t>) noexcept;
+    auto arg(
+      identifier name, identifier tag, span<const std::uint64_t>) noexcept
+      -> log_entry&;
 
-    log_entry& arg(identifier name, span<const std::uint64_t> values) noexcept {
+    auto arg(identifier name, span<const std::uint64_t> values) noexcept
+      -> auto& {
         return arg(name, EAGINE_ID(uint64), values);
     }
 
-    log_entry& arg(
-      identifier name, identifier tag, std::uint32_t value) noexcept {
+    auto arg(identifier name, identifier tag, std::uint32_t value) noexcept
+      -> auto& {
         if(_backend) {
             _args.add([=](logger_backend& backend) {
                 backend.add_unsigned(name, tag, value);
@@ -238,19 +244,21 @@ public:
         return *this;
     }
 
-    log_entry& arg(identifier name, std::uint32_t value) noexcept {
+    auto arg(identifier name, std::uint32_t value) noexcept -> auto& {
         return arg(name, EAGINE_ID(uint32), value);
     }
 
-    log_entry& arg(
-      identifier name, identifier tag, span<const std::uint32_t>) noexcept;
+    auto arg(
+      identifier name, identifier tag, span<const std::uint32_t>) noexcept
+      -> log_entry&;
 
-    log_entry& arg(identifier name, span<const std::uint32_t> values) noexcept {
+    auto arg(identifier name, span<const std::uint32_t> values) noexcept
+      -> auto& {
         return arg(name, EAGINE_ID(uint32), values);
     }
 
-    log_entry& arg(
-      identifier name, identifier tag, std::uint16_t value) noexcept {
+    auto arg(identifier name, identifier tag, std::uint16_t value) noexcept
+      -> auto& {
         if(_backend) {
             _args.add([=](logger_backend& backend) {
                 backend.add_unsigned(name, tag, value);
@@ -259,18 +267,20 @@ public:
         return *this;
     }
 
-    log_entry& arg(identifier name, std::uint16_t value) noexcept {
+    auto arg(identifier name, std::uint16_t value) noexcept -> auto& {
         return arg(name, EAGINE_ID(uint16), value);
     }
 
-    log_entry& arg(
-      identifier name, identifier tag, span<const std::uint16_t>) noexcept;
+    auto arg(
+      identifier name, identifier tag, span<const std::uint16_t>) noexcept
+      -> log_entry&;
 
-    log_entry& arg(identifier name, span<const std::uint16_t> values) noexcept {
+    auto arg(identifier name, span<const std::uint16_t> values) noexcept
+      -> auto& {
         return arg(name, EAGINE_ID(uint16), values);
     }
 
-    log_entry& arg(identifier name, identifier tag, float value) noexcept {
+    auto arg(identifier name, identifier tag, float value) noexcept -> auto& {
         if(_backend) {
             _args.add([=](logger_backend& backend) {
                 backend.add_float(name, tag, value);
@@ -279,22 +289,23 @@ public:
         return *this;
     }
 
-    log_entry& arg(identifier name, float value) noexcept {
+    auto arg(identifier name, float value) noexcept -> auto& {
         return arg(name, EAGINE_ID(real), value);
     }
 
-    log_entry& arg(identifier name, identifier tag, span<const float>) noexcept;
+    auto arg(identifier name, identifier tag, span<const float>) noexcept
+      -> log_entry&;
 
-    log_entry& arg(identifier name, span<const float> values) noexcept {
+    auto arg(identifier name, span<const float> values) noexcept -> auto& {
         return arg(name, EAGINE_ID(real), values);
     }
 
-    log_entry& arg(
+    auto arg(
       identifier name,
       identifier tag,
       float min,
       float value,
-      float max) noexcept {
+      float max) noexcept -> auto& {
         if(_backend) {
             _args.add([=](logger_backend& backend) {
                 backend.add_float(name, tag, min, value, max);
@@ -303,16 +314,16 @@ public:
         return *this;
     }
 
-    log_entry& arg(
-      identifier name, float min, float value, float max) noexcept {
+    auto arg(identifier name, float min, float value, float max) noexcept
+      -> auto& {
         return arg(name, EAGINE_ID(real), min, value, max);
     }
 
     template <typename R, typename P>
-    log_entry& arg(
+    auto arg(
       identifier name,
       identifier tag,
-      std::chrono::duration<R, P> value) noexcept {
+      std::chrono::duration<R, P> value) noexcept -> auto& {
         if(_backend) {
             _args.add([=](logger_backend& backend) {
                 backend.add_duration(
@@ -326,13 +337,13 @@ public:
     }
 
     template <typename R, typename P>
-    log_entry& arg(
-      identifier name, std::chrono::duration<R, P> value) noexcept {
+    auto arg(identifier name, std::chrono::duration<R, P> value) noexcept
+      -> auto& {
         return arg(name, EAGINE_ID(duration), value);
     }
 
-    log_entry& arg(
-      identifier name, identifier tag, string_view value) noexcept {
+    auto arg(identifier name, identifier tag, string_view value) noexcept
+      -> auto& {
         if(_backend) {
             _args.add([=](logger_backend& backend) {
                 backend.add_string(name, tag, value);
@@ -341,12 +352,12 @@ public:
         return *this;
     }
 
-    log_entry& arg(identifier name, string_view value) noexcept {
+    auto arg(identifier name, string_view value) noexcept -> auto& {
         return arg(name, EAGINE_ID(str), value);
     }
 
-    log_entry& arg(
-      identifier name, identifier tag, const std::string& value) noexcept {
+    auto arg(identifier name, identifier tag, const std::string& value) noexcept
+      -> auto& {
         if(_backend) {
             _args.add([=](logger_backend& backend) {
                 backend.add_string(name, tag, value);
@@ -355,12 +366,13 @@ public:
         return *this;
     }
 
-    log_entry& arg(identifier name, const std::string& value) noexcept {
+    auto arg(identifier name, const std::string& value) noexcept -> auto& {
         return arg(name, EAGINE_ID(str), value);
     }
 
-    log_entry& arg(
-      identifier name, identifier tag, memory::const_block value) noexcept {
+    auto arg(
+      identifier name, identifier tag, memory::const_block value) noexcept
+      -> auto& {
         if(_backend) {
             _args.add([=](logger_backend& backend) {
                 backend.add_blob(name, tag, value);
@@ -369,12 +381,12 @@ public:
         return *this;
     }
 
-    log_entry& arg(identifier name, memory::const_block value) noexcept {
+    auto arg(identifier name, memory::const_block value) noexcept -> auto& {
         return arg(name, EAGINE_ID(blk), value);
     }
 
     template <typename Func>
-    log_entry& arg_func(Func function) {
+    auto arg_func(Func function) -> auto& {
         if(_backend) {
             _args.add(std::move(function));
         }
@@ -382,8 +394,8 @@ public:
     }
 
     template <typename T>
-    std::enable_if_t<has_log_entry_adapter_v<std::decay_t<T>>, log_entry&> arg(
-      identifier name, T&& value) noexcept {
+    auto arg(identifier name, T&& value) noexcept -> std::
+      enable_if_t<has_log_entry_adapter_v<std::decay_t<T>>, log_entry&> {
         if(_backend) {
             _args.add(adapt_log_entry_arg(name, std::forward<T>(value)));
         }
@@ -391,14 +403,14 @@ public:
     }
 
     template <typename T, typename P, typename F>
-    std::enable_if_t<
-      has_log_entry_function_v<std::decay_t<T>> &&
-        has_log_entry_function_v<std::decay_t<F>>,
-      log_entry&>
-    arg(
+    auto arg(
       identifier name,
       identifier tag,
-      valid_if_or_fallback<T, P, F>&& opt) noexcept {
+      valid_if_or_fallback<T, P, F>&& opt) noexcept
+      -> std::enable_if_t<
+        has_log_entry_function_v<std::decay_t<T>> &&
+          has_log_entry_function_v<std::decay_t<F>>,
+        log_entry&> {
         if(opt.is_valid()) {
             return arg(name, tag, std::move(opt.value()));
         }
@@ -406,11 +418,12 @@ public:
     }
 
     template <typename T, typename P, typename F>
-    std::enable_if_t<
-      has_log_entry_function_v<std::decay_t<T>> &&
-        has_log_entry_function_v<std::decay_t<F>>,
-      log_entry&>
-    arg(identifier name, identifier tag, valid_if<T, P> opt, F fbck) noexcept {
+    auto arg(
+      identifier name, identifier tag, valid_if<T, P> opt, F fbck) noexcept
+      -> std::enable_if_t<
+        has_log_entry_function_v<std::decay_t<T>> &&
+          has_log_entry_function_v<std::decay_t<F>>,
+        log_entry&> {
         return arg(name, tag, either_or(std::move(opt), std::move(fbck)));
     }
 
@@ -444,37 +457,37 @@ private:
 //------------------------------------------------------------------------------
 struct no_log_entry {
     template <typename T>
-    constexpr inline no_log_entry& arg(identifier, T&&) noexcept {
+    constexpr auto arg(identifier, T&&) noexcept -> auto& {
         return *this;
     }
     template <typename T>
-    constexpr inline no_log_entry& arg(identifier, identifier, T&&) noexcept {
+    constexpr auto arg(identifier, identifier, T&&) noexcept -> auto& {
         return *this;
     }
-    constexpr inline no_log_entry& arg(
-      identifier, identifier, float, float, float) noexcept {
+    constexpr auto arg(identifier, identifier, float, float, float) noexcept
+      -> auto& {
         return *this;
     }
 
     template <typename T>
-    constexpr inline no_log_entry& arg(identifier, span<const T>) noexcept {
+    constexpr auto arg(identifier, span<const T>) noexcept -> auto& {
         return *this;
     }
 
     template <typename T>
-    constexpr inline no_log_entry& arg(
-      identifier, identifier, span<const T>) noexcept {
+    constexpr auto arg(identifier, identifier, span<const T>) noexcept
+      -> auto& {
         return *this;
     }
 
     template <typename T, typename P, typename F>
-    constexpr inline no_log_entry& arg(
-      identifier, identifier, valid_if<T, P>, const F&) noexcept {
+    constexpr auto arg(
+      identifier, identifier, valid_if<T, P>, const F&) noexcept -> auto& {
         return *this;
     }
 
     template <typename Func>
-    constexpr inline no_log_entry& arg_func(const Func&) {
+    constexpr auto arg_func(const Func&) -> auto& {
         return *this;
     }
 };
@@ -488,9 +501,8 @@ private:
         std::declval<identifier>(),
         std::declval<identifier>(),
         std::declval<X>()))>
-    static std::true_type _test(X*);
-
-    static std::false_type _test(...);
+    static auto _test(X*) -> std::true_type;
+    static auto _test(...) -> std::false_type;
 
 public:
     // NOLINTNEXTLINE(hicpp-vararg)
@@ -505,8 +517,8 @@ public:
 
     stream_log_entry(stream_log_entry&&) = default;
     stream_log_entry(const stream_log_entry&) = delete;
-    stream_log_entry& operator=(stream_log_entry&&) = delete;
-    stream_log_entry& operator=(const stream_log_entry&) = delete;
+    auto operator=(stream_log_entry&&) = delete;
+    auto operator=(const stream_log_entry&) = delete;
 
     ~stream_log_entry() noexcept {
         try {

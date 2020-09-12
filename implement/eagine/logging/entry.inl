@@ -17,7 +17,7 @@ auto log_entry::arg(
     if(_backend) {
         _args.add([=](logger_backend& backend) {
             for(auto value : values) {
-                backend.add_unsigned(name, tag, value);
+                backend.add_integer(name, tag, value);
             }
         });
     }
@@ -31,7 +31,7 @@ auto log_entry::arg(
     if(_backend) {
         _args.add([=](logger_backend& backend) {
             for(auto value : values) {
-                backend.add_unsigned(name, tag, value);
+                backend.add_integer(name, tag, value);
             }
         });
     }
@@ -45,7 +45,7 @@ auto log_entry::arg(
     if(_backend) {
         _args.add([=](logger_backend& backend) {
             for(auto value : values) {
-                backend.add_unsigned(name, tag, value);
+                backend.add_integer(name, tag, value);
             }
         });
     }

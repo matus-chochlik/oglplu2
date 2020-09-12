@@ -27,26 +27,27 @@ struct logger_backend {
     logger_backend() noexcept = default;
     logger_backend(logger_backend&&) noexcept = default;
     logger_backend(const logger_backend&) noexcept = default;
-    logger_backend& operator=(logger_backend&&) noexcept = default;
-    logger_backend& operator=(const logger_backend&) noexcept = default;
+    auto operator=(logger_backend&&) noexcept -> logger_backend& = default;
+    auto operator=(const logger_backend&) noexcept -> logger_backend& = default;
     virtual ~logger_backend() noexcept = default;
 
-    virtual memory::shared_byte_allocator allocator() noexcept = 0;
+    virtual auto allocator() noexcept -> memory::shared_byte_allocator = 0;
 
-    virtual identifier type_id() noexcept = 0;
+    virtual auto type_id() noexcept -> identifier = 0;
 
-    virtual logger_backend* entry_backend(
-      identifier source, log_event_severity severity) noexcept = 0;
+    virtual auto entry_backend(
+      identifier source, log_event_severity severity) noexcept
+      -> logger_backend* = 0;
 
     virtual void enter_scope(identifier scope) noexcept = 0;
 
     virtual void leave_scope(identifier scope) noexcept = 0;
 
-    virtual bool begin_message(
+    virtual auto begin_message(
       identifier source,
       logger_instance_id instance,
       log_event_severity severity,
-      string_view format) noexcept = 0;
+      string_view format) noexcept -> bool = 0;
 
     virtual void add_nothing(identifier arg, identifier tag) noexcept = 0;
 
