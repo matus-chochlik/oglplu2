@@ -32,7 +32,7 @@ class decl_name_storage {
 public:
     static constexpr const span_size_t max_length = decl_name::max_length;
 
-    bool assign(string_view str) {
+    auto assign(string_view str) -> bool {
         if(str.size() <= max_length) {
             memory::copy(str, cover(_storage));
             _length = str.size();

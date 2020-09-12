@@ -37,8 +37,8 @@ private:
     template <
       typename X,
       typename = decltype(enumerator_mapping(identity<X>(), Selector()))>
-    static std::true_type _test(X*);
-    static std::false_type _test(...);
+    static auto _test(X*) -> std::true_type;
+    static auto _test(...) -> std::false_type;
 
 public:
     // NOLINTNEXTLINE(hicpp-vararg)

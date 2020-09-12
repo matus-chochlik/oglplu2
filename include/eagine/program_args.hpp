@@ -729,8 +729,8 @@ public:
     }
 
 private:
-    static inline int _cmp(
-      const program_arg& l, const program_arg& r) noexcept {
+    static auto _cmp(const program_arg& l, const program_arg& r) noexcept
+      -> int {
         EAGINE_ASSERT(l._argv == r._argv);
         return l._argi - r._argi;
     }
@@ -744,19 +744,19 @@ private:
         _intf() noexcept = default;
         _intf(_intf&&) noexcept = delete;
         _intf(const _intf&) noexcept = delete;
-        _intf& operator=(_intf&&) noexcept = delete;
-        _intf& operator=(const _intf&) noexcept = delete;
+        auto operator=(_intf&&) noexcept = delete;
+        auto operator=(const _intf&) noexcept = delete;
         virtual ~_intf() = default;
 
-        virtual bool parse(program_arg&, std::ostream&) = 0;
+        virtual auto parse(program_arg&, std::ostream&) -> bool = 0;
 
-        virtual bool has_valid_value() const = 0;
-        virtual bool validate(std::ostream&) const = 0;
+        virtual auto has_valid_value() const -> bool = 0;
+        virtual auto validate(std::ostream&) const -> bool = 0;
 
-        virtual string_view short_tag() const = 0;
-        virtual string_view long_tag() const = 0;
-        virtual string_view description() const = 0;
-        virtual string_view placeholder() const = 0;
+        virtual auto short_tag() const -> string_view = 0;
+        virtual auto long_tag() const -> string_view = 0;
+        virtual auto description() const -> string_view = 0;
+        virtual auto placeholder() const -> string_view = 0;
     };
 
     template <typename T>
@@ -764,98 +764,97 @@ private:
         program_parameter<T>* _pparam;
         string_view _plchldr;
 
-        program_parameter<T>& _param() noexcept {
+        auto _param() noexcept -> auto& {
             EAGINE_ASSERT(_pparam != nullptr);
             return *_pparam;
         }
 
-        const program_parameter<T>& _param() const noexcept {
+        auto _param() const noexcept -> auto& {
             EAGINE_ASSERT(_pparam != nullptr);
             return *_pparam;
         }
 
         template <typename X>
-        static string_view _plchldr_name(identity<X>) noexcept {
+        static auto _plchldr_name(identity<X>) noexcept -> string_view {
             if(std::is_same_v<X, bool>) {
-                return string_view("BOOLEAN");
+                return {"BOOLEAN"};
             }
             if(std::is_same_v<X, string_view>) {
-                return string_view("STRING");
+                return {"STRING"};
             }
             if(std::is_integral_v<X>) {
-                return string_view("INTEGER");
+                return {"INTEGER"};
             }
             if(std::is_floating_point_v<X>) {
-                return string_view("FLOAT");
+                return {"FLOAT"};
             }
             // TODO: be more precise depending on X
-            return string_view("VALUE");
+            return {"VALUE"};
         }
 
         template <typename X, typename P, typename L>
-        static string_view _plchldr_name(identity<valid_if<X, P, L>>) noexcept {
+        static auto _plchldr_name(identity<valid_if<X, P, L>>) noexcept {
             return _plchldr_name(identity<X>());
         }
 
         template <typename X, typename A>
-        static string_view _plchldr_name(identity<std::vector<X, A>>) noexcept {
+        static auto _plchldr_name(identity<std::vector<X, A>>) noexcept {
             return _plchldr_name(identity<X>());
         }
 
         _impl(program_parameter<T>& param) noexcept
-          : _pparam(&param)
-          , _plchldr(_plchldr_name(identity<T>())) {
+          : _pparam{&param}
+          , _plchldr{_plchldr_name(identity<T>())} {
         }
 
-        bool parse(program_arg& arg, std::ostream& log) override {
+        auto parse(program_arg& arg, std::ostream& log) -> bool override {
             return arg.parse_param(_param(), log);
         }
 
-        bool has_valid_value() const override {
+        auto has_valid_value() const -> bool override {
             return _param().has_valid_value();
         }
 
-        bool validate(std::ostream& log) const override {
+        auto validate(std::ostream& log) const -> bool override {
             return _param().validate(log);
         }
 
-        string_view short_tag() const override {
+        auto short_tag() const -> string_view override {
             return _param().short_tag();
         }
 
-        string_view long_tag() const override {
+        auto long_tag() const -> string_view override {
             return _param().long_tag();
         }
 
-        string_view description() const override {
+        auto description() const -> string_view override {
             return _param().description();
         }
 
-        string_view placeholder() const override {
+        auto placeholder() const -> string_view override {
             return _plchldr;
         }
     };
 
     std::vector<std::unique_ptr<_intf>> _params;
 
-    static inline std::vector<std::unique_ptr<_intf>>& _insert(
-      std::vector<std::unique_ptr<_intf>>& dest) noexcept {
+    static auto _insert(std::vector<std::unique_ptr<_intf>>& dest) noexcept
+      -> auto& {
         return dest;
     }
 
     template <typename... Intf>
-    static inline std::vector<std::unique_ptr<_intf>>& _insert(
+    static auto _insert(
       std::vector<std::unique_ptr<_intf>>& dest,
       std::unique_ptr<_intf>&& param,
-      std::unique_ptr<Intf>&&... params) noexcept {
+      std::unique_ptr<Intf>&&... params) noexcept -> auto& {
         EAGINE_ASSERT(param != nullptr);
         dest.push_back(std::move(param));
         return _insert(dest, std::move(params)...);
     }
 
     template <typename... Intf>
-    static std::vector<std::unique_ptr<_intf>> _make(
-      std::unique_ptr<Intf>&&... params) {
+    static auto _make(std::unique_ptr<Intf>&&... params) {
         std::vector<std::unique_ptr<_intf>> result;
         result.reserve(sizeof...(params));
         return std::move(_insert(result, std::move(params)...));
@@ -867,11 +866,11 @@ public:
       : _params(_make(std::unique_ptr<_intf>(new _impl<T>(params))...)) {
     }
 
-    span_size_t size() const noexcept {
+    auto size() const noexcept -> span_size_t {
         return span_size(_params.size());
     }
 
-    bool parse(program_arg& arg, std::ostream& log) {
+    auto parse(program_arg& arg, std::ostream& log) -> bool {
         for(auto& param : _params) {
             EAGINE_ASSERT(param != nullptr);
             if(param->parse(arg, log)) {
@@ -881,7 +880,7 @@ public:
         return false;
     }
 
-    bool validate(std::ostream& log) const {
+    auto validate(std::ostream& log) const -> bool {
         bool all_ok = true;
         for(const auto& param : _params) {
             EAGINE_ASSERT(param != nullptr);
@@ -890,7 +889,7 @@ public:
         return all_ok;
     }
 
-    std::ostream& print_usage(std::ostream& out, string_view command) {
+    auto print_usage(std::ostream& out, string_view command) -> std::ostream& {
         out << "Usage: " << command;
 
         span_size_t stag_maxl = 0;
@@ -965,57 +964,57 @@ public:
     using valid_index = valid_range_index<program_args>;
     using iterator = program_arg_iterator;
 
-    int argc() const noexcept {
+    auto argc() const noexcept -> int {
         return _argc;
     }
 
-    const char** argv() const noexcept {
+    auto argv() const noexcept -> const char** {
         return _argv;
     }
 
-    bool empty() const noexcept {
+    auto empty() const noexcept -> bool {
         return _argc <= 0;
     }
 
-    bool none() const noexcept {
+    auto none() const noexcept -> bool {
         return _argc <= 1;
     }
 
-    int size() const noexcept {
+    auto size() const noexcept -> int {
         return _argc;
     }
 
-    bool is_valid(const valid_index& pos) const noexcept {
+    auto is_valid(const valid_index& pos) const noexcept -> bool {
         return pos.is_valid(*this) && (_argv != nullptr) &&
                (_argv[pos.value_or(-1, *this)] != nullptr);
     }
 
-    value_type get(const valid_index& pos) const noexcept {
+    auto get(const valid_index& pos) const noexcept -> value_type {
         EAGINE_ASSERT(is_valid(pos));
         return value_type(_argv[pos.value_anyway(*this)]);
     }
 
-    value_type operator[](const valid_index& pos) const noexcept {
+    auto operator[](const valid_index& pos) const noexcept -> value_type {
         return get(pos);
     }
 
-    value_type command() const noexcept {
+    auto command() const noexcept -> value_type {
         return get(0);
     }
 
-    program_arg first() const noexcept {
+    auto first() const noexcept -> program_arg {
         return program_arg(1, _argc, _argv);
     }
 
-    iterator begin() const noexcept {
+    auto begin() const noexcept -> iterator {
         return {program_arg(1, _argc, _argv)};
     }
 
-    iterator end() const noexcept {
+    auto end() const noexcept -> iterator {
         return {program_arg(_argc, _argc, _argv)};
     }
 
-    program_arg find(string_view what) const noexcept {
+    auto find(string_view what) const noexcept -> program_arg {
         int i = 1;
         while(i < _argc) {
             if((_argv != nullptr) && (_argv[i] != nullptr)) {
@@ -1029,7 +1028,8 @@ public:
     }
 
     template <typename T>
-    bool parse_param(program_parameter<T>& param, std::ostream& errlog) const {
+    auto parse_param(program_parameter<T>& param, std::ostream& errlog) const
+      -> bool {
         for(program_arg a = first(); a; a = a.next()) {
             if(a.parse_param(param, errlog)) {
                 return true;

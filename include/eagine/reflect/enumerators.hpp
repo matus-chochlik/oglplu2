@@ -18,13 +18,13 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 template <typename T, typename Selector>
-constexpr std::enable_if_t<has_enumerator_mapping_v<T, Selector>, span_size_t>
-enumerator_count(identity<T> id, Selector sel) noexcept {
+constexpr inline auto enumerator_count(identity<T> id, Selector sel) noexcept
+  -> std::enable_if_t<has_enumerator_mapping_v<T, Selector>, span_size_t> {
     return span_size_t(enumerator_mapping(id, sel).size());
 }
 //------------------------------------------------------------------------------
 template <typename T>
-constexpr auto enumerator_count(identity<T> id) noexcept {
+constexpr inline auto enumerator_count(identity<T> id) noexcept {
     return enumerator_count(id, selector<0>());
 }
 //------------------------------------------------------------------------------
@@ -34,8 +34,8 @@ constexpr auto enumerator_name(T value, identity<T> id = {}) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename T, typename Selector>
-std::enable_if_t<has_enumerator_mapping_v<T, Selector>, decl_name>
-enumerator_name(T enumerator, identity<T> id, Selector sel) noexcept {
+inline auto enumerator_name(T enumerator, identity<T> id, Selector sel) noexcept
+  -> std::enable_if_t<has_enumerator_mapping_v<T, Selector>, decl_name> {
     for(const auto& info : enumerator_mapping(id, sel)) {
         if(info.enumerator == enumerator) {
             return info.name;
@@ -45,8 +45,7 @@ enumerator_name(T enumerator, identity<T> id, Selector sel) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename T>
-constexpr std::underlying_type_t<T> enumerator_value(
-  T value, identity<T> = {}) noexcept {
+constexpr inline auto enumerator_value(T value, identity<T> = {}) noexcept {
     return static_cast<std::underlying_type_t<T>>(value);
 }
 //------------------------------------------------------------------------------
@@ -76,10 +75,10 @@ using enum_value_and_name =
   enum_int_value_and_name<std::is_signed_v<std::underlying_type_t<T>>>;
 //------------------------------------------------------------------------------
 template <typename T, typename Selector>
-std::enable_if_t<
-  has_enumerator_mapping_v<T, Selector>,
-  optionally_valid<enum_value_and_name<T>>>
-enumerator_info(T enumerator, identity<T> id, Selector sel) noexcept {
+inline auto enumerator_info(T enumerator, identity<T> id, Selector sel) noexcept
+  -> std::enable_if_t<
+    has_enumerator_mapping_v<T, Selector>,
+    optionally_valid<enum_value_and_name<T>>> {
     for(const auto& info : enumerator_mapping(id, sel)) {
         if(info.enumerator == enumerator) {
             return {enum_value_and_name<T>{info}, true};
@@ -94,9 +93,10 @@ auto enumerator_info(T enumerator, identity<T> id = {}) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename T, typename Selector>
-std::enable_if_t<has_enumerator_mapping_v<T, Selector>, optionally_valid<T>>
-from_value(
-  std::underlying_type_t<T> value, identity<T> id, Selector sel) noexcept {
+inline auto from_value(
+  std::underlying_type_t<T> value, identity<T> id, Selector sel) noexcept
+  -> std::
+    enable_if_t<has_enumerator_mapping_v<T, Selector>, optionally_valid<T>> {
     for(const auto& info : enumerator_mapping(id, sel)) {
         if(enumerator_value(info.enumerator, id) == value) {
             return {info.enumerator, true};
@@ -106,14 +106,15 @@ from_value(
 }
 //------------------------------------------------------------------------------
 template <typename T>
-constexpr auto from_value(
+constexpr inline auto from_value(
   std::underlying_type_t<T> value, identity<T> id = {}) noexcept {
     return from_value(value, id, selector<0>());
 }
 //------------------------------------------------------------------------------
 template <typename T, typename Selector>
-std::enable_if_t<has_enumerator_mapping_v<T, Selector>, optionally_valid<T>>
-from_string(string_view name, identity<T> id, Selector sel) noexcept {
+inline auto from_string(string_view name, identity<T> id, Selector sel) noexcept
+  -> std::
+    enable_if_t<has_enumerator_mapping_v<T, Selector>, optionally_valid<T>> {
     for(const auto& info : enumerator_mapping(id, sel)) {
         if(are_equal(string_view(info.name), name)) {
             return {info.enumerator, true};
@@ -123,22 +124,23 @@ from_string(string_view name, identity<T> id, Selector sel) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename T>
-std::enable_if_t<has_enumerator_mapping_v<T, selector<0>>, optionally_valid<T>>
-from_string(string_view name, identity<T> id) noexcept {
+inline auto from_string(string_view name, identity<T> id) noexcept -> std::
+  enable_if_t<has_enumerator_mapping_v<T, selector<0>>, optionally_valid<T>> {
     return from_string(name, id, selector<0>());
 }
 //------------------------------------------------------------------------------
 template <typename Function, typename T, typename Selector>
-std::enable_if_t<has_enumerator_mapping_v<T, Selector>> for_each_enumerator(
-  Function& function, identity<T> id, Selector sel) noexcept {
+inline auto for_each_enumerator(
+  Function& function, identity<T> id, Selector sel) noexcept
+  -> std::enable_if_t<has_enumerator_mapping_v<T, Selector>> {
     for(const auto& info : enumerator_mapping(id, sel)) {
         function(enum_value_and_name<T>{info});
     }
 }
 //------------------------------------------------------------------------------
 template <typename Function, typename T>
-std::enable_if_t<has_enumerator_mapping_v<T, selector<0>>> for_each_enumerator(
-  Function& function, identity<T> id) noexcept {
+inline auto for_each_enumerator(Function& function, identity<T> id) noexcept
+  -> std::enable_if_t<has_enumerator_mapping_v<T, selector<0>>> {
     for_each_enumerator(function, id, selector<0>{});
 }
 //------------------------------------------------------------------------------
