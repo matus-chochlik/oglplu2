@@ -43,16 +43,13 @@ public:
 
     template <typename U>
     std_allocator(const std_allocator<U>& that)
-      : _sba(that._get_sba()) {
-    }
+      : _sba(that._get_sba()) {}
 
     std_allocator(shared_byte_allocator sba) noexcept
-      : _sba(std::move(sba)) {
-    }
+      : _sba(std::move(sba)) {}
 
     std_allocator() noexcept
-      : _sba(default_byte_allocator()) {
-    }
+      : _sba(default_byte_allocator()) {}
 
     template <typename ByteAlloc>
     ByteAlloc& as() {
@@ -95,13 +92,13 @@ public:
         }
     }
 
-    friend bool operator==(
-      const std_allocator& a, const std_allocator& b) noexcept {
+    friend bool
+    operator==(const std_allocator& a, const std_allocator& b) noexcept {
         return (a._sba == b._sba);
     }
 
-    friend bool operator!=(
-      const std_allocator& a, const std_allocator& b) noexcept {
+    friend bool
+    operator!=(const std_allocator& a, const std_allocator& b) noexcept {
         return (a._sba != b._sba);
     }
 

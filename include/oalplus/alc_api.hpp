@@ -27,23 +27,21 @@ public:
       , basic_alc_operations<ApiTraits>{*static_cast<ApiTraits*>(this)}
       , basic_alc_constants<ApiTraits>{
           *static_cast<ApiTraits*>(this),
-          *static_cast<basic_alc_operations<ApiTraits>*>(this)} {
-    }
+          *static_cast<basic_alc_operations<ApiTraits>*>(this)} {}
 
     basic_alc_api()
-      : basic_alc_api{ApiTraits{}} {
-    }
+      : basic_alc_api{ApiTraits{}} {}
 };
 
 template <std::size_t I, typename ApiTraits>
-typename std::tuple_element<I, basic_alc_api<ApiTraits>>::type& get(
-  basic_alc_api<ApiTraits>& x) noexcept {
+typename std::tuple_element<I, basic_alc_api<ApiTraits>>::type&
+get(basic_alc_api<ApiTraits>& x) noexcept {
     return x;
 }
 
 template <std::size_t I, typename ApiTraits>
-const typename std::tuple_element<I, basic_alc_api<ApiTraits>>::type& get(
-  const basic_alc_api<ApiTraits>& x) noexcept {
+const typename std::tuple_element<I, basic_alc_api<ApiTraits>>::type&
+get(const basic_alc_api<ApiTraits>& x) noexcept {
     return x;
 }
 //------------------------------------------------------------------------------
@@ -69,4 +67,3 @@ struct tuple_element<1, eagine::oalp::basic_alc_api<ApiTraits>> {
 } // namespace std
 
 #endif // OALPLUS_ALC_API_HPP
-

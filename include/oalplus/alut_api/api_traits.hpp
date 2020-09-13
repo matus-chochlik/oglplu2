@@ -29,4 +29,3 @@ private:
 } // namespace eagine::oalp
 
 #endif // OALPLUS_ALUT_API_API_TRAITS_HPP
-

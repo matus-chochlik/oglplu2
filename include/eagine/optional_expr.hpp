@@ -70,8 +70,7 @@ protected:
 public:
     nary_optional_expr(L l, R r)
       : _l(l)
-      , _r(r) {
-    }
+      , _r(r) {}
 
     bool is_valid() const noexcept {
         return _is_valid(_l) && _is_valid(_r);
@@ -116,8 +115,8 @@ public:
 };
 
 template <typename T1, typename T2, typename P2>
-static inline optional_binary_slash_expr<T1, valid_if<T2, P2>> operator/(
-  const T1& v1, const valid_if<T2, P2>& v2) noexcept {
+static inline optional_binary_slash_expr<T1, valid_if<T2, P2>>
+operator/(const T1& v1, const valid_if<T2, P2>& v2) noexcept {
     return {v1, v2};
 }
 

@@ -125,7 +125,8 @@ void _hexdump_do_hex_dump(span_size_t bgn, Getter get_byte, Putter put_char) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void hexdump::apply(
-  hexdump::byte_getter get_byte, hexdump::char_putter put_char) {
+  hexdump::byte_getter get_byte,
+  hexdump::char_putter put_char) {
 
     _hexdump_do_hex_dump(0, get_byte, put_char);
 }

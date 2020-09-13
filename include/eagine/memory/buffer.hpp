@@ -39,12 +39,10 @@ private:
 public:
     explicit buffer(span_size_t align)
       : _align(align)
-      , _alloc(default_byte_allocator()) {
-    }
+      , _alloc(default_byte_allocator()) {}
 
     buffer()
-      : buffer(alignof(long double)) {
-    }
+      : buffer(alignof(long double)) {}
 
     buffer(buffer&& temp) noexcept
       : _size{temp._size}

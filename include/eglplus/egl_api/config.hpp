@@ -87,4 +87,3 @@ struct egl_types {
 } // namespace eagine::eglp
 
 #endif // EGLPLUS_EGL_API_CONFIG_HPP
-

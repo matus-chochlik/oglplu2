@@ -30,8 +30,7 @@ class promise {
 public:
     promise() noexcept = default;
     promise(std::shared_ptr<future_state<T>>& state) noexcept
-      : _state{state} {
-    }
+      : _state{state} {}
 
     bool should_be_removed() {
         if(auto state{_state.lock()}) {
@@ -71,8 +70,7 @@ class future {
 public:
     future() = default;
     future(nothing_t) noexcept
-      : _state{} {
-    }
+      : _state{} {}
 
     explicit operator bool() const noexcept {
         return bool(_state);
@@ -175,4 +173,3 @@ private:
 } // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_FUTURE_HPP
-

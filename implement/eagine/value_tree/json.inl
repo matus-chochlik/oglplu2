@@ -67,11 +67,11 @@ private:
 public:
     rapidjson_value_node(_val_t& rj_val, _val_t* rj_name = nullptr) noexcept
       : _rj_val{&rj_val}
-      , _rj_name{rj_name} {
-    }
+      , _rj_name{rj_name} {}
 
     friend bool operator==(
-      const rapidjson_value_node& l, const rapidjson_value_node& r) noexcept {
+      const rapidjson_value_node& l,
+      const rapidjson_value_node& r) noexcept {
         return (l._rj_val == r._rj_val);
     }
 
@@ -418,11 +418,10 @@ private:
 public:
     rapidjson_document_compound(_doc_t& rj_doc)
       : _rj_doc{std::move(rj_doc)}
-      , _root{_rj_doc, nullptr} {
-    }
+      , _root{_rj_doc, nullptr} {}
 
-    static std::shared_ptr<rapidjson_document_compound> make_shared(
-      string_view json_str, logger& log) {
+    static std::shared_ptr<rapidjson_document_compound>
+    make_shared(string_view json_str, logger& log) {
         _doc_t rj_doc{};
         rj_doc.Parse(rapidjson_string_ref(json_str));
         if(!rj_doc.HasParseError()) {
@@ -482,18 +481,18 @@ public:
         return _unwrap(attrib).nested_count();
     }
 
-    attribute_interface* nested(
-      attribute_interface& attrib, span_size_t index) final {
+    attribute_interface*
+    nested(attribute_interface& attrib, span_size_t index) final {
         return _unwrap(attrib).nested(*this, index);
     }
 
-    attribute_interface* nested(
-      attribute_interface& attrib, string_view name) final {
+    attribute_interface*
+    nested(attribute_interface& attrib, string_view name) final {
         return _unwrap(attrib).nested(*this, name);
     }
 
-    attribute_interface* find(
-      attribute_interface& attrib, const basic_string_path& path) final {
+    attribute_interface*
+    find(attribute_interface& attrib, const basic_string_path& path) final {
         return _unwrap(attrib).find(*this, path);
     }
 
@@ -503,7 +502,9 @@ public:
 
     template <typename T>
     span_size_t do_fetch_values(
-      attribute_interface& attrib, span_size_t offset, span<T> dest) {
+      attribute_interface& attrib,
+      span_size_t offset,
+      span<T> dest) {
         return _unwrap(attrib).fetch_values(offset, dest);
     }
 };
@@ -538,4 +539,3 @@ compound from_json_text(string_view json_text, logger& log) {
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::valtree
-

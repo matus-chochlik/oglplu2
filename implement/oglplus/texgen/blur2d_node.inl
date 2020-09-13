@@ -15,8 +15,7 @@ namespace eagine::oglp::texgen {
 OGLPLUS_LIB_FUNC
 blur2d_output::blur2d_output(node_intf& parent)
   : base_output(parent)
-  , input(parent, string_view("Input"), 0.5f, 0.5f, 0.5f, 0.5f) {
-}
+  , input(parent, string_view("Input"), 0.5f, 0.5f, 0.5f, 0.5f) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 string_view blur2d_output::type_name() {
@@ -29,8 +28,8 @@ slot_data_type blur2d_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& blur2d_output::definitions(
-  std::ostream& out, compile_context& ctxt) {
+std::ostream&
+blur2d_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt)) {
         return out;
     }

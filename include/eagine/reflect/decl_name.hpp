@@ -24,8 +24,7 @@ struct decl_name : string_view {
       std::size_t N,
       typename = std::enable_if_t<(N <= span_size_t(max_length))>>
     constexpr decl_name(const char (&array)[N]) noexcept
-      : string_view{array} {
-    }
+      : string_view{array} {}
 };
 //------------------------------------------------------------------------------
 class decl_name_storage {

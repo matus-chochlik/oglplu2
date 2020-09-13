@@ -20,8 +20,7 @@ public:
     double_buffer() = default;
 
     double_buffer(const T& initial)
-      : _values{{initial, initial}} {
-    }
+      : _values{{initial, initial}} {}
 
     void swap() noexcept {
         _idx = !_idx;

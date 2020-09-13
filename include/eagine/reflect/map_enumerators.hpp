@@ -21,8 +21,7 @@ template <typename T>
 struct enumerator_and_name {
     constexpr enumerator_and_name(decl_name n, T e) noexcept
       : name{n}
-      , enumerator{e} {
-    }
+      , enumerator{e} {}
 
     const decl_name name;
     const T enumerator;

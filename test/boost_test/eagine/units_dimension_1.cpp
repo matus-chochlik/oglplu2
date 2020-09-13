@@ -37,14 +37,8 @@ struct units_dimension_pow_tester {
           units::length,
           units::base::length,
           TestedBD>();
-        test_units_dimension_pow1_d_bd<
-          units::mass,
-          units::base::mass,
-          TestedBD>();
-        test_units_dimension_pow1_d_bd<
-          units::time,
-          units::base::time,
-          TestedBD>();
+        test_units_dimension_pow1_d_bd<units::mass, units::base::mass, TestedBD>();
+        test_units_dimension_pow1_d_bd<units::time, units::base::time, TestedBD>();
         test_units_dimension_pow1_d_bd<
           units::temperature,
           units::base::temperature,

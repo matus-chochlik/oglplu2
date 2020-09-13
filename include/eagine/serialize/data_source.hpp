@@ -23,8 +23,8 @@ struct deserializer_data_source {
     deserializer_data_source(deserializer_data_source&&) noexcept = default;
     deserializer_data_source(const deserializer_data_source&) = delete;
     deserializer_data_source& operator=(deserializer_data_source&&) = delete;
-    deserializer_data_source& operator=(const deserializer_data_source&) =
-      delete;
+    deserializer_data_source&
+    operator=(const deserializer_data_source&) = delete;
     virtual ~deserializer_data_source() noexcept = default;
 
     virtual memory::const_block top(span_size_t size) = 0;
@@ -63,7 +63,8 @@ struct deserializer_data_source {
     }
 
     void fetch_all(
-      memory::buffer& dst, valid_if_positive<span_size_t> step = {256}) {
+      memory::buffer& dst,
+      valid_if_positive<span_size_t> step = {256}) {
         span_size_t offs{dst.size()};
         while(auto blk = top(extract(step))) {
             dst.enlarge_by(blk.size());
@@ -77,4 +78,3 @@ struct deserializer_data_source {
 } // namespace eagine
 
 #endif // EAGINE_SERIALIZE_DATA_SOURCE_HPP
-

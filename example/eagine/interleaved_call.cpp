@@ -27,18 +27,19 @@ int main() {
       [](string_view s) { cout << s; }, []() { cout << "}{"; });
 
     cout << '{';
-    for(auto name : view({v("January"),
-                          v("February"),
-                          v("March"),
-                          v("April"),
-                          v("May"),
-                          v("June"),
-                          v("July"),
-                          v("August"),
-                          v("September"),
-                          v("October"),
-                          v("November"),
-                          v("December")})) {
+    for(auto name : view(
+          {v("January"),
+           v("February"),
+           v("March"),
+           v("April"),
+           v("May"),
+           v("June"),
+           v("July"),
+           v("August"),
+           v("September"),
+           v("October"),
+           v("November"),
+           v("December")})) {
         fn2(name);
     }
     cout << '}' << std::endl;

@@ -73,13 +73,11 @@ class structured_file_content
 public:
     structured_file_content(string_view path)
       : protected_member<file_contents>(path)
-      , structured_memory_block<const T>(get_the_member()) {
-    }
+      , structured_memory_block<const T>(get_the_member()) {}
 
     structured_file_content(file_contents&& fc)
       : protected_member<file_contents>(std::move(fc))
-      , structured_memory_block<const T>(get_the_member()) {
-    }
+      , structured_memory_block<const T>(get_the_member()) {}
 };
 
 } // namespace eagine

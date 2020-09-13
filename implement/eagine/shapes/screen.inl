@@ -25,8 +25,7 @@ vertex_attrib_bits unit_screen_gen::_attr_mask() noexcept {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 unit_screen_gen::unit_screen_gen(vertex_attrib_bits attr_bits) noexcept
-  : _base(attr_bits & _attr_mask()) {
-}
+  : _base(attr_bits & _attr_mask()) {}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 span_size_t unit_screen_gen::vertex_count() {
@@ -151,7 +150,8 @@ void unit_screen_gen::face_coords(span<float> dest) noexcept {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void unit_screen_gen::attrib_values(
-  vertex_attrib_variant vav, span<float> dest) {
+  vertex_attrib_variant vav,
+  span<float> dest) {
     switch(vav.attrib) {
         case vertex_attrib_kind::position:
             positions(dest);
@@ -190,7 +190,8 @@ span_size_t unit_screen_gen::operation_count(drawing_variant) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void unit_screen_gen::instructions(
-  drawing_variant var, span<draw_operation> ops) {
+  drawing_variant var,
+  span<draw_operation> ops) {
     EAGINE_ASSERT(ops.size() >= operation_count(var));
     EAGINE_MAYBE_UNUSED(var);
 

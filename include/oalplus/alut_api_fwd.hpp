@@ -21,4 +21,3 @@ using alut_api = basic_alut_api<alut_api_traits>;
 } // namespace eagine::oalp
 
 #endif // OALPLUS_ALUT_API_FWD_HPP
-

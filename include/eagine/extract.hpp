@@ -23,8 +23,8 @@ static constexpr inline T& extract(T* ptr) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline T& extract_or(
-  T* ptr, std::remove_const_t<T>& fallback) noexcept {
+static constexpr inline T&
+extract_or(T* ptr, std::remove_const_t<T>& fallback) noexcept {
     return bool(ptr) ? *ptr : fallback;
 }
 //------------------------------------------------------------------------------
@@ -40,8 +40,8 @@ static constexpr inline T& extract(std::shared_ptr<T>& ptr) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline T& extract_or(
-  std::shared_ptr<T>& ptr, std::remove_const_t<T>& fallback) noexcept {
+static constexpr inline T&
+extract_or(std::shared_ptr<T>& ptr, std::remove_const_t<T>& fallback) noexcept {
     return bool(ptr) ? *ptr : fallback;
 }
 //------------------------------------------------------------------------------
@@ -58,7 +58,8 @@ static constexpr inline T& extract(std::unique_ptr<T, D>& ptr) noexcept {
 //------------------------------------------------------------------------------
 template <typename T, typename D>
 static constexpr inline T& extract_or(
-  std::unique_ptr<T, D>& ptr, std::remove_const_t<T>& fallback) noexcept {
+  std::unique_ptr<T, D>& ptr,
+  std::remove_const_t<T>& fallback) noexcept {
     return bool(ptr) ? *ptr : fallback;
 }
 //------------------------------------------------------------------------------
@@ -85,11 +86,10 @@ private:
 public:
     constexpr inline ok(Outcome&& outcome) noexcept(
       noexcept(std::declval<Outcome&&>()))
-      : _outcome{std::move(outcome)} {
-    }
+      : _outcome{std::move(outcome)} {}
 
-    explicit constexpr operator bool() noexcept(
-      noexcept(bool(std::declval<Outcome&>()))) {
+    explicit constexpr
+    operator bool() noexcept(noexcept(bool(std::declval<Outcome&>()))) {
         return bool(_outcome);
     }
 
@@ -98,8 +98,8 @@ public:
         return bool(_outcome);
     }
 
-    constexpr decltype(extract(std::declval<Outcome&>())) get() noexcept(
-      noexcept(extract(std::declval<Outcome&>()))) {
+    constexpr decltype(extract(std::declval<Outcome&>()))
+    get() noexcept(noexcept(extract(std::declval<Outcome&>()))) {
         return extract(_outcome);
     }
 
@@ -118,8 +118,8 @@ public:
         return extract(_outcome);
     }
 
-    constexpr decltype(_traits::nok_info(std::declval<const Outcome&>())) nok()
-      const noexcept {
+    constexpr decltype(_traits::nok_info(std::declval<const Outcome&>()))
+    nok() const noexcept {
         return _traits::nok_info(_outcome);
     }
 

@@ -38,8 +38,7 @@ struct _ary_data {
       typename P,
       typename = std::enable_if_t<(N == 1) && (std::is_convertible_v<P, T>)>>
     constexpr _ary_data(P&& p)
-      : _v{T(std::forward<P>(p))} {
-    }
+      : _v{T(std::forward<P>(p))} {}
 
     template <
       typename P1,
@@ -50,8 +49,7 @@ struct _ary_data {
       : _v{
           T(std::forward<P1>(p1)),
           T(std::forward<P2>(p2)),
-          T(std::forward<Pn>(pn))...} {
-    }
+          T(std::forward<Pn>(pn))...} {}
 
     constexpr inline T operator[](int i) const noexcept {
         return _v[i];
@@ -128,8 +126,7 @@ struct _ary_data {
         return a;
     }
 
-    friend _ary_data operator+(
-      const _ary_data& a, const _ary_data& b) noexcept {
+    friend _ary_data operator+(const _ary_data& a, const _ary_data& b) noexcept {
         _ary_data c{};
         for(int i = 0; i < N; ++i) {
             c._v[i] = a._v[i] + b._v[i];
@@ -145,8 +142,7 @@ struct _ary_data {
         return c;
     }
 
-    friend _ary_data operator-(
-      const _ary_data& a, const _ary_data& b) noexcept {
+    friend _ary_data operator-(const _ary_data& a, const _ary_data& b) noexcept {
         _ary_data c{};
         for(int i = 0; i < N; ++i) {
             c._v[i] = a._v[i] - b._v[i];
@@ -162,8 +158,7 @@ struct _ary_data {
         return c;
     }
 
-    friend _ary_data operator*(
-      const _ary_data& a, const _ary_data& b) noexcept {
+    friend _ary_data operator*(const _ary_data& a, const _ary_data& b) noexcept {
         _ary_data c{};
         for(int i = 0; i < N; ++i) {
             c._v[i] = a._v[i] * b._v[i];
@@ -179,8 +174,7 @@ struct _ary_data {
         return c;
     }
 
-    friend _ary_data operator/(
-      const _ary_data& a, const _ary_data& b) noexcept {
+    friend _ary_data operator/(const _ary_data& a, const _ary_data& b) noexcept {
         _ary_data c{};
         for(int i = 0; i < N; ++i) {
             c._v[i] = a._v[i] / b._v[i];

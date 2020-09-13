@@ -214,8 +214,8 @@ void example_shape::render(const example_context& ctx) {
 //------------------------------------------------------------------------------
 } // namespace oglp
 //------------------------------------------------------------------------------
-std::unique_ptr<example> make_example(
-  const example_args& args, const example_context&) {
+std::unique_ptr<example>
+make_example(const example_args& args, const example_context&) {
     args.parse_param(oglp::color_variant_name);
     args.parse_param(oglp::shape_file_path);
     return {std::make_unique<oglp::example_shape>()};
@@ -236,4 +236,3 @@ bool is_example_param(const example_arg& arg) {
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
-

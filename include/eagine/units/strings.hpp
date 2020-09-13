@@ -71,30 +71,19 @@ struct compose_str<MpStrWrap, bits::dim_pow<BaseDim, Pow>, nothing_t>
 //------------------------------------------------------------------------------
 template <template <typename> class MpStrWrap, typename H, typename T>
 struct compose_str<MpStrWrap, bits::dims<H, T>, nothing_t>
-  : chain_term_strings<
-      compose_str_t<MpStrWrap, H>,
-      compose_str_t<MpStrWrap, T>> {};
+  : chain_term_strings<compose_str_t<MpStrWrap, H>, compose_str_t<MpStrWrap, T>> {
+};
 //------------------------------------------------------------------------------
 template <template <typename> class MpStrWrap, typename Sys>
 struct compose_str<MpStrWrap, unit<nothing_t, Sys>, nothing_t> : mp_string<> {};
 //------------------------------------------------------------------------------
-template <
-  template <typename>
-  class MpStrWrap,
-  typename Dim,
-  int Pow,
-  typename Sys>
+template <template <typename> class MpStrWrap, typename Dim, int Pow, typename Sys>
 struct compose_str<MpStrWrap, unit<bits::dim_pow<Dim, Pow>, Sys>, nothing_t>
   : dim_pow_superscript_t<
       compose_str_t<MpStrWrap, typename Sys::template base_unit<Dim>::type>,
       Pow> {};
 //------------------------------------------------------------------------------
-template <
-  template <typename>
-  class MpStrWrap,
-  typename H,
-  typename T,
-  typename Sys>
+template <template <typename> class MpStrWrap, typename H, typename T, typename Sys>
 struct compose_str<MpStrWrap, unit<bits::dims<H, T>, Sys>, nothing_t>
   : chain_term_strings<
       compose_str_t<MpStrWrap, unit<H, Sys>>,

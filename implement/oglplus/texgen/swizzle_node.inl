@@ -46,13 +46,11 @@ OGLPLUS_LIB_FUNC
 swizzle_output::swizzle_output(node_intf& parent, std::string swiz)
   : base_output(parent)
   , swizzle(std::move(swiz))
-  , input(parent, string_view("Input"), 0.5f, 0.5f, 0.5f, 0.5f) {
-}
+  , input(parent, string_view("Input"), 0.5f, 0.5f, 0.5f, 0.5f) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 swizzle_output::swizzle_output(node_intf& parent)
-  : swizzle_output(parent, "xyzw") {
-}
+  : swizzle_output(parent, "xyzw") {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 string_view swizzle_output::type_name() {
@@ -66,8 +64,8 @@ slot_data_type swizzle_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& swizzle_output::definitions(
-  std::ostream& out, compile_context& ctxt) {
+std::ostream&
+swizzle_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt)) {
         return out;
     }

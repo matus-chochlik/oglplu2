@@ -29,8 +29,7 @@ private:
 
 public:
     combined_gen(std::vector<std::unique_ptr<generator_intf>>&& gens) noexcept
-      : _gens{std::move(gens)} {
-    }
+      : _gens{std::move(gens)} {}
 
     combined_gen&& add(std::unique_ptr<generator_intf>&& gen) &&;
 
@@ -89,8 +88,8 @@ static inline auto combine(std::unique_ptr<generator_intf>&& gen) {
 }
 //------------------------------------------------------------------------------
 template <std::size_t N>
-static inline auto combine(
-  std::array<std::unique_ptr<generator_intf>, N>&& gens) {
+static inline auto
+combine(std::array<std::unique_ptr<generator_intf>, N>&& gens) {
     std::vector<std::unique_ptr<generator_intf>> v;
     v.reserve(N);
     for(auto& gen : gens) {

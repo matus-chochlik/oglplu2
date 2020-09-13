@@ -19,8 +19,7 @@ namespace eagine::oglp {
   OGLPLUS_USE_GLES3_GL32_H || OGLPLUS_USE_GLES3_GL31_H || \
   OGLPLUS_USE_GLES3_GL3_H
 OGLPLUS_LIB_FUNC
-api_initializer::api_initializer(int, int) {
-}
+api_initializer::api_initializer(int, int) {}
 //------------------------------------------------------------------------------
 #elif OGLPLUS_USE_GLEW
 OGLPLUS_LIB_FUNC

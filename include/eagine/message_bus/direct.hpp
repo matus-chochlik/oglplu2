@@ -28,8 +28,7 @@ private:
 
 public:
     direct_connection_state(logger& parent)
-      : _log{EAGINE_ID(DrctConnSt), parent} {
-    }
+      : _log{EAGINE_ID(DrctConnSt), parent} {}
 
     void send_to_server(message_id msg_id, const message_view& message) {
         std::unique_lock lock{_mutex};
@@ -63,8 +62,7 @@ private:
 
 public:
     direct_connection_address(logger& parent)
-      : _log{EAGINE_ID(DrctConnAd), parent} {
-    }
+      : _log{EAGINE_ID(DrctConnAd), parent} {}
 
     shared_state connect() {
         auto state = std::make_shared<direct_connection_state>(_log);
@@ -119,8 +117,7 @@ public:
     direct_client_connection(
       std::shared_ptr<direct_connection_address>& address) noexcept
       : _weak_address{address}
-      , _state{address->connect()} {
-    }
+      , _state{address->connect()} {}
 
     bool is_usable() final {
         _checkup();
@@ -151,8 +148,7 @@ private:
 
 public:
     direct_server_connection(std::shared_ptr<direct_connection_state>& state)
-      : _weak_state{state} {
-    }
+      : _weak_state{state} {}
 
     bool send(message_id msg_id, const message_view& message) final {
         if(auto state = _weak_state.lock()) {
@@ -182,17 +178,14 @@ public:
       logger& parent,
       std::shared_ptr<direct_connection_address> address) noexcept
       : _log{EAGINE_ID(DrctAccptr), parent}
-      , _address{std::move(address)} {
-    }
+      , _address{std::move(address)} {}
 
     direct_acceptor(logger& parent)
       : _log{EAGINE_ID(DrctAccptr), parent}
-      , _address{std::make_shared<direct_connection_address>(_log)} {
-    }
+      , _address{std::make_shared<direct_connection_address>(_log)} {}
 
     direct_acceptor()
-      : _address{std::make_shared<direct_connection_address>(_log)} {
-    }
+      : _address{std::make_shared<direct_connection_address>(_log)} {}
 
     bool process_accepted(const accept_handler& handler) final {
         some_true something_done{};
@@ -246,8 +239,7 @@ public:
 
     direct_connection_factory(logger& parent)
       : _log{EAGINE_ID(DrctConnFc), parent}
-      , _default_addr{_make_addr()} {
-    }
+      , _default_addr{_make_addr()} {}
 
     std::unique_ptr<acceptor> make_acceptor(string_view addr_str) final {
         if(addr_str) {
@@ -267,4 +259,3 @@ public:
 } // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_DIRECT_HPP
-

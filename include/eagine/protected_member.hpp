@@ -23,8 +23,7 @@ private:
 protected:
     template <typename... P>
     protected_member(P&&... p)
-      : _member(std::forward<P>(p)...) {
-    }
+      : _member(std::forward<P>(p)...) {}
 
 public:
     T& get_the_member(Selector = Selector()) noexcept {
@@ -38,7 +37,8 @@ public:
 
 template <typename Selector, typename T>
 static inline T& get_member(
-  protected_member<T, Selector>& pm, Selector selector = Selector()) noexcept {
+  protected_member<T, Selector>& pm,
+  Selector selector = Selector()) noexcept {
     return pm.get_the_member(selector);
 }
 

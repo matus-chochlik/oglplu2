@@ -25,8 +25,7 @@ private:
 
 public:
     hexdump(memory::const_block mb) noexcept
-      : _mb(mb) {
-    }
+      : _mb(mb) {}
 
     using byte_getter = callable_ref<optionally_valid<byte>()>;
     using char_putter = callable_ref<bool(char)>;

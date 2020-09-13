@@ -21,8 +21,7 @@ class centered_gen : public delegated_gen {
 
 public:
     centered_gen(std::unique_ptr<generator_intf>&& gen) noexcept
-      : delegated_gen(std::move(gen)) {
-    }
+      : delegated_gen(std::move(gen)) {}
 
     void attrib_values(vertex_attrib_variant, span<float>) override;
 

@@ -20,8 +20,7 @@ voronoi2d_output::voronoi2d_output(
   : base_output(parent)
   , _input(input)
   , _cells(cells)
-  , _type(type) {
-}
+  , _type(type) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 short voronoi2d_output::order() const {
@@ -86,8 +85,8 @@ string_view voronoi2d_output::name() noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& voronoi2d_output::definitions(
-  std::ostream& out, compile_context& ctxt) {
+std::ostream&
+voronoi2d_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt)) {
         return out;
     }
@@ -225,8 +224,7 @@ std::ostream& voronoi2d_output::definitions(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& voronoi2d_output::expression(
-  std::ostream& out, compile_context&) {
+std::ostream& voronoi2d_output::expression(std::ostream& out, compile_context&) {
     append_id(out);
     return out << type_abbr();
 }
@@ -242,8 +240,10 @@ voronoi2d_node::voronoi2d_node()
   , _cell_coord(*this, _input, _cells, voronoi_output_type::cell_coord)
   , _cell_center(*this, _input, _cells, voronoi_output_type::cell_center)
   , _input_cell_center(
-      *this, _input, _cells, voronoi_output_type::input_cell_center) {
-}
+      *this,
+      _input,
+      _cells,
+      voronoi_output_type::input_cell_center) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 string_view voronoi2d_node::type_name() {

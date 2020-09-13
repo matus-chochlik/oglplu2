@@ -72,9 +72,8 @@ struct si::base_unit<base::time> : base::second {};
 using second = unit<time, si>;
 
 // derived
-using millisecond = make_scaled_base_dim_unit_t<
-  base::scaled_unit<scales::milli, base::second>,
-  si>;
+using millisecond =
+  make_scaled_base_dim_unit_t<base::scaled_unit<scales::milli, base::second>, si>;
 
 using minute = make_scaled_base_dim_unit_t<base::minute, si>;
 using hour = make_scaled_base_dim_unit_t<base::hour, si>;

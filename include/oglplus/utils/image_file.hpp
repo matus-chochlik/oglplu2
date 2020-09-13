@@ -23,16 +23,13 @@ private:
 
 public:
     texture_image_file(string_view path)
-      : _header(path) {
-    }
+      : _header(path) {}
 
     texture_image_file(const std::string& path)
-      : _header(string_view(path)) {
-    }
+      : _header(string_view(path)) {}
 
     texture_image_file(file_contents&& fc)
-      : _header(std::move(fc)) {
-    }
+      : _header(std::move(fc)) {}
 
     bool is_valid() const noexcept {
         return _header->magic.is_valid();
@@ -49,8 +46,8 @@ public:
           pixel_data_internal_format(_header->internal_format));
     }
 
-    image_pixel_format pixel_format(
-      pixel_data_internal_format ifmt) const noexcept {
+    image_pixel_format
+    pixel_format(pixel_data_internal_format ifmt) const noexcept {
         return image_pixel_format(pixel_data_format(_header->format), ifmt);
     }
 

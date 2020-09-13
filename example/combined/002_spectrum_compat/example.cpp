@@ -114,8 +114,8 @@ void example_spectrum::render(const example_context& ctx) {
     gl.end();
 }
 //------------------------------------------------------------------------------
-std::unique_ptr<example> make_example(
-  const example_args&, const example_context&) {
+std::unique_ptr<example>
+make_example(const example_args&, const example_context&) {
     return std::make_unique<example_spectrum>();
 }
 //------------------------------------------------------------------------------

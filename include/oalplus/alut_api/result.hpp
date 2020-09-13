@@ -164,4 +164,3 @@ using alut_opt_result = api_opt_result<Result, alut_result_info>;
 } // namespace eagine::oalp
 
 #endif // OALPLUS_ALUT_API_RESULT_HPP
-

@@ -16,8 +16,7 @@ namespace eagine::oglp::texgen {
 OGLPLUS_LIB_FUNC
 invert_output::invert_output(node_intf& parent)
   : base_output(parent)
-  , input(parent, string_view("Input"), 0.5f, 0.5f, 0.5f, 0.5f) {
-}
+  , input(parent, string_view("Input"), 0.5f, 0.5f, 0.5f, 0.5f) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 string_view invert_output::type_name() {
@@ -30,8 +29,8 @@ slot_data_type invert_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& invert_output::definitions(
-  std::ostream& out, compile_context& ctxt) {
+std::ostream&
+invert_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt)) {
         return out;
     }

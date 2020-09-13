@@ -45,4 +45,3 @@ struct acceptor_user {
 } // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_ACCEPTOR_HPP
-

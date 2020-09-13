@@ -209,7 +209,8 @@ void generator_base::indices(drawing_variant var, span<std::uint32_t> dest) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void centered_unit_shape_generator_base::attrib_values(
-  vertex_attrib_variant vav, span<float> dest) {
+  vertex_attrib_variant vav,
+  span<float> dest) {
     if(vav.attrib == vertex_attrib_kind::box_coord) {
         this->attrib_values({vertex_attrib_kind::position, vav}, dest);
         for(float& x : dest) {

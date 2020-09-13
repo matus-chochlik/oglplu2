@@ -36,8 +36,8 @@ using gl_bool_class =
 using gl_any_enum_class = any_enum_class<EAGINE_ID_V(GL)>;
 using gl_any_enum_value = any_enum_value<EAGINE_ID_V(GL)>;
 
-static constexpr inline bool same_enum_class(
-  gl_any_enum_class a, gl_any_enum_class b) noexcept {
+static constexpr inline bool
+same_enum_class(gl_any_enum_class a, gl_any_enum_class b) noexcept {
     return ::eagine::same_enum_class(a, b);
 }
 //------------------------------------------------------------------------------
@@ -55,4 +55,3 @@ constexpr static bool is_enum_parameter_value_v =
 } // namespace eagine::oglp
 
 #endif // OGLPLUS_GL_API_ENUM_CLASS_HPP
-

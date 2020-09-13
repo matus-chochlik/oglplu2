@@ -22,25 +22,20 @@ struct message_id : std::tuple<identifier_t, identifier_t> {
     using base = std::tuple<identifier_t, identifier_t>;
 
     constexpr message_id() noexcept
-      : base{0U, 0U} {
-    }
+      : base{0U, 0U} {}
 
     constexpr message_id(identifier_t c, identifier_t m) noexcept
-      : base{c, m} {
-    }
+      : base{c, m} {}
 
     constexpr message_id(identifier c, identifier m) noexcept
-      : base{c.value(), m.value()} {
-    }
+      : base{c.value(), m.value()} {}
 
     constexpr message_id(std::tuple<identifier, identifier> t) noexcept
-      : message_id{std::get<0>(t), std::get<1>(t)} {
-    }
+      : message_id{std::get<0>(t), std::get<1>(t)} {}
 
     template <identifier_t ClassId, identifier_t MethodId>
     constexpr message_id(const static_message_id<ClassId, MethodId>&) noexcept
-      : base{ClassId, MethodId} {
-    }
+      : base{ClassId, MethodId} {}
 
     constexpr auto class_id() const noexcept -> identifier_t {
         return std::get<0>(*this);
@@ -97,16 +92,15 @@ struct static_message_id {
 };
 //------------------------------------------------------------------------------
 template <identifier_t ClassId, identifier_t MethodId>
-inline auto operator==(
-  message_id l, static_message_id<ClassId, MethodId> r) noexcept {
+inline auto
+operator==(message_id l, static_message_id<ClassId, MethodId> r) noexcept {
     return l == message_id{r};
 }
 //------------------------------------------------------------------------------
 #define EAGINE_MSG_TYPE(API, NAME) \
     ::eagine::static_message_id<EAGINE_ID_V(API), EAGINE_ID_V(NAME)>
 #define EAGINE_MSG_ID(API, NAME) \
-    EAGINE_MSG_TYPE(API, NAME) { \
-    }
+    EAGINE_MSG_TYPE(API, NAME) {}
 //------------------------------------------------------------------------------
 } // namespace eagine
 

@@ -66,4 +66,3 @@ struct alut_types {
 } // namespace eagine::oalp
 
 #endif // OALPLUS_ALUT_API_CONFIG_HPP
-

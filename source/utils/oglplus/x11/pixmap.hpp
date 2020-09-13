@@ -34,8 +34,7 @@ public:
             height,
             unsigned(vi->depth)),
           ::XFreePixmap,
-          "Error creating X Pixmap") {
-    }
+          "Error creating X Pixmap") {}
 };
 
 } // namespace x11

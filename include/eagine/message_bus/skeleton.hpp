@@ -98,8 +98,7 @@ public:
 
     template <typename R, typename P>
     lazy_skeleton(std::chrono::duration<R, P> default_timeout) noexcept
-      : _default_timeout{default_timeout} {
-    }
+      : _default_timeout{default_timeout} {}
 
     bool enqueue(
       const stored_message& msg_in,
@@ -141,7 +140,7 @@ public:
 
                 const auto errors = serialize(result, write_backend);
                 EAGINE_ASSERT(!errors);
-		EAGINE_MAYBE_UNUSED(errors);
+                EAGINE_MAYBE_UNUSED(errors);
                 message_view msg_out{sink.done()};
                 msg_out.set_serializer_id(write_backend.type_id());
                 msg_out.set_target_id(call.invoker_id);
@@ -278,4 +277,3 @@ private:
 } // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_SKELETON_HPP
-

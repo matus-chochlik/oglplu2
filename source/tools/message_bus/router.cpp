@@ -75,4 +75,3 @@ int main(int argc, const char** argv) {
     options.logger_id = EAGINE_ID(RouterExe);
     return eagine::main_impl(argc, argv, options);
 }
-

@@ -18,19 +18,18 @@
 namespace eagine::oglp {
 //------------------------------------------------------------------------------
 template <typename A>
-primitive_type translate(
-  const basic_gl_api<A>&, shapes::primitive_type) noexcept;
+primitive_type
+translate(const basic_gl_api<A>&, shapes::primitive_type) noexcept;
 //------------------------------------------------------------------------------
 template <typename A>
 data_type translate(const basic_gl_api<A>&, shapes::attrib_data_type) noexcept;
 //------------------------------------------------------------------------------
 template <typename A>
-index_data_type translate(
-  const basic_gl_api<A>&, shapes::index_data_type) noexcept;
+index_data_type
+translate(const basic_gl_api<A>&, shapes::index_data_type) noexcept;
 //------------------------------------------------------------------------------
 template <typename A>
-span_size_t type_size(
-  const basic_gl_api<A>&, shapes::attrib_data_type) noexcept;
+span_size_t type_size(const basic_gl_api<A>&, shapes::attrib_data_type) noexcept;
 //------------------------------------------------------------------------------
 template <typename A>
 span_size_t type_size(const basic_gl_api<A>&, shapes::index_data_type) noexcept;
@@ -83,7 +82,8 @@ struct shape_draw_subset {
 //------------------------------------------------------------------------------
 template <typename A>
 void draw_using_instructions(
-  const basic_gl_api<A>& api, span<const shape_draw_operation> ops) noexcept;
+  const basic_gl_api<A>& api,
+  span<const shape_draw_operation> ops) noexcept;
 //------------------------------------------------------------------------------
 template <typename A>
 void draw_using_instructions(

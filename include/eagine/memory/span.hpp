@@ -90,24 +90,20 @@ public:
 
     constexpr basic_span(pointer addr, size_type len) noexcept
       : _addr{addr}
-      , _size{len} {
-    }
+      , _size{len} {}
 
     constexpr basic_span(address_type addr, size_type len) noexcept
       : _addr{static_cast<Pointer>(addr)}
-      , _size{len} {
-    }
+      , _size{len} {}
 
     constexpr basic_span(pointer b, pointer e) noexcept
       : _addr{b}
-      , _size{b <= e ? e - b : 0} {
-    }
+      , _size{b <= e ? e - b : 0} {}
 
     constexpr basic_span(address_type ba, address_type be) noexcept
       : _addr{static_cast<Pointer>(ba)}
       , _size{limit_cast<size_type>(
-          ba <= be ? (be - ba) / sizeof(value_type) : 0)} {
-    }
+          ba <= be ? (be - ba) / sizeof(value_type) : 0)} {}
 
     template <typename T, typename P, typename S>
     using enable_if_convertible = std::enable_if_t<
@@ -134,8 +130,7 @@ public:
       typename = enable_if_different<T, P, S>>
     constexpr basic_span(basic_span<T, P, S> that) noexcept
       : _addr{static_cast<Pointer>(that.data())}
-      , _size{limit_cast<SizeType>(that.size())} {
-    }
+      , _size{limit_cast<SizeType>(that.size())} {}
 
     template <
       typename T,
@@ -257,14 +252,14 @@ public:
         return EAGINE_CONSTEXPR_ASSERT(0 < size(), _addr[size() - 1]);
     }
 
-    constexpr inline std::add_const_t<value_type>& ref(
-      size_type index) const noexcept {
+    constexpr inline std::add_const_t<value_type>&
+    ref(size_type index) const noexcept {
         return EAGINE_CONSTEXPR_ASSERT(index < size(), _addr[index]);
     }
 
     template <typename Int>
-    inline std::enable_if_t<std::is_integral_v<Int>, value_type&> element(
-      Int index) noexcept {
+    inline std::enable_if_t<std::is_integral_v<Int>, value_type&>
+    element(Int index) noexcept {
         return ref(span_size(index));
     }
 
@@ -276,8 +271,8 @@ public:
     }
 
     template <typename Int>
-    inline std::enable_if_t<std::is_integral_v<Int>, value_type&> operator[](
-      Int index) noexcept {
+    inline std::enable_if_t<std::is_integral_v<Int>, value_type&>
+    operator[](Int index) noexcept {
         return element(index);
     }
 
@@ -299,8 +294,8 @@ constexpr bool is_zero_terminated(basic_span<T, P, S> spn) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S>
-static constexpr inline basic_span<T, T*, S> absolute(
-  basic_span<T, P, S> spn) noexcept {
+static constexpr inline basic_span<T, T*, S>
+absolute(basic_span<T, P, S> spn) noexcept {
     return {spn};
 }
 //------------------------------------------------------------------------------
@@ -344,14 +339,12 @@ static constexpr inline span_if_mutable<T> cover(T* addr, S size) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename T, typename S>
-static constexpr inline const_span<T> view(
-  const_address addr, S size) noexcept {
+static constexpr inline const_span<T> view(const_address addr, S size) noexcept {
     return {addr, span_size(size)};
 }
 //------------------------------------------------------------------------------
 template <typename T, typename S>
-static constexpr inline span_if_mutable<T> cover(
-  address addr, S size) noexcept {
+static constexpr inline span_if_mutable<T> cover(address addr, S size) noexcept {
     return {addr, span_size(size)};
 }
 //------------------------------------------------------------------------------
@@ -366,8 +359,8 @@ static constexpr inline span_if_mutable<T> cover(T (&array)[N]) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline const_span<T> view(
-  std::initializer_list<T> il) noexcept {
+static constexpr inline const_span<T>
+view(std::initializer_list<T> il) noexcept {
     return view(il.begin(), il.size());
 }
 //------------------------------------------------------------------------------
@@ -390,13 +383,17 @@ static constexpr inline auto cover(C& container) noexcept {
 // accomodate
 //------------------------------------------------------------------------------
 static constexpr inline bool can_accomodate_between(
-  const_address bgn, const_address end, span_size_t size) noexcept {
+  const_address bgn,
+  const_address end,
+  span_size_t size) noexcept {
     return (end - bgn) >= size;
 }
 //------------------------------------------------------------------------------
 template <typename T, typename B, typename P, typename S>
 static constexpr inline bool can_accomodate(
-  basic_span<B, P, S> blk, span_size_t count, identity<T> tid = {}) noexcept {
+  basic_span<B, P, S> blk,
+  span_size_t count,
+  identity<T> tid = {}) noexcept {
     return can_accomodate_between(
       align_up(blk.begin_addr(), span_align_of(tid), span_align_of(tid)),
       align_down(blk.end_addr(), span_align_of(tid), span_align_of(tid)),
@@ -404,8 +401,8 @@ static constexpr inline bool can_accomodate(
 }
 //------------------------------------------------------------------------------
 template <typename T, typename B, typename P, typename S>
-static constexpr inline bool can_accomodate(
-  basic_span<B, P, S> blk, identity<T> tid = {}) noexcept {
+static constexpr inline bool
+can_accomodate(basic_span<B, P, S> blk, identity<T> tid = {}) noexcept {
     return can_accomodate(blk, 1, tid);
 }
 //------------------------------------------------------------------------------
@@ -424,8 +421,8 @@ static constexpr inline T& extract(basic_span<T, P, S> spn) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S>
-static constexpr inline T& extract_or(
-  basic_span<T, P, S> spn, T& fallback) noexcept {
+static constexpr inline T&
+extract_or(basic_span<T, P, S> spn, T& fallback) noexcept {
     return (spn.size() >= 1) ? spn.front() : fallback;
 }
 //------------------------------------------------------------------------------
@@ -444,9 +441,7 @@ template <
   typename Pr,
   typename Sl,
   typename Sr>
-struct equal_cmp<
-  memory::basic_span<Tl, Pl, Sl>,
-  memory::basic_span<Tr, Pr, Sr>> {
+struct equal_cmp<memory::basic_span<Tl, Pl, Sl>, memory::basic_span<Tr, Pr, Sr>> {
     static inline bool check(
       memory::basic_span<Tl, Pl, Sl> l,
       memory::basic_span<Tr, Pr, Sr> r) noexcept {

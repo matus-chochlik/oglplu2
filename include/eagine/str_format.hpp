@@ -23,20 +23,18 @@ private:
 
 protected:
     format_string_and_list_base(std::string&& fmt_str) noexcept
-      : _fmt_str(std::move(fmt_str)) {
-    }
+      : _fmt_str(std::move(fmt_str)) {}
 
     format_string_and_list_base(format_string_and_list_base& that) noexcept
-      : _fmt_str(std::move(that._fmt_str)) {
-    }
+      : _fmt_str(std::move(that._fmt_str)) {}
 
     format_string_and_list_base(format_string_and_list_base&&) noexcept =
       default;
     format_string_and_list_base(const format_string_and_list_base&) = default;
-    format_string_and_list_base& operator=(
-      format_string_and_list_base&&) noexcept = default;
-    format_string_and_list_base& operator=(const format_string_and_list_base&) =
-      default;
+    format_string_and_list_base&
+    operator=(format_string_and_list_base&&) noexcept = default;
+    format_string_and_list_base&
+    operator=(const format_string_and_list_base&) = default;
     ~format_string_and_list_base() noexcept = default;
 
     std::string _fmt(span<const std::string> values) const;
@@ -49,8 +47,7 @@ template <>
 class format_string_and_list<0> : public format_string_and_list_base {
 public:
     format_string_and_list(std::string& fmt_str) noexcept
-      : format_string_and_list_base(std::move(fmt_str)) {
-    }
+      : format_string_and_list_base(std::move(fmt_str)) {}
 
     operator std::string() const {
         return _fmt({});
@@ -64,7 +61,8 @@ public:
 
 public:
     format_string_and_list(
-      format_string_and_list<N - 1>&& prev, std::string&& val) noexcept
+      format_string_and_list<N - 1>&& prev,
+      std::string&& val) noexcept
       : format_string_and_list_base(prev) {
         for(span_size_t i = 0; i < N - 1; ++i) {
             _list[i] = std::move(prev._list[i]);
@@ -84,7 +82,8 @@ public:
 
 public:
     format_string_and_list(
-      format_string_and_list<0>&& prev, std::string&& val) noexcept
+      format_string_and_list<0>&& prev,
+      std::string&& val) noexcept
       : format_string_and_list_base(prev) {
         _list[0] = std::move(val);
     }
@@ -95,8 +94,8 @@ public:
 };
 //------------------------------------------------------------------------------
 template <span_size_t N>
-static inline format_string_and_list<N + 1> operator%(
-  format_string_and_list<N>&& fsal, std::string&& val) noexcept {
+static inline format_string_and_list<N + 1>
+operator%(format_string_and_list<N>&& fsal, std::string&& val) noexcept {
     return {std::move(fsal), std::move(val)};
 }
 //------------------------------------------------------------------------------

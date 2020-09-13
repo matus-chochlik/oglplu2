@@ -21,8 +21,7 @@ namespace eagine {
 class istream_data_source : public deserializer_data_source {
 public:
     istream_data_source(std::istream& in) noexcept
-      : _in{in} {
-    }
+      : _in{in} {}
 
     memory::const_block top(span_size_t req_size) final {
         if(_cur_size < req_size) {
@@ -64,4 +63,3 @@ private:
 } // namespace eagine
 
 #endif // EAGINE_SERIALIZE_ISTREAM_SOURCE_HPP
-

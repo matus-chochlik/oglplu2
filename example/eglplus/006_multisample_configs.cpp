@@ -24,9 +24,7 @@ int main() {
             if(auto init_res = egl.initialize(display)) {
                 auto do_cleanup = egl.terminate.raii(display);
 
-                if(
-                  ok count =
-                    egl.choose_config.count(display, egl.samples | 2)) {
+                if(ok count = egl.choose_config.count(display, egl.samples | 2)) {
 
                     std::vector<egl_api::config_type> configs(count);
 

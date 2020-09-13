@@ -70,4 +70,3 @@ struct ssl_types {
 } // namespace eagine::sslp
 
 #endif // EAGINE_SSL_API_CONFIG_HPP
-

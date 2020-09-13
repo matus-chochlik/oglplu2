@@ -23,31 +23,26 @@ private:
 
 public:
     buffer_data_spec() noexcept
-      : _size() {
-    }
+      : _size() {}
 
     buffer_data_spec(const memory::block& blk) noexcept
       : _size(S(blk.size()))
-      , _data(blk.data()) {
-    }
+      , _data(blk.data()) {}
 
     template <typename T, span_size_t N>
     buffer_data_spec(const T (&data)[N]) noexcept
       : _size(identity<T>(), N)
-      , _data(static_cast<const void*>(data)) {
-    }
+      , _data(static_cast<const void*>(data)) {}
 
     template <typename T>
     buffer_data_spec(const T* data, span_size_t n) noexcept
       : _size(identity<T>(), n)
-      , _data(data) {
-    }
+      , _data(data) {}
 
     template <typename T>
     buffer_data_spec(span<T> av) noexcept
       : _size(av)
-      , _data(av.data()) {
-    }
+      , _data(av.data()) {}
 
     bool empty() const noexcept {
         return _size.get() == 0;

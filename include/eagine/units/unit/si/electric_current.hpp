@@ -37,13 +37,11 @@ struct si::base_unit<base::electric_current> : base::ampere {};
 using ampere = unit<electric_current, si>;
 
 // derived
-using kiloampere = make_scaled_base_dim_unit_t<
-  base::scaled_unit<scales::kilo, base::ampere>,
-  si>;
+using kiloampere =
+  make_scaled_base_dim_unit_t<base::scaled_unit<scales::kilo, base::ampere>, si>;
 
-using milliampere = make_scaled_base_dim_unit_t<
-  base::scaled_unit<scales::milli, base::ampere>,
-  si>;
+using milliampere =
+  make_scaled_base_dim_unit_t<base::scaled_unit<scales::milli, base::ampere>, si>;
 
 } // namespace eagine::units
 

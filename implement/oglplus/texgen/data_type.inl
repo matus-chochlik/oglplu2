@@ -154,8 +154,8 @@ slot_data_type common_data_type(slot_data_type a, slot_data_type b) noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& conversion_prefix(
-  std::ostream& out, slot_data_type from, slot_data_type to) {
+std::ostream&
+conversion_prefix(std::ostream& out, slot_data_type from, slot_data_type to) {
     if(from != to) {
         out << data_type_name(to) << "(";
     }
@@ -163,8 +163,8 @@ std::ostream& conversion_prefix(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& conversion_suffix(
-  std::ostream& out, slot_data_type from, slot_data_type to) {
+std::ostream&
+conversion_suffix(std::ostream& out, slot_data_type from, slot_data_type to) {
     if(from != to) {
         span_size_t df = data_type_dims(from);
         span_size_t dt = data_type_dims(to);

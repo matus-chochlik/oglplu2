@@ -28,15 +28,13 @@ struct translation<matrix<T, 4, 4, RM, V>> {
     vect::data_t<T, 3, V> _v;
 
     constexpr translation(vect::data_t<T, 3, V> v) noexcept
-      : _v(v) {
-    }
+      : _v(v) {}
 
     constexpr translation(T vx, T vy, T vz) noexcept
-      : _v{vx, vy, vz} {
-    }
+      : _v{vx, vy, vz} {}
 
-    constexpr inline matrix<T, 4, 4, true, V> _make(
-      std::true_type) const noexcept {
+    constexpr inline matrix<T, 4, 4, true, V>
+    _make(std::true_type) const noexcept {
         return matrix<T, 4, 4, true, V>{
           {{T(1), T(0), T(0), _v[0]},
            {T(0), T(1), T(0), _v[1]},
@@ -44,8 +42,8 @@ struct translation<matrix<T, 4, 4, RM, V>> {
            {T(0), T(0), T(0), T(1)}}};
     }
 
-    constexpr inline matrix<T, 4, 4, false, V> _make(
-      std::false_type) const noexcept {
+    constexpr inline matrix<T, 4, 4, false, V>
+    _make(std::false_type) const noexcept {
         return matrix<T, 4, 4, false, V>{
           {{T(1), T(0), T(0), T(0)},
            {T(0), T(1), T(0), T(0)},
@@ -68,8 +66,8 @@ static constexpr inline translation<matrix<T, N, N, RM1, V>> multiply(
 
 // reorder_mat_ctr(translation)
 template <typename T, int N, bool RM, bool V>
-static constexpr inline translation<matrix<T, N, N, !RM, V>> reorder_mat_ctr(
-  const translation<matrix<T, N, N, RM, V>>& c) noexcept {
+static constexpr inline translation<matrix<T, N, N, !RM, V>>
+reorder_mat_ctr(const translation<matrix<T, N, N, RM, V>>& c) noexcept {
     return {c._v};
 }
 

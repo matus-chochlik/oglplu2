@@ -64,7 +64,8 @@ bool endpoint::_do_send(message_id msg_id, message_view message) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool endpoint::_handle_special(
-  message_id msg_id, const message_view& message) noexcept {
+  message_id msg_id,
+  const message_view& message) noexcept {
 
     EAGINE_ASSERT(_context);
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
@@ -182,7 +183,9 @@ bool endpoint::_handle_special(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool endpoint::_store_message(
-  message_id msg_id, message_age, const message_view& message) {
+  message_id msg_id,
+  message_age,
+  const message_view& message) {
     // TODO: use message age
     if(_handle_special(msg_id, message)) {
         return true;
@@ -438,7 +441,9 @@ void endpoint::post_meta_message(message_id meta_msg_id, message_id msg_id) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void endpoint::post_meta_message_to(
-  identifier_t target_id, message_id meta_msg_id, message_id msg_id) {
+  identifier_t target_id,
+  message_id meta_msg_id,
+  message_id msg_id) {
     std::array<byte, 64> temp{};
     if(auto serialized = default_serialize_message_type(msg_id, cover(temp))) {
         message_view msg{extract(serialized)};
@@ -579,4 +584,3 @@ span_size_t endpoint::process_everything(generic_handler handler) {
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus
-

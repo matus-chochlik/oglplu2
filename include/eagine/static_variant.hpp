@@ -82,14 +82,14 @@ public:
 };
 
 template <typename Visitor, std::ptrdiff_t Offset, typename... T>
-static inline auto apply_visitor(
-  Visitor& visitor, const static_variant<Offset, T...>& var) {
+static inline auto
+apply_visitor(Visitor& visitor, const static_variant<Offset, T...>& var) {
     return var.template accept_visitor(std::ref(visitor));
 }
 
 template <typename Visitor, std::ptrdiff_t Offset, typename... T>
-static inline auto apply_visitor(
-  Visitor visitor, const static_variant<Offset, T...>& var) {
+static inline auto
+apply_visitor(Visitor visitor, const static_variant<Offset, T...>& var) {
     return var.template accept_visitor(std::ref(visitor));
 }
 

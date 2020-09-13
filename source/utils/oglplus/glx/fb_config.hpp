@@ -22,8 +22,7 @@ private:
     ::GLXFBConfig _handle;
 
     FBConfig(::GLXFBConfig handle)
-      : _handle(handle) {
-    }
+      : _handle(handle) {}
 
     friend class FBConfigs;
 

@@ -25,7 +25,8 @@ void connection_setup_default_init(connection_setup&);
 void connection_setup_default_init(connection_setup&, const program_args&);
 //------------------------------------------------------------------------------
 static inline auto adapt_log_entry_arg(
-  identifier name, const std::unique_ptr<connection_factory>& value) {
+  identifier name,
+  const std::unique_ptr<connection_factory>& value) {
     return [name, &value](logger_backend& backend) {
         if(value) {
             backend.add_identifier(
@@ -54,10 +55,14 @@ class connection_setup {
       _factory_map{};
 
     void _do_setup_acceptors(
-      acceptor_user& target, string_view address, _factory_list& factories);
+      acceptor_user& target,
+      string_view address,
+      _factory_list& factories);
 
     void _do_setup_connectors(
-      connection_user& target, string_view address, _factory_list& factories);
+      connection_user& target,
+      string_view address,
+      _factory_list& factories);
 
     auto _make_call_setup_acceptors(acceptor_user&, string_view address);
     auto _make_call_setup_connectors(connection_user&, string_view address);
@@ -66,8 +71,7 @@ public:
     connection_setup() noexcept = default;
 
     connection_setup(logger& parent) noexcept
-      : _log{EAGINE_ID(ConnSetup), parent} {
-    }
+      : _log{EAGINE_ID(ConnSetup), parent} {}
 
     connection_setup(logger& parent, const program_args& args) noexcept
       : connection_setup{parent} {
@@ -85,10 +89,14 @@ public:
     }
 
     void setup_acceptors(
-      acceptor_user& target, connection_kinds kinds, string_view address);
+      acceptor_user& target,
+      connection_kinds kinds,
+      string_view address);
 
     void setup_acceptors(
-      acceptor_user& target, connection_kinds kinds, identifier address) {
+      acceptor_user& target,
+      connection_kinds kinds,
+      identifier address) {
         setup_acceptors(target, kinds, address.name());
     }
 
@@ -97,10 +105,14 @@ public:
     }
 
     void setup_acceptors(
-      acceptor_user& target, connection_kind kind, string_view address);
+      acceptor_user& target,
+      connection_kind kind,
+      string_view address);
 
     void setup_acceptors(
-      acceptor_user& target, connection_kind kind, identifier address) {
+      acceptor_user& target,
+      connection_kind kind,
+      identifier address) {
         setup_acceptors(target, kind, address.name());
     }
 
@@ -119,10 +131,14 @@ public:
     }
 
     void setup_connectors(
-      connection_user& target, connection_kinds kinds, string_view address);
+      connection_user& target,
+      connection_kinds kinds,
+      string_view address);
 
     void setup_connectors(
-      connection_user& target, connection_kinds kinds, identifier address) {
+      connection_user& target,
+      connection_kinds kinds,
+      identifier address) {
         setup_connectors(target, kinds, address.name());
     }
 
@@ -131,10 +147,14 @@ public:
     }
 
     void setup_connectors(
-      connection_user& target, connection_kind kind, string_view address);
+      connection_user& target,
+      connection_kind kind,
+      string_view address);
 
     void setup_connectors(
-      connection_user& target, connection_kind kind, identifier address) {
+      connection_user& target,
+      connection_kind kind,
+      identifier address) {
         setup_connectors(target, kind, address.name());
     }
 
@@ -167,4 +187,3 @@ public:
 #endif
 
 #endif // EAGINE_MESSAGE_BUS_CONN_SETUP_HPP
-

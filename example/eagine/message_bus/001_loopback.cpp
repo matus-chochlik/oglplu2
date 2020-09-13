@@ -23,8 +23,7 @@ struct str_utils_server : static_subscriber<1> {
 
     str_utils_server(logger& parent, endpoint& ep)
       : base(ep, this, EAGINE_MSG_MAP(StrUtilReq, Reverse, this_class, reverse))
-      , _log{EAGINE_ID(Server), parent} {
-    }
+      , _log{EAGINE_ID(Server), parent} {}
 
     bool reverse(stored_message& msg) {
         auto str = msg.text_content();
@@ -45,8 +44,7 @@ struct str_utils_client : static_subscriber<1> {
 
     str_utils_client(logger& parent, endpoint& ep)
       : base(ep, this, EAGINE_MSG_MAP(StrUtilRes, Reverse, this_class, print))
-      , _log{EAGINE_ID(Client), parent} {
-    }
+      , _log{EAGINE_ID(Client), parent} {}
 
     void call_reverse(string_view str) {
         ++_remaining;
@@ -95,4 +93,3 @@ int main(main_ctx& ctx) {
 }
 
 } // namespace eagine
-

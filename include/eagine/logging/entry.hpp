@@ -21,7 +21,8 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 static inline auto adapt_log_entry_arg(
-  identifier name, const std::shared_ptr<logger_backend>& value) {
+  identifier name,
+  const std::shared_ptr<logger_backend>& value) {
     return [name, &value](logger_backend& backend) {
         if(value) {
             backend.add_identifier(
@@ -40,8 +41,8 @@ static constexpr inline auto adapt_log_entry_arg(identifier name, T value) {
 }
 //------------------------------------------------------------------------------
 template <typename T, typename = std::enable_if_t<has_enumerator_mapping_v<T>>>
-static constexpr inline auto adapt_log_entry_arg(
-  identifier name, bitfield<T> bf) {
+static constexpr inline auto
+adapt_log_entry_arg(identifier name, bitfield<T> bf) {
     return [=](logger_backend& backend) {
         auto func = [&backend, name, bf](const auto& info) {
             if(bf.has(static_cast<T>(info.value))) {
@@ -225,8 +226,7 @@ public:
         return arg(name, EAGINE_ID(int64), value);
     }
 
-    auto arg(
-      identifier name, identifier tag, span<const std::uint64_t>) noexcept
+    auto arg(identifier name, identifier tag, span<const std::uint64_t>) noexcept
       -> log_entry&;
 
     auto arg(identifier name, span<const std::uint64_t> values) noexcept
@@ -248,8 +248,7 @@ public:
         return arg(name, EAGINE_ID(uint32), value);
     }
 
-    auto arg(
-      identifier name, identifier tag, span<const std::uint32_t>) noexcept
+    auto arg(identifier name, identifier tag, span<const std::uint32_t>) noexcept
       -> log_entry&;
 
     auto arg(identifier name, span<const std::uint32_t> values) noexcept
@@ -271,8 +270,7 @@ public:
         return arg(name, EAGINE_ID(uint16), value);
     }
 
-    auto arg(
-      identifier name, identifier tag, span<const std::uint16_t>) noexcept
+    auto arg(identifier name, identifier tag, span<const std::uint16_t>) noexcept
       -> log_entry&;
 
     auto arg(identifier name, span<const std::uint16_t> values) noexcept
@@ -370,8 +368,7 @@ public:
         return arg(name, EAGINE_ID(str), value);
     }
 
-    auto arg(
-      identifier name, identifier tag, memory::const_block value) noexcept
+    auto arg(identifier name, identifier tag, memory::const_block value) noexcept
       -> auto& {
         if(_backend) {
             _args.add([=](logger_backend& backend) {
@@ -394,8 +391,8 @@ public:
     }
 
     template <typename T>
-    auto arg(identifier name, T&& value) noexcept -> std::
-      enable_if_t<has_log_entry_adapter_v<std::decay_t<T>>, log_entry&> {
+    auto arg(identifier name, T&& value) noexcept
+      -> std::enable_if_t<has_log_entry_adapter_v<std::decay_t<T>>, log_entry&> {
         if(_backend) {
             _args.add(adapt_log_entry_arg(name, std::forward<T>(value)));
         }
@@ -418,8 +415,8 @@ public:
     }
 
     template <typename T, typename P, typename F>
-    auto arg(
-      identifier name, identifier tag, valid_if<T, P> opt, F fbck) noexcept
+    auto
+    arg(identifier name, identifier tag, valid_if<T, P> opt, F fbck) noexcept
       -> std::enable_if_t<
         has_log_entry_function_v<std::decay_t<T>> &&
           has_log_entry_function_v<std::decay_t<F>>,
@@ -481,8 +478,8 @@ struct no_log_entry {
     }
 
     template <typename T, typename P, typename F>
-    constexpr auto arg(
-      identifier, identifier, valid_if<T, P>, const F&) noexcept -> auto& {
+    constexpr auto
+    arg(identifier, identifier, valid_if<T, P>, const F&) noexcept -> auto& {
         return *this;
     }
 
@@ -547,8 +544,7 @@ private:
       : _source_id{source_id}
       , _instance_id{instance_id}
       , _backend{backend}
-      , _severity{severity} {
-    }
+      , _severity{severity} {}
 
     std::stringstream _out{};
     identifier _source_id{};

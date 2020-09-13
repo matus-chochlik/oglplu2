@@ -24,20 +24,16 @@ public:
     using value_type = BF;
 
     constexpr bitfield() noexcept
-      : _bits(0) {
-    }
+      : _bits(0) {}
 
     constexpr explicit bitfield(BF bits) noexcept
-      : _bits(bits) {
-    }
+      : _bits(bits) {}
 
     constexpr bitfield(Bit _bit) noexcept
-      : _bits(BF(_bit)) {
-    }
+      : _bits(BF(_bit)) {}
 
     constexpr bitfield(Bit _bit_a, Bit _bit_b) noexcept
-      : _bits(BF(_bit_a) | BF(_bit_b)) {
-    }
+      : _bits(BF(_bit_a) | BF(_bit_b)) {}
 
     explicit constexpr inline operator bool() const noexcept {
         return _bits != BF(0);

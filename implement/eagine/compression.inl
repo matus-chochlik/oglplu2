@@ -219,14 +219,14 @@ class data_compressor_impl {
 public:
     using data_handler = callable_ref<bool(memory::const_block)>;
 
-    auto compress(
-      memory::const_block, const data_handler&, data_compression_level)
+    auto
+    compress(memory::const_block, const data_handler&, data_compression_level)
       -> bool {
         return false;
     }
 
-    constexpr auto compress(
-      memory::const_block, memory::buffer&, data_compression_level) const
+    constexpr auto
+    compress(memory::const_block, memory::buffer&, data_compression_level) const
       -> memory::const_block {
         return {};
     }
@@ -249,8 +249,7 @@ static inline auto make_data_compressor_impl()
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 data_compressor::data_compressor()
-  : _pimpl{make_data_compressor_impl()} {
-}
+  : _pimpl{make_data_compressor_impl()} {}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto data_compressor::compress(
@@ -270,7 +269,8 @@ auto data_compressor::compress(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto data_compressor::decompress(
-  memory::const_block input, memory::buffer& output) -> memory::const_block {
+  memory::const_block input,
+  memory::buffer& output) -> memory::const_block {
     if(input) {
         if(input.front() == 0x00U) {
             output.resize(input.size() - 1);
@@ -287,4 +287,3 @@ auto data_compressor::decompress(
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
-

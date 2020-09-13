@@ -40,8 +40,7 @@ public:
           this,
           EAGINE_MSG_MAP(Fibonacci, FindServer, this_class, is_ready),
           EAGINE_MSG_MAP(Fibonacci, Calculate, this_class, calculate),
-          EAGINE_MSG_MAP(Fibonacci, Shutdown, this_class, shutdown)) {
-    }
+          EAGINE_MSG_MAP(Fibonacci, Shutdown, this_class, shutdown)) {}
 
     bool shutdown(stored_message&) {
         _done = true;
@@ -99,8 +98,7 @@ public:
           std::move(log),
           this,
           EAGINE_MSG_MAP(Fibonacci, IsReady, this_class, dispatch),
-          EAGINE_MSG_MAP(Fibonacci, Result, this_class, print)) {
-    }
+          EAGINE_MSG_MAP(Fibonacci, Result, this_class, print)) {}
 
     void enqueue(std::int64_t arg) {
         _remaining.push(arg);

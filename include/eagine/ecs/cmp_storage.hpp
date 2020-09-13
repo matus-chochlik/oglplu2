@@ -171,8 +171,8 @@ struct storage<Entity, Component, false> : base_storage<Entity, false> {
     virtual void for_each(
       callable_ref<void(entity_param, manipulator<const Component>&)>) = 0;
 
-    virtual void for_each(
-      callable_ref<void(entity_param, manipulator<Component>&)>) = 0;
+    virtual void
+      for_each(callable_ref<void(entity_param, manipulator<Component>&)>) = 0;
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::ecs

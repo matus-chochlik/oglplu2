@@ -33,22 +33,26 @@ void torus_program::init(example_context& ctx) {
 }
 //------------------------------------------------------------------------------
 void torus_program::set_projection(
-  const example_context& ctx, const example_orbiting_camera& camera) {
+  const example_context& ctx,
+  const example_orbiting_camera& camera) {
     ctx.gl().set_uniform(prog, camera_loc, camera.matrix(ctx.state()));
 }
 //------------------------------------------------------------------------------
 void torus_program::bind_position_location(
-  const example_context& ctx, vertex_attrib_location loc) {
+  const example_context& ctx,
+  vertex_attrib_location loc) {
     ctx.gl().bind_attrib_location(prog, loc, "Position");
 }
 //------------------------------------------------------------------------------
 void torus_program::bind_normal_location(
-  const example_context& ctx, vertex_attrib_location loc) {
+  const example_context& ctx,
+  vertex_attrib_location loc) {
     ctx.gl().bind_attrib_location(prog, loc, "Normal");
 }
 //------------------------------------------------------------------------------
 void torus_program::bind_texcoord_location(
-  const example_context& ctx, vertex_attrib_location loc) {
+  const example_context& ctx,
+  vertex_attrib_location loc) {
     ctx.gl().bind_attrib_location(prog, loc, "TexCoord");
 }
 //------------------------------------------------------------------------------

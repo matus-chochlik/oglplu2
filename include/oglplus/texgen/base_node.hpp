@@ -61,8 +61,7 @@ protected:
 public:
     template <typename... P>
     single_output_node(P&&... p)
-      : _output(*this, std::forward<P>(p)...) {
-    }
+      : _output(*this, std::forward<P>(p)...) {}
 
     base_output& single_output() override {
         return _output;

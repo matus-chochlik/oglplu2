@@ -166,8 +166,8 @@ public:
 
     example_state_value<float> pointer_radius(int index = 0) const noexcept;
 
-    example_state_value<radians_t<float>> pointer_angle(int index = 0) const
-      noexcept;
+    example_state_value<radians_t<float>>
+    pointer_angle(int index = 0) const noexcept;
 };
 
 class example_state;

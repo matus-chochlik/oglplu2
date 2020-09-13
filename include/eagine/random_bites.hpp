@@ -23,14 +23,19 @@ template <
   typename Distribution,
   typename Engine>
 auto make_random_biteset(
-  std::index_sequence<I...>, Distribution& dist, Engine& engine) {
+  std::index_sequence<I...>,
+  Distribution& dist,
+  Engine& engine) {
     using R = biteset<sizeof...(I), B, T>;
     return R{instead_of_t<size_constant<I>, Distribution&>(dist)(engine)...};
 }
 //------------------------------------------------------------------------------
 template <std::size_t B, typename T, std::size_t... I, typename Engine>
 auto make_random_biteset(
-  std::index_sequence<I...> idx_seq, T min, T max, Engine& engine) {
+  std::index_sequence<I...> idx_seq,
+  T min,
+  T max,
+  Engine& engine) {
     std::uniform_int_distribution<T> dist(min, max);
     return make_random_biteset<B, T>(idx_seq, dist, engine);
 }

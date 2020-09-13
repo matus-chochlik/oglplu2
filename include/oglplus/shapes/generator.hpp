@@ -32,11 +32,10 @@ public:
 
     template <typename A, typename Gen>
     shape_generator(const basic_gl_api<A>& api, std::unique_ptr<Gen>&& gen)
-      : shape_generator(api, std::unique_ptr<generator_intf>(std::move(gen))) {
-    }
+      : shape_generator(api, std::unique_ptr<generator_intf>(std::move(gen))) {}
 
-    shapes::vertex_attrib_variant find_variant(
-      shapes::vertex_attrib_kind attrib, string_view name) const {
+    shapes::vertex_attrib_variant
+    find_variant(shapes::vertex_attrib_kind attrib, string_view name) const {
         return _gen->find_variant(attrib, name);
     }
 
@@ -72,13 +71,15 @@ public:
 
     template <typename A>
     data_type attrib_type(
-      const basic_gl_api<A>& api, shapes::vertex_attrib_variant vav) const {
+      const basic_gl_api<A>& api,
+      shapes::vertex_attrib_variant vav) const {
         return translate(api, _gen->attrib_type(vav));
     }
 
     template <typename A>
     true_false is_attrib_normalized(
-      const basic_gl_api<A>& api, shapes::vertex_attrib_variant vav) const {
+      const basic_gl_api<A>& api,
+      shapes::vertex_attrib_variant vav) const {
         return translate(api, _gen->is_attrib_normalized(vav));
     }
 
@@ -86,8 +87,7 @@ public:
         return type_size(_gen->attrib_type(vav));
     }
 
-    span_size_t attrib_data_block_size(
-      shapes::vertex_attrib_variant vav) const {
+    span_size_t attrib_data_block_size(shapes::vertex_attrib_variant vav) const {
         return value_count(vav) * attrib_type_size(vav);
     }
 
@@ -154,7 +154,9 @@ public:
 
     template <typename A>
     void index_setup(
-      const basic_gl_api<A>& api, buffer_name buf, memory::buffer& temp) const {
+      const basic_gl_api<A>& api,
+      buffer_name buf,
+      memory::buffer& temp) const {
         return index_setup(api, buf, 0, temp);
     }
 
@@ -173,7 +175,8 @@ public:
 
     template <typename A>
     void instructions(
-      const basic_gl_api<A>& api, span<shape_draw_operation> dest) const {
+      const basic_gl_api<A>& api,
+      span<shape_draw_operation> dest) const {
         return instructions(api, 0, dest);
     }
 
@@ -192,8 +195,8 @@ public:
         return _gen->ray_intersection(ray);
     }
 
-    optionally_valid<float> ray_intersection(
-      const optionally_valid<line>& opt_ray) const {
+    optionally_valid<float>
+    ray_intersection(const optionally_valid<line>& opt_ray) const {
         if(opt_ray) {
             return ray_intersection(extract(opt_ray));
         }

@@ -43,12 +43,7 @@ private:
         m.for_each(w);
     }
 
-    template <
-      typename F,
-      typename... C,
-      typename L,
-      typename... Ls,
-      typename... X>
+    template <typename F, typename... C, typename L, typename... Ls, typename... X>
     static inline auto _apply(
       basic_manager<Entity>& m,
       const F& func,
@@ -64,8 +59,7 @@ private:
 
 public:
     component_relation(basic_manager<Entity>& m)
-      : _m(m) {
-    }
+      : _m(m) {}
 
     template <typename... C>
     component_relation<Entity, mp_list<PL..., mp_list<C...>>> cross() {
@@ -89,13 +83,13 @@ private:
 
     component_uid_map<_base_cmp_storage_ptr_t> _cmp_storages{};
 
-    component_uid_map<_base_cmp_storage_ptr_t>& _get_storages(
-      std::false_type) noexcept {
+    component_uid_map<_base_cmp_storage_ptr_t>&
+    _get_storages(std::false_type) noexcept {
         return _cmp_storages;
     }
 
-    const component_uid_map<_base_cmp_storage_ptr_t>& _get_storages(
-      std::false_type) const noexcept {
+    const component_uid_map<_base_cmp_storage_ptr_t>&
+    _get_storages(std::false_type) const noexcept {
         return _cmp_storages;
     }
 
@@ -104,13 +98,13 @@ private:
 
     component_uid_map<_base_rel_storage_ptr_t> _rel_storages{};
 
-    component_uid_map<_base_rel_storage_ptr_t>& _get_storages(
-      std::true_type) noexcept {
+    component_uid_map<_base_rel_storage_ptr_t>&
+    _get_storages(std::true_type) noexcept {
         return _rel_storages;
     }
 
-    const component_uid_map<_base_rel_storage_ptr_t>& _get_storages(
-      std::true_type) const noexcept {
+    const component_uid_map<_base_rel_storage_ptr_t>&
+    _get_storages(std::true_type) const noexcept {
         return _rel_storages;
     }
 
@@ -169,8 +163,9 @@ private:
     bool _does_know_stg_type(component_uid_t) const;
 
     template <bool IsR, typename Result, typename Func>
-    Result _apply_on_base_stg(
-      Result, const Func&, component_uid_t, std::string (*)()) const;
+    Result
+    _apply_on_base_stg(Result, const Func&, component_uid_t, std::string (*)())
+      const;
 
     template <typename D, bool IsR, typename Result, typename Func>
     Result _apply_on_stg(Result, const Func&) const;
@@ -181,7 +176,10 @@ private:
     bool _does_have_c(entity_param, component_uid_t, std::string (*)());
 
     bool _does_have_r(
-      entity_param, entity_param, component_uid_t, std::string (*)());
+      entity_param,
+      entity_param,
+      component_uid_t,
+      std::string (*)());
 
     bool _is_hidn(entity_param, component_uid_t, std::string (*)());
 
@@ -195,19 +193,19 @@ private:
     template <typename Relation>
     bool _do_add_r(entity_param, entity_param, Relation&& relation);
 
-    bool _do_add_r(
-      entity_param, entity_param, component_uid_t, std::string (*)());
+    bool
+      _do_add_r(entity_param, entity_param, component_uid_t, std::string (*)());
 
-    bool _do_cpy(
-      entity_param f, entity_param t, component_uid_t, std::string (*)());
+    bool
+    _do_cpy(entity_param f, entity_param t, component_uid_t, std::string (*)());
 
-    bool _do_swp(
-      entity_param f, entity_param t, component_uid_t, std::string (*)());
+    bool
+    _do_swp(entity_param f, entity_param t, component_uid_t, std::string (*)());
 
     bool _do_rem_c(entity_param, component_uid_t, std::string (*)());
 
-    bool _do_rem_r(
-      entity_param, entity_param, component_uid_t, std::string (*)());
+    bool
+      _do_rem_r(entity_param, entity_param, component_uid_t, std::string (*)());
 
     template <typename C, typename Func>
     bool _call_for_single_c(entity_param, const Func&);
@@ -367,8 +365,8 @@ public:
     }
 
     template <typename Relation>
-    basic_manager& add_relation(
-      entity_param subject, entity_param object, Relation&& rel) {
+    basic_manager&
+    add_relation(entity_param subject, entity_param object, Relation&& rel) {
         _do_add_r(subject, object, std::forward<Relation>(rel));
         return *this;
     }
@@ -446,8 +444,8 @@ public:
     }
 
     template <typename Relation>
-    basic_manager& for_each(
-      const callable_ref<void(entity_param, entity_param)>& func) {
+    basic_manager&
+    for_each(const callable_ref<void(entity_param, entity_param)>& func) {
         _call_for_each_r<Relation>(func);
         return *this;
     }
@@ -461,17 +459,16 @@ public:
     }
 
     template <typename Relation>
-    basic_manager& for_each(
-      const callable_ref<
-        void(entity_param, entity_param, manipulator<Relation>&)>& func) {
+    basic_manager&
+    for_each(const callable_ref<
+             void(entity_param, entity_param, manipulator<Relation>&)>& func) {
         _call_for_each_r<Relation>(func);
         return *this;
     }
 
     template <typename... Components>
     basic_manager& for_each_opt(
-      const callable_ref<void(entity_param, manipulator<Components>&...)>&
-        func) {
+      const callable_ref<void(entity_param, manipulator<Components>&...)>& func) {
         _call_for_each_c_m_p<Components...>(func);
         return *this;
     }
@@ -485,8 +482,7 @@ public:
 
     template <typename... Components>
     std::enable_if_t<(sizeof...(Components) > 1), basic_manager&> for_each(
-      const callable_ref<void(entity_param, manipulator<Components>&...)>&
-        func) {
+      const callable_ref<void(entity_param, manipulator<Components>&...)>& func) {
         _call_for_each_c_m_r<Components...>(func);
         return *this;
     }

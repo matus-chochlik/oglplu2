@@ -47,8 +47,8 @@ enum class message_priority : std::uint8_t {
 };
 //------------------------------------------------------------------------------
 template <typename Selector>
-constexpr auto enumerator_mapping(
-  identity<message_priority>, Selector) noexcept {
+constexpr auto
+enumerator_mapping(identity<message_priority>, Selector) noexcept {
     return enumerator_map_type<message_priority, 5>{
       {{"critical", message_priority::critical},
        {"high", message_priority::high},
@@ -65,8 +65,8 @@ enum class message_crypto_flag : std::uint8_t {
 using message_crypto_flags = bitfield<message_crypto_flag>;
 //------------------------------------------------------------------------------
 template <typename Selector>
-constexpr auto enumerator_mapping(
-  identity<message_crypto_flag>, Selector) noexcept {
+constexpr auto
+enumerator_mapping(identity<message_crypto_flag>, Selector) noexcept {
     return enumerator_map_type<message_crypto_flag, 3>{
       {{"asymmetric", message_crypto_flag::asymmetric},
        {"signed_header", message_crypto_flag::signed_header},
@@ -147,18 +147,14 @@ struct message_view : message_info {
 
     constexpr message_view() noexcept = default;
     constexpr message_view(memory::const_block init) noexcept
-      : data{init} {
-    }
+      : data{init} {}
     constexpr message_view(memory::block init) noexcept
-      : data{init} {
-    }
+      : data{init} {}
     constexpr message_view(string_view init) noexcept
-      : data{as_bytes(init)} {
-    }
+      : data{as_bytes(init)} {}
     constexpr message_view(message_info info, memory::const_block init) noexcept
       : message_info{info}
-      , data{init} {
-    }
+      , data{init} {}
 };
 //------------------------------------------------------------------------------
 class stored_message : public message_info {
@@ -247,7 +243,10 @@ public:
     }
 
     bool store_and_sign(
-      memory::const_block data, span_size_t max_size, context&, logger&);
+      memory::const_block data,
+      span_size_t max_size,
+      context&,
+      logger&);
     verification_bits verify_bits(context&, logger&) const noexcept;
 };
 //------------------------------------------------------------------------------
@@ -451,8 +450,8 @@ struct connection_incoming_messages {
         packed.push(data);
     }
 
-    bool fetch_messages(
-      logger& log, fetch_handler handler, span_size_t batch = 64);
+    bool
+    fetch_messages(logger& log, fetch_handler handler, span_size_t batch = 64);
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus
@@ -462,4 +461,3 @@ struct connection_incoming_messages {
 #endif
 
 #endif // EAGINE_MESSAGE_BUS_MESSAGE_HPP
-

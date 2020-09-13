@@ -107,4 +107,3 @@ private:
 } // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_INVOKER_HPP
-

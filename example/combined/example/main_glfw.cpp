@@ -128,4 +128,3 @@ std::unique_ptr<example_main_intf> make_example_main_glfw() {
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
-

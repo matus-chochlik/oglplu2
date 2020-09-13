@@ -20,8 +20,7 @@ struct valid_if_in_list_policy {
     Range _choices = {};
 
     valid_if_in_list_policy(const Range& choices)
-      : _choices(choices) {
-    }
+      : _choices(choices) {}
 
     bool operator()(const T& value) const noexcept {
         for(const T& choice : _choices) {
@@ -36,8 +35,7 @@ struct valid_if_in_list_policy {
         Range _choices;
 
         inline do_log(const valid_if_in_list_policy<T, Range>& p) noexcept
-          : _choices(p._choices) {
-        }
+          : _choices(p._choices) {}
 
         template <typename Log>
         void operator()(Log& log, const T& v) const {

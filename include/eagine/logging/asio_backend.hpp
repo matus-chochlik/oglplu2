@@ -88,15 +88,15 @@ class asio_ostream_log_backend
 
 public:
     asio_ostream_log_backend(
-      string_view addr_str, log_event_severity min_severity)
+      string_view addr_str,
+      log_event_severity min_severity)
       : asio_ostream_log_connection(addr_str)
       , ostream_log_backend<Lockable>(
-          asio_ostream_log_connection::out(), min_severity) {
-    }
+          asio_ostream_log_connection::out(),
+          min_severity) {}
 
     asio_ostream_log_backend(log_event_severity min_severity)
-      : asio_ostream_log_backend(string_view{}, min_severity) {
-    }
+      : asio_ostream_log_backend(string_view{}, min_severity) {}
 
     asio_ostream_log_backend(asio_ostream_log_backend&&) = delete;
     asio_ostream_log_backend(const asio_ostream_log_backend&) = delete;

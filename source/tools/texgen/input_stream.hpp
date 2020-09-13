@@ -81,13 +81,15 @@ public:
     }
 
     friend bool operator==(
-      const input_stream_iter& l, const input_stream_iter& r) noexcept {
+      const input_stream_iter& l,
+      const input_stream_iter& r) noexcept {
         return (l.at_end() && r.at_end()) ||
                ((l._index == r._index) && (l._pimpl == r._pimpl));
     }
 
     friend bool operator!=(
-      const input_stream_iter& l, const input_stream_iter& r) noexcept {
+      const input_stream_iter& l,
+      const input_stream_iter& r) noexcept {
         return !(l == r);
     }
 
@@ -107,8 +109,7 @@ public:
     using const_iterator = input_stream_iter;
 
     input_stream(std::unique_ptr<input_stream_intf> pimpl)
-      : _pimpl(std::move(pimpl)) {
-    }
+      : _pimpl(std::move(pimpl)) {}
 
     input_stream(std::istream& input);
 

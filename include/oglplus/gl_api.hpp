@@ -37,12 +37,10 @@ public:
       , basic_gl_operations<ApiTraits>{*static_cast<ApiTraits*>(this)}
       , basic_gl_constants<ApiTraits>{
           *static_cast<ApiTraits*>(this),
-          *static_cast<basic_gl_operations<ApiTraits>*>(this)} {
-    }
+          *static_cast<basic_gl_operations<ApiTraits>*>(this)} {}
 
     basic_gl_api()
-      : basic_gl_api{ApiTraits{}} {
-    }
+      : basic_gl_api{ApiTraits{}} {}
 
     basic_gl_operations<ApiTraits>& operations() noexcept {
         return *this;
@@ -83,7 +81,8 @@ public:
 
     // build program
     combined_result<void> build_program(
-      program_name prog, const program_source_block& prog_src_blk) const {
+      program_name prog,
+      const program_source_block& prog_src_blk) const {
         if(prog_src_blk.is_valid()) {
             const span_size_t n = prog_src_blk.shader_source_count();
             for(span_size_t i = 0; i < n; ++i) {
@@ -99,8 +98,8 @@ public:
         return this->link_program(prog);
     }
 
-    combined_result<void> build_program(
-      program_name prog, memory::const_block prog_src_blk) const {
+    combined_result<void>
+    build_program(program_name prog, memory::const_block prog_src_blk) const {
         return build_program(prog, program_source_block(prog_src_blk));
     }
 
@@ -146,8 +145,8 @@ private:
 
 public:
     // int
-    combined_result<void> set_uniform(
-      program_name prog, uniform_location loc, int_type value) const {
+    combined_result<void>
+    set_uniform(program_name prog, uniform_location loc, int_type value) const {
         return _set_uniform(
           this->program_uniform1i, this->uniform1i, prog, loc, value);
     }
@@ -190,7 +189,9 @@ public:
 
     // float
     combined_result<void> set_uniform(
-      program_name prog, uniform_location loc, float_type value) const {
+      program_name prog,
+      uniform_location loc,
+      float_type value) const {
         return _set_uniform(
           this->program_uniform1f, this->uniform1f, prog, loc, value);
     }
@@ -387,14 +388,14 @@ public:
 };
 
 template <std::size_t I, typename ApiTraits>
-typename std::tuple_element<I, basic_gl_api<ApiTraits>>::type& get(
-  basic_gl_api<ApiTraits>& x) noexcept {
+typename std::tuple_element<I, basic_gl_api<ApiTraits>>::type&
+get(basic_gl_api<ApiTraits>& x) noexcept {
     return x;
 }
 
 template <std::size_t I, typename ApiTraits>
-const typename std::tuple_element<I, basic_gl_api<ApiTraits>>::type& get(
-  const basic_gl_api<ApiTraits>& x) noexcept {
+const typename std::tuple_element<I, basic_gl_api<ApiTraits>>::type&
+get(const basic_gl_api<ApiTraits>& x) noexcept {
     return x;
 }
 //------------------------------------------------------------------------------
@@ -428,4 +429,3 @@ struct tuple_element<1, eagine::oglp::basic_gl_api<ApiTraits>> {
 } // namespace std
 
 #endif // OGLPLUS_GL_API_HPP
-

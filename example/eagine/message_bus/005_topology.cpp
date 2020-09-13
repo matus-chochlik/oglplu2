@@ -30,8 +30,7 @@ class topology_printer : public topology_printer_base {
 public:
     topology_printer(endpoint& bus)
       : base{bus}
-      , _log{EAGINE_ID(TopoPrint), bus.log()} {
-    }
+      , _log{EAGINE_ID(TopoPrint), bus.log()} {}
 
     void print_topology() {
         std::cout << "graph EMB {\n";
@@ -145,4 +144,3 @@ int main(main_ctx& ctx) {
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
-

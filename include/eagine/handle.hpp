@@ -25,8 +25,7 @@ public:
     ~basic_handle() noexcept = default;
     constexpr basic_handle() noexcept = default;
     constexpr basic_handle(basic_handle&& tmp) noexcept
-      : _name{tmp._release()} {
-    }
+      : _name{tmp._release()} {}
     basic_handle& operator=(basic_handle&& tmp) noexcept {
         _name = tmp._release();
         return *this;
@@ -35,8 +34,7 @@ public:
     basic_handle& operator=(const basic_handle&) noexcept = default;
 
     explicit constexpr basic_handle(Handle name) noexcept
-      : _name{name} {
-    }
+      : _name{name} {}
 
     explicit constexpr operator bool() const noexcept {
         return _name != invalid;
@@ -74,8 +72,7 @@ public:
     ~basic_owned_handle() noexcept = default;
     constexpr basic_owned_handle() noexcept = default;
     constexpr basic_owned_handle(basic_owned_handle&& tmp) noexcept
-      : base{tmp.release()} {
-    }
+      : base{tmp.release()} {}
     basic_owned_handle& operator=(basic_owned_handle&& tmp) noexcept {
         *static_cast<base*>(this) = static_cast<base&&>(tmp);
         return *this;
@@ -84,12 +81,10 @@ public:
     basic_owned_handle& operator=(const basic_owned_handle&) = delete;
 
     explicit constexpr basic_owned_handle(base adopted) noexcept
-      : base{adopted} {
-    }
+      : base{adopted} {}
 
     explicit constexpr basic_owned_handle(Handle name) noexcept
-      : base{name} {
-    }
+      : base{name} {}
 
     Handle release() noexcept {
         return this->_release();

@@ -23,8 +23,7 @@ private:
 
 public:
     to_quads_gen(std::unique_ptr<generator_intf>&& gen) noexcept
-      : delegated_gen(std::move(gen)) {
-    }
+      : delegated_gen(std::move(gen)) {}
 
     span_size_t index_count(drawing_variant) override;
 

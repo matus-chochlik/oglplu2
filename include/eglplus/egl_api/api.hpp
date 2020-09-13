@@ -36,10 +36,7 @@ public:
     using display_type = typename egl_types::display_type;
     using config_type = typename egl_types::config_type;
 
-    template <
-      typename W,
-      W c_api::*F,
-      typename Signature = typename W::signature>
+    template <typename W, W c_api::*F, typename Signature = typename W::signature>
     class func;
 
     template <typename W, W c_api::*F, typename RVC, typename... Params>
@@ -136,15 +133,12 @@ public:
               });
         }
 
-        auto operator()(
-          display_type disp, span<config_type> dest) const noexcept {
+        auto
+        operator()(display_type disp, span<config_type> dest) const noexcept {
             int_type ret_count{0};
             return this
               ->_chkcall(
-                disp,
-                dest.data(),
-                limit_cast<int_type>(dest.size()),
-                &ret_count)
+                disp, dest.data(), limit_cast<int_type>(dest.size()), &ret_count)
               .transformed([dest, &ret_count](auto ok) {
                   return head(
                     dest,
@@ -158,8 +152,8 @@ public:
     struct : func<EGLPAFP(ChooseConfig)> {
         using func<EGLPAFP(ChooseConfig)>::func;
 
-        auto count(
-          display_type disp, span<const int_type> attribs) const noexcept {
+        auto
+        count(display_type disp, span<const int_type> attribs) const noexcept {
             int_type ret_count{0};
             return this->_chkcall(disp, attribs.data(), nullptr, 0, &ret_count)
               .transformed([&ret_count](auto ok) {
@@ -169,13 +163,13 @@ public:
         }
 
         template <std::size_t N>
-        auto count(
-          display_type disp, const config_attributes<N>& attribs) const {
+        auto
+        count(display_type disp, const config_attributes<N>& attribs) const {
             return count(disp, attribs.get());
         }
 
-        auto count(
-          display_type disp, const config_attribute_value& attribs) const {
+        auto
+        count(display_type disp, const config_attribute_value& attribs) const {
             return count(disp, config_attributes<2>{attribs});
         }
 
@@ -243,8 +237,8 @@ public:
     struct : func<EGLPAFP(QueryString)> {
         using func<EGLPAFP(QueryString)>::func;
 
-        constexpr auto operator()(
-          display_type disp, string_query query) const noexcept {
+        constexpr auto
+        operator()(display_type disp, string_query query) const noexcept {
             return this->_chkcall(disp, int_type(query));
         }
 
@@ -255,7 +249,9 @@ public:
 
     // query_strings
     auto query_strings(
-      display_type disp, string_query query, char separator) noexcept {
+      display_type disp,
+      string_query query,
+      char separator) noexcept {
         return query_string(disp, query).transformed([separator](auto src) {
             return split_c_str_into_string_list(src, separator);
         });
@@ -307,8 +303,7 @@ public:
       , choose_config("choose_config", traits, *this)
       , get_config_attrib("get_config_attrib", traits, *this)
       , query_string("query_string", traits, *this)
-      , swap_buffers("swap_buffers", traits, *this) {
-    }
+      , swap_buffers("swap_buffers", traits, *this) {}
 };
 //------------------------------------------------------------------------------
 #undef OGLPAFP
@@ -316,4 +311,3 @@ public:
 } // namespace eagine::eglp
 
 #endif // EGLPLUS_EGL_API_API_HPP
-

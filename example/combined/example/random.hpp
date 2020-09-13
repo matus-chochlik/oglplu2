@@ -26,8 +26,8 @@ struct example_random_generator {
     virtual void normal(span<float>) = 0;
 };
 //------------------------------------------------------------------------------
-std::unique_ptr<example_random_generator> make_example_random_generator(
-  example_run_context&);
+std::unique_ptr<example_random_generator>
+make_example_random_generator(example_run_context&);
 //------------------------------------------------------------------------------
 } // namespace eagine
 

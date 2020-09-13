@@ -30,8 +30,7 @@ struct semantic_actions_intf {
 class semantic_actions {
 public:
     semantic_actions(std::shared_ptr<semantic_actions_intf> pimpl)
-      : _pimpl(std::move(pimpl)) {
-    }
+      : _pimpl(std::move(pimpl)) {}
 
     void begin() const {
         if(_pimpl) {

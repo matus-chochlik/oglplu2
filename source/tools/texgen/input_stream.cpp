@@ -17,8 +17,7 @@ namespace eagine::oglp::texgen {
 class istream_impl : public input_stream_intf {
 public:
     explicit istream_impl(std::istream& input) noexcept
-      : _input(input) {
-    }
+      : _input(input) {}
 
     char peek(span_size_t index) noexcept override {
         try {
@@ -77,7 +76,6 @@ private:
 };
 //------------------------------------------------------------------------------
 input_stream::input_stream(std::istream& input)
-  : input_stream(std::make_unique<istream_impl>(input)) {
-}
+  : input_stream(std::make_unique<istream_impl>(input)) {}
 //------------------------------------------------------------------------------
 } // namespace eagine::oglp::texgen

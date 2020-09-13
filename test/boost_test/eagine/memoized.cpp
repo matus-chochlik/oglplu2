@@ -108,7 +108,9 @@ BOOST_AUTO_TEST_CASE(memoized_exp) {
       [](M _x, M _e, eagine::memoized<N(M, M)>& m) -> N {
           if(_e == 0)
               return 1;
-          auto l = [](M x, M e, auto& f) { return x * f(x, e - 1); };
+          auto l = [](M x, M e, auto& f) {
+              return x * f(x, e - 1);
+          };
           return m(_x, _e, l);
       });
 

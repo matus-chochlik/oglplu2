@@ -41,8 +41,7 @@ struct options {
       , height("-h", "--height", 256)
       , depth("-d", "--depth", 1)
       , verbosity("-v", "--verbose")
-      , all(output_path, components, width, height, depth, verbosity) {
-    }
+      , all(output_path, components, width, height, depth, verbosity) {}
 
     void print_usage(std::ostream& log) {
         log << "bake_noise_image options" << std::endl;
@@ -182,4 +181,3 @@ int main(int argc, const char** argv) {
     options.logger_opts.default_no_log = true;
     return eagine::main_impl(argc, argv, options);
 }
-

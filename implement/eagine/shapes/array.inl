@@ -54,14 +54,10 @@ span_size_t array_gen::index_count(drawing_variant var) {
 EAGINE_LIB_FUNC
 index_data_type array_gen::index_type(drawing_variant var) {
     if(delegated_gen::index_type(var) != index_data_type::none) {
-        if(
-          vertex_count() <
-          span_size(std::numeric_limits<std::uint8_t>::max())) {
+        if(vertex_count() < span_size(std::numeric_limits<std::uint8_t>::max())) {
             return index_data_type::unsigned_8;
         }
-        if(
-          vertex_count() <
-          span_size(std::numeric_limits<std::uint16_t>::max())) {
+        if(vertex_count() < span_size(std::numeric_limits<std::uint16_t>::max())) {
             return index_data_type::unsigned_16;
         }
         return index_data_type::unsigned_32;

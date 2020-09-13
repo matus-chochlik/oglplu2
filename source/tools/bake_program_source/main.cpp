@@ -272,4 +272,3 @@ int main(int argc, const char** argv) {
     options.logger_opts.default_no_log = true;
     return eagine::main_impl(argc, argv, options);
 }
-

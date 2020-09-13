@@ -86,11 +86,11 @@ private:
 public:
     constexpr basic_vararray_store() noexcept = default;
 
-    operator basic_vararray<T, S>&() {
+    operator basic_vararray<T, S> &() {
         return *reinterpret_cast<basic_vararray<T, S>*>(this);
     }
 
-    operator const basic_vararray<T, S>&() const {
+    operator const basic_vararray<T, S> &() const {
         return *reinterpret_cast<const basic_vararray<T, S>*>(this);
     }
 };

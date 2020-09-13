@@ -24,8 +24,7 @@ class basic_valid_if_value {
 public:
     constexpr basic_valid_if_value(T value) noexcept(
       noexcept(T(std::declval<T&&>())))
-      : _value{std::move(value)} {
-    }
+      : _value{std::move(value)} {}
 
     constexpr basic_valid_if_value() noexcept = default;
 
@@ -77,41 +76,35 @@ private:
 
     explicit constexpr basic_valid_if(Policy plcy) noexcept
       : Policy(plcy)
-      , DoLog(policy()) {
-    }
+      , DoLog(policy()) {}
 
 public:
     [[nodiscard]] const Policy& policy() const noexcept {
         return *this;
     }
     constexpr basic_valid_if() noexcept
-      : DoLog(policy()) {
-    }
+      : DoLog(policy()) {}
 
     constexpr inline basic_valid_if(T val) noexcept
       : basic_valid_if_value<T>(std::move(val))
-      , DoLog(policy()) {
-    }
+      , DoLog(policy()) {}
 
     constexpr inline basic_valid_if(T val, Policy plcy) noexcept
       : basic_valid_if_value<T>(std::move(val))
       , Policy(std::move(plcy))
-      , DoLog(policy()) {
-    }
+      , DoLog(policy()) {}
 
     constexpr basic_valid_if(const basic_valid_if& that)
       : basic_valid_if_value<T>(
           static_cast<const basic_valid_if_value<T>&>(that))
       , Policy(static_cast<const Policy&>(that))
-      , DoLog(policy()) {
-    }
+      , DoLog(policy()) {}
 
     basic_valid_if(basic_valid_if&& that) noexcept(
       std::is_nothrow_move_constructible_v<T>)
       : basic_valid_if_value<T>(static_cast<basic_valid_if_value<T>&&>(that))
       , Policy(static_cast<Policy&&>(that))
-      , DoLog(policy()) {
-    }
+      , DoLog(policy()) {}
 
     // NOLINTNEXTLINE(bugprone-unhandled-self-assignment,cert-oop54-cpp)
     basic_valid_if& operator=(const basic_valid_if& that) {
@@ -161,8 +154,8 @@ public:
         return is_valid(p...);
     }
 
-    constexpr friend bool operator==(
-      const basic_valid_if& a, const basic_valid_if& b) noexcept {
+    constexpr friend bool
+    operator==(const basic_valid_if& a, const basic_valid_if& b) noexcept {
         return (a._get_value() == b._get_value()) && a.is_valid() &&
                b.is_valid();
     }
@@ -221,8 +214,8 @@ public:
     }
 
     template <typename Func>
-    std::enable_if_t<std::is_same_v<std::result_of_t<Func(T)>, void>> then(
-      const Func& func, P... p) const {
+    std::enable_if_t<std::is_same_v<std::result_of_t<Func(T)>, void>>
+    then(const Func& func, P... p) const {
         if(EAGINE_LIKELY(is_valid(p...))) {
             func(value(p...));
         }

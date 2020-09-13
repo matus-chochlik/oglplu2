@@ -40,8 +40,7 @@ struct orbiting_y_up<matrix<T, 4, 4, RM, V>> {
       , _x(x)
       , _z(z)
       , _y(y)
-      , _r(r) {
-    }
+      , _r(r) {}
 
     constexpr orbiting_y_up(
       const vector<T, 3, V>& t,
@@ -54,8 +53,7 @@ struct orbiting_y_up<matrix<T, 4, 4, RM, V>> {
       , _x{{-sa, T(0), -ca}}
       , _z{{ce * ca, se, ce * -sa}}
       , _y(cross(_z, _x))
-      , _r(rs) {
-    }
+      , _r(rs) {}
 
     constexpr orbiting_y_up(
       const vector<T, 3, V>& target,
@@ -68,11 +66,10 @@ struct orbiting_y_up<matrix<T, 4, 4, RM, V>> {
           sin(azimuth),
           cos(azimuth),
           sin(elevation),
-          cos(elevation)) {
-    }
+          cos(elevation)) {}
 
-    constexpr inline matrix<T, 4, 4, true, V> _make(
-      std::true_type) const noexcept {
+    constexpr inline matrix<T, 4, 4, true, V>
+    _make(std::true_type) const noexcept {
         return matrix<T, 4, 4, true, V>{
           {{_x[0], _x[1], _x[2], -_r * dot(_x, _z) - dot(_x, _t)},
            {_y[0], _y[1], _y[2], -_r * dot(_y, _z) - dot(_y, _t)},
@@ -80,8 +77,8 @@ struct orbiting_y_up<matrix<T, 4, 4, RM, V>> {
            {T(0), T(0), T(0), T(1)}}};
     }
 
-    constexpr inline matrix<T, 4, 4, false, V> _make(
-      std::false_type) const noexcept {
+    constexpr inline matrix<T, 4, 4, false, V>
+    _make(std::false_type) const noexcept {
         return reorder(_make(std::true_type()));
     }
 
@@ -92,8 +89,8 @@ struct orbiting_y_up<matrix<T, 4, 4, RM, V>> {
 
 // reorder_mat_ctr(orbiting_y_up)
 template <typename T, int N, bool RM, bool V>
-static constexpr inline orbiting_y_up<matrix<T, N, N, !RM, V>> reorder_mat_ctr(
-  const orbiting_y_up<matrix<T, N, N, RM, V>>& c) noexcept {
+static constexpr inline orbiting_y_up<matrix<T, N, N, !RM, V>>
+reorder_mat_ctr(const orbiting_y_up<matrix<T, N, N, RM, V>>& c) noexcept {
     return {c._t, c._x, c._y, c._z, c._r};
 }
 

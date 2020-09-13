@@ -57,4 +57,3 @@ private:
 } // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_SERVICE_DISCOVERY_HPP
-

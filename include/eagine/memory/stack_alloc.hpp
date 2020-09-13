@@ -77,7 +77,8 @@ public:
     void deallocate(owned_block&& b) noexcept;
 
     friend auto operator==(
-      const base_stack_allocator& a, const base_stack_allocator& b) noexcept {
+      const base_stack_allocator& a,
+      const base_stack_allocator& b) noexcept {
         if((a._btm == b._btm) && (a._top == b._top)) {
             EAGINE_ASSERT(a._pos == b._pos);
             EAGINE_ASSERT(a._min == b._min);
@@ -109,8 +110,7 @@ public:
     ~stack_byte_allocator_only() noexcept override = default;
 
     stack_byte_allocator_only(const block& blk)
-      : _alloc(blk) {
-    }
+      : _alloc(blk) {}
 
     auto equal(byte_allocator* a) const noexcept -> bool override;
 
@@ -151,8 +151,7 @@ public:
     ~stack_byte_allocator() noexcept = default;
 
     stack_byte_allocator(const block& blk)
-      : _alloc(blk) {
-    }
+      : _alloc(blk) {}
 
     auto equal(byte_allocator* a) const noexcept -> bool override;
 
@@ -194,8 +193,7 @@ public:
 
     stack_aligned_byte_allocator(const block& blk, span_size_t align)
       : _align(align)
-      , _alloc(blk, _align) {
-    }
+      , _alloc(blk, _align) {}
 
     auto equal(byte_allocator* a) const noexcept -> bool override;
 

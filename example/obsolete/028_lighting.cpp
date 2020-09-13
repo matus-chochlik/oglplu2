@@ -81,14 +81,17 @@ private:
 
 public:
     lighting_example(
-      const example_context& ctx, eagine::memory::buffer& temp_buffer)
+      const example_context& ctx,
+      eagine::memory::buffer& temp_buffer)
       : erase_prog(ctx.params())
       , light_prog(ctx.params())
       , background_attrs(+(shapes::vertex_attrib_kind::position | 0))
       , background(
           temp_buffer,
           eagine::shapes::unit_sphere(
-            get_attrib_bits(background_attrs), 72, 144),
+            get_attrib_bits(background_attrs),
+            72,
+            144),
           background_attrs)
       , shape_attrs(
           (shapes::vertex_attrib_kind::position | 0) +
@@ -99,11 +102,17 @@ public:
           eagine::shapes::combine(
             eagine::shapes::translate(
               eagine::shapes::unit_torus(
-                get_attrib_bits(shape_attrs), 96, 144, 0.5f),
+                get_attrib_bits(shape_attrs),
+                96,
+                144,
+                0.5f),
               {0.f, +0.4f, 0.f}) +
             eagine::shapes::translate(
               eagine::shapes::unit_torus(
-                get_attrib_bits(shape_attrs), 96, 144, 0.5f),
+                get_attrib_bits(shape_attrs),
+                96,
+                144,
+                0.5f),
               {0.f, -0.4f, 0.f})),
           shape_attrs)
       , shp_turns(0.0f) {
@@ -177,8 +186,8 @@ public:
     }
 };
 
-std::unique_ptr<example> make_example(
-  const example_args&, const example_context& ctx) {
+std::unique_ptr<example>
+make_example(const example_args&, const example_context& ctx) {
     eagine::memory::buffer temp_buffer;
     return std::unique_ptr<example>(new lighting_example(ctx, temp_buffer));
 }

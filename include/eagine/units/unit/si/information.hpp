@@ -52,27 +52,23 @@ using byte = make_scaled_base_dim_unit_t<
   si>;
 
 using kilobyte = make_scaled_base_dim_unit_t<
-  base::scaled_unit<
-    scales::recombined<scales::kilo, scales::constant<8>>,
-    base::bit>,
+  base::
+    scaled_unit<scales::recombined<scales::kilo, scales::constant<8>>, base::bit>,
   si>;
 
 using kibibyte = make_scaled_base_dim_unit_t<
-  base::scaled_unit<
-    scales::recombined<scales::kibi, scales::constant<8>>,
-    base::bit>,
+  base::
+    scaled_unit<scales::recombined<scales::kibi, scales::constant<8>>, base::bit>,
   si>;
 
 using megabyte = make_scaled_base_dim_unit_t<
-  base::scaled_unit<
-    scales::recombined<scales::mega, scales::constant<8>>,
-    base::bit>,
+  base::
+    scaled_unit<scales::recombined<scales::mega, scales::constant<8>>, base::bit>,
   si>;
 
 using mebibyte = make_scaled_base_dim_unit_t<
-  base::scaled_unit<
-    scales::recombined<scales::mebi, scales::constant<8>>,
-    base::bit>,
+  base::
+    scaled_unit<scales::recombined<scales::mebi, scales::constant<8>>, base::bit>,
   si>;
 
 } // namespace eagine::units

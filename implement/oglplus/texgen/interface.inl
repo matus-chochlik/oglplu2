@@ -22,8 +22,7 @@ private:
 
 public:
     compile_context_impl()
-      : _glsl_version(150) {
-    }
+      : _glsl_version(150) {}
 
     unsigned glsl_version() const noexcept {
         return _glsl_version;
@@ -60,8 +59,7 @@ compile_context_impl& compile_context::_impl() noexcept {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 compile_context::compile_context()
-  : _pimpl(std::make_unique<compile_context_impl>()) {
-}
+  : _pimpl(std::make_unique<compile_context_impl>()) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 compile_context::~compile_context() noexcept {
@@ -108,8 +106,8 @@ bool compile_context::remembers_output(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& node_intf::input_definitions(
-  std::ostream& out, compile_context& ctxt) {
+std::ostream&
+node_intf::input_definitions(std::ostream& out, compile_context& ctxt) {
     for(span_size_t i = 0, n = input_count(); i < n; ++i) {
         input(i).definitions(out, ctxt);
     }
@@ -117,8 +115,8 @@ std::ostream& node_intf::input_definitions(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-optional_reference_wrapper<input_intf> node_intf::input_by_name(
-  string_view name) {
+optional_reference_wrapper<input_intf>
+node_intf::input_by_name(string_view name) {
     for(span_size_t i = 0, n = input_count(); i < n; ++i) {
         input_intf& inp = input(i);
         if(are_equal(inp.name(), name)) {
@@ -129,8 +127,8 @@ optional_reference_wrapper<input_intf> node_intf::input_by_name(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-optional_reference_wrapper<output_intf> node_intf::output_by_name(
-  string_view name) {
+optional_reference_wrapper<output_intf>
+node_intf::output_by_name(string_view name) {
     for(span_size_t i = 0, n = output_count(); i < n; ++i) {
         output_intf& outp = output(i);
         if(are_equal(outp.name(), name)) {

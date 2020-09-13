@@ -60,8 +60,7 @@ template <
   typename MC2,
   typename = std::enable_if_t<
     is_matrix_constructor_v<MC1> && is_matrix_constructor_v<MC2> &&
-    are_multiplicable<constructed_matrix_t<MC1>, constructed_matrix_t<MC2>>::
-      value>>
+    are_multiplicable<constructed_matrix_t<MC1>, constructed_matrix_t<MC2>>::value>>
 static inline auto multiply(const MC1& mc1, const MC2& mc2) noexcept {
     return multiply(construct_matrix<true>(mc1), construct_matrix<false>(mc2));
 }
@@ -72,8 +71,7 @@ struct convertible_matrix_constructor : MC {
 
     template <typename... P>
     convertible_matrix_constructor(P&&... p)
-      : MC(std::forward<P>(p)...) {
-    }
+      : MC(std::forward<P>(p)...) {}
 
     operator constructed_matrix_t<MC>() const noexcept {
         return MC::operator()();

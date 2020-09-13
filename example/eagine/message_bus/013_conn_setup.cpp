@@ -50,8 +50,7 @@ public:
           this,
           EAGINE_MSG_MAP(Fibonacci, FindServer, this_class, is_ready),
           EAGINE_MSG_MAP(Fibonacci, Calculate, this_class, calculate),
-          EAGINE_MSG_MAP(Fibonacci, Shutdown, this_class, shutdown)) {
-    }
+          EAGINE_MSG_MAP(Fibonacci, Shutdown, this_class, shutdown)) {}
     fibonacci_server(const fibonacci_server&) = delete;
     fibonacci_server& operator=(fibonacci_server&& temp) = delete;
     fibonacci_server& operator=(const fibonacci_server&) = delete;

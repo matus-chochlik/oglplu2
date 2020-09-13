@@ -38,8 +38,7 @@ public:
                (can_accomodate(blk, identity<T>()));
     }
 
-    structured_memory_block(
-      memory::basic_block<std::is_const_v<T>> blk) noexcept
+    structured_memory_block(memory::basic_block<std::is_const_v<T>> blk) noexcept
       : _blk(blk) {
         EAGINE_ASSERT(is_valid_block(_blk));
     }

@@ -79,8 +79,7 @@ public:
     ~callable_ref() noexcept = default;
 
     callable_ref(RV (*func)(P...)) noexcept
-      : _func(reinterpret_cast<_func_t>(func)) {
-    }
+      : _func(reinterpret_cast<_func_t>(func)) {}
 
     template <typename T>
     callable_ref(T* data, RV (*func)(T*, P...)) noexcept
@@ -92,28 +91,26 @@ public:
     template <typename T>
     callable_ref(T& data, RV (*func)(T*, P...)) noexcept
       : _data(static_cast<void*>(&data))
-      , _func(reinterpret_cast<_func_t>(func)) {
-    }
+      , _func(reinterpret_cast<_func_t>(func)) {}
 
     template <
       typename C,
       typename = std::enable_if_t<!std::is_same_v<C, callable_ref>>>
     explicit callable_ref(C& obj) noexcept
       : _data(static_cast<void*>(&obj))
-      , _func(reinterpret_cast<_func_t>(&_cls_fn_call_op<C>)) {
-    }
+      , _func(reinterpret_cast<_func_t>(&_cls_fn_call_op<C>)) {}
 
     template <
       typename C,
       typename = std::enable_if_t<!std::is_same_v<C, callable_ref>>>
     explicit callable_ref(const C& obj) noexcept
       : _data(static_cast<void*>(const_cast<C*>(&obj)))
-      , _func(reinterpret_cast<_func_t>(&_cls_fn_call_op_c<C>)) {
-    }
+      , _func(reinterpret_cast<_func_t>(&_cls_fn_call_op_c<C>)) {}
 
     template <typename C, RV (C::*Ptr)(P...)>
     callable_ref(
-      C* obj, member_function_constant<RV (C::*)(P...), Ptr> mfc) noexcept
+      C* obj,
+      member_function_constant<RV (C::*)(P...), Ptr> mfc) noexcept
       : _data(static_cast<void*>(obj))
       , _func(reinterpret_cast<_func_t>(mfc.make_free())) {
         EAGINE_ASSERT(_data != nullptr);

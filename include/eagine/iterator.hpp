@@ -30,8 +30,7 @@ public:
     basic_iterable_type() = default;
 
     constexpr basic_iterable_type(T value) noexcept
-      : _value(value) {
-    }
+      : _value(value) {}
 
     explicit constexpr operator T() const noexcept {
         return _value;
@@ -53,8 +52,7 @@ public:
         return res;
     }
 
-    friend Derived operator+(
-      basic_iterable_type a, difference_type d) noexcept {
+    friend Derived operator+(basic_iterable_type a, difference_type d) noexcept {
         Derived res(a.self());
         res += d;
         return res;
@@ -76,45 +74,44 @@ public:
         return res;
     }
 
-    friend Derived operator-(
-      basic_iterable_type a, difference_type d) noexcept {
+    friend Derived operator-(basic_iterable_type a, difference_type d) noexcept {
         Derived res(a.self());
         res -= d;
         return res;
     }
 
-    constexpr friend difference_type operator-(
-      basic_iterable_type a, basic_iterable_type b) noexcept {
+    constexpr friend difference_type
+    operator-(basic_iterable_type a, basic_iterable_type b) noexcept {
         return a._value - b._value;
     }
 
-    constexpr friend bool operator==(
-      basic_iterable_type a, basic_iterable_type b) noexcept {
+    constexpr friend bool
+    operator==(basic_iterable_type a, basic_iterable_type b) noexcept {
         return a._value == b._value;
     }
 
-    constexpr friend bool operator!=(
-      basic_iterable_type a, basic_iterable_type b) noexcept {
+    constexpr friend bool
+    operator!=(basic_iterable_type a, basic_iterable_type b) noexcept {
         return a._value != b._value;
     }
 
-    constexpr friend bool operator<(
-      basic_iterable_type a, basic_iterable_type b) noexcept {
+    constexpr friend bool
+    operator<(basic_iterable_type a, basic_iterable_type b) noexcept {
         return a._value < b._value;
     }
 
-    constexpr friend bool operator<=(
-      basic_iterable_type a, basic_iterable_type b) noexcept {
+    constexpr friend bool
+    operator<=(basic_iterable_type a, basic_iterable_type b) noexcept {
         return a._value <= b._value;
     }
 
-    constexpr friend bool operator>(
-      basic_iterable_type a, basic_iterable_type b) noexcept {
+    constexpr friend bool
+    operator>(basic_iterable_type a, basic_iterable_type b) noexcept {
         return a._value > b._value;
     }
 
-    constexpr friend bool operator>=(
-      basic_iterable_type a, basic_iterable_type b) noexcept {
+    constexpr friend bool
+    operator>=(basic_iterable_type a, basic_iterable_type b) noexcept {
         return a._value >= b._value;
     }
 };
@@ -135,8 +132,7 @@ public:
 //------------------------------------------------------------------------------
 template <typename T>
 struct selfref_iterator : basic_selfref_iterator<T, selfref_iterator<T>> {
-    using basic_selfref_iterator<T, selfref_iterator<T>>::
-      basic_selfref_iterator;
+    using basic_selfref_iterator<T, selfref_iterator<T>>::basic_selfref_iterator;
 };
 //------------------------------------------------------------------------------
 template <
@@ -162,8 +158,7 @@ public:
 
     basic_transforming_iterator(Iterator iter, Transform transf)
       : _base{iter}
-      , _transf{std::move(transf)} {
-    }
+      , _transf{std::move(transf)} {}
 
     using value_type = T;
     using reference = const T&;
@@ -191,8 +186,7 @@ public:
 
     basic_transforming_iterator(Iterator iter, Transform transf)
       : _base(iter)
-      , _transf{std::move(transf)} {
-    }
+      , _transf{std::move(transf)} {}
 
     using value_type = T;
     using reference = const T&;
@@ -240,15 +234,14 @@ private:
       S (*)(typename std::iterator_traits<Iterator>::reference) noexcept,
       Derived>;
 
-    static S _cast(
-      typename std::iterator_traits<Iterator>::reference r) noexcept {
+    static S
+    _cast(typename std::iterator_traits<Iterator>::reference r) noexcept {
         return static_cast<S>(r);
     }
 
 public:
     basic_noexcept_casting_iterator(Iterator iter)
-      : _base(iter, &_cast) {
-    }
+      : _base(iter, &_cast) {}
 };
 //------------------------------------------------------------------------------
 template <typename Iterator, typename T, typename S>
@@ -262,8 +255,7 @@ struct noexcept_casting_iterator
       Iterator,
       T,
       S,
-      noexcept_casting_iterator<Iterator, T, S>>::
-      basic_noexcept_casting_iterator;
+      noexcept_casting_iterator<Iterator, T, S>>::basic_noexcept_casting_iterator;
 };
 //------------------------------------------------------------------------------
 } // namespace eagine

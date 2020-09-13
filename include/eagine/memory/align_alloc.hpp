@@ -50,14 +50,11 @@ private:
 
 public:
     multi_align_byte_allocator(
-      instead_of_t<
-        size_constant<Align>,
-        shared_byte_allocator>... aligned_alloc,
+      instead_of_t<size_constant<Align>, shared_byte_allocator>... aligned_alloc,
       shared_byte_allocator fallback_alloc = default_byte_allocator())
       : _alignment{{Align...}}
       , _aligned_alloc{{std::move(aligned_alloc)...}}
-      , _fallback_alloc(std::move(fallback_alloc)) {
-    }
+      , _fallback_alloc(std::move(fallback_alloc)) {}
 
     using value_type = byte;
     using size_type = span_size_t;
@@ -79,8 +76,8 @@ public:
         return _get_alloc(a).max_size(a);
     }
 
-    tribool has_allocated(
-      const owned_block& b, span_size_t a) noexcept override {
+    tribool
+    has_allocated(const owned_block& b, span_size_t a) noexcept override {
         for(std::size_t i = 0; i < _aligned_alloc.size(); ++i) {
             if(_aligned_alloc[i].has_allocated(b, a)) {
                 return true;

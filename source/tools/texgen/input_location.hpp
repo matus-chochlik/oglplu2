@@ -18,8 +18,7 @@ public:
     input_location() noexcept = default;
     input_location(span_size_t line, span_size_t column) noexcept
       : _line{line}
-      , _column{column} {
-    }
+      , _column{column} {}
 
     span_size_t line() const noexcept {
         return _line;

@@ -32,8 +32,8 @@ private:
         return _before(a, b) ? b : a;
     }
 
-    inline const T& _min_max_cpy(
-      const T& a, const T& b, bool min, bool max) const {
+    inline const T&
+    _min_max_cpy(const T& a, const T& b, bool min, bool max) const {
         return min ? _min(a, b) : max ? _max(a, b) : a;
     }
 
@@ -73,8 +73,7 @@ private:
 public:
     constexpr inline network_sorter(std::array<T, N> a)
       : _round{0}
-      , _a{{a, a}} {
-    }
+      , _a{{a, a}} {}
 
     using basic_network_sorter<T, N, Compare, Network>::rounds;
 

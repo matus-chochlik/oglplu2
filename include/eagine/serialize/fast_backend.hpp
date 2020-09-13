@@ -173,4 +173,3 @@ public:
 } // namespace eagine
 
 #endif // EAGINE_SERIALIZE_FAST_BACKEND_HPP
-

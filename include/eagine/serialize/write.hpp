@@ -33,8 +33,7 @@ public:
     constexpr fragment_serialize_wrapper() noexcept = default;
 
     fragment_serialize_wrapper(span<const T> src) noexcept
-      : _src{src} {
-    }
+      : _src{src} {}
 
     auto remaining() const noexcept {
         return skip(_src, _offset);
@@ -175,16 +174,13 @@ struct serializer<std::tuple<T...>> : common_serializer<std::tuple<T...>> {
     using common_serializer<std::tuple<T...>>::write;
 
     template <typename Backend>
-    serialization_errors write(
-      const std::tuple<T...>& values, Backend& backend) {
+    serialization_errors
+    write(const std::tuple<T...>& values, Backend& backend) {
         serialization_errors errors{};
         errors |= backend.begin_list(span_size(sizeof...(T)));
         if(!errors) {
             _write_elements(
-              errors,
-              values,
-              backend,
-              std::make_index_sequence<sizeof...(T)>());
+              errors, values, backend, std::make_index_sequence<sizeof...(T)>());
             errors |= backend.finish_list();
         }
         return errors;
@@ -300,7 +296,8 @@ struct serializer<std::basic_string<Char, Traits, Alloc>>
 
     template <typename Backend>
     serialization_errors write(
-      const std::basic_string<Char, Traits, Alloc>& value, Backend& backend) {
+      const std::basic_string<Char, Traits, Alloc>& value,
+      Backend& backend) {
         return _serializer.write(value, backend);
     }
 
@@ -338,8 +335,8 @@ struct serializer<fragment_serialize_wrapper<span<const T>>>
     using common_serializer<fragment_serialize_wrapper<span<const T>>>::write;
 
     template <typename Backend>
-    serialization_errors write(
-      fragment_serialize_wrapper<span<const T>>& frag, Backend& backend) {
+    serialization_errors
+    write(fragment_serialize_wrapper<span<const T>>& frag, Backend& backend) {
         serialization_errors errors{};
         errors |= _size_serializer.write(frag.offset(), backend);
         if(!errors) {
@@ -366,8 +363,8 @@ struct serializer<std::array<T, N>> : common_serializer<std::array<T, N>> {
     using common_serializer<std::array<T, N>>::write;
 
     template <typename Backend>
-    serialization_errors write(
-      const std::array<T, N>& values, Backend& backend) {
+    serialization_errors
+    write(const std::array<T, N>& values, Backend& backend) {
         serialization_errors errors{};
         errors |= backend.begin_list(span_size(N));
         if(!errors) {
@@ -387,8 +384,8 @@ struct serializer<std::vector<T, A>> : common_serializer<std::vector<T, A>> {
     using common_serializer<std::vector<T, A>>::write;
 
     template <typename Backend>
-    serialization_errors write(
-      const std::vector<T, A>& values, Backend& backend) {
+    serialization_errors
+    write(const std::vector<T, A>& values, Backend& backend) {
         serialization_errors errors{};
         errors |= backend.begin_list(values.size());
         if(!errors) {
@@ -463,4 +460,3 @@ serialize(T& value, Backend& backend) {
 } // namespace eagine
 
 #endif // EAGINE_SERIALIZE_WRITE_HPP
-

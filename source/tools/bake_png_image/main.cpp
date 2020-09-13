@@ -123,11 +123,10 @@ protected:
 public:
     png_read_info_end_struct();
     png_read_info_end_struct(png_read_info_end_struct&&) noexcept = default;
-    png_read_info_end_struct(const png_read_info_end_struct&) noexcept =
-      default;
+    png_read_info_end_struct(const png_read_info_end_struct&) noexcept = default;
     png_read_info_end_struct& operator=(png_read_info_end_struct&&) = delete;
-    png_read_info_end_struct& operator=(const png_read_info_end_struct&) =
-      delete;
+    png_read_info_end_struct&
+    operator=(const png_read_info_end_struct&) = delete;
     ~png_read_info_end_struct() noexcept;
 };
 //------------------------------------------------------------------------------
@@ -186,7 +185,9 @@ public:
 };
 //------------------------------------------------------------------------------
 void convert_image(
-  std::istream& input, std::ostream& output, const options& /*opts*/
+  std::istream& input,
+  std::ostream& output,
+  const options& /*opts*/
 ) {
     png_reader reader(input);
 
@@ -294,8 +295,8 @@ png_header_validator::png_header_validator(std::istream& input) {
     }
 }
 //------------------------------------------------------------------------------
-[[noreturn]] void png_read_struct::_handle_error(
-  ::png_structp, const char* message) {
+[[noreturn]] void
+png_read_struct::_handle_error(::png_structp, const char* message) {
     throw ::std::runtime_error(message);
 }
 //------------------------------------------------------------------------------
@@ -392,7 +393,9 @@ png_read_info_end_struct::~png_read_info_end_struct() noexcept {
 }
 //------------------------------------------------------------------------------
 void png_read_driver::_read_data(
-  ::png_structp png, ::png_bytep data, ::png_size_t size) {
+  ::png_structp png,
+  ::png_bytep data,
+  ::png_size_t size) {
     ::png_voidp p = ::png_get_io_ptr(png);
     assert(p != nullptr); // NOLINT
     (reinterpret_cast<png_reader*>(p))->do_read_data(data, size);
@@ -473,7 +476,9 @@ GLenum png_reader::gl_format() {
             return GL_RGB;
         case PNG_COLOR_TYPE_RGB_ALPHA: // NOLINT
             return GL_RGBA;
-        default: { throw std::runtime_error("Unsupported PNG color type"); }
+        default: {
+            throw std::runtime_error("Unsupported PNG color type");
+        }
     }
 }
 //------------------------------------------------------------------------------
@@ -526,4 +531,3 @@ int main(int argc, const char** argv) {
     options.logger_opts.default_no_log = true;
     return eagine::main_impl(argc, argv, options);
 }
-

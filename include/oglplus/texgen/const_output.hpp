@@ -22,8 +22,7 @@ class constant_output;
 class constant_output_base : public base_output {
 public:
     constant_output_base(node_intf& parent) noexcept
-      : base_output(parent) {
-    }
+      : base_output(parent) {}
 
     string_view type_name() noexcept override {
         return string_view("Const");
@@ -42,14 +41,12 @@ private:
 public:
     constant_output(node_intf& parent) noexcept
       : constant_output_base(parent)
-      , _coords{} {
-    }
+      , _coords{} {}
 
     template <typename... P, typename = std::enable_if_t<sizeof...(P) == N>>
     constant_output(node_intf& parent, P... coords) noexcept
       : constant_output_base(parent)
-      , _coords{{T(coords)...}} {
-    }
+      , _coords{{T(coords)...}} {}
 
     template <typename... P, typename = std::enable_if_t<sizeof...(P) == N>>
     void set(P... coords) noexcept {

@@ -98,4 +98,3 @@ using vertex_array_name_array = gl_object_name_array<vertex_array_tag, N>;
 } // namespace eagine::oglp
 
 #endif // OGLPLUS_GL_API_OBJECT_NAME_HPP
-

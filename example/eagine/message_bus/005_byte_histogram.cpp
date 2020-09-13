@@ -50,7 +50,9 @@ int main(main_ctx& ctx) {
         return true;
     };
 
-    auto allow_all_blobs = [](message_id) { return true; };
+    auto allow_all_blobs = [](message_id) {
+        return true;
+    };
 
     msgbus::router_address address{ctx.log(), ctx.args()};
     msgbus::connection_setup conn_setup(ctx.log(), ctx.args());
@@ -78,4 +80,3 @@ int main(main_ctx& ctx) {
 }
 
 } // namespace eagine
-

@@ -219,10 +219,14 @@ public:
       , capture_device_specifier("CAPTURE_DEVICE_SPECIFIER", traits, api)
       , default_device_specifier("DEFAULT_DEVICE_SPECIFIER", traits, api)
       , capture_default_device_specifier(
-          "DEFAULT_CAPTURE_DEVICE_SPECIFIER", traits, api)
+          "DEFAULT_CAPTURE_DEVICE_SPECIFIER",
+          traits,
+          api)
       , all_devices_specifier("ALL_DEVICES_SPECIFIER", traits, api)
       , default_all_devices_specifier(
-          "DEFAULT_ALL_DEVICES_SPECIFIER", traits, api)
+          "DEFAULT_ALL_DEVICES_SPECIFIER",
+          traits,
+          api)
       , extensions("EXTENSIONS", traits, api)
       , major_version("MAJOR_VERSION", traits, api)
       , minor_version("MINOR_VERSION", traits, api)
@@ -234,11 +238,9 @@ public:
       , stereo_sources("STEREO_SOURCES", traits, api)
       , hrtf_soft("HRTF_SOFT", traits, api)
       , hrtf_id_soft("HRTF_ID_SOFT", traits, api)
-      , hrtf_specifier_soft("HRTF_SPECIFIER_SOFT", traits, api) {
-    }
+      , hrtf_specifier_soft("HRTF_SPECIFIER_SOFT", traits, api) {}
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::oalp
 
 #endif // OALPLUS_ALC_API_CONSTANTS_HPP
-

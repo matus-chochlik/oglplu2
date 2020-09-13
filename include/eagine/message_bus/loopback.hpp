@@ -48,4 +48,3 @@ private:
 } // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_LOOPBACK_HPP
-

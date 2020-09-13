@@ -71,8 +71,7 @@ template <typename L, typename R>
 struct equal_cmp_obj : equal_cmp<L, R> {
     constexpr inline equal_cmp_obj(L l, R r) noexcept
       : _l{std::move(l)}
-      , _r{std::move(r)} {
-    }
+      , _r{std::move(r)} {}
 
     constexpr explicit inline operator bool() const noexcept {
         return equal_cmp<L, R>::check(_l, _r);

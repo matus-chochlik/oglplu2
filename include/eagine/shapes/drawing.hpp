@@ -58,8 +58,8 @@ enum class attrib_data_type {
 };
 //------------------------------------------------------------------------------
 template <typename Selector>
-constexpr auto enumerator_mapping(
-  identity<attrib_data_type>, Selector) noexcept {
+constexpr auto
+enumerator_mapping(identity<attrib_data_type>, Selector) noexcept {
     return enumerator_map_type<attrib_data_type, 7>{
       {{"none", attrib_data_type::none},
        {"ubyte", attrib_data_type::ubyte},
@@ -70,8 +70,8 @@ constexpr auto enumerator_mapping(
        {"float_", attrib_data_type::float_}}};
 }
 //------------------------------------------------------------------------------
-constexpr auto enumerator_mapping(
-  identity<attrib_data_type>, value_tree_tag) noexcept {
+constexpr auto
+enumerator_mapping(identity<attrib_data_type>, value_tree_tag) noexcept {
     return enumerator_map_type<attrib_data_type, 6>{
       {{"ubyte", attrib_data_type::ubyte},
        {"int_16", attrib_data_type::int_16},
@@ -89,8 +89,7 @@ enum class index_data_type : std::uint8_t {
 };
 //------------------------------------------------------------------------------
 template <typename Selector>
-constexpr auto enumerator_mapping(
-  identity<index_data_type>, Selector) noexcept {
+constexpr auto enumerator_mapping(identity<index_data_type>, Selector) noexcept {
     return enumerator_map_type<index_data_type, 4>{
       {{"none", index_data_type::none},
        {"unsigned_8", index_data_type::unsigned_8},
@@ -98,8 +97,8 @@ constexpr auto enumerator_mapping(
        {"unsigned_32", index_data_type::unsigned_32}}};
 }
 //------------------------------------------------------------------------------
-constexpr auto enumerator_mapping(
-  identity<index_data_type>, value_tree_tag) noexcept {
+constexpr auto
+enumerator_mapping(identity<index_data_type>, value_tree_tag) noexcept {
     return enumerator_map_type<index_data_type, 3>{
       {{"none", index_data_type::none},
        {"unsigned_16", index_data_type::unsigned_16},
@@ -139,8 +138,7 @@ struct draw_operation {
 
     constexpr draw_operation() noexcept
       : primitive_restart(false)
-      , cw_face_winding(false) {
-    }
+      , cw_face_winding(false) {}
 };
 //------------------------------------------------------------------------------
 } // namespace shapes

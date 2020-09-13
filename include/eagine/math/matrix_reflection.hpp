@@ -29,8 +29,7 @@ struct reflection_I<matrix<T, 4, 4, RM, V>, I> {
     T _v;
 
     constexpr reflection_I(bool r = true) noexcept
-      : _v(r ? T(-1) : T(1)) {
-    }
+      : _v(r ? T(-1) : T(1)) {}
 
     constexpr inline T v(int i) const noexcept {
         return (I == i) ? _v : T(1);

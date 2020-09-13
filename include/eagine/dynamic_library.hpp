@@ -77,12 +77,10 @@ public:
     shared_executable_module() noexcept = default;
 
     shared_executable_module(nothing_t)
-      : _module{_do_open(nothing)} {
-    }
+      : _module{_do_open(nothing)} {}
 
     shared_executable_module(string_view filename)
-      : _module{_do_open(filename)} {
-    }
+      : _module{_do_open(filename)} {}
 
     shared_executable_module& open_self() {
         _module = _do_open(nothing);
@@ -117,9 +115,10 @@ public:
     find(string_view name) const noexcept {
         if(is_open()) {
             if(auto found = _module->find_symbol(name)) {
-                return {reinterpret_cast<std::remove_pointer_t<Signature>*>(
-                          extract(found)),
-                        true};
+                return {
+                  reinterpret_cast<std::remove_pointer_t<Signature>*>(
+                    extract(found)),
+                  true};
             }
         }
         return {};

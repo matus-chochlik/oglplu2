@@ -27,8 +27,8 @@ private:
         using Wrap::Wrap;
 
         template <typename X>
-        std::enable_if_t<std::is_convertible_v<X, T>, T> operator()(
-          X&& x) const noexcept {
+        std::enable_if_t<std::is_convertible_v<X, T>, T>
+        operator()(X&& x) const noexcept {
             return T(std::forward<X>(x));
         }
 
@@ -6135,10 +6135,7 @@ public:
       unsigned_int_atomic_counter;
 
     opt_c_api_constant<
-      mp_list<
-        primitive_type,
-        transform_feedback_primitive_type,
-        old_primitive_type>,
+      mp_list<primitive_type, transform_feedback_primitive_type, old_primitive_type>,
 #ifdef GL_POINTS
       enum_type_c<GL_POINTS>>
 #else
@@ -6165,10 +6162,7 @@ public:
       line_loop;
 
     opt_c_api_constant<
-      mp_list<
-        primitive_type,
-        old_primitive_type,
-        transform_feedback_primitive_type>,
+      mp_list<primitive_type, old_primitive_type, transform_feedback_primitive_type>,
 #ifdef GL_LINES
       enum_type_c<GL_LINES>>
 #else
@@ -10519,7 +10513,9 @@ public:
       , invalid_value("INVALID_VALUE", traits, api)
       , invalid_operation("INVALID_OPERATION", traits, api)
       , invalid_framebuffer_operation(
-          "INVALID_FRAMEBUFFER_OPERATION", traits, api)
+          "INVALID_FRAMEBUFFER_OPERATION",
+          traits,
+          api)
       , stack_overflow("STACK_OVERFLOW", traits, api)
       , stack_underflow("STACK_UNDERFLOW", traits, api)
       , table_too_large("TABLE_TOO_LARGE", traits, api)
@@ -10528,38 +10524,54 @@ public:
       , true_("TRUE", traits, api)
       , false_("FALSE", traits, api)
       , context_flag_forward_compatible_bit(
-          "CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT", traits, api)
+          "CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT",
+          traits,
+          api)
       , context_flag_debug_bit("CONTEXT_FLAG_DEBUG_BIT", traits, api)
       , context_flag_robust_access_bit(
-          "CONTEXT_FLAG_ROBUST_ACCESS_BIT", traits, api)
+          "CONTEXT_FLAG_ROBUST_ACCESS_BIT",
+          traits,
+          api)
       , context_flag_no_error_bit("CONTEXT_FLAG_NO_ERROR_BIT", traits, api)
       , context_core_profile_bit("CONTEXT_CORE_PROFILE_BIT", traits, api)
       , context_compatibility_profile_bit(
-          "CONTEXT_COMPATIBILITY_PROFILE_BIT", traits, api)
+          "CONTEXT_COMPATIBILITY_PROFILE_BIT",
+          traits,
+          api)
       , no_reset_notification("NO_RESET_NOTIFICATION", traits, api)
       , lose_context_on_reset("LOSE_CONTEXT_ON_RESET", traits, api)
       , context_release_behavior_flush(
-          "CONTEXT_RELEASE_BEHAVIOR_FLUSH", traits, api)
+          "CONTEXT_RELEASE_BEHAVIOR_FLUSH",
+          traits,
+          api)
       , guilty_context_reset("GUILTY_CONTEXT_RESET", traits, api)
       , innocent_context_reset("INNOCENT_CONTEXT_RESET", traits, api)
       , unknown_context_reset("UNKNOWN_CONTEXT_RESET", traits, api)
       , vertex_attrib_array_barrier_bit(
-          "VERTEX_ATTRIB_ARRAY_BARRIER_BIT", traits, api)
+          "VERTEX_ATTRIB_ARRAY_BARRIER_BIT",
+          traits,
+          api)
       , element_array_barrier_bit("ELEMENT_ARRAY_BARRIER_BIT", traits, api)
       , uniform_barrier_bit("UNIFORM_BARRIER_BIT", traits, api)
       , texture_fetch_barrier_bit("TEXTURE_FETCH_BARRIER_BIT", traits, api)
       , shader_image_access_barrier_bit(
-          "SHADER_IMAGE_ACCESS_BARRIER_BIT", traits, api)
+          "SHADER_IMAGE_ACCESS_BARRIER_BIT",
+          traits,
+          api)
       , command_barrier_bit("COMMAND_BARRIER_BIT", traits, api)
       , pixel_buffer_barrier_bit("PIXEL_BUFFER_BARRIER_BIT", traits, api)
       , texture_update_barrier_bit("TEXTURE_UPDATE_BARRIER_BIT", traits, api)
       , buffer_update_barrier_bit("BUFFER_UPDATE_BARRIER_BIT", traits, api)
       , client_mapped_buffer_barrier_bit(
-          "CLIENT_MAPPED_BUFFER_BARRIER_BIT", traits, api)
+          "CLIENT_MAPPED_BUFFER_BARRIER_BIT",
+          traits,
+          api)
       , query_buffer_barrier_bit("QUERY_BUFFER_BARRIER_BIT", traits, api)
       , framebuffer_barrier_bit("FRAMEBUFFER_BARRIER_BIT", traits, api)
       , transform_feedback_barrier_bit(
-          "TRANSFORM_FEEDBACK_BARRIER_BIT", traits, api)
+          "TRANSFORM_FEEDBACK_BARRIER_BIT",
+          traits,
+          api)
       , atomic_counter_barrier_bit("ATOMIC_COUNTER_BARRIER_BIT", traits, api)
       , shader_storage_barrier_bit("SHADER_STORAGE_BARRIER_BIT", traits, api)
       , all_barrier_bits("ALL_BARRIER_BITS", traits, api)
@@ -10610,12 +10622,15 @@ public:
       , all_shader_bits("ALL_SHADER_BITS", traits, api)
       , active_subroutine_uniforms("ACTIVE_SUBROUTINE_UNIFORMS", traits, api)
       , active_subroutine_uniform_locations(
-          "ACTIVE_SUBROUTINE_UNIFORM_LOCATIONS", traits, api)
+          "ACTIVE_SUBROUTINE_UNIFORM_LOCATIONS",
+          traits,
+          api)
       , active_subroutines("ACTIVE_SUBROUTINES", traits, api)
       , active_subroutine_uniform_max_length(
-          "ACTIVE_SUBROUTINE_UNIFORM_MAX_LENGTH", traits, api)
-      , active_subroutine_max_length(
-          "ACTIVE_SUBROUTINE_MAX_LENGTH", traits, api)
+          "ACTIVE_SUBROUTINE_UNIFORM_MAX_LENGTH",
+          traits,
+          api)
+      , active_subroutine_max_length("ACTIVE_SUBROUTINE_MAX_LENGTH", traits, api)
       , delete_status("DELETE_STATUS", traits, api)
       , compile_status("COMPILE_STATUS", traits, api)
       , info_log_length("INFO_LOG_LENGTH", traits, api)
@@ -10627,7 +10642,9 @@ public:
       , validate_status("VALIDATE_STATUS", traits, api)
       , attached_shaders("ATTACHED_SHADERS", traits, api)
       , active_atomic_counter_buffers(
-          "ACTIVE_ATOMIC_COUNTER_BUFFERS", traits, api)
+          "ACTIVE_ATOMIC_COUNTER_BUFFERS",
+          traits,
+          api)
       , active_attributes("ACTIVE_ATTRIBUTES", traits, api)
       , active_attribute_max_length("ACTIVE_ATTRIBUTE_MAX_LENGTH", traits, api)
       , active_uniforms("ACTIVE_UNIFORMS", traits, api)
@@ -10635,10 +10652,14 @@ public:
       , program_binary_length("PROGRAM_BINARY_LENGTH", traits, api)
       , compute_work_group_size("COMPUTE_WORK_GROUP_SIZE", traits, api)
       , transform_feedback_buffer_mode(
-          "TRANSFORM_FEEDBACK_BUFFER_MODE", traits, api)
+          "TRANSFORM_FEEDBACK_BUFFER_MODE",
+          traits,
+          api)
       , transform_feedback_varyings("TRANSFORM_FEEDBACK_VARYINGS", traits, api)
       , transform_feedback_varying_max_length(
-          "TRANSFORM_FEEDBACK_VARYING_MAX_LENGTH", traits, api)
+          "TRANSFORM_FEEDBACK_VARYING_MAX_LENGTH",
+          traits,
+          api)
       , geometry_vertices_out("GEOMETRY_VERTICES_OUT", traits, api)
       , geometry_input_type("GEOMETRY_INPUT_TYPE", traits, api)
       , geometry_output_type("GEOMETRY_OUTPUT_TYPE", traits, api)
@@ -10647,8 +10668,7 @@ public:
       , active_program("ACTIVE_PROGRAM", traits, api)
       , renderbuffer_width("RENDERBUFFER_WIDTH", traits, api)
       , renderbuffer_height("RENDERBUFFER_HEIGHT", traits, api)
-      , renderbuffer_internal_format(
-          "RENDERBUFFER_INTERNAL_FORMAT", traits, api)
+      , renderbuffer_internal_format("RENDERBUFFER_INTERNAL_FORMAT", traits, api)
       , renderbuffer_samples("RENDERBUFFER_SAMPLES", traits, api)
       , renderbuffer_red_size("RENDERBUFFER_RED_SIZE", traits, api)
       , renderbuffer_green_size("RENDERBUFFER_GREEN_SIZE", traits, api)
@@ -10662,48 +10682,86 @@ public:
       , framebuffer_complete("FRAMEBUFFER_COMPLETE", traits, api)
       , framebuffer_undefined("FRAMEBUFFER_UNDEFINED", traits, api)
       , framebuffer_incomplete_attachment(
-          "FRAMEBUFFER_INCOMPLETE_ATTACHMENT", traits, api)
+          "FRAMEBUFFER_INCOMPLETE_ATTACHMENT",
+          traits,
+          api)
       , framebuffer_incomplete_missing_attachment(
-          "FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT", traits, api)
+          "FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT",
+          traits,
+          api)
       , framebuffer_unsupported("FRAMEBUFFER_UNSUPPORTED", traits, api)
       , framebuffer_incomplete_multisample(
-          "FRAMEBUFFER_INCOMPLETE_MULTISAMPLE", traits, api)
+          "FRAMEBUFFER_INCOMPLETE_MULTISAMPLE",
+          traits,
+          api)
       , framebuffer_incomplete_layer_targets(
-          "FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS", traits, api)
+          "FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS",
+          traits,
+          api)
       , framebuffer_default_width("FRAMEBUFFER_DEFAULT_WIDTH", traits, api)
       , framebuffer_default_height("FRAMEBUFFER_DEFAULT_HEIGHT", traits, api)
       , framebuffer_default_layers("FRAMEBUFFER_DEFAULT_LAYERS", traits, api)
       , framebuffer_default_samples("FRAMEBUFFER_DEFAULT_SAMPLES", traits, api)
       , framebuffer_default_fixed_sample_locations(
-          "FRAMEBUFFER_DEFAULT_FIXED_SAMPLE_LOCATIONS", traits, api)
+          "FRAMEBUFFER_DEFAULT_FIXED_SAMPLE_LOCATIONS",
+          traits,
+          api)
       , framebuffer_attachment_red_size(
-          "FRAMEBUFFER_ATTACHMENT_RED_SIZE", traits, api)
+          "FRAMEBUFFER_ATTACHMENT_RED_SIZE",
+          traits,
+          api)
       , framebuffer_attachment_green_size(
-          "FRAMEBUFFER_ATTACHMENT_GREEN_SIZE", traits, api)
+          "FRAMEBUFFER_ATTACHMENT_GREEN_SIZE",
+          traits,
+          api)
       , framebuffer_attachment_blue_size(
-          "FRAMEBUFFER_ATTACHMENT_BLUE_SIZE", traits, api)
+          "FRAMEBUFFER_ATTACHMENT_BLUE_SIZE",
+          traits,
+          api)
       , framebuffer_attachment_alpha_size(
-          "FRAMEBUFFER_ATTACHMENT_ALPHA_SIZE", traits, api)
+          "FRAMEBUFFER_ATTACHMENT_ALPHA_SIZE",
+          traits,
+          api)
       , framebuffer_attachment_depth_size(
-          "FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE", traits, api)
+          "FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE",
+          traits,
+          api)
       , framebuffer_attachment_stencil_size(
-          "FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE", traits, api)
+          "FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE",
+          traits,
+          api)
       , framebuffer_attachment_component_type(
-          "FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE", traits, api)
+          "FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE",
+          traits,
+          api)
       , framebuffer_attachment_color_encoding(
-          "FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING", traits, api)
+          "FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING",
+          traits,
+          api)
       , framebuffer_attachment_object_type(
-          "FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE", traits, api)
+          "FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE",
+          traits,
+          api)
       , framebuffer_attachment_object_name(
-          "FRAMEBUFFER_ATTACHMENT_OBJECT_NAME", traits, api)
+          "FRAMEBUFFER_ATTACHMENT_OBJECT_NAME",
+          traits,
+          api)
       , framebuffer_attachment_texture_level(
-          "FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL", traits, api)
+          "FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL",
+          traits,
+          api)
       , framebuffer_attachment_texture_cube_map_face(
-          "FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE", traits, api)
+          "FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE",
+          traits,
+          api)
       , framebuffer_attachment_layered(
-          "FRAMEBUFFER_ATTACHMENT_LAYERED", traits, api)
+          "FRAMEBUFFER_ATTACHMENT_LAYERED",
+          traits,
+          api)
       , framebuffer_attachment_texture_layer(
-          "FRAMEBUFFER_ATTACHMENT_TEXTURE_LAYER", traits, api)
+          "FRAMEBUFFER_ATTACHMENT_TEXTURE_LAYER",
+          traits,
+          api)
       , color_attachment0("COLOR_ATTACHMENT0", traits, api)
       , depth_attachment("DEPTH_ATTACHMENT", traits, api)
       , stencil_attachment("STENCIL_ATTACHMENT", traits, api)
@@ -10765,8 +10823,7 @@ public:
       , texture_cube_map("TEXTURE_CUBE_MAP", traits, api)
       , texture_cube_map_array("TEXTURE_CUBE_MAP_ARRAY", traits, api)
       , texture_2d_multisample("TEXTURE_2D_MULTISAMPLE", traits, api)
-      , texture_2d_multisample_array(
-          "TEXTURE_2D_MULTISAMPLE_ARRAY", traits, api)
+      , texture_2d_multisample_array("TEXTURE_2D_MULTISAMPLE_ARRAY", traits, api)
       , texture_cube_map_positive_x("TEXTURE_CUBE_MAP_POSITIVE_X", traits, api)
       , texture_cube_map_negative_x("TEXTURE_CUBE_MAP_NEGATIVE_X", traits, api)
       , texture_cube_map_positive_y("TEXTURE_CUBE_MAP_POSITIVE_Y", traits, api)
@@ -10797,7 +10854,9 @@ public:
       , texture_depth_type("TEXTURE_DEPTH_TYPE", traits, api)
       , depth_stencil_texture_mode("DEPTH_STENCIL_TEXTURE_MODE", traits, api)
       , image_format_compatibility_type(
-          "IMAGE_FORMAT_COMPATIBILITY_TYPE", traits, api)
+          "IMAGE_FORMAT_COMPATIBILITY_TYPE",
+          traits,
+          api)
       , texture_base_level("TEXTURE_BASE_LEVEL", traits, api)
       , texture_border_color("TEXTURE_BORDER_COLOR", traits, api)
       , texture_compare_mode("TEXTURE_COMPARE_MODE", traits, api)
@@ -10822,7 +10881,9 @@ public:
       , texture_view_num_layers("TEXTURE_VIEW_NUM_LAYERS", traits, api)
       , texture_view_num_levels("TEXTURE_VIEW_NUM_LEVELS", traits, api)
       , texture_fixed_sample_locations(
-          "TEXTURE_FIXED_SAMPLE_LOCATIONS", traits, api)
+          "TEXTURE_FIXED_SAMPLE_LOCATIONS",
+          traits,
+          api)
       , texture_wrap_s("TEXTURE_WRAP_S", traits, api)
       , texture_wrap_t("TEXTURE_WRAP_T", traits, api)
       , texture_wrap_r("TEXTURE_WRAP_R", traits, api)
@@ -10839,14 +10900,20 @@ public:
       , one("ONE", traits, api)
       , primitives_generated("PRIMITIVES_GENERATED", traits, api)
       , transform_feedback_primitives_written(
-          "TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN", traits, api)
+          "TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN",
+          traits,
+          api)
       , transform_feedback_overflow("TRANSFORM_FEEDBACK_OVERFLOW", traits, api)
       , transform_feedback_stream_overflow(
-          "TRANSFORM_FEEDBACK_STREAM_OVERFLOW", traits, api)
+          "TRANSFORM_FEEDBACK_STREAM_OVERFLOW",
+          traits,
+          api)
       , samples_passed("SAMPLES_PASSED", traits, api)
       , any_samples_passed("ANY_SAMPLES_PASSED", traits, api)
       , any_samples_passed_conservative(
-          "ANY_SAMPLES_PASSED_CONSERVATIVE", traits, api)
+          "ANY_SAMPLES_PASSED_CONSERVATIVE",
+          traits,
+          api)
       , time_elapsed("TIME_ELAPSED", traits, api)
       , timestamp("TIMESTAMP", traits, api)
       , vertices_submitted("VERTICES_SUBMITTED", traits, api)
@@ -10854,10 +10921,14 @@ public:
       , vertex_shader_invocations("VERTEX_SHADER_INVOCATIONS", traits, api)
       , tess_control_shader_patches("TESS_CONTROL_SHADER_PATCHES", traits, api)
       , tess_evaluation_shader_invocations(
-          "TESS_EVALUATION_SHADER_INVOCATIONS", traits, api)
+          "TESS_EVALUATION_SHADER_INVOCATIONS",
+          traits,
+          api)
       , geometry_shader_invocations("GEOMETRY_SHADER_INVOCATIONS", traits, api)
       , geometry_shader_primitives_emitted(
-          "GEOMETRY_SHADER_PRIMITIVES_EMITTED", traits, api)
+          "GEOMETRY_SHADER_PRIMITIVES_EMITTED",
+          traits,
+          api)
       , clipping_input_primitives("CLIPPING_INPUT_PRIMITIVES", traits, api)
       , clipping_output_primitives("CLIPPING_OUTPUT_PRIMITIVES", traits, api)
       , fragment_shader_invocations("FRAGMENT_SHADER_INVOCATIONS", traits, api)
@@ -10867,29 +10938,41 @@ public:
       , interleaved_attribs("INTERLEAVED_ATTRIBS", traits, api)
       , separate_attribs("SEPARATE_ATTRIBS", traits, api)
       , transform_feedback_buffer_start(
-          "TRANSFORM_FEEDBACK_BUFFER_START", traits, api)
+          "TRANSFORM_FEEDBACK_BUFFER_START",
+          traits,
+          api)
       , transform_feedback_buffer_size(
-          "TRANSFORM_FEEDBACK_BUFFER_SIZE", traits, api)
+          "TRANSFORM_FEEDBACK_BUFFER_SIZE",
+          traits,
+          api)
       , transform_feedback_paused("TRANSFORM_FEEDBACK_PAUSED", traits, api)
       , transform_feedback_active("TRANSFORM_FEEDBACK_ACTIVE", traits, api)
       , current_vertex_attrib("CURRENT_VERTEX_ATTRIB", traits, api)
       , vertex_attrib_array_buffer_binding(
-          "VERTEX_ATTRIB_ARRAY_BUFFER_BINDING", traits, api)
+          "VERTEX_ATTRIB_ARRAY_BUFFER_BINDING",
+          traits,
+          api)
       , vertex_attrib_array_divisor("VERTEX_ATTRIB_ARRAY_DIVISOR", traits, api)
       , vertex_attrib_array_enabled("VERTEX_ATTRIB_ARRAY_ENABLED", traits, api)
       , vertex_attrib_array_integer("VERTEX_ATTRIB_ARRAY_INTEGER", traits, api)
       , vertex_attrib_array_integer_ext(
-          "VERTEX_ATTRIB_ARRAY_INTEGER_EXT", traits, api)
+          "VERTEX_ATTRIB_ARRAY_INTEGER_EXT",
+          traits,
+          api)
       , vertex_attrib_array_long("VERTEX_ATTRIB_ARRAY_LONG", traits, api)
       , vertex_attrib_array_normalized(
-          "VERTEX_ATTRIB_ARRAY_NORMALIZED", traits, api)
+          "VERTEX_ATTRIB_ARRAY_NORMALIZED",
+          traits,
+          api)
       , vertex_attrib_array_pointer("VERTEX_ATTRIB_ARRAY_POINTER", traits, api)
       , vertex_attrib_array_size("VERTEX_ATTRIB_ARRAY_SIZE", traits, api)
       , vertex_attrib_array_stride("VERTEX_ATTRIB_ARRAY_STRIDE", traits, api)
       , vertex_attrib_array_type("VERTEX_ATTRIB_ARRAY_TYPE", traits, api)
       , vertex_attrib_binding("VERTEX_ATTRIB_BINDING", traits, api)
       , vertex_attrib_relative_offset(
-          "VERTEX_ATTRIB_RELATIVE_OFFSET", traits, api)
+          "VERTEX_ATTRIB_RELATIVE_OFFSET",
+          traits,
+          api)
       , uniform("UNIFORM", traits, api)
       , uniform_block("UNIFORM_BLOCK", traits, api)
       , program_input("PROGRAM_INPUT", traits, api)
@@ -10902,9 +10985,13 @@ public:
       , compute_subroutine("COMPUTE_SUBROUTINE", traits, api)
       , vertex_subroutine_uniform("VERTEX_SUBROUTINE_UNIFORM", traits, api)
       , tess_control_subroutine_uniform(
-          "TESS_CONTROL_SUBROUTINE_UNIFORM", traits, api)
+          "TESS_CONTROL_SUBROUTINE_UNIFORM",
+          traits,
+          api)
       , tess_evaluation_subroutine_uniform(
-          "TESS_EVALUATION_SUBROUTINE_UNIFORM", traits, api)
+          "TESS_EVALUATION_SUBROUTINE_UNIFORM",
+          traits,
+          api)
       , geometry_subroutine_uniform("GEOMETRY_SUBROUTINE_UNIFORM", traits, api)
       , fragment_subroutine_uniform("FRAGMENT_SUBROUTINE_UNIFORM", traits, api)
       , compute_subroutine_uniform("COMPUTE_SUBROUTINE_UNIFORM", traits, api)
@@ -10931,19 +11018,30 @@ public:
       , offset("OFFSET", traits, api)
       , referenced_by_vertex_shader("REFERENCED_BY_VERTEX_SHADER", traits, api)
       , referenced_by_tess_control_shader(
-          "REFERENCED_BY_TESS_CONTROL_SHADER", traits, api)
+          "REFERENCED_BY_TESS_CONTROL_SHADER",
+          traits,
+          api)
       , referenced_by_tess_evaluation_shader(
-          "REFERENCED_BY_TESS_EVALUATION_SHADER", traits, api)
+          "REFERENCED_BY_TESS_EVALUATION_SHADER",
+          traits,
+          api)
       , referenced_by_geometry_shader(
-          "REFERENCED_BY_GEOMETRY_SHADER", traits, api)
+          "REFERENCED_BY_GEOMETRY_SHADER",
+          traits,
+          api)
       , referenced_by_fragment_shader(
-          "REFERENCED_BY_FRAGMENT_SHADER", traits, api)
-      , referenced_by_compute_shader(
-          "REFERENCED_BY_COMPUTE_SHADER", traits, api)
+          "REFERENCED_BY_FRAGMENT_SHADER",
+          traits,
+          api)
+      , referenced_by_compute_shader("REFERENCED_BY_COMPUTE_SHADER", traits, api)
       , transform_feedback_buffer_index(
-          "TRANSFORM_FEEDBACK_BUFFER_INDEX", traits, api)
+          "TRANSFORM_FEEDBACK_BUFFER_INDEX",
+          traits,
+          api)
       , transform_feedback_buffer_stride(
-          "TRANSFORM_FEEDBACK_BUFFER_STRIDE", traits, api)
+          "TRANSFORM_FEEDBACK_BUFFER_STRIDE",
+          traits,
+          api)
       , top_level_array_size("TOP_LEVEL_ARRAY_SIZE", traits, api)
       , top_level_array_stride("TOP_LEVEL_ARRAY_STRIDE", traits, api)
       , type("TYPE", traits, api)
@@ -10969,7 +11067,9 @@ public:
       , secondary_color_array("SECONDARY_COLOR_ARRAY", traits, api)
       , texture_coord_array("TEXTURE_COORD_ARRAY", traits, api)
       , vertex_attrib_array_unified_nv(
-          "VERTEX_ATTRIB_ARRAY_UNIFIED_NV", traits, api)
+          "VERTEX_ATTRIB_ARRAY_UNIFIED_NV",
+          traits,
+          api)
       , element_array_unified_nv("ELEMENT_ARRAY_UNIFIED_NV", traits, api)
       , uniform_buffer_unified_nv("UNIFORM_BUFFER_UNIFIED_NV", traits, api)
       , front_left("FRONT_LEFT", traits, api)
@@ -10983,22 +11083,28 @@ public:
       , front_and_back("FRONT_AND_BACK", traits, api)
       , array_buffer_binding("ARRAY_BUFFER_BINDING", traits, api)
       , atomic_counter_buffer_binding(
-          "ATOMIC_COUNTER_BUFFER_BINDING", traits, api)
+          "ATOMIC_COUNTER_BUFFER_BINDING",
+          traits,
+          api)
       , copy_read_buffer_binding("COPY_READ_BUFFER_BINDING", traits, api)
       , copy_write_buffer_binding("COPY_WRITE_BUFFER_BINDING", traits, api)
       , dispatch_indirect_buffer_binding(
-          "DISPATCH_INDIRECT_BUFFER_BINDING", traits, api)
-      , draw_indirect_buffer_binding(
-          "DRAW_INDIRECT_BUFFER_BINDING", traits, api)
-      , element_array_buffer_binding(
-          "ELEMENT_ARRAY_BUFFER_BINDING", traits, api)
+          "DISPATCH_INDIRECT_BUFFER_BINDING",
+          traits,
+          api)
+      , draw_indirect_buffer_binding("DRAW_INDIRECT_BUFFER_BINDING", traits, api)
+      , element_array_buffer_binding("ELEMENT_ARRAY_BUFFER_BINDING", traits, api)
       , pixel_pack_buffer_binding("PIXEL_PACK_BUFFER_BINDING", traits, api)
       , pixel_unpack_buffer_binding("PIXEL_UNPACK_BUFFER_BINDING", traits, api)
       , shader_storage_buffer_binding(
-          "SHADER_STORAGE_BUFFER_BINDING", traits, api)
+          "SHADER_STORAGE_BUFFER_BINDING",
+          traits,
+          api)
       , texture_buffer_binding("TEXTURE_BUFFER_BINDING", traits, api)
       , transform_feedback_buffer_binding(
-          "TRANSFORM_FEEDBACK_BUFFER_BINDING", traits, api)
+          "TRANSFORM_FEEDBACK_BUFFER_BINDING",
+          traits,
+          api)
       , uniform_buffer_binding("UNIFORM_BUFFER_BINDING", traits, api)
       , query_buffer_binding("QUERY_BUFFER_BINDING", traits, api)
       , parameter_buffer_binding("PARAMETER_BUFFER_BINDING_ARB", traits, api)
@@ -11015,11 +11121,17 @@ public:
       , texture_binding_buffer("TEXTURE_BINDING_BUFFER", traits, api)
       , texture_binding_cube_map("TEXTURE_BINDING_CUBE_MAP", traits, api)
       , texture_binding_cube_map_array(
-          "TEXTURE_BINDING_CUBE_MAP_ARRAY", traits, api)
+          "TEXTURE_BINDING_CUBE_MAP_ARRAY",
+          traits,
+          api)
       , texture_binding_2d_multisample(
-          "TEXTURE_BINDING_2D_MULTISAMPLE", traits, api)
+          "TEXTURE_BINDING_2D_MULTISAMPLE",
+          traits,
+          api)
       , texture_binding_2d_multisample_array(
-          "TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY", traits, api)
+          "TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY",
+          traits,
+          api)
       , transform_feedback_binding("TRANSFORM_FEEDBACK_BINDING", traits, api)
       , vertex_array_binding("VERTEX_ARRAY_BINDING", traits, api)
       , program_pipeline_binding("PROGRAM_PIPELINE_BINDING", traits, api)
@@ -11029,7 +11141,9 @@ public:
       , minor_version("MINOR_VERSION", traits, api)
       , reset_notification_strategy("RESET_NOTIFICATION_STRATEGY", traits, api)
       , num_shading_language_versions(
-          "NUM_SHADING_LANGUAGE_VERSIONS", traits, api)
+          "NUM_SHADING_LANGUAGE_VERSIONS",
+          traits,
+          api)
       , num_extensions("NUM_EXTENSIONS", traits, api)
       , num_spir_v_extensions("NUM_SPIR_V_EXTENSIONS", traits, api)
       , context_flags("CONTEXT_FLAGS", traits, api)
@@ -11042,7 +11156,9 @@ public:
       , provoking_vertex("PROVOKING_VERTEX", traits, api)
       , layer_provoking_vertex("LAYER_PROVOKING_VERTEX", traits, api)
       , viewport_index_provoking_vertex(
-          "VIEWPORT_INDEX_PROVOKING_VERTEX", traits, api)
+          "VIEWPORT_INDEX_PROVOKING_VERTEX",
+          traits,
+          api)
       , cull_face_mode("CULL_FACE_MODE", traits, api)
       , front_face("FRONT_FACE", traits, api)
       , polygon_mode("POLYGON_MODE", traits, api)
@@ -11057,10 +11173,8 @@ public:
       , stencil_back_value_mask("STENCIL_BACK_VALUE_MASK", traits, api)
       , stencil_back_ref("STENCIL_BACK_REF", traits, api)
       , stencil_back_fail("STENCIL_BACK_FAIL", traits, api)
-      , stencil_back_pass_depth_fail(
-          "STENCIL_BACK_PASS_DEPTH_FAIL", traits, api)
-      , stencil_back_pass_depth_pass(
-          "STENCIL_BACK_PASS_DEPTH_PASS", traits, api)
+      , stencil_back_pass_depth_fail("STENCIL_BACK_PASS_DEPTH_FAIL", traits, api)
+      , stencil_back_pass_depth_pass("STENCIL_BACK_PASS_DEPTH_PASS", traits, api)
       , stencil_writemask("STENCIL_WRITEMASK", traits, api)
       , stencil_back_writemask("STENCIL_BACK_WRITEMASK", traits, api)
       , stencil_clear_value("STENCIL_CLEAR_VALUE", traits, api)
@@ -11070,19 +11184,27 @@ public:
       , subpixel_bits("SUBPIXEL_BITS", traits, api)
       , viewport_subpixel_bits("VIEWPORT_SUBPIXEL_BITS", traits, api)
       , num_compressed_texture_formats(
-          "NUM_COMPRESSED_TEXTURE_FORMATS", traits, api)
+          "NUM_COMPRESSED_TEXTURE_FORMATS",
+          traits,
+          api)
       , compressed_texture_formats("COMPRESSED_TEXTURE_FORMATS", traits, api)
       , num_program_binary_formats("NUM_PROGRAM_BINARY_FORMATS", traits, api)
       , program_binary_formats("PROGRAM_BINARY_FORMATS", traits, api)
       , num_shader_binary_formats("NUM_SHADER_BINARY_FORMATS", traits, api)
       , shader_binary_formats("SHADER_BINARY_FORMATS", traits, api)
       , texture_buffer_offset_alignment(
-          "TEXTURE_BUFFER_OFFSET_ALIGNMENT", traits, api)
+          "TEXTURE_BUFFER_OFFSET_ALIGNMENT",
+          traits,
+          api)
       , max_vertex_uniform_blocks("MAX_VERTEX_UNIFORM_BLOCKS", traits, api)
       , max_tess_control_uniform_blocks(
-          "MAX_TESS_CONTROL_UNIFORM_BLOCKS", traits, api)
+          "MAX_TESS_CONTROL_UNIFORM_BLOCKS",
+          traits,
+          api)
       , max_tess_evaluation_uniform_blocks(
-          "MAX_TESS_EVALUATION_UNIFORM_BLOCKS", traits, api)
+          "MAX_TESS_EVALUATION_UNIFORM_BLOCKS",
+          traits,
+          api)
       , max_geometry_uniform_blocks("MAX_GEOMETRY_UNIFORM_BLOCKS", traits, api)
       , max_fragment_uniform_blocks("MAX_FRAGMENT_UNIFORM_BLOCKS", traits, api)
       , max_compute_uniform_blocks("MAX_COMPUTE_UNIFORM_BLOCKS", traits, api)
@@ -11092,13 +11214,17 @@ public:
       , max_debug_logged_messages("MAX_DEBUG_LOGGED_MESSAGES", traits, api)
       , debug_logged_messages("DEBUG_LOGGED_MESSAGES", traits, api)
       , debug_next_logged_message_length(
-          "DEBUG_NEXT_LOGGED_MESSAGE_LENGTH", traits, api)
+          "DEBUG_NEXT_LOGGED_MESSAGE_LENGTH",
+          traits,
+          api)
       , max_debug_group_stack_depth("MAX_DEBUG_GROUP_STACK_DEPTH", traits, api)
       , debug_group_stack_depth("DEBUG_GROUP_STACK_DEPTH", traits, api)
       , max_label_length("MAX_LABEL_LENGTH", traits, api)
       , shader_compiler("SHADER_COMPILER", traits, api)
       , max_shader_compiler_threads(
-          "MAX_SHADER_COMPILER_THREADS_ARB", traits, api)
+          "MAX_SHADER_COMPILER_THREADS_ARB",
+          traits,
+          api)
       , line_width("LINE_WIDTH", traits, api)
       , point_size("POINT_SIZE", traits, api)
       , polygon_offset_clamp("POLYGON_OFFSET_CLAMP", traits, api)
@@ -11114,12 +11240,18 @@ public:
       , aliased_line_width_range("ALIASED_LINE_WIDTH_RANGE", traits, api)
       , smooth_line_width_range("SMOOTH_LINE_WIDTH_RANGE", traits, api)
       , smooth_line_width_granularity(
-          "SMOOTH_LINE_WIDTH_GRANULARITY", traits, api)
+          "SMOOTH_LINE_WIDTH_GRANULARITY",
+          traits,
+          api)
       , min_sample_shading_value("MIN_SAMPLE_SHADING_VALUE", traits, api)
       , min_fragment_interpolation_offset(
-          "MIN_FRAGMENT_INTERPOLATION_OFFSET", traits, api)
+          "MIN_FRAGMENT_INTERPOLATION_OFFSET",
+          traits,
+          api)
       , max_fragment_interpolation_offset(
-          "MAX_FRAGMENT_INTERPOLATION_OFFSET", traits, api)
+          "MAX_FRAGMENT_INTERPOLATION_OFFSET",
+          traits,
+          api)
       , max_texture_lod_bias("MAX_TEXTURE_LOD_BIAS", traits, api)
       , max_texture_max_anisotropy("MAX_TEXTURE_MAX_ANISOTROPY", traits, api)
       , max_viewport_dims("MAX_VIEWPORT_DIMS", traits, api)
@@ -11189,11 +11321,12 @@ public:
       , sampler_1d_array_shadow("SAMPLER_1D_ARRAY_SHADOW", traits, api)
       , sampler_2d_array_shadow("SAMPLER_2D_ARRAY_SHADOW", traits, api)
       , sampler_2d_multisample("SAMPLER_2D_MULTISAMPLE", traits, api)
-      , sampler_2d_multisample_array(
-          "SAMPLER_2D_MULTISAMPLE_ARRAY", traits, api)
+      , sampler_2d_multisample_array("SAMPLER_2D_MULTISAMPLE_ARRAY", traits, api)
       , sampler_cube_shadow("SAMPLER_CUBE_SHADOW", traits, api)
       , sampler_cube_map_array_shadow(
-          "SAMPLER_CUBE_MAP_ARRAY_SHADOW", traits, api)
+          "SAMPLER_CUBE_MAP_ARRAY_SHADOW",
+          traits,
+          api)
       , sampler_buffer("SAMPLER_BUFFER", traits, api)
       , sampler_2d_rect("SAMPLER_2D_RECT", traits, api)
       , sampler_2d_rect_shadow("SAMPLER_2D_RECT_SHADOW", traits, api)
@@ -11206,7 +11339,9 @@ public:
       , int_sampler_cube_map_array("INT_SAMPLER_CUBE_MAP_ARRAY", traits, api)
       , int_sampler_2d_multisample("INT_SAMPLER_2D_MULTISAMPLE", traits, api)
       , int_sampler_2d_multisample_array(
-          "INT_SAMPLER_2D_MULTISAMPLE_ARRAY", traits, api)
+          "INT_SAMPLER_2D_MULTISAMPLE_ARRAY",
+          traits,
+          api)
       , int_sampler_buffer("INT_SAMPLER_BUFFER", traits, api)
       , int_sampler_2d_rect("INT_SAMPLER_2D_RECT", traits, api)
       , unsigned_int_sampler_1d("UNSIGNED_INT_SAMPLER_1D", traits, api)
@@ -11214,18 +11349,27 @@ public:
       , unsigned_int_sampler_3d("UNSIGNED_INT_SAMPLER_3D", traits, api)
       , unsigned_int_sampler_cube("UNSIGNED_INT_SAMPLER_CUBE", traits, api)
       , unsigned_int_sampler_1d_array(
-          "UNSIGNED_INT_SAMPLER_1D_ARRAY", traits, api)
+          "UNSIGNED_INT_SAMPLER_1D_ARRAY",
+          traits,
+          api)
       , unsigned_int_sampler_2d_array(
-          "UNSIGNED_INT_SAMPLER_2D_ARRAY", traits, api)
+          "UNSIGNED_INT_SAMPLER_2D_ARRAY",
+          traits,
+          api)
       , unsigned_int_sampler_cube_map_array(
-          "UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY", traits, api)
+          "UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY",
+          traits,
+          api)
       , unsigned_int_sampler_2d_multisample(
-          "UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE", traits, api)
+          "UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE",
+          traits,
+          api)
       , unsigned_int_sampler_2d_multisample_array(
-          "UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY", traits, api)
+          "UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY",
+          traits,
+          api)
       , unsigned_int_sampler_buffer("UNSIGNED_INT_SAMPLER_BUFFER", traits, api)
-      , unsigned_int_sampler_2d_rect(
-          "UNSIGNED_INT_SAMPLER_2D_RECT", traits, api)
+      , unsigned_int_sampler_2d_rect("UNSIGNED_INT_SAMPLER_2D_RECT", traits, api)
       , image_1d("IMAGE_1D", traits, api)
       , image_2d("IMAGE_2D", traits, api)
       , image_3d("IMAGE_3D", traits, api)
@@ -11246,7 +11390,9 @@ public:
       , int_image_2d_array("INT_IMAGE_2D_ARRAY", traits, api)
       , int_image_2d_multisample("INT_IMAGE_2D_MULTISAMPLE", traits, api)
       , int_image_2d_multisample_array(
-          "INT_IMAGE_2D_MULTISAMPLE_ARRAY", traits, api)
+          "INT_IMAGE_2D_MULTISAMPLE_ARRAY",
+          traits,
+          api)
       , unsigned_int_image_1d("UNSIGNED_INT_IMAGE_1D", traits, api)
       , unsigned_int_image_2d("UNSIGNED_INT_IMAGE_2D", traits, api)
       , unsigned_int_image_3d("UNSIGNED_INT_IMAGE_3D", traits, api)
@@ -11256,9 +11402,13 @@ public:
       , unsigned_int_image_1d_array("UNSIGNED_INT_IMAGE_1D_ARRAY", traits, api)
       , unsigned_int_image_2d_array("UNSIGNED_INT_IMAGE_2D_ARRAY", traits, api)
       , unsigned_int_image_2d_multisample(
-          "UNSIGNED_INT_IMAGE_2D_MULTISAMPLE", traits, api)
+          "UNSIGNED_INT_IMAGE_2D_MULTISAMPLE",
+          traits,
+          api)
       , unsigned_int_image_2d_multisample_array(
-          "UNSIGNED_INT_IMAGE_2D_MULTISAMPLE_ARRAY", traits, api)
+          "UNSIGNED_INT_IMAGE_2D_MULTISAMPLE_ARRAY",
+          traits,
+          api)
       , unsigned_int_atomic_counter("UNSIGNED_INT_ATOMIC_COUNTER", traits, api)
       , points("POINTS", traits, api)
       , line_strip("LINE_STRIP", traits, api)
@@ -11292,9 +11442,13 @@ public:
       , query_wait_inverted("QUERY_WAIT_INVERTED", traits, api)
       , query_no_wait_inverted("QUERY_NO_WAIT_INVERTED", traits, api)
       , query_by_region_wait_inverted(
-          "QUERY_BY_REGION_WAIT_INVERTED", traits, api)
+          "QUERY_BY_REGION_WAIT_INVERTED",
+          traits,
+          api)
       , query_by_region_no_wait_inverted(
-          "QUERY_BY_REGION_NO_WAIT_INVERTED", traits, api)
+          "QUERY_BY_REGION_NO_WAIT_INVERTED",
+          traits,
+          api)
       , point_size_min("POINT_SIZE_MIN", traits, api)
       , point_size_max("POINT_SIZE_MAX", traits, api)
       , point_fade_threshold_size("POINT_FADE_THRESHOLD_SIZE", traits, api)
@@ -11382,11 +11536,12 @@ public:
       , unsigned_int_10_10_10_2("UNSIGNED_INT_10_10_10_2", traits, api)
       , unsigned_int_2_10_10_10_rev("UNSIGNED_INT_2_10_10_10_REV", traits, api)
       , unsigned_int_24_8("UNSIGNED_INT_24_8", traits, api)
-      , unsigned_int_10f_11f_11f_rev(
-          "UNSIGNED_INT_10F_11F_11F_REV", traits, api)
+      , unsigned_int_10f_11f_11f_rev("UNSIGNED_INT_10F_11F_11F_REV", traits, api)
       , unsigned_int_5_9_9_9_rev("UNSIGNED_INT_5_9_9_9_REV", traits, api)
       , float_32_unsigned_int_24_8_rev(
-          "FLOAT_32_UNSIGNED_INT_24_8_REV", traits, api)
+          "FLOAT_32_UNSIGNED_INT_24_8_REV",
+          traits,
+          api)
       , stencil_index("STENCIL_INDEX", traits, api)
       , bgr("BGR", traits, api)
       , bgra("BGRA", traits, api)
@@ -11461,11 +11616,17 @@ public:
       , compressed_srgb8_etc2("COMPRESSED_SRGB8_ETC2", traits, api)
       , compressed_srgb_alpha("COMPRESSED_SRGB_ALPHA", traits, api)
       , compressed_srgb8_alpha8_etc2_eac(
-          "COMPRESSED_SRGB8_ALPHA8_ETC2_EAC", traits, api)
+          "COMPRESSED_SRGB8_ALPHA8_ETC2_EAC",
+          traits,
+          api)
       , compressed_srgb8_punchthrough_alpha1_etc2(
-          "COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2", traits, api)
+          "COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2",
+          traits,
+          api)
       , compressed_srgb_alpha_bptc_unorm(
-          "COMPRESSED_SRGB_ALPHA_BPTC_UNORM", traits, api)
+          "COMPRESSED_SRGB_ALPHA_BPTC_UNORM",
+          traits,
+          api)
       , pack_swap_bytes("PACK_SWAP_BYTES", traits, api)
       , pack_lsb_first("PACK_LSB_FIRST", traits, api)
       , pack_row_length("PACK_ROW_LENGTH", traits, api)
@@ -11475,8 +11636,7 @@ public:
       , pack_image_height("PACK_IMAGE_HEIGHT", traits, api)
       , pack_skip_images("PACK_SKIP_IMAGES", traits, api)
       , pack_compressed_block_width("PACK_COMPRESSED_BLOCK_WIDTH", traits, api)
-      , pack_compressed_block_height(
-          "PACK_COMPRESSED_BLOCK_HEIGHT", traits, api)
+      , pack_compressed_block_height("PACK_COMPRESSED_BLOCK_HEIGHT", traits, api)
       , pack_compressed_block_depth("PACK_COMPRESSED_BLOCK_DEPTH", traits, api)
       , pack_compressed_block_size("PACK_COMPRESSED_BLOCK_SIZE", traits, api)
       , unpack_swap_bytes("UNPACK_SWAP_BYTES", traits, api)
@@ -11488,13 +11648,18 @@ public:
       , unpack_image_height("UNPACK_IMAGE_HEIGHT", traits, api)
       , unpack_skip_images("UNPACK_SKIP_IMAGES", traits, api)
       , unpack_compressed_block_width(
-          "UNPACK_COMPRESSED_BLOCK_WIDTH", traits, api)
+          "UNPACK_COMPRESSED_BLOCK_WIDTH",
+          traits,
+          api)
       , unpack_compressed_block_height(
-          "UNPACK_COMPRESSED_BLOCK_HEIGHT", traits, api)
+          "UNPACK_COMPRESSED_BLOCK_HEIGHT",
+          traits,
+          api)
       , unpack_compressed_block_depth(
-          "UNPACK_COMPRESSED_BLOCK_DEPTH", traits, api)
-      , unpack_compressed_block_size(
-          "UNPACK_COMPRESSED_BLOCK_SIZE", traits, api)
+          "UNPACK_COMPRESSED_BLOCK_DEPTH",
+          traits,
+          api)
+      , unpack_compressed_block_size("UNPACK_COMPRESSED_BLOCK_SIZE", traits, api)
       , image_class_4_x_32("IMAGE_CLASS_4_X_32", traits, api)
       , image_class_2_x_32("IMAGE_CLASS_2_X_32", traits, api)
       , image_class_1_x_32("IMAGE_CLASS_1_X_32", traits, api)
@@ -11552,7 +11717,9 @@ public:
       , stencil_renderable("STENCIL_RENDERABLE", traits, api)
       , framebuffer_renderable("FRAMEBUFFER_RENDERABLE", traits, api)
       , framebuffer_renderable_layered(
-          "FRAMEBUFFER_RENDERABLE_LAYERED", traits, api)
+          "FRAMEBUFFER_RENDERABLE_LAYERED",
+          traits,
+          api)
       , framebuffer_blend("FRAMEBUFFER_BLEND", traits, api)
       , read_pixels("READ_PIXELS", traits, api)
       , read_pixels_format("READ_PIXELS_FORMAT", traits, api)
@@ -11585,22 +11752,38 @@ public:
       , image_pixel_format("IMAGE_PIXEL_FORMAT", traits, api)
       , image_pixel_type("IMAGE_PIXEL_TYPE", traits, api)
       , simultaneous_texture_and_depth_test(
-          "SIMULTANEOUS_TEXTURE_AND_DEPTH_TEST", traits, api)
+          "SIMULTANEOUS_TEXTURE_AND_DEPTH_TEST",
+          traits,
+          api)
       , simultaneous_texture_and_stencil_test(
-          "SIMULTANEOUS_TEXTURE_AND_STENCIL_TEST", traits, api)
+          "SIMULTANEOUS_TEXTURE_AND_STENCIL_TEST",
+          traits,
+          api)
       , simultaneous_texture_and_depth_write(
-          "SIMULTANEOUS_TEXTURE_AND_DEPTH_WRITE", traits, api)
+          "SIMULTANEOUS_TEXTURE_AND_DEPTH_WRITE",
+          traits,
+          api)
       , simultaneous_texture_and_stencil_write(
-          "SIMULTANEOUS_TEXTURE_AND_STENCIL_WRITE", traits, api)
+          "SIMULTANEOUS_TEXTURE_AND_STENCIL_WRITE",
+          traits,
+          api)
       , texture_compressed("TEXTURE_COMPRESSED", traits, api)
       , texture_compressed_image_size(
-          "TEXTURE_COMPRESSED_IMAGE_SIZE", traits, api)
+          "TEXTURE_COMPRESSED_IMAGE_SIZE",
+          traits,
+          api)
       , texture_compressed_block_width(
-          "TEXTURE_COMPRESSED_BLOCK_WIDTH", traits, api)
+          "TEXTURE_COMPRESSED_BLOCK_WIDTH",
+          traits,
+          api)
       , texture_compressed_block_height(
-          "TEXTURE_COMPRESSED_BLOCK_HEIGHT", traits, api)
+          "TEXTURE_COMPRESSED_BLOCK_HEIGHT",
+          traits,
+          api)
       , texture_compressed_block_size(
-          "TEXTURE_COMPRESSED_BLOCK_SIZE", traits, api)
+          "TEXTURE_COMPRESSED_BLOCK_SIZE",
+          traits,
+          api)
       , clear_buffer("CLEAR_BUFFER", traits, api)
       , clear_texture("CLEAR_TEXTURE", traits, api)
       , texture_view("TEXTURE_VIEW", traits, api)
@@ -11614,16 +11797,19 @@ public:
       , debug_severity_notification("DEBUG_SEVERITY_NOTIFICATION", traits, api)
       , debug_source_api("DEBUG_SOURCE_API", traits, api)
       , debug_source_window_system("DEBUG_SOURCE_WINDOW_SYSTEM", traits, api)
-      , debug_source_shader_compiler(
-          "DEBUG_SOURCE_SHADER_COMPILER", traits, api)
+      , debug_source_shader_compiler("DEBUG_SOURCE_SHADER_COMPILER", traits, api)
       , debug_source_third_party("DEBUG_SOURCE_THIRD_PARTY", traits, api)
       , debug_source_application("DEBUG_SOURCE_APPLICATION", traits, api)
       , debug_source_other("DEBUG_SOURCE_OTHER", traits, api)
       , debug_type_error("DEBUG_TYPE_ERROR", traits, api)
       , debug_type_deprecated_behavior(
-          "DEBUG_TYPE_DEPRECATED_BEHAVIOR", traits, api)
+          "DEBUG_TYPE_DEPRECATED_BEHAVIOR",
+          traits,
+          api)
       , debug_type_undefined_behavior(
-          "DEBUG_TYPE_UNDEFINED_BEHAVIOR", traits, api)
+          "DEBUG_TYPE_UNDEFINED_BEHAVIOR",
+          traits,
+          api)
       , debug_type_portability("DEBUG_TYPE_PORTABILITY", traits, api)
       , debug_type_performance("DEBUG_TYPE_PERFORMANCE", traits, api)
       , debug_type_marker("DEBUG_TYPE_MARKER", traits, api)
@@ -11634,7 +11820,9 @@ public:
       , polygon_smooth_hint("POLYGON_SMOOTH_HINT", traits, api)
       , texture_compression_hint("TEXTURE_COMPRESSION_HINT", traits, api)
       , fragment_shader_derivative_hint(
-          "FRAGMENT_SHADER_DERIVATIVE_HINT", traits, api)
+          "FRAGMENT_SHADER_DERIVATIVE_HINT",
+          traits,
+          api)
       , fastest("FASTEST", traits, api)
       , nicest("NICEST", traits, api)
       , dont_care("DONT_CARE", traits, api)
@@ -11647,30 +11835,34 @@ public:
       , relative_line_to_nv("RELATIVE_LINE_TO_NV", traits, api)
       , horizontal_line_to_nv("HORIZONTAL_LINE_TO_NV", traits, api)
       , relative_horizontal_line_to_nv(
-          "RELATIVE_HORIZONTAL_LINE_TO_NV", traits, api)
+          "RELATIVE_HORIZONTAL_LINE_TO_NV",
+          traits,
+          api)
       , vertical_line_to_nv("VERTICAL_LINE_TO_NV", traits, api)
-      , relative_vertical_line_to_nv(
-          "RELATIVE_VERTICAL_LINE_TO_NV", traits, api)
+      , relative_vertical_line_to_nv("RELATIVE_VERTICAL_LINE_TO_NV", traits, api)
       , quadratic_curve_to_nv("QUADRATIC_CURVE_TO_NV", traits, api)
       , relative_quadratic_curve_to_nv(
-          "RELATIVE_QUADRATIC_CURVE_TO_NV", traits, api)
+          "RELATIVE_QUADRATIC_CURVE_TO_NV",
+          traits,
+          api)
       , cubic_curve_to_nv("CUBIC_CURVE_TO_NV", traits, api)
       , relative_cubic_curve_to_nv("RELATIVE_CUBIC_CURVE_TO_NV", traits, api)
-      , smooth_quadratic_curve_to_nv(
-          "SMOOTH_QUADRATIC_CURVE_TO_NV", traits, api)
+      , smooth_quadratic_curve_to_nv("SMOOTH_QUADRATIC_CURVE_TO_NV", traits, api)
       , relative_smooth_quadratic_curve_to_nv(
-          "RELATIVE_SMOOTH_QUADRATIC_CURVE_TO_NV", traits, api)
+          "RELATIVE_SMOOTH_QUADRATIC_CURVE_TO_NV",
+          traits,
+          api)
       , smooth_cubic_curve_to_nv("SMOOTH_CUBIC_CURVE_TO_NV", traits, api)
       , relative_smooth_cubic_curve_to_nv(
-          "RELATIVE_SMOOTH_CUBIC_CURVE_TO_NV", traits, api)
+          "RELATIVE_SMOOTH_CUBIC_CURVE_TO_NV",
+          traits,
+          api)
       , small_ccw_arc_to_nv("SMALL_CCW_ARC_TO_NV", traits, api)
-      , relative_small_ccw_arc_to_nv(
-          "RELATIVE_SMALL_CCW_ARC_TO_NV", traits, api)
+      , relative_small_ccw_arc_to_nv("RELATIVE_SMALL_CCW_ARC_TO_NV", traits, api)
       , small_cw_arc_to_nv("SMALL_CW_ARC_TO_NV", traits, api)
       , relative_small_cw_arc_to_nv("RELATIVE_SMALL_CW_ARC_TO_NV", traits, api)
       , large_ccw_arc_to_nv("LARGE_CCW_ARC_TO_NV", traits, api)
-      , relative_large_ccw_arc_to_nv(
-          "RELATIVE_LARGE_CCW_ARC_TO_NV", traits, api)
+      , relative_large_ccw_arc_to_nv("RELATIVE_LARGE_CCW_ARC_TO_NV", traits, api)
       , large_cw_arc_to_nv("LARGE_CW_ARC_TO_NV", traits, api)
       , relative_large_cw_arc_to_nv("RELATIVE_LARGE_CW_ARC_TO_NV", traits, api)
       , restart_path_nv("RESTART_PATH_NV", traits, api)
@@ -11696,7 +11888,9 @@ public:
       , convex_hull_nv("CONVEX_HULL_NV", traits, api)
       , bounding_box_nv("BOUNDING_BOX_NV", traits, api)
       , bounding_box_of_bounding_boxes_nv(
-          "BOUNDING_BOX_OF_BOUNDING_BOXES_NV", traits, api)
+          "BOUNDING_BOX_OF_BOUNDING_BOXES_NV",
+          traits,
+          api)
       , count_up_nv("COUNT_UP_NV", traits, api)
       , count_down_nv("COUNT_DOWN_NV", traits, api)
       , bevel_nv("BEVEL_NV", traits, api)
@@ -11718,17 +11912,29 @@ public:
       , glyph_width_bit_nv("GLYPH_WIDTH_BIT_NV", traits, api)
       , glyph_height_bit_nv("GLYPH_HEIGHT_BIT_NV", traits, api)
       , glyph_horizontal_bearing_x_bit_nv(
-          "GLYPH_HORIZONTAL_BEARING_X_BIT_NV", traits, api)
+          "GLYPH_HORIZONTAL_BEARING_X_BIT_NV",
+          traits,
+          api)
       , glyph_horizontal_bearing_y_bit_nv(
-          "GLYPH_HORIZONTAL_BEARING_Y_BIT_NV", traits, api)
+          "GLYPH_HORIZONTAL_BEARING_Y_BIT_NV",
+          traits,
+          api)
       , glyph_horizontal_bearing_advance_bit_nv(
-          "GLYPH_HORIZONTAL_BEARING_ADVANCE_BIT_NV", traits, api)
+          "GLYPH_HORIZONTAL_BEARING_ADVANCE_BIT_NV",
+          traits,
+          api)
       , glyph_vertical_bearing_x_bit_nv(
-          "GLYPH_VERTICAL_BEARING_X_BIT_NV", traits, api)
+          "GLYPH_VERTICAL_BEARING_X_BIT_NV",
+          traits,
+          api)
       , glyph_vertical_bearing_y_bit_nv(
-          "GLYPH_VERTICAL_BEARING_Y_BIT_NV", traits, api)
+          "GLYPH_VERTICAL_BEARING_Y_BIT_NV",
+          traits,
+          api)
       , glyph_vertical_bearing_advance_bit_nv(
-          "GLYPH_VERTICAL_BEARING_ADVANCE_BIT_NV", traits, api)
+          "GLYPH_VERTICAL_BEARING_ADVANCE_BIT_NV",
+          traits,
+          api)
       , glyph_has_kerning_bit_nv("GLYPH_HAS_KERNING_BIT_NV", traits, api)
       , font_x_min_bounds_bit_nv("FONT_X_MIN_BOUNDS_BIT_NV", traits, api)
       , font_y_min_bounds_bit_nv("FONT_Y_MIN_BOUNDS_BIT_NV", traits, api)
@@ -11739,13 +11945,21 @@ public:
       , font_descender_bit_nv("FONT_DESCENDER_BIT_NV", traits, api)
       , font_height_bit_nv("FONT_HEIGHT_BIT_NV", traits, api)
       , font_max_advance_width_bit_nv(
-          "FONT_MAX_ADVANCE_WIDTH_BIT_NV", traits, api)
+          "FONT_MAX_ADVANCE_WIDTH_BIT_NV",
+          traits,
+          api)
       , font_max_advance_height_bit_nv(
-          "FONT_MAX_ADVANCE_HEIGHT_BIT_NV", traits, api)
+          "FONT_MAX_ADVANCE_HEIGHT_BIT_NV",
+          traits,
+          api)
       , font_underline_position_bit_nv(
-          "FONT_UNDERLINE_POSITION_BIT_NV", traits, api)
+          "FONT_UNDERLINE_POSITION_BIT_NV",
+          traits,
+          api)
       , font_underline_thickness_bit_nv(
-          "FONT_UNDERLINE_THICKNESS_BIT_NV", traits, api)
+          "FONT_UNDERLINE_THICKNESS_BIT_NV",
+          traits,
+          api)
       , font_has_kerning_bit_nv("FONT_HAS_KERNING_BIT_NV", traits, api)
       , skip_missing_glyph_nv("SKIP_MISSING_GLYPH_NV", traits, api)
       , use_missing_glyph_nv("USE_MISSING_GLYPH_NV", traits, api)
@@ -11781,11 +11995,9 @@ public:
       , transpose_affine_3d_nv("TRANSPOSE_AFFINE_3D_NV", traits, api)
       , utf8_nv("UTF8_NV", traits, api)
       , utf16_nv("UTF16_NV", traits, api)
-      , none("NONE", traits, api) {
-    }
+      , none("NONE", traits, api) {}
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::oglp
 
 #endif // OGLPLUS_GL_API_CONSTANTS_HPP
-

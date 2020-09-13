@@ -17,8 +17,7 @@ OGLPLUS_LIB_FUNC
 scale_output::scale_output(node_intf& parent)
   : base_output(parent)
   , input(parent, string_view("Input"), 0.5f, 0.5f, 0.5f, 0.5f)
-  , scale(parent, string_view("Scale"), 1.f, 1.f, 1.f) {
-}
+  , scale(parent, string_view("Scale"), 1.f, 1.f, 1.f) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 string_view scale_output::type_name() {
@@ -31,8 +30,8 @@ slot_data_type scale_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& scale_output::definitions(
-  std::ostream& out, compile_context& ctxt) {
+std::ostream&
+scale_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt)) {
         return out;
     }

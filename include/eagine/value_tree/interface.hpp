@@ -50,43 +50,55 @@ struct compound_interface {
 
     virtual span_size_t nested_count(attribute_interface&) = 0;
 
-    virtual attribute_interface* nested(
-      attribute_interface&, span_size_t index) = 0;
+    virtual attribute_interface*
+    nested(attribute_interface&, span_size_t index) = 0;
 
-    virtual attribute_interface* nested(
-      attribute_interface&, string_view name) = 0;
+    virtual attribute_interface*
+    nested(attribute_interface&, string_view name) = 0;
 
-    virtual attribute_interface* find(
-      attribute_interface&, const basic_string_path&) = 0;
+    virtual attribute_interface*
+    find(attribute_interface&, const basic_string_path&) = 0;
 
     virtual span_size_t value_count(attribute_interface&) = 0;
 
-    virtual span_size_t fetch_values(
-      attribute_interface&, span_size_t offset, span<bool> dest) = 0;
+    virtual span_size_t
+    fetch_values(attribute_interface&, span_size_t offset, span<bool> dest) = 0;
+
+    virtual span_size_t
+    fetch_values(attribute_interface&, span_size_t offset, span<byte> dest) = 0;
 
     virtual span_size_t fetch_values(
-      attribute_interface&, span_size_t offset, span<byte> dest) = 0;
+      attribute_interface&,
+      span_size_t offset,
+      span<std::int16_t> dest) = 0;
 
     virtual span_size_t fetch_values(
-      attribute_interface&, span_size_t offset, span<std::int16_t> dest) = 0;
+      attribute_interface&,
+      span_size_t offset,
+      span<std::int32_t> dest) = 0;
 
     virtual span_size_t fetch_values(
-      attribute_interface&, span_size_t offset, span<std::int32_t> dest) = 0;
+      attribute_interface&,
+      span_size_t offset,
+      span<std::int64_t> dest) = 0;
 
     virtual span_size_t fetch_values(
-      attribute_interface&, span_size_t offset, span<std::int64_t> dest) = 0;
+      attribute_interface&,
+      span_size_t offset,
+      span<std::uint16_t> dest) = 0;
 
     virtual span_size_t fetch_values(
-      attribute_interface&, span_size_t offset, span<std::uint16_t> dest) = 0;
+      attribute_interface&,
+      span_size_t offset,
+      span<std::uint32_t> dest) = 0;
 
     virtual span_size_t fetch_values(
-      attribute_interface&, span_size_t offset, span<std::uint32_t> dest) = 0;
+      attribute_interface&,
+      span_size_t offset,
+      span<std::uint64_t> dest) = 0;
 
-    virtual span_size_t fetch_values(
-      attribute_interface&, span_size_t offset, span<std::uint64_t> dest) = 0;
-
-    virtual span_size_t fetch_values(
-      attribute_interface&, span_size_t offset, span<float> dest) = 0;
+    virtual span_size_t
+    fetch_values(attribute_interface&, span_size_t offset, span<float> dest) = 0;
 
     virtual span_size_t fetch_values(
       attribute_interface&,
@@ -94,7 +106,9 @@ struct compound_interface {
       span<std::chrono::duration<float>> dest) = 0;
 
     virtual span_size_t fetch_values(
-      attribute_interface&, span_size_t offset, span<std::string> dest) = 0;
+      attribute_interface&,
+      span_size_t offset,
+      span<std::string> dest) = 0;
 };
 //------------------------------------------------------------------------------
 template <typename Derived>
@@ -106,12 +120,16 @@ private:
 
 public:
     span_size_t fetch_values(
-      attribute_interface& attrib, span_size_t offset, span<bool> dest) final {
+      attribute_interface& attrib,
+      span_size_t offset,
+      span<bool> dest) final {
         return derived().do_fetch_values(attrib, offset, dest);
     }
 
     span_size_t fetch_values(
-      attribute_interface& attrib, span_size_t offset, span<byte> dest) final {
+      attribute_interface& attrib,
+      span_size_t offset,
+      span<byte> dest) final {
         return derived().do_fetch_values(attrib, offset, dest);
     }
 
@@ -158,7 +176,9 @@ public:
     }
 
     span_size_t fetch_values(
-      attribute_interface& attrib, span_size_t offset, span<float> dest) final {
+      attribute_interface& attrib,
+      span_size_t offset,
+      span<float> dest) final {
         return derived().do_fetch_values(attrib, offset, dest);
     }
 

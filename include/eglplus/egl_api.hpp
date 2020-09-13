@@ -27,23 +27,21 @@ public:
       , basic_egl_operations<ApiTraits>{*static_cast<ApiTraits*>(this)}
       , basic_egl_constants<ApiTraits>{
           *static_cast<ApiTraits*>(this),
-          *static_cast<basic_egl_operations<ApiTraits>*>(this)} {
-    }
+          *static_cast<basic_egl_operations<ApiTraits>*>(this)} {}
 
     basic_egl_api()
-      : basic_egl_api{ApiTraits{}} {
-    }
+      : basic_egl_api{ApiTraits{}} {}
 };
 
 template <std::size_t I, typename ApiTraits>
-typename std::tuple_element<I, basic_egl_api<ApiTraits>>::type& get(
-  basic_egl_api<ApiTraits>& x) noexcept {
+typename std::tuple_element<I, basic_egl_api<ApiTraits>>::type&
+get(basic_egl_api<ApiTraits>& x) noexcept {
     return x;
 }
 
 template <std::size_t I, typename ApiTraits>
-const typename std::tuple_element<I, basic_egl_api<ApiTraits>>::type& get(
-  const basic_egl_api<ApiTraits>& x) noexcept {
+const typename std::tuple_element<I, basic_egl_api<ApiTraits>>::type&
+get(const basic_egl_api<ApiTraits>& x) noexcept {
     return x;
 }
 //------------------------------------------------------------------------------
@@ -69,4 +67,3 @@ struct tuple_element<1, eagine::eglp::basic_egl_api<ApiTraits>> {
 } // namespace std
 
 #endif // EGLPLUS_EGL_API_HPP
-

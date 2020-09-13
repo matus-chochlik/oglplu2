@@ -223,8 +223,8 @@ bool is_example_param(const example_arg& a) {
     return a == example_param_tags("-i", "--image");
 }
 
-std::unique_ptr<example> make_example(
-  const example_args& args, const example_context&) {
+std::unique_ptr<example>
+make_example(const example_args& args, const example_context&) {
     example_string_param image_path("-i", "--image", "image.oglptex");
     args.parse_param(image_path);
 

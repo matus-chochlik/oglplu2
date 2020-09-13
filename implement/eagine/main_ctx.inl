@@ -26,7 +26,9 @@ private:
 
 public:
     master_ctx(
-      int argc, const char** argv, const main_ctx_options& options) noexcept
+      int argc,
+      const char** argv,
+      const main_ctx_options& options) noexcept
       : _args{argc, argv}
       , _log_root{options.logger_id, _args, options.logger_opts}
       , _app_name{options.app_name} {

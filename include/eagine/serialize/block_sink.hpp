@@ -19,8 +19,7 @@ namespace eagine {
 class block_data_sink : public serializer_data_sink {
 public:
     block_data_sink(memory::block dst) noexcept
-      : _dst{dst} {
-    }
+      : _dst{dst} {}
 
     memory::block done() const noexcept {
         return head(_dst, _done);
@@ -75,4 +74,3 @@ private:
 } // namespace eagine
 
 #endif // EAGINE_SERIALIZE_BLOCK_SINK_HPP
-

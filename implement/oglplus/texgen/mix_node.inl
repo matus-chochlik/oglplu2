@@ -18,8 +18,7 @@ mix_output::mix_output(node_intf& parent)
   : base_output(parent)
   , zero(parent, string_view("Zero"), 0.f, 0.f, 0.f, 0.f)
   , one(parent, string_view("One"), 1.f, 1.f, 1.f, 1.f)
-  , value(parent, string_view("Value"), 0.5f) {
-}
+  , value(parent, string_view("Value"), 0.5f) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 string_view mix_output::type_name() {
@@ -32,8 +31,7 @@ slot_data_type mix_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& mix_output::definitions(
-  std::ostream& out, compile_context& ctxt) {
+std::ostream& mix_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt)) {
         return out;
     }

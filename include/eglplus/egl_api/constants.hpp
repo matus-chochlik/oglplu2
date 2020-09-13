@@ -567,11 +567,9 @@ public:
       , opengl_es2_bit("OPENGL_ES2_BIT", traits, api)
       , opengl_es3_bit("OPENGL_ES3_BIT", traits, api)
       , openvg_bit("OPENVG_BIT", traits, api)
-      , none("NONE", traits, api) {
-    }
+      , none("NONE", traits, api) {}
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::eglp
 
 #endif // EGLPLUS_EGL_API_CONSTANTS_HPP
-

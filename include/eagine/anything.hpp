@@ -21,8 +21,7 @@ struct anything {
     ~anything() noexcept = default;
 
     template <typename Unused>
-    constexpr anything(const Unused&) noexcept {
-    }
+    constexpr anything(const Unused&) noexcept {}
 };
 
 } // namespace eagine

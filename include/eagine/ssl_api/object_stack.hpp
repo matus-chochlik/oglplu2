@@ -109,8 +109,7 @@ protected:
     }
 
     object_stack_base(typename stack_api<Tag>::stack_type* top) noexcept
-      : _top{top} {
-    }
+      : _top{top} {}
 
     bool _idx_ok(int i) const noexcept {
         return (i >= 0) && (i < size());
@@ -164,8 +163,7 @@ public:
     using wrapper = basic_handle<Tag, T*, nullptr>;
 
     object_stack() noexcept
-      : base{_api().new_null()} {
-    }
+      : base{_api().new_null()} {}
 
     object_stack(object_stack&&) noexcept = delete;
     object_stack(const object_stack&) = delete;
@@ -200,8 +198,7 @@ public:
     using wrapper = basic_owned_handle<Tag, T*, nullptr>;
 
     object_stack() noexcept
-      : base{_api().new_null()} {
-    }
+      : base{_api().new_null()} {}
 
     object_stack(object_stack&&) noexcept = delete;
     object_stack(const object_stack&) = delete;

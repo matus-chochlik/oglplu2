@@ -26,8 +26,8 @@ enum class serialization_error_code : std::uint8_t {
 };
 //------------------------------------------------------------------------------
 template <typename Selector>
-constexpr auto enumerator_mapping(
-  identity<serialization_error_code>, Selector) noexcept {
+constexpr auto
+enumerator_mapping(identity<serialization_error_code>, Selector) noexcept {
     return enumerator_map_type<serialization_error_code, 5>{
       {{"not_supported", serialization_error_code::not_supported},
        {"too_much_data", serialization_error_code::too_much_data},
@@ -51,8 +51,8 @@ enum class deserialization_error_code : std::uint16_t {
 };
 //------------------------------------------------------------------------------
 template <typename Selector>
-constexpr auto enumerator_mapping(
-  identity<deserialization_error_code>, Selector) noexcept {
+constexpr auto
+enumerator_mapping(identity<deserialization_error_code>, Selector) noexcept {
     return enumerator_map_type<deserialization_error_code, 11>{
       {{"not_supported", deserialization_error_code::not_supported},
        {"not_enough_data", deserialization_error_code::not_enough_data},
@@ -75,8 +75,8 @@ using serialization_result =
   valid_if_indicated<T, serialization_errors, bool, false>;
 //------------------------------------------------------------------------------
 template <typename T>
-static inline serialization_errors get_errors(
-  const serialization_result<T>& result) noexcept {
+static inline serialization_errors
+get_errors(const serialization_result<T>& result) noexcept {
     return result.policy()._indicator;
 }
 //------------------------------------------------------------------------------
@@ -85,12 +85,11 @@ using deserialization_result =
   valid_if_indicated<T, deserialization_errors, bool, false>;
 //------------------------------------------------------------------------------
 template <typename T>
-static inline deserialization_errors get_errors(
-  const deserialization_result<T>& result) noexcept {
+static inline deserialization_errors
+get_errors(const deserialization_result<T>& result) noexcept {
     return result.policy()._indicator;
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
 
 #endif // EAGINE_SERIALIZE_RESULT_HPP
-

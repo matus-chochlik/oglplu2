@@ -104,8 +104,8 @@ struct input_intf {
 
     virtual output_intf& connected_output() = 0;
 
-    virtual bool set_default_value(
-      valid_if_between<span_size_t, 0, 3> c, float v) = 0;
+    virtual bool
+    set_default_value(valid_if_between<span_size_t, 0, 3> c, float v) = 0;
 
     bool set_default(float x) {
         return set_default_value(0, x);
@@ -232,8 +232,7 @@ public:
     input_slot() = default;
 
     input_slot(input_intf& impl)
-      : _pimpl(&impl) {
-    }
+      : _pimpl(&impl) {}
 
     bool is_valid() const noexcept {
         return _pimpl != nullptr;
@@ -287,8 +286,7 @@ public:
     output_slot() = default;
 
     output_slot(output_intf& impl)
-      : _pimpl(&impl) {
-    }
+      : _pimpl(&impl) {}
 
     bool is_valid() const noexcept {
         return _pimpl != nullptr;
@@ -302,13 +300,11 @@ public:
         return !is_valid();
     }
 
-    friend bool operator==(
-      const output_slot& a, const output_slot& b) noexcept {
+    friend bool operator==(const output_slot& a, const output_slot& b) noexcept {
         return a.is_valid() && b.is_valid() && (a._pimpl == b._pimpl);
     }
 
-    friend bool operator!=(
-      const output_slot& a, const output_slot& b) noexcept {
+    friend bool operator!=(const output_slot& a, const output_slot& b) noexcept {
         return a.is_valid() && b.is_valid() && (a._pimpl != b._pimpl);
     }
 

@@ -20,8 +20,7 @@ class basic_split_block {
 public:
     constexpr basic_split_block() noexcept = default;
     constexpr basic_split_block(basic_block<IsConst> blk) noexcept
-      : _block{blk} {
-    }
+      : _block{blk} {}
 
     constexpr span_size_t split_position() const noexcept {
         return _split;

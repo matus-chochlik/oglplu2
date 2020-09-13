@@ -74,8 +74,8 @@ BOOST_AUTO_TEST_CASE(offset_span_3) {
 BOOST_AUTO_TEST_CASE(offset_span_4) {
     using namespace eagine;
 
-    int ia[20] = {
-      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
+    int ia[20] = {1,  2,  3,  4,  5,  6,  7,  8,  9,  10,
+                  11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
 
     const memory::offset_span<int> cai(ia, 20);
 
@@ -120,8 +120,8 @@ BOOST_AUTO_TEST_CASE(offset_span_5) {
 BOOST_AUTO_TEST_CASE(offset_span_6) {
     using namespace eagine;
 
-    int ia[20] = {
-      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
+    int ia[20] = {1,  2,  3,  4,  5,  6,  7,  8,  9,  10,
+                  11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
 
     span<int> is = cover(ia);
 

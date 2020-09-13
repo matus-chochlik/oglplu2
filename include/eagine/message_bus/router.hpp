@@ -26,8 +26,7 @@ namespace eagine::msgbus {
 struct router_pending {
 
     router_pending(std::unique_ptr<connection> a_connection)
-      : the_connection{std::move(a_connection)} {
-    }
+      : the_connection{std::move(a_connection)} {}
 
     std::chrono::steady_clock::time_point create_time{
       std::chrono::steady_clock::now()};
@@ -67,8 +66,7 @@ public:
 
     router(logger& parent) noexcept
       : _log(EAGINE_ID(MsgBusRutr), parent)
-      , _context{make_context(_log)} {
-    }
+      , _context{make_context(_log)} {}
 
     router(logger& parent, const program_args& args) noexcept
       : _log(EAGINE_ID(MsgBusRutr), parent)
@@ -128,7 +126,9 @@ private:
       const message_view&);
 
     bool _do_route_message(
-      message_id msg_id, identifier_t incoming_id, message_view message);
+      message_id msg_id,
+      identifier_t incoming_id,
+      message_view message);
 
     bool _route_messages();
     bool _update_connections();
@@ -154,4 +154,3 @@ private:
 #endif
 
 #endif // EAGINE_MESSAGE_BUS_ROUTER_HPP
-

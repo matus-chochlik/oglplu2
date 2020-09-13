@@ -15,8 +15,7 @@ namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 mandelbrot_output::mandelbrot_output(node_intf& parent)
-  : base_output(parent) {
-}
+  : base_output(parent) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 string_view mandelbrot_output::type_name() {
@@ -29,8 +28,8 @@ slot_data_type mandelbrot_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& mandelbrot_output::definitions(
-  std::ostream& result, compile_context& context) {
+std::ostream&
+mandelbrot_output::definitions(std::ostream& result, compile_context& context) {
     if(already_defined(context)) {
         return result;
     }

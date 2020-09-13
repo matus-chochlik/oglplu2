@@ -140,10 +140,7 @@ public:
 #endif
     }
 
-    template <
-      typename W,
-      W c_api::*F,
-      typename Signature = typename W::signature>
+    template <typename W, W c_api::*F, typename Signature = typename W::signature>
     class func;
 
     template <typename W, W c_api::*F, typename RVC, typename... Params>
@@ -189,7 +186,9 @@ public:
         }
 
         auto bind(Params... params) const noexcept {
-            return [=] { return (*this)(params...); };
+            return [=] {
+                return (*this)(params...);
+            };
         }
     };
 
@@ -223,8 +222,7 @@ public:
           typename Query,
           typename = std::enable_if_t<
             (true || ... || is_enum_class_value_v<QueryClasses, Query>)>,
-          typename =
-            std::enable_if_t<!std::is_array_v<typename Query::tag_type>>>
+          typename = std::enable_if_t<!std::is_array_v<typename Query::tag_type>>>
         constexpr auto operator()(
           PreParams... pre_params,
           Query query,
@@ -309,8 +307,7 @@ public:
 
     make_object_func<buffer_tag, OGLPAFP(CreateBuffers)> create_buffers;
 
-    make_object_func<framebuffer_tag, OGLPAFP(GenFramebuffers)>
-      gen_framebuffers;
+    make_object_func<framebuffer_tag, OGLPAFP(GenFramebuffers)> gen_framebuffers;
 
     make_object_func<framebuffer_tag, OGLPAFP(CreateFramebuffers)>
       create_framebuffers;
@@ -368,7 +365,9 @@ public:
         }
 
         auto bind(sync_type sync) const noexcept {
-            return [this, sync] { return (*this)(sync); };
+            return [this, sync] {
+                return (*this)(sync);
+            };
         }
 
         auto& later_by(cleanup_group& cleanup, sync_type sync) const {
@@ -393,18 +392,21 @@ public:
             return (*this)(names.raw_handles());
         }
 
-        constexpr auto operator()(
-          gl_owned_object_name<ObjTag> name) const noexcept {
+        constexpr auto
+        operator()(gl_owned_object_name<ObjTag> name) const noexcept {
             auto n = name.release();
             return this->_chkcall(1, &n);
         }
 
         auto bind(gl_owned_object_name<ObjTag>& name) const noexcept {
-            return [this, &name] { (*this)(std::move(name)); };
+            return [this, &name] {
+                (*this)(std::move(name));
+            };
         }
 
         auto& later_by(
-          cleanup_group& cleanup, gl_owned_object_name<ObjTag>& name) const {
+          cleanup_group& cleanup,
+          gl_owned_object_name<ObjTag>& name) const {
             return cleanup.add_ret(bind(name));
         }
 
@@ -421,7 +423,9 @@ public:
         }
 
         auto bind(owned_shader_name& name) const noexcept {
-            return [this, &name] { return (*this)(std::move(name)); };
+            return [this, &name] {
+                return (*this)(std::move(name));
+            };
         }
 
         auto& later_by(cleanup_group& cleanup, owned_shader_name& name) const {
@@ -441,7 +445,9 @@ public:
         }
 
         auto bind(owned_program_name& name) const noexcept {
-            return [this, &name] { return (*this)(std::move(name)); };
+            return [this, &name] {
+                return (*this)(std::move(name));
+            };
         }
 
         auto& later_by(cleanup_group& cleanup, owned_program_name& name) const {
@@ -470,9 +476,7 @@ public:
 
     delete_object_func<texture_tag, OGLPAFP(DeleteTextures)> delete_textures;
 
-    delete_object_func<
-      transform_feedback_tag,
-      OGLPAFP(DeleteTransformFeedbacks)>
+    delete_object_func<transform_feedback_tag, OGLPAFP(DeleteTransformFeedbacks)>
       delete_transform_feedbacks;
 
     delete_object_func<vertex_array_tag, OGLPAFP(DeleteVertexArrays)>
@@ -539,9 +543,7 @@ public:
     func<OGLPAFP(MemoryBarrier), void(enum_bitfield<memory_barrier_bit>)>
       memory_barrier;
 
-    func<
-      OGLPAFP(MemoryBarrierByRegion),
-      void(enum_bitfield<memory_barrier_bit>)>
+    func<OGLPAFP(MemoryBarrierByRegion), void(enum_bitfield<memory_barrier_bit>)>
       memory_barrier_by_region;
 
     // viewport
@@ -590,12 +592,10 @@ public:
         using func<OGLPAFP(ShaderSource)>::func;
 
         constexpr auto operator()(
-          shader_name shdr, const glsl_source_ref& source) const noexcept {
+          shader_name shdr,
+          const glsl_source_ref& source) const noexcept {
             return this->_chkcall(
-              name_type(shdr),
-              source.count(),
-              source.parts(),
-              source.lengths());
+              name_type(shdr), source.count(), source.parts(), source.lengths());
         }
     } shader_source;
 
@@ -612,15 +612,12 @@ public:
     struct : func<OGLPAFP(GetShaderInfoLog)> {
         using func<OGLPAFP(GetShaderInfoLog)>::func;
 
-        constexpr auto operator()(
-          shader_name shdr, span<char_type> dest) const noexcept {
+        constexpr auto
+        operator()(shader_name shdr, span<char_type> dest) const noexcept {
             sizei_type real_len{0};
             return this
               ->_chkcall(
-                name_type(shdr),
-                sizei_type(dest.size()),
-                &real_len,
-                dest.data())
+                name_type(shdr), sizei_type(dest.size()), &real_len, dest.data())
               .replaced_with(head(dest, span_size(real_len)));
         }
     } get_shader_info_log;
@@ -643,15 +640,12 @@ public:
     struct : func<OGLPAFP(GetProgramInfoLog)> {
         using func<OGLPAFP(GetProgramInfoLog)>::func;
 
-        constexpr auto operator()(
-          program_name prog, span<char_type> dest) const noexcept {
+        constexpr auto
+        operator()(program_name prog, span<char_type> dest) const noexcept {
             sizei_type real_len{0};
             return this
               ->_chkcall(
-                name_type(prog),
-                sizei_type(dest.size()),
-                &real_len,
-                dest.data())
+                name_type(prog), sizei_type(dest.size()), &real_len, dest.data())
               .replaced_with(head(dest, span_size(real_len)));
         }
     } get_program_info_log;
@@ -796,9 +790,7 @@ public:
       void(program_name, uint_type, frag_data_location, string_view)>
       bind_frag_data_location_indexed;
 
-    func<
-      OGLPAFP(GetUniformLocation),
-      uniform_location(program_name, string_view)>
+    func<OGLPAFP(GetUniformLocation), uniform_location(program_name, string_view)>
       get_uniform_location;
 
     struct : func<OGLPAFP(GetActiveUniformName)> {
@@ -887,8 +879,8 @@ public:
     struct : func<OGLPAFP(Uniform1uiv)> {
         using func<OGLPAFP(Uniform1uiv)>::func;
 
-        constexpr auto operator()(
-          uniform_location loc, span<const uint_type> v) const noexcept {
+        constexpr auto operator()(uniform_location loc, span<const uint_type> v)
+          const noexcept {
             return this->_cnvchkcall(loc, sizei_type(v.size() / 1), v.data());
         }
     } uniform1uiv;
@@ -896,8 +888,8 @@ public:
     struct : func<OGLPAFP(Uniform2uiv)> {
         using func<OGLPAFP(Uniform2uiv)>::func;
 
-        constexpr auto operator()(
-          uniform_location loc, span<const uint_type> v) const noexcept {
+        constexpr auto operator()(uniform_location loc, span<const uint_type> v)
+          const noexcept {
             return this->_cnvchkcall(loc, sizei_type(v.size() / 2), v.data());
         }
     } uniform2uiv;
@@ -905,8 +897,8 @@ public:
     struct : func<OGLPAFP(Uniform3uiv)> {
         using func<OGLPAFP(Uniform3uiv)>::func;
 
-        constexpr auto operator()(
-          uniform_location loc, span<const uint_type> v) const noexcept {
+        constexpr auto operator()(uniform_location loc, span<const uint_type> v)
+          const noexcept {
             return this->_cnvchkcall(loc, sizei_type(v.size() / 3), v.data());
         }
     } uniform3uiv;
@@ -914,8 +906,8 @@ public:
     struct : func<OGLPAFP(Uniform4uiv)> {
         using func<OGLPAFP(Uniform4uiv)>::func;
 
-        constexpr auto operator()(
-          uniform_location loc, span<const uint_type> v) const noexcept {
+        constexpr auto operator()(uniform_location loc, span<const uint_type> v)
+          const noexcept {
             return this->_cnvchkcall(loc, sizei_type(v.size() / 4), v.data());
         }
     } uniform4uiv;
@@ -924,9 +916,7 @@ public:
     func<OGLPAFP(Uniform1i), void(uniform_location, int_type)> uniform1i;
     func<OGLPAFP(Uniform2i), void(uniform_location, int_type, int_type)>
       uniform2i;
-    func<
-      OGLPAFP(Uniform3i),
-      void(uniform_location, int_type, int_type, int_type)>
+    func<OGLPAFP(Uniform3i), void(uniform_location, int_type, int_type, int_type)>
       uniform3i;
     func<
       OGLPAFP(Uniform4i),
@@ -936,8 +926,8 @@ public:
     struct : func<OGLPAFP(Uniform1iv)> {
         using func<OGLPAFP(Uniform1iv)>::func;
 
-        constexpr auto operator()(
-          uniform_location loc, span<const int_type> v) const noexcept {
+        constexpr auto operator()(uniform_location loc, span<const int_type> v)
+          const noexcept {
             return this->_cnvchkcall(loc, sizei_type(v.size() / 1), v.data());
         }
     } uniform1iv;
@@ -945,8 +935,8 @@ public:
     struct : func<OGLPAFP(Uniform2iv)> {
         using func<OGLPAFP(Uniform2iv)>::func;
 
-        constexpr auto operator()(
-          uniform_location loc, span<const int_type> v) const noexcept {
+        constexpr auto operator()(uniform_location loc, span<const int_type> v)
+          const noexcept {
             return this->_cnvchkcall(loc, sizei_type(v.size() / 2), v.data());
         }
     } uniform2iv;
@@ -954,8 +944,8 @@ public:
     struct : func<OGLPAFP(Uniform3iv)> {
         using func<OGLPAFP(Uniform3iv)>::func;
 
-        constexpr auto operator()(
-          uniform_location loc, span<const int_type> v) const noexcept {
+        constexpr auto operator()(uniform_location loc, span<const int_type> v)
+          const noexcept {
             return this->_cnvchkcall(loc, sizei_type(v.size() / 3), v.data());
         }
     } uniform3iv;
@@ -963,8 +953,8 @@ public:
     struct : func<OGLPAFP(Uniform4iv)> {
         using func<OGLPAFP(Uniform4iv)>::func;
 
-        constexpr auto operator()(
-          uniform_location loc, span<const int_type> v) const noexcept {
+        constexpr auto operator()(uniform_location loc, span<const int_type> v)
+          const noexcept {
             return this->_cnvchkcall(loc, sizei_type(v.size() / 4), v.data());
         }
     } uniform4iv;
@@ -986,7 +976,8 @@ public:
         using func<OGLPAFP(Uniform1fv)>::func;
 
         constexpr auto operator()(
-          uniform_location loc, span<const float_type> v) const noexcept {
+          uniform_location loc,
+          span<const float_type> v) const noexcept {
             return this->_cnvchkcall(loc, sizei_type(v.size() / 1), v.data());
         }
     } uniform1fv;
@@ -995,7 +986,8 @@ public:
         using func<OGLPAFP(Uniform2fv)>::func;
 
         constexpr auto operator()(
-          uniform_location loc, span<const float_type> v) const noexcept {
+          uniform_location loc,
+          span<const float_type> v) const noexcept {
             return this->_cnvchkcall(loc, sizei_type(v.size() / 2), v.data());
         }
     } uniform2fv;
@@ -1004,7 +996,8 @@ public:
         using func<OGLPAFP(Uniform3fv)>::func;
 
         constexpr auto operator()(
-          uniform_location loc, span<const float_type> v) const noexcept {
+          uniform_location loc,
+          span<const float_type> v) const noexcept {
             return this->_cnvchkcall(loc, sizei_type(v.size() / 3), v.data());
         }
     } uniform3fv;
@@ -1013,7 +1006,8 @@ public:
         using func<OGLPAFP(Uniform4fv)>::func;
 
         constexpr auto operator()(
-          uniform_location loc, span<const float_type> v) const noexcept {
+          uniform_location loc,
+          span<const float_type> v) const noexcept {
             return this->_cnvchkcall(loc, sizei_type(v.size() / 4), v.data());
         }
     } uniform4fv;
@@ -1221,8 +1215,7 @@ public:
 
     func<
       OGLPAFP(ProgramUniform4i),
-      void(
-        program_name, uniform_location, int_type, int_type, int_type, int_type)>
+      void(program_name, uniform_location, int_type, int_type, int_type, int_type)>
       program_uniform4i;
 
     struct : func<OGLPAFP(ProgramUniform1iv)> {
@@ -1638,8 +1631,7 @@ public:
 
     func<
       OGLPAFP(CopyBufferSubData),
-      void(
-        buffer_target, buffer_target, intptr_type, intptr_type, sizeiptr_type)>
+      void(buffer_target, buffer_target, intptr_type, intptr_type, sizeiptr_type)>
       copy_buffer_sub_data;
 
     func<
@@ -1697,9 +1689,7 @@ public:
         sizei_type)>
       vertex_array_vertex_buffer;
 
-    func<
-      OGLPAFP(VertexArrayElementBuffer),
-      void(vertex_array_name, buffer_name)>
+    func<OGLPAFP(VertexArrayElementBuffer), void(vertex_array_name, buffer_name)>
       vertex_array_element_buffer;
 
     func<OGLPAFP(EnableVertexAttribArray), void(vertex_attrib_location)>
@@ -1851,18 +1841,15 @@ public:
     func<OGLPAFP(ActiveTexture), void(texture_unit)> active_texture;
     func<OGLPAFP(BindTexture), void(texture_target, texture_name)> bind_texture;
 
-    struct
-      : func<
-          OGLPAFP(BindTextures),
-          void(uint_type, sizei_type, const name_type*)> {
+    struct : func<OGLPAFP(BindTextures), void(uint_type, sizei_type, const name_type*)> {
         using base = func<
           OGLPAFP(BindTextures),
           void(uint_type, sizei_type, const name_type*)>;
 
         using base::base;
 
-        constexpr auto operator()(
-          uint_type first, span<const name_type> texs) const noexcept {
+        constexpr auto
+        operator()(uint_type first, span<const name_type> texs) const noexcept {
             return base::operator()(
               first, sizei_type(texs.size()), texs.data());
         }
@@ -1917,12 +1904,7 @@ public:
 
     func<
       OGLPAFP(TextureStorage2D),
-      void(
-        texture_name,
-        sizei_type,
-        pixel_internal_format,
-        sizei_type,
-        sizei_type)>
+      void(texture_name, sizei_type, pixel_internal_format, sizei_type, sizei_type)>
       texture_storage2d;
 
     func<
@@ -2233,14 +2215,7 @@ public:
           int_type border,
           memory::const_block data) const noexcept {
             return this->_cnvchkcall(
-              tgt,
-              level,
-              ifmt,
-              width,
-              height,
-              border,
-              data.size(),
-              data.data());
+              tgt, level, ifmt, width, height, border, data.size(), data.data());
         }
     } compressed_tex_image2d;
 
@@ -2437,13 +2412,12 @@ public:
         template <
           typename TexParam,
           typename Value,
-          typename = std::enable_if_t<is_enum_parameter_value_v<
-            texture_parameter,
-            TexParam,
-            int_type,
-            Value>>>
+          typename = std::enable_if_t<
+            is_enum_parameter_value_v<texture_parameter, TexParam, int_type, Value>>>
         constexpr auto operator()(
-          texture_target tgt, TexParam param, Value value) const noexcept {
+          texture_target tgt,
+          TexParam param,
+          Value value) const noexcept {
             return this->_chkcall(
               enum_type(tgt), enum_type(param), enum_type(value));
         }
@@ -2455,13 +2429,10 @@ public:
         template <
           typename TexParam,
           typename Value,
-          typename = std::enable_if_t<is_enum_parameter_value_v<
-            texture_parameter,
-            TexParam,
-            int_type,
-            Value>>>
-        constexpr auto operator()(
-          texture_name tex, TexParam param, Value value) noexcept {
+          typename = std::enable_if_t<
+            is_enum_parameter_value_v<texture_parameter, TexParam, int_type, Value>>>
+        constexpr auto
+        operator()(texture_name tex, TexParam param, Value value) noexcept {
             return this->_chkcall(
               name_type(tex), enum_type(param), enum_type(value));
         }
@@ -2714,9 +2685,7 @@ public:
       get_sampler_parameter_iui;
 
     // renderbuffer ops
-    func<
-      OGLPAFP(BindRenderbuffer),
-      void(renderbuffer_target, renderbuffer_name)>
+    func<OGLPAFP(BindRenderbuffer), void(renderbuffer_target, renderbuffer_name)>
       bind_renderbuffer;
 
     func<
@@ -2854,8 +2823,7 @@ public:
 
     func<
       OGLPAFP(NamedFramebufferTexture),
-      void(
-        framebuffer_name, oglp::framebuffer_attachment, texture_name, int_type)>
+      void(framebuffer_name, oglp::framebuffer_attachment, texture_name, int_type)>
       named_framebuffer_texture;
 
     func<
@@ -2907,9 +2875,7 @@ public:
         int_type)>
       named_framebuffer_texture_layer;
 
-    func<
-      OGLPAFP(CheckFramebufferStatus),
-      framebuffer_status(framebuffer_target)>
+    func<OGLPAFP(CheckFramebufferStatus), framebuffer_status(framebuffer_target)>
       check_framebuffer_status;
 
     func<
@@ -2955,9 +2921,7 @@ public:
       void(transform_feedback_target, transform_feedback_name)>
       bind_transform_feedback;
 
-    func<
-      OGLPAFP(BeginTransformFeedback),
-      void(transform_feedback_primitive_type)>
+    func<OGLPAFP(BeginTransformFeedback), void(transform_feedback_primitive_type)>
       begin_transform_feedback;
 
     func<OGLPAFP(PauseTransformFeedback)> pause_transform_feedback;
@@ -3103,8 +3067,7 @@ public:
 
     func<
       OGLPAFP(UseProgramStages),
-      void(
-        program_pipeline_name, enum_bitfield<program_stage_bit>, program_name)>
+      void(program_pipeline_name, enum_bitfield<program_stage_bit>, program_name)>
       use_program_stages;
 
     query_func<
@@ -3127,21 +3090,17 @@ public:
         using func<OGLPAFP(GetProgramPipelineInfoLog)>::func;
 
         constexpr auto operator()(
-          program_pipeline_name pipe, span<char_type> dest) const noexcept {
+          program_pipeline_name pipe,
+          span<char_type> dest) const noexcept {
             sizei_type real_len{0};
             return this
               ->_chkcall(
-                name_type(pipe),
-                sizei_type(dest.size()),
-                &real_len,
-                dest.data())
+                name_type(pipe), sizei_type(dest.size()), &real_len, dest.data())
               .replaced_with(head(dest, span_size(real_len)));
         }
     } get_program_pipeline_info_log;
 
-    func<
-      OGLPAFP(ActiveShaderProgram),
-      void(program_pipeline_name, program_name)>
+    func<OGLPAFP(ActiveShaderProgram), void(program_pipeline_name, program_name)>
       active_shader_program;
 
     // draw parameters
@@ -3161,16 +3120,13 @@ public:
     func<OGLPAFP(PatchParameteri), void(patch_parameter, int_type)>
       patch_parameter_i;
 
-    func<
-      OGLPAFP(PatchParameterfv),
-      void(patch_parameter, span<const float_type>)>
+    func<OGLPAFP(PatchParameterfv), void(patch_parameter, span<const float_type>)>
       patch_parameter_fv;
 
     func<OGLPAFP(FrontFace), void(face_orientation)> front_face;
     func<OGLPAFP(CullFace), void(face_mode)> cull_face;
 
-    func<OGLPAFP(PolygonMode), void(face_mode, oglp::polygon_mode)>
-      polygon_mode;
+    func<OGLPAFP(PolygonMode), void(face_mode, oglp::polygon_mode)> polygon_mode;
 
     func<OGLPAFP(PolygonOffset)> polygon_offset;
     func<OGLPAFP(PolygonOffsetClamp)> polygon_offset_clamp;
@@ -3217,12 +3173,7 @@ public:
 
     func<
       OGLPAFP(MultiDrawArraysIndirectCount),
-      void(
-        primitive_type,
-        const_void_ptr_type,
-        intptr_type,
-        sizei_type,
-        sizei_type)>
+      void(primitive_type, const_void_ptr_type, intptr_type, sizei_type, sizei_type)>
       multi_draw_arrays_indirect_count;
 
     // elements
@@ -3527,7 +3478,8 @@ public:
 
         template <typename ObjTag>
         constexpr auto operator()(
-          gl_object_name<ObjTag> name, string_view message) const noexcept {
+          gl_object_name<ObjTag> name,
+          string_view message) const noexcept {
             return this->_cnvchkcall(
               type_of(name), name, message.size(), message.data());
         }
@@ -3617,7 +3569,9 @@ public:
       , use_program("use_program", traits, *this)
       , get_program_resource_index("get_program_resource_index", traits, *this)
       , get_program_resource_location(
-          "get_program_resource_location", traits, *this)
+          "get_program_resource_location",
+          traits,
+          *this)
       , get_program_resource_name("get_program_resource_name", traits, *this)
       , get_program_interface_i("get_program_interface_i", traits, *this)
       , get_program_resource_i("get_program_resource_i", traits, *this)
@@ -3629,13 +3583,19 @@ public:
       , get_frag_data_location("get_frag_data_location", traits, *this)
       , get_frag_data_index("get_frag_data_index", traits, *this)
       , bind_frag_data_location_indexed(
-          "bind_frag_data_location_indexed", traits, *this)
+          "bind_frag_data_location_indexed",
+          traits,
+          *this)
       , get_uniform_location("get_uniform_location", traits, *this)
       , get_active_uniform_name("get_active_uniform_name", traits, *this)
       , get_subroutine_uniform_location(
-          "get_subroutine_uniform_location", traits, *this)
+          "get_subroutine_uniform_location",
+          traits,
+          *this)
       , get_active_subroutine_uniform_name(
-          "get_active_subroutine_uniform_name", traits, *this)
+          "get_active_subroutine_uniform_name",
+          traits,
+          *this)
       , get_subroutine_index("get_subroutine_index", traits, *this)
       , get_active_subroutine_name("get_active_subroutine_name", traits, *this)
       , uniform1ui("uniform1ui", traits, *this)
@@ -3698,18 +3658,12 @@ public:
       , program_uniform_matrix2fv("program_uniform_matrix2fv", traits, *this)
       , program_uniform_matrix3fv("program_uniform_matrix3fv", traits, *this)
       , program_uniform_matrix4fv("program_uniform_matrix4fv", traits, *this)
-      , program_uniform_matrix2x3fv(
-          "program_uniform_matrix2x3fv", traits, *this)
-      , program_uniform_matrix2x4fv(
-          "program_uniform_matrix2x4fv", traits, *this)
-      , program_uniform_matrix3x2fv(
-          "program_uniform_matrix3x2fv", traits, *this)
-      , program_uniform_matrix3x4fv(
-          "program_uniform_matrix3x4fv", traits, *this)
-      , program_uniform_matrix4x2fv(
-          "program_uniform_matrix4x2fv", traits, *this)
-      , program_uniform_matrix4x3fv(
-          "program_uniform_matrix4x3fv", traits, *this)
+      , program_uniform_matrix2x3fv("program_uniform_matrix2x3fv", traits, *this)
+      , program_uniform_matrix2x4fv("program_uniform_matrix2x4fv", traits, *this)
+      , program_uniform_matrix3x2fv("program_uniform_matrix3x2fv", traits, *this)
+      , program_uniform_matrix3x4fv("program_uniform_matrix3x4fv", traits, *this)
+      , program_uniform_matrix4x2fv("program_uniform_matrix4x2fv", traits, *this)
+      , program_uniform_matrix4x3fv("program_uniform_matrix4x3fv", traits, *this)
       , bind_buffer("bind_buffer", traits, *this)
       , bind_buffer_base("bind_buffer_base", traits, *this)
       , bind_buffer_range("bind_buffer_range", traits, *this)
@@ -3722,15 +3676,16 @@ public:
       , clear_buffer_data("clear_buffer_data", traits, *this)
       , clear_named_buffer_data("clear_named_buffer_data", traits, *this)
       , clear_buffer_sub_data("clear_buffer_sub_data", traits, *this)
-      , clear_named_buffer_sub_data(
-          "clear_named_buffer_sub_data", traits, *this)
+      , clear_named_buffer_sub_data("clear_named_buffer_sub_data", traits, *this)
       , map_buffer("map_buffer", traits, *this)
       , map_named_buffer("map_named_buffer", traits, *this)
       , map_buffer_range("map_buffer_range", traits, *this)
       , map_named_buffer_range("map_named_buffer_range", traits, *this)
       , flush_mapped_buffer_range("flush_mapped_buffer_range", traits, *this)
       , flush_mapped_named_buffer_range(
-          "flush_mapped_named_buffer_range", traits, *this)
+          "flush_mapped_named_buffer_range",
+          traits,
+          *this)
       , unmap_buffer("unmap_buffer", traits, *this)
       , unmap_named_buffer("unmap_named_buffer", traits, *this)
       , invalidate_buffer_data("invalidate_buffer_data", traits, *this)
@@ -3739,38 +3694,38 @@ public:
       , copy_named_buffer_sub_data("copy_named_buffer_sub_data", traits, *this)
       , get_buffer_parameter_i("get_buffer_parameter_i", traits, *this)
       , get_named_buffer_parameter_i(
-          "get_named_buffer_parameter_i", traits, *this)
+          "get_named_buffer_parameter_i",
+          traits,
+          *this)
       , get_buffer_parameter_i64("get_buffer_parameter_i64", traits, *this)
       , get_named_buffer_parameter_i64(
-          "get_named_buffer_parameter_i64", traits, *this)
+          "get_named_buffer_parameter_i64",
+          traits,
+          *this)
       , bind_vertex_array("bind_vertex_array", traits, *this)
       , bind_vertex_buffer("bind_vertex_buffer", traits, *this)
       , vertex_array_vertex_buffer("vertex_array_vertex_buffer", traits, *this)
-      , vertex_array_element_buffer(
-          "vertex_array_element_buffer", traits, *this)
+      , vertex_array_element_buffer("vertex_array_element_buffer", traits, *this)
       , enable_vertex_attrib_array("enable_vertex_attrib_array", traits, *this)
       , enable_vertex_array_attrib("enable_vertex_array_attrib", traits, *this)
-      , disable_vertex_attrib_array(
-          "disable_vertex_attrib_array", traits, *this)
-      , disable_vertex_array_attrib(
-          "disable_vertex_array_attrib", traits, *this)
+      , disable_vertex_attrib_array("disable_vertex_attrib_array", traits, *this)
+      , disable_vertex_array_attrib("disable_vertex_array_attrib", traits, *this)
       , vertex_attrib_format("vertex_attrib_format", traits, *this)
       , vertex_attrib_iformat("vertex_attrib_iformat", traits, *this)
       , vertex_attrib_lformat("vertex_attrib_lformat", traits, *this)
       , vertex_array_attrib_format("vertex_array_attrib_format", traits, *this)
-      , vertex_array_attrib_iformat(
-          "vertex_array_attrib_iformat", traits, *this)
-      , vertex_array_attrib_lformat(
-          "vertex_array_attrib_lformat", traits, *this)
+      , vertex_array_attrib_iformat("vertex_array_attrib_iformat", traits, *this)
+      , vertex_array_attrib_lformat("vertex_array_attrib_lformat", traits, *this)
       , vertex_attrib_pointer("vertex_attrib_pointer", traits, *this)
       , vertex_attrib_ipointer("vertex_attrib_ipointer", traits, *this)
       , vertex_attrib_lpointer("vertex_attrib_lpointer", traits, *this)
       , vertex_attrib_binding("vertex_attrib_binding", traits, *this)
-      , vertex_array_attrib_binding(
-          "vertex_array_attrib_binding", traits, *this)
+      , vertex_array_attrib_binding("vertex_array_attrib_binding", traits, *this)
       , vertex_binding_divisor("vertex_binding_divisor", traits, *this)
       , vertex_array_binding_divisor(
-          "vertex_array_binding_divisor", traits, *this)
+          "vertex_array_binding_divisor",
+          traits,
+          *this)
       , vertex_attrib_divisor("vertex_attrib_divisor", traits, *this)
       , active_texture("active_texture", traits, *this)
       , bind_texture("bind_texture", traits, *this)
@@ -3785,10 +3740,14 @@ public:
       , texture_storage1d("texture_storage1d", traits, *this)
       , tex_storage3d_multisample("tex_storage3d_multisample", traits, *this)
       , texture_storage3d_multisample(
-          "texture_storage3d_multisample", traits, *this)
+          "texture_storage3d_multisample",
+          traits,
+          *this)
       , tex_storage2d_multisample("tex_storage2d_multisample", traits, *this)
       , texture_storage2d_multisample(
-          "texture_storage2d_multisample", traits, *this)
+          "texture_storage2d_multisample",
+          traits,
+          *this)
       , tex_image3d("tex_image3d", traits, *this)
       , tex_image2d("tex_image2d", traits, *this)
       , tex_image1d("tex_image1d", traits, *this)
@@ -3811,13 +3770,19 @@ public:
       , compressed_tex_image1d("compressed_tex_image1d", traits, *this)
       , compressed_tex_sub_image3d("compressed_tex_sub_image3d", traits, *this)
       , compressed_texture_sub_image3d(
-          "compressed_texture_sub_image3d", traits, *this)
+          "compressed_texture_sub_image3d",
+          traits,
+          *this)
       , compressed_tex_sub_image2d("compressed_tex_sub_image2d", traits, *this)
       , compressed_texture_sub_image2d(
-          "compressed_texture_sub_image2d", traits, *this)
+          "compressed_texture_sub_image2d",
+          traits,
+          *this)
       , compressed_tex_sub_image1d("compressed_tex_sub_image1d", traits, *this)
       , compressed_texture_sub_image1d(
-          "compressed_texture_sub_image1d", traits, *this)
+          "compressed_texture_sub_image1d",
+          traits,
+          *this)
       , tex_buffer("tex_buffer", traits, *this)
       , texture_buffer("texture_buffer", traits, *this)
       , tex_buffer_range("tex_buffer_range", traits, *this)
@@ -3859,34 +3824,55 @@ public:
       , renderbuffer_storage("renderbuffer_storage", traits, *this)
       , named_renderbuffer_storage("named_renderbuffer_storage", traits, *this)
       , renderbuffer_storage_multisample(
-          "renderbuffer_storage_multisample", traits, *this)
+          "renderbuffer_storage_multisample",
+          traits,
+          *this)
       , named_renderbuffer_storage_multisample(
-          "named_renderbuffer_storage_multisample", traits, *this)
+          "named_renderbuffer_storage_multisample",
+          traits,
+          *this)
       , get_renderbuffer_parameter_i(
-          "get_renderbuffer_parameter_i", traits, *this)
+          "get_renderbuffer_parameter_i",
+          traits,
+          *this)
       , get_named_renderbuffer_parameter_i(
-          "get_named_renderbuffer_parameter_i", traits, *this)
+          "get_named_renderbuffer_parameter_i",
+          traits,
+          *this)
       , bind_framebuffer("bind_framebuffer", traits, *this)
       , draw_buffer("draw_buffer", traits, *this)
       , named_framebuffer_draw_buffer(
-          "named_framebuffer_draw_buffer", traits, *this)
+          "named_framebuffer_draw_buffer",
+          traits,
+          *this)
       , read_buffer("read_buffer", traits, *this)
       , named_framebuffer_read_buffer(
-          "named_framebuffer_read_buffer", traits, *this)
+          "named_framebuffer_read_buffer",
+          traits,
+          *this)
       , framebuffer_parameter_i("framebuffer_parameter_i", traits, *this)
       , named_framebuffer_parameter_i(
-          "named_framebuffer_parameter_i", traits, *this)
-      , get_framebuffer_parameter_i(
-          "get_framebuffer_parameter_i", traits, *this)
+          "named_framebuffer_parameter_i",
+          traits,
+          *this)
+      , get_framebuffer_parameter_i("get_framebuffer_parameter_i", traits, *this)
       , get_named_framebuffer_parameter_i(
-          "get_named_framebuffer_parameter_i", traits, *this)
+          "get_named_framebuffer_parameter_i",
+          traits,
+          *this)
       , get_framebuffer_attachment_parameter_i(
-          "get_framebuffer_attachment_parameter_i", traits, *this)
+          "get_framebuffer_attachment_parameter_i",
+          traits,
+          *this)
       , get_named_framebuffer_attachment_parameter_i(
-          "get_named_framebuffer_attachment_parameter_i", traits, *this)
+          "get_named_framebuffer_attachment_parameter_i",
+          traits,
+          *this)
       , framebuffer_renderbuffer("framebuffer_renderbuffer", traits, *this)
       , named_framebuffer_renderbuffer(
-          "named_framebuffer_renderbuffer", traits, *this)
+          "named_framebuffer_renderbuffer",
+          traits,
+          *this)
       , framebuffer_texture("framebuffer_texture", traits, *this)
       , named_framebuffer_texture("named_framebuffer_texture", traits, *this)
       , framebuffer_texture1d("framebuffer_texture1d", traits, *this)
@@ -3894,10 +3880,14 @@ public:
       , framebuffer_texture3d("framebuffer_texture3d", traits, *this)
       , framebuffer_texture_layer("framebuffer_texture_layer", traits, *this)
       , named_framebuffer_texture_layer(
-          "named_framebuffer_texture_layer", traits, *this)
+          "named_framebuffer_texture_layer",
+          traits,
+          *this)
       , check_framebuffer_status("check_framebuffer_status", traits, *this)
       , check_named_framebuffer_status(
-          "check_named_framebuffer_status", traits, *this)
+          "check_named_framebuffer_status",
+          traits,
+          *this)
       , blit_framebuffer("blit_framebuffer", traits, *this)
       , blit_named_framebuffer("blit_named_framebuffer", traits, *this)
       , bind_transform_feedback("bind_transform_feedback", traits, *this)
@@ -3906,13 +3896,16 @@ public:
       , resume_transform_feedback("resume_transform_feedback", traits, *this)
       , end_transform_feedback("end_transform_feedback", traits, *this)
       , transform_feedback_buffer_base(
-          "transform_feedback_buffer_base", traits, *this)
+          "transform_feedback_buffer_base",
+          traits,
+          *this)
       , transform_feedback_buffer_range(
-          "transform_feedback_buffer_range", traits, *this)
+          "transform_feedback_buffer_range",
+          traits,
+          *this)
       , get_transform_feedback_i("get_transform_feedback_i", traits, *this)
       , get_transform_feedback_ii("get_transform_feedback_ii", traits, *this)
-      , get_transform_feedback_i64i(
-          "get_transform_feedback_i64i", traits, *this)
+      , get_transform_feedback_i64i("get_transform_feedback_i64i", traits, *this)
       , get_query_i("get_query_i", traits, *this)
       , get_query_indexed_i("get_query_indexed_i", traits, *this)
       , get_query_object_i("get_query_object_i", traits, *this)
@@ -3921,10 +3914,11 @@ public:
       , get_query_object_ui64("get_query_object_ui64", traits, *this)
       , get_query_buffer_object_i("get_query_buffer_object_i", traits, *this)
       , get_query_buffer_object_ui("get_query_buffer_object_ui", traits, *this)
-      , get_query_buffer_object_i64(
-          "get_query_buffer_object_i64", traits, *this)
+      , get_query_buffer_object_i64("get_query_buffer_object_i64", traits, *this)
       , get_query_buffer_object_ui64(
-          "get_query_buffer_object_ui64", traits, *this)
+          "get_query_buffer_object_ui64",
+          traits,
+          *this)
       , begin_query("begin_query", traits, *this)
       , begin_query_indexed("begin_query_indexed", traits, *this)
       , end_query("end_query", traits, *this)
@@ -3938,7 +3932,9 @@ public:
       , get_program_stage_i("get_program_stage_i", traits, *this)
       , get_program_pipeline_i("get_program_pipeline_i", traits, *this)
       , get_program_pipeline_info_log(
-          "get_program_pipeline_info_log", traits, *this)
+          "get_program_pipeline_info_log",
+          traits,
+          *this)
       , active_shader_program("active_shader_program", traits, *this)
       , primitive_restart_index("primitive_restart_index", traits, *this)
       , provoking_vertex("provoking_vertex", traits, *this)
@@ -3959,26 +3955,38 @@ public:
       , get_multisample_f("get_multisample_f", traits, *this)
       , draw_arrays("draw_arrays", traits, *this)
       , draw_arrays_instanced_base_instance(
-          "draw_arrays_instanced_base_instance", traits, *this)
+          "draw_arrays_instanced_base_instance",
+          traits,
+          *this)
       , draw_arrays_instanced("draw_arrays_instanced", traits, *this)
       , draw_arrays_indirect("draw_arrays_indirect", traits, *this)
       , multi_draw_arrays("multi_draw_arrays", traits, *this)
       , multi_draw_arrays_indirect("multi_draw_arrays_indirect", traits, *this)
       , multi_draw_arrays_indirect_count(
-          "multi_draw_arrays_indirect_count", traits, *this)
+          "multi_draw_arrays_indirect_count",
+          traits,
+          *this)
       , draw_elements("draw_elements", traits, *this)
       , draw_range_elements("draw_range_elements", traits, *this)
       , draw_elements_instanced_base_instance(
-          "draw_elements_instanced_base_instance", traits, *this)
+          "draw_elements_instanced_base_instance",
+          traits,
+          *this)
       , draw_elements_instanced("draw_elements_instanced", traits, *this)
       , draw_elements_indirect("draw_elements_indirect", traits, *this)
       , draw_elements_base_vertex("draw_elements_base_vertex", traits, *this)
       , draw_range_elements_base_vertex(
-          "draw_range_elements_base_vertex", traits, *this)
+          "draw_range_elements_base_vertex",
+          traits,
+          *this)
       , draw_elements_instanced_base_vertex(
-          "draw_elements_instanced_base_vertex", traits, *this)
+          "draw_elements_instanced_base_vertex",
+          traits,
+          *this)
       , draw_elements_instanced_base_vertex_base_instance(
-          "draw_elements_instanced_base_vertex_base_instance", traits, *this)
+          "draw_elements_instanced_base_vertex_base_instance",
+          traits,
+          *this)
       , dispatch_compute("dispatch_compute", traits, *this)
       , dispatch_compute_indirect("dispatch_compute_indirect", traits, *this)
       , get_integer("get_integer", traits, *this)
@@ -4044,8 +4052,7 @@ public:
       , pop_debug_group("pop_debug_group", traits, *this)
       , object_label("object_label", traits, *this)
       , flush("flush", traits, *this)
-      , finish("finish", traits, *this) {
-    }
+      , finish("finish", traits, *this) {}
 };
 //------------------------------------------------------------------------------
 #undef OGLPAFP
@@ -4053,4 +4060,3 @@ public:
 } // namespace eagine::oglp
 
 #endif // OGLPLUS_GL_API_API_HPP
-

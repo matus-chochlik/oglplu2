@@ -121,4 +121,3 @@ using gl_combined_result = api_combined_result<Result, gl_result_info>;
 } // namespace eagine::oglp
 
 #endif // OGLPLUS_GL_API_RESULT_HPP
-

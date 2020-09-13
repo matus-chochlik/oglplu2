@@ -9,8 +9,7 @@ namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void translated_gen::attrib_values(
-  vertex_attrib_variant vav, span<float> dest) {
+void translated_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
     delegated_gen::attrib_values(vav, dest);
 
     const bool is_translated_attrib = vav == vertex_attrib_kind::position ||

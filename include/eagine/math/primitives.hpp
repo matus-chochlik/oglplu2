@@ -21,8 +21,7 @@ public:
 
     constexpr line(tvec<T, 3, V> orig, tvec<T, 3, V> dir) noexcept
       : _origin{orig}
-      , _direction{dir} {
-    }
+      , _direction{dir} {}
 
     constexpr vector<T, 3, V> origin() const noexcept {
         return _origin;
@@ -46,10 +45,8 @@ class triangle {
 public:
     constexpr triangle() noexcept = default;
 
-    constexpr triangle(
-      tvec<T, 3, V> a, tvec<T, 3, V> b, tvec<T, 3, V> c) noexcept
-      : _vertices{{a, b, c}} {
-    }
+    constexpr triangle(tvec<T, 3, V> a, tvec<T, 3, V> b, tvec<T, 3, V> c) noexcept
+      : _vertices{{a, b, c}} {}
 
     constexpr vector<T, 3, V> vertex(span_size_t index) const noexcept {
         return _vertices[index];
@@ -91,8 +88,7 @@ template <typename T, bool V>
 class sphere {
 public:
     constexpr sphere(tvec<T, 3, V> cntr, T rad) noexcept
-      : _params{vector<T, 4, V>::from(cntr, rad)} {
-    }
+      : _params{vector<T, 4, V>::from(cntr, rad)} {}
 
     constexpr vector<T, 3, V> center() const noexcept {
         return vector<T, 3, V>::from(_params);

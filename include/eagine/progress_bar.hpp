@@ -17,7 +17,12 @@ namespace eagine {
 //------------------------------------------------------------------------------
 template <typename Putter>
 void format_progress_bar(
-  Putter& put, int width, float min, float max, float prev, float curr);
+  Putter& put,
+  int width,
+  float min,
+  float max,
+  float prev,
+  float curr);
 //------------------------------------------------------------------------------
 class progress_bar {
 public:

@@ -34,8 +34,8 @@ public:
           _entry_backend(source, severity)};
     }
 
-    constexpr auto log(
-      identifier, log_event_severity, std::false_type, string_view) noexcept
+    constexpr auto
+    log(identifier, log_event_severity, std::false_type, string_view) noexcept
       -> no_log_entry {
         return {};
     }
@@ -51,8 +51,8 @@ public:
 
     template <log_event_severity severity>
     auto log(
-      log_event_severity_constant<severity> level, string_view format) noexcept
-      -> entry<severity> {
+      log_event_severity_constant<severity> level,
+      string_view format) noexcept -> entry<severity> {
         return log(_logger_id, level, format);
     }
 
@@ -165,7 +165,8 @@ public:
 
 protected:
     logger(
-      identifier logger_id, std::shared_ptr<logger_backend> backend) noexcept
+      identifier logger_id,
+      std::shared_ptr<logger_backend> backend) noexcept
       : _logger_id{logger_id}
       , _backend{std::move(backend)} {
         lifetime("${self} created with ${backend} backend")
@@ -177,8 +178,8 @@ private:
     identifier _logger_id{EAGINE_ID(Logger)};
     std::shared_ptr<logger_backend> _backend{};
 
-    inline auto _entry_backend(
-      identifier source, log_event_severity severity) noexcept
+    inline auto
+    _entry_backend(identifier source, log_event_severity severity) noexcept
       -> logger_backend* {
         if(is_log_level_enabled(severity)) {
             if(_backend) {

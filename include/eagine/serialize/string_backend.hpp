@@ -447,4 +447,3 @@ public:
 #endif
 
 #endif // EAGINE_SERIALIZE_STRING_BACKEND_HPP
-

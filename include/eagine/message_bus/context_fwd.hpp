@@ -26,4 +26,3 @@ std::shared_ptr<context> make_context(logger&, const program_args&);
 } // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_CONTEXT_FWD_HPP
-

@@ -82,8 +82,8 @@ private:
 
     bool _do_send(message_id msg_id, message_view);
 
-    bool _handle_send(
-      message_id msg_id, message_age, const message_view& message) {
+    bool
+    _handle_send(message_id msg_id, message_age, const message_view& message) {
         // TODO: use message age
         return _do_send(msg_id, message);
     }
@@ -100,8 +100,7 @@ private:
 
     explicit endpoint(logger log, fetch_handler store_message) noexcept
       : _log{std::move(log)}
-      , _store_handler{std::move(store_message)} {
-    }
+      , _store_handler{std::move(store_message)} {}
 
     explicit endpoint(
       logger log,
@@ -109,8 +108,7 @@ private:
       fetch_handler store_message) noexcept
       : _log{std::move(log)}
       , _allow_blob{std::move(allow_blob)}
-      , _store_handler{std::move(store_message)} {
-    }
+      , _store_handler{std::move(store_message)} {}
 
     endpoint(endpoint&& temp) noexcept
       : _log{std::move(temp._log)}
@@ -143,18 +141,15 @@ public:
     endpoint() = default;
 
     endpoint(logger log) noexcept
-      : _log{std::move(log)} {
-    }
+      : _log{std::move(log)} {}
 
     explicit endpoint(logger log, blob_filter_function allow_blob) noexcept
       : _log{std::move(log)}
-      , _allow_blob{std::move(allow_blob)} {
-    }
+      , _allow_blob{std::move(allow_blob)} {}
 
     endpoint(logger log, const program_args& args) noexcept
       : _log{std::move(log)}
-      , _context{make_context(_log, args)} {
-    }
+      , _context{make_context(_log, args)} {}
 
     endpoint(const endpoint&) = delete;
     endpoint& operator=(endpoint&&) = delete;
@@ -211,8 +206,7 @@ public:
     bool post_signed(message_id, message_view message);
 
     template <typename T>
-    bool post_value(
-      message_id msg_id, T& value, const message_info& info = {}) {
+    bool post_value(message_id msg_id, T& value, const message_info& info = {}) {
         if(const auto opt_size = max_data_size()) {
             const auto max_size = extract(opt_size);
             return _outgoing.push_if(
@@ -277,7 +271,9 @@ public:
 
     void post_meta_message(message_id meta_msg_id, message_id msg_id);
     void post_meta_message_to(
-      identifier_t target_id, message_id meta_msg_id, message_id msg_id);
+      identifier_t target_id,
+      message_id meta_msg_id,
+      message_id msg_id);
 
     void say_subscribes_to(message_id);
     void say_subscribes_to(identifier_t target_id, message_id);
@@ -293,7 +289,9 @@ public:
     void query_certificate_of(identifier_t endpoint_id);
 
     bool respond_to(
-      const message_info& info, message_id msg_id, message_view message) {
+      const message_info& info,
+      message_id msg_id,
+      message_view message) {
         message.setup_response(info);
         return send(msg_id, message);
     }
@@ -324,8 +322,8 @@ public:
 //------------------------------------------------------------------------------
 class friend_of_endpoint {
 protected:
-    static auto _make_endpoint(
-      logger log, endpoint::fetch_handler store_message) noexcept {
+    static auto
+    _make_endpoint(logger log, endpoint::fetch_handler store_message) noexcept {
         return endpoint{std::move(log), store_message};
     }
 
@@ -337,7 +335,8 @@ protected:
     }
 
     static auto _move_endpoint(
-      endpoint&& bus, endpoint::fetch_handler store_message) noexcept {
+      endpoint&& bus,
+      endpoint::fetch_handler store_message) noexcept {
         return endpoint{std::move(bus), {}, store_message};
     }
 
@@ -349,7 +348,9 @@ protected:
     }
 
     inline bool _accept_message(
-      endpoint& ep, message_id msg_id, const message_view& message) {
+      endpoint& ep,
+      message_id msg_id,
+      const message_view& message) {
         return ep._accept_message(msg_id, message);
     }
 };
@@ -361,4 +362,3 @@ protected:
 #endif
 
 #endif // EAGINE_MESSAGE_BUS_ENDPOINT_HPP
-

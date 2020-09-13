@@ -30,14 +30,14 @@ using context_attributes = key_value_list<context_attrib_traits, N>;
 
 using context_attribute_value = key_value_list_element<context_attrib_traits>;
 
-static constexpr inline context_attribute_value operator|(
-  context_attribute key, alc_types::int_type value) noexcept {
+static constexpr inline context_attribute_value
+operator|(context_attribute key, alc_types::int_type value) noexcept {
     return {key, value};
 }
 
 #if defined(ALC_TRUE) && defined(ALC_FALSE)
-static constexpr inline context_attribute_value operator|(
-  context_attribute key, bool value) noexcept {
+static constexpr inline context_attribute_value
+operator|(context_attribute key, bool value) noexcept {
     return {key, value ? ALC_TRUE : ALC_FALSE};
 }
 #endif

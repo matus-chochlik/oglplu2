@@ -64,7 +64,9 @@ void test_math_matrix_ctrs_TRMV() {
     using namespace eagine::math;
     using eagine::radians_;
 
-    auto r = []() { return rg.get<T>(1, 10000); };
+    auto r = []() {
+        return rg.get<T>(1, 10000);
+    };
 
     test_math_matrix_ctr_MC(identity<matrix<T, 4, 4, RM, V>>());
     test_math_matrix_ctr_MC(translation<matrix<T, 4, 4, RM, V>>(r(), r(), r()));

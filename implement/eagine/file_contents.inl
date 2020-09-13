@@ -26,8 +26,8 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-inline std::shared_ptr<file_contents_intf> make_file_contents_impl(
-  string_view path) {
+inline std::shared_ptr<file_contents_intf>
+make_file_contents_impl(string_view path) {
     try {
         return std::make_shared<buffered_file_contents>(path);
     } catch(std::system_error&) {
@@ -39,7 +39,6 @@ inline std::shared_ptr<file_contents_intf> make_file_contents_impl(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 file_contents::file_contents(string_view path)
-  : _pimpl{make_file_contents_impl(path)} {
-}
+  : _pimpl{make_file_contents_impl(path)} {}
 //------------------------------------------------------------------------------
 } // namespace eagine

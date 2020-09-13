@@ -125,25 +125,29 @@ void combined_gen::attrib_values(vertex_attrib_variant vav, span<byte> dest) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void combined_gen::attrib_values(
-  vertex_attrib_variant vav, span<std::int16_t> dest) {
+  vertex_attrib_variant vav,
+  span<std::int16_t> dest) {
     _attrib_values(vav, dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void combined_gen::attrib_values(
-  vertex_attrib_variant vav, span<std::int32_t> dest) {
+  vertex_attrib_variant vav,
+  span<std::int32_t> dest) {
     _attrib_values(vav, dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void combined_gen::attrib_values(
-  vertex_attrib_variant vav, span<std::uint16_t> dest) {
+  vertex_attrib_variant vav,
+  span<std::uint16_t> dest) {
     _attrib_values(vav, dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void combined_gen::attrib_values(
-  vertex_attrib_variant vav, span<std::uint32_t> dest) {
+  vertex_attrib_variant vav,
+  span<std::uint32_t> dest) {
     _attrib_values(vav, dest);
 }
 //------------------------------------------------------------------------------

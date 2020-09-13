@@ -21,8 +21,7 @@ namespace eagine {
 class ostream_data_sink : public serializer_data_sink {
 public:
     ostream_data_sink(std::ostream& out) noexcept
-      : _out{out} {
-    }
+      : _out{out} {}
 
     span_size_t remaining_size() final {
         return std::numeric_limits<span_size_t>::max();
@@ -77,4 +76,3 @@ private:
 } // namespace eagine
 
 #endif // EAGINE_SERIALIZE_OSTREAM_SINK_HPP
-

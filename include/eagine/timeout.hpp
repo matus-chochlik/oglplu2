@@ -19,8 +19,7 @@ class time_measure {
 
 public:
     time_measure() noexcept
-      : _start{_clock::now()} {
-    }
+      : _start{_clock::now()} {}
 
     auto elapsed_time() const noexcept {
         return _clock::now() - _start;
@@ -40,21 +39,17 @@ class timeout {
 
 public:
     timeout() noexcept
-      : _timeout{_clock::now()} {
-    }
+      : _timeout{_clock::now()} {}
 
     timeout(_clock::duration duration, _clock::duration initial) noexcept
       : _duration{duration}
-      , _timeout{_clock::now() + initial} {
-    }
+      , _timeout{_clock::now() + initial} {}
 
     timeout(_clock::duration duration, nothing_t) noexcept
-      : timeout{duration, _clock::duration::zero()} {
-    }
+      : timeout{duration, _clock::duration::zero()} {}
 
     timeout(_clock::duration duration) noexcept
-      : timeout{duration, duration} {
-    }
+      : timeout{duration, duration} {}
 
     timeout& reset() noexcept {
         _timeout = std::chrono::steady_clock::now() + _duration;

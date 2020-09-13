@@ -32,8 +32,7 @@ namespace eagine {
 struct c_api_constant_base {
 public:
     constexpr c_api_constant_base(string_view name) noexcept
-      : _name{name} {
-    }
+      : _name{name} {}
 
     constexpr string_view name() const noexcept {
         return _name;
@@ -50,8 +49,7 @@ struct no_c_api_constant
 public:
     template <typename ApiTraits, typename Api>
     constexpr no_c_api_constant(string_view name, ApiTraits&, Api&) noexcept
-      : c_api_constant_base{name} {
-    }
+      : c_api_constant_base{name} {}
 
     template <typename I>
     constexpr std::
@@ -74,8 +72,7 @@ public:
     template <typename ApiTraits, typename Api>
     constexpr static_c_api_constant(string_view name, ApiTraits&, Api&) noexcept
       : c_api_constant_base{name}
-      , enum_value<T, ClassList, Tag>{value} {
-    }
+      , enum_value<T, ClassList, Tag>{value} {}
 
     template <typename I>
     constexpr std::enable_if_t<
@@ -103,11 +100,12 @@ public:
 
     template <typename ApiTraits, typename Api>
     constexpr dynamic_c_api_constant(
-      string_view name, ApiTraits& traits, Api& api) noexcept
+      string_view name,
+      ApiTraits& traits,
+      Api& api) noexcept
       : c_api_constant_base{name}
       , opt_enum_value<T, ClassList, Tag>{
-          traits.load_constant(api, name, identity<T>())} {
-    }
+          traits.load_constant(api, name, identity<T>())} {}
 
     template <typename I>
     constexpr std::enable_if_t<
@@ -125,12 +123,7 @@ public:
 template <typename ClassList, typename Constant, typename Tag, bool is_indexed>
 struct get_opt_c_api_constant;
 
-template <
-  typename ClassList,
-  typename T,
-  T value,
-  typename Tag,
-  bool is_indexed>
+template <typename ClassList, typename T, T value, typename Tag, bool is_indexed>
 struct get_opt_c_api_constant<
   ClassList,
   std::integral_constant<T, value>,
@@ -157,8 +150,7 @@ class bad_result
 public:
     bad_result(Info&& info) noexcept
       : std::runtime_error("bad operation result")
-      , Info(std::move(info)) {
-    }
+      , Info(std::move(info)) {}
 };
 //------------------------------------------------------------------------------
 enum class api_result_validity { always, maybe, never };
@@ -217,20 +209,21 @@ protected:
 };
 //------------------------------------------------------------------------------
 template <typename Result>
-static constexpr inline Result& extract(
-  api_result_value<Result, api_result_validity::never>&) noexcept {
+static constexpr inline Result&
+extract(api_result_value<Result, api_result_validity::never>&) noexcept {
     return unreachable_reference(identity<Result>{});
 }
 
 template <typename Result>
-static constexpr inline const Result& extract(
-  const api_result_value<Result, api_result_validity::never>&) noexcept {
+static constexpr inline const Result&
+extract(const api_result_value<Result, api_result_validity::never>&) noexcept {
     return unreachable_reference(identity<Result>{});
 }
 
 template <typename Result, typename Info>
 inline Result& operator>>(
-  api_result<Result, Info, api_result_validity::never> result, Result& dest) {
+  api_result<Result, Info, api_result_validity::never> result,
+  Result& dest) {
     throw bad_result<Info>(static_cast<Info&&>(result));
     return dest = std::move(result._value);
 }
@@ -315,8 +308,8 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-static constexpr inline nothing_t extract(
-  const api_result_value<void, api_result_validity::never>&) noexcept {
+static constexpr inline nothing_t
+extract(const api_result_value<void, api_result_validity::never>&) noexcept {
     return {};
 }
 //------------------------------------------------------------------------------
@@ -343,8 +336,7 @@ public:
     constexpr api_result_value() noexcept(noexcept(Result{})) = default;
 
     constexpr api_result_value(Result value) noexcept
-      : _value{std::move(value)} {
-    }
+      : _value{std::move(value)} {}
 
     constexpr bool is_valid() const noexcept {
         return true;
@@ -402,8 +394,7 @@ static constexpr Result& extract(
 
 template <typename Result>
 static constexpr const Result& extract(
-  const api_result_value<Result, api_result_validity::always>&
-    result) noexcept {
+  const api_result_value<Result, api_result_validity::always>& result) noexcept {
     return result._value;
 }
 
@@ -499,8 +490,8 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-static constexpr inline nothing_t extract(
-  const api_result_value<void, api_result_validity::always>&) noexcept {
+static constexpr inline nothing_t
+extract(const api_result_value<void, api_result_validity::always>&) noexcept {
     return {};
 }
 //------------------------------------------------------------------------------
@@ -531,8 +522,7 @@ public:
 
     constexpr api_result_value(Result value, bool valid) noexcept
       : _value{std::move(value)}
-      , _valid{valid} {
-    }
+      , _valid{valid} {}
 
     constexpr bool is_valid() const noexcept {
         return _valid;
@@ -585,8 +575,8 @@ static constexpr inline Result extract(
 }
 
 template <typename Result>
-static constexpr inline Result& extract(
-  api_result_value<Result, api_result_validity::maybe>& result) noexcept {
+static constexpr inline Result&
+extract(api_result_value<Result, api_result_validity::maybe>& result) noexcept {
     return EAGINE_CONSTEXPR_ASSERT(result._valid, result._value);
 }
 
@@ -598,7 +588,8 @@ static constexpr inline const Result& extract(
 
 template <typename Result, typename Info>
 inline Result& operator>>(
-  api_result<Result, Info, api_result_validity::maybe> result, Result& dest) {
+  api_result<Result, Info, api_result_validity::maybe> result,
+  Result& dest) {
     if(!result._valid) {
         throw bad_result<Info>(static_cast<Info&&>(result));
     }
@@ -611,8 +602,7 @@ public:
     constexpr api_result_value() noexcept = default;
 
     constexpr api_result_value(bool valid) noexcept
-      : _valid{valid} {
-    }
+      : _valid{valid} {}
 
     constexpr bool is_valid() const noexcept {
         return _valid;
@@ -701,8 +691,8 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-static constexpr inline nothing_t extract(
-  const api_result_value<void, api_result_validity::maybe>&) noexcept {
+static constexpr inline nothing_t
+extract(const api_result_value<void, api_result_validity::maybe>&) noexcept {
     return {};
 }
 //------------------------------------------------------------------------------
@@ -732,8 +722,7 @@ class api_combined_result
     using base = api_result<Result, Info, api_result_validity::maybe>;
 
 public:
-    api_combined_result(
-      api_result<Result, Info, api_result_validity::never> src)
+    api_combined_result(api_result<Result, Info, api_result_validity::never> src)
       : base{} {
         static_cast<Info&>(*this) = static_cast<Info&&>(src);
     }
@@ -741,16 +730,14 @@ public:
     api_combined_result(api_result<Result, Info> src)
       : base{
           extract(
-            static_cast<
-              api_result_value<Result, api_result_validity::always>&&>(src)),
+            static_cast<api_result_value<Result, api_result_validity::always>&&>(
+              src)),
           src.is_valid()} {
         static_cast<Info&>(*this) = static_cast<Info&&>(src);
     }
 
-    api_combined_result(
-      api_result<Result, Info, api_result_validity::maybe> src)
-      : base{std::move(src)} {
-    }
+    api_combined_result(api_result<Result, Info, api_result_validity::maybe> src)
+      : base{std::move(src)} {}
 };
 //------------------------------------------------------------------------------
 template <typename Info>
@@ -782,8 +769,8 @@ public:
 //------------------------------------------------------------------------------
 template <typename Result, typename Info>
 struct ok_traits<api_combined_result<Result, Info>> {
-    static constexpr const Info& nok_info(
-      const api_combined_result<Result, Info>& r) noexcept {
+    static constexpr const Info&
+    nok_info(const api_combined_result<Result, Info>& r) noexcept {
         return r;
     }
 };
@@ -818,8 +805,8 @@ struct default_c_api_traits {
     }
 
     template <typename Api, typename Tag, typename Signature>
-    std::add_pointer_t<Signature> link_function(
-      Api&, Tag, string_view, identity<Signature>) {
+    std::add_pointer_t<Signature>
+    link_function(Api&, Tag, string_view, identity<Signature>) {
         return nullptr;
     }
 
@@ -829,12 +816,11 @@ struct default_c_api_traits {
     }
 
     template <typename Tag>
-    static constexpr void fallback(Tag, identity<void>) {
-    }
+    static constexpr void fallback(Tag, identity<void>) {}
 
     template <typename RV, typename Tag, typename... Params, typename... Args>
-    static constexpr RV call_static(
-      Tag tag, RV (*function)(Params...), Args&&... args) {
+    static constexpr RV
+    call_static(Tag tag, RV (*function)(Params...), Args&&... args) {
         if(function) {
             return function(
               std::forward<Args>(args)...); // NOLINT(hicpp-no-array-decay)
@@ -843,8 +829,8 @@ struct default_c_api_traits {
     }
 
     template <typename RV, typename Tag, typename... Params, typename... Args>
-    static constexpr RV call_dynamic(
-      Tag tag, RV (*function)(Params...), Args&&... args) {
+    static constexpr RV
+    call_dynamic(Tag tag, RV (*function)(Params...), Args&&... args) {
         if(function) {
             return function(
               std::forward<Args>(args)...); // NOLINT(hicpp-no-array-decay)
@@ -866,8 +852,7 @@ template <typename ApiTraits, bool IsAvailable>
 class c_api_function_base : public bool_constant<IsAvailable> {
 public:
     constexpr c_api_function_base(string_view name) noexcept
-      : _name{name} {
-    }
+      : _name{name} {}
 
     constexpr explicit operator bool() const noexcept {
         return IsAvailable;
@@ -894,9 +879,10 @@ public:
 
     template <typename Api>
     constexpr unimplemented_c_api_function(
-      string_view name, const ApiTraits&, Api&)
-      : base(name) {
-    }
+      string_view name,
+      const ApiTraits&,
+      Api&)
+      : base(name) {}
 
     template <typename... Args>
     constexpr std::enable_if_t<sizeof...(Params) == sizeof...(Args), RV>
@@ -920,8 +906,7 @@ public:
 
     template <typename Api>
     constexpr static_c_api_function(string_view name, const ApiTraits&, Api&)
-      : base(name) {
-    }
+      : base(name) {}
 
     template <typename... Args>
     constexpr std::enable_if_t<sizeof...(Params) == sizeof...(Args), RV>
@@ -943,11 +928,12 @@ public:
 
     template <typename Api>
     constexpr dynamic_c_api_function(
-      string_view name, ApiTraits& traits, Api& api)
+      string_view name,
+      ApiTraits& traits,
+      Api& api)
       : base(name)
       , _function{
-          traits.link_function(api, Tag(), name, identity<RV(Params...)>())} {
-    }
+          traits.link_function(api, Tag(), name, identity<RV(Params...)>())} {}
 
     constexpr explicit operator bool() const noexcept {
         return bool(_function);
@@ -1036,11 +1022,7 @@ protected:
         return {std::move(fallback)};
     }
 
-    template <
-      typename RV,
-      typename... Params,
-      RV (*Func)(Params...),
-      typename F>
+    template <typename RV, typename... Params, RV (*Func)(Params...), typename F>
     static constexpr typename ApiTraits::template result<RV> _fake(
       const static_c_api_function<ApiTraits, Tag, RV(Params...), Func>&,
       F&& fallback) noexcept {
@@ -1056,10 +1038,11 @@ protected:
 
 public:
     constexpr derived_c_api_function(
-      string_view name, ApiTraits&, Api& parent) noexcept
+      string_view name,
+      ApiTraits&,
+      Api& parent) noexcept
       : _name{name}
-      , _parent{parent} {
-    }
+      , _parent{parent} {}
 
     constexpr string_view name() const noexcept {
         return _name;
@@ -1097,8 +1080,8 @@ protected:
     }
 
     template <typename Arg>
-    static constexpr inline std::enable_if_t<std::is_scalar_v<Arg>, Arg> _conv(
-      Arg arg) noexcept {
+    static constexpr inline std::enable_if_t<std::is_scalar_v<Arg>, Arg>
+    _conv(Arg arg) noexcept {
         return arg;
     }
 
@@ -1137,4 +1120,3 @@ public:
 } // namespace eagine
 
 #endif // EAGINE_C_API_WRAP_HPP
-

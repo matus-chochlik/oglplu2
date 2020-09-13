@@ -45,8 +45,7 @@ struct options {
     options()
       : input_path("-i", "--input", string_view())
       , output_path("-o", "--output", string_view("a.oglpshdr"))
-      , shader_type("-t", "--shader-type", GL_NONE) {
-    }
+      , shader_type("-t", "--shader-type", GL_NONE) {}
 
     void print_usage(std::ostream& log) {
         log << "bake_shader_source options" << std::endl;
@@ -80,36 +79,38 @@ struct options {
     }
 
     bool parse(program_arg& a, std::ostream& log) {
-        const string_view shader_type_names[] = {"vertex",
+        const string_view shader_type_names[] = {
+          "vertex",
 #ifdef GL_GEOMETRY_SHADER
-                                                 "geometry",
+          "geometry",
 #endif
 #ifdef GL_TESS_CONTROL_SHADER
-                                                 "tess_control",
+          "tess_control",
 #endif
 #ifdef GL_TESS_EVALUATION_SHADER
-                                                 "tess_evaluation",
+          "tess_evaluation",
 #endif
 #ifdef GL_COMPUTE_SHADER
-                                                 "compute",
+          "compute",
 #endif
-                                                 "fragment"};
+          "fragment"};
         const span<const string_view> shtnames = view(shader_type_names);
 
-        const GLenum shader_type_values[] = {GL_VERTEX_SHADER,
+        const GLenum shader_type_values[] = {
+          GL_VERTEX_SHADER,
 #ifdef GL_GEOMETRY_SHADER
-                                             GL_GEOMETRY_SHADER,
+          GL_GEOMETRY_SHADER,
 #endif
 #ifdef GL_TESS_CONTROL_SHADER
-                                             GL_TESS_CONTROL_SHADER,
+          GL_TESS_CONTROL_SHADER,
 #endif
 #ifdef GL_TESS_EVALUATION_SHADER
-                                             GL_TESS_EVALUATION_SHADER,
+          GL_TESS_EVALUATION_SHADER,
 #endif
 #ifdef GL_COMPUTE_SHADER
-                                             GL_COMPUTE_SHADER,
+          GL_COMPUTE_SHADER,
 #endif
-                                             GL_FRAGMENT_SHADER};
+          GL_FRAGMENT_SHADER};
         const span<const GLenum> shtvalues = view(shader_type_values);
 
         return a.parse_param(output_path, log) ||
@@ -119,7 +120,9 @@ struct options {
 };
 //------------------------------------------------------------------------------
 void write_output(
-  std::istream& input, std::ostream& output, const options& opts) {
+  std::istream& input,
+  std::ostream& output,
+  const options& opts) {
     oglp::shader_source_header hdr;
 
     memory::buffer source_text;
@@ -216,4 +219,3 @@ int main(int argc, const char** argv) {
     options.logger_opts.default_no_log = true;
     return eagine::main_impl(argc, argv, options);
 }
-

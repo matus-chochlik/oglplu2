@@ -26,15 +26,13 @@ public:
     interlace_output(node_intf& parent, interlace_mode);
 
     interlace_output(node_intf& parent)
-      : interlace_output(parent, interlace_mode::rows) {
-    }
+      : interlace_output(parent, interlace_mode::rows) {}
 
     string_view type_name() override;
 
     slot_data_type value_type() override;
 
-    std::ostream& definitions(
-      std::ostream& out, compile_context& ctxt) override;
+    std::ostream& definitions(std::ostream& out, compile_context& ctxt) override;
 };
 
 class interlace_node : public single_output_node<interlace_output> {

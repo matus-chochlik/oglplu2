@@ -23,8 +23,7 @@ public:
     any_random_engine(Engine& engine) noexcept
       : callable_ref<Result()>{engine}
       , _min{engine.min()}
-      , _max{engine.max()} {
-    }
+      , _max{engine.max()} {}
 
     result_type min() const noexcept {
         return _min;
@@ -39,9 +38,8 @@ private:
 };
 
 template <typename Engine>
-any_random_engine(Engine&)->any_random_engine<typename Engine::result_type>;
+any_random_engine(Engine&) -> any_random_engine<typename Engine::result_type>;
 
 } // namespace eagine
 
 #endif // EAGINE_ANY_RANDOM_ENGINE_HPP
-

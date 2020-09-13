@@ -15,7 +15,8 @@ namespace eagine::msgbus {
 // routed_endpoint
 //------------------------------------------------------------------------------
 static inline bool routed_endpoint_list_contains(
-  const std::vector<message_id>& list, const message_id& entry) noexcept {
+  const std::vector<message_id>& list,
+  const message_id& entry) noexcept {
     return std::find(list.begin(), list.end(), entry) != list.end();
 }
 //------------------------------------------------------------------------------
@@ -296,7 +297,9 @@ bool router::_do_allow_blob(message_id msg_id) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool router::_handle_blob(
-  message_id msg_id, message_age, const message_view& message) {
+  message_id msg_id,
+  message_age,
+  const message_view& message) {
     // TODO: use message age
     if(is_special_message(msg_id)) {
         if(msg_id.has_method(EAGINE_ID(eptCertPem))) {
@@ -469,7 +472,9 @@ bool router::_handle_special(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool router::_do_route_message(
-  message_id msg_id, identifier_t incoming_id, message_view message) {
+  message_id msg_id,
+  identifier_t incoming_id,
+  message_view message) {
     if(EAGINE_UNLIKELY(message.too_many_hops())) {
         _log.warning("message ${message} discarded after too many hops")
           .arg(EAGINE_ID(message), msg_id);
@@ -573,4 +578,3 @@ bool router::update(const valid_if_positive<int>& count) {
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus
-

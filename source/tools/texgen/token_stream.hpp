@@ -19,8 +19,7 @@ namespace eagine::oglp::texgen {
 class token_stream {
 public:
     token_stream(input_stream input)
-      : _tokenizer(std::move(input)) {
-    }
+      : _tokenizer(std::move(input)) {}
 
     span<const token_info> head(span_size_t length = 1) {
         _ensure_cached(length);

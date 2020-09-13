@@ -151,8 +151,7 @@ struct example_file_api {
       , write_file{"write", traits, *this}
       , write_block("write", traits, *this)
       , write_string("write", traits, *this)
-      , close_file{"close", traits, *this} {
-    }
+      , close_file{"close", traits, *this} {}
 };
 //------------------------------------------------------------------------------
 } // namespace eagine

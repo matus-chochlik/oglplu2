@@ -52,20 +52,17 @@ private:
 
 public:
     on_scope_exit(action_type action) noexcept
-      : _action(std::move(action)) {
-    }
+      : _action(std::move(action)) {}
 
     template <typename Func>
     on_scope_exit(Func& action) noexcept
-      : _action(action_type(action)) {
-    }
+      : _action(action_type(action)) {}
 
     on_scope_exit(const on_scope_exit&) = delete;
     on_scope_exit& operator=(const on_scope_exit&) = delete;
 
     on_scope_exit(on_scope_exit&& temp) noexcept
-      : on_scope_exit(temp.release()) {
-    }
+      : on_scope_exit(temp.release()) {}
     on_scope_exit& operator=(on_scope_exit&&) = delete;
 
     ~on_scope_exit() noexcept(false) {
@@ -90,8 +87,7 @@ private:
 public:
     func_on_scope_exit(Func func)
       : _func(func)
-      , _ose(_func) {
-    }
+      , _ose(_func) {}
 
     void cancel() noexcept {
         _ose.cancel();

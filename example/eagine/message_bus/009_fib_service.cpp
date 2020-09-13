@@ -38,8 +38,7 @@ struct fibonacci_server : static_subscriber<2> {
           ep,
           this,
           EAGINE_MSG_MAP(Fibonacci, FindServer, this_class, is_ready),
-          EAGINE_MSG_MAP(Fibonacci, Calculate, this_class, calculate)) {
-    }
+          EAGINE_MSG_MAP(Fibonacci, Calculate, this_class, calculate)) {}
 
     bool is_ready(stored_message& msg_in) {
         bus().respond_to(msg_in, EAGINE_MSG_ID(Fibonacci, IsReady));
@@ -71,8 +70,7 @@ struct fibonacci_client : static_subscriber<2> {
           ep,
           this,
           EAGINE_MSG_MAP(Fibonacci, IsReady, this_class, dispatch),
-          EAGINE_MSG_MAP(Fibonacci, Result, this_class, fulfill)) {
-    }
+          EAGINE_MSG_MAP(Fibonacci, Result, this_class, fulfill)) {}
 
     void enqueue(std::int64_t arg) {
         _remaining.push(arg);
@@ -160,4 +158,3 @@ int main(main_ctx& ctx) {
     return 0;
 }
 } // namespace eagine
-

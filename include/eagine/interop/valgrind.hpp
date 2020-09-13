@@ -31,4 +31,3 @@ static inline tribool running_on_valgrind() noexcept {
 } // namespace eagine
 
 #endif // EAGINE_INTEROP_VALGRIND_HPP
-

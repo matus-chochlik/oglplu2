@@ -61,7 +61,9 @@ BOOST_AUTO_TEST_CASE(span_algo_equal_1) {
 
 template <typename T>
 void test_range_slice_r_p_s_1(
-  eagine::span<T> rng, eagine::span_size_t p, eagine::span_size_t s) {
+  eagine::span<T> rng,
+  eagine::span_size_t p,
+  eagine::span_size_t s) {
     using namespace eagine;
 
     span<T> slc = slice(rng, p, s);
@@ -166,7 +168,9 @@ BOOST_AUTO_TEST_CASE(span_algo_slice_r_p_1) {
 
 template <typename T>
 void test_range_split_by(
-  eagine::span<T> rng, eagine::span_size_t p, eagine::span_size_t s) {
+  eagine::span<T> rng,
+  eagine::span_size_t p,
+  eagine::span_size_t s) {
     using namespace eagine;
 
     eagine::span<T> sep{slice(rng, p, s)};

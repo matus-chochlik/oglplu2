@@ -17,8 +17,7 @@ OGLPLUS_LIB_FUNC
 offset_output::offset_output(node_intf& parent)
   : base_output(parent)
   , input(parent, string_view("Input"), 0.5f, 0.5f, 0.5f, 0.5f)
-  , offset(parent, string_view("Offset"), 0.f, 0.f, 0.f) {
-}
+  , offset(parent, string_view("Offset"), 0.f, 0.f, 0.f) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 string_view offset_output::type_name() {
@@ -31,8 +30,8 @@ slot_data_type offset_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& offset_output::definitions(
-  std::ostream& out, compile_context& ctxt) {
+std::ostream&
+offset_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt)) {
         return out;
     }

@@ -100,4 +100,3 @@ memory::const_block ca_certificate_pem(
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
-

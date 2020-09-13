@@ -109,7 +109,9 @@ public:
 
 #if OGLPLUS_GLFW3_FOUND
     void _example_loop(
-      GLFWwindow* window, example_run_context& erc, example_wrapper& example) {
+      GLFWwindow* window,
+      example_run_context& erc,
+      example_wrapper& example) {
         auto& state = erc.state;
         int w = state.width();
         int h = state.height();
@@ -156,4 +158,3 @@ std::unique_ptr<example_main_intf> make_example_main_glfw3() {
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
-

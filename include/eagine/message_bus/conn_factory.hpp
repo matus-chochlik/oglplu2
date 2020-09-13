@@ -41,4 +41,3 @@ struct connection_factory : connection_info {
 } // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_CONN_FACTORY_HPP
-

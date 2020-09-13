@@ -31,4 +31,3 @@ static inline T& unreachable_reference(identity<T>) noexcept {
 } // namespace eagine
 
 #endif // EAGINE_UNREACHABLE_REFERENCE_HPP
-

@@ -88,15 +88,13 @@ public:
       typename Arg,
       typename = std::enable_if_t<!std::is_same_v<Arg, static_enum_map>>>
     explicit static_enum_map(const Arg& arg)
-      : static_enum_map_unit<Enum, Unit, Keys>{arg}... {
-    }
+      : static_enum_map_unit<Enum, Unit, Keys>{arg}... {}
 
     template <
       typename... Args,
       typename = std::enable_if_t<(sizeof...(Args) > 1)>>
     explicit static_enum_map(const Args&... args)
-      : static_enum_map_unit<Enum, Unit, Keys>{args...}... {
-    }
+      : static_enum_map_unit<Enum, Unit, Keys>{args...}... {}
 
     template <Enum Key>
     Unit<Key>& get() noexcept {

@@ -34,16 +34,19 @@ private:
 public:
     void init(example_context& ctx);
     void set_texture(const example_context& ctx, gl_types::int_type);
-    void set_projection(
-      const example_context& ctx, const tmat<float, 4, 4, true>&);
+    void
+    set_projection(const example_context& ctx, const tmat<float, 4, 4, true>&);
     void update(const example_context& ctx);
 
     void bind_position_location(
-      const example_context& ctx, vertex_attrib_location loc);
+      const example_context& ctx,
+      vertex_attrib_location loc);
     void bind_normal_location(
-      const example_context& ctx, vertex_attrib_location loc);
+      const example_context& ctx,
+      vertex_attrib_location loc);
     void bind_tex_coord_location(
-      const example_context& ctx, vertex_attrib_location loc);
+      const example_context& ctx,
+      vertex_attrib_location loc);
 };
 //------------------------------------------------------------------------------
 // geometry

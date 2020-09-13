@@ -24,8 +24,7 @@ enum class storage_cap_bit : unsigned short {
 };
 //------------------------------------------------------------------------------
 template <typename Selector>
-constexpr auto enumerator_mapping(
-  identity<storage_cap_bit>, Selector) noexcept {
+constexpr auto enumerator_mapping(identity<storage_cap_bit>, Selector) noexcept {
     return enumerator_map_type<storage_cap_bit, 6>{
       {{"hide", storage_cap_bit::hide},
        {"copy", storage_cap_bit::copy},
@@ -35,8 +34,8 @@ constexpr auto enumerator_mapping(
        {"modify", storage_cap_bit::modify}}};
 }
 //------------------------------------------------------------------------------
-static inline bitfield<storage_cap_bit> operator|(
-  storage_cap_bit a, storage_cap_bit b) noexcept {
+static inline bitfield<storage_cap_bit>
+operator|(storage_cap_bit a, storage_cap_bit b) noexcept {
     return {a, b};
 }
 //------------------------------------------------------------------------------
@@ -48,8 +47,7 @@ public:
     storage_caps() = default;
 
     storage_caps(bitfield<storage_cap_bit> base)
-      : _base(base) {
-    }
+      : _base(base) {}
 
     bool can_hide() const noexcept {
         return has(storage_cap_bit::hide);

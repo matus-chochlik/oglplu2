@@ -32,8 +32,7 @@ public:
       span_size_t n) noexcept
       : delegated_gen(std::move(gen))
       , _d{d}
-      , _copies{n} {
-    }
+      , _copies{n} {}
 
     span_size_t vertex_count() override;
 

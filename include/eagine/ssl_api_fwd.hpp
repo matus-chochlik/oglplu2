@@ -21,4 +21,3 @@ using ssl_api = basic_ssl_api<ssl_api_traits>;
 } // namespace eagine::sslp
 
 #endif // EAGINE_SSL_API_FWD_HPP
-

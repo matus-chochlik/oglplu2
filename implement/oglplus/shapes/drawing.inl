@@ -11,8 +11,8 @@
 namespace eagine::oglp {
 //------------------------------------------------------------------------------
 template <typename A>
-inline primitive_type translate(
-  const basic_gl_api<A>& api, shapes::primitive_type mode) noexcept {
+inline primitive_type
+translate(const basic_gl_api<A>& api, shapes::primitive_type mode) noexcept {
     auto& GL = api.constants();
 
     switch(mode) {
@@ -41,8 +41,8 @@ inline primitive_type translate(
 }
 //------------------------------------------------------------------------------
 template <typename A>
-inline data_type translate(
-  const basic_gl_api<A>& api, shapes::attrib_data_type type) noexcept {
+inline data_type
+translate(const basic_gl_api<A>& api, shapes::attrib_data_type type) noexcept {
     auto& GL = api.constants();
 
     switch(type) {
@@ -65,8 +65,8 @@ inline data_type translate(
 }
 //------------------------------------------------------------------------------
 template <typename A>
-inline index_data_type translate(
-  const basic_gl_api<A>& api, shapes::index_data_type type) noexcept {
+inline index_data_type
+translate(const basic_gl_api<A>& api, shapes::index_data_type type) noexcept {
     auto& GL = api.constants();
 
     switch(type) {
@@ -118,7 +118,8 @@ inline span_size_t type_size(shapes::index_data_type type) noexcept {
 //------------------------------------------------------------------------------
 template <typename A>
 inline shape_draw_operation::shape_draw_operation(
-  const basic_gl_api<A>& api, const shapes::draw_operation& draw_op) noexcept
+  const basic_gl_api<A>& api,
+  const shapes::draw_operation& draw_op) noexcept
   : _mode(translate(api, draw_op.mode))
   , _idx_type(translate(api, draw_op.idx_type))
   , _first(gl_types::int_type(draw_op.first * type_size(draw_op.idx_type)))
@@ -127,17 +128,16 @@ inline shape_draw_operation::shape_draw_operation(
   , _primitive_restart_index(draw_op.primitive_restart_index)
   , _patch_vertices(draw_op.patch_vertices)
   , _primitive_restart(draw_op.primitive_restart)
-  , _cw_face_winding(draw_op.cw_face_winding) {
-}
+  , _cw_face_winding(draw_op.cw_face_winding) {}
 //------------------------------------------------------------------------------
-inline gl_types::const_void_ptr_type shape_draw_operation::_idx_ptr()
-  const noexcept {
+inline gl_types::const_void_ptr_type
+shape_draw_operation::_idx_ptr() const noexcept {
     return eagine::memory::typed_nullptr<const gl_types::ubyte_type> + _first;
 }
 //------------------------------------------------------------------------------
 template <typename A>
-inline void shape_draw_operation::draw(
-  const basic_gl_api<A>& api) const noexcept {
+inline void
+shape_draw_operation::draw(const basic_gl_api<A>& api) const noexcept {
     auto& [gl, GL] = api;
 
     if(_cw_face_winding) {
@@ -170,7 +170,8 @@ inline void shape_draw_operation::draw(
 //------------------------------------------------------------------------------
 template <typename A>
 inline void draw_using_instructions(
-  const basic_gl_api<A>& api, span<const shape_draw_operation> ops) noexcept {
+  const basic_gl_api<A>& api,
+  span<const shape_draw_operation> ops) noexcept {
     for(const auto& op : ops) {
         op.draw(api);
     }

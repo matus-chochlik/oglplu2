@@ -27,8 +27,7 @@ namespace eagine {
 //------------------------------------------------------------------------------
 bool parse_arg(program_arg& a, example_run_context&);
 //------------------------------------------------------------------------------
-std::unique_ptr<example_main_intf> choose_example_main_impl(
-  const program_args&);
+std::unique_ptr<example_main_intf> choose_example_main_impl(const program_args&);
 //------------------------------------------------------------------------------
 int main(main_ctx& ctx) {
     auto& args = ctx.args();
@@ -64,7 +63,10 @@ bool is_special_argument(const program_arg& arg);
 //------------------------------------------------------------------------------
 template <typename T>
 bool consume_next_arg(
-  program_arg& a, T& dest, string_view value_type, logger& log) {
+  program_arg& a,
+  T& dest,
+  string_view value_type,
+  logger& log) {
     auto handle_missing = [&value_type, &log](const string_view arg_tag) {
         log.error("missing ${valueType} after '${argTag}'")
           .arg(EAGINE_ID(valueType), value_type)
@@ -180,8 +182,8 @@ std::unique_ptr<example_main_intf> make_example_main_glfw();
 std::unique_ptr<example_main_intf> make_example_main_glut();
 std::unique_ptr<example_main_intf> make_example_main_sdl();
 //------------------------------------------------------------------------------
-static inline auto choose_example_main_impls_from_args(
-  const program_args& args) {
+static inline auto
+choose_example_main_impls_from_args(const program_args& args) {
     std::map<int, std::unique_ptr<example_main_intf>> result;
 
     if(auto found{args.find("--use-glx")}) {
@@ -218,8 +220,8 @@ bool is_special_argument(const program_arg& arg) {
            arg.is_tag("--use-glut");
 }
 //------------------------------------------------------------------------------
-std::unique_ptr<example_main_intf> choose_example_main_impl(
-  const program_args& args) {
+std::unique_ptr<example_main_intf>
+choose_example_main_impl(const program_args& args) {
 
     for(auto& [pos, pimpl] : choose_example_main_impls_from_args(args)) {
         EAGINE_MAYBE_UNUSED(pos);
@@ -237,4 +239,3 @@ std::unique_ptr<example_main_intf> choose_example_main_impl(
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
-

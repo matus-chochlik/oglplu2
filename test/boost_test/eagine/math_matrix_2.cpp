@@ -13,19 +13,22 @@ BOOST_AUTO_TEST_SUITE(math_matrix_tests_2)
 
 template <typename T, int N, bool V, int K, int... I>
 static eagine::vect::data_t<T, N, V> get_test_math_matrix_vec(
-  std::integral_constant<int, K>, std::integer_sequence<int, I...>) {
+  std::integral_constant<int, K>,
+  std::integer_sequence<int, I...>) {
     return eagine::vect::data_t<T, N, V>{T(K + I)...};
 }
 
 template <typename T, int C, int R, bool RM, bool V, int... J, int... I>
 void test_math_matrix_init_TCRRMVJI(
-  std::integer_sequence<int, J...>, std::integer_sequence<int, I...>) {
+  std::integer_sequence<int, J...>,
+  std::integer_sequence<int, I...>) {
     using M = eagine::math::matrix<T, C, R, RM, V>;
 
-    M m = {{get_test_math_matrix_vec < T,
-            RM ? C : R,
-            V > (std::integral_constant<int, J>(),
-                 std::integer_sequence<int, I...>())...}};
+    M m = {
+      {get_test_math_matrix_vec < T,
+       RM ? C : R,
+       V > (std::integral_constant<int, J>(),
+            std::integer_sequence<int, I...>())...}};
 
     for(int i = 0; i < (RM ? R : C); ++i)
         for(int j = 0; j < (RM ? C : R); ++j) {

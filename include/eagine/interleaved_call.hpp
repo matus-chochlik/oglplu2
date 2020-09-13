@@ -25,8 +25,7 @@ public:
     interleaved_call(Func func, SepFunc sep_func)
       : _func(func)
       , _sep_func(sep_func)
-      , _first(true) {
-    }
+      , _first(true) {}
 
     template <typename... P>
     auto operator()(P&&... p) {

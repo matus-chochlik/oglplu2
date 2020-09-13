@@ -20,8 +20,7 @@ namespace eagine {
 class block_data_source : public deserializer_data_source {
 public:
     block_data_source(memory::const_block src) noexcept
-      : _src{src} {
-    }
+      : _src{src} {}
 
     memory::const_block top(span_size_t req_size) final {
         return head(skip(_src, _done), req_size);
@@ -43,4 +42,3 @@ private:
 } // namespace eagine
 
 #endif // EAGINE_SERIALIZE_BLOCK_SOURCE_HPP
-

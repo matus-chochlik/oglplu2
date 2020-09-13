@@ -65,8 +65,7 @@ public:
         return false;
     }
 
-    verification_bits verify_bits(
-      const stored_message& message) const noexcept {
+    verification_bits verify_bits(const stored_message& message) const noexcept {
         if(EAGINE_LIKELY(_endpoint)) {
             return message.verify_bits(_endpoint->ctx(), _endpoint->log());
         }
@@ -94,8 +93,7 @@ protected:
 
         constexpr handler_entry(message_id id, method_handler hndlr) noexcept
           : msg_id{std::move(id)}
-          , handler{std::move(hndlr)} {
-        }
+          , handler{std::move(hndlr)} {}
 
         template <
           identifier_t ClassId,
@@ -110,8 +108,7 @@ protected:
               bool (Class::*)(stored_message&),
               HandlerFunc>> msg_map) noexcept
           : msg_id{ClassId, MethodId}
-          , handler{instance, msg_map.method()} {
-        }
+          , handler{instance, msg_map.method()} {}
 
         template <
           identifier_t ClassId,
@@ -126,15 +123,13 @@ protected:
               bool (Class::*)(stored_message&) const,
               HandlerFunc>> msg_map) noexcept
           : msg_id{ClassId, MethodId}
-          , handler{instance, msg_map.method()} {
-        }
+          , handler{instance, msg_map.method()} {}
     };
 
     ~subscriber_base() noexcept = default;
     constexpr subscriber_base() noexcept = default;
     constexpr subscriber_base(endpoint& bus) noexcept
-      : _endpoint{&bus} {
-    }
+      : _endpoint{&bus} {}
     subscriber_base(subscriber_base&& temp) noexcept
       : _endpoint{temp._endpoint} {
         temp._endpoint = nullptr;
@@ -148,8 +143,8 @@ protected:
         }
     }
 
-    inline void _unsubscribe_from(
-      span<const handler_entry> msg_handlers) const noexcept {
+    inline void
+    _unsubscribe_from(span<const handler_entry> msg_handlers) const noexcept {
         if(_endpoint) {
             for(auto& entry : msg_handlers) {
                 try {
@@ -160,8 +155,8 @@ protected:
         }
     }
 
-    inline void _announce_subscriptions(
-      span<const handler_entry> msg_handlers) const {
+    inline void
+    _announce_subscriptions(span<const handler_entry> msg_handlers) const {
         if(EAGINE_LIKELY(_endpoint)) {
             for(auto& entry : msg_handlers) {
                 _endpoint->say_subscribes_to(entry.msg_id);
@@ -169,8 +164,8 @@ protected:
         }
     }
 
-    inline void _allow_subscriptions(
-      span<const handler_entry> msg_handlers) const {
+    inline void
+    _allow_subscriptions(span<const handler_entry> msg_handlers) const {
         if(EAGINE_LIKELY(_endpoint)) {
             for(auto& entry : msg_handlers) {
                 _endpoint->allow_message_type(entry.msg_id);
@@ -254,8 +249,7 @@ public:
       typename... MsgMaps,
       typename = std::enable_if_t<sizeof...(MsgMaps) == N>>
     static_subscriber(endpoint& bus, Class* instance, MsgMaps... msg_maps)
-      : static_subscriber(bus, handler_entry(instance, msg_maps)...) {
-    }
+      : static_subscriber(bus, handler_entry(instance, msg_maps)...) {}
 
     static_subscriber(static_subscriber&& temp) = delete;
     static_subscriber(const static_subscriber&) = delete;
@@ -287,7 +281,8 @@ public:
     }
 
     void respond_to_subscription_query(
-      identifier_t source_id, message_id sub_msg) const noexcept {
+      identifier_t source_id,
+      message_id sub_msg) const noexcept {
         this->_respond_to_subscription_query(
           source_id, sub_msg, view(_msg_handlers));
     }
@@ -304,8 +299,7 @@ public:
     virtual ~subscriber() noexcept = default;
     subscriber() noexcept = default;
     subscriber(endpoint& bus) noexcept
-      : subscriber_base{bus} {
-    }
+      : subscriber_base{bus} {}
     subscriber(subscriber&&) noexcept = default;
     subscriber(const subscriber&) = delete;
     subscriber& operator=(subscriber&&) = delete;
@@ -315,8 +309,7 @@ public:
     void add_method(
       Class* instance,
       message_id msg_id,
-      member_function_constant<bool (Class::*)(stored_message&), Method>
-        method) {
+      member_function_constant<bool (Class::*)(stored_message&), Method> method) {
         _msg_handlers.emplace_back(msg_id, method_handler{instance, method});
     }
 
@@ -355,14 +348,14 @@ public:
     }
 
     void respond_to_subscription_query(
-      identifier_t source_id, message_id sub_msg) const noexcept {
+      identifier_t source_id,
+      message_id sub_msg) const noexcept {
         this->_respond_to_subscription_query(
           source_id, sub_msg, view(_msg_handlers));
     }
 
 protected:
-    void add_methods() {
-    }
+    void add_methods() {}
 
     void init() {
         this->_subscribe_to(view(_msg_handlers));
@@ -380,4 +373,3 @@ private:
 } // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_SUBSCRIBER_HPP
-

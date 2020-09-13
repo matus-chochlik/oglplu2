@@ -622,9 +622,13 @@ public:
       , cone_outer_gainhf("CONE_OUTER_GAINHF", traits, api)
       , direct_filter_gainhf_auto("DIRECT_FILTER_GAINHF_AUTO", traits, api)
       , auxiliary_send_filter_gain_auto(
-          "AUXILIARY_SEND_FILTER_GAIN_AUTO", traits, api)
+          "AUXILIARY_SEND_FILTER_GAIN_AUTO",
+          traits,
+          api)
       , auxiliary_send_filter_gainhf_auto(
-          "AUXILIARY_SEND_FILTER_GAINHF_AUTO", traits, api)
+          "AUXILIARY_SEND_FILTER_GAINHF_AUTO",
+          traits,
+          api)
       , frequency("FREQUENCY", traits, api)
       , size("SIZE", traits, api)
       , bits("BITS", traits, api)
@@ -640,11 +644,9 @@ public:
       , playing("PLAYING", traits, api)
       , paused("PAUSED", traits, api)
       , stopped("STOPPED", traits, api)
-      , none("NONE", traits, api) {
-    }
+      , none("NONE", traits, api) {}
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::oalp
 
 #endif // OALPLUS_AL_API_CONSTANTS_HPP
-

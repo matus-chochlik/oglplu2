@@ -32,4 +32,3 @@ struct example_main_intf {
 } // namespace eagine
 
 #endif // OGLPLUS_EXAMPLE_MAIN_HPP
-

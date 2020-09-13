@@ -18,8 +18,7 @@ namespace eagine {
 class random_generator_impl : public example_random_generator {
 public:
     random_generator_impl(example_args& args, example_params& params)
-      : _gen{_get_seed(args, params)} {
-    }
+      : _gen{_get_seed(args, params)} {}
 
     void uniform(span<byte> dest) final {
         generate(dest, [this] { return _dist_uniform_byte(_gen); });
@@ -39,8 +38,8 @@ private:
     std::uniform_real_distribution<float> _dist_uniform_float_01{0.F, 1.F};
     std::normal_distribution<float> _dist_normal_float{0.F, 1.F};
 
-    static std::random_device::result_type _get_seed(
-      example_args&, example_params& params) {
+    static std::random_device::result_type
+    _get_seed(example_args&, example_params& params) {
         if(auto opt_seed{params.rand_seed()}) {
             return extract(opt_seed);
         } else {
@@ -49,8 +48,8 @@ private:
     }
 };
 //------------------------------------------------------------------------------
-std::unique_ptr<example_random_generator> make_example_random_generator(
-  example_run_context& erc) {
+std::unique_ptr<example_random_generator>
+make_example_random_generator(example_run_context& erc) {
     return std::make_unique<random_generator_impl>(erc.args, erc.params);
 }
 //------------------------------------------------------------------------------

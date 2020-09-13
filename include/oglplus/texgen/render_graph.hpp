@@ -30,16 +30,15 @@ public:
         return *this;
     }
 
-    render_graph_node<Node>& connect(
-      string_view inp_name, node_intf& out_node, span_size_t oidx) {
+    render_graph_node<Node>&
+    connect(string_view inp_name, node_intf& out_node, span_size_t oidx) {
         if(oidx < out_node.output_count()) {
             return connect(inp_name, out_node.output(oidx));
         }
         return *this;
     }
 
-    render_graph_node<Node>& connect(
-      string_view inp_name, node_intf& out_node) {
+    render_graph_node<Node>& connect(string_view inp_name, node_intf& out_node) {
         return connect(inp_name, out_node, 0);
     }
 
@@ -50,8 +49,8 @@ public:
         return *this;
     }
 
-    render_graph_node<Node>& connect(
-      span_size_t iidx, node_intf& out_node, span_size_t oidx) {
+    render_graph_node<Node>&
+    connect(span_size_t iidx, node_intf& out_node, span_size_t oidx) {
         if(oidx < out_node.output_count()) {
             return connect(iidx, out_node.output(oidx));
         }
@@ -111,38 +110,39 @@ public:
     render_node& renderer();
 
     void set_dimensions(
-      const valid_if_positive<int>& w, const valid_if_positive<int>& h);
+      const valid_if_positive<int>& w,
+      const valid_if_positive<int>& h);
 
     void render();
 
     // find node
-    optional_reference_wrapper<node_intf> find_node(
-      const std::string& node_name);
+    optional_reference_wrapper<node_intf>
+    find_node(const std::string& node_name);
 
     // find input / output
-    optional_reference_wrapper<input_intf> find_node_input(
-      node_intf& node, span_size_t index);
+    optional_reference_wrapper<input_intf>
+    find_node_input(node_intf& node, span_size_t index);
 
-    optional_reference_wrapper<output_intf> find_node_output(
-      node_intf& node, span_size_t index);
+    optional_reference_wrapper<output_intf>
+    find_node_output(node_intf& node, span_size_t index);
 
-    optional_reference_wrapper<input_intf> find_node_input(
-      node_intf& node, string_view iname);
+    optional_reference_wrapper<input_intf>
+    find_node_input(node_intf& node, string_view iname);
 
-    optional_reference_wrapper<output_intf> find_node_output(
-      node_intf& node, string_view oname);
+    optional_reference_wrapper<output_intf>
+    find_node_output(node_intf& node, string_view oname);
 
-    optional_reference_wrapper<input_intf> find_node_input(
-      const std::string& node_name, span_size_t index);
+    optional_reference_wrapper<input_intf>
+    find_node_input(const std::string& node_name, span_size_t index);
 
-    optional_reference_wrapper<output_intf> find_node_output(
-      const std::string& node_name, span_size_t index);
+    optional_reference_wrapper<output_intf>
+    find_node_output(const std::string& node_name, span_size_t index);
 
-    optional_reference_wrapper<input_intf> find_node_input(
-      const std::string& node_name, string_view iname);
+    optional_reference_wrapper<input_intf>
+    find_node_input(const std::string& node_name, string_view iname);
 
-    optional_reference_wrapper<output_intf> find_node_output(
-      const std::string& node_name, string_view oname);
+    optional_reference_wrapper<output_intf>
+    find_node_output(const std::string& node_name, string_view oname);
 
     // connect to renderer
     bool connect_to_renderer(output_intf& output);
@@ -170,8 +170,8 @@ public:
       node_intf& input_node,
       string_view iname);
 
-    bool connect(
-      node_intf& output_node, node_intf& input_node, string_view iname);
+    bool
+    connect(node_intf& output_node, node_intf& input_node, string_view iname);
 
     bool connect(
       const std::string& output_node_name,
@@ -196,7 +196,8 @@ public:
       string_view iname);
 
     bool connect(
-      const std::string& output_node_name, const std::string& input_node_name);
+      const std::string& output_node_name,
+      const std::string& input_node_name);
 
     bool finalize();
 };

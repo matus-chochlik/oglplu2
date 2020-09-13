@@ -45,8 +45,7 @@ public:
     tagged_quantity() = default;
 
     explicit constexpr inline tagged_quantity(T v) noexcept
-      : _v(v) {
-    }
+      : _v(v) {}
 
     template <
       typename X,
@@ -54,8 +53,7 @@ public:
       typename = std::enable_if_t<
         std::is_convertible_v<X, T> && units::is_convertible_v<UX, U>>>
     constexpr inline tagged_quantity(const tagged_quantity<X, UX>& tq) noexcept
-      : _v(T(units::value_conv<UX, U>()(tq._v))) {
-    }
+      : _v(T(units::value_conv<UX, U>()(tq._v))) {}
 
     template <
       typename UX,
@@ -129,8 +127,8 @@ struct is_convertible_quantity<tagged_quantity<T, QU>, U>
 //------------------------------------------------------------------------------
 // make_tagged_quantity
 template <typename U, typename T>
-static constexpr inline tagged_quantity<T, U> make_tagged_quantity(
-  const T& value) {
+static constexpr inline tagged_quantity<T, U>
+make_tagged_quantity(const T& value) {
     return tagged_quantity<T, U>{value};
 }
 //------------------------------------------------------------------------------
@@ -212,8 +210,8 @@ constexpr inline auto operator-(const tagged_quantity<T, U>& a) {
 }
 //------------------------------------------------------------------------------
 template <typename T1, typename U1, typename T2, typename U2>
-constexpr inline auto operator+(
-  const tagged_quantity<T1, U1>& a, const tagged_quantity<T2, U2>& b) {
+constexpr inline auto
+operator+(const tagged_quantity<T1, U1>& a, const tagged_quantity<T2, U2>& b) {
     using UR = units::add_result_t<U1, U2>;
     return make_tagged_quantity<UR>(
       units::value_conv<U1, UR>()(value(a)) +
@@ -221,8 +219,8 @@ constexpr inline auto operator+(
 }
 //------------------------------------------------------------------------------
 template <typename T1, typename U1, typename T2, typename U2>
-constexpr inline auto operator-(
-  const tagged_quantity<T1, U1>& a, const tagged_quantity<T2, U2>& b) {
+constexpr inline auto
+operator-(const tagged_quantity<T1, U1>& a, const tagged_quantity<T2, U2>& b) {
     using UR = units::sub_result_t<U1, U2>;
     return make_tagged_quantity<UR>(
       units::value_conv<U1, UR>()(value(a)) -
@@ -230,8 +228,8 @@ constexpr inline auto operator-(
 }
 //------------------------------------------------------------------------------
 template <typename T1, typename U1, typename T2, typename U2>
-constexpr inline auto operator*(
-  const tagged_quantity<T1, U1>& a, const tagged_quantity<T2, U2>& b) {
+constexpr inline auto
+operator*(const tagged_quantity<T1, U1>& a, const tagged_quantity<T2, U2>& b) {
     using UO1 = units::mul_l_operand_t<U1, U2>;
     using UO2 = units::mul_r_operand_t<U1, U2>;
     using UR = units::mul_result_t<U1, U2>;
@@ -244,8 +242,7 @@ template <
   typename T1,
   typename U,
   typename T2,
-  typename =
-    std::enable_if_t<!units::is_unit_v<T2> && !is_tagged_quantity_v<T2>>>
+  typename = std::enable_if_t<!units::is_unit_v<T2> && !is_tagged_quantity_v<T2>>>
 constexpr inline auto operator*(const tagged_quantity<T1, U>& a, const T2& c) {
     return make_tagged_quantity<U>(value(a) * c);
 }
@@ -265,8 +262,8 @@ constexpr inline auto operator*(const tagged_quantity<T1, U1>& a, U2) {
 }
 //------------------------------------------------------------------------------
 template <typename T1, typename U1, typename T2, typename U2>
-constexpr inline auto operator/(
-  const tagged_quantity<T1, U1>& a, const tagged_quantity<T2, U2>& b) {
+constexpr inline auto
+operator/(const tagged_quantity<T1, U1>& a, const tagged_quantity<T2, U2>& b) {
     using UO1 = units::div_l_operand_t<U1, U2>;
     using UO2 = units::div_r_operand_t<U1, U2>;
     using UR = units::div_result_t<U1, U2>;

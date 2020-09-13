@@ -65,24 +65,19 @@ public:
     ~basic_offset_ptr() noexcept = default;
 
     explicit constexpr inline basic_offset_ptr(offset_type offs) noexcept
-      : _offs{offs} {
-    }
+      : _offs{offs} {}
 
     explicit constexpr inline basic_offset_ptr(address addr) noexcept
-      : _offs{_get_offs(addr)} {
-    }
+      : _offs{_get_offs(addr)} {}
 
     basic_offset_ptr(Pointee* ptr) noexcept
-      : _offs{_get_offs(ptr)} {
-    }
+      : _offs{_get_offs(ptr)} {}
 
     basic_offset_ptr(const basic_offset_ptr& that) noexcept
-      : _offs{_get_offs(that)} {
-    }
+      : _offs{_get_offs(that)} {}
 
     basic_offset_ptr(basic_offset_ptr&& that) noexcept
-      : _offs{_get_offs(that)} {
-    }
+      : _offs{_get_offs(that)} {}
 
     template <typename P, typename O>
     using enable_if_convertible = std::enable_if<
@@ -99,8 +94,7 @@ public:
       typename = enable_if_convertible<P, O>,
       typename = enable_if_different<P, O>>
     basic_offset_ptr(const basic_offset_ptr<P, O>& that) noexcept
-      : _offs{_get_offs(that)} {
-    }
+      : _offs{_get_offs(that)} {}
 
     // NOLINTNEXTLINE(bugprone-unhandled-self-assignment,cert-oop54-cpp)
     basic_offset_ptr& operator=(const basic_offset_ptr& that) noexcept {
@@ -220,8 +214,8 @@ static constexpr inline P& extract(basic_offset_ptr<P, O> ptr) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename P, typename O>
-static constexpr inline P& extract_or(
-  basic_offset_ptr<P, O> ptr, P& fallback) noexcept {
+static constexpr inline P&
+extract_or(basic_offset_ptr<P, O> ptr, P& fallback) noexcept {
     return ptr.is_null() ? fallback : ptr.get();
 }
 //------------------------------------------------------------------------------
@@ -241,8 +235,8 @@ struct rebind_pointer<basic_offset_ptr<T, O>, U>
   : identity<basic_offset_ptr<U, O>> {};
 //------------------------------------------------------------------------------
 template <typename P, typename O>
-static constexpr inline basic_address<std::is_const_v<P>> as_address(
-  basic_offset_ptr<P, O> op) noexcept {
+static constexpr inline basic_address<std::is_const_v<P>>
+as_address(basic_offset_ptr<P, O> op) noexcept {
     return op.addr();
 }
 //------------------------------------------------------------------------------

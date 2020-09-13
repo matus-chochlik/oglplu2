@@ -221,8 +221,8 @@ void example_mandelbrot::render(const example_context& ctx) {
 //------------------------------------------------------------------------------
 } // namespace oglp
 //------------------------------------------------------------------------------
-std::unique_ptr<example> make_example(
-  const example_args&, const example_context&) {
+std::unique_ptr<example>
+make_example(const example_args&, const example_context&) {
     return std::make_unique<oglp::example_mandelbrot>();
 }
 //------------------------------------------------------------------------------

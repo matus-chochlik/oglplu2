@@ -51,19 +51,16 @@ public:
       : _alloc(std::forward<X>(x))
       , _blks{std_allocator<owned_block>{_alloc}}
       , _alns{std_allocator<span_size_t>{_alloc}}
-      , _dtrs{std_allocator<void (*)(block)>{_alloc}} {
-    }
+      , _dtrs{std_allocator<void (*)(block)>{_alloc}} {}
 
     object_storage(shared_byte_allocator a) noexcept
       : _alloc(std::move(a))
       , _blks{std_allocator<owned_block>{_alloc}}
       , _alns{std_allocator<span_size_t>{_alloc}}
-      , _dtrs{std_allocator<void (*)(block)>{_alloc}} {
-    }
+      , _dtrs{std_allocator<void (*)(block)>{_alloc}} {}
 
     object_storage() noexcept
-      : object_storage{default_byte_allocator()} {
-    }
+      : object_storage{default_byte_allocator()} {}
 
     object_storage(object_storage&&) = delete;
     object_storage(const object_storage&) = delete;
@@ -153,17 +150,14 @@ public:
       typename = shared_byte_allocator::enable_if_compatible_t<X>>
     callable_storage(X&& x) noexcept
       : base(std::forward<X>(x))
-      , _clrs{std_allocator<void (*)(block, Params...)>{base::_alloc}} {
-    }
+      , _clrs{std_allocator<void (*)(block, Params...)>{base::_alloc}} {}
 
     callable_storage(const shared_byte_allocator& a) noexcept
       : base(a)
-      , _clrs{std_allocator<void (*)(block, Params...)>{base::_alloc}} {
-    }
+      , _clrs{std_allocator<void (*)(block, Params...)>{base::_alloc}} {}
 
     callable_storage() noexcept
-      : callable_storage(default_byte_allocator()) {
-    }
+      : callable_storage(default_byte_allocator()) {}
 
     void reserve(span_size_t n) {
         base::reserve(n);
@@ -191,7 +185,9 @@ public:
     }
 
     void operator()(Params... params) noexcept {
-        auto fn = [&](auto i, block blk) { this->_clrs[i](blk, params...); };
+        auto fn = [&](auto i, block blk) {
+            this->_clrs[i](blk, params...);
+        };
         base::for_each_block(fn);
     }
 };

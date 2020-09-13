@@ -124,51 +124,53 @@ auto convert_from_string_with(
     return parse_from_string(src, tid);
 }
 //------------------------------------------------------------------------------
-static inline auto from_string(
-  string_view src, identity<short> id, int base = 10) noexcept
+static inline auto
+from_string(string_view src, identity<short> id, int base = 10) noexcept
   -> optionally_valid<short> {
     return convert_from_string_with(&std::strtol, base, src, id);
 }
 
-static inline auto from_string(
-  string_view src, identity<int> id, int base = 10) noexcept
+static inline auto
+from_string(string_view src, identity<int> id, int base = 10) noexcept
   -> optionally_valid<int> {
     return convert_from_string_with(&std::strtol, base, src, id);
 }
 
-static inline auto from_string(
-  string_view src, identity<long> id, int base = 10) noexcept
+static inline auto
+from_string(string_view src, identity<long> id, int base = 10) noexcept
   -> optionally_valid<long> {
     return convert_from_string_with(&std::strtol, base, src, id);
 }
 
-static inline auto from_string(
-  string_view src, identity<long long> id, int base = 10) noexcept
+static inline auto
+from_string(string_view src, identity<long long> id, int base = 10) noexcept
   -> optionally_valid<long long> {
     return convert_from_string_with(&std::strtoll, base, src, id);
 }
 
 static inline auto from_string(
-  string_view src, identity<unsigned short> id, int base = 10) noexcept
-  -> optionally_valid<unsigned short> {
+  string_view src,
+  identity<unsigned short> id,
+  int base = 10) noexcept -> optionally_valid<unsigned short> {
     return convert_from_string_with(&std::strtoul, base, src, id);
 }
 
-static inline auto from_string(
-  string_view src, identity<unsigned int> id, int base = 10) noexcept
+static inline auto
+from_string(string_view src, identity<unsigned int> id, int base = 10) noexcept
   -> optionally_valid<unsigned int> {
     return convert_from_string_with(&std::strtoul, base, src, id);
 }
 
-static inline auto from_string(
-  string_view src, identity<unsigned long> id, int base = 10) noexcept
+static inline auto
+from_string(string_view src, identity<unsigned long> id, int base = 10) noexcept
   -> optionally_valid<unsigned long> {
     return convert_from_string_with(&std::strtoul, base, src, id);
 }
 
 static inline auto from_string(
-  string_view src, identity<unsigned long long> id, int base = 10) noexcept
-  -> optionally_valid<unsigned long long> {
+  string_view src,
+  identity<unsigned long long> id,
+  int base = 10) noexcept -> optionally_valid<unsigned long long> {
     return convert_from_string_with(&std::strtoull, base, src, id);
 }
 //------------------------------------------------------------------------------
@@ -202,8 +204,8 @@ static inline auto from_string(string_view src, identity<double> id) noexcept
     return convert_from_string_with(&std::strtod, src, id);
 }
 
-static inline auto from_string(
-  string_view src, identity<long double> id) noexcept
+static inline auto
+from_string(string_view src, identity<long double> id) noexcept
   -> optionally_valid<long double> {
     return convert_from_string_with(&std::strtold, src, id);
 }
@@ -221,9 +223,7 @@ static inline auto convert_from_string(
   -> optionally_valid<std::chrono::duration<Rep, Period>> {
     const string_view symbol{sym_const};
     if(memory::ends_with(src, symbol)) {
-        if(
-          auto opt_val =
-            from_string(snip(src, symbol.size()), identity<Rep>())) {
+        if(auto opt_val = from_string(snip(src, symbol.size()), identity<Rep>())) {
             return {std::chrono::duration<Rep, Period>(extract(opt_val)), true};
         }
     }
@@ -232,7 +232,8 @@ static inline auto convert_from_string(
 //------------------------------------------------------------------------------
 template <typename Rep, typename Period>
 static inline auto from_string(
-  string_view str, identity<std::chrono::duration<Rep, Period>>) noexcept
+  string_view str,
+  identity<std::chrono::duration<Rep, Period>>) noexcept
   -> optionally_valid<std::chrono::duration<Rep, Period>> {
     using dur_t = std::chrono::duration<Rep, Period>;
 

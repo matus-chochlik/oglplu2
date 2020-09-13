@@ -67,8 +67,7 @@ public:
     ping_example(endpoint& bus, const valid_if_positive<std::intmax_t>& max)
       : base{bus}
       , _log{EAGINE_ID(PingExampl), bus.log()}
-      , _max{extract_or(max, 100000)} {
-    }
+      , _max{extract_or(max, 100000)} {}
 
     void on_subscribed(identifier_t id, message_id sub_msg) final {
         if(sub_msg == EAGINE_MSG_ID(eagiPing, ping)) {
@@ -224,4 +223,3 @@ int main(int argc, const char** argv) {
     options.logger_id = EAGINE_ID(PingExe);
     return eagine::main_impl(argc, argv, options);
 }
-

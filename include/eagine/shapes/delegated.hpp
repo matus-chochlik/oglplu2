@@ -23,8 +23,7 @@ private:
 
 public:
     delegated_gen(std::unique_ptr<generator_intf>&& gen) noexcept
-      : _gen(std::move(gen)) {
-    }
+      : _gen(std::move(gen)) {}
 
     vertex_attrib_bits attrib_bits() noexcept final {
         return _gen->attrib_bits();
@@ -66,23 +65,23 @@ public:
         _gen->attrib_values(vav, dest);
     }
 
-    void attrib_values(
-      vertex_attrib_variant vav, span<std::int16_t> dest) override {
+    void
+    attrib_values(vertex_attrib_variant vav, span<std::int16_t> dest) override {
         _gen->attrib_values(vav, dest);
     }
 
-    void attrib_values(
-      vertex_attrib_variant vav, span<std::int32_t> dest) override {
+    void
+    attrib_values(vertex_attrib_variant vav, span<std::int32_t> dest) override {
         _gen->attrib_values(vav, dest);
     }
 
-    void attrib_values(
-      vertex_attrib_variant vav, span<std::uint16_t> dest) override {
+    void attrib_values(vertex_attrib_variant vav, span<std::uint16_t> dest)
+      override {
         _gen->attrib_values(vav, dest);
     }
 
-    void attrib_values(
-      vertex_attrib_variant vav, span<std::uint32_t> dest) override {
+    void attrib_values(vertex_attrib_variant vav, span<std::uint32_t> dest)
+      override {
         _gen->attrib_values(vav, dest);
     }
 

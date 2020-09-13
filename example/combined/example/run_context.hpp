@@ -27,4 +27,3 @@ struct example_run_context {
 } // namespace eagine
 
 #endif // OGLPLUS_EXAMPLE_RUN_CONTEXT_HPP
-

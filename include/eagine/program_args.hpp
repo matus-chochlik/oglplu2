@@ -37,10 +37,10 @@ protected:
     string_view _description;
 
     constexpr basic_program_parameter(
-      string_view short_tag, string_view long_tag) noexcept
+      string_view short_tag,
+      string_view long_tag) noexcept
       : _short_tag(short_tag)
-      , _long_tag(long_tag) {
-    }
+      , _long_tag(long_tag) {}
 
 public:
     constexpr auto short_tag() const noexcept -> string_view {
@@ -77,12 +77,11 @@ private:
     }
 
     template <typename X>
-    static inline void _log_invalid(const X&, const std::ostream&) noexcept {
-    }
+    static inline void _log_invalid(const X&, const std::ostream&) noexcept {}
 
     template <typename X, typename P, typename L>
-    static inline void _log_invalid(
-      const valid_if<X, P, L>& vi, std::ostream& log) noexcept {
+    static inline void
+    _log_invalid(const valid_if<X, P, L>& vi, std::ostream& log) noexcept {
         vi.log_invalid(log);
     }
 
@@ -108,10 +107,11 @@ private:
 
 public:
     program_parameter(
-      string_view short_tag, string_view long_tag, T initial) noexcept
+      string_view short_tag,
+      string_view long_tag,
+      T initial) noexcept
       : basic_program_parameter(short_tag, long_tag)
-      , _value(std::move(initial)) {
-    }
+      , _value(std::move(initial)) {}
 
     auto ref() noexcept -> auto& {
         return _value;
@@ -161,8 +161,7 @@ public:
       string_view long_tag,
       program_parameter<T>& that) noexcept
       : basic_program_parameter(short_tag, long_tag)
-      , _aliased(that) {
-    }
+      , _aliased(that) {}
 
     auto ref() noexcept -> auto& {
         return _aliased.ref();
@@ -184,8 +183,7 @@ private:
 
 public:
     program_parameter(string_view short_tag, string_view long_tag) noexcept
-      : basic_program_parameter(short_tag, long_tag) {
-    }
+      : basic_program_parameter(short_tag, long_tag) {}
 
     void increment() noexcept {
         ++_count;
@@ -220,8 +218,7 @@ private:
     program_arg(int argi, int argc, const char** argv) noexcept
       : _argi(argi)
       , _argc(argc)
-      , _argv(argv) {
-    }
+      , _argv(argv) {}
 
     friend class program_arg_iterator;
     friend class program_args;
@@ -379,7 +376,9 @@ public:
 
     template <typename T, typename MissingFunc, typename InvalidFunc>
     auto do_consume_next(
-      T& dest, MissingFunc handle_missing, InvalidFunc handle_invalid) -> bool {
+      T& dest,
+      MissingFunc handle_missing,
+      InvalidFunc handle_invalid) -> bool {
         if(next()) {
             std::stringstream parse_log;
             if(parse_next(dest, parse_log)) {
@@ -415,7 +414,9 @@ public:
 
     template <typename MissingFunc, typename InvalidFunc>
     auto do_parse_param(
-      program_parameter<void>& param, const MissingFunc&, const InvalidFunc&) {
+      program_parameter<void>& param,
+      const MissingFunc&,
+      const InvalidFunc&) {
         if(is_tag_param(param)) {
             param.increment();
             return true;
@@ -445,12 +446,7 @@ public:
         return false;
     }
 
-    template <
-      typename T,
-      typename P,
-      typename L,
-      class MissingFunc,
-      class InvalidFunc>
+    template <typename T, typename P, typename L, class MissingFunc, class InvalidFunc>
     auto do_consume_next(
       valid_if<T, P, L>& dest,
       span<const T> choices,
@@ -518,12 +514,7 @@ public:
         return false;
     }
 
-    template <
-      typename T,
-      typename P,
-      typename L,
-      class MissingFunc,
-      class InvalidFunc>
+    template <typename T, typename P, typename L, class MissingFunc, class InvalidFunc>
     auto do_consume_next(
       valid_if<T, P, L>& dest,
       span<const string_view> symbols,
@@ -636,8 +627,7 @@ class program_arg_iterator {
 
 public:
     program_arg_iterator(program_arg arg) noexcept
-      : _a{arg} {
-    }
+      : _a{arg} {}
 
     using value_type = program_arg;
     using difference_type = int;
@@ -804,8 +794,7 @@ private:
 
         _impl(program_parameter<T>& param) noexcept
           : _pparam{&param}
-          , _plchldr{_plchldr_name(identity<T>())} {
-        }
+          , _plchldr{_plchldr_name(identity<T>())} {}
 
         auto parse(program_arg& arg, std::ostream& log) -> bool override {
             return arg.parse_param(_param(), log);
@@ -863,8 +852,7 @@ private:
 public:
     template <typename... T>
     program_parameters(program_parameter<T>&... params)
-      : _params(_make(std::unique_ptr<_intf>(new _impl<T>(params))...)) {
-    }
+      : _params(_make(std::unique_ptr<_intf>(new _impl<T>(params))...)) {}
 
     auto size() const noexcept -> span_size_t {
         return span_size(_params.size());
@@ -951,13 +939,11 @@ public:
 
     program_args(span_size_t argn, char** args) noexcept
       : _argc(int(argn))
-      , _argv(const_cast<const char**>(args)) {
-    }
+      , _argv(const_cast<const char**>(args)) {}
 
     program_args(span_size_t argn, const char** args) noexcept
       : _argc(int(argn))
-      , _argv(args) {
-    }
+      , _argv(args) {}
 
     using value_type = string_view;
     using size_type = int;

@@ -28,10 +28,12 @@ private:
 public:
     void init(example_context& ctx);
     void set_projection(
-      const example_context& ctx, const example_orbiting_camera& camera);
+      const example_context& ctx,
+      const example_orbiting_camera& camera);
 
     void bind_position_location(
-      const example_context& ctx, vertex_attrib_location loc);
+      const example_context& ctx,
+      vertex_attrib_location loc);
 };
 //------------------------------------------------------------------------------
 // geometry

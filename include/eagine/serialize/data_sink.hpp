@@ -39,8 +39,8 @@ struct serializer_data_sink {
         return this->write(as_bytes(str));
     }
 
-    inline serialization_result<memory::const_split_block> write_some(
-      memory::const_split_block data) {
+    inline serialization_result<memory::const_split_block>
+    write_some(memory::const_split_block data) {
         const auto before{remaining_size()};
         const auto errors{write(data.tail())};
         if(!errors) {
@@ -64,4 +64,3 @@ struct serializer_data_sink {
 } // namespace eagine
 
 #endif // EAGINE_SERIALIZE_DATA_SINK_HPP
-

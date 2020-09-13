@@ -44,7 +44,8 @@ struct deserial_data_state {
 //------------------------------------------------------------------------------
 template <typename T>
 void deserialize_data(
-  memory::const_block fragment, deserial_data_state<T>& state) {
+  memory::const_block fragment,
+  deserial_data_state<T>& state) {
 
     if(!state.failed) {
         block_data_source source(fragment);

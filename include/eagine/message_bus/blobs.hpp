@@ -65,15 +65,14 @@ private:
 public:
     blob_manipulator() = default;
     blob_manipulator(logger& parent)
-      : _log{EAGINE_ID(BlobManipl), parent} {
-    }
+      : _log{EAGINE_ID(BlobManipl), parent} {}
 
     valid_if_positive<span_size_t> max_blob_size() const noexcept {
         return {span_size(_max_blob_size)};
     }
 
-    span_size_t message_size(
-      const pending_blob&, span_size_t max_message_size) const noexcept;
+    span_size_t message_size(const pending_blob&, span_size_t max_message_size)
+      const noexcept;
 
     bool cleanup();
 
@@ -117,4 +116,3 @@ public:
 #include <eagine/message_bus/blobs.inl>
 #endif
 #endif // EAGINE_MESSAGE_BUS_BLOBS_HPP
-

@@ -53,15 +53,14 @@ public:
 
     constexpr basic_wrapping_container(const basic_wrapping_container&) =
       default;
-    constexpr basic_wrapping_container& operator=(
-      const basic_wrapping_container&) = default;
+    constexpr basic_wrapping_container&
+    operator=(const basic_wrapping_container&) = default;
 
     basic_wrapping_container(basic_wrapping_container&& temp) noexcept
-      : _items{temp._release_items()} {
-    }
+      : _items{temp._release_items()} {}
 
-    basic_wrapping_container& operator=(
-      basic_wrapping_container&& temp) noexcept {
+    basic_wrapping_container&
+    operator=(basic_wrapping_container&& temp) noexcept {
         using std::swap;
 
         auto items{temp._release_items()};

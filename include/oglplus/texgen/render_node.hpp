@@ -66,7 +66,8 @@ public:
     bool render();
 
     void set_divisions(
-      const valid_if_positive<int>& xdiv, const valid_if_positive<int>& ydiv);
+      const valid_if_positive<int>& xdiv,
+      const valid_if_positive<int>& ydiv);
 
     void set_dimensions(
       const valid_if_positive<int>& width,

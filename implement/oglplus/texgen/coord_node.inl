@@ -14,8 +14,7 @@ namespace eagine::oglp::texgen {
 OGLPLUS_LIB_FUNC
 coord_output::coord_output(node_intf& parent, coord_type func)
   : base_output(parent)
-  , _type(func) {
-}
+  , _type(func) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 string_view coord_output::type_name() {
@@ -28,8 +27,8 @@ slot_data_type coord_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& coord_output::definitions(
-  std::ostream& out, compile_context& context) {
+std::ostream&
+coord_output::definitions(std::ostream& out, compile_context& context) {
     if(already_defined(context)) {
         return out;
     }

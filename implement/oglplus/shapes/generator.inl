@@ -13,7 +13,8 @@ namespace eagine::oglp {
 //------------------------------------------------------------------------------
 template <typename A>
 inline shape_generator::shape_generator(
-  const basic_gl_api<A>& api, std::unique_ptr<shapes::generator_intf>&& gen)
+  const basic_gl_api<A>& api,
+  std::unique_ptr<shapes::generator_intf>&& gen)
   : _gen{std::move(gen)} {
     using shapes::generator_capability;
     auto& GL = api.constants();
@@ -30,7 +31,8 @@ inline shape_generator::shape_generator(
 }
 //------------------------------------------------------------------------------
 inline void shape_generator::attrib_data(
-  shapes::vertex_attrib_variant vav, memory::block data) const {
+  shapes::vertex_attrib_variant vav,
+  memory::block data) const {
     using shapes::attrib_data_type;
 
     switch(_gen->attrib_type(vav)) {
@@ -52,7 +54,8 @@ inline void shape_generator::attrib_data(
 }
 //------------------------------------------------------------------------------
 inline void shape_generator::index_data(
-  shapes::drawing_variant dv, memory::block data) const {
+  shapes::drawing_variant dv,
+  memory::block data) const {
     using shapes::index_data_type;
 
     switch(_gen->index_type()) {

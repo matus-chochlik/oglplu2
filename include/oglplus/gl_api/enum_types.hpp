@@ -624,4 +624,3 @@ struct path_transform_type_nv
 } // namespace eagine::oglp
 
 #endif // OGLPLUS_GL_API_ENUM_TYPES_HPP
-

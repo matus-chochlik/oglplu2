@@ -25,8 +25,7 @@ private:
     _iters_t _iters;
 
     template <std::size_t... I>
-    static inline auto _tie_deref(
-      const _iters_t& a, std::index_sequence<I...>) {
+    static inline auto _tie_deref(const _iters_t& a, std::index_sequence<I...>) {
         return std::tie(*std::get<I>(a)...);
     }
 
@@ -36,20 +35,19 @@ private:
     }
 
     template <typename IT, typename Func, std::size_t... I>
-    static constexpr inline auto _fold_or_2(
-      IT& a, IT& b, Func func, std::index_sequence<I...>) {
+    static constexpr inline auto
+    _fold_or_2(IT& a, IT& b, Func func, std::index_sequence<I...>) {
         return (... || func(std::get<I>(a), std::get<I>(b)));
     }
 
     template <typename IT, typename Func, std::size_t... I>
-    static constexpr inline auto _fold_and_2(
-      IT& a, IT& b, Func func, std::index_sequence<I...>) {
+    static constexpr inline auto
+    _fold_and_2(IT& a, IT& b, Func func, std::index_sequence<I...>) {
         return (... && func(std::get<I>(a), std::get<I>(b)));
     }
 
     template <typename IT, typename Func, std::size_t... I>
-    static inline void _for_each_1(
-      IT& a, Func func, std::index_sequence<I...>) {
+    static inline void _for_each_1(IT& a, Func func, std::index_sequence<I...>) {
         return (..., func(std::get<I>(a)));
     }
 
@@ -57,8 +55,7 @@ public:
     using difference_type = std::ptrdiff_t;
 
     constexpr zip_iterator(Iter... iters)
-      : _iters(iters...) {
-    }
+      : _iters(iters...) {}
 
     friend bool operator==(const zip_iterator& a, const zip_iterator& b) {
         return _fold_and_2(
@@ -77,7 +74,8 @@ public:
     }
 
     zip_iterator& operator++() {
-        _for_each_1(_iters, [](auto& i) { ++i; }, _idx_seq{});
+        _for_each_1(
+          _iters, [](auto& i) { ++i; }, _idx_seq{});
         return *this;
     }
 
@@ -115,15 +113,14 @@ private:
     }
 
     template <typename TUP, typename Func, std::size_t... I>
-    static inline void _deref_call(
-      TUP& tup, Func& func, std::index_sequence<I...>) {
+    static inline void
+    _deref_call(TUP& tup, Func& func, std::index_sequence<I...>) {
         func(std::get<I>(tup)...);
     }
 
 public:
     zipped_range_refs(Range&... ranges) noexcept
-      : _rrefs(ranges...) {
-    }
+      : _rrefs(ranges...) {}
 
     auto begin() {
         return _zip_bgn(_rrefs, _idx_seq{});
@@ -148,8 +145,7 @@ public:
 };
 
 template <typename... Range>
-static inline zipped_range_refs<Range...> zip_ranges(
-  Range&... ranges) noexcept {
+static inline zipped_range_refs<Range...> zip_ranges(Range&... ranges) noexcept {
     return {ranges...};
 }
 

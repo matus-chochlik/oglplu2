@@ -92,8 +92,7 @@ private:
       std::shared_ptr<compound_interface> owner,
       attribute_interface* pimpl) noexcept
       : _owner{std::move(owner)}
-      , _pimpl{pimpl} {
-    }
+      , _pimpl{pimpl} {}
 
     std::shared_ptr<compound_interface> _owner{};
     attribute_interface* _pimpl{nullptr};
@@ -164,8 +163,8 @@ public:
         return nested(structure(), name);
     }
 
-    attribute find(
-      const attribute& attrib, const basic_string_path& path) const {
+    attribute
+    find(const attribute& attrib, const basic_string_path& path) const {
         if(_pimpl && attrib._pimpl) {
             return {_pimpl, _pimpl->find(*attrib._pimpl, path)};
         }
@@ -192,8 +191,8 @@ public:
     }
 
     template <typename T>
-    span<T> fetch_values(
-      const attribute& attrib, span_size_t offset, span<T> dest) {
+    span<T>
+    fetch_values(const attribute& attrib, span_size_t offset, span<T> dest) {
         if(_pimpl && attrib._pimpl) {
             return head(
               dest, _pimpl->fetch_values(*attrib._pimpl, offset, dest));
@@ -203,7 +202,9 @@ public:
 
     template <typename T>
     span<T> fetch_values(
-      const basic_string_path& path, span_size_t offset, span<T> dest) {
+      const basic_string_path& path,
+      span_size_t offset,
+      span<T> dest) {
         return fetch_values(find(path), offset, dest);
     }
 
@@ -238,8 +239,8 @@ public:
     }
 
     template <typename T>
-    bool fetch_value(
-      const basic_string_path& path, span_size_t offset, T& dest) {
+    bool
+    fetch_value(const basic_string_path& path, span_size_t offset, T& dest) {
         return fetch_value(find(path), offset, dest);
     }
 
@@ -259,8 +260,8 @@ public:
     }
 
     template <typename T>
-    optionally_valid<T> get(
-      const attribute& attrib, span_size_t offset, identity<T> = {}) {
+    optionally_valid<T>
+    get(const attribute& attrib, span_size_t offset, identity<T> = {}) {
         T temp{};
         if(fetch_value(attrib, offset, temp)) {
             return {std::move(temp), true};
@@ -269,8 +270,8 @@ public:
     }
 
     template <typename T>
-    optionally_valid<T> get(
-      const basic_string_path& path, span_size_t offset, identity<T> = {}) {
+    optionally_valid<T>
+    get(const basic_string_path& path, span_size_t offset, identity<T> = {}) {
         T temp{};
         if(fetch_value(path, offset, temp)) {
             return {std::move(temp), true};
@@ -279,8 +280,8 @@ public:
     }
 
     template <typename T>
-    optionally_valid<T> get(
-      string_view name, span_size_t offset, identity<T> = {}) {
+    optionally_valid<T>
+    get(string_view name, span_size_t offset, identity<T> = {}) {
         T temp{};
         if(fetch_value(name, offset, temp)) {
             return {std::move(temp), true};
@@ -294,8 +295,8 @@ public:
     }
 
     template <typename T>
-    optionally_valid<T> get(
-      const basic_string_path& path, identity<T> tid = {}) {
+    optionally_valid<T>
+    get(const basic_string_path& path, identity<T> tid = {}) {
         return get<T>(path, 0, tid);
     }
 
@@ -311,8 +312,7 @@ public:
 
 private:
     compound(std::shared_ptr<compound_interface> pimpl) noexcept
-      : _pimpl{std::move(pimpl)} {
-    }
+      : _pimpl{std::move(pimpl)} {}
 
     std::shared_ptr<compound_interface> _pimpl{};
 };
@@ -324,4 +324,3 @@ private:
 #endif
 
 #endif // EAGINE_VALUE_TREE_WRAPPERS_HPP
-

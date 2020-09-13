@@ -29,8 +29,7 @@ enum class connection_kind : std::uint8_t {
 };
 //------------------------------------------------------------------------------
 template <typename Selector>
-constexpr auto enumerator_mapping(
-  identity<connection_kind>, Selector) noexcept {
+constexpr auto enumerator_mapping(identity<connection_kind>, Selector) noexcept {
     return enumerator_map_type<connection_kind, 3>{
       {{"in_process", connection_kind::in_process},
        {"local_interprocess", connection_kind::local_interprocess},
@@ -39,16 +38,16 @@ constexpr auto enumerator_mapping(
 //------------------------------------------------------------------------------
 using connection_kinds = bitfield<connection_kind>;
 
-static inline connection_kinds operator|(
-  connection_kind l, connection_kind r) noexcept {
+static inline connection_kinds
+operator|(connection_kind l, connection_kind r) noexcept {
     return {l, r};
 }
 //------------------------------------------------------------------------------
 enum class connection_addr_kind { none, filepath, ipv4 };
 
 template <typename Selector>
-constexpr auto enumerator_mapping(
-  identity<connection_addr_kind>, Selector) noexcept {
+constexpr auto
+enumerator_mapping(identity<connection_addr_kind>, Selector) noexcept {
     return enumerator_map_type<connection_addr_kind, 3>{
       {{"none", connection_addr_kind::none},
        {"filepath", connection_addr_kind::filepath},
@@ -62,8 +61,8 @@ using connection_addr_kind_tag =
 enum class connection_protocol { stream, datagram, message };
 
 template <typename Selector>
-constexpr auto enumerator_mapping(
-  identity<connection_protocol>, Selector) noexcept {
+constexpr auto
+enumerator_mapping(identity<connection_protocol>, Selector) noexcept {
     return enumerator_map_type<connection_protocol, 3>{
       {{"stream", connection_protocol::stream},
        {"datagram", connection_protocol::datagram},
@@ -103,8 +102,7 @@ struct connection : connection_info {
         return false;
     }
 
-    virtual void cleanup() {
-    }
+    virtual void cleanup() {}
 
     virtual bool is_usable() {
         return true;
@@ -133,4 +131,3 @@ struct connection_user {
 } // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_CONNECTION_HPP
-

@@ -27,16 +27,18 @@ static constexpr inline auto byte_bits() noexcept {
     return span_size_t(CHAR_BIT);
 }
 //------------------------------------------------------------------------------
-static constexpr inline auto dissolved_bits_length(
-  span_size_t original_length, span_size_t bits) noexcept -> span_size_t {
+static constexpr inline auto
+dissolved_bits_length(span_size_t original_length, span_size_t bits) noexcept
+  -> span_size_t {
     return EAGINE_CONSTEXPR_ASSERT(
       (bits >= 1) and (bits <= byte_bits()),
       (((original_length * byte_bits()) / bits) +
        (((original_length * byte_bits()) % bits) ? 1 : 0)));
 }
 //------------------------------------------------------------------------------
-static constexpr inline auto concentrated_bits_length(
-  span_size_t original_length, span_size_t bits) noexcept -> span_size_t {
+static constexpr inline auto
+concentrated_bits_length(span_size_t original_length, span_size_t bits) noexcept
+  -> span_size_t {
     return EAGINE_CONSTEXPR_ASSERT(
       (bits >= 1) and (bits <= byte_bits()),
       (((original_length * bits) / byte_bits()) +
@@ -44,8 +46,8 @@ static constexpr inline auto concentrated_bits_length(
 }
 //------------------------------------------------------------------------------
 template <typename Getter, typename Putter>
-static inline auto do_dissolve_bits(
-  Getter get, Putter put, span_size_t bits) noexcept -> bool {
+static inline auto
+do_dissolve_bits(Getter get, Putter put, span_size_t bits) noexcept -> bool {
 
     EAGINE_ASSERT(bits >= 1);
     EAGINE_ASSERT(bits <= byte_bits());
@@ -89,8 +91,8 @@ static inline auto do_dissolve_bits(
 }
 //------------------------------------------------------------------------------
 template <typename Getter, typename Putter>
-static inline auto do_concentrate_bits(
-  Getter get, Putter put, span_size_t bits) noexcept -> bool {
+static inline auto
+do_concentrate_bits(Getter get, Putter put, span_size_t bits) noexcept -> bool {
     EAGINE_ASSERT(bits >= 1);
     EAGINE_ASSERT(bits <= byte_bits());
 

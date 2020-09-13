@@ -16,9 +16,11 @@
 namespace eagine {
 
 void fill_with_random_bytes(
-  span<byte> buffer, any_random_engine<std::uint32_t> engine);
+  span<byte> buffer,
+  any_random_engine<std::uint32_t> engine);
 void fill_with_random_bytes(
-  span<byte> buffer, any_random_engine<std::uint64_t> engine);
+  span<byte> buffer,
+  any_random_engine<std::uint64_t> engine);
 void fill_with_random_bytes(span<byte> buffer);
 
 } // namespace eagine

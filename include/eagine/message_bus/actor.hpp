@@ -26,7 +26,9 @@ class actor
 
 protected:
     bool _process_message(
-      message_id msg_id, message_age, const message_view& message) {
+      message_id msg_id,
+      message_age,
+      const message_view& message) {
         // TODO: use message age
         if(!_accept_message(_endpoint, msg_id, message)) {
             if(!is_special_message(msg_id)) {
@@ -42,7 +44,8 @@ protected:
       typename = std::enable_if_t<sizeof...(MsgMaps) == N>>
     actor(logger log, Class* instance, MsgMaps... msg_maps)
       : _endpoint{_make_endpoint(
-          std::move(log), {this, EAGINE_MEM_FUNC_C(actor, _process_message)})}
+          std::move(log),
+          {this, EAGINE_MEM_FUNC_C(actor, _process_message)})}
       , _subscriber{_endpoint, instance, msg_maps...} {
         _endpoint.say_not_a_router();
         _subscriber.announce_subscriptions();
@@ -58,8 +61,7 @@ protected:
       : _endpoint{_move_endpoint(
           std::move(temp._endpoint),
           {this, EAGINE_MEM_FUNC_C(actor, _process_message)})}
-      , _subscriber{_endpoint, instance, msg_maps...} {
-    }
+      , _subscriber{_endpoint, instance, msg_maps...} {}
 
     ~actor() noexcept override {
         try {
@@ -109,4 +111,3 @@ private:
 } // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_ACTOR_HPP
-

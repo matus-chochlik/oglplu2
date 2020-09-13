@@ -26,8 +26,8 @@
 static oglplus::constants GL;
 static oglplus::operations gl;
 
-static void handle_resize(
-  int width, int height, float l, float r, float b, float t) {
+static void
+handle_resize(int width, int height, float l, float r, float b, float t) {
     gl.viewport(0, 0, width, height);
 
     gl.matrix_mode(GL.projection);

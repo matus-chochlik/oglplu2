@@ -82,4 +82,3 @@ struct al_types {
 } // namespace eagine::oalp
 
 #endif // OALPLUS_AL_API_CONFIG_HPP
-

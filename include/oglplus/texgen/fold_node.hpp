@@ -33,15 +33,13 @@ public:
     fold_output(node_intf& parent, fold_function);
 
     fold_output(node_intf& parent)
-      : fold_output(parent, fold_function::multiply) {
-    }
+      : fold_output(parent, fold_function::multiply) {}
 
     string_view type_name() override;
 
     slot_data_type value_type() override;
 
-    std::ostream& definitions(
-      std::ostream& out, compile_context& ctxt) override;
+    std::ostream& definitions(std::ostream& out, compile_context& ctxt) override;
 };
 
 class fold_node : public multi_input_node {

@@ -61,8 +61,8 @@ static constexpr inline span_size_t span_size_of(identity<T> = {}) noexcept {
 }
 
 template <typename T, typename S>
-static constexpr inline span_size_t span_size_of(
-  S n, identity<T> = {}) noexcept {
+static constexpr inline span_size_t
+span_size_of(S n, identity<T> = {}) noexcept {
     return span_size(sizeof(T)) * span_size(n);
 }
 

@@ -16,8 +16,8 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 template <typename F, typename S, identifier_t Id>
-constexpr auto data_member_mapping(
-  identity<std::pair<F, S>>, selector<Id>) noexcept {
+constexpr auto
+data_member_mapping(identity<std::pair<F, S>>, selector<Id>) noexcept {
     using P = std::pair<F, S>;
     return make_data_member_mapping<P, F, S>(
       {"first", &P::first}, {"second", &P::second});
@@ -25,38 +25,52 @@ constexpr auto data_member_mapping(
 //------------------------------------------------------------------------------
 template <typename T, typename Selector>
 constexpr auto _do_map_single_data_member(
-  string_view name, const T& ref, Selector, std::false_type) noexcept {
+  string_view name,
+  const T& ref,
+  Selector,
+  std::false_type) noexcept {
     return std::pair<string_view, const T&>(name, ref);
 }
 //------------------------------------------------------------------------------
 template <typename T, typename Selector>
 constexpr auto _do_map_single_data_member(
-  string_view name, T& ref, Selector, std::false_type) noexcept {
+  string_view name,
+  T& ref,
+  Selector,
+  std::false_type) noexcept {
     return std::pair<string_view, T&>(name, ref);
 }
 //------------------------------------------------------------------------------
 template <typename T, typename Selector>
 constexpr auto _do_map_single_data_member(
-  string_view name, const T& ref, Selector select, std::true_type) noexcept {
+  string_view name,
+  const T& ref,
+  Selector select,
+  std::true_type) noexcept {
     return std::make_pair(name, map_data_members(ref, select));
 }
 //------------------------------------------------------------------------------
 template <typename T, typename Selector>
 constexpr auto _do_map_single_data_member(
-  string_view name, T& ref, Selector select, std::true_type) noexcept {
+  string_view name,
+  T& ref,
+  Selector select,
+  std::true_type) noexcept {
     return std::make_pair(name, map_data_members(ref, select));
 }
 //------------------------------------------------------------------------------
 template <typename T, typename Selector>
 constexpr auto _map_single_data_member(
-  string_view name, const T& ref, Selector select) noexcept {
+  string_view name,
+  const T& ref,
+  Selector select) noexcept {
     return _do_map_single_data_member(
       name, ref, select, has_data_member_mapping_t<T, Selector>());
 }
 //------------------------------------------------------------------------------
 template <typename T, typename Selector>
-constexpr auto _map_single_data_member(
-  string_view name, T& ref, Selector select) noexcept {
+constexpr auto
+_map_single_data_member(string_view name, T& ref, Selector select) noexcept {
     return _do_map_single_data_member(
       name, ref, select, has_data_member_mapping_t<T, Selector>());
 }
@@ -95,8 +109,8 @@ constexpr auto do_map_data_members(
 }
 //------------------------------------------------------------------------------
 template <typename T, identifier_t Id>
-constexpr auto map_data_members(
-  const T& instance, selector<Id> select) noexcept {
+constexpr auto
+map_data_members(const T& instance, selector<Id> select) noexcept {
     return do_map_data_members(
       instance,
       select,

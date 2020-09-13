@@ -14,8 +14,7 @@ namespace eagine::oglp::texgen {
 OGLPLUS_LIB_FUNC
 multi_input_output::multi_input_output(node_intf& parent)
   : base_output(parent)
-  , _input(parent, string_view("Input"), 0.f, 0.f, 0.f, 0.f) {
-}
+  , _input(parent, string_view("Input"), 0.f, 0.f, 0.f, 0.f) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 slot_data_type multi_input_output::common_param_type() {
@@ -51,8 +50,8 @@ input_intf& multi_input_node::input(span_size_t index) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-optional_reference_wrapper<input_intf> multi_input_node::input_by_name(
-  string_view name) {
+optional_reference_wrapper<input_intf>
+multi_input_node::input_by_name(string_view name) {
     // TODO: string / span compare
     auto p = single_output()._inputs.find(name.to_string());
     if(p != single_output()._inputs.end()) {
@@ -67,8 +66,8 @@ bool multi_input_node::can_add_input() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-input_with_const_default<float[4]>& multi_input_node::add_input(
-  string_view name) {
+input_with_const_default<float[4]>&
+multi_input_node::add_input(string_view name) {
     auto p = single_output()._inputs.emplace(
       name.to_string(),
       input_with_const_default<float[4]>(*this, name, 0.f, 0.f, 0.f, 0.f));

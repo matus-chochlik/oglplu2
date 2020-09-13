@@ -232,4 +232,3 @@ bool _parse_from_string(string_view, long long int&) noexcept {
 //------------------------------------------------------------------------------
 #endif
 } // namespace eagine
-

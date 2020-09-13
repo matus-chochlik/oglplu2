@@ -32,8 +32,7 @@ protected:
 public:
     example_param_tags(string_view stag, string_view ltag) noexcept
       : _stag(stag)
-      , _ltag(ltag) {
-    }
+      , _ltag(ltag) {}
 };
 
 template <typename T>
@@ -50,8 +49,7 @@ public:
     example_param(string_view stag, string_view ltag, T initial) noexcept(
       noexcept(valid_if<T, P>(std::declval<T&&>())))
       : example_param_tags(stag, ltag)
-      , _value(std::move(initial)) {
-    }
+      , _value(std::move(initial)) {}
 
     bool is_valid() const noexcept {
         return _value.is_valid();
@@ -70,8 +68,7 @@ private:
 
 public:
     example_arg(const program_arg& arg) noexcept
-      : _arg(arg) {
-    }
+      : _arg(arg) {}
 
     bool is_tag(string_view tag) const noexcept;
 
@@ -89,8 +86,7 @@ private:
 public:
     example_args(const program_args& args, logger& log) noexcept
       : _args(args)
-      , _log(log) {
-    }
+      , _log(log) {}
 
     const program_args& args() const noexcept {
         return _args;

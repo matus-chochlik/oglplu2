@@ -17,8 +17,7 @@ OGLPLUS_LIB_FUNC
 complement_output::complement_output(node_intf& parent)
   : base_output(parent)
   , input(parent, string_view("Input"), 0.5f, 0.5f, 0.5f, 0.5f)
-  , complement(parent, string_view("Complement"), 0.f, 0.f, 0.f, 1.f) {
-}
+  , complement(parent, string_view("Complement"), 0.f, 0.f, 0.f, 1.f) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 string_view complement_output::type_name() {
@@ -31,8 +30,8 @@ slot_data_type complement_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& complement_output::definitions(
-  std::ostream& out, compile_context& ctxt) {
+std::ostream&
+complement_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt)) {
         return out;
     }

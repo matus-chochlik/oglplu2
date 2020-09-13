@@ -29,12 +29,12 @@ private:
     memory::aligned_block<63 * 1024> _alloc_block{};
 
 protected:
-    virtual void flush() noexcept {
-    }
+    virtual void flush() noexcept {}
 
 public:
     ostream_log_backend(
-      std::ostream& out, log_event_severity min_severity) noexcept
+      std::ostream& out,
+      log_event_severity min_severity) noexcept
       : _out{out}
       , _min_severity{min_severity}
       , _start{std::chrono::steady_clock::now()} {
@@ -115,7 +115,9 @@ public:
     }
 
     void add_identifier(
-      identifier arg, identifier tag, identifier value) noexcept final {
+      identifier arg,
+      identifier tag,
+      identifier value) noexcept final {
         try {
             _out << "<a n='" << arg.name() << "' t='" << tag.name() << "'>"
                  << value.name() << "</a>";
@@ -124,7 +126,9 @@ public:
     }
 
     void add_message_id(
-      identifier arg, identifier tag, message_id msg_id) noexcept final {
+      identifier arg,
+      identifier tag,
+      message_id msg_id) noexcept final {
         try {
             _out << "<a n='" << arg.name() << "' t='" << tag.name() << "'>"
                  << msg_id.class_().name() << "." << msg_id.method().name()
@@ -142,7 +146,9 @@ public:
     }
 
     void add_integer(
-      identifier arg, identifier tag, std::intmax_t value) noexcept final {
+      identifier arg,
+      identifier tag,
+      std::intmax_t value) noexcept final {
         try {
             _out << "<a n='" << arg.name() << "' t='" << tag.name() << "'>"
                  << value << "</a>";
@@ -151,7 +157,9 @@ public:
     }
 
     void add_unsigned(
-      identifier arg, identifier tag, std::uintmax_t value) noexcept final {
+      identifier arg,
+      identifier tag,
+      std::uintmax_t value) noexcept final {
         try {
             _out << "<a n='" << arg.name() << "' t='" << tag.name() << "'>"
                  << value << "</a>";
@@ -202,8 +210,8 @@ public:
         }
     }
 
-    void add_string(
-      identifier arg, identifier tag, string_view value) noexcept final {
+    void add_string(identifier arg, identifier tag, string_view value) noexcept
+      final {
         try {
             _out << "<a n='" << arg.name() << "' t='" << tag.name() << "'>"
                  << value << "</a>";

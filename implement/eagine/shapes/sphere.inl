@@ -32,8 +32,7 @@ unit_sphere_gen::unit_sphere_gen(
   valid_if_greater_than<int, 3> sections) noexcept
   : _base(attr_bits & _attr_mask())
   , _rings(span_size_t(rings.value()))
-  , _sections(span_size_t(sections.value())) {
-}
+  , _sections(span_size_t(sections.value())) {}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 span_size_t unit_sphere_gen::vertex_count() {
@@ -152,7 +151,8 @@ void unit_sphere_gen::wrap_coords(span<float> dest) noexcept {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void unit_sphere_gen::attrib_values(
-  vertex_attrib_variant vav, span<float> dest) {
+  vertex_attrib_variant vav,
+  span<float> dest) {
     switch(vav.attrib) {
         case vertex_attrib_kind::position:
             positions(dest);
@@ -248,7 +248,8 @@ span_size_t unit_sphere_gen::operation_count(drawing_variant) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void unit_sphere_gen::instructions(
-  drawing_variant var, span<draw_operation> ops) {
+  drawing_variant var,
+  span<draw_operation> ops) {
     EAGINE_ASSERT(ops.size() >= operation_count(var));
 
     if(primitive_restart()) {

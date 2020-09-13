@@ -26,12 +26,10 @@ private:
 
 public:
     shader_source_block(memory::const_block blk)
-      : _header(blk) {
-    }
+      : _header(blk) {}
 
     shader_source_block(const shader_source_header* ptr)
-      : _header(as_bytes(view_one(ptr))) {
-    }
+      : _header(as_bytes(view_one(ptr))) {}
 
     bool is_valid() const noexcept {
         return _header->magic.is_valid();
@@ -60,16 +58,13 @@ class shader_source_file
 public:
     shader_source_file(file_contents&& fc)
       : protected_member<file_contents>(std::move(fc))
-      , shader_source_block(get_the_member()) {
-    }
+      , shader_source_block(get_the_member()) {}
 
     shader_source_file(string_view path)
-      : shader_source_file(file_contents(path)) {
-    }
+      : shader_source_file(file_contents(path)) {}
 
     shader_source_file(const std::string& path)
-      : shader_source_file(string_view(path)) {
-    }
+      : shader_source_file(string_view(path)) {}
 };
 //------------------------------------------------------------------------------
 class program_source_block {
@@ -78,8 +73,7 @@ private:
 
 public:
     program_source_block(memory::const_block blk)
-      : _header(blk) {
-    }
+      : _header(blk) {}
 
     bool is_valid() const noexcept {
         return _header->magic.is_valid();
@@ -103,16 +97,13 @@ class program_source_file
 public:
     program_source_file(file_contents&& fc)
       : protected_member<file_contents>(std::move(fc))
-      , program_source_block(get_the_member()) {
-    }
+      , program_source_block(get_the_member()) {}
 
     program_source_file(string_view path)
-      : program_source_file(file_contents(path)) {
-    }
+      : program_source_file(file_contents(path)) {}
 
     program_source_file(const std::string& path)
-      : program_source_file(string_view(path)) {
-    }
+      : program_source_file(string_view(path)) {}
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::oglp

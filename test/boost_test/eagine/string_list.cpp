@@ -42,24 +42,25 @@ BOOST_AUTO_TEST_CASE(string_list_elem_1) {
 BOOST_AUTO_TEST_CASE(string_list_elem_2) {
     using namespace eagine;
 
-    const char s2[18] = {0x10,
-                         'A',
-                         'B',
-                         'C',
-                         'D',
-                         'E',
-                         'F',
-                         'G',
-                         'H',
-                         'I',
-                         'J',
-                         'K',
-                         'L',
-                         'M',
-                         'N',
-                         'O',
-                         'P',
-                         0x10};
+    const char s2[18] = {
+      0x10,
+      'A',
+      'B',
+      'C',
+      'D',
+      'E',
+      'F',
+      'G',
+      'H',
+      'I',
+      'J',
+      'K',
+      'L',
+      'M',
+      'N',
+      'O',
+      'P',
+      0x10};
     string_list::element e2(s2, 18);
 
     BOOST_CHECK_EQUAL(e2.size(), 18);

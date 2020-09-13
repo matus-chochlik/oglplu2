@@ -48,4 +48,3 @@ void compound::traverse(visit_handler visit) {
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::valtree
-

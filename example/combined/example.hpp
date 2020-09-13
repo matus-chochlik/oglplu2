@@ -21,8 +21,7 @@ struct example {
 
     virtual bool check_requirements(const example_context& ctx) = 0;
 
-    virtual void init(example_context&) {
-    }
+    virtual void init(example_context&) {}
 
     virtual seconds_t<float> default_timeout() {
         return seconds_(10);
@@ -32,17 +31,13 @@ struct example {
         return ctx.state().user_idle_time() < default_timeout();
     }
 
-    virtual void user_idle(const example_context&) {
-    }
+    virtual void user_idle(const example_context&) {}
 
-    virtual void pointer_motion(const example_context&) {
-    }
+    virtual void pointer_motion(const example_context&) {}
 
-    virtual void pointer_scrolling(const example_context&) {
-    }
+    virtual void pointer_scrolling(const example_context&) {}
 
-    virtual void resize(const example_context&) {
-    }
+    virtual void resize(const example_context&) {}
 
     virtual void render(const example_context&) = 0;
 
@@ -51,8 +46,8 @@ struct example {
     }
 };
 //------------------------------------------------------------------------------
-extern std::unique_ptr<example> make_example(
-  const example_args&, const example_context&);
+extern std::unique_ptr<example>
+make_example(const example_args&, const example_context&);
 //------------------------------------------------------------------------------
 extern bool is_example_param(const example_arg&);
 //------------------------------------------------------------------------------

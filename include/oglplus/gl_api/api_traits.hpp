@@ -32,8 +32,8 @@ public:
     using combined_result = gl_combined_result<R>;
 
     template <typename Api, typename Tag, typename Signature>
-    std::add_pointer_t<Signature> link_function(
-      Api&, Tag, string_view name, identity<Signature>) {
+    std::add_pointer_t<Signature>
+    link_function(Api&, Tag, string_view name, identity<Signature>) {
         _full_name.clear();
         _full_name.reserve(2 + name.size() + 1);
         _full_name.append("gl");
@@ -54,4 +54,3 @@ private:
 } // namespace eagine::oglp
 
 #endif // OGLPLUS_GL_API_API_TRAITS_HPP
-

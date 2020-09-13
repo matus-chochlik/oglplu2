@@ -29,14 +29,7 @@ struct my_struct {
 template <identifier_t Id>
 constexpr auto data_member_mapping(identity<my_struct>, selector<Id>) noexcept {
     using S = my_struct;
-    return make_data_member_mapping<
-      S,
-      bool,
-      char,
-      float,
-      int,
-      std::string,
-      unsigned>(
+    return make_data_member_mapping<S, bool, char, float, int, std::string, unsigned>(
       {"b", &S::b},
       {"c", &S::c},
       {"f", &S::f},

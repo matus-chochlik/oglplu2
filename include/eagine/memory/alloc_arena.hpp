@@ -48,12 +48,10 @@ public:
 
     template <typename... P>
     explicit basic_allocation_arena(P&&... p)
-      : _alloc(std::forward<P>(p)...) {
-    }
+      : _alloc(std::forward<P>(p)...) {}
 
     explicit basic_allocation_arena(Alloc&& alloc)
-      : _alloc(std::move(alloc)) {
-    }
+      : _alloc(std::move(alloc)) {}
 
     basic_allocation_arena(basic_allocation_arena&&) noexcept = default;
     basic_allocation_arena(const basic_allocation_arena&) = delete;
@@ -78,8 +76,7 @@ public:
     }
 
     template <typename T>
-    span<T> make_aligned_array(
-      const span_size_t count, const span_size_t align);
+    span<T> make_aligned_array(const span_size_t count, const span_size_t align);
 
     template <typename T>
     span<T> make_array(const span_size_t count) {
@@ -87,8 +84,8 @@ public:
     }
 
     template <typename T, typename P, typename S>
-    span<std::remove_const_t<T>> copy_aligned_array(
-      basic_span<T, P, S> src, const span_size_t align) {
+    span<std::remove_const_t<T>>
+    copy_aligned_array(basic_span<T, P, S> src, const span_size_t align) {
         auto dst =
           make_aligned_array<std::remove_const_t<T>>(src.size(), align);
         std::copy(src.begin(), src.end(), dst.begin());

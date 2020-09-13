@@ -37,8 +37,7 @@ public:
       valid_if_greater_than<int, 3> sections) noexcept;
 
     unit_sphere_gen(vertex_attrib_bits attr_bits) noexcept
-      : unit_sphere_gen(attr_bits, 12, 18) {
-    }
+      : unit_sphere_gen(attr_bits, 12, 18) {}
 
     span_size_t vertex_count() override;
 

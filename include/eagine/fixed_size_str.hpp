@@ -35,8 +35,7 @@ public:
 
     template <typename... C, typename = std::enable_if_t<sizeof...(C) == N>>
     constexpr inline fixed_size_string(C... c) noexcept
-      : _str{c...} {
-    }
+      : _str{c...} {}
 
     fixed_size_string(const char (&s)[N]) noexcept {
         std::strncpy(_str, s, N);
@@ -107,26 +106,30 @@ static inline auto make_fixed_size_string(const char (&str)[N]) noexcept {
 
 template <span_size_t N1, span_size_t N2>
 static inline auto operator+(
-  const fixed_size_string<N1>& s1, const fixed_size_string<N2>& s2) noexcept {
+  const fixed_size_string<N1>& s1,
+  const fixed_size_string<N2>& s2) noexcept {
     return fixed_size_string<N1 + N2 - 1>(s1, s2);
 }
 
 template <int I>
 static inline auto to_fixed_size_string(
-  int_constant<I>, std::enable_if_t<(I >= 0) && (I < 10)>* = nullptr) noexcept {
+  int_constant<I>,
+  std::enable_if_t<(I >= 0) && (I < 10)>* = nullptr) noexcept {
     return fixed_size_string<2>(char('0' + I), '\0');
 }
 
 template <int I>
 static inline auto to_fixed_size_string(
-  int_constant<I>, std::enable_if_t<(I > 9)>* = nullptr) noexcept {
+  int_constant<I>,
+  std::enable_if_t<(I > 9)>* = nullptr) noexcept {
     return to_fixed_size_string(int_constant<I / 10>()) +
            fixed_size_string<2>(char('0' + I % 10), '\0');
 }
 
 template <int I>
 static inline auto to_fixed_size_string(
-  int_constant<I>, std::enable_if_t<(I < 0)>* = nullptr) noexcept {
+  int_constant<I>,
+  std::enable_if_t<(I < 0)>* = nullptr) noexcept {
     return fixed_size_string<2>("-") + to_fixed_size_string(int_constant<-I>());
 }
 

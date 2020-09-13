@@ -55,4 +55,3 @@ inline bool does_have_@CONFIG_QUERY_GL_EXT_VENDOR@_@CONFIG_QUERY_GL_EXT_NAME@() 
 #endif
 }
 // clang-format on
-

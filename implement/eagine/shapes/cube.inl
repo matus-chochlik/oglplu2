@@ -36,8 +36,8 @@ bool unit_cube_gen::_only_shared_attribs() noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t unit_cube_gen::_face_vert(
-  span_size_t f, span_size_t t, span_size_t v) noexcept {
+span_size_t
+unit_cube_gen::_face_vert(span_size_t f, span_size_t t, span_size_t v) noexcept {
     EAGINE_ASSERT(f < 6);
     EAGINE_ASSERT(t < 2);
     EAGINE_ASSERT(v < 3);
@@ -102,8 +102,7 @@ span_size_t unit_cube_gen::_face_vert(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 unit_cube_gen::unit_cube_gen(vertex_attrib_bits attr_bits) noexcept
-  : _base(attr_bits & _attr_mask()) {
-}
+  : _base(attr_bits & _attr_mask()) {}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 span_size_t unit_cube_gen::vertex_count() {
@@ -382,8 +381,7 @@ span_size_t unit_cube_gen::index_count(drawing_variant var) {
 }
 //------------------------------------------------------------------------------
 template <typename T>
-inline void unit_cube_gen::_indices(
-  drawing_variant var, span<T> dest) noexcept {
+inline void unit_cube_gen::_indices(drawing_variant var, span<T> dest) noexcept {
     EAGINE_ASSERT(dest.size() >= index_count(var));
 
     span_size_t k = 0;
@@ -438,8 +436,7 @@ span_size_t unit_cube_gen::operation_count(drawing_variant) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_cube_gen::instructions(
-  drawing_variant var, span<draw_operation> ops) {
+void unit_cube_gen::instructions(drawing_variant var, span<draw_operation> ops) {
     EAGINE_ASSERT(ops.size() >= operation_count(var));
 
     if(var == 0) {

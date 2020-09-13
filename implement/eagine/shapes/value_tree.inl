@@ -29,8 +29,8 @@ static inline auto index_data_type_from(string_view str) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-vertex_attrib_bits value_tree_loader::_attr_mask(
-  const valtree::compound& source) noexcept {
+vertex_attrib_bits
+value_tree_loader::_attr_mask(const valtree::compound& source) noexcept {
     vertex_attrib_bits result;
     for(auto& info :
         enumerator_mapping(identity<vertex_attrib_kind>{}, value_tree_tag{})) {
@@ -43,11 +43,11 @@ vertex_attrib_bits value_tree_loader::_attr_mask(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 value_tree_loader::value_tree_loader(
-  valtree::compound source, logger& parent) noexcept
+  valtree::compound source,
+  logger& parent) noexcept
   : _base{_attr_mask(source)}
   , _log{EAGINE_ID(ValTreLoad), parent}
-  , _source{std::move(source)} {
-}
+  , _source{std::move(source)} {}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 span_size_t value_tree_loader::vertex_count() {
@@ -209,8 +209,7 @@ bool value_tree_loader::is_attrib_normalized(vertex_attrib_variant vav) {
 }
 //------------------------------------------------------------------------------
 template <typename T>
-void value_tree_loader::_attrib_values(
-  vertex_attrib_variant vav, span<T> dest) {
+void value_tree_loader::_attrib_values(vertex_attrib_variant vav, span<T> dest) {
     if(auto attrib_a{_source.nested(vertex_attrib_name(vav.attrib))}) {
         if(auto variant_a{_source.nested(attrib_a, vav.index())}) {
             if(auto data_a{_source.nested(variant_a, "data")}) {
@@ -241,37 +240,43 @@ void value_tree_loader::_attrib_values(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void value_tree_loader::attrib_values(
-  vertex_attrib_variant vav, span<byte> dest) {
+  vertex_attrib_variant vav,
+  span<byte> dest) {
     _attrib_values(vav, dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void value_tree_loader::attrib_values(
-  vertex_attrib_variant vav, span<std::int16_t> dest) {
+  vertex_attrib_variant vav,
+  span<std::int16_t> dest) {
     _attrib_values(vav, dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void value_tree_loader::attrib_values(
-  vertex_attrib_variant vav, span<std::int32_t> dest) {
+  vertex_attrib_variant vav,
+  span<std::int32_t> dest) {
     _attrib_values(vav, dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void value_tree_loader::attrib_values(
-  vertex_attrib_variant vav, span<std::uint16_t> dest) {
+  vertex_attrib_variant vav,
+  span<std::uint16_t> dest) {
     _attrib_values(vav, dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void value_tree_loader::attrib_values(
-  vertex_attrib_variant vav, span<std::uint32_t> dest) {
+  vertex_attrib_variant vav,
+  span<std::uint32_t> dest) {
     _attrib_values(vav, dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void value_tree_loader::attrib_values(
-  vertex_attrib_variant vav, span<float> dest) {
+  vertex_attrib_variant vav,
+  span<float> dest) {
     _attrib_values(vav, dest);
 }
 //------------------------------------------------------------------------------
@@ -333,8 +338,7 @@ span_size_t value_tree_loader::operation_count(drawing_variant) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void value_tree_loader::instructions(
-  drawing_variant, span<draw_operation> ops) {
+void value_tree_loader::instructions(drawing_variant, span<draw_operation> ops) {
     bool btemp{};
     if(auto instrs_a{_source.nested("instructions")}) {
         if(ops.size() == _source.nested_count(instrs_a)) {

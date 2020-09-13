@@ -30,7 +30,8 @@ template <
   typename UIntT,
   typename Engine>
 auto make_random_basic_identifier(
-  identity<basic_identifier<M, B, CharSet, UIntT>>, Engine& engine) {
+  identity<basic_identifier<M, B, CharSet, UIntT>>,
+  Engine& engine) {
     char temp[M + 1];
     fill_random_charset_string(
       cover(temp), CharSet::values, std::make_index_sequence<M>(), engine);

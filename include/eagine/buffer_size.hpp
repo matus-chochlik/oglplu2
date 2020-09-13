@@ -23,22 +23,18 @@ private:
 
 public:
     constexpr inline buffer_size() noexcept
-      : _v(0) {
-    }
+      : _v(0) {}
 
     explicit constexpr inline buffer_size(S v) noexcept
-      : _v(v) {
-    }
+      : _v(v) {}
 
     template <typename T>
     constexpr inline buffer_size(identity<T>, span_size_t count) noexcept
-      : _v(S(span_size_of<T>() * count)) {
-    }
+      : _v(S(span_size_of<T>() * count)) {}
 
     template <typename T, typename P, typename Z>
     constexpr inline buffer_size(memory::basic_span<T, P, Z> s) noexcept
-      : _v(S(span_size_of<T>() * span_size(s.size()))) {
-    }
+      : _v(S(span_size_of<T>() * span_size(s.size()))) {}
 
     constexpr inline S get() const noexcept {
         return _v;
@@ -53,8 +49,8 @@ public:
         return T(_v);
     }
 
-    friend constexpr inline buffer_size operator+(
-      buffer_size a, buffer_size b) noexcept {
+    friend constexpr inline buffer_size
+    operator+(buffer_size a, buffer_size b) noexcept {
         return buffer_size{a._v + b._v};
     }
 };

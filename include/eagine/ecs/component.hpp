@@ -55,8 +55,8 @@ public:
         return {nothing};
     }
 
-    optional_reference_wrapper<const T> find(
-      component_uid_t cid) const noexcept {
+    optional_reference_wrapper<const T>
+    find(component_uid_t cid) const noexcept {
         const auto pos{_storage.find(cid)};
         if(pos != _storage.end()) {
             return {pos->second};

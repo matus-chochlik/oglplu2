@@ -39,8 +39,8 @@ private:
     template <typename T>
     void _indices(drawing_variant, span<T> dest) noexcept;
 
-    static span_size_t _face_vert(
-      span_size_t f, span_size_t t, span_size_t v) noexcept;
+    static span_size_t
+    _face_vert(span_size_t f, span_size_t t, span_size_t v) noexcept;
 
 public:
     unit_cube_gen(vertex_attrib_bits attr_bits) noexcept;

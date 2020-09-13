@@ -21,8 +21,7 @@ combine_output::combine_output(node_intf& parent)
   , input_r(parent, string_view("Red"))
   , input_g(parent, string_view("Green"))
   , input_b(parent, string_view("Blue"))
-  , input_a(parent, string_view("Alpha")) {
-}
+  , input_a(parent, string_view("Alpha")) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 string_view combine_output::type_name() {
@@ -45,7 +44,9 @@ slot_data_type combine_output::value_type() {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 std::string combine_output::_input_expr(
-  _input_t& input, slot_data_type type, compile_context& ctxt) {
+  _input_t& input,
+  slot_data_type type,
+  compile_context& ctxt) {
     std::stringstream res;
 
     res << expr::conversion_prefix{input.value_type(), type};
@@ -56,8 +57,8 @@ std::string combine_output::_input_expr(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& combine_output::definitions(
-  std::ostream& out, compile_context& ctxt) {
+std::ostream&
+combine_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt)) {
         return out;
     }

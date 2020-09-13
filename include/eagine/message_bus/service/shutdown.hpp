@@ -87,4 +87,3 @@ public:
 } // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_SERVICE_SHUTDOWN_HPP
-

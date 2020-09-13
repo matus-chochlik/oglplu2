@@ -35,8 +35,7 @@ struct enum_value<T, mp_list<Classes...>, Tag> {
     const T value;
 
     constexpr inline enum_value(T val) noexcept
-      : value(val) {
-    }
+      : value(val) {}
 
     explicit constexpr inline operator T() const noexcept {
         return value;
@@ -66,13 +65,11 @@ struct opt_enum_value<T, mp_list<Classes...>, Tag> {
 
     constexpr inline opt_enum_value(T val, bool valid) noexcept
       : value(val)
-      , is_valid{valid} {
-    }
+      , is_valid{valid} {}
 
     constexpr inline opt_enum_value(std::tuple<T, bool> init) noexcept
       : value(std::get<0>(init))
-      , is_valid{std::get<1>(init)} {
-    }
+      , is_valid{std::get<1>(init)} {}
 
     explicit constexpr inline operator T() const noexcept {
         return value;
@@ -130,8 +127,7 @@ struct enum_class {
       typename Tag,
       typename = std::enable_if_t<mp_contains_v<Classes, Self>>>
     constexpr inline enum_class(enum_value<T, Classes, Tag> ev) noexcept
-      : _value(ev.value) {
-    }
+      : _value(ev.value) {}
 
     template <
       typename Classes,
@@ -152,8 +148,7 @@ struct enum_class {
     }
 
     explicit constexpr inline enum_class(value_type value) noexcept
-      : _value(value) {
-    }
+      : _value(value) {}
 
     constexpr inline operator Self() const noexcept {
         return Self(_value);
@@ -163,13 +158,13 @@ struct enum_class {
         return _value;
     }
 
-    friend constexpr inline bool operator==(
-      enum_class a, enum_class b) noexcept {
+    friend constexpr inline bool
+    operator==(enum_class a, enum_class b) noexcept {
         return a._value == b._value;
     }
 
-    friend constexpr inline bool operator!=(
-      enum_class a, enum_class b) noexcept {
+    friend constexpr inline bool
+    operator!=(enum_class a, enum_class b) noexcept {
         return a._value != b._value;
     }
 
@@ -204,9 +199,8 @@ template <
   typename Tag,
   identifier_t LibId,
   identifier_t Id>
-struct is_enum_class_value<
-  enum_class<Self, T, LibId, Id>,
-  no_enum_value<T, Tag>> : std::true_type {
+struct is_enum_class_value<enum_class<Self, T, LibId, Id>, no_enum_value<T, Tag>>
+  : std::true_type {
     static_assert(std::is_base_of_v<enum_class<Self, T, LibId, Id>, Self>);
 };
 
@@ -241,8 +235,7 @@ struct any_enum_class {
     identifier_t _type_id;
 
     constexpr inline any_enum_class() noexcept
-      : _type_id(~identifier_t(0)) {
-    }
+      : _type_id(~identifier_t(0)) {}
 
     template <typename Self, typename T, identifier_t Id>
     constexpr inline any_enum_class(
@@ -252,8 +245,7 @@ struct any_enum_class {
     }
 
     constexpr inline any_enum_class(const any_enum_value<LibId>& aev) noexcept
-      : _type_id(aev._type_id) {
-    }
+      : _type_id(aev._type_id) {}
 
     explicit constexpr inline operator bool() const noexcept {
         return _type_id != ~identifier_t(0);
@@ -263,13 +255,13 @@ struct any_enum_class {
         return _type_id == ~identifier_t(0);
     }
 
-    friend bool operator==(
-      const any_enum_class& a, const any_enum_class& b) noexcept {
+    friend bool
+    operator==(const any_enum_class& a, const any_enum_class& b) noexcept {
         return a._type_id == b._type_id;
     }
 
-    friend bool operator!=(
-      const any_enum_class& a, const any_enum_class& b) noexcept {
+    friend bool
+    operator!=(const any_enum_class& a, const any_enum_class& b) noexcept {
         return a._type_id != b._type_id;
     }
 };
@@ -280,8 +272,7 @@ struct any_enum_value {
     identifier_t _type_id;
 
     constexpr inline any_enum_value() noexcept
-      : _type_id(~identifier_t(0)) {
-    }
+      : _type_id(~identifier_t(0)) {}
 
     template <typename Self, typename T, identifier_t Id>
     constexpr inline any_enum_value(enum_class<Self, T, LibId, Id> v) noexcept
@@ -298,20 +289,20 @@ struct any_enum_value {
         return _type_id == ~identifier_t(0);
     }
 
-    friend bool operator==(
-      const any_enum_value& a, const any_enum_value& b) noexcept {
+    friend bool
+    operator==(const any_enum_value& a, const any_enum_value& b) noexcept {
         return (a._value == b._value) && (a._type_id == b._type_id);
     }
 
-    friend bool operator!=(
-      const any_enum_value& a, const any_enum_value& b) noexcept {
+    friend bool
+    operator!=(const any_enum_value& a, const any_enum_value& b) noexcept {
         return (a._value != b._value) || (a._type_id != b._type_id);
     }
 };
 
 template <identifier_t LibId>
-static constexpr inline bool same_enum_class(
-  any_enum_class<LibId> a, any_enum_class<LibId> b) noexcept {
+static constexpr inline bool
+same_enum_class(any_enum_class<LibId> a, any_enum_class<LibId> b) noexcept {
     return a._type_id == b._type_id;
 }
 //------------------------------------------------------------------------------
@@ -347,9 +338,8 @@ using enum_class_view =
   enum_class_container<EnumClass, span<const typename EnumClass::value_type>>;
 
 template <typename EnumClass, std::size_t N>
-using enum_class_array = enum_class_container<
-  EnumClass,
-  std::array<typename EnumClass::value_type, N>>;
+using enum_class_array =
+  enum_class_container<EnumClass, std::array<typename EnumClass::value_type, N>>;
 //------------------------------------------------------------------------------
 } // namespace eagine
 

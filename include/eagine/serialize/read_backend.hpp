@@ -67,8 +67,7 @@ class common_deserializer_backend : public deserializer_backend {
 public:
     common_deserializer_backend() noexcept = default;
     common_deserializer_backend(Source& source) noexcept
-      : _source{&source} {
-    }
+      : _source{&source} {}
 
     Derived& set_source(Source& s) noexcept {
         _source = &s;
@@ -251,7 +250,8 @@ protected:
 
     template <typename Function>
     void consume_until(
-      Function predicate, const valid_if_positive<span_size_t> step = {256}) {
+      Function predicate,
+      const valid_if_positive<span_size_t> step = {256}) {
         while(auto pos = _source->scan_until(predicate, step, step)) {
             if(extract(pos) > 0) {
                 pop(extract(pos));
@@ -292,4 +292,3 @@ private:
 } // namespace eagine
 
 #endif // EAGINE_SERIALIZE_READ_BACKEND_HPP
-

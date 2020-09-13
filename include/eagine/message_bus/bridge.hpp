@@ -32,8 +32,7 @@ class bridge : public connection_user {
 public:
     bridge(logger& parent) noexcept
       : _log(EAGINE_ID(MsgBusBrdg), parent)
-      , _context{make_context(_log)} {
-    }
+      , _context{make_context(_log)} {}
 
     bridge(logger& parent, const program_args& args) noexcept
       : _log(EAGINE_ID(MsgBusBrdg), parent)

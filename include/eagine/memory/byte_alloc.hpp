@@ -39,18 +39,18 @@ struct byte_allocator : block_owner {
 
     virtual size_type max_size(size_type a) noexcept = 0;
 
-    virtual tribool has_allocated(
-      const owned_block& b, size_type a = 0) noexcept = 0;
+    virtual tribool
+    has_allocated(const owned_block& b, size_type a = 0) noexcept = 0;
 
     virtual owned_block allocate(size_type n, size_type a) noexcept = 0;
 
     virtual void deallocate(owned_block&& b, size_type a = 0) noexcept = 0;
 
-    virtual bool can_reallocate(
-      const owned_block& b, size_type n, size_type a) noexcept = 0;
+    virtual bool
+    can_reallocate(const owned_block& b, size_type n, size_type a) noexcept = 0;
 
-    virtual owned_block reallocate(
-      owned_block&& b, size_type n, size_type a) noexcept = 0;
+    virtual owned_block
+    reallocate(owned_block&& b, size_type n, size_type a) noexcept = 0;
 
     void do_reallocate(owned_block& b, size_type n, size_type a) noexcept {
         if(b.size() != n) {
@@ -85,11 +85,11 @@ private:
 public:
     byte_alloc_ref_count_policy(const byte_alloc_ref_count_policy&) = delete;
 
-    byte_alloc_ref_count_policy& operator=(const byte_alloc_ref_count_policy&) =
-      delete;
+    byte_alloc_ref_count_policy&
+    operator=(const byte_alloc_ref_count_policy&) = delete;
 
-    byte_alloc_ref_count_policy& operator=(byte_alloc_ref_count_policy&& tmp) =
-      delete;
+    byte_alloc_ref_count_policy&
+    operator=(byte_alloc_ref_count_policy&& tmp) = delete;
 
     byte_alloc_ref_count_policy() noexcept = default;
 
@@ -116,11 +116,7 @@ public:
 using default_byte_allocator_policy = byte_alloc_ref_count_policy;
 
 // byte_allocator_impl
-template <
-  typename Policy,
-  template <class...>
-  class DerivedTpl,
-  typename... Args>
+template <typename Policy, template <class...> class DerivedTpl, typename... Args>
 class byte_allocator_impl : public byte_allocator {
 private:
     Policy _policy;
@@ -153,13 +149,13 @@ public:
         return _policy.release(this);
     }
 
-    bool can_reallocate(
-      const owned_block&, size_type, size_type) noexcept override {
+    bool
+    can_reallocate(const owned_block&, size_type, size_type) noexcept override {
         return false;
     }
 
-    owned_block reallocate(
-      owned_block&& b, size_type, size_type) noexcept override {
+    owned_block
+    reallocate(owned_block&& b, size_type, size_type) noexcept override {
         return std::move(b);
     }
 

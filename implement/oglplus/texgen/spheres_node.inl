@@ -16,8 +16,7 @@ namespace eagine::oglp::texgen {
 OGLPLUS_LIB_FUNC
 spheres_output::spheres_output(node_intf& parent)
   : base_output(parent)
-  , repeat(parent, string_view("Repeat"), 8.f, 8.f, 8.f) {
-}
+  , repeat(parent, string_view("Repeat"), 8.f, 8.f, 8.f) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 string_view spheres_output::type_name() {
@@ -30,8 +29,8 @@ slot_data_type spheres_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& spheres_output::definitions(
-  std::ostream& out, compile_context& ctxt) {
+std::ostream&
+spheres_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt)) {
         return out;
     }

@@ -35,8 +35,8 @@ std::string base_constant::identifier() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& base_constant::definitions(
-  std::ostream& out, compile_context& ctxt) {
+std::ostream&
+base_constant::definitions(std::ostream& out, compile_context& ctxt) {
     if(!ctxt.remembers_constant(*this)) {
         out << "const " << data_type_name(value_type());
         out << " " << identifier() << " = ";

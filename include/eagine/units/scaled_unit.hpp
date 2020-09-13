@@ -72,10 +72,8 @@ using make_scaled_unit_t = typename make_scaled_unit<Scale, Unit>::type;
 
 template <typename Scale, typename Dimension, typename System>
 struct make_scaled_unit<Scale, unit<Dimension, System>>
-  : scaled_dim_unit<
-      Dimension,
-      add_none_unit_scale_t<Scale, nothing_t>,
-      System> {};
+  : scaled_dim_unit<Dimension, add_none_unit_scale_t<Scale, nothing_t>, System> {
+};
 
 // is_convertible
 template <typename D, typename US, typename S>

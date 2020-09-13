@@ -74,4 +74,3 @@ struct source_type : al_enum_class<source_type, EAGINE_ID_V(SourceType)> {
 } // namespace eagine::oalp
 
 #endif // OALPLUS_AL_API_ENUM_TYPES_HPP
-

@@ -31,8 +31,8 @@ static inline span_size_t element_header_size(string_view elem) noexcept {
       mbs::decode_sequence_length(mbs::make_cbyte_span(elem)), 0);
 }
 //------------------------------------------------------------------------------
-static inline span_size_t element_value_size(
-  string_view elem, span_size_t l) noexcept {
+static inline span_size_t
+element_value_size(string_view elem, span_size_t l) noexcept {
     return extract_or(
       mbs::do_decode_code_point(mbs::make_cbyte_span(elem), l), 0U);
 }
@@ -101,13 +101,13 @@ private:
         return {s.data(), hs + vs + hs};
     }
 
-    static inline string_view _fit(
-      const char* ptr, span_size_t max_size) noexcept {
+    static inline string_view
+    _fit(const char* ptr, span_size_t max_size) noexcept {
         return _fit(string_view(ptr, max_size));
     }
 
-    static inline string_view _rev_fit(
-      string_view s, span_size_t rev_sz) noexcept {
+    static inline string_view
+    _rev_fit(string_view s, span_size_t rev_sz) noexcept {
         span_size_t hs = element_header_size(s);
         span_size_t vs = element_value_size(s, hs);
         EAGINE_ASSERT(rev_sz >= hs + vs);
@@ -115,19 +115,17 @@ private:
         return {s.data() - hs - vs, hs + vs + hs};
     }
 
-    static inline string_view _rev_fit(
-      const char* ptr, span_size_t rev_sz, span_size_t foot_sz) noexcept {
+    static inline string_view
+    _rev_fit(const char* ptr, span_size_t rev_sz, span_size_t foot_sz) noexcept {
         return _rev_fit(string_view(ptr, foot_sz), rev_sz);
     }
 
 public:
     element(const char* ptr, span_size_t max_size) noexcept
-      : string_view(_fit(ptr, max_size)) {
-    }
+      : string_view(_fit(ptr, max_size)) {}
 
     element(const char* ptr, span_size_t rev_sz, span_size_t foot_sz) noexcept
-      : string_view(_rev_fit(ptr, rev_sz, foot_sz)) {
-    }
+      : string_view(_rev_fit(ptr, rev_sz, foot_sz)) {}
 
     span_size_t header_size() const noexcept {
         return element_header_size(_base());
@@ -172,8 +170,9 @@ static inline void for_each_elem(string_view list, Func func) noexcept {
 //------------------------------------------------------------------------------
 template <typename Func>
 static inline void for_each(string_view list, Func func) noexcept {
-    auto adapted_func = [&func](
-                          const element& elem, bool) { func(elem.value()); };
+    auto adapted_func = [&func](const element& elem, bool) {
+        func(elem.value());
+    };
     for_each_elem(list, adapted_func);
 }
 //------------------------------------------------------------------------------
@@ -195,13 +194,14 @@ static inline void rev_for_each_elem(string_view list, Func func) noexcept {
 //------------------------------------------------------------------------------
 template <typename Func>
 static inline void rev_for_each(string_view list, Func func) noexcept {
-    auto adapted_func = [&func](
-                          const element& elem, bool) { func(elem.value()); };
+    auto adapted_func = [&func](const element& elem, bool) {
+        func(elem.value());
+    };
     rev_for_each_elem(list, adapted_func);
 }
 //------------------------------------------------------------------------------
-static inline span_size_t split_into(
-  std::string& dst, string_view str, string_view sep) {
+static inline span_size_t
+split_into(std::string& dst, string_view str, string_view sep) {
     span_size_t cnt = 0;
     for_each_delimited(str, sep, [&dst, &cnt](const auto& x) {
         push_back(dst, x);
@@ -210,16 +210,16 @@ static inline span_size_t split_into(
     return cnt;
 }
 //------------------------------------------------------------------------------
-static inline std::tuple<std::string, span_size_t> split(
-  string_view str, string_view sep) {
+static inline std::tuple<std::string, span_size_t>
+split(string_view str, string_view sep) {
     std::string res;
     const auto cnt = split_into(res, str, sep);
     return std::make_tuple(std::move(res), cnt);
 }
 //------------------------------------------------------------------------------
 template <typename Func>
-static inline span_size_t for_each_separated_c_str(
-  const char* str, const char sep, Func func) {
+static inline span_size_t
+for_each_separated_c_str(const char* str, const char sep, Func func) {
     span_size_t cnt = 0;
     const char* bgn = str;
     const char* pos = bgn;
@@ -255,21 +255,21 @@ static inline span_size_t for_each_separated_c_str(
     return cnt;
 }
 //------------------------------------------------------------------------------
-static inline span_size_t split_c_str_into(
-  std::string& dst, const char* str, const char sep) {
+static inline span_size_t
+split_c_str_into(std::string& dst, const char* str, const char sep) {
     return for_each_separated_c_str(
       str, sep, [&dst](auto elem) { push_back(dst, elem); });
 }
 //------------------------------------------------------------------------------
-static inline std::tuple<std::string, span_size_t> split_c_str(
-  const char* str, const char sep) {
+static inline std::tuple<std::string, span_size_t>
+split_c_str(const char* str, const char sep) {
     std::string res;
     const auto cnt = split_c_str_into(res, str, sep);
     return std::make_tuple(std::move(res), cnt);
 }
 //------------------------------------------------------------------------------
-static inline std::string join(
-  string_view list, string_view sep, bool trail_sep) {
+static inline std::string
+join(string_view list, string_view sep, bool trail_sep) {
     span_size_t slen = sep.size();
     span_size_t len = trail_sep ? slen : 0;
     auto get_len = [&len, slen](const element& elem, bool first) {
@@ -341,8 +341,7 @@ public:
     using iterator_category = std::forward_iterator_tag;
 
     iterator(Iter pos) noexcept
-      : _pos(pos) {
-    }
+      : _pos(pos) {}
 
     friend bool operator==(iterator a, iterator b) noexcept {
         return a._pos == b._pos;
@@ -426,8 +425,7 @@ public:
     using iterator_category = std::forward_iterator_tag;
 
     rev_iterator(Iter pos) noexcept
-      : _pos(pos) {
-    }
+      : _pos(pos) {}
 
     friend bool operator==(rev_iterator a, rev_iterator b) noexcept {
         return a._pos == b._pos;
@@ -474,8 +472,7 @@ public:
     using iterator = eagine::string_list::iterator<typename Range::iterator>;
 
     range_view(Range& range) noexcept
-      : _range{range} {
-    }
+      : _range{range} {}
 
     iterator begin() const noexcept {
         return {_range.begin()};
@@ -497,8 +494,7 @@ public:
       eagine::string_list::rev_iterator<typename Range::iterator>;
 
     rev_range_view(Range& range) noexcept
-      : _range{range} {
-    }
+      : _range{range} {}
 
     iterator begin() const noexcept {
         return iterator(_range.end() - 1);
@@ -524,8 +520,7 @@ public:
     basic_string_list() noexcept = default;
 
     basic_string_list(Range range) noexcept
-      : _range{std::move(range)} {
-    }
+      : _range{std::move(range)} {}
 
     iterator begin() const noexcept {
         return {_range.begin()};
@@ -549,8 +544,8 @@ private:
 //------------------------------------------------------------------------------
 } // namespace string_list
 //------------------------------------------------------------------------------
-static inline string_list::basic_string_list<std::string> make_string_list(
-  std::string str) {
+static inline string_list::basic_string_list<std::string>
+make_string_list(std::string str) {
     return {std::move(str)};
 }
 //------------------------------------------------------------------------------

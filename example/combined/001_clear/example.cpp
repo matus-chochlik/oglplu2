@@ -49,8 +49,8 @@ void example_clear::render(const example_context& ctx) {
     gl.clear(GL.color_buffer_bit);
 }
 //------------------------------------------------------------------------------
-std::unique_ptr<example> make_example(
-  const example_args&, const example_context&) {
+std::unique_ptr<example>
+make_example(const example_args&, const example_context&) {
     return {std::make_unique<example_clear>()};
 }
 //------------------------------------------------------------------------------
@@ -64,4 +64,3 @@ bool is_example_param(const example_arg&) {
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
-

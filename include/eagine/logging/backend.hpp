@@ -35,8 +35,8 @@ struct logger_backend {
 
     virtual auto type_id() noexcept -> identifier = 0;
 
-    virtual auto entry_backend(
-      identifier source, log_event_severity severity) noexcept
+    virtual auto
+    entry_backend(identifier source, log_event_severity severity) noexcept
       -> logger_backend* = 0;
 
     virtual void enter_scope(identifier scope) noexcept = 0;
@@ -52,22 +52,28 @@ struct logger_backend {
     virtual void add_nothing(identifier arg, identifier tag) noexcept = 0;
 
     virtual void add_identifier(
-      identifier arg, identifier tag, identifier value) noexcept = 0;
+      identifier arg,
+      identifier tag,
+      identifier value) noexcept = 0;
 
-    virtual void add_message_id(
-      identifier arg, identifier tag, message_id) noexcept = 0;
+    virtual void
+    add_message_id(identifier arg, identifier tag, message_id) noexcept = 0;
 
-    virtual void add_bool(
-      identifier arg, identifier tag, bool value) noexcept = 0;
+    virtual void
+    add_bool(identifier arg, identifier tag, bool value) noexcept = 0;
 
     virtual void add_integer(
-      identifier arg, identifier tag, std::intmax_t value) noexcept = 0;
+      identifier arg,
+      identifier tag,
+      std::intmax_t value) noexcept = 0;
 
     virtual void add_unsigned(
-      identifier arg, identifier tag, std::uintmax_t value) noexcept = 0;
+      identifier arg,
+      identifier tag,
+      std::uintmax_t value) noexcept = 0;
 
-    virtual void add_float(
-      identifier arg, identifier tag, float value) noexcept = 0;
+    virtual void
+    add_float(identifier arg, identifier tag, float value) noexcept = 0;
 
     virtual void add_float(
       identifier arg,
@@ -81,11 +87,13 @@ struct logger_backend {
       identifier tag,
       std::chrono::duration<float> value) noexcept = 0;
 
-    virtual void add_string(
-      identifier arg, identifier tag, string_view value) noexcept = 0;
+    virtual void
+    add_string(identifier arg, identifier tag, string_view value) noexcept = 0;
 
     virtual void add_blob(
-      identifier arg, identifier tag, memory::const_block value) noexcept = 0;
+      identifier arg,
+      identifier tag,
+      memory::const_block value) noexcept = 0;
 
     virtual void finish_message() noexcept = 0;
 

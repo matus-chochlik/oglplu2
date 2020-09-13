@@ -24,10 +24,10 @@ public:
     constexpr unit_spherical_coordinates() noexcept = default;
 
     constexpr unit_spherical_coordinates(
-      radians_t<T> azimuth, radians_t<T> elevation) noexcept
+      radians_t<T> azimuth,
+      radians_t<T> elevation) noexcept
       : _azim{azimuth}
-      , _elev{elevation} {
-    }
+      , _elev{elevation} {}
 
     radians_t<T> azimuth() const noexcept {
         return _azim;

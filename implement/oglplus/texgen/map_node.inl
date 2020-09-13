@@ -17,8 +17,7 @@ OGLPLUS_LIB_FUNC
 map_output::map_output(node_intf& parent)
   : base_output(parent)
   , input(parent, string_view("Input"), 0.5f, 0.5f, 0.5f, 0.5f)
-  , coord(parent, string_view("Coord"), 0.f, 0.f, 0.f) {
-}
+  , coord(parent, string_view("Coord"), 0.f, 0.f, 0.f) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 string_view map_output::type_name() {
@@ -31,8 +30,7 @@ slot_data_type map_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& map_output::definitions(
-  std::ostream& out, compile_context& ctxt) {
+std::ostream& map_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt)) {
         return out;
     }

@@ -50,8 +50,8 @@ memory::const_block ca_certificate_pem(
   const program_args&,
   logger&);
 //------------------------------------------------------------------------------
-inline memory::const_block ca_certificate_pem(
-  memory::const_block embedded_blk, main_ctx& ctx) {
+inline memory::const_block
+ca_certificate_pem(memory::const_block embedded_blk, main_ctx& ctx) {
     return ca_certificate_pem(
       embedded_blk, ctx.scratch_space(), ctx.args(), ctx.log());
 }

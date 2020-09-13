@@ -26,8 +26,7 @@ namespace eagine::msgbus {
 class bridge_state : public std::enable_shared_from_this<bridge_state> {
 public:
     bridge_state(const valid_if_positive<span_size_t>& max_data_size)
-      : _max_read{extract_or(max_data_size, 512) * 2} {
-    }
+      : _max_read{extract_or(max_data_size, 512) * 2} {}
     bridge_state(bridge_state&&) = delete;
     bridge_state(const bridge_state&) = delete;
     bridge_state& operator=(bridge_state&&) = delete;
@@ -179,7 +178,9 @@ void bridge::_setup_from_args(const program_args&) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool bridge::_handle_special(
-  message_id msg_id, message_view message, bool to_connection) {
+  message_id msg_id,
+  message_view message,
+  bool to_connection) {
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
         _log.debug("router handling special message ${message}")
           .arg(EAGINE_ID(message), msg_id)
@@ -376,4 +377,3 @@ bool bridge::update() {
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus
-

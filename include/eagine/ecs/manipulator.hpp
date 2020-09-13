@@ -30,12 +30,10 @@ protected:
 
 public:
     basic_manipulator() noexcept
-      : _ptr(nullptr) {
-    }
+      : _ptr(nullptr) {}
 
     basic_manipulator(Component& cmp) noexcept
-      : _ptr(&cmp) {
-    }
+      : _ptr(&cmp) {}
 
     bool is_valid() const noexcept {
         return _ptr != nullptr;
@@ -64,12 +62,10 @@ protected:
 
 public:
     basic_manipulator() noexcept
-      : _ptr(nullptr) {
-    }
+      : _ptr(nullptr) {}
 
     basic_manipulator(const Component& cmp) noexcept
-      : _ptr(&cmp) {
-    }
+      : _ptr(&cmp) {}
 
     bool is_valid() const noexcept {
         return _ptr != nullptr;
@@ -110,32 +106,28 @@ public:
       , _add_place(nullptr)
       , _can_rem(can_rem)
       , _removed(false)
-      , _added(false) {
-    }
+      , _added(false) {}
 
     manipulator(Component& cmp, bool can_rem)
       : _base(cmp)
       , _add_place(nullptr)
       , _can_rem(can_rem)
       , _removed(false)
-      , _added(false) {
-    }
+      , _added(false) {}
 
     manipulator(Component& cmp, _nonconstC& add, bool can_rem)
       : _base(cmp)
       , _add_place(&add)
       , _can_rem(can_rem)
       , _removed(false)
-      , _added(false) {
-    }
+      , _added(false) {}
 
     manipulator(std::nullptr_t, _nonconstC& add, bool can_rem)
       : _base()
       , _add_place(&add)
       , _can_rem(can_rem)
       , _removed(false)
-      , _added(false) {
-    }
+      , _added(false) {}
 
     bool can_add() const noexcept {
         return _add_place != nullptr;

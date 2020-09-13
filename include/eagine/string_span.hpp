@@ -31,8 +31,7 @@ public:
     constexpr basic_string_span() noexcept = default;
 
     constexpr basic_string_span(P addr, S length) noexcept
-      : base(addr, length) {
-    }
+      : base(addr, length) {}
 
     template <
       typename R,
@@ -40,20 +39,17 @@ public:
         !std::is_array_v<R> && std::is_convertible_v<R, P> &&
         std::is_same_v<std::remove_const_t<std::remove_pointer_t<R>>, char>>>
     constexpr explicit basic_string_span(R addr) noexcept
-      : base(addr, span_size(std::strlen(addr))) {
-    }
+      : base(addr, span_size(std::strlen(addr))) {}
 
     template <std::size_t N>
     constexpr basic_string_span(C (&array)[N]) noexcept
       : base(
           static_cast<P>(array),
-          limit_cast<S>(array[N - 1] == C(0) ? N - 1 : N)) {
-    }
+          limit_cast<S>(array[N - 1] == C(0) ? N - 1 : N)) {}
 
     template <std::size_t N>
     constexpr basic_string_span(C (&array)[N], span_size_t n) noexcept
-      : base(static_cast<P>(array), limit_cast<S>(n)) {
-    }
+      : base(static_cast<P>(array), limit_cast<S>(n)) {}
 
     template <
       typename Str,
@@ -61,8 +57,7 @@ public:
         memory::has_span_data_member_v<Str> &&
         memory::has_span_size_member_v<Str>>>
     constexpr basic_string_span(Str& str) noexcept
-      : base(static_cast<P>(str.data()), limit_cast<S>(str.size())) {
-    }
+      : base(static_cast<P>(str.data()), limit_cast<S>(str.size())) {}
 
     template <
       typename Str,
@@ -70,8 +65,7 @@ public:
         memory::has_span_data_member_v<Str> &&
         memory::has_span_size_member_v<Str>>>
     constexpr basic_string_span(const Str& str) noexcept
-      : base(static_cast<P>(str.data()), limit_cast<S>(str.size())) {
-    }
+      : base(static_cast<P>(str.data()), limit_cast<S>(str.size())) {}
 
     using base::data;
     using base::empty;
@@ -107,8 +101,8 @@ static constexpr inline auto to_string(memory::basic_span<C, P, S> spn)
 //------------------------------------------------------------------------------
 template <typename C, typename T, typename A, typename P, typename S>
 static constexpr inline auto append_to(
-  std::basic_string<C, T, A>& str, memory::basic_span<const C, P, S> spn)
-  -> auto& {
+  std::basic_string<C, T, A>& str,
+  memory::basic_span<const C, P, S> spn) -> auto& {
     str.append(spn.data(), std_size(spn.size()));
     return str;
 }
@@ -164,8 +158,7 @@ public:
 
     constexpr basic_c_str(basic_string_span<C, P, S> s)
       : _span{is_zero_terminated(s) ? s : basic_string_span<C, P, S>{}}
-      , _str{is_zero_terminated(s) ? string_type{} : s.to_string()} {
-    }
+      , _str{is_zero_terminated(s) ? string_type{} : s.to_string()} {}
 
     constexpr auto c_str() const noexcept -> P {
         return _span.empty() ? _str.c_str() : _span.data();
@@ -181,17 +174,18 @@ private:
 };
 //------------------------------------------------------------------------------
 template <typename C, typename P, typename S>
-static constexpr inline auto c_str(memory::basic_span<C, P, S> s)
-  -> std::enable_if_t<
-    std::
-      is_convertible_v<memory::basic_span<C, P, S>, basic_string_span<C, P, S>>,
-    basic_c_str<C, P, S>> {
+static constexpr inline auto
+c_str(memory::basic_span<C, P, S> s) -> std::enable_if_t<
+  std::is_convertible_v<memory::basic_span<C, P, S>, basic_string_span<C, P, S>>,
+  basic_c_str<C, P, S>> {
     return {s};
 }
 //------------------------------------------------------------------------------
 template <typename C, typename T, typename A, typename Transform>
 static inline auto make_span_putter(
-  span_size_t& i, std::basic_string<C, T, A>& str, Transform transform) {
+  span_size_t& i,
+  std::basic_string<C, T, A>& str,
+  Transform transform) {
     return [&i, &str, transform](auto value) mutable -> bool {
         if(i < span_size_t(str.size())) {
             if(auto transformed = transform(value)) {

@@ -67,8 +67,8 @@ auto root_logger_choose_backend(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto root_logger::_init_backend(
-  const program_args& args, const root_logger_options& opts)
-  -> std::unique_ptr<logger_backend> {
+  const program_args& args,
+  const root_logger_options& opts) -> std::unique_ptr<logger_backend> {
     auto min_severity{default_log_severity()};
 
     for(auto arg = args.first(); arg; arg = arg.next()) {

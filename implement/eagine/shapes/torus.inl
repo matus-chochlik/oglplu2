@@ -37,8 +37,7 @@ unit_torus_gen::unit_torus_gen(
   : _base(attr_bits & _attr_mask())
   , _rings(span_size_t(rings.value()))
   , _sections(span_size_t(sections.value()))
-  , _radius_ratio(radius_ratio.value()) {
-}
+  , _radius_ratio(radius_ratio.value()) {}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 span_size_t unit_torus_gen::vertex_count() {
@@ -72,7 +71,8 @@ void unit_torus_gen::vertex_pivots(span<float> dest) noexcept {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void unit_torus_gen::positions(
-  span<float> dest, unit_torus_gen::offset_getter get_offs) noexcept {
+  span<float> dest,
+  unit_torus_gen::offset_getter get_offs) noexcept {
     EAGINE_ASSERT(has(vertex_attrib_kind::position));
     EAGINE_ASSERT(dest.size() >= vertex_count() * 3);
 
@@ -115,7 +115,8 @@ void unit_torus_gen::positions(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void unit_torus_gen::normals(
-  span<float> dest, unit_torus_gen::offset_getter get_offs) noexcept {
+  span<float> dest,
+  unit_torus_gen::offset_getter get_offs) noexcept {
     EAGINE_ASSERT(has(vertex_attrib_kind::normal));
     EAGINE_ASSERT(dest.size() >= vertex_count() * 3);
 
@@ -153,7 +154,8 @@ void unit_torus_gen::normals(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void unit_torus_gen::tangentials(
-  span<float> dest, unit_torus_gen::offset_getter get_offs) noexcept {
+  span<float> dest,
+  unit_torus_gen::offset_getter get_offs) noexcept {
     EAGINE_ASSERT(has(vertex_attrib_kind::tangential));
     EAGINE_ASSERT(dest.size() >= vertex_count() * 3);
 
@@ -189,7 +191,8 @@ void unit_torus_gen::tangentials(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void unit_torus_gen::bitangentials(
-  span<float> dest, unit_torus_gen::offset_getter get_offs) noexcept {
+  span<float> dest,
+  unit_torus_gen::offset_getter get_offs) noexcept {
     EAGINE_ASSERT(has(vertex_attrib_kind::bitangential));
     EAGINE_ASSERT(dest.size() >= vertex_count() * 3);
 
@@ -345,8 +348,7 @@ string_view unit_torus_gen::variant_name(vertex_attrib_variant vav) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_torus_gen::attrib_values(
-  vertex_attrib_variant vav, span<float> dest) {
+void unit_torus_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
     switch(vav.attrib) {
         case vertex_attrib_kind::vertex_pivot:
             vertex_pivots(dest);
@@ -491,7 +493,8 @@ span_size_t unit_torus_gen::operation_count(drawing_variant var) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void unit_torus_gen::instructions(
-  drawing_variant var, span<draw_operation> ops) {
+  drawing_variant var,
+  span<draw_operation> ops) {
     EAGINE_ASSERT(ops.size() >= operation_count(var));
 
     if(var == 0) {

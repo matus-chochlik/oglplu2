@@ -29,11 +29,10 @@ class pong_example : public pong_base {
 public:
     pong_example(endpoint& bus)
       : base{bus}
-      , _log{EAGINE_ID(PongExampl), bus.log()} {
-    }
+      , _log{EAGINE_ID(PongExampl), bus.log()} {}
 
-    bool respond_to_ping(
-      identifier_t, message_sequence_t, verification_bits) final {
+    bool
+    respond_to_ping(identifier_t, message_sequence_t, verification_bits) final {
         if(EAGINE_UNLIKELY((++_sent % _mod) == 0)) {
             _log.info("sent ${sent} pongs").arg(EAGINE_ID(sent), _sent);
         }
@@ -106,4 +105,3 @@ int main(int argc, const char** argv) {
     options.logger_id = EAGINE_ID(PongExe);
     return eagine::main_impl(argc, argv, options);
 }
-

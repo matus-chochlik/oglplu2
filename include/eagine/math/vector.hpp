@@ -87,14 +87,14 @@ struct vector {
       bool W,
       typename =
         std::enable_if_t<(!std::is_same_v<T, P> || (N != M) || (V != W))>>
-    static constexpr inline vector from(
-      const vector<P, M, W>& v, T d = T(0)) noexcept {
+    static constexpr inline vector
+    from(const vector<P, M, W>& v, T d = T(0)) noexcept {
         return vector{vect::cast<P, M, W, T, N, V>::apply(v._v, d)};
     }
 
     template <typename P, int M, bool W>
-    static constexpr inline vector from(
-      const vector<P, M, W>& v, const vector<T, N - M, W>& u) noexcept {
+    static constexpr inline vector
+    from(const vector<P, M, W>& v, const vector<T, N - M, W>& u) noexcept {
         return vector{vect::cast<P, M, W, T, N, V>::apply(v._v, u._v)};
     }
 
@@ -182,8 +182,8 @@ struct vector {
     }
 
     template <typename Vec = vector>
-    std::enable_if_t<scalar_type::is_vectorized::value, Vec>& operator*=(
-      _cspT c) noexcept {
+    std::enable_if_t<scalar_type::is_vectorized::value, Vec>&
+    operator*=(_cspT c) noexcept {
         _v = _v * c._v;
         return *this;
     }
@@ -240,7 +240,9 @@ static inline bool is_zero(const vector<T, N, V>& v) noexcept {
 
 template <typename T, int N, bool V>
 static constexpr inline scalar<T, N, V> _dot(
-  const vector<T, N, V>& a, const vector<T, N, V>& b, std::true_type) noexcept {
+  const vector<T, N, V>& a,
+  const vector<T, N, V>& b,
+  std::true_type) noexcept {
     return scalar<T, N, V>{vect::hsum<T, N, V>::apply(a._v * b._v)};
 }
 
@@ -253,8 +255,8 @@ static constexpr inline scalar<T, N, V> _dot(
 }
 
 template <typename T, int N, bool V>
-static constexpr inline scalar<T, N, V> dot(
-  const vector<T, N, V>& a, const vector<T, N, V>& b) noexcept {
+static constexpr inline scalar<T, N, V>
+dot(const vector<T, N, V>& a, const vector<T, N, V>& b) noexcept {
     return _dot(a, b, vect::has_vect_data<T, N, V>());
 }
 
@@ -266,8 +268,8 @@ static inline vector<T, 2, V> perpendicular(const vector<T, 2, V>& a) noexcept {
 
 // cross
 template <typename T, bool V>
-static inline vector<T, 3, V> cross(
-  const vector<T, 3, V>& a, const vector<T, 3, V>& b) noexcept {
+static inline vector<T, 3, V>
+cross(const vector<T, 3, V>& a, const vector<T, 3, V>& b) noexcept {
     using _sh = vect::shuffle<T, 3, V>;
     return vector<T, 3, V>{
       _sh::template apply<1, 2, 0>(a._v) * _sh::template apply<2, 0, 1>(b._v) -
@@ -275,34 +277,36 @@ static inline vector<T, 3, V> cross(
 }
 
 template <typename T, int N, bool V>
-static constexpr inline scalar<T, N, V> _mag(
-  const vector<T, N, V> a, std::true_type) noexcept {
+static constexpr inline scalar<T, N, V>
+_mag(const vector<T, N, V> a, std::true_type) noexcept {
     return scalar<T, N, V>{
       vect::sqrt<T, N, V>::apply(vect::hsum<T, N, V>::apply(a._v * a._v))};
 }
 
 template <typename T, int N, bool V>
-static constexpr inline scalar<T, N, V> _mag(
-  const vector<T, N, V> a, std::false_type) noexcept {
+static constexpr inline scalar<T, N, V>
+_mag(const vector<T, N, V> a, std::false_type) noexcept {
     using std::sqrt;
     return scalar<T, N, V>{T(sqrt(vect::esum<T, N, V>::apply(a._v * a._v)))};
 }
 
 template <typename T, int N, bool V>
-static constexpr inline scalar<T, N, V> magnitude(
-  const vector<T, N, V>& a) noexcept {
+static constexpr inline scalar<T, N, V>
+magnitude(const vector<T, N, V>& a) noexcept {
     return _mag(a, vect::has_vect_data<T, N, V>());
 }
 
 template <typename T, int N, bool V>
-static constexpr inline scalar<T, N, V> length(
-  const vector<T, N, V>& a) noexcept {
+static constexpr inline scalar<T, N, V>
+length(const vector<T, N, V>& a) noexcept {
     return magnitude(a);
 }
 
 template <typename T, int N, bool V>
 static inline vector<T, N, V> _nmld(
-  const vector<T, N, V>& a, const scalar<T, N, V>& l, std::true_type) noexcept {
+  const vector<T, N, V>& a,
+  const scalar<T, N, V>& l,
+  std::true_type) noexcept {
     return {vect::sdiv<T, N, V>::apply(a._v, l._v)};
 }
 
@@ -321,8 +325,8 @@ static inline vector<T, N, V> normalized(const vector<T, N, V>& a) noexcept {
 }
 
 template <typename T, int N, bool V>
-static constexpr inline scalar<T, N, V> distance(
-  const vector<T, N, V>& a, const vector<T, N, V>& b) noexcept {
+static constexpr inline scalar<T, N, V>
+distance(const vector<T, N, V>& a, const vector<T, N, V>& b) noexcept {
     return magnitude(a - b);
 }
 

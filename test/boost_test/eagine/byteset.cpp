@@ -45,54 +45,60 @@ BOOST_AUTO_TEST_CASE(byteset_1) {
         do_test_byteset_1(byteset<1>{rg.get_byte(bmin, bmax)});
         do_test_byteset_1(
           byteset<2>{rg.get_byte(bmin, bmax), rg.get_byte(bmin, bmax)});
-        do_test_byteset_1(byteset<3>{rg.get_byte(bmin, bmax),
-                                     rg.get_byte(bmin, bmax),
-                                     rg.get_byte(bmin, bmax)});
-        do_test_byteset_1(byteset<4>{rg.get_byte(bmin, bmax),
-                                     rg.get_byte(bmin, bmax),
-                                     rg.get_byte(bmin, bmax),
-                                     rg.get_byte(bmin, bmax)});
-        do_test_byteset_1(byteset<8>{rg.get_byte(bmin, bmax),
-                                     rg.get_byte(bmin, bmax),
-                                     rg.get_byte(bmin, bmax),
-                                     rg.get_byte(bmin, bmax),
-                                     rg.get_byte(bmin, bmax),
-                                     rg.get_byte(bmin, bmax),
-                                     rg.get_byte(bmin, bmax),
-                                     rg.get_byte(bmin, bmax)});
-        do_test_byteset_1(byteset<11>{rg.get_byte(bmin, bmax),
-                                      rg.get_byte(bmin, bmax),
-                                      rg.get_byte(bmin, bmax),
-                                      rg.get_byte(bmin, bmax),
-                                      rg.get_byte(bmin, bmax),
-                                      rg.get_byte(bmin, bmax),
-                                      rg.get_byte(bmin, bmax),
-                                      rg.get_byte(bmin, bmax),
-                                      rg.get_byte(bmin, bmax),
-                                      rg.get_byte(bmin, bmax),
-                                      rg.get_byte(bmin, bmax)});
-        do_test_byteset_1(byteset<16>{rg.get_byte(bmin, bmax),
-                                      rg.get_byte(bmin, bmax),
-                                      rg.get_byte(bmin, bmax),
-                                      rg.get_byte(bmin, bmax),
-                                      rg.get_byte(bmin, bmax),
-                                      rg.get_byte(bmin, bmax),
-                                      rg.get_byte(bmin, bmax),
-                                      rg.get_byte(bmin, bmax),
-                                      rg.get_byte(bmin, bmax),
-                                      rg.get_byte(bmin, bmax),
-                                      rg.get_byte(bmin, bmax),
-                                      rg.get_byte(bmin, bmax),
-                                      rg.get_byte(bmin, bmax),
-                                      rg.get_byte(bmin, bmax),
-                                      rg.get_byte(bmin, bmax),
-                                      rg.get_byte(bmin, bmax)});
+        do_test_byteset_1(byteset<3>{
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax)});
+        do_test_byteset_1(byteset<4>{
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax)});
+        do_test_byteset_1(byteset<8>{
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax)});
+        do_test_byteset_1(byteset<11>{
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax)});
+        do_test_byteset_1(byteset<16>{
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax)});
     }
 }
 
 template <std::size_t N>
 void do_test_byteset_2(
-  const eagine::byteset<N>& bs1, const eagine::byteset<N>& bs2) {
+  const eagine::byteset<N>& bs1,
+  const eagine::byteset<N>& bs2) {
     using namespace eagine;
 
     BOOST_CHECK_EQUAL(
@@ -122,54 +128,60 @@ BOOST_AUTO_TEST_CASE(byteset_2) {
           byteset<2>{rg.get_byte(bmin, bmax), rg.get_byte(bmin, bmax)});
 
         do_test_byteset_2(
-          byteset<4>{rg.get_byte(bmin, bmax),
-                     rg.get_byte(bmin, bmax),
-                     rg.get_byte(bmin, bmax),
-                     rg.get_byte(bmin, bmax)},
-          byteset<4>{rg.get_byte(bmin, bmax),
-                     rg.get_byte(bmin, bmax),
-                     rg.get_byte(bmin, bmax),
-                     rg.get_byte(bmin, bmax)});
+          byteset<4>{
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax)},
+          byteset<4>{
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax)});
 
         do_test_byteset_2(
-          byteset<5>{rg.get_byte(bmin, bmax),
-                     rg.get_byte(bmin, bmax),
-                     rg.get_byte(bmin, bmax),
-                     rg.get_byte(bmin, bmax),
-                     rg.get_byte(bmin, bmax)},
-          byteset<5>{rg.get_byte(bmin, bmax),
-                     rg.get_byte(bmin, bmax),
-                     rg.get_byte(bmin, bmax),
-                     rg.get_byte(bmin, bmax),
-                     rg.get_byte(bmin, bmax)});
+          byteset<5>{
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax)},
+          byteset<5>{
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax)});
 
         do_test_byteset_2(
-          byteset<13>{rg.get_byte(bmin, bmax),
-                      rg.get_byte(bmin, bmax),
-                      rg.get_byte(bmin, bmax),
-                      rg.get_byte(bmin, bmax),
-                      rg.get_byte(bmin, bmax),
-                      rg.get_byte(bmin, bmax),
-                      rg.get_byte(bmin, bmax),
-                      rg.get_byte(bmin, bmax),
-                      rg.get_byte(bmin, bmax),
-                      rg.get_byte(bmin, bmax),
-                      rg.get_byte(bmin, bmax),
-                      rg.get_byte(bmin, bmax),
-                      rg.get_byte(bmin, bmax)},
-          byteset<13>{rg.get_byte(bmin, bmax),
-                      rg.get_byte(bmin, bmax),
-                      rg.get_byte(bmin, bmax),
-                      rg.get_byte(bmin, bmax),
-                      rg.get_byte(bmin, bmax),
-                      rg.get_byte(bmin, bmax),
-                      rg.get_byte(bmin, bmax),
-                      rg.get_byte(bmin, bmax),
-                      rg.get_byte(bmin, bmax),
-                      rg.get_byte(bmin, bmax),
-                      rg.get_byte(bmin, bmax),
-                      rg.get_byte(bmin, bmax),
-                      rg.get_byte(bmin, bmax)});
+          byteset<13>{
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax)},
+          byteset<13>{
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax)});
     }
 }
 

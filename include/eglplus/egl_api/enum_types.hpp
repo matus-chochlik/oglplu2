@@ -52,4 +52,3 @@ struct client_api_bit
 } // namespace eagine::eglp
 
 #endif // EGLPLUS_EGL_API_ENUM_TYPES_HPP
-

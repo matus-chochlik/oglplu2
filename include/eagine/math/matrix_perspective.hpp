@@ -30,13 +30,16 @@ struct perspective<matrix<T, 4, 4, RM, V>> {
     _dT _v;
 
     constexpr perspective(const _dT& v) noexcept
-      : _v(v) {
-    }
+      : _v(v) {}
 
     constexpr perspective(
-      T x_left, T x_right, T y_bottom, T y_top, T z_near, T z_far) noexcept
-      : _v{x_left, x_right, y_bottom, y_top, z_near, z_far} {
-    }
+      T x_left,
+      T x_right,
+      T y_bottom,
+      T y_top,
+      T z_near,
+      T z_far) noexcept
+      : _v{x_left, x_right, y_bottom, y_top, z_near, z_far} {}
 
     constexpr inline T _x_left() const noexcept {
         return _v[0];
@@ -62,8 +65,8 @@ struct perspective<matrix<T, 4, 4, RM, V>> {
         return _v[5];
     }
 
-    static inline perspective square(
-      radians_t<T> fov, T z_near, T z_far) noexcept {
+    static inline perspective
+    square(radians_t<T> fov, T z_near, T z_far) noexcept {
         EAGINE_ASSERT(T(fov) > T(0));
 
         T x_right = z_near * tan(fov * T(0.5));
@@ -75,8 +78,8 @@ struct perspective<matrix<T, 4, 4, RM, V>> {
         return perspective(x_left, x_right, y_bottom, y_top, z_near, z_far);
     }
 
-    static inline perspective x(
-      radians_t<T> xfov, T aspect, T z_near, T z_far) noexcept {
+    static inline perspective
+    x(radians_t<T> xfov, T aspect, T z_near, T z_far) noexcept {
         EAGINE_ASSERT(aspect > T(0));
         EAGINE_ASSERT(T(xfov) > T(0));
 
@@ -89,8 +92,8 @@ struct perspective<matrix<T, 4, 4, RM, V>> {
         return perspective(x_left, x_right, y_bottom, y_top, z_near, z_far);
     }
 
-    static inline perspective y(
-      radians_t<T> yfov, T aspect, T z_near, T z_far) noexcept {
+    static inline perspective
+    y(radians_t<T> yfov, T aspect, T z_near, T z_far) noexcept {
         EAGINE_ASSERT(aspect > T(0));
         EAGINE_ASSERT(T(yfov) > T(0));
 
@@ -131,8 +134,8 @@ struct perspective<matrix<T, 4, 4, RM, V>> {
         return -(T(2) * _z_far() * _z_near()) / (_z_far() - _z_near());
     }
 
-    constexpr inline matrix<T, 4, 4, true, V> _make(
-      std::true_type) const noexcept {
+    constexpr inline matrix<T, 4, 4, true, V>
+    _make(std::true_type) const noexcept {
         return matrix<T, 4, 4, true, V>{
           {{_m00(), T(0), _m20(), T(0)},
            {T(0), _m11(), _m21(), T(0)},
@@ -140,8 +143,8 @@ struct perspective<matrix<T, 4, 4, RM, V>> {
            {T(0), T(0), _m23(), T(0)}}};
     }
 
-    constexpr inline matrix<T, 4, 4, false, V> _make(
-      std::false_type) const noexcept {
+    constexpr inline matrix<T, 4, 4, false, V>
+    _make(std::false_type) const noexcept {
         return matrix<T, 4, 4, false, V>{
           {{_m00(), T(0), T(0), T(0)},
            {T(0), _m11(), T(0), T(0)},
@@ -156,8 +159,8 @@ struct perspective<matrix<T, 4, 4, RM, V>> {
 
 // reorder_mat_ctr(perspective)
 template <typename T, int N, bool RM, bool V>
-static constexpr inline perspective<matrix<T, N, N, !RM, V>> reorder_mat_ctr(
-  const perspective<matrix<T, N, N, RM, V>>& c) noexcept {
+static constexpr inline perspective<matrix<T, N, N, !RM, V>>
+reorder_mat_ctr(const perspective<matrix<T, N, N, RM, V>>& c) noexcept {
     return {c._v};
 }
 

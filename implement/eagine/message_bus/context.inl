@@ -186,7 +186,8 @@ bool context::add_ca_certificate_pem(memory::const_block blk) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool context::add_remote_certificate_pem(
-  identifier_t node_id, memory::const_block blk) {
+  identifier_t node_id,
+  memory::const_block blk) {
     if(blk) {
         if(ok cert{_ssl.parse_x509(blk, {})}) {
             auto& info = _remotes[node_id];
@@ -229,8 +230,8 @@ bool context::add_remote_certificate_pem(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-memory::const_block context::get_remote_certificate_pem(
-  identifier_t node_id) const noexcept {
+memory::const_block
+context::get_remote_certificate_pem(identifier_t node_id) const noexcept {
     auto pos = _remotes.find(node_id);
     if(pos != _remotes.end()) {
         return view(std::get<1>(*pos).cert_pem);
@@ -239,8 +240,8 @@ memory::const_block context::get_remote_certificate_pem(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-memory::const_block context::get_remote_nonce(
-  identifier_t node_id) const noexcept {
+memory::const_block
+context::get_remote_nonce(identifier_t node_id) const noexcept {
     auto pos = _remotes.find(node_id);
     if(pos != _remotes.end()) {
         return view(std::get<1>(*pos).nonce);
@@ -266,7 +267,8 @@ context::default_message_digest() noexcept {
 EAGINE_LIB_FUNC
 decltype(std::declval<sslp::ssl_api&>().message_digest_sign_init.fake())
 context::message_digest_sign_init(
-  sslp::message_digest mdc, sslp::message_digest_type mdt) noexcept {
+  sslp::message_digest mdc,
+  sslp::message_digest_type mdt) noexcept {
     if(_own_pkey) {
         return _ssl.message_digest_sign_init(mdc, mdt, _own_pkey);
     }
@@ -382,7 +384,8 @@ verification_bits context::verify_remote_signature(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool context::verify_remote_signature(
-  memory::const_block sig, identifier_t node_id) {
+  memory::const_block sig,
+  identifier_t node_id) {
     auto pos = _remotes.find(node_id);
     if(pos != _remotes.end()) {
         auto& remote{std::get<1>(*pos)};
@@ -401,8 +404,8 @@ std::shared_ptr<context> make_context(logger& parent) {
     return std::make_shared<context>(parent);
 }
 //------------------------------------------------------------------------------
-EAGINE_LIB_FUNC std::shared_ptr<context> make_context(
-  logger& parent, const program_args& args) {
+EAGINE_LIB_FUNC std::shared_ptr<context>
+make_context(logger& parent, const program_args& args) {
     return std::make_shared<context>(parent, args);
 }
 //------------------------------------------------------------------------------

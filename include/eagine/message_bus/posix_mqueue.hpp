@@ -380,13 +380,11 @@ public:
 
     posix_mqueue_connector(logger& parent, std::string name) noexcept
       : base{parent}
-      , _connect_queue{std::move(name)} {
-    }
+      , _connect_queue{std::move(name)} {}
 
     posix_mqueue_connector(logger& parent, identifier id)
       : base{parent}
-      , _connect_queue{posix_mqueue::name_from(id)} {
-    }
+      , _connect_queue{posix_mqueue::name_from(id)} {}
 
     posix_mqueue_connector(posix_mqueue_connector&&) = delete;
     posix_mqueue_connector& operator=(posix_mqueue_connector&&) = delete;
@@ -434,8 +432,7 @@ public:
     }
 
     posix_mqueue_acceptor(logger& parent, identifier id)
-      : posix_mqueue_acceptor{parent, posix_mqueue::name_from(id)} {
-    }
+      : posix_mqueue_acceptor{parent, posix_mqueue::name_from(id)} {}
 
     posix_mqueue_acceptor(posix_mqueue_acceptor&&) noexcept = default;
     posix_mqueue_acceptor& operator=(posix_mqueue_acceptor&&) = delete;
@@ -532,8 +529,7 @@ private:
 
 public:
     posix_mqueue_connection_factory(logger& parent)
-      : _log{EAGINE_ID(MQueConnFc), parent} {
-    }
+      : _log{EAGINE_ID(MQueConnFc), parent} {}
 
     using connection_factory::make_acceptor;
     using connection_factory::make_connector;
@@ -552,4 +548,3 @@ public:
 } // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_POSIX_MQUEUE_HPP
-

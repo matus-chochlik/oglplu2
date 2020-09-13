@@ -22,8 +22,7 @@ private:
 
 public:
     base64dump(memory::const_block mb) noexcept
-      : _mb(mb) {
-    }
+      : _mb(mb) {}
 
     friend auto operator<<(std::ostream& out, const base64dump& src)
       -> std::ostream& {
@@ -44,4 +43,3 @@ public:
 //------------------------------------------------------------------------------
 } // namespace eagine
 #endif // EAGINE_BASE64DUMP_HPP
-

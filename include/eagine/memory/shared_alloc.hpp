@@ -66,26 +66,21 @@ private:
     }
 
     explicit basic_shared_byte_alloc(byte_allocator* pballoc) noexcept
-      : _pballoc(pballoc) {
-    }
+      : _pballoc(pballoc) {}
 
 public:
     basic_shared_byte_alloc() noexcept
-      : basic_shared_byte_alloc(nullptr) {
-    }
+      : basic_shared_byte_alloc(nullptr) {}
 
     basic_shared_byte_alloc(const basic_shared_byte_alloc& that) noexcept
-      : basic_shared_byte_alloc(that._copy()) {
-    }
+      : basic_shared_byte_alloc(that._copy()) {}
 
     basic_shared_byte_alloc(basic_shared_byte_alloc&& tmp) noexcept
-      : basic_shared_byte_alloc(tmp._release()) {
-    }
+      : basic_shared_byte_alloc(tmp._release()) {}
 
     template <typename X, typename = enable_if_compatible_t<X>>
     basic_shared_byte_alloc(X&& x) noexcept
-      : basic_shared_byte_alloc(_get_new(std::forward<X>(x))) {
-    }
+      : basic_shared_byte_alloc(_get_new(std::forward<X>(x))) {}
 
     auto operator=(basic_shared_byte_alloc&& that) noexcept -> auto& {
         if(this != std::addressof(that)) {

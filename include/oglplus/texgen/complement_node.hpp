@@ -20,9 +20,13 @@ private:
 
 public:
     complement_input(
-      node_intf& parent, string_view name, float r, float g, float b, float a)
-      : _base(parent, name, r, g, b, a) {
-    }
+      node_intf& parent,
+      string_view name,
+      float r,
+      float g,
+      float b,
+      float a)
+      : _base(parent, name, r, g, b, a) {}
 
     bool accepts_value_type(slot_data_type type) override {
         return data_type_dims(type) == data_type_dims(output().value_type());
@@ -40,8 +44,7 @@ public:
 
     slot_data_type value_type() override;
 
-    std::ostream& definitions(
-      std::ostream& out, compile_context& ctxt) override;
+    std::ostream& definitions(std::ostream& out, compile_context& ctxt) override;
 };
 
 class complement_node

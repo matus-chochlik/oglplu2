@@ -25,7 +25,9 @@ vec3 example_orbiting_camera::camera_to_target_direction() const noexcept {
 }
 //------------------------------------------------------------------------------
 optionally_valid<vec3> example_orbiting_camera::target_plane_point(
-  float ndcx, float ndcy, float aspect) const noexcept {
+  float ndcx,
+  float ndcy,
+  float aspect) const noexcept {
     using math::inverse_matrix;
     using math::multiply;
 
@@ -40,7 +42,8 @@ optionally_valid<vec3> example_orbiting_camera::target_plane_point(
 }
 //------------------------------------------------------------------------------
 optionally_valid<vec3> example_orbiting_camera::target_plane_pointer(
-  const example_state_view& state, int pointer) const noexcept {
+  const example_state_view& state,
+  int pointer) const noexcept {
     return target_plane_point(
       state.ndc_pointer_x(pointer).get(),
       state.ndc_pointer_y(pointer).get(),
@@ -48,7 +51,8 @@ optionally_valid<vec3> example_orbiting_camera::target_plane_pointer(
 }
 //------------------------------------------------------------------------------
 optionally_valid<line> example_orbiting_camera::pointer_ray(
-  const example_state_view& state, int pointer) const noexcept {
+  const example_state_view& state,
+  int pointer) const noexcept {
     if(const auto ptr = target_plane_pointer(state, pointer)) {
         return {line(position(), ptr.value_anyway() - position()), true};
     }
@@ -120,8 +124,8 @@ bool example_orbiting_camera::apply_pointer_scrolling(
     return true;
 }
 //------------------------------------------------------------------------------
-example_orbiting_camera& example_orbiting_camera::update_orbit(
-  float inc) noexcept {
+example_orbiting_camera&
+example_orbiting_camera::update_orbit(float inc) noexcept {
     _orbit_factor += (inc * _orbit_dir);
     if(_orbit_factor > 1.F) {
         _orbit_factor = 1.F;
@@ -134,14 +138,14 @@ example_orbiting_camera& example_orbiting_camera::update_orbit(
     return *this;
 }
 //------------------------------------------------------------------------------
-example_orbiting_camera& example_orbiting_camera::update_turns(
-  float inc) noexcept {
+example_orbiting_camera&
+example_orbiting_camera::update_turns(float inc) noexcept {
     _turns += turns_(inc * _turn_dir);
     return *this;
 }
 //------------------------------------------------------------------------------
-example_orbiting_camera& example_orbiting_camera::update_pitch(
-  float inc) noexcept {
+example_orbiting_camera&
+example_orbiting_camera::update_pitch(float inc) noexcept {
     const auto max = right_angles_(1.F);
     _pitch += right_angles_(inc * _pitch_dir);
     if(_pitch > max) {

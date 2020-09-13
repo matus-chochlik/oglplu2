@@ -21,8 +21,7 @@ honeycomb_output::honeycomb_output(
   : base_output(parent)
   , _cells(cells)
   , _direction(direction)
-  , _type(type) {
-}
+  , _type(type) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 string_view honeycomb_output::type_abbr() const {
@@ -55,8 +54,8 @@ slot_data_type honeycomb_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& honeycomb_output::definitions(
-  std::ostream& out, compile_context& ctxt) {
+std::ostream&
+honeycomb_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt)) {
         return out;
     }
@@ -172,8 +171,7 @@ std::ostream& honeycomb_output::definitions(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& honeycomb_output::expression(
-  std::ostream& out, compile_context&) {
+std::ostream& honeycomb_output::expression(std::ostream& out, compile_context&) {
     append_id(out);
     return out << type_abbr();
 }
@@ -184,8 +182,7 @@ honeycomb_node::honeycomb_node()
   , _cells(*this, string_view("Cells"), 32.f, 32.f)
   , _cell_coord(*this, _cells, _direction, honeycomb_output_type::cell_coord)
   , _cell_center(*this, _cells, _direction, honeycomb_output_type::cell_center)
-  , _distance(*this, _cells, _direction, honeycomb_output_type::distance) {
-}
+  , _distance(*this, _cells, _direction, honeycomb_output_type::distance) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 string_view honeycomb_node::type_name() {

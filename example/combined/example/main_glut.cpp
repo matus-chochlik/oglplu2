@@ -207,7 +207,7 @@ public:
     }
 
     int run(example_run_context& erc) final {
-	EAGINE_MAYBE_UNUSED(erc);
+        EAGINE_MAYBE_UNUSED(erc);
 #if OGLPLUS_GLUT_FOUND
 
         int argc = erc.args.argc();

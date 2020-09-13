@@ -65,7 +65,8 @@ private:
 
 public:
     extruded_example(
-      const example_context& ctx, eagine::memory::buffer& temp_buffer)
+      const example_context& ctx,
+      eagine::memory::buffer& temp_buffer)
       : prog(ctx)
       , attrs(
           shapes::vertex_attrib_kind::position +
@@ -75,8 +76,8 @@ public:
           temp_buffer,
           eagine::shapes::combine(
             eagine::shapes::translate(
-              eagine::shapes::to_quads(eagine::shapes::unit_torus(
-                get_attrib_bits(attrs), 18, 36, 0.4f)),
+              eagine::shapes::to_quads(
+                eagine::shapes::unit_torus(get_attrib_bits(attrs), 18, 36, 0.4f)),
               {0.f, -0.6f, 0.f}) +
             eagine::shapes::translate(
               eagine::shapes::to_quads(
@@ -147,8 +148,8 @@ public:
     }
 };
 
-std::unique_ptr<example> make_example(
-  const example_args&, const example_context& ctx) {
+std::unique_ptr<example>
+make_example(const example_args&, const example_context& ctx) {
     eagine::memory::buffer temp_buffer;
     return std::unique_ptr<example>(new extruded_example(ctx, temp_buffer));
 }

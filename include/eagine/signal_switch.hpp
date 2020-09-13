@@ -28,8 +28,7 @@ class signal_switch {
 public:
     signal_switch() noexcept
       : _intr_handler{std::signal(SIGINT, &_flip)}
-      , _term_handler{std::signal(SIGTERM, &_flip)} {
-    }
+      , _term_handler{std::signal(SIGTERM, &_flip)} {}
 
     ~signal_switch() noexcept {
         std::signal(SIGINT, _intr_handler);

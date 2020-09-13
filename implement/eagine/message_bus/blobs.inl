@@ -62,7 +62,8 @@ bool pending_blob::is_complete() const noexcept {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool pending_blob::merge_fragment(
-  span_size_t bgn, memory::const_block fragment) {
+  span_size_t bgn,
+  memory::const_block fragment) {
     const auto end = bgn + fragment.size();
     done_parts.swap();
     auto& dst = done_parts.front();
@@ -215,7 +216,8 @@ bool blob_manipulator::push_incoming_fragment(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool blob_manipulator::process_incoming(
-  blob_manipulator::filter_function filter, const message_view& message) {
+  blob_manipulator::filter_function filter,
+  const message_view& message) {
     identifier class_id{};
     identifier method_id{};
     identifier_t blob_id{0U};
@@ -270,7 +272,8 @@ bool blob_manipulator::process_incoming(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 span_size_t blob_manipulator::message_size(
-  const pending_blob& pending, span_size_t max_message_size) const noexcept {
+  const pending_blob& pending,
+  span_size_t max_message_size) const noexcept {
     switch(pending.priority) {
         case message_priority::critical:
         case message_priority::high:
@@ -311,7 +314,8 @@ void blob_manipulator::push_outgoing(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool blob_manipulator::process_outgoing(
-  send_handler do_send, span_size_t max_message_size) {
+  send_handler do_send,
+  span_size_t max_message_size) {
     some_true something_done{};
 
     const auto msg_id = EAGINE_MSGBUS_ID(blobFrgmnt);
@@ -355,8 +359,8 @@ bool blob_manipulator::process_outgoing(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t blob_manipulator::fetch_all(
-  blob_manipulator::fetch_handler handle_fetch) {
+span_size_t
+blob_manipulator::fetch_all(blob_manipulator::fetch_handler handle_fetch) {
 
     span_size_t done_count{0};
     auto predicate = [this, &done_count, &handle_fetch](auto& pending) {
@@ -386,4 +390,3 @@ span_size_t blob_manipulator::fetch_all(
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus
-

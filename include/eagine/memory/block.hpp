@@ -44,8 +44,7 @@ private:
     friend class block_owner;
 
     owned_block(block b) noexcept
-      : block(b) {
-    }
+      : block(b) {}
 
 public:
     constexpr owned_block() noexcept = default;

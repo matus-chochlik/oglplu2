@@ -31,4 +31,3 @@ private:
 } // namespace eagine::sslp
 
 #endif // EAGINE_SSL_API_API_TRAITS_HPP
-

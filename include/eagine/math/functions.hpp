@@ -142,14 +142,14 @@ static constexpr inline auto saw(T x, U u = T(1)) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline std::enable_if_t<std::is_integral_v<T>, T> factorial(
-  T n) noexcept {
+static constexpr inline std::enable_if_t<std::is_integral_v<T>, T>
+factorial(T n) noexcept {
     return n > 0 ? n * factorial(n - 1) : 1;
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline std::enable_if_t<std::is_integral_v<T>, T> binomial(
-  T n, T k) noexcept {
+static constexpr inline std::enable_if_t<std::is_integral_v<T>, T>
+binomial(T n, T k) noexcept {
     return ((n >= 0) && (k >= 0) && (k <= n))
              ? (factorial(n) / (factorial(k) * factorial(n - k)))
              : 0;

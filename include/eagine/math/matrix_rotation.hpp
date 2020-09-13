@@ -35,15 +35,14 @@ struct rotation_I<matrix<T, 4, 4, RM, V>, I> {
     radians_t<T> _v;
 
     constexpr rotation_I(radians_t<T> v) noexcept
-      : _v(v) {
-    }
+      : _v(v) {}
 
     using _x = int_constant<0>;
     using _y = int_constant<1>;
     using _z = int_constant<2>;
 
-    static constexpr inline matrix<T, 4, 4, RM, V> _make(
-      T cx, T sx, _x) noexcept {
+    static constexpr inline matrix<T, 4, 4, RM, V>
+    _make(T cx, T sx, _x) noexcept {
         return matrix<T, 4, 4, RM, V>{
           {{T(1), T(0), T(0), T(0)},
            {T(0), cx, -sx, T(0)},
@@ -51,8 +50,8 @@ struct rotation_I<matrix<T, 4, 4, RM, V>, I> {
            {T(0), T(0), T(0), T(1)}}};
     }
 
-    static constexpr inline matrix<T, 4, 4, RM, V> _make(
-      T cx, T sx, _y) noexcept {
+    static constexpr inline matrix<T, 4, 4, RM, V>
+    _make(T cx, T sx, _y) noexcept {
         return matrix<T, 4, 4, RM, V>{
           {{cx, T(0), sx, T(0)},
            {T(0), T(1), T(0), T(0)},
@@ -60,8 +59,8 @@ struct rotation_I<matrix<T, 4, 4, RM, V>, I> {
            {T(0), T(0), T(0), T(1)}}};
     }
 
-    static constexpr inline matrix<T, 4, 4, RM, V> _make(
-      T cx, T sx, _z) noexcept {
+    static constexpr inline matrix<T, 4, 4, RM, V>
+    _make(T cx, T sx, _z) noexcept {
         return matrix<T, 4, 4, RM, V>{
           {{cx, -sx, T(0), T(0)},
            {sx, cx, T(0), T(0)},
@@ -85,8 +84,8 @@ static constexpr inline rotation_I<matrix<T, N, N, RM1, V>, I> multiply(
 
 // reorder_mat_ctr(rotation_I)
 template <typename T, int N, bool RM, bool V, int I>
-static constexpr inline rotation_I<matrix<T, N, N, !RM, V>, I> reorder_mat_ctr(
-  const rotation_I<matrix<T, N, N, RM, V>, I>& c) noexcept {
+static constexpr inline rotation_I<matrix<T, N, N, !RM, V>, I>
+reorder_mat_ctr(const rotation_I<matrix<T, N, N, RM, V>, I>& c) noexcept {
     return {c._v};
 }
 

@@ -14,14 +14,15 @@ int main() {
 
     using v = string_view;
 
-    for(auto name : view({v("USER"),
-                          v("HOME"),
-                          v("PATH"),
-                          v("LANGUAGE"),
-                          v("SHELL"),
-                          v("PAGER"),
-                          v("EDITOR"),
-                          v("NONE")})) {
+    for(auto name : view(
+          {v("USER"),
+           v("HOME"),
+           v("PATH"),
+           v("LANGUAGE"),
+           v("SHELL"),
+           v("PAGER"),
+           v("EDITOR"),
+           v("NONE")})) {
 
         std::cout << name << ": "
                   << extract_or(get_environment_variable(name), "N/A")

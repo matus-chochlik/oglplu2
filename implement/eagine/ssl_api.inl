@@ -77,7 +77,8 @@ inline bool basic_ssl_api<ApiTraits>::verify_data_digest(
 template <typename ApiTraits>
 typename basic_ssl_api<ApiTraits>::template combined_result<owned_pkey>
 basic_ssl_api<ApiTraits>::parse_private_key(
-  memory::const_block blk, password_callback get_passwd) const noexcept {
+  memory::const_block blk,
+  password_callback get_passwd) const noexcept {
     if(ok mbio{this->new_block_basic_io(blk)}) {
         auto del_bio{this->delete_basic_io.raii(mbio)};
 
@@ -90,7 +91,8 @@ basic_ssl_api<ApiTraits>::parse_private_key(
 template <typename ApiTraits>
 typename basic_ssl_api<ApiTraits>::template combined_result<owned_pkey>
 basic_ssl_api<ApiTraits>::parse_public_key(
-  memory::const_block blk, password_callback get_passwd) const noexcept {
+  memory::const_block blk,
+  password_callback get_passwd) const noexcept {
     if(ok mbio{this->new_block_basic_io(blk)}) {
         auto del_bio{this->delete_basic_io.raii(mbio)};
 
@@ -103,7 +105,8 @@ basic_ssl_api<ApiTraits>::parse_public_key(
 template <typename ApiTraits>
 typename basic_ssl_api<ApiTraits>::template combined_result<owned_x509>
 basic_ssl_api<ApiTraits>::parse_x509(
-  memory::const_block blk, password_callback get_passwd) const noexcept {
+  memory::const_block blk,
+  password_callback get_passwd) const noexcept {
     if(ok mbio{this->new_block_basic_io(blk)}) {
         auto del_bio{this->delete_basic_io.raii(mbio)};
 
@@ -115,7 +118,8 @@ basic_ssl_api<ApiTraits>::parse_x509(
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
 bool basic_ssl_api<ApiTraits>::ca_verify_certificate(
-  string_view ca_file_path, x509 cert) const noexcept {
+  string_view ca_file_path,
+  x509 cert) const noexcept {
     if(ok store{this->new_x509_store()}) {
         auto del_store{this->delete_x509_store.raii(store)};
 
@@ -135,8 +139,8 @@ bool basic_ssl_api<ApiTraits>::ca_verify_certificate(
 }
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
-bool basic_ssl_api<ApiTraits>::ca_verify_certificate(
-  x509 ca_cert, x509 cert) const noexcept {
+bool basic_ssl_api<ApiTraits>::ca_verify_certificate(x509 ca_cert, x509 cert)
+  const noexcept {
     if(ok store{this->new_x509_store()}) {
         auto del_store{this->delete_x509_store.raii(store)};
 

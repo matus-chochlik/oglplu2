@@ -104,4 +104,3 @@ using alc_opt_result = api_opt_result<Result, alc_result_info>;
 } // namespace eagine::oalp
 
 #endif // OALPLUS_ALC_API_RESULT_HPP
-

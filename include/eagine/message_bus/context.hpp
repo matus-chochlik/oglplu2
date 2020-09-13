@@ -81,7 +81,8 @@ public:
 
     decltype(std::declval<sslp::ssl_api&>().message_digest_sign_init.fake())
     message_digest_sign_init(
-      sslp::message_digest mdc, sslp::message_digest_type mdt) noexcept;
+      sslp::message_digest mdc,
+      sslp::message_digest_type mdt) noexcept;
 
     decltype(std::declval<sslp::ssl_api&>().message_digest_verify_init.fake())
     message_digest_verify_init(
@@ -126,4 +127,3 @@ private:
 #endif
 
 #endif // EAGINE_MESSAGE_BUS_CONTEXT_HPP
-

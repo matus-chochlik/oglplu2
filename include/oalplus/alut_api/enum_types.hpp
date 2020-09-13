@@ -26,4 +26,3 @@ struct waveform_function
 } // namespace eagine::oalp
 
 #endif // OALPLUS_ALUT_API_ENUM_TYPES_HPP
-

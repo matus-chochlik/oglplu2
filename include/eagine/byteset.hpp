@@ -38,11 +38,9 @@ public:
       typename... B,
       typename = std::enable_if_t<
         (sizeof...(B) == N) && (sizeof...(B) != 0) &&
-        std::
-          conjunction_v<std::true_type, std::is_convertible<B, value_type>...>>>
+        std::conjunction_v<std::true_type, std::is_convertible<B, value_type>...>>>
     explicit constexpr inline byteset(B... b) noexcept
-      : _bytes{value_type{b}...} {
-    }
+      : _bytes{value_type{b}...} {}
 
     template <
       std::size_t... I,
@@ -50,16 +48,14 @@ public:
       typename =
         std::enable_if_t<(sizeof(UInt) >= N) && std::is_integral_v<UInt>>>
     constexpr inline byteset(std::index_sequence<I...>, UInt init) noexcept
-      : _bytes{value_type((init >> (8 * (N - I - 1))) & 0xFFU)...} {
-    }
+      : _bytes{value_type((init >> (8 * (N - I - 1))) & 0xFFU)...} {}
 
     template <
       typename UInt,
       typename =
         std::enable_if_t<(sizeof(UInt) >= N) && std::is_integral_v<UInt>>>
     explicit constexpr inline byteset(UInt init) noexcept
-      : byteset(std::make_index_sequence<N>(), init) {
-    }
+      : byteset(std::make_index_sequence<N>(), init) {}
 
     auto data() noexcept -> pointer {
         return _bytes;
@@ -117,38 +113,38 @@ public:
         return _bytes + N;
     }
 
-    friend constexpr inline auto compare(
-      const byteset& a, const byteset& b) noexcept {
+    friend constexpr inline auto
+    compare(const byteset& a, const byteset& b) noexcept {
         return _do_cmp(a, b, std::make_index_sequence<N>{});
     }
 
-    friend constexpr inline auto operator==(
-      const byteset& a, const byteset& b) noexcept {
+    friend constexpr inline auto
+    operator==(const byteset& a, const byteset& b) noexcept {
         return compare(a, b) == 0;
     }
 
-    friend constexpr inline auto operator!=(
-      const byteset& a, const byteset& b) noexcept {
+    friend constexpr inline auto
+    operator!=(const byteset& a, const byteset& b) noexcept {
         return compare(a, b) != 0;
     }
 
-    friend constexpr inline auto operator<(
-      const byteset& a, const byteset& b) noexcept {
+    friend constexpr inline auto
+    operator<(const byteset& a, const byteset& b) noexcept {
         return compare(a, b) < 0;
     }
 
-    friend constexpr inline auto operator<=(
-      const byteset& a, const byteset& b) noexcept {
+    friend constexpr inline auto
+    operator<=(const byteset& a, const byteset& b) noexcept {
         return compare(a, b) <= 0;
     }
 
-    friend constexpr inline auto operator>(
-      const byteset& a, const byteset& b) noexcept {
+    friend constexpr inline auto
+    operator>(const byteset& a, const byteset& b) noexcept {
         return compare(a, b) > 0;
     }
 
-    friend constexpr inline auto operator>=(
-      const byteset& a, const byteset& b) noexcept {
+    friend constexpr inline auto
+    operator>=(const byteset& a, const byteset& b) noexcept {
         return compare(a, b) >= 0;
     }
 
@@ -164,8 +160,8 @@ private:
     value_type _bytes[N]{};
 
     template <typename UInt>
-    constexpr inline auto _push_back_to(
-      UInt state, std::size_t i) const noexcept -> UInt {
+    constexpr inline auto
+    _push_back_to(UInt state, std::size_t i) const noexcept -> UInt {
         // NOLINTNEXTLINE(hicpp-signed-bitwise)
         return (i < N) ? _push_back_to((state << CHAR_BIT) | _bytes[i], i + 1)
                        : state;
@@ -176,8 +172,9 @@ private:
         return (a == b) ? 0 : (a < b) ? -1 : 1;
     }
 
-    static constexpr inline auto _do_cmp(
-      const byteset&, const byteset&, std::index_sequence<>) noexcept -> int {
+    static constexpr inline auto
+    _do_cmp(const byteset&, const byteset&, std::index_sequence<>) noexcept
+      -> int {
         return 0;
     }
 

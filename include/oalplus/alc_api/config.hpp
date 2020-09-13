@@ -72,4 +72,3 @@ struct alc_types {
 } // namespace eagine::oalp
 
 #endif // OALPLUS_ALC_API_CONFIG_HPP
-

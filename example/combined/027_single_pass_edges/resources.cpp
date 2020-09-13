@@ -37,14 +37,16 @@ void edges_program::init(example_context& ctx) {
 }
 //------------------------------------------------------------------------------
 void edges_program::set_projection(
-  const example_context& ctx, const example_orbiting_camera& camera) {
+  const example_context& ctx,
+  const example_orbiting_camera& camera) {
     auto& state = ctx.state();
     ctx.gl().set_uniform(prog, camera_loc, camera.matrix(state));
     ctx.gl().set_uniform(prog, vp_dim_loc, vec2(state.width(), state.height()));
 }
 //------------------------------------------------------------------------------
 void edges_program::bind_position_location(
-  const example_context& ctx, vertex_attrib_location loc) {
+  const example_context& ctx,
+  vertex_attrib_location loc) {
     ctx.gl().bind_attrib_location(prog, loc, "Position");
 }
 //------------------------------------------------------------------------------

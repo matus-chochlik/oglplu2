@@ -18,25 +18,25 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline bool value_with_history_changed(
-  const T& a, const T& b) noexcept {
+static constexpr inline bool
+value_with_history_changed(const T& a, const T& b) noexcept {
     return !are_equal(a, b);
 }
 
 template <typename T>
-static constexpr inline auto value_with_history_delta(
-  const T& new_value, const T& old_value) noexcept {
+static constexpr inline auto
+value_with_history_delta(const T& new_value, const T& old_value) noexcept {
     return new_value - old_value;
 }
 
-static constexpr inline int value_with_history_delta(
-  bool new_value, bool old_value) noexcept {
+static constexpr inline int
+value_with_history_delta(bool new_value, bool old_value) noexcept {
     return int(new_value) - int(old_value);
 }
 
 template <typename T>
-static constexpr inline auto value_with_history_distance(
-  const T& new_value, const T& old_value) noexcept {
+static constexpr inline auto
+value_with_history_distance(const T& new_value, const T& old_value) noexcept {
     using std::abs;
     return abs(value_with_history_delta(new_value, old_value));
 }
@@ -51,8 +51,7 @@ public:
 
     template <typename... I>
     constexpr inline value_with_history_storage(I&&... initial)
-      : _values{T(initial)...} {
-    }
+      : _values{T(initial)...} {}
 
     value_with_history_storage(const T& initial) noexcept {
         for(std::size_t i = 0; i < N; ++i) {
@@ -83,7 +82,8 @@ public:
 //------------------------------------------------------------------------------
 template <typename Transform, typename... T, std::size_t N>
 static inline auto transform_stored_values(
-  Transform transform_op, const value_with_history_storage<T, N>&... v) {
+  Transform transform_op,
+  const value_with_history_storage<T, N>&... v) {
     value_with_history_storage<
       decltype(std::declval<Transform>()(std::declval<T>()...)),
       N>
@@ -97,7 +97,8 @@ static inline auto transform_stored_values(
 //------------------------------------------------------------------------------
 template <typename Delta, typename T, std::size_t N>
 static inline auto differentiate_stored_values(
-  Delta delta_op, const value_with_history_storage<T, N>& v) {
+  Delta delta_op,
+  const value_with_history_storage<T, N>& v) {
     value_with_history_storage<
       decltype(std::declval<Delta>()(std::declval<T>(), std::declval<T>())),
       N - 1>
@@ -110,8 +111,8 @@ static inline auto differentiate_stored_values(
 }
 //------------------------------------------------------------------------------
 template <typename U, typename T, std::size_t N>
-static inline auto convert_stored_values(
-  const value_with_history_storage<T, N>& storage) {
+static inline auto
+convert_stored_values(const value_with_history_storage<T, N>& storage) {
     return transform_stored_values([](const T& v) { return U(v); }, storage);
 }
 //------------------------------------------------------------------------------
@@ -145,19 +146,16 @@ protected:
     value_with_history() = default;
 
     inline explicit value_with_history(const T& initial) noexcept
-      : _values(initial) {
-    }
+      : _values(initial) {}
 
 public:
     inline explicit value_with_history(
       const value_with_history_storage<T, N>& storage)
-      : _values(storage) {
-    }
+      : _values(storage) {}
 
     template <typename... I>
     constexpr inline value_with_history(I&&... initial)
-      : _values{std::forward<I>(initial)...} {
-    }
+      : _values{std::forward<I>(initial)...} {}
 
     const value_with_history_storage<T, N>& values() const noexcept {
         return _values;
@@ -220,8 +218,8 @@ public:
 };
 //------------------------------------------------------------------------------
 template <typename Transform, typename... T, std::size_t N>
-static inline auto transform(
-  Transform transform_op, const value_with_history<T, N>&... v) {
+static inline auto
+transform(Transform transform_op, const value_with_history<T, N>&... v) {
     return value_with_history<
       decltype(std::declval<Transform>()(std::declval<T>()...)),
       N>(transform_stored_values(transform_op, v.values()...));
@@ -249,8 +247,7 @@ public:
     constexpr inline variable_with_history() noexcept = default;
 
     constexpr inline variable_with_history(const T& initial) noexcept
-      : value_with_history<T, N>(initial) {
-    }
+      : value_with_history<T, N>(initial) {}
 
     bool assign(const T& new_value) {
         return this->_update_value(new_value);
@@ -267,8 +264,7 @@ class variable_with_history<valid_if<T, P...>, N>
 public:
     constexpr inline variable_with_history(
       const valid_if<T, P...>& initial) noexcept
-      : value_with_history<T, N>(initial.value()) {
-    }
+      : value_with_history<T, N>(initial.value()) {}
 
     bool assign(const valid_if<T, P...>& new_value) {
         return this->_update_value(new_value.value());

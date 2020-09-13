@@ -49,15 +49,13 @@ public:
     unary_function_output(node_intf& parent, unary_function);
 
     unary_function_output(node_intf& parent)
-      : unary_function_output(parent, unary_function::none) {
-    }
+      : unary_function_output(parent, unary_function::none) {}
 
     string_view type_name() override;
 
     slot_data_type value_type() override;
 
-    std::ostream& definitions(
-      std::ostream& out, compile_context& ctxt) override;
+    std::ostream& definitions(std::ostream& out, compile_context& ctxt) override;
 };
 
 class unary_function_node
@@ -109,15 +107,13 @@ public:
     binary_function_output(node_intf& parent, binary_function);
 
     binary_function_output(node_intf& parent)
-      : binary_function_output(parent, binary_function::average) {
-    }
+      : binary_function_output(parent, binary_function::average) {}
 
     string_view type_name() override;
 
     slot_data_type value_type() override;
 
-    std::ostream& definitions(
-      std::ostream& out, compile_context& ctxt) override;
+    std::ostream& definitions(std::ostream& out, compile_context& ctxt) override;
 };
 
 class binary_function_node

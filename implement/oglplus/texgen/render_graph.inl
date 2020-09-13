@@ -13,8 +13,7 @@ namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 render_graph::render_graph()
-  : _render_node(new render_node()) {
-}
+  : _render_node(new render_node()) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 render_graph::~render_graph() {
@@ -42,7 +41,8 @@ void render_graph::add_anonymous_node(std::unique_ptr<node_intf>&& node) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void render_graph::add_node(
-  std::string name, std::unique_ptr<node_intf>&& node) {
+  std::string name,
+  std::unique_ptr<node_intf>&& node) {
     _nodes[std::move(name)] = std::move(node);
 }
 //------------------------------------------------------------------------------
@@ -54,7 +54,8 @@ render_node& render_graph::renderer() {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void render_graph::set_dimensions(
-  const valid_if_positive<int>& w, const valid_if_positive<int>& h) {
+  const valid_if_positive<int>& w,
+  const valid_if_positive<int>& h) {
     renderer().set_dimensions(w, h);
 }
 //------------------------------------------------------------------------------
@@ -64,8 +65,8 @@ void render_graph::render() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-optional_reference_wrapper<node_intf> render_graph::find_node(
-  const std::string& node_name) {
+optional_reference_wrapper<node_intf>
+render_graph::find_node(const std::string& node_name) {
     auto pos = _nodes.find(node_name);
     if(pos != _nodes.end()) {
         std::unique_ptr<node_intf>& node = pos->second;
@@ -76,8 +77,8 @@ optional_reference_wrapper<node_intf> render_graph::find_node(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-optional_reference_wrapper<input_intf> render_graph::find_node_input(
-  node_intf& node, span_size_t index) {
+optional_reference_wrapper<input_intf>
+render_graph::find_node_input(node_intf& node, span_size_t index) {
     if(index < node.input_count()) {
         return node.input(index);
     }
@@ -85,8 +86,8 @@ optional_reference_wrapper<input_intf> render_graph::find_node_input(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-optional_reference_wrapper<output_intf> render_graph::find_node_output(
-  node_intf& node, span_size_t index) {
+optional_reference_wrapper<output_intf>
+render_graph::find_node_output(node_intf& node, span_size_t index) {
     if(index < node.output_count()) {
         return node.output(index);
     }
@@ -94,20 +95,20 @@ optional_reference_wrapper<output_intf> render_graph::find_node_output(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-optional_reference_wrapper<input_intf> render_graph::find_node_input(
-  node_intf& node, string_view iname) {
+optional_reference_wrapper<input_intf>
+render_graph::find_node_input(node_intf& node, string_view iname) {
     return node.input_by_name(iname);
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-optional_reference_wrapper<output_intf> render_graph::find_node_output(
-  node_intf& node, string_view oname) {
+optional_reference_wrapper<output_intf>
+render_graph::find_node_output(node_intf& node, string_view oname) {
     return node.output_by_name(oname);
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-optional_reference_wrapper<input_intf> render_graph::find_node_input(
-  const std::string& node_name, span_size_t index) {
+optional_reference_wrapper<input_intf>
+render_graph::find_node_input(const std::string& node_name, span_size_t index) {
     if(auto node = find_node(node_name)) {
         return find_node_input(node.get(), index);
     }
@@ -116,7 +117,8 @@ optional_reference_wrapper<input_intf> render_graph::find_node_input(
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 optional_reference_wrapper<output_intf> render_graph::find_node_output(
-  const std::string& node_name, span_size_t index) {
+  const std::string& node_name,
+  span_size_t index) {
     if(auto node = find_node(node_name)) {
         return find_node_output(node.get(), index);
     }
@@ -124,8 +126,8 @@ optional_reference_wrapper<output_intf> render_graph::find_node_output(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-optional_reference_wrapper<input_intf> render_graph::find_node_input(
-  const std::string& node_name, string_view iname) {
+optional_reference_wrapper<input_intf>
+render_graph::find_node_input(const std::string& node_name, string_view iname) {
     if(auto node = find_node(node_name)) {
         return find_node_input(node.get(), iname);
     }
@@ -134,7 +136,8 @@ optional_reference_wrapper<input_intf> render_graph::find_node_input(
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 optional_reference_wrapper<output_intf> render_graph::find_node_output(
-  const std::string& node_name, string_view oname) {
+  const std::string& node_name,
+  string_view oname) {
     if(auto node = find_node(node_name)) {
         return find_node_output(node.get(), oname);
     }
@@ -156,7 +159,8 @@ bool render_graph::connect_to_renderer(node_intf& node, span_size_t index) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 bool render_graph::connect_to_renderer(
-  const std::string& node_name, span_size_t index) {
+  const std::string& node_name,
+  span_size_t index) {
     if(auto out = find_node_output(node_name, index)) {
         return connect_to_renderer(out.get());
     }
@@ -198,7 +202,9 @@ bool render_graph::connect(
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 bool render_graph::connect(
-  node_intf& output_node, node_intf& input_node, string_view iname) {
+  node_intf& output_node,
+  node_intf& input_node,
+  string_view iname) {
     if(auto out = find_node_output(output_node, 0)) {
         if(auto inp = find_node_input(input_node, iname)) {
             return connect(out.get(), inp.get());
@@ -258,7 +264,8 @@ bool render_graph::connect(
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 bool render_graph::connect(
-  const std::string& output_node_name, const std::string& input_node_name) {
+  const std::string& output_node_name,
+  const std::string& input_node_name) {
     return connect(output_node_name, 0, input_node_name, 0);
 }
 //------------------------------------------------------------------------------

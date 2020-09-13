@@ -67,8 +67,7 @@ class common_serializer_backend : public serializer_backend {
 public:
     common_serializer_backend() noexcept = default;
     common_serializer_backend(Sink& s) noexcept
-      : _sink{&s} {
-    }
+      : _sink{&s} {}
 
     Derived& set_sink(Sink& s) noexcept {
         _sink = &s;
@@ -119,8 +118,7 @@ public:
         return derived().do_write(values, done);
     }
 
-    result write(
-      span<const unsigned short> values, span_size_t& done) override {
+    result write(span<const unsigned short> values, span_size_t& done) override {
         return derived().do_write(values, done);
     }
 
@@ -132,8 +130,8 @@ public:
         return derived().do_write(values, done);
     }
 
-    result write(
-      span<const unsigned long long> values, span_size_t& done) override {
+    result
+    write(span<const unsigned long long> values, span_size_t& done) override {
         return derived().do_write(values, done);
     }
 
@@ -208,4 +206,3 @@ private:
 } // namespace eagine
 
 #endif // EAGINE_SERIALIZE_WRITE_BACKEND_HPP
-

@@ -42,8 +42,8 @@ struct generator_intf {
         return bool(attrib_bits() | attrib);
     }
 
-    virtual bool enable(
-      generator_capability cap, bool value = true) noexcept = 0;
+    virtual bool
+    enable(generator_capability cap, bool value = true) noexcept = 0;
 
     bool disable(generator_capability cap) noexcept {
         return enable(cap, false);
@@ -69,8 +69,8 @@ struct generator_intf {
 
     virtual string_view variant_name(vertex_attrib_variant vav) = 0;
 
-    vertex_attrib_variant find_variant(
-      vertex_attrib_kind attrib, string_view name) {
+    vertex_attrib_variant
+    find_variant(vertex_attrib_kind attrib, string_view name) {
         const span_size_t n = attribute_variants(attrib);
         span_size_t index{-1};
         for(span_size_t i = 0; i < n; ++i) {
@@ -149,15 +149,15 @@ struct generator_intf {
         return ray_intersections(0, rays, intersections);
     }
 
-    optionally_valid<float> ray_intersection(
-      drawing_variant var, const math::line<float, true>& ray) {
+    optionally_valid<float>
+    ray_intersection(drawing_variant var, const math::line<float, true>& ray) {
         optionally_valid<float> result{};
         ray_intersections(var, view_one(ray), cover_one(result));
         return result;
     }
 
-    optionally_valid<float> ray_intersection(
-      const math::line<float, true>& ray) {
+    optionally_valid<float>
+    ray_intersection(const math::line<float, true>& ray) {
         optionally_valid<float> result{};
         ray_intersections(0, view_one(ray), cover_one(result));
         return result;
@@ -171,8 +171,7 @@ private:
 
 protected:
     generator_base(vertex_attrib_bits attr_bits) noexcept
-      : _attr_bits(attr_bits) {
-    }
+      : _attr_bits(attr_bits) {}
 
 public:
     vertex_attrib_bits attrib_bits() noexcept final {
@@ -263,8 +262,7 @@ public:
 class centered_unit_shape_generator_base : public generator_base {
 protected:
     centered_unit_shape_generator_base(vertex_attrib_bits attr_bits) noexcept
-      : generator_base(attr_bits) {
-    }
+      : generator_base(attr_bits) {}
 
 public:
     void attrib_values(vertex_attrib_variant vav, span<float> dest) override;

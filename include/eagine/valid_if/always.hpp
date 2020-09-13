@@ -23,12 +23,10 @@ struct always_valid_policy {
 
     struct do_log {
         template <typename X, typename = disable_if_same_t<X, do_log>>
-        constexpr inline do_log(X&&) noexcept {
-        }
+        constexpr inline do_log(X&&) noexcept {}
 
         template <typename Log, typename T>
-        void operator()(Log&, const T&) const {
-        }
+        void operator()(Log&, const T&) const {}
     };
 };
 

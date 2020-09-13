@@ -41,30 +41,30 @@ inline bool is_valid_encoding(const valid_cbyte_span& vseq) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename P1, typename P2>
-static constexpr inline optionally_valid<code_point_t>
-do_decode_code_point_head(
+static constexpr inline optionally_valid<code_point_t> do_decode_code_point_head(
   const byte b,
   const valid_if<byte, P1> mask,
   const valid_if<span_size_t, P2> bitshift) noexcept {
-    // NOLINTNEXTLINE(hicpp-signed-bitwise)
-    return {code_point_t((b & mask.value_anyway()) << bitshift.value_anyway()),
+
+    return {// NOLINTNEXTLINE(hicpp-signed-bitwise)
+            code_point_t((b & mask.value_anyway()) << bitshift.value_anyway()),
             (mask.is_valid() && bitshift.is_valid())};
 }
 //------------------------------------------------------------------------------
-static constexpr inline optionally_valid<code_point_t> decode_code_point_head(
-  const byte b, const valid_sequence_length& l) noexcept {
+static constexpr inline optionally_valid<code_point_t>
+decode_code_point_head(const byte b, const valid_sequence_length& l) noexcept {
     return do_decode_code_point_head(
       b, head_data_mask(l), head_data_bitshift(l));
 }
 //------------------------------------------------------------------------------
 template <typename P1, typename P2>
-static constexpr inline optionally_valid<code_point_t>
-do_decode_code_point_tail(
+static constexpr inline optionally_valid<code_point_t> do_decode_code_point_tail(
   const byte b,
   const valid_if<byte, P1> mask,
   const valid_if<span_size_t, P2> bitshift) noexcept {
-    // NOLINTNEXTLINE(hicpp-signed-bitwise)
-    return {code_point_t((b & mask.value_anyway()) << bitshift.value_anyway()),
+
+    return {// NOLINTNEXTLINE(hicpp-signed-bitwise)
+            code_point_t((b & mask.value_anyway()) << bitshift.value_anyway()),
             (mask.is_valid() && bitshift.is_valid())};
 }
 //------------------------------------------------------------------------------
@@ -77,7 +77,8 @@ static constexpr inline optionally_valid<code_point_t> decode_code_point_tail(
 }
 //------------------------------------------------------------------------------
 inline code_point do_decode_code_point(
-  const valid_cbyte_span& vsrc, const valid_sequence_length& vl) noexcept {
+  const valid_cbyte_span& vsrc,
+  const valid_sequence_length& vl) noexcept {
     if(vl.is_valid()) {
         const span_size_t l = vl.value_anyway();
         if(vsrc.is_valid(l - 1)) {
@@ -106,15 +107,17 @@ static constexpr inline optionally_valid<byte> do_encode_code_point_byte(
   const valid_if<byte, P1> code,
   const valid_if<byte, P2> mask,
   const valid_if<span_size_t, P3> bitshift) noexcept {
-    return {byte(
-              (code.value_anyway()) |
-              // NOLINTNEXTLINE(hicpp-signed-bitwise)
-              (mask.value_anyway() & (cp >> bitshift.value_anyway()))),
-            (code.is_valid() && mask.is_valid() && bitshift.is_valid())};
+    return {
+      byte(
+        (code.value_anyway()) |
+        // NOLINTNEXTLINE(hicpp-signed-bitwise)
+        (mask.value_anyway() & (cp >> bitshift.value_anyway()))),
+      (code.is_valid() && mask.is_valid() && bitshift.is_valid())};
 }
 //------------------------------------------------------------------------------
 static constexpr inline optionally_valid<byte> encode_code_point_head(
-  const code_point_t cp, const valid_sequence_length& l) noexcept {
+  const code_point_t cp,
+  const valid_sequence_length& l) noexcept {
     return do_encode_code_point_byte(
       cp, head_code(l), head_data_mask(l), head_data_bitshift(l));
 }
@@ -156,8 +159,8 @@ inline bool do_encode_code_point(
     return false;
 }
 //------------------------------------------------------------------------------
-inline valid_sequence_length encode_code_point(
-  const code_point& cp, const valid_byte_span& dest) noexcept {
+inline valid_sequence_length
+encode_code_point(const code_point& cp, const valid_byte_span& dest) noexcept {
     auto len = required_sequence_length(cp.value());
     do_encode_code_point(cp, dest, len);
     return len;
@@ -173,8 +176,8 @@ inline valid_if_not_empty<std::string> encode_code_point(const code_point& cp) {
     return {};
 }
 //------------------------------------------------------------------------------
-inline optionally_valid<span_size_t> encoding_bytes_required(
-  span<const code_point_t> cps) noexcept {
+inline optionally_valid<span_size_t>
+encoding_bytes_required(span<const code_point_t> cps) noexcept {
     span_size_t result = 0;
     for(code_point_t cp : cps) {
         if(const auto len = required_sequence_length(cp)) {
@@ -186,8 +189,8 @@ inline optionally_valid<span_size_t> encoding_bytes_required(
     return {result, true};
 }
 //------------------------------------------------------------------------------
-inline optionally_valid<span_size_t> encoding_bytes_required(
-  span<const code_point> cps) noexcept {
+inline optionally_valid<span_size_t>
+encoding_bytes_required(span<const code_point> cps) noexcept {
     span_size_t result = 0;
     for(code_point cp : cps) {
         if(cp.is_valid()) {
@@ -203,8 +206,8 @@ inline optionally_valid<span_size_t> encoding_bytes_required(
     return {result, true};
 }
 //------------------------------------------------------------------------------
-inline optionally_valid<span_size_t> decoding_code_points_required(
-  const valid_cbyte_span& bytes) noexcept {
+inline optionally_valid<span_size_t>
+decoding_code_points_required(const valid_cbyte_span& bytes) noexcept {
     span_size_t result = 0;
 
     auto i = bytes.value(0).begin();
@@ -224,7 +227,8 @@ inline optionally_valid<span_size_t> decoding_code_points_required(
 }
 //------------------------------------------------------------------------------
 inline bool encode_code_points(
-  span<const code_point> cps, const valid_byte_span& bytes) noexcept {
+  span<const code_point> cps,
+  const valid_byte_span& bytes) noexcept {
     span_size_t i = 0;
 
     for(code_point cp : cps) {
@@ -244,8 +248,8 @@ inline bool encode_code_points(
     return true;
 }
 //------------------------------------------------------------------------------
-inline bool decode_code_points(
-  const valid_cbyte_span& bytes, span<code_point> cps) {
+inline bool
+decode_code_points(const valid_cbyte_span& bytes, span<code_point> cps) {
     span_size_t i = 0;
 
     for(code_point& cp : cps) {

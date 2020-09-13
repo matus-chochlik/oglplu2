@@ -28,8 +28,7 @@ class subscription_logger : public subscription_logger_base {
 public:
     subscription_logger(endpoint& bus)
       : base{bus}
-      , _log{EAGINE_ID(SubscrLog), bus.log()} {
-    }
+      , _log{EAGINE_ID(SubscrLog), bus.log()} {}
 
     void on_subscribed(identifier_t subscriber_id, message_id sub_msg) final {
         _log.info("endpoint ${subscrbr} subscribed to ${message}")
@@ -97,4 +96,3 @@ int main(main_ctx& ctx) {
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
-

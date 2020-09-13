@@ -143,4 +143,3 @@ using egl_opt_result = api_opt_result<Result, egl_result_info>;
 } // namespace eagine::eglp
 
 #endif // EGLPLUS_EGL_API_RESULT_HPP
-

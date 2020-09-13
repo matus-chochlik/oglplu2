@@ -34,7 +34,9 @@ protected:
 
 public:
     virtual bool respond_to_ping(
-      identifier_t pinger_id, message_sequence_t, verification_bits) = 0;
+      identifier_t pinger_id,
+      message_sequence_t,
+      verification_bits) = 0;
 
 private:
     bool _handle_ping(stored_message& message) {
@@ -150,4 +152,3 @@ private:
 } // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_SERVICE_PING_PONG_HPP
-

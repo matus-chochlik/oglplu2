@@ -17,8 +17,7 @@ namespace eagine::oglp::texgen {
 class parser {
 public:
     parser(semantic_actions actions) noexcept
-      : _actions(std::move(actions)) {
-    }
+      : _actions(std::move(actions)) {}
 
     void begin();
     void parse(input_stream input);

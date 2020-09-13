@@ -25,4 +25,3 @@ compound from_json_text(string_view, logger&);
 #endif
 
 #endif // EAGINE_VALUE_TREE_JSON_HPP
-

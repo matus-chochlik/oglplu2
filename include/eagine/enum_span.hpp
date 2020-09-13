@@ -29,8 +29,7 @@ public:
 
     template <typename... EnumValues>
     constexpr inline enum_list(EnumValues... evs) noexcept
-      : _values{{value_type(evs)...}} {
-    }
+      : _values{{value_type(evs)...}} {}
 
     auto values() const noexcept {
         return view(_values);
@@ -43,8 +42,7 @@ struct enum_span : span<const typename EnumClass::value_type> {
     enum_span() = default;
 
     enum_span(const enum_list<EnumClass>& enums) noexcept
-      : span<const typename EnumClass::value_type>(enums.values()) {
-    }
+      : span<const typename EnumClass::value_type>(enums.values()) {}
 };
 
 } // namespace eagine

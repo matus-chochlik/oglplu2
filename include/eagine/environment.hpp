@@ -16,8 +16,8 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-static inline optionally_valid<string_view> get_environment_variable(
-  string_view variable_name) noexcept {
+static inline optionally_valid<string_view>
+get_environment_variable(string_view variable_name) noexcept {
     if(auto value = ::getenv(c_str(variable_name))) {
         return {string_view(value), true};
     }

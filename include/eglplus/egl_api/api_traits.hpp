@@ -23,8 +23,8 @@ public:
     using opt_result = egl_opt_result<R>;
 
     template <typename Api, typename Tag, typename Signature>
-    std::add_pointer_t<Signature> link_function(
-      Api& api, Tag, string_view name, identity<Signature>) {
+    std::add_pointer_t<Signature>
+    link_function(Api& api, Tag, string_view name, identity<Signature>) {
         if(api.GetProcAddress && api.GetError) {
             _full_name.clear();
             _full_name.reserve(3 + name.size() + 1);
@@ -46,4 +46,3 @@ private:
 } // namespace eagine::eglp
 
 #endif // EGLPLUS_EGL_API_API_TRAITS_HPP
-

@@ -21,8 +21,7 @@ using data_bake_arena_base = memory::basic_allocation_arena<
 class data_bake_arena : public data_bake_arena_base {
 public:
     explicit data_bake_arena(memory::block blk)
-      : data_bake_arena_base(blk) {
-    }
+      : data_bake_arena_base(blk) {}
 
     memory::const_block baked_data() const noexcept {
         return this->allocator().allocated();

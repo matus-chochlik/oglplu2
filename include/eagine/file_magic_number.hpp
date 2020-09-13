@@ -32,8 +32,7 @@ public:
     using size_type = span_size_t;
 
     constexpr file_magic_number() noexcept
-      : _magic_number(_make_magic_number()) {
-    }
+      : _magic_number(_make_magic_number()) {}
 
     bool is_valid() const noexcept {
         return std::strncmp(

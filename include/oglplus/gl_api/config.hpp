@@ -103,4 +103,3 @@ struct gl_types {
 } // namespace eagine::oglp
 
 #endif // OGLPLUS_GL_API_CONFIG_HPP
-

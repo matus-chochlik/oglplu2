@@ -23,15 +23,13 @@ public:
     constexpr sign() noexcept = default;
 
     constexpr explicit sign(bool pos) noexcept
-      : _positive{pos} {
-    }
+      : _positive{pos} {}
 
     template <
       typename X,
       typename = std::enable_if_t<!std::is_same_v<X, sign<T>>>>
     constexpr explicit sign(const X& value) noexcept
-      : _positive{value >= X(0)} {
-    }
+      : _positive{value >= X(0)} {}
 
     static constexpr inline sign plus() noexcept {
         return {true};

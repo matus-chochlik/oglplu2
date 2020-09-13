@@ -28,19 +28,20 @@ struct flat_map_value_compare : Cmp {
 
     template <typename L, typename R>
     constexpr bool operator()(
-      const std::pair<L, Val>& a, const std::pair<R, Val>& b) const noexcept {
+      const std::pair<L, Val>& a,
+      const std::pair<R, Val>& b) const noexcept {
         return key_comp()(a.first, b.first);
     }
 
     template <typename K>
-    constexpr bool operator()(
-      const std::pair<K, Val>& a, const Key& b) const noexcept {
+    constexpr bool
+    operator()(const std::pair<K, Val>& a, const Key& b) const noexcept {
         return key_comp()(a.first, b);
     }
 
     template <typename K>
-    constexpr bool operator()(
-      const Key& a, const std::pair<K, Val>& b) const noexcept {
+    constexpr bool
+    operator()(const Key& a, const std::pair<K, Val>& b) const noexcept {
         return key_comp()(a, b.first);
     }
 };
@@ -49,8 +50,8 @@ template <typename Key, typename Val, typename Cmp>
 struct flat_map_ops : flat_map_value_compare<Key, Val, Cmp> {
     using value_type = std::pair<const Key, Val>;
 
-    constexpr const flat_map_value_compare<Key, Val, Cmp>& value_comp()
-      const noexcept {
+    constexpr const flat_map_value_compare<Key, Val, Cmp>&
+    value_comp() const noexcept {
         return *this;
     }
 
@@ -210,11 +211,7 @@ template <
   typename Cmp = std::less<Key>,
   typename Allocator = std::allocator<std::pair<Key, Val>>>
 class flat_map
-  : public flat_map_view_crtp<
-      Key,
-      Val,
-      Cmp,
-      flat_map<Key, Val, Cmp, Allocator>> {
+  : public flat_map_view_crtp<Key, Val, Cmp, flat_map<Key, Val, Cmp, Allocator>> {
 private:
     using _base =
       flat_map_view_crtp<Key, Val, Cmp, flat_map<Key, Val, Cmp, Allocator>>;

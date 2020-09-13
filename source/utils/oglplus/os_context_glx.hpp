@@ -23,32 +23,33 @@ namespace oglp {
 class offscreen_context_glx {
 private:
     static const int* visual_attribs() noexcept {
-        static int vas[] = {GLX_X_RENDERABLE,
-                            True,
-                            GLX_DRAWABLE_TYPE,
-                            GLX_PBUFFER_BIT,
-                            GLX_RENDER_TYPE,
-                            GLX_RGBA_BIT,
-                            GLX_X_VISUAL_TYPE,
-                            GLX_TRUE_COLOR,
-                            GLX_RED_SIZE,
-                            8,
-                            GLX_GREEN_SIZE,
-                            8,
-                            GLX_BLUE_SIZE,
-                            8,
-                            GLX_ALPHA_SIZE,
-                            8,
-                            GLX_DEPTH_SIZE,
-                            24,
-                            GLX_STENCIL_SIZE,
-                            8,
-                            None};
+        static int vas[] = {
+          GLX_X_RENDERABLE,
+          True,
+          GLX_DRAWABLE_TYPE,
+          GLX_PBUFFER_BIT,
+          GLX_RENDER_TYPE,
+          GLX_RGBA_BIT,
+          GLX_X_VISUAL_TYPE,
+          GLX_TRUE_COLOR,
+          GLX_RED_SIZE,
+          8,
+          GLX_GREEN_SIZE,
+          8,
+          GLX_BLUE_SIZE,
+          8,
+          GLX_ALPHA_SIZE,
+          8,
+          GLX_DEPTH_SIZE,
+          24,
+          GLX_STENCIL_SIZE,
+          8,
+          None};
         return vas;
     }
 
-    static const int* pbuffer_attribs(
-      const offscreen_context_params& p) noexcept {
+    static const int*
+    pbuffer_attribs(const offscreen_context_params& p) noexcept {
         static int pbas[] = {
           GLX_PBUFFER_WIDTH, 64, GLX_PBUFFER_HEIGHT, 64, None};
         pbas[1] = p.width;

@@ -28,11 +28,9 @@ example_state_view::example_state_view() noexcept
   , _y_tiles(1)
   , _tile_j(0)
   , _old_user_idle(false)
-  , _new_user_idle(false) {
-}
+  , _new_user_idle(false) {}
 //------------------------------------------------------------------------------
-bool example_state_view::_notice_user_activity(
-  bool something_changed) noexcept {
+bool example_state_view::_notice_user_activity(bool something_changed) noexcept {
     if(something_changed) {
         _usr_act_time = _exe_time;
         _new_user_idle = false;
@@ -40,8 +38,8 @@ bool example_state_view::_notice_user_activity(
     return something_changed;
 }
 //------------------------------------------------------------------------------
-example_state_value<bool> example_state_view::mouse_button_pressed(
-  int button) const noexcept {
+example_state_value<bool>
+example_state_view::mouse_button_pressed(int button) const noexcept {
     if((button >= 0) && (button < _mouse_btn_count)) {
         return _mouse_btn[button];
     }
@@ -56,44 +54,44 @@ bool example_state_view::pointer_dragging(int index) const noexcept {
     return false;
 }
 //------------------------------------------------------------------------------
-example_state_value<float> example_state_view::norm_pointer_x(
-  int index) const noexcept {
+example_state_value<float>
+example_state_view::norm_pointer_x(int index) const noexcept {
     if(index == 0) {
         return mouse_x().as<float>() / width();
     }
     return {0.5F, 0.5F};
 }
 //------------------------------------------------------------------------------
-example_state_value<float> example_state_view::norm_pointer_y(
-  int index) const noexcept {
+example_state_value<float>
+example_state_view::norm_pointer_y(int index) const noexcept {
     if(index == 0) {
         return mouse_y().as<float>() / height();
     }
     return {0.5F, 0.5F};
 }
 //------------------------------------------------------------------------------
-example_state_value<float> example_state_view::norm_pointer_z(
-  int index) const noexcept {
+example_state_value<float>
+example_state_view::norm_pointer_z(int index) const noexcept {
     if(index == 0) {
         return mouse_z().as<float>() / depth();
     }
     return {0.0F, 0.0F};
 }
 //------------------------------------------------------------------------------
-example_state_value<float> example_state_view::ndc_pointer_x(
-  int index) const noexcept {
+example_state_value<float>
+example_state_view::ndc_pointer_x(int index) const noexcept {
     return transform(
       [](float v) { return -1.F + 2.F * v; }, norm_pointer_x(index));
 }
 //------------------------------------------------------------------------------
-example_state_value<float> example_state_view::ndc_pointer_y(
-  int index) const noexcept {
+example_state_value<float>
+example_state_view::ndc_pointer_y(int index) const noexcept {
     return transform(
       [](float v) { return -1.F + 2.F * v; }, norm_pointer_y(index));
 }
 //------------------------------------------------------------------------------
-example_state_value<float> example_state_view::pointer_radius(
-  int index) const noexcept {
+example_state_value<float>
+example_state_view::pointer_radius(int index) const noexcept {
     using std::pow;
     using std::sqrt;
     return transform(
@@ -102,8 +100,8 @@ example_state_value<float> example_state_view::pointer_radius(
       ndc_pointer_y(index));
 }
 //------------------------------------------------------------------------------
-example_state_value<radians_t<float>> example_state_view::pointer_angle(
-  int index) const noexcept {
+example_state_value<radians_t<float>>
+example_state_view::pointer_angle(int index) const noexcept {
     return transform(
       [](float x, float y) { return arctan(y, x); },
       ndc_pointer_x(index),

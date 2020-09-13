@@ -66,19 +66,19 @@ public:
 
     bool is_readable_file(string_view path) const noexcept;
 
-    valid_if_not_empty<std::string> find_resource_file_path(
-      string_view res_group, string_view res_name) const;
+    valid_if_not_empty<std::string>
+    find_resource_file_path(string_view res_group, string_view res_name) const;
 
-    valid_if_not_empty<std::string> find_resource_file_path(
-      string_view res_name) const {
+    valid_if_not_empty<std::string>
+    find_resource_file_path(string_view res_name) const {
         return find_resource_file_path(string_view(), res_name);
     }
 
-    valid_if_not_empty<std::string> find_resource_file_path(
-      example_resource_type, string_view res_name) const;
+    valid_if_not_empty<std::string>
+    find_resource_file_path(example_resource_type, string_view res_name) const;
 
-    std::string get_resource_file_path(
-      example_resource_type, string_view res_name) const;
+    std::string
+    get_resource_file_path(example_resource_type, string_view res_name) const;
 
     example_params& screenshot_path(valid_if_not_empty<string_view> path) {
         _screenshot_path = path.value();

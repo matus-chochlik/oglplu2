@@ -33,10 +33,7 @@ public:
     using char_type = typename alc_types::char_type;
     using int_type = typename alc_types::int_type;
 
-    template <
-      typename W,
-      W c_api::*F,
-      typename Signature = typename W::signature>
+    template <typename W, W c_api::*F, typename Signature = typename W::signature>
     class func;
 
     template <typename W, W c_api::*F, typename RVC, typename... Params>
@@ -53,8 +50,8 @@ public:
 
     protected:
         template <typename... Args>
-        constexpr auto _chkcall(
-          device_handle dev, Args&&... args) const noexcept {
+        constexpr auto
+        _chkcall(device_handle dev, Args&&... args) const noexcept {
             return this->_check(dev, this->_call(std::forward<Args>(args)...));
         }
 
@@ -103,7 +100,8 @@ public:
         }
 
         constexpr auto operator()(
-          device_handle dev, span<const int_type> attributes) const noexcept {
+          device_handle dev,
+          span<const int_type> attributes) const noexcept {
             return this->_chkcall(dev, dev, attributes.data());
         }
     } create_context;
@@ -112,8 +110,8 @@ public:
     struct : func<OALPAFP(DestroyContext)> {
         using func<OALPAFP(DestroyContext)>::func;
 
-        constexpr auto operator()(
-          device_handle dev, context_handle ctx) const noexcept {
+        constexpr auto
+        operator()(device_handle dev, context_handle ctx) const noexcept {
             return this->_chkcall(dev, ctx);
         }
 
@@ -126,8 +124,8 @@ public:
     struct : func<OALPAFP(MakeContextCurrent)> {
         using func<OALPAFP(MakeContextCurrent)>::func;
 
-        constexpr auto operator()(
-          device_handle dev, context_handle ctx) const noexcept {
+        constexpr auto
+        operator()(device_handle dev, context_handle ctx) const noexcept {
             return this->_chkcall(dev, ctx);
         }
 
@@ -169,8 +167,8 @@ public:
     struct : func<OALPAFP(GetIntegerv)> {
         using func<OALPAFP(GetIntegerv)>::func;
 
-        constexpr auto operator()(
-          device_handle dev, alc_integer_query query) const noexcept {
+        constexpr auto
+        operator()(device_handle dev, alc_integer_query query) const noexcept {
             int_type result{};
             return this
               ->_chkcall(dev, dev, enum_type(query), size_type(1), &result)
@@ -194,8 +192,8 @@ public:
     struct : func<OALPAFP(GetString)> {
         using func<OALPAFP(GetString)>::func;
 
-        constexpr auto operator()(
-          device_handle dev, alc_string_query query) const noexcept {
+        constexpr auto
+        operator()(device_handle dev, alc_string_query query) const noexcept {
             return this->_chkcall(dev, dev, enum_type(query));
         }
 
@@ -210,7 +208,9 @@ public:
 
     // get_strings
     auto get_strings(
-      device_handle dev, alc_string_query query, char separator) noexcept {
+      device_handle dev,
+      alc_string_query query,
+      char separator) noexcept {
         return get_string(dev, query).transformed([separator](auto src) {
             return split_c_str_into_string_list(src, separator);
         });
@@ -282,8 +282,7 @@ public:
       , make_context_current("make_context_current", traits, *this)
       , get_current_context("get_current_context", traits, *this)
       , get_integer("get_integer", traits, *this)
-      , get_string("get_string", traits, *this) {
-    }
+      , get_string("get_string", traits, *this) {}
 };
 //------------------------------------------------------------------------------
 #undef OALPAFP
@@ -291,4 +290,3 @@ public:
 } // namespace eagine::oalp
 
 #endif // OALPLUS_ALC_API_API_HPP
-

@@ -23,20 +23,16 @@ private:
 
 public:
     constexpr inline tmat() noexcept
-      : _base(identity<_base>()) {
-    }
+      : _base(identity<_base>()) {}
 
     constexpr inline tmat(const _base& m) noexcept
-      : _base(m) {
-    }
+      : _base(m) {}
 
     inline tmat(const T* d, int n) noexcept
-      : _base(_base::from(d, n)) {
-    }
+      : _base(_base::from(d, n)) {}
 
     inline tmat(const T (&d)[C * R]) noexcept
-      : _base(_base::from(d, C * R)) {
-    }
+      : _base(_base::from(d, C * R)) {}
 
 private:
     template <
@@ -54,15 +50,13 @@ public:
       typename = std::enable_if_t<
         ((sizeof...(P)) == (R * C)) && all_are_convertible_to<T, P...>::value>>
     inline tmat(P&&... p)
-      : _base(_make(std::forward<P>(p)...)) {
-    }
+      : _base(_make(std::forward<P>(p)...)) {}
 
     template <
       typename... P,
       typename = std::enable_if_t<((sizeof...(P)) == (RM ? R : C))>>
     constexpr inline tmat(const vector<P, RM ? C : R, V>&... v) noexcept
-      : _base{{v._v...}} {
-    }
+      : _base{{v._v...}} {}
 
     template <
       typename P,
@@ -71,8 +65,7 @@ public:
       typename =
         std::enable_if_t<std::is_convertible_v<P, T> && (C <= M) && (R <= N)>>
     constexpr inline tmat(const matrix<P, M, N, RM, V>& m) noexcept
-      : _base(_base::from(m)) {
-    }
+      : _base(_base::from(m)) {}
 };
 
 template <typename T, int C, int R, bool RM, bool V>

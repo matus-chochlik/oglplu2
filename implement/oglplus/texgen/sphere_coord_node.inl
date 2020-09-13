@@ -13,8 +13,7 @@ namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 sphere_coord_output::sphere_coord_output(node_intf& parent)
-  : base_output(parent) {
-}
+  : base_output(parent) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 string_view sphere_coord_output::type_name() {
@@ -27,8 +26,8 @@ slot_data_type sphere_coord_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& sphere_coord_output::definitions(
-  std::ostream& out, compile_context& ctxt) {
+std::ostream&
+sphere_coord_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt)) {
         return out;
     }

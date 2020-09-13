@@ -52,8 +52,7 @@ public:
     }
 
     unit_torus_gen(vertex_attrib_bits attr_bits) noexcept
-      : unit_torus_gen(attr_bits, 24, 36) {
-    }
+      : unit_torus_gen(attr_bits, 24, 36) {}
 
     using offset_getter =
       callable_ref<std::array<float, 3>(span_size_t, span_size_t)>;
@@ -78,8 +77,8 @@ public:
 
     string_view special_variant_name(span_size_t index);
     void make_special_attrib_values(
-      void (unit_torus_gen::*function)(
-        span<float>, unit_torus_gen::offset_getter),
+      void (
+        unit_torus_gen::*function)(span<float>, unit_torus_gen::offset_getter),
       span_size_t,
       span<float>);
 
@@ -110,10 +109,7 @@ static inline auto unit_torus(
   valid_if_greater_than<int, 3> sections,
   valid_if_ge0_lt1<float> radius_ratio) {
     return std::make_unique<unit_torus_gen>(
-      attr_bits,
-      std::move(rings),
-      std::move(sections),
-      std::move(radius_ratio));
+      attr_bits, std::move(rings), std::move(sections), std::move(radius_ratio));
 }
 //------------------------------------------------------------------------------
 static inline auto unit_torus(vertex_attrib_bits attr_bits) {

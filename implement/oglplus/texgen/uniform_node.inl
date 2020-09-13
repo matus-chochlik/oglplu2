@@ -16,8 +16,7 @@ namespace eagine::oglp::texgen {
 OGLPLUS_LIB_FUNC
 uniform_output::uniform_output(node_intf& parent, slot_data_type type)
   : base_output(parent)
-  , _value_type(type) {
-}
+  , _value_type(type) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void uniform_output::bind_location() {
@@ -40,8 +39,8 @@ slot_data_type uniform_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& uniform_output::definitions(
-  std::ostream& out, compile_context& ctxt) {
+std::ostream&
+uniform_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt)) {
         return out;
     }
@@ -61,13 +60,11 @@ std::ostream& uniform_output::definitions(
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 uniform_node::uniform_node(slot_data_type type)
-  : single_output_node<uniform_output>(type) {
-}
+  : single_output_node<uniform_output>(type) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 uniform_node::uniform_node()
-  : uniform_node(slot_data_type::float_4) {
-}
+  : uniform_node(slot_data_type::float_4) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void uniform_node::prepare() {

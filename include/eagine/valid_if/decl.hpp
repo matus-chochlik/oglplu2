@@ -23,8 +23,7 @@ struct valid_flag_policy {
     constexpr valid_flag_policy() noexcept = default;
 
     constexpr valid_flag_policy(bool is_valid) noexcept
-      : _is_valid(is_valid) {
-    }
+      : _is_valid(is_valid) {}
 
     template <typename T>
     auto operator()(const T&) const noexcept -> bool {
@@ -33,8 +32,7 @@ struct valid_flag_policy {
 
     struct do_log {
         template <typename X>
-        constexpr inline do_log(X) noexcept {
-        }
+        constexpr inline do_log(X) noexcept {}
 
         template <typename Log, typename T>
         void operator()(Log& log, const T&) const {
@@ -131,48 +129,54 @@ public:
 };
 //------------------------------------------------------------------------------
 template <typename T, typename P1, typename P2>
-static constexpr inline auto operator==(
-  const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) noexcept -> tribool {
+static constexpr inline auto
+operator==(const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) noexcept
+  -> tribool {
     return {
       (v1.value_anyway() == v2.value_anyway()),
       (!v1.is_valid() || !v2.is_valid())};
 }
 
 template <typename T, typename P1, typename P2>
-static constexpr inline auto operator!=(
-  const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) noexcept -> tribool {
+static constexpr inline auto
+operator!=(const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) noexcept
+  -> tribool {
     return {
       (v1.value_anyway() != v2.value_anyway()),
       (!v1.is_valid() || !v2.is_valid())};
 }
 
 template <typename T, typename P1, typename P2>
-static constexpr inline auto operator<(
-  const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) noexcept -> tribool {
+static constexpr inline auto
+operator<(const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) noexcept
+  -> tribool {
     return {
       (v1.value_anyway() < v2.value_anyway()),
       (!v1.is_valid() || !v2.is_valid())};
 }
 
 template <typename T, typename P1, typename P2>
-static constexpr inline auto operator>(
-  const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) noexcept -> tribool {
+static constexpr inline auto
+operator>(const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) noexcept
+  -> tribool {
     return {
       (v1.value_anyway() > v2.value_anyway()),
       (!v1.is_valid() || !v2.is_valid())};
 }
 
 template <typename T, typename P1, typename P2>
-static constexpr inline auto operator<=(
-  const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) noexcept -> tribool {
+static constexpr inline auto
+operator<=(const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) noexcept
+  -> tribool {
     return {
       (v1.value_anyway() <= v2.value_anyway()),
       (!v1.is_valid() || !v2.is_valid())};
 }
 
 template <typename T, typename P1, typename P2>
-static constexpr inline auto operator>=(
-  const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) noexcept -> tribool {
+static constexpr inline auto
+operator>=(const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) noexcept
+  -> tribool {
     return {
       (v1.value_anyway() >= v2.value_anyway()),
       (!v1.is_valid() || !v2.is_valid())};
@@ -194,8 +198,8 @@ static constexpr inline auto extract(valid_if<T, P>&& opt) noexcept -> T&& {
 }
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename F>
-static constexpr inline auto extract_or(
-  const valid_if<T, P>& opt, F&& fallback) noexcept
+static constexpr inline auto
+extract_or(const valid_if<T, P>& opt, F&& fallback) noexcept
   -> std::enable_if_t<std::is_convertible_v<F, T>, T> {
     if(bool(opt)) {
         return opt.value_anyway();
@@ -204,8 +208,8 @@ static constexpr inline auto extract_or(
 }
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename F>
-static constexpr inline auto extract_or(
-  valid_if<T, P>& opt, T& fallback) noexcept -> T& {
+static constexpr inline auto
+extract_or(valid_if<T, P>& opt, T& fallback) noexcept -> T& {
     if(bool(opt)) {
         return opt.value_anyway();
     }
@@ -219,8 +223,7 @@ public:
       noexcept(valid_if<T, P>(std::declval<valid_if<T, P>&&>())) && noexcept(
         F(std::declval<F&&>())))
       : valid_if<T, P>{std::move(vi)}
-      , _fallback{std::move(fallback)} {
-    }
+      , _fallback{std::move(fallback)} {}
 
     auto fallback() const noexcept -> const F& {
         return _fallback;

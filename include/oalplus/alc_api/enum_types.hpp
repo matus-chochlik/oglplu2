@@ -35,4 +35,3 @@ struct alc_integer_query
 } // namespace eagine::oalp
 
 #endif // OALPLUS_ALC_API_ENUM_TYPES_HPP
-

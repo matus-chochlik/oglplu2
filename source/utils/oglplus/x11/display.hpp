@@ -72,8 +72,9 @@ private:
 public:
     Display(const char* name = nullptr)
       : Object<::Display>(
-          ::XOpenDisplay(name), ::XCloseDisplay, "Error opening X Display") {
-    }
+          ::XOpenDisplay(name),
+          ::XCloseDisplay,
+          "Error opening X Display") {}
 
     bool NextEvent(XEvent& event) const {
         return ::XCheckIfEvent(
@@ -170,8 +171,7 @@ private:
 public:
     template <typename Derived, typename Deleter>
     BaseDisplayObject(const DisplayObject<Derived, Deleter>& derived)
-      : _handle(derived.Handle()) {
-    }
+      : _handle(derived.Handle()) {}
 
     HandleType Handle() const {
         return _handle;

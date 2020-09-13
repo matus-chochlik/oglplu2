@@ -18,8 +18,7 @@ tokenizer::tokenizer(input_stream input)
   , _ident_re(R"(^[_[:alpha:]][_[:alnum:]]*\b)")
   , _integer_re(
       R"(((0x[[:xdigit:]]+)|(0b[01]+)|([01234567]+)|(-?[1-9][[:digit:]]*)|0)\b)")
-  , _float_re(R"(^-?[[:digit:]]+(\.[[:digit:]]+)\b)") {
-}
+  , _float_re(R"(^-?[[:digit:]]+(\.[[:digit:]]+)\b)") {}
 //------------------------------------------------------------------------------
 static inline bool is_word_boundary(char c) noexcept {
 
@@ -38,8 +37,7 @@ bool tokenizer::_match_char(token_info& token, char chr, token_kind kind) {
     return false;
 }
 //------------------------------------------------------------------------------
-bool tokenizer::_match_str(
-  token_info& token, string_view str, token_kind kind) {
+bool tokenizer::_match_str(token_info& token, string_view str, token_kind kind) {
 
     const auto len = str.size();
     if(are_equal(_input.head(len), str) && is_word_boundary(_input.peek(len))) {
@@ -52,7 +50,9 @@ bool tokenizer::_match_str(
 }
 //------------------------------------------------------------------------------
 bool tokenizer::_match_re(
-  token_info& token, const std::regex& re, token_kind kind) {
+  token_info& token,
+  const std::regex& re,
+  token_kind kind) {
 
     std::match_results<
       input_stream::const_iterator,

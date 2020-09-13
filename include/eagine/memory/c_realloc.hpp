@@ -39,13 +39,13 @@ public:
 
     void deallocate(owned_block&& b, size_type) noexcept override;
 
-    bool can_reallocate(
-      const owned_block&, size_type, size_type) noexcept override {
+    bool
+    can_reallocate(const owned_block&, size_type, size_type) noexcept override {
         return true;
     }
 
-    owned_block reallocate(
-      owned_block&& b, size_type n, size_type a) noexcept override;
+    owned_block
+    reallocate(owned_block&& b, size_type n, size_type a) noexcept override;
 };
 
 } // namespace eagine::memory

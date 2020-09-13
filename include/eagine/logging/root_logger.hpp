@@ -35,12 +35,10 @@ public:
     }
 
     root_logger(const program_args& args, const root_logger_options& opts)
-      : root_logger(EAGINE_ID(RootLogger), args, opts) {
-    }
+      : root_logger(EAGINE_ID(RootLogger), args, opts) {}
 
     root_logger(const program_args& args)
-      : root_logger(EAGINE_ID(RootLogger), args, root_logger_options{}) {
-    }
+      : root_logger(EAGINE_ID(RootLogger), args, root_logger_options{}) {}
 };
 //------------------------------------------------------------------------------
 } // namespace eagine

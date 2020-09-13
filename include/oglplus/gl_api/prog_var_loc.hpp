@@ -25,8 +25,7 @@ public:
     constexpr prog_var_location() noexcept = default;
 
     explicit constexpr prog_var_location(int_type init) noexcept
-      : _location{init} {
-    }
+      : _location{init} {}
 
     bool is_active() const noexcept {
         return _location >= 0;
@@ -57,18 +56,18 @@ public:
         return !is_active();
     }
 
-    friend constexpr bool operator==(
-      prog_var_location a, prog_var_location b) noexcept {
+    friend constexpr bool
+    operator==(prog_var_location a, prog_var_location b) noexcept {
         return a._location == b._location;
     }
 
-    friend constexpr bool operator!=(
-      prog_var_location a, prog_var_location b) noexcept {
+    friend constexpr bool
+    operator!=(prog_var_location a, prog_var_location b) noexcept {
         return a._location != b._location;
     }
 
-    friend constexpr bool operator<(
-      prog_var_location a, prog_var_location b) noexcept {
+    friend constexpr bool
+    operator<(prog_var_location a, prog_var_location b) noexcept {
         return a._location < b._location;
     }
 };

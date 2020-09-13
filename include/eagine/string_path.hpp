@@ -52,8 +52,8 @@ private:
     }
 
     template <typename... Str>
-    static inline std::array<string_view, sizeof...(Str)> _pack_names(
-      const Str&... n) noexcept {
+    static inline std::array<string_view, sizeof...(Str)>
+    _pack_names(const Str&... n) noexcept {
         return {{_fix(n)...}};
     }
 
@@ -74,30 +74,27 @@ public:
 
     basic_string_path(string_view str, span_size_t size)
       : _size{size}
-      , _str(str.data(), std_size(str.size())) {
-    }
+      , _str(str.data(), std_size(str.size())) {}
 
     basic_string_path(std::string str, span_size_t size)
       : _size{size}
-      , _str(std::move(str)) {
-    }
+      , _str(std::move(str)) {}
 
     basic_string_path(std::tuple<std::string, span_size_t>&& init)
-      : basic_string_path(std::move(std::get<0>(init)), std::get<1>(init)) {
-    }
+      : basic_string_path(std::move(std::get<0>(init)), std::get<1>(init)) {}
 
     basic_string_path(
-      string_view path, EAGINE_TAG_TYPE(split_by), string_view sep)
-      : basic_string_path(string_list::split(path, sep)) {
-    }
+      string_view path,
+      EAGINE_TAG_TYPE(split_by),
+      string_view sep)
+      : basic_string_path(string_list::split(path, sep)) {}
 
     explicit basic_string_path(
       const basic_string_path& a,
       EAGINE_TAG_TYPE(plus),
       const basic_string_path& b)
       : _size(a._size + b._size)
-      , _str(a._str + b._str) {
-    }
+      , _str(a._str + b._str) {}
 
     explicit basic_string_path(span<const string_view> names) {
         _init(names);
@@ -105,47 +102,51 @@ public:
 
     template <std::size_t N>
     explicit basic_string_path(const std::array<string_view, N>& names)
-      : basic_string_path(view(names)) {
-    }
+      : basic_string_path(view(names)) {}
 
     template <typename... Str>
     explicit basic_string_path(
-      EAGINE_TAG_TYPE(from_pack), string_view name, const Str&... names)
-      : basic_string_path(_pack_names(name, view(names)...)) {
-    }
+      EAGINE_TAG_TYPE(from_pack),
+      string_view name,
+      const Str&... names)
+      : basic_string_path(_pack_names(name, view(names)...)) {}
 
     friend bool operator==(
-      const basic_string_path& a, const basic_string_path& b) noexcept {
+      const basic_string_path& a,
+      const basic_string_path& b) noexcept {
         return a._str == b._str;
     }
 
     friend bool operator!=(
-      const basic_string_path& a, const basic_string_path& b) noexcept {
+      const basic_string_path& a,
+      const basic_string_path& b) noexcept {
         return a._str != b._str;
     }
 
-    friend bool operator<(
-      const basic_string_path& a, const basic_string_path& b) noexcept {
+    friend bool
+    operator<(const basic_string_path& a, const basic_string_path& b) noexcept {
         return a._str < b._str;
     }
 
     friend bool operator<=(
-      const basic_string_path& a, const basic_string_path& b) noexcept {
+      const basic_string_path& a,
+      const basic_string_path& b) noexcept {
         return a._str <= b._str;
     }
 
-    friend bool operator>(
-      const basic_string_path& a, const basic_string_path& b) noexcept {
+    friend bool
+    operator>(const basic_string_path& a, const basic_string_path& b) noexcept {
         return a._str > b._str;
     }
 
     friend bool operator>=(
-      const basic_string_path& a, const basic_string_path& b) noexcept {
+      const basic_string_path& a,
+      const basic_string_path& b) noexcept {
         return a._str >= b._str;
     }
 
-    friend basic_string_path operator+(
-      const basic_string_path& a, const basic_string_path& b) noexcept {
+    friend basic_string_path
+    operator+(const basic_string_path& a, const basic_string_path& b) noexcept {
         return basic_string_path(a, EAGINE_TAG(plus), b);
     }
 

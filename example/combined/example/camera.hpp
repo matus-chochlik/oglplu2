@@ -43,14 +43,14 @@ public:
         return *this;
     }
 
-    example_orbiting_camera& set_orbit_min(
-      valid_if_positive<float> orbit) noexcept {
+    example_orbiting_camera&
+    set_orbit_min(valid_if_positive<float> orbit) noexcept {
         _orbit_min = orbit.value();
         return *this;
     }
 
-    example_orbiting_camera& set_orbit_max(
-      valid_if_positive<float> orbit) noexcept {
+    example_orbiting_camera&
+    set_orbit_max(valid_if_positive<float> orbit) noexcept {
         _orbit_max = orbit.value();
         return *this;
     }
@@ -106,14 +106,16 @@ public:
         return matrix(state.aspect());
     }
 
-    optionally_valid<vec3> target_plane_point(
-      float ndcx, float ndcy, float aspect) const noexcept;
+    optionally_valid<vec3>
+    target_plane_point(float ndcx, float ndcy, float aspect) const noexcept;
 
     optionally_valid<vec3> target_plane_pointer(
-      const example_state_view& state, int pointer = 0) const noexcept;
+      const example_state_view& state,
+      int pointer = 0) const noexcept;
 
     optionally_valid<line> pointer_ray(
-      const example_state_view& state, int pointer = 0) const noexcept;
+      const example_state_view& state,
+      int pointer = 0) const noexcept;
 
     float grab_sphere_radius() const noexcept;
 

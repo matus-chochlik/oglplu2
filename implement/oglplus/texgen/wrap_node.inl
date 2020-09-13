@@ -15,8 +15,7 @@ OGLPLUS_LIB_FUNC
 wrap_output::wrap_output(node_intf& parent)
   : base_output(parent)
   , mode(wrap_mode::repeat)
-  , input(parent, string_view("Input")) {
-}
+  , input(parent, string_view("Input")) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 string_view wrap_output::type_name() {
@@ -29,8 +28,8 @@ slot_data_type wrap_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& wrap_output::definitions(
-  std::ostream& out, compile_context& ctxt) {
+std::ostream&
+wrap_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt)) {
         return out;
     }

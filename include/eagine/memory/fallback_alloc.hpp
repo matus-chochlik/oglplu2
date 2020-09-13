@@ -32,8 +32,7 @@ public:
       : _fbk_size(0)
       , _fbk_max(0)
       , _dft(std::move(dft))
-      , _fbk(std::move(fbk)) {
-    }
+      , _fbk(std::move(fbk)) {}
 
     using size_type = span_size_t;
 
@@ -53,8 +52,8 @@ public:
         return (mfbk > mdft) ? mfbk : mdft;
     }
 
-    tribool has_allocated(
-      const owned_block& b, span_size_t a) noexcept override {
+    tribool
+    has_allocated(const owned_block& b, span_size_t a) noexcept override {
         return _dft.has_allocated(b, a) || _fbk.has_allocated(b, a);
     }
 
