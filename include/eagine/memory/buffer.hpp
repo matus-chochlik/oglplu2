@@ -28,7 +28,7 @@ private:
     owned_block _storage{};
     shared_byte_allocator _alloc{};
 
-    bool _is_ok() const noexcept {
+    auto _is_ok() const noexcept {
         return bool(_alloc) && size() <= capacity();
     }
 
@@ -51,7 +51,7 @@ public:
       , _alloc{std::move(temp._alloc)} {
         temp._size = 0;
     }
-    buffer& operator=(buffer&& temp) noexcept {
+    auto operator=(buffer&& temp) noexcept -> buffer& {
         _size = temp._size;
         temp._size = 0;
         _align = temp._align;
@@ -60,7 +60,7 @@ public:
         return *this;
     }
     buffer(const buffer&) = delete;
-    buffer& operator=(const buffer&) = delete;
+    auto operator=(const buffer&) = delete;
 
     ~buffer() noexcept {
         free();
@@ -70,23 +70,23 @@ public:
         return _storage.addr();
     }
 
-    pointer data() const noexcept {
+    auto data() const noexcept -> pointer {
         return _storage.data();
     }
 
-    span_size_t size() const noexcept {
+    auto size() const noexcept -> span_size_t {
         return _size;
     }
 
-    bool empty() const noexcept {
+    auto empty() const noexcept {
         return size() == 0;
     }
 
-    span_size_t capacity() const noexcept {
+    auto capacity() const noexcept -> span_size_t {
         return _storage.size();
     }
 
-    buffer& reserve(span_size_t new_size) {
+    auto reserve(span_size_t new_size) -> auto& {
         if(capacity() < new_size) {
             _reallocate(new_size);
         }
@@ -94,14 +94,14 @@ public:
         return *this;
     }
 
-    buffer& resize(span_size_t new_size) {
+    auto resize(span_size_t new_size) -> auto& {
         reserve(new_size);
         _size = new_size;
         EAGINE_ASSERT(_is_ok());
         return *this;
     }
 
-    buffer& ensure(span_size_t new_size) {
+    auto ensure(span_size_t new_size) -> auto& {
         if(size() < new_size) {
             return resize(new_size);
         }
@@ -109,11 +109,11 @@ public:
         return *this;
     }
 
-    buffer& clear() {
+    auto clear() -> auto& {
         return resize(0);
     }
 
-    buffer& enlarge_by(span_size_t inc_size) {
+    auto enlarge_by(span_size_t inc_size) -> auto& {
         return resize(size() + inc_size);
     }
 

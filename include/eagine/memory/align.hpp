@@ -15,28 +15,28 @@
 
 namespace eagine::memory {
 //------------------------------------------------------------------------------
-static constexpr inline span_size_t
-misalignment(span_size_t addr, span_size_t alignment) noexcept {
+static constexpr inline auto
+misalignment(span_size_t addr, span_size_t alignment) noexcept -> span_size_t {
     return addr % alignment;
 }
 //------------------------------------------------------------------------------
-static constexpr inline span_size_t
-misalignment(std::nullptr_t, span_size_t) noexcept {
+static constexpr inline auto misalignment(std::nullptr_t, span_size_t) noexcept
+  -> span_size_t {
     return 0;
 }
 //------------------------------------------------------------------------------
-static constexpr inline bool
+static constexpr inline auto
 is_aligned_to(span_size_t addr, span_size_t algn) noexcept {
     return misalignment(addr, algn) == 0;
 }
 //------------------------------------------------------------------------------
-static constexpr inline bool
+static constexpr inline auto
 is_aligned_to(std::nullptr_t, span_size_t) noexcept {
     return true;
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline bool
+static constexpr inline auto
 is_aligned_as(span_size_t addr, identity<T> = {}) noexcept {
     return is_aligned_to(addr, span_align_of<T>());
 }

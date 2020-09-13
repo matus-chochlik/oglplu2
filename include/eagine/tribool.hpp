@@ -39,11 +39,11 @@ public:
         return _value != _value_t::_false;
     }
 
-    constexpr bool operator!() const noexcept {
+    constexpr auto operator!() const noexcept {
         return _value != _value_t::_true;
     }
 
-    constexpr bool is(indeterminate_t) const noexcept {
+    constexpr auto is(indeterminate_t) const noexcept {
         return _value == _value_t::_unknown;
     }
 };
@@ -71,37 +71,37 @@ public:
         return _value == _value_t::_true;
     }
 
-    constexpr bool operator!() const noexcept {
+    constexpr auto operator!() const noexcept {
         return _value == _value_t::_false;
     }
 
-    constexpr bool operator*() const noexcept {
+    constexpr auto operator*() const noexcept -> bool {
         return _value == _value_t::_unknown;
     }
 
-    constexpr weakbool operator~() const noexcept {
+    constexpr auto operator~() const noexcept -> weakbool {
         return weakbool{_value};
     }
 
-    constexpr bool is(indeterminate_t) const noexcept {
+    constexpr auto is(indeterminate_t) const noexcept -> bool {
         return *(*this);
     }
 
-    friend constexpr tribool operator==(tribool a, tribool b) noexcept {
+    friend constexpr auto operator==(tribool a, tribool b) noexcept -> tribool {
         return {a._value == b._value, (*a || *b)};
     }
 
-    friend constexpr tribool operator!=(tribool a, tribool b) noexcept {
+    friend constexpr auto operator!=(tribool a, tribool b) noexcept -> tribool {
         return {a._value != b._value, (*a || *b)};
     }
 };
 
-constexpr inline tribool operator&&(tribool a, tribool b) noexcept {
+constexpr inline auto operator&&(tribool a, tribool b) noexcept {
     return !a ? tribool{false}
               : a ? b : !b ? tribool{false} : tribool{indeterminate};
 }
 
-constexpr inline tribool operator||(tribool a, tribool b) noexcept {
+constexpr inline auto operator||(tribool a, tribool b) noexcept {
     return a ? tribool{true}
              : !a ? b : b ? tribool{true} : tribool{indeterminate};
 }

@@ -18,60 +18,62 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline T& extract(T* ptr) noexcept {
+static constexpr inline auto extract(T* ptr) noexcept -> T& {
     return EAGINE_CONSTEXPR_ASSERT(bool(ptr), *ptr);
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline T&
-extract_or(T* ptr, std::remove_const_t<T>& fallback) noexcept {
+static constexpr inline auto
+extract_or(T* ptr, std::remove_const_t<T>& fallback) noexcept -> T& {
     return bool(ptr) ? *ptr : fallback;
 }
 //------------------------------------------------------------------------------
 template <typename T, typename F>
-static constexpr inline std::enable_if_t<std::is_convertible_v<F, T>, T>
-extract_or(T* ptr, F&& fallback) {
+static constexpr inline auto extract_or(T* ptr, F&& fallback)
+  -> std::enable_if_t<std::is_convertible_v<F, T>, T> {
     return bool(ptr) ? *ptr : T{std::forward<F>(fallback)};
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline T& extract(std::shared_ptr<T>& ptr) noexcept {
+static constexpr inline auto extract(std::shared_ptr<T>& ptr) noexcept -> T& {
     return EAGINE_CONSTEXPR_ASSERT(bool(ptr), *ptr);
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline T&
-extract_or(std::shared_ptr<T>& ptr, std::remove_const_t<T>& fallback) noexcept {
+static constexpr inline auto
+extract_or(std::shared_ptr<T>& ptr, std::remove_const_t<T>& fallback) noexcept
+  -> T& {
     return bool(ptr) ? *ptr : fallback;
 }
 //------------------------------------------------------------------------------
 template <typename T, typename F>
-static constexpr inline std::enable_if_t<std::is_convertible_v<F, T>, T>
-extract_or(std::shared_ptr<T>& ptr, F&& fallback) {
+static constexpr inline auto extract_or(std::shared_ptr<T>& ptr, F&& fallback)
+  -> std::enable_if_t<std::is_convertible_v<F, T>, T> {
     return bool(ptr) ? *ptr : T{std::forward<F>(fallback)};
 }
 //------------------------------------------------------------------------------
 template <typename T, typename D>
-static constexpr inline T& extract(std::unique_ptr<T, D>& ptr) noexcept {
+static constexpr inline auto extract(std::unique_ptr<T, D>& ptr) noexcept
+  -> T& {
     return EAGINE_CONSTEXPR_ASSERT(bool(ptr), *ptr);
 }
 //------------------------------------------------------------------------------
 template <typename T, typename D>
-static constexpr inline T& extract_or(
+static constexpr inline auto extract_or(
   std::unique_ptr<T, D>& ptr,
-  std::remove_const_t<T>& fallback) noexcept {
+  std::remove_const_t<T>& fallback) noexcept -> T& {
     return bool(ptr) ? *ptr : fallback;
 }
 //------------------------------------------------------------------------------
 template <typename T, typename D, typename F>
-static constexpr inline std::enable_if_t<std::is_convertible_v<F, T>, T>
-extract_or(std::unique_ptr<T, D>& ptr, F&& fallback) {
+static constexpr inline auto extract_or(std::unique_ptr<T, D>& ptr, F&& fallback)
+  -> std::enable_if_t<std::is_convertible_v<F, T>, T> {
     return bool(ptr) ? *ptr : T{std::forward<F>(fallback)};
 }
 //------------------------------------------------------------------------------
 template <typename Outcome>
 struct ok_traits {
-    static constexpr nothing_t nok_info(const Outcome&) noexcept {
+    static constexpr auto nok_info(const Outcome&) noexcept -> nothing_t {
         return {};
     }
 };
@@ -98,33 +100,31 @@ public:
         return bool(_outcome);
     }
 
-    constexpr decltype(extract(std::declval<Outcome&>()))
-    get() noexcept(noexcept(extract(std::declval<Outcome&>()))) {
+    constexpr auto get() noexcept(noexcept(extract(_outcome)))
+      -> decltype(extract(_outcome)) {
         return extract(_outcome);
     }
 
-    constexpr decltype(extract(std::declval<const Outcome&>())) get() const
-      noexcept(noexcept(extract(std::declval<const Outcome&>()))) {
+    constexpr auto get() const noexcept(noexcept(extract(_outcome)))
+      -> decltype(extract(_outcome)) {
         return extract(_outcome);
     }
 
     constexpr operator decltype(extract(std::declval<Outcome&>()))() noexcept(
-      noexcept(extract(std::declval<Outcome&>()))) {
+      noexcept(extract(_outcome))) {
         return extract(_outcome);
     }
 
     constexpr operator decltype(extract(std::declval<const Outcome&>()))() const
-      noexcept(noexcept(extract(std::declval<const Outcome&>()))) {
+      noexcept(noexcept(extract(_outcome))) {
         return extract(_outcome);
     }
 
-    constexpr decltype(_traits::nok_info(std::declval<const Outcome&>()))
-    nok() const noexcept {
+    constexpr auto nok() const noexcept {
         return _traits::nok_info(_outcome);
     }
 
-    constexpr decltype(_traits::nok_info(std::declval<const Outcome&>()))
-    operator!() const noexcept {
+    constexpr auto operator!() const noexcept {
         return _traits::nok_info(_outcome);
     }
 };

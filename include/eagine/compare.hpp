@@ -28,14 +28,14 @@ struct equal_cmp_int;
 //------------------------------------------------------------------------------
 template <typename L, typename R, bool Sign>
 struct equal_cmp_int<L, R, Sign, Sign> {
-    static constexpr inline bool check(L l, R r) noexcept {
+    static constexpr inline auto check(L l, R r) noexcept {
         return l == r;
     }
 };
 //------------------------------------------------------------------------------
 template <typename L, typename R>
 struct equal_cmp_int<L, R, true, false> {
-    static constexpr inline bool check(L l, R r) noexcept {
+    static constexpr inline auto check(L l, R r) noexcept {
         using Tmp = std::make_unsigned_t<L>;
         return (l < 0) ? false : Tmp(l) == r;
     }
@@ -55,14 +55,14 @@ struct equal_cmp : equal_cmp_pick<L, R> {};
 //------------------------------------------------------------------------------
 template <>
 struct equal_cmp<float, float> {
-    static constexpr inline bool check(float l, float r) noexcept {
+    static constexpr inline auto check(float l, float r) noexcept {
         return !((l - r) < 0.F || (l - r) > 0.F);
     }
 };
 //------------------------------------------------------------------------------
 template <>
 struct equal_cmp<double, double> {
-    static constexpr inline bool check(double l, double r) noexcept {
+    static constexpr inline auto check(double l, double r) noexcept {
         return !((l - r) < 0.0 || (l - r) > 0.0);
     }
 };
@@ -77,8 +77,8 @@ struct equal_cmp_obj : equal_cmp<L, R> {
         return equal_cmp<L, R>::check(_l, _r);
     }
 
-    L _l = {};
-    R _r = {};
+    L _l{};
+    R _r{};
 };
 //------------------------------------------------------------------------------
 template <typename T>
