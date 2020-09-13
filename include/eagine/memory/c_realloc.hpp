@@ -23,29 +23,30 @@ class c_byte_reallocator
 public:
     using size_type = span_size_t;
 
-    bool equal(byte_allocator* a) const noexcept override {
+    auto equal(byte_allocator* a) const noexcept -> bool override {
         return dynamic_cast<c_byte_reallocator*>(a) != nullptr;
     }
 
-    size_type max_size(size_type) noexcept override {
+    auto max_size(size_type) noexcept -> size_type override {
         return std::numeric_limits<size_type>::max();
     }
 
-    tribool has_allocated(const owned_block&, size_type) noexcept override {
+    auto has_allocated(const owned_block&, size_type) noexcept
+      -> tribool override {
         return indeterminate;
     }
 
-    owned_block allocate(size_type n, size_type a) noexcept override;
+    auto allocate(size_type n, size_type a) noexcept -> owned_block override;
 
     void deallocate(owned_block&& b, size_type) noexcept override;
 
-    bool
-    can_reallocate(const owned_block&, size_type, size_type) noexcept override {
+    auto can_reallocate(const owned_block&, size_type, size_type) noexcept
+      -> bool override {
         return true;
     }
 
-    owned_block
-    reallocate(owned_block&& b, size_type n, size_type a) noexcept override;
+    auto reallocate(owned_block&& b, size_type n, size_type a) noexcept
+      -> owned_block override;
 };
 
 } // namespace eagine::memory
