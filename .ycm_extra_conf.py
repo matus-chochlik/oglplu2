@@ -70,20 +70,22 @@ def scan_for_system_include_dirs():
         clang_args = ['clang++', '-xc++', '-E', '-v', '-']
         clang_proc = subprocess.Popen(
             clang_args,
-            stdin=file("/dev/null"),
+            stdin=open("/dev/null"),
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE
         )
         unused, output = clang_proc.communicate()
-        tokens = output.split()
+        tokens = [t.decode('utf8') for t in output.split()]
 
         result = []
-        for i in xrange(1, len(tokens)):
+        for i in range(1, len(tokens)):
             if tokens[i-1].endswith("-isystem"):
                 if os.path.isdir(tokens[i]):
                     result.append(tokens[i])
+
         return result
-    except: pass
+    except Exception as err:
+        print(err)
 
     return [
         "/usr/include",
