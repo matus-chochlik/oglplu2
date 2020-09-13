@@ -51,18 +51,17 @@ static constexpr inline auto span_size(T v) noexcept {
 }
 
 template <typename T>
-static constexpr inline span_size_t span_align_of(identity<T> = {}) noexcept {
+static constexpr inline auto span_align_of(identity<T> = {}) noexcept {
     return span_size(alignof(T));
 }
 
 template <typename T>
-static constexpr inline span_size_t span_size_of(identity<T> = {}) noexcept {
+static constexpr inline auto span_size_of(identity<T> = {}) noexcept {
     return span_size(sizeof(T));
 }
 
 template <typename T, typename S>
-static constexpr inline span_size_t
-span_size_of(S n, identity<T> = {}) noexcept {
+static constexpr inline auto span_size_of(S n, identity<T> = {}) noexcept {
     return span_size(sizeof(T)) * span_size(n);
 }
 

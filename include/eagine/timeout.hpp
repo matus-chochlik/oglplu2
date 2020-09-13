@@ -51,12 +51,12 @@ public:
     timeout(_clock::duration duration) noexcept
       : timeout{duration, duration} {}
 
-    timeout& reset() noexcept {
+    auto reset() noexcept -> auto& {
         _timeout = std::chrono::steady_clock::now() + _duration;
         return *this;
     }
 
-    timeout& reset(_clock::duration duration) noexcept {
+    auto reset(_clock::duration duration) noexcept -> auto& {
         _duration = duration;
         _timeout = std::chrono::steady_clock::now() + _duration;
         return *this;
@@ -66,7 +66,7 @@ public:
         return _clock::now() - _timeout + _duration;
     }
 
-    bool is_expired() const noexcept {
+    auto is_expired() const noexcept -> bool {
         return _clock::now() >= _timeout;
     }
 
@@ -74,7 +74,7 @@ public:
         return is_expired();
     }
 
-    bool operator!() const noexcept {
+    auto operator!() const noexcept {
         return !is_expired();
     }
 

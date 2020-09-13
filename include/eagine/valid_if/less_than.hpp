@@ -17,7 +17,7 @@ namespace eagine {
 // less-than
 template <typename T, T Cmp>
 struct valid_if_lt_policy {
-    constexpr bool operator()(T value) const noexcept {
+    constexpr auto operator()(T value) const noexcept {
         return value < Cmp;
     }
 

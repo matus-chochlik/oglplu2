@@ -34,34 +34,35 @@ public:
     constexpr basic_valid_if_value(const basic_valid_if_value&) noexcept(
       std::is_nothrow_copy_constructible_v<T>) = default;
 
-    basic_valid_if_value& operator=(basic_valid_if_value&&) noexcept(
-      std::is_nothrow_move_assignable_v<T>) = default;
-    basic_valid_if_value& operator=(const basic_valid_if_value&) noexcept(
-      std::is_nothrow_copy_assignable_v<T>) = default;
+    auto operator=(basic_valid_if_value&&) noexcept(
+      std::is_nothrow_move_assignable_v<T>) -> basic_valid_if_value& = default;
+
+    auto operator=(const basic_valid_if_value&) noexcept(
+      std::is_nothrow_copy_assignable_v<T>) -> basic_valid_if_value& = default;
 
     ~basic_valid_if_value() noexcept = default;
 
-    basic_valid_if_value& operator=(const T& v) {
+    auto operator=(const T& v) -> auto& {
         _value = v;
         return *this;
     }
 
-    basic_valid_if_value& operator=(T&& v) {
+    auto operator=(T&& v) -> auto& {
         _value = std::move(v);
         return *this;
     }
 
 protected:
-    T& _ref_value() noexcept {
+    auto _ref_value() noexcept -> auto& {
         return _value;
     }
 
-    constexpr inline const T& _get_value() const noexcept {
+    constexpr auto _get_value() const noexcept -> auto& {
         return _value;
     }
 
 private:
-    T _value = {};
+    T _value{};
 };
 
 template <typename T, typename Policy, typename DoLog, typename... P>
@@ -70,7 +71,7 @@ class basic_valid_if
   , private Policy
   , private DoLog {
 private:
-    const DoLog& _do_log() const noexcept {
+    auto _do_log() const noexcept -> const DoLog& {
         return *this;
     }
 
@@ -79,17 +80,17 @@ private:
       , DoLog(policy()) {}
 
 public:
-    [[nodiscard]] const Policy& policy() const noexcept {
+    [[nodiscard]] auto policy() const noexcept -> const Policy& {
         return *this;
     }
     constexpr basic_valid_if() noexcept
       : DoLog(policy()) {}
 
-    constexpr inline basic_valid_if(T val) noexcept
+    constexpr basic_valid_if(T val) noexcept
       : basic_valid_if_value<T>(std::move(val))
       , DoLog(policy()) {}
 
-    constexpr inline basic_valid_if(T val, Policy plcy) noexcept
+    constexpr basic_valid_if(T val, Policy plcy) noexcept
       : basic_valid_if_value<T>(std::move(val))
       , Policy(std::move(plcy))
       , DoLog(policy()) {}
@@ -107,7 +108,7 @@ public:
       , DoLog(policy()) {}
 
     // NOLINTNEXTLINE(bugprone-unhandled-self-assignment,cert-oop54-cpp)
-    basic_valid_if& operator=(const basic_valid_if& that) {
+    auto operator=(const basic_valid_if& that) -> auto& {
         if(this != std::addressof(that)) {
             static_cast<basic_valid_if_value<T>&>(*this) =
               static_cast<const basic_valid_if_value<T>&>(that);
@@ -117,8 +118,8 @@ public:
         return *this;
     }
 
-    basic_valid_if& operator=(basic_valid_if&& that) noexcept(
-      std::is_nothrow_move_assignable_v<T>) {
+    auto operator=(basic_valid_if&& that) noexcept(
+      std::is_nothrow_move_assignable_v<T>) -> auto& {
         if(this != std::addressof(that)) {
             static_cast<basic_valid_if_value<T>&>(*this) =
               static_cast<basic_valid_if_value<T>&&>(that);
@@ -128,13 +129,13 @@ public:
         return *this;
     }
 
-    basic_valid_if& operator=(const T& value) {
+    auto operator=(const T& value) -> auto& {
         static_cast<basic_valid_if_value<T>&>(*this) =
           static_cast<const basic_valid_if_value<T>&>(value);
         return *this;
     }
 
-    basic_valid_if& operator=(T& value) {
+    auto operator=(T& value) -> auto& {
         static_cast<basic_valid_if_value<T>&>(*this) =
           static_cast<basic_valid_if_value<T>&&>(value);
         return *this;
@@ -142,20 +143,21 @@ public:
 
     ~basic_valid_if() noexcept = default;
 
-    constexpr bool is_valid(const T& val, P... p) const noexcept {
+    constexpr auto is_valid(const T& val, P... p) const noexcept -> bool {
         return policy()(val, p...);
     }
 
-    constexpr bool is_valid(P... p) const noexcept {
+    constexpr auto is_valid(P... p) const noexcept {
         return is_valid(this->_get_value(), p...);
     }
 
-    constexpr bool has_value(P... p) const noexcept {
+    constexpr auto has_value(P... p) const noexcept {
         return is_valid(p...);
     }
 
-    constexpr friend bool
-    operator==(const basic_valid_if& a, const basic_valid_if& b) noexcept {
+    constexpr friend auto
+    operator==(const basic_valid_if& a, const basic_valid_if& b) noexcept
+      -> bool {
         return (a._get_value() == b._get_value()) && a.is_valid() &&
                b.is_valid();
     }
@@ -172,7 +174,7 @@ public:
     }
 
     template <typename Func>
-    basic_valid_if& call_if_invalid(Func func, P... p) {
+    auto call_if_invalid(Func func, P... p) -> auto& {
         if(!is_valid(p...)) {
             func(_do_log(), this->_get_value(), p...);
         }
@@ -187,35 +189,35 @@ public:
         }
     }
 
-    T& value(P... p) {
+    auto value(P... p) -> T& {
         throw_if_invalid(p...);
         return this->_ref_value();
     }
 
-    const T& value(P... p) const {
+    auto value(P... p) const -> const T& {
         throw_if_invalid(p...);
         return this->_get_value();
     }
 
-    auto& value_or(T& fallback, P... p) noexcept {
+    auto value_or(T& fallback, P... p) noexcept -> auto& {
         return EAGINE_LIKELY(is_valid(p...)) ? this->_ref_value() : fallback;
     }
 
-    constexpr const auto& value_or(const T& fallback, P... p) const noexcept {
+    constexpr auto value_or(const T& fallback, P... p) const noexcept -> auto& {
         return EAGINE_LIKELY(is_valid(p...)) ? this->_get_value() : fallback;
     }
 
-    constexpr const auto& value_anyway(P...) const noexcept {
+    constexpr auto value_anyway(P...) const noexcept -> auto& {
         return this->_get_value();
     }
 
-    constexpr auto& value_anyway(P...) noexcept {
+    constexpr auto value_anyway(P...) noexcept -> auto& {
         return this->_ref_value();
     }
 
     template <typename Func>
-    std::enable_if_t<std::is_same_v<std::result_of_t<Func(T)>, void>>
-    then(const Func& func, P... p) const {
+    auto then(const Func& func, P... p) const
+      -> std::enable_if_t<std::is_same_v<std::result_of_t<Func(T)>, void>> {
         if(EAGINE_LIKELY(is_valid(p...))) {
             func(value(p...));
         }

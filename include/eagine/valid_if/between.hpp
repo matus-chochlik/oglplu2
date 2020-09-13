@@ -17,7 +17,7 @@ namespace eagine {
 // between [min, max]
 template <typename T, T Min, T Max>
 struct valid_if_btwn_policy {
-    constexpr bool operator()(T value) const noexcept {
+    constexpr auto operator()(T value) const noexcept {
         return (Min <= value) && (value <= Max);
     }
 

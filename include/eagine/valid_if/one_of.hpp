@@ -17,7 +17,7 @@ namespace eagine {
 // one of
 template <typename T, T... C>
 struct valid_if_one_of_policy {
-    bool operator()(const T& value) const noexcept {
+    auto operator()(const T& value) const noexcept {
         const T choices[] = {C...};
         for(const T& choice : choices) {
             if(value == choice) {

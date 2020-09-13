@@ -24,7 +24,7 @@ struct valid_if_indicated_policy {
       : _indicator(indicator) {}
 
     template <typename T>
-    bool operator()(const T&) const noexcept {
+    auto operator()(const T&) const noexcept {
         return Comparable(_indicator) == Value;
     }
 

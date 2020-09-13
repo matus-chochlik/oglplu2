@@ -17,7 +17,7 @@ namespace eagine {
 // valid if less than container.size()
 template <typename C, typename T>
 struct valid_if_size_gt_policy {
-    bool operator()(const C& c, T s) const {
+    auto operator()(const C& c, T s) const {
         return c.size() > s;
     }
 

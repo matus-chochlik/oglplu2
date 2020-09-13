@@ -21,19 +21,20 @@ namespace eagine {
 
 class system_info {
 public:
-    std::chrono::duration<float> uptime() const noexcept;
+    auto uptime() const noexcept -> std::chrono::duration<float>;
 
-    valid_if_positive<span_size_t> cpu_concurrent_threads() const noexcept {
+    auto cpu_concurrent_threads() const noexcept
+      -> valid_if_positive<span_size_t> {
         return {span_size(std::thread::hardware_concurrency())};
     }
 
-    valid_if_nonnegative<float> short_average_load() const noexcept;
-    valid_if_nonnegative<float> long_average_load() const noexcept;
+    auto short_average_load() const noexcept -> valid_if_nonnegative<float>;
+    auto long_average_load() const noexcept -> valid_if_nonnegative<float>;
 
-    valid_if_positive<span_size_t> memory_page_size() const noexcept;
+    auto memory_page_size() const noexcept -> valid_if_positive<span_size_t>;
 
-    valid_if_positive<span_size_t> free_ram_size() const noexcept;
-    valid_if_positive<span_size_t> total_ram_size() const noexcept;
+    auto free_ram_size() const noexcept -> valid_if_positive<span_size_t>;
+    auto total_ram_size() const noexcept -> valid_if_positive<span_size_t>;
 };
 
 } // namespace eagine

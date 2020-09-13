@@ -17,7 +17,7 @@ namespace eagine {
 // never
 struct never_valid_policy {
     template <typename T>
-    constexpr inline bool operator()(T) const noexcept {
+    constexpr inline auto operator()(T) const noexcept {
         return false;
     }
 

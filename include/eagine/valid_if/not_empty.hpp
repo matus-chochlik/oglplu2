@@ -17,7 +17,7 @@ namespace eagine {
 // not empty
 template <typename T>
 struct valid_if_not_empty_policy {
-    constexpr bool operator()(const T& range) const noexcept {
+    constexpr auto operator()(const T& range) const noexcept {
         return !range.empty();
     }
 

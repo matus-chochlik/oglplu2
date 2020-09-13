@@ -127,9 +127,10 @@ struct mp_do_make_string<S, const char[N]>
   : mp_create_string<S, std::make_index_sequence<N - 1>> {};
 
 template <typename X>
-std::true_type does_have_mp_str_const(X*, decltype(X::mp_str) = X::mp_str);
+auto does_have_mp_str_const(X*, decltype(X::mp_str) = X::mp_str)
+  -> std::true_type;
 
-std::false_type does_have_mp_str_const(...);
+auto does_have_mp_str_const(...) -> std::false_type;
 
 } // namespace bits
 

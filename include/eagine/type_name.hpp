@@ -16,15 +16,15 @@
 
 namespace eagine {
 
-std::string demangle_type_name(const char*) noexcept;
+auto demangle_type_name(const char*) noexcept -> std::string;
 
 template <typename T>
-static inline std::string type_name(const T&) noexcept {
+static inline auto type_name(const T&) noexcept -> std::string {
     return demangle_type_name(typeid(T).name());
 }
 
 template <typename T>
-static inline std::string type_name() noexcept {
+static inline auto type_name() noexcept -> std::string {
     return demangle_type_name(typeid(T).name());
 }
 

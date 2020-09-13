@@ -22,7 +22,7 @@ struct valid_if_in_list_policy {
     valid_if_in_list_policy(const Range& choices)
       : _choices(choices) {}
 
-    bool operator()(const T& value) const noexcept {
+    auto operator()(const T& value) const noexcept -> bool {
         for(const T& choice : _choices) {
             if(are_equal(value, choice)) {
                 return true;

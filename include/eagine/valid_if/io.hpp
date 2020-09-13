@@ -16,7 +16,7 @@
 namespace eagine {
 
 template <typename T, typename P, typename L>
-std::ostream& operator<<(std::ostream& out, const basic_valid_if<T, P, L>& v) {
+aut operator<<(std::ostream& out, const basic_valid_if<T, P, L>& v)->auto& {
     if(v.is_valid()) {
         return out << v.value_anyway();
     }

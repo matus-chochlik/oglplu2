@@ -18,7 +18,7 @@ namespace eagine {
 // demangle_type_name
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-std::string demangle_type_name(const char* name) noexcept {
+auto demangle_type_name(const char* name) noexcept -> std::string {
 #ifdef __GNUG__
     try {
         int status = -1;

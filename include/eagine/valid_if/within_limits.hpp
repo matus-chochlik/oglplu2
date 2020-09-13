@@ -18,7 +18,7 @@ namespace eagine {
 // is withing limits
 template <typename Dst, typename Src>
 struct valid_if_within_limits_policy {
-    constexpr bool operator()(Src value) const noexcept {
+    constexpr auto operator()(Src value) const noexcept {
         return is_within_limits<Dst>(value);
     }
 

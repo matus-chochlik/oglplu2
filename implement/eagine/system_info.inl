@@ -55,7 +55,7 @@ EAGINE_LIB_FUNC
 auto system_info::short_average_load() const noexcept
   -> valid_if_nonnegative<float> {
 #if EAGINE_LINUX
-    return system_info_linux_load_avg(0);
+    return {system_info_linux_load_avg(0)};
 #endif
     return {-1.F};
 }
@@ -64,7 +64,7 @@ EAGINE_LIB_FUNC
 auto system_info::long_average_load() const noexcept
   -> valid_if_nonnegative<float> {
 #if EAGINE_LINUX
-    return system_info_linux_load_avg(1);
+    return {system_info_linux_load_avg(1)};
 #endif
     return {-1.F};
 }

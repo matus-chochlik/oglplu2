@@ -16,8 +16,9 @@ namespace eagine {
 
 // always
 struct always_valid_policy {
+
     template <typename T>
-    constexpr inline bool operator()(T) const noexcept {
+    constexpr auto operator()(T) const noexcept {
         return true;
     }
 

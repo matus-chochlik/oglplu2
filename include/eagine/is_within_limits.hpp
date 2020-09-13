@@ -127,6 +127,7 @@ static constexpr inline auto limit_cast(Src value) noexcept
 template <typename Dst, typename Src>
 static constexpr inline auto convert_if_fits(Src value) noexcept
   -> std::enable_if_t<std::is_convertible_v<Src, Dst>, optionally_valid<Dst>> {
+
     if(is_within_limits<Dst>(value)) {
         return {Dst(std::move(value)), true};
     }
