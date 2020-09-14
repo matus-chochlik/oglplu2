@@ -25,19 +25,19 @@ struct storage_iterator_intf<Entity, false> {
     storage_iterator_intf() noexcept = default;
     storage_iterator_intf(storage_iterator_intf&&) noexcept = default;
     storage_iterator_intf(const storage_iterator_intf&) = delete;
-    storage_iterator_intf& operator=(storage_iterator_intf&&) = delete;
-    storage_iterator_intf& operator=(const storage_iterator_intf&) = delete;
+    auto operator=(storage_iterator_intf&&) = delete;
+    auto operator=(const storage_iterator_intf&) = delete;
     virtual ~storage_iterator_intf() = default;
 
     virtual void reset() = 0;
 
-    virtual bool done() = 0;
+    virtual auto done() -> bool = 0;
 
     virtual void next() = 0;
 
-    virtual bool find(Entity) = 0;
+    virtual auto find(Entity) -> bool = 0;
 
-    virtual Entity current() = 0;
+    virtual auto current() -> Entity = 0;
 };
 //------------------------------------------------------------------------------
 template <typename Entity>
@@ -47,35 +47,35 @@ private:
 
 public:
     storage_iterator(storage_iterator_intf<Entity, false>* i) noexcept
-      : _i(i) {
+      : _i{i} {
         EAGINE_ASSERT(_i);
     }
 
     storage_iterator(storage_iterator&& tmp) noexcept
-      : _i(tmp._i) {
+      : _i{tmp._i} {
         tmp._i = nullptr;
     }
 
     storage_iterator(const storage_iterator&) = delete;
-    storage_iterator& operator=(storage_iterator&&) = delete;
-    storage_iterator& operator=(const storage_iterator&) = delete;
+    auto operator=(storage_iterator&&) = delete;
+    auto operator=(const storage_iterator&) = delete;
 
     ~storage_iterator() noexcept {
         EAGINE_ASSERT(_i == nullptr);
     }
 
-    storage_iterator_intf<Entity, false>* release() {
+    auto release() -> storage_iterator_intf<Entity, false>* {
         storage_iterator_intf<Entity, false>* p = _i;
         _i = nullptr;
         return p;
     }
 
-    storage_iterator_intf<Entity, false>* ptr() noexcept {
+    auto ptr() noexcept -> storage_iterator_intf<Entity, false>* {
         EAGINE_ASSERT(_i);
         return _i;
     }
 
-    storage_iterator_intf<Entity, false>& get() noexcept {
+    auto get() noexcept -> storage_iterator_intf<Entity, false>& {
         EAGINE_ASSERT(_i);
         return *_i;
     }
@@ -84,20 +84,20 @@ public:
         get().reset();
     }
 
-    bool done() {
+    auto done() -> bool {
         return get().done();
     }
 
-    auto& next() {
+    auto next() -> auto& {
         get().next();
         return *this;
     }
 
-    bool find(Entity e) {
+    auto find(Entity e) -> bool {
         return get().find(e);
     }
 
-    Entity current() {
+    auto current() -> Entity {
         return get().current();
     }
 };
@@ -110,35 +110,35 @@ struct base_storage<Entity, false> {
     base_storage() noexcept = default;
     base_storage(base_storage&&) noexcept = default;
     base_storage(const base_storage&) = delete;
-    base_storage& operator=(base_storage&&) = delete;
-    base_storage& operator=(const base_storage&) = delete;
+    auto operator=(base_storage&&) = delete;
+    auto operator=(const base_storage&) = delete;
     virtual ~base_storage() = default;
 
-    virtual storage_caps capabilities() = 0;
+    virtual auto capabilities() -> storage_caps = 0;
 
-    virtual iterator_t new_iterator() = 0;
+    virtual auto new_iterator() -> iterator_t = 0;
 
     virtual void delete_iterator(iterator_t&&) = 0;
 
-    virtual bool has(entity_param) = 0;
+    virtual auto has(entity_param) -> bool = 0;
 
-    virtual bool is_hidden(entity_param) = 0;
+    virtual auto is_hidden(entity_param) -> bool = 0;
 
-    virtual bool is_hidden(iterator_t&) = 0;
+    virtual auto is_hidden(iterator_t&) -> bool = 0;
 
-    virtual bool hide(entity_param) = 0;
+    virtual auto hide(entity_param) -> bool = 0;
 
     virtual void hide(iterator_t&) = 0;
 
-    virtual bool show(entity_param) = 0;
+    virtual auto show(entity_param) -> bool = 0;
 
-    virtual bool show(iterator_t&) = 0;
+    virtual auto show(iterator_t&) -> bool = 0;
 
-    virtual bool copy(entity_param from, entity_param to) = 0;
+    virtual auto copy(entity_param from, entity_param to) -> bool = 0;
 
-    virtual bool swap(entity_param a, entity_param b) = 0;
+    virtual auto swap(entity_param a, entity_param b) -> bool = 0;
 
-    virtual bool remove(entity_param) = 0;
+    virtual auto remove(entity_param) -> bool = 0;
 
     virtual void remove(iterator_t&) = 0;
 };
@@ -148,9 +148,9 @@ struct storage<Entity, Component, false> : base_storage<Entity, false> {
     using entity_param = entity_param_t<Entity>;
     using iterator_t = storage_iterator<Entity, false>;
 
-    virtual bool store(entity_param, Component&&) = 0;
+    virtual auto store(entity_param, Component &&) -> bool = 0;
 
-    virtual bool store(iterator_t&, entity_param, Component&&) = 0;
+    virtual auto store(iterator_t&, entity_param, Component &&) -> bool = 0;
 
     virtual void for_single(
       callable_ref<void(entity_param, manipulator<const Component>&)>,

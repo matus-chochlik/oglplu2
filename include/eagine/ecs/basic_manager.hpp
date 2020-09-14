@@ -132,7 +132,7 @@ private:
     }
 
     template <typename Data, bool IsR>
-    storage<Entity, Data, IsR>& _find_storage();
+    auto _find_storage() -> storage<Entity, Data, IsR>&;
 
     template <typename C>
     auto _find_cmp_storage() -> auto& {

@@ -22,25 +22,25 @@ namespace eagine {
 template <typename Key, typename Val, typename Cmp>
 struct flat_map_value_compare : Cmp {
 
-    constexpr const Cmp& key_comp() const noexcept {
+    constexpr auto key_comp() const noexcept -> const Cmp& {
         return *this;
     }
 
     template <typename L, typename R>
-    constexpr bool operator()(
+    constexpr auto operator()(
       const std::pair<L, Val>& a,
-      const std::pair<R, Val>& b) const noexcept {
+      const std::pair<R, Val>& b) const noexcept -> bool {
         return key_comp()(a.first, b.first);
     }
 
     template <typename K>
-    constexpr bool
+    constexpr auto
     operator()(const std::pair<K, Val>& a, const Key& b) const noexcept {
         return key_comp()(a.first, b);
     }
 
     template <typename K>
-    constexpr bool
+    constexpr auto
     operator()(const Key& a, const std::pair<K, Val>& b) const noexcept {
         return key_comp()(a, b.first);
     }
@@ -50,13 +50,13 @@ template <typename Key, typename Val, typename Cmp>
 struct flat_map_ops : flat_map_value_compare<Key, Val, Cmp> {
     using value_type = std::pair<const Key, Val>;
 
-    constexpr const flat_map_value_compare<Key, Val, Cmp>&
-    value_comp() const noexcept {
+    constexpr auto value_comp() const noexcept
+      -> const flat_map_value_compare<Key, Val, Cmp>& {
         return *this;
     }
 
     template <typename I>
-    static bool empty(I b, I e) noexcept {
+    static auto empty(I b, I e) noexcept {
         return b == e;
     }
 
@@ -91,7 +91,7 @@ struct flat_map_ops : flat_map_value_compare<Key, Val, Cmp> {
     }
 
     template <typename I>
-    auto& at(I b, I e, const Key& key) const {
+    auto at(I b, I e, const Key& key) const -> auto& {
         b = find(b, e, key);
         if(b == e) {
             throw std::out_of_range("Invalid flat map key");
@@ -100,7 +100,7 @@ struct flat_map_ops : flat_map_value_compare<Key, Val, Cmp> {
     }
 
     template <typename I>
-    auto& get(I b, I e, const Key& key) const noexcept {
+    auto get(I b, I e, const Key& key) const noexcept -> auto& {
         b = find(b, e, key);
         EAGINE_ASSERT(b != e);
         return b->second;
@@ -110,10 +110,10 @@ struct flat_map_ops : flat_map_value_compare<Key, Val, Cmp> {
 template <typename Key, typename Val, typename Cmp, typename Derived>
 class flat_map_view_crtp : flat_map_ops<Key, Val, Cmp> {
 private:
-    const Derived& _self() const noexcept {
+    auto _self() const noexcept -> const Derived& {
         return *static_cast<const Derived*>(this);
     }
-    Derived& _self() noexcept {
+    auto _self() noexcept -> Derived& {
         return *static_cast<Derived*>(this);
     }
 
@@ -134,7 +134,7 @@ private:
 protected:
     using _ops_t = flat_map_ops<Key, Val, Cmp>;
 
-    constexpr const _ops_t& _ops() const noexcept {
+    constexpr auto _ops() const noexcept -> const _ops_t& {
         return *this;
     }
 
@@ -148,15 +148,15 @@ public:
     using key_compare = Cmp;
     using value_compare = flat_map_value_compare<Key, Val, Cmp>;
 
-    const key_compare& key_comp() const noexcept {
+    auto key_comp() const noexcept -> const key_compare& {
         return _ops().value_comp().key_comp();
     }
 
-    const value_compare& value_comp() const noexcept {
+    auto value_comp() const noexcept -> const value_compare& {
         return _ops().value_comp();
     }
 
-    bool empty() const noexcept {
+    auto empty() const noexcept {
         return _ops().empty(_b(), _e());
     }
 
@@ -196,11 +196,11 @@ public:
         return _ops().equal_range(_b(), _e(), key);
     }
 
-    Val& at(const Key& key) {
+    auto at(const Key& key) -> Val& {
         return _ops().at(_b(), _e(), key);
     }
 
-    const Val& at(const Key& key) const {
+    auto at(const Key& key) const -> const Val& {
         return _ops().at(_b(), _e(), key);
     }
 };
@@ -255,7 +255,7 @@ private:
     }
 
     template <typename I, typename... Args>
-    I _do_emplace(I ip, const Key& key, Args&&... args) {
+    auto _do_emplace(I ip, const Key& key, Args&&... args) -> I {
         if(ip.second) {
             ip.first =
               _vec.emplace(ip.first, key, Val{std::forward<Args>(args)...});
@@ -264,7 +264,7 @@ private:
     }
 
     template <typename I, typename V>
-    I _do_insert(I ip, const V& value) {
+    auto _do_insert(I ip, const V& value) -> I {
         if(ip.second) {
             ip.first = _vec.insert(ip.first, value);
         }
@@ -289,8 +289,8 @@ public:
     flat_map() noexcept = default;
     flat_map(const flat_map&) = default;
     flat_map(flat_map&&) noexcept = default;
-    flat_map& operator=(const flat_map&) = default;
-    flat_map& operator=(flat_map&&) noexcept = default;
+    auto operator=(const flat_map&) -> flat_map& = default;
+    auto operator=(flat_map&&) noexcept -> flat_map& = default;
     ~flat_map() noexcept = default;
 
     flat_map(std::initializer_list<std::pair<Key, Val>> il) {
@@ -311,82 +311,85 @@ public:
         std::sort(_vec.begin(), _vec.end(), value_comp());
     }
 
-    bool empty() const {
+    auto empty() const -> bool {
         return _vec.empty();
     }
 
-    size_type size() const {
+    auto size() const -> size_type {
         return _vec.size();
     }
 
-    size_type max_size() const {
+    auto max_size() const -> size_type {
         return _vec.max_size();
     }
 
-    void reserve(size_type sz) {
+    auto reserve(size_type sz) -> auto& {
         _vec.reserve(sz);
+        return *this;
     }
 
-    void clear() {
+    auto clear() -> auto& {
         _vec.clear();
+        return *this;
     }
 
-    iterator begin() {
+    auto begin() -> iterator {
         return _vec.begin();
     }
 
-    const_iterator begin() const {
+    auto begin() const -> const_iterator {
         return _vec.begin();
     }
 
-    iterator end() {
+    auto end() -> iterator {
         return _vec.end();
     }
 
-    const_iterator end() const {
+    auto end() const -> const_iterator {
         return _vec.end();
     }
 
-    auto& operator[](const Key& key) {
+    auto operator[](const Key& key) -> auto& {
         auto ip = _find_insert_pos(key);
         ip = _do_emplace(ip, key);
         return ip.first->second;
     }
 
     template <typename... Args>
-    std::pair<iterator, bool> emplace(const Key& key, Args&&... args) {
+    auto emplace(const Key& key, Args&&... args) -> std::pair<iterator, bool> {
         auto ip = _find_insert_pos(key);
         ip = _do_emplace(ip, key, std::forward<Args>(args)...);
         return ip;
     }
 
     template <typename... Args>
-    std::pair<iterator, bool> try_emplace(const Key& key, Args&&... args) {
+    auto try_emplace(const Key& key, Args&&... args)
+      -> std::pair<iterator, bool> {
         auto ip = _find_insert_pos(key);
         ip = _do_emplace(ip, key, std::forward<Args>(args)...);
         return ip;
     }
 
-    std::pair<iterator, bool> insert(const value_type& value) {
+    auto insert(const value_type& value) -> std::pair<iterator, bool> {
         auto ip = _find_insert_pos(value.first);
         ip = _do_insert(ip, value);
         return {ip.first, ip.second};
     }
 
-    iterator insert(iterator p, const value_type& value) {
+    auto insert(iterator p, const value_type& value) -> iterator {
         const auto ip = _find_insert_pos(p, value.first);
         return _do_insert(ip, value).first;
     }
 
-    iterator erase(iterator p) {
+    auto erase(iterator p) -> iterator {
         return _vec.erase(p);
     }
 
-    iterator erase(iterator f, iterator t) {
+    auto erase(iterator f, iterator t) -> iterator {
         return _vec.erase(f, t);
     }
 
-    size_type erase(const Key& key) {
+    auto erase(const Key& key) -> size_type {
         const auto p = _ops().equal_range(_vec.begin(), _vec.end(), key);
         const auto res = size_type(std::distance(p.first, p.second));
         EAGINE_ASSERT(res <= 1);
@@ -395,7 +398,7 @@ public:
     }
 
     template <typename Predicate>
-    size_type erase_if(const Predicate& predicate) {
+    auto erase_if(const Predicate& predicate) -> size_type {
         const auto p = std::remove_if(_vec.begin(), _vec.end(), predicate);
         const auto res = size_type(std::distance(p, _vec.end()));
         _vec.erase(p, _vec.end());
