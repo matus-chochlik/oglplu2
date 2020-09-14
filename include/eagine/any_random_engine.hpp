@@ -25,10 +25,10 @@ public:
       , _min{engine.min()}
       , _max{engine.max()} {}
 
-    result_type min() const noexcept {
+    auto min() const noexcept -> result_type {
         return _min;
     }
-    result_type max() const noexcept {
+    auto max() const noexcept -> result_type {
         return _max;
     }
 

@@ -41,13 +41,13 @@ auto make_random_biteset(
 }
 //------------------------------------------------------------------------------
 template <std::size_t N, std::size_t B, typename T, typename Engine>
-biteset<N, B, T> random_biteset(T min, T max, Engine& engine) {
+auto random_biteset(T min, T max, Engine& engine) -> biteset<N, B, T> {
     return make_random_biteset<B, T>(
       std::make_index_sequence<N>(), min, max, engine);
 }
 //------------------------------------------------------------------------------
 template <std::size_t N, std::size_t B, typename T>
-biteset<N, B, T> random_biteset(T min, T max) {
+auto random_biteset(T min, T max) -> biteset<N, B, T> {
     std::random_device engine;
     return make_random_biteset<B, T>(
       std::make_index_sequence<N>(), min, max, engine);

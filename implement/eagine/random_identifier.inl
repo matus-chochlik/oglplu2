@@ -39,22 +39,22 @@ auto make_random_basic_identifier(
 }
 //------------------------------------------------------------------------------
 template <typename Engine>
-identifier get_random_identifier(Engine& engine) {
+auto get_random_identifier(Engine& engine) -> identifier {
     return make_random_basic_identifier(identity<identifier>(), engine);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-identifier random_identifier(any_random_engine<std::uint32_t> engine) {
+auto random_identifier(any_random_engine<std::uint32_t> engine) -> identifier {
     return get_random_identifier(engine);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-identifier random_identifier(any_random_engine<std::uint64_t> engine) {
+auto random_identifier(any_random_engine<std::uint64_t> engine) -> identifier {
     return get_random_identifier(engine);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-identifier random_identifier() {
+auto random_identifier() -> identifier {
     std::random_device engine;
     return random_identifier(
       any_random_engine<std::random_device::result_type>{engine});

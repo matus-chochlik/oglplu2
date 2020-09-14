@@ -15,9 +15,9 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-identifier random_identifier(any_random_engine<std::uint32_t> engine);
-identifier random_identifier(any_random_engine<std::uint64_t> engine);
-identifier random_identifier();
+auto random_identifier(any_random_engine<std::uint32_t> engine) -> identifier;
+auto random_identifier(any_random_engine<std::uint64_t> engine) -> identifier;
+auto random_identifier() -> identifier;
 //------------------------------------------------------------------------------
 } // namespace eagine
 

@@ -172,6 +172,7 @@ const auto function_call_def =
 // NOLINTNEXTLINE(cert-err58-cpp)
 const auto numeric_expression_def = arith_expression | function_call;
 
+// NOLINTNEXTLINE(modernize-use-trailing-return-type)
 BOOST_SPIRIT_DEFINE(
   numeric_literal,
   juxtaposition,
@@ -185,7 +186,7 @@ BOOST_SPIRIT_DEFINE(
   numeric_expression)
 //------------------------------------------------------------------------------
 template <typename Iter>
-static inline bool do_parse(Iter i, Iter e, parsed_number_t& n) {
+static inline auto do_parse(Iter i, Iter e, parsed_number_t& n) {
     if(bs::phrase_parse(i, e, numeric_expression, bs::ascii::space, n)) {
         return true;
     }
@@ -195,7 +196,7 @@ static inline bool do_parse(Iter i, Iter e, parsed_number_t& n) {
 } // namespace numexpr
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool _parse_from_string(string_view src, long double& parsed) noexcept {
+auto _parse_from_string(string_view src, long double& parsed) noexcept -> bool {
     numexpr::parsed_number_t temp{};
     if(numexpr::do_parse(src.begin(), src.end(), temp)) {
         parsed = temp.real();
@@ -205,7 +206,8 @@ bool _parse_from_string(string_view src, long double& parsed) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool _parse_from_string(string_view src, long long int& parsed) noexcept {
+auto _parse_from_string(string_view src, long long int& parsed) noexcept
+  -> bool {
     long double temp{};
     if(_parse_from_string(src, temp)) {
         const auto rnd{std::round(temp)};
@@ -221,12 +223,12 @@ bool _parse_from_string(string_view src, long long int& parsed) noexcept {
 #else
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool _parse_from_string(string_view, long double&) noexcept {
+auto _parse_from_string(string_view, long double&) noexcept -> bool {
     return false;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool _parse_from_string(string_view, long long int&) noexcept {
+auto _parse_from_string(string_view, long long int&) noexcept -> bool {
     return false;
 }
 //------------------------------------------------------------------------------
