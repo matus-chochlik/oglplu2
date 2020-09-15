@@ -21,13 +21,13 @@ public:
         read_file_data(path, _buf);
     }
 
-    memory::const_block block() noexcept override {
+    auto block() noexcept -> memory::const_block override {
         return _buf;
     }
 };
 //------------------------------------------------------------------------------
-inline std::shared_ptr<file_contents_intf>
-make_file_contents_impl(string_view path) {
+inline auto make_file_contents_impl(string_view path)
+  -> std::shared_ptr<file_contents_intf> {
     try {
         return std::make_shared<buffered_file_contents>(path);
     } catch(std::system_error&) {

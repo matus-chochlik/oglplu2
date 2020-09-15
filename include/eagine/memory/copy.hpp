@@ -17,13 +17,13 @@
 
 namespace eagine::memory {
 
-static inline block copy(const_block source, block dest) {
+static inline auto copy(const_block source, block dest) -> block {
     EAGINE_ASSERT(dest.size() >= source.size());
     std::memcpy(dest.data(), source.data(), std_size(source.size()));
     return block(dest.data(), source.size());
 }
 
-static inline block copy_into(const_block source, buffer& dest) {
+static inline auto copy_into(const_block source, buffer& dest) -> block {
     dest.resize(source.size());
     return copy(source, cover(dest));
 }

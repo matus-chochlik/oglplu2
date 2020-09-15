@@ -23,28 +23,28 @@ struct file_contents_intf {
     file_contents_intf() = default;
     file_contents_intf(file_contents_intf&&) noexcept = default;
     file_contents_intf(const file_contents_intf&) = delete;
-    file_contents_intf& operator=(file_contents_intf&&) = delete;
-    file_contents_intf& operator=(const file_contents_intf&) = delete;
+    auto operator=(file_contents_intf&&) = delete;
+    auto operator=(const file_contents_intf&) = delete;
     virtual ~file_contents_intf() = default;
 
-    virtual memory::const_block block() noexcept = 0;
+    virtual auto block() noexcept -> memory::const_block = 0;
 };
 
 class file_contents {
 private:
-    std::shared_ptr<file_contents_intf> _pimpl;
+    std::shared_ptr<file_contents_intf> _pimpl{};
 
 public:
     file_contents() = default;
     file_contents(file_contents&&) noexcept = default;
     file_contents(const file_contents&) = default;
-    file_contents& operator=(file_contents&&) noexcept = default;
-    file_contents& operator=(const file_contents&) = default;
+    auto operator=(file_contents&&) noexcept -> file_contents& = default;
+    auto operator=(const file_contents&) -> file_contents& = default;
     ~file_contents() noexcept = default;
 
     file_contents(string_view path);
 
-    bool is_loaded() const noexcept {
+    auto is_loaded() const noexcept -> bool {
         return bool(_pimpl);
     }
 
@@ -52,11 +52,11 @@ public:
         return is_loaded();
     }
 
-    bool operator!() const noexcept {
+    auto operator!() const noexcept {
         return !is_loaded();
     }
 
-    memory::const_block block() const noexcept {
+    auto block() const noexcept -> memory::const_block {
         return bool(EAGINE_LIKELY(_pimpl)) ? _pimpl->block()
                                            : memory::const_block();
     }

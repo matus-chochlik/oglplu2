@@ -25,42 +25,42 @@ struct variable_substitution_options {
     char closing_bracket = '}';
 };
 //------------------------------------------------------------------------------
-std::string& substitute_variables_into(
+auto substitute_variables_into(
   std::string& dst,
   string_view src,
   const callable_ref<optionally_valid<string_view>(string_view)>& translate,
-  variable_substitution_options = {});
+  variable_substitution_options = {}) -> std::string&;
 //------------------------------------------------------------------------------
-std::string substitute_variables(
+auto substitute_variables(
   string_view src,
   const callable_ref<optionally_valid<string_view>(string_view)>& translate,
-  variable_substitution_options = {});
+  variable_substitution_options = {}) -> std::string;
 //------------------------------------------------------------------------------
-std::string substitute_variables(
+auto substitute_variables(
   const std::string& str,
   span<const std::string> strings,
-  variable_substitution_options = {});
+  variable_substitution_options = {}) -> std::string;
 //------------------------------------------------------------------------------
-std::string substitute_variables(
+auto substitute_variables(
   const std::string& str,
   const std::map<std::string, std::string, str_view_less>& dictionary,
-  variable_substitution_options = {});
+  variable_substitution_options = {}) -> std::string;
 //------------------------------------------------------------------------------
 class string_variable_map {
 private:
-    std::map<std::string, std::string, str_view_less> _dict;
+    std::map<std::string, std::string, str_view_less> _dict{};
 
 public:
-    string_variable_map& set(std::string name, std::string value) {
+    auto set(std::string name, std::string value) -> string_variable_map& {
         _dict.emplace(std::move(name), std::move(value));
         return *this;
     }
 
-    std::string subst_variables(const std::string& str) const {
+    auto subst_variables(const std::string& str) const -> std::string {
         return substitute_variables(str, _dict);
     }
 
-    std::string operator()(const std::string& str) const {
+    auto operator()(const std::string& str) const -> std::string {
         return substitute_variables(str, _dict);
     }
 };
