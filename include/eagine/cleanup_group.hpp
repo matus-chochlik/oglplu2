@@ -24,7 +24,7 @@ public:
       typename Func,
       typename = std::enable_if_t<std::is_invocable_v<Func>>,
       typename = std::enable_if_t<std::is_void_v<std::invoke_result_t<Func>>>>
-    auto& add(Func func) {
+    auto add(Func func) -> auto& {
         return _storage.template emplace<func_on_scope_exit<Func>>(
           std::move(func));
     }
@@ -32,7 +32,7 @@ public:
     template <
       typename Func,
       typename = std::enable_if_t<std::is_invocable_v<Func>>>
-    auto& add_ret(Func func) {
+    auto add_ret(Func func) -> auto& {
         return add([func{std::move(func)}]() { func(); });
     }
 
@@ -40,7 +40,7 @@ public:
         _storage.reserve(n);
     }
 
-    bool is_empty() const noexcept {
+    auto is_empty() const noexcept {
         return _storage.is_empty();
     }
 

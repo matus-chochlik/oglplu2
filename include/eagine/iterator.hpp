@@ -17,9 +17,9 @@ namespace eagine {
 template <typename T, typename Derived>
 class basic_iterable_type {
 protected:
-    T _value;
+    T _value{};
 
-    Derived& self() noexcept {
+    auto self() noexcept -> Derived& {
         return *static_cast<Derived*>(this);
     }
 
@@ -27,90 +27,91 @@ public:
     using value_type = T;
     using difference_type = std::ptrdiff_t;
 
-    basic_iterable_type() = default;
+    constexpr basic_iterable_type() = default;
 
     constexpr basic_iterable_type(T value) noexcept
-      : _value(value) {}
+      : _value{value} {}
 
     explicit constexpr operator T() const noexcept {
         return _value;
     }
 
-    Derived& operator++() noexcept {
+    auto operator++() noexcept -> auto& {
         ++_value;
         return self();
     }
 
-    Derived& operator+=(difference_type d) noexcept {
+    auto operator+=(difference_type d) noexcept -> auto& {
         _value += d;
         return self();
     }
 
-    const Derived operator++(int) noexcept {
+    auto operator++(int) noexcept -> Derived {
         Derived res(self());
         ++_value;
         return res;
     }
 
-    friend Derived operator+(basic_iterable_type a, difference_type d) noexcept {
+    friend auto operator+(basic_iterable_type a, difference_type d) noexcept {
         Derived res(a.self());
         res += d;
         return res;
     }
 
-    Derived& operator--() noexcept {
+    auto operator--() noexcept -> auto& {
         --_value;
         return self();
     }
 
-    Derived& operator-=(difference_type d) noexcept {
+    auto operator-=(difference_type d) noexcept -> auto& {
         _value -= d;
         return self();
     }
 
-    const Derived operator--(int) noexcept {
+    auto operator--(int) noexcept -> Derived {
         Derived res(self());
         --_value;
         return res;
     }
 
-    friend Derived operator-(basic_iterable_type a, difference_type d) noexcept {
+    friend auto operator-(basic_iterable_type a, difference_type d) noexcept {
         Derived res(a.self());
         res -= d;
         return res;
     }
 
-    constexpr friend difference_type
-    operator-(basic_iterable_type a, basic_iterable_type b) noexcept {
+    constexpr friend auto
+    operator-(basic_iterable_type a, basic_iterable_type b) noexcept
+      -> difference_type {
         return a._value - b._value;
     }
 
-    constexpr friend bool
+    constexpr friend auto
     operator==(basic_iterable_type a, basic_iterable_type b) noexcept {
         return a._value == b._value;
     }
 
-    constexpr friend bool
+    constexpr friend auto
     operator!=(basic_iterable_type a, basic_iterable_type b) noexcept {
         return a._value != b._value;
     }
 
-    constexpr friend bool
+    constexpr friend auto
     operator<(basic_iterable_type a, basic_iterable_type b) noexcept {
         return a._value < b._value;
     }
 
-    constexpr friend bool
+    constexpr friend auto
     operator<=(basic_iterable_type a, basic_iterable_type b) noexcept {
         return a._value <= b._value;
     }
 
-    constexpr friend bool
+    constexpr friend auto
     operator>(basic_iterable_type a, basic_iterable_type b) noexcept {
         return a._value > b._value;
     }
 
-    constexpr friend bool
+    constexpr friend auto
     operator>=(basic_iterable_type a, basic_iterable_type b) noexcept {
         return a._value >= b._value;
     }
@@ -125,7 +126,7 @@ public:
 
     using basic_iterable_type<T, Derived>::basic_iterable_type;
 
-    const T& operator*() const noexcept {
+    auto operator*() const noexcept -> const T& {
         return this->_value;
     }
 };
@@ -149,7 +150,7 @@ private:
 
     mutable S _tempval{};
 
-    const _base& _base_iter() const noexcept {
+    auto _base_iter() const noexcept -> const _base& {
         return *this;
     }
 
@@ -164,7 +165,7 @@ public:
     using reference = const T&;
     using pointer = const T*;
 
-    const T& operator*() const {
+    auto operator*() const -> const T& {
         _tempval = _transf(**_base_iter());
         return _tempval;
     }
@@ -177,7 +178,7 @@ private:
     using _base = basic_selfref_iterator<Iterator, Derived>;
     Transform _transf{};
 
-    const _base& _base_iter() const noexcept {
+    auto _base_iter() const noexcept -> const _base& {
         return *this;
     }
 
@@ -185,18 +186,18 @@ public:
     basic_transforming_iterator() = default;
 
     basic_transforming_iterator(Iterator iter, Transform transf)
-      : _base(iter)
+      : _base{iter}
       , _transf{std::move(transf)} {}
 
     using value_type = T;
     using reference = const T&;
     using pointer = const T*;
 
-    T& operator*() {
+    auto operator*() -> T& {
         return _transf(**_base_iter());
     }
 
-    const T& operator*() const {
+    auto operator*() const -> const T& {
         return _transf(**_base_iter());
     }
 };
@@ -234,14 +235,14 @@ private:
       S (*)(typename std::iterator_traits<Iterator>::reference) noexcept,
       Derived>;
 
-    static S
+    static auto
     _cast(typename std::iterator_traits<Iterator>::reference r) noexcept {
         return static_cast<S>(r);
     }
 
 public:
     basic_noexcept_casting_iterator(Iterator iter)
-      : _base(iter, &_cast) {}
+      : _base{iter, &_cast} {}
 };
 //------------------------------------------------------------------------------
 template <typename Iterator, typename T, typename S>

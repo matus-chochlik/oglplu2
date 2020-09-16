@@ -26,12 +26,13 @@ public:
     constexpr basic_handle() noexcept = default;
     constexpr basic_handle(basic_handle&& tmp) noexcept
       : _name{tmp._release()} {}
-    basic_handle& operator=(basic_handle&& tmp) noexcept {
+
+    auto operator=(basic_handle&& tmp) noexcept -> auto& {
         _name = tmp._release();
         return *this;
     }
     constexpr basic_handle(const basic_handle&) noexcept = default;
-    basic_handle& operator=(const basic_handle&) noexcept = default;
+    auto operator=(const basic_handle&) noexcept -> basic_handle& = default;
 
     explicit constexpr basic_handle(Handle name) noexcept
       : _name{name} {}
@@ -40,7 +41,7 @@ public:
         return _name != invalid;
     }
 
-    constexpr bool operator!() const noexcept {
+    constexpr auto operator!() const noexcept -> bool {
         return _name == invalid;
     }
 
@@ -55,10 +56,8 @@ public:
     };
 
 protected:
-    Handle _release() noexcept {
-        Handle result = _name;
-        _name = invalid;
-        return result;
+    auto _release() noexcept {
+        return std::exchange(_name, invalid);
     }
 
     Handle _name{invalid};
@@ -73,12 +72,13 @@ public:
     constexpr basic_owned_handle() noexcept = default;
     constexpr basic_owned_handle(basic_owned_handle&& tmp) noexcept
       : base{tmp.release()} {}
-    basic_owned_handle& operator=(basic_owned_handle&& tmp) noexcept {
+
+    auto operator=(basic_owned_handle&& tmp) noexcept -> auto& {
         *static_cast<base*>(this) = static_cast<base&&>(tmp);
         return *this;
     }
     basic_owned_handle(const basic_owned_handle&) = delete;
-    basic_owned_handle& operator=(const basic_owned_handle&) = delete;
+    auto operator=(const basic_owned_handle&) = delete;
 
     explicit constexpr basic_owned_handle(base adopted) noexcept
       : base{adopted} {}
@@ -86,7 +86,7 @@ public:
     explicit constexpr basic_owned_handle(Handle name) noexcept
       : base{name} {}
 
-    Handle release() noexcept {
+    auto release() noexcept {
         return this->_release();
     }
 };
