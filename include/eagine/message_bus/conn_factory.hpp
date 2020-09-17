@@ -18,8 +18,11 @@ namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 struct connection_factory : connection_info {
 
-    virtual std::unique_ptr<acceptor> make_acceptor(string_view address) = 0;
-    virtual std::unique_ptr<connection> make_connector(string_view address) = 0;
+    virtual auto make_acceptor(string_view address)
+      -> std::unique_ptr<acceptor> = 0;
+
+    virtual auto make_connector(string_view address)
+      -> std::unique_ptr<connection> = 0;
 
     auto make_acceptor() {
         return make_acceptor(string_view{});

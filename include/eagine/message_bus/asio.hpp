@@ -78,7 +78,7 @@ public:
         _waiting.emplace_back(std::chrono::seconds(10), std::move(sckt));
     }
 
-    bool empty() const noexcept {
+    auto empty() const noexcept -> bool {
         return _waiting.empty();
     }
 
@@ -101,8 +101,8 @@ struct asio_common_state {
     asio_common_state() = default;
     asio_common_state(asio_common_state&&) = delete;
     asio_common_state(const asio_common_state&) = delete;
-    asio_common_state& operator=(asio_common_state&&) = delete;
-    asio_common_state& operator=(const asio_common_state&) = delete;
+    auto operator=(asio_common_state&&) = delete;
+    auto operator=(const asio_common_state&) = delete;
 
     ~asio_common_state() noexcept {
         while(has_flushing()) {
@@ -120,7 +120,7 @@ struct asio_common_state {
         _update_flushing(_flushing);
     }
 
-    bool has_flushing() const noexcept {
+    auto has_flushing() const noexcept -> bool {
         return _has_flushing(_flushing);
     }
 
@@ -138,13 +138,14 @@ private:
     }
 
     template <typename Tup, std::size_t... I>
-    static bool
-    _does_have_flushing(Tup& flushing, std::index_sequence<I...>) noexcept {
+    static auto
+    _does_have_flushing(Tup& flushing, std::index_sequence<I...>) noexcept
+      -> bool {
         return (false || ... || !std::get<I>(flushing).empty());
     }
 
     template <typename Tup>
-    static bool _has_flushing(Tup& flushing) noexcept {
+    static auto _has_flushing(Tup& flushing) noexcept -> bool {
         return _does_have_flushing(
           flushing, std::make_index_sequence<std::tuple_size_v<Tup>>());
     }
@@ -163,20 +164,20 @@ struct asio_connection_group {
     asio_connection_group() noexcept = default;
     asio_connection_group(asio_connection_group&&) = delete;
     asio_connection_group(const asio_connection_group&) = delete;
-    asio_connection_group& operator=(asio_connection_group&&) = delete;
-    asio_connection_group& operator=(const asio_connection_group&) = delete;
+    auto operator=(asio_connection_group&&) = delete;
+    auto operator=(const asio_connection_group&) = delete;
     virtual ~asio_connection_group() noexcept = default;
 
     using bit_set = typename serialized_message_storage::bit_set;
     using endpoint_type = asio_endpoint_type<Kind, Proto>;
 
-    virtual bit_set pack_into(endpoint_type&, memory::block) = 0;
+    virtual auto pack_into(endpoint_type&, memory::block) -> bit_set = 0;
 
     virtual void on_sent(const endpoint_type&, bit_set to_be_removed) = 0;
 
     virtual void on_received(const endpoint_type&, memory::const_block) = 0;
 
-    virtual bool has_received() = 0;
+    virtual auto has_received() -> bool = 0;
 };
 //------------------------------------------------------------------------------
 template <connection_addr_kind Kind, connection_protocol Proto>
@@ -234,7 +235,7 @@ struct asio_connection_state
         return std::weak_ptr(this->shared_from_this());
     }
 
-    bool is_usable() const {
+    auto is_usable() const -> bool {
         if(EAGINE_LIKELY(common)) {
             return socket.is_open();
         }
@@ -302,7 +303,7 @@ struct asio_connection_state
         }
     }
 
-    bool start_send(asio_connection_group<Kind, Proto>& group) {
+    auto start_send(asio_connection_group<Kind, Proto>& group) -> bool {
         if(!is_sending) {
             do_start_send(group);
         }
@@ -366,7 +367,7 @@ struct asio_connection_state
           });
     }
 
-    bool start_receive(asio_connection_group<Kind, Proto>& group) {
+    auto start_receive(asio_connection_group<Kind, Proto>& group) -> bool {
         if(!is_recving) {
             do_start_receive(group);
         }
@@ -380,7 +381,7 @@ struct asio_connection_state
         do_start_receive(group);
     }
 
-    bool update() {
+    auto update() -> bool {
         some_true something_done{};
         if(const auto count{common->context.poll()}) {
             _log.trace("called ready handlers (count: ${count})")
@@ -446,20 +447,20 @@ public:
         EAGINE_ASSERT(_state);
     }
 
-    inline auto& log() noexcept {
+    auto log() noexcept -> auto& {
         return _log;
     }
 
-    inline auto& conn_state() noexcept {
+    inline auto conn_state() noexcept -> auto& {
         EAGINE_ASSERT(_state);
         return *_state;
     }
 
-    valid_if_positive<span_size_t> max_data_size() final {
+    auto max_data_size() -> valid_if_positive<span_size_t> final {
         return {conn_state().write_buffer.size()};
     }
 
-    bool is_usable() final {
+    auto is_usable() -> bool final {
         return conn_state().is_usable();
     }
 };
@@ -477,7 +478,7 @@ public:
     using base::conn_state;
     using base::log;
 
-    bool update() override {
+    auto update() -> bool override {
         some_true something_done{};
         if(conn_state().socket.is_open()) {
             something_done(conn_state().start_receive(*this));
@@ -489,7 +490,7 @@ public:
 
     using bit_set = typename connection_outgoing_messages::bit_set;
 
-    bit_set pack_into(endpoint_type&, memory::block data) final {
+    auto pack_into(endpoint_type&, memory::block data) -> bit_set final {
         return _outgoing.pack_into(data);
     }
 
@@ -501,16 +502,16 @@ public:
         return _incoming.push(data);
     }
 
-    bool has_received() final {
+    auto has_received() -> bool final {
         return !_incoming.empty();
     }
 
-    bool send(message_id msg_id, const message_view& message) final {
+    auto send(message_id msg_id, const message_view& message) -> bool final {
         return _outgoing.enqueue(
           log(), msg_id, message, cover(conn_state().push_buffer));
     }
 
-    bool fetch_messages(connection::fetch_handler handler) final {
+    auto fetch_messages(connection::fetch_handler handler) -> bool final {
         return _incoming.fetch_messages(log(), handler);
     }
 
@@ -545,7 +546,7 @@ public:
 
     using bit_set = typename connection_outgoing_messages::bit_set;
 
-    bit_set pack_into(memory::block data) {
+    auto pack_into(memory::block data) -> bit_set {
         EAGINE_ASSERT(_outgoing);
         return _outgoing->pack_into(data);
     }
@@ -560,18 +561,18 @@ public:
         _incoming->push(data);
     }
 
-    bool send(message_id msg_id, const message_view& message) final {
+    auto send(message_id msg_id, const message_view& message) -> bool final {
         EAGINE_ASSERT(_outgoing);
         return _outgoing->enqueue(
           log(), msg_id, message, cover(conn_state().push_buffer));
     }
 
-    bool fetch_messages(connection::fetch_handler handler) final {
+    auto fetch_messages(connection::fetch_handler handler) -> bool final {
         EAGINE_ASSERT(_incoming);
         return _incoming->fetch_messages(log(), handler);
     }
 
-    bool update() final {
+    auto update() -> bool final {
         some_true something_done{};
         something_done(conn_state().update());
         return something_done;
@@ -598,7 +599,7 @@ public:
 
     using bit_set = typename connection_outgoing_messages::bit_set;
 
-    bit_set pack_into(endpoint_type& target, memory::block dest) final {
+    auto pack_into(endpoint_type& target, memory::block dest) -> bit_set final {
         EAGINE_ASSERT(_index >= 0);
         const auto prev_idx{_index};
         do {
@@ -628,7 +629,7 @@ public:
         _incoming(ep).push(data);
     }
 
-    bool has_received() final {
+    auto has_received() -> bool final {
         for(auto m : {&_current, &_pending}) {
             for(const auto& p : *m) {
                 const auto& incoming = std::get<1>(std::get<1>(p));
@@ -641,17 +642,17 @@ public:
         return false;
     }
 
-    bool send(message_id, const message_view&) final {
+    auto send(message_id, const message_view&) -> bool final {
         EAGINE_UNREACHABLE();
         return false;
     }
 
-    bool fetch_messages(connection::fetch_handler) final {
+    auto fetch_messages(connection::fetch_handler) -> bool final {
         EAGINE_UNREACHABLE();
         return false;
     }
 
-    bool process_accepted(const acceptor::accept_handler& handler) {
+    auto process_accepted(const acceptor::accept_handler& handler) -> bool {
         some_true something_done;
         for(auto& p : _pending) {
             handler(std::make_unique<asio_datagram_client_connection<Kind>>(
@@ -671,7 +672,7 @@ public:
         return something_done;
     }
 
-    bool update() final {
+    auto update() -> bool final {
         some_true something_done{};
         if(conn_state().socket.is_open()) {
             something_done(conn_state().start_receive(*this));
@@ -688,7 +689,7 @@ public:
     }
 
 private:
-    auto& _get(const endpoint_type& ep) {
+    auto _get(const endpoint_type& ep) -> auto& {
         auto pos = _current.find(ep);
         if(pos == _current.end()) {
             pos = _pending.find(ep);
@@ -708,13 +709,13 @@ private:
         return std::get<1>(*pos);
     }
 
-    connection_outgoing_messages& _outgoing(const endpoint_type& ep) {
+    auto _outgoing(const endpoint_type& ep) -> connection_outgoing_messages& {
         auto& outgoing = std::get<0>(_get(ep));
         EAGINE_ASSERT(outgoing);
         return *outgoing;
     }
 
-    connection_incoming_messages& _incoming(const endpoint_type& ep) {
+    auto _incoming(const endpoint_type& ep) -> connection_incoming_messages& {
         auto& incoming = std::get<1>(_get(ep));
         EAGINE_ASSERT(incoming);
         return *incoming;
@@ -737,15 +738,15 @@ class asio_connection_info<
   connection_addr_kind::ipv4,
   connection_protocol::stream> : public Base {
 public:
-    connection_kind kind() final {
+    auto kind() -> connection_kind final {
         return connection_kind::remote_interprocess;
     }
 
-    connection_addr_kind addr_kind() final {
+    auto addr_kind() -> connection_addr_kind final {
         return connection_addr_kind::ipv4;
     }
 
-    identifier type_id() final {
+    auto type_id() -> identifier final {
         return EAGINE_ID(AsioTcpIp4);
     }
 };
@@ -843,7 +844,7 @@ public:
       , _resolver{asio_state->context}
       , _addr{parse_ipv4_addr(addr_str)} {}
 
-    bool update() final {
+    auto update() -> bool final {
         some_true something_done{};
         if(conn_state().socket.is_open()) {
             something_done(conn_state().start_receive(*this));
@@ -914,7 +915,7 @@ public:
       , _socket{_asio_state->context}
       , _block_size{block_size} {}
 
-    bool update() final {
+    auto update() -> bool final {
         EAGINE_ASSERT(this->_asio_state);
         some_true something_done{};
         if(!_acceptor.is_open()) {
@@ -934,7 +935,7 @@ public:
         return something_done;
     }
 
-    bool process_accepted(const accept_handler& handler) final {
+    auto process_accepted(const accept_handler& handler) -> bool final {
         some_true something_done{};
         for(auto& socket : _accepted) {
             auto conn = std::make_unique<asio_connection<
@@ -957,15 +958,15 @@ class asio_connection_info<
   connection_addr_kind::ipv4,
   connection_protocol::datagram> : public Base {
 public:
-    connection_kind kind() final {
+    auto kind() -> connection_kind final {
         return connection_kind::remote_interprocess;
     }
 
-    connection_addr_kind addr_kind() final {
+    auto addr_kind() -> connection_addr_kind final {
         return connection_addr_kind::ipv4;
     }
 
-    identifier type_id() final {
+    auto type_id() -> identifier final {
         return EAGINE_ID(AsioUdpIp4);
     }
 };
@@ -1031,7 +1032,7 @@ public:
       , _resolver{asio_state->context}
       , _addr{parse_ipv4_addr(addr_str)} {}
 
-    bool update() final {
+    auto update() -> bool final {
         some_true something_done{};
         if(conn_state().socket.is_open()) {
             something_done(conn_state().start_receive(*this));
@@ -1075,11 +1076,11 @@ public:
             asio::ip::udp::endpoint{asio::ip::udp::v4(), std::get<1>(_addr)}},
           block_size} {}
 
-    bool update() final {
+    auto update() -> bool final {
         return _conn.update();
     }
 
-    bool process_accepted(const accept_handler& handler) final {
+    auto process_accepted(const accept_handler& handler) -> bool final {
         return _conn.process_accepted(handler);
     }
 };
@@ -1093,15 +1094,15 @@ class asio_connection_info<
   connection_addr_kind::filepath,
   connection_protocol::stream> : public Base {
 public:
-    connection_kind kind() final {
+    auto kind() -> connection_kind final {
         return connection_kind::local_interprocess;
     }
 
-    connection_addr_kind addr_kind() final {
+    auto addr_kind() -> connection_addr_kind final {
         return connection_addr_kind::filepath;
     }
 
-    identifier type_id() final {
+    auto type_id() -> identifier final {
         return EAGINE_ID(AsioLclStr);
     }
 };
@@ -1161,7 +1162,7 @@ public:
         conn_state().conn_endpoint = {_addr_str.c_str()};
     }
 
-    bool update() final {
+    auto update() -> bool final {
         some_true something_done{};
         if(conn_state().socket.is_open()) {
             something_done(conn_state().start_receive(*this));
@@ -1220,9 +1221,9 @@ private:
         return addr_str ? addr_str : string_view{"/tmp/eagine-msgbus.socket"};
     }
 
-    static inline std::shared_ptr<asio_common_state> _prepare(
+    static inline auto _prepare(
       std::shared_ptr<asio_common_state> asio_state,
-      string_view addr_str) {
+      string_view addr_str) -> std::shared_ptr<asio_common_state> {
         std::remove(c_str(addr_str));
         return asio_state;
     }
@@ -1250,10 +1251,10 @@ public:
 
     asio_acceptor(asio_acceptor&&) = delete;
     asio_acceptor(const asio_acceptor&) = delete;
-    asio_acceptor& operator=(asio_acceptor&&) = delete;
-    asio_acceptor& operator=(const asio_acceptor&) = delete;
+    auto operator=(asio_acceptor&&) = delete;
+    auto operator=(const asio_acceptor&) = delete;
 
-    bool update() final {
+    auto update() -> bool final {
         EAGINE_ASSERT(this->_asio_state);
         some_true something_done{};
         if(EAGINE_UNLIKELY(!_acceptor.is_open())) {
@@ -1274,7 +1275,7 @@ public:
         return something_done;
     }
 
-    bool process_accepted(const accept_handler& handler) final {
+    auto process_accepted(const accept_handler& handler) -> bool final {
         some_true something_done{};
         for(auto& socket : _accepted) {
             auto conn = std::make_unique<asio_connection<
@@ -1301,16 +1302,16 @@ private:
     std::shared_ptr<asio_common_state> _asio_state;
 
     template <connection_addr_kind K, connection_protocol P>
-    static constexpr span_size_t _default_block_size(
+    static constexpr auto _default_block_size(
       connection_addr_kind_tag<K>,
-      connection_protocol_tag<P>) noexcept {
+      connection_protocol_tag<P>) noexcept -> span_size_t {
         return 2 * 1024;
     }
 
     template <connection_addr_kind K>
-    static constexpr span_size_t _default_block_size(
+    static constexpr auto _default_block_size(
       connection_addr_kind_tag<K>,
-      datagram_protocol_tag) noexcept {
+      datagram_protocol_tag) noexcept -> span_size_t {
         return min_connection_data_size;
     }
 
@@ -1320,7 +1321,7 @@ public:
     using connection_factory::make_acceptor;
     using connection_factory::make_connector;
 
-    static constexpr span_size_t default_block_size() noexcept {
+    static constexpr auto default_block_size() noexcept -> span_size_t {
         return _default_block_size(
           connection_addr_kind_tag<Kind>{}, connection_protocol_tag<Proto>{});
     }
@@ -1342,12 +1343,14 @@ public:
     asio_connection_factory(logger& parent)
       : asio_connection_factory{parent, default_block_size()} {}
 
-    std::unique_ptr<acceptor> make_acceptor(string_view addr_str) final {
+    auto make_acceptor(string_view addr_str)
+      -> std::unique_ptr<acceptor> final {
         return std::make_unique<asio_acceptor<Kind, Proto>>(
           _log, _asio_state, addr_str, _block_size);
     }
 
-    std::unique_ptr<connection> make_connector(string_view addr_str) final {
+    auto make_connector(string_view addr_str)
+      -> std::unique_ptr<connection> final {
         return std::make_unique<asio_connector<Kind, Proto>>(
           _log, _asio_state, addr_str, _block_size);
     }

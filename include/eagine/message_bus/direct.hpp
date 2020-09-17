@@ -40,12 +40,12 @@ public:
         _server_to_client.push(msg_id, message);
     }
 
-    bool fetch_from_client(connection::fetch_handler handler) noexcept {
+    auto fetch_from_client(connection::fetch_handler handler) noexcept -> bool {
         std::unique_lock lock{_mutex};
         return _client_to_server.fetch_all(handler);
     }
 
-    bool fetch_from_server(connection::fetch_handler handler) noexcept {
+    auto fetch_from_server(connection::fetch_handler handler) noexcept -> bool {
         std::unique_lock lock{_mutex};
         return _server_to_client.fetch_all(handler);
     }
@@ -64,13 +64,13 @@ public:
     direct_connection_address(logger& parent)
       : _log{EAGINE_ID(DrctConnAd), parent} {}
 
-    shared_state connect() {
+    auto connect() -> shared_state {
         auto state = std::make_shared<direct_connection_state>(_log);
         _pending.push_back(state);
         return state;
     }
 
-    bool process_all(process_handler handler) {
+    auto process_all(process_handler handler) -> bool {
         some_true something_done{};
         for(auto& state : _pending) {
             handler(state);
@@ -86,15 +86,15 @@ class direct_connection_info : public Base {
 public:
     using Base::Base;
 
-    connection_kind kind() final {
+    auto kind() -> connection_kind final {
         return connection_kind::in_process;
     }
 
-    connection_addr_kind addr_kind() final {
+    auto addr_kind() -> connection_addr_kind final {
         return connection_addr_kind::none;
     }
 
-    identifier type_id() final {
+    auto type_id() -> identifier final {
         return EAGINE_ID(Direct);
     }
 };
@@ -119,12 +119,12 @@ public:
       : _weak_address{address}
       , _state{address->connect()} {}
 
-    bool is_usable() final {
+    auto is_usable() -> bool final {
         _checkup();
         return bool(_state);
     }
 
-    bool send(message_id msg_id, const message_view& message) final {
+    auto send(message_id msg_id, const message_view& message) -> bool final {
         _checkup();
         if(EAGINE_LIKELY(_state)) {
             _state->send_to_server(msg_id, message);
@@ -133,7 +133,7 @@ public:
         return false;
     }
 
-    bool fetch_messages(connection::fetch_handler handler) final {
+    auto fetch_messages(connection::fetch_handler handler) -> bool final {
         _checkup();
         if(EAGINE_LIKELY(_state)) {
             return _state->fetch_from_server(handler);
@@ -150,7 +150,7 @@ public:
     direct_server_connection(std::shared_ptr<direct_connection_state>& state)
       : _weak_state{state} {}
 
-    bool send(message_id msg_id, const message_view& message) final {
+    auto send(message_id msg_id, const message_view& message) -> bool final {
         if(auto state = _weak_state.lock()) {
             state->send_to_client(msg_id, message);
             return true;
@@ -158,7 +158,7 @@ public:
         return false;
     }
 
-    bool fetch_messages(connection::fetch_handler handler) final {
+    auto fetch_messages(connection::fetch_handler handler) -> bool final {
         if(auto state = _weak_state.lock()) {
             return state->fetch_from_client(handler);
         }
@@ -187,7 +187,7 @@ public:
     direct_acceptor()
       : _address{std::make_shared<direct_connection_address>(_log)} {}
 
-    bool process_accepted(const accept_handler& handler) final {
+    auto process_accepted(const accept_handler& handler) -> bool final {
         some_true something_done{};
         if(_address) {
             auto wrapped_handler = [&handler](shared_state& state) {
@@ -200,7 +200,7 @@ public:
         return something_done;
     }
 
-    std::unique_ptr<connection> make_connection() {
+    auto make_connection() -> std::unique_ptr<connection> {
         if(_address) {
             return std::unique_ptr<connection>{
               std::make_unique<direct_client_connection>(_address)};
@@ -224,7 +224,7 @@ private:
         return std::make_shared<direct_connection_address>(_log);
     }
 
-    auto& _get(string_view addr_str) {
+    auto _get(string_view addr_str) -> auto& {
         auto pos = _addrs.find(addr_str);
         if(pos == _addrs.end()) {
             pos = _addrs.emplace(to_string(addr_str), _make_addr()).first;
@@ -241,14 +241,16 @@ public:
       : _log{EAGINE_ID(DrctConnFc), parent}
       , _default_addr{_make_addr()} {}
 
-    std::unique_ptr<acceptor> make_acceptor(string_view addr_str) final {
+    auto make_acceptor(string_view addr_str)
+      -> std::unique_ptr<acceptor> final {
         if(addr_str) {
             return std::make_unique<direct_acceptor>(_log, _get(addr_str));
         }
         return std::make_unique<direct_acceptor>(_log, _default_addr);
     }
 
-    std::unique_ptr<connection> make_connector(string_view addr_str) final {
+    auto make_connector(string_view addr_str)
+      -> std::unique_ptr<connection> final {
         if(addr_str) {
             return std::make_unique<direct_client_connection>(_get(addr_str));
         }
