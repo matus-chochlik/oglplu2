@@ -29,16 +29,16 @@ public:
       callable_ref<bool(string_span, bool)> callback) noexcept
       : _callback{std::move(callback)} {}
 
-    constexpr auto* native_func() noexcept {
+    constexpr auto native_func() noexcept -> auto* {
         return _callback ? &_impl : nullptr;
     }
 
-    constexpr auto* native_data() noexcept {
+    constexpr auto native_data() noexcept -> auto* {
         return _callback ? static_cast<void*>(this) : nullptr;
     }
 
 private:
-    static int _impl(char* dst, int len, int writing, void* ptr) {
+    static auto _impl(char* dst, int len, int writing, void* ptr) -> int {
         if(auto* self = static_cast<password_callback*>(ptr)) {
             return self->_callback(
                      string_span(dst, span_size_t(len)), writing != 0)

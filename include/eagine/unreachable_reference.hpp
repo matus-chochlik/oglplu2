@@ -17,13 +17,13 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 template <std::size_t N>
-static inline void* unreachable_storage() noexcept {
+static inline auto unreachable_storage() noexcept {
     static std::aligned_storage_t<N> _storage{};
     return static_cast<void*>(&_storage);
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static inline T& unreachable_reference(identity<T>) noexcept {
+static inline auto unreachable_reference(identity<T>) noexcept -> T& {
     EAGINE_UNREACHABLE();
     return *static_cast<T*>(unreachable_storage<sizeof(T)>());
 }

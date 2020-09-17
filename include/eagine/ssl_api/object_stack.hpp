@@ -21,23 +21,23 @@ class object_stack;
 template <typename Tag>
 class object_stack<basic_handle<Tag, nothing_t*, nullptr>> {
 public:
-    constexpr int size() const noexcept {
+    constexpr auto size() const noexcept -> int {
         return 0;
     }
 
-    constexpr object_stack& push(basic_handle<Tag, nothing_t*, nullptr>) {
+    constexpr auto push(basic_handle<Tag, nothing_t*, nullptr>) -> auto& {
         return *this;
     }
 
-    constexpr object_stack& pop() {
+    constexpr auto pop() -> auto& {
         return *this;
     }
 
-    constexpr basic_handle<Tag, nothing_t*, nullptr> get(int) {
+    constexpr auto get(int) -> basic_handle<Tag, nothing_t*, nullptr> {
         return {};
     }
 
-    constexpr nothing_t* native() const noexcept {
+    constexpr auto native() const noexcept -> nothing_t* {
         return nullptr;
     }
 };
@@ -52,11 +52,11 @@ struct stack_api<x509_tag> {
     using stack_type = STACK_OF(X509);
     using element_type = ::X509;
 
-    static auto* unpack(x509 obj) noexcept {
+    static auto unpack(x509 obj) noexcept -> auto* {
         return static_cast<::X509*>(obj);
     }
 
-    static auto* new_null() noexcept {
+    static auto new_null() noexcept -> auto* {
         return sk_X509_new_null();
     }
 
@@ -77,7 +77,7 @@ struct stack_api<x509_tag> {
         return sk_X509_push(h, e);
     }
 
-    static auto* pop(stack_type* h) noexcept {
+    static auto pop(stack_type* h) noexcept -> auto* {
         return sk_X509_pop(h);
     }
 
@@ -89,7 +89,7 @@ struct stack_api<x509_tag> {
         return sk_X509_set(h, i, e);
     }
 
-    static auto* value(stack_type* h, int i) noexcept {
+    static auto value(stack_type* h, int i) noexcept -> auto* {
         return sk_X509_value(h, i);
     }
 };
@@ -104,14 +104,14 @@ class object_stack_base<basic_handle<Tag, T*, nullptr>> : stack_api<Tag> {
 protected:
     typename stack_api<Tag>::stack_type* _top{nullptr};
 
-    const stack_api<Tag>& _api() const noexcept {
+    auto _api() const noexcept -> const stack_api<Tag>& {
         return *this;
     }
 
     object_stack_base(typename stack_api<Tag>::stack_type* top) noexcept
       : _top{top} {}
 
-    bool _idx_ok(int i) const noexcept {
+    auto _idx_ok(int i) const noexcept -> bool {
         return (i >= 0) && (i < size());
     }
 
@@ -127,15 +127,15 @@ public:
 
     object_stack_base(const object_stack_base&) = delete;
 
-    object_stack_base& operator=(object_stack_base&& temp) noexcept {
+    auto operator=(object_stack_base&& temp) noexcept -> object_stack_base& {
         using std::swap;
         swap(_top, temp._top);
         return *this;
     }
 
-    object_stack_base& operator=(const object_stack_base&) = delete;
+    auto operator=(const object_stack_base&) = delete;
 
-    int size() const noexcept {
+    auto size() const noexcept -> int {
         return _api().num(_top);
     }
 
@@ -144,7 +144,7 @@ public:
         return wrapper{_api().value(_top, pos)};
     }
 
-    auto* native() const noexcept {
+    auto native() const noexcept -> auto* {
         return _top;
     }
 };
@@ -167,14 +167,14 @@ public:
 
     object_stack(object_stack&&) noexcept = delete;
     object_stack(const object_stack&) = delete;
-    object_stack& operator=(object_stack&&) noexcept = default;
-    object_stack& operator=(const object_stack&) = delete;
+    auto operator=(object_stack&&) noexcept -> object_stack& = default;
+    auto operator=(const object_stack&) = delete;
 
     ~object_stack() noexcept {
         _api.free()(this->_top);
     }
 
-    object_stack& push(wrapper obj) {
+    auto push(wrapper obj) -> auto& {
         _api().push(this->_top, _api().unpack(obj));
         return *this;
     }
@@ -202,14 +202,14 @@ public:
 
     object_stack(object_stack&&) noexcept = delete;
     object_stack(const object_stack&) = delete;
-    object_stack& operator=(object_stack&&) noexcept = default;
-    object_stack& operator=(const object_stack&) = delete;
+    auto operator=(object_stack&&) noexcept -> object_stack& = default;
+    auto operator=(const object_stack&) = delete;
 
     ~object_stack() noexcept {
         _api.pop_free()(this->_top);
     }
 
-    object_stack& push(wrapper&& obj) {
+    auto push(wrapper&& obj) -> auto& {
         _api().push_up_ref(this->_top, _api().unpack(obj.release()));
         return *this;
     }

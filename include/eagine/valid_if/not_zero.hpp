@@ -40,7 +40,7 @@ template <typename T>
 using nonzero_t = valid_if_not_zero<T>;
 
 template <typename T>
-static inline nonzero_t<T> nonzero(T v) noexcept {
+static inline auto nonzero(T v) noexcept -> nonzero_t<T> {
     return {v};
 }
 

@@ -170,7 +170,7 @@ static constexpr inline auto required_sequence_length(
                              : (max_code_point(6) > cp) ? 6 : 0;
 }
 //------------------------------------------------------------------------------
-valid_sequence_length do_decode_sequence_length(const byte b) noexcept;
+auto do_decode_sequence_length(const byte b) noexcept -> valid_sequence_length;
 //------------------------------------------------------------------------------
 static inline auto decode_sequence_length(const valid_cbyte_span& seq) noexcept
   -> valid_sequence_length {

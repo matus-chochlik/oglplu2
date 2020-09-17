@@ -22,7 +22,7 @@ public:
     constexpr basic_split_block(basic_block<IsConst> blk) noexcept
       : _block{blk} {}
 
-    constexpr span_size_t split_position() const noexcept {
+    constexpr auto split_position() const noexcept -> span_size_t {
         return _split;
     }
 
@@ -34,12 +34,12 @@ public:
         return skip(_block, _split);
     }
 
-    basic_split_block& advance(span_size_t amount) noexcept {
+    auto advance(span_size_t amount) noexcept -> auto& {
         _split += amount;
         return *this;
     }
 
-    basic_split_block& skip_to_end() noexcept {
+    auto skip_to_end() noexcept -> auto& {
         _split = _block.size();
         return *this;
     }

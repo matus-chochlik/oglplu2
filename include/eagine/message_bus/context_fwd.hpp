@@ -20,8 +20,8 @@ class context;
 //------------------------------------------------------------------------------
 using shared_context = std::shared_ptr<context>;
 //------------------------------------------------------------------------------
-std::shared_ptr<context> make_context(logger&);
-std::shared_ptr<context> make_context(logger&, const program_args&);
+auto make_context(logger&) -> std::shared_ptr<context>;
+auto make_context(logger&, const program_args&) -> std::shared_ptr<context>;
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus
 
