@@ -20,7 +20,7 @@ template <typename Enum, template <Enum> class Unit, Enum Key>
 struct static_enum_map_unit : Unit<Key> {
 
     template <typename Visitor>
-    bool _accept(Enum key, Visitor& visitor) {
+    auto _accept(Enum key, Visitor& visitor) -> bool {
         if(Key == key) {
             visitor(Key, *static_cast<Unit<Key>*>(this));
             return true;
@@ -29,7 +29,7 @@ struct static_enum_map_unit : Unit<Key> {
     }
 
     template <typename Visitor>
-    bool _accept(Enum key, Visitor& visitor) const {
+    auto _accept(Enum key, Visitor& visitor) const -> bool {
         if(Key == key) {
             visitor(Key, *static_cast<const Unit<Key>*>(this));
             return true;
@@ -38,7 +38,7 @@ struct static_enum_map_unit : Unit<Key> {
     }
 
     template <typename Visitor>
-    span_size_t _accept(bitfield<Enum> keys, Visitor& visitor) {
+    auto _accept(bitfield<Enum> keys, Visitor& visitor) -> span_size_t {
         if(keys.has(Key)) {
             visitor(Key, *static_cast<Unit<Key>*>(this));
             return 1;
@@ -47,7 +47,7 @@ struct static_enum_map_unit : Unit<Key> {
     }
 
     template <typename Visitor>
-    span_size_t _accept(bitfield<Enum> keys, Visitor& visitor) const {
+    auto _accept(bitfield<Enum> keys, Visitor& visitor) const -> span_size_t {
         if(keys.has(Key)) {
             visitor(Key, *static_cast<const Unit<Key>*>(this));
             return 1;
@@ -56,13 +56,13 @@ struct static_enum_map_unit : Unit<Key> {
     }
 
     template <typename Visitor>
-    bool _accept(Visitor& visitor) {
+    auto _accept(Visitor& visitor) -> bool {
         visitor(Key, *static_cast<Unit<Key>*>(this));
         return true;
     }
 
     template <typename Visitor>
-    bool _accept(Visitor& visitor) const {
+    auto _accept(Visitor& visitor) const -> bool {
         visitor(Key, *static_cast<const Unit<Key>*>(this));
         return true;
     }
@@ -72,12 +72,13 @@ template <typename Enum, template <Enum> class Unit, Enum... Keys>
 class static_enum_map : private static_enum_map_unit<Enum, Unit, Keys>... {
 
     template <Enum Key>
-    static_enum_map_unit<Enum, Unit, Key>& _base() noexcept {
+    auto _base() noexcept -> static_enum_map_unit<Enum, Unit, Key>& {
         return *this;
     }
 
     template <Enum Key>
-    const static_enum_map_unit<Enum, Unit, Key>& _base() const noexcept {
+    auto _base() const noexcept
+      -> const static_enum_map_unit<Enum, Unit, Key>& {
         return *this;
     }
 
@@ -97,42 +98,43 @@ public:
       : static_enum_map_unit<Enum, Unit, Keys>{args...}... {}
 
     template <Enum Key>
-    Unit<Key>& get() noexcept {
+    auto get() noexcept -> Unit<Key>& {
         return _base<Key>();
     }
 
     template <Enum Key>
-    const Unit<Key>& get() const noexcept {
+    auto get() const noexcept -> const Unit<Key>& {
         return _base<Key>();
     }
 
     template <typename Visitor>
-    bool visit(Enum key, Visitor visitor) noexcept {
+    auto visit(Enum key, Visitor visitor) noexcept -> bool {
         return (false || ... || _base<Keys>()._accept(key, visitor));
     }
 
     template <typename Visitor>
-    bool visit(Enum key, Visitor visitor) const noexcept {
+    auto visit(Enum key, Visitor visitor) const noexcept -> bool {
         return (false || ... || _base<Keys>()._accept(key, visitor));
     }
 
     template <typename Visitor>
-    span_size_t visit(bitfield<Enum> keys, Visitor visitor) noexcept {
+    auto visit(bitfield<Enum> keys, Visitor visitor) noexcept -> span_size_t {
         return (0 + ... + _base<Keys>()._accept(keys, visitor));
     }
 
     template <typename Visitor>
-    span_size_t visit(bitfield<Enum> keys, Visitor visitor) const noexcept {
+    auto visit(bitfield<Enum> keys, Visitor visitor) const noexcept
+      -> span_size_t {
         return (0 + ... + _base<Keys>()._accept(keys, visitor));
     }
 
     template <typename Visitor>
-    bool visit_all(Visitor visitor) noexcept {
+    auto visit_all(Visitor visitor) noexcept -> bool {
         return (true && ... && _base<Keys>()._accept(visitor));
     }
 
     template <typename Visitor>
-    bool visit_all(Visitor visitor) const noexcept {
+    auto visit_all(Visitor visitor) const noexcept -> bool {
         return (true && ... && _base<Keys>()._accept(visitor));
     }
 };

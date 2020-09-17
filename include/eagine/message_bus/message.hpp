@@ -32,7 +32,7 @@ namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 #define EAGINE_MSGBUS_ID(METHOD) EAGINE_MSG_ID(eagiMsgBus, METHOD)
 //------------------------------------------------------------------------------
-static constexpr inline bool is_special_message(message_id msg_id) noexcept {
+static constexpr inline auto is_special_message(message_id msg_id) noexcept {
     return msg_id.has_class(EAGINE_ID(eagiMsgBus));
 }
 //------------------------------------------------------------------------------
@@ -74,7 +74,7 @@ enumerator_mapping(identity<message_crypto_flag>, Selector) noexcept {
 }
 //------------------------------------------------------------------------------
 struct message_info {
-    static constexpr identifier_t inline invalid_id() noexcept {
+    static constexpr auto invalid_id() noexcept -> identifier_t {
         return 0U;
     }
 
@@ -92,50 +92,50 @@ struct message_info {
 
     message_crypto_flags crypto_flags{};
 
-    message_info& assign(const message_info& that) noexcept {
+    auto assign(const message_info& that) noexcept -> auto& {
         return *this = that;
     }
 
-    bool too_many_hops() const noexcept {
+    auto too_many_hops() const noexcept -> bool {
         return hop_count >= hop_count_t(64);
     }
 
-    message_info& add_hop() noexcept {
+    auto add_hop() noexcept -> auto& {
         EAGINE_ASSERT(hop_count < std::numeric_limits<hop_count_t>::max());
         ++hop_count;
         return *this;
     }
 
-    message_info& set_priority(message_priority new_priority) noexcept {
+    auto set_priority(message_priority new_priority) noexcept -> auto& {
         priority = new_priority;
         return *this;
     }
 
-    message_info& set_source_id(identifier_t id) noexcept {
+    auto set_source_id(identifier_t id) noexcept -> auto& {
         source_id = id;
         return *this;
     }
 
-    message_info& set_target_id(identifier_t id) noexcept {
+    auto set_target_id(identifier_t id) noexcept -> auto& {
         target_id = id;
         return *this;
     }
 
-    bool has_serializer_id(identifier id) const noexcept {
+    auto has_serializer_id(identifier id) const noexcept -> bool {
         return serializer_id == id.value();
     }
 
-    message_info& set_serializer_id(identifier id) noexcept {
+    auto set_serializer_id(identifier id) noexcept -> auto& {
         serializer_id = id.value();
         return *this;
     }
 
-    message_info& set_sequence_no(message_sequence_t no) noexcept {
+    auto set_sequence_no(message_sequence_t no) noexcept -> auto& {
         sequence_no = no;
         return *this;
     }
 
-    message_info& setup_response(const message_info& info) noexcept {
+    auto setup_response(const message_info& info) noexcept -> auto& {
         target_id = info.source_id;
         sequence_no = info.sequence_no;
         return *this;
@@ -181,45 +181,45 @@ public:
     }
 
     template <typename Backend, typename Value>
-    bool do_store_value(const Value& value, span_size_t max_size);
+    auto do_store_value(const Value& value, span_size_t max_size) -> bool;
 
     template <typename Value>
-    bool store_value(const Value& value, span_size_t max_size);
+    auto store_value(const Value& value, span_size_t max_size) -> bool;
 
     template <typename Backend, typename Value>
-    bool do_fetch_value(Value& value);
+    auto do_fetch_value(Value& value) -> bool;
 
     template <typename Value>
-    bool fetch_value(Value& value);
+    auto fetch_value(Value& value) -> bool;
 
-    memory::block storage() noexcept {
+    auto storage() noexcept -> memory::block {
         return cover(_buffer);
     }
 
-    memory::const_block data() const noexcept {
+    auto data() const noexcept -> memory::const_block {
         return view(_buffer);
     }
 
-    bool is_signed() const noexcept {
+    auto is_signed() const noexcept -> bool {
         return crypto_flags.has(message_crypto_flag::signed_content) ||
                crypto_flags.has(message_crypto_flag::signed_header);
     }
 
-    memory::const_block signature() const noexcept {
+    auto signature() const noexcept -> memory::const_block {
         if(is_signed()) {
             return skip(data(), skip_data_with_size(data()));
         }
         return {};
     }
 
-    memory::block content() noexcept {
+    auto content() noexcept -> memory::block {
         if(EAGINE_UNLIKELY(is_signed())) {
             return get_data_with_size(storage());
         }
         return storage();
     }
 
-    memory::const_block content() const noexcept {
+    auto content() const noexcept -> memory::const_block {
         if(EAGINE_UNLIKELY(is_signed())) {
             return get_data_with_size(data());
         }
@@ -238,16 +238,17 @@ public:
         _buffer.clear();
     }
 
-    memory::buffer release_buffer() noexcept {
+    auto release_buffer() noexcept -> memory::buffer {
         return std::move(_buffer);
     }
 
-    bool store_and_sign(
+    auto store_and_sign(
       memory::const_block data,
       span_size_t max_size,
       context&,
-      logger&);
-    verification_bits verify_bits(context&, logger&) const noexcept;
+      logger&) -> bool;
+
+    auto verify_bits(context&, logger&) const noexcept -> verification_bits;
 };
 //------------------------------------------------------------------------------
 class message_storage {
@@ -256,11 +257,11 @@ public:
         _messages.reserve(64);
     }
 
-    bool empty() const noexcept {
+    auto empty() const noexcept -> bool {
         return _messages.empty();
     }
 
-    span_size_t size() const noexcept {
+    auto size() const noexcept -> span_size_t {
         return span_size(_messages.size());
     }
 
@@ -272,7 +273,7 @@ public:
     }
 
     template <typename Function>
-    bool push_if(Function function, span_size_t req_size = 0) {
+    auto push_if(Function function, span_size_t req_size = 0) -> bool {
         _messages.emplace_back(
           message_id{},
           stored_message{{}, _buffers.get(req_size)},
@@ -300,7 +301,7 @@ public:
     using fetch_handler =
       callable_ref<bool(message_id, message_age, const message_view&)>;
 
-    bool fetch_all(fetch_handler handler);
+    auto fetch_all(fetch_handler handler) -> bool;
 
     using cleanup_predicate = callable_ref<bool(message_age)>;
 
@@ -323,15 +324,15 @@ public:
         _messages.reserve(32);
     }
 
-    bool empty() const noexcept {
+    auto empty() const noexcept -> bool {
         return _messages.empty();
     }
 
-    span_size_t size() const noexcept {
+    auto size() const noexcept -> span_size_t {
         return span_size(_messages.size());
     }
 
-    memory::const_block top() const noexcept {
+    auto top() const noexcept -> memory::const_block {
         if(!_messages.empty()) {
             return view(_messages.front());
         }
@@ -351,12 +352,12 @@ public:
         _messages.emplace_back(std::move(buf));
     }
 
-    bool fetch_some(fetch_handler handler, span_size_t n);
-    bool fetch_all(fetch_handler handler);
+    auto fetch_some(fetch_handler handler, span_size_t n) -> bool;
+    auto fetch_all(fetch_handler handler) -> bool;
 
     using bit_set = std::uint64_t;
 
-    bit_set pack_into(memory::block dest);
+    auto pack_into(memory::block dest) -> bit_set;
 
     void cleanup(bit_set to_be_removed);
 
@@ -383,7 +384,7 @@ public:
         _messages.emplace(pos, message, _buffers.get(message.data.size()));
     }
 
-    bool process_one(handler_type handler) {
+    auto process_one(handler_type handler) -> bool {
         if(!_messages.empty()) {
             if(handler(_messages.back())) {
                 _buffers.eat(_messages.back().release_buffer());
@@ -395,7 +396,7 @@ public:
     }
 
     template <typename Handler>
-    span_size_t do_process_all(Handler& handler) {
+    auto do_process_all(Handler& handler) -> span_size_t {
         span_size_t count{0};
         std::size_t pos = 0;
         while(pos < _messages.size()) {
@@ -410,7 +411,7 @@ public:
         return count;
     }
 
-    span_size_t process_all(handler_type handler) {
+    auto process_all(handler_type handler) -> span_size_t {
         return do_process_all(handler);
     }
 
@@ -424,9 +425,10 @@ struct connection_outgoing_messages {
 
     serialized_message_storage serialized{};
 
-    bool enqueue(logger& log, message_id, const message_view&, memory::block);
+    auto enqueue(logger& log, message_id, const message_view&, memory::block)
+      -> bool;
 
-    bit_set pack_into(memory::block dest) {
+    auto pack_into(memory::block dest) -> bit_set {
         return serialized.pack_into(dest);
     }
 
@@ -442,7 +444,7 @@ struct connection_incoming_messages {
     serialized_message_storage packed{};
     message_storage unpacked{};
 
-    bool empty() const noexcept {
+    auto empty() const noexcept -> bool {
         return packed.empty();
     }
 
@@ -450,8 +452,9 @@ struct connection_incoming_messages {
         packed.push(data);
     }
 
-    bool
-    fetch_messages(logger& log, fetch_handler handler, span_size_t batch = 64);
+    auto
+    fetch_messages(logger& log, fetch_handler handler, span_size_t batch = 64)
+      -> bool;
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus
