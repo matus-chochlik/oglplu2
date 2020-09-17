@@ -22,44 +22,45 @@ struct serializer_backend {
     serializer_backend() noexcept = default;
     serializer_backend(serializer_backend&&) noexcept = default;
     serializer_backend(const serializer_backend&) = delete;
-    serializer_backend& operator=(serializer_backend&&) = delete;
-    serializer_backend& operator=(const serializer_backend&) = delete;
+    auto operator=(serializer_backend&&) = delete;
+    auto operator=(const serializer_backend&) = delete;
 
     virtual ~serializer_backend() noexcept = default;
 
     using result = serialization_errors;
 
-    virtual identifier type_id() = 0;
-    virtual serializer_data_sink* sink() = 0;
-    virtual bool enum_as_string() = 0;
+    virtual auto type_id() -> identifier = 0;
+    virtual auto sink() -> serializer_data_sink* = 0;
+    virtual auto enum_as_string() -> bool = 0;
 
-    virtual result begin() = 0;
-    virtual result write(span<const bool>, span_size_t&) = 0;
-    virtual result write(span<const char>, span_size_t&) = 0;
-    virtual result write(span<const std::int8_t>, span_size_t&) = 0;
-    virtual result write(span<const short>, span_size_t&) = 0;
-    virtual result write(span<const int>, span_size_t&) = 0;
-    virtual result write(span<const long>, span_size_t&) = 0;
-    virtual result write(span<const long long>, span_size_t&) = 0;
-    virtual result write(span<const std::uint8_t>, span_size_t&) = 0;
-    virtual result write(span<const unsigned short>, span_size_t&) = 0;
-    virtual result write(span<const unsigned>, span_size_t&) = 0;
-    virtual result write(span<const unsigned long>, span_size_t&) = 0;
-    virtual result write(span<const unsigned long long>, span_size_t&) = 0;
-    virtual result write(span<const float>, span_size_t&) = 0;
-    virtual result write(span<const double>, span_size_t&) = 0;
-    virtual result write(span<const identifier>, span_size_t&) = 0;
-    virtual result write(span<const decl_name>, span_size_t&) = 0;
-    virtual result write(span<const string_view>, span_size_t&) = 0;
-    virtual result begin_struct(span_size_t member_count) = 0;
-    virtual result begin_member(string_view name) = 0;
-    virtual result finish_member(string_view name) = 0;
-    virtual result finish_struct() = 0;
-    virtual result begin_list(span_size_t element_count) = 0;
-    virtual result begin_element(span_size_t index) = 0;
-    virtual result finish_element(span_size_t index) = 0;
-    virtual result finish_list() = 0;
-    virtual result finish() = 0;
+    virtual auto begin() -> result = 0;
+    virtual auto write(span<const bool>, span_size_t&) -> result = 0;
+    virtual auto write(span<const char>, span_size_t&) -> result = 0;
+    virtual auto write(span<const std::int8_t>, span_size_t&) -> result = 0;
+    virtual auto write(span<const short>, span_size_t&) -> result = 0;
+    virtual auto write(span<const int>, span_size_t&) -> result = 0;
+    virtual auto write(span<const long>, span_size_t&) -> result = 0;
+    virtual auto write(span<const long long>, span_size_t&) -> result = 0;
+    virtual auto write(span<const std::uint8_t>, span_size_t&) -> result = 0;
+    virtual auto write(span<const unsigned short>, span_size_t&) -> result = 0;
+    virtual auto write(span<const unsigned>, span_size_t&) -> result = 0;
+    virtual auto write(span<const unsigned long>, span_size_t&) -> result = 0;
+    virtual auto write(span<const unsigned long long>, span_size_t&)
+      -> result = 0;
+    virtual auto write(span<const float>, span_size_t&) -> result = 0;
+    virtual auto write(span<const double>, span_size_t&) -> result = 0;
+    virtual auto write(span<const identifier>, span_size_t&) -> result = 0;
+    virtual auto write(span<const decl_name>, span_size_t&) -> result = 0;
+    virtual auto write(span<const string_view>, span_size_t&) -> result = 0;
+    virtual auto begin_struct(span_size_t member_count) -> result = 0;
+    virtual auto begin_member(string_view name) -> result = 0;
+    virtual auto finish_member(string_view name) -> result = 0;
+    virtual auto finish_struct() -> result = 0;
+    virtual auto begin_list(span_size_t element_count) -> result = 0;
+    virtual auto begin_element(span_size_t index) -> result = 0;
+    virtual auto finish_element(span_size_t index) -> result = 0;
+    virtual auto finish_list() -> result = 0;
+    virtual auto finish() -> result = 0;
 };
 //------------------------------------------------------------------------------
 template <typename Derived, typename Sink = serializer_data_sink>
@@ -69,128 +70,138 @@ public:
     common_serializer_backend(Sink& s) noexcept
       : _sink{&s} {}
 
-    Derived& set_sink(Sink& s) noexcept {
+    auto set_sink(Sink& s) noexcept -> auto& {
         _sink = &s;
         return derived();
     }
 
-    serializer_data_sink* sink() final {
+    auto sink() -> serializer_data_sink* final {
         return _sink;
     }
 
-    bool enum_as_string() override {
+    auto enum_as_string() -> bool override {
         return false;
     }
 
-    result begin() override {
+    auto begin() -> result override {
         return {};
     }
 
-    result write(span<const bool> values, span_size_t& done) override {
+    auto write(span<const bool> values, span_size_t& done) -> result override {
         return derived().do_write(values, done);
     }
 
-    result write(span<const char> values, span_size_t& done) override {
+    auto write(span<const char> values, span_size_t& done) -> result override {
         return derived().do_write(values, done);
     }
 
-    result write(span<const std::int8_t> values, span_size_t& done) override {
+    auto write(span<const std::int8_t> values, span_size_t& done)
+      -> result override {
         return derived().do_write(values, done);
     }
 
-    result write(span<const short> values, span_size_t& done) override {
+    auto write(span<const short> values, span_size_t& done) -> result override {
         return derived().do_write(values, done);
     }
 
-    result write(span<const int> values, span_size_t& done) override {
+    auto write(span<const int> values, span_size_t& done) -> result override {
         return derived().do_write(values, done);
     }
 
-    result write(span<const long> values, span_size_t& done) override {
+    auto write(span<const long> values, span_size_t& done) -> result override {
         return derived().do_write(values, done);
     }
 
-    result write(span<const long long> values, span_size_t& done) override {
+    auto write(span<const long long> values, span_size_t& done)
+      -> result override {
         return derived().do_write(values, done);
     }
 
-    result write(span<const std::uint8_t> values, span_size_t& done) override {
+    auto write(span<const std::uint8_t> values, span_size_t& done)
+      -> result override {
         return derived().do_write(values, done);
     }
 
-    result write(span<const unsigned short> values, span_size_t& done) override {
+    auto write(span<const unsigned short> values, span_size_t& done)
+      -> result override {
         return derived().do_write(values, done);
     }
 
-    result write(span<const unsigned> values, span_size_t& done) override {
+    auto write(span<const unsigned> values, span_size_t& done)
+      -> result override {
         return derived().do_write(values, done);
     }
 
-    result write(span<const unsigned long> values, span_size_t& done) override {
+    auto write(span<const unsigned long> values, span_size_t& done)
+      -> result override {
         return derived().do_write(values, done);
     }
 
-    result
-    write(span<const unsigned long long> values, span_size_t& done) override {
+    auto write(span<const unsigned long long> values, span_size_t& done)
+      -> result override {
         return derived().do_write(values, done);
     }
 
-    result write(span<const float> values, span_size_t& done) override {
+    auto write(span<const float> values, span_size_t& done) -> result override {
         return derived().do_write(values, done);
     }
 
-    result write(span<const double> values, span_size_t& done) override {
+    auto write(span<const double> values, span_size_t& done)
+      -> result override {
         return derived().do_write(values, done);
     }
 
-    result write(span<const identifier> values, span_size_t& done) override {
+    auto write(span<const identifier> values, span_size_t& done)
+      -> result override {
         return derived().do_write(values, done);
     }
 
-    result write(span<const decl_name> values, span_size_t& done) override {
+    auto write(span<const decl_name> values, span_size_t& done)
+      -> result override {
         return derived().do_write(values, done);
     }
 
-    result write(span<const string_view> values, span_size_t& done) override {
+    auto write(span<const string_view> values, span_size_t& done)
+      -> result override {
         return derived().do_write(values, done);
     }
 
-    result begin_struct(span_size_t) override {
+    auto begin_struct(span_size_t) -> result override {
         return {};
     }
-    result begin_member(string_view) override {
+    auto begin_member(string_view) -> result override {
         return {};
     }
-    result finish_member(string_view) override {
+    auto finish_member(string_view) -> result override {
         return {};
     }
-    result finish_struct() override {
+    auto finish_struct() -> result override {
         return {};
     }
-    result begin_list(span_size_t) override {
+    auto begin_list(span_size_t) -> result override {
         return {};
     }
-    result begin_element(span_size_t) override {
+    auto begin_element(span_size_t) -> result override {
         return {};
     }
-    result finish_element(span_size_t) override {
+    auto finish_element(span_size_t) -> result override {
         return {};
     }
-    result finish_list() override {
+    auto finish_list() -> result override {
         return {};
     }
-    result finish() override {
+    auto finish() -> result override {
         return {};
     }
 
 protected:
-    span_size_t remaining_size() const {
+    auto remaining_size() const -> span_size_t {
         EAGINE_ASSERT(_sink);
         return _sink->remaining_size();
     }
 
     template <typename... Args>
-    result sink(Args&&... args) const {
+    auto sink(Args&&... args) const -> result {
         EAGINE_ASSERT(_sink);
         return _sink->write(std::forward<Args>(args)...);
     }
@@ -198,7 +209,7 @@ protected:
 private:
     Sink* _sink{nullptr};
 
-    Derived& derived() noexcept {
+    auto derived() noexcept -> Derived& {
         return *static_cast<Derived*>(this);
     }
 };

@@ -9,11 +9,11 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
-bool stored_message::store_and_sign(
+auto stored_message::store_and_sign(
   memory::const_block data,
   span_size_t max_size,
   context& ctx,
-  logger& log) {
+  logger& log) -> bool {
 
     if(ok md_type{ctx.default_message_digest()}) {
         auto& ssl = ctx.ssl();
@@ -62,15 +62,15 @@ bool stored_message::store_and_sign(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-verification_bits
-stored_message::verify_bits(context& ctx, logger&) const noexcept {
+auto stored_message::verify_bits(context& ctx, logger&) const noexcept
+  -> verification_bits {
     return ctx.verify_remote_signature(content(), signature(), source_id);
 }
 //------------------------------------------------------------------------------
 // message_storage
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool message_storage::fetch_all(fetch_handler handler) {
+auto message_storage::fetch_all(fetch_handler handler) -> bool {
     bool fetched_some = false;
     bool keep_some = false;
     for(auto& [msg_id, message, insert_time] : _messages) {
@@ -112,9 +112,8 @@ void message_storage::cleanup(cleanup_predicate predicate) {
 // serialized_message_storage
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool serialized_message_storage::fetch_some(
-  fetch_handler handler,
-  span_size_t n) {
+auto serialized_message_storage::fetch_some(fetch_handler handler, span_size_t n)
+  -> bool {
     bool fetched_some = false;
     for(auto& message : _messages) {
         if(n-- <= 0) {
@@ -134,7 +133,7 @@ bool serialized_message_storage::fetch_some(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool serialized_message_storage::fetch_all(fetch_handler handler) {
+auto serialized_message_storage::fetch_all(fetch_handler handler) -> bool {
     bool fetched_some = false;
     bool keep_some = false;
     for(auto& message : _messages) {
@@ -159,8 +158,7 @@ bool serialized_message_storage::fetch_all(fetch_handler handler) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-serialized_message_storage::bit_set
-serialized_message_storage::pack_into(memory::block dest) {
+auto serialized_message_storage::pack_into(memory::block dest) -> bit_set {
     bit_set result{0U};
     bit_set current{1U};
 
@@ -199,11 +197,11 @@ void serialized_message_storage::cleanup(bit_set to_be_removed) {
 // connection_outgoing_messages
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool connection_outgoing_messages::enqueue(
+auto connection_outgoing_messages::enqueue(
   logger& log,
   message_id msg_id,
   const message_view& message,
-  memory::block temp) {
+  memory::block temp) -> bool {
 
     block_data_sink sink(temp);
     string_serializer_backend backend(sink);
@@ -222,10 +220,10 @@ bool connection_outgoing_messages::enqueue(
 // connection_incoming_messages
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool connection_incoming_messages::fetch_messages(
+auto connection_incoming_messages::fetch_messages(
   logger& log,
   fetch_handler handler,
-  span_size_t batch) {
+  span_size_t batch) -> bool {
     unpacked.fetch_all(handler);
     auto unpacker = [this, &log, &handler](memory::const_block data) {
         for_each_data_with_size(data, [this, &log](memory::const_block blk) {

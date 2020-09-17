@@ -22,7 +22,7 @@ public:
     block_data_source(memory::const_block src) noexcept
       : _src{src} {}
 
-    memory::const_block top(span_size_t req_size) final {
+    auto top(span_size_t req_size) -> memory::const_block final {
         return head(skip(_src, _done), req_size);
     }
 
@@ -30,7 +30,7 @@ public:
         _done += del_size;
     }
 
-    memory::const_block remaining() const noexcept {
+    auto remaining() const noexcept -> memory::const_block {
         return skip(_src, _done);
     }
 

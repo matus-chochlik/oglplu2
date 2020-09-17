@@ -18,7 +18,7 @@ namespace eagine::memory {
 //------------------------------------------------------------------------------
 class buffer_pool {
 public:
-    memory::buffer get(span_size_t req_size = 0) {
+    auto get(span_size_t req_size = 0) -> memory::buffer {
         auto pos = std::lower_bound(
           _pool.begin(), _pool.end(), req_size, [](auto& buf, auto req) {
               return buf.capacity() < req;

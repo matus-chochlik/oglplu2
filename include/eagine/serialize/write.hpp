@@ -39,7 +39,7 @@ public:
         return skip(_src, _offset);
     }
 
-    span_size_t offset() const noexcept {
+    auto offset() const noexcept {
         return _offset;
     }
 
@@ -47,7 +47,7 @@ public:
         _offset += inc;
     }
 
-    bool is_done() const noexcept {
+    auto is_done() const noexcept -> bool {
         return !remaining();
     }
 
@@ -68,7 +68,7 @@ struct serializer<const T&> : serializer<T> {};
 template <typename T>
 struct plain_serializer {
     template <typename Backend>
-    static serialization_errors write(T value, Backend& backend) {
+    static auto write(T value, Backend& backend) {
         span_size_t written{0};
         auto errors = backend.write(view_one(value), written);
         if(written < 1) {
@@ -78,7 +78,7 @@ struct plain_serializer {
     }
 
     template <typename Backend>
-    static serialization_errors write(span<const T> values, Backend& backend) {
+    static auto write(span<const T> values, Backend& backend) {
         span_size_t written{0};
         auto errors = backend.write(values, written);
         if(written < 1) {
@@ -132,7 +132,7 @@ template <typename T>
 struct common_serializer {
 
     template <typename Backend>
-    serialization_errors write(span<const T> values, Backend& backend) {
+    auto write(span<const T> values, Backend& backend) {
         const auto tmd = serialization_error_code::too_much_data;
         const auto icw = serialization_error_code::incomplete_write;
         auto& sink = extract(backend.sink());
@@ -174,8 +174,7 @@ struct serializer<std::tuple<T...>> : common_serializer<std::tuple<T...>> {
     using common_serializer<std::tuple<T...>>::write;
 
     template <typename Backend>
-    serialization_errors
-    write(const std::tuple<T...>& values, Backend& backend) {
+    auto write(const std::tuple<T...>& values, Backend& backend) {
         serialization_errors errors{};
         errors |= backend.begin_list(span_size(sizeof...(T)));
         if(!errors) {
@@ -222,7 +221,7 @@ struct serializer<std::tuple<std::pair<string_view, T>...>>
   : common_serializer<std::tuple<std::pair<string_view, T>...>> {
 
     template <typename Backend>
-    serialization_errors write(
+    auto write(
       const std::tuple<std::pair<string_view, T>...>& members,
       Backend& backend) {
         serialization_errors errors{};
@@ -277,7 +276,7 @@ template <typename Bit>
 struct serializer<bitfield<Bit>> : common_serializer<bitfield<Bit>> {
 
     template <typename Backend>
-    serialization_errors write(bitfield<Bit> value, Backend& backend) {
+    auto write(bitfield<Bit> value, Backend& backend) {
         return _serializer.write(value.bits(), backend);
     }
 
@@ -295,7 +294,7 @@ struct serializer<std::basic_string<Char, Traits, Alloc>>
     using common_serializer<std::basic_string<Char, Traits, Alloc>>::write;
 
     template <typename Backend>
-    serialization_errors write(
+    auto write(
       const std::basic_string<Char, Traits, Alloc>& value,
       Backend& backend) {
         return _serializer.write(value, backend);
@@ -311,7 +310,7 @@ struct serializer<span<const T>> : common_serializer<span<const T>> {
     using common_serializer<span<const T>>::write;
 
     template <typename Backend>
-    serialization_errors write(span<const T> values, Backend& backend) {
+    auto write(span<const T> values, Backend& backend) {
         serialization_errors errors{};
         errors |= backend.begin_list(values.size());
         if(!errors) {
@@ -335,7 +334,7 @@ struct serializer<fragment_serialize_wrapper<span<const T>>>
     using common_serializer<fragment_serialize_wrapper<span<const T>>>::write;
 
     template <typename Backend>
-    serialization_errors
+    auto
     write(fragment_serialize_wrapper<span<const T>>& frag, Backend& backend) {
         serialization_errors errors{};
         errors |= _size_serializer.write(frag.offset(), backend);
@@ -363,8 +362,7 @@ struct serializer<std::array<T, N>> : common_serializer<std::array<T, N>> {
     using common_serializer<std::array<T, N>>::write;
 
     template <typename Backend>
-    serialization_errors
-    write(const std::array<T, N>& values, Backend& backend) {
+    auto write(const std::array<T, N>& values, Backend& backend) {
         serialization_errors errors{};
         errors |= backend.begin_list(span_size(N));
         if(!errors) {
@@ -384,8 +382,7 @@ struct serializer<std::vector<T, A>> : common_serializer<std::vector<T, A>> {
     using common_serializer<std::vector<T, A>>::write;
 
     template <typename Backend>
-    serialization_errors
-    write(const std::vector<T, A>& values, Backend& backend) {
+    auto write(const std::vector<T, A>& values, Backend& backend) {
         serialization_errors errors{};
         errors |= backend.begin_list(values.size());
         if(!errors) {
@@ -402,7 +399,7 @@ private:
 template <typename T>
 struct enum_serializer {
     template <typename Backend>
-    serialization_errors write(T enumerator, Backend& backend) {
+    auto write(T enumerator, Backend& backend) {
         serialization_errors errors{};
         if(backend.enum_as_string()) {
             errors |=
@@ -423,7 +420,7 @@ template <typename T>
 struct struct_serializer {
 public:
     template <typename Backend>
-    serialization_errors write(const T& instance, Backend& backend) {
+    auto write(const T& instance, Backend& backend) {
         auto member_map = map_data_members(instance);
         return _serializer.write(member_map, backend);
     }
@@ -443,10 +440,9 @@ struct serializer
         nothing_t>> {};
 //------------------------------------------------------------------------------
 template <typename T, typename Backend>
-std::enable_if_t<
+auto serialize(T& value, Backend& backend) -> std::enable_if_t<
   std::is_base_of_v<serializer_backend, Backend>,
-  serialization_errors>
-serialize(T& value, Backend& backend) {
+  serialization_errors> {
     serialization_errors errors{};
     errors |= backend.begin();
     if(!errors) {

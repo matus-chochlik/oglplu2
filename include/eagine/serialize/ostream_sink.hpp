@@ -23,13 +23,13 @@ public:
     ostream_data_sink(std::ostream& out) noexcept
       : _out{out} {}
 
-    span_size_t remaining_size() final {
+    auto remaining_size() -> span_size_t final {
         return std::numeric_limits<span_size_t>::max();
     }
 
     using serializer_data_sink::write;
 
-    serialization_errors write(memory::const_block blk) final {
+    auto write(memory::const_block blk) -> serialization_errors final {
         current().write(
           reinterpret_cast<const char*>(blk.data()),
           static_cast<std::streamsize>(blk.size()));
@@ -42,7 +42,7 @@ public:
         return {};
     }
 
-    transaction_handle begin_work() final {
+    auto begin_work() -> transaction_handle final {
         _subs.emplace();
         return transaction_handle(_subs.size());
     }
@@ -62,7 +62,7 @@ public:
     }
 
 private:
-    std::ostream& current() noexcept {
+    auto current() noexcept -> std::ostream& {
         if(_subs.empty()) {
             return _out;
         }

@@ -75,8 +75,8 @@ using serialization_result =
   valid_if_indicated<T, serialization_errors, bool, false>;
 //------------------------------------------------------------------------------
 template <typename T>
-static inline serialization_errors
-get_errors(const serialization_result<T>& result) noexcept {
+static inline auto get_errors(const serialization_result<T>& result) noexcept
+  -> serialization_errors {
     return result.policy()._indicator;
 }
 //------------------------------------------------------------------------------
@@ -85,8 +85,8 @@ using deserialization_result =
   valid_if_indicated<T, deserialization_errors, bool, false>;
 //------------------------------------------------------------------------------
 template <typename T>
-static inline deserialization_errors
-get_errors(const deserialization_result<T>& result) noexcept {
+static inline auto get_errors(const deserialization_result<T>& result) noexcept
+  -> deserialization_errors {
     return result.policy()._indicator;
 }
 //------------------------------------------------------------------------------

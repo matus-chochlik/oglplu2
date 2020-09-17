@@ -17,8 +17,9 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-static inline memory::block
-store_data_with_size(memory::const_block src, memory::block dst) noexcept {
+static inline auto
+store_data_with_size(memory::const_block src, memory::block dst) noexcept
+  -> memory::block {
 
     const auto opt_size_cp = limit_cast<mbs::code_point>(src.size());
     if(EAGINE_LIKELY(opt_size_cp)) {
@@ -40,7 +41,8 @@ store_data_with_size(memory::const_block src, memory::block dst) noexcept {
     return {};
 }
 //------------------------------------------------------------------------------
-static inline span_size_t skip_data_with_size(memory::const_block src) noexcept {
+static inline auto skip_data_with_size(memory::const_block src) noexcept
+  -> span_size_t {
     const auto opt_skip_len = mbs::decode_sequence_length(src);
     if(const auto opt_data_len = mbs::do_decode_code_point(src, opt_skip_len)) {
         return extract(opt_skip_len) + extract(opt_data_len);
@@ -48,7 +50,8 @@ static inline span_size_t skip_data_with_size(memory::const_block src) noexcept 
     return 0;
 }
 //------------------------------------------------------------------------------
-static inline memory::block get_data_with_size(memory::block src) noexcept {
+static inline auto get_data_with_size(memory::block src) noexcept
+  -> memory::block {
     const memory::const_block tmp{src};
     const auto opt_skip_len = mbs::decode_sequence_length(tmp);
     if(const auto opt_data_len = mbs::do_decode_code_point(tmp, opt_skip_len)) {
@@ -59,8 +62,8 @@ static inline memory::block get_data_with_size(memory::block src) noexcept {
     return {};
 }
 //------------------------------------------------------------------------------
-static inline memory::const_block
-get_data_with_size(memory::const_block src) noexcept {
+static inline auto get_data_with_size(memory::const_block src) noexcept
+  -> memory::const_block {
     const auto opt_skip_len = mbs::decode_sequence_length(src);
     if(const auto opt_data_len = mbs::do_decode_code_point(src, opt_skip_len)) {
         return head(
