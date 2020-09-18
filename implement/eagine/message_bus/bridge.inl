@@ -29,8 +29,8 @@ public:
       : _max_read{extract_or(max_data_size, 512) * 2} {}
     bridge_state(bridge_state&&) = delete;
     bridge_state(const bridge_state&) = delete;
-    bridge_state& operator=(bridge_state&&) = delete;
-    bridge_state& operator=(const bridge_state&) = delete;
+    auto operator=(bridge_state&&) = delete;
+    auto operator=(const bridge_state&) = delete;
     ~bridge_state() noexcept {
         _output_ready.notify_all();
     }
@@ -60,17 +60,17 @@ public:
         std::thread(make_output_main()).detach();
     }
 
-    bool input_usable() noexcept {
+    auto input_usable() noexcept {
         std::unique_lock lock{_input_mutex};
         return _input.good();
     }
 
-    bool output_usable() noexcept {
+    auto output_usable() noexcept {
         std::unique_lock lock{_output_mutex};
         return _output.good();
     }
 
-    bool is_usable() noexcept {
+    auto is_usable() noexcept {
         return input_usable() && output_usable();
     }
 
@@ -106,7 +106,7 @@ public:
 
     using fetch_handler = message_storage::fetch_handler;
 
-    bool fetch_messages(fetch_handler handler) {
+    auto fetch_messages(fetch_handler handler) {
         {
             std::unique_lock lock{_input_mutex};
             _incoming.swap();
@@ -166,7 +166,7 @@ void bridge::add_ca_certificate_pem(memory::const_block blk) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool bridge::add_connection(std::unique_ptr<connection> conn) {
+auto bridge::add_connection(std::unique_ptr<connection> conn) -> bool {
     _connections.emplace_back(std::move(conn));
     return true;
 }
@@ -177,10 +177,10 @@ void bridge::_setup_from_args(const program_args&) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool bridge::_handle_special(
+auto bridge::_handle_special(
   message_id msg_id,
   message_view message,
-  bool to_connection) {
+  bool to_connection) -> bool {
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
         _log.debug("router handling special message ${message}")
           .arg(EAGINE_ID(message), msg_id)
@@ -236,7 +236,7 @@ bool bridge::_handle_special(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool bridge::_do_send(message_id msg_id, message_view message) {
+auto bridge::_do_send(message_id msg_id, message_view message) -> bool {
     message.add_hop();
     for(auto& connection : _connections) {
         EAGINE_ASSERT(connection);
@@ -251,14 +251,14 @@ bool bridge::_do_send(message_id msg_id, message_view message) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool bridge::_send(message_id msg_id, message_view message) {
+auto bridge::_send(message_id msg_id, message_view message) -> bool {
     EAGINE_ASSERT(has_id());
     message.set_source_id(_id);
     return _do_send(msg_id, message);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool bridge::_do_push(message_id msg_id, message_view message) {
+auto bridge::_do_push(message_id msg_id, message_view message) -> bool {
     if(EAGINE_LIKELY(_state)) {
         message.add_hop();
         _state->push(msg_id, message);
@@ -271,7 +271,7 @@ bool bridge::_do_push(message_id msg_id, message_view message) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool bridge::_forward_messages() {
+auto bridge::_forward_messages() -> bool {
     some_true something_done{};
 
     auto forward_conn_to_output =
@@ -318,7 +318,7 @@ bool bridge::_forward_messages() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool bridge::_check_state() {
+auto bridge::_check_state() -> bool {
     some_true something_done{};
 
     if(EAGINE_UNLIKELY(!(_state && _state->is_usable()))) {
@@ -337,7 +337,7 @@ bool bridge::_check_state() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool bridge::_update_connections() {
+auto bridge::_update_connections() -> bool {
     some_true something_done{};
 
     for(auto& conn : _connections) {
@@ -358,7 +358,7 @@ bool bridge::_update_connections() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool bridge::update() {
+auto bridge::update() -> bool {
     some_true something_done{};
 
     const bool had_id = has_id();

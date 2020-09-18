@@ -48,14 +48,14 @@ struct routed_endpoint {
     routed_endpoint();
     routed_endpoint(routed_endpoint&&) noexcept = default;
     routed_endpoint(const routed_endpoint&) = default;
-    routed_endpoint& operator=(routed_endpoint&&) noexcept = default;
-    routed_endpoint& operator=(const routed_endpoint&) = default;
+    auto operator=(routed_endpoint&&) noexcept -> routed_endpoint& = default;
+    auto operator=(const routed_endpoint&) -> routed_endpoint& = default;
     ~routed_endpoint() noexcept = default;
 
     void block_message(message_id);
     void allow_message(message_id);
 
-    bool is_allowed(message_id) const noexcept;
+    auto is_allowed(message_id) const noexcept -> bool;
 };
 //------------------------------------------------------------------------------
 class router
@@ -77,19 +77,19 @@ public:
     void add_certificate_pem(memory::const_block blk);
     void add_ca_certificate_pem(memory::const_block blk);
 
-    bool add_acceptor(std::unique_ptr<acceptor>) final;
-    bool add_connection(std::unique_ptr<connection>) final;
+    auto add_acceptor(std::unique_ptr<acceptor>) -> bool final;
+    auto add_connection(std::unique_ptr<connection>) -> bool final;
 
-    bool update(const valid_if_positive<int>& count);
-    bool update() {
+    auto update(const valid_if_positive<int>& count) -> bool;
+    auto update() -> bool {
         return update(2);
     }
 
-    auto& no_connection_timeout() const noexcept {
+    auto no_connection_timeout() const noexcept -> auto& {
         return _no_connection_timeout;
     }
 
-    bool is_done() const noexcept {
+    auto is_done() const noexcept -> bool {
         return bool(no_connection_timeout());
     }
 
@@ -107,31 +107,31 @@ public:
 private:
     void _setup_from_args(const program_args&);
 
-    bool _handle_accept();
-    bool _handle_pending();
-    bool _remove_timeouted();
-    bool _remove_disconnected();
+    auto _handle_accept() -> bool;
+    auto _handle_pending() -> bool;
+    auto _remove_timeouted() -> bool;
+    auto _remove_disconnected() -> bool;
     void _assign_id(std::unique_ptr<connection>& conn);
     void _handle_connection(std::unique_ptr<connection> conn);
 
-    bool _cleanup_blobs();
-    bool _process_blobs();
-    bool _do_allow_blob(message_id);
-    bool _handle_blob(message_id msg_id, message_age, const message_view&);
+    auto _cleanup_blobs() -> bool;
+    auto _process_blobs() -> bool;
+    auto _do_allow_blob(message_id) -> bool;
+    auto _handle_blob(message_id, message_age, const message_view&) -> bool;
 
-    bool _handle_special(
+    auto _handle_special(
       message_id msg_id,
       identifier_t incoming_id,
       routed_endpoint&,
-      const message_view&);
+      const message_view&) -> bool;
 
-    bool _do_route_message(
+    auto _do_route_message(
       message_id msg_id,
       identifier_t incoming_id,
-      message_view message);
+      message_view message) -> bool;
 
-    bool _route_messages();
-    bool _update_connections();
+    auto _route_messages() -> bool;
+    auto _update_connections() -> bool;
 
     logger _log{};
     shared_context _context{};

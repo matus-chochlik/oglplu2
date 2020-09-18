@@ -24,8 +24,9 @@ enum class generator_capability {
 //------------------------------------------------------------------------------
 using generator_capabilities = bitfield<generator_capability>;
 //------------------------------------------------------------------------------
-static constexpr inline generator_capabilities
-operator|(generator_capability a, generator_capability b) noexcept {
+static constexpr inline auto
+operator|(generator_capability a, generator_capability b) noexcept
+  -> generator_capabilities {
     return {a, b};
 }
 //------------------------------------------------------------------------------

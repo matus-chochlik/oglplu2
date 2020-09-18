@@ -21,11 +21,12 @@ namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 class bridge_state;
 class bridge : public connection_user {
-    static constexpr identifier_t invalid_id() noexcept {
+
+    static constexpr auto invalid_id() noexcept -> identifier_t {
         return 0U;
     }
 
-    static constexpr bool is_valid_id(identifier_t id) noexcept {
+    static constexpr auto is_valid_id(identifier_t id) noexcept -> bool {
         return id != invalid_id();
     }
 
@@ -43,33 +44,33 @@ public:
     void add_certificate_pem(memory::const_block blk);
     void add_ca_certificate_pem(memory::const_block blk);
 
-    bool add_connection(std::unique_ptr<connection>) final;
+    auto add_connection(std::unique_ptr<connection>) -> bool final;
 
-    bool has_id() const noexcept {
+    auto has_id() const noexcept -> bool {
         return is_valid_id(_id);
     }
 
-    bool update();
+    auto update() -> bool;
 
-    auto& no_connection_timeout() const noexcept {
+    auto no_connection_timeout() const noexcept -> auto& {
         return _no_connection_timeout;
     }
 
-    bool is_done() const noexcept {
+    auto is_done() const noexcept -> bool {
         return bool(no_connection_timeout());
     }
 
 private:
     void _setup_from_args(const program_args&);
 
-    bool _check_state();
-    bool _update_connections();
+    auto _check_state() -> bool;
+    auto _update_connections() -> bool;
 
-    bool _do_send(message_id, message_view);
-    bool _send(message_id, message_view);
-    bool _handle_special(message_id, message_view, bool);
-    bool _do_push(message_id, message_view);
-    bool _forward_messages();
+    auto _do_send(message_id, message_view) -> bool;
+    auto _send(message_id, message_view) -> bool;
+    auto _handle_special(message_id, message_view, bool) -> bool;
+    auto _do_push(message_id, message_view) -> bool;
+    auto _forward_messages() -> bool;
 
     logger _log{};
     shared_context _context{};

@@ -14,9 +14,9 @@ namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 // routed_endpoint
 //------------------------------------------------------------------------------
-static inline bool routed_endpoint_list_contains(
+static inline auto routed_endpoint_list_contains(
   const std::vector<message_id>& list,
-  const message_id& entry) noexcept {
+  const message_id& entry) noexcept -> bool {
     return std::find(list.begin(), list.end(), entry) != list.end();
 }
 //------------------------------------------------------------------------------
@@ -27,7 +27,7 @@ routed_endpoint::routed_endpoint() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool routed_endpoint::is_allowed(message_id msg_id) const noexcept {
+auto routed_endpoint::is_allowed(message_id msg_id) const noexcept -> bool {
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
         return true;
     }
@@ -69,7 +69,7 @@ void router::add_ca_certificate_pem(memory::const_block blk) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool router::add_acceptor(std::unique_ptr<acceptor> an_acceptor) {
+auto router::add_acceptor(std::unique_ptr<acceptor> an_acceptor) -> bool {
     if(an_acceptor) {
         _log.info("adding connection acceptor");
         _acceptors.emplace_back(std::move(an_acceptor));
@@ -79,7 +79,7 @@ bool router::add_acceptor(std::unique_ptr<acceptor> an_acceptor) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool router::add_connection(std::unique_ptr<connection> a_connection) {
+auto router::add_connection(std::unique_ptr<connection> a_connection) -> bool {
     if(a_connection) {
         _log.info("adding connection");
         _connectors.emplace_back(std::move(a_connection));
@@ -100,7 +100,7 @@ void router::_setup_from_args(const program_args& args) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool router::_handle_accept() {
+auto router::_handle_accept() -> bool {
     some_true something_done{};
 
     if(EAGINE_LIKELY(!_acceptors.empty())) {
@@ -116,7 +116,7 @@ bool router::_handle_accept() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool router::_handle_pending() {
+auto router::_handle_pending() -> bool {
     some_true something_done{};
 
     if(!_pending.empty()) {
@@ -171,7 +171,7 @@ bool router::_handle_pending() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool router::_remove_timeouted() {
+auto router::_remove_timeouted() -> bool {
     some_true something_done{};
 
     _pending.erase(
@@ -194,7 +194,7 @@ bool router::_remove_timeouted() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool router::_remove_disconnected() {
+auto router::_remove_disconnected() -> bool {
     some_true something_done{};
 
     for(auto& p : _endpoints) {
@@ -249,12 +249,12 @@ void router::_handle_connection(std::unique_ptr<connection> conn) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool router::_cleanup_blobs() {
+auto router::_cleanup_blobs() -> bool {
     return _blobs.cleanup();
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool router::_process_blobs() {
+auto router::_process_blobs() -> bool {
     some_true something_done{};
 
     if(_blobs.has_outgoing()) {
@@ -286,7 +286,7 @@ bool router::_process_blobs() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool router::_do_allow_blob(message_id msg_id) {
+auto router::_do_allow_blob(message_id msg_id) -> bool {
     if(is_special_message(msg_id)) {
         if(msg_id.has_method(EAGINE_ID(eptCertPem))) {
             return true;
@@ -296,10 +296,10 @@ bool router::_do_allow_blob(message_id msg_id) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool router::_handle_blob(
+auto router::_handle_blob(
   message_id msg_id,
   message_age,
-  const message_view& message) {
+  const message_view& message) -> bool {
     // TODO: use message age
     if(is_special_message(msg_id)) {
         if(msg_id.has_method(EAGINE_ID(eptCertPem))) {
@@ -329,11 +329,11 @@ bool router::_handle_blob(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool router::_handle_special(
+auto router::_handle_special(
   message_id msg_id,
   identifier_t incoming_id,
   routed_endpoint& endpoint,
-  const message_view& message) {
+  const message_view& message) -> bool {
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
         _log.debug("router handling special message ${message}")
           .arg(EAGINE_ID(message), msg_id)
@@ -471,10 +471,10 @@ bool router::_handle_special(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool router::_do_route_message(
+auto router::_do_route_message(
   message_id msg_id,
   identifier_t incoming_id,
-  message_view message) {
+  message_view message) -> bool {
     if(EAGINE_UNLIKELY(message.too_many_hops())) {
         _log.warning("message ${message} discarded after too many hops")
           .arg(EAGINE_ID(message), msg_id);
@@ -508,7 +508,7 @@ bool router::_do_route_message(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool router::_route_messages() {
+auto router::_route_messages() -> bool {
     some_true something_done{};
 
     for(auto& ep : _endpoints) {
@@ -538,7 +538,7 @@ bool router::_route_messages() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool router::_update_connections() {
+auto router::_update_connections() -> bool {
     some_true something_done{};
 
     for(auto& [id, endpoint] : _endpoints) {
@@ -558,7 +558,7 @@ bool router::_update_connections() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool router::update(const valid_if_positive<int>& count) {
+auto router::update(const valid_if_positive<int>& count) -> bool {
     some_true something_done{};
 
     something_done(_cleanup_blobs());

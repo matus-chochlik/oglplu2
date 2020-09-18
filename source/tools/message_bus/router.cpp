@@ -17,7 +17,7 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-int main(main_ctx& ctx) {
+auto main(main_ctx& ctx) -> int {
     signal_switch interrupted;
 
     auto& args = ctx.args();
@@ -70,7 +70,7 @@ int main(main_ctx& ctx) {
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-int main(int argc, const char** argv) {
+auto main(int argc, const char** argv) -> int {
     eagine::main_ctx_options options;
     options.logger_id = EAGINE_ID(RouterExe);
     return eagine::main_impl(argc, argv, options);
