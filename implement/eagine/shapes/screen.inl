@@ -16,7 +16,7 @@ namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-vertex_attrib_bits unit_screen_gen::_attr_mask() noexcept {
+auto unit_screen_gen::_attr_mask() noexcept -> vertex_attrib_bits {
     return vertex_attrib_kind::position | vertex_attrib_kind::normal |
            vertex_attrib_kind::tangential | vertex_attrib_kind::bitangential |
            vertex_attrib_kind::wrap_coord | vertex_attrib_kind::face_coord |
@@ -28,7 +28,7 @@ unit_screen_gen::unit_screen_gen(vertex_attrib_bits attr_bits) noexcept
   : _base(attr_bits & _attr_mask()) {}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t unit_screen_gen::vertex_count() {
+auto unit_screen_gen::vertex_count() -> span_size_t {
     return 4;
 }
 //------------------------------------------------------------------------------
@@ -184,7 +184,7 @@ void unit_screen_gen::attrib_values(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t unit_screen_gen::operation_count(drawing_variant) {
+auto unit_screen_gen::operation_count(drawing_variant) -> span_size_t {
     return 1;
 }
 //------------------------------------------------------------------------------
@@ -205,7 +205,7 @@ void unit_screen_gen::instructions(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-math::sphere<float, true> unit_screen_gen::bounding_sphere() {
+auto unit_screen_gen::bounding_sphere() -> math::sphere<float, true> {
     using std::sqrt;
     return {{0.0F}, float(sqrt(2.F))};
 }

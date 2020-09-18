@@ -32,35 +32,35 @@ struct scalar {
 
     using _cpT = const scalar&;
 
-    static constexpr inline scalar _from(data_type v) noexcept {
+    static constexpr auto _from(data_type v) noexcept {
         return scalar{v};
     }
 
-    static constexpr inline scalar _make(T v, std::true_type) noexcept {
+    static constexpr auto _make(T v, std::true_type) noexcept {
         return scalar{vect::fill<T, N, V>::apply(v)};
     }
 
-    static constexpr inline scalar _make(T v, std::false_type) noexcept {
+    static constexpr auto _make(T v, std::false_type) noexcept {
         return scalar{v};
     }
 
-    static constexpr inline scalar make(T v) noexcept {
+    static constexpr auto make(T v) noexcept {
         return _make(v, is_vectorized());
     }
 
-    constexpr inline T _get(std::true_type) const noexcept {
+    constexpr auto _get(std::true_type) const noexcept -> T {
         return _v[0];
     }
 
-    constexpr inline T _get(std::false_type) const noexcept {
+    constexpr auto _get(std::false_type) const noexcept -> T {
         return _v;
     }
 
-    constexpr inline operator T() const noexcept {
+    constexpr operator T() const noexcept {
         return _get(is_vectorized());
     }
 
-    inline scalar& operator=(T v) noexcept {
+    auto operator=(T v) noexcept -> scalar& {
         return *this = make(v);
     }
 };

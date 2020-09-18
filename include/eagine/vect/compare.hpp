@@ -18,7 +18,7 @@ struct is_zero {
     using _dT = data_t<T, N, V>;
     using _dpT = data_param_t<T, N, V>;
 
-    static bool apply(_dpT v) noexcept {
+    static auto apply(_dpT v) noexcept -> bool {
         for(int i = 0; i < N; ++i) {
             if(v[i] > T(0) || v[i] < T(0)) {
                 return false;

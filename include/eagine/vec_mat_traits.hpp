@@ -77,7 +77,7 @@ static inline auto element_view(const C& c) noexcept {
 
 template <typename T, span_size_t N>
 struct compound_view_maker<T[N]> {
-    inline span<T> operator()(T (&v)[N]) const noexcept {
+    auto operator()(T (&v)[N]) const noexcept -> span<T> {
         return {static_cast<T*>(v), N};
     }
 };
@@ -89,7 +89,7 @@ static inline auto element_view(T (&v)[N]) noexcept {
 
 template <typename T, span_size_t C, span_size_t R>
 struct compound_view_maker<T[C][R]> {
-    inline span<T> operator()(T (&v)[C][R]) const noexcept {
+    auto operator()(T (&v)[C][R]) const noexcept -> span<T> {
         return {v[0], C * R};
     }
 };

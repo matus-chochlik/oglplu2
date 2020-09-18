@@ -31,18 +31,18 @@ public:
     constexpr explicit sign(const X& value) noexcept
       : _positive{value >= X(0)} {}
 
-    static constexpr inline sign plus() noexcept {
+    static constexpr auto plus() noexcept -> sign {
         return {true};
     }
 
-    static constexpr inline sign minus() noexcept {
+    static constexpr auto minus() noexcept -> sign {
         return {false};
     }
 
     template <
       typename X,
       typename = std::enable_if_t<!std::is_same_v<X, sign<T>>>>
-    sign& operator=(const X& value) noexcept {
+    auto operator=(const X& value) noexcept -> auto& {
         _positive = (value >= X(0));
         return *this;
     }
@@ -51,20 +51,20 @@ public:
         return _positive ? T{1} : T{-1};
     }
 
-    sign& flip() noexcept {
+    auto flip() noexcept -> auto& {
         _positive = !_positive;
         return *this;
     }
 
-    sign flipped() const noexcept {
+    auto flipped() const noexcept -> sign {
         return {!_positive};
     }
 
-    sign operator-() const noexcept {
+    auto operator-() const noexcept -> sign {
         return flipped();
     }
 
-    sign operator!() const noexcept {
+    auto operator!() const noexcept -> sign {
         return flipped();
     }
 

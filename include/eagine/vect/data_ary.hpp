@@ -28,9 +28,11 @@ struct _ary_data {
     _ary_data(_ary_data&&) noexcept(std::is_nothrow_move_constructible_v<T>) =
       default;
     _ary_data(const _ary_data&) = default;
-    _ary_data& operator=(_ary_data&&) noexcept(
-      std::is_nothrow_move_constructible_v<T>) = default;
-    _ary_data& operator=(const _ary_data&) = default;
+
+    auto operator=(_ary_data&&) noexcept(std::is_nothrow_move_constructible_v<T>)
+      -> _ary_data& = default;
+
+    auto operator=(const _ary_data&) -> _ary_data& = default;
 
     ~_ary_data() noexcept = default;
 
@@ -51,82 +53,82 @@ struct _ary_data {
           T(std::forward<P2>(p2)),
           T(std::forward<Pn>(pn))...} {}
 
-    constexpr inline T operator[](int i) const noexcept {
+    constexpr auto operator[](int i) const noexcept -> T {
         return _v[i];
     }
 
-    inline T& operator[](int i) noexcept {
+    inline auto operator[](int i) noexcept -> T& {
         return _v[i];
     }
 
-    constexpr inline _ary_data& operator+=(_ary_data b) noexcept {
+    constexpr auto operator+=(_ary_data b) noexcept -> auto& {
         for(int i = 0; i < N; ++i) {
             _v[i] += b[i];
         }
         return *this;
     }
 
-    constexpr inline _ary_data& operator+=(T b) noexcept {
+    constexpr auto operator+=(T b) noexcept -> auto& {
         for(int i = 0; i < N; ++i) {
             _v[i] += b;
         }
         return *this;
     }
 
-    constexpr inline _ary_data& operator-=(_ary_data b) noexcept {
+    constexpr auto operator-=(_ary_data b) noexcept -> auto& {
         for(int i = 0; i < N; ++i) {
             _v[i] -= b[i];
         }
         return *this;
     }
 
-    constexpr inline _ary_data& operator-=(T b) noexcept {
+    constexpr auto operator-=(T b) noexcept -> auto& {
         for(int i = 0; i < N; ++i) {
             _v[i] -= b;
         }
         return *this;
     }
 
-    constexpr inline _ary_data& operator*=(_ary_data b) noexcept {
+    constexpr auto operator*=(_ary_data b) noexcept -> auto& {
         for(int i = 0; i < N; ++i) {
             _v[i] *= b[i];
         }
         return *this;
     }
 
-    constexpr inline _ary_data& operator*=(T b) noexcept {
+    constexpr auto operator*=(T b) noexcept -> auto& {
         for(int i = 0; i < N; ++i) {
             _v[i] *= b;
         }
         return *this;
     }
 
-    constexpr inline _ary_data& operator/=(_ary_data b) noexcept {
+    constexpr auto operator/=(_ary_data b) noexcept -> auto& {
         for(int i = 0; i < N; ++i) {
             _v[i] /= b[i];
         }
         return *this;
     }
 
-    constexpr inline _ary_data& operator/=(T b) noexcept {
+    constexpr auto operator/=(T b) noexcept -> auto& {
         for(int i = 0; i < N; ++i) {
             _v[i] /= b;
         }
         return *this;
     }
 
-    friend constexpr inline _ary_data operator+(_ary_data a) noexcept {
+    friend constexpr auto operator+(_ary_data a) noexcept {
         return a;
     }
 
-    friend _ary_data operator-(_ary_data a) noexcept {
+    friend auto operator-(_ary_data a) noexcept {
         for(int i = 0; i < N; ++i) {
             a._v[i] = -a._v[i];
         }
         return a;
     }
 
-    friend _ary_data operator+(const _ary_data& a, const _ary_data& b) noexcept {
+    friend auto operator+(const _ary_data& a, const _ary_data& b) noexcept {
         _ary_data c{};
         for(int i = 0; i < N; ++i) {
             c._v[i] = a._v[i] + b._v[i];
@@ -134,7 +136,7 @@ struct _ary_data {
         return c;
     }
 
-    friend _ary_data operator+(const _ary_data& a, T b) noexcept {
+    friend auto operator+(const _ary_data& a, T b) noexcept {
         _ary_data c{};
         for(int i = 0; i < N; ++i) {
             c._v[i] = a._v[i] + b;
@@ -142,7 +144,7 @@ struct _ary_data {
         return c;
     }
 
-    friend _ary_data operator-(const _ary_data& a, const _ary_data& b) noexcept {
+    friend auto operator-(const _ary_data& a, const _ary_data& b) noexcept {
         _ary_data c{};
         for(int i = 0; i < N; ++i) {
             c._v[i] = a._v[i] - b._v[i];
@@ -150,7 +152,7 @@ struct _ary_data {
         return c;
     }
 
-    friend _ary_data operator-(const _ary_data& a, T b) noexcept {
+    friend auto operator-(const _ary_data& a, T b) noexcept {
         _ary_data c{};
         for(int i = 0; i < N; ++i) {
             c._v[i] = a._v[i] - b;
@@ -158,7 +160,7 @@ struct _ary_data {
         return c;
     }
 
-    friend _ary_data operator*(const _ary_data& a, const _ary_data& b) noexcept {
+    friend auto operator*(const _ary_data& a, const _ary_data& b) noexcept {
         _ary_data c{};
         for(int i = 0; i < N; ++i) {
             c._v[i] = a._v[i] * b._v[i];
@@ -166,7 +168,7 @@ struct _ary_data {
         return c;
     }
 
-    friend _ary_data operator*(const _ary_data& a, T b) noexcept {
+    friend auto operator*(const _ary_data& a, T b) noexcept {
         _ary_data c{};
         for(int i = 0; i < N; ++i) {
             c._v[i] = a._v[i] * b;
@@ -174,7 +176,7 @@ struct _ary_data {
         return c;
     }
 
-    friend _ary_data operator/(const _ary_data& a, const _ary_data& b) noexcept {
+    friend auto operator/(const _ary_data& a, const _ary_data& b) noexcept {
         _ary_data c{};
         for(int i = 0; i < N; ++i) {
             c._v[i] = a._v[i] / b._v[i];
@@ -182,7 +184,7 @@ struct _ary_data {
         return c;
     }
 
-    friend _ary_data operator/(const _ary_data& a, T b) noexcept {
+    friend auto operator/(const _ary_data& a, T b) noexcept {
         _ary_data c{};
         for(int i = 0; i < N; ++i) {
             c._v[i] = a._v[i] / b;
@@ -200,7 +202,7 @@ template <typename T>
 struct _ary_data<T, 0U> {
     using type = _ary_data;
 
-    T operator[](int i) const;
+    auto operator[](int i) const -> T;
 };
 
 } // namespace eagine::vect
