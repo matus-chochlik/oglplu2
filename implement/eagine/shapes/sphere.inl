@@ -19,7 +19,7 @@ namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-vertex_attrib_bits unit_sphere_gen::_attr_mask() noexcept {
+auto unit_sphere_gen::_attr_mask() noexcept -> vertex_attrib_bits {
     return vertex_attrib_kind::position | vertex_attrib_kind::normal |
            vertex_attrib_kind::tangential | vertex_attrib_kind::bitangential |
            vertex_attrib_kind::box_coord | vertex_attrib_kind::wrap_coord;
@@ -35,7 +35,7 @@ unit_sphere_gen::unit_sphere_gen(
   , _sections(span_size_t(sections.value())) {}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t unit_sphere_gen::vertex_count() {
+auto unit_sphere_gen::vertex_count() -> span_size_t {
     return (_rings + 1) * (_sections + 1);
 }
 //------------------------------------------------------------------------------
@@ -186,7 +186,7 @@ void unit_sphere_gen::attrib_values(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-index_data_type unit_sphere_gen::index_type(drawing_variant v) {
+auto unit_sphere_gen::index_type(drawing_variant v) -> index_data_type {
     if(index_count(v) < span_size(std::numeric_limits<std::uint8_t>::max())) {
         return index_data_type::unsigned_8;
     }
@@ -197,7 +197,7 @@ index_data_type unit_sphere_gen::index_type(drawing_variant v) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t unit_sphere_gen::index_count(drawing_variant) {
+auto unit_sphere_gen::index_count(drawing_variant) -> span_size_t {
     return _sections * ((_rings + 1) * 2 + (primitive_restart() ? 1 : 0));
 }
 //------------------------------------------------------------------------------
@@ -238,7 +238,7 @@ void unit_sphere_gen::indices(drawing_variant var, span<std::uint32_t> dest) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t unit_sphere_gen::operation_count(drawing_variant) {
+auto unit_sphere_gen::operation_count(drawing_variant) -> span_size_t {
     if(primitive_restart()) {
         return 1;
     } else {
@@ -276,7 +276,7 @@ void unit_sphere_gen::instructions(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-math::sphere<float, true> unit_sphere_gen::bounding_sphere() {
+auto unit_sphere_gen::bounding_sphere() -> math::sphere<float, true> {
     return {{0.F, 0.F, 0.F}, 0.5F};
 }
 //------------------------------------------------------------------------------

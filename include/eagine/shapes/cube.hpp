@@ -22,30 +22,30 @@ class unit_cube_gen : public centered_unit_shape_generator_base {
 private:
     using _base = centered_unit_shape_generator_base;
 
-    static vertex_attrib_bits _attr_mask() noexcept;
+    static auto _attr_mask() noexcept -> vertex_attrib_bits;
 
-    static vertex_attrib_bits _shared_attrs() noexcept;
+    static auto _shared_attrs() noexcept -> vertex_attrib_bits;
 
-    bool _only_shared_attribs() noexcept;
+    auto _only_shared_attribs() noexcept -> bool;
 
-    static int _coord_c(span_size_t v, span_size_t c) noexcept;
+    static auto _coord_c(span_size_t v, span_size_t c) noexcept -> int;
 
-    static int _normal_c(span_size_t f, span_size_t c) noexcept;
+    static auto _normal_c(span_size_t f, span_size_t c) noexcept -> int;
 
-    static int _tangential_c(span_size_t f, span_size_t c) noexcept;
+    static auto _tangential_c(span_size_t f, span_size_t c) noexcept -> int;
 
-    static int _bitangential_c(span_size_t f, span_size_t c) noexcept;
+    static auto _bitangential_c(span_size_t f, span_size_t c) noexcept -> int;
 
     template <typename T>
     void _indices(drawing_variant, span<T> dest) noexcept;
 
-    static span_size_t
-    _face_vert(span_size_t f, span_size_t t, span_size_t v) noexcept;
+    static auto _face_vert(span_size_t f, span_size_t t, span_size_t v) noexcept
+      -> span_size_t;
 
 public:
     unit_cube_gen(vertex_attrib_bits attr_bits) noexcept;
 
-    span_size_t vertex_count() override;
+    auto vertex_count() -> span_size_t override;
 
     void positions(span<float> dest) noexcept;
 
@@ -59,11 +59,11 @@ public:
 
     void attrib_values(vertex_attrib_variant, span<float>) override;
 
-    span_size_t draw_variant_count() override;
+    auto draw_variant_count() -> span_size_t override;
 
-    index_data_type index_type(drawing_variant) override;
+    auto index_type(drawing_variant) -> index_data_type override;
 
-    span_size_t index_count(drawing_variant) override;
+    auto index_count(drawing_variant) -> span_size_t override;
 
     void indices(drawing_variant, span<std::uint8_t> dest) override;
 
@@ -71,11 +71,11 @@ public:
 
     void indices(drawing_variant, span<std::uint32_t> dest) override;
 
-    span_size_t operation_count(drawing_variant) override;
+    auto operation_count(drawing_variant) -> span_size_t override;
 
     void instructions(drawing_variant, span<draw_operation> ops) override;
 
-    math::sphere<float, true> bounding_sphere() override;
+    auto bounding_sphere() -> math::sphere<float, true> override;
 };
 //------------------------------------------------------------------------------
 static inline auto unit_cube(vertex_attrib_bits attr_bits) {

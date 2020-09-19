@@ -17,17 +17,17 @@ namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-vertex_attrib_bits unit_icosahedron_gen::_attr_mask() noexcept {
+auto unit_icosahedron_gen::_attr_mask() noexcept -> vertex_attrib_bits {
     return vertex_attrib_kind::position | vertex_attrib_kind::box_coord;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-vertex_attrib_bits unit_icosahedron_gen::_shared_attrs() noexcept {
+auto unit_icosahedron_gen::_shared_attrs() noexcept -> vertex_attrib_bits {
     return vertex_attrib_kind::position | vertex_attrib_kind::box_coord;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool unit_icosahedron_gen::_only_shared_attribs() noexcept {
+auto unit_icosahedron_gen::_only_shared_attribs() noexcept -> bool {
     return !(attrib_bits() & ~_shared_attrs());
 }
 //------------------------------------------------------------------------------
@@ -36,7 +36,7 @@ unit_icosahedron_gen::unit_icosahedron_gen(vertex_attrib_bits attr_bits) noexcep
   : _base(attr_bits & _attr_mask()) {}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t unit_icosahedron_gen::vertex_count() {
+auto unit_icosahedron_gen::vertex_count() -> span_size_t {
     return 12;
 }
 //------------------------------------------------------------------------------
@@ -108,12 +108,12 @@ void unit_icosahedron_gen::attrib_values(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-index_data_type unit_icosahedron_gen::index_type(drawing_variant) {
+auto unit_icosahedron_gen::index_type(drawing_variant) -> index_data_type {
     return index_data_type::unsigned_8;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t unit_icosahedron_gen::index_count(drawing_variant) {
+auto unit_icosahedron_gen::index_count(drawing_variant) -> span_size_t {
     return 20 * 3;
 }
 //------------------------------------------------------------------------------
@@ -217,7 +217,7 @@ void unit_icosahedron_gen::indices(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t unit_icosahedron_gen::operation_count(drawing_variant) {
+auto unit_icosahedron_gen::operation_count(drawing_variant) -> span_size_t {
     return 1;
 }
 //------------------------------------------------------------------------------
@@ -237,7 +237,7 @@ void unit_icosahedron_gen::instructions(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-math::sphere<float, true> unit_icosahedron_gen::bounding_sphere() {
+auto unit_icosahedron_gen::bounding_sphere() -> math::sphere<float, true> {
     return {{0.0F}, 0.5F};
 }
 //------------------------------------------------------------------------------

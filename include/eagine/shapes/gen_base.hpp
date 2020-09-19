@@ -128,8 +128,8 @@ struct generator_intf {
         indices(0, dest);
     }
 
-    virtual span_size_t operation_count(drawing_variant) = 0;
-    span_size_t operation_count() {
+    virtual auto operation_count(drawing_variant) -> span_size_t = 0;
+    auto operation_count() {
         return operation_count(0);
     }
 

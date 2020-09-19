@@ -105,22 +105,22 @@ enumerator_mapping(identity<index_data_type>, value_tree_tag) noexcept {
        {"unsigned_32", index_data_type::unsigned_32}}};
 }
 //------------------------------------------------------------------------------
-static inline bool operator<(index_data_type l, index_data_type r) noexcept {
+static inline auto operator<(index_data_type l, index_data_type r) noexcept {
     using UT = std::underlying_type_t<index_data_type>;
     return UT(l) < UT(r);
 }
 //------------------------------------------------------------------------------
-static inline bool operator>(index_data_type l, index_data_type r) noexcept {
+static inline auto operator>(index_data_type l, index_data_type r) noexcept {
     using UT = std::underlying_type_t<index_data_type>;
     return UT(l) > UT(r);
 }
 //------------------------------------------------------------------------------
-static inline bool operator<=(index_data_type l, index_data_type r) noexcept {
+static inline auto operator<=(index_data_type l, index_data_type r) noexcept {
     using UT = std::underlying_type_t<index_data_type>;
     return UT(l) <= UT(r);
 }
 //------------------------------------------------------------------------------
-static inline bool operator>=(index_data_type l, index_data_type r) noexcept {
+static inline auto operator>=(index_data_type l, index_data_type r) noexcept {
     using UT = std::underlying_type_t<index_data_type>;
     return UT(l) >= UT(r);
 }

@@ -20,7 +20,7 @@ namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-vertex_attrib_bits unit_torus_gen::_attr_mask() noexcept {
+auto unit_torus_gen::_attr_mask() noexcept -> vertex_attrib_bits {
     return vertex_attrib_kind::position | vertex_attrib_kind::normal |
            vertex_attrib_kind::tangential | vertex_attrib_kind::bitangential |
            vertex_attrib_kind::pivot | vertex_attrib_kind::pivot_pivot |
@@ -40,7 +40,7 @@ unit_torus_gen::unit_torus_gen(
   , _radius_ratio(radius_ratio.value()) {}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t unit_torus_gen::vertex_count() {
+auto unit_torus_gen::vertex_count() -> span_size_t {
     return (_rings + 1) * (_sections + 1);
 }
 //------------------------------------------------------------------------------
@@ -251,7 +251,7 @@ void unit_torus_gen::wrap_coords(span<float> dest) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-string_view unit_torus_gen::special_variant_name(span_size_t index) {
+auto unit_torus_gen::special_variant_name(span_size_t index) -> string_view {
     if(index == 1) {
         return {"random"};
     }
@@ -297,7 +297,8 @@ void unit_torus_gen::make_special_attrib_values(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t unit_torus_gen::attribute_variants(vertex_attrib_kind attrib) {
+auto unit_torus_gen::attribute_variants(vertex_attrib_kind attrib)
+  -> span_size_t {
     switch(attrib) {
         case vertex_attrib_kind::pivot_pivot:
         case vertex_attrib_kind::vertex_pivot:
@@ -323,7 +324,7 @@ span_size_t unit_torus_gen::attribute_variants(vertex_attrib_kind attrib) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-string_view unit_torus_gen::variant_name(vertex_attrib_variant vav) {
+auto unit_torus_gen::variant_name(vertex_attrib_variant vav) -> string_view {
     switch(vav.attrib) {
         case vertex_attrib_kind::position:
         case vertex_attrib_kind::normal:
@@ -388,12 +389,12 @@ void unit_torus_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) 
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t unit_torus_gen::draw_variant_count() {
+auto unit_torus_gen::draw_variant_count() -> span_size_t {
     return 2;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-index_data_type unit_torus_gen::index_type(drawing_variant v) {
+auto unit_torus_gen::index_type(drawing_variant v) -> index_data_type {
     if(index_count(v) < span_size(std::numeric_limits<std::uint8_t>::max())) {
         return index_data_type::unsigned_8;
     }
@@ -404,7 +405,7 @@ index_data_type unit_torus_gen::index_type(drawing_variant v) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t unit_torus_gen::index_count(drawing_variant var) {
+auto unit_torus_gen::index_count(drawing_variant var) -> span_size_t {
     if(var == 0) {
         return _sections * ((_rings + 1) * 2 + (primitive_restart() ? 1 : 0));
     }
@@ -473,7 +474,7 @@ void unit_torus_gen::indices(drawing_variant var, span<std::uint32_t> dest) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t unit_torus_gen::operation_count(drawing_variant var) {
+auto unit_torus_gen::operation_count(drawing_variant var) -> span_size_t {
     if(var == 0) {
         if(primitive_restart()) {
             return 1;
@@ -551,7 +552,7 @@ void unit_torus_gen::instructions(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-math::sphere<float, true> unit_torus_gen::bounding_sphere() {
+auto unit_torus_gen::bounding_sphere() -> math::sphere<float, true> {
     return {{0.0F}, 0.5F};
 }
 //------------------------------------------------------------------------------

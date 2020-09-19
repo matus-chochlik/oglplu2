@@ -18,26 +18,28 @@ namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-vertex_attrib_bits unit_cube_gen::_attr_mask() noexcept {
+auto unit_cube_gen::_attr_mask() noexcept -> vertex_attrib_bits {
     return vertex_attrib_kind::position | vertex_attrib_kind::normal |
            vertex_attrib_kind::tangential | vertex_attrib_kind::bitangential |
            vertex_attrib_kind::pivot | vertex_attrib_kind::box_coord;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-vertex_attrib_bits unit_cube_gen::_shared_attrs() noexcept {
+auto unit_cube_gen::_shared_attrs() noexcept -> vertex_attrib_bits {
     return vertex_attrib_kind::position | vertex_attrib_kind::pivot |
            vertex_attrib_kind::box_coord;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool unit_cube_gen::_only_shared_attribs() noexcept {
+auto unit_cube_gen::_only_shared_attribs() noexcept -> bool {
     return !(attrib_bits() & ~_shared_attrs());
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t
-unit_cube_gen::_face_vert(span_size_t f, span_size_t t, span_size_t v) noexcept {
+auto unit_cube_gen::_face_vert(
+  span_size_t f,
+  span_size_t t,
+  span_size_t v) noexcept -> span_size_t {
     EAGINE_ASSERT(f < 6);
     EAGINE_ASSERT(t < 2);
     EAGINE_ASSERT(v < 3);
@@ -105,7 +107,7 @@ unit_cube_gen::unit_cube_gen(vertex_attrib_bits attr_bits) noexcept
   : _base(attr_bits & _attr_mask()) {}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t unit_cube_gen::vertex_count() {
+auto unit_cube_gen::vertex_count() -> span_size_t {
     if(_only_shared_attribs()) {
         return 8;
     } else {
@@ -114,7 +116,7 @@ span_size_t unit_cube_gen::vertex_count() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-int unit_cube_gen::_coord_c(span_size_t v, span_size_t c) noexcept {
+auto unit_cube_gen::_coord_c(span_size_t v, span_size_t c) noexcept -> int {
     EAGINE_ASSERT(v < 8);
     EAGINE_ASSERT(c < 3);
 
@@ -157,7 +159,7 @@ void unit_cube_gen::positions(span<float> dest) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-int unit_cube_gen::_normal_c(span_size_t f, span_size_t c) noexcept {
+auto unit_cube_gen::_normal_c(span_size_t f, span_size_t c) noexcept -> int {
     EAGINE_ASSERT(f < 6);
     EAGINE_ASSERT(c < 3);
 
@@ -198,7 +200,8 @@ void unit_cube_gen::normals(span<float> dest) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-int unit_cube_gen::_tangential_c(span_size_t f, span_size_t c) noexcept {
+auto unit_cube_gen::_tangential_c(span_size_t f, span_size_t c) noexcept
+  -> int {
     EAGINE_ASSERT(f < 6);
     EAGINE_ASSERT(c < 3);
 
@@ -239,7 +242,8 @@ void unit_cube_gen::tangentials(span<float> dest) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-int unit_cube_gen::_bitangential_c(span_size_t f, span_size_t c) noexcept {
+auto unit_cube_gen::_bitangential_c(span_size_t f, span_size_t c) noexcept
+  -> int {
     EAGINE_ASSERT(f < 6);
     EAGINE_ASSERT(c < 3);
 
@@ -352,12 +356,12 @@ void unit_cube_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t unit_cube_gen::draw_variant_count() {
+auto unit_cube_gen::draw_variant_count() -> span_size_t {
     return 2;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-index_data_type unit_cube_gen::index_type(drawing_variant var) {
+auto unit_cube_gen::index_type(drawing_variant var) -> index_data_type {
     if(var == 0) {
         if(_only_shared_attribs()) {
             return index_data_type::unsigned_8;
@@ -369,7 +373,7 @@ index_data_type unit_cube_gen::index_type(drawing_variant var) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t unit_cube_gen::index_count(drawing_variant var) {
+auto unit_cube_gen::index_count(drawing_variant var) -> span_size_t {
     if(var == 0) {
         if(_only_shared_attribs()) {
             return 6 * 2 * 3;
@@ -431,7 +435,7 @@ void unit_cube_gen::indices(drawing_variant var, span<std::uint32_t> dest) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t unit_cube_gen::operation_count(drawing_variant) {
+auto unit_cube_gen::operation_count(drawing_variant) -> span_size_t {
     return 1;
 }
 //------------------------------------------------------------------------------
@@ -468,7 +472,7 @@ void unit_cube_gen::instructions(drawing_variant var, span<draw_operation> ops) 
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-math::sphere<float, true> unit_cube_gen::bounding_sphere() {
+auto unit_cube_gen::bounding_sphere() -> math::sphere<float, true> {
     using std::sqrt;
     return {{0.0F}, float(sqrt(2.F))};
 }

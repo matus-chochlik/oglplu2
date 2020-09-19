@@ -21,12 +21,12 @@ class unit_screen_gen : public centered_unit_shape_generator_base {
 private:
     using _base = centered_unit_shape_generator_base;
 
-    static vertex_attrib_bits _attr_mask() noexcept;
+    static auto _attr_mask() noexcept -> vertex_attrib_bits;
 
 public:
     unit_screen_gen(vertex_attrib_bits attr_bits) noexcept;
 
-    span_size_t vertex_count() override;
+    auto vertex_count() -> span_size_t override;
 
     void positions(span<float> dest) noexcept;
 
@@ -40,11 +40,11 @@ public:
 
     void attrib_values(vertex_attrib_variant, span<float>) override;
 
-    span_size_t operation_count(drawing_variant) override;
+    auto operation_count(drawing_variant) -> span_size_t override;
 
     void instructions(drawing_variant, span<draw_operation> ops) override;
 
-    math::sphere<float, true> bounding_sphere() override;
+    auto bounding_sphere() -> math::sphere<float, true> override;
 };
 //------------------------------------------------------------------------------
 static inline auto unit_screen(vertex_attrib_bits attr_bits) {
