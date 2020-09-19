@@ -24,8 +24,8 @@ static inline auto rapidyaml_cstrref(string_view str) noexcept {
     return c4::csubstr(str.data(), std_size(str.size()));
 }
 //------------------------------------------------------------------------------
-static inline string_view view(c4::csubstr str) noexcept {
-    return {str.data(), span_size(str.size())};
+static inline auto view(c4::csubstr str) noexcept {
+    return string_view{str.data(), span_size(str.size())};
 }
 //------------------------------------------------------------------------------
 class rapidyaml_callbacks {
@@ -68,8 +68,8 @@ public:
 
     rapidyaml_callbacks(rapidyaml_callbacks&&) = delete;
     rapidyaml_callbacks(const rapidyaml_callbacks&) = delete;
-    rapidyaml_callbacks& operator=(rapidyaml_callbacks&&) = delete;
-    rapidyaml_callbacks& operator=(const rapidyaml_callbacks&) = delete;
+    auto operator=(rapidyaml_callbacks&&) = delete;
+    auto operator=(const rapidyaml_callbacks&) = delete;
 };
 //------------------------------------------------------------------------------
 class rapidyaml_tree_compound;
@@ -80,7 +80,7 @@ rapidyaml_make_new_node(rapidyaml_tree_compound&, ryml::NodeRef) noexcept;
 class rapidyaml_attribute : public attribute_interface {
     ryml::NodeRef _node{};
 
-    static inline bool _usable(const ryml::NodeRef& n) noexcept {
+    static inline auto _usable(const ryml::NodeRef& n) noexcept {
         return n.valid() && !n.is_seed();
     }
 
@@ -88,18 +88,18 @@ public:
     rapidyaml_attribute(ryml::NodeRef node)
       : _node{node} {}
 
-    identifier_t type_id() const noexcept final {
+    auto type_id() const noexcept -> identifier_t final {
         return EAGINE_ID_V(rapidyaml);
     }
 
-    string_view name() const noexcept {
+    auto name() const noexcept -> string_view {
         if(_usable(_node) && _node.has_key()) {
             return view(_node.key());
         }
         return {};
     }
 
-    span_size_t nested_count() const noexcept {
+    auto nested_count() const noexcept -> span_size_t {
         if(_usable(_node)) {
             if(_node.is_container()) {
                 return span_size(_node.num_children());
@@ -108,7 +108,7 @@ public:
         return 0;
     }
 
-    span_size_t value_count() const noexcept {
+    auto value_count() const noexcept -> span_size_t {
         if(_usable(_node)) {
             if(_node.is_seq()) {
                 return span_size(_node.num_children());
@@ -120,8 +120,8 @@ public:
         return 0;
     }
 
-    attribute_interface*
-    nested(rapidyaml_tree_compound& owner, span_size_t index) const noexcept {
+    auto nested(rapidyaml_tree_compound& owner, span_size_t index) const noexcept
+      -> attribute_interface* {
         if(_usable(_node)) {
             auto child{_node[std_size(index)]};
             if(_usable(child)) {
@@ -131,8 +131,8 @@ public:
         return nullptr;
     }
 
-    attribute_interface*
-    nested(rapidyaml_tree_compound& owner, string_view name) const noexcept {
+    auto nested(rapidyaml_tree_compound& owner, string_view name) const noexcept
+      -> attribute_interface* {
         if(_usable(_node)) {
             if(_node.is_map()) {
                 auto child{_node.find_child(rapidyaml_cstrref(name))};
@@ -144,9 +144,8 @@ public:
         return nullptr;
     }
 
-    attribute_interface* find(
-      rapidyaml_tree_compound& owner,
-      const basic_string_path& path) const noexcept {
+    auto find(rapidyaml_tree_compound& owner, const basic_string_path& path)
+      const noexcept -> attribute_interface* {
         auto result{_node};
         for(auto& entry : path) {
             if(_usable(result)) {
@@ -171,7 +170,7 @@ public:
     }
 
     template <typename T>
-    span_size_t fetch_values(span_size_t offset, span<T> dest) {
+    auto fetch_values(span_size_t offset, span<T> dest) -> span_size_t {
         span_size_t pos{0};
         if(_usable(_node)) {
             if(_node.is_seq()) {
@@ -202,7 +201,7 @@ public:
         return 0;
     }
 
-    friend bool operator==(
+    friend auto operator==(
       const rapidyaml_attribute& l,
       const rapidyaml_attribute& r) noexcept {
         return l._node == r._node;
@@ -219,7 +218,7 @@ class rapidyaml_tree_compound
 
     std::vector<std::tuple<span_size_t, std::unique_ptr<_node_t>>> _nodes{};
 
-    inline auto& _unwrap(attribute_interface& attrib) const noexcept {
+    inline auto _unwrap(attribute_interface& attrib) const noexcept -> auto& {
         EAGINE_ASSERT(attrib.type_id() == type_id());
         EAGINE_ASSERT(dynamic_cast<_node_t*>(&attrib));
         return static_cast<_node_t&>(attrib);
@@ -232,13 +231,13 @@ public:
 
     rapidyaml_tree_compound(rapidyaml_tree_compound&&) = delete;
     rapidyaml_tree_compound(const rapidyaml_tree_compound&) = delete;
-    rapidyaml_tree_compound& operator=(rapidyaml_tree_compound&&) = delete;
-    rapidyaml_tree_compound& operator=(const rapidyaml_tree_compound&) = delete;
+    auto operator=(rapidyaml_tree_compound&&) = delete;
+    auto operator=(const rapidyaml_tree_compound&) = delete;
 
     ~rapidyaml_tree_compound() noexcept final = default;
 
-    static std::shared_ptr<rapidyaml_tree_compound>
-    make_shared(string_view yaml_text, logger& log) {
+    static auto make_shared(string_view yaml_text, logger& log)
+      -> std::shared_ptr<rapidyaml_tree_compound> {
         try {
             rapidyaml_callbacks cbks{};
             c4::csubstr src{yaml_text.data(), std_size(yaml_text.size())};
@@ -252,7 +251,7 @@ public:
         return {};
     }
 
-    _node_t* make_new(ryml::NodeRef node) {
+    auto make_new(ryml::NodeRef node) -> _node_t* {
         _node_t temp{node};
         for(auto& [ref_count, node_ptr] : _nodes) {
             if(temp == *node_ptr) {
@@ -264,7 +263,7 @@ public:
         return std::get<1>(_nodes.back()).get();
     }
 
-    identifier_t type_id() const noexcept final {
+    auto type_id() const noexcept -> identifier_t final {
         return EAGINE_ID_V(rapidyaml);
     }
 
@@ -290,59 +289,59 @@ public:
         }
     }
 
-    attribute_interface* structure() final {
+    auto structure() -> attribute_interface* final {
         return &_root;
     }
 
-    string_view attribute_name(attribute_interface& attrib) final {
+    auto attribute_name(attribute_interface& attrib) -> string_view final {
         return _unwrap(attrib).name();
     }
 
-    span_size_t nested_count(attribute_interface& attrib) final {
+    auto nested_count(attribute_interface& attrib) -> span_size_t final {
         return _unwrap(attrib).nested_count();
     }
 
-    attribute_interface*
-    nested(attribute_interface& attrib, span_size_t index) final {
+    auto nested(attribute_interface& attrib, span_size_t index)
+      -> attribute_interface* final {
         return _unwrap(attrib).nested(*this, index);
     }
 
-    attribute_interface*
-    nested(attribute_interface& attrib, string_view name) final {
+    auto nested(attribute_interface& attrib, string_view name)
+      -> attribute_interface* final {
         return _unwrap(attrib).nested(*this, name);
     }
 
-    attribute_interface*
-    find(attribute_interface& attrib, const basic_string_path& path) final {
+    auto find(attribute_interface& attrib, const basic_string_path& path)
+      -> attribute_interface* final {
         return _unwrap(attrib).find(*this, path);
     }
 
-    span_size_t value_count(attribute_interface& attrib) final {
+    auto value_count(attribute_interface& attrib) -> span_size_t final {
         return _unwrap(attrib).value_count();
     }
 
     template <typename T>
-    span_size_t do_fetch_values(
+    auto do_fetch_values(
       attribute_interface& attrib,
       span_size_t offset,
-      span<T> dest) {
+      span<T> dest) -> span_size_t {
         return _unwrap(attrib).fetch_values(offset, dest);
     }
 };
 //------------------------------------------------------------------------------
-static rapidyaml_attribute* rapidyaml_make_new_node(
+static auto rapidyaml_make_new_node(
   rapidyaml_tree_compound& owner,
-  ryml::NodeRef node) noexcept {
+  ryml::NodeRef node) noexcept -> rapidyaml_attribute* {
     return owner.make_new(node);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-compound from_yaml_text(string_view yaml_text, logger& log) {
+auto from_yaml_text(string_view yaml_text, logger& log) -> compound {
     return compound::make<rapidyaml_tree_compound>(yaml_text, log);
 }
 #else  // EAGINE_USE_RYML
 EAGINE_LIB_FUNC
-compound from_yaml_text(string_view, logger& log) {
+auto from_yaml_text(string_view, logger& log) -> compound {
     log.warning("built without the YAML parser");
     return {};
 }

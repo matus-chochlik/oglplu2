@@ -47,10 +47,11 @@ template <typename Encoding, typename Allocator, typename StackAlloc>
 class rapidjson_document_compound;
 //------------------------------------------------------------------------------
 template <typename Encoding, typename Allocator, typename StackAlloc>
-static attribute_interface* rapidjson_make_value_node(
+static auto rapidjson_make_value_node(
   rapidjson_document_compound<Encoding, Allocator, StackAlloc>& owner,
   rapidjson::GenericValue<Encoding, Allocator>& value,
-  rapidjson::GenericValue<Encoding, Allocator>* name = nullptr);
+  rapidjson::GenericValue<Encoding, Allocator>* name = nullptr)
+  -> attribute_interface*;
 //------------------------------------------------------------------------------
 template <typename Encoding, typename Allocator, typename StackAlloc>
 class rapidjson_value_node : public attribute_interface {
@@ -75,11 +76,11 @@ public:
         return (l._rj_val == r._rj_val);
     }
 
-    identifier_t type_id() const noexcept final {
+    auto type_id() const noexcept -> identifier_t final {
         return EAGINE_ID_V(rapidjson);
     }
 
-    string_view name() {
+    auto name() -> string_view {
         if(_rj_name) {
             const auto& name = extract(_rj_name);
             return {name.GetString(), span_size(name.GetStringLength())};
@@ -87,7 +88,7 @@ public:
         return {};
     }
 
-    span_size_t nested_count() {
+    auto nested_count() -> span_size_t {
         if(_rj_val) {
             const auto& val = extract(_rj_val);
             if(val.IsArray()) {
@@ -100,7 +101,7 @@ public:
         return 0;
     }
 
-    attribute_interface* nested(_comp_t& owner, span_size_t index) {
+    auto nested(_comp_t& owner, span_size_t index) -> attribute_interface* {
         if(_rj_val) {
             auto& val = extract(_rj_val);
             if(val.IsArray()) {
@@ -120,7 +121,7 @@ public:
         return {};
     }
 
-    attribute_interface* nested(_comp_t& owner, string_view name) {
+    auto nested(_comp_t& owner, string_view name) -> attribute_interface* {
         if(_rj_val) {
             auto& val = extract(_rj_val);
             if(val.IsObject()) {
@@ -137,7 +138,8 @@ public:
         return {};
     }
 
-    attribute_interface* find(_comp_t& owner, const basic_string_path& path) {
+    auto find(_comp_t& owner, const basic_string_path& path)
+      -> attribute_interface* {
         _val_t* result = _rj_val;
         _val_t* name = nullptr;
         for(auto& entry : path) {
@@ -171,7 +173,7 @@ public:
         return {};
     }
 
-    span_size_t value_count() {
+    auto value_count() -> span_size_t {
         if(_rj_val) {
             auto& val = extract(_rj_val);
             if(val.IsArray()) {
@@ -181,7 +183,7 @@ public:
         return 0;
     }
 
-    bool convert(_val_t& val, std::string& dest) {
+    auto convert(_val_t& val, std::string& dest) -> bool {
         if(val.IsString()) {
             dest.assign(val.GetString(), std_size(val.GetStringLength()));
             return true;
@@ -190,7 +192,7 @@ public:
     }
 
     template <typename T>
-    bool convert_bool(_val_t& val, T& dest) {
+    auto convert_bool(_val_t& val, T& dest) -> bool {
         if(val.IsBool()) {
             if(auto converted{convert_if_fits<T>(val.GetBool())}) {
                 dest = extract(converted);
@@ -213,7 +215,7 @@ public:
     }
 
     template <typename T>
-    bool convert_int(_val_t& val, T& dest) {
+    auto convert_int(_val_t& val, T& dest) -> bool {
         if(val.IsInt()) {
             if(auto converted{convert_if_fits<T>(val.GetInt())}) {
                 dest = extract(converted);
@@ -236,7 +238,7 @@ public:
     }
 
     template <typename T>
-    bool convert_uint(_val_t& val, T& dest) {
+    auto convert_uint(_val_t& val, T& dest) -> bool {
         if(val.IsUint()) {
             if(auto converted{convert_if_fits<T>(val.GetUint())}) {
                 dest = extract(converted);
@@ -259,7 +261,7 @@ public:
     }
 
     template <typename T>
-    bool convert_real(_val_t& val, T& dest) {
+    auto convert_real(_val_t& val, T& dest) -> bool {
         if(val.IsFloat()) {
             if(auto converted{convert_if_fits<T>(val.GetFloat())}) {
                 dest = extract(converted);
@@ -294,7 +296,8 @@ public:
     }
 
     template <typename R, typename P>
-    bool convert_duration(_val_t& val, std::chrono::duration<R, P>& dest) {
+    auto convert_duration(_val_t& val, std::chrono::duration<R, P>& dest)
+      -> bool {
         using _dur_t = std::chrono::duration<R, P>;
         if(val.IsFloat()) {
             if(auto converted{convert_if_fits<R>(val.GetFloat())}) {
@@ -329,48 +332,48 @@ public:
         return false;
     }
 
-    bool convert(_val_t& val, bool& dest) {
+    auto convert(_val_t& val, bool& dest) {
         return convert_bool(val, dest);
     }
 
-    bool convert(_val_t& val, byte& dest) {
+    auto convert(_val_t& val, byte& dest) {
         return convert_uint(val, dest);
     }
 
-    bool convert(_val_t& val, std::int16_t& dest) {
+    auto convert(_val_t& val, std::int16_t& dest) {
         return convert_int(val, dest);
     }
 
-    bool convert(_val_t& val, std::int32_t& dest) {
+    auto convert(_val_t& val, std::int32_t& dest) {
         return convert_int(val, dest);
     }
 
-    bool convert(_val_t& val, std::int64_t& dest) {
+    auto convert(_val_t& val, std::int64_t& dest) {
         return convert_int(val, dest);
     }
 
-    bool convert(_val_t& val, std::uint16_t& dest) {
+    auto convert(_val_t& val, std::uint16_t& dest) {
         return convert_uint(val, dest);
     }
 
-    bool convert(_val_t& val, std::uint32_t& dest) {
+    auto convert(_val_t& val, std::uint32_t& dest) {
         return convert_uint(val, dest);
     }
 
-    bool convert(_val_t& val, std::uint64_t& dest) {
+    auto convert(_val_t& val, std::uint64_t& dest) {
         return convert_uint(val, dest);
     }
 
-    bool convert(_val_t& val, float& dest) {
+    auto convert(_val_t& val, float& dest) {
         return convert_real(val, dest);
     }
 
-    bool convert(_val_t& val, std::chrono::duration<float>& dest) {
+    auto convert(_val_t& val, std::chrono::duration<float>& dest) {
         return convert_duration(val, dest);
     }
 
     template <typename T>
-    span_size_t fetch_values(span_size_t offset, span<T> dest) {
+    auto fetch_values(span_size_t offset, span<T> dest) -> span_size_t {
         if(_rj_val) {
             auto& val = extract(_rj_val);
             if(val.IsArray()) {
@@ -409,7 +412,7 @@ private:
 
     std::vector<std::tuple<span_size_t, std::unique_ptr<_node_t>>> _nodes{};
 
-    inline auto& _unwrap(attribute_interface& attrib) const noexcept {
+    inline auto _unwrap(attribute_interface& attrib) const noexcept -> auto& {
         EAGINE_ASSERT(attrib.type_id() == type_id());
         EAGINE_ASSERT(dynamic_cast<_node_t*>(&attrib));
         return static_cast<_node_t&>(attrib);
@@ -420,8 +423,8 @@ public:
       : _rj_doc{std::move(rj_doc)}
       , _root{_rj_doc, nullptr} {}
 
-    static std::shared_ptr<rapidjson_document_compound>
-    make_shared(string_view json_str, logger& log) {
+    static auto make_shared(string_view json_str, logger& log)
+      -> std::shared_ptr<rapidjson_document_compound> {
         _doc_t rj_doc{};
         rj_doc.Parse(rapidjson_string_ref(json_str));
         if(!rj_doc.HasParseError()) {
@@ -431,7 +434,7 @@ public:
         return {};
     }
 
-    _node_t* make_new(_val_t& rj_val, _val_t* rj_name) {
+    auto make_new(_val_t& rj_val, _val_t* rj_name) -> _node_t* {
         _node_t temp{rj_val, rj_name};
         for(auto& [ref_count, node_ptr] : _nodes) {
             if(temp == *node_ptr) {
@@ -443,7 +446,7 @@ public:
         return std::get<1>(_nodes.back()).get();
     }
 
-    identifier_t type_id() const noexcept final {
+    auto type_id() const noexcept -> identifier_t final {
         return EAGINE_ID_V(rapidjson);
     }
 
@@ -469,51 +472,51 @@ public:
         }
     }
 
-    attribute_interface* structure() final {
+    auto structure() -> attribute_interface* final {
         return &_root;
     }
 
-    string_view attribute_name(attribute_interface& attrib) final {
+    auto attribute_name(attribute_interface& attrib) -> string_view final {
         return _unwrap(attrib).name();
     }
 
-    span_size_t nested_count(attribute_interface& attrib) final {
+    auto nested_count(attribute_interface& attrib) -> span_size_t final {
         return _unwrap(attrib).nested_count();
     }
 
-    attribute_interface*
-    nested(attribute_interface& attrib, span_size_t index) final {
+    auto nested(attribute_interface& attrib, span_size_t index)
+      -> attribute_interface* final {
         return _unwrap(attrib).nested(*this, index);
     }
 
-    attribute_interface*
-    nested(attribute_interface& attrib, string_view name) final {
+    auto nested(attribute_interface& attrib, string_view name)
+      -> attribute_interface* final {
         return _unwrap(attrib).nested(*this, name);
     }
 
-    attribute_interface*
-    find(attribute_interface& attrib, const basic_string_path& path) final {
+    auto find(attribute_interface& attrib, const basic_string_path& path)
+      -> attribute_interface* final {
         return _unwrap(attrib).find(*this, path);
     }
 
-    span_size_t value_count(attribute_interface& attrib) final {
+    auto value_count(attribute_interface& attrib) -> span_size_t final {
         return _unwrap(attrib).value_count();
     }
 
     template <typename T>
-    span_size_t do_fetch_values(
+    auto do_fetch_values(
       attribute_interface& attrib,
       span_size_t offset,
-      span<T> dest) {
+      span<T> dest) -> span_size_t {
         return _unwrap(attrib).fetch_values(offset, dest);
     }
 };
 //------------------------------------------------------------------------------
 template <typename Encoding, typename Allocator, typename StackAlloc>
-static inline attribute_interface* rapidjson_make_value_node(
+static inline auto rapidjson_make_value_node(
   rapidjson_document_compound<Encoding, Allocator, StackAlloc>& owner,
   rapidjson::GenericValue<Encoding, Allocator>& value,
-  rapidjson::GenericValue<Encoding, Allocator>* name) {
+  rapidjson::GenericValue<Encoding, Allocator>* name) -> attribute_interface* {
     return owner.make_new(value, name);
 }
 //------------------------------------------------------------------------------

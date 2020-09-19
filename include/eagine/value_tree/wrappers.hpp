@@ -38,7 +38,7 @@ public:
         }
     }
 
-    attribute& operator=(attribute&& temp) noexcept {
+    auto operator=(attribute&& temp) noexcept -> attribute& {
         if(this != std::addressof(temp)) {
             using std::swap;
             swap(_owner, temp._owner);
@@ -47,7 +47,7 @@ public:
         return *this;
     }
 
-    attribute& operator=(const attribute& that) {
+    auto operator=(const attribute& that) -> attribute& {
         if(this != std::addressof(that)) {
             using std::swap;
             attribute temp{std::move(*this)};
@@ -71,14 +71,14 @@ public:
         return _owner && _pimpl;
     }
 
-    identifier_t type_id() const noexcept {
+    auto type_id() const noexcept -> identifier_t {
         if(_pimpl) {
             return _pimpl->type_id();
         }
         return 0;
     }
 
-    string_view name() const {
+    auto name() const -> string_view {
         if(_owner && _pimpl) {
             return _owner->attribute_name(*_pimpl);
         }
@@ -103,9 +103,8 @@ public:
     compound() noexcept = default;
 
     template <typename Compound, typename... Args>
-    static std::
-      enable_if_t<std::is_base_of_v<compound_interface, Compound>, compound>
-      make(Args&&... args) {
+    static auto make(Args&&... args) -> std::
+      enable_if_t<std::is_base_of_v<compound_interface, Compound>, compound> {
         return {Compound::make_shared(std::forward<Args>(args)...)};
     }
 
@@ -113,86 +112,82 @@ public:
         return bool(_pimpl);
     }
 
-    bool operator!() const noexcept {
-        return !_pimpl;
-    }
-
-    identifier_t type_id() const noexcept {
+    auto type_id() const noexcept -> identifier_t {
         if(_pimpl) {
             return _pimpl->type_id();
         }
         return 0;
     }
 
-    attribute structure() const {
+    auto structure() const -> attribute {
         if(_pimpl) {
             return {_pimpl, _pimpl->structure()};
         }
         return {};
     }
 
-    string_view attribute_name(const attribute& attrib) const {
+    auto attribute_name(const attribute& attrib) const -> string_view {
         if(_pimpl && attrib._pimpl) {
             return _pimpl->attribute_name(*attrib._pimpl);
         }
         return {};
     }
 
-    span_size_t nested_count(const attribute& attrib) const {
+    auto nested_count(const attribute& attrib) const -> span_size_t {
         if(_pimpl && attrib._pimpl) {
             return _pimpl->nested_count(*attrib._pimpl);
         }
         return 0;
     }
 
-    attribute nested(const attribute& attrib, span_size_t index) const {
+    auto nested(const attribute& attrib, span_size_t index) const -> attribute {
         if(_pimpl && attrib._pimpl) {
             return {_pimpl, _pimpl->nested(*attrib._pimpl, index)};
         }
         return {};
     }
 
-    attribute nested(const attribute& attrib, string_view name) const {
+    auto nested(const attribute& attrib, string_view name) const -> attribute {
         if(_pimpl && attrib._pimpl) {
             return {_pimpl, _pimpl->nested(*attrib._pimpl, name)};
         }
         return {};
     }
 
-    attribute nested(string_view name) const {
+    auto nested(string_view name) const -> attribute {
         return nested(structure(), name);
     }
 
-    attribute
-    find(const attribute& attrib, const basic_string_path& path) const {
+    auto find(const attribute& attrib, const basic_string_path& path) const
+      -> attribute {
         if(_pimpl && attrib._pimpl) {
             return {_pimpl, _pimpl->find(*attrib._pimpl, path)};
         }
         return {};
     }
 
-    attribute find(const basic_string_path& path) const {
+    auto find(const basic_string_path& path) const -> attribute {
         return find(structure(), path);
     }
 
-    span_size_t value_count(const attribute& attrib) {
+    auto value_count(const attribute& attrib) -> span_size_t {
         if(_pimpl && attrib._pimpl) {
             return _pimpl->value_count(*attrib._pimpl);
         }
         return 0;
     }
 
-    span_size_t value_count(const basic_string_path& path) {
+    auto value_count(const basic_string_path& path) -> span_size_t {
         return value_count(find(path));
     }
 
-    span_size_t value_count(string_view name) {
+    auto value_count(string_view name) -> span_size_t {
         return value_count(nested(name));
     }
 
     template <typename T>
-    span<T>
-    fetch_values(const attribute& attrib, span_size_t offset, span<T> dest) {
+    auto fetch_values(const attribute& attrib, span_size_t offset, span<T> dest)
+      -> span<T> {
         if(_pimpl && attrib._pimpl) {
             return head(
               dest, _pimpl->fetch_values(*attrib._pimpl, offset, dest));
@@ -201,67 +196,69 @@ public:
     }
 
     template <typename T>
-    span<T> fetch_values(
+    auto fetch_values(
       const basic_string_path& path,
       span_size_t offset,
-      span<T> dest) {
+      span<T> dest) -> span<T> {
         return fetch_values(find(path), offset, dest);
     }
 
     template <typename T>
-    span<T> fetch_values(string_view name, span_size_t offset, span<T> dest) {
+    auto fetch_values(string_view name, span_size_t offset, span<T> dest)
+      -> span<T> {
         return fetch_values(nested(name), offset, dest);
     }
 
     template <typename T>
-    span<T> fetch_values(const attribute& attrib, span<T> dest) {
+    auto fetch_values(const attribute& attrib, span<T> dest) -> span<T> {
         return fetch_values(attrib, 0, dest);
     }
 
     template <typename T>
-    span<T> fetch_values(const basic_string_path& path, span<T> dest) {
+    auto fetch_values(const basic_string_path& path, span<T> dest) -> span<T> {
         return fetch_values(path, 0, dest);
     }
 
     template <typename T>
-    span<T> fetch_values(string_view name, span<T> dest) {
+    auto fetch_values(string_view name, span<T> dest) -> span<T> {
         return fetch_values(name, 0, dest);
     }
 
     template <typename T>
-    bool fetch_value(const attribute& attrib, span_size_t offset, T& dest) {
+    auto fetch_value(const attribute& attrib, span_size_t offset, T& dest)
+      -> bool {
         return !fetch_values(attrib, offset, cover_one(dest)).empty();
     }
 
     template <typename T>
-    bool fetch_value(string_view name, span_size_t offset, T& dest) {
+    auto fetch_value(string_view name, span_size_t offset, T& dest) -> bool {
         return fetch_value(nested(name), offset, dest);
     }
 
     template <typename T>
-    bool
-    fetch_value(const basic_string_path& path, span_size_t offset, T& dest) {
+    auto fetch_value(const basic_string_path& path, span_size_t offset, T& dest)
+      -> bool {
         return fetch_value(find(path), offset, dest);
     }
 
     template <typename T>
-    bool fetch_value(string_view name, T& dest) {
+    auto fetch_value(string_view name, T& dest) -> bool {
         return fetch_value(name, 0, dest);
     }
 
     template <typename T>
-    bool fetch_value(const attribute& attrib, T& dest) {
+    auto fetch_value(const attribute& attrib, T& dest) -> bool {
         return fetch_value(attrib, 0, dest);
     }
 
     template <typename T>
-    bool fetch_value(const basic_string_path& path, T& dest) {
+    auto fetch_value(const basic_string_path& path, T& dest) -> bool {
         return fetch_value(path, 0, dest);
     }
 
     template <typename T>
-    optionally_valid<T>
-    get(const attribute& attrib, span_size_t offset, identity<T> = {}) {
+    auto get(const attribute& attrib, span_size_t offset, identity<T> = {})
+      -> optionally_valid<T> {
         T temp{};
         if(fetch_value(attrib, offset, temp)) {
             return {std::move(temp), true};
@@ -270,8 +267,8 @@ public:
     }
 
     template <typename T>
-    optionally_valid<T>
-    get(const basic_string_path& path, span_size_t offset, identity<T> = {}) {
+    auto get(const basic_string_path& path, span_size_t offset, identity<T> = {})
+      -> optionally_valid<T> {
         T temp{};
         if(fetch_value(path, offset, temp)) {
             return {std::move(temp), true};
@@ -280,8 +277,8 @@ public:
     }
 
     template <typename T>
-    optionally_valid<T>
-    get(string_view name, span_size_t offset, identity<T> = {}) {
+    auto get(string_view name, span_size_t offset, identity<T> = {})
+      -> optionally_valid<T> {
         T temp{};
         if(fetch_value(name, offset, temp)) {
             return {std::move(temp), true};
@@ -290,18 +287,19 @@ public:
     }
 
     template <typename T>
-    optionally_valid<T> get(const attribute& attrib, identity<T> tid = {}) {
+    auto get(const attribute& attrib, identity<T> tid = {})
+      -> optionally_valid<T> {
         return get<T>(attrib, 0, tid);
     }
 
     template <typename T>
-    optionally_valid<T>
-    get(const basic_string_path& path, identity<T> tid = {}) {
+    auto get(const basic_string_path& path, identity<T> tid = {})
+      -> optionally_valid<T> {
         return get<T>(path, 0, tid);
     }
 
     template <typename T>
-    optionally_valid<T> get(string_view name, identity<T> tid = {}) {
+    auto get(string_view name, identity<T> tid = {}) -> optionally_valid<T> {
         return get<T>(name, 0, tid);
     }
 
