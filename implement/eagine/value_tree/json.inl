@@ -29,7 +29,7 @@ static inline auto view(const rapidjson::GenericStringRef<char>& str) {
 }
 //------------------------------------------------------------------------------
 template <typename E, typename A>
-static inline string_view view(rapidjson::GenericValue<E, A>& val) {
+static inline auto view(rapidjson::GenericValue<E, A>& val) -> string_view {
     if(val.IsString()) {
         return {val.GetString(), span_size(val.GetStringLength())};
     }
@@ -70,7 +70,7 @@ public:
       : _rj_val{&rj_val}
       , _rj_name{rj_name} {}
 
-    friend bool operator==(
+    friend auto operator==(
       const rapidjson_value_node& l,
       const rapidjson_value_node& r) noexcept {
         return (l._rj_val == r._rj_val);
@@ -537,7 +537,7 @@ using default_rapidjson_document_compound =
   get_rapidjson_document_compound_t<rapidjson::Document>;
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-compound from_json_text(string_view json_text, logger& log) {
+auto from_json_text(string_view json_text, logger& log) -> compound {
     return compound::make<default_rapidjson_document_compound>(json_text, log);
 }
 //------------------------------------------------------------------------------

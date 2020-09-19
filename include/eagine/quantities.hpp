@@ -26,7 +26,7 @@ template <typename T>
 using seconds_t = tagged_quantity<T, units::second>;
 
 template <typename T>
-static constexpr inline seconds_t<T> seconds_(T value) noexcept {
+static constexpr inline auto seconds_(T value) noexcept {
     return seconds_t<T>{value};
 }
 
@@ -35,7 +35,7 @@ template <typename T>
 using radians_t = tagged_quantity<T, units::radian>;
 
 template <typename T>
-static constexpr inline radians_t<T> radians_(T value) noexcept {
+static constexpr inline auto radians_(T value) noexcept {
     return radians_t<T>{value};
 }
 
@@ -100,7 +100,7 @@ template <typename T>
 using degrees_t = tagged_quantity<T, units::degree>;
 
 template <typename T>
-static constexpr inline degrees_t<T> degrees_(T value) noexcept {
+static constexpr inline auto degrees_(T value) noexcept {
     return degrees_t<T>{value};
 }
 

@@ -66,7 +66,7 @@ void centered_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-math::sphere<float, true> centered_gen::bounding_sphere() {
+auto centered_gen::bounding_sphere() -> math::sphere<float, true> {
     const auto bs = delegated_gen::bounding_sphere();
     return {{0.F}, bs.radius()};
 }

@@ -25,7 +25,7 @@ public:
     to_quads_gen(std::unique_ptr<generator_intf>&& gen) noexcept
       : delegated_gen(std::move(gen)) {}
 
-    span_size_t index_count(drawing_variant) override;
+    auto index_count(drawing_variant) -> span_size_t override;
 
     void indices(drawing_variant, span<std::uint8_t> dest) override;
 
@@ -33,7 +33,7 @@ public:
 
     void indices(drawing_variant, span<std::uint32_t> dest) override;
 
-    span_size_t operation_count(drawing_variant) override;
+    auto operation_count(drawing_variant) -> span_size_t override;
 
     void instructions(drawing_variant, span<draw_operation> ops) override;
 };

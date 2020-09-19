@@ -30,7 +30,7 @@ void scaled_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-math::sphere<float, true> scaled_gen::bounding_sphere() {
+auto scaled_gen::bounding_sphere() -> math::sphere<float, true> {
     const auto bs = delegated_gen::bounding_sphere();
     const auto ms = math::maximum(_s[0], math::maximum(_s[1], _s[2]));
     return {bs.center(), bs.radius() * ms};

@@ -27,7 +27,8 @@ template <typename T, typename U>
 class tagged_quantity;
 //------------------------------------------------------------------------------
 template <typename U, typename T>
-static constexpr tagged_quantity<T, U> make_tagged_quantity(const T& value);
+static constexpr auto make_tagged_quantity(const T& value)
+  -> tagged_quantity<T, U>;
 //------------------------------------------------------------------------------
 template <typename T, typename U>
 class tagged_quantity {
@@ -44,7 +45,7 @@ public:
 
     tagged_quantity() = default;
 
-    explicit constexpr inline tagged_quantity(T v) noexcept
+    explicit constexpr tagged_quantity(T v) noexcept
       : _v(v) {}
 
     template <
@@ -52,28 +53,28 @@ public:
       typename UX,
       typename = std::enable_if_t<
         std::is_convertible_v<X, T> && units::is_convertible_v<UX, U>>>
-    constexpr inline tagged_quantity(const tagged_quantity<X, UX>& tq) noexcept
+    constexpr tagged_quantity(const tagged_quantity<X, UX>& tq) noexcept
       : _v(T(units::value_conv<UX, U>()(tq._v))) {}
 
     template <
       typename UX,
       typename = std::enable_if_t<units::is_convertible_v<U, UX>>>
-    constexpr inline auto to() const noexcept {
+    constexpr auto to() const noexcept {
         return make_tagged_quantity<UX>(units::value_conv<U, UX>()(_v));
     }
 
-    constexpr inline T value() const noexcept {
+    constexpr auto value() const noexcept -> T {
         return _v;
     }
 
-    static constexpr inline U unit() noexcept {
+    static constexpr auto unit() noexcept -> U {
         return {};
     }
 
     template <
       typename X,
       typename = std::enable_if_t<std::is_convertible_v<T, X>>>
-    explicit constexpr inline operator X() const noexcept {
+    explicit constexpr operator X() const noexcept {
         return X(_v);
     }
 
@@ -82,7 +83,7 @@ public:
       typename UX,
       typename = std::enable_if_t<
         std::is_convertible_v<X, T> && units::is_convertible_v<UX, U>>>
-    tagged_quantity& operator+=(const tagged_quantity<X, UX>& q) noexcept {
+    auto operator+=(const tagged_quantity<X, UX>& q) noexcept -> auto& {
         _v += T(units::value_conv<UX, U>()(q._v));
         return *this;
     }
@@ -92,7 +93,7 @@ public:
       typename UX,
       typename = std::enable_if_t<
         std::is_convertible_v<X, T> && units::is_convertible_v<UX, U>>>
-    tagged_quantity& operator-=(const tagged_quantity<X, UX>& q) noexcept {
+    auto operator-=(const tagged_quantity<X, UX>& q) noexcept -> auto& {
         _v -= T(units::value_conv<UX, U>()(q._v));
         return *this;
     }
@@ -127,8 +128,8 @@ struct is_convertible_quantity<tagged_quantity<T, QU>, U>
 //------------------------------------------------------------------------------
 // make_tagged_quantity
 template <typename U, typename T>
-static constexpr inline tagged_quantity<T, U>
-make_tagged_quantity(const T& value) {
+static constexpr inline auto make_tagged_quantity(const T& value)
+  -> tagged_quantity<T, U> {
     return tagged_quantity<T, U>{value};
 }
 //------------------------------------------------------------------------------
@@ -147,7 +148,7 @@ static inline auto convert_to(const tagged_quantity<T, U>& q) {
 }
 //------------------------------------------------------------------------------
 template <typename T, typename U>
-static inline T value(const tagged_quantity<T, U>& q) {
+static inline auto value(const tagged_quantity<T, U>& q) {
     return q.value();
 }
 //------------------------------------------------------------------------------
@@ -156,46 +157,52 @@ struct equal_cmp<tagged_quantity<T1, U1>, tagged_quantity<T2, U2>> {
 
     static_assert(units::is_convertible_v<U2, U1>);
 
-    static constexpr inline bool check(
+    static constexpr auto check(
       const tagged_quantity<T1, U1>& l,
-      const tagged_quantity<T2, U2>& r) noexcept {
+      const tagged_quantity<T2, U2>& r) noexcept -> bool {
         return are_equal(value(l), units::value_conv<U2, U1>()(value(r)));
     }
 };
 //------------------------------------------------------------------------------
 template <typename T1, typename U1, typename T2, typename U2>
-constexpr inline std::enable_if_t<units::is_convertible_v<U2, U1>, bool>
-operator==(const tagged_quantity<T1, U1>& a, const tagged_quantity<T2, U2>& b) {
+constexpr inline auto
+operator==(const tagged_quantity<T1, U1>& a, const tagged_quantity<T2, U2>& b)
+  -> std::enable_if_t<units::is_convertible_v<U2, U1>, bool> {
     return value(a) == units::value_conv<U2, U1>()(value(b));
 }
 //------------------------------------------------------------------------------
 template <typename T1, typename U1, typename T2, typename U2>
-constexpr inline std::enable_if_t<units::is_convertible_v<U2, U1>, bool>
-operator!=(const tagged_quantity<T1, U1>& a, const tagged_quantity<T2, U2>& b) {
+constexpr inline auto
+operator!=(const tagged_quantity<T1, U1>& a, const tagged_quantity<T2, U2>& b)
+  -> std::enable_if_t<units::is_convertible_v<U2, U1>, bool> {
     return value(a) != units::value_conv<U2, U1>()(value(b));
 }
 //------------------------------------------------------------------------------
 template <typename T1, typename U1, typename T2, typename U2>
-constexpr inline std::enable_if_t<units::is_convertible_v<U2, U1>, bool>
-operator<(const tagged_quantity<T1, U1>& a, const tagged_quantity<T2, U2>& b) {
+constexpr inline auto
+operator<(const tagged_quantity<T1, U1>& a, const tagged_quantity<T2, U2>& b)
+  -> std::enable_if_t<units::is_convertible_v<U2, U1>, bool> {
     return value(a) < units::value_conv<U2, U1>()(value(b));
 }
 //------------------------------------------------------------------------------
 template <typename T1, typename U1, typename T2, typename U2>
-constexpr inline std::enable_if_t<units::is_convertible_v<U2, U1>, bool>
-operator<=(const tagged_quantity<T1, U1>& a, const tagged_quantity<T2, U2>& b) {
+constexpr inline auto
+operator<=(const tagged_quantity<T1, U1>& a, const tagged_quantity<T2, U2>& b)
+  -> std::enable_if_t<units::is_convertible_v<U2, U1>, bool> {
     return value(a) <= units::value_conv<U2, U1>()(value(b));
 }
 //------------------------------------------------------------------------------
 template <typename T1, typename U1, typename T2, typename U2>
-constexpr inline std::enable_if_t<units::is_convertible_v<U2, U1>, bool>
-operator>(const tagged_quantity<T1, U1>& a, const tagged_quantity<T2, U2>& b) {
+constexpr inline auto
+operator>(const tagged_quantity<T1, U1>& a, const tagged_quantity<T2, U2>& b)
+  -> std::enable_if_t<units::is_convertible_v<U2, U1>, bool> {
     return value(a) > units::value_conv<U2, U1>()(value(b));
 }
 //------------------------------------------------------------------------------
 template <typename T1, typename U1, typename T2, typename U2>
-constexpr inline std::enable_if_t<units::is_convertible_v<U2, U1>, bool>
-operator>=(const tagged_quantity<T1, U1>& a, const tagged_quantity<T2, U2>& b) {
+constexpr inline auto
+operator>=(const tagged_quantity<T1, U1>& a, const tagged_quantity<T2, U2>& b)
+  -> std::enable_if_t<units::is_convertible_v<U2, U1>, bool> {
     return value(a) >= units::value_conv<U2, U1>()(value(b));
 }
 //------------------------------------------------------------------------------

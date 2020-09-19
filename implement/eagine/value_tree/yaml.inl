@@ -74,8 +74,9 @@ public:
 //------------------------------------------------------------------------------
 class rapidyaml_tree_compound;
 class rapidyaml_attribute;
-static rapidyaml_attribute*
-rapidyaml_make_new_node(rapidyaml_tree_compound&, ryml::NodeRef) noexcept;
+static auto
+rapidyaml_make_new_node(rapidyaml_tree_compound&, ryml::NodeRef) noexcept
+  -> rapidyaml_attribute*;
 //------------------------------------------------------------------------------
 class rapidyaml_attribute : public attribute_interface {
     ryml::NodeRef _node{};
