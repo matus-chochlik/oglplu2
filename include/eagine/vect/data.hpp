@@ -37,7 +37,7 @@ struct data_param
   : std::conditional_t<
       _has_vec_data<T, N>::value && V,
       _vec_data<T, N>,
-      _ary_cref<T, N>> {};
+      _ary_param<T, N>> {};
 
 // param
 template <typename Data>

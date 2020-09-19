@@ -24,7 +24,7 @@ private:
 
     static auto _addr(const data_t<T, N, V>& d, std::true_type) noexcept
       -> const T* {
-        // TODO: strict aliasing?
+        // TODO: strict aliasing, launder?
         return reinterpret_cast<const T*>(&d);
     }
 
