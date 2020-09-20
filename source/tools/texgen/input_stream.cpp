@@ -19,7 +19,7 @@ public:
     explicit istream_impl(std::istream& input) noexcept
       : _input(input) {}
 
-    char peek(span_size_t index) noexcept override {
+    auto peek(span_size_t index) noexcept -> char override {
         try {
             if(_ensure_cached(index + 1)) {
                 return _cache[std_size(index)];
@@ -29,7 +29,7 @@ public:
         return char(0);
     }
 
-    bool consume(span_size_t count) override {
+    auto consume(span_size_t count) -> bool override {
         if(_ensure_cached(count)) {
             _cache.erase(_cache.begin(), _cache.begin() + count);
             _locs.erase(_locs.begin(), _locs.begin() + count);
@@ -40,14 +40,14 @@ public:
         return false;
     }
 
-    input_location location(span_size_t index) override {
+    auto location(span_size_t index) -> input_location override {
         if(_ensure_cached(index + 1)) {
             return _locs[std_size(index)];
         }
         return {};
     }
 
-    string_view head(span_size_t length) noexcept override {
+    auto head(span_size_t length) noexcept -> string_view override {
         try {
             _ensure_cached(length);
         } catch(...) {
@@ -56,7 +56,7 @@ public:
     }
 
 private:
-    bool _ensure_cached(span_size_t count) {
+    auto _ensure_cached(span_size_t count) -> bool {
         EAGINE_ASSERT(_cache.size() == _locs.size());
         while(_input.good() && (span_size(_cache.size()) < count)) {
             _cache.push_back(char(_input.get()));

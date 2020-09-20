@@ -16,12 +16,12 @@ namespace eagine {
 
 class signal_switch {
 
-    static inline auto& _state() noexcept {
+    static auto _state() noexcept -> auto& {
         static volatile std::sig_atomic_t state{0};
         return state;
     }
 
-    static inline void _flip(int sig_num) {
+    static void _flip(int sig_num) {
         _state() = sig_num;
     }
 
@@ -37,28 +37,24 @@ public:
 
     signal_switch(signal_switch&&) = delete;
     signal_switch(const signal_switch&) = delete;
-    signal_switch& operator=(signal_switch&&) = delete;
-    signal_switch& operator=(const signal_switch&) = delete;
+    auto operator=(signal_switch&&) = delete;
+    auto operator=(const signal_switch&) = delete;
 
-    signal_switch& reset() noexcept {
+    auto reset() noexcept -> signal_switch& {
         _state() = 0;
         return *this;
     }
 
-    bool interrupted() const noexcept {
+    auto interrupted() const noexcept -> bool {
         return _state() == SIGINT;
     }
 
-    bool terminated() const noexcept {
+    auto terminated() const noexcept -> bool {
         return _state() == SIGTERM;
     }
 
     explicit inline operator bool() const noexcept {
         return bool(_state());
-    }
-
-    inline bool operator!() const noexcept {
-        return !bool(*this);
     }
 
 private:

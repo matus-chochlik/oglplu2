@@ -23,7 +23,7 @@ static void test(std::istream& input) {
     }
 }
 
-int main(int argc, const char** argv) {
+auto main(int argc, const char** argv) -> int {
     if(argc == 1) {
         test(std::cin);
     } else {

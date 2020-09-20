@@ -21,19 +21,20 @@ class null_byte_allocator
 public:
     using size_type = span_size_t;
 
-    bool equal(byte_allocator* a) const noexcept override {
+    auto equal(byte_allocator* a) const noexcept -> bool override {
         return dynamic_cast<null_byte_allocator*>(a) != nullptr;
     }
 
-    size_type max_size(size_type) noexcept override {
+    auto max_size(size_type) noexcept -> size_type override {
         return 0;
     }
 
-    tribool has_allocated(const owned_block&, size_type) noexcept override {
+    auto has_allocated(const owned_block&, size_type) noexcept
+      -> tribool override {
         return indeterminate;
     }
 
-    owned_block allocate(size_type, size_type) noexcept override {
+    auto allocate(size_type, size_type) noexcept -> owned_block override {
         return {};
     }
 

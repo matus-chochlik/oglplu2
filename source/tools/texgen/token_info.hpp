@@ -6,7 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef TEXGEN_TOKEN_INFO_HPP
+#ifndef TEXGEN_TOKEN_INFO_HPP // NOLINT(llvm-header-guard)
 #define TEXGEN_TOKEN_INFO_HPP
 
 #include "input_location.hpp"
@@ -39,11 +39,11 @@ enum class token_kind {
     unknown
 };
 //------------------------------------------------------------------------------
-string_view token_description(token_kind);
+auto token_description(token_kind) -> string_view;
 //------------------------------------------------------------------------------
 class token_info {
 public:
-    token_info& clear() {
+    auto clear() -> auto& {
         _kind = token_kind::unknown;
         _bgn_loc = {};
         _end_loc = {};
@@ -51,35 +51,35 @@ public:
         return *this;
     }
 
-    token_info& kind(token_kind k) noexcept {
+    auto kind(token_kind k) noexcept -> auto& {
         _kind = k;
         return *this;
     }
 
-    token_kind kind() const noexcept {
+    auto kind() const noexcept -> token_kind {
         return _kind;
     }
 
-    token_info& begin(input_location loc) {
-        _bgn_loc = std::move(loc);
+    auto begin(input_location loc) -> auto& {
+        _bgn_loc = loc;
         return *this;
     }
 
-    token_info& end(input_location loc) {
-        _end_loc = std::move(loc);
+    auto end(input_location loc) -> auto& {
+        _end_loc = loc;
         return *this;
     }
 
-    token_info& spelling(string_view str) {
+    auto spelling(string_view str) -> auto& {
         _spelling = to_string(str);
         return *this;
     }
 
-    string_view spelling() const noexcept {
+    auto spelling() const noexcept -> string_view {
         return {_spelling};
     }
 
-    string_view description() const noexcept {
+    auto description() const noexcept -> string_view {
         return token_description(_kind);
     }
 
@@ -94,7 +94,7 @@ private:
 //------------------------------------------------------------------------------
 template <>
 struct equal_cmp<oglp::texgen::token_kind, oglp::texgen::token_info> {
-    static inline bool check(
+    static inline auto check(
       oglp::texgen::token_kind kind,
       const oglp::texgen::token_info& info) noexcept {
         return kind == info.kind();
@@ -103,7 +103,7 @@ struct equal_cmp<oglp::texgen::token_kind, oglp::texgen::token_info> {
 //------------------------------------------------------------------------------
 template <>
 struct equal_cmp<oglp::texgen::token_info, oglp::texgen::token_kind> {
-    static inline bool check(
+    static inline auto check(
       const oglp::texgen::token_info& info,
       oglp::texgen::token_kind kind) noexcept {
         return info.kind() == kind;

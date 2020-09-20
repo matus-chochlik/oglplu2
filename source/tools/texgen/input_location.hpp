@@ -6,7 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef TEXGEN_INPUT_LOCATION_HPP
+#ifndef TEXGEN_INPUT_LOCATION_HPP // NOLINT(llvm-header-guard)
 #define TEXGEN_INPUT_LOCATION_HPP
 
 #include <eagine/types.hpp>

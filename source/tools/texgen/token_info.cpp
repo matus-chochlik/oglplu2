@@ -10,7 +10,7 @@
 
 namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
-string_view token_description(token_kind kind) {
+auto token_description(token_kind kind) -> string_view {
     switch(kind) {
         case token_kind::comment:
             return {"comment"};

@@ -23,7 +23,7 @@ public:
     explicit data_bake_arena(memory::block blk)
       : data_bake_arena_base(blk) {}
 
-    memory::const_block baked_data() const noexcept {
+    auto baked_data() const noexcept -> memory::const_block {
         return this->allocator().allocated();
     }
 };

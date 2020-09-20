@@ -6,7 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef TEXGEN_INPUT_STREAM_HPP
+#ifndef TEXGEN_INPUT_STREAM_HPP // NOLINT(llvm-header-guard)
 #define TEXGEN_INPUT_STREAM_HPP
 
 #include "input_location.hpp"
@@ -21,8 +21,8 @@ struct input_stream_intf {
     input_stream_intf() noexcept = default;
     input_stream_intf(input_stream_intf&&) noexcept = default;
     input_stream_intf(const input_stream_intf&) noexcept = default;
-    input_stream_intf& operator=(input_stream_intf&&) noexcept = default;
-    input_stream_intf& operator=(const input_stream_intf&) noexcept = default;
+    auto operator=(input_stream_intf&&) = delete;
+    auto operator=(const input_stream_intf&) = delete;
 
     virtual ~input_stream_intf() noexcept = default;
 
@@ -56,7 +56,7 @@ public:
         return *this;
     }
 
-    input_stream_iter operator++(int) noexcept {
+    auto operator++(int) noexcept -> input_stream_iter {
         input_stream_iter res(*this);
         ++_index;
         _element = _pimpl->peek(_index);
@@ -69,7 +69,7 @@ public:
         return *this;
     }
 
-    input_stream_iter operator--(int) noexcept {
+    auto operator--(int) noexcept -> input_stream_iter {
         input_stream_iter res(*this);
         --_index;
         _element = _pimpl->peek(_index);

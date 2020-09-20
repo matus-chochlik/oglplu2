@@ -20,13 +20,14 @@ tokenizer::tokenizer(input_stream input)
       R"(((0x[[:xdigit:]]+)|(0b[01]+)|([01234567]+)|(-?[1-9][[:digit:]]*)|0)\b)")
   , _float_re(R"(^-?[[:digit:]]+(\.[[:digit:]]+)\b)") {}
 //------------------------------------------------------------------------------
-static inline bool is_word_boundary(char c) noexcept {
+static inline auto is_word_boundary(char c) noexcept -> bool {
 
     return (c == char(0)) || std::isspace(c) ||
            memory::find_element(string_view(".,=(){};"), c);
 }
 //------------------------------------------------------------------------------
-bool tokenizer::_match_char(token_info& token, char chr, token_kind kind) {
+auto tokenizer::_match_char(token_info& token, char chr, token_kind kind)
+  -> bool {
 
     if(_input.peek() == chr) {
         token.end(_input.location(1));
@@ -37,7 +38,8 @@ bool tokenizer::_match_char(token_info& token, char chr, token_kind kind) {
     return false;
 }
 //------------------------------------------------------------------------------
-bool tokenizer::_match_str(token_info& token, string_view str, token_kind kind) {
+auto tokenizer::_match_str(token_info& token, string_view str, token_kind kind)
+  -> bool {
 
     const auto len = str.size();
     if(are_equal(_input.head(len), str) && is_word_boundary(_input.peek(len))) {
@@ -49,10 +51,10 @@ bool tokenizer::_match_str(token_info& token, string_view str, token_kind kind) 
     return false;
 }
 //------------------------------------------------------------------------------
-bool tokenizer::_match_re(
+auto tokenizer::_match_re(
   token_info& token,
   const std::regex& re,
-  token_kind kind) {
+  token_kind kind) -> bool {
 
     std::match_results<
       input_stream::const_iterator,
@@ -69,7 +71,7 @@ bool tokenizer::_match_re(
     return false;
 }
 //------------------------------------------------------------------------------
-bool tokenizer::get_next(token_info& token) {
+auto tokenizer::get_next(token_info& token) -> bool {
     // eat spaces
     while(const char c = _input.peek()) {
         if(std::isspace(c)) {

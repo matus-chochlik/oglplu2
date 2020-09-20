@@ -6,7 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef TEXGEN_TOKEN_STREAM_HPP
+#ifndef TEXGEN_TOKEN_STREAM_HPP // NOLINT(llvm-header-guard)
 #define TEXGEN_TOKEN_STREAM_HPP
 
 #include "tokenizer.hpp"
@@ -21,14 +21,14 @@ public:
     token_stream(input_stream input)
       : _tokenizer(std::move(input)) {}
 
-    span<const token_info> head(span_size_t length = 1) {
+    auto head(span_size_t length = 1) -> span<const token_info> {
         _ensure_cached(length);
         return memory::head(view(_tokens), length);
     }
 
-    bool consume(span_size_t length = 1);
+    auto consume(span_size_t length = 1) -> bool;
 
-    span<const token_info> follows(span<const token_kind> kinds) {
+    auto follows(span<const token_kind> kinds) -> span<const token_info> {
         const auto h = head(kinds.size());
         if(are_equal(h, kinds)) {
             return h;
@@ -36,16 +36,17 @@ public:
         return {};
     }
 
-    span<const token_info> follows(std::initializer_list<token_kind> kinds) {
+    auto follows(std::initializer_list<token_kind> kinds)
+      -> span<const token_info> {
         return follows(view(kinds));
     }
 
-    span<const token_info> follows(token_kind kind) {
+    auto follows(token_kind kind) -> span<const token_info> {
         return follows(view_one(kind));
     }
 
 private:
-    bool _ensure_cached(span_size_t count);
+    auto _ensure_cached(span_size_t count) -> bool;
 
     tokenizer _tokenizer;
     std::vector<token_info> _tokens;
