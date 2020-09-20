@@ -37,7 +37,7 @@ public:
     virtual void on_unsubscribed(identifier_t subscriber_id, message_id) = 0;
 
 private:
-    bool _handle_subscribed(stored_message& message) {
+    auto _handle_subscribed(stored_message& message) -> bool {
         message_id sub_msg_id{};
         if(default_deserialize_message_type(sub_msg_id, message.content())) {
             on_subscribed(message.source_id, sub_msg_id);
@@ -45,7 +45,7 @@ private:
         return true;
     }
 
-    bool _handle_unsubscribed(stored_message& message) {
+    auto _handle_unsubscribed(stored_message& message) -> bool {
         message_id sub_msg_id{};
         if(default_deserialize_message_type(sub_msg_id, message.content())) {
             on_unsubscribed(message.source_id, sub_msg_id);

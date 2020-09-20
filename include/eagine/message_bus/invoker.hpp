@@ -35,12 +35,13 @@ template <
   std::size_t MaxDataSize>
 class invoker<Result(Params...), Serializer, Deserializer, MaxDataSize> {
 public:
-    future<Result> invoke_on(
+    auto invoke_on(
       endpoint& bus,
       identifier_t target_id,
       message_id msg_id,
       memory::block buffer,
-      std::add_lvalue_reference_t<std::add_const_t<Params>>... args) {
+      std::add_lvalue_reference_t<std::add_const_t<Params>>... args)
+      -> future<Result> {
         auto [invocation_id, result] = _results.make();
 
         auto tupl{std::tie(args...)};
@@ -61,19 +62,21 @@ public:
         return nothing;
     }
 
-    future<Result> invoke_on(
+    auto invoke_on(
       endpoint& bus,
       identifier_t target_id,
       message_id msg_id,
-      std::add_lvalue_reference_t<std::add_const_t<Params>>... args) {
+      std::add_lvalue_reference_t<std::add_const_t<Params>>... args)
+      -> future<Result> {
         std::array<byte, MaxDataSize> buffer{};
         return invoke_on(bus, target_id, msg_id, cover(buffer), args...);
     }
 
-    future<Result> invoke(
+    auto invoke(
       endpoint& bus,
       message_id msg_id,
-      std::add_lvalue_reference_t<std::add_const_t<Params>>... args) {
+      std::add_lvalue_reference_t<std::add_const_t<Params>>... args)
+      -> future<Result> {
         return invoke_on(bus, broadcast_endpoint_id(), msg_id, args...);
     }
 
@@ -92,11 +95,11 @@ public:
         }
     }
 
-    bool has_pending() const noexcept {
+    auto has_pending() const noexcept -> bool {
         return _results.has_some();
     }
 
-    bool is_done() const noexcept {
+    auto is_done() const noexcept -> bool {
         return _results.has_none();
     }
 

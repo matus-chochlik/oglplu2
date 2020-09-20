@@ -33,7 +33,7 @@ protected:
     }
 
 private:
-    bool _handle_sub_query(stored_message& message) {
+    auto _handle_sub_query(stored_message& message) -> bool {
         message_id sub_msg_id{};
         if(default_deserialize_message_type(sub_msg_id, message.content())) {
             this->respond_to_subscription_query(message.source_id, sub_msg_id);
@@ -59,15 +59,15 @@ public:
         _init();
     }
     service_composition(const service_composition&) = delete;
-    service_composition& operator=(service_composition&&) = delete;
-    service_composition& operator=(const service_composition&) = delete;
+    auto operator=(service_composition&&) = delete;
+    auto operator=(const service_composition&) = delete;
 
     ~service_composition() noexcept override {
         this->retract_subscriptions();
         this->finish();
     }
 
-    bool add_connection(std::unique_ptr<connection> conn) final {
+    auto add_connection(std::unique_ptr<connection> conn) -> bool final {
         return this->bus().add_connection(std::move(conn));
     }
 };

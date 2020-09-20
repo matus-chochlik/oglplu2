@@ -27,11 +27,11 @@ struct work_unit {
     work_unit() noexcept = default;
     work_unit(work_unit&&) noexcept = default;
     work_unit(const work_unit&) noexcept = default;
-    work_unit& operator=(work_unit&&) noexcept = default;
-    work_unit& operator=(const work_unit&) noexcept = default;
+    auto operator=(work_unit&&) noexcept -> work_unit& = default;
+    auto operator=(const work_unit&) noexcept -> work_unit& = default;
     virtual ~work_unit() noexcept = default;
 
-    virtual bool do_it() = 0;
+    virtual auto do_it() -> bool = 0;
     virtual void deliver() = 0;
 };
 //------------------------------------------------------------------------------
@@ -43,7 +43,7 @@ private:
     std::queue<work_unit*> _work_queue{};
     bool _shutdown{false};
 
-    std::tuple<work_unit*, bool> _fetch() {
+    auto _fetch() -> std::tuple<work_unit*, bool> {
         std::unique_lock lock{_mutex};
         work_unit* work = nullptr;
         if(!_shutdown) {
@@ -80,8 +80,8 @@ public:
     workshop() = default;
     workshop(workshop&&) = delete;
     workshop(const workshop&) = delete;
-    workshop& operator=(workshop&&) = delete;
-    workshop& operator=(const workshop&) = delete;
+    auto operator=(workshop&&) = delete;
+    auto operator=(const workshop&) = delete;
     ~workshop() noexcept {
         try {
             shutdown();
@@ -90,32 +90,32 @@ public:
         }
     }
 
-    workshop& shutdown() {
+    auto shutdown() -> workshop& {
         std::unique_lock lock{_mutex};
         _shutdown = true;
         _cond.notify_all();
         return *this;
     }
 
-    workshop& wait_until_closed() {
+    auto wait_until_closed() -> workshop& {
         for(auto& worker : _workers) {
             worker.join();
         }
         return *this;
     }
 
-    workshop& wait_until_idle() {
+    auto wait_until_idle() -> workshop& {
         std::unique_lock lock{_mutex};
         _cond.wait(lock, [this]() { return _work_queue.empty(); });
         return *this;
     }
 
-    workshop& add_worker() {
+    auto add_worker() -> workshop& {
         _workers.emplace_back([this]() { this->_employ(); });
         return *this;
     }
 
-    workshop& add_workers(span_size_t n) {
+    auto add_workers(span_size_t n) -> workshop& {
         _workers.reserve(_workers.size() + std_size(n));
         for(span_size_t i = 0; i < n; ++i) {
             add_worker();
@@ -123,7 +123,7 @@ public:
         return *this;
     }
 
-    workshop& ensure_workers(span_size_t n) {
+    auto ensure_workers(span_size_t n) -> workshop& {
         const auto c = span_size(_workers.size());
         if(n > c) {
             add_workers(n - c);
@@ -131,16 +131,16 @@ public:
         return *this;
     }
 
-    workshop& populate() {
+    auto populate() -> workshop& {
         return ensure_workers(span_size(std::thread::hardware_concurrency()));
     }
 
-    workshop& release_worker() {
+    auto release_worker() -> workshop& {
         _workers.pop_back();
         return *this;
     }
 
-    workshop& enqueue(work_unit& work) {
+    auto enqueue(work_unit& work) -> workshop& {
         std::unique_lock lock{_mutex};
         if(EAGINE_UNLIKELY(_workers.empty())) {
             add_worker();

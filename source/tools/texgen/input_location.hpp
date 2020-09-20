@@ -20,15 +20,16 @@ public:
       : _line{line}
       , _column{column} {}
 
-    span_size_t line() const noexcept {
+    auto line() const noexcept -> span_size_t {
         return _line;
     }
 
-    span_size_t column() const noexcept {
+    auto column() const noexcept -> span_size_t {
         return _column;
     }
 
-    friend input_location operator+(const input_location& l, char c) noexcept {
+    friend auto operator+(const input_location& l, char c) noexcept
+      -> input_location {
         if(c == '\n') {
             return {l.line() + 1, 0};
         }

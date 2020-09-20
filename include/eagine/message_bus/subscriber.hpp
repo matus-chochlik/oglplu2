@@ -22,11 +22,11 @@ namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 template <typename MessageId, typename MemFuncConst>
 struct message_handler_map {
-    static constexpr inline MessageId msg_id() noexcept {
+    static constexpr auto msg_id() noexcept -> MessageId {
         return {};
     }
 
-    static constexpr inline MemFuncConst method() noexcept {
+    static constexpr auto method() noexcept -> MemFuncConst {
         return {};
     }
 };
@@ -44,28 +44,25 @@ public:
         return _endpoint != nullptr;
     }
 
-    bool operator!() noexcept {
-        return _endpoint == nullptr;
-    }
-
-    endpoint& bus() noexcept {
+    auto bus() noexcept -> auto& {
         EAGINE_ASSERT(_endpoint != nullptr);
         return *_endpoint;
     }
 
-    const endpoint& bus() const noexcept {
+    auto bus() const noexcept -> auto& {
         EAGINE_ASSERT(_endpoint != nullptr);
         return *_endpoint;
     }
 
-    bool update() const noexcept {
+    auto update() const noexcept -> bool {
         if(EAGINE_LIKELY(_endpoint)) {
             return _endpoint->update();
         }
         return false;
     }
 
-    verification_bits verify_bits(const stored_message& message) const noexcept {
+    auto verify_bits(const stored_message& message) const noexcept
+      -> verification_bits {
         if(EAGINE_LIKELY(_endpoint)) {
             return message.verify_bits(_endpoint->ctx(), _endpoint->log());
         }
@@ -80,8 +77,8 @@ public:
     }
 
     subscriber_base(const subscriber_base&) = delete;
-    subscriber_base& operator=(subscriber_base&&) = delete;
-    subscriber_base& operator=(const subscriber_base&) = delete;
+    auto operator=(subscriber_base&&) = delete;
+    auto operator=(const subscriber_base&) = delete;
 
 protected:
     using method_handler = typename endpoint::method_handler;
@@ -135,7 +132,7 @@ protected:
         temp._endpoint = nullptr;
     }
 
-    inline void _subscribe_to(span<const handler_entry> msg_handlers) const {
+    void _subscribe_to(span<const handler_entry> msg_handlers) const {
         if(EAGINE_LIKELY(_endpoint)) {
             for(auto& entry : msg_handlers) {
                 _endpoint->subscribe(entry.msg_id);
@@ -143,7 +140,7 @@ protected:
         }
     }
 
-    inline void
+    void
     _unsubscribe_from(span<const handler_entry> msg_handlers) const noexcept {
         if(_endpoint) {
             for(auto& entry : msg_handlers) {
@@ -155,8 +152,7 @@ protected:
         }
     }
 
-    inline void
-    _announce_subscriptions(span<const handler_entry> msg_handlers) const {
+    void _announce_subscriptions(span<const handler_entry> msg_handlers) const {
         if(EAGINE_LIKELY(_endpoint)) {
             for(auto& entry : msg_handlers) {
                 _endpoint->say_subscribes_to(entry.msg_id);
@@ -164,8 +160,7 @@ protected:
         }
     }
 
-    inline void
-    _allow_subscriptions(span<const handler_entry> msg_handlers) const {
+    void _allow_subscriptions(span<const handler_entry> msg_handlers) const {
         if(EAGINE_LIKELY(_endpoint)) {
             for(auto& entry : msg_handlers) {
                 _endpoint->allow_message_type(entry.msg_id);
@@ -173,7 +168,7 @@ protected:
         }
     }
 
-    inline void _retract_subscriptions(
+    void _retract_subscriptions(
       span<const handler_entry> msg_handlers) const noexcept {
         if(EAGINE_LIKELY(_endpoint)) {
             for(auto& entry : msg_handlers) {
@@ -185,7 +180,7 @@ protected:
         }
     }
 
-    inline void _respond_to_subscription_query(
+    void _respond_to_subscription_query(
       identifier_t source_id,
       message_id sub_msg,
       span<const handler_entry> msg_handlers) const {
@@ -199,7 +194,7 @@ protected:
         }
     }
 
-    bool _process_one(span<const handler_entry> msg_handlers) {
+    auto _process_one(span<const handler_entry> msg_handlers) -> bool {
         for(auto& entry : msg_handlers) {
             if(bus().process_one(entry.msg_id, entry.handler)) {
                 return true;
@@ -208,7 +203,7 @@ protected:
         return false;
     }
 
-    span_size_t _process_all(span<const handler_entry> msg_handlers) {
+    auto _process_all(span<const handler_entry> msg_handlers) -> span_size_t {
         span_size_t result{0};
         for(auto& entry : msg_handlers) {
             result += bus().process_all(entry.msg_id, entry.handler);
@@ -253,18 +248,18 @@ public:
 
     static_subscriber(static_subscriber&& temp) = delete;
     static_subscriber(const static_subscriber&) = delete;
-    static_subscriber& operator=(static_subscriber&&) = delete;
-    static_subscriber& operator=(const static_subscriber&) = delete;
+    auto operator=(static_subscriber&&) = delete;
+    auto operator=(const static_subscriber&) = delete;
 
     ~static_subscriber() noexcept {
         this->_unsubscribe_from(view(_msg_handlers));
     }
 
-    bool process_one() {
+    auto process_one() -> bool {
         return this->_process_one(view(_msg_handlers));
     }
 
-    span_size_t process_all() {
+    auto process_all() -> span_size_t {
         return this->_process_all(view(_msg_handlers));
     }
 
@@ -302,8 +297,8 @@ public:
       : subscriber_base{bus} {}
     subscriber(subscriber&&) noexcept = default;
     subscriber(const subscriber&) = delete;
-    subscriber& operator=(subscriber&&) = delete;
-    subscriber& operator=(const subscriber&) = delete;
+    auto operator=(subscriber&&) = delete;
+    auto operator=(const subscriber&) = delete;
 
     template <typename Class, bool (Class::*Method)(stored_message&)>
     void add_method(
@@ -327,11 +322,11 @@ public:
         add_method(instance, msg_map.msg_id(), msg_map.method());
     }
 
-    bool process_one() {
+    auto process_one() -> bool {
         return this->_process_one(view(_msg_handlers));
     }
 
-    span_size_t process_all() {
+    auto process_all() -> span_size_t {
         return this->_process_all(view(_msg_handlers));
     }
 

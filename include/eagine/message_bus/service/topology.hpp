@@ -45,7 +45,7 @@ public:
     virtual void endpoint_appeared(const endpoint_topology_info& info) = 0;
 
 private:
-    bool _handle_router(stored_message& message) {
+    auto _handle_router(stored_message& message) -> bool {
         router_topology_info info{};
         if(default_deserialize(info, message.content())) {
             router_appeared(info);
@@ -53,7 +53,7 @@ private:
         return true;
     }
 
-    bool _handle_bridge(stored_message& message) {
+    auto _handle_bridge(stored_message& message) -> bool {
         bridge_topology_info info{};
         if(default_deserialize(info, message.content())) {
             bridge_appeared(info);
@@ -61,7 +61,7 @@ private:
         return true;
     }
 
-    bool _handle_endpoint(stored_message& message) {
+    auto _handle_endpoint(stored_message& message) -> bool {
         endpoint_topology_info info{};
         if(default_deserialize(info, message.content())) {
             endpoint_appeared(info);

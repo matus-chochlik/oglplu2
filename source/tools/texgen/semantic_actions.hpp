@@ -19,8 +19,8 @@ struct semantic_actions_intf {
     semantic_actions_intf() noexcept = default;
     semantic_actions_intf(semantic_actions_intf&&) = delete;
     semantic_actions_intf(const semantic_actions_intf&) = delete;
-    semantic_actions_intf& operator=(semantic_actions_intf&&) = delete;
-    semantic_actions_intf& operator=(const semantic_actions_intf&) = delete;
+    auto operator=(semantic_actions_intf&&) = delete;
+    auto operator=(const semantic_actions_intf&) = delete;
     virtual ~semantic_actions_intf() noexcept = default;
 
     virtual void begin() = 0;

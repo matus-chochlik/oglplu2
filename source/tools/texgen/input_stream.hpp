@@ -26,10 +26,10 @@ struct input_stream_intf {
 
     virtual ~input_stream_intf() noexcept = default;
 
-    virtual input_location location(span_size_t index) = 0;
-    virtual char peek(span_size_t index) noexcept = 0;
-    virtual bool consume(span_size_t count) = 0;
-    virtual string_view head(span_size_t length) noexcept = 0;
+    virtual auto location(span_size_t index) -> input_location = 0;
+    virtual auto peek(span_size_t index) noexcept -> char = 0;
+    virtual auto consume(span_size_t count) -> bool = 0;
+    virtual auto head(span_size_t length) noexcept -> string_view = 0;
 };
 //------------------------------------------------------------------------------
 class input_stream_iter {
@@ -50,7 +50,7 @@ public:
         }
     }
 
-    input_stream_iter& operator++() noexcept {
+    auto operator++() noexcept -> auto& {
         ++_index;
         _element = _pimpl->peek(_index);
         return *this;
@@ -63,7 +63,7 @@ public:
         return res;
     }
 
-    input_stream_iter& operator--() noexcept {
+    auto operator--() noexcept -> auto& {
         --_index;
         _element = _pimpl->peek(_index);
         return *this;
@@ -76,24 +76,24 @@ public:
         return res;
     }
 
-    reference operator*() const noexcept {
+    auto operator*() const noexcept -> reference {
         return _element;
     }
 
-    friend bool operator==(
+    friend auto operator==(
       const input_stream_iter& l,
       const input_stream_iter& r) noexcept {
         return (l.at_end() && r.at_end()) ||
                ((l._index == r._index) && (l._pimpl == r._pimpl));
     }
 
-    friend bool operator!=(
+    friend auto operator!=(
       const input_stream_iter& l,
       const input_stream_iter& r) noexcept {
         return !(l == r);
     }
 
-    bool at_end() const noexcept {
+    auto at_end() const noexcept -> bool {
         return !_pimpl || (_index < 0) || !_pimpl->peek(_index);
     }
 
@@ -113,28 +113,28 @@ public:
 
     input_stream(std::istream& input);
 
-    input_location location(span_size_t index = 0) {
+    auto location(span_size_t index = 0) -> input_location {
         if(_pimpl) {
             return _pimpl->location(index);
         }
         return {};
     }
 
-    char peek(span_size_t index = 0) {
+    auto peek(span_size_t index = 0) -> char {
         if(_pimpl) {
             return _pimpl->peek(index);
         }
         return char(0);
     }
 
-    bool consume(span_size_t count = 1) {
+    auto consume(span_size_t count = 1) -> bool {
         if(_pimpl) {
             return _pimpl->consume(count);
         }
         return false;
     }
 
-    string_view head(span_size_t length) {
+    auto head(span_size_t length) -> string_view {
         if(_pimpl) {
             return _pimpl->head(length);
         }
