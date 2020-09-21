@@ -18,8 +18,8 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline bool
-value_with_history_changed(const T& a, const T& b) noexcept {
+static constexpr inline auto
+value_with_history_changed(const T& a, const T& b) noexcept -> bool {
     return !are_equal(a, b);
 }
 
@@ -29,8 +29,8 @@ value_with_history_delta(const T& new_value, const T& old_value) noexcept {
     return new_value - old_value;
 }
 
-static constexpr inline int
-value_with_history_delta(bool new_value, bool old_value) noexcept {
+static constexpr inline auto
+value_with_history_delta(bool new_value, bool old_value) noexcept -> int {
     return int(new_value) - int(old_value);
 }
 
@@ -47,10 +47,10 @@ private:
     T _values[N] = {};
 
 public:
-    constexpr inline value_with_history_storage() = default;
+    constexpr value_with_history_storage() = default;
 
     template <typename... I>
-    constexpr inline value_with_history_storage(I&&... initial)
+    constexpr value_with_history_storage(I&&... initial)
       : _values{T(initial)...} {}
 
     value_with_history_storage(const T& initial) noexcept {
@@ -59,7 +59,7 @@ public:
         }
     }
 
-    constexpr inline const T& get(std::size_t i) const noexcept {
+    constexpr auto get(std::size_t i) const noexcept -> const T& {
         return _values[i];
     }
 
@@ -123,11 +123,11 @@ private:
     value_with_history_storage<T, N> _values;
 
 protected:
-    value_with_history_storage<T, N>& values() noexcept {
+    auto values() noexcept -> value_with_history_storage<T, N>& {
         return _values;
     }
 
-    bool _update_value(const T& new_value) noexcept {
+    auto _update_value(const T& new_value) noexcept -> bool {
 
         if(value_with_history_changed(values().get(0), new_value)) {
             values().make_history();
@@ -137,7 +137,7 @@ protected:
         return false;
     }
 
-    bool _advance_value(const T& delta_value) noexcept {
+    auto _advance_value(const T& delta_value) noexcept -> bool {
         values().make_history();
         values().set(0, values().get(0) + delta_value);
         return true;
@@ -145,19 +145,18 @@ protected:
 
     value_with_history() = default;
 
-    inline explicit value_with_history(const T& initial) noexcept
+    explicit value_with_history(const T& initial) noexcept
       : _values(initial) {}
 
 public:
-    inline explicit value_with_history(
-      const value_with_history_storage<T, N>& storage)
+    explicit value_with_history(const value_with_history_storage<T, N>& storage)
       : _values(storage) {}
 
     template <typename... I>
-    constexpr inline value_with_history(I&&... initial)
+    constexpr value_with_history(I&&... initial)
       : _values{std::forward<I>(initial)...} {}
 
-    const value_with_history_storage<T, N>& values() const noexcept {
+    auto values() const noexcept -> const value_with_history_storage<T, N>& {
         return _values;
     }
 
@@ -203,7 +202,7 @@ public:
         return value_with_history_distance(value(), old_value());
     }
 
-    bool changed() const noexcept {
+    auto changed() const noexcept -> bool {
         return value_with_history_changed(old_value(), value());
     }
 
@@ -244,16 +243,16 @@ static inline auto operator/(
 template <typename T, std::size_t N>
 class variable_with_history : public value_with_history<T, N> {
 public:
-    constexpr inline variable_with_history() noexcept = default;
+    constexpr variable_with_history() noexcept = default;
 
-    constexpr inline variable_with_history(const T& initial) noexcept
+    constexpr variable_with_history(const T& initial) noexcept
       : value_with_history<T, N>(initial) {}
 
-    bool assign(const T& new_value) {
+    auto assign(const T& new_value) -> bool {
         return this->_update_value(new_value);
     }
 
-    bool advance(const T& delta_value) {
+    auto advance(const T& delta_value) -> bool {
         return this->_advance_value(delta_value);
     }
 };
@@ -262,15 +261,14 @@ template <typename T, typename... P, std::size_t N>
 class variable_with_history<valid_if<T, P...>, N>
   : public value_with_history<T, N> {
 public:
-    constexpr inline variable_with_history(
-      const valid_if<T, P...>& initial) noexcept
+    constexpr variable_with_history(const valid_if<T, P...>& initial) noexcept
       : value_with_history<T, N>(initial.value()) {}
 
-    bool assign(const valid_if<T, P...>& new_value) {
+    auto assign(const valid_if<T, P...>& new_value) -> bool {
         return this->_update_value(new_value.value());
     }
 
-    bool advance(const valid_if<T, P...>& delta_value) {
+    auto advance(const valid_if<T, P...>& delta_value) -> bool {
         return this->_advance_value(delta_value.value());
     }
 };

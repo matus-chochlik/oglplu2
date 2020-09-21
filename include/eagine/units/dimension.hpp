@@ -18,17 +18,17 @@ namespace eagine::units {
 
 // multiplication
 template <typename D1, typename D2>
-static inline std::
-  enable_if_t<is_dimension_v<D1> && is_dimension_v<D2>, bits::dim_add_t<D1, D2>>
-  operator*(D1, D2) noexcept {
+static inline auto operator*(D1, D2) noexcept -> std::enable_if_t<
+  is_dimension_v<D1> && is_dimension_v<D2>,
+  bits::dim_add_t<D1, D2>> {
     return {};
 }
 
 // division
 template <typename D1, typename D2>
-static inline std::
-  enable_if_t<is_dimension_v<D1> && is_dimension_v<D2>, bits::dim_sub_t<D1, D2>>
-  operator/(D1, D2) noexcept {
+static inline auto operator/(D1, D2) noexcept -> std::enable_if_t<
+  is_dimension_v<D1> && is_dimension_v<D2>,
+  bits::dim_sub_t<D1, D2>> {
     return {};
 }
 

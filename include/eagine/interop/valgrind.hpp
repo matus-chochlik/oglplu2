@@ -21,7 +21,7 @@
 
 namespace eagine {
 
-static inline tribool running_on_valgrind() noexcept {
+static inline auto running_on_valgrind() noexcept -> tribool {
 #if defined(RUNNING_ON_VALGRIND)
     return bool(RUNNING_ON_VALGRIND); // NOLINT(hicpp-no-assembler)
 #else

@@ -12,7 +12,7 @@
 #include "main_ctx.hpp"
 
 // NOLINTNEXTLINE(misc-definitions-in-headers)
-int main(int argc, const char** argv) {
+auto main(int argc, const char** argv) -> int {
     eagine::main_ctx_options options;
     return eagine::main_impl(argc, argv, options);
 }

@@ -28,26 +28,26 @@ class progress_bar {
 public:
     progress_bar() noexcept = default;
 
-    progress_bar& set_width(int w) noexcept {
+    auto set_width(int w) noexcept -> auto& {
         _width = w < 0 ? 0 : w;
         return *this;
-    };
+    }
 
-    progress_bar& set_min(float min) noexcept {
+    auto set_min(float min) noexcept -> auto& {
         _min = min;
         return *this;
     }
 
-    progress_bar& set_max(float max) noexcept {
+    auto set_max(float max) noexcept -> auto& {
         _max = max;
         return *this;
     }
 
-    progress_bar& reformat() noexcept;
+    auto reformat() noexcept -> progress_bar&;
 
-    progress_bar& update(float value) noexcept;
+    auto update(float value) noexcept -> progress_bar&;
 
-    string_view get() const noexcept {
+    auto get() const noexcept -> string_view {
         return {_buffer.c_str(), span_size_t(_idx)};
     }
 

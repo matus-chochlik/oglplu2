@@ -64,8 +64,8 @@ struct pow_of_dim<D1, dims<dim_pow<D2, P>, T>> : pow_of_dim<D1, T> {};
 
 // get_pow_of_dim
 template <typename D, typename H, typename T>
-static constexpr inline int
-get_pow_of_dim(base::dimension<D>, dims<H, T>) noexcept {
+static constexpr inline auto
+get_pow_of_dim(base::dimension<D>, dims<H, T>) noexcept -> int {
     return pow_of_dim_v<D, dims<H, T>>;
 }
 
@@ -325,12 +325,12 @@ template <typename Scales, typename System>
 struct _sc_unit_sc_hlp {
 
     template <typename T, typename SV>
-    static constexpr inline auto _pow(T v, SV, int_constant<0>) {
+    static constexpr auto _pow(T v, SV, int_constant<0>) {
         return v;
     }
 
     template <typename T, typename S, int E>
-    static constexpr inline auto _pow(T v, S s, int_constant<E>) {
+    static constexpr auto _pow(T v, S s, int_constant<E>) {
         return _pow(
           (E > 0) ? S::mul(v) : S::div(v),
           s,
@@ -338,22 +338,22 @@ struct _sc_unit_sc_hlp {
     }
 
     template <typename Dir, typename T>
-    static constexpr inline T _hlp(Dir, T v) noexcept {
+    static constexpr auto _hlp(Dir, T v) noexcept -> T {
         return v;
     }
 
     template <typename Dir, typename T>
-    static constexpr inline T _hlp(Dir d, T v, nothing_t) noexcept {
+    static constexpr auto _hlp(Dir d, T v, nothing_t) noexcept -> T {
         return _hlp(d, v);
     }
 
     template <typename Dir, typename T>
-    static constexpr inline T _hlp(Dir d, T v, dimless) noexcept {
+    static constexpr auto _hlp(Dir d, T v, dimless) noexcept -> T {
         return _hlp(d, v);
     }
 
     template <typename Dir, typename T, typename D, int E>
-    static constexpr inline auto _hlp2(Dir, T v, dim_pow<D, E>) noexcept {
+    static constexpr auto _hlp2(Dir, T v, dim_pow<D, E>) noexcept {
         using SBU = typename System ::template base_unit<D>::type;
         using BS = scales::scale_of_t<SBU>;
 
@@ -364,7 +364,7 @@ struct _sc_unit_sc_hlp {
     }
 
     template <typename Dir, typename T, typename D, int P, typename Dims>
-    static constexpr inline auto
+    static constexpr auto
     _hlp(Dir dir, T v, dims<dim_pow<D, P>, Dims>) noexcept {
         return _hlp(dir, _hlp2(dir, v, dim_pow<D, P>()), Dims());
     }
