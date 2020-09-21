@@ -11,7 +11,7 @@
 #include <exception>
 #include <iostream>
 
-int main() {
+auto main() -> int {
     using namespace eagine;
     using std::cout;
 

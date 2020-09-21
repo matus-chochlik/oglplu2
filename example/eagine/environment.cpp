@@ -9,7 +9,7 @@
 #include <eagine/environment.hpp>
 #include <iostream>
 
-int main() {
+auto main() -> int {
     using namespace eagine;
 
     using v = string_view;

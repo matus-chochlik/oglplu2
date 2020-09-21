@@ -11,7 +11,7 @@
 #include <eagine/program_args.hpp>
 #include <iostream>
 
-int main(int argc, const char** argv) {
+auto main(int argc, const char** argv) -> int {
     using namespace eagine;
 
     program_args args(argc, argv);

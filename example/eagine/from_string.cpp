@@ -16,7 +16,7 @@
 
 namespace eagine {
 
-int main(main_ctx& ctx) {
+auto main(main_ctx& ctx) -> int {
     using duration = std::chrono::duration<float, std::milli>;
 
     for(auto& arg : ctx.args()) {

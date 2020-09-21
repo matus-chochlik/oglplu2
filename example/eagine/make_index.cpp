@@ -13,7 +13,7 @@
 #include <string>
 #include <vector>
 
-int main() {
+auto main() -> int {
     using namespace eagine;
     using namespace eagine::memory;
 

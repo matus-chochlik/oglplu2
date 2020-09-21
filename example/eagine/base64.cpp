@@ -14,7 +14,7 @@
 
 namespace eagine {
 
-int main(main_ctx& ctx) {
+auto main(main_ctx& ctx) -> int {
     std::string na{"-"};
 
     std::string temp;

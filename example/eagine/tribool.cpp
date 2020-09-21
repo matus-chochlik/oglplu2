@@ -34,7 +34,7 @@ void print(const char* expr, eagine::tribool v) {
 
 #define EAG_PRINT(EXPR) print(EAGINE_STRINGIFY(EXPR), EXPR)
 
-int main() {
+auto main() -> int {
     using namespace eagine;
 
     tribool yes{true};

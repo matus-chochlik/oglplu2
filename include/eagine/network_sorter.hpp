@@ -24,16 +24,16 @@ private:
     Compare _before;
     Network _sn;
 
-    inline const T& _min(const T& a, const T& b) const {
+    auto _min(const T& a, const T& b) const -> const T& {
         return _before(a, b) ? a : b;
     }
 
-    inline const T& _max(const T& a, const T& b) const {
+    auto _max(const T& a, const T& b) const -> const T& {
         return _before(a, b) ? b : a;
     }
 
-    inline const T&
-    _min_max_cpy(const T& a, const T& b, bool min, bool max) const {
+    auto _min_max_cpy(const T& a, const T& b, bool min, bool max) const
+      -> const T& {
         return min ? _min(a, b) : max ? _max(a, b) : a;
     }
 
@@ -51,11 +51,11 @@ public:
           _sn.max(r, i, j));
     }
 
-    span_size_t size() const noexcept {
+    auto size() const noexcept -> span_size_t {
         return _sn.size();
     }
 
-    span_size_t rounds() const noexcept {
+    auto rounds() const noexcept -> span_size_t {
         return _sn.rounds();
     }
 };
@@ -67,36 +67,35 @@ template <
   typename Network = sorting_network<N>>
 class network_sorter : basic_network_sorter<T, N, Compare, Network> {
 private:
-    span_size_t _round;
+    span_size_t _round{0};
     std::array<std::array<T, N>, 2> _a;
 
 public:
     constexpr inline network_sorter(std::array<T, N> a)
-      : _round{0}
-      , _a{{a, a}} {}
+      : _a{{a, a}} {}
 
     using basic_network_sorter<T, N, Compare, Network>::rounds;
 
-    bool done() const noexcept {
+    auto done() const noexcept -> bool {
         return _round >= rounds();
     }
 
-    bool next_round() noexcept {
+    auto next_round() noexcept -> bool {
         return !done() && (++_round < rounds());
     }
 
-    network_sorter& sort_single(span_size_t r, span_size_t i) {
+    auto sort_single(span_size_t r, span_size_t i) -> auto& {
         span_size_t src = (r + 0) % 2;
         span_size_t dst = (r + 1) % 2;
         this->single_sort_step(_a[std_size(src)], _a[std_size(dst)], r, i);
         return *this;
     }
 
-    network_sorter& sort_single(span_size_t i) {
+    auto sort_single(span_size_t i) -> auto& {
         return sort_single(_round, i);
     }
 
-    network_sorter& sort_round() {
+    auto sort_round() -> auto& {
         EAGINE_ASSERT(!done());
         for(span_size_t i = 0; i < span_size(N); ++i) {
             sort_single(i);
@@ -104,23 +103,24 @@ public:
         return *this;
     }
 
-    network_sorter& sort() {
+    auto sort() -> auto& {
         while(sort_round().next_round()) {
         }
         return *this;
     }
 
-    const std::array<T, N>& result() const noexcept {
+    auto result() const noexcept -> const std::array<T, N>& {
         return _a[rounds() % 2];
     }
 
-    const std::array<T, N>& operator()() {
+    auto operator()() -> const std::array<T, N>& {
         return sort().result();
     }
 };
 
 template <std::size_t N, typename Cmp, typename T, typename P, typename S>
-memory::basic_span<T, P, S> network_sort(memory::basic_span<T, P, S> spn) {
+auto network_sort(memory::basic_span<T, P, S> spn)
+  -> memory::basic_span<T, P, S> {
     EAGINE_ASSERT(spn.size() == span_size_t(N));
     using memory::copy;
     std::array<T, N> init{};

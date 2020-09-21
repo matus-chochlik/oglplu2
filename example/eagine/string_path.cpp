@@ -9,7 +9,7 @@
 #include <eagine/string_path.hpp>
 #include <iostream>
 
-int main() {
+auto main() -> int {
     using namespace eagine;
 
     basic_string_path cxx("/usr/local/bin/c++", EAGINE_TAG(split_by), "/");

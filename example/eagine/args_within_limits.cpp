@@ -19,7 +19,7 @@ struct mul {
     }
 };
 
-int main() {
+auto main() -> int {
     using namespace eagine;
 
     if(args_within_limits(&add, 123, 456)) {

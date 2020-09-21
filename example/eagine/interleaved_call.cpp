@@ -10,7 +10,7 @@
 #include <eagine/string_span.hpp>
 #include <iostream>
 
-int main() {
+auto main() -> int {
     using namespace eagine;
     using std::cout;
     using v = string_view;

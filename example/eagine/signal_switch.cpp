@@ -10,7 +10,7 @@
 #include <iostream>
 #include <thread>
 
-int main() {
+auto main() -> int {
     using namespace eagine;
 
     signal_switch done;

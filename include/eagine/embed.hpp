@@ -36,11 +36,11 @@ public:
       , _src_path{src_path}
       , _packed{packed} {}
 
-    constexpr string_view source_path() const noexcept {
+    constexpr auto source_path() const noexcept -> string_view {
         return _src_path;
     }
 
-    constexpr bool is_packed() const noexcept {
+    constexpr auto is_packed() const noexcept -> bool {
         return _packed;
     }
 
@@ -49,15 +49,15 @@ public:
         return _res_blk;
     }
 
-    memory::const_block
-    unpack(data_compressor& comp, memory::buffer& buf) const {
+    auto unpack(data_compressor& comp, memory::buffer& buf) const
+      -> memory::const_block {
         if(is_packed()) {
             return {comp.decompress(_res_blk, buf)};
         }
         return copy_into(_res_blk, buf);
     }
 
-    memory::const_block unpack(main_ctx& ctx) const {
+    auto unpack(main_ctx& ctx) const -> memory::const_block {
         return unpack(ctx.compressor(), ctx.scratch_space());
     }
 };
@@ -66,11 +66,11 @@ static inline auto as_chars(const embedded_resource& res) noexcept {
     return as_chars(memory::const_block{res});
 }
 
-extern embedded_resource
-get_embedded_resource(identifier res_id, string_view src_path) noexcept;
+extern auto
+get_embedded_resource(identifier res_id, string_view src_path) noexcept
+  -> embedded_resource;
 
-static inline embedded_resource
-embed(identifier res_id, string_view src_path) noexcept {
+static inline auto embed(identifier res_id, string_view src_path) noexcept {
     return get_embedded_resource(res_id, src_path);
 }
 

@@ -35,7 +35,7 @@ public:
       : _func(std::forward<Func>(func)) {}
 
     template <typename F>
-    R operator()(P... p, const F& f) {
+    auto operator()(P... p, const F& f) -> R {
         T t(p...);
         auto i = _memo.find(t);
         if(i == _memo.end()) {
@@ -44,7 +44,7 @@ public:
         return i->second;
     }
 
-    R operator()(P... p) {
+    auto operator()(P... p) -> R {
         return _func(p..., *this);
     }
 

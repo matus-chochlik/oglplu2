@@ -12,7 +12,7 @@
 #include <iomanip>
 #include <iostream>
 
-int main() {
+auto main() -> int {
     using namespace eagine;
 
     std::array<int, 12> numbers{{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}};

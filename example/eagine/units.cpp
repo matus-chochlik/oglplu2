@@ -27,7 +27,7 @@ void print(const qty<Unit>& q) {
               << get_name_form(q.unit()) << ")]\n";
 }
 
-int main() {
+auto main() -> int {
     using namespace eagine::units;
 
     qty<meter> x{2.F};
