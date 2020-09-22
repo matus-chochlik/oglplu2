@@ -20,7 +20,7 @@ struct config_attrib_traits {
     using conv_type = egl_types::int_type;
     using value_type = egl_types::int_type;
 
-    static constexpr inline egl_types::int_type terminator() noexcept {
+    static constexpr auto terminator() noexcept -> egl_types::int_type {
 #ifdef EGL_NONE
         return EGL_NONE;
 #else
@@ -34,25 +34,27 @@ using config_attributes = key_value_list<config_attrib_traits, N>;
 
 using config_attribute_value = key_value_list_element<config_attrib_traits>;
 
-static constexpr inline config_attribute_value
-operator|(config_attribute key, egl_types::int_type value) noexcept {
+static constexpr inline auto
+operator|(config_attribute key, egl_types::int_type value) noexcept
+  -> config_attribute_value {
     return {key, value};
 }
 
-static constexpr inline config_attribute_value operator|(
-  config_attribute key,
-  enum_bitfield<surface_type_bit> value) noexcept {
+static constexpr inline auto
+operator|(config_attribute key, enum_bitfield<surface_type_bit> value) noexcept
+  -> config_attribute_value {
     return {key, egl_types::int_type(value)};
 }
 
-static constexpr inline config_attribute_value
-operator|(config_attribute key, enum_bitfield<client_api_bit> value) noexcept {
+static constexpr inline auto
+operator|(config_attribute key, enum_bitfield<client_api_bit> value) noexcept
+  -> config_attribute_value {
     return {key, egl_types::int_type(value)};
 }
 
 #if defined(EGL_TRUE) && defined(EGL_FALSE)
-static constexpr inline config_attribute_value
-operator|(config_attribute key, bool value) noexcept {
+static constexpr inline auto
+operator|(config_attribute key, bool value) noexcept -> config_attribute_value {
     return {key, value ? EGL_TRUE : EGL_FALSE};
 }
 #endif

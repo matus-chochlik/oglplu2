@@ -34,14 +34,14 @@ public:
 };
 
 template <std::size_t I, typename ApiTraits>
-typename std::tuple_element<I, basic_al_api<ApiTraits>>::type&
-get(basic_al_api<ApiTraits>& x) noexcept {
+auto get(basic_al_api<ApiTraits>& x) noexcept ->
+  typename std::tuple_element<I, basic_al_api<ApiTraits>>::type& {
     return x;
 }
 
 template <std::size_t I, typename ApiTraits>
-const typename std::tuple_element<I, basic_al_api<ApiTraits>>::type&
-get(const basic_al_api<ApiTraits>& x) noexcept {
+auto get(const basic_al_api<ApiTraits>& x) noexcept -> const
+  typename std::tuple_element<I, basic_al_api<ApiTraits>>::type& {
     return x;
 }
 //------------------------------------------------------------------------------

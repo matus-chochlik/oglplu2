@@ -31,8 +31,8 @@ struct key_value_list_element {
     constexpr inline key_value_list_element(
       key_type key,
       value_type value) noexcept
-      : _key(key)
-      , _value(value) {}
+      : _key{key}
+      , _value{value} {}
 };
 
 template <typename Traits, std::size_t N>
@@ -44,7 +44,7 @@ struct key_value_list_base<Traits, 0> {
 
     key_value_list_base() = default;
 
-    static const value_type* data() noexcept {
+    static auto data() noexcept -> const value_type* {
         static const value_type term = Traits::terminator();
         return &term;
     }
@@ -68,7 +68,7 @@ struct key_value_list_base<Traits, 2> {
       std::index_sequence<>) noexcept
       : _elements{{value_type(conv_type(key)), value, Traits::terminator()}} {}
 
-    const value_type* data() const noexcept {
+    auto data() const noexcept -> const value_type* {
         return _elements.data();
     }
 };
@@ -96,7 +96,7 @@ struct key_value_list_base {
            value,
            Traits::terminator()}} {}
 
-    const value_type* data() const noexcept {
+    auto data() const noexcept -> const value_type* {
         return _elements.data();
     }
 };
@@ -123,35 +123,38 @@ public:
     key_value_list(const key_value_list_element<Traits>& head) noexcept
       : _base(head._key, head._value) {}
 
-    static constexpr inline span_size_t size() noexcept {
+    static constexpr auto size() noexcept -> span_size_t {
         return span_size(N + 1);
     }
 
-    const value_type* data() const noexcept {
+    auto data() const noexcept -> const value_type* {
         return _base.data();
     }
 
-    span<const value_type> get() const noexcept {
+    auto get() const noexcept -> span<const value_type> {
         return {data(), size()};
     }
 
-    constexpr key_value_list<Traits, N + 2>
-    append(const key_value_list_element<Traits>& key_val) const noexcept {
+    constexpr auto
+    append(const key_value_list_element<Traits>& key_val) const noexcept
+      -> key_value_list<Traits, N + 2> {
         return {_base, key_val._key, key_val._value};
     }
 };
 
 template <typename Traits>
-static constexpr inline key_value_list<Traits, 4> operator+(
+static constexpr inline auto operator+(
   const key_value_list_element<Traits>& l,
-  const key_value_list_element<Traits>& r) noexcept {
+  const key_value_list_element<Traits>& r) noexcept
+  -> key_value_list<Traits, 4> {
     return key_value_list<Traits, 2>(l).append(r);
 }
 
 template <typename Traits, std::size_t N>
-static constexpr inline key_value_list<Traits, N + 2> operator+(
+static constexpr inline auto operator+(
   const key_value_list<Traits, N>& l,
-  const key_value_list_element<Traits>& r) noexcept {
+  const key_value_list_element<Traits>& r) noexcept
+  -> key_value_list<Traits, N + 2> {
     return l.append(r);
 }
 

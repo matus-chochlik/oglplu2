@@ -66,7 +66,7 @@ struct egl_types {
     using int_type = int;
 #endif
 
-    static constexpr bool bool_true(bool_type b) noexcept {
+    static constexpr auto bool_true(bool_type b) noexcept -> bool {
 #if EGLPLUS_HAS_EGL
         return b == EGL_TRUE;
 #else
@@ -74,7 +74,7 @@ struct egl_types {
 #endif
     }
 
-    static constexpr bool error_code_no_error(int_type ec) noexcept {
+    static constexpr auto error_code_no_error(int_type ec) noexcept -> bool {
 #if EGLPLUS_HAS_EGL
         return ec == EGL_SUCCESS;
 #else

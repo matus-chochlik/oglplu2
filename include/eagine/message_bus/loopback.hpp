@@ -17,25 +17,25 @@ namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 class loopback_connection : public connection {
 public:
-    connection_kind kind() final {
+    auto kind() -> connection_kind final {
         return connection_kind::in_process;
     }
 
-    connection_addr_kind addr_kind() final {
+    auto addr_kind() -> connection_addr_kind final {
         return connection_addr_kind::none;
     }
 
-    identifier type_id() final {
+    auto type_id() -> identifier final {
         return EAGINE_ID(Loopback);
     }
 
-    bool send(message_id msg_id, const message_view& message) final {
+    auto send(message_id msg_id, const message_view& message) -> bool final {
         std::unique_lock lock{_mutex};
         _messages.push(msg_id, message);
         return true;
     }
 
-    bool fetch_messages(connection::fetch_handler handler) final {
+    auto fetch_messages(connection::fetch_handler handler) -> bool final {
         std::unique_lock lock{_mutex};
         return _messages.fetch_all(handler);
     }

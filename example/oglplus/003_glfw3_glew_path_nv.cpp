@@ -145,7 +145,7 @@ static void init_and_run() {
     }
 }
 
-int main() {
+auto main() -> int {
     try {
         init_and_run();
         return 0;
