@@ -1,5 +1,5 @@
 /**
- *  @example eagine/ssh/005_random_engine.cpp
+ *  @example eagine/ssh/008_sign_self.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -17,7 +17,7 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-int main(main_ctx& ctx) {
+auto main(main_ctx& ctx) -> int {
     auto& log = ctx.log();
     file_contents data(ctx.exe_path());
     std::array<byte, 1024> temp{};

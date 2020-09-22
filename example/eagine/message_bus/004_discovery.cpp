@@ -58,7 +58,7 @@ public:
         }
     }
 
-    bool is_done() const noexcept {
+    auto is_done() const noexcept -> bool {
         return _done;
     }
 
@@ -69,7 +69,7 @@ private:
 //------------------------------------------------------------------------------
 } // namespace msgbus
 
-int main(main_ctx& ctx) {
+auto main(main_ctx& ctx) -> int {
 
     signal_switch interrupted;
 

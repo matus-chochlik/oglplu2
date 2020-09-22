@@ -82,7 +82,7 @@ void foo(const my_struct& instance) {
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-int main() {
+auto main() -> int {
     using namespace eagine;
 
     my_struct x;

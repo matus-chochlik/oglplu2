@@ -16,7 +16,7 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-int main(main_ctx& ctx) {
+auto main(main_ctx& ctx) -> int {
 
     string_view cert_path{"example.crt"};
     file_contents cert_pem{cert_path};

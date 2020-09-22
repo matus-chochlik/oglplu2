@@ -20,7 +20,7 @@
 
 namespace eagine {
 
-int main(main_ctx& ctx) {
+auto main(main_ctx& ctx) -> int {
 
     std::array<span_size_t, 256> byte_counts{};
 

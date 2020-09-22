@@ -132,7 +132,7 @@ void serialize_data(const std::vector<T>& instance) {
 }
 //------------------------------------------------------------------------------
 template <typename T>
-std::vector<T> generate_data(std::size_t n) {
+auto generate_data(std::size_t n) -> std::vector<T> {
 
     std::vector<T> data(n);
     for(auto& v : data) {
@@ -144,7 +144,7 @@ std::vector<T> generate_data(std::size_t n) {
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-int main() {
+auto main() -> int {
     using namespace eagine;
 
     serialize_data(generate_data<int>(8 * 1024));

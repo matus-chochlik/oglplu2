@@ -44,7 +44,7 @@ struct ping_stats {
           finish - start);
     }
 
-    float total_count() const noexcept {
+    auto total_count() const noexcept {
         return float(responded) + float(timeouted);
     }
 
@@ -111,11 +111,11 @@ public:
         }
     }
 
-    bool is_done() const noexcept {
+    auto is_done() const noexcept -> bool {
         return !(((_rcvd + _tout + _mod) < _max) || this->has_pending_pings());
     }
 
-    bool update() {
+    auto update() -> bool {
         some_true something_done{};
         something_done(base::update());
         if(EAGINE_UNLIKELY(_targets.empty())) {
@@ -189,7 +189,7 @@ private:
 //------------------------------------------------------------------------------
 } // namespace msgbus
 
-int main(main_ctx& ctx) {
+auto main(main_ctx& ctx) -> int {
 
     msgbus::router_address address{ctx.log(), ctx.args()};
     msgbus::connection_setup conn_setup(ctx.log(), ctx.args());
@@ -218,7 +218,7 @@ int main(main_ctx& ctx) {
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-int main(int argc, const char** argv) {
+auto main(int argc, const char** argv) -> int {
     eagine::main_ctx_options options;
     options.logger_id = EAGINE_ID(PingExe);
     return eagine::main_impl(argc, argv, options);

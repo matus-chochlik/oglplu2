@@ -37,7 +37,7 @@ public:
           address);
     }
 
-    bool ping(stored_message& msg_in) {
+    auto ping(stored_message& msg_in) -> bool {
         bus().respond_to(msg_in, EAGINE_MSG_ID(PingPong, Pong));
         if(++_sent % _lmod == 0) {
             log().info("sent ${count} pongs").arg(EAGINE_ID(count), _sent);
@@ -46,7 +46,7 @@ public:
         return true;
     }
 
-    bool shutdown(stored_message&) {
+    auto shutdown(stored_message&) -> bool {
         _done = true;
         log().info("received shutdown message");
         return true;
@@ -61,7 +61,7 @@ public:
         }
     }
 
-    bool is_done() const noexcept {
+    auto is_done() const noexcept {
         return _done || _timeout;
     }
 
@@ -75,7 +75,7 @@ private:
 //------------------------------------------------------------------------------
 } // namespace msgbus
 
-int main(main_ctx& ctx) {
+auto main(main_ctx& ctx) -> int {
     msgbus::router_address address{ctx.log(), ctx.args()};
     msgbus::connection_setup conn_setup(ctx.log(), ctx.args());
 
