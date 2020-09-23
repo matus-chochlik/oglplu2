@@ -32,12 +32,13 @@ struct identity<matrix<T, R, C, RM, V>> {
     using _make_useq = std::make_integer_sequence<int, N>;
 
     template <int... I>
-    static constexpr inline matrix<T, R, C, RM, V>
-    _identity(_useq<I...>) noexcept {
+    static constexpr inline auto _identity(_useq<I...>) noexcept
+      -> matrix<T, R, C, RM, V> {
         return {{vect::axis < T, RM ? C : R, I, V > ::apply(1)...}};
     }
 
-    constexpr inline matrix<T, R, C, RM, V> operator()() const noexcept {
+    constexpr inline auto operator()() const noexcept
+      -> matrix<T, R, C, RM, V> {
         using _riS = _make_useq<RM ? R : C>;
         return _identity(_riS());
     }
@@ -45,9 +46,10 @@ struct identity<matrix<T, R, C, RM, V>> {
 
 // multiply
 template <typename T, int C, int R, bool RM1, bool RM2, bool V>
-static constexpr inline identity<matrix<T, C, R, RM1, V>> multiply(
+static constexpr inline auto multiply(
   const identity<matrix<T, C, R, RM1, V>>&,
-  const identity<matrix<T, C, R, RM2, V>>&) noexcept {
+  const identity<matrix<T, C, R, RM2, V>>&) noexcept
+  -> identity<matrix<T, C, R, RM1, V>> {
     return {};
 }
 
@@ -62,8 +64,8 @@ template <
   typename = std::enable_if_t<
     is_matrix_constructor_v<MC> &&
     are_multiplicable<constructed_matrix_t<MC>, matrix<T, C, R, RM, V>>::value>>
-static constexpr inline MC
-multiply(const MC& mc, const identity<matrix<T, C, R, RM, V>>&) noexcept {
+static constexpr inline auto
+multiply(const MC& mc, const identity<matrix<T, C, R, RM, V>>&) noexcept -> MC {
     return mc;
 }
 
@@ -77,15 +79,16 @@ template <
   typename = std::enable_if_t<
     is_matrix_constructor_v<MC> &&
     are_multiplicable<matrix<T, C, R, RM, V>, constructed_matrix_t<MC>>::value>>
-static constexpr inline MC
-multiply(const identity<matrix<T, C, R, RM, V>>&, const MC& mc) noexcept {
+static constexpr inline auto
+multiply(const identity<matrix<T, C, R, RM, V>>&, const MC& mc) noexcept -> MC {
     return mc;
 }
 
 // reorder_mat_ctr(identity)
 template <typename T, int R, int C, bool RM, bool V>
-static constexpr inline identity<matrix<T, R, C, !RM, V>>
-reorder_mat_ctr(const identity<matrix<T, R, C, RM, V>>&) noexcept {
+static constexpr inline auto
+reorder_mat_ctr(const identity<matrix<T, R, C, RM, V>>&) noexcept
+  -> identity<matrix<T, R, C, !RM, V>> {
     return {};
 }
 
