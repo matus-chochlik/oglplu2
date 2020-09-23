@@ -18,21 +18,24 @@
 namespace eagine::oglp {
 //------------------------------------------------------------------------------
 template <typename A>
-primitive_type
-translate(const basic_gl_api<A>&, shapes::primitive_type) noexcept;
+auto translate(const basic_gl_api<A>&, shapes::primitive_type) noexcept
+  -> primitive_type;
 //------------------------------------------------------------------------------
 template <typename A>
-data_type translate(const basic_gl_api<A>&, shapes::attrib_data_type) noexcept;
+auto translate(const basic_gl_api<A>&, shapes::attrib_data_type) noexcept
+  -> data_type;
 //------------------------------------------------------------------------------
 template <typename A>
-index_data_type
-translate(const basic_gl_api<A>&, shapes::index_data_type) noexcept;
+auto translate(const basic_gl_api<A>&, shapes::index_data_type) noexcept
+  -> index_data_type;
 //------------------------------------------------------------------------------
 template <typename A>
-span_size_t type_size(const basic_gl_api<A>&, shapes::attrib_data_type) noexcept;
+auto type_size(const basic_gl_api<A>&, shapes::attrib_data_type) noexcept
+  -> span_size_t;
 //------------------------------------------------------------------------------
 template <typename A>
-span_size_t type_size(const basic_gl_api<A>&, shapes::index_data_type) noexcept;
+auto type_size(const basic_gl_api<A>&, shapes::index_data_type) noexcept
+  -> span_size_t;
 //------------------------------------------------------------------------------
 class shape_draw_operation {
 private:
@@ -46,7 +49,7 @@ private:
     bool _primitive_restart{false};
     bool _cw_face_winding{false};
 
-    gl_types::const_void_ptr_type _idx_ptr() const noexcept;
+    auto _idx_ptr() const noexcept -> gl_types::const_void_ptr_type;
 
 public:
     constexpr shape_draw_operation() noexcept = default;
@@ -66,7 +69,7 @@ public:
     }
 
     template <typename A>
-    bool is_indexed(const basic_gl_api<A>& api) const noexcept {
+    auto is_indexed(const basic_gl_api<A>& api) const noexcept -> bool {
         const basic_gl_constants<A>& GL = api;
         return _idx_type != GL.none;
     }

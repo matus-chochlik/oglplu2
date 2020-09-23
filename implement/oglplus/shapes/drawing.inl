@@ -11,8 +11,9 @@
 namespace eagine::oglp {
 //------------------------------------------------------------------------------
 template <typename A>
-inline primitive_type
-translate(const basic_gl_api<A>& api, shapes::primitive_type mode) noexcept {
+inline auto
+translate(const basic_gl_api<A>& api, shapes::primitive_type mode) noexcept
+  -> primitive_type {
     auto& GL = api.constants();
 
     switch(mode) {
@@ -41,8 +42,9 @@ translate(const basic_gl_api<A>& api, shapes::primitive_type mode) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename A>
-inline data_type
-translate(const basic_gl_api<A>& api, shapes::attrib_data_type type) noexcept {
+inline auto
+translate(const basic_gl_api<A>& api, shapes::attrib_data_type type) noexcept
+  -> data_type {
     auto& GL = api.constants();
 
     switch(type) {
@@ -65,8 +67,9 @@ translate(const basic_gl_api<A>& api, shapes::attrib_data_type type) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename A>
-inline index_data_type
-translate(const basic_gl_api<A>& api, shapes::index_data_type type) noexcept {
+inline auto
+translate(const basic_gl_api<A>& api, shapes::index_data_type type) noexcept
+  -> index_data_type {
     auto& GL = api.constants();
 
     switch(type) {
@@ -82,7 +85,7 @@ translate(const basic_gl_api<A>& api, shapes::index_data_type type) noexcept {
     return GL.none;
 }
 //------------------------------------------------------------------------------
-inline span_size_t type_size(shapes::attrib_data_type type) noexcept {
+inline auto type_size(shapes::attrib_data_type type) noexcept -> span_size_t {
     switch(type) {
         case shapes::attrib_data_type::ubyte:
             return span_size(sizeof(gl_types::ubyte_type));
@@ -102,7 +105,7 @@ inline span_size_t type_size(shapes::attrib_data_type type) noexcept {
     return 1;
 }
 //------------------------------------------------------------------------------
-inline span_size_t type_size(shapes::index_data_type type) noexcept {
+inline auto type_size(shapes::index_data_type type) noexcept -> span_size_t {
     switch(type) {
         case shapes::index_data_type::unsigned_8:
             return span_size(sizeof(gl_types::ubyte_type));

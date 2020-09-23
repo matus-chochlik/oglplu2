@@ -19,39 +19,38 @@ template <typename S>
 class buffer_size {
 private:
     static_assert(std::is_integral_v<S>);
-    S _v;
+    S _v{0};
 
 public:
-    constexpr inline buffer_size() noexcept
-      : _v(0) {}
+    constexpr buffer_size() noexcept = default;
 
-    explicit constexpr inline buffer_size(S v) noexcept
+    explicit constexpr buffer_size(S v) noexcept
       : _v(v) {}
 
     template <typename T>
-    constexpr inline buffer_size(identity<T>, span_size_t count) noexcept
+    constexpr buffer_size(identity<T>, span_size_t count) noexcept
       : _v(S(span_size_of<T>() * count)) {}
 
     template <typename T, typename P, typename Z>
-    constexpr inline buffer_size(memory::basic_span<T, P, Z> s) noexcept
+    constexpr buffer_size(memory::basic_span<T, P, Z> s) noexcept
       : _v(S(span_size_of<T>() * span_size(s.size()))) {}
 
-    constexpr inline S get() const noexcept {
+    constexpr auto get() const noexcept -> S {
         return _v;
     }
 
-    constexpr inline operator S() const noexcept {
+    constexpr operator S() const noexcept {
         return _v;
     }
 
     template <typename T>
-    explicit constexpr inline operator T() const {
+    explicit constexpr operator T() const {
         return T(_v);
     }
 
-    friend constexpr inline buffer_size
-    operator+(buffer_size a, buffer_size b) noexcept {
-        return buffer_size{a._v + b._v};
+    friend constexpr auto operator+(buffer_size a, buffer_size b) noexcept
+      -> buffer_size {
+        return {a._v + b._v};
     }
 };
 

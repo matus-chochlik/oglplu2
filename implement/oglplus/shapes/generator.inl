@@ -104,8 +104,8 @@ inline void shape_generator::attrib_setup(
     }
 }
 //------------------------------------------------------------------------------
-inline span_size_t shape_generator::operation_count(
-  span<const shapes::drawing_variant> dvs) const {
+inline auto shape_generator::operation_count(
+  span<const shapes::drawing_variant> dvs) const -> span_size_t {
     auto result = 0;
     for(auto dv : dvs) {
         result += _gen->operation_count(dv);

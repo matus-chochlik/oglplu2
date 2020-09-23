@@ -61,7 +61,7 @@ struct al_types {
     using double_type = double;
 #endif
 
-    static constexpr bool bool_true(bool_type b) noexcept {
+    static constexpr auto bool_true(bool_type b) noexcept -> bool {
 #if OALPLUS_HAS_AL
         return b == AL_TRUE;
 #else
@@ -69,7 +69,7 @@ struct al_types {
 #endif
     }
 
-    static constexpr bool error_code_no_error(enum_type ec) noexcept {
+    static constexpr auto error_code_no_error(enum_type ec) noexcept -> bool {
 #if OALPLUS_HAS_AL
         return ec == AL_NO_ERROR;
 #else
