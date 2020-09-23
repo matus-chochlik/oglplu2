@@ -82,7 +82,7 @@ struct gl_types {
 
     using name_type = uint_type;
 
-    static constexpr bool bool_true(bool_type b) noexcept {
+    static constexpr auto bool_true(bool_type b) noexcept -> bool {
 #if OGLPLUS_HAS_GL
         return b == GL_TRUE;
 #else
@@ -90,7 +90,7 @@ struct gl_types {
 #endif
     }
 
-    static constexpr bool error_code_no_error(enum_type ec) noexcept {
+    static constexpr auto error_code_no_error(enum_type ec) noexcept -> bool {
 #if OGLPLUS_HAS_GL
         return ec == GL_NO_ERROR;
 #else

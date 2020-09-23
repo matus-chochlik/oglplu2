@@ -370,7 +370,7 @@ public:
             };
         }
 
-        auto& later_by(cleanup_group& cleanup, sync_type sync) const {
+        auto later_by(cleanup_group& cleanup, sync_type sync) const -> auto& {
             return cleanup.add_ret(bind(sync));
         }
 
@@ -404,9 +404,9 @@ public:
             };
         }
 
-        auto& later_by(
+        auto later_by(
           cleanup_group& cleanup,
-          gl_owned_object_name<ObjTag>& name) const {
+          gl_owned_object_name<ObjTag>& name) const -> auto& {
             return cleanup.add_ret(bind(name));
         }
 
@@ -428,7 +428,8 @@ public:
             };
         }
 
-        auto& later_by(cleanup_group& cleanup, owned_shader_name& name) const {
+        auto later_by(cleanup_group& cleanup, owned_shader_name& name) const
+          -> auto& {
             return cleanup.add_ret(bind(name));
         }
 
@@ -450,7 +451,8 @@ public:
             };
         }
 
-        auto& later_by(cleanup_group& cleanup, owned_program_name& name) const {
+        auto later_by(cleanup_group& cleanup, owned_program_name& name) const
+          -> auto& {
             return cleanup.add_ret(bind(name));
         }
 

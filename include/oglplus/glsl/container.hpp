@@ -23,16 +23,15 @@ private:
 public:
     glsl_container() = default;
     glsl_container(glsl_container&&) = default;
-    glsl_container& operator=(glsl_container&&) = default;
     glsl_container(const glsl_container&) = default;
-    glsl_container& operator=(const glsl_container&) = default;
+    auto operator=(glsl_container&&) noexcept -> glsl_container& = default;
+    auto operator=(const glsl_container&) -> glsl_container& = default;
 
     glsl_container(Container&& storage) noexcept
       : _storage(std::move(storage))
-      , _str_ref(_storage.data(), _storage.size()) {
-    }
+      , _str_ref(_storage.data(), _storage.size()) {}
 
-    Container& storage() noexcept {
+    auto storage() noexcept -> Container& {
         return _storage;
     }
 

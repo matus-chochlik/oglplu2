@@ -27,15 +27,15 @@ public:
     explicit constexpr prog_var_location(int_type init) noexcept
       : _location{init} {}
 
-    bool is_active() const noexcept {
+    auto is_active() const noexcept -> bool {
         return _location >= 0;
     }
 
-    constexpr int_type location() const noexcept {
+    constexpr auto location() const noexcept -> int_type {
         return _location;
     }
 
-    constexpr uint_type index() const noexcept {
+    constexpr auto index() const noexcept -> uint_type {
         if(_location < 0) {
 #ifdef GL_INVALID_INDEX
             return GL_INVALID_INDEX;
@@ -52,21 +52,17 @@ public:
         return is_active();
     }
 
-    constexpr bool operator!() const noexcept {
-        return !is_active();
-    }
-
-    friend constexpr bool
+    friend constexpr auto
     operator==(prog_var_location a, prog_var_location b) noexcept {
         return a._location == b._location;
     }
 
-    friend constexpr bool
+    friend constexpr auto
     operator!=(prog_var_location a, prog_var_location b) noexcept {
         return a._location != b._location;
     }
 
-    friend constexpr bool
+    friend constexpr auto
     operator<(prog_var_location a, prog_var_location b) noexcept {
         return a._location < b._location;
     }

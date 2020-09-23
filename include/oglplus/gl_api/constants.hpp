@@ -27,23 +27,23 @@ private:
         using Wrap::Wrap;
 
         template <typename X>
-        std::enable_if_t<std::is_convertible_v<X, T>, T>
-        operator()(X&& x) const noexcept {
+        auto operator()(X&& x) const noexcept
+          -> std::enable_if_t<std::is_convertible_v<X, T>, T> {
             return T(std::forward<X>(x));
         }
 
         struct {
             template <typename... X>
-            std::enable_if_t<
+            auto operator()(X&&... x) const noexcept -> std::enable_if_t<
               ((sizeof...(X) > 0) && ... &&
                std::is_convertible_v<std::decay_t<X>, T>),
-              std::array<T, sizeof...(X)>>
-            operator()(X&&... x) const noexcept {
+              std::array<T, sizeof...(X)>> {
                 return {{T(std::forward<X>(x))...}};
             }
 
             template <std::size_t L>
-            std::array<T, L> operator()(size_constant<L> = {}) const noexcept {
+            auto operator()(size_constant<L> = {}) const noexcept
+              -> std::array<T, L> {
                 return {{}};
             }
         } array;
@@ -54,10 +54,9 @@ private:
         using Wrap::Wrap;
 
         template <typename... X>
-        std::enable_if_t<
+        auto operator()(X&&... x) const noexcept -> std::enable_if_t<
           ((sizeof...(X) == N) && ... && std::is_convertible_v<X, T>),
-          tvec<T, N>>
-        operator()(X&&... x) const noexcept {
+          tvec<T, N>> {
             return tvec<T, N>(T(std::forward<X>(x))...);
         }
     };
@@ -67,10 +66,9 @@ private:
         using Wrap::Wrap;
 
         template <typename... X>
-        std::enable_if_t<
+        auto operator()(X&&... x) const noexcept -> std::enable_if_t<
           ((sizeof...(X) == C * R) && ... && std::is_convertible_v<X, T>),
-          tmat<T, C, R>>
-        operator()(X&&... x) const noexcept {
+          tmat<T, C, R>> {
             return tmat<T, C, R>(T(std::forward<X>(x))...);
         }
     };

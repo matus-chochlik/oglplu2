@@ -37,15 +37,15 @@ public:
     image_dimensions(GLsizei w) noexcept
       : image_dimensions(w, 1) {}
 
-    GLsizei width() const noexcept {
+    auto width() const noexcept -> GLsizei {
         return _width;
     }
 
-    GLsizei height() const noexcept {
+    auto height() const noexcept -> GLsizei {
         return _height;
     }
 
-    GLsizei depth() const noexcept {
+    auto depth() const noexcept -> GLsizei {
         return _depth;
     }
 };
@@ -66,11 +66,11 @@ public:
       : _format(fmt)
       , _internal_format(pixel_data_internal_format(GLenum(fmt))) {}
 
-    pixel_data_format format() const noexcept {
+    auto format() const noexcept -> pixel_data_format {
         return _format;
     }
 
-    pixel_data_internal_format internal_format() const noexcept {
+    auto internal_format() const noexcept -> pixel_data_internal_format {
         return _internal_format;
     }
 };
@@ -98,15 +98,15 @@ public:
         EAGINE_ASSERT(_elem_size > 0);
     }
 
-    pixel_data_type type() const noexcept {
+    auto type() const noexcept -> pixel_data_type {
         return _type;
     }
 
-    const_memory_block data() const noexcept {
+    auto data() const noexcept -> const_memory_block {
         return _pixels;
     }
 
-    span_size_t elem_size() const noexcept {
+    auto elem_size() const noexcept -> span_size_t {
         return _elem_size;
     }
 };

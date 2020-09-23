@@ -19,22 +19,19 @@ private:
     using char_type = gl_types::char_type;
     using int_type = gl_types::int_type;
 
-    mutable const char_type* _src_str{};
-    int_type _length{};
+    mutable const char_type* _src_str{nullptr};
+    int_type _length{0};
 
 public:
     glsl_string_ref(const char* src_str, span_size_t n) noexcept
       : _src_str(static_cast<const char_type*>(src_str))
-      , _length(int_type(n == 0 ? 0 : (src_str[n - 1] == '\0' ? n - 1 : n))) {
-    }
+      , _length(int_type(n == 0 ? 0 : (src_str[n - 1] == '\0' ? n - 1 : n))) {}
 
     explicit glsl_string_ref(string_view str) noexcept
-      : glsl_string_ref(str.data(), str.size()) {
-    }
+      : glsl_string_ref(str.data(), str.size()) {}
 
     explicit glsl_string_ref(memory::const_block blk) noexcept
-      : glsl_string_ref(as_chars(blk)) {
-    }
+      : glsl_string_ref(as_chars(blk)) {}
 
     operator glsl_source_ref() const noexcept {
         return glsl_source_ref(1, &_src_str, &_length);
@@ -45,12 +42,11 @@ class glsl_literal : public glsl_string_ref {
 public:
     template <span_size_t N>
     glsl_literal(const char (&src_str)[N]) noexcept
-      : glsl_string_ref(static_cast<const char*>(src_str), N) {
-    }
+      : glsl_string_ref(static_cast<const char*>(src_str), N) {}
 };
 //------------------------------------------------------------------------------
-static inline glsl_string_ref operator"" _glsl(
-  const char* src_str, std::size_t n) noexcept {
+static inline auto operator"" _glsl(const char* src_str, std::size_t n) noexcept
+  -> glsl_string_ref {
     return {src_str, span_size(n)};
 }
 //------------------------------------------------------------------------------

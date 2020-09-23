@@ -31,16 +31,16 @@ public:
     shader_source_block(const shader_source_header* ptr)
       : _header(as_bytes(view_one(ptr))) {}
 
-    bool is_valid() const noexcept {
+    auto is_valid() const noexcept -> bool {
         return _header->magic.is_valid();
     }
 
-    shader_type type() const noexcept {
+    auto type() const noexcept -> shader_type {
         EAGINE_ASSERT(is_valid());
         return shader_type(_header->shader_type);
     }
 
-    string_view source_text() const noexcept {
+    auto source_text() const noexcept -> string_view {
         EAGINE_ASSERT(is_valid());
         return {
           _header->source_text.data(), span_size(_header->source_text.size())};
@@ -75,16 +75,17 @@ public:
     program_source_block(memory::const_block blk)
       : _header(blk) {}
 
-    bool is_valid() const noexcept {
+    auto is_valid() const noexcept -> bool {
         return _header->magic.is_valid();
     }
 
-    span_size_t shader_source_count() const noexcept {
+    auto shader_source_count() const noexcept -> span_size_t {
         EAGINE_ASSERT(is_valid());
         return _header->shader_sources.size();
     }
 
-    shader_source_block shader_source(span_size_t index) const noexcept {
+    auto shader_source(span_size_t index) const noexcept
+      -> shader_source_block {
         EAGINE_ASSERT(is_valid());
         EAGINE_ASSERT(index < _header->shader_sources.size());
         return {_header->shader_sources[index]};
