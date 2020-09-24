@@ -37,15 +37,15 @@ private:
 public:
     example_wrapper(example_run_context&);
 
-    example_context& context() noexcept {
+    auto context() noexcept -> example_context& {
         return _context;
     }
 
-    bool is_ready() const;
+    auto is_ready() const -> bool;
 
     void destroy();
 
-    bool next_frame();
+    auto next_frame() -> bool;
 
     void update();
 

@@ -51,7 +51,7 @@ public:
       : example_param_tags(stag, ltag)
       , _value(std::move(initial)) {}
 
-    bool is_valid() const noexcept {
+    auto is_valid() const noexcept -> bool {
         return _value.is_valid();
     }
 
@@ -70,9 +70,9 @@ public:
     example_arg(const program_arg& arg) noexcept
       : _arg(arg) {}
 
-    bool is_tag(string_view tag) const noexcept;
+    auto is_tag(string_view tag) const noexcept -> bool;
 
-    bool operator==(const example_param_tags& tags) const noexcept;
+    auto operator==(const example_param_tags& tags) const noexcept -> bool;
 };
 
 class example_args {
@@ -81,22 +81,22 @@ private:
     logger& _log;
 
     template <typename T>
-    bool _parse_param(example_param<T>& param) const;
+    auto _parse_param(example_param<T>& param) const -> bool;
 
 public:
     example_args(const program_args& args, logger& log) noexcept
       : _args(args)
       , _log(log) {}
 
-    const program_args& args() const noexcept {
+    auto args() const noexcept -> const program_args& {
         return _args;
     }
 
-    int argc() const noexcept;
+    auto argc() const noexcept -> int;
 
-    const char** argv() const noexcept;
+    auto argv() const noexcept -> const char**;
 
-    bool parse_param(example_string_param& param) const;
+    auto parse_param(example_string_param& param) const -> bool;
 };
 
 } // namespace eagine

@@ -74,7 +74,7 @@ example_wrapper::example_wrapper(example_run_context& erc)
     _context.log().trace("example wrapper initialized");
 }
 //------------------------------------------------------------------------------
-bool example_wrapper::is_ready() const {
+auto example_wrapper::is_ready() const -> bool {
     return bool(_example);
 }
 //------------------------------------------------------------------------------
@@ -88,7 +88,7 @@ void example_wrapper::destroy() {
     _context.log().trace("example wrapper destroyed");
 }
 //------------------------------------------------------------------------------
-std::vector<char>& example_wrapper::pixels() {
+auto example_wrapper::pixels() -> std::vector<char>& {
     auto& state = _context.state();
 
     const auto size = std_size(state.height().get() * state.width().get() * 4);
@@ -100,7 +100,7 @@ std::vector<char>& example_wrapper::pixels() {
     return _pixel_data;
 }
 //------------------------------------------------------------------------------
-std::vector<char>& example_wrapper::textbuf(std::size_t size) {
+auto example_wrapper::textbuf(std::size_t size) -> std::vector<char>& {
     if(_textbuf.size() < size) {
         _textbuf.resize(size);
     }
@@ -108,7 +108,7 @@ std::vector<char>& example_wrapper::textbuf(std::size_t size) {
     return _textbuf;
 }
 //------------------------------------------------------------------------------
-bool example_wrapper::next_frame() {
+auto example_wrapper::next_frame() -> bool {
 
     auto& state = _context.state();
     auto& params = _context.params();
