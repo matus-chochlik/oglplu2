@@ -31,11 +31,11 @@ struct reflection_I<matrix<T, 4, 4, RM, V>, I> {
     constexpr reflection_I(bool r = true) noexcept
       : _v(r ? T(-1) : T(1)) {}
 
-    constexpr inline T v(int i) const noexcept {
+    constexpr auto v(int i) const noexcept -> T {
         return (I == i) ? _v : T(1);
     }
 
-    constexpr inline matrix<T, 4, 4, RM, V> operator()() const noexcept {
+    constexpr auto operator()() const noexcept {
         return matrix<T, 4, 4, RM, V>{
           {{v(0), T(0), T(0), T(0)},
            {T(0), v(1), T(0), T(0)},
@@ -46,16 +46,18 @@ struct reflection_I<matrix<T, 4, 4, RM, V>, I> {
 
 // multiply
 template <typename T, int N, bool RM1, bool RM2, bool V, int I>
-static constexpr inline reflection_I<matrix<T, N, N, RM1, V>, I> multiply(
+static constexpr inline auto multiply(
   const reflection_I<matrix<T, N, N, RM1, V>, I>& a,
-  const reflection_I<matrix<T, N, N, RM2, V>, I>& b) noexcept {
+  const reflection_I<matrix<T, N, N, RM2, V>, I>& b) noexcept
+  -> reflection_I<matrix<T, N, N, RM1, V>, I> {
     return {(a._v < b._v) || (a._v > b._v)};
 }
 
 // reorder_mat_ctr(reflection_I)
 template <typename T, int N, bool RM, bool V, int I>
-static constexpr inline reflection_I<matrix<T, N, N, !RM, V>, I>
-reorder_mat_ctr(const reflection_I<matrix<T, N, N, RM, V>, I>& c) noexcept {
+static constexpr inline auto
+reorder_mat_ctr(const reflection_I<matrix<T, N, N, RM, V>, I>& c) noexcept
+  -> reflection_I<matrix<T, N, N, !RM, V>, I> {
     return {c._v < T(0)};
 }
 

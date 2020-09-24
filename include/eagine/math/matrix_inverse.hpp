@@ -16,8 +16,8 @@
 namespace eagine::math {
 //------------------------------------------------------------------------------
 template <typename T, int N, bool RM, bool V>
-static inline optionally_valid<matrix<T, N, N, RM, V>>
-inverse_matrix(matrix<T, N, N, RM, V> m) noexcept {
+static inline auto inverse_matrix(matrix<T, N, N, RM, V> m) noexcept
+  -> optionally_valid<matrix<T, N, N, RM, V>> {
     auto i = identity<matrix<T, N, N, RM, V>>()();
     if(gauss_jordan_elimination(m, i)) {
         return {i, true};

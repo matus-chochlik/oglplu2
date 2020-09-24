@@ -39,51 +39,50 @@ struct ortho<matrix<T, 4, 4, RM, V>> {
       T z_far) noexcept
       : _v{x_left, x_right, y_bottom, y_top, z_near, z_far} {}
 
-    constexpr inline T _x_left() const {
+    constexpr auto _x_left() const {
         return _v[0];
     }
-    constexpr inline T _x_right() const {
+    constexpr auto _x_right() const {
         return _v[1];
     }
-    constexpr inline T _y_bottom() const {
+    constexpr auto _y_bottom() const {
         return _v[2];
     }
-    constexpr inline T _y_top() const {
+    constexpr auto _y_top() const {
         return _v[3];
     }
-    constexpr inline T _z_near() const {
+    constexpr auto _z_near() const {
         return _v[4];
     }
-    constexpr inline T _z_far() const {
+    constexpr auto _z_far() const {
         return _v[5];
     }
 
-    constexpr inline T _m00() const noexcept {
+    constexpr auto _m00() const noexcept {
         return T(2) / (_x_right() - _x_left());
     }
 
-    constexpr inline T _m11() const noexcept {
+    constexpr auto _m11() const noexcept {
         return T(2) / (_y_top() - _y_bottom());
     }
 
-    constexpr inline T _m22() const noexcept {
+    constexpr auto _m22() const noexcept {
         return -T(2) / (_z_far() - _z_near());
     }
 
-    constexpr inline T _m30() const noexcept {
+    constexpr auto _m30() const noexcept {
         return -(_x_right() + _x_left()) / (_x_right() - _x_left());
     }
 
-    constexpr inline T _m31() const noexcept {
+    constexpr auto _m31() const noexcept {
         return -(_y_top() + _y_bottom()) / (_y_top() - _y_bottom());
     }
 
-    constexpr inline T _m32() const noexcept {
+    constexpr auto _m32() const noexcept {
         return -(_z_far() + _z_near()) / (_z_far() - _z_near());
     }
 
-    constexpr inline matrix<T, 4, 4, true, V>
-    _make(std::true_type) const noexcept {
+    constexpr auto _make(std::true_type) const noexcept {
         return matrix<T, 4, 4, true, V>{
           {{_m00(), T(0), T(0), _m30()},
            {T(0), _m11(), T(0), _m31()},
@@ -91,8 +90,7 @@ struct ortho<matrix<T, 4, 4, RM, V>> {
            {T(0), T(0), T(0), T(1)}}};
     }
 
-    constexpr inline matrix<T, 4, 4, false, V>
-    _make(std::false_type) const noexcept {
+    constexpr auto _make(std::false_type) const noexcept {
         return matrix<T, 4, 4, false, V>{
           {{_m00(), T(0), T(0), T(0)},
            {T(0), _m11(), T(0), T(0)},
@@ -100,15 +98,16 @@ struct ortho<matrix<T, 4, 4, RM, V>> {
            {_m30(), _m31(), _m32(), T(1)}}};
     }
 
-    constexpr inline matrix<T, 4, 4, RM, V> operator()() const noexcept {
+    constexpr auto operator()() const noexcept {
         return _make(bool_constant<RM>());
     }
 };
 
 // reorder_mat_ctr(ortho)
 template <typename T, int N, bool RM, bool V>
-static constexpr inline ortho<matrix<T, N, N, !RM, V>>
-reorder_mat_ctr(const ortho<matrix<T, N, N, RM, V>>& c) noexcept {
+static constexpr inline auto
+reorder_mat_ctr(const ortho<matrix<T, N, N, RM, V>>& c) noexcept
+  -> ortho<matrix<T, N, N, !RM, V>> {
     return {c._v};
 }
 

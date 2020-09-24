@@ -68,8 +68,7 @@ struct orbiting_y_up<matrix<T, 4, 4, RM, V>> {
           sin(elevation),
           cos(elevation)) {}
 
-    constexpr inline matrix<T, 4, 4, true, V>
-    _make(std::true_type) const noexcept {
+    constexpr auto _make(std::true_type) const noexcept {
         return matrix<T, 4, 4, true, V>{
           {{_x[0], _x[1], _x[2], -_r * dot(_x, _z) - dot(_x, _t)},
            {_y[0], _y[1], _y[2], -_r * dot(_y, _z) - dot(_y, _t)},
@@ -77,20 +76,20 @@ struct orbiting_y_up<matrix<T, 4, 4, RM, V>> {
            {T(0), T(0), T(0), T(1)}}};
     }
 
-    constexpr inline matrix<T, 4, 4, false, V>
-    _make(std::false_type) const noexcept {
+    constexpr auto _make(std::false_type) const noexcept {
         return reorder(_make(std::true_type()));
     }
 
-    constexpr inline matrix<T, 4, 4, RM, V> operator()() const noexcept {
+    constexpr auto operator()() const noexcept {
         return _make(bool_constant<RM>());
     }
 };
 
 // reorder_mat_ctr(orbiting_y_up)
 template <typename T, int N, bool RM, bool V>
-static constexpr inline orbiting_y_up<matrix<T, N, N, !RM, V>>
-reorder_mat_ctr(const orbiting_y_up<matrix<T, N, N, RM, V>>& c) noexcept {
+static constexpr inline auto
+reorder_mat_ctr(const orbiting_y_up<matrix<T, N, N, RM, V>>& c) noexcept
+  -> orbiting_y_up<matrix<T, N, N, !RM, V>> {
     return {c._t, c._x, c._y, c._z, c._r};
 }
 

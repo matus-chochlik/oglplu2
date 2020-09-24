@@ -32,7 +32,7 @@ struct scale<matrix<T, 4, 4, RM, V>> {
     constexpr scale(T vx, T vy, T vz) noexcept
       : _v{vx, vy, vz} {}
 
-    constexpr inline matrix<T, 4, 4, RM, V> operator()() const noexcept {
+    constexpr auto operator()() const noexcept {
         return matrix<T, 4, 4, RM, V>{
           {{_v[0], T(0), T(0), T(0)},
            {T(0), _v[1], T(0), T(0)},
@@ -43,16 +43,18 @@ struct scale<matrix<T, 4, 4, RM, V>> {
 
 // multiply
 template <typename T, int N, bool RM1, bool RM2, bool V>
-static constexpr inline scale<matrix<T, N, N, RM1, V>> multiply(
+static constexpr inline auto multiply(
   const scale<matrix<T, N, N, RM1, V>>& a,
-  const scale<matrix<T, N, N, RM2, V>>& b) noexcept {
+  const scale<matrix<T, N, N, RM2, V>>& b) noexcept
+  -> scale<matrix<T, N, N, RM1, V>> {
     return {a._v * b._v};
 }
 
 // reorder_mat_ctr(scale)
 template <typename T, int N, bool RM, bool V>
-static constexpr inline scale<matrix<T, N, N, !RM, V>>
-reorder_mat_ctr(const scale<matrix<T, N, N, RM, V>>& c) noexcept {
+static constexpr inline auto
+reorder_mat_ctr(const scale<matrix<T, N, N, RM, V>>& c) noexcept
+  -> scale<matrix<T, N, N, !RM, V>> {
     return {c._v};
 }
 
@@ -73,7 +75,7 @@ struct uniform_scale<matrix<T, 4, 4, RM, V>> {
     constexpr uniform_scale(T v) noexcept
       : _v(v) {}
 
-    constexpr inline matrix<T, 4, 4, RM, V> operator()() const noexcept {
+    constexpr auto operator()() const noexcept {
         return matrix<T, 4, 4, RM, V>{
           {{_v, T(0), T(0), T(0)},
            {T(0), _v, T(0), T(0)},
@@ -84,16 +86,18 @@ struct uniform_scale<matrix<T, 4, 4, RM, V>> {
 
 // multiply
 template <typename T, int N, bool RM1, bool RM2, bool V>
-static constexpr inline uniform_scale<matrix<T, N, N, RM1, V>> multiply(
+static constexpr inline auto multiply(
   const uniform_scale<matrix<T, N, N, RM1, V>>& a,
-  const uniform_scale<matrix<T, N, N, RM2, V>>& b) noexcept {
+  const uniform_scale<matrix<T, N, N, RM2, V>>& b) noexcept
+  -> uniform_scale<matrix<T, N, N, RM1, V>> {
     return {a._v * b._v};
 }
 
 // reorder_mat_ctr(uniform_scale)
 template <typename T, int N, bool RM, bool V>
-static constexpr inline uniform_scale<matrix<T, N, N, !RM, V>>
-reorder_mat_ctr(const uniform_scale<matrix<T, N, N, RM, V>>& c) noexcept {
+static constexpr inline auto
+reorder_mat_ctr(const uniform_scale<matrix<T, N, N, RM, V>>& c) noexcept
+  -> uniform_scale<matrix<T, N, N, !RM, V>> {
     return {c._v};
 }
 

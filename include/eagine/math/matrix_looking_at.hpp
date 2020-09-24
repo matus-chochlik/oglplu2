@@ -36,7 +36,7 @@ struct looking_at_y_up<matrix<T, 4, 4, RM, V>> {
       : _e(eye)
       , _t(target) {}
 
-    static constexpr inline matrix<T, 4, 4, true, V>
+    static constexpr auto
     _make(const _dT& x, const _dT& y, const _dT& z, const _dT& t) noexcept {
         return matrix<T, 4, 4, true, V>{
           {{x[0], x[1], x[2], -dot(x, t)},
@@ -45,40 +45,37 @@ struct looking_at_y_up<matrix<T, 4, 4, RM, V>> {
            {T(0), T(0), T(0), T(1)}}};
     }
 
-    static constexpr inline matrix<T, 4, 4, true, V>
+    static constexpr auto
     _make(const _dT& y, const _dT& z, const _dT& t) noexcept {
         return _make(cross(y, z), y, z, t);
     }
 
-    static constexpr inline matrix<T, 4, 4, true, V>
-    _make(const _dT& z, const _dT& t) noexcept {
+    static constexpr auto _make(const _dT& z, const _dT& t) noexcept {
         return _make(normalized(cross(z, t)), z, t);
     }
 
-    static constexpr inline matrix<T, 4, 4, true, V>
-    _make(const _dT& z) noexcept {
+    static constexpr auto _make(const _dT& z) noexcept {
         return _make(z, _dT::make(z.z(), T(0), -z.x()));
     }
 
-    constexpr inline matrix<T, 4, 4, true, V>
-    _make(std::true_type) const noexcept {
+    constexpr auto _make(std::true_type) const noexcept {
         return _make(normalized(_e - _t));
     }
 
-    constexpr inline matrix<T, 4, 4, false, V>
-    _make(std::false_type) const noexcept {
+    constexpr auto _make(std::false_type) const noexcept {
         return reorder(_make(std::true_type()));
     }
 
-    constexpr inline matrix<T, 4, 4, RM, V> operator()() const noexcept {
+    constexpr auto operator()() const noexcept {
         return _make(bool_constant<RM>());
     }
 };
 
 // reorder_mat_ctr(looking_at_y_up)
 template <typename T, int N, bool RM, bool V>
-static constexpr inline looking_at_y_up<matrix<T, N, N, !RM, V>>
-reorder_mat_ctr(const looking_at_y_up<matrix<T, N, N, RM, V>>& c) noexcept {
+static constexpr inline auto
+reorder_mat_ctr(const looking_at_y_up<matrix<T, N, N, RM, V>>& c) noexcept
+  -> looking_at_y_up<matrix<T, N, N, !RM, V>> {
     return {c._e, c._t};
 }
 
