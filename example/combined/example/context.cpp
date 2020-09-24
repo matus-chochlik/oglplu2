@@ -64,11 +64,11 @@ example_context::~example_context() noexcept {
     }
 }
 //------------------------------------------------------------------------------
-const example_state_view& example_context::state() const noexcept {
+auto example_context::state() const noexcept -> const example_state_view& {
     return _erc.state;
 }
 //------------------------------------------------------------------------------
-oglp::gl_api& example_context::gl() const noexcept {
+auto example_context::gl() const noexcept -> oglp::gl_api& {
     EAGINE_ASSERT(_gl_ptr);
     return *_gl_ptr;
 }

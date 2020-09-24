@@ -23,49 +23,48 @@ class example_orbiting_camera {
 public:
     example_orbiting_camera() noexcept = default;
 
-    example_orbiting_camera& set_target(vec3 target) noexcept {
+    auto set_target(vec3 target) noexcept -> auto& {
         _target = target;
         return *this;
     }
 
-    example_orbiting_camera& set_fov(radians_t<float> angle) noexcept {
+    auto set_fov(radians_t<float> angle) noexcept -> auto& {
         _fov = angle;
         return *this;
     }
 
-    example_orbiting_camera& set_near(valid_if_positive<float> dist) noexcept {
+    auto set_near(valid_if_positive<float> dist) noexcept -> auto& {
         _near = dist.value();
         return *this;
     }
 
-    example_orbiting_camera& set_far(valid_if_positive<float> dist) noexcept {
+    auto set_far(valid_if_positive<float> dist) noexcept -> auto& {
         _far = dist.value();
         return *this;
     }
 
-    example_orbiting_camera&
-    set_orbit_min(valid_if_positive<float> orbit) noexcept {
+    auto set_orbit_min(valid_if_positive<float> orbit) noexcept -> auto& {
         _orbit_min = orbit.value();
         return *this;
     }
 
-    example_orbiting_camera&
-    set_orbit_max(valid_if_positive<float> orbit) noexcept {
+    auto set_orbit_max(valid_if_positive<float> orbit) noexcept -> auto& {
         _orbit_max = orbit.value();
         return *this;
     }
 
-    bool apply_pointer_motion(const example_state_view& state) noexcept;
+    auto apply_pointer_motion(const example_state_view&) noexcept -> bool;
 
-    bool apply_pointer_scrolling(const example_state_view& state) noexcept;
+    auto apply_pointer_scrolling(const example_state_view&) noexcept -> bool;
 
-    example_orbiting_camera& update_orbit(float inc) noexcept;
-    example_orbiting_camera& update_turns(float inc) noexcept;
-    example_orbiting_camera& update_pitch(float inc) noexcept;
+    auto update_orbit(float inc) noexcept -> example_orbiting_camera&;
+    auto update_turns(float inc) noexcept -> example_orbiting_camera&;
+    auto update_pitch(float inc) noexcept -> example_orbiting_camera&;
 
-    example_orbiting_camera& idle_update(
+    auto idle_update(
       const example_state_view& state,
-      const valid_if_positive<float>& divisor) noexcept;
+      const valid_if_positive<float>& divisor) noexcept
+      -> example_orbiting_camera&;
 
     auto orbit() const noexcept {
         return smooth_lerp(_orbit_min, _orbit_max, _orbit_factor);
@@ -79,14 +78,14 @@ public:
         return _pitch;
     }
 
-    vec3 target_to_camera_direction() const noexcept;
-    vec3 camera_to_target_direction() const noexcept;
+    auto target_to_camera_direction() const noexcept -> vec3;
+    auto camera_to_target_direction() const noexcept -> vec3;
 
-    vec3 target() const noexcept {
+    auto target() const noexcept -> vec3 {
         return _target;
     }
 
-    vec3 position() const noexcept {
+    auto position() const noexcept -> vec3 {
         return target() + target_to_camera_direction() * orbit();
     }
 
@@ -106,31 +105,30 @@ public:
         return matrix(state.aspect());
     }
 
-    optionally_valid<vec3>
-    target_plane_point(float ndcx, float ndcy, float aspect) const noexcept;
+    auto target_plane_point(float ndcx, float ndcy, float aspect) const noexcept
+      -> optionally_valid<vec3>;
 
-    optionally_valid<vec3> target_plane_pointer(
-      const example_state_view& state,
-      int pointer = 0) const noexcept;
+    auto target_plane_pointer(const example_state_view& state, int pointer = 0)
+      const noexcept -> optionally_valid<vec3>;
 
-    optionally_valid<line> pointer_ray(
-      const example_state_view& state,
-      int pointer = 0) const noexcept;
+    auto
+    pointer_ray(const example_state_view& state, int pointer = 0) const noexcept
+      -> optionally_valid<line>;
 
-    float grab_sphere_radius() const noexcept;
+    auto grab_sphere_radius() const noexcept -> float;
 
-    sphere grab_sphere() const noexcept;
+    auto grab_sphere() const noexcept -> sphere;
 
 private:
     vec3 _target{};
-    radians_t<float> _fov = right_angle_();
+    radians_t<float> _fov{right_angle_()};
 
-    float _near = 0.5f;
-    float _far = 10.f;
+    float _near{0.5f};
+    float _far{10.f};
 
-    float _orbit_min = 1.5f;
-    float _orbit_max = 5.5f;
-    float _orbit_factor = 0.50f;
+    float _orbit_min{1.5F};
+    float _orbit_max{5.5F};
+    float _orbit_factor = 0.50F;
 
     radians_t<float> _turns{};
     radians_t<float> _pitch{};
