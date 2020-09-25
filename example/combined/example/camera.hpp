@@ -6,7 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_EXAMPLE_CAMERA_HPP
+#ifndef OGLPLUS_EXAMPLE_CAMERA_HPP // NOLINT(llvm-header-guard)
 #define OGLPLUS_EXAMPLE_CAMERA_HPP
 
 #include "state_view.hpp"
@@ -123,8 +123,8 @@ private:
     vec3 _target{};
     radians_t<float> _fov{right_angle_()};
 
-    float _near{0.5f};
-    float _far{10.f};
+    float _near{0.5F};
+    float _far{10.F};
 
     float _orbit_min{1.5F};
     float _orbit_max{5.5F};

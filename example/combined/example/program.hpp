@@ -6,6 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#ifndef OGLPLUS_EXAMPLE_PROGRAM_HPP // NOLINT(llvm-header-guard)
+#define OGLPLUS_EXAMPLE_PROGRAM_HPP
 
 #include "params.hpp"
 #include <oglplus/utils/program.hpp>
@@ -49,3 +51,5 @@ public:
 
 } // namespace oglp
 } // namespace eagine
+
+#endif // OGLPLUS_EXAMPLE_PROGRAM_HPP

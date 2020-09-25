@@ -6,7 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_EXAMPLE_PARAMS_HPP
+#ifndef OGLPLUS_EXAMPLE_PARAMS_HPP // NOLINT(llvm-header-guard)
 #define OGLPLUS_EXAMPLE_PARAMS_HPP
 
 #include <eagine/assert.hpp>

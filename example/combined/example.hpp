@@ -6,7 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_EXAMPLE_OGLPLUS_EXAMPLE_HPP
+#ifndef OGLPLUS_EXAMPLE_OGLPLUS_EXAMPLE_HPP // NOLINT(llvm-header-guard)
 #define OGLPLUS_EXAMPLE_OGLPLUS_EXAMPLE_HPP
 
 #include "example/context.hpp"
@@ -17,17 +17,22 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 struct example {
+    example() noexcept = default;
+    example(example&&) noexcept = default;
+    example(const example&) = default;
+    auto operator=(example&&) = delete;
+    auto operator=(const example&) = delete;
     virtual ~example() = default;
 
-    virtual bool check_requirements(const example_context& ctx) = 0;
+    virtual auto check_requirements(const example_context& ctx) -> bool = 0;
 
     virtual void init(example_context&) {}
 
-    virtual seconds_t<float> default_timeout() {
+    virtual auto default_timeout() -> seconds_t<float> {
         return seconds_(10);
     }
 
-    virtual bool continue_running(const example_context& ctx) {
+    virtual auto continue_running(const example_context& ctx) -> bool {
         return ctx.state().user_idle_time() < default_timeout();
     }
 
@@ -46,10 +51,10 @@ struct example {
     }
 };
 //------------------------------------------------------------------------------
-extern std::unique_ptr<example>
-make_example(const example_args&, const example_context&);
+extern auto make_example(const example_args&, const example_context&)
+  -> std::unique_ptr<example>;
 //------------------------------------------------------------------------------
-extern bool is_example_param(const example_arg&);
+extern auto is_example_param(const example_arg&) -> bool;
 //------------------------------------------------------------------------------
 } // namespace eagine
 

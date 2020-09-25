@@ -42,12 +42,12 @@ namespace eagine {
 
 class single_glut_context {
 private:
-    static single_glut_context*& instance_ptr() {
+    static auto instance_ptr() -> single_glut_context*& {
         static single_glut_context* pinst = nullptr;
         return pinst;
     }
 
-    static single_glut_context& instance() {
+    static auto instance() -> single_glut_context& {
         EAGINE_ASSERT(instance_ptr());
         return *instance_ptr();
     }
@@ -85,14 +85,14 @@ public:
         }
     }
 
-    bool is_ready() const {
+    auto is_ready() const -> bool {
         return example.is_ready();
     }
 
     single_glut_context(single_glut_context&&) = delete;
     single_glut_context(const single_glut_context&) = delete;
-    single_glut_context& operator=(single_glut_context&&) = delete;
-    single_glut_context& operator=(const single_glut_context&) = delete;
+    auto operator=(single_glut_context&&) = delete;
+    auto operator=(const single_glut_context&) = delete;
 
     ~single_glut_context() noexcept {
         EAGINE_ASSERT(instance_ptr());
@@ -194,11 +194,11 @@ private:
 //------------------------------------------------------------------------------
 class example_main_glut : public example_main_intf {
 public:
-    bool is_implemented() final {
+    auto is_implemented() -> bool final {
         return (OGLPLUS_GLUT_FOUND != 0);
     }
 
-    string_view implementation_name() final {
+    auto implementation_name() -> string_view final {
 #if OGLPLUS_FREEGLUT_FOUND
         return {"FREEGLUT"};
 #else
@@ -206,7 +206,7 @@ public:
 #endif
     }
 
-    int run(example_run_context& erc) final {
+    auto run(example_run_context& erc) -> int final {
         EAGINE_MAYBE_UNUSED(erc);
 #if OGLPLUS_GLUT_FOUND
 
@@ -251,7 +251,7 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-std::unique_ptr<example_main_intf> make_example_main_glut() {
+auto make_example_main_glut() -> std::unique_ptr<example_main_intf> {
     return {std::make_unique<example_main_glut>()};
 }
 //------------------------------------------------------------------------------

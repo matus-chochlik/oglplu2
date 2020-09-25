@@ -38,15 +38,15 @@ namespace eagine {
 using namespace oglp;
 class example_main_glx : public example_main_intf {
 public:
-    bool is_implemented() final {
+    auto is_implemented() -> bool final {
         return (OGLPLUS_GLX_FOUND != 0);
     }
 
-    string_view implementation_name() final {
+    auto implementation_name() -> string_view final {
         return {"GLX"};
     }
 
-    int run(example_run_context& erc) final {
+    auto run(example_run_context& erc) -> int final {
 #if OGLPLUS_GLX_FOUND
         x11::Display display;
 
@@ -197,7 +197,7 @@ private:
 #endif
 };
 //------------------------------------------------------------------------------
-std::unique_ptr<example_main_intf> make_example_main_glx() {
+auto make_example_main_glx() -> std::unique_ptr<example_main_intf> {
     return {std::make_unique<example_main_glx>()};
 }
 //------------------------------------------------------------------------------

@@ -25,11 +25,12 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-bool parse_arg(program_arg& a, example_run_context&);
+auto parse_arg(program_arg& a, example_run_context&) -> bool;
 //------------------------------------------------------------------------------
-std::unique_ptr<example_main_intf> choose_example_main_impl(const program_args&);
+auto choose_example_main_impl(const program_args&)
+  -> std::unique_ptr<example_main_intf>;
 //------------------------------------------------------------------------------
-int main(main_ctx& ctx) {
+auto main(main_ctx& ctx) -> int {
     auto& args = ctx.args();
     example_params params;
     example_state state;
@@ -54,19 +55,19 @@ int main(main_ctx& ctx) {
     return choose_example_main_impl(args)->run(erc);
 }
 //------------------------------------------------------------------------------
-bool example_knows_arg(const program_arg& arg) {
+auto example_knows_arg(const program_arg& arg) -> bool {
     return is_example_param(example_arg(arg)) ||
            is_example_param(example_arg(arg.prev()));
 }
 //------------------------------------------------------------------------------
-bool is_special_argument(const program_arg& arg);
+auto is_special_argument(const program_arg& arg) -> bool;
 //------------------------------------------------------------------------------
 template <typename T>
-bool consume_next_arg(
+auto consume_next_arg(
   program_arg& a,
   T& dest,
   string_view value_type,
-  logger& log) {
+  logger& log) -> bool {
     auto handle_missing = [&value_type, &log](const string_view arg_tag) {
         log.error("missing ${valueType} after '${argTag}'")
           .arg(EAGINE_ID(valueType), value_type)
@@ -87,7 +88,7 @@ bool consume_next_arg(
     return a.do_consume_next(dest, handle_missing, handle_invalid);
 }
 //------------------------------------------------------------------------------
-bool parse_arg(program_arg& a, example_run_context& erc) {
+auto parse_arg(program_arg& a, example_run_context& erc) -> bool {
     auto& log = erc.main.log();
 
     if(a == "--screenshot") {
@@ -176,11 +177,11 @@ bool parse_arg(program_arg& a, example_run_context& erc) {
     return true;
 }
 //------------------------------------------------------------------------------
-std::unique_ptr<example_main_intf> make_example_main_glx();
-std::unique_ptr<example_main_intf> make_example_main_glfw3();
-std::unique_ptr<example_main_intf> make_example_main_glfw();
-std::unique_ptr<example_main_intf> make_example_main_glut();
-std::unique_ptr<example_main_intf> make_example_main_sdl();
+auto make_example_main_glx() -> std::unique_ptr<example_main_intf>;
+auto make_example_main_glfw3() -> std::unique_ptr<example_main_intf>;
+auto make_example_main_glfw() -> std::unique_ptr<example_main_intf>;
+auto make_example_main_glut() -> std::unique_ptr<example_main_intf>;
+auto make_example_main_sdl() -> std::unique_ptr<example_main_intf>;
 //------------------------------------------------------------------------------
 static inline auto
 choose_example_main_impls_from_args(const program_args& args) {
@@ -204,8 +205,8 @@ choose_example_main_impls_from_args(const program_args& args) {
     return result;
 }
 //------------------------------------------------------------------------------
-static inline std::array<std::unique_ptr<example_main_intf>, 5>
-make_all_main_impls() {
+static inline auto make_all_main_impls()
+  -> std::array<std::unique_ptr<example_main_intf>, 5> {
     return {
       {make_example_main_glx(),
        make_example_main_glfw3(),
@@ -214,14 +215,14 @@ make_all_main_impls() {
        make_example_main_sdl()}};
 }
 //------------------------------------------------------------------------------
-bool is_special_argument(const program_arg& arg) {
+auto is_special_argument(const program_arg& arg) -> bool {
     return arg.is_tag("--use-glx") || arg.is_tag("--use-sdl") ||
            arg.is_tag("--use-glfw3") || arg.is_tag("--use-glfw") ||
            arg.is_tag("--use-glut");
 }
 //------------------------------------------------------------------------------
-std::unique_ptr<example_main_intf>
-choose_example_main_impl(const program_args& args) {
+auto choose_example_main_impl(const program_args& args)
+  -> std::unique_ptr<example_main_intf> {
 
     for(auto& [pos, pimpl] : choose_example_main_impls_from_args(args)) {
         EAGINE_MAYBE_UNUSED(pos);

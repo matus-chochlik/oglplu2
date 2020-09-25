@@ -12,11 +12,6 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-example_state_view::example_state_view() noexcept
-  : _mouse_btn{{false}, {false}, {false}, {false}}
-  , _old_user_idle(false)
-  , _new_user_idle(false) {}
-//------------------------------------------------------------------------------
 auto example_state_view::_notice_user_activity(bool something_changed) noexcept
   -> bool {
     if(something_changed) {

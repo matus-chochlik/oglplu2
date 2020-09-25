@@ -6,7 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_EXAMPLE_STATE_VIEW_HPP
+#ifndef OGLPLUS_EXAMPLE_STATE_VIEW_HPP // NOLINT(llvm-header-guard)
 #define OGLPLUS_EXAMPLE_STATE_VIEW_HPP
 
 #include <eagine/assert.hpp>
@@ -33,8 +33,12 @@ protected:
     example_state_variable<int> _mouse_y{0};
     example_state_variable<int> _mouse_z{0};
 
-    static constexpr const int _mouse_btn_count = 4;
-    example_state_variable<bool> _mouse_btn[_mouse_btn_count];
+    static constexpr const int _mouse_btn_count{4};
+    example_state_variable<bool> _mouse_btn[_mouse_btn_count]{
+      false,
+      false,
+      false,
+      false};
 
     example_state_variable<float> _exe_time{0.0F};
     float _usr_act_time{0.0F};
@@ -46,10 +50,10 @@ protected:
     int _x_tiles{1}, _tile_i{0};
     int _y_tiles{1}, _tile_j{0};
 
-    bool _old_user_idle : 1;
-    bool _new_user_idle : 1;
+    bool _old_user_idle{false};
+    bool _new_user_idle{false};
 
-    example_state_view() noexcept;
+    example_state_view() noexcept = default;
 
 public:
     auto width() const noexcept -> const auto& {
