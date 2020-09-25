@@ -7,6 +7,9 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+#ifndef OGLPLUS_EXAMPLE_RESOURCES_HPP // NOLINT(llvm-header-guard)
+#define OGLPLUS_EXAMPLE_RESOURCES_HPP
+
 #include <oglplus/gl.hpp>
 #include <oglplus/gl_api.hpp>
 
@@ -29,7 +32,7 @@ private:
     uniform_location light_pos_loc;
     uniform_location cube_tex_loc;
 
-    radians_t<float> rad{0.f};
+    radians_t<float> rad{0.F};
 
 public:
     void init(example_context& ctx);
@@ -116,3 +119,5 @@ public:
 //------------------------------------------------------------------------------
 } // namespace oglp
 } // namespace eagine
+
+#endif

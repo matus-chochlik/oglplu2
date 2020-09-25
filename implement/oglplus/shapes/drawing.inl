@@ -133,8 +133,8 @@ inline shape_draw_operation::shape_draw_operation(
   , _primitive_restart(draw_op.primitive_restart)
   , _cw_face_winding(draw_op.cw_face_winding) {}
 //------------------------------------------------------------------------------
-inline gl_types::const_void_ptr_type
-shape_draw_operation::_idx_ptr() const noexcept {
+inline auto shape_draw_operation::_idx_ptr() const noexcept
+  -> gl_types::const_void_ptr_type {
     return eagine::memory::typed_nullptr<const gl_types::ubyte_type> + _first;
 }
 //------------------------------------------------------------------------------

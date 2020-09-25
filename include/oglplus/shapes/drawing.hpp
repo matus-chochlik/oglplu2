@@ -59,7 +59,7 @@ public:
       const basic_gl_api<A>& api,
       const shapes::draw_operation& draw_op) noexcept;
 
-    shape_draw_operation& offset_first(span_size_t offs) noexcept {
+    auto offset_first(span_size_t offs) noexcept -> auto& {
         _first += offs;
         return *this;
     }

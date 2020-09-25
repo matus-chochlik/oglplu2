@@ -7,6 +7,9 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+#ifndef OGLPLUS_EXAMPLE_RESOURCES_HPP // NOLINT(llvm-header-guard)
+#define OGLPLUS_EXAMPLE_RESOURCES_HPP
+
 #include <oglplus/gl.hpp>
 #include <oglplus/gl_api.hpp>
 
@@ -24,7 +27,7 @@ private:
     owned_program_name prog;
     uniform_location projection_loc;
     uniform_location modelview_loc;
-    float shp_turns{0.f};
+    float shp_turns{0.F};
 
 public:
     void init(example_context& ctx);
@@ -60,3 +63,5 @@ public:
 //------------------------------------------------------------------------------
 } // namespace oglp
 } // namespace eagine
+
+#endif

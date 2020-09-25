@@ -30,9 +30,10 @@ private:
     std::chrono::time_point<clock_type> _now{};
 
     std::vector<char> _pixel_data;
-    std::vector<char>& pixels();
+    auto pixels() -> std::vector<char>&;
+
     std::vector<char> _textbuf;
-    std::vector<char>& textbuf(std::size_t);
+    auto textbuf(std::size_t) -> std::vector<char>&;
 
 public:
     example_wrapper(example_run_context&);

@@ -41,7 +41,7 @@ class example_cube : public example {
     void set_projection(const example_context& ctx);
 
 public:
-    bool check_requirements(const example_context& ctx) final;
+    auto check_requirements(const example_context& ctx) -> bool final;
     void init(example_context& ctx) final;
     void pointer_motion(const example_context& ctx) final;
     void pointer_scrolling(const example_context& ctx) final;
@@ -52,7 +52,7 @@ public:
 //------------------------------------------------------------------------------
 // example_cube
 //------------------------------------------------------------------------------
-bool example_cube ::check_requirements(const example_context& ctx) {
+auto example_cube ::check_requirements(const example_context& ctx) -> bool {
     const auto& [gl, GL] = ctx.gl();
     auto r = ctx.req_mark();
 
@@ -189,8 +189,8 @@ void example_cube::render(const example_context& ctx) {
 //------------------------------------------------------------------------------
 } // namespace oglp
 //------------------------------------------------------------------------------
-std::unique_ptr<example>
-make_example(const example_args&, const example_context&) {
+auto make_example(const example_args&, const example_context&)
+  -> std::unique_ptr<example> {
     return {std::make_unique<oglp::example_cube>()};
 }
 //------------------------------------------------------------------------------
@@ -198,7 +198,7 @@ void adjust_params(example_params& params) {
     params.stencil_buffer(false);
 }
 //------------------------------------------------------------------------------
-bool is_example_param(const example_arg&) {
+auto is_example_param(const example_arg&) -> bool {
     return false;
 }
 //------------------------------------------------------------------------------

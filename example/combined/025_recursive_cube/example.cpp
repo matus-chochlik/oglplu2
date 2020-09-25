@@ -23,15 +23,15 @@ class example_cubes : public example {
     cube_draw_buffers bufs;
 
 public:
-    bool check_requirements(const example_context& ctx) final;
+    auto check_requirements(const example_context& ctx) -> bool final;
     void init(example_context& ctx) final;
     void render(const example_context& ctx) final;
-    seconds_t<float> default_timeout() final;
+    auto default_timeout() -> seconds_t<float> final;
 };
 //------------------------------------------------------------------------------
 // example_cubes
 //------------------------------------------------------------------------------
-bool example_cubes ::check_requirements(const example_context& ctx) {
+auto example_cubes ::check_requirements(const example_context& ctx) -> bool {
     const auto& [gl, GL] = ctx.gl();
     auto r = ctx.req_mark();
 
@@ -96,14 +96,14 @@ void example_cubes::render(const example_context& ctx) {
     bufs.swap();
 }
 //------------------------------------------------------------------------------
-seconds_t<float> example_cubes::default_timeout() {
+auto example_cubes::default_timeout() -> seconds_t<float> {
     return seconds_(30);
 }
 //------------------------------------------------------------------------------
 } // namespace oglp
 //------------------------------------------------------------------------------
-std::unique_ptr<example>
-make_example(const example_args&, const example_context&) {
+auto make_example(const example_args&, const example_context&)
+  -> std::unique_ptr<example> {
     return {std::make_unique<oglp::example_cubes>()};
 }
 //------------------------------------------------------------------------------
@@ -111,7 +111,7 @@ void adjust_params(example_params& params) {
     params.stencil_buffer(false);
 }
 //------------------------------------------------------------------------------
-bool is_example_param(const example_arg&) {
+auto is_example_param(const example_arg&) -> bool {
     return false;
 }
 //------------------------------------------------------------------------------
