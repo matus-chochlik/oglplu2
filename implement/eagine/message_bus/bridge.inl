@@ -182,7 +182,7 @@ auto bridge::_handle_special(
   message_view message,
   bool to_connection) -> bool {
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
-        _log.debug("router handling special message ${message}")
+        _log.debug("bridge handling special message ${message}")
           .arg(EAGINE_ID(message), msg_id)
           .arg(EAGINE_ID(target), message.target_id)
           .arg(EAGINE_ID(source), message.source_id);
@@ -191,45 +191,34 @@ auto bridge::_handle_special(
             if(!has_id()) {
                 _id = message.target_id;
                 _log.debug("assigned id ${id}").arg(EAGINE_ID(id), _id);
-            } else if(msg_id.has_method(EAGINE_ID(topoQuery))) {
-                std::array<byte, 256> temp{};
-                bridge_topology_info info{};
-                info.bridge_id = _id;
-                if(auto serialized{default_serialize(info, cover(temp))}) {
-                    message_view response{extract(serialized)};
-                    response.setup_response(message);
-                    if(to_connection) {
-                        _send(EAGINE_MSGBUS_ID(topoBrdgCn), response);
-                    } else {
-                        _do_push(EAGINE_MSGBUS_ID(topoBrdgCn), response);
-                    }
-                }
-                // this also should be forwarded
-                return false;
-            } else if(msg_id.has_method(EAGINE_ID(topoBrdgCn))) {
-                if(to_connection) {
-                    bridge_topology_info info{};
-                    if(default_deserialize(info, message.data)) {
-                        info.opposite_id = _id;
-                        std::array<byte, 256> temp{};
-                        if(auto serialized{
-                             default_serialize(info, cover(temp))}) {
-                            message_view response{message, extract(serialized)};
-                            _send(EAGINE_MSGBUS_ID(topoBrdgCn), response);
-                            return true;
-                        }
-                    }
-                } else {
-                    // this should be forwarded
-                    return false;
-                }
-            } else if(
-              msg_id.has_method(EAGINE_ID(topoRoutCn)) ||
-              msg_id.has_method(EAGINE_ID(topoEndpt))) {
-                // this should be forwarded
-                return false;
             }
             return true;
+        } else if(msg_id.has_method(EAGINE_ID(topoQuery))) {
+            std::array<byte, 256> temp{};
+            bridge_topology_info info{};
+            info.bridge_id = _id;
+            if(auto serialized{default_serialize(info, cover(temp))}) {
+                message_view response{extract(serialized)};
+                response.setup_response(message);
+                if(to_connection) {
+                    _send(EAGINE_MSGBUS_ID(topoBrdgCn), response);
+                } else {
+                    _do_push(EAGINE_MSGBUS_ID(topoBrdgCn), response);
+                }
+            }
+        } else if(msg_id.has_method(EAGINE_ID(topoBrdgCn))) {
+            if(to_connection) {
+                bridge_topology_info info{};
+                if(default_deserialize(info, message.data)) {
+                    info.opposite_id = _id;
+                    std::array<byte, 256> temp{};
+                    if(auto serialized{default_serialize(info, cover(temp))}) {
+                        message_view response{message, extract(serialized)};
+                        _send(EAGINE_MSGBUS_ID(topoBrdgCn), response);
+                        return true;
+                    }
+                }
+            }
         }
     }
     return false;

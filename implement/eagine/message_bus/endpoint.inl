@@ -70,7 +70,7 @@ auto endpoint::_handle_special(
     EAGINE_ASSERT(_context);
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
         log()
-          .debug("handling special message ${message}")
+          .debug("endpoint handling special message ${message}")
           .arg(EAGINE_ID(message), msg_id)
           .arg(EAGINE_ID(endpoint), _id)
           .arg(EAGINE_ID(target), message.target_id)
