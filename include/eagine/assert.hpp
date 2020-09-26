@@ -105,7 +105,7 @@ inline void assertion_failed_msg(
 #define EAGINE_CONSTEXPR_ASSERT(UNUSED, RESULT) \
     (EAGINE_MAYBE_UNUSED(UNUSED), RESULT)
 #else
-#define EAGINE_CONSTEXPR_ASSERT(CHECK, RESULT)                        \
+#define EAGINE_CONSTEXPR_ASSERT(CHECK, RESULT) \
     ((EAGINE_LIKELY(CHECK) ? void(0)                                  \
                            : [] { EAGINE_ASSERT(!bool(#CHECK)); }()), \
      RESULT)

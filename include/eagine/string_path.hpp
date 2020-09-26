@@ -40,7 +40,7 @@ private:
         EAGINE_ASSERT(span_size(_str.size()) == len);
     }
 
-    static inline string_view _fix(string_view str) noexcept {
+    static inline auto _fix(string_view str) noexcept -> string_view {
         while(str.size() > 0) {
             if(str[str.size() - 1] == '\0') {
                 str = string_view(str.data(), str.size() - 1);
@@ -52,8 +52,8 @@ private:
     }
 
     template <typename... Str>
-    static inline std::array<string_view, sizeof...(Str)> _pack_names(
-      const Str&... n) noexcept {
+    static inline auto _pack_names(const Str&... n) noexcept
+      -> std::array<string_view, sizeof...(Str)> {
         return {{_fix(n)...}};
     }
 
@@ -67,37 +67,35 @@ public:
 
     basic_string_path(basic_string_path&&) noexcept = default;
     basic_string_path(const basic_string_path&) = default;
-    basic_string_path& operator=(basic_string_path&&) noexcept = default;
-    basic_string_path& operator=(const basic_string_path&) = default;
+    auto operator=(basic_string_path&&) noexcept
+      -> basic_string_path& = default;
+    auto operator=(const basic_string_path&) -> basic_string_path& = default;
 
     ~basic_string_path() noexcept = default;
 
     basic_string_path(string_view str, span_size_t size)
       : _size{size}
-      , _str(str.data(), std_size(str.size())) {
-    }
+      , _str(str.data(), std_size(str.size())) {}
 
     basic_string_path(std::string str, span_size_t size)
       : _size{size}
-      , _str(std::move(str)) {
-    }
+      , _str(std::move(str)) {}
 
     basic_string_path(std::tuple<std::string, span_size_t>&& init)
-      : basic_string_path(std::move(std::get<0>(init)), std::get<1>(init)) {
-    }
+      : basic_string_path(std::move(std::get<0>(init)), std::get<1>(init)) {}
 
     basic_string_path(
-      string_view path, EAGINE_TAG_TYPE(split_by), string_view sep)
-      : basic_string_path(string_list::split(path, sep)) {
-    }
+      string_view path,
+      EAGINE_TAG_TYPE(split_by),
+      string_view sep)
+      : basic_string_path(string_list::split(path, sep)) {}
 
     explicit basic_string_path(
       const basic_string_path& a,
       EAGINE_TAG_TYPE(plus),
       const basic_string_path& b)
       : _size(a._size + b._size)
-      , _str(a._str + b._str) {
-    }
+      , _str(a._str + b._str) {}
 
     explicit basic_string_path(span<const string_view> names) {
         _init(names);
@@ -105,51 +103,55 @@ public:
 
     template <std::size_t N>
     explicit basic_string_path(const std::array<string_view, N>& names)
-      : basic_string_path(view(names)) {
-    }
+      : basic_string_path(view(names)) {}
 
     template <typename... Str>
     explicit basic_string_path(
-      EAGINE_TAG_TYPE(from_pack), string_view name, const Str&... names)
-      : basic_string_path(_pack_names(name, view(names)...)) {
-    }
+      EAGINE_TAG_TYPE(from_pack),
+      string_view name,
+      const Str&... names)
+      : basic_string_path(_pack_names(name, view(names)...)) {}
 
-    friend bool operator==(
-      const basic_string_path& a, const basic_string_path& b) noexcept {
+    friend auto operator==(
+      const basic_string_path& a,
+      const basic_string_path& b) noexcept {
         return a._str == b._str;
     }
 
-    friend bool operator!=(
-      const basic_string_path& a, const basic_string_path& b) noexcept {
+    friend auto operator!=(
+      const basic_string_path& a,
+      const basic_string_path& b) noexcept {
         return a._str != b._str;
     }
 
-    friend bool operator<(
-      const basic_string_path& a, const basic_string_path& b) noexcept {
+    friend auto
+    operator<(const basic_string_path& a, const basic_string_path& b) noexcept {
         return a._str < b._str;
     }
 
-    friend bool operator<=(
-      const basic_string_path& a, const basic_string_path& b) noexcept {
+    friend auto operator<=(
+      const basic_string_path& a,
+      const basic_string_path& b) noexcept {
         return a._str <= b._str;
     }
 
-    friend bool operator>(
-      const basic_string_path& a, const basic_string_path& b) noexcept {
+    friend auto
+    operator>(const basic_string_path& a, const basic_string_path& b) noexcept {
         return a._str > b._str;
     }
 
-    friend bool operator>=(
-      const basic_string_path& a, const basic_string_path& b) noexcept {
+    friend auto operator>=(
+      const basic_string_path& a,
+      const basic_string_path& b) noexcept {
         return a._str >= b._str;
     }
 
-    friend basic_string_path operator+(
-      const basic_string_path& a, const basic_string_path& b) noexcept {
+    friend auto
+    operator+(const basic_string_path& a, const basic_string_path& b) noexcept {
         return basic_string_path(a, EAGINE_TAG(plus), b);
     }
 
-    bool empty() const noexcept {
+    auto empty() const noexcept -> bool {
         EAGINE_ASSERT((size() == 0) == _str.empty());
         return _str.empty();
     }
@@ -159,16 +161,16 @@ public:
         _str.clear();
     }
 
-    size_type size() const noexcept {
+    auto size() const noexcept -> size_type {
         return _size;
     }
 
-    static size_type required_bytes(size_type l) {
+    static auto required_bytes(size_type l) -> size_type {
         using namespace mbs;
         return l + 2 * required_sequence_length(code_point_t(l)).value();
     }
 
-    static size_type required_bytes(string_view str) {
+    static auto required_bytes(string_view str) -> size_type {
         return required_bytes(size_type(str.size()));
     }
 
@@ -176,12 +178,12 @@ public:
         _str.reserve(std_size(s));
     }
 
-    string_view front() const noexcept {
+    auto front() const noexcept -> string_view {
         EAGINE_ASSERT(!empty());
         return string_list::front_value(_str);
     }
 
-    string_view back() const noexcept {
+    auto back() const noexcept -> string_view {
         EAGINE_ASSERT(!empty());
         return string_list::back_value(_str);
     }
@@ -202,21 +204,21 @@ public:
         --_size;
     }
 
-    iterator begin() const noexcept {
+    auto begin() const noexcept -> iterator {
         return empty() ? iterator(nullptr) : iterator(_str.data());
     }
 
-    iterator end() const noexcept {
+    auto end() const noexcept -> iterator {
         return empty() ? iterator(nullptr)
                        : iterator(_str.data() + _str.size());
     }
 
-    reverse_iterator rbegin() const noexcept {
+    auto rbegin() const noexcept -> reverse_iterator {
         return empty() ? reverse_iterator(nullptr)
                        : reverse_iterator(_str.data() + _str.size() - 1);
     }
 
-    reverse_iterator rend() const noexcept {
+    auto rend() const noexcept -> reverse_iterator {
         return empty() ? reverse_iterator(nullptr)
                        : reverse_iterator(_str.data() - 1);
     }
@@ -241,11 +243,11 @@ public:
         string_list::rev_for_each(view(_str), func);
     }
 
-    std::string as_string(string_view sep, bool trail_sep) const {
+    auto as_string(string_view sep, bool trail_sep) const -> std::string {
         return string_list::join(view(_str), sep, trail_sep);
     }
 
-    memory::const_block block() noexcept {
+    auto block() noexcept -> memory::const_block {
         return as_bytes(view(_str));
     }
 };

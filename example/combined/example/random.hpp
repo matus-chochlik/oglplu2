@@ -6,7 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_EXAMPLE_RANDOM_HPP
+#ifndef OGLPLUS_EXAMPLE_RANDOM_HPP // NOLINT(llvm-header-guard)
 #define OGLPLUS_EXAMPLE_RANDOM_HPP
 
 #include "run_context.hpp"
@@ -19,6 +19,11 @@ class example_args;
 class example_params;
 //------------------------------------------------------------------------------
 struct example_random_generator {
+    example_random_generator() noexcept = default;
+    example_random_generator(example_random_generator&&) noexcept = default;
+    example_random_generator(const example_random_generator&) = default;
+    auto operator=(example_random_generator&&) = delete;
+    auto operator=(const example_random_generator&) = delete;
     virtual ~example_random_generator() noexcept = default;
 
     virtual void uniform(span<byte>) = 0;
@@ -26,8 +31,8 @@ struct example_random_generator {
     virtual void normal(span<float>) = 0;
 };
 //------------------------------------------------------------------------------
-std::unique_ptr<example_random_generator> make_example_random_generator(
-  example_run_context&);
+auto make_example_random_generator(example_run_context&)
+  -> std::unique_ptr<example_random_generator>;
 //------------------------------------------------------------------------------
 } // namespace eagine
 

@@ -9,7 +9,7 @@
 #include <eagine/array_size.hpp>
 #include <iostream>
 
-int main() {
+auto main() -> int {
     using namespace eagine;
 
     const char* strings[] = {"foo", "bar", "baz", "qux"};

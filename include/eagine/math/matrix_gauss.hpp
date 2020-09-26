@@ -16,10 +16,13 @@
 namespace eagine::math {
 //------------------------------------------------------------------------------
 template <typename T, int Ca, int Cb, int R, bool V>
-static inline bool gauss_elimination(
-  matrix<T, Ca, R, true, V>& a, matrix<T, Cb, R, true, V>& b) noexcept {
+static inline auto gauss_elimination(
+  matrix<T, Ca, R, true, V>& a,
+  matrix<T, Cb, R, true, V>& b) noexcept -> bool {
     using std::swap;
-    const auto is_zero = [](T x) noexcept { return are_equal(x, T(0)); };
+    const auto is_zero = [](T x) noexcept {
+        return are_equal(x, T(0));
+    };
 
     for(int i = 0; i < R; ++i) {
         auto d = a._v[i][i];
@@ -53,8 +56,9 @@ static inline bool gauss_elimination(
 }
 //------------------------------------------------------------------------------
 template <typename T, int Ca, int Cb, int R, bool V>
-static inline bool gauss_elimination(
-  matrix<T, Ca, R, false, V>& a, matrix<T, Cb, R, true, V>& b) noexcept {
+static inline auto gauss_elimination(
+  matrix<T, Ca, R, false, V>& a,
+  matrix<T, Cb, R, true, V>& b) noexcept -> bool {
     auto ta = reorder(a);
     if(gauss_elimination(ta, b)) {
         a = reorder(ta);
@@ -64,8 +68,9 @@ static inline bool gauss_elimination(
 }
 //------------------------------------------------------------------------------
 template <typename T, int Ca, int Cb, int R, bool V>
-static inline bool gauss_elimination(
-  matrix<T, Ca, R, true, V>& a, matrix<T, Cb, R, false, V>& b) noexcept {
+static inline auto gauss_elimination(
+  matrix<T, Ca, R, true, V>& a,
+  matrix<T, Cb, R, false, V>& b) noexcept -> bool {
     auto tb = reorder(b);
     if(gauss_elimination(a, tb)) {
         b = reorder(tb);
@@ -75,8 +80,9 @@ static inline bool gauss_elimination(
 }
 //------------------------------------------------------------------------------
 template <typename T, int Ca, int Cb, int R, bool V>
-static inline bool gauss_elimination(
-  matrix<T, Ca, R, false, V>& a, matrix<T, Cb, R, false, V>& b) noexcept {
+static inline auto gauss_elimination(
+  matrix<T, Ca, R, false, V>& a,
+  matrix<T, Cb, R, false, V>& b) noexcept -> bool {
     auto ta = reorder(a);
     auto tb = reorder(b);
     if(gauss_elimination(ta, tb)) {
@@ -88,8 +94,9 @@ static inline bool gauss_elimination(
 }
 //------------------------------------------------------------------------------
 template <typename T, int Ca, int Cb, int R, bool V>
-static inline bool gauss_jordan_elimination(
-  matrix<T, Ca, R, true, V>& a, matrix<T, Cb, R, true, V>& b) noexcept {
+static inline auto gauss_jordan_elimination(
+  matrix<T, Ca, R, true, V>& a,
+  matrix<T, Cb, R, true, V>& b) noexcept -> bool {
 
     if(gauss_elimination(a, b)) {
 
@@ -109,8 +116,9 @@ static inline bool gauss_jordan_elimination(
 }
 //------------------------------------------------------------------------------
 template <typename T, int Ca, int Cb, int R, bool V>
-static inline bool gauss_jordan_elimination(
-  matrix<T, Ca, R, false, V>& a, matrix<T, Cb, R, true, V>& b) noexcept {
+static inline auto gauss_jordan_elimination(
+  matrix<T, Ca, R, false, V>& a,
+  matrix<T, Cb, R, true, V>& b) noexcept -> bool {
     auto ta = reorder(a);
     if(gauss_jordan_elimination(ta, b)) {
         a = reorder(ta);
@@ -120,8 +128,9 @@ static inline bool gauss_jordan_elimination(
 }
 //------------------------------------------------------------------------------
 template <typename T, int Ca, int Cb, int R, bool V>
-static inline bool gauss_jordan_elimination(
-  matrix<T, Ca, R, true, V>& a, matrix<T, Cb, R, false, V>& b) noexcept {
+static inline auto gauss_jordan_elimination(
+  matrix<T, Ca, R, true, V>& a,
+  matrix<T, Cb, R, false, V>& b) noexcept -> bool {
     auto tb = reorder(b);
     if(gauss_jordan_elimination(a, tb)) {
         b = reorder(tb);
@@ -131,8 +140,9 @@ static inline bool gauss_jordan_elimination(
 }
 //------------------------------------------------------------------------------
 template <typename T, int Ca, int Cb, int R, bool V>
-static inline bool gauss_jordan_elimination(
-  matrix<T, Ca, R, false, V>& a, matrix<T, Cb, R, false, V>& b) noexcept {
+static inline auto gauss_jordan_elimination(
+  matrix<T, Ca, R, false, V>& a,
+  matrix<T, Cb, R, false, V>& b) noexcept -> bool {
     auto ta = reorder(a);
     auto tb = reorder(b);
     if(gauss_jordan_elimination(ta, tb)) {

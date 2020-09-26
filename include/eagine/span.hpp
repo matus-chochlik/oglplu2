@@ -24,8 +24,8 @@ using memory::view;
 using memory::view_one;
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S, typename Output>
-static inline Output& list_to_stream(
-  Output& out, memory::basic_span<T, P, S> s) {
+static inline auto list_to_stream(Output& out, memory::basic_span<T, P, S> s)
+  -> Output& {
     out << '[';
     bool first = true;
     for(const auto& e : s) {
@@ -40,29 +40,29 @@ static inline Output& list_to_stream(
 }
 //------------------------------------------------------------------------------
 template <typename T, typename Output>
-static inline Output& write_to_stream(Output& out, span<T> s) {
+static inline auto write_to_stream(Output& out, span<T> s) -> Output& {
     return out.write(
       reinterpret_cast<const char*>(s.data()),
       limit_cast<std::streamsize>(s.size()));
 }
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S>
-static inline std::
-  enable_if_t<!std::is_same_v<std::remove_const_t<T>, char>, std::ostream&>
-  operator<<(std::ostream& out, memory::basic_span<T, P, S> s) {
+static inline auto operator<<(std::ostream& out, memory::basic_span<T, P, S> s)
+  -> std::
+    enable_if_t<!std::is_same_v<std::remove_const_t<T>, char>, std::ostream&> {
     return list_to_stream(out, s);
 }
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S>
-static inline std::
-  enable_if_t<std::is_same_v<std::remove_const_t<T>, char>, std::ostream&>
-  operator<<(std::ostream& out, memory::basic_span<T, P, S> s) {
+static inline auto operator<<(std::ostream& out, memory::basic_span<T, P, S> s)
+  -> std::
+    enable_if_t<std::is_same_v<std::remove_const_t<T>, char>, std::ostream&> {
     return write_to_stream(out, absolute(s));
 }
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S>
-static inline auto make_span_getter(
-  span_size_t& i, memory::basic_span<T, P, S> spn) {
+static inline auto
+make_span_getter(span_size_t& i, memory::basic_span<T, P, S> spn) {
     return [&i, spn]() -> optionally_valid<std::remove_const_t<T>> {
         if(i < spn.size()) {
             return {spn[i++], true};
@@ -78,7 +78,9 @@ static inline auto make_span_getter(span_size_t& i, const Src& src) {
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S, typename Transform>
 static inline auto make_span_getter(
-  span_size_t& i, memory::basic_span<T, P, S> spn, Transform transform) {
+  span_size_t& i,
+  memory::basic_span<T, P, S> spn,
+  Transform transform) {
     return [&i, spn, transform]() -> decltype(transform(std::declval<T>())) {
         if(i < spn.size()) {
             return transform(spn[i++]);
@@ -88,14 +90,14 @@ static inline auto make_span_getter(
 }
 //------------------------------------------------------------------------------
 template <typename Src, typename Transform>
-static inline auto make_span_getter(
-  span_size_t& i, const Src& src, Transform transform) {
+static inline auto
+make_span_getter(span_size_t& i, const Src& src, Transform transform) {
     return make_span_getter(i, view(src), std::move(transform));
 }
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S>
-static inline auto make_span_putter(
-  span_size_t& i, memory::basic_span<T, P, S> spn) {
+static inline auto
+make_span_putter(span_size_t& i, memory::basic_span<T, P, S> spn) {
     return [&i, spn](auto value) mutable -> bool {
         if(i < spn.size()) {
             spn[i++] = T(std::move(value));
@@ -112,7 +114,9 @@ static inline auto make_span_putter(span_size_t& o, Dst& dst) {
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S, typename Transform>
 static inline auto make_span_putter(
-  span_size_t& i, memory::basic_span<T, P, S> spn, Transform transform) {
+  span_size_t& i,
+  memory::basic_span<T, P, S> spn,
+  Transform transform) {
     return [&i, spn, transform](auto value) mutable -> bool {
         if(i < spn.size()) {
             if(auto transformed = transform(value)) {
@@ -125,8 +129,8 @@ static inline auto make_span_putter(
 }
 //------------------------------------------------------------------------------
 template <typename Dst, typename Transform>
-static inline auto make_span_putter(
-  span_size_t& o, Dst& dst, Transform transform) {
+static inline auto
+make_span_putter(span_size_t& o, Dst& dst, Transform transform) {
     return make_span_putter(o, cover(dst), std::move(transform));
 }
 //------------------------------------------------------------------------------

@@ -10,10 +10,10 @@
 namespace eagine::sslp {
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
-inline memory::block basic_ssl_api<ApiTraits>::data_digest(
+inline auto basic_ssl_api<ApiTraits>::data_digest(
   memory::const_block data,
   memory::block dst,
-  message_digest_type mdtype) const noexcept {
+  message_digest_type mdtype) const noexcept -> memory::block {
     if(mdtype) {
         const auto req_size = extract_or(this->message_digest_size(mdtype), 0);
 
@@ -32,11 +32,11 @@ inline memory::block basic_ssl_api<ApiTraits>::data_digest(
 }
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
-inline memory::block basic_ssl_api<ApiTraits>::sign_data_digest(
+inline auto basic_ssl_api<ApiTraits>::sign_data_digest(
   memory::const_block data,
   memory::block dst,
   message_digest_type mdtype,
-  pkey pky) const noexcept {
+  pkey pky) const noexcept -> memory::block {
     if(mdtype && pky) {
         if(ok mdctx{this->new_message_digest()}) {
             auto cleanup{this->delete_message_digest.raii(mdctx)};
@@ -54,11 +54,11 @@ inline memory::block basic_ssl_api<ApiTraits>::sign_data_digest(
 }
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
-inline bool basic_ssl_api<ApiTraits>::verify_data_digest(
+inline auto basic_ssl_api<ApiTraits>::verify_data_digest(
   memory::const_block data,
   memory::const_block sig,
   message_digest_type mdtype,
-  pkey pky) const noexcept {
+  pkey pky) const noexcept -> bool {
     if(mdtype && pky) {
         if(ok mdctx{this->new_message_digest()}) {
             auto cleanup{this->delete_message_digest.raii(mdctx)};
@@ -75,9 +75,9 @@ inline bool basic_ssl_api<ApiTraits>::verify_data_digest(
 }
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
-typename basic_ssl_api<ApiTraits>::template combined_result<owned_pkey>
-basic_ssl_api<ApiTraits>::parse_private_key(
-  memory::const_block blk, password_callback get_passwd) const noexcept {
+auto basic_ssl_api<ApiTraits>::parse_private_key(
+  memory::const_block blk,
+  password_callback get_passwd) const noexcept -> combined_result<owned_pkey> {
     if(ok mbio{this->new_block_basic_io(blk)}) {
         auto del_bio{this->delete_basic_io.raii(mbio)};
 
@@ -88,9 +88,9 @@ basic_ssl_api<ApiTraits>::parse_private_key(
 }
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
-typename basic_ssl_api<ApiTraits>::template combined_result<owned_pkey>
-basic_ssl_api<ApiTraits>::parse_public_key(
-  memory::const_block blk, password_callback get_passwd) const noexcept {
+auto basic_ssl_api<ApiTraits>::parse_public_key(
+  memory::const_block blk,
+  password_callback get_passwd) const noexcept -> combined_result<owned_pkey> {
     if(ok mbio{this->new_block_basic_io(blk)}) {
         auto del_bio{this->delete_basic_io.raii(mbio)};
 
@@ -101,9 +101,9 @@ basic_ssl_api<ApiTraits>::parse_public_key(
 }
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
-typename basic_ssl_api<ApiTraits>::template combined_result<owned_x509>
-basic_ssl_api<ApiTraits>::parse_x509(
-  memory::const_block blk, password_callback get_passwd) const noexcept {
+auto basic_ssl_api<ApiTraits>::parse_x509(
+  memory::const_block blk,
+  password_callback get_passwd) const noexcept -> combined_result<owned_x509> {
     if(ok mbio{this->new_block_basic_io(blk)}) {
         auto del_bio{this->delete_basic_io.raii(mbio)};
 
@@ -114,8 +114,9 @@ basic_ssl_api<ApiTraits>::parse_x509(
 }
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
-bool basic_ssl_api<ApiTraits>::ca_verify_certificate(
-  string_view ca_file_path, x509 cert) const noexcept {
+auto basic_ssl_api<ApiTraits>::ca_verify_certificate(
+  string_view ca_file_path,
+  x509 cert) const noexcept -> bool {
     if(ok store{this->new_x509_store()}) {
         auto del_store{this->delete_x509_store.raii(store)};
 
@@ -135,8 +136,8 @@ bool basic_ssl_api<ApiTraits>::ca_verify_certificate(
 }
 //------------------------------------------------------------------------------
 template <typename ApiTraits>
-bool basic_ssl_api<ApiTraits>::ca_verify_certificate(
-  x509 ca_cert, x509 cert) const noexcept {
+auto basic_ssl_api<ApiTraits>::ca_verify_certificate(x509 ca_cert, x509 cert)
+  const noexcept -> bool {
     if(ok store{this->new_x509_store()}) {
         auto del_store{this->delete_x509_store.raii(store)};
 

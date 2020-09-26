@@ -16,8 +16,7 @@ namespace eagine::oglp::texgen {
 OGLPLUS_LIB_FUNC
 stripes_output::stripes_output(node_intf& parent)
   : base_output(parent)
-  , repeat(parent, string_view("Repeat"), 8.f, 8.f, 8.f) {
-}
+  , repeat(parent, string_view("Repeat"), 8.f, 8.f, 8.f) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 string_view stripes_output::type_name() {
@@ -30,8 +29,8 @@ slot_data_type stripes_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& stripes_output::definitions(
-  std::ostream& out, compile_context& ctxt) {
+std::ostream&
+stripes_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt)) {
         return out;
     }

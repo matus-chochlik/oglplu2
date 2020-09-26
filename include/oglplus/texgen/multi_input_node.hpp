@@ -42,8 +42,8 @@ public:
 
     input_with_const_default<float[4]>& add_input(string_view) override;
 
-    multi_input_node& add_input(
-      string_view name, float x, float y, float z, float w) {
+    multi_input_node&
+    add_input(string_view name, float x, float y, float z, float w) {
         add_input(name).fallback().set(x, y, z, w);
         return *this;
     }

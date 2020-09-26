@@ -22,11 +22,11 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-bool _parse_from_string(string_view src, long long int&) noexcept;
+auto _parse_from_string(string_view src, long long int&) noexcept -> bool;
 //------------------------------------------------------------------------------
 template <typename T>
-static inline std::enable_if_t<std::is_integral_v<T>, optionally_valid<T>>
-parse_from_string(string_view src, identity<T>) noexcept {
+static inline auto parse_from_string(string_view src, identity<T>) noexcept
+  -> std::enable_if_t<std::is_integral_v<T>, optionally_valid<T>> {
     long long int parsed{};
     if(_parse_from_string(src, parsed)) {
         return convert_if_fits<T>(parsed);
@@ -34,11 +34,11 @@ parse_from_string(string_view src, identity<T>) noexcept {
     return {};
 }
 //------------------------------------------------------------------------------
-bool _parse_from_string(string_view src, long double&) noexcept;
+auto _parse_from_string(string_view src, long double&) noexcept -> bool;
 //------------------------------------------------------------------------------
 template <typename T>
-static inline std::enable_if_t<std::is_floating_point_v<T>, optionally_valid<T>>
-parse_from_string(string_view src, identity<T>) noexcept {
+static inline auto parse_from_string(string_view src, identity<T>) noexcept
+  -> std::enable_if_t<std::is_floating_point_v<T>, optionally_valid<T>> {
     long double parsed{};
     if(_parse_from_string(src, parsed)) {
         return convert_if_fits<T>(parsed);
@@ -46,8 +46,8 @@ parse_from_string(string_view src, identity<T>) noexcept {
     return {};
 }
 //------------------------------------------------------------------------------
-static inline optionally_valid<bool> from_string(
-  string_view src, identity<bool>) noexcept {
+static inline auto from_string(string_view src, identity<bool>) noexcept
+  -> optionally_valid<bool> {
 
     const string_view true_strs[] = {{"true"}, {"True"}, {"1"}, {"t"}, {"T"}};
     if(find_element(view(true_strs), src)) {
@@ -63,8 +63,8 @@ static inline optionally_valid<bool> from_string(
     return {};
 }
 
-static inline optionally_valid<char> from_string(
-  string_view src, identity<char>) noexcept {
+static inline auto from_string(string_view src, identity<char>) noexcept
+  -> optionally_valid<char> {
     if(src.size() == 1) {
         return {extract(src), true};
     }
@@ -72,7 +72,8 @@ static inline optionally_valid<char> from_string(
 }
 //------------------------------------------------------------------------------
 template <typename T, typename N>
-optionally_valid<T> multiply_and_convert_if_fits(N n, const char* c) noexcept {
+auto multiply_and_convert_if_fits(N n, const char* c) noexcept
+  -> optionally_valid<T> {
     if(!c[0]) {
         return convert_if_fits<T>(n);
     } else if((c[0] == 'k') && (!c[1])) {
@@ -87,10 +88,10 @@ optionally_valid<T> multiply_and_convert_if_fits(N n, const char* c) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename T, typename N>
-optionally_valid<T> convert_from_string_with(
+auto convert_from_string_with(
   N (*converter)(const char*, char**),
   string_view src,
-  identity<T> tid) noexcept {
+  identity<T> tid) noexcept -> optionally_valid<T> {
     char* end = nullptr;
     auto cstr = c_str(src);
     errno = 0;
@@ -105,11 +106,11 @@ optionally_valid<T> convert_from_string_with(
 }
 //------------------------------------------------------------------------------
 template <typename T, typename N>
-optionally_valid<T> convert_from_string_with(
+auto convert_from_string_with(
   N (*converter)(const char*, char**, int),
   int base,
   string_view src,
-  identity<T> tid) noexcept {
+  identity<T> tid) noexcept -> optionally_valid<T> {
     char* end = nullptr;
     auto cstr = c_str(src);
     errno = 0;
@@ -123,48 +124,58 @@ optionally_valid<T> convert_from_string_with(
     return parse_from_string(src, tid);
 }
 //------------------------------------------------------------------------------
-static inline optionally_valid<short> from_string(
-  string_view src, identity<short> id, int base = 10) noexcept {
+static inline auto
+from_string(string_view src, identity<short> id, int base = 10) noexcept
+  -> optionally_valid<short> {
     return convert_from_string_with(&std::strtol, base, src, id);
 }
 
-static inline optionally_valid<int> from_string(
-  string_view src, identity<int> id, int base = 10) noexcept {
+static inline auto
+from_string(string_view src, identity<int> id, int base = 10) noexcept
+  -> optionally_valid<int> {
     return convert_from_string_with(&std::strtol, base, src, id);
 }
 
-static inline optionally_valid<long> from_string(
-  string_view src, identity<long> id, int base = 10) noexcept {
+static inline auto
+from_string(string_view src, identity<long> id, int base = 10) noexcept
+  -> optionally_valid<long> {
     return convert_from_string_with(&std::strtol, base, src, id);
 }
 
-static inline optionally_valid<long long> from_string(
-  string_view src, identity<long long> id, int base = 10) noexcept {
+static inline auto
+from_string(string_view src, identity<long long> id, int base = 10) noexcept
+  -> optionally_valid<long long> {
     return convert_from_string_with(&std::strtoll, base, src, id);
 }
 
-static inline optionally_valid<unsigned short> from_string(
-  string_view src, identity<unsigned short> id, int base = 10) noexcept {
+static inline auto from_string(
+  string_view src,
+  identity<unsigned short> id,
+  int base = 10) noexcept -> optionally_valid<unsigned short> {
     return convert_from_string_with(&std::strtoul, base, src, id);
 }
 
-static inline optionally_valid<unsigned int> from_string(
-  string_view src, identity<unsigned int> id, int base = 10) noexcept {
+static inline auto
+from_string(string_view src, identity<unsigned int> id, int base = 10) noexcept
+  -> optionally_valid<unsigned int> {
     return convert_from_string_with(&std::strtoul, base, src, id);
 }
 
-static inline optionally_valid<unsigned long> from_string(
-  string_view src, identity<unsigned long> id, int base = 10) noexcept {
+static inline auto
+from_string(string_view src, identity<unsigned long> id, int base = 10) noexcept
+  -> optionally_valid<unsigned long> {
     return convert_from_string_with(&std::strtoul, base, src, id);
 }
 
-static inline optionally_valid<unsigned long long> from_string(
-  string_view src, identity<unsigned long long> id, int base = 10) noexcept {
+static inline auto from_string(
+  string_view src,
+  identity<unsigned long long> id,
+  int base = 10) noexcept -> optionally_valid<unsigned long long> {
     return convert_from_string_with(&std::strtoull, base, src, id);
 }
 //------------------------------------------------------------------------------
-static inline optionally_valid<byte> from_string(
-  string_view src, identity<byte>) noexcept {
+static inline auto from_string(string_view src, identity<byte>) noexcept
+  -> optionally_valid<byte> {
     if(starts_with(src, string_view("0x"))) {
         if(const auto opt_val{
              from_string(skip(src, 2), identity<unsigned>(), 16)}) {
@@ -183,37 +194,36 @@ static inline optionally_valid<byte> from_string(
     return {};
 }
 //------------------------------------------------------------------------------
-static inline optionally_valid<float> from_string(
-  string_view src, identity<float> id) noexcept {
+static inline auto from_string(string_view src, identity<float> id) noexcept
+  -> optionally_valid<float> {
     return convert_from_string_with(&std::strtof, src, id);
 }
 
-static inline optionally_valid<double> from_string(
-  string_view src, identity<double> id) noexcept {
+static inline auto from_string(string_view src, identity<double> id) noexcept
+  -> optionally_valid<double> {
     return convert_from_string_with(&std::strtod, src, id);
 }
 
-static inline optionally_valid<long double> from_string(
-  string_view src, identity<long double> id) noexcept {
+static inline auto
+from_string(string_view src, identity<long double> id) noexcept
+  -> optionally_valid<long double> {
     return convert_from_string_with(&std::strtold, src, id);
 }
 
-static inline always_valid<std::string> from_string(
-  string_view src, identity<std::string>) noexcept {
+static inline auto from_string(string_view src, identity<std::string>) noexcept
+  -> always_valid<std::string> {
     return to_string(src);
 }
 //------------------------------------------------------------------------------
 template <typename Rep, typename Period, typename Symbol>
-static inline optionally_valid<std::chrono::duration<Rep, Period>>
-convert_from_string(
+static inline auto convert_from_string(
   string_view src,
   identity<std::chrono::duration<Rep, Period>>,
-  Symbol sym_const) noexcept {
+  Symbol sym_const) noexcept
+  -> optionally_valid<std::chrono::duration<Rep, Period>> {
     const string_view symbol{sym_const};
     if(memory::ends_with(src, symbol)) {
-        if(
-          auto opt_val =
-            from_string(snip(src, symbol.size()), identity<Rep>())) {
+        if(auto opt_val = from_string(snip(src, symbol.size()), identity<Rep>())) {
             return {std::chrono::duration<Rep, Period>(extract(opt_val)), true};
         }
     }
@@ -221,8 +231,10 @@ convert_from_string(
 }
 //------------------------------------------------------------------------------
 template <typename Rep, typename Period>
-static inline optionally_valid<std::chrono::duration<Rep, Period>> from_string(
-  string_view str, identity<std::chrono::duration<Rep, Period>>) noexcept {
+static inline auto from_string(
+  string_view str,
+  identity<std::chrono::duration<Rep, Period>>) noexcept
+  -> optionally_valid<std::chrono::duration<Rep, Period>> {
     using dur_t = std::chrono::duration<Rep, Period>;
 
     if(

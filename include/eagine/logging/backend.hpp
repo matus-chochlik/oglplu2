@@ -27,46 +27,53 @@ struct logger_backend {
     logger_backend() noexcept = default;
     logger_backend(logger_backend&&) noexcept = default;
     logger_backend(const logger_backend&) noexcept = default;
-    logger_backend& operator=(logger_backend&&) noexcept = default;
-    logger_backend& operator=(const logger_backend&) noexcept = default;
+    auto operator=(logger_backend&&) noexcept -> logger_backend& = default;
+    auto operator=(const logger_backend&) noexcept -> logger_backend& = default;
     virtual ~logger_backend() noexcept = default;
 
-    virtual memory::shared_byte_allocator allocator() noexcept = 0;
+    virtual auto allocator() noexcept -> memory::shared_byte_allocator = 0;
 
-    virtual identifier type_id() noexcept = 0;
+    virtual auto type_id() noexcept -> identifier = 0;
 
-    virtual logger_backend* entry_backend(
-      identifier source, log_event_severity severity) noexcept = 0;
+    virtual auto
+    entry_backend(identifier source, log_event_severity severity) noexcept
+      -> logger_backend* = 0;
 
     virtual void enter_scope(identifier scope) noexcept = 0;
 
     virtual void leave_scope(identifier scope) noexcept = 0;
 
-    virtual bool begin_message(
+    virtual auto begin_message(
       identifier source,
       logger_instance_id instance,
       log_event_severity severity,
-      string_view format) noexcept = 0;
+      string_view format) noexcept -> bool = 0;
 
     virtual void add_nothing(identifier arg, identifier tag) noexcept = 0;
 
     virtual void add_identifier(
-      identifier arg, identifier tag, identifier value) noexcept = 0;
+      identifier arg,
+      identifier tag,
+      identifier value) noexcept = 0;
 
-    virtual void add_message_id(
-      identifier arg, identifier tag, message_id) noexcept = 0;
+    virtual void
+    add_message_id(identifier arg, identifier tag, message_id) noexcept = 0;
 
-    virtual void add_bool(
-      identifier arg, identifier tag, bool value) noexcept = 0;
+    virtual void
+    add_bool(identifier arg, identifier tag, bool value) noexcept = 0;
 
     virtual void add_integer(
-      identifier arg, identifier tag, std::intmax_t value) noexcept = 0;
+      identifier arg,
+      identifier tag,
+      std::intmax_t value) noexcept = 0;
 
     virtual void add_unsigned(
-      identifier arg, identifier tag, std::uintmax_t value) noexcept = 0;
+      identifier arg,
+      identifier tag,
+      std::uintmax_t value) noexcept = 0;
 
-    virtual void add_float(
-      identifier arg, identifier tag, float value) noexcept = 0;
+    virtual void
+    add_float(identifier arg, identifier tag, float value) noexcept = 0;
 
     virtual void add_float(
       identifier arg,
@@ -80,11 +87,13 @@ struct logger_backend {
       identifier tag,
       std::chrono::duration<float> value) noexcept = 0;
 
-    virtual void add_string(
-      identifier arg, identifier tag, string_view value) noexcept = 0;
+    virtual void
+    add_string(identifier arg, identifier tag, string_view value) noexcept = 0;
 
     virtual void add_blob(
-      identifier arg, identifier tag, memory::const_block value) noexcept = 0;
+      identifier arg,
+      identifier tag,
+      memory::const_block value) noexcept = 0;
 
     virtual void finish_message() noexcept = 0;
 

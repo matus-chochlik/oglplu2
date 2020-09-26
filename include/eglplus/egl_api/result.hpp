@@ -18,11 +18,11 @@ namespace eagine::eglp {
 //------------------------------------------------------------------------------
 class egl_no_result_info {
 public:
-    constexpr egl_no_result_info& error_code(anything) noexcept {
+    constexpr auto error_code(anything) noexcept -> auto& {
         return *this;
     }
 
-    constexpr string_view message() const noexcept {
+    constexpr auto message() const noexcept -> string_view {
         return {"EGL function not available"};
     }
 
@@ -35,16 +35,16 @@ public:
         return egl_types::error_code_no_error(_error_code);
     }
 
-    constexpr bool operator!() const noexcept {
+    constexpr auto operator!() const noexcept {
         return !egl_types::error_code_no_error(_error_code);
     }
 
-    constexpr egl_result_info& error_code(egl_types::int_type ec) noexcept {
+    constexpr auto error_code(egl_types::int_type ec) noexcept -> auto& {
         _error_code = ec;
         return *this;
     }
 
-    string_view message() const noexcept {
+    auto message() const noexcept -> string_view {
 #ifdef EGL_BAD_SURFACE
         if(_error_code == EGL_BAD_SURFACE) {
             return {"bad surface"};
@@ -143,4 +143,3 @@ using egl_opt_result = api_opt_result<Result, egl_result_info>;
 } // namespace eagine::eglp
 
 #endif // EGLPLUS_EGL_API_RESULT_HPP
-

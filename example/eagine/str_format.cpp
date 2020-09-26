@@ -9,7 +9,7 @@
 #include <eagine/str_format.hpp>
 #include <iostream>
 
-int main() {
+auto main() -> int {
     using namespace eagine;
     using s = std::string;
     using std::cout;

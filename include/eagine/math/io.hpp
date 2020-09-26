@@ -17,8 +17,8 @@
 namespace eagine::math {
 //------------------------------------------------------------------------------
 template <typename T, int N, bool V>
-static inline std::ostream& operator<<(
-  std::ostream& o, const vector<T, N, V>& v) {
+static inline auto operator<<(std::ostream& o, const vector<T, N, V>& v)
+  -> std::ostream& {
 
     o << "[" << v._v[0];
     for(int i = 1; i < N; ++i) {
@@ -28,8 +28,8 @@ static inline std::ostream& operator<<(
 }
 //------------------------------------------------------------------------------
 template <typename T, int C, int R, bool V>
-static inline std::ostream& operator<<(
-  std::ostream& o, const matrix<T, C, R, true, V>& m) {
+static inline auto operator<<(std::ostream& o, const matrix<T, C, R, true, V>& m)
+  -> std::ostream& {
     o << "|R0[" << m._v[0][0];
 
     for(int c = 1; c < C; ++c) {
@@ -48,8 +48,9 @@ static inline std::ostream& operator<<(
 }
 //------------------------------------------------------------------------------
 template <typename T, int C, int R, bool V>
-static inline std::ostream& operator<<(
-  std::ostream& o, const matrix<T, C, R, false, V>& m) {
+static inline auto
+operator<<(std::ostream& o, const matrix<T, C, R, false, V>& m)
+  -> std::ostream& {
     o << "|C0[" << m._v[0][0];
 
     for(int r = 1; r < R; ++r) {
@@ -68,20 +69,22 @@ static inline std::ostream& operator<<(
 }
 //------------------------------------------------------------------------------
 template <typename T, bool V>
-static inline std::ostream& operator<<(std::ostream& o, const line<T, V>& l) {
+static inline auto operator<<(std::ostream& o, const line<T, V>& l)
+  -> std::ostream& {
     o << '[' << l.origin() << " -> " << l.direction() << ']';
     return o;
 }
 //------------------------------------------------------------------------------
 template <typename T, bool V>
-static inline std::ostream& operator<<(
-  std::ostream& o, const triangle<T, V>& t) {
+static inline auto operator<<(std::ostream& o, const triangle<T, V>& t)
+  -> std::ostream& {
     o << '[' << t.a() << '|' << t.b() << '|' << t.c() << ']';
     return o;
 }
 //------------------------------------------------------------------------------
 template <typename T, bool V>
-static inline std::ostream& operator<<(std::ostream& o, const sphere<T, V>& s) {
+static inline auto operator<<(std::ostream& o, const sphere<T, V>& s)
+  -> std::ostream& {
     o << '[' << s.center() << ')' << s.radius() << ']';
     return o;
 }

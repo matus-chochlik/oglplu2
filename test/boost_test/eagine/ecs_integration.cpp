@@ -25,15 +25,13 @@ struct name_surname : eagine::ecs::component<name_surname> {
 
     name_surname(std::string fn, std::string sn)
       : first_name(std::move(fn))
-      , family_name(std::move(sn)) {
-    }
+      , family_name(std::move(sn)) {}
 };
 
 template <bool Const>
 struct name_surname_manip
   : eagine::ecs::basic_manipulator<name_surname, Const> {
-    using eagine::ecs::basic_manipulator<name_surname, Const>::
-      basic_manipulator;
+    using eagine::ecs::basic_manipulator<name_surname, Const>::basic_manipulator;
 
     const std::string& get_first_name() const {
         return this->read().first_name;
@@ -68,15 +66,13 @@ struct measurements : eagine::ecs::component<measurements> {
 
     measurements(float h, float w)
       : height_m(h)
-      , weight_kg(w) {
-    }
+      , weight_kg(w) {}
 };
 
 template <bool Const>
 struct measurements_manip
   : eagine::ecs::basic_manipulator<measurements, Const> {
-    using eagine::ecs::basic_manipulator<measurements, Const>::
-      basic_manipulator;
+    using eagine::ecs::basic_manipulator<measurements, Const>::basic_manipulator;
 
     bool has_height_m(float v) const {
         return this->is_valid() && std::abs(this->read().height_m - v) < 0.01F;

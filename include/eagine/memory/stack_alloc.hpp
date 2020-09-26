@@ -29,11 +29,9 @@ private:
     T* _min{nullptr};
     span_size_t _dif{0};
 
-    const_block _store() const noexcept;
-
-    const_block _allocated() const noexcept;
-
-    const_block _available() const noexcept;
+    auto _store() const noexcept -> const_block;
+    auto _allocated() const noexcept -> const_block;
+    auto _available() const noexcept -> const_block;
 
 public:
     using value_type = T;
@@ -46,8 +44,8 @@ public:
 
     base_stack_allocator(base_stack_allocator&& tmp) noexcept;
     base_stack_allocator(const base_stack_allocator&) = delete;
-    base_stack_allocator& operator=(base_stack_allocator&& tmp) = delete;
-    base_stack_allocator& operator=(const base_stack_allocator&) = delete;
+    auto operator=(base_stack_allocator&& tmp) = delete;
+    auto operator=(const base_stack_allocator&) = delete;
 
     base_stack_allocator() noexcept = default;
 
@@ -57,29 +55,30 @@ public:
 
     ~base_stack_allocator() noexcept;
 
-    size_type max_size() const noexcept {
+    auto max_size() const noexcept -> size_type {
         return _available().size();
     }
 
-    const_block allocated() const noexcept {
+    auto allocated() const noexcept -> const_block {
         return _allocated();
     }
 
-    size_type allocated_size() const noexcept {
+    auto allocated_size() const noexcept -> size_type {
         return _allocated().size();
     }
 
-    bool contains(const owned_block& b) const noexcept;
-    tribool has_allocated(const owned_block& b) const noexcept;
+    auto contains(const owned_block& b) const noexcept -> bool;
+    auto has_allocated(const owned_block& b) const noexcept -> tribool;
 
-    owned_block allocate(size_type n) noexcept;
+    auto allocate(size_type n) noexcept -> owned_block;
 
-    owned_block truncate(owned_block&& b, size_type nn) noexcept;
+    auto truncate(owned_block&& b, size_type nn) noexcept -> owned_block;
 
     void deallocate(owned_block&& b) noexcept;
 
-    friend bool operator==(
-      const base_stack_allocator& a, const base_stack_allocator& b) noexcept {
+    friend auto operator==(
+      const base_stack_allocator& a,
+      const base_stack_allocator& b) noexcept {
         if((a._btm == b._btm) && (a._top == b._top)) {
             EAGINE_ASSERT(a._pos == b._pos);
             EAGINE_ASSERT(a._min == b._min);
@@ -105,31 +104,30 @@ public:
 
     stack_byte_allocator_only(stack_byte_allocator_only&&) noexcept = default;
     stack_byte_allocator_only(const stack_byte_allocator_only&) = delete;
-    stack_byte_allocator_only& operator=(stack_byte_allocator_only&&) = delete;
-    stack_byte_allocator_only& operator=(const stack_byte_allocator_only&) =
-      delete;
+    auto operator=(stack_byte_allocator_only&&) = delete;
+    auto operator=(const stack_byte_allocator_only&) = delete;
 
     ~stack_byte_allocator_only() noexcept override = default;
 
     stack_byte_allocator_only(const block& blk)
-      : _alloc(blk) {
-    }
+      : _alloc(blk) {}
 
-    bool equal(byte_allocator* a) const noexcept override;
+    auto equal(byte_allocator* a) const noexcept -> bool override;
 
-    size_type max_size(size_type) noexcept override {
+    auto max_size(size_type) noexcept -> size_type override {
         return _alloc.max_size();
     }
 
-    const_block allocated() const noexcept {
+    auto allocated() const noexcept -> const_block {
         return _alloc.allocated();
     }
 
-    tribool has_allocated(const owned_block& b, span_size_t) noexcept override {
+    auto has_allocated(const owned_block& b, span_size_t) noexcept
+      -> tribool override {
         return _alloc.has_allocated(b);
     }
 
-    owned_block allocate(size_type n, size_type a) noexcept override;
+    auto allocate(size_type n, size_type a) noexcept -> owned_block override;
 
     void deallocate(owned_block&& b, size_type) noexcept override;
 };
@@ -148,25 +146,25 @@ public:
 
     stack_byte_allocator(stack_byte_allocator&&) noexcept = default;
     stack_byte_allocator(const stack_byte_allocator&) = delete;
-    stack_byte_allocator& operator=(stack_byte_allocator&&) = delete;
-    stack_byte_allocator& operator=(const stack_byte_allocator&) = delete;
+    auto operator=(stack_byte_allocator&&) = delete;
+    auto operator=(const stack_byte_allocator&) = delete;
     ~stack_byte_allocator() noexcept = default;
 
     stack_byte_allocator(const block& blk)
-      : _alloc(blk) {
-    }
+      : _alloc(blk) {}
 
-    bool equal(byte_allocator* a) const noexcept override;
+    auto equal(byte_allocator* a) const noexcept -> bool override;
 
-    size_type max_size(size_type a) noexcept override {
+    auto max_size(size_type a) noexcept -> size_type override {
         return _alloc.max_size() > a ? _alloc.max_size() - a : 0;
     }
 
-    tribool has_allocated(const owned_block& b, span_size_t) noexcept override {
+    auto has_allocated(const owned_block& b, span_size_t) noexcept
+      -> tribool override {
         return _alloc.has_allocated(b);
     }
 
-    owned_block allocate(size_type n, size_type a) noexcept override;
+    auto allocate(size_type n, size_type a) noexcept -> owned_block override;
 
     void deallocate(owned_block&& b, size_type) noexcept override;
 };
@@ -186,36 +184,33 @@ public:
     using value_type = byte;
     using size_type = span_size_t;
 
-    stack_aligned_byte_allocator(stack_aligned_byte_allocator&&) noexcept =
-      default;
-    stack_aligned_byte_allocator(const stack_aligned_byte_allocator&) = delete;
-    stack_aligned_byte_allocator& operator=(stack_aligned_byte_allocator&&) =
-      delete;
-    stack_aligned_byte_allocator& operator=(
-      const stack_aligned_byte_allocator&) = delete;
+    stack_aligned_byte_allocator(_this_class&&) noexcept = default;
+    stack_aligned_byte_allocator(const _this_class&) = delete;
+    auto operator=(stack_aligned_byte_allocator&&) = delete;
+    auto operator=(const stack_aligned_byte_allocator&) = delete;
 
     ~stack_aligned_byte_allocator() noexcept = default;
 
     stack_aligned_byte_allocator(const block& blk, span_size_t align)
       : _align(align)
-      , _alloc(blk, _align) {
-    }
+      , _alloc(blk, _align) {}
 
-    bool equal(byte_allocator* a) const noexcept override;
+    auto equal(byte_allocator* a) const noexcept -> bool override;
 
-    size_type max_size(size_type) noexcept override {
+    auto max_size(size_type) noexcept -> size_type override {
         return _alloc.max_size();
     }
 
-    tribool has_allocated(const owned_block& b, span_size_t) noexcept override;
+    auto has_allocated(const owned_block& b, span_size_t) noexcept
+      -> tribool override;
 
-    owned_block allocate(size_type n, size_type a) noexcept override;
+    auto allocate(size_type n, size_type a) noexcept -> owned_block override;
 
     void deallocate(owned_block&& b, size_type a) noexcept override;
 
-    span_size_t _own_end_misalign(_this_class* p) const noexcept;
+    auto _own_end_misalign(_this_class* p) const noexcept -> span_size_t;
 
-    byte_allocator* accomodate_self() noexcept;
+    auto accomodate_self() noexcept -> byte_allocator*;
 
     void eject_self() noexcept override;
 };

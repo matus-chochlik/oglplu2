@@ -11,8 +11,9 @@
 namespace eagine::oglp {
 //------------------------------------------------------------------------------
 template <typename A>
-inline primitive_type translate(
-  const basic_gl_api<A>& api, shapes::primitive_type mode) noexcept {
+inline auto
+translate(const basic_gl_api<A>& api, shapes::primitive_type mode) noexcept
+  -> primitive_type {
     auto& GL = api.constants();
 
     switch(mode) {
@@ -41,8 +42,9 @@ inline primitive_type translate(
 }
 //------------------------------------------------------------------------------
 template <typename A>
-inline data_type translate(
-  const basic_gl_api<A>& api, shapes::attrib_data_type type) noexcept {
+inline auto
+translate(const basic_gl_api<A>& api, shapes::attrib_data_type type) noexcept
+  -> data_type {
     auto& GL = api.constants();
 
     switch(type) {
@@ -65,8 +67,9 @@ inline data_type translate(
 }
 //------------------------------------------------------------------------------
 template <typename A>
-inline index_data_type translate(
-  const basic_gl_api<A>& api, shapes::index_data_type type) noexcept {
+inline auto
+translate(const basic_gl_api<A>& api, shapes::index_data_type type) noexcept
+  -> index_data_type {
     auto& GL = api.constants();
 
     switch(type) {
@@ -82,7 +85,7 @@ inline index_data_type translate(
     return GL.none;
 }
 //------------------------------------------------------------------------------
-inline span_size_t type_size(shapes::attrib_data_type type) noexcept {
+inline auto type_size(shapes::attrib_data_type type) noexcept -> span_size_t {
     switch(type) {
         case shapes::attrib_data_type::ubyte:
             return span_size(sizeof(gl_types::ubyte_type));
@@ -102,7 +105,7 @@ inline span_size_t type_size(shapes::attrib_data_type type) noexcept {
     return 1;
 }
 //------------------------------------------------------------------------------
-inline span_size_t type_size(shapes::index_data_type type) noexcept {
+inline auto type_size(shapes::index_data_type type) noexcept -> span_size_t {
     switch(type) {
         case shapes::index_data_type::unsigned_8:
             return span_size(sizeof(gl_types::ubyte_type));
@@ -118,7 +121,8 @@ inline span_size_t type_size(shapes::index_data_type type) noexcept {
 //------------------------------------------------------------------------------
 template <typename A>
 inline shape_draw_operation::shape_draw_operation(
-  const basic_gl_api<A>& api, const shapes::draw_operation& draw_op) noexcept
+  const basic_gl_api<A>& api,
+  const shapes::draw_operation& draw_op) noexcept
   : _mode(translate(api, draw_op.mode))
   , _idx_type(translate(api, draw_op.idx_type))
   , _first(gl_types::int_type(draw_op.first * type_size(draw_op.idx_type)))
@@ -127,17 +131,16 @@ inline shape_draw_operation::shape_draw_operation(
   , _primitive_restart_index(draw_op.primitive_restart_index)
   , _patch_vertices(draw_op.patch_vertices)
   , _primitive_restart(draw_op.primitive_restart)
-  , _cw_face_winding(draw_op.cw_face_winding) {
-}
+  , _cw_face_winding(draw_op.cw_face_winding) {}
 //------------------------------------------------------------------------------
-inline gl_types::const_void_ptr_type shape_draw_operation::_idx_ptr()
-  const noexcept {
+inline auto shape_draw_operation::_idx_ptr() const noexcept
+  -> gl_types::const_void_ptr_type {
     return eagine::memory::typed_nullptr<const gl_types::ubyte_type> + _first;
 }
 //------------------------------------------------------------------------------
 template <typename A>
-inline void shape_draw_operation::draw(
-  const basic_gl_api<A>& api) const noexcept {
+inline void
+shape_draw_operation::draw(const basic_gl_api<A>& api) const noexcept {
     auto& [gl, GL] = api;
 
     if(_cw_face_winding) {
@@ -170,7 +173,8 @@ inline void shape_draw_operation::draw(
 //------------------------------------------------------------------------------
 template <typename A>
 inline void draw_using_instructions(
-  const basic_gl_api<A>& api, span<const shape_draw_operation> ops) noexcept {
+  const basic_gl_api<A>& api,
+  span<const shape_draw_operation> ops) noexcept {
     for(const auto& op : ops) {
         op.draw(api);
     }

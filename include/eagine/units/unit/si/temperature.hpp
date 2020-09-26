@@ -37,13 +37,11 @@ struct si::base_unit<base::temperature> : base::kelvin {};
 using kelvin = unit<temperature, si>;
 
 // derived
-using millikelvin = make_scaled_base_dim_unit_t<
-  base::scaled_unit<scales::milli, base::kelvin>,
-  si>;
+using millikelvin =
+  make_scaled_base_dim_unit_t<base::scaled_unit<scales::milli, base::kelvin>, si>;
 
-using kilokelvin = make_scaled_base_dim_unit_t<
-  base::scaled_unit<scales::kilo, base::kelvin>,
-  si>;
+using kilokelvin =
+  make_scaled_base_dim_unit_t<base::scaled_unit<scales::kilo, base::kelvin>, si>;
 
 } // namespace eagine::units
 

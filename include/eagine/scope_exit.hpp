@@ -52,27 +52,25 @@ private:
 
 public:
     on_scope_exit(action_type action) noexcept
-      : _action(std::move(action)) {
-    }
+      : _action(std::move(action)) {}
 
     template <typename Func>
     on_scope_exit(Func& action) noexcept
-      : _action(action_type(action)) {
-    }
+      : _action(action_type(action)) {}
 
     on_scope_exit(const on_scope_exit&) = delete;
-    on_scope_exit& operator=(const on_scope_exit&) = delete;
 
     on_scope_exit(on_scope_exit&& temp) noexcept
-      : on_scope_exit(temp.release()) {
-    }
-    on_scope_exit& operator=(on_scope_exit&&) = delete;
+      : on_scope_exit(temp.release()) {}
+
+    auto operator=(const on_scope_exit&) = delete;
+    auto operator=(on_scope_exit&&) = delete;
 
     ~on_scope_exit() noexcept(false) {
         _invoke(OnException());
     }
 
-    action_type release() noexcept {
+    auto release() noexcept -> action_type {
         return std::move(_action);
     }
 
@@ -89,9 +87,8 @@ private:
 
 public:
     func_on_scope_exit(Func func)
-      : _func(func)
-      , _ose(_func) {
-    }
+      : _func(std::move(func))
+      , _ose(_func) {}
 
     void cancel() noexcept {
         _ose.cancel();
@@ -99,7 +96,7 @@ public:
 };
 
 template <typename Func>
-static inline func_on_scope_exit<Func> finally(Func func) {
+static inline auto finally(Func func) -> func_on_scope_exit<Func> {
     return func;
 }
 

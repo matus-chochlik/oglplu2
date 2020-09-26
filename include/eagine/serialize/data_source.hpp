@@ -22,20 +22,20 @@ struct deserializer_data_source {
     deserializer_data_source() noexcept = default;
     deserializer_data_source(deserializer_data_source&&) noexcept = default;
     deserializer_data_source(const deserializer_data_source&) = delete;
-    deserializer_data_source& operator=(deserializer_data_source&&) = delete;
-    deserializer_data_source& operator=(const deserializer_data_source&) =
-      delete;
+    auto operator=(deserializer_data_source&&) = delete;
+    auto operator=(const deserializer_data_source&) = delete;
     virtual ~deserializer_data_source() noexcept = default;
 
-    virtual memory::const_block top(span_size_t size) = 0;
+    virtual auto top(span_size_t size) -> memory::const_block = 0;
 
     virtual void pop(span_size_t size) = 0;
 
     template <typename Function>
-    valid_if_nonnegative<span_size_t> scan_until(
+    auto scan_until(
       Function predicate,
       const valid_if_positive<span_size_t>& max,
-      const valid_if_positive<span_size_t>& step = {256}) {
+      const valid_if_positive<span_size_t>& step = {256})
+      -> valid_if_nonnegative<span_size_t> {
         const auto inc{extract(step)};
         span_size_t start{0};
         span_size_t total{inc};
@@ -55,15 +55,17 @@ struct deserializer_data_source {
         return {-1};
     }
 
-    valid_if_nonnegative<span_size_t> scan_for(
+    auto scan_for(
       byte what,
       const valid_if_positive<span_size_t>& max,
-      const valid_if_positive<span_size_t>& step = {256}) {
+      const valid_if_positive<span_size_t>& step = {256})
+      -> valid_if_nonnegative<span_size_t> {
         return scan_until([what](byte b) { return b == what; }, max, step);
     }
 
     void fetch_all(
-      memory::buffer& dst, valid_if_positive<span_size_t> step = {256}) {
+      memory::buffer& dst,
+      valid_if_positive<span_size_t> step = {256}) {
         span_size_t offs{dst.size()};
         while(auto blk = top(extract(step))) {
             dst.enlarge_by(blk.size());
@@ -77,4 +79,3 @@ struct deserializer_data_source {
 } // namespace eagine
 
 #endif // EAGINE_SERIALIZE_DATA_SOURCE_HPP
-

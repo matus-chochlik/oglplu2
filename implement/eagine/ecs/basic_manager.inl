@@ -40,7 +40,7 @@ namespace detail {
 //------------------------------------------------------------------------------
 template <typename Entity>
 template <typename Data, bool IsR>
-storage<Entity, Data, IsR>& basic_manager<Entity>::_find_storage() {
+auto basic_manager<Entity>::_find_storage() -> storage<Entity, Data, IsR>& {
 
     using S = storage<Entity, Data, IsR>;
     S* pd_storage = nullptr;
@@ -76,7 +76,8 @@ inline void basic_manager<Entity>::_do_reg_stg_type(
 template <typename Entity>
 template <bool IsRelation>
 inline void basic_manager<Entity>::_do_unr_stg_type(
-  component_uid_t cid, std::string (*get_name)()) {
+  component_uid_t cid,
+  std::string (*get_name)()) {
 
     if(_get_storages<IsRelation>().erase(cid) != 1) {
         detail::mgr_handle_cmp_not_reg(get_name());
@@ -85,19 +86,19 @@ inline void basic_manager<Entity>::_do_unr_stg_type(
 //------------------------------------------------------------------------------
 template <typename Entity>
 template <bool IsRelation>
-inline bool basic_manager<Entity>::_does_know_stg_type(
-  component_uid_t cid) const {
+inline auto
+basic_manager<Entity>::_does_know_stg_type(component_uid_t cid) const -> bool {
 
     return _get_storages<IsRelation>().find(cid).is_valid();
 }
 //------------------------------------------------------------------------------
 template <typename Entity>
 template <bool IsRelation, typename Result, typename Func>
-inline Result basic_manager<Entity>::_apply_on_base_stg(
+inline auto basic_manager<Entity>::_apply_on_base_stg(
   Result fallback,
   const Func& func,
   component_uid_t cid,
-  std::string (*get_name)()) const {
+  std::string (*get_name)()) const -> Result {
     auto& storages = _get_storages<IsRelation>();
 
     if(auto found{storages.find(cid)}) {
@@ -112,8 +113,9 @@ inline Result basic_manager<Entity>::_apply_on_base_stg(
 //------------------------------------------------------------------------------
 template <typename Entity>
 template <typename Component, bool IsRelation, typename Result, typename Func>
-inline Result basic_manager<Entity>::_apply_on_stg(
-  Result fallback, const Func& func) const {
+inline auto
+basic_manager<Entity>::_apply_on_stg(Result fallback, const Func& func) const
+  -> Result {
     return _apply_on_base_stg<IsRelation>(
       fallback,
       [&func](auto& b_storage) -> Result {
@@ -130,8 +132,9 @@ inline Result basic_manager<Entity>::_apply_on_stg(
 //------------------------------------------------------------------------------
 template <typename Entity>
 template <bool IsRelation>
-inline storage_caps basic_manager<Entity>::_get_stg_type_caps(
-  component_uid_t cid, std::string (*get_name)()) const {
+inline auto basic_manager<Entity>::_get_stg_type_caps(
+  component_uid_t cid,
+  std::string (*get_name)()) const -> storage_caps {
     return _apply_on_base_stg<IsRelation>(
       storage_caps(),
       [](auto& b_storage) -> storage_caps { return b_storage->capabilities(); },
@@ -140,8 +143,10 @@ inline storage_caps basic_manager<Entity>::_get_stg_type_caps(
 }
 //------------------------------------------------------------------------------
 template <typename Entity>
-inline bool basic_manager<Entity>::_does_have_c(
-  entity_param_t<Entity> ent, component_uid_t cid, std::string (*get_name)()) {
+inline auto basic_manager<Entity>::_does_have_c(
+  entity_param_t<Entity> ent,
+  component_uid_t cid,
+  std::string (*get_name)()) -> bool {
     return _apply_on_base_stg<false>(
       false,
       [&ent](auto& b_storage) -> bool { return b_storage->has(ent); },
@@ -150,11 +155,11 @@ inline bool basic_manager<Entity>::_does_have_c(
 }
 //------------------------------------------------------------------------------
 template <typename Entity>
-inline bool basic_manager<Entity>::_does_have_r(
+inline auto basic_manager<Entity>::_does_have_r(
   entity_param_t<Entity> subject,
   entity_param_t<Entity> object,
   component_uid_t cid,
-  std::string (*get_name)()) {
+  std::string (*get_name)()) -> bool {
     return _apply_on_base_stg<true>(
       false,
       [&subject, &object](auto& b_storage) -> bool {
@@ -165,8 +170,10 @@ inline bool basic_manager<Entity>::_does_have_r(
 }
 //------------------------------------------------------------------------------
 template <typename Entity>
-inline bool basic_manager<Entity>::_is_hidn(
-  entity_param_t<Entity> ent, component_uid_t cid, std::string (*get_name)()) {
+inline auto basic_manager<Entity>::_is_hidn(
+  entity_param_t<Entity> ent,
+  component_uid_t cid,
+  std::string (*get_name)()) -> bool {
     return _apply_on_base_stg<false>(
       false,
       [&ent](auto& b_storage) -> bool { return b_storage->hidden(ent); },
@@ -175,8 +182,10 @@ inline bool basic_manager<Entity>::_is_hidn(
 }
 //------------------------------------------------------------------------------
 template <typename Entity>
-inline bool basic_manager<Entity>::_do_show(
-  entity_param_t<Entity> ent, component_uid_t cid, std::string (*get_name)()) {
+inline auto basic_manager<Entity>::_do_show(
+  entity_param_t<Entity> ent,
+  component_uid_t cid,
+  std::string (*get_name)()) -> bool {
     return _apply_on_base_stg<false>(
       false,
       [&ent](auto& b_storage) -> bool { return b_storage->show(ent); },
@@ -185,8 +194,10 @@ inline bool basic_manager<Entity>::_do_show(
 }
 //------------------------------------------------------------------------------
 template <typename Entity>
-inline bool basic_manager<Entity>::_do_hide(
-  entity_param_t<Entity> ent, component_uid_t cid, std::string (*get_name)()) {
+inline auto basic_manager<Entity>::_do_hide(
+  entity_param_t<Entity> ent,
+  component_uid_t cid,
+  std::string (*get_name)()) -> bool {
     return _apply_on_base_stg<false>(
       false,
       [&ent](auto& b_storage) -> bool { return b_storage->hide(ent); },
@@ -196,8 +207,9 @@ inline bool basic_manager<Entity>::_do_hide(
 //------------------------------------------------------------------------------
 template <typename Entity>
 template <typename Component>
-inline bool basic_manager<Entity>::_do_add_c(
-  entity_param_t<Entity> ent, Component&& component) {
+inline auto basic_manager<Entity>::_do_add_c(
+  entity_param_t<Entity> ent,
+  Component&& component) -> bool {
     return _apply_on_stg<Component, false>(
       false, [&ent, &component](auto& c_storage) -> bool {
           c_storage->store(ent, std::forward<Component>(component));
@@ -207,8 +219,10 @@ inline bool basic_manager<Entity>::_do_add_c(
 //------------------------------------------------------------------------------
 template <typename Entity>
 template <typename Relation>
-inline bool basic_manager<Entity>::_do_add_r(
-  entity_param subj, entity_param obj, Relation&& relation) {
+inline auto basic_manager<Entity>::_do_add_r(
+  entity_param subj,
+  entity_param obj,
+  Relation&& relation) -> bool {
     return _apply_on_stg<Relation, true>(
       false, [&subj, &obj, &relation](auto& c_storage) -> bool {
           c_storage->store(subj, obj, std::forward<Relation>(relation));
@@ -217,11 +231,11 @@ inline bool basic_manager<Entity>::_do_add_r(
 }
 //------------------------------------------------------------------------------
 template <typename Entity>
-inline bool basic_manager<Entity>::_do_add_r(
+inline auto basic_manager<Entity>::_do_add_r(
   entity_param subject,
   entity_param object,
   component_uid_t cid,
-  std::string (*get_name)()) {
+  std::string (*get_name)()) -> bool {
     return _apply_on_base_stg<true>(
       false,
       [&subject, &object](auto& b_storage) -> bool {
@@ -232,11 +246,11 @@ inline bool basic_manager<Entity>::_do_add_r(
 }
 //------------------------------------------------------------------------------
 template <typename Entity>
-inline bool basic_manager<Entity>::_do_cpy(
+inline auto basic_manager<Entity>::_do_cpy(
   entity_param_t<Entity> from,
   entity_param_t<Entity> to,
   component_uid_t cid,
-  std::string (*get_name)()) {
+  std::string (*get_name)()) -> bool {
     return _apply_on_base_stg<false>(
       false,
       [&from, &to](auto& b_storage) -> bool {
@@ -247,11 +261,11 @@ inline bool basic_manager<Entity>::_do_cpy(
 }
 //------------------------------------------------------------------------------
 template <typename Entity>
-inline bool basic_manager<Entity>::_do_swp(
+inline auto basic_manager<Entity>::_do_swp(
   entity_param_t<Entity> e1,
   entity_param_t<Entity> e2,
   component_uid_t cid,
-  std::string (*get_name)()) {
+  std::string (*get_name)()) -> bool {
     return _apply_on_base_stg<false>(
       false,
       [&e1, &e2](auto& b_storage) -> bool {
@@ -263,8 +277,10 @@ inline bool basic_manager<Entity>::_do_swp(
 }
 //------------------------------------------------------------------------------
 template <typename Entity>
-inline bool basic_manager<Entity>::_do_rem_c(
-  entity_param_t<Entity> ent, component_uid_t cid, std::string (*get_name)()) {
+inline auto basic_manager<Entity>::_do_rem_c(
+  entity_param_t<Entity> ent,
+  component_uid_t cid,
+  std::string (*get_name)()) -> bool {
     return _apply_on_base_stg<false>(
       false,
       [&ent](auto& b_storage) -> bool { return b_storage->remove(ent); },
@@ -273,11 +289,11 @@ inline bool basic_manager<Entity>::_do_rem_c(
 }
 //------------------------------------------------------------------------------
 template <typename Entity>
-inline bool basic_manager<Entity>::_do_rem_r(
+inline auto basic_manager<Entity>::_do_rem_r(
   entity_param_t<Entity> subj,
   entity_param_t<Entity> obj,
   component_uid_t cid,
-  std::string (*get_name)()) {
+  std::string (*get_name)()) -> bool {
     return _apply_on_base_stg<true>(
       false,
       [&subj, &obj](auto& b_storage) -> bool {
@@ -289,14 +305,16 @@ inline bool basic_manager<Entity>::_do_rem_r(
 //------------------------------------------------------------------------------
 template <typename Entity>
 template <typename T, typename C>
-inline T basic_manager<Entity>::_do_get_c(
-  T C::*mvp, entity_param_t<Entity> ent, T res) {
+inline auto
+basic_manager<Entity>::_do_get_c(T C::*mvp, entity_param_t<Entity> ent, T res)
+  -> T {
     EAGINE_ASSERT(mvp);
 
     using MC = manipulator<const C>;
 
-    auto getter = [mvp, &res](
-                    entity_param_t<Entity>, MC& cmp) { res = cmp.read().*mvp; };
+    auto getter = [mvp, &res](entity_param_t<Entity>, MC& cmp) {
+        res = cmp.read().*mvp;
+    };
     callable_ref<void(entity_param_t<Entity>, MC&)> func(getter);
 
     _call_for_single_c<C>(ent, func);
@@ -305,8 +323,9 @@ inline T basic_manager<Entity>::_do_get_c(
 //------------------------------------------------------------------------------
 template <typename Entity>
 template <typename Component, typename Func>
-inline bool basic_manager<Entity>::_call_for_single_c(
-  entity_param_t<Entity> ent, const Func& func) {
+inline auto basic_manager<Entity>::_call_for_single_c(
+  entity_param_t<Entity> ent,
+  const Func& func) -> bool {
     return _apply_on_stg<std::remove_const_t<Component>, false>(
       false, [&func, &ent](auto& c_storage) -> bool {
           c_storage->for_single(func, ent);
@@ -356,11 +375,11 @@ protected:
         _storage.delete_iterator(std::move(_iter));
     }
 
-    bool _done() {
+    auto _done() -> bool {
         return _iter.done();
     }
 
-    entity_param_t<Entity> _current() {
+    auto _current() -> entity_param_t<Entity> {
         return _curr;
     }
 
@@ -376,10 +395,8 @@ protected:
 public:
     _manager_for_each_c_m_base(_manager_for_each_c_m_base&&) = delete;
     _manager_for_each_c_m_base(const _manager_for_each_c_m_base&) = delete;
-    _manager_for_each_c_m_base& operator=(_manager_for_each_c_m_base&&) =
-      delete;
-    _manager_for_each_c_m_base& operator=(const _manager_for_each_c_m_base&) =
-      delete;
+    auto operator=(_manager_for_each_c_m_base&&) = delete;
+    auto operator=(const _manager_for_each_c_m_base&) = delete;
 };
 //------------------------------------------------------------------------------
 template <typename Entity, typename C>
@@ -388,8 +405,7 @@ class _manager_for_each_c_m_p_base
 protected:
     _manager_for_each_c_m_p_base(
       component_storage<Entity, std::remove_const_t<C>>& storage)
-      : _manager_for_each_c_m_base<Entity, C>(storage) {
-    }
+      : _manager_for_each_c_m_base<Entity, C>(storage) {}
 
     using _manager_for_each_c_m_base<Entity, C>::_iter;
     using _manager_for_each_c_m_base<Entity, C>::_curr;
@@ -415,20 +431,20 @@ template <typename Entity, typename... CL, typename C>
 class _manager_for_each_c_m_p_unit<Entity, mp_list<CL...>, mp_list<C>>
   : public _manager_for_each_c_m_p_base<Entity, C> {
 private:
-    callable_ref<void(
-      entity_param_t<Entity>, manipulator<CL>&..., manipulator<C>&)>
+    callable_ref<
+      void(entity_param_t<Entity>, manipulator<CL>&..., manipulator<C>&)>
       _func;
 
 public:
     _manager_for_each_c_m_p_unit(
-      const callable_ref<void(
-        entity_param_t<Entity>, manipulator<CL>&..., manipulator<C>&)>& func,
+      const callable_ref<
+        void(entity_param_t<Entity>, manipulator<CL>&..., manipulator<C>&)>&
+        func,
       component_storage<Entity, std::remove_const_t<C>>& s)
       : _manager_for_each_c_m_p_base<Entity, C>(s)
-      , _func(func) {
-    }
+      , _func(func) {}
 
-    bool done() {
+    auto done() -> bool {
         return this->_done();
     }
 
@@ -436,7 +452,7 @@ public:
         this->_next_if(m);
     }
 
-    Entity min_entity() {
+    auto min_entity() -> Entity {
         return this->_current();
     }
 
@@ -476,10 +492,9 @@ public:
       component_storage<Entity, std::remove_const_t<C>>& s,
       component_storage<Entity, std::remove_const_t<CR>>&... r)
       : _manager_for_each_c_m_p_base<Entity, C>(s)
-      , _rest(func, r...) {
-    }
+      , _rest(func, r...) {}
 
-    bool done() {
+    auto done() -> bool {
         return this->_done() && _rest.done();
     }
 
@@ -488,7 +503,7 @@ public:
         this->_next_if(m);
     }
 
-    Entity min_entity() {
+    auto min_entity() -> Entity {
         if(_rest.done()) {
             EAGINE_ASSERT(!this->_done());
             return this->_current();
@@ -553,15 +568,14 @@ class _manager_for_each_c_m_r_base
 protected:
     _manager_for_each_c_m_r_base(
       component_storage<Entity, std::remove_const_t<C>>& storage)
-      : _manager_for_each_c_m_base<Entity, C>(storage) {
-    }
+      : _manager_for_each_c_m_base<Entity, C>(storage) {}
 
     using _manager_for_each_c_m_base<Entity, C>::_iter;
     using _manager_for_each_c_m_base<Entity, C>::_curr;
     using _manager_for_each_c_m_base<Entity, C>::_done;
     using _manager_for_each_c_m_base<Entity, C>::_current;
 
-    bool _next() {
+    auto _next() -> bool {
         if(_current() >= _iter.current()) {
             _iter.next();
         }
@@ -572,7 +586,7 @@ protected:
         return false;
     }
 
-    bool _find(entity_param_t<Entity> e) {
+    auto _find(entity_param_t<Entity> e) -> bool {
         if(_iter.find(e)) {
             _curr = _iter.current();
             return true;
@@ -588,32 +602,32 @@ template <typename Entity, typename... CL, typename C>
 class _manager_for_each_c_m_r_unit<Entity, mp_list<CL...>, mp_list<C>>
   : public _manager_for_each_c_m_r_base<Entity, C> {
 private:
-    callable_ref<void(
-      entity_param_t<Entity>, manipulator<CL>&..., manipulator<C>&)>
+    callable_ref<
+      void(entity_param_t<Entity>, manipulator<CL>&..., manipulator<C>&)>
       _func;
 
 public:
     _manager_for_each_c_m_r_unit(
-      const callable_ref<void(
-        entity_param_t<Entity>, manipulator<CL>&..., manipulator<C>&)>& func,
+      const callable_ref<
+        void(entity_param_t<Entity>, manipulator<CL>&..., manipulator<C>&)>&
+        func,
       component_storage<Entity, std::remove_const_t<C>>& s)
       : _manager_for_each_c_m_r_base<Entity, C>(s)
-      , _func(func) {
-    }
+      , _func(func) {}
 
-    bool done() {
+    auto done() -> bool {
         return this->_done();
     }
 
-    bool sync_to(entity_param_t<Entity> m) {
+    auto sync_to(entity_param_t<Entity> m) -> bool {
         return this->_find(m);
     }
 
-    Entity max_entity() {
+    auto max_entity() -> Entity {
         return this->_current();
     }
 
-    bool next() {
+    auto next() -> bool {
         return this->_next();
     }
 
@@ -644,29 +658,28 @@ public:
       component_storage<Entity, std::remove_const_t<C>>& s,
       component_storage<Entity, std::remove_const_t<CR>>&... r)
       : _manager_for_each_c_m_r_base<Entity, C>(s)
-      , _rest(func, r...) {
-    }
+      , _rest(func, r...) {}
 
-    bool done() {
+    auto done() -> bool {
         return this->_done() || _rest.done();
     }
 
-    bool sync_to(entity_param_t<Entity> m) {
+    auto sync_to(entity_param_t<Entity> m) -> bool {
         return _rest.sync_to(m) && this->_find(m);
     }
 
-    Entity max_entity() {
+    auto max_entity() -> Entity {
         Entity m = _rest.max_entity();
         Entity c = this->_current();
         return (m > c) ? m : c;
     }
 
-    bool sync() {
+    auto sync() -> bool {
         static_assert(sizeof...(CL) == 0);
         return sync_to(max_entity());
     }
 
-    bool next() {
+    auto next() -> bool {
         return _rest.next() && this->_next();
     }
 

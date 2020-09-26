@@ -37,48 +37,53 @@ void test_biteset_1() {
         do_test_biteset_1(biteset<1, B>{rg.get_byte(bmin, bmax)});
         do_test_biteset_1(
           biteset<2, B>{rg.get_byte(bmin, bmax), rg.get_byte(bmin, bmax)});
-        do_test_biteset_1(biteset<3, B>{rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax)});
-        do_test_biteset_1(biteset<4, B>{rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax)});
-        do_test_biteset_1(biteset<8, B>{rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax)});
-        do_test_biteset_1(biteset<11, B>{rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax)});
-        do_test_biteset_1(biteset<16, B>{rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax)});
+        do_test_biteset_1(biteset<3, B>{
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax)});
+        do_test_biteset_1(biteset<4, B>{
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax)});
+        do_test_biteset_1(biteset<8, B>{
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax)});
+        do_test_biteset_1(biteset<11, B>{
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax)});
+        do_test_biteset_1(biteset<16, B>{
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax)});
     }
 }
 
@@ -94,7 +99,8 @@ BOOST_AUTO_TEST_CASE(biteset_1) {
 
 template <std::size_t N, std::size_t B>
 void do_test_biteset_2(
-  const eagine::biteset<N, B>& bs1, const eagine::biteset<N, B>& bs2) {
+  const eagine::biteset<N, B>& bs1,
+  const eagine::biteset<N, B>& bs2) {
     using namespace eagine;
 
     BOOST_CHECK_EQUAL((bs1 == bs2), (bs1.bytes() == bs2.bytes()));
@@ -119,54 +125,60 @@ void test_biteset_2() {
           biteset<2, B>{rg.get_byte(bmin, bmax), rg.get_byte(bmin, bmax)});
 
         do_test_biteset_2(
-          biteset<4, B>{rg.get_byte(bmin, bmax),
-                        rg.get_byte(bmin, bmax),
-                        rg.get_byte(bmin, bmax),
-                        rg.get_byte(bmin, bmax)},
-          biteset<4, B>{rg.get_byte(bmin, bmax),
-                        rg.get_byte(bmin, bmax),
-                        rg.get_byte(bmin, bmax),
-                        rg.get_byte(bmin, bmax)});
+          biteset<4, B>{
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax)},
+          biteset<4, B>{
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax)});
 
         do_test_biteset_2(
-          biteset<5, B>{rg.get_byte(bmin, bmax),
-                        rg.get_byte(bmin, bmax),
-                        rg.get_byte(bmin, bmax),
-                        rg.get_byte(bmin, bmax),
-                        rg.get_byte(bmin, bmax)},
-          biteset<5, B>{rg.get_byte(bmin, bmax),
-                        rg.get_byte(bmin, bmax),
-                        rg.get_byte(bmin, bmax),
-                        rg.get_byte(bmin, bmax),
-                        rg.get_byte(bmin, bmax)});
+          biteset<5, B>{
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax)},
+          biteset<5, B>{
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax)});
 
         do_test_biteset_2(
-          biteset<13, B>{rg.get_byte(bmin, bmax),
-                         rg.get_byte(bmin, bmax),
-                         rg.get_byte(bmin, bmax),
-                         rg.get_byte(bmin, bmax),
-                         rg.get_byte(bmin, bmax),
-                         rg.get_byte(bmin, bmax),
-                         rg.get_byte(bmin, bmax),
-                         rg.get_byte(bmin, bmax),
-                         rg.get_byte(bmin, bmax),
-                         rg.get_byte(bmin, bmax),
-                         rg.get_byte(bmin, bmax),
-                         rg.get_byte(bmin, bmax),
-                         rg.get_byte(bmin, bmax)},
-          biteset<13, B>{rg.get_byte(bmin, bmax),
-                         rg.get_byte(bmin, bmax),
-                         rg.get_byte(bmin, bmax),
-                         rg.get_byte(bmin, bmax),
-                         rg.get_byte(bmin, bmax),
-                         rg.get_byte(bmin, bmax),
-                         rg.get_byte(bmin, bmax),
-                         rg.get_byte(bmin, bmax),
-                         rg.get_byte(bmin, bmax),
-                         rg.get_byte(bmin, bmax),
-                         rg.get_byte(bmin, bmax),
-                         rg.get_byte(bmin, bmax),
-                         rg.get_byte(bmin, bmax)});
+          biteset<13, B>{
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax)},
+          biteset<13, B>{
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax),
+            rg.get_byte(bmin, bmax)});
     }
 }
 
@@ -234,54 +246,60 @@ void test_biteset_3() {
         do_test_biteset_3(biteset<1, B>{rg.get_byte(bmin, bmax)});
         do_test_biteset_3(
           biteset<2, B>{rg.get_byte(bmin, bmax), rg.get_byte(bmin, bmax)});
-        do_test_biteset_3(biteset<3, B>{rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax)});
-        do_test_biteset_3(biteset<4, B>{rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax)});
-        do_test_biteset_3(biteset<5, B>{rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax)});
-        do_test_biteset_3(biteset<8, B>{rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax)});
-        do_test_biteset_3(biteset<13, B>{rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax)});
-        do_test_biteset_3(biteset<15, B>{rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax)});
+        do_test_biteset_3(biteset<3, B>{
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax)});
+        do_test_biteset_3(biteset<4, B>{
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax)});
+        do_test_biteset_3(biteset<5, B>{
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax)});
+        do_test_biteset_3(biteset<8, B>{
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax)});
+        do_test_biteset_3(biteset<13, B>{
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax)});
+        do_test_biteset_3(biteset<15, B>{
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax)});
     }
 }
 
@@ -312,54 +330,60 @@ void test_biteset_4() {
         do_test_biteset_4(biteset<1, B>{rg.get_byte(bmin, bmax)});
         do_test_biteset_4(
           biteset<2, B>{rg.get_byte(bmin, bmax), rg.get_byte(bmin, bmax)});
-        do_test_biteset_4(biteset<3, B>{rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax)});
-        do_test_biteset_4(biteset<4, B>{rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax)});
-        do_test_biteset_4(biteset<5, B>{rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax)});
-        do_test_biteset_4(biteset<8, B>{rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax),
-                                        rg.get_byte(bmin, bmax)});
-        do_test_biteset_4(biteset<13, B>{rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax)});
-        do_test_biteset_4(biteset<15, B>{rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax),
-                                         rg.get_byte(bmin, bmax)});
+        do_test_biteset_4(biteset<3, B>{
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax)});
+        do_test_biteset_4(biteset<4, B>{
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax)});
+        do_test_biteset_4(biteset<5, B>{
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax)});
+        do_test_biteset_4(biteset<8, B>{
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax)});
+        do_test_biteset_4(biteset<13, B>{
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax)});
+        do_test_biteset_4(biteset<15, B>{
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax),
+          rg.get_byte(bmin, bmax)});
     }
 }
 

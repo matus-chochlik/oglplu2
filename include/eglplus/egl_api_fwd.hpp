@@ -21,4 +21,3 @@ using egl_api = basic_egl_api<egl_api_traits>;
 } // namespace eagine::eglp
 
 #endif // EGLPLUS_EGL_API_FWD_HPP
-

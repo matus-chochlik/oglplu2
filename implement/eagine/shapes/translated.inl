@@ -9,8 +9,7 @@ namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void translated_gen::attrib_values(
-  vertex_attrib_variant vav, span<float> dest) {
+void translated_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
     delegated_gen::attrib_values(vav, dest);
 
     const bool is_translated_attrib = vav == vertex_attrib_kind::position ||
@@ -30,7 +29,7 @@ void translated_gen::attrib_values(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-math::sphere<float, true> translated_gen::bounding_sphere() {
+auto translated_gen::bounding_sphere() -> math::sphere<float, true> {
     const auto bs = delegated_gen::bounding_sphere();
     using V = math::tvec<float, 3, true>;
     return {bs.center() + V{_d[0], _d[1], _d[2]}, bs.radius()};

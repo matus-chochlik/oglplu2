@@ -15,8 +15,8 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-identifier byte_to_identifier(byte b) noexcept;
-identifier dec_to_identifier(int i) noexcept;
+auto byte_to_identifier(byte b) noexcept -> identifier;
+auto dec_to_identifier(int i) noexcept -> identifier;
 //------------------------------------------------------------------------------
 } // namespace eagine
 

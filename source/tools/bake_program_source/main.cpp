@@ -103,11 +103,11 @@ struct options {
         all.print_usage(log, "bake_program_source");
     }
 
-    bool check(std::ostream& log) {
+    auto check(std::ostream& log) -> bool {
         return all.validate(log);
     }
 
-    bool parse(program_arg& arg, std::ostream& log) {
+    auto parse(program_arg& arg, std::ostream& log) -> bool {
         return all.parse(arg, log);
     }
 };
@@ -206,9 +206,9 @@ void write_output(std::ostream& output, const options& opts) {
     write_to_stream(output, bakery.baked_data());
 }
 //------------------------------------------------------------------------------
-int parse_options(const program_args& args, options& opts);
+auto parse_options(const program_args& args, options& opts) -> int;
 //------------------------------------------------------------------------------
-int run(const program_args& args) {
+auto run(const program_args& args) -> int {
     options opts;
 
     if(int err = parse_options(args, opts)) {
@@ -224,7 +224,7 @@ int run(const program_args& args) {
     return 0;
 }
 //------------------------------------------------------------------------------
-int main(main_ctx& ctx) {
+auto main(main_ctx& ctx) -> int {
 
     try {
         return run(ctx.args());
@@ -234,7 +234,7 @@ int main(main_ctx& ctx) {
     return 1;
 }
 //------------------------------------------------------------------------------
-bool parse_argument(program_arg& a, options& opts) {
+auto parse_argument(program_arg& a, options& opts) -> bool {
 
     if(!opts.parse(a, std::cerr)) {
         std::cerr << "Failed to parse argument '" << a.get() << "'"
@@ -244,7 +244,7 @@ bool parse_argument(program_arg& a, options& opts) {
     return true;
 }
 //------------------------------------------------------------------------------
-int parse_options(const program_args& args, options& opts) {
+auto parse_options(const program_args& args, options& opts) -> int {
 
     for(auto a = args.first(); a; a = a.next()) {
         if(a.is_help_arg()) {
@@ -266,10 +266,9 @@ int parse_options(const program_args& args, options& opts) {
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-int main(int argc, const char** argv) {
+auto main(int argc, const char** argv) -> int {
     eagine::main_ctx_options options;
     options.logger_id = EAGINE_ID(BakeSLProg);
     options.logger_opts.default_no_log = true;
     return eagine::main_impl(argc, argv, options);
 }
-

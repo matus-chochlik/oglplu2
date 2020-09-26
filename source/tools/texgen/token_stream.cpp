@@ -11,7 +11,7 @@
 
 namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
-bool token_stream::_ensure_cached(span_size_t count) {
+auto token_stream::_ensure_cached(span_size_t count) -> bool {
     while(span_size(_tokens.size()) < count) {
         token_info token{};
         if(_tokenizer.get_next(token)) {
@@ -23,7 +23,7 @@ bool token_stream::_ensure_cached(span_size_t count) {
     return span_size(_tokens.size()) >= count;
 }
 //------------------------------------------------------------------------------
-bool token_stream::consume(span_size_t length) {
+auto token_stream::consume(span_size_t length) -> bool {
     if(_ensure_cached(length)) {
         _tokens.erase(_tokens.begin(), _tokens.begin() + length);
         return true;

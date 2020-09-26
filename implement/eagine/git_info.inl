@@ -14,7 +14,7 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-valid_if_not_empty<string_view> config_git_branch() noexcept {
+auto config_git_branch() noexcept -> valid_if_not_empty<string_view> {
 #if defined(EAGINE_CONFIG_GIT_INFO_HPP)
     return {string_view{EAGINE_GIT_BRANCH}};
 #else
@@ -23,7 +23,7 @@ valid_if_not_empty<string_view> config_git_branch() noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-valid_if_not_empty<string_view> config_git_hash_id() noexcept {
+auto config_git_hash_id() noexcept -> valid_if_not_empty<string_view> {
 #if defined(EAGINE_CONFIG_GIT_INFO_HPP)
     return {string_view{EAGINE_GIT_HASH_ID}};
 #else
@@ -32,7 +32,7 @@ valid_if_not_empty<string_view> config_git_hash_id() noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-valid_if_not_empty<string_view> config_git_date() noexcept {
+auto config_git_date() noexcept -> valid_if_not_empty<string_view> {
 #if defined(EAGINE_CONFIG_GIT_INFO_HPP)
     return {string_view{EAGINE_GIT_DATE}};
 #else
@@ -41,7 +41,7 @@ valid_if_not_empty<string_view> config_git_date() noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-valid_if_not_empty<string_view> config_git_describe() noexcept {
+auto config_git_describe() noexcept -> valid_if_not_empty<string_view> {
 #if defined(EAGINE_CONFIG_GIT_INFO_HPP)
     return {string_view{EAGINE_GIT_DESCRIBE}};
 #else

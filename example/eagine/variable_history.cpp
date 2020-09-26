@@ -17,7 +17,7 @@ static inline void print(val_t& h) {
               << h.distance() << '|' << h.deltas().delta() << std::endl;
 }
 //------------------------------------------------------------------------------
-int main() {
+auto main() -> int {
     using namespace eagine;
 
     const int n = 20;

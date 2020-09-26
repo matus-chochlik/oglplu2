@@ -10,7 +10,7 @@
 #include <cstdint>
 #include <iostream>
 
-int main() {
+auto main() -> int {
     using namespace eagine;
 
     using N = std::int64_t;

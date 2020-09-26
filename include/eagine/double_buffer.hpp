@@ -20,26 +20,25 @@ public:
     double_buffer() = default;
 
     double_buffer(const T& initial)
-      : _values{{initial, initial}} {
-    }
+      : _values{{initial, initial}} {}
 
     void swap() noexcept {
         _idx = !_idx;
     }
 
-    T& front() noexcept {
+    auto front() noexcept -> T& {
         return _idx ? _values.back() : _values.front();
     }
 
-    const T& front() const noexcept {
+    auto front() const noexcept -> const T& {
         return _idx ? _values.back() : _values.front();
     }
 
-    T& back() noexcept {
+    auto back() noexcept -> T& {
         return _idx ? _values.front() : _values.back();
     }
 
-    const T& back() const noexcept {
+    auto back() const noexcept -> const T& {
         return _idx ? _values.front() : _values.back();
     }
 

@@ -9,7 +9,7 @@
 #include <eagine/interop/valgrind.hpp>
 #include <iostream>
 
-int main() {
+auto main() -> int {
     using namespace eagine;
 
     if(auto on_vg = running_on_valgrind()) {

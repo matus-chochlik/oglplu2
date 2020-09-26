@@ -38,8 +38,8 @@ private:
     byte_allocator* _pballoc = nullptr;
 
     template <typename X>
-    static enable_if_compatible_t<X, byte_allocator*> _get_new(
-      X&& that) noexcept {
+    static auto _get_new(X&& that) noexcept
+      -> enable_if_compatible_t<X, byte_allocator*> {
         try {
             return that.accomodate_self();
         } catch(std::bad_alloc&) {
@@ -55,40 +55,34 @@ private:
         }
     }
 
-    byte_allocator* _release() noexcept {
+    auto _release() noexcept -> byte_allocator* {
         byte_allocator* result = _pballoc;
         _pballoc = nullptr;
         return result;
     }
 
-    byte_allocator* _copy() const noexcept {
+    auto _copy() const noexcept -> byte_allocator* {
         return _pballoc ? _pballoc->duplicate() : nullptr;
     }
 
     explicit basic_shared_byte_alloc(byte_allocator* pballoc) noexcept
-      : _pballoc(pballoc) {
-    }
+      : _pballoc(pballoc) {}
 
 public:
     basic_shared_byte_alloc() noexcept
-      : basic_shared_byte_alloc(nullptr) {
-    }
+      : basic_shared_byte_alloc(nullptr) {}
 
     basic_shared_byte_alloc(const basic_shared_byte_alloc& that) noexcept
-      : basic_shared_byte_alloc(that._copy()) {
-    }
+      : basic_shared_byte_alloc(that._copy()) {}
 
     basic_shared_byte_alloc(basic_shared_byte_alloc&& tmp) noexcept
-      : basic_shared_byte_alloc(tmp._release()) {
-    }
+      : basic_shared_byte_alloc(tmp._release()) {}
 
     template <typename X, typename = enable_if_compatible_t<X>>
     basic_shared_byte_alloc(X&& x) noexcept
-      : basic_shared_byte_alloc(_get_new(std::forward<X>(x))) {
-    }
+      : basic_shared_byte_alloc(_get_new(std::forward<X>(x))) {}
 
-    basic_shared_byte_alloc& operator=(
-      basic_shared_byte_alloc&& that) noexcept {
+    auto operator=(basic_shared_byte_alloc&& that) noexcept -> auto& {
         if(this != std::addressof(that)) {
             _cleanup();
             _pballoc = that._release();
@@ -97,8 +91,7 @@ public:
     }
 
     // NOLINTNEXTLINE(bugprone-unhandled-self-assignment,cert-oop54-cpp)
-    basic_shared_byte_alloc& operator=(
-      const basic_shared_byte_alloc& that) noexcept {
+    auto operator=(const basic_shared_byte_alloc& that) noexcept -> auto& {
         if(this != std::addressof(that)) {
             _cleanup();
             _pballoc = that._copy();
@@ -114,20 +107,20 @@ public:
         return _pballoc != nullptr;
     }
 
-    bool operator!() const noexcept {
+    auto operator!() const noexcept {
         return _pballoc == nullptr;
     }
 
-    size_type max_size(size_type a) const noexcept {
+    auto max_size(size_type a) const noexcept -> size_type {
         return _pballoc ? _pballoc->max_size(a) : 0;
     }
 
-    tribool has_allocated(const owned_block& b, size_type a) noexcept {
+    auto has_allocated(const owned_block& b, size_type a) noexcept -> tribool {
         return _pballoc ? _pballoc->has_allocated(b, a)
                         : bool(b) ? tribool{false} : tribool{indeterminate};
     }
 
-    owned_block allocate(size_type n, size_type a) noexcept {
+    auto allocate(size_type n, size_type a) noexcept -> owned_block {
         return _pballoc ? _pballoc->allocate(n, a) : owned_block{};
     }
 
@@ -137,12 +130,13 @@ public:
         }
     }
 
-    bool can_reallocate(
-      const owned_block& b, size_type n, size_type a) noexcept {
+    auto can_reallocate(const owned_block& b, size_type n, size_type a) noexcept
+      -> bool {
         return _pballoc ? _pballoc->can_reallocate(b, n, a) : (n == b.size());
     }
 
-    owned_block reallocate(owned_block&& b, size_type n, size_type a) noexcept {
+    auto reallocate(owned_block&& b, size_type n, size_type a) noexcept
+      -> owned_block {
         if(_pballoc) {
             return _pballoc->reallocate(std::move(b), n, a);
         }
@@ -157,7 +151,7 @@ public:
         EAGINE_ASSERT(n == b.size());
     }
 
-    friend bool operator==(
+    friend auto operator==(
       const basic_shared_byte_alloc& a,
       const basic_shared_byte_alloc& b) noexcept {
         if((a._pballoc == nullptr) && (b._pballoc == nullptr)) {
@@ -168,15 +162,14 @@ public:
         return false;
     }
 
-    friend bool operator!=(
+    friend auto operator!=(
       const basic_shared_byte_alloc& a,
       const basic_shared_byte_alloc& b) noexcept {
         return !(a == b);
     }
 
     template <typename ByteAlloc>
-    ByteAlloc& as() {
-
+    auto as() -> ByteAlloc& {
         auto* pa = dynamic_cast<ByteAlloc*>(_pballoc);
         if(pa == nullptr) {
             throw std::bad_cast();

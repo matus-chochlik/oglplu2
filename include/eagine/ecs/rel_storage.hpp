@@ -114,7 +114,8 @@ struct base_storage<Entity, true> {
     virtual void remove(iterator_t&) = 0;
 
     virtual void for_each(
-      callable_ref<void(entity_param, entity_param)>, entity_param subject) = 0;
+      callable_ref<void(entity_param, entity_param)>,
+      entity_param subject) = 0;
 
     virtual void for_each(callable_ref<void(entity_param, entity_param)>) = 0;
 };
@@ -126,8 +127,8 @@ struct storage<Entity, Relation, true> : base_storage<Entity, true> {
 
     using base_storage<Entity, true>::store;
 
-    virtual bool store(
-      entity_param subject, entity_param object, Relation&&) = 0;
+    virtual bool
+    store(entity_param subject, entity_param object, Relation&&) = 0;
 
     virtual void for_single(
       callable_ref<
@@ -165,8 +166,7 @@ struct storage<Entity, Relation, true> : base_storage<Entity, true> {
         void(entity_param, entity_param, manipulator<const Relation>&)>) = 0;
 
     virtual void for_each(
-      callable_ref<
-        void(entity_param, entity_param, manipulator<Relation>&)>) = 0;
+      callable_ref<void(entity_param, entity_param, manipulator<Relation>&)>) = 0;
 };
 
 } // namespace eagine::ecs

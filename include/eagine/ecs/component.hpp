@@ -23,11 +23,11 @@ using component_uid_t = identifier_t;
 // entity_data
 template <typename Derived, bool IsRelation>
 struct entity_data {
-    static constexpr inline bool component_uid() noexcept {
+    static constexpr auto component_uid() noexcept {
         return Derived::uid();
     }
 
-    static constexpr inline bool is_relation() noexcept {
+    static constexpr auto is_relation() noexcept {
         return IsRelation;
     }
 };
@@ -47,7 +47,7 @@ private:
     flat_map<component_uid_t, T> _storage{};
 
 public:
-    optional_reference_wrapper<T> find(component_uid_t cid) noexcept {
+    auto find(component_uid_t cid) noexcept -> optional_reference_wrapper<T> {
         const auto pos{_storage.find(cid)};
         if(pos != _storage.end()) {
             return {pos->second};
@@ -55,8 +55,8 @@ public:
         return {nothing};
     }
 
-    optional_reference_wrapper<const T> find(
-      component_uid_t cid) const noexcept {
+    auto find(component_uid_t cid) const noexcept
+      -> optional_reference_wrapper<const T> {
         const auto pos{_storage.find(cid)};
         if(pos != _storage.end()) {
             return {pos->second};
@@ -65,7 +65,7 @@ public:
     }
 
     template <typename... Args>
-    bool emplace(component_uid_t cid, Args&&... args) {
+    auto emplace(component_uid_t cid, Args&&... args) -> bool {
         return _storage.emplace(cid, std::forward<Args>(args)...).second;
     }
 
@@ -73,7 +73,7 @@ public:
         return _storage.erase(cid);
     }
 
-    T& operator[](component_uid_t cid) {
+    auto operator[](component_uid_t cid) -> T& {
         return _storage[cid];
     }
 };

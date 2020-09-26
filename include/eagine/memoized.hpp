@@ -30,14 +30,12 @@ private:
 public:
     template <
       typename Func,
-      typename =
-        std::enable_if_t<!std::is_same_v<std::decay_t<Func>, memoized>>>
+      typename = std::enable_if_t<!std::is_same_v<std::decay_t<Func>, memoized>>>
     memoized(Func&& func)
-      : _func(std::forward<Func>(func)) {
-    }
+      : _func(std::forward<Func>(func)) {}
 
     template <typename F>
-    R operator()(P... p, const F& f) {
+    auto operator()(P... p, const F& f) -> R {
         T t(p...);
         auto i = _memo.find(t);
         if(i == _memo.end()) {
@@ -46,7 +44,7 @@ public:
         return i->second;
     }
 
-    R operator()(P... p) {
+    auto operator()(P... p) -> R {
         return _func(p..., *this);
     }
 

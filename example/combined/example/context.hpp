@@ -6,7 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_EXAMPLE_CONTEXT_HPP
+#ifndef OGLPLUS_EXAMPLE_CONTEXT_HPP // NOLINT(llvm-header-guard)
 #define OGLPLUS_EXAMPLE_CONTEXT_HPP
 
 #include "args.hpp"
@@ -27,7 +27,7 @@ namespace eagine {
 class example_requirement_marker {
 public:
     template <typename X>
-    bool operator()(const X& x) const noexcept {
+    auto operator()(const X& x) const noexcept {
         // TODO
         return bool(x);
     }
@@ -36,44 +36,48 @@ public:
 class example_context {
 public:
     example_context(example_run_context&);
+    example_context(example_context&&) = delete;
+    example_context(const example_context&) = delete;
+    auto operator=(example_context&&) = delete;
+    auto operator=(const example_context&) = delete;
     ~example_context() noexcept;
 
-    auto& log() noexcept {
+    auto log() noexcept -> auto& {
         return _log;
     }
 
-    auto& main() noexcept {
+    auto main() noexcept -> auto& {
         return _erc.main;
     }
 
-    auto& buffer() noexcept {
+    auto buffer() noexcept -> auto& {
         return main().scratch_space();
     }
 
-    auto& cleanup() noexcept {
+    auto cleanup() noexcept -> auto& {
         return _cleanup;
     }
 
-    auto& state() noexcept {
+    auto state() noexcept -> auto& {
         return _erc.state;
     }
 
-    auto& random() noexcept {
+    auto random() noexcept -> auto& {
         EAGINE_ASSERT(_random);
         return *_random;
     }
 
-    const example_state_view& state() const noexcept;
+    auto state() const noexcept -> const example_state_view&;
 
-    const example_params& params() const noexcept {
+    auto params() const noexcept -> const example_params& {
         return _erc.params;
     }
 
-    example_requirement_marker req_mark() const {
+    auto req_mark() const -> example_requirement_marker {
         return {};
     }
 
-    oglp::gl_api& gl() const noexcept;
+    auto gl() const noexcept -> oglp::gl_api&;
 
 private:
     logger _log;

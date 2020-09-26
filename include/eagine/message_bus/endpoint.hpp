@@ -24,17 +24,17 @@ namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 class friend_of_endpoint;
 //------------------------------------------------------------------------------
-static constexpr inline identifier_t broadcast_endpoint_id() noexcept {
+static constexpr inline auto broadcast_endpoint_id() noexcept -> identifier_t {
     return 0U;
 }
 //------------------------------------------------------------------------------
 class endpoint : public connection_user {
 public:
-    static constexpr identifier_t invalid_id() noexcept {
+    static constexpr auto invalid_id() noexcept -> identifier_t {
         return 0U;
     }
 
-    static constexpr bool is_valid_id(identifier_t id) noexcept {
+    static constexpr auto is_valid_id(identifier_t id) noexcept -> bool {
         return id != invalid_id();
     }
 
@@ -59,49 +59,52 @@ private:
       _incoming{};
 
     template <typename Entry>
-    static inline auto& _get_counter(Entry& entry) {
+    static inline auto _get_counter(Entry& entry) -> auto& {
         return std::get<0>(std::get<1>(entry));
     }
 
     template <typename Entry>
-    static inline auto& _get_queue(Entry& entry) {
+    static inline auto _get_queue(Entry& entry) -> auto& {
         return std::get<1>(std::get<1>(entry));
     }
 
     blob_manipulator _blobs{_log};
     blob_manipulator::filter_function _allow_blob{};
 
-    bool _cleanup_blobs();
-    bool _process_blobs();
-    bool _do_allow_blob(message_id);
+    auto _cleanup_blobs() -> bool;
+    auto _process_blobs() -> bool;
+    auto _do_allow_blob(message_id) -> bool;
 
-    fetch_handler _default_store_handler() noexcept {
+    auto _default_store_handler() noexcept -> fetch_handler {
         return fetch_handler{this, EAGINE_MEM_FUNC_C(endpoint, _store_message)};
     }
+
     fetch_handler _store_handler{_default_store_handler()};
 
-    bool _do_send(message_id msg_id, message_view);
+    auto _do_send(message_id msg_id, message_view) -> bool;
 
-    bool _handle_send(
-      message_id msg_id, message_age, const message_view& message) {
+    auto
+    _handle_send(message_id msg_id, message_age, const message_view& message)
+      -> bool {
         // TODO: use message age
         return _do_send(msg_id, message);
     }
 
-    bool _handle_post(message_id msg_id, const message_view& message) {
+    auto _handle_post(message_id msg_id, const message_view& message) -> bool {
         return post(msg_id, message);
     }
 
-    bool _handle_special(message_id msg_id, const message_view&) noexcept;
+    auto _handle_special(message_id msg_id, const message_view&) noexcept
+      -> bool;
 
-    bool _store_message(message_id msg_id, message_age, const message_view&);
+    auto _store_message(message_id msg_id, message_age, const message_view&)
+      -> bool;
 
-    bool _accept_message(message_id msg_id, const message_view&);
+    auto _accept_message(message_id msg_id, const message_view&) -> bool;
 
     explicit endpoint(logger log, fetch_handler store_message) noexcept
       : _log{std::move(log)}
-      , _store_handler{std::move(store_message)} {
-    }
+      , _store_handler{std::move(store_message)} {}
 
     explicit endpoint(
       logger log,
@@ -109,8 +112,7 @@ private:
       fetch_handler store_message) noexcept
       : _log{std::move(log)}
       , _allow_blob{std::move(allow_blob)}
-      , _store_handler{std::move(store_message)} {
-    }
+      , _store_handler{std::move(store_message)} {}
 
     endpoint(endpoint&& temp) noexcept
       : _log{std::move(temp._log)}
@@ -143,35 +145,32 @@ public:
     endpoint() = default;
 
     endpoint(logger log) noexcept
-      : _log{std::move(log)} {
-    }
+      : _log{std::move(log)} {}
 
     explicit endpoint(logger log, blob_filter_function allow_blob) noexcept
       : _log{std::move(log)}
-      , _allow_blob{std::move(allow_blob)} {
-    }
+      , _allow_blob{std::move(allow_blob)} {}
 
     endpoint(logger log, const program_args& args) noexcept
       : _log{std::move(log)}
-      , _context{make_context(_log, args)} {
-    }
+      , _context{make_context(_log, args)} {}
 
     endpoint(const endpoint&) = delete;
-    endpoint& operator=(endpoint&&) = delete;
-    endpoint& operator=(const endpoint&) = delete;
+    auto operator=(endpoint&&) = delete;
+    auto operator=(const endpoint&) = delete;
 
-    context& ctx() noexcept {
+    auto ctx() noexcept -> context& {
         EAGINE_ASSERT(_context);
         return *_context;
     }
 
-    logger& log() noexcept {
+    auto log() noexcept -> logger& {
         return _log;
     }
 
     ~endpoint() noexcept override = default;
 
-    endpoint& set_id(identifier id) {
+    auto set_id(identifier id) -> auto& {
         _id = id.value();
         return *this;
     }
@@ -179,19 +178,19 @@ public:
     void add_certificate_pem(memory::const_block blk);
     void add_ca_certificate_pem(memory::const_block blk);
 
-    bool add_connection(std::unique_ptr<connection> conn) final;
+    auto add_connection(std::unique_ptr<connection> conn) -> bool final;
 
-    bool is_usable() const;
+    auto is_usable() const -> bool;
 
-    valid_if_positive<span_size_t> max_data_size() const;
+    auto max_data_size() const -> valid_if_positive<span_size_t>;
 
-    bool has_id() const noexcept {
+    auto has_id() const noexcept -> bool {
         return is_valid_id(_id);
     }
 
     void flush_outbox();
 
-    bool update();
+    auto update() -> bool;
 
     void finish() {
         say_bye();
@@ -201,18 +200,18 @@ public:
     void subscribe(message_id);
     void unsubscribe(message_id);
 
-    bool set_next_sequence_id(message_id, message_info&);
+    auto set_next_sequence_id(message_id, message_info&) -> bool;
 
-    bool post(message_id msg_id, message_view message) {
+    auto post(message_id msg_id, message_view message) -> bool {
         _outgoing.push(msg_id, message);
         return true;
     }
 
-    bool post_signed(message_id, message_view message);
+    auto post_signed(message_id, message_view message) -> bool;
 
     template <typename T>
-    bool post_value(
-      message_id msg_id, T& value, const message_info& info = {}) {
+    auto post_value(message_id msg_id, T& value, const message_info& info = {})
+      -> bool {
         if(const auto opt_size = max_data_size()) {
             const auto max_size = extract(opt_size);
             return _outgoing.push_if(
@@ -230,36 +229,36 @@ public:
         return false;
     }
 
-    bool post_blob(
+    auto post_blob(
       message_id msg_id,
       identifier_t target_id,
       memory::const_block blob,
       std::chrono::seconds max_time,
-      message_priority priority) {
+      message_priority priority) -> bool {
         _blobs.push_outgoing(msg_id, _id, target_id, blob, max_time, priority);
         return true;
     }
 
-    bool broadcast_blob(
+    auto broadcast_blob(
       message_id msg_id,
       memory::const_block blob,
       std::chrono::seconds max_time,
-      message_priority priority) {
+      message_priority priority) -> bool {
         return post_blob(
           msg_id, broadcast_endpoint_id(), blob, max_time, priority);
     }
 
-    bool broadcast_blob(
+    auto broadcast_blob(
       message_id msg_id,
       memory::const_block blob,
-      std::chrono::seconds max_time) {
+      std::chrono::seconds max_time) -> bool {
         return broadcast_blob(msg_id, blob, max_time, message_priority::normal);
     }
 
-    bool post_certificate(identifier_t target_id);
-    bool broadcast_certificate();
+    auto post_certificate(identifier_t target_id) -> bool;
+    auto broadcast_certificate() -> bool;
 
-    bool send(message_id msg_id, message_view message) {
+    auto send(message_id msg_id, message_view message) -> bool {
         if(has_id()) {
             return _do_send(msg_id, message);
         } else {
@@ -268,16 +267,18 @@ public:
         return false;
     }
 
-    bool send(message_id msg_id) {
+    auto send(message_id msg_id) -> bool {
         return send(msg_id, {});
     }
 
-    bool say_not_a_router();
-    bool say_bye();
+    auto say_not_a_router() -> bool;
+    auto say_bye() -> bool;
 
     void post_meta_message(message_id meta_msg_id, message_id msg_id);
     void post_meta_message_to(
-      identifier_t target_id, message_id meta_msg_id, message_id msg_id);
+      identifier_t target_id,
+      message_id meta_msg_id,
+      message_id msg_id);
 
     void say_subscribes_to(message_id);
     void say_subscribes_to(identifier_t target_id, message_id);
@@ -292,40 +293,42 @@ public:
 
     void query_certificate_of(identifier_t endpoint_id);
 
-    bool respond_to(
-      const message_info& info, message_id msg_id, message_view message) {
+    auto respond_to(
+      const message_info& info,
+      message_id msg_id,
+      message_view message) -> bool {
         message.setup_response(info);
         return send(msg_id, message);
     }
 
-    bool respond_to(const message_info& info, message_id msg_id) {
+    auto respond_to(const message_info& info, message_id msg_id) -> bool {
         return respond_to(info, msg_id, {});
     }
 
     using method_handler = callable_ref<bool(stored_message&)>;
 
-    bool process_one(message_id msg_id, method_handler handler);
+    auto process_one(message_id msg_id, method_handler handler) -> bool;
 
     template <typename Class, bool (Class::*MemFnPtr)(stored_message&)>
-    inline bool process_one(
+    auto process_one(
       message_id msg_id,
       member_function_constant<bool (Class::*)(stored_message&), MemFnPtr>
         method,
-      Class* instance) {
+      Class* instance) -> bool {
         return process_one(msg_id, {instance, method});
     }
 
-    span_size_t process_all(message_id msg_id, method_handler handler);
+    auto process_all(message_id msg_id, method_handler handler) -> span_size_t;
 
     using generic_handler = callable_ref<bool(message_id, stored_message&)>;
 
-    span_size_t process_everything(generic_handler handler);
+    auto process_everything(generic_handler handler) -> span_size_t;
 };
 //------------------------------------------------------------------------------
 class friend_of_endpoint {
 protected:
-    static auto _make_endpoint(
-      logger log, endpoint::fetch_handler store_message) noexcept {
+    static auto
+    _make_endpoint(logger log, endpoint::fetch_handler store_message) noexcept {
         return endpoint{std::move(log), store_message};
     }
 
@@ -337,7 +340,8 @@ protected:
     }
 
     static auto _move_endpoint(
-      endpoint&& bus, endpoint::fetch_handler store_message) noexcept {
+      endpoint&& bus,
+      endpoint::fetch_handler store_message) noexcept {
         return endpoint{std::move(bus), {}, store_message};
     }
 
@@ -348,8 +352,10 @@ protected:
         return endpoint{std::move(bus), allow_blob, store_message};
     }
 
-    inline bool _accept_message(
-      endpoint& ep, message_id msg_id, const message_view& message) {
+    inline auto _accept_message(
+      endpoint& ep,
+      message_id msg_id,
+      const message_view& message) -> bool {
         return ep._accept_message(msg_id, message);
     }
 };
@@ -361,4 +367,3 @@ protected:
 #endif
 
 #endif // EAGINE_MESSAGE_BUS_ENDPOINT_HPP
-

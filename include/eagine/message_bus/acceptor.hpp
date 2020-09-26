@@ -19,16 +19,16 @@ struct acceptor {
     acceptor() noexcept = default;
     acceptor(acceptor&&) noexcept = default;
     acceptor(const acceptor&) = delete;
-    acceptor& operator=(acceptor&&) = delete;
-    acceptor& operator=(const acceptor&) = delete;
+    auto operator=(acceptor&&) = delete;
+    auto operator=(const acceptor&) = delete;
 
     using accept_handler = callable_ref<void(std::unique_ptr<connection>)>;
 
-    virtual bool update() {
+    virtual auto update() -> bool {
         return false;
     }
 
-    virtual bool process_accepted(const accept_handler& handler) = 0;
+    virtual auto process_accepted(const accept_handler& handler) -> bool = 0;
 };
 //------------------------------------------------------------------------------
 struct acceptor_user {
@@ -36,13 +36,13 @@ struct acceptor_user {
     acceptor_user() noexcept = default;
     acceptor_user(acceptor_user&&) noexcept = default;
     acceptor_user(const acceptor_user&) = delete;
-    acceptor_user& operator=(acceptor_user&&) = delete;
-    acceptor_user& operator=(const acceptor_user&) = delete;
+    auto operator=(acceptor_user&&) = delete;
+    auto operator=(const acceptor_user&) = delete;
 
-    virtual bool add_acceptor(std::unique_ptr<acceptor> an_acceptor) = 0;
+    virtual auto add_acceptor(std::unique_ptr<acceptor> an_acceptor)
+      -> bool = 0;
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_ACCEPTOR_HPP
-

@@ -22,23 +22,21 @@ template <typename T>
 using offset_span = basic_offset_span<T>;
 //------------------------------------------------------------------------------
 template <typename T, typename O>
-memory::
-  basic_span<std::add_const_t<T>, basic_offset_ptr<std::add_const_t<T>, O>, O>
-  view_one(basic_offset_ptr<T, O> ptr) {
+auto view_one(basic_offset_ptr<T, O> ptr) -> memory::
+  basic_span<std::add_const_t<T>, basic_offset_ptr<std::add_const_t<T>, O>, O> {
     return {ptr, O(1)};
 }
 //------------------------------------------------------------------------------
 template <typename T, typename O>
-std::enable_if_t<
+auto cover_one(basic_offset_ptr<T, O> ptr) -> std::enable_if_t<
   !std::is_const_v<T>,
-  memory::basic_span<T, basic_offset_ptr<T, O>, O>>
-cover_one(basic_offset_ptr<T, O> ptr) {
+  memory::basic_span<T, basic_offset_ptr<T, O>, O>> {
     return {ptr, O(1)};
 }
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S>
-static constexpr inline basic_span<T, basic_offset_ptr<T, std::make_signed_t<S>>, S>
-relative(basic_span<T, P, S> spn) noexcept {
+static constexpr inline auto relative(basic_span<T, P, S> spn) noexcept
+  -> basic_span<T, basic_offset_ptr<T, std::make_signed_t<S>>, S> {
     return {spn};
 }
 //------------------------------------------------------------------------------

@@ -17,7 +17,7 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-int main(main_ctx& ctx) {
+auto main(main_ctx& ctx) -> int {
 
     string_view cert_path{"example.crt"};
     memory::const_block ca_cert_pem{
@@ -52,4 +52,3 @@ int main(main_ctx& ctx) {
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
-

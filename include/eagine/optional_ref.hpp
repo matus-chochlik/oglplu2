@@ -23,24 +23,22 @@ private:
 
 public:
     optional_reference_wrapper(T& ref) noexcept
-      : _ptr(std::addressof(ref)) {
-    }
+      : _ptr(std::addressof(ref)) {}
 
     optional_reference_wrapper(optional_reference_wrapper&&) noexcept = default;
     optional_reference_wrapper(const optional_reference_wrapper&) = default;
-    optional_reference_wrapper& operator=(
-      optional_reference_wrapper&&) noexcept = default;
-    optional_reference_wrapper& operator=(const optional_reference_wrapper&) =
-      default;
+
+    auto operator=(optional_reference_wrapper&&) noexcept
+      -> optional_reference_wrapper& = default;
+    auto operator=(const optional_reference_wrapper&)
+      -> optional_reference_wrapper& = default;
     ~optional_reference_wrapper() noexcept = default;
 
-    constexpr optional_reference_wrapper(nothing_t) noexcept {
-    }
+    constexpr optional_reference_wrapper(nothing_t) noexcept {}
 
-    constexpr optional_reference_wrapper(std::nullptr_t) noexcept {
-    }
+    constexpr optional_reference_wrapper(std::nullptr_t) noexcept {}
 
-    bool is_valid() const noexcept {
+    auto is_valid() const noexcept -> bool {
         return _ptr != nullptr;
     }
 
@@ -48,23 +46,23 @@ public:
         return is_valid();
     }
 
-    bool operator!() const noexcept {
+    auto operator!() const noexcept {
         return !is_valid();
     }
 
-    T& get() const noexcept {
+    auto get() const noexcept -> T& {
         EAGINE_ASSERT(is_valid());
         return *_ptr;
     }
 
-    T& value() const noexcept {
+    auto value() const noexcept -> T& {
         EAGINE_ASSERT(is_valid());
         return *_ptr;
     }
 
     template <typename U>
-    std::enable_if_t<std::is_convertible_v<U, T>, T> value_or(
-      U&& fallback) const noexcept {
+    auto value_or(U&& fallback) const noexcept
+      -> std::enable_if_t<std::is_convertible_v<U, T>, T> {
         if(is_valid()) {
             return *_ptr;
         }
@@ -77,13 +75,13 @@ public:
 };
 //------------------------------------------------------------------------------
 template <typename T>
-static inline T& extract(optional_reference_wrapper<T> ref) noexcept {
+static inline auto extract(optional_reference_wrapper<T> ref) noexcept -> T& {
     return ref.get();
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static inline T& extract_or(
-  optional_reference_wrapper<T> ref, T& fallback) noexcept {
+static inline auto
+extract_or(optional_reference_wrapper<T> ref, T& fallback) noexcept -> T& {
     if(ref) {
         return ref.get();
     }
@@ -91,8 +89,8 @@ static inline T& extract_or(
 }
 //------------------------------------------------------------------------------
 template <typename T, typename F>
-static inline std::enable_if_t<std::is_convertible_v<F, T>, T> extract_or(
-  optional_reference_wrapper<T> ref, F&& fallback) {
+static inline auto extract_or(optional_reference_wrapper<T> ref, F&& fallback)
+  -> std::enable_if_t<std::is_convertible_v<F, T>, T> {
     if(ref) {
         return ref.get();
     }

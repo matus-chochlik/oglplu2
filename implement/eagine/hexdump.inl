@@ -20,22 +20,23 @@ namespace eagine {
 //------------------------------------------------------------------------------
 template <typename Putter>
 void _hexdump_to_hex_b(Putter& put_char, byte b) {
-    static const char hd[16] = {'0',
-                                '1',
-                                '2',
-                                '3',
-                                '4',
-                                '5',
-                                '6',
-                                '7',
-                                '8',
-                                '9',
-                                'a',
-                                'b',
-                                'c',
-                                'd',
-                                'e',
-                                'f'};
+    static const char hd[16] = {
+      '0',
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7',
+      '8',
+      '9',
+      'a',
+      'b',
+      'c',
+      'd',
+      'e',
+      'f'};
     put_char(' ');
     // NOLINTNEXTLINE(hicpp-signed-bitwise)
     put_char(hd[(b >> 4U) & 0x0FU]);
@@ -124,13 +125,14 @@ void _hexdump_do_hex_dump(span_size_t bgn, Getter get_byte, Putter put_char) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void hexdump::apply(
-  hexdump::byte_getter get_byte, hexdump::char_putter put_char) {
+  hexdump::byte_getter get_byte,
+  hexdump::char_putter put_char) {
 
     _hexdump_do_hex_dump(0, get_byte, put_char);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-std::ostream& operator<<(std::ostream& out, const hexdump& hd) {
+auto operator<<(std::ostream& out, const hexdump& hd) -> std::ostream& {
     out << std::endl;
 
     span_size_t i = 0;

@@ -24,8 +24,7 @@ enum class storage_cap_bit : unsigned short {
 };
 //------------------------------------------------------------------------------
 template <typename Selector>
-constexpr auto enumerator_mapping(
-  identity<storage_cap_bit>, Selector) noexcept {
+constexpr auto enumerator_mapping(identity<storage_cap_bit>, Selector) noexcept {
     return enumerator_map_type<storage_cap_bit, 6>{
       {{"hide", storage_cap_bit::hide},
        {"copy", storage_cap_bit::copy},
@@ -35,8 +34,8 @@ constexpr auto enumerator_mapping(
        {"modify", storage_cap_bit::modify}}};
 }
 //------------------------------------------------------------------------------
-static inline bitfield<storage_cap_bit> operator|(
-  storage_cap_bit a, storage_cap_bit b) noexcept {
+static inline auto operator|(storage_cap_bit a, storage_cap_bit b) noexcept
+  -> bitfield<storage_cap_bit> {
     return {a, b};
 }
 //------------------------------------------------------------------------------
@@ -45,33 +44,32 @@ private:
     using _base = bitfield<storage_cap_bit>;
 
 public:
-    storage_caps() = default;
+    storage_caps() noexcept = default;
 
     storage_caps(bitfield<storage_cap_bit> base)
-      : _base(base) {
-    }
+      : _base(base) {}
 
-    bool can_hide() const noexcept {
+    auto can_hide() const noexcept -> bool {
         return has(storage_cap_bit::hide);
     }
 
-    bool can_copy() const noexcept {
+    auto can_copy() const noexcept -> bool {
         return has(storage_cap_bit::hide);
     }
 
-    bool can_swap() const noexcept {
+    auto can_swap() const noexcept -> bool {
         return has(storage_cap_bit::hide);
     }
 
-    bool can_remove() const noexcept {
+    auto can_remove() const noexcept -> bool {
         return has(storage_cap_bit::remove);
     }
 
-    bool can_store() const noexcept {
+    auto can_store() const noexcept -> bool {
         return has(storage_cap_bit::store);
     }
 
-    bool can_modify() const noexcept {
+    auto can_modify() const noexcept -> bool {
         return has(storage_cap_bit::modify);
     }
 };

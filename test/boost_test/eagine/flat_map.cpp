@@ -369,7 +369,9 @@ BOOST_AUTO_TEST_CASE(flat_map_10) {
 
         fm.emplace(k, v);
     }
-    auto is_odd = [](auto& p) { return p.second % 2 != 0; };
+    auto is_odd = [](auto& p) {
+        return p.second % 2 != 0;
+    };
     fm.erase_if(is_odd);
 
     for(auto& p : fm) {

@@ -44,7 +44,8 @@ struct deserial_data_state {
 //------------------------------------------------------------------------------
 template <typename T>
 void deserialize_data(
-  memory::const_block fragment, deserial_data_state<T>& state) {
+  memory::const_block fragment,
+  deserial_data_state<T>& state) {
 
     if(!state.failed) {
         block_data_source source(fragment);
@@ -131,7 +132,7 @@ void serialize_data(const std::vector<T>& instance) {
 }
 //------------------------------------------------------------------------------
 template <typename T>
-std::vector<T> generate_data(std::size_t n) {
+auto generate_data(std::size_t n) -> std::vector<T> {
 
     std::vector<T> data(n);
     for(auto& v : data) {
@@ -143,7 +144,7 @@ std::vector<T> generate_data(std::size_t n) {
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-int main() {
+auto main() -> int {
     using namespace eagine;
 
     serialize_data(generate_data<int>(8 * 1024));

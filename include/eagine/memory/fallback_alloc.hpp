@@ -32,12 +32,11 @@ public:
       : _fbk_size(0)
       , _fbk_max(0)
       , _dft(std::move(dft))
-      , _fbk(std::move(fbk)) {
-    }
+      , _fbk(std::move(fbk)) {}
 
     using size_type = span_size_t;
 
-    bool equal(byte_allocator* a) const noexcept override {
+    auto equal(byte_allocator* a) const noexcept -> bool override {
         auto* pa = dynamic_cast<byte_allocator_with_fallback*>(a);
 
         if(a != nullptr) {
@@ -46,19 +45,19 @@ public:
         return false;
     }
 
-    size_type max_size(span_size_t a) noexcept override {
+    auto max_size(span_size_t a) noexcept -> size_type override {
         size_type mdft = _dft.max_size(a);
         size_type mfbk = _fbk.max_size(a);
 
         return (mfbk > mdft) ? mfbk : mdft;
     }
 
-    tribool has_allocated(
-      const owned_block& b, span_size_t a) noexcept override {
+    auto has_allocated(const owned_block& b, span_size_t a) noexcept
+      -> tribool override {
         return _dft.has_allocated(b, a) || _fbk.has_allocated(b, a);
     }
 
-    owned_block allocate(size_type n, size_type a) noexcept override {
+    auto allocate(size_type n, size_type a) noexcept -> owned_block override {
         if(n <= _dft.max_size(a)) {
             if(owned_block b = _dft.allocate(n, a)) {
                 return b;

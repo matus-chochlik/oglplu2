@@ -10,8 +10,56 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-log_entry& log_entry::arg(
-  identifier name, identifier tag, span<const std::int64_t> values) noexcept {
+auto log_entry::arg(
+  identifier name,
+  identifier tag,
+  span<const std::int64_t> values) noexcept -> log_entry& {
+
+    if(_backend) {
+        _args.add([=](logger_backend& backend) {
+            for(auto value : values) {
+                backend.add_integer(name, tag, value);
+            }
+        });
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto log_entry::arg(
+  identifier name,
+  identifier tag,
+  span<const std::int32_t> values) noexcept -> log_entry& {
+    if(_backend) {
+        _args.add([=](logger_backend& backend) {
+            for(auto value : values) {
+                backend.add_integer(name, tag, value);
+            }
+        });
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto log_entry::arg(
+  identifier name,
+  identifier tag,
+  span<const std::int16_t> values) noexcept -> log_entry& {
+    if(_backend) {
+        _args.add([=](logger_backend& backend) {
+            for(auto value : values) {
+                backend.add_integer(name, tag, value);
+            }
+        });
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto log_entry::arg(
+  identifier name,
+  identifier tag,
+  span<const std::uint64_t> values) noexcept -> log_entry& {
     if(_backend) {
         _args.add([=](logger_backend& backend) {
             for(auto value : values) {
@@ -23,8 +71,10 @@ log_entry& log_entry::arg(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-log_entry& log_entry::arg(
-  identifier name, identifier tag, span<const std::int32_t> values) noexcept {
+auto log_entry::arg(
+  identifier name,
+  identifier tag,
+  span<const std::uint32_t> values) noexcept -> log_entry& {
     if(_backend) {
         _args.add([=](logger_backend& backend) {
             for(auto value : values) {
@@ -36,8 +86,10 @@ log_entry& log_entry::arg(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-log_entry& log_entry::arg(
-  identifier name, identifier tag, span<const std::int16_t> values) noexcept {
+auto log_entry::arg(
+  identifier name,
+  identifier tag,
+  span<const std::uint16_t> values) noexcept -> log_entry& {
     if(_backend) {
         _args.add([=](logger_backend& backend) {
             for(auto value : values) {
@@ -49,47 +101,10 @@ log_entry& log_entry::arg(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-log_entry& log_entry::arg(
-  identifier name, identifier tag, span<const std::uint64_t> values) noexcept {
-    if(_backend) {
-        _args.add([=](logger_backend& backend) {
-            for(auto value : values) {
-                backend.add_unsigned(name, tag, value);
-            }
-        });
-    }
-    return *this;
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-log_entry& log_entry::arg(
-  identifier name, identifier tag, span<const std::uint32_t> values) noexcept {
-    if(_backend) {
-        _args.add([=](logger_backend& backend) {
-            for(auto value : values) {
-                backend.add_unsigned(name, tag, value);
-            }
-        });
-    }
-    return *this;
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-log_entry& log_entry::arg(
-  identifier name, identifier tag, span<const std::uint16_t> values) noexcept {
-    if(_backend) {
-        _args.add([=](logger_backend& backend) {
-            for(auto value : values) {
-                backend.add_unsigned(name, tag, value);
-            }
-        });
-    }
-    return *this;
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-log_entry& log_entry::arg(
-  identifier name, identifier tag, span<const float> values) noexcept {
+auto log_entry::arg(
+  identifier name,
+  identifier tag,
+  span<const float> values) noexcept -> log_entry& {
     if(_backend) {
         for(auto value : values) {
             _args.add([=](logger_backend& backend) {
@@ -102,4 +117,3 @@ log_entry& log_entry::arg(
 
 //------------------------------------------------------------------------------
 } // namespace eagine
-

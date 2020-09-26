@@ -26,7 +26,9 @@ private:
 
 public:
     master_ctx(
-      int argc, const char** argv, const main_ctx_options& options) noexcept
+      int argc,
+      const char** argv,
+      const main_ctx_options& options) noexcept
       : _args{argc, argv}
       , _log_root{options.logger_id, _args, options.logger_opts}
       , _app_name{options.app_name} {
@@ -41,33 +43,33 @@ public:
           .arg(EAGINE_ID(exePath), _exe_path);
     }
 
-    auto& args() noexcept {
+    auto args() noexcept -> auto& {
         return _args;
     }
 
-    logger& log() noexcept {
+    auto log() noexcept -> auto& {
         return _log_root;
     }
 
-    system_info& system() noexcept {
+    auto system() noexcept -> auto& {
         return _sys_info;
     }
 
-    memory::buffer& scratch_space() noexcept {
+    auto scratch_space() noexcept -> auto& {
         return _scratch_space;
     }
 
-    data_compressor& compressor() noexcept {
+    auto compressor() noexcept -> auto& {
         return _compressor;
     }
 
-    string_view exe_path() const noexcept {
+    auto exe_path() const noexcept -> string_view {
         return {_exe_path};
     }
 };
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-main_ctx*& main_ctx::_single_ptr() noexcept {
+auto main_ctx::_single_ptr() noexcept -> main_ctx*& {
     static main_ctx* the_ptr{nullptr};
     return the_ptr;
 }
@@ -90,10 +92,11 @@ main_ctx::~main_ctx() noexcept {
     _single_ptr() = nullptr;
 }
 //------------------------------------------------------------------------------
-extern int main(main_ctx& ctx);
+extern auto main(main_ctx& ctx) -> int;
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-int main_impl(int argc, const char** argv, const main_ctx_options& options) {
+auto main_impl(int argc, const char** argv, const main_ctx_options& options)
+  -> int {
     master_ctx master{argc, argv, options};
     main_ctx ctx{master};
     try {

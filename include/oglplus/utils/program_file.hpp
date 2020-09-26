@@ -26,23 +26,21 @@ private:
 
 public:
     shader_source_block(memory::const_block blk)
-      : _header(blk) {
-    }
+      : _header(blk) {}
 
     shader_source_block(const shader_source_header* ptr)
-      : _header(as_bytes(view_one(ptr))) {
-    }
+      : _header(as_bytes(view_one(ptr))) {}
 
-    bool is_valid() const noexcept {
+    auto is_valid() const noexcept -> bool {
         return _header->magic.is_valid();
     }
 
-    shader_type type() const noexcept {
+    auto type() const noexcept -> shader_type {
         EAGINE_ASSERT(is_valid());
         return shader_type(_header->shader_type);
     }
 
-    string_view source_text() const noexcept {
+    auto source_text() const noexcept -> string_view {
         EAGINE_ASSERT(is_valid());
         return {
           _header->source_text.data(), span_size(_header->source_text.size())};
@@ -60,16 +58,13 @@ class shader_source_file
 public:
     shader_source_file(file_contents&& fc)
       : protected_member<file_contents>(std::move(fc))
-      , shader_source_block(get_the_member()) {
-    }
+      , shader_source_block(get_the_member()) {}
 
     shader_source_file(string_view path)
-      : shader_source_file(file_contents(path)) {
-    }
+      : shader_source_file(file_contents(path)) {}
 
     shader_source_file(const std::string& path)
-      : shader_source_file(string_view(path)) {
-    }
+      : shader_source_file(string_view(path)) {}
 };
 //------------------------------------------------------------------------------
 class program_source_block {
@@ -78,19 +73,19 @@ private:
 
 public:
     program_source_block(memory::const_block blk)
-      : _header(blk) {
-    }
+      : _header(blk) {}
 
-    bool is_valid() const noexcept {
+    auto is_valid() const noexcept -> bool {
         return _header->magic.is_valid();
     }
 
-    span_size_t shader_source_count() const noexcept {
+    auto shader_source_count() const noexcept -> span_size_t {
         EAGINE_ASSERT(is_valid());
         return _header->shader_sources.size();
     }
 
-    shader_source_block shader_source(span_size_t index) const noexcept {
+    auto shader_source(span_size_t index) const noexcept
+      -> shader_source_block {
         EAGINE_ASSERT(is_valid());
         EAGINE_ASSERT(index < _header->shader_sources.size());
         return {_header->shader_sources[index]};
@@ -103,16 +98,13 @@ class program_source_file
 public:
     program_source_file(file_contents&& fc)
       : protected_member<file_contents>(std::move(fc))
-      , program_source_block(get_the_member()) {
-    }
+      , program_source_block(get_the_member()) {}
 
     program_source_file(string_view path)
-      : program_source_file(file_contents(path)) {
-    }
+      : program_source_file(file_contents(path)) {}
 
     program_source_file(const std::string& path)
-      : program_source_file(string_view(path)) {
-    }
+      : program_source_file(string_view(path)) {}
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::oglp

@@ -11,7 +11,7 @@
 #include <oalplus/alc_api.hpp>
 #include <iostream>
 
-int main() {
+auto main() -> int {
     using namespace eagine;
     using namespace eagine::oalp;
 

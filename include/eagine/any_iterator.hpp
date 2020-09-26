@@ -39,8 +39,7 @@ private:
         Iter _i;
 
         _impl(Iter i)
-          : _i(i) {
-        }
+          : _i(i) {}
 
         std::unique_ptr<_intf> copy() override {
             return std::unique_ptr<_intf>(new _impl(*this));
@@ -80,16 +79,15 @@ public:
 
     template <typename Iter>
     any_forward_iterator(Iter i)
-      : _pimpl(make_deep_copy_ptr<_impl<Iter>>(i)) {
-    }
+      : _pimpl(make_deep_copy_ptr<_impl<Iter>>(i)) {}
 
-    friend bool operator==(
-      const any_forward_iterator& a, const any_forward_iterator& b) {
+    friend bool
+    operator==(const any_forward_iterator& a, const any_forward_iterator& b) {
         return a._pimpl->_equal(b._pimpl.get());
     }
 
-    friend bool operator!=(
-      const any_forward_iterator& a, const any_forward_iterator& b) {
+    friend bool
+    operator!=(const any_forward_iterator& a, const any_forward_iterator& b) {
         return !a._pimpl->_equal(b._pimpl.get());
     }
 
@@ -128,13 +126,11 @@ public:
 
     any_forward_iterator_range(iterator b, iterator e)
       : _bgn(std::move(b))
-      , _end(std::move(e)) {
-    }
+      , _end(std::move(e)) {}
 
     template <typename Range>
     any_forward_iterator_range(const Range& range)
-      : any_forward_iterator_range(range.begin(), range.end()) {
-    }
+      : any_forward_iterator_range(range.begin(), range.end()) {}
 
     iterator begin() const {
         return _bgn;

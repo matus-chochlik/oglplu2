@@ -21,4 +21,3 @@ using gl_api = basic_gl_api<gl_api_traits>;
 } // namespace eagine::oglp
 
 #endif // OGLPLUS_GL_API_FWD_HPP
-

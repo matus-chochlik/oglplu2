@@ -28,8 +28,7 @@ public:
     base_input(node_intf& par_node, string_view name_str) noexcept
       : _parent(par_node)
       , _name(name_str)
-      , _output(nullptr) {
-    }
+      , _output(nullptr) {}
 
     ~base_input() noexcept override;
 
@@ -59,8 +58,8 @@ public:
 
     output_intf& connected_output() override;
 
-    bool set_default_value(
-      valid_if_between<span_size_t, 0, 3> cmp, float val) override;
+    bool set_default_value(valid_if_between<span_size_t, 0, 3> cmp, float val)
+      override;
 
     void update_needed() override;
 

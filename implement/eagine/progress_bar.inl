@@ -11,7 +11,12 @@ namespace eagine {
 //------------------------------------------------------------------------------
 template <typename Putter>
 inline void format_progress_bar(
-  Putter& put, int width, float min, float max, float prev, float curr) {
+  Putter& put,
+  int width,
+  float min,
+  float max,
+  float prev,
+  float curr) {
     int i = 0;
     if(min < max) {
         const float inorm = 1.F / (max - min);
@@ -58,7 +63,7 @@ inline void format_progress_bar(
     }
 }
 //------------------------------------------------------------------------------
-inline progress_bar& progress_bar::reformat() noexcept {
+inline auto progress_bar::reformat() noexcept -> progress_bar& {
     _idx = 0;
     auto put = [this](char c) {
         if(_idx >= _buffer.size()) {
@@ -71,7 +76,7 @@ inline progress_bar& progress_bar::reformat() noexcept {
     return *this;
 }
 //------------------------------------------------------------------------------
-inline progress_bar& progress_bar::update(float value) noexcept {
+inline auto progress_bar::update(float value) noexcept -> progress_bar& {
     if(value < _min) {
         value = _min;
     }

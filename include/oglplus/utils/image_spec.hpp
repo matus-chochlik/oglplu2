@@ -32,22 +32,20 @@ public:
     }
 
     image_dimensions(GLsizei w, GLsizei h) noexcept
-      : image_dimensions(w, h, 1) {
-    }
+      : image_dimensions(w, h, 1) {}
 
     image_dimensions(GLsizei w) noexcept
-      : image_dimensions(w, 1) {
-    }
+      : image_dimensions(w, 1) {}
 
-    GLsizei width() const noexcept {
+    auto width() const noexcept -> GLsizei {
         return _width;
     }
 
-    GLsizei height() const noexcept {
+    auto height() const noexcept -> GLsizei {
         return _height;
     }
 
-    GLsizei depth() const noexcept {
+    auto depth() const noexcept -> GLsizei {
         return _depth;
     }
 };
@@ -59,21 +57,20 @@ private:
 
 public:
     image_pixel_format(
-      pixel_data_format fmt, pixel_data_internal_format ifmt) noexcept
+      pixel_data_format fmt,
+      pixel_data_internal_format ifmt) noexcept
       : _format(fmt)
-      , _internal_format(ifmt) {
-    }
+      , _internal_format(ifmt) {}
 
     image_pixel_format(pixel_data_format fmt) noexcept
       : _format(fmt)
-      , _internal_format(pixel_data_internal_format(GLenum(fmt))) {
-    }
+      , _internal_format(pixel_data_internal_format(GLenum(fmt))) {}
 
-    pixel_data_format format() const noexcept {
+    auto format() const noexcept -> pixel_data_format {
         return _format;
     }
 
-    pixel_data_internal_format internal_format() const noexcept {
+    auto internal_format() const noexcept -> pixel_data_internal_format {
         return _internal_format;
     }
 };
@@ -89,8 +86,7 @@ public:
     image_pixel_data(eagine::memory::basic_span<T, P, S> pix_view) noexcept
       : _type(pixel_data_type(GLenum(get_data_type<T>())))
       , _pixels(as_bytes(view(pix_view)))
-      , _elem_size(span_size(sizeof(T))) {
-    }
+      , _elem_size(span_size(sizeof(T))) {}
 
     image_pixel_data(
       pixel_data_type pix_type,
@@ -102,15 +98,15 @@ public:
         EAGINE_ASSERT(_elem_size > 0);
     }
 
-    pixel_data_type type() const noexcept {
+    auto type() const noexcept -> pixel_data_type {
         return _type;
     }
 
-    const_memory_block data() const noexcept {
+    auto data() const noexcept -> const_memory_block {
         return _pixels;
     }
 
-    span_size_t elem_size() const noexcept {
+    auto elem_size() const noexcept -> span_size_t {
         return _elem_size;
     }
 };
@@ -126,8 +122,7 @@ public:
       const image_pixel_data& pix_data) noexcept
       : image_dimensions(dims)
       , image_pixel_format(fmt)
-      , image_pixel_data(pix_data) {
-    }
+      , image_pixel_data(pix_data) {}
 };
 
 } // namespace eagine::oglp

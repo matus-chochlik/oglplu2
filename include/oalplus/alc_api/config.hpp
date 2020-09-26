@@ -51,7 +51,7 @@ struct alc_types {
     using size_type = std::intptr_t;
 #endif
 
-    static constexpr bool bool_true(bool_type b) noexcept {
+    static constexpr auto bool_true(bool_type b) noexcept -> bool {
 #if OALPLUS_HAS_ALC
         return b == ALC_TRUE;
 #else
@@ -59,7 +59,7 @@ struct alc_types {
 #endif
     }
 
-    static constexpr bool error_code_no_error(enum_type ec) noexcept {
+    static constexpr auto error_code_no_error(enum_type ec) noexcept -> bool {
 #if OALPLUS_HAS_ALC
         return ec == ALC_NO_ERROR;
 #else
@@ -72,4 +72,3 @@ struct alc_types {
 } // namespace eagine::oalp
 
 #endif // OALPLUS_ALC_API_CONFIG_HPP
-

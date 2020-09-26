@@ -43,7 +43,7 @@ public:
       verification_bits) = 0;
 
 private:
-    bool _handle_shutdown(stored_message& message) {
+    auto _handle_shutdown(stored_message& message) -> bool {
         typename shutdown_service_duration::rep count{0};
         if(default_deserialize(count, message.content())) {
             const shutdown_service_duration ticks{count};
@@ -87,4 +87,3 @@ public:
 } // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_SERVICE_SHUTDOWN_HPP
-

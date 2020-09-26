@@ -16,7 +16,7 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-int main(main_ctx& ctx) {
+auto main(main_ctx& ctx) -> int {
     file_contents data(ctx.exe_path());
     std::array<byte, 32> temp{};
 
@@ -33,4 +33,3 @@ int main(main_ctx& ctx) {
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
-

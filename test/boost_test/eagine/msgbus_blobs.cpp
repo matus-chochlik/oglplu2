@@ -110,7 +110,9 @@ BOOST_AUTO_TEST_CASE(msgbus_blob_manipulator_1) {
       [&blobs](message_id mid, const msgbus::message_view& msg) -> bool {
         BOOST_CHECK((mid == EAGINE_MSG_ID(eagiMsgBus, blobFrgmnt)));
 
-        auto allow = [](message_id) -> bool { return true; };
+        auto allow = [](message_id) -> bool {
+            return true;
+        };
         return blobs.process_incoming(
           msgbus::blob_manipulator::filter_function(allow), msg);
     };
@@ -161,7 +163,9 @@ BOOST_AUTO_TEST_CASE(msgbus_blob_manipulator_2) {
       [&blobs](message_id mid, const msgbus::message_view& msg) -> bool {
         BOOST_CHECK((mid == EAGINE_MSG_ID(eagiMsgBus, blobFrgmnt)));
 
-        auto allow = [](message_id) -> bool { return true; };
+        auto allow = [](message_id) -> bool {
+            return true;
+        };
         return blobs.process_incoming(
           msgbus::blob_manipulator::filter_function(allow), msg);
     };

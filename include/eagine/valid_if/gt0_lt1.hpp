@@ -17,14 +17,13 @@ namespace eagine {
 // in (0, 1)
 template <typename T>
 struct valid_if_gt0_lt1_policy {
-    constexpr bool operator()(T value) const noexcept {
+    constexpr auto operator()(T value) const noexcept {
         return (T(0) < value) && (value < T(1));
     }
 
     struct do_log {
         template <typename X, typename = disable_if_same_t<X, do_log>>
-        constexpr inline do_log(X&&) noexcept {
-        }
+        constexpr inline do_log(X&&) noexcept {}
 
         template <typename Log>
         void operator()(Log& log, const T& v) const {

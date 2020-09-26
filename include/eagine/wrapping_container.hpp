@@ -25,7 +25,7 @@ template <
   typename Transform = typename Wrapper::transform>
 class basic_wrapping_container : private Transform {
 private:
-    constexpr const Transform& _transf() const noexcept {
+    constexpr auto _transf() const noexcept -> const Transform& {
         return *this;
     }
 
@@ -53,15 +53,15 @@ public:
 
     constexpr basic_wrapping_container(const basic_wrapping_container&) =
       default;
-    constexpr basic_wrapping_container& operator=(
-      const basic_wrapping_container&) = default;
+
+    constexpr auto operator=(const basic_wrapping_container&)
+      -> basic_wrapping_container& = default;
 
     basic_wrapping_container(basic_wrapping_container&& temp) noexcept
-      : _items{temp._release_items()} {
-    }
+      : _items{temp._release_items()} {}
 
-    basic_wrapping_container& operator=(
-      basic_wrapping_container&& temp) noexcept {
+    auto operator=(basic_wrapping_container&& temp) noexcept
+      -> basic_wrapping_container& {
         using std::swap;
 
         auto items{temp._release_items()};
@@ -89,7 +89,7 @@ public:
         return {view(_items)};
     }
 
-    constexpr bool empty() const noexcept {
+    constexpr auto empty() const noexcept -> bool {
         return _items.empty();
     }
 
@@ -111,11 +111,11 @@ public:
       T,
       Transform>;
 
-    constexpr const_iterator begin() const noexcept {
+    constexpr auto begin() const noexcept -> const_iterator {
         return {_items.begin()};
     }
 
-    constexpr const_iterator end() const noexcept {
+    constexpr auto end() const noexcept -> const_iterator {
         return {_items.end()};
     }
 

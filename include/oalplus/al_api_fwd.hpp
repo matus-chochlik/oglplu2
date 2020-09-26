@@ -21,4 +21,3 @@ using al_api = basic_al_api<al_api_traits>;
 } // namespace eagine::oalp
 
 #endif // OALPLUS_AL_API_FWD_HPP
-

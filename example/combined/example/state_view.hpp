@@ -6,7 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_EXAMPLE_STATE_VIEW_HPP
+#ifndef OGLPLUS_EXAMPLE_STATE_VIEW_HPP // NOLINT(llvm-header-guard)
 #define OGLPLUS_EXAMPLE_STATE_VIEW_HPP
 
 #include <eagine/assert.hpp>
@@ -25,54 +25,58 @@ using example_state_variable = variable_with_history<T, 3>;
 class example_state_view {
 
 protected:
-    example_state_variable<valid_if_positive<int>> _width;
-    example_state_variable<valid_if_positive<int>> _height;
-    example_state_variable<valid_if_positive<int>> _depth;
+    example_state_variable<valid_if_positive<int>> _width{1};
+    example_state_variable<valid_if_positive<int>> _height{1};
+    example_state_variable<valid_if_positive<int>> _depth{1};
 
-    example_state_variable<int> _mouse_x;
-    example_state_variable<int> _mouse_y;
-    example_state_variable<int> _mouse_z;
+    example_state_variable<int> _mouse_x{0};
+    example_state_variable<int> _mouse_y{0};
+    example_state_variable<int> _mouse_z{0};
 
-    static constexpr const int _mouse_btn_count = 4;
-    example_state_variable<bool> _mouse_btn[_mouse_btn_count];
+    static constexpr const int _mouse_btn_count{4};
+    example_state_variable<bool> _mouse_btn[_mouse_btn_count]{
+      false,
+      false,
+      false,
+      false};
 
-    example_state_variable<float> _exe_time;
-    float _usr_act_time;
+    example_state_variable<float> _exe_time{0.0F};
+    float _usr_act_time{0.0F};
 
-    bool _notice_user_activity(bool something_changed = true) noexcept;
+    auto _notice_user_activity(bool something_changed = true) noexcept -> bool;
 
-    int _frame_no;
+    int _frame_no{0};
 
-    int _x_tiles, _tile_i;
-    int _y_tiles, _tile_j;
+    int _x_tiles{1}, _tile_i{0};
+    int _y_tiles{1}, _tile_j{0};
 
-    bool _old_user_idle : 1;
-    bool _new_user_idle : 1;
+    bool _old_user_idle{false};
+    bool _new_user_idle{false};
 
-    example_state_view() noexcept;
+    example_state_view() noexcept = default;
 
 public:
-    const auto& width() const noexcept {
+    auto width() const noexcept -> const auto& {
         return _width;
     }
 
-    const auto& height() const noexcept {
+    auto height() const noexcept -> const auto& {
         return _height;
     }
 
-    const auto& depth() const noexcept {
+    auto depth() const noexcept -> const auto& {
         return _depth;
     }
 
-    const auto& mouse_x() const noexcept {
+    auto mouse_x() const noexcept -> const auto& {
         return _mouse_x;
     }
 
-    const auto& mouse_y() const noexcept {
+    auto mouse_y() const noexcept -> const auto& {
         return _mouse_y;
     }
 
-    const auto& mouse_z() const noexcept {
+    auto mouse_z() const noexcept -> const auto& {
         return _mouse_z;
     }
 
@@ -80,94 +84,101 @@ public:
         return width().as<float>() / height().as<float>();
     }
 
-    seconds_t<float> exec_time() const noexcept {
+    auto exec_time() const noexcept -> seconds_t<float> {
         return seconds_(_exe_time.value());
     }
 
-    seconds_t<float> user_activity_time() const noexcept {
+    auto user_activity_time() const noexcept -> seconds_t<float> {
         return seconds_(_usr_act_time);
     }
 
-    seconds_t<float> user_idle_time() const noexcept {
+    auto user_idle_time() const noexcept -> seconds_t<float> {
         return exec_time() - user_activity_time();
     }
 
-    example_state_value<bool> user_idle() const noexcept {
+    auto user_idle() const noexcept -> example_state_value<bool> {
         return {_new_user_idle, _old_user_idle};
     }
 
-    bool user_became_idle() const noexcept {
+    auto user_became_idle() const noexcept -> bool {
         return user_idle().delta() > 0;
     }
 
-    bool user_became_active() const noexcept {
+    auto user_became_active() const noexcept -> bool {
         return user_idle().delta() < 0;
     }
 
-    seconds_t<float> frame_duration() const noexcept {
+    auto frame_duration() const noexcept -> seconds_t<float> {
         return seconds_(_exe_time.delta());
     }
 
-    int frame_number() const noexcept {
+    auto frame_number() const noexcept -> int {
         return _frame_no;
     }
 
-    int x_tiles() const noexcept {
+    auto x_tiles() const noexcept -> int {
         return _x_tiles;
     }
 
-    int tile_i() const noexcept {
+    auto tile_i() const noexcept -> int {
         EAGINE_ASSERT(_tile_i < _x_tiles);
         return _tile_i;
     }
 
-    int tile_w() const noexcept {
+    auto tile_w() const noexcept -> int {
         return (width() / x_tiles()) + ((tile_i() + 1 == x_tiles()) ? 1 : 0);
     }
 
-    int tile_x() const noexcept {
+    auto tile_x() const noexcept -> int {
         return tile_i() * (width() / x_tiles());
     }
 
-    int y_tiles() const noexcept {
+    auto y_tiles() const noexcept -> int {
         return _y_tiles;
     }
 
-    int tile_j() const noexcept {
+    auto tile_j() const noexcept -> int {
         EAGINE_ASSERT(_tile_j < _y_tiles);
         return _tile_j;
     }
 
-    int tile_h() const noexcept {
+    auto tile_h() const noexcept -> int {
         return (height() / y_tiles()) + ((tile_j() + 1 == y_tiles()) ? 1 : 0);
     }
 
-    int tile_y() const noexcept {
+    auto tile_y() const noexcept -> int {
         return tile_j() * (height() / y_tiles());
     }
 
-    bool multiple_tiles() const noexcept {
+    auto multiple_tiles() const noexcept -> bool {
         return x_tiles() > 1 || y_tiles() > 1;
     }
 
-    example_state_value<bool> mouse_button_pressed(int button) const noexcept;
+    auto mouse_button_pressed(int button) const noexcept
+      -> example_state_value<bool>;
 
-    bool pointer_dragging(int index = 0) const noexcept;
+    auto pointer_dragging(int index = 0) const noexcept -> bool;
 
-    example_state_value<float> norm_pointer_x(int index = 0) const noexcept;
+    auto norm_pointer_x(int index = 0) const noexcept
+      -> example_state_value<float>;
 
-    example_state_value<float> norm_pointer_y(int index = 0) const noexcept;
+    auto norm_pointer_y(int index = 0) const noexcept
+      -> example_state_value<float>;
 
-    example_state_value<float> norm_pointer_z(int index = 0) const noexcept;
+    auto norm_pointer_z(int index = 0) const noexcept
+      -> example_state_value<float>;
 
-    example_state_value<float> ndc_pointer_x(int index = 0) const noexcept;
+    auto ndc_pointer_x(int index = 0) const noexcept
+      -> example_state_value<float>;
 
-    example_state_value<float> ndc_pointer_y(int index = 0) const noexcept;
+    auto ndc_pointer_y(int index = 0) const noexcept
+      -> example_state_value<float>;
 
-    example_state_value<float> pointer_radius(int index = 0) const noexcept;
+    auto pointer_radius(int index = 0) const noexcept
+      -> example_state_value<float>;
 
-    example_state_value<radians_t<float>> pointer_angle(int index = 0) const
-      noexcept;
+    auto pointer_angle(int index = 0) const noexcept
+      -> example_state_value<radians_t<float>>;
 };
 
 class example_state;

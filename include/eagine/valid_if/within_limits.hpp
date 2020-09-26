@@ -18,14 +18,13 @@ namespace eagine {
 // is withing limits
 template <typename Dst, typename Src>
 struct valid_if_within_limits_policy {
-    constexpr bool operator()(Src value) const noexcept {
+    constexpr auto operator()(Src value) const noexcept {
         return is_within_limits<Dst>(value);
     }
 
     struct do_log {
         template <typename X, typename = disable_if_same_t<X, do_log>>
-        constexpr inline do_log(X&&) noexcept {
-        }
+        constexpr inline do_log(X&&) noexcept {}
 
         template <typename Log>
         void operator()(Log& log, const Src& v) const {

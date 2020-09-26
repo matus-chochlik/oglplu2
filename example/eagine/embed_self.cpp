@@ -10,7 +10,7 @@
 #include <eagine/hexdump.hpp>
 #include <iostream>
 
-int main() {
+auto main() -> int {
     using namespace eagine;
     std::cout << hexdump(embed(EAGINE_ID(self), __FILE__));
 

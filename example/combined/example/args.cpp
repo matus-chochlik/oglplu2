@@ -13,20 +13,21 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-bool example_arg::operator==(const example_param_tags& tags) const noexcept {
+auto example_arg::operator==(const example_param_tags& tags) const noexcept
+  -> bool {
     return _arg == tags._stag || _arg == tags._ltag;
 }
 //------------------------------------------------------------------------------
-int example_args::argc() const noexcept {
+auto example_args::argc() const noexcept -> int {
     return _args.argc();
 }
 //------------------------------------------------------------------------------
-const char** example_args::argv() const noexcept {
+auto example_args::argv() const noexcept -> const char** {
     return _args.argv();
 }
 //------------------------------------------------------------------------------
 template <typename T>
-bool example_args::_parse_param(example_param<T>& param) const {
+auto example_args::_parse_param(example_param<T>& param) const -> bool {
     program_parameter<T> temp(param._stag, param._ltag, param._value);
     if(_args.parse_param(temp, _log.error_stream())) {
         param._value = temp.value();
@@ -34,7 +35,7 @@ bool example_args::_parse_param(example_param<T>& param) const {
     return false;
 }
 //------------------------------------------------------------------------------
-bool example_args::parse_param(example_string_param& param) const {
+auto example_args::parse_param(example_string_param& param) const -> bool {
     return _parse_param(param);
 }
 //------------------------------------------------------------------------------

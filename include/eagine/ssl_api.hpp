@@ -33,12 +33,10 @@ public:
       , basic_ssl_operations<ApiTraits>{*static_cast<ApiTraits*>(this)}
       , basic_ssl_constants<ApiTraits>{
           *static_cast<ApiTraits*>(this),
-          *static_cast<basic_ssl_operations<ApiTraits>*>(this)} {
-    }
+          *static_cast<basic_ssl_operations<ApiTraits>*>(this)} {}
 
     basic_ssl_api()
-      : basic_ssl_api{ApiTraits{}} {
-    }
+      : basic_ssl_api{ApiTraits{}} {}
 
     template <typename Function>
     void for_each_engine(Function function) const {
@@ -54,91 +52,91 @@ public:
         }
     }
 
-    memory::block data_digest(
+    auto data_digest(
       memory::const_block data,
       memory::block dst,
-      message_digest_type mdtype) const noexcept;
+      message_digest_type mdtype) const noexcept -> memory::block;
 
     template <typename OptMdt>
-    memory::block do_data_digest(
+    auto do_data_digest(
       memory::const_block data,
       memory::block dst,
-      OptMdt opt_mdtype) const noexcept {
+      OptMdt opt_mdtype) const noexcept -> memory::block {
         if(opt_mdtype) {
             return data_digest(data, dst, extract(opt_mdtype));
         }
         return {};
     }
 
-    auto md5_digest(
-      memory::const_block data, memory::block dst) const noexcept {
+    auto md5_digest(memory::const_block data, memory::block dst) const noexcept {
         return do_data_digest(data, dst, this->message_digest_md5());
     }
 
-    auto sha1_digest(
-      memory::const_block data, memory::block dst) const noexcept {
+    auto
+    sha1_digest(memory::const_block data, memory::block dst) const noexcept {
         return do_data_digest(data, dst, this->message_digest_sha1());
     }
 
-    auto sha224_digest(
-      memory::const_block data, memory::block dst) const noexcept {
+    auto
+    sha224_digest(memory::const_block data, memory::block dst) const noexcept {
         return do_data_digest(data, dst, this->message_digest_sha224());
     }
 
-    auto sha256_digest(
-      memory::const_block data, memory::block dst) const noexcept {
+    auto
+    sha256_digest(memory::const_block data, memory::block dst) const noexcept {
         return do_data_digest(data, dst, this->message_digest_sha256());
     }
 
-    auto sha384_digest(
-      memory::const_block data, memory::block dst) const noexcept {
+    auto
+    sha384_digest(memory::const_block data, memory::block dst) const noexcept {
         return do_data_digest(data, dst, this->message_digest_sha384());
     }
 
-    auto sha512_digest(
-      memory::const_block data, memory::block dst) const noexcept {
+    auto
+    sha512_digest(memory::const_block data, memory::block dst) const noexcept {
         return do_data_digest(data, dst, this->message_digest_sha512());
     }
 
-    memory::block sign_data_digest(
+    auto sign_data_digest(
       memory::const_block data,
       memory::block dst,
       message_digest_type mdtype,
-      pkey pky) const noexcept;
+      pkey pky) const noexcept -> memory::block;
 
-    bool verify_data_digest(
+    auto verify_data_digest(
       memory::const_block data,
       memory::const_block sig,
       message_digest_type mdtype,
-      pkey pky) const noexcept;
+      pkey pky) const noexcept -> bool;
 
-    combined_result<owned_pkey> parse_private_key(
+    auto parse_private_key(
       memory::const_block blk,
-      password_callback get_passwd = {}) const noexcept;
+      password_callback get_passwd = {}) const noexcept
+      -> combined_result<owned_pkey>;
 
-    combined_result<owned_pkey> parse_public_key(
+    auto parse_public_key(
       memory::const_block blk,
-      password_callback get_passwd = {}) const noexcept;
+      password_callback get_passwd = {}) const noexcept
+      -> combined_result<owned_pkey>;
 
-    combined_result<owned_x509> parse_x509(
-      memory::const_block blk,
-      password_callback get_passwd = {}) const noexcept;
+    auto parse_x509(memory::const_block blk, password_callback get_passwd = {})
+      const noexcept -> combined_result<owned_x509>;
 
-    bool ca_verify_certificate(
-      string_view ca_file_path, x509 cert) const noexcept;
+    auto ca_verify_certificate(string_view ca_file_path, x509) const noexcept
+      -> bool;
 
-    bool ca_verify_certificate(x509 ca_cert, x509 cert) const noexcept;
+    auto ca_verify_certificate(x509 ca_cert, x509) const noexcept -> bool;
 };
 //------------------------------------------------------------------------------
 template <std::size_t I, typename ApiTraits>
-typename std::tuple_element<I, basic_ssl_api<ApiTraits>>::type& get(
-  basic_ssl_api<ApiTraits>& x) noexcept {
+auto get(basic_ssl_api<ApiTraits>& x) noexcept ->
+  typename std::tuple_element<I, basic_ssl_api<ApiTraits>>::type& {
     return x;
 }
 
 template <std::size_t I, typename ApiTraits>
-const typename std::tuple_element<I, basic_ssl_api<ApiTraits>>::type& get(
-  const basic_ssl_api<ApiTraits>& x) noexcept {
+auto get(const basic_ssl_api<ApiTraits>& x) noexcept -> const
+  typename std::tuple_element<I, basic_ssl_api<ApiTraits>>::type& {
     return x;
 }
 //------------------------------------------------------------------------------
@@ -166,4 +164,3 @@ struct tuple_element<1, eagine::sslp::basic_ssl_api<ApiTraits>> {
 } // namespace std
 
 #endif // EAGINE_SSL_API_HPP
-

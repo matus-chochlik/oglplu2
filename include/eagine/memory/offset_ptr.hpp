@@ -37,24 +37,24 @@ private:
     using _rawptr = typename address::pointer;
 
     template <typename P, typename O>
-    static address _that_addr(const basic_offset_ptr<P, O>& that) {
+    static auto _that_addr(const basic_offset_ptr<P, O>& that) {
         return address(_rawptr(&that));
     }
 
-    address _this_addr() const noexcept {
+    auto _this_addr() const noexcept {
         return _that_addr(*this);
     }
 
-    offset_type _get_offs(address addr) noexcept {
+    auto _get_offs(address addr) noexcept -> offset_type {
         return addr ? addr - _this_addr() : 0;
     }
 
-    offset_type _get_offs(Pointee* ptr) noexcept {
+    auto _get_offs(Pointee* ptr) noexcept {
         return _get_offs(address(ptr));
     }
 
     template <typename P, typename O>
-    offset_type _get_offs(const basic_offset_ptr<P, O>& that) noexcept {
+    auto _get_offs(const basic_offset_ptr<P, O>& that) noexcept -> offset_type {
         return that.is_null() ? offset_type(0)
                               : limit_cast<offset_type>(that.offset()) +
                                   _get_offs(_that_addr(that));
@@ -64,25 +64,20 @@ public:
     constexpr basic_offset_ptr() noexcept = default;
     ~basic_offset_ptr() noexcept = default;
 
-    explicit constexpr inline basic_offset_ptr(offset_type offs) noexcept
-      : _offs{offs} {
-    }
+    explicit constexpr basic_offset_ptr(offset_type offs) noexcept
+      : _offs{offs} {}
 
-    explicit constexpr inline basic_offset_ptr(address addr) noexcept
-      : _offs{_get_offs(addr)} {
-    }
+    explicit constexpr basic_offset_ptr(address addr) noexcept
+      : _offs{_get_offs(addr)} {}
 
     basic_offset_ptr(Pointee* ptr) noexcept
-      : _offs{_get_offs(ptr)} {
-    }
+      : _offs{_get_offs(ptr)} {}
 
     basic_offset_ptr(const basic_offset_ptr& that) noexcept
-      : _offs{_get_offs(that)} {
-    }
+      : _offs{_get_offs(that)} {}
 
     basic_offset_ptr(basic_offset_ptr&& that) noexcept
-      : _offs{_get_offs(that)} {
-    }
+      : _offs{_get_offs(that)} {}
 
     template <typename P, typename O>
     using enable_if_convertible = std::enable_if<
@@ -99,69 +94,62 @@ public:
       typename = enable_if_convertible<P, O>,
       typename = enable_if_different<P, O>>
     basic_offset_ptr(const basic_offset_ptr<P, O>& that) noexcept
-      : _offs{_get_offs(that)} {
-    }
+      : _offs{_get_offs(that)} {}
 
     // NOLINTNEXTLINE(bugprone-unhandled-self-assignment,cert-oop54-cpp)
-    basic_offset_ptr& operator=(const basic_offset_ptr& that) noexcept {
+    auto operator=(const basic_offset_ptr& that) noexcept -> basic_offset_ptr& {
         if(this != std::addressof(that)) {
             _offs = _get_offs(that);
         }
         return *this;
     }
 
-    basic_offset_ptr& operator=(basic_offset_ptr&& that) noexcept {
-        if(this != std::addressof(that)) {
-            _offs = _get_offs(that);
-        }
+    auto operator=(basic_offset_ptr&& that) noexcept -> basic_offset_ptr& {
+        _offs = _get_offs(that);
         return *this;
     }
 
-    basic_offset_ptr& reset(Pointee* ptr) noexcept {
+    auto reset(Pointee* ptr) noexcept -> auto& {
         return *this = basic_offset_ptr(ptr);
     }
 
-    basic_offset_ptr& reset(address adr) noexcept {
+    auto reset(address adr) noexcept -> auto& {
         return *this = basic_offset_ptr(adr);
     }
 
-    constexpr inline bool is_null() const noexcept {
+    constexpr auto is_null() const noexcept -> bool {
         return _offs == offset_type(0);
     }
 
-    explicit constexpr inline operator bool() const noexcept {
+    explicit constexpr operator bool() const noexcept {
         return !is_null();
     }
 
-    constexpr inline bool operator!() const noexcept {
-        return is_null();
-    }
-
-    constexpr offset_type offset() const noexcept {
+    constexpr auto offset() const noexcept -> offset_type {
         return _offs;
     }
 
-    address addr() noexcept {
+    auto addr() noexcept -> address {
         return is_null() ? address() : address(_this_addr(), _offs);
     }
 
-    constexpr const_address addr() const noexcept {
+    constexpr auto addr() const noexcept -> const_address {
         return is_null() ? address() : address(_this_addr(), _offs);
     }
 
-    pointer data() noexcept {
+    auto data() noexcept -> pointer {
         return static_cast<pointer>(addr());
     }
 
-    constexpr const_pointer data() const noexcept {
+    constexpr auto data() const noexcept -> const_pointer {
         return static_cast<const_pointer>(addr());
     }
 
-    pointer get() noexcept {
+    auto get() noexcept -> pointer {
         return data();
     }
 
-    constexpr const_pointer get() const noexcept {
+    constexpr auto get() const noexcept -> const_pointer {
         return data();
     }
 
@@ -173,40 +161,41 @@ public:
         return get();
     }
 
-    reference operator*() noexcept {
+    auto operator*() noexcept -> reference {
         EAGINE_ASSERT(!is_null());
         return *get();
     }
 
-    constexpr const_reference operator*() const noexcept {
+    constexpr auto operator*() const noexcept -> const_reference {
         EAGINE_ASSERT(!is_null());
         return *get();
     }
 
-    pointer operator->() noexcept {
+    auto operator->() noexcept -> pointer {
         EAGINE_ASSERT(!is_null());
         return get();
     }
 
-    constexpr const_pointer operator->() const noexcept {
+    constexpr auto operator->() const noexcept -> const_pointer {
         EAGINE_ASSERT(!is_null());
         return get();
     }
 
-    basic_offset_ptr& operator++() noexcept {
+    auto operator++() noexcept -> auto& {
         return *this = basic_offset_ptr(get() + 1);
     }
 
-    basic_offset_ptr& operator--() noexcept {
+    auto operator--() noexcept -> auto& {
         return *this = basic_offset_ptr(get() - 1);
     }
 
-    reference operator[](offset_type index) noexcept {
+    auto operator[](offset_type index) noexcept -> reference {
         EAGINE_ASSERT(!is_null());
         return get()[index];
     }
 
-    constexpr const_reference operator[](offset_type index) const noexcept {
+    constexpr auto operator[](offset_type index) const noexcept
+      -> const_reference {
         EAGINE_ASSERT(!is_null());
         return get()[index];
     }
@@ -215,19 +204,20 @@ public:
 // extract
 //------------------------------------------------------------------------------
 template <typename P, typename O>
-static constexpr inline P& extract(basic_offset_ptr<P, O> ptr) noexcept {
+static constexpr inline auto extract(basic_offset_ptr<P, O> ptr) noexcept
+  -> P& {
     return EAGINE_CONSTEXPR_ASSERT(!ptr.is_null(), ptr.get());
 }
 //------------------------------------------------------------------------------
 template <typename P, typename O>
-static constexpr inline P& extract_or(
-  basic_offset_ptr<P, O> ptr, P& fallback) noexcept {
+static constexpr inline auto
+extract_or(basic_offset_ptr<P, O> ptr, P& fallback) noexcept -> P& {
     return ptr.is_null() ? fallback : ptr.get();
 }
 //------------------------------------------------------------------------------
 template <typename P, typename O, typename F>
-static constexpr inline std::enable_if_t<std::is_convertible_v<F, P>, P>
-extract_or(basic_offset_ptr<P, O> ptr, P& fallback) {
+static constexpr inline auto extract_or(basic_offset_ptr<P, O> ptr, P& fallback)
+  -> std::enable_if_t<std::is_convertible_v<F, P>, P> {
     return ptr.is_null() ? P{std::forward<F>(fallback)} : ptr.get();
 }
 //------------------------------------------------------------------------------
@@ -241,8 +231,8 @@ struct rebind_pointer<basic_offset_ptr<T, O>, U>
   : identity<basic_offset_ptr<U, O>> {};
 //------------------------------------------------------------------------------
 template <typename P, typename O>
-static constexpr inline basic_address<std::is_const_v<P>> as_address(
-  basic_offset_ptr<P, O> op) noexcept {
+static constexpr inline auto as_address(basic_offset_ptr<P, O> op) noexcept
+  -> basic_address<std::is_const_v<P>> {
     return op.addr();
 }
 //------------------------------------------------------------------------------

@@ -21,8 +21,7 @@ public:
     using value_type = Int;
 
     constexpr inline count_t() noexcept
-      : _c(0) {
-    }
+      : _c(0) {}
 
     constexpr value_type value() const noexcept {
         return _c;

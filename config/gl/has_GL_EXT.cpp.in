@@ -18,4 +18,3 @@ bool do_query_gl()
 // clang-format on
 
 #include "impl_GL_test.ipp"
-

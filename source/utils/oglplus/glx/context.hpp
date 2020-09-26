@@ -65,13 +65,14 @@ private:
             res = glXCreateContextAttribsARB(
               display, fbc.Handle(), share_context, True, context_attribs);
         } else {
-            int context_attribs[] = {CONTEXT_MAJOR_VERSION_ARB,
-                                     version_major,
-                                     CONTEXT_MINOR_VERSION_ARB,
-                                     version_minor,
-                                     CONTEXT_FLAGS_ARB,
-                                     (debugging ? CONTEXT_DEBUG_BIT_ARB : 0),
-                                     None};
+            int context_attribs[] = {
+              CONTEXT_MAJOR_VERSION_ARB,
+              version_major,
+              CONTEXT_MINOR_VERSION_ARB,
+              version_minor,
+              CONTEXT_FLAGS_ARB,
+              (debugging ? CONTEXT_DEBUG_BIT_ARB : 0),
+              None};
             res = glXCreateContextAttribsARB(
               display, fbc.Handle(), share_context, True, context_attribs);
         }
@@ -97,8 +98,7 @@ public:
             debugging,
             compatibility),
           ::glXDestroyContext,
-          "Error creating glX context") {
-    }
+          "Error creating glX context") {}
 
     Context(
       const x11::Display& display,
@@ -119,8 +119,7 @@ public:
             compatibility,
             share_context.Handle()),
           ::glXDestroyContext,
-          "Error creating sharing glX context") {
-    }
+          "Error creating sharing glX context") {}
 
     void MakeCurrent(const Drawable& drawable) const {
         ::glXMakeCurrent(this->DisplayRef(), drawable, this->Handle());

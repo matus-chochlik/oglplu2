@@ -21,8 +21,7 @@ template <typename T>
 struct enumerator_and_name {
     constexpr enumerator_and_name(decl_name n, T e) noexcept
       : name{n}
-      , enumerator{e} {
-    }
+      , enumerator{e} {}
 
     const decl_name name;
     const T enumerator;
@@ -37,8 +36,8 @@ private:
     template <
       typename X,
       typename = decltype(enumerator_mapping(identity<X>(), Selector()))>
-    static std::true_type _test(X*);
-    static std::false_type _test(...);
+    static auto _test(X*) -> std::true_type;
+    static auto _test(...) -> std::false_type;
 
 public:
     // NOLINTNEXTLINE(hicpp-vararg)

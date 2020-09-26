@@ -38,12 +38,12 @@ template <
   std::size_t MaxDataSize>
 class skeleton<Result(Params...), Serializer, Deserializer, MaxDataSize> {
 public:
-    bool call(
+    auto call(
       endpoint& bus,
       const stored_message& msg_in,
       message_id msg_id,
       memory::block buffer,
-      callable_ref<Result(Params...)> func) {
+      callable_ref<Result(Params...)> func) -> bool {
         std::tuple<std::remove_cv_t<std::remove_reference_t<Params>>...> tupl{};
 
         block_data_source source(msg_in.content());
@@ -58,6 +58,7 @@ public:
 
                 const auto errors = serialize(result, write_backend);
                 EAGINE_ASSERT(!errors);
+                EAGINE_MAYBE_UNUSED(errors);
                 message_view msg_out{sink.done()};
                 msg_out.set_serializer_id(write_backend.type_id());
                 bus.respond_to(msg_in, msg_id, msg_out);
@@ -67,11 +68,11 @@ public:
         return false;
     }
 
-    bool call(
+    auto call(
       endpoint& bus,
       const stored_message& msg_in,
       message_id msg_id,
-      callable_ref<Result(Params...)> func) {
+      callable_ref<Result(Params...)> func) -> bool {
         std::array<byte, MaxDataSize> buffer{};
         return call(bus, msg_in, msg_id, cover(buffer), func);
     }
@@ -98,13 +99,12 @@ public:
 
     template <typename R, typename P>
     lazy_skeleton(std::chrono::duration<R, P> default_timeout) noexcept
-      : _default_timeout{default_timeout} {
-    }
+      : _default_timeout{default_timeout} {}
 
-    bool enqueue(
+    auto enqueue(
       const stored_message& msg_in,
       message_id msg_id,
-      callable_ref<Result(Params...)> func) {
+      callable_ref<Result(Params...)> func) -> bool {
         auto [pos, emplaced] = _pending.try_emplace(msg_in.sequence_no);
 
         if(emplaced) {
@@ -127,7 +127,7 @@ public:
         return false;
     }
 
-    bool handle_one(endpoint& bus, memory::block buffer) {
+    auto handle_one(endpoint& bus, memory::block buffer) -> bool {
         const auto bgn = _pending.begin();
         auto pos = bgn;
         while(pos != _pending.end()) {
@@ -141,7 +141,7 @@ public:
 
                 const auto errors = serialize(result, write_backend);
                 EAGINE_ASSERT(!errors);
-		EAGINE_MAYBE_UNUSED(errors);
+                EAGINE_MAYBE_UNUSED(errors);
                 message_view msg_out{sink.done()};
                 msg_out.set_serializer_id(write_backend.type_id());
                 msg_out.set_target_id(call.invoker_id);
@@ -157,7 +157,7 @@ public:
         return false;
     }
 
-    bool handle_one(endpoint& bus) {
+    auto handle_one(endpoint& bus) -> bool {
         std::array<byte, MaxDataSize> buffer{};
         return handle_one(bus, cover(buffer));
     }
@@ -195,11 +195,11 @@ public:
 
     async_skeleton() noexcept = default;
 
-    bool enqueue(
+    auto enqueue(
       const stored_message& msg_in,
       message_id msg_id,
       callable_ref<Result(Params...)> func,
-      workshop& workers) {
+      workshop& workers) -> bool {
         auto [pos, emplaced] = _pending.try_emplace(msg_in.sequence_no);
 
         if(emplaced) {
@@ -222,7 +222,7 @@ public:
         return false;
     }
 
-    bool handle_one(endpoint& bus, memory::block buffer) {
+    auto handle_one(endpoint& bus, memory::block buffer) -> bool {
         const auto bgn = _pending.begin();
         auto pos = bgn;
         while(pos != _pending.end()) {
@@ -248,7 +248,7 @@ public:
         return false;
     }
 
-    bool handle_one(endpoint& bus) {
+    auto handle_one(endpoint& bus) -> bool {
         std::array<byte, MaxDataSize> buffer{};
         return handle_one(bus, cover(buffer));
     }
@@ -262,7 +262,7 @@ private:
         identifier_t invoker_id{};
         bool finished{false};
 
-        bool do_it() final {
+        auto do_it() -> bool final {
             result = std::apply(func, args);
             return true;
         }
@@ -278,4 +278,3 @@ private:
 } // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_SKELETON_HPP
-

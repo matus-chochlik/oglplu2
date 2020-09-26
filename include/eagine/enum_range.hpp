@@ -22,11 +22,7 @@ namespace eagine {
 template <typename EnumClass>
 class enumerated_value_range;
 //------------------------------------------------------------------------------
-template <
-  typename EnumClass,
-  typename T,
-  identifier_t LibId,
-  identifier_t EnumId>
+template <typename EnumClass, typename T, identifier_t LibId, identifier_t EnumId>
 class enumerated_value_range<enum_class<EnumClass, T, LibId, EnumId>> {
 private:
     const T* _begin;
@@ -48,11 +44,9 @@ public:
         EAGINE_ASSERT(_begin <= _end);
     }
 
-    explicit enumerated_value_range(
-      std::pair<const void*, size_type> p) noexcept
+    explicit enumerated_value_range(std::pair<const void*, size_type> p) noexcept
       : enumerated_value_range(
-          memory::span<const T>{static_cast<const T*>(p.first), p.second}) {
-    }
+          memory::span<const T>{static_cast<const T*>(p.first), p.second}) {}
 
     using iterator =
       transforming_iterator<const T*, _ec_t, _ec_t, _ec_t (*)(T) noexcept>;

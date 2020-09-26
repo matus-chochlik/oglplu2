@@ -21,7 +21,7 @@ class basic_manipulator;
 template <typename Component>
 class basic_manipulator<Component, false> {
 private:
-    Component* _ptr;
+    Component* _ptr{nullptr};
 
 protected:
     void _reset_cmp(Component& cmp) noexcept {
@@ -29,24 +29,21 @@ protected:
     }
 
 public:
-    basic_manipulator() noexcept
-      : _ptr(nullptr) {
-    }
+    basic_manipulator() noexcept = default;
 
     basic_manipulator(Component& cmp) noexcept
-      : _ptr(&cmp) {
-    }
+      : _ptr(&cmp) {}
 
-    bool is_valid() const noexcept {
+    auto is_valid() const noexcept -> bool {
         return _ptr != nullptr;
     }
 
-    const Component& read() const {
+    auto read() const -> const Component& {
         EAGINE_ASSERT(is_valid());
         return *_ptr;
     }
 
-    Component& write() {
+    auto write() -> Component& {
         EAGINE_ASSERT(is_valid());
         return *_ptr;
     }
@@ -55,7 +52,7 @@ public:
 template <typename Component>
 class basic_manipulator<Component, true> {
 private:
-    const Component* _ptr;
+    const Component* _ptr{nullptr};
 
 protected:
     void _reset_cmp(const Component& cmp) noexcept {
@@ -63,19 +60,16 @@ protected:
     }
 
 public:
-    basic_manipulator() noexcept
-      : _ptr(nullptr) {
-    }
+    basic_manipulator() noexcept = default;
 
     basic_manipulator(const Component& cmp) noexcept
-      : _ptr(&cmp) {
-    }
+      : _ptr(&cmp) {}
 
-    bool is_valid() const noexcept {
+    auto is_valid() const noexcept -> bool {
         return _ptr != nullptr;
     }
 
-    const Component& read() const {
+    auto read() const -> const Component& {
         EAGINE_ASSERT(_ptr != nullptr);
         return *_ptr;
     }
@@ -101,43 +95,31 @@ private:
 
 protected:
     const bool _can_rem;
-    bool _removed;
-    bool _added;
+    bool _removed{false};
+    bool _added{false};
 
 public:
     manipulator(bool can_rem)
       : _base()
       , _add_place(nullptr)
-      , _can_rem(can_rem)
-      , _removed(false)
-      , _added(false) {
-    }
+      , _can_rem(can_rem) {}
 
     manipulator(Component& cmp, bool can_rem)
       : _base(cmp)
       , _add_place(nullptr)
-      , _can_rem(can_rem)
-      , _removed(false)
-      , _added(false) {
-    }
+      , _can_rem(can_rem) {}
 
     manipulator(Component& cmp, _nonconstC& add, bool can_rem)
       : _base(cmp)
       , _add_place(&add)
-      , _can_rem(can_rem)
-      , _removed(false)
-      , _added(false) {
-    }
+      , _can_rem(can_rem) {}
 
     manipulator(std::nullptr_t, _nonconstC& add, bool can_rem)
       : _base()
       , _add_place(&add)
-      , _can_rem(can_rem)
-      , _removed(false)
-      , _added(false) {
-    }
+      , _can_rem(can_rem) {}
 
-    bool can_add() const noexcept {
+    auto can_add() const noexcept -> bool {
         return _add_place != nullptr;
     }
 
@@ -149,7 +131,7 @@ public:
         _added = true;
     }
 
-    bool can_remove() const noexcept {
+    auto can_remove() const noexcept -> bool {
         return _can_rem && this->is_valid();
     }
 
@@ -169,11 +151,11 @@ public:
         this->_removed = false;
     }
 
-    bool add_requested() const noexcept {
+    auto add_requested() const noexcept -> bool {
         return this->_added;
     }
 
-    bool remove_requested() const noexcept {
+    auto remove_requested() const noexcept -> bool {
         return this->_removed;
     }
 };

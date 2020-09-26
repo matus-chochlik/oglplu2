@@ -21,18 +21,16 @@ struct valid_if_indicated_policy {
     constexpr valid_if_indicated_policy() noexcept = default;
 
     constexpr valid_if_indicated_policy(Indicator indicator) noexcept
-      : _indicator(indicator) {
-    }
+      : _indicator(indicator) {}
 
     template <typename T>
-    bool operator()(const T&) const noexcept {
+    auto operator()(const T&) const noexcept {
         return Comparable(_indicator) == Value;
     }
 
     struct do_log {
         template <typename X>
-        constexpr inline do_log(X) noexcept {
-        }
+        constexpr inline do_log(X) noexcept {}
 
         template <typename Log, typename T>
         void operator()(Log& log, const T&) const {

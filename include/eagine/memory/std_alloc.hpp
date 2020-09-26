@@ -24,7 +24,7 @@ private:
     shared_byte_allocator _sba;
 
 public:
-    const shared_byte_allocator& _get_sba() const {
+    auto _get_sba() const -> auto& {
         return _sba;
     }
 
@@ -43,35 +43,32 @@ public:
 
     template <typename U>
     std_allocator(const std_allocator<U>& that)
-      : _sba(that._get_sba()) {
-    }
+      : _sba(that._get_sba()) {}
 
     std_allocator(shared_byte_allocator sba) noexcept
-      : _sba(std::move(sba)) {
-    }
+      : _sba(std::move(sba)) {}
 
     std_allocator() noexcept
-      : _sba(default_byte_allocator()) {
-    }
+      : _sba(default_byte_allocator()) {}
 
     template <typename ByteAlloc>
-    ByteAlloc& as() {
+    auto as() -> ByteAlloc& {
         return _sba.as<ByteAlloc>();
     }
 
-    T* address(T& r) noexcept {
+    auto address(T& r) noexcept -> T* {
         return std::allocator<T>().address(r);
     }
 
-    const T* address(const T& r) noexcept {
+    auto address(const T& r) noexcept -> const T* {
         return std::allocator<T>().address(r);
     }
 
-    size_type max_size() const noexcept {
+    auto max_size() const noexcept -> size_type {
         return _sba.max_size(alignof(T));
     }
 
-    T* allocate(size_type n, const void* = nullptr) {
+    auto allocate(size_type n, const void* = nullptr) -> T* {
         owned_block b = _sba.allocate(span_size_of<T>(n), span_align_of<T>());
 
         if(!b) {
@@ -95,13 +92,13 @@ public:
         }
     }
 
-    friend bool operator==(
-      const std_allocator& a, const std_allocator& b) noexcept {
+    friend auto
+    operator==(const std_allocator& a, const std_allocator& b) noexcept {
         return (a._sba == b._sba);
     }
 
-    friend bool operator!=(
-      const std_allocator& a, const std_allocator& b) noexcept {
+    friend auto
+    operator!=(const std_allocator& a, const std_allocator& b) noexcept {
         return (a._sba != b._sba);
     }
 

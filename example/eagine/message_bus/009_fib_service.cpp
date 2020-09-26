@@ -1,5 +1,5 @@
 /**
- *  @example eagine/message_bus/009_fib_futures.cpp
+ *  @example eagine/message_bus/009_fib_service.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -38,19 +38,18 @@ struct fibonacci_server : static_subscriber<2> {
           ep,
           this,
           EAGINE_MSG_MAP(Fibonacci, FindServer, this_class, is_ready),
-          EAGINE_MSG_MAP(Fibonacci, Calculate, this_class, calculate)) {
-    }
+          EAGINE_MSG_MAP(Fibonacci, Calculate, this_class, calculate)) {}
 
-    bool is_ready(stored_message& msg_in) {
+    auto is_ready(stored_message& msg_in) -> bool {
         bus().respond_to(msg_in, EAGINE_MSG_ID(Fibonacci, IsReady));
         return true;
     }
 
-    static std::int64_t fib(std::int64_t arg) noexcept {
+    static auto fib(std::int64_t arg) -> std::int64_t {
         return arg <= 2 ? 1 : fib(arg - 2) + fib(arg - 1);
     }
 
-    bool calculate(stored_message& msg_in) {
+    auto calculate(stored_message& msg_in) -> bool {
         skeleton<
           std::int64_t(std::int64_t),
           fast_serializer_backend,
@@ -71,8 +70,7 @@ struct fibonacci_client : static_subscriber<2> {
           ep,
           this,
           EAGINE_MSG_MAP(Fibonacci, IsReady, this_class, dispatch),
-          EAGINE_MSG_MAP(Fibonacci, Result, this_class, fulfill)) {
-    }
+          EAGINE_MSG_MAP(Fibonacci, Result, this_class, fulfill)) {}
 
     void enqueue(std::int64_t arg) {
         _remaining.push(arg);
@@ -84,7 +82,7 @@ struct fibonacci_client : static_subscriber<2> {
         }
     }
 
-    bool dispatch(stored_message& msg_in) {
+    auto dispatch(stored_message& msg_in) -> bool {
         if(!_remaining.empty()) {
             const auto arg = _remaining.front();
             _remaining.pop();
@@ -104,12 +102,12 @@ struct fibonacci_client : static_subscriber<2> {
         return true;
     }
 
-    bool fulfill(stored_message& message) {
+    auto fulfill(stored_message& message) -> bool {
         _calc_invoker.fulfill_by(message);
         return true;
     }
 
-    bool is_done() const {
+    auto is_done() const {
         return _remaining.empty() && _calc_invoker.is_done();
     }
 
@@ -125,7 +123,7 @@ private:
 //------------------------------------------------------------------------------
 } // namespace msgbus
 
-int main(main_ctx& ctx) {
+auto main(main_ctx& ctx) -> int {
     auto& log = ctx.log();
 
     auto acceptor = std::make_unique<msgbus::direct_acceptor>(log);
@@ -160,4 +158,3 @@ int main(main_ctx& ctx) {
     return 0;
 }
 } // namespace eagine
-

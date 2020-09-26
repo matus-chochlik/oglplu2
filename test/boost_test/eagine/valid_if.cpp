@@ -18,7 +18,9 @@ BOOST_AUTO_TEST_CASE(valid_if_not_zero_test) {
     using namespace eagine;
 
     identity<float> id;
-    auto tw = [](float x) { return x * 2; };
+    auto tw = [](float x) {
+        return x * 2;
+    };
 
     for(int i = 0; i < 1000; ++i) {
         int v = (rg.get_int(0, 9) == 0) ? 0 : rg.get_int(0, 1000);

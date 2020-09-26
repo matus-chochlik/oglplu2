@@ -15,7 +15,7 @@
 #include <iostream>
 #include <thread>
 
-int main(int argc, char** argv) {
+auto main(int argc, char** argv) -> int {
     using namespace eagine;
     using namespace eagine::oalp;
 

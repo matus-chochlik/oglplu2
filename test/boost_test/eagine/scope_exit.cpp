@@ -17,7 +17,9 @@ BOOST_AUTO_TEST_CASE(scope_exit_f) {
     using namespace eagine;
 
     int i = 10, passed = 0;
-    auto inc_i = [&i]() { ++i; };
+    auto inc_i = [&i]() {
+        ++i;
+    };
 
     {
         BOOST_CHECK_EQUAL(i, 10);
@@ -51,7 +53,9 @@ BOOST_AUTO_TEST_CASE(scope_exit_t) {
     using namespace eagine;
 
     int i = 11, passed = 0;
-    auto inc_i = [&i]() { ++i; };
+    auto inc_i = [&i]() {
+        ++i;
+    };
 
     {
         BOOST_CHECK_EQUAL(i, 11);
@@ -91,7 +95,9 @@ BOOST_AUTO_TEST_CASE(scope_exit_n) {
     using namespace eagine;
 
     int i = 41, passed = 0;
-    auto inc_i = [&i]() { ++i; };
+    auto inc_i = [&i]() {
+        ++i;
+    };
 
     {
         BOOST_CHECK_EQUAL(i, 41);

@@ -11,8 +11,8 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-std::string format_string_and_list_base::_fmt(
-  span<const std::string> values) const {
+auto format_string_and_list_base::_fmt(span<const std::string> values) const
+  -> std::string {
     return substitute_variables(_fmt_str, values);
 }
 //------------------------------------------------------------------------------

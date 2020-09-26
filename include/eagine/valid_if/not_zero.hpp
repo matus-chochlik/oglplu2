@@ -17,14 +17,13 @@ namespace eagine {
 // not-zero
 template <typename T>
 struct valid_if_nz_policy {
-    constexpr bool operator()(T value) const noexcept {
+    constexpr auto operator()(T value) const noexcept {
         return (value > T(0)) || (value < T(0));
     }
 
     struct do_log {
         template <typename X, typename = disable_if_same_t<X, do_log>>
-        constexpr inline do_log(X&&) noexcept {
-        }
+        constexpr inline do_log(X&&) noexcept {}
 
         template <typename Log>
         void operator()(Log& log, const T&) const {
@@ -41,7 +40,7 @@ template <typename T>
 using nonzero_t = valid_if_not_zero<T>;
 
 template <typename T>
-static inline nonzero_t<T> nonzero(T v) noexcept {
+static inline auto nonzero(T v) noexcept -> nonzero_t<T> {
     return {v};
 }
 

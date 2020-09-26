@@ -18,11 +18,11 @@ namespace eagine::oalp {
 //------------------------------------------------------------------------------
 class alut_no_result_info {
 public:
-    constexpr alut_no_result_info& error_code(anything) noexcept {
+    constexpr auto error_code(anything) noexcept -> auto& {
         return *this;
     }
 
-    constexpr string_view message() const noexcept {
+    constexpr auto message() const noexcept -> string_view {
         return {"ALUT function not available"};
     }
 
@@ -37,20 +37,20 @@ public:
         return alut_types::error_code_no_error(_error_code);
     }
 
-    constexpr bool operator!() const noexcept {
+    constexpr auto operator!() const noexcept {
         return !alut_types::error_code_no_error(_error_code);
     }
 
-    constexpr alut_result_info& error_code(enum_type ec) noexcept {
+    constexpr auto error_code(enum_type ec) noexcept -> auto& {
         _error_code = ec;
         return *this;
     }
 
-    constexpr enum_type error_code() const noexcept {
+    constexpr auto error_code() const noexcept -> enum_type {
         return _error_code;
     }
 
-    string_view message() const noexcept {
+    auto message() const noexcept -> string_view {
 #ifdef ALUT_ERROR_INVALID_ENUM
         if(_error_code == ALUT_ERROR_INVALID_ENUM) {
             return {"invalid enumeration parameter value"};
@@ -164,4 +164,3 @@ using alut_opt_result = api_opt_result<Result, alut_result_info>;
 } // namespace eagine::oalp
 
 #endif // OALPLUS_ALUT_API_RESULT_HPP
-

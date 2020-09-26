@@ -148,7 +148,8 @@ void render_node::draw_screen() {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 std::ostream& render_node::make_fragment_shader_source(
-  std::ostream& out, compile_context& ctxt) {
+  std::ostream& out,
+  compile_context& ctxt) {
     out << "#version " << ctxt.glsl_version() << std::endl;
 
     _input.definitions(out, ctxt);
@@ -255,7 +256,8 @@ bool render_node::render() {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void render_node::set_divisions(
-  const valid_if_positive<int>& xdiv, const valid_if_positive<int>& ydiv) {
+  const valid_if_positive<int>& xdiv,
+  const valid_if_positive<int>& ydiv) {
     _xdiv = xdiv.value_or(1);
     _ydiv = ydiv.value_or(1);
     _tile = 0;
@@ -263,7 +265,8 @@ void render_node::set_divisions(
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void render_node::set_dimensions(
-  const valid_if_positive<int>& width, const valid_if_positive<int>& height) {
+  const valid_if_positive<int>& width,
+  const valid_if_positive<int>& height) {
     _render_params.width = width.value_or(1);
     _render_params.height = height.value_or(1);
 }

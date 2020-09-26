@@ -28,8 +28,7 @@ struct type_to_value_unit_base {
 
     template <typename T>
     type_to_value_unit_base(T&& value)
-      : _value(std::forward<T>(value)) {
-    }
+      : _value(std::forward<T>(value)) {}
 
     operator Value&() noexcept {
         return _value;
@@ -46,8 +45,7 @@ struct type_to_value_unit : type_to_value_unit_base<Value> {
 
     template <typename T>
     type_to_value_unit(T&& value)
-      : type_to_value_unit_base<Value>(std::forward<T>(value)) {
-    }
+      : type_to_value_unit_base<Value>(std::forward<T>(value)) {}
 };
 
 template <typename Value, typename... Keys>
@@ -58,15 +56,13 @@ struct type_to_value : type_to_value_unit<Value, Keys>... {
     type_to_value() = default;
 
     type_to_value(instead_of_t<Keys, Value>... values)
-      : type_to_value_unit<Value, Keys>(values)... {
-    }
+      : type_to_value_unit<Value, Keys>(values)... {}
 
     template <
       typename Transform,
       typename = std::enable_if_t<!std::is_same_v<Value, Transform>>>
     type_to_value(const Transform& transform)
-      : type_to_value_unit<Value, Keys>(transform(identity<Keys>()))... {
-    }
+      : type_to_value_unit<Value, Keys>(transform(identity<Keys>()))... {}
 
     static constexpr inline size_type size() noexcept {
         return sizeof...(Keys);
@@ -147,8 +143,8 @@ struct type_to_value : type_to_value_unit<Value, Keys>... {
         return iterator(units() + size());
     }
 
-    friend bool operator==(
-      const type_to_value& a, const type_to_value& b) noexcept {
+    friend bool
+    operator==(const type_to_value& a, const type_to_value& b) noexcept {
         for(size_type i = 0; i < size(); ++i) {
             if(a[i] != b[i]) {
                 return false;
@@ -157,8 +153,8 @@ struct type_to_value : type_to_value_unit<Value, Keys>... {
         return true;
     }
 
-    friend bool operator!=(
-      const type_to_value& a, const type_to_value& b) noexcept {
+    friend bool
+    operator!=(const type_to_value& a, const type_to_value& b) noexcept {
         return !(a == b);
     }
 };

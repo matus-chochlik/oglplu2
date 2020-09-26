@@ -7,6 +7,9 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+#ifndef OGLPLUS_EXAMPLE_RESOURCES_HPP // NOLINT(llvm-header-guard)
+#define OGLPLUS_EXAMPLE_RESOURCES_HPP
+
 #include <oglplus/gl.hpp>
 #include <oglplus/gl_api.hpp>
 
@@ -31,15 +34,17 @@ private:
 public:
     void init(example_context& ctx);
     void set_projection(
-      const example_context& ctx, const example_orbiting_camera& camera);
+      const example_context& ctx,
+      const example_orbiting_camera& camera);
     void update(const example_context& ctx);
 
     void bind_position_location(
-      const example_context& ctx, vertex_attrib_location loc);
-    void bind_pivot_location(
-      const example_context& ctx, vertex_attrib_location loc);
-    void bind_coord_location(
-      const example_context& ctx, vertex_attrib_location loc);
+      const example_context& ctx,
+      vertex_attrib_location loc);
+    void
+    bind_pivot_location(const example_context& ctx, vertex_attrib_location loc);
+    void
+    bind_coord_location(const example_context& ctx, vertex_attrib_location loc);
 
     void drawing_surface(const example_context& ctx);
     void drawing_edges(const example_context& ctx);
@@ -79,3 +84,5 @@ public:
 //------------------------------------------------------------------------------
 } // namespace oglp
 } // namespace eagine
+
+#endif

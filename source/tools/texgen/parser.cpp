@@ -16,7 +16,7 @@ void parser::begin() {
     _actions.begin();
 }
 //------------------------------------------------------------------------------
-static bool parse_render_expr(token_stream& tokens, semantic_actions&) {
+static auto parse_render_expr(token_stream& tokens, semantic_actions&) -> bool {
     if(
       auto rndr_ident = tokens.follows(
         {token_kind::keyword_render,
@@ -27,7 +27,8 @@ static bool parse_render_expr(token_stream& tokens, semantic_actions&) {
     return false;
 }
 //------------------------------------------------------------------------------
-static bool parse_statement(token_stream& tokens, semantic_actions& actions) {
+static auto parse_statement(token_stream& tokens, semantic_actions& actions)
+  -> bool {
     if(parse_render_expr(tokens, actions)) {
     }
     return false;

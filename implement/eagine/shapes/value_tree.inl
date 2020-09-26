@@ -29,8 +29,8 @@ static inline auto index_data_type_from(string_view str) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-vertex_attrib_bits value_tree_loader::_attr_mask(
-  const valtree::compound& source) noexcept {
+auto value_tree_loader::_attr_mask(const valtree::compound& source) noexcept
+  -> vertex_attrib_bits {
     vertex_attrib_bits result;
     for(auto& info :
         enumerator_mapping(identity<vertex_attrib_kind>{}, value_tree_tag{})) {
@@ -43,14 +43,14 @@ vertex_attrib_bits value_tree_loader::_attr_mask(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 value_tree_loader::value_tree_loader(
-  valtree::compound source, logger& parent) noexcept
+  valtree::compound source,
+  logger& parent) noexcept
   : _base{_attr_mask(source)}
   , _log{EAGINE_ID(ValTreLoad), parent}
-  , _source{std::move(source)} {
-}
+  , _source{std::move(source)} {}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t value_tree_loader::vertex_count() {
+auto value_tree_loader::vertex_count() -> span_size_t {
     span_size_t result{};
     if(auto count_a{_source.nested("vertex_count")}) {
         if(_source.fetch_value(count_a, result)) {
@@ -65,7 +65,8 @@ span_size_t value_tree_loader::vertex_count() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t value_tree_loader::attribute_variants(vertex_attrib_kind attrib) {
+auto value_tree_loader::attribute_variants(vertex_attrib_kind attrib)
+  -> span_size_t {
     if(auto attrib_a{_source.nested(vertex_attrib_name(attrib))}) {
         return _source.nested_count(attrib_a);
     } else {
@@ -76,7 +77,7 @@ span_size_t value_tree_loader::attribute_variants(vertex_attrib_kind attrib) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-string_view value_tree_loader::variant_name(vertex_attrib_variant vav) {
+auto value_tree_loader::variant_name(vertex_attrib_variant vav) -> string_view {
     if(auto attrib_a{_source.nested(vertex_attrib_name(vav.attrib))}) {
         if(auto variant_a{_source.nested(attrib_a, vav.index())}) {
             if(auto vpv_a{_source.nested(variant_a, "name")}) {
@@ -110,7 +111,8 @@ string_view value_tree_loader::variant_name(vertex_attrib_variant vav) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t value_tree_loader::values_per_vertex(vertex_attrib_variant vav) {
+auto value_tree_loader::values_per_vertex(vertex_attrib_variant vav)
+  -> span_size_t {
     if(auto attrib_a{_source.nested(vertex_attrib_name(vav.attrib))}) {
         if(auto variant_a{_source.nested(attrib_a, vav.index())}) {
             if(auto vpv_a{_source.nested(variant_a, "values_per_vertex")}) {
@@ -136,7 +138,8 @@ span_size_t value_tree_loader::values_per_vertex(vertex_attrib_variant vav) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-attrib_data_type value_tree_loader::attrib_type(vertex_attrib_variant vav) {
+auto value_tree_loader::attrib_type(vertex_attrib_variant vav)
+  -> attrib_data_type {
     if(auto attrib_a{_source.nested(vertex_attrib_name(vav.attrib))}) {
         if(auto variant_a{_source.nested(attrib_a, vav.index())}) {
             if(auto type_a{_source.nested(variant_a, "type")}) {
@@ -167,7 +170,8 @@ attrib_data_type value_tree_loader::attrib_type(vertex_attrib_variant vav) {
     return attrib_data_type::float_;
 }
 //------------------------------------------------------------------------------
-bool value_tree_loader::is_attrib_normalized(vertex_attrib_variant vav) {
+auto value_tree_loader::is_attrib_normalized(vertex_attrib_variant vav)
+  -> bool {
     if(auto attrib_a{_source.nested(vertex_attrib_name(vav.attrib))}) {
         if(auto variant_a{_source.nested(attrib_a, vav.index())}) {
             if(auto norm_a{_source.nested(variant_a, "normalized")}) {
@@ -209,8 +213,7 @@ bool value_tree_loader::is_attrib_normalized(vertex_attrib_variant vav) {
 }
 //------------------------------------------------------------------------------
 template <typename T>
-void value_tree_loader::_attrib_values(
-  vertex_attrib_variant vav, span<T> dest) {
+void value_tree_loader::_attrib_values(vertex_attrib_variant vav, span<T> dest) {
     if(auto attrib_a{_source.nested(vertex_attrib_name(vav.attrib))}) {
         if(auto variant_a{_source.nested(attrib_a, vav.index())}) {
             if(auto data_a{_source.nested(variant_a, "data")}) {
@@ -241,42 +244,48 @@ void value_tree_loader::_attrib_values(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void value_tree_loader::attrib_values(
-  vertex_attrib_variant vav, span<byte> dest) {
+  vertex_attrib_variant vav,
+  span<byte> dest) {
     _attrib_values(vav, dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void value_tree_loader::attrib_values(
-  vertex_attrib_variant vav, span<std::int16_t> dest) {
+  vertex_attrib_variant vav,
+  span<std::int16_t> dest) {
     _attrib_values(vav, dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void value_tree_loader::attrib_values(
-  vertex_attrib_variant vav, span<std::int32_t> dest) {
+  vertex_attrib_variant vav,
+  span<std::int32_t> dest) {
     _attrib_values(vav, dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void value_tree_loader::attrib_values(
-  vertex_attrib_variant vav, span<std::uint16_t> dest) {
+  vertex_attrib_variant vav,
+  span<std::uint16_t> dest) {
     _attrib_values(vav, dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void value_tree_loader::attrib_values(
-  vertex_attrib_variant vav, span<std::uint32_t> dest) {
+  vertex_attrib_variant vav,
+  span<std::uint32_t> dest) {
     _attrib_values(vav, dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void value_tree_loader::attrib_values(
-  vertex_attrib_variant vav, span<float> dest) {
+  vertex_attrib_variant vav,
+  span<float> dest) {
     _attrib_values(vav, dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-index_data_type value_tree_loader::index_type(drawing_variant) {
+auto value_tree_loader::index_type(drawing_variant) -> index_data_type {
     if(auto type_a{_source.nested("index_type")}) {
         if(_source.fetch_value(type_a, _temp)) {
             if(auto type{index_data_type_from(view(_temp))}) {
@@ -293,7 +302,7 @@ index_data_type value_tree_loader::index_type(drawing_variant) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t value_tree_loader::index_count(drawing_variant) {
+auto value_tree_loader::index_count(drawing_variant) -> span_size_t {
     if(auto indices_a{_source.nested("indices")}) {
         return _source.value_count(indices_a);
     }
@@ -323,7 +332,7 @@ void value_tree_loader::indices(drawing_variant, span<std::uint32_t> dest) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t value_tree_loader::operation_count(drawing_variant) {
+auto value_tree_loader::operation_count(drawing_variant) -> span_size_t {
     if(auto instrs_a{_source.nested("instructions")}) {
         return _source.nested_count(instrs_a);
     } else {
@@ -333,8 +342,7 @@ span_size_t value_tree_loader::operation_count(drawing_variant) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void value_tree_loader::instructions(
-  drawing_variant, span<draw_operation> ops) {
+void value_tree_loader::instructions(drawing_variant, span<draw_operation> ops) {
     bool btemp{};
     if(auto instrs_a{_source.nested("instructions")}) {
         if(ops.size() == _source.nested_count(instrs_a)) {

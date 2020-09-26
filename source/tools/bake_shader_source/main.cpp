@@ -45,8 +45,7 @@ struct options {
     options()
       : input_path("-i", "--input", string_view())
       , output_path("-o", "--output", string_view("a.oglpshdr"))
-      , shader_type("-t", "--shader-type", GL_NONE) {
-    }
+      , shader_type("-t", "--shader-type", GL_NONE) {}
 
     void print_usage(std::ostream& log) {
         log << "bake_shader_source options" << std::endl;
@@ -74,42 +73,44 @@ struct options {
 #endif
     }
 
-    bool check(std::ostream& log) {
+    auto check(std::ostream& log) -> bool {
         return input_path.validate(log) && output_path.validate(log) &&
                shader_type.validate(log);
     }
 
-    bool parse(program_arg& a, std::ostream& log) {
-        const string_view shader_type_names[] = {"vertex",
+    auto parse(program_arg& a, std::ostream& log) -> bool {
+        const string_view shader_type_names[] = {
+          "vertex",
 #ifdef GL_GEOMETRY_SHADER
-                                                 "geometry",
+          "geometry",
 #endif
 #ifdef GL_TESS_CONTROL_SHADER
-                                                 "tess_control",
+          "tess_control",
 #endif
 #ifdef GL_TESS_EVALUATION_SHADER
-                                                 "tess_evaluation",
+          "tess_evaluation",
 #endif
 #ifdef GL_COMPUTE_SHADER
-                                                 "compute",
+          "compute",
 #endif
-                                                 "fragment"};
+          "fragment"};
         const span<const string_view> shtnames = view(shader_type_names);
 
-        const GLenum shader_type_values[] = {GL_VERTEX_SHADER,
+        const GLenum shader_type_values[] = {
+          GL_VERTEX_SHADER,
 #ifdef GL_GEOMETRY_SHADER
-                                             GL_GEOMETRY_SHADER,
+          GL_GEOMETRY_SHADER,
 #endif
 #ifdef GL_TESS_CONTROL_SHADER
-                                             GL_TESS_CONTROL_SHADER,
+          GL_TESS_CONTROL_SHADER,
 #endif
 #ifdef GL_TESS_EVALUATION_SHADER
-                                             GL_TESS_EVALUATION_SHADER,
+          GL_TESS_EVALUATION_SHADER,
 #endif
 #ifdef GL_COMPUTE_SHADER
-                                             GL_COMPUTE_SHADER,
+          GL_COMPUTE_SHADER,
 #endif
-                                             GL_FRAGMENT_SHADER};
+          GL_FRAGMENT_SHADER};
         const span<const GLenum> shtvalues = view(shader_type_values);
 
         return a.parse_param(output_path, log) ||
@@ -119,7 +120,9 @@ struct options {
 };
 //------------------------------------------------------------------------------
 void write_output(
-  std::istream& input, std::ostream& output, const options& opts) {
+  std::istream& input,
+  std::ostream& output,
+  const options& opts) {
     oglp::shader_source_header hdr;
 
     memory::buffer source_text;
@@ -140,9 +143,9 @@ void write_output(
     write_to_stream(output, bakery.baked_data());
 }
 //------------------------------------------------------------------------------
-int parse_options(const program_args& args, options& opts);
+auto parse_options(const program_args& args, options& opts) -> int;
 //------------------------------------------------------------------------------
-int run(const program_args& args) {
+auto run(const program_args& args) -> int {
     options opts;
 
     if(int err = parse_options(args, opts)) {
@@ -168,7 +171,7 @@ int run(const program_args& args) {
     return 0;
 }
 //------------------------------------------------------------------------------
-int main(main_ctx& ctx) {
+auto main(main_ctx& ctx) -> int {
 
     try {
         return run(ctx.args());
@@ -178,7 +181,7 @@ int main(main_ctx& ctx) {
     return 1;
 }
 //------------------------------------------------------------------------------
-bool parse_argument(program_arg& a, options& opts) {
+auto parse_argument(program_arg& a, options& opts) -> bool {
 
     if(!opts.parse(a, std::cerr)) {
         std::cerr << "Failed to parse argument '" << a.get() << "'"
@@ -188,7 +191,7 @@ bool parse_argument(program_arg& a, options& opts) {
     return true;
 }
 //------------------------------------------------------------------------------
-int parse_options(const program_args& args, options& opts) {
+auto parse_options(const program_args& args, options& opts) -> int {
 
     for(auto a = args.first(); a; a = a.next()) {
         if(a.is_help_arg()) {
@@ -210,10 +213,9 @@ int parse_options(const program_args& args, options& opts) {
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-int main(int argc, const char** argv) {
+auto main(int argc, const char** argv) -> int {
     eagine::main_ctx_options options;
     options.logger_id = EAGINE_ID(BakeSLShdr);
     options.logger_opts.default_no_log = true;
     return eagine::main_impl(argc, argv, options);
 }
-

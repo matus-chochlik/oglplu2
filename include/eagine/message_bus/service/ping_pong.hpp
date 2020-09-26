@@ -33,11 +33,13 @@ protected:
     }
 
 public:
-    virtual bool respond_to_ping(
-      identifier_t pinger_id, message_sequence_t, verification_bits) = 0;
+    virtual auto respond_to_ping(
+      identifier_t pinger_id,
+      message_sequence_t,
+      verification_bits) -> bool = 0;
 
 private:
-    bool _handle_ping(stored_message& message) {
+    auto _handle_ping(stored_message& message) -> bool {
         if(respond_to_ping(
              message.source_id,
              message.sequence_no,
@@ -81,7 +83,7 @@ public:
         ping(pingable_id, std::chrono::milliseconds{5000});
     }
 
-    bool update() {
+    auto update() -> bool {
         some_true something_done{};
         something_done(Base::update());
 
@@ -106,7 +108,7 @@ public:
         return something_done;
     }
 
-    bool has_pending_pings() const noexcept {
+    auto has_pending_pings() const noexcept -> bool {
         return !_pending.empty();
     }
 
@@ -122,7 +124,7 @@ public:
       std::chrono::microseconds age) = 0;
 
 private:
-    bool _handle_pong(stored_message& message) {
+    auto _handle_pong(stored_message& message) -> bool {
         _pending.erase(
           std::remove_if(
             _pending.begin(),
@@ -150,4 +152,3 @@ private:
 } // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_SERVICE_PING_PONG_HPP
-

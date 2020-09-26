@@ -15,7 +15,7 @@ template <typename Entity>
 struct entity_traits {
     using parameter_type = Entity;
 
-    static inline Entity minimum() noexcept {
+    static auto minimum() noexcept -> Entity {
         return Entity();
     }
 };

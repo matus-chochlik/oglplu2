@@ -11,7 +11,7 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-identifier byte_to_identifier(byte b) noexcept {
+auto byte_to_identifier(byte b) noexcept -> identifier {
     // clang-format off
     static const char hd[16] = {
 		'0', '1', '2', '3', '4', '5', '6', '7',
@@ -27,7 +27,7 @@ identifier byte_to_identifier(byte b) noexcept {
 }
 //------------------------------------------------------------------------------
 template <std::size_t L>
-static identifier _ident_dec_to_str(int i, char (&tmp)[L]) noexcept {
+static auto _ident_dec_to_str(int i, char (&tmp)[L]) noexcept -> identifier {
     tmp[L - 1] = '\0';
     std::size_t l = L - 1;
     while(l-- > 0) {
@@ -38,7 +38,7 @@ static identifier _ident_dec_to_str(int i, char (&tmp)[L]) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-identifier dec_to_identifier(int i) noexcept {
+auto dec_to_identifier(int i) noexcept -> identifier {
     EAGINE_ASSERT(i >= 0);
     if(i < 10) {
         char tmp[2];

@@ -19,24 +19,23 @@ namespace eagine {
 class block_data_sink : public serializer_data_sink {
 public:
     block_data_sink(memory::block dst) noexcept
-      : _dst{dst} {
-    }
+      : _dst{dst} {}
 
-    memory::block done() const noexcept {
+    auto done() const noexcept -> memory::block {
         return head(_dst, _done);
     }
 
-    memory::block free() const noexcept {
+    auto free() const noexcept -> memory::block {
         return skip(_dst, _done);
     }
 
-    span_size_t remaining_size() final {
+    auto remaining_size() -> span_size_t final {
         return free().size();
     }
 
     using serializer_data_sink::write;
 
-    serialization_errors write(memory::const_block blk) final {
+    auto write(memory::const_block blk) -> serialization_errors final {
         auto dst = free();
         if(dst.size() < blk.size()) {
             copy(head(blk, dst.size()), dst);
@@ -48,7 +47,7 @@ public:
         return {};
     }
 
-    transaction_handle begin_work() final {
+    auto begin_work() -> transaction_handle final {
         _save_points.push(_done);
         return transaction_handle(_save_points.size());
     }
@@ -75,4 +74,3 @@ private:
 } // namespace eagine
 
 #endif // EAGINE_SERIALIZE_BLOCK_SINK_HPP
-

@@ -10,7 +10,7 @@
 #include <iostream>
 #include <memory>
 
-int main() {
+auto main() -> int {
     using namespace eagine;
 
     if(auto optstr = std::make_unique<std::string>("a string")) {

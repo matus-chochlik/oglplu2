@@ -61,14 +61,14 @@ template <
   bool DIsSig,
   bool SIsSig>
 struct within_limits_num {
-    static constexpr inline bool check(Src) noexcept {
+    static constexpr inline auto check(Src) noexcept {
         return implicitly_within_limits<Dst, Src>::value;
     }
 };
 //------------------------------------------------------------------------------
 template <typename Dst, typename Src, bool IsInt, bool IsSig>
 struct within_limits_num<Dst, Src, IsInt, IsInt, IsSig, IsSig> {
-    static constexpr inline bool check(Src value) noexcept {
+    static constexpr inline auto check(Src value) noexcept {
         using dnl = std::numeric_limits<Dst>;
 
         return (dnl::min() <= value) && (value <= dnl::max());
@@ -77,7 +77,7 @@ struct within_limits_num<Dst, Src, IsInt, IsInt, IsSig, IsSig> {
 //------------------------------------------------------------------------------
 template <typename Dst, typename Src, bool IsInt>
 struct within_limits_num<Dst, Src, IsInt, IsInt, false, true> {
-    static constexpr inline bool check(Src value) noexcept {
+    static constexpr inline auto check(Src value) noexcept {
         using Dnl = std::numeric_limits<Dst>;
         using Tmp = std::make_unsigned_t<Src>;
 
@@ -87,7 +87,7 @@ struct within_limits_num<Dst, Src, IsInt, IsInt, false, true> {
 //------------------------------------------------------------------------------
 template <typename Dst, typename Src, bool IsInt>
 struct within_limits_num<Dst, Src, IsInt, IsInt, true, false> {
-    static constexpr inline bool check(Src value) noexcept {
+    static constexpr inline auto check(Src value) noexcept {
         using dnl = std::numeric_limits<Dst>;
 
         return (value < dnl::max());
@@ -106,28 +106,28 @@ struct within_limits
 //------------------------------------------------------------------------------
 template <typename T>
 struct within_limits<T, T> {
-    static constexpr inline bool check(T&) noexcept {
+    static constexpr inline auto check(T&) noexcept {
         return true;
     }
 };
 //------------------------------------------------------------------------------
 template <typename Dst, typename Src>
-static constexpr inline bool is_within_limits(Src value) noexcept {
+static constexpr inline auto is_within_limits(Src value) noexcept {
     return implicitly_within_limits<Dst, Src>::value ||
            within_limits<Dst, Src>::check(value);
 }
 //------------------------------------------------------------------------------
 template <typename Dst, typename Src>
-static constexpr inline std::enable_if_t<std::is_convertible_v<Src, Dst>, Dst>
-limit_cast(Src value) noexcept {
+static constexpr inline auto limit_cast(Src value) noexcept
+  -> std::enable_if_t<std::is_convertible_v<Src, Dst>, Dst> {
     return EAGINE_CONSTEXPR_ASSERT(
       is_within_limits<Dst>(value), Dst(std::move(value)));
 }
 //------------------------------------------------------------------------------
 template <typename Dst, typename Src>
-static constexpr inline std::
-  enable_if_t<std::is_convertible_v<Src, Dst>, optionally_valid<Dst>>
-  convert_if_fits(Src value) noexcept {
+static constexpr inline auto convert_if_fits(Src value) noexcept
+  -> std::enable_if_t<std::is_convertible_v<Src, Dst>, optionally_valid<Dst>> {
+
     if(is_within_limits<Dst>(value)) {
         return {Dst(std::move(value)), true};
     }

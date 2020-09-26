@@ -29,10 +29,9 @@ struct str_utils_server : static_subscriber<2> {
           this,
           EAGINE_MSG_MAP(StrUtilReq, UpperCase, this_class, uppercase),
           EAGINE_MSG_MAP(StrUtilReq, Reverse, this_class, reverse))
-      , _log{EAGINE_ID(Server), parent} {
-    }
+      , _log{EAGINE_ID(Server), parent} {}
 
-    bool reverse(stored_message& msg) {
+    auto reverse(stored_message& msg) -> bool {
         auto str = msg.text_content();
         _log.trace("received request: ${content}").arg(EAGINE_ID(content), str);
         memory::reverse(str);
@@ -40,7 +39,7 @@ struct str_utils_server : static_subscriber<2> {
         return true;
     }
 
-    bool uppercase(stored_message& msg) {
+    auto uppercase(stored_message& msg) -> bool {
         auto str = msg.text_content();
         transform(str, [](char x) { return char(std::toupper(x)); });
         bus().send(EAGINE_MSG_ID(StrUtilRes, UpperCase), as_bytes(str));
@@ -62,8 +61,7 @@ struct str_utils_client : static_subscriber<2> {
           this,
           EAGINE_MSG_MAP(StrUtilRes, UpperCase, this_class, print),
           EAGINE_MSG_MAP(StrUtilRes, Reverse, this_class, print))
-      , _log{EAGINE_ID(Client), parent} {
-    }
+      , _log{EAGINE_ID(Client), parent} {}
 
     void call_reverse(string_view str) {
         ++_remaining;
@@ -75,14 +73,14 @@ struct str_utils_client : static_subscriber<2> {
         bus().send(EAGINE_MSG_ID(StrUtilReq, UpperCase), as_bytes(str));
     }
 
-    bool print(stored_message& msg) {
+    auto print(stored_message& msg) -> bool {
         _log.info("received response: ${content}")
           .arg(EAGINE_ID(content), msg.text_content());
         --_remaining;
         return true;
     }
 
-    bool is_done() const {
+    auto is_done() const -> bool {
         return _remaining <= 0;
     }
 
@@ -93,7 +91,7 @@ private:
 //------------------------------------------------------------------------------
 } // namespace msgbus
 
-int main(main_ctx& ctx) {
+auto main(main_ctx& ctx) -> int {
     auto acceptor = std::make_unique<msgbus::direct_acceptor>(ctx.log());
 
     msgbus::endpoint server_endpoint;
@@ -129,4 +127,3 @@ int main(main_ctx& ctx) {
     return 0;
 }
 } // namespace eagine
-

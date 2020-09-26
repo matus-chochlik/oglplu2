@@ -10,7 +10,7 @@ namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t array_gen::vertex_count() {
+auto array_gen::vertex_count() -> span_size_t {
     return delegated_gen::vertex_count() * _copies;
 }
 //------------------------------------------------------------------------------
@@ -47,21 +47,17 @@ void array_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t array_gen::index_count(drawing_variant var) {
+auto array_gen::index_count(drawing_variant var) -> span_size_t {
     return delegated_gen::index_count(var) * _copies;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-index_data_type array_gen::index_type(drawing_variant var) {
+auto array_gen::index_type(drawing_variant var) -> index_data_type {
     if(delegated_gen::index_type(var) != index_data_type::none) {
-        if(
-          vertex_count() <
-          span_size(std::numeric_limits<std::uint8_t>::max())) {
+        if(vertex_count() < span_size(std::numeric_limits<std::uint8_t>::max())) {
             return index_data_type::unsigned_8;
         }
-        if(
-          vertex_count() <
-          span_size(std::numeric_limits<std::uint16_t>::max())) {
+        if(vertex_count() < span_size(std::numeric_limits<std::uint16_t>::max())) {
             return index_data_type::unsigned_16;
         }
         return index_data_type::unsigned_32;
@@ -107,7 +103,7 @@ void array_gen::indices(drawing_variant var, span<std::uint32_t> dest) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t array_gen::operation_count(drawing_variant var) {
+auto array_gen::operation_count(drawing_variant var) -> span_size_t {
     const auto oc = delegated_gen::operation_count(var);
     if(oc == 1) {
         draw_operation op{};
@@ -175,7 +171,7 @@ void array_gen::instructions(drawing_variant var, span<draw_operation> ops) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-math::sphere<float, true> array_gen::bounding_sphere() {
+auto array_gen::bounding_sphere() -> math::sphere<float, true> {
     using std::pow;
     using std::sqrt;
 

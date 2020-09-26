@@ -19,7 +19,7 @@ namespace shapes {
 // generator_intf
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-math::sphere<float, true> generator_intf::bounding_sphere() {
+auto generator_intf::bounding_sphere() -> math::sphere<float, true> {
     std::array<float, 3> min{
       std::numeric_limits<float>::max(),
       std::numeric_limits<float>::max(),
@@ -168,12 +168,13 @@ void generator_intf::ray_intersections(
 //------------------------------------------------------------------------------
 // generator_base
 //------------------------------------------------------------------------------
-EAGINE_LIB_FUNC index_data_type generator_base::index_type(drawing_variant) {
+EAGINE_LIB_FUNC auto generator_base::index_type(drawing_variant)
+  -> index_data_type {
     return index_data_type::none;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t generator_base::index_count(drawing_variant) {
+auto generator_base::index_count(drawing_variant) -> span_size_t {
     return 0;
 }
 //------------------------------------------------------------------------------
@@ -209,7 +210,8 @@ void generator_base::indices(drawing_variant var, span<std::uint32_t> dest) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void centered_unit_shape_generator_base::attrib_values(
-  vertex_attrib_variant vav, span<float> dest) {
+  vertex_attrib_variant vav,
+  span<float> dest) {
     if(vav.attrib == vertex_attrib_kind::box_coord) {
         this->attrib_values({vertex_attrib_kind::position, vav}, dest);
         for(float& x : dest) {

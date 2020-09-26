@@ -24,8 +24,7 @@ public:
 
     slot_data_type value_type() override;
 
-    std::ostream& definitions(
-      std::ostream& out, compile_context& ctxt) override;
+    std::ostream& definitions(std::ostream& out, compile_context& ctxt) override;
 };
 
 class checker_node
@@ -48,8 +47,7 @@ public:
 
     slot_data_type value_type() override;
 
-    std::ostream& definitions(
-      std::ostream& out, compile_context& ctxt) override;
+    std::ostream& definitions(std::ostream& out, compile_context& ctxt) override;
 };
 
 using pixel_checker_node = single_output_node<pixel_checker_output>;

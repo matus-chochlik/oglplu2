@@ -89,9 +89,7 @@ struct basic_egl_c_api {
       EGLPLUS_EGL_STATIC_FUNC(Initialize)>
       Initialize;
 
-    egl_api_function<
-      bool_type(display_type),
-      EGLPLUS_EGL_STATIC_FUNC(Terminate)>
+    egl_api_function<bool_type(display_type), EGLPLUS_EGL_STATIC_FUNC(Terminate)>
       Terminate;
 
     egl_api_function<
@@ -105,8 +103,7 @@ struct basic_egl_c_api {
       GetConfigs;
 
     egl_api_function<
-      bool_type(
-        display_type, const int_type*, config_type*, int_type, int_type*),
+      bool_type(display_type, const int_type*, config_type*, int_type, int_type*),
       EGLPLUS_EGL_STATIC_FUNC(ChooseConfig)>
       ChooseConfig;
 
@@ -116,14 +113,12 @@ struct basic_egl_c_api {
       GetConfigAttrib;
 
     egl_api_function<
-      surface_type(
-        display_type, config_type, void_ptr_type, const attrib_type*),
+      surface_type(display_type, config_type, void_ptr_type, const attrib_type*),
       EGLPLUS_EGL_STATIC_FUNC(CreatePlatformWindowSurface)>
       CreatePlatformWindowSurface;
 
     egl_api_function<
-      surface_type(
-        display_type, config_type, native_window_type, const int_type*),
+      surface_type(display_type, config_type, native_window_type, const int_type*),
       EGLPLUS_EGL_STATIC_FUNC(CreateWindowSurface)>
       CreateWindowSurface;
 
@@ -133,14 +128,12 @@ struct basic_egl_c_api {
       CreatePbufferSurface;
 
     egl_api_function<
-      surface_type(
-        display_type, config_type, void_ptr_type, const attrib_type*),
+      surface_type(display_type, config_type, void_ptr_type, const attrib_type*),
       EGLPLUS_EGL_STATIC_FUNC(CreatePlatformPixmapSurface)>
       CreatePlatformPixmapSurface;
 
     egl_api_function<
-      surface_type(
-        display_type, config_type, native_pixmap_type, const int_type*),
+      surface_type(display_type, config_type, native_pixmap_type, const int_type*),
       EGLPLUS_EGL_STATIC_FUNC(CreatePixmapSurface)>
       CreatePixmapSurface;
 
@@ -277,12 +270,10 @@ struct basic_egl_c_api {
       , GetConfigs("GetConfigs", traits, *this)
       , ChooseConfig("ChooseConfig", traits, *this)
       , GetConfigAttrib("GetConfigAttrib", traits, *this)
-      , CreatePlatformWindowSurface(
-          "CreatePlatformWindowSurface", traits, *this)
+      , CreatePlatformWindowSurface("CreatePlatformWindowSurface", traits, *this)
       , CreateWindowSurface("CreateWindowSurface", traits, *this)
       , CreatePbufferSurface("CreatePbufferSurface", traits, *this)
-      , CreatePlatformPixmapSurface(
-          "CreatePlatformPixmapSurface", traits, *this)
+      , CreatePlatformPixmapSurface("CreatePlatformPixmapSurface", traits, *this)
       , CreatePixmapSurface("CreatePixmapSurface", traits, *this)
       , DestroySurface("DestroySurface", traits, *this)
       , GetCurrentSurface("GetCurrentSurface", traits, *this)
@@ -309,8 +300,7 @@ struct basic_egl_c_api {
       , CopyBuffers("CopyBuffers", traits, *this)
       , SwapInterval("SwapInterval", traits, *this)
       , SwapBuffers("SwapBuffers", traits, *this)
-      , ReleaseThread("ReleaseThread", traits, *this) {
-    }
+      , ReleaseThread("ReleaseThread", traits, *this) {}
 };
 //------------------------------------------------------------------------------
 using egl_c_api = basic_egl_c_api<egl_api_traits>;
@@ -318,4 +308,3 @@ using egl_c_api = basic_egl_c_api<egl_api_traits>;
 } // namespace eagine::eglp
 
 #endif // EGLPLUS_EGL_API_C_API_HPP
-

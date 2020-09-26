@@ -79,7 +79,10 @@ struct basic_alc_c_api {
 
     alc_api_function<
       device_type*(
-        const char_type*, uint_type freq, enum_type format, size_type bufsize),
+        const char_type*,
+        uint_type freq,
+        enum_type format,
+        size_type bufsize),
       OALPLUS_ALC_STATIC_FUNC(CaptureOpenDevice)>
       CaptureOpenDevice;
 
@@ -113,19 +116,13 @@ struct basic_alc_c_api {
       OALPLUS_ALC_STATIC_FUNC(CreateContext)>
       CreateContext;
 
-    alc_api_function<
-      void(context_type*),
-      OALPLUS_ALC_STATIC_FUNC(ProcessContext)>
+    alc_api_function<void(context_type*), OALPLUS_ALC_STATIC_FUNC(ProcessContext)>
       ProcessContext;
 
-    alc_api_function<
-      void(context_type*),
-      OALPLUS_ALC_STATIC_FUNC(SuspendContext)>
+    alc_api_function<void(context_type*), OALPLUS_ALC_STATIC_FUNC(SuspendContext)>
       SuspendContext;
 
-    alc_api_function<
-      void(context_type*),
-      OALPLUS_ALC_STATIC_FUNC(DestroyContext)>
+    alc_api_function<void(context_type*), OALPLUS_ALC_STATIC_FUNC(DestroyContext)>
       DestroyContext;
 
     alc_api_function<
@@ -133,9 +130,7 @@ struct basic_alc_c_api {
       OALPLUS_ALC_STATIC_FUNC(MakeContextCurrent)>
       MakeContextCurrent;
 
-    alc_api_function<
-      context_type*(),
-      OALPLUS_ALC_STATIC_FUNC(GetCurrentContext)>
+    alc_api_function<context_type*(), OALPLUS_ALC_STATIC_FUNC(GetCurrentContext)>
       GetCurrentContext;
 
     alc_api_function<
@@ -174,8 +169,7 @@ struct basic_alc_c_api {
       , GetContextsDevice("GetContextsDevice", traits, *this)
       , CaptureStart("CaptureStart", traits, *this)
       , CaptureStop("CaptureStop", traits, *this)
-      , CaptureSamples("CaptureSamples", traits, *this) {
-    }
+      , CaptureSamples("CaptureSamples", traits, *this) {}
 };
 //------------------------------------------------------------------------------
 using alc_c_api = basic_alc_c_api<alc_api_traits>;
@@ -183,4 +177,3 @@ using alc_c_api = basic_alc_c_api<alc_api_traits>;
 } // namespace eagine::oalp
 
 #endif // OALPLUS_ALC_API_C_API_HPP
-

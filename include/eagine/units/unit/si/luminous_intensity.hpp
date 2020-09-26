@@ -38,9 +38,8 @@ struct si::base_unit<base::luminous_intensity> : base::candela {};
 using candela = unit<luminous_intensity, si>;
 
 // derived
-using kilocandela = make_scaled_base_dim_unit_t<
-  base::scaled_unit<scales::kilo, base::candela>,
-  si>;
+using kilocandela =
+  make_scaled_base_dim_unit_t<base::scaled_unit<scales::kilo, base::candela>, si>;
 
 } // namespace eagine::units
 

@@ -29,8 +29,7 @@ class shutdown_trigger : public shutdown_trigger_base {
 public:
     shutdown_trigger(endpoint& bus)
       : base{bus}
-      , _log{EAGINE_ID(ShtdwnTrgr), bus.log()} {
-    }
+      , _log{EAGINE_ID(ShtdwnTrgr), bus.log()} {}
 
     void on_subscribed(identifier_t id, message_id sub_msg) final {
         if(sub_msg == EAGINE_MSG_ID(Shutdown, shutdown)) {
@@ -60,7 +59,7 @@ private:
 //------------------------------------------------------------------------------
 } // namespace msgbus
 
-int main(main_ctx& ctx) {
+auto main(main_ctx& ctx) -> int {
 
     msgbus::router_address address{ctx.log(), ctx.args()};
     msgbus::connection_setup conn_setup(ctx.log(), ctx.args());
@@ -95,4 +94,3 @@ int main(main_ctx& ctx) {
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
-

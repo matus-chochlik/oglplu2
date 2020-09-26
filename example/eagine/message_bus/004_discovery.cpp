@@ -28,8 +28,7 @@ class subscription_logger : public subscription_logger_base {
 public:
     subscription_logger(endpoint& bus)
       : base{bus}
-      , _log{EAGINE_ID(SubscrLog), bus.log()} {
-    }
+      , _log{EAGINE_ID(SubscrLog), bus.log()} {}
 
     void on_subscribed(identifier_t subscriber_id, message_id sub_msg) final {
         _log.info("endpoint ${subscrbr} subscribed to ${message}")
@@ -59,7 +58,7 @@ public:
         }
     }
 
-    bool is_done() const noexcept {
+    auto is_done() const noexcept -> bool {
         return _done;
     }
 
@@ -70,7 +69,7 @@ private:
 //------------------------------------------------------------------------------
 } // namespace msgbus
 
-int main(main_ctx& ctx) {
+auto main(main_ctx& ctx) -> int {
 
     signal_switch interrupted;
 
@@ -97,4 +96,3 @@ int main(main_ctx& ctx) {
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
-

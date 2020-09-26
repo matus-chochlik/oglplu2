@@ -41,7 +41,9 @@ static inline void enum_map_test_1(std::size_t n) {
       test_enum::value_e>
       counters;
 
-    auto incr = [](auto, auto& ctr) { ctr(); };
+    auto incr = [](auto, auto& ctr) {
+        ctr();
+    };
 
     for(std::size_t i = 0; i < n; ++i) {
         BOOST_CHECK(counters.visit(test_enum::value_d, incr));
@@ -105,7 +107,9 @@ static inline void enum_map_test_3(std::size_t n) {
       test_enum::value_e>
       counters;
 
-    auto incr = [](auto, auto& ctr) { ctr(); };
+    auto incr = [](auto, auto& ctr) {
+        ctr();
+    };
 
     for(std::size_t i = 0; i < n; ++i) {
         BOOST_CHECK(counters.visit(test_enum::value_a, incr));
@@ -165,7 +169,9 @@ static inline void enum_map_test_4(std::size_t n) {
 
     BOOST_CHECK(counters.visit_all(init));
 
-    auto incr = [](auto, auto& tup) { std::get<1>(tup)++; };
+    auto incr = [](auto, auto& tup) {
+        std::get<1>(tup)++;
+    };
 
     for(std::size_t i = 0; i < n; ++i) {
         BOOST_CHECK(counters.visit(test_enum::value_d, incr));

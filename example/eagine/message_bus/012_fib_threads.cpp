@@ -1,5 +1,5 @@
 /**
- *  @example eagine/message_bus/011_fib_threads.cpp
+ *  @example eagine/message_bus/012_fib_threads.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -40,24 +40,23 @@ public:
           this,
           EAGINE_MSG_MAP(Fibonacci, FindServer, this_class, is_ready),
           EAGINE_MSG_MAP(Fibonacci, Calculate, this_class, calculate),
-          EAGINE_MSG_MAP(Fibonacci, Shutdown, this_class, shutdown)) {
-    }
+          EAGINE_MSG_MAP(Fibonacci, Shutdown, this_class, shutdown)) {}
 
-    bool shutdown(stored_message&) {
+    auto shutdown(stored_message&) -> bool {
         _done = true;
         return true;
     }
 
-    bool is_ready(stored_message& msg_in) {
+    auto is_ready(stored_message& msg_in) -> bool {
         bus().respond_to(msg_in, EAGINE_MSG_ID(Fibonacci, IsReady));
         return true;
     }
 
-    static std::int64_t fib(std::int64_t arg) noexcept {
+    static auto fib(std::int64_t arg) noexcept -> std::int64_t {
         return arg <= 2 ? 1 : fib(arg - 2) + fib(arg - 1);
     }
 
-    bool calculate(stored_message& msg_in) {
+    auto calculate(stored_message& msg_in) -> bool {
         std::int64_t arg{0};
         std::int64_t result{0};
         auto tup = std::tie(arg, result);
@@ -80,7 +79,7 @@ public:
         return true;
     }
 
-    bool is_done() const noexcept {
+    auto is_done() const noexcept {
         return _done;
     }
 
@@ -99,8 +98,7 @@ public:
           std::move(log),
           this,
           EAGINE_MSG_MAP(Fibonacci, IsReady, this_class, dispatch),
-          EAGINE_MSG_MAP(Fibonacci, Result, this_class, print)) {
-    }
+          EAGINE_MSG_MAP(Fibonacci, Result, this_class, print)) {}
 
     void enqueue(std::int64_t arg) {
         _remaining.push(arg);
@@ -116,7 +114,7 @@ public:
         }
     }
 
-    bool dispatch(stored_message& msg_in) {
+    auto dispatch(stored_message& msg_in) -> bool {
         if(!_remaining.empty()) {
             auto arg = _remaining.front();
             _pending.insert(arg);
@@ -134,7 +132,7 @@ public:
         return true;
     }
 
-    bool print(stored_message& msg_in) {
+    auto print(stored_message& msg_in) -> bool {
         std::int64_t arg{0};
         std::int64_t result{0};
         auto tup = std::tie(arg, result);
@@ -149,7 +147,7 @@ public:
         return true;
     }
 
-    bool is_done() const {
+    auto is_done() const -> bool {
         return _remaining.empty() && _pending.empty();
     }
 
@@ -160,7 +158,7 @@ private:
 //------------------------------------------------------------------------------
 } // namespace msgbus
 
-int main(main_ctx& ctx) {
+auto main(main_ctx& ctx) -> int {
     auto& log = ctx.log();
 
     system_info si;

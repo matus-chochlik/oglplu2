@@ -25,15 +25,14 @@ private:
 
 public:
     bindump(memory::const_block mb) noexcept
-      : _mb(mb) {
-    }
+      : _mb(mb) {}
 
     using byte_getter = callable_ref<optionally_valid<byte>()>;
     using char_putter = callable_ref<bool(char)>;
 
     static void apply(byte_getter get_byte, char_putter put_char);
 
-    friend std::ostream& operator<<(std::ostream&, const bindump&);
+    friend auto operator<<(std::ostream&, const bindump&) -> std::ostream&;
 };
 
 } // namespace eagine

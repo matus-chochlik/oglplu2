@@ -23,12 +23,11 @@ using alc_enum_class =
 using alc_any_enum_class = any_enum_class<EAGINE_ID_V(ALC)>;
 using alc_any_enum_value = any_enum_value<EAGINE_ID_V(ALC)>;
 
-static constexpr inline bool same_enum_class(
-  alc_any_enum_class a, alc_any_enum_class b) noexcept {
+static constexpr inline auto
+same_enum_class(alc_any_enum_class a, alc_any_enum_class b) noexcept -> bool {
     return ::eagine::same_enum_class(a, b);
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::oalp
 
 #endif // OALPLUS_ALC_API_ENUM_CLASS_HPP
-

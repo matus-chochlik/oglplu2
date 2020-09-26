@@ -28,7 +28,8 @@ private:
     std::string _temp{};
     std::map<vertex_attrib_variant, std::string> _variant_names{};
 
-    static vertex_attrib_bits _attr_mask(const valtree::compound&) noexcept;
+    static auto _attr_mask(const valtree::compound&) noexcept
+      -> vertex_attrib_bits;
 
     template <typename T>
     void _attrib_values(vertex_attrib_variant, span<T>);
@@ -36,17 +37,17 @@ private:
 public:
     value_tree_loader(valtree::compound source, logger&) noexcept;
 
-    span_size_t vertex_count() override;
+    auto vertex_count() -> span_size_t override;
 
-    span_size_t attribute_variants(vertex_attrib_kind attrib) override;
+    auto attribute_variants(vertex_attrib_kind) -> span_size_t override;
 
-    string_view variant_name(vertex_attrib_variant) override;
+    auto variant_name(vertex_attrib_variant) -> string_view override;
 
-    span_size_t values_per_vertex(vertex_attrib_variant) override;
+    auto values_per_vertex(vertex_attrib_variant) -> span_size_t override;
 
-    attrib_data_type attrib_type(vertex_attrib_variant vav) override;
+    auto attrib_type(vertex_attrib_variant vav) -> attrib_data_type override;
 
-    bool is_attrib_normalized(vertex_attrib_variant) override;
+    auto is_attrib_normalized(vertex_attrib_variant) -> bool override;
 
     void attrib_values(vertex_attrib_variant, span<byte>) override;
     void attrib_values(vertex_attrib_variant, span<std::int16_t>) override;
@@ -55,14 +56,14 @@ public:
     void attrib_values(vertex_attrib_variant, span<std::uint32_t>) override;
     void attrib_values(vertex_attrib_variant, span<float>) override;
 
-    index_data_type index_type(drawing_variant) override;
+    auto index_type(drawing_variant) -> index_data_type override;
 
-    span_size_t index_count(drawing_variant) override;
+    auto index_count(drawing_variant) -> span_size_t override;
 
     void indices(drawing_variant, span<std::uint16_t> dest) override;
     void indices(drawing_variant, span<std::uint32_t> dest) override;
 
-    span_size_t operation_count(drawing_variant) override;
+    auto operation_count(drawing_variant) -> span_size_t override;
 
     void instructions(drawing_variant, span<draw_operation> ops) override;
 };

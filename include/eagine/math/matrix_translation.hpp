@@ -28,15 +28,12 @@ struct translation<matrix<T, 4, 4, RM, V>> {
     vect::data_t<T, 3, V> _v;
 
     constexpr translation(vect::data_t<T, 3, V> v) noexcept
-      : _v(v) {
-    }
+      : _v(v) {}
 
     constexpr translation(T vx, T vy, T vz) noexcept
-      : _v{vx, vy, vz} {
-    }
+      : _v{vx, vy, vz} {}
 
-    constexpr inline matrix<T, 4, 4, true, V> _make(
-      std::true_type) const noexcept {
+    constexpr auto _make(std::true_type) const noexcept {
         return matrix<T, 4, 4, true, V>{
           {{T(1), T(0), T(0), _v[0]},
            {T(0), T(1), T(0), _v[1]},
@@ -44,8 +41,7 @@ struct translation<matrix<T, 4, 4, RM, V>> {
            {T(0), T(0), T(0), T(1)}}};
     }
 
-    constexpr inline matrix<T, 4, 4, false, V> _make(
-      std::false_type) const noexcept {
+    constexpr auto _make(std::false_type) const noexcept {
         return matrix<T, 4, 4, false, V>{
           {{T(1), T(0), T(0), T(0)},
            {T(0), T(1), T(0), T(0)},
@@ -53,23 +49,25 @@ struct translation<matrix<T, 4, 4, RM, V>> {
            {_v[0], _v[1], _v[2], T(1)}}};
     }
 
-    constexpr inline matrix<T, 4, 4, RM, V> operator()() const noexcept {
+    constexpr auto operator()() const noexcept {
         return _make(bool_constant<RM>());
     }
 };
 
 // multiply
 template <typename T, int N, bool RM1, bool RM2, bool V>
-static constexpr inline translation<matrix<T, N, N, RM1, V>> multiply(
+static constexpr inline auto multiply(
   const translation<matrix<T, N, N, RM1, V>>& a,
-  const translation<matrix<T, N, N, RM2, V>>& b) noexcept {
+  const translation<matrix<T, N, N, RM2, V>>& b) noexcept
+  -> translation<matrix<T, N, N, RM1, V>> {
     return {a._v + b._v};
 }
 
 // reorder_mat_ctr(translation)
 template <typename T, int N, bool RM, bool V>
-static constexpr inline translation<matrix<T, N, N, !RM, V>> reorder_mat_ctr(
-  const translation<matrix<T, N, N, RM, V>>& c) noexcept {
+static constexpr inline auto
+reorder_mat_ctr(const translation<matrix<T, N, N, RM, V>>& c) noexcept
+  -> translation<matrix<T, N, N, !RM, V>> {
     return {c._v};
 }
 

@@ -14,7 +14,7 @@
 
 namespace eagine {
 
-int main(main_ctx& ctx) {
+auto main(main_ctx& ctx) -> int {
 
     for(auto& arg : ctx.args()) {
         if(!arg.starts_with("-")) {

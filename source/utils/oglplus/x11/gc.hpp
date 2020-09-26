@@ -25,8 +25,7 @@ public:
           display,
           ::XCreateGC(display, pixmap, 0, nullptr),
           ::XFreeGC,
-          "Error creating X GC (graphics context)") {
-    }
+          "Error creating X GC (graphics context)") {}
 };
 
 } // namespace x11

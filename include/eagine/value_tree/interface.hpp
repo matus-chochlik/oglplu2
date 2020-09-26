@@ -25,154 +25,177 @@ struct attribute_interface {
     attribute_interface() noexcept = default;
     attribute_interface(attribute_interface&&) noexcept = default;
     attribute_interface(const attribute_interface&) = default;
-    attribute_interface& operator=(attribute_interface&&) noexcept = default;
-    attribute_interface& operator=(const attribute_interface&) = default;
+    auto operator=(attribute_interface&&) = delete;
+    auto operator=(const attribute_interface&) = delete;
     virtual ~attribute_interface() noexcept = default;
 
-    virtual identifier_t type_id() const noexcept = 0;
+    virtual auto type_id() const noexcept -> identifier_t = 0;
 };
 //------------------------------------------------------------------------------
 struct compound_interface {
     compound_interface() noexcept = default;
     compound_interface(compound_interface&&) = delete;
     compound_interface(const compound_interface&) = delete;
-    compound_interface& operator=(compound_interface&&) = delete;
-    compound_interface& operator=(const compound_interface&) = delete;
+    auto operator=(compound_interface&&) = delete;
+    auto operator=(const compound_interface&) = delete;
     virtual ~compound_interface() noexcept = default;
 
-    virtual identifier_t type_id() const noexcept = 0;
+    virtual auto type_id() const noexcept -> identifier_t = 0;
     virtual void add_ref(attribute_interface&) noexcept = 0;
     virtual void release(attribute_interface&) noexcept = 0;
 
-    virtual attribute_interface* structure() = 0;
+    virtual auto structure() -> attribute_interface* = 0;
 
-    virtual string_view attribute_name(attribute_interface&) = 0;
+    virtual auto attribute_name(attribute_interface&) -> string_view = 0;
 
-    virtual span_size_t nested_count(attribute_interface&) = 0;
+    virtual auto nested_count(attribute_interface&) -> span_size_t = 0;
 
-    virtual attribute_interface* nested(
-      attribute_interface&, span_size_t index) = 0;
+    virtual auto nested(attribute_interface&, span_size_t index)
+      -> attribute_interface* = 0;
 
-    virtual attribute_interface* nested(
-      attribute_interface&, string_view name) = 0;
+    virtual auto nested(attribute_interface&, string_view name)
+      -> attribute_interface* = 0;
 
-    virtual attribute_interface* find(
-      attribute_interface&, const basic_string_path&) = 0;
+    virtual auto find(attribute_interface&, const basic_string_path&)
+      -> attribute_interface* = 0;
 
-    virtual span_size_t value_count(attribute_interface&) = 0;
+    virtual auto value_count(attribute_interface&) -> span_size_t = 0;
 
-    virtual span_size_t fetch_values(
-      attribute_interface&, span_size_t offset, span<bool> dest) = 0;
+    virtual auto
+    fetch_values(attribute_interface&, span_size_t offset, span<bool> dest)
+      -> span_size_t = 0;
 
-    virtual span_size_t fetch_values(
-      attribute_interface&, span_size_t offset, span<byte> dest) = 0;
+    virtual auto
+    fetch_values(attribute_interface&, span_size_t offset, span<byte> dest)
+      -> span_size_t = 0;
 
-    virtual span_size_t fetch_values(
-      attribute_interface&, span_size_t offset, span<std::int16_t> dest) = 0;
-
-    virtual span_size_t fetch_values(
-      attribute_interface&, span_size_t offset, span<std::int32_t> dest) = 0;
-
-    virtual span_size_t fetch_values(
-      attribute_interface&, span_size_t offset, span<std::int64_t> dest) = 0;
-
-    virtual span_size_t fetch_values(
-      attribute_interface&, span_size_t offset, span<std::uint16_t> dest) = 0;
-
-    virtual span_size_t fetch_values(
-      attribute_interface&, span_size_t offset, span<std::uint32_t> dest) = 0;
-
-    virtual span_size_t fetch_values(
-      attribute_interface&, span_size_t offset, span<std::uint64_t> dest) = 0;
-
-    virtual span_size_t fetch_values(
-      attribute_interface&, span_size_t offset, span<float> dest) = 0;
-
-    virtual span_size_t fetch_values(
+    virtual auto fetch_values(
       attribute_interface&,
       span_size_t offset,
-      span<std::chrono::duration<float>> dest) = 0;
+      span<std::int16_t> dest) -> span_size_t = 0;
 
-    virtual span_size_t fetch_values(
-      attribute_interface&, span_size_t offset, span<std::string> dest) = 0;
+    virtual auto fetch_values(
+      attribute_interface&,
+      span_size_t offset,
+      span<std::int32_t> dest) -> span_size_t = 0;
+
+    virtual auto fetch_values(
+      attribute_interface&,
+      span_size_t offset,
+      span<std::int64_t> dest) -> span_size_t = 0;
+
+    virtual auto fetch_values(
+      attribute_interface&,
+      span_size_t offset,
+      span<std::uint16_t> dest) -> span_size_t = 0;
+
+    virtual auto fetch_values(
+      attribute_interface&,
+      span_size_t offset,
+      span<std::uint32_t> dest) -> span_size_t = 0;
+
+    virtual auto fetch_values(
+      attribute_interface&,
+      span_size_t offset,
+      span<std::uint64_t> dest) -> span_size_t = 0;
+
+    virtual auto
+    fetch_values(attribute_interface&, span_size_t offset, span<float> dest)
+      -> span_size_t = 0;
+
+    virtual auto fetch_values(
+      attribute_interface&,
+      span_size_t offset,
+      span<std::chrono::duration<float>> dest) -> span_size_t = 0;
+
+    virtual auto fetch_values(
+      attribute_interface&,
+      span_size_t offset,
+      span<std::string> dest) -> span_size_t = 0;
 };
 //------------------------------------------------------------------------------
 template <typename Derived>
 class compound_implementation : public compound_interface {
 private:
-    Derived& derived() noexcept {
+    auto derived() noexcept -> Derived& {
         return *static_cast<Derived*>(this);
     }
 
 public:
-    span_size_t fetch_values(
-      attribute_interface& attrib, span_size_t offset, span<bool> dest) final {
-        return derived().do_fetch_values(attrib, offset, dest);
-    }
-
-    span_size_t fetch_values(
-      attribute_interface& attrib, span_size_t offset, span<byte> dest) final {
-        return derived().do_fetch_values(attrib, offset, dest);
-    }
-
-    span_size_t fetch_values(
+    auto fetch_values(
       attribute_interface& attrib,
       span_size_t offset,
-      span<std::int16_t> dest) final {
+      span<bool> dest) -> span_size_t final {
         return derived().do_fetch_values(attrib, offset, dest);
     }
 
-    span_size_t fetch_values(
+    auto fetch_values(
       attribute_interface& attrib,
       span_size_t offset,
-      span<std::int32_t> dest) final {
+      span<byte> dest) -> span_size_t final {
         return derived().do_fetch_values(attrib, offset, dest);
     }
 
-    span_size_t fetch_values(
+    auto fetch_values(
       attribute_interface& attrib,
       span_size_t offset,
-      span<std::int64_t> dest) final {
+      span<std::int16_t> dest) -> span_size_t final {
         return derived().do_fetch_values(attrib, offset, dest);
     }
 
-    span_size_t fetch_values(
+    auto fetch_values(
       attribute_interface& attrib,
       span_size_t offset,
-      span<std::uint16_t> dest) final {
+      span<std::int32_t> dest) -> span_size_t final {
         return derived().do_fetch_values(attrib, offset, dest);
     }
 
-    span_size_t fetch_values(
+    auto fetch_values(
       attribute_interface& attrib,
       span_size_t offset,
-      span<std::uint32_t> dest) final {
+      span<std::int64_t> dest) -> span_size_t final {
         return derived().do_fetch_values(attrib, offset, dest);
     }
 
-    span_size_t fetch_values(
+    auto fetch_values(
       attribute_interface& attrib,
       span_size_t offset,
-      span<std::uint64_t> dest) final {
+      span<std::uint16_t> dest) -> span_size_t final {
         return derived().do_fetch_values(attrib, offset, dest);
     }
 
-    span_size_t fetch_values(
-      attribute_interface& attrib, span_size_t offset, span<float> dest) final {
-        return derived().do_fetch_values(attrib, offset, dest);
-    }
-
-    span_size_t fetch_values(
+    auto fetch_values(
       attribute_interface& attrib,
       span_size_t offset,
-      span<std::chrono::duration<float>> dest) final {
+      span<std::uint32_t> dest) -> span_size_t final {
         return derived().do_fetch_values(attrib, offset, dest);
     }
 
-    span_size_t fetch_values(
+    auto fetch_values(
       attribute_interface& attrib,
       span_size_t offset,
-      span<std::string> dest) final {
+      span<std::uint64_t> dest) -> span_size_t final {
+        return derived().do_fetch_values(attrib, offset, dest);
+    }
+
+    auto fetch_values(
+      attribute_interface& attrib,
+      span_size_t offset,
+      span<float> dest) -> span_size_t final {
+        return derived().do_fetch_values(attrib, offset, dest);
+    }
+
+    auto fetch_values(
+      attribute_interface& attrib,
+      span_size_t offset,
+      span<std::chrono::duration<float>> dest) -> span_size_t final {
+        return derived().do_fetch_values(attrib, offset, dest);
+    }
+
+    auto fetch_values(
+      attribute_interface& attrib,
+      span_size_t offset,
+      span<std::string> dest) -> span_size_t final {
         return derived().do_fetch_values(attrib, offset, dest);
     }
 };

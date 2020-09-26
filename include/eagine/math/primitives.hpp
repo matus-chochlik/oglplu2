@@ -21,18 +21,17 @@ public:
 
     constexpr line(tvec<T, 3, V> orig, tvec<T, 3, V> dir) noexcept
       : _origin{orig}
-      , _direction{dir} {
-    }
+      , _direction{dir} {}
 
-    constexpr vector<T, 3, V> origin() const noexcept {
+    constexpr auto origin() const noexcept -> vector<T, 3, V> {
         return _origin;
     }
 
-    constexpr vector<T, 3, V> direction() const noexcept {
+    constexpr auto direction() const noexcept -> vector<T, 3, V> {
         return _direction;
     }
 
-    constexpr vector<T, 3, V> point_at(T t) const noexcept {
+    constexpr auto point_at(T t) const noexcept -> vector<T, 3, V> {
         return _origin + _direction * t;
     }
 
@@ -46,40 +45,38 @@ class triangle {
 public:
     constexpr triangle() noexcept = default;
 
-    constexpr triangle(
-      tvec<T, 3, V> a, tvec<T, 3, V> b, tvec<T, 3, V> c) noexcept
-      : _vertices{{a, b, c}} {
-    }
+    constexpr triangle(tvec<T, 3, V> a, tvec<T, 3, V> b, tvec<T, 3, V> c) noexcept
+      : _vertices{{a, b, c}} {}
 
-    constexpr vector<T, 3, V> vertex(span_size_t index) const noexcept {
+    constexpr auto vertex(span_size_t index) const noexcept -> vector<T, 3, V> {
         return _vertices[index];
     }
 
-    constexpr vector<T, 3, V> a() const noexcept {
+    constexpr auto a() const noexcept -> vector<T, 3, V> {
         return _vertices[0];
     }
 
-    constexpr vector<T, 3, V> b() const noexcept {
+    constexpr auto b() const noexcept -> vector<T, 3, V> {
         return _vertices[1];
     }
 
-    constexpr vector<T, 3, V> c() const noexcept {
+    constexpr auto c() const noexcept -> vector<T, 3, V> {
         return _vertices[2];
     }
 
-    constexpr vector<T, 3, V> ab() const noexcept {
+    constexpr auto ab() const noexcept -> vector<T, 3, V> {
         return b() - a();
     }
 
-    constexpr vector<T, 3, V> ac() const noexcept {
+    constexpr auto ac() const noexcept -> vector<T, 3, V> {
         return c() - a();
     }
 
-    constexpr vector<T, 3, V> center() const noexcept {
+    constexpr auto center() const noexcept -> vector<T, 3, V> {
         return (a() + b() + c()) / T(3);
     }
 
-    constexpr vector<T, 3, V> normal(bool cw) const noexcept {
+    constexpr auto normal(bool cw) const noexcept -> vector<T, 3, V> {
         return cw ? cross(ac(), ab()) : cross(ab(), ac());
     }
 
@@ -91,14 +88,13 @@ template <typename T, bool V>
 class sphere {
 public:
     constexpr sphere(tvec<T, 3, V> cntr, T rad) noexcept
-      : _params{vector<T, 4, V>::from(cntr, rad)} {
-    }
+      : _params{vector<T, 4, V>::from(cntr, rad)} {}
 
-    constexpr vector<T, 3, V> center() const noexcept {
+    constexpr auto center() const noexcept -> vector<T, 3, V> {
         return vector<T, 3, V>::from(_params);
     }
 
-    constexpr T radius() const noexcept {
+    constexpr auto radius() const noexcept -> T {
         return _params[3];
     }
 

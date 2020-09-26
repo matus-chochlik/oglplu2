@@ -38,7 +38,7 @@ struct test<EAGINE_TAG_TYPE(bar)> {
     }
 };
 //------------------------------------------------------------------------------
-int main() {
+auto main() -> int {
     using namespace eagine;
 
     func(EAGINE_TAG(foo));

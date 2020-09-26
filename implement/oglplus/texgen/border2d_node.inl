@@ -15,8 +15,7 @@ OGLPLUS_LIB_FUNC
 border2d_output::border2d_output(node_intf& parent)
   : base_output(parent)
   , mode(border2d_mode::max)
-  , input(parent, string_view("Input"), 0.5f, 0.5f, 0.5f, 0.5f) {
-}
+  , input(parent, string_view("Input"), 0.5f, 0.5f, 0.5f, 0.5f) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 string_view border2d_output::type_name() {
@@ -29,8 +28,8 @@ slot_data_type border2d_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& border2d_output::definitions(
-  std::ostream& out, compile_context& ctxt) {
+std::ostream&
+border2d_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt)) {
         return out;
     }

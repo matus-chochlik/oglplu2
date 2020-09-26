@@ -27,19 +27,19 @@ private:
     std::vector<owned_block> _blks;
     std::vector<span_size_t> _alns;
 
-    block _do_allocate(const span_size_t size, const span_size_t align);
+    auto _do_allocate(const span_size_t size, const span_size_t align) -> block;
 
     template <typename T>
-    block _allocate(const span_size_t count, const span_size_t align);
+    auto _allocate(const span_size_t count, const span_size_t align) -> block;
 
     template <typename T>
-    T* _make_n(const span_size_t count, const span_size_t align);
+    auto _make_n(const span_size_t count, const span_size_t align) -> T*;
 
     template <typename T, typename... Args>
-    T* _make_1(const span_size_t align, Args&&... args);
+    auto _make_1(const span_size_t align, Args&&... args) -> T*;
 
 protected:
-    const Alloc& allocator() const {
+    auto allocator() const -> const Alloc& {
         return _alloc;
     }
 
@@ -48,47 +48,45 @@ public:
 
     template <typename... P>
     explicit basic_allocation_arena(P&&... p)
-      : _alloc(std::forward<P>(p)...) {
-    }
+      : _alloc(std::forward<P>(p)...) {}
 
     explicit basic_allocation_arena(Alloc&& alloc)
-      : _alloc(std::move(alloc)) {
-    }
+      : _alloc(std::move(alloc)) {}
 
     basic_allocation_arena(basic_allocation_arena&&) noexcept = default;
     basic_allocation_arena(const basic_allocation_arena&) = delete;
-    basic_allocation_arena& operator=(basic_allocation_arena&&) = delete;
-    basic_allocation_arena& operator=(const basic_allocation_arena&) = delete;
+    auto operator=(basic_allocation_arena&&) = delete;
+    auto operator=(const basic_allocation_arena&) = delete;
 
     ~basic_allocation_arena() {
         clear();
     }
 
-    bool empty() const noexcept {
+    auto empty() const noexcept -> bool {
         EAGINE_ASSERT(_blks.empty() == _alns.empty());
         return _blks.empty();
     }
 
     void clear();
 
-    block allocate(span_size_t size, span_size_t align) {
+    auto allocate(span_size_t size, span_size_t align) -> block {
         _blks.push_back(_alloc.allocate(size, align));
         _alns.push_back(align);
         return _blks.back();
     }
 
     template <typename T>
-    span<T> make_aligned_array(
-      const span_size_t count, const span_size_t align);
+    auto make_aligned_array(const span_size_t count, const span_size_t align)
+      -> span<T>;
 
     template <typename T>
-    span<T> make_array(const span_size_t count) {
+    auto make_array(const span_size_t count) {
         return make_aligned_array<T>(count, 1);
     }
 
     template <typename T, typename P, typename S>
-    span<std::remove_const_t<T>> copy_aligned_array(
-      basic_span<T, P, S> src, const span_size_t align) {
+    auto copy_aligned_array(basic_span<T, P, S> src, const span_size_t align)
+      -> span<std::remove_const_t<T>> {
         auto dst =
           make_aligned_array<std::remove_const_t<T>>(src.size(), align);
         std::copy(src.begin(), src.end(), dst.begin());
@@ -96,15 +94,15 @@ public:
     }
 
     template <typename T, typename P, typename S>
-    span<std::remove_const_t<T>> copy_array(basic_span<T, P, S> src) {
+    auto copy_array(basic_span<T, P, S> src) -> span<std::remove_const_t<T>> {
         return copy_aligned_array<T>(src, span_size(alignof(T)));
     }
 
     template <typename T, typename... Args>
-    T& make_aligned(const span_size_t align, Args&&... args);
+    auto make_aligned(const span_size_t align, Args&&... args) -> T&;
 
     template <typename T, typename... Args>
-    T& make(Args&&... args) {
+    auto make(Args&&... args) -> T& {
         return make_aligned<T>(
           span_size(alignof(T)), std::forward<Args>(args)...);
     }

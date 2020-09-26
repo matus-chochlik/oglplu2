@@ -27,15 +27,13 @@ public:
     newton_output(node_intf& parent, newton_function);
 
     newton_output(node_intf& parent)
-      : newton_output(parent, newton_function::xe3minus1) {
-    }
+      : newton_output(parent, newton_function::xe3minus1) {}
 
     string_view type_name() override;
 
     slot_data_type value_type() override;
 
-    std::ostream& definitions(
-      std::ostream& out, compile_context& ctxt) override;
+    std::ostream& definitions(std::ostream& out, compile_context& ctxt) override;
 };
 
 class newton_node : public single_output_node<newton_output> {

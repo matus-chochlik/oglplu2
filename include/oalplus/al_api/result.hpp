@@ -18,11 +18,11 @@ namespace eagine::oalp {
 //------------------------------------------------------------------------------
 class al_no_result_info {
 public:
-    constexpr al_no_result_info& error_code(anything) noexcept {
+    constexpr auto error_code(anything) noexcept -> auto& {
         return *this;
     }
 
-    constexpr string_view message() const noexcept {
+    constexpr auto message() const noexcept -> string_view {
         return {"AL function not available"};
     }
 
@@ -37,16 +37,16 @@ public:
         return al_types::error_code_no_error(_error_code);
     }
 
-    constexpr bool operator!() const noexcept {
+    constexpr auto operator!() const noexcept {
         return !al_types::error_code_no_error(_error_code);
     }
 
-    constexpr al_result_info& error_code(enum_type ec) noexcept {
+    constexpr auto error_code(enum_type ec) noexcept -> auto& {
         _error_code = ec;
         return *this;
     }
 
-    string_view message() const noexcept {
+    auto message() const noexcept -> string_view {
 #ifdef AL_INVALID_NAME
         if(_error_code == AL_INVALID_NAME) {
             return {"invalid object name"};
@@ -100,4 +100,3 @@ using al_opt_result = api_opt_result<Result, al_result_info>;
 } // namespace eagine::oalp
 
 #endif // OALPLUS_AL_API_RESULT_HPP
-

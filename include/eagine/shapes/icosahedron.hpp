@@ -21,11 +21,11 @@ class unit_icosahedron_gen : public centered_unit_shape_generator_base {
 private:
     using _base = centered_unit_shape_generator_base;
 
-    static vertex_attrib_bits _attr_mask() noexcept;
+    static auto _attr_mask() noexcept -> vertex_attrib_bits;
 
-    static vertex_attrib_bits _shared_attrs() noexcept;
+    static auto _shared_attrs() noexcept -> vertex_attrib_bits;
 
-    bool _only_shared_attribs() noexcept;
+    auto _only_shared_attribs() noexcept -> bool;
 
     template <typename T>
     void _indices(drawing_variant, span<T> dest) noexcept;
@@ -33,15 +33,15 @@ private:
 public:
     unit_icosahedron_gen(vertex_attrib_bits attr_bits) noexcept;
 
-    span_size_t vertex_count() override;
+    auto vertex_count() -> span_size_t override;
 
     void positions(span<float> dest) noexcept;
 
     void attrib_values(vertex_attrib_variant, span<float>) override;
 
-    index_data_type index_type(drawing_variant) override;
+    auto index_type(drawing_variant) -> index_data_type override;
 
-    span_size_t index_count(drawing_variant) override;
+    auto index_count(drawing_variant) -> span_size_t override;
 
     void indices(drawing_variant, span<std::uint8_t> dest) override;
 
@@ -49,11 +49,11 @@ public:
 
     void indices(drawing_variant, span<std::uint32_t> dest) override;
 
-    span_size_t operation_count(drawing_variant) override;
+    auto operation_count(drawing_variant) -> span_size_t override;
 
     void instructions(drawing_variant, span<draw_operation> ops) override;
 
-    math::sphere<float, true> bounding_sphere() override;
+    auto bounding_sphere() -> math::sphere<float, true> override;
 };
 //------------------------------------------------------------------------------
 static inline auto unit_icosahedron(vertex_attrib_bits attr_bits) {

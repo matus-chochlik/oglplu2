@@ -34,7 +34,7 @@ template <typename R>
 using valid_range_position = valid_if_le_size_ge0<R, range_index_t<R>>;
 //------------------------------------------------------------------------------
 template <typename R, typename T>
-static constexpr inline range_index_t<R> range_index(T i) noexcept {
+static constexpr inline auto range_index(T i) noexcept {
     return limit_cast<range_index_t<R>>(i);
 }
 //------------------------------------------------------------------------------

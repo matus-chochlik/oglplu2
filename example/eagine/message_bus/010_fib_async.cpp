@@ -1,5 +1,5 @@
 /**
- *  @example eagine/message_bus/008_fib_futures.cpp
+ *  @example eagine/message_bus/010_fib_async.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -37,18 +37,18 @@ private:
     workshop _workers{};
     default_async_skeleton<std::int64_t(std::int64_t), 64> _calc_skeleton{};
 
-    static std::int64_t fib(std::int64_t arg) {
+    static auto fib(std::int64_t arg) -> std::int64_t {
         return arg <= 2 ? 1 : fib(arg - 2) + fib(arg - 1);
     }
 
-    bool calculate(stored_message& msg_in) {
+    auto calculate(stored_message& msg_in) {
         _calc_skeleton.enqueue(
           msg_in, EAGINE_MSG_ID(Fibonacci, Result), {&fib}, _workers);
         return true;
     }
 
 public:
-    bool update() {
+    auto update() {
         some_true something_done{};
         something_done(Base::update());
 
@@ -76,18 +76,18 @@ protected:
 private:
     default_invoker<std::int64_t(std::int64_t), 64> _calc_invoker{};
 
-    bool fulfill(stored_message& message) {
+    auto fulfill(stored_message& message) {
         _calc_invoker.fulfill_by(message);
         return true;
     }
 
 public:
-    future<std::int64_t> fib(std::int64_t arg) {
+    auto fib(std::int64_t arg) -> future<std::int64_t> {
         return _calc_invoker.invoke(
           bus(), EAGINE_MSG_ID(Fibonacci, Calculate), arg);
     }
 
-    bool is_done() const {
+    auto is_done() const -> bool {
         return _calc_invoker.is_done();
     }
 };
@@ -95,7 +95,7 @@ using fibonacci_client = service_composition<fibonacci_client_impl<>>;
 //------------------------------------------------------------------------------
 } // namespace msgbus
 
-int main(main_ctx& ctx) {
+auto main(main_ctx& ctx) -> int {
     auto& log = ctx.log();
 
     auto acceptor = std::make_unique<msgbus::direct_acceptor>(log);
@@ -134,4 +134,3 @@ int main(main_ctx& ctx) {
     return 0;
 }
 } // namespace eagine
-

@@ -45,10 +45,7 @@ public:
         }
     };
 
-    template <
-      typename W,
-      W c_api::*F,
-      typename Signature = typename W::signature>
+    template <typename W, W c_api::*F, typename Signature = typename W::signature>
     class func;
 
     template <typename W, W c_api::*F, typename RVC, typename... Params>
@@ -118,8 +115,8 @@ public:
             return this->_chkcall(size_type(names.size()), names.data());
         }
 
-        constexpr auto operator()(
-          al_owned_object_name<ObjTag>& name) const noexcept {
+        constexpr auto
+        operator()(al_owned_object_name<ObjTag>& name) const noexcept {
             auto n = name.release();
             return this->_chkcall(1, &n);
         }
@@ -190,8 +187,8 @@ public:
                    bool(this->api().Listener3i) && bool(this->api().Listeneriv);
         }
 
-        constexpr auto operator()(
-          listener_attribute attr, int_type v0) const noexcept {
+        constexpr auto
+        operator()(listener_attribute attr, int_type v0) const noexcept {
             return this->_check(
               this->_call(this->api().Listeneri, enum_type(attr), v0));
         }
@@ -206,7 +203,8 @@ public:
         }
 
         constexpr auto operator()(
-          listener_attribute attr, span<const int_type> v) const noexcept {
+          listener_attribute attr,
+          span<const int_type> v) const noexcept {
             return this->_check(
               this->_call(this->api().Listeneriv, enum_type(attr), v.data()));
         }
@@ -221,8 +219,8 @@ public:
                    bool(this->api().Listener3f) && bool(this->api().Listenerfv);
         }
 
-        constexpr auto operator()(
-          listener_attribute attr, float_type v0) const noexcept {
+        constexpr auto
+        operator()(listener_attribute attr, float_type v0) const noexcept {
             return this->_check(
               this->_call(this->api().Listenerf, enum_type(attr), v0));
         }
@@ -237,7 +235,8 @@ public:
         }
 
         constexpr auto operator()(
-          listener_attribute attr, span<const float_type> v) const noexcept {
+          listener_attribute attr,
+          span<const float_type> v) const noexcept {
             return this->_check(
               this->_call(this->api().Listenerfv, enum_type(attr), v.data()));
         }
@@ -247,8 +246,8 @@ public:
     struct : func<OALPAFP(GetListeneriv)> {
         using func<OALPAFP(GetListeneriv)>::func;
 
-        constexpr auto operator()(
-          listener_attribute attr, span<int_type> v) const noexcept {
+        constexpr auto
+        operator()(listener_attribute attr, span<int_type> v) const noexcept {
             return this->_chkcall(enum_type(attr), v.data());
         }
     } get_listener_i;
@@ -257,8 +256,8 @@ public:
     struct : func<OALPAFP(GetListenerfv)> {
         using func<OALPAFP(GetListenerfv)>::func;
 
-        constexpr auto operator()(
-          listener_attribute attr, span<float_type> v) const noexcept {
+        constexpr auto
+        operator()(listener_attribute attr, span<float_type> v) const noexcept {
             return this->_chkcall(enum_type(attr), v.data());
         }
     } get_listener_f;
@@ -273,7 +272,9 @@ public:
         }
 
         constexpr auto operator()(
-          buffer_name src, buffer_attribute attr, int_type v0) const noexcept {
+          buffer_name src,
+          buffer_attribute attr,
+          int_type v0) const noexcept {
             return this->_check(this->_call(
               this->api().Bufferi, name_type(src), enum_type(attr), v0));
         }
@@ -377,7 +378,9 @@ public:
         }
 
         constexpr auto operator()(
-          source_name src, source_attribute attr, int_type v0) const noexcept {
+          source_name src,
+          source_attribute attr,
+          int_type v0) const noexcept {
             return this->_check(this->_call(
               this->api().Sourcei, name_type(src), enum_type(attr), v0));
         }
@@ -475,14 +478,14 @@ public:
     struct : func<OALPAFP(SourceQueueBuffers)> {
         using func<OALPAFP(SourceQueueBuffers)>::func;
 
-        constexpr auto operator()(
-          source_name src, buffer_name buf) const noexcept {
+        constexpr auto
+        operator()(source_name src, buffer_name buf) const noexcept {
             const auto n = name_type(buf);
             return this->_chkcall(name_type(src), 1, &n);
         }
 
-        constexpr auto operator()(
-          source_name src, span<const name_type> bufs) const noexcept {
+        constexpr auto
+        operator()(source_name src, span<const name_type> bufs) const noexcept {
             return this->_chkcall(
               name_type(src), size_type(bufs.size()), bufs.data());
         }
@@ -492,14 +495,14 @@ public:
     struct : func<OALPAFP(SourceUnqueueBuffers)> {
         using func<OALPAFP(SourceUnqueueBuffers)>::func;
 
-        constexpr auto operator()(
-          source_name src, buffer_name buf) const noexcept {
+        constexpr auto
+        operator()(source_name src, buffer_name buf) const noexcept {
             auto n = name_type(buf);
             return this->_chkcall(name_type(src), 1, &n);
         }
 
-        constexpr auto operator()(
-          source_name src, span<name_type> bufs) const noexcept {
+        constexpr auto
+        operator()(source_name src, span<name_type> bufs) const noexcept {
             return this->_chkcall(
               name_type(src), size_type(bufs.size()), bufs.data());
         }
@@ -628,7 +631,9 @@ public:
       , delete_effects("delete_effects", traits, *this)
       , delete_filters("delete_filters", traits, *this)
       , delete_auxiliary_effect_slots(
-          "delete_auxiliary_effect_slots", traits, *this)
+          "delete_auxiliary_effect_slots",
+          traits,
+          *this)
       , is_source("is_source", traits, *this)
       , is_buffer("is_buffer", traits, *this)
       , is_effect("is_effect", traits, *this)
@@ -652,8 +657,7 @@ public:
       , source_pause("source_pause", traits, *this)
       , source_stop("source_stop", traits, *this)
       , source_rewind("source_rewind", traits, *this)
-      , get_string("get_string", traits, *this) {
-    }
+      , get_string("get_string", traits, *this) {}
 };
 //------------------------------------------------------------------------------
 #undef OALPAFP
@@ -661,4 +665,3 @@ public:
 } // namespace eagine::oalp
 
 #endif // OALPLUS_AL_API_API_HPP
-

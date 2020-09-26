@@ -15,8 +15,8 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-static inline auto adapt_log_entry_arg(
-  identifier name, const program_arg& value) {
+static inline auto
+adapt_log_entry_arg(identifier name, const program_arg& value) {
     return [name, value](logger_backend& backend) {
         backend.add_string(name, EAGINE_ID(ProgramArg), string_view(value));
     };

@@ -26,8 +26,8 @@ struct unit {
 };
 
 template <typename X>
-dimension_of_t<X> get_dimension(X) noexcept {
-    return {};
+auto get_dimension(X) noexcept {
+    return dimension_of_t<X>{};
 }
 
 // is_convertible
@@ -66,40 +66,36 @@ struct div_result<unit<D1, S>, unit<D2, S>>
 
 // quotation
 template <typename U>
-static constexpr inline std::enable_if_t<is_unit_v<U>, lit_result_t<U>>
-operator!(U) noexcept {
+static constexpr inline auto operator!(U) noexcept
+  -> std::enable_if_t<is_unit_v<U>, lit_result_t<U>> {
     return {};
 }
 
 // addition
 template <typename U1, typename U2>
-static constexpr inline std::
-  enable_if_t<is_unit_v<U1> && is_unit_v<U2>, add_result_t<U1, U2>>
-  operator+(U1, U2) noexcept {
+static constexpr inline auto operator+(U1, U2) noexcept
+  -> std::enable_if_t<is_unit_v<U1> && is_unit_v<U2>, add_result_t<U1, U2>> {
     return {};
 }
 
 // subtraction
 template <typename U1, typename U2>
-static constexpr inline std::
-  enable_if_t<is_unit_v<U1> && is_unit_v<U2>, sub_result_t<U1, U2>>
-  operator-(U1, U2) noexcept {
+static constexpr inline auto operator-(U1, U2) noexcept
+  -> std::enable_if_t<is_unit_v<U1> && is_unit_v<U2>, sub_result_t<U1, U2>> {
     return {};
 }
 
 // multiplication
 template <typename U1, typename U2>
-static constexpr inline std::
-  enable_if_t<is_unit_v<U1> && is_unit_v<U2>, mul_result_t<U1, U2>>
-  operator*(U1, U2) noexcept {
+static constexpr inline auto operator*(U1, U2) noexcept
+  -> std::enable_if_t<is_unit_v<U1> && is_unit_v<U2>, mul_result_t<U1, U2>> {
     return {};
 }
 
 // division
 template <typename U1, typename U2>
-static constexpr inline std::
-  enable_if_t<is_unit_v<U1> && is_unit_v<U2>, div_result_t<U1, U2>>
-  operator/(U1, U2) noexcept {
+static constexpr inline auto operator/(U1, U2) noexcept
+  -> std::enable_if_t<is_unit_v<U1> && is_unit_v<U2>, div_result_t<U1, U2>> {
     return {};
 }
 

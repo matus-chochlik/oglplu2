@@ -41,7 +41,8 @@ void cubes_program::init(example_context& ctx) {
 }
 //------------------------------------------------------------------------------
 void cubes_program::set_projection(
-  const example_context& ctx, const example_orbiting_camera& camera) {
+  const example_context& ctx,
+  const example_orbiting_camera& camera) {
     ctx.gl().set_uniform(prog, camera_loc, camera.matrix(ctx.state()));
 }
 //------------------------------------------------------------------------------
@@ -58,17 +59,20 @@ void cubes_program::update(const example_context& ctx) {
 }
 //------------------------------------------------------------------------------
 void cubes_program::bind_position_location(
-  const example_context& ctx, vertex_attrib_location loc) {
+  const example_context& ctx,
+  vertex_attrib_location loc) {
     ctx.gl().bind_attrib_location(prog, loc, "Position");
 }
 //------------------------------------------------------------------------------
 void cubes_program::bind_pivot_location(
-  const example_context& ctx, vertex_attrib_location loc) {
+  const example_context& ctx,
+  vertex_attrib_location loc) {
     ctx.gl().bind_attrib_location(prog, loc, "Pivot");
 }
 //------------------------------------------------------------------------------
 void cubes_program::bind_coord_location(
-  const example_context& ctx, vertex_attrib_location loc) {
+  const example_context& ctx,
+  vertex_attrib_location loc) {
     ctx.gl().bind_attrib_location(prog, loc, "Coord");
 }
 //------------------------------------------------------------------------------

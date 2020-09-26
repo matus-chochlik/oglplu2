@@ -14,7 +14,7 @@ namespace eagine {
 
 class some_true {
 public:
-    constexpr some_true& operator()(bool b = true) noexcept {
+    constexpr auto operator()(bool b = true) noexcept -> auto& {
         if(b) {
             _result = true;
         }
@@ -25,7 +25,7 @@ public:
         return _result;
     }
 
-    constexpr bool operator!() const noexcept {
+    constexpr auto operator!() const noexcept {
         return !_result;
     }
 

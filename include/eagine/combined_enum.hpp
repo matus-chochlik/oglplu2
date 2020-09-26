@@ -38,22 +38,18 @@ public:
       typename = std::enable_if_t<mp_contains_v<Classes, Enum>>>
     constexpr inline combined_enum_value(
       enum_value<value_type, Classes> ev) noexcept
-      : _value(ev.value) {
-    }
+      : _value(ev.value) {}
 
     constexpr inline combined_enum_value(
       indexed_enum_base<value_type, base_value, lib_id>) noexcept
-      : _value(base_value) {
-    }
+      : _value(base_value) {}
 
     constexpr inline combined_enum_value(
       indexed_enum_value<value_type, base_value, lib_id> v) noexcept
-      : _value(value_type(base_value + v._index)) {
-    }
+      : _value(value_type(base_value + v._index)) {}
 
     explicit constexpr inline combined_enum_value(value_type value) noexcept
-      : _value(value) {
-    }
+      : _value(value) {}
 
     explicit constexpr inline operator value_type() const noexcept {
         return _value;
@@ -67,18 +63,18 @@ public:
         return IndexedEnum(_value);
     }
 
-    friend constexpr inline bool operator==(
-      combined_enum_value a, combined_enum_value b) noexcept {
+    friend constexpr inline bool
+    operator==(combined_enum_value a, combined_enum_value b) noexcept {
         return a._value == b._value;
     }
 
-    friend constexpr inline bool operator!=(
-      combined_enum_value a, combined_enum_value b) noexcept {
+    friend constexpr inline bool
+    operator!=(combined_enum_value a, combined_enum_value b) noexcept {
         return a._value != b._value;
     }
 
-    friend constexpr inline bool operator<(
-      combined_enum_value a, combined_enum_value b) noexcept {
+    friend constexpr inline bool
+    operator<(combined_enum_value a, combined_enum_value b) noexcept {
         return a._value < b._value;
     }
 };

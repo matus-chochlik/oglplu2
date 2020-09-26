@@ -29,7 +29,10 @@ public:
     FBConfigs(const x11::Display& display, const int* visual_attribs)
       : _count(0)
       , _handle(::glXChooseFBConfig(
-          display, DefaultScreen(display.Get()), visual_attribs, &_count)) {
+          display,
+          DefaultScreen(display.Get()),
+          visual_attribs,
+          &_count)) {
         if(!_handle || (_count <= 0)) {
             throw std::runtime_error(
               "Failed to get matching framebuffer configs");

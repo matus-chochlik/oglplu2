@@ -13,7 +13,7 @@ static inline void foo(short s) {
     std::cout << s << std::endl;
 }
 
-int main() {
+auto main() -> int {
     using namespace eagine;
 
     // would assert if 123 didn't fit into short

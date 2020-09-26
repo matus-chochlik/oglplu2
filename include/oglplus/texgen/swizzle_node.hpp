@@ -29,8 +29,7 @@ public:
 
     slot_data_type value_type() override;
 
-    std::ostream& definitions(
-      std::ostream& out, compile_context& ctxt) override;
+    std::ostream& definitions(std::ostream& out, compile_context& ctxt) override;
 };
 
 class swizzle_node

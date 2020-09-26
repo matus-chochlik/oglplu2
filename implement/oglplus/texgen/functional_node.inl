@@ -13,11 +13,11 @@ namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 unary_function_output::unary_function_output(
-  node_intf& parent, unary_function fn)
+  node_intf& parent,
+  unary_function fn)
   : base_output(parent)
   , _input(parent, string_view("Input"), 0.5f, 0.5f, 0.5f, 0.5f)
-  , _func(fn) {
-}
+  , _func(fn) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 string_view unary_function_output::type_name() {
@@ -81,8 +81,8 @@ slot_data_type unary_function_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& unary_function_output::definitions(
-  std::ostream& out, compile_context& ctxt) {
+std::ostream&
+unary_function_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt)) {
         return out;
     }
@@ -165,12 +165,12 @@ std::ostream& unary_function_output::definitions(
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 binary_function_output::binary_function_output(
-  node_intf& parent, binary_function fn)
+  node_intf& parent,
+  binary_function fn)
   : base_output(parent)
   , _input_a(parent, string_view("A"), 0.f, 0.f, 0.f, 0.f)
   , _input_b(parent, string_view("B"), 1.f, 1.f, 1.f, 1.f)
-  , _func(fn) {
-}
+  , _func(fn) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 string_view binary_function_output::type_name() {
@@ -229,8 +229,8 @@ slot_data_type binary_function_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& binary_function_output::definitions(
-  std::ostream& out, compile_context& ctxt) {
+std::ostream&
+binary_function_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt)) {
         return out;
     }

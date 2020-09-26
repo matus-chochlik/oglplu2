@@ -26,12 +26,12 @@ public:
     using error_code = serialization_error_code;
     using result = serialization_errors;
 
-    identifier type_id() final {
+    auto type_id() -> identifier final {
         return EAGINE_ID(FastLocal);
     }
 
     template <typename T>
-    result do_write(span<const T> values, span_size_t& done) {
+    auto do_write(span<const T> values, span_size_t& done) -> result {
         result errors{};
         const span_size_t remaining = remaining_size();
         span_size_t can_do = remaining / span_size(sizeof(T));
@@ -47,7 +47,7 @@ public:
     }
 
     template <typename Str>
-    result do_write_strings(span<const Str> values, span_size_t& done) {
+    auto do_write_strings(span<const Str> values, span_size_t& done) -> result {
         done = 0;
         serialization_errors errors{};
         for(auto& str : values) {
@@ -62,20 +62,20 @@ public:
         return errors;
     }
 
-    result do_write(span<const decl_name> values, span_size_t& done) {
+    auto do_write(span<const decl_name> values, span_size_t& done) {
         return do_write_strings(values, done);
     }
 
-    result do_write(span<const string_view> values, span_size_t& done) {
+    auto do_write(span<const string_view> values, span_size_t& done) {
         return do_write_strings(values, done);
     }
 
-    result begin_struct(span_size_t size) final {
+    auto begin_struct(span_size_t size) -> result final {
         span_size_t written{0};
         return do_write(view_one(size), written);
     }
 
-    result begin_list(span_size_t size) final {
+    auto begin_list(span_size_t size) -> result final {
         span_size_t written{0};
         return do_write(view_one(size), written);
     }
@@ -92,12 +92,12 @@ public:
     using error_code = deserialization_error_code;
     using result = deserialization_errors;
 
-    identifier type_id() final {
+    auto type_id() -> identifier final {
         return EAGINE_ID(FastLocal);
     }
 
     template <typename T>
-    result do_read(span<T> values, span_size_t& done) {
+    auto do_read(span<T> values, span_size_t& done) -> result {
         auto dst = as_bytes(values);
         auto src = top(dst.size());
         const auto ts = span_size(sizeof(T));
@@ -117,7 +117,7 @@ public:
         return errors;
     }
 
-    result do_read(span<decl_name_storage> values, span_size_t& done) {
+    auto do_read(span<decl_name_storage> values, span_size_t& done) -> result {
         result errors{};
         done = 0;
         for(auto& name : values) {
@@ -138,7 +138,7 @@ public:
         return errors;
     }
 
-    result do_read(span<std::string> values, span_size_t& done) {
+    auto do_read(span<std::string> values, span_size_t& done) -> result {
         result errors{};
         done = 0;
         for(auto& str : values) {
@@ -159,12 +159,12 @@ public:
         return errors;
     }
 
-    result begin_struct(span_size_t& size) final {
+    auto begin_struct(span_size_t& size) -> result final {
         span_size_t done{0};
         return do_read(cover_one(size), done);
     }
 
-    result begin_list(span_size_t& size) final {
+    auto begin_list(span_size_t& size) -> result final {
         span_size_t done{0};
         return do_read(cover_one(size), done);
     }
@@ -173,4 +173,3 @@ public:
 } // namespace eagine
 
 #endif // EAGINE_SERIALIZE_FAST_BACKEND_HPP
-

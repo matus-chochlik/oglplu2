@@ -43,12 +43,14 @@ void cube_program::init(example_context& ctx) {
 }
 //------------------------------------------------------------------------------
 void cube_program::set_texture(
-  const example_context& ctx, gl_types::int_type tex_unit) {
+  const example_context& ctx,
+  gl_types::int_type tex_unit) {
     ctx.gl().set_uniform(prog, cube_tex_loc, tex_unit);
 }
 //------------------------------------------------------------------------------
 void cube_program::set_projection(
-  const example_context& ctx, const tmat<float, 4, 4, true>& proj_mat) {
+  const example_context& ctx,
+  const tmat<float, 4, 4, true>& proj_mat) {
     ctx.gl().set_uniform(prog, projection_loc, proj_mat);
 }
 //------------------------------------------------------------------------------
@@ -64,17 +66,20 @@ void cube_program::update(const example_context& ctx) {
 }
 //------------------------------------------------------------------------------
 void cube_program::bind_position_location(
-  const example_context& ctx, vertex_attrib_location loc) {
+  const example_context& ctx,
+  vertex_attrib_location loc) {
     ctx.gl().bind_attrib_location(prog, loc, "Position");
 }
 //------------------------------------------------------------------------------
 void cube_program::bind_normal_location(
-  const example_context& ctx, vertex_attrib_location loc) {
+  const example_context& ctx,
+  vertex_attrib_location loc) {
     ctx.gl().bind_attrib_location(prog, loc, "Normal");
 }
 //------------------------------------------------------------------------------
 void cube_program::bind_tex_coord_location(
-  const example_context& ctx, vertex_attrib_location loc) {
+  const example_context& ctx,
+  vertex_attrib_location loc) {
     ctx.gl().bind_attrib_location(prog, loc, "TexCoord");
 }
 //------------------------------------------------------------------------------

@@ -26,12 +26,11 @@ namespace eagine::msgbus {
 class bridge_state : public std::enable_shared_from_this<bridge_state> {
 public:
     bridge_state(const valid_if_positive<span_size_t>& max_data_size)
-      : _max_read{extract_or(max_data_size, 512) * 2} {
-    }
+      : _max_read{extract_or(max_data_size, 512) * 2} {}
     bridge_state(bridge_state&&) = delete;
     bridge_state(const bridge_state&) = delete;
-    bridge_state& operator=(bridge_state&&) = delete;
-    bridge_state& operator=(const bridge_state&) = delete;
+    auto operator=(bridge_state&&) = delete;
+    auto operator=(const bridge_state&) = delete;
     ~bridge_state() noexcept {
         _output_ready.notify_all();
     }
@@ -61,17 +60,17 @@ public:
         std::thread(make_output_main()).detach();
     }
 
-    bool input_usable() noexcept {
+    auto input_usable() noexcept {
         std::unique_lock lock{_input_mutex};
         return _input.good();
     }
 
-    bool output_usable() noexcept {
+    auto output_usable() noexcept {
         std::unique_lock lock{_output_mutex};
         return _output.good();
     }
 
-    bool is_usable() noexcept {
+    auto is_usable() noexcept {
         return input_usable() && output_usable();
     }
 
@@ -90,21 +89,24 @@ public:
             _output_ready.wait(lock);
             _outgoing.swap();
         }
-        auto handler =
-          [this](message_id msg_id, message_age, const message_view& message) {
-              // TODO: use message age
-              string_serializer_backend backend(_sink);
-              serialize_message(msg_id, message, backend);
-              _output << '\n';
-              return true;
-          };
+        auto handler = [this](
+                         message_id msg_id,
+                         message_age msg_age,
+                         const message_view& message) {
+            if(EAGINE_LIKELY(msg_age < std::chrono::seconds(30))) {
+                string_serializer_backend backend(_sink);
+                serialize_message(msg_id, message, backend);
+                _output << '\n';
+            }
+            return true;
+        };
         _outgoing.back().fetch_all(fetch_handler(handler));
         _output << std::flush;
     }
 
     using fetch_handler = message_storage::fetch_handler;
 
-    bool fetch_messages(fetch_handler handler) {
+    auto fetch_messages(fetch_handler handler) {
         {
             std::unique_lock lock{_input_mutex};
             _incoming.swap();
@@ -164,7 +166,7 @@ void bridge::add_ca_certificate_pem(memory::const_block blk) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool bridge::add_connection(std::unique_ptr<connection> conn) {
+auto bridge::add_connection(std::unique_ptr<connection> conn) -> bool {
     _connections.emplace_back(std::move(conn));
     return true;
 }
@@ -175,9 +177,12 @@ void bridge::_setup_from_args(const program_args&) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool bridge::_handle_special(message_id msg_id, message_view message) {
+auto bridge::_handle_special(
+  message_id msg_id,
+  message_view message,
+  bool to_connection) -> bool {
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
-        _log.debug("router handling special message ${message}")
+        _log.debug("bridge handling special message ${message}")
           .arg(EAGINE_ID(message), msg_id)
           .arg(EAGINE_ID(target), message.target_id)
           .arg(EAGINE_ID(source), message.source_id);
@@ -188,13 +193,39 @@ bool bridge::_handle_special(message_id msg_id, message_view message) {
                 _log.debug("assigned id ${id}").arg(EAGINE_ID(id), _id);
             }
             return true;
+        } else if(msg_id.has_method(EAGINE_ID(topoQuery))) {
+            std::array<byte, 256> temp{};
+            bridge_topology_info info{};
+            info.bridge_id = _id;
+            if(auto serialized{default_serialize(info, cover(temp))}) {
+                message_view response{extract(serialized)};
+                response.setup_response(message);
+                if(to_connection) {
+                    _send(EAGINE_MSGBUS_ID(topoBrdgCn), response);
+                } else {
+                    _do_push(EAGINE_MSGBUS_ID(topoBrdgCn), response);
+                }
+            }
+        } else if(msg_id.has_method(EAGINE_ID(topoBrdgCn))) {
+            if(to_connection) {
+                bridge_topology_info info{};
+                if(default_deserialize(info, message.data)) {
+                    info.opposite_id = _id;
+                    std::array<byte, 256> temp{};
+                    if(auto serialized{default_serialize(info, cover(temp))}) {
+                        message_view response{message, extract(serialized)};
+                        _send(EAGINE_MSGBUS_ID(topoBrdgCn), response);
+                        return true;
+                    }
+                }
+            }
         }
     }
     return false;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool bridge::_do_send(message_id msg_id, message_view message) {
+auto bridge::_do_send(message_id msg_id, message_view message) -> bool {
     message.add_hop();
     for(auto& connection : _connections) {
         EAGINE_ASSERT(connection);
@@ -209,14 +240,14 @@ bool bridge::_do_send(message_id msg_id, message_view message) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool bridge::_send(message_id msg_id, message_view message) {
+auto bridge::_send(message_id msg_id, message_view message) -> bool {
     EAGINE_ASSERT(has_id());
     message.set_source_id(_id);
     return _do_send(msg_id, message);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool bridge::_do_push(message_id msg_id, message_view message) {
+auto bridge::_do_push(message_id msg_id, message_view message) -> bool {
     if(EAGINE_LIKELY(_state)) {
         message.add_hop();
         _state->push(msg_id, message);
@@ -229,7 +260,7 @@ bool bridge::_do_push(message_id msg_id, message_view message) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool bridge::_forward_messages() {
+auto bridge::_forward_messages() -> bool {
     some_true something_done{};
 
     auto forward_conn_to_output =
@@ -239,7 +270,7 @@ bool bridge::_forward_messages() {
               _log.stat("forwarded ${count} messages to output")
                 .arg(EAGINE_ID(count), _forwarded_messages_c2o);
           }
-          if(this->_handle_special(msg_id, message)) {
+          if(this->_handle_special(msg_id, message, false)) {
               return true;
           }
           return this->_do_push(msg_id, message);
@@ -260,7 +291,7 @@ bool bridge::_forward_messages() {
               _log.stat("forwarded ${count} messages from input")
                 .arg(EAGINE_ID(count), _forwarded_messages_i2c);
           }
-          if(this->_handle_special(msg_id, message)) {
+          if(this->_handle_special(msg_id, message, true)) {
               return true;
           }
           this->_do_send(msg_id, message);
@@ -276,7 +307,7 @@ bool bridge::_forward_messages() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool bridge::_check_state() {
+auto bridge::_check_state() -> bool {
     some_true something_done{};
 
     if(EAGINE_UNLIKELY(!(_state && _state->is_usable()))) {
@@ -295,7 +326,7 @@ bool bridge::_check_state() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool bridge::_update_connections() {
+auto bridge::_update_connections() -> bool {
     some_true something_done{};
 
     for(auto& conn : _connections) {
@@ -316,7 +347,7 @@ bool bridge::_update_connections() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool bridge::update() {
+auto bridge::update() -> bool {
     some_true something_done{};
 
     const bool had_id = has_id();
@@ -335,4 +366,3 @@ bool bridge::update() {
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus
-

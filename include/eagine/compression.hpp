@@ -26,25 +26,26 @@ public:
 
     using data_handler = callable_ref<bool(memory::const_block)>;
 
-    bool compress(
+    auto compress(
       memory::const_block input,
       const data_handler& handler,
-      data_compression_level level);
+      data_compression_level level) -> bool;
 
-    memory::const_block compress(
+    auto compress(
       memory::const_block input,
       memory::buffer& output,
-      data_compression_level level);
+      data_compression_level level) -> memory::const_block;
 
-    memory::const_block compress(
-      memory::const_block input, memory::buffer& output) {
+    auto compress(memory::const_block input, memory::buffer& output)
+      -> memory::const_block {
         return compress(input, output, data_compression_level::normal);
     }
 
-    bool decompress(memory::const_block input, const data_handler& handler);
+    auto decompress(memory::const_block input, const data_handler& handler)
+      -> bool;
 
-    memory::const_block decompress(
-      memory::const_block input, memory::buffer& output);
+    auto decompress(memory::const_block input, memory::buffer& output)
+      -> memory::const_block;
 
 private:
     std::shared_ptr<data_compressor_impl> _pimpl{};

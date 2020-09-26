@@ -29,8 +29,7 @@ public:
           display,
           ::glXCreatePbuffer(display, fbc, attrib_list),
           ::glXDestroyPbuffer,
-          "Error creating glX Pbuffer") {
-    }
+          "Error creating glX Pbuffer") {}
 };
 
 } // namespace glx

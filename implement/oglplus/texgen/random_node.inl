@@ -17,8 +17,7 @@ OGLPLUS_LIB_FUNC
 random_output::random_output(node_intf& parent)
   : base_output(parent)
   , seed(parent, string_view("Seed"), 1.f, 1.f, 1.f)
-  , dims(3) {
-}
+  , dims(3) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 string_view random_output::type_name() {
@@ -32,8 +31,8 @@ slot_data_type random_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& random_output::definitions(
-  std::ostream& out, compile_context& ctxt) {
+std::ostream&
+random_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt)) {
         return out;
     }

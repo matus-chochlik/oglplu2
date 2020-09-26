@@ -45,7 +45,7 @@ struct alut_types {
     static constexpr bool has_api = false;
 #endif
 
-    static constexpr bool bool_true(bool_type b) noexcept {
+    static constexpr auto bool_true(bool_type b) noexcept -> bool {
 #if OALPLUS_HAS_ALUT
         return b == AL_TRUE;
 #else
@@ -53,7 +53,7 @@ struct alut_types {
 #endif
     }
 
-    static constexpr bool error_code_no_error(enum_type ec) noexcept {
+    static constexpr auto error_code_no_error(enum_type ec) noexcept -> bool {
 #if OALPLUS_HAS_ALUT
         return ec == ALUT_ERROR_NO_ERROR;
 #else
@@ -66,4 +66,3 @@ struct alut_types {
 } // namespace eagine::oalp
 
 #endif // OALPLUS_ALUT_API_CONFIG_HPP
-

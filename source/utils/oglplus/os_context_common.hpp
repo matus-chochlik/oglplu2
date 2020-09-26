@@ -32,8 +32,7 @@ struct offscreen_context_params {
 
     offscreen_context_params()
       : argc(1)
-      , argv(fake_argv()) {
-    }
+      , argv(fake_argv()) {}
 };
 
 } // namespace oglp

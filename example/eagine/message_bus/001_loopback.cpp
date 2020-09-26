@@ -23,10 +23,9 @@ struct str_utils_server : static_subscriber<1> {
 
     str_utils_server(logger& parent, endpoint& ep)
       : base(ep, this, EAGINE_MSG_MAP(StrUtilReq, Reverse, this_class, reverse))
-      , _log{EAGINE_ID(Server), parent} {
-    }
+      , _log{EAGINE_ID(Server), parent} {}
 
-    bool reverse(stored_message& msg) {
+    auto reverse(stored_message& msg) -> bool {
         auto str = msg.text_content();
         _log.trace("received request: ${content}").arg(EAGINE_ID(content), str);
         memory::reverse(str);
@@ -44,23 +43,22 @@ struct str_utils_client : static_subscriber<1> {
     using base::bus;
 
     str_utils_client(logger& parent, endpoint& ep)
-      : base(ep, this, EAGINE_MSG_MAP(StrUtilRes, Reverse, this_class, print))
-      , _log{EAGINE_ID(Client), parent} {
-    }
+      : base{ep, this, EAGINE_MSG_MAP(StrUtilRes, Reverse, this_class, print)}
+      , _log{EAGINE_ID(Client), parent} {}
 
     void call_reverse(string_view str) {
         ++_remaining;
         bus().send(EAGINE_MSG_ID(StrUtilReq, Reverse), as_bytes(str));
     }
 
-    bool print(stored_message& msg) {
+    auto print(stored_message& msg) -> bool {
         _log.info("received response: ${content}")
           .arg(EAGINE_ID(content), msg.text_content());
         --_remaining;
         return true;
     }
 
-    bool is_done() const {
+    auto is_done() const -> bool {
         return _remaining <= 0;
     }
 
@@ -71,7 +69,7 @@ private:
 //------------------------------------------------------------------------------
 } // namespace msgbus
 
-int main(main_ctx& ctx) {
+auto main(main_ctx& ctx) -> int {
 
     msgbus::endpoint bus(ctx.log());
     bus.set_id(EAGINE_ID(BusExample));
@@ -95,4 +93,3 @@ int main(main_ctx& ctx) {
 }
 
 } // namespace eagine
-

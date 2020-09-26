@@ -203,7 +203,7 @@ def do_bake(options):
                     options.prefix,
                     "%s-%s" % (bake_mat.name, os.path.basename(options.prefix))
                 )
-    
+
         bpy.ops.object.bake(
             type=options.bake_type,
             use_clear=True

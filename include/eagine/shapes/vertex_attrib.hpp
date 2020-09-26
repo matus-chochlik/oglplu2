@@ -42,8 +42,8 @@ enum class vertex_attrib_kind : std::uint16_t {
 };
 //------------------------------------------------------------------------------
 template <typename Selector>
-constexpr auto enumerator_mapping(
-  identity<vertex_attrib_kind>, Selector) noexcept {
+constexpr auto
+enumerator_mapping(identity<vertex_attrib_kind>, Selector) noexcept {
     return enumerator_map_type<vertex_attrib_kind, 16>{
       {{"object_id", vertex_attrib_kind::object_id},
        {"position", vertex_attrib_kind::position},
@@ -70,8 +70,9 @@ static constexpr inline auto all_vertex_attrib_bits() noexcept {
 }
 //------------------------------------------------------------------------------
 // vertex_attrib_kind | vertex_attrib_kind
-static constexpr inline vertex_attrib_bits operator|(
-  vertex_attrib_kind a, vertex_attrib_kind b) noexcept {
+static constexpr inline auto
+operator|(vertex_attrib_kind a, vertex_attrib_kind b) noexcept
+  -> vertex_attrib_bits {
     return {a, b};
 }
 //------------------------------------------------------------------------------
@@ -81,21 +82,19 @@ struct vertex_attrib_variant {
     std::int16_t _index{0};
 
     constexpr vertex_attrib_variant(vertex_attrib_kind a)
-      : attrib{a} {
-    }
+      : attrib{a} {}
 
     constexpr vertex_attrib_variant(vertex_attrib_kind a, span_size_t v)
       : attrib{a}
-      , _index{std::int16_t(v)} {
-    }
+      , _index{std::int16_t(v)} {}
 
     constexpr vertex_attrib_variant(
-      vertex_attrib_kind a, vertex_attrib_variant vav)
+      vertex_attrib_kind a,
+      vertex_attrib_variant vav)
       : attrib{a}
-      , _index{vav._index} {
-    }
+      , _index{vav._index} {}
 
-    constexpr bool has_valid_index() const noexcept {
+    constexpr auto has_valid_index() const noexcept {
         return _index >= 0;
     }
 
@@ -103,12 +102,12 @@ struct vertex_attrib_variant {
         return has_valid_index();
     }
 
-    constexpr span_size_t index() const noexcept {
+    constexpr auto index() const noexcept -> span_size_t {
         return _index;
     }
 
-    constexpr operator std::array<const vertex_attrib_variant, 1>()
-      const noexcept {
+    constexpr
+    operator std::array<const vertex_attrib_variant, 1>() const noexcept {
         return {{*this}};
     }
 
@@ -116,35 +115,36 @@ struct vertex_attrib_variant {
         return std::make_tuple(attrib, _index);
     }
 
-    friend constexpr bool operator==(
-      vertex_attrib_variant l, vertex_attrib_variant r) noexcept {
+    friend constexpr auto
+    operator==(vertex_attrib_variant l, vertex_attrib_variant r) noexcept {
         return l.as_tuple() == r.as_tuple();
     }
 
-    friend constexpr bool operator!=(
-      vertex_attrib_variant l, vertex_attrib_variant r) noexcept {
+    friend constexpr auto
+    operator!=(vertex_attrib_variant l, vertex_attrib_variant r) noexcept {
         return l.as_tuple() != r.as_tuple();
     }
 
-    friend constexpr bool operator<(
-      vertex_attrib_variant l, vertex_attrib_variant r) noexcept {
+    friend constexpr auto
+    operator<(vertex_attrib_variant l, vertex_attrib_variant r) noexcept {
         return l.as_tuple() < r.as_tuple();
     }
 
-    friend constexpr bool operator==(
-      vertex_attrib_variant l, vertex_attrib_kind r) noexcept {
+    friend constexpr auto
+    operator==(vertex_attrib_variant l, vertex_attrib_kind r) noexcept {
         return l.attrib == r;
     }
 
-    friend constexpr bool operator!=(
-      vertex_attrib_variant l, vertex_attrib_kind r) noexcept {
+    friend constexpr auto
+    operator!=(vertex_attrib_variant l, vertex_attrib_kind r) noexcept {
         return l.attrib != r;
     }
 };
 //------------------------------------------------------------------------------
 // vertex_attrib_kind / variant_index{}
-static constexpr inline vertex_attrib_variant operator/(
-  vertex_attrib_kind attrib, span_size_t variant_index) noexcept {
+static constexpr inline auto
+operator/(vertex_attrib_kind attrib, span_size_t variant_index) noexcept
+  -> vertex_attrib_variant {
     return {attrib, variant_index};
 }
 //------------------------------------------------------------------------------
@@ -152,37 +152,37 @@ template <std::size_t N>
 using vertex_attrib_variants = std::array<const vertex_attrib_variant, N>;
 //------------------------------------------------------------------------------
 // + vertex_attrib_variant
-static constexpr inline vertex_attrib_variants<1> operator+(
-  vertex_attrib_variant a) noexcept {
-    return {{a}};
+static constexpr inline auto operator+(vertex_attrib_variant a) noexcept {
+    return vertex_attrib_variants<1>{{a}};
 }
 //------------------------------------------------------------------------------
 // vertex_attrib_variant + vertex_attrib_variant
-static constexpr inline vertex_attrib_variants<2> operator+(
-  vertex_attrib_variant a, vertex_attrib_variant b) noexcept {
-    return {{a, b}};
+static constexpr inline auto
+operator+(vertex_attrib_variant a, vertex_attrib_variant b) noexcept {
+    return vertex_attrib_variants<2>{{a, b}};
 }
 //------------------------------------------------------------------------------
 // append_attrib
 template <std::size_t N, std::size_t... I>
-static constexpr inline vertex_attrib_variants<N + 1> do_append_attrib(
+static constexpr inline auto do_append_attrib(
   const vertex_attrib_variants<N>& a,
   vertex_attrib_variant b,
   std::index_sequence<I...>) noexcept {
-    return {{a[I]..., b}};
+    return vertex_attrib_variants<N + 1>{{a[I]..., b}};
 }
 //------------------------------------------------------------------------------
 // array<vertex_attrib_variant, N> + vertex_attrib_variant
 template <std::size_t N>
-static constexpr inline vertex_attrib_variants<N + 1> operator+(
-  const vertex_attrib_variants<N>& a, vertex_attrib_variant b) noexcept {
+static constexpr inline auto operator+(
+  const vertex_attrib_variants<N>& a,
+  vertex_attrib_variant b) noexcept {
     return do_append_attrib(a, b, std::make_index_sequence<N>());
 }
 //------------------------------------------------------------------------------
 // get_attrib_bits
 template <std::size_t N>
-static inline vertex_attrib_bits get_attrib_bits(
-  const vertex_attrib_variants<N>& vaals) noexcept {
+static inline auto
+get_attrib_bits(const vertex_attrib_variants<N>& vaals) noexcept {
     vertex_attrib_bits res;
 
     for(const vertex_attrib_variant& vaal : vaals) {
@@ -193,8 +193,8 @@ static inline vertex_attrib_bits get_attrib_bits(
 }
 //------------------------------------------------------------------------------
 // attrib_values_per_vertex
-static inline span_size_t attrib_values_per_vertex(
-  vertex_attrib_kind attr) noexcept {
+static inline auto attrib_values_per_vertex(vertex_attrib_kind attr) noexcept
+  -> span_size_t {
     switch(attr) {
         case vertex_attrib_kind::color:
             return 4;
@@ -220,8 +220,7 @@ static inline span_size_t attrib_values_per_vertex(
     return 0;
 }
 //------------------------------------------------------------------------------
-static inline span_size_t attrib_values_per_vertex(
-  vertex_attrib_variant vav) noexcept {
+static inline auto attrib_values_per_vertex(vertex_attrib_variant vav) noexcept {
     return attrib_values_per_vertex(vav.attrib);
 }
 //------------------------------------------------------------------------------

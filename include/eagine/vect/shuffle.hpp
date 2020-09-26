@@ -37,14 +37,14 @@ private:
     using _dpT = data_param_t<T, N, V>;
 
     template <int... I>
-    static constexpr inline _dT _do_apply(
-      _dpT v, shuffle_mask<I...>, std::false_type) noexcept {
+    static constexpr auto
+    _do_apply(_dpT v, shuffle_mask<I...>, std::false_type) noexcept {
         return data_t<T, N, V>{v[I]...};
     }
 
     template <int... I>
-    static constexpr inline _dT _do_apply(
-      _dpT v, shuffle_mask<I...>, std::true_type) noexcept {
+    static constexpr auto
+    _do_apply(_dpT v, shuffle_mask<I...>, std::true_type) noexcept -> _dT {
 #if EAGINE_USE_SIMD && defined(__clang__)
         // NOLINTNEXTLINE(hicpp-vararg)
         return _dT(__builtin_shufflevector(v, v, I...));
@@ -59,8 +59,7 @@ private:
 
 public:
     template <int... I>
-    static constexpr inline _dT apply(
-      _dpT v, shuffle_mask<I...> m = {}) noexcept {
+    static constexpr auto apply(_dpT v, shuffle_mask<I...> m = {}) noexcept {
         return _do_apply(v, m, has_vect_data<T, N, V>());
     }
 };
@@ -75,15 +74,23 @@ private:
     using _int = int_constant<U>;
 
     template <int M, int... I>
-    static inline _dT _do_apply(
-      _dpT v1, _dpT v2, shuffle_mask<I...>, _int<M>, std::false_type) noexcept {
+    static auto _do_apply(
+      _dpT v1,
+      _dpT v2,
+      shuffle_mask<I...>,
+      _int<M>,
+      std::false_type) noexcept {
         return data_t<T, N, V>{
           I < 0 ? T(0) : (int(I) < N ? v1[int(I)] : v2[int(I) % N])...};
     }
 
     template <int M, int... I>
-    static inline _dT _do_apply(
-      _dpT v1, _dpT v2, shuffle_mask<I...>, _int<M>, std::true_type) noexcept {
+    static auto _do_apply(
+      _dpT v1,
+      _dpT v2,
+      shuffle_mask<I...>,
+      _int<M>,
+      std::true_type) noexcept -> _dT {
 #if EAGINE_USE_SIMD && defined(__clang__)
         // NOLINTNEXTLINE(hicpp-vararg)
         return _dT(__builtin_shufflevector(v1, v2, I...));
@@ -98,8 +105,12 @@ private:
     }
 
     template <int... I>
-    static inline _dT _do_apply(
-      _dpT v1, _dpT v2, shuffle_mask<I...>, _int<3U>, std::true_type) noexcept {
+    static auto _do_apply(
+      _dpT v1,
+      _dpT v2,
+      shuffle_mask<I...>,
+      _int<3U>,
+      std::true_type) noexcept -> _dT {
 #if EAGINE_USE_SIMD && defined(__clang__)
         // NOLINTNEXTLINE(hicpp-vararg)
         return _dT(__builtin_shufflevector(v1, v2, I >= 3 ? I + 1 : I...));
@@ -115,8 +126,7 @@ private:
 
 public:
     template <int... I>
-    static inline _dT apply(
-      _dpT v1, _dpT v2, shuffle_mask<I...> m = {}) noexcept {
+    static auto apply(_dpT v1, _dpT v2, shuffle_mask<I...> m = {}) noexcept {
         return _do_apply(v1, v2, m, _int<N>(), has_vect_data<T, N, V>());
     }
 };

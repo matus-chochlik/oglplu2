@@ -14,8 +14,7 @@ namespace eagine::oglp::texgen {
 OGLPLUS_LIB_FUNC
 newton_output::newton_output(node_intf& parent, newton_function func)
   : base_output(parent)
-  , _function(func) {
-}
+  , _function(func) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 string_view newton_output::type_name() {
@@ -38,8 +37,8 @@ string_view newton_output::_func_name() const {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& newton_output::definitions(
-  std::ostream& result, compile_context& context) {
+std::ostream&
+newton_output::definitions(std::ostream& result, compile_context& context) {
     if(already_defined(context)) {
         return result;
     }

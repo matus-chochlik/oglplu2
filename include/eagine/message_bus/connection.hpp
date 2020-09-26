@@ -29,8 +29,7 @@ enum class connection_kind : std::uint8_t {
 };
 //------------------------------------------------------------------------------
 template <typename Selector>
-constexpr auto enumerator_mapping(
-  identity<connection_kind>, Selector) noexcept {
+constexpr auto enumerator_mapping(identity<connection_kind>, Selector) noexcept {
     return enumerator_map_type<connection_kind, 3>{
       {{"in_process", connection_kind::in_process},
        {"local_interprocess", connection_kind::local_interprocess},
@@ -39,16 +38,16 @@ constexpr auto enumerator_mapping(
 //------------------------------------------------------------------------------
 using connection_kinds = bitfield<connection_kind>;
 
-static inline connection_kinds operator|(
-  connection_kind l, connection_kind r) noexcept {
+static inline auto operator|(connection_kind l, connection_kind r) noexcept
+  -> connection_kinds {
     return {l, r};
 }
 //------------------------------------------------------------------------------
 enum class connection_addr_kind { none, filepath, ipv4 };
 
 template <typename Selector>
-constexpr auto enumerator_mapping(
-  identity<connection_addr_kind>, Selector) noexcept {
+constexpr auto
+enumerator_mapping(identity<connection_addr_kind>, Selector) noexcept {
     return enumerator_map_type<connection_addr_kind, 3>{
       {{"none", connection_addr_kind::none},
        {"filepath", connection_addr_kind::filepath},
@@ -62,8 +61,8 @@ using connection_addr_kind_tag =
 enum class connection_protocol { stream, datagram, message };
 
 template <typename Selector>
-constexpr auto enumerator_mapping(
-  identity<connection_protocol>, Selector) noexcept {
+constexpr auto
+enumerator_mapping(identity<connection_protocol>, Selector) noexcept {
     return enumerator_map_type<connection_protocol, 3>{
       {{"stream", connection_protocol::stream},
        {"datagram", connection_protocol::datagram},
@@ -84,14 +83,14 @@ struct connection_info {
     connection_info() noexcept = default;
     connection_info(connection_info&&) noexcept = default;
     connection_info(const connection_info&) = delete;
-    connection_info& operator=(connection_info&&) = delete;
-    connection_info& operator=(const connection_info&) = delete;
+    auto operator=(connection_info&&) = delete;
+    auto operator=(const connection_info&) = delete;
 
-    virtual connection_kind kind() = 0;
+    virtual auto kind() -> connection_kind = 0;
 
-    virtual connection_addr_kind addr_kind() = 0;
+    virtual auto addr_kind() -> connection_addr_kind = 0;
 
-    virtual identifier type_id() = 0;
+    virtual auto type_id() -> identifier = 0;
 };
 //------------------------------------------------------------------------------
 struct connection : connection_info {
@@ -99,24 +98,23 @@ struct connection : connection_info {
     using fetch_handler =
       callable_ref<bool(message_id, message_age, const message_view&)>;
 
-    virtual bool update() {
+    virtual auto update() -> bool {
         return false;
     }
 
-    virtual void cleanup() {
-    }
+    virtual void cleanup() {}
 
-    virtual bool is_usable() {
+    virtual auto is_usable() -> bool {
         return true;
     }
 
-    virtual valid_if_positive<span_size_t> max_data_size() {
+    virtual auto max_data_size() -> valid_if_positive<span_size_t> {
         return {0};
     }
 
-    virtual bool send(message_id msg_id, const message_view&) = 0;
+    virtual auto send(message_id msg_id, const message_view&) -> bool = 0;
 
-    virtual bool fetch_messages(fetch_handler handler) = 0;
+    virtual auto fetch_messages(fetch_handler handler) -> bool = 0;
 };
 //------------------------------------------------------------------------------
 struct connection_user {
@@ -124,13 +122,12 @@ struct connection_user {
     connection_user() noexcept = default;
     connection_user(connection_user&&) noexcept = default;
     connection_user(const connection_user&) = delete;
-    connection_user& operator=(connection_user&&) = delete;
-    connection_user& operator=(const connection_user&) = delete;
+    auto operator=(connection_user&&) = delete;
+    auto operator=(const connection_user&) = delete;
 
-    virtual bool add_connection(std::unique_ptr<connection> a_connection) = 0;
+    virtual auto add_connection(std::unique_ptr<connection>) -> bool = 0;
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_CONNECTION_HPP
-

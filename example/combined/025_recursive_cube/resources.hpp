@@ -7,6 +7,9 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+#ifndef OGLPLUS_EXAMPLE_RESOURCES_HPP // NOLINT(llvm-header-guard)
+#define OGLPLUS_EXAMPLE_RESOURCES_HPP
+
 #include <oglplus/gl.hpp>
 #include <oglplus/gl_api.hpp>
 
@@ -29,21 +32,24 @@ private:
     uniform_location light_pos_loc;
     uniform_location cube_tex_loc;
 
-    radians_t<float> rad{0.f};
+    radians_t<float> rad{0.F};
 
 public:
     void init(example_context& ctx);
     void set_texture(const example_context& ctx, gl_types::int_type);
-    void set_projection(
-      const example_context& ctx, const tmat<float, 4, 4, true>&);
+    void
+    set_projection(const example_context& ctx, const tmat<float, 4, 4, true>&);
     void update(const example_context& ctx);
 
     void bind_position_location(
-      const example_context& ctx, vertex_attrib_location loc);
+      const example_context& ctx,
+      vertex_attrib_location loc);
     void bind_normal_location(
-      const example_context& ctx, vertex_attrib_location loc);
+      const example_context& ctx,
+      vertex_attrib_location loc);
     void bind_tex_coord_location(
-      const example_context& ctx, vertex_attrib_location loc);
+      const example_context& ctx,
+      vertex_attrib_location loc);
 };
 //------------------------------------------------------------------------------
 // geometry
@@ -113,3 +119,5 @@ public:
 //------------------------------------------------------------------------------
 } // namespace oglp
 } // namespace eagine
+
+#endif

@@ -28,15 +28,15 @@ namespace eagine {
 //------------------------------------------------------------------------------
 class example_main_glfw : public example_main_intf {
 public:
-    bool is_implemented() final {
+    auto is_implemented() -> bool final {
         return (OGLPLUS_GLX_FOUND != 0);
     }
 
-    string_view implementation_name() final {
+    auto implementation_name() -> string_view final {
         return {"GLFW"};
     }
 
-    int run(example_run_context& erc) final {
+    auto run(example_run_context& erc) -> int final {
 #if OGLPLUS_GLFW_FOUND
         if(!glfwInit()) {
             erc.main.log().error("GLFW initialization error");
@@ -123,9 +123,8 @@ private:
 #endif
 };
 //------------------------------------------------------------------------------
-std::unique_ptr<example_main_intf> make_example_main_glfw() {
+auto make_example_main_glfw() -> std::unique_ptr<example_main_intf> {
     return {std::make_unique<example_main_glfw>()};
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
-

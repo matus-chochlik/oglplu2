@@ -125,7 +125,9 @@ struct matrix_from2_tester {
 
         template <int M, int N>
         static void _do_test(
-          _uint<M>, _uint<N>, const eagine::math::matrix<T, C, R, RM, V>& m) {
+          _uint<M>,
+          _uint<N>,
+          const eagine::math::matrix<T, C, R, RM, V>& m) {
             auto n = eagine::math::matrix<T, M, N, RM, V>::from(m);
             for(int i = 0; i < (RM ? N : M); ++i)
                 for(int j = 0; j < (RM ? M : N); ++j) {
@@ -135,18 +137,23 @@ struct matrix_from2_tester {
 
         template <int N>
         static void _call_test(
-          _uint<0>, _uint<N>, const eagine::math::matrix<T, C, R, RM, V>&) {
-        }
+          _uint<0>,
+          _uint<N>,
+          const eagine::math::matrix<T, C, R, RM, V>&) {}
 
         template <int M>
         static void _call_test(
-          _uint<M>, _uint<0>, const eagine::math::matrix<T, C, R, RM, V>& m) {
+          _uint<M>,
+          _uint<0>,
+          const eagine::math::matrix<T, C, R, RM, V>& m) {
             _call_test(_uint<M - 1>(), _uint<R>(), m);
         }
 
         template <int M, int N>
         static void _call_test(
-          _uint<M>, _uint<N>, const eagine::math::matrix<T, C, R, RM, V>& m) {
+          _uint<M>,
+          _uint<N>,
+          const eagine::math::matrix<T, C, R, RM, V>& m) {
             _do_test(_uint<M>(), _uint<N>(), m);
             _call_test(_uint<M>(), _uint<N - 1>(), m);
         }

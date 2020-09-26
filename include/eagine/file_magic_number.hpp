@@ -21,9 +21,10 @@ private:
     static_assert(
       sizeof...(C) <= 16,
       "File magic number cannot be more than 16 bytes long");
+
     const std::array<const char, 16> _magic_number;
 
-    static constexpr std::array<const char, 16> _make_magic_number() {
+    static constexpr auto _make_magic_number() -> std::array<const char, 16> {
         return {{C...}};
     }
 
@@ -32,21 +33,20 @@ public:
     using size_type = span_size_t;
 
     constexpr file_magic_number() noexcept
-      : _magic_number(_make_magic_number()) {
-    }
+      : _magic_number(_make_magic_number()) {}
 
-    bool is_valid() const noexcept {
+    auto is_valid() const noexcept -> bool {
         return std::strncmp(
                  _magic_number.data(),
                  _make_magic_number().data(),
                  sizeof...(C)) == 0;
     }
 
-    const char* data() const noexcept {
+    auto data() const noexcept -> const char* {
         return _magic_number.data();
     }
 
-    static constexpr inline span_size_t size() noexcept {
+    static constexpr auto size() noexcept -> span_size_t {
         return 16;
     }
 };

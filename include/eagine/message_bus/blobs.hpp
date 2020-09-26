@@ -37,17 +37,17 @@ struct pending_blob {
     message_priority priority{message_priority::normal};
 
     void init();
-    span_size_t done_size() const noexcept;
-    span_size_t total_size() const noexcept {
+    auto done_size() const noexcept -> span_size_t;
+    auto total_size() const noexcept -> span_size_t {
         return blob.size();
     }
 
-    message_age age() const noexcept {
+    auto age() const noexcept -> message_age {
         return std::chrono::duration_cast<message_age>(max_time.elapsed_time());
     }
 
-    bool is_complete() const noexcept;
-    bool merge_fragment(span_size_t offset, memory::const_block fragment);
+    auto is_complete() const noexcept -> bool;
+    auto merge_fragment(span_size_t offset, memory::const_block) -> bool;
 };
 //------------------------------------------------------------------------------
 class blob_manipulator {
@@ -60,22 +60,21 @@ private:
     std::vector<pending_blob> _outgoing{};
     std::vector<pending_blob> _incoming{};
 
-    memory::block _scratch_block(span_size_t size);
+    auto _scratch_block(span_size_t size) -> memory::block;
 
 public:
     blob_manipulator() = default;
     blob_manipulator(logger& parent)
-      : _log{EAGINE_ID(BlobManipl), parent} {
-    }
+      : _log{EAGINE_ID(BlobManipl), parent} {}
 
-    valid_if_positive<span_size_t> max_blob_size() const noexcept {
+    auto max_blob_size() const noexcept -> valid_if_positive<span_size_t> {
         return {span_size(_max_blob_size)};
     }
 
-    span_size_t message_size(
-      const pending_blob&, span_size_t max_message_size) const noexcept;
+    auto message_size(const pending_blob&, span_size_t max_message_size)
+      const noexcept -> span_size_t;
 
-    bool cleanup();
+    auto cleanup() -> bool;
 
     void push_outgoing(
       message_id msg_id,
@@ -85,30 +84,30 @@ public:
       std::chrono::seconds max_time,
       message_priority priority);
 
-    bool push_incoming_fragment(
+    auto push_incoming_fragment(
       message_id msg_id,
       identifier_t source_id,
       identifier_t blob_id,
       std::int64_t offset,
       std::int64_t total,
       memory::const_block fragment,
-      message_priority priority);
+      message_priority priority) -> bool;
 
     using filter_function = callable_ref<bool(message_id)>;
 
-    bool process_incoming(filter_function, const message_view&);
+    auto process_incoming(filter_function, const message_view&) -> bool;
 
     using fetch_handler =
       callable_ref<bool(message_id, message_age, const message_view&)>;
 
-    span_size_t fetch_all(fetch_handler);
+    auto fetch_all(fetch_handler) -> span_size_t;
 
     using send_handler = callable_ref<bool(message_id, const message_view&)>;
 
-    bool has_outgoing() const noexcept {
+    auto has_outgoing() const noexcept -> bool {
         return !_outgoing.empty();
     }
-    bool process_outgoing(send_handler, span_size_t max_data_size);
+    auto process_outgoing(send_handler, span_size_t max_data_size) -> bool;
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus
@@ -117,4 +116,3 @@ public:
 #include <eagine/message_bus/blobs.inl>
 #endif
 #endif // EAGINE_MESSAGE_BUS_BLOBS_HPP
-

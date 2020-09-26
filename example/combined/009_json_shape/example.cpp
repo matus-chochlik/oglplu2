@@ -47,7 +47,7 @@ class example_shape : public example {
     void set_projection(const example_context& ctx);
 
 public:
-    bool check_requirements(const example_context& ctx) final;
+    auto check_requirements(const example_context& ctx) -> bool final;
     void init(example_context& ctx) final;
     void pointer_motion(const example_context& ctx) final;
     void pointer_scrolling(const example_context& ctx) final;
@@ -58,7 +58,7 @@ public:
 //------------------------------------------------------------------------------
 // example_shape
 //------------------------------------------------------------------------------
-bool example_shape ::check_requirements(const example_context& ctx) {
+auto example_shape ::check_requirements(const example_context& ctx) -> bool {
     const auto& [gl, GL] = ctx.gl();
     auto r = ctx.req_mark();
 
@@ -214,8 +214,8 @@ void example_shape::render(const example_context& ctx) {
 //------------------------------------------------------------------------------
 } // namespace oglp
 //------------------------------------------------------------------------------
-std::unique_ptr<example> make_example(
-  const example_args& args, const example_context&) {
+auto make_example(const example_args& args, const example_context&)
+  -> std::unique_ptr<example> {
     args.parse_param(oglp::color_variant_name);
     args.parse_param(oglp::shape_file_path);
     return {std::make_unique<oglp::example_shape>()};
@@ -225,7 +225,7 @@ void adjust_params(example_params& params) {
     params.stencil_buffer(false);
 }
 //------------------------------------------------------------------------------
-bool is_example_param(const example_arg& arg) {
+auto is_example_param(const example_arg& arg) -> bool {
     if(arg == oglp::color_variant_name) {
         return true;
     }
@@ -236,4 +236,3 @@ bool is_example_param(const example_arg& arg) {
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
-

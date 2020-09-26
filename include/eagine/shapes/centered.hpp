@@ -21,12 +21,11 @@ class centered_gen : public delegated_gen {
 
 public:
     centered_gen(std::unique_ptr<generator_intf>&& gen) noexcept
-      : delegated_gen(std::move(gen)) {
-    }
+      : delegated_gen(std::move(gen)) {}
 
     void attrib_values(vertex_attrib_variant, span<float>) override;
 
-    math::sphere<float, true> bounding_sphere() override;
+    auto bounding_sphere() -> math::sphere<float, true> override;
 };
 //------------------------------------------------------------------------------
 static inline auto center(std::unique_ptr<generator_intf>&& gen) noexcept {

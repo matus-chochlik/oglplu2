@@ -20,8 +20,7 @@ split_output::split_output(
   valid_if_between<span_size_t, 0, 3> index)
   : base_output(parent)
   , _input(input)
-  , _index(index.value()) {
-}
+  , _index(index.value()) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 string_view split_output::type_name() {
@@ -39,8 +38,8 @@ slot_data_type split_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& split_output::definitions(
-  std::ostream& out, compile_context& ctxt) {
+std::ostream&
+split_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt)) {
         return out;
     }
@@ -73,8 +72,7 @@ split_node::split_node()
   , _output_r(*this, _input, 0)
   , _output_g(*this, _input, 1)
   , _output_b(*this, _input, 2)
-  , _output_a(*this, _input, 3) {
-}
+  , _output_a(*this, _input, 3) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 span_size_t split_node::input_count() {

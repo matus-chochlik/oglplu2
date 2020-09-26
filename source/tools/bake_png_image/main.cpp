@@ -48,11 +48,11 @@ struct options {
         all.print_usage(log, "bake_png_image");
     }
 
-    bool check(std::ostream& log) {
+    auto check(std::ostream& log) -> bool {
         return all.validate(log);
     }
 
-    bool parse(program_arg& arg, std::ostream& log) {
+    auto parse(program_arg& arg, std::ostream& log) -> bool {
         return all.parse(arg, log);
     }
 };
@@ -80,8 +80,8 @@ public:
     png_read_struct();
     png_read_struct(png_read_struct&&) noexcept = default;
     png_read_struct(const png_read_struct&) noexcept = default;
-    png_read_struct& operator=(png_read_struct&&) = delete;
-    png_read_struct& operator=(const png_read_struct&) = delete;
+    auto operator=(png_read_struct&&) = delete;
+    auto operator=(const png_read_struct&) = delete;
     ~png_read_struct() noexcept;
 };
 //------------------------------------------------------------------------------
@@ -96,21 +96,21 @@ public:
     png_read_info_struct();
     png_read_info_struct(png_read_info_struct&&) noexcept = default;
     png_read_info_struct(const png_read_info_struct&) noexcept = default;
-    png_read_info_struct& operator=(png_read_info_struct&&) = delete;
-    png_read_info_struct& operator=(const png_read_info_struct&) = delete;
+    auto operator=(png_read_info_struct&&) = delete;
+    auto operator=(const png_read_info_struct&) = delete;
     ~png_read_info_struct() noexcept;
 
-    png_uint_32 row_bytes();
-    png_uint_32 image_width();
-    png_uint_32 image_height();
-    png_byte bit_depth();
-    png_byte channels();
-    png_byte color_type();
+    auto row_bytes() -> png_uint_32;
+    auto image_width() -> png_uint_32;
+    auto image_height() -> png_uint_32;
+    auto bit_depth() -> png_uint_32;
+    auto channels() -> png_byte;
+    auto color_type() -> png_byte;
 
     void set_palette_to_rgb();
     void set_expand_gray_1_2_4_to_8();
     void set_tRNS_to_alpha();
-    png_uint_32 get_valid(png_uint_32);
+    auto get_valid(png_uint_32) -> png_uint_32;
 };
 //------------------------------------------------------------------------------
 // png_read_info_end_struct
@@ -123,11 +123,9 @@ protected:
 public:
     png_read_info_end_struct();
     png_read_info_end_struct(png_read_info_end_struct&&) noexcept = default;
-    png_read_info_end_struct(const png_read_info_end_struct&) noexcept =
-      default;
-    png_read_info_end_struct& operator=(png_read_info_end_struct&&) = delete;
-    png_read_info_end_struct& operator=(const png_read_info_end_struct&) =
-      delete;
+    png_read_info_end_struct(const png_read_info_end_struct&) noexcept = default;
+    auto operator=(png_read_info_end_struct&&) = delete;
+    auto operator=(const png_read_info_end_struct&) = delete;
     ~png_read_info_end_struct() noexcept;
 };
 //------------------------------------------------------------------------------
@@ -139,7 +137,7 @@ private:
 
     static void _read_data(::png_structp, ::png_bytep, ::png_size_t);
 
-    static int _read_user_chunk(::png_structp, ::png_unknown_chunkp);
+    static auto _read_user_chunk(::png_structp, ::png_unknown_chunkp) -> int;
 
     void _read_row(::png_bytep data);
 
@@ -167,33 +165,35 @@ public:
         _driver._read_row(data);
     }
 
-    png_uint_32 image_width() {
+    auto image_width() -> png_uint_32 {
         return _driver._png.image_width();
     }
-    png_uint_32 image_height() {
+    auto image_height() -> png_uint_32 {
         return _driver._png.image_height();
     }
-    png_uint_32 row_bytes() {
+    auto row_bytes() -> png_uint_32 {
         return _driver._png.row_bytes();
     }
-    png_uint_32 data_size() {
+    auto data_size() -> png_uint_32 {
         return row_bytes() * image_height();
     }
 
-    GLenum gl_data_type();
-    GLenum gl_format();
-    GLenum gl_iformat();
+    auto gl_data_type() -> GLenum;
+    auto gl_format() -> GLenum;
+    auto gl_iformat() -> GLenum;
 };
 //------------------------------------------------------------------------------
 void convert_image(
-  std::istream& input, std::ostream& output, const options& /*opts*/
+  std::istream& input,
+  std::ostream& output,
+  const options& /*opts*/
 ) {
     png_reader reader(input);
 
     int width = int(reader.image_width());
     int height = int(reader.image_height());
 
-    oglp::image_data_header hdr(width, height, 1);
+    oglp::image_data_header hdr{width, height, 1};
 
     hdr.data_type = reader.gl_data_type();
     hdr.format = reader.gl_format();
@@ -215,9 +215,9 @@ void convert_image(
       static_cast<std::streamsize>(buffer.size()));
 }
 //------------------------------------------------------------------------------
-int parse_options(const program_args& args, options& opts);
+auto parse_options(const program_args& args, options& opts) -> int;
 //------------------------------------------------------------------------------
-int main(main_ctx& ctx) {
+auto main(main_ctx& ctx) -> int {
     try {
         options opts;
 
@@ -247,7 +247,7 @@ int main(main_ctx& ctx) {
     return 0;
 }
 //------------------------------------------------------------------------------
-bool parse_argument(program_arg& a, options& opts) {
+auto parse_argument(program_arg& a, options& opts) -> bool {
     if(!opts.parse(a, std::cerr)) {
         std::cerr << "Failed to parse argument '" << a.get() << "'"
                   << std::endl;
@@ -256,7 +256,7 @@ bool parse_argument(program_arg& a, options& opts) {
     return true;
 }
 //------------------------------------------------------------------------------
-int parse_options(const program_args& args, options& opts) {
+auto parse_options(const program_args& args, options& opts) -> int {
 
     for(program_arg a = args.first(); a; a = a.next()) {
         if(a.is_help_arg()) {
@@ -294,8 +294,8 @@ png_header_validator::png_header_validator(std::istream& input) {
     }
 }
 //------------------------------------------------------------------------------
-[[noreturn]] void png_read_struct::_handle_error(
-  ::png_structp, const char* message) {
+[[noreturn]] void
+png_read_struct::_handle_error(::png_structp, const char* message) {
     throw ::std::runtime_error(message);
 }
 //------------------------------------------------------------------------------
@@ -336,27 +336,27 @@ png_read_info_struct::~png_read_info_struct() noexcept {
     }
 }
 //------------------------------------------------------------------------------
-png_uint_32 png_read_info_struct::row_bytes() {
+auto png_read_info_struct::row_bytes() -> png_uint_32 {
     return png_uint_32(::png_get_rowbytes(_read, _info));
 }
 //------------------------------------------------------------------------------
-png_uint_32 png_read_info_struct::image_width() {
+auto png_read_info_struct::image_width() -> png_uint_32 {
     return ::png_get_image_width(_read, _info);
 }
 //------------------------------------------------------------------------------
-png_uint_32 png_read_info_struct::image_height() {
+auto png_read_info_struct::image_height() -> png_uint_32 {
     return ::png_get_image_height(_read, _info);
 }
 //------------------------------------------------------------------------------
-png_byte png_read_info_struct::bit_depth() {
+auto png_read_info_struct::bit_depth() -> png_uint_32 {
     return ::png_get_bit_depth(_read, _info);
 }
 //------------------------------------------------------------------------------
-png_byte png_read_info_struct::channels() {
+auto png_read_info_struct::channels() -> png_byte {
     return ::png_get_channels(_read, _info);
 }
 //------------------------------------------------------------------------------
-png_byte png_read_info_struct::color_type() {
+auto png_read_info_struct::color_type() -> png_byte {
     return ::png_get_color_type(_read, _info);
 }
 //------------------------------------------------------------------------------
@@ -372,7 +372,7 @@ void png_read_info_struct::set_tRNS_to_alpha() {
     ::png_set_tRNS_to_alpha(_read);
 }
 //------------------------------------------------------------------------------
-png_uint_32 png_read_info_struct::get_valid(png_uint_32 flag) {
+auto png_read_info_struct::get_valid(png_uint_32 flag) -> png_uint_32 {
     return ::png_get_valid(_read, _info, flag);
 }
 //------------------------------------------------------------------------------
@@ -392,13 +392,16 @@ png_read_info_end_struct::~png_read_info_end_struct() noexcept {
 }
 //------------------------------------------------------------------------------
 void png_read_driver::_read_data(
-  ::png_structp png, ::png_bytep data, ::png_size_t size) {
+  ::png_structp png,
+  ::png_bytep data,
+  ::png_size_t size) {
     ::png_voidp p = ::png_get_io_ptr(png);
     assert(p != nullptr); // NOLINT
     (reinterpret_cast<png_reader*>(p))->do_read_data(data, size);
 }
 //------------------------------------------------------------------------------
-int png_read_driver::_read_user_chunk(::png_structp, ::png_unknown_chunkp) {
+auto png_read_driver::_read_user_chunk(::png_structp, ::png_unknown_chunkp)
+  -> int {
     return 0;
 }
 //------------------------------------------------------------------------------
@@ -441,7 +444,7 @@ png_reader::png_reader(std::istream& input)
     }
 }
 //------------------------------------------------------------------------------
-GLenum png_reader::gl_data_type() {
+auto png_reader::gl_data_type() -> GLenum {
     switch(_driver._png.bit_depth()) {
         case 1:
         case 2:
@@ -462,7 +465,7 @@ GLenum png_reader::gl_data_type() {
     return GL_NONE;
 }
 //------------------------------------------------------------------------------
-GLenum png_reader::gl_format() {
+auto png_reader::gl_format() -> GLenum {
     switch(_driver._png.color_type()) {
         case PNG_COLOR_TYPE_GRAY:
             return GL_RED;
@@ -473,11 +476,13 @@ GLenum png_reader::gl_format() {
             return GL_RGB;
         case PNG_COLOR_TYPE_RGB_ALPHA: // NOLINT
             return GL_RGBA;
-        default: { throw std::runtime_error("Unsupported PNG color type"); }
+        default: {
+            throw std::runtime_error("Unsupported PNG color type");
+        }
     }
 }
 //------------------------------------------------------------------------------
-GLenum png_reader::gl_iformat() {
+auto png_reader::gl_iformat() -> GLenum {
     if(_driver._png.bit_depth() == 16) {
         if(has_rgba16) {
 #if defined(GL_RGBA16)
@@ -520,10 +525,9 @@ void png_reader::do_read_data(::png_bytep data, ::png_size_t size) {
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-int main(int argc, const char** argv) {
+auto main(int argc, const char** argv) -> int {
     eagine::main_ctx_options options;
     options.logger_id = EAGINE_ID(BakePNGI);
     options.logger_opts.default_no_log = true;
     return eagine::main_impl(argc, argv, options);
 }
-

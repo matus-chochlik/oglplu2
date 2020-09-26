@@ -45,7 +45,7 @@ public:
           address);
     }
 
-    bool pong(stored_message&) {
+    auto pong(stored_message&) -> bool {
         if(++_rcvd % _lmod == 0) {
             log().info("received ${count} pongs").arg(EAGINE_ID(count), _rcvd);
         }
@@ -55,7 +55,7 @@ public:
         return true;
     }
 
-    bool ready(stored_message&) {
+    auto ready(stored_message&) -> bool {
         _ready = true;
         log().info("received pong ready message");
         return true;
@@ -77,7 +77,7 @@ public:
         }
     }
 
-    bool is_done() const noexcept {
+    auto is_done() const noexcept -> bool {
         return (_rcvd >= _max) || _timeout;
     }
 
@@ -96,7 +96,7 @@ private:
 //------------------------------------------------------------------------------
 } // namespace msgbus
 
-int main(main_ctx& ctx) {
+auto main(main_ctx& ctx) -> int {
     msgbus::router_address address{ctx.log(), ctx.args()};
     msgbus::connection_setup conn_setup(ctx.log(), ctx.args());
 
@@ -126,4 +126,3 @@ int main(main_ctx& ctx) {
     return 0;
 }
 } // namespace eagine
-

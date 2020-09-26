@@ -27,4 +27,3 @@ constexpr auto enumerator_mapping(identity<node_kind>, Selector) noexcept {
 } // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_NODE_KIND_HPP
-

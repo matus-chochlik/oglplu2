@@ -24,7 +24,7 @@ struct true_false : gl_bool_class<true_false, EAGINE_ID_V(TrueFalse)> {
 #endif
     }
 
-    constexpr bool operator!() const noexcept {
+    constexpr auto operator!() const noexcept -> bool {
 #ifdef GL_FALSE
         return this->_value == GL_FALSE;
 #else
@@ -624,4 +624,3 @@ struct path_transform_type_nv
 } // namespace eagine::oglp
 
 #endif // OGLPLUS_GL_API_ENUM_TYPES_HPP
-

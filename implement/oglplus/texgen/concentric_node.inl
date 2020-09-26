@@ -16,8 +16,7 @@ namespace eagine::oglp::texgen {
 OGLPLUS_LIB_FUNC
 concentric_output::concentric_output(node_intf& parent)
   : base_output(parent)
-  , repeat(parent, string_view("Repeat"), 8.f, 8.f, 8.f) {
-}
+  , repeat(parent, string_view("Repeat"), 8.f, 8.f, 8.f) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 string_view concentric_output::type_name() {
@@ -30,8 +29,8 @@ slot_data_type concentric_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& concentric_output::definitions(
-  std::ostream& out, compile_context& ctxt) {
+std::ostream&
+concentric_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt)) {
         return out;
     }
@@ -60,8 +59,7 @@ std::ostream& concentric_output::definitions(
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 pixel_concentric_output::pixel_concentric_output(node_intf& parent)
-  : base_output(parent) {
-}
+  : base_output(parent) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 string_view pixel_concentric_output::type_name() {
@@ -74,8 +72,8 @@ slot_data_type pixel_concentric_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& pixel_concentric_output::definitions(
-  std::ostream& out, compile_context& ctxt) {
+std::ostream&
+pixel_concentric_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt)) {
         return out;
     }

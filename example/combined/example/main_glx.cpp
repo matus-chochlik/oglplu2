@@ -38,48 +38,49 @@ namespace eagine {
 using namespace oglp;
 class example_main_glx : public example_main_intf {
 public:
-    bool is_implemented() final {
+    auto is_implemented() -> bool final {
         return (OGLPLUS_GLX_FOUND != 0);
     }
 
-    string_view implementation_name() final {
+    auto implementation_name() -> string_view final {
         return {"GLX"};
     }
 
-    int run(example_run_context& erc) final {
+    auto run(example_run_context& erc) -> int final {
 #if OGLPLUS_GLX_FOUND
         x11::Display display;
 
         glx::Version version(display);
         version.AssertAtLeast(1, 3);
 
-        static int visual_attribs[] = {GLX_X_RENDERABLE,
-                                       True,
-                                       GLX_DRAWABLE_TYPE,
-                                       GLX_WINDOW_BIT,
-                                       GLX_RENDER_TYPE,
-                                       GLX_RGBA_BIT,
-                                       GLX_X_VISUAL_TYPE,
-                                       GLX_TRUE_COLOR,
-                                       GLX_RED_SIZE,
-                                       erc.params.color_bits(),
-                                       GLX_GREEN_SIZE,
-                                       erc.params.color_bits(),
-                                       GLX_BLUE_SIZE,
-                                       erc.params.color_bits(),
-                                       GLX_ALPHA_SIZE,
-                                       erc.params.alpha_bits(),
-                                       GLX_DEPTH_SIZE,
-                                       erc.params.depth_bits(),
-                                       GLX_STENCIL_SIZE,
-                                       erc.params.stencil_bits(),
-                                       GLX_DOUBLEBUFFER,
-                                       True,
-                                       GLX_SAMPLE_BUFFERS,
-                                       erc.params.samples() ? 1 : 0,
-                                       GLX_SAMPLES,
-                                       erc.params.samples() / 0,
-                                       None};
+        static int visual_attribs[] = {
+          GLX_X_RENDERABLE,
+          True,
+          GLX_DRAWABLE_TYPE,
+          GLX_WINDOW_BIT,
+          GLX_RENDER_TYPE,
+          GLX_RGBA_BIT,
+          GLX_X_VISUAL_TYPE,
+          GLX_TRUE_COLOR,
+          GLX_RED_SIZE,
+          erc.params.color_bits(),
+          GLX_GREEN_SIZE,
+          erc.params.color_bits(),
+          GLX_BLUE_SIZE,
+          erc.params.color_bits(),
+          GLX_ALPHA_SIZE,
+          erc.params.alpha_bits(),
+          GLX_DEPTH_SIZE,
+          erc.params.depth_bits(),
+          GLX_STENCIL_SIZE,
+          erc.params.stencil_bits(),
+          GLX_DOUBLEBUFFER,
+          True,
+          GLX_SAMPLE_BUFFERS,
+          erc.params.samples() ? 1 : 0,
+          GLX_SAMPLES,
+          erc.params.samples() / 0,
+          None};
         glx::FBConfig fbc =
           // NOLINTNEXTLINE(hicpp-no-array-decay)
           glx::FBConfigs(display, visual_attribs).FindBest(display);
@@ -196,7 +197,7 @@ private:
 #endif
 };
 //------------------------------------------------------------------------------
-std::unique_ptr<example_main_intf> make_example_main_glx() {
+auto make_example_main_glx() -> std::unique_ptr<example_main_intf> {
     return {std::make_unique<example_main_glx>()};
 }
 //------------------------------------------------------------------------------

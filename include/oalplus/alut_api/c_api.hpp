@@ -104,8 +104,7 @@ struct basic_alut_c_api {
       , CreateBufferFromFileImage("CreateBufferFromFileImage", traits, *this)
       , CreateBufferHelloWorld("CreateBufferHelloWorld", traits, *this)
       , CreateBufferWaveform("CreateBufferWaveform", traits, *this)
-      , Exit("Exit", traits, *this) {
-    }
+      , Exit("Exit", traits, *this) {}
 };
 //------------------------------------------------------------------------------
 using alut_c_api = basic_alut_c_api<alut_api_traits>;
@@ -113,4 +112,3 @@ using alut_c_api = basic_alut_c_api<alut_api_traits>;
 } // namespace eagine::oalp
 
 #endif // OALPLUS_ALUT_API_C_API_HPP
-

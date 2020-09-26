@@ -44,7 +44,7 @@ struct ping_stats {
           finish - start);
     }
 
-    float total_count() const noexcept {
+    auto total_count() const noexcept {
         return float(responded) + float(timeouted);
     }
 
@@ -67,8 +67,7 @@ public:
     ping_example(endpoint& bus, const valid_if_positive<std::intmax_t>& max)
       : base{bus}
       , _log{EAGINE_ID(PingExampl), bus.log()}
-      , _max{extract_or(max, 100000)} {
-    }
+      , _max{extract_or(max, 100000)} {}
 
     void on_subscribed(identifier_t id, message_id sub_msg) final {
         if(sub_msg == EAGINE_MSG_ID(eagiPing, ping)) {
@@ -112,11 +111,11 @@ public:
         }
     }
 
-    bool is_done() const noexcept {
+    auto is_done() const noexcept -> bool {
         return !(((_rcvd + _tout + _mod) < _max) || this->has_pending_pings());
     }
 
-    bool update() {
+    auto update() -> bool {
         some_true something_done{};
         something_done(base::update());
         if(EAGINE_UNLIKELY(_targets.empty())) {
@@ -190,7 +189,7 @@ private:
 //------------------------------------------------------------------------------
 } // namespace msgbus
 
-int main(main_ctx& ctx) {
+auto main(main_ctx& ctx) -> int {
 
     msgbus::router_address address{ctx.log(), ctx.args()};
     msgbus::connection_setup conn_setup(ctx.log(), ctx.args());
@@ -219,9 +218,8 @@ int main(main_ctx& ctx) {
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-int main(int argc, const char** argv) {
+auto main(int argc, const char** argv) -> int {
     eagine::main_ctx_options options;
     options.logger_id = EAGINE_ID(PingExe);
     return eagine::main_impl(argc, argv, options);
 }
-

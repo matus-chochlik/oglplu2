@@ -30,10 +30,9 @@ class promise {
 public:
     promise() noexcept = default;
     promise(std::shared_ptr<future_state<T>>& state) noexcept
-      : _state{state} {
-    }
+      : _state{state} {}
 
-    bool should_be_removed() {
+    auto should_be_removed() -> bool {
         if(auto state{_state.lock()}) {
             if(state->too_late) {
                 if(state->timeout_handler) {
@@ -71,29 +70,28 @@ class future {
 public:
     future() = default;
     future(nothing_t) noexcept
-      : _state{} {
-    }
+      : _state{} {}
 
     explicit operator bool() const noexcept {
         return bool(_state);
     }
 
     template <typename R, typename P>
-    future<T>& set_timeout(std::chrono::duration<R, P> dur) {
+    auto set_timeout(std::chrono::duration<R, P> dur) -> future<T>& {
         if(_state) {
             _state->too_late.reset(dur);
         }
         return *this;
     }
 
-    future<T>& on_success(const std::function<void(T)>& handler) {
+    auto on_success(const std::function<void(T)>& handler) -> future<T>& {
         if(_state) {
             _state->success_handler = handler;
         }
         return *this;
     }
 
-    future<T>& on_timeout(const std::function<void()>& handler) {
+    auto on_timeout(const std::function<void()>& handler) -> future<T>& {
         if(_state) {
             _state->timeout_handler = handler;
         }
@@ -103,7 +101,7 @@ public:
     template <
       typename Handler,
       typename = std::enable_if_t<std::is_invocable_v<Handler, T>>>
-    future<T>& then(Handler handler) {
+    auto then(Handler handler) -> future<T>& {
         if(_state) {
             _state->success_handler = std::function<void(T)>(
               [state{_state}, handler{std::move(handler)}](T value) {
@@ -116,7 +114,7 @@ public:
     template <
       typename Handler,
       typename = std::enable_if_t<std::is_invocable_v<Handler>>>
-    future<T>& otherwise(Handler handler) {
+    auto otherwise(Handler handler) -> future<T>& {
         if(_state) {
             _state->timeout_handler = std::function<void()>(
               [state{_state}, handler{std::move(handler)}]() { handler(); });
@@ -124,7 +122,7 @@ public:
         return *this;
     }
 
-    promise<T> get_promise() {
+    auto get_promise() -> promise<T> {
         return {_state};
     }
 
@@ -138,7 +136,7 @@ class pending_promises {
 public:
     using id_t = message_sequence_t;
 
-    std::tuple<id_t, future<T>> make() {
+    auto make() -> std::tuple<id_t, future<T>> {
         future<T> result{};
         const auto id{++_id_seq};
         _promises[id] = result.get_promise();
@@ -154,16 +152,16 @@ public:
         update();
     }
 
-    bool update() {
+    auto update() -> bool {
         return _promises.erase_if(
                  [](auto& p) { return p.second.should_be_removed(); }) > 0;
     }
 
-    bool has_some() const noexcept {
+    auto has_some() const noexcept -> bool {
         return !_promises.empty();
     }
 
-    bool has_none() const noexcept {
+    auto has_none() const noexcept -> bool {
         return _promises.empty();
     }
 
@@ -175,4 +173,3 @@ private:
 } // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_FUTURE_HPP
-

@@ -49,7 +49,7 @@ public:
         _socket.connect(_endpoint);
     }
 
-    std::ostream& out() noexcept {
+    auto out() noexcept -> std::ostream& {
         if(_socket.is_open()) {
             return _out;
         }
@@ -68,8 +68,8 @@ protected:
     }
 
 private:
-    asio::io_context _context;
-    asio::local::stream_protocol::endpoint _endpoint;
+    asio::io_context _context{};
+    asio::local::stream_protocol::endpoint _endpoint{};
     asio::local::stream_protocol::socket _socket;
     asio::streambuf _buffer{};
     std::ostream _out;
@@ -88,21 +88,20 @@ class asio_ostream_log_backend
 
 public:
     asio_ostream_log_backend(
-      string_view addr_str, log_event_severity min_severity)
+      string_view addr_str,
+      log_event_severity min_severity)
       : asio_ostream_log_connection(addr_str)
       , ostream_log_backend<Lockable>(
-          asio_ostream_log_connection::out(), min_severity) {
-    }
+          asio_ostream_log_connection::out(),
+          min_severity) {}
 
     asio_ostream_log_backend(log_event_severity min_severity)
-      : asio_ostream_log_backend(string_view{}, min_severity) {
-    }
+      : asio_ostream_log_backend(string_view{}, min_severity) {}
 
     asio_ostream_log_backend(asio_ostream_log_backend&&) = delete;
     asio_ostream_log_backend(const asio_ostream_log_backend&) = delete;
-    asio_ostream_log_backend& operator=(asio_ostream_log_backend&&) = delete;
-    asio_ostream_log_backend& operator=(const asio_ostream_log_backend&) =
-      delete;
+    auto operator=(asio_ostream_log_backend&&) = delete;
+    auto operator=(const asio_ostream_log_backend&) = delete;
 
     ~asio_ostream_log_backend() noexcept override {
         this->finish_log();

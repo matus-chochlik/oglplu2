@@ -6,7 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef TEXGEN_INPUT_LOCATION_HPP
+#ifndef TEXGEN_INPUT_LOCATION_HPP // NOLINT(llvm-header-guard)
 #define TEXGEN_INPUT_LOCATION_HPP
 
 #include <eagine/types.hpp>
@@ -18,18 +18,18 @@ public:
     input_location() noexcept = default;
     input_location(span_size_t line, span_size_t column) noexcept
       : _line{line}
-      , _column{column} {
-    }
+      , _column{column} {}
 
-    span_size_t line() const noexcept {
+    auto line() const noexcept -> span_size_t {
         return _line;
     }
 
-    span_size_t column() const noexcept {
+    auto column() const noexcept -> span_size_t {
         return _column;
     }
 
-    friend input_location operator+(const input_location& l, char c) noexcept {
+    friend auto operator+(const input_location& l, char c) noexcept
+      -> input_location {
         if(c == '\n') {
             return {l.line() + 1, 0};
         }

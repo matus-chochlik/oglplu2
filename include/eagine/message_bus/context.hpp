@@ -40,64 +40,68 @@ public:
 
     context(context&&) = delete;
     context(const context&) = delete;
-    context& operator=(context&&) = delete;
-    context& operator=(const context&) = delete;
+    auto operator=(context&&) = delete;
+    auto operator=(const context&) = delete;
 
     ~context() noexcept;
 
-    auto& ssl() noexcept {
+    auto ssl() noexcept -> sslp::ssl_api& {
         return _ssl;
     }
 
-    message_sequence_t next_sequence_no(message_id) noexcept;
+    auto next_sequence_no(message_id) noexcept -> message_sequence_t;
 
-    bool verify_certificate(sslp::x509 cert);
+    auto verify_certificate(sslp::x509 cert) -> bool;
 
-    bool add_own_certificate_pem(memory::const_block);
-    bool add_ca_certificate_pem(memory::const_block);
-    bool add_remote_certificate_pem(identifier_t node_id, memory::const_block);
-    bool add_router_certificate_pem(memory::const_block blk) {
+    auto add_own_certificate_pem(memory::const_block) -> bool;
+    auto add_ca_certificate_pem(memory::const_block) -> bool;
+    auto add_remote_certificate_pem(identifier_t node_id, memory::const_block)
+      -> bool;
+    auto add_router_certificate_pem(memory::const_block blk) -> bool {
         return add_remote_certificate_pem(0, blk);
     }
 
-    memory::const_block get_own_certificate_pem() const noexcept {
+    auto get_own_certificate_pem() const noexcept -> memory::const_block {
         return view(_own_cert_pem);
     }
 
-    memory::const_block get_ca_certificate_pem() const noexcept {
+    auto get_ca_certificate_pem() const noexcept -> memory::const_block {
         return view(_ca_cert_pem);
     }
 
-    memory::const_block get_remote_certificate_pem(identifier_t) const noexcept;
-    memory::const_block get_router_certificate_pem() const noexcept {
+    auto get_remote_certificate_pem(identifier_t) const noexcept
+      -> memory::const_block;
+
+    auto get_router_certificate_pem() const noexcept -> memory::const_block {
         return get_remote_certificate_pem(0);
     }
 
-    memory::const_block get_remote_nonce(identifier_t) const noexcept;
-    bool verified_remote_key(identifier_t) const noexcept;
+    auto get_remote_nonce(identifier_t) const noexcept -> memory::const_block;
+    auto verified_remote_key(identifier_t) const noexcept -> bool;
 
-    decltype(std::declval<sslp::ssl_api&>().message_digest_sha256())
-    default_message_digest() noexcept;
+    auto default_message_digest() noexcept
+      -> decltype(ssl().message_digest_sha256());
 
-    decltype(std::declval<sslp::ssl_api&>().message_digest_sign_init.fake())
-    message_digest_sign_init(
-      sslp::message_digest mdc, sslp::message_digest_type mdt) noexcept;
+    auto message_digest_sign_init(
+      sslp::message_digest mdc,
+      sslp::message_digest_type mdt) noexcept
+      -> decltype(ssl().message_digest_sign_init.fake());
 
-    decltype(std::declval<sslp::ssl_api&>().message_digest_verify_init.fake())
-    message_digest_verify_init(
+    auto message_digest_verify_init(
       sslp::message_digest mdc,
       sslp::message_digest_type mdt,
-      identifier_t node_id) noexcept;
+      identifier_t node_id) noexcept
+      -> decltype(ssl().message_digest_verify_init.fake());
 
-    memory::const_block get_own_signature(memory::const_block);
+    auto get_own_signature(memory::const_block) -> memory::const_block;
 
-    verification_bits verify_remote_signature(
+    auto verify_remote_signature(
       memory::const_block data,
       memory::const_block sig,
       identifier_t,
-      bool = false);
+      bool = false) -> verification_bits;
 
-    bool verify_remote_signature(memory::const_block sig, identifier_t);
+    auto verify_remote_signature(memory::const_block sig, identifier_t) -> bool;
 
 private:
     logger _log{};
@@ -126,4 +130,3 @@ private:
 #endif
 
 #endif // EAGINE_MESSAGE_BUS_CONTEXT_HPP
-

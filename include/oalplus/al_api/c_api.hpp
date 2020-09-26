@@ -127,9 +127,7 @@ struct basic_al_c_api {
       SpeedOfSound;
 
     // Listener
-    al_api_function<
-      void(enum_type, int_type),
-      OALPLUS_AL_STATIC_FUNC(Listeneri)>
+    al_api_function<void(enum_type, int_type), OALPLUS_AL_STATIC_FUNC(Listeneri)>
       Listeneri;
 
     al_api_function<
@@ -499,8 +497,7 @@ struct basic_al_c_api {
       , GetAuxiliaryEffectSloti("GetEffecti", traits, *this)
       , GetAuxiliaryEffectSlotiv("GetEffecti", traits, *this)
       , GetAuxiliaryEffectSlotf("GetEffecti", traits, *this)
-      , GetAuxiliaryEffectSlotfv("GetEffecti", traits, *this) {
-    }
+      , GetAuxiliaryEffectSlotfv("GetEffecti", traits, *this) {}
 };
 //------------------------------------------------------------------------------
 using al_c_api = basic_al_c_api<al_api_traits>;
@@ -508,4 +505,3 @@ using al_c_api = basic_al_c_api<al_api_traits>;
 } // namespace eagine::oalp
 
 #endif // OALPLUS_AL_API_C_API_HPP
-

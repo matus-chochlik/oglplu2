@@ -22,14 +22,12 @@ private:
 public:
     fallback_input(node_intf& parent, string_view name)
       : base_input(parent, name)
-      , _fallback(parent) {
-    }
+      , _fallback(parent) {}
 
     template <typename... P>
     fallback_input(node_intf& parent, string_view name, P&&... p)
       : base_input(parent, name)
-      , _fallback(parent, std::forward<P>(p)...) {
-    }
+      , _fallback(parent, std::forward<P>(p)...) {}
 
     FallbackOutput& fallback() noexcept {
         return _fallback;
@@ -47,8 +45,8 @@ public:
         }
     }
 
-    bool set_default_value(
-      valid_if_between<span_size_t, 0, 3> c, float v) override {
+    bool
+    set_default_value(valid_if_between<span_size_t, 0, 3> c, float v) override {
         return fallback().set_default_value(c.value(), v);
     }
 
@@ -56,13 +54,12 @@ public:
         return output().value_type();
     }
 
-    std::ostream& definitions(
-      std::ostream& out, compile_context& ctxt) override {
+    std::ostream&
+    definitions(std::ostream& out, compile_context& ctxt) override {
         return output().definitions(out, ctxt);
     }
 
-    std::ostream& expression(
-      std::ostream& out, compile_context& ctxt) override {
+    std::ostream& expression(std::ostream& out, compile_context& ctxt) override {
         return output().expression(out, ctxt);
     }
 };

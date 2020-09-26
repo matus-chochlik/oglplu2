@@ -33,7 +33,7 @@ class posix_mqueue {
 private:
     std::string _name{};
 
-    static constexpr ::mqd_t _invalid_handle() noexcept {
+    static constexpr auto _invalid_handle() noexcept -> ::mqd_t {
         return ::mqd_t(-1);
     }
 
@@ -50,8 +50,8 @@ public:
         swap(_ohandle, temp._ohandle);
     }
     posix_mqueue(const posix_mqueue&) = delete;
-    posix_mqueue& operator=(posix_mqueue&& temp) = delete;
-    posix_mqueue& operator=(const posix_mqueue&) = delete;
+    auto operator=(posix_mqueue&& temp) = delete;
+    auto operator=(const posix_mqueue&) = delete;
 
     ~posix_mqueue() noexcept {
         try {
@@ -60,11 +60,11 @@ public:
         }
     }
 
-    string_view get_name() const noexcept {
+    auto get_name() const noexcept -> string_view {
         return {_name};
     }
 
-    posix_mqueue& set_name(std::string name) {
+    auto set_name(std::string name) -> auto& {
         _name = std::move(name);
         if(!_name.empty()) {
             if(_name.front() != '/') {
@@ -74,14 +74,14 @@ public:
         return *this;
     }
 
-    static std::string name_from(identifier id) {
+    static auto name_from(identifier id) -> std::string {
         std::string result;
         result.reserve(std_size(identifier::max_size() + 1));
         id.name().str(result);
         return result;
     }
 
-    posix_mqueue& set_name(identifier id) {
+    auto set_name(identifier id) -> auto& {
         return set_name(name_from(id));
     }
 
@@ -89,7 +89,7 @@ public:
         set_name(std::move(name));
     }
 
-    std::string last_message() const {
+    auto last_message() const -> std::string {
         if(_last_errno) {
             char buf[128] = {'\0'};
             ::strerror_r(_last_errno, static_cast<char*>(buf), sizeof(buf));
@@ -98,23 +98,23 @@ public:
         return {};
     }
 
-    bool had_error() const {
+    auto had_error() const -> bool {
         return _last_errno != 0;
     }
 
-    bool needs_retry() const {
+    auto needs_retry() const -> bool {
         return (_last_errno == EAGAIN) || (_last_errno == ETIMEDOUT);
     }
 
-    constexpr bool is_open() const noexcept {
+    constexpr auto is_open() const noexcept -> bool {
         return (_ihandle >= 0) && (_ohandle >= 0);
     }
 
-    constexpr bool is_usable() const noexcept {
+    constexpr auto is_usable() const noexcept -> bool {
         return is_open() && !(had_error() && !needs_retry());
     }
 
-    posix_mqueue& unlink() {
+    auto unlink() -> auto& {
         errno = 0;
         ::mq_unlink((_name + "0").c_str());
         ::mq_unlink((_name + "1").c_str());
@@ -122,7 +122,7 @@ public:
         return *this;
     }
 
-    posix_mqueue& create() {
+    auto create() -> auto& {
         errno = 0;
         // NOLINTNEXTLINE(hicpp-vararg)
         _ihandle = ::mq_open(
@@ -147,7 +147,7 @@ public:
         return *this;
     }
 
-    posix_mqueue& open() {
+    auto open() -> auto& {
         errno = 0;
         // NOLINTNEXTLINE(hicpp-vararg)
         _ihandle = ::mq_open(
@@ -172,7 +172,7 @@ public:
         return *this;
     }
 
-    posix_mqueue& close() {
+    auto close() -> posix_mqueue& {
         if(is_open()) {
             ::mq_close(_ihandle);
             ::mq_close(_ohandle);
@@ -183,11 +183,11 @@ public:
         return *this;
     }
 
-    constexpr static span_size_t default_data_size() noexcept {
+    constexpr static auto default_data_size() noexcept -> span_size_t {
         return 8 * 1024;
     }
 
-    valid_if_positive<span_size_t> max_data_size() {
+    auto max_data_size() -> valid_if_positive<span_size_t> {
         if(is_open()) {
             struct ::mq_attr attr {};
             errno = 0;
@@ -198,11 +198,11 @@ public:
         return {0};
     }
 
-    span_size_t data_size() noexcept {
+    auto data_size() noexcept -> span_size_t {
         return extract_or(max_data_size(), default_data_size());
     }
 
-    posix_mqueue& send(unsigned priority, span<const char> blk) {
+    auto send(unsigned priority, span<const char> blk) -> auto& {
         if(is_open()) {
             errno = 0;
             ::mq_send(_ohandle, blk.data(), std_size(blk.size()), priority);
@@ -213,7 +213,7 @@ public:
 
     using receive_handler = callable_ref<void(unsigned, span<const char>)>;
 
-    posix_mqueue& receive(memory::span<char> blk, receive_handler handler) {
+    auto receive(memory::span<char> blk, receive_handler handler) -> auto& {
         if(is_open()) {
             unsigned priority{0U};
             errno = 0;
@@ -233,15 +233,15 @@ class posix_mqueue_connection_info : public Base {
 public:
     using Base::Base;
 
-    connection_kind kind() final {
+    auto kind() -> connection_kind final {
         return connection_kind::local_interprocess;
     }
 
-    connection_addr_kind addr_kind() final {
+    auto addr_kind() -> connection_addr_kind final {
         return connection_addr_kind::filepath;
     }
 
-    identifier type_id() final {
+    auto type_id() -> identifier final {
         return EAGINE_ID(PosixMQue);
     }
 };
@@ -258,19 +258,19 @@ public:
         _buffer.resize(_data_queue.data_size());
     }
 
-    bool open(std::string name) {
+    auto open(std::string name) -> bool {
         return !_data_queue.set_name(std::move(name)).open().had_error();
     }
 
-    bool is_usable() final {
+    auto is_usable() -> bool final {
         return _data_queue.is_usable();
     }
 
-    valid_if_positive<span_size_t> max_data_size() final {
+    auto max_data_size() -> valid_if_positive<span_size_t> final {
         return {_buffer.size()};
     }
 
-    bool update() override {
+    auto update() -> bool override {
         std::unique_lock lock{_mutex};
         some_true something_done{};
         something_done(_receive());
@@ -278,7 +278,7 @@ public:
         return something_done;
     }
 
-    bool send(message_id msg_id, const message_view& message) final {
+    auto send(message_id msg_id, const message_view& message) -> bool final {
         std::unique_lock lock{_mutex};
         block_data_sink sink(cover(_buffer));
         string_serializer_backend backend(sink);
@@ -290,13 +290,13 @@ public:
         return false;
     }
 
-    bool fetch_messages(fetch_handler handler) final {
+    auto fetch_messages(fetch_handler handler) -> bool final {
         std::unique_lock lock{_mutex};
         return _incoming.fetch_all(handler);
     }
 
 protected:
-    bool _checkup(posix_mqueue& connect_queue) {
+    auto _checkup(posix_mqueue& connect_queue) -> bool {
         some_true something_done{};
         if(connect_queue.is_usable()) {
             if(!_data_queue.is_usable()) {
@@ -326,7 +326,7 @@ protected:
         return something_done;
     }
 
-    bool _receive() {
+    auto _receive() -> bool {
         some_true something_done{};
         if(_data_queue.is_usable()) {
             while(!_data_queue
@@ -341,7 +341,7 @@ protected:
         return something_done;
     }
 
-    bool _send() {
+    auto _send() -> bool {
         if(_data_queue.is_usable()) {
             return _outgoing.fetch_all(
               {this, EAGINE_MEM_FUNC_C(this_class, _handle_send)});
@@ -350,7 +350,7 @@ protected:
     }
 
 protected:
-    bool _handle_send(memory::const_block data) {
+    auto _handle_send(memory::const_block data) -> bool {
         return !_data_queue.send(1, as_chars(data)).had_error();
     }
 
@@ -380,24 +380,22 @@ public:
 
     posix_mqueue_connector(logger& parent, std::string name) noexcept
       : base{parent}
-      , _connect_queue{std::move(name)} {
-    }
+      , _connect_queue{std::move(name)} {}
 
     posix_mqueue_connector(logger& parent, identifier id)
       : base{parent}
-      , _connect_queue{posix_mqueue::name_from(id)} {
-    }
+      , _connect_queue{posix_mqueue::name_from(id)} {}
 
     posix_mqueue_connector(posix_mqueue_connector&&) = delete;
-    posix_mqueue_connector& operator=(posix_mqueue_connector&&) = delete;
     posix_mqueue_connector(const posix_mqueue_connector&) = delete;
-    posix_mqueue_connector& operator=(const posix_mqueue_connector&) = delete;
+    auto operator=(posix_mqueue_connector&&) = delete;
+    auto operator=(const posix_mqueue_connector&) = delete;
 
     ~posix_mqueue_connector() noexcept final {
         _data_queue.unlink();
     }
 
-    bool update() final {
+    auto update() -> bool final {
         std::unique_lock lock{_mutex};
         some_true something_done{};
         something_done(_checkup());
@@ -407,7 +405,7 @@ public:
     }
 
 private:
-    bool _checkup() {
+    auto _checkup() -> bool {
         some_true something_done{};
         if(!_connect_queue.is_usable()) {
             _connect_queue.close();
@@ -434,31 +432,30 @@ public:
     }
 
     posix_mqueue_acceptor(logger& parent, identifier id)
-      : posix_mqueue_acceptor{parent, posix_mqueue::name_from(id)} {
-    }
+      : posix_mqueue_acceptor{parent, posix_mqueue::name_from(id)} {}
 
     posix_mqueue_acceptor(posix_mqueue_acceptor&&) noexcept = default;
-    posix_mqueue_acceptor& operator=(posix_mqueue_acceptor&&) = delete;
     posix_mqueue_acceptor(const posix_mqueue_acceptor&) = delete;
-    posix_mqueue_acceptor& operator=(const posix_mqueue_acceptor&) = delete;
+    auto operator=(posix_mqueue_acceptor&&) = delete;
+    auto operator=(const posix_mqueue_acceptor&) = delete;
 
     ~posix_mqueue_acceptor() noexcept final {
         _accept_queue.unlink();
     }
 
-    bool update() final {
+    auto update() -> bool final {
         some_true something_done{};
         something_done(_checkup());
         something_done(_receive());
         return something_done;
     }
 
-    bool process_accepted(const accept_handler& handler) final {
+    auto process_accepted(const accept_handler& handler) -> bool final {
         return _process(handler);
     }
 
 private:
-    bool _checkup() {
+    auto _checkup() -> bool {
         some_true something_done{};
         if(!_accept_queue.is_usable()) {
             _accept_queue.close();
@@ -471,7 +468,7 @@ private:
         return something_done;
     }
 
-    bool _receive() {
+    auto _receive() -> bool {
         some_true something_done{};
         if(_accept_queue.is_usable()) {
             while(!_accept_queue
@@ -500,7 +497,7 @@ private:
         });
     }
 
-    bool _process(const accept_handler& handler) {
+    auto _process(const accept_handler& handler) -> bool {
         auto fetch_handler = [this, &handler](
                                message_id msg_id,
                                message_age,
@@ -532,18 +529,18 @@ private:
 
 public:
     posix_mqueue_connection_factory(logger& parent)
-      : _log{EAGINE_ID(MQueConnFc), parent} {
-    }
+      : _log{EAGINE_ID(MQueConnFc), parent} {}
 
     using connection_factory::make_acceptor;
     using connection_factory::make_connector;
 
-    std::unique_ptr<acceptor> make_acceptor(string_view address) final {
+    auto make_acceptor(string_view address) -> std::unique_ptr<acceptor> final {
         return std::make_unique<posix_mqueue_acceptor>(
           _log, to_string(address));
     }
 
-    std::unique_ptr<connection> make_connector(string_view address) final {
+    auto make_connector(string_view address)
+      -> std::unique_ptr<connection> final {
         return std::make_unique<posix_mqueue_connector>(
           _log, to_string(address));
     }
@@ -552,4 +549,3 @@ public:
 } // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_POSIX_MQUEUE_HPP
-

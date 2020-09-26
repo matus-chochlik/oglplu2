@@ -64,8 +64,7 @@ class smart_callable<Asseting, RV (*)(Params...)>
   : public smart_callable_base<Asseting, RV, Params...> {
 public:
     constexpr smart_callable(RV (*function)(Params...)) noexcept
-      : _function{function} {
-    }
+      : _function{function} {}
 
     template <typename... Args>
     constexpr inline auto operator()(Args&&... args) const {
@@ -77,14 +76,14 @@ private:
 };
 //------------------------------------------------------------------------------
 template <typename RV, typename... Params>
-static constexpr inline smart_callable<false, RV (*)(Params...)> smart_call(
-  RV (*function)(Params...)) noexcept {
+static constexpr inline smart_callable<false, RV (*)(Params...)>
+smart_call(RV (*function)(Params...)) noexcept {
     return {function};
 }
 //------------------------------------------------------------------------------
 template <typename RV, typename... Params>
-static constexpr inline smart_callable<true, RV (*)(Params...)> safe_call(
-  RV (*function)(Params...)) noexcept {
+static constexpr inline smart_callable<true, RV (*)(Params...)>
+safe_call(RV (*function)(Params...)) noexcept {
     return {function};
 }
 //------------------------------------------------------------------------------

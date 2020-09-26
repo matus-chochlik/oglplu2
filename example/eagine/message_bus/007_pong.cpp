@@ -29,11 +29,10 @@ class pong_example : public pong_base {
 public:
     pong_example(endpoint& bus)
       : base{bus}
-      , _log{EAGINE_ID(PongExampl), bus.log()} {
-    }
+      , _log{EAGINE_ID(PongExampl), bus.log()} {}
 
-    bool respond_to_ping(
-      identifier_t, message_sequence_t, verification_bits) final {
+    auto respond_to_ping(identifier_t, message_sequence_t, verification_bits)
+      -> bool final {
         if(EAGINE_UNLIKELY((++_sent % _mod) == 0)) {
             _log.info("sent ${sent} pongs").arg(EAGINE_ID(sent), _sent);
         }
@@ -52,11 +51,11 @@ public:
         _done = true;
     }
 
-    bool is_done() const noexcept {
+    auto is_done() const noexcept -> bool {
         return _done;
     }
 
-    bool update() {
+    auto update() -> bool {
         some_true something_done{};
         something_done(base::update());
         if(_sent < 1) {
@@ -79,7 +78,7 @@ private:
 //------------------------------------------------------------------------------
 } // namespace msgbus
 
-int main(main_ctx& ctx) {
+auto main(main_ctx& ctx) -> int {
 
     msgbus::router_address address{ctx.log(), ctx.args()};
     msgbus::connection_setup conn_setup(ctx.log(), ctx.args());
@@ -101,9 +100,8 @@ int main(main_ctx& ctx) {
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-int main(int argc, const char** argv) {
+auto main(int argc, const char** argv) -> int {
     eagine::main_ctx_options options;
     options.logger_id = EAGINE_ID(PongExe);
     return eagine::main_impl(argc, argv, options);
 }
-

@@ -20,12 +20,10 @@ struct callable_composer;
 template <typename Func>
 struct callable_composer<Func> : Func {
     callable_composer(const Func& func)
-      : Func{func} {
-    }
+      : Func{func} {}
 
     callable_composer(Func&& func)
-      : Func{std::move(func)} {
-    }
+      : Func{std::move(func)} {}
 
     using Func::operator();
 };
@@ -37,21 +35,20 @@ struct callable_composer<Func, Funcs...>
     template <typename... F>
     callable_composer(const Func& func, F&&... funcs)
       : Func{func}
-      , callable_composer<Funcs...>{std::forward<Funcs>(funcs)...} {
-    }
+      , callable_composer<Funcs...>{std::forward<Funcs>(funcs)...} {}
 
     template <typename... F>
     callable_composer(Func&& func, F&&... funcs)
       : Func{std::move(func)}
-      , callable_composer<Funcs...>{std::forward<Funcs>(funcs)...} {
-    }
+      , callable_composer<Funcs...>{std::forward<Funcs>(funcs)...} {}
 
     using Func::operator();
     using callable_composer<Funcs...>::operator();
 };
 
 template <typename... Funcs>
-static inline callable_composer<Funcs...> compose_callables(Funcs&&... funcs) {
+static inline auto compose_callables(Funcs&&... funcs)
+  -> callable_composer<Funcs...> {
     return {funcs...};
 }
 

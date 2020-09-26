@@ -87,9 +87,7 @@ struct basic_gl_c_api {
 
     gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(Disable)> Disable;
 
-    gl_api_function<
-      void(enum_type, uint_type),
-      OGLPLUS_GL_STATIC_FUNC(Disablei)>
+    gl_api_function<void(enum_type, uint_type), OGLPLUS_GL_STATIC_FUNC(Disablei)>
       Disablei;
 
     gl_api_function<bool_type(enum_type), OGLPLUS_GL_STATIC_FUNC(IsEnabled)>
@@ -117,8 +115,7 @@ struct basic_gl_c_api {
     gl_api_function<void(sync_type), OGLPLUS_GL_STATIC_FUNC(DeleteSync)>
       DeleteSync;
 
-    gl_api_function<bool_type(sync_type), OGLPLUS_GL_STATIC_FUNC(IsSync)>
-      IsSync;
+    gl_api_function<bool_type(sync_type), OGLPLUS_GL_STATIC_FUNC(IsSync)> IsSync;
 
     gl_api_function<
       void(sync_type, enum_type, sizei_type, sizei_type*, int_type*),
@@ -372,9 +369,7 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(UnmapNamedBuffer)>
       UnmapNamedBuffer;
 
-    gl_api_function<
-      void(uint_type),
-      OGLPLUS_GL_STATIC_FUNC(InvalidateBufferData)>
+    gl_api_function<void(uint_type), OGLPLUS_GL_STATIC_FUNC(InvalidateBufferData)>
       InvalidateBufferData;
 
     gl_api_function<
@@ -460,14 +455,7 @@ struct basic_gl_c_api {
       BindTextureUnit;
 
     gl_api_function<
-      void(
-        uint_type,
-        uint_type,
-        int_type,
-        bool_type,
-        int_type,
-        enum_type,
-        enum_type),
+      void(uint_type, uint_type, int_type, bool_type, int_type, enum_type, enum_type),
       OGLPLUS_GL_STATIC_FUNC(BindImageTexture)>
       BindImageTexture;
 
@@ -477,8 +465,7 @@ struct basic_gl_c_api {
       BindImageTextures;
 
     gl_api_function<
-      void(
-        enum_type, sizei_type, enum_type, sizei_type, sizei_type, sizei_type),
+      void(enum_type, sizei_type, enum_type, sizei_type, sizei_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(TexStorage3D)>
       TexStorage3D;
 
@@ -565,14 +552,7 @@ struct basic_gl_c_api {
       CopyTexImage2D;
 
     gl_api_function<
-      void(
-        enum_type,
-        int_type,
-        enum_type,
-        int_type,
-        int_type,
-        sizei_type,
-        int_type),
+      void(enum_type, int_type, enum_type, int_type, int_type, sizei_type, int_type),
       OGLPLUS_GL_STATIC_FUNC(CopyTexImage1D)>
       CopyTexImage1D;
 
@@ -652,8 +632,7 @@ struct basic_gl_c_api {
 
     // dsa texture
     gl_api_function<
-      void(
-        uint_type, sizei_type, enum_type, sizei_type, sizei_type, sizei_type),
+      void(uint_type, sizei_type, enum_type, sizei_type, sizei_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(TextureStorage3D)>
       TextureStorage3D;
 
@@ -1014,8 +993,7 @@ struct basic_gl_c_api {
       GetTexImage;
 
     gl_api_function<
-      void(
-        enum_type, int_type, enum_type, enum_type, sizei_type, void_ptr_type),
+      void(enum_type, int_type, enum_type, enum_type, sizei_type, void_ptr_type),
       OGLPLUS_GL_STATIC_FUNC(GetnTexImage)>
       GetnTexImage;
 
@@ -1060,8 +1038,7 @@ struct basic_gl_c_api {
       GetTextureLevelParameteriv;
 
     gl_api_function<
-      void(
-        uint_type, int_type, enum_type, enum_type, sizei_type, void_ptr_type),
+      void(uint_type, int_type, enum_type, enum_type, sizei_type, void_ptr_type),
       OGLPLUS_GL_STATIC_FUNC(GetTextureImage)>
       GetTextureImage;
 
@@ -1260,9 +1237,7 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(DeleteRenderbuffers)>
       DeleteRenderbuffers;
 
-    gl_api_function<
-      bool_type(uint_type),
-      OGLPLUS_GL_STATIC_FUNC(IsRenderbuffer)>
+    gl_api_function<bool_type(uint_type), OGLPLUS_GL_STATIC_FUNC(IsRenderbuffer)>
       IsRenderbuffer;
 
     gl_api_function<
@@ -1747,9 +1722,7 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(IsProgramPipeline)>
       IsProgramPipeline;
 
-    gl_api_function<
-      void(uint_type),
-      OGLPLUS_GL_STATIC_FUNC(BindProgramPipeline)>
+    gl_api_function<void(uint_type), OGLPLUS_GL_STATIC_FUNC(BindProgramPipeline)>
       BindProgramPipeline;
 
     gl_api_function<
@@ -1801,12 +1774,7 @@ struct basic_gl_c_api {
       CompileShader;
 
     gl_api_function<
-      void(
-        sizei_type,
-        const uint_type*,
-        enum_type,
-        const_void_ptr_type,
-        sizei_type),
+      void(sizei_type, const uint_type*, enum_type, const_void_ptr_type, sizei_type),
       OGLPLUS_GL_STATIC_FUNC(ShaderBinary)>
       ShaderBinary;
 
@@ -1913,8 +1881,7 @@ struct basic_gl_c_api {
       GetProgramResourceIndex;
 
     gl_api_function<
-      void(
-        uint_type, enum_type, uint_type, sizei_type, sizei_type*, char_type*),
+      void(uint_type, enum_type, uint_type, sizei_type, sizei_type*, char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetProgramResourceName)>
       GetProgramResourceName;
 
@@ -1992,14 +1959,12 @@ struct basic_gl_c_api {
       GetSubroutineIndex;
 
     gl_api_function<
-      void(
-        uint_type, enum_type, uint_type, sizei_type, sizei_type*, char_type*),
+      void(uint_type, enum_type, uint_type, sizei_type, sizei_type*, char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetActiveSubroutineName)>
       GetActiveSubroutineName;
 
     gl_api_function<
-      void(
-        uint_type, enum_type, uint_type, sizei_type, sizei_type*, char_type*),
+      void(uint_type, enum_type, uint_type, sizei_type, sizei_type*, char_type*),
       OGLPLUS_GL_STATIC_FUNC(GetActiveSubroutineUniformName)>
       GetActiveSubroutineUniformName;
 
@@ -2100,9 +2065,7 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(Uniform4iv)>
       Uniform4iv;
 
-    gl_api_function<
-      void(int_type, uint_type),
-      OGLPLUS_GL_STATIC_FUNC(Uniform1ui)>
+    gl_api_function<void(int_type, uint_type), OGLPLUS_GL_STATIC_FUNC(Uniform1ui)>
       Uniform1ui;
 
     gl_api_function<
@@ -2140,9 +2103,7 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(Uniform4uiv)>
       Uniform4uiv;
 
-    gl_api_function<
-      void(int_type, float_type),
-      OGLPLUS_GL_STATIC_FUNC(Uniform1f)>
+    gl_api_function<void(int_type, float_type), OGLPLUS_GL_STATIC_FUNC(Uniform1f)>
       Uniform1f;
 
     gl_api_function<
@@ -3138,9 +3099,7 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(BlendEquationSeparatei)>
       BlendEquationSeparatei;
 
-    gl_api_function<
-      void(enum_type, enum_type),
-      OGLPLUS_GL_STATIC_FUNC(BlendFunc)>
+    gl_api_function<void(enum_type, enum_type), OGLPLUS_GL_STATIC_FUNC(BlendFunc)>
       BlendFunc;
 
     gl_api_function<
@@ -3462,19 +3421,12 @@ struct basic_gl_c_api {
       DebugMessageCallback;
 
     gl_api_function<
-      void(
-        enum_type,
-        enum_type,
-        enum_type,
-        sizei_type,
-        const uint_type*,
-        bool_type),
+      void(enum_type, enum_type, enum_type, sizei_type, const uint_type*, bool_type),
       OGLPLUS_GL_STATIC_FUNC(DebugMessageControl)>
       DebugMessageControl;
 
     gl_api_function<
-      void(
-        enum_type, enum_type, uint_type, enum_type, int_type, const char_type*),
+      void(enum_type, enum_type, uint_type, enum_type, int_type, const char_type*),
       OGLPLUS_GL_STATIC_FUNC(DebugMessageInsert)>
       DebugMessageInsert;
 
@@ -3483,8 +3435,7 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(PushDebugGroup)>
       PushDebugGroup;
 
-    gl_api_function<void(), OGLPLUS_GL_STATIC_FUNC(PopDebugGroup)>
-      PopDebugGroup;
+    gl_api_function<void(), OGLPLUS_GL_STATIC_FUNC(PopDebugGroup)> PopDebugGroup;
 
     gl_api_function<
       void(enum_type, uint_type, sizei_type, const char_type*),
@@ -3531,9 +3482,7 @@ struct basic_gl_c_api {
 
     gl_api_function<void(float_type, float_type), nullptr> Vertex2f;
     gl_api_function<void(float_type, float_type, float_type), nullptr> Vertex3f;
-    gl_api_function<
-      void(float_type, float_type, float_type, float_type),
-      nullptr>
+    gl_api_function<void(float_type, float_type, float_type, float_type), nullptr>
       Vertex4f;
 
     // vertex color
@@ -3542,9 +3491,7 @@ struct basic_gl_c_api {
       Color4i;
 
     gl_api_function<void(float_type, float_type, float_type), nullptr> Color3f;
-    gl_api_function<
-      void(float_type, float_type, float_type, float_type),
-      nullptr>
+    gl_api_function<void(float_type, float_type, float_type, float_type), nullptr>
       Color4f;
 
     gl_api_function<void(int_type, int_type, int_type), nullptr>
@@ -3554,9 +3501,7 @@ struct basic_gl_c_api {
 
     gl_api_function<void(float_type, float_type, float_type), nullptr>
       SecondaryColor3f;
-    gl_api_function<
-      void(float_type, float_type, float_type, float_type),
-      nullptr>
+    gl_api_function<void(float_type, float_type, float_type, float_type), nullptr>
       SecondaryColor4f;
 
     // vertex texture coord
@@ -3570,9 +3515,7 @@ struct basic_gl_c_api {
     gl_api_function<void(float_type, float_type), nullptr> TexCoord2f;
     gl_api_function<void(float_type, float_type, float_type), nullptr>
       TexCoord3f;
-    gl_api_function<
-      void(float_type, float_type, float_type, float_type),
-      nullptr>
+    gl_api_function<void(float_type, float_type, float_type, float_type), nullptr>
       TexCoord4f;
 
     // vertex multi texture coord
@@ -3589,9 +3532,7 @@ struct basic_gl_c_api {
     gl_api_function<void(enum_type, float_type), nullptr> MultiTexCoord1f;
     gl_api_function<void(enum_type, float_type, float_type), nullptr>
       MultiTexCoord2f;
-    gl_api_function<
-      void(enum_type, float_type, float_type, float_type),
-      nullptr>
+    gl_api_function<void(enum_type, float_type, float_type, float_type), nullptr>
       MultiTexCoord3f;
     gl_api_function<
       void(enum_type, float_type, float_type, float_type, float_type),
@@ -3616,9 +3557,7 @@ struct basic_gl_c_api {
     gl_api_function<void(double_type, double_type, double_type), nullptr>
       Translated;
 
-    gl_api_function<
-      void(enum_type, float_type, float_type, float_type),
-      nullptr>
+    gl_api_function<void(enum_type, float_type, float_type, float_type), nullptr>
       MatrixTranslatefEXT;
 
     gl_api_function<
@@ -3626,9 +3565,7 @@ struct basic_gl_c_api {
       nullptr>
       MatrixTranslatedEXT;
 
-    gl_api_function<
-      void(float_type, float_type, float_type, float_type),
-      nullptr>
+    gl_api_function<void(float_type, float_type, float_type, float_type), nullptr>
       Rotatef;
 
     gl_api_function<
@@ -3648,12 +3585,9 @@ struct basic_gl_c_api {
 
     gl_api_function<void(float_type, float_type, float_type), nullptr> Scalef;
 
-    gl_api_function<void(double_type, double_type, double_type), nullptr>
-      Scaled;
+    gl_api_function<void(double_type, double_type, double_type), nullptr> Scaled;
 
-    gl_api_function<
-      void(enum_type, float_type, float_type, float_type),
-      nullptr>
+    gl_api_function<void(enum_type, float_type, float_type, float_type), nullptr>
       MatrixScalefEXT;
 
     gl_api_function<
@@ -3971,9 +3905,7 @@ struct basic_gl_c_api {
       OGLPLUS_GL_STATIC_FUNC(StencilStrokePathInstancedNV)>
       StencilStrokePathInstancedNV;
 
-    gl_api_function<
-      void(enum_type),
-      OGLPLUS_GL_STATIC_FUNC(PathCoverDepthFuncNV)>
+    gl_api_function<void(enum_type), OGLPLUS_GL_STATIC_FUNC(PathCoverDepthFuncNV)>
       PathCoverDepthFuncNV;
 
     gl_api_function<
@@ -4241,8 +4173,7 @@ struct basic_gl_c_api {
       , MapBufferRange("MapBufferRange", traits, *this)
       , MapNamedBufferRange("MapNamedBufferRange", traits, *this)
       , FlushMappedBufferRange("FlushMappedBufferRange", traits, *this)
-      , FlushMappedNamedBufferRange(
-          "FlushMappedNamedBufferRange", traits, *this)
+      , FlushMappedNamedBufferRange("FlushMappedNamedBufferRange", traits, *this)
       , UnmapBuffer("UnmapBuffer", traits, *this)
       , UnmapNamedBuffer("UnmapNamedBuffer", traits, *this)
       , InvalidateBufferData("InvalidateBufferData", traits, *this)
@@ -4252,8 +4183,7 @@ struct basic_gl_c_api {
       , GetBufferParameteriv("GetBufferParameteriv", traits, *this)
       , GetBufferParameteri64v("GetBufferParameteri64v", traits, *this)
       , GetNamedBufferParameteriv("GetNamedBufferParameteriv", traits, *this)
-      , GetNamedBufferParameteri64v(
-          "GetNamedBufferParameteri64v", traits, *this)
+      , GetNamedBufferParameteri64v("GetNamedBufferParameteri64v", traits, *this)
       , GetBufferSubData("GetBufferSubData", traits, *this)
       , GetNamedBufferSubData("GetNamedBufferSubData", traits, *this)
       , GenTextures("GenTextures", traits, *this)
@@ -4285,10 +4215,8 @@ struct basic_gl_c_api {
       , TextureStorage3D("TextureStorage3D", traits, *this)
       , TextureStorage2D("TextureStorage2D", traits, *this)
       , TextureStorage1D("TextureStorage1D", traits, *this)
-      , TextureStorage3DMultisample(
-          "TextureStorage3DMultisample", traits, *this)
-      , TextureStorage2DMultisample(
-          "TextureStorage2DMultisample", traits, *this)
+      , TextureStorage3DMultisample("TextureStorage3DMultisample", traits, *this)
+      , TextureStorage2DMultisample("TextureStorage2DMultisample", traits, *this)
       , TextureSubImage3D("TextureSubImage3D", traits, *this)
       , TextureSubImage2D("TextureSubImage2D", traits, *this)
       , TextureSubImage1D("TextureSubImage1D", traits, *this)
@@ -4301,12 +4229,9 @@ struct basic_gl_c_api {
       , CompressedTexSubImage3D("CompressedTexSubImage3D", traits, *this)
       , CompressedTexSubImage2D("CompressedTexSubImage2D", traits, *this)
       , CompressedTexSubImage1D("CompressedTexSubImage1D", traits, *this)
-      , CompressedTextureSubImage3D(
-          "CompressedTextureSubImage3D", traits, *this)
-      , CompressedTextureSubImage2D(
-          "CompressedTextureSubImage2D", traits, *this)
-      , CompressedTextureSubImage1D(
-          "CompressedTextureSubImage1D", traits, *this)
+      , CompressedTextureSubImage3D("CompressedTextureSubImage3D", traits, *this)
+      , CompressedTextureSubImage2D("CompressedTextureSubImage2D", traits, *this)
+      , CompressedTextureSubImage1D("CompressedTextureSubImage1D", traits, *this)
       , TexImage3DMultisample("TexImage3DMultisample", traits, *this)
       , TexImage2DMultisample("TexImage2DMultisample", traits, *this)
       , TexBuffer("TexBuffer", traits, *this)
@@ -4345,7 +4270,9 @@ struct basic_gl_c_api {
       , GetTextureSubImage("GetTextureSubImage", traits, *this)
       , GetCompressedTextureImage("GetCompressedTextureImage", traits, *this)
       , GetCompressedTextureSubImage(
-          "GetCompressedTextureSubImage", traits, *this)
+          "GetCompressedTextureSubImage",
+          traits,
+          *this)
       , GenerateMipmap("GenerateMipmap", traits, *this)
       , GenerateTextureMipmap("GenerateTextureMipmap", traits, *this)
       , TextureView("TextureView", traits, *this)
@@ -4378,12 +4305,18 @@ struct basic_gl_c_api {
       , RenderbufferStorage("RenderbufferStorage", traits, *this)
       , NamedRenderbufferStorage("NamedRenderbufferStorage", traits, *this)
       , RenderbufferStorageMultisample(
-          "RenderbufferStorageMultisample", traits, *this)
+          "RenderbufferStorageMultisample",
+          traits,
+          *this)
       , NamedRenderbufferStorageMultisample(
-          "NamedRenderbufferStorageMultisample", traits, *this)
+          "NamedRenderbufferStorageMultisample",
+          traits,
+          *this)
       , GetRenderbufferParameteriv("GetRenderbufferParameteriv", traits, *this)
       , GetNamedRenderbufferParameteriv(
-          "GetNamedRenderbufferParameteriv", traits, *this)
+          "GetNamedRenderbufferParameteriv",
+          traits,
+          *this)
       , GenFramebuffers("GenFramebuffers", traits, *this)
       , CreateFramebuffers("CreateFramebuffers", traits, *this)
       , DeleteFramebuffers("DeleteFramebuffers", traits, *this)
@@ -4392,8 +4325,7 @@ struct basic_gl_c_api {
       , DrawBuffer("DrawBuffer", traits, *this)
       , NamedFramebufferDrawBuffer("NamedFramebufferDrawBuffer", traits, *this)
       , DrawBuffers("DrawBuffers", traits, *this)
-      , NamedFramebufferDrawBuffers(
-          "NamedFramebufferDrawBuffers", traits, *this)
+      , NamedFramebufferDrawBuffers("NamedFramebufferDrawBuffers", traits, *this)
       , ClearBufferfv("ClearBufferfv", traits, *this)
       , ClearBufferiv("ClearBufferiv", traits, *this)
       , ClearBufferuiv("ClearBufferuiv", traits, *this)
@@ -4405,21 +4337,33 @@ struct basic_gl_c_api {
       , InvalidateFramebuffer("InvalidateFramebuffer", traits, *this)
       , InvalidateSubFramebuffer("InvalidateSubFramebuffer", traits, *this)
       , InvalidateNamedFramebufferData(
-          "InvalidateNamedFramebufferData", traits, *this)
+          "InvalidateNamedFramebufferData",
+          traits,
+          *this)
       , InvalidateNamedFramebufferSubData(
-          "InvalidateNamedFramebufferSubData", traits, *this)
+          "InvalidateNamedFramebufferSubData",
+          traits,
+          *this)
       , FramebufferParameteri("FramebufferParameteri", traits, *this)
       , NamedFramebufferParameteri("NamedFramebufferParameteri", traits, *this)
       , GetFramebufferParameteriv("GetFramebufferParameteriv", traits, *this)
       , GetNamedFramebufferParameteriv(
-          "GetNamedFramebufferParameteriv", traits, *this)
+          "GetNamedFramebufferParameteriv",
+          traits,
+          *this)
       , GetFramebufferAttachmentParameteriv(
-          "GetFramebufferAttachmentParameteriv", traits, *this)
+          "GetFramebufferAttachmentParameteriv",
+          traits,
+          *this)
       , GetNamedFramebufferAttachmentParameteriv(
-          "GetNamedFramebufferAttachmentParameteriv", traits, *this)
+          "GetNamedFramebufferAttachmentParameteriv",
+          traits,
+          *this)
       , FramebufferRenderbuffer("FramebufferRenderbuffer", traits, *this)
       , NamedFramebufferRenderbuffer(
-          "NamedFramebufferRenderbuffer", traits, *this)
+          "NamedFramebufferRenderbuffer",
+          traits,
+          *this)
       , FramebufferTexture("FramebufferTexture", traits, *this)
       , NamedFramebufferTexture("NamedFramebufferTexture", traits, *this)
       , FramebufferTexture1D("FramebufferTexture1D", traits, *this)
@@ -4427,10 +4371,11 @@ struct basic_gl_c_api {
       , FramebufferTexture3D("FramebufferTexture3D", traits, *this)
       , FramebufferTextureLayer("FramebufferTextureLayer", traits, *this)
       , NamedFramebufferTextureLayer(
-          "NamedFramebufferTextureLayer", traits, *this)
+          "NamedFramebufferTextureLayer",
+          traits,
+          *this)
       , CheckFramebufferStatus("CheckFramebufferStatus", traits, *this)
-      , CheckNamedFramebufferStatus(
-          "CheckNamedFramebufferStatus", traits, *this)
+      , CheckNamedFramebufferStatus("CheckNamedFramebufferStatus", traits, *this)
       , ReadBuffer("ReadBuffer", traits, *this)
       , NamedFramebufferReadBuffer("NamedFramebufferReadBuffer", traits, *this)
       , BlitFramebuffer("BlitFramebuffer", traits, *this)
@@ -4445,10 +4390,11 @@ struct basic_gl_c_api {
       , PauseTransformFeedback("PauseTransformFeedback", traits, *this)
       , ResumeTransformFeedback("ResumeTransformFeedback", traits, *this)
       , EndTransformFeedback("EndTransformFeedback", traits, *this)
-      , TransformFeedbackBufferBase(
-          "TransformFeedbackBufferBase", traits, *this)
+      , TransformFeedbackBufferBase("TransformFeedbackBufferBase", traits, *this)
       , TransformFeedbackBufferRange(
-          "TransformFeedbackBufferRange", traits, *this)
+          "TransformFeedbackBufferRange",
+          traits,
+          *this)
       , GetTransformFeedbackiv("GetTransformFeedbackiv", traits, *this)
       , GetTransformFeedbacki_v("GetTransformFeedbacki_v", traits, *this)
       , GetTransformFeedbacki64_v("GetTransformFeedbacki64_v", traits, *this)
@@ -4515,7 +4461,9 @@ struct basic_gl_c_api {
       , GetProgramResourceName("GetProgramResourceName", traits, *this)
       , GetProgramResourceLocation("GetProgramResourceLocation", traits, *this)
       , GetProgramResourceLocationIndex(
-          "GetProgramResourceLocationIndex", traits, *this)
+          "GetProgramResourceLocationIndex",
+          traits,
+          *this)
       , GetProgramResourceiv("GetProgramResourceiv", traits, *this)
       , GetProgramResourcefvNV("GetProgramResourcefvNV", traits, *this)
       , BindAttribLocation("BindAttribLocation", traits, *this)
@@ -4526,17 +4474,21 @@ struct basic_gl_c_api {
       , GetSubroutineIndex("GetSubroutineIndex", traits, *this)
       , GetActiveSubroutineName("GetActiveSubroutineName", traits, *this)
       , GetActiveSubroutineUniformName(
-          "GetActiveSubroutineUniformName", traits, *this)
+          "GetActiveSubroutineUniformName",
+          traits,
+          *this)
       , GetSubroutineUniformLocation(
-          "GetSubroutineUniformLocation", traits, *this)
+          "GetSubroutineUniformLocation",
+          traits,
+          *this)
       , GetActiveSubroutineUniformiv(
-          "GetActiveSubroutineUniformiv", traits, *this)
+          "GetActiveSubroutineUniformiv",
+          traits,
+          *this)
       , TransformFeedbackVaryings("TransformFeedbackVaryings", traits, *this)
-      , GetTransformFeedbackVarying(
-          "GetTransformFeedbackVarying", traits, *this)
+      , GetTransformFeedbackVarying("GetTransformFeedbackVarying", traits, *this)
       , BindFragDataLocation("BindFragDataLocation", traits, *this)
-      , BindFragDataLocationIndexed(
-          "BindFragDataLocationIndexed", traits, *this)
+      , BindFragDataLocationIndexed("BindFragDataLocationIndexed", traits, *this)
       , GetFragDataLocation("GetFragDataLocation", traits, *this)
       , GetFragDataIndex("GetFragDataIndex", traits, *this)
       , UniformSubroutinesuiv("UniformSubroutinesuiv", traits, *this)
@@ -4767,39 +4719,52 @@ struct basic_gl_c_api {
       , LogicOp("LogicOp", traits, *this)
       , DrawArrays("DrawArrays", traits, *this)
       , DrawArraysInstancedBaseInstance(
-          "DrawArraysInstancedBaseInstance", traits, *this)
+          "DrawArraysInstancedBaseInstance",
+          traits,
+          *this)
       , DrawArraysInstanced("DrawArraysInstanced", traits, *this)
       , DrawArraysIndirect("DrawArraysIndirect", traits, *this)
       , MultiDrawArrays("MultiDrawArrays", traits, *this)
       , MultiDrawArraysIndirect("MultiDrawArraysIndirect", traits, *this)
       , MultiDrawArraysIndirectCount(
-          "MultiDrawArraysIndirectCount", traits, *this)
+          "MultiDrawArraysIndirectCount",
+          traits,
+          *this)
       , DrawElements("DrawElements", traits, *this)
       , DrawRangeElements("DrawRangeElements", traits, *this)
       , DrawElementsInstancedBaseInstance(
-          "DrawElementsInstancedBaseInstance", traits, *this)
+          "DrawElementsInstancedBaseInstance",
+          traits,
+          *this)
       , DrawElementsInstanced("DrawElementsInstanced", traits, *this)
       , DrawElementsBaseVertex("DrawElementsBaseVertex", traits, *this)
-      , DrawRangeElementsBaseVertex(
-          "DrawRangeElementsBaseVertex", traits, *this)
+      , DrawRangeElementsBaseVertex("DrawRangeElementsBaseVertex", traits, *this)
       , DrawElementsInstancedBaseVertex(
-          "DrawElementsInstancedBaseVertex", traits, *this)
+          "DrawElementsInstancedBaseVertex",
+          traits,
+          *this)
       , DrawElementsInstancedBaseVertexBaseInstance(
-          "DrawElementsInstancedBaseVertexBaseInstance", traits, *this)
+          "DrawElementsInstancedBaseVertexBaseInstance",
+          traits,
+          *this)
       , DrawElementsIndirect("DrawElementsIndirect", traits, *this)
       , MultiDrawElements("MultiDrawElements", traits, *this)
       , MultiDrawElementsIndirect("MultiDrawElementsIndirect", traits, *this)
       , MultiDrawElementsIndirectCount(
-          "MultiDrawElementsIndirectCount", traits, *this)
-      , MultiDrawElementsBaseVertex(
-          "MultiDrawElementsBaseVertex", traits, *this)
+          "MultiDrawElementsIndirectCount",
+          traits,
+          *this)
+      , MultiDrawElementsBaseVertex("MultiDrawElementsBaseVertex", traits, *this)
       , DrawTransformFeedback("DrawTransformFeedback", traits, *this)
       , DrawTransformFeedbackInstanced(
-          "DrawTransformFeedbackInstanced", traits, *this)
-      , DrawTransformFeedbackStream(
-          "DrawTransformFeedbackStream", traits, *this)
+          "DrawTransformFeedbackInstanced",
+          traits,
+          *this)
+      , DrawTransformFeedbackStream("DrawTransformFeedbackStream", traits, *this)
       , DrawTransformFeedbackStreamInstanced(
-          "DrawTransformFeedbackStreamInstanced", traits, *this)
+          "DrawTransformFeedbackStreamInstanced",
+          traits,
+          *this)
       , DispatchCompute("DispatchCompute", traits, *this)
       , DispatchComputeIndirect("DispatchComputeIndirect", traits, *this)
       , ClampColor("ClampColor", traits, *this)
@@ -4922,8 +4887,7 @@ struct basic_gl_c_api {
       , PathGlyphsNV("PathGlyphsNV", traits, *this)
       , PathGlyphRangeNV("PathGlyphRangeNV", traits, *this)
       , PathGlyphIndexArrayNV("PathGlyphIndexArrayNV", traits, *this)
-      , PathMemoryGlyphIndexArrayNV(
-          "PathMemoryGlyphIndexArrayNV", traits, *this)
+      , PathMemoryGlyphIndexArrayNV("PathMemoryGlyphIndexArrayNV", traits, *this)
       , PathGlyphIndexRangeNV("PathGlyphIndexRangeNV", traits, *this)
       , CopyPathNV("CopyPathNV", traits, *this)
       , InterpolatePathsNV("InterpolatePaths", traits, *this)
@@ -4935,24 +4899,34 @@ struct basic_gl_c_api {
       , StencilStrokePathNV("StencilStrokePathNV", traits, *this)
       , StencilFillPathInstancedNV("StencilFillPathInstancedNV", traits, *this)
       , StencilStrokePathInstancedNV(
-          "StencilStrokePathInstancedNV", traits, *this)
+          "StencilStrokePathInstancedNV",
+          traits,
+          *this)
       , PathCoverDepthFuncNV("PathCoverDepthFuncNV", traits, *this)
       , PathColorGenNV("PathColorGenNV", traits, *this)
       , PathTexGenNV("PathTexGenNV", traits, *this)
       , PathFogGenNV("PathFogGenNV", traits, *this)
       , ProgramPathFragmentInputGenNV(
-          "ProgramPathFragmentInputGenNV", traits, *this)
+          "ProgramPathFragmentInputGenNV",
+          traits,
+          *this)
       , CoverFillPathNV("CoverFillPathNV", traits, *this)
       , CoverStrokePathNV("CoverStrokePathNV", traits, *this)
       , CoverFillPathInstancedNV("CoverFillPathInstancedNV", traits, *this)
       , CoverStrokePathInstancedNV("CoverStrokePathInstancedNV", traits, *this)
       , StencilThenCoverFillPathNV("StencilThenCoverFillPathNV", traits, *this)
       , StencilThenCoverStrokePathNV(
-          "StencilThenCoverStrokePathNV", traits, *this)
+          "StencilThenCoverStrokePathNV",
+          traits,
+          *this)
       , StencilThenCoverFillPathInstancedNV(
-          "StencilThenCoverFillPathInstancedNV", traits, *this)
+          "StencilThenCoverFillPathInstancedNV",
+          traits,
+          *this)
       , StencilThenCoverStrokePathInstancedNV(
-          "StencilThenCoverStrokePathInstancedNV", traits, *this)
+          "StencilThenCoverStrokePathInstancedNV",
+          traits,
+          *this)
       , GetPathParameterivNV("GetPathParameterivNV", traits, *this)
       , GetPathParameterfvNV("GetPathParameterfvNV", traits, *this)
       , GetPathCommandsNV("GetPathCommandsNV", traits, *this)
@@ -4969,12 +4943,10 @@ struct basic_gl_c_api {
       , IsPointInFillPathNV("IsPointInFillPathNV", traits, *this)
       , IsPointInStrokePathNV("IsPointInStrokePathNV", traits, *this)
       , PointAlongPathNV("PointAlongPathNV", traits, *this)
-      , MaxShaderCompilerThreadsARB(
-          "MaxShaderCompilerThreadsARB", traits, *this)
+      , MaxShaderCompilerThreadsARB("MaxShaderCompilerThreadsARB", traits, *this)
       , Hint("Hint", traits, *this)
       , Flush("Flush", traits, *this)
-      , Finish("Finish", traits, *this) {
-    }
+      , Finish("Finish", traits, *this) {}
 };
 //------------------------------------------------------------------------------
 using gl_c_api = basic_gl_c_api<gl_api_traits>;
@@ -4982,4 +4954,3 @@ using gl_c_api = basic_gl_c_api<gl_api_traits>;
 } // namespace eagine::oglp
 
 #endif // OGLPLUS_GL_API_C_API_HPP
-

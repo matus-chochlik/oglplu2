@@ -24,18 +24,18 @@ private:
 
 public:
     scaled_gen(
-      std::unique_ptr<generator_intf>&& gen, std::array<float, 3> s) noexcept
+      std::unique_ptr<generator_intf>&& gen,
+      std::array<float, 3> s) noexcept
       : delegated_gen(std::move(gen))
-      , _s{s} {
-    }
+      , _s{s} {}
 
     void attrib_values(vertex_attrib_variant, span<float>) override;
 
-    math::sphere<float, true> bounding_sphere() override;
+    auto bounding_sphere() -> math::sphere<float, true> override;
 };
 //------------------------------------------------------------------------------
-static inline auto scale(
-  std::unique_ptr<generator_intf>&& gen, std::array<float, 3> s) noexcept {
+static inline auto
+scale(std::unique_ptr<generator_intf>&& gen, std::array<float, 3> s) noexcept {
     return std::make_unique<scaled_gen>(std::move(gen), s);
 }
 //------------------------------------------------------------------------------

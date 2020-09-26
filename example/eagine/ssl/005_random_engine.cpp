@@ -15,7 +15,7 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-int main(main_ctx& ctx) {
+auto main(main_ctx& ctx) -> int {
 
     auto& log = ctx.log();
     sslp::ssl_api ssl{};
@@ -62,4 +62,3 @@ int main(main_ctx& ctx) {
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
-

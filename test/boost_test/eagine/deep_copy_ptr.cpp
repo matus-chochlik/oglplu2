@@ -17,8 +17,7 @@ struct test_copyable {
     using this_class = test_copyable;
 
     test_copyable(T v)
-      : value(v) {
-    }
+      : value(v) {}
 
     std::unique_ptr<test_copyable> copy() {
         return new test_copyable(value);
@@ -51,8 +50,7 @@ struct test_copyable_impl : test_copyable_intf<T> {
     T value;
 
     test_copyable_impl(T v)
-      : value(v) {
-    }
+      : value(v) {}
 
     std::unique_ptr<test_copyable_intf<T>> copy() override {
         return std::unique_ptr<test_copyable_intf<T>>(

@@ -18,11 +18,11 @@ namespace eagine::oglp {
 //------------------------------------------------------------------------------
 class gl_no_result_info {
 public:
-    constexpr gl_no_result_info& error_code(anything) noexcept {
+    constexpr auto error_code(anything) noexcept -> auto& {
         return *this;
     }
 
-    constexpr string_view message() const noexcept {
+    constexpr auto message() const noexcept -> string_view {
         return {"EGL function not available"};
     }
 
@@ -35,16 +35,16 @@ public:
         return gl_types::error_code_no_error(_error_code);
     }
 
-    constexpr bool operator!() const noexcept {
+    constexpr auto operator!() const noexcept {
         return !gl_types::error_code_no_error(_error_code);
     }
 
-    constexpr gl_result_info& error_code(gl_types::enum_type ec) noexcept {
+    constexpr auto error_code(gl_types::enum_type ec) noexcept -> auto& {
         _error_code = ec;
         return *this;
     }
 
-    string_view message() const noexcept {
+    auto message() const noexcept -> string_view {
 #ifdef GL_INVALID_ENUM
         if(_error_code == GL_INVALID_ENUM) {
             return {"invalid enum value"};
@@ -121,4 +121,3 @@ using gl_combined_result = api_combined_result<Result, gl_result_info>;
 } // namespace eagine::oglp
 
 #endif // OGLPLUS_GL_API_RESULT_HPP
-

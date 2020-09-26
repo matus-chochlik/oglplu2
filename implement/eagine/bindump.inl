@@ -112,13 +112,14 @@ void _bindump_do_bin_dump(span_size_t bgn, Getter get_byte, Putter put_char) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void bindump::apply(
-  bindump::byte_getter get_byte, bindump::char_putter put_char) {
+  bindump::byte_getter get_byte,
+  bindump::char_putter put_char) {
 
     _bindump_do_bin_dump(0, get_byte, put_char);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-std::ostream& operator<<(std::ostream& out, const bindump& hd) {
+auto operator<<(std::ostream& out, const bindump& hd) -> std::ostream& {
     out << std::endl;
 
     span_size_t i = 0;

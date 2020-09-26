@@ -16,7 +16,7 @@
 
 namespace eagine::valtree {
 //------------------------------------------------------------------------------
-compound from_json_text(string_view, logger&);
+auto from_json_text(string_view, logger&) -> compound;
 //------------------------------------------------------------------------------
 } // namespace eagine::valtree
 
@@ -25,4 +25,3 @@ compound from_json_text(string_view, logger&);
 #endif
 
 #endif // EAGINE_VALUE_TREE_JSON_HPP
-

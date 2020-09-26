@@ -21,10 +21,10 @@ class occluded_gen : public delegated_gen {
 
 public:
     occluded_gen(
-      std::unique_ptr<generator_intf>&& gen, span_size_t samples) noexcept
+      std::unique_ptr<generator_intf>&& gen,
+      span_size_t samples) noexcept
       : delegated_gen(std::move(gen))
-      , _samples{samples} {
-    }
+      , _samples{samples} {}
 
     void attrib_values(vertex_attrib_variant, span<float>) override;
 
@@ -33,7 +33,8 @@ private:
 };
 //------------------------------------------------------------------------------
 static inline auto occlude(
-  std::unique_ptr<generator_intf>&& gen, span_size_t samples = 8) noexcept {
+  std::unique_ptr<generator_intf>&& gen,
+  span_size_t samples = 8) noexcept {
     return std::make_unique<occluded_gen>(std::move(gen), samples);
 }
 //------------------------------------------------------------------------------

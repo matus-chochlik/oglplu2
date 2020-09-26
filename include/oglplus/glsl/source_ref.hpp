@@ -22,11 +22,11 @@ private:
     using int_type = gl_types::int_type;
     using sizei_type = gl_types::sizei_type;
 
-    const char_type* _part = nullptr;
-    const int_type _length = 0;
-    sizei_type _count = 0;
-    const char_type** _parts = nullptr;
-    const int_type* _lengths = nullptr;
+    const char_type* _part{nullptr};
+    const int_type _length{0};
+    sizei_type _count{0};
+    const char_type** _parts{nullptr};
+    const int_type* _lengths{nullptr};
 
 public:
     constexpr glsl_source_ref(const char_type* part, int_type length) noexcept
@@ -34,17 +34,17 @@ public:
       , _length{length}
       , _count{1}
       , _parts{&_part}
-      , _lengths{&_length} {
-    }
+      , _lengths{&_length} {}
 
     constexpr glsl_source_ref(string_view source_str) noexcept
       : glsl_source_ref(
           memory::accomodate<const char_type>(source_str).data(),
-          eagine::limit_cast<int_type>(source_str.size())) {
-    }
+          eagine::limit_cast<int_type>(source_str.size())) {}
 
     glsl_source_ref(
-      span_size_t n, const char_type** ps, const int_type* ls) noexcept
+      span_size_t n,
+      const char_type** ps,
+      const int_type* ls) noexcept
       : _count(eagine::limit_cast<sizei_type>(n))
       , _parts(ps)
       , _lengths(ls) {
@@ -52,15 +52,15 @@ public:
         EAGINE_ASSERT(_parts != nullptr);
     }
 
-    inline sizei_type count() const noexcept {
+    constexpr auto count() const noexcept -> sizei_type {
         return _count;
     }
 
-    inline const char_type** parts() const noexcept {
+    constexpr auto parts() const noexcept -> const char_type** {
         return _parts;
     }
 
-    inline const int_type* lengths() const noexcept {
+    auto lengths() const noexcept -> const int_type* {
         return _lengths;
     }
 };

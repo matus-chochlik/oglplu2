@@ -20,8 +20,8 @@ struct cast;
 
 template <typename T, int N, bool V>
 struct cast<T, N, V, T, N, V> {
-    static constexpr inline data_t<T, N, V> apply(
-      data_param_t<T, N, V> v, T) noexcept {
+    static constexpr auto apply(data_param_t<T, N, V> v, T) noexcept
+      -> data_t<T, N, V> {
         return v;
     }
 };
@@ -35,7 +35,7 @@ private:
     using _make_idx_seq = std::make_integer_sequence<int, N>;
 
     template <int... I, int... D>
-    static constexpr inline data_t<TT, NT, VT> _cast(
+    static constexpr auto _cast(
       data_param_t<TF, NF, VF> v,
       data_param_t<TT, sizeof...(D), VT> d,
       _idx_seq<I...>,
@@ -44,7 +44,7 @@ private:
     }
 
     template <int... I>
-    static constexpr inline data_t<TT, NT, VT> _cast(
+    static constexpr auto _cast(
       data_param_t<TF, NF, VF> v,
       data_param_t<TT, 0U, VT>,
       _idx_seq<I...>,
@@ -53,7 +53,7 @@ private:
     }
 
 public:
-    static constexpr inline data_t<TT, NT, VT> apply(
+    static constexpr auto apply(
       data_param_t<TF, NF, VF> v,
       data_param_t<TT, (NT > NF) ? NT - NF : 0, VT> d) noexcept {
         using is = _make_idx_seq<(NT > NF) ? NF : NT>;
@@ -61,8 +61,7 @@ public:
         return _cast(v, d, is(), ds());
     }
 
-    static constexpr inline data_t<TT, NT, VT> apply(
-      data_param_t<TF, NF, VF> v, TT d) noexcept {
+    static constexpr auto apply(data_param_t<TF, NF, VF> v, TT d) noexcept {
         return apply(v, fill < TT, (NT > NF) ? NT - NF : 0, VT > ::apply(d));
     }
 };

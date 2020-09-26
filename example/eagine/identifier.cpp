@@ -26,7 +26,7 @@ static inline void print_info(eagine::long_identifier id) {
 }
 #endif
 //------------------------------------------------------------------------------
-int main() {
+auto main() -> int {
     using namespace eagine;
 
     print_info(EAGINE_ID(foo));

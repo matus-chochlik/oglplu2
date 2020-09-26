@@ -23,8 +23,8 @@ public:
     using opt_result = al_opt_result<R>;
 
     template <typename Api, typename Type>
-    std::tuple<Type, bool> load_constant(
-      Api& api, string_view name, identity<Type>) {
+    auto load_constant(Api& api, string_view name, identity<Type>)
+      -> std::tuple<Type, bool> {
         if(api.GetEnumValue && api.GetError) {
             _full_name.clear();
             _full_name.reserve(3 + name.size() + 1);
@@ -39,8 +39,8 @@ public:
     }
 
     template <typename Api, typename Tag, typename Signature>
-    std::add_pointer_t<Signature> link_function(
-      Api& api, Tag, string_view name, identity<Signature>) {
+    auto link_function(Api& api, Tag, string_view name, identity<Signature>)
+      -> std::add_pointer_t<Signature> {
         if(api.GetProcAddress && api.GetError) {
             _full_name.clear();
             _full_name.reserve(2 + name.size() + 1);
@@ -62,4 +62,3 @@ private:
 } // namespace eagine::oalp
 
 #endif // OALPLUS_AL_API_API_TRAITS_HPP
-

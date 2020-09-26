@@ -33,8 +33,7 @@ struct image_data_header {
       valid_if_positive<GLsizei> d) noexcept
       : width(w.value())
       , height(h.value())
-      , depth(d.value()) {
-    }
+      , depth(d.value()) {}
 };
 
 } // namespace eagine::oglp

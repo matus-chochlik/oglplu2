@@ -6,7 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef TEXGEN_PARSER_HPP
+#ifndef TEXGEN_PARSER_HPP // NOLINT(llvm-header-guard)
 #define TEXGEN_PARSER_HPP
 
 #include "input_stream.hpp"
@@ -17,8 +17,7 @@ namespace eagine::oglp::texgen {
 class parser {
 public:
     parser(semantic_actions actions) noexcept
-      : _actions(std::move(actions)) {
-    }
+      : _actions(std::move(actions)) {}
 
     void begin();
     void parse(input_stream input);

@@ -13,8 +13,8 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-static inline void pack_unpack(
-  main_ctx& ctx, data_compressor& comp, memory::const_block original) {
+static inline void
+pack_unpack(main_ctx& ctx, data_compressor& comp, memory::const_block original) {
     ctx.log()
       .info("original size ${original}")
       .arg(EAGINE_ID(original), EAGINE_ID(ByteSize), original.size());
@@ -53,7 +53,7 @@ static inline void pack_unpack(
     }
 }
 //------------------------------------------------------------------------------
-int main(main_ctx& ctx) {
+auto main(main_ctx& ctx) -> int {
 
     data_compressor comp{};
     if(file_contents self{ctx.exe_path()}) {
@@ -63,4 +63,3 @@ int main(main_ctx& ctx) {
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
-

@@ -54,7 +54,7 @@ struct example_file_api {
             return EAGINE_POSIX != 0;
         }
 
-        ssize_t operator()(const char* path, int flags) noexcept {
+        auto operator()(const char* path, int flags) noexcept -> ssize_t {
             EAGINE_MAYBE_UNUSED(path);
             EAGINE_MAYBE_UNUSED(flags);
 #if EAGINE_POSIX
@@ -83,7 +83,7 @@ struct example_file_api {
             return bool(api().read_file);
         }
 
-        ssize_t operator()(int fd, memory::block blk) noexcept {
+        auto operator()(int fd, memory::block blk) noexcept -> ssize_t {
             return api().read_file(
               fd,
               static_cast<void*>(blk.data()),
@@ -109,7 +109,7 @@ struct example_file_api {
             return bool(api().write_file);
         }
 
-        ssize_t operator()(int fd, memory::const_block blk) noexcept {
+        auto operator()(int fd, memory::const_block blk) noexcept -> ssize_t {
             return api().write_file(
               fd,
               static_cast<const void*>(blk.data()),
@@ -126,7 +126,7 @@ struct example_file_api {
             return bool(api().write_file);
         }
 
-        ssize_t operator()(int fd, string_view str) noexcept {
+        auto operator()(int fd, string_view str) noexcept -> ssize_t {
             return api().write_file(
               fd,
               static_cast<const void*>(str.data()),
@@ -151,13 +151,12 @@ struct example_file_api {
       , write_file{"write", traits, *this}
       , write_block("write", traits, *this)
       , write_string("write", traits, *this)
-      , close_file{"close", traits, *this} {
-    }
+      , close_file{"close", traits, *this} {}
 };
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-int main(int, const char** argv) {
+auto main(int, const char** argv) -> int {
     using namespace eagine;
     example_api_traits traits;
     example_file_api api(traits);

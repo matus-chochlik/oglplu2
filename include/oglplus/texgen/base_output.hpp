@@ -29,8 +29,7 @@ protected:
 
 public:
     base_output(node_intf& parent) noexcept
-      : _parent(parent) {
-    }
+      : _parent(parent) {}
 
     node_intf& parent() noexcept {
         return _parent;

@@ -7,7 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_EXAMPLE_RUN_CONTEXT_HPP
+#ifndef OGLPLUS_EXAMPLE_RUN_CONTEXT_HPP // NOLINT(llvm-header-guard)
 #define OGLPLUS_EXAMPLE_RUN_CONTEXT_HPP
 
 namespace eagine {
@@ -27,4 +27,3 @@ struct example_run_context {
 } // namespace eagine
 
 #endif // OGLPLUS_EXAMPLE_RUN_CONTEXT_HPP
-

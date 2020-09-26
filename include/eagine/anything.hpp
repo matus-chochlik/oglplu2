@@ -16,13 +16,12 @@ struct anything {
     constexpr anything() noexcept = default;
     constexpr anything(anything&&) noexcept = default;
     constexpr anything(const anything&) noexcept = default;
-    anything& operator=(anything&&) noexcept = default;
-    anything& operator=(const anything&) noexcept = default;
+    auto operator=(anything&&) noexcept -> anything& = default;
+    auto operator=(const anything&) noexcept -> anything& = default;
     ~anything() noexcept = default;
 
     template <typename Unused>
-    constexpr anything(const Unused&) noexcept {
-    }
+    constexpr anything(const Unused&) noexcept {}
 };
 
 } // namespace eagine

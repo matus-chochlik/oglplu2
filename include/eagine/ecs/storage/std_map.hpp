@@ -95,8 +95,8 @@ private:
         return _iter_cast(i)._i->first;
     }
 
-    typename std::map<Entity, Component>::iterator _remove(
-      typename std::map<Entity, Component>::iterator p) {
+    typename std::map<Entity, Component>::iterator
+    _remove(typename std::map<Entity, Component>::iterator p) {
         EAGINE_ASSERT(p != _components.end());
         _hidden.erase(p->first);
         return _components.erase(p);
@@ -390,8 +390,8 @@ private:
         return *static_cast<_map_iter_t*>(i.ptr());
     }
 
-    typename std::map<_pair_t, Relation>::iterator _remove(
-      typename std::map<_pair_t, Relation>::iterator p) {
+    typename std::map<_pair_t, Relation>::iterator
+    _remove(typename std::map<_pair_t, Relation>::iterator p) {
         EAGINE_ASSERT(p != _relations.end());
         return _relations.erase(p);
     }
@@ -518,8 +518,7 @@ public:
         }
     }
 
-    void for_each(
-      callable_ref<void(entity_param, entity_param)> func) override {
+    void for_each(callable_ref<void(entity_param, entity_param)> func) override {
         for(auto& p : _relations) {
             func(p.first.first, p.first.second);
         }
@@ -562,9 +561,9 @@ public:
         }
     }
 
-    void for_each(callable_ref<void(
-                    entity_param, entity_param, manipulator<const Relation>&)>
-                    func) override {
+    void for_each(
+      callable_ref<void(entity_param, entity_param, manipulator<const Relation>&)>
+        func) override {
         concrete_manipulator<const Relation> m(true /*can_remove*/);
         auto po = _relations.begin();
         while(po != _relations.end()) {

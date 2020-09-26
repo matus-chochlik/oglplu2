@@ -26,31 +26,32 @@ struct byte_allocator : block_owner {
     byte_allocator() = default;
     byte_allocator(byte_allocator&&) noexcept = default;
     byte_allocator(const byte_allocator&) = default;
-    byte_allocator& operator=(byte_allocator&&) noexcept = default;
-    byte_allocator& operator=(const byte_allocator&) = default;
+    auto operator=(byte_allocator&&) noexcept -> byte_allocator& = default;
+    auto operator=(const byte_allocator&) -> byte_allocator& = default;
 
     virtual ~byte_allocator() noexcept = default;
 
-    virtual byte_allocator* duplicate() noexcept = 0;
+    virtual auto duplicate() noexcept -> byte_allocator* = 0;
 
-    virtual bool release() noexcept = 0;
+    virtual auto release() noexcept -> bool = 0;
 
-    virtual bool equal(byte_allocator* a) const noexcept = 0;
+    virtual auto equal(byte_allocator* a) const noexcept -> bool = 0;
 
-    virtual size_type max_size(size_type a) noexcept = 0;
+    virtual auto max_size(size_type a) noexcept -> size_type = 0;
 
-    virtual tribool has_allocated(
-      const owned_block& b, size_type a = 0) noexcept = 0;
+    virtual auto has_allocated(const owned_block& b, size_type a = 0) noexcept
+      -> tribool = 0;
 
-    virtual owned_block allocate(size_type n, size_type a) noexcept = 0;
+    virtual auto allocate(size_type n, size_type a) noexcept -> owned_block = 0;
 
     virtual void deallocate(owned_block&& b, size_type a = 0) noexcept = 0;
 
-    virtual bool can_reallocate(
-      const owned_block& b, size_type n, size_type a) noexcept = 0;
+    virtual auto
+    can_reallocate(const owned_block& b, size_type n, size_type a) noexcept
+      -> bool = 0;
 
-    virtual owned_block reallocate(
-      owned_block&& b, size_type n, size_type a) noexcept = 0;
+    virtual auto reallocate(owned_block&& b, size_type n, size_type a) noexcept
+      -> owned_block = 0;
 
     void do_reallocate(owned_block& b, size_type n, size_type a) noexcept {
         if(b.size() != n) {
@@ -68,11 +69,11 @@ struct byte_allocator : block_owner {
 
 // byte_alloc_managed_policy
 struct byte_alloc_managed_policy {
-    inline byte_allocator* duplicate(byte_allocator* that) noexcept {
+    inline auto duplicate(byte_allocator* that) noexcept -> byte_allocator* {
         return that;
     }
 
-    inline bool release(byte_allocator*) noexcept {
+    inline auto release(byte_allocator*) noexcept -> bool {
         return false;
     }
 };
@@ -85,11 +86,8 @@ private:
 public:
     byte_alloc_ref_count_policy(const byte_alloc_ref_count_policy&) = delete;
 
-    byte_alloc_ref_count_policy& operator=(const byte_alloc_ref_count_policy&) =
-      delete;
-
-    byte_alloc_ref_count_policy& operator=(byte_alloc_ref_count_policy&& tmp) =
-      delete;
+    auto operator=(const byte_alloc_ref_count_policy&) = delete;
+    auto operator=(byte_alloc_ref_count_policy&& tmp) = delete;
 
     byte_alloc_ref_count_policy() noexcept = default;
 
@@ -102,12 +100,12 @@ public:
         EAGINE_ASSERT(_ref_count == 0);
     }
 
-    byte_allocator* duplicate(byte_allocator* that) noexcept {
+    auto duplicate(byte_allocator* that) noexcept -> byte_allocator* {
         ++_ref_count;
         return that;
     }
 
-    bool release(byte_allocator*) noexcept {
+    auto release(byte_allocator*) noexcept -> bool {
         return (--_ref_count == 0);
     }
 };
@@ -116,18 +114,14 @@ public:
 using default_byte_allocator_policy = byte_alloc_ref_count_policy;
 
 // byte_allocator_impl
-template <
-  typename Policy,
-  template <class...>
-  class DerivedTpl,
-  typename... Args>
+template <typename Policy, template <class...> class DerivedTpl, typename... Args>
 class byte_allocator_impl : public byte_allocator {
 private:
     Policy _policy;
 
     using Derived = DerivedTpl<Args..., Policy>;
 
-    Derived& derived() {
+    auto derived() -> Derived& {
         return *static_cast<Derived*>(this);
     }
 
@@ -139,32 +133,33 @@ public:
       std::is_nothrow_move_constructible_v<Policy>) = default;
     byte_allocator_impl(const byte_allocator_impl&) = delete;
 
-    byte_allocator_impl& operator=(byte_allocator_impl&&) noexcept(
-      std::is_nothrow_move_assignable_v<Policy>) = default;
-    byte_allocator_impl& operator=(const byte_allocator_impl&) = delete;
+    auto operator=(byte_allocator_impl&&) noexcept(
+      std::is_nothrow_move_assignable_v<Policy>)
+      -> byte_allocator_impl& = default;
+    auto operator=(const byte_allocator_impl&) = delete;
 
     ~byte_allocator_impl() noexcept override = default;
 
-    byte_allocator* duplicate() noexcept override {
+    auto duplicate() noexcept -> byte_allocator* override {
         return _policy.duplicate(this);
     }
 
-    bool release() noexcept override {
+    auto release() noexcept -> bool override {
         return _policy.release(this);
     }
 
-    bool can_reallocate(
-      const owned_block&, size_type, size_type) noexcept override {
+    auto can_reallocate(const owned_block&, size_type, size_type) noexcept
+      -> bool override {
         return false;
     }
 
-    owned_block reallocate(
-      owned_block&& b, size_type, size_type) noexcept override {
+    auto reallocate(owned_block&& b, size_type, size_type) noexcept
+      -> owned_block override {
         return std::move(b);
     }
 
     template <typename Final>
-    static Final* accomodate_derived(Final& that) noexcept {
+    static auto accomodate_derived(Final& that) noexcept -> Final* {
         owned_block ob =
           that.allocate(span_size_of<Final>(), span_align_of<Final>());
         auto* const result = new(ob.begin()) Final(std::move(that));
@@ -179,7 +174,7 @@ public:
           acquire_block(as_bytes(cover_one(that))), span_align_of<Final>());
     }
 
-    Derived* accomodate_self() noexcept {
+    auto accomodate_self() noexcept -> Derived* {
         return accomodate_derived(derived());
     }
 

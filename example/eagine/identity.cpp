@@ -26,7 +26,7 @@ static inline void func(eagine::identity<T>) {
     std::cout << "called other free func" << std::endl;
 }
 //------------------------------------------------------------------------------
-int main() {
+auto main() -> int {
     using namespace eagine;
 
     func(make_identity(false));

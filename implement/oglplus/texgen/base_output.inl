@@ -14,14 +14,13 @@
 namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& base_output::input_defs(
-  std::ostream& out, compile_context& ctxt) {
+std::ostream& base_output::input_defs(std::ostream& out, compile_context& ctxt) {
     return parent().input_definitions(out, ctxt);
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& base_output::opening_expr(
-  std::ostream& out, compile_context& ctxt) {
+std::ostream&
+base_output::opening_expr(std::ostream& out, compile_context& ctxt) {
     out << data_type_name(value_type()) << " ";
     out << expr::output_id{*this, ctxt};
     out << expr::render_param_decl{*this} << "{" << std::endl;

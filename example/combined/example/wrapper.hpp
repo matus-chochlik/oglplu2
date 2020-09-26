@@ -6,7 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_EXAMPLE_WRAPPER_HPP
+#ifndef OGLPLUS_EXAMPLE_WRAPPER_HPP // NOLINT(llvm-header-guard)
 #define OGLPLUS_EXAMPLE_WRAPPER_HPP
 
 #include "../example.hpp"
@@ -30,22 +30,23 @@ private:
     std::chrono::time_point<clock_type> _now{};
 
     std::vector<char> _pixel_data;
-    std::vector<char>& pixels();
+    auto pixels() -> std::vector<char>&;
+
     std::vector<char> _textbuf;
-    std::vector<char>& textbuf(std::size_t);
+    auto textbuf(std::size_t) -> std::vector<char>&;
 
 public:
     example_wrapper(example_run_context&);
 
-    example_context& context() noexcept {
+    auto context() noexcept -> example_context& {
         return _context;
     }
 
-    bool is_ready() const;
+    auto is_ready() const -> bool;
 
     void destroy();
 
-    bool next_frame();
+    auto next_frame() -> bool;
 
     void update();
 

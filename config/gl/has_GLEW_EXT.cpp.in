@@ -6,18 +6,16 @@
  */
 #include <GL/glew.h>
 
-bool do_query_gl(void)
-{
-#if !defined GL_@CONFIG_QUERY_GL_EXT_VENDOR@_@CONFIG_QUERY_GL_EXT_NAME@
-	return false;
-#elif !GL_@CONFIG_QUERY_GL_EXT_VENDOR@_@CONFIG_QUERY_GL_EXT_NAME@
-	return false;
+bool do_query_gl(void) {
+#if !defined GL_ @CONFIG_QUERY_GL_EXT_VENDOR @_ @CONFIG_QUERY_GL_EXT_NAME @
+    return false;
+#elif !GL_ @CONFIG_QUERY_GL_EXT_VENDOR @_ @CONFIG_QUERY_GL_EXT_NAME @
+    return false;
 #else
-	return true;
+    return true;
 #endif
 }
 
-int main(void)
-{
-	return do_query_gl()?0:1;
+int main(void) {
+    return do_query_gl() ? 0 : 1;
 }

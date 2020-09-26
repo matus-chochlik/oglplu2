@@ -77,11 +77,10 @@ struct api_initializer {
     ~api_initializer() noexcept = default;
     api_initializer(const api_initializer&) = delete;
     api_initializer(api_initializer&&) = delete;
-    api_initializer& operator=(const api_initializer&) = delete;
-    api_initializer& operator=(api_initializer&&) = delete;
+    auto operator=(const api_initializer&) = delete;
+    auto operator=(api_initializer&&) = delete;
 
-    explicit api_initializer(
-      int /*gl_ver_major*/ = 3, int /*gl_ver_minor*/ = 3);
+    explicit api_initializer(int /*gl_ver_major*/ = 3, int /*gl_ver_minor*/ = 3);
 };
 
 } // namespace eagine::oglp

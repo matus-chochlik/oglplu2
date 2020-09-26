@@ -20,7 +20,7 @@
 namespace eagine::math {
 //------------------------------------------------------------------------------
 template <typename T, typename C>
-static inline T interpolate_linear(const T& a, const T& b, C coef) {
+static inline auto interpolate_linear(const T& a, const T& b, C coef) {
     return T((1 - coef) * a + coef * b);
 }
 //------------------------------------------------------------------------------

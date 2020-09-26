@@ -43,13 +43,11 @@ using kilometer =
 using decimeter =
   make_scaled_base_dim_unit_t<base::scaled_unit<scales::deci, base::meter>, si>;
 
-using centimeter = make_scaled_base_dim_unit_t<
-  base::scaled_unit<scales::centi, base::meter>,
-  si>;
+using centimeter =
+  make_scaled_base_dim_unit_t<base::scaled_unit<scales::centi, base::meter>, si>;
 
-using millimeter = make_scaled_base_dim_unit_t<
-  base::scaled_unit<scales::milli, base::meter>,
-  si>;
+using millimeter =
+  make_scaled_base_dim_unit_t<base::scaled_unit<scales::milli, base::meter>, si>;
 
 } // namespace eagine::units
 

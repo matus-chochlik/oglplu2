@@ -12,7 +12,7 @@
 #include <string>
 #include <vector>
 
-int main() {
+auto main() -> int {
     using namespace eagine;
     using std::cout;
     using std::endl;

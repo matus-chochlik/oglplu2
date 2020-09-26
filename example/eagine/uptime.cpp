@@ -11,7 +11,7 @@
 
 namespace eagine {
 
-int main(main_ctx& ctx) {
+auto main(main_ctx& ctx) -> int {
 
     const string_view n_a("N/A");
     auto& sys = ctx.system();

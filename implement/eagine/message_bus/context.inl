@@ -106,7 +106,8 @@ context::~context() noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-message_sequence_t context::next_sequence_no(message_id msg_id) noexcept {
+auto context::next_sequence_no(message_id msg_id) noexcept
+  -> message_sequence_t {
 
     auto [pos, newone] = _msg_id_seq.try_emplace(msg_id);
 
@@ -119,7 +120,7 @@ message_sequence_t context::next_sequence_no(message_id msg_id) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool context::verify_certificate(sslp::x509 cert) {
+auto context::verify_certificate(sslp::x509 cert) -> bool {
     if(ok vrfy_ctx{_ssl.new_x509_store_ctx()}) {
         auto del_vrfy{_ssl.delete_x509_store_ctx.raii(vrfy_ctx)};
 
@@ -141,7 +142,7 @@ bool context::verify_certificate(sslp::x509 cert) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool context::add_own_certificate_pem(memory::const_block blk) {
+auto context::add_own_certificate_pem(memory::const_block blk) -> bool {
     if(blk) {
         if(ok cert{_ssl.parse_x509(blk, {})}) {
             if(_own_cert) {
@@ -160,7 +161,7 @@ bool context::add_own_certificate_pem(memory::const_block blk) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool context::add_ca_certificate_pem(memory::const_block blk) {
+auto context::add_ca_certificate_pem(memory::const_block blk) -> bool {
     if(blk) {
         if(ok cert{_ssl.parse_x509(blk, {})}) {
             if(_ssl.add_cert_into_x509_store(_ssl_store, cert)) {
@@ -185,8 +186,9 @@ bool context::add_ca_certificate_pem(memory::const_block blk) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool context::add_remote_certificate_pem(
-  identifier_t node_id, memory::const_block blk) {
+auto context::add_remote_certificate_pem(
+  identifier_t node_id,
+  memory::const_block blk) -> bool {
     if(blk) {
         if(ok cert{_ssl.parse_x509(blk, {})}) {
             auto& info = _remotes[node_id];
@@ -229,8 +231,8 @@ bool context::add_remote_certificate_pem(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-memory::const_block context::get_remote_certificate_pem(
-  identifier_t node_id) const noexcept {
+auto context::get_remote_certificate_pem(identifier_t node_id) const noexcept
+  -> memory::const_block {
     auto pos = _remotes.find(node_id);
     if(pos != _remotes.end()) {
         return view(std::get<1>(*pos).cert_pem);
@@ -239,8 +241,8 @@ memory::const_block context::get_remote_certificate_pem(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-memory::const_block context::get_remote_nonce(
-  identifier_t node_id) const noexcept {
+auto context::get_remote_nonce(identifier_t node_id) const noexcept
+  -> memory::const_block {
     auto pos = _remotes.find(node_id);
     if(pos != _remotes.end()) {
         return view(std::get<1>(*pos).nonce);
@@ -249,7 +251,7 @@ memory::const_block context::get_remote_nonce(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool context::verified_remote_key(identifier_t node_id) const noexcept {
+auto context::verified_remote_key(identifier_t node_id) const noexcept -> bool {
     auto pos = _remotes.find(node_id);
     if(pos != _remotes.end()) {
         return std::get<1>(*pos).verified_key;
@@ -258,15 +260,16 @@ bool context::verified_remote_key(identifier_t node_id) const noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-decltype(std::declval<sslp::ssl_api&>().message_digest_sha256())
-context::default_message_digest() noexcept {
+auto context::default_message_digest() noexcept
+  -> decltype(_ssl.message_digest_sha256()) {
     return _ssl.message_digest_sha256();
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-decltype(std::declval<sslp::ssl_api&>().message_digest_sign_init.fake())
-context::message_digest_sign_init(
-  sslp::message_digest mdc, sslp::message_digest_type mdt) noexcept {
+auto context::message_digest_sign_init(
+  sslp::message_digest mdc,
+  sslp::message_digest_type mdt) noexcept
+  -> decltype(_ssl.message_digest_sign_init.fake()) {
     if(_own_pkey) {
         return _ssl.message_digest_sign_init(mdc, mdt, _own_pkey);
     }
@@ -274,11 +277,11 @@ context::message_digest_sign_init(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-decltype(std::declval<sslp::ssl_api&>().message_digest_verify_init.fake())
-context::message_digest_verify_init(
+auto context::message_digest_verify_init(
   sslp::message_digest mdc,
   sslp::message_digest_type mdt,
-  identifier_t node_id) noexcept {
+  identifier_t node_id) noexcept
+  -> decltype(_ssl.message_digest_verify_init.fake()) {
     auto pos = _remotes.find(node_id);
     if(pos != _remotes.end()) {
         auto& info = std::get<1>(*pos);
@@ -292,7 +295,8 @@ context::message_digest_verify_init(
     return _ssl.message_digest_verify_init.fake();
 }
 //------------------------------------------------------------------------------
-memory::const_block context::get_own_signature(memory::const_block nonce) {
+auto context::get_own_signature(memory::const_block nonce)
+  -> memory::const_block {
     if(ok md_type{default_message_digest()}) {
         if(ok md_ctx{_ssl.new_message_digest()}) {
             auto cleanup{_ssl.delete_message_digest.raii(md_ctx)};
@@ -331,11 +335,11 @@ memory::const_block context::get_own_signature(memory::const_block nonce) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-verification_bits context::verify_remote_signature(
+auto context::verify_remote_signature(
   memory::const_block content,
   memory::const_block signature,
   identifier_t node_id,
-  bool verified_key) {
+  bool verified_key) -> verification_bits {
     verification_bits result{};
 
     if(content && signature) {
@@ -381,8 +385,9 @@ verification_bits context::verify_remote_signature(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool context::verify_remote_signature(
-  memory::const_block sig, identifier_t node_id) {
+auto context::verify_remote_signature(
+  memory::const_block sig,
+  identifier_t node_id) -> bool {
     auto pos = _remotes.find(node_id);
     if(pos != _remotes.end()) {
         auto& remote{std::get<1>(*pos)};
@@ -397,12 +402,13 @@ bool context::verify_remote_signature(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-std::shared_ptr<context> make_context(logger& parent) {
+auto make_context(logger& parent) -> std::shared_ptr<context> {
     return std::make_shared<context>(parent);
 }
 //------------------------------------------------------------------------------
-EAGINE_LIB_FUNC std::shared_ptr<context> make_context(
-  logger& parent, const program_args& args) {
+EAGINE_LIB_FUNC
+auto make_context(logger& parent, const program_args& args)
+  -> std::shared_ptr<context> {
     return std::make_shared<context>(parent, args);
 }
 //------------------------------------------------------------------------------

@@ -16,9 +16,8 @@ namespace eagine::vect {
 
 template <typename T, int N, bool V>
 struct sqrt {
-    using _dT = data_t<T, N, V>;
 
-    static _dT apply(_dT v) noexcept {
+    static auto apply(data_t<T, N, V> v) noexcept -> data_t<T, N, V> {
         for(int i = 0; i < N; ++i) {
             using std::sqrt;
             v[i] = T(sqrt(v[i]));

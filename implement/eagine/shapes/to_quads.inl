@@ -13,7 +13,7 @@ namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t to_quads_gen::index_count(drawing_variant var) {
+auto to_quads_gen::index_count(drawing_variant var) -> span_size_t {
 
     span_size_t count{0};
 
@@ -144,7 +144,7 @@ void to_quads_gen::indices(drawing_variant var, span<std::uint32_t> dest) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t to_quads_gen::operation_count(drawing_variant var) {
+auto to_quads_gen::operation_count(drawing_variant var) -> span_size_t {
     return delegated_gen::operation_count(var);
 }
 //------------------------------------------------------------------------------

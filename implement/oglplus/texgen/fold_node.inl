@@ -14,8 +14,7 @@ namespace eagine::oglp::texgen {
 OGLPLUS_LIB_FUNC
 fold_output::fold_output(node_intf& parent, fold_function fn)
   : multi_input_output(parent)
-  , _func(fn) {
-}
+  , _func(fn) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 string_view fold_output::type_name() {
@@ -38,8 +37,8 @@ slot_data_type fold_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& fold_output::definitions(
-  std::ostream& out, compile_context& ctxt) {
+std::ostream&
+fold_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt)) {
         return out;
     }
@@ -107,8 +106,7 @@ std::ostream& fold_output::definitions(
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 fold_node::fold_node()
-  : _output(*this) {
-}
+  : _output(*this) {}
 //------------------------------------------------------------------------------
 } // namespace eagine::oglp::texgen
 //------------------------------------------------------------------------------

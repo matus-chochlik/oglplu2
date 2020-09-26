@@ -23,42 +23,41 @@ private:
 
 public:
     delegated_gen(std::unique_ptr<generator_intf>&& gen) noexcept
-      : _gen(std::move(gen)) {
-    }
+      : _gen(std::move(gen)) {}
 
-    vertex_attrib_bits attrib_bits() noexcept final {
+    auto attrib_bits() noexcept -> vertex_attrib_bits final {
         return _gen->attrib_bits();
     }
 
-    bool enable(generator_capability cap, bool value) noexcept final {
+    auto enable(generator_capability cap, bool value) noexcept -> bool final {
         return _gen->enable(cap, value);
     }
 
-    bool is_enabled(generator_capability cap) noexcept final {
+    auto is_enabled(generator_capability cap) noexcept -> bool final {
         return _gen->is_enabled(cap);
     }
 
-    span_size_t vertex_count() override {
+    auto vertex_count() -> span_size_t override {
         return _gen->vertex_count();
     }
 
-    span_size_t attribute_variants(vertex_attrib_kind attrib) override {
+    auto attribute_variants(vertex_attrib_kind attrib) -> span_size_t override {
         return _gen->attribute_variants(attrib);
     }
 
-    string_view variant_name(vertex_attrib_variant vav) override {
+    auto variant_name(vertex_attrib_variant vav) -> string_view override {
         return _gen->variant_name(vav);
     }
 
-    span_size_t values_per_vertex(vertex_attrib_variant vav) override {
+    auto values_per_vertex(vertex_attrib_variant vav) -> span_size_t override {
         return _gen->values_per_vertex(vav);
     }
 
-    attrib_data_type attrib_type(vertex_attrib_variant vav) override {
+    auto attrib_type(vertex_attrib_variant vav) -> attrib_data_type override {
         return _gen->attrib_type(vav);
     }
 
-    bool is_attrib_normalized(vertex_attrib_variant vav) override {
+    auto is_attrib_normalized(vertex_attrib_variant vav) -> bool override {
         return _gen->is_attrib_normalized(vav);
     }
 
@@ -66,23 +65,23 @@ public:
         _gen->attrib_values(vav, dest);
     }
 
-    void attrib_values(
-      vertex_attrib_variant vav, span<std::int16_t> dest) override {
+    void
+    attrib_values(vertex_attrib_variant vav, span<std::int16_t> dest) override {
         _gen->attrib_values(vav, dest);
     }
 
-    void attrib_values(
-      vertex_attrib_variant vav, span<std::int32_t> dest) override {
+    void
+    attrib_values(vertex_attrib_variant vav, span<std::int32_t> dest) override {
         _gen->attrib_values(vav, dest);
     }
 
-    void attrib_values(
-      vertex_attrib_variant vav, span<std::uint16_t> dest) override {
+    void attrib_values(vertex_attrib_variant vav, span<std::uint16_t> dest)
+      override {
         _gen->attrib_values(vav, dest);
     }
 
-    void attrib_values(
-      vertex_attrib_variant vav, span<std::uint32_t> dest) override {
+    void attrib_values(vertex_attrib_variant vav, span<std::uint32_t> dest)
+      override {
         _gen->attrib_values(vav, dest);
     }
 
@@ -90,15 +89,15 @@ public:
         _gen->attrib_values(vav, dest);
     }
 
-    span_size_t draw_variant_count() override {
+    auto draw_variant_count() -> span_size_t override {
         return _gen->draw_variant_count();
     }
 
-    index_data_type index_type(drawing_variant var) override {
+    auto index_type(drawing_variant var) -> index_data_type override {
         return _gen->index_type(var);
     }
 
-    span_size_t index_count(drawing_variant var) override {
+    auto index_count(drawing_variant var) -> span_size_t override {
         return _gen->index_count(var);
     }
 
@@ -114,7 +113,7 @@ public:
         _gen->indices(var, dest);
     }
 
-    span_size_t operation_count(drawing_variant var) override {
+    auto operation_count(drawing_variant var) -> span_size_t override {
         return _gen->operation_count(var);
     }
 
@@ -122,7 +121,7 @@ public:
         _gen->instructions(var, ops);
     }
 
-    math::sphere<float, true> bounding_sphere() override {
+    auto bounding_sphere() -> math::sphere<float, true> override {
         return _gen->bounding_sphere();
     }
 };

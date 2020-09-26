@@ -14,7 +14,7 @@
 
 namespace eagine {
 
-int main(main_ctx& ctx) {
+auto main(main_ctx& ctx) -> int {
     auto& log = ctx.log();
     const string_view n_a{"N/A"};
 

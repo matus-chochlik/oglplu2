@@ -43,4 +43,3 @@ using owned_auxiliary_effect_slot_name =
 } // namespace eagine::oalp
 
 #endif // OALPLUS_AL_API_OBJECT_NAME_HPP
-

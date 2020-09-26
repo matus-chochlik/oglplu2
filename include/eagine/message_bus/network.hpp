@@ -19,8 +19,9 @@ namespace eagine::msgbus {
 // IPv4
 //------------------------------------------------------------------------------
 using ipv4_port = unsigned short int;
-static inline std::tuple<std::string, ipv4_port> parse_ipv4_addr(
-  string_view addr_str) {
+
+static inline auto parse_ipv4_addr(string_view addr_str)
+  -> std::tuple<std::string, ipv4_port> {
     auto [hostname, port_str] = split_by_last(
       addr_str ? addr_str : string_view{"localhost"}, string_view(":"));
     return {
@@ -31,4 +32,3 @@ static inline std::tuple<std::string, ipv4_port> parse_ipv4_addr(
 } // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_NETWORK_HPP
-

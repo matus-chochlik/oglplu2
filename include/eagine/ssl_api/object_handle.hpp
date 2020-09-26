@@ -89,10 +89,8 @@ using owned_message_digest =
 using owned_pkey =
   basic_owned_handle<pkey_tag, ssl_types::evp_pkey_type*, nullptr>;
 
-using owned_x509_store_ctx = basic_owned_handle<
-  x509_store_ctx_tag,
-  ssl_types::x509_store_ctx_type*,
-  nullptr>;
+using owned_x509_store_ctx =
+  basic_owned_handle<x509_store_ctx_tag, ssl_types::x509_store_ctx_type*, nullptr>;
 
 using owned_x509_store =
   basic_owned_handle<x509_store_tag, ssl_types::x509_store_type*, nullptr>;

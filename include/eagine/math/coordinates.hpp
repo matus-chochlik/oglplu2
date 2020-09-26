@@ -24,16 +24,16 @@ public:
     constexpr unit_spherical_coordinates() noexcept = default;
 
     constexpr unit_spherical_coordinates(
-      radians_t<T> azimuth, radians_t<T> elevation) noexcept
+      radians_t<T> azimuth,
+      radians_t<T> elevation) noexcept
       : _azim{azimuth}
-      , _elev{elevation} {
-    }
+      , _elev{elevation} {}
 
-    radians_t<T> azimuth() const noexcept {
+    auto azimuth() const noexcept -> radians_t<T> {
         return _azim;
     }
 
-    radians_t<T> elevation() const noexcept {
+    auto elevation() const noexcept -> radians_t<T> {
         return _elev;
     }
 
@@ -43,7 +43,8 @@ private:
 };
 //------------------------------------------------------------------------------
 template <typename T, bool V>
-vector<T, 3, V> to_cartesian(unit_spherical_coordinates<T, V> c) noexcept {
+auto to_cartesian(unit_spherical_coordinates<T, V> c) noexcept
+  -> vector<T, 3, V> {
     using std::abs;
     return vector<T, 3, V>::make(
       cos(c.azimuth()) * abs(cos(c.elevation())),
@@ -52,7 +53,8 @@ vector<T, 3, V> to_cartesian(unit_spherical_coordinates<T, V> c) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename T, bool V>
-unit_spherical_coordinates<T, V> to_unit_spherical(vector<T, 3, V> v) noexcept {
+auto to_unit_spherical(vector<T, 3, V> v) noexcept
+  -> unit_spherical_coordinates<T, V> {
     using R = unit_spherical_coordinates<T, V>;
     using std::abs;
     return abs(v.y()) > T(0) ? R(-arctan(v.z(), v.x()), arcsin(v.y()))

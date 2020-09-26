@@ -33,15 +33,13 @@ public:
       : Object<::XVisualInfo, int(void*)>(
           ::glXGetVisualFromFBConfig(display, fbc),
           ::XFree,
-          "Error Getting X VisualInfo from GLX FB config") {
-    }
+          "Error Getting X VisualInfo from GLX FB config") {}
 
     VisualInfo(const Display& display, int visual_id)
       : Object<::XVisualInfo, int(void*)>(
           _from_id(display, visual_id),
           ::XFree,
-          "Error Getting X VisualInfo from visual ID") {
-    }
+          "Error Getting X VisualInfo from visual ID") {}
 };
 
 } // namespace x11

@@ -96,9 +96,7 @@ struct basic_ssl_c_api {
       ui_get_default_method;
 
     // engine
-    ssl_api_function<
-      void(),
-      EAGINE_SSL_STATIC_FUNC(ENGINE_load_builtin_engines)>
+    ssl_api_function<void(), EAGINE_SSL_STATIC_FUNC(ENGINE_load_builtin_engines)>
       engine_load_builtin_engines;
 
     ssl_api_function<engine_type*(), EAGINE_SSL_STATIC_FUNC(ENGINE_get_first)>
@@ -216,14 +214,10 @@ struct basic_ssl_c_api {
     ssl_api_function<evp_pkey_type*(), EAGINE_SSL_STATIC_FUNC(EVP_PKEY_new)>
       evp_pkey_new;
 
-    ssl_api_function<
-      int(evp_pkey_type*),
-      EAGINE_SSL_STATIC_FUNC(EVP_PKEY_up_ref)>
+    ssl_api_function<int(evp_pkey_type*), EAGINE_SSL_STATIC_FUNC(EVP_PKEY_up_ref)>
       evp_pkey_up_ref;
 
-    ssl_api_function<
-      void(evp_pkey_type*),
-      EAGINE_SSL_STATIC_FUNC(EVP_PKEY_free)>
+    ssl_api_function<void(evp_pkey_type*), EAGINE_SSL_STATIC_FUNC(EVP_PKEY_free)>
       evp_pkey_free;
 
     ssl_api_function<
@@ -293,8 +287,7 @@ struct basic_ssl_c_api {
       evp_cipher_init_ex;
 
     ssl_api_function<
-      int(
-        evp_cipher_ctx_type*, unsigned char*, int*, const unsigned char*, int),
+      int(evp_cipher_ctx_type*, unsigned char*, int*, const unsigned char*, int),
       EAGINE_SSL_STATIC_FUNC(EVP_CipherUpdate)>
       evp_cipher_update;
 
@@ -328,8 +321,7 @@ struct basic_ssl_c_api {
       evp_encrypt_init_ex;
 
     ssl_api_function<
-      int(
-        evp_cipher_ctx_type*, unsigned char*, int*, const unsigned char*, int),
+      int(evp_cipher_ctx_type*, unsigned char*, int*, const unsigned char*, int),
       EAGINE_SSL_STATIC_FUNC(EVP_EncryptUpdate)>
       evp_encrypt_update;
 
@@ -363,8 +355,7 @@ struct basic_ssl_c_api {
       evp_decrypt_init_ex;
 
     ssl_api_function<
-      int(
-        evp_cipher_ctx_type*, unsigned char*, int*, const unsigned char*, int),
+      int(evp_cipher_ctx_type*, unsigned char*, int*, const unsigned char*, int),
       EAGINE_SSL_STATIC_FUNC(EVP_DecryptUpdate)>
       evp_decrypt_update;
 
@@ -404,9 +395,7 @@ struct basic_ssl_c_api {
       EAGINE_SSL_STATIC_FUNC(EVP_get_digestbyname)>
       evp_get_digest_by_name;
 
-    ssl_api_function<
-      int(const evp_md_type*),
-      EAGINE_SSL_STATIC_FUNC(EVP_MD_size)>
+    ssl_api_function<int(const evp_md_type*), EAGINE_SSL_STATIC_FUNC(EVP_MD_size)>
       evp_md_size;
 
     ssl_api_function<
@@ -587,9 +576,7 @@ struct basic_ssl_c_api {
     ssl_api_function<x509_crl_type*(), EAGINE_SSL_STATIC_FUNC(X509_CRL_new)>
       x509_crl_new;
 
-    ssl_api_function<
-      void(x509_crl_type*),
-      EAGINE_SSL_STATIC_FUNC(X509_CRL_free)>
+    ssl_api_function<void(x509_crl_type*), EAGINE_SSL_STATIC_FUNC(X509_CRL_free)>
       x509_crl_free;
 
     // x509
@@ -636,8 +623,7 @@ struct basic_ssl_c_api {
       , ui_null("UI_null", traits, *this)
       , ui_openssl("UI_OpenSSL", traits, *this)
       , ui_get_default_method("UI_get_default_method", traits, *this)
-      , engine_load_builtin_engines(
-          "ENGINE_load_builtin_engines", traits, *this)
+      , engine_load_builtin_engines("ENGINE_load_builtin_engines", traits, *this)
       , engine_get_first("ENGINE_get_first", traits, *this)
       , engine_get_last("ENGINE_get_last", traits, *this)
       , engine_get_next("ENGINE_get_next", traits, *this)
@@ -720,11 +706,17 @@ struct basic_ssl_c_api {
       , x509_store_ctx_new("X509_STORE_CTX_new", traits, *this)
       , x509_store_ctx_init("X509_STORE_CTX_init", traits, *this)
       , x509_store_ctx_set0_trusted_stack(
-          "X509_STORE_CTX_set0_trusted_stack", traits, *this)
+          "X509_STORE_CTX_set0_trusted_stack",
+          traits,
+          *this)
       , x509_store_ctx_set0_verified_chain(
-          "X509_STORE_CTX_set0_verified_chain", traits, *this)
+          "X509_STORE_CTX_set0_verified_chain",
+          traits,
+          *this)
       , x509_store_ctx_set0_untrusted(
-          "X509_STORE_CTX_set0_untrusted", traits, *this)
+          "X509_STORE_CTX_set0_untrusted",
+          traits,
+          *this)
       , x509_store_ctx_cleanup("X509_STORE_CTX_cleanup", traits, *this)
       , x509_store_ctx_free("X509_STORE_CTX_free", traits, *this)
       , x509_verify_cert("X509_verify_cert", traits, *this)
@@ -745,8 +737,7 @@ struct basic_ssl_c_api {
       , pem_read_bio_private_key("PEM_read_bio_PrivateKey", traits, *this)
       , pem_read_bio_pubkey("PEM_read_bio_PUBKEY", traits, *this)
       , pem_read_bio_x509_crl("PEM_read_bio_X509_CRL", traits, *this)
-      , pem_read_bio_x509("PEM_read_bio_X509", traits, *this) {
-    }
+      , pem_read_bio_x509("PEM_read_bio_X509", traits, *this) {}
 };
 //------------------------------------------------------------------------------
 using ssl_c_api = basic_ssl_c_api<ssl_api_traits>;

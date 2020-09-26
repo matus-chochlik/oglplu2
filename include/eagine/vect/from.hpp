@@ -18,7 +18,7 @@ namespace eagine::vect {
 
 template <typename T, int N, bool V>
 struct from_array {
-    static data_t<T, N, V> apply(const T* d, span_size_t n) noexcept {
+    static auto apply(const T* d, span_size_t n) noexcept -> data_t<T, N, V> {
         EAGINE_ASSERT(N <= int(n));
         EAGINE_MAYBE_UNUSED(n);
         data_t<T, N, V> r;
@@ -33,14 +33,14 @@ struct from_array {
 
 template <typename T, bool V>
 struct from_array<T, 0, V> {
-    static constexpr data_t<T, 0, V> apply(const T*, int) noexcept {
-        return {};
+    static constexpr auto apply(const T*, int) noexcept {
+        return data_t<T, 0, V>{};
     }
 };
 
 template <typename T, bool V>
 struct from_array<T, 1, V> {
-    static data_t<T, 1, V> apply(const T* d, span_size_t n) noexcept {
+    static auto apply(const T* d, span_size_t n) noexcept {
         EAGINE_ASSERT(1 <= n);
         EAGINE_MAYBE_UNUSED(n);
         return data_t<T, 1, V>{d[0]};
@@ -49,7 +49,7 @@ struct from_array<T, 1, V> {
 
 template <typename T, bool V>
 struct from_array<T, 2, V> {
-    static data_t<T, 2, V> apply(const T* d, span_size_t n) noexcept {
+    static auto apply(const T* d, span_size_t n) noexcept {
         EAGINE_ASSERT(2 <= n);
         EAGINE_MAYBE_UNUSED(n);
         return data_t<T, 2, V>{d[0], d[1]};
@@ -58,7 +58,7 @@ struct from_array<T, 2, V> {
 
 template <typename T, bool V>
 struct from_array<T, 3, V> {
-    static data_t<T, 3, V> apply(const T* d, span_size_t n) noexcept {
+    static auto apply(const T* d, span_size_t n) noexcept {
         EAGINE_ASSERT(3 <= n);
         EAGINE_MAYBE_UNUSED(n);
         return data_t<T, 3, V>{d[0], d[1], d[2]};
@@ -67,7 +67,7 @@ struct from_array<T, 3, V> {
 
 template <typename T, bool V>
 struct from_array<T, 4, V> {
-    static data_t<T, 4, V> apply(const T* d, span_size_t n) noexcept {
+    static auto apply(const T* d, span_size_t n) noexcept {
         EAGINE_ASSERT(4 <= n);
         EAGINE_MAYBE_UNUSED(n);
         return data_t<T, 4, V>{d[0], d[1], d[2], d[3]};
@@ -76,7 +76,7 @@ struct from_array<T, 4, V> {
 
 template <typename T, bool V>
 struct from_array<T, 8, V> {
-    static data_t<T, 8, V> apply(const T* d, span_size_t n) noexcept {
+    static auto apply(const T* d, span_size_t n) noexcept {
         EAGINE_ASSERT(8 <= n);
         EAGINE_MAYBE_UNUSED(n);
         return data_t<T, 8, V>{d[0], d[1], d[2], d[3], d[4], d[5], d[6], d[7]};
@@ -88,7 +88,7 @@ struct from_array<T, 8, V> {
 // from shorter array and fallback value
 template <typename T, int N, bool V>
 struct from_saafv {
-    static data_t<T, N, V> apply(const T* d, span_size_t n, T v) noexcept {
+    static auto apply(const T* d, span_size_t n, T v) noexcept {
         data_t<T, N, V> r = {};
         for(int i = 0; i < N && i < int(n); ++i) {
             r[i] = d[i];

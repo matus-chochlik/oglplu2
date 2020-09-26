@@ -29,8 +29,7 @@ public:
             vi->visual,
             AllocNone),
           ::XFreeColormap,
-          "Error creating X Colormap") {
-    }
+          "Error creating X Colormap") {}
 };
 
 } // namespace x11

@@ -17,12 +17,7 @@ namespace eagine::oglp {
 
 using math::matrix;
 
-template <
-  typename T,
-  unsigned C,
-  unsigned R,
-  bool RM = false,
-  bool V = math_use_simd>
+template <typename T, unsigned C, unsigned R, bool RM = false, bool V = math_use_simd>
 using tmat = math::tmat<T, C, R, RM, V>;
 
 using mat2 = tmat<gl_types::float_type, 2, 2>;

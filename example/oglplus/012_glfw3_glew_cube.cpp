@@ -30,7 +30,9 @@ static oglplus::constants GL;
 static oglplus::operations gl;
 
 static void handle_resize(
-  int width, int height, const oglplus::uniform_location& projection) {
+  int width,
+  int height,
+  const oglplus::uniform_location& projection) {
     gl.viewport(0, 0, width, height);
     GLfloat asp = GLfloat(width) / height;
 
@@ -294,7 +296,7 @@ static void init_and_run() {
     }
 }
 
-int main() {
+auto main() -> int {
     try {
         init_and_run();
         return 0;

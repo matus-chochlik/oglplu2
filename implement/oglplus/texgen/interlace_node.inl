@@ -16,8 +16,7 @@ namespace eagine::oglp::texgen {
 OGLPLUS_LIB_FUNC
 interlace_output::interlace_output(node_intf& parent, interlace_mode mode)
   : base_output(parent)
-  , _mode(mode) {
-}
+  , _mode(mode) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 string_view interlace_output::type_name() {
@@ -30,8 +29,8 @@ slot_data_type interlace_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& interlace_output::definitions(
-  std::ostream& out, compile_context& ctxt) {
+std::ostream&
+interlace_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt)) {
         return out;
     }

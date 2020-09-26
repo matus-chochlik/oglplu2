@@ -23,29 +23,29 @@ private:
 protected:
     template <typename... P>
     protected_member(P&&... p)
-      : _member(std::forward<P>(p)...) {
-    }
+      : _member(std::forward<P>(p)...) {}
 
 public:
-    T& get_the_member(Selector = Selector()) noexcept {
+    auto get_the_member(Selector = Selector()) noexcept -> T& {
         return _member;
     }
 
-    const T& get_the_member(Selector = Selector()) const noexcept {
+    auto get_the_member(Selector = Selector()) const noexcept -> const T& {
         return _member;
     }
 };
 
 template <typename Selector, typename T>
-static inline T& get_member(
-  protected_member<T, Selector>& pm, Selector selector = Selector()) noexcept {
+static inline auto get_member(
+  protected_member<T, Selector>& pm,
+  Selector selector = Selector()) noexcept -> T& {
     return pm.get_the_member(selector);
 }
 
 template <typename Selector, typename T>
-static inline const T& get_member(
+static inline auto get_member(
   const protected_member<T, Selector>& pm,
-  Selector selector = Selector()) noexcept {
+  Selector selector = Selector()) noexcept -> const T& {
     return pm.get_the_member(selector);
 }
 

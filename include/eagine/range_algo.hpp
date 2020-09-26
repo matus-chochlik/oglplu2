@@ -55,8 +55,8 @@ static inline Range1 slice_after_last(const Range1& rng, const Range2& what) {
 }
 //------------------------------------------------------------------------------
 template <typename Range1, typename Range2, typename Range3>
-static inline Range1 slice_between(
-  const Range1& rng, const Range2& bgn, const Range3& end) {
+static inline Range1
+slice_between(const Range1& rng, const Range2& bgn, const Range3& end) {
     if(auto bpos = find_pos(rng, bgn)) {
         if(auto epos = find_pos(slice(rng, extract(bpos) + bgn.size()), end)) {
             return slice(rng, extract(bpos) + bgn.size(), extract(epos));
@@ -66,8 +66,8 @@ static inline Range1 slice_between(
 }
 //------------------------------------------------------------------------------
 template <typename Range1, typename Range2, typename Range3>
-static inline Range1 slice_inside(
-  const Range1& rng, const Range2& bgn, const Range3& end) {
+static inline Range1
+slice_inside(const Range1& rng, const Range2& bgn, const Range3& end) {
     if(auto bpos = find_pos(rng, bgn)) {
         if(auto epos = rfind_pos(rng, end)) {
             if(extract(bpos) + bgn.size() < extract(epos)) {
@@ -93,7 +93,9 @@ static inline span_size_t count(Range1 where, const Range2& what) {
 //------------------------------------------------------------------------------
 template <typename Range1, typename Range2, typename UnaryOperation>
 static inline UnaryOperation for_each_delimited(
-  const Range1& str, const Range2& delim, UnaryOperation unary_op) {
+  const Range1& str,
+  const Range2& delim,
+  UnaryOperation unary_op) {
     Range1 tmp = str;
     while(auto pos = find_pos(tmp, delim)) {
         unary_op(head(tmp, extract(pos)));
@@ -105,7 +107,9 @@ static inline UnaryOperation for_each_delimited(
 //------------------------------------------------------------------------------
 template <typename Range1, typename Range2, typename BinaryOperation>
 static inline BinaryOperation for_each_delimiter(
-  const Range1& str, const Range2& delim, BinaryOperation binary_op) {
+  const Range1& str,
+  const Range2& delim,
+  BinaryOperation binary_op) {
     Range1 tmp = str;
     if(auto p1 = find_pos(tmp, delim)) {
         Range1 prev = head(tmp, extract(p1));
@@ -124,8 +128,8 @@ static inline BinaryOperation for_each_delimiter(
 }
 //------------------------------------------------------------------------------
 template <typename Range1, typename Range2>
-static inline span_size_t count_delimited(
-  const Range1& where, const Range2& delim) {
+static inline span_size_t
+count_delimited(const Range1& where, const Range2& delim) {
     return for_each_delimited(where, delim, count_t<span_size_t>());
 }
 //------------------------------------------------------------------------------
@@ -146,8 +150,8 @@ static inline BackInsertionSequence& split_into(
 }
 //------------------------------------------------------------------------------
 template <typename BackInsertionSequence, typename Range1, typename Range2>
-static inline BackInsertionSequence& split_into(
-  BackInsertionSequence& dest, const Range1& rng, const Range2& delim) {
+static inline BackInsertionSequence&
+split_into(BackInsertionSequence& dest, const Range1& rng, const Range2& delim) {
     return split_into(dest, rng, delim, [](const auto& x) {
         return typename BackInsertionSequence::value_type(x);
     });
@@ -158,15 +162,15 @@ template <
   typename Range1,
   typename Range2,
   typename Transform>
-static inline BackInsertionSequence split(
-  const Range1& rng, const Range2& delim, Transform transform) {
+static inline BackInsertionSequence
+split(const Range1& rng, const Range2& delim, Transform transform) {
     BackInsertionSequence result;
     return std::move(split_into(result, rng, delim, transform));
 }
 //------------------------------------------------------------------------------
 template <typename BackInsertionSequence, typename Range1, typename Range2>
-static inline BackInsertionSequence split(
-  const Range1& rng, const Range2& delim) {
+static inline BackInsertionSequence
+split(const Range1& rng, const Range2& delim) {
     BackInsertionSequence result;
     return std::move(split_into(result, rng, delim));
 }

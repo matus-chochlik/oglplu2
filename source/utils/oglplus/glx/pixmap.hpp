@@ -30,8 +30,7 @@ public:
           display,
           ::glXCreateGLXPixmap(display, vi, pixmap),
           ::glXDestroyGLXPixmap,
-          "Error creating glX Pixmap") {
-    }
+          "Error creating glX Pixmap") {}
 };
 
 } // namespace glx

@@ -82,11 +82,9 @@ public:
       , waveform_square("WAVEFORM_SQUARE", traits, api)
       , waveform_sawtooth("WAVEFORM_SAWTOOTH", traits, api)
       , waveform_whitenoise("WAVEFORM_WHITENOISE", traits, api)
-      , waveform_impulse("WAVEFORM_IMPULSE", traits, api) {
-    }
+      , waveform_impulse("WAVEFORM_IMPULSE", traits, api) {}
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::oalp
 
 #endif // OALPLUS_ALUT_API_CONSTANTS_HPP
-

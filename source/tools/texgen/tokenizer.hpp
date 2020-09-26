@@ -6,7 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef TEXGEN_TOKENIZER_HPP
+#ifndef TEXGEN_TOKENIZER_HPP // NOLINT(llvm-header-guard)
 #define TEXGEN_TOKENIZER_HPP
 
 #include "input_stream.hpp"
@@ -19,12 +19,12 @@ class tokenizer {
 public:
     tokenizer(input_stream input);
 
-    bool get_next(token_info&);
+    auto get_next(token_info&) -> bool;
 
 private:
-    bool _match_char(token_info&, char chr, token_kind);
-    bool _match_str(token_info&, string_view str, token_kind);
-    bool _match_re(token_info&, const std::regex&, token_kind);
+    auto _match_char(token_info&, char chr, token_kind) -> bool;
+    auto _match_str(token_info&, string_view str, token_kind) -> bool;
+    auto _match_re(token_info&, const std::regex&, token_kind) -> bool;
 
     input_stream _input;
 

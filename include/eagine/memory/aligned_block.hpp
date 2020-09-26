@@ -21,7 +21,7 @@ struct aligned_block {
     std::aligned_storage_t<Size> _storage{};
 
 public:
-    block get() noexcept {
+    auto get() noexcept -> block {
         return as_bytes(cover_one(_storage));
     }
 

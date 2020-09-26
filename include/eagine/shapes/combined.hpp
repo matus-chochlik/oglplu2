@@ -29,28 +29,27 @@ private:
 
 public:
     combined_gen(std::vector<std::unique_ptr<generator_intf>>&& gens) noexcept
-      : _gens{std::move(gens)} {
-    }
+      : _gens{std::move(gens)} {}
 
-    combined_gen&& add(std::unique_ptr<generator_intf>&& gen) &&;
+    auto add(std::unique_ptr<generator_intf>&& gen) && -> combined_gen&&;
 
-    vertex_attrib_bits attrib_bits() noexcept final;
+    auto attrib_bits() noexcept -> vertex_attrib_bits final;
 
-    bool enable(generator_capability cap, bool value) noexcept final;
+    auto enable(generator_capability cap, bool value) noexcept -> bool final;
 
-    bool is_enabled(generator_capability cap) noexcept final;
+    auto is_enabled(generator_capability cap) noexcept -> bool final;
 
-    span_size_t vertex_count() override;
+    auto vertex_count() -> span_size_t override;
 
-    span_size_t attribute_variants(vertex_attrib_kind attrib) override;
+    auto attribute_variants(vertex_attrib_kind attrib) -> span_size_t override;
 
-    string_view variant_name(vertex_attrib_variant) override;
+    auto variant_name(vertex_attrib_variant) -> string_view override;
 
-    span_size_t values_per_vertex(vertex_attrib_variant) override;
+    auto values_per_vertex(vertex_attrib_variant) -> span_size_t override;
 
-    attrib_data_type attrib_type(vertex_attrib_variant) override;
+    auto attrib_type(vertex_attrib_variant) -> attrib_data_type override;
 
-    bool is_attrib_normalized(vertex_attrib_variant) override;
+    auto is_attrib_normalized(vertex_attrib_variant) -> bool override;
 
     void attrib_values(vertex_attrib_variant, span<byte>) override;
     void attrib_values(vertex_attrib_variant, span<std::int16_t>) override;
@@ -59,11 +58,11 @@ public:
     void attrib_values(vertex_attrib_variant, span<std::uint32_t>) override;
     void attrib_values(vertex_attrib_variant, span<float>) override;
 
-    span_size_t draw_variant_count() override;
+    auto draw_variant_count() -> span_size_t override;
 
-    index_data_type index_type(drawing_variant) override;
+    auto index_type(drawing_variant) -> index_data_type override;
 
-    span_size_t index_count(drawing_variant) override;
+    auto index_count(drawing_variant) -> span_size_t override;
 
     void indices(drawing_variant, span<std::uint8_t> dest) override;
 
@@ -71,7 +70,7 @@ public:
 
     void indices(drawing_variant, span<std::uint32_t> dest) override;
 
-    span_size_t operation_count(drawing_variant) override;
+    auto operation_count(drawing_variant) -> span_size_t override;
 
     void instructions(drawing_variant, span<draw_operation> ops) override;
 
@@ -89,8 +88,8 @@ static inline auto combine(std::unique_ptr<generator_intf>&& gen) {
 }
 //------------------------------------------------------------------------------
 template <std::size_t N>
-static inline auto combine(
-  std::array<std::unique_ptr<generator_intf>, N>&& gens) {
+static inline auto
+combine(std::array<std::unique_ptr<generator_intf>, N>&& gens) {
     std::vector<std::unique_ptr<generator_intf>> v;
     v.reserve(N);
     for(auto& gen : gens) {

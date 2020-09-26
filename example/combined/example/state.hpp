@@ -6,7 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_EXAMPLE_STATE_HPP
+#ifndef OGLPLUS_EXAMPLE_STATE_HPP // NOLINT(llvm-header-guard)
 #define OGLPLUS_EXAMPLE_STATE_HPP
 
 #include "state_view.hpp"
@@ -32,23 +32,25 @@ public:
         _new_user_idle = true;
     }
 
-    bool set_width(valid_if_positive<int> new_width) noexcept {
+    auto set_width(const valid_if_positive<int>& new_width) noexcept -> bool {
         return _notice_user_activity(_width.assign(new_width));
     }
 
-    bool set_height(valid_if_positive<int> new_height) noexcept {
+    auto set_height(const valid_if_positive<int>& new_height) noexcept -> bool {
         return _notice_user_activity(_height.assign(new_height));
     }
 
-    bool set_depth(valid_if_positive<int> new_depth) noexcept {
+    auto set_depth(const valid_if_positive<int>& new_depth) noexcept -> bool {
         return _notice_user_activity(_depth.assign(new_depth));
     }
 
     void set_tiles(int x, int y) noexcept {
-        if(x < 1)
+        if(x < 1) {
             x = 1;
-        if(y < 1)
+        }
+        if(y < 1) {
             y = 1;
+        }
 
         _x_tiles = x;
         _y_tiles = y;
@@ -56,11 +58,11 @@ public:
         _tile_j = 0;
     }
 
-    bool first_tile() noexcept {
+    auto first_tile() noexcept -> bool {
         return (_tile_i == 0) && (_tile_j == 0);
     }
 
-    bool next_tile() noexcept {
+    auto next_tile() noexcept -> bool {
         if(multiple_tiles()) {
             if(++_tile_i >= _x_tiles) {
                 _tile_i = 0;
@@ -72,9 +74,9 @@ public:
         return first_tile();
     }
 
-    bool set_size(
-      valid_if_positive<int> new_width,
-      valid_if_positive<int> new_height) noexcept {
+    auto set_size(
+      const valid_if_positive<int>& new_width,
+      const valid_if_positive<int>& new_height) noexcept -> bool {
         // intentional to bypass short circuiting
         bool ws = set_width(new_width);
         bool hs = set_height(new_height);
@@ -88,7 +90,7 @@ public:
         _depth.sync();
     }
 
-    bool set_mouse_btn(int button, bool pressed) noexcept {
+    auto set_mouse_btn(int button, bool pressed) noexcept -> bool {
         button -= 1;
         if((button >= 0) && (button < this->_mouse_btn_count)) {
             auto& mouse_btn = _mouse_btn[button];
@@ -97,7 +99,7 @@ public:
         return false;
     }
 
-    bool set_mouse_pos(int new_mouse_x, int new_mouse_y) noexcept {
+    auto set_mouse_pos(int new_mouse_x, int new_mouse_y) noexcept -> bool {
         using math::clamp;
         const bool x_chng =
           _mouse_x.assign(clamp(new_mouse_x, 0, _width.value()));
@@ -108,7 +110,7 @@ public:
         return _notice_user_activity(x_chng || y_chng);
     }
 
-    bool set_mouse_wheel(int new_mouse_z) noexcept {
+    auto set_mouse_wheel(int new_mouse_z) noexcept -> bool {
         return _notice_user_activity(_mouse_z.assign(new_mouse_z));
     }
 

@@ -17,14 +17,13 @@ namespace eagine {
 // valid if less than container.size()
 template <typename C, typename T>
 struct valid_if_size_gt_policy {
-    bool operator()(const C& c, T s) const {
+    auto operator()(const C& c, T s) const {
         return c.size() > s;
     }
 
     struct do_log {
         template <typename X, typename = disable_if_same_t<X, do_log>>
-        constexpr inline do_log(X&&) noexcept {
-        }
+        constexpr inline do_log(X&&) noexcept {}
 
         template <typename Log>
         void operator()(Log& log, const C& c, const T& s) const {

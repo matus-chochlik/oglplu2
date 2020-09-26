@@ -38,7 +38,7 @@ private:
 
     shared_byte_allocator _fallback_alloc;
 
-    shared_byte_allocator& _get_alloc(span_size_t align) {
+    auto _get_alloc(span_size_t align) -> shared_byte_allocator& {
         EAGINE_ASSERT(_alignment.size() == _aligned_alloc.size());
         for(std::size_t i = 0; i < _alignment.size(); ++i) {
             if(_alignment[i] == align) {
@@ -50,19 +50,16 @@ private:
 
 public:
     multi_align_byte_allocator(
-      instead_of_t<
-        size_constant<Align>,
-        shared_byte_allocator>... aligned_alloc,
+      instead_of_t<size_constant<Align>, shared_byte_allocator>... aligned_alloc,
       shared_byte_allocator fallback_alloc = default_byte_allocator())
       : _alignment{{Align...}}
       , _aligned_alloc{{std::move(aligned_alloc)...}}
-      , _fallback_alloc(std::move(fallback_alloc)) {
-    }
+      , _fallback_alloc(std::move(fallback_alloc)) {}
 
     using value_type = byte;
     using size_type = span_size_t;
 
-    bool equal(byte_allocator* a) const noexcept override {
+    auto equal(byte_allocator* a) const noexcept -> bool override {
         if(auto* that = dynamic_cast<multi_align_byte_allocator*>(a)) {
             for(std::size_t i = 0; i < _aligned_alloc.size(); ++i) {
                 if(_aligned_alloc[i] != that->_aligned_alloc[i]) {
@@ -75,12 +72,12 @@ public:
         return false;
     }
 
-    size_type max_size(span_size_t a) noexcept override {
+    auto max_size(span_size_t a) noexcept -> size_type override {
         return _get_alloc(a).max_size(a);
     }
 
-    tribool has_allocated(
-      const owned_block& b, span_size_t a) noexcept override {
+    auto has_allocated(const owned_block& b, span_size_t a) noexcept
+      -> tribool override {
         for(std::size_t i = 0; i < _aligned_alloc.size(); ++i) {
             if(_aligned_alloc[i].has_allocated(b, a)) {
                 return true;
@@ -89,7 +86,7 @@ public:
         return _fallback_alloc.has_allocated(b, a);
     }
 
-    owned_block allocate(size_type n, size_type a) noexcept override {
+    auto allocate(size_type n, size_type a) noexcept -> owned_block override {
         return _get_alloc(a).allocate(n, a);
     }
 

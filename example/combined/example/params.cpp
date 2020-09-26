@@ -14,13 +14,14 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-bool example_params::is_readable_file(string_view path) const noexcept {
+auto example_params::is_readable_file(string_view path) const noexcept -> bool {
     // TODO something more efficient?
     return std::ifstream(c_str(path)).good();
 }
 //------------------------------------------------------------------------------
-valid_if_not_empty<std::string> example_params::find_resource_file_path(
-  string_view res_group, string_view res_name) const {
+auto example_params::find_resource_file_path(
+  string_view res_group,
+  string_view res_name) const -> valid_if_not_empty<std::string> {
 
     EAGINE_MAYBE_UNUSED(res_group);
     EAGINE_MAYBE_UNUSED(res_name);
@@ -57,8 +58,8 @@ valid_if_not_empty<std::string> example_params::find_resource_file_path(
     return {};
 }
 //------------------------------------------------------------------------------
-static inline string_view resource_type_to_desc(
-  example_resource_type type) noexcept {
+static inline auto resource_type_to_desc(example_resource_type type) noexcept
+  -> string_view {
     switch(type) {
         case example_resource_type::texture_image:
             return string_view("texture image");
@@ -70,8 +71,8 @@ static inline string_view resource_type_to_desc(
     return string_view();
 }
 //------------------------------------------------------------------------------
-static inline string_view resource_type_to_group_name(
-  example_resource_type type) noexcept {
+static inline auto resource_type_to_group_name(
+  example_resource_type type) noexcept -> string_view {
     switch(type) {
         case example_resource_type::texture_image:
             return string_view("textures");
@@ -83,13 +84,15 @@ static inline string_view resource_type_to_group_name(
     return string_view();
 }
 //------------------------------------------------------------------------------
-valid_if_not_empty<std::string> example_params::find_resource_file_path(
-  example_resource_type type, string_view res_name) const {
+auto example_params::find_resource_file_path(
+  example_resource_type type,
+  string_view res_name) const -> valid_if_not_empty<std::string> {
     return find_resource_file_path(resource_type_to_group_name(type), res_name);
 }
 //------------------------------------------------------------------------------
-std::string example_params::get_resource_file_path(
-  example_resource_type type, string_view res_name) const {
+auto example_params::get_resource_file_path(
+  example_resource_type type,
+  string_view res_name) const -> std::string {
     auto path = find_resource_file_path(type, res_name);
 
     if(!path.is_valid()) {

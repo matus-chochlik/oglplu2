@@ -22,24 +22,23 @@ private:
     memory::basic_block<std::is_const_v<T>> _blk;
 
     template <typename X = T, typename = std::enable_if_t<!std::is_const_v<X>>>
-    X* _ptr() noexcept {
+    auto _ptr() noexcept {
         EAGINE_ASSERT(is_valid_block(_blk));
         return static_cast<X*>(_blk.addr());
     }
 
-    const T* _cptr() const noexcept {
+    auto _cptr() const noexcept {
         EAGINE_ASSERT(is_valid_block(_blk));
         return static_cast<const T*>(_blk.addr());
     }
 
 public:
-    static bool is_valid_block(memory::const_block blk) noexcept {
+    static auto is_valid_block(memory::const_block blk) noexcept -> bool {
         return !blk.empty() && (blk.is_aligned_as<T>()) &&
                (can_accomodate(blk, identity<T>()));
     }
 
-    structured_memory_block(
-      memory::basic_block<std::is_const_v<T>> blk) noexcept
+    structured_memory_block(memory::basic_block<std::is_const_v<T>> blk) noexcept
       : _blk(blk) {
         EAGINE_ASSERT(is_valid_block(_blk));
     }
@@ -47,22 +46,22 @@ public:
     template <
       typename X = T,
       typename = std::enable_if_t<!std::is_const_v<X> && std::is_same_v<X, T>>>
-    X& get() noexcept {
+    auto get() noexcept -> X& {
         return *_ptr();
     }
 
     template <
       typename X = T,
       typename = std::enable_if_t<!std::is_const_v<X> && std::is_same_v<X, T>>>
-    X* operator->() noexcept {
+    auto operator->() noexcept -> X* {
         return _ptr();
     }
 
-    const T& get() const noexcept {
+    auto get() const noexcept -> const T& {
         return *_cptr();
     }
 
-    const T* operator->() const noexcept {
+    auto operator->() const noexcept -> const T* {
         return _cptr();
     }
 };

@@ -40,10 +40,7 @@ public:
         }
     };
 
-    template <
-      typename W,
-      W c_api::*F,
-      typename Signature = typename W::signature>
+    template <typename W, W c_api::*F, typename Signature = typename W::signature>
     class func;
 
     template <typename W, W c_api::*F, typename RVC, typename... Params>
@@ -96,8 +93,7 @@ public:
       : c_api{traits}
       , init("init", traits, *this)
       , create_buffer_hello_world("create_buffer_hello_world", traits, *this)
-      , exit("exit", traits, *this) {
-    }
+      , exit("exit", traits, *this) {}
 };
 //------------------------------------------------------------------------------
 #undef OALPAFP
@@ -105,4 +101,3 @@ public:
 } // namespace eagine::oalp
 
 #endif // OALPLUS_ALUT_API_API_HPP
-

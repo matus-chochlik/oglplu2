@@ -32,7 +32,7 @@ private:
     span_size_t _sections;
     float _radius_ratio;
 
-    static vertex_attrib_bits _attr_mask() noexcept;
+    static auto _attr_mask() noexcept -> vertex_attrib_bits;
 
     template <typename T>
     void _indices(drawing_variant, span<T> dest) noexcept;
@@ -52,13 +52,12 @@ public:
     }
 
     unit_torus_gen(vertex_attrib_bits attr_bits) noexcept
-      : unit_torus_gen(attr_bits, 24, 36) {
-    }
+      : unit_torus_gen(attr_bits, 24, 36) {}
 
     using offset_getter =
       callable_ref<std::array<float, 3>(span_size_t, span_size_t)>;
 
-    span_size_t vertex_count() override;
+    auto vertex_count() -> span_size_t override;
 
     void vertex_pivots(span<float> dest) noexcept;
 
@@ -72,24 +71,24 @@ public:
 
     void wrap_coords(span<float> dest) noexcept;
 
-    span_size_t attribute_variants(vertex_attrib_kind attrib) override;
+    auto attribute_variants(vertex_attrib_kind attrib) -> span_size_t override;
 
-    string_view variant_name(vertex_attrib_variant) override;
+    auto variant_name(vertex_attrib_variant) -> string_view override;
 
-    string_view special_variant_name(span_size_t index);
+    auto special_variant_name(span_size_t index) -> string_view;
     void make_special_attrib_values(
-      void (unit_torus_gen::*function)(
-        span<float>, unit_torus_gen::offset_getter),
+      void (
+        unit_torus_gen::*function)(span<float>, unit_torus_gen::offset_getter),
       span_size_t,
       span<float>);
 
     void attrib_values(vertex_attrib_variant, span<float>) override;
 
-    span_size_t draw_variant_count() override;
+    auto draw_variant_count() -> span_size_t override;
 
-    index_data_type index_type(drawing_variant) override;
+    auto index_type(drawing_variant) -> index_data_type override;
 
-    span_size_t index_count(drawing_variant) override;
+    auto index_count(drawing_variant) -> span_size_t override;
 
     void indices(drawing_variant, span<std::uint8_t> dest) override;
 
@@ -97,11 +96,11 @@ public:
 
     void indices(drawing_variant, span<std::uint32_t> dest) override;
 
-    span_size_t operation_count(drawing_variant) override;
+    auto operation_count(drawing_variant) -> span_size_t override;
 
     void instructions(drawing_variant, span<draw_operation> ops) override;
 
-    math::sphere<float, true> bounding_sphere() override;
+    auto bounding_sphere() -> math::sphere<float, true> override;
 };
 //------------------------------------------------------------------------------
 static inline auto unit_torus(
@@ -110,10 +109,7 @@ static inline auto unit_torus(
   valid_if_greater_than<int, 3> sections,
   valid_if_ge0_lt1<float> radius_ratio) {
     return std::make_unique<unit_torus_gen>(
-      attr_bits,
-      std::move(rings),
-      std::move(sections),
-      std::move(radius_ratio));
+      attr_bits, std::move(rings), std::move(sections), std::move(radius_ratio));
 }
 //------------------------------------------------------------------------------
 static inline auto unit_torus(vertex_attrib_bits attr_bits) {
