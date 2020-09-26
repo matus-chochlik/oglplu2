@@ -4,7 +4,7 @@
 # See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
 #
-variant=${1:-006}
+variant=${1:-007}
 install_prefix="$(<$(dirname ${0})/../INSTALL_PREFIX)"
 log_args=("--use-asio-log" "--min-log-severity" "stat")
 conn_type="--msg-bus-asio-tcp-ipv4"
