@@ -62,7 +62,7 @@ public:
     }
 
     void router_appeared(const router_topology_info& info) final {
-        _log.info("found connection ${router} <-> ${remote} on message bus")
+        _log.info("found connection ${router} - ${remote} on message bus")
           .arg(EAGINE_ID(remote), info.remote_id)
           .arg(EAGINE_ID(router), info.router_id);
 
@@ -72,7 +72,7 @@ public:
 
     void bridge_appeared(const bridge_topology_info& info) final {
         if(info.opposite_id) {
-            _log.info("found connection ${bridge} <-> ${remote} on message bus")
+            _log.info("found connection ${bridge} - ${remote} on message bus")
               .arg(EAGINE_ID(remote), info.opposite_id)
               .arg(EAGINE_ID(bridge), info.bridge_id);
 
@@ -127,7 +127,7 @@ auto main(main_ctx& ctx) -> int {
     msgbus::topology_printer topo_prn{bus};
 
     conn_setup.setup_connectors(topo_prn, address);
-    timeout waited_enough{std::chrono::minutes(1)};
+    timeout waited_enough{std::chrono::seconds(30)};
 
     topo_prn.discover_topology();
 

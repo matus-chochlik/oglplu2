@@ -42,7 +42,7 @@ ${install_prefix}/share/oglplus/examples/eagine-${variant}_pong \
 sleep 1
 ${install_prefix}/share/oglplus/examples/eagine-${variant}_ping \
 	"${log_args[@]}" \
-	--ping-count ${2:-100k} \
+	--ping-count ${2:-300k} \
 	${conn_type} \
 	--msg-bus-router-address ${ping_addr} \
 	& pids+=($!)

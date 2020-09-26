@@ -447,7 +447,7 @@ auto router::_handle_special(
                     for(auto& conn_out : endpoint.connections) {
                         if(EAGINE_LIKELY(conn_out && conn_out->is_usable())) {
                             if(conn_out->send(
-                                 EAGINE_MSGBUS_ID(topoRoutCn), response)) {
+                                 EAGINE_MSGBUS_ID(topoRutrCn), response)) {
                                 break;
                             }
                         }
@@ -456,7 +456,7 @@ auto router::_handle_special(
             }
             return false;
         } else if(
-          msg_id.has_method(EAGINE_ID(topoRoutCn)) ||
+          msg_id.has_method(EAGINE_ID(topoRutrCn)) ||
           msg_id.has_method(EAGINE_ID(topoBrdgCn)) ||
           msg_id.has_method(EAGINE_ID(topoEndpt))) {
             // this should be forwarded
