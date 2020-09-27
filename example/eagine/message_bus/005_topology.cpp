@@ -37,25 +37,25 @@ public:
 
         std::cout << "	node [shape=egg]\n";
         for(auto id : _routers) {
-            std::cout << "	n" << id << "[label=Router-" << id << "]\n";
+            std::cout << "	n" << id << "[label=\"Router-" << id << "\"]\n";
         }
         std::cout << "\n";
 
         std::cout << "	node [shape=invtrapezium]\n";
         for(auto id : _bridges) {
-            std::cout << "	n" << id << " [label=Bridge-" << id << "]\n";
+            std::cout << "	n" << id << " [label=\"Bridge-" << id << "\"]\n";
         }
         std::cout << "\n";
 
         std::cout << "	node [shape=invhouse]\n";
         for(auto id : _endpoints) {
-            std::cout << "	n" << id << "[label=Endpoint-" << id << "]\n";
+            std::cout << "	n" << id << "[label=\"Endpoint-" << id << "\"]\n";
         }
         std::cout << "\n";
 
         std::cout << "	edge [style=solid,penwidth=2]\n";
         for(auto [l, r] : _connections) {
-            std::cout << "	n" << l << " - n" << r << "\n";
+            std::cout << "	n" << l << " -- n" << r << "\n";
         }
 
         std::cout << "}\n";
@@ -128,10 +128,13 @@ auto main(main_ctx& ctx) -> int {
 
     conn_setup.setup_connectors(topo_prn, address);
     timeout waited_enough{std::chrono::seconds(30)};
-
-    topo_prn.discover_topology();
+    timeout resend_query{std::chrono::seconds(5), nothing};
 
     while(!(interrupted || waited_enough)) {
+        if(resend_query) {
+            resend_query.reset();
+            topo_prn.discover_topology();
+        }
         topo_prn.update();
         if(!topo_prn.process_all()) {
             std::this_thread::sleep_for(std::chrono::milliseconds(250));
