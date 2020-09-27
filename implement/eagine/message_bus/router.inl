@@ -445,7 +445,7 @@ auto router::_handle_special(
                     message_view response{extract(serialized)};
                     response.set_target_id(incoming_id);
                     for(auto& conn_out : endpoint.connections) {
-                        if(EAGINE_LIKELY(conn_out && conn_out->is_usable())) {
+                        if(EAGINE_LIKELY(conn_out)) {
                             if(conn_out->send(
                                  EAGINE_MSGBUS_ID(topoRutrCn), response)) {
                                 break;
@@ -492,7 +492,7 @@ auto router::_do_route_message(
                       .arg(EAGINE_ID(count), _forwarded_messages);
                 }
                 for(auto& conn_out : endpoint_out.connections) {
-                    if(EAGINE_LIKELY(conn_out && conn_out->is_usable())) {
+                    if(EAGINE_LIKELY(conn_out)) {
                         if(conn_out->send(msg_id, message)) {
                             return true;
                         }

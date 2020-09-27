@@ -36,7 +36,7 @@ public:
     void discover_topology() {
         message_view message{};
         message.set_target_id(broadcast_endpoint_id());
-        const auto msg_id{EAGINE_MSG_ID(eagiMsgBus, topoQuery)};
+        const auto msg_id{EAGINE_MSGBUS_ID(topoQuery)};
         this->bus().post(msg_id, message);
     }
 

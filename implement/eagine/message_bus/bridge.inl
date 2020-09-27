@@ -193,19 +193,6 @@ auto bridge::_handle_special(
                 _log.debug("assigned id ${id}").arg(EAGINE_ID(id), _id);
             }
             return true;
-        } else if(msg_id.has_method(EAGINE_ID(topoQuery))) {
-            std::array<byte, 256> temp{};
-            bridge_topology_info info{};
-            info.bridge_id = _id;
-            if(auto serialized{default_serialize(info, cover(temp))}) {
-                message_view response{extract(serialized)};
-                response.setup_response(message);
-                if(to_connection) {
-                    _send(EAGINE_MSGBUS_ID(topoBrdgCn), response);
-                } else {
-                    _do_push(EAGINE_MSGBUS_ID(topoBrdgCn), response);
-                }
-            }
         } else if(msg_id.has_method(EAGINE_ID(topoBrdgCn))) {
             if(to_connection) {
                 bridge_topology_info info{};
@@ -217,6 +204,19 @@ auto bridge::_handle_special(
                         _send(EAGINE_MSGBUS_ID(topoBrdgCn), response);
                         return true;
                     }
+                }
+            }
+        } else if(msg_id.has_method(EAGINE_ID(topoQuery))) {
+            std::array<byte, 256> temp{};
+            bridge_topology_info info{};
+            info.bridge_id = _id;
+            if(auto serialized{default_serialize(info, cover(temp))}) {
+                message_view response{extract(serialized)};
+                response.setup_response(message);
+                if(to_connection) {
+                    _do_push(EAGINE_MSGBUS_ID(topoBrdgCn), response);
+                } else {
+                    _send(EAGINE_MSGBUS_ID(topoBrdgCn), response);
                 }
             }
         }
@@ -277,7 +277,7 @@ auto bridge::_forward_messages() -> bool {
       };
 
     for(auto& conn : _connections) {
-        if(EAGINE_LIKELY(conn && conn->is_usable())) {
+        if(EAGINE_LIKELY(conn)) {
             something_done(conn->fetch_messages(
               connection::fetch_handler(forward_conn_to_output)));
         }
