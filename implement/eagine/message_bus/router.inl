@@ -482,10 +482,11 @@ auto router::_do_route_message(
         message.add_hop();
         for(auto& [outgoing_id, endpoint_out] : this->_endpoints) {
             bool should_forward = (incoming_id != outgoing_id);
-            should_forward &=
-              (endpoint_out.maybe_router ||
-               (outgoing_id == message.target_id) || !message.target_id);
+            should_forward &= (message.target_id == broadcast_endpoint_id()) ||
+                              (outgoing_id == message.target_id) ||
+                              endpoint_out.maybe_router;
             should_forward &= endpoint_out.is_allowed(msg_id);
+
             if(should_forward) {
                 if(EAGINE_UNLIKELY(++_forwarded_messages % 100000 == 0)) {
                     _log.stat("forwarded ${count} messages")

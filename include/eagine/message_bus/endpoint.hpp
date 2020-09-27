@@ -24,10 +24,6 @@ namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 class friend_of_endpoint;
 //------------------------------------------------------------------------------
-static constexpr inline auto broadcast_endpoint_id() noexcept -> identifier_t {
-    return 0U;
-}
-//------------------------------------------------------------------------------
 class endpoint : public connection_user {
 public:
     static constexpr auto invalid_id() noexcept -> identifier_t {
