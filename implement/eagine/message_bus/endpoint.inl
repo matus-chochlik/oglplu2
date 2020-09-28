@@ -371,7 +371,7 @@ auto endpoint::update() -> bool {
     if(EAGINE_UNLIKELY(has_id() && !had_id)) {
         log().debug("announcing endpoint id ${id}").arg(EAGINE_ID(id), _id);
         // send the endpoint id through all connections
-        _do_send(EAGINE_MSGBUS_ID(announceId), {});
+        _do_send(EAGINE_MSGBUS_ID(annEndptId), {});
         // send request for router certificate
         _do_send(EAGINE_MSGBUS_ID(rtrCertQry), {});
         something_done();
@@ -414,7 +414,6 @@ void endpoint::unsubscribe(message_id msg_id) {
     }
 }
 //------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
 auto endpoint::say_not_a_router() -> bool {
     log().debug("saying not a router");
     return send(EAGINE_MSGBUS_ID(notARouter));

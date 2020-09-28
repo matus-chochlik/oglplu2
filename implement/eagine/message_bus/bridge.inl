@@ -183,6 +183,7 @@ auto bridge::_handle_special(
   bool to_connection) -> bool {
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
         _log.debug("bridge handling special message ${message}")
+          .arg(EAGINE_ID(bridge), _id)
           .arg(EAGINE_ID(message), msg_id)
           .arg(EAGINE_ID(target), message.target_id)
           .arg(EAGINE_ID(source), message.source_id);

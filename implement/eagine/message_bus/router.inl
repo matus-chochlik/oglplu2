@@ -121,18 +121,26 @@ auto router::_handle_pending() -> bool {
 
     if(!_pending.empty()) {
         identifier_t id = 0;
+        bool maybe_router = true;
         auto handler =
-          [this, &id](message_id msg_id, message_age, const message_view& msg) {
+          [&](message_id msg_id, message_age, const message_view& msg) {
               // this is a special message requesting endpoint id assignment
               if(msg_id == EAGINE_MSGBUS_ID(requestId)) {
                   id = ~id;
                   return true;
               }
               // this is a special message containing endpoint id
-              if(msg_id == EAGINE_MSGBUS_ID(announceId)) {
+              if(msg_id == EAGINE_MSGBUS_ID(annEndptId)) {
                   id = msg.source_id;
+                  maybe_router = false;
                   this->_log.debug("received endpoint id ${id}")
                     .arg(EAGINE_ID(id), id);
+                  return true;
+              }
+              // this is a special message containing non-endpoint id
+              if(msg_id == EAGINE_MSGBUS_ID(announceId)) {
+                  id = msg.source_id;
+                  this->_log.debug("received id ${id}").arg(EAGINE_ID(id), id);
                   return true;
               }
               return false;
@@ -151,15 +159,21 @@ auto router::_handle_pending() -> bool {
             if(~id == 0) {
                 _assign_id(pending.the_connection);
             } else if(id != 0) {
-                _log.debug("adopting pending connection from endpoint ${id}")
+                _log.debug("adopting pending connection from ${kind} ${id}")
                   .arg(EAGINE_ID(type), pending.the_connection->type_id())
-                  .arg(EAGINE_ID(id), id);
+                  .arg(EAGINE_ID(id), id)
+                  .arg(
+                    EAGINE_ID(kind),
+                    maybe_router ? string_view("non-endpoint")
+                                 : string_view("endpoint"));
+
                 auto pos = _endpoints.find(id);
                 if(pos == _endpoints.end()) {
                     pos = _endpoints.try_emplace(id).first;
                 }
                 pos->second.connections.emplace_back(
                   std::move(pending.the_connection));
+                pos->second.maybe_router = maybe_router;
                 _pending.erase(_pending.begin() + idx);
                 something_done();
             } else {
@@ -336,6 +350,7 @@ auto router::_handle_special(
   const message_view& message) -> bool {
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
         _log.debug("router handling special message ${message}")
+          .arg(EAGINE_ID(router), _id_base)
           .arg(EAGINE_ID(message), msg_id)
           .arg(EAGINE_ID(target), message.target_id)
           .arg(EAGINE_ID(source), message.source_id);
@@ -345,8 +360,8 @@ auto router::_handle_special(
                 endpoint.maybe_router = false;
                 _log.debug("endpoint ${source} is not a router")
                   .arg(EAGINE_ID(source), message.source_id);
-                return true;
             }
+            return true;
         } else if(msg_id.has_method(EAGINE_ID(clrBlkList))) {
             _log.debug("clearing router block_list");
             endpoint.message_block_list.clear();
@@ -443,15 +458,10 @@ auto router::_handle_special(
                 info.remote_id = ep_id;
                 if(auto serialized{default_serialize(info, cover(temp))}) {
                     message_view response{extract(serialized)};
-                    response.set_target_id(incoming_id);
-                    for(auto& conn_out : endpoint.connections) {
-                        if(EAGINE_LIKELY(conn_out)) {
-                            if(conn_out->send(
-                                 EAGINE_MSGBUS_ID(topoRutrCn), response)) {
-                                break;
-                            }
-                        }
-                    }
+                    response.setup_response(message);
+                    response.set_source_id(_id_base);
+                    this->_do_route_message(
+                      EAGINE_MSGBUS_ID(topoRutrCn), _id_base, response);
                 }
             }
             return false;
@@ -475,37 +485,61 @@ auto router::_do_route_message(
   message_id msg_id,
   identifier_t incoming_id,
   message_view message) -> bool {
+
+    bool result = true;
     if(EAGINE_UNLIKELY(message.too_many_hops())) {
         _log.warning("message ${message} discarded after too many hops")
           .arg(EAGINE_ID(message), msg_id);
     } else {
         message.add_hop();
-        for(auto& [outgoing_id, endpoint_out] : this->_endpoints) {
-            bool should_forward = (incoming_id != outgoing_id);
-            should_forward &= (message.target_id == broadcast_endpoint_id()) ||
-                              (outgoing_id == message.target_id) ||
-                              endpoint_out.maybe_router;
-            should_forward &= endpoint_out.is_allowed(msg_id);
+        const bool is_targeted = (message.target_id != broadcast_endpoint_id());
 
-            if(should_forward) {
-                if(EAGINE_UNLIKELY(++_forwarded_messages % 100000 == 0)) {
-                    _log.stat("forwarded ${count} messages")
-                      .arg(EAGINE_ID(count), _forwarded_messages);
+        const auto forward_to = [&](auto& endpoint_out) {
+            if(EAGINE_UNLIKELY(++_forwarded_messages % 100000 == 0)) {
+                _log.stat("forwarded ${count} messages")
+                  .arg(EAGINE_ID(count), _forwarded_messages);
+            }
+            for(auto& conn_out : endpoint_out.connections) {
+                if(EAGINE_LIKELY(conn_out)) {
+                    if(conn_out->send(msg_id, message)) {
+                        return true;
+                    }
+                } else {
+                    _log.debug("missing or unusable connection");
                 }
-                for(auto& conn_out : endpoint_out.connections) {
-                    if(EAGINE_LIKELY(conn_out)) {
-                        if(conn_out->send(msg_id, message)) {
-                            return true;
-                        }
-                    } else {
-                        _log.debug("missing or unusable connection");
+            }
+            return false;
+        };
+
+        if(is_targeted) {
+            bool has_routed = false;
+            for(const auto& [outgoing_id, endpoint_out] : this->_endpoints) {
+                if(outgoing_id == message.target_id) {
+                    if(endpoint_out.is_allowed(msg_id)) {
+                        has_routed = forward_to(endpoint_out);
                     }
                 }
-                return false;
+            }
+            if(!has_routed) {
+                for(const auto& [unused, endpoint_out] : this->_endpoints) {
+                    EAGINE_MAYBE_UNUSED(unused);
+                    if(endpoint_out.maybe_router) {
+                        has_routed = forward_to(endpoint_out);
+                    }
+                }
+            }
+            result &= has_routed;
+        } else {
+            for(const auto& [outgoing_id, endpoint_out] : this->_endpoints) {
+                if(incoming_id != outgoing_id) {
+                    if(endpoint_out.is_allowed(msg_id)) {
+                        result &= forward_to(endpoint_out);
+                    }
+                }
             }
         }
     }
-    return true;
+    return result;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

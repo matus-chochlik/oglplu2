@@ -354,7 +354,6 @@ protected:
 
     void init() {
         this->_subscribe_to(view(_msg_handlers));
-        this->bus().say_not_a_router();
     }
 
     void finish() noexcept {

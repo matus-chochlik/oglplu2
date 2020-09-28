@@ -62,7 +62,7 @@ public:
     }
 
     void router_appeared(const router_topology_info& info) final {
-        _log.info("found connection ${router} - ${remote} on message bus")
+        _log.info("found router connection ${router} - ${remote}")
           .arg(EAGINE_ID(remote), info.remote_id)
           .arg(EAGINE_ID(router), info.router_id);
 
@@ -72,14 +72,14 @@ public:
 
     void bridge_appeared(const bridge_topology_info& info) final {
         if(info.opposite_id) {
-            _log.info("found connection ${bridge} - ${remote} on message bus")
+            _log.info("found bridge connection ${bridge} - ${remote}")
               .arg(EAGINE_ID(remote), info.opposite_id)
               .arg(EAGINE_ID(bridge), info.bridge_id);
 
             _bridges.emplace(info.opposite_id);
             _connections.emplace(info.bridge_id, info.opposite_id);
         } else {
-            _log.info("found bridge ${bridge} on message bus")
+            _log.info("found bridge ${bridge}")
               .arg(EAGINE_ID(bridge), info.bridge_id);
         }
 
@@ -87,7 +87,7 @@ public:
     }
 
     void endpoint_appeared(const endpoint_topology_info& info) final {
-        _log.info("found endpoint ${endpoint} on message bus")
+        _log.info("found endpoint ${endpoint}")
           .arg(EAGINE_ID(endpoint), info.endpoint_id);
 
         _endpoints.emplace(info.endpoint_id);
@@ -120,7 +120,7 @@ auto main(main_ctx& ctx) -> int {
     msgbus::router_address address{ctx.log(), ctx.args()};
     msgbus::connection_setup conn_setup(ctx.log(), ctx.args());
 
-    msgbus::endpoint bus{logger{EAGINE_ID(DiscoverEx), ctx.log()}};
+    msgbus::endpoint bus{logger{EAGINE_ID(TopologyEx), ctx.log()}};
     bus.add_ca_certificate_pem(ca_certificate_pem(ctx));
     bus.add_certificate_pem(msgbus_endpoint_certificate_pem(ctx));
 
