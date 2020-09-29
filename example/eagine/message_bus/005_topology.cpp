@@ -1,5 +1,5 @@
 /**
- *  @example eagine/message_bus/004_topology.cpp
+ *  @example eagine/message_bus/005_topology.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -35,19 +35,26 @@ public:
     void print_topology() {
         std::cout << "graph EMB {\n";
 
-        std::cout << "	node [shape=egg]\n";
+        std::cout << "	overlap=false\n";
+        std::cout << "	splines=true\n";
+        std::cout << "	node [style=filled]\n";
+        std::cout << "	node [shape=egg;color=\"#B0D0B0\"]\n";
         for(auto id : _routers) {
             std::cout << "	n" << id << "[label=\"Router-" << id << "\"]\n";
         }
         std::cout << "\n";
 
-        std::cout << "	node [shape=invtrapezium]\n";
+        std::cout << "	node [shape=parallelogram;color=\"#80B080\"]\n";
         for(auto id : _bridges) {
             std::cout << "	n" << id << " [label=\"Bridge-" << id << "\"]\n";
         }
         std::cout << "\n";
 
-        std::cout << "	node [shape=invhouse]\n";
+        std::cout << "	node [shape=box;color=\"#B0E0B0\"]\n";
+        std::cout << "	n" << this->bus().get_id()
+                  << "[label=\"Self\\nEndpoint-" << this->bus().get_id()
+                  << "\"]\n";
+
         for(auto id : _endpoints) {
             std::cout << "	n" << id << "[label=\"Endpoint-" << id << "\"]\n";
         }
