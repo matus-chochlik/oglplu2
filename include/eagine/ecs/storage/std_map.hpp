@@ -27,7 +27,7 @@ class std_map_cmp_storage_iterator
 private:
     using _map_t = typename std::map<Entity, Component>;
     using _iter_t = typename _map_t::iterator;
-    _map_t* _map;
+    _map_t* _map{nullptr};
     _iter_t _i;
 
     friend class std_map_cmp_storage<Entity, Component>;
@@ -44,7 +44,7 @@ public:
         _i = _map->begin();
     }
 
-    bool done() override {
+    auto done() -> bool override {
         EAGINE_ASSERT(_map);
         return _i == _map->end();
     }
@@ -54,7 +54,7 @@ public:
         ++_i;
     }
 
-    bool find(Entity e) override {
+    auto find(Entity e) -> bool override {
         if(done()) {
             return false;
         }
@@ -73,7 +73,7 @@ public:
         return false;
     }
 
-    Entity current() override {
+    auto current() -> Entity override {
         return _i->first;
     }
 };
@@ -86,17 +86,16 @@ private:
 
     using _map_iter_t = std_map_cmp_storage_iterator<Entity, Component>;
 
-    _map_iter_t& _iter_cast(component_storage_iterator<Entity>& i) noexcept {
+    auto _iter_cast(component_storage_iterator<Entity>& i) noexcept -> auto& {
         EAGINE_ASSERT(dynamic_cast<_map_iter_t*>(i.ptr()));
         return *static_cast<_map_iter_t*>(i.ptr());
     }
 
-    Entity _iter_entity(component_storage_iterator<Entity>& i) noexcept {
+    auto _iter_entity(component_storage_iterator<Entity>& i) noexcept {
         return _iter_cast(i)._i->first;
     }
 
-    typename std::map<Entity, Component>::iterator
-    _remove(typename std::map<Entity, Component>::iterator p) {
+    auto _remove(typename std::map<Entity, Component>::iterator p) {
         EAGINE_ASSERT(p != _components.end());
         _hidden.erase(p->first);
         return _components.erase(p);
@@ -106,13 +105,13 @@ public:
     using entity_param = entity_param_t<Entity>;
     using iterator_t = component_storage_iterator<Entity>;
 
-    storage_caps capabilities() override {
+    auto capabilities() -> storage_caps override {
         return storage_caps{
           storage_cap_bit::hide | storage_cap_bit::remove |
           storage_cap_bit::store | storage_cap_bit::modify};
     }
 
-    iterator_t new_iterator() override {
+    auto new_iterator() -> iterator_t override {
         return iterator_t(new _map_iter_t(_components));
     }
 
@@ -120,20 +119,20 @@ public:
         delete i.release();
     }
 
-    bool has(entity_param e) override {
+    auto has(entity_param e) -> bool override {
         return _components.find(e) != _components.end();
     }
 
-    bool is_hidden(entity_param e) override {
+    auto is_hidden(entity_param e) -> bool override {
         return _hidden.find(e) != _hidden.end();
     }
 
-    bool is_hidden(iterator_t& i) override {
+    auto is_hidden(iterator_t& i) -> bool override {
         EAGINE_ASSERT(!i.done());
         return is_hidden(_iter_entity(i));
     }
 
-    bool hide(entity_param e) override {
+    auto hide(entity_param e) -> bool override {
         if(has(e)) {
             _hidden.insert(e);
             return true;
@@ -146,15 +145,15 @@ public:
         _hidden.insert(_iter_entity(i));
     }
 
-    bool show(entity_param e) override {
+    auto show(entity_param e) -> bool override {
         return _hidden.erase(e) > 0;
     }
 
-    bool show(iterator_t& i) override {
+    auto show(iterator_t& i) -> bool override {
         return _hidden.erase(_iter_entity(i)) > 0;
     }
 
-    bool copy(entity_param ef, entity_param et) override {
+    auto copy(entity_param ef, entity_param et) -> bool override {
         if(is_hidden(ef)) {
             return false;
         }
@@ -165,7 +164,7 @@ public:
         return store(et, Component(pf->second));
     }
 
-    bool swap(entity_param ea, entity_param eb) override {
+    auto swap(entity_param ea, entity_param eb) -> bool override {
         auto pa = _components.find(ea);
         auto pb = _components.find(eb);
         bool ha = is_hidden(ea);
@@ -196,7 +195,7 @@ public:
         return true;
     }
 
-    bool remove(entity_param e) override {
+    auto remove(entity_param e) -> bool override {
         _hidden.erase(e);
         return _components.erase(e) > 0;
     }
@@ -207,13 +206,13 @@ public:
         _iter_cast(i)._i = _components.erase(_iter_cast(i)._i);
     }
 
-    bool store(entity_param e, Component&& c) override {
+    auto store(entity_param e, Component&& c) -> bool override {
         _hidden.erase(e);
         _components.emplace(e, std::move(c));
         return true;
     }
 
-    bool store(iterator_t& i, entity_param e, Component&& c) override {
+    auto store(iterator_t& i, entity_param e, Component&& c) -> bool override {
         _hidden.erase(e);
         auto& p = _iter_cast(i)._i;
         p = _components.emplace_hint(p, e, std::move(c));
@@ -358,7 +357,7 @@ public:
         _i = _map->begin();
     }
 
-    bool done() override {
+    auto done() -> bool override {
         EAGINE_ASSERT(_map);
         return _i == _map->end();
     }
@@ -368,11 +367,11 @@ public:
         ++_i;
     }
 
-    Entity subject() override {
+    auto subject() -> Entity override {
         return _i->first.first;
     }
 
-    Entity object() override {
+    auto object() -> Entity override {
         return _i->first.second;
     }
 };
@@ -385,13 +384,12 @@ private:
 
     using _map_iter_t = std_map_rel_storage_iterator<Entity, Relation>;
 
-    _map_iter_t& _iter_cast(relation_storage_iterator<Entity>& i) noexcept {
+    auto _iter_cast(relation_storage_iterator<Entity>& i) noexcept -> auto& {
         EAGINE_ASSERT(dynamic_cast<_map_iter_t*>(i.ptr()) != nullptr);
         return *static_cast<_map_iter_t*>(i.ptr());
     }
 
-    typename std::map<_pair_t, Relation>::iterator
-    _remove(typename std::map<_pair_t, Relation>::iterator p) {
+    auto _remove(typename std::map<_pair_t, Relation>::iterator p) {
         EAGINE_ASSERT(p != _relations.end());
         return _relations.erase(p);
     }
@@ -400,13 +398,13 @@ public:
     using entity_param = entity_param_t<Entity>;
     using iterator_t = relation_storage_iterator<Entity>;
 
-    storage_caps capabilities() override {
+    auto capabilities() -> storage_caps override {
         return storage_caps{
           storage_cap_bit::remove | storage_cap_bit::store |
           storage_cap_bit::modify};
     }
 
-    iterator_t new_iterator() override {
+    auto new_iterator() -> iterator_t override {
         return iterator_t(new _map_iter_t(_relations));
     }
 
@@ -414,21 +412,21 @@ public:
         delete i.release();
     }
 
-    bool has(entity_param s, entity_param o) override {
+    auto has(entity_param s, entity_param o) -> bool override {
         return _relations.find(_pair_t(s, o)) != _relations.end();
     }
 
-    bool store(entity_param s, entity_param o) override {
+    auto store(entity_param s, entity_param o) -> bool override {
         _relations.emplace(_pair_t(s, o), Relation());
         return true;
     }
 
-    bool store(entity_param s, entity_param o, Relation&& r) override {
+    auto store(entity_param s, entity_param o, Relation&& r) -> bool override {
         _relations.emplace(_pair_t(s, o), std::move(r));
         return true;
     }
 
-    bool remove(entity_param s, entity_param o) override {
+    auto remove(entity_param s, entity_param o) -> bool override {
         return _relations.erase(_pair_t(s, o)) > 0;
     }
 
