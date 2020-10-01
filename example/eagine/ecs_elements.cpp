@@ -432,6 +432,142 @@ void populate(ecs::basic_manager<std::string>& elements) {
       atomic_weight(83.798F));
 
     elements.add(
+      "Rb",
+      element_name("Rubidium"),
+      element_protons(37),
+      element_period(5),
+      element_group(1),
+      atomic_weight(85.4678F));
+
+    elements.add(
+      "Sr",
+      element_name("Strontium"),
+      element_protons(38),
+      element_period(5),
+      element_group(2),
+      atomic_weight(87.62F));
+
+    elements.add(
+      "Y",
+      element_name("Yttrium"),
+      element_protons(39),
+      element_period(5),
+      element_group(3),
+      atomic_weight(88.90584F));
+
+    elements.add(
+      "Zr",
+      element_name("Zirconium"),
+      element_protons(40),
+      element_period(5),
+      element_group(4),
+      atomic_weight(91.224F));
+
+    elements.add(
+      "Nb",
+      element_name("Niobium"),
+      element_protons(41),
+      element_period(5),
+      element_group(5),
+      atomic_weight(92.90637F));
+
+    elements.add(
+      "Mo",
+      element_name("Molybdenum"),
+      element_protons(42),
+      element_period(5),
+      element_group(6),
+      atomic_weight(95.95F));
+
+    elements.add(
+      "Tc",
+      element_name("Technetium"),
+      element_protons(43),
+      element_period(5),
+      element_group(7),
+      atomic_weight(98.F));
+
+    elements.add(
+      "Ru",
+      element_name("Ruthenium"),
+      element_protons(44),
+      element_period(5),
+      element_group(8),
+      atomic_weight(101.07F));
+
+    elements.add(
+      "Rh",
+      element_name("Rhodium"),
+      element_protons(45),
+      element_period(5),
+      element_group(9),
+      atomic_weight(102.90549F));
+
+    elements.add(
+      "Pd",
+      element_name("Palladium"),
+      element_protons(46),
+      element_period(5),
+      element_group(10),
+      atomic_weight(106.42F));
+
+    elements.add(
+      "Ag",
+      element_name("Argentum", "Silver"),
+      element_protons(47),
+      element_period(5),
+      element_group(11),
+      atomic_weight(107.8682F));
+
+    elements.add(
+      "Cd",
+      element_name("Cadmium"),
+      element_protons(48),
+      element_period(5),
+      element_group(12),
+      atomic_weight(112.414F));
+
+    elements.add(
+      "In",
+      element_name("Indium"),
+      element_protons(49),
+      element_period(5),
+      element_group(13),
+      atomic_weight(114.818F));
+
+    elements.add(
+      "Sn",
+      element_name("Stannum", "Tin"),
+      element_protons(50),
+      element_period(5),
+      element_group(14),
+      atomic_weight(118.710F));
+
+    elements.add(
+      "Sb",
+      element_name("Stibium", "Antimony"),
+      element_protons(51),
+      element_period(5),
+      element_group(15),
+      atomic_weight(121.760F));
+
+    elements.add(
+      "Te",
+      element_name("Tellurium"),
+      element_protons(52),
+      element_period(5),
+      element_group(16),
+      atomic_weight(127.60F));
+
+    elements.add(
+      "I",
+      element_name("Iodium", "Iodine"),
+      element_protons(53),
+      element_period(5),
+      element_group(17),
+      atomic_weight(126.90447F));
+
+    elements.add(
       "Xe",
       element_name("Xenon"),
       element_protons(54),
