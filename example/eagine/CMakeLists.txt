@@ -64,6 +64,7 @@ eagine_example_common(make_index)
 eagine_example_common(value_tree)
 eagine_example_common(memoized)
 eagine_example_common(c_api_wrap)
+eagine_example_common(ecs_elements)
 #
 eagine_example_common(embed_self)
 eagine_embed_target_resources(eagine-embed_self)
