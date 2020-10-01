@@ -10,6 +10,7 @@
 #define EAGINE_ECS_MANIPULATOR_HPP
 
 #include "../assert.hpp"
+#include "../optional_ref.hpp"
 #include <type_traits>
 #include <utility>
 
@@ -43,6 +44,15 @@ public:
         return *_ptr;
     }
 
+    template <typename T>
+    auto read(T Component::*member) const
+      -> optional_reference_wrapper<const T> {
+        if(_ptr != nullptr) {
+            return {*_ptr.*member};
+        }
+        return {nothing};
+    }
+
     auto write() -> Component& {
         EAGINE_ASSERT(is_valid());
         return *_ptr;
@@ -72,6 +82,23 @@ public:
     auto read() const -> const Component& {
         EAGINE_ASSERT(_ptr != nullptr);
         return *_ptr;
+    }
+
+    template <typename T>
+    auto read(T Component::*member) const
+      -> optional_reference_wrapper<const T> {
+        if(_ptr != nullptr) {
+            return {*_ptr.*member};
+        }
+        return {nothing};
+    }
+
+    template <typename T, typename V>
+    auto is_equal(T Component::*member, const V& value) const -> bool {
+        if(_ptr != nullptr) {
+            return (*_ptr.*member) == value;
+        }
+        return false;
     }
 };
 

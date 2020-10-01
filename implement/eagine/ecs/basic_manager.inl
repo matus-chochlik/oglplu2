@@ -609,11 +609,10 @@ private:
 public:
     _manager_for_each_c_m_r_unit(
       const callable_ref<
-        void(entity_param_t<Entity>, manipulator<CL>&..., manipulator<C>&)>&
-        func,
+        void(entity_param_t<Entity>, manipulator<CL>&..., manipulator<C>&)> func,
       component_storage<Entity, std::remove_const_t<C>>& s)
-      : _manager_for_each_c_m_r_base<Entity, C>(s)
-      , _func(func) {}
+      : _manager_for_each_c_m_r_base<Entity, C>{s}
+      , _func{std::move(func)} {}
 
     auto done() -> bool {
         return this->_done();
