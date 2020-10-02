@@ -1,0 +1,27 @@
+#!/bin/bash
+#  Copyright Matus Chochlik.
+#  Distributed under the Boost Software License, Version 1.0.
+#  See accompanying file LICENSE_1_0.txt or copy at
+#   http://www.boost.org/LICENSE_1_0.txt
+#
+if [[ "${0}" =~ ^.*\.oglplus/ssh-bridge ]]
+then
+    set ${SSH_ORIGINAL_COMMAND}
+    if [[ "${1}" =~ ^.*\.oglplus/ssh-bridge ]]
+    then
+        shift
+    cmd="$(realpath $(dirname ${0})/ssh-bridge-cmd/${1})"
+    if [[ -x "${cmd}" ]]
+    then
+            shift
+        if [[ -f "$(dirname ${0})/INSTALL_PREFIX" ]]
+            then export OGLPLUS_PREFIX="${OGLPLUS_PREFIX:-$(< $(dirname ${0})/INSTALL_PREFIX)}"
+            fi
+            "${cmd}" "${@}"
+    else exit 2
+    fi
+    else exit 1
+    fi
+else exit 1
+fi
+
