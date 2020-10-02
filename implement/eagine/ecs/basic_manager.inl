@@ -531,6 +531,7 @@ public:
             }
         } else {
             EAGINE_ASSERT(m == this->_current());
+            EAGINE_MAYBE_UNUSED(m);
             callable_ref<void(entity_param_t<Entity>, manipulator<C>&)> hlpr(
               [&clm..., this](entity_param_t<Entity> e, manipulator<C>& cm) {
                   _rest.apply(e, clm..., cm);
@@ -632,6 +633,7 @@ public:
 
     void apply(entity_param_t<Entity> m, manipulator<CL>&... clm) {
         EAGINE_ASSERT(m == this->_current());
+        EAGINE_MAYBE_UNUSED(m);
         callable_ref<void(entity_param_t<Entity>, manipulator<C>&)> hlpr(
           [&clm..., this](entity_param_t<Entity> e, manipulator<C>& cm) {
               _func(e, clm..., cm);
@@ -684,6 +686,7 @@ public:
 
     void apply(entity_param_t<Entity> m, manipulator<CL>&... clm) {
         EAGINE_ASSERT(m == this->_current());
+        EAGINE_MAYBE_UNUSED(m);
         callable_ref<void(entity_param_t<Entity>, manipulator<C>&)> hlpr(
           [&clm..., this](entity_param_t<Entity> e, manipulator<C>& cm) {
               _rest.apply(e, clm..., cm);
