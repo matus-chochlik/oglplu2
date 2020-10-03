@@ -64,6 +64,8 @@ struct element_protons : ecs::component<element_protons> {
 
     short number{0};
 
+    element_protons() noexcept = default;
+
     element_protons(short n)
       : number{n} {}
 };
@@ -74,6 +76,8 @@ struct element_period : ecs::component<element_period> {
     }
 
     short number{0};
+
+    element_period() noexcept = default;
 
     element_period(short n)
       : number{n} {}
@@ -86,6 +90,8 @@ struct element_group : ecs::component<element_group> {
 
     short number{0};
 
+    element_group() noexcept = default;
+
     element_group(short n)
       : number{n} {}
 };
@@ -97,19 +103,64 @@ struct atomic_weight : ecs::component<atomic_weight> {
 
     float value{0.F};
 
+    atomic_weight() noexcept = default;
+
     atomic_weight(float w)
       : value{w} {}
 };
+//------------------------------------------------------------------------------
+static void
+print_elements_with_english_name(ecs::basic_manager<std::string>& elements) {
+    elements.for_each_with<const element_name>(
+      [](const auto& sym, ecs::manipulator<const element_name>& name) {
+          if(name.has_english_name()) {
+              std::cout << sym << ": " << name.get_english_name() << std::endl;
+          }
+      });
+    std::cout << std::endl;
+}
+//------------------------------------------------------------------------------
+static void
+print_names_of_noble_gasses(ecs::basic_manager<std::string>& elements) {
+    elements.for_each_with<const element_name, const element_group>(
+      [](
+        const auto&,
+        ecs::manipulator<const element_name>& name,
+        ecs::manipulator<const element_group>& group) {
+          if(group.read(&element_group::number) == 18) {
+              std::cout << name.get_latin_name() << std::endl;
+          }
+      });
+    std::cout << std::endl;
+}
+//------------------------------------------------------------------------------
+static void print_names_of_actinides(ecs::basic_manager<std::string>& elements) {
+    elements.for_each_with_opt<
+      const element_name,
+      const element_period,
+      const element_group>([](
+                             const auto&,
+                             ecs::manipulator<const element_name>& name,
+                             ecs::manipulator<const element_period>& period,
+                             ecs::manipulator<const element_group>& group) {
+        if(period.read(&element_period::number) == 7) {
+            auto opt_grp{group.read(&element_group::number)};
+            if(opt_grp.value_or(3) == 3) {
+                std::cout << name.get_latin_name() << std::endl;
+            }
+        }
+    });
+    std::cout << std::endl;
+}
 //------------------------------------------------------------------------------
 void populate(ecs::basic_manager<std::string>& elements);
 //------------------------------------------------------------------------------
 auto main(main_ctx& ctx) -> int {
     ctx.log().info("starting");
 
-    using symbol = std::string;
     using ecs::std_map_cmp_storage;
 
-    ecs::basic_manager<symbol> elements;
+    ecs::basic_manager<std::string> elements;
     elements.register_component_storage<std_map_cmp_storage, element_name>();
     elements.register_component_storage<std_map_cmp_storage, element_protons>();
     elements.register_component_storage<std_map_cmp_storage, element_period>();
@@ -118,26 +169,9 @@ auto main(main_ctx& ctx) -> int {
 
     populate(elements);
 
-    // print elements that have english name (different from latin)
-    elements.for_each_with<const element_name>(
-      [](const symbol& sym, ecs::manipulator<const element_name>& name) {
-          if(name.has_english_name()) {
-              std::cout << sym << ": " << name.get_english_name() << std::endl;
-          }
-      });
-    std::cout << std::endl;
-
-    // print names of noble gasses (group 18)
-    elements.for_each_with<const element_name, const element_group>(
-      [](
-        const symbol&,
-        ecs::manipulator<const element_name>& name,
-        ecs::manipulator<const element_group>& group) {
-          if(group.read(&element_group::number) == 18) {
-              std::cout << name.get_latin_name() << std::endl;
-          }
-      });
-    std::cout << std::endl;
+    print_elements_with_english_name(elements);
+    print_names_of_noble_gasses(elements);
+    print_names_of_actinides(elements);
 
     return 0;
 }
