@@ -818,6 +818,44 @@ void populate(ecs::basic_manager<std::string>& elements) {
       atomic_weight(222.0F));
 
     elements.add(
+      "Fr",
+      element_name("Francium"),
+      element_protons(87),
+      element_period(7),
+      element_group(1),
+      atomic_weight(223.F));
+
+    elements.add(
+      "Ra",
+      element_name("Radium"),
+      element_protons(88),
+      element_period(7),
+      element_group(2),
+      atomic_weight(226.F));
+
+    elements.add(
+      "Ac",
+      element_name("Actinium"),
+      element_protons(89),
+      element_period(7),
+      element_group(3),
+      atomic_weight(227.F));
+
+    elements.add(
+      "Th",
+      element_name("Thorium"),
+      element_protons(90),
+      element_period(7),
+      atomic_weight(232.0377F));
+
+    elements.add(
+      "Pa",
+      element_name("Protactinium"),
+      element_protons(91),
+      element_period(7),
+      atomic_weight(231.03588F));
+
+    elements.add(
       "U",
       element_name("Uranium"),
       element_protons(92),
@@ -825,12 +863,201 @@ void populate(ecs::basic_manager<std::string>& elements) {
       atomic_weight(238.02891F));
 
     elements.add(
+      "Np",
+      element_name("Neptunium"),
+      element_protons(93),
+      element_period(7),
+      atomic_weight(237.F));
+
+    elements.add(
+      "Pu",
+      element_name("Plutonium"),
+      element_protons(94),
+      element_period(7),
+      atomic_weight(244.F));
+
+    elements.add(
+      "Am",
+      element_name("Americium"),
+      element_protons(95),
+      element_period(7),
+      atomic_weight(243.F));
+
+    elements.add(
+      "Cm",
+      element_name("Curium"),
+      element_protons(96),
+      element_period(7),
+      atomic_weight(247.F));
+
+    elements.add(
+      "Bk",
+      element_name("Berkelium"),
+      element_protons(97),
+      element_period(7),
+      atomic_weight(247.F));
+
+    elements.add(
+      "Cf",
+      element_name("Californium"),
+      element_protons(98),
+      element_period(7),
+      atomic_weight(251.F));
+
+    elements.add(
+      "Es",
+      element_name("Einsteinium"),
+      element_protons(99),
+      element_period(7),
+      atomic_weight(252.F));
+
+    elements.add(
+      "Fm",
+      element_name("Fermium"),
+      element_protons(100),
+      element_period(7),
+      atomic_weight(257.F));
+
+    elements.add(
+      "Md",
+      element_name("Mendelevium"),
+      element_protons(101),
+      element_period(7),
+      atomic_weight(258.F));
+
+    elements.add(
+      "No",
+      element_name("Nobelium"),
+      element_protons(102),
+      element_period(7),
+      atomic_weight(259.F));
+
+    elements.add(
+      "Lr",
+      element_name("Lawrencium"),
+      element_protons(103),
+      element_period(7),
+      atomic_weight(266.F));
+
+    elements.add(
+      "Rf",
+      element_name("Rutherfordium"),
+      element_protons(104),
+      element_period(7),
+      element_group(4),
+      atomic_weight(267.F));
+
+    elements.add(
+      "Db",
+      element_name("Dubnium"),
+      element_protons(105),
+      element_period(7),
+      element_group(5),
+      atomic_weight(268.F));
+
+    elements.add(
+      "Sg",
+      element_name("Seaborgium"),
+      element_protons(106),
+      element_period(7),
+      element_group(6),
+      atomic_weight(269.F));
+
+    elements.add(
+      "Bh",
+      element_name("Bohrium"),
+      element_protons(107),
+      element_period(7),
+      element_group(7),
+      atomic_weight(270.F));
+
+    elements.add(
+      "Hs",
+      element_name("Hassium"),
+      element_protons(108),
+      element_period(7),
+      element_group(8),
+      atomic_weight(270.F));
+
+    elements.add(
+      "Mt",
+      element_name("Meitnerium"),
+      element_protons(109),
+      element_period(7),
+      element_group(9),
+      atomic_weight(278.F));
+
+    elements.add(
+      "Ds",
+      element_name("Darmstadtium"),
+      element_protons(110),
+      element_period(7),
+      element_group(10),
+      atomic_weight(281.F));
+
+    elements.add(
+      "Rg",
+      element_name("Roentgenium"),
+      element_protons(111),
+      element_period(7),
+      element_group(11),
+      atomic_weight(282.F));
+
+    elements.add(
+      "Cn",
+      element_name("Copernicum"),
+      element_protons(112),
+      element_period(7),
+      element_group(12),
+      atomic_weight(285.F));
+
+    elements.add(
+      "Nh",
+      element_name("Nihonium"),
+      element_protons(113),
+      element_period(7),
+      element_group(13),
+      atomic_weight(286.F));
+
+    elements.add(
+      "Fl",
+      element_name("Flerovium"),
+      element_protons(114),
+      element_period(7),
+      element_group(14),
+      atomic_weight(289.F));
+
+    elements.add(
+      "Mc",
+      element_name("Moscovium"),
+      element_protons(115),
+      element_period(7),
+      element_group(15),
+      atomic_weight(290.F));
+
+    elements.add(
+      "Lv",
+      element_name("Livermorium"),
+      element_protons(116),
+      element_period(7),
+      element_group(16),
+      atomic_weight(293.F));
+
+    elements.add(
+      "Ts",
+      element_name("Tennessine"),
+      element_protons(117),
+      element_period(7),
+      element_group(17),
+      atomic_weight(294.F));
+
+    elements.add(
       "Og",
       element_name("Oganesson"),
       element_protons(118),
       element_period(7),
       element_group(18),
-      atomic_weight(294.0F));
+      atomic_weight(294.F));
 }
 
 } // namespace eagine
