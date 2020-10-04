@@ -18,6 +18,33 @@ install(
 	DIRECTORY ${PROJECT_BINARY_DIR}/include/
 	DESTINATION include
 )
+#
+# user ~/.oglplus config directory
+install(
+	FILES "${PROJECT_SOURCE_DIR}/INSTALL_PREFIX"
+	DESTINATION home/user/.oglplus
+)
+install(
+	PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/config/home/ssh-bridge"
+	DESTINATION home/user/.oglplus
+)
+install(
+	PROGRAMS
+		"${CMAKE_CURRENT_SOURCE_DIR}/config/home/ssh-bridge-cmd/show_prefix"
+		"${CMAKE_CURRENT_SOURCE_DIR}/config/home/ssh-bridge-cmd/echo_args"
+		"${CMAKE_CURRENT_SOURCE_DIR}/config/home/ssh-bridge-cmd/pong_local"
+	DESTINATION home/user/.oglplus/ssh-bridge-cmd
+)
+install(
+	PROGRAMS
+		"${CMAKE_CURRENT_SOURCE_DIR}/config/home/bin/ping_local"
+	DESTINATION home/user/.oglplus/bin
+)
+install(
+	PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/config/home/update-me.sh"
+	DESTINATION home
+)
+#
 # install executable
 function(eagine_install_exe TARGET_NAME)
 	install(

@@ -159,7 +159,7 @@ auto endpoint::_handle_special(
             }
             return true;
         } else if(
-          msg_id.has_method(EAGINE_ID(topoRoutCn)) ||
+          msg_id.has_method(EAGINE_ID(topoRutrCn)) ||
           msg_id.has_method(EAGINE_ID(topoBrdgCn)) ||
           msg_id.has_method(EAGINE_ID(topoEndpt))) {
             return false;
@@ -187,9 +187,7 @@ auto endpoint::_store_message(
   message_age,
   const message_view& message) -> bool {
     // TODO: use message age
-    if(_handle_special(msg_id, message)) {
-        return true;
-    } else {
+    if(!_handle_special(msg_id, message)) {
         if((message.target_id == _id) || !is_valid_id(message.target_id)) {
             auto pos = _incoming.find(msg_id);
             if(pos != _incoming.end()) {
@@ -197,7 +195,6 @@ auto endpoint::_store_message(
                   .trace("stored message ${message}")
                   .arg(EAGINE_ID(message), msg_id);
                 _get_queue(*pos).push(message);
-                return true;
             } else if(_allow_blob && _allow_blob(msg_id)) {
                 auto [newpos, newone] = _incoming.try_emplace(msg_id);
                 EAGINE_MAYBE_UNUSED(newone);
@@ -207,7 +204,6 @@ auto endpoint::_store_message(
                   .debug("storing new type of message ${message}")
                   .arg(EAGINE_ID(message), msg_id);
                 _get_queue(*newpos).push(message);
-                return true;
             }
         } else {
             log()
@@ -215,9 +211,10 @@ auto endpoint::_store_message(
               .arg(EAGINE_ID(self), _id)
               .arg(EAGINE_ID(target), message.target_id)
               .arg(EAGINE_ID(message), msg_id);
+            post(EAGINE_MSGBUS_ID(notARouter), {});
         }
     }
-    return false;
+    return true;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -374,7 +371,7 @@ auto endpoint::update() -> bool {
     if(EAGINE_UNLIKELY(has_id() && !had_id)) {
         log().debug("announcing endpoint id ${id}").arg(EAGINE_ID(id), _id);
         // send the endpoint id through all connections
-        _do_send(EAGINE_MSGBUS_ID(announceId), {});
+        _do_send(EAGINE_MSGBUS_ID(annEndptId), {});
         // send request for router certificate
         _do_send(EAGINE_MSGBUS_ID(rtrCertQry), {});
         something_done();
@@ -417,7 +414,6 @@ void endpoint::unsubscribe(message_id msg_id) {
     }
 }
 //------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
 auto endpoint::say_not_a_router() -> bool {
     log().debug("saying not a router");
     return send(EAGINE_MSGBUS_ID(notARouter));

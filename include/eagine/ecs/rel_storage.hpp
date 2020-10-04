@@ -20,23 +20,29 @@ namespace eagine::ecs {
 
 template <typename Entity>
 struct storage_iterator_intf<Entity, true> {
-    virtual ~storage_iterator_intf() = default;
+    storage_iterator_intf() noexcept = default;
+    storage_iterator_intf(storage_iterator_intf&&) noexcept = default;
+    storage_iterator_intf(const storage_iterator_intf&) = delete;
+    auto operator=(storage_iterator_intf&&) = delete;
+    auto operator=(const storage_iterator_intf&) = delete;
 
-    virtual void reset() = 0;
+    virtual ~storage_iterator_intf() noexcept = default;
 
-    virtual bool done() = 0;
+    virtual auto reset() -> void = 0;
+
+    virtual auto done() -> bool = 0;
 
     virtual void next() = 0;
 
-    virtual Entity subject() = 0;
+    virtual auto subject() -> Entity = 0;
 
-    virtual Entity object() = 0;
+    virtual auto object() -> Entity = 0;
 };
 
 template <typename Entity>
 class storage_iterator<Entity, true> {
 private:
-    storage_iterator_intf<Entity, true>* _i;
+    storage_iterator_intf<Entity, true>* _i{nullptr};
 
 public:
     storage_iterator(storage_iterator_intf<Entity, true>* i) noexcept
@@ -44,29 +50,27 @@ public:
         EAGINE_ASSERT(_i);
     }
 
+    storage_iterator(storage_iterator&& tmp) noexcept
+      : _i{std::exchange(tmp._i, nullptr)} {}
     storage_iterator(const storage_iterator&) = delete;
 
-    storage_iterator(storage_iterator&& tmp) noexcept
-      : _i(tmp._i) {
-        tmp._i = nullptr;
-    }
+    auto operator=(storage_iterator&&) = delete;
+    auto operator=(const storage_iterator&) = delete;
 
     ~storage_iterator() noexcept {
         EAGINE_ASSERT(_i == nullptr);
     }
 
-    storage_iterator_intf<Entity, true>* release() {
-        storage_iterator_intf<Entity, true>* p = _i;
-        _i = nullptr;
-        return p;
+    auto release() -> storage_iterator_intf<Entity, true>* {
+        return std::exchange(_i, nullptr);
     }
 
-    storage_iterator_intf<Entity, true>* ptr() noexcept {
+    auto ptr() noexcept -> storage_iterator_intf<Entity, true>* {
         EAGINE_ASSERT(_i);
         return _i;
     }
 
-    storage_iterator_intf<Entity, true>& get() noexcept {
+    auto get() noexcept -> storage_iterator_intf<Entity, true>& {
         EAGINE_ASSERT(_i);
         return *_i;
     }
@@ -75,7 +79,7 @@ public:
         get().reset();
     }
 
-    bool done() {
+    auto done() -> bool {
         return get().done();
     }
 
@@ -83,11 +87,11 @@ public:
         get().next();
     }
 
-    Entity subject() {
+    auto subject() -> Entity {
         return get().subject();
     }
 
-    Entity object() {
+    auto object() -> Entity {
         return get().object();
     }
 };
@@ -97,19 +101,25 @@ struct base_storage<Entity, true> {
     using entity_param = entity_param_t<Entity>;
     using iterator_t = storage_iterator<Entity, true>;
 
-    virtual ~base_storage() = default;
+    base_storage() noexcept = default;
+    base_storage(base_storage&&) noexcept = default;
+    base_storage(const base_storage&) = delete;
+    auto operator=(base_storage&&) = delete;
+    auto operator=(const base_storage&) = delete;
 
-    virtual storage_caps capabilities() = 0;
+    virtual ~base_storage() noexcept = default;
 
-    virtual iterator_t new_iterator() = 0;
+    virtual auto capabilities() -> storage_caps = 0;
+
+    virtual auto new_iterator() -> iterator_t = 0;
 
     virtual void delete_iterator(iterator_t&&) = 0;
 
-    virtual bool has(entity_param subject, entity_param object) = 0;
+    virtual auto has(entity_param subject, entity_param object) -> bool = 0;
 
-    virtual bool store(entity_param subject, entity_param object) = 0;
+    virtual auto store(entity_param subject, entity_param object) -> bool = 0;
 
-    virtual bool remove(entity_param subject, entity_param object) = 0;
+    virtual auto remove(entity_param subject, entity_param object) -> bool = 0;
 
     virtual void remove(iterator_t&) = 0;
 
@@ -127,8 +137,8 @@ struct storage<Entity, Relation, true> : base_storage<Entity, true> {
 
     using base_storage<Entity, true>::store;
 
-    virtual bool
-    store(entity_param subject, entity_param object, Relation&&) = 0;
+    virtual auto store(entity_param subject, entity_param object, Relation &&)
+      -> bool = 0;
 
     virtual void for_single(
       callable_ref<

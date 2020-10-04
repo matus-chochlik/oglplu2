@@ -1,5 +1,5 @@
 /**
- *  @example eagine/message_bus/004_topology.cpp
+ *  @example eagine/message_bus/005_topology.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -35,34 +35,41 @@ public:
     void print_topology() {
         std::cout << "graph EMB {\n";
 
-        std::cout << "	node [shape=egg]\n";
+        std::cout << "	overlap=false\n";
+        std::cout << "	splines=true\n";
+        std::cout << "	node [style=filled]\n";
+        std::cout << "	node [shape=egg;color=\"#B0D0B0\"]\n";
         for(auto id : _routers) {
-            std::cout << "	n" << id << "[label=Router-" << id << "]\n";
+            std::cout << "	n" << id << "[label=\"Router-" << id << "\"]\n";
         }
         std::cout << "\n";
 
-        std::cout << "	node [shape=invtrapezium]\n";
+        std::cout << "	node [shape=parallelogram;color=\"#80B080\"]\n";
         for(auto id : _bridges) {
-            std::cout << "	n" << id << " [label=Bridge-" << id << "]\n";
+            std::cout << "	n" << id << " [label=\"Bridge-" << id << "\"]\n";
         }
         std::cout << "\n";
 
-        std::cout << "	node [shape=invhouse]\n";
+        std::cout << "	node [shape=box;color=\"#B0E0B0\"]\n";
+        std::cout << "	n" << this->bus().get_id()
+                  << "[label=\"Self\\nEndpoint-" << this->bus().get_id()
+                  << "\"]\n";
+
         for(auto id : _endpoints) {
-            std::cout << "	n" << id << "[label=Endpoint-" << id << "]\n";
+            std::cout << "	n" << id << "[label=\"Endpoint-" << id << "\"]\n";
         }
         std::cout << "\n";
 
         std::cout << "	edge [style=solid,penwidth=2]\n";
         for(auto [l, r] : _connections) {
-            std::cout << "	n" << l << " - n" << r << "\n";
+            std::cout << "	n" << l << " -- n" << r << "\n";
         }
 
         std::cout << "}\n";
     }
 
     void router_appeared(const router_topology_info& info) final {
-        _log.info("found connection ${router} <-> ${remote} on message bus")
+        _log.info("found router connection ${router} - ${remote}")
           .arg(EAGINE_ID(remote), info.remote_id)
           .arg(EAGINE_ID(router), info.router_id);
 
@@ -72,14 +79,14 @@ public:
 
     void bridge_appeared(const bridge_topology_info& info) final {
         if(info.opposite_id) {
-            _log.info("found connection ${bridge} <-> ${remote} on message bus")
+            _log.info("found bridge connection ${bridge} - ${remote}")
               .arg(EAGINE_ID(remote), info.opposite_id)
               .arg(EAGINE_ID(bridge), info.bridge_id);
 
             _bridges.emplace(info.opposite_id);
             _connections.emplace(info.bridge_id, info.opposite_id);
         } else {
-            _log.info("found bridge ${bridge} on message bus")
+            _log.info("found bridge ${bridge}")
               .arg(EAGINE_ID(bridge), info.bridge_id);
         }
 
@@ -87,7 +94,7 @@ public:
     }
 
     void endpoint_appeared(const endpoint_topology_info& info) final {
-        _log.info("found endpoint ${endpoint} on message bus")
+        _log.info("found endpoint ${endpoint}")
           .arg(EAGINE_ID(endpoint), info.endpoint_id);
 
         _endpoints.emplace(info.endpoint_id);
@@ -120,18 +127,21 @@ auto main(main_ctx& ctx) -> int {
     msgbus::router_address address{ctx.log(), ctx.args()};
     msgbus::connection_setup conn_setup(ctx.log(), ctx.args());
 
-    msgbus::endpoint bus{logger{EAGINE_ID(DiscoverEx), ctx.log()}};
+    msgbus::endpoint bus{logger{EAGINE_ID(TopologyEx), ctx.log()}};
     bus.add_ca_certificate_pem(ca_certificate_pem(ctx));
     bus.add_certificate_pem(msgbus_endpoint_certificate_pem(ctx));
 
     msgbus::topology_printer topo_prn{bus};
 
     conn_setup.setup_connectors(topo_prn, address);
-    timeout waited_enough{std::chrono::minutes(1)};
-
-    topo_prn.discover_topology();
+    timeout waited_enough{std::chrono::seconds(30)};
+    timeout resend_query{std::chrono::seconds(5), nothing};
 
     while(!(interrupted || waited_enough)) {
+        if(resend_query) {
+            resend_query.reset();
+            topo_prn.discover_topology();
+        }
         topo_prn.update();
         if(!topo_prn.process_all()) {
             std::this_thread::sleep_for(std::chrono::milliseconds(250));

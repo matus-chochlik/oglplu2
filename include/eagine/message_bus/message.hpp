@@ -36,6 +36,10 @@ static constexpr inline auto is_special_message(message_id msg_id) noexcept {
     return msg_id.has_class(EAGINE_ID(eagiMsgBus));
 }
 //------------------------------------------------------------------------------
+static constexpr inline auto broadcast_endpoint_id() noexcept -> identifier_t {
+    return 0U;
+}
+//------------------------------------------------------------------------------
 using message_age = std::chrono::duration<float>;
 //------------------------------------------------------------------------------
 enum class message_priority : std::uint8_t {

@@ -24,10 +24,6 @@ namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 class friend_of_endpoint;
 //------------------------------------------------------------------------------
-static constexpr inline auto broadcast_endpoint_id() noexcept -> identifier_t {
-    return 0U;
-}
-//------------------------------------------------------------------------------
 class endpoint : public connection_user {
 public:
     static constexpr auto invalid_id() noexcept -> identifier_t {
@@ -175,6 +171,14 @@ public:
         return *this;
     }
 
+    auto has_id() const noexcept -> bool {
+        return is_valid_id(_id);
+    }
+
+    auto get_id() const noexcept {
+        return _id;
+    }
+
     void add_certificate_pem(memory::const_block blk);
     void add_ca_certificate_pem(memory::const_block blk);
 
@@ -183,10 +187,6 @@ public:
     auto is_usable() const -> bool;
 
     auto max_data_size() const -> valid_if_positive<span_size_t>;
-
-    auto has_id() const noexcept -> bool {
-        return is_valid_id(_id);
-    }
 
     void flush_outbox();
 

@@ -140,8 +140,7 @@ public:
       : _logger_id{logger_id}
       , _backend{parent._backend} {
         lifetime("created as a child of ${parent}")
-          .arg(EAGINE_ID(parent), EAGINE_ID(LogId), parent._logger_id)
-          .arg(EAGINE_ID(self), EAGINE_ID(LogId), _logger_id);
+          .arg(EAGINE_ID(parent), EAGINE_ID(LogId), parent._logger_id);
     }
 
     logger(logger&& temp) noexcept

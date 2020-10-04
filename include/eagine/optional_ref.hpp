@@ -12,6 +12,7 @@
 
 #include "assert.hpp"
 #include "nothing.hpp"
+#include "tribool.hpp"
 #include <memory>
 
 namespace eagine {
@@ -46,10 +47,6 @@ public:
         return is_valid();
     }
 
-    auto operator!() const noexcept {
-        return !is_valid();
-    }
-
     auto get() const noexcept -> T& {
         EAGINE_ASSERT(is_valid());
         return *_ptr;
@@ -69,8 +66,24 @@ public:
         return T(std::forward<U>(fallback));
     }
 
-    operator T&() const noexcept {
+    explicit operator T&() const noexcept {
         return get();
+    }
+
+    friend auto operator==(const optional_reference_wrapper& l, const T& r)
+      -> tribool {
+        if(l.is_valid()) {
+            return l.value() == r;
+        }
+        return indeterminate;
+    }
+
+    friend auto operator!=(const optional_reference_wrapper& l, const T& r)
+      -> tribool {
+        if(l.is_valid()) {
+            return l.value() != r;
+        }
+        return indeterminate;
     }
 };
 //------------------------------------------------------------------------------

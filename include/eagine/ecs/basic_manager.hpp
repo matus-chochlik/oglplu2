@@ -340,6 +340,12 @@ public:
                (sizeof...(Components));
     }
 
+    template <typename Relation>
+    auto is(entity_param object, entity_param subject) -> bool {
+        return _does_have_r(
+          subject, object, Relation::uid(), _cmp_name_getter<Relation>());
+    }
+
     template <typename Component>
     auto hidden(entity_param ent) -> bool {
         return _is_hidn(ent, Component::uid(), _cmp_name_getter<Component>());

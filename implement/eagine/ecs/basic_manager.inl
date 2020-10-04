@@ -437,12 +437,11 @@ private:
 
 public:
     _manager_for_each_c_m_p_unit(
-      const callable_ref<
-        void(entity_param_t<Entity>, manipulator<CL>&..., manipulator<C>&)>&
-        func,
+      callable_ref<
+        void(entity_param_t<Entity>, manipulator<CL>&..., manipulator<C>&)> func,
       component_storage<Entity, std::remove_const_t<C>>& s)
-      : _manager_for_each_c_m_p_base<Entity, C>(s)
-      , _func(func) {}
+      : _manager_for_each_c_m_p_base<Entity, C>{s}
+      , _func{std::move(func)} {}
 
     auto done() -> bool {
         return this->_done();
@@ -531,6 +530,7 @@ public:
             }
         } else {
             EAGINE_ASSERT(m == this->_current());
+            EAGINE_MAYBE_UNUSED(m);
             callable_ref<void(entity_param_t<Entity>, manipulator<C>&)> hlpr(
               [&clm..., this](entity_param_t<Entity> e, manipulator<C>& cm) {
                   _rest.apply(e, clm..., cm);
@@ -609,11 +609,10 @@ private:
 public:
     _manager_for_each_c_m_r_unit(
       const callable_ref<
-        void(entity_param_t<Entity>, manipulator<CL>&..., manipulator<C>&)>&
-        func,
+        void(entity_param_t<Entity>, manipulator<CL>&..., manipulator<C>&)> func,
       component_storage<Entity, std::remove_const_t<C>>& s)
-      : _manager_for_each_c_m_r_base<Entity, C>(s)
-      , _func(func) {}
+      : _manager_for_each_c_m_r_base<Entity, C>{s}
+      , _func{std::move(func)} {}
 
     auto done() -> bool {
         return this->_done();
@@ -633,6 +632,7 @@ public:
 
     void apply(entity_param_t<Entity> m, manipulator<CL>&... clm) {
         EAGINE_ASSERT(m == this->_current());
+        EAGINE_MAYBE_UNUSED(m);
         callable_ref<void(entity_param_t<Entity>, manipulator<C>&)> hlpr(
           [&clm..., this](entity_param_t<Entity> e, manipulator<C>& cm) {
               _func(e, clm..., cm);
@@ -685,6 +685,7 @@ public:
 
     void apply(entity_param_t<Entity> m, manipulator<CL>&... clm) {
         EAGINE_ASSERT(m == this->_current());
+        EAGINE_MAYBE_UNUSED(m);
         callable_ref<void(entity_param_t<Entity>, manipulator<C>&)> hlpr(
           [&clm..., this](entity_param_t<Entity> e, manipulator<C>& cm) {
               _rest.apply(e, clm..., cm);

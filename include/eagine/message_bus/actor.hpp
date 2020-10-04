@@ -47,7 +47,6 @@ protected:
           std::move(log),
           {this, EAGINE_MEM_FUNC_C(actor, _process_message)})}
       , _subscriber{_endpoint, instance, msg_maps...} {
-        _endpoint.say_not_a_router();
         _subscriber.announce_subscriptions();
     }
 
