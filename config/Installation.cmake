@@ -30,6 +30,7 @@ install(
 )
 install(
 	PROGRAMS
+		"${CMAKE_CURRENT_SOURCE_DIR}/config/home/ssh-bridge-cmd/kill_eagine"
 		"${CMAKE_CURRENT_SOURCE_DIR}/config/home/ssh-bridge-cmd/show_prefix"
 		"${CMAKE_CURRENT_SOURCE_DIR}/config/home/ssh-bridge-cmd/echo_args"
 		"${CMAKE_CURRENT_SOURCE_DIR}/config/home/ssh-bridge-cmd/pong_local"
