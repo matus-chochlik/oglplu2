@@ -11,9 +11,12 @@
 #include <eagine/ecs/storage/std_map.hpp>
 #include <eagine/ecs/storage_caps.hpp>
 #include <eagine/main.hpp>
+#include <chrono>
 #include <iostream>
 
 namespace eagine {
+//------------------------------------------------------------------------------
+// Components
 //------------------------------------------------------------------------------
 struct element_name : ecs::component<element_name> {
     static constexpr auto uid() noexcept {
@@ -30,8 +33,7 @@ struct element_name : ecs::component<element_name> {
       , english{std::move(eng)} {}
 
     element_name(std::string lat)
-      : latin{std::move(lat)}
-      , english{latin} {}
+      : latin{std::move(lat)} {}
 };
 //------------------------------------------------------------------------------
 template <bool Const>
@@ -43,11 +45,15 @@ struct element_name_manip : ecs::basic_manipulator<element_name, Const> {
     }
 
     auto get_english_name() const -> const std::string& {
-        return this->read().english;
+        const auto& name = this->read().english;
+        if(name.empty()) {
+            return this->read().latin;
+        }
+        return name;
     }
 
     auto has_english_name() const -> bool {
-        return this->read().latin != this->read().english;
+        return !this->read().english.empty();
     }
 };
 namespace ecs {
@@ -67,6 +73,19 @@ struct element_protons : ecs::component<element_protons> {
     element_protons() noexcept = default;
 
     element_protons(short n)
+      : number{n} {}
+};
+//------------------------------------------------------------------------------
+struct isotope_neutrons : ecs::component<isotope_neutrons> {
+    static constexpr auto uid() noexcept {
+        return EAGINE_ID_V(Neutrons);
+    }
+
+    short number{0};
+
+    isotope_neutrons() noexcept = default;
+
+    isotope_neutrons(short n)
       : number{n} {}
 };
 //------------------------------------------------------------------------------
@@ -109,8 +128,37 @@ struct atomic_weight : ecs::component<atomic_weight> {
       : value{w} {}
 };
 //------------------------------------------------------------------------------
+struct half_life : ecs::component<half_life> {
+    static constexpr auto uid() noexcept {
+        return EAGINE_ID_V(HalfLife);
+    }
+
+    std::chrono::duration<float> seconds;
+
+    half_life() noexcept = default;
+
+    template <typename R, typename P>
+    half_life(std::chrono::duration<R, P> hl)
+      : seconds{hl} {}
+
+    static auto years(float y) noexcept -> half_life {
+        return {std::chrono::duration<float, std::ratio<31556952LL, 1LL>>{y}};
+    }
+};
+//------------------------------------------------------------------------------
+// Relations
+//------------------------------------------------------------------------------
+struct isotope : ecs::relation<isotope> {
+    static constexpr auto uid() noexcept {
+        return EAGINE_ID_V(Isotope);
+    }
+};
+//------------------------------------------------------------------------------
+// Usage
+//------------------------------------------------------------------------------
 static void
 print_elements_with_english_name(ecs::basic_manager<std::string>& elements) {
+
     elements.for_each_with<const element_name>(
       [](const auto& sym, ecs::manipulator<const element_name>& name) {
           if(name.has_english_name()) {
@@ -122,6 +170,7 @@ print_elements_with_english_name(ecs::basic_manager<std::string>& elements) {
 //------------------------------------------------------------------------------
 static void
 print_names_of_noble_gasses(ecs::basic_manager<std::string>& elements) {
+
     elements.for_each_with<const element_name, const element_group>(
       [](
         const auto&,
@@ -135,6 +184,7 @@ print_names_of_noble_gasses(ecs::basic_manager<std::string>& elements) {
 }
 //------------------------------------------------------------------------------
 static void print_names_of_actinides(ecs::basic_manager<std::string>& elements) {
+
     elements.for_each_with_opt<
       const element_name,
       const element_period,
@@ -153,25 +203,49 @@ static void print_names_of_actinides(ecs::basic_manager<std::string>& elements) 
     std::cout << std::endl;
 }
 //------------------------------------------------------------------------------
+static void
+print_isotopes_of_hydrogen(ecs::basic_manager<std::string>& elements) {
+
+    elements.for_each_with<const element_name, const isotope_neutrons>(
+      [&](
+        const auto& isot,
+        ecs::manipulator<const element_name>& name,
+        ecs::manipulator<const isotope_neutrons>& neutrons) {
+          if(elements.has<isotope>("H", isot)) {
+              std::cout << name.get_latin_name() << ": "
+                        << neutrons.read().number << std::endl;
+          }
+      });
+    std::cout << std::endl;
+}
+//------------------------------------------------------------------------------
 void populate(ecs::basic_manager<std::string>& elements);
+//------------------------------------------------------------------------------
+// Main
 //------------------------------------------------------------------------------
 auto main(main_ctx& ctx) -> int {
     ctx.log().info("starting");
 
     using ecs::std_map_cmp_storage;
+    using ecs::std_map_rel_storage;
 
     ecs::basic_manager<std::string> elements;
     elements.register_component_storage<std_map_cmp_storage, element_name>();
     elements.register_component_storage<std_map_cmp_storage, element_protons>();
+    elements.register_component_storage<std_map_cmp_storage, isotope_neutrons>();
     elements.register_component_storage<std_map_cmp_storage, element_period>();
     elements.register_component_storage<std_map_cmp_storage, element_group>();
     elements.register_component_storage<std_map_cmp_storage, atomic_weight>();
+    elements.register_component_storage<std_map_cmp_storage, half_life>();
+
+    elements.register_relation_storage<std_map_rel_storage, isotope>();
 
     populate(elements);
 
     print_elements_with_english_name(elements);
     print_names_of_noble_gasses(elements);
     print_names_of_actinides(elements);
+    print_isotopes_of_hydrogen(elements);
 
     return 0;
 }
@@ -184,6 +258,18 @@ void populate(ecs::basic_manager<std::string>& elements) {
       element_period(1),
       element_group(1),
       atomic_weight(1.F));
+
+    elements.add("¹H", element_name("Protium"), isotope_neutrons(0));
+    elements.add("²H", element_name("Deuterium"), isotope_neutrons(1));
+    elements.add(
+      "³H",
+      element_name("Tritium"),
+      isotope_neutrons(2),
+      half_life::years(12.32F));
+
+    elements.add_relation<isotope>("H", "¹H");
+    elements.add_relation<isotope>("H", "²H");
+    elements.add_relation<isotope>("H", "³H");
 
     elements.add(
       "He",
