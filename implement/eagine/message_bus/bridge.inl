@@ -268,8 +268,20 @@ auto bridge::_forward_messages() -> bool {
       [this](message_id msg_id, message_age, const message_view& message) {
           // TODO: use message age
           if(EAGINE_UNLIKELY(++_forwarded_messages_c2o % 100000 == 0)) {
-              _log.stat("forwarded ${count} messages to output")
-                .arg(EAGINE_ID(count), _forwarded_messages_c2o);
+              const auto now{std::chrono::steady_clock::now()};
+              const std::chrono::duration<float> interval{
+                now - _forwarded_since_c2o};
+
+              if(EAGINE_LIKELY(interval > decltype(interval)::zero())) {
+                  const auto msgs_per_sec{100000.F / interval.count()};
+
+                  _log.stat("forwarded ${count} messages to output")
+                    .arg(EAGINE_ID(count), _forwarded_messages_c2o)
+                    .arg(EAGINE_ID(interval), interval)
+                    .arg(EAGINE_ID(msgsPerSec), msgs_per_sec);
+              }
+
+              _forwarded_since_c2o = now;
           }
           if(this->_handle_special(msg_id, message, false)) {
               return true;
@@ -289,8 +301,20 @@ auto bridge::_forward_messages() -> bool {
       [this](message_id msg_id, message_age, const message_view& message) {
           // TODO: use message age
           if(EAGINE_UNLIKELY(++_forwarded_messages_i2c % 100000 == 0)) {
-              _log.stat("forwarded ${count} messages from input")
-                .arg(EAGINE_ID(count), _forwarded_messages_i2c);
+              const auto now{std::chrono::steady_clock::now()};
+              const std::chrono::duration<float> interval{
+                now - _forwarded_since_i2c};
+
+              if(EAGINE_LIKELY(interval > decltype(interval)::zero())) {
+                  const auto msgs_per_sec{100000.F / interval.count()};
+
+                  _log.stat("forwarded ${count} messages from input")
+                    .arg(EAGINE_ID(count), _forwarded_messages_i2c)
+                    .arg(EAGINE_ID(interval), interval)
+                    .arg(EAGINE_ID(msgsPerSec), msgs_per_sec);
+              }
+
+              _forwarded_since_i2c = now;
           }
           if(this->_handle_special(msg_id, message, true)) {
               return true;

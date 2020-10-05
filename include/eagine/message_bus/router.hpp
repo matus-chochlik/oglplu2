@@ -139,6 +139,8 @@ private:
     timeout _no_connection_timeout{std::chrono::seconds{30}};
     identifier_t _id_base{0};
     identifier_t _id_sequence{0};
+    std::chrono::steady_clock::time_point _forwarded_since{
+      std::chrono::steady_clock::now()};
     std::intmax_t _forwarded_messages{0};
     std::vector<std::unique_ptr<acceptor>> _acceptors;
     std::vector<std::unique_ptr<connection>> _connectors;
