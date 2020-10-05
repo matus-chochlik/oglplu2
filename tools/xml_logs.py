@@ -252,6 +252,14 @@ class XmlLogFormatter(object):
         return result
 
     # --------------------------------------------------------------------------
+    def _formatInteger(self, s):
+        return f"{int(s):,}".replace(",", "'")
+
+    # --------------------------------------------------------------------------
+    def _formatReal(self, s):
+        return f"{float(s):,}".replace(",", "'")
+
+    # --------------------------------------------------------------------------
     def __init__(self, log_output):
         self._re_var = re.compile(".*(\${([A-Za-z][A-Za-z_0-9]*)}).*")
         self._lock = threading.Lock()
@@ -264,6 +272,13 @@ class XmlLogFormatter(object):
             "ProgramArg": self._formatProgArg,
             "Ratio": lambda x: self._formatRatio(float(x)),
             "duration": lambda x: self._formatDuration(float(x)),
+            "int64": self._formatInteger,
+            "int32": self._formatInteger,
+            "int16": self._formatInteger,
+            "uint64": self._formatInteger,
+            "uint32": self._formatInteger,
+            "uint16": self._formatInteger,
+            "real": self._formatReal,
             "ByteSize": lambda x: self._formatByteSize(int(x))
         }
         self._source_id = 0
