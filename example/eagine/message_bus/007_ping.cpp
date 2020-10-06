@@ -18,6 +18,7 @@
 #include <eagine/timeout.hpp>
 #include <algorithm>
 #include <chrono>
+#include <cmath>
 #include <cstdint>
 #include <map>
 #include <vector>
@@ -196,36 +197,42 @@ public:
               .arg(EAGINE_ID(id), id)
               .arg_func([&](logger_backend& backend) {
                   if(!infoc.messages_per_second.empty()) {
-                      const auto max = *std::max_element(
+                      const auto max_mps = *std::max_element(
                         infoc.messages_per_second.begin(),
                         infoc.messages_per_second.end());
 
                       std::size_t i{0};
-                      const std::size_t d{10};
-                      float smps = 0.F;
-                      const float mpsn{1.F / d};
+                      if(const auto div{
+                           std::size_t(_max / ((std::log(_max) - 1) * _mod))}) {
 
-                      for(const float mps : infoc.messages_per_second) {
-                          smps += mps;
-                          if(++i % d == 0) {
-                              smps *= mpsn;
+                          float sum_mps = 0.F;
+                          const float mpsn{1.F / div};
+
+                          backend.add_unsigned(
+                            EAGINE_ID(div), EAGINE_ID(uint), div);
+
+                          for(const float mps : infoc.messages_per_second) {
+                              sum_mps += mps;
+                              if(++i % div == 0) {
+                                  sum_mps *= mpsn;
+                                  backend.add_float(
+                                    EAGINE_ID(mps),
+                                    EAGINE_ID(Histogram),
+                                    float(0),
+                                    float(sum_mps),
+                                    float(max_mps));
+                                  sum_mps = 0.F;
+                              }
+                          }
+                          if(i % div != 0) {
+                              sum_mps *= 1.F / float(i % div);
                               backend.add_float(
                                 EAGINE_ID(mps),
                                 EAGINE_ID(Histogram),
                                 float(0),
-                                float(smps),
-                                float(max));
-                              smps = 0.F;
+                                float(sum_mps),
+                                float(max_mps));
                           }
-                      }
-                      if(i % d != 0) {
-                          smps *= float(i % d) / d;
-                          backend.add_float(
-                            EAGINE_ID(mps),
-                            EAGINE_ID(Histogram),
-                            float(0),
-                            float(smps),
-                            float(max));
                       }
                   }
               });
