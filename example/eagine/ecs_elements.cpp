@@ -186,6 +186,12 @@ struct beta_m_decay : ecs::relation<beta_m_decay> {
     }
 };
 //------------------------------------------------------------------------------
+struct beta_m2_decay : ecs::relation<beta_m2_decay> {
+    static constexpr auto uid() noexcept {
+        return EAGINE_ID_V(BetaM2Dcy);
+    }
+};
+//------------------------------------------------------------------------------
 struct beta_p_decay : ecs::relation<beta_p_decay> {
     static constexpr auto uid() noexcept {
         return EAGINE_ID_V(BetaPDcy);
@@ -814,6 +820,41 @@ void populate(ecs::basic_manager<std::string>& elements) {
       element_group(1),
       atomic_weight(39.0983F));
 
+    elements.add("³⁷K", isotope_neutrons(18), half_life::seconds(1.2365F));
+    elements.add("³⁸K", isotope_neutrons(19), half_life::minutes(7.636F));
+    elements.add("³⁹K", isotope_neutrons(20));
+    elements.add("⁴⁰K", isotope_neutrons(21), half_life::years(1.248e9F));
+    elements.add("⁴¹K", isotope_neutrons(22));
+    elements.add("⁴²K", isotope_neutrons(23), half_life::hours(12.355F));
+    elements.add("⁴³K", isotope_neutrons(24), half_life::hours(22.3F));
+    elements.add("⁴⁴K", isotope_neutrons(25), half_life::minutes(22.13F));
+    elements.add("⁴⁵K", isotope_neutrons(26), half_life::minutes(17.8F));
+    elements.add("⁴⁶K", isotope_neutrons(27), half_life::seconds(105.F));
+    elements.add("⁴⁷K", isotope_neutrons(28), half_life::seconds(17.50F));
+
+    elements.add_relation<isotope>("K", "³⁷K");
+    elements.add_relation<beta_p_decay>("³⁷K", "³⁷Ar");
+    elements.add_relation<isotope>("K", "³⁸K");
+    elements.add_relation<beta_p_decay>("³⁸K", "³⁸Ar");
+    elements.add_relation<isotope>("K", "³⁹K");
+    elements.add_relation<isotope>("K", "⁴⁰K");
+    elements.add_relation<beta_p_decay>("⁴⁰K", "⁴⁰Ar");
+    elements.add_relation<electron_capture>("⁴⁰K", "⁴⁰Ar");
+    elements.add_relation<beta_m_decay>("⁴⁰K", "⁴⁰Ca");
+    elements.add_relation<isotope>("K", "⁴¹K");
+    elements.add_relation<isotope>("K", "⁴²K");
+    elements.add_relation<beta_m_decay>("⁴²K", "⁴²Ca");
+    elements.add_relation<isotope>("K", "⁴³K");
+    elements.add_relation<beta_m_decay>("⁴³K", "⁴³Ca");
+    elements.add_relation<isotope>("K", "⁴⁴K");
+    elements.add_relation<beta_m_decay>("⁴⁴K", "⁴⁴Ca");
+    elements.add_relation<isotope>("K", "⁴⁵K");
+    elements.add_relation<beta_m_decay>("⁴⁵K", "⁴⁵Ca");
+    elements.add_relation<isotope>("K", "⁴⁶K");
+    elements.add_relation<beta_m_decay>("⁴⁶K", "⁴⁶Ca");
+    elements.add_relation<isotope>("K", "⁴⁷K");
+    elements.add_relation<beta_m_decay>("⁴⁷K", "⁴⁷Ca");
+
     elements.add(
       "Ca",
       element_name("Calcium"),
@@ -822,6 +863,42 @@ void populate(ecs::basic_manager<std::string>& elements) {
       element_group(2),
       atomic_weight(40.078F));
 
+    elements.add("³⁹Ca", isotope_neutrons(19), half_life::milliseconds(860.3F));
+    elements.add("⁴⁰Ca", isotope_neutrons(20));
+    elements.add("⁴¹Ca", isotope_neutrons(21), half_life::years(9.94e4F));
+    elements.add("⁴²Ca", isotope_neutrons(22));
+    elements.add("⁴³Ca", isotope_neutrons(23));
+    elements.add("⁴⁴Ca", isotope_neutrons(24));
+    elements.add("⁴⁵Ca", isotope_neutrons(25), half_life::days(162.61F));
+    elements.add("⁴⁶Ca", isotope_neutrons(26));
+    elements.add("⁴⁷Ca", isotope_neutrons(27), half_life::days(4.536F));
+    elements.add("⁴⁸Ca", isotope_neutrons(28), half_life::years(6.4e19F));
+    elements.add("⁴⁹Ca", isotope_neutrons(29), half_life::minutes(8.718F));
+    elements.add("⁵⁰Ca", isotope_neutrons(30), half_life::seconds(13.9F));
+    elements.add("⁵¹Ca", isotope_neutrons(31), half_life::seconds(10.0F));
+
+    elements.add_relation<isotope>("Ca", "³⁹Ca");
+    elements.add_relation<beta_p_decay>("³⁹Ca", "³⁹K");
+    elements.add_relation<isotope>("Ca", "⁴⁰Ca");
+    elements.add_relation<isotope>("Ca", "⁴¹Ca");
+    elements.add_relation<electron_capture>("⁴¹Ca", "⁴¹K");
+    elements.add_relation<isotope>("Ca", "⁴²Ca");
+    elements.add_relation<isotope>("Ca", "⁴³Ca");
+    elements.add_relation<isotope>("Ca", "⁴⁴Ca");
+    elements.add_relation<isotope>("Ca", "⁴⁵Ca");
+    elements.add_relation<beta_m_decay>("⁴⁵Ca", "⁴⁵Sc");
+    elements.add_relation<isotope>("Ca", "⁴⁶Ca");
+    elements.add_relation<isotope>("Ca", "⁴⁷Ca");
+    elements.add_relation<beta_m_decay>("⁴⁷Ca", "⁴⁷Sc");
+    elements.add_relation<isotope>("Ca", "⁴⁸Ca");
+    elements.add_relation<beta_m2_decay>("⁴⁸Ca", "⁴⁸Ti");
+    elements.add_relation<isotope>("Ca", "⁴⁹Ca");
+    elements.add_relation<beta_m_decay>("⁴⁹Ca", "⁴⁹Sc");
+    elements.add_relation<isotope>("Ca", "⁵⁰Ca");
+    elements.add_relation<beta_m_decay>("⁵⁰Ca", "⁵⁰Sc");
+    elements.add_relation<isotope>("Ca", "⁵¹Ca");
+    elements.add_relation<beta_m_decay>("⁵¹Ca", "⁵¹Sc");
+
     elements.add(
       "Sc",
       element_name("Scandium"),
@@ -829,6 +906,43 @@ void populate(ecs::basic_manager<std::string>& elements) {
       element_period(4),
       element_group(3),
       atomic_weight(44.955908F));
+
+    elements.add("⁴¹Sc", isotope_neutrons(20), half_life::milliseconds(596.3F));
+    elements.add("⁴²Sc", isotope_neutrons(21), half_life::milliseconds(681.3F));
+    elements.add("⁴³Sc", isotope_neutrons(22), half_life::hours(3.891F));
+    elements.add("⁴⁴Sc", isotope_neutrons(23), half_life::hours(3.97F));
+    elements.add("⁴⁵Sc", isotope_neutrons(24));
+    elements.add("⁴⁶Sc", isotope_neutrons(25), half_life::days(83.79F));
+    elements.add("⁴⁷Sc", isotope_neutrons(26), half_life::days(3.3492F));
+    elements.add("⁴⁸Sc", isotope_neutrons(27), half_life::hours(43.67F));
+    elements.add("⁴⁹Sc", isotope_neutrons(28), half_life::minutes(57.2F));
+    elements.add("⁵⁰Sc", isotope_neutrons(29), half_life::seconds(102.5F));
+    elements.add("⁵¹Sc", isotope_neutrons(30), half_life::seconds(12.4F));
+    elements.add("⁵²Sc", isotope_neutrons(31), half_life::seconds(8.2F));
+
+    elements.add_relation<isotope>("Sc", "⁴¹Sc");
+    elements.add_relation<beta_p_decay>("⁴¹Sc", "⁴¹Ca");
+    elements.add_relation<isotope>("Sc", "⁴²Sc");
+    elements.add_relation<beta_p_decay>("⁴²Sc", "⁴²Ca");
+    elements.add_relation<isotope>("Sc", "⁴³Sc");
+    elements.add_relation<beta_p_decay>("⁴³Sc", "⁴³Ca");
+    elements.add_relation<isotope>("Sc", "⁴⁴Sc");
+    elements.add_relation<beta_p_decay>("⁴⁴Sc", "⁴⁴Ca");
+    elements.add_relation<isotope>("Sc", "⁴⁵Sc");
+    elements.add_relation<isotope>("Sc", "⁴⁶Sc");
+    elements.add_relation<beta_m_decay>("⁴⁶Sc", "⁴⁶Ti");
+    elements.add_relation<isotope>("Sc", "⁴⁷Sc");
+    elements.add_relation<beta_m_decay>("⁴⁷Sc", "⁴⁷Ti");
+    elements.add_relation<isotope>("Sc", "⁴⁸Sc");
+    elements.add_relation<beta_m_decay>("⁴⁸Sc", "⁴⁸Ti");
+    elements.add_relation<isotope>("Sc", "⁴⁹Sc");
+    elements.add_relation<beta_m_decay>("⁴⁹Sc", "⁴⁹Ti");
+    elements.add_relation<isotope>("Sc", "⁵⁰Sc");
+    elements.add_relation<beta_m_decay>("⁵⁰Sc", "⁵⁰Ti");
+    elements.add_relation<isotope>("Sc", "⁵¹Sc");
+    elements.add_relation<beta_m_decay>("⁵¹Sc", "⁵¹Ti");
+    elements.add_relation<isotope>("Sc", "⁵²Sc");
+    elements.add_relation<beta_m_decay>("⁵²Sc", "⁵²Ti");
 
     elements.add(
       "Ti",
