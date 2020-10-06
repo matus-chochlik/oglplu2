@@ -208,9 +208,6 @@ public:
                           float sum_mps = 0.F;
                           const float mpsn{1.F / div};
 
-                          backend.add_unsigned(
-                            EAGINE_ID(div), EAGINE_ID(uint), div);
-
                           for(const float mps : infoc.messages_per_second) {
                               sum_mps += mps;
                               if(++i % div == 0) {
