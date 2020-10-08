@@ -507,6 +507,12 @@ void endpoint::clear_allow_list() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+void endpoint::allow_message_type(message_id msg_id) {
+    log().debug("allowing message ${message}").arg(EAGINE_ID(message), msg_id);
+    post_meta_message(EAGINE_MSGBUS_ID(msgAlwList), msg_id);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto endpoint::post_certificate(identifier_t target_id) -> bool {
     EAGINE_ASSERT(_context);
     if(auto cert_pem{_context->get_own_certificate_pem()}) {
@@ -533,12 +539,6 @@ auto endpoint::broadcast_certificate() -> bool {
     }
     _log.debug("no endpoint certificate to broadcast yet");
     return false;
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-void endpoint::allow_message_type(message_id msg_id) {
-    log().debug("allowing message ${message}").arg(EAGINE_ID(message), msg_id);
-    post_meta_message(EAGINE_MSGBUS_ID(msgAlwList), msg_id);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
