@@ -16,6 +16,10 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
+// Entity type
+//------------------------------------------------------------------------------
+using element_symbol = std::string;
+//------------------------------------------------------------------------------
 // Components
 //------------------------------------------------------------------------------
 struct element_name : ecs::component<element_name> {
@@ -170,54 +174,144 @@ struct alpha_decay : ecs::component<alpha_decay> {
     static constexpr auto uid() noexcept {
         return EAGINE_ID_V(AlphaDcy);
     }
+
+    static constexpr auto proton_count_diff() noexcept -> short {
+        return -2;
+    }
+
+    static constexpr auto neutron_count_diff() noexcept -> short {
+        return -2;
+    }
+
+    element_symbol product;
 };
 //------------------------------------------------------------------------------
 struct proton_emission : ecs::component<proton_emission> {
     static constexpr auto uid() noexcept {
         return EAGINE_ID_V(PrtnEmissn);
     }
+
+    static constexpr auto proton_count_diff() noexcept -> short {
+        return -1;
+    }
+
+    static constexpr auto neutron_count_diff() noexcept -> short {
+        return 0;
+    }
+
+    element_symbol product;
 };
 //------------------------------------------------------------------------------
 struct neutron_emission : ecs::component<neutron_emission> {
     static constexpr auto uid() noexcept {
         return EAGINE_ID_V(NtrnEmissn);
     }
+
+    static constexpr auto proton_count_diff() noexcept -> short {
+        return 0;
+    }
+
+    static constexpr auto neutron_count_diff() noexcept -> short {
+        return -1;
+    }
+
+    element_symbol product;
 };
 //------------------------------------------------------------------------------
 struct electron_capture : ecs::component<electron_capture> {
     static constexpr auto uid() noexcept {
         return EAGINE_ID_V(ElnCapDcy);
     }
-};
-//------------------------------------------------------------------------------
-struct beta_m2_decay : ecs::component<beta_m2_decay> {
-    static constexpr auto uid() noexcept {
-        return EAGINE_ID_V(BetaM2Dcy);
+
+    static constexpr auto proton_count_diff() noexcept -> short {
+        return -1;
     }
-};
-//------------------------------------------------------------------------------
-struct beta_m_alpha_decay : ecs::component<beta_m_alpha_decay> {
-    static constexpr auto uid() noexcept {
-        return EAGINE_ID_V(BtaMAlpDcy);
+
+    static constexpr auto neutron_count_diff() noexcept -> short {
+        return 1;
     }
-};
-//------------------------------------------------------------------------------
-struct beta_m_n_decay : ecs::component<beta_m_n_decay> {
-    static constexpr auto uid() noexcept {
-        return EAGINE_ID_V(BetaMNDcy);
-    }
+
+    element_symbol product;
 };
 //------------------------------------------------------------------------------
 struct beta_m_decay : ecs::component<beta_m_decay> {
     static constexpr auto uid() noexcept {
         return EAGINE_ID_V(BetaMDcy);
     }
+
+    static constexpr auto proton_count_diff() noexcept -> short {
+        return 1;
+    }
+
+    static constexpr auto neutron_count_diff() noexcept -> short {
+        return -1;
+    }
+
+    element_symbol product;
+};
+//------------------------------------------------------------------------------
+struct beta_m2_decay : ecs::component<beta_m2_decay> {
+    static constexpr auto uid() noexcept {
+        return EAGINE_ID_V(BetaM2Dcy);
+    }
+
+    static constexpr auto proton_count_diff() noexcept -> short {
+        return 2;
+    }
+
+    static constexpr auto neutron_count_diff() noexcept -> short {
+        return -2;
+    }
+
+    element_symbol product;
+};
+//------------------------------------------------------------------------------
+struct beta_m_alpha_decay : ecs::component<beta_m_alpha_decay> {
+    static constexpr auto uid() noexcept {
+        return EAGINE_ID_V(BtaMAlpDcy);
+    }
+
+    static constexpr auto proton_count_diff() noexcept -> short {
+        return 1;
+    }
+
+    static constexpr auto neutron_count_diff() noexcept -> short {
+        return -1;
+    }
+
+    element_symbol product;
+};
+//------------------------------------------------------------------------------
+struct beta_m_n_decay : ecs::component<beta_m_n_decay> {
+    static constexpr auto uid() noexcept {
+        return EAGINE_ID_V(BetaMNDcy);
+    }
+
+    static constexpr auto proton_count_diff() noexcept -> short {
+        return 1;
+    }
+
+    static constexpr auto neutron_count_diff() noexcept -> short {
+        return -2;
+    }
+
+    element_symbol product;
 };
 //------------------------------------------------------------------------------
 struct beta_p_decay : ecs::component<beta_p_decay> {
     static constexpr auto uid() noexcept {
         return EAGINE_ID_V(BetaPDcy);
     }
+
+    static constexpr auto proton_count_diff() noexcept -> short {
+        return -1;
+    }
+
+    static constexpr auto neutron_count_diff() noexcept -> short {
+        return 1;
+    }
+
+    element_symbol product;
 };
 //------------------------------------------------------------------------------
 // Relations
@@ -231,7 +325,7 @@ struct isotope : ecs::relation<isotope> {
 // Usage
 //------------------------------------------------------------------------------
 static void
-print_elements_with_english_name(ecs::basic_manager<std::string>& elements) {
+print_elements_with_english_name(ecs::basic_manager<element_symbol>& elements) {
 
     elements.for_each_with<const element_name>(
       [](const auto& sym, ecs::manipulator<const element_name>& name) {
@@ -243,7 +337,7 @@ print_elements_with_english_name(ecs::basic_manager<std::string>& elements) {
 }
 //------------------------------------------------------------------------------
 static void
-print_names_of_noble_gasses(ecs::basic_manager<std::string>& elements) {
+print_names_of_noble_gasses(ecs::basic_manager<element_symbol>& elements) {
 
     elements.for_each_with<const element_name, const element_group>(
       [](
@@ -257,7 +351,8 @@ print_names_of_noble_gasses(ecs::basic_manager<std::string>& elements) {
     std::cout << std::endl;
 }
 //------------------------------------------------------------------------------
-static void print_names_of_actinides(ecs::basic_manager<std::string>& elements) {
+static void
+print_names_of_actinides(ecs::basic_manager<element_symbol>& elements) {
 
     elements.for_each_with_opt<
       const element_name,
@@ -278,7 +373,7 @@ static void print_names_of_actinides(ecs::basic_manager<std::string>& elements) 
 }
 //------------------------------------------------------------------------------
 static void
-print_isotopes_of_hydrogen(ecs::basic_manager<std::string>& elements) {
+print_isotopes_of_hydrogen(ecs::basic_manager<element_symbol>& elements) {
 
     elements.for_each_with<const element_name, const isotope_neutrons>(
       [&](
@@ -297,7 +392,62 @@ print_isotopes_of_hydrogen(ecs::basic_manager<std::string>& elements) {
     std::cout << std::endl;
 }
 //------------------------------------------------------------------------------
-void populate(ecs::basic_manager<std::string>& elements);
+template <typename Decay>
+void cache_decay_products_of(ecs::basic_manager<element_symbol>& elements) {
+
+    elements.for_each_with<const isotope_neutrons, Decay>(
+      [&](
+        const auto& original_i,
+        ecs::manipulator<const isotope_neutrons>& original_n,
+        ecs::manipulator<Decay>& decay) {
+          elements.for_each_with<const isotope_neutrons>(
+            [&](
+              const auto& decayed_i,
+              ecs::manipulator<const isotope_neutrons>& decayed_n) {
+                if(
+                  original_n.read().number +
+                    decay.read().neutron_count_diff() ==
+                  decayed_n.read().number) {
+                    elements.for_each_with<const element_protons>(
+                      [&](
+                        const auto& original_e,
+                        ecs::manipulator<const element_protons>& original_p) {
+                          if(elements.has<isotope>(original_e, original_i)) {
+                              elements.for_each_with<const element_protons>(
+                                [&](
+                                  const auto& decayed_e,
+                                  ecs::manipulator<const element_protons>&
+                                    decayed_p) {
+                                    if(elements.has<isotope>(
+                                         decayed_e, decayed_i)) {
+                                        if(
+                                          original_p.read().number +
+                                            decay.read().proton_count_diff() ==
+                                          decayed_p.read().number) {
+                                            decay.write().product = decayed_i;
+                                        }
+                                    }
+                                });
+                          }
+                      });
+                }
+            });
+      });
+}
+//------------------------------------------------------------------------------
+static void cache_decay_products(ecs::basic_manager<element_symbol>& elements) {
+    cache_decay_products_of<alpha_decay>(elements);
+    cache_decay_products_of<proton_emission>(elements);
+    cache_decay_products_of<neutron_emission>(elements);
+    cache_decay_products_of<electron_capture>(elements);
+    cache_decay_products_of<beta_m_decay>(elements);
+    cache_decay_products_of<beta_m2_decay>(elements);
+    cache_decay_products_of<beta_m_alpha_decay>(elements);
+    cache_decay_products_of<beta_m_n_decay>(elements);
+    cache_decay_products_of<beta_p_decay>(elements);
+}
+//------------------------------------------------------------------------------
+void populate(ecs::basic_manager<element_symbol>& elements);
 //------------------------------------------------------------------------------
 // Main
 //------------------------------------------------------------------------------
@@ -307,7 +457,7 @@ auto main(main_ctx& ctx) -> int {
     using ecs::std_map_cmp_storage;
     using ecs::std_map_rel_storage;
 
-    ecs::basic_manager<std::string> elements;
+    ecs::basic_manager<element_symbol> elements;
     elements.register_component_storage<std_map_cmp_storage, element_name>();
     elements.register_component_storage<std_map_cmp_storage, element_protons>();
     elements.register_component_storage<std_map_cmp_storage, isotope_neutrons>();
@@ -329,6 +479,7 @@ auto main(main_ctx& ctx) -> int {
     elements.register_relation_storage<std_map_rel_storage, isotope>();
 
     populate(elements);
+    cache_decay_products(elements);
 
     print_elements_with_english_name(elements);
     print_names_of_noble_gasses(elements);
@@ -338,7 +489,7 @@ auto main(main_ctx& ctx) -> int {
     return 0;
 }
 //------------------------------------------------------------------------------
-void populate(ecs::basic_manager<std::string>& elements) {
+void populate(ecs::basic_manager<element_symbol>& elements) {
     elements.add(
       "H",
       element_name("Hydrogenium", "Hydrogen"),
