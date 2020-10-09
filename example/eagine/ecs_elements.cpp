@@ -214,17 +214,17 @@ struct beta_m_decay : ecs::component<beta_m_decay> {
     }
 };
 //------------------------------------------------------------------------------
+struct beta_p_decay : ecs::component<beta_p_decay> {
+    static constexpr auto uid() noexcept {
+        return EAGINE_ID_V(BetaPDcy);
+    }
+};
+//------------------------------------------------------------------------------
 // Relations
 //------------------------------------------------------------------------------
 struct isotope : ecs::relation<isotope> {
     static constexpr auto uid() noexcept {
         return EAGINE_ID_V(Isotope);
-    }
-};
-//------------------------------------------------------------------------------
-struct beta_p_decay : ecs::relation<beta_p_decay> {
-    static constexpr auto uid() noexcept {
-        return EAGINE_ID_V(BetaPDcy);
     }
 };
 //------------------------------------------------------------------------------
@@ -324,9 +324,9 @@ auto main(main_ctx& ctx) -> int {
     elements
       .register_component_storage<std_map_cmp_storage, beta_m_alpha_decay>();
     elements.register_component_storage<std_map_cmp_storage, beta_m_n_decay>();
+    elements.register_component_storage<std_map_cmp_storage, beta_p_decay>();
 
     elements.register_relation_storage<std_map_rel_storage, isotope>();
-    elements.register_relation_storage<std_map_rel_storage, beta_p_decay>();
 
     populate(elements);
 
@@ -487,14 +487,14 @@ void populate(ecs::basic_manager<std::string>& elements) {
       element_group(14),
       atomic_weight(12.011F));
 
-    elements.add("¹¹C", isotope_neutrons(5), half_life::minutes(20.F));
+    elements.add(
+      "¹¹C", isotope_neutrons(5), half_life::minutes(20.F), beta_p_decay());
     elements.add("¹²C", isotope_neutrons(6));
     elements.add("¹³C", isotope_neutrons(7));
     elements.add(
       "¹⁴C", isotope_neutrons(8), half_life::years(5730.F), beta_m_decay());
 
     elements.add_relation<isotope>("C", "¹¹C");
-    elements.add_relation<beta_p_decay>("¹¹C", "¹¹B");
     elements.add_relation<isotope>("C", "¹²C");
     elements.add_relation<isotope>("C", "¹³C");
     elements.add_relation<isotope>("C", "¹⁴C");
@@ -534,8 +534,10 @@ void populate(ecs::basic_manager<std::string>& elements) {
       element_group(16),
       atomic_weight(15.999F));
 
-    elements.add("¹⁴O", isotope_neutrons(6), half_life::seconds(70.620F));
-    elements.add("¹⁵O", isotope_neutrons(7), half_life::seconds(122.24F));
+    elements.add(
+      "¹⁴O", isotope_neutrons(6), half_life::seconds(70.620F), beta_p_decay());
+    elements.add(
+      "¹⁵O", isotope_neutrons(7), half_life::seconds(122.24F), beta_p_decay());
     elements.add("¹⁶O", isotope_neutrons(8));
     elements.add("¹⁷O", isotope_neutrons(9));
     elements.add("¹⁸O", isotope_neutrons(10));
@@ -547,9 +549,7 @@ void populate(ecs::basic_manager<std::string>& elements) {
       "²¹O", isotope_neutrons(13), half_life::seconds(3.24F), beta_m_decay());
 
     elements.add_relation<isotope>("O", "¹⁴O");
-    elements.add_relation<beta_p_decay>("¹⁴O", "¹⁴N");
     elements.add_relation<isotope>("O", "¹⁵O");
-    elements.add_relation<beta_p_decay>("¹⁵O", "¹⁵N");
     elements.add_relation<isotope>("O", "¹⁶O");
     elements.add_relation<isotope>("O", "¹⁷O");
     elements.add_relation<isotope>("O", "¹⁸O");
@@ -565,7 +565,8 @@ void populate(ecs::basic_manager<std::string>& elements) {
       element_group(17),
       atomic_weight(18.998403163F));
 
-    elements.add("¹⁷F", isotope_neutrons(8), half_life::seconds(64.370F));
+    elements.add(
+      "¹⁷F", isotope_neutrons(8), half_life::seconds(64.370F), beta_p_decay());
     elements.add("¹⁹F", isotope_neutrons(10));
     elements.add(
       "²⁰F", isotope_neutrons(11), half_life::seconds(11.163F), beta_m_decay());
@@ -573,7 +574,6 @@ void populate(ecs::basic_manager<std::string>& elements) {
       "²¹F", isotope_neutrons(12), half_life::seconds(4.158F), beta_m_decay());
 
     elements.add_relation<isotope>("F", "¹⁷F");
-    elements.add_relation<beta_p_decay>("¹⁷F", "¹⁷O");
     elements.add_relation<isotope>("F", "¹⁹F");
     elements.add_relation<isotope>("F", "²⁰F");
     elements.add_relation<isotope>("F", "²¹F");
@@ -586,8 +586,10 @@ void populate(ecs::basic_manager<std::string>& elements) {
       element_group(18),
       atomic_weight(20.1797F));
 
-    elements.add("¹⁸Ne", isotope_neutrons(8), half_life::seconds(1.66420F));
-    elements.add("¹⁹Ne", isotope_neutrons(9), half_life::seconds(17.274F));
+    elements.add(
+      "¹⁸Ne", isotope_neutrons(8), half_life::seconds(1.66420F), beta_p_decay());
+    elements.add(
+      "¹⁹Ne", isotope_neutrons(9), half_life::seconds(17.274F), beta_p_decay());
     elements.add("²⁰Ne", isotope_neutrons(10));
     elements.add("²¹Ne", isotope_neutrons(11));
     elements.add("²²Ne", isotope_neutrons(12));
@@ -597,9 +599,7 @@ void populate(ecs::basic_manager<std::string>& elements) {
       "²⁴Ne", isotope_neutrons(13), half_life::minutes(3.38F), beta_m_decay());
 
     elements.add_relation<isotope>("Ne", "¹⁸Ne");
-    elements.add_relation<beta_p_decay>("¹⁸Ne", "¹⁸F");
     elements.add_relation<isotope>("Ne", "¹⁹Ne");
-    elements.add_relation<beta_p_decay>("¹⁹Ne", "¹⁹F");
     elements.add_relation<isotope>("Ne", "²⁰Ne");
     elements.add_relation<isotope>("Ne", "²¹Ne");
     elements.add_relation<isotope>("Ne", "²²Ne");
@@ -614,8 +614,10 @@ void populate(ecs::basic_manager<std::string>& elements) {
       element_group(1),
       atomic_weight(22.98976928F));
 
-    elements.add("²¹Na", isotope_neutrons(10), half_life::seconds(22.422F));
-    elements.add("²²Na", isotope_neutrons(11), half_life::years(2.6018F));
+    elements.add(
+      "²¹Na", isotope_neutrons(10), half_life::seconds(22.422F), beta_p_decay());
+    elements.add(
+      "²²Na", isotope_neutrons(11), half_life::years(2.6018F), beta_p_decay());
     elements.add("²³Na", isotope_neutrons(12));
     elements.add(
       "²⁴Na", isotope_neutrons(13), half_life::hours(14.957F), beta_m_decay());
@@ -628,9 +630,7 @@ void populate(ecs::basic_manager<std::string>& elements) {
       beta_m_decay());
 
     elements.add_relation<isotope>("Na", "²¹Na");
-    elements.add_relation<beta_p_decay>("²¹Na", "²¹Ne");
     elements.add_relation<isotope>("Na", "²²Na");
-    elements.add_relation<beta_p_decay>("²²Na", "²²Ne");
     elements.add_relation<isotope>("Na", "²³Na");
     elements.add_relation<isotope>("Na", "²⁴Na");
     elements.add_relation<isotope>("Na", "²⁵Na");
@@ -644,8 +644,10 @@ void populate(ecs::basic_manager<std::string>& elements) {
       element_group(2),
       atomic_weight(24.305F));
 
-    elements.add("²²Mg", isotope_neutrons(10), half_life::seconds(3.8755F));
-    elements.add("²³Mg", isotope_neutrons(11), half_life::seconds(11.317F));
+    elements.add(
+      "²²Mg", isotope_neutrons(10), half_life::seconds(3.8755F), beta_p_decay());
+    elements.add(
+      "²³Mg", isotope_neutrons(11), half_life::seconds(11.317F), beta_p_decay());
     elements.add("²⁴Mg", isotope_neutrons(12));
     elements.add("²⁵Mg", isotope_neutrons(13));
     elements.add("²⁶Mg", isotope_neutrons(14));
@@ -657,9 +659,7 @@ void populate(ecs::basic_manager<std::string>& elements) {
       "²⁹Mg", isotope_neutrons(17), half_life::seconds(1.30F), beta_m_decay());
 
     elements.add_relation<isotope>("Mg", "²²Mg");
-    elements.add_relation<beta_p_decay>("²²Mg", "²²Na");
     elements.add_relation<isotope>("Mg", "²³Mg");
-    elements.add_relation<beta_p_decay>("²³Mg", "²³Na");
     elements.add_relation<isotope>("Mg", "²⁴Mg");
     elements.add_relation<isotope>("Mg", "²⁵Mg");
     elements.add_relation<isotope>("Mg", "²⁶Mg");
@@ -675,8 +675,10 @@ void populate(ecs::basic_manager<std::string>& elements) {
       element_group(13),
       atomic_weight(26.9815384F));
 
-    elements.add("²⁵Al", isotope_neutrons(12), half_life::seconds(7.183F));
-    elements.add("²⁶Al", isotope_neutrons(13), half_life::years(7.17e5F));
+    elements.add(
+      "²⁵Al", isotope_neutrons(12), half_life::seconds(7.183F), beta_p_decay());
+    elements.add(
+      "²⁶Al", isotope_neutrons(13), half_life::years(7.17e5F), beta_p_decay());
     elements.add("²⁷Al", isotope_neutrons(14));
     elements.add(
       "²⁸Al", isotope_neutrons(15), half_life::minutes(2.245F), beta_m_decay());
@@ -686,9 +688,7 @@ void populate(ecs::basic_manager<std::string>& elements) {
       "³⁰Al", isotope_neutrons(17), half_life::seconds(3.62F), beta_m_decay());
 
     elements.add_relation<isotope>("Al", "²⁵Al");
-    elements.add_relation<beta_p_decay>("²⁵Al", "²⁵Mg");
     elements.add_relation<isotope>("Al", "²⁶Al");
-    elements.add_relation<beta_p_decay>("²⁶Al", "²⁶Mg");
     elements.add_relation<isotope>("Al", "²⁷Al");
     elements.add_relation<isotope>("Al", "²⁸Al");
     elements.add_relation<isotope>("Al", "²⁹Al");
@@ -702,8 +702,10 @@ void populate(ecs::basic_manager<std::string>& elements) {
       element_group(14),
       atomic_weight(28.085F));
 
-    elements.add("²⁶Si", isotope_neutrons(12), half_life::seconds(2.2453F));
-    elements.add("²⁷Si", isotope_neutrons(13), half_life::seconds(4.15F));
+    elements.add(
+      "²⁶Si", isotope_neutrons(12), half_life::seconds(2.2453F), beta_p_decay());
+    elements.add(
+      "²⁷Si", isotope_neutrons(13), half_life::seconds(4.15F), beta_p_decay());
     elements.add("²⁸Si", isotope_neutrons(14));
     elements.add("²⁹Si", isotope_neutrons(15));
     elements.add("³⁰Si", isotope_neutrons(16));
@@ -717,9 +719,7 @@ void populate(ecs::basic_manager<std::string>& elements) {
       "³⁴Si", isotope_neutrons(20), half_life::seconds(2.77F), beta_m_decay());
 
     elements.add_relation<isotope>("Si", "²⁶Si");
-    elements.add_relation<beta_p_decay>("²⁶Si", "²⁶Al");
     elements.add_relation<isotope>("Si", "²⁷Si");
-    elements.add_relation<beta_p_decay>("²⁷Si", "²⁷Al");
     elements.add_relation<isotope>("Si", "²⁸Si");
     elements.add_relation<isotope>("Si", "²⁹Si");
     elements.add_relation<isotope>("Si", "³⁰Si");
@@ -736,8 +736,10 @@ void populate(ecs::basic_manager<std::string>& elements) {
       element_group(15),
       atomic_weight(30.973761998F));
 
-    elements.add("²⁹P", isotope_neutrons(14), half_life::seconds(4.142F));
-    elements.add("³⁰P", isotope_neutrons(15), half_life::minutes(2.498F));
+    elements.add(
+      "²⁹P", isotope_neutrons(14), half_life::seconds(4.142F), beta_p_decay());
+    elements.add(
+      "³⁰P", isotope_neutrons(15), half_life::minutes(2.498F), beta_p_decay());
     elements.add("³¹P", isotope_neutrons(16));
     elements.add(
       "³²P", isotope_neutrons(17), half_life::days(14.268F), beta_m_decay());
@@ -753,9 +755,7 @@ void populate(ecs::basic_manager<std::string>& elements) {
       "³⁷P", isotope_neutrons(22), half_life::seconds(2.31F), beta_m_decay());
 
     elements.add_relation<isotope>("P", "²⁹P");
-    elements.add_relation<beta_p_decay>("²⁹P", "²⁹Si");
     elements.add_relation<isotope>("P", "³⁰P");
-    elements.add_relation<beta_p_decay>("³⁰P", "³⁰Si");
     elements.add_relation<isotope>("P", "³¹P");
     elements.add_relation<isotope>("P", "³²P");
     elements.add_relation<isotope>("P", "³³P");
@@ -772,8 +772,10 @@ void populate(ecs::basic_manager<std::string>& elements) {
       element_group(16),
       atomic_weight(32.06F));
 
-    elements.add("³⁰S", isotope_neutrons(14), half_life::seconds(1.1759F));
-    elements.add("³¹S", isotope_neutrons(15), half_life::seconds(2.5534F));
+    elements.add(
+      "³⁰S", isotope_neutrons(14), half_life::seconds(1.1759F), beta_p_decay());
+    elements.add(
+      "³¹S", isotope_neutrons(15), half_life::seconds(2.5534F), beta_p_decay());
     elements.add("³²S", isotope_neutrons(16));
     elements.add("³³S", isotope_neutrons(17));
     elements.add("³⁴S", isotope_neutrons(18));
@@ -790,9 +792,7 @@ void populate(ecs::basic_manager<std::string>& elements) {
       "⁴⁰S", isotope_neutrons(24), half_life::seconds(8.8F), beta_m_decay());
 
     elements.add_relation<isotope>("S", "³⁰S");
-    elements.add_relation<beta_p_decay>("³⁰S", "³⁰P");
     elements.add_relation<isotope>("S", "³¹S");
-    elements.add_relation<beta_p_decay>("³¹S", "³¹P");
     elements.add_relation<isotope>("S", "³²S");
     elements.add_relation<isotope>("S", "³³S");
     elements.add_relation<isotope>("S", "³⁴S");
@@ -811,11 +811,17 @@ void populate(ecs::basic_manager<std::string>& elements) {
       element_group(17),
       atomic_weight(35.45F));
 
-    elements.add("³³Cl", isotope_neutrons(16), half_life::seconds(2.5038F));
-    elements.add("³⁴Cl", isotope_neutrons(17), half_life::seconds(1.5266F));
+    elements.add(
+      "³³Cl", isotope_neutrons(16), half_life::seconds(2.5038F), beta_p_decay());
+    elements.add(
+      "³⁴Cl", isotope_neutrons(17), half_life::seconds(1.5266F), beta_p_decay());
     elements.add("³⁵Cl", isotope_neutrons(18));
     elements.add(
-      "³⁶Cl", isotope_neutrons(19), half_life::years(1.013e5F), beta_m_decay());
+      "³⁶Cl",
+      isotope_neutrons(19),
+      half_life::years(1.013e5F),
+      beta_p_decay(),
+      beta_m_decay());
     elements.add("³⁷Cl", isotope_neutrons(20));
     elements.add(
       "³⁸Cl", isotope_neutrons(21), half_life::minutes(37.24F), beta_m_decay());
@@ -834,13 +840,10 @@ void populate(ecs::basic_manager<std::string>& elements) {
       beta_m_decay(),
       beta_m_n_decay());
 
+    elements.add_relation<isotope>("Cl", "³³Cl");
     elements.add_relation<isotope>("Cl", "³⁴Cl");
-    elements.add_relation<beta_p_decay>("³⁴Cl", "³⁴S");
-    elements.add_relation<isotope>("Cl", "³⁴Cl");
-    elements.add_relation<beta_p_decay>("³⁴Cl", "³⁴S");
     elements.add_relation<isotope>("Cl", "³⁵Cl");
     elements.add_relation<isotope>("Cl", "³⁶Cl");
-    elements.add_relation<beta_p_decay>("³⁶Cl", "³⁶S");
     elements.add_relation<isotope>("Cl", "³⁷Cl");
     elements.add_relation<isotope>("Cl", "³⁸Cl");
     elements.add_relation<isotope>("Cl", "³⁹Cl");
@@ -857,10 +860,16 @@ void populate(ecs::basic_manager<std::string>& elements) {
       element_group(18),
       atomic_weight(39.95F));
 
-    elements.add("³⁴Ar", isotope_neutrons(16), half_life::milliseconds(843.8F));
-    elements.add("³⁵Ar", isotope_neutrons(17), half_life::seconds(1.7756F));
+    elements.add(
+      "³⁴Ar",
+      isotope_neutrons(16),
+      half_life::milliseconds(843.8F),
+      beta_p_decay());
+    elements.add(
+      "³⁵Ar", isotope_neutrons(17), half_life::seconds(1.7756F), beta_p_decay());
     elements.add("³⁶Ar", isotope_neutrons(18));
-    elements.add("³⁷Ar", isotope_neutrons(19), half_life::days(35.011F));
+    elements.add(
+      "³⁷Ar", isotope_neutrons(19), half_life::days(35.011F), beta_p_decay());
     elements.add("³⁸Ar", isotope_neutrons(20));
     elements.add(
       "³⁹Ar", isotope_neutrons(21), half_life::years(269.F), beta_m_decay());
@@ -879,12 +888,9 @@ void populate(ecs::basic_manager<std::string>& elements) {
       "⁴⁶Ar", isotope_neutrons(28), half_life::seconds(8.4F), beta_m_decay());
 
     elements.add_relation<isotope>("Ar", "³⁴Ar");
-    elements.add_relation<beta_p_decay>("³⁴Ar", "³⁴Cl");
     elements.add_relation<isotope>("Ar", "³⁵Ar");
-    elements.add_relation<beta_p_decay>("³⁵Ar", "³⁵Cl");
     elements.add_relation<isotope>("Ar", "³⁶Ar");
     elements.add_relation<isotope>("Ar", "³⁷Ar");
-    elements.add_relation<beta_p_decay>("³⁷Ar", "³⁷Cl");
     elements.add_relation<isotope>("Ar", "³⁸Ar");
     elements.add_relation<isotope>("Ar", "³⁹Ar");
     elements.add_relation<isotope>("Ar", "⁴⁰Ar");
@@ -903,13 +909,16 @@ void populate(ecs::basic_manager<std::string>& elements) {
       element_group(1),
       atomic_weight(39.0983F));
 
-    elements.add("³⁷K", isotope_neutrons(18), half_life::seconds(1.2365F));
-    elements.add("³⁸K", isotope_neutrons(19), half_life::minutes(7.636F));
+    elements.add(
+      "³⁷K", isotope_neutrons(18), half_life::seconds(1.2365F), beta_p_decay());
+    elements.add(
+      "³⁸K", isotope_neutrons(19), half_life::minutes(7.636F), beta_p_decay());
     elements.add("³⁹K", isotope_neutrons(20));
     elements.add(
       "⁴⁰K",
       isotope_neutrons(21),
       half_life::years(1.248e9F),
+      beta_p_decay(),
       beta_m_decay(),
       electron_capture());
     elements.add("⁴¹K", isotope_neutrons(22));
@@ -927,12 +936,9 @@ void populate(ecs::basic_manager<std::string>& elements) {
       "⁴⁷K", isotope_neutrons(28), half_life::seconds(17.50F), beta_m_decay());
 
     elements.add_relation<isotope>("K", "³⁷K");
-    elements.add_relation<beta_p_decay>("³⁷K", "³⁷Ar");
     elements.add_relation<isotope>("K", "³⁸K");
-    elements.add_relation<beta_p_decay>("³⁸K", "³⁸Ar");
     elements.add_relation<isotope>("K", "³⁹K");
     elements.add_relation<isotope>("K", "⁴⁰K");
-    elements.add_relation<beta_p_decay>("⁴⁰K", "⁴⁰Ar");
     elements.add_relation<isotope>("K", "⁴¹K");
     elements.add_relation<isotope>("K", "⁴²K");
     elements.add_relation<isotope>("K", "⁴³K");
@@ -949,7 +955,11 @@ void populate(ecs::basic_manager<std::string>& elements) {
       element_group(2),
       atomic_weight(40.078F));
 
-    elements.add("³⁹Ca", isotope_neutrons(19), half_life::milliseconds(860.3F));
+    elements.add(
+      "³⁹Ca",
+      isotope_neutrons(19),
+      half_life::milliseconds(860.3F),
+      beta_p_decay());
     elements.add("⁴⁰Ca", isotope_neutrons(20));
     elements.add(
       "⁴¹Ca",
@@ -974,7 +984,6 @@ void populate(ecs::basic_manager<std::string>& elements) {
       "⁵¹Ca", isotope_neutrons(31), half_life::seconds(10.0F), beta_m_decay());
 
     elements.add_relation<isotope>("Ca", "³⁹Ca");
-    elements.add_relation<beta_p_decay>("³⁹Ca", "³⁹K");
     elements.add_relation<isotope>("Ca", "⁴⁰Ca");
     elements.add_relation<isotope>("Ca", "⁴¹Ca");
     elements.add_relation<isotope>("Ca", "⁴²Ca");
@@ -996,10 +1005,20 @@ void populate(ecs::basic_manager<std::string>& elements) {
       element_group(3),
       atomic_weight(44.955908F));
 
-    elements.add("⁴¹Sc", isotope_neutrons(20), half_life::milliseconds(596.3F));
-    elements.add("⁴²Sc", isotope_neutrons(21), half_life::milliseconds(681.3F));
-    elements.add("⁴³Sc", isotope_neutrons(22), half_life::hours(3.891F));
-    elements.add("⁴⁴Sc", isotope_neutrons(23), half_life::hours(3.97F));
+    elements.add(
+      "⁴¹Sc",
+      isotope_neutrons(20),
+      half_life::milliseconds(596.3F),
+      beta_p_decay());
+    elements.add(
+      "⁴²Sc",
+      isotope_neutrons(21),
+      half_life::milliseconds(681.3F),
+      beta_p_decay());
+    elements.add(
+      "⁴³Sc", isotope_neutrons(22), half_life::hours(3.891F), beta_p_decay());
+    elements.add(
+      "⁴⁴Sc", isotope_neutrons(23), half_life::hours(3.97F), beta_p_decay());
     elements.add("⁴⁵Sc", isotope_neutrons(24));
     elements.add(
       "⁴⁶Sc", isotope_neutrons(25), half_life::days(83.79F), beta_m_decay());
@@ -1017,13 +1036,9 @@ void populate(ecs::basic_manager<std::string>& elements) {
       "⁵²Sc", isotope_neutrons(31), half_life::seconds(8.2F), beta_m_decay());
 
     elements.add_relation<isotope>("Sc", "⁴¹Sc");
-    elements.add_relation<beta_p_decay>("⁴¹Sc", "⁴¹Ca");
     elements.add_relation<isotope>("Sc", "⁴²Sc");
-    elements.add_relation<beta_p_decay>("⁴²Sc", "⁴²Ca");
     elements.add_relation<isotope>("Sc", "⁴³Sc");
-    elements.add_relation<beta_p_decay>("⁴³Sc", "⁴³Ca");
     elements.add_relation<isotope>("Sc", "⁴⁴Sc");
-    elements.add_relation<beta_p_decay>("⁴⁴Sc", "⁴⁴Ca");
     elements.add_relation<isotope>("Sc", "⁴⁵Sc");
     elements.add_relation<isotope>("Sc", "⁴⁶Sc");
     elements.add_relation<isotope>("Sc", "⁴⁷Sc");
@@ -1041,11 +1056,20 @@ void populate(ecs::basic_manager<std::string>& elements) {
       element_group(4),
       atomic_weight(47.867F));
 
-    elements.add("⁴²Ti", isotope_neutrons(20), half_life::milliseconds(199.F));
-    elements.add("⁴³Ti", isotope_neutrons(21), half_life::milliseconds(509.F));
+    elements.add(
+      "⁴²Ti",
+      isotope_neutrons(20),
+      half_life::milliseconds(199.F),
+      beta_p_decay());
+    elements.add(
+      "⁴³Ti",
+      isotope_neutrons(21),
+      half_life::milliseconds(509.F),
+      beta_p_decay());
     elements.add(
       "⁴⁴Ti", isotope_neutrons(22), half_life::years(60.0F), electron_capture());
-    elements.add("⁴⁵Ti", isotope_neutrons(23), half_life::hours(184.8F));
+    elements.add(
+      "⁴⁵Ti", isotope_neutrons(23), half_life::hours(184.8F), beta_p_decay());
     elements.add("⁴⁶Ti", isotope_neutrons(24));
     elements.add("⁴⁷Ti", isotope_neutrons(25));
     elements.add("⁴⁸Ti", isotope_neutrons(26));
@@ -1066,12 +1090,9 @@ void populate(ecs::basic_manager<std::string>& elements) {
       beta_m_decay());
 
     elements.add_relation<isotope>("Ti", "⁴²Ti");
-    elements.add_relation<beta_p_decay>("⁴²Ti", "⁴²Sc");
     elements.add_relation<isotope>("Ti", "⁴³Ti");
-    elements.add_relation<beta_p_decay>("⁴³Ti", "⁴³Sc");
     elements.add_relation<isotope>("Ti", "⁴⁴Ti");
     elements.add_relation<isotope>("Ti", "⁴⁵Ti");
-    elements.add_relation<beta_p_decay>("⁴⁵Ti", "⁴⁵Sc");
     elements.add_relation<isotope>("Ti", "⁴⁶Ti");
     elements.add_relation<isotope>("Ti", "⁴⁷Ti");
     elements.add_relation<isotope>("Ti", "⁴⁸Ti");
@@ -1092,10 +1113,20 @@ void populate(ecs::basic_manager<std::string>& elements) {
       element_group(5),
       atomic_weight(50.9415F));
 
-    elements.add("⁴⁵V", isotope_neutrons(22), half_life::milliseconds(547.F));
-    elements.add("⁴⁶V", isotope_neutrons(23), half_life::milliseconds(422.5F));
-    elements.add("⁴⁷V", isotope_neutrons(24), half_life::minutes(32.6F));
-    elements.add("⁴⁸V", isotope_neutrons(25), half_life::days(15.9735F));
+    elements.add(
+      "⁴⁵V",
+      isotope_neutrons(22),
+      half_life::milliseconds(547.F),
+      beta_p_decay());
+    elements.add(
+      "⁴⁶V",
+      isotope_neutrons(23),
+      half_life::milliseconds(422.5F),
+      beta_p_decay());
+    elements.add(
+      "⁴⁷V", isotope_neutrons(24), half_life::minutes(32.6F), beta_p_decay());
+    elements.add(
+      "⁴⁸V", isotope_neutrons(25), half_life::days(15.9735F), beta_p_decay());
     elements.add(
       "⁴⁹V", isotope_neutrons(26), half_life::days(329.F), electron_capture());
     elements.add(
@@ -1120,13 +1151,9 @@ void populate(ecs::basic_manager<std::string>& elements) {
       beta_m_n_decay());
 
     elements.add_relation<isotope>("V", "⁴⁵V");
-    elements.add_relation<beta_p_decay>("⁴⁵V", "⁴⁵Ti");
     elements.add_relation<isotope>("V", "⁴⁶V");
-    elements.add_relation<beta_p_decay>("⁴⁶V", "⁴⁶Ti");
     elements.add_relation<isotope>("V", "⁴⁷V");
-    elements.add_relation<beta_p_decay>("⁴⁷V", "⁴⁷Ti");
     elements.add_relation<isotope>("V", "⁴⁸V");
-    elements.add_relation<beta_p_decay>("⁴⁸V", "⁴⁸Ti");
     elements.add_relation<isotope>("V", "⁴⁹V");
     elements.add_relation<isotope>("V", "⁵⁰V");
     elements.add_relation<isotope>("V", "⁵¹V");
