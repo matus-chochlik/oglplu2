@@ -52,9 +52,7 @@ public:
     }
 
     storage_iterator(storage_iterator&& tmp) noexcept
-      : _i{tmp._i} {
-        tmp._i = nullptr;
-    }
+      : _i{std::exchange(tmp._i, nullptr)} {}
 
     storage_iterator(const storage_iterator&) = delete;
     auto operator=(storage_iterator&&) = delete;
@@ -65,9 +63,7 @@ public:
     }
 
     auto release() -> storage_iterator_intf<Entity, false>* {
-        storage_iterator_intf<Entity, false>* p = _i;
-        _i = nullptr;
-        return p;
+        return std::exchange(_i, nullptr);
     }
 
     auto ptr() noexcept -> storage_iterator_intf<Entity, false>* {

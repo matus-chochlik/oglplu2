@@ -36,11 +36,13 @@ private:
       const F& func,
       mp_list<mp_list<C...>>,
       X&&... x) {
-        callable_ref<void(entity_param_t<Entity>, manipulator<C> & ...)> w(
-          [&func, &x...](entity_param_t<Entity> e, manipulator<C>&... c) {
-              func(std::forward<X>(x)..., e, c...);
-          });
-        m.for_each(w);
+        const auto wrap = [&func, &x...](
+                            entity_param_t<Entity> e, manipulator<C>&... c) {
+            func(std::forward<X>(x)..., e, c...);
+        };
+        m.for_each(
+          callable_ref<void(entity_param_t<Entity>, manipulator<C> & ...)>{
+            wrap});
     }
 
     template <typename F, typename... C, typename L, typename... Ls, typename... X>
@@ -49,12 +51,15 @@ private:
       const F& func,
       mp_list<mp_list<C...>, L, Ls...>,
       X&&... x) {
-        callable_ref<void(entity_param_t<Entity>, manipulator<C> & ...)> w(
-          [&m, &func, &x...](entity_param_t<Entity> e, manipulator<C>&... c) {
-              _apply(
-                m, func, mp_list<L, Ls...>(), std::forward<X>(x)..., e, c...);
-          });
-        m.for_each(w);
+        const auto wrap = [&m, &func, &x...](
+                            entity_param_t<Entity> e, manipulator<C>&... c) {
+            _apply(
+              m, func, mp_list<L, Ls...>(), std::forward<X>(x)..., e, c...);
+        };
+        ;
+        m.for_each(
+          callable_ref<void(entity_param_t<Entity>, manipulator<C> & ...)>{
+            wrap});
     }
 
 public:

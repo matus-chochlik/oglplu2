@@ -34,8 +34,8 @@ private:
 
 public:
     std_map_cmp_storage_iterator(_map_t& m) noexcept
-      : _map(&m)
-      , _i(m.begin()) {
+      : _map{&m}
+      , _i{m.begin()} {
         EAGINE_ASSERT(_map);
     }
 
@@ -340,14 +340,14 @@ private:
     using _pair_t = std::pair<Entity, Entity>;
     using _map_t = typename std::map<_pair_t, Relation>;
     using _iter_t = typename _map_t::iterator;
-    _map_t* _map;
+    _map_t* _map{nullptr};
     _iter_t _i;
 
     friend class std_map_rel_storage<Entity, Relation>;
 
 public:
     std_map_rel_storage_iterator(_map_t& m) noexcept
-      : _map(&m)
+      : _map{&m}
       , _i(m.begin()) {
         EAGINE_ASSERT(_map);
     }

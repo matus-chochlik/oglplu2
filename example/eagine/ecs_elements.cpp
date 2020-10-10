@@ -175,6 +175,10 @@ struct alpha_decay : ecs::component<alpha_decay> {
         return EAGINE_ID_V(AlphaDcy);
     }
 
+    static auto symbol() noexcept -> string_view {
+        return {"α"};
+    }
+
     static constexpr auto proton_count_diff() noexcept -> short {
         return -2;
     }
@@ -189,6 +193,10 @@ struct alpha_decay : ecs::component<alpha_decay> {
 struct proton_emission : ecs::component<proton_emission> {
     static constexpr auto uid() noexcept {
         return EAGINE_ID_V(PrtnEmissn);
+    }
+
+    static auto symbol() noexcept -> string_view {
+        return {"p"};
     }
 
     static constexpr auto proton_count_diff() noexcept -> short {
@@ -207,6 +215,10 @@ struct neutron_emission : ecs::component<neutron_emission> {
         return EAGINE_ID_V(NtrnEmissn);
     }
 
+    static auto symbol() noexcept -> string_view {
+        return {"n"};
+    }
+
     static constexpr auto proton_count_diff() noexcept -> short {
         return 0;
     }
@@ -221,6 +233,10 @@ struct neutron_emission : ecs::component<neutron_emission> {
 struct electron_capture : ecs::component<electron_capture> {
     static constexpr auto uid() noexcept {
         return EAGINE_ID_V(ElnCapDcy);
+    }
+
+    static auto symbol() noexcept -> string_view {
+        return {"+e⁻"};
     }
 
     static constexpr auto proton_count_diff() noexcept -> short {
@@ -239,6 +255,10 @@ struct beta_m_decay : ecs::component<beta_m_decay> {
         return EAGINE_ID_V(BetaMDcy);
     }
 
+    static auto symbol() noexcept -> string_view {
+        return {"β⁻"};
+    }
+
     static constexpr auto proton_count_diff() noexcept -> short {
         return 1;
     }
@@ -253,6 +273,10 @@ struct beta_m_decay : ecs::component<beta_m_decay> {
 struct beta_m2_decay : ecs::component<beta_m2_decay> {
     static constexpr auto uid() noexcept {
         return EAGINE_ID_V(BetaM2Dcy);
+    }
+
+    static auto symbol() noexcept -> string_view {
+        return {"β⁻,β⁻"};
     }
 
     static constexpr auto proton_count_diff() noexcept -> short {
@@ -271,6 +295,10 @@ struct beta_m_alpha_decay : ecs::component<beta_m_alpha_decay> {
         return EAGINE_ID_V(BtaMAlpDcy);
     }
 
+    static auto symbol() noexcept -> string_view {
+        return {"β⁻,α"};
+    }
+
     static constexpr auto proton_count_diff() noexcept -> short {
         return 1;
     }
@@ -287,6 +315,10 @@ struct beta_m_n_decay : ecs::component<beta_m_n_decay> {
         return EAGINE_ID_V(BetaMNDcy);
     }
 
+    static auto symbol() noexcept -> string_view {
+        return {"β⁻,n"};
+    }
+
     static constexpr auto proton_count_diff() noexcept -> short {
         return 1;
     }
@@ -301,6 +333,10 @@ struct beta_m_n_decay : ecs::component<beta_m_n_decay> {
 struct beta_p_decay : ecs::component<beta_p_decay> {
     static constexpr auto uid() noexcept {
         return EAGINE_ID_V(BetaPDcy);
+    }
+
+    static auto symbol() noexcept -> string_view {
+        return {"β⁺"};
     }
 
     static constexpr auto proton_count_diff() noexcept -> short {
@@ -375,14 +411,10 @@ print_names_of_actinides(ecs::basic_manager<element_symbol>& elements) {
 static void
 print_isotopes_of_hydrogen(ecs::basic_manager<element_symbol>& elements) {
 
-    elements.for_each_with<const element_name, const isotope_neutrons>(
-      [&](
-        const auto& isot,
-        ecs::manipulator<const element_name>& name,
-        ecs::manipulator<const isotope_neutrons>& neutrons) {
+    elements.for_each_with<const isotope_neutrons>(
+      [&](const auto& isot, auto& neutrons) {
           if(elements.has<isotope>("H", isot)) {
-              std::cout << name.get_latin_name() << ": "
-                        << neutrons.read().number;
+              std::cout << isot << ": " << neutrons.read().number;
               if(elements.has<half_life>(isot)) {
                   std::cout << " (radioactive)";
               }
@@ -396,35 +428,24 @@ template <typename Decay>
 void cache_decay_products_of(ecs::basic_manager<element_symbol>& elements) {
 
     elements.for_each_with<const isotope_neutrons, Decay>(
-      [&](
-        const auto& original_i,
-        ecs::manipulator<const isotope_neutrons>& original_n,
-        ecs::manipulator<Decay>& decay) {
+      [&](const auto& original_i, auto& original_n, auto& decay) {
           elements.for_each_with<const isotope_neutrons>(
-            [&](
-              const auto& decayed_i,
-              ecs::manipulator<const isotope_neutrons>& decayed_n) {
+            [&](const auto& decayed_i, auto& decayed_n) {
                 if(
-                  original_n.read().number +
-                    decay.read().neutron_count_diff() ==
-                  decayed_n.read().number) {
+                  original_n->number + decay->neutron_count_diff() ==
+                  decayed_n->number) {
                     elements.for_each_with<const element_protons>(
-                      [&](
-                        const auto& original_e,
-                        ecs::manipulator<const element_protons>& original_p) {
+                      [&](const auto& original_e, auto& original_p) {
                           if(elements.has<isotope>(original_e, original_i)) {
                               elements.for_each_with<const element_protons>(
-                                [&](
-                                  const auto& decayed_e,
-                                  ecs::manipulator<const element_protons>&
-                                    decayed_p) {
+                                [&](const auto& decayed_e, auto& decayed_p) {
                                     if(elements.has<isotope>(
                                          decayed_e, decayed_i)) {
                                         if(
-                                          original_p.read().number +
-                                            decay.read().proton_count_diff() ==
-                                          decayed_p.read().number) {
-                                            decay.write().product = decayed_i;
+                                          original_p->number +
+                                            decay->proton_count_diff() ==
+                                          decayed_p->number) {
+                                            decay->product = decayed_i;
                                         }
                                     }
                                 });
