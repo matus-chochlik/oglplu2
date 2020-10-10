@@ -60,6 +60,8 @@ function(eagine_add_directory_example)
 	eagine_install_example(${TARGET_NAME})
 endfunction()
 
+add_subdirectory(000_translucent_arrow)
+
 add_subdirectory(001_clear)
 add_subdirectory(002_spectrum_compat)
 add_subdirectory(003_checker_compat)
