@@ -13,6 +13,7 @@
 #include <oglplus/gl.hpp>
 #include <oglplus/gl_api.hpp>
 
+#include <eagine/quantities.hpp>
 #include <oglplus/math/primitives.hpp>
 #include <oglplus/shapes/drawing.hpp>
 
@@ -21,9 +22,9 @@ class example_context;
 namespace oglp {
 class example_orbiting_camera;
 //------------------------------------------------------------------------------
-// program
+// programs
 //------------------------------------------------------------------------------
-class draw_program {
+class depth_program {
 private:
     owned_program_name prog;
 
@@ -34,6 +35,27 @@ public:
     void set_projection(
       const example_context& ctx,
       const example_orbiting_camera& camera);
+
+    void bind_position_location(
+      const example_context& ctx,
+      vertex_attrib_location loc);
+};
+//------------------------------------------------------------------------------
+class draw_program {
+private:
+    owned_program_name prog;
+
+    uniform_location camera_loc;
+    uniform_location light_pos_loc;
+
+    radians_t<float> rad{0.F};
+
+public:
+    void init(example_context& ctx);
+    void set_projection(
+      const example_context& ctx,
+      const example_orbiting_camera& camera);
+    void update(const example_context& ctx);
 
     void bind_position_location(
       const example_context& ctx,

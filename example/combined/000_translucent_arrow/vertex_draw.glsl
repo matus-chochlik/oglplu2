@@ -5,7 +5,7 @@ out vec3 vertNormal;
 out vec3 vertColor;
 out vec3 vertLightDir;
 uniform mat4 Projection;
-uniform vec3 LightPosition = vec3(12.0, 11.0, 17.0);
+uniform vec3 LightPosition;
 
 void main()
 {

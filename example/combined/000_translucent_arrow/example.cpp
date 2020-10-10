@@ -10,6 +10,7 @@
 #include <oglplus/gl.hpp>
 #include <oglplus/gl_api.hpp>
 
+#include <eagine/units/unit/si/angle.hpp>
 #include <oglplus/math/matrix.hpp>
 #include <oglplus/math/vector.hpp>
 
@@ -24,6 +25,7 @@ namespace oglp {
 class example_arrow : public example {
     example_orbiting_camera camera;
 
+    depth_program depth_prog;
     draw_program draw_prog;
     arrow_geometry arrow;
 
@@ -35,6 +37,7 @@ public:
     void user_idle(const example_context& ctx) final;
     void resize(const example_context& ctx) final;
     void render(const example_context& ctx) final;
+    auto default_timeout() -> seconds_t<float> final;
 };
 //------------------------------------------------------------------------------
 // example_arrow
@@ -56,9 +59,11 @@ auto example_arrow::check_requirements(const example_context& ctx) -> bool {
 void example_arrow::init(example_context& ctx) {
     const auto& gl = ctx.gl();
 
+    depth_prog.init(ctx);
     draw_prog.init(ctx);
     arrow.init(ctx);
 
+    depth_prog.bind_position_location(ctx, arrow.position_loc());
     draw_prog.bind_position_location(ctx, arrow.position_loc());
     draw_prog.bind_normal_location(ctx, arrow.normal_loc());
 
@@ -68,7 +73,7 @@ void example_arrow::init(example_context& ctx) {
       .set_far(sr * 5.0F)
       .set_orbit_min(sr * 1.2F)
       .set_orbit_max(sr * 2.4F)
-      .set_fov(right_angle_());
+      .set_fov(degrees_(80.F));
     draw_prog.set_projection(ctx, camera);
 
     gl.clear_color(0.45F, 0.45F, 0.45F, 0.0F);
@@ -108,7 +113,12 @@ void example_arrow::render(const example_context& ctx) {
     const auto& [gl, GL] = ctx.gl();
 
     gl.clear(GL.color_buffer_bit | GL.depth_buffer_bit);
+    draw_prog.update(ctx);
     arrow.draw(ctx);
+}
+//------------------------------------------------------------------------------
+auto example_arrow::default_timeout() -> seconds_t<float> {
+    return seconds_(30);
 }
 //------------------------------------------------------------------------------
 } // namespace oglp

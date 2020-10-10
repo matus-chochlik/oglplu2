@@ -7,9 +7,9 @@ const vec3 lightColor = vec3(1.0);
 
 void main()
 {
-	float lightDot = dot(vertNormal, vertLightDir);
-	float diffuse = 0.45 + max(0.0, lightDot)*0.75;
-	float specular = pow(lightDot+0.03, 16.0);
+	float lightDot = max(dot(vertLightDir, vertNormal), 0.0);
+	float diffuse = 0.45 + lightDot*0.75;
+	float specular = pow(lightDot+0.1, 16.0);
 	fragColor = vertColor*diffuse + lightColor*specular;
 }
 

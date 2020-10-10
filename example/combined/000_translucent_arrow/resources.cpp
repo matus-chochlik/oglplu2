@@ -20,6 +20,40 @@ namespace eagine::oglp {
 //------------------------------------------------------------------------------
 // programs
 //------------------------------------------------------------------------------
+void depth_program::init(example_context& ctx) {
+    auto& cleanup = ctx.cleanup();
+    const auto& [gl, GL] = ctx.gl();
+
+    // vertex shader
+    owned_shader_name vs;
+    auto vs_src = embed(EAGINE_ID(VSDepth), "vertex_depth.glsl");
+    gl.create_shader(GL.vertex_shader) >> vs;
+    gl.shader_source(vs, glsl_string_ref(vs_src));
+    gl.compile_shader(vs);
+
+    // program
+    gl.create_program() >> prog;
+    gl.delete_program.later_by(cleanup, prog);
+    gl.attach_shader(prog, vs);
+    gl.link_program(prog);
+    gl.use_program(prog);
+
+    gl.get_uniform_location(prog, "Projection") >> camera_loc;
+}
+//------------------------------------------------------------------------------
+void depth_program::set_projection(
+  const example_context& ctx,
+  const example_orbiting_camera& camera) {
+    auto& state = ctx.state();
+    ctx.gl().set_uniform(prog, camera_loc, camera.matrix(state));
+}
+//------------------------------------------------------------------------------
+void depth_program::bind_position_location(
+  const example_context& ctx,
+  vertex_attrib_location loc) {
+    ctx.gl().bind_attrib_location(prog, loc, "Position");
+}
+//------------------------------------------------------------------------------
 void draw_program::init(example_context& ctx) {
     auto& cleanup = ctx.cleanup();
     const auto& [gl, GL] = ctx.gl();
@@ -28,7 +62,6 @@ void draw_program::init(example_context& ctx) {
     owned_shader_name vs;
     auto vs_src = embed(EAGINE_ID(VSDraw), "vertex_draw.glsl");
     gl.create_shader(GL.vertex_shader) >> vs;
-    gl.delete_shader.later_by(cleanup, vs);
     gl.shader_source(vs, glsl_string_ref(vs_src));
     gl.compile_shader(vs);
 
@@ -36,7 +69,6 @@ void draw_program::init(example_context& ctx) {
     owned_shader_name fs;
     auto fs_src = embed(EAGINE_ID(FSDraw), "fragment_draw.glsl");
     gl.create_shader(GL.fragment_shader) >> fs;
-    gl.delete_shader.later_by(cleanup, fs);
     gl.shader_source(fs, glsl_string_ref(fs_src));
     gl.compile_shader(fs);
 
@@ -49,6 +81,7 @@ void draw_program::init(example_context& ctx) {
     gl.use_program(prog);
 
     gl.get_uniform_location(prog, "Projection") >> camera_loc;
+    gl.get_uniform_location(prog, "LightPosition") >> light_pos_loc;
 }
 //------------------------------------------------------------------------------
 void draw_program::set_projection(
@@ -56,6 +89,13 @@ void draw_program::set_projection(
   const example_orbiting_camera& camera) {
     auto& state = ctx.state();
     ctx.gl().set_uniform(prog, camera_loc, camera.matrix(state));
+}
+//------------------------------------------------------------------------------
+void draw_program::update(const example_context& ctx) {
+    rad += radians_(0.5F * ctx.state().frame_duration().value());
+
+    ctx.gl().set_uniform(
+      prog, light_pos_loc, vec3(cos(rad) * 5, sin(rad) * 7, 8));
 }
 //------------------------------------------------------------------------------
 void draw_program::bind_position_location(
