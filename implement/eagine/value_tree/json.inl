@@ -17,14 +17,6 @@
 
 namespace eagine::valtree {
 //------------------------------------------------------------------------------
-static inline auto rapidjson_string_ref(string_view str) {
-    if(EAGINE_LIKELY(str)) {
-        return rapidjson::StringRef(
-          str.data(), rapidjson::SizeType(str.size()));
-    }
-    return rapidjson::StringRef("", 0U);
-}
-//------------------------------------------------------------------------------
 static inline auto view(const rapidjson::GenericStringRef<char>& str) {
     return string_view{str.s, span_size(str.length)};
 }
