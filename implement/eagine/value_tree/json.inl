@@ -12,6 +12,7 @@
 #include <eagine/is_within_limits.hpp>
 #include <eagine/logging/logger.hpp>
 #include <rapidjson/document.h>
+#include <rapidjson/error/en.h>
 #include <vector>
 
 namespace eagine::valtree {
@@ -425,12 +426,15 @@ public:
 
     static auto make_shared(string_view json_str, logger& log)
       -> std::shared_ptr<rapidjson_document_compound> {
-        _doc_t rj_doc{};
-        rj_doc.Parse(rapidjson_string_ref(json_str));
-        if(!rj_doc.HasParseError()) {
+        _doc_t rj_doc;
+        const rapidjson::ParseResult parse_ok{
+          rj_doc.Parse(rapidjson_string_ref(json_str))};
+        if(parse_ok) {
             return std::make_shared<rapidjson_document_compound>(rj_doc);
         }
-        log.error("JSON parse error");
+        log.error("JSON parse error")
+          .arg(EAGINE_ID(message), rapidjson::GetParseError_En(parse_ok.Code()))
+          .arg(EAGINE_ID(offset), parse_ok.Offset());
         return {};
     }
 
