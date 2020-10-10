@@ -428,7 +428,7 @@ public:
       -> std::shared_ptr<rapidjson_document_compound> {
         _doc_t rj_doc;
         const rapidjson::ParseResult parse_ok{
-          rj_doc.Parse(rapidjson_string_ref(json_str))};
+          rj_doc.Parse(json_str.data(), rapidjson::SizeType(json_str.size()))};
         if(parse_ok) {
             return std::make_shared<rapidjson_document_compound>(rj_doc);
         }
