@@ -33,7 +33,7 @@ public:
     basic_manipulator() noexcept = default;
 
     basic_manipulator(Component& cmp) noexcept
-      : _ptr(&cmp) {}
+      : _ptr{&cmp} {}
 
     auto is_valid() const noexcept -> bool {
         return _ptr != nullptr;
@@ -57,6 +57,11 @@ public:
         EAGINE_ASSERT(is_valid());
         return *_ptr;
     }
+
+    auto operator->() -> Component* {
+        EAGINE_ASSERT(is_valid());
+        return _ptr;
+    }
 };
 
 template <typename Component>
@@ -73,14 +78,14 @@ public:
     basic_manipulator() noexcept = default;
 
     basic_manipulator(const Component& cmp) noexcept
-      : _ptr(&cmp) {}
+      : _ptr{&cmp} {}
 
     auto is_valid() const noexcept -> bool {
         return _ptr != nullptr;
     }
 
     auto read() const -> const Component& {
-        EAGINE_ASSERT(_ptr != nullptr);
+        EAGINE_ASSERT(is_valid());
         return *_ptr;
     }
 
@@ -93,12 +98,9 @@ public:
         return {nothing};
     }
 
-    template <typename T, typename V>
-    auto is_equal(T Component::*member, const V& value) const -> bool {
-        if(_ptr != nullptr) {
-            return (*_ptr.*member) == value;
-        }
-        return false;
+    auto operator->() -> const Component* {
+        EAGINE_ASSERT(is_valid());
+        return _ptr;
     }
 };
 
@@ -107,44 +109,45 @@ struct get_manipulator {
     using type = basic_manipulator<Component, Const>;
 };
 
+template <typename Component, bool Const>
+using get_manipulator_t = typename get_manipulator<Component, Const>::type;
+
 template <typename Component>
 class manipulator
-  : public get_manipulator<
+  : public get_manipulator_t<
       std::remove_const_t<Component>,
-      std::is_const<Component>::value>::type {
+      std::is_const_v<Component>> {
 private:
-    using _base = typename get_manipulator<
+    using _base = get_manipulator_t<
       std::remove_const_t<Component>,
-      std::is_const<Component>::value>::type;
+      std::is_const_v<Component>>;
 
     using _nonconstC = std::remove_const_t<Component>;
-    std::remove_const_t<Component>* _add_place;
+    _nonconstC* _add_place{nullptr};
 
 protected:
-    const bool _can_rem;
+    const bool _can_rem{false};
     bool _removed{false};
     bool _added{false};
 
 public:
+    manipulator() = default;
+
     manipulator(bool can_rem)
-      : _base()
-      , _add_place(nullptr)
-      , _can_rem(can_rem) {}
+      : _can_rem{can_rem} {}
 
     manipulator(Component& cmp, bool can_rem)
-      : _base(cmp)
-      , _add_place(nullptr)
-      , _can_rem(can_rem) {}
+      : _base{cmp}
+      , _can_rem{can_rem} {}
 
     manipulator(Component& cmp, _nonconstC& add, bool can_rem)
       : _base(cmp)
-      , _add_place(&add)
+      , _add_place{&add}
       , _can_rem(can_rem) {}
 
     manipulator(std::nullptr_t, _nonconstC& add, bool can_rem)
-      : _base()
-      , _add_place(&add)
-      , _can_rem(can_rem) {}
+      : _add_place{&add}
+      , _can_rem{can_rem} {}
 
     auto can_add() const noexcept -> bool {
         return _add_place != nullptr;

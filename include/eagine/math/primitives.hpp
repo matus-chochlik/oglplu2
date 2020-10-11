@@ -81,12 +81,14 @@ public:
     }
 
 private:
-    std::array<vector<T, 3, V>, 3> _vertices;
+    std::array<vector<T, 3, V>, 3> _vertices{};
 };
 //------------------------------------------------------------------------------
 template <typename T, bool V>
 class sphere {
 public:
+    constexpr sphere() noexcept = default;
+
     constexpr sphere(tvec<T, 3, V> cntr, T rad) noexcept
       : _params{vector<T, 4, V>::from(cntr, rad)} {}
 

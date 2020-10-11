@@ -1,5 +1,5 @@
 /**
- *  example combined/007_cube/example.cpp
+ *  example combined/009_json_shape/example.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.

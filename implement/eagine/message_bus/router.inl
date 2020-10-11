@@ -496,8 +496,20 @@ auto router::_do_route_message(
 
         const auto forward_to = [&](auto& endpoint_out) {
             if(EAGINE_UNLIKELY(++_forwarded_messages % 100000 == 0)) {
-                _log.stat("forwarded ${count} messages")
-                  .arg(EAGINE_ID(count), _forwarded_messages);
+                const auto now{std::chrono::steady_clock::now()};
+                const std::chrono::duration<float> interval{
+                  now - _forwarded_since};
+
+                if(EAGINE_LIKELY(interval > decltype(interval)::zero())) {
+                    const auto msgs_per_sec{100000.F / interval.count()};
+
+                    _log.stat("forwarded ${count} messages")
+                      .arg(EAGINE_ID(count), _forwarded_messages)
+                      .arg(EAGINE_ID(interval), interval)
+                      .arg(EAGINE_ID(msgsPerSec), msgs_per_sec);
+                }
+
+                _forwarded_since = now;
             }
             for(auto& conn_out : endpoint_out.connections) {
                 if(EAGINE_LIKELY(conn_out)) {

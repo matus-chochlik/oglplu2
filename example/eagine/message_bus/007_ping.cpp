@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/identifier_ctr.hpp>
 #include <eagine/main_ctx.hpp>
 #include <eagine/math/functions.hpp>
 #include <eagine/message_bus/conn_setup.hpp>
@@ -17,9 +18,10 @@
 #include <eagine/timeout.hpp>
 #include <algorithm>
 #include <chrono>
+#include <cmath>
 #include <cstdint>
 #include <map>
-#include <thread>
+#include <vector>
 
 namespace eagine {
 namespace msgbus {
@@ -32,8 +34,12 @@ struct ping_stats {
       std::chrono::steady_clock::now()};
     std::chrono::steady_clock::time_point finish{
       std::chrono::steady_clock::now()};
+    std::chrono::steady_clock::time_point prev_log{
+      std::chrono::steady_clock::now()};
     std::intmax_t responded{0};
     std::intmax_t timeouted{0};
+
+    std::vector<float> messages_per_second{};
 
     auto avg_time() const noexcept {
         return sum_time / responded;
@@ -94,9 +100,20 @@ public:
         stats.sum_time += age;
         stats.finish = std::chrono::steady_clock::now();
         if(EAGINE_UNLIKELY((++_rcvd % _mod) == 0)) {
-            _log.info("received ${rcvd} pongs")
-              .arg(EAGINE_ID(rcvd), _rcvd)
-              .arg(EAGINE_ID(done), EAGINE_ID(Progress), 0, _rcvd, _max);
+            const auto now{std::chrono::steady_clock::now()};
+            const std::chrono::duration<float> interval{now - stats.prev_log};
+
+            if(EAGINE_LIKELY(interval > decltype(interval)::zero())) {
+                const auto msgs_per_sec{float(_mod) / interval.count()};
+                stats.messages_per_second.push_back(msgs_per_sec);
+
+                _log.info("received ${rcvd} pongs")
+                  .arg(EAGINE_ID(rcvd), _rcvd)
+                  .arg(EAGINE_ID(interval), interval)
+                  .arg(EAGINE_ID(msgsPerSec), msgs_per_sec)
+                  .arg(EAGINE_ID(done), EAGINE_ID(Progress), 0, _rcvd, _max);
+            }
+            stats.prev_log = now;
         }
     }
 
@@ -155,6 +172,8 @@ public:
     void log_stats() {
         const string_view not_avail{"N/A"};
         for(auto& [id, info] : _targets) {
+            const auto& infoc{info};
+
             _log.stat("pingable ${id} stats:")
               .arg(EAGINE_ID(id), id)
               .arg(EAGINE_ID(minTime), info.min_time)
@@ -173,6 +192,47 @@ public:
                 EAGINE_ID(RatePerSec),
                 info.responds_per_second(),
                 not_avail);
+
+            _log.stat("pingable ${id} messages per second:")
+              .arg(EAGINE_ID(id), id)
+              .arg_func([&](logger_backend& backend) {
+                  if(!infoc.messages_per_second.empty()) {
+                      const auto max_mps = *std::max_element(
+                        infoc.messages_per_second.begin(),
+                        infoc.messages_per_second.end());
+
+                      std::size_t i{0};
+                      if(const auto div{
+                           std::size_t(_max / ((std::log(_max) - 1) * _mod))}) {
+
+                          float sum_mps = 0.F;
+                          const float mpsn{1.F / div};
+
+                          for(const float mps : infoc.messages_per_second) {
+                              sum_mps += mps;
+                              if(++i % div == 0) {
+                                  sum_mps *= mpsn;
+                                  backend.add_float(
+                                    EAGINE_ID(mps),
+                                    EAGINE_ID(Histogram),
+                                    float(0),
+                                    float(sum_mps),
+                                    float(max_mps));
+                                  sum_mps = 0.F;
+                              }
+                          }
+                          if(i % div != 0) {
+                              sum_mps *= 1.F / float(i % div);
+                              backend.add_float(
+                                EAGINE_ID(mps),
+                                EAGINE_ID(Histogram),
+                                float(0),
+                                float(sum_mps),
+                                float(max_mps));
+                          }
+                      }
+                  }
+              });
         }
     }
 

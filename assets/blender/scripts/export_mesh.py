@@ -296,7 +296,15 @@ def has_same_values(options, obj, mesh, lil, fl, ll, vl, lir, fr, lr, vr):
                 return False
     if options.exp_weight or options.exp_occlusion:
         for grp in obj.vertex_groups:
-            if grp.weight(vl.index) != grp.weight(vr.index):
+            try:
+                wl = grp.weight(vl.index)
+            except RuntimeError:
+                wl = 0.0
+            try:
+                wr = grp.weight(vr.index)
+            except RuntimeError:
+                wr = 0.0
+            if wl != wr:
                 return False
 
     return True
@@ -487,9 +495,12 @@ def export_single(options, bdata, name, obj, mesh):
                             pass
                 if options.exp_weight:
                     for grp in obj.vertex_groups:
-                        w = grp.weight(meshvert.index)
                         try:
-                            groups[grp.name].append(fixnum(w, wp))
+                            try:
+                                w = grp.weight(meshvert.index)
+                                groups[grp.name].append(fixnum(w, wp))
+                            except RuntimeError:
+                                groups[grp.name].append(fixnum(0, wp))
                         except KeyError:
                             pass
                 if options.exp_occlusion:
