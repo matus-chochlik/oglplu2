@@ -350,6 +350,26 @@ struct beta_p_decay : ecs::component<beta_p_decay> {
     element_symbol product;
 };
 //------------------------------------------------------------------------------
+struct beta_p_p_decay : ecs::component<beta_p_p_decay> {
+    static constexpr auto uid() noexcept {
+        return EAGINE_ID_V(BetaPPDcy);
+    }
+
+    static auto symbol() noexcept -> string_view {
+        return {"β⁺,p"};
+    }
+
+    static constexpr auto proton_count_diff() noexcept -> short {
+        return -2;
+    }
+
+    static constexpr auto neutron_count_diff() noexcept -> short {
+        return 1;
+    }
+
+    element_symbol product;
+};
+//------------------------------------------------------------------------------
 // Relations
 //------------------------------------------------------------------------------
 struct isotope : ecs::relation<isotope> {
@@ -466,6 +486,7 @@ static void cache_decay_products(ecs::basic_manager<element_symbol>& elements) {
     cache_decay_products_of<beta_m_alpha_decay>(elements);
     cache_decay_products_of<beta_m_n_decay>(elements);
     cache_decay_products_of<beta_p_decay>(elements);
+    cache_decay_products_of<beta_p_p_decay>(elements);
 }
 //------------------------------------------------------------------------------
 void populate(ecs::basic_manager<element_symbol>& elements);
@@ -496,6 +517,7 @@ auto main(main_ctx& ctx) -> int {
       .register_component_storage<std_map_cmp_storage, beta_m_alpha_decay>();
     elements.register_component_storage<std_map_cmp_storage, beta_m_n_decay>();
     elements.register_component_storage<std_map_cmp_storage, beta_p_decay>();
+    elements.register_component_storage<std_map_cmp_storage, beta_p_p_decay>();
 
     elements.register_relation_storage<std_map_rel_storage, isotope>();
 
@@ -1342,6 +1364,78 @@ void populate(ecs::basic_manager<element_symbol>& elements) {
       element_period(4),
       element_group(6),
       atomic_weight(51.9961F));
+
+    elements.add(
+      "⁴⁵Cr",
+      isotope_neutrons(21),
+      half_life::milliseconds(50.F),
+      beta_p_decay(),
+      beta_p_p_decay());
+    elements.add(
+      "⁴⁶Cr",
+      isotope_neutrons(22),
+      half_life::milliseconds(266.F),
+      beta_p_decay());
+    elements.add(
+      "⁴⁷Cr",
+      isotope_neutrons(23),
+      half_life::milliseconds(500.F),
+      beta_p_decay());
+    elements.add(
+      "⁴⁸Cr", isotope_neutrons(24), half_life::hours(21.56F), beta_p_decay());
+    elements.add(
+      "⁴⁹Cr", isotope_neutrons(25), half_life::minutes(42.3F), beta_p_decay());
+    elements.add("⁵⁰Cr", isotope_neutrons(26));
+    elements.add(
+      "⁵¹Cr",
+      isotope_neutrons(27),
+      half_life::days(27.7025F),
+      electron_capture());
+    elements.add("⁵²Cr", isotope_neutrons(28));
+    elements.add("⁵³Cr", isotope_neutrons(29));
+    elements.add("⁵⁴Cr", isotope_neutrons(30));
+    elements.add(
+      "⁵⁵Cr", isotope_neutrons(31), half_life::minutes(3.497F), beta_m_decay());
+    elements.add(
+      "⁵⁶Cr", isotope_neutrons(32), half_life::minutes(5.94F), beta_m_decay());
+    elements.add(
+      "⁵⁷Cr", isotope_neutrons(33), half_life::seconds(21.1F), beta_m_decay());
+    elements.add(
+      "⁵⁸Cr", isotope_neutrons(34), half_life::seconds(7.0F), beta_m_decay());
+    elements.add(
+      "⁵⁹Cr",
+      isotope_neutrons(35),
+      half_life::milliseconds(460.F),
+      beta_m_decay());
+    elements.add(
+      "⁶⁰Cr",
+      isotope_neutrons(36),
+      half_life::milliseconds(560.F),
+      beta_m_decay());
+    elements.add(
+      "⁶¹Cr",
+      isotope_neutrons(37),
+      half_life::milliseconds(261.F),
+      beta_m_decay(),
+      beta_m_n_decay());
+
+    elements.add_relation<isotope>("Cr", "⁴⁵Cr");
+    elements.add_relation<isotope>("Cr", "⁴⁶Cr");
+    elements.add_relation<isotope>("Cr", "⁴⁷Cr");
+    elements.add_relation<isotope>("Cr", "⁴⁸Cr");
+    elements.add_relation<isotope>("Cr", "⁴⁹Cr");
+    elements.add_relation<isotope>("Cr", "⁵⁰Cr");
+    elements.add_relation<isotope>("Cr", "⁵¹Cr");
+    elements.add_relation<isotope>("Cr", "⁵²Cr");
+    elements.add_relation<isotope>("Cr", "⁵³Cr");
+    elements.add_relation<isotope>("Cr", "⁵⁴Cr");
+    elements.add_relation<isotope>("Cr", "⁵⁵Cr");
+    elements.add_relation<isotope>("Cr", "⁵⁶Cr");
+    elements.add_relation<isotope>("Cr", "⁵⁷Cr");
+    elements.add_relation<isotope>("Cr", "⁵⁸Cr");
+    elements.add_relation<isotope>("Cr", "⁵⁹Cr");
+    elements.add_relation<isotope>("Cr", "⁶⁰Cr");
+    elements.add_relation<isotope>("Cr", "⁶¹Cr");
 
     elements.add(
       "Mn",
