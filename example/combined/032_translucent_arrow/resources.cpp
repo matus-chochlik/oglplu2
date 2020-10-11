@@ -1,5 +1,5 @@
 /**
- *  example combined/000_translucent_arrow/resources.cpp
+ *  example combined/032_translucent_arrow/resources.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -45,7 +45,15 @@ void depth_program::set_projection(
   const example_context& ctx,
   const example_orbiting_camera& camera) {
     auto& state = ctx.state();
-    ctx.gl().set_uniform(prog, camera_loc, camera.matrix(state));
+    const auto& gl = ctx.gl();
+
+    gl.use_program(prog);
+    gl.set_uniform(prog, camera_loc, camera.matrix(state));
+}
+//------------------------------------------------------------------------------
+void depth_program::update(const example_context& ctx) {
+    const auto& gl = ctx.gl();
+    gl.use_program(prog);
 }
 //------------------------------------------------------------------------------
 void depth_program::bind_position_location(
@@ -82,20 +90,38 @@ void draw_program::init(example_context& ctx) {
 
     gl.get_uniform_location(prog, "Projection") >> camera_loc;
     gl.get_uniform_location(prog, "LightPosition") >> light_pos_loc;
+    gl.get_uniform_location(prog, "DepthTexture") >> depth_tex_loc;
+}
+//------------------------------------------------------------------------------
+void draw_program::set_depth_texture(
+  const example_context& ctx,
+  gl_types::int_type tex_unit) {
+    const auto& gl = ctx.gl();
+
+    gl.use_program(prog);
+    gl.set_uniform(prog, depth_tex_loc, tex_unit);
 }
 //------------------------------------------------------------------------------
 void draw_program::set_projection(
   const example_context& ctx,
   const example_orbiting_camera& camera) {
     auto& state = ctx.state();
-    ctx.gl().set_uniform(prog, camera_loc, camera.matrix(state));
+    const auto& gl = ctx.gl();
+
+    gl.use_program(prog);
+    gl.set_uniform(prog, camera_loc, camera.matrix(state));
 }
 //------------------------------------------------------------------------------
 void draw_program::update(const example_context& ctx) {
+    const auto& gl = ctx.gl();
+
     rad += radians_(0.5F * ctx.state().frame_duration().value());
 
-    ctx.gl().set_uniform(
-      prog, light_pos_loc, vec3(cos(rad) * 5, sin(rad) * 7, 8));
+    gl.use_program(prog);
+    gl.set_uniform(
+      prog,
+      light_pos_loc,
+      vec3(cos(rad) * 5, sin(rad) * 7, sin(rad * 0.618F) * 8));
 }
 //------------------------------------------------------------------------------
 void draw_program::bind_position_location(
@@ -171,4 +197,53 @@ void arrow_geometry::draw(const example_context& ctx) {
     draw_using_instructions(ctx.gl(), view(ops));
 }
 //------------------------------------------------------------------------------
+// texture
+//------------------------------------------------------------------------------
+void depth_texture::init(example_context& ctx) {
+    auto& cleanup = ctx.cleanup();
+    const auto& gl = ctx.gl();
+
+    gl.gen_textures() >> tex;
+    gl.delete_textures.later_by(cleanup, tex);
+}
+//------------------------------------------------------------------------------
+void depth_texture::reshape(const example_context& ctx) {
+    const auto& [gl, GL] = ctx.gl();
+    const auto width = ctx.state().width();
+    const auto height = ctx.state().height();
+
+    gl.active_texture(GL.texture0 + tex_unit);
+    gl.bind_texture(GL.texture_rectangle, tex);
+    gl.tex_parameter_i(GL.texture_rectangle, GL.texture_min_filter, GL.nearest);
+    gl.tex_parameter_i(GL.texture_rectangle, GL.texture_mag_filter, GL.nearest);
+    gl.tex_image2d(
+      GL.texture_rectangle,
+      0,
+      GL.depth_component,
+      width,
+      height,
+      0,
+      GL.depth_component,
+      GL.float_,
+      memory::const_block());
+
+    gl.viewport(width, height);
+    gl.clear(GL.depth_buffer_bit);
+}
+//------------------------------------------------------------------------------
+void depth_texture::copy_from_fb(const example_context& ctx) {
+    const auto& [gl, GL] = ctx.gl();
+
+    gl.copy_tex_image2d(
+      GL.texture_rectangle,
+      0,
+      GL.depth_component,
+      0,
+      0,
+      ctx.state().width(),
+      ctx.state().height(),
+      0);
+}
+//------------------------------------------------------------------------------
+
 } // namespace eagine::oglp

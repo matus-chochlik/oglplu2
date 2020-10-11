@@ -1,5 +1,5 @@
 /**
- *  example combined/000_translucent_arrow/resources.hpp
+ *  example combined/032_translucent_arrow/resources.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -35,6 +35,7 @@ public:
     void set_projection(
       const example_context& ctx,
       const example_orbiting_camera& camera);
+    void update(const example_context& ctx);
 
     void bind_position_location(
       const example_context& ctx,
@@ -47,11 +48,13 @@ private:
 
     uniform_location camera_loc;
     uniform_location light_pos_loc;
+    uniform_location depth_tex_loc;
 
     radians_t<float> rad{0.F};
 
 public:
     void init(example_context& ctx);
+    void set_depth_texture(const example_context& ctx, gl_types::int_type);
     void set_projection(
       const example_context& ctx,
       const example_orbiting_camera& camera);
@@ -94,6 +97,21 @@ public:
 
     static auto normal_loc() noexcept {
         return vertex_attrib_location{1};
+    }
+};
+//------------------------------------------------------------------------------
+class depth_texture {
+private:
+    gl_types::int_type tex_unit{0};
+    owned_texture_name tex{};
+
+public:
+    void init(example_context& ctx);
+    void reshape(const example_context& ctx);
+    void copy_from_fb(const example_context& ctx);
+
+    auto texture_unit() const noexcept {
+        return tex_unit;
     }
 };
 //------------------------------------------------------------------------------

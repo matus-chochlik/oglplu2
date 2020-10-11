@@ -1,5 +1,5 @@
 /**
- *  example combined/000_translucent_arrow/example.cpp
+ *  example combined/032_translucent_arrow/example.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -28,6 +28,7 @@ class example_arrow : public example {
     depth_program depth_prog;
     draw_program draw_prog;
     arrow_geometry arrow;
+    depth_texture depth_tex;
 
 public:
     auto check_requirements(const example_context& ctx) -> bool final;
@@ -59,21 +60,25 @@ auto example_arrow::check_requirements(const example_context& ctx) -> bool {
 void example_arrow::init(example_context& ctx) {
     const auto& gl = ctx.gl();
 
-    depth_prog.init(ctx);
-    draw_prog.init(ctx);
     arrow.init(ctx);
+    depth_tex.init(ctx);
 
+    depth_prog.init(ctx);
     depth_prog.bind_position_location(ctx, arrow.position_loc());
+
+    draw_prog.init(ctx);
     draw_prog.bind_position_location(ctx, arrow.position_loc());
     draw_prog.bind_normal_location(ctx, arrow.normal_loc());
+    draw_prog.set_depth_texture(ctx, depth_tex.texture_unit());
 
     // camera
     const auto sr = arrow.bounding_sphere().radius();
     camera.set_near(sr * 0.1F)
-      .set_far(sr * 5.0F)
+      .set_far(sr * 4.0F)
       .set_orbit_min(sr * 1.2F)
-      .set_orbit_max(sr * 2.4F)
+      .set_orbit_max(sr * 1.7F)
       .set_fov(degrees_(80.F));
+    depth_prog.set_projection(ctx, camera);
     draw_prog.set_projection(ctx, camera);
 
     gl.clear_color(0.45F, 0.45F, 0.45F, 0.0F);
@@ -82,6 +87,7 @@ void example_arrow::init(example_context& ctx) {
 void example_arrow::pointer_motion(const example_context& ctx) {
     const auto& state = ctx.state();
     if(camera.apply_pointer_motion(state)) {
+        depth_prog.set_projection(ctx, camera);
         draw_prog.set_projection(ctx, camera);
     }
 }
@@ -89,6 +95,7 @@ void example_arrow::pointer_motion(const example_context& ctx) {
 void example_arrow::pointer_scrolling(const example_context& ctx) {
     const auto& state = ctx.state();
     if(camera.apply_pointer_scrolling(state)) {
+        depth_prog.set_projection(ctx, camera);
         draw_prog.set_projection(ctx, camera);
     }
 }
@@ -96,7 +103,8 @@ void example_arrow::pointer_scrolling(const example_context& ctx) {
 void example_arrow::user_idle(const example_context& ctx) {
     const auto& state = ctx.state();
     if(state.user_idle_time() > seconds_(1)) {
-        camera.idle_update(state, 2);
+        camera.idle_update(state, 4);
+        depth_prog.set_projection(ctx, camera);
         draw_prog.set_projection(ctx, camera);
     }
 }
@@ -105,14 +113,29 @@ void example_arrow::resize(const example_context& ctx) {
     const auto& state = ctx.state();
     const auto& gl = ctx.gl();
 
+    depth_tex.reshape(ctx);
+
     gl.viewport(state.width(), state.height());
+    depth_prog.set_projection(ctx, camera);
     draw_prog.set_projection(ctx, camera);
 }
 //------------------------------------------------------------------------------
 void example_arrow::render(const example_context& ctx) {
     const auto& [gl, GL] = ctx.gl();
 
+    gl.clear_depth(0);
+    gl.clear(GL.depth_buffer_bit);
+    gl.depth_func(GL.greater);
+    gl.cull_face(GL.front);
+    depth_prog.update(ctx);
+    arrow.draw(ctx);
+
+    depth_tex.copy_from_fb(ctx);
+
+    gl.clear_depth(1);
     gl.clear(GL.color_buffer_bit | GL.depth_buffer_bit);
+    gl.depth_func(GL.less);
+    gl.cull_face(GL.back);
     draw_prog.update(ctx);
     arrow.draw(ctx);
 }
