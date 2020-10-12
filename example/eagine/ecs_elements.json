@@ -1,0 +1,2130 @@
+{ 
+  "Ac" : { 
+      "atomic_weight" : 227,
+      "group" : 3,
+      "isotopes" : {  },
+      "name" : { "latin" : "Actinium" },
+      "period" : 7,
+      "protons" : 89
+    },
+  "Ag" : { 
+      "atomic_weight" : 107.8682,
+      "group" : 11,
+      "isotopes" : {  },
+      "name" : { 
+          "english" : "Silver",
+          "latin" : "Argentum"
+        },
+      "period" : 5,
+      "protons" : 47
+    },
+  "Al" : { 
+      "atomic_weight" : 26.9815384,
+      "group" : 13,
+      "isotopes" : { 
+          "_25" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "seconds" : 7.183 },
+              "neutrons" : 12,
+              "symbol" : "²⁵Al"
+            },
+          "_26" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "years" : 717000.0 },
+              "neutrons" : 13,
+              "symbol" : "²⁶Al"
+            },
+          "_27" : { 
+              "neutrons" : 14,
+              "symbol" : "²⁷Al"
+            },
+          "_28" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "minutes" : 2.245 },
+              "neutrons" : 15,
+              "symbol" : "²⁸Al"
+            },
+          "_29" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "minutes" : 6.56 },
+              "neutrons" : 16,
+              "symbol" : "²⁹Al"
+            },
+          "_30" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 3.62 },
+              "neutrons" : 17,
+              "symbol" : "³⁰Al"
+            }
+        },
+      "name" : { "latin" : "Aluminum" },
+      "period" : 3,
+      "protons" : 13
+    },
+  "Am" : { 
+      "atomic_weight" : 243,
+      "isotopes" : {  },
+      "name" : { "latin" : "Americium" },
+      "period" : 7,
+      "protons" : 95
+    },
+  "Ar" : { 
+      "atomic_weight" : 39.95,
+      "group" : 18,
+      "isotopes" : { 
+          "_34" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "milliseconds" : 843.8 },
+              "neutrons" : 16,
+              "symbol" : "³⁴Ar"
+            },
+          "_35" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "seconds" : 1.7756 },
+              "neutrons" : 17,
+              "symbol" : "³⁵Ar"
+            },
+          "_36" : { 
+              "neutrons" : 18,
+              "symbol" : "³⁶Ar"
+            },
+          "_37" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "days" : 35.011 },
+              "neutrons" : 19,
+              "symbol" : "³⁷Ar"
+            },
+          "_38" : { 
+              "neutrons" : 20,
+              "symbol" : "³⁸Ar"
+            },
+          "_39" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "years" : 269 },
+              "neutrons" : 21,
+              "symbol" : "³⁹Ar"
+            },
+          "_40" : { 
+              "neutrons" : 22,
+              "symbol" : "⁴⁰Ar"
+            },
+          "_41" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "minutes" : 109.61 },
+              "neutrons" : 23,
+              "symbol" : "⁴¹Ar"
+            },
+          "_42" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "years" : 32.9 },
+              "neutrons" : 24,
+              "symbol" : "⁴²Ar"
+            },
+          "_43" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "minutes" : 5.37 },
+              "neutrons" : 25,
+              "symbol" : "⁴³Ar"
+            },
+          "_44" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "minutes" : 11.87 },
+              "neutrons" : 26,
+              "symbol" : "⁴⁴Ar"
+            },
+          "_45" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 21.48 },
+              "neutrons" : 27,
+              "symbol" : "⁴⁵Ar"
+            },
+          "_46" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 8.4 },
+              "neutrons" : 28,
+              "symbol" : "⁴⁶Ar"
+            }
+        },
+      "name" : { "latin" : "Argon" },
+      "period" : 3,
+      "protons" : 18
+    },
+  "As" : { 
+      "atomic_weight" : 74.921595,
+      "group" : 15,
+      "isotopes" : {  },
+      "name" : { 
+          "english" : "Arsenic",
+          "latin" : "Arsenicum"
+        },
+      "period" : 4,
+      "protons" : 33
+    },
+  "At" : { 
+      "atomic_weight" : 210,
+      "group" : 17,
+      "isotopes" : {  },
+      "name" : { 
+          "english" : "Astatine",
+          "latin" : "Astatium"
+        },
+      "period" : 6,
+      "protons" : 85
+    },
+  "Au" : { 
+      "atomic_weight" : 196.96657,
+      "group" : 11,
+      "isotopes" : {  },
+      "name" : { 
+          "english" : "Gold",
+          "latin" : "Aurum"
+        },
+      "period" : 6,
+      "protons" : 79
+    },
+  "B" : { 
+      "atomic_weight" : 10.81,
+      "group" : 13,
+      "isotopes" : { 
+          "_10" : { 
+              "neutrons" : 5,
+              "symbol" : "¹⁰B"
+            },
+          "_11" : { 
+              "neutrons" : 6,
+              "symbol" : "¹¹B"
+            },
+          "_12" : { 
+              "beta_m_alpha_decay" : {  },
+              "beta_m_decay" : {  },
+              "half_life" : { "milliseconds" : 20.2 },
+              "neutrons" : 7,
+              "symbol" : "¹²B"
+            }
+        },
+      "name" : { 
+          "english" : "Boron",
+          "latin" : "Borium"
+        },
+      "period" : 2,
+      "protons" : 5
+    },
+  "Ba" : { 
+      "atomic_weight" : 137.327,
+      "group" : 2,
+      "isotopes" : {  },
+      "name" : { "latin" : "Barium" },
+      "period" : 6,
+      "protons" : 56
+    },
+  "Be" : { 
+      "atomic_weight" : 9.0121831,
+      "group" : 2,
+      "isotopes" : { 
+          "_7" : { 
+              "electron_capture" : {  },
+              "half_life" : { "days" : 53.12 },
+              "neutrons" : 3,
+              "symbol" : "⁷Be"
+            },
+          "_8" : { 
+              "alpha_decay" : {  },
+              "half_life" : { "seconds" : 8.19e-17 },
+              "neutrons" : 4,
+              "symbol" : "⁸Be"
+            },
+          "_9" : { 
+              "neutrons" : 5,
+              "symbol" : "⁹Be"
+            },
+          "_10" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "days" : 1390000.0 },
+              "neutrons" : 6,
+              "symbol" : "¹⁰Be"
+            }
+        },
+      "name" : { "latin" : "Beryllium" },
+      "period" : 2,
+      "protons" : 4
+    },
+  "Bh" : { 
+      "atomic_weight" : 270,
+      "group" : 7,
+      "isotopes" : {  },
+      "name" : { "latin" : "Bohrium" },
+      "period" : 7,
+      "protons" : 107
+    },
+  "Bi" : { 
+      "atomic_weight" : 208.9804,
+      "group" : 15,
+      "isotopes" : {  },
+      "name" : { "latin" : "Bismuth" },
+      "period" : 6,
+      "protons" : 83
+    },
+  "Bk" : { 
+      "atomic_weight" : 247,
+      "isotopes" : {  },
+      "name" : { "latin" : "Berkelium" },
+      "period" : 7,
+      "protons" : 97
+    },
+  "Br" : { 
+      "atomic_weight" : 79.904,
+      "group" : 17,
+      "isotopes" : {  },
+      "name" : { 
+          "english" : "Bromine",
+          "latin" : "Bromum"
+        },
+      "period" : 4,
+      "protons" : 35
+    },
+  "C" : { 
+      "atomic_weight" : 12.011,
+      "group" : 14,
+      "isotopes" : { 
+          "_11" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "minutes" : 20 },
+              "neutrons" : 5,
+              "symbol" : "¹¹C"
+            },
+          "_12" : { 
+              "neutrons" : 6,
+              "symbol" : "¹²C"
+            },
+          "_13" : { 
+              "neutrons" : 7,
+              "symbol" : "¹³C"
+            },
+          "_14" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "years" : 5730 },
+              "neutrons" : 8,
+              "symbol" : "¹⁴C"
+            }
+        },
+      "name" : { 
+          "english" : "Carbon",
+          "latin" : "Carboneum"
+        },
+      "period" : 2,
+      "protons" : 6
+    },
+  "Ca" : { 
+      "atomic_weight" : 40.078,
+      "group" : 2,
+      "isotopes" : { 
+          "_39" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "milliseconds" : 860.3 },
+              "neutrons" : 19,
+              "symbol" : "³⁹Ca"
+            },
+          "_40" : { 
+              "neutrons" : 20,
+              "symbol" : "⁴⁰Ca"
+            },
+          "_41" : { 
+              "electron_capture" : {  },
+              "half_life" : { "years" : 99400.0 },
+              "neutrons" : 21,
+              "symbol" : "⁴¹Ca"
+            },
+          "_42" : { 
+              "neutrons" : 22,
+              "symbol" : "⁴²Ca"
+            },
+          "_43" : { 
+              "neutrons" : 23,
+              "symbol" : "⁴³Ca"
+            },
+          "_44" : { 
+              "neutrons" : 24,
+              "symbol" : "⁴⁴Ca"
+            },
+          "_45" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "days" : 162.61 },
+              "neutrons" : 25,
+              "symbol" : "⁴⁵Ca"
+            },
+          "_46" : { 
+              "neutrons" : 26,
+              "symbol" : "⁴⁶Ca"
+            },
+          "_47" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "days" : 4.536 },
+              "neutrons" : 27,
+              "symbol" : "⁴⁷Ca"
+            },
+          "_48" : { 
+              "beta_m2_decay" : {  },
+              "half_life" : { "years" : 6.4e+19 },
+              "neutrons" : 28,
+              "symbol" : "⁴⁸Ca"
+            },
+          "_49" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "minutes" : 8.718 },
+              "neutrons" : 29,
+              "symbol" : "⁴⁹Ca"
+            },
+          "_50" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 13.9 },
+              "neutrons" : 30,
+              "symbol" : "⁵⁰Ca"
+            },
+          "_51" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 10.0 },
+              "neutrons" : 31,
+              "symbol" : "⁵¹Ca"
+            }
+        },
+      "name" : { "latin" : "Calcium" },
+      "period" : 4,
+      "protons" : 20
+    },
+  "Cd" : { 
+      "atomic_weight" : 112.414,
+      "group" : 12,
+      "isotopes" : {  },
+      "name" : { "latin" : "Cadmium" },
+      "period" : 5,
+      "protons" : 48
+    },
+  "Ce" : { 
+      "atomic_weight" : 140.116,
+      "isotopes" : {  },
+      "name" : { "latin" : "Cerium" },
+      "period" : 6,
+      "protons" : 58
+    },
+  "Cf" : { 
+      "atomic_weight" : 251,
+      "isotopes" : {  },
+      "name" : { "latin" : "Californium" },
+      "period" : 7,
+      "protons" : 98
+    },
+  "Cl" : { 
+      "atomic_weight" : 35.45,
+      "group" : 17,
+      "isotopes" : { 
+          "_33" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "seconds" : 2.5038 },
+              "neutrons" : 16,
+              "symbol" : "³³Cl"
+            },
+          "_34" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "seconds" : 1.5266 },
+              "neutrons" : 17,
+              "symbol" : "³⁴Cl"
+            },
+          "_35" : { 
+              "neutrons" : 18,
+              "symbol" : "³⁵Cl"
+            },
+          "_36" : { 
+              "beta_m_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : { "years" : 101300.0 },
+              "neutrons" : 19,
+              "symbol" : "³⁶Cl"
+            },
+          "_37" : { 
+              "neutrons" : 20,
+              "symbol" : "³⁷Cl"
+            },
+          "_38" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "minutes" : 37.24 },
+              "neutrons" : 21,
+              "symbol" : "³⁸Cl"
+            },
+          "_39" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "minutes" : 56.2 },
+              "neutrons" : 22,
+              "symbol" : "³⁹Cl"
+            },
+          "_40" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "minutes" : 1.35 },
+              "neutrons" : 23,
+              "symbol" : "⁴⁰Cl"
+            },
+          "_41" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 38.4 },
+              "neutrons" : 24,
+              "symbol" : "⁴¹Cl"
+            },
+          "_42" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 6.8 },
+              "neutrons" : 25,
+              "symbol" : "⁴²Cl"
+            },
+          "_43" : { 
+              "beta_m_decay" : {  },
+              "beta_m_n_decay" : {  },
+              "half_life" : { "seconds" : 3.13 },
+              "neutrons" : 26,
+              "symbol" : "⁴³Cl"
+            }
+        },
+      "name" : { 
+          "english" : "Chlorine",
+          "latin" : "Chlorum"
+        },
+      "period" : 3,
+      "protons" : 17
+    },
+  "Cm" : { 
+      "atomic_weight" : 247,
+      "isotopes" : {  },
+      "name" : { "latin" : "Curium" },
+      "period" : 7,
+      "protons" : 96
+    },
+  "Cn" : { 
+      "atomic_weight" : 285,
+      "group" : 12,
+      "isotopes" : {  },
+      "name" : { "latin" : "Copernicum" },
+      "period" : 7,
+      "protons" : 112
+    },
+  "Co" : { 
+      "atomic_weight" : 58.933194,
+      "group" : 9,
+      "isotopes" : {  },
+      "name" : { 
+          "english" : "Cobalt",
+          "latin" : "Cobaltum"
+        },
+      "period" : 4,
+      "protons" : 27
+    },
+  "Cr" : { 
+      "atomic_weight" : 51.9961,
+      "group" : 6,
+      "isotopes" : { 
+          "_45" : { 
+              "beta_p_decay" : {  },
+              "beta_p_p_decay" : {  },
+              "half_life" : { "milliseconds" : 50 },
+              "neutrons" : 21,
+              "symbol" : "⁴⁵Cr"
+            },
+          "_46" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "milliseconds" : 266 },
+              "neutrons" : 22,
+              "symbol" : "⁴⁶Cr"
+            },
+          "_47" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "milliseconds" : 500 },
+              "neutrons" : 23,
+              "symbol" : "⁴⁷Cr"
+            },
+          "_48" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "hours" : 21.56 },
+              "neutrons" : 24,
+              "symbol" : "⁴⁸Cr"
+            },
+          "_49" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "minutes" : 42.3 },
+              "neutrons" : 25,
+              "symbol" : "⁴⁹Cr"
+            },
+          "_50" : { 
+              "neutrons" : 26,
+              "symbol" : "⁵⁰Cr"
+            },
+          "_51" : { 
+              "electron_capture" : {  },
+              "half_life" : { "days" : 27.7025 },
+              "neutrons" : 27,
+              "symbol" : "⁵¹Cr"
+            },
+          "_52" : { 
+              "neutrons" : 28,
+              "symbol" : "⁵²Cr"
+            },
+          "_53" : { 
+              "neutrons" : 29,
+              "symbol" : "⁵³Cr"
+            },
+          "_54" : { 
+              "neutrons" : 30,
+              "symbol" : "⁵⁴Cr"
+            },
+          "_55" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "minutes" : 3.497 },
+              "neutrons" : 31,
+              "symbol" : "⁵⁵Cr"
+            },
+          "_56" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "minutes" : 5.94 },
+              "neutrons" : 32,
+              "symbol" : "⁵⁶Cr"
+            },
+          "_57" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 21.1 },
+              "neutrons" : 33,
+              "symbol" : "⁵⁷Cr"
+            },
+          "_58" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 7.0 },
+              "neutrons" : 34,
+              "symbol" : "⁵⁸Cr"
+            },
+          "_59" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "milliseconds" : 460 },
+              "neutrons" : 35,
+              "symbol" : "⁵⁹Cr"
+            },
+          "_60" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "milliseconds" : 560 },
+              "neutrons" : 36,
+              "symbol" : "⁶⁰Cr"
+            },
+          "_61" : { 
+              "beta_m_decay" : {  },
+              "beta_m_n_decay" : {  },
+              "half_life" : { "milliseconds" : 261 },
+              "neutrons" : 37,
+              "symbol" : "⁶¹Cr"
+            }
+        },
+      "name" : { "latin" : "Chromium" },
+      "period" : 4,
+      "protons" : 24
+    },
+  "Cs" : { 
+      "atomic_weight" : 132.90545196,
+      "group" : 1,
+      "isotopes" : {  },
+      "name" : { "latin" : "Caesium" },
+      "period" : 6,
+      "protons" : 55
+    },
+  "Cu" : { 
+      "atomic_weight" : 63.546,
+      "group" : 11,
+      "isotopes" : {  },
+      "name" : { 
+          "english" : "Copper",
+          "latin" : "Cuprum"
+        },
+      "period" : 4,
+      "protons" : 29
+    },
+  "Db" : { 
+      "atomic_weight" : 268,
+      "group" : 5,
+      "isotopes" : {  },
+      "name" : { "latin" : "Dubnium" },
+      "period" : 7,
+      "protons" : 105
+    },
+  "Ds" : { 
+      "atomic_weight" : 281,
+      "group" : 10,
+      "isotopes" : {  },
+      "name" : { "latin" : "Darmstadtium" },
+      "period" : 7,
+      "protons" : 110
+    },
+  "Dy" : { 
+      "atomic_weight" : 162.5,
+      "isotopes" : {  },
+      "name" : { "latin" : "Dysprosium" },
+      "period" : 6,
+      "protons" : 66
+    },
+  "Er" : { 
+      "atomic_weight" : 167.259,
+      "isotopes" : {  },
+      "name" : { "latin" : "Erbium" },
+      "period" : 6,
+      "protons" : 68
+    },
+  "Es" : { 
+      "atomic_weight" : 252,
+      "isotopes" : {  },
+      "name" : { "latin" : "Einsteinium" },
+      "period" : 7,
+      "protons" : 99
+    },
+  "Eu" : { 
+      "atomic_weight" : 151.964,
+      "isotopes" : {  },
+      "name" : { "latin" : "Europium" },
+      "period" : 6,
+      "protons" : 63
+    },
+  "F" : { 
+      "atomic_weight" : 18.998403163,
+      "group" : 17,
+      "isotopes" : { 
+          "_17" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "seconds" : 64.37 },
+              "neutrons" : 8,
+              "symbol" : "¹⁷F"
+            },
+          "_19" : { 
+              "neutrons" : 10,
+              "symbol" : "¹⁹F"
+            },
+          "_20" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 11.163 },
+              "neutrons" : 11,
+              "symbol" : "²⁰F"
+            },
+          "_21" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 4.158 },
+              "neutrons" : 12,
+              "symbol" : "²¹F"
+            }
+        },
+      "name" : { 
+          "english" : "Fluorine",
+          "latin" : "Fluorum"
+        },
+      "period" : 2,
+      "protons" : 9
+    },
+  "Fe" : { 
+      "atomic_weight" : 55.845,
+      "group" : 8,
+      "isotopes" : {  },
+      "name" : { 
+          "english" : "Iron",
+          "latin" : "Ferrum"
+        },
+      "period" : 4,
+      "protons" : 26
+    },
+  "Fl" : { 
+      "atomic_weight" : 289,
+      "group" : 14,
+      "isotopes" : {  },
+      "name" : { "latin" : "Flerovium" },
+      "period" : 7,
+      "protons" : 114
+    },
+  "Fm" : { 
+      "atomic_weight" : 257,
+      "isotopes" : {  },
+      "name" : { "latin" : "Fermium" },
+      "period" : 7,
+      "protons" : 100
+    },
+  "Fr" : { 
+      "atomic_weight" : 223,
+      "group" : 1,
+      "isotopes" : {  },
+      "name" : { "latin" : "Francium" },
+      "period" : 7,
+      "protons" : 87
+    },
+  "Ga" : { 
+      "atomic_weight" : 69.723,
+      "group" : 13,
+      "isotopes" : {  },
+      "name" : { "latin" : "Gallium" },
+      "period" : 4,
+      "protons" : 31
+    },
+  "Gd" : { 
+      "atomic_weight" : 157.25,
+      "isotopes" : {  },
+      "name" : { "latin" : "Gadolinium" },
+      "period" : 6,
+      "protons" : 64
+    },
+  "Ge" : { 
+      "atomic_weight" : 72.63,
+      "group" : 14,
+      "isotopes" : {  },
+      "name" : { "latin" : "Germanium" },
+      "period" : 4,
+      "protons" : 32
+    },
+  "H" : { 
+      "atomic_weight" : 1,
+      "group" : 1,
+      "isotopes" : { 
+          "_1" : { 
+              "name" : { "latin" : "Protium" },
+              "neutrons" : 0,
+              "symbol" : "¹H"
+            },
+          "_2" : { 
+              "name" : { "latin" : "Deuterium" },
+              "neutrons" : 1,
+              "symbol" : "²H"
+            },
+          "_3" : { 
+              "half_life" : { "years" : 12.32 },
+              "name" : { "latin" : "Tritium" },
+              "neutrons" : 2,
+              "symbol" : "³H"
+            },
+          "_4" : { 
+              "half_life" : { "seconds" : 1.39e-22 },
+              "neutrons" : 3,
+              "neutron_emission" : {  },
+              "symbol" : "⁴H"
+            }
+        },
+      "name" : { 
+          "english" : "Hydrogen",
+          "latin" : "Hydrogenium"
+        },
+      "period" : 1,
+      "protons" : 1
+    },
+  "He" : { 
+      "atomic_weight" : 4.002602,
+      "group" : 18,
+      "isotopes" : { 
+          "_3" : { 
+              "neutrons" : 1,
+              "symbol" : "³He"
+            },
+          "_4" : { 
+              "neutrons" : 2,
+              "symbol" : "⁴He"
+            },
+          "_5" : { 
+              "half_life" : { "seconds" : 7e-22 },
+              "neutrons" : 3,
+              "neutron_emission" : {  },
+              "symbol" : "⁵He"
+            },
+          "_6" : { 
+              "beta_m_alpha_decay" : {  },
+              "beta_m_decay" : {  },
+              "half_life" : { "milliseconds" : 806.92 },
+              "neutrons" : 4,
+              "symbol" : "⁶He"
+            },
+          "_7" : { 
+              "half_life" : { "seconds" : 2.51e-21 },
+              "neutrons" : 5,
+              "neutron_emission" : {  },
+              "symbol" : "⁷He"
+            }
+        },
+      "name" : { "latin" : "Helium" },
+      "period" : 1,
+      "protons" : 2
+    },
+  "Hf" : { 
+      "atomic_weight" : 178.49,
+      "group" : 4,
+      "isotopes" : {  },
+      "name" : { "latin" : "Hafnium" },
+      "period" : 6,
+      "protons" : 72
+    },
+  "Hg" : { 
+      "atomic_weight" : 200.592,
+      "group" : 12,
+      "isotopes" : {  },
+      "name" : { 
+          "english" : "Mercury",
+          "latin" : "Hydrargyrum"
+        },
+      "period" : 6,
+      "protons" : 80
+    },
+  "Ho" : { 
+      "atomic_weight" : 164.930328,
+      "isotopes" : {  },
+      "name" : { "latin" : "Holmium" },
+      "period" : 6,
+      "protons" : 67
+    },
+  "Hs" : { 
+      "atomic_weight" : 270,
+      "group" : 8,
+      "isotopes" : {  },
+      "name" : { "latin" : "Hassium" },
+      "period" : 7,
+      "protons" : 108
+    },
+  "I" : { 
+      "atomic_weight" : 126.90447,
+      "group" : 17,
+      "isotopes" : {  },
+      "name" : { 
+          "english" : "Iodine",
+          "latin" : "Iodium"
+        },
+      "period" : 5,
+      "protons" : 53
+    },
+  "In" : { 
+      "atomic_weight" : 114.818,
+      "group" : 13,
+      "isotopes" : {  },
+      "name" : { "latin" : "Indium" },
+      "period" : 5,
+      "protons" : 49
+    },
+  "Ir" : { 
+      "atomic_weight" : 192.217,
+      "group" : 9,
+      "isotopes" : {  },
+      "name" : { "latin" : "Iridium" },
+      "period" : 6,
+      "protons" : 77
+    },
+  "K" : { 
+      "atomic_weight" : 39.0983,
+      "group" : 1,
+      "isotopes" : { 
+          "_37" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "seconds" : 1.2365 },
+              "neutrons" : 18,
+              "symbol" : "³⁷K"
+            },
+          "_38" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "minutes" : 7.636 },
+              "neutrons" : 19,
+              "symbol" : "³⁸K"
+            },
+          "_39" : { 
+              "neutrons" : 20,
+              "symbol" : "³⁹K"
+            },
+          "_40" : { 
+              "beta_m_decay" : {  },
+              "beta_p_decay" : {  },
+              "electron_capture" : {  },
+              "half_life" : { "years" : 1248000000.0 },
+              "neutrons" : 21,
+              "symbol" : "⁴⁰K"
+            },
+          "_41" : { 
+              "neutrons" : 22,
+              "symbol" : "⁴¹K"
+            },
+          "_42" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "hours" : 12.355 },
+              "neutrons" : 23,
+              "symbol" : "⁴²K"
+            },
+          "_43" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "hours" : 22.3 },
+              "neutrons" : 24,
+              "symbol" : "⁴³K"
+            },
+          "_44" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "minutes" : 22.13 },
+              "neutrons" : 25,
+              "symbol" : "⁴⁴K"
+            },
+          "_45" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "minutes" : 17.8 },
+              "neutrons" : 26,
+              "symbol" : "⁴⁵K"
+            },
+          "_46" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 105 },
+              "neutrons" : 27,
+              "symbol" : "⁴⁶K"
+            },
+          "_47" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 17.5 },
+              "neutrons" : 28,
+              "symbol" : "⁴⁷K"
+            }
+        },
+      "name" : { 
+          "english" : "Potasium",
+          "latin" : "Kalium"
+        },
+      "period" : 4,
+      "protons" : 19
+    },
+  "Kr" : { 
+      "atomic_weight" : 83.798,
+      "group" : 18,
+      "isotopes" : {  },
+      "name" : { "latin" : "Krypton" },
+      "period" : 4,
+      "protons" : 36
+    },
+  "La" : { 
+      "atomic_weight" : 138.90547,
+      "group" : 3,
+      "isotopes" : {  },
+      "name" : { "latin" : "Lanthanum" },
+      "period" : 6,
+      "protons" : 57
+    },
+  "Li" : { 
+      "atomic_weight" : 6.94,
+      "group" : 1,
+      "isotopes" : { 
+          "_5" : { 
+              "half_life" : { "seconds" : 3.7e-22 },
+              "neutrons" : 2,
+              "proton_emission" : {  },
+              "symbol" : "⁵Li"
+            },
+          "_6" : { 
+              "neutrons" : 3,
+              "symbol" : "⁶Li"
+            },
+          "_7" : { 
+              "neutrons" : 4,
+              "symbol" : "⁷Li"
+            },
+          "_8" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "milliseconds" : 839.4 },
+              "neutrons" : 5,
+              "symbol" : "⁸Li"
+            },
+          "_9" : { 
+              "beta_m_decay" : {  },
+              "beta_m_n_decay" : {  },
+              "half_life" : { "milliseconds" : 178.3 },
+              "neutrons" : 6,
+              "symbol" : "⁹Li"
+            },
+          "_10" : { 
+              "half_life" : { "seconds" : 2e-21 },
+              "neutrons" : 7,
+              "neutron_emission" : {  },
+              "symbol" : "¹⁰Li"
+            }
+        },
+      "name" : { "latin" : "Lithium" },
+      "period" : 2,
+      "protons" : 3
+    },
+  "Lr" : { 
+      "atomic_weight" : 266,
+      "isotopes" : {  },
+      "name" : { "latin" : "Lawrencium" },
+      "period" : 7,
+      "protons" : 103
+    },
+  "Lu" : { 
+      "atomic_weight" : 174.9668,
+      "isotopes" : {  },
+      "name" : { "latin" : "Lutetium" },
+      "period" : 6,
+      "protons" : 71
+    },
+  "Lv" : { 
+      "atomic_weight" : 293,
+      "group" : 16,
+      "isotopes" : {  },
+      "name" : { "latin" : "Livermorium" },
+      "period" : 7,
+      "protons" : 116
+    },
+  "Mc" : { 
+      "atomic_weight" : 290,
+      "group" : 15,
+      "isotopes" : {  },
+      "name" : { "latin" : "Moscovium" },
+      "period" : 7,
+      "protons" : 115
+    },
+  "Md" : { 
+      "atomic_weight" : 258,
+      "isotopes" : {  },
+      "name" : { "latin" : "Mendelevium" },
+      "period" : 7,
+      "protons" : 101
+    },
+  "Mg" : { 
+      "atomic_weight" : 24.305,
+      "group" : 2,
+      "isotopes" : { 
+          "_22" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "seconds" : 3.8755 },
+              "neutrons" : 10,
+              "symbol" : "²²Mg"
+            },
+          "_23" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "seconds" : 11.317 },
+              "neutrons" : 11,
+              "symbol" : "²³Mg"
+            },
+          "_24" : { 
+              "neutrons" : 12,
+              "symbol" : "²⁴Mg"
+            },
+          "_25" : { 
+              "neutrons" : 13,
+              "symbol" : "²⁵Mg"
+            },
+          "_26" : { 
+              "neutrons" : 14,
+              "symbol" : "²⁶Mg"
+            },
+          "_27" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "minutes" : 9.435 },
+              "neutrons" : 15,
+              "symbol" : "²⁷Mg"
+            },
+          "_28" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "hours" : 20.915 },
+              "neutrons" : 16,
+              "symbol" : "²⁸Mg"
+            },
+          "_29" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 1.3 },
+              "neutrons" : 17,
+              "symbol" : "²⁹Mg"
+            }
+        },
+      "name" : { "latin" : "Magnesium" },
+      "period" : 3,
+      "protons" : 12
+    },
+  "Mn" : { 
+      "atomic_weight" : 54.938043,
+      "group" : 7,
+      "isotopes" : {  },
+      "name" : { 
+          "english" : "Manganese",
+          "latin" : "Manganum"
+        },
+      "period" : 4,
+      "protons" : 25
+    },
+  "Mo" : { 
+      "atomic_weight" : 95.95,
+      "group" : 6,
+      "isotopes" : {  },
+      "name" : { "latin" : "Molybdenum" },
+      "period" : 5,
+      "protons" : 42
+    },
+  "Mt" : { 
+      "atomic_weight" : 278,
+      "group" : 9,
+      "isotopes" : {  },
+      "name" : { "latin" : "Meitnerium" },
+      "period" : 7,
+      "protons" : 109
+    },
+  "N" : { 
+      "atomic_weight" : 14.007,
+      "group" : 15,
+      "isotopes" : { 
+          "_13" : { 
+              "electron_capture" : {  },
+              "half_life" : { "minutes" : 9.965 },
+              "neutrons" : 6,
+              "symbol" : "¹³N"
+            },
+          "_14" : { 
+              "neutrons" : 7,
+              "symbol" : "¹⁴N"
+            },
+          "_15" : { 
+              "neutrons" : 8,
+              "symbol" : "¹⁵N"
+            },
+          "_16" : { 
+              "beta_m_alpha_decay" : {  },
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 7.13 },
+              "neutrons" : 8,
+              "symbol" : "¹⁶N"
+            }
+        },
+      "name" : { 
+          "english" : "Nitrogen",
+          "latin" : "Nitrogenium"
+        },
+      "period" : 2,
+      "protons" : 7
+    },
+  "Na" : { 
+      "atomic_weight" : 22.98976928,
+      "group" : 1,
+      "isotopes" : { 
+          "_21" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "seconds" : 22.422 },
+              "neutrons" : 10,
+              "symbol" : "²¹Na"
+            },
+          "_22" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "years" : 2.6018 },
+              "neutrons" : 11,
+              "symbol" : "²²Na"
+            },
+          "_23" : { 
+              "neutrons" : 12,
+              "symbol" : "²³Na"
+            },
+          "_24" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "hours" : 14.957 },
+              "neutrons" : 13,
+              "symbol" : "²⁴Na"
+            },
+          "_25" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 59.1 },
+              "neutrons" : 14,
+              "symbol" : "²⁵Na"
+            },
+          "_26" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 1.07128 },
+              "neutrons" : 15,
+              "symbol" : "²⁶Na"
+            }
+        },
+      "name" : { 
+          "english" : "Sodium",
+          "latin" : "Natrium"
+        },
+      "period" : 3,
+      "protons" : 11
+    },
+  "Nb" : { 
+      "atomic_weight" : 92.90637,
+      "group" : 5,
+      "isotopes" : {  },
+      "name" : { "latin" : "Niobium" },
+      "period" : 5,
+      "protons" : 41
+    },
+  "Nd" : { 
+      "atomic_weight" : 144.242,
+      "isotopes" : {  },
+      "name" : { "latin" : "Neodymium" },
+      "period" : 6,
+      "protons" : 60
+    },
+  "Ne" : { 
+      "atomic_weight" : 20.1797,
+      "group" : 18,
+      "isotopes" : { 
+          "_18" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "seconds" : 1.6642 },
+              "neutrons" : 8,
+              "symbol" : "¹⁸Ne"
+            },
+          "_19" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "seconds" : 17.274 },
+              "neutrons" : 9,
+              "symbol" : "¹⁹Ne"
+            },
+          "_20" : { 
+              "neutrons" : 10,
+              "symbol" : "²⁰Ne"
+            },
+          "_21" : { 
+              "neutrons" : 11,
+              "symbol" : "²¹Ne"
+            },
+          "_22" : { 
+              "neutrons" : 12,
+              "symbol" : "²²Ne"
+            },
+          "_23" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 37.14 },
+              "neutrons" : 13,
+              "symbol" : "²³Ne"
+            },
+          "_24" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "minutes" : 3.38 },
+              "neutrons" : 13,
+              "symbol" : "²⁴Ne"
+            }
+        },
+      "name" : { "latin" : "Neon" },
+      "period" : 2,
+      "protons" : 10
+    },
+  "Nh" : { 
+      "atomic_weight" : 286,
+      "group" : 13,
+      "isotopes" : {  },
+      "name" : { "latin" : "Nihonium" },
+      "period" : 7,
+      "protons" : 113
+    },
+  "Ni" : { 
+      "atomic_weight" : 58.6934,
+      "group" : 10,
+      "isotopes" : {  },
+      "name" : { 
+          "english" : "Nickel",
+          "latin" : "Niccolum"
+        },
+      "period" : 4,
+      "protons" : 28
+    },
+  "No" : { 
+      "atomic_weight" : 259,
+      "isotopes" : {  },
+      "name" : { "latin" : "Nobelium" },
+      "period" : 7,
+      "protons" : 102
+    },
+  "Np" : { 
+      "atomic_weight" : 237,
+      "isotopes" : {  },
+      "name" : { "latin" : "Neptunium" },
+      "period" : 7,
+      "protons" : 93
+    },
+  "O" : { 
+      "atomic_weight" : 15.999,
+      "group" : 16,
+      "isotopes" : { 
+          "_14" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "seconds" : 70.62 },
+              "neutrons" : 6,
+              "symbol" : "¹⁴O"
+            },
+          "_15" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "seconds" : 122.24 },
+              "neutrons" : 7,
+              "symbol" : "¹⁵O"
+            },
+          "_16" : { 
+              "neutrons" : 8,
+              "symbol" : "¹⁶O"
+            },
+          "_17" : { 
+              "neutrons" : 9,
+              "symbol" : "¹⁷O"
+            },
+          "_18" : { 
+              "neutrons" : 10,
+              "symbol" : "¹⁸O"
+            },
+          "_19" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 26.47 },
+              "neutrons" : 11,
+              "symbol" : "¹⁹O"
+            },
+          "_20" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 15.51 },
+              "neutrons" : 12,
+              "symbol" : "²⁰O"
+            },
+          "_21" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 3.24 },
+              "neutrons" : 13,
+              "symbol" : "²¹O"
+            }
+        },
+      "name" : { 
+          "english" : "Oxygen",
+          "latin" : "Oxygenium"
+        },
+      "period" : 2,
+      "protons" : 8
+    },
+  "Og" : { 
+      "atomic_weight" : 294,
+      "group" : 18,
+      "isotopes" : {  },
+      "name" : { "latin" : "Oganesson" },
+      "period" : 7,
+      "protons" : 118
+    },
+  "Os" : { 
+      "atomic_weight" : 190.23,
+      "group" : 8,
+      "isotopes" : {  },
+      "name" : { "latin" : "Osmium" },
+      "period" : 6,
+      "protons" : 76
+    },
+  "P" : { 
+      "atomic_weight" : 30.973761998,
+      "group" : 15,
+      "isotopes" : { 
+          "_29" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "seconds" : 4.142 },
+              "neutrons" : 14,
+              "symbol" : "²⁹P"
+            },
+          "_30" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "minutes" : 2.498 },
+              "neutrons" : 15,
+              "symbol" : "³⁰P"
+            },
+          "_31" : { 
+              "neutrons" : 16,
+              "symbol" : "³¹P"
+            },
+          "_32" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "days" : 14.268 },
+              "neutrons" : 17,
+              "symbol" : "³²P"
+            },
+          "_33" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "days" : 25.35 },
+              "neutrons" : 18,
+              "symbol" : "³³P"
+            },
+          "_34" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 12.43 },
+              "neutrons" : 19,
+              "symbol" : "³⁴P"
+            },
+          "_35" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 47.3 },
+              "neutrons" : 20,
+              "symbol" : "³⁵P"
+            },
+          "_36" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 5.6 },
+              "neutrons" : 21,
+              "symbol" : "³⁶P"
+            },
+          "_37" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 2.31 },
+              "neutrons" : 22,
+              "symbol" : "³⁷P"
+            }
+        },
+      "name" : { "latin" : "Phosphorus" },
+      "period" : 3,
+      "protons" : 15
+    },
+  "Pa" : { 
+      "atomic_weight" : 231.03588,
+      "isotopes" : {  },
+      "name" : { "latin" : "Protactinium" },
+      "period" : 7,
+      "protons" : 91
+    },
+  "Pb" : { 
+      "atomic_weight" : 207.2,
+      "group" : 14,
+      "isotopes" : {  },
+      "name" : { 
+          "english" : "Lead",
+          "latin" : "Plumbum"
+        },
+      "period" : 6,
+      "protons" : 82
+    },
+  "Pd" : { 
+      "atomic_weight" : 106.42,
+      "group" : 10,
+      "isotopes" : {  },
+      "name" : { "latin" : "Palladium" },
+      "period" : 5,
+      "protons" : 46
+    },
+  "Pm" : { 
+      "atomic_weight" : 145,
+      "isotopes" : {  },
+      "name" : { "latin" : "Promethium" },
+      "period" : 6,
+      "protons" : 61
+    },
+  "Po" : { 
+      "atomic_weight" : 209,
+      "group" : 16,
+      "isotopes" : {  },
+      "name" : { "latin" : "Polonium" },
+      "period" : 6,
+      "protons" : 84
+    },
+  "Pr" : { 
+      "atomic_weight" : 140.90766,
+      "isotopes" : {  },
+      "name" : { "latin" : "Praseodymium" },
+      "period" : 6,
+      "protons" : 59
+    },
+  "Pt" : { 
+      "atomic_weight" : 195.084,
+      "group" : 10,
+      "isotopes" : {  },
+      "name" : { "latin" : "Platinum" },
+      "period" : 6,
+      "protons" : 78
+    },
+  "Pu" : { 
+      "atomic_weight" : 244,
+      "isotopes" : {  },
+      "name" : { "latin" : "Plutonium" },
+      "period" : 7,
+      "protons" : 94
+    },
+  "Ra" : { 
+      "atomic_weight" : 226,
+      "group" : 2,
+      "isotopes" : {  },
+      "name" : { "latin" : "Radium" },
+      "period" : 7,
+      "protons" : 88
+    },
+  "Rb" : { 
+      "atomic_weight" : 85.4678,
+      "group" : 1,
+      "isotopes" : {  },
+      "name" : { "latin" : "Rubidium" },
+      "period" : 5,
+      "protons" : 37
+    },
+  "Re" : { 
+      "atomic_weight" : 186.207,
+      "group" : 7,
+      "isotopes" : {  },
+      "name" : { "latin" : "Rhenium" },
+      "period" : 6,
+      "protons" : 75
+    },
+  "Rf" : { 
+      "atomic_weight" : 267,
+      "group" : 4,
+      "isotopes" : {  },
+      "name" : { "latin" : "Rutherfordium" },
+      "period" : 7,
+      "protons" : 104
+    },
+  "Rg" : { 
+      "atomic_weight" : 282,
+      "group" : 11,
+      "isotopes" : {  },
+      "name" : { "latin" : "Roentgenium" },
+      "period" : 7,
+      "protons" : 111
+    },
+  "Rh" : { 
+      "atomic_weight" : 102.90549,
+      "group" : 9,
+      "isotopes" : {  },
+      "name" : { "latin" : "Rhodium" },
+      "period" : 5,
+      "protons" : 45
+    },
+  "Rn" : { 
+      "atomic_weight" : 222.0,
+      "group" : 18,
+      "isotopes" : {  },
+      "name" : { "latin" : "Radon" },
+      "period" : 6,
+      "protons" : 86
+    },
+  "Ru" : { 
+      "atomic_weight" : 101.07,
+      "group" : 8,
+      "isotopes" : {  },
+      "name" : { "latin" : "Ruthenium" },
+      "period" : 5,
+      "protons" : 44
+    },
+  "S" : { 
+      "atomic_weight" : 32.06,
+      "group" : 16,
+      "isotopes" : { 
+          "_30" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "seconds" : 1.1759 },
+              "neutrons" : 14,
+              "symbol" : "³⁰S"
+            },
+          "_31" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "seconds" : 2.5534 },
+              "neutrons" : 15,
+              "symbol" : "³¹S"
+            },
+          "_32" : { 
+              "neutrons" : 16,
+              "symbol" : "³²S"
+            },
+          "_33" : { 
+              "neutrons" : 17,
+              "symbol" : "³³S"
+            },
+          "_34" : { 
+              "neutrons" : 18,
+              "symbol" : "³⁴S"
+            },
+          "_35" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "days" : 87.37 },
+              "neutrons" : 19,
+              "symbol" : "³⁵S"
+            },
+          "_36" : { 
+              "neutrons" : 20,
+              "symbol" : "³⁶S"
+            },
+          "_37" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "minutes" : 5.05 },
+              "neutrons" : 21,
+              "symbol" : "³⁷S"
+            },
+          "_38" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "minutes" : 170.3 },
+              "neutrons" : 22,
+              "symbol" : "³⁸S"
+            },
+          "_39" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 11.5 },
+              "neutrons" : 23,
+              "symbol" : "³⁹S"
+            },
+          "_40" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 8.8 },
+              "neutrons" : 24,
+              "symbol" : "⁴⁰S"
+            }
+        },
+      "name" : { "latin" : "Sulfur" },
+      "period" : 3,
+      "protons" : 16
+    },
+  "Sb" : { 
+      "atomic_weight" : 121.76,
+      "group" : 15,
+      "isotopes" : {  },
+      "name" : { 
+          "english" : "Antimony",
+          "latin" : "Stibium"
+        },
+      "period" : 5,
+      "protons" : 51
+    },
+  "Sc" : { 
+      "atomic_weight" : 44.955908,
+      "group" : 3,
+      "isotopes" : { 
+          "_41" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "milliseconds" : 596.3 },
+              "neutrons" : 20,
+              "symbol" : "⁴¹Sc"
+            },
+          "_42" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "milliseconds" : 681.3 },
+              "neutrons" : 21,
+              "symbol" : "⁴²Sc"
+            },
+          "_43" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "hours" : 3.891 },
+              "neutrons" : 22,
+              "symbol" : "⁴³Sc"
+            },
+          "_44" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "hours" : 3.97 },
+              "neutrons" : 23,
+              "symbol" : "⁴⁴Sc"
+            },
+          "_45" : { 
+              "neutrons" : 24,
+              "symbol" : "⁴⁵Sc"
+            },
+          "_46" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "days" : 83.79 },
+              "neutrons" : 25,
+              "symbol" : "⁴⁶Sc"
+            },
+          "_47" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "days" : 3.3492 },
+              "neutrons" : 26,
+              "symbol" : "⁴⁷Sc"
+            },
+          "_48" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "hours" : 43.67 },
+              "neutrons" : 27,
+              "symbol" : "⁴⁸Sc"
+            },
+          "_49" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "minutes" : 57.2 },
+              "neutrons" : 28,
+              "symbol" : "⁴⁹Sc"
+            },
+          "_50" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 102.5 },
+              "neutrons" : 29,
+              "symbol" : "⁵⁰Sc"
+            },
+          "_51" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 12.4 },
+              "neutrons" : 30,
+              "symbol" : "⁵¹Sc"
+            },
+          "_52" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 8.2 },
+              "neutrons" : 31,
+              "symbol" : "⁵²Sc"
+            }
+        },
+      "name" : { "latin" : "Scandium" },
+      "period" : 4,
+      "protons" : 21
+    },
+  "Se" : { 
+      "atomic_weight" : 78.971,
+      "group" : 16,
+      "isotopes" : {  },
+      "name" : { "latin" : "Selenium" },
+      "period" : 4,
+      "protons" : 34
+    },
+  "Sg" : { 
+      "atomic_weight" : 269,
+      "group" : 6,
+      "isotopes" : {  },
+      "name" : { "latin" : "Seaborgium" },
+      "period" : 7,
+      "protons" : 106
+    },
+  "Si" : { 
+      "atomic_weight" : 28.085,
+      "group" : 14,
+      "isotopes" : { 
+          "_26" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "seconds" : 2.2453 },
+              "neutrons" : 12,
+              "symbol" : "²⁶Si"
+            },
+          "_27" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "seconds" : 4.15 },
+              "neutrons" : 13,
+              "symbol" : "²⁷Si"
+            },
+          "_28" : { 
+              "neutrons" : 14,
+              "symbol" : "²⁸Si"
+            },
+          "_29" : { 
+              "neutrons" : 15,
+              "symbol" : "²⁹Si"
+            },
+          "_30" : { 
+              "neutrons" : 16,
+              "symbol" : "³⁰Si"
+            },
+          "_31" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "minutes" : 157.36 },
+              "neutrons" : 17,
+              "symbol" : "³¹Si"
+            },
+          "_32" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "years" : 153 },
+              "neutrons" : 18,
+              "symbol" : "³²Si"
+            },
+          "_33" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 6.18 },
+              "neutrons" : 19,
+              "symbol" : "³³Si"
+            },
+          "_34" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 2.77 },
+              "neutrons" : 20,
+              "symbol" : "³⁴Si"
+            }
+        },
+      "name" : { 
+          "english" : "Silicon",
+          "latin" : "Silicium"
+        },
+      "period" : 3,
+      "protons" : 14
+    },
+  "Sm" : { 
+      "atomic_weight" : 150.36,
+      "isotopes" : {  },
+      "name" : { "latin" : "Samarium" },
+      "period" : 6,
+      "protons" : 62
+    },
+  "Sn" : { 
+      "atomic_weight" : 118.71,
+      "group" : 14,
+      "isotopes" : {  },
+      "name" : { 
+          "english" : "Tin",
+          "latin" : "Stannum"
+        },
+      "period" : 5,
+      "protons" : 50
+    },
+  "Sr" : { 
+      "atomic_weight" : 87.62,
+      "group" : 2,
+      "isotopes" : {  },
+      "name" : { "latin" : "Strontium" },
+      "period" : 5,
+      "protons" : 38
+    },
+  "Ta" : { 
+      "atomic_weight" : 180.94788,
+      "group" : 5,
+      "isotopes" : {  },
+      "name" : { "latin" : "Tantalum" },
+      "period" : 6,
+      "protons" : 73
+    },
+  "Tb" : { 
+      "atomic_weight" : 158.925354,
+      "isotopes" : {  },
+      "name" : { "latin" : "Terbium" },
+      "period" : 6,
+      "protons" : 65
+    },
+  "Tc" : { 
+      "atomic_weight" : 98,
+      "group" : 7,
+      "isotopes" : {  },
+      "name" : { "latin" : "Technetium" },
+      "period" : 5,
+      "protons" : 43
+    },
+  "Te" : { 
+      "atomic_weight" : 127.6,
+      "group" : 16,
+      "isotopes" : {  },
+      "name" : { "latin" : "Tellurium" },
+      "period" : 5,
+      "protons" : 52
+    },
+  "Th" : { 
+      "atomic_weight" : 232.0377,
+      "isotopes" : {  },
+      "name" : { "latin" : "Thorium" },
+      "period" : 7,
+      "protons" : 90
+    },
+  "Ti" : { 
+      "atomic_weight" : 47.867,
+      "group" : 4,
+      "isotopes" : { 
+          "_42" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "milliseconds" : 199 },
+              "neutrons" : 20,
+              "symbol" : "⁴²Ti"
+            },
+          "_43" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "milliseconds" : 509 },
+              "neutrons" : 21,
+              "symbol" : "⁴³Ti"
+            },
+          "_44" : { 
+              "electron_capture" : {  },
+              "half_life" : { "years" : 60.0 },
+              "neutrons" : 22,
+              "symbol" : "⁴⁴Ti"
+            },
+          "_45" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "hours" : 184.8 },
+              "neutrons" : 23,
+              "symbol" : "⁴⁵Ti"
+            },
+          "_46" : { 
+              "neutrons" : 24,
+              "symbol" : "⁴⁶Ti"
+            },
+          "_47" : { 
+              "neutrons" : 25,
+              "symbol" : "⁴⁷Ti"
+            },
+          "_48" : { 
+              "neutrons" : 26,
+              "symbol" : "⁴⁸Ti"
+            },
+          "_49" : { 
+              "neutrons" : 27,
+              "symbol" : "⁴⁹Ti"
+            },
+          "_50" : { 
+              "neutrons" : 28,
+              "symbol" : "⁵⁰Ti"
+            },
+          "_51" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "minutes" : 5.75 },
+              "neutrons" : 29,
+              "symbol" : "⁵¹Ti"
+            },
+          "_52" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "minutes" : 1.7 },
+              "neutrons" : 30,
+              "symbol" : "⁵²Ti"
+            },
+          "_53" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 32.7 },
+              "neutrons" : 31,
+              "symbol" : "⁵³Ti"
+            },
+          "_54" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 1.5 },
+              "neutrons" : 32,
+              "symbol" : "⁵⁴Ti"
+            },
+          "_55" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "milliseconds" : 490 },
+              "neutrons" : 33,
+              "symbol" : "⁵⁵Ti"
+            }
+        },
+      "name" : { "latin" : "Titanium" },
+      "period" : 4,
+      "protons" : 22
+    },
+  "Tl" : { 
+      "atomic_weight" : 204.38,
+      "group" : 13,
+      "isotopes" : {  },
+      "name" : { "latin" : "Thallium" },
+      "period" : 6,
+      "protons" : 81
+    },
+  "Tm" : { 
+      "atomic_weight" : 168.934218,
+      "isotopes" : {  },
+      "name" : { "latin" : "Thulium" },
+      "period" : 6,
+      "protons" : 69
+    },
+  "Ts" : { 
+      "atomic_weight" : 294,
+      "group" : 17,
+      "isotopes" : {  },
+      "name" : { "latin" : "Tennessine" },
+      "period" : 7,
+      "protons" : 117
+    },
+  "U" : { 
+      "atomic_weight" : 238.02891,
+      "isotopes" : {  },
+      "name" : { "latin" : "Uranium" },
+      "period" : 7,
+      "protons" : 92
+    },
+  "V" : { 
+      "atomic_weight" : 50.9415,
+      "group" : 5,
+      "isotopes" : { 
+          "_45" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "milliseconds" : 547 },
+              "neutrons" : 22,
+              "symbol" : "⁴⁵V"
+            },
+          "_46" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "milliseconds" : 422.5 },
+              "neutrons" : 23,
+              "symbol" : "⁴⁶V"
+            },
+          "_47" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "minutes" : 32.6 },
+              "neutrons" : 24,
+              "symbol" : "⁴⁷V"
+            },
+          "_48" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "days" : 15.9735 },
+              "neutrons" : 25,
+              "symbol" : "⁴⁸V"
+            },
+          "_49" : { 
+              "electron_capture" : {  },
+              "half_life" : { "days" : 329 },
+              "neutrons" : 26,
+              "symbol" : "⁴⁹V"
+            },
+          "_50" : { 
+              "beta_m_decay" : {  },
+              "electron_capture" : {  },
+              "half_life" : { "years" : 1.4 },
+              "neutrons" : 27,
+              "symbol" : "⁵⁰V"
+            },
+          "_51" : { 
+              "neutrons" : 28,
+              "symbol" : "⁵¹V"
+            },
+          "_52" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "minutes" : 3.743 },
+              "neutrons" : 29,
+              "symbol" : "⁵²V"
+            },
+          "_53" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "minutes" : 1.6 },
+              "neutrons" : 30,
+              "symbol" : "⁵³V"
+            },
+          "_54" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 49.8 },
+              "neutrons" : 31,
+              "symbol" : "⁵⁴V"
+            },
+          "_55" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 6.54 },
+              "neutrons" : 32,
+              "symbol" : "⁵⁵V"
+            },
+          "_56" : { 
+              "beta_m_n_decay" : {  },
+              "half_life" : { "milliseconds" : 216 },
+              "neutrons" : 33,
+              "symbol" : "⁵⁶V"
+            }
+        },
+      "name" : { "latin" : "Vanadium" },
+      "period" : 4,
+      "protons" : 23
+    },
+  "W" : { 
+      "atomic_weight" : 183.84,
+      "group" : 6,
+      "isotopes" : {  },
+      "name" : { 
+          "english" : "Tungsten",
+          "latin" : "Wolframium"
+        },
+      "period" : 6,
+      "protons" : 74
+    },
+  "Xe" : { 
+      "atomic_weight" : 131.293,
+      "group" : 18,
+      "isotopes" : {  },
+      "name" : { "latin" : "Xenon" },
+      "period" : 5,
+      "protons" : 54
+    },
+  "Y" : { 
+      "atomic_weight" : 88.90584,
+      "group" : 3,
+      "isotopes" : {  },
+      "name" : { "latin" : "Yttrium" },
+      "period" : 5,
+      "protons" : 39
+    },
+  "Yb" : { 
+      "atomic_weight" : 173.045,
+      "isotopes" : {  },
+      "name" : { "latin" : "Ytterbium" },
+      "period" : 6,
+      "protons" : 70
+    },
+  "Zn" : { 
+      "atomic_weight" : 65.38,
+      "group" : 12,
+      "isotopes" : {  },
+      "name" : { 
+          "english" : "Zinc",
+          "latin" : "Zincum"
+        },
+      "period" : 4,
+      "protons" : 30
+    },
+  "Zr" : { 
+      "atomic_weight" : 91.224,
+      "group" : 4,
+      "isotopes" : {  },
+      "name" : { "latin" : "Zirconium" },
+      "period" : 5,
+      "protons" : 40
+    }
+}
