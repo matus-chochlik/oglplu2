@@ -1130,7 +1130,121 @@
   "Mn" : { 
       "atomic_weight" : 54.938043,
       "group" : 7,
-      "isotopes" : {  },
+      "isotopes" : {
+          "_47" : { 
+              "beta_p_decay" : {  },
+              "beta_p_p_decay" : {  },
+              "half_life" : { "milliseconds" : 100 },
+              "neutrons" : 22,
+              "symbol" : "⁴⁷Mn"
+            },
+          "_48" : { 
+              "beta_p_decay" : {  },
+              "beta_p_p_decay" : {  },
+              "beta_p_alpha_decay" : {  },
+              "half_life" : { "milliseconds" : 158.1 },
+              "neutrons" : 23,
+              "symbol" : "⁴⁸Mn"
+            },
+          "_49" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "milliseconds" : 382 },
+              "neutrons" : 24,
+              "symbol" : "⁴⁹Mn"
+            },
+          "_50" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "milliseconds" : 283.29 },
+              "neutrons" : 25,
+              "symbol" : "⁵⁰Mn"
+            },
+          "_51" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "minutes" : 46.2 },
+              "neutrons" : 26,
+              "symbol" : "⁵¹Mn"
+            },
+          "_52" : { 
+              "beta_p_decay" : {  },
+              "half_life" : { "days" : 5.591 },
+              "neutrons" : 27,
+              "symbol" : "⁵²Mn"
+            },
+          "_53" : { 
+              "electron_capture" : {  },
+              "half_life" : { "days" : 5.591 },
+              "neutrons" : 28,
+              "symbol" : "⁵³Mn"
+            },
+          "_54" : { 
+              "electron_capture" : {  },
+              "beta_m_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : { "days" : 312.03 },
+              "neutrons" : 29,
+              "symbol" : "⁵⁴Mn"
+            },
+          "_55" : { 
+              "neutrons" : 30,
+              "symbol" : "⁵⁵Mn"
+            },
+          "_56" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "hours" : 2.5789 },
+              "neutrons" : 31,
+              "symbol" : "⁵⁶Mn"
+            },
+          "_57" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 85.4 },
+              "neutrons" : 32,
+              "symbol" : "⁵⁷Mn"
+            },
+          "_58" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 3.0 },
+              "neutrons" : 33,
+              "symbol" : "⁵⁸Mn"
+            },
+          "_59" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 4.59 },
+              "neutrons" : 34,
+              "symbol" : "⁵⁹Mn"
+            },
+          "_60" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 51 },
+              "neutrons" : 35,
+              "symbol" : "⁶⁰Mn"
+            },
+          "_61" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "milliseconds" : 670 },
+              "neutrons" : 36,
+              "symbol" : "⁶¹Mn"
+            },
+          "_62" : { 
+              "beta_m_decay" : {  },
+              "beta_m_n_decay" : {  },
+              "half_life" : { "milliseconds" : 671 },
+              "neutrons" : 37,
+              "symbol" : "⁶²Mn"
+            },
+          "_63" : { 
+              "beta_m_decay" : {  },
+              "half_life" : { "milliseconds" : 275 },
+              "neutrons" : 38,
+              "symbol" : "⁶³Mn"
+            },
+          "_64" : { 
+              "beta_m_decay" : {  },
+              "beta_m_n_decay" : {  },
+              "half_life" : { "milliseconds" : 88.8 },
+              "neutrons" : 39,
+              "symbol" : "⁶⁴Mn"
+            }
+	  },
       "name" : { 
           "english" : "Manganese",
           "latin" : "Manganum"

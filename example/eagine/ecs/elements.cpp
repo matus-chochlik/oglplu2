@@ -302,11 +302,11 @@ struct beta_m_alpha_decay : ecs::component<beta_m_alpha_decay> {
     }
 
     static constexpr auto proton_count_diff() noexcept -> short {
-        return 1;
+        return -1;
     }
 
     static constexpr auto neutron_count_diff() noexcept -> short {
-        return -1;
+        return -3;
     }
 
     element_symbol product;
@@ -347,6 +347,26 @@ struct beta_p_decay : ecs::component<beta_p_decay> {
 
     static constexpr auto neutron_count_diff() noexcept -> short {
         return 1;
+    }
+
+    element_symbol product;
+};
+//------------------------------------------------------------------------------
+struct beta_p_alpha_decay : ecs::component<beta_p_alpha_decay> {
+    static constexpr auto uid() noexcept {
+        return EAGINE_ID_V(BtaMAlpDcy);
+    }
+
+    static auto symbol() noexcept -> string_view {
+        return {"β⁺,α"};
+    }
+
+    static constexpr auto proton_count_diff() noexcept -> short {
+        return -3;
+    }
+
+    static constexpr auto neutron_count_diff() noexcept -> short {
+        return -1;
     }
 
     element_symbol product;
@@ -488,6 +508,7 @@ static void cache_decay_products(ecs::basic_manager<element_symbol>& elements) {
     cache_decay_products_of<beta_m_alpha_decay>(elements);
     cache_decay_products_of<beta_m_n_decay>(elements);
     cache_decay_products_of<beta_p_decay>(elements);
+    cache_decay_products_of<beta_p_alpha_decay>(elements);
     cache_decay_products_of<beta_p_p_decay>(elements);
 }
 //------------------------------------------------------------------------------
@@ -521,6 +542,8 @@ auto main(main_ctx& ctx) -> int {
       .register_component_storage<std_map_cmp_storage, beta_m_alpha_decay>();
     elements.register_component_storage<std_map_cmp_storage, beta_m_n_decay>();
     elements.register_component_storage<std_map_cmp_storage, beta_p_decay>();
+    elements
+      .register_component_storage<std_map_cmp_storage, beta_p_alpha_decay>();
     elements.register_component_storage<std_map_cmp_storage, beta_p_p_decay>();
 
     elements.register_relation_storage<std_map_rel_storage, isotope>();
@@ -674,6 +697,10 @@ void populate(
                 }
                 if(auto decay_a{source.nested(isot_attr, "beta_p_decay")}) {
                     elements.add(isot, beta_p_decay());
+                }
+                if(auto decay_a{
+                     source.nested(isot_attr, "beta_p_alpha_decay")}) {
+                    elements.add(isot, beta_p_alpha_decay());
                 }
                 if(auto decay_a{source.nested(isot_attr, "beta_p_p_decay")}) {
                     elements.add(isot, beta_p_p_decay());
