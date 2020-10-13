@@ -68,9 +68,7 @@ eagine_example_common(c_api_wrap)
 eagine_example_common(embed_self)
 eagine_embed_target_resources(eagine-embed_self)
 #
-eagine_example_common(ecs_elements)
-eagine_embed_packed_target_resources(eagine-ecs_elements)
-#
+add_subdirectory(ecs)
 add_subdirectory(ssl)
 add_subdirectory(serialize)
 add_subdirectory(message_bus)

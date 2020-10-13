@@ -1,5 +1,5 @@
 /**
- *  @example eagine/ecs_elements.cpp
+ *  @example eagine/ecs/elements.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -525,7 +525,7 @@ auto main(main_ctx& ctx) -> int {
 
     elements.register_relation_storage<std_map_rel_storage, isotope>();
 
-    const auto json_res{embed(EAGINE_ID(ElemJSON), "ecs_elements.json")};
+    const auto json_res{embed(EAGINE_ID(ElemJSON), "elements.json")};
 
     auto json_tree{
       valtree::from_json_text(as_chars(json_res.unpack(ctx)), ctx.log())};
