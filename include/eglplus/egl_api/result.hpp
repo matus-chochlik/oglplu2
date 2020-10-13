@@ -35,10 +35,6 @@ public:
         return egl_types::error_code_no_error(_error_code);
     }
 
-    constexpr auto operator!() const noexcept {
-        return !egl_types::error_code_no_error(_error_code);
-    }
-
     constexpr auto error_code(egl_types::int_type ec) noexcept -> auto& {
         _error_code = ec;
         return *this;

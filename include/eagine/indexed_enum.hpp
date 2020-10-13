@@ -99,10 +99,6 @@ struct any_indexed_enum_value {
         return _base_id != ~T(0);
     }
 
-    constexpr inline bool operator!() const noexcept {
-        return _base_id == ~T(0);
-    }
-
     friend constexpr inline bool
     operator==(any_indexed_enum_value a, any_indexed_enum_value b) noexcept {
         return (a._index == b._index) && (a._base_id == b._base_id);

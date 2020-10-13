@@ -80,10 +80,6 @@ public:
         return is_valid();
     }
 
-    bool operator!() const noexcept {
-        return !is_valid();
-    }
-
     auto value() const {
         EAGINE_ASSERT(is_valid());
         return _self().evaluate();

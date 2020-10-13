@@ -164,10 +164,6 @@ public:
         return _size != 0;
     }
 
-    constexpr auto operator!() const noexcept {
-        return _size == 0;
-    }
-
     constexpr auto is_empty() const noexcept -> bool {
         return _size == 0;
     }

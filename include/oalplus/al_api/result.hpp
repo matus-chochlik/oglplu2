@@ -37,10 +37,6 @@ public:
         return al_types::error_code_no_error(_error_code);
     }
 
-    constexpr auto operator!() const noexcept {
-        return !al_types::error_code_no_error(_error_code);
-    }
-
     constexpr auto error_code(enum_type ec) noexcept -> auto& {
         _error_code = ec;
         return *this;

@@ -52,10 +52,6 @@ public:
         return is_loaded();
     }
 
-    auto operator!() const noexcept {
-        return !is_loaded();
-    }
-
     auto block() const noexcept -> memory::const_block {
         return bool(EAGINE_LIKELY(_pimpl)) ? _pimpl->block()
                                            : memory::const_block();

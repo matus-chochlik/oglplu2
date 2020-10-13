@@ -107,10 +107,6 @@ public:
         return _pballoc != nullptr;
     }
 
-    auto operator!() const noexcept {
-        return _pballoc == nullptr;
-    }
-
     auto max_size(size_type a) const noexcept -> size_type {
         return _pballoc ? _pballoc->max_size(a) : 0;
     }

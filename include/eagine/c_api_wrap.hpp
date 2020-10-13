@@ -272,10 +272,6 @@ public:
         return false;
     }
 
-    constexpr auto operator!() const noexcept {
-        return true;
-    }
-
     template <typename T>
     auto replaced_with(T) const {
         api_result<T, Info, api_result_validity::never> result{};
@@ -456,10 +452,6 @@ public:
 
     explicit constexpr operator bool() const noexcept {
         return bool(*static_cast<const Info*>(this));
-    }
-
-    constexpr auto operator!() const noexcept {
-        return !(*static_cast<const Info*>(this));
     }
 
     template <typename T>
@@ -664,10 +656,6 @@ public:
         return this->is_valid() && bool(*static_cast<const Info*>(this));
     }
 
-    constexpr auto operator!() const noexcept -> bool {
-        return !this->is_valid() || !(*static_cast<const Info*>(this));
-    }
-
     template <typename T>
     auto replaced_with(T value) const {
         api_result<T, Info, api_result_validity::maybe> result{
@@ -869,9 +857,6 @@ public:
     constexpr explicit operator bool() const noexcept {
         return IsAvailable;
     }
-    constexpr auto operator!() const noexcept {
-        return !IsAvailable;
-    }
 
     constexpr auto name() const noexcept -> string_view {
         return _name;
@@ -949,9 +934,6 @@ public:
 
     constexpr explicit operator bool() const noexcept {
         return bool(_function);
-    }
-    constexpr auto operator!() const noexcept -> bool {
-        return !_function;
     }
 
     template <typename... Args>
