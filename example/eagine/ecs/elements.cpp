@@ -354,7 +354,7 @@ struct beta_p_decay : ecs::component<beta_p_decay> {
 //------------------------------------------------------------------------------
 struct beta_p_alpha_decay : ecs::component<beta_p_alpha_decay> {
     static constexpr auto uid() noexcept {
-        return EAGINE_ID_V(BtaMAlpDcy);
+        return EAGINE_ID_V(BtaPAlpDcy);
     }
 
     static auto symbol() noexcept -> string_view {
