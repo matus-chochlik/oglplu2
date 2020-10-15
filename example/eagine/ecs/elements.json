@@ -1692,7 +1692,156 @@
   "Ni" : {
       "atomic_weight" : 58.6934,
       "group" : 10,
-      "isotopes" : {  },
+      "isotopes" : {
+          "_52" : {
+              "beta_p_decay" : {  },
+              "beta_p_p_decay" : {  },
+              "half_life" : { "milliseconds" : 38 },
+              "neutrons" : 24,
+              "symbol" : "⁵²Ni"
+            },
+          "_53" : {
+              "beta_p_decay" : {  },
+              "beta_p_p_decay" : {  },
+              "half_life" : { "milliseconds" : 45 },
+              "neutrons" : 25,
+              "symbol" : "⁵³Ni"
+            },
+          "_54" : {
+              "beta_p_decay" : {  },
+              "half_life" : { "milliseconds" : 104 },
+              "neutrons" : 26,
+              "symbol" : "⁵⁴Ni"
+            },
+          "_55" : {
+              "beta_p_decay" : {  },
+              "half_life" : { "milliseconds" : 204.7 },
+              "neutrons" : 27,
+              "symbol" : "⁵⁵Ni"
+            },
+          "_56" : {
+              "beta_p_decay" : {  },
+              "half_life" : { "days" : 6.075 },
+              "neutrons" : 28,
+              "symbol" : "⁵⁶Ni"
+            },
+          "_57" : {
+              "beta_p_decay" : {  },
+              "half_life" : { "hours" : 35.6 },
+              "neutrons" : 29,
+              "symbol" : "⁵⁷Ni"
+            },
+          "_58" : {
+              "neutrons" : 30,
+              "symbol" : "⁵⁸Ni"
+            },
+          "_59" : {
+              "beta_p_decay" : {  },
+              "electron_capture" : {  },
+              "half_life" : { "years" : 76000.0 },
+              "neutrons" : 31,
+              "symbol" : "⁵⁹Ni"
+            },
+          "_60" : {
+              "neutrons" : 32,
+              "symbol" : "⁶⁰Ni"
+            },
+          "_61" : {
+              "neutrons" : 33,
+              "symbol" : "⁶¹Ni"
+            },
+          "_62" : {
+              "neutrons" : 34,
+              "symbol" : "⁶²Ni"
+            },
+          "_63" : {
+              "beta_p_decay" : {  },
+              "half_life" : { "years" : 100.1 },
+              "neutrons" : 35,
+              "symbol" : "⁶³Ni"
+            },
+          "_64" : {
+              "neutrons" : 36,
+              "symbol" : "⁶⁴Ni"
+            },
+          "_65" : {
+              "beta_m_decay" : {  },
+              "half_life" : { "hours" : 2.5172 },
+              "neutrons" : 37,
+              "symbol" : "⁶⁵Ni"
+            },
+          "_66" : {
+              "beta_m_decay" : {  },
+              "half_life" : { "hours" : 54.6 },
+              "neutrons" : 38,
+              "symbol" : "⁶⁶Ni"
+            },
+          "_67" : {
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 21 },
+              "neutrons" : 39,
+              "symbol" : "⁶⁷Ni"
+            },
+          "_68" : {
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 29 },
+              "neutrons" : 40,
+              "symbol" : "⁶⁸Ni"
+            },
+          "_69" : {
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 11.5 },
+              "neutrons" : 41,
+              "symbol" : "⁶⁹Ni"
+            },
+          "_70" : {
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 6.0 },
+              "neutrons" : 42,
+              "symbol" : "⁷⁰Ni"
+            },
+          "_71" : {
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 2.56 },
+              "neutrons" : 43,
+              "symbol" : "⁷¹Ni"
+            },
+          "_72" : {
+              "beta_m_decay" : {  },
+              "beta_m_n_decay" : {  },
+              "half_life" : { "seconds" : 2.56 },
+              "neutrons" : 44,
+              "symbol" : "⁷¹Ni"
+            },
+          "_73" : {
+              "beta_m_decay" : {  },
+              "beta_m_n_decay" : {  },
+              "half_life" : { "seconds" : 0.84 },
+              "neutrons" : 45,
+              "symbol" : "⁷⁴Ni"
+            },
+          "_74" : {
+              "beta_m_decay" : {  },
+              "beta_m_n_decay" : {  },
+              "half_life" : { "seconds" : 0.68 },
+              "neutrons" : 46,
+              "symbol" : "⁷⁴Ni"
+            },
+          "_75" : {
+              "beta_m_decay" : {  },
+              "beta_m_n_decay" : {  },
+              "half_life" : { "seconds" : 0.6 },
+              "neutrons" : 47,
+              "symbol" : "⁷⁵Ni"
+            },
+          "_76" : {
+              "beta_m_decay" : {  },
+              "beta_m_n_decay" : {  },
+              "half_life" : { "milliseconds" : 470 },
+              "neutrons" : 48,
+              "symbol" : "⁷⁶Ni"
+            }
+        },
       "name" : {
           "english" : "Nickel",
           "latin" : "Niccolum"
