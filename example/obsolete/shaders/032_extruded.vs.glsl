@@ -8,10 +8,8 @@ out vec3 vertPosition;
 out vec3 vertNormal;
 out vec2 vertCoord;
 
-void main()
-{
-	vertPosition = Position;
-   	vertNormal = Normal;
-   	vertCoord = Coord;
+void main() {
+    vertPosition = Position;
+    vertNormal = Normal;
+    vertCoord = Coord;
 }
-

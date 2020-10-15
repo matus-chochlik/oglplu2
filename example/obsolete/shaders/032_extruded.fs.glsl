@@ -9,9 +9,7 @@ in float geomSpecular;
 
 out vec3 fragColor;
 
-void main()
-{
-	fragColor = geomColor * (geomAmbient + geomDiffuse + geomEmission) +
-		vec3(1.1, 1.1, 1.0) * geomSpecular;
+void main() {
+    fragColor = geomColor * (geomAmbient + geomDiffuse + geomEmission) +
+                vec3(1.1, 1.1, 1.0) * geomSpecular;
 }
-
