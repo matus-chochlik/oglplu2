@@ -44,6 +44,7 @@ set(EAGINE_LIB_SOURCES
 	resources.cpp
 	value_tree_json.cpp
 	value_tree_yaml.cpp
+	value_tree_filesystem.cpp
 	value_tree_wrappers.cpp
 )
 
