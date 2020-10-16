@@ -279,6 +279,27 @@ static inline auto from_string(
         mp_string<'h', 'r'>())) {
         return {std::chrono::duration_cast<dur_t>(extract(d)), true};
     }
+    if(
+      auto d = convert_from_string(
+        str,
+        identity<std::chrono::duration<Rep, std::ratio<86400LL>>>(),
+        mp_string<'d', 'y'>())) {
+        return {std::chrono::duration_cast<dur_t>(extract(d)), true};
+    }
+    if(
+      auto d = convert_from_string(
+        str,
+        identity<std::chrono::duration<Rep, std::ratio<31556952LL>>>(),
+        mp_string<'y', 'r'>())) {
+        return {std::chrono::duration_cast<dur_t>(extract(d)), true};
+    }
+    if(
+      auto d = convert_from_string(
+        str,
+        identity<std::chrono::duration<Rep, std::ratio<31556952LL>>>(),
+        mp_string<'a'>())) {
+        return {std::chrono::duration_cast<dur_t>(extract(d)), true};
+    }
     return {};
 }
 //------------------------------------------------------------------------------
