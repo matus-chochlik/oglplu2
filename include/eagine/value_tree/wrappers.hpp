@@ -224,6 +224,20 @@ public:
         return fetch_values(name, 0, dest);
     }
 
+    auto fetch_blob(const attribute& attrib, memory::block dest)
+      -> memory::block {
+        return fetch_values(attrib, dest);
+    }
+
+    auto fetch_blob(const basic_string_path& path, memory::block dest)
+      -> memory::block {
+        return fetch_values(path, dest);
+    }
+
+    auto fetch_blob(string_view name, memory::block dest) -> memory::block {
+        return fetch_values(name, dest);
+    }
+
     template <typename T>
     auto fetch_value(const attribute& attrib, span_size_t offset, T& dest)
       -> bool {
