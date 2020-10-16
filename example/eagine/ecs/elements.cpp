@@ -636,38 +636,9 @@ void populate(
                     }
                 }
                 if(auto half_life_a{source.nested(isot_attr, "half_life")}) {
-                    if(auto years_a{source.nested(half_life_a, "years")}) {
-                        if(auto x{source.get(years_a, identity<float>())}) {
-                            elements.add(isot, half_life::years(extract(x)));
-                        }
-                    }
-                    if(auto days_a{source.nested(half_life_a, "days")}) {
-                        if(auto x{source.get(days_a, identity<float>())}) {
-                            elements.add(isot, half_life::days(extract(x)));
-                        }
-                    }
-                    if(auto hours_a{source.nested(half_life_a, "hours")}) {
-                        if(auto x{source.get(hours_a, identity<float>())}) {
-                            elements.add(isot, half_life::hours(extract(x)));
-                        }
-                    }
-                    if(auto minutes_a{source.nested(half_life_a, "minutes")}) {
-                        if(auto x{source.get(minutes_a, identity<float>())}) {
-                            elements.add(isot, half_life::minutes(extract(x)));
-                        }
-                    }
-                    if(auto seconds_a{source.nested(half_life_a, "seconds")}) {
-                        if(auto x{source.get(seconds_a, identity<float>())}) {
-                            elements.add(isot, half_life::seconds(extract(x)));
-                        }
-                    }
-                    if(auto milliseconds_a{
-                         source.nested(half_life_a, "milliseconds")}) {
-                        if(auto x{
-                             source.get(milliseconds_a, identity<float>())}) {
-                            elements.add(
-                              isot, half_life::milliseconds(extract(x)));
-                        }
+                    using hl_t = std::chrono::duration<float>;
+                    if(auto hl{source.get(half_life_a, identity<hl_t>())}) {
+                        elements.add(isot, half_life(extract(hl)));
                     }
                 }
                 if(auto decay_a{source.nested(isot_attr, "alpha_decay")}) {
