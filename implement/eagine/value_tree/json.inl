@@ -7,10 +7,12 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+#include <eagine/base64.hpp>
 #include <eagine/from_string.hpp>
 #include <eagine/identifier.hpp>
 #include <eagine/is_within_limits.hpp>
 #include <eagine/logging/logger.hpp>
+#include <eagine/memory/span_algo.hpp>
 #include <rapidjson/document.h>
 #include <rapidjson/error/en.h>
 #include <vector>
@@ -171,6 +173,10 @@ public:
             auto& val = extract(_rj_val);
             if(val.IsArray()) {
                 return span_size(val.Size());
+            }
+            if(val.IsString()) {
+                // for base64 encoded byte span
+                return base64_decoded_length(span_size(val.GetStringLength()));
             }
         }
         return 0;
@@ -366,7 +372,7 @@ public:
     }
 
     template <typename T>
-    auto fetch_values(span_size_t offset, span<T> dest) -> span_size_t {
+    auto do_fetch_values(span_size_t offset, span<T> dest) -> span_size_t {
         if(_rj_val) {
             auto& val = extract(_rj_val);
             if(val.IsArray()) {
@@ -388,6 +394,40 @@ public:
             }
         }
         return 0;
+    }
+
+    template <typename T>
+    auto fetch_values(span_size_t offset, span<T> dest) -> span_size_t {
+        return do_fetch_values(offset, dest);
+    }
+
+    auto fetch_values(span_size_t offset, span<byte> dest) -> span_size_t {
+        if(_rj_val) {
+            auto& val = extract(_rj_val);
+            // blobs can also be decoded from base64 strings
+            using memory::skip;
+            if(val.IsString()) {
+                const auto req_size =
+                  base64_decoded_length(span_size(val.GetStringLength()));
+                if(dest.size() < req_size) {
+                    std::vector<byte> temp{};
+                    if(auto dec{base64_decode(view(val), temp)}) {
+                        if(auto src{skip(cover(extract(dec)), offset)}) {
+                            copy(src, dest);
+                            return src.size();
+                        }
+                    }
+                    return 0;
+                } else {
+                    if(auto src{skip(base64_decode(view(val), dest), offset)}) {
+                        copy(src, dest);
+                        return src.size();
+                    }
+                    return 0;
+                }
+            }
+        }
+        return do_fetch_values(offset, dest);
     }
 };
 //------------------------------------------------------------------------------
