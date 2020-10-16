@@ -773,7 +773,152 @@
   "Cu" : {
       "atomic_weight" : 63.546,
       "group" : 11,
-      "isotopes" : {  },
+      "isotopes" : {
+          "_56" : {
+              "beta_p_decay" : {  },
+              "half_life" : { "milliseconds" : 93 },
+              "neutrons" : 27,
+              "symbol" : "⁵⁶Cu"
+            },
+          "_57" : {
+              "beta_p_decay" : {  },
+              "half_life" : { "milliseconds" : 196.3 },
+              "neutrons" : 28,
+              "symbol" : "⁵⁷Cu"
+            },
+          "_58" : {
+              "beta_p_decay" : {  },
+              "half_life" : { "seconds" : 3.204 },
+              "neutrons" : 29,
+              "symbol" : "⁵⁸Cu"
+            },
+          "_59" : {
+              "beta_p_decay" : {  },
+              "half_life" : { "seconds" : 81.5 },
+              "neutrons" : 30,
+              "symbol" : "⁵⁹Cu"
+            },
+          "_60" : {
+              "beta_p_decay" : {  },
+              "half_life" : { "minutes" : 23.7 },
+              "neutrons" : 31,
+              "symbol" : "⁶⁰Cu"
+            },
+          "_61" : {
+              "beta_p_decay" : {  },
+              "half_life" : { "hours" : 3.333 },
+              "neutrons" : 32,
+              "symbol" : "⁶¹Cu"
+            },
+          "_62" : {
+              "beta_p_decay" : {  },
+              "half_life" : { "minutes" : 9.673 },
+              "neutrons" : 33,
+              "symbol" : "⁶²Cu"
+            },
+          "_63" : {
+              "neutrons" : 34,
+              "symbol" : "⁶⁴Cu"
+            },
+          "_64" : {
+              "beta_m_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : { "hours" : 12.7 },
+              "neutrons" : 35,
+              "symbol" : "⁶⁴Cu"
+            },
+          "_65" : {
+              "neutrons" : 36,
+              "symbol" : "⁶⁵Cu"
+            },
+          "_66" : {
+              "beta_m_decay" : {  },
+              "half_life" : { "minutes" : 5.12 },
+              "neutrons" : 37,
+              "symbol" : "⁶⁶Cu"
+            },
+          "_67" : {
+              "beta_m_decay" : {  },
+              "half_life" : { "hours" : 61.83 },
+              "neutrons" : 38,
+              "symbol" : "⁶⁷Cu"
+            },
+          "_68" : {
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 31.1 },
+              "neutrons" : 39,
+              "symbol" : "⁶⁸Cu"
+            },
+          "_69" : {
+              "beta_m_decay" : {  },
+              "half_life" : { "minutes" : 2.81 },
+              "neutrons" : 40,
+              "symbol" : "⁶⁹Cu"
+            },
+          "_70" : {
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 44.5 },
+              "neutrons" : 41,
+              "symbol" : "⁷⁰Cu"
+            },
+          "_71" : {
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 19.4 },
+              "neutrons" : 42,
+              "symbol" : "⁷¹Cu"
+            },
+          "_72" : {
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 6.6 },
+              "neutrons" : 43,
+              "symbol" : "⁷²Cu"
+            },
+          "_73" : {
+              "beta_m_decay" : {  },
+              "beta_m_n_decay" : {  },
+              "half_life" : { "seconds" : 4.2 },
+              "neutrons" : 44,
+              "symbol" : "⁷³Cu"
+            },
+          "_74" : {
+              "beta_m_decay" : {  },
+              "half_life" : { "seconds" : 1.594 },
+              "neutrons" : 45,
+              "symbol" : "⁷⁴Cu"
+            },
+          "_75" : {
+              "beta_m_decay" : {  },
+              "beta_m_n_decay" : {  },
+              "half_life" : { "seconds" : 1.224 },
+              "neutrons" : 46,
+              "symbol" : "⁷⁵Cu"
+            },
+          "_76" : {
+              "beta_m_decay" : {  },
+              "beta_m_n_decay" : {  },
+              "half_life" : { "milliseconds" : 641 },
+              "neutrons" : 47,
+              "symbol" : "⁷⁶Cu"
+            },
+          "_77" : {
+              "beta_m_decay" : {  },
+              "half_life" : { "milliseconds" : 469 },
+              "neutrons" : 48,
+              "symbol" : "⁷⁷Cu"
+            },
+          "_78" : {
+              "beta_m_decay" : {  },
+              "half_life" : { "milliseconds" : 342 },
+              "neutrons" : 49,
+              "symbol" : "⁷⁸Cu"
+            },
+          "_79" : {
+              "beta_m_decay" : {  },
+              "half_life" : { "milliseconds" : 188 },
+              "neutrons" : 50,
+              "symbol" : "⁷⁹Cu"
+            }
+        },
       "name" : {
           "english" : "Copper",
           "latin" : "Cuprum"
