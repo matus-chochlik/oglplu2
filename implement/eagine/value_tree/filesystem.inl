@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/logging/logger.hpp>
 #include <filesystem>
-#include <memory>
 #include <tuple>
 #include <vector>
 
@@ -16,12 +16,22 @@ namespace eagine::valtree {
 class filesystem_compound;
 class filesystem_node : public attribute_interface {
 public:
+    filesystem_node(const std::filesystem::path& fs_path) noexcept
+      : _name{fs_path.filename()}
+      , _node_path{canonical(fs_path)} {}
+
+    friend auto
+    operator==(const filesystem_node& l, const filesystem_node& r) noexcept
+      -> bool {
+        return (l._node_path == r._node_path) && (l._name == r._name);
+    }
+
     auto type_id() const noexcept -> identifier_t final {
         return EAGINE_ID_V(filesystem);
     }
 
     auto name() -> string_view {
-        return {};
+        return {_name};
     }
 
     auto nested_count() -> span_size_t {
@@ -61,13 +71,16 @@ public:
     }
 
 private:
-    std::filesystem::path _node_path;
+    const std::string _name;
+    const std::filesystem::path _node_path;
 };
 //------------------------------------------------------------------------------
 class filesystem_compound
   : public compound_implementation<filesystem_compound> {
 
+    logger _log;
     std::filesystem::path _root_path;
+    std::shared_ptr<file_compound_factory> _compound_factory;
     std::vector<std::tuple<span_size_t, std::unique_ptr<filesystem_node>>>
       _nodes{};
 
@@ -78,16 +91,39 @@ class filesystem_compound
     }
 
 public:
-    filesystem_compound(string_view fs_path, logger&)
-      : _root_path{std::string_view{fs_path}} {}
+    filesystem_compound(
+      logger& log,
+      string_view fs_path,
+      std::shared_ptr<file_compound_factory> factory)
+      : _log{EAGINE_ID(FsVtCmpnd), log}
+      , _root_path{std::string_view{fs_path}}
+      , _compound_factory{std::move(factory)} {}
 
-    static auto make_shared(string_view fs_path, logger& log)
+    static auto make_shared(
+      logger& log,
+      string_view fs_path,
+      std::shared_ptr<file_compound_factory> factory)
       -> std::shared_ptr<filesystem_compound> {
-        return std::make_shared<filesystem_compound>(fs_path, log);
+        return std::make_shared<filesystem_compound>(
+          log, fs_path, std::move(factory));
     }
 
     auto type_id() const noexcept -> identifier_t final {
         return EAGINE_ID_V(filesystem);
+    }
+
+    auto make_new(const std::filesystem::path& fs_path)
+      -> attribute_interface* {
+        filesystem_node temp{fs_path};
+        for(auto& [ref_count, node_ptr] : _nodes) {
+            if(temp == *node_ptr) {
+                ++ref_count;
+                return node_ptr.get();
+            }
+        }
+        _nodes.emplace_back(
+          1, std::make_unique<filesystem_node>(std::move(temp)));
+        return std::get<1>(_nodes.back()).get();
     }
 
     void add_ref(attribute_interface& attrib) noexcept final {
@@ -153,8 +189,12 @@ public:
 };
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto from_filesystem_path(string_view fs_path, logger& log) -> compound {
-    return compound::make<filesystem_compound>(fs_path, log);
+auto from_filesystem_path(
+  string_view fs_path,
+  logger& log,
+  std::shared_ptr<file_compound_factory> factory) -> compound {
+    return compound::make<filesystem_compound>(
+      log, fs_path, std::move(factory));
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::valtree

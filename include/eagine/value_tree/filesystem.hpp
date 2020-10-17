@@ -13,10 +13,25 @@
 #include "../config/basic.hpp"
 #include "../logging/fwd.hpp"
 #include "wrappers.hpp"
+#include <memory>
 
 namespace eagine::valtree {
 //------------------------------------------------------------------------------
-auto from_filesystem_path(string_view, logger&) -> compound;
+struct file_compound_factory {
+    file_compound_factory() noexcept = default;
+    file_compound_factory(file_compound_factory&&) noexcept = default;
+    file_compound_factory(const file_compound_factory&) = delete;
+    auto operator=(file_compound_factory&&) = delete;
+    auto operator=(const file_compound_factory&) = delete;
+    virtual ~file_compound_factory() noexcept = default;
+
+    virtual auto make_compound(string_view path, logger&) -> compound = 0;
+};
+//------------------------------------------------------------------------------
+auto from_filesystem_path(
+  string_view root_path,
+  logger&,
+  std::shared_ptr<file_compound_factory>) -> compound;
 //------------------------------------------------------------------------------
 } // namespace eagine::valtree
 
