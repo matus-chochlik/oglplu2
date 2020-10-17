@@ -7,6 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/logging/logger.hpp>
+#include <eagine/value_tree/implementation.hpp>
 #include <filesystem>
 #include <tuple>
 #include <vector>
@@ -76,19 +77,14 @@ private:
 };
 //------------------------------------------------------------------------------
 class filesystem_compound
-  : public compound_implementation<filesystem_compound> {
+  : public compound_with_refcounted_node<filesystem_compound, filesystem_node> {
+    using base =
+      compound_with_refcounted_node<filesystem_compound, filesystem_node>;
+    using base::_unwrap;
 
     logger _log;
     std::filesystem::path _root_path;
     std::shared_ptr<file_compound_factory> _compound_factory;
-    std::vector<std::tuple<span_size_t, std::unique_ptr<filesystem_node>>>
-      _nodes{};
-
-    inline auto _unwrap(attribute_interface& attrib) const noexcept -> auto& {
-        EAGINE_ASSERT(attrib.type_id() == type_id());
-        EAGINE_ASSERT(dynamic_cast<filesystem_node*>(&attrib));
-        return static_cast<filesystem_node&>(attrib);
-    }
 
 public:
     filesystem_compound(
@@ -110,42 +106,6 @@ public:
 
     auto type_id() const noexcept -> identifier_t final {
         return EAGINE_ID_V(filesystem);
-    }
-
-    auto make_new(const std::filesystem::path& fs_path)
-      -> attribute_interface* {
-        filesystem_node temp{fs_path};
-        for(auto& [ref_count, node_ptr] : _nodes) {
-            if(temp == *node_ptr) {
-                ++ref_count;
-                return node_ptr.get();
-            }
-        }
-        _nodes.emplace_back(
-          1, std::make_unique<filesystem_node>(std::move(temp)));
-        return std::get<1>(_nodes.back()).get();
-    }
-
-    void add_ref(attribute_interface& attrib) noexcept final {
-        auto& that = _unwrap(attrib);
-        for(auto& [ref_count, node_ptr] : _nodes) {
-            if(&that == node_ptr.get()) {
-                ++ref_count;
-            }
-        }
-    }
-
-    void release(attribute_interface& attrib) noexcept final {
-        auto& that = _unwrap(attrib);
-        for(auto pos = _nodes.begin(); pos != _nodes.end(); ++pos) {
-            auto& [ref_count, node_ptr] = *pos;
-            if(&that == node_ptr.get()) {
-                if(--ref_count <= 0) {
-                    _nodes.erase(pos);
-                    break;
-                }
-            }
-        }
     }
 
     auto structure() -> attribute_interface* final {

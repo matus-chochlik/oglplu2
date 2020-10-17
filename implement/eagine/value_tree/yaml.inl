@@ -10,6 +10,7 @@
 #include <eagine/from_string.hpp>
 #include <eagine/is_within_limits.hpp>
 #include <eagine/logging/logger.hpp>
+#include <eagine/value_tree/implementation.hpp>
 #include <vector>
 
 #if EAGINE_USE_RYML
@@ -210,20 +211,16 @@ public:
 };
 //------------------------------------------------------------------------------
 class rapidyaml_tree_compound
-  : public compound_implementation<rapidyaml_tree_compound> {
+  : public compound_with_refcounted_node<
+      rapidyaml_tree_compound,
+      rapidyaml_attribute> {
 
-    using _node_t = rapidyaml_attribute;
+    using base =
+      compound_with_refcounted_node<rapidyaml_tree_compound, rapidyaml_attribute>;
+    using base::_unwrap;
 
     ryml::Tree _tree{};
     rapidyaml_attribute _root;
-
-    std::vector<std::tuple<span_size_t, std::unique_ptr<_node_t>>> _nodes{};
-
-    inline auto _unwrap(attribute_interface& attrib) const noexcept -> auto& {
-        EAGINE_ASSERT(attrib.type_id() == type_id());
-        EAGINE_ASSERT(dynamic_cast<_node_t*>(&attrib));
-        return static_cast<_node_t&>(attrib);
-    }
 
 public:
     rapidyaml_tree_compound(ryml::Tree tree)
@@ -252,42 +249,8 @@ public:
         return {};
     }
 
-    auto make_new(ryml::NodeRef node) -> _node_t* {
-        _node_t temp{node};
-        for(auto& [ref_count, node_ptr] : _nodes) {
-            if(temp == *node_ptr) {
-                ++ref_count;
-                return node_ptr.get();
-            }
-        }
-        _nodes.emplace_back(1, std::make_unique<_node_t>(std::move(temp)));
-        return std::get<1>(_nodes.back()).get();
-    }
-
     auto type_id() const noexcept -> identifier_t final {
         return EAGINE_ID_V(rapidyaml);
-    }
-
-    void add_ref(attribute_interface& attrib) noexcept final {
-        auto& that = _unwrap(attrib);
-        for(auto& [ref_count, node_ptr] : _nodes) {
-            if(that == *node_ptr) {
-                ++ref_count;
-            }
-        }
-    }
-
-    void release(attribute_interface& attrib) noexcept final {
-        auto& that = _unwrap(attrib);
-        for(auto pos = _nodes.begin(); pos != _nodes.end(); ++pos) {
-            auto& [ref_count, node_ptr] = *pos;
-            if(that == *node_ptr) {
-                if(--ref_count <= 0) {
-                    _nodes.erase(pos);
-                    break;
-                }
-            }
-        }
     }
 
     auto structure() -> attribute_interface* final {
@@ -333,7 +296,7 @@ public:
 static auto rapidyaml_make_new_node(
   rapidyaml_tree_compound& owner,
   ryml::NodeRef node) noexcept -> rapidyaml_attribute* {
-    return owner.make_new(node);
+    return owner.make_node(node);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

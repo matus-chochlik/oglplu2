@@ -13,6 +13,7 @@
 #include <eagine/is_within_limits.hpp>
 #include <eagine/logging/logger.hpp>
 #include <eagine/memory/span_algo.hpp>
+#include <eagine/value_tree/implementation.hpp>
 #include <rapidjson/document.h>
 #include <rapidjson/error/en.h>
 #include <vector>
@@ -433,23 +434,21 @@ public:
 //------------------------------------------------------------------------------
 template <typename Encoding, typename Allocator, typename StackAlloc>
 class rapidjson_document_compound
-  : public compound_implementation<
-      rapidjson_document_compound<Encoding, Allocator, StackAlloc>> {
+  : public compound_with_refcounted_node<
+      rapidjson_document_compound<Encoding, Allocator, StackAlloc>,
+      rapidjson_value_node<Encoding, Allocator, StackAlloc>> {
 private:
+    using base = compound_with_refcounted_node<
+      rapidjson_document_compound<Encoding, Allocator, StackAlloc>,
+      rapidjson_value_node<Encoding, Allocator, StackAlloc>>;
+    using base::_unwrap;
+
     using _doc_t = rapidjson::GenericDocument<Encoding, Allocator, StackAlloc>;
     using _val_t = rapidjson::GenericValue<Encoding, Allocator>;
     using _node_t = rapidjson_value_node<Encoding, Allocator, StackAlloc>;
 
     _doc_t _rj_doc{};
     _node_t _root{};
-
-    std::vector<std::tuple<span_size_t, std::unique_ptr<_node_t>>> _nodes{};
-
-    inline auto _unwrap(attribute_interface& attrib) const noexcept -> auto& {
-        EAGINE_ASSERT(attrib.type_id() == type_id());
-        EAGINE_ASSERT(dynamic_cast<_node_t*>(&attrib));
-        return static_cast<_node_t&>(attrib);
-    }
 
 public:
     rapidjson_document_compound(_doc_t& rj_doc)
@@ -470,42 +469,8 @@ public:
         return {};
     }
 
-    auto make_new(_val_t& rj_val, _val_t* rj_name) -> _node_t* {
-        _node_t temp{rj_val, rj_name};
-        for(auto& [ref_count, node_ptr] : _nodes) {
-            if(temp == *node_ptr) {
-                ++ref_count;
-                return node_ptr.get();
-            }
-        }
-        _nodes.emplace_back(1, std::make_unique<_node_t>(std::move(temp)));
-        return std::get<1>(_nodes.back()).get();
-    }
-
     auto type_id() const noexcept -> identifier_t final {
         return EAGINE_ID_V(rapidjson);
-    }
-
-    void add_ref(attribute_interface& attrib) noexcept final {
-        auto& that = _unwrap(attrib);
-        for(auto& [ref_count, node_ptr] : _nodes) {
-            if(that == *node_ptr) {
-                ++ref_count;
-            }
-        }
-    }
-
-    void release(attribute_interface& attrib) noexcept final {
-        auto& that = _unwrap(attrib);
-        for(auto pos = _nodes.begin(); pos != _nodes.end(); ++pos) {
-            auto& [ref_count, node_ptr] = *pos;
-            if(that == *node_ptr) {
-                if(--ref_count <= 0) {
-                    _nodes.erase(pos);
-                    break;
-                }
-            }
-        }
     }
 
     auto structure() -> attribute_interface* final {
@@ -553,7 +518,7 @@ static inline auto rapidjson_make_value_node(
   rapidjson_document_compound<Encoding, Allocator, StackAlloc>& owner,
   rapidjson::GenericValue<Encoding, Allocator>& value,
   rapidjson::GenericValue<Encoding, Allocator>* name) -> attribute_interface* {
-    return owner.make_new(value, name);
+    return owner.make_node(value, name);
 }
 //------------------------------------------------------------------------------
 template <typename Document>
