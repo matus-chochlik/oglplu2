@@ -7,6 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/file_contents.hpp>
+#include <eagine/logging/exception.hpp>
+#include <eagine/logging/filesystem.hpp>
 #include <eagine/logging/logger.hpp>
 #include <eagine/value_tree/implementation.hpp>
 #include <filesystem>
@@ -23,6 +25,7 @@ class filesystem_node;
 static auto filesystem_make_node(
   filesystem_compound& owner,
   const std::filesystem::path& fs_path) -> attribute_interface*;
+static auto filesystem_log_of(filesystem_compound& owner) -> logger&;
 //------------------------------------------------------------------------------
 class filesystem_node : public attribute_interface {
 public:
@@ -54,13 +57,17 @@ public:
         return is_symlink(_node_path);
     }
 
-    auto nested_count() -> span_size_t {
+    auto nested_count(filesystem_compound& owner) -> span_size_t {
         if(is_directory(_real_path)) {
             try {
                 const auto iter =
                   std::filesystem::directory_iterator(_node_path);
                 return span_size(std::distance(begin(iter), end(iter)));
-            } catch(std::filesystem::filesystem_error&) {
+            } catch(std::filesystem::filesystem_error& err) {
+                filesystem_log_of(owner)
+                  .debug("failed to get filesystem node count")
+                  .arg(EAGINE_ID(path), _node_path)
+                  .arg(EAGINE_ID(error), err);
             }
         }
         return 0;
@@ -76,7 +83,12 @@ public:
                     return filesystem_make_node(owner, ent);
                 }
             }
-        } catch(std::filesystem::filesystem_error&) {
+        } catch(std::filesystem::filesystem_error& err) {
+            filesystem_log_of(owner)
+              .debug("failed to get nested filesystem node for '${path}'")
+              .arg(EAGINE_ID(index), index)
+              .arg(EAGINE_ID(path), _node_path)
+              .arg(EAGINE_ID(error), err);
         }
         return nullptr;
     }
@@ -91,7 +103,12 @@ public:
                     return filesystem_make_node(owner, epath);
                 }
             }
-        } catch(std::filesystem::filesystem_error&) {
+        } catch(std::filesystem::filesystem_error& err) {
+            filesystem_log_of(owner)
+              .debug("failed to get nested filesystem node for '${path}'")
+              .arg(EAGINE_ID(name), name)
+              .arg(EAGINE_ID(path), _node_path)
+              .arg(EAGINE_ID(error), err);
         }
         return nullptr;
     }
@@ -191,7 +208,7 @@ public:
     }
 
     auto nested_count(attribute_interface& attrib) -> span_size_t final {
-        return _unwrap(attrib).nested_count();
+        return _unwrap(attrib).nested_count(*this);
     }
 
     auto nested(attribute_interface& attrib, span_size_t index)
@@ -221,6 +238,10 @@ public:
         return _unwrap(attrib).fetch_values(offset, dest);
     }
 };
+//------------------------------------------------------------------------------
+static inline auto filesystem_log_of(filesystem_compound& owner) -> logger& {
+    return owner.log();
+}
 //------------------------------------------------------------------------------
 static inline auto filesystem_make_node(
   filesystem_compound& owner,
