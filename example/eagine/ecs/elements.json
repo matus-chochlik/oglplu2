@@ -1342,7 +1342,153 @@
   "Ge" : {
       "atomic_weight" : 72.63,
       "group" : 14,
-      "isotopes" : {  },
+      "isotopes" : {
+          "_61" : {
+              "beta_p_decay" : {  },
+              "beta_p_p_decay" : {  },
+              "half_life" : "39ms",
+              "neutrons" : 29,
+              "symbol" : "⁶¹Ge"
+            },
+          "_62" : {
+              "beta_p_decay" : {  },
+              "half_life" : "129ms",
+              "neutrons" : 30,
+              "symbol" : "⁶²Ge"
+            },
+          "_63" : {
+              "beta_p_decay" : {  },
+              "half_life" : "142ms",
+              "neutrons" : 31,
+              "symbol" : "⁶³Ge"
+            },
+          "_64" : {
+              "beta_p_decay" : {  },
+              "half_life" : "63.7s",
+              "neutrons" : 32,
+              "symbol" : "⁶⁴Ge"
+            },
+          "_65" : {
+              "beta_p_decay" : {  },
+              "half_life" : "30.9s",
+              "neutrons" : 33,
+              "symbol" : "⁶⁵Ge"
+            },
+          "_66" : {
+              "beta_p_decay" : {  },
+              "half_life" : "2.26hr",
+              "neutrons" : 34,
+              "symbol" : "⁶⁶Ge"
+            },
+          "_67" : {
+              "beta_p_decay" : {  },
+              "half_life" : "18.9min",
+              "neutrons" : 35,
+              "symbol" : "⁶⁷Ge"
+            },
+          "_68" : {
+              "electron_capture" : {  },
+              "half_life" : "270.95dy",
+              "neutrons" : 36,
+              "symbol" : "⁶⁸Ge"
+            },
+          "_69" : {
+              "beta_p_decay" : {  },
+              "half_life" : "39.05hr",
+              "neutrons" : 37,
+              "symbol" : "⁶⁹Ge"
+            },
+          "_70" : {
+              "neutrons" : 38,
+              "symbol" : "⁷⁰Ge"
+            },
+          "_71" : {
+              "electron_capture" : {  },
+              "half_life" : "11.43dy",
+              "neutrons" : 39,
+              "symbol" : "⁷¹Ge"
+            },
+          "_72" : {
+              "neutrons" : 40,
+              "symbol" : "⁷²Ge"
+            },
+          "_73" : {
+              "neutrons" : 41,
+              "symbol" : "⁷³Ge"
+            },
+          "_74" : {
+              "neutrons" : 42,
+              "symbol" : "⁷⁴Ge"
+            },
+          "_75" : {
+              "beta_m_decay" : {  },
+              "half_life" : "82.78min",
+              "neutrons" : 43,
+              "symbol" : "⁷⁵Ge"
+            },
+          "_76" : {
+              "beta_m2_decay" : {  },
+              "half_life" : "1.926e21yr",
+              "neutrons" : 44,
+              "symbol" : "⁷⁶Ge"
+            },
+          "_77" : {
+              "beta_m_decay" : {  },
+              "half_life" : "11.30hr",
+              "neutrons" : 45,
+              "symbol" : "⁷⁷Ge"
+            },
+          "_78" : {
+              "beta_m_decay" : {  },
+              "half_life" : "88min",
+              "neutrons" : 46,
+              "symbol" : "⁷⁸Ge"
+            },
+          "_79" : {
+              "beta_m_decay" : {  },
+              "half_life" : "18.98s",
+              "neutrons" : 47,
+              "symbol" : "⁷⁹Ge"
+            },
+          "_80" : {
+              "beta_m_decay" : {  },
+              "half_life" : "29.5s",
+              "neutrons" : 48,
+              "symbol" : "⁸⁰Ge"
+            },
+          "_81" : {
+              "beta_m_decay" : {  },
+              "half_life" : "7.6s",
+              "neutrons" : 49,
+              "symbol" : "⁸¹Ge"
+            },
+          "_82" : {
+              "beta_m_decay" : {  },
+              "half_life" : "4.55s",
+              "neutrons" : 50,
+              "symbol" : "⁸²Ge"
+            },
+          "_83" : {
+              "beta_m_decay" : {  },
+              "half_life" : "1.85s",
+              "neutrons" : 51,
+              "symbol" : "⁸³Ge"
+            },
+          "_84" : {
+              "beta_m_decay" : {  },
+              "beta_m_n_decay" : {  },
+              "half_life" : "947ms",
+              "neutrons" : 52,
+              "symbol" : "⁸⁴Ge"
+            },
+          "_85" : {
+              "beta_m_decay" : {  },
+              "beta_m_n_decay" : {  },
+              "half_life" : "535ms",
+              "neutrons" : 53,
+              "symbol" : "⁸⁵Ge"
+            }
+        },
       "name" : { "latin" : "Germanium" },
       "period" : 4,
       "protons" : 32
