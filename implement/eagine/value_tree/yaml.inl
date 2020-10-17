@@ -101,6 +101,16 @@ public:
         return {};
     }
 
+    auto canonical_type() const noexcept -> value_type {
+        if(_usable(_node)) {
+            if(_node.is_container()) {
+                return value_type::composite;
+            }
+            return value_type::string_type;
+        }
+        return value_type::unknown;
+    }
+
     auto nested_count() const noexcept -> span_size_t {
         if(_usable(_node)) {
             if(_node.is_container()) {
@@ -259,6 +269,10 @@ public:
 
     auto attribute_name(attribute_interface& attrib) -> string_view final {
         return _unwrap(attrib).name();
+    }
+
+    auto canonical_type(attribute_interface& attrib) -> value_type final {
+        return _unwrap(attrib).canonical_type();
     }
 
     auto is_link(attribute_interface&) -> bool final {

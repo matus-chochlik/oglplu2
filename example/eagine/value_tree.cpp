@@ -32,6 +32,7 @@ auto main(main_ctx& ctx) -> int {
           .arg(EAGINE_ID(nested), c.nested_count(a))
           .arg(EAGINE_ID(values), c.value_count(a))
           .arg(EAGINE_ID(isLink), EAGINE_ID(bool), c.is_link(a))
+          .arg(EAGINE_ID(canonType), c.canonical_type(a))
           .arg(EAGINE_ID(path), p.as_string("/", c.nested_count(a) > 0))
           .arg(EAGINE_ID(name), a.name());
         return true;

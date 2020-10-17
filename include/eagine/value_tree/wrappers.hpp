@@ -133,6 +133,13 @@ public:
         return {};
     }
 
+    auto canonical_type(const attribute& attrib) const -> value_type {
+        if(_pimpl && attrib._pimpl) {
+            return _pimpl->canonical_type(*attrib._pimpl);
+        }
+        return value_type::unknown;
+    }
+
     auto is_link(const attribute& attrib) const -> bool {
         if(_pimpl && attrib._pimpl) {
             return _pimpl->is_link(*attrib._pimpl);

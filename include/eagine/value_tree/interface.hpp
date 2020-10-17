@@ -11,6 +11,7 @@
 #define EAGINE_VALUE_TREE_INTERFACE_HPP
 
 #include "../identifier_t.hpp"
+#include "../reflect/map_enumerators.hpp"
 #include "../string_path.hpp"
 #include "../string_span.hpp"
 #include <chrono>
@@ -19,6 +20,34 @@
 #include <string>
 
 namespace eagine::valtree {
+//------------------------------------------------------------------------------
+enum class value_type {
+    unknown,
+    bool_type,
+    byte_type,
+    int16_type,
+    int32_type,
+    int64_type,
+    float_type,
+    duration_type,
+    string_type,
+    composite
+};
+//------------------------------------------------------------------------------
+template <typename Selector>
+constexpr auto enumerator_mapping(identity<value_type>, Selector) noexcept {
+    return enumerator_map_type<value_type, 10>{
+      {{"unknown", value_type::unknown},
+       {"bool_type", value_type::bool_type},
+       {"byte_type", value_type::byte_type},
+       {"int16_type", value_type::int16_type},
+       {"int32_type", value_type::int32_type},
+       {"int64_type", value_type::int64_type},
+       {"float_type", value_type::float_type},
+       {"duration_type", value_type::duration_type},
+       {"string_type", value_type::string_type},
+       {"composite", value_type::composite}}};
+}
 //------------------------------------------------------------------------------
 struct compound_interface;
 struct attribute_interface {
@@ -47,6 +76,8 @@ struct compound_interface {
     virtual auto structure() -> attribute_interface* = 0;
 
     virtual auto attribute_name(attribute_interface&) -> string_view = 0;
+
+    virtual auto canonical_type(attribute_interface&) -> value_type = 0;
 
     virtual auto is_link(attribute_interface&) -> bool = 0;
 

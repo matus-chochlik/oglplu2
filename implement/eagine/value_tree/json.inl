@@ -84,6 +84,49 @@ public:
         return {};
     }
 
+    auto canonical_type() const -> value_type {
+        if(_rj_val) {
+            auto get_type = [&](const auto& val) {
+                if(val.IsBool()) {
+                    return value_type::bool_type;
+                }
+                if(val.IsInt()) {
+                    return value_type::int32_type;
+                }
+                if(val.IsInt64()) {
+                    return value_type::int64_type;
+                }
+                if(val.IsFloat() || val.IsDouble()) {
+                    return value_type::float_type;
+                }
+                if(val.IsString()) {
+                    return value_type::string_type;
+                }
+                return value_type::unknown;
+            };
+
+            const auto& val = extract(_rj_val);
+            if(val.IsObject()) {
+                return value_type::composite;
+            }
+            if(val.IsArray()) {
+                const auto n = span_size(val.Size());
+                if(n > 0) {
+                    const auto common_type = get_type(val[0]);
+                    for(span_size_t i = 0; i < n; ++i) {
+                        if(get_type(val[rapidjson_size(i)]) != common_type) {
+                            return value_type::composite;
+                        }
+                    }
+                    return common_type;
+                }
+                return value_type::composite;
+            }
+            return get_type(val);
+        }
+        return value_type::unknown;
+    }
+
     auto nested_count() -> span_size_t {
         if(_rj_val) {
             const auto& val = extract(_rj_val);
@@ -479,6 +522,10 @@ public:
 
     auto attribute_name(attribute_interface& attrib) -> string_view final {
         return _unwrap(attrib).name();
+    }
+
+    auto canonical_type(attribute_interface& attrib) -> value_type final {
+        return _unwrap(attrib).canonical_type();
     }
 
     auto is_link(attribute_interface&) -> bool final {

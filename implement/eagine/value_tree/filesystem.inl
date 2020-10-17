@@ -203,6 +203,10 @@ public:
         return _unwrap(attrib).name();
     }
 
+    auto canonical_type(attribute_interface&) -> value_type final {
+        return value_type::byte_type;
+    }
+
     auto is_link(attribute_interface& attrib) -> bool final {
         return _unwrap(attrib).is_link();
     }
