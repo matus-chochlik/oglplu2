@@ -31,7 +31,7 @@ struct file_compound_factory {
 auto from_filesystem_path(
   string_view root_path,
   logger&,
-  std::shared_ptr<file_compound_factory>) -> compound;
+  std::shared_ptr<file_compound_factory> = {}) -> compound;
 //------------------------------------------------------------------------------
 } // namespace eagine::valtree
 

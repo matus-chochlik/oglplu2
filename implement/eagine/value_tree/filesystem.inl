@@ -6,15 +6,24 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/file_contents.hpp>
 #include <eagine/logging/logger.hpp>
 #include <eagine/value_tree/implementation.hpp>
 #include <filesystem>
 #include <tuple>
 #include <vector>
 
+#include <iostream>
+
 namespace eagine::valtree {
 //------------------------------------------------------------------------------
 class filesystem_compound;
+class filesystem_node;
+//------------------------------------------------------------------------------
+static auto filesystem_make_node(
+  filesystem_compound& owner,
+  const std::filesystem::path& fs_path) -> attribute_interface*;
+//------------------------------------------------------------------------------
 class filesystem_node : public attribute_interface {
 public:
     filesystem_node(const std::filesystem::path& fs_path) noexcept
@@ -36,31 +45,67 @@ public:
     }
 
     auto nested_count() -> span_size_t {
+        if(is_directory(_node_path)) {
+            const auto iter = std::filesystem::directory_iterator(_node_path);
+            return span_size(std::distance(begin(iter), end(iter)));
+        }
         return 0;
     }
 
     auto nested(filesystem_compound& owner, span_size_t index)
       -> attribute_interface* {
-        EAGINE_MAYBE_UNUSED(owner);
-        EAGINE_MAYBE_UNUSED(index);
+        for(auto& ent : std::filesystem::directory_iterator(_node_path)) {
+            if(index > 0) {
+                --index;
+            } else {
+                return filesystem_make_node(owner, ent);
+            }
+        }
         return nullptr;
     }
 
     auto nested(filesystem_compound& owner, string_view name)
       -> attribute_interface* {
-        EAGINE_MAYBE_UNUSED(owner);
-        EAGINE_MAYBE_UNUSED(name);
+        for(auto& ent : std::filesystem::directory_iterator(_node_path)) {
+            const std::filesystem::path& epath{ent};
+            const std::string& ename{epath.filename()};
+            if(are_equal(name, string_view(ename))) {
+                return filesystem_make_node(owner, epath);
+            }
+        }
         return nullptr;
     }
 
     auto find(filesystem_compound& owner, const basic_string_path& path)
       -> attribute_interface* {
-        EAGINE_MAYBE_UNUSED(owner);
-        EAGINE_MAYBE_UNUSED(path);
+        auto spath{_node_path};
+        for(auto ent : path) {
+            spath.append(std::string_view(ent));
+        }
+        if(exists(spath)) {
+            return filesystem_make_node(owner, spath);
+        }
         return nullptr;
     }
 
     auto value_count() -> span_size_t {
+        if(is_regular_file(_node_path)) {
+            return file_size(_node_path);
+        }
+        return 0;
+    }
+
+    auto fetch_values(span_size_t offset, memory::block dest) -> span_size_t {
+        if(exists(_node_path) && is_regular_file(_node_path)) {
+            if(file_contents contents{_node_path.native()}) {
+                if(const auto src{skip(contents.block(), offset)}) {
+                    if(src.size() <= dest.size()) {
+                        copy(src, dest);
+                        return src.size();
+                    }
+                }
+            }
+        }
         return 0;
     }
 
@@ -83,7 +128,7 @@ class filesystem_compound
     using base::_unwrap;
 
     logger _log;
-    std::filesystem::path _root_path;
+    filesystem_node _root;
     std::shared_ptr<file_compound_factory> _compound_factory;
 
 public:
@@ -92,8 +137,12 @@ public:
       string_view fs_path,
       std::shared_ptr<file_compound_factory> factory)
       : _log{EAGINE_ID(FsVtCmpnd), log}
-      , _root_path{std::string_view{fs_path}}
+      , _root{std::string_view{fs_path}}
       , _compound_factory{std::move(factory)} {}
+
+    auto log() noexcept -> auto& {
+        return _log;
+    }
 
     static auto make_shared(
       logger& log,
@@ -109,7 +158,7 @@ public:
     }
 
     auto structure() -> attribute_interface* final {
-        return nullptr;
+        return &_root;
     }
 
     auto attribute_name(attribute_interface& attrib) -> string_view final {
@@ -147,6 +196,15 @@ public:
         return _unwrap(attrib).fetch_values(offset, dest);
     }
 };
+//------------------------------------------------------------------------------
+static inline auto filesystem_make_node(
+  filesystem_compound& owner,
+  const std::filesystem::path& fs_path) -> attribute_interface* {
+    if(!fs_path.empty()) {
+        return owner.make_node(fs_path);
+    }
+    return nullptr;
+}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto from_filesystem_path(

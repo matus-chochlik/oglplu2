@@ -7,6 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/main.hpp>
+#include <eagine/value_tree/filesystem.hpp>
 #include <eagine/value_tree/json.hpp>
 #include <eagine/value_tree/yaml.hpp>
 #include <iostream>
@@ -30,7 +31,8 @@ auto main(main_ctx& ctx) -> int {
           .debug("visit")
           .arg(EAGINE_ID(nested), c.nested_count(a))
           .arg(EAGINE_ID(values), c.value_count(a))
-          .arg(EAGINE_ID(path), p.as_string("/", true));
+          .arg(EAGINE_ID(path), p.as_string("/", true))
+          .arg(EAGINE_ID(name), a.name());
         return true;
     };
 
@@ -106,6 +108,14 @@ auto main(main_ctx& ctx) -> int {
             yaml_tree.get<bool>(path("attribC/3/zero")),
             n_a);
         yaml_tree.traverse(valtree::compound::visit_handler(visitor));
+    }
+
+    if(auto path_arg{ctx.args().find("--fs-tree").next()}) {
+        log.info("opening ${root} filesystem tree")
+          .arg(EAGINE_ID(root), path_arg.get());
+        if(auto fs_tree{valtree::from_filesystem_path(path_arg, log)}) {
+            fs_tree.traverse(valtree::compound::visit_handler(visitor));
+        }
     }
 
     return 0;
