@@ -481,6 +481,10 @@ public:
         return _unwrap(attrib).name();
     }
 
+    auto is_link(attribute_interface&) -> bool final {
+        return false;
+    }
+
     auto nested_count(attribute_interface& attrib) -> span_size_t final {
         return _unwrap(attrib).nested_count();
     }

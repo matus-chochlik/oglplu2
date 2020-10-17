@@ -133,6 +133,13 @@ public:
         return {};
     }
 
+    auto is_link(const attribute& attrib) const -> bool {
+        if(_pimpl && attrib._pimpl) {
+            return _pimpl->is_link(*attrib._pimpl);
+        }
+        return false;
+    }
+
     auto nested_count(const attribute& attrib) const -> span_size_t {
         if(_pimpl && attrib._pimpl) {
             return _pimpl->nested_count(*attrib._pimpl);

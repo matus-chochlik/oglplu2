@@ -48,6 +48,8 @@ struct compound_interface {
 
     virtual auto attribute_name(attribute_interface&) -> string_view = 0;
 
+    virtual auto is_link(attribute_interface&) -> bool = 0;
+
     virtual auto nested_count(attribute_interface&) -> span_size_t = 0;
 
     virtual auto nested(attribute_interface&, span_size_t index)

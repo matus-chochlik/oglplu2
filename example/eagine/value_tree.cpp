@@ -31,7 +31,8 @@ auto main(main_ctx& ctx) -> int {
           .debug("visit")
           .arg(EAGINE_ID(nested), c.nested_count(a))
           .arg(EAGINE_ID(values), c.value_count(a))
-          .arg(EAGINE_ID(path), p.as_string("/", true))
+          .arg(EAGINE_ID(isLink), EAGINE_ID(bool), c.is_link(a))
+          .arg(EAGINE_ID(path), p.as_string("/", c.nested_count(a) > 0))
           .arg(EAGINE_ID(name), a.name());
         return true;
     };

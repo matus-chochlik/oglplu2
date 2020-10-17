@@ -23,14 +23,15 @@ void compound::traverse(visit_handler visit) {
 
     while(true) {
         EAGINE_ASSERT(atr.size() == pos.size());
+
         if(pos.top() < nested_count(atr.top())) {
             auto child{nested(atr.top(), pos.top())};
-            if(auto n{attribute_name(child)}) {
+            if(const auto n{attribute_name(child)}) {
                 path.push_back(n);
             } else {
                 path.push_back(std::to_string(pos.top()));
             }
-            if(visit(*this, child, path)) {
+            if(visit(*this, child, path) && !is_link(atr.top())) {
                 atr.push(child);
                 pos.push(0);
                 continue;
