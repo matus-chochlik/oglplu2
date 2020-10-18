@@ -98,6 +98,8 @@ private:
     attribute_interface* _pimpl{nullptr};
 };
 //------------------------------------------------------------------------------
+class compound_attribute;
+//------------------------------------------------------------------------------
 class compound {
 public:
     compound() noexcept = default;
@@ -125,6 +127,8 @@ public:
         }
         return {};
     }
+
+    auto root() const -> compound_attribute;
 
     auto attribute_name(const attribute& attrib) const -> string_view {
         if(_pimpl && attrib._pimpl) {
@@ -184,14 +188,14 @@ public:
         return find(structure(), path);
     }
 
-    auto value_count(const attribute& attrib) -> span_size_t {
+    auto value_count(const attribute& attrib) const -> span_size_t {
         if(_pimpl && attrib._pimpl) {
             return _pimpl->value_count(*attrib._pimpl);
         }
         return 0;
     }
 
-    auto value_count(const basic_string_path& path) -> span_size_t {
+    auto value_count(const basic_string_path& path) const -> span_size_t {
         return value_count(find(path));
     }
 
@@ -342,6 +346,104 @@ private:
 
     std::shared_ptr<compound_interface> _pimpl{};
 };
+//------------------------------------------------------------------------------
+class compound_attribute {
+public:
+    compound_attribute() noexcept = default;
+
+    compound_attribute(compound c, attribute a) noexcept
+      : _c{std::move(c)}
+      , _a{std::move(a)} {
+        EAGINE_ASSERT(_c.type_id() == _a.type_id());
+    }
+
+    explicit operator bool() const noexcept {
+        return _c && _a;
+    }
+
+    auto type_id() noexcept {
+        return _c.type_id();
+    }
+
+    auto name() noexcept -> string_view {
+        return _c.attribute_name(_a);
+    }
+
+    auto is_link() noexcept -> bool {
+        return _c.is_link(_a);
+    }
+
+    auto canonical_type() const -> value_type {
+        return _c.canonical_type(_a);
+    }
+
+    auto nested_count() const -> span_size_t {
+        return _c.nested_count(_a);
+    }
+
+    auto nested(span_size_t index) const -> compound_attribute {
+        return {_c, _c.nested(_a, index)};
+    }
+
+    auto nested(string_view name) const -> compound_attribute {
+        return {_c, _c.nested(_a, name)};
+    }
+
+    auto find(const basic_string_path& path) const -> compound_attribute {
+        return {_c, _c.find(_a, path)};
+    }
+
+    auto value_count() const -> span_size_t {
+        return _c.value_count(_a);
+    }
+
+    template <typename T>
+    auto fetch_values(span_size_t offset, span<T> dest) {
+        return _c.fetch_values(_a, offset, dest);
+    }
+
+    template <typename T>
+    auto fetch_values(span<T> dest) {
+        return _c.fetch_values(_a, dest);
+    }
+
+    auto fetch_blob(memory::block dest) {
+        return _c.fetch_blob(_a, dest);
+    }
+
+    template <typename T>
+    auto fetch_value(span_size_t offset, T& dest) -> bool {
+        return _c.fetch_value(_a, offset, dest);
+    }
+
+    template <typename T>
+    auto fetch_value(T& dest) -> bool {
+        return _c.fetch_value(_a, dest);
+    }
+
+    template <typename T>
+    auto get(span_size_t offset, identity<T> tid = {}) {
+        return _c.get(_a, offset, tid);
+    }
+
+    template <typename T>
+    auto get(identity<T> tid = {}) {
+        return _c.get(_a, tid);
+    }
+
+private:
+    compound _c;
+    attribute _a;
+};
+//------------------------------------------------------------------------------
+inline auto compound::root() const -> compound_attribute {
+    return {*this, structure()};
+}
+//------------------------------------------------------------------------------
+static inline auto operator/(compound c, attribute a) noexcept
+  -> compound_attribute {
+    return {std::move(c), std::move(a)};
+}
 //------------------------------------------------------------------------------
 } // namespace eagine::valtree
 

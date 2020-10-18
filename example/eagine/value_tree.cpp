@@ -27,27 +27,28 @@ auto main(main_ctx& ctx) -> int {
                      valtree::compound& c,
                      const valtree::attribute& a,
                      const basic_string_path& p) {
+        auto ca{c / a};
         ctx.log()
           .info("visit")
-          .arg(EAGINE_ID(nested), c.nested_count(a))
-          .arg(EAGINE_ID(values), c.value_count(a))
-          .arg(EAGINE_ID(isLink), EAGINE_ID(bool), c.is_link(a))
-          .arg(EAGINE_ID(canonType), c.canonical_type(a))
-          .arg(EAGINE_ID(path), p.as_string("/", c.nested_count(a) > 0))
-          .arg(EAGINE_ID(name), a.name());
+          .arg(EAGINE_ID(nested), ca.nested_count())
+          .arg(EAGINE_ID(values), ca.value_count())
+          .arg(EAGINE_ID(isLink), EAGINE_ID(bool), ca.is_link())
+          .arg(EAGINE_ID(canonType), ca.canonical_type())
+          .arg(EAGINE_ID(path), p.as_string("/", ca.nested_count() > 0))
+          .arg(EAGINE_ID(name), ca.name());
 
-        if(c.canonical_type(a) == valtree::value_type::byte_type) {
-            const auto s{c.value_count(a)};
+        if(ca.canonical_type() == valtree::value_type::byte_type) {
+            const auto s{ca.value_count()};
             if(s <= 256) {
                 std::array<byte, 256> temp{};
-                auto content{c.fetch_blob(a, cover(temp))};
+                auto content{ca.fetch_blob(cover(temp))};
                 ctx.log().info("content").arg(
                   EAGINE_ID(content), view(content));
             }
-        } else if(c.canonical_type(a) == valtree::value_type::string_type) {
-            if(c.value_count(a) == 1) {
+        } else if(ca.canonical_type() == valtree::value_type::string_type) {
+            if(ca.value_count() == 1) {
                 std::array<char, 64> temp{};
-                auto content{c.fetch_values(a, cover(temp))};
+                auto content{ca.fetch_values(cover(temp))};
                 ctx.log().info("content").arg(
                   EAGINE_ID(content), string_view(content));
             }
