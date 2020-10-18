@@ -67,10 +67,36 @@ static constexpr inline auto head(basic_span<T, P, S> s, L l) noexcept
     return slice(s, S(0), l);
 }
 //------------------------------------------------------------------------------
+template <
+  typename Ts,
+  typename Ps,
+  typename Ss,
+  typename Tl,
+  typename Pl,
+  typename Sl>
+static constexpr inline auto
+head(basic_span<Ts, Ps, Ss> s, basic_span<Tl, Pl, Sl> l) noexcept
+  -> basic_span<Ts, Ps, Ss> {
+    return head(s, l.size());
+}
+//------------------------------------------------------------------------------
 template <typename T, typename P, typename S, typename L>
 static constexpr inline auto tail(basic_span<T, P, S> s, L l) noexcept
   -> basic_span<T, P, S> {
     return skip(s, s.size() - l);
+}
+//------------------------------------------------------------------------------
+template <
+  typename Ts,
+  typename Ps,
+  typename Ss,
+  typename Tl,
+  typename Pl,
+  typename Sl>
+static constexpr inline auto
+tail(basic_span<Ts, Ps, Ss> s, basic_span<Tl, Pl, Sl> l) noexcept
+  -> basic_span<Ts, Ps, Ss> {
+    return tail(s, l.size());
 }
 //------------------------------------------------------------------------------
 template <
