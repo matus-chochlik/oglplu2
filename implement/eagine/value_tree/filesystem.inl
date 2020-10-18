@@ -6,16 +6,14 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <eagine/file_contents.hpp>
 #include <eagine/logging/exception.hpp>
 #include <eagine/logging/filesystem.hpp>
 #include <eagine/logging/logger.hpp>
 #include <eagine/value_tree/implementation.hpp>
 #include <filesystem>
+#include <fstream>
 #include <tuple>
 #include <vector>
-
-#include <iostream>
 
 namespace eagine::valtree {
 //------------------------------------------------------------------------------
@@ -134,13 +132,15 @@ public:
 
     auto fetch_values(span_size_t offset, memory::block dest) -> span_size_t {
         if(exists(_real_path) && is_regular_file(_real_path)) {
-            if(file_contents contents{_real_path.native()}) {
-                if(const auto src{skip(contents.block(), offset)}) {
-                    if(src.size() <= dest.size()) {
-                        copy(src, dest);
-                        return src.size();
-                    }
-                }
+            std::ifstream file;
+            file.open(_real_path, std::ios::in | std::ios::binary);
+            file.seekg(offset, std::ios::beg);
+            if(!file
+                  .read(
+                    reinterpret_cast<char*>(dest.data()),
+                    static_cast<std::streamsize>(dest.size()))
+                  .bad()) {
+                return span_size(file.gcount());
             }
         }
         return 0;

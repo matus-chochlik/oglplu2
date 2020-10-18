@@ -10,7 +10,6 @@
 #include <eagine/from_string.hpp>
 #include <eagine/logging/entry.hpp>
 #include <eagine/value_tree/wrappers.hpp>
-#include <eagine/file_contents.hpp>
 #include "implement.inl"
 #include <eagine/value_tree/filesystem.hpp>
 #include "epilogue.inl"

@@ -35,6 +35,16 @@ auto main(main_ctx& ctx) -> int {
           .arg(EAGINE_ID(canonType), c.canonical_type(a))
           .arg(EAGINE_ID(path), p.as_string("/", c.nested_count(a) > 0))
           .arg(EAGINE_ID(name), a.name());
+
+        if(c.canonical_type(a) == valtree::value_type::byte_type) {
+            const auto s{c.value_count(a)};
+            if(s <= 256) {
+                std::array<byte, 256> temp{};
+                auto content{c.fetch_blob(a, cover(temp))};
+                ctx.log().info("content").arg(
+                  EAGINE_ID(content), view(content));
+            }
+        }
         return true;
     };
 
