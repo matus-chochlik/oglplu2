@@ -152,7 +152,156 @@
   "As" : {
       "atomic_weight" : 74.921595,
       "group" : 15,
-      "isotopes" : {  },
+      "isotopes" : {
+          "_64" : {
+              "beta_p_decay" : {  },
+              "half_life" : "40ms",
+              "neutrons" : 31,
+              "symbol" : "⁶⁴As"
+            },
+          "_65" : {
+              "beta_p_decay" : {  },
+              "half_life" : "170ms",
+              "neutrons" : 32,
+              "symbol" : "⁶⁵As"
+            },
+          "_66" : {
+              "beta_p_decay" : {  },
+              "half_life" : "95.77ms",
+              "neutrons" : 33,
+              "symbol" : "⁶⁶As"
+            },
+          "_67" : {
+              "beta_p_decay" : {  },
+              "half_life" : "42.5s",
+              "neutrons" : 34,
+              "symbol" : "⁶⁷As"
+            },
+          "_68" : {
+              "beta_p_decay" : {  },
+              "half_life" : "151.6s",
+              "neutrons" : 35,
+              "symbol" : "⁶⁸As"
+            },
+          "_69" : {
+              "beta_p_decay" : {  },
+              "half_life" : "15.2min",
+              "neutrons" : 36,
+              "symbol" : "⁶⁹As"
+            },
+          "_70" : {
+              "beta_p_decay" : {  },
+              "half_life" : "52.6min",
+              "neutrons" : 37,
+              "symbol" : "⁷⁰As"
+            },
+          "_71" : {
+              "beta_p_decay" : {  },
+              "half_life" : "65.28hr",
+              "neutrons" : 38,
+              "symbol" : "⁷¹As"
+            },
+          "_72" : {
+              "beta_p_decay" : {  },
+              "half_life" : "26.0hr",
+              "neutrons" : 39,
+              "symbol" : "⁷²As"
+            },
+          "_73" : {
+              "electron_capture" : {  },
+              "half_life" : "80.3dy",
+              "neutrons" : 40,
+              "symbol" : "⁷³As"
+            },
+          "_74" : {
+              "beta_m_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : "17.77dy",
+              "neutrons" : 41,
+              "symbol" : "⁷⁴As"
+            },
+          "_75" : {
+              "neutrons" : 42,
+              "symbol" : "⁷⁵As"
+            },
+          "_76" : {
+              "beta_m_decay" : {  },
+              "electron_capture" : {  },
+              "half_life" : "1.0942dy",
+              "neutrons" : 43,
+              "symbol" : "⁷⁶As"
+            },
+          "_77" : {
+              "beta_m_decay" : {  },
+              "half_life" : "38.83hr",
+              "neutrons" : 44,
+              "symbol" : "⁷⁷As"
+            },
+          "_78" : {
+              "beta_m_decay" : {  },
+              "half_life" : "90.7min",
+              "neutrons" : 45,
+              "symbol" : "⁷⁸As"
+            },
+          "_79" : {
+              "beta_m_decay" : {  },
+              "half_life" : "9.01min",
+              "neutrons" : 46,
+              "symbol" : "⁷⁹As"
+            },
+          "_80" : {
+              "beta_m_decay" : {  },
+              "half_life" : "15.2s",
+              "neutrons" : 47,
+              "symbol" : "⁸⁰As"
+            },
+          "_81" : {
+              "beta_m_decay" : {  },
+              "half_life" : "33.3s",
+              "neutrons" : 48,
+              "symbol" : "⁸¹As"
+            },
+          "_82" : {
+              "beta_m_decay" : {  },
+              "half_life" : "19.1s",
+              "neutrons" : 49,
+              "symbol" : "⁸²As"
+            },
+          "_83" : {
+              "beta_m_decay" : {  },
+              "half_life" : "13.4s",
+              "neutrons" : 50,
+              "symbol" : "⁸³As"
+            },
+          "_84" : {
+              "beta_m_decay" : {  },
+              "beta_m_n_decay" : {  },
+              "half_life" : "4.02s",
+              "neutrons" : 51,
+              "symbol" : "⁸⁴As"
+            },
+          "_85" : {
+              "beta_m_decay" : {  },
+              "beta_m_n_decay" : {  },
+              "half_life" : "2.021s",
+              "neutrons" : 52,
+              "symbol" : "⁸⁵As"
+            },
+          "_86" : {
+              "beta_m_decay" : {  },
+              "beta_m_n_decay" : {  },
+              "half_life" : "945ms",
+              "neutrons" : 53,
+              "symbol" : "⁸⁶As"
+            },
+          "_87" : {
+              "beta_m_decay" : {  },
+              "beta_m_n_decay" : {  },
+              "half_life" : "568ms",
+              "neutrons" : 54,
+              "symbol" : "⁸⁷As"
+            }
+        },
       "name" : {
           "english" : "Arsenic",
           "latin" : "Arsenicum"
