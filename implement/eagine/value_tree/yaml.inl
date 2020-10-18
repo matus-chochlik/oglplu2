@@ -181,11 +181,24 @@ public:
         return nullptr;
     }
 
+    auto fetch_values(span_size_t offset, span<char> dest) -> span_size_t {
+        if(_usable(_node)) {
+            if(!_node.is_seq()) {
+                if(_node.has_val()) {
+                    const auto src{head(skip(view(_node.val()), offset), dest)};
+                    copy(src, dest);
+                    return src.size();
+                }
+            }
+        }
+        return 0;
+    }
+
     template <typename T>
     auto fetch_values(span_size_t offset, span<T> dest) -> span_size_t {
-        span_size_t pos{0};
         if(_usable(_node)) {
             if(_node.is_seq()) {
+                span_size_t pos{0};
                 for(auto child : _node.children()) {
                     if(child.has_val()) {
                         if(offset <= 0) {

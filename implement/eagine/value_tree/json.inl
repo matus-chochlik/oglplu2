@@ -218,9 +218,8 @@ public:
             if(val.IsArray()) {
                 return span_size(val.Size());
             }
-            if(val.IsString()) {
-                // for base64 encoded byte span
-                return base64_decoded_length(span_size(val.GetStringLength()));
+            if(!val.IsNull()) {
+                return 1;
             }
         }
         return 0;
@@ -445,6 +444,18 @@ public:
         return do_fetch_values(offset, dest);
     }
 
+    auto fetch_values(span_size_t offset, span<char> dest) -> span_size_t {
+        if(_rj_val) {
+            auto& val = extract(_rj_val);
+            if(val.IsString()) {
+                auto src{head(skip(view(val), offset), dest)};
+                copy(src, dest);
+                return src.size();
+            }
+        }
+        return 0;
+    }
+
     auto fetch_values(span_size_t offset, span<byte> dest) -> span_size_t {
         if(_rj_val) {
             auto& val = extract(_rj_val);
@@ -455,23 +466,26 @@ public:
                   base64_decoded_length(span_size(val.GetStringLength()));
                 if(dest.size() < req_size) {
                     std::vector<byte> temp{};
-                    if(auto dec{base64_decode(view(val), temp)}) {
-                        if(auto src{skip(cover(extract(dec)), offset)}) {
+                    if(const auto dec{base64_decode(view(val), temp)}) {
+                        if(auto src{
+                             head(skip(cover(extract(dec)), offset), dest)}) {
                             copy(src, dest);
                             return src.size();
                         }
                     }
                     return 0;
                 } else {
-                    if(auto src{skip(base64_decode(view(val), dest), offset)}) {
+                    if(const auto src{head(
+                         skip(base64_decode(view(val), dest), offset), dest)}) {
                         copy(src, dest);
                         return src.size();
                     }
                     return 0;
                 }
             }
+            return do_fetch_values(offset, dest);
         }
-        return do_fetch_values(offset, dest);
+        return 0;
     }
 };
 //------------------------------------------------------------------------------

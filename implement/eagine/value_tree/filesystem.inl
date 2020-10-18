@@ -146,6 +146,20 @@ public:
         return 0;
     }
 
+    auto fetch_values(span_size_t offset, span<char> dest) -> span_size_t {
+        if(exists(_real_path) && is_regular_file(_real_path)) {
+            std::ifstream file;
+            file.open(_real_path, std::ios::in);
+            file.seekg(offset, std::ios::beg);
+            if(!file
+                  .read(dest.data(), static_cast<std::streamsize>(dest.size()))
+                  .bad()) {
+                return span_size(file.gcount());
+            }
+        }
+        return 0;
+    }
+
     template <typename T>
     auto fetch_values(span_size_t offset, span<T> dest) -> span_size_t {
         EAGINE_MAYBE_UNUSED(offset);

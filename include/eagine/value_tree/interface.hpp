@@ -99,6 +99,10 @@ struct compound_interface {
       -> span_size_t = 0;
 
     virtual auto
+    fetch_values(attribute_interface&, span_size_t offset, span<char> dest)
+      -> span_size_t = 0;
+
+    virtual auto
     fetch_values(attribute_interface&, span_size_t offset, span<byte> dest)
       -> span_size_t = 0;
 

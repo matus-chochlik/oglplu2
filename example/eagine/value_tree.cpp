@@ -44,6 +44,13 @@ auto main(main_ctx& ctx) -> int {
                 ctx.log().info("content").arg(
                   EAGINE_ID(content), view(content));
             }
+        } else if(c.canonical_type(a) == valtree::value_type::string_type) {
+            if(c.value_count(a) == 1) {
+                std::array<char, 64> temp{};
+                auto content{c.fetch_values(a, cover(temp))};
+                ctx.log().info("content").arg(
+                  EAGINE_ID(content), string_view(content));
+            }
         }
         return true;
     };
@@ -54,10 +61,12 @@ auto main(main_ctx& ctx) -> int {
 		},
 		"attribC" : [
 			45, "six", 78.9, {"zero": false}
-		]
+		],
+		"attribD" : "VGhpcyBpcyBhIGJhc2U2NC1lbmNvZGVkIEJMT0IK"
 	})");
 
     if(auto json_tree{valtree::from_json_text(json_text, log)}) {
+        std::array<byte, 64> temp{};
         log.info("parsed from json")
           .arg(
             EAGINE_ID(attribB),
@@ -83,7 +92,10 @@ auto main(main_ctx& ctx) -> int {
             EAGINE_ID(attribC3z),
             EAGINE_ID(bool),
             json_tree.get<bool>(path("attribC/3/zero")),
-            n_a);
+            n_a)
+          .arg(
+            EAGINE_ID(attribD),
+            view(json_tree.fetch_blob(path("attribD"), cover(temp))));
         json_tree.traverse(valtree::compound::visit_handler(visitor));
     }
 
