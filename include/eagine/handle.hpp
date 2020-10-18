@@ -41,10 +41,6 @@ public:
         return _name != invalid;
     }
 
-    constexpr auto operator!() const noexcept -> bool {
-        return _name == invalid;
-    }
-
     explicit constexpr operator Handle() const noexcept {
         return _name;
     }

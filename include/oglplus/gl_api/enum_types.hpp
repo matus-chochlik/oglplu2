@@ -23,14 +23,6 @@ struct true_false : gl_bool_class<true_false, EAGINE_ID_V(TrueFalse)> {
         return false;
 #endif
     }
-
-    constexpr auto operator!() const noexcept -> bool {
-#ifdef GL_FALSE
-        return this->_value == GL_FALSE;
-#else
-        return false;
-#endif
-    }
 };
 
 struct error_code : gl_enum_class<error_code, EAGINE_ID_V(ErrorCode)> {

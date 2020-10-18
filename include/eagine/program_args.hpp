@@ -283,10 +283,6 @@ public:
         return is_valid();
     }
 
-    auto operator!() const noexcept {
-        return !is_valid();
-    }
-
     auto position() const noexcept {
         return _argi;
     }

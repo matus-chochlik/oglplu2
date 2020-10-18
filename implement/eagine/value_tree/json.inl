@@ -7,10 +7,13 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+#include <eagine/base64.hpp>
 #include <eagine/from_string.hpp>
 #include <eagine/identifier.hpp>
 #include <eagine/is_within_limits.hpp>
 #include <eagine/logging/logger.hpp>
+#include <eagine/memory/span_algo.hpp>
+#include <eagine/value_tree/implementation.hpp>
 #include <rapidjson/document.h>
 #include <rapidjson/error/en.h>
 #include <vector>
@@ -79,6 +82,49 @@ public:
             return {name.GetString(), span_size(name.GetStringLength())};
         }
         return {};
+    }
+
+    auto canonical_type() const -> value_type {
+        if(_rj_val) {
+            auto get_type = [&](const auto& val) {
+                if(val.IsBool()) {
+                    return value_type::bool_type;
+                }
+                if(val.IsInt()) {
+                    return value_type::int32_type;
+                }
+                if(val.IsInt64()) {
+                    return value_type::int64_type;
+                }
+                if(val.IsFloat() || val.IsDouble()) {
+                    return value_type::float_type;
+                }
+                if(val.IsString()) {
+                    return value_type::string_type;
+                }
+                return value_type::unknown;
+            };
+
+            const auto& val = extract(_rj_val);
+            if(val.IsObject()) {
+                return value_type::composite;
+            }
+            if(val.IsArray()) {
+                const auto n = span_size(val.Size());
+                if(n > 0) {
+                    const auto common_type = get_type(val[0]);
+                    for(span_size_t i = 0; i < n; ++i) {
+                        if(get_type(val[rapidjson_size(i)]) != common_type) {
+                            return value_type::composite;
+                        }
+                    }
+                    return common_type;
+                }
+                return value_type::composite;
+            }
+            return get_type(val);
+        }
+        return value_type::unknown;
     }
 
     auto nested_count() -> span_size_t {
@@ -171,6 +217,9 @@ public:
             auto& val = extract(_rj_val);
             if(val.IsArray()) {
                 return span_size(val.Size());
+            }
+            if(!val.IsNull()) {
+                return 1;
             }
         }
         return 0;
@@ -366,7 +415,7 @@ public:
     }
 
     template <typename T>
-    auto fetch_values(span_size_t offset, span<T> dest) -> span_size_t {
+    auto do_fetch_values(span_size_t offset, span<T> dest) -> span_size_t {
         if(_rj_val) {
             auto& val = extract(_rj_val);
             if(val.IsArray()) {
@@ -389,27 +438,74 @@ public:
         }
         return 0;
     }
+
+    template <typename T>
+    auto fetch_values(span_size_t offset, span<T> dest) -> span_size_t {
+        return do_fetch_values(offset, dest);
+    }
+
+    auto fetch_values(span_size_t offset, span<char> dest) -> span_size_t {
+        if(_rj_val) {
+            auto& val = extract(_rj_val);
+            if(val.IsString()) {
+                auto src{head(skip(view(val), offset), dest)};
+                copy(src, dest);
+                return src.size();
+            }
+        }
+        return 0;
+    }
+
+    auto fetch_values(span_size_t offset, span<byte> dest) -> span_size_t {
+        if(_rj_val) {
+            auto& val = extract(_rj_val);
+            // blobs can also be decoded from base64 strings
+            using memory::skip;
+            if(val.IsString()) {
+                const auto req_size =
+                  base64_decoded_length(span_size(val.GetStringLength()));
+                if(dest.size() < req_size) {
+                    std::vector<byte> temp{};
+                    if(const auto dec{base64_decode(view(val), temp)}) {
+                        if(auto src{
+                             head(skip(cover(extract(dec)), offset), dest)}) {
+                            copy(src, dest);
+                            return src.size();
+                        }
+                    }
+                    return 0;
+                } else {
+                    if(const auto src{head(
+                         skip(base64_decode(view(val), dest), offset), dest)}) {
+                        copy(src, dest);
+                        return src.size();
+                    }
+                    return 0;
+                }
+            }
+            return do_fetch_values(offset, dest);
+        }
+        return 0;
+    }
 };
 //------------------------------------------------------------------------------
 template <typename Encoding, typename Allocator, typename StackAlloc>
 class rapidjson_document_compound
-  : public compound_implementation<
-      rapidjson_document_compound<Encoding, Allocator, StackAlloc>> {
+  : public compound_with_refcounted_node<
+      rapidjson_document_compound<Encoding, Allocator, StackAlloc>,
+      rapidjson_value_node<Encoding, Allocator, StackAlloc>> {
 private:
+    using base = compound_with_refcounted_node<
+      rapidjson_document_compound<Encoding, Allocator, StackAlloc>,
+      rapidjson_value_node<Encoding, Allocator, StackAlloc>>;
+    using base::_unwrap;
+
     using _doc_t = rapidjson::GenericDocument<Encoding, Allocator, StackAlloc>;
     using _val_t = rapidjson::GenericValue<Encoding, Allocator>;
     using _node_t = rapidjson_value_node<Encoding, Allocator, StackAlloc>;
 
     _doc_t _rj_doc{};
     _node_t _root{};
-
-    std::vector<std::tuple<span_size_t, std::unique_ptr<_node_t>>> _nodes{};
-
-    inline auto _unwrap(attribute_interface& attrib) const noexcept -> auto& {
-        EAGINE_ASSERT(attrib.type_id() == type_id());
-        EAGINE_ASSERT(dynamic_cast<_node_t*>(&attrib));
-        return static_cast<_node_t&>(attrib);
-    }
 
 public:
     rapidjson_document_compound(_doc_t& rj_doc)
@@ -430,42 +526,8 @@ public:
         return {};
     }
 
-    auto make_new(_val_t& rj_val, _val_t* rj_name) -> _node_t* {
-        _node_t temp{rj_val, rj_name};
-        for(auto& [ref_count, node_ptr] : _nodes) {
-            if(temp == *node_ptr) {
-                ++ref_count;
-                return node_ptr.get();
-            }
-        }
-        _nodes.emplace_back(1, std::make_unique<_node_t>(std::move(temp)));
-        return std::get<1>(_nodes.back()).get();
-    }
-
     auto type_id() const noexcept -> identifier_t final {
         return EAGINE_ID_V(rapidjson);
-    }
-
-    void add_ref(attribute_interface& attrib) noexcept final {
-        auto& that = _unwrap(attrib);
-        for(auto& [ref_count, node_ptr] : _nodes) {
-            if(that == *node_ptr) {
-                ++ref_count;
-            }
-        }
-    }
-
-    void release(attribute_interface& attrib) noexcept final {
-        auto& that = _unwrap(attrib);
-        for(auto pos = _nodes.begin(); pos != _nodes.end(); ++pos) {
-            auto& [ref_count, node_ptr] = *pos;
-            if(that == *node_ptr) {
-                if(--ref_count <= 0) {
-                    _nodes.erase(pos);
-                    break;
-                }
-            }
-        }
     }
 
     auto structure() -> attribute_interface* final {
@@ -474,6 +536,14 @@ public:
 
     auto attribute_name(attribute_interface& attrib) -> string_view final {
         return _unwrap(attrib).name();
+    }
+
+    auto canonical_type(attribute_interface& attrib) -> value_type final {
+        return _unwrap(attrib).canonical_type();
+    }
+
+    auto is_link(attribute_interface&) -> bool final {
+        return false;
     }
 
     auto nested_count(attribute_interface& attrib) -> span_size_t final {
@@ -513,7 +583,7 @@ static inline auto rapidjson_make_value_node(
   rapidjson_document_compound<Encoding, Allocator, StackAlloc>& owner,
   rapidjson::GenericValue<Encoding, Allocator>& value,
   rapidjson::GenericValue<Encoding, Allocator>* name) -> attribute_interface* {
-    return owner.make_new(value, name);
+    return owner.make_node(value, name);
 }
 //------------------------------------------------------------------------------
 template <typename Document>

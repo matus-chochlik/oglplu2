@@ -135,10 +135,6 @@ public:
         return is_valid();
     }
 
-    constexpr auto operator!() const noexcept {
-        return !is_valid();
-    }
-
     template <typename... A>
     auto operator()(A&&... a) const -> RV {
         EAGINE_ASSERT(is_valid());

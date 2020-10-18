@@ -74,10 +74,6 @@ public:
         return is_expired();
     }
 
-    auto operator!() const noexcept {
-        return !is_expired();
-    }
-
 private:
     _clock::duration _duration{};
     _clock::time_point _timeout{};

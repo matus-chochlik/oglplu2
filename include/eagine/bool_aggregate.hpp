@@ -25,10 +25,6 @@ public:
         return _result;
     }
 
-    constexpr auto operator!() const noexcept {
-        return !_result;
-    }
-
 private:
     bool _result{false};
 };

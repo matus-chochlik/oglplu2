@@ -100,10 +100,6 @@ public:
         return is_open();
     }
 
-    bool operator!() const noexcept {
-        return !is_open();
-    }
-
     string_view error_message() const noexcept {
         return bool(_module) ? _module->error_message() : string_view();
     }

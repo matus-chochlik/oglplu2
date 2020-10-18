@@ -66,10 +66,6 @@ public:
         return !is_null();
     }
 
-    constexpr auto operator!() const noexcept {
-        return is_null();
-    }
-
     constexpr auto ptr() const noexcept {
         return static_cast<byte_pointer>(_addr);
     }

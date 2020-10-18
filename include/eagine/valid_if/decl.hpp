@@ -72,10 +72,6 @@ public:
         return is_valid();
     }
 
-    auto operator!() const noexcept {
-        return !is_valid();
-    }
-
     template <typename Func>
     auto then(const Func& func) const -> std::enable_if_t<
       !std::is_same_v<std::result_of_t<Func(T)>, void>,

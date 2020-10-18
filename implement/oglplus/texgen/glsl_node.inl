@@ -13,11 +13,12 @@ namespace eagine::oglp::texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 glsl_output::glsl_output(
-  node_intf& parent, std::string glsl, slot_data_type type)
+  node_intf& parent,
+  std::string glsl,
+  slot_data_type type)
   : multi_input_output(parent)
   , _glsl(std::move(glsl))
-  , _type(type) {
-}
+  , _type(type) {}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 string_view glsl_output::type_name() {
@@ -30,8 +31,8 @@ slot_data_type glsl_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& glsl_output::definitions(
-  std::ostream& out, compile_context& ctxt) {
+std::ostream&
+glsl_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt)) {
         return out;
     }
@@ -77,8 +78,7 @@ std::ostream& glsl_output::definitions(
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 glsl_node::glsl_node()
-  : _output(*this) {
-}
+  : _output(*this) {}
 //------------------------------------------------------------------------------
 } // namespace eagine::oglp::texgen
 //------------------------------------------------------------------------------

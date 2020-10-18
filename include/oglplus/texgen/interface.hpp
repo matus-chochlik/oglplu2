@@ -242,10 +242,6 @@ public:
         return is_valid();
     }
 
-    bool operator!() const noexcept {
-        return !is_valid();
-    }
-
     friend bool operator==(const input_slot& a, const input_slot& b) noexcept {
         return a.is_valid() && b.is_valid() && (a._pimpl == b._pimpl);
     }
@@ -294,10 +290,6 @@ public:
 
     explicit inline operator bool() const noexcept {
         return is_valid();
-    }
-
-    bool operator!() const noexcept {
-        return !is_valid();
     }
 
     friend bool operator==(const output_slot& a, const output_slot& b) noexcept {

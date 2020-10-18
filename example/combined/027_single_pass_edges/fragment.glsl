@@ -15,4 +15,3 @@ void main() {
 
     fragColor = mix(FaceColor, EdgeColor, EdgeAlpha);
 }
-

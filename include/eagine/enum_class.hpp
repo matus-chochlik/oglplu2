@@ -44,10 +44,6 @@ struct enum_value<T, mp_list<Classes...>, Tag> {
     explicit constexpr operator bool() const noexcept {
         return true;
     }
-
-    constexpr auto operator!() const noexcept {
-        return false;
-    }
 };
 //------------------------------------------------------------------------------
 template <typename T, typename ClassList, typename Tag = nothing_t>
@@ -78,10 +74,6 @@ struct opt_enum_value<T, mp_list<Classes...>, Tag> {
     explicit constexpr inline operator bool() const noexcept {
         return is_valid;
     }
-
-    constexpr inline auto operator!() const noexcept {
-        return !is_valid;
-    }
 };
 //------------------------------------------------------------------------------
 template <typename T, typename Tag = nothing_t>
@@ -99,10 +91,6 @@ struct no_enum_value {
 
     explicit constexpr inline operator bool() const noexcept {
         return false;
-    }
-
-    constexpr inline auto operator!() const noexcept {
-        return true;
     }
 };
 //------------------------------------------------------------------------------
@@ -248,10 +236,6 @@ struct any_enum_class {
         return _type_id != ~identifier_t(0);
     }
 
-    constexpr auto operator!() const noexcept {
-        return _type_id == ~identifier_t(0);
-    }
-
     friend auto
     operator==(const any_enum_class& a, const any_enum_class& b) noexcept {
         return a._type_id == b._type_id;
@@ -279,10 +263,6 @@ struct any_enum_value {
 
     explicit constexpr inline operator bool() const noexcept {
         return _type_id != ~identifier_t(0);
-    }
-
-    constexpr inline auto operator!() const noexcept {
-        return _type_id == ~identifier_t(0);
     }
 
     friend auto

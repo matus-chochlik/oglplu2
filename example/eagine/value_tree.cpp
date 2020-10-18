@@ -7,6 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/main.hpp>
+#include <eagine/value_tree/filesystem.hpp>
 #include <eagine/value_tree/json.hpp>
 #include <eagine/value_tree/yaml.hpp>
 #include <iostream>
@@ -26,11 +27,32 @@ auto main(main_ctx& ctx) -> int {
                      valtree::compound& c,
                      const valtree::attribute& a,
                      const basic_string_path& p) {
+        auto ca{c / a};
         ctx.log()
-          .debug("visit")
-          .arg(EAGINE_ID(nested), c.nested_count(a))
-          .arg(EAGINE_ID(values), c.value_count(a))
-          .arg(EAGINE_ID(path), p.as_string("/", true));
+          .info("visit")
+          .arg(EAGINE_ID(nested), ca.nested_count())
+          .arg(EAGINE_ID(values), ca.value_count())
+          .arg(EAGINE_ID(isLink), EAGINE_ID(bool), ca.is_link())
+          .arg(EAGINE_ID(canonType), ca.canonical_type())
+          .arg(EAGINE_ID(path), p.as_string("/", ca.nested_count() > 0))
+          .arg(EAGINE_ID(name), ca.name());
+
+        if(ca.canonical_type() == valtree::value_type::byte_type) {
+            const auto s{ca.value_count()};
+            if(s <= 256) {
+                std::array<byte, 256> temp{};
+                auto content{ca.fetch_blob(cover(temp))};
+                ctx.log().info("content").arg(
+                  EAGINE_ID(content), view(content));
+            }
+        } else if(ca.canonical_type() == valtree::value_type::string_type) {
+            if(ca.value_count() == 1) {
+                std::array<char, 64> temp{};
+                auto content{ca.fetch_values(cover(temp))};
+                ctx.log().info("content").arg(
+                  EAGINE_ID(content), string_view(content));
+            }
+        }
         return true;
     };
 
@@ -40,10 +62,12 @@ auto main(main_ctx& ctx) -> int {
 		},
 		"attribC" : [
 			45, "six", 78.9, {"zero": false}
-		]
+		],
+		"attribD" : "VGhpcyBpcyBhIGJhc2U2NC1lbmNvZGVkIEJMT0IK"
 	})");
 
     if(auto json_tree{valtree::from_json_text(json_text, log)}) {
+        std::array<byte, 64> temp{};
         log.info("parsed from json")
           .arg(
             EAGINE_ID(attribB),
@@ -69,7 +93,10 @@ auto main(main_ctx& ctx) -> int {
             EAGINE_ID(attribC3z),
             EAGINE_ID(bool),
             json_tree.get<bool>(path("attribC/3/zero")),
-            n_a);
+            n_a)
+          .arg(
+            EAGINE_ID(attribD),
+            view(json_tree.fetch_blob(path("attribD"), cover(temp))));
         json_tree.traverse(valtree::compound::visit_handler(visitor));
     }
 
@@ -106,6 +133,14 @@ auto main(main_ctx& ctx) -> int {
             yaml_tree.get<bool>(path("attribC/3/zero")),
             n_a);
         yaml_tree.traverse(valtree::compound::visit_handler(visitor));
+    }
+
+    if(auto path_arg{ctx.args().find("--fs-tree").next()}) {
+        log.info("opening ${root} filesystem tree")
+          .arg(EAGINE_ID(root), path_arg.get());
+        if(auto fs_tree{valtree::from_filesystem_path(path_arg, log)}) {
+            fs_tree.traverse(valtree::compound::visit_handler(visitor));
+        }
     }
 
     return 0;

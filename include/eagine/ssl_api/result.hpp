@@ -37,10 +37,6 @@ public:
         return _error_code == 0;
     }
 
-    constexpr auto operator!() const noexcept {
-        return _error_code != 0;
-    }
-
     constexpr auto error_code(unsigned long ec) noexcept -> auto& {
         _error_code = ec;
         return *this;

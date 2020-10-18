@@ -11,6 +11,7 @@
 #define EAGINE_VALUE_TREE_INTERFACE_HPP
 
 #include "../identifier_t.hpp"
+#include "../reflect/map_enumerators.hpp"
 #include "../string_path.hpp"
 #include "../string_span.hpp"
 #include <chrono>
@@ -19,6 +20,34 @@
 #include <string>
 
 namespace eagine::valtree {
+//------------------------------------------------------------------------------
+enum class value_type {
+    unknown,
+    bool_type,
+    byte_type,
+    int16_type,
+    int32_type,
+    int64_type,
+    float_type,
+    duration_type,
+    string_type,
+    composite
+};
+//------------------------------------------------------------------------------
+template <typename Selector>
+constexpr auto enumerator_mapping(identity<value_type>, Selector) noexcept {
+    return enumerator_map_type<value_type, 10>{
+      {{"unknown", value_type::unknown},
+       {"bool_type", value_type::bool_type},
+       {"byte_type", value_type::byte_type},
+       {"int16_type", value_type::int16_type},
+       {"int32_type", value_type::int32_type},
+       {"int64_type", value_type::int64_type},
+       {"float_type", value_type::float_type},
+       {"duration_type", value_type::duration_type},
+       {"string_type", value_type::string_type},
+       {"composite", value_type::composite}}};
+}
 //------------------------------------------------------------------------------
 struct compound_interface;
 struct attribute_interface {
@@ -48,6 +77,10 @@ struct compound_interface {
 
     virtual auto attribute_name(attribute_interface&) -> string_view = 0;
 
+    virtual auto canonical_type(attribute_interface&) -> value_type = 0;
+
+    virtual auto is_link(attribute_interface&) -> bool = 0;
+
     virtual auto nested_count(attribute_interface&) -> span_size_t = 0;
 
     virtual auto nested(attribute_interface&, span_size_t index)
@@ -63,6 +96,10 @@ struct compound_interface {
 
     virtual auto
     fetch_values(attribute_interface&, span_size_t offset, span<bool> dest)
+      -> span_size_t = 0;
+
+    virtual auto
+    fetch_values(attribute_interface&, span_size_t offset, span<char> dest)
       -> span_size_t = 0;
 
     virtual auto
@@ -112,92 +149,6 @@ struct compound_interface {
       attribute_interface&,
       span_size_t offset,
       span<std::string> dest) -> span_size_t = 0;
-};
-//------------------------------------------------------------------------------
-template <typename Derived>
-class compound_implementation : public compound_interface {
-private:
-    auto derived() noexcept -> Derived& {
-        return *static_cast<Derived*>(this);
-    }
-
-public:
-    auto fetch_values(
-      attribute_interface& attrib,
-      span_size_t offset,
-      span<bool> dest) -> span_size_t final {
-        return derived().do_fetch_values(attrib, offset, dest);
-    }
-
-    auto fetch_values(
-      attribute_interface& attrib,
-      span_size_t offset,
-      span<byte> dest) -> span_size_t final {
-        return derived().do_fetch_values(attrib, offset, dest);
-    }
-
-    auto fetch_values(
-      attribute_interface& attrib,
-      span_size_t offset,
-      span<std::int16_t> dest) -> span_size_t final {
-        return derived().do_fetch_values(attrib, offset, dest);
-    }
-
-    auto fetch_values(
-      attribute_interface& attrib,
-      span_size_t offset,
-      span<std::int32_t> dest) -> span_size_t final {
-        return derived().do_fetch_values(attrib, offset, dest);
-    }
-
-    auto fetch_values(
-      attribute_interface& attrib,
-      span_size_t offset,
-      span<std::int64_t> dest) -> span_size_t final {
-        return derived().do_fetch_values(attrib, offset, dest);
-    }
-
-    auto fetch_values(
-      attribute_interface& attrib,
-      span_size_t offset,
-      span<std::uint16_t> dest) -> span_size_t final {
-        return derived().do_fetch_values(attrib, offset, dest);
-    }
-
-    auto fetch_values(
-      attribute_interface& attrib,
-      span_size_t offset,
-      span<std::uint32_t> dest) -> span_size_t final {
-        return derived().do_fetch_values(attrib, offset, dest);
-    }
-
-    auto fetch_values(
-      attribute_interface& attrib,
-      span_size_t offset,
-      span<std::uint64_t> dest) -> span_size_t final {
-        return derived().do_fetch_values(attrib, offset, dest);
-    }
-
-    auto fetch_values(
-      attribute_interface& attrib,
-      span_size_t offset,
-      span<float> dest) -> span_size_t final {
-        return derived().do_fetch_values(attrib, offset, dest);
-    }
-
-    auto fetch_values(
-      attribute_interface& attrib,
-      span_size_t offset,
-      span<std::chrono::duration<float>> dest) -> span_size_t final {
-        return derived().do_fetch_values(attrib, offset, dest);
-    }
-
-    auto fetch_values(
-      attribute_interface& attrib,
-      span_size_t offset,
-      span<std::string> dest) -> span_size_t final {
-        return derived().do_fetch_values(attrib, offset, dest);
-    }
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::valtree

@@ -39,10 +39,6 @@ public:
         return _bits != BF(0);
     }
 
-    constexpr inline auto operator!() const noexcept -> bool {
-        return _bits == BF(0);
-    }
-
     explicit constexpr inline operator value_type() const noexcept {
         return _bits;
     }
