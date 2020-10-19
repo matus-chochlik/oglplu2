@@ -252,6 +252,26 @@ struct electron_capture : ecs::component<electron_capture> {
     element_symbol product;
 };
 //------------------------------------------------------------------------------
+struct electron_capture_2 : ecs::component<electron_capture_2> {
+    static constexpr auto uid() noexcept {
+        return EAGINE_ID_V(2ElnCapDcy);
+    }
+
+    static auto symbol() noexcept -> string_view {
+        return {"+2e⁻"};
+    }
+
+    static constexpr auto proton_count_diff() noexcept -> short {
+        return -2;
+    }
+
+    static constexpr auto neutron_count_diff() noexcept -> short {
+        return 2;
+    }
+
+    element_symbol product;
+};
+//------------------------------------------------------------------------------
 struct beta_m_decay : ecs::component<beta_m_decay> {
     static constexpr auto uid() noexcept {
         return EAGINE_ID_V(BetaMDcy);
@@ -503,6 +523,7 @@ static void cache_decay_products(ecs::basic_manager<element_symbol>& elements) {
     cache_decay_products_of<proton_emission>(elements);
     cache_decay_products_of<neutron_emission>(elements);
     cache_decay_products_of<electron_capture>(elements);
+    cache_decay_products_of<electron_capture_2>(elements);
     cache_decay_products_of<beta_m_decay>(elements);
     cache_decay_products_of<beta_m2_decay>(elements);
     cache_decay_products_of<beta_m_alpha_decay>(elements);
@@ -536,6 +557,8 @@ auto main(main_ctx& ctx) -> int {
     elements.register_component_storage<std_map_cmp_storage, proton_emission>();
     elements.register_component_storage<std_map_cmp_storage, neutron_emission>();
     elements.register_component_storage<std_map_cmp_storage, electron_capture>();
+    elements
+      .register_component_storage<std_map_cmp_storage, electron_capture_2>();
     elements.register_component_storage<std_map_cmp_storage, beta_m_decay>();
     elements.register_component_storage<std_map_cmp_storage, beta_m2_decay>();
     elements
@@ -652,6 +675,10 @@ void populate(
                 }
                 if(auto decay_a{source.nested(isot_attr, "electron_capture")}) {
                     elements.add(isot, electron_capture());
+                }
+                if(auto decay_a{
+                     source.nested(isot_attr, "electron_capture_2")}) {
+                    elements.add(isot, electron_capture_2());
                 }
                 if(auto decay_a{source.nested(isot_attr, "beta_m_decay")}) {
                     elements.add(isot, beta_m_decay());
