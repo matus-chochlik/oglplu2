@@ -4346,7 +4346,166 @@
   "Zr" : {
       "atomic_weight" : 91.224,
       "group" : 4,
-      "isotopes" : {  },
+      "isotopes" : {
+          "_79" : {
+              "beta_p_decay" : {  },
+              "beta_p_p_decay" : {  },
+              "half_life" : "56ms",
+              "neutrons" : 39,
+              "symbol" : "⁷⁹Zr"
+            },
+          "_80" : {
+              "beta_p_decay" : {  },
+              "half_life" : "4.6s",
+              "neutrons" : 40,
+              "symbol" : "⁸⁰Zr"
+            },
+          "_81" : {
+              "beta_p_decay" : {  },
+              "beta_p_p_decay" : {  },
+              "half_life" : "5.5s",
+              "neutrons" : 41,
+              "symbol" : "⁸¹Zr"
+            },
+          "_82" : {
+              "beta_p_decay" : {  },
+              "half_life" : "32s",
+              "neutrons" : 42,
+              "symbol" : "⁸²Zr"
+            },
+          "_83" : {
+              "beta_p_decay" : {  },
+              "beta_p_p_decay" : {  },
+              "half_life" : "41.6s",
+              "neutrons" : 43,
+              "symbol" : "⁸³Zr"
+            },
+          "_84" : {
+              "beta_p_decay" : {  },
+              "half_life" : "25.9min",
+              "neutrons" : 44,
+              "symbol" : "⁸⁴Zr"
+            },
+          "_85" : {
+              "beta_p_decay" : {  },
+              "half_life" : "7.86min",
+              "neutrons" : 45,
+              "symbol" : "⁸⁵Zr"
+            },
+          "_86" : {
+              "beta_p_decay" : {  },
+              "half_life" : "16.5hr",
+              "neutrons" : 46,
+              "symbol" : "⁸⁶Zr"
+            },
+          "_87" : {
+              "beta_p_decay" : {  },
+              "half_life" : "1.68hr",
+              "neutrons" : 47,
+              "symbol" : "⁸⁷Zr"
+            },
+          "_88" : {
+              "electron_capture" : {  },
+              "half_life" : "83.4dy",
+              "neutrons" : 48,
+              "symbol" : "⁸⁸Zr"
+            },
+          "_89" : {
+              "beta_p_decay" : {  },
+              "half_life" : "78.41hr",
+              "neutrons" : 49,
+              "symbol" : "⁸⁹Zr"
+            },
+          "_90" : {
+              "neutrons" : 50,
+              "symbol" : "⁹⁰Zr"
+            },
+          "_91" : {
+              "neutrons" : 51,
+              "symbol" : "⁹¹Zr"
+            },
+          "_92" : {
+              "neutrons" : 52,
+              "symbol" : "⁹²Zr"
+            },
+          "_93" : {
+              "beta_m_decay" : {  },
+              "half_life" : "1.53e6yr",
+              "neutrons" : 53,
+              "symbol" : "⁹³Zr"
+            },
+          "_94" : {
+              "neutrons" : 54,
+              "symbol" : "⁹⁴Zr"
+            },
+          "_95" : {
+              "beta_m_decay" : {  },
+              "half_life" : "64.032dy",
+              "neutrons" : 55,
+              "symbol" : "⁹⁵Zr"
+            },
+          "_96" : {
+              "beta_m2_decay" : {  },
+              "half_life" : "20e18yr",
+              "neutrons" : 56,
+              "symbol" : "⁹⁶Zr"
+            },
+          "_97" : {
+              "beta_m_decay" : {  },
+              "half_life" : "16.744hr",
+              "neutrons" : 57,
+              "symbol" : "⁹⁷Zr"
+            },
+          "_98" : {
+              "beta_m_decay" : {  },
+              "half_life" : "30.7s",
+              "neutrons" : 58,
+              "symbol" : "⁹⁸Zr"
+            },
+          "_99" : {
+              "beta_m_decay" : {  },
+              "half_life" : "2.1s",
+              "neutrons" : 59,
+              "symbol" : "⁹⁹Zr"
+            },
+          "_100" : {
+              "beta_m_decay" : {  },
+              "half_life" : "7.1s",
+              "neutrons" : 60,
+              "symbol" : "¹⁰⁰Zr"
+            },
+          "_101" : {
+              "beta_m_decay" : {  },
+              "half_life" : "2.3s",
+              "neutrons" : 61,
+              "symbol" : "¹⁰¹Zr"
+            },
+          "_102" : {
+              "beta_m_decay" : {  },
+              "half_life" : "2.9s",
+              "neutrons" : 62,
+              "symbol" : "¹⁰²Zr"
+            },
+          "_103" : {
+              "beta_m_decay" : {  },
+              "half_life" : "1.3s",
+              "neutrons" : 63,
+              "symbol" : "¹⁰³Zr"
+            },
+          "_104" : {
+              "beta_m_decay" : {  },
+              "half_life" : "1.2s",
+              "neutrons" : 64,
+              "symbol" : "¹⁰⁴Zr"
+            },
+          "_105" : {
+              "beta_m_decay" : {  },
+              "beta_m_n_decay" : {  },
+              "half_life" : "0.6s",
+              "neutrons" : 65,
+              "symbol" : "¹⁰⁵Zr"
+            }
+        },
       "name" : { "latin" : "Zirconium" },
       "period" : 5,
       "protons" : 40
