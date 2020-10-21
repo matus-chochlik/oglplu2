@@ -2534,7 +2534,191 @@
   "Nb" : {
       "atomic_weight" : 92.90637,
       "group" : 5,
-      "isotopes" : {  },
+      "isotopes" : {
+          "_82" : {
+              "beta_p_decay" : {  },
+              "half_life" : "51ms",
+              "neutrons" : 41,
+              "symbol" : "⁸²Nb"
+            },
+          "_83" : {
+              "beta_p_decay" : {  },
+              "beta_p_p_decay" : {  },
+              "half_life" : "4.1s",
+              "neutrons" : 42,
+              "symbol" : "⁸³Nb"
+            },
+          "_84" : {
+              "beta_p_decay" : {  },
+              "beta_p_p_decay" : {  },
+              "half_life" : "9.8s",
+              "neutrons" : 43,
+              "symbol" : "⁸⁴Nb"
+            },
+          "_85" : {
+              "beta_p_decay" : {  },
+              "half_life" : "20.9s",
+              "neutrons" : 44,
+              "symbol" : "⁸⁵Nb"
+            },
+          "_86" : {
+              "beta_p_decay" : {  },
+              "half_life" : "88s",
+              "neutrons" : 45,
+              "symbol" : "⁸⁶Nb"
+            },
+          "_87" : {
+              "beta_p_decay" : {  },
+              "half_life" : "3.75min",
+              "neutrons" : 46,
+              "symbol" : "⁸⁷Nb"
+            },
+          "_88" : {
+              "beta_p_decay" : {  },
+              "half_life" : "14.55min",
+              "neutrons" : 47,
+              "symbol" : "⁸⁸Nb"
+            },
+          "_89" : {
+              "beta_p_decay" : {  },
+              "half_life" : "2.03min",
+              "neutrons" : 48,
+              "symbol" : "⁸⁹Nb"
+            },
+          "_90" : {
+              "beta_p_decay" : {  },
+              "half_life" : "2.03min",
+              "neutrons" : 49,
+              "symbol" : "⁹⁰Nb"
+            },
+          "_91" : {
+              "beta_p_decay" : {  },
+              "electron_capture" : {  },
+              "half_life" : "680yr",
+              "neutrons" : 50,
+              "symbol" : "⁹¹Nb"
+            },
+          "_92" : {
+              "beta_p_decay" : {  },
+              "electron_capture" : {  },
+              "half_life" : "3.47e7yr",
+              "neutrons" : 51,
+              "symbol" : "⁹²Nb"
+            },
+          "_93" : {
+              "neutrons" : 52,
+              "symbol" : "⁹³Nb"
+            },
+          "_94" : {
+              "beta_m_decay" : {  },
+              "half_life" : "2.03e4yr",
+              "neutrons" : 53,
+              "symbol" : "⁹⁴Nb"
+            },
+          "_95" : {
+              "beta_m_decay" : {  },
+              "half_life" : "34.991dy",
+              "neutrons" : 54,
+              "symbol" : "⁹⁵Nb"
+            },
+          "_96" : {
+              "beta_m_decay" : {  },
+              "half_life" : "23.3hr",
+              "neutrons" : 55,
+              "symbol" : "⁹⁶Nb"
+            },
+          "_97" : {
+              "beta_m_decay" : {  },
+              "half_life" : "72.1min",
+              "neutrons" : 56,
+              "symbol" : "⁹⁷Nb"
+            },
+          "_98" : {
+              "beta_m_decay" : {  },
+              "half_life" : "2.86s",
+              "neutrons" : 57,
+              "symbol" : "⁹⁸Nb"
+            },
+          "_99" : {
+              "beta_m_decay" : {  },
+              "half_life" : "15.0s",
+              "neutrons" : 58,
+              "symbol" : "⁹⁹Nb"
+            },
+          "_100" : {
+              "beta_m_decay" : {  },
+              "half_life" : "1.5s",
+              "neutrons" : 59,
+              "symbol" : "¹⁰⁰Nb"
+            },
+          "_101" : {
+              "beta_m_decay" : {  },
+              "half_life" : "7.1s",
+              "neutrons" : 60,
+              "symbol" : "¹⁰¹Nb"
+            },
+          "_102" : {
+              "beta_m_decay" : {  },
+              "half_life" : "1.3s",
+              "neutrons" : 61,
+              "symbol" : "¹⁰²Nb"
+            },
+          "_103" : {
+              "beta_m_decay" : {  },
+              "half_life" : "1.5s",
+              "neutrons" : 62,
+              "symbol" : "¹⁰³Nb"
+            },
+          "_104" : {
+              "beta_m_decay" : {  },
+              "beta_m_n_decay" : {  },
+              "half_life" : "4.9s",
+              "neutrons" : 63,
+              "symbol" : "¹⁰⁴Nb"
+            },
+          "_105" : {
+              "beta_m_decay" : {  },
+              "beta_m_n_decay" : {  },
+              "half_life" : "2.95",
+              "neutrons" : 64,
+              "symbol" : "¹⁰⁵Nb"
+            },
+          "_106" : {
+              "beta_m_decay" : {  },
+              "beta_m_n_decay" : {  },
+              "half_life" : "920ms",
+              "neutrons" : 65,
+              "symbol" : "¹⁰⁶Nb"
+            },
+          "_107" : {
+              "beta_m_decay" : {  },
+              "beta_m_n_decay" : {  },
+              "half_life" : "300ms",
+              "neutrons" : 66,
+              "symbol" : "¹⁰⁷Nb"
+            },
+          "_108" : {
+              "beta_m_decay" : {  },
+              "beta_m_n_decay" : {  },
+              "half_life" : "193ms",
+              "neutrons" : 67,
+              "symbol" : "¹⁰⁸Nb"
+            },
+          "_109" : {
+              "beta_m_decay" : {  },
+              "beta_m_n_decay" : {  },
+              "half_life" : "190ms",
+              "neutrons" : 68,
+              "symbol" : "¹⁰⁹Nb"
+            },
+          "_110" : {
+              "beta_m_decay" : {  },
+              "beta_m_n_decay" : {  },
+              "half_life" : "170ms",
+              "neutrons" : 69,
+              "symbol" : "¹¹⁰Nb"
+            }
+        },
       "name" : { "latin" : "Niobium" },
       "period" : 5,
       "protons" : 41
