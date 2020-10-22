@@ -18,7 +18,6 @@
 #include "context_fwd.hpp"
 #include "serialize.hpp"
 #include <tuple>
-#include <vector>
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
@@ -47,7 +46,7 @@ private:
     identifier_t _id{invalid_id()};
     timeout _no_id_timeout{std::chrono::seconds{2}, nothing};
 
-    std::vector<std::unique_ptr<connection>> _connections{};
+    std::unique_ptr<connection> _connection{};
 
     message_storage _outgoing{};
 
@@ -114,7 +113,7 @@ private:
       : _log{std::move(temp._log)}
       , _context{std::move(temp._context)}
       , _id{temp._id}
-      , _connections{std::move(temp._connections)}
+      , _connection{std::move(temp._connection)}
       , _outgoing{std::move(temp._outgoing)}
       , _incoming{std::move(temp._incoming)}
       , _blobs{std::move(temp._blobs)} {
@@ -128,7 +127,7 @@ private:
       : _log{std::move(temp._log)}
       , _context{std::move(temp._context)}
       , _id{temp._id}
-      , _connections{std::move(temp._connections)}
+      , _connection{std::move(temp._connection)}
       , _outgoing{std::move(temp._outgoing)}
       , _incoming{std::move(temp._incoming)}
       , _blobs{std::move(temp._blobs)}
