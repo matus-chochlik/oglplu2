@@ -39,7 +39,7 @@ struct router_pending {
 };
 //------------------------------------------------------------------------------
 struct routed_endpoint {
-    std::vector<std::unique_ptr<connection>> connections{};
+    std::unique_ptr<connection> the_connection{};
     std::vector<message_id> message_block_list{};
     std::vector<message_id> message_allow_list{};
     bool maybe_router{true};
@@ -47,9 +47,9 @@ struct routed_endpoint {
 
     routed_endpoint();
     routed_endpoint(routed_endpoint&&) noexcept = default;
-    routed_endpoint(const routed_endpoint&) = default;
+    routed_endpoint(const routed_endpoint&) = delete;
     auto operator=(routed_endpoint&&) noexcept -> routed_endpoint& = default;
-    auto operator=(const routed_endpoint&) -> routed_endpoint& = default;
+    auto operator=(const routed_endpoint&) -> routed_endpoint& = delete;
     ~routed_endpoint() noexcept = default;
 
     void block_message(message_id);

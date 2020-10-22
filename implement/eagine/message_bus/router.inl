@@ -171,8 +171,7 @@ auto router::_handle_pending() -> bool {
                 if(pos == _endpoints.end()) {
                     pos = _endpoints.try_emplace(id).first;
                 }
-                pos->second.connections.emplace_back(
-                  std::move(pending.the_connection));
+                pos->second.the_connection = std::move(pending.the_connection);
                 pos->second.maybe_router = maybe_router;
                 _pending.erase(_pending.begin() + idx);
                 something_done();
@@ -213,26 +212,18 @@ auto router::_remove_disconnected() -> bool {
 
     for(auto& p : _endpoints) {
         auto& rep = std::get<1>(p);
-        auto& conns = rep.connections;
+        auto& conn = rep.the_connection;
         if(EAGINE_UNLIKELY(rep.do_disconnect)) {
-            conns.clear();
+            conn.reset();
         } else {
-            conns.erase(
-              std::remove_if(
-                conns.begin(),
-                conns.end(),
-                [this](auto& conn) {
-                    if(!conn || !conn->is_usable()) {
-                        this->_log.debug("removing disconnected connection");
-                        return true;
-                    }
-                    return false;
-                }),
-              conns.end());
+            if(EAGINE_UNLIKELY(!conn->is_usable())) {
+                this->_log.debug("removing disconnected connection");
+                conn.reset();
+            }
         }
     }
     something_done(_endpoints.erase_if([](auto& p) {
-        return p.second.connections.empty();
+        return !p.second.the_connection;
     }) > 0);
     return something_done;
 }
@@ -274,23 +265,21 @@ auto router::_process_blobs() -> bool {
     if(_blobs.has_outgoing()) {
         for(auto& ep : _endpoints) {
             const auto endpoint_id = std::get<0>(ep);
-            for(auto& conn : std::get<1>(ep).connections) {
-                if(EAGINE_LIKELY(conn && conn->is_usable())) {
-                    if(auto opt_max_size{conn->max_data_size()}) {
-                        auto handle_send = [endpoint_id, &conn](
-                                             message_id msg_id,
-                                             const message_view& message) {
-                            if(endpoint_id == message.target_id) {
-                                return conn->send(msg_id, message);
-                            }
-                            return false;
-                        };
-                        if(_blobs.process_outgoing(
-                             blob_manipulator::send_handler{handle_send},
-                             extract(opt_max_size))) {
-                            something_done();
-                            break;
+            const auto& conn = std::get<1>(ep).the_connection;
+            if(EAGINE_LIKELY(conn && conn->is_usable())) {
+                if(auto opt_max_size{conn->max_data_size()}) {
+                    auto handle_send = [endpoint_id, &conn](
+                                         message_id msg_id,
+                                         const message_view& message) {
+                        if(endpoint_id == message.target_id) {
+                            return conn->send(msg_id, message);
                         }
+                        return false;
+                    };
+                    if(_blobs.process_outgoing(
+                         blob_manipulator::send_handler{handle_send},
+                         extract(opt_max_size))) {
+                        something_done();
                     }
                 }
             }
@@ -511,14 +500,13 @@ auto router::_do_route_message(
 
                 _forwarded_since = now;
             }
-            for(auto& conn_out : endpoint_out.connections) {
-                if(EAGINE_LIKELY(conn_out)) {
-                    if(conn_out->send(msg_id, message)) {
-                        return true;
-                    }
-                } else {
-                    _log.debug("missing or unusable connection");
+            const auto& conn_out = endpoint_out.the_connection;
+            if(EAGINE_LIKELY(conn_out)) {
+                if(conn_out->send(msg_id, message)) {
+                    return true;
                 }
+            } else {
+                _log.debug("missing or unusable connection");
             }
             return false;
         };
@@ -574,11 +562,10 @@ auto router::_route_messages() -> bool {
             return true;
         };
 
-        for(auto& conn_in : std::get<1>(ep).connections) {
-            if(EAGINE_LIKELY(conn_in && conn_in->is_usable())) {
-                something_done(
-                  conn_in->fetch_messages(connection::fetch_handler(handler)));
-            }
+        const auto& conn_in = std::get<1>(ep).the_connection;
+        if(EAGINE_LIKELY(conn_in && conn_in->is_usable())) {
+            something_done(
+              conn_in->fetch_messages(connection::fetch_handler(handler)));
         }
     }
     return something_done;
@@ -590,10 +577,9 @@ auto router::_update_connections() -> bool {
 
     for(auto& [id, endpoint] : _endpoints) {
         EAGINE_MAYBE_UNUSED(id);
-        for(auto& conn : endpoint.connections) {
-            if(EAGINE_LIKELY(conn)) {
-                something_done(conn->update());
-            }
+        const auto& conn = endpoint.the_connection;
+        if(EAGINE_LIKELY(conn)) {
+            something_done(conn->update());
         }
     }
     if(_endpoints.empty() && _pending.empty()) {
