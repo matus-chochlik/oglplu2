@@ -16,11 +16,9 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-void populate(
+void initialize(
   ecs::basic_manager<element_symbol>& elements,
-  valtree::compound source);
-//------------------------------------------------------------------------------
-void cache_decay_products(ecs::basic_manager<element_symbol>& elements);
+  const valtree::compound& source);
 //------------------------------------------------------------------------------
 } // namespace eagine
 

@@ -10,59 +10,11 @@
 #include "components.hpp"
 #include "entity.hpp"
 #include "relations.hpp"
-#include <eagine/ecs/cmp_storage.hpp>
-#include <eagine/ecs/rel_storage.hpp>
+#include <eagine/ecs/storage/std_map.hpp>
 
 namespace eagine {
 //------------------------------------------------------------------------------
-template <typename Decay>
-void cache_decay_products_of(ecs::basic_manager<element_symbol>& elements) {
-
-    elements.for_each_with<const isotope_neutrons, Decay>(
-      [&](const auto& original_i, auto& original_n, auto& decay) {
-          elements.for_each_with<const isotope_neutrons>(
-            [&](const auto& decayed_i, auto& decayed_n) {
-                if(
-                  original_n->number + decay->neutron_count_diff() ==
-                  decayed_n->number) {
-                    elements.for_each_with<const element_protons>(
-                      [&](const auto& original_e, auto& original_p) {
-                          if(elements.has<isotope>(original_e, original_i)) {
-                              elements.for_each_with<const element_protons>(
-                                [&](const auto& decayed_e, auto& decayed_p) {
-                                    if(elements.has<isotope>(
-                                         decayed_e, decayed_i)) {
-                                        if(
-                                          original_p->number +
-                                            decay->proton_count_diff() ==
-                                          decayed_p->number) {
-                                            decay->product = decayed_i;
-                                        }
-                                    }
-                                });
-                          }
-                      });
-                }
-            });
-      });
-}
-//------------------------------------------------------------------------------
-void cache_decay_products(ecs::basic_manager<element_symbol>& elements) {
-    cache_decay_products_of<alpha_decay>(elements);
-    cache_decay_products_of<proton_emission>(elements);
-    cache_decay_products_of<neutron_emission>(elements);
-    cache_decay_products_of<electron_capture>(elements);
-    cache_decay_products_of<electron_capture_2>(elements);
-    cache_decay_products_of<beta_m_decay>(elements);
-    cache_decay_products_of<beta_m2_decay>(elements);
-    cache_decay_products_of<beta_m_alpha_decay>(elements);
-    cache_decay_products_of<beta_m_n_decay>(elements);
-    cache_decay_products_of<beta_p_decay>(elements);
-    cache_decay_products_of<beta_p_alpha_decay>(elements);
-    cache_decay_products_of<beta_p_p_decay>(elements);
-}
-//------------------------------------------------------------------------------
-void populate(
+static void populate(
   ecs::basic_manager<element_symbol>& elements,
   valtree::compound source) {
 
@@ -183,6 +135,99 @@ void populate(
             }
         }
     }
+}
+//------------------------------------------------------------------------------
+template <typename Decay>
+void cache_decay_products_of(ecs::basic_manager<element_symbol>& elements) {
+
+    elements.for_each_with<const isotope_neutrons, Decay>(
+      [&](const auto& original_i, auto& original_n, auto& decay) {
+          elements.for_each_with<const isotope_neutrons>(
+            [&](const auto& decayed_i, auto& decayed_n) {
+                if(
+                  original_n->number + decay->neutron_count_diff() ==
+                  decayed_n->number) {
+                    elements.for_each_with<const element_protons>(
+                      [&](const auto& original_e, auto& original_p) {
+                          if(elements.has<isotope>(original_e, original_i)) {
+                              elements.for_each_with<const element_protons>(
+                                [&](const auto& decayed_e, auto& decayed_p) {
+                                    if(elements.has<isotope>(
+                                         decayed_e, decayed_i)) {
+                                        if(
+                                          original_p->number +
+                                            decay->proton_count_diff() ==
+                                          decayed_p->number) {
+                                            decay->product = decayed_i;
+                                        }
+                                    }
+                                });
+                          }
+                      });
+                }
+            });
+      });
+}
+//------------------------------------------------------------------------------
+static void cache_decay_products(ecs::basic_manager<element_symbol>& elements) {
+    cache_decay_products_of<alpha_decay>(elements);
+    cache_decay_products_of<proton_emission>(elements);
+    cache_decay_products_of<neutron_emission>(elements);
+    cache_decay_products_of<electron_capture>(elements);
+    cache_decay_products_of<electron_capture_2>(elements);
+    cache_decay_products_of<beta_m_decay>(elements);
+    cache_decay_products_of<beta_m2_decay>(elements);
+    cache_decay_products_of<beta_m_alpha_decay>(elements);
+    cache_decay_products_of<beta_m_n_decay>(elements);
+    cache_decay_products_of<beta_p_decay>(elements);
+    cache_decay_products_of<beta_p_alpha_decay>(elements);
+    cache_decay_products_of<beta_p_p_decay>(elements);
+}
+//------------------------------------------------------------------------------
+void initialize(
+  ecs::basic_manager<element_symbol>& elements,
+  const valtree::compound& source) {
+    elements
+      .register_component_storage<ecs::std_map_cmp_storage, element_name>();
+    elements
+      .register_component_storage<ecs::std_map_cmp_storage, element_protons>();
+    elements
+      .register_component_storage<ecs::std_map_cmp_storage, isotope_neutrons>();
+    elements
+      .register_component_storage<ecs::std_map_cmp_storage, element_period>();
+    elements
+      .register_component_storage<ecs::std_map_cmp_storage, element_group>();
+    elements
+      .register_component_storage<ecs::std_map_cmp_storage, atomic_weight>();
+    elements.register_component_storage<ecs::std_map_cmp_storage, half_life>();
+    elements.register_component_storage<ecs::std_map_cmp_storage, alpha_decay>();
+    elements
+      .register_component_storage<ecs::std_map_cmp_storage, proton_emission>();
+    elements
+      .register_component_storage<ecs::std_map_cmp_storage, neutron_emission>();
+    elements
+      .register_component_storage<ecs::std_map_cmp_storage, electron_capture>();
+    elements
+      .register_component_storage<ecs::std_map_cmp_storage, electron_capture_2>();
+    elements
+      .register_component_storage<ecs::std_map_cmp_storage, beta_m_decay>();
+    elements
+      .register_component_storage<ecs::std_map_cmp_storage, beta_m2_decay>();
+    elements
+      .register_component_storage<ecs::std_map_cmp_storage, beta_m_alpha_decay>();
+    elements
+      .register_component_storage<ecs::std_map_cmp_storage, beta_m_n_decay>();
+    elements
+      .register_component_storage<ecs::std_map_cmp_storage, beta_p_decay>();
+    elements
+      .register_component_storage<ecs::std_map_cmp_storage, beta_p_alpha_decay>();
+    elements
+      .register_component_storage<ecs::std_map_cmp_storage, beta_p_p_decay>();
+
+    elements.register_relation_storage<ecs::std_map_rel_storage, isotope>();
+
+    populate(elements, source);
+    cache_decay_products(elements);
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
