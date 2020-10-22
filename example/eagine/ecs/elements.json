@@ -3508,7 +3508,164 @@
   "Ru" : {
       "atomic_weight" : 101.07,
       "group" : 8,
-      "isotopes" : {  },
+      "isotopes" : {
+          "_88" : {
+              "beta_p_decay" : {  },
+              "half_life" : "1.3s",
+              "neutrons" : 44,
+              "symbol" : "⁸⁸Ru"
+            },
+          "_89" : {
+              "beta_p_decay" : {  },
+              "half_life" : "1.38s",
+              "neutrons" : 45,
+              "symbol" : "⁸⁹Ru"
+            },
+          "_90" : {
+              "beta_p_decay" : {  },
+              "half_life" : "11.79s",
+              "neutrons" : 46,
+              "symbol" : "⁹⁰Ru"
+            },
+          "_91" : {
+              "beta_p_decay" : {  },
+              "half_life" : "7.9s",
+              "neutrons" : 47,
+              "symbol" : "⁹¹Ru"
+            },
+          "_92" : {
+              "beta_p_decay" : {  },
+              "half_life" : "3.65min",
+              "neutrons" : 48,
+              "symbol" : "⁹²Ru"
+            },
+          "_93" : {
+              "beta_p_decay" : {  },
+              "half_life" : "59.7s",
+              "neutrons" : 49,
+              "symbol" : "⁹³Ru"
+            },
+          "_94" : {
+              "beta_p_decay" : {  },
+              "half_life" : "51.86min",
+              "neutrons" : 50,
+              "symbol" : "⁹⁴Ru"
+            },
+          "_95" : {
+              "beta_p_decay" : {  },
+              "half_life" : "1.643hr",
+              "neutrons" : 51,
+              "symbol" : "⁹⁵Ru"
+            },
+          "_96" : {
+              "neutrons" : 52,
+              "symbol" : "⁹⁶Ru"
+            },
+          "_97" : {
+              "beta_p_decay" : {  },
+              "half_life" : "2.791dy",
+              "neutrons" : 53,
+              "symbol" : "⁹⁷Ru"
+            },
+          "_98" : {
+              "neutrons" : 54,
+              "symbol" : "⁹⁸Ru"
+            },
+          "_99" : {
+              "neutrons" : 55,
+              "symbol" : "⁹⁹Ru"
+            },
+          "_100" : {
+              "neutrons" : 56,
+              "symbol" : "¹⁰⁰Ru"
+            },
+          "_101" : {
+              "neutrons" : 57,
+              "symbol" : "¹⁰¹Ru"
+            },
+          "_102" : {
+              "neutrons" : 58,
+              "symbol" : "¹⁰²Ru"
+            },
+          "_103" : {
+              "beta_m_decay" : {  },
+              "half_life" : "39.26dy",
+              "neutrons" : 59,
+              "symbol" : "¹⁰³Ru"
+            },
+          "_104" : {
+              "neutrons" : 60,
+              "symbol" : "¹⁰⁴Ru"
+            },
+          "_105" : {
+              "beta_m_decay" : {  },
+              "half_life" : "4.44hr",
+              "neutrons" : 61,
+              "symbol" : "¹⁰⁵Ru"
+            },
+          "_106" : {
+              "beta_m_decay" : {  },
+              "half_life" : "373.59dy",
+              "neutrons" : 62,
+              "symbol" : "¹⁰⁶Ru"
+            },
+          "_107" : {
+              "beta_m_decay" : {  },
+              "half_life" : "3.75min",
+              "neutrons" : 63,
+              "symbol" : "¹⁰⁷Ru"
+            },
+          "_108" : {
+              "beta_m_decay" : {  },
+              "half_life" : "4.55min",
+              "neutrons" : 64,
+              "symbol" : "¹⁰⁸Ru"
+            },
+          "_109" : {
+              "beta_m_decay" : {  },
+              "half_life" : "34.5s",
+              "neutrons" : 65,
+              "symbol" : "¹⁰⁹Ru"
+            },
+          "_110" : {
+              "beta_m_decay" : {  },
+              "half_life" : "11.6s",
+              "neutrons" : 66,
+              "symbol" : "¹¹⁰Ru"
+            },
+          "_111" : {
+              "beta_m_decay" : {  },
+              "half_life" : "2.12s",
+              "neutrons" : 67,
+              "symbol" : "¹¹¹Ru"
+            },
+          "_112" : {
+              "beta_m_decay" : {  },
+              "half_life" : "1.75s",
+              "neutrons" : 68,
+              "symbol" : "¹¹²Ru"
+            },
+          "_113" : {
+              "beta_m_decay" : {  },
+              "half_life" : "805ms",
+              "neutrons" : 69,
+              "symbol" : "¹¹³Ru"
+            },
+          "_114" : {
+              "beta_m_decay" : {  },
+              "beta_m_n_decay" : {  },
+              "half_life" : "536ms",
+              "neutrons" : 70,
+              "symbol" : "¹¹⁴Ru"
+            },
+          "_115" : {
+              "beta_m_decay" : {  },
+              "beta_m_n_decay" : {  },
+              "half_life" : "740ms",
+              "neutrons" : 71,
+              "symbol" : "¹¹⁵Ru"
+            }
+        },
       "name" : { "latin" : "Ruthenium" },
       "period" : 5,
       "protons" : 44
