@@ -65,11 +65,11 @@ public:
     router() = default;
 
     router(logger& parent) noexcept
-      : _log(EAGINE_ID(MsgBusRutr), parent)
+      : _log{EAGINE_ID(MsgBusRutr), parent}
       , _context{make_context(_log)} {}
 
     router(logger& parent, const program_args& args) noexcept
-      : _log(EAGINE_ID(MsgBusRutr), parent)
+      : _log{EAGINE_ID(MsgBusRutr), parent}
       , _context{make_context(_log, args)} {
         _setup_from_args(args);
     }
