@@ -245,7 +245,7 @@ struct electron_capture : ecs::component<electron_capture> {
     element_symbol product;
 };
 //------------------------------------------------------------------------------
-struct electron_capture_2 : ecs::component<electron_capture_2> {
+struct electron2_capture : ecs::component<electron2_capture> {
     static constexpr auto uid() noexcept {
         return EAGINE_ID_V(2ElnCapDcy);
     }
@@ -340,6 +340,26 @@ struct beta_m_n_decay : ecs::component<beta_m_n_decay> {
 
     static constexpr auto neutron_count_diff() noexcept -> short {
         return -2;
+    }
+
+    element_symbol product;
+};
+//------------------------------------------------------------------------------
+struct beta_m_n2_decay : ecs::component<beta_m_n2_decay> {
+    static constexpr auto uid() noexcept {
+        return EAGINE_ID_V(BetaMN2Dcy);
+    }
+
+    static auto symbol() noexcept -> string_view {
+        return {"β⁻,2n"};
+    }
+
+    static constexpr auto proton_count_diff() noexcept -> short {
+        return 1;
+    }
+
+    static constexpr auto neutron_count_diff() noexcept -> short {
+        return -3;
     }
 
     element_symbol product;

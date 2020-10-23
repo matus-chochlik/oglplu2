@@ -104,8 +104,8 @@ static void populate(
                     elements.add(isot, electron_capture());
                 }
                 if(auto decay_a{
-                     source.nested(isot_attr, "electron_capture_2")}) {
-                    elements.add(isot, electron_capture_2());
+                     source.nested(isot_attr, "electron2_capture")}) {
+                    elements.add(isot, electron2_capture());
                 }
                 if(auto decay_a{source.nested(isot_attr, "beta_m_decay")}) {
                     elements.add(isot, beta_m_decay());
@@ -119,6 +119,9 @@ static void populate(
                 }
                 if(auto decay_a{source.nested(isot_attr, "beta_m_n_decay")}) {
                     elements.add(isot, beta_m_n_decay());
+                }
+                if(auto decay_a{source.nested(isot_attr, "beta_m_n2_decay")}) {
+                    elements.add(isot, beta_m_n2_decay());
                 }
                 if(auto decay_a{source.nested(isot_attr, "beta_p_decay")}) {
                     elements.add(isot, beta_p_decay());
@@ -174,11 +177,12 @@ static void cache_decay_products(ecs::basic_manager<element_symbol>& elements) {
     cache_decay_products_of<proton_emission>(elements);
     cache_decay_products_of<neutron_emission>(elements);
     cache_decay_products_of<electron_capture>(elements);
-    cache_decay_products_of<electron_capture_2>(elements);
+    cache_decay_products_of<electron2_capture>(elements);
     cache_decay_products_of<beta_m_decay>(elements);
     cache_decay_products_of<beta_m2_decay>(elements);
     cache_decay_products_of<beta_m_alpha_decay>(elements);
     cache_decay_products_of<beta_m_n_decay>(elements);
+    cache_decay_products_of<beta_m_n2_decay>(elements);
     cache_decay_products_of<beta_p_decay>(elements);
     cache_decay_products_of<beta_p_alpha_decay>(elements);
     cache_decay_products_of<beta_p_p_decay>(elements);
@@ -208,7 +212,7 @@ void initialize(
     elements
       .register_component_storage<ecs::std_map_cmp_storage, electron_capture>();
     elements
-      .register_component_storage<ecs::std_map_cmp_storage, electron_capture_2>();
+      .register_component_storage<ecs::std_map_cmp_storage, electron2_capture>();
     elements
       .register_component_storage<ecs::std_map_cmp_storage, beta_m_decay>();
     elements
@@ -217,6 +221,8 @@ void initialize(
       .register_component_storage<ecs::std_map_cmp_storage, beta_m_alpha_decay>();
     elements
       .register_component_storage<ecs::std_map_cmp_storage, beta_m_n_decay>();
+    elements
+      .register_component_storage<ecs::std_map_cmp_storage, beta_m_n2_decay>();
     elements
       .register_component_storage<ecs::std_map_cmp_storage, beta_p_decay>();
     elements
