@@ -167,6 +167,12 @@ auto router::_handle_pending() -> bool {
                     maybe_router ? string_view("non-endpoint")
                                  : string_view("endpoint"));
 
+                // send the special message confirming assigned endpoint id
+                message_view confirmation{};
+                confirmation.set_source_id(_id_base).set_target_id(id);
+                pending.the_connection->send(
+                  EAGINE_MSGBUS_ID(confirmId), confirmation);
+
                 auto pos = _endpoints.find(id);
                 if(pos == _endpoints.end()) {
                     pos = _endpoints.try_emplace(id).first;

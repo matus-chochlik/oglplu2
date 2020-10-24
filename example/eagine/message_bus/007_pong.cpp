@@ -85,6 +85,13 @@ auto main(main_ctx& ctx) -> int {
 
     msgbus::endpoint bus{logger{EAGINE_ID(PongEndpt), ctx.log()}};
 
+    if(auto id_arg{ctx.args().find("--pingable-id").next()}) {
+        identifier_t id{0};
+        if(id_arg.parse(id, ctx.log().error_stream())) {
+            bus.preconfigure_id(id);
+        }
+    }
+
     msgbus::pong_example the_ponger{bus};
     conn_setup.setup_connectors(the_ponger, address);
 

@@ -23,6 +23,7 @@ ${install_prefix}/share/oglplus/examples/eagine-${variant}_ping \
 	& pids+=($!)
 sleep 5
 ${install_prefix}/share/oglplus/examples/eagine-${variant}_pong \
+	--pingable-id 1111 \
 	"${log_args[@]}" \
 	${conn_type} \
 	& pids+=($!)
