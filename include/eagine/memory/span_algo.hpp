@@ -460,6 +460,24 @@ static inline auto is_sorted(basic_span<T, P, S> spn, Compare compare) -> bool {
     return std::is_sorted(spn.begin(), spn.end(), std::move(compare));
 }
 //------------------------------------------------------------------------------
+template <typename T, typename P, typename S, typename Predicate>
+static inline auto all_of(basic_span<T, P, S> spn, Predicate predicate)
+  -> bool {
+    return std::all_of(spn.begin(), spn.end(), std::move(predicate));
+}
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename S, typename Predicate>
+static inline auto any_of(basic_span<T, P, S> spn, Predicate predicate)
+  -> bool {
+    return std::any_of(spn.begin(), spn.end(), std::move(predicate));
+}
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename S, typename Predicate>
+static inline auto none_of(basic_span<T, P, S> spn, Predicate predicate)
+  -> bool {
+    return std::none_of(spn.begin(), spn.end(), std::move(predicate));
+}
+//------------------------------------------------------------------------------
 template <
   typename T1,
   typename P1,
