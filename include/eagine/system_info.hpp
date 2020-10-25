@@ -13,14 +13,18 @@
 #include "config/platform.hpp"
 #include "types.hpp"
 #include "valid_if/nonnegative.hpp"
+#include "valid_if/not_empty.hpp"
 #include "valid_if/positive.hpp"
 #include <chrono>
+#include <string>
 #include <thread>
 
 namespace eagine {
 
 class system_info {
 public:
+    auto hostname() const -> valid_if_not_empty<std::string>;
+
     auto uptime() const noexcept -> std::chrono::duration<float>;
 
     auto cpu_concurrent_threads() const noexcept
