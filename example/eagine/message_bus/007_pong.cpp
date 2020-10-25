@@ -12,6 +12,7 @@
 #include <eagine/message_bus/service.hpp>
 #include <eagine/message_bus/service/ping_pong.hpp>
 #include <eagine/message_bus/service/shutdown.hpp>
+#include <eagine/message_bus/service/system_info.hpp>
 #include <eagine/timeout.hpp>
 #include <algorithm>
 #include <chrono>
@@ -21,7 +22,8 @@
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
-using pong_base = service_composition<pingable<shutdown_target<>>>;
+using pong_base =
+  service_composition<pingable<system_info_provider<shutdown_target<>>>>;
 
 class pong_example : public pong_base {
     using base = pong_base;
