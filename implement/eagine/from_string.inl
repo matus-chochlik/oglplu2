@@ -198,9 +198,13 @@ static inline auto do_parse(Iter i, Iter e, parsed_number_t& n) {
 EAGINE_LIB_FUNC
 auto _parse_from_string(string_view src, long double& parsed) noexcept -> bool {
     numexpr::parsed_number_t temp{};
-    if(numexpr::do_parse(src.begin(), src.end(), temp)) {
-        parsed = temp.real();
-        return true;
+    // Spirit does not support non-ASCII7 characters
+    // NOLINTNEXTLINE(hicpp-signed-bitwise)
+    if(memory::all_of(src, [](char c) { return (c & ~(0x7f * 2 + 1)) == 0; })) {
+        if(numexpr::do_parse(src.begin(), src.end(), temp)) {
+            parsed = temp.real();
+            return true;
+        }
     }
     return false;
 }

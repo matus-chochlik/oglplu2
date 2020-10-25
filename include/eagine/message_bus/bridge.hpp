@@ -87,7 +87,7 @@ private:
 
     std::shared_ptr<bridge_state> _state{};
     timeout _no_connection_timeout{std::chrono::seconds{30}};
-    std::vector<std::unique_ptr<connection>> _connections{};
+    std::unique_ptr<connection> _connection{};
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

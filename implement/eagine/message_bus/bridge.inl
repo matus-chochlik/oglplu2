@@ -167,7 +167,7 @@ void bridge::add_ca_certificate_pem(memory::const_block blk) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto bridge::add_connection(std::unique_ptr<connection> conn) -> bool {
-    _connections.emplace_back(std::move(conn));
+    _connection = std::move(conn);
     return true;
 }
 //------------------------------------------------------------------------------
@@ -228,9 +228,8 @@ auto bridge::_handle_special(
 EAGINE_LIB_FUNC
 auto bridge::_do_send(message_id msg_id, message_view message) -> bool {
     message.add_hop();
-    for(auto& connection : _connections) {
-        EAGINE_ASSERT(connection);
-        if(connection->send(msg_id, message)) {
+    if(EAGINE_LIKELY(_connection)) {
+        if(_connection->send(msg_id, message)) {
             _log.trace("forwarding message ${message} to connection")
               .arg(EAGINE_ID(message), msg_id)
               .arg(EAGINE_ID(data), message.data);
@@ -289,11 +288,9 @@ auto bridge::_forward_messages() -> bool {
           return this->_do_push(msg_id, message);
       };
 
-    for(auto& conn : _connections) {
-        if(EAGINE_LIKELY(conn)) {
-            something_done(conn->fetch_messages(
-              connection::fetch_handler(forward_conn_to_output)));
-        }
+    if(EAGINE_LIKELY(_connection)) {
+        something_done(_connection->fetch_messages(
+          connection::fetch_handler(forward_conn_to_output)));
     }
     _state->notify_output_ready();
 
@@ -337,8 +334,8 @@ auto bridge::_check_state() -> bool {
 
     if(EAGINE_UNLIKELY(!(_state && _state->is_usable()))) {
         span_size_t max_size{0};
-        for(auto& conn : _connections) {
-            if(auto max_data_size = conn->max_data_size()) {
+        if(EAGINE_LIKELY(_connection)) {
+            if(auto max_data_size = _connection->max_data_size()) {
                 max_size = math::maximum(max_size, extract(max_data_size));
             }
         }
@@ -354,18 +351,16 @@ EAGINE_LIB_FUNC
 auto bridge::_update_connections() -> bool {
     some_true something_done{};
 
-    for(auto& conn : _connections) {
-        if(EAGINE_LIKELY(conn)) {
-            if(EAGINE_UNLIKELY(!has_id() && _no_id_timeout)) {
-                _log.debug("requesting bridge id");
-                conn->send(EAGINE_MSGBUS_ID(requestId), {});
-                _no_id_timeout.reset();
-                something_done();
-            }
-            if(conn->update()) {
-                something_done();
-                _no_connection_timeout.reset();
-            }
+    if(EAGINE_LIKELY(_connection)) {
+        if(EAGINE_UNLIKELY(!has_id() && _no_id_timeout)) {
+            _log.debug("requesting bridge id");
+            _connection->send(EAGINE_MSGBUS_ID(requestId), {});
+            _no_id_timeout.reset();
+            something_done();
+        }
+        if(_connection->update()) {
+            something_done();
+            _no_connection_timeout.reset();
         }
     }
     return something_done;

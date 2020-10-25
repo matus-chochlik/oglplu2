@@ -3,7 +3,4 @@
 # See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
 #
-eagine_example_common(elements)
-eagine_embed_packed_target_resources(eagine-elements)
-
-
+add_subdirectory(elements)

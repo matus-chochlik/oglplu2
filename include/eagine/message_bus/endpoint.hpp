@@ -18,7 +18,6 @@
 #include "context_fwd.hpp"
 #include "serialize.hpp"
 #include <tuple>
-#include <vector>
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
@@ -44,10 +43,11 @@ private:
 
     shared_context _context{make_context(_log)};
 
-    identifier_t _id{invalid_id()};
+    identifier_t _preconfd_id{invalid_id()};
+    identifier_t _endpoint_id{invalid_id()};
     timeout _no_id_timeout{std::chrono::seconds{2}, nothing};
 
-    std::vector<std::unique_ptr<connection>> _connections{};
+    std::unique_ptr<connection> _connection{};
 
     message_storage _outgoing{};
 
@@ -113,13 +113,12 @@ private:
     endpoint(endpoint&& temp) noexcept
       : _log{std::move(temp._log)}
       , _context{std::move(temp._context)}
-      , _id{temp._id}
-      , _connections{std::move(temp._connections)}
+      , _preconfd_id{std::exchange(temp._preconfd_id, invalid_id())}
+      , _endpoint_id{std::exchange(temp._endpoint_id, invalid_id())}
+      , _connection{std::move(temp._connection)}
       , _outgoing{std::move(temp._outgoing)}
       , _incoming{std::move(temp._incoming)}
-      , _blobs{std::move(temp._blobs)} {
-        temp._id = invalid_id();
-    }
+      , _blobs{std::move(temp._blobs)} {}
 
     endpoint(
       endpoint&& temp,
@@ -127,15 +126,14 @@ private:
       fetch_handler store_message) noexcept
       : _log{std::move(temp._log)}
       , _context{std::move(temp._context)}
-      , _id{temp._id}
-      , _connections{std::move(temp._connections)}
+      , _preconfd_id{std::exchange(temp._preconfd_id, invalid_id())}
+      , _endpoint_id{std::exchange(temp._endpoint_id, invalid_id())}
+      , _connection{std::move(temp._connection)}
       , _outgoing{std::move(temp._outgoing)}
       , _incoming{std::move(temp._incoming)}
       , _blobs{std::move(temp._blobs)}
       , _allow_blob{std::move(allow_blob)}
-      , _store_handler{std::move(store_message)} {
-        temp._id = invalid_id();
-    }
+      , _store_handler{std::move(store_message)} {}
 
 public:
     endpoint() = default;
@@ -167,16 +165,29 @@ public:
     ~endpoint() noexcept override = default;
 
     auto set_id(identifier id) -> auto& {
-        _id = id.value();
+        _endpoint_id = id.value();
         return *this;
     }
 
+    auto preconfigure_id(identifier_t id) -> auto& {
+        _preconfd_id = id;
+        return *this;
+    }
+
+    auto has_preconfigured_id() const noexcept -> bool {
+        return is_valid_id(_preconfd_id);
+    }
+
     auto has_id() const noexcept -> bool {
-        return is_valid_id(_id);
+        return is_valid_id(_endpoint_id);
+    }
+
+    auto get_preconfigured_id() const noexcept {
+        return _preconfd_id;
     }
 
     auto get_id() const noexcept {
-        return _id;
+        return _endpoint_id;
     }
 
     void add_certificate_pem(memory::const_block blk);
@@ -235,7 +246,8 @@ public:
       memory::const_block blob,
       std::chrono::seconds max_time,
       message_priority priority) -> bool {
-        _blobs.push_outgoing(msg_id, _id, target_id, blob, max_time, priority);
+        _blobs.push_outgoing(
+          msg_id, _endpoint_id, target_id, blob, max_time, priority);
         return true;
     }
 

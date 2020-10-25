@@ -49,10 +49,9 @@ auto endpoint::_do_allow_blob(message_id msg_id) -> bool {
 EAGINE_LIB_FUNC
 auto endpoint::_do_send(message_id msg_id, message_view message) -> bool {
     EAGINE_ASSERT(has_id());
-    message.set_source_id(_id);
-    for(auto& conn : _connections) {
-        EAGINE_ASSERT(conn);
-        if(conn->send(msg_id, message)) {
+    message.set_source_id(_endpoint_id);
+    if(EAGINE_LIKELY(_connection)) {
+        if(_connection->send(msg_id, message)) {
             log()
               .trace("sending message ${message}")
               .arg(EAGINE_ID(message), msg_id);
@@ -72,11 +71,11 @@ auto endpoint::_handle_special(
         log()
           .debug("endpoint handling special message ${message}")
           .arg(EAGINE_ID(message), msg_id)
-          .arg(EAGINE_ID(endpoint), _id)
+          .arg(EAGINE_ID(endpoint), _endpoint_id)
           .arg(EAGINE_ID(target), message.target_id)
           .arg(EAGINE_ID(source), message.source_id);
 
-        if(EAGINE_UNLIKELY(has_id() && (message.source_id == _id))) {
+        if(EAGINE_UNLIKELY(has_id() && (message.source_id == _endpoint_id))) {
             log()
               .warning("received own special message ${message}")
               .arg(EAGINE_ID(message), msg_id);
@@ -91,10 +90,27 @@ auto endpoint::_handle_special(
             return true;
         } else if(msg_id.has_method(EAGINE_ID(assignId))) {
             if(!has_id()) {
-                _id = message.target_id;
+                _endpoint_id = message.target_id;
                 log()
-                  .debug("assigned endpoint id ${id}")
-                  .arg(EAGINE_ID(id), _id);
+                  .debug("assigned endpoint id ${id} by router")
+                  .arg(EAGINE_ID(id), get_id());
+            }
+            return true;
+        } else if(msg_id.has_method(EAGINE_ID(confirmId))) {
+            if(!has_id()) {
+                _endpoint_id = message.target_id;
+                if(EAGINE_LIKELY(get_id() == get_preconfigured_id())) {
+                    log()
+                      .debug("confirmed endpoint id ${id} by router")
+                      .arg(EAGINE_ID(id), get_id());
+                    // send request for router certificate
+                    _do_send(EAGINE_MSGBUS_ID(rtrCertQry), {});
+                } else {
+                    log()
+                      .error("mismatching preconfigured and confirmed ids")
+                      .arg(EAGINE_ID(confirmed), get_id())
+                      .arg(EAGINE_ID(preconfed), get_preconfigured_id());
+                }
             }
             return true;
         } else if(
@@ -113,7 +129,7 @@ auto endpoint::_handle_special(
             if(_context->add_remote_certificate_pem(
                  message.source_id, view(message.data))) {
                 _log.debug("verified and stored remote endpoint certificate")
-                  .arg(EAGINE_ID(endpoint), _id)
+                  .arg(EAGINE_ID(endpoint), _endpoint_id)
                   .arg(EAGINE_ID(source), message.source_id);
 
                 if(auto nonce{_context->get_remote_nonce(message.source_id)}) {
@@ -124,7 +140,7 @@ auto endpoint::_handle_special(
                       std::chrono::seconds(30),
                       message_priority::normal);
                     _log.debug("sending nonce sign request")
-                      .arg(EAGINE_ID(endpoint), _id)
+                      .arg(EAGINE_ID(endpoint), _endpoint_id)
                       .arg(EAGINE_ID(target), message.source_id);
                 }
             }
@@ -138,7 +154,7 @@ auto endpoint::_handle_special(
                   std::chrono::seconds(30),
                   message_priority::normal);
                 _log.debug("sending nonce signature")
-                  .arg(EAGINE_ID(endpoint), _id)
+                  .arg(EAGINE_ID(endpoint), _endpoint_id)
                   .arg(EAGINE_ID(target), message.source_id);
             }
             return true;
@@ -146,7 +162,7 @@ auto endpoint::_handle_special(
             if(_context->verify_remote_signature(
                  message.data, message.source_id)) {
                 _log.debug("verified nonce signature")
-                  .arg(EAGINE_ID(endpoint), _id)
+                  .arg(EAGINE_ID(endpoint), _endpoint_id)
                   .arg(EAGINE_ID(source), message.source_id);
             }
             return true;
@@ -166,7 +182,7 @@ auto endpoint::_handle_special(
         } else if(msg_id.has_method(EAGINE_ID(topoQuery))) {
             std::array<byte, 256> temp{};
             endpoint_topology_info info{};
-            info.endpoint_id = _id;
+            info.endpoint_id = _endpoint_id;
             if(auto serialized{default_serialize(info, cover(temp))}) {
                 message_view response{extract(serialized)};
                 response.setup_response(message);
@@ -188,7 +204,7 @@ auto endpoint::_store_message(
   const message_view& message) -> bool {
     // TODO: use message age
     if(!_handle_special(msg_id, message)) {
-        if((message.target_id == _id) || !is_valid_id(message.target_id)) {
+        if((message.target_id == _endpoint_id) || !is_valid_id(message.target_id)) {
             auto pos = _incoming.find(msg_id);
             if(pos != _incoming.end()) {
                 log()
@@ -208,7 +224,7 @@ auto endpoint::_store_message(
         } else {
             log()
               .warning("trying to store message for target ${target}")
-              .arg(EAGINE_ID(self), _id)
+              .arg(EAGINE_ID(self), _endpoint_id)
               .arg(EAGINE_ID(target), message.target_id)
               .arg(EAGINE_ID(message), msg_id);
             post(EAGINE_MSGBUS_ID(notARouter), {});
@@ -225,7 +241,7 @@ auto endpoint::_accept_message(message_id msg_id, const message_view& message)
     }
     auto pos = _incoming.find(msg_id);
     if(pos != _incoming.end()) {
-        if((message.target_id == _id) || !is_valid_id(message.target_id)) {
+        if((message.target_id == _endpoint_id) || !is_valid_id(message.target_id)) {
             log()
               .trace("accepted message ${message}")
               .arg(EAGINE_ID(message), msg_id);
@@ -259,10 +275,17 @@ void endpoint::add_ca_certificate_pem(memory::const_block blk) {
 EAGINE_LIB_FUNC
 auto endpoint::add_connection(std::unique_ptr<connection> conn) -> bool {
     if(conn) {
-        log()
-          .debug("adding connection type ${type}")
-          .arg(EAGINE_ID(type), conn->type_id());
-        _connections.emplace_back(std::move(conn));
+        if(_connection) {
+            log()
+              .debug("replacing connection type ${oldType} with ${newType}")
+              .arg(EAGINE_ID(oldType), _connection->type_id())
+              .arg(EAGINE_ID(newType), conn->type_id());
+        } else {
+            log()
+              .debug("adding connection type ${type}")
+              .arg(EAGINE_ID(type), conn->type_id());
+        }
+        _connection = std::move(conn);
         return true;
     }
     return false;
@@ -270,9 +293,8 @@ auto endpoint::add_connection(std::unique_ptr<connection> conn) -> bool {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto endpoint::is_usable() const -> bool {
-    for(auto& conn : _connections) {
-        EAGINE_ASSERT(conn);
-        if(conn->is_usable()) {
+    if(EAGINE_LIKELY(_connection)) {
+        if(_connection->is_usable()) {
             return true;
         }
     }
@@ -282,10 +304,9 @@ auto endpoint::is_usable() const -> bool {
 EAGINE_LIB_FUNC
 auto endpoint::max_data_size() const -> valid_if_positive<span_size_t> {
     span_size_t result{0};
-    for(auto& conn : _connections) {
-        EAGINE_ASSERT(conn);
-        if(conn->is_usable()) {
-            if(const auto opt_max_size = conn->max_data_size()) {
+    if(EAGINE_LIKELY(_connection)) {
+        if(_connection->is_usable()) {
+            if(const auto opt_max_size = _connection->max_data_size()) {
                 const auto max_size = extract(opt_max_size);
                 if(result > 0) {
                     if(result > max_size) {
@@ -308,9 +329,8 @@ void endpoint::flush_outbox() {
           .arg(EAGINE_ID(size), _outgoing.size());
         _outgoing.fetch_all(message_storage::fetch_handler{
           this, EAGINE_MEM_FUNC_C(endpoint, _handle_send)});
-        for(auto& conn : _connections) {
-            EAGINE_ASSERT(conn);
-            conn->cleanup();
+        if(EAGINE_LIKELY(_connection)) {
+            _connection->cleanup();
         }
     }
 }
@@ -350,31 +370,50 @@ auto endpoint::update() -> bool {
     something_done(_cleanup_blobs());
     something_done(_process_blobs());
 
-    if(EAGINE_UNLIKELY(_connections.empty())) {
-        log().warning("endpoint has no connections");
+    if(EAGINE_UNLIKELY(!_connection)) {
+        log().warning("endpoint has no connection");
     }
 
     const bool had_id = has_id();
-    for(auto& conn : _connections) {
-        EAGINE_ASSERT(conn);
+    if(EAGINE_LIKELY(_connection)) {
         if(EAGINE_UNLIKELY(!had_id && _no_id_timeout)) {
-            log().debug("requesting endpoint id");
-            conn->send(EAGINE_MSGBUS_ID(requestId), {});
-            _no_id_timeout.reset();
-            something_done();
+            if(!has_preconfigured_id()) {
+                log().debug("requesting endpoint id");
+                _connection->send(EAGINE_MSGBUS_ID(requestId), {});
+                _no_id_timeout.reset();
+                something_done();
+            }
         }
-        something_done(conn->update());
-        something_done(conn->fetch_messages(_store_handler));
+        something_done(_connection->update());
+        something_done(_connection->fetch_messages(_store_handler));
     }
 
     // if processing the messages assigned the endpoint id
-    if(EAGINE_UNLIKELY(has_id() && !had_id)) {
-        log().debug("announcing endpoint id ${id}").arg(EAGINE_ID(id), _id);
-        // send the endpoint id through all connections
-        _do_send(EAGINE_MSGBUS_ID(annEndptId), {});
-        // send request for router certificate
-        _do_send(EAGINE_MSGBUS_ID(rtrCertQry), {});
-        something_done();
+    if(EAGINE_UNLIKELY(!had_id)) {
+        if(_connection) {
+            if(has_id()) {
+                log()
+                  .debug("announcing endpoint id ${id} assigned by router")
+                  .arg(EAGINE_ID(id), get_id());
+                // send the endpoint id through all connections
+                _do_send(EAGINE_MSGBUS_ID(annEndptId), {});
+                // send request for router certificate
+                _do_send(EAGINE_MSGBUS_ID(rtrCertQry), {});
+                something_done();
+            } else if(has_preconfigured_id()) {
+                if(_no_id_timeout) {
+                    log()
+                      .debug("announcing preconfigured endpoint id ${id}")
+                      .arg(EAGINE_ID(id), get_preconfigured_id());
+                    // send the endpoint id through all connections
+                    message_view ann_in_msg{};
+                    ann_in_msg.set_source_id(get_preconfigured_id());
+                    _connection->send(EAGINE_MSGBUS_ID(annEndptId), ann_in_msg);
+                    _no_id_timeout.reset();
+                    something_done();
+                }
+            }
+        }
     }
 
     // if we have a valid id and we have messages in outbox

@@ -14,6 +14,7 @@ function(eagine_example_common EXAMPLE_NAME)
 		eagine-${EXAMPLE_NAME}
 		EXCLUDE_FROM_ALL
 		"${EXAMPLE_NAME}.cpp"
+		${ARGN}
 	)
 	eagine_add_exe_analysis(eagine-${EXAMPLE_NAME})
 	add_dependencies(eagine-examples eagine-${EXAMPLE_NAME})
