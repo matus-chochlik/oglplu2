@@ -29,6 +29,7 @@ namespace msgbus {
 //------------------------------------------------------------------------------
 struct ping_stats {
     std::string hostname;
+    span_size_t num_cores{0};
     std::chrono::microseconds min_time{std::chrono::microseconds::max()};
     std::chrono::microseconds max_time{std::chrono::microseconds::zero()};
     std::chrono::microseconds sum_time{std::chrono::microseconds::zero()};
@@ -89,9 +90,17 @@ public:
             _log.info("pingable ${id} disappeared").arg(EAGINE_ID(id), id);
         }
     }
+
     void on_hostname_received(identifier_t id, string_view hostname) final {
         auto& stats = _targets[id];
         stats.hostname = to_string(hostname);
+    }
+
+    void on_cpu_concurrent_threads_received(
+      identifier_t id,
+      span_size_t num_cores) final {
+        auto& stats = _targets[id];
+        stats.num_cores = num_cores;
     }
 
     void on_ping_response(
@@ -158,6 +167,9 @@ public:
                             if(entry.hostname.empty()) {
                                 this->query_hostname(pingable_id);
                             }
+                            if(!entry.num_cores) {
+                                this->query_cpu_concurrent_threads(pingable_id);
+                            }
                         }
                         something_done();
                     }
@@ -185,6 +197,7 @@ public:
             _log.stat("pingable ${id} stats:")
               .arg(EAGINE_ID(id), id)
               .arg(EAGINE_ID(hostname), info.hostname)
+              .arg(EAGINE_ID(numCores), info.num_cores)
               .arg(EAGINE_ID(minTime), info.min_time)
               .arg(EAGINE_ID(maxTime), info.max_time)
               .arg(EAGINE_ID(avgTime), info.avg_time())
