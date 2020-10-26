@@ -79,6 +79,43 @@ public:
 };
 //------------------------------------------------------------------------------
 template <
+  typename Result,
+  typename Serializer,
+  typename Deserializer,
+  std::size_t MaxDataSize>
+class skeleton<Result(), Serializer, Deserializer, MaxDataSize> {
+public:
+    auto call(
+      endpoint& bus,
+      const stored_message& msg_in,
+      message_id msg_id,
+      memory::block buffer,
+      callable_ref<Result()> func) -> bool {
+
+        const auto result{func};
+        block_data_sink sink(buffer);
+        Serializer write_backend(sink);
+
+        const auto errors = serialize(result, write_backend);
+        EAGINE_ASSERT(!errors);
+        EAGINE_MAYBE_UNUSED(errors);
+        message_view msg_out{sink.done()};
+        msg_out.set_serializer_id(write_backend.type_id());
+        bus.respond_to(msg_in, msg_id, msg_out);
+        return true;
+    }
+
+    auto call(
+      endpoint& bus,
+      const stored_message& msg_in,
+      message_id msg_id,
+      callable_ref<Result()> func) -> bool {
+        std::array<byte, MaxDataSize> buffer{};
+        return call(bus, msg_in, msg_id, cover(buffer), func);
+    }
+};
+//------------------------------------------------------------------------------
+template <
   typename Signature,
   typename Serializer,
   typename Deserializer,
