@@ -60,11 +60,9 @@ public:
     constexpr callable_ref() noexcept = default;
 
     constexpr callable_ref(callable_ref&& temp) noexcept
-      : _data{temp._data}
-      , _func{temp._func} {
-        temp._data = nullptr;
-        temp._func = nullptr;
-    }
+      : _data{std::exchange(temp._data, nullptr)}
+      , _func{std::exchange(temp._func, nullptr)} {}
+
     constexpr callable_ref(const callable_ref&) noexcept = default;
 
     constexpr auto operator=(callable_ref&& temp) noexcept -> callable_ref& {
