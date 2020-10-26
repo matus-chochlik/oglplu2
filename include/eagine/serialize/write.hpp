@@ -17,6 +17,7 @@
 #include "../reflect/enumerators.hpp"
 #include "write_backend.hpp"
 #include <array>
+#include <chrono>
 #include <string>
 #include <tuple>
 #include <type_traits>
@@ -394,6 +395,19 @@ struct serializer<std::vector<T, A>> : common_serializer<std::vector<T, A>> {
 
 private:
     serializer<T> _elem_serializer{};
+};
+//------------------------------------------------------------------------------
+template <typename Rep>
+struct serializer<std::chrono::duration<Rep>>
+  : common_serializer<std::chrono::duration<Rep>> {
+
+    template <typename Backend>
+    auto write(std::chrono::duration<Rep> value, Backend& backend) {
+        return _serializer.write(value.count(), backend);
+    }
+
+private:
+    serializer<Rep> _serializer{};
 };
 //------------------------------------------------------------------------------
 template <typename T>

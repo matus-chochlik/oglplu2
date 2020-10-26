@@ -13,8 +13,7 @@
 #include "../../bool_aggregate.hpp"
 #include "../../main_ctx.hpp"
 #include "../../maybe_unused.hpp"
-#include "../serialize.hpp"
-#include "../subscriber.hpp"
+#include "../service.hpp"
 #include <array>
 #include <chrono>
 
@@ -61,10 +60,9 @@ private:
     }
 
     auto _provide_uptime(stored_message& message) -> bool {
-        auto uptime{main_ctx::get().system().uptime()};
+        const auto uptime{main_ctx::get().system().uptime()};
         std::array<byte, 32> temp{};
-        const float seconds{uptime.count()};
-        if(auto serialized{default_serialize(seconds, cover(temp))}) {
+        if(auto serialized{default_serialize(uptime, cover(temp))}) {
             this->bus().respond_to(
               message,
               EAGINE_MSG_ID(eagiSysInf, uptime),
@@ -213,10 +211,9 @@ private:
     }
 
     auto _consume_uptime(stored_message& message) -> bool {
-        float seconds{0.F};
-        if(default_deserialize(seconds, message.content())) {
-            on_uptime_received(
-              message.source_id, std::chrono::duration<float>(seconds));
+        std::chrono::duration<float> uptime{};
+        if(default_deserialize(uptime, message.content())) {
+            on_uptime_received(message.source_id, uptime);
         }
         return true;
     }

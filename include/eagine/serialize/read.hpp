@@ -17,6 +17,7 @@
 #include "read_backend.hpp"
 #include <algorithm>
 #include <array>
+#include <chrono>
 #include <string>
 #include <tuple>
 #include <type_traits>
@@ -161,6 +162,24 @@ struct deserializer<bitfield<Bit>> : common_deserializer<bitfield<Bit>> {
 
 private:
     deserializer<typename bitfield<Bit>::value_type> _deserializer{};
+};
+//------------------------------------------------------------------------------
+template <typename Rep>
+struct deserializer<std::chrono::duration<Rep>>
+  : common_deserializer<std::chrono::duration<Rep>> {
+
+    template <typename Backend>
+    auto read(std::chrono::duration<Rep>& value, Backend& backend) const {
+        Rep temp{0};
+        auto errors{_deserializer.read(temp, backend)};
+        if(!errors) {
+            value = std::chrono::duration<Rep>{temp};
+        }
+        return errors;
+    }
+
+private:
+    deserializer<Rep> _deserializer{};
 };
 //------------------------------------------------------------------------------
 template <typename... T>
