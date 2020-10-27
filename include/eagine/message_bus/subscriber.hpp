@@ -295,11 +295,24 @@ public:
 
     template <typename Class, bool (Class::*Method)(stored_message&)>
     void add_method(
-      Class& instance,
+      Class* instance,
       message_handler_map<
         member_function_constant<bool (Class::*)(stored_message&), Method>>
         msg_map) noexcept {
         add_method(instance, msg_map.msg_id(), msg_map.method());
+    }
+
+    template <typename Class, bool (Class::*Method)(stored_message&)>
+    void add_method(
+      std::tuple<
+        Class*,
+        message_handler_map<
+          member_function_constant<bool (Class::*)(stored_message&), Method>>>
+        imm) noexcept {
+        add_method(
+          std::get<0>(imm),
+          std::get<1>(imm).msg_id(),
+          std::get<1>(imm).method());
     }
 
     template <

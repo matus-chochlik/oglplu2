@@ -81,7 +81,7 @@ public:
         return invoke_on(bus, broadcast_endpoint_id(), msg_id, args...);
     }
 
-    void fulfill_by(const stored_message& message) {
+    auto fulfill_by(stored_message& message) -> bool {
         const auto invocation_id = message.sequence_no;
         std::remove_cv_t<std::remove_reference_t<Result>> result{};
 
@@ -94,11 +94,18 @@ public:
                 _results.fulfill(invocation_id, result);
             }
         }
+        return true;
     }
 
-    auto make_fullfill_message_map(message_id msg_id) noexcept {
-        return message_handler_map<EAGINE_MEM_FUNC_T(invoker, fulfill_by)>(
-          msg_id);
+    constexpr auto map_fulfill_by(message_id msg_id) noexcept {
+        return std::tuple<
+          invoker*,
+          message_handler_map<EAGINE_MEM_FUNC_T(invoker, fulfill_by)>>(
+          this, msg_id);
+    }
+
+    constexpr auto operator[](message_id msg_id) noexcept {
+        return map_fulfill_by(msg_id);
     }
 
     auto has_pending() const noexcept -> bool {
