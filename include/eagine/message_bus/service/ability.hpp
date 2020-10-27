@@ -70,13 +70,13 @@ public:
         this->bus().broadcast(EAGINE_MSG_ID(Ability, query), message);
     }
 
-    virtual void handler_found(identifier_t target_id, message_id) = 0;
+    virtual void on_handler_found(identifier_t target_id, message_id) = 0;
 
 private:
     auto _handle_response(stored_message& message) -> bool {
         message_id msg_id{};
         if(default_deserialize_message_type(msg_id, message.content())) {
-            handler_found(message.source_id, msg_id);
+            on_handler_found(message.source_id, msg_id);
         }
         return true;
     }

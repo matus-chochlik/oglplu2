@@ -13,28 +13,13 @@
 #include "../maybe_unused.hpp"
 #include "../span.hpp"
 #include "endpoint.hpp"
+#include "handler_map.hpp"
 #include "verification.hpp"
 #include <array>
 #include <type_traits>
 #include <vector>
 
 namespace eagine::msgbus {
-//------------------------------------------------------------------------------
-template <typename MessageId, typename MemFuncConst>
-struct message_handler_map {
-    static constexpr auto msg_id() noexcept -> MessageId {
-        return {};
-    }
-
-    static constexpr auto method() noexcept -> MemFuncConst {
-        return {};
-    }
-};
-//------------------------------------------------------------------------------
-#define EAGINE_MSG_MAP(CLASS_ID, METHOD_ID, CLASS, METHOD) \
-    eagine::msgbus::message_handler_map<                   \
-      EAGINE_MSG_TYPE(CLASS_ID, METHOD_ID),                \
-      EAGINE_MEM_FUNC_T(CLASS, METHOD)>()
 //------------------------------------------------------------------------------
 class subscriber_base {
     endpoint* _endpoint{nullptr};
@@ -99,7 +84,7 @@ protected:
           bool (Class::*HandlerFunc)(stored_message&)>
         handler_entry(
           Class* instance,
-          message_handler_map<
+          static_message_handler_map<
             static_message_id<ClassId, MethodId>,
             member_function_constant<
               bool (Class::*)(stored_message&),
@@ -114,7 +99,7 @@ protected:
           bool (Class::*HandlerFunc)(stored_message&)>
         handler_entry(
           Class* instance,
-          message_handler_map<
+          static_message_handler_map<
             static_message_id<ClassId, MethodId>,
             member_function_constant<
               bool (Class::*)(stored_message&) const,
@@ -308,6 +293,15 @@ public:
         _msg_handlers.emplace_back(msg_id, method_handler{instance, method});
     }
 
+    template <typename Class, bool (Class::*Method)(stored_message&)>
+    void add_method(
+      Class& instance,
+      message_handler_map<
+        member_function_constant<bool (Class::*)(stored_message&), Method>>
+        msg_map) noexcept {
+        add_method(instance, msg_map.msg_id(), msg_map.method());
+    }
+
     template <
       typename Class,
       bool (Class::*Method)(stored_message&),
@@ -315,7 +309,7 @@ public:
       identifier_t MethodId>
     void add_method(
       Class* instance,
-      message_handler_map<
+      static_message_handler_map<
         static_message_id<ClassId, MethodId>,
         member_function_constant<bool (Class::*)(stored_message&), Method>>
         msg_map) noexcept {

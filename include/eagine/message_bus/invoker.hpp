@@ -14,6 +14,7 @@
 #include "../serialize/block_source.hpp"
 #include "endpoint.hpp"
 #include "future.hpp"
+#include "handler_map.hpp"
 #include "serialize.hpp"
 #include <array>
 #include <tuple>
@@ -88,11 +89,16 @@ public:
         Deserializer read_backend(source);
 
         if(message.has_serializer_id(read_backend.type_id())) {
-            const auto errors = deserialize(result, read_backend);
+            const auto errors{deserialize(result, read_backend)};
             if(!errors) {
                 _results.fulfill(invocation_id, result);
             }
         }
+    }
+
+    auto make_fullfill_message_map(message_id msg_id) noexcept {
+        return message_handler_map<EAGINE_MEM_FUNC_T(invoker, fulfill_by)>(
+          msg_id);
     }
 
     auto has_pending() const noexcept -> bool {
