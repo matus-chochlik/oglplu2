@@ -73,6 +73,13 @@ public:
 };
 //------------------------------------------------------------------------------
 template <typename Signature, std::size_t MaxDataSize = 8192 - 128>
+using default_callback_invoker = callback_invoker<
+  Signature,
+  default_serializer_backend,
+  default_deserializer_backend,
+  MaxDataSize>;
+//------------------------------------------------------------------------------
+template <typename Signature, std::size_t MaxDataSize = 8192 - 128>
 using default_invoker = invoker<
   Signature,
   default_serializer_backend,

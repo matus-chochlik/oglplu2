@@ -10,6 +10,7 @@
 #ifndef EAGINE_MESSAGE_BUS_INVOKER_HPP
 #define EAGINE_MESSAGE_BUS_INVOKER_HPP
 
+#include "../callable_ref.hpp"
 #include "../serialize/block_sink.hpp"
 #include "../serialize/block_source.hpp"
 #include "endpoint.hpp"
@@ -20,6 +21,86 @@
 #include <tuple>
 
 namespace eagine::msgbus {
+//------------------------------------------------------------------------------
+template <
+  typename Signature,
+  typename Serializer,
+  typename Deserializer,
+  std::size_t MaxDataSize>
+class callback_invoker {
+    using _callback_t =
+      callable_ref<void(std::remove_cv_t<std::remove_reference_t<
+                          std::invoke_result_t<Signature>>>)>;
+
+public:
+    callback_invoker() noexcept = default;
+    callback_invoker(callable_ref<Signature> callback) noexcept
+      : _callback{callback} {}
+
+    template <typename Class, typename RV, typename... P>
+    auto operator()(
+      Class* that,
+      RV (Class::*func)(P...) noexcept(
+        is_noexcept_function_v<Signature>)) noexcept -> callback_invoker& {
+        _callback = _callback_t{that, func};
+        return *this;
+    }
+
+    template <typename... Args>
+    auto invoke_on(
+      endpoint& bus,
+      identifier_t target_id,
+      message_id msg_id,
+      memory::block buffer,
+      Args&&... args) -> bool {
+
+        auto tupl{std::tie(std::forward<Args>(args)...)};
+
+        block_data_sink sink(buffer);
+        Serializer write_backend(sink);
+
+        const auto errors = serialize(tupl, write_backend);
+        if(!errors) {
+            message_view message{sink.done()};
+            message.set_serializer_id(write_backend.type_id());
+            message.set_target_id(target_id);
+            bus.send(msg_id, message);
+
+            return true;
+        }
+        return false;
+    }
+
+    auto fulfill_by(stored_message& message) -> bool {
+        std::remove_cv_t<std::remove_reference_t<std::invoke_result_t<Signature>>>
+          result{};
+
+        block_data_source source(message.content());
+        Deserializer read_backend(source);
+
+        if(message.has_serializer_id(read_backend.type_id())) {
+            const auto errors{deserialize(result, read_backend)};
+            if(!errors) {
+                _callback(std::move(result));
+            }
+        }
+        return true;
+    }
+
+    constexpr auto map_fulfill_by(message_id msg_id) noexcept {
+        return std::tuple<
+          callback_invoker*,
+          message_handler_map<EAGINE_MEM_FUNC_T(callback_invoker, fulfill_by)>>(
+          this, msg_id);
+    }
+
+    constexpr auto operator[](message_id msg_id) noexcept {
+        return map_fulfill_by(msg_id);
+    }
+
+private:
+    _callback_t _callback{};
+};
 //------------------------------------------------------------------------------
 template <
   typename Result,
