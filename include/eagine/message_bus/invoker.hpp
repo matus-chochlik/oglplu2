@@ -23,26 +23,116 @@
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 template <
+  typename Result,
+  typename Serializer,
+  typename Deserializer,
+  std::size_t MaxDataSize,
+  bool NoExcept>
+class callback_invoker_base {
+    using _callback_t = callable_ref<void(Result) noexcept(NoExcept)>;
+
+public:
+    auto fulfill_by(stored_message& message) -> bool {
+        Result result{};
+
+        block_data_source source(message.content());
+        Deserializer read_backend(source);
+
+        if(message.has_serializer_id(read_backend.type_id())) {
+            const auto errors{deserialize(result, read_backend)};
+            if(!errors) {
+                _callback(std::move(result));
+            }
+        }
+        return true;
+    }
+
+    constexpr auto map_fulfill_by(message_id msg_id) noexcept {
+        return std::tuple<
+          callback_invoker_base*,
+          message_handler_map<EAGINE_MEM_FUNC_T(
+            callback_invoker_base, fulfill_by)>>(this, msg_id);
+    }
+
+    constexpr auto operator[](message_id msg_id) noexcept {
+        return map_fulfill_by(msg_id);
+    }
+
+protected:
+    _callback_t _callback{};
+};
+//------------------------------------------------------------------------------
+template <
+  typename Serializer,
+  typename Deserializer,
+  std::size_t MaxDataSize,
+  bool NoExcept>
+class callback_invoker_base<void, Serializer, Deserializer, MaxDataSize, NoExcept> {
+    using _callback_t = callable_ref_impl<void() noexcept(NoExcept), NoExcept>;
+
+public:
+    auto fulfill_by(stored_message&) -> bool {
+        _callback();
+        return true;
+    }
+
+    constexpr auto map_fulfill_by(message_id msg_id) noexcept {
+        return std::tuple<
+          callback_invoker_base*,
+          message_handler_map<EAGINE_MEM_FUNC_T(
+            callback_invoker_base, fulfill_by)>>(this, msg_id);
+    }
+
+    constexpr auto operator[](message_id msg_id) noexcept {
+        return map_fulfill_by(msg_id);
+    }
+
+protected:
+    _callback_t _callback{};
+};
+//------------------------------------------------------------------------------
+template <
   typename Signature,
   typename Serializer,
   typename Deserializer,
   std::size_t MaxDataSize>
-class callback_invoker {
-    using _callback_t =
-      callable_ref<void(std::remove_cv_t<std::remove_reference_t<
-                          std::invoke_result_t<Signature>>>)>;
+class callback_invoker
+  : public callback_invoker_base<
+      std::remove_cv_t<std::remove_reference_t<std::invoke_result_t<Signature>>>,
+      Serializer,
+      Deserializer,
+      MaxDataSize,
+      is_noexcept_function_v<Signature>> {
+
+    using _result_t =
+      std::remove_cv_t<std::remove_reference_t<std::invoke_result_t<Signature>>>;
+    using base = callback_invoker_base<
+      _result_t,
+      Serializer,
+      Deserializer,
+      MaxDataSize,
+      is_noexcept_function_v<Signature>>;
+    using _callback_t = typename base::_callback_t;
 
 public:
-    callback_invoker() noexcept = default;
-    callback_invoker(callable_ref<Signature> callback) noexcept
-      : _callback{callback} {}
+    using base::base;
 
-    template <typename Class, typename RV, typename... P>
+    template <typename Class>
     auto operator()(
       Class* that,
-      RV (Class::*func)(P...) noexcept(
-        is_noexcept_function_v<Signature>)) noexcept -> callback_invoker& {
-        _callback = _callback_t{that, func};
+      void (Class::*func)(_result_t) noexcept(is_noexcept_function_v<Signature>))
+      -> callback_invoker& {
+        this->_callback = _callback_t{that, func};
+        return *this;
+    }
+
+    template <typename Class>
+    auto operator()(
+      const Class* that,
+      void (Class::*func)(_result_t)
+        const noexcept(is_noexcept_function_v<Signature>))
+      -> callback_invoker& {
+        this->_callback = _callback_t{that, func};
         return *this;
     }
 
@@ -53,7 +143,6 @@ public:
       message_id msg_id,
       memory::block buffer,
       Args&&... args) -> bool {
-
         auto tupl{std::tie(std::forward<Args>(args)...)};
 
         block_data_sink sink(buffer);
@@ -70,36 +159,6 @@ public:
         }
         return false;
     }
-
-    auto fulfill_by(stored_message& message) -> bool {
-        std::remove_cv_t<std::remove_reference_t<std::invoke_result_t<Signature>>>
-          result{};
-
-        block_data_source source(message.content());
-        Deserializer read_backend(source);
-
-        if(message.has_serializer_id(read_backend.type_id())) {
-            const auto errors{deserialize(result, read_backend)};
-            if(!errors) {
-                _callback(std::move(result));
-            }
-        }
-        return true;
-    }
-
-    constexpr auto map_fulfill_by(message_id msg_id) noexcept {
-        return std::tuple<
-          callback_invoker*,
-          message_handler_map<EAGINE_MEM_FUNC_T(callback_invoker, fulfill_by)>>(
-          this, msg_id);
-    }
-
-    constexpr auto operator[](message_id msg_id) noexcept {
-        return map_fulfill_by(msg_id);
-    }
-
-private:
-    _callback_t _callback{};
 };
 //------------------------------------------------------------------------------
 template <

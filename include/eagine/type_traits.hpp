@@ -25,7 +25,7 @@ template <typename Sig>
 using is_noexcept_function_t = typename is_noexcept_function<Sig>::type;
 
 template <typename Sig>
-constexpr bool is_noexcept_function_v = is_noexcept_function<Sig>::value;
+inline constexpr bool is_noexcept_function_v = is_noexcept_function<Sig>::value;
 
 template <typename RV, typename... P>
 struct is_noexcept_function<RV(P...)> : std::false_type {};
