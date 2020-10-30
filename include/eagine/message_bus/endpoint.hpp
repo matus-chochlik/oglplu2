@@ -22,6 +22,46 @@
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 class friend_of_endpoint;
+class endpoint;
+//------------------------------------------------------------------------------
+class message_context {
+public:
+    message_context(endpoint& ep) noexcept
+      : _bus{ep} {}
+
+    auto bus() const noexcept -> endpoint& {
+        return _bus;
+    }
+
+    auto msg_id() const noexcept -> const message_id& {
+        return _msg_id;
+    }
+
+    auto request() noexcept -> stored_message& {
+        EAGINE_ASSERT(_request_ptr);
+        return *_request_ptr;
+    }
+
+protected:
+    endpoint& _bus;
+    message_id _msg_id{};
+    stored_message* _request_ptr{nullptr};
+};
+//------------------------------------------------------------------------------
+class message_context_setup : public message_context {
+public:
+    using message_context::message_context;
+
+    auto set_msg_id(message_id msg_id) noexcept -> message_context_setup& {
+        _msg_id = std::move(msg_id);
+        return *this;
+    }
+
+    auto set_request(stored_message& msg) noexcept -> message_context_setup& {
+        _request_ptr = &msg;
+        return *this;
+    }
+};
 //------------------------------------------------------------------------------
 class endpoint : public connection_user {
 public:
@@ -332,7 +372,7 @@ public:
 
     auto process_all(message_id msg_id, method_handler handler) -> span_size_t;
 
-    using generic_handler = callable_ref<bool(message_id, stored_message&)>;
+    using generic_handler = callable_ref<bool(message_context&)>;
 
     auto process_everything(generic_handler handler) -> span_size_t;
 };

@@ -20,9 +20,9 @@ ${install_prefix}/share/oglplus/examples/eagine-005_byte_histogram\
 	${conn_type} \
 	& pids+=($!)
 sleep 3
-for i in {1..20}
+for f in $(find /etc/ -maxdepth 1 -type f -readable | head -20)
 do
-	${install_prefix}/share/oglplus/examples/eagine-005_broadcast_blob\
+	${install_prefix}/share/oglplus/examples/eagine-005_broadcast_blob "${f}" \
 		"${log_args[@]}" \
 		${conn_type}
 	sleep 5

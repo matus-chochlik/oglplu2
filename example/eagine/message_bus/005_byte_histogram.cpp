@@ -24,18 +24,17 @@ auto main(main_ctx& ctx) -> int {
 
     std::array<span_size_t, 256> byte_counts{};
 
-    auto log_byte_hist = [&ctx, &byte_counts](
-                           message_id msg_id, msgbus::stored_message& message) {
+    auto log_byte_hist = [&ctx, &byte_counts](msgbus::message_context& mc) {
         zero(cover(byte_counts));
 
         span_size_t max_count{0};
-        for(auto b : message.content()) {
+        for(auto b : mc.request().content()) {
             max_count = math::maximum(max_count, ++byte_counts[std_size(b)]);
         }
 
         ctx.log()
           .info("received blob message ${message}")
-          .arg(EAGINE_ID(message), msg_id)
+          .arg(EAGINE_ID(message), mc.msg_id())
           .arg_func([&byte_counts, max_count](logger_backend& backend) {
               for(std::size_t i = 0; i < 256; ++i) {
                   backend.add_float(
@@ -67,12 +66,11 @@ auto main(main_ctx& ctx) -> int {
 
     timeout idle_too_long{std::chrono::minutes{1}};
     while(!idle_too_long) {
-        if(bus.update()) {
+        if(bus.update() || bus.process_everything(handler)) {
             idle_too_long.reset();
         } else {
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
         }
-        bus.process_everything(handler);
     }
     bus.finish();
 

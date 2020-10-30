@@ -612,9 +612,13 @@ auto endpoint::process_all(message_id msg_id, method_handler handler)
 EAGINE_LIB_FUNC
 auto endpoint::process_everything(generic_handler handler) -> span_size_t {
     span_size_t result = 0;
+    message_context_setup msg_ctx{*this};
+
     for(auto& entry : _incoming) {
-        auto wrapped_handler = [&entry, handler](stored_message& message) {
-            return handler(std::get<0>(entry), message);
+        msg_ctx.set_msg_id(std::get<0>(entry));
+        auto wrapped_handler = [&msg_ctx, handler](stored_message& message) {
+            msg_ctx.set_request(message);
+            return handler(msg_ctx);
         };
         result += _get_queue(entry).do_process_all(wrapped_handler);
     }
