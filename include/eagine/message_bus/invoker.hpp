@@ -47,17 +47,6 @@ public:
         return true;
     }
 
-    constexpr auto map_fulfill_by(message_id msg_id) noexcept {
-        return std::tuple<
-          callback_invoker_base*,
-          message_handler_map<EAGINE_MEM_FUNC_T(
-            callback_invoker_base, fulfill_by)>>(this, msg_id);
-    }
-
-    constexpr auto operator[](message_id msg_id) noexcept {
-        return map_fulfill_by(msg_id);
-    }
-
 protected:
     _callback_t _callback{};
 };
@@ -74,17 +63,6 @@ public:
     auto fulfill_by(stored_message&) -> bool {
         _callback();
         return true;
-    }
-
-    constexpr auto map_fulfill_by(message_id msg_id) noexcept {
-        return std::tuple<
-          callback_invoker_base*,
-          message_handler_map<EAGINE_MEM_FUNC_T(
-            callback_invoker_base, fulfill_by)>>(this, msg_id);
-    }
-
-    constexpr auto operator[](message_id msg_id) noexcept {
-        return map_fulfill_by(msg_id);
     }
 
 protected:
@@ -158,6 +136,16 @@ public:
             return true;
         }
         return false;
+    }
+
+    constexpr auto map_fulfill_by(message_id msg_id) noexcept {
+        return std::
+          tuple<base*, message_handler_map<EAGINE_MEM_FUNC_T(base, fulfill_by)>>(
+            this, msg_id);
+    }
+
+    constexpr auto operator[](message_id msg_id) noexcept {
+        return map_fulfill_by(msg_id);
     }
 };
 //------------------------------------------------------------------------------
