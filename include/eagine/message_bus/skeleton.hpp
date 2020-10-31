@@ -28,31 +28,44 @@ template <
   typename Serializer,
   typename Deserializer,
   std::size_t MaxDataSize>
-class skeleton;
-//------------------------------------------------------------------------------
-template <
-  typename Result,
-  typename... Params,
-  typename Serializer,
-  typename Deserializer,
-  std::size_t MaxDataSize>
-class skeleton<Result(Params...), Serializer, Deserializer, MaxDataSize> {
+class skeleton {
 public:
     auto call(
       const message_context& msg_ctx,
       const stored_message& request,
       message_id response_id,
       memory::block buffer,
-      callable_ref<Result(Params...)> func) -> bool {
-        std::tuple<std::remove_cv_t<std::remove_reference_t<Params>>...> tupl{};
+      callable_ref<Signature> func) -> bool {
+        return _do_call(
+          msg_ctx, request, response_id, buffer, func, func.argument_tuple());
+    }
+
+    auto call(
+      const message_context& msg_ctx,
+      const stored_message& request,
+      message_id response_id,
+      callable_ref<Signature> func) -> bool {
+        std::array<byte, MaxDataSize> buffer{};
+        return call(msg_ctx, request, response_id, cover(buffer), func);
+    }
+
+private:
+    template <typename... Params>
+    auto _do_call(
+      const message_context& msg_ctx,
+      const stored_message& request,
+      message_id response_id,
+      memory::block buffer,
+      callable_ref<Signature> func,
+      std::tuple<Params...> args) -> bool {
 
         block_data_source source(request.content());
         Deserializer read_backend(source);
 
         if(request.has_serializer_id(read_backend.type_id())) {
-            const auto read_errors = deserialize(tupl, read_backend);
+            const auto read_errors = deserialize(args, read_backend);
             if(!read_errors) {
-                const auto result{std::apply(func, tupl)};
+                const auto result{std::apply(func, args)};
                 block_data_sink sink(buffer);
                 Serializer write_backend(sink);
 
@@ -68,31 +81,15 @@ public:
         return false;
     }
 
-    auto call(
-      const message_context& msg_ctx,
-      const stored_message& request,
-      message_id response_id,
-      callable_ref<Result(Params...)> func) -> bool {
-        std::array<byte, MaxDataSize> buffer{};
-        return call(msg_ctx, request, response_id, cover(buffer), func);
-    }
-};
-//------------------------------------------------------------------------------
-template <
-  typename Result,
-  typename Serializer,
-  typename Deserializer,
-  std::size_t MaxDataSize>
-class skeleton<Result(), Serializer, Deserializer, MaxDataSize> {
-public:
-    auto call(
+    auto _do_call(
       const message_context& msg_ctx,
       const stored_message& request,
       message_id response_id,
       memory::block buffer,
-      callable_ref<Result()> func) -> bool {
+      callable_ref<Signature> func,
+      std::tuple<>) -> bool {
 
-        const auto result{func};
+        const auto result{func()};
         block_data_sink sink(buffer);
         Serializer write_backend(sink);
 
@@ -103,15 +100,6 @@ public:
         msg_out.set_serializer_id(write_backend.type_id());
         msg_ctx.bus().respond_to(request, response_id, msg_out);
         return true;
-    }
-
-    auto call(
-      const message_context& msg_ctx,
-      const stored_message& request,
-      message_id response_id,
-      callable_ref<Result()> func) -> bool {
-        std::array<byte, MaxDataSize> buffer{};
-        return call(msg_ctx, request, response_id, cover(buffer), func);
     }
 };
 //------------------------------------------------------------------------------
@@ -134,23 +122,21 @@ public:
       : _response_id{std::move(response_id)}
       , _function{std::move(function)} {}
 
-    template <typename RV, typename Class, typename... P>
+    template <typename Class, typename MfcT, MfcT Mfc>
     auto operator()(
       message_id response_id,
       Class* that,
-      RV (Class::*func)(P...) noexcept(is_noexcept_function_v<Signature>))
-      -> function_skeleton& {
+      member_function_constant<MfcT, Mfc> func) -> function_skeleton& {
         _response_id = std::move(response_id);
         _function = _function_t{that, func};
         return *this;
     }
 
-    template <typename RV, typename Class, typename... P>
+    template <typename Class, typename MfcT, MfcT Mfc>
     auto operator()(
       message_id response_id,
       const Class* that,
-      RV (Class::*func)(P...) const noexcept(is_noexcept_function_v<Signature>))
-      -> function_skeleton& {
+      member_function_constant<MfcT, Mfc> func) -> function_skeleton& {
         _response_id = std::move(response_id);
         _function = _function_t{that, func};
         return *this;
