@@ -39,17 +39,17 @@ template <
 class skeleton<Result(Params...), Serializer, Deserializer, MaxDataSize> {
 public:
     auto call(
-      endpoint& bus,
-      const stored_message& msg_in,
-      message_id msg_id,
+      const message_context& msg_ctx,
+      const stored_message& request,
+      message_id response_id,
       memory::block buffer,
       callable_ref<Result(Params...)> func) -> bool {
         std::tuple<std::remove_cv_t<std::remove_reference_t<Params>>...> tupl{};
 
-        block_data_source source(msg_in.content());
+        block_data_source source(request.content());
         Deserializer read_backend(source);
 
-        if(msg_in.has_serializer_id(read_backend.type_id())) {
+        if(request.has_serializer_id(read_backend.type_id())) {
             const auto read_errors = deserialize(tupl, read_backend);
             if(!read_errors) {
                 const auto result{std::apply(func, tupl)};
@@ -61,7 +61,7 @@ public:
                 EAGINE_MAYBE_UNUSED(errors);
                 message_view msg_out{sink.done()};
                 msg_out.set_serializer_id(write_backend.type_id());
-                bus.respond_to(msg_in, msg_id, msg_out);
+                msg_ctx.bus().respond_to(request, response_id, msg_out);
                 return true;
             }
         }
@@ -69,12 +69,12 @@ public:
     }
 
     auto call(
-      endpoint& bus,
-      const stored_message& msg_in,
-      message_id msg_id,
+      const message_context& msg_ctx,
+      const stored_message& request,
+      message_id response_id,
       callable_ref<Result(Params...)> func) -> bool {
         std::array<byte, MaxDataSize> buffer{};
-        return call(bus, msg_in, msg_id, cover(buffer), func);
+        return call(msg_ctx, request, response_id, cover(buffer), func);
     }
 };
 //------------------------------------------------------------------------------
@@ -86,9 +86,9 @@ template <
 class skeleton<Result(), Serializer, Deserializer, MaxDataSize> {
 public:
     auto call(
-      endpoint& bus,
-      const stored_message& msg_in,
-      message_id msg_id,
+      const message_context& msg_ctx,
+      const stored_message& request,
+      message_id response_id,
       memory::block buffer,
       callable_ref<Result()> func) -> bool {
 
@@ -101,18 +101,80 @@ public:
         EAGINE_MAYBE_UNUSED(errors);
         message_view msg_out{sink.done()};
         msg_out.set_serializer_id(write_backend.type_id());
-        bus.respond_to(msg_in, msg_id, msg_out);
+        msg_ctx.bus().respond_to(request, response_id, msg_out);
         return true;
     }
 
     auto call(
-      endpoint& bus,
-      const stored_message& msg_in,
-      message_id msg_id,
+      const message_context& msg_ctx,
+      const stored_message& request,
+      message_id response_id,
       callable_ref<Result()> func) -> bool {
         std::array<byte, MaxDataSize> buffer{};
-        return call(bus, msg_in, msg_id, cover(buffer), func);
+        return call(msg_ctx, request, response_id, cover(buffer), func);
     }
+};
+//------------------------------------------------------------------------------
+template <
+  typename Signature,
+  typename Serializer,
+  typename Deserializer,
+  std::size_t MaxDataSize>
+class function_skeleton
+  : public skeleton<Signature, Serializer, Deserializer, MaxDataSize> {
+
+    using _function_t = callable_ref<Signature>;
+
+public:
+    function_skeleton() noexcept = default;
+
+    function_skeleton(
+      message_id response_id,
+      callable_ref<Signature> function) noexcept
+      : _response_id{std::move(response_id)}
+      , _function{std::move(function)} {}
+
+    template <typename RV, typename Class, typename... P>
+    auto operator()(
+      message_id response_id,
+      Class* that,
+      RV (Class::*func)(P...) noexcept(is_noexcept_function_v<Signature>))
+      -> function_skeleton& {
+        _response_id = std::move(response_id);
+        _function = _function_t{that, func};
+        return *this;
+    }
+
+    template <typename RV, typename Class, typename... P>
+    auto operator()(
+      message_id response_id,
+      const Class* that,
+      RV (Class::*func)(P...) const noexcept(is_noexcept_function_v<Signature>))
+      -> function_skeleton& {
+        _response_id = std::move(response_id);
+        _function = _function_t{that, func};
+        return *this;
+    }
+
+    auto invoke_by(const message_context& msg_ctx, stored_message& request)
+      -> bool {
+        return this->call(msg_ctx.bus(), request, _response_id, _function);
+    }
+
+    constexpr auto map_invoke_by(message_id msg_id) noexcept {
+        return std::tuple<
+          function_skeleton*,
+          message_handler_map<EAGINE_MEM_FUNC_T(function_skeleton, invoke_by)>>(
+          this, msg_id);
+    }
+
+    constexpr auto operator[](message_id msg_id) noexcept {
+        return map_invoke_by(msg_id);
+    }
+
+private:
+    message_id _response_id{};
+    _function_t _function{};
 };
 //------------------------------------------------------------------------------
 template <
@@ -139,22 +201,22 @@ public:
       : _default_timeout{default_timeout} {}
 
     auto enqueue(
-      const stored_message& msg_in,
-      message_id msg_id,
+      const stored_message& request,
+      message_id response_id,
       callable_ref<Result(Params...)> func) -> bool {
-        auto [pos, emplaced] = _pending.try_emplace(msg_in.sequence_no);
+        auto [pos, emplaced] = _pending.try_emplace(request.sequence_no);
 
         if(emplaced) {
-            block_data_source source(msg_in.content());
+            block_data_source source(request.content());
             Deserializer read_backend(source);
 
-            if(msg_in.has_serializer_id(read_backend.type_id())) {
+            if(request.has_serializer_id(read_backend.type_id())) {
                 auto& call = pos->second;
                 const auto read_errors = deserialize(call.args, read_backend);
                 if(!read_errors) {
                     call.too_late.reset(_default_timeout);
-                    call.msg_id = msg_id;
-                    call.invoker_id = msg_in.source_id;
+                    call.response_id = response_id;
+                    call.invoker_id = request.source_id;
                     call.func = func;
                     return true;
                 }
@@ -183,7 +245,7 @@ public:
                 msg_out.set_serializer_id(write_backend.type_id());
                 msg_out.set_target_id(call.invoker_id);
                 msg_out.set_sequence_no(invocation_id);
-                bus.send(call.msg_id, msg_out);
+                bus.send(call.response_id, msg_out);
                 break;
             }
         }
@@ -203,7 +265,7 @@ private:
     std::chrono::milliseconds _default_timeout{1000};
 
     struct lazy_call {
-        message_id msg_id{};
+        message_id response_id{};
         std::tuple<std::remove_cv_t<std::remove_reference_t<Params>>...> args{};
         callable_ref<Result(Params...)> func{};
         timeout too_late{};
@@ -233,22 +295,22 @@ public:
     async_skeleton() noexcept = default;
 
     auto enqueue(
-      const stored_message& msg_in,
-      message_id msg_id,
+      const stored_message& request,
+      message_id response_id,
       callable_ref<Result(Params...)> func,
       workshop& workers) -> bool {
-        auto [pos, emplaced] = _pending.try_emplace(msg_in.sequence_no);
+        auto [pos, emplaced] = _pending.try_emplace(request.sequence_no);
 
         if(emplaced) {
-            block_data_source source(msg_in.content());
+            block_data_source source(request.content());
             Deserializer read_backend(source);
 
-            if(msg_in.has_serializer_id(read_backend.type_id())) {
+            if(request.has_serializer_id(read_backend.type_id())) {
                 auto& call = pos->second;
                 const auto read_errors = deserialize(call.args, read_backend);
                 if(!read_errors) {
-                    call.msg_id = msg_id;
-                    call.invoker_id = msg_in.source_id;
+                    call.response_id = response_id;
+                    call.invoker_id = request.source_id;
                     call.func = func;
                     workers.enqueue(call);
                     return true;
@@ -275,7 +337,7 @@ public:
                     msg_out.set_serializer_id(write_backend.type_id());
                     msg_out.set_target_id(call.invoker_id);
                     msg_out.set_sequence_no(invocation_id);
-                    bus.send(call.msg_id, msg_out);
+                    bus.send(call.response_id, msg_out);
                 }
                 _pending.erase(pos);
                 return true;
@@ -292,7 +354,7 @@ public:
 
 private:
     struct async_call : work_unit {
-        message_id msg_id{};
+        message_id response_id{};
         std::tuple<std::remove_cv_t<std::remove_reference_t<Params>>...> args{};
         Result result{};
         callable_ref<Result(Params...)> func{};
