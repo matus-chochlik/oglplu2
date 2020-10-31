@@ -33,7 +33,8 @@ protected:
     }
 
 private:
-    auto _handle_sub_query(stored_message& message) -> bool {
+    auto _handle_sub_query(const message_context&, stored_message& message)
+      -> bool {
         message_id sub_msg_id{};
         if(default_deserialize_message_type(sub_msg_id, message.content())) {
             this->respond_to_subscription_query(message.source_id, sub_msg_id);

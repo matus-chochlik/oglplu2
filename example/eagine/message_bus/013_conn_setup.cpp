@@ -56,12 +56,12 @@ public:
     auto operator=(const fibonacci_server&) = delete;
     ~fibonacci_server() noexcept final = default;
 
-    auto shutdown(stored_message&) -> bool {
+    auto shutdown(const message_context&, stored_message&) -> bool {
         _done = true;
         return true;
     }
 
-    auto is_ready(stored_message& msg_in) -> bool {
+    auto is_ready(const message_context&, stored_message& msg_in) -> bool {
         bus().respond_to(msg_in, EAGINE_MSG_ID(Fibonacci, IsReady));
         return true;
     }
@@ -70,7 +70,7 @@ public:
         return arg <= 2 ? 1 : fib(arg - 2) + fib(arg - 1);
     }
 
-    auto calculate(stored_message& msg_in) -> bool {
+    auto calculate(const message_context&, stored_message& msg_in) -> bool {
         std::int64_t arg{0};
         std::int64_t result{0};
         auto tup = std::tie(arg, result);
@@ -130,7 +130,7 @@ public:
         }
     }
 
-    auto dispatch(stored_message& msg_in) -> bool {
+    auto dispatch(const message_context&, stored_message& msg_in) -> bool {
         if(!_remaining.empty()) {
             auto arg = _remaining.front();
             _pending.insert(arg);
@@ -148,7 +148,7 @@ public:
         return true;
     }
 
-    auto print(stored_message& msg_in) -> bool {
+    auto print(const message_context&, stored_message& msg_in) -> bool {
         std::int64_t arg{0};
         std::int64_t result{0};
         auto tup = std::tie(arg, result);

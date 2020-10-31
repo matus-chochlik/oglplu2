@@ -40,7 +40,7 @@ private:
         return arg <= 2 ? 1 : fib(arg - 2) + fib(arg - 1);
     }
 
-    auto calculate(stored_message& msg_in) {
+    auto calculate(const message_context&, stored_message& msg_in) {
         _calc_skeleton.enqueue(
           msg_in, EAGINE_MSG_ID(Fibonacci, Result), {&fib});
         return true;

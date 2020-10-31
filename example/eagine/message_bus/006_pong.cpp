@@ -37,7 +37,7 @@ public:
           address);
     }
 
-    auto ping(stored_message& msg_in) -> bool {
+    auto ping(const message_context&, stored_message& msg_in) -> bool {
         bus().respond_to(msg_in, EAGINE_MSG_ID(PingPong, Pong));
         if(++_sent % _lmod == 0) {
             log().info("sent ${count} pongs").arg(EAGINE_ID(count), _sent);
@@ -46,7 +46,7 @@ public:
         return true;
     }
 
-    auto shutdown(stored_message&) -> bool {
+    auto shutdown(const message_context&, stored_message&) -> bool {
         _done = true;
         log().info("received shutdown message");
         return true;

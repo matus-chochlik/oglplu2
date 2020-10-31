@@ -45,7 +45,7 @@ public:
           address);
     }
 
-    auto pong(stored_message&) -> bool {
+    auto pong(const message_context&, stored_message&) -> bool {
         if(++_rcvd % _lmod == 0) {
             log().info("received ${count} pongs").arg(EAGINE_ID(count), _rcvd);
         }
@@ -55,7 +55,7 @@ public:
         return true;
     }
 
-    auto ready(stored_message&) -> bool {
+    auto ready(const message_context&, stored_message&) -> bool {
         _ready = true;
         log().info("received pong ready message");
         return true;

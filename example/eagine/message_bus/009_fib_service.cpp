@@ -40,7 +40,7 @@ struct fibonacci_server : static_subscriber<2> {
           EAGINE_MSG_MAP(Fibonacci, FindServer, this_class, is_ready),
           EAGINE_MSG_MAP(Fibonacci, Calculate, this_class, calculate)) {}
 
-    auto is_ready(stored_message& msg_in) -> bool {
+    auto is_ready(const message_context&, stored_message& msg_in) -> bool {
         bus().respond_to(msg_in, EAGINE_MSG_ID(Fibonacci, IsReady));
         return true;
     }
@@ -49,7 +49,7 @@ struct fibonacci_server : static_subscriber<2> {
         return arg <= 2 ? 1 : fib(arg - 2) + fib(arg - 1);
     }
 
-    auto calculate(stored_message& msg_in) -> bool {
+    auto calculate(const message_context&, stored_message& msg_in) -> bool {
         skeleton<
           std::int64_t(std::int64_t),
           fast_serializer_backend,
@@ -82,7 +82,7 @@ struct fibonacci_client : static_subscriber<2> {
         }
     }
 
-    auto dispatch(stored_message& msg_in) -> bool {
+    auto dispatch(const message_context&, stored_message& msg_in) -> bool {
         if(!_remaining.empty()) {
             const auto arg = _remaining.front();
             _remaining.pop();
@@ -102,8 +102,8 @@ struct fibonacci_client : static_subscriber<2> {
         return true;
     }
 
-    auto fulfill(stored_message& message) -> bool {
-        _calc_invoker.fulfill_by(message);
+    auto fulfill(const message_context& ctx, stored_message& message) -> bool {
+        _calc_invoker.fulfill_by(ctx, message);
         return true;
     }
 

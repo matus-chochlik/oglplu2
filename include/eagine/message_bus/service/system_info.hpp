@@ -45,7 +45,8 @@ protected:
     }
 
 private:
-    auto _provide_hostname(stored_message& message) -> bool {
+    auto _provide_hostname(const message_context&, stored_message& message)
+      -> bool {
         if(auto opt_hostname{main_ctx::get().system().hostname()}) {
             std::array<byte, 1024> temp{};
             if(auto serialized{
@@ -59,7 +60,8 @@ private:
         return true;
     }
 
-    auto _provide_uptime(stored_message& message) -> bool {
+    auto _provide_uptime(const message_context&, stored_message& message)
+      -> bool {
         const auto uptime{main_ctx::get().system().uptime()};
         std::array<byte, 32> temp{};
         if(auto serialized{default_serialize(uptime, cover(temp))}) {
@@ -71,7 +73,8 @@ private:
         return true;
     }
 
-    auto _provide_cpu_threads(stored_message& message) -> bool {
+    auto _provide_cpu_threads(const message_context&, stored_message& message)
+      -> bool {
         if(auto opt_cores{main_ctx::get().system().cpu_concurrent_threads()}) {
             std::array<byte, 32> temp{};
             if(auto serialized{
@@ -85,7 +88,8 @@ private:
         return true;
     }
 
-    auto _provide_short_load(stored_message& message) -> bool {
+    auto _provide_short_load(const message_context&, stored_message& message)
+      -> bool {
         if(auto opt_load{main_ctx::get().system().short_average_load()}) {
             std::array<byte, 32> temp{};
             if(auto serialized{
@@ -99,7 +103,8 @@ private:
         return true;
     }
 
-    auto _provide_long_load(stored_message& message) -> bool {
+    auto _provide_long_load(const message_context&, stored_message& message)
+      -> bool {
         if(auto opt_load{main_ctx::get().system().long_average_load()}) {
             std::array<byte, 32> temp{};
             if(auto serialized{
@@ -202,7 +207,8 @@ public:
     }
 
 private:
-    auto _consume_hostname(stored_message& message) -> bool {
+    auto _consume_hostname(const message_context&, stored_message& message)
+      -> bool {
         std::string hostname;
         if(default_deserialize(hostname, message.content())) {
             on_hostname_received(message.source_id, {hostname});
@@ -210,7 +216,8 @@ private:
         return true;
     }
 
-    auto _consume_uptime(stored_message& message) -> bool {
+    auto _consume_uptime(const message_context&, stored_message& message)
+      -> bool {
         std::chrono::duration<float> uptime{};
         if(default_deserialize(uptime, message.content())) {
             on_uptime_received(message.source_id, uptime);
@@ -218,7 +225,8 @@ private:
         return true;
     }
 
-    auto _consume_cpu_threads(stored_message& message) -> bool {
+    auto _consume_cpu_threads(const message_context&, stored_message& message)
+      -> bool {
         span_size_t num_threads{0};
         if(default_deserialize(num_threads, message.content())) {
             on_cpu_concurrent_threads_received(message.source_id, num_threads);
@@ -226,7 +234,8 @@ private:
         return true;
     }
 
-    auto _consume_short_load(stored_message& message) -> bool {
+    auto _consume_short_load(const message_context&, stored_message& message)
+      -> bool {
         float load{0.F};
         if(default_deserialize(load, message.content())) {
             on_short_average_load_received(message.source_id, load);
@@ -234,7 +243,8 @@ private:
         return true;
     }
 
-    auto _consume_long_load(stored_message& message) -> bool {
+    auto _consume_long_load(const message_context&, stored_message& message)
+      -> bool {
         float load{0.F};
         if(default_deserialize(load, message.content())) {
             on_long_average_load_received(message.source_id, load);

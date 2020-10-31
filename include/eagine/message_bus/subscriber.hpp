@@ -81,13 +81,13 @@ protected:
           identifier_t ClassId,
           identifier_t MethodId,
           typename Class,
-          bool (Class::*HandlerFunc)(stored_message&)>
+          bool (Class::*HandlerFunc)(const message_context&, stored_message&)>
         handler_entry(
           Class* instance,
           static_message_handler_map<
             static_message_id<ClassId, MethodId>,
             member_function_constant<
-              bool (Class::*)(stored_message&),
+              bool (Class::*)(const message_context&, stored_message&),
               HandlerFunc>> msg_map) noexcept
           : msg_id{ClassId, MethodId}
           , handler{instance, msg_map.method()} {}
@@ -96,13 +96,13 @@ protected:
           identifier_t ClassId,
           identifier_t MethodId,
           typename Class,
-          bool (Class::*HandlerFunc)(stored_message&)>
+          bool (Class::*HandlerFunc)(const message_context&, stored_message&)>
         handler_entry(
           Class* instance,
           static_message_handler_map<
             static_message_id<ClassId, MethodId>,
             member_function_constant<
-              bool (Class::*)(stored_message&) const,
+              bool (Class::*)(const message_context&, stored_message&) const,
               HandlerFunc>> msg_map) noexcept
           : msg_id{ClassId, MethodId}
           , handler{instance, msg_map.method()} {}
@@ -274,7 +274,8 @@ private:
 class subscriber : public subscriber_base {
 public:
     using handler_entry = subscriber_base::handler_entry;
-    using method_handler = callable_ref<bool(stored_message&)>;
+    using method_handler =
+      callable_ref<bool(const message_context&, stored_message&)>;
 
     virtual ~subscriber() noexcept = default;
     subscriber() noexcept = default;
@@ -285,30 +286,37 @@ public:
     auto operator=(subscriber&&) = delete;
     auto operator=(const subscriber&) = delete;
 
-    template <typename Class, bool (Class::*Method)(stored_message&)>
+    template <
+      typename Class,
+      bool (Class::*Method)(const message_context&, stored_message&)>
     void add_method(
       Class* instance,
       message_id msg_id,
-      member_function_constant<bool (Class::*)(stored_message&), Method> method) {
+      member_function_constant<
+        bool (Class::*)(const message_context&, stored_message&),
+        Method> method) {
         _msg_handlers.emplace_back(msg_id, method_handler{instance, method});
     }
 
-    template <typename Class, bool (Class::*Method)(stored_message&)>
+    template <
+      typename Class,
+      bool (Class::*Method)(const message_context&, stored_message&)>
     void add_method(
       Class* instance,
-      message_handler_map<
-        member_function_constant<bool (Class::*)(stored_message&), Method>>
-        msg_map) noexcept {
+      message_handler_map<member_function_constant<
+        bool (Class::*)(const message_context&, stored_message&),
+        Method>> msg_map) noexcept {
         add_method(instance, msg_map.msg_id(), msg_map.method());
     }
 
-    template <typename Class, bool (Class::*Method)(stored_message&)>
-    void add_method(
-      std::tuple<
-        Class*,
-        message_handler_map<
-          member_function_constant<bool (Class::*)(stored_message&), Method>>>
-        imm) noexcept {
+    template <
+      typename Class,
+      bool (Class::*Method)(const message_context&, stored_message&)>
+    void add_method(std::tuple<
+                    Class*,
+                    message_handler_map<member_function_constant<
+                      bool (Class::*)(const message_context&, stored_message&),
+                      Method>>> imm) noexcept {
         add_method(
           std::get<0>(imm),
           std::get<1>(imm).msg_id(),
@@ -317,15 +325,16 @@ public:
 
     template <
       typename Class,
-      bool (Class::*Method)(stored_message&),
+      bool (Class::*Method)(const message_context&, stored_message&),
       identifier_t ClassId,
       identifier_t MethodId>
     void add_method(
       Class* instance,
       static_message_handler_map<
         static_message_id<ClassId, MethodId>,
-        member_function_constant<bool (Class::*)(stored_message&), Method>>
-        msg_map) noexcept {
+        member_function_constant<
+          bool (Class::*)(const message_context&, stored_message&),
+          Method>> msg_map) noexcept {
         add_method(instance, msg_map.msg_id(), msg_map.method());
     }
 

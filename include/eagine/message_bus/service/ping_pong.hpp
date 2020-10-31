@@ -39,7 +39,7 @@ public:
       verification_bits) -> bool = 0;
 
 private:
-    auto _handle_ping(stored_message& message) -> bool {
+    auto _handle_ping(const message_context&, stored_message& message) -> bool {
         if(respond_to_ping(
              message.source_id,
              message.sequence_no,
@@ -124,7 +124,7 @@ public:
       std::chrono::microseconds age) = 0;
 
 private:
-    auto _handle_pong(stored_message& message) -> bool {
+    auto _handle_pong(const message_context&, stored_message& message) -> bool {
         _pending.erase(
           std::remove_if(
             _pending.begin(),

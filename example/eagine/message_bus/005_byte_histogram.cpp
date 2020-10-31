@@ -64,7 +64,7 @@ auto main(main_ctx& ctx) -> int {
 
     conn_setup.setup_connectors(bus, address);
 
-    msgbus::endpoint::generic_handler handler{log_byte_hist};
+    msgbus::endpoint::method_handler handler{log_byte_hist};
 
     timeout idle_too_long{std::chrono::minutes{1}};
     while(!idle_too_long) {

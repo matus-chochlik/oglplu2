@@ -25,7 +25,7 @@ struct str_utils_server : static_subscriber<1> {
       : base(ep, this, EAGINE_MSG_MAP(StrUtilReq, Reverse, this_class, reverse))
       , _log{EAGINE_ID(Server), parent} {}
 
-    auto reverse(stored_message& msg) -> bool {
+    auto reverse(const message_context&, stored_message& msg) -> bool {
         auto str = msg.text_content();
         _log.trace("received request: ${content}").arg(EAGINE_ID(content), str);
         memory::reverse(str);
@@ -51,7 +51,7 @@ struct str_utils_client : static_subscriber<1> {
         bus().send(EAGINE_MSG_ID(StrUtilReq, Reverse), as_bytes(str));
     }
 
-    auto print(stored_message& msg) -> bool {
+    auto print(const message_context&, stored_message& msg) -> bool {
         _log.info("received response: ${content}")
           .arg(EAGINE_ID(content), msg.text_content());
         --_remaining;

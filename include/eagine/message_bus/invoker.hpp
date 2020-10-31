@@ -32,7 +32,7 @@ class callback_invoker_base {
     using _callback_t = callable_ref<void(Result) noexcept(NoExcept)>;
 
 public:
-    auto fulfill_by(stored_message& message) -> bool {
+    auto fulfill_by(const message_context&, stored_message& message) -> bool {
         Result result{};
 
         block_data_source source(message.content());
@@ -60,7 +60,7 @@ class callback_invoker_base<void, Serializer, Deserializer, MaxDataSize, NoExcep
     using _callback_t = callable_ref_impl<void() noexcept(NoExcept), NoExcept>;
 
 public:
-    auto fulfill_by(stored_message&) -> bool {
+    auto fulfill_by(const message_context&, stored_message&) -> bool {
         _callback();
         return true;
     }
@@ -156,7 +156,7 @@ template <
   std::size_t MaxDataSize>
 class invoker_base {
 public:
-    auto fulfill_by(stored_message& message) -> bool {
+    auto fulfill_by(const message_context&, stored_message& message) -> bool {
         const auto invocation_id = message.sequence_no;
         std::remove_cv_t<std::remove_reference_t<Result>> result{};
 

@@ -370,9 +370,39 @@ private:
     std::vector<memory::buffer> _messages;
 };
 //------------------------------------------------------------------------------
+class endpoint;
+//------------------------------------------------------------------------------
+class message_context {
+public:
+    message_context(endpoint& ep) noexcept
+      : _bus{ep} {}
+
+    constexpr message_context(endpoint& ep, message_id mi) noexcept
+      : _bus{ep}
+      , _msg_id{std::move(mi)} {}
+
+    auto bus() const noexcept -> endpoint& {
+        return _bus;
+    }
+
+    auto msg_id() const noexcept -> const message_id& {
+        return _msg_id;
+    }
+
+    auto set_msg_id(message_id msg_id) noexcept -> message_context& {
+        _msg_id = std::move(msg_id);
+        return *this;
+    }
+
+private:
+    endpoint& _bus;
+    message_id _msg_id{};
+};
+//------------------------------------------------------------------------------
 class message_priority_queue {
 public:
-    using handler_type = callable_ref<bool(stored_message&)>;
+    using handler_type =
+      callable_ref<bool(const message_context&, stored_message&)>;
 
     message_priority_queue() {
         _messages.reserve(128);
@@ -388,9 +418,10 @@ public:
         _messages.emplace(pos, message, _buffers.get(message.data.size()));
     }
 
-    auto process_one(handler_type handler) -> bool {
+    auto process_one(const message_context& msg_ctx, handler_type handler)
+      -> bool {
         if(!_messages.empty()) {
-            if(handler(_messages.back())) {
+            if(handler(msg_ctx, _messages.back())) {
                 _buffers.eat(_messages.back().release_buffer());
                 _messages.pop_back();
                 return true;
@@ -399,12 +430,12 @@ public:
         return false;
     }
 
-    template <typename Handler>
-    auto do_process_all(Handler& handler) -> span_size_t {
+    auto process_all(const message_context& msg_ctx, handler_type handler)
+      -> span_size_t {
         span_size_t count{0};
         std::size_t pos = 0;
         while(pos < _messages.size()) {
-            if(handler(_messages[pos])) {
+            if(handler(msg_ctx, _messages[pos])) {
                 ++count;
                 _buffers.eat(_messages[pos].release_buffer());
                 _messages.erase(_messages.begin() + pos);
@@ -413,10 +444,6 @@ public:
             }
         }
         return count;
-    }
-
-    auto process_all(handler_type handler) -> span_size_t {
-        return do_process_all(handler);
     }
 
 private:

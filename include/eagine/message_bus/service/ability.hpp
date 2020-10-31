@@ -32,11 +32,12 @@ public:
     virtual auto can_handle(message_id) -> bool = 0;
 
 private:
-    auto _handle_query(stored_message& message) -> bool {
+    auto _handle_query(const message_context& msg_ctx, stored_message& message)
+      -> bool {
         message_id msg_id{};
         if(default_deserialize_message_type(msg_id, message.content())) {
             if(can_handle()) {
-                this->bus().respond_to(
+                msg_ctx.bus().respond_to(
                   message,
                   EAGINE_MSG_ID(Ability, response),
                   {message.content()});
@@ -73,7 +74,8 @@ public:
     virtual void on_handler_found(identifier_t target_id, message_id) = 0;
 
 private:
-    auto _handle_response(stored_message& message) -> bool {
+    auto _handle_response(const message_context&, stored_message& message)
+      -> bool {
         message_id msg_id{};
         if(default_deserialize_message_type(msg_id, message.content())) {
             on_handler_found(message.source_id, msg_id);
