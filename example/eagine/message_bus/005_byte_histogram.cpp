@@ -24,11 +24,13 @@ auto main(main_ctx& ctx) -> int {
 
     std::array<span_size_t, 256> byte_counts{};
 
-    auto log_byte_hist = [&ctx, &byte_counts](msgbus::message_context& mc) {
+    auto log_byte_hist = [&ctx, &byte_counts](
+                           const msgbus::message_context& mc,
+                           msgbus::stored_message& msg) {
         zero(cover(byte_counts));
 
         span_size_t max_count{0};
-        for(auto b : mc.request().content()) {
+        for(auto b : msg.content()) {
             max_count = math::maximum(max_count, ++byte_counts[std_size(b)]);
         }
 

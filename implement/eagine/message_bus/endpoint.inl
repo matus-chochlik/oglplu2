@@ -617,8 +617,7 @@ auto endpoint::process_everything(generic_handler handler) -> span_size_t {
     for(auto& entry : _incoming) {
         msg_ctx.set_msg_id(std::get<0>(entry));
         auto wrapped_handler = [&msg_ctx, handler](stored_message& message) {
-            msg_ctx.set_request(message);
-            return handler(msg_ctx);
+            return handler(msg_ctx, message);
         };
         result += _get_queue(entry).do_process_all(wrapped_handler);
     }

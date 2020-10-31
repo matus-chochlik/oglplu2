@@ -37,15 +37,9 @@ public:
         return _msg_id;
     }
 
-    auto request() noexcept -> stored_message& {
-        EAGINE_ASSERT(_request_ptr);
-        return *_request_ptr;
-    }
-
 protected:
     endpoint& _bus;
     message_id _msg_id{};
-    stored_message* _request_ptr{nullptr};
 };
 //------------------------------------------------------------------------------
 class message_context_setup : public message_context {
@@ -54,11 +48,6 @@ public:
 
     auto set_msg_id(message_id msg_id) noexcept -> message_context_setup& {
         _msg_id = std::move(msg_id);
-        return *this;
-    }
-
-    auto set_request(stored_message& msg) noexcept -> message_context_setup& {
-        _request_ptr = &msg;
         return *this;
     }
 };
@@ -372,7 +361,8 @@ public:
 
     auto process_all(message_id msg_id, method_handler handler) -> span_size_t;
 
-    using generic_handler = callable_ref<bool(message_context&)>;
+    using generic_handler =
+      callable_ref<bool(const message_context&, stored_message&)>;
 
     auto process_everything(generic_handler handler) -> span_size_t;
 };
