@@ -194,6 +194,18 @@ auto bridge::_handle_special(
                 _log.debug("assigned id ${id}").arg(EAGINE_ID(id), _id);
             }
             return true;
+        } else if(msg_id.has_method(EAGINE_ID(confirmId))) {
+            if(has_id()) {
+                if(_id != message.target_id) {
+                    _log.error("mismatching current and confirmed ids")
+                      .arg(EAGINE_ID(current), _id)
+                      .arg(EAGINE_ID(confirmed), message.target_id);
+                }
+            } else {
+                _log.warning("confirming unset id ${newId}")
+                  .arg(EAGINE_ID(confirmed), message.target_id);
+            }
+            return true;
         } else if(msg_id.has_method(EAGINE_ID(topoBrdgCn))) {
             if(to_connection) {
                 bridge_topology_info info{};
