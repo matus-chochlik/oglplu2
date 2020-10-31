@@ -3612,7 +3612,206 @@
     },
   "Ho" : {
       "atomic_weight" : 164.930328,
-      "isotopes" : {  },
+      "isotopes" : {
+          "_142" : {
+              "beta_p_decay" : {  },
+              "half_life" : "400ms",
+              "neutrons" : 75,
+              "proton_emission" : {  },
+              "symbol" : "¹⁴²Ho"
+            },
+          "_143" : {
+              "beta_p_decay" : {  },
+              "half_life" : "300ms",
+              "neutrons" : 76,
+              "symbol" : "¹⁴³Ho"
+            },
+          "_144" : {
+              "beta_p_decay" : {  },
+              "beta_p_p_decay" : {  },
+              "half_life" : "0.71s",
+              "neutrons" : 77,
+              "symbol" : "¹⁴⁴Ho"
+            },
+          "_145" : {
+              "beta_p_decay" : {  },
+              "half_life" : "2.41s",
+              "neutrons" : 78,
+              "symbol" : "¹⁴⁵Ho"
+            },
+          "_146" : {
+              "beta_p_decay" : {  },
+              "beta_p_p_decay" : {  },
+              "half_life" : "3.63s",
+              "neutrons" : 79,
+              "symbol" : "¹⁴⁶Ho"
+            },
+          "_147" : {
+              "beta_p_decay" : {  },
+              "beta_p_p_decay" : {  },
+              "half_life" : "5.84s",
+              "neutrons" : 80,
+              "symbol" : "¹⁴⁷Ho"
+            },
+          "_148" : {
+              "beta_p_decay" : {  },
+              "half_life" : "2.21s",
+              "neutrons" : 81,
+              "symbol" : "¹⁴⁸Ho"
+            },
+          "_149" : {
+              "beta_p_decay" : {  },
+              "half_life" : "21.12s",
+              "neutrons" : 82,
+              "symbol" : "¹⁴⁹Ho"
+            },
+          "_150" : {
+              "beta_p_decay" : {  },
+              "half_life" : "76.82s",
+              "neutrons" : 83,
+              "symbol" : "¹⁵⁰Ho"
+            },
+          "_151" : {
+              "beta_p_decay" : {  },
+              "half_life" : "35.21s",
+              "neutrons" : 84,
+              "symbol" : "¹⁵¹Ho"
+            },
+          "_152" : {
+              "alpha_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : "161.83s",
+              "neutrons" : 85,
+              "symbol" : "¹⁵²Ho"
+            },
+          "_153" : {
+              "alpha_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : "2.013min",
+              "neutrons" : 86,
+              "symbol" : "¹⁵³Ho"
+            },
+          "_154" : {
+              "alpha_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : "11.76min",
+              "neutrons" : 87,
+              "symbol" : "¹⁵⁴Ho"
+            },
+          "_155" : {
+              "beta_p_decay" : {  },
+              "half_life" : "48.1min",
+              "neutrons" : 88,
+              "symbol" : "¹⁵⁵Ho"
+            },
+          "_156" : {
+              "beta_p_decay" : {  },
+              "half_life" : "56.1min",
+              "neutrons" : 89,
+              "symbol" : "¹⁵⁶Ho"
+            },
+          "_157" : {
+              "beta_p_decay" : {  },
+              "half_life" : "12.62min",
+              "neutrons" : 90,
+              "symbol" : "¹⁵⁷Ho"
+            },
+          "_158" : {
+              "beta_p_decay" : {  },
+              "half_life" : "11.34min",
+              "neutrons" : 91,
+              "symbol" : "¹⁵⁸Ho"
+            },
+          "_159" : {
+              "beta_p_decay" : {  },
+              "half_life" : "33.05min",
+              "neutrons" : 92,
+              "symbol" : "¹⁵⁹Ho"
+            },
+          "_160" : {
+              "beta_p_decay" : {  },
+              "half_life" : "25.6min",
+              "neutrons" : 93,
+              "symbol" : "¹⁶⁰Ho"
+            },
+          "_161" : {
+              "electron_capture" : {  },
+              "half_life" : "2.485hr",
+              "neutrons" : 94,
+              "symbol" : "¹⁶¹Ho"
+            },
+          "_162" : {
+              "beta_p_decay" : {  },
+              "half_life" : "15.01min",
+              "neutrons" : 95,
+              "symbol" : "¹⁶²Ho"
+            },
+          "_163" : {
+              "electron_capture" : {  },
+              "half_life" : "4570.25yr",
+              "neutrons" : 96,
+              "symbol" : "¹⁶³Ho"
+            },
+          "_164" : {
+              "beta_m_decay" : {  },
+              "electron_capture" : {  },
+              "half_life" : "29.1min",
+              "neutrons" : 97,
+              "symbol" : "¹⁶⁴Ho"
+            },
+          "_165" : {
+              "neutrons" : 98,
+              "symbol" : "¹⁶⁵Ho"
+            },
+          "_166" : {
+              "beta_m_decay" : {  },
+              "half_life" : "26.83hr",
+              "neutrons" : 99,
+              "symbol" : "¹⁶⁶Ho"
+            },
+          "_167" : {
+              "beta_m_decay" : {  },
+              "half_life" : "3.003hr",
+              "neutrons" : 100,
+              "symbol" : "¹⁶⁷Ho"
+            },
+          "_168" : {
+              "beta_m_decay" : {  },
+              "half_life" : "2.997min",
+              "neutrons" : 101,
+              "symbol" : "¹⁶⁸Ho"
+            },
+          "_169" : {
+              "beta_m_decay" : {  },
+              "half_life" : "4.72min",
+              "neutrons" : 102,
+              "symbol" : "¹⁶⁹Ho"
+            },
+          "_170" : {
+              "beta_m_decay" : {  },
+              "half_life" : "2.765min",
+              "neutrons" : 103,
+              "symbol" : "¹⁷⁰Ho"
+            },
+          "_171" : {
+              "beta_m_decay" : {  },
+              "half_life" : "53.2s",
+              "neutrons" : 104,
+              "symbol" : "¹⁷¹Ho"
+            },
+          "_172" : {
+              "beta_m_decay" : {  },
+              "half_life" : "25.3s",
+              "neutrons" : 105,
+              "symbol" : "¹⁷²Ho"
+            },
+          "_173" : {
+              "beta_m_decay" : {  },
+              "half_life" : "10s",
+              "neutrons" : 106,
+              "symbol" : "¹⁷³Ho"
+            }
+        },
       "name" : { "latin" : "Holmium" },
       "period" : 6,
       "protons" : 67
