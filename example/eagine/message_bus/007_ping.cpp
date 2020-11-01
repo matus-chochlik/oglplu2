@@ -91,16 +91,22 @@ public:
         }
     }
 
-    void on_hostname_received(identifier_t id, string_view hostname) final {
-        auto& stats = _targets[id];
-        stats.hostname = to_string(hostname);
+    void on_hostname_received(
+      const result_context& res_ctx,
+      valid_if_not_empty<std::string>&& hostname) final {
+        auto& stats = _targets[res_ctx.source_id()];
+        if(hostname) {
+            stats.hostname = extract(std::move(hostname));
+        }
     }
 
     void on_cpu_concurrent_threads_received(
-      identifier_t id,
-      span_size_t num_cores) final {
-        auto& stats = _targets[id];
-        stats.num_cores = num_cores;
+      const result_context& res_ctx,
+      valid_if_positive<span_size_t>&& num_cores) final {
+        auto& stats = _targets[res_ctx.source_id()];
+        if(num_cores) {
+            stats.num_cores = extract(num_cores);
+        }
     }
 
     void on_ping_response(

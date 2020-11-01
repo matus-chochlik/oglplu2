@@ -28,95 +28,55 @@ protected:
 
     void add_methods() {
         Base::add_methods();
-        Base::add_method(
-          this,
-          EAGINE_MSG_MAP(eagiSysInf, rqHostname, This, _provide_hostname));
-        Base::add_method(
-          this, EAGINE_MSG_MAP(eagiSysInf, rqUptime, This, _provide_uptime));
-        Base::add_method(
-          this,
-          EAGINE_MSG_MAP(eagiSysInf, rqCpuThrds, This, _provide_cpu_threads));
-        Base::add_method(
-          this,
-          EAGINE_MSG_MAP(eagiSysInf, rqShrtLoad, This, _provide_short_load));
-        Base::add_method(
-          this,
-          EAGINE_MSG_MAP(eagiSysInf, rqLongLoad, This, _provide_long_load));
+
+        Base::add_method(_hostname(
+          EAGINE_MSG_ID(eagiSysInf, hostname),
+          &main_ctx::get().system(),
+          EAGINE_MEM_FUNC_C(
+            system_info, hostname))[EAGINE_MSG_ID(eagiSysInf, rqHostname)]);
+
+        Base::add_method(_uptime(
+          EAGINE_MSG_ID(eagiSysInf, uptime),
+          &main_ctx::get().system(),
+          EAGINE_MEM_FUNC_C(
+            system_info, uptime))[EAGINE_MSG_ID(eagiSysInf, rqUptime)]);
+
+        Base::add_method(_cpu_concurrent_threads(
+          EAGINE_MSG_ID(eagiSysInf, cpuThreads),
+          &main_ctx::get().system(),
+          EAGINE_MEM_FUNC_C(
+            system_info,
+            cpu_concurrent_threads))[EAGINE_MSG_ID(eagiSysInf, rqCpuThrds)]);
+
+        Base::add_method(_short_average_load(
+          EAGINE_MSG_ID(eagiSysInf, shortLoad),
+          &main_ctx::get().system(),
+          EAGINE_MEM_FUNC_C(
+            system_info,
+            short_average_load))[EAGINE_MSG_ID(eagiSysInf, rqShrtLoad)]);
+
+        Base::add_method(_long_average_load(
+          EAGINE_MSG_ID(eagiSysInf, longLoad),
+          &main_ctx::get().system(),
+          EAGINE_MEM_FUNC_C(
+            system_info,
+            long_average_load))[EAGINE_MSG_ID(eagiSysInf, rqLongLoad)]);
     }
 
 private:
-    auto _provide_hostname(const message_context&, stored_message& message)
-      -> bool {
-        if(auto opt_hostname{main_ctx::get().system().hostname()}) {
-            std::array<byte, 1024> temp{};
-            if(auto serialized{
-                 default_serialize(extract(opt_hostname), cover(temp))}) {
-                this->bus().respond_to(
-                  message,
-                  EAGINE_MSG_ID(eagiSysInf, hostname),
-                  {extract(serialized)});
-            }
-        }
-        return true;
-    }
+    default_function_skeleton<valid_if_not_empty<std::string>(), 1024> _hostname;
 
-    auto _provide_uptime(const message_context&, stored_message& message)
-      -> bool {
-        const auto uptime{main_ctx::get().system().uptime()};
-        std::array<byte, 32> temp{};
-        if(auto serialized{default_serialize(uptime, cover(temp))}) {
-            this->bus().respond_to(
-              message,
-              EAGINE_MSG_ID(eagiSysInf, uptime),
-              {extract(serialized)});
-        }
-        return true;
-    }
+    default_function_skeleton<std::chrono::duration<float>() noexcept, 32>
+      _uptime;
 
-    auto _provide_cpu_threads(const message_context&, stored_message& message)
-      -> bool {
-        if(auto opt_cores{main_ctx::get().system().cpu_concurrent_threads()}) {
-            std::array<byte, 32> temp{};
-            if(auto serialized{
-                 default_serialize(extract(opt_cores), cover(temp))}) {
-                this->bus().respond_to(
-                  message,
-                  EAGINE_MSG_ID(eagiSysInf, cpuThreads),
-                  {extract(serialized)});
-            }
-        }
-        return true;
-    }
+    default_function_skeleton<valid_if_positive<span_size_t>() noexcept, 32>
+      _cpu_concurrent_threads;
 
-    auto _provide_short_load(const message_context&, stored_message& message)
-      -> bool {
-        if(auto opt_load{main_ctx::get().system().short_average_load()}) {
-            std::array<byte, 32> temp{};
-            if(auto serialized{
-                 default_serialize(extract(opt_load), cover(temp))}) {
-                this->bus().respond_to(
-                  message,
-                  EAGINE_MSG_ID(eagiSysInf, shortLoad),
-                  {extract(serialized)});
-            }
-        }
-        return true;
-    }
+    default_function_skeleton<valid_if_nonnegative<float>() noexcept, 32>
+      _short_average_load;
 
-    auto _provide_long_load(const message_context&, stored_message& message)
-      -> bool {
-        if(auto opt_load{main_ctx::get().system().long_average_load()}) {
-            std::array<byte, 32> temp{};
-            if(auto serialized{
-                 default_serialize(extract(opt_load), cover(temp))}) {
-                this->bus().respond_to(
-                  message,
-                  EAGINE_MSG_ID(eagiSysInf, longLoad),
-                  {extract(serialized)});
-            }
-        }
-        return true;
-    }
+    default_function_skeleton<valid_if_nonnegative<float>() noexcept, 32>
+      _long_average_load;
 };
 //------------------------------------------------------------------------------
 template <typename Base = subscriber>
@@ -129,128 +89,90 @@ protected:
 
     void add_methods() {
         Base::add_methods();
-        Base::add_method(
-          this, EAGINE_MSG_MAP(eagiSysInf, hostname, This, _consume_hostname));
-        Base::add_method(
-          this, EAGINE_MSG_MAP(eagiSysInf, uptime, This, _consume_uptime));
-        Base::add_method(
+
+        Base::add_method(_hostname(
           this,
-          EAGINE_MSG_MAP(eagiSysInf, cpuThreads, This, _consume_cpu_threads));
-        Base::add_method(
+          EAGINE_MEM_FUNC_C(
+            This, on_hostname_received))[EAGINE_MSG_ID(eagiSysInf, hostname)]);
+
+        Base::add_method(_uptime(
           this,
-          EAGINE_MSG_MAP(eagiSysInf, shortLoad, This, _consume_short_load));
-        Base::add_method(
-          this, EAGINE_MSG_MAP(eagiSysInf, longLoad, This, _consume_long_load));
+          EAGINE_MEM_FUNC_C(
+            This, on_uptime_received))[EAGINE_MSG_ID(eagiSysInf, uptime)]);
+
+        Base::add_method(_cpu_concurrent_threads(
+          this, EAGINE_MEM_FUNC_C(This, on_cpu_concurrent_threads_received))
+                           [EAGINE_MSG_ID(eagiSysInf, cpuThreads)]);
+
+        Base::add_method(_short_average_load(
+          this,
+          EAGINE_MEM_FUNC_C(This, on_short_average_load_received))[EAGINE_MSG_ID(
+          eagiSysInf, shortLoad)]);
+
+        Base::add_method(_long_average_load(
+          this,
+          EAGINE_MEM_FUNC_C(This, on_long_average_load_received))[EAGINE_MSG_ID(
+          eagiSysInf, longLoad)]);
     }
 
 public:
     void query_hostname(identifier_t endpoint_id) {
-        message_view request{};
-        request.set_target_id(endpoint_id);
-        this->bus().send(EAGINE_MSG_ID(eagiSysInf, rqHostname), request);
+        _hostname.invoke_on(
+          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqHostname));
+    }
+
+    virtual void on_hostname_received(
+      const result_context&,
+      valid_if_not_empty<std::string>&&) {}
+
+    void query_uptime(identifier_t endpoint_id) {
+        _uptime.invoke_on(
+          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqUptime));
     }
 
     virtual void
-    on_hostname_received(identifier_t endpoint_id, string_view hostname) {
-        EAGINE_MAYBE_UNUSED(endpoint_id);
-        EAGINE_MAYBE_UNUSED(hostname);
-    }
-
-    void query_uptime(identifier_t endpoint_id) {
-        message_view request{};
-        request.set_target_id(endpoint_id);
-        this->bus().send(EAGINE_MSG_ID(eagiSysInf, rqUptime), request);
-    }
-
-    virtual void on_uptime_received(
-      identifier_t endpoint_id,
-      std::chrono::duration<float> uptime) {
-        EAGINE_MAYBE_UNUSED(endpoint_id);
-        EAGINE_MAYBE_UNUSED(uptime);
-    }
+    on_uptime_received(const result_context&, std::chrono::duration<float>&&) {}
 
     void query_cpu_concurrent_threads(identifier_t endpoint_id) {
-        message_view request{};
-        request.set_target_id(endpoint_id);
-        this->bus().send(EAGINE_MSG_ID(eagiSysInf, rqCpuThrds), request);
+        _cpu_concurrent_threads.invoke_on(
+          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqCpuThrds));
     }
 
     virtual void on_cpu_concurrent_threads_received(
-      identifier_t endpoint_id,
-      span_size_t cores) {
-        EAGINE_MAYBE_UNUSED(endpoint_id);
-        EAGINE_MAYBE_UNUSED(cores);
-    }
+      const result_context&,
+      valid_if_positive<span_size_t>&&) {}
 
     void query_short_average_load(identifier_t endpoint_id) {
-        message_view request{};
-        request.set_target_id(endpoint_id);
-        this->bus().send(EAGINE_MSG_ID(eagiSysInf, rqShrtLoad), request);
+        _short_average_load.invoke_on(
+          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqShrtLoad));
     }
 
-    virtual void
-    on_short_average_load_received(identifier_t endpoint_id, float load) {
-        EAGINE_MAYBE_UNUSED(endpoint_id);
-        EAGINE_MAYBE_UNUSED(load);
-    }
+    virtual void on_short_average_load_received(
+      const result_context&,
+      valid_if_nonnegative<float>&&) {}
 
     void query_long_average_load(identifier_t endpoint_id) {
-        message_view request{};
-        request.set_target_id(endpoint_id);
-        this->bus().send(EAGINE_MSG_ID(eagiSysInf, rqLongLoad), request);
+        _long_average_load.invoke_on(
+          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqLongLoad));
     }
 
-    virtual void
-    on_long_average_load_received(identifier_t endpoint_id, float load) {
-        EAGINE_MAYBE_UNUSED(endpoint_id);
-        EAGINE_MAYBE_UNUSED(load);
-    }
+    virtual void on_long_average_load_received(
+      const result_context&,
+      valid_if_nonnegative<float>&&) {}
 
 private:
-    auto _consume_hostname(const message_context&, stored_message& message)
-      -> bool {
-        std::string hostname;
-        if(default_deserialize(hostname, message.content())) {
-            on_hostname_received(message.source_id, {hostname});
-        }
-        return true;
-    }
+    default_callback_invoker<valid_if_not_empty<std::string>(), 1024> _hostname;
 
-    auto _consume_uptime(const message_context&, stored_message& message)
-      -> bool {
-        std::chrono::duration<float> uptime{};
-        if(default_deserialize(uptime, message.content())) {
-            on_uptime_received(message.source_id, uptime);
-        }
-        return true;
-    }
+    default_callback_invoker<std::chrono::duration<float>(), 32> _uptime;
 
-    auto _consume_cpu_threads(const message_context&, stored_message& message)
-      -> bool {
-        span_size_t num_threads{0};
-        if(default_deserialize(num_threads, message.content())) {
-            on_cpu_concurrent_threads_received(message.source_id, num_threads);
-        }
-        return true;
-    }
+    default_callback_invoker<valid_if_positive<span_size_t>(), 32>
+      _cpu_concurrent_threads;
 
-    auto _consume_short_load(const message_context&, stored_message& message)
-      -> bool {
-        float load{0.F};
-        if(default_deserialize(load, message.content())) {
-            on_short_average_load_received(message.source_id, load);
-        }
-        return true;
-    }
+    default_callback_invoker<valid_if_nonnegative<float>(), 32>
+      _short_average_load;
 
-    auto _consume_long_load(const message_context&, stored_message& message)
-      -> bool {
-        float load{0.F};
-        if(default_deserialize(load, message.content())) {
-            on_long_average_load_received(message.source_id, load);
-        }
-        return true;
-    }
+    default_callback_invoker<valid_if_nonnegative<float>(), 32>
+      _long_average_load;
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

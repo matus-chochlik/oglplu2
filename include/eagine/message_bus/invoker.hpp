@@ -79,7 +79,7 @@ public:
 
 protected:
     using _callback_t =
-      callable_ref<void(const result_context&, Result) noexcept(NoExcept)>;
+      callable_ref<void(const result_context&, Result&&) noexcept(NoExcept)>;
     _callback_t _callback{};
 };
 //------------------------------------------------------------------------------
