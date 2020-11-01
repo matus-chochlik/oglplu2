@@ -41,7 +41,7 @@ private:
         return arg <= 2 ? 1 : fib(arg - 2) + fib(arg - 1);
     }
 
-    auto calculate(stored_message& msg_in) {
+    auto calculate(const message_context&, stored_message& msg_in) {
         _calc_skeleton.enqueue(
           msg_in, EAGINE_MSG_ID(Fibonacci, Result), {&fib}, _workers);
         return true;
@@ -69,17 +69,11 @@ protected:
 
     void add_methods() {
         Base::add_methods();
-        Base::add_method(
-          this, EAGINE_MSG_MAP(Fibonacci, Result, This, fulfill));
+        Base::add_method(_calc_invoker[EAGINE_MSG_ID(Fibonacci, Result)]);
     }
 
 private:
     default_invoker<std::int64_t(std::int64_t), 64> _calc_invoker{};
-
-    auto fulfill(stored_message& message) {
-        _calc_invoker.fulfill_by(message);
-        return true;
-    }
 
 public:
     auto fib(std::int64_t arg) -> future<std::int64_t> {

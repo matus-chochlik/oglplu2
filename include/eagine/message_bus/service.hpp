@@ -33,7 +33,8 @@ protected:
     }
 
 private:
-    auto _handle_sub_query(stored_message& message) -> bool {
+    auto _handle_sub_query(const message_context&, stored_message& message)
+      -> bool {
         message_id sub_msg_id{};
         if(default_deserialize_message_type(sub_msg_id, message.content())) {
             this->respond_to_subscription_query(message.source_id, sub_msg_id);
@@ -73,6 +74,13 @@ public:
 };
 //------------------------------------------------------------------------------
 template <typename Signature, std::size_t MaxDataSize = 8192 - 128>
+using default_callback_invoker = callback_invoker<
+  Signature,
+  default_serializer_backend,
+  default_deserializer_backend,
+  MaxDataSize>;
+//------------------------------------------------------------------------------
+template <typename Signature, std::size_t MaxDataSize = 8192 - 128>
 using default_invoker = invoker<
   Signature,
   default_serializer_backend,
@@ -81,6 +89,13 @@ using default_invoker = invoker<
 //------------------------------------------------------------------------------
 template <typename Signature, std::size_t MaxDataSize = 8192 - 128>
 using default_skeleton = skeleton<
+  Signature,
+  default_serializer_backend,
+  default_deserializer_backend,
+  MaxDataSize>;
+//------------------------------------------------------------------------------
+template <typename Signature, std::size_t MaxDataSize = 8192 - 128>
+using default_function_skeleton = function_skeleton<
   Signature,
   default_serializer_backend,
   default_deserializer_backend,

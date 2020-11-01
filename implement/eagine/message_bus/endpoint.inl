@@ -594,7 +594,8 @@ EAGINE_LIB_FUNC
 auto endpoint::process_one(message_id msg_id, method_handler handler) -> bool {
     auto pos = _incoming.find(msg_id);
     if(pos != _incoming.end()) {
-        return _get_queue(*pos).process_one(handler);
+        const message_context msg_ctx{*this, msg_id};
+        return _get_queue(*pos).process_one(msg_ctx, handler);
     }
     return false;
 }
@@ -604,19 +605,19 @@ auto endpoint::process_all(message_id msg_id, method_handler handler)
   -> span_size_t {
     auto pos = _incoming.find(msg_id);
     if(pos != _incoming.end()) {
-        return _get_queue(*pos).process_all(handler);
+        const message_context msg_ctx{*this, msg_id};
+        return _get_queue(*pos).process_all(msg_ctx, handler);
     }
     return 0;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto endpoint::process_everything(generic_handler handler) -> span_size_t {
+auto endpoint::process_everything(method_handler handler) -> span_size_t {
     span_size_t result = 0;
+
     for(auto& entry : _incoming) {
-        auto wrapped_handler = [&entry, handler](stored_message& message) {
-            return handler(std::get<0>(entry), message);
-        };
-        result += _get_queue(entry).do_process_all(wrapped_handler);
+        const message_context msg_ctx{*this, std::get<0>(entry)};
+        result += _get_queue(entry).process_all(msg_ctx, handler);
     }
     return result;
 }

@@ -317,24 +317,26 @@ public:
         return respond_to(info, msg_id, {});
     }
 
-    using method_handler = callable_ref<bool(stored_message&)>;
+    using method_handler =
+      callable_ref<bool(const message_context&, stored_message&)>;
 
     auto process_one(message_id msg_id, method_handler handler) -> bool;
 
-    template <typename Class, bool (Class::*MemFnPtr)(stored_message&)>
+    template <
+      typename Class,
+      bool (Class::*MemFnPtr)(const message_context&, stored_message&)>
     auto process_one(
       message_id msg_id,
-      member_function_constant<bool (Class::*)(stored_message&), MemFnPtr>
-        method,
+      member_function_constant<
+        bool (Class::*)(const message_context&, stored_message&),
+        MemFnPtr> method,
       Class* instance) -> bool {
         return process_one(msg_id, {instance, method});
     }
 
     auto process_all(message_id msg_id, method_handler handler) -> span_size_t;
 
-    using generic_handler = callable_ref<bool(message_id, stored_message&)>;
-
-    auto process_everything(generic_handler handler) -> span_size_t;
+    auto process_everything(method_handler handler) -> span_size_t;
 };
 //------------------------------------------------------------------------------
 class friend_of_endpoint {

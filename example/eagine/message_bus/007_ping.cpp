@@ -15,6 +15,7 @@
 #include <eagine/message_bus/service/discovery.hpp>
 #include <eagine/message_bus/service/ping_pong.hpp>
 #include <eagine/message_bus/service/shutdown.hpp>
+#include <eagine/message_bus/service/system_info.hpp>
 #include <eagine/timeout.hpp>
 #include <algorithm>
 #include <chrono>
@@ -27,6 +28,8 @@ namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
 struct ping_stats {
+    std::string hostname;
+    span_size_t num_cores{0};
     std::chrono::microseconds min_time{std::chrono::microseconds::max()};
     std::chrono::microseconds max_time{std::chrono::microseconds::zero()};
     std::chrono::microseconds sum_time{std::chrono::microseconds::zero()};
@@ -63,8 +66,8 @@ struct ping_stats {
     }
 };
 //------------------------------------------------------------------------------
-using ping_base =
-  service_composition<pinger<subscriber_discovery<shutdown_invoker<>>>>;
+using ping_base = service_composition<
+  pinger<system_info_consumer<subscriber_discovery<shutdown_invoker<>>>>>;
 
 class ping_example : public ping_base {
     using base = ping_base;
@@ -85,6 +88,24 @@ public:
     void on_unsubscribed(identifier_t id, message_id sub_msg) final {
         if(sub_msg == EAGINE_MSG_ID(eagiPing, ping)) {
             _log.info("pingable ${id} disappeared").arg(EAGINE_ID(id), id);
+        }
+    }
+
+    void on_hostname_received(
+      const result_context& res_ctx,
+      valid_if_not_empty<std::string>&& hostname) final {
+        auto& stats = _targets[res_ctx.source_id()];
+        if(hostname) {
+            stats.hostname = extract(std::move(hostname));
+        }
+    }
+
+    void on_cpu_concurrent_threads_received(
+      const result_context& res_ctx,
+      valid_if_positive<span_size_t>&& num_cores) final {
+        auto& stats = _targets[res_ctx.source_id()];
+        if(num_cores) {
+            stats.num_cores = extract(num_cores);
         }
     }
 
@@ -142,14 +163,19 @@ public:
                 _should_query_pingable.reset();
             }
         } else {
-            for(auto& entry : _targets) {
-                const auto pingable_id = std::get<0>(entry);
+            for(auto& [pingable_id, entry] : _targets) {
                 if(_rcvd < _max) {
                     if(_sent < (_rcvd + _tout + _mod)) {
                         this->ping(pingable_id, std::chrono::seconds(5));
                         if(EAGINE_UNLIKELY((++_sent % _mod) == 0)) {
                             _log.info("sent ${sent} pings")
                               .arg(EAGINE_ID(sent), _sent);
+                            if(entry.hostname.empty()) {
+                                this->query_hostname(pingable_id);
+                            }
+                            if(!entry.num_cores) {
+                                this->query_cpu_concurrent_threads(pingable_id);
+                            }
                         }
                         something_done();
                     }
@@ -176,6 +202,8 @@ public:
 
             _log.stat("pingable ${id} stats:")
               .arg(EAGINE_ID(id), id)
+              .arg(EAGINE_ID(hostname), info.hostname)
+              .arg(EAGINE_ID(numCores), info.num_cores)
               .arg(EAGINE_ID(minTime), info.min_time)
               .arg(EAGINE_ID(maxTime), info.max_time)
               .arg(EAGINE_ID(avgTime), info.avg_time())

@@ -31,7 +31,7 @@ struct str_utils_server : static_subscriber<2> {
           EAGINE_MSG_MAP(StrUtilReq, Reverse, this_class, reverse))
       , _log{EAGINE_ID(Server), parent} {}
 
-    auto reverse(stored_message& msg) -> bool {
+    auto reverse(const message_context&, stored_message& msg) -> bool {
         auto str = msg.text_content();
         _log.trace("received request: ${content}").arg(EAGINE_ID(content), str);
         memory::reverse(str);
@@ -39,7 +39,7 @@ struct str_utils_server : static_subscriber<2> {
         return true;
     }
 
-    auto uppercase(stored_message& msg) -> bool {
+    auto uppercase(const message_context&, stored_message& msg) -> bool {
         auto str = msg.text_content();
         transform(str, [](char x) { return char(std::toupper(x)); });
         bus().send(EAGINE_MSG_ID(StrUtilRes, UpperCase), as_bytes(str));
@@ -73,7 +73,7 @@ struct str_utils_client : static_subscriber<2> {
         bus().send(EAGINE_MSG_ID(StrUtilReq, UpperCase), as_bytes(str));
     }
 
-    auto print(stored_message& msg) -> bool {
+    auto print(const message_context&, stored_message& msg) -> bool {
         _log.info("received response: ${content}")
           .arg(EAGINE_ID(content), msg.text_content());
         --_remaining;

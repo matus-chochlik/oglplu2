@@ -258,9 +258,9 @@ auto blob_manipulator::process_incoming(
                 }
             }
         } else {
-            _log.debug("invalid blob fragment offset ${offset}")
-              .arg(EAGINE_ID(offset), offset)
-              .arg(EAGINE_ID(total), total_size);
+            _log.debug("blob is too big ${total_size}")
+              .arg(EAGINE_ID(total), total_size)
+              .arg(EAGINE_ID(offset), _max_blob_size);
         }
     } else {
         _log.debug("failed to deserialize header of blob")

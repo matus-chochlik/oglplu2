@@ -14,6 +14,8 @@
 #endif
 
 #if EAGINE_POSIX
+#include <eagine/types.hpp>
+#include <array>
 #include <unistd.h>
 #endif
 
@@ -39,6 +41,17 @@ static inline auto system_info_linux_load_avg(std::size_t which) noexcept
              (std::thread::hardware_concurrency()));
 }
 #endif
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto system_info::hostname() const -> valid_if_not_empty<std::string> {
+#if EAGINE_POSIX
+    std::array<char, 1024> hname{};
+    if(::gethostname(hname.data(), std_size(hname.size())) == 0) {
+        return {std::string(hname.data())};
+    }
+#endif
+    return {};
+}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto system_info::memory_page_size() const noexcept

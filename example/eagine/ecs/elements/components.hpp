@@ -385,6 +385,26 @@ struct beta_p_decay : ecs::component<beta_p_decay> {
     element_symbol product;
 };
 //------------------------------------------------------------------------------
+struct beta_p2_decay : ecs::component<beta_p2_decay> {
+    static constexpr auto uid() noexcept {
+        return EAGINE_ID_V(BetaP2Dcy);
+    }
+
+    static auto symbol() noexcept -> string_view {
+        return {"β⁺,β⁺"};
+    }
+
+    static constexpr auto proton_count_diff() noexcept -> short {
+        return -2;
+    }
+
+    static constexpr auto neutron_count_diff() noexcept -> short {
+        return 2;
+    }
+
+    element_symbol product;
+};
+//------------------------------------------------------------------------------
 struct beta_p_alpha_decay : ecs::component<beta_p_alpha_decay> {
     static constexpr auto uid() noexcept {
         return EAGINE_ID_V(BtaPAlpDcy);
