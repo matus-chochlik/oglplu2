@@ -22,6 +22,34 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
+class result_context {
+public:
+    result_context(
+      const message_context& msg_ctx,
+      identifier_t src_id,
+      message_sequence_t invc_id) noexcept
+      : _msg_ctx{msg_ctx}
+      , _source_id{src_id}
+      , _invocation_id{invc_id} {}
+
+    auto msg_context() const noexcept -> const message_context& {
+        return _msg_ctx;
+    }
+
+    auto source_id() const noexcept {
+        return _source_id;
+    }
+
+    auto invocation_id() const noexcept {
+        return _invocation_id;
+    }
+
+private:
+    const message_context& _msg_ctx;
+    identifier_t _source_id{0U};
+    message_sequence_t _invocation_id{0};
+};
+//------------------------------------------------------------------------------
 template <
   typename Result,
   typename Serializer,
@@ -29,25 +57,29 @@ template <
   std::size_t MaxDataSize,
   bool NoExcept>
 class callback_invoker_base {
-    using _callback_t = callable_ref<void(Result) noexcept(NoExcept)>;
 
 public:
-    auto fulfill_by(const message_context&, stored_message& message) -> bool {
+    auto fulfill_by(const message_context& msg_ctx, stored_message& response)
+      -> bool {
         Result result{};
 
-        block_data_source source(message.content());
+        block_data_source source(response.content());
         Deserializer read_backend(source);
 
-        if(message.has_serializer_id(read_backend.type_id())) {
+        if(response.has_serializer_id(read_backend.type_id())) {
             const auto errors{deserialize(result, read_backend)};
             if(!errors) {
-                _callback(std::move(result));
+                const result_context res_ctx{
+                  msg_ctx, response.source_id, response.sequence_no};
+                _callback(res_ctx, std::move(result));
             }
         }
         return true;
     }
 
 protected:
+    using _callback_t =
+      callable_ref<void(const result_context&, Result) noexcept(NoExcept)>;
     _callback_t _callback{};
 };
 //------------------------------------------------------------------------------
@@ -60,7 +92,10 @@ class callback_invoker_base<void, Serializer, Deserializer, MaxDataSize, NoExcep
     using _callback_t = callable_ref_impl<void() noexcept(NoExcept), NoExcept>;
 
 public:
-    auto fulfill_by(const message_context&, stored_message&) -> bool {
+    auto fulfill_by(const message_context& msg_ctx, stored_message& response)
+      -> bool {
+        const result_context res_ctx{
+          msg_ctx, response.source_id, response.sequence_no};
         _callback();
         return true;
     }
@@ -95,20 +130,15 @@ class callback_invoker
 public:
     using base::base;
 
-    template <typename Class>
-    auto operator()(
-      Class* that,
-      void (Class::*func)(_result_t) noexcept(is_noexcept_function_v<Signature>))
+    template <typename Class, typename MfcT, MfcT Mfc>
+    auto operator()(Class* that, member_function_constant<MfcT, Mfc> func)
       -> callback_invoker& {
         this->_callback = _callback_t{that, func};
         return *this;
     }
 
-    template <typename Class>
-    auto operator()(
-      const Class* that,
-      void (Class::*func)(_result_t)
-        const noexcept(is_noexcept_function_v<Signature>))
+    template <typename Class, typename MfcT, MfcT Mfc>
+    auto operator()(const Class* that, member_function_constant<MfcT, Mfc> func)
       -> callback_invoker& {
         this->_callback = _callback_t{that, func};
         return *this;
@@ -136,6 +166,17 @@ public:
             return true;
         }
         return false;
+    }
+
+    template <typename... Args>
+    auto invoke_on(
+      endpoint& bus,
+      identifier_t target_id,
+      message_id msg_id,
+      Args&&... args) -> bool {
+        std::array<byte, MaxDataSize> temp{};
+        return invoke_on(
+          bus, target_id, msg_id, cover(temp), std::forward<Args>(args)...);
     }
 
     constexpr auto map_fulfill_by(message_id msg_id) noexcept {
