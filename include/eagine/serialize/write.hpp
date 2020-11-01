@@ -15,6 +15,7 @@
 #include "../nothing.hpp"
 #include "../reflect/data_members.hpp"
 #include "../reflect/enumerators.hpp"
+#include "../valid_if/decl.hpp"
 #include "write_backend.hpp"
 #include <array>
 #include <chrono>
@@ -72,7 +73,7 @@ struct plain_serializer {
     static auto write(T value, Backend& backend) {
         span_size_t written{0};
         auto errors = backend.write(view_one(value), written);
-        if(written < 1) {
+        if(EAGINE_UNLIKELY(written < 1)) {
             EAGINE_ASSERT(errors.has(serialization_error_code::too_much_data));
         }
         return errors;
@@ -82,9 +83,9 @@ struct plain_serializer {
     static auto write(span<const T> values, Backend& backend) {
         span_size_t written{0};
         auto errors = backend.write(values, written);
-        if(written < 1) {
+        if(EAGINE_UNLIKELY(written < 1)) {
             EAGINE_ASSERT(errors.has(serialization_error_code::too_much_data));
-        } else if(written < values.size()) {
+        } else if(EAGINE_UNLIKELY(written < values.size())) {
             EAGINE_ASSERT(
               errors.has(serialization_error_code::incomplete_write) ||
               errors.has(serialization_error_code::too_much_data));
@@ -142,11 +143,11 @@ struct common_serializer {
         for(auto& elem : values) {
             auto th = sink.begin_work();
             errors |= backend.begin_element(i);
-            if(!errors) {
+            if(EAGINE_LIKELY(!errors)) {
                 errors |=
                   static_cast<serializer<T>*>(this)->write(elem, backend);
                 errors |= backend.finish_element(i++);
-                if(!errors) {
+                if(EAGINE_LIKELY(!errors)) {
                     sink.commit(th);
                 } else if(errors.has_at_most(tmd)) {
                     errors.clear(tmd);
@@ -178,7 +179,7 @@ struct serializer<std::tuple<T...>> : common_serializer<std::tuple<T...>> {
     auto write(const std::tuple<T...>& values, Backend& backend) {
         serialization_errors errors{};
         errors |= backend.begin_list(span_size(sizeof...(T)));
-        if(!errors) {
+        if(EAGINE_LIKELY(!errors)) {
             _write_elements(
               errors, values, backend, std::make_index_sequence<sizeof...(T)>());
             errors |= backend.finish_list();
@@ -205,9 +206,9 @@ private:
       Elem& elem,
       Backend& backend,
       Serializer& serial) {
-        if(!errors) {
+        if(EAGINE_LIKELY(!errors)) {
             errors |= backend.begin_element(span_size(index));
-            if(!errors) {
+            if(EAGINE_LIKELY(!errors)) {
                 errors |= serial.write(elem, backend);
                 errors |= backend.finish_element(span_size(index));
             }
@@ -227,7 +228,7 @@ struct serializer<std::tuple<std::pair<string_view, T>...>>
       Backend& backend) {
         serialization_errors errors{};
         errors |= backend.begin_struct(span_size(sizeof...(T)));
-        if(!errors) {
+        if(EAGINE_LIKELY(!errors)) {
             _write_members(
               errors,
               members,
@@ -261,9 +262,9 @@ private:
       Memb& value,
       Backend& backend,
       Serializer& serial) {
-        if(!errors) {
+        if(EAGINE_LIKELY(!errors)) {
             errors |= backend.begin_member(name);
-            if(!errors) {
+            if(EAGINE_LIKELY(!errors)) {
                 errors |= serial.write(value, backend);
                 errors |= backend.finish_member(name);
             }
@@ -314,7 +315,7 @@ struct serializer<span<const T>> : common_serializer<span<const T>> {
     auto write(span<const T> values, Backend& backend) {
         serialization_errors errors{};
         errors |= backend.begin_list(values.size());
-        if(!errors) {
+        if(EAGINE_LIKELY(!errors)) {
             errors |= _elem_serializer.write(values, backend);
             errors |= backend.finish_list();
         }
@@ -339,14 +340,14 @@ struct serializer<fragment_serialize_wrapper<span<const T>>>
     write(fragment_serialize_wrapper<span<const T>>& frag, Backend& backend) {
         serialization_errors errors{};
         errors |= _size_serializer.write(frag.offset(), backend);
-        if(!errors) {
+        if(EAGINE_LIKELY(!errors)) {
             auto todo = frag.remaining();
             errors |= _size_serializer.write(todo.size(), backend);
-            if(!errors) {
+            if(EAGINE_LIKELY(!errors)) {
                 span_size_t written{0};
                 errors |= backend.write(todo, written);
-                if(errors.has_at_most(
-                     serialization_error_code::incomplete_write)) {
+                if(EAGINE_LIKELY(errors.has_at_most(
+                     serialization_error_code::incomplete_write))) {
                     frag.advance(written);
                 }
             }
@@ -366,7 +367,7 @@ struct serializer<std::array<T, N>> : common_serializer<std::array<T, N>> {
     auto write(const std::array<T, N>& values, Backend& backend) {
         serialization_errors errors{};
         errors |= backend.begin_list(span_size(N));
-        if(!errors) {
+        if(EAGINE_LIKELY(!errors)) {
             errors |= _elem_serializer.write(view(values), backend);
             errors |= backend.finish_list();
         }
@@ -386,7 +387,7 @@ struct serializer<std::vector<T, A>> : common_serializer<std::vector<T, A>> {
     auto write(const std::vector<T, A>& values, Backend& backend) {
         serialization_errors errors{};
         errors |= backend.begin_list(values.size());
-        if(!errors) {
+        if(EAGINE_LIKELY(!errors)) {
             errors |= _elem_serializer.write(view(values), backend);
             errors |= backend.finish_list();
         }
@@ -408,6 +409,27 @@ struct serializer<std::chrono::duration<Rep>>
 
 private:
     serializer<Rep> _serializer{};
+};
+//------------------------------------------------------------------------------
+template <typename T, typename P>
+struct serializer<valid_if<T, P>> : common_serializer<valid_if<T, P>> {
+
+    template <typename Backend>
+    auto write(const valid_if<T, P>& value, Backend& backend) {
+        serialization_errors errors{};
+        const bool is_valid = value.is_valid();
+        errors |= backend.begin_list(is_valid ? 1 : 0);
+        if(EAGINE_LIKELY(!errors)) {
+            if(is_valid) {
+                errors |= _serializer.write(value.value_anyway(), backend);
+            }
+            errors |= backend.finish_list();
+        }
+        return errors;
+    }
+
+private:
+    serializer<T> _serializer{};
 };
 //------------------------------------------------------------------------------
 template <typename T>
@@ -459,7 +481,7 @@ auto serialize(T& value, Backend& backend) -> std::enable_if_t<
   serialization_errors> {
     serialization_errors errors{};
     errors |= backend.begin();
-    if(!errors) {
+    if(EAGINE_LIKELY(!errors)) {
         serializer<std::remove_cv_t<T>> writer;
         errors |= writer.write(value, backend);
         errors |= backend.finish();
