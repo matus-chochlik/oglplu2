@@ -27,27 +27,26 @@ class system_info_impl;
 
 class system_info {
 public:
-    auto hostname() const -> valid_if_not_empty<std::string>;
+    auto hostname() noexcept -> valid_if_not_empty<std::string>;
 
-    auto uptime() const noexcept -> std::chrono::duration<float>;
+    auto uptime() noexcept -> std::chrono::duration<float>;
 
-    auto cpu_concurrent_threads() const noexcept
-      -> valid_if_positive<span_size_t> {
+    auto cpu_concurrent_threads() noexcept -> valid_if_positive<span_size_t> {
         return {span_size(std::thread::hardware_concurrency())};
     }
 
-    auto current_processes() const noexcept -> valid_if_positive<span_size_t>;
+    auto current_processes() noexcept -> valid_if_positive<span_size_t>;
 
-    auto short_average_load() const noexcept -> valid_if_nonnegative<float>;
-    auto long_average_load() const noexcept -> valid_if_nonnegative<float>;
+    auto short_average_load() noexcept -> valid_if_nonnegative<float>;
+    auto long_average_load() noexcept -> valid_if_nonnegative<float>;
 
-    auto memory_page_size() const noexcept -> valid_if_positive<span_size_t>;
+    auto memory_page_size() noexcept -> valid_if_positive<span_size_t>;
 
-    auto free_ram_size() const noexcept -> valid_if_positive<span_size_t>;
-    auto total_ram_size() const noexcept -> valid_if_positive<span_size_t>;
+    auto free_ram_size() noexcept -> valid_if_positive<span_size_t>;
+    auto total_ram_size() noexcept -> valid_if_positive<span_size_t>;
 
-    auto free_swap_size() const noexcept -> valid_if_positive<span_size_t>;
-    auto total_swap_size() const noexcept -> valid_if_positive<span_size_t>;
+    auto free_swap_size() noexcept -> valid_if_positive<span_size_t>;
+    auto total_swap_size() noexcept -> valid_if_positive<span_size_t>;
 
     auto cpu_temperature() noexcept -> valid_if_positive<kelvins_t<float>>;
 

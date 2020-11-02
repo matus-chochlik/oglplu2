@@ -99,7 +99,8 @@ protected:
     }
 
 private:
-    default_function_skeleton<valid_if_not_empty<std::string>(), 1024> _hostname;
+    default_function_skeleton<valid_if_not_empty<std::string>() noexcept, 1024>
+      _hostname;
 
     default_function_skeleton<std::chrono::duration<float>() noexcept, 32>
       _uptime;

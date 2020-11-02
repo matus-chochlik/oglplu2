@@ -43,14 +43,12 @@ static inline auto system_info_linux_load_avg(std::size_t which) noexcept
 //------------------------------------------------------------------------------
 class system_info_impl {
 public:
-    auto cpu_temperature() const noexcept
-      -> valid_if_positive<kelvins_t<float>> {
+    auto cpu_temperature() noexcept -> valid_if_positive<kelvins_t<float>> {
         // TODO read from sysfs
         return {kelvins_(0.F)};
     }
 
-    auto gpu_temperature() const noexcept
-      -> valid_if_positive<kelvins_t<float>> {
+    auto gpu_temperature() noexcept -> valid_if_positive<kelvins_t<float>> {
         // TODO read from sysfs
         return {kelvins_(0.F)};
     }
@@ -76,18 +74,21 @@ auto system_info::_impl() noexcept -> system_info_impl* {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto system_info::hostname() const -> valid_if_not_empty<std::string> {
+auto system_info::hostname() noexcept -> valid_if_not_empty<std::string> {
 #if EAGINE_POSIX
-    std::array<char, 1024> hname{};
-    if(::gethostname(hname.data(), std_size(hname.size())) == 0) {
-        return {std::string(hname.data())};
+    try {
+        std::array<char, 1024> hname{};
+        if(::gethostname(hname.data(), std_size(hname.size())) == 0) {
+            return {std::string(hname.data())};
+        }
+    } catch(...) {
     }
 #endif
     return {};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto system_info::memory_page_size() const noexcept
+auto system_info::memory_page_size() noexcept
   -> valid_if_positive<span_size_t> {
 #if EAGINE_POSIX
 #if defined(_SC_PAGESIZE)
@@ -98,7 +99,7 @@ auto system_info::memory_page_size() const noexcept
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto system_info::current_processes() const noexcept
+auto system_info::current_processes() noexcept
   -> valid_if_positive<span_size_t> {
 #if EAGINE_LINUX
     return {span_size(system_info_linux_sysinfo().procs)};
@@ -107,8 +108,7 @@ auto system_info::current_processes() const noexcept
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto system_info::short_average_load() const noexcept
-  -> valid_if_nonnegative<float> {
+auto system_info::short_average_load() noexcept -> valid_if_nonnegative<float> {
 #if EAGINE_LINUX
     return {system_info_linux_load_avg(0)};
 #endif
@@ -116,8 +116,7 @@ auto system_info::short_average_load() const noexcept
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto system_info::long_average_load() const noexcept
-  -> valid_if_nonnegative<float> {
+auto system_info::long_average_load() noexcept -> valid_if_nonnegative<float> {
 #if EAGINE_LINUX
     return {system_info_linux_load_avg(1)};
 #endif
@@ -125,7 +124,7 @@ auto system_info::long_average_load() const noexcept
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto system_info::uptime() const noexcept -> std::chrono::duration<float> {
+auto system_info::uptime() noexcept -> std::chrono::duration<float> {
     using r_t = std::chrono::duration<float>;
 #if EAGINE_LINUX
     return r_t{system_info_linux_sysinfo().uptime};
@@ -134,8 +133,7 @@ auto system_info::uptime() const noexcept -> std::chrono::duration<float> {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto system_info::free_ram_size() const noexcept
-  -> valid_if_positive<span_size_t> {
+auto system_info::free_ram_size() noexcept -> valid_if_positive<span_size_t> {
 #if EAGINE_LINUX
     const auto& si = system_info_linux_sysinfo();
     return {span_size(si.freeram * si.mem_unit)};
@@ -144,8 +142,7 @@ auto system_info::free_ram_size() const noexcept
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto system_info::total_ram_size() const noexcept
-  -> valid_if_positive<span_size_t> {
+auto system_info::total_ram_size() noexcept -> valid_if_positive<span_size_t> {
 #if EAGINE_LINUX
     const auto& si = system_info_linux_sysinfo();
     return {span_size(si.totalram * si.mem_unit)};
@@ -154,8 +151,7 @@ auto system_info::total_ram_size() const noexcept
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto system_info::free_swap_size() const noexcept
-  -> valid_if_positive<span_size_t> {
+auto system_info::free_swap_size() noexcept -> valid_if_positive<span_size_t> {
 #if EAGINE_LINUX
     const auto& si = system_info_linux_sysinfo();
     return {span_size(si.freeswap * si.mem_unit)};
@@ -164,8 +160,7 @@ auto system_info::free_swap_size() const noexcept
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto system_info::total_swap_size() const noexcept
-  -> valid_if_positive<span_size_t> {
+auto system_info::total_swap_size() noexcept -> valid_if_positive<span_size_t> {
 #if EAGINE_LINUX
     const auto& si = system_info_linux_sysinfo();
     return {span_size(si.totalswap * si.mem_unit)};
@@ -177,7 +172,7 @@ EAGINE_LIB_FUNC
 auto system_info::cpu_temperature() noexcept
   -> valid_if_positive<kelvins_t<float>> {
 #if EAGINE_LINUX
-    if(const auto impl{_impl()}) {
+    if(auto impl{_impl()}) {
         return extract(impl).cpu_temperature();
     }
 #endif
@@ -188,7 +183,7 @@ EAGINE_LIB_FUNC
 auto system_info::gpu_temperature() noexcept
   -> valid_if_positive<kelvins_t<float>> {
 #if EAGINE_LINUX
-    if(const auto impl{_impl()}) {
+    if(auto impl{_impl()}) {
         return extract(impl).gpu_temperature();
     }
 #endif
