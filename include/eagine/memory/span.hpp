@@ -454,7 +454,7 @@ struct equal_cmp<memory::basic_span<Tl, Pl, Sl>, memory::basic_span<Tr, Pr, Sr>>
         if(are_equal(l.size(), r.size())) {
             if constexpr(
               std::is_same_v<std::remove_const_t<Tl>, std::remove_const_t<Tr>> &&
-              std::is_trivial_v<std::remove_const_t<Tl>>) {
+              std::is_integral_v<std::remove_const_t<Tl>>) {
                 return 0 ==
                        std::memcmp(
                          l.data(), r.data(), sizeof(Tl) * std_size(l.size()));
