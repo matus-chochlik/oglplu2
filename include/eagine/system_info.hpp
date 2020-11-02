@@ -11,6 +11,7 @@
 
 #include "config/basic.hpp"
 #include "config/platform.hpp"
+#include "logging/logger.hpp"
 #include "quantities.hpp"
 #include "types.hpp"
 #include "valid_if/nonnegative.hpp"
@@ -27,6 +28,9 @@ class system_info_impl;
 
 class system_info {
 public:
+    system_info(logger& parent) noexcept
+      : _log{EAGINE_ID(SystemInfo), parent} {}
+
     auto hostname() noexcept -> valid_if_not_empty<std::string>;
 
     auto uptime() noexcept -> std::chrono::duration<float>;
@@ -53,9 +57,10 @@ public:
     auto gpu_temperature() noexcept -> valid_if_positive<kelvins_t<float>>;
 
 private:
-    auto _impl() noexcept -> system_info_impl*;
+    logger _log;
 
     std::shared_ptr<system_info_impl> _pimpl;
+    auto _impl() noexcept -> system_info_impl*;
 };
 
 } // namespace eagine

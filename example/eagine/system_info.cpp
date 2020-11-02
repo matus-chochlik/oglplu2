@@ -36,6 +36,16 @@ auto main(main_ctx& ctx) -> int {
     std::cout << "total RAM size: "
               << extract_or(ctx.system().total_ram_size(), 0) << std::endl;
 
+    std::cout << "free swap size: "
+              << extract_or(ctx.system().free_swap_size(), 0) << std::endl;
+    std::cout << "total swap size: "
+              << extract_or(ctx.system().total_swap_size(), 0) << std::endl;
+
+    std::cout
+      << "CPU temperature [K]: "
+      << extract_or(ctx.system().cpu_temperature(), kelvins_(0.F)).value()
+      << std::endl;
+
     return 0;
 }
 

@@ -19,7 +19,6 @@
 #include <eagine/serialize/fast_backend.hpp>
 #include <eagine/serialize/read.hpp>
 #include <eagine/serialize/write.hpp>
-#include <eagine/system_info.hpp>
 #include <iostream>
 #include <queue>
 #include <set>
@@ -161,8 +160,8 @@ private:
 auto main(main_ctx& ctx) -> int {
     auto& log = ctx.log();
 
-    system_info si;
-    const auto thread_count = extract_or(si.cpu_concurrent_threads(), 4);
+    const auto thread_count =
+      extract_or(ctx.system().cpu_concurrent_threads(), 4);
 
     auto acceptor = std::make_unique<msgbus::direct_acceptor>(log);
 

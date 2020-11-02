@@ -10,6 +10,8 @@
 #include <eagine/timeout.hpp>
 
 #if EAGINE_LINUX
+#include <eagine/value_tree/filesystem.hpp>
+#include <eagine/value_tree/wrappers.hpp>
 #include <sys/sysinfo.h>
 #endif
 
@@ -43,8 +45,35 @@ static inline auto system_info_linux_load_avg(std::size_t which) noexcept
 //------------------------------------------------------------------------------
 class system_info_impl {
 public:
+    system_info_impl(logger& parent)
+      : _sysfs{valtree::from_filesystem_path("/sys/devices", parent)} {
+        auto sysfs_scanner = [this](
+                               valtree::compound& c,
+                               const valtree::attribute& a,
+                               const basic_string_path&) {
+            if(auto temp_a{c.nested(a, "temp")}) {
+                if(auto type_a{c.nested(a, "type")}) {
+                    if(!_cpu_temp_a) {
+                        if(c.has_value(type_a, "cpu-thermal")) {
+                            _cpu_temp_a = temp_a;
+                        } else if(c.has_value(type_a, "acpitz")) {
+                            _cpu_temp_a = temp_a;
+                        }
+                    }
+                }
+            }
+            return true;
+        };
+        _sysfs.traverse(valtree::compound::visit_handler(sysfs_scanner));
+    }
+
     auto cpu_temperature() noexcept -> valid_if_positive<kelvins_t<float>> {
-        // TODO read from sysfs
+        if(_cpu_temp_a) {
+            float millicelsius{0.F};
+            if(_sysfs.fetch_value(_cpu_temp_a, millicelsius)) {
+                return kelvins_(millicelsius * 0.001F + 273.15F);
+            }
+        }
         return {kelvins_(0.F)};
     }
 
@@ -54,6 +83,9 @@ public:
     }
 
 private:
+    valtree::compound _sysfs;
+    valtree::attribute _cpu_temp_a;
+    valtree::attribute _gpu_temp_a;
 };
 //------------------------------------------------------------------------------
 #else
@@ -64,7 +96,7 @@ auto system_info::_impl() noexcept -> system_info_impl* {
 #if EAGINE_LINUX
     if(EAGINE_UNLIKELY(!_pimpl)) {
         try {
-            _pimpl = std::make_shared<system_info_impl>();
+            _pimpl = std::make_shared<system_info_impl>(_log);
         } catch(...) {
         }
     }
