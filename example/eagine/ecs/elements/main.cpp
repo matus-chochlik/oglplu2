@@ -80,7 +80,7 @@ print_isotopes_of_hydrogen(ecs::basic_manager<element_symbol>& elements) {
           if(elements.has<isotope>("H", isot)) {
               std::cout << isot << ": " << neutrons.read().number;
               if(elements.has<half_life>(isot)) {
-                  std::cout << " (radioactive)";
+                  std::cout << " (unstable)";
               }
               std::cout << std::endl;
           }
