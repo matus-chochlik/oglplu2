@@ -452,7 +452,9 @@ struct equal_cmp<memory::basic_span<Tl, Pl, Sl>, memory::basic_span<Tr, Pr, Sr>>
       memory::basic_span<Tl, Pl, Sl> l,
       memory::basic_span<Tr, Pr, Sr> r) noexcept -> bool {
         if(are_equal(l.size(), r.size())) {
-            if constexpr(std::is_same_v<Tl, Tr> && std::is_trivial_v<Tl>) {
+            if constexpr(
+              std::is_same_v<std::remove_const_t<Tl>, std::remove_const_t<Tr>> &&
+              std::is_trivial_v<std::remove_const_t<Tl>>) {
                 return 0 ==
                        std::memcmp(
                          l.data(), r.data(), sizeof(Tl) * std_size(l.size()));
