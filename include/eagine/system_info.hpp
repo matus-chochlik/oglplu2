@@ -32,6 +32,8 @@ public:
         return {span_size(std::thread::hardware_concurrency())};
     }
 
+    auto current_processes() const noexcept -> valid_if_positive<span_size_t>;
+
     auto short_average_load() const noexcept -> valid_if_nonnegative<float>;
     auto long_average_load() const noexcept -> valid_if_nonnegative<float>;
 
@@ -39,6 +41,9 @@ public:
 
     auto free_ram_size() const noexcept -> valid_if_positive<span_size_t>;
     auto total_ram_size() const noexcept -> valid_if_positive<span_size_t>;
+
+    auto free_swap_size() const noexcept -> valid_if_positive<span_size_t>;
+    auto total_swap_size() const noexcept -> valid_if_positive<span_size_t>;
 };
 
 } // namespace eagine

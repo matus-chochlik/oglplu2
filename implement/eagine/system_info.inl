@@ -65,6 +65,15 @@ auto system_info::memory_page_size() const noexcept
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto system_info::current_processes() const noexcept
+  -> valid_if_positive<span_size_t> {
+#if EAGINE_LINUX
+    return {span_size(system_info_linux_sysinfo().procs)};
+#endif
+    return {0};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto system_info::short_average_load() const noexcept
   -> valid_if_nonnegative<float> {
 #if EAGINE_LINUX
@@ -95,7 +104,8 @@ EAGINE_LIB_FUNC
 auto system_info::free_ram_size() const noexcept
   -> valid_if_positive<span_size_t> {
 #if EAGINE_LINUX
-    return {span_size(system_info_linux_sysinfo().freeram)};
+    const auto& si = system_info_linux_sysinfo();
+    return {span_size(si.freeram * si.mem_unit)};
 #endif
     return {0};
 }
@@ -104,7 +114,28 @@ EAGINE_LIB_FUNC
 auto system_info::total_ram_size() const noexcept
   -> valid_if_positive<span_size_t> {
 #if EAGINE_LINUX
-    return {span_size(system_info_linux_sysinfo().totalram)};
+    const auto& si = system_info_linux_sysinfo();
+    return {span_size(si.totalram * si.mem_unit)};
+#endif
+    return {0};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto system_info::free_swap_size() const noexcept
+  -> valid_if_positive<span_size_t> {
+#if EAGINE_LINUX
+    const auto& si = system_info_linux_sysinfo();
+    return {span_size(si.freeswap * si.mem_unit)};
+#endif
+    return {0};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto system_info::total_swap_size() const noexcept
+  -> valid_if_positive<span_size_t> {
+#if EAGINE_LINUX
+    const auto& si = system_info_linux_sysinfo();
+    return {span_size(si.totalswap * si.mem_unit)};
 #endif
     return {0};
 }
