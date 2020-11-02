@@ -11,15 +11,19 @@
 
 #include "config/basic.hpp"
 #include "config/platform.hpp"
+#include "quantities.hpp"
 #include "types.hpp"
 #include "valid_if/nonnegative.hpp"
 #include "valid_if/not_empty.hpp"
 #include "valid_if/positive.hpp"
 #include <chrono>
+#include <memory>
 #include <string>
 #include <thread>
 
 namespace eagine {
+
+class system_info_impl;
 
 class system_info {
 public:
@@ -44,6 +48,15 @@ public:
 
     auto free_swap_size() const noexcept -> valid_if_positive<span_size_t>;
     auto total_swap_size() const noexcept -> valid_if_positive<span_size_t>;
+
+    auto cpu_temperature() noexcept -> valid_if_positive<kelvins_t<float>>;
+
+    auto gpu_temperature() noexcept -> valid_if_positive<kelvins_t<float>>;
+
+private:
+    auto _impl() noexcept -> system_info_impl*;
+
+    std::shared_ptr<system_info_impl> _pimpl;
 };
 
 } // namespace eagine

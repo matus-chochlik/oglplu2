@@ -40,7 +40,40 @@ static inline auto system_info_linux_load_avg(std::size_t which) noexcept
              (1U << static_cast<unsigned>(SI_LOAD_SHIFT)) *
              (std::thread::hardware_concurrency()));
 }
+//------------------------------------------------------------------------------
+class system_info_impl {
+public:
+    auto cpu_temperature() const noexcept
+      -> valid_if_positive<kelvins_t<float>> {
+        // TODO read from sysfs
+        return {kelvins_(0.F)};
+    }
+
+    auto gpu_temperature() const noexcept
+      -> valid_if_positive<kelvins_t<float>> {
+        // TODO read from sysfs
+        return {kelvins_(0.F)};
+    }
+
+private:
+};
+//------------------------------------------------------------------------------
+#else
 #endif
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto system_info::_impl() noexcept -> system_info_impl* {
+#if EAGINE_LINUX
+    if(EAGINE_UNLIKELY(!_pimpl)) {
+        try {
+            _pimpl = std::make_shared<system_info_impl>();
+        } catch(...) {
+        }
+    }
+    return _pimpl.get();
+#endif
+    return nullptr;
+}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto system_info::hostname() const -> valid_if_not_empty<std::string> {
@@ -138,6 +171,28 @@ auto system_info::total_swap_size() const noexcept
     return {span_size(si.totalswap * si.mem_unit)};
 #endif
     return {0};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto system_info::cpu_temperature() noexcept
+  -> valid_if_positive<kelvins_t<float>> {
+#if EAGINE_LINUX
+    if(const auto impl{_impl()}) {
+        return extract(impl).cpu_temperature();
+    }
+#endif
+    return {kelvins_(0.F)};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto system_info::gpu_temperature() noexcept
+  -> valid_if_positive<kelvins_t<float>> {
+#if EAGINE_LINUX
+    if(const auto impl{_impl()}) {
+        return extract(impl).gpu_temperature();
+    }
+#endif
+    return {kelvins_(0.F)};
 }
 //------------------------------------------------------------------------------
 } // namespace eagine

@@ -104,6 +104,15 @@ static constexpr inline auto degrees_(T value) noexcept {
     return degrees_t<T>{value};
 }
 
+// kelvins
+template <typename T>
+using kelvins_t = tagged_quantity<T, units::kelvin>;
+
+template <typename T>
+static constexpr inline auto kelvins_(T value) noexcept {
+    return kelvins_t<T>{value};
+}
+
 } // namespace eagine
 
 #ifdef __clang__
