@@ -30,6 +30,7 @@ namespace msgbus {
 struct ping_stats {
     std::string hostname;
     span_size_t num_cores{0};
+    span_size_t ram_size{0};
     std::chrono::microseconds min_time{std::chrono::microseconds::max()};
     std::chrono::microseconds max_time{std::chrono::microseconds::zero()};
     std::chrono::microseconds sum_time{std::chrono::microseconds::zero()};
@@ -109,6 +110,15 @@ public:
         }
     }
 
+    void on_total_ram_size_received(
+      const result_context& res_ctx,
+      valid_if_positive<span_size_t>&& ram_size) final {
+        auto& stats = _targets[res_ctx.source_id()];
+        if(ram_size) {
+            stats.ram_size = extract(ram_size);
+        }
+    }
+
     void on_ping_response(
       identifier_t pinger_id,
       message_sequence_t,
@@ -176,6 +186,9 @@ public:
                             if(!entry.num_cores) {
                                 this->query_cpu_concurrent_threads(pingable_id);
                             }
+                            if(!entry.ram_size) {
+                                this->query_total_ram_size(pingable_id);
+                            }
                         }
                         something_done();
                     }
@@ -204,6 +217,7 @@ public:
               .arg(EAGINE_ID(id), id)
               .arg(EAGINE_ID(hostname), info.hostname)
               .arg(EAGINE_ID(numCores), info.num_cores)
+              .arg(EAGINE_ID(ramSize), EAGINE_ID(ByteSize), info.ram_size)
               .arg(EAGINE_ID(minTime), info.min_time)
               .arg(EAGINE_ID(maxTime), info.max_time)
               .arg(EAGINE_ID(avgTime), info.avg_time())
