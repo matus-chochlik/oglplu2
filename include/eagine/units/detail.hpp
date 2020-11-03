@@ -271,11 +271,11 @@ struct get_dim_unit<unit_scales<uni_sca<U, S>, T>, BD, F>
       typename get_dim_unit<T, BD, F>::type> {};
 
 // merge
-template <typename UnitScales1, typename UnitScales2>
+template <typename UnitConv1, typename UnitConv2>
 struct merge;
 
-template <typename UnitScales1, typename UnitScales2>
-using merge_t = typename merge<UnitScales1, UnitScales2>::type;
+template <typename UnitConv1, typename UnitConv2>
+using merge_t = typename merge<UnitConv1, UnitConv2>::type;
 
 template <>
 struct merge<nothing_t, nothing_t> : unit_scales<nothing_t, nothing_t> {};

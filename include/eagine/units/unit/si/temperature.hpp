@@ -10,6 +10,7 @@
 #ifndef EAGINE_UNITS_UNIT_SI_TEMPERATURE_HPP
 #define EAGINE_UNITS_UNIT_SI_TEMPERATURE_HPP
 
+#include "../../custom_unit.hpp"
 #include "common.hpp"
 
 namespace eagine::units {
@@ -42,6 +43,21 @@ using millikelvin =
 
 using kilokelvin =
   make_scaled_base_dim_unit_t<base::scaled_unit<scales::kilo, base::kelvin>, si>;
+
+// celsius
+struct celsius_conv {
+    template <typename T>
+    static constexpr auto to_base(T v) noexcept -> T {
+        return v + T(273.15);
+    }
+
+    template <typename T>
+    static constexpr auto from_base(T v) noexcept -> T {
+        return v - T(273.15);
+    }
+};
+
+using degree_celsius = make_custom_unit_t<celsius_conv, kelvin>;
 
 } // namespace eagine::units
 

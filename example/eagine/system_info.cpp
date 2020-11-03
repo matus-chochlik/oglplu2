@@ -8,6 +8,7 @@
  */
 #include <eagine/main.hpp>
 #include <eagine/system_info.hpp>
+#include <eagine/units/unit/si/temperature.hpp>
 #include <iostream>
 
 namespace eagine {
@@ -44,8 +45,11 @@ auto main(main_ctx& ctx) -> int {
 
     for(span_size_t i = 0, n = sys.thermal_sensor_count(); i < n; ++i) {
         std::cout << "  " << i << ": ";
-        if(auto kelvin{sys.sensor_temperature(i)}) {
-            std::cout << extract(kelvin).value() << "[K]";
+        if(auto opt_t_kelvin{sys.sensor_temperature(i)}) {
+            std::cout << extract(opt_t_kelvin).value() << "[K], ";
+            tagged_quantity<float, units::degree_celsius> t_celsius{
+              extract(opt_t_kelvin)};
+            std::cout << t_celsius.value() << "[°C]";
         } else {
             std::cout << "N/A";
         }
