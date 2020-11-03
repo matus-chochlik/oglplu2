@@ -51,18 +51,39 @@ public:
         auto sysfs_scanner = [this](
                                valtree::compound& c,
                                const valtree::attribute& a,
-                               const basic_string_path&) {
+                               const basic_string_path& p) {
             if(!c.is_link(a)) {
-                if(auto temp_a{c.nested(a, "temp")}) {
-                    if(auto type_a{c.nested(a, "type")}) {
-                        if(!_cpu_temp_i) {
-                            if(c.has_value(type_a, "cpu-thermal")) {
-                                _cpu_temp_i = tz_count();
-                            } else if(c.has_value(type_a, "acpitz")) {
-                                _cpu_temp_i = tz_count();
+                bool is_tz{false};
+                bool is_cd{false};
+                for(auto& entry : p) {
+                    if(starts_with(entry, string_view("thermal_zone"))) {
+                        is_tz = true;
+                        break;
+                    }
+                    if(starts_with(entry, string_view("cooling_device"))) {
+                        is_cd = true;
+                        break;
+                    }
+                }
+                if(is_tz) {
+                    if(auto temp_a{c.nested(a, "temp")}) {
+                        if(auto type_a{c.nested(a, "type")}) {
+                            if(!_cpu_temp_i) {
+                                if(c.has_value(type_a, "cpu-thermal")) {
+                                    _cpu_temp_i = tz_count();
+                                } else if(c.has_value(type_a, "acpitz")) {
+                                    _cpu_temp_i = tz_count();
+                                }
                             }
+                            _tz_temp_a.emplace_back(temp_a);
                         }
-                        _tz_temp_a.push_back(temp_a);
+                    }
+                }
+                if(is_cd) {
+                    if(auto cur_a{c.nested(a, "cur_state")}) {
+                        if(auto max_a{c.nested(a, "max_state")}) {
+                            _cd_cm_a.emplace_back(cur_a, max_a);
+                        }
                     }
                 }
                 return true;
@@ -103,11 +124,34 @@ public:
         return {kelvins_(0.F)};
     }
 
+    auto cd_count() noexcept -> span_size_t {
+        return span_size(_cd_cm_a.size());
+    }
+
+    auto cd_state(span_size_t index) noexcept -> valid_if_between_0_1<float> {
+        EAGINE_ASSERT((index >= 0) && (index < cd_count()));
+        auto& [cur_a, max_a] = _cd_cm_a[index];
+        if(cur_a && max_a) {
+            float cur_s{0.F};
+            float max_s{0.F};
+            if(
+              _sysfs.fetch_value(cur_a, cur_s) &&
+              _sysfs.fetch_value(max_a, max_s)) {
+                if(max_s > 0.F) {
+                    return {cur_s / max_s};
+                }
+            }
+        }
+        return {-1.F};
+    }
+
 private:
     valtree::compound _sysfs;
     std::vector<valtree::attribute> _tz_temp_a;
     valid_if_nonnegative<span_size_t> _cpu_temp_i{-1};
     valid_if_nonnegative<span_size_t> _gpu_temp_i{-1};
+
+    std::vector<std::tuple<valtree::attribute, valtree::attribute>> _cd_cm_a;
 };
 //------------------------------------------------------------------------------
 #else
@@ -264,6 +308,28 @@ auto system_info::gpu_temperature() noexcept
     }
 #endif
     return {kelvins_(0.F)};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto system_info::cooling_device_count() noexcept -> span_size_t {
+#if EAGINE_LINUX
+    if(auto impl{_impl()}) {
+        return extract(impl).cd_count();
+    }
+#endif
+    return 0;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto system_info::cooling_device_state(span_size_t index) noexcept
+  -> valid_if_between_0_1<float> {
+#if EAGINE_LINUX
+    if(auto impl{_impl()}) {
+        return extract(impl).cd_state(index);
+    }
+#endif
+    EAGINE_MAYBE_UNUSED(index);
+    return {-1.F};
 }
 //------------------------------------------------------------------------------
 } // namespace eagine

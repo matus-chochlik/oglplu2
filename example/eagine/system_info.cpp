@@ -61,6 +61,20 @@ auto main(main_ctx& ctx) -> int {
         std::cout << std::endl;
     }
 
+    std::cout << "state of " << sys.cooling_device_count()
+              << " cooling devices: " << std::endl;
+
+    for(span_size_t i = 0, n = sys.cooling_device_count(); i < n; ++i) {
+        std::cout << "  " << i << ": ";
+        if(auto opt_val{sys.cooling_device_state(i)}) {
+
+            std::cout << extract(opt_val) * 100.F << "%";
+        } else {
+            std::cout << "N/A";
+        }
+        std::cout << std::endl;
+    }
+
     return 0;
 }
 

@@ -14,6 +14,7 @@
 #include "logging/logger.hpp"
 #include "quantities.hpp"
 #include "types.hpp"
+#include "valid_if/ge0_le1.hpp"
 #include "valid_if/nonnegative.hpp"
 #include "valid_if/not_empty.hpp"
 #include "valid_if/positive.hpp"
@@ -57,6 +58,10 @@ public:
       -> valid_if_positive<kelvins_t<float>>;
     auto cpu_temperature() noexcept -> valid_if_positive<kelvins_t<float>>;
     auto gpu_temperature() noexcept -> valid_if_positive<kelvins_t<float>>;
+
+    auto cooling_device_count() noexcept -> span_size_t;
+    auto cooling_device_state(span_size_t) noexcept
+      -> valid_if_between_0_1<float>;
 
 private:
     logger _log;
