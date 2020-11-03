@@ -353,6 +353,14 @@ public:
 
     void traverse(visit_handler visitor);
 
+    using stack_visit_handler = callable_ref<bool(
+      compound&,
+      const attribute&,
+      const basic_string_path&,
+      span<const attribute>)>;
+
+    void traverse(stack_visit_handler visitor);
+
 private:
     compound(std::shared_ptr<compound_interface> pimpl) noexcept
       : _pimpl{std::move(pimpl)} {}
