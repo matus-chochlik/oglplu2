@@ -52,8 +52,10 @@ public:
     auto free_swap_size() noexcept -> valid_if_positive<span_size_t>;
     auto total_swap_size() noexcept -> valid_if_positive<span_size_t>;
 
+    auto thermal_sensor_count() noexcept -> span_size_t;
+    auto sensor_temperature(span_size_t) noexcept
+      -> valid_if_positive<kelvins_t<float>>;
     auto cpu_temperature() noexcept -> valid_if_positive<kelvins_t<float>>;
-
     auto gpu_temperature() noexcept -> valid_if_positive<kelvins_t<float>>;
 
 private:

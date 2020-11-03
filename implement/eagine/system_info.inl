@@ -8,6 +8,7 @@
  */
 
 #include <eagine/timeout.hpp>
+#include <vector>
 
 #if EAGINE_LINUX
 #include <eagine/value_tree/filesystem.hpp>
@@ -47,45 +48,70 @@ class system_info_impl {
 public:
     system_info_impl(logger& parent)
       : _sysfs{valtree::from_filesystem_path("/sys/devices", parent)} {
-        auto sysfs_scanner = [this](
+        auto sysfs_scanner = [this, &parent](
                                valtree::compound& c,
                                const valtree::attribute& a,
-                               const basic_string_path&) {
-            if(auto temp_a{c.nested(a, "temp")}) {
-                if(auto type_a{c.nested(a, "type")}) {
-                    if(!_cpu_temp_a) {
-                        if(c.has_value(type_a, "cpu-thermal")) {
-                            _cpu_temp_a = temp_a;
-                        } else if(c.has_value(type_a, "acpitz")) {
-                            _cpu_temp_a = temp_a;
+                               const basic_string_path& p) {
+            if(!c.is_link(a)) {
+                if(auto temp_a{c.nested(a, "temp")}) {
+                    if(auto type_a{c.nested(a, "type")}) {
+                        if(!_cpu_temp_i) {
+                            if(c.has_value(type_a, "cpu-thermal")) {
+                                _cpu_temp_i = tz_count();
+                            } else if(c.has_value(type_a, "acpitz")) {
+                                _cpu_temp_i = tz_count();
+                            }
                         }
+                        _tz_temp_a.push_back(temp_a);
+                        parent.error("BLA").arg(
+                          EAGINE_ID(path),
+                          EAGINE_ID(FsPath),
+                          p.as_string("/", false));
                     }
                 }
+                return true;
             }
-            return true;
+            return false;
         };
         _sysfs.traverse(valtree::compound::visit_handler(sysfs_scanner));
     }
 
-    auto cpu_temperature() noexcept -> valid_if_positive<kelvins_t<float>> {
-        if(_cpu_temp_a) {
+    auto tz_count() noexcept -> span_size_t {
+        return span_size(_tz_temp_a.size());
+    }
+
+    auto tz_temperature(span_size_t index) noexcept
+      -> valid_if_positive<kelvins_t<float>> {
+        EAGINE_ASSERT((index >= 0) && (index < tz_count()));
+        auto& temp_a = _tz_temp_a[std_size(index)];
+        if(temp_a) {
             float millicelsius{0.F};
-            if(_sysfs.fetch_value(_cpu_temp_a, millicelsius)) {
+            if(_sysfs.fetch_value(temp_a, millicelsius)) {
                 return kelvins_(millicelsius * 0.001F + 273.15F);
             }
         }
         return {kelvins_(0.F)};
     }
 
+    auto cpu_temperature() noexcept -> valid_if_positive<kelvins_t<float>> {
+        if(_cpu_temp_i) {
+            return tz_temperature(extract(_cpu_temp_i));
+        }
+        return {kelvins_(0.F)};
+    }
+
     auto gpu_temperature() noexcept -> valid_if_positive<kelvins_t<float>> {
-        // TODO read from sysfs
+        if(_gpu_temp_i) {
+            return tz_temperature(extract(_gpu_temp_i));
+        }
         return {kelvins_(0.F)};
     }
 
 private:
     valtree::compound _sysfs;
-    valtree::attribute _cpu_temp_a;
-    valtree::attribute _gpu_temp_a;
+    std::vector<valtree::attribute> _tz_temp_a;
+    valid_if_nonnegative<span_size_t> _cpu_temp_i{-1};
+    valid_if_nonnegative<span_size_t> _gpu_temp_i{-1};
 };
 //------------------------------------------------------------------------------
 #else
@@ -198,6 +224,28 @@ auto system_info::total_swap_size() noexcept -> valid_if_positive<span_size_t> {
     return {span_size(si.totalswap * si.mem_unit)};
 #endif
     return {0};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto system_info::thermal_sensor_count() noexcept -> span_size_t {
+#if EAGINE_LINUX
+    if(auto impl{_impl()}) {
+        return extract(impl).tz_count();
+    }
+#endif
+    return 0;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto system_info::sensor_temperature(span_size_t index) noexcept
+  -> valid_if_positive<kelvins_t<float>> {
+#if EAGINE_LINUX
+    if(auto impl{_impl()}) {
+        return extract(impl).tz_temperature(index);
+    }
+#endif
+    EAGINE_MAYBE_UNUSED(index);
+    return {kelvins_(0.F)};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

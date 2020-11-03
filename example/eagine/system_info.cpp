@@ -15,36 +15,38 @@ namespace eagine {
 auto main(main_ctx& ctx) -> int {
     const std::string na{"N/A"};
 
-    std::cout << "hostname: " << extract_or(ctx.system().hostname(), na)
-              << std::endl;
+    auto& sys = ctx.system();
+
+    std::cout << "hostname: " << extract_or(sys.hostname(), na) << std::endl;
     std::cout << "number of CPU cores: "
-              << extract_or(ctx.system().cpu_concurrent_threads(), 0)
-              << std::endl;
+              << extract_or(sys.cpu_concurrent_threads(), 0) << std::endl;
 
     std::cout << "short time average load: "
-              << extract_or(ctx.system().short_average_load(), 0.0F)
-              << std::endl;
+              << extract_or(sys.short_average_load(), 0.0F) << std::endl;
     std::cout << "long time average load: "
-              << extract_or(ctx.system().long_average_load(), 0.0F)
+              << extract_or(sys.long_average_load(), 0.0F) << std::endl;
+
+    std::cout << "memory page size: " << extract_or(sys.memory_page_size(), 0)
               << std::endl;
 
-    std::cout << "memory page size: "
-              << extract_or(ctx.system().memory_page_size(), 0) << std::endl;
+    std::cout << "free RAM size: " << extract_or(sys.free_ram_size(), 0)
+              << std::endl;
+    std::cout << "total RAM size: " << extract_or(sys.total_ram_size(), 0)
+              << std::endl;
 
-    std::cout << "free RAM size: "
-              << extract_or(ctx.system().free_ram_size(), 0) << std::endl;
-    std::cout << "total RAM size: "
-              << extract_or(ctx.system().total_ram_size(), 0) << std::endl;
+    std::cout << "free swap size: " << extract_or(sys.free_swap_size(), 0)
+              << std::endl;
+    std::cout << "total swap size: " << extract_or(sys.total_swap_size(), 0)
+              << std::endl;
 
-    std::cout << "free swap size: "
-              << extract_or(ctx.system().free_swap_size(), 0) << std::endl;
-    std::cout << "total swap size: "
-              << extract_or(ctx.system().total_swap_size(), 0) << std::endl;
+    std::cout << "temperatures from " << sys.thermal_sensor_count()
+              << " sensors [K]: " << std::endl;
 
-    std::cout
-      << "CPU temperature [K]: "
-      << extract_or(ctx.system().cpu_temperature(), kelvins_(0.F)).value()
-      << std::endl;
+    for(span_size_t i = 0, n = sys.thermal_sensor_count(); i < n; ++i) {
+        std::cout << "  " << i << ": "
+                  << extract_or(sys.sensor_temperature(i), kelvins_(0.F)).value()
+                  << std::endl;
+    }
 
     return 0;
 }
