@@ -55,7 +55,14 @@ template <typename Dims, typename System>
 struct unit;
 
 template <typename Dims, typename Scales, typename System>
-struct scaled_dim_unit;
+struct custom_dim_unit;
+
+template <typename Dims, typename Scales, typename System>
+struct scaled_dim_unit_conv;
+
+template <typename Dims, typename Scales, typename System>
+using scaled_dim_unit =
+  custom_dim_unit<Dims, scaled_dim_unit_conv<Dims, Scales, System>, System>;
 
 template <typename UnitFrom, typename UnitTo>
 struct value_conv;

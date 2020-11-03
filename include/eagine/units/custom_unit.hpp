@@ -12,7 +12,6 @@
 
 // clang-format off
 #include "dimension.hpp"
-#include "base_custom_unit.hpp"
 #include "unit.hpp"
 #include <cmath>
 // clang-format on
@@ -126,7 +125,7 @@ struct mul_l_operand<unit<D1, S>, custom_dim_unit<D2, C, S>> : unit<D1, S> {};
 
 template <typename D1, typename D2, typename C1, typename C2, typename S>
 struct mul_l_operand<custom_dim_unit<D1, C1, S>, custom_dim_unit<D2, C2, S>>
-  : custom_dim_unit<D1, bits::merge_t<C1, C2>, S> {};
+  : unit<D1, S> {};
 
 // mul_r_operand
 template <typename D1, typename D2, typename C, typename S>
@@ -137,7 +136,7 @@ struct mul_r_operand<unit<D1, S>, custom_dim_unit<D2, C, S>> : unit<D2, S> {};
 
 template <typename D1, typename D2, typename C1, typename C2, typename S>
 struct mul_r_operand<custom_dim_unit<D1, C1, S>, custom_dim_unit<D2, C2, S>>
-  : custom_dim_unit<D2, bits::merge_t<C1, C2>, S> {};
+  : unit<D1, S> {};
 
 // mul_result
 template <typename D1, typename D2, typename C, typename S>
@@ -150,7 +149,7 @@ struct mul_result<unit<D1, S>, custom_dim_unit<D2, C, S>>
 
 template <typename D1, typename D2, typename C1, typename C2, typename S>
 struct mul_result<custom_dim_unit<D1, C1, S>, custom_dim_unit<D2, C2, S>>
-  : custom_dim_unit<bits::dim_add_t<D1, D2>, bits::merge_t<C1, C2>, S> {};
+  : unit<bits::dim_add_t<D1, D2>, S> {};
 
 // div_result
 template <typename D1, typename D2, typename C, typename S>
@@ -163,7 +162,7 @@ struct div_result<unit<D1, S>, custom_dim_unit<D2, C, S>>
 
 template <typename D1, typename D2, typename C1, typename C2, typename S>
 struct div_result<custom_dim_unit<D1, C1, S>, custom_dim_unit<D2, C2, S>>
-  : custom_dim_unit<bits::dim_sub_t<D1, D2>, bits::merge_t<C1, C2>, S> {};
+  : unit<bits::dim_sub_t<D1, D2>, S> {};
 
 } // namespace eagine::units
 

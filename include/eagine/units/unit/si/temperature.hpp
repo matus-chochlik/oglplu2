@@ -10,7 +10,6 @@
 #ifndef EAGINE_UNITS_UNIT_SI_TEMPERATURE_HPP
 #define EAGINE_UNITS_UNIT_SI_TEMPERATURE_HPP
 
-#include "../../custom_unit.hpp"
 #include "common.hpp"
 
 namespace eagine::units {

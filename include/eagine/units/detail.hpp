@@ -332,7 +332,7 @@ struct _sc_unit_sc_hlp {
     template <typename T, typename S, int E>
     static constexpr auto _pow(T v, S s, int_constant<E>) {
         return _pow(
-          (E > 0) ? S::mul(v) : S::div(v),
+          (E > 0) ? S::to_base(v) : S::from_base(v),
           s,
           int_constant<E + ((E > 0) ? -1 : 1)>());
     }

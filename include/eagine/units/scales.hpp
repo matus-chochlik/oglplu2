@@ -33,12 +33,12 @@ struct one {
     using type = one;
 
     template <typename T>
-    static constexpr auto mul(T v) {
+    static constexpr auto to_base(T v) {
         return v;
     }
 
     template <typename T>
-    static constexpr auto div(T v) {
+    static constexpr auto from_base(T v) {
         return v;
     }
 };
@@ -51,12 +51,12 @@ struct constant {
     using type = constant;
 
     template <typename T>
-    static constexpr auto mul(T v) {
+    static constexpr auto to_base(T v) {
         return v * I;
     }
 
     template <typename T>
-    static constexpr auto div(T v) {
+    static constexpr auto from_base(T v) {
         return v / float(I);
     }
 };
@@ -66,12 +66,12 @@ struct rational {
     using type = rational;
 
     template <typename T>
-    static constexpr auto mul(T v) {
+    static constexpr auto to_base(T v) {
         return (v * Num) / float(Den);
     }
 
     template <typename T>
-    static constexpr auto div(T v) {
+    static constexpr auto from_base(T v) {
         return (v * Den) / float(Num);
     }
 };
@@ -81,13 +81,13 @@ struct power {
     using type = power;
 
     template <typename T>
-    static constexpr auto mul(T v) {
+    static constexpr auto to_base(T v) {
         using std::pow;
         return v * pow(X, Y);
     }
 
     template <typename T>
-    static constexpr auto div(T v) {
+    static constexpr auto from_base(T v) {
         using std::pow;
         return v / pow(X, Y);
     }
@@ -98,13 +98,13 @@ struct inverted {
     using type = inverted;
 
     template <typename T>
-    static constexpr auto mul(T v) {
-        return S::div(v);
+    static constexpr auto to_base(T v) {
+        return S::from_base(v);
     }
 
     template <typename T>
-    static constexpr auto div(T v) {
-        return S::mul(v);
+    static constexpr auto from_base(T v) {
+        return S::to_base(v);
     }
 };
 //------------------------------------------------------------------------------
@@ -113,13 +113,13 @@ struct multiplied {
     using type = multiplied;
 
     template <typename T>
-    static constexpr auto mul(T v) {
-        return S2::mul(S1::mul(v));
+    static constexpr auto to_base(T v) {
+        return S2::to_base(S1::to_base(v));
     }
 
     template <typename T>
-    static constexpr auto div(T v) {
-        return S2::div(S1::div(v));
+    static constexpr auto from_base(T v) {
+        return S2::from_base(S1::from_base(v));
     }
 };
 //------------------------------------------------------------------------------
@@ -128,13 +128,13 @@ struct divided {
     using type = divided;
 
     template <typename T>
-    static constexpr auto mul(T v) {
-        return S2::div(S1::mul(v));
+    static constexpr auto to_base(T v) {
+        return S2::from_base(S1::to_base(v));
     }
 
     template <typename T>
-    static constexpr auto div(T v) {
-        return S2::mul(S1::div(v));
+    static constexpr auto from_base(T v) {
+        return S2::to_base(S1::from_base(v));
     }
 };
 //------------------------------------------------------------------------------
@@ -178,12 +178,12 @@ struct pi {
     using type = pi;
 
     template <typename T>
-    static constexpr auto mul(T v) {
+    static constexpr auto to_base(T v) {
         return v * math::pi;
     }
 
     template <typename T>
-    static constexpr auto div(T v) {
+    static constexpr auto from_base(T v) {
         return v / math::pi;
     }
 };
