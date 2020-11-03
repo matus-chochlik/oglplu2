@@ -46,10 +46,15 @@ auto main(main_ctx& ctx) -> int {
     for(span_size_t i = 0, n = sys.thermal_sensor_count(); i < n; ++i) {
         std::cout << "  " << i << ": ";
         if(auto opt_t_kelvin{sys.sensor_temperature(i)}) {
-            std::cout << extract(opt_t_kelvin).value() << "[K], ";
-            tagged_quantity<float, units::degree_celsius> t_celsius{
-              extract(opt_t_kelvin)};
-            std::cout << t_celsius.value() << "[°C]";
+            const auto t_k{extract(opt_t_kelvin)};
+
+            tagged_quantity<float, units::degree_celsius> t_c{t_k};
+            std::cout << t_c.value() << "[°C], ";
+
+            tagged_quantity<float, units::degree_fahrenheit> t_f{t_k};
+            std::cout << t_f.value() << "[°F], ";
+
+            std::cout << t_k.value() << "[K]";
         } else {
             std::cout << "N/A";
         }
