@@ -31,7 +31,7 @@ void compound::traverse(visit_handler visit) {
             } else {
                 path.push_back(std::to_string(pos.top()));
             }
-            if(visit(*this, child, path) && !is_link(atr.top())) {
+            if(visit(*this, child, path) && !is_link(child)) {
                 atr.push(child);
                 pos.push(0);
                 continue;
