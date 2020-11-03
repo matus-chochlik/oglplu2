@@ -172,9 +172,14 @@ public:
         if(dest.size() == 1) {
             char temp[64];
             if(auto len{fetch_values(offset, cover(temp))}) {
-                if(auto fetched{from_string<T>(head(view(temp), len))}) {
-                    dest.front() = extract(fetched);
-                    return 1;
+                auto issep = [](char c) {
+                    return !c || std::isspace(c);
+                };
+                if(auto src{take_until(head(view(temp), len), issep)}) {
+                    if(auto fetched{from_string<T>(src)}) {
+                        dest.front() = extract(fetched);
+                        return 1;
+                    }
                 }
             }
         }
