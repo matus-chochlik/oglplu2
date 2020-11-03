@@ -48,10 +48,10 @@ class system_info_impl {
 public:
     system_info_impl(logger& parent)
       : _sysfs{valtree::from_filesystem_path("/sys/devices", parent)} {
-        auto sysfs_scanner = [this, &parent](
+        auto sysfs_scanner = [this](
                                valtree::compound& c,
                                const valtree::attribute& a,
-                               const basic_string_path& p) {
+                               const basic_string_path&) {
             if(!c.is_link(a)) {
                 if(auto temp_a{c.nested(a, "temp")}) {
                     if(auto type_a{c.nested(a, "type")}) {
@@ -63,10 +63,6 @@ public:
                             }
                         }
                         _tz_temp_a.push_back(temp_a);
-                        parent.error("BLA").arg(
-                          EAGINE_ID(path),
-                          EAGINE_ID(FsPath),
-                          p.as_string("/", false));
                     }
                 }
                 return true;

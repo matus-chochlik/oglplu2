@@ -40,12 +40,16 @@ auto main(main_ctx& ctx) -> int {
               << std::endl;
 
     std::cout << "temperatures from " << sys.thermal_sensor_count()
-              << " sensors [K]: " << std::endl;
+              << " sensors: " << std::endl;
 
     for(span_size_t i = 0, n = sys.thermal_sensor_count(); i < n; ++i) {
-        std::cout << "  " << i << ": "
-                  << extract_or(sys.sensor_temperature(i), kelvins_(0.F)).value()
-                  << std::endl;
+        std::cout << "  " << i << ": ";
+        if(auto kelvin{sys.sensor_temperature(i)}) {
+            std::cout << extract(kelvin).value() << "[K]";
+        } else {
+            std::cout << "N/A";
+        }
+        std::cout << std::endl;
     }
 
     return 0;
