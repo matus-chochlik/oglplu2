@@ -10422,7 +10422,203 @@
   "W" : {
       "atomic_weight" : 183.84,
       "group" : 6,
-      "isotopes" : {  },
+      "isotopes" : {
+          "_159" : {
+              "alpha_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : "8.27ms",
+              "neutrons" : 85,
+              "symbol" : "¹⁵⁹W"
+            },
+          "_160" : {
+              "alpha_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : "90.5ms",
+              "neutrons" : 86,
+              "symbol" : "¹⁶⁰W"
+            },
+          "_161" : {
+              "alpha_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : "409ms",
+              "neutrons" : 87,
+              "symbol" : "¹⁶¹W"
+            },
+          "_162" : {
+              "alpha_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : "1.367s",
+              "neutrons" : 88,
+              "symbol" : "¹⁶²W"
+            },
+          "_163" : {
+              "alpha_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : "2.82s",
+              "neutrons" : 89,
+              "symbol" : "¹⁶³W"
+            },
+          "_164" : {
+              "alpha_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : "6.32s",
+              "neutrons" : 90,
+              "symbol" : "¹⁶⁴W"
+            },
+          "_165" : {
+              "alpha_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : "5.15s",
+              "neutrons" : 91,
+              "symbol" : "¹⁶⁵W"
+            },
+          "_166" : {
+              "alpha_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : "19.26s",
+              "neutrons" : 92,
+              "symbol" : "¹⁶⁶W"
+            },
+          "_167" : {
+              "alpha_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : "19.95s",
+              "neutrons" : 93,
+              "symbol" : "¹⁶⁷W"
+            },
+          "_168" : {
+              "alpha_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : "51.2s",
+              "neutrons" : 94,
+              "symbol" : "¹⁶⁸W"
+            },
+          "_169" : {
+              "beta_p_decay" : {  },
+              "half_life" : "76.6s",
+              "neutrons" : 95,
+              "symbol" : "¹⁶⁹W"
+            },
+          "_170" : {
+              "alpha_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : "2.424min",
+              "neutrons" : 96,
+              "symbol" : "¹⁷⁰W"
+            },
+          "_171" : {
+              "beta_p_decay" : {  },
+              "half_life" : "2.384min",
+              "neutrons" : 97,
+              "symbol" : "¹⁷¹W"
+            },
+          "_172" : {
+              "beta_p_decay" : {  },
+              "half_life" : "6.69min",
+              "neutrons" : 98,
+              "symbol" : "¹⁷²W"
+            },
+          "_173" : {
+              "beta_p_decay" : {  },
+              "half_life" : "7.62min",
+              "neutrons" : 99,
+              "symbol" : "¹⁷³W"
+            },
+          "_174" : {
+              "beta_p_decay" : {  },
+              "half_life" : "33.22min",
+              "neutrons" : 100,
+              "symbol" : "¹⁷⁴W"
+            },
+          "_175" : {
+              "beta_p_decay" : {  },
+              "half_life" : "35.26min",
+              "neutrons" : 101,
+              "symbol" : "¹⁷⁵W"
+            },
+          "_176" : {
+              "electron_capture" : {  },
+              "half_life" : "2.51hr",
+              "neutrons" : 102,
+              "symbol" : "¹⁷⁶W"
+            },
+          "_177" : {
+              "beta_p_decay" : {  },
+              "half_life" : "132.2min",
+              "neutrons" : 103,
+              "symbol" : "¹⁷⁷W"
+            },
+          "_178" : {
+              "electron_capture" : {  },
+              "half_life" : "21.63dy",
+              "neutrons" : 104,
+              "symbol" : "¹⁷⁸W"
+            },
+          "_179" : {
+              "beta_p_decay" : {  },
+              "half_life" : "37.05min",
+              "neutrons" : 105,
+              "symbol" : "¹⁷⁹W"
+            },
+          "_180" : {
+              "alpha_decay" : {  },
+              "half_life" : "1.8e18yr",
+              "neutrons" : 106,
+              "symbol" : "¹⁸⁰W"
+            },
+          "_181" : {
+              "electron_capture" : {  },
+              "half_life" : "121.22dy",
+              "neutrons" : 107,
+              "symbol" : "¹⁸¹W"
+            },
+          "_182" : {
+              "neutrons" : 108,
+              "symbol" : "¹⁸²W"
+            },
+          "_183" : {
+              "neutrons" : 109,
+              "symbol" : "¹⁸³W"
+            },
+          "_184" : {
+              "neutrons" : 110,
+              "symbol" : "¹⁸⁴W"
+            },
+          "_185" : {
+              "beta_m_decay" : {  },
+              "half_life" : "75.13dy",
+              "neutrons" : 111,
+              "symbol" : "¹⁸⁵W"
+            },
+          "_186" : {
+              "neutrons" : 112,
+              "symbol" : "¹⁸⁶W"
+            },
+          "_187" : {
+              "beta_m_decay" : {  },
+              "half_life" : "23.726hr",
+              "neutrons" : 113,
+              "symbol" : "¹⁸⁷W"
+            },
+          "_188" : {
+              "beta_m_decay" : {  },
+              "half_life" : "69.785dy",
+              "neutrons" : 114,
+              "symbol" : "¹⁸⁸W"
+            },
+          "_189" : {
+              "beta_m_decay" : {  },
+              "half_life" : "11.63min",
+              "neutrons" : 115,
+              "symbol" : "¹⁸⁹W"
+            },
+          "_190" : {
+              "beta_m_decay" : {  },
+              "half_life" : "30.02min",
+              "neutrons" : 116,
+              "symbol" : "¹⁹⁰W"
+            }
+        },
       "name" : {
           "english" : "Tungsten",
           "latin" : "Wolframium"
