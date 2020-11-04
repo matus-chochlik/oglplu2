@@ -168,15 +168,10 @@ template <
   typename Serializer,
   typename Deserializer,
   std::size_t MaxDataSize>
-class lazy_skeleton;
-//------------------------------------------------------------------------------
-template <
-  typename Result,
-  typename... Params,
-  typename Serializer,
-  typename Deserializer,
-  std::size_t MaxDataSize>
-class lazy_skeleton<Result(Params...), Serializer, Deserializer, MaxDataSize> {
+class lazy_skeleton {
+    using argument_tuple_type =
+      typename callable_ref<Signature>::argument_tuple_type;
+
 public:
     using id_t = message_sequence_t;
 
@@ -189,25 +184,35 @@ public:
     auto enqueue(
       const stored_message& request,
       message_id response_id,
-      callable_ref<Result(Params...)> func) -> bool {
+      callable_ref<Signature> func) -> bool {
         auto [pos, emplaced] = _pending.try_emplace(request.sequence_no);
 
         if(emplaced) {
-            block_data_source source(request.content());
-            Deserializer read_backend(source);
+            if constexpr(std::tuple_size_v<argument_tuple_type> > 0) {
+                block_data_source source(request.content());
+                Deserializer read_backend(source);
 
-            if(request.has_serializer_id(read_backend.type_id())) {
-                auto& call = pos->second;
-                const auto read_errors = deserialize(call.args, read_backend);
-                if(!read_errors) {
-                    call.too_late.reset(_default_timeout);
-                    call.response_id = response_id;
-                    call.invoker_id = request.source_id;
-                    call.func = func;
-                    return true;
+                if(request.has_serializer_id(read_backend.type_id())) {
+                    auto& call = pos->second;
+                    const auto read_errors =
+                      deserialize(call.args, read_backend);
+                    if(!read_errors) {
+                        call.too_late.reset(_default_timeout);
+                        call.response_id = response_id;
+                        call.invoker_id = request.source_id;
+                        call.func = func;
+                        return true;
+                    }
                 }
+                _pending.erase(pos);
+            } else {
+                auto& call = pos->second;
+                call.too_late.reset(_default_timeout);
+                call.response_id = response_id;
+                call.invoker_id = request.source_id;
+                call.func = func;
+                return true;
             }
-            _pending.erase(pos);
         }
         return false;
     }
@@ -252,8 +257,8 @@ private:
 
     struct lazy_call {
         message_id response_id{};
-        std::tuple<std::remove_cv_t<std::remove_reference_t<Params>>...> args{};
-        callable_ref<Result(Params...)> func{};
+        argument_tuple_type args{};
+        callable_ref<Signature> func{};
         timeout too_late{};
         identifier_t invoker_id{};
     };
