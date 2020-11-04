@@ -57,8 +57,11 @@ private:
     }
 
 public:
+    using argument_tuple_type =
+      std::tuple<std::remove_cv_t<std::remove_reference_t<P>>...>;
+
     static auto argument_tuple() noexcept {
-        return std::tuple<std::remove_cv_t<std::remove_reference_t<P>>...>{};
+        return argument_tuple_type{};
     }
 
     constexpr callable_ref_impl() noexcept = default;
