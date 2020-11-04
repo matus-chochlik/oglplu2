@@ -55,6 +55,7 @@ public:
             if(!c.is_link(a)) {
                 bool is_tz{false};
                 bool is_cd{false};
+                bool is_ps{false};
                 for(auto& entry : p) {
                     if(starts_with(entry, string_view("thermal_zone"))) {
                         is_tz = true;
@@ -62,6 +63,10 @@ public:
                     }
                     if(starts_with(entry, string_view("cooling_device"))) {
                         is_cd = true;
+                        break;
+                    }
+                    if(starts_with(entry, string_view("power_supply"))) {
+                        is_ps = true;
                         break;
                     }
                 }
@@ -84,6 +89,11 @@ public:
                         if(auto max_a{c.nested(a, "max_state")}) {
                             _cd_cm_a.emplace_back(cur_a, max_a);
                         }
+                    }
+                }
+                if(is_ps) {
+                    if(auto cap_a{c.nested(a, "capacity")}) {
+                        _bat_cap_a.emplace_back(cap_a);
                     }
                 }
                 return true;
@@ -132,14 +142,31 @@ public:
         EAGINE_ASSERT((index >= 0) && (index < cd_count()));
         auto& [cur_a, max_a] = _cd_cm_a[index];
         if(cur_a && max_a) {
-            float cur_s{0.F};
-            float max_s{0.F};
+            float cur_s{-1.F};
+            float max_s{-1.F};
             if(
               _sysfs.fetch_value(cur_a, cur_s) &&
               _sysfs.fetch_value(max_a, max_s)) {
                 if(max_s > 0.F) {
                     return {cur_s / max_s};
                 }
+            }
+        }
+        return {-1.F};
+    }
+
+    auto bat_count() noexcept -> span_size_t {
+        return span_size(_bat_cap_a.size());
+    }
+
+    auto bat_capacity(span_size_t index) noexcept
+      -> valid_if_between_0_1<float> {
+        EAGINE_ASSERT((index >= 0) && (index < bat_count()));
+        auto& cap_a = _bat_cap_a[index];
+        if(cap_a) {
+            float capacity{-1.F};
+            if(_sysfs.fetch_value(cap_a, capacity)) {
+                return {capacity * 0.01F};
             }
         }
         return {-1.F};
@@ -152,6 +179,8 @@ private:
     valid_if_nonnegative<span_size_t> _gpu_temp_i{-1};
 
     std::vector<std::tuple<valtree::attribute, valtree::attribute>> _cd_cm_a;
+
+    std::vector<valtree::attribute> _bat_cap_a;
 };
 //------------------------------------------------------------------------------
 #else
@@ -326,6 +355,28 @@ auto system_info::cooling_device_state(span_size_t index) noexcept
 #if EAGINE_LINUX
     if(auto impl{_impl()}) {
         return extract(impl).cd_state(index);
+    }
+#endif
+    EAGINE_MAYBE_UNUSED(index);
+    return {-1.F};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto system_info::battery_count() noexcept -> span_size_t {
+#if EAGINE_LINUX
+    if(auto impl{_impl()}) {
+        return extract(impl).bat_count();
+    }
+#endif
+    return 0;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto system_info::battery_capacity(span_size_t index) noexcept
+  -> valid_if_between_0_1<float> {
+#if EAGINE_LINUX
+    if(auto impl{_impl()}) {
+        return extract(impl).bat_capacity(index);
     }
 #endif
     EAGINE_MAYBE_UNUSED(index);

@@ -75,6 +75,20 @@ auto main(main_ctx& ctx) -> int {
         std::cout << std::endl;
     }
 
+    std::cout << "capacity of " << sys.battery_count()
+              << " batteries: " << std::endl;
+
+    for(span_size_t i = 0, n = sys.battery_count(); i < n; ++i) {
+        std::cout << "  " << i << ": ";
+        if(auto opt_val{sys.battery_capacity(i)}) {
+
+            std::cout << extract(opt_val) * 100.F << "%";
+        } else {
+            std::cout << "N/A";
+        }
+        std::cout << std::endl;
+    }
+
     return 0;
 }
 

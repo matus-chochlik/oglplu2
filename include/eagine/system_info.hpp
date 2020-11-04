@@ -63,6 +63,9 @@ public:
     auto cooling_device_state(span_size_t) noexcept
       -> valid_if_between_0_1<float>;
 
+    auto battery_count() noexcept -> span_size_t;
+    auto battery_capacity(span_size_t) noexcept -> valid_if_between_0_1<float>;
+
 private:
     logger _log;
 
