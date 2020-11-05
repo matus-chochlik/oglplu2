@@ -603,6 +603,7 @@ def export_single(options, bdata, name, obj, mesh):
         for name, data in occls.items():
             result["occlusion"].append({
                 "values_per_vertex": 1,
+                "type": options.occlude_type,
                 "name": name,
                 "data": data
             })
