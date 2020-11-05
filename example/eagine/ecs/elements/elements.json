@@ -569,7 +569,237 @@
   "Au" : {
       "atomic_weight" : 196.96657,
       "group" : 11,
-      "isotopes" : {  },
+      "isotopes" : {
+          "_171" : {
+              "alpha_decay" : {  },
+              "half_life" : "51.2ms",
+              "neutrons" : 92,
+              "proton_emission" : {  },
+              "symbol" : "¹⁷¹Au"
+            },
+          "_172" : {
+              "alpha_decay" : {  },
+              "half_life" : "1.014ms",
+              "neutrons" : 93,
+              "proton_emission" : {  },
+              "symbol" : "¹⁷²Au"
+            },
+          "_173" : {
+              "alpha_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : "25.1ms",
+              "neutrons" : 94,
+              "symbol" : "¹⁷³Au"
+            },
+          "_174" : {
+              "alpha_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : "139.3ms",
+              "neutrons" : 95,
+              "symbol" : "¹⁷⁴Au"
+            },
+          "_175" : {
+              "alpha_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : "100ms",
+              "neutrons" : 96,
+              "symbol" : "¹⁷⁵Au"
+            },
+          "_176" : {
+              "alpha_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : "1.08s",
+              "neutrons" : 97,
+              "symbol" : "¹⁷⁶Au"
+            },
+          "_177" : {
+              "alpha_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : "1.462s",
+              "neutrons" : 98,
+              "symbol" : "¹⁷⁷Au"
+            },
+          "_178" : {
+              "alpha_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : "2.65s",
+              "neutrons" : 99,
+              "symbol" : "¹⁷⁸Au"
+            },
+          "_179" : {
+              "alpha_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : "7.13s",
+              "neutrons" : 100,
+              "symbol" : "¹⁷⁹Au"
+            },
+          "_180" : {
+              "alpha_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : "8.13s",
+              "neutrons" : 101,
+              "symbol" : "¹⁸⁰Au"
+            },
+          "_181" : {
+              "alpha_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : "13.7s",
+              "neutrons" : 102,
+              "symbol" : "¹⁸¹Au"
+            },
+          "_182" : {
+              "alpha_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : "15.54s",
+              "neutrons" : 103,
+              "symbol" : "¹⁸²Au"
+            },
+          "_183" : {
+              "alpha_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : "42.81s",
+              "neutrons" : 104,
+              "symbol" : "¹⁸³Au"
+            },
+          "_184" : {
+              "beta_p_decay" : {  },
+              "half_life" : "20.69s",
+              "neutrons" : 105,
+              "symbol" : "¹⁸⁴Au"
+            },
+          "_185" : {
+              "alpha_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : "4.256min",
+              "neutrons" : 106,
+              "symbol" : "¹⁸⁵Au"
+            },
+          "_186" : {
+              "alpha_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : "10.75min",
+              "neutrons" : 107,
+              "symbol" : "¹⁸⁶Au"
+            },
+          "_187" : {
+              "alpha_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : "8.43min",
+              "neutrons" : 108,
+              "symbol" : "¹⁸⁷Au"
+            },
+          "_188" : {
+              "beta_p_decay" : {  },
+              "half_life" : "8.846min",
+              "neutrons" : 109,
+              "symbol" : "¹⁸⁸Au"
+            },
+          "_189" : {
+              "alpha_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : "28.73min",
+              "neutrons" : 110,
+              "symbol" : "¹⁸⁹Au"
+            },
+          "_190" : {
+              "alpha_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : "42.81min",
+              "neutrons" : 111,
+              "symbol" : "¹⁹⁰Au"
+            },
+          "_191" : {
+              "beta_p_decay" : {  },
+              "half_life" : "3.188hr",
+              "neutrons" : 112,
+              "symbol" : "¹⁹¹Au"
+            },
+          "_192" : {
+              "beta_p_decay" : {  },
+              "half_life" : "4.949hr",
+              "neutrons" : 113,
+              "symbol" : "¹⁹²Au"
+            },
+          "_193" : {
+              "alpha_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : "17.65hr",
+              "neutrons" : 114,
+              "symbol" : "¹⁹³Au"
+            },
+          "_194" : {
+              "beta_p_decay" : {  },
+              "half_life" : "38.02hr",
+              "neutrons" : 115,
+              "symbol" : "¹⁹⁴Au"
+            },
+          "_195" : {
+              "electron_capture" : {  },
+              "half_life" : "186.0985dy",
+              "neutrons" : 116,
+              "symbol" : "¹⁹⁵Au"
+            },
+          "_196" : {
+              "beta_m_decay" : {  },
+              "beta_p_decay" : {  },
+              "half_life" : "6.16696dy",
+              "neutrons" : 117,
+              "symbol" : "¹⁹⁶Au"
+            },
+          "_197" : {
+              "half_life" : "",
+              "neutrons" : 118,
+              "symbol" : "¹⁹⁷Au"
+            },
+          "_198" : {
+              "beta_m_decay" : {  },
+              "half_life" : "2.695dy",
+              "neutrons" : 119,
+              "symbol" : "¹⁹⁸Au"
+            },
+          "_199" : {
+              "beta_m_decay" : {  },
+              "half_life" : "3.1397dy",
+              "neutrons" : 120,
+              "symbol" : "¹⁹⁹Au"
+            },
+          "_200" : {
+              "beta_m_decay" : {  },
+              "half_life" : "48.43min",
+              "neutrons" : 121,
+              "symbol" : "²⁰⁰Au"
+            },
+          "_201" : {
+              "beta_m_decay" : {  },
+              "half_life" : "26.1min",
+              "neutrons" : 122,
+              "symbol" : "²⁰¹Au"
+            },
+          "_202" : {
+              "beta_m_decay" : {  },
+              "half_life" : "28.82s",
+              "neutrons" : 123,
+              "symbol" : "²⁰²Au"
+            },
+          "_203" : {
+              "beta_m_decay" : {  },
+              "half_life" : "60.6s",
+              "neutrons" : 124,
+              "symbol" : "²⁰³Au"
+            },
+          "_204" : {
+              "beta_m_decay" : {  },
+              "half_life" : "38.3s",
+              "neutrons" : 125,
+              "symbol" : "²⁰⁴Au"
+            },
+          "_205" : {
+              "beta_m_decay" : {  },
+              "half_life" : "32.5s",
+              "neutrons" : 126,
+              "symbol" : "²⁰⁵Au"
+            }
+        },
       "name" : {
           "english" : "Gold",
           "latin" : "Aurum"
