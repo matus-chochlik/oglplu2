@@ -1,6 +1,7 @@
 #version 140
 in vec3 vertNormal;
 in vec3 vertColor;
+in vec3 vertViewDir;
 in vec3 vertLightDir;
 in vec3 viewLightDir;
 out vec3 fragColor;
@@ -8,9 +9,13 @@ uniform sampler2DRect DepthTexture;
 const vec3 lightColor = vec3(1.0);
 
 void main() {
-    float lightDot = dot(vertLightDir, vertNormal);
-    float diffuse = 0.25 + max(lightDot, 0.0) * 0.65;
-    float specular = pow(max(lightDot + 0.03, 0.0), 64.0) * 0.5;
+    float diffuse = 0.25 + max(dot(vertLightDir, vertNormal), 0.0) * 0.65;
+    float specular =
+      0.5 *
+      pow(
+        clamp(
+          dot(vertLightDir, reflect(vertViewDir, vertNormal)) + 0.02, 0.0, 1.0),
+        64.0);
 
     ivec2 texelCoord = ivec2(gl_FragCoord.xy);
     float backZ = texelFetch(DepthTexture, texelCoord).x / gl_FragCoord.w;
