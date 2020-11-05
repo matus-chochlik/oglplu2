@@ -10,6 +10,7 @@
 import os
 import sys
 import json
+import math
 import pathlib
 import argparse
 # ------------------------------------------------------------------------------
@@ -244,6 +245,17 @@ def fix_color(options, c):
         return (f(c[0]), f(c[1]), f(c[2]))
     return (f(c[0]), f(c[1]), f(c[2]), f(c[3]))
 # ------------------------------------------------------------------------------
+def degenerate_triangle(a, b, c):
+    _diff = lambda u, v: tuple(uc-vc for uc, vc in zip(u, v))
+    _dot = lambda u, v: sum(tuple(uc*vc for uc, vc in zip(u, v)))
+    _len = lambda u: math.sqrt(_dot(u, u))
+    _cross = lambda u, v: (u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0])
+
+    ab = _diff(b, a)
+    ac = _diff(c, a)
+
+    return _len(_cross(ab, ac)) <= max(_len(ab), _len(ac))*0.000001
+# ------------------------------------------------------------------------------
 def get_diffuse_color(mat):
     # TODO Material.use_nodes / Material.node_tree
     return mat.diffuse_color
@@ -425,9 +437,15 @@ def export_single(options, bdata, name, obj, mesh):
 
     for meshface in mesh.polygons:
         s = meshface.loop_start
-        c = meshface.loop_total
+        assert meshface.loop_total == 3
+
+        tri_pos = (mesh.vertices[mesh.loops[s+i].vertex_index].co for i in range(3))
+    
+        if degenerate_triangle(*tri_pos):
+            continue
+
         fn = [fixnum(x, p) for x in fixvec(meshface.normal)]
-        for loop_index in range(s, s + c):
+        for loop_index in range(s, s + 3):
             meshloop = mesh.loops[loop_index]
             meshvert = mesh.vertices[meshloop.vertex_index]
 
