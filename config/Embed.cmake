@@ -34,11 +34,22 @@ function(eagine_do_embed_target_resources TARGET_NAME PACKED)
 		list(APPEND GEN_OPTIONS ${DIR}/${TARGET_SOURCE})
 		list(APPEND GEN_DEPENDS ${DIR}/${TARGET_SOURCE})
 	endforeach()
+
+	set(RES_PATHS)
+	foreach(RES_NAME ${ARGN})
+		if(EXISTS "${CMAKE_CURRENT_BINARY_DIR}/${RES_NAME}")
+			list(APPEND RES_PATHS "${CMAKE_CURRENT_BINARY_DIR}/${RES_NAME}")
+		elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${RES_NAME}")
+			list(APPEND RES_PATHS "${CMAKE_CURRENT_SOURCE_DIR}/${RES_NAME}")
+		else()
+			list(APPEND RES_PATHS "${RES_NAME}")
+		endif()
+	endforeach()
 	add_custom_command(
 		OUTPUT ${RESOURCE_FILE}
 		COMMAND ${EAGINE_EMBED_GENERATOR} ${GEN_OPTIONS}
 		WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-		DEPENDS ${GEN_DEPENDS} ${ARGN}
+		DEPENDS ${GEN_DEPENDS} ${RES_PATHS}
 	)
 	set_source_files_properties(
 		${RESOURCE_FILE}
