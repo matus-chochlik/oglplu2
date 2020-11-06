@@ -445,6 +445,18 @@ struct beta_p_p_decay : ecs::component<beta_p_p_decay> {
     element_symbol product;
 };
 //------------------------------------------------------------------------------
+struct spontaneous_fission : ecs::component<spontaneous_fission> {
+    static constexpr auto uid() noexcept {
+        return EAGINE_ID_V(SpnFission);
+    }
+
+    static auto symbol() noexcept -> string_view {
+        return {"≺"};
+    }
+
+    std::vector<element_symbol> products;
+};
+//------------------------------------------------------------------------------
 } // namespace eagine
 
 #endif

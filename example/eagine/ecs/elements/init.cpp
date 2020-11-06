@@ -136,6 +136,16 @@ static void populate(
                 if(auto decay_a{source.nested(isot_attr, "beta_p_p_decay")}) {
                     elements.add(isot, beta_p_p_decay());
                 }
+                if(auto decay_a{
+                     source.nested(isot_attr, "spontaneous_fission")}) {
+                    spontaneous_fission sf;
+                    if(auto prod_a{source.nested(decay_a, "products")}) {
+                        sf.products.resize(
+                          std_size(source.nested_count(prod_a)));
+                        source.fetch_values(prod_a, cover(sf.products));
+                    }
+                    elements.add(isot, std::move(sf));
+                }
 
                 elements.add_relation<isotope>(elem, isot);
             }
@@ -235,6 +245,9 @@ void initialize(
       .register_component_storage<ecs::std_map_cmp_storage, beta_p_alpha_decay>();
     elements
       .register_component_storage<ecs::std_map_cmp_storage, beta_p_p_decay>();
+    elements.register_component_storage<
+      ecs::std_map_cmp_storage,
+      spontaneous_fission>();
 
     elements.register_relation_storage<ecs::std_map_rel_storage, isotope>();
 
