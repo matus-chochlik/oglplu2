@@ -154,6 +154,14 @@ class ExportMeshArgParser(argparse.ArgumentParser):
         )
 
         self.add_argument(
+            '--weight-type', '-WT',
+            dest="weight_type",
+            action="store",
+            default="float",
+            choices=self.attrib_data_types
+        )
+
+        self.add_argument(
             '--occlude-type', '-OT',
             dest="occlude_type",
             action="store",
@@ -516,18 +524,27 @@ def export_single(options, bdata, name, obj, mesh):
                         try:
                             try:
                                 w = grp.weight(meshvert.index)
-                                groups[grp.name].append(fixnum(w, wp))
+                                groups[grp.name].append(
+                                    fixcomp(options.weight_type, w, wp)
+                                )
                             except RuntimeError:
-                                groups[grp.name].append(fixnum(0, wp))
+                                groups[grp.name].append(
+                                    fixcomp(options.weight_type, 0, wp)
+                                )
                         except KeyError:
                             pass
                 if options.exp_occlusion:
                     for grp in obj.vertex_groups:
-                        w = grp.weight(meshvert.index)
                         try:
-                            occls[grp.name].append(
-                                fixcomp(options.occlude_type, w, op)
-                            )
+                            try:
+                                w = grp.weight(meshvert.index)
+                                occls[grp.name].append(
+                                    fixcomp(options.occlude_type, w, op)
+                                )
+                            except RuntimeError:
+                                occls[grp.name].append(
+                                    fixcomp(options.occlude_type, 0, op)
+                                )
                         except KeyError:
                             pass
 
@@ -595,6 +612,7 @@ def export_single(options, bdata, name, obj, mesh):
         for name, data in groups.items():
             result["weight"].append({
                 "values_per_vertex": 1,
+                "type": options.weight_type,
                 "name": name,
                 "data": data
             })
