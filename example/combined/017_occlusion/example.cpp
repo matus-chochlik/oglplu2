@@ -35,7 +35,8 @@ class example_occlusion : public example {
     owned_buffer_name positions;
     owned_buffer_name colors;
     owned_buffer_name normals;
-    owned_buffer_name weights;
+    owned_buffer_name occlusion;
+    owned_buffer_name roughness;
     owned_buffer_name indices;
 
     owned_shader_name vs;
@@ -172,18 +173,33 @@ void example_occlusion::init(example_context& ctx) {
       ctx.buffer());
     gl.bind_attrib_location(prog, normal_loc, "Normal");
 
-    // occlusion weights
-    vertex_attrib_location weight_loc(3);
-    gl.gen_buffers() >> weights;
-    gl.delete_buffers.later_by(cleanup, weights);
+    // occlusion
+    vertex_attrib_location occlusion_loc(3);
+    gl.gen_buffers() >> occlusion;
+    gl.delete_buffers.later_by(cleanup, occlusion);
     shape.attrib_setup(
       ctx.gl(),
       vao,
-      weights,
-      weight_loc,
-      eagine::shapes::vertex_attrib_kind::occlusion,
+      occlusion,
+      occlusion_loc,
+      shape.find_variant_or(
+        eagine::shapes::vertex_attrib_kind::occlusion, "AO", 0),
       ctx.buffer());
-    gl.bind_attrib_location(prog, weight_loc, "Occlusion");
+    gl.bind_attrib_location(prog, occlusion_loc, "Occlusion");
+
+    // roughness
+    vertex_attrib_location roughness_loc(4);
+    gl.gen_buffers() >> roughness;
+    gl.delete_buffers.later_by(cleanup, roughness);
+    shape.attrib_setup(
+      ctx.gl(),
+      vao,
+      roughness,
+      roughness_loc,
+      shape.find_variant_or(
+        eagine::shapes::vertex_attrib_kind::weight, "Roughness", 0),
+      ctx.buffer());
+    gl.bind_attrib_location(prog, roughness_loc, "Roughness");
 
     // indices
     gl.gen_buffers() >> indices;

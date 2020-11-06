@@ -3,11 +3,13 @@ in vec3 Position;
 in vec3 Color;
 in vec3 Normal;
 in float Occlusion;
+in float Roughness;
 
 out vec3 vertColor;
 out vec3 vertNormal;
 out vec3 vertViewDir;
 out float vertOccl;
+out float vertRough;
 
 uniform mat4 Camera;
 
@@ -18,4 +20,5 @@ void main() {
 	vec3 cameraLoc = (vec4(0.0, 0.0, 0.0, 1.0) * Camera).xyz;
 	vertViewDir = normalize(cameraLoc - Position);
     vertOccl = Occlusion;
+    vertRough = Roughness;
 }
