@@ -35,126 +35,81 @@ template <decay_mode... M>
 constexpr inline auto is_fission_v =
   std::disjunction_v<(M == decay_mode::fission)...>;
 //------------------------------------------------------------------------------
+struct decay_mode_info {
+    std::string symbol;
+    int proton_count_diff{0};
+    int neutron_count_diff{0};
+};
+//------------------------------------------------------------------------------
 template <typename T>
 struct decay_mode_traits;
 //------------------------------------------------------------------------------
+template <decay_mode... M>
+static inline auto get_info(decay_mode_t<M...> = {}) -> const decay_mode_info& {
+    return decay_mode_traits<decay_mode_t<M...>>::info();
+}
+//------------------------------------------------------------------------------
 template <>
 struct decay_mode_traits<decay_mode_t<decay_mode::alpha>> {
-    static constexpr auto symbol() noexcept -> string_view {
-        return {"α"};
-    }
-
-    static constexpr auto proton_count_diff() noexcept -> short {
-        return -2;
-    }
-
-    static constexpr auto neutron_count_diff() noexcept -> short {
-        return -2;
+    static auto info() noexcept -> const auto& {
+        static const decay_mode_info i{"α", -2, -2};
+        return i;
     }
 };
 //------------------------------------------------------------------------------
 template <>
 struct decay_mode_traits<decay_mode_t<decay_mode::beta_p>> {
-    static constexpr auto symbol() noexcept -> string_view {
-        return {"β⁺"};
-    }
-
-    static constexpr auto proton_count_diff() noexcept -> short {
-        return -1;
-    }
-
-    static constexpr auto neutron_count_diff() noexcept -> short {
-        return 1;
+    static auto info() noexcept -> const auto& {
+        static const decay_mode_info i{"β⁺", -1, 1};
+        return i;
     }
 };
 //------------------------------------------------------------------------------
 template <>
 struct decay_mode_traits<decay_mode_t<decay_mode::beta_m>> {
-    static constexpr auto symbol() noexcept -> string_view {
-        return {"β⁻"};
-    }
-
-    static constexpr auto proton_count_diff() noexcept -> short {
-        return 1;
-    }
-
-    static constexpr auto neutron_count_diff() noexcept -> short {
-        return -1;
+    static auto info() noexcept -> const auto& {
+        static const decay_mode_info i{"β⁻", 1, -1};
+        return i;
     }
 };
 //------------------------------------------------------------------------------
 template <>
 struct decay_mode_traits<decay_mode_t<decay_mode::proton_emi>> {
-    static constexpr auto symbol() noexcept -> string_view {
-        return {"p⁺"};
-    }
-
-    static constexpr auto proton_count_diff() noexcept -> short {
-        return -1;
-    }
-
-    static constexpr auto neutron_count_diff() noexcept -> short {
-        return 0;
+    static auto info() noexcept -> const auto& {
+        static const decay_mode_info i{"p₊", -1, 0};
+        return i;
     }
 };
 //------------------------------------------------------------------------------
 template <>
 struct decay_mode_traits<decay_mode_t<decay_mode::neutron_emi>> {
-    static constexpr auto symbol() noexcept -> string_view {
-        return {"n⁰"};
-    }
-
-    static constexpr auto proton_count_diff() noexcept -> short {
-        return 0;
-    }
-
-    static constexpr auto neutron_count_diff() noexcept -> short {
-        return -1;
+    static auto info() noexcept -> const auto& {
+        static const decay_mode_info i{"n⁰", 0, -1};
+        return i;
     }
 };
 //------------------------------------------------------------------------------
 template <>
 struct decay_mode_traits<decay_mode_t<decay_mode::electron_cap>> {
-    static constexpr auto symbol() noexcept -> string_view {
-        return {"+e⁻"};
-    }
-
-    static constexpr auto proton_count_diff() noexcept -> short {
-        return -1;
-    }
-
-    static constexpr auto neutron_count_diff() noexcept -> short {
-        return 1;
+    static auto info() noexcept -> const auto& {
+        static const decay_mode_info i{"+e⁻", -1, 1};
+        return i;
     }
 };
 //------------------------------------------------------------------------------
 template <>
 struct decay_mode_traits<decay_mode_t<decay_mode::fission>> {
-    static constexpr auto symbol() noexcept -> string_view {
-        return {"≺"};
-    }
-
-    static constexpr auto proton_count_diff() noexcept -> short {
-        return 0;
-    }
-
-    static constexpr auto neutron_count_diff() noexcept -> short {
-        return 0;
+    static auto info() noexcept -> const auto& {
+        static const decay_mode_info i{"≺", 0, 0};
+        return i;
     }
 };
 //------------------------------------------------------------------------------
 template <>
 struct decay_mode_traits<decay_mode_t<decay_mode::transition>> {
-    static constexpr auto symbol() noexcept -> string_view {
-        return {"IT"};
-    }
-
-    static constexpr auto proton_count_diff() noexcept -> short {
-        return 0;
-    }
-
-    static constexpr auto neutron_count_diff() noexcept -> short {
-        return 0;
+    static auto info() noexcept -> const auto& {
+        static const decay_mode_info i{"IT", 0, 0};
+        return i;
     }
 };
 //------------------------------------------------------------------------------
@@ -162,13 +117,13 @@ template <decay_mode... P>
 struct decay_mode_traits<decay_mode_t<P...>> {
 private:
     template <decay_mode H>
-    static void _append_symbol(decay_mode_t<H>, std::string& s) {
-        s.append(to_string(decay_mode_traits<decay_mode_t<H>>::symbol()));
+    static void _append_symbol(decay_mode_t<H> m, std::string& s) {
+        s.append(get_info(m).symbol);
     }
 
     template <decay_mode H, decay_mode N, decay_mode... T>
     static void _append_symbol(decay_mode_t<H, N, T...>, std::string& s) {
-        s.append(to_string(decay_mode_traits<decay_mode_t<H>>::symbol()));
+        s.append(get_info(decay_mode_t<H>{}).symbol);
         s.append(",");
         _append_symbol(decay_mode_t<N, T...>{}, s);
     }
@@ -180,19 +135,12 @@ private:
     }
 
 public:
-    static auto symbol() noexcept -> string_view {
-        const static auto s{_make_symbol()};
-        return {s};
-    }
-
-    static constexpr auto proton_count_diff() noexcept -> short {
-        return (
-          0 + ... + decay_mode_traits<decay_mode_t<P>>::proton_count_diff());
-    }
-
-    static constexpr auto neutron_count_diff() noexcept -> short {
-        return (
-          0 + ... + decay_mode_traits<decay_mode_t<P>>::neutron_count_diff());
+    static auto info() noexcept -> const auto& {
+        static const decay_mode_info i{
+          _make_symbol(),
+          (0 + ... + get_info(decay_mode_t<P>{}).proton_count_diff),
+          (0 + ... + get_info(decay_mode_t<P>{}).neutron_count_diff)};
+        return i;
     }
 };
 //------------------------------------------------------------------------------
@@ -295,14 +243,46 @@ struct known_decay_modes {
         return _get_id(symbol, list{});
     }
 
+    static auto info(identifier_t mode_id) -> const decay_mode_info* {
+        return _get_info(mode_id, list{});
+    }
+
+    static auto proton_count_diff(identifier_t mode_id) noexcept -> int {
+        if(auto i{info(mode_id)}) {
+            return extract(i).proton_count_diff;
+        }
+        return 0;
+    }
+
+    static auto neutron_count_diff(identifier_t mode_id) noexcept -> int {
+        if(auto i{info(mode_id)}) {
+            return extract(i).neutron_count_diff;
+        }
+        return 0;
+    }
+
 private:
+    static auto _get_info(identifier_t, mp_list<>) noexcept
+      -> const decay_mode_info* {
+        return nullptr;
+    }
+
+    template <typename H, typename... T>
+    static auto _get_info(identifier_t id, mp_list<H, T...>)
+      -> const decay_mode_info* {
+        if(decay_mode_id<H>::value == id) {
+            return &get_info(H{});
+        }
+        return _get_info(id, mp_list<T...>{});
+    }
+
     static auto _get_id(string_view, mp_list<>) noexcept -> identifier_t {
         return 0;
     }
 
     template <typename H, typename... T>
     static auto _get_id(string_view symbol, mp_list<H, T...>) -> identifier_t {
-        if(are_equal(decay_mode_traits<H>::symbol(), symbol)) {
+        if(are_equal(string_view(get_info(H{}).symbol), symbol)) {
             return get_id(H{});
         }
         return _get_id(symbol, mp_list<T...>{});

@@ -12,8 +12,6 @@
 #include "relations.hpp"
 #include <eagine/ecs/storage/std_map.hpp>
 
-#include <iostream>
-
 namespace eagine {
 //------------------------------------------------------------------------------
 static void populate(
@@ -126,6 +124,38 @@ static void populate(
         }
     }
 }
+//------------------------------------------------------------------------------
+/*
+static void cache_decay_products(ecs::basic_manager<element_symbol>& elements) {
+    elements.for_each_with<const isotope_neutrons, decay>(
+      [&](const auto& original_i, auto& original_n, auto& idec) {
+          elements.for_each_with<const isotope_neutrons>(
+            [&](const auto& decayed_i, auto& decayed_n) {
+                if(
+                  original_n->number + idec->neutron_count_diff() ==
+                  decayed_n->number) {
+                    elements.for_each_with<const element_protons>(
+                      [&](const auto& original_e, auto& original_p) {
+                          if(elements.has<isotope>(original_e, original_i)) {
+                              elements.for_each_with<const element_protons>(
+                                [&](const auto& decayed_e, auto& decayed_p) {
+                                    if(elements.has<isotope>(
+                                         decayed_e, decayed_i)) {
+                                        if(
+                                          original_p->number +
+                                            idec->proton_count_diff() ==
+                                          decayed_p->number) {
+                                            idec->product = decayed_i;
+                                        }
+                                    }
+                                });
+                          }
+                      });
+                }
+            });
+      });
+}
+*/
 //------------------------------------------------------------------------------
 void initialize(
   ecs::basic_manager<element_symbol>& elements,
