@@ -12,6 +12,8 @@
 #include "relations.hpp"
 #include <eagine/ecs/storage/std_map.hpp>
 
+#include <iostream>
+
 namespace eagine {
 //------------------------------------------------------------------------------
 static void populate(
@@ -85,11 +87,38 @@ static void populate(
                         elements.add(isot, isotope_neutrons(extract(number)));
                     }
                 }
+
                 if(auto half_life_a{source.nested(isot_attr, "half_life")}) {
                     using hl_t = std::chrono::duration<float>;
                     if(auto hl{source.get(half_life_a, identity<hl_t>())}) {
                         elements.add(isot, half_life(extract(hl)));
                     }
+                }
+
+                if(auto decays_a{source.nested(isot_attr, "decay")}) {
+                    const auto n = source.nested_count(decays_a);
+                    decay isot_decay;
+                    for(span_size_t d = 0; d < n; ++d) {
+                        if(auto decay_a{source.nested(decays_a, d)}) {
+                            if(auto mode_a{source.nested(decay_a, "mode")}) {
+                                std::string mode_sym;
+                                if(source.fetch_value(mode_a, mode_sym)) {
+                                    if(auto info{
+                                         isot_decay.get_decay_info(mode_sym)}) {
+                                        if(auto prod_a{source.nested(
+                                             decay_a, "products")}) {
+                                            auto& prod = extract(info).products;
+                                            prod.resize(std_size(
+                                              source.value_count(prod_a)));
+                                            source.fetch_values(
+                                              prod_a, cover(prod));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    elements.add(isot, std::move(isot_decay));
                 }
 
                 elements.add_relation<isotope>(elem, isot);

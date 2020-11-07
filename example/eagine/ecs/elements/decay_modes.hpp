@@ -12,7 +12,7 @@
 #include "entity.hpp"
 #include <eagine/flat_map.hpp>
 #include <eagine/identifier.hpp>
-#include <tuple>
+#include <eagine/mp_list.hpp>
 #include <type_traits>
 
 namespace eagine {
@@ -143,6 +143,21 @@ struct decay_mode_traits<decay_mode_t<decay_mode::fission>> {
     }
 };
 //------------------------------------------------------------------------------
+template <>
+struct decay_mode_traits<decay_mode_t<decay_mode::transition>> {
+    static constexpr auto symbol() noexcept -> string_view {
+        return {"IT"};
+    }
+
+    static constexpr auto proton_count_diff() noexcept -> short {
+        return 0;
+    }
+
+    static constexpr auto neutron_count_diff() noexcept -> short {
+        return 0;
+    }
+};
+//------------------------------------------------------------------------------
 template <decay_mode... P>
 struct decay_mode_traits<decay_mode_t<P...>> {
 private:
@@ -153,8 +168,8 @@ private:
 
     template <decay_mode H, decay_mode N, decay_mode... T>
     static void _append_symbol(decay_mode_t<H, N, T...>, std::string& s) {
-        s.append(",");
         s.append(to_string(decay_mode_traits<decay_mode_t<H>>::symbol()));
+        s.append(",");
         _append_symbol(decay_mode_t<N, T...>{}, s);
     }
 
@@ -206,6 +221,10 @@ struct decay_mode_id<
   : selector<EAGINE_ID_V(2ElnCapDcy)> {};
 
 template <>
+struct decay_mode_id<decay_mode_t<decay_mode::electron_cap, decay_mode::fission>>
+  : selector<EAGINE_ID_V(ElnCapFisn)> {};
+
+template <>
 struct decay_mode_id<decay_mode_t<decay_mode::beta_m>>
   : selector<EAGINE_ID_V(BetaMDcy)> {};
 
@@ -247,22 +266,48 @@ template <>
 struct decay_mode_id<decay_mode_t<decay_mode::transition>>
   : selector<EAGINE_ID_V(Transition)> {};
 //------------------------------------------------------------------------------
-using known_decay_modes = std::tuple<
-  decay_mode_t<decay_mode::alpha>,
-  decay_mode_t<decay_mode::proton_emi>,
-  decay_mode_t<decay_mode::neutron_emi>,
-  decay_mode_t<decay_mode::electron_cap>,
-  decay_mode_t<decay_mode::electron_cap, decay_mode::electron_cap>,
-  decay_mode_t<decay_mode::beta_m>,
-  decay_mode_t<decay_mode::beta_m, decay_mode::beta_m>,
-  decay_mode_t<decay_mode::beta_m, decay_mode::alpha>,
-  decay_mode_t<decay_mode::beta_m, decay_mode::neutron_emi>,
-  decay_mode_t<decay_mode::beta_m, decay_mode::neutron_emi, decay_mode::neutron_emi>,
-  decay_mode_t<decay_mode::beta_p>,
-  decay_mode_t<decay_mode::beta_p, decay_mode::beta_p>,
-  decay_mode_t<decay_mode::beta_p, decay_mode::alpha>,
-  decay_mode_t<decay_mode::fission>,
-  decay_mode_t<decay_mode::transition>>;
+struct known_decay_modes {
+    using m = decay_mode;
+    using list = mp_list<
+      decay_mode_t<m::alpha>,
+      decay_mode_t<m::proton_emi>,
+      decay_mode_t<m::neutron_emi>,
+      decay_mode_t<m::electron_cap>,
+      decay_mode_t<m::electron_cap, m::electron_cap>,
+      decay_mode_t<m::electron_cap, m::fission>,
+      decay_mode_t<m::beta_m>,
+      decay_mode_t<m::beta_m, m::beta_m>,
+      decay_mode_t<m::beta_m, m::alpha>,
+      decay_mode_t<m::beta_m, m::neutron_emi>,
+      decay_mode_t<m::beta_m, m::neutron_emi, m::neutron_emi>,
+      decay_mode_t<m::beta_p>,
+      decay_mode_t<m::beta_p, m::beta_p>,
+      decay_mode_t<m::beta_p, m::alpha>,
+      decay_mode_t<m::fission>,
+      decay_mode_t<m::transition>>;
+
+    template <decay_mode... M>
+    static auto get_id(decay_mode_t<M...> = {}) noexcept {
+        return decay_mode_id<decay_mode_t<M...>>::value;
+    }
+
+    static auto get_id(string_view symbol) -> identifier_t {
+        return _get_id(symbol, list{});
+    }
+
+private:
+    static auto _get_id(string_view, mp_list<>) noexcept -> identifier_t {
+        return 0;
+    }
+
+    template <typename H, typename... T>
+    static auto _get_id(string_view symbol, mp_list<H, T...>) -> identifier_t {
+        if(are_equal(decay_mode_traits<H>::symbol(), symbol)) {
+            return get_id(H{});
+        }
+        return _get_id(symbol, mp_list<T...>{});
+    }
+};
 //------------------------------------------------------------------------------
 } // namespace eagine
 

@@ -167,22 +167,29 @@ struct half_life : ecs::component<half_life> {
 };
 //------------------------------------------------------------------------------
 struct decay_info {
-    element_symbol product;
-    element_symbol product2;
+    std::vector<element_symbol> products;
 };
 //------------------------------------------------------------------------------
-struct decay : ecs::component<decay> {
+class decay : ecs::component<decay> {
+public:
     static constexpr auto uid() noexcept {
         return EAGINE_ID_V(Decay);
     }
 
-    flat_map<identifier_t, decay_info> modes;
+    auto get_decay_info(string_view symbol) -> decay_info* {
+        if(auto id{known_decay_modes::get_id(symbol)}) {
+            return &_modes[id];
+        }
+        return nullptr;
+    }
 
     template <decay_mode... M>
-    auto has_decay_mode(decay_mode_t<M...> = {}) noexcept {
-        // TODO
-        return false;
+    auto has_decay_mode(decay_mode_t<M...> m = {}) noexcept {
+        return _modes.find(known_decay_modes::get_id(m)) != _modes.end();
     }
+
+private:
+    flat_map<identifier_t, decay_info> _modes;
 };
 //------------------------------------------------------------------------------
 } // namespace eagine
