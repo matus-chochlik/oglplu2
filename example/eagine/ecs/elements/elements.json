@@ -11454,7 +11454,35 @@
   "Tl" : {
       "atomic_weight" : 204.38,
       "group" : 13,
-      "isotopes" : {  },
+      "isotopes" : {
+          "_177" : {
+              "alpha_decay" : {  },
+              "proton_emission" : {  },
+              "half_life" : "18.5ms",
+              "neutrons" : 96,
+              "symbol" : "¹⁷⁷Tl"
+            },
+          "_178" : {
+              "alpha_decay" : {  },
+              "proton_emission" : {  },
+              "half_life" : "255.1ms",
+              "neutrons" : 97,
+              "symbol" : "¹⁷⁸Tl"
+            },
+          "_179" : {
+              "alpha_decay" : {  },
+              "proton_emission" : {  },
+              "half_life" : "270.3ms",
+              "neutrons" : 98,
+              "symbol" : "¹⁷⁹Tl"
+            },
+          "_180" : {
+			  "decay": [{"mode":"α"},{"mode":"p⁺"},{"mode":"+e⁻,≺"}],
+              "half_life" : "1.52s",
+              "neutrons" : 99,
+              "symbol" : "¹⁸⁰Tl"
+            }
+	  },
       "name" : { "latin" : "Thallium" },
       "period" : 6,
       "protons" : 81

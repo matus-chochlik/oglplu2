@@ -9,6 +9,7 @@
 #ifndef EAGINE_EXAMPLE_ECS_COMPONENTS_HPP // NOLINT(llvm-header-guard)
 #define EAGINE_EXAMPLE_ECS_COMPONENTS_HPP
 
+#include "decay_modes.hpp"
 #include "entity.hpp"
 #include <eagine/ecs/component.hpp>
 #include <eagine/ecs/manipulator.hpp>
@@ -165,296 +166,23 @@ struct half_life : ecs::component<half_life> {
     }
 };
 //------------------------------------------------------------------------------
-struct alpha_decay : ecs::component<alpha_decay> {
-    static constexpr auto uid() noexcept {
-        return EAGINE_ID_V(AlphaDcy);
-    }
-
-    static auto symbol() noexcept -> string_view {
-        return {"α"};
-    }
-
-    static constexpr auto proton_count_diff() noexcept -> short {
-        return -2;
-    }
-
-    static constexpr auto neutron_count_diff() noexcept -> short {
-        return -2;
-    }
-
+struct decay_info {
     element_symbol product;
+    element_symbol product2;
 };
 //------------------------------------------------------------------------------
-struct proton_emission : ecs::component<proton_emission> {
+struct decay : ecs::component<decay> {
     static constexpr auto uid() noexcept {
-        return EAGINE_ID_V(PrtnEmissn);
+        return EAGINE_ID_V(Decay);
     }
 
-    static auto symbol() noexcept -> string_view {
-        return {"p"};
-    }
+    flat_map<identifier_t, decay_info> modes;
 
-    static constexpr auto proton_count_diff() noexcept -> short {
-        return -1;
+    template <decay_mode... M>
+    auto has_decay_mode(decay_mode_t<M...> = {}) noexcept {
+        // TODO
+        return false;
     }
-
-    static constexpr auto neutron_count_diff() noexcept -> short {
-        return 0;
-    }
-
-    element_symbol product;
-};
-//------------------------------------------------------------------------------
-struct neutron_emission : ecs::component<neutron_emission> {
-    static constexpr auto uid() noexcept {
-        return EAGINE_ID_V(NtrnEmissn);
-    }
-
-    static auto symbol() noexcept -> string_view {
-        return {"n"};
-    }
-
-    static constexpr auto proton_count_diff() noexcept -> short {
-        return 0;
-    }
-
-    static constexpr auto neutron_count_diff() noexcept -> short {
-        return -1;
-    }
-
-    element_symbol product;
-};
-//------------------------------------------------------------------------------
-struct electron_capture : ecs::component<electron_capture> {
-    static constexpr auto uid() noexcept {
-        return EAGINE_ID_V(ElnCapDcy);
-    }
-
-    static auto symbol() noexcept -> string_view {
-        return {"+e⁻"};
-    }
-
-    static constexpr auto proton_count_diff() noexcept -> short {
-        return -1;
-    }
-
-    static constexpr auto neutron_count_diff() noexcept -> short {
-        return 1;
-    }
-
-    element_symbol product;
-};
-//------------------------------------------------------------------------------
-struct electron2_capture : ecs::component<electron2_capture> {
-    static constexpr auto uid() noexcept {
-        return EAGINE_ID_V(2ElnCapDcy);
-    }
-
-    static auto symbol() noexcept -> string_view {
-        return {"+2e⁻"};
-    }
-
-    static constexpr auto proton_count_diff() noexcept -> short {
-        return -2;
-    }
-
-    static constexpr auto neutron_count_diff() noexcept -> short {
-        return 2;
-    }
-
-    element_symbol product;
-};
-//------------------------------------------------------------------------------
-struct beta_m_decay : ecs::component<beta_m_decay> {
-    static constexpr auto uid() noexcept {
-        return EAGINE_ID_V(BetaMDcy);
-    }
-
-    static auto symbol() noexcept -> string_view {
-        return {"β⁻"};
-    }
-
-    static constexpr auto proton_count_diff() noexcept -> short {
-        return 1;
-    }
-
-    static constexpr auto neutron_count_diff() noexcept -> short {
-        return -1;
-    }
-
-    element_symbol product;
-};
-//------------------------------------------------------------------------------
-struct beta_m2_decay : ecs::component<beta_m2_decay> {
-    static constexpr auto uid() noexcept {
-        return EAGINE_ID_V(BetaM2Dcy);
-    }
-
-    static auto symbol() noexcept -> string_view {
-        return {"β⁻,β⁻"};
-    }
-
-    static constexpr auto proton_count_diff() noexcept -> short {
-        return 2;
-    }
-
-    static constexpr auto neutron_count_diff() noexcept -> short {
-        return -2;
-    }
-
-    element_symbol product;
-};
-//------------------------------------------------------------------------------
-struct beta_m_alpha_decay : ecs::component<beta_m_alpha_decay> {
-    static constexpr auto uid() noexcept {
-        return EAGINE_ID_V(BtaMAlpDcy);
-    }
-
-    static auto symbol() noexcept -> string_view {
-        return {"β⁻,α"};
-    }
-
-    static constexpr auto proton_count_diff() noexcept -> short {
-        return -1;
-    }
-
-    static constexpr auto neutron_count_diff() noexcept -> short {
-        return -3;
-    }
-
-    element_symbol product;
-};
-//------------------------------------------------------------------------------
-struct beta_m_n_decay : ecs::component<beta_m_n_decay> {
-    static constexpr auto uid() noexcept {
-        return EAGINE_ID_V(BetaMNDcy);
-    }
-
-    static auto symbol() noexcept -> string_view {
-        return {"β⁻,n"};
-    }
-
-    static constexpr auto proton_count_diff() noexcept -> short {
-        return 1;
-    }
-
-    static constexpr auto neutron_count_diff() noexcept -> short {
-        return -2;
-    }
-
-    element_symbol product;
-};
-//------------------------------------------------------------------------------
-struct beta_m_n2_decay : ecs::component<beta_m_n2_decay> {
-    static constexpr auto uid() noexcept {
-        return EAGINE_ID_V(BetaMN2Dcy);
-    }
-
-    static auto symbol() noexcept -> string_view {
-        return {"β⁻,2n"};
-    }
-
-    static constexpr auto proton_count_diff() noexcept -> short {
-        return 1;
-    }
-
-    static constexpr auto neutron_count_diff() noexcept -> short {
-        return -3;
-    }
-
-    element_symbol product;
-};
-//------------------------------------------------------------------------------
-struct beta_p_decay : ecs::component<beta_p_decay> {
-    static constexpr auto uid() noexcept {
-        return EAGINE_ID_V(BetaPDcy);
-    }
-
-    static auto symbol() noexcept -> string_view {
-        return {"β⁺"};
-    }
-
-    static constexpr auto proton_count_diff() noexcept -> short {
-        return -1;
-    }
-
-    static constexpr auto neutron_count_diff() noexcept -> short {
-        return 1;
-    }
-
-    element_symbol product;
-};
-//------------------------------------------------------------------------------
-struct beta_p2_decay : ecs::component<beta_p2_decay> {
-    static constexpr auto uid() noexcept {
-        return EAGINE_ID_V(BetaP2Dcy);
-    }
-
-    static auto symbol() noexcept -> string_view {
-        return {"β⁺,β⁺"};
-    }
-
-    static constexpr auto proton_count_diff() noexcept -> short {
-        return -2;
-    }
-
-    static constexpr auto neutron_count_diff() noexcept -> short {
-        return 2;
-    }
-
-    element_symbol product;
-};
-//------------------------------------------------------------------------------
-struct beta_p_alpha_decay : ecs::component<beta_p_alpha_decay> {
-    static constexpr auto uid() noexcept {
-        return EAGINE_ID_V(BtaPAlpDcy);
-    }
-
-    static auto symbol() noexcept -> string_view {
-        return {"β⁺,α"};
-    }
-
-    static constexpr auto proton_count_diff() noexcept -> short {
-        return -3;
-    }
-
-    static constexpr auto neutron_count_diff() noexcept -> short {
-        return -1;
-    }
-
-    element_symbol product;
-};
-//------------------------------------------------------------------------------
-struct beta_p_p_decay : ecs::component<beta_p_p_decay> {
-    static constexpr auto uid() noexcept {
-        return EAGINE_ID_V(BetaPPDcy);
-    }
-
-    static auto symbol() noexcept -> string_view {
-        return {"β⁺,p"};
-    }
-
-    static constexpr auto proton_count_diff() noexcept -> short {
-        return -2;
-    }
-
-    static constexpr auto neutron_count_diff() noexcept -> short {
-        return 1;
-    }
-
-    element_symbol product;
-};
-//------------------------------------------------------------------------------
-struct spontaneous_fission : ecs::component<spontaneous_fission> {
-    static constexpr auto uid() noexcept {
-        return EAGINE_ID_V(SpnFission);
-    }
-
-    static auto symbol() noexcept -> string_view {
-        return {"≺"};
-    }
-
-    std::vector<element_symbol> products;
 };
 //------------------------------------------------------------------------------
 } // namespace eagine
