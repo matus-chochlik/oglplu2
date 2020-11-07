@@ -14,8 +14,9 @@
 
 namespace eagine {
 
-template <identifier_t>
+template <identifier_t V>
 struct selector {
+    static constexpr const identifier_t value = V;
     using type = selector;
 };
 
