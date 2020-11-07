@@ -40,12 +40,11 @@ static void decay_of(
     auto func = [&](const auto&, auto& modes) {
         modes->for_each([&](const auto& mode, const auto& dcy) {
             for(const auto& prod : dcy.products) {
+                std::cout << entity_node{prod} << " [label=\"" << prod
+                          << "\"];\n";
+                std::cout << entity_node{isot} << " -> " << entity_node{prod}
+                          << " [label=\"" << mode.symbol << "\"];\n";
                 if(done.find(prod) == done.end()) {
-                    std::cout << entity_node{prod} << " [label=\"" << prod
-                              << "\"];\n";
-                    std::cout << entity_node{isot} << " -> "
-                              << entity_node{prod} << " [label=\""
-                              << mode.symbol << "\"];\n";
                     decay_of(elements, prod, done);
                 }
             }
@@ -79,8 +78,10 @@ auto main(main_ctx& ctx) -> int {
 
     std::cout << "digraph DecayChain {\n";
     std::cout << "rankdir=LR\n";
+    std::cout << "overlap=false\n";
+    std::cout << "nodesep=0.5\n";
     std::cout << "label=\"Decay chain of " << isot << "\"\n";
-    std::cout << "node [shape=plain]\n";
+    std::cout << "node [shape=egg]\n";
 
     decay_of(elements, isot);
 

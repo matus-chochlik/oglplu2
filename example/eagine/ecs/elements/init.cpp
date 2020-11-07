@@ -131,24 +131,25 @@ static void cache_decay_products(ecs::basic_manager<element_symbol>& elements) {
 
     // for each original isotope with neutron cound and some decay modes
     elements.for_each_with<const isotope_neutrons, decay_modes>(
-      [&](const auto& orig_is, auto& orig_nc, auto& modes) {
+      [&](auto& orig_is, auto& orig_nc, auto& modes) {
           // for each product isotope
           elements.for_each_with<const isotope_neutrons>(
-            [&](const auto& prod_is, auto& prod_nc) {
+            [&](auto& prod_is, auto& prod_nc) {
                 // for each decay mode of the original isotope
-                modes->for_each([&](const auto& dcy_mode, auto& dcy) {
+                modes->for_each([&](auto& dcy_mode, auto& dcy) {
                     // if the isotope neutron count after the decay matches
                     if(
-                      orig_nc->number + dcy_mode.neutron_count_diff ==
-                      prod_nc->number) {
+                      !dcy_mode.is_fission &&
+                      (orig_nc->number + dcy_mode.neutron_count_diff ==
+                       prod_nc->number)) {
                         // for each original element with proton count
                         elements.for_each_with<const element_protons>(
-                          [&](const auto& orig_el, auto& orig_pc) {
+                          [&](auto& orig_el, auto& orig_pc) {
                               // if the original element has the original isotope
                               if(elements.has<isotope>(orig_el, orig_is)) {
                                   // for each product element
                                   elements.for_each_with<const element_protons>(
-                                    [&](const auto& prod_el, auto& prod_pc) {
+                                    [&](auto& prod_el, auto& prod_pc) {
                                         // if the element proton count after the
                                         // decay matches
                                         if(
