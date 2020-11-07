@@ -11,6 +11,9 @@
 #include "entity.hpp"
 #include "relations.hpp"
 #include <eagine/ecs/storage/std_map.hpp>
+#include <eagine/embed.hpp>
+#include <eagine/value_tree/json.hpp>
+#include <eagine/value_tree/wrappers.hpp>
 
 namespace eagine {
 //------------------------------------------------------------------------------
@@ -170,7 +173,7 @@ static void cache_decay_products(ecs::basic_manager<element_symbol>& elements) {
       });
 }
 //------------------------------------------------------------------------------
-void initialize(
+static void do_initialize(
   ecs::basic_manager<element_symbol>& elements,
   const valtree::compound& source) {
     // components
@@ -196,4 +199,13 @@ void initialize(
     cache_decay_products(elements);
 }
 //------------------------------------------------------------------------------
+void initialize(main_ctx& ctx, ecs::basic_manager<element_symbol>& elements) {
+
+    const auto json_res{embed(EAGINE_ID(ElemJSON), "elements.json")};
+
+    auto json_tree{
+      valtree::from_json_text(as_chars(json_res.unpack(ctx)), ctx.log())};
+
+    do_initialize(elements, json_tree);
+}
 } // namespace eagine
