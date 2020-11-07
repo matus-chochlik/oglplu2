@@ -95,14 +95,13 @@ static void populate(
 
                 if(auto decays_a{source.nested(isot_attr, "decay")}) {
                     const auto n = source.nested_count(decays_a);
-                    decay isot_decay;
+                    decay_modes isot_decay;
                     for(span_size_t d = 0; d < n; ++d) {
                         if(auto decay_a{source.nested(decays_a, d)}) {
                             if(auto mode_a{source.nested(decay_a, "mode")}) {
                                 std::string mode_sym;
                                 if(source.fetch_value(mode_a, mode_sym)) {
-                                    if(auto info{
-                                         isot_decay.get_decay_info(mode_sym)}) {
+                                    if(auto info{isot_decay.get(mode_sym)}) {
                                         if(auto prod_a{source.nested(
                                              decay_a, "products")}) {
                                             auto& prod = extract(info).products;
@@ -125,42 +124,55 @@ static void populate(
     }
 }
 //------------------------------------------------------------------------------
-/*
 static void cache_decay_products(ecs::basic_manager<element_symbol>& elements) {
-    elements.for_each_with<const isotope_neutrons, decay>(
-      [&](const auto& original_i, auto& original_n, auto& idec) {
+
+    // for each original isotope with neutron cound and some decay modes
+    elements.for_each_with<const isotope_neutrons, decay_modes>(
+      [&](const auto& orig_is, auto& orig_nc, auto& modes) {
+          // for each product isotope
           elements.for_each_with<const isotope_neutrons>(
-            [&](const auto& decayed_i, auto& decayed_n) {
-                if(
-                  original_n->number + idec->neutron_count_diff() ==
-                  decayed_n->number) {
-                    elements.for_each_with<const element_protons>(
-                      [&](const auto& original_e, auto& original_p) {
-                          if(elements.has<isotope>(original_e, original_i)) {
-                              elements.for_each_with<const element_protons>(
-                                [&](const auto& decayed_e, auto& decayed_p) {
-                                    if(elements.has<isotope>(
-                                         decayed_e, decayed_i)) {
+            [&](const auto& prod_is, auto& prod_nc) {
+                // for each decay mode of the original isotope
+                modes->for_each([&](const auto& dcy_mode, auto& dcy) {
+                    // if the isotope neutron count after the decay matches
+                    if(
+                      orig_nc->number + dcy_mode.neutron_count_diff ==
+                      prod_nc->number) {
+                        // for each original element with proton count
+                        elements.for_each_with<const element_protons>(
+                          [&](const auto& orig_el, auto& orig_pc) {
+                              // if the original element has the original isotope
+                              if(elements.has<isotope>(orig_el, orig_is)) {
+                                  // for each product element
+                                  elements.for_each_with<const element_protons>(
+                                    [&](const auto& prod_el, auto& prod_pc) {
+                                        // if the element proton count after the
+                                        // decay matches
                                         if(
-                                          original_p->number +
-                                            idec->proton_count_diff() ==
-                                          decayed_p->number) {
-                                            idec->product = decayed_i;
+                                          orig_pc->number +
+                                            dcy_mode.proton_count_diff ==
+                                          prod_pc->number) {
+                                            // if the product element has the
+                                            // product isotope
+                                            if(elements.has<isotope>(
+                                                 prod_el, prod_is)) {
+                                                // cache the product isotope in
+                                                // the original isotope decay info
+                                                dcy.products.push_back(prod_is);
+                                            }
                                         }
-                                    }
-                                });
-                          }
-                      });
-                }
+                                    });
+                              }
+                          });
+                    }
+                });
             });
       });
 }
-*/
 //------------------------------------------------------------------------------
 void initialize(
   ecs::basic_manager<element_symbol>& elements,
   const valtree::compound& source) {
-
     // components
     elements
       .register_component_storage<ecs::std_map_cmp_storage, element_name>();
@@ -175,12 +187,13 @@ void initialize(
     elements
       .register_component_storage<ecs::std_map_cmp_storage, atomic_weight>();
     elements.register_component_storage<ecs::std_map_cmp_storage, half_life>();
-    elements.register_component_storage<ecs::std_map_cmp_storage, decay>();
+    elements.register_component_storage<ecs::std_map_cmp_storage, decay_modes>();
 
     // relations
     elements.register_relation_storage<ecs::std_map_rel_storage, isotope>();
 
     populate(elements, source);
+    cache_decay_products(elements);
 }
 //------------------------------------------------------------------------------
 } // namespace eagine

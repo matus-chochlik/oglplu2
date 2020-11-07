@@ -15,6 +15,7 @@
 #include <eagine/ecs/manipulator.hpp>
 #include <eagine/identifier.hpp>
 #include <chrono>
+#include <vector>
 
 namespace eagine {
 //------------------------------------------------------------------------------
@@ -166,30 +167,39 @@ struct half_life : ecs::component<half_life> {
     }
 };
 //------------------------------------------------------------------------------
-struct decay_info {
+struct decay {
     std::vector<element_symbol> products;
 };
 //------------------------------------------------------------------------------
-class decay : ecs::component<decay> {
+class decay_modes : ecs::component<decay_modes> {
 public:
     static constexpr auto uid() noexcept {
-        return EAGINE_ID_V(Decay);
+        return EAGINE_ID_V(DecayModes);
     }
 
-    auto get_decay_info(string_view symbol) -> decay_info* {
+    auto get(string_view symbol) -> decay* {
         if(auto id{known_decay_modes::get_id(symbol)}) {
             return &_modes[id];
         }
         return nullptr;
     }
 
-    template <decay_mode... M>
-    auto has_decay_mode(decay_mode_t<M...> m = {}) noexcept {
+    template <decay_part... P>
+    auto has(decay_mode_t<P...> m = {}) noexcept {
         return _modes.find(known_decay_modes::get_id(m)) != _modes.end();
     }
 
+    template <typename Function>
+    void for_each(const Function& func) {
+        for(auto& [id, info] : _modes) {
+            if(auto mode_info{known_decay_modes::get_info(id)}) {
+                func(*mode_info, info);
+            }
+        }
+    }
+
 private:
-    flat_map<identifier_t, decay_info> _modes;
+    flat_map<identifier_t, decay> _modes;
 };
 //------------------------------------------------------------------------------
 } // namespace eagine

@@ -17,7 +17,7 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-enum class decay_mode {
+enum class decay_part {
     alpha,
     beta_p,
     beta_m,
@@ -28,12 +28,12 @@ enum class decay_mode {
     transition
 };
 //------------------------------------------------------------------------------
-template <decay_mode... M>
-using decay_mode_t = std::integer_sequence<decay_mode, M...>;
+template <decay_part... M>
+using decay_mode_t = std::integer_sequence<decay_part, M...>;
 //------------------------------------------------------------------------------
-template <decay_mode... M>
+template <decay_part... M>
 constexpr inline auto is_fission_v =
-  std::disjunction_v<(M == decay_mode::fission)...>;
+  std::disjunction_v<(M == decay_part::fission)...>;
 //------------------------------------------------------------------------------
 struct decay_mode_info {
     std::string symbol;
@@ -44,13 +44,14 @@ struct decay_mode_info {
 template <typename T>
 struct decay_mode_traits;
 //------------------------------------------------------------------------------
-template <decay_mode... M>
-static inline auto get_info(decay_mode_t<M...> = {}) -> const decay_mode_info& {
+template <decay_part... M>
+static inline auto mode_info(decay_mode_t<M...> = {})
+  -> const decay_mode_info& {
     return decay_mode_traits<decay_mode_t<M...>>::info();
 }
 //------------------------------------------------------------------------------
 template <>
-struct decay_mode_traits<decay_mode_t<decay_mode::alpha>> {
+struct decay_mode_traits<decay_mode_t<decay_part::alpha>> {
     static auto info() noexcept -> const auto& {
         static const decay_mode_info i{"α", -2, -2};
         return i;
@@ -58,7 +59,7 @@ struct decay_mode_traits<decay_mode_t<decay_mode::alpha>> {
 };
 //------------------------------------------------------------------------------
 template <>
-struct decay_mode_traits<decay_mode_t<decay_mode::beta_p>> {
+struct decay_mode_traits<decay_mode_t<decay_part::beta_p>> {
     static auto info() noexcept -> const auto& {
         static const decay_mode_info i{"β⁺", -1, 1};
         return i;
@@ -66,7 +67,7 @@ struct decay_mode_traits<decay_mode_t<decay_mode::beta_p>> {
 };
 //------------------------------------------------------------------------------
 template <>
-struct decay_mode_traits<decay_mode_t<decay_mode::beta_m>> {
+struct decay_mode_traits<decay_mode_t<decay_part::beta_m>> {
     static auto info() noexcept -> const auto& {
         static const decay_mode_info i{"β⁻", 1, -1};
         return i;
@@ -74,7 +75,7 @@ struct decay_mode_traits<decay_mode_t<decay_mode::beta_m>> {
 };
 //------------------------------------------------------------------------------
 template <>
-struct decay_mode_traits<decay_mode_t<decay_mode::proton_emi>> {
+struct decay_mode_traits<decay_mode_t<decay_part::proton_emi>> {
     static auto info() noexcept -> const auto& {
         static const decay_mode_info i{"p₊", -1, 0};
         return i;
@@ -82,7 +83,7 @@ struct decay_mode_traits<decay_mode_t<decay_mode::proton_emi>> {
 };
 //------------------------------------------------------------------------------
 template <>
-struct decay_mode_traits<decay_mode_t<decay_mode::neutron_emi>> {
+struct decay_mode_traits<decay_mode_t<decay_part::neutron_emi>> {
     static auto info() noexcept -> const auto& {
         static const decay_mode_info i{"n⁰", 0, -1};
         return i;
@@ -90,7 +91,7 @@ struct decay_mode_traits<decay_mode_t<decay_mode::neutron_emi>> {
 };
 //------------------------------------------------------------------------------
 template <>
-struct decay_mode_traits<decay_mode_t<decay_mode::electron_cap>> {
+struct decay_mode_traits<decay_mode_t<decay_part::electron_cap>> {
     static auto info() noexcept -> const auto& {
         static const decay_mode_info i{"+e⁻", -1, 1};
         return i;
@@ -98,7 +99,7 @@ struct decay_mode_traits<decay_mode_t<decay_mode::electron_cap>> {
 };
 //------------------------------------------------------------------------------
 template <>
-struct decay_mode_traits<decay_mode_t<decay_mode::fission>> {
+struct decay_mode_traits<decay_mode_t<decay_part::fission>> {
     static auto info() noexcept -> const auto& {
         static const decay_mode_info i{"≺", 0, 0};
         return i;
@@ -106,24 +107,24 @@ struct decay_mode_traits<decay_mode_t<decay_mode::fission>> {
 };
 //------------------------------------------------------------------------------
 template <>
-struct decay_mode_traits<decay_mode_t<decay_mode::transition>> {
+struct decay_mode_traits<decay_mode_t<decay_part::transition>> {
     static auto info() noexcept -> const auto& {
         static const decay_mode_info i{"IT", 0, 0};
         return i;
     }
 };
 //------------------------------------------------------------------------------
-template <decay_mode... P>
+template <decay_part... P>
 struct decay_mode_traits<decay_mode_t<P...>> {
 private:
-    template <decay_mode H>
+    template <decay_part H>
     static void _append_symbol(decay_mode_t<H> m, std::string& s) {
-        s.append(get_info(m).symbol);
+        s.append(mode_info(m).symbol);
     }
 
-    template <decay_mode H, decay_mode N, decay_mode... T>
+    template <decay_part H, decay_part N, decay_part... T>
     static void _append_symbol(decay_mode_t<H, N, T...>, std::string& s) {
-        s.append(get_info(decay_mode_t<H>{}).symbol);
+        s.append(mode_info(decay_mode_t<H>{}).symbol);
         s.append(",");
         _append_symbol(decay_mode_t<N, T...>{}, s);
     }
@@ -138,8 +139,8 @@ public:
     static auto info() noexcept -> const auto& {
         static const decay_mode_info i{
           _make_symbol(),
-          (0 + ... + get_info(decay_mode_t<P>{}).proton_count_diff),
-          (0 + ... + get_info(decay_mode_t<P>{}).neutron_count_diff)};
+          (0 + ... + mode_info(decay_mode_t<P>{}).proton_count_diff),
+          (0 + ... + mode_info(decay_mode_t<P>{}).neutron_count_diff)};
         return i;
     }
 };
@@ -148,74 +149,74 @@ template <typename DecayMode>
 struct decay_mode_id;
 
 template <>
-struct decay_mode_id<decay_mode_t<decay_mode::alpha>>
+struct decay_mode_id<decay_mode_t<decay_part::alpha>>
   : selector<EAGINE_ID_V(AlphaDcy)> {};
 
 template <>
-struct decay_mode_id<decay_mode_t<decay_mode::proton_emi>>
+struct decay_mode_id<decay_mode_t<decay_part::proton_emi>>
   : selector<EAGINE_ID_V(PrtnEmissn)> {};
 
 template <>
-struct decay_mode_id<decay_mode_t<decay_mode::neutron_emi>>
+struct decay_mode_id<decay_mode_t<decay_part::neutron_emi>>
   : selector<EAGINE_ID_V(NtrnEmissn)> {};
 
 template <>
-struct decay_mode_id<decay_mode_t<decay_mode::electron_cap>>
+struct decay_mode_id<decay_mode_t<decay_part::electron_cap>>
   : selector<EAGINE_ID_V(ElnCapDcy)> {};
 
 template <>
 struct decay_mode_id<
-  decay_mode_t<decay_mode::electron_cap, decay_mode::electron_cap>>
+  decay_mode_t<decay_part::electron_cap, decay_part::electron_cap>>
   : selector<EAGINE_ID_V(2ElnCapDcy)> {};
 
 template <>
-struct decay_mode_id<decay_mode_t<decay_mode::electron_cap, decay_mode::fission>>
+struct decay_mode_id<decay_mode_t<decay_part::electron_cap, decay_part::fission>>
   : selector<EAGINE_ID_V(ElnCapFisn)> {};
 
 template <>
-struct decay_mode_id<decay_mode_t<decay_mode::beta_m>>
+struct decay_mode_id<decay_mode_t<decay_part::beta_m>>
   : selector<EAGINE_ID_V(BetaMDcy)> {};
 
 template <>
-struct decay_mode_id<decay_mode_t<decay_mode::beta_m, decay_mode::beta_m>>
+struct decay_mode_id<decay_mode_t<decay_part::beta_m, decay_part::beta_m>>
   : selector<EAGINE_ID_V(BetaM2Dcy)> {};
 
 template <>
-struct decay_mode_id<decay_mode_t<decay_mode::beta_m, decay_mode::alpha>>
+struct decay_mode_id<decay_mode_t<decay_part::beta_m, decay_part::alpha>>
   : selector<EAGINE_ID_V(BtaMAlpDcy)> {};
 
 template <>
-struct decay_mode_id<decay_mode_t<decay_mode::beta_m, decay_mode::neutron_emi>>
+struct decay_mode_id<decay_mode_t<decay_part::beta_m, decay_part::neutron_emi>>
   : selector<EAGINE_ID_V(BetaMNDcy)> {};
 
 template <>
 struct decay_mode_id<decay_mode_t<
-  decay_mode::beta_m,
-  decay_mode::neutron_emi,
-  decay_mode::neutron_emi>> : selector<EAGINE_ID_V(BetaMN2Dcy)> {};
+  decay_part::beta_m,
+  decay_part::neutron_emi,
+  decay_part::neutron_emi>> : selector<EAGINE_ID_V(BetaMN2Dcy)> {};
 
 template <>
-struct decay_mode_id<decay_mode_t<decay_mode::beta_p>>
+struct decay_mode_id<decay_mode_t<decay_part::beta_p>>
   : selector<EAGINE_ID_V(BetaPDcy)> {};
 
 template <>
-struct decay_mode_id<decay_mode_t<decay_mode::beta_p, decay_mode::beta_p>>
+struct decay_mode_id<decay_mode_t<decay_part::beta_p, decay_part::beta_p>>
   : selector<EAGINE_ID_V(BetaP2Dcy)> {};
 
 template <>
-struct decay_mode_id<decay_mode_t<decay_mode::beta_p, decay_mode::alpha>>
+struct decay_mode_id<decay_mode_t<decay_part::beta_p, decay_part::alpha>>
   : selector<EAGINE_ID_V(BtaPAlpDcy)> {};
 
 template <>
-struct decay_mode_id<decay_mode_t<decay_mode::fission>>
+struct decay_mode_id<decay_mode_t<decay_part::fission>>
   : selector<EAGINE_ID_V(Fission)> {};
 
 template <>
-struct decay_mode_id<decay_mode_t<decay_mode::transition>>
+struct decay_mode_id<decay_mode_t<decay_part::transition>>
   : selector<EAGINE_ID_V(Transition)> {};
 //------------------------------------------------------------------------------
 struct known_decay_modes {
-    using m = decay_mode;
+    using m = decay_part;
     using list = mp_list<
       decay_mode_t<m::alpha>,
       decay_mode_t<m::proton_emi>,
@@ -234,7 +235,7 @@ struct known_decay_modes {
       decay_mode_t<m::fission>,
       decay_mode_t<m::transition>>;
 
-    template <decay_mode... M>
+    template <decay_part... M>
     static auto get_id(decay_mode_t<M...> = {}) noexcept {
         return decay_mode_id<decay_mode_t<M...>>::value;
     }
@@ -243,19 +244,19 @@ struct known_decay_modes {
         return _get_id(symbol, list{});
     }
 
-    static auto info(identifier_t mode_id) -> const decay_mode_info* {
+    static auto get_info(identifier_t mode_id) -> const decay_mode_info* {
         return _get_info(mode_id, list{});
     }
 
     static auto proton_count_diff(identifier_t mode_id) noexcept -> int {
-        if(auto i{info(mode_id)}) {
+        if(auto i{get_info(mode_id)}) {
             return extract(i).proton_count_diff;
         }
         return 0;
     }
 
     static auto neutron_count_diff(identifier_t mode_id) noexcept -> int {
-        if(auto i{info(mode_id)}) {
+        if(auto i{get_info(mode_id)}) {
             return extract(i).neutron_count_diff;
         }
         return 0;
@@ -271,7 +272,7 @@ private:
     static auto _get_info(identifier_t id, mp_list<H, T...>)
       -> const decay_mode_info* {
         if(decay_mode_id<H>::value == id) {
-            return &get_info(H{});
+            return &mode_info(H{});
         }
         return _get_info(id, mp_list<T...>{});
     }
@@ -282,7 +283,7 @@ private:
 
     template <typename H, typename... T>
     static auto _get_id(string_view symbol, mp_list<H, T...>) -> identifier_t {
-        if(are_equal(string_view(get_info(H{}).symbol), symbol)) {
+        if(are_equal(string_view(mode_info(H{}).symbol), symbol)) {
             return get_id(H{});
         }
         return _get_id(symbol, mp_list<T...>{});
