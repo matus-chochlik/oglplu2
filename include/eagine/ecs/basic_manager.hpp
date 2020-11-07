@@ -430,10 +430,10 @@ public:
 
     template <typename Component>
     auto for_single(
+      entity_param ent,
       const callable_ref<void(entity_param, manipulator<const Component>&)>&
-        func,
-      entity_param ent) -> auto& {
-        _call_for_single_c<Component>(func, ent);
+        func) -> auto& {
+        _call_for_single_c<Component>(ent, func);
         return *this;
     }
 

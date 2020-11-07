@@ -33,4 +33,5 @@ macro(eagine_ecs_example EXAMPLE)
 endmacro()
 
 eagine_ecs_example(basic)
+eagine_ecs_example(decay_chain)
 

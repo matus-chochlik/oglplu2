@@ -198,6 +198,15 @@ public:
         }
     }
 
+    template <typename Function>
+    void for_each(const Function& func) const {
+        for(const auto& [id, info] : _modes) {
+            if(auto mode_info{known_decay_modes::get_info(id)}) {
+                func(*mode_info, info);
+            }
+        }
+    }
+
 private:
     flat_map<identifier_t, decay> _modes;
 };
