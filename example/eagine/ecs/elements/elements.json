@@ -1209,7 +1209,289 @@
   "Bi" : {
       "atomic_weight" : 208.9804,
       "group" : 15,
-      "isotopes" : {  },
+      "isotopes" : {
+          "_185" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "p⁺" }
+                ],
+              "half_life" : "2ms",
+              "neutrons" : 102,
+              "symbol" : "¹⁸⁵Bi"
+            },
+          "_186" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "p⁺" }
+                ],
+              "half_life" : "0.49ms",
+              "neutrons" : 103,
+              "symbol" : "¹⁸⁶Bi"
+            },
+          "_187" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "32ms",
+              "neutrons" : 104,
+              "symbol" : "¹⁸⁷Bi"
+            },
+          "_188" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "44ms",
+              "neutrons" : 105,
+              "symbol" : "¹⁸⁸Bi"
+            },
+          "_189" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "674ms",
+              "neutrons" : 106,
+              "symbol" : "¹⁸⁹Bi"
+            },
+          "_190" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "6.3s",
+              "neutrons" : 107,
+              "symbol" : "¹⁹⁰Bi"
+            },
+          "_191" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "12.3s",
+              "neutrons" : 108,
+              "symbol" : "¹⁹¹Bi"
+            },
+          "_192" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "34.6s",
+              "neutrons" : 109,
+              "symbol" : "¹⁹²Bi"
+            },
+          "_193" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "67s",
+              "neutrons" : 110,
+              "symbol" : "¹⁹³Bi"
+            },
+          "_194" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "95s",
+              "neutrons" : 111,
+              "symbol" : "¹⁹⁴Bi"
+            },
+          "_195" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "183s",
+              "neutrons" : 112,
+              "symbol" : "¹⁹⁵Bi"
+            },
+          "_196" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "5.1min",
+              "neutrons" : 113,
+              "symbol" : "¹⁹⁶Bi"
+            },
+          "_197" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "9.33min",
+              "neutrons" : 114,
+              "symbol" : "¹⁹⁷Bi"
+            },
+          "_198" : {
+              "decay" : [ { "mode" : "β⁺" } ],
+              "half_life" : "10.3min",
+              "neutrons" : 115,
+              "symbol" : "¹⁹⁸Bi"
+            },
+          "_199" : {
+              "decay" : [ { "mode" : "β⁺" } ],
+              "half_life" : "27min",
+              "neutrons" : 116,
+              "symbol" : "¹⁹⁹Bi"
+            },
+          "_200" : {
+              "decay" : [ { "mode" : "β⁺" } ],
+              "half_life" : "36.4min",
+              "neutrons" : 117,
+              "symbol" : "²⁰⁰Bi"
+            },
+          "_201" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "108min",
+              "neutrons" : 118,
+              "symbol" : "²⁰¹Bi"
+            },
+          "_202" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "1.72hr",
+              "neutrons" : 119,
+              "symbol" : "²⁰²Bi"
+            },
+          "_203" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "11.76hr",
+              "neutrons" : 120,
+              "symbol" : "²⁰³Bi"
+            },
+          "_204" : {
+              "decay" : [ { "mode" : "β⁺" } ],
+              "half_life" : "11.22hr",
+              "neutrons" : 121,
+              "symbol" : "²⁰⁴Bi"
+            },
+          "_205" : {
+              "decay" : [ { "mode" : "β⁺" } ],
+              "half_life" : "15.31dy",
+              "neutrons" : 122,
+              "symbol" : "²⁰⁵Bi"
+            },
+          "_206" : {
+              "decay" : [ { "mode" : "β⁺" } ],
+              "half_life" : "6.243dy",
+              "neutrons" : 123,
+              "symbol" : "²⁰⁶Bi"
+            },
+          "_207" : {
+              "decay" : [ { "mode" : "β⁺" } ],
+              "half_life" : "32.7yr",
+              "neutrons" : 124,
+              "symbol" : "²⁰⁷Bi"
+            },
+          "_208" : {
+              "decay" : [ { "mode" : "β⁺" } ],
+              "half_life" : "3.68e5yr",
+              "neutrons" : 125,
+              "symbol" : "²⁰⁸Bi"
+            },
+          "_209" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "2.01e19yr",
+              "neutrons" : 126,
+              "symbol" : "²⁰⁹Bi"
+            },
+          "_210" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁻" }
+                ],
+              "half_life" : "5.012dy",
+              "neutrons" : 127,
+              "symbol" : "²¹⁰Bi"
+            },
+          "_211" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁻" }
+                ],
+              "half_life" : "2.14min",
+              "neutrons" : 128,
+              "symbol" : "²¹¹Bi"
+            },
+          "_212" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁻" },
+                  { "mode" : "β⁻,α" }
+                ],
+              "half_life" : "60.55min",
+              "neutrons" : 129,
+              "symbol" : "²¹²Bi"
+            },
+          "_213" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁻" }
+                ],
+              "half_life" : "45.59min",
+              "neutrons" : 130,
+              "symbol" : "²¹³Bi"
+            },
+          "_214" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁻" },
+                  { "mode" : "β⁻,α" }
+                ],
+              "half_life" : "19.9min",
+              "neutrons" : 131,
+              "symbol" : "²¹⁴Bi"
+            },
+          "_215" : {
+              "decay" : [ { "mode" : "β⁻" } ],
+              "half_life" : "7.6min",
+              "neutrons" : 132,
+              "symbol" : "²¹⁵Bi"
+            },
+          "_216" : {
+              "decay" : [ { "mode" : "β⁻" } ],
+              "half_life" : "2.17min",
+              "neutrons" : 133,
+              "symbol" : "²¹⁶Bi"
+            },
+          "_217" : {
+              "decay" : [ { "mode" : "β⁻" } ],
+              "half_life" : "98.5s",
+              "neutrons" : 134,
+              "symbol" : "²¹⁷Bi"
+            },
+          "_218" : {
+              "decay" : [ { "mode" : "β⁻" } ],
+              "half_life" : "33s",
+              "neutrons" : 135,
+              "symbol" : "²¹⁸Bi"
+            },
+          "_219" : {
+              "decay" : [ { "mode" : "β⁻" } ],
+              "half_life" : "8.7s",
+              "neutrons" : 136,
+              "symbol" : "²¹⁹Bi"
+            },
+          "_220" : {
+              "decay" : [ { "mode" : "β⁻" } ],
+              "half_life" : "9.5s",
+              "neutrons" : 136,
+              "symbol" : "²²⁰Bi"
+            }
+        },
       "name" : { "latin" : "Bismuth" },
       "period" : 6,
       "protons" : 83
