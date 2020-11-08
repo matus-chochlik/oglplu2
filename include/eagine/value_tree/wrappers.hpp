@@ -158,6 +158,10 @@ public:
         return 0;
     }
 
+    auto has_nested(const attribute& attrib) const -> bool {
+        return nested_count(attrib) != 0;
+    }
+
     auto nested(const attribute& attrib, span_size_t index) const -> attribute {
         if(_pimpl && attrib._pimpl) {
             return {_pimpl, _pimpl->nested(*attrib._pimpl, index)};
@@ -288,6 +292,15 @@ public:
         return fetch_value(path, 0, dest);
     }
 
+    template <std::size_t L>
+    auto has_value(const attribute& attrib, const char (&what)[L]) -> bool {
+        char temp[L]{};
+        if(fetch_values(attrib, 0, cover(temp))) {
+            return starts_with(string_view(temp), string_view(what));
+        }
+        return false;
+    }
+
     template <typename T>
     auto get(const attribute& attrib, span_size_t offset, identity<T> = {})
       -> optionally_valid<T> {
@@ -340,6 +353,14 @@ public:
 
     void traverse(visit_handler visitor);
 
+    using stack_visit_handler = callable_ref<bool(
+      compound&,
+      const attribute&,
+      const basic_string_path&,
+      span<const attribute>)>;
+
+    void traverse(stack_visit_handler visitor);
+
 private:
     compound(std::shared_ptr<compound_interface> pimpl) noexcept
       : _pimpl{std::move(pimpl)} {}
@@ -379,6 +400,10 @@ public:
 
     auto nested_count() const -> span_size_t {
         return _c.nested_count(_a);
+    }
+
+    auto has_nested() const -> span_size_t {
+        return _c.has_nested(_a);
     }
 
     auto nested(span_size_t index) const -> compound_attribute {

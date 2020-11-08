@@ -109,20 +109,6 @@ static constexpr inline auto append_to(
 //------------------------------------------------------------------------------
 // are_equal helper
 //------------------------------------------------------------------------------
-template <>
-struct equal_cmp<string_span, string_span> {
-    static auto check(string_span l, string_span r) noexcept -> bool {
-        return std::strcmp(l.data(), r.data()) == 0;
-    }
-};
-//------------------------------------------------------------------------------
-template <>
-struct equal_cmp<string_view, string_view> {
-    static auto check(string_view l, string_view r) noexcept -> bool {
-        return std::strcmp(l.data(), r.data()) == 0;
-    }
-};
-//------------------------------------------------------------------------------
 template <typename T, typename P, typename S>
 struct cmp_decay_to<basic_string_span<T, P, S>>
   : identity<memory::basic_span<T, P, S>> {};

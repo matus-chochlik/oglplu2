@@ -423,6 +423,14 @@ def parse_args(args):
     )
 
     argparser.add_argument(
+        "--twitter-gif",
+        help="""Render a GIF for Twitter""",
+        default=False,
+        action="store_true",
+        dest="twitter_gif"
+    )
+
+    argparser.add_argument(
         "examples",
         help="""
         List of examples to render.
@@ -434,6 +442,20 @@ def parse_args(args):
 
     return argparser.parse_args()
 
+# ------------------------------------------------------------------------------
+def fix_options(options):
+    if options.twitter_gif:
+        options.gif_output = True
+        options.frame_size[0] = 420
+        options.frame_size[1] = 240
+        options.fps = 24
+        options.render_scale = 2
+        options.max_bytes = "14500k"
+
+    options.width = options.frame_size[0]
+    options.height= options.frame_size[1]
+
+    return options
 # ------------------------------------------------------------------------------
 # checks if we have everything we need to run the example
 def check_example(root_dir, example):
@@ -698,9 +720,7 @@ def render_example(root_dir, example, options):
 # ------------------------------------------------------------------------------
 def main():
 
-    options = parse_args(sys.argv)
-    options.width = options.frame_size[0]
-    options.height= options.frame_size[1]
+    options = fix_options(parse_args(sys.argv))
 
     for example in options.examples:
         render_example(

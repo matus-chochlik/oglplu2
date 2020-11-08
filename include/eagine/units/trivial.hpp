@@ -30,6 +30,7 @@ namespace base {
 // dimensions
 struct time;
 struct angle;
+struct temperature;
 
 // units
 struct radian;
@@ -39,6 +40,7 @@ struct radian;
 // dimensions
 using time = dimension<base::time, 1>;
 using angle = dimension<base::angle, 1>;
+using temperature = dimension<base::temperature, 1>;
 
 // units
 using second = unit<time, si>;
@@ -51,6 +53,8 @@ using degree = scaled_dim_unit<
       uni_sca<base::radian, scales::divided<scales::pi, scales::constant<180>>>,
     nothing_t>,
   si>;
+
+using kelvin = unit<temperature, si>;
 
 } // namespace eagine::units
 

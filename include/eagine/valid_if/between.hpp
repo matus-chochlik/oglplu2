@@ -15,10 +15,10 @@
 namespace eagine {
 
 // between [min, max]
-template <typename T, T Min, T Max>
+template <typename T, typename C, C Min, C Max>
 struct valid_if_btwn_policy {
     constexpr auto operator()(T value) const noexcept {
-        return (Min <= value) && (value <= Max);
+        return (T(Min) <= value) && (value <= T(Max));
     }
 
     struct do_log {
@@ -33,8 +33,11 @@ struct valid_if_btwn_policy {
     };
 };
 
+template <typename T, typename C, C Min, C Max>
+using valid_if_between_c = valid_if<T, valid_if_btwn_policy<T, C, Min, Max>>;
+
 template <typename T, T Min, T Max>
-using valid_if_between = valid_if<T, valid_if_btwn_policy<T, Min, Max>>;
+using valid_if_between = valid_if_between_c<T, T, Min, Max>;
 
 } // namespace eagine
 

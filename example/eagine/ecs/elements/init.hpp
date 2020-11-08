@@ -12,13 +12,11 @@
 #include "entity.hpp"
 #include <eagine/ecs/basic_manager.hpp>
 #include <eagine/ecs/entity/string.hpp>
-#include <eagine/value_tree/wrappers.hpp>
+#include <eagine/main_ctx.hpp>
 
 namespace eagine {
 //------------------------------------------------------------------------------
-void initialize(
-  ecs::basic_manager<element_symbol>& elements,
-  const valtree::compound& source);
+void initialize(main_ctx&, ecs::basic_manager<element_symbol>& elements);
 //------------------------------------------------------------------------------
 } // namespace eagine
 

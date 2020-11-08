@@ -11,34 +11,66 @@
 
 #include "config/basic.hpp"
 #include "config/platform.hpp"
+#include "logging/logger.hpp"
+#include "quantities.hpp"
 #include "types.hpp"
+#include "valid_if/ge0_le1.hpp"
 #include "valid_if/nonnegative.hpp"
 #include "valid_if/not_empty.hpp"
 #include "valid_if/positive.hpp"
 #include <chrono>
+#include <memory>
 #include <string>
 #include <thread>
 
 namespace eagine {
 
+class system_info_impl;
+
 class system_info {
 public:
-    auto hostname() const -> valid_if_not_empty<std::string>;
+    system_info(logger& parent) noexcept
+      : _log{EAGINE_ID(SystemInfo), parent} {}
 
-    auto uptime() const noexcept -> std::chrono::duration<float>;
+    auto hostname() noexcept -> valid_if_not_empty<std::string>;
 
-    auto cpu_concurrent_threads() const noexcept
-      -> valid_if_positive<span_size_t> {
+    auto uptime() noexcept -> std::chrono::duration<float>;
+
+    auto cpu_concurrent_threads() noexcept -> valid_if_positive<span_size_t> {
         return {span_size(std::thread::hardware_concurrency())};
     }
 
-    auto short_average_load() const noexcept -> valid_if_nonnegative<float>;
-    auto long_average_load() const noexcept -> valid_if_nonnegative<float>;
+    auto current_processes() noexcept -> valid_if_positive<span_size_t>;
 
-    auto memory_page_size() const noexcept -> valid_if_positive<span_size_t>;
+    auto short_average_load() noexcept -> valid_if_nonnegative<float>;
+    auto long_average_load() noexcept -> valid_if_nonnegative<float>;
 
-    auto free_ram_size() const noexcept -> valid_if_positive<span_size_t>;
-    auto total_ram_size() const noexcept -> valid_if_positive<span_size_t>;
+    auto memory_page_size() noexcept -> valid_if_positive<span_size_t>;
+
+    auto free_ram_size() noexcept -> valid_if_positive<span_size_t>;
+    auto total_ram_size() noexcept -> valid_if_positive<span_size_t>;
+
+    auto free_swap_size() noexcept -> valid_if_positive<span_size_t>;
+    auto total_swap_size() noexcept -> valid_if_positive<span_size_t>;
+
+    auto thermal_sensor_count() noexcept -> span_size_t;
+    auto sensor_temperature(span_size_t) noexcept
+      -> valid_if_positive<kelvins_t<float>>;
+    auto cpu_temperature() noexcept -> valid_if_positive<kelvins_t<float>>;
+    auto gpu_temperature() noexcept -> valid_if_positive<kelvins_t<float>>;
+
+    auto cooling_device_count() noexcept -> span_size_t;
+    auto cooling_device_state(span_size_t) noexcept
+      -> valid_if_between_0_1<float>;
+
+    auto battery_count() noexcept -> span_size_t;
+    auto battery_capacity(span_size_t) noexcept -> valid_if_between_0_1<float>;
+
+private:
+    logger _log;
+
+    std::shared_ptr<system_info_impl> _pimpl;
+    auto _impl() noexcept -> system_info_impl*;
 };
 
 } // namespace eagine

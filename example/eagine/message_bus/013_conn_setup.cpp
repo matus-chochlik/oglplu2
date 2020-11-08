@@ -177,8 +177,8 @@ private:
 auto main(main_ctx& ctx) -> int {
     auto& log = ctx.log();
 
-    system_info si;
-    const auto thread_count = extract_or(si.cpu_concurrent_threads(), 4);
+    const auto thread_count =
+      extract_or(ctx.system().cpu_concurrent_threads(), 4);
 
     msgbus::connection_setup conn_setup(log);
     conn_setup.default_init();

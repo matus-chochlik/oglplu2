@@ -1,5 +1,5 @@
 /**
- *  example combined/009_json_shape/example.cpp
+ *  example combined/017_occlusion/example.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -27,13 +27,16 @@ namespace oglp {
 example_string_param color_variant_name{"-c", "--color", "color_1"};
 example_string_param shape_file_path{"-s", "--shape", ""};
 //------------------------------------------------------------------------------
-class example_shape : public example {
+class example_occlusion : public example {
     example_orbiting_camera camera;
 
     owned_vertex_array_name vao;
 
     owned_buffer_name positions;
     owned_buffer_name colors;
+    owned_buffer_name normals;
+    owned_buffer_name occlusion;
+    owned_buffer_name roughness;
     owned_buffer_name indices;
 
     owned_shader_name vs;
@@ -54,11 +57,13 @@ public:
     void user_idle(const example_context& ctx) final;
     void resize(const example_context& ctx) final;
     void render(const example_context& ctx) final;
+    auto default_timeout() -> seconds_t<float> final;
 };
 //------------------------------------------------------------------------------
-// example_shape
+// example_occlusion
 //------------------------------------------------------------------------------
-auto example_shape ::check_requirements(const example_context& ctx) -> bool {
+auto example_occlusion ::check_requirements(const example_context& ctx)
+  -> bool {
     const auto& [gl, GL] = ctx.gl();
     auto r = ctx.req_mark();
 
@@ -72,11 +77,11 @@ auto example_shape ::check_requirements(const example_context& ctx) -> bool {
            r(gl.draw_arrays) && r(GL.vertex_shader) && r(GL.fragment_shader);
 }
 //------------------------------------------------------------------------------
-void example_shape::set_projection(const example_context& ctx) {
+void example_occlusion::set_projection(const example_context& ctx) {
     ctx.gl().set_uniform(prog, camera_loc, camera.matrix(ctx.state()));
 }
 //------------------------------------------------------------------------------
-void example_shape::init(example_context& ctx) {
+void example_occlusion::init(example_context& ctx) {
     auto& cleanup = ctx.cleanup();
     const auto& [gl, GL] = ctx.gl();
 
@@ -88,9 +93,9 @@ void example_shape::init(example_context& ctx) {
                 }
             }
         }
-        const auto json_text =
-          as_chars(embed(EAGINE_ID(ShapeJson), "shape.json"));
-        return valtree::from_json_text(json_text, ctx.log());
+        const auto json_src{embed(EAGINE_ID(ShapeJson), "traffic_cone.json")};
+        return valtree::from_json_text(
+          as_chars(json_src.unpack(ctx.main())), ctx.log());
     };
 
     shape_generator shape(
@@ -102,17 +107,17 @@ void example_shape::init(example_context& ctx) {
     gl.clear_color(0.45F, 0.45F, 0.45F, 0.0F);
 
     // vertex shader
-    auto vs_src = embed(EAGINE_ID(VertShader), "vertex.glsl");
+    auto vs_src{embed(EAGINE_ID(VertShader), "vertex.glsl")};
     gl.create_shader(GL.vertex_shader) >> vs;
     gl.delete_shader.later_by(cleanup, vs);
-    gl.shader_source(vs, glsl_string_ref(vs_src));
+    gl.shader_source(vs, glsl_string_ref(vs_src.unpack(ctx.main())));
     gl.compile_shader(vs);
 
     // fragment shader
-    auto fs_src = embed(EAGINE_ID(FragShader), "fragment.glsl");
+    auto fs_src{embed(EAGINE_ID(FragShader), "fragment.glsl")};
     gl.create_shader(GL.fragment_shader) >> fs;
     gl.delete_shader.later_by(cleanup, fs);
-    gl.shader_source(fs, glsl_string_ref(fs_src));
+    gl.shader_source(fs, glsl_string_ref(fs_src.unpack(ctx.main())));
     gl.compile_shader(fs);
 
     // program
@@ -155,6 +160,47 @@ void example_shape::init(example_context& ctx) {
       ctx.buffer());
     gl.bind_attrib_location(prog, color_loc, "Color");
 
+    // normals
+    vertex_attrib_location normal_loc(2);
+    gl.gen_buffers() >> normals;
+    gl.delete_buffers.later_by(cleanup, normals);
+    shape.attrib_setup(
+      ctx.gl(),
+      vao,
+      normals,
+      normal_loc,
+      eagine::shapes::vertex_attrib_kind::normal,
+      ctx.buffer());
+    gl.bind_attrib_location(prog, normal_loc, "Normal");
+
+    // occlusion
+    vertex_attrib_location occlusion_loc(3);
+    gl.gen_buffers() >> occlusion;
+    gl.delete_buffers.later_by(cleanup, occlusion);
+    shape.attrib_setup(
+      ctx.gl(),
+      vao,
+      occlusion,
+      occlusion_loc,
+      shape.find_variant_or(
+        eagine::shapes::vertex_attrib_kind::occlusion, "AO", 0),
+      ctx.buffer());
+    gl.bind_attrib_location(prog, occlusion_loc, "Occlusion");
+
+    // roughness
+    vertex_attrib_location roughness_loc(4);
+    gl.gen_buffers() >> roughness;
+    gl.delete_buffers.later_by(cleanup, roughness);
+    shape.attrib_setup(
+      ctx.gl(),
+      vao,
+      roughness,
+      roughness_loc,
+      shape.find_variant_or(
+        eagine::shapes::vertex_attrib_kind::weight, "Roughness", 0),
+      ctx.buffer());
+    gl.bind_attrib_location(prog, roughness_loc, "Roughness");
+
     // indices
     gl.gen_buffers() >> indices;
     gl.delete_buffers.later_by(cleanup, indices);
@@ -177,21 +223,21 @@ void example_shape::init(example_context& ctx) {
     set_projection(ctx);
 }
 //------------------------------------------------------------------------------
-void example_shape::pointer_motion(const example_context& ctx) {
+void example_occlusion::pointer_motion(const example_context& ctx) {
     const auto& state = ctx.state();
     if(camera.apply_pointer_motion(state)) {
         set_projection(ctx);
     }
 }
 //------------------------------------------------------------------------------
-void example_shape::pointer_scrolling(const example_context& ctx) {
+void example_occlusion::pointer_scrolling(const example_context& ctx) {
     const auto& state = ctx.state();
     if(camera.apply_pointer_scrolling(state)) {
         set_projection(ctx);
     }
 }
 //------------------------------------------------------------------------------
-void example_shape::user_idle(const example_context& ctx) {
+void example_occlusion::user_idle(const example_context& ctx) {
     const auto& state = ctx.state();
     if(state.user_idle_time() > seconds_(1)) {
         camera.idle_update(state, 2);
@@ -199,7 +245,7 @@ void example_shape::user_idle(const example_context& ctx) {
     }
 }
 //------------------------------------------------------------------------------
-void example_shape::resize(const example_context& ctx) {
+void example_occlusion::resize(const example_context& ctx) {
     const auto& state = ctx.state();
     const auto& gl = ctx.gl();
 
@@ -207,11 +253,15 @@ void example_shape::resize(const example_context& ctx) {
     set_projection(ctx);
 }
 //------------------------------------------------------------------------------
-void example_shape::render(const example_context& ctx) {
+void example_occlusion::render(const example_context& ctx) {
     const auto& [gl, GL] = ctx.gl();
 
     gl.clear(GL.color_buffer_bit | GL.depth_buffer_bit);
     draw_using_instructions(ctx.gl(), view(_ops));
+}
+//------------------------------------------------------------------------------
+auto example_occlusion::default_timeout() -> seconds_t<float> {
+    return seconds_(30);
 }
 //------------------------------------------------------------------------------
 } // namespace oglp
@@ -220,7 +270,7 @@ auto make_example(const example_args& args, const example_context&)
   -> std::unique_ptr<example> {
     args.parse_param(oglp::color_variant_name);
     args.parse_param(oglp::shape_file_path);
-    return {std::make_unique<oglp::example_shape>()};
+    return {std::make_unique<oglp::example_occlusion>()};
 }
 //------------------------------------------------------------------------------
 void adjust_params(example_params& params) {

@@ -214,6 +214,16 @@ find_element_if(basic_span<T, P, S> spn, F predicate) noexcept
     return {};
 }
 //------------------------------------------------------------------------------
+template <typename T, typename P, typename S, typename Predicate>
+static constexpr inline auto
+take_until(basic_span<T, P, S> spn, Predicate predicate) noexcept
+  -> basic_span<T, P, S> {
+    if(auto found{find_element_if(spn, predicate)}) {
+        return head(spn, extract(found));
+    }
+    return spn;
+}
+//------------------------------------------------------------------------------
 template <
   typename T1,
   typename P1,

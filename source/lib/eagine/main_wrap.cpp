@@ -14,6 +14,7 @@
 #include <eagine/from_string.hpp>
 #include <eagine/hexdump.hpp>
 #include <eagine/type_name.hpp>
+#include <eagine/value_tree/filesystem.hpp>
 
 #include "implement.inl"
 #include <eagine/main_ctx.hpp>

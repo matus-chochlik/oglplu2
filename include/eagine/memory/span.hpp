@@ -17,6 +17,7 @@
 #include "../int_constant.hpp"
 #include "../types.hpp"
 #include "address.hpp"
+#include <cstring>
 #include <initializer_list>
 #include <iterator>
 #include <type_traits>
@@ -451,13 +452,21 @@ struct equal_cmp<memory::basic_span<Tl, Pl, Sl>, memory::basic_span<Tr, Pr, Sr>>
       memory::basic_span<Tl, Pl, Sl> l,
       memory::basic_span<Tr, Pr, Sr> r) noexcept -> bool {
         if(are_equal(l.size(), r.size())) {
-            const auto n = span_size(l.size());
-            for(span_size_t i = 0; i < n; ++i) {
-                if(!are_equal(l[i], r[i])) {
-                    return false;
+            if constexpr(
+              std::is_same_v<std::remove_const_t<Tl>, std::remove_const_t<Tr>> &&
+              std::is_integral_v<std::remove_const_t<Tl>>) {
+                return 0 ==
+                       std::memcmp(
+                         l.data(), r.data(), sizeof(Tl) * std_size(l.size()));
+            } else {
+                const auto n = span_size(l.size());
+                for(span_size_t i = 0; i < n; ++i) {
+                    if(!are_equal(l[i], r[i])) {
+                        return false;
+                    }
                 }
+                return true;
             }
-            return true;
         }
         return false;
     }

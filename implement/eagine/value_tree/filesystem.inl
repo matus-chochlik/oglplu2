@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/from_string.hpp>
 #include <eagine/logging/exception.hpp>
 #include <eagine/logging/filesystem.hpp>
 #include <eagine/logging/logger.hpp>
@@ -74,11 +75,14 @@ public:
     auto nested(filesystem_compound& owner, span_size_t index)
       -> attribute_interface* {
         try {
-            for(auto& ent : std::filesystem::directory_iterator(_node_path)) {
-                if(index > 0) {
-                    --index;
-                } else {
-                    return filesystem_make_node(owner, ent);
+            if(is_directory(_real_path)) {
+                for(auto& ent :
+                    std::filesystem::directory_iterator(_node_path)) {
+                    if(index > 0) {
+                        --index;
+                    } else {
+                        return filesystem_make_node(owner, ent);
+                    }
                 }
             }
         } catch(std::filesystem::filesystem_error& err) {
@@ -94,11 +98,14 @@ public:
     auto nested(filesystem_compound& owner, string_view name)
       -> attribute_interface* {
         try {
-            for(auto& ent : std::filesystem::directory_iterator(_node_path)) {
-                const std::filesystem::path& epath{ent};
-                const std::string& ename{epath.filename()};
-                if(are_equal(name, string_view(ename))) {
-                    return filesystem_make_node(owner, epath);
+            if(is_directory(_real_path)) {
+                for(auto& ent :
+                    std::filesystem::directory_iterator(_node_path)) {
+                    const std::filesystem::path& epath{ent};
+                    const std::string& ename{epath.filename()};
+                    if(are_equal(name, string_view(ename))) {
+                        return filesystem_make_node(owner, epath);
+                    }
                 }
             }
         } catch(std::filesystem::filesystem_error& err) {
@@ -162,8 +169,20 @@ public:
 
     template <typename T>
     auto fetch_values(span_size_t offset, span<T> dest) -> span_size_t {
-        EAGINE_MAYBE_UNUSED(offset);
-        EAGINE_MAYBE_UNUSED(dest);
+        if(dest.size() == 1) {
+            char temp[64];
+            if(auto len{fetch_values(offset, cover(temp))}) {
+                auto issep = [](char c) {
+                    return !c || std::isspace(c);
+                };
+                if(auto src{take_until(head(view(temp), len), issep)}) {
+                    if(auto fetched{from_string<T>(src)}) {
+                        dest.front() = extract(fetched);
+                        return 1;
+                    }
+                }
+            }
+        }
         return 0;
     }
 

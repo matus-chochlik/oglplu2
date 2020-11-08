@@ -13,6 +13,7 @@
 // clang-format off
 #include "dimension.hpp"
 #include "base_scaled_unit.hpp"
+#include "custom_unit.hpp"
 #include "unit.hpp"
 #include <cmath>
 // clang-format on
@@ -20,28 +21,21 @@
 namespace eagine::units {
 
 template <typename Dims, typename Scales, typename System>
-struct scaled_dim_unit {
-    using dimension = Dims;
-    using scales = Scales;
-    using system = System;
-    using type = scaled_dim_unit;
+struct scaled_dim_unit_conv {
+    using type = scaled_dim_unit_conv;
 
-    struct scale {
-        using type = scale;
+    using _impl = bits::_sc_unit_sc_hlp<Scales, System>;
+    using _ndp = bits::dim_pow<nothing_t, 0>;
 
-        using _impl = bits::_sc_unit_sc_hlp<Scales, System>;
-        using _ndp = bits::dim_pow<nothing_t, 0>;
+    template <typename T>
+    static constexpr inline auto to_base(T v) {
+        return _impl::_hlp(std::true_type(), v, bits::dims<_ndp, Dims>());
+    }
 
-        template <typename T>
-        static constexpr inline auto mul(T v) {
-            return _impl::_hlp(std::true_type(), v, bits::dims<_ndp, Dims>());
-        }
-
-        template <typename T>
-        static constexpr inline auto div(T v) {
-            return _impl::_hlp(std::false_type(), v, bits::dims<_ndp, Dims>());
-        }
-    };
+    template <typename T>
+    static constexpr inline auto from_base(T v) {
+        return _impl::_hlp(std::false_type(), v, bits::dims<_ndp, Dims>());
+    }
 };
 
 // make_scaled_base_dim_unit
@@ -75,47 +69,14 @@ struct make_scaled_unit<Scale, unit<Dimension, System>>
   : scaled_dim_unit<Dimension, add_none_unit_scale_t<Scale, nothing_t>, System> {
 };
 
-// is_convertible
-template <typename D, typename US, typename S>
-struct is_convertible<scaled_dim_unit<D, US, S>, unit<D, S>>
-  : std::true_type {};
-
-template <typename D, typename US, typename S>
-struct is_convertible<unit<D, S>, scaled_dim_unit<D, US, S>>
-  : std::true_type {};
-
-template <typename D, typename US, typename S>
-struct is_convertible<scaled_dim_unit<D, US, S>, scaled_dim_unit<D, US, S>>
-  : std::true_type {};
-
-template <typename D, typename US1, typename US2, typename S>
-struct is_convertible<scaled_dim_unit<D, US1, S>, scaled_dim_unit<D, US2, S>>
-  : std::true_type {};
-
 // value_conv
-template <typename D, typename US, typename S>
-struct value_conv<scaled_dim_unit<D, US, S>, unit<D, S>> {
-    template <typename T>
-    constexpr inline auto operator()(T v) const {
-        return scaled_dim_unit<D, US, S>::scale::mul(v);
-    }
-};
-
 template <typename D, typename AS, typename US, typename System>
 struct value_conv<
   scaled_dim_unit<D, add_none_unit_scale_t<AS, US>, System>,
   unit<D, System>> {
     template <typename T>
     constexpr inline auto operator()(T v) const {
-        return AS::mul(v);
-    }
-};
-
-template <typename D, typename US, typename S>
-struct value_conv<unit<D, S>, scaled_dim_unit<D, US, S>> {
-    template <typename T>
-    constexpr inline auto operator()(T v) const {
-        return scaled_dim_unit<D, US, S>::scale::div(v);
+        return AS::to_base(v);
     }
 };
 
@@ -125,20 +86,7 @@ struct value_conv<
   scaled_dim_unit<D, add_none_unit_scale_t<AS, US>, System>> {
     template <typename T>
     constexpr inline auto operator()(T v) const {
-        return AS::div(v);
-    }
-};
-
-template <typename D, typename US, typename S>
-struct value_conv<scaled_dim_unit<D, US, S>, scaled_dim_unit<D, US, S>>
-  : trivial_value_conv {};
-
-template <typename D, typename US1, typename US2, typename S>
-struct value_conv<scaled_dim_unit<D, US1, S>, scaled_dim_unit<D, US2, S>> {
-    template <typename T>
-    constexpr inline auto operator()(T v) const {
-        return scaled_dim_unit<D, US2, S>::scale::div(
-          scaled_dim_unit<D, US1, S>::scale::mul(v));
+        return AS::from_base(v);
     }
 };
 
@@ -148,7 +96,7 @@ struct value_conv<
   scaled_dim_unit<D, add_none_unit_scale_t<AS2, US>, System>> {
     template <typename T>
     constexpr inline auto operator()(T v) const {
-        return AS2::div(AS1::mul(v));
+        return AS2::from_base(AS1::to_base(v));
     }
 };
 
@@ -157,82 +105,17 @@ template <typename D, typename S>
 struct lit_result<unit<D, S>>
   : scaled_dim_unit<D, bits::unit_scales<nothing_t, nothing_t>, S> {};
 
-template <typename D, typename US, typename S>
-struct lit_result<scaled_dim_unit<D, US, S>> : scaled_dim_unit<D, US, S> {};
-
-// add_result
-template <typename D, typename US, typename S>
-struct add_result<scaled_dim_unit<D, US, S>, unit<D, S>> : unit<D, S> {};
-
-template <typename D, typename US, typename S>
-struct add_result<unit<D, S>, scaled_dim_unit<D, US, S>> : unit<D, S> {};
-
-template <typename D, typename US, typename S>
-struct add_result<scaled_dim_unit<D, US, S>, scaled_dim_unit<D, US, S>>
-  : scaled_dim_unit<D, US, S> {};
-
-template <typename D, typename US1, typename US2, typename S>
-struct add_result<scaled_dim_unit<D, US1, S>, scaled_dim_unit<D, US2, S>>
-  : scaled_dim_unit<D, US1, S> {};
-
-// sub_result
-template <typename D, typename US, typename S>
-struct sub_result<scaled_dim_unit<D, US, S>, unit<D, S>> : unit<D, S> {};
-
-template <typename D, typename US, typename S>
-struct sub_result<unit<D, S>, scaled_dim_unit<D, US, S>> : unit<D, S> {};
-
-template <typename D, typename US, typename S>
-struct sub_result<scaled_dim_unit<D, US, S>, scaled_dim_unit<D, US, S>>
-  : scaled_dim_unit<D, US, S> {};
-
-template <typename D, typename US1, typename US2, typename S>
-struct sub_result<scaled_dim_unit<D, US1, S>, scaled_dim_unit<D, US2, S>>
-  : scaled_dim_unit<D, US1, S> {};
-
-// mul_l_operand
-template <typename D1, typename D2, typename US, typename S>
-struct mul_l_operand<scaled_dim_unit<D1, US, S>, unit<D2, S>> : unit<D1, S> {};
-
-template <typename D1, typename D2, typename US, typename S>
-struct mul_l_operand<unit<D1, S>, scaled_dim_unit<D2, US, S>> : unit<D1, S> {};
-
 template <typename D1, typename D2, typename US1, typename US2, typename S>
 struct mul_l_operand<scaled_dim_unit<D1, US1, S>, scaled_dim_unit<D2, US2, S>>
   : scaled_dim_unit<D1, bits::merge_t<US1, US2>, S> {};
-
-// mul_r_operand
-template <typename D1, typename D2, typename US, typename S>
-struct mul_r_operand<scaled_dim_unit<D1, US, S>, unit<D2, S>> : unit<D2, S> {};
-
-template <typename D1, typename D2, typename US, typename S>
-struct mul_r_operand<unit<D1, S>, scaled_dim_unit<D2, US, S>> : unit<D2, S> {};
 
 template <typename D1, typename D2, typename US1, typename US2, typename S>
 struct mul_r_operand<scaled_dim_unit<D1, US1, S>, scaled_dim_unit<D2, US2, S>>
   : scaled_dim_unit<D2, bits::merge_t<US1, US2>, S> {};
 
-// mul_result
-template <typename D1, typename D2, typename US, typename S>
-struct mul_result<scaled_dim_unit<D1, US, S>, unit<D2, S>>
-  : unit<bits::dim_add_t<D1, D2>, S> {};
-
-template <typename D1, typename D2, typename US, typename S>
-struct mul_result<unit<D1, S>, scaled_dim_unit<D2, US, S>>
-  : unit<bits::dim_add_t<D1, D2>, S> {};
-
 template <typename D1, typename D2, typename US1, typename US2, typename S>
 struct mul_result<scaled_dim_unit<D1, US1, S>, scaled_dim_unit<D2, US2, S>>
   : scaled_dim_unit<bits::dim_add_t<D1, D2>, bits::merge_t<US1, US2>, S> {};
-
-// div_result
-template <typename D1, typename D2, typename US, typename S>
-struct div_result<scaled_dim_unit<D1, US, S>, unit<D2, S>>
-  : unit<bits::dim_sub_t<D1, D2>, S> {};
-
-template <typename D1, typename D2, typename US, typename S>
-struct div_result<unit<D1, S>, scaled_dim_unit<D2, US, S>>
-  : unit<bits::dim_sub_t<D1, D2>, S> {};
 
 template <typename D1, typename D2, typename US1, typename US2, typename S>
 struct div_result<scaled_dim_unit<D1, US1, S>, scaled_dim_unit<D2, US2, S>>

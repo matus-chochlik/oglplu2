@@ -11,6 +11,9 @@
 #include "entity.hpp"
 #include "relations.hpp"
 #include <eagine/ecs/storage/std_map.hpp>
+#include <eagine/embed.hpp>
+#include <eagine/value_tree/json.hpp>
+#include <eagine/value_tree/wrappers.hpp>
 
 namespace eagine {
 //------------------------------------------------------------------------------
@@ -85,56 +88,37 @@ static void populate(
                         elements.add(isot, isotope_neutrons(extract(number)));
                     }
                 }
+
                 if(auto half_life_a{source.nested(isot_attr, "half_life")}) {
                     using hl_t = std::chrono::duration<float>;
                     if(auto hl{source.get(half_life_a, identity<hl_t>())}) {
                         elements.add(isot, half_life(extract(hl)));
                     }
                 }
-                if(auto decay_a{source.nested(isot_attr, "alpha_decay")}) {
-                    elements.add(isot, alpha_decay());
-                }
-                if(auto decay_a{source.nested(isot_attr, "proton_emission")}) {
-                    elements.add(isot, proton_emission());
-                }
-                if(auto decay_a{source.nested(isot_attr, "neutron_emission")}) {
-                    elements.add(isot, neutron_emission());
-                }
-                if(auto decay_a{source.nested(isot_attr, "electron_capture")}) {
-                    elements.add(isot, electron_capture());
-                }
-                if(auto decay_a{
-                     source.nested(isot_attr, "electron2_capture")}) {
-                    elements.add(isot, electron2_capture());
-                }
-                if(auto decay_a{source.nested(isot_attr, "beta_m_decay")}) {
-                    elements.add(isot, beta_m_decay());
-                }
-                if(auto decay_a{source.nested(isot_attr, "beta_m2_decay")}) {
-                    elements.add(isot, beta_m2_decay());
-                }
-                if(auto decay_a{
-                     source.nested(isot_attr, "beta_m_alpha_decay")}) {
-                    elements.add(isot, beta_m_alpha_decay());
-                }
-                if(auto decay_a{source.nested(isot_attr, "beta_m_n_decay")}) {
-                    elements.add(isot, beta_m_n_decay());
-                }
-                if(auto decay_a{source.nested(isot_attr, "beta_m_n2_decay")}) {
-                    elements.add(isot, beta_m_n2_decay());
-                }
-                if(auto decay_a{source.nested(isot_attr, "beta_p_decay")}) {
-                    elements.add(isot, beta_p_decay());
-                }
-                if(auto decay_a{source.nested(isot_attr, "beta_p2_decay")}) {
-                    elements.add(isot, beta_p2_decay());
-                }
-                if(auto decay_a{
-                     source.nested(isot_attr, "beta_p_alpha_decay")}) {
-                    elements.add(isot, beta_p_alpha_decay());
-                }
-                if(auto decay_a{source.nested(isot_attr, "beta_p_p_decay")}) {
-                    elements.add(isot, beta_p_p_decay());
+
+                if(auto decays_a{source.nested(isot_attr, "decay")}) {
+                    const auto n = source.nested_count(decays_a);
+                    decay_modes isot_decay;
+                    for(span_size_t d = 0; d < n; ++d) {
+                        if(auto decay_a{source.nested(decays_a, d)}) {
+                            if(auto mode_a{source.nested(decay_a, "mode")}) {
+                                std::string mode_sym;
+                                if(source.fetch_value(mode_a, mode_sym)) {
+                                    if(auto info{isot_decay.get(mode_sym)}) {
+                                        if(auto prod_a{source.nested(
+                                             decay_a, "products")}) {
+                                            auto& prod = extract(info).products;
+                                            prod.resize(std_size(
+                                              source.value_count(prod_a)));
+                                            source.fetch_values(
+                                              prod_a, cover(prod));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    elements.add(isot, std::move(isot_decay));
                 }
 
                 elements.add_relation<isotope>(elem, isot);
@@ -143,58 +127,57 @@ static void populate(
     }
 }
 //------------------------------------------------------------------------------
-template <typename Decay>
-void cache_decay_products_of(ecs::basic_manager<element_symbol>& elements) {
+static void cache_decay_products(ecs::basic_manager<element_symbol>& elements) {
 
-    elements.for_each_with<const isotope_neutrons, Decay>(
-      [&](const auto& original_i, auto& original_n, auto& decay) {
+    // for each original isotope with neutron cound and some decay modes
+    elements.for_each_with<const isotope_neutrons, decay_modes>(
+      [&](auto& orig_is, auto& orig_nc, auto& modes) {
+          // for each product isotope
           elements.for_each_with<const isotope_neutrons>(
-            [&](const auto& decayed_i, auto& decayed_n) {
-                if(
-                  original_n->number + decay->neutron_count_diff() ==
-                  decayed_n->number) {
-                    elements.for_each_with<const element_protons>(
-                      [&](const auto& original_e, auto& original_p) {
-                          if(elements.has<isotope>(original_e, original_i)) {
-                              elements.for_each_with<const element_protons>(
-                                [&](const auto& decayed_e, auto& decayed_p) {
-                                    if(elements.has<isotope>(
-                                         decayed_e, decayed_i)) {
+            [&](auto& prod_is, auto& prod_nc) {
+                // for each decay mode of the original isotope
+                modes->for_each([&](auto& dcy_mode, auto& dcy) {
+                    // if the isotope neutron count after the decay matches
+                    if(
+                      !dcy_mode.is_fission &&
+                      (orig_nc->number + dcy_mode.neutron_count_diff ==
+                       prod_nc->number)) {
+                        // for each original element with proton count
+                        elements.for_each_with<const element_protons>(
+                          [&](auto& orig_el, auto& orig_pc) {
+                              // if the original element has the original isotope
+                              if(elements.has<isotope>(orig_el, orig_is)) {
+                                  // for each product element
+                                  elements.for_each_with<const element_protons>(
+                                    [&](auto& prod_el, auto& prod_pc) {
+                                        // if the element proton count after the
+                                        // decay matches
                                         if(
-                                          original_p->number +
-                                            decay->proton_count_diff() ==
-                                          decayed_p->number) {
-                                            decay->product = decayed_i;
+                                          orig_pc->number +
+                                            dcy_mode.proton_count_diff ==
+                                          prod_pc->number) {
+                                            // if the product element has the
+                                            // product isotope
+                                            if(elements.has<isotope>(
+                                                 prod_el, prod_is)) {
+                                                // cache the product isotope in
+                                                // the original isotope decay info
+                                                dcy.products.push_back(prod_is);
+                                            }
                                         }
-                                    }
-                                });
-                          }
-                      });
-                }
+                                    });
+                              }
+                          });
+                    }
+                });
             });
       });
 }
 //------------------------------------------------------------------------------
-static void cache_decay_products(ecs::basic_manager<element_symbol>& elements) {
-    cache_decay_products_of<alpha_decay>(elements);
-    cache_decay_products_of<proton_emission>(elements);
-    cache_decay_products_of<neutron_emission>(elements);
-    cache_decay_products_of<electron_capture>(elements);
-    cache_decay_products_of<electron2_capture>(elements);
-    cache_decay_products_of<beta_m_decay>(elements);
-    cache_decay_products_of<beta_m2_decay>(elements);
-    cache_decay_products_of<beta_m_alpha_decay>(elements);
-    cache_decay_products_of<beta_m_n_decay>(elements);
-    cache_decay_products_of<beta_m_n2_decay>(elements);
-    cache_decay_products_of<beta_p_decay>(elements);
-    cache_decay_products_of<beta_p2_decay>(elements);
-    cache_decay_products_of<beta_p_alpha_decay>(elements);
-    cache_decay_products_of<beta_p_p_decay>(elements);
-}
-//------------------------------------------------------------------------------
-void initialize(
+static void do_initialize(
   ecs::basic_manager<element_symbol>& elements,
   const valtree::compound& source) {
+    // components
     elements
       .register_component_storage<ecs::std_map_cmp_storage, element_name>();
     elements
@@ -208,38 +191,22 @@ void initialize(
     elements
       .register_component_storage<ecs::std_map_cmp_storage, atomic_weight>();
     elements.register_component_storage<ecs::std_map_cmp_storage, half_life>();
-    elements.register_component_storage<ecs::std_map_cmp_storage, alpha_decay>();
-    elements
-      .register_component_storage<ecs::std_map_cmp_storage, proton_emission>();
-    elements
-      .register_component_storage<ecs::std_map_cmp_storage, neutron_emission>();
-    elements
-      .register_component_storage<ecs::std_map_cmp_storage, electron_capture>();
-    elements
-      .register_component_storage<ecs::std_map_cmp_storage, electron2_capture>();
-    elements
-      .register_component_storage<ecs::std_map_cmp_storage, beta_m_decay>();
-    elements
-      .register_component_storage<ecs::std_map_cmp_storage, beta_m2_decay>();
-    elements
-      .register_component_storage<ecs::std_map_cmp_storage, beta_m_alpha_decay>();
-    elements
-      .register_component_storage<ecs::std_map_cmp_storage, beta_m_n_decay>();
-    elements
-      .register_component_storage<ecs::std_map_cmp_storage, beta_m_n2_decay>();
-    elements
-      .register_component_storage<ecs::std_map_cmp_storage, beta_p_decay>();
-    elements
-      .register_component_storage<ecs::std_map_cmp_storage, beta_p2_decay>();
-    elements
-      .register_component_storage<ecs::std_map_cmp_storage, beta_p_alpha_decay>();
-    elements
-      .register_component_storage<ecs::std_map_cmp_storage, beta_p_p_decay>();
+    elements.register_component_storage<ecs::std_map_cmp_storage, decay_modes>();
 
+    // relations
     elements.register_relation_storage<ecs::std_map_rel_storage, isotope>();
 
     populate(elements, source);
     cache_decay_products(elements);
 }
 //------------------------------------------------------------------------------
+void initialize(main_ctx& ctx, ecs::basic_manager<element_symbol>& elements) {
+
+    const auto json_res{embed(EAGINE_ID(ElemJSON), "elements.json")};
+
+    auto json_tree{
+      valtree::from_json_text(as_chars(json_res.unpack(ctx)), ctx.log())};
+
+    do_initialize(elements, json_tree);
+}
 } // namespace eagine

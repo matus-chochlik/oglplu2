@@ -10,6 +10,7 @@
 import os
 import sys
 import json
+import math
 import pathlib
 import argparse
 # ------------------------------------------------------------------------------
@@ -153,6 +154,14 @@ class ExportMeshArgParser(argparse.ArgumentParser):
         )
 
         self.add_argument(
+            '--weight-type', '-WT',
+            dest="weight_type",
+            action="store",
+            default="float",
+            choices=self.attrib_data_types
+        )
+
+        self.add_argument(
             '--occlude-type', '-OT',
             dest="occlude_type",
             action="store",
@@ -243,6 +252,17 @@ def fix_color(options, c):
     if not options.export_alpha:
         return (f(c[0]), f(c[1]), f(c[2]))
     return (f(c[0]), f(c[1]), f(c[2]), f(c[3]))
+# ------------------------------------------------------------------------------
+def degenerate_triangle(a, b, c):
+    _diff = lambda u, v: tuple(uc-vc for uc, vc in zip(u, v))
+    _dot = lambda u, v: sum(tuple(uc*vc for uc, vc in zip(u, v)))
+    _len = lambda u: math.sqrt(_dot(u, u))
+    _cross = lambda u, v: (u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0])
+
+    ab = _diff(b, a)
+    ac = _diff(c, a)
+
+    return _len(_cross(ab, ac)) <= max(_len(ab), _len(ac))*0.000001
 # ------------------------------------------------------------------------------
 def get_diffuse_color(mat):
     # TODO Material.use_nodes / Material.node_tree
@@ -425,9 +445,15 @@ def export_single(options, bdata, name, obj, mesh):
 
     for meshface in mesh.polygons:
         s = meshface.loop_start
-        c = meshface.loop_total
+        assert meshface.loop_total == 3
+
+        tri_pos = (mesh.vertices[mesh.loops[s+i].vertex_index].co for i in range(3))
+    
+        if degenerate_triangle(*tri_pos):
+            continue
+
         fn = [fixnum(x, p) for x in fixvec(meshface.normal)]
-        for loop_index in range(s, s + c):
+        for loop_index in range(s, s + 3):
             meshloop = mesh.loops[loop_index]
             meshvert = mesh.vertices[meshloop.vertex_index]
 
@@ -498,18 +524,27 @@ def export_single(options, bdata, name, obj, mesh):
                         try:
                             try:
                                 w = grp.weight(meshvert.index)
-                                groups[grp.name].append(fixnum(w, wp))
+                                groups[grp.name].append(
+                                    fixcomp(options.weight_type, w, wp)
+                                )
                             except RuntimeError:
-                                groups[grp.name].append(fixnum(0, wp))
+                                groups[grp.name].append(
+                                    fixcomp(options.weight_type, 0, wp)
+                                )
                         except KeyError:
                             pass
                 if options.exp_occlusion:
                     for grp in obj.vertex_groups:
-                        w = grp.weight(meshvert.index)
                         try:
-                            occls[grp.name].append(
-                                fixcomp(options.occlude_type, w, op)
-                            )
+                            try:
+                                w = grp.weight(meshvert.index)
+                                occls[grp.name].append(
+                                    fixcomp(options.occlude_type, w, op)
+                                )
+                            except RuntimeError:
+                                occls[grp.name].append(
+                                    fixcomp(options.occlude_type, 0, op)
+                                )
                         except KeyError:
                             pass
 
@@ -577,6 +612,7 @@ def export_single(options, bdata, name, obj, mesh):
         for name, data in groups.items():
             result["weight"].append({
                 "values_per_vertex": 1,
+                "type": options.weight_type,
                 "name": name,
                 "data": data
             })
@@ -585,6 +621,7 @@ def export_single(options, bdata, name, obj, mesh):
         for name, data in occls.items():
             result["occlusion"].append({
                 "values_per_vertex": 1,
+                "type": options.occlude_type,
                 "name": name,
                 "data": data
             })

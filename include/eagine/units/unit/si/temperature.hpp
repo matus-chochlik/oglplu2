@@ -43,6 +43,36 @@ using millikelvin =
 using kilokelvin =
   make_scaled_base_dim_unit_t<base::scaled_unit<scales::kilo, base::kelvin>, si>;
 
+// celsius
+struct celsius_conv {
+    template <typename T>
+    static constexpr auto to_base(T v) noexcept -> T {
+        return T(v + 273.15F);
+    }
+
+    template <typename T>
+    static constexpr auto from_base(T v) noexcept -> T {
+        return T(v - 273.15F);
+    }
+};
+
+using degree_celsius = make_custom_unit_t<celsius_conv, kelvin>;
+
+// fahrenheit
+struct fahrenheit_conv {
+    template <typename T>
+    static constexpr auto to_base(T v) noexcept -> T {
+        return T((v - 32.F) / 1.8F + 273.15F);
+    }
+
+    template <typename T>
+    static constexpr auto from_base(T v) noexcept -> T {
+        return T(v * 1.8F - 459.67F);
+    }
+};
+
+using degree_fahrenheit = make_custom_unit_t<fahrenheit_conv, kelvin>;
+
 } // namespace eagine::units
 
 #endif // EAGINE_UNITS_UNIT_SI_TEMPERATURE_HPP

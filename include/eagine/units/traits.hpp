@@ -32,22 +32,22 @@ template <typename D, typename S>
 struct is_unit<unit<D, S>> : std::true_type {};
 
 template <typename D, typename US, typename S>
-struct is_unit<scaled_dim_unit<D, US, S>> : std::true_type {};
+struct is_unit<custom_dim_unit<D, US, S>> : std::true_type {};
 
 // same_dimension
 template <typename D, typename S>
 struct same_dimension<unit<D, S>, unit<D, S>> : std::true_type {};
 
 template <typename D, typename US, typename S>
-struct same_dimension<unit<D, S>, scaled_dim_unit<D, US, S>>
+struct same_dimension<unit<D, S>, custom_dim_unit<D, US, S>>
   : std::true_type {};
 
 template <typename D, typename US, typename S>
-struct same_dimension<scaled_dim_unit<D, US, S>, unit<D, S>>
+struct same_dimension<custom_dim_unit<D, US, S>, unit<D, S>>
   : std::true_type {};
 
 template <typename D, typename US1, typename US2, typename S>
-struct same_dimension<scaled_dim_unit<D, US1, S>, scaled_dim_unit<D, US2, S>>
+struct same_dimension<custom_dim_unit<D, US1, S>, custom_dim_unit<D, US2, S>>
   : std::true_type {};
 
 } // namespace eagine::units

@@ -169,6 +169,7 @@ def make_res_code(options, ident, path):
 
     with load_resource(options, resource_path) as res:
         if res.byte_size() > 0:
+            options.output.write("#if !defined(__clang_analyzer__)\n")
             options.output.write("        static const byte res[] = {\n")
         
             while True:
@@ -195,6 +196,7 @@ def make_res_code(options, ident, path):
             options.output.write("        return {view(res), path, %s};\n" % (
                 "true" if options.packed else "false"
             ))
+            options.output.write("#endif\n")
         else:
             options.output.write("        return {};\n")
     options.output.write("    }\n")

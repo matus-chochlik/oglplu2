@@ -8,8 +8,11 @@
  */
 
 #include <eagine/timeout.hpp>
+#include <vector>
 
 #if EAGINE_LINUX
+#include <eagine/value_tree/filesystem.hpp>
+#include <eagine/value_tree/wrappers.hpp>
 #include <sys/sysinfo.h>
 #endif
 
@@ -40,21 +43,179 @@ static inline auto system_info_linux_load_avg(std::size_t which) noexcept
              (1U << static_cast<unsigned>(SI_LOAD_SHIFT)) *
              (std::thread::hardware_concurrency()));
 }
+//------------------------------------------------------------------------------
+class system_info_impl {
+public:
+    system_info_impl(logger& parent)
+      : _sysfs{valtree::from_filesystem_path("/sys/devices", parent)} {
+        auto sysfs_scanner = [this](
+                               valtree::compound& c,
+                               const valtree::attribute& a,
+                               const basic_string_path& p) {
+            if(!c.is_link(a)) {
+                bool is_tz{false};
+                bool is_cd{false};
+                bool is_ps{false};
+                for(auto& entry : p) {
+                    if(starts_with(entry, string_view("thermal_zone"))) {
+                        is_tz = true;
+                        break;
+                    }
+                    if(starts_with(entry, string_view("cooling_device"))) {
+                        is_cd = true;
+                        break;
+                    }
+                    if(starts_with(entry, string_view("power_supply"))) {
+                        is_ps = true;
+                        break;
+                    }
+                }
+                if(is_tz) {
+                    if(auto temp_a{c.nested(a, "temp")}) {
+                        if(auto type_a{c.nested(a, "type")}) {
+                            if(!_cpu_temp_i) {
+                                if(c.has_value(type_a, "cpu-thermal")) {
+                                    _cpu_temp_i = tz_count();
+                                } else if(c.has_value(type_a, "acpitz")) {
+                                    _cpu_temp_i = tz_count();
+                                }
+                            }
+                            _tz_temp_a.emplace_back(temp_a);
+                        }
+                    }
+                }
+                if(is_cd) {
+                    if(auto cur_a{c.nested(a, "cur_state")}) {
+                        if(auto max_a{c.nested(a, "max_state")}) {
+                            _cd_cm_a.emplace_back(cur_a, max_a);
+                        }
+                    }
+                }
+                if(is_ps) {
+                    if(auto cap_a{c.nested(a, "capacity")}) {
+                        _bat_cap_a.emplace_back(cap_a);
+                    }
+                }
+                return true;
+            }
+            return false;
+        };
+        _sysfs.traverse(valtree::compound::visit_handler(sysfs_scanner));
+    }
+
+    auto tz_count() noexcept -> span_size_t {
+        return span_size(_tz_temp_a.size());
+    }
+
+    auto tz_temperature(span_size_t index) noexcept
+      -> valid_if_positive<kelvins_t<float>> {
+        EAGINE_ASSERT((index >= 0) && (index < tz_count()));
+        auto& temp_a = _tz_temp_a[std_size(index)];
+        if(temp_a) {
+            float millicelsius{0.F};
+            if(_sysfs.fetch_value(temp_a, millicelsius)) {
+                return kelvins_(millicelsius * 0.001F + 273.15F);
+            }
+        }
+        return {kelvins_(0.F)};
+    }
+
+    auto cpu_temperature() noexcept -> valid_if_positive<kelvins_t<float>> {
+        if(_cpu_temp_i) {
+            return tz_temperature(extract(_cpu_temp_i));
+        }
+        return {kelvins_(0.F)};
+    }
+
+    auto gpu_temperature() noexcept -> valid_if_positive<kelvins_t<float>> {
+        if(_gpu_temp_i) {
+            return tz_temperature(extract(_gpu_temp_i));
+        }
+        return {kelvins_(0.F)};
+    }
+
+    auto cd_count() noexcept -> span_size_t {
+        return span_size(_cd_cm_a.size());
+    }
+
+    auto cd_state(span_size_t index) noexcept -> valid_if_between_0_1<float> {
+        EAGINE_ASSERT((index >= 0) && (index < cd_count()));
+        auto& [cur_a, max_a] = _cd_cm_a[index];
+        if(cur_a && max_a) {
+            float cur_s{-1.F};
+            float max_s{-1.F};
+            if(
+              _sysfs.fetch_value(cur_a, cur_s) &&
+              _sysfs.fetch_value(max_a, max_s)) {
+                if(max_s > 0.F) {
+                    return {cur_s / max_s};
+                }
+            }
+        }
+        return {-1.F};
+    }
+
+    auto bat_count() noexcept -> span_size_t {
+        return span_size(_bat_cap_a.size());
+    }
+
+    auto bat_capacity(span_size_t index) noexcept
+      -> valid_if_between_0_1<float> {
+        EAGINE_ASSERT((index >= 0) && (index < bat_count()));
+        auto& cap_a = _bat_cap_a[index];
+        if(cap_a) {
+            float capacity{-1.F};
+            if(_sysfs.fetch_value(cap_a, capacity)) {
+                return {capacity * 0.01F};
+            }
+        }
+        return {-1.F};
+    }
+
+private:
+    valtree::compound _sysfs;
+    std::vector<valtree::attribute> _tz_temp_a;
+    valid_if_nonnegative<span_size_t> _cpu_temp_i{-1};
+    valid_if_nonnegative<span_size_t> _gpu_temp_i{-1};
+
+    std::vector<std::tuple<valtree::attribute, valtree::attribute>> _cd_cm_a;
+
+    std::vector<valtree::attribute> _bat_cap_a;
+};
+//------------------------------------------------------------------------------
+#else
 #endif
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto system_info::hostname() const -> valid_if_not_empty<std::string> {
+auto system_info::_impl() noexcept -> system_info_impl* {
+#if EAGINE_LINUX
+    if(EAGINE_UNLIKELY(!_pimpl)) {
+        try {
+            _pimpl = std::make_shared<system_info_impl>(_log);
+        } catch(...) {
+        }
+    }
+    return _pimpl.get();
+#endif
+    return nullptr;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto system_info::hostname() noexcept -> valid_if_not_empty<std::string> {
 #if EAGINE_POSIX
-    std::array<char, 1024> hname{};
-    if(::gethostname(hname.data(), std_size(hname.size())) == 0) {
-        return {std::string(hname.data())};
+    try {
+        std::array<char, 1024> hname{};
+        if(::gethostname(hname.data(), std_size(hname.size())) == 0) {
+            return {std::string(hname.data())};
+        }
+    } catch(...) {
     }
 #endif
     return {};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto system_info::memory_page_size() const noexcept
+auto system_info::memory_page_size() noexcept
   -> valid_if_positive<span_size_t> {
 #if EAGINE_POSIX
 #if defined(_SC_PAGESIZE)
@@ -65,8 +226,16 @@ auto system_info::memory_page_size() const noexcept
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto system_info::short_average_load() const noexcept
-  -> valid_if_nonnegative<float> {
+auto system_info::current_processes() noexcept
+  -> valid_if_positive<span_size_t> {
+#if EAGINE_LINUX
+    return {span_size(system_info_linux_sysinfo().procs)};
+#endif
+    return {0};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto system_info::short_average_load() noexcept -> valid_if_nonnegative<float> {
 #if EAGINE_LINUX
     return {system_info_linux_load_avg(0)};
 #endif
@@ -74,8 +243,7 @@ auto system_info::short_average_load() const noexcept
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto system_info::long_average_load() const noexcept
-  -> valid_if_nonnegative<float> {
+auto system_info::long_average_load() noexcept -> valid_if_nonnegative<float> {
 #if EAGINE_LINUX
     return {system_info_linux_load_avg(1)};
 #endif
@@ -83,7 +251,7 @@ auto system_info::long_average_load() const noexcept
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto system_info::uptime() const noexcept -> std::chrono::duration<float> {
+auto system_info::uptime() noexcept -> std::chrono::duration<float> {
     using r_t = std::chrono::duration<float>;
 #if EAGINE_LINUX
     return r_t{system_info_linux_sysinfo().uptime};
@@ -92,21 +260,127 @@ auto system_info::uptime() const noexcept -> std::chrono::duration<float> {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto system_info::free_ram_size() const noexcept
-  -> valid_if_positive<span_size_t> {
+auto system_info::free_ram_size() noexcept -> valid_if_positive<span_size_t> {
 #if EAGINE_LINUX
-    return {span_size(system_info_linux_sysinfo().freeram)};
+    const auto& si = system_info_linux_sysinfo();
+    return {span_size(si.freeram * si.mem_unit)};
 #endif
     return {0};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto system_info::total_ram_size() const noexcept
-  -> valid_if_positive<span_size_t> {
+auto system_info::total_ram_size() noexcept -> valid_if_positive<span_size_t> {
 #if EAGINE_LINUX
-    return {span_size(system_info_linux_sysinfo().totalram)};
+    const auto& si = system_info_linux_sysinfo();
+    return {span_size(si.totalram * si.mem_unit)};
 #endif
     return {0};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto system_info::free_swap_size() noexcept -> valid_if_positive<span_size_t> {
+#if EAGINE_LINUX
+    const auto& si = system_info_linux_sysinfo();
+    return {span_size(si.freeswap * si.mem_unit)};
+#endif
+    return {0};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto system_info::total_swap_size() noexcept -> valid_if_positive<span_size_t> {
+#if EAGINE_LINUX
+    const auto& si = system_info_linux_sysinfo();
+    return {span_size(si.totalswap * si.mem_unit)};
+#endif
+    return {0};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto system_info::thermal_sensor_count() noexcept -> span_size_t {
+#if EAGINE_LINUX
+    if(auto impl{_impl()}) {
+        return extract(impl).tz_count();
+    }
+#endif
+    return 0;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto system_info::sensor_temperature(span_size_t index) noexcept
+  -> valid_if_positive<kelvins_t<float>> {
+#if EAGINE_LINUX
+    if(auto impl{_impl()}) {
+        return extract(impl).tz_temperature(index);
+    }
+#endif
+    EAGINE_MAYBE_UNUSED(index);
+    return {kelvins_(0.F)};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto system_info::cpu_temperature() noexcept
+  -> valid_if_positive<kelvins_t<float>> {
+#if EAGINE_LINUX
+    if(auto impl{_impl()}) {
+        return extract(impl).cpu_temperature();
+    }
+#endif
+    return {kelvins_(0.F)};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto system_info::gpu_temperature() noexcept
+  -> valid_if_positive<kelvins_t<float>> {
+#if EAGINE_LINUX
+    if(auto impl{_impl()}) {
+        return extract(impl).gpu_temperature();
+    }
+#endif
+    return {kelvins_(0.F)};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto system_info::cooling_device_count() noexcept -> span_size_t {
+#if EAGINE_LINUX
+    if(auto impl{_impl()}) {
+        return extract(impl).cd_count();
+    }
+#endif
+    return 0;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto system_info::cooling_device_state(span_size_t index) noexcept
+  -> valid_if_between_0_1<float> {
+#if EAGINE_LINUX
+    if(auto impl{_impl()}) {
+        return extract(impl).cd_state(index);
+    }
+#endif
+    EAGINE_MAYBE_UNUSED(index);
+    return {-1.F};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto system_info::battery_count() noexcept -> span_size_t {
+#if EAGINE_LINUX
+    if(auto impl{_impl()}) {
+        return extract(impl).bat_count();
+    }
+#endif
+    return 0;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto system_info::battery_capacity(span_size_t index) noexcept
+  -> valid_if_between_0_1<float> {
+#if EAGINE_LINUX
+    if(auto impl{_impl()}) {
+        return extract(impl).bat_capacity(index);
+    }
+#endif
+    EAGINE_MAYBE_UNUSED(index);
+    return {-1.F};
 }
 //------------------------------------------------------------------------------
 } // namespace eagine

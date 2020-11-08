@@ -61,10 +61,46 @@ protected:
           EAGINE_MEM_FUNC_C(
             system_info,
             long_average_load))[EAGINE_MSG_ID(eagiSysInf, rqLongLoad)]);
+
+        Base::add_method(_memory_page_size(
+          EAGINE_MSG_ID(eagiSysInf, memPageSz),
+          &main_ctx::get().system(),
+          EAGINE_MEM_FUNC_C(
+            system_info,
+            memory_page_size))[EAGINE_MSG_ID(eagiSysInf, rqMemPgSz)]);
+
+        Base::add_method(_free_ram_size(
+          EAGINE_MSG_ID(eagiSysInf, freeRamSz),
+          &main_ctx::get().system(),
+          EAGINE_MEM_FUNC_C(
+            system_info,
+            free_ram_size))[EAGINE_MSG_ID(eagiSysInf, rqFreRamSz)]);
+
+        Base::add_method(_total_ram_size(
+          EAGINE_MSG_ID(eagiSysInf, totalRamSz),
+          &main_ctx::get().system(),
+          EAGINE_MEM_FUNC_C(
+            system_info,
+            total_ram_size))[EAGINE_MSG_ID(eagiSysInf, rqTtlRamSz)]);
+
+        Base::add_method(_free_swap_size(
+          EAGINE_MSG_ID(eagiSysInf, freeSwpSz),
+          &main_ctx::get().system(),
+          EAGINE_MEM_FUNC_C(
+            system_info,
+            free_swap_size))[EAGINE_MSG_ID(eagiSysInf, rqFreSwpSz)]);
+
+        Base::add_method(_total_swap_size(
+          EAGINE_MSG_ID(eagiSysInf, totalSwpSz),
+          &main_ctx::get().system(),
+          EAGINE_MEM_FUNC_C(
+            system_info,
+            total_swap_size))[EAGINE_MSG_ID(eagiSysInf, rqTtlSwpSz)]);
     }
 
 private:
-    default_function_skeleton<valid_if_not_empty<std::string>(), 1024> _hostname;
+    default_function_skeleton<valid_if_not_empty<std::string>() noexcept, 1024>
+      _hostname;
 
     default_function_skeleton<std::chrono::duration<float>() noexcept, 32>
       _uptime;
@@ -77,6 +113,21 @@ private:
 
     default_function_skeleton<valid_if_nonnegative<float>() noexcept, 32>
       _long_average_load;
+
+    default_function_skeleton<valid_if_positive<span_size_t>() noexcept, 32>
+      _memory_page_size;
+
+    default_function_skeleton<valid_if_positive<span_size_t>() noexcept, 32>
+      _free_ram_size;
+
+    default_function_skeleton<valid_if_positive<span_size_t>() noexcept, 32>
+      _total_ram_size;
+
+    default_function_skeleton<valid_if_positive<span_size_t>() noexcept, 32>
+      _free_swap_size;
+
+    default_function_skeleton<valid_if_positive<span_size_t>() noexcept, 32>
+      _total_swap_size;
 };
 //------------------------------------------------------------------------------
 template <typename Base = subscriber>
@@ -113,6 +164,33 @@ protected:
           this,
           EAGINE_MEM_FUNC_C(This, on_long_average_load_received))[EAGINE_MSG_ID(
           eagiSysInf, longLoad)]);
+
+        Base::add_method(_memory_page_size(
+          this,
+          EAGINE_MEM_FUNC_C(This, on_memory_page_size_received))[EAGINE_MSG_ID(
+          eagiSysInf, memPageSz)]);
+
+        Base::add_method(_free_ram_size(
+          this,
+          EAGINE_MEM_FUNC_C(
+            This,
+            on_free_ram_size_received))[EAGINE_MSG_ID(eagiSysInf, freeRamSz)]);
+
+        Base::add_method(_total_ram_size(
+          this,
+          EAGINE_MEM_FUNC_C(This, on_total_ram_size_received))[EAGINE_MSG_ID(
+          eagiSysInf, totalRamSz)]);
+
+        Base::add_method(_free_swap_size(
+          this,
+          EAGINE_MEM_FUNC_C(
+            This,
+            on_free_swap_size_received))[EAGINE_MSG_ID(eagiSysInf, freeSwpSz)]);
+
+        Base::add_method(_total_swap_size(
+          this,
+          EAGINE_MEM_FUNC_C(This, on_total_swap_size_received))[EAGINE_MSG_ID(
+          eagiSysInf, totalSwpSz)]);
     }
 
 public:
@@ -160,6 +238,51 @@ public:
       const result_context&,
       valid_if_nonnegative<float>&&) {}
 
+    void query_memory_page_size(identifier_t endpoint_id) {
+        _memory_page_size.invoke_on(
+          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqMemPgSz));
+    }
+
+    virtual void on_memory_page_size_received(
+      const result_context&,
+      valid_if_positive<span_size_t>&&) {}
+
+    void query_free_ram_size(identifier_t endpoint_id) {
+        _free_ram_size.invoke_on(
+          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqFreRamSz));
+    }
+
+    virtual void on_free_ram_size_received(
+      const result_context&,
+      valid_if_positive<span_size_t>&&) {}
+
+    void query_total_ram_size(identifier_t endpoint_id) {
+        _total_ram_size.invoke_on(
+          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqTtlRamSz));
+    }
+
+    virtual void on_total_ram_size_received(
+      const result_context&,
+      valid_if_positive<span_size_t>&&) {}
+
+    void query_free_swap_size(identifier_t endpoint_id) {
+        _free_swap_size.invoke_on(
+          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqFreSwpSz));
+    }
+
+    virtual void on_free_swap_size_received(
+      const result_context&,
+      valid_if_positive<span_size_t>&&) {}
+
+    void query_total_swap_size(identifier_t endpoint_id) {
+        _total_swap_size.invoke_on(
+          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqTtlSwpSz));
+    }
+
+    virtual void on_total_swap_size_received(
+      const result_context&,
+      valid_if_positive<span_size_t>&&) {}
+
 private:
     default_callback_invoker<valid_if_not_empty<std::string>(), 1024> _hostname;
 
@@ -173,6 +296,21 @@ private:
 
     default_callback_invoker<valid_if_nonnegative<float>(), 32>
       _long_average_load;
+
+    default_callback_invoker<valid_if_positive<span_size_t>(), 32>
+      _memory_page_size;
+
+    default_callback_invoker<valid_if_positive<span_size_t>(), 32>
+      _free_ram_size;
+
+    default_callback_invoker<valid_if_positive<span_size_t>(), 32>
+      _total_ram_size;
+
+    default_callback_invoker<valid_if_positive<span_size_t>(), 32>
+      _free_swap_size;
+
+    default_callback_invoker<valid_if_positive<span_size_t>(), 32>
+      _total_swap_size;
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

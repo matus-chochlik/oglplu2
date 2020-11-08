@@ -13,6 +13,13 @@ set_target_properties(
 
 add_subdirectory(example)
 
+function(eagine_example_use_model FILE_NAME)
+	configure_file(
+		"${PROJECT_SOURCE_DIR}/assets/models/${FILE_NAME}"
+		"${CMAKE_CURRENT_BINARY_DIR}/${FILE_NAME}"
+	)
+endfunction()
+
 function(eagine_add_directory_resources)
 	get_filename_component(
 		EXAMPLE_NAME
@@ -72,6 +79,7 @@ add_subdirectory(010_newton)
 add_subdirectory(011_mandelbrot)
 add_subdirectory(014_voronoi)
 add_subdirectory(016_torus)
+add_subdirectory(017_occlusion)
 add_subdirectory(019_scaled_cubes)
 add_subdirectory(025_recursive_cube)
 add_subdirectory(026_cel_shading)

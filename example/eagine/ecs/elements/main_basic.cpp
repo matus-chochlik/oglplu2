@@ -1,5 +1,5 @@
 /**
- *  @example eagine/ecs/elements/main.cpp
+ *  @example eagine/ecs/elements/main_basic.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -15,9 +15,7 @@
 #include <eagine/ecs/entity/string.hpp>
 #include <eagine/ecs/rel_storage.hpp>
 #include <eagine/ecs/storage_caps.hpp>
-#include <eagine/embed.hpp>
 #include <eagine/main.hpp>
-#include <eagine/value_tree/json.hpp>
 #include <iostream>
 
 namespace eagine {
@@ -80,7 +78,7 @@ print_isotopes_of_hydrogen(ecs::basic_manager<element_symbol>& elements) {
           if(elements.has<isotope>("H", isot)) {
               std::cout << isot << ": " << neutrons.read().number;
               if(elements.has<half_life>(isot)) {
-                  std::cout << " (radioactive)";
+                  std::cout << " (unstable)";
               }
               std::cout << std::endl;
           }
@@ -94,13 +92,7 @@ auto main(main_ctx& ctx) -> int {
     ctx.log().info("starting");
 
     ecs::basic_manager<element_symbol> elements;
-
-    const auto json_res{embed(EAGINE_ID(ElemJSON), "elements.json")};
-
-    auto json_tree{
-      valtree::from_json_text(as_chars(json_res.unpack(ctx)), ctx.log())};
-
-    initialize(elements, json_tree);
+    initialize(ctx, elements);
 
     print_elements_with_english_name(elements);
     print_names_of_noble_gasses(elements);

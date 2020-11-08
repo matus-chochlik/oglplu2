@@ -18,7 +18,7 @@ class master_ctx {
 private:
     program_args _args;
     root_logger _log_root;
-    system_info _sys_info{};
+    system_info _sys_info;
     memory::buffer _scratch_space{};
     data_compressor _compressor{};
     std::string _exe_path{};
@@ -31,6 +31,7 @@ public:
       const main_ctx_options& options) noexcept
       : _args{argc, argv}
       , _log_root{options.logger_id, _args, options.logger_opts}
+      , _sys_info{_log_root}
       , _app_name{options.app_name} {
         auto fs_path = std::filesystem::path(to_string(_args.command()));
         if(_app_name.empty()) {
