@@ -9234,7 +9234,308 @@
   "Po" : {
       "atomic_weight" : 209,
       "group" : 16,
-      "isotopes" : {  },
+      "isotopes" : {
+          "_186" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "34μs",
+              "neutrons" : 102,
+              "symbol" : "¹⁸⁶Po"
+            },
+          "_187" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "1.40ms",
+              "neutrons" : 103,
+              "symbol" : "¹⁸⁷Po"
+            },
+          "_188" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "430μs",
+              "neutrons" : 104,
+              "symbol" : "¹⁸⁸Po"
+            },
+          "_189" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "5ms",
+              "neutrons" : 105,
+              "symbol" : "¹⁸⁹Po"
+            },
+          "_190" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "2.46ms",
+              "neutrons" : 106,
+              "symbol" : "¹⁹⁰Po"
+            },
+          "_191" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "22ms",
+              "neutrons" : 107,
+              "symbol" : "¹⁹¹Po"
+            },
+          "_192" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "32.2ms",
+              "neutrons" : 108,
+              "symbol" : "¹⁹²Po"
+            },
+          "_193" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "420ms",
+              "neutrons" : 109,
+              "symbol" : "¹⁹³Po"
+            },
+          "_194" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "392ms",
+              "neutrons" : 110,
+              "symbol" : "¹⁹⁴Po"
+            },
+          "_195" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "4.64s",
+              "neutrons" : 111,
+              "symbol" : "¹⁹⁵Po"
+            },
+          "_196" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "5.56s",
+              "neutrons" : 112,
+              "symbol" : "¹⁹⁶Po"
+            },
+          "_197" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "53.6s",
+              "neutrons" : 113,
+              "symbol" : "¹⁹⁷Po"
+            },
+          "_198" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "1.77min",
+              "neutrons" : 114,
+              "symbol" : "¹⁹⁸Po"
+            },
+          "_199" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "5.48min",
+              "neutrons" : 115,
+              "symbol" : "¹⁹⁹Po"
+            },
+          "_200" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "11.5min",
+              "neutrons" : 116,
+              "symbol" : "²⁰⁰Po"
+            },
+          "_201" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "15.3min",
+              "neutrons" : 117,
+              "symbol" : "²⁰¹Po"
+            },
+          "_202" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "44.7min",
+              "neutrons" : 118,
+              "symbol" : "²⁰²Po"
+            },
+          "_203" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "36.7min",
+              "neutrons" : 119,
+              "symbol" : "²⁰³Po"
+            },
+          "_204" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "3.53hr",
+              "neutrons" : 120,
+              "symbol" : "²⁰⁴Po"
+            },
+          "_205" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "1.66hr",
+              "neutrons" : 121,
+              "symbol" : "²⁰⁵Po"
+            },
+          "_206" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "8.8dy",
+              "neutrons" : 122,
+              "symbol" : "²⁰⁶Po"
+            },
+          "_207" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "5.80hr",
+              "neutrons" : 123,
+              "symbol" : "²⁰⁷Po"
+            },
+          "_208" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "2.898yr",
+              "neutrons" : 124,
+              "symbol" : "²⁰⁸Po"
+            },
+          "_209" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "125.2yr",
+              "neutrons" : 125,
+              "symbol" : "²⁰⁹Po"
+            },
+          "_210" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "138.376dy",
+              "neutrons" : 126,
+              "symbol" : "²¹⁰Po"
+            },
+          "_211" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "516ms",
+              "neutrons" : 127,
+              "symbol" : "²¹¹Po"
+            },
+          "_212" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "299ns",
+              "neutrons" : 128,
+              "symbol" : "²¹²Po"
+            },
+          "_213" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "3.65μs",
+              "neutrons" : 129,
+              "symbol" : "²¹³Po"
+            },
+          "_214" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "164.3μs",
+              "neutrons" : 130,
+              "symbol" : "²¹⁴Po"
+            },
+          "_215" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁻" }
+                ],
+              "half_life" : "1.781ms",
+              "neutrons" : 131,
+              "symbol" : "²¹⁵Po"
+            },
+          "_216" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁻,β⁻" }
+                ],
+              "half_life" : "145ms",
+              "neutrons" : 132,
+              "symbol" : "²¹⁶Po"
+            },
+          "_217" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁻" }
+                ],
+              "half_life" : "1.781ms",
+              "neutrons" : 133,
+              "symbol" : "²¹⁷Po"
+            },
+          "_218" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁻" }
+                ],
+              "half_life" : "3.10min",
+              "neutrons" : 134,
+              "symbol" : "²¹⁸Po"
+            },
+          "_219" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁻" }
+                ],
+              "half_life" : "10.3min",
+              "neutrons" : 135,
+              "symbol" : "²¹⁹Po"
+            },
+          "_220" : {
+              "decay" : [ { "mode" : "β⁻" } ],
+              "half_life" : "40s",
+              "neutrons" : 136,
+              "symbol" : "²²⁰Po"
+            },
+          "_221" : {
+              "decay" : [ { "mode" : "β⁻" } ],
+              "half_life" : "2.2min",
+              "neutrons" : 137,
+              "symbol" : "²²¹Po"
+            },
+          "_222" : {
+              "decay" : [ { "mode" : "β⁻" } ],
+              "half_life" : "9.1min",
+              "neutrons" : 138,
+              "symbol" : "²²²Po"
+            }
+        },
       "name" : { "latin" : "Polonium" },
       "period" : 6,
       "protons" : 84
