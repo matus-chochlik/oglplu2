@@ -83,8 +83,8 @@ static void decay_of(
                     decay_of(elements, prod, done);
                 }
             }
+            ++d;
         });
-        ++d;
     };
 
     elements.for_single(
