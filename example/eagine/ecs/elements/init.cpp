@@ -104,7 +104,7 @@ static void populate(
                             if(auto mode_a{source.nested(decay_a, "mode")}) {
                                 std::string mode_sym;
                                 if(source.fetch_value(mode_a, mode_sym)) {
-                                    if(auto info{isot_decay.get(mode_sym)}) {
+                                    if(auto info{isot_decay.add(mode_sym)}) {
                                         if(auto prod_a{source.nested(
                                              decay_a, "products")}) {
                                             auto& prod = extract(info).products;
@@ -139,7 +139,7 @@ static void cache_decay_products(ecs::basic_manager<element_symbol>& elements) {
                 modes->for_each([&](auto& dcy_mode, auto& dcy) {
                     // if the isotope neutron count after the decay matches
                     if(
-                      !dcy_mode.is_fission &&
+                      dcy.products.empty() &&
                       (orig_nc->number + dcy_mode.neutron_count_diff ==
                        prod_nc->number)) {
                         // for each original element with proton count
