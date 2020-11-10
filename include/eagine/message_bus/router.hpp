@@ -58,6 +58,18 @@ struct routed_endpoint {
     auto is_allowed(message_id) const noexcept -> bool;
 };
 //------------------------------------------------------------------------------
+struct parent_router {
+    std::unique_ptr<connection> the_connection{};
+    identifier_t confirmed_id{0};
+
+    void reset(std::unique_ptr<connection>);
+
+    auto update(logger&, identifier_t id_base) -> bool;
+
+    template <typename Handler>
+    auto fetch_messages(logger&, const Handler&) -> bool;
+};
+//------------------------------------------------------------------------------
 class router
   : public acceptor_user
   , public connection_user {
@@ -142,8 +154,8 @@ private:
     std::chrono::steady_clock::time_point _forwarded_since{
       std::chrono::steady_clock::now()};
     std::intmax_t _forwarded_messages{0};
+    parent_router _parent_router;
     std::vector<std::unique_ptr<acceptor>> _acceptors;
-    std::vector<std::unique_ptr<connection>> _connectors;
     std::vector<router_pending> _pending;
     flat_map<identifier_t, routed_endpoint> _endpoints;
     blob_manipulator _blobs{};

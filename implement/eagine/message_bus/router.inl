@@ -52,6 +52,60 @@ void routed_endpoint::allow_message(message_id msg_id) {
     }
 }
 //------------------------------------------------------------------------------
+// parent_router
+//------------------------------------------------------------------------------
+inline void parent_router::reset(std::unique_ptr<connection> a_connection) {
+    the_connection = std::move(a_connection);
+    confirmed_id = 0;
+}
+//------------------------------------------------------------------------------
+inline auto parent_router::update(logger&, identifier_t id_base) -> bool {
+    some_true something_done{};
+
+    if(the_connection && the_connection->is_usable()) {
+        if(EAGINE_UNLIKELY(!confirmed_id)) {
+            message_view announcement{};
+            announcement.set_source_id(id_base);
+            the_connection->send(EAGINE_MSGBUS_ID(announceId), announcement);
+        }
+        something_done(the_connection->update());
+    } else {
+        if(EAGINE_UNLIKELY(confirmed_id)) {
+            confirmed_id = 0;
+            something_done();
+        }
+    }
+    return something_done;
+}
+//------------------------------------------------------------------------------
+template <typename Handler>
+inline auto parent_router::fetch_messages(logger& log, const Handler& handler)
+  -> bool {
+
+    if(the_connection) {
+        auto wrapped = [&](
+                         message_id msg_id,
+                         message_age msg_age,
+                         const message_view& message) -> bool {
+            if(msg_id == EAGINE_MSGBUS_ID(confirmId)) {
+                confirmed_id = message.target_id;
+                log.debug("confirmed id ${id} by parent router ${source}")
+                  .arg(EAGINE_ID(id), message.target_id)
+                  .arg(EAGINE_ID(source), message.source_id);
+            } else if(msg_id.has_method(EAGINE_ID(byeBye))) {
+                log.debug("received bye-bye from parent router ${source}")
+                  .arg(EAGINE_ID(source), message.source_id);
+            } else {
+                return handler(msg_id, msg_age, message);
+            }
+            return true;
+        };
+        return the_connection->fetch_messages(
+          connection::fetch_handler{wrapped});
+    }
+    return false;
+}
+//------------------------------------------------------------------------------
 // router
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -81,8 +135,8 @@ auto router::add_acceptor(std::unique_ptr<acceptor> an_acceptor) -> bool {
 EAGINE_LIB_FUNC
 auto router::add_connection(std::unique_ptr<connection> a_connection) -> bool {
     if(a_connection) {
-        _log.info("adding connection");
-        _connectors.emplace_back(std::move(a_connection));
+        _log.info("assigning parent router connection");
+        _parent_router.reset(std::move(a_connection));
         return true;
     }
     return false;
@@ -574,6 +628,16 @@ auto router::_route_messages() -> bool {
               conn_in->fetch_messages(connection::fetch_handler(handler)));
         }
     }
+
+    auto handler =
+      [&](message_id msg_id, message_age msg_age, const message_view& message) {
+          if(EAGINE_LIKELY(msg_age < std::chrono::seconds(30))) {
+              return this->_do_route_message(msg_id, _id_base, message);
+          }
+          return true;
+      };
+    something_done(_parent_router.fetch_messages(_log, handler));
+
     return something_done;
 }
 //------------------------------------------------------------------------------
@@ -588,6 +652,9 @@ auto router::_update_connections() -> bool {
             something_done(conn->update());
         }
     }
+
+    something_done(_parent_router.update(_log, _id_base));
+
     if(_endpoints.empty() && _pending.empty()) {
         std::this_thread::yield();
     } else {
