@@ -287,6 +287,14 @@ public:
         return _argi;
     }
 
+    auto is_first() const noexcept -> bool {
+        return _argi == 1;
+    }
+
+    auto is_last() const noexcept -> bool {
+        return _argi == _argc - 1;
+    }
+
     auto get() const noexcept -> value_type {
         if(is_valid()) {
             return value_type(_argv[_argi]);
@@ -611,6 +619,10 @@ public:
 //------------------------------------------------------------------------------
 static inline auto extract(const program_arg& arg) noexcept {
     return arg.get();
+}
+//------------------------------------------------------------------------------
+static inline auto to_string(const program_arg& arg) {
+    return arg.get_string();
 }
 //------------------------------------------------------------------------------
 static inline auto operator<<(std::ostream& out, const program_arg& arg)
