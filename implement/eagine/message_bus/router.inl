@@ -74,22 +74,29 @@ inline void parent_router::reset(std::unique_ptr<connection> a_connection) {
 inline auto parent_router::update(logger& log, identifier_t id_base) -> bool {
     some_true something_done{};
 
-    if(the_connection && the_connection->is_usable()) {
-        if(EAGINE_UNLIKELY(!confirmed_id)) {
-            message_view announcement{};
-            announcement.set_source_id(id_base);
-            the_connection->send(EAGINE_MSGBUS_ID(announceId), announcement);
-            something_done();
-
-            log.debug("announcing id ${id} to parent router")
-              .arg(EAGINE_ID(id), id_base);
-        }
+    if(the_connection) {
         something_done(the_connection->update());
-    } else {
-        if(EAGINE_UNLIKELY(confirmed_id)) {
-            confirmed_id = 0;
-            something_done();
-            log.debug("lost connection to parent router");
+        if(the_connection->is_usable()) {
+            if(EAGINE_UNLIKELY(!confirmed_id)) {
+                if(confirm_id_timeout) {
+                    message_view announcement{};
+                    announcement.set_source_id(id_base);
+                    the_connection->send(
+                      EAGINE_MSGBUS_ID(announceId), announcement);
+                    confirm_id_timeout.reset();
+                    something_done();
+
+                    log.debug("announcing id ${id} to parent router")
+                      .arg(EAGINE_ID(id), id_base);
+                }
+            }
+            something_done(the_connection->update());
+        } else {
+            if(EAGINE_UNLIKELY(confirmed_id)) {
+                confirmed_id = 0;
+                something_done();
+                log.debug("lost connection to parent router");
+            }
         }
     }
     return something_done;

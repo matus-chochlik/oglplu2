@@ -63,6 +63,7 @@ struct routed_endpoint {
 struct parent_router {
     std::unique_ptr<connection> the_connection{};
     identifier_t confirmed_id{0};
+    timeout confirm_id_timeout{std::chrono::seconds(2), nothing};
 
     void reset(std::unique_ptr<connection>);
 

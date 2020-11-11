@@ -274,7 +274,7 @@ void endpoint::add_ca_certificate_pem(memory::const_block blk) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto endpoint::add_connection(std::unique_ptr<connection> conn) -> bool {
-    if(conn) {
+    if(EAGINE_LIKELY(conn)) {
         if(_connection) {
             log()
               .debug("replacing connection type ${oldType} with ${newType}")
@@ -287,6 +287,8 @@ auto endpoint::add_connection(std::unique_ptr<connection> conn) -> bool {
         }
         _connection = std::move(conn);
         return true;
+    } else {
+        log().error("assigning invalid connection");
     }
     return false;
 }

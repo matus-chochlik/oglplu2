@@ -110,6 +110,16 @@ private:
       , _allow_blob{std::move(allow_blob)}
       , _store_handler{std::move(store_message)} {}
 
+    endpoint(endpoint&& temp) noexcept
+      : _log{std::move(temp._log)}
+      , _context{std::move(temp._context)}
+      , _preconfd_id{std::exchange(temp._preconfd_id, invalid_id())}
+      , _endpoint_id{std::exchange(temp._endpoint_id, invalid_id())}
+      , _connection{std::move(temp._connection)}
+      , _outgoing{std::move(temp._outgoing)}
+      , _incoming{std::move(temp._incoming)}
+      , _blobs{std::move(temp._blobs)} {}
+
     endpoint(
       endpoint&& temp,
       blob_filter_function allow_blob,
@@ -138,16 +148,6 @@ public:
     endpoint(logger log, const program_args& args) noexcept
       : _log{std::move(log)}
       , _context{make_context(_log, args)} {}
-
-    endpoint(endpoint&& temp) noexcept
-      : _log{std::move(temp._log)}
-      , _context{std::move(temp._context)}
-      , _preconfd_id{std::exchange(temp._preconfd_id, invalid_id())}
-      , _endpoint_id{std::exchange(temp._endpoint_id, invalid_id())}
-      , _connection{std::move(temp._connection)}
-      , _outgoing{std::move(temp._outgoing)}
-      , _incoming{std::move(temp._incoming)}
-      , _blobs{std::move(temp._blobs)} {}
 
     endpoint(const endpoint&) = delete;
     auto operator=(endpoint&&) = delete;
