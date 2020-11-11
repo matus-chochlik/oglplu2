@@ -39,7 +39,7 @@ struct acceptor_user {
     auto operator=(acceptor_user&&) = delete;
     auto operator=(const acceptor_user&) = delete;
 
-    virtual auto add_acceptor(std::unique_ptr<acceptor> an_acceptor)
+    virtual auto add_acceptor(std::shared_ptr<acceptor> an_acceptor)
       -> bool = 0;
 };
 //------------------------------------------------------------------------------

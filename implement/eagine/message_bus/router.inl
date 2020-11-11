@@ -151,7 +151,7 @@ void router::add_ca_certificate_pem(memory::const_block blk) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto router::add_acceptor(std::unique_ptr<acceptor> an_acceptor) -> bool {
+auto router::add_acceptor(std::shared_ptr<acceptor> an_acceptor) -> bool {
     if(an_acceptor) {
         _log.info("adding connection acceptor");
         _acceptors.emplace_back(std::move(an_acceptor));

@@ -5,6 +5,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/message_bus/conn_setup.hpp>
+#include <eagine/message_bus/router_address.hpp>
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
@@ -15,11 +16,18 @@ registry::registry(logger& parent, const program_args& args)
   , _router{_log, args} {
     _router.add_acceptor(_acceptor);
 
-    router_address parent_address{ctx.log(), ctx.args()};
+    router_address parent_address{_log, args};
     connection_setup conn_setup(_log);
     conn_setup.default_init(args);
 
-    conn_setup.setup_connectors(router, parent_address);
+    conn_setup.setup_connectors(_router, parent_address);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto registry::establish(identifier log_id) -> endpoint {
+    endpoint result{logger{log_id, _log}};
+    result.add_connection(_acceptor->make_connection());
+    return result;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

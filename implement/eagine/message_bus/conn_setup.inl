@@ -28,7 +28,7 @@ void connection_setup::_do_setup_acceptors(
           .arg(EAGINE_ID(factory), factory)
           .arg(EAGINE_ID(address), EAGINE_ID(MsgBusAddr), address);
 
-        if(auto acceptor = factory->make_acceptor(address)) {
+        if(auto acceptor{factory->make_acceptor(address)}) {
             target.add_acceptor(std::move(acceptor));
         }
     }

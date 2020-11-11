@@ -93,7 +93,7 @@ public:
     void add_certificate_pem(memory::const_block blk);
     void add_ca_certificate_pem(memory::const_block blk);
 
-    auto add_acceptor(std::unique_ptr<acceptor>) -> bool final;
+    auto add_acceptor(std::shared_ptr<acceptor>) -> bool final;
     auto add_connection(std::unique_ptr<connection>) -> bool final;
 
     auto update(const valid_if_positive<int>& count) -> bool;
@@ -159,7 +159,7 @@ private:
       std::chrono::steady_clock::now()};
     std::intmax_t _forwarded_messages{0};
     parent_router _parent_router;
-    std::vector<std::unique_ptr<acceptor>> _acceptors;
+    std::vector<std::shared_ptr<acceptor>> _acceptors;
     std::vector<router_pending> _pending;
     flat_map<identifier_t, routed_endpoint> _endpoints;
     blob_manipulator _blobs{};

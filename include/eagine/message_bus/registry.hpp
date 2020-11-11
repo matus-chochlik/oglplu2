@@ -21,6 +21,8 @@ class registry {
 public:
     registry(logger& parent, const program_args& args);
 
+    auto establish(identifier log_id) -> endpoint;
+
     auto establish() -> endpoint;
 
 private:
