@@ -20,13 +20,11 @@ static inline auto routed_endpoint_list_contains(
     return std::find(list.begin(), list.end(), entry) != list.end();
 }
 //------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
 routed_endpoint::routed_endpoint() {
     message_block_list.reserve(8);
     message_allow_list.reserve(8);
 }
 //------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
 auto routed_endpoint::is_allowed(message_id msg_id) const noexcept -> bool {
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
         return true;
@@ -36,6 +34,20 @@ auto routed_endpoint::is_allowed(message_id msg_id) const noexcept -> bool {
     }
     if(!message_block_list.empty()) {
         return !routed_endpoint_list_contains(message_block_list, msg_id);
+    }
+    return true;
+}
+//------------------------------------------------------------------------------
+auto routed_endpoint::send(logger& log, message_id msg_id, message_view message)
+  const -> bool {
+    if(EAGINE_LIKELY(the_connection)) {
+        if(EAGINE_UNLIKELY(!the_connection->send(msg_id, message))) {
+            log.debug("failed to send message to endpoint");
+            return false;
+        }
+    } else {
+        log.debug("missing or unusable endpoint connection");
+        return false;
     }
     return true;
 }
@@ -59,7 +71,7 @@ inline void parent_router::reset(std::unique_ptr<connection> a_connection) {
     confirmed_id = 0;
 }
 //------------------------------------------------------------------------------
-inline auto parent_router::update(logger&, identifier_t id_base) -> bool {
+inline auto parent_router::update(logger& log, identifier_t id_base) -> bool {
     some_true something_done{};
 
     if(the_connection && the_connection->is_usable()) {
@@ -67,12 +79,17 @@ inline auto parent_router::update(logger&, identifier_t id_base) -> bool {
             message_view announcement{};
             announcement.set_source_id(id_base);
             the_connection->send(EAGINE_MSGBUS_ID(announceId), announcement);
+            something_done();
+
+            log.debug("announcing id ${id} to parent router")
+              .arg(EAGINE_ID(id), id_base);
         }
         something_done(the_connection->update());
     } else {
         if(EAGINE_UNLIKELY(confirmed_id)) {
             confirmed_id = 0;
             something_done();
+            log.debug("lost connection to parent router");
         }
     }
     return something_done;
@@ -104,6 +121,17 @@ inline auto parent_router::fetch_messages(logger& log, const Handler& handler)
           connection::fetch_handler{wrapped});
     }
     return false;
+}
+//------------------------------------------------------------------------------
+auto parent_router::send(logger& log, message_id msg_id, message_view message)
+  const -> bool {
+    if(the_connection) {
+        if(EAGINE_UNLIKELY(!the_connection->send(msg_id, message))) {
+            log.debug("failed to send message to parent router");
+            return false;
+        }
+    }
+    return true;
 }
 //------------------------------------------------------------------------------
 // router
@@ -560,15 +588,7 @@ auto router::_do_route_message(
 
                 _forwarded_since = now;
             }
-            const auto& conn_out = endpoint_out.the_connection;
-            if(EAGINE_LIKELY(conn_out)) {
-                if(conn_out->send(msg_id, message)) {
-                    return true;
-                }
-            } else {
-                _log.debug("missing or unusable connection");
-            }
-            return false;
+            return endpoint_out.send(_log, msg_id, message);
         };
 
         if(is_targeted) {
@@ -584,8 +604,12 @@ auto router::_do_route_message(
                 for(const auto& [unused, endpoint_out] : this->_endpoints) {
                     EAGINE_MAYBE_UNUSED(unused);
                     if(endpoint_out.maybe_router) {
-                        has_routed = forward_to(endpoint_out);
+                        has_routed |= forward_to(endpoint_out);
                     }
+                }
+                // if the message didn't come from the parent router
+                if(incoming_id != _id_base) {
+                    has_routed |= _parent_router.send(_log, msg_id, message);
                 }
             }
             result &= has_routed;
@@ -593,9 +617,12 @@ auto router::_do_route_message(
             for(const auto& [outgoing_id, endpoint_out] : this->_endpoints) {
                 if(incoming_id != outgoing_id) {
                     if(endpoint_out.is_allowed(msg_id)) {
-                        result &= forward_to(endpoint_out);
+                        result |= forward_to(endpoint_out);
                     }
                 }
+            }
+            if(incoming_id != _id_base) {
+                result |= _parent_router.send(_log, msg_id, message);
             }
         }
     }

@@ -56,6 +56,8 @@ struct routed_endpoint {
     void allow_message(message_id);
 
     auto is_allowed(message_id) const noexcept -> bool;
+
+    auto send(logger& log, message_id, message_view) const -> bool;
 };
 //------------------------------------------------------------------------------
 struct parent_router {
@@ -68,6 +70,8 @@ struct parent_router {
 
     template <typename Handler>
     auto fetch_messages(logger&, const Handler&) -> bool;
+
+    auto send(logger& log, message_id, message_view) const -> bool;
 };
 //------------------------------------------------------------------------------
 class router
