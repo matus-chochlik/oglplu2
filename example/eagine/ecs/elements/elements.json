@@ -9961,7 +9961,110 @@
     },
   "No" : {
       "atomic_weight" : 259,
-      "isotopes" : {  },
+      "isotopes" : {
+          "_250" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "5.7μs",
+              "neutrons" : 148,
+              "symbol" : "²⁵⁰No"
+            },
+          "_251" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "0.78s",
+              "neutrons" : 149,
+              "symbol" : "²⁵¹No"
+            },
+          "_252" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "2.27s",
+              "neutrons" : 150,
+              "symbol" : "²⁵²No"
+            },
+          "_253" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "1.62min",
+              "neutrons" : 151,
+              "symbol" : "²⁵³No"
+            },
+          "_254" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "51s",
+              "neutrons" : 152,
+              "symbol" : "²⁵⁴No"
+            },
+          "_255" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "2.1min",
+              "neutrons" : 153,
+              "symbol" : "²⁵⁵No"
+            },
+          "_256" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "+e⁻" }
+                ],
+              "half_life" : "2.91s",
+              "neutrons" : 154,
+              "symbol" : "²⁵⁶No"
+            },
+          "_257" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "25s",
+              "neutrons" : 155,
+              "symbol" : "²⁵⁷No"
+            },
+          "_258" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺,β⁺" }
+                ],
+              "half_life" : "1.2ms",
+              "neutrons" : 156,
+              "symbol" : "²⁵⁸No"
+            },
+          "_259" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "+e⁻" }
+                ],
+              "half_life" : "58min",
+              "neutrons" : 157,
+              "symbol" : "²⁵⁹No"
+            },
+          "_260" : {
+              "decay" : [  ],
+              "half_life" : "106ms",
+              "neutrons" : 158,
+              "symbol" : "²⁶⁰No"
+            },
+          "_261" : {
+              "decay" : [  ],
+              "half_life" : "5ms",
+              "neutrons" : 159,
+              "symbol" : "²⁶¹No"
+            }
+        },
       "name" : { "latin" : "Nobelium" },
       "period" : 7,
       "protons" : 102
