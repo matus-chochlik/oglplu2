@@ -97,6 +97,9 @@ public:
     auto add_acceptor(std::shared_ptr<acceptor>) -> bool final;
     auto add_connection(std::unique_ptr<connection>) -> bool final;
 
+    auto do_maintenance() -> bool;
+    auto do_work() -> bool;
+
     auto update(const valid_if_positive<int>& count) -> bool;
     auto update() -> bool {
         return update(2);

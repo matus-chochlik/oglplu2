@@ -698,22 +698,40 @@ auto router::_update_connections() -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto router::update(const valid_if_positive<int>& count) -> bool {
+auto router::do_maintenance() -> bool {
     some_true something_done{};
 
     something_done(_cleanup_blobs());
     something_done(_process_blobs());
-
     something_done(_remove_timeouted());
     something_done(_remove_disconnected());
 
+    return something_done();
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto router::do_work() -> bool {
+    some_true something_done{};
+
+    something_done(_handle_pending());
+    something_done(_handle_accept());
+    something_done(_route_messages());
+    something_done(_update_connections());
+
+    return something_done();
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto router::update(const valid_if_positive<int>& count) -> bool {
+    some_true something_done{};
+
+    something_done(do_maintenance());
+
     int n = extract_or(count, 2);
     do {
-        something_done(_handle_pending());
-        something_done(_handle_accept());
-        something_done(_route_messages());
-        something_done(_update_connections());
+        something_done(do_work());
     } while((n-- > 0) && something_done);
+
     return something_done;
 }
 //------------------------------------------------------------------------------

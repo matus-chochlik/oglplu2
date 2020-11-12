@@ -10,8 +10,10 @@
 #ifndef EAGINE_MESSAGE_BUS_SERVICE_HPP
 #define EAGINE_MESSAGE_BUS_SERVICE_HPP
 
+#include "../bool_aggregate.hpp"
 #include "invoker.hpp"
 #include "serialize.hpp"
+#include "service_interface.hpp"
 #include "skeleton.hpp"
 #include "subscriber.hpp"
 
@@ -20,7 +22,8 @@ namespace eagine::msgbus {
 template <typename Base = subscriber>
 class service_composition
   : public Base
-  , public connection_user {
+  , public connection_user
+  , public service_interface {
 
     using This = service_composition;
 
@@ -70,6 +73,13 @@ public:
 
     auto add_connection(std::unique_ptr<connection> conn) -> bool final {
         return this->bus().add_connection(std::move(conn));
+    }
+
+    auto update_and_process_all() -> bool final {
+        some_true something_done{};
+        something_done(this->update());
+        something_done(this->process_all());
+        return something_done;
     }
 };
 //------------------------------------------------------------------------------

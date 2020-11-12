@@ -11,6 +11,14 @@
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto registered_entry::update_service() -> bool {
+    if(EAGINE_LIKELY(_service)) {
+        return _service->update_and_process_all();
+    }
+    return false;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 registry::registry(logger& parent, const program_args& args)
   : _log{EAGINE_ID(MsgBusRgtr), parent}
   , _acceptor{std::make_shared<direct_acceptor>(_log)}
@@ -23,34 +31,36 @@ registry::registry(logger& parent, const program_args& args)
     conn_setup.setup_connectors(_router, parent_address);
 }
 //------------------------------------------------------------------------------
-template <typename Log>
-auto registry::_do_establish(Log&& log) -> endpoint& {
-    auto new_ept{std::make_unique<endpoint>(std::forward<Log>(log))};
+EAGINE_LIB_FUNC
+auto registry::_add_entry(identifier log_id) -> registered_entry& {
+    auto new_ept{std::make_unique<endpoint>(logger{log_id, _log})};
     new_ept->add_connection(_acceptor->make_connection());
 
-    _endpoints.emplace_back();
-    auto& registered = _endpoints.back();
+    _entries.emplace_back();
+    auto& entry = _entries.back();
 
-    registered.the_endpoint = std::move(new_ept);
+    entry._endpoint = std::move(new_ept);
 
-    return *(registered.the_endpoint);
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-auto registry::establish(identifier log_id) -> endpoint& {
-    return _do_establish(logger{log_id, _log});
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-auto registry::establish() -> endpoint& {
-    return _do_establish(_log);
+    return entry;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto registry::update() -> bool {
+    return _router.update(8);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto registry::update_all() -> bool {
     some_true something_done{};
 
-    something_done(_router.update(8));
+    something_done(_router.do_work());
+
+    for(auto& entry : _entries) {
+        something_done(entry.update_service());
+    }
+
+    something_done(_router.do_work());
+    something_done(_router.do_maintenance());
 
     return something_done;
 }

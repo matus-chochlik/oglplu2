@@ -13,31 +13,46 @@
 #include "direct.hpp"
 #include "endpoint.hpp"
 #include "router.hpp"
+#include "service_interface.hpp"
 #include <memory>
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 struct registered_entry {
-    std::unique_ptr<endpoint> the_endpoint;
+    std::unique_ptr<endpoint> _endpoint{};
+    std::unique_ptr<service_interface> _service{};
+
+    auto update_service() -> bool;
 };
 //------------------------------------------------------------------------------
 class registry {
 public:
     registry(logger& parent, const program_args& args);
 
-    auto establish(identifier log_id) -> endpoint&;
-    auto establish() -> endpoint&;
+    [[nodiscard]] auto establish(identifier log_id) -> endpoint& {
+        return *(_add_entry(log_id)._endpoint);
+    }
+
+    template <typename Service>
+    auto emplace(identifier log_id) -> std::
+      enable_if_t<std::is_base_of_v<service_interface, Service>, Service&> {
+        auto& entry = _add_entry(log_id);
+        auto temp{std::make_unique<Service>(*(entry._endpoint))};
+        auto& result = *temp;
+        entry._service = std::move(temp);
+        return result;
+    }
 
     auto update() -> bool;
+    auto update_all() -> bool;
 
 private:
     logger _log{};
     std::shared_ptr<direct_acceptor> _acceptor;
     router _router;
-    std::vector<registered_entry> _endpoints;
+    std::vector<registered_entry> _entries;
 
-    template <typename Log>
-    auto _do_establish(Log &&) -> endpoint&;
+    auto _add_entry(identifier log_id) -> registered_entry&;
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

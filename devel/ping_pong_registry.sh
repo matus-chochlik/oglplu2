@@ -5,6 +5,7 @@
 #  http://www.boost.org/LICENSE_1_0.txt
 #
 install_prefix="$(<$(dirname ${0})/../INSTALL_PREFIX)"
+variant=${1:-007}
 log_args=("--use-asio-log" "--min-log-severity" "stat")
 conn_type="--msg-bus-asio-local-stream"
 #
@@ -19,13 +20,13 @@ sleep 1
 ${install_prefix}/share/oglplus/examples/eagine-007_ping \
 	"${log_args[@]}" \
 	${conn_type} \
-	--ping-count ${1:-1M} \
+	--ping-count ${2:-1M} \
 	& pids+=($!)
 sleep 5
-${install_prefix}/share/oglplus/examples/eagine-008_pong_registry \
+${install_prefix}/share/oglplus/examples/eagine-${variant}_pong_registry \
 	"${log_args[@]}" \
 	${conn_type} \
-	--ponger-count ${2:-4} \
+	--ponger-count ${3:-4} \
 	--msg-bus-router-id-base 2000 \
 	& pids+=($!)
 
