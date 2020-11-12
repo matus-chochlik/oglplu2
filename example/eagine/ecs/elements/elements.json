@@ -8438,7 +8438,116 @@
     },
   "Lr" : {
       "atomic_weight" : 266,
-      "isotopes" : {  },
+      "isotopes" : {
+          "_251" : {
+              "decay" : [  ],
+              "half_life" : "27ms",
+              "neutrons" : 148,
+              "symbol" : "²⁵¹Lr"
+            },
+          "_252" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "390ms",
+              "neutrons" : 149,
+              "symbol" : "²⁵²Lr"
+            },
+          "_253" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "580ms",
+              "neutrons" : 150,
+              "symbol" : "²⁵³Lr"
+            },
+          "_254" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "13s",
+              "neutrons" : 151,
+              "symbol" : "²⁵⁴Lr"
+            },
+          "_255" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "22s",
+              "neutrons" : 152,
+              "symbol" : "²⁵⁵Lr"
+            },
+          "_256" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "27s",
+              "neutrons" : 153,
+              "symbol" : "²⁵⁶Lr"
+            },
+          "_257" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "646ms",
+              "neutrons" : 154,
+              "symbol" : "²⁵⁷Lr"
+            },
+          "_258" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "4.1s",
+              "neutrons" : 155,
+              "symbol" : "²⁵⁸Lr"
+            },
+          "_259" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "6.2s",
+              "neutrons" : 156,
+              "symbol" : "²⁵⁹Lr"
+            },
+          "_260" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "2.7min",
+              "neutrons" : 157,
+              "symbol" : "²⁶⁰Lr"
+            },
+          "_261" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "44min",
+              "neutrons" : 158,
+              "symbol" : "²⁶¹Lr"
+            },
+          "_262" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "216min",
+              "neutrons" : 159,
+              "symbol" : "²⁶²Lr"
+            },
+          "_266" : {
+              "decay" : [  ],
+              "half_life" : "11hr",
+              "neutrons" : 163,
+              "symbol" : "²⁶⁶Lr"
+            }
+        },
       "name" : { "latin" : "Lawrencium" },
       "period" : 7,
       "protons" : 103
@@ -13348,7 +13457,116 @@
   "Rf" : {
       "atomic_weight" : 267,
       "group" : 4,
-      "isotopes" : {  },
+      "isotopes" : {
+          "_253" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "13ms",
+              "neutrons" : 149,
+              "symbol" : "²⁵³Rf"
+            },
+          "_254" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "23μs",
+              "neutrons" : 150,
+              "symbol" : "²⁵⁴Rf"
+            },
+          "_255" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "1.64s",
+              "neutrons" : 151,
+              "symbol" : "²⁵⁵Rf"
+            },
+          "_256" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "6.45ms",
+              "neutrons" : 152,
+              "symbol" : "²⁵⁶Rf"
+            },
+          "_257" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "4.7s",
+              "neutrons" : 153,
+              "symbol" : "²⁵⁷Rf"
+            },
+          "_258" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "12ms",
+              "neutrons" : 154,
+              "symbol" : "²⁵⁸Rf"
+            },
+          "_259" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "2.8s",
+              "neutrons" : 155,
+              "symbol" : "²⁵⁹Rf"
+            },
+          "_260" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "21ms",
+              "neutrons" : 156,
+              "symbol" : "²⁶⁰Rf"
+            },
+          "_261" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "β⁺" }
+                ],
+              "half_life" : "68s",
+              "neutrons" : 157,
+              "symbol" : "²⁶¹Rf"
+            },
+          "_262" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "2.3s",
+              "neutrons" : 158,
+              "symbol" : "²⁶²Rf"
+            },
+          "_263" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "11min",
+              "neutrons" : 159,
+              "symbol" : "²⁶³Rf"
+            },
+          "_265" : {
+              "decay" : [  ],
+              "half_life" : "1.1min",
+              "neutrons" : 161,
+              "symbol" : "²⁶⁵Rf"
+            },
+          "_266" : {
+              "decay" : [  ],
+              "half_life" : "23s",
+              "neutrons" : 162,
+              "symbol" : "²⁶⁶Rf"
+            },
+          "_267" : {
+              "decay" : [  ],
+              "half_life" : "2.5hr",
+              "neutrons" : 163,
+              "symbol" : "²⁶⁷Rf"
+            },
+          "_268" : {
+              "decay" : [  ],
+              "half_life" : "1.4s",
+              "neutrons" : 164,
+              "symbol" : "²⁶⁸Rf"
+            },
+          "_270" : {
+              "decay" : [  ],
+              "half_life" : "20ms",
+              "neutrons" : 166,
+              "symbol" : "²⁷⁰Rf"
+            }
+        },
       "name" : { "latin" : "Rutherfordium" },
       "period" : 7,
       "protons" : 104
