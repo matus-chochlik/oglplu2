@@ -575,6 +575,7 @@ auto router::_do_route_message(
         _log.warning("message ${message} discarded after too many hops")
           .arg(EAGINE_ID(message), msg_id);
     } else {
+        const auto& epts = this->_endpoints;
         message.add_hop();
         const bool is_targeted = (message.target_id != broadcast_endpoint_id());
 
@@ -600,7 +601,7 @@ auto router::_do_route_message(
 
         if(is_targeted) {
             bool has_routed = false;
-            for(const auto& [outgoing_id, endpoint_out] : this->_endpoints) {
+            for(const auto& [outgoing_id, endpoint_out] : epts) {
                 if(outgoing_id == message.target_id) {
                     if(endpoint_out.is_allowed(msg_id)) {
                         has_routed = forward_to(endpoint_out);
@@ -608,10 +609,11 @@ auto router::_do_route_message(
                 }
             }
             if(!has_routed) {
-                for(const auto& [unused, endpoint_out] : this->_endpoints) {
-                    EAGINE_MAYBE_UNUSED(unused);
+                for(const auto& [outgoing_id, endpoint_out] : epts) {
                     if(endpoint_out.maybe_router) {
-                        has_routed |= forward_to(endpoint_out);
+                        if(incoming_id != outgoing_id) {
+                            has_routed |= forward_to(endpoint_out);
+                        }
                     }
                 }
                 // if the message didn't come from the parent router
@@ -621,7 +623,7 @@ auto router::_do_route_message(
             }
             result &= has_routed;
         } else {
-            for(const auto& [outgoing_id, endpoint_out] : this->_endpoints) {
+            for(const auto& [outgoing_id, endpoint_out] : epts) {
                 if(incoming_id != outgoing_id) {
                     if(endpoint_out.is_allowed(msg_id)) {
                         result |= forward_to(endpoint_out);
