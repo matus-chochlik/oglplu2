@@ -12,15 +12,21 @@ set(
 		eagine
 		eagine-message_bus-router
 		eagine-message_bus-bridge
-		eglplus
 		oglplus
 		oglplus-bake_program_source
 		oglplus-bake_png_image
 		oglplus-bake_noise_image
 		oglplus-bake_checker_image
 		oglplus-texgen
-		oalplus
 )
+if(TARGET eglplus)
+	list(APPEND OGLPLUS_EXPORT_TARGETS eglplus)
+endif()
+
+if(TARGET oalplus)
+	list(APPEND OGLPLUS_EXPORT_TARGETS oalplus)
+endif()
+
 if(TARGET ryml)
 	list(APPEND OGLPLUS_EXPORT_TARGETS ryml)
 endif()
