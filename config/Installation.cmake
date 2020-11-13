@@ -45,21 +45,6 @@ install(
 	PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/config/home/update-me.sh"
 	DESTINATION home
 )
-#
-# install executable
-function(eagine_install_exe TARGET_NAME)
-	install(
-		TARGETS ${TARGET_NAME}
-		DESTINATION bin
-	)
-endfunction()
-# install tool
-function(eagine_install_tool TARGET_NAME)
-	install(
-		TARGETS ${TARGET_NAME}
-		DESTINATION bin
-	)
-endfunction()
 # install example
 function(eagine_install_example TARGET_NAME)
 	install(

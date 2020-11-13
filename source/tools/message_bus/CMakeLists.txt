@@ -10,7 +10,6 @@ target_link_libraries(
 	eagine-message_bus-router
 	PUBLIC eagine
 )
-eagine_install_tool(eagine-message_bus-router)
 
 # bridge
 add_executable(eagine-message_bus-bridge bridge.cpp)
@@ -19,7 +18,6 @@ target_link_libraries(
 	eagine-message_bus-bridge
 	PUBLIC eagine
 )
-eagine_install_tool(eagine-message_bus-bridge)
 
 # scripts
 install(

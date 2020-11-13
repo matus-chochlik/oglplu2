@@ -9,4 +9,3 @@ target_link_libraries(
 	oglplus-bake_shader_source
 	PUBLIC eagine
 )
-eagine_install_tool(oglplus-bake_shader_source)

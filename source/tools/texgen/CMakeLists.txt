@@ -15,7 +15,6 @@ add_executable(
 )
 target_link_libraries(
 	oglplus-texgen
-	EAGopt::Stacktrace
+	eagine
 )
 eagine_add_exe_analysis(oglplus-texgen)
-eagine_install_tool(oglplus-texgen)

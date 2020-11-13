@@ -12,6 +12,5 @@ if(TARGET PNG::PNG)
 			eagine
 			PNG::PNG
 	)
-	eagine_install_tool(oglplus-bake_png_image)
 endif()
 

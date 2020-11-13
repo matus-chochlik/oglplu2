@@ -54,9 +54,6 @@ include(config/FindGLM.cmake)
 # ZLIB
 include(config/FindZLIB.cmake)
 
-# RYML
-include(config/FindRYML.cmake)
-
 # SSL
 include(config/FindSSL.cmake)
 
@@ -85,13 +82,6 @@ endif()
 include(config/SiteConfig.cmake)
 include(config/GitInfo.cmake)
 
-include_directories("${PROJECT_BINARY_DIR}/include")
-include_directories("include")
-include_directories("implement")
-include_directories("third_party/include")
-include_directories("third_party/asio/asio/include")
-include_directories("third_party/rapidjson/include")
-
 # common functions for GL version and extension detection
 # include(config/GLVerFeat.cmake)
 # GL version detection
@@ -103,6 +93,9 @@ include_directories("third_party/rapidjson/include")
 include(config/SiteConfig.cmake)
 # installation
 include(config/Installation.cmake)
+
+# third party libraries
+add_subdirectory("third_party")
 
 # tools, textures, etc.
 add_subdirectory("source")
@@ -116,4 +109,6 @@ endif()
 if(NOT ${NO_TESTS})
 	add_subdirectory("test")
 endif()
+
+add_subdirectory("config")
 

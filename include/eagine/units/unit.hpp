@@ -30,10 +30,6 @@ auto get_dimension(X) noexcept {
     return dimension_of_t<X>{};
 }
 
-// is_convertible
-template <typename D, typename S>
-struct is_convertible<unit<D, S>, unit<D, S>> : std::true_type {};
-
 // value conv
 template <typename D, typename S>
 struct value_conv<unit<D, S>, unit<D, S>> : trivial_value_conv {};

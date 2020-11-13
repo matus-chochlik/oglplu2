@@ -10,9 +10,6 @@ set_source_files_properties(
 	GENERATED 1
 )
 
-# common private library
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-
 set(EAGINE_LIB_SOURCES
 	main_wrap.cpp
 	debug.cpp
@@ -54,6 +51,24 @@ add_library(
 	${EAGINE_LIB_SOURCES}
 )
 eagine_add_lib_analysis(eagine)
+
+set_target_properties(
+	eagine PROPERTIES
+	INTERFACE_COMPILE_DEFINITIONS EAGINE_LINK_LIBRARY=1
+)
+
+target_include_directories(
+	eagine PUBLIC
+	"$<INSTALL_INTERFACE:include>"
+	"$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>"
+	"$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
+	"$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/implement>"
+	"$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/third_party/include>"
+	"$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/third_party/asio/asio/include>"
+	"$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/third_party/rapidjson/include>"
+	"$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>"
+)
+
 eagine_embed_target_resources(eagine)
 
 target_link_libraries(
@@ -62,22 +77,26 @@ target_link_libraries(
 		EAGine::Required
 		EAGopt::OpenSSL
 		EAGopt::ZLIB
-		EAGopt::RYML
 		EAGopt::Stacktrace
 		EAGopt::BoostSpirit
 		Threads::Threads
 )
 
-set_target_properties(
-	eagine PROPERTIES
-	INTERFACE_COMPILE_DEFINITIONS EAGINE_LINK_LIBRARY=1
-)
-set_target_properties(
-	eagine PROPERTIES
-	INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}
-)
+if(TARGET ryml)
+	target_link_libraries(eagine PUBLIC ryml)
+	set_target_properties(
+		eagine PROPERTIES
+		INTERFACE_COMPILE_DEFINITIONS EAGINE_USE_RYML=1
+	)
+else()
+	set_target_properties(
+		eagine PROPERTIES
+		INTERFACE_COMPILE_DEFINITIONS EAGINE_USE_RYML=0
+	)
+endif()
 
 set_target_properties(
 	eagine PROPERTIES
 	FOLDER "Library/EAGine"
 )
+

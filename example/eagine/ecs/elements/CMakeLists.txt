@@ -10,6 +10,10 @@ add_library(
 )
 eagine_add_lib_analysis(eagine-ecs-elements-common)
 eagine_embed_packed_target_resources(eagine-ecs-elements-common)
+target_link_libraries(
+	eagine-ecs-elements-common
+	PUBLIC eagine
+)
 
 macro(eagine_ecs_example EXAMPLE)
 	add_executable(

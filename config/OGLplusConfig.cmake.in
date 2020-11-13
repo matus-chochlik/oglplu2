@@ -1,0 +1,16 @@
+#  Copyright Matus Chochlik.
+#  Distributed under the Boost Software License, Version 1.0.
+#  See accompanying file LICENSE_1_0.txt or copy at
+#   http://www.boost.org/LICENSE_1_0.txt
+#
+@PACKAGE_INIT@
+
+include("${CMAKE_CURRENT_LIST_DIR}/OGLplus/CommonLibs.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/OGLplus/FindThreads.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/OGLplus/FindStacktrace.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/OGLplus/FindBoostSpirit.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/OGLplus/FindSSL.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/OGLplus/FindZLIB.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/OGLplus/Targets.cmake")
+
+check_required_components(eagine oglplus)
