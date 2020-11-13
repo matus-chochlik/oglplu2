@@ -1890,7 +1890,80 @@
   "Bh" : {
       "atomic_weight" : 270,
       "group" : 7,
-      "isotopes" : {  },
+      "isotopes" : {
+          "_260" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "41ms",
+              "neutrons" : 153,
+              "symbol" : "²⁶⁰Bh"
+            },
+          "_261" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "12.8ms",
+              "neutrons" : 154,
+              "symbol" : "²⁶¹Bh"
+            },
+          "_262" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "84ms",
+              "neutrons" : 155,
+              "symbol" : "²⁶²Bh"
+            },
+          "_264" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "1.07s",
+              "neutrons" : 157,
+              "symbol" : "²⁶⁴Bh"
+            },
+          "_265" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "1.19s",
+              "neutrons" : 158,
+              "symbol" : "²⁶⁵Bh"
+            },
+          "_266" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "2.5s",
+              "neutrons" : 159,
+              "symbol" : "²⁶⁶Bh"
+            },
+          "_267" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "22s",
+              "neutrons" : 160,
+              "symbol" : "²⁶⁷Bh"
+            },
+          "_270" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "61s",
+              "neutrons" : 163,
+              "symbol" : "²⁷⁰Bh"
+            },
+          "_271" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "1.5s",
+              "neutrons" : 164,
+              "symbol" : "²⁷¹Bh"
+            },
+          "_272" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "8.8s",
+              "neutrons" : 165,
+              "symbol" : "²⁷²Bh"
+            },
+          "_274" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "0.9min",
+              "neutrons" : 167,
+              "symbol" : "²⁷⁴Bh"
+            },
+          "_278" : {
+              "decay" : [  ],
+              "half_life" : "11.5min",
+              "neutrons" : 171,
+              "symbol" : "²⁷⁸Bh"
+            }
+        },
       "name" : { "latin" : "Bohrium" },
       "period" : 7,
       "protons" : 107
@@ -7167,7 +7240,80 @@
   "Hs" : {
       "atomic_weight" : 270,
       "group" : 8,
-      "isotopes" : {  },
+      "isotopes" : {
+          "_263" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "760μs",
+              "neutrons" : 155,
+              "symbol" : "²⁶³Hs"
+            },
+          "_264" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "540μs",
+              "neutrons" : 156,
+              "symbol" : "²⁶⁴Hs"
+            },
+          "_265" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "1.96ms",
+              "neutrons" : 157,
+              "symbol" : "²⁶⁵Hs"
+            },
+          "_266" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "360μs",
+              "neutrons" : 158,
+              "symbol" : "²⁶⁶Hs"
+            },
+          "_267" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "55ms",
+              "neutrons" : 159,
+              "symbol" : "²⁶⁷Hs"
+            },
+          "_268" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "1.42s",
+              "neutrons" : 160,
+              "symbol" : "²⁶⁸Hs"
+            },
+          "_269" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "16s",
+              "neutrons" : 161,
+              "symbol" : "²⁶⁹Hs"
+            },
+          "_270" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "10s",
+              "neutrons" : 162,
+              "symbol" : "²⁷⁰Hs"
+            },
+          "_271" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "4s",
+              "neutrons" : 163,
+              "symbol" : "²⁷¹Hs"
+            },
+          "_273" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "510ms",
+              "neutrons" : 165,
+              "symbol" : "²⁷³Hs"
+            },
+          "_275" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "290ms",
+              "neutrons" : 167,
+              "symbol" : "²⁷⁵Hs"
+            },
+          "_277" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "11ms",
+              "neutrons" : 169,
+              "symbol" : "²⁷⁷Hs"
+            }
+        },
       "name" : { "latin" : "Hassium" },
       "period" : 7,
       "protons" : 108
