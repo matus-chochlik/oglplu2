@@ -34,11 +34,13 @@ install(
 		"${CMAKE_CURRENT_SOURCE_DIR}/config/home/ssh-bridge-cmd/show_prefix"
 		"${CMAKE_CURRENT_SOURCE_DIR}/config/home/ssh-bridge-cmd/echo_args"
 		"${CMAKE_CURRENT_SOURCE_DIR}/config/home/ssh-bridge-cmd/pong_local"
+		"${CMAKE_CURRENT_SOURCE_DIR}/config/home/ssh-bridge-cmd/pong_registry"
 	DESTINATION home/user/.oglplus/ssh-bridge-cmd
 )
 install(
 	PROGRAMS
 		"${CMAKE_CURRENT_SOURCE_DIR}/config/home/bin/ping_local"
+		"${CMAKE_CURRENT_SOURCE_DIR}/config/home/bin/ping_registry"
 	DESTINATION home/user/.oglplus/bin
 )
 install(
