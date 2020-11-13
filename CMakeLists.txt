@@ -77,7 +77,7 @@ include(config/ConfigGL.cmake)
 
 # if we only want the configuration info
 if(${CONFIG_INFO_ONLY})
-	add_subdirectory("config")
+	add_subdirectory("config/info")
 	return()
 endif()
 

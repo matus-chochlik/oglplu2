@@ -4,7 +4,9 @@
 # Distributed under the Boost Software License, Version 1.0.
 # See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
-import os, sys
+import os
+import sys
+import json
 import argparse
 
 # returns a normalized path to the project root directory
@@ -175,7 +177,7 @@ def execute_tests(options, parameters):
 def for_each_gl_init_lib(options, parameters):
     func = execute_tests
     if gl_libs_at_least(options, "all-libs"):
-        for gl_init_lib in options.config_info['GL_INIT_LIBS']:
+        for gl_init_lib in options.config_info['gl_init_libs']:
             func(options, parameters+["--use-gl-init-lib=%s" % gl_init_lib])
     else:
         func(options, parameters)
@@ -184,7 +186,7 @@ def for_each_gl_init_lib(options, parameters):
 def for_each_gl_api_lib(options, parameters):
     func = for_each_gl_init_lib
     if gl_libs_at_least(options, "all-apis"):
-        for gl_api_lib in options.config_info['GL_API_LIBS']:
+        for gl_api_lib in options.config_info['gl_api_libs']:
             func(options, parameters+["--use-gl-api-lib=%s" % gl_api_lib])
     else:
         func(options, parameters)
@@ -377,11 +379,9 @@ def main():
                 quiet=True
             )
             # load configuration info
-            info_py_path=os.path.join(get_build_dir(options), 'config', 'info.py')
-            info_py=open(info_py_path).read()
-            ldict = {}
-            exec(info_py, globals(), ldict)
-            options.config_info = ldict['system_config_info'];
+            options.config_info = json.load(
+                open(os.path.join(get_build_dir(options), 'config', 'info.json'))
+            )
 
         for_each_profile(options, ["--clean", "--with-clang-tidy"])
 
