@@ -21,6 +21,7 @@ ${OGLPLUS_PREFIX}/bin/eagine-message_bus-bridge \
 sleep 1
 ${OGLPLUS_PREFIX}/share/oglplus/examples/eagine-007_pong_registry \
 	"${log_args[@]}" "${cmn_args[@]}" \
+	--msg-bus-router-id-base 3000 \
 	& pids+=($!)
 
 for pid in ${pids[@]}
