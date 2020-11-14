@@ -57,6 +57,15 @@ class EmberArgumentParser(argparse.ArgumentParser):
         )
 
         self.add_argument(
+            '-t', '--target',
+            dest='targets',
+            metavar=('TARGET', 'RESOURCE-FILE'),
+            nargs=2,
+            default=[],
+            action="append"
+        )
+
+        self.add_argument(
             '-l', '--max-line-len',
             dest='max_line_len',
             metavar='COLUMNS',
@@ -77,6 +86,10 @@ class EmberArgumentParser(argparse.ArgumentParser):
                     'resources.cpp'
                 )
             options.output = open(options.output_path, "wt")
+
+        options.target_map = {}
+        for target_name, resource_path in options.targets:
+            options.target_map[target_name] = resource_path
 
         return options
 
@@ -158,7 +171,7 @@ def load_resource(options, resource_path):
 def make_res_code(options, ident, path):
     linelen = 0
     first = True
-    resource_path = path
+    resource_path = options.target_map.get(path, path)
     if not os.path.isfile(resource_path):
         for search_dir in options.search_path:
             if os.path.isfile(os.path.join(search_dir, path)):

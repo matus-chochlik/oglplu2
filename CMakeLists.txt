@@ -68,8 +68,8 @@ include(config/FindEGL.cmake)
 # OpenAL
 include(config/FindAL.cmake)
 
-include(config/Embed.cmake)
 include(config/Baking.cmake)
+include(config/Embed.cmake)
 include(config/PKI.cmake)
 
 # configure GL API and Context-init libraries

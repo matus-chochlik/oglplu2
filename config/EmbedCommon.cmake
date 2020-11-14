@@ -36,6 +36,15 @@ function(eagine_do_embed_target_resources TARGET_NAME PACKED)
 			list(APPEND RES_PATHS "${CMAKE_CURRENT_BINARY_DIR}/${RES_NAME}")
 		elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${RES_NAME}")
 			list(APPEND RES_PATHS "${CMAKE_CURRENT_SOURCE_DIR}/${RES_NAME}")
+		elseif(TARGET ${RES_NAME})
+			get_property(
+				RES_PATH
+				TARGET ${RES_NAME}
+				PROPERTY OGLPLUS_BAKED_RESOURCE_PATH
+			)
+			list(APPEND GEN_DEPENDS "${RES_NAME}")
+			list(APPEND GEN_OPTIONS -t)
+			list(APPEND GEN_OPTIONS ${RES_NAME} ${RES_PATH})
 		else()
 			list(APPEND RES_PATHS "${RES_NAME}")
 		endif()

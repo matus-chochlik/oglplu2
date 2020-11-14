@@ -3,6 +3,11 @@
 #  See accompanying file LICENSE_1_0.txt or copy at
 #   http://www.boost.org/LICENSE_1_0.txt
 #
+define_property(
+	TARGET PROPERTY OGLPLUS_BAKED_RESOURCE_PATH
+	BRIEF_DOCS "Path of bake target output"
+	FULL_DOCS "Path of a baked resource output file"
+)
 
 function(oglplus_do_add_generated_texture GENERATOR TEX_NAME INPUT)
 
@@ -36,6 +41,11 @@ function(oglplus_do_add_generated_texture GENERATOR TEX_NAME INPUT)
 		add_custom_target(
 			${TEX_NAME}
 			DEPENDS "${TEX_NAME}.oglptex"
+		)
+		set_property(
+			TARGET ${TEX_NAME}
+			APPEND PROPERTY OGLPLUS_BAKED_RESOURCE_PATH
+			"${CMAKE_CURRENT_BINARY_DIR}/${TEX_NAME}.oglptex"
 		)
 	else()
 		message(
