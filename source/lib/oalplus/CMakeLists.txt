@@ -26,8 +26,9 @@ if(OPENAL_FOUND)
 	)
 
 	set_target_properties(
-		oalplus
-		PROPERTIES FOLDER "Library/OALplus"
+		oalplus PROPERTIES
+		VERSION ${OGLPLUS_VERSION}
+		FOLDER "Library/OALplus"
 	)
 else()
 	add_library(oalplus INTERFACE IMPORTED)

@@ -5,9 +5,6 @@
 #
 @PACKAGE_INIT@
 
-# prefix path
-get_filename_component(OGLplus_PREFIX "${CMAKE_CURRENT_LIST_DIR}/../../" ABSOLUTE)
-
 # external dependencies
 include("${CMAKE_CURRENT_LIST_DIR}/OGLplus/CommonLibs.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/OGLplus/FindThreads.cmake")
@@ -17,12 +14,10 @@ include("${CMAKE_CURRENT_LIST_DIR}/OGLplus/FindSSL.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/OGLplus/FindZLIB.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/OGLplus/Targets.cmake")
 
-# embedding
-set(
-	EAGINE_EMBED_GENERATOR
-	"${OGLplus_PREFIX}/bin/eagine-embed_generator"
-)
-include("${CMAKE_CURRENT_LIST_DIR}/OGLplus/EmbedCommon.cmake")
+# path checks
+set_and_check(OGLplus_INCLUDE_DIR "@PACKAGE_INCLUDE_INSTALL_DIR@")
+set_and_check(OGLplus_LIBRARY_DIR "@PACKAGE_LIBRARY_INSTALL_DIR@")
+set_and_check(OGLplus_EXECUTABLE_DIR "@PACKAGE_EXECUTABLE_INSTALL_DIR@")
 
 # component checks
 set(OGLPLUS_CHECKED_COMPONENTS eagine oglplus)
@@ -33,3 +28,11 @@ foreach(ITEM ${OGLPLUS_OPTIONAL_COMPONENTS})
 	endif()
 endforeach()
 check_required_components(${OGLPLUS_CHECKED_COMPONENTS})
+
+# embedding
+set(
+	EAGINE_EMBED_GENERATOR
+	"${OGLplus_EXECUTABLE_DIR}/eagine-embed_generator"
+)
+include("${CMAKE_CURRENT_LIST_DIR}/OGLplus/EmbedCommon.cmake")
+

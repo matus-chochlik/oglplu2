@@ -90,6 +90,7 @@ endif()
 
 set_target_properties(
 	eagine PROPERTIES
+	VERSION ${OGLPLUS_VERSION}
 	FOLDER "Library/EAGine"
 )
 

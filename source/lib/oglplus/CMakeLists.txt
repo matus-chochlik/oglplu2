@@ -27,7 +27,8 @@ target_link_libraries(
 		$<TARGET_NAME:GLEW::GLEW>
 )
 set_target_properties(
-	oglplus
-	PROPERTIES FOLDER "Library/OGLplus"
+	oglplus PROPERTIES
+	VERSION ${OGLPLUS_VERSION}
+	FOLDER "Library/OGLplus"
 )
 

@@ -26,8 +26,9 @@ if(EGL_FOUND)
 	)
 
 	set_target_properties(
-		eglplus
-		PROPERTIES FOLDER "Library/EGLplus"
+		eglplus PROPERTIES
+		VERSION ${OGLPLUS_VERSION}
+		FOLDER "Library/EGLplus"
 	)
 else()
 	add_library(eglplus INTERFACE IMPORTED)

@@ -11,10 +11,25 @@ install(
 
 include(CMakePackageConfigHelpers)
 
+set(INCLUDE_INSTALL_DIR include/)
+set(LIBRARY_INSTALL_DIR lib/)
+set(EXECUTABLE_INSTALL_DIR bin/)
+set(SYSCONFIG_INSTALL_DIR etc/oglplus/)
+
 configure_package_config_file(
 	"${CMAKE_CURRENT_SOURCE_DIR}/OGLplusConfig.cmake.in"
 	"${CMAKE_CURRENT_BINARY_DIR}/OGLplusConfig.cmake"
-	INSTALL_DESTINATION lib/cmake
+	INSTALL_DESTINATION ${LIBRARY_INSTALL_DIR}/cmake
+	PATH_VARS
+		INCLUDE_INSTALL_DIR
+		LIBRARY_INSTALL_DIR
+		EXECUTABLE_INSTALL_DIR
+		SYSCONFIG_INSTALL_DIR
+)
+write_basic_package_version_file(
+	"${CMAKE_CURRENT_BINARY_DIR}/OGLplusConfigVersion.cmake"
+	VERSION "${OGLPLUS_VERSION}"
+	COMPATIBILITY SameMinorVersion
 )
 
 install(
@@ -31,5 +46,6 @@ install(
 
 install(
 	FILES "${CMAKE_CURRENT_BINARY_DIR}/OGLplusConfig.cmake"
+	FILES "${CMAKE_CURRENT_BINARY_DIR}/OGLplusConfigVersion.cmake"
 	DESTINATION lib/cmake
 )
