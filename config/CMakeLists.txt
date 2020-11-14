@@ -45,7 +45,8 @@ install(
 )
 
 install(
-	FILES "${CMAKE_CURRENT_BINARY_DIR}/OGLplusConfig.cmake"
-	FILES "${CMAKE_CURRENT_BINARY_DIR}/OGLplusConfigVersion.cmake"
+	FILES
+		"${CMAKE_CURRENT_BINARY_DIR}/OGLplusConfig.cmake"
+		"${CMAKE_CURRENT_BINARY_DIR}/OGLplusConfigVersion.cmake"
 	DESTINATION lib/cmake
 )
