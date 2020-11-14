@@ -10,9 +10,8 @@ if(OPENAL_FOUND)
 	)
 	eagine_add_lib_analysis(oalplus)
 
-	set_target_properties(
-		oalplus PROPERTIES
-		INTERFACE_COMPILE_DEFINITIONS OALPLUS_LINK_LIB=1
+	target_compile_definitions(
+		oalplus PUBLIC OALPLUS_LINK_LIBRARY=1
 	)
 
 	target_include_directories(

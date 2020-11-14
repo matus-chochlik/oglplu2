@@ -10,9 +10,8 @@ if(EGL_FOUND)
 	)
 	eagine_add_lib_analysis(eglplus)
 
-	set_target_properties(
-		eglplus PROPERTIES
-		INTERFACE_COMPILE_DEFINITIONS EGLPLUS_LINK_LIB=1
+	target_compile_definitions(
+		eglplus PUBLIC EGLPLUS_LINK_LIBRARY=1
 	)
 
 	target_include_directories(

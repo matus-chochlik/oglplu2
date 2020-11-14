@@ -61,7 +61,7 @@ function(eagine_add_directory_example)
 	target_link_libraries(
 		${TARGET_NAME}
 		PUBLIC
-			GLEW::GLEW
+			$<TARGET_NAME:GLEW::GLEW>
 			combined_example_harness
 	)
 	eagine_install_example(${TARGET_NAME})

@@ -52,9 +52,8 @@ add_library(
 )
 eagine_add_lib_analysis(eagine)
 
-set_target_properties(
-	eagine PROPERTIES
-	INTERFACE_COMPILE_DEFINITIONS EAGINE_LINK_LIBRARY=1
+target_compile_definitions(
+	eagine PUBLIC EAGINE_LINK_LIBRARY=1
 )
 
 target_include_directories(
@@ -84,15 +83,9 @@ target_link_libraries(
 
 if(TARGET ryml)
 	target_link_libraries(eagine PUBLIC ryml)
-	set_target_properties(
-		eagine PROPERTIES
-		INTERFACE_COMPILE_DEFINITIONS EAGINE_USE_RYML=1
-	)
+	target_compile_definitions(eagine PRIVATE EAGINE_USE_RYML=1)
 else()
-	set_target_properties(
-		eagine PROPERTIES
-		INTERFACE_COMPILE_DEFINITIONS EAGINE_USE_RYML=0
-	)
+	target_compile_definitions(eagine PRIVATE EAGINE_USE_RYML=0)
 endif()
 
 set_target_properties(

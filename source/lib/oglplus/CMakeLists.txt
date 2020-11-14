@@ -10,9 +10,8 @@ add_library(
 )
 eagine_add_lib_analysis(oglplus)
 
-set_target_properties(
-	oglplus PROPERTIES
-	INTERFACE_COMPILE_DEFINITIONS OGLPLUS_LINK_LIB=1
+target_compile_definitions(
+	oglplus PUBLIC OGLPLUS_LINK_LIBRARY=1
 )
 
 target_include_directories(
@@ -23,7 +22,9 @@ target_include_directories(
 
 target_link_libraries(
 	oglplus
-	PUBLIC eagine
+	PUBLIC
+		eagine
+		$<TARGET_NAME:GLEW::GLEW>
 )
 set_target_properties(
 	oglplus

@@ -8,9 +8,8 @@ find_package(OpenSSL)
 add_library(EAGopt::OpenSSL INTERFACE IMPORTED)
 if(OpenSSL_FOUND)
 	if(OPENSSL_INCLUDE_DIRS)
-		set_target_properties(
-			EAGopt::OpenSSL PROPERTIES
-			INTERFACE_INCLUDE_DIRECTORIES "${OPENSSL_INCLUDE_DIRS}"
+		target_include_directories(
+			EAGopt::OpenSSL INTERFACE "${OPENSSL_INCLUDE_DIRS}"
 		)
 	endif()
 
@@ -21,14 +20,12 @@ if(OpenSSL_FOUND)
 		)
 	endif()
 
-	set_target_properties(
-		EAGopt::OpenSSL PROPERTIES
-		INTERFACE_COMPILE_DEFINITIONS EAGINE_USE_OPENSSL=1
+	target_compile_definitions(
+		EAGopt::OpenSSL INTERFACE EAGINE_USE_OPENSSL=1
 	)
 
-	set_target_properties(
-		EAGopt::OpenSSL PROPERTIES
-		INTERFACE_LINK_LIBRARIES "${OPENSSL_LIBRARIES}"
+	target_link_libraries(
+		EAGopt::OpenSSL INTERFACE "${OPENSSL_LIBRARIES}"
 	)
 endif()
 
