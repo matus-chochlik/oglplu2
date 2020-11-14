@@ -25,6 +25,7 @@ install(
 		"${CMAKE_CURRENT_SOURCE_DIR}/FindBoostSpirit.cmake"
 		"${CMAKE_CURRENT_SOURCE_DIR}/FindSSL.cmake"
 		"${CMAKE_CURRENT_SOURCE_DIR}/FindZLIB.cmake"
+		"${CMAKE_CURRENT_SOURCE_DIR}/EmbedCommon.cmake"
 	DESTINATION lib/cmake/OGLplus
 )
 

@@ -5,6 +5,10 @@
 #
 @PACKAGE_INIT@
 
+# prefix path
+get_filename_component(OGLplus_PREFIX "${CMAKE_CURRENT_LIST_DIR}/../../" ABSOLUTE)
+
+# external dependencies
 include("${CMAKE_CURRENT_LIST_DIR}/OGLplus/CommonLibs.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/OGLplus/FindThreads.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/OGLplus/FindStacktrace.cmake")
@@ -13,4 +17,19 @@ include("${CMAKE_CURRENT_LIST_DIR}/OGLplus/FindSSL.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/OGLplus/FindZLIB.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/OGLplus/Targets.cmake")
 
-check_required_components(eagine oglplus)
+# embedding
+set(
+	EAGINE_EMBED_GENERATOR
+	"${OGLplus_PREFIX}/bin/eagine-embed_generator"
+)
+include("${CMAKE_CURRENT_LIST_DIR}/OGLplus/EmbedCommon.cmake")
+
+# component checks
+set(OGLPLUS_CHECKED_COMPONENTS eagine oglplus)
+set(OGLPLUS_OPTIONAL_COMPONENTS eglplus oalplus ryml)
+foreach(ITEM ${OGLPLUS_OPTIONAL_COMPONENTS})
+	if(TARGET ${ITEM})
+		list(APPEND OGLPLUS_CHECKED_COMPONENTS ${ITEM})
+	endif()
+endforeach()
+check_required_components(${OGLPLUS_CHECKED_COMPONENTS})
