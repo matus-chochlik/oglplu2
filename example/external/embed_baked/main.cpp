@@ -1,5 +1,5 @@
 /**
- *  @example eagine/embed_baked.cpp
+ *  @example external/embed_baked.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -15,7 +15,7 @@ namespace eagine {
 
 auto main(main_ctx& ctx) -> int {
 
-    const auto res{embed(EAGINE_ID(ZebraFur), "zebra_fur")};
+    const auto res{embed(EAGINE_ID(Noise), "noise_16x16x3")};
     std::cout << hexdump(res.unpack(ctx));
 
     return 0;

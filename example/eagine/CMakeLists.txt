@@ -70,7 +70,7 @@ eagine_example_common(c_api_wrap)
 eagine_example_common(embed_self)
 eagine_embed_target_resources(eagine-embed_self)
 eagine_example_common(embed_baked)
-eagine_embed_target_resources(eagine-embed_baked zebra_fur)
+eagine_embed_packed_target_resources(eagine-embed_baked zebra_fur)
 #
 add_subdirectory(ecs)
 add_subdirectory(ssl)

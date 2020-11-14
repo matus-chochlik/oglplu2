@@ -1,5 +1,5 @@
 /**
- *  @example eagine/embed_self.cpp
+ *  @example external/embed_self.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
