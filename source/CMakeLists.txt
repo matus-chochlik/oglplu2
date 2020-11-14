@@ -5,7 +5,6 @@
 
 add_subdirectory(lib)
 add_subdirectory(tools)
-add_subdirectory(textures)
 
 set(
 	OGLPLUS_EXPORT_TARGETS

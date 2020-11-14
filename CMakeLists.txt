@@ -11,6 +11,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(CMAKE_DEBUG_POSTFIX d)
 
 project(OGLplus)
+set(OGLPLUS_TARGET_PREFIX)
 
 file(READ VERSION OGLPLUS_VERSION)
 
@@ -28,6 +29,7 @@ endif()
 include(config/Tools.cmake)
 
 include(config/FindThreads.cmake)
+include(config/FindGZip.cmake)
 include(config/FindValgrind.cmake)
 include(config/FindStacktrace.cmake)
 include(config/FindBoostSpirit.cmake)
@@ -67,6 +69,7 @@ include(config/FindEGL.cmake)
 include(config/FindAL.cmake)
 
 include(config/Embed.cmake)
+include(config/Baking.cmake)
 include(config/PKI.cmake)
 
 # configure GL API and Context-init libraries
@@ -99,6 +102,9 @@ add_subdirectory("third_party")
 
 # tools, textures, etc.
 add_subdirectory("source")
+
+# assets
+add_subdirectory("assets")
 
 # examples
 if(NOT ${NO_EXAMPLES})

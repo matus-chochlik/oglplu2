@@ -29,10 +29,15 @@ foreach(ITEM ${OGLPLUS_OPTIONAL_COMPONENTS})
 endforeach()
 check_required_components(${OGLPLUS_CHECKED_COMPONENTS})
 
+set(OGLPLUS_TARGET_PREFIX OGLplus::)
+
 # embedding
 set(
 	EAGINE_EMBED_GENERATOR
 	"${OGLplus_EXECUTABLE_DIR}/eagine-embed_generator"
 )
 include("${CMAKE_CURRENT_LIST_DIR}/OGLplus/EmbedCommon.cmake")
+
+# baking
+include("${CMAKE_CURRENT_LIST_DIR}/OGLplus/Baking.cmake")
 

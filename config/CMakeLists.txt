@@ -41,6 +41,7 @@ install(
 		"${CMAKE_CURRENT_SOURCE_DIR}/FindSSL.cmake"
 		"${CMAKE_CURRENT_SOURCE_DIR}/FindZLIB.cmake"
 		"${CMAKE_CURRENT_SOURCE_DIR}/EmbedCommon.cmake"
+		"${CMAKE_CURRENT_SOURCE_DIR}/Baking.cmake"
 	DESTINATION lib/cmake/OGLplus
 )
 
