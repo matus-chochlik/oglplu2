@@ -122,6 +122,6 @@ auto main(main_ctx& ctx) -> int {
 
 auto main(int argc, const char** argv) -> int {
     eagine::main_ctx_options options;
-    options.logger_id = EAGINE_ID(PongRegExe);
+    options.app_id = EAGINE_ID(PongRegExe);
     return eagine::main_impl(argc, argv, options);
 }

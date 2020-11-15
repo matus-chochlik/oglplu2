@@ -19,7 +19,7 @@ namespace eagine {
 
 struct main_ctx_options {
     std::string app_name{};
-    identifier logger_id{"RootLogger"};
+    identifier app_id{"RootLogger"};
     root_logger_options logger_opts{};
 };
 
