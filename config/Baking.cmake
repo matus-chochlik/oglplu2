@@ -46,7 +46,7 @@ function(oglplus_do_add_generated_texture GENERATOR TEX_NAME INPUT TRY_PACK)
 				add_custom_command(
 					OUTPUT "${TEX_NAME}.oglptex.gz"
 					COMMAND "${GZIP_COMMAND}"
-					ARGS -9;"${CMAKE_CURRENT_BINARY_DIR}/${TEX_NAME}.oglptex"
+					ARGS -9;-f;"${CMAKE_CURRENT_BINARY_DIR}/${TEX_NAME}.oglptex"
 					DEPENDS ${TEX_NAME}.oglptex
 					COMMENT "Compressing texture image ${TEX_NAME}"
 				)
