@@ -177,21 +177,24 @@ public:
         return EAGINE_ID_V(DecayModes);
     }
 
-    auto get(string_view symbol) -> decay* {
-        if(auto id{known_decay_modes::get_id(symbol)}) {
-            return &_modes[id];
+    auto add(string_view symbol) -> decay* {
+        int nv = 0;
+        if(auto nid{known_decay_modes::get_id(symbol)}) {
+            for(auto& [id, v, info] : _modes) {
+                if(nid == id) {
+                    nv = nv + 1;
+                }
+            }
+            _modes.push_back({nid, nv, {}});
+            return &std::get<2>(_modes.back());
         }
         return nullptr;
     }
 
-    template <decay_part... P>
-    auto has(decay_mode_t<P...> m = {}) noexcept {
-        return _modes.find(known_decay_modes::get_id(m)) != _modes.end();
-    }
-
     template <typename Function>
     void for_each(const Function& func) {
-        for(auto& [id, info] : _modes) {
+        for(auto& [id, v, info] : _modes) {
+            EAGINE_MAYBE_UNUSED(v);
             if(auto mode_info{known_decay_modes::get_info(id)}) {
                 func(*mode_info, info);
             }
@@ -200,7 +203,8 @@ public:
 
     template <typename Function>
     void for_each(const Function& func) const {
-        for(const auto& [id, info] : _modes) {
+        for(const auto& [id, v, info] : _modes) {
+            EAGINE_MAYBE_UNUSED(v);
             if(auto mode_info{known_decay_modes::get_info(id)}) {
                 func(*mode_info, info);
             }
@@ -208,7 +212,7 @@ public:
     }
 
 private:
-    flat_map<identifier_t, decay> _modes;
+    std::vector<std::tuple<identifier_t, int, decay>> _modes;
 };
 //------------------------------------------------------------------------------
 } // namespace eagine

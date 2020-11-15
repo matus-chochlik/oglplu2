@@ -11,7 +11,8 @@
 #include <eagine/message_bus/serialize.hpp>
 #include <eagine/message_bus/context.hpp>
 #include <eagine/message_bus/endpoint.hpp>
-#include <eagine/message_bus/registry.hpp>
+#include <eagine/message_bus/conn_setup.hpp>
+#include <eagine/message_bus/router.hpp>
 #include <eagine/logging/entry.hpp>
 #include "implement.inl"
 #include <eagine/message_bus/registry.hpp>

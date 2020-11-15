@@ -9,4 +9,3 @@ target_link_libraries(
 	oglplus-bake_program_source
 	PUBLIC eagine
 )
-eagine_instalL_tool(oglplus-bake_program_source)

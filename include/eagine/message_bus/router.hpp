@@ -56,6 +56,23 @@ struct routed_endpoint {
     void allow_message(message_id);
 
     auto is_allowed(message_id) const noexcept -> bool;
+
+    auto send(logger& log, message_id, message_view) const -> bool;
+};
+//------------------------------------------------------------------------------
+struct parent_router {
+    std::unique_ptr<connection> the_connection{};
+    identifier_t confirmed_id{0};
+    timeout confirm_id_timeout{std::chrono::seconds(2), nothing};
+
+    void reset(std::unique_ptr<connection>);
+
+    auto update(logger&, identifier_t id_base) -> bool;
+
+    template <typename Handler>
+    auto fetch_messages(logger&, const Handler&) -> bool;
+
+    auto send(logger& log, message_id, message_view) const -> bool;
 };
 //------------------------------------------------------------------------------
 class router
@@ -77,8 +94,11 @@ public:
     void add_certificate_pem(memory::const_block blk);
     void add_ca_certificate_pem(memory::const_block blk);
 
-    auto add_acceptor(std::unique_ptr<acceptor>) -> bool final;
+    auto add_acceptor(std::shared_ptr<acceptor>) -> bool final;
     auto add_connection(std::unique_ptr<connection>) -> bool final;
+
+    auto do_maintenance() -> bool;
+    auto do_work() -> bool;
 
     auto update(const valid_if_positive<int>& count) -> bool;
     auto update() -> bool {
@@ -142,8 +162,8 @@ private:
     std::chrono::steady_clock::time_point _forwarded_since{
       std::chrono::steady_clock::now()};
     std::intmax_t _forwarded_messages{0};
-    std::vector<std::unique_ptr<acceptor>> _acceptors;
-    std::vector<std::unique_ptr<connection>> _connectors;
+    parent_router _parent_router;
+    std::vector<std::shared_ptr<acceptor>> _acceptors;
     std::vector<router_pending> _pending;
     flat_map<identifier_t, routed_endpoint> _endpoints;
     blob_manipulator _blobs{};

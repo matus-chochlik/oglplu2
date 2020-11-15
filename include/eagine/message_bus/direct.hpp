@@ -65,7 +65,7 @@ public:
       : _log{EAGINE_ID(DrctConnAd), parent} {}
 
     auto connect() -> shared_state {
-        auto state = std::make_shared<direct_connection_state>(_log);
+        auto state{std::make_shared<direct_connection_state>(_log)};
         _pending.push_back(state);
         return state;
     }
@@ -107,7 +107,7 @@ private:
 
     inline void _checkup() {
         if(EAGINE_UNLIKELY(!_state)) {
-            if(auto address = _weak_address.lock()) {
+            if(auto address{_weak_address.lock()}) {
                 _state = address->connect();
             }
         }
@@ -151,7 +151,7 @@ public:
       : _weak_state{state} {}
 
     auto send(message_id msg_id, const message_view& message) -> bool final {
-        if(auto state = _weak_state.lock()) {
+        if(auto state{_weak_state.lock()}) {
             state->send_to_client(msg_id, message);
             return true;
         }
@@ -159,7 +159,7 @@ public:
     }
 
     auto fetch_messages(connection::fetch_handler handler) -> bool final {
-        if(auto state = _weak_state.lock()) {
+        if(auto state{_weak_state.lock()}) {
             return state->fetch_from_client(handler);
         }
         return false;

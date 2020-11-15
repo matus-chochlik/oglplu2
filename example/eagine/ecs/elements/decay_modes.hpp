@@ -78,7 +78,7 @@ struct decay_mode_traits<decay_mode_t<decay_part::beta_m>> {
 template <>
 struct decay_mode_traits<decay_mode_t<decay_part::proton_emi>> {
     static auto info() noexcept -> const auto& {
-        static const decay_mode_info i{"p₊", -1, 0, false};
+        static const decay_mode_info i{"p⁺", -1, 0, false};
         return i;
     }
 };

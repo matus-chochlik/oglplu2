@@ -9,15 +9,26 @@ add_library(
 	gl.cpp
 )
 eagine_add_lib_analysis(oglplus)
-set_target_properties(
+
+target_compile_definitions(
+	oglplus PUBLIC OGLPLUS_LINK_LIBRARY=1
+)
+
+target_include_directories(
+	oglplus PUBLIC
+	"$<INSTALL_INTERFACE:include>"
+	"$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>"
+)
+
+target_link_libraries(
 	oglplus
-	PROPERTIES FOLDER "Library/OGLplus"
+	PUBLIC
+		eagine
+		$<TARGET_NAME:GLEW::GLEW>
 )
 set_target_properties(
 	oglplus PROPERTIES
-	INTERFACE_COMPILE_DEFINITIONS OGLPLUS_LINK_LIB=1
+	VERSION ${OGLPLUS_VERSION}
+	FOLDER "Library/OGLplus"
 )
-target_link_libraries(
-	oglplus
-	PUBLIC eagine
-)
+

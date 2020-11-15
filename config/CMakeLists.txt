@@ -3,31 +3,51 @@
 #  See accompanying file LICENSE_1_0.txt or copy at
 #   http://www.boost.org/LICENSE_1_0.txt
 #
-# make the info.py script
-set(INFO_PY "${CMAKE_CURRENT_BINARY_DIR}/info.py")
-file(WRITE ${INFO_PY} "# coding=utf-8\n")
-file(APPEND ${INFO_PY} "system_config_info = {")
-#
-# GL_INIT_LIBS
-file(APPEND ${INFO_PY} "'GL_INIT_LIBS': [")
-foreach(GL_INIT_LIB GLFW3 GLUT GLX)
-	if(${GL_INIT_LIB}_FOUND)
-		file(APPEND ${INFO_PY} "'${GL_INIT_LIB}',")
-	endif()
-endforeach()
-file(APPEND ${INFO_PY} "None],")
-#
-# GL_API_LIBS
-file(APPEND ${INFO_PY} "'GL_API_LIBS': [")
-foreach(GL_API_LIB GLCOREARB GLEW)
-	if(${GL_API_LIB}_FOUND)
-		file(APPEND ${INFO_PY} "'${GL_API_LIB}',")
-	endif()
-endforeach()
-file(APPEND ${INFO_PY} "None],")
-#
-#  finish and fix the dictionary
-file(APPEND ${INFO_PY} "}\n")
-file(APPEND ${INFO_PY} "for key, value in system_config_info.items():\n")
-file(APPEND ${INFO_PY} "  if(type(value) == list):\n    value.pop()\n")
+install(
+	PROGRAMS tools/embed_generator
+	RENAME eagine-embed_generator
+	DESTINATION bin
+)
 
+include(CMakePackageConfigHelpers)
+
+set(INCLUDE_INSTALL_DIR include/)
+set(LIBRARY_INSTALL_DIR lib/)
+set(EXECUTABLE_INSTALL_DIR bin/)
+set(SYSCONFIG_INSTALL_DIR etc/oglplus/)
+
+configure_package_config_file(
+	"${CMAKE_CURRENT_SOURCE_DIR}/OGLplusConfig.cmake.in"
+	"${CMAKE_CURRENT_BINARY_DIR}/OGLplusConfig.cmake"
+	INSTALL_DESTINATION ${LIBRARY_INSTALL_DIR}/cmake
+	PATH_VARS
+		INCLUDE_INSTALL_DIR
+		LIBRARY_INSTALL_DIR
+		EXECUTABLE_INSTALL_DIR
+		SYSCONFIG_INSTALL_DIR
+)
+write_basic_package_version_file(
+	"${CMAKE_CURRENT_BINARY_DIR}/OGLplusConfigVersion.cmake"
+	VERSION "${OGLPLUS_VERSION}"
+	COMPATIBILITY SameMinorVersion
+)
+
+install(
+	FILES
+		"${CMAKE_CURRENT_SOURCE_DIR}/CommonLibs.cmake"
+		"${CMAKE_CURRENT_SOURCE_DIR}/FindThreads.cmake"
+		"${CMAKE_CURRENT_SOURCE_DIR}/FindStacktrace.cmake"
+		"${CMAKE_CURRENT_SOURCE_DIR}/FindBoostSpirit.cmake"
+		"${CMAKE_CURRENT_SOURCE_DIR}/FindSSL.cmake"
+		"${CMAKE_CURRENT_SOURCE_DIR}/FindZLIB.cmake"
+		"${CMAKE_CURRENT_SOURCE_DIR}/EmbedCommon.cmake"
+		"${CMAKE_CURRENT_SOURCE_DIR}/Baking.cmake"
+	DESTINATION lib/cmake/OGLplus
+)
+
+install(
+	FILES
+		"${CMAKE_CURRENT_BINARY_DIR}/OGLplusConfig.cmake"
+		"${CMAKE_CURRENT_BINARY_DIR}/OGLplusConfigVersion.cmake"
+	DESTINATION lib/cmake
+)

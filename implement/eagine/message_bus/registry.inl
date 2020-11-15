@@ -4,29 +4,65 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/bool_aggregate.hpp>
 #include <eagine/message_bus/conn_setup.hpp>
+#include <eagine/message_bus/router_address.hpp>
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-registry::registry(logger& parent, const program_args& args)
-  : _log{EAGINE_ID(MsgBusRgtr), parent}
-  , _acceptor{std::make_shared<direct_acceptor>()}
-  , _router{_log, args} {
-    _router.add_acceptor(_acceptor);
-
-    router_address parent_address{ctx.log(), ctx.args()};
-    connection_setup conn_setup(_log);
-    conn_setup.default_init(args);
-
-    conn_setup.setup_connectors(router, parent_address);
+auto registered_entry::update_service() -> bool {
+    if(EAGINE_LIKELY(_service)) {
+        return _service->update_and_process_all();
+    }
+    return false;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto registry::establish() -> endpoint {
-    endpoint result{_log};
-    result.add_connection(_acceptor->make_connection());
-    return result;
+registry::registry(logger& parent, const program_args& args)
+  : _log{EAGINE_ID(MsgBusRgtr), parent}
+  , _acceptor{std::make_shared<direct_acceptor>(_log)}
+  , _router{_log, args} {
+    _router.add_acceptor(_acceptor);
+
+    router_address parent_address{_log, args};
+    connection_setup conn_setup(_log, args);
+
+    conn_setup.setup_connectors(_router, parent_address);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto registry::_add_entry(identifier log_id) -> registered_entry& {
+    auto new_ept{std::make_unique<endpoint>(logger{log_id, _log})};
+    new_ept->add_connection(_acceptor->make_connection());
+
+    _entries.emplace_back();
+    auto& entry = _entries.back();
+
+    entry._endpoint = std::move(new_ept);
+
+    return entry;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto registry::update() -> bool {
+    return _router.update(8);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto registry::update_all() -> bool {
+    some_true something_done{};
+
+    something_done(_router.do_work());
+
+    for(auto& entry : _entries) {
+        something_done(entry.update_service());
+    }
+
+    something_done(_router.do_work());
+    something_done(_router.do_maintenance());
+
+    return something_done;
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

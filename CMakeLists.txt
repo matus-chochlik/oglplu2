@@ -11,6 +11,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(CMAKE_DEBUG_POSTFIX d)
 
 project(OGLplus)
+set(OGLPLUS_TARGET_PREFIX)
 
 file(READ VERSION OGLPLUS_VERSION)
 
@@ -28,6 +29,7 @@ endif()
 include(config/Tools.cmake)
 
 include(config/FindThreads.cmake)
+include(config/FindGZip.cmake)
 include(config/FindValgrind.cmake)
 include(config/FindStacktrace.cmake)
 include(config/FindBoostSpirit.cmake)
@@ -54,9 +56,6 @@ include(config/FindGLM.cmake)
 # ZLIB
 include(config/FindZLIB.cmake)
 
-# RYML
-include(config/FindRYML.cmake)
-
 # SSL
 include(config/FindSSL.cmake)
 
@@ -69,6 +68,7 @@ include(config/FindEGL.cmake)
 # OpenAL
 include(config/FindAL.cmake)
 
+include(config/Baking.cmake)
 include(config/Embed.cmake)
 include(config/PKI.cmake)
 
@@ -77,20 +77,13 @@ include(config/ConfigGL.cmake)
 
 # if we only want the configuration info
 if(${CONFIG_INFO_ONLY})
-	add_subdirectory("config")
+	add_subdirectory("config/info")
 	return()
 endif()
 
 # now create the site-configuration headers
 include(config/SiteConfig.cmake)
 include(config/GitInfo.cmake)
-
-include_directories("${PROJECT_BINARY_DIR}/include")
-include_directories("include")
-include_directories("implement")
-include_directories("third_party/include")
-include_directories("third_party/asio/asio/include")
-include_directories("third_party/rapidjson/include")
 
 # common functions for GL version and extension detection
 # include(config/GLVerFeat.cmake)
@@ -104,8 +97,14 @@ include(config/SiteConfig.cmake)
 # installation
 include(config/Installation.cmake)
 
+# third party libraries
+add_subdirectory("third_party")
+
 # tools, textures, etc.
 add_subdirectory("source")
+
+# assets
+add_subdirectory("assets")
 
 # examples
 if(NOT ${NO_EXAMPLES})
@@ -116,4 +115,6 @@ endif()
 if(NOT ${NO_TESTS})
 	add_subdirectory("test")
 endif()
+
+add_subdirectory("config")
 

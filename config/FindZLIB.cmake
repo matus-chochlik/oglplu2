@@ -8,9 +8,8 @@ find_package(ZLIB)
 add_library(EAGopt::ZLIB INTERFACE IMPORTED)
 if(ZLIB_FOUND)
 	if(ZLIB_INCLUDE_DIRS)
-		set_target_properties(
-			EAGopt::ZLIB PROPERTIES
-			INTERFACE_INCLUDE_DIRECTORIES "${ZLIB_INCLUDE_DIRS}"
+		target_include_directories(
+			EAGopt::ZLIB INTERFACE "${ZLIB_INCLUDE_DIRS}"
 		)
 	endif()
 
@@ -21,14 +20,12 @@ if(ZLIB_FOUND)
 		)
 	endif()
 
-	set_target_properties(
-		EAGopt::ZLIB PROPERTIES
-		INTERFACE_COMPILE_DEFINITIONS EAGINE_USE_ZLIB=1
+	target_compile_definitions(
+		EAGopt::ZLIB INTERFACE EAGINE_USE_ZLIB=1
 	)
 
-	set_target_properties(
-		EAGopt::ZLIB PROPERTIES
-		INTERFACE_LINK_LIBRARIES "${ZLIB_LIBRARIES}"
+	target_link_libraries(
+		EAGopt::ZLIB INTERFACE "${ZLIB_LIBRARIES}"
 	)
 endif()
 

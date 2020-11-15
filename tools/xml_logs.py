@@ -202,7 +202,7 @@ class XmlLogFormatter(object):
         coef = (x - mn) / (mx - mn)
         pos = coef * float(width)
         cnt = int(pos)
-        lbl = "%.1f%%" % (100.0 * coef)
+        lbl = " %.1f%% " % (100.0 * coef)
 
         i = 0
         result = "│"

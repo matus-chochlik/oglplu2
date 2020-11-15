@@ -5,7 +5,14 @@
 # See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
 #
-import os, sys, stat, string, getopt, shutil, subprocess
+import os
+import sys
+import json
+import stat
+import string
+import getopt
+import shutil
+import subprocess
 from tools import args
 from tools import paths
 
@@ -909,13 +916,12 @@ def main(argv):
     # print the configuration info if requested
     if options.info_only:
         try:
-            info_py_path=os.path.join(options.build_dir, 'config', 'info.py')
-            info_py=open(info_py_path).read()
-            exec(info_py) in locals()
+            info_json_path=os.path.join(options.build_dir, 'config', 'info.json')
+            oglplus_config_info=json.load(open(info_json_path))
 
             key_descs = {
-                "GL_INIT_LIBS": "Possible values for --gl-init-lib",
-                "GL_API_LIBS": "Possible values for --gl-api-lib",
+                "gl_init_libs": "Possible values for --gl-init-lib",
+                "gl_api_libs": "Possible values for --gl-api-lib",
             }
             for key, value in oglplus_config_info.items():
 
