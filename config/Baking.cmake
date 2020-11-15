@@ -9,7 +9,7 @@ define_property(
 	FULL_DOCS "Path of a baked resource output file"
 )
 
-function(oglplus_do_add_generated_texture GENERATOR TEX_NAME INPUT)
+function(oglplus_do_add_generated_texture GENERATOR TEX_NAME INPUT TRY_PACK)
 
 	if(TARGET ${OGLPLUS_TARGET_PREFIX}oglplus-bake_${GENERATOR}_image)
 		configure_file("${INPUT}" "${CMAKE_CURRENT_BINARY_DIR}/${TEX_NAME}.proctex")
@@ -38,14 +38,29 @@ function(oglplus_do_add_generated_texture GENERATOR TEX_NAME INPUT)
 			DEPENDS ${INPUT}
 			COMMENT "Baking texture image ${TEX_NAME}"
 		)
+		set(RES_SUFFIX)
+
+		if(${TRY_PACK})
+			if(GZIP_COMMAND)
+				set(RES_SUFFIX .gz)
+				add_custom_command(
+					OUTPUT "${TEX_NAME}.oglptex.gz"
+					COMMAND "${GZIP_COMMAND}"
+					ARGS -9;"${CMAKE_CURRENT_BINARY_DIR}/${TEX_NAME}.oglptex"
+					DEPENDS ${TEX_NAME}.oglptex
+					COMMENT "Compressing texture image ${TEX_NAME}"
+				)
+			endif()
+		endif()
+
 		add_custom_target(
 			${TEX_NAME}
-			DEPENDS "${TEX_NAME}.oglptex"
+			DEPENDS "${TEX_NAME}.oglptex${RES_SUFFIX}"
 		)
 		set_property(
 			TARGET ${TEX_NAME}
 			APPEND PROPERTY OGLPLUS_BAKED_RESOURCE_PATH
-			"${CMAKE_CURRENT_BINARY_DIR}/${TEX_NAME}.oglptex"
+			"${CMAKE_CURRENT_BINARY_DIR}/${TEX_NAME}.oglptex${RES_SUFFIX}"
 		)
 	else()
 		message(
@@ -55,13 +70,14 @@ function(oglplus_do_add_generated_texture GENERATOR TEX_NAME INPUT)
 	endif()
 endfunction()
 
-function(oglplus_add_texture TEX_NAME)
+function(oglplus_do_add_texture TEX_NAME TRY_PACK)
 	file(GLOB PROCTEX "${TEX_NAME}.*.proctex")
 	if("${PROCTEX}" MATCHES "^.*${TEX_NAME}\.(.*)\.proctex$")
 		oglplus_do_add_generated_texture(
 			${CMAKE_MATCH_1}
 			${TEX_NAME}
 			${PROCTEX}
+			${TRY_PACK}
 		)
 	else()
 		if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${TEX_NAME}.png")
@@ -73,9 +89,18 @@ function(oglplus_add_texture TEX_NAME)
 				png
 				${TEX_NAME}
 				"${CMAKE_CURRENT_BINARY_DIR}/${TEX_NAME}.png.proctex"
+				${TRY_PACK}
 			)
 		else()
 			message(FATAL_ERROR "Invalid input(s) for texture '${TEX_NAME}'")
 		endif()
 	endif()
+endfunction()
+
+function(oglplus_add_texture TEX_NAME)
+	oglplus_do_add_texture(${TEX_NAME} FALSE)
+endfunction()
+
+function(oglplus_add_packed_texture TEX_NAME)
+	oglplus_do_add_texture(${TEX_NAME} TRUE)
 endfunction()

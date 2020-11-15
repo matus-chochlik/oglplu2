@@ -4,4 +4,4 @@
 #  http://www.boost.org/LICENSE_1_0.txt
 
 oglplus_add_texture(noise_256x256x3)
-oglplus_add_texture(zebra_fur)
+oglplus_add_packed_texture(zebra_fur)

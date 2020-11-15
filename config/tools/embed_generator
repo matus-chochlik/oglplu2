@@ -5,6 +5,7 @@
 import os
 import re
 import sys
+import gzip
 import zlib
 import argparse
 # ------------------------------------------------------------------------------
@@ -109,13 +110,20 @@ def make_argparser():
         """
     )
 # ------------------------------------------------------------------------------
+def open_resource_file(path):
+    exts = os.path.splitext(path)
+    if exts[-1] == ".gz":
+        return gzip.open(path, "rb")
+
+    return open(path, "rb")
+# ------------------------------------------------------------------------------
 class PlainResource(object):
     # --------------------------------------------------------------------------
     def __init__(self, path):
         self._path = path
     # --------------------------------------------------------------------------
     def __enter__(self):
-        self._fd = open(self._path, "rb")
+        self._fd = open_resource_file(self._path)
         return self
     # --------------------------------------------------------------------------
     def __exit__(self, typ, val, traceback):
@@ -141,7 +149,7 @@ class PackedResource(object):
         self._readpos = -1
     # --------------------------------------------------------------------------
     def __enter__(self):
-        with open(self._path, "rb") as rfd:
+        with open_resource_file(self._path) as rfd:
             self._zipped = zlib.compress(rfd.read(), zlib.Z_BEST_COMPRESSION)
         return self
     # --------------------------------------------------------------------------
