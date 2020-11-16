@@ -7,7 +7,6 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#include <eagine/application_config.hpp>
 #include <eagine/from_string.hpp>
 #include <eagine/main.hpp>
 #include <eagine/program_args.hpp>
@@ -38,11 +37,6 @@ auto main(main_ctx& ctx) -> int {
         } else {
             std::cout << "other: " << arg << std::endl;
         }
-    }
-
-    auto& cfg{ctx.config()};
-    if(auto addr{cfg.get<std::string>("msg_bus.router_address")}) {
-        std::cout << "addr: " << extract(addr) << std::endl;
     }
 
     return 0;

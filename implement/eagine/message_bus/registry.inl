@@ -19,14 +19,14 @@ auto registered_entry::update_service() -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-registry::registry(logger& parent, const program_args& args)
+registry::registry(logger& parent, application_config& cfg)
   : _log{EAGINE_ID(MsgBusRgtr), parent}
   , _acceptor{std::make_shared<direct_acceptor>(_log)}
-  , _router{_log, args} {
+  , _router{_log, cfg} {
     _router.add_acceptor(_acceptor);
 
-    router_address parent_address{_log, args};
-    connection_setup conn_setup(_log, args);
+    router_address parent_address{_log, cfg};
+    connection_setup conn_setup(_log, cfg);
 
     conn_setup.setup_connectors(_router, parent_address);
 }

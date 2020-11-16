@@ -6,6 +6,7 @@
 ///
 // clang-format off
 #include "prologue.inl"
+#include <eagine/application_config.hpp>
 #include <eagine/compression.hpp>
 #include <eagine/logging/entry.hpp>
 #include <eagine/logging/root_logger.hpp>

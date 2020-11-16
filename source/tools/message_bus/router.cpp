@@ -20,17 +20,15 @@ namespace eagine {
 auto main(main_ctx& ctx) -> int {
     signal_switch interrupted;
 
-    auto& args = ctx.args();
     auto& log = ctx.log();
 
     log.info("message bus router starting up");
 
-    msgbus::router_address address(log, args);
+    msgbus::router_address address(log, ctx.config());
 
-    msgbus::connection_setup conn_setup(log);
-    conn_setup.default_init(args);
+    msgbus::connection_setup conn_setup(log, ctx.config());
 
-    msgbus::router router(log, args);
+    msgbus::router router(log, ctx.config());
     router.add_ca_certificate_pem(ca_certificate_pem(ctx));
     router.add_certificate_pem(msgbus_router_certificate_pem(ctx));
     conn_setup.setup_acceptors(router, address);

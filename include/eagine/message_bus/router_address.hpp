@@ -10,19 +10,17 @@
 #ifndef EAGINE_MESSAGE_BUS_ROUTER_ADDRESS_HPP
 #define EAGINE_MESSAGE_BUS_ROUTER_ADDRESS_HPP
 
+#include "../application_config.hpp"
 #include "../logging/logger.hpp"
-#include "../program_args.hpp"
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 class router_address {
 public:
-    router_address(logger& log, const program_args& args) {
-        if(auto arg = args.find("--msg-bus-router-address")) {
-            if(arg.next().parse(_addr, log.error_stream())) {
-                log.debug("parsed router address ${addr}")
-                  .arg(EAGINE_ID(addr), _addr);
-            }
+    router_address(logger& log, application_config& cfg) {
+        if(cfg.fetch("msg_bus.router_address", _addr)) {
+            log.debug("configured router address ${addr}")
+              .arg(EAGINE_ID(addr), _addr);
         }
     }
 

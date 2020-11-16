@@ -82,7 +82,7 @@ private:
 
 auto main(main_ctx& ctx) -> int {
 
-    msgbus::registry the_reg{ctx.log(), ctx.args()};
+    msgbus::registry the_reg{ctx.log(), ctx.config()};
 
     valid_if_positive<int> opt_ponger_count{};
     if(auto arg{ctx.args().find("--ponger-count")}) {

@@ -12,7 +12,6 @@
 
 #include "../flat_map.hpp"
 #include "../logging/logger.hpp"
-#include "../program_args.hpp"
 #include "../timeout.hpp"
 #include "../valid_if/positive.hpp"
 #include "acceptor.hpp"
@@ -85,10 +84,10 @@ public:
       : _log{EAGINE_ID(MsgBusRutr), parent}
       , _context{make_context(_log)} {}
 
-    router(logger& parent, const program_args& args) noexcept
+    router(logger& parent, application_config& cfg) noexcept
       : _log{EAGINE_ID(MsgBusRutr), parent}
-      , _context{make_context(_log, args)} {
-        _setup_from_args(args);
+      , _context{make_context(_log, cfg)} {
+        _setup_from_config(cfg);
     }
 
     void add_certificate_pem(memory::const_block blk);
@@ -125,7 +124,7 @@ public:
     }
 
 private:
-    void _setup_from_args(const program_args&);
+    void _setup_from_config(application_config&);
 
     auto _handle_accept() -> bool;
     auto _handle_pending() -> bool;

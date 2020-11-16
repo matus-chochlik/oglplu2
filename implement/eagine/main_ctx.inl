@@ -33,7 +33,7 @@ public:
       const main_ctx_options& options) noexcept
       : _args{argc, argv}
       , _log_root{options.app_id, _args, options.logger_opts}
-      , _app_config{*this}
+      , _app_config{_log_root, _args}
       , _sys_info{_log_root}
       , _app_name{options.app_name} {
         auto fs_path = std::filesystem::path(to_string(_args.command()));

@@ -61,10 +61,11 @@ private:
 
 auto main(main_ctx& ctx) -> int {
 
-    msgbus::router_address address{ctx.log(), ctx.args()};
-    msgbus::connection_setup conn_setup(ctx.log(), ctx.args());
+    msgbus::router_address address{ctx.log(), ctx.config()};
+    msgbus::connection_setup conn_setup(ctx.log(), ctx.config());
 
-    msgbus::endpoint bus{logger{EAGINE_ID(ShutdownEx), ctx.log()}, ctx.args()};
+    msgbus::endpoint bus{
+      logger{EAGINE_ID(ShutdownEx), ctx.log()}, ctx.config()};
     bus.add_ca_certificate_pem(ca_certificate_pem(ctx));
     bus.add_certificate_pem(msgbus_endpoint_certificate_pem(ctx));
 

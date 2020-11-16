@@ -10,6 +10,7 @@
 #ifndef EAGINE_MESSAGE_BUS_REGISTRY_HPP
 #define EAGINE_MESSAGE_BUS_REGISTRY_HPP
 
+#include "../application_config.hpp"
 #include "direct.hpp"
 #include "endpoint.hpp"
 #include "router.hpp"
@@ -27,7 +28,7 @@ struct registered_entry {
 //------------------------------------------------------------------------------
 class registry {
 public:
-    registry(logger& parent, const program_args& args);
+    registry(logger& parent, application_config&);
 
     [[nodiscard]] auto establish(identifier log_id) -> endpoint& {
         return *(_add_entry(log_id)._endpoint);

@@ -81,7 +81,7 @@ private:
 
 auto main(main_ctx& ctx) -> int {
 
-    msgbus::registry the_reg{ctx.log(), ctx.args()};
+    msgbus::registry the_reg{ctx.log(), ctx.config()};
 
     auto& ponger = the_reg.emplace<msgbus::pong_example>(EAGINE_ID(PongEndpt));
 

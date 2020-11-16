@@ -7,14 +7,13 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/environment.hpp>
-#include <eagine/main_ctx.hpp>
 #include <cctype>
 
 namespace eagine {
 //------------------------------------------------------------------------------
 class application_config_impl {
 public:
-    application_config_impl(master_ctx&) noexcept {}
+    application_config_impl(logger&) noexcept {}
 
     auto find_compound_attribute(string_view) noexcept
       -> valtree::compound_attribute {
@@ -31,15 +30,11 @@ EAGINE_LIB_FUNC
 auto application_config::_impl() noexcept -> application_config_impl* {
     if(EAGINE_UNLIKELY(!_pimpl)) {
         try {
-            _pimpl = std::make_shared<application_config_impl>(_ctx);
+            _pimpl = std::make_shared<application_config_impl>(_log);
         } catch(...) {
         }
     }
     return _pimpl.get();
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC auto application_config::_log() noexcept -> logger& {
-    return _ctx.log();
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -63,7 +58,7 @@ auto application_config::_find_prog_arg(string_view key) noexcept
         }
         arg_name.append(&c, 1U);
     }
-    return _ctx.args().find(arg_name);
+    return _args.find(arg_name);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
