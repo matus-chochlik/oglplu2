@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/application_config.hpp>
 #include <eagine/compression.hpp>
 #include <eagine/logging/exception.hpp>
 #include <eagine/logging/root_logger.hpp>
@@ -18,6 +19,7 @@ class master_ctx {
 private:
     program_args _args;
     root_logger _log_root;
+    application_config _app_config;
     system_info _sys_info;
     memory::buffer _scratch_space{};
     data_compressor _compressor{};
@@ -31,6 +33,7 @@ public:
       const main_ctx_options& options) noexcept
       : _args{argc, argv}
       , _log_root{options.app_id, _args, options.logger_opts}
+      , _app_config{*this}
       , _sys_info{_log_root}
       , _app_name{options.app_name} {
         auto fs_path = std::filesystem::path(to_string(_args.command()));
@@ -50,6 +53,10 @@ public:
 
     auto log() noexcept -> auto& {
         return _log_root;
+    }
+
+    auto config() noexcept -> auto& {
+        return _app_config;
     }
 
     auto system() noexcept -> auto& {
@@ -79,6 +86,7 @@ EAGINE_LIB_FUNC
 main_ctx::main_ctx(master_ctx& master) noexcept
   : _args{master.args()}
   , _log{master.log()}
+  , _app_config{master.config()}
   , _sys_info{master.system()}
   , _scratch_space{master.scratch_space()}
   , _compressor{master.compressor()}

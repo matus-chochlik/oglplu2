@@ -25,11 +25,13 @@ struct main_ctx_options {
 
 class master_ctx;
 class data_compressor;
+class application_config;
 
 class main_ctx {
 private:
     program_args& _args;
     logger& _log;
+    application_config& _app_config;
     system_info& _sys_info;
     memory::buffer& _scratch_space;
     data_compressor& _compressor;
@@ -57,6 +59,10 @@ public:
 
     auto log() noexcept -> auto& {
         return _log;
+    }
+
+    auto config() noexcept -> auto& {
+        return _app_config;
     }
 
     auto system() noexcept -> auto& {
