@@ -12,12 +12,12 @@ define_property(
 function(oglplus_do_add_generated_texture GENERATOR TEX_NAME INPUT TRY_PACK)
 
 	if(TARGET ${OGLPLUS_TARGET_PREFIX}oglplus-bake_${GENERATOR}_image)
-		configure_file("${INPUT}" "${CMAKE_CURRENT_BINARY_DIR}/${TEX_NAME}.proctex")
+		configure_file("${INPUT}" "${CMAKE_CURRENT_BINARY_DIR}/${TEX_NAME}.baketex")
 		file(
-			STRINGS "${CMAKE_CURRENT_BINARY_DIR}/${TEX_NAME}.proctex"
+			STRINGS "${CMAKE_CURRENT_BINARY_DIR}/${TEX_NAME}.baketex"
 			PARAMETER_STRING
 		)
-	string(REPLACE "\;" ";" RAW_PARAMETERS ${PARAMETER_STRING})
+		string(REPLACE "\;" ";" RAW_PARAMETERS ${PARAMETER_STRING})
 
 		set(PARAMETERS)
 		foreach(ITEM ${RAW_PARAMETERS})
@@ -71,8 +71,8 @@ function(oglplus_do_add_generated_texture GENERATOR TEX_NAME INPUT TRY_PACK)
 endfunction()
 
 function(oglplus_do_add_texture TEX_NAME TRY_PACK)
-	file(GLOB PROCTEX "${TEX_NAME}.*.proctex")
-	if("${PROCTEX}" MATCHES "^.*${TEX_NAME}\.(.*)\.proctex$")
+	file(GLOB PROCTEX "${TEX_NAME}.*.baketex")
+	if("${PROCTEX}" MATCHES "^.*${TEX_NAME}\.(.*)\.baketex$")
 		oglplus_do_add_generated_texture(
 			${CMAKE_MATCH_1}
 			${TEX_NAME}
@@ -82,13 +82,13 @@ function(oglplus_do_add_texture TEX_NAME TRY_PACK)
 	else()
 		if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${TEX_NAME}.png")
 			file(
-				WRITE "${CMAKE_CURRENT_BINARY_DIR}/${TEX_NAME}.png.proctex"
+				WRITE "${CMAKE_CURRENT_BINARY_DIR}/${TEX_NAME}.png.baketex"
 				"--input;${CMAKE_CURRENT_SOURCE_DIR}/${TEX_NAME}.png"
 			)
 			oglplus_do_add_generated_texture(
 				png
 				${TEX_NAME}
-				"${CMAKE_CURRENT_BINARY_DIR}/${TEX_NAME}.png.proctex"
+				"${CMAKE_CURRENT_BINARY_DIR}/${TEX_NAME}.png.baketex"
 				${TRY_PACK}
 			)
 		else()
