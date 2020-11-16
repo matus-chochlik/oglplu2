@@ -224,26 +224,26 @@ private:
     friend class program_args;
 
     template <typename T>
-    auto _do_parse(T& dest, const std::ostream&) {
-        if(auto opt_val = from_string<T>(get())) {
-            dest = extract(opt_val);
+    auto _do_parse(T& dest, const std::ostream&) const noexcept {
+        if(auto opt_val{from_string<T>(get())}) {
+            dest = std::move(extract(opt_val));
             return true;
         }
         return false;
     }
 
-    auto _do_parse(string_view& dest, const std::ostream&) {
+    auto _do_parse(string_view& dest, const std::ostream&) const noexcept {
         dest = get();
         return true;
     }
 
-    auto _do_parse(std::string& dest, const std::ostream&) {
+    auto _do_parse(std::string& dest, const std::ostream&) const {
         dest = get_string();
         return true;
     }
 
     template <typename T, typename P, typename L>
-    auto _do_parse(valid_if<T, P, L>& dest, std::ostream& parse_log) {
+    auto _do_parse(valid_if<T, P, L>& dest, std::ostream& parse_log) const {
         T value{};
         if(parse(value, parse_log)) {
             if(dest.is_valid(value)) {
@@ -260,7 +260,7 @@ private:
     }
 
     template <typename T, typename A>
-    auto _do_parse(std::vector<T, A>& dest, std::ostream& parse_log) {
+    auto _do_parse(std::vector<T, A>& dest, std::ostream& parse_log) const {
         T value{};
         if(parse(value, parse_log)) {
             dest.push_back(std::move(value));
@@ -347,7 +347,7 @@ public:
     }
 
     template <typename T>
-    auto parse(T& dest, std::ostream& parse_log) {
+    auto parse(T& dest, std::ostream& parse_log) const {
         if(is_valid()) {
             T temp = dest;
             if(_do_parse(temp, parse_log)) {
@@ -359,7 +359,7 @@ public:
     }
 
     template <typename T>
-    auto parse_next(T& dest, std::ostream& parse_log) {
+    auto parse_next(T& dest, std::ostream& parse_log) const {
         return next().parse(dest, parse_log);
     }
 
