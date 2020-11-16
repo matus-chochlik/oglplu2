@@ -3570,7 +3570,57 @@
   "Cn" : {
       "atomic_weight" : 285,
       "group" : 12,
-      "isotopes" : {  },
+      "isotopes" : {
+          "_277" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "1.1ms",
+              "neutrons" : 165,
+              "symbol" : "²⁷⁷Cn"
+            },
+          "_281" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "180ms",
+              "neutrons" : 169,
+              "symbol" : "²⁸¹Cn"
+            },
+          "_282" : {
+              "decay" : [ { "mode" : "≺" } ],
+              "half_life" : "0.8ms",
+              "neutrons" : 170,
+              "symbol" : "²⁸²Cn"
+            },
+          "_283" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "+e⁻" },
+                  { "mode" : "≺" }
+                ],
+              "half_life" : "4s",
+              "neutrons" : 171,
+              "symbol" : "²⁸³Cn"
+            },
+          "_284" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "≺" }
+                ],
+              "half_life" : "97ms",
+              "neutrons" : 172,
+              "symbol" : "²⁸⁴Cn"
+            },
+          "_285" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "29s",
+              "neutrons" : 173,
+              "symbol" : "²⁸⁵Cn"
+            },
+          "_286" : {
+              "decay" : [ { "mode" : "≺" } ],
+              "half_life" : "8.45s",
+              "neutrons" : 174,
+              "symbol" : "²⁸⁶Cn"
+            }
+        },
       "name" : { "latin" : "Copernicum" },
       "period" : 7,
       "protons" : 112
@@ -4416,7 +4466,7 @@
   "Ds" : {
       "atomic_weight" : 281,
       "group" : 10,
-      "isotopes" : {  
+      "isotopes" : {
           "_267" : {
               "decay" : [ { "mode" : "α" } ],
               "half_life" : "3μs",
@@ -4454,7 +4504,10 @@
               "symbol" : "²⁷⁷Ds"
             },
           "_279" : {
-              "decay" : [ { "mode" : "α" }, { "mode" : "≺" } ],
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "≺" }
+                ],
               "half_life" : "3.5ms",
               "neutrons" : 169,
               "symbol" : "²⁷⁹Ds"
@@ -4466,12 +4519,15 @@
               "symbol" : "²⁸⁰Ds"
             },
           "_281" : {
-              "decay" : [ { "mode" : "α" }, { "mode" : "≺" } ],
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "≺" }
+                ],
               "half_life" : "9.6s",
               "neutrons" : 170,
-              "symbol" : "²⁸⁰Ds"
+              "symbol" : "²⁸¹Ds"
             }
-	  },
+        },
       "name" : { "latin" : "Darmstadtium" },
       "period" : 7,
       "protons" : 110
@@ -9620,7 +9676,7 @@
   "Mt" : {
       "atomic_weight" : 278,
       "group" : 9,
-      "isotopes" : { 
+      "isotopes" : {
           "_266" : {
               "decay" : [ { "mode" : "α" } ],
               "half_life" : "1.2ms",
@@ -9675,7 +9731,7 @@
               "neutrons" : 173,
               "symbol" : "²⁸²Mt"
             }
-	  },
+        },
       "name" : { "latin" : "Meitnerium" },
       "period" : 7,
       "protons" : 109
@@ -13930,7 +13986,68 @@
   "Rg" : {
       "atomic_weight" : 282,
       "group" : 11,
-      "isotopes" : {  },
+      "isotopes" : {
+          "_272" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "2.0ms",
+              "neutrons" : 161,
+              "symbol" : "²⁷²Rg"
+            },
+          "_274" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "6.4ms",
+              "neutrons" : 163,
+              "symbol" : "²⁷⁴Rg"
+            },
+          "_278" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "4.2ms",
+              "neutrons" : 167,
+              "symbol" : "²⁷⁸Rg"
+            },
+          "_279" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "0.17s",
+              "neutrons" : 168,
+              "symbol" : "²⁷⁹Rg"
+            },
+          "_280" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "+e⁻" }
+                ],
+              "half_life" : "0.17s",
+              "neutrons" : 169,
+              "symbol" : "²⁸⁰Rg"
+            },
+          "_281" : {
+              "decay" : [
+                  { "mode" : "α" },
+                  { "mode" : "≺" }
+                ],
+              "half_life" : "17s",
+              "neutrons" : 170,
+              "symbol" : "²⁸¹Rg"
+            },
+          "_282" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "2.1min",
+              "neutrons" : 171,
+              "symbol" : "²⁸²Rg"
+            },
+          "_283" : {
+              "decay" : [ { "mode" : "≺" } ],
+              "half_life" : "5.1min",
+              "neutrons" : 172,
+              "symbol" : "²⁸³Rg"
+            },
+          "_286" : {
+              "decay" : [ { "mode" : "α" } ],
+              "half_life" : "10.7min",
+              "neutrons" : 175,
+              "symbol" : "²⁸⁶Rg"
+            }
+        },
       "name" : { "latin" : "Roentgenium" },
       "period" : 7,
       "protons" : 111
