@@ -209,7 +209,7 @@ public:
 
     template <typename T>
     auto fetch_values(const attribute& attrib, span_size_t offset, span<T> dest)
-      -> span<T> {
+      const -> span<T> {
         if(_pimpl && attrib._pimpl) {
             return head(
               dest, _pimpl->fetch_values(*attrib._pimpl, offset, dest));
@@ -221,79 +221,83 @@ public:
     auto fetch_values(
       const basic_string_path& path,
       span_size_t offset,
-      span<T> dest) -> span<T> {
+      span<T> dest) const -> span<T> {
         return fetch_values(find(path), offset, dest);
     }
 
     template <typename T>
-    auto fetch_values(string_view name, span_size_t offset, span<T> dest)
+    auto fetch_values(string_view name, span_size_t offset, span<T> dest) const
       -> span<T> {
         return fetch_values(nested(name), offset, dest);
     }
 
     template <typename T>
-    auto fetch_values(const attribute& attrib, span<T> dest) -> span<T> {
+    auto fetch_values(const attribute& attrib, span<T> dest) const -> span<T> {
         return fetch_values(attrib, 0, dest);
     }
 
     template <typename T>
-    auto fetch_values(const basic_string_path& path, span<T> dest) -> span<T> {
+    auto fetch_values(const basic_string_path& path, span<T> dest) const
+      -> span<T> {
         return fetch_values(path, 0, dest);
     }
 
     template <typename T>
-    auto fetch_values(string_view name, span<T> dest) -> span<T> {
+    auto fetch_values(string_view name, span<T> dest) const -> span<T> {
         return fetch_values(name, 0, dest);
     }
 
-    auto fetch_blob(const attribute& attrib, memory::block dest)
+    auto fetch_blob(const attribute& attrib, memory::block dest) const
       -> memory::block {
         return fetch_values(attrib, dest);
     }
 
-    auto fetch_blob(const basic_string_path& path, memory::block dest)
+    auto fetch_blob(const basic_string_path& path, memory::block dest) const
       -> memory::block {
         return fetch_values(path, dest);
     }
 
-    auto fetch_blob(string_view name, memory::block dest) -> memory::block {
+    auto fetch_blob(string_view name, memory::block dest) const
+      -> memory::block {
         return fetch_values(name, dest);
     }
 
     template <typename T>
-    auto fetch_value(const attribute& attrib, span_size_t offset, T& dest)
+    auto fetch_value(const attribute& attrib, span_size_t offset, T& dest) const
       -> bool {
         return !fetch_values(attrib, offset, cover_one(dest)).empty();
     }
 
     template <typename T>
-    auto fetch_value(string_view name, span_size_t offset, T& dest) -> bool {
+    auto fetch_value(string_view name, span_size_t offset, T& dest) const
+      -> bool {
         return fetch_value(nested(name), offset, dest);
     }
 
     template <typename T>
     auto fetch_value(const basic_string_path& path, span_size_t offset, T& dest)
-      -> bool {
+      const -> bool {
         return fetch_value(find(path), offset, dest);
     }
 
     template <typename T>
-    auto fetch_value(string_view name, T& dest) -> bool {
+    auto fetch_value(string_view name, T& dest) const -> bool {
         return fetch_value(name, 0, dest);
     }
 
     template <typename T>
-    auto fetch_value(const attribute& attrib, T& dest) -> bool {
+    auto fetch_value(const attribute& attrib, T& dest) const -> bool {
         return fetch_value(attrib, 0, dest);
     }
 
     template <typename T>
-    auto fetch_value(const basic_string_path& path, T& dest) -> bool {
+    auto fetch_value(const basic_string_path& path, T& dest) const -> bool {
         return fetch_value(path, 0, dest);
     }
 
     template <std::size_t L>
-    auto has_value(const attribute& attrib, const char (&what)[L]) -> bool {
+    auto has_value(const attribute& attrib, const char (&what)[L]) const
+      -> bool {
         char temp[L]{};
         if(fetch_values(attrib, 0, cover(temp))) {
             return starts_with(string_view(temp), string_view(what));
@@ -302,7 +306,7 @@ public:
     }
 
     template <typename T>
-    auto get(const attribute& attrib, span_size_t offset, identity<T> = {})
+    auto get(const attribute& attrib, span_size_t offset, identity<T> = {}) const
       -> optionally_valid<T> {
         T temp{};
         if(fetch_value(attrib, offset, temp)) {
@@ -312,8 +316,10 @@ public:
     }
 
     template <typename T>
-    auto get(const basic_string_path& path, span_size_t offset, identity<T> = {})
-      -> optionally_valid<T> {
+    auto get(
+      const basic_string_path& path,
+      span_size_t offset,
+      identity<T> = {}) const -> optionally_valid<T> {
         T temp{};
         if(fetch_value(path, offset, temp)) {
             return {std::move(temp), true};
@@ -322,7 +328,7 @@ public:
     }
 
     template <typename T>
-    auto get(string_view name, span_size_t offset, identity<T> = {})
+    auto get(string_view name, span_size_t offset, identity<T> = {}) const
       -> optionally_valid<T> {
         T temp{};
         if(fetch_value(name, offset, temp)) {
@@ -332,19 +338,20 @@ public:
     }
 
     template <typename T>
-    auto get(const attribute& attrib, identity<T> tid = {})
+    auto get(const attribute& attrib, identity<T> tid = {}) const
       -> optionally_valid<T> {
         return get<T>(attrib, 0, tid);
     }
 
     template <typename T>
-    auto get(const basic_string_path& path, identity<T> tid = {})
+    auto get(const basic_string_path& path, identity<T> tid = {}) const
       -> optionally_valid<T> {
         return get<T>(path, 0, tid);
     }
 
     template <typename T>
-    auto get(string_view name, identity<T> tid = {}) -> optionally_valid<T> {
+    auto get(string_view name, identity<T> tid = {}) const
+      -> optionally_valid<T> {
         return get<T>(name, 0, tid);
     }
 
@@ -382,15 +389,15 @@ public:
         return _c && _a;
     }
 
-    auto type_id() noexcept {
+    auto type_id() const noexcept {
         return _c.type_id();
     }
 
-    auto name() noexcept -> string_view {
+    auto name() const noexcept -> string_view {
         return _c.attribute_name(_a);
     }
 
-    auto is_link() noexcept -> bool {
+    auto is_link() const noexcept -> bool {
         return _c.is_link(_a);
     }
 
@@ -423,36 +430,36 @@ public:
     }
 
     template <typename T>
-    auto fetch_values(span_size_t offset, span<T> dest) {
+    auto fetch_values(span_size_t offset, span<T> dest) const {
         return _c.fetch_values(_a, offset, dest);
     }
 
     template <typename T>
-    auto fetch_values(span<T> dest) {
+    auto fetch_values(span<T> dest) const {
         return _c.fetch_values(_a, dest);
     }
 
-    auto fetch_blob(memory::block dest) {
+    auto fetch_blob(memory::block dest) const {
         return _c.fetch_blob(_a, dest);
     }
 
     template <typename T>
-    auto fetch_value(span_size_t offset, T& dest) -> bool {
+    auto fetch_value(span_size_t offset, T& dest) const -> bool {
         return _c.fetch_value(_a, offset, dest);
     }
 
     template <typename T>
-    auto fetch_value(T& dest) -> bool {
+    auto fetch_value(T& dest) const -> bool {
         return _c.fetch_value(_a, dest);
     }
 
     template <typename T>
-    auto get(span_size_t offset, identity<T> tid = {}) {
+    auto get(span_size_t offset, identity<T> tid = {}) const {
         return _c.get(_a, offset, tid);
     }
 
     template <typename T>
-    auto get(identity<T> tid = {}) {
+    auto get(identity<T> tid = {}) const {
         return _c.get(_a, tid);
     }
 

@@ -19,7 +19,7 @@ namespace eagine {
 //------------------------------------------------------------------------------
 static void populate(
   ecs::basic_manager<element_symbol>& elements,
-  valtree::compound source) {
+  const valtree::compound& source) {
 
     const auto elem_root{source.structure()};
     const auto elem_count = source.nested_count(elem_root);
