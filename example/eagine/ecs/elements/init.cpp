@@ -19,7 +19,7 @@ namespace eagine {
 //------------------------------------------------------------------------------
 static void populate(
   ecs::basic_manager<element_symbol>& elements,
-  valtree::compound source) {
+  const valtree::compound& source) {
 
     const auto elem_root{source.structure()};
     const auto elem_count = source.nested_count(elem_root);
@@ -139,7 +139,7 @@ static void cache_decay_products(ecs::basic_manager<element_symbol>& elements) {
                 modes->for_each([&](auto& dcy_mode, auto& dcy) {
                     // if the isotope neutron count after the decay matches
                     if(
-                      dcy.products.empty() &&
+                      (dcy.products.empty() && !dcy_mode.is_fission) &&
                       (orig_nc->number + dcy_mode.neutron_count_diff ==
                        prod_nc->number)) {
                         // for each original element with proton count

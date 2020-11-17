@@ -100,7 +100,8 @@ auto root_logger::_log_git_info() -> void {
       .arg(EAGINE_ID(gitBranch), EAGINE_ID(GitBranch), config_git_branch(), n_a)
       .arg(EAGINE_ID(gitHashId), EAGINE_ID(GitHash), config_git_hash_id(), n_a)
       .arg(EAGINE_ID(gitDate), EAGINE_ID(RFC2822), config_git_date(), n_a)
-      .arg(EAGINE_ID(gitDescrib), EAGINE_ID(str), config_git_describe(), n_a);
+      .arg(EAGINE_ID(gitDescrib), EAGINE_ID(str), config_git_describe(), n_a)
+      .arg(EAGINE_ID(gitVersion), EAGINE_ID(str), config_git_version(), n_a);
 }
 //------------------------------------------------------------------------------
 } // namespace eagine

@@ -4,6 +4,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/application_config.hpp>
 #include <eagine/bool_aggregate.hpp>
 #include <eagine/branch_predict.hpp>
 #include <eagine/message_bus/context.hpp>
@@ -178,13 +179,11 @@ auto router::add_connection(std::unique_ptr<connection> a_connection) -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void router::_setup_from_args(const program_args& args) {
-    if(auto arg = args.find("--msg-bus-router-id-base")) {
-        if(arg.next().parse(_id_base, _log.error_stream())) {
-            _id_sequence = _id_base;
-            _log.debug("parsed router id base ${base}")
-              .arg(EAGINE_ID(base), _id_base);
-        }
+void router::_setup_from_config(application_config& cfg) {
+    if(cfg.fetch("msg_bus.router_id_base", _id_base)) {
+        _id_sequence = _id_base;
+        _log.debug("parsed router id base ${base}")
+          .arg(EAGINE_ID(base), _id_base);
     }
 }
 //------------------------------------------------------------------------------

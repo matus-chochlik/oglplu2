@@ -7,12 +7,15 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/hexdump.hpp>
+#include <eagine/main.hpp>
 #include <eagine/random_bytes.hpp>
 #include <eagine/span.hpp>
 #include <iostream>
 #include <vector>
 
-auto main() -> int {
+namespace eagine {
+//------------------------------------------------------------------------------
+auto main(main_ctx&) -> int {
     using namespace eagine;
 
     std::vector<byte> bytes(256);
@@ -22,3 +25,5 @@ auto main() -> int {
 
     return 0;
 }
+//------------------------------------------------------------------------------
+} // namespace eagine

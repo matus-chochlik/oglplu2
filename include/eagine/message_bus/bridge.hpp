@@ -11,7 +11,6 @@
 #define EAGINE_MESSAGE_BUS_BRIDGE_HPP
 
 #include "../logging/logger.hpp"
-#include "../program_args.hpp"
 #include "../timeout.hpp"
 #include "connection.hpp"
 #include "context_fwd.hpp"
@@ -35,10 +34,10 @@ public:
       : _log(EAGINE_ID(MsgBusBrdg), parent)
       , _context{make_context(_log)} {}
 
-    bridge(logger& parent, const program_args& args) noexcept
+    bridge(logger& parent, application_config& cfg) noexcept
       : _log(EAGINE_ID(MsgBusBrdg), parent)
-      , _context{make_context(_log, args)} {
-        _setup_from_args(args);
+      , _context{make_context(_log, cfg)} {
+        _setup_from_config(cfg);
     }
 
     void add_certificate_pem(memory::const_block blk);
@@ -61,7 +60,7 @@ public:
     }
 
 private:
-    void _setup_from_args(const program_args&);
+    void _setup_from_config(application_config&);
 
     auto _check_state() -> bool;
     auto _update_connections() -> bool;

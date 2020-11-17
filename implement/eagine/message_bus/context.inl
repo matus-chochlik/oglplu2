@@ -4,6 +4,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/application_config.hpp>
 #include <eagine/memory/copy.hpp>
 #include <eagine/message_bus/context.hpp>
 #include <eagine/random_bytes.hpp>
@@ -23,54 +24,46 @@ context::context(logger& parent)
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-context::context(logger& parent, const program_args& args)
+context::context(logger& parent, application_config& cfg)
   : context{parent} {
     std::string temp;
-    for(auto arg = args.first(); arg; arg = arg.next()) {
-        if(arg.is_tag("--msg-bus-ssl-engine")) {
-            if(arg.next().parse(temp, _log.error_stream())) {
-                _ssl.load_builtin_engines();
+    if(cfg.fetch("msg_bus.ssl_engine", temp)) {
+        _ssl.load_builtin_engines();
 
-                if(ok open_result{_ssl.open_engine(temp)}) {
-                    _ssl_engine = std::move(open_result.get());
-                    if(ok init_result{_ssl.init_engine(_ssl_engine)}) {
-                        _log.info("successfully loaded ssl engine ${name}")
-                          .arg(EAGINE_ID(name), temp);
-                    } else {
-                        _log
-                          .error("failed to init ssl engine ${name}: ${reason}")
-                          .arg(EAGINE_ID(name), temp)
-                          .arg(EAGINE_ID(reason), (!init_result).message());
-                    }
-                } else {
-                    _log.error("failed to load ssl engine ${name}: ${reason}")
-                      .arg(EAGINE_ID(name), temp)
-                      .arg(EAGINE_ID(reason), (!open_result).message());
-                }
-                arg = arg.next();
+        if(ok open_result{_ssl.open_engine(temp)}) {
+            _ssl_engine = std::move(open_result.get());
+            if(ok init_result{_ssl.init_engine(_ssl_engine)}) {
+                _log.info("successfully loaded ssl engine ${name}")
+                  .arg(EAGINE_ID(name), temp);
+            } else {
+                _log.error("failed to init ssl engine ${name}: ${reason}")
+                  .arg(EAGINE_ID(name), temp)
+                  .arg(EAGINE_ID(reason), (!init_result).message());
             }
-        } else if(arg.is_tag("--msg-bus-pkey-id")) {
-            if(arg.next().parse(temp, _log.error_stream())) {
-                if(ok uim_result{_ssl.openssl_ui()}) {
-                    if(ok pkey_result{_ssl.load_engine_private_key(
-                         _ssl_engine, temp, uim_result)}) {
-                        if(_own_pkey) {
-                            _ssl.delete_pkey(_own_pkey);
-                        }
-                        _own_pkey = std::move(pkey_result.get());
-                        _log.info("successfully loaded ssl key ${keyId}")
-                          .arg(EAGINE_ID(keyId), temp);
-                    } else {
-                        _log.error("failed load ssl key ${keyId}: ${reason}")
-                          .arg(EAGINE_ID(keyId), temp)
-                          .arg(EAGINE_ID(reason), (!pkey_result).message());
-                    }
-                } else {
-                    _log.error("failed get ssl ui method: ${reason}")
-                      .arg(EAGINE_ID(reason), (!uim_result).message());
+        } else {
+            _log.error("failed to load ssl engine ${name}: ${reason}")
+              .arg(EAGINE_ID(name), temp)
+              .arg(EAGINE_ID(reason), (!open_result).message());
+        }
+    }
+    if(cfg.fetch("msg_bus.pkey_id", temp)) {
+        if(ok uim_result{_ssl.openssl_ui()}) {
+            if(ok pkey_result{
+                 _ssl.load_engine_private_key(_ssl_engine, temp, uim_result)}) {
+                if(_own_pkey) {
+                    _ssl.delete_pkey(_own_pkey);
                 }
-                arg = arg.next();
+                _own_pkey = std::move(pkey_result.get());
+                _log.info("successfully loaded ssl key ${keyId}")
+                  .arg(EAGINE_ID(keyId), temp);
+            } else {
+                _log.error("failed load ssl key ${keyId}: ${reason}")
+                  .arg(EAGINE_ID(keyId), temp)
+                  .arg(EAGINE_ID(reason), (!pkey_result).message());
             }
+        } else {
+            _log.error("failed get ssl ui method: ${reason}")
+              .arg(EAGINE_ID(reason), (!uim_result).message());
         }
     }
 }
@@ -407,9 +400,9 @@ auto make_context(logger& parent) -> std::shared_ptr<context> {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto make_context(logger& parent, const program_args& args)
+auto make_context(logger& parent, application_config& cfg)
   -> std::shared_ptr<context> {
-    return std::make_shared<context>(parent, args);
+    return std::make_shared<context>(parent, cfg);
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

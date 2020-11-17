@@ -25,7 +25,7 @@ void cel_program::init(example_context& ctx) {
     gl.create_program() >> prog;
     gl.delete_program.later_by(cleanup, prog);
 
-    const auto prog_src{embed(EAGINE_ID(prog), "example.oglpprog")};
+    const auto prog_src{embed(EAGINE_ID(prog), "cel_shading_prog")};
     gl.build_program(prog, prog_src.unpack(ctx.main()));
     gl.use_program(prog);
 

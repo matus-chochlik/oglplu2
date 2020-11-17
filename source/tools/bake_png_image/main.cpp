@@ -527,7 +527,7 @@ void png_reader::do_read_data(::png_bytep data, ::png_size_t size) {
 
 auto main(int argc, const char** argv) -> int {
     eagine::main_ctx_options options;
-    options.logger_id = EAGINE_ID(BakePNGI);
+    options.app_id = EAGINE_ID(BakePNGI);
     options.logger_opts.default_no_log = true;
     return eagine::main_impl(argc, argv, options);
 }

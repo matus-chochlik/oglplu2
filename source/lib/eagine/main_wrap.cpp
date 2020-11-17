@@ -17,6 +17,7 @@
 #include <eagine/value_tree/filesystem.hpp>
 
 #include "implement.inl"
+#include <eagine/application_config.hpp>
 #include <eagine/main_ctx.hpp>
 #include <eagine/system_info.hpp>
 #include "epilogue.inl"

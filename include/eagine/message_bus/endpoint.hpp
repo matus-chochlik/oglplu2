@@ -145,9 +145,9 @@ public:
       : _log{std::move(log)}
       , _allow_blob{std::move(allow_blob)} {}
 
-    endpoint(logger log, const program_args& args) noexcept
+    endpoint(logger log, application_config& cfg) noexcept
       : _log{std::move(log)}
-      , _context{make_context(_log, args)} {}
+      , _context{make_context(_log, cfg)} {}
 
     endpoint(const endpoint&) = delete;
     auto operator=(endpoint&&) = delete;

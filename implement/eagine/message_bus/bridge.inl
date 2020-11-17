@@ -172,7 +172,7 @@ auto bridge::add_connection(std::unique_ptr<connection> conn) -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void bridge::_setup_from_args(const program_args&) {
+void bridge::_setup_from_config(application_config&) {
     // TODO
 }
 //------------------------------------------------------------------------------

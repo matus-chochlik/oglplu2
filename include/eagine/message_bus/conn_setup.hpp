@@ -12,17 +12,18 @@
 
 #include "../enum_map.hpp"
 #include "../logging/logger.hpp"
-#include "../program_args.hpp"
 #include "conn_factory.hpp"
 #include <memory>
 #include <mutex>
 #include <vector>
 
-namespace eagine::msgbus {
+namespace eagine {
+class application_config;
+namespace msgbus {
 //------------------------------------------------------------------------------
 class connection_setup;
 void connection_setup_default_init(connection_setup&);
-void connection_setup_default_init(connection_setup&, const program_args&);
+void connection_setup_default_init(connection_setup&, application_config&);
 //------------------------------------------------------------------------------
 static inline auto adapt_log_entry_arg(
   identifier name,
@@ -73,9 +74,9 @@ public:
     connection_setup(logger& parent) noexcept
       : _log{EAGINE_ID(ConnSetup), parent} {}
 
-    connection_setup(logger& parent, const program_args& args) noexcept
+    connection_setup(logger& parent, application_config& cfg) noexcept
       : connection_setup{parent} {
-        default_init(args);
+        default_init(cfg);
     }
 
     void setup_acceptors(acceptor_user& target, string_view address);
@@ -175,12 +176,13 @@ public:
         connection_setup_default_init(*this);
     }
 
-    void default_init(const program_args& args) {
-        connection_setup_default_init(*this, args);
+    void default_init(application_config& cfg) {
+        connection_setup_default_init(*this, cfg);
     }
 };
 //------------------------------------------------------------------------------
-} // namespace eagine::msgbus
+} // namespace msgbus
+} // namespace eagine
 
 #if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
 #include <eagine/message_bus/conn_setup.inl>

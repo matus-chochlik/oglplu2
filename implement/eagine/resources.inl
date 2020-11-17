@@ -6,7 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <eagine/environment.hpp>
+#include <eagine/application_config.hpp>
 #include <eagine/file_contents.hpp>
 #include <eagine/logging/program_args.hpp>
 #include <eagine/memory/buffer.hpp>
@@ -17,23 +17,22 @@ namespace eagine {
 EAGINE_LIB_FUNC
 memory::const_block fetch_resource(
   string_view description,
-  string_view env_var_name,
-  string_view prog_arg_name,
+  string_view key,
   memory::const_block embedded_blk,
   memory::buffer& buf,
-  const program_args& args,
+  application_config& cfg,
   logger& log) {
 
-    if(const auto path_var{get_environment_variable(env_var_name)}) {
-        if(const auto contents = file_contents(extract(path_var))) {
+    if(const auto res_path{cfg.get<std::string>(key)}) {
+        if(const auto contents{file_contents(extract(res_path))}) {
             const auto blk = contents.block();
             buf.resize(blk.size());
             copy(blk, cover(buf));
 
             log.debug("using ${resource} from file ${path}")
               .arg(EAGINE_ID(resource), description)
-              .arg(EAGINE_ID(variable), EAGINE_ID(EnviVarble), env_var_name)
-              .arg(EAGINE_ID(path), EAGINE_ID(FsPath), extract(path_var));
+              .arg(EAGINE_ID(key), key)
+              .arg(EAGINE_ID(path), EAGINE_ID(FsPath), extract(res_path));
             log.trace("${resource} content:")
               .arg(EAGINE_ID(resource), description)
               .arg(EAGINE_ID(blob), view(buf));
@@ -41,33 +40,8 @@ memory::const_block fetch_resource(
         } else {
             log.error("failed to load ${resource} from file ${path}")
               .arg(EAGINE_ID(resource), description)
-              .arg(EAGINE_ID(variable), EAGINE_ID(EnviVarble), env_var_name)
-              .arg(EAGINE_ID(path), EAGINE_ID(FsPath), extract(path_var));
-        }
-    } else if(const auto tag_arg{args.find(prog_arg_name)}) {
-        if(const auto path_arg{tag_arg.next()}) {
-            if(const auto contents{file_contents(path_arg)}) {
-                const auto blk = contents.block();
-                buf.resize(blk.size());
-                copy(blk, cover(buf));
-
-                log.debug("using ${resource} loaded from ${path}")
-                  .arg(EAGINE_ID(resource), description)
-                  .arg(EAGINE_ID(option), tag_arg)
-                  .arg(EAGINE_ID(path), EAGINE_ID(FsPath), extract(path_arg));
-                log.trace("${resource} content:")
-                  .arg(EAGINE_ID(resource), description)
-                  .arg(EAGINE_ID(blob), view(buf));
-                return view(buf);
-            } else {
-                log.error("failed to load ${resource} from ${path}")
-                  .arg(EAGINE_ID(resource), description)
-                  .arg(EAGINE_ID(option), tag_arg)
-                  .arg(EAGINE_ID(path), EAGINE_ID(FsPath), extract(path_arg));
-            }
-        } else {
-            log.error("missing path argument after ${option}")
-              .arg(EAGINE_ID(option), tag_arg);
+              .arg(EAGINE_ID(key), key)
+              .arg(EAGINE_ID(path), EAGINE_ID(FsPath), extract(res_path));
         }
     } else if(embedded_blk) {
         log.debug("using embedded ${resource}")
@@ -87,15 +61,14 @@ EAGINE_LIB_FUNC
 memory::const_block ca_certificate_pem(
   memory::const_block embedded_blk,
   memory::buffer& buf,
-  const program_args& args,
+  application_config& cfg,
   logger& log) {
     return fetch_resource(
       string_view{"CA certificate"},
-      string_view{"EAGINE_CA_CERT_PATH"},
-      string_view{"--ca-cert-path"},
+      string_view{"ca_cert_path"},
       embedded_blk,
       buf,
-      args,
+      cfg,
       log);
 }
 //------------------------------------------------------------------------------

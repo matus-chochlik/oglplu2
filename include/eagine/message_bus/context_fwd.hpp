@@ -11,18 +11,20 @@
 #define EAGINE_MESSAGE_BUS_CONTEXT_FWD_HPP
 
 #include "../logging/fwd.hpp"
-#include "../program_args.hpp"
 #include <memory>
 
-namespace eagine::msgbus {
+namespace eagine {
+class application_config;
+namespace msgbus {
 //------------------------------------------------------------------------------
 class context;
 //------------------------------------------------------------------------------
 using shared_context = std::shared_ptr<context>;
 //------------------------------------------------------------------------------
 auto make_context(logger&) -> std::shared_ptr<context>;
-auto make_context(logger&, const program_args&) -> std::shared_ptr<context>;
+auto make_context(logger&, application_config&) -> std::shared_ptr<context>;
 //------------------------------------------------------------------------------
-} // namespace eagine::msgbus
+} // namespace msgbus
+} // namespace eagine
 
 #endif // EAGINE_MESSAGE_BUS_CONTEXT_FWD_HPP

@@ -55,8 +55,8 @@ auto main(main_ctx& ctx) -> int {
         return true;
     };
 
-    msgbus::router_address address{ctx.log(), ctx.args()};
-    msgbus::connection_setup conn_setup(ctx.log(), ctx.args());
+    msgbus::router_address address{ctx.log(), ctx.config()};
+    msgbus::connection_setup conn_setup(ctx.log(), ctx.config());
 
     msgbus::endpoint bus{
       logger{EAGINE_ID(Temporary), ctx.log()},

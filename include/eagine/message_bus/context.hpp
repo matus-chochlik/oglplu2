@@ -36,7 +36,7 @@ struct context_remote_node {
 class context {
 public:
     context(logger& parent);
-    context(logger& parent, const program_args& args);
+    context(logger& parent, application_config&);
 
     context(context&&) = delete;
     context(const context&) = delete;

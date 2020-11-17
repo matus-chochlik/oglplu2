@@ -14,46 +14,42 @@
 #include "logging/logger.hpp"
 #include "main_ctx.hpp"
 #include "memory/buffer_fwd.hpp"
-#include "program_args.hpp"
 #include "string_span.hpp"
 
 namespace eagine {
 //------------------------------------------------------------------------------
 memory::const_block fetch_resource(
   string_view description,
-  string_view env_var_name,
-  string_view prog_arg_name,
+  string_view key,
   memory::const_block embedded_blk,
   memory::buffer& buf,
-  const program_args& args,
+  application_config& args,
   logger& log);
 //------------------------------------------------------------------------------
 inline memory::const_block fetch_resource(
   string_view description,
-  string_view env_var_name,
-  string_view prog_arg_name,
+  string_view key,
   memory::const_block embedded_blk,
   main_ctx& ctx) {
     return fetch_resource(
       description,
-      env_var_name,
-      prog_arg_name,
+      key,
       embedded_blk,
       ctx.scratch_space(),
-      ctx.args(),
+      ctx.config(),
       ctx.log());
 }
 //------------------------------------------------------------------------------
 memory::const_block ca_certificate_pem(
   memory::const_block embedded_blk,
   memory::buffer&,
-  const program_args&,
+  application_config&,
   logger&);
 //------------------------------------------------------------------------------
 inline memory::const_block
 ca_certificate_pem(memory::const_block embedded_blk, main_ctx& ctx) {
     return ca_certificate_pem(
-      embedded_blk, ctx.scratch_space(), ctx.args(), ctx.log());
+      embedded_blk, ctx.scratch_space(), ctx.config(), ctx.log());
 }
 //------------------------------------------------------------------------------
 } // namespace eagine

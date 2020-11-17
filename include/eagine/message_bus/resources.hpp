@@ -17,37 +17,37 @@ namespace eagine::msgbus {
 memory::const_block router_certificate_pem(
   memory::const_block embedded_blk,
   memory::buffer&,
-  const program_args&,
+  application_config&,
   logger&);
 //------------------------------------------------------------------------------
 inline memory::const_block
 router_certificate_pem(memory::const_block embedded_blk, main_ctx& ctx) {
     return router_certificate_pem(
-      embedded_blk, ctx.scratch_space(), ctx.args(), ctx.log());
+      embedded_blk, ctx.scratch_space(), ctx.config(), ctx.log());
 }
 //------------------------------------------------------------------------------
 memory::const_block bridge_certificate_pem(
   memory::const_block embedded_blk,
   memory::buffer&,
-  const program_args&,
+  application_config&,
   logger&);
 //------------------------------------------------------------------------------
 inline memory::const_block
 bridge_certificate_pem(memory::const_block embedded_blk, main_ctx& ctx) {
     return bridge_certificate_pem(
-      embedded_blk, ctx.scratch_space(), ctx.args(), ctx.log());
+      embedded_blk, ctx.scratch_space(), ctx.config(), ctx.log());
 }
 //------------------------------------------------------------------------------
 memory::const_block endpoint_certificate_pem(
   memory::const_block embedded_blk,
   memory::buffer&,
-  const program_args&,
+  application_config&,
   logger&);
 //------------------------------------------------------------------------------
 inline memory::const_block
 endpoint_certificate_pem(memory::const_block embedded_blk, main_ctx& ctx) {
     return endpoint_certificate_pem(
-      embedded_blk, ctx.scratch_space(), ctx.args(), ctx.log());
+      embedded_blk, ctx.scratch_space(), ctx.config(), ctx.log());
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

@@ -97,8 +97,8 @@ private:
 } // namespace msgbus
 
 auto main(main_ctx& ctx) -> int {
-    msgbus::router_address address{ctx.log(), ctx.args()};
-    msgbus::connection_setup conn_setup(ctx.log(), ctx.args());
+    msgbus::router_address address{ctx.log(), ctx.config()};
+    msgbus::connection_setup conn_setup(ctx.log(), ctx.config());
 
     valid_if_positive<std::size_t> ping_count{};
     if(auto arg{ctx.args().find("--ping-count")}) {

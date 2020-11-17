@@ -19,17 +19,15 @@ namespace eagine {
 auto main(main_ctx& ctx) -> int {
     signal_switch interrupted;
 
-    auto& args = ctx.args();
     auto& log = ctx.log();
 
     log.info("message bus bridge starting up");
 
-    msgbus::router_address address(log, args);
+    msgbus::router_address address(log, ctx.config());
 
-    msgbus::connection_setup conn_setup(log);
-    conn_setup.default_init(args);
+    msgbus::connection_setup conn_setup(log, ctx.config());
 
-    msgbus::bridge bridge(log, args);
+    msgbus::bridge bridge(log, ctx.config());
     bridge.add_ca_certificate_pem(ca_certificate_pem(ctx));
     bridge.add_certificate_pem(msgbus_bridge_certificate_pem(ctx));
     conn_setup.setup_connectors(bridge, address);
@@ -71,6 +69,6 @@ auto main(main_ctx& ctx) -> int {
 
 auto main(int argc, const char** argv) -> int {
     eagine::main_ctx_options options;
-    options.logger_id = EAGINE_ID(BridgeExe);
+    options.app_id = EAGINE_ID(BridgeExe);
     return eagine::main_impl(argc, argv, options);
 }

@@ -6,13 +6,13 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <iostream>
 
 #include <eagine/from_string.hpp>
 #include <eagine/main.hpp>
 #include <eagine/program_args.hpp>
 #include <chrono>
 #include <iomanip>
+#include <iostream>
 
 namespace eagine {
 
