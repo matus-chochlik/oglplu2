@@ -14,6 +14,7 @@
 #include "memory/buffer_fwd.hpp"
 #include "program_args.hpp"
 #include "system_info.hpp"
+#include "tribool.hpp"
 
 namespace eagine {
 
@@ -51,6 +52,17 @@ public:
     static inline auto get() noexcept -> main_ctx& {
         EAGINE_ASSERT(_single_ptr());
         return *_single_ptr();
+    }
+
+    auto version() -> optionally_valid<std::tuple<int, int, int, int>>;
+
+    auto version_at_least(int major, int minor, int patch = 0, int commit = 0)
+      -> tribool {
+        if(const auto opt_ver{version()}) {
+            return extract(opt_ver) >=
+                   std::make_tuple(major, minor, patch, commit);
+        }
+        return indeterminate;
     }
 
     auto args() noexcept -> auto& {

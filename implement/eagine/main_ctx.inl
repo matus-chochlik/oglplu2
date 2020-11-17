@@ -8,6 +8,7 @@
  */
 #include <eagine/application_config.hpp>
 #include <eagine/compression.hpp>
+#include <eagine/git_info.hpp>
 #include <eagine/logging/exception.hpp>
 #include <eagine/logging/root_logger.hpp>
 #include <eagine/memory/buffer.hpp>
@@ -99,6 +100,11 @@ EAGINE_LIB_FUNC
 main_ctx::~main_ctx() noexcept {
     EAGINE_ASSERT(_single_ptr());
     _single_ptr() = nullptr;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto main_ctx::version() -> optionally_valid<std::tuple<int, int, int, int>> {
+    return config_git_version_tuple();
 }
 //------------------------------------------------------------------------------
 extern auto main(main_ctx& ctx) -> int;
