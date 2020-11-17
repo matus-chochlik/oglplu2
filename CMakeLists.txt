@@ -13,7 +13,7 @@ set(CMAKE_DEBUG_POSTFIX d)
 project(OGLplus)
 set(OGLPLUS_TARGET_PREFIX)
 
-file(READ VERSION OGLPLUS_VERSION)
+file(STRINGS VERSION OGLPLUS_VERSION)
 
 include(config/Defaults.cmake)
 
