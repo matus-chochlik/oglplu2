@@ -7,6 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/identifier_ctr.hpp>
+#include <eagine/logging/type/build_info.hpp>
 #include <eagine/main_ctx.hpp>
 #include <eagine/math/functions.hpp>
 #include <eagine/message_bus/conn_setup.hpp>
@@ -29,7 +30,7 @@ namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
 struct ping_stats {
-    std::tuple<int, int, int, int> version{0, 0, 0, 0};
+    build_info build;
     std::string hostname;
     span_size_t num_cores{0};
     span_size_t ram_size{0};
@@ -47,11 +48,6 @@ struct ping_stats {
     std::intmax_t timeouted{0};
 
     std::vector<float> messages_per_second{};
-
-    auto has_version() const noexcept {
-        const auto [maj, min, ptch, cmit] = version;
-        return maj || min || ptch || cmit;
-    }
 
     auto avg_time() const noexcept {
         return sum_time / responded;
@@ -100,13 +96,11 @@ public:
         }
     }
 
-    void on_version_received(
+    void on_build_info_received(
       const result_context& res_ctx,
-      optionally_valid<std::tuple<int, int, int, int>>&& version) final {
-        if(version) {
-            auto& stats = _targets[res_ctx.source_id()];
-            stats.version = extract(std::move(version));
-        }
+      build_info&& build) final {
+        auto& stats = _targets[res_ctx.source_id()];
+        stats.build = std::move(build);
     }
 
     void on_hostname_received(
@@ -206,8 +200,8 @@ public:
                         if(EAGINE_UNLIKELY((++_sent % _mod) == 0)) {
                             _log.info("sent ${sent} pings")
                               .arg(EAGINE_ID(sent), _sent);
-                            if(!entry.has_version()) {
-                                this->query_version(pingable_id);
+                            if(!entry.build.has_version()) {
+                                this->query_build_info(pingable_id);
                             }
                             if(entry.hostname.empty()) {
                                 this->query_hostname(pingable_id);
@@ -247,10 +241,7 @@ public:
 
             _log.stat("pingable ${id} stats:")
               .arg(EAGINE_ID(id), id)
-              .arg(EAGINE_ID(verMajor), std::get<0>(info.version))
-              .arg(EAGINE_ID(verMinor), std::get<1>(info.version))
-              .arg(EAGINE_ID(verPatch), std::get<2>(info.version))
-              .arg(EAGINE_ID(verCommit), std::get<3>(info.version))
+              .arg(EAGINE_ID(bldInfo), info.build)
               .arg(EAGINE_ID(hostname), info.hostname)
               .arg(EAGINE_ID(numCores), info.num_cores)
               .arg(EAGINE_ID(ramSize), EAGINE_ID(ByteSize), info.ram_size)

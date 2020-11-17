@@ -13,14 +13,13 @@ namespace eagine {
 
 auto main(main_ctx& ctx) -> int {
 
-    if(auto opt_version{ctx.version()}) {
-        const auto [major, minor, patch, commit] = extract(opt_version);
+    const auto& bi = ctx.build();
 
-        std::cout << "version " << major << '.' << minor << '.' << patch << '-'
-                  << commit << std::endl;
-    }
+    const auto [major, minor, patch, commit] = bi.version_tuple();
+    std::cout << "version " << major << '.' << minor << '.' << patch << '-'
+              << commit << std::endl;
 
-    if(ctx.version_at_least(0, 37, 2, 15)) {
+    if(bi.version_at_least(0, 37, 2, 15)) {
         std::cout << "version recent enough" << std::endl;
     }
 

@@ -9,12 +9,12 @@
 #ifndef EAGINE_MAIN_CTX_HPP
 #define EAGINE_MAIN_CTX_HPP
 
+#include "build_info.hpp"
 #include "logging/logger.hpp"
 #include "logging/root_logger_opts.hpp"
 #include "memory/buffer_fwd.hpp"
 #include "program_args.hpp"
 #include "system_info.hpp"
-#include "tribool.hpp"
 
 namespace eagine {
 
@@ -33,6 +33,7 @@ private:
     program_args& _args;
     logger& _log;
     application_config& _app_config;
+    build_info& _bld_info;
     system_info& _sys_info;
     memory::buffer& _scratch_space;
     data_compressor& _compressor;
@@ -54,15 +55,8 @@ public:
         return *_single_ptr();
     }
 
-    auto version() noexcept -> optionally_valid<std::tuple<int, int, int, int>>;
-
-    auto version_at_least(int major, int minor, int patch = 0, int commit = 0)
-      -> tribool {
-        if(const auto opt_ver{version()}) {
-            return extract(opt_ver) >=
-                   std::make_tuple(major, minor, patch, commit);
-        }
-        return indeterminate;
+    auto build() const noexcept -> const auto& {
+        return _bld_info;
     }
 
     auto args() noexcept -> auto& {

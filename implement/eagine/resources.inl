@@ -8,7 +8,7 @@
  */
 #include <eagine/application_config.hpp>
 #include <eagine/file_contents.hpp>
-#include <eagine/logging/program_args.hpp>
+#include <eagine/logging/type/program_args.hpp>
 #include <eagine/memory/buffer.hpp>
 #include <eagine/memory/span_algo.hpp>
 

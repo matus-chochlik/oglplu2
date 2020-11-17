@@ -8,9 +8,8 @@
  */
 #include <eagine/application_config.hpp>
 #include <eagine/compression.hpp>
-#include <eagine/git_info.hpp>
-#include <eagine/logging/exception.hpp>
 #include <eagine/logging/root_logger.hpp>
+#include <eagine/logging/type/exception.hpp>
 #include <eagine/memory/buffer.hpp>
 #include <filesystem>
 
@@ -21,6 +20,7 @@ private:
     program_args _args;
     root_logger _log_root;
     application_config _app_config;
+    build_info _bld_info;
     system_info _sys_info;
     memory::buffer _scratch_space{};
     data_compressor _compressor{};
@@ -35,6 +35,7 @@ public:
       : _args{argc, argv}
       , _log_root{options.app_id, _args, options.logger_opts}
       , _app_config{_log_root, _args}
+      , _bld_info{build_info::query()}
       , _sys_info{_log_root}
       , _app_name{options.app_name} {
         auto fs_path = std::filesystem::path(to_string(_args.command()));
@@ -58,6 +59,10 @@ public:
 
     auto config() noexcept -> auto& {
         return _app_config;
+    }
+
+    auto build() noexcept -> auto& {
+        return _bld_info;
     }
 
     auto system() noexcept -> auto& {
@@ -88,6 +93,7 @@ main_ctx::main_ctx(master_ctx& master) noexcept
   : _args{master.args()}
   , _log{master.log()}
   , _app_config{master.config()}
+  , _bld_info{master.build()}
   , _sys_info{master.system()}
   , _scratch_space{master.scratch_space()}
   , _compressor{master.compressor()}
@@ -100,12 +106,6 @@ EAGINE_LIB_FUNC
 main_ctx::~main_ctx() noexcept {
     EAGINE_ASSERT(_single_ptr());
     _single_ptr() = nullptr;
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-auto main_ctx::version() noexcept
-  -> optionally_valid<std::tuple<int, int, int, int>> {
-    return config_git_version_tuple();
 }
 //------------------------------------------------------------------------------
 extern auto main(main_ctx& ctx) -> int;

@@ -7,9 +7,9 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/from_string.hpp>
-#include <eagine/logging/exception.hpp>
-#include <eagine/logging/filesystem.hpp>
 #include <eagine/logging/logger.hpp>
+#include <eagine/logging/type/exception.hpp>
+#include <eagine/logging/type/filesystem.hpp>
 #include <eagine/value_tree/implementation.hpp>
 #include <filesystem>
 #include <fstream>

@@ -15,6 +15,7 @@
 #include "../reflect/data_members.hpp"
 #include "../reflect/enumerators.hpp"
 #include "../valid_if/decl.hpp"
+#include "fwd.hpp"
 #include "read_backend.hpp"
 #include <algorithm>
 #include <array>
@@ -25,9 +26,6 @@
 #include <vector>
 
 namespace eagine {
-//------------------------------------------------------------------------------
-template <typename T>
-class fragment_deserialize_wrapper;
 //------------------------------------------------------------------------------
 template <typename T>
 class fragment_deserialize_wrapper<span<T>> {
@@ -69,9 +67,6 @@ private:
     std::vector<bool> _done_bits{};
     span_size_t _done_size{0};
 };
-//------------------------------------------------------------------------------
-template <typename T>
-struct deserializer;
 //------------------------------------------------------------------------------
 template <typename T>
 struct deserializer<T&> : deserializer<T> {};

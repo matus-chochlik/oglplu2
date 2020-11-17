@@ -26,8 +26,7 @@ auto config_git_version_major() noexcept -> valid_if_nonnegative<int>;
 auto config_git_version_minor() noexcept -> valid_if_nonnegative<int>;
 auto config_git_version_patch() noexcept -> valid_if_nonnegative<int>;
 auto config_git_version_commit() noexcept -> valid_if_nonnegative<int>;
-auto config_git_version_tuple() noexcept
-  -> optionally_valid<std::tuple<int, int, int, int>>;
+auto config_git_version_tuple() noexcept -> std::tuple<int, int, int, int>;
 
 } // namespace eagine
 
