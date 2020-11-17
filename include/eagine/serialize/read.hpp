@@ -187,7 +187,7 @@ template <typename... T>
 struct deserializer<std::tuple<T...>> : common_deserializer<std::tuple<T...>> {
 
     template <typename Backend>
-    auto read(std::tuple<T...>& values, Backend& backend) {
+    auto read(std::tuple<T...>& values, Backend& backend) const {
         deserialization_errors errors{};
         span_size_t elem_count{0};
         errors |= backend.begin_list(elem_count);
@@ -211,7 +211,7 @@ private:
       deserialization_errors& errors,
       Tuple& values,
       Backend& backend,
-      std::index_sequence<I...>) {
+      std::index_sequence<I...>) const {
         (...,
          _read_element(
            errors,
@@ -388,13 +388,21 @@ struct deserializer<valid_if<T, P>> : common_deserializer<valid_if<T, P>> {
             errors |= _deserializer.read(temp, backend);
             errors |= backend.finish_list();
             if(EAGINE_LIKELY(!errors)) {
-                value = std::move(temp);
+                _assign(value, std::move(temp));
             }
         }
         return errors;
     }
 
 private:
+    static void _assign(valid_if<T, P>& dest, T&& src) noexcept {
+        if constexpr(std::is_same_v<P, valid_flag_policy>) {
+            dest = {std::move(src), true};
+        } else {
+            dest = std::move(src);
+        }
+    }
+
     deserializer<T> _deserializer{};
 };
 //------------------------------------------------------------------------------
@@ -402,7 +410,7 @@ template <typename T>
 struct enum_deserializer {
 
     template <typename Backend>
-    auto read(T& enumerator, Backend& backend) {
+    auto read(T& enumerator, Backend& backend) const {
         deserialization_errors errors{};
         if(backend.enum_as_string()) {
             decl_name_storage temp_name{};
