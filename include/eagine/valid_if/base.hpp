@@ -26,7 +26,8 @@ public:
       noexcept(T(std::declval<T&&>())))
       : _value{std::move(value)} {}
 
-    constexpr basic_valid_if_value() noexcept = default;
+    constexpr basic_valid_if_value() noexcept(
+      std::is_nothrow_default_constructible_v<T>) = default;
 
     constexpr basic_valid_if_value(basic_valid_if_value&&) noexcept(
       std::is_nothrow_move_constructible_v<T>) = default;
