@@ -103,7 +103,8 @@ main_ctx::~main_ctx() noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto main_ctx::version() -> optionally_valid<std::tuple<int, int, int, int>> {
+auto main_ctx::version() noexcept
+  -> optionally_valid<std::tuple<int, int, int, int>> {
     return config_git_version_tuple();
 }
 //------------------------------------------------------------------------------

@@ -9,6 +9,7 @@
 #include <eagine/main_ctx.hpp>
 #include <eagine/message_bus/registry.hpp>
 #include <eagine/message_bus/service.hpp>
+#include <eagine/message_bus/service/build_info.hpp>
 #include <eagine/message_bus/service/ping_pong.hpp>
 #include <eagine/message_bus/service/shutdown.hpp>
 #include <eagine/message_bus/service/system_info.hpp>
@@ -21,8 +22,8 @@
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
-using pong_base =
-  service_composition<pingable<system_info_provider<shutdown_target<>>>>;
+using pong_base = service_composition<
+  pingable<build_info_provider<system_info_provider<shutdown_target<>>>>>;
 
 class pong_example : public pong_base {
     using base = pong_base;

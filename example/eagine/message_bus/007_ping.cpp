@@ -12,6 +12,7 @@
 #include <eagine/message_bus/conn_setup.hpp>
 #include <eagine/message_bus/router_address.hpp>
 #include <eagine/message_bus/service.hpp>
+#include <eagine/message_bus/service/build_info.hpp>
 #include <eagine/message_bus/service/discovery.hpp>
 #include <eagine/message_bus/service/ping_pong.hpp>
 #include <eagine/message_bus/service/shutdown.hpp>
@@ -28,6 +29,7 @@ namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
 struct ping_stats {
+    std::tuple<int, int, int, int> version{0, 0, 0, 0};
     std::string hostname;
     span_size_t num_cores{0};
     span_size_t ram_size{0};
@@ -45,6 +47,11 @@ struct ping_stats {
     std::intmax_t timeouted{0};
 
     std::vector<float> messages_per_second{};
+
+    auto has_version() const noexcept {
+        const auto [maj, min, ptch, cmit] = version;
+        return maj || min || ptch || cmit;
+    }
 
     auto avg_time() const noexcept {
         return sum_time / responded;
@@ -68,8 +75,8 @@ struct ping_stats {
     }
 };
 //------------------------------------------------------------------------------
-using ping_base = service_composition<
-  pinger<system_info_consumer<subscriber_discovery<shutdown_invoker<>>>>>;
+using ping_base = service_composition<pinger<build_info_consumer<
+  system_info_consumer<subscriber_discovery<shutdown_invoker<>>>>>>;
 
 class ping_example : public ping_base {
     using base = ping_base;
@@ -90,6 +97,15 @@ public:
     void on_unsubscribed(identifier_t id, message_id sub_msg) final {
         if(sub_msg == EAGINE_MSG_ID(eagiPing, ping)) {
             _log.info("pingable ${id} disappeared").arg(EAGINE_ID(id), id);
+        }
+    }
+
+    void on_version_received(
+      const result_context& res_ctx,
+      optionally_valid<std::tuple<int, int, int, int>>&& version) final {
+        if(version) {
+            auto& stats = _targets[res_ctx.source_id()];
+            stats.version = extract(std::move(version));
         }
     }
 
@@ -190,6 +206,9 @@ public:
                         if(EAGINE_UNLIKELY((++_sent % _mod) == 0)) {
                             _log.info("sent ${sent} pings")
                               .arg(EAGINE_ID(sent), _sent);
+                            if(!entry.has_version()) {
+                                this->query_version(pingable_id);
+                            }
                             if(entry.hostname.empty()) {
                                 this->query_hostname(pingable_id);
                             }
@@ -228,6 +247,10 @@ public:
 
             _log.stat("pingable ${id} stats:")
               .arg(EAGINE_ID(id), id)
+              .arg(EAGINE_ID(verMajor), std::get<0>(info.version))
+              .arg(EAGINE_ID(verMinor), std::get<1>(info.version))
+              .arg(EAGINE_ID(verPatch), std::get<2>(info.version))
+              .arg(EAGINE_ID(verCommit), std::get<3>(info.version))
               .arg(EAGINE_ID(hostname), info.hostname)
               .arg(EAGINE_ID(numCores), info.num_cores)
               .arg(EAGINE_ID(ramSize), EAGINE_ID(ByteSize), info.ram_size)

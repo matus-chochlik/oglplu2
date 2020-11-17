@@ -54,7 +54,7 @@ public:
         return *_single_ptr();
     }
 
-    auto version() -> optionally_valid<std::tuple<int, int, int, int>>;
+    auto version() noexcept -> optionally_valid<std::tuple<int, int, int, int>>;
 
     auto version_at_least(int major, int minor, int patch = 0, int commit = 0)
       -> tribool {
