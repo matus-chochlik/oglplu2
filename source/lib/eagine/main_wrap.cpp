@@ -17,7 +17,7 @@
 #include <eagine/value_tree/filesystem.hpp>
 
 #include "implement.inl"
+#include <eagine/system_info.hpp>
 #include <eagine/main_ctx.hpp>
-#include <eagine/main_ctx_object.hpp>
 #include "epilogue.inl"
 // clang-format on

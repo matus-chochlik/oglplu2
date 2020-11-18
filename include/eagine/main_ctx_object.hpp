@@ -11,11 +11,9 @@
 
 #include "assert.hpp"
 #include "logging/logger.hpp"
+#include "main_ctx_fwd.hpp"
 
 namespace eagine {
-
-class master_ctx;
-class main_ctx;
 
 class main_ctx_log_backend_getter {
 public:
@@ -30,7 +28,6 @@ private:
     logger_backend* _backend{nullptr};
 };
 
-class main_ctx_object;
 class main_ctx_object_parent_info {
 public:
     main_ctx_object_parent_info(main_ctx&) noexcept {}
@@ -47,8 +44,6 @@ private:
     master_ctx* _context{nullptr};
     const main_ctx_object* _object{nullptr};
 };
-
-using main_ctx_parent = const main_ctx_object_parent_info&;
 
 class main_ctx_object
   : public named_logging_object<main_ctx_log_backend_getter> {
@@ -72,9 +67,5 @@ public:
 };
 
 } // namespace eagine
-
-#if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
-#include <eagine/main_ctx_object.inl>
-#endif
 
 #endif // EAGINE_MAIN_CTX_OBJECT_HPP

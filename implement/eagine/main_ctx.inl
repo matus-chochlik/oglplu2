@@ -19,8 +19,8 @@ class master_ctx {
 private:
     program_args _args;
     root_logger _log_root;
-    application_config _app_config;
     build_info _bld_info;
+    application_config _app_config;
     system_info _sys_info;
     memory::buffer _scratch_space{};
     data_compressor _compressor{};
@@ -34,9 +34,9 @@ public:
       const main_ctx_options& options) noexcept
       : _args{argc, argv}
       , _log_root{options.app_id, _args, options.logger_opts}
-      , _app_config{*this}
       , _bld_info{build_info::query()}
-      , _sys_info{_log_root}
+      , _app_config{*this}
+      , _sys_info{*this}
       , _app_name{options.app_name} {
         auto fs_path = std::filesystem::path(to_string(_args.command()));
         if(_app_name.empty()) {
@@ -108,9 +108,22 @@ main_ctx::~main_ctx() noexcept {
     _single_ptr() = nullptr;
 }
 //------------------------------------------------------------------------------
+// main_ctx_object-related
+//------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 main_ctx_log_backend_getter::main_ctx_log_backend_getter(master_ctx& c) noexcept
   : _backend{c.log().backend()} {}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+main_ctx_log_backend_getter::main_ctx_log_backend_getter() noexcept
+  : _backend{main_ctx::get().log().backend()} {}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto main_ctx_object::context() const noexcept -> main_ctx& {
+    return main_ctx::get();
+}
+//------------------------------------------------------------------------------
+// main
 //------------------------------------------------------------------------------
 extern auto main(main_ctx& ctx) -> int;
 //------------------------------------------------------------------------------

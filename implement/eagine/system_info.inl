@@ -7,6 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+#include <eagine/main_ctx.hpp>
 #include <eagine/timeout.hpp>
 #include <vector>
 
@@ -191,7 +192,7 @@ auto system_info::_impl() noexcept -> system_info_impl* {
 #if EAGINE_LINUX
     if(EAGINE_UNLIKELY(!_pimpl)) {
         try {
-            _pimpl = std::make_shared<system_info_impl>(_log);
+            _pimpl = std::make_shared<system_info_impl>(context().log());
         } catch(...) {
         }
     }
