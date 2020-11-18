@@ -55,11 +55,11 @@ auto main(main_ctx& ctx) -> int {
         return true;
     };
 
-    msgbus::router_address address{ctx.log(), ctx.config()};
-    msgbus::connection_setup conn_setup(ctx.log(), ctx.config());
+    msgbus::router_address address{ctx};
+    msgbus::connection_setup conn_setup(ctx);
 
     msgbus::endpoint bus{
-      logger{EAGINE_ID(Temporary), ctx.log()},
+      main_ctx_object{EAGINE_ID(Temporary), ctx},
       msgbus::endpoint::blob_filter_function{allow_all_blobs}};
 
     conn_setup.setup_connectors(bus, address);

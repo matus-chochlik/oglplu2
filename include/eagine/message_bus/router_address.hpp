@@ -11,15 +11,16 @@
 #define EAGINE_MESSAGE_BUS_ROUTER_ADDRESS_HPP
 
 #include "../application_config.hpp"
-#include "../logging/logger.hpp"
+#include "../main_ctx_object.hpp"
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
-class router_address {
+class router_address : public main_ctx_object {
 public:
-    router_address(logger& log, application_config& cfg) {
-        if(cfg.fetch("msg_bus.router_address", _addr)) {
-            log.debug("configured router address ${addr}")
+    router_address(main_ctx_parent parent)
+      : main_ctx_object{EAGINE_ID(RouterAddr), parent} {
+        if(app_config().fetch("msg_bus.router_address", _addr)) {
+            log_debug("configured router address ${addr}")
               .arg(EAGINE_ID(addr), _addr);
         }
     }

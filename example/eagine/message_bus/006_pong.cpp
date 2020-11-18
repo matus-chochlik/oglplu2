@@ -22,7 +22,10 @@ public:
     using base = actor<2>;
     using base::bus;
 
-    pong(logger& parent, connection_setup& conn_setup, string_view address)
+    pong(
+      main_ctx_parent parent,
+      connection_setup& conn_setup,
+      string_view address)
       : base(
           {EAGINE_ID(ExamplPong), parent},
           this,
@@ -40,7 +43,7 @@ public:
     auto ping(const message_context&, stored_message& msg_in) -> bool {
         bus().respond_to(msg_in, EAGINE_MSG_ID(PingPong, Pong));
         if(++_sent % _lmod == 0) {
-            log().info("sent ${count} pongs").arg(EAGINE_ID(count), _sent);
+            bus().log_info("sent ${count} pongs").arg(EAGINE_ID(count), _sent);
         }
         _timeout.reset();
         return true;
@@ -48,7 +51,7 @@ public:
 
     auto shutdown(const message_context&, stored_message&) -> bool {
         _done = true;
-        log().info("received shutdown message");
+        bus().log_info("received shutdown message");
         return true;
     }
 
@@ -76,10 +79,10 @@ private:
 } // namespace msgbus
 
 auto main(main_ctx& ctx) -> int {
-    msgbus::router_address address{ctx.log(), ctx.config()};
-    msgbus::connection_setup conn_setup(ctx.log(), ctx.config());
+    msgbus::router_address address{ctx};
+    msgbus::connection_setup conn_setup(ctx);
 
-    msgbus::pong pong(ctx.log(), conn_setup, address);
+    msgbus::pong pong(ctx, conn_setup, address);
 
     while(!pong.is_done()) {
         pong.process_all();

@@ -45,6 +45,8 @@ private:
     const main_ctx_object* _object{nullptr};
 };
 
+class application_config;
+
 class main_ctx_object
   : public named_logging_object<main_ctx_log_backend_getter> {
     using base = named_logging_object<main_ctx_log_backend_getter>;
@@ -63,7 +65,9 @@ public:
     main_ctx_object(identifier obj_id, main_ctx_parent parent) noexcept
       : base{_make_base(obj_id, parent)} {}
 
-    auto context() const noexcept -> main_ctx&;
+    auto main_context() const noexcept -> main_ctx&;
+
+    auto app_config() const noexcept -> application_config&;
 };
 
 } // namespace eagine

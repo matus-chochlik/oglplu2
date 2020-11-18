@@ -74,25 +74,27 @@ struct ping_stats {
 using ping_base = service_composition<pinger<build_info_consumer<
   system_info_consumer<subscriber_discovery<shutdown_invoker<>>>>>>;
 
-class ping_example : public ping_base {
+class ping_example
+  : public main_ctx_object
+  , public ping_base {
     using base = ping_base;
 
 public:
     ping_example(endpoint& bus, const valid_if_positive<std::intmax_t>& max)
-      : base{bus}
-      , _log{EAGINE_ID(PingExampl), bus.log()}
+      : main_ctx_object{EAGINE_ID(PingExampl), bus}
+      , base{bus}
       , _max{extract_or(max, 100000)} {}
 
     void on_subscribed(identifier_t id, message_id sub_msg) final {
         if(sub_msg == EAGINE_MSG_ID(eagiPing, ping)) {
-            _log.info("pingable ${id} appeared").arg(EAGINE_ID(id), id);
+            log_info("pingable ${id} appeared").arg(EAGINE_ID(id), id);
             _targets.try_emplace(id, ping_stats{});
         }
     }
 
     void on_unsubscribed(identifier_t id, message_id sub_msg) final {
         if(sub_msg == EAGINE_MSG_ID(eagiPing, ping)) {
-            _log.info("pingable ${id} disappeared").arg(EAGINE_ID(id), id);
+            log_info("pingable ${id} disappeared").arg(EAGINE_ID(id), id);
         }
     }
 
@@ -158,7 +160,7 @@ public:
                 const auto msgs_per_sec{float(_mod) / interval.count()};
                 stats.messages_per_second.push_back(msgs_per_sec);
 
-                _log.info("received ${rcvd} pongs")
+                log_info("received ${rcvd} pongs")
                   .arg(EAGINE_ID(rcvd), _rcvd)
                   .arg(EAGINE_ID(interval), interval)
                   .arg(EAGINE_ID(msgsPerSec), msgs_per_sec)
@@ -175,7 +177,7 @@ public:
         auto& stats = _targets[pinger_id];
         stats.timeouted++;
         if(EAGINE_UNLIKELY((++_tout % _mod) == 0)) {
-            _log.info("${tout} pongs timeouted").arg(EAGINE_ID(tout), _tout);
+            log_info("${tout} pongs timeouted").arg(EAGINE_ID(tout), _tout);
         }
     }
 
@@ -188,7 +190,7 @@ public:
         something_done(base::update());
         if(EAGINE_UNLIKELY(_targets.empty())) {
             if(EAGINE_UNLIKELY(_should_query_pingable)) {
-                _log.info("searching for pingables");
+                log_info("searching for pingables");
                 query_subscribers_of(EAGINE_MSG_ID(eagiPing, ping));
                 _should_query_pingable.reset();
             }
@@ -198,7 +200,7 @@ public:
                     if(_sent < (_rcvd + _tout + _mod)) {
                         this->ping(pingable_id, std::chrono::seconds(5));
                         if(EAGINE_UNLIKELY((++_sent % _mod) == 0)) {
-                            _log.info("sent ${sent} pings")
+                            log_info("sent ${sent} pings")
                               .arg(EAGINE_ID(sent), _sent);
                             if(!entry.build.has_version()) {
                                 this->query_build_info(pingable_id);
@@ -239,7 +241,7 @@ public:
         for(auto& [id, info] : _targets) {
             const auto& infoc{info};
 
-            _log.stat("pingable ${id} stats:")
+            log_stat("pingable ${id} stats:")
               .arg(EAGINE_ID(id), id)
               .arg(EAGINE_ID(bldInfo), info.build)
               .arg(EAGINE_ID(hostname), info.hostname)
@@ -263,7 +265,7 @@ public:
                 info.responds_per_second(),
                 not_avail);
 
-            _log.stat("pingable ${id} messages per second:")
+            log_stat("pingable ${id} messages per second:")
               .arg(EAGINE_ID(id), id)
               .arg_func([&](logger_backend& backend) {
                   if(!infoc.messages_per_second.empty()) {
@@ -307,7 +309,6 @@ public:
     }
 
 private:
-    logger _log{};
     timeout _should_query_pingable{std::chrono::seconds(2)};
     std::map<identifier_t, ping_stats> _targets{};
     std::intmax_t _mod{10000};
@@ -321,10 +322,10 @@ private:
 
 auto main(main_ctx& ctx) -> int {
 
-    msgbus::router_address address{ctx.log(), ctx.config()};
-    msgbus::connection_setup conn_setup(ctx.log(), ctx.config());
+    msgbus::router_address address{ctx};
+    msgbus::connection_setup conn_setup(ctx);
 
-    msgbus::endpoint bus{logger{EAGINE_ID(PingEndpt), ctx.log()}};
+    msgbus::endpoint bus{EAGINE_ID(PingEndpt), ctx};
 
     valid_if_positive<std::intmax_t> ping_count{};
     if(auto arg{ctx.args().find("--ping-count")}) {

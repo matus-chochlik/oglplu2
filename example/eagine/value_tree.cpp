@@ -138,7 +138,7 @@ auto main(main_ctx& ctx) -> int {
     if(auto path_arg{ctx.args().find("--fs-tree").next()}) {
         log.info("opening ${root} filesystem tree")
           .arg(EAGINE_ID(root), path_arg.get());
-        if(auto fs_tree{valtree::from_filesystem_path(path_arg, log)}) {
+        if(auto fs_tree{valtree::from_filesystem_path(path_arg, ctx)}) {
             fs_tree.traverse(valtree::compound::visit_handler(visitor));
         }
     }

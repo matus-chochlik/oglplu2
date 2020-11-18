@@ -26,18 +26,20 @@ namespace msgbus {
 using pong_base = service_composition<
   pingable<build_info_provider<system_info_provider<shutdown_target<>>>>>;
 
-class pong_example : public pong_base {
+class pong_example
+  : public main_ctx_object
+  , public pong_base {
     using base = pong_base;
 
 public:
     pong_example(endpoint& bus)
-      : base{bus}
-      , _log{EAGINE_ID(PongExampl), bus.log()} {}
+      : main_ctx_object{EAGINE_ID(PongExampl), bus}
+      , base{bus} {}
 
     auto respond_to_ping(identifier_t, message_sequence_t, verification_bits)
       -> bool final {
         if(EAGINE_UNLIKELY((++_sent % _mod) == 0)) {
-            _log.info("sent ${sent} pongs").arg(EAGINE_ID(sent), _sent);
+            log_info("sent ${sent} pongs").arg(EAGINE_ID(sent), _sent);
         }
         return true;
     }
@@ -46,7 +48,7 @@ public:
       std::chrono::milliseconds age,
       identifier_t source_id,
       verification_bits verified) final {
-        _log.info("received shutdown request from ${source}")
+        log_info("received shutdown request from ${source}")
           .arg(EAGINE_ID(age), age)
           .arg(EAGINE_ID(source), source_id)
           .arg(EAGINE_ID(verified), verified);
@@ -72,7 +74,6 @@ public:
     }
 
 private:
-    logger _log{};
     std::intmax_t _mod{10000};
     std::intmax_t _sent{0};
     timeout _announce_timeout{std::chrono::seconds(5)};
@@ -83,10 +84,10 @@ private:
 
 auto main(main_ctx& ctx) -> int {
 
-    msgbus::router_address address{ctx.log(), ctx.config()};
-    msgbus::connection_setup conn_setup(ctx.log(), ctx.config());
+    msgbus::router_address address{ctx};
+    msgbus::connection_setup conn_setup(ctx);
 
-    msgbus::endpoint bus{logger{EAGINE_ID(PongEndpt), ctx.log()}};
+    msgbus::endpoint bus{main_ctx_object{EAGINE_ID(PongEndpt), ctx}};
 
     if(auto id_arg{ctx.args().find("--pingable-id").next()}) {
         identifier_t id{0};

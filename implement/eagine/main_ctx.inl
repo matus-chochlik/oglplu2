@@ -119,8 +119,13 @@ main_ctx_log_backend_getter::main_ctx_log_backend_getter() noexcept
   : _backend{main_ctx::get().log().backend()} {}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto main_ctx_object::context() const noexcept -> main_ctx& {
+auto main_ctx_object::main_context() const noexcept -> main_ctx& {
     return main_ctx::get();
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto main_ctx_object::app_config() const noexcept -> application_config& {
+    return main_context().config();
 }
 //------------------------------------------------------------------------------
 // main

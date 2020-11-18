@@ -23,11 +23,11 @@ auto main(main_ctx& ctx) -> int {
 
     log.info("message bus bridge starting up");
 
-    msgbus::router_address address(log, ctx.config());
+    msgbus::router_address address(ctx);
 
-    msgbus::connection_setup conn_setup(log, ctx.config());
+    msgbus::connection_setup conn_setup(ctx);
 
-    msgbus::bridge bridge(log, ctx.config());
+    msgbus::bridge bridge(ctx);
     bridge.add_ca_certificate_pem(ca_certificate_pem(ctx));
     bridge.add_certificate_pem(msgbus_bridge_certificate_pem(ctx));
     conn_setup.setup_connectors(bridge, address);

@@ -11,7 +11,7 @@
 #define EAGINE_MESSAGE_BUS_CONN_SETUP_HPP
 
 #include "../enum_map.hpp"
-#include "../logging/logger.hpp"
+#include "../main_ctx_object.hpp"
 #include "conn_factory.hpp"
 #include <memory>
 #include <mutex>
@@ -23,7 +23,6 @@ namespace msgbus {
 //------------------------------------------------------------------------------
 class connection_setup;
 void connection_setup_default_init(connection_setup&);
-void connection_setup_default_init(connection_setup&, application_config&);
 //------------------------------------------------------------------------------
 static inline auto adapt_log_entry_arg(
   identifier name,
@@ -38,9 +37,8 @@ static inline auto adapt_log_entry_arg(
     };
 }
 //------------------------------------------------------------------------------
-class connection_setup {
+class connection_setup : public main_ctx_object {
     std::mutex _mutex{};
-    logger _log{};
 
     using _factory_list = std::vector<std::unique_ptr<connection_factory>>;
 
@@ -69,14 +67,9 @@ class connection_setup {
     auto _make_call_setup_connectors(connection_user&, string_view address);
 
 public:
-    connection_setup() noexcept = default;
-
-    connection_setup(logger& parent) noexcept
-      : _log{EAGINE_ID(ConnSetup), parent} {}
-
-    connection_setup(logger& parent, application_config& cfg) noexcept
-      : connection_setup{parent} {
-        default_init(cfg);
+    connection_setup(main_ctx_parent parent) noexcept
+      : main_ctx_object{EAGINE_ID(ConnSetup), parent} {
+        default_init();
     }
 
     void setup_acceptors(acceptor_user& target, string_view address);
@@ -169,15 +162,11 @@ public:
     auto make_factory(Args&&... args)
       -> std::enable_if_t<std::is_base_of_v<connection_factory, Factory>> {
         add_factory(
-          std::make_unique<Factory>(_log, std::forward<Args>(args)...));
+          std::make_unique<Factory>(*this, std::forward<Args>(args)...));
     }
 
     void default_init() {
         connection_setup_default_init(*this);
-    }
-
-    void default_init(application_config& cfg) {
-        connection_setup_default_init(*this, cfg);
     }
 };
 //------------------------------------------------------------------------------

@@ -56,7 +56,7 @@ auto application_config::_find_prog_arg(string_view key) noexcept
         }
         arg_name.append(&c, 1U);
     }
-    return context().args().find(arg_name);
+    return main_context().args().find(arg_name);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

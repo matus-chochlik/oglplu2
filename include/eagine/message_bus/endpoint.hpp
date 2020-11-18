@@ -11,7 +11,7 @@
 #define EAGINE_MESSAGE_BUS_ENDPOINT_HPP
 
 #include "../flat_map.hpp"
-#include "../logging/logger.hpp"
+#include "../main_ctx_object.hpp"
 #include "../timeout.hpp"
 #include "blobs.hpp"
 #include "connection.hpp"
@@ -23,7 +23,9 @@ namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 class friend_of_endpoint;
 //------------------------------------------------------------------------------
-class endpoint : public connection_user {
+class endpoint
+  : public connection_user
+  , public main_ctx_object {
 public:
     static constexpr auto invalid_id() noexcept -> identifier_t {
         return 0U;
@@ -39,9 +41,7 @@ public:
 private:
     friend class friend_of_endpoint;
 
-    logger _log{};
-
-    shared_context _context{make_context(_log)};
+    shared_context _context{make_context(*this)};
 
     identifier_t _preconfd_id{invalid_id()};
     identifier_t _endpoint_id{invalid_id()};
@@ -64,7 +64,7 @@ private:
         return std::get<1>(std::get<1>(entry));
     }
 
-    blob_manipulator _blobs{_log};
+    blob_manipulator _blobs{*this};
     blob_manipulator::filter_function _allow_blob{};
 
     auto _cleanup_blobs() -> bool;
@@ -98,20 +98,20 @@ private:
 
     auto _accept_message(message_id msg_id, const message_view&) -> bool;
 
-    explicit endpoint(logger log, fetch_handler store_message) noexcept
-      : _log{std::move(log)}
+    explicit endpoint(main_ctx_object obj, fetch_handler store_message) noexcept
+      : main_ctx_object{std::move(obj)}
       , _store_handler{std::move(store_message)} {}
 
     explicit endpoint(
-      logger log,
+      main_ctx_object obj,
       blob_filter_function allow_blob,
       fetch_handler store_message) noexcept
-      : _log{std::move(log)}
+      : main_ctx_object{std::move(obj)}
       , _allow_blob{std::move(allow_blob)}
       , _store_handler{std::move(store_message)} {}
 
     endpoint(endpoint&& temp) noexcept
-      : _log{std::move(temp._log)}
+      : main_ctx_object{static_cast<main_ctx_object&&>(temp)}
       , _context{std::move(temp._context)}
       , _preconfd_id{std::exchange(temp._preconfd_id, invalid_id())}
       , _endpoint_id{std::exchange(temp._endpoint_id, invalid_id())}
@@ -124,7 +124,7 @@ private:
       endpoint&& temp,
       blob_filter_function allow_blob,
       fetch_handler store_message) noexcept
-      : _log{std::move(temp._log)}
+      : main_ctx_object{static_cast<main_ctx_object&&>(temp)}
       , _context{std::move(temp._context)}
       , _preconfd_id{std::exchange(temp._preconfd_id, invalid_id())}
       , _endpoint_id{std::exchange(temp._endpoint_id, invalid_id())}
@@ -136,18 +136,17 @@ private:
       , _store_handler{std::move(store_message)} {}
 
 public:
-    endpoint() = default;
+    endpoint(main_ctx_object obj) noexcept
+      : main_ctx_object{std::move(obj)} {}
 
-    endpoint(logger log) noexcept
-      : _log{std::move(log)} {}
+    endpoint(identifier id, main_ctx_parent parent) noexcept
+      : main_ctx_object{id, parent} {}
 
-    explicit endpoint(logger log, blob_filter_function allow_blob) noexcept
-      : _log{std::move(log)}
+    explicit endpoint(
+      main_ctx_object obj,
+      blob_filter_function allow_blob) noexcept
+      : main_ctx_object{std::move(obj)}
       , _allow_blob{std::move(allow_blob)} {}
-
-    endpoint(logger log, application_config& cfg) noexcept
-      : _log{std::move(log)}
-      , _context{make_context(_log, cfg)} {}
 
     endpoint(const endpoint&) = delete;
     auto operator=(endpoint&&) = delete;
@@ -156,10 +155,6 @@ public:
     auto ctx() noexcept -> context& {
         EAGINE_ASSERT(_context);
         return *_context;
-    }
-
-    auto log() noexcept -> logger& {
-        return _log;
     }
 
     ~endpoint() noexcept override = default;
@@ -341,16 +336,17 @@ public:
 //------------------------------------------------------------------------------
 class friend_of_endpoint {
 protected:
-    static auto
-    _make_endpoint(logger log, endpoint::fetch_handler store_message) noexcept {
-        return endpoint{std::move(log), store_message};
+    static auto _make_endpoint(
+      main_ctx_object obj,
+      endpoint::fetch_handler store_message) noexcept {
+        return endpoint{std::move(obj), store_message};
     }
 
     static auto _make_endpoint(
-      logger log,
+      main_ctx_object obj,
       endpoint::blob_filter_function allow_blob,
       endpoint::fetch_handler store_message) noexcept {
-        return endpoint{std::move(log), allow_blob, store_message};
+        return endpoint{std::move(obj), allow_blob, store_message};
     }
 
     static auto _move_endpoint(

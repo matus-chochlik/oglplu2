@@ -22,23 +22,25 @@ namespace msgbus {
 using subscription_logger_base =
   service_composition<subscriber_discovery<shutdown_target<>>>;
 
-class subscription_logger : public subscription_logger_base {
+class subscription_logger
+  : public main_ctx_object
+  , public subscription_logger_base {
     using base = subscription_logger_base;
 
 public:
     subscription_logger(endpoint& bus)
-      : base{bus}
-      , _log{EAGINE_ID(SubscrLog), bus.log()} {}
+      : main_ctx_object{EAGINE_ID(SubscrLog), bus}
+      , base{bus} {}
 
     void on_subscribed(identifier_t subscriber_id, message_id sub_msg) final {
-        _log.info("endpoint ${subscrbr} subscribed to ${message}")
+        log_info("endpoint ${subscrbr} subscribed to ${message}")
           .arg(EAGINE_ID(subscrbr), subscriber_id)
           .arg(EAGINE_ID(message), sub_msg);
         this->bus().query_certificate_of(subscriber_id);
     }
 
     void on_unsubscribed(identifier_t subscriber_id, message_id sub_msg) final {
-        _log.info("endpoint ${subscrbr} unsubscribed from ${message}")
+        log_info("endpoint ${subscrbr} unsubscribed from ${message}")
           .arg(EAGINE_ID(subscrbr), subscriber_id)
           .arg(EAGINE_ID(message), sub_msg);
     }
@@ -47,7 +49,7 @@ public:
       std::chrono::milliseconds age,
       identifier_t subscriber_id,
       verification_bits verified) final {
-        _log.info("received ${age} old shutdown request from ${subscrbr}")
+        log_info("received ${age} old shutdown request from ${subscrbr}")
           .arg(EAGINE_ID(age), age)
           .arg(EAGINE_ID(subscrbr), subscriber_id)
           .arg(EAGINE_ID(verified), verified);
@@ -63,7 +65,6 @@ public:
     }
 
 private:
-    logger _log{};
     bool _done{false};
 };
 //------------------------------------------------------------------------------
@@ -73,10 +74,10 @@ auto main(main_ctx& ctx) -> int {
 
     signal_switch interrupted;
 
-    msgbus::router_address address{ctx.log(), ctx.config()};
-    msgbus::connection_setup conn_setup(ctx.log(), ctx.config());
+    msgbus::router_address address{ctx};
+    msgbus::connection_setup conn_setup(ctx);
 
-    msgbus::endpoint bus{logger{EAGINE_ID(DiscoverEx), ctx.log()}};
+    msgbus::endpoint bus{EAGINE_ID(DiscoverEx), ctx};
     bus.add_ca_certificate_pem(ca_certificate_pem(ctx));
     bus.add_certificate_pem(msgbus_endpoint_certificate_pem(ctx));
 

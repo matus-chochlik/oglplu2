@@ -12,7 +12,7 @@
 
 #include "../callable_ref.hpp"
 #include "../double_buffer.hpp"
-#include "../logging/logger.hpp"
+#include "../main_ctx_object.hpp"
 #include "../memory/buffer_pool.hpp"
 #include "../memory/split_block.hpp"
 #include "../timeout.hpp"
@@ -50,9 +50,8 @@ struct pending_blob {
     auto merge_fragment(span_size_t offset, memory::const_block) -> bool;
 };
 //------------------------------------------------------------------------------
-class blob_manipulator {
+class blob_manipulator : main_ctx_object {
 private:
-    logger _log{};
     std::int64_t _max_blob_size{16 * 1024 * 1024};
     std::uint64_t _blob_id_sequence{0};
     memory::buffer _scratch_buffer{};
@@ -63,9 +62,8 @@ private:
     auto _scratch_block(span_size_t size) -> memory::block;
 
 public:
-    blob_manipulator() = default;
-    blob_manipulator(logger& parent)
-      : _log{EAGINE_ID(BlobManipl), parent} {}
+    blob_manipulator(main_ctx_parent parent)
+      : main_ctx_object{EAGINE_ID(BlobManipl), parent} {}
 
     auto max_blob_size() const noexcept -> valid_if_positive<span_size_t> {
         return {span_size(_max_blob_size)};

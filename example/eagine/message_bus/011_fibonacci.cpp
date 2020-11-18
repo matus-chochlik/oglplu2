@@ -139,17 +139,16 @@ private:
 } // namespace msgbus
 
 auto main(main_ctx& ctx) -> int {
-    auto& log = ctx.log();
 
-    auto acceptor = std::make_unique<msgbus::direct_acceptor>(log);
+    auto acceptor = std::make_unique<msgbus::direct_acceptor>(ctx);
 
-    msgbus::endpoint server_endpoint(logger{EAGINE_ID(Server), log});
-    msgbus::endpoint client_endpoint(logger{EAGINE_ID(Client), log});
+    msgbus::endpoint server_endpoint(EAGINE_ID(Server), ctx);
+    msgbus::endpoint client_endpoint(EAGINE_ID(Client), ctx);
 
     server_endpoint.add_connection(acceptor->make_connection());
     client_endpoint.add_connection(acceptor->make_connection());
 
-    msgbus::router router(log);
+    msgbus::router router(ctx);
     router.add_acceptor(std::move(acceptor));
 
     msgbus::fibonacci_server server(server_endpoint);

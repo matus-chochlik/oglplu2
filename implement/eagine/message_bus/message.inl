@@ -4,6 +4,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/main_ctx_object.hpp>
 #include <eagine/message_bus/context.hpp>
 #include <eagine/message_bus/serialize.hpp>
 
@@ -13,7 +14,7 @@ auto stored_message::store_and_sign(
   memory::const_block data,
   span_size_t max_size,
   context& ctx,
-  logger& log) -> bool {
+  main_ctx_object& user) -> bool {
 
     if(ok md_type{ctx.default_message_digest()}) {
         auto& ssl = ctx.ssl();
@@ -35,26 +36,26 @@ auto stored_message::store_and_sign(
                             _buffer.resize(used.size() + sig.get().size());
                             return true;
                         } else {
-                            log.debug("failed to finish ssl signature")
+                            user.log_debug("failed to finish ssl signature")
                               .arg(EAGINE_ID(freeSize), free.size())
                               .arg(EAGINE_ID(reason), (!sig).message());
                         }
                     } else {
-                        log.debug("failed to update ssl signature");
+                        user.log_debug("failed to update ssl signature");
                     }
                 } else {
-                    log.debug("failed to init ssl sign context");
+                    user.log_debug("failed to init ssl sign context");
                 }
             } else {
-                log.debug("failed to create ssl message digest")
+                user.log_debug("failed to create ssl message digest")
                   .arg(EAGINE_ID(reason), (!md_ctx).message());
             }
         } else {
-            log.debug("not enough space for message signature")
+            user.log_debug("not enough space for message signature")
               .arg(EAGINE_ID(maxSize), max_size);
         }
     } else {
-        log.debug("failed to get ssl message digest type")
+        user.log_debug("failed to get ssl message digest type")
           .arg(EAGINE_ID(reason), (!md_type).message());
     }
     copy_into(data, _buffer);
@@ -62,7 +63,7 @@ auto stored_message::store_and_sign(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto stored_message::verify_bits(context& ctx, logger&) const noexcept
+auto stored_message::verify_bits(context& ctx, main_ctx_object&) const noexcept
   -> verification_bits {
     return ctx.verify_remote_signature(content(), signature(), source_id);
 }
@@ -198,7 +199,7 @@ void serialized_message_storage::cleanup(bit_set to_be_removed) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto connection_outgoing_messages::enqueue(
-  logger& log,
+  main_ctx_object& user,
   message_id msg_id,
   const message_view& message,
   memory::block temp) -> bool {
@@ -207,12 +208,12 @@ auto connection_outgoing_messages::enqueue(
     string_serializer_backend backend(sink);
     auto errors = serialize_message(msg_id, message, backend);
     if(!errors) {
-        log.trace("enqueuing message ${message} to be sent")
+        user.log_trace("enqueuing message ${message} to be sent")
           .arg(EAGINE_ID(message), msg_id);
         serialized.push(sink.done());
         return true;
     }
-    log.error("failed to serialize message ${message}")
+    user.log_error("failed to serialize message ${message}")
       .arg(EAGINE_ID(message), msg_id);
     return false;
 }
@@ -221,24 +222,24 @@ auto connection_outgoing_messages::enqueue(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto connection_incoming_messages::fetch_messages(
-  logger& log,
+  main_ctx_object& user,
   fetch_handler handler,
   span_size_t batch) -> bool {
     unpacked.fetch_all(handler);
-    auto unpacker = [this, &log, &handler](memory::const_block data) {
-        for_each_data_with_size(data, [this, &log](memory::const_block blk) {
+    auto unpacker = [this, &user, &handler](memory::const_block data) {
+        for_each_data_with_size(data, [this, &user](memory::const_block blk) {
             unpacked.push_if(
-              [&log, blk](message_id& msg_id, stored_message& message) {
+              [&user, blk](message_id& msg_id, stored_message& message) {
                   block_data_source source(blk);
                   string_deserializer_backend backend(source);
                   const auto errors =
                     deserialize_message(msg_id, message, backend);
                   if(!errors) {
-                      log.trace("fetched message ${message}")
+                      user.log_trace("fetched message ${message}")
                         .arg(EAGINE_ID(message), msg_id);
                       return true;
                   } else {
-                      log.error("failed to deserialize message)")
+                      user.log_error("failed to deserialize message)")
                         .arg(EAGINE_ID(errorBits), errors.bits())
                         .arg(EAGINE_ID(block), blk);
                       return false;

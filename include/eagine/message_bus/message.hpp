@@ -13,7 +13,7 @@
 #include "../assert.hpp"
 #include "../bitfield.hpp"
 #include "../callable_ref.hpp"
-#include "../logging/fwd.hpp"
+#include "../main_ctx_fwd.hpp"
 #include "../memory/buffer_pool.hpp"
 #include "../memory/copy.hpp"
 #include "../memory/span_algo.hpp"
@@ -250,9 +250,10 @@ public:
       memory::const_block data,
       span_size_t max_size,
       context&,
-      logger&) -> bool;
+      main_ctx_object&) -> bool;
 
-    auto verify_bits(context&, logger&) const noexcept -> verification_bits;
+    auto verify_bits(context&, main_ctx_object&) const noexcept
+      -> verification_bits;
 };
 //------------------------------------------------------------------------------
 class message_storage {
@@ -456,8 +457,11 @@ struct connection_outgoing_messages {
 
     serialized_message_storage serialized{};
 
-    auto enqueue(logger& log, message_id, const message_view&, memory::block)
-      -> bool;
+    auto enqueue(
+      main_ctx_object& user,
+      message_id,
+      const message_view&,
+      memory::block) -> bool;
 
     auto pack_into(memory::block dest) -> bit_set {
         return serialized.pack_into(dest);
@@ -483,9 +487,10 @@ struct connection_incoming_messages {
         packed.push(data);
     }
 
-    auto
-    fetch_messages(logger& log, fetch_handler handler, span_size_t batch = 64)
-      -> bool;
+    auto fetch_messages(
+      main_ctx_object& user,
+      fetch_handler handler,
+      span_size_t batch = 64) -> bool;
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

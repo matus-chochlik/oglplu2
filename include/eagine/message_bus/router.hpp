@@ -11,7 +11,7 @@
 #define EAGINE_MESSAGE_BUS_ROUTER_HPP
 
 #include "../flat_map.hpp"
-#include "../logging/logger.hpp"
+#include "../main_ctx_object.hpp"
 #include "../timeout.hpp"
 #include "../valid_if/positive.hpp"
 #include "acceptor.hpp"
@@ -56,7 +56,7 @@ struct routed_endpoint {
 
     auto is_allowed(message_id) const noexcept -> bool;
 
-    auto send(logger& log, message_id, message_view) const -> bool;
+    auto send(main_ctx_object&, message_id, message_view) const -> bool;
 };
 //------------------------------------------------------------------------------
 struct parent_router {
@@ -66,28 +66,23 @@ struct parent_router {
 
     void reset(std::unique_ptr<connection>);
 
-    auto update(logger&, identifier_t id_base) -> bool;
+    auto update(main_ctx_object&, identifier_t id_base) -> bool;
 
     template <typename Handler>
-    auto fetch_messages(logger&, const Handler&) -> bool;
+    auto fetch_messages(main_ctx_object&, const Handler&) -> bool;
 
-    auto send(logger& log, message_id, message_view) const -> bool;
+    auto send(main_ctx_object&, message_id, message_view) const -> bool;
 };
 //------------------------------------------------------------------------------
 class router
-  : public acceptor_user
+  : public main_ctx_object
+  , public acceptor_user
   , public connection_user {
 public:
-    router() = default;
-
-    router(logger& parent) noexcept
-      : _log{EAGINE_ID(MsgBusRutr), parent}
-      , _context{make_context(_log)} {}
-
-    router(logger& parent, application_config& cfg) noexcept
-      : _log{EAGINE_ID(MsgBusRutr), parent}
-      , _context{make_context(_log, cfg)} {
-        _setup_from_config(cfg);
+    router(main_ctx_parent parent) noexcept
+      : main_ctx_object{EAGINE_ID(MsgBusRutr), parent}
+      , _context{make_context(*this)} {
+        _setup_from_config();
     }
 
     void add_certificate_pem(memory::const_block blk);
@@ -124,7 +119,7 @@ public:
     }
 
 private:
-    void _setup_from_config(application_config&);
+    void _setup_from_config();
 
     auto _handle_accept() -> bool;
     auto _handle_pending() -> bool;
@@ -152,7 +147,6 @@ private:
     auto _route_messages() -> bool;
     auto _update_connections() -> bool;
 
-    logger _log{};
     shared_context _context{};
     const std::chrono::seconds _pending_timeout{30};
     timeout _no_connection_timeout{std::chrono::seconds{30}};
@@ -165,7 +159,7 @@ private:
     std::vector<std::shared_ptr<acceptor>> _acceptors;
     std::vector<router_pending> _pending;
     flat_map<identifier_t, routed_endpoint> _endpoints;
-    blob_manipulator _blobs{};
+    blob_manipulator _blobs{*this};
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

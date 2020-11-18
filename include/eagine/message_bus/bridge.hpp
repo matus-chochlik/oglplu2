@@ -10,7 +10,7 @@
 #ifndef EAGINE_MESSAGE_BUS_BRIDGE_HPP
 #define EAGINE_MESSAGE_BUS_BRIDGE_HPP
 
-#include "../logging/logger.hpp"
+#include "../main_ctx_object.hpp"
 #include "../timeout.hpp"
 #include "connection.hpp"
 #include "context_fwd.hpp"
@@ -19,7 +19,9 @@
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 class bridge_state;
-class bridge : public connection_user {
+class bridge
+  : public main_ctx_object
+  , public connection_user {
 
     static constexpr auto invalid_id() noexcept -> identifier_t {
         return 0U;
@@ -30,14 +32,10 @@ class bridge : public connection_user {
     }
 
 public:
-    bridge(logger& parent) noexcept
-      : _log(EAGINE_ID(MsgBusBrdg), parent)
-      , _context{make_context(_log)} {}
-
-    bridge(logger& parent, application_config& cfg) noexcept
-      : _log(EAGINE_ID(MsgBusBrdg), parent)
-      , _context{make_context(_log, cfg)} {
-        _setup_from_config(cfg);
+    bridge(main_ctx_parent parent) noexcept
+      : main_ctx_object(EAGINE_ID(MsgBusBrdg), parent)
+      , _context{make_context(*this)} {
+        _setup_from_config();
     }
 
     void add_certificate_pem(memory::const_block blk);
@@ -60,7 +58,7 @@ public:
     }
 
 private:
-    void _setup_from_config(application_config&);
+    void _setup_from_config();
 
     auto _check_state() -> bool;
     auto _update_connections() -> bool;

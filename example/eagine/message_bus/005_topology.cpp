@@ -24,13 +24,15 @@ namespace msgbus {
 using topology_printer_base =
   service_composition<network_topology<shutdown_target<>>>;
 
-class topology_printer : public topology_printer_base {
+class topology_printer
+  : public main_ctx_object
+  , public topology_printer_base {
     using base = topology_printer_base;
 
 public:
     topology_printer(endpoint& bus)
-      : base{bus}
-      , _log{EAGINE_ID(TopoPrint), bus.log()} {}
+      : main_ctx_object{EAGINE_ID(TopoPrint), bus}
+      , base{bus} {}
 
     void print_topology() {
         std::cout << "graph EMB {\n";
@@ -69,7 +71,7 @@ public:
     }
 
     void router_appeared(const router_topology_info& info) final {
-        _log.info("found router connection ${router} - ${remote}")
+        log_info("found router connection ${router} - ${remote}")
           .arg(EAGINE_ID(remote), info.remote_id)
           .arg(EAGINE_ID(router), info.router_id);
 
@@ -79,7 +81,7 @@ public:
 
     void bridge_appeared(const bridge_topology_info& info) final {
         if(info.opposite_id) {
-            _log.info("found bridge connection ${bridge} - ${remote}")
+            log_info("found bridge connection ${bridge} - ${remote}")
               .arg(EAGINE_ID(remote), info.opposite_id)
               .arg(EAGINE_ID(bridge), info.bridge_id);
 
@@ -94,7 +96,7 @@ public:
     }
 
     void endpoint_appeared(const endpoint_topology_info& info) final {
-        _log.info("found endpoint ${endpoint}")
+        log_info("found endpoint ${endpoint}")
           .arg(EAGINE_ID(endpoint), info.endpoint_id);
 
         _endpoints.emplace(info.endpoint_id);
@@ -124,10 +126,10 @@ auto main(main_ctx& ctx) -> int {
 
     signal_switch interrupted;
 
-    msgbus::router_address address{ctx.log(), ctx.config()};
-    msgbus::connection_setup conn_setup(ctx.log(), ctx.config());
+    msgbus::router_address address{ctx};
+    msgbus::connection_setup conn_setup(ctx);
 
-    msgbus::endpoint bus{logger{EAGINE_ID(TopologyEx), ctx.log()}};
+    msgbus::endpoint bus{EAGINE_ID(TopologyEx), ctx};
     bus.add_ca_certificate_pem(ca_certificate_pem(ctx));
     bus.add_certificate_pem(msgbus_endpoint_certificate_pem(ctx));
 

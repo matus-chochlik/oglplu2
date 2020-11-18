@@ -43,7 +43,7 @@ template <typename BackendGetter>
 class basic_logger : protected BackendGetter {
 public:
     template <log_event_severity severity>
-    using entry = std::
+    using entry_type = std::
       conditional_t<is_log_level_enabled_v<severity>, log_entry, no_log_entry>;
 
     auto backend() noexcept {
@@ -82,7 +82,7 @@ protected:
     constexpr auto make_log_entry(
       identifier source,
       log_event_severity_constant<severity>,
-      string_view format) noexcept -> entry<severity> {
+      string_view format) noexcept -> entry_type<severity> {
         return make_log_entry(
           source, severity, is_log_level_enabled_t<severity>{}, format);
     }
@@ -191,7 +191,7 @@ class named_logging_object : public basic_logger<BackendGetter> {
 
 public:
     template <log_event_severity severity>
-    using entry = std::
+    using entry_type = std::
       conditional_t<is_log_level_enabled_v<severity>, log_entry, no_log_entry>;
 
     using base::log_lifetime;
@@ -280,7 +280,7 @@ protected:
     template <log_event_severity severity>
     auto make_log_entry(
       log_event_severity_constant<severity> level,
-      string_view format) noexcept -> entry<severity> {
+      string_view format) noexcept -> entry_type<severity> {
         return base::make_log_entry(_object_id, level, format);
     }
 
@@ -304,7 +304,7 @@ public:
     template <log_event_severity severity>
     auto log(
       log_event_severity_constant<severity> level,
-      string_view format) noexcept -> entry<severity> {
+      string_view format) noexcept -> entry_type<severity> {
         return make_log_entry(level, format);
     }
 
