@@ -25,7 +25,7 @@ public:
     }
 
 private:
-    logger_backend* _backend{nullptr};
+    logger_backend* const _backend{nullptr};
 };
 
 class main_ctx_object_parent_info {
