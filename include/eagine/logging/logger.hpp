@@ -204,7 +204,9 @@ public:
           .arg(EAGINE_ID(self), EAGINE_ID(LogId), _object_id);
     }
 
-    named_logging_object(identifier id, named_logging_object& parent) noexcept
+    named_logging_object(
+      identifier id,
+      const named_logging_object& parent) noexcept
       : base(static_cast<const base&>(parent))
       , _object_id{id} {
         log_lifetime(_object_id, "created as a child of ${parent}")
