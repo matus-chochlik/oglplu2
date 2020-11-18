@@ -46,12 +46,16 @@ public:
     using entry = std::
       conditional_t<is_log_level_enabled_v<severity>, log_entry, no_log_entry>;
 
+    auto backend() noexcept {
+        return _backend_getter()();
+    }
+
 protected:
     basic_logger() noexcept = default;
 
-    basic_logger(BackendGetter get_backend) noexcept(
+    basic_logger(BackendGetter backend_getter) noexcept(
       std::is_nothrow_move_constructible_v<BackendGetter>)
-      : BackendGetter(std::move(get_backend)) {}
+      : BackendGetter(std::move(backend_getter)) {}
 
     auto make_log_entry(
       identifier source,
@@ -165,15 +169,11 @@ protected:
           _entry_backend(source, severity)};
     }
 
-    auto _get_backend() noexcept {
-        return _backend_getter()();
-    }
-
     auto _entry_backend(identifier source, log_event_severity severity) noexcept
       -> logger_backend* {
         if(is_log_level_enabled(severity)) {
-            if(auto backend{_get_backend()}) {
-                return backend->entry_backend(source, severity);
+            if(auto lbe{backend()}) {
+                return lbe->entry_backend(source, severity);
             }
         }
         return nullptr;
@@ -194,38 +194,35 @@ public:
     using entry = std::
       conditional_t<is_log_level_enabled_v<severity>, log_entry, no_log_entry>;
 
-    named_logging_object(
-      identifier logger_id,
-      const std::shared_ptr<logger_backend>& backend) noexcept
-      : base(backend)
-      , _logger_id{logger_id} {
-        this
-          ->log_lifetime(_logger_id, "${self} created with ${backend} backend")
-          .arg(EAGINE_ID(backend), this->_get_backend())
-          .arg(EAGINE_ID(self), EAGINE_ID(LogId), _logger_id);
+    using base::log_lifetime;
+
+    named_logging_object(identifier id, BackendGetter backend_getter) noexcept
+      : base(BackendGetter(std::move(backend_getter)))
+      , _object_id{id} {
+        log_lifetime(_object_id, "${self} created with ${backend} backend")
+          .arg(EAGINE_ID(backend), this->backend())
+          .arg(EAGINE_ID(self), EAGINE_ID(LogId), _object_id);
+    }
+
+    named_logging_object(identifier id, named_logging_object& parent) noexcept
+      : base(static_cast<const base&>(parent))
+      , _object_id{id} {
+        log_lifetime(_object_id, "created as a child of ${parent}")
+          .arg(EAGINE_ID(parent), EAGINE_ID(LogId), parent._object_id);
     }
 
     named_logging_object() noexcept = default;
 
-    named_logging_object(
-      identifier logger_id,
-      named_logging_object& parent) noexcept
-      : base(static_cast<const base&>(parent))
-      , _logger_id{logger_id} {
-        this->log_lifetime(_logger_id, "created as a child of ${parent}")
-          .arg(EAGINE_ID(parent), EAGINE_ID(LogId), parent._logger_id);
-    }
-
     named_logging_object(named_logging_object&& temp) noexcept
       : base(static_cast<base&&>(temp))
-      , _logger_id{temp._logger_id} {
-        this->log_lifetime(_logger_id, "being moved");
+      , _object_id{temp._object_id} {
+        log_lifetime(_object_id, "being moved");
     }
 
     named_logging_object(const named_logging_object& that) noexcept
       : base(static_cast<const base&>(that))
-      , _logger_id{that._logger_id} {
-        this->log_lifetime(_logger_id, "being copied");
+      , _object_id{that._object_id} {
+        log_lifetime(_object_id, "being copied");
     }
 
     auto operator=(named_logging_object&&) noexcept
@@ -234,39 +231,43 @@ public:
       -> named_logging_object& = default;
 
     ~named_logging_object() noexcept {
-        this->log_lifetime(_logger_id, "being destroyed");
+        log_lifetime(_object_id, "being destroyed");
+    }
+
+    constexpr auto object_id() const noexcept {
+        return _object_id;
     }
 
     auto log_fatal(string_view format) noexcept {
-        return base::log_fatal(_logger_id, format);
+        return base::log_fatal(_object_id, format);
     }
 
     auto log_error(string_view format) noexcept {
-        return base::log_error(_logger_id, format);
+        return base::log_error(_object_id, format);
     }
 
     auto log_warning(string_view format) noexcept {
-        return base::log_warning(_logger_id, format);
+        return base::log_warning(_object_id, format);
     }
 
     auto log_info(string_view format) noexcept {
-        return base::log_info(_logger_id, format);
+        return base::log_info(_object_id, format);
     }
 
     auto log_stat(string_view format) noexcept {
-        return base::log_stat(_logger_id, format);
+        return base::log_stat(_object_id, format);
     }
 
     auto log_debug(string_view format) noexcept {
-        return base::log_debug(_logger_id, format);
+        return base::log_debug(_object_id, format);
     }
 
     auto log_trace(string_view format) noexcept {
-        return base::log_trace(_logger_id, format);
+        return base::log_trace(_object_id, format);
     }
 
     auto log_backtrace(string_view format) noexcept {
-        return base::log_backtrace(_logger_id, format);
+        return base::log_backtrace(_object_id, format);
     }
 
 protected:
@@ -274,20 +275,20 @@ protected:
     auto make_log_entry(
       log_event_severity_constant<severity> level,
       string_view format) noexcept -> entry<severity> {
-        return base::make_log_entry(_logger_id, level, format);
+        return base::make_log_entry(_object_id, level, format);
     }
 
     auto make_log_entry(log_event_severity severity, string_view format) noexcept
       -> log_entry {
-        return base::make_log_entry(_logger_id, severity, format);
+        return base::make_log_entry(_object_id, severity, format);
     }
 
     auto make_log_stream(log_event_severity severity) noexcept {
-        return base::make_log_stream(_logger_id, severity);
+        return base::make_log_stream(_object_id, severity);
     }
 
 private:
-    identifier _logger_id{EAGINE_ID(Logger)};
+    identifier _object_id{EAGINE_ID(Object)};
 };
 //------------------------------------------------------------------------------
 class logger : public named_logging_object<logger_shared_backend_getter> {

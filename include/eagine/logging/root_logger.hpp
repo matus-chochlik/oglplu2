@@ -29,7 +29,7 @@ public:
       identifier logger_id,
       const program_args& args,
       const root_logger_options& opts)
-      : logger{logger_id, _init_backend(args, opts)} {
+      : logger{logger_id, {_init_backend(args, opts)}} {
         _log_args(args);
         _log_git_info();
     }
