@@ -14,11 +14,13 @@
 
 namespace eagine {
 
+class master_ctx;
 class main_ctx;
 
 class main_ctx_log_backend_getter {
 public:
     main_ctx_log_backend_getter() noexcept;
+    main_ctx_log_backend_getter(master_ctx&) noexcept;
 
     auto operator()() noexcept -> auto* {
         return _backend;
@@ -33,11 +35,16 @@ class main_ctx_object_parent_info {
 public:
     main_ctx_object_parent_info(main_ctx&) noexcept {}
 
+    main_ctx_object_parent_info(master_ctx& ctx) noexcept
+      : _context{&ctx} {}
+
     main_ctx_object_parent_info(const main_ctx_object& obj) noexcept
       : _object{&obj} {}
 
 private:
     friend class main_ctx_object;
+
+    master_ctx* _context{nullptr};
     const main_ctx_object* _object{nullptr};
 };
 
@@ -50,6 +57,9 @@ class main_ctx_object
     static auto _make_base(identifier obj_id, main_ctx_parent parent) noexcept {
         if(parent._object) {
             return base{obj_id, static_cast<const base&>(*parent._object)};
+        }
+        if(parent._context) {
+            return base{obj_id, main_ctx_log_backend_getter{*parent._context}};
         }
         return base{obj_id, main_ctx_log_backend_getter{}};
     }

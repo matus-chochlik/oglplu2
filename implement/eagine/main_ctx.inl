@@ -34,7 +34,7 @@ public:
       const main_ctx_options& options) noexcept
       : _args{argc, argv}
       , _log_root{options.app_id, _args, options.logger_opts}
-      , _app_config{_log_root, _args}
+      , _app_config{*this}
       , _bld_info{build_info::query()}
       , _sys_info{_log_root}
       , _app_name{options.app_name} {
@@ -107,6 +107,10 @@ main_ctx::~main_ctx() noexcept {
     EAGINE_ASSERT(_single_ptr());
     _single_ptr() = nullptr;
 }
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+main_ctx_log_backend_getter::main_ctx_log_backend_getter(master_ctx& c) noexcept
+  : _backend{c.log().backend()} {}
 //------------------------------------------------------------------------------
 extern auto main(main_ctx& ctx) -> int;
 //------------------------------------------------------------------------------

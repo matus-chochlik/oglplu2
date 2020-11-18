@@ -13,8 +13,6 @@ namespace eagine {
 //------------------------------------------------------------------------------
 class application_config_impl {
 public:
-    application_config_impl(logger&) noexcept {}
-
     auto find_compound_attribute(string_view) noexcept
       -> valtree::compound_attribute {
         // TODO: search configuration files in locations like /etc/oglplus/
@@ -30,7 +28,7 @@ EAGINE_LIB_FUNC
 auto application_config::_impl() noexcept -> application_config_impl* {
     if(EAGINE_UNLIKELY(!_pimpl)) {
         try {
-            _pimpl = std::make_shared<application_config_impl>(_log);
+            _pimpl = std::make_shared<application_config_impl>();
         } catch(...) {
         }
     }
@@ -58,7 +56,7 @@ auto application_config::_find_prog_arg(string_view key) noexcept
         }
         arg_name.append(&c, 1U);
     }
-    return _args.find(arg_name);
+    return context().args().find(arg_name);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

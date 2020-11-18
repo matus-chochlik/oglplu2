@@ -272,6 +272,10 @@ public:
         return base::log_backtrace(_object_id, format);
     }
 
+    auto log_error_stream() noexcept {
+        return make_log_stream(log_event_severity::error);
+    }
+
 protected:
     template <log_event_severity severity>
     auto make_log_entry(
@@ -309,7 +313,7 @@ public:
     }
 
     auto error_stream() noexcept {
-        return make_log_stream(log_event_severity::error);
+        return log_error_stream();
     }
 
     auto fatal(string_view format) noexcept {
