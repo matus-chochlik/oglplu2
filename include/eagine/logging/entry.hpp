@@ -20,10 +20,8 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-static inline auto adapt_log_entry_arg(
-  identifier name,
-  const std::shared_ptr<logger_backend>& value) {
-    return [name, &value](logger_backend& backend) {
+static inline auto adapt_log_entry_arg(identifier name, logger_backend* value) {
+    return [name, value](logger_backend& backend) {
         if(value) {
             backend.add_identifier(
               name, EAGINE_ID(LogBkEndId), value->type_id());
@@ -97,6 +95,23 @@ class log_entry {
     }
 
 public:
+    log_entry(
+      identifier source_id,
+      logger_instance_id instance_id,
+      log_event_severity severity,
+      string_view format,
+      logger_backend* backend) noexcept
+      : _source_id{source_id}
+      , _instance_id{instance_id}
+      , _backend{backend}
+      , _format{format}
+      , _args{_be_alloc(_backend)}
+      , _severity{severity} {
+        if(_backend) {
+            _args.reserve(16);
+        }
+    }
+
     log_entry(log_entry&&) = delete;
     log_entry(const log_entry&) = delete;
     auto operator=(log_entry&&) = delete;
@@ -425,25 +440,6 @@ public:
     }
 
 private:
-    friend class logger;
-
-    log_entry(
-      identifier source_id,
-      logger_instance_id instance_id,
-      log_event_severity severity,
-      string_view format,
-      logger_backend* backend) noexcept
-      : _source_id{source_id}
-      , _instance_id{instance_id}
-      , _backend{backend}
-      , _format{format}
-      , _args{_be_alloc(_backend)}
-      , _severity{severity} {
-        if(_backend) {
-            _args.reserve(16);
-        }
-    }
-
     identifier _source_id{};
     logger_instance_id _instance_id{};
     logger_backend* _backend{nullptr};
@@ -512,6 +508,16 @@ public:
         return _out;
     }
 
+    stream_log_entry(
+      identifier source_id,
+      logger_instance_id instance_id,
+      log_event_severity severity,
+      logger_backend* backend) noexcept
+      : _source_id{source_id}
+      , _instance_id{instance_id}
+      , _backend{backend}
+      , _severity{severity} {}
+
     stream_log_entry(stream_log_entry&&) = default;
     stream_log_entry(const stream_log_entry&) = delete;
     auto operator=(stream_log_entry&&) = delete;
@@ -534,18 +540,6 @@ public:
     }
 
 private:
-    friend class logger;
-
-    stream_log_entry(
-      identifier source_id,
-      logger_instance_id instance_id,
-      log_event_severity severity,
-      logger_backend* backend) noexcept
-      : _source_id{source_id}
-      , _instance_id{instance_id}
-      , _backend{backend}
-      , _severity{severity} {}
-
     std::stringstream _out{};
     identifier _source_id{};
     logger_instance_id _instance_id{};
