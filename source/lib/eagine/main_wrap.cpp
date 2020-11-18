@@ -19,6 +19,7 @@
 #include "implement.inl"
 #include <eagine/application_config.hpp>
 #include <eagine/main_ctx.hpp>
+#include <eagine/main_ctx_object.hpp>
 #include <eagine/build_info.hpp>
 #include <eagine/system_info.hpp>
 #include "epilogue.inl"
