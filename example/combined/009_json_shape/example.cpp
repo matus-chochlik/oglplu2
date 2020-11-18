@@ -94,7 +94,7 @@ void example_shape::init(example_context& ctx) {
     };
 
     shape_generator shape(
-      ctx.gl(), shapes::from_value_tree(load_shape_data(), ctx.log()));
+      ctx.gl(), shapes::from_value_tree(load_shape_data(), ctx.main()));
 
     _ops.resize(std_size(shape.operation_count()));
     shape.instructions(ctx.gl(), cover(_ops));

@@ -11,7 +11,7 @@
 #define EAGINE_SHAPES_VALUE_TREE_HPP
 
 #include "../config/basic.hpp"
-#include "../logging/logger.hpp"
+#include "../main_ctx_object.hpp"
 #include "../value_tree/wrappers.hpp"
 #include "gen_base.hpp"
 #include <map>
@@ -19,10 +19,11 @@
 namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
-class value_tree_loader : public centered_unit_shape_generator_base {
+class value_tree_loader
+  : public main_ctx_object
+  , public centered_unit_shape_generator_base {
 private:
     using _base = centered_unit_shape_generator_base;
-    logger _log{};
 
     valtree::compound _source{};
     std::string _temp{};
@@ -35,7 +36,7 @@ private:
     void _attrib_values(vertex_attrib_variant, span<T>);
 
 public:
-    value_tree_loader(valtree::compound source, logger&) noexcept;
+    value_tree_loader(valtree::compound source, main_ctx_parent) noexcept;
 
     auto vertex_count() -> span_size_t override;
 
@@ -68,8 +69,9 @@ public:
     void instructions(drawing_variant, span<draw_operation> ops) override;
 };
 //------------------------------------------------------------------------------
-static inline auto from_value_tree(valtree::compound source, logger& log) {
-    return std::make_unique<value_tree_loader>(std::move(source), log);
+static inline auto
+from_value_tree(valtree::compound source, main_ctx_parent parent) {
+    return std::make_unique<value_tree_loader>(std::move(source), parent);
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

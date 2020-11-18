@@ -149,7 +149,7 @@ void arrow_geometry::init(example_context& ctx) {
     };
 
     shape_generator shape(
-      ctx.gl(), shapes::from_value_tree(load_shape_data(), ctx.log()));
+      ctx.gl(), shapes::from_value_tree(load_shape_data(), ctx.main()));
 
     bound_sphere = shape.bounding_sphere();
 
