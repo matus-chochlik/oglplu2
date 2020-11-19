@@ -7,12 +7,17 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/environment.hpp>
+#include <eagine/value_tree/filesystem.hpp>
 #include <cctype>
+#include <map>
 
 namespace eagine {
 //------------------------------------------------------------------------------
-class application_config_impl {
+class application_config_impl : public main_ctx_object {
 public:
+    application_config_impl(main_ctx_parent parent)
+      : main_ctx_object{EAGINE_ID(AppCfgImpl), parent} {}
+
     auto find_compound_attribute(string_view) noexcept
       -> valtree::compound_attribute {
         // TODO: search configuration files in locations like /etc/oglplus/
@@ -22,13 +27,14 @@ public:
     }
 
 private:
+    std::map<std::string, valtree::compound> _open_configs;
 };
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto application_config::_impl() noexcept -> application_config_impl* {
     if(EAGINE_UNLIKELY(!_pimpl)) {
         try {
-            _pimpl = std::make_shared<application_config_impl>();
+            _pimpl = std::make_shared<application_config_impl>(*this);
         } catch(...) {
         }
     }

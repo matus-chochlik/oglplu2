@@ -22,6 +22,7 @@ private:
     build_info _bld_info;
     application_config _app_config;
     system_info _sys_info;
+    user_info _usr_info;
     memory::buffer _scratch_space{};
     data_compressor _compressor{};
     std::string _exe_path{};
@@ -37,6 +38,7 @@ public:
       , _bld_info{build_info::query()}
       , _app_config{*this}
       , _sys_info{*this}
+      , _usr_info{*this}
       , _app_name{options.app_name} {
         auto fs_path = std::filesystem::path(to_string(_args.command()));
         if(_app_name.empty()) {
@@ -69,6 +71,10 @@ public:
         return _sys_info;
     }
 
+    auto user() noexcept -> auto& {
+        return _usr_info;
+    }
+
     auto scratch_space() noexcept -> auto& {
         return _scratch_space;
     }
@@ -95,6 +101,7 @@ main_ctx::main_ctx(master_ctx& master) noexcept
   , _app_config{master.config()}
   , _bld_info{master.build()}
   , _sys_info{master.system()}
+  , _usr_info{master.user()}
   , _scratch_space{master.scratch_space()}
   , _compressor{master.compressor()}
   , _exe_path{master.exe_path()} {

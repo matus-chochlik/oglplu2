@@ -15,6 +15,7 @@
 #include "memory/buffer_fwd.hpp"
 #include "program_args.hpp"
 #include "system_info.hpp"
+#include "user_info.hpp"
 
 namespace eagine {
 
@@ -35,6 +36,7 @@ private:
     application_config& _app_config;
     build_info& _bld_info;
     system_info& _sys_info;
+    user_info& _usr_info;
     memory::buffer& _scratch_space;
     data_compressor& _compressor;
     string_view _exe_path;
@@ -73,6 +75,10 @@ public:
 
     auto system() noexcept -> auto& {
         return _sys_info;
+    }
+
+    auto user() noexcept -> auto& {
+        return _usr_info;
     }
 
     auto scratch_space() noexcept -> auto& {
