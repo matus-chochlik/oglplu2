@@ -80,7 +80,7 @@ void example_shape::init(example_context& ctx) {
     shape_generator shape(
       ctx.gl(),
       shapes::from_value_tree(
-        valtree::from_yaml_text(yaml_text, ctx.log()), ctx.main()));
+        valtree::from_yaml_text(yaml_text, ctx.main()), ctx.main()));
 
     _ops.resize(std_size(shape.operation_count()));
     shape.instructions(ctx.gl(), cover(_ops));

@@ -11,12 +11,12 @@
 #define EAGINE_VALUE_TREE_JSON_HPP
 
 #include "../config/basic.hpp"
-#include "../logging/fwd.hpp"
+#include "../main_ctx_fwd.hpp"
 #include "wrappers.hpp"
 
 namespace eagine::valtree {
 //------------------------------------------------------------------------------
-auto from_json_text(string_view, logger&) -> compound;
+auto from_json_text(string_view, main_ctx_parent) -> compound;
 //------------------------------------------------------------------------------
 } // namespace eagine::valtree
 

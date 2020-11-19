@@ -9,7 +9,7 @@
 
 #include <eagine/from_string.hpp>
 #include <eagine/is_within_limits.hpp>
-#include <eagine/logging/logger.hpp>
+#include <eagine/main_ctx_object.hpp>
 #include <eagine/value_tree/implementation.hpp>
 #include <vector>
 
@@ -234,7 +234,8 @@ public:
 };
 //------------------------------------------------------------------------------
 class rapidyaml_tree_compound
-  : public compound_with_refcounted_node<
+  : public main_ctx_object
+  , public compound_with_refcounted_node<
       rapidyaml_tree_compound,
       rapidyaml_attribute> {
 
@@ -246,8 +247,9 @@ class rapidyaml_tree_compound
     rapidyaml_attribute _root;
 
 public:
-    rapidyaml_tree_compound(ryml::Tree tree)
-      : _tree{std::move(tree)}
+    rapidyaml_tree_compound(ryml::Tree tree, main_ctx_parent parent)
+      : main_ctx_object{EAGINE_ID(YamlValTre), parent}
+      , _tree{std::move(tree)}
       , _root{_tree} {}
 
     rapidyaml_tree_compound(rapidyaml_tree_compound&&) = delete;
@@ -257,16 +259,18 @@ public:
 
     ~rapidyaml_tree_compound() noexcept final = default;
 
-    static auto make_shared(string_view yaml_text, logger& log)
+    static auto make_shared(string_view yaml_text, main_ctx_parent parent)
       -> std::shared_ptr<rapidyaml_tree_compound> {
         try {
             rapidyaml_callbacks cbks{};
             c4::csubstr src{yaml_text.data(), std_size(yaml_text.size())};
             auto tree{ryml::parse(src)};
             tree.resolve();
-            return std::make_shared<rapidyaml_tree_compound>(std::move(tree));
+            return std::make_shared<rapidyaml_tree_compound>(
+              std::move(tree), parent);
         } catch(std::runtime_error& err) {
-            log.error("YAML parse error: ${message}")
+            main_ctx_object(EAGINE_ID(YamlParse), parent)
+              .log_error("YAML parse error: ${message}")
               .arg(EAGINE_ID(message), string_view(err.what()));
         }
         return {};
@@ -331,13 +335,14 @@ static auto rapidyaml_make_new_node(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto from_yaml_text(string_view yaml_text, logger& log) -> compound {
-    return compound::make<rapidyaml_tree_compound>(yaml_text, log);
+auto from_yaml_text(string_view yaml_text, main_ctx_parent parent) -> compound {
+    return compound::make<rapidyaml_tree_compound>(yaml_text, parent);
 }
 #else  // EAGINE_USE_RYML
 EAGINE_LIB_FUNC
-auto from_yaml_text(string_view, logger& log) -> compound {
-    log.warning("built without the YAML parser");
+auto from_yaml_text(string_view, main_ctx_parent parent) -> compound {
+    main_ctx_object{EAGINE_ID(YamlParse), parent}.log_warning(
+      "built without the YAML parser");
     return {};
 }
 #endif // EAGINE_USE_RYML

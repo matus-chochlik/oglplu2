@@ -66,7 +66,7 @@ auto main(main_ctx& ctx) -> int {
 		"attribD" : "VGhpcyBpcyBhIGJhc2U2NC1lbmNvZGVkIEJMT0IK"
 	})");
 
-    if(auto json_tree{valtree::from_json_text(json_text, log)}) {
+    if(auto json_tree{valtree::from_json_text(json_text, ctx)}) {
         std::array<byte, 64> temp{};
         log.info("parsed from json")
           .arg(
@@ -105,7 +105,7 @@ auto main(main_ctx& ctx) -> int {
       "    attribB: 123\n"
       "attribC: [45, six, 78.9, zero: false]\n");
 
-    if(auto yaml_tree{valtree::from_yaml_text(yaml_text, log)}) {
+    if(auto yaml_tree{valtree::from_yaml_text(yaml_text, ctx)}) {
         log.info("parsed from yaml")
           .arg(
             EAGINE_ID(attribB),

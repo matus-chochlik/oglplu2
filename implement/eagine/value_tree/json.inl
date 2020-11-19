@@ -11,7 +11,7 @@
 #include <eagine/from_string.hpp>
 #include <eagine/identifier.hpp>
 #include <eagine/is_within_limits.hpp>
-#include <eagine/logging/logger.hpp>
+#include <eagine/main_ctx_object.hpp>
 #include <eagine/memory/span_algo.hpp>
 #include <eagine/value_tree/implementation.hpp>
 #include <rapidjson/document.h>
@@ -491,7 +491,8 @@ public:
 //------------------------------------------------------------------------------
 template <typename Encoding, typename Allocator, typename StackAlloc>
 class rapidjson_document_compound
-  : public compound_with_refcounted_node<
+  : public main_ctx_object
+  , public compound_with_refcounted_node<
       rapidjson_document_compound<Encoding, Allocator, StackAlloc>,
       rapidjson_value_node<Encoding, Allocator, StackAlloc>> {
 private:
@@ -508,19 +509,22 @@ private:
     _node_t _root{};
 
 public:
-    rapidjson_document_compound(_doc_t& rj_doc)
-      : _rj_doc{std::move(rj_doc)}
+    rapidjson_document_compound(_doc_t& rj_doc, main_ctx_parent parent)
+      : main_ctx_object{EAGINE_ID(JsonValTre), parent}
+      , _rj_doc{std::move(rj_doc)}
       , _root{_rj_doc, nullptr} {}
 
-    static auto make_shared(string_view json_str, logger& log)
+    static auto make_shared(string_view json_str, main_ctx_parent parent)
       -> std::shared_ptr<rapidjson_document_compound> {
         _doc_t rj_doc;
         const rapidjson::ParseResult parse_ok{
           rj_doc.Parse(json_str.data(), rapidjson::SizeType(json_str.size()))};
         if(parse_ok) {
-            return std::make_shared<rapidjson_document_compound>(rj_doc);
+            return std::make_shared<rapidjson_document_compound>(
+              rj_doc, parent);
         }
-        log.error("JSON parse error")
+        main_ctx_object{EAGINE_ID(JsonParse), parent}
+          .log_error("JSON parse error")
           .arg(EAGINE_ID(message), rapidjson::GetParseError_En(parse_ok.Code()))
           .arg(EAGINE_ID(offset), parse_ok.Offset());
         return {};
@@ -603,8 +607,9 @@ using default_rapidjson_document_compound =
   get_rapidjson_document_compound_t<rapidjson::Document>;
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto from_json_text(string_view json_text, logger& log) -> compound {
-    return compound::make<default_rapidjson_document_compound>(json_text, log);
+auto from_json_text(string_view json_text, main_ctx_parent parent) -> compound {
+    return compound::make<default_rapidjson_document_compound>(
+      json_text, parent);
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::valtree

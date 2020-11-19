@@ -69,7 +69,6 @@ private:
     auto _do_push(message_id, message_view) -> bool;
     auto _forward_messages() -> bool;
 
-    logger _log{};
     shared_context _context{};
 
     identifier_t _id{invalid_id()};

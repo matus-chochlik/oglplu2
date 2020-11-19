@@ -11,7 +11,6 @@
 
 #include "config/basic.hpp"
 #include "config/platform.hpp"
-#include "logging/logger.hpp"
 #include "main_ctx_object.hpp"
 #include "quantities.hpp"
 #include "types.hpp"
@@ -68,8 +67,6 @@ public:
     auto battery_capacity(span_size_t) noexcept -> valid_if_between_0_1<float>;
 
 private:
-    logger _log;
-
     std::shared_ptr<system_info_impl> _pimpl;
     auto _impl() noexcept -> system_info_impl*;
 };
