@@ -186,7 +186,7 @@ auto router::add_connection(std::unique_ptr<connection> a_connection) -> bool {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void router::_setup_from_config() {
-    if(app_config().fetch("msg_bus.router_id_base", _id_base)) {
+    if(app_config().fetch("msg_bus.router.id_base", _id_base)) {
         _id_sequence = _id_base;
         log_debug("parsed router id base ${base}")
           .arg(EAGINE_ID(base), _id_base);

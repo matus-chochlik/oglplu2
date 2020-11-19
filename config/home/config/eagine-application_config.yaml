@@ -1,0 +1,9 @@
+value_1: This is a string value
+value_2: This is another string value
+section_a:
+    subsection_a:
+        value_a: 7
+    subsection_b:
+        value_a: 42
+        value_b: 111
+        value_c: 123

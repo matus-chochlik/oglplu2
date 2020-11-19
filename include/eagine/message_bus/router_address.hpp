@@ -19,7 +19,7 @@ class router_address : public main_ctx_object {
 public:
     router_address(main_ctx_parent parent)
       : main_ctx_object{EAGINE_ID(RouterAddr), parent} {
-        if(app_config().fetch("msg_bus.router_address", _addr)) {
+        if(app_config().fetch("msg_bus.router.address", _addr)) {
             log_debug("configured router address ${addr}")
               .arg(EAGINE_ID(addr), _addr);
         }

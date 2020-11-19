@@ -47,6 +47,12 @@ install(
 	PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/config/home/update-me.sh"
 	DESTINATION home
 )
+install(
+	FILES
+		"${PROJECT_SOURCE_DIR}/config/home/config/eagine-application_config.yaml"
+		"${PROJECT_SOURCE_DIR}/config/home/config/_template.yaml"
+	DESTINATION home/user/.oglplus/config
+)
 # install example
 function(eagine_install_example TARGET_NAME)
 	install(

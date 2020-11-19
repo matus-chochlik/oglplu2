@@ -17,7 +17,7 @@ memory::const_block router_certificate_pem(
   logger& log) {
     return fetch_resource(
       string_view{"message bus router certificate"},
-      string_view{"msg_bus.router_cert_path"},
+      string_view{"msg_bus.router.cert_path"},
       embedded_blk,
       buf,
       cfg,
@@ -32,7 +32,7 @@ memory::const_block bridge_certificate_pem(
   logger& log) {
     return fetch_resource(
       string_view{"message bus bridge certificate"},
-      string_view{"msg_bus.bridge_cert_path"},
+      string_view{"msg_bus.bridge.cert_path"},
       embedded_blk,
       buf,
       cfg,
@@ -47,7 +47,7 @@ memory::const_block endpoint_certificate_pem(
   logger& log) {
     return fetch_resource(
       string_view{"message bus endpoint certificate"},
-      string_view{"msg_bus.endpoint_cert_path"},
+      string_view{"msg_bus.endpoint.cert_path"},
       embedded_blk,
       buf,
       cfg,

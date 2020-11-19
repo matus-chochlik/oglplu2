@@ -74,6 +74,7 @@ private:
         if(auto home_dir{main_context().user().home_dir_path()}) {
             std::filesystem::path result{std::string_view{extract(home_dir)}};
             result.append(".oglplus");
+            result.append("config");
             result.append(std::string_view{name});
 
             return result;
