@@ -86,6 +86,10 @@ public:
     auto exe_path() const noexcept -> string_view {
         return {_exe_path};
     }
+
+    auto app_name() const noexcept -> string_view {
+        return {_app_name};
+    }
 };
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -104,7 +108,8 @@ main_ctx::main_ctx(master_ctx& master) noexcept
   , _usr_info{master.user()}
   , _scratch_space{master.scratch_space()}
   , _compressor{master.compressor()}
-  , _exe_path{master.exe_path()} {
+  , _exe_path{master.exe_path()}
+  , _app_name{master.app_name()} {
     EAGINE_ASSERT(!_single_ptr());
     _single_ptr() = this;
 }

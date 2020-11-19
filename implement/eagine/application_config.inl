@@ -7,8 +7,12 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/environment.hpp>
-#include <eagine/value_tree/filesystem.hpp>
+#include <eagine/file_contents.hpp>
+#include <eagine/valid_if/not_empty.hpp>
+#include <eagine/value_tree/json.hpp>
+#include <eagine/value_tree/yaml.hpp>
 #include <cctype>
+#include <filesystem>
 #include <map>
 
 namespace eagine {
@@ -18,15 +22,91 @@ public:
     application_config_impl(main_ctx_parent parent)
       : main_ctx_object{EAGINE_ID(AppCfgImpl), parent} {}
 
-    auto find_compound_attribute(string_view) noexcept
+    auto find_compound_attribute(string_view key) noexcept
       -> valtree::compound_attribute {
-        // TODO: search configuration files in locations like /etc/oglplus/
-        // ~/.oglplus, find configuration files, create compounds,
-        // find attribute
+        try {
+            if(auto found{_find_in(
+                 _user_config_path(
+                   to_string(main_context().app_name()) + ".yaml"),
+                 key)}) {
+                return found;
+            }
+            if(auto found{_find_in(
+                 _user_config_path(
+                   to_string(main_context().app_name()) + ".json"),
+                 key)}) {
+                return found;
+            }
+            if(auto found{_find_in(_user_config_path("defaults.yaml"), key)}) {
+                return found;
+            }
+            if(auto found{_find_in(_user_config_path("defaults.json"), key)}) {
+                return found;
+            }
+        } catch(...) {
+            log_error("exception while loading configuration value '${key}'")
+              .arg(EAGINE_ID(key), key);
+        }
         return {};
     }
 
 private:
+    auto _find_in(
+      const valid_if_not_empty<std::filesystem::path>& cfg_path,
+      string_view key) -> valtree::compound_attribute {
+        if(cfg_path) {
+            const bool can_open =
+              is_regular_file(extract(cfg_path)) || is_fifo(extract(cfg_path));
+            if(can_open) {
+                if(auto comp{_get_config(extract(cfg_path))}) {
+                    if(auto attr{comp.find(
+                         basic_string_path(key, EAGINE_TAG(split_by), "."))}) {
+                        return {comp, attr};
+                    }
+                }
+            }
+        }
+        return {};
+    }
+
+    auto _user_config_path(string_view name)
+      -> valid_if_not_empty<std::filesystem::path> {
+        if(auto home_dir{main_context().user().home_dir_path()}) {
+            std::filesystem::path result{std::string_view{extract(home_dir)}};
+            result.append(".oglplus");
+            result.append(std::string_view{name});
+
+            return result;
+        }
+        return {};
+    }
+
+    auto _open_config(const std::filesystem::path& cfg_path)
+      -> valtree::compound {
+        if(cfg_path.extension() == ".yaml") {
+            if(file_contents content{cfg_path.string()}) {
+                return valtree::from_yaml_text(
+                  memory::as_chars(content), *this);
+            }
+        } else if(cfg_path.extension() == ".json") {
+            if(file_contents content{cfg_path.string()}) {
+                return valtree::from_json_text(
+                  memory::as_chars(content), *this);
+            }
+        }
+        return {};
+    }
+
+    auto _get_config(const std::filesystem::path& cfg_path)
+      -> valtree::compound& {
+        const auto path_str{canonical(cfg_path).string()};
+        auto pos = _open_configs.find(path_str);
+        if(pos == _open_configs.end()) {
+            pos = _open_configs.emplace(path_str, _open_config(cfg_path)).first;
+        }
+        return pos->second;
+    }
+
     std::map<std::string, valtree::compound> _open_configs;
 };
 //------------------------------------------------------------------------------

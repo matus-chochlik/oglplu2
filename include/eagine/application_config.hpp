@@ -46,14 +46,6 @@ public:
 
     template <typename T>
     auto fetch(string_view key, T& dest) noexcept -> bool {
-        if(const auto attr{_find_comp_attr(key)}) {
-            if(attr.fetch_value(dest)) {
-                return true;
-            } else {
-                log_error("could not fetch configuration value '${value}'")
-                  .arg(EAGINE_ID(key), key);
-            }
-        }
         if(const auto arg{_find_prog_arg(key)}) {
             if(arg.parse_next(dest, log_error_stream())) {
                 return true;
@@ -71,6 +63,14 @@ public:
                 log_error("could not convert configuration value '${value}'")
                   .arg(EAGINE_ID(key), key)
                   .arg(EAGINE_ID(value), extract(opt_val));
+            }
+        }
+        if(const auto attr{_find_comp_attr(key)}) {
+            if(attr.fetch_value(dest)) {
+                return true;
+            } else {
+                log_error("could not fetch configuration value '${value}'")
+                  .arg(EAGINE_ID(key), key);
             }
         }
         return false;

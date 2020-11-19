@@ -8,7 +8,6 @@
  */
 #include <eagine/config/platform.hpp>
 #include <eagine/input_data.hpp>
-#include <eagine/system_info.hpp>
 
 namespace eagine {
 //------------------------------------------------------------------------------
