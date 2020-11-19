@@ -98,6 +98,11 @@ struct logger_backend {
     virtual void finish_message() noexcept = 0;
 
     virtual void finish_log() noexcept = 0;
+
+    virtual void log_chart_sample(
+      identifier source,
+      identifier series,
+      float value) noexcept = 0;
 };
 //------------------------------------------------------------------------------
 } // namespace eagine

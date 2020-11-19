@@ -592,6 +592,7 @@ auto router::_do_route_message(
                 if(EAGINE_LIKELY(interval > decltype(interval)::zero())) {
                     const auto msgs_per_sec{100000.F / interval.count()};
 
+                    log_chart_sample(EAGINE_ID(msgsPerSec), msgs_per_sec);
                     log_stat("forwarded ${count} messages")
                       .arg(EAGINE_ID(count), _forwarded_messages)
                       .arg(EAGINE_ID(interval), interval)

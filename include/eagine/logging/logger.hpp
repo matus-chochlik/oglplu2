@@ -169,6 +169,17 @@ protected:
           _entry_backend(source, severity)};
     }
 
+    void log_chart_sample(
+      identifier source,
+      identifier series,
+      float value) noexcept {
+        if(is_log_level_enabled_v<log_event_severity::stat>) {
+            if(auto backend{_entry_backend(source, log_event_severity::stat)}) {
+                extract(backend).log_chart_sample(source, series, value);
+            }
+        }
+    }
+
     auto _entry_backend(identifier source, log_event_severity severity) noexcept
       -> logger_backend* {
         if(is_log_level_enabled(severity)) {
@@ -276,6 +287,12 @@ public:
         return make_log_stream(log_event_severity::error);
     }
 
+    auto log_chart_sample(identifier series, float value) noexcept
+      -> named_logging_object& {
+        base::log_chart_sample(_object_id, series, value);
+        return *this;
+    }
+
 protected:
     template <log_event_severity severity>
     auto make_log_entry(
@@ -314,6 +331,11 @@ public:
 
     auto error_stream() noexcept {
         return log_error_stream();
+    }
+
+    auto chart_sample(identifier series, float value) noexcept -> logger& {
+        base::log_chart_sample(series, value);
+        return *this;
     }
 
     auto fatal(string_view format) noexcept {

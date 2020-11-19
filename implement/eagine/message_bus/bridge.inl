@@ -286,6 +286,7 @@ auto bridge::_forward_messages() -> bool {
               if(EAGINE_LIKELY(interval > decltype(interval)::zero())) {
                   const auto msgs_per_sec{100000.F / interval.count()};
 
+                  log_chart_sample(EAGINE_ID(msgPerSecO), msgs_per_sec);
                   log_stat("forwarded ${count} messages to output")
                     .arg(EAGINE_ID(count), _forwarded_messages_c2o)
                     .arg(EAGINE_ID(interval), interval)
@@ -317,6 +318,7 @@ auto bridge::_forward_messages() -> bool {
               if(EAGINE_LIKELY(interval > decltype(interval)::zero())) {
                   const auto msgs_per_sec{100000.F / interval.count()};
 
+                  log_chart_sample(EAGINE_ID(msgPerSecI), msgs_per_sec);
                   log_stat("forwarded ${count} messages from input")
                     .arg(EAGINE_ID(count), _forwarded_messages_i2c)
                     .arg(EAGINE_ID(interval), interval)

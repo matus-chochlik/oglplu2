@@ -92,9 +92,9 @@ public:
       log_event_severity severity,
       string_view format) noexcept -> bool final {
         try {
-            _lockable.lock();
             const auto now = std::chrono::steady_clock::now();
             const auto sec = std::chrono::duration<float>(now - _start);
+            _lockable.lock();
             _out << "<m";
             _out << " lvl='" << enumerator_name(severity) << "'";
             _out << " src='" << source.name() << "'";
@@ -233,6 +233,24 @@ public:
             std::unique_lock lock{_lockable};
             _out << "</log>\n" << std::flush;
             flush();
+        } catch(...) {
+        }
+    }
+
+    void log_chart_sample(
+      identifier source,
+      identifier series,
+      float value) noexcept final {
+        try {
+            const auto now = std::chrono::steady_clock::now();
+            const auto sec = std::chrono::duration<float>(now - _start);
+            std::unique_lock lock{_lockable};
+            _out << "<c";
+            _out << " src='" << source.name() << "'";
+            _out << " ser='" << series.name() << "'";
+            _out << " ts='" << sec.count() << "'";
+            _out << " v='" << value << "'";
+            _out << "/>";
         } catch(...) {
         }
     }

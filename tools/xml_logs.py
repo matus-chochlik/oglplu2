@@ -576,6 +576,7 @@ class XmlLogProcessor(xml.sax.ContentHandler):
         self._ctag = None
         self._carg = None
         self._info = None
+        self._charts = {}
         self._formatter= formatter
         self._parser = xml.sax.make_parser()
         self._parser.setContentHandler(self)
@@ -610,6 +611,11 @@ class XmlLogProcessor(xml.sax.ContentHandler):
                     "used": False,
                     "values": [iarg]
                 }
+        elif tag == "c":
+            series = attr["src"]+"."+attr["ser"]
+            try: self._charts[series].append((attr["ts"], attr["v"]))
+            except KeyError:
+                self._charts[series] = [(attr["ts"], attr["v"])]
             
     # --------------------------------------------------------------------------
     def endElement(self, tag):
