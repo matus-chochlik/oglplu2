@@ -10,6 +10,7 @@
 #ifndef EAGINE_LOGGING_LOGGER_HPP
 #define EAGINE_LOGGING_LOGGER_HPP
 
+#include "../tagged_quantity.hpp"
 #include "config.hpp"
 #include "entry.hpp"
 
@@ -311,6 +312,26 @@ public:
         return *this;
     }
 
+    template <typename T, typename U>
+    auto log_chart_sample(
+      identifier series,
+      const tagged_quantity<T, U>& qty) noexcept
+      -> std::enable_if_t<std::is_convertible_v<T, float>, named_logging_object&> {
+        log_chart_sample(series, qty.value());
+        return *this;
+    }
+
+    template <typename T, typename P>
+    auto log_chart_sample(
+      identifier series,
+      const valid_if<T, P>& opt_value) noexcept -> named_logging_object& {
+        if(opt_value) {
+            base::log_chart_sample(
+              _object_id, series, float(extract(opt_value)));
+        }
+        return *this;
+    }
+
 protected:
     template <log_event_severity severity>
     auto make_log_entry(
@@ -353,6 +374,24 @@ public:
 
     auto chart_sample(identifier series, float value) noexcept -> logger& {
         base::log_chart_sample(series, value);
+        return *this;
+    }
+
+    template <typename T, typename U>
+    auto
+    chart_sample(identifier series, const tagged_quantity<T, U>& qty) noexcept
+      -> std::enable_if_t<std::is_convertible_v<T, float>, logger&> {
+        log_chart_sample(series, qty.value());
+        return *this;
+    }
+
+    template <typename T, typename P>
+    auto
+    chart_sample(identifier series, const valid_if<T, P>& opt_value) noexcept
+      -> logger& {
+        if(opt_value) {
+            base::log_chart_sample(series, float(extract(opt_value)));
+        }
         return *this;
     }
 

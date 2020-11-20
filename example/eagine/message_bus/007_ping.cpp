@@ -324,6 +324,7 @@ private:
 } // namespace msgbus
 
 auto main(main_ctx& ctx) -> int {
+    ctx.preinitialize();
 
     msgbus::router_address address{ctx};
     msgbus::connection_setup conn_setup(ctx);
@@ -338,10 +339,21 @@ auto main(main_ctx& ctx) -> int {
     msgbus::ping_example the_pinger{bus, ping_count};
     conn_setup.setup_connectors(the_pinger, address);
 
+    timeout do_chart_stats{std::chrono::seconds(15), nothing};
+
     while(!the_pinger.is_done()) {
         the_pinger.process_all();
         if(!the_pinger.update()) {
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
+            if(do_chart_stats) {
+                the_pinger.log_chart_sample(
+                  EAGINE_ID(shortLoad), ctx.system().short_average_load());
+                the_pinger.log_chart_sample(
+                  EAGINE_ID(longLoad), ctx.system().long_average_load());
+                the_pinger.log_chart_sample(
+                  EAGINE_ID(cpuTempK), ctx.system().cpu_temperature());
+                do_chart_stats.reset();
+            }
         }
     }
     the_pinger.shutdown();
