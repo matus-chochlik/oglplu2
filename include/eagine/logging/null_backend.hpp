@@ -33,6 +33,12 @@ struct null_log_backend : logger_backend {
 
     void leave_scope(identifier) noexcept final {}
 
+    void set_description(
+      identifier,
+      logger_instance_id,
+      string_view,
+      string_view) noexcept final{};
+
     auto begin_message(
       identifier,
       logger_instance_id,

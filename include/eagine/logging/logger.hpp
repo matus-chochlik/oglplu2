@@ -50,12 +50,26 @@ public:
         return _backend_getter()();
     }
 
+    auto instance_id() const noexcept -> logger_instance_id {
+        return reinterpret_cast<logger_instance_id>(this);
+    }
+
 protected:
     basic_logger() noexcept = default;
 
     basic_logger(BackendGetter backend_getter) noexcept(
       std::is_nothrow_move_constructible_v<BackendGetter>)
       : BackendGetter(std::move(backend_getter)) {}
+
+    void set_description(
+      identifier source,
+      string_view display_name,
+      string_view description) noexcept {
+        if(auto lbe{backend()}) {
+            extract(lbe).set_description(
+              source, instance_id(), display_name, description);
+        }
+    }
 
     auto make_log_entry(
       identifier source,
@@ -64,7 +78,7 @@ protected:
       string_view format) noexcept -> log_entry {
         return {
           source,
-          reinterpret_cast<logger_instance_id>(this),
+          instance_id(),
           severity,
           format,
           _entry_backend(source, severity)};
@@ -93,7 +107,7 @@ protected:
       string_view format) noexcept -> log_entry {
         return {
           source,
-          reinterpret_cast<logger_instance_id>(this),
+          instance_id(),
           severity,
           format,
           _entry_backend(source, severity)};
@@ -163,23 +177,17 @@ protected:
     auto make_log_stream(identifier source, log_event_severity severity) noexcept
       -> stream_log_entry {
         return {
-          source,
-          reinterpret_cast<logger_instance_id>(this),
-          severity,
-          _entry_backend(source, severity)};
+          source, instance_id(), severity, _entry_backend(source, severity)};
     }
 
     void log_chart_sample(
       identifier source,
       identifier series,
       float value) noexcept {
-        if(is_log_level_enabled_v<log_event_severity::stat>) {
-            if(auto backend{_entry_backend(source, log_event_severity::stat)}) {
-                extract(backend).log_chart_sample(
-                  source,
-                  reinterpret_cast<logger_instance_id>(this),
-                  series,
-                  value);
+        if constexpr(is_log_level_enabled_v<log_event_severity::stat>) {
+            if(auto lbe{_entry_backend(source, log_event_severity::stat)}) {
+                extract(lbe).log_chart_sample(
+                  source, instance_id(), series, value);
             }
         }
     }
@@ -253,6 +261,12 @@ public:
 
     constexpr auto object_id() const noexcept {
         return _object_id;
+    }
+
+    void object_description(
+      string_view display_name,
+      string_view description) noexcept {
+        base::set_description(_object_id, display_name, description);
     }
 
     auto log_fatal(string_view format) noexcept {

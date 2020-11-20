@@ -43,6 +43,12 @@ struct logger_backend {
 
     virtual void leave_scope(identifier scope) noexcept = 0;
 
+    virtual void set_description(
+      identifier source,
+      logger_instance_id instance,
+      string_view display_name,
+      string_view description) noexcept = 0;
+
     virtual auto begin_message(
       identifier source,
       logger_instance_id instance,

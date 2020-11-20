@@ -384,7 +384,7 @@ class XmlLogFormatter(object):
         }
         self._source_id = 0
         self._sources = []
-        self._charts = {}
+        self._loggers = {}
         self._root_ids = {}
         self._prev_times = {}
 
@@ -675,8 +675,8 @@ class XmlLogFormatter(object):
             self._out.flush()
 
     # --------------------------------------------------------------------------
-    def addCharts(self, srcid, charts):
-        self._charts[srcid] = charts
+    def addLoggerInfos(self, srcid, infos):
+        self._loggers[srcid] = infos
 
     # --------------------------------------------------------------------------
     def plotCharts(self):
@@ -700,13 +700,19 @@ class XmlLogFormatter(object):
 
         x_tick_interval = 5
 
-        for srcid, charts in self._charts.items():
-            for src,srcd in charts.items():
-                for iid,iidd in srcd.items():
-                    for ser,serd in iidd.items():
-                        x_tick_interval = max(x_tick_interval, serd[-1][0])
-                        x,y = map(list,zip(*serd))
-                        label = "%s[%s]%s" % (src, self.formatInstance(iid), ser)
+        for srcid, loggers in self._loggers.items():
+            for logger_id, instances in loggers.items():
+                for instance_id, instance in instances.items():
+                    for ser, series in instance["charts"].items():
+                        x_tick_interval = max(x_tick_interval, series[-1][0])
+                        x,y = map(list,zip(*series))
+                        label = "%s.%s" % (
+                            instance.get("display_name", "%s[%s]" % (
+                                logger_id,
+                                self.formatInstance(instance_id)
+                            )),
+                            ser
+                        )
                         spl.plot(x, y, label=label);
 
         tick_opts = [5,10,15,30,60,300,600,900,1800,3600,7200,86400]
@@ -736,7 +742,7 @@ class XmlLogProcessor(xml.sax.ContentHandler):
         self._ctag = None
         self._carg = None
         self._info = None
-        self._charts = {}
+        self._loggers = {}
         self._start_time = time.time()
         self._formatter= formatter
         self._parser = xml.sax.make_parser()
@@ -774,21 +780,33 @@ class XmlLogProcessor(xml.sax.ContentHandler):
                     "values": [iarg]
                 }
         elif tag == "c":
-            try: self._charts[attr["src"]][attr["iid"]][attr["ser"]]\
-                .append((time_ofs+float(attr["ts"]), float(attr["v"])))
+            try: logger = self._loggers[attr["src"]]
+            except KeyError: 
+                logger = self._loggers[attr["src"]] = {}
+            try: inst = logger[attr["iid"]]
             except KeyError:
-                self._charts[attr["src"]] = {
-                    attr["iid"] : {
-                        attr["ser"] : [
-                            (time_ofs+float(attr["ts"]), float(attr["v"]))
-                        ]
-                    }
-                }
+                inst = logger[attr["iid"]] = {}
+            try: charts = inst["charts"]
+            except KeyError:
+                charts = inst["charts"] = {}
+            try: series = charts[attr["ser"]]
+            except KeyError:
+                series = charts[attr["ser"]] = []
+            series.append((time_ofs+float(attr["ts"]), float(attr["v"])))
+        elif tag == "d":
+            try: logger = self._loggers[attr["src"]]
+            except KeyError: 
+                logger = self._loggers[attr["src"]] = {}
+            try: inst = logger[attr["iid"]]
+            except KeyError:
+                inst = logger[attr["iid"]] = {}
+            inst["display_name"] = attr["dn"]
+            inst["description"] = attr["desc"]
             
     # --------------------------------------------------------------------------
     def endElement(self, tag):
         if tag == "log":
-            self._formatter.addCharts(self._srcid, self._charts)
+            self._formatter.addLoggerInfos(self._srcid, self._loggers)
             self._formatter.finishLog(self._srcid)
         elif tag == "m":
             self._formatter.addMessage(self._srcid, self._info)

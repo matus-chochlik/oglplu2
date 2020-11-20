@@ -83,6 +83,11 @@ public:
       : main_ctx_object{EAGINE_ID(MsgBusRutr), parent}
       , _context{make_context(*this)} {
         _setup_from_config();
+
+        using std::to_string;
+        object_description(
+          "Router-" + to_string(_id_base),
+          "Message bus router id " + to_string(_id_base));
     }
 
     void add_certificate_pem(memory::const_block blk);

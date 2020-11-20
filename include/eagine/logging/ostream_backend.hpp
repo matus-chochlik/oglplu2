@@ -86,6 +86,24 @@ public:
         }
     }
 
+    void set_description(
+      identifier source,
+      logger_instance_id instance,
+      string_view display_name,
+      string_view description) noexcept final {
+        try {
+            std::unique_lock lock{_lockable};
+            _out << "<d";
+            _out << " src='" << source.name() << "'";
+            _out << " iid='" << instance << "'";
+            _out << " dn='" << display_name << "'";
+            _out << " desc='" << description << "'";
+            _out << "/>\n";
+            flush();
+        } catch(...) {
+        }
+    }
+
     auto begin_message(
       identifier source,
       logger_instance_id instance,
@@ -252,7 +270,7 @@ public:
             _out << " ser='" << series.name() << "'";
             _out << " ts='" << sec.count() << "'";
             _out << " v='" << value << "'";
-            _out << "/>";
+            _out << "/>\n";
         } catch(...) {
         }
     }

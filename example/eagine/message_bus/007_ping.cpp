@@ -83,7 +83,9 @@ public:
     ping_example(endpoint& bus, const valid_if_positive<std::intmax_t>& max)
       : main_ctx_object{EAGINE_ID(PingExampl), bus}
       , base{bus}
-      , _max{extract_or(max, 100000)} {}
+      , _max{extract_or(max, 100000)} {
+        object_description("Pinger", "Ping example");
+    }
 
     void on_subscribed(identifier_t id, message_id sub_msg) final {
         if(sub_msg == EAGINE_MSG_ID(eagiPing, ping)) {
@@ -160,6 +162,7 @@ public:
                 const auto msgs_per_sec{float(_mod) / interval.count()};
                 stats.messages_per_second.push_back(msgs_per_sec);
 
+                log_chart_sample(EAGINE_ID(msgsPerSec), msgs_per_sec);
                 log_info("received ${rcvd} pongs")
                   .arg(EAGINE_ID(rcvd), _rcvd)
                   .arg(EAGINE_ID(interval), interval)
