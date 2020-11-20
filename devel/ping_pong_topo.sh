@@ -13,6 +13,10 @@ pong_addr="/tmp/pong"
 #
 pids=()
 #
+"$(dirname ${0})/../tools/xml_logs.py" \
+	& pids+=($!)
+sleep 1
+#
 ${install_prefix}/bin/eagine-message_bus-router \
 	"${log_args[@]}" \
 	${conn_type} \
@@ -56,4 +60,3 @@ ${install_prefix}/share/oglplus/examples/eagine-005_topology \
 for pid in ${pids[@]}
 do wait ${pid}
 done
-

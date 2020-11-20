@@ -16,6 +16,10 @@ ssl_args=(
 #
 pids=()
 #
+"$(dirname ${0})/../tools/xml_logs.py" \
+	& pids+=($!)
+sleep 1
+#
 ${install_prefix}/bin/eagine-message_bus-router \
 	"${log_args[@]}" \
 	"${conn_args[@]}" \
