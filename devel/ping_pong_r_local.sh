@@ -12,6 +12,7 @@ conn_type="--msg-bus-asio-local-stream"
 pids=()
 #
 "$(dirname ${0})/../tools/xml_logs.py" \
+	"--plot-charts" \
 	& pids+=($!)
 sleep 1
 #

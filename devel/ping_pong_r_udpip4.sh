@@ -12,6 +12,7 @@ conn_type="--msg-bus-asio-udp-ipv4"
 pids=()
 #
 "$(dirname ${0})/../tools/xml_logs.py" \
+	"--plot-charts" \
 	& pids+=($!)
 sleep 1
 #

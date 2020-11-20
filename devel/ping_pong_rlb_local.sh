@@ -14,6 +14,7 @@ pong_addr="/tmp/pong"
 pids=()
 #
 "$(dirname ${0})/../tools/xml_logs.py" \
+	"--plot-charts" \
 	& pids+=($!)
 sleep 1
 #

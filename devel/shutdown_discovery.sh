@@ -17,6 +17,7 @@ ssl_args=(
 pids=()
 #
 "$(dirname ${0})/../tools/xml_logs.py" \
+	"--plot-charts" \
 	& pids+=($!)
 sleep 1
 #
