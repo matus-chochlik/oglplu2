@@ -32,6 +32,8 @@ public:
     system_info(main_ctx_parent parent) noexcept
       : main_ctx_object{EAGINE_ID(SystemInfo), parent} {}
 
+    auto preinitialize() noexcept -> system_info&;
+
     auto hostname() noexcept -> valid_if_not_empty<std::string>;
 
     auto uptime() noexcept -> std::chrono::duration<float>;

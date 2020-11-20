@@ -202,6 +202,12 @@ auto system_info::_impl() noexcept -> system_info_impl* {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto system_info::preinitialize() noexcept -> system_info& {
+    _impl();
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto system_info::hostname() noexcept -> valid_if_not_empty<std::string> {
 #if EAGINE_POSIX
     try {

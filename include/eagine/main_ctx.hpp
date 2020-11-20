@@ -57,6 +57,8 @@ public:
         return *_single_ptr();
     }
 
+    auto preinitialize() noexcept -> main_ctx&;
+
     auto build() const noexcept -> const auto& {
         return _bld_info;
     }

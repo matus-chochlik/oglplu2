@@ -120,6 +120,12 @@ main_ctx::~main_ctx() noexcept {
     _single_ptr() = nullptr;
 }
 //------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto main_ctx::preinitialize() noexcept -> main_ctx& {
+    _sys_info.preinitialize();
+    return *this;
+}
+//------------------------------------------------------------------------------
 // main_ctx_object-related
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
