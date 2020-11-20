@@ -722,10 +722,14 @@ class XmlLogFormatter(object):
                 break
 
         spl.xaxis.set_major_locator(pltckr.MultipleLocator(x_tick_maj))
+        spl.xaxis.set_minor_locator(pltckr.NullLocator())
         spl.xaxis.set_major_formatter(pltckr.FuncFormatter(_format_time))
         spl.xaxis.set_tick_params(rotation=60)
 
-        spl.grid(which="both", axis="both")
+        spl.yaxis.set_major_locator(pltckr.LogLocator(base=10,numdecs=None))
+        spl.yaxis.set_minor_locator(pltckr.NullLocator())
+
+        spl.grid(which="both", axis="both", alpha=0.15)
         spl.legend()
         self._options.finalize(plt)
 
