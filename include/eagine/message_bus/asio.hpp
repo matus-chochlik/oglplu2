@@ -357,8 +357,12 @@ struct asio_connection_state
                             .arg(EAGINE_ID(error), error);
                           this->handle_received(rcvd, group);
                       } else {
-                          log_error("failed to receive data: ${error}")
-                            .arg(EAGINE_ID(error), error);
+                          if(error == asio::error::eof) {
+                              log_debug("received end-of-file");
+                          } else {
+                              log_error("failed to receive data: ${error}")
+                                .arg(EAGINE_ID(error), error);
+                          }
                       }
                       this->is_recving = false;
                       this->socket.close();
