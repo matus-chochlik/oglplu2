@@ -16,6 +16,7 @@ import signal
 import string
 import base64
 import xml.sax
+import argparse
 import textwrap
 import threading
 
@@ -86,6 +87,56 @@ def formatRelTime(s):
         return "0"
     return "%dμs" % int(s*10**6)
 
+# ------------------------------------------------------------------------------
+class ArgumentParser(argparse.ArgumentParser):
+    # -------------------------------------------------------------------------
+    def __init__(self, **kw):
+        argparse.ArgumentParser.__init__(self, **kw)
+
+        self.add_argument(
+            '-o', '--output',
+            metavar='OUTPUT-FILE',
+            dest='output_path',
+            nargs='?',
+            type=os.path.realpath,
+            default=None
+        )
+
+        self.add_argument(
+            "--keep-running", "-k",
+            dest="keep_running",
+            action="store_true",
+            default=False,
+            help="""
+            Keeps running even after all logging backends have disconnected.
+            """
+        )
+
+    # -------------------------------------------------------------------------
+    def process_parsed_options(self, options):
+        if options.output_path is None:
+            options.log_output = sys.stdout
+        else:
+            options.log_output = open(options.output_path, "wt")
+        return options
+
+    # -------------------------------------------------------------------------
+    def parse_args(self):
+        return self.process_parsed_options(
+            argparse.ArgumentParser.parse_args(self)
+        )
+
+# ------------------------------------------------------------------------------
+def get_argument_parser():
+    return ArgumentParser(
+        prog=os.path.basename(__file__),
+        description="""
+            Process formatting the XML log output from one or several
+            OGLplus logger backends.
+        """
+    )
+# ------------------------------------------------------------------------------
+keep_running = True
 # ------------------------------------------------------------------------------
 class XmlLogFormatter(object):
     # --------------------------------------------------------------------------
@@ -260,10 +311,12 @@ class XmlLogFormatter(object):
         return f"{float(s):,}".replace(",", "'")
 
     # --------------------------------------------------------------------------
-    def __init__(self, log_output):
+    def __init__(self, options):
+        self._options = options
         self._re_var = re.compile(".*(\${([A-Za-z][A-Za-z_0-9]*)}).*")
         self._lock = threading.Lock()
-        self._out = log_output
+        self._out = options.log_output
+        self._backend_count = 0
 
         self._translations = permanentTranslations()
 
@@ -296,6 +349,7 @@ class XmlLogFormatter(object):
 
     # --------------------------------------------------------------------------
     def beginLog(self, srcid, info):
+        self._backend_count += 1
         with self._lock:
             #
             self._out.write("┊")
@@ -373,6 +427,12 @@ class XmlLogFormatter(object):
             self._sources = [sid for sid in self._sources if sid != srcid]
             del self._root_ids[srcid]
             del self._prev_times[srcid]
+
+        self._backend_count -= 1
+        if self._backend_count < 1:
+            if not self._options.keep_running:
+                global keep_running
+                keep_running = False
 
     # --------------------------------------------------------------------------
     def translateLevel(self, level):
@@ -687,8 +747,6 @@ def open_socket(socket_path):
     return uds
 
 # ------------------------------------------------------------------------------
-keep_running = True
-# ------------------------------------------------------------------------------
 def handle_connections(socket_path, formatter):
     try:
         global keep_running
@@ -731,9 +789,10 @@ def handle_interrupt(sig, frame):
 # ------------------------------------------------------------------------------
 def main():
     try:
+        options = get_argument_parser().parse_args()
         signal.signal(signal.SIGINT, handle_interrupt)
         signal.signal(signal.SIGTERM, handle_interrupt)
-        formatter = XmlLogFormatter(sys.stdout)
+        formatter = XmlLogFormatter(options)
         handle_connections("/tmp/eagine-xmllog", formatter)
     except KeyboardInterrupt:
         return 0
