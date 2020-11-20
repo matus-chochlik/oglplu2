@@ -71,7 +71,11 @@ struct null_log_backend : logger_backend {
 
     void finish_log() noexcept final {}
 
-    void log_chart_sample(identifier, identifier, float) noexcept final {}
+    void log_chart_sample(
+      identifier,
+      logger_instance_id,
+      identifier,
+      float) noexcept final {}
 };
 //------------------------------------------------------------------------------
 } // namespace eagine

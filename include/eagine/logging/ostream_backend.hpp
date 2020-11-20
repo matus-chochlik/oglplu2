@@ -239,6 +239,7 @@ public:
 
     void log_chart_sample(
       identifier source,
+      logger_instance_id instance,
       identifier series,
       float value) noexcept final {
         try {
@@ -247,6 +248,7 @@ public:
             std::unique_lock lock{_lockable};
             _out << "<c";
             _out << " src='" << source.name() << "'";
+            _out << " iid='" << instance << "'";
             _out << " ser='" << series.name() << "'";
             _out << " ts='" << sec.count() << "'";
             _out << " v='" << value << "'";

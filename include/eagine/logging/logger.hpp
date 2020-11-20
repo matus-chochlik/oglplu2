@@ -175,7 +175,11 @@ protected:
       float value) noexcept {
         if(is_log_level_enabled_v<log_event_severity::stat>) {
             if(auto backend{_entry_backend(source, log_event_severity::stat)}) {
-                extract(backend).log_chart_sample(source, series, value);
+                extract(backend).log_chart_sample(
+                  source,
+                  reinterpret_cast<logger_instance_id>(this),
+                  series,
+                  value);
             }
         }
     }

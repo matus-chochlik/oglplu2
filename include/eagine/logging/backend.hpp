@@ -101,6 +101,7 @@ struct logger_backend {
 
     virtual void log_chart_sample(
       identifier source,
+      logger_instance_id instance,
       identifier series,
       float value) noexcept = 0;
 };

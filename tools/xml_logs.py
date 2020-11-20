@@ -612,10 +612,13 @@ class XmlLogProcessor(xml.sax.ContentHandler):
                     "values": [iarg]
                 }
         elif tag == "c":
-            series = attr["src"]+"."+attr["ser"]
-            try: self._charts[series].append((attr["ts"], attr["v"]))
+            try: self._charts[attr["src"]][attr["iid"]][attr["ser"]].append((attr["ts"], attr["v"]))
             except KeyError:
-                self._charts[series] = [(attr["ts"], attr["v"])]
+                self._charts[attr["src"]] = {
+                    attr["iid"] : {
+                        attr["ser"] : [(attr["ts"], attr["v"])]
+                    }
+                }
             
     # --------------------------------------------------------------------------
     def endElement(self, tag):
