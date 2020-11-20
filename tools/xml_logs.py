@@ -306,7 +306,7 @@ class XmlLogFormatter(object):
         i = 0
         result = "│"
         if invert:
-            result += self._ttyInvert();
+            result += self._ttyInvert()
 
         if coef >= 0.5:
             while i + len(lbl) < cnt:
@@ -315,15 +315,15 @@ class XmlLogFormatter(object):
 
             if i + len(lbl) <= cnt:
                 if invert:
-                    result += self._ttyReset();
+                    result += self._ttyReset()
                 else:
-                    result += self._ttyInvert();
+                    result += self._ttyInvert()
                 result += lbl
                 i += len(lbl)
                 if invert:
-                    result += self._ttyInvert();
+                    result += self._ttyInvert()
                 else:
-                    result += self._ttyReset();
+                    result += self._ttyReset()
 
         while i < cnt:
             result += "█"
@@ -344,7 +344,7 @@ class XmlLogFormatter(object):
             i += 1
 
         if invert:
-            result += self._ttyReset();
+            result += self._ttyReset()
         else:
             result += "│"
 
@@ -361,6 +361,7 @@ class XmlLogFormatter(object):
     # --------------------------------------------------------------------------
     def __init__(self, options):
         self._options = options
+        self._start_time = time.time()
         self._re_var = re.compile(".*(\${([A-Za-z][A-Za-z_0-9]*)}).*")
         self._lock = threading.Lock()
         self._out = options.log_output
@@ -713,7 +714,7 @@ class XmlLogFormatter(object):
                             )),
                             ser
                         )
-                        spl.plot(x, y, label=label);
+                        spl.plot(x, y, label=label)
 
         tick_opts = [5,10,15,30,60,300,600,900,1800,3600,7200,86400]
         for t in tick_opts:
@@ -730,7 +731,7 @@ class XmlLogFormatter(object):
         spl.yaxis.set_minor_locator(pltckr.NullLocator())
 
         spl.grid(which="both", axis="both", alpha=0.15)
-        spl.legend()
+        spl.legend(bbox_to_anchor=(1,0), loc="lower left")
         self._options.finalize(plt)
 
     # --------------------------------------------------------------------------
@@ -754,7 +755,7 @@ class XmlLogProcessor(xml.sax.ContentHandler):
 
     # --------------------------------------------------------------------------
     def startElement(self, tag, attr):
-        time_ofs = time.time() - self._start_time;
+        time_ofs = self._start_time - self._formatter._start_time
         self._ctag = tag
         if tag == "log":
             self._formatter.beginLog(self._srcid, attr)
