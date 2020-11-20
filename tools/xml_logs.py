@@ -129,16 +129,35 @@ class ArgumentParser(argparse.ArgumentParser):
                 dest='plot_output_path',
                 nargs='?',
                 type=os.path.realpath,
-                default=None
+                default=None,
+                help="""
+                Specifies the plot output PDF file path.
+                """
             )
-        except ImportError: pass
+
+            self.add_argument(
+                "--plot-normalize", "-N", 
+                dest='plot_normalize',
+                action="store_true",
+                default=False,
+                help="""
+                Makes the plot series normalized.
+                """
+            )
+        except ImportError:
+            self.add_argument(
+                "--plot-charts", "-p",
+                dest="plot_charts",
+                action="store_false",
+                default=False,
+                help="""
+                The matplotlib module cannot be imported.
+                This option has no effect.
+                """
+            )
 
     # -------------------------------------------------------------------------
     def processParsedOptions(self, options):
-        try:
-            assert type(options.plot_charts) is bool
-        except AttributeError:
-            options.plot_charts = False
 
         if options.output_path is None:
             options.log_output = sys.stdout
@@ -697,7 +716,8 @@ class XmlLogFormatter(object):
         self._options.initialize(plt, fig)
 
         spl.set_xlabel("Time [HH:MM:SS]")
-        spl.set_yscale("log")
+        if not self._options.plot_normalize:
+            spl.set_yscale("log")
 
         x_tick_interval = 5
 
@@ -706,7 +726,13 @@ class XmlLogFormatter(object):
                 for instance_id, instance in instances.items():
                     for ser, series in instance["charts"].items():
                         x_tick_interval = max(x_tick_interval, series[-1][0])
-                        x,y = map(list,zip(*series))
+                        x, y = map(list, zip(*series))
+                        if self._options.plot_normalize:
+                            try:
+                                ny = 1.0 / max([abs(v) for v in y])
+                                y = [v*ny for v in y]
+                            except ZeroDivisionError:
+                                pass
                         label = "%s.%s" % (
                             instance.get("display_name", "%s[%s]" % (
                                 logger_id,
