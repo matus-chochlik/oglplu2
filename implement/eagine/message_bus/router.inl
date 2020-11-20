@@ -713,7 +713,7 @@ auto router::do_maintenance() -> bool {
     something_done(_remove_timeouted());
     something_done(_remove_disconnected());
 
-    return something_done();
+    return something_done;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -725,7 +725,7 @@ auto router::do_work() -> bool {
     something_done(_route_messages());
     something_done(_update_connections());
 
-    return something_done();
+    return something_done;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
