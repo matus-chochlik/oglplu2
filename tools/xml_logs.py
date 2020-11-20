@@ -94,7 +94,7 @@ class ArgumentParser(argparse.ArgumentParser):
         argparse.ArgumentParser.__init__(self, **kw)
 
         self.add_argument(
-            '-o', '--output',
+            "--output", "-o", 
             metavar='OUTPUT-FILE',
             dest='output_path',
             nargs='?',
@@ -111,9 +111,35 @@ class ArgumentParser(argparse.ArgumentParser):
             Keeps running even after all logging backends have disconnected.
             """
         )
+        try:
+            import matplotlib.pyplot as plt
+            self.add_argument(
+                "--plot-charts", "-p",
+                dest="plot_charts",
+                action="store_true",
+                default=False,
+                help="""
+                Plots charts from statistic samples received from the backends.
+                """
+            )
+
+            self.add_argument(
+                "--plot-output", "-P", 
+                metavar='OUTPUT-FILE',
+                dest='plot_output_path',
+                nargs='?',
+                type=os.path.realpath,
+                default=None
+            )
+        except ImportError: pass
 
     # -------------------------------------------------------------------------
-    def process_parsed_options(self, options):
+    def processParsedOptions(self, options):
+        try:
+            assert type(options.plot_charts) is bool
+        except AttributeError:
+            options.plot_charts = False
+
         if options.output_path is None:
             options.log_output = sys.stdout
         else:
@@ -121,10 +147,32 @@ class ArgumentParser(argparse.ArgumentParser):
         return options
 
     # -------------------------------------------------------------------------
-    def parse_args(self):
-        return self.process_parsed_options(
+    def parseArgs(self):
+        # ----------------------------------------------------------------------
+        class _Options(object):
+            # ------------------------------------------------------------------
+            def __init__(self, base):
+                self.__dict__.update(base.__dict__)
+            # ------------------------------------------------------------------
+            def initialize(self, plot, fig):
+                if self.plot_output_path:
+                    fig.set_size_inches(8, 4.5)
+            # ------------------------------------------------------------------
+            def finalize(self, plot):
+                if self.plot_output_path:
+                    plot.savefig(
+                        self.output_path,
+                        papertype="a3",
+                        orientation="landscape",
+                        transparent=True,
+                        format="pdf"
+                    )
+                else:
+                    plot.show()
+
+        return _Options(self.processParsedOptions(
             argparse.ArgumentParser.parse_args(self)
-        )
+        ))
 
 # ------------------------------------------------------------------------------
 def get_argument_parser():
@@ -336,6 +384,7 @@ class XmlLogFormatter(object):
         }
         self._source_id = 0
         self._sources = []
+        self._charts = {}
         self._root_ids = {}
         self._prev_times = {}
 
@@ -430,6 +479,8 @@ class XmlLogFormatter(object):
 
         self._backend_count -= 1
         if self._backend_count < 1:
+            if self._options.plot_charts:
+                self.plotCharts()
             if not self._options.keep_running:
                 global keep_running
                 keep_running = False
@@ -624,6 +675,55 @@ class XmlLogFormatter(object):
             self._out.flush()
 
     # --------------------------------------------------------------------------
+    def addCharts(self, srcid, charts):
+        self._charts[srcid] = charts
+
+    # --------------------------------------------------------------------------
+    def plotCharts(self):
+        import matplotlib.pyplot as plt
+        import matplotlib.ticker as pltckr
+
+        def _format_time(s, pos=None):
+            h = int(s/3600)
+            s -= h*3600
+            m = int(s/60)
+            s -= m*60
+            return "%d:%02d:%02d" % (h, m, s)
+
+        plt.style.use('dark_background')
+
+        fig, spl = plt.subplots()
+        self._options.initialize(plt, fig)
+
+        spl.set_xlabel("Time [HH:MM:SS]")
+        spl.set_yscale("log")
+
+        x_tick_interval = 5
+
+        for srcid, charts in self._charts.items():
+            for src,srcd in charts.items():
+                for iid,iidd in srcd.items():
+                    for ser,serd in iidd.items():
+                        x_tick_interval = max(x_tick_interval, serd[-1][0])
+                        x,y = map(list,zip(*serd))
+                        label = "%s[%s]%s" % (src, self.formatInstance(iid), ser)
+                        spl.plot(x, y, label=label);
+
+        tick_opts = [5,10,15,30,60,300,600,900,1800,3600,7200,86400]
+        for t in tick_opts:
+            x_tick_maj = t
+            if x_tick_interval / x_tick_maj < 15:
+                break
+
+        spl.xaxis.set_major_locator(pltckr.MultipleLocator(x_tick_maj))
+        spl.xaxis.set_major_formatter(pltckr.FuncFormatter(_format_time))
+        spl.xaxis.set_tick_params(rotation=60)
+
+        spl.grid(which="both", axis="both")
+        spl.legend()
+        self._options.finalize(plt)
+
+    # --------------------------------------------------------------------------
     def makeProcessor(self):
         self._source_id += 1
         return XmlLogProcessor(self._source_id, self)
@@ -637,12 +737,14 @@ class XmlLogProcessor(xml.sax.ContentHandler):
         self._carg = None
         self._info = None
         self._charts = {}
+        self._start_time = time.time()
         self._formatter= formatter
         self._parser = xml.sax.make_parser()
         self._parser.setContentHandler(self)
 
     # --------------------------------------------------------------------------
     def startElement(self, tag, attr):
+        time_ofs = time.time() - self._start_time;
         self._ctag = tag
         if tag == "log":
             self._formatter.beginLog(self._srcid, attr)
@@ -672,17 +774,21 @@ class XmlLogProcessor(xml.sax.ContentHandler):
                     "values": [iarg]
                 }
         elif tag == "c":
-            try: self._charts[attr["src"]][attr["iid"]][attr["ser"]].append((attr["ts"], attr["v"]))
+            try: self._charts[attr["src"]][attr["iid"]][attr["ser"]]\
+                .append((time_ofs+float(attr["ts"]), float(attr["v"])))
             except KeyError:
                 self._charts[attr["src"]] = {
                     attr["iid"] : {
-                        attr["ser"] : [(attr["ts"], attr["v"])]
+                        attr["ser"] : [
+                            (time_ofs+float(attr["ts"]), float(attr["v"]))
+                        ]
                     }
                 }
             
     # --------------------------------------------------------------------------
     def endElement(self, tag):
         if tag == "log":
+            self._formatter.addCharts(self._srcid, self._charts)
             self._formatter.finishLog(self._srcid)
         elif tag == "m":
             self._formatter.addMessage(self._srcid, self._info)
@@ -783,15 +889,15 @@ def handle_connections(socket_path, formatter):
         except: pass
 
 # ------------------------------------------------------------------------------
-def handle_interrupt(sig, frame):
+def handleInterrupt(sig, frame):
     global keep_running
     keep_running = False
 # ------------------------------------------------------------------------------
 def main():
     try:
-        options = get_argument_parser().parse_args()
-        signal.signal(signal.SIGINT, handle_interrupt)
-        signal.signal(signal.SIGTERM, handle_interrupt)
+        options = get_argument_parser().parseArgs()
+        signal.signal(signal.SIGINT, handleInterrupt)
+        signal.signal(signal.SIGTERM, handleInterrupt)
         formatter = XmlLogFormatter(options)
         handle_connections("/tmp/eagine-xmllog", formatter)
     except KeyboardInterrupt:
