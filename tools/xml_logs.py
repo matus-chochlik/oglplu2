@@ -8,6 +8,7 @@
 import os
 import re
 import sys
+import math
 import stat
 import time
 import errno
@@ -91,6 +92,13 @@ def formatRelTime(s):
 class ArgumentParser(argparse.ArgumentParser):
     # -------------------------------------------------------------------------
     def __init__(self, **kw):
+        def _positive_int(x):
+            try:
+                assert(int(x) > 0)
+                return int(x)
+            except:
+                self.error("`%s' is not a positive integer value" % str(x))
+
         argparse.ArgumentParser.__init__(self, **kw)
 
         self.add_argument(
@@ -132,6 +140,18 @@ class ArgumentParser(argparse.ArgumentParser):
                 default=None,
                 help="""
                 Specifies the plot output PDF file path.
+                """
+            )
+
+            self.add_argument(
+                "--plot-reduce", "-R", 
+                metavar='MAX-SAMPLES',
+                dest='plot_reduce_count',
+                nargs='?',
+                type=_positive_int,
+                default=None,
+                help="""
+                Reduces plot series sample count to at most MAX-SAMPLES.
                 """
             )
 
@@ -703,12 +723,30 @@ class XmlLogFormatter(object):
         import matplotlib.pyplot as plt
         import matplotlib.ticker as pltckr
 
-        def _format_time(s, pos=None):
+        def _formatTime(s, pos=None):
             h = int(s/3600)
             s -= h*3600
             m = int(s/60)
             s -= m*60
             return "%d:%02d:%02d" % (h, m, s)
+
+        def _reduceSamples(lst):
+            maxlen = self._options.plot_reduce_count 
+            maxlen = maxlen if maxlen-2 is not None else 0
+            if maxlen < len(lst):
+                def _avg(x, y):
+                    return (sum(x)/len(x), sum(y)/len(y))
+                
+                temp = []
+                llen = len(lst)
+                fact = int(math.ceil(llen / maxlen))
+                nlen = int(math.ceil(llen / fact))
+                for step in range(nlen):
+                    bgn = step*fact
+                    idx = [bgn + i for i in range(fact) if (bgn + i) < llen]
+                    temp.append(_avg(*map(list, zip(*[lst[i] for i in idx]))))
+                lst = temp
+            return lst
 
         plt.style.use('dark_background')
 
@@ -726,7 +764,7 @@ class XmlLogFormatter(object):
                 for instance_id, instance in instances.items():
                     for ser, series in instance["charts"].items():
                         x_tick_interval = max(x_tick_interval, series[-1][0])
-                        x, y = map(list, zip(*series))
+                        x, y = map(list, zip(*_reduceSamples(series)))
                         if self._options.plot_normalize:
                             try:
                                 ny = 1.0 / max([abs(v) for v in y])
@@ -750,7 +788,7 @@ class XmlLogFormatter(object):
 
         spl.xaxis.set_major_locator(pltckr.MultipleLocator(x_tick_maj))
         spl.xaxis.set_minor_locator(pltckr.NullLocator())
-        spl.xaxis.set_major_formatter(pltckr.FuncFormatter(_format_time))
+        spl.xaxis.set_major_formatter(pltckr.FuncFormatter(_formatTime))
         spl.xaxis.set_tick_params(rotation=60)
 
         spl.yaxis.set_major_locator(pltckr.LogLocator(base=10,numdecs=None))
