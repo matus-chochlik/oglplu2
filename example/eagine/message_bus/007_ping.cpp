@@ -19,6 +19,7 @@
 #include <eagine/message_bus/service/shutdown.hpp>
 #include <eagine/message_bus/service/system_info.hpp>
 #include <eagine/timeout.hpp>
+#include <eagine/units/unit/si/temperature.hpp>
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -305,8 +306,11 @@ auto main(main_ctx& ctx) -> int {
                   EAGINE_ID(shortLoad), ctx.system().short_average_load());
                 the_pinger.log_chart_sample(
                   EAGINE_ID(longLoad), ctx.system().long_average_load());
-                the_pinger.log_chart_sample(
-                  EAGINE_ID(cpuTempK), ctx.system().cpu_temperature());
+                if(auto temp_k{ctx.system().cpu_temperature()}) {
+                    the_pinger.log_chart_sample(
+                      EAGINE_ID(cpuTempC),
+                      extract(temp_k).to<units::degree_celsius>());
+                }
                 do_chart_stats.reset();
             }
         }
