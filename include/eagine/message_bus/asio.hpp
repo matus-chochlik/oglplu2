@@ -515,6 +515,7 @@ public:
     }
 
     void cleanup() final {
+        this->_log_message_counts();
         conn_state().cleanup(*this);
     }
 

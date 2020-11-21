@@ -166,6 +166,12 @@ public:
         }
         return false;
     }
+
+    void cleanup() final {
+        if(EAGINE_LIKELY(_state)) {
+            _state->log_message_counts();
+        }
+    }
 };
 //------------------------------------------------------------------------------
 class direct_server_connection : public direct_connection_info<connection> {
