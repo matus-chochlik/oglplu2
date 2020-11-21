@@ -24,6 +24,8 @@ private:
     std::mutex _mutex;
     message_storage _server_to_client;
     message_storage _client_to_server;
+    span_size_t _s2c_count{0};
+    span_size_t _c2s_count{0};
 
 public:
     direct_connection_state(main_ctx_parent parent)
@@ -47,6 +49,25 @@ public:
     auto fetch_from_server(connection::fetch_handler handler) noexcept -> bool {
         std::unique_lock lock{_mutex};
         return _server_to_client.fetch_all(handler);
+    }
+
+    void log_message_counts() noexcept {
+        if constexpr(is_log_level_enabled_v<log_event_severity::stat>) {
+            const span_size_t mult{64};
+            const auto new_s2c_count = _server_to_client.size() / mult;
+            if(_s2c_count != new_s2c_count) {
+                _s2c_count = new_s2c_count;
+                this->log_chart_sample(
+                  EAGINE_ID(s2cMsgCnt), float((_s2c_count + 1) * mult));
+            }
+
+            const auto new_c2s_count = _client_to_server.size() / 100;
+            if(_c2s_count != new_c2s_count) {
+                _c2s_count = new_c2s_count;
+                this->log_chart_sample(
+                  EAGINE_ID(c2sMsgCnt), float((_c2s_count + 1) * mult));
+            }
+        }
     }
 };
 //------------------------------------------------------------------------------
@@ -120,6 +141,13 @@ public:
     auto is_usable() -> bool final {
         _checkup();
         return bool(_state);
+    }
+
+    auto update() -> bool final {
+        if(EAGINE_LIKELY(_state)) {
+            _state->log_message_counts();
+        }
+        return false;
     }
 
     auto send(message_id msg_id, const message_view& message) -> bool final {

@@ -457,6 +457,10 @@ struct connection_outgoing_messages {
 
     serialized_message_storage serialized{};
 
+    auto size() const noexcept -> span_size_t {
+        return serialized.size();
+    }
+
     auto enqueue(
       main_ctx_object& user,
       message_id,
@@ -481,6 +485,10 @@ struct connection_incoming_messages {
 
     auto empty() const noexcept -> bool {
         return packed.empty();
+    }
+
+    auto size() const noexcept -> span_size_t {
+        return packed.size();
     }
 
     void push(memory::const_block data) {

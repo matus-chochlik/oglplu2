@@ -483,6 +483,7 @@ public:
             something_done(conn_state().start_send(*this));
         }
         something_done(conn_state().update());
+        _log_message_counts();
         return something_done;
     }
 
@@ -517,9 +518,31 @@ public:
         conn_state().cleanup(*this);
     }
 
+protected:
+    void _log_message_counts() noexcept {
+        if constexpr(is_log_level_enabled_v<log_event_severity::stat>) {
+            const span_size_t mult{64};
+            const auto new_outgoing_count = _outgoing.size() / mult;
+            if(_outgoing_count != new_outgoing_count) {
+                _outgoing_count = new_outgoing_count;
+                this->log_chart_sample(
+                  EAGINE_ID(outMsgCnt), float((_outgoing_count + 1) * mult));
+            }
+
+            const auto new_incoming_count = _incoming.size() / 100;
+            if(_incoming_count != new_incoming_count) {
+                _incoming_count = new_incoming_count;
+                this->log_chart_sample(
+                  EAGINE_ID(incMsgCnt), float((_incoming_count + 1) * mult));
+            }
+        }
+    }
+
 private:
     connection_outgoing_messages _outgoing{};
     connection_incoming_messages _incoming{};
+    span_size_t _outgoing_count{0};
+    span_size_t _incoming_count{0};
 };
 //------------------------------------------------------------------------------
 template <connection_addr_kind Kind>
@@ -847,6 +870,7 @@ public:
             }
         }
         something_done(conn_state().update());
+        this->_log_message_counts();
         return something_done;
     }
 };
@@ -1031,6 +1055,7 @@ public:
             }
         }
         something_done(conn_state().update());
+        this->_log_message_counts();
         return something_done;
     }
 };
@@ -1158,6 +1183,7 @@ public:
             }
         }
         something_done(conn_state().update());
+        this->_log_message_counts();
         return something_done;
     }
 };
