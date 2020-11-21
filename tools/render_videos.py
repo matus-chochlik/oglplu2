@@ -431,10 +431,10 @@ def parse_args(args):
     )
 
     argparser.add_argument(
-        "examples",
+        "example_args",
         help="""
-        List of examples to render.
-        The examples should be specified as paths to the example executables
+        List of example arguments to use to render.
+        The example should be specified as path to the example executable
         relative to the build directory.
         """,
         nargs="*"
@@ -495,6 +495,7 @@ def run_convert(work_dir, args):
 # runs the example, dumps the frames, renders the video
 def render_video(
     example_path,
+    example_args,
     main_label_file,
     sample_label_file,
     logo_file,
@@ -505,7 +506,7 @@ def render_video(
     prefix = os.path.join(options.work_dir, 'frame')
 
     try:
-        cmd_line = [example_path,
+        cmd_line = [example_path] + example_args + [
             '--framedump', '%s-'%prefix,
             '--width', str(options.width * options.render_scale),
             '--height', str(options.height * options.render_scale),
@@ -628,7 +629,7 @@ def render_video(
 
 # ------------------------------------------------------------------------------
 # renders a video for a single example
-def render_example(root_dir, example, options):
+def render_example(root_dir, example, example_args, options):
 
     options.work_dir = make_work_dir()
     options.root_dir = root_dir
@@ -708,6 +709,7 @@ def render_example(root_dir, example, options):
         # run the example and dump the frames
         render_video(
             example_path,
+            example_args,
             main_label_file,
             sample_label_file,
             logo_file,
@@ -722,18 +724,18 @@ def main():
 
     options = fix_options(parse_args(sys.argv))
 
-    for example in options.examples:
-        render_example(
-            os.path.abspath(
-                os.path.join(
-                    os.path.dirname(sys.argv[0]),
-                    os.path.pardir
-                )
-            ),
-            os.path.splitext(example)[0],
-            options
-        )
+    render_example(
+        os.path.abspath(
+            os.path.join(
+                os.path.dirname(sys.argv[0]),
+                os.path.pardir
+            )
+        ),
+        os.path.splitext(options.example_args[0])[0],
+        options.example_args,
+        options
+    )
 
-
+# ------------------------------------------------------------------------------
 # run the main function
 if __name__ == "__main__": main()
