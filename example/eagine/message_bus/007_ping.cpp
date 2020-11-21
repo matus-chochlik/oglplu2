@@ -47,8 +47,6 @@ struct ping_stats {
     std::intmax_t responded{0};
     std::intmax_t timeouted{0};
 
-    std::vector<float> messages_per_second{};
-
     auto avg_time() const noexcept {
         return sum_time / responded;
     }
@@ -160,7 +158,6 @@ public:
 
             if(EAGINE_LIKELY(interval > decltype(interval)::zero())) {
                 const auto msgs_per_sec{float(_mod) / interval.count()};
-                stats.messages_per_second.push_back(msgs_per_sec);
 
                 log_chart_sample(EAGINE_ID(msgsPerSec), msgs_per_sec);
                 log_info("received ${rcvd} pongs")
@@ -242,7 +239,6 @@ public:
     void log_stats() {
         const string_view not_avail{"N/A"};
         for(auto& [id, info] : _targets) {
-            const auto& infoc{info};
 
             log_stat("pingable ${id} stats:")
               .arg(EAGINE_ID(id), id)
@@ -267,47 +263,6 @@ public:
                 EAGINE_ID(RatePerSec),
                 info.responds_per_second(),
                 not_avail);
-
-            log_stat("pingable ${id} messages per second:")
-              .arg(EAGINE_ID(id), id)
-              .arg_func([&](logger_backend& backend) {
-                  if(!infoc.messages_per_second.empty()) {
-                      const auto max_mps = *std::max_element(
-                        infoc.messages_per_second.begin(),
-                        infoc.messages_per_second.end());
-
-                      std::size_t i{0};
-                      if(const auto div{
-                           std::size_t(_max / ((std::log(_max) - 1) * _mod))}) {
-
-                          float sum_mps = 0.F;
-                          const float mpsn{1.F / div};
-
-                          for(const float mps : infoc.messages_per_second) {
-                              sum_mps += mps;
-                              if(++i % div == 0) {
-                                  sum_mps *= mpsn;
-                                  backend.add_float(
-                                    EAGINE_ID(mps),
-                                    EAGINE_ID(Histogram),
-                                    float(0),
-                                    float(sum_mps),
-                                    float(max_mps));
-                                  sum_mps = 0.F;
-                              }
-                          }
-                          if(i % div != 0) {
-                              sum_mps *= 1.F / float(i % div);
-                              backend.add_float(
-                                EAGINE_ID(mps),
-                                EAGINE_ID(Histogram),
-                                float(0),
-                                float(sum_mps),
-                                float(max_mps));
-                          }
-                      }
-                  }
-              });
         }
     }
 
