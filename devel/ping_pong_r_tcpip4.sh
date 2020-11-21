@@ -11,7 +11,7 @@ conn_type="--msg-bus-asio-tcp-ipv4"
 #
 pids=()
 #
-"$(dirname ${0})/../tools/xml_logs.py" \
+"$(dirname ${0})/../tools/xml_logs-opt.sh" \
 	"--plot-charts" \
 	& pids+=($!)
 sleep 1
