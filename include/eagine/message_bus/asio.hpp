@@ -522,7 +522,7 @@ public:
 protected:
     void _log_message_counts() noexcept {
         if constexpr(is_log_level_enabled_v<log_event_severity::stat>) {
-            const span_size_t mult{64};
+            const span_size_t mult{16};
             const auto new_outgoing_count = _outgoing.size() / mult;
             if(_outgoing_count != new_outgoing_count) {
                 _outgoing_count = new_outgoing_count;

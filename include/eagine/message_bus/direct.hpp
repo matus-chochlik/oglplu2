@@ -53,7 +53,7 @@ public:
 
     void log_message_counts() noexcept {
         if constexpr(is_log_level_enabled_v<log_event_severity::stat>) {
-            const span_size_t mult{64};
+            const span_size_t mult{16};
             const auto new_s2c_count = _server_to_client.size() / mult;
             if(_s2c_count != new_s2c_count) {
                 _s2c_count = new_s2c_count;

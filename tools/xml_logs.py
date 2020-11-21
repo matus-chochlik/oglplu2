@@ -732,7 +732,7 @@ class XmlLogFormatter(object):
 
         def _reduceSamples(lst):
             maxlen = self._options.plot_reduce_count 
-            maxlen = maxlen if maxlen-2 is not None else 0
+            maxlen = maxlen if maxlen is not None else len(lst)
             if maxlen < len(lst):
                 def _avg(x, y):
                     return (sum(x)/len(x), sum(y)/len(y))
