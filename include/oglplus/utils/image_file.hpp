@@ -16,20 +16,17 @@
 #include <eagine/string_span.hpp>
 
 namespace eagine::oglp {
-
-class texture_image_file {
+//------------------------------------------------------------------------------
+class texture_image_block {
 private:
-    structured_file_content<image_data_header> _header;
+    structured_memory_block<const image_data_header> _header;
 
 public:
-    texture_image_file(string_view path)
-      : _header(path) {}
+    texture_image_block(memory::const_block blk)
+      : _header(blk) {}
 
-    texture_image_file(const std::string& path)
-      : _header(string_view(path)) {}
-
-    texture_image_file(file_contents&& fc)
-      : _header(std::move(fc)) {}
+    texture_image_block(const image_data_header* ptr)
+      : _header(as_bytes(view_one(ptr))) {}
 
     auto is_valid() const noexcept -> bool {
         return _header->magic.is_valid();
@@ -37,18 +34,18 @@ public:
 
     auto dimensions() const noexcept -> image_dimensions {
         return image_dimensions(
-          _header->width, _header->height, _header->depth);
+          _header->width, _header->height, _header->depth, _header->channels);
     }
 
-    auto pixel_format() const noexcept -> image_pixel_format {
+    auto format() const noexcept -> image_pixel_format {
         return image_pixel_format(
-          pixel_data_format(_header->format),
-          pixel_data_internal_format(_header->internal_format));
+          pixel_format(_header->format),
+          pixel_internal_format(_header->internal_format));
     }
 
-    auto pixel_format(pixel_data_internal_format ifmt) const noexcept
+    auto format(pixel_internal_format ifmt) const noexcept
       -> image_pixel_format {
-        return image_pixel_format(pixel_data_format(_header->format), ifmt);
+        return image_pixel_format(pixel_format(_header->format), ifmt);
     }
 
     auto pixel_data() const noexcept -> image_pixel_data {
@@ -59,18 +56,33 @@ public:
     }
 
     auto spec() const noexcept -> image_spec {
-        return {dimensions(), pixel_format(), pixel_data()};
+        return {dimensions(), format(), pixel_data()};
     }
 
-    auto spec(pixel_data_internal_format ifmt) const noexcept {
-        return image_spec(dimensions(), pixel_format(ifmt), pixel_data());
+    auto spec(pixel_internal_format ifmt) const noexcept {
+        return image_spec(dimensions(), format(ifmt), pixel_data());
     }
 
     inline operator image_spec() const noexcept {
         return spec();
     }
 };
+//------------------------------------------------------------------------------
+class texture_image_file
+  : protected_member<file_contents>
+  , public texture_image_block {
+public:
+    texture_image_file(file_contents&& fc)
+      : protected_member<file_contents>(std::move(fc))
+      , texture_image_block(get_the_member()) {}
 
+    texture_image_file(string_view path)
+      : texture_image_file(file_contents(path)) {}
+
+    texture_image_file(const std::string& path)
+      : texture_image_file(string_view(path)) {}
+};
+//------------------------------------------------------------------------------
 } // namespace eagine::oglp
 
 #endif // OGLPLUS_UTILS_IMAGE_FILE_HPP

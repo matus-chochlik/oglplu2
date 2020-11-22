@@ -10,6 +10,7 @@
 #ifndef OGLPLUS_UTILS_IMAGE_FILE_HDR_HPP
 #define OGLPLUS_UTILS_IMAGE_FILE_HDR_HPP
 
+#include "../gl_api/enum_types.hpp"
 #include <eagine/file_magic_number.hpp>
 #include <eagine/memory/offset_span.hpp>
 #include <eagine/valid_if/positive.hpp>
@@ -19,21 +20,23 @@ namespace eagine::oglp {
 
 struct image_data_header {
     file_magic_number<'o', 'g', 'l', '+', 't', 'e', 'x', 'i'> magic;
-    GLsizei width{0}, height{0}, depth{0};
-    GLenum format{GL_NONE}, internal_format{GL_NONE};
-    GLenum data_type{GL_NONE};
+    gl_types::sizei_type width{0}, height{0}, depth{0}, channels{0};
+    gl_types::enum_type format{0}, internal_format{0};
+    gl_types::enum_type data_type{0};
 
-    memory::offset_span<const GLubyte> pixels{};
+    memory::offset_span<const gl_types::ubyte_type> pixels{};
 
     constexpr image_data_header() noexcept = default;
 
     image_data_header(
-      valid_if_positive<GLsizei> w,
-      valid_if_positive<GLsizei> h,
-      valid_if_positive<GLsizei> d) noexcept
+      valid_if_positive<gl_types::sizei_type> w,
+      valid_if_positive<gl_types::sizei_type> h,
+      valid_if_positive<gl_types::sizei_type> d,
+      valid_if_positive<gl_types::sizei_type> c) noexcept
       : width(w.value())
       , height(h.value())
-      , depth(d.value()) {}
+      , depth(d.value())
+      , channels(c.value()) {}
 };
 
 } // namespace eagine::oglp

@@ -15,6 +15,7 @@
 #include "gl_api_fwd.hpp"
 #include <eagine/math/tmat.hpp>
 //
+#include "utils/image_file.hpp"
 #include "utils/program_file.hpp"
 
 namespace eagine::oglp {
@@ -386,6 +387,58 @@ public:
           element_view(value),
           true_or_false(math::is_row_major_v<T>),
           canonical_compound_type<T>());
+    }
+
+    // texture image
+    auto spec_tex_image1d(
+      texture_target tex_tgt,
+      gl_types::int_type level,
+      gl_types::int_type border,
+      const image_spec& image) -> combined_result<void> {
+        return this->tex_image1d(
+          tex_tgt,
+          level,
+          image.internal_format(),
+          image.width(),
+          border,
+          image.format(),
+          image.type(),
+          image.data());
+    }
+
+    auto spec_tex_image2d(
+      texture_target tex_tgt,
+      gl_types::int_type level,
+      gl_types::int_type border,
+      const image_spec& image) -> combined_result<void> {
+        return this->tex_image2d(
+          tex_tgt,
+          level,
+          image.internal_format(),
+          image.width(),
+          image.height(),
+          border,
+          image.format(),
+          image.type(),
+          image.data());
+    }
+
+    auto spec_tex_image3d(
+      texture_target tex_tgt,
+      gl_types::int_type level,
+      gl_types::int_type border,
+      const image_spec& image) -> combined_result<void> {
+        return this->tex_image3d(
+          tex_tgt,
+          level,
+          image.internal_format(),
+          image.width(),
+          image.height(),
+          image.depth(),
+          border,
+          image.format(),
+          image.type(),
+          image.data());
     }
 };
 

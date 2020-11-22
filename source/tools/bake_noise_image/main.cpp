@@ -82,7 +82,8 @@ struct options {
 };
 //------------------------------------------------------------------------------
 void write_output(std::ostream& output, const options& opts) {
-    oglp::image_data_header hdr(opts.width, opts.height, opts.depth);
+    oglp::image_data_header hdr(
+      opts.width, opts.height, opts.depth, opts.components.value());
     switch(opts.components.value()) {
         case 1:
             hdr.format = GL_RED;
