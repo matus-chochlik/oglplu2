@@ -5,3 +5,6 @@
 
 oglplus_add_texture(noise_256x256x3)
 oglplus_add_packed_texture(zebra_fur)
+
+oglplus_add_packed_texture(crate_2_color)
+oglplus_add_packed_texture(crate_2_light)

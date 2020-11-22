@@ -10,7 +10,7 @@
 #ifndef EAGINE_MESSAGE_BUS_REGISTRY_HPP
 #define EAGINE_MESSAGE_BUS_REGISTRY_HPP
 
-#include "../application_config.hpp"
+#include "../main_ctx_object.hpp"
 #include "direct.hpp"
 #include "endpoint.hpp"
 #include "router.hpp"
@@ -26,9 +26,9 @@ struct registered_entry {
     auto update_service() -> bool;
 };
 //------------------------------------------------------------------------------
-class registry {
+class registry : public main_ctx_object {
 public:
-    registry(logger& parent, application_config&);
+    registry(main_ctx_parent parent);
 
     [[nodiscard]] auto establish(identifier log_id) -> endpoint& {
         return *(_add_entry(log_id)._endpoint);
@@ -48,7 +48,6 @@ public:
     auto update_all() -> bool;
 
 private:
-    logger _log{};
     std::shared_ptr<direct_acceptor> _acceptor;
     router _router;
     std::vector<registered_entry> _entries;

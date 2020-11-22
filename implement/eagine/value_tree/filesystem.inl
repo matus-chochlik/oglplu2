@@ -7,9 +7,9 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/from_string.hpp>
-#include <eagine/logging/exception.hpp>
-#include <eagine/logging/filesystem.hpp>
-#include <eagine/logging/logger.hpp>
+#include <eagine/logging/type/exception.hpp>
+#include <eagine/logging/type/filesystem.hpp>
+#include <eagine/main_ctx_object.hpp>
 #include <eagine/value_tree/implementation.hpp>
 #include <filesystem>
 #include <fstream>
@@ -24,7 +24,8 @@ class filesystem_node;
 static auto filesystem_make_node(
   filesystem_compound& owner,
   const std::filesystem::path& fs_path) -> attribute_interface*;
-static auto filesystem_log_of(filesystem_compound& owner) -> logger&;
+static auto filesystem_object_of(filesystem_compound& owner)
+  -> main_ctx_object&;
 //------------------------------------------------------------------------------
 class filesystem_node : public attribute_interface {
 public:
@@ -63,8 +64,8 @@ public:
                   std::filesystem::directory_iterator(_node_path);
                 return span_size(std::distance(begin(iter), end(iter)));
             } catch(std::filesystem::filesystem_error& err) {
-                filesystem_log_of(owner)
-                  .debug("failed to get filesystem node count")
+                filesystem_object_of(owner)
+                  .log_debug("failed to get filesystem node count")
                   .arg(EAGINE_ID(path), _node_path)
                   .arg(EAGINE_ID(error), err);
             }
@@ -86,8 +87,8 @@ public:
                 }
             }
         } catch(std::filesystem::filesystem_error& err) {
-            filesystem_log_of(owner)
-              .debug("failed to get nested filesystem node for '${path}'")
+            filesystem_object_of(owner)
+              .log_debug("failed to get nested filesystem node for '${path}'")
               .arg(EAGINE_ID(index), index)
               .arg(EAGINE_ID(path), _node_path)
               .arg(EAGINE_ID(error), err);
@@ -109,8 +110,8 @@ public:
                 }
             }
         } catch(std::filesystem::filesystem_error& err) {
-            filesystem_log_of(owner)
-              .debug("failed to get nested filesystem node for '${path}'")
+            filesystem_object_of(owner)
+              .log_debug("failed to get nested filesystem node for '${path}'")
               .arg(EAGINE_ID(name), name)
               .arg(EAGINE_ID(path), _node_path)
               .arg(EAGINE_ID(error), err);
@@ -175,7 +176,7 @@ public:
                 auto issep = [](char c) {
                     return !c || std::isspace(c);
                 };
-                if(auto src{take_until(head(view(temp), len), issep)}) {
+                if(auto src{take_until(head(memory::view(temp), len), issep)}) {
                     if(auto fetched{from_string<T>(src)}) {
                         dest.front() = extract(fetched);
                         return 1;
@@ -193,35 +194,31 @@ private:
 };
 //------------------------------------------------------------------------------
 class filesystem_compound
-  : public compound_with_refcounted_node<filesystem_compound, filesystem_node> {
+  : public main_ctx_object
+  , public compound_with_refcounted_node<filesystem_compound, filesystem_node> {
     using base =
       compound_with_refcounted_node<filesystem_compound, filesystem_node>;
     using base::_unwrap;
 
-    logger _log;
     filesystem_node _root;
     std::shared_ptr<file_compound_factory> _compound_factory;
 
 public:
     filesystem_compound(
-      logger& log,
+      main_ctx_parent parent,
       string_view fs_path,
       std::shared_ptr<file_compound_factory> factory)
-      : _log{EAGINE_ID(FsVtCmpnd), log}
+      : main_ctx_object{EAGINE_ID(FsVtCmpnd), parent}
       , _root{std::string_view{fs_path}}
       , _compound_factory{std::move(factory)} {}
 
-    auto log() noexcept -> auto& {
-        return _log;
-    }
-
     static auto make_shared(
-      logger& log,
+      main_ctx_parent parent,
       string_view fs_path,
       std::shared_ptr<file_compound_factory> factory)
       -> std::shared_ptr<filesystem_compound> {
         return std::make_shared<filesystem_compound>(
-          log, fs_path, std::move(factory));
+          parent, fs_path, std::move(factory));
     }
 
     auto type_id() const noexcept -> identifier_t final {
@@ -276,8 +273,9 @@ public:
     }
 };
 //------------------------------------------------------------------------------
-static inline auto filesystem_log_of(filesystem_compound& owner) -> logger& {
-    return owner.log();
+static inline auto filesystem_object_of(filesystem_compound& owner)
+  -> main_ctx_object& {
+    return owner;
 }
 //------------------------------------------------------------------------------
 static inline auto filesystem_make_node(
@@ -287,8 +285,7 @@ static inline auto filesystem_make_node(
         try {
             return owner.make_node(fs_path, canonical(fs_path));
         } catch(std::filesystem::filesystem_error&) {
-            owner.log()
-              .debug("failed to create filesystem node '${path}'")
+            owner.log_debug("failed to create filesystem node '${path}'")
               .arg(EAGINE_ID(path), EAGINE_ID(FsPath), fs_path);
         }
     }
@@ -298,10 +295,10 @@ static inline auto filesystem_make_node(
 EAGINE_LIB_FUNC
 auto from_filesystem_path(
   string_view fs_path,
-  logger& log,
+  main_ctx_parent parent,
   std::shared_ptr<file_compound_factory> factory) -> compound {
     return compound::make<filesystem_compound>(
-      log, fs_path, std::move(factory));
+      parent, fs_path, std::move(factory));
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::valtree

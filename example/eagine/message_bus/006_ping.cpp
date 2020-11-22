@@ -22,10 +22,9 @@ class ping : public actor<2> {
 public:
     using base = actor<2>;
     using base::bus;
-    using base::log;
 
     ping(
-      logger& parent,
+      main_ctx_parent parent,
       connection_setup& conn_setup,
       string_view address,
       const valid_if_positive<std::size_t>& max)
@@ -47,7 +46,9 @@ public:
 
     auto pong(const message_context&, stored_message&) -> bool {
         if(++_rcvd % _lmod == 0) {
-            log().info("received ${count} pongs").arg(EAGINE_ID(count), _rcvd);
+            bus()
+              .log_info("received ${count} pongs")
+              .arg(EAGINE_ID(count), _rcvd);
         }
         if(_rcvd < _max) {
             _timeout.reset();
@@ -57,20 +58,22 @@ public:
 
     auto ready(const message_context&, stored_message&) -> bool {
         _ready = true;
-        log().info("received pong ready message");
+        bus().log_info("received pong ready message");
         return true;
     }
 
     void shutdown() {
         bus().send(EAGINE_MSG_ID(PingPong, Shutdown));
-        log().info("sent shutdown message");
+        bus().log_info("sent shutdown message");
     }
 
     void update() {
         if(_ready && (_sent <= _max * 2) && (_sent < _rcvd + _lmod)) {
             bus().send(EAGINE_MSG_ID(PingPong, Ping));
             if(++_sent % _lmod == 0) {
-                log().info("sent ${count} pings").arg(EAGINE_ID(count), _sent);
+                bus()
+                  .log_info("sent ${count} pings")
+                  .arg(EAGINE_ID(count), _sent);
             }
         } else {
             std::this_thread::yield();
@@ -97,15 +100,15 @@ private:
 } // namespace msgbus
 
 auto main(main_ctx& ctx) -> int {
-    msgbus::router_address address{ctx.log(), ctx.config()};
-    msgbus::connection_setup conn_setup(ctx.log(), ctx.config());
+    msgbus::router_address address{ctx};
+    msgbus::connection_setup conn_setup(ctx);
 
     valid_if_positive<std::size_t> ping_count{};
     if(auto arg{ctx.args().find("--ping-count")}) {
         arg.next().parse(ping_count, ctx.log().error_stream());
     }
 
-    msgbus::ping ping(ctx.log(), conn_setup, address, ping_count);
+    msgbus::ping ping(ctx, conn_setup, address, ping_count);
 
     const time_measure run_time;
 

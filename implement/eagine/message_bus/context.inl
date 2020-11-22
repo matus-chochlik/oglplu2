@@ -12,20 +12,17 @@
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-context::context(logger& parent)
-  : _log{EAGINE_ID(MsgBusCtxt), parent} {
+context::context(main_ctx_parent parent)
+  : main_ctx_object{EAGINE_ID(MsgBusCtxt), parent} {
 
     if(ok make_result{_ssl.new_x509_store()}) {
         _ssl_store = std::move(make_result.get());
     } else {
-        _log.error("failed to create certificate store: ${reason}")
+        log_error("failed to create certificate store: ${reason}")
           .arg(EAGINE_ID(reason), (!make_result).message());
     }
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-context::context(logger& parent, application_config& cfg)
-  : context{parent} {
+
+    auto& cfg = app_config();
     std::string temp;
     if(cfg.fetch("msg_bus.ssl_engine", temp)) {
         _ssl.load_builtin_engines();
@@ -33,15 +30,15 @@ context::context(logger& parent, application_config& cfg)
         if(ok open_result{_ssl.open_engine(temp)}) {
             _ssl_engine = std::move(open_result.get());
             if(ok init_result{_ssl.init_engine(_ssl_engine)}) {
-                _log.info("successfully loaded ssl engine ${name}")
+                log_info("successfully loaded ssl engine ${name}")
                   .arg(EAGINE_ID(name), temp);
             } else {
-                _log.error("failed to init ssl engine ${name}: ${reason}")
+                log_error("failed to init ssl engine ${name}: ${reason}")
                   .arg(EAGINE_ID(name), temp)
                   .arg(EAGINE_ID(reason), (!init_result).message());
             }
         } else {
-            _log.error("failed to load ssl engine ${name}: ${reason}")
+            log_error("failed to load ssl engine ${name}: ${reason}")
               .arg(EAGINE_ID(name), temp)
               .arg(EAGINE_ID(reason), (!open_result).message());
         }
@@ -54,15 +51,15 @@ context::context(logger& parent, application_config& cfg)
                     _ssl.delete_pkey(_own_pkey);
                 }
                 _own_pkey = std::move(pkey_result.get());
-                _log.info("successfully loaded ssl key ${keyId}")
+                log_info("successfully loaded ssl key ${keyId}")
                   .arg(EAGINE_ID(keyId), temp);
             } else {
-                _log.error("failed load ssl key ${keyId}: ${reason}")
+                log_error("failed load ssl key ${keyId}: ${reason}")
                   .arg(EAGINE_ID(keyId), temp)
                   .arg(EAGINE_ID(reason), (!pkey_result).message());
             }
         } else {
-            _log.error("failed get ssl ui method: ${reason}")
+            log_error("failed get ssl ui method: ${reason}")
               .arg(EAGINE_ID(reason), (!uim_result).message());
         }
     }
@@ -106,7 +103,7 @@ auto context::next_sequence_no(message_id msg_id) noexcept
 
     if(newone) {
         std::get<1>(*pos) = 0U;
-        _log.debug("creating sequence for message type ${message}")
+        log_debug("creating sequence for message type ${message}")
           .arg(EAGINE_ID(message), msg_id);
     }
     return std::get<1>(*pos)++;
@@ -121,14 +118,14 @@ auto context::verify_certificate(sslp::x509 cert) -> bool {
             if(ok verify_res{_ssl.x509_verify_certificate(vrfy_ctx)}) {
                 return true;
             } else {
-                _log.debug("failed to verify x509 certificate")
+                log_debug("failed to verify x509 certificate")
                   .arg(EAGINE_ID(reason), (!verify_res).message());
             }
         } else {
-            _log.debug("failed to init x509 certificate store context");
+            log_debug("failed to init x509 certificate store context");
         }
     } else {
-        _log.error("failed to create x509 certificate store")
+        log_error("failed to create x509 certificate store")
           .arg(EAGINE_ID(reason), (!vrfy_ctx).message());
     }
     return false;
@@ -145,7 +142,7 @@ auto context::add_own_certificate_pem(memory::const_block blk) -> bool {
             memory::copy_into(blk, _own_cert_pem);
             return verify_certificate(_own_cert);
         } else {
-            _log.error("failed to parse own x509 certificate from pem")
+            log_error("failed to parse own x509 certificate from pem")
               .arg(EAGINE_ID(reason), (!cert).message())
               .arg(EAGINE_ID(pem), blk);
         }
@@ -165,12 +162,12 @@ auto context::add_ca_certificate_pem(memory::const_block blk) -> bool {
                 memory::copy_into(blk, _ca_cert_pem);
                 return !_own_cert || verify_certificate(_own_cert);
             } else {
-                _log.error("failed to add x509 CA certificate to store")
+                log_error("failed to add x509 CA certificate to store")
                   .arg(EAGINE_ID(reason), (!cert).message())
                   .arg(EAGINE_ID(pem), blk);
             }
         } else {
-            _log.error("failed to parse CA x509 certificate from pem")
+            log_error("failed to parse CA x509 certificate from pem")
               .arg(EAGINE_ID(reason), (!cert).message())
               .arg(EAGINE_ID(pem), blk);
         }
@@ -200,23 +197,23 @@ auto context::add_remote_certificate_pem(
                       cover(info.nonce), any_random_engine{_rand_engine});
                     return true;
                 } else {
-                    _log.error("failed to get remote node x509 public key")
+                    log_error("failed to get remote node x509 public key")
                       .arg(EAGINE_ID(nodeId), node_id)
                       .arg(EAGINE_ID(reason), (!pubkey).message())
                       .arg(EAGINE_ID(pem), blk);
                 }
             } else {
-                _log.debug("failed to verify remote node certificate")
+                log_debug("failed to verify remote node certificate")
                   .arg(EAGINE_ID(nodeId), node_id);
             }
         } else {
-            _log.error("failed to parse remote node x509 certificate from pem")
+            log_error("failed to parse remote node x509 certificate from pem")
               .arg(EAGINE_ID(nodeId), node_id)
               .arg(EAGINE_ID(reason), (!cert).message())
               .arg(EAGINE_ID(pem), blk);
         }
     } else {
-        _log.error("received empty x509 certificate pem")
+        log_error("received empty x509 certificate pem")
           .arg(EAGINE_ID(nodeId), node_id)
           .arg(EAGINE_ID(pem), blk);
     }
@@ -282,7 +279,7 @@ auto context::message_digest_verify_init(
             return _ssl.message_digest_verify_init(mdc, mdt, info.pubkey);
         }
     } else {
-        _log.debug("could not find remote node ${endpoint} for verification")
+        log_debug("could not find remote node ${endpoint} for verification")
           .arg(EAGINE_ID(endpoint), node_id);
     }
     return _ssl.message_digest_verify_init.fake();
@@ -306,22 +303,22 @@ auto context::get_own_signature(memory::const_block nonce)
                     if(ok sig{_ssl.message_digest_sign_final(md_ctx, free)}) {
                         return sig.get();
                     } else {
-                        _log.debug("failed to finish ssl signature")
+                        log_debug("failed to finish ssl signature")
                           .arg(EAGINE_ID(freeSize), free.size())
                           .arg(EAGINE_ID(reason), (!sig).message());
                     }
                 } else {
-                    _log.debug("failed to update ssl signature");
+                    log_debug("failed to update ssl signature");
                 }
             } else {
-                _log.debug("failed to init ssl sign context");
+                log_debug("failed to init ssl sign context");
             }
         } else {
-            _log.debug("failed to create ssl message digest")
+            log_debug("failed to create ssl message digest")
               .arg(EAGINE_ID(reason), (!md_ctx).message());
         }
     } else {
-        _log.debug("failed to get ssl message digest type")
+        log_debug("failed to get ssl message digest type")
           .arg(EAGINE_ID(reason), (!md_type).message());
     }
     return {};
@@ -357,20 +354,20 @@ auto context::verify_remote_signature(
                             result |= verification_bit::message_content;
 
                         } else {
-                            _log.debug("failed to finish ssl verification");
+                            log_debug("failed to finish ssl verification");
                         }
                     } else {
-                        _log.debug("failed to update ssl verify context");
+                        log_debug("failed to update ssl verify context");
                     }
                 } else {
-                    _log.debug("failed to init ssl verify context");
+                    log_debug("failed to init ssl verify context");
                 }
             } else {
-                _log.debug("failed to create ssl message digest")
+                log_debug("failed to create ssl message digest")
                   .arg(EAGINE_ID(reason), (!md_ctx).message());
             }
         } else {
-            _log.debug("failed to get ssl message digest type")
+            log_debug("failed to get ssl message digest type")
               .arg(EAGINE_ID(reason), (!md_type).message());
         }
     }
@@ -395,14 +392,8 @@ auto context::verify_remote_signature(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto make_context(logger& parent) -> std::shared_ptr<context> {
+auto make_context(main_ctx_parent parent) -> std::shared_ptr<context> {
     return std::make_shared<context>(parent);
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-auto make_context(logger& parent, application_config& cfg)
-  -> std::shared_ptr<context> {
-    return std::make_shared<context>(parent, cfg);
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

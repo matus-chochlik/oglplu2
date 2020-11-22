@@ -22,10 +22,9 @@ void connection_setup::_do_setup_acceptors(
   _factory_list& factories) {
     for(auto& factory : factories) {
         EAGINE_ASSERT(factory);
-        _log
-          .debug(
-            "setting up acceptors on address ${address} "
-            "with factory type ${factory}")
+        log_debug(
+          "setting up acceptors on address ${address} "
+          "with factory type ${factory}")
           .arg(EAGINE_ID(factory), factory)
           .arg(EAGINE_ID(address), EAGINE_ID(MsgBusAddr), address);
 
@@ -42,10 +41,9 @@ void connection_setup::_do_setup_connectors(
   _factory_list& factories) {
     for(auto& factory : factories) {
         EAGINE_ASSERT(factory);
-        _log
-          .debug(
-            "setting up connectors on address ${address} "
-            "with factory type ${factory}")
+        log_debug(
+          "setting up connectors on address ${address} "
+          "with factory type ${factory}")
           .arg(EAGINE_ID(factory), factory)
           .arg(EAGINE_ID(address), EAGINE_ID(MsgBusAddr), address);
 
@@ -131,7 +129,7 @@ void connection_setup::add_factory(std::unique_ptr<connection_factory> factory) 
     EAGINE_ASSERT(factory);
     const auto kind{factory->kind()};
 
-    _log.debug("adding ${kind} connection factory ${factory}")
+    log_debug("adding ${kind} connection factory ${factory}")
       .arg(EAGINE_ID(kind), kind)
       .arg(EAGINE_ID(addrKind), factory->addr_kind())
       .arg(EAGINE_ID(factory), factory);
@@ -144,18 +142,7 @@ void connection_setup::add_factory(std::unique_ptr<connection_factory> factory) 
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void connection_setup_default_init(connection_setup& setup) {
-    setup.make_factory<asio_tcp_ipv4_connection_factory>();
-#if EAGINE_POSIX
-    setup.make_factory<asio_local_stream_connection_factory>();
-    setup.make_factory<posix_mqueue_connection_factory>();
-#endif
-    setup.make_factory<direct_connection_factory>();
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-void connection_setup_default_init(
-  connection_setup& setup,
-  application_config& cfg) {
+    auto& cfg = setup.app_config();
     if(cfg.is_set("msg_bus.asio_tcp_ipv4")) {
         setup.make_factory<asio_tcp_ipv4_connection_factory>();
     }

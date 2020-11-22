@@ -7,6 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+#include <eagine/main_ctx.hpp>
 #include <eagine/timeout.hpp>
 #include <vector>
 
@@ -46,7 +47,7 @@ static inline auto system_info_linux_load_avg(std::size_t which) noexcept
 //------------------------------------------------------------------------------
 class system_info_impl {
 public:
-    system_info_impl(logger& parent)
+    system_info_impl(main_ctx_parent parent)
       : _sysfs{valtree::from_filesystem_path("/sys/devices", parent)} {
         auto sysfs_scanner = [this](
                                valtree::compound& c,
@@ -191,13 +192,19 @@ auto system_info::_impl() noexcept -> system_info_impl* {
 #if EAGINE_LINUX
     if(EAGINE_UNLIKELY(!_pimpl)) {
         try {
-            _pimpl = std::make_shared<system_info_impl>(_log);
+            _pimpl = std::make_shared<system_info_impl>(*this);
         } catch(...) {
         }
     }
     return _pimpl.get();
 #endif
     return nullptr;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto system_info::preinitialize() noexcept -> system_info& {
+    _impl();
+    return *this;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

@@ -1,0 +1,12 @@
+ca_cert_path: /path/to/ca/certificate.pem
+msg_bus:
+    ssl_engine: pkcs11
+    pkey_id: pkcs11:token=oglplus;object=oglplus-cert
+    router:
+        address: /tmp/eagine-msgbus.socket
+        id_base: 1000
+        cert_path: /path/to/router/certificate.pem
+    bridge:
+        cert_path: /path/to/bridge/certificate.pem
+    endpoint:
+        cert_path: /path/to/endpoint/certificate.pem

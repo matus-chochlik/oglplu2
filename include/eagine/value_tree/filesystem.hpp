@@ -11,7 +11,7 @@
 #define EAGINE_VALUE_TREE_FILESYSTEM_HPP
 
 #include "../config/basic.hpp"
-#include "../logging/fwd.hpp"
+#include "../main_ctx_fwd.hpp"
 #include "wrappers.hpp"
 #include <memory>
 
@@ -30,7 +30,7 @@ struct file_compound_factory {
 //------------------------------------------------------------------------------
 auto from_filesystem_path(
   string_view root_path,
-  logger&,
+  main_ctx_parent,
   std::shared_ptr<file_compound_factory> = {}) -> compound;
 //------------------------------------------------------------------------------
 } // namespace eagine::valtree

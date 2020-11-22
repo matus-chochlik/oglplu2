@@ -11,7 +11,7 @@
 
 #include "config/basic.hpp"
 #include "config/platform.hpp"
-#include "logging/logger.hpp"
+#include "main_ctx_object.hpp"
 #include "quantities.hpp"
 #include "types.hpp"
 #include "valid_if/ge0_le1.hpp"
@@ -27,10 +27,12 @@ namespace eagine {
 
 class system_info_impl;
 
-class system_info {
+class system_info : public main_ctx_object {
 public:
-    system_info(logger& parent) noexcept
-      : _log{EAGINE_ID(SystemInfo), parent} {}
+    system_info(main_ctx_parent parent) noexcept
+      : main_ctx_object{EAGINE_ID(SystemInfo), parent} {}
+
+    auto preinitialize() noexcept -> system_info&;
 
     auto hostname() noexcept -> valid_if_not_empty<std::string>;
 
@@ -67,8 +69,6 @@ public:
     auto battery_capacity(span_size_t) noexcept -> valid_if_between_0_1<float>;
 
 private:
-    logger _log;
-
     std::shared_ptr<system_info_impl> _pimpl;
     auto _impl() noexcept -> system_info_impl*;
 };

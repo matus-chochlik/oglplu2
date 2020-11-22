@@ -39,15 +39,17 @@ auto routed_endpoint::is_allowed(message_id msg_id) const noexcept -> bool {
     return true;
 }
 //------------------------------------------------------------------------------
-auto routed_endpoint::send(logger& log, message_id msg_id, message_view message)
-  const -> bool {
+auto routed_endpoint::send(
+  main_ctx_object& user,
+  message_id msg_id,
+  message_view message) const -> bool {
     if(EAGINE_LIKELY(the_connection)) {
         if(EAGINE_UNLIKELY(!the_connection->send(msg_id, message))) {
-            log.debug("failed to send message to endpoint");
+            user.log_debug("failed to send message to endpoint");
             return false;
         }
     } else {
-        log.debug("missing or unusable endpoint connection");
+        user.log_debug("missing or unusable endpoint connection");
         return false;
     }
     return true;
@@ -72,7 +74,8 @@ inline void parent_router::reset(std::unique_ptr<connection> a_connection) {
     confirmed_id = 0;
 }
 //------------------------------------------------------------------------------
-inline auto parent_router::update(logger& log, identifier_t id_base) -> bool {
+inline auto parent_router::update(main_ctx_object& user, identifier_t id_base)
+  -> bool {
     some_true something_done{};
 
     if(the_connection) {
@@ -87,7 +90,7 @@ inline auto parent_router::update(logger& log, identifier_t id_base) -> bool {
                     confirm_id_timeout.reset();
                     something_done();
 
-                    log.debug("announcing id ${id} to parent router")
+                    user.log_debug("announcing id ${id} to parent router")
                       .arg(EAGINE_ID(id), id_base);
                 }
             }
@@ -96,7 +99,7 @@ inline auto parent_router::update(logger& log, identifier_t id_base) -> bool {
             if(EAGINE_UNLIKELY(confirmed_id)) {
                 confirmed_id = 0;
                 something_done();
-                log.debug("lost connection to parent router");
+                user.log_debug("lost connection to parent router");
             }
         }
     }
@@ -104,7 +107,8 @@ inline auto parent_router::update(logger& log, identifier_t id_base) -> bool {
 }
 //------------------------------------------------------------------------------
 template <typename Handler>
-inline auto parent_router::fetch_messages(logger& log, const Handler& handler)
+inline auto
+parent_router::fetch_messages(main_ctx_object& user, const Handler& handler)
   -> bool {
 
     if(the_connection) {
@@ -114,11 +118,11 @@ inline auto parent_router::fetch_messages(logger& log, const Handler& handler)
                          const message_view& message) -> bool {
             if(msg_id == EAGINE_MSGBUS_ID(confirmId)) {
                 confirmed_id = message.target_id;
-                log.debug("confirmed id ${id} by parent router ${source}")
+                user.log_debug("confirmed id ${id} by parent router ${source}")
                   .arg(EAGINE_ID(id), message.target_id)
                   .arg(EAGINE_ID(source), message.source_id);
             } else if(msg_id.has_method(EAGINE_ID(byeBye))) {
-                log.debug("received bye-bye from parent router ${source}")
+                user.log_debug("received bye-bye from parent router ${source}")
                   .arg(EAGINE_ID(source), message.source_id);
             } else {
                 return handler(msg_id, msg_age, message);
@@ -131,11 +135,13 @@ inline auto parent_router::fetch_messages(logger& log, const Handler& handler)
     return false;
 }
 //------------------------------------------------------------------------------
-auto parent_router::send(logger& log, message_id msg_id, message_view message)
-  const -> bool {
+auto parent_router::send(
+  main_ctx_object& user,
+  message_id msg_id,
+  message_view message) const -> bool {
     if(the_connection) {
         if(EAGINE_UNLIKELY(!the_connection->send(msg_id, message))) {
-            log.debug("failed to send message to parent router");
+            user.log_debug("failed to send message to parent router");
             return false;
         }
     }
@@ -161,7 +167,7 @@ void router::add_ca_certificate_pem(memory::const_block blk) {
 EAGINE_LIB_FUNC
 auto router::add_acceptor(std::shared_ptr<acceptor> an_acceptor) -> bool {
     if(an_acceptor) {
-        _log.info("adding connection acceptor");
+        log_info("adding connection acceptor");
         _acceptors.emplace_back(std::move(an_acceptor));
         return true;
     }
@@ -171,7 +177,7 @@ auto router::add_acceptor(std::shared_ptr<acceptor> an_acceptor) -> bool {
 EAGINE_LIB_FUNC
 auto router::add_connection(std::unique_ptr<connection> a_connection) -> bool {
     if(a_connection) {
-        _log.info("assigning parent router connection");
+        log_info("assigning parent router connection");
         _parent_router.reset(std::move(a_connection));
         return true;
     }
@@ -179,10 +185,10 @@ auto router::add_connection(std::unique_ptr<connection> a_connection) -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void router::_setup_from_config(application_config& cfg) {
-    if(cfg.fetch("msg_bus.router_id_base", _id_base)) {
+void router::_setup_from_config() {
+    if(app_config().fetch("msg_bus.router.id_base", _id_base)) {
         _id_sequence = _id_base;
-        _log.debug("parsed router id base ${base}")
+        log_debug("parsed router id base ${base}")
           .arg(EAGINE_ID(base), _id_base);
     }
 }
@@ -221,14 +227,14 @@ auto router::_handle_pending() -> bool {
               if(msg_id == EAGINE_MSGBUS_ID(annEndptId)) {
                   id = msg.source_id;
                   maybe_router = false;
-                  this->_log.debug("received endpoint id ${id}")
+                  this->log_debug("received endpoint id ${id}")
                     .arg(EAGINE_ID(id), id);
                   return true;
               }
               // this is a special message containing non-endpoint id
               if(msg_id == EAGINE_MSGBUS_ID(announceId)) {
                   id = msg.source_id;
-                  this->_log.debug("received id ${id}").arg(EAGINE_ID(id), id);
+                  this->log_debug("received id ${id}").arg(EAGINE_ID(id), id);
                   return true;
               }
               return false;
@@ -247,7 +253,7 @@ auto router::_handle_pending() -> bool {
             if(~id == 0) {
                 _assign_id(pending.the_connection);
             } else if(id != 0) {
-                _log.debug("adopting pending connection from ${kind} ${id}")
+                log_debug("adopting pending connection from ${kind} ${id}")
                   .arg(EAGINE_ID(type), pending.the_connection->type_id())
                   .arg(EAGINE_ID(id), id)
                   .arg(
@@ -288,8 +294,7 @@ auto router::_remove_timeouted() -> bool {
         [this, &something_done](auto& pending) {
             if(pending.age() > this->_pending_timeout) {
                 something_done();
-                this->_log
-                  .warning("removing timeouted pending ${type} connection")
+                log_warning("removing timeouted pending ${type} connection")
                   .arg(EAGINE_ID(type), pending.the_connection->type_id())
                   .arg(EAGINE_ID(age), pending.age());
                 return true;
@@ -311,7 +316,7 @@ auto router::_remove_disconnected() -> bool {
             conn.reset();
         } else {
             if(EAGINE_UNLIKELY(!conn->is_usable())) {
-                this->_log.debug("removing disconnected connection");
+                log_debug("removing disconnected connection");
                 conn.reset();
             }
         }
@@ -332,7 +337,7 @@ void router::_assign_id(std::unique_ptr<connection>& conn) {
         ++_id_sequence;
     }
     //
-    _log.debug("assigning id ${id} to accepted ${type} connection")
+    log_debug("assigning id ${id} to accepted ${type} connection")
       .arg(EAGINE_ID(type), conn->type_id())
       .arg(EAGINE_ID(id), _id_sequence);
     // send the special message assigning the endpoint id
@@ -400,14 +405,14 @@ auto router::_handle_blob(
     // TODO: use message age
     if(is_special_message(msg_id)) {
         if(msg_id.has_method(EAGINE_ID(eptCertPem))) {
-            _log.trace("received endpoint certificate")
+            log_trace("received endpoint certificate")
               .arg(EAGINE_ID(source), message.source_id)
               .arg(EAGINE_ID(pem), message.data);
             auto pos = _endpoints.find(message.source_id);
             if(pos != _endpoints.end()) {
                 if(_context->add_remote_certificate_pem(
                      message.source_id, message.data)) {
-                    _log.debug("verified and stored endpoint certificate")
+                    log_debug("verified and stored endpoint certificate")
                       .arg(EAGINE_ID(source), message.source_id);
                 }
             }
@@ -432,7 +437,7 @@ auto router::_handle_special(
   routed_endpoint& endpoint,
   const message_view& message) -> bool {
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
-        _log.debug("router handling special message ${message}")
+        log_debug("router handling special message ${message}")
           .arg(EAGINE_ID(router), _id_base)
           .arg(EAGINE_ID(message), msg_id)
           .arg(EAGINE_ID(target), message.target_id)
@@ -441,23 +446,23 @@ auto router::_handle_special(
         if(msg_id.has_method(EAGINE_ID(notARouter))) {
             if(incoming_id == message.source_id) {
                 endpoint.maybe_router = false;
-                _log.debug("endpoint ${source} is not a router")
+                log_debug("endpoint ${source} is not a router")
                   .arg(EAGINE_ID(source), message.source_id);
             }
             return true;
         } else if(msg_id.has_method(EAGINE_ID(clrBlkList))) {
-            _log.debug("clearing router block_list");
+            log_debug("clearing router block_list");
             endpoint.message_block_list.clear();
             return true;
         } else if(msg_id.has_method(EAGINE_ID(clrAlwList))) {
-            _log.debug("clearing router allow_list");
+            log_debug("clearing router allow_list");
             endpoint.message_allow_list.clear();
             return true;
         } else if(msg_id.has_method(EAGINE_ID(msgBlkList))) {
             message_id blk_msg_id{};
             if(default_deserialize_message_type(blk_msg_id, message.data)) {
                 if(!is_special_message(msg_id)) {
-                    _log.debug("endpoint ${source} blocking message ${message}")
+                    log_debug("endpoint ${source} blocking message ${message}")
                       .arg(EAGINE_ID(message), blk_msg_id)
                       .arg(EAGINE_ID(source), message.source_id);
                     endpoint.block_message(blk_msg_id);
@@ -467,21 +472,21 @@ auto router::_handle_special(
         } else if(msg_id.has_method(EAGINE_ID(msgAlwList))) {
             message_id alw_msg_id{};
             if(default_deserialize_message_type(alw_msg_id, message.data)) {
-                _log.debug("endpoint ${source} allowing message ${message}")
+                log_debug("endpoint ${source} allowing message ${message}")
                   .arg(EAGINE_ID(message), alw_msg_id)
                   .arg(EAGINE_ID(source), message.source_id);
                 endpoint.allow_message(alw_msg_id);
                 return true;
             }
         } else if(msg_id.has_method(EAGINE_ID(byeBye))) {
-            _log.debug("received bye-bye from endpoint ${source}")
+            log_debug("received bye-bye from endpoint ${source}")
               .arg(EAGINE_ID(source), message.source_id);
             endpoint.do_disconnect = true;
             return true;
         } else if(msg_id.has_method(EAGINE_ID(subscribTo))) {
             message_id sub_msg_id{};
             if(default_deserialize_message_type(sub_msg_id, message.data)) {
-                _log.debug("endpoint ${source} subscribes to ${message}")
+                log_debug("endpoint ${source} subscribes to ${message}")
                   .arg(EAGINE_ID(source), message.source_id)
                   .arg(EAGINE_ID(message), sub_msg_id);
                 // this should be routed
@@ -490,7 +495,7 @@ auto router::_handle_special(
         } else if(msg_id.has_method(EAGINE_ID(unsubFrom))) {
             message_id sub_msg_id{};
             if(default_deserialize_message_type(sub_msg_id, message.data)) {
-                _log.debug("endpoint ${source} unsubscribes from ${message}")
+                log_debug("endpoint ${source} unsubscribes from ${message}")
                   .arg(EAGINE_ID(source), message.source_id)
                   .arg(EAGINE_ID(message), sub_msg_id);
                 // this should be routed
@@ -555,7 +560,7 @@ auto router::_handle_special(
             // this should be forwarded
             return false;
         }
-        _log.warning("unhandled special message ${message} from ${source}")
+        log_warning("unhandled special message ${message} from ${source}")
           .arg(EAGINE_ID(message), msg_id)
           .arg(EAGINE_ID(source), message.source_id)
           .arg(EAGINE_ID(data), message.data);
@@ -571,7 +576,7 @@ auto router::_do_route_message(
 
     bool result = true;
     if(EAGINE_UNLIKELY(message.too_many_hops())) {
-        _log.warning("message ${message} discarded after too many hops")
+        log_warning("message ${message} discarded after too many hops")
           .arg(EAGINE_ID(message), msg_id);
     } else {
         const auto& epts = this->_endpoints;
@@ -587,7 +592,8 @@ auto router::_do_route_message(
                 if(EAGINE_LIKELY(interval > decltype(interval)::zero())) {
                     const auto msgs_per_sec{100000.F / interval.count()};
 
-                    _log.stat("forwarded ${count} messages")
+                    log_chart_sample(EAGINE_ID(msgsPerSec), msgs_per_sec);
+                    log_stat("forwarded ${count} messages")
                       .arg(EAGINE_ID(count), _forwarded_messages)
                       .arg(EAGINE_ID(interval), interval)
                       .arg(EAGINE_ID(msgsPerSec), msgs_per_sec);
@@ -595,7 +601,7 @@ auto router::_do_route_message(
 
                 _forwarded_since = now;
             }
-            return endpoint_out.send(_log, msg_id, message);
+            return endpoint_out.send(*this, msg_id, message);
         };
 
         if(is_targeted) {
@@ -617,7 +623,7 @@ auto router::_do_route_message(
                 }
                 // if the message didn't come from the parent router
                 if(incoming_id != _id_base) {
-                    has_routed |= _parent_router.send(_log, msg_id, message);
+                    has_routed |= _parent_router.send(*this, msg_id, message);
                 }
             }
             result &= has_routed;
@@ -630,7 +636,7 @@ auto router::_do_route_message(
                 }
             }
             if(incoming_id != _id_base) {
-                result |= _parent_router.send(_log, msg_id, message);
+                result |= _parent_router.send(*this, msg_id, message);
             }
         }
     }
@@ -671,7 +677,7 @@ auto router::_route_messages() -> bool {
           }
           return true;
       };
-    something_done(_parent_router.fetch_messages(_log, handler));
+    something_done(_parent_router.fetch_messages(*this, handler));
 
     return something_done;
 }
@@ -688,7 +694,7 @@ auto router::_update_connections() -> bool {
         }
     }
 
-    something_done(_parent_router.update(_log, _id_base));
+    something_done(_parent_router.update(*this, _id_base));
 
     if(_endpoints.empty() && _pending.empty()) {
         std::this_thread::yield();
@@ -707,7 +713,7 @@ auto router::do_maintenance() -> bool {
     something_done(_remove_timeouted());
     something_done(_remove_disconnected());
 
-    return something_done();
+    return something_done;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -719,7 +725,7 @@ auto router::do_work() -> bool {
     something_done(_route_messages());
     something_done(_update_connections());
 
-    return something_done();
+    return something_done;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

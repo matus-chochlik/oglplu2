@@ -165,16 +165,20 @@ public:
         _driver._read_row(data);
     }
 
-    auto image_width() -> png_uint_32 {
+    auto channels() {
+        return _driver._png.channels();
+    }
+
+    auto image_width() {
         return _driver._png.image_width();
     }
-    auto image_height() -> png_uint_32 {
+    auto image_height() {
         return _driver._png.image_height();
     }
-    auto row_bytes() -> png_uint_32 {
+    auto row_bytes() {
         return _driver._png.row_bytes();
     }
-    auto data_size() -> png_uint_32 {
+    auto data_size() {
         return row_bytes() * image_height();
     }
 
@@ -192,8 +196,9 @@ void convert_image(
 
     int width = int(reader.image_width());
     int height = int(reader.image_height());
+    int channels = int(reader.channels());
 
-    oglp::image_data_header hdr{width, height, 1};
+    oglp::image_data_header hdr{width, height, 1, channels};
 
     hdr.data_type = reader.gl_data_type();
     hdr.format = reader.gl_format();
@@ -419,30 +424,32 @@ png_read_driver::png_read_driver(png_reader& reader)
     const size_t sig_size = 8;
     ::png_set_sig_bytes(_png._read, sig_size);
     ::png_read_info(_png._read, _png._info);
-}
-//------------------------------------------------------------------------------
-png_reader::png_reader(std::istream& input)
-  : _input(input)
-  , _validator(_input)
-  , _driver(*this) {
-    switch(_driver._png.color_type()) {
+
+    switch(_png.color_type()) {
         case PNG_COLOR_TYPE_PALETTE: { // NOLINT
-            _driver._png.set_palette_to_rgb();
+            _png.set_palette_to_rgb();
             break;
         }
         case PNG_COLOR_TYPE_GRAY: {
             if(_png.bit_depth() < 8) {
-                _driver._png.set_expand_gray_1_2_4_to_8();
+                _png.set_expand_gray_1_2_4_to_8();
             }
             break;
         }
         default:;
     }
 
-    if(_driver._png.get_valid(PNG_INFO_tRNS)) {
-        _driver._png.set_tRNS_to_alpha();
+    if(_png.get_valid(PNG_INFO_tRNS)) {
+        _png.set_tRNS_to_alpha();
     }
+
+    ::png_read_update_info(_png._read, _png._info);
 }
+//------------------------------------------------------------------------------
+png_reader::png_reader(std::istream& input)
+  : _input(input)
+  , _validator(_input)
+  , _driver(*this) {}
 //------------------------------------------------------------------------------
 auto png_reader::gl_data_type() -> GLenum {
     switch(_driver._png.bit_depth()) {

@@ -10,7 +10,7 @@
 #ifndef EAGINE_APPLICATION_CONFIG_HPP
 #define EAGINE_APPLICATION_CONFIG_HPP
 
-#include "logging/logger.hpp"
+#include "main_ctx_object.hpp"
 #include "program_args.hpp"
 #include "valid_if/decl.hpp"
 #include "value_tree/wrappers.hpp"
@@ -21,11 +21,10 @@ namespace eagine {
 class master_ctx;
 class application_config_impl;
 
-class application_config {
+class application_config : public main_ctx_object {
 public:
-    application_config(logger& parent, const program_args& args) noexcept
-      : _log{EAGINE_ID(AppConfig), parent}
-      , _args{args} {}
+    application_config(main_ctx_parent parent) noexcept
+      : main_ctx_object{EAGINE_ID(AppConfig), parent} {}
 
     auto is_set(string_view key) noexcept -> bool {
         if(const auto attr{_find_comp_attr(key)}) {
@@ -47,19 +46,11 @@ public:
 
     template <typename T>
     auto fetch(string_view key, T& dest) noexcept -> bool {
-        if(const auto attr{_find_comp_attr(key)}) {
-            if(attr.fetch_value(dest)) {
-                return true;
-            } else {
-                _log.error("could not fetch configuration value '${value}'")
-                  .arg(EAGINE_ID(key), key);
-            }
-        }
         if(const auto arg{_find_prog_arg(key)}) {
-            if(arg.parse_next(dest, _log.error_stream())) {
+            if(arg.parse_next(dest, log_error_stream())) {
                 return true;
             } else {
-                _log.error("could not parse configuration value '${value}'")
+                log_error("could not parse configuration value '${value}'")
                   .arg(EAGINE_ID(key), key)
                   .arg(EAGINE_ID(value), arg.get());
             }
@@ -69,9 +60,17 @@ public:
                 dest = std::move(extract(converted));
                 return true;
             } else {
-                _log.error("could not convert configuration value '${value}'")
+                log_error("could not convert configuration value '${value}'")
                   .arg(EAGINE_ID(key), key)
                   .arg(EAGINE_ID(value), extract(opt_val));
+            }
+        }
+        if(const auto attr{_find_comp_attr(key)}) {
+            if(attr.fetch_value(dest)) {
+                return true;
+            } else {
+                log_error("could not fetch configuration value '${value}'")
+                  .arg(EAGINE_ID(key), key);
             }
         }
         return false;
@@ -85,9 +84,6 @@ public:
     }
 
 private:
-    logger _log;
-    const program_args& _args;
-
     std::shared_ptr<application_config_impl> _pimpl;
     auto _impl() noexcept -> application_config_impl*;
 

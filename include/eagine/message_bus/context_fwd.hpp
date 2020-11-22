@@ -10,7 +10,7 @@
 #ifndef EAGINE_MESSAGE_BUS_CONTEXT_FWD_HPP
 #define EAGINE_MESSAGE_BUS_CONTEXT_FWD_HPP
 
-#include "../logging/fwd.hpp"
+#include "../main_ctx_fwd.hpp"
 #include <memory>
 
 namespace eagine {
@@ -21,8 +21,7 @@ class context;
 //------------------------------------------------------------------------------
 using shared_context = std::shared_ptr<context>;
 //------------------------------------------------------------------------------
-auto make_context(logger&) -> std::shared_ptr<context>;
-auto make_context(logger&, application_config&) -> std::shared_ptr<context>;
+auto make_context(main_ctx_parent) -> std::shared_ptr<context>;
 //------------------------------------------------------------------------------
 } // namespace msgbus
 } // namespace eagine

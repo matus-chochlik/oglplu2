@@ -86,15 +86,33 @@ public:
         }
     }
 
+    void set_description(
+      identifier source,
+      logger_instance_id instance,
+      string_view display_name,
+      string_view description) noexcept final {
+        try {
+            std::unique_lock lock{_lockable};
+            _out << "<d";
+            _out << " src='" << source.name() << "'";
+            _out << " iid='" << instance << "'";
+            _out << " dn='" << display_name << "'";
+            _out << " desc='" << description << "'";
+            _out << "/>\n";
+            flush();
+        } catch(...) {
+        }
+    }
+
     auto begin_message(
       identifier source,
       logger_instance_id instance,
       log_event_severity severity,
       string_view format) noexcept -> bool final {
         try {
-            _lockable.lock();
             const auto now = std::chrono::steady_clock::now();
             const auto sec = std::chrono::duration<float>(now - _start);
+            _lockable.lock();
             _out << "<m";
             _out << " lvl='" << enumerator_name(severity) << "'";
             _out << " src='" << source.name() << "'";
@@ -233,6 +251,26 @@ public:
             std::unique_lock lock{_lockable};
             _out << "</log>\n" << std::flush;
             flush();
+        } catch(...) {
+        }
+    }
+
+    void log_chart_sample(
+      identifier source,
+      logger_instance_id instance,
+      identifier series,
+      float value) noexcept final {
+        try {
+            const auto now = std::chrono::steady_clock::now();
+            const auto sec = std::chrono::duration<float>(now - _start);
+            std::unique_lock lock{_lockable};
+            _out << "<c";
+            _out << " src='" << source.name() << "'";
+            _out << " iid='" << instance << "'";
+            _out << " ser='" << series.name() << "'";
+            _out << " ts='" << sec.count() << "'";
+            _out << " v='" << value << "'";
+            _out << "/>\n";
         } catch(...) {
         }
     }

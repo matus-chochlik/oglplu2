@@ -172,8 +172,8 @@ auto bridge::add_connection(std::unique_ptr<connection> conn) -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void bridge::_setup_from_config(application_config&) {
-    // TODO
+void bridge::_setup_from_config() {
+    // TODO: use app_config()
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -182,7 +182,7 @@ auto bridge::_handle_special(
   message_view message,
   bool to_connection) -> bool {
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
-        _log.debug("bridge handling special message ${message}")
+        log_debug("bridge handling special message ${message}")
           .arg(EAGINE_ID(bridge), _id)
           .arg(EAGINE_ID(message), msg_id)
           .arg(EAGINE_ID(target), message.target_id)
@@ -191,18 +191,18 @@ auto bridge::_handle_special(
         if(msg_id.has_method(EAGINE_ID(assignId))) {
             if(!has_id()) {
                 _id = message.target_id;
-                _log.debug("assigned id ${id}").arg(EAGINE_ID(id), _id);
+                log_debug("assigned id ${id}").arg(EAGINE_ID(id), _id);
             }
             return true;
         } else if(msg_id.has_method(EAGINE_ID(confirmId))) {
             if(has_id()) {
                 if(_id != message.target_id) {
-                    _log.error("mismatching current and confirmed ids")
+                    log_error("mismatching current and confirmed ids")
                       .arg(EAGINE_ID(current), _id)
                       .arg(EAGINE_ID(confirmed), message.target_id);
                 }
             } else {
-                _log.warning("confirming unset id ${newId}")
+                log_warning("confirming unset id ${newId}")
                   .arg(EAGINE_ID(confirmed), message.target_id);
             }
             return true;
@@ -242,7 +242,7 @@ auto bridge::_do_send(message_id msg_id, message_view message) -> bool {
     message.add_hop();
     if(EAGINE_LIKELY(_connection)) {
         if(_connection->send(msg_id, message)) {
-            _log.trace("forwarding message ${message} to connection")
+            log_trace("forwarding message ${message} to connection")
               .arg(EAGINE_ID(message), msg_id)
               .arg(EAGINE_ID(data), message.data);
             return true;
@@ -263,7 +263,7 @@ auto bridge::_do_push(message_id msg_id, message_view message) -> bool {
     if(EAGINE_LIKELY(_state)) {
         message.add_hop();
         _state->push(msg_id, message);
-        _log.trace("forwarding message ${message} to stream")
+        log_trace("forwarding message ${message} to stream")
           .arg(EAGINE_ID(message), msg_id)
           .arg(EAGINE_ID(data), message.data);
         return true;
@@ -286,7 +286,8 @@ auto bridge::_forward_messages() -> bool {
               if(EAGINE_LIKELY(interval > decltype(interval)::zero())) {
                   const auto msgs_per_sec{100000.F / interval.count()};
 
-                  _log.stat("forwarded ${count} messages to output")
+                  log_chart_sample(EAGINE_ID(msgPerSecO), msgs_per_sec);
+                  log_stat("forwarded ${count} messages to output")
                     .arg(EAGINE_ID(count), _forwarded_messages_c2o)
                     .arg(EAGINE_ID(interval), interval)
                     .arg(EAGINE_ID(msgsPerSec), msgs_per_sec);
@@ -317,7 +318,8 @@ auto bridge::_forward_messages() -> bool {
               if(EAGINE_LIKELY(interval > decltype(interval)::zero())) {
                   const auto msgs_per_sec{100000.F / interval.count()};
 
-                  _log.stat("forwarded ${count} messages from input")
+                  log_chart_sample(EAGINE_ID(msgPerSecI), msgs_per_sec);
+                  log_stat("forwarded ${count} messages from input")
                     .arg(EAGINE_ID(count), _forwarded_messages_i2c)
                     .arg(EAGINE_ID(interval), interval)
                     .arg(EAGINE_ID(msgsPerSec), msgs_per_sec);
@@ -365,7 +367,7 @@ auto bridge::_update_connections() -> bool {
 
     if(EAGINE_LIKELY(_connection)) {
         if(EAGINE_UNLIKELY(!has_id() && _no_id_timeout)) {
-            _log.debug("requesting bridge id");
+            log_debug("requesting bridge id");
             _connection->send(EAGINE_MSGBUS_ID(requestId), {});
             _no_id_timeout.reset();
             something_done();
@@ -389,7 +391,7 @@ auto bridge::update() -> bool {
 
     // if processing the messages assigned the id
     if(EAGINE_UNLIKELY(has_id() && !had_id)) {
-        _log.debug("announcing id ${id}").arg(EAGINE_ID(id), _id);
+        log_debug("announcing id ${id}").arg(EAGINE_ID(id), _id);
         _send(EAGINE_MSGBUS_ID(announceId), {});
         something_done();
     }

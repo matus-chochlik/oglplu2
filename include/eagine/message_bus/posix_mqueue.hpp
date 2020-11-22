@@ -12,7 +12,7 @@
 
 #include "../bool_aggregate.hpp"
 #include "../branch_predict.hpp"
-#include "../logging/logger.hpp"
+#include "../main_ctx_object.hpp"
 #include "../random_identifier.hpp"
 #include "../serialize/block_sink.hpp"
 #include "../serialize/block_source.hpp"
@@ -247,14 +247,15 @@ public:
 };
 //------------------------------------------------------------------------------
 class posix_mqueue_connection
-  : public posix_mqueue_connection_info<connection> {
+  : public posix_mqueue_connection_info<connection>
+  , public main_ctx_object {
     using this_class = posix_mqueue_connection;
 
 public:
     using fetch_handler = connection::fetch_handler;
 
-    posix_mqueue_connection(logger& parent)
-      : _log{EAGINE_ID(MQueConn), parent} {
+    posix_mqueue_connection(main_ctx_parent parent)
+      : main_ctx_object{EAGINE_ID(MQueConn), parent} {
         _buffer.resize(_data_queue.data_size());
     }
 
@@ -363,7 +364,6 @@ protected:
         });
     }
 
-    logger _log{};
     std::mutex _mutex;
     memory::buffer _buffer;
     message_storage _incoming;
@@ -378,11 +378,11 @@ class posix_mqueue_connector : public posix_mqueue_connection {
 public:
     using fetch_handler = connection::fetch_handler;
 
-    posix_mqueue_connector(logger& parent, std::string name) noexcept
+    posix_mqueue_connector(main_ctx_parent parent, std::string name) noexcept
       : base{parent}
       , _connect_queue{std::move(name)} {}
 
-    posix_mqueue_connector(logger& parent, identifier id)
+    posix_mqueue_connector(main_ctx_parent parent, identifier id)
       : base{parent}
       , _connect_queue{posix_mqueue::name_from(id)} {}
 
@@ -419,19 +419,21 @@ private:
     posix_mqueue _connect_queue{};
 };
 //------------------------------------------------------------------------------
-class posix_mqueue_acceptor : public acceptor {
+class posix_mqueue_acceptor
+  : public acceptor
+  , public main_ctx_object {
     using this_class = posix_mqueue_acceptor;
 
 public:
     using accept_handler = acceptor::accept_handler;
 
-    posix_mqueue_acceptor(logger& parent, std::string name) noexcept
-      : _log{EAGINE_ID(MQueConnAc), parent}
+    posix_mqueue_acceptor(main_ctx_parent parent, std::string name) noexcept
+      : main_ctx_object{EAGINE_ID(MQueConnAc), parent}
       , _accept_queue{std::move(name)} {
         _buffer.resize(_accept_queue.data_size());
     }
 
-    posix_mqueue_acceptor(logger& parent, identifier id)
+    posix_mqueue_acceptor(main_ctx_parent parent, identifier id)
       : posix_mqueue_acceptor{parent, posix_mqueue::name_from(id)} {}
 
     posix_mqueue_acceptor(posix_mqueue_acceptor&&) noexcept = default;
@@ -505,7 +507,7 @@ private:
             EAGINE_ASSERT((msg_id == EAGINE_MSGBUS_ID(pmqConnect)));
             EAGINE_MAYBE_UNUSED(msg_id);
 
-            if(auto conn = std::make_unique<posix_mqueue_connection>(_log)) {
+            if(auto conn = std::make_unique<posix_mqueue_connection>(*this)) {
                 if(conn->open(to_string(as_chars(message.data)))) {
                     handler(std::move(conn));
                 }
@@ -516,33 +518,30 @@ private:
           message_storage::fetch_handler{fetch_handler});
     }
 
-    logger _log{};
     memory::buffer _buffer{};
     message_storage _requests{};
     posix_mqueue _accept_queue{};
 };
 //------------------------------------------------------------------------------
 class posix_mqueue_connection_factory
-  : public posix_mqueue_connection_info<connection_factory> {
-private:
-    logger _log{};
-
+  : public posix_mqueue_connection_info<connection_factory>
+  , public main_ctx_object {
 public:
-    posix_mqueue_connection_factory(logger& parent)
-      : _log{EAGINE_ID(MQueConnFc), parent} {}
+    posix_mqueue_connection_factory(main_ctx_parent parent)
+      : main_ctx_object{EAGINE_ID(MQueConnFc), parent} {}
 
     using connection_factory::make_acceptor;
     using connection_factory::make_connector;
 
     auto make_acceptor(string_view address) -> std::unique_ptr<acceptor> final {
         return std::make_unique<posix_mqueue_acceptor>(
-          _log, to_string(address));
+          *this, to_string(address));
     }
 
     auto make_connector(string_view address)
       -> std::unique_ptr<connection> final {
         return std::make_unique<posix_mqueue_connector>(
-          _log, to_string(address));
+          *this, to_string(address));
     }
 };
 //------------------------------------------------------------------------------

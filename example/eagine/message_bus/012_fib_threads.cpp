@@ -33,9 +33,9 @@ public:
     using base = actor<3>;
     using base::bus;
 
-    fibonacci_server(logger log)
+    fibonacci_server(main_ctx_object obj)
       : base(
-          std::move(log),
+          std::move(obj),
           this,
           EAGINE_MSG_MAP(Fibonacci, FindServer, this_class, is_ready),
           EAGINE_MSG_MAP(Fibonacci, Calculate, this_class, calculate),
@@ -92,9 +92,9 @@ public:
     using base = actor<2>;
     using base::bus;
 
-    fibonacci_client(logger log)
+    fibonacci_client(main_ctx_object obj)
       : base(
-          std::move(log),
+          std::move(obj),
           this,
           EAGINE_MSG_MAP(Fibonacci, IsReady, this_class, dispatch),
           EAGINE_MSG_MAP(Fibonacci, Result, this_class, print)) {}
@@ -158,14 +158,13 @@ private:
 } // namespace msgbus
 
 auto main(main_ctx& ctx) -> int {
-    auto& log = ctx.log();
 
     const auto thread_count =
       extract_or(ctx.system().cpu_concurrent_threads(), 4);
 
-    auto acceptor = std::make_unique<msgbus::direct_acceptor>(log);
+    auto acceptor = std::make_unique<msgbus::direct_acceptor>(ctx);
 
-    msgbus::fibonacci_client client({EAGINE_ID(FibClient), log});
+    msgbus::fibonacci_client client({EAGINE_ID(FibClient), ctx});
     client.add_connection(acceptor->make_connection());
 
     std::vector<std::thread> workers;
@@ -173,9 +172,9 @@ auto main(main_ctx& ctx) -> int {
 
     for(span_size_t i = 0; i < thread_count; ++i) {
         workers.emplace_back(
-          [srv_log{logger{EAGINE_ID(FibServer), log}},
+          [srv_obj{main_ctx_object{EAGINE_ID(FibServer), ctx}},
            connection{acceptor->make_connection()}]() mutable {
-              msgbus::fibonacci_server server(std::move(srv_log));
+              msgbus::fibonacci_server server(std::move(srv_obj));
               server.add_connection(std::move(connection));
 
               while(!server.is_done()) {
@@ -184,7 +183,7 @@ auto main(main_ctx& ctx) -> int {
           });
     }
 
-    msgbus::router router(log);
+    msgbus::router router(ctx);
     router.add_acceptor(std::move(acceptor));
 
     const std::int64_t n = running_on_valgrind() ? 34 : 46;

@@ -43,6 +43,12 @@ struct logger_backend {
 
     virtual void leave_scope(identifier scope) noexcept = 0;
 
+    virtual void set_description(
+      identifier source,
+      logger_instance_id instance,
+      string_view display_name,
+      string_view description) noexcept = 0;
+
     virtual auto begin_message(
       identifier source,
       logger_instance_id instance,
@@ -98,6 +104,12 @@ struct logger_backend {
     virtual void finish_message() noexcept = 0;
 
     virtual void finish_log() noexcept = 0;
+
+    virtual void log_chart_sample(
+      identifier source,
+      logger_instance_id instance,
+      identifier series,
+      float value) noexcept = 0;
 };
 //------------------------------------------------------------------------------
 } // namespace eagine

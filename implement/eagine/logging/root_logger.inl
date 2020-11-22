@@ -10,7 +10,7 @@
 #include <eagine/logging/asio_backend.hpp>
 #include <eagine/logging/null_backend.hpp>
 #include <eagine/logging/ostream_backend.hpp>
-#include <eagine/logging/program_args.hpp>
+#include <eagine/logging/type/program_args.hpp>
 #include <cerrno>
 #include <iostream>
 

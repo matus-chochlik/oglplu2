@@ -11,7 +11,7 @@
 #define EAGINE_MESSAGE_BUS_CONTEXT_HPP
 
 #include "../flat_map.hpp"
-#include "../logging/logger.hpp"
+#include "../main_ctx_object.hpp"
 #include "../memory/buffer.hpp"
 #include "../message_id.hpp"
 #include "../ssl.hpp"
@@ -33,10 +33,9 @@ struct context_remote_node {
     bool verified_key{false};
 };
 //------------------------------------------------------------------------------
-class context {
+class context : main_ctx_object {
 public:
-    context(logger& parent);
-    context(logger& parent, application_config&);
+    context(main_ctx_parent parent);
 
     context(context&&) = delete;
     context(const context&) = delete;
@@ -104,7 +103,6 @@ public:
     auto verify_remote_signature(memory::const_block sig, identifier_t) -> bool;
 
 private:
-    logger _log{};
     //
     std::mt19937_64 _rand_engine{std::random_device{}()};
     flat_map<message_id, message_sequence_t> _msg_id_seq{};

@@ -52,8 +52,7 @@ auto endpoint::_do_send(message_id msg_id, message_view message) -> bool {
     message.set_source_id(_endpoint_id);
     if(EAGINE_LIKELY(_connection)) {
         if(_connection->send(msg_id, message)) {
-            log()
-              .trace("sending message ${message}")
+            log_trace("sending message ${message}")
               .arg(EAGINE_ID(message), msg_id);
             return true;
         }
@@ -68,16 +67,14 @@ auto endpoint::_handle_special(
 
     EAGINE_ASSERT(_context);
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
-        log()
-          .debug("endpoint handling special message ${message}")
+        log_debug("endpoint handling special message ${message}")
           .arg(EAGINE_ID(message), msg_id)
           .arg(EAGINE_ID(endpoint), _endpoint_id)
           .arg(EAGINE_ID(target), message.target_id)
           .arg(EAGINE_ID(source), message.source_id);
 
         if(EAGINE_UNLIKELY(has_id() && (message.source_id == _endpoint_id))) {
-            log()
-              .warning("received own special message ${message}")
+            log_warning("received own special message ${message}")
               .arg(EAGINE_ID(message), msg_id);
             return true;
         } else if(msg_id.has_method(EAGINE_ID(blobFrgmnt))) {
@@ -91,8 +88,7 @@ auto endpoint::_handle_special(
         } else if(msg_id.has_method(EAGINE_ID(assignId))) {
             if(!has_id()) {
                 _endpoint_id = message.target_id;
-                log()
-                  .debug("assigned endpoint id ${id} by router")
+                log_debug("assigned endpoint id ${id} by router")
                   .arg(EAGINE_ID(id), get_id());
             }
             return true;
@@ -100,14 +96,12 @@ auto endpoint::_handle_special(
             if(!has_id()) {
                 _endpoint_id = message.target_id;
                 if(EAGINE_LIKELY(get_id() == get_preconfigured_id())) {
-                    log()
-                      .debug("confirmed endpoint id ${id} by router")
+                    log_debug("confirmed endpoint id ${id} by router")
                       .arg(EAGINE_ID(id), get_id());
                     // send request for router certificate
                     _do_send(EAGINE_MSGBUS_ID(rtrCertQry), {});
                 } else {
-                    log()
-                      .error("mismatching preconfigured and confirmed ids")
+                    log_error("mismatching preconfigured and confirmed ids")
                       .arg(EAGINE_ID(confirmed), get_id())
                       .arg(EAGINE_ID(preconfed), get_preconfigured_id());
                 }
@@ -122,13 +116,13 @@ auto endpoint::_handle_special(
             post_certificate(message.source_id);
             return true;
         } else if(msg_id.has_method(EAGINE_ID(eptCertPem))) {
-            _log.trace("received remote endpoint certificate")
+            log_trace("received remote endpoint certificate")
               .arg(EAGINE_ID(source), message.source_id)
               .arg(EAGINE_ID(pem), message.data);
 
             if(_context->add_remote_certificate_pem(
                  message.source_id, view(message.data))) {
-                _log.debug("verified and stored remote endpoint certificate")
+                log_debug("verified and stored remote endpoint certificate")
                   .arg(EAGINE_ID(endpoint), _endpoint_id)
                   .arg(EAGINE_ID(source), message.source_id);
 
@@ -139,7 +133,7 @@ auto endpoint::_handle_special(
                       nonce,
                       std::chrono::seconds(30),
                       message_priority::normal);
-                    _log.debug("sending nonce sign request")
+                    log_debug("sending nonce sign request")
                       .arg(EAGINE_ID(endpoint), _endpoint_id)
                       .arg(EAGINE_ID(target), message.source_id);
                 }
@@ -153,7 +147,7 @@ auto endpoint::_handle_special(
                   signature,
                   std::chrono::seconds(30),
                   message_priority::normal);
-                _log.debug("sending nonce signature")
+                log_debug("sending nonce signature")
                   .arg(EAGINE_ID(endpoint), _endpoint_id)
                   .arg(EAGINE_ID(target), message.source_id);
             }
@@ -161,17 +155,17 @@ auto endpoint::_handle_special(
         } else if(msg_id.has_method(EAGINE_ID(eptNnceSig))) {
             if(_context->verify_remote_signature(
                  message.data, message.source_id)) {
-                _log.debug("verified nonce signature")
+                log_debug("verified nonce signature")
                   .arg(EAGINE_ID(endpoint), _endpoint_id)
                   .arg(EAGINE_ID(source), message.source_id);
             }
             return true;
         } else if(msg_id.has_method(EAGINE_ID(rtrCertPem))) {
-            _log.trace("received router certificate")
+            log_trace("received router certificate")
               .arg(EAGINE_ID(pem), message.data);
 
             if(_context->add_router_certificate_pem(view(message.data))) {
-                _log.debug("verified and stored router certificate");
+                log_debug("verified and stored router certificate");
             }
             return true;
         } else if(
@@ -189,7 +183,7 @@ auto endpoint::_handle_special(
                 return send(EAGINE_MSGBUS_ID(topoEndpt), response);
             }
         }
-        _log.warning("unhandled special message ${message} from ${source}")
+        log_warning("unhandled special message ${message} from ${source}")
           .arg(EAGINE_ID(message), msg_id)
           .arg(EAGINE_ID(source), message.source_id)
           .arg(EAGINE_ID(data), message.data);
@@ -207,8 +201,7 @@ auto endpoint::_store_message(
         if((message.target_id == _endpoint_id) || !is_valid_id(message.target_id)) {
             auto pos = _incoming.find(msg_id);
             if(pos != _incoming.end()) {
-                log()
-                  .trace("stored message ${message}")
+                log_trace("stored message ${message}")
                   .arg(EAGINE_ID(message), msg_id);
                 _get_queue(*pos).push(message);
             } else if(_allow_blob && _allow_blob(msg_id)) {
@@ -216,14 +209,12 @@ auto endpoint::_store_message(
                 EAGINE_MAYBE_UNUSED(newone);
                 EAGINE_ASSERT(newone);
                 _get_counter(*newpos) = 0;
-                log()
-                  .debug("storing new type of message ${message}")
+                log_debug("storing new type of message ${message}")
                   .arg(EAGINE_ID(message), msg_id);
                 _get_queue(*newpos).push(message);
             }
         } else {
-            log()
-              .warning("trying to store message for target ${target}")
+            log_warning("trying to store message for target ${target}")
               .arg(EAGINE_ID(self), _endpoint_id)
               .arg(EAGINE_ID(target), message.target_id)
               .arg(EAGINE_ID(message), msg_id);
@@ -242,8 +233,7 @@ auto endpoint::_accept_message(message_id msg_id, const message_view& message)
     auto pos = _incoming.find(msg_id);
     if(pos != _incoming.end()) {
         if((message.target_id == _endpoint_id) || !is_valid_id(message.target_id)) {
-            log()
-              .trace("accepted message ${message}")
+            log_trace("accepted message ${message}")
               .arg(EAGINE_ID(message), msg_id);
             _get_queue(*pos).push(message);
         }
@@ -276,19 +266,17 @@ EAGINE_LIB_FUNC
 auto endpoint::add_connection(std::unique_ptr<connection> conn) -> bool {
     if(EAGINE_LIKELY(conn)) {
         if(_connection) {
-            log()
-              .debug("replacing connection type ${oldType} with ${newType}")
+            log_debug("replacing connection type ${oldType} with ${newType}")
               .arg(EAGINE_ID(oldType), _connection->type_id())
               .arg(EAGINE_ID(newType), conn->type_id());
         } else {
-            log()
-              .debug("adding connection type ${type}")
+            log_debug("adding connection type ${type}")
               .arg(EAGINE_ID(type), conn->type_id());
         }
         _connection = std::move(conn);
         return true;
     } else {
-        log().error("assigning invalid connection");
+        log_error("assigning invalid connection");
     }
     return false;
 }
@@ -326,8 +314,7 @@ auto endpoint::max_data_size() const -> valid_if_positive<span_size_t> {
 EAGINE_LIB_FUNC
 void endpoint::flush_outbox() {
     if(has_id()) {
-        log()
-          .debug("flushing outbox (size: ${size})")
+        log_debug("flushing outbox (size: ${size})")
           .arg(EAGINE_ID(size), _outgoing.size());
         _outgoing.fetch_all(message_storage::fetch_handler{
           this, EAGINE_MEM_FUNC_C(endpoint, _handle_send)});
@@ -354,7 +341,7 @@ auto endpoint::post_signed(message_id msg_id, message_view msg_view) -> bool {
             message_id& dst_msg_id, stored_message& message) {
               message.assign(msg_view);
               if(message.store_and_sign(
-                   msg_view.data, max_size, ctx(), log())) {
+                   msg_view.data, max_size, ctx(), *this)) {
                   dst_msg_id = msg_id;
                   return true;
               }
@@ -373,14 +360,14 @@ auto endpoint::update() -> bool {
     something_done(_process_blobs());
 
     if(EAGINE_UNLIKELY(!_connection)) {
-        log().warning("endpoint has no connection");
+        log_warning("endpoint has no connection");
     }
 
     const bool had_id = has_id();
     if(EAGINE_LIKELY(_connection)) {
         if(EAGINE_UNLIKELY(!had_id && _no_id_timeout)) {
             if(!has_preconfigured_id()) {
-                log().debug("requesting endpoint id");
+                log_debug("requesting endpoint id");
                 _connection->send(EAGINE_MSGBUS_ID(requestId), {});
                 _no_id_timeout.reset();
                 something_done();
@@ -394,8 +381,7 @@ auto endpoint::update() -> bool {
     if(EAGINE_UNLIKELY(!had_id)) {
         if(_connection) {
             if(has_id()) {
-                log()
-                  .debug("announcing endpoint id ${id} assigned by router")
+                log_debug("announcing endpoint id ${id} assigned by router")
                   .arg(EAGINE_ID(id), get_id());
                 // send the endpoint id through all connections
                 _do_send(EAGINE_MSGBUS_ID(annEndptId), {});
@@ -404,8 +390,7 @@ auto endpoint::update() -> bool {
                 something_done();
             } else if(has_preconfigured_id()) {
                 if(_no_id_timeout) {
-                    log()
-                      .debug("announcing preconfigured endpoint id ${id}")
+                    log_debug("announcing preconfigured endpoint id ${id}")
                       .arg(EAGINE_ID(id), get_preconfigured_id());
                     // send the endpoint id through all connections
                     message_view ann_in_msg{};
@@ -420,8 +405,7 @@ auto endpoint::update() -> bool {
 
     // if we have a valid id and we have messages in outbox
     if(EAGINE_UNLIKELY(has_id() && !_outgoing.empty())) {
-        log()
-          .debug("sending ${count} messages from outbox")
+        log_debug("sending ${count} messages from outbox")
           .arg(EAGINE_ID(count), _outgoing.size());
         something_done(_outgoing.fetch_all(message_storage::fetch_handler{
           this, EAGINE_MEM_FUNC_C(endpoint, _handle_send)}));
@@ -435,8 +419,7 @@ void endpoint::subscribe(message_id msg_id) {
     auto [pos, newone] = _incoming.try_emplace(msg_id);
     if(newone) {
         _get_counter(*pos) = 0;
-        log()
-          .debug("subscribing to message ${message}")
+        log_debug("subscribing to message ${message}")
           .arg(EAGINE_ID(message), msg_id);
     }
     ++_get_counter(*pos);
@@ -448,21 +431,20 @@ void endpoint::unsubscribe(message_id msg_id) {
     if(pos != _incoming.end()) {
         if(--_get_counter(*pos) <= 0) {
             _incoming.erase(pos);
-            log()
-              .debug("unsubscribing from message ${message}")
+            log_debug("unsubscribing from message ${message}")
               .arg(EAGINE_ID(message), msg_id);
         }
     }
 }
 //------------------------------------------------------------------------------
 auto endpoint::say_not_a_router() -> bool {
-    log().debug("saying not a router");
+    log_debug("saying not a router");
     return send(EAGINE_MSGBUS_ID(notARouter));
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto endpoint::say_bye() -> bool {
-    log().debug("saying bye-bye");
+    log_debug("saying bye-bye");
     return send(EAGINE_MSGBUS_ID(byeBye));
 }
 //------------------------------------------------------------------------------
@@ -472,7 +454,7 @@ void endpoint::post_meta_message(message_id meta_msg_id, message_id msg_id) {
     if(auto serialized = default_serialize_message_type(msg_id, cover(temp))) {
         post(meta_msg_id, message_view(extract(serialized)));
     } else {
-        _log.debug("failed to serialize meta-message ${meta}")
+        log_debug("failed to serialize meta-message ${meta}")
           .arg(EAGINE_ID(meta), meta_msg_id)
           .arg(EAGINE_ID(message), msg_id);
     }
@@ -489,7 +471,7 @@ void endpoint::post_meta_message_to(
         msg.set_target_id(target_id);
         post(meta_msg_id, msg);
     } else {
-        _log.debug("failed to serialize meta-message ${meta}")
+        log_debug("failed to serialize meta-message ${meta}")
           .arg(EAGINE_ID(meta), meta_msg_id)
           .arg(EAGINE_ID(target), target_id)
           .arg(EAGINE_ID(message), msg_id);
@@ -498,16 +480,14 @@ void endpoint::post_meta_message_to(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void endpoint::say_subscribes_to(message_id msg_id) {
-    log()
-      .debug("announces subscription to message ${message}")
+    log_debug("announces subscription to message ${message}")
       .arg(EAGINE_ID(message), msg_id);
     post_meta_message(EAGINE_MSGBUS_ID(subscribTo), msg_id);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void endpoint::say_subscribes_to(identifier_t target_id, message_id msg_id) {
-    log()
-      .debug("announces subscription to message ${message}")
+    log_debug("announces subscription to message ${message}")
       .arg(EAGINE_ID(target), target_id)
       .arg(EAGINE_ID(message), msg_id);
     post_meta_message_to(target_id, EAGINE_MSGBUS_ID(subscribTo), msg_id);
@@ -515,41 +495,39 @@ void endpoint::say_subscribes_to(identifier_t target_id, message_id msg_id) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void endpoint::query_subscribers_of(message_id msg_id) {
-    log()
-      .debug("querying subscribers of message ${message}")
+    log_debug("querying subscribers of message ${message}")
       .arg(EAGINE_ID(message), msg_id);
     post_meta_message(EAGINE_MSGBUS_ID(qrySubscrb), msg_id);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void endpoint::say_unsubscribes_from(message_id msg_id) {
-    log()
-      .debug("retracting subscription to message ${message}")
+    log_debug("retracting subscription to message ${message}")
       .arg(EAGINE_ID(message), msg_id);
     post_meta_message(EAGINE_MSGBUS_ID(unsubFrom), msg_id);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void endpoint::clear_block_list() {
-    log().debug("sending clear block list");
+    log_debug("sending clear block list");
     post(EAGINE_MSGBUS_ID(clrBlkList), {});
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void endpoint::block_message_type(message_id msg_id) {
-    log().debug("blocking message ${message}").arg(EAGINE_ID(message), msg_id);
+    log_debug("blocking message ${message}").arg(EAGINE_ID(message), msg_id);
     post_meta_message(EAGINE_MSGBUS_ID(msgBlkList), msg_id);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void endpoint::clear_allow_list() {
-    log().debug("sending clear allow list");
+    log_debug("sending clear allow list");
     post(EAGINE_MSGBUS_ID(clrAlwList), {});
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void endpoint::allow_message_type(message_id msg_id) {
-    log().debug("allowing message ${message}").arg(EAGINE_ID(message), msg_id);
+    log_debug("allowing message ${message}").arg(EAGINE_ID(message), msg_id);
     post_meta_message(EAGINE_MSGBUS_ID(msgAlwList), msg_id);
 }
 //------------------------------------------------------------------------------
@@ -564,7 +542,7 @@ auto endpoint::post_certificate(identifier_t target_id) -> bool {
           std::chrono::seconds(30),
           message_priority::normal);
     }
-    _log.debug("no endpoint certificate to send yet");
+    log_debug("no endpoint certificate to send yet");
     return false;
 }
 //------------------------------------------------------------------------------
@@ -578,14 +556,13 @@ auto endpoint::broadcast_certificate() -> bool {
           std::chrono::seconds(30),
           message_priority::normal);
     }
-    _log.debug("no endpoint certificate to broadcast yet");
+    log_debug("no endpoint certificate to broadcast yet");
     return false;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void endpoint::query_certificate_of(identifier_t endpoint_id) {
-    log()
-      .debug("querying certificate of endpoint ${endpoint}")
+    log_debug("querying certificate of endpoint ${endpoint}")
       .arg(EAGINE_ID(endpoint), endpoint_id);
     message_view msg{};
     msg.set_target_id(endpoint_id);
@@ -617,9 +594,9 @@ EAGINE_LIB_FUNC
 auto endpoint::process_everything(method_handler handler) -> span_size_t {
     span_size_t result = 0;
 
-    for(auto& entry : _incoming) {
-        const message_context msg_ctx{*this, std::get<0>(entry)};
-        result += _get_queue(entry).process_all(msg_ctx, handler);
+    for(auto& incoming : _incoming) {
+        const message_context msg_ctx{*this, std::get<0>(incoming)};
+        result += _get_queue(incoming).process_all(msg_ctx, handler);
     }
     return result;
 }

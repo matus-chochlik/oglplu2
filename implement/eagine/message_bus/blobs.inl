@@ -158,7 +158,7 @@ auto blob_manipulator::push_incoming_fragment(
                     pending.priority = priority;
                 }
                 if(pending.merge_fragment(span_size(offset), fragment)) {
-                    _log.trace("merged blob fragment")
+                    log_trace("merged blob fragment")
                       .arg(EAGINE_ID(blobId), blob_id)
                       .arg(EAGINE_ID(offset), offset)
                       .arg(EAGINE_ID(size), fragment.size())
@@ -171,17 +171,17 @@ auto blob_manipulator::push_incoming_fragment(
                             float(pending.total_size()));
                       });
                 } else {
-                    _log.debug("failed to merge blob fragment")
+                    log_debug("failed to merge blob fragment")
                       .arg(EAGINE_ID(offset), offset)
                       .arg(EAGINE_ID(size), fragment.size());
                 }
             } else {
-                _log.debug("message id mismatch in blob fragment message")
+                log_debug("message id mismatch in blob fragment message")
                   .arg(EAGINE_ID(pending), pending.msg_id)
                   .arg(EAGINE_ID(message), msg_id);
             }
         } else {
-            _log.debug("total size mismatch in blob fragment message")
+            log_debug("total size mismatch in blob fragment message")
               .arg(EAGINE_ID(pending), identifier(pending.blob.size()))
               .arg(EAGINE_ID(message), identifier(total_size));
         }
@@ -196,7 +196,7 @@ auto blob_manipulator::push_incoming_fragment(
         pending.priority = priority;
         pending.init();
         if(pending.merge_fragment(span_size(offset), fragment)) {
-            _log.trace("merged first blob fragment")
+            log_trace("merged first blob fragment")
               .arg(EAGINE_ID(blobId), blob_id)
               .arg(EAGINE_ID(offset), offset)
               .arg(EAGINE_ID(size), fragment.size())
@@ -246,24 +246,24 @@ auto blob_manipulator::process_incoming(
                           fragment,
                           message.priority);
                     } else {
-                        _log.debug("invalid blob fragment size ${size}")
+                        log_debug("invalid blob fragment size ${size}")
                           .arg(EAGINE_ID(size), fragment.size())
                           .arg(EAGINE_ID(offset), offset)
                           .arg(EAGINE_ID(total), total_size);
                     }
                 } else {
-                    _log.debug("invalid blob fragment offset ${offset}")
+                    log_debug("invalid blob fragment offset ${offset}")
                       .arg(EAGINE_ID(offset), offset)
                       .arg(EAGINE_ID(total), total_size);
                 }
             }
         } else {
-            _log.debug("blob is too big ${total_size}")
+            log_debug("blob is too big ${total_size}")
               .arg(EAGINE_ID(total), total_size)
               .arg(EAGINE_ID(offset), _max_blob_size);
         }
     } else {
-        _log.debug("failed to deserialize header of blob")
+        log_debug("failed to deserialize header of blob")
           .arg(EAGINE_ID(errors), errors)
           .arg(EAGINE_ID(data), message.data);
     }
@@ -344,12 +344,12 @@ auto blob_manipulator::process_outgoing(
                     message.set_priority(pending.priority);
                     something_done(do_send(msg_id, message));
                 } else {
-                    _log.debug("failed to write fragment of blob ${message}")
+                    log_debug("failed to write fragment of blob ${message}")
                       .arg(EAGINE_ID(errors), get_errors(written))
                       .arg(EAGINE_ID(message), pending.msg_id);
                 }
             } else {
-                _log.debug("failed to serialize header of blob ${message}")
+                log_debug("failed to serialize header of blob ${message}")
                   .arg(EAGINE_ID(errors), errors)
                   .arg(EAGINE_ID(message), pending.msg_id);
             }
@@ -366,7 +366,7 @@ auto blob_manipulator::fetch_all(blob_manipulator::fetch_handler handle_fetch)
     span_size_t done_count{0};
     auto predicate = [this, &done_count, &handle_fetch](auto& pending) {
         if(pending.is_complete()) {
-            _log.debug("handling complete blob ${id}")
+            log_debug("handling complete blob ${id}")
               .arg(EAGINE_ID(id), pending.blob_id)
               .arg(EAGINE_ID(message), pending.msg_id)
               .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), pending.blob.size());

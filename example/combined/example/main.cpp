@@ -16,7 +16,7 @@
 // clang-format on
 
 #include <eagine/program_args.hpp>
-#include <eagine/logging/exception.hpp>
+#include <eagine/logging/type/exception.hpp>
 #include <iostream>
 #include <stdexcept>
 #include <cstdlib>

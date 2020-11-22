@@ -10,7 +10,7 @@
 #ifndef OGLPLUS_UTILS_IMAGE_SPEC_HPP
 #define OGLPLUS_UTILS_IMAGE_SPEC_HPP
 
-#include "../data_type.hpp"
+#include "../gl_api/enum_types.hpp"
 #include <eagine/assert.hpp>
 #include <eagine/memory/block.hpp>
 #include <eagine/span.hpp>
@@ -19,58 +19,72 @@ namespace eagine::oglp {
 
 class image_dimensions {
 private:
-    GLsizei _width;
-    GLsizei _height;
-    GLsizei _depth;
+    gl_types::sizei_type _width{1};
+    gl_types::sizei_type _height{1};
+    gl_types::sizei_type _depth{1};
+    gl_types::sizei_type _channels{1};
 
 public:
-    image_dimensions(GLsizei w, GLsizei h, GLsizei d) noexcept
+    image_dimensions(
+      gl_types::sizei_type w,
+      gl_types::sizei_type h,
+      gl_types::sizei_type d,
+      gl_types::sizei_type c) noexcept
       : _width(w)
       , _height(h)
-      , _depth(d) {
+      , _depth(d)
+      , _channels(c) {
         EAGINE_ASSERT(_width > 0 && _height > 0 && _depth > 0);
     }
 
-    image_dimensions(GLsizei w, GLsizei h) noexcept
-      : image_dimensions(w, h, 1) {}
+    auto is_1d() const noexcept -> bool {
+        return _width > 1 && _height == 1 && _depth == 1;
+    }
 
-    image_dimensions(GLsizei w) noexcept
-      : image_dimensions(w, 1) {}
+    auto is_2d() const noexcept -> bool {
+        return _width > 1 && _height > 1 && _depth == 1;
+    }
 
-    auto width() const noexcept -> GLsizei {
+    auto is_3d() const noexcept -> bool {
+        return _width > 1 && _height > 1 && _depth > 1;
+    }
+
+    auto width() const noexcept -> gl_types::sizei_type {
         return _width;
     }
 
-    auto height() const noexcept -> GLsizei {
+    auto height() const noexcept -> gl_types::sizei_type {
         return _height;
     }
 
-    auto depth() const noexcept -> GLsizei {
+    auto depth() const noexcept -> gl_types::sizei_type {
         return _depth;
+    }
+
+    auto channels() const noexcept -> gl_types::sizei_type {
+        return _channels;
     }
 };
 
 class image_pixel_format {
 private:
-    pixel_data_format _format;
-    pixel_data_internal_format _internal_format;
+    pixel_format _format;
+    pixel_internal_format _internal_format;
 
 public:
-    image_pixel_format(
-      pixel_data_format fmt,
-      pixel_data_internal_format ifmt) noexcept
+    image_pixel_format(pixel_format fmt, pixel_internal_format ifmt) noexcept
       : _format(fmt)
       , _internal_format(ifmt) {}
 
-    image_pixel_format(pixel_data_format fmt) noexcept
+    image_pixel_format(pixel_format fmt) noexcept
       : _format(fmt)
-      , _internal_format(pixel_data_internal_format(GLenum(fmt))) {}
+      , _internal_format(pixel_internal_format(GLenum(fmt))) {}
 
-    auto format() const noexcept -> pixel_data_format {
+    auto format() const noexcept -> pixel_format {
         return _format;
     }
 
-    auto internal_format() const noexcept -> pixel_data_internal_format {
+    auto internal_format() const noexcept -> pixel_internal_format {
         return _internal_format;
     }
 };
@@ -78,19 +92,13 @@ public:
 class image_pixel_data {
 private:
     pixel_data_type _type;
-    const_memory_block _pixels;
+    memory::const_block _pixels;
     span_size_t _elem_size;
 
 public:
-    template <typename T, typename P, typename S>
-    image_pixel_data(eagine::memory::basic_span<T, P, S> pix_view) noexcept
-      : _type(pixel_data_type(GLenum(get_data_type<T>())))
-      , _pixels(as_bytes(view(pix_view)))
-      , _elem_size(span_size(sizeof(T))) {}
-
     image_pixel_data(
       pixel_data_type pix_type,
-      const_memory_block pix_data,
+      memory::const_block pix_data,
       span_size_t type_size) noexcept
       : _type(pix_type)
       , _pixels(pix_data)
@@ -102,7 +110,7 @@ public:
         return _type;
     }
 
-    auto data() const noexcept -> const_memory_block {
+    auto data() const noexcept -> memory::const_block {
         return _pixels;
     }
 

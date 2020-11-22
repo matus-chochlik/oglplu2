@@ -84,17 +84,17 @@ void example_shape::init(example_context& ctx) {
         if(shape_file_path.is_valid()) {
             if(const auto json_content{file_contents(shape_file_path)}) {
                 if(const auto json_text = as_chars(json_content.block())) {
-                    return valtree::from_json_text(json_text, ctx.log());
+                    return valtree::from_json_text(json_text, ctx.main());
                 }
             }
         }
         const auto json_text =
           as_chars(embed(EAGINE_ID(ShapeJson), "shape.json"));
-        return valtree::from_json_text(json_text, ctx.log());
+        return valtree::from_json_text(json_text, ctx.main());
     };
 
     shape_generator shape(
-      ctx.gl(), shapes::from_value_tree(load_shape_data(), ctx.log()));
+      ctx.gl(), shapes::from_value_tree(load_shape_data(), ctx.main()));
 
     _ops.resize(std_size(shape.operation_count()));
     shape.instructions(ctx.gl(), cover(_ops));

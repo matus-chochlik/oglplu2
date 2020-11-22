@@ -1,5 +1,5 @@
 /**
- *  @file eagine/logging/exception.hpp
+ *  @file eagine/logging/type/exception.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,10 +7,10 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_LOGGING_EXCEPTION_HPP
-#define EAGINE_LOGGING_EXCEPTION_HPP
+#ifndef EAGINE_LOGGING_TYPE_EXCEPTION_HPP
+#define EAGINE_LOGGING_TYPE_EXCEPTION_HPP
 
-#include "entry.hpp"
+#include "../entry.hpp"
 #include <stdexcept>
 
 namespace eagine {
@@ -45,4 +45,4 @@ adapt_log_entry_arg(identifier name, const std::system_error& value) {
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-#endif // EAGINE_LOGGING_EXCEPTION_HPP
+#endif // EAGINE_LOGGING_TYPE_EXCEPTION_HPP

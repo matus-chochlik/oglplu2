@@ -145,11 +145,11 @@ void arrow_geometry::init(example_context& ctx) {
     auto load_shape_data = [&]() {
         const auto json_text =
           as_chars(embed(EAGINE_ID(ArrowJson), "arrow.json"));
-        return valtree::from_json_text(json_text, ctx.log());
+        return valtree::from_json_text(json_text, ctx.main());
     };
 
     shape_generator shape(
-      ctx.gl(), shapes::from_value_tree(load_shape_data(), ctx.log()));
+      ctx.gl(), shapes::from_value_tree(load_shape_data(), ctx.main()));
 
     bound_sphere = shape.bounding_sphere();
 

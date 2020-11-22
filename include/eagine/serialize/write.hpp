@@ -16,6 +16,7 @@
 #include "../reflect/data_members.hpp"
 #include "../reflect/enumerators.hpp"
 #include "../valid_if/decl.hpp"
+#include "fwd.hpp"
 #include "write_backend.hpp"
 #include <array>
 #include <chrono>
@@ -25,9 +26,6 @@
 #include <vector>
 
 namespace eagine {
-//------------------------------------------------------------------------------
-template <typename T>
-class fragment_serialize_wrapper;
 //------------------------------------------------------------------------------
 template <typename T>
 class fragment_serialize_wrapper<span<const T>> {
@@ -176,7 +174,7 @@ struct serializer<std::tuple<T...>> : common_serializer<std::tuple<T...>> {
     using common_serializer<std::tuple<T...>>::write;
 
     template <typename Backend>
-    auto write(const std::tuple<T...>& values, Backend& backend) {
+    auto write(const std::tuple<T...>& values, Backend& backend) const {
         serialization_errors errors{};
         errors |= backend.begin_list(span_size(sizeof...(T)));
         if(EAGINE_LIKELY(!errors)) {
@@ -193,7 +191,7 @@ private:
       serialization_errors& errors,
       Tuple& values,
       Backend& backend,
-      std::index_sequence<I...>) {
+      std::index_sequence<I...>) const {
         (...,
          _write_element(
            errors, I, std::get<I>(values), backend, std::get<I>(_serializers)));
@@ -278,7 +276,7 @@ template <typename Bit>
 struct serializer<bitfield<Bit>> : common_serializer<bitfield<Bit>> {
 
     template <typename Backend>
-    auto write(bitfield<Bit> value, Backend& backend) {
+    auto write(bitfield<Bit> value, Backend& backend) const {
         return _serializer.write(value.bits(), backend);
     }
 
@@ -435,7 +433,7 @@ private:
 template <typename T>
 struct enum_serializer {
     template <typename Backend>
-    auto write(T enumerator, Backend& backend) {
+    auto write(T enumerator, Backend& backend) const {
         serialization_errors errors{};
         if(backend.enum_as_string()) {
             errors |=

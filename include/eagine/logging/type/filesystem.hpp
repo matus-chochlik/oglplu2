@@ -1,5 +1,5 @@
 /**
- *  @file eagine/logging/filesystem.hpp
+ *  @file eagine/logging/type/filesystem.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,10 +7,10 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_LOGGING_FILESYSTEM_HPP
-#define EAGINE_LOGGING_FILESYSTEM_HPP
+#ifndef EAGINE_LOGGING_TYPE_FILESYSTEM_HPP
+#define EAGINE_LOGGING_TYPE_FILESYSTEM_HPP
 
-#include "entry.hpp"
+#include "../entry.hpp"
 #include <filesystem>
 
 namespace eagine {
@@ -37,4 +37,4 @@ static inline auto adapt_log_entry_arg(
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-#endif // EAGINE_LOGGING_FILESYSTEM_HPP
+#endif // EAGINE_LOGGING_TYPE_FILESYSTEM_HPP

@@ -9,6 +9,7 @@
 #include <eagine/main_ctx.hpp>
 #include <eagine/message_bus/registry.hpp>
 #include <eagine/message_bus/service.hpp>
+#include <eagine/message_bus/service/build_info.hpp>
 #include <eagine/message_bus/service/ping_pong.hpp>
 #include <eagine/message_bus/service/shutdown.hpp>
 #include <eagine/message_bus/service/system_info.hpp>
@@ -22,16 +23,18 @@
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
-using pong_base =
-  service_composition<pingable<system_info_provider<shutdown_target<>>>>;
+using pong_base = service_composition<
+  pingable<build_info_provider<system_info_provider<shutdown_target<>>>>>;
 
-class pong_example : public pong_base {
+class pong_example
+  : public main_ctx_object
+  , public pong_base {
     using base = pong_base;
 
 public:
     pong_example(endpoint& bus)
-      : base{bus}
-      , _log{EAGINE_ID(PongExampl), bus.log()} {}
+      : main_ctx_object{EAGINE_ID(PongExampl), bus}
+      , base{bus} {}
 
     auto respond_to_ping(identifier_t, message_sequence_t, verification_bits)
       -> bool final {
@@ -45,7 +48,7 @@ public:
       std::chrono::milliseconds age,
       identifier_t source_id,
       verification_bits verified) final {
-        _log.info("received shutdown request from ${source}")
+        log_info("received shutdown request from ${source}")
           .arg(EAGINE_ID(age), age)
           .arg(EAGINE_ID(source), source_id)
           .arg(EAGINE_ID(verified), verified);
@@ -82,7 +85,7 @@ private:
 
 auto main(main_ctx& ctx) -> int {
 
-    msgbus::registry the_reg{ctx.log(), ctx.config()};
+    msgbus::registry the_reg{ctx};
 
     valid_if_positive<int> opt_ponger_count{};
     if(auto arg{ctx.args().find("--ponger-count")}) {

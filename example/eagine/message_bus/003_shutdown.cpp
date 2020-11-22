@@ -23,17 +23,19 @@ namespace msgbus {
 using shutdown_trigger_base =
   service_composition<subscriber_discovery<shutdown_invoker<>>>;
 
-class shutdown_trigger : public shutdown_trigger_base {
+class shutdown_trigger
+  : public main_ctx_object
+  , public shutdown_trigger_base {
     using base = shutdown_trigger_base;
 
 public:
     shutdown_trigger(endpoint& bus)
-      : base{bus}
-      , _log{EAGINE_ID(ShtdwnTrgr), bus.log()} {}
+      : main_ctx_object{EAGINE_ID(ShtdwnTrgr), bus}
+      , base{bus} {}
 
     void on_subscribed(identifier_t id, message_id sub_msg) final {
         if(sub_msg == EAGINE_MSG_ID(Shutdown, shutdown)) {
-            _log.info("target ${id} appeared").arg(EAGINE_ID(id), id);
+            log_info("target ${id} appeared").arg(EAGINE_ID(id), id);
             _targets.insert(id);
             this->bus().post_certificate(id);
         }
@@ -41,7 +43,7 @@ public:
 
     void on_unsubscribed(identifier_t id, message_id sub_msg) final {
         if(sub_msg == EAGINE_MSG_ID(Shutdown, shutdown)) {
-            _log.info("target ${id} disappeared").arg(EAGINE_ID(id), id);
+            log_info("target ${id} disappeared").arg(EAGINE_ID(id), id);
             _targets.erase(id);
         }
     }
@@ -53,7 +55,6 @@ public:
     }
 
 private:
-    logger _log{};
     std::set<identifier_t> _targets{};
 };
 //------------------------------------------------------------------------------
@@ -61,11 +62,10 @@ private:
 
 auto main(main_ctx& ctx) -> int {
 
-    msgbus::router_address address{ctx.log(), ctx.config()};
-    msgbus::connection_setup conn_setup(ctx.log(), ctx.config());
+    msgbus::router_address address{ctx};
+    msgbus::connection_setup conn_setup(ctx);
 
-    msgbus::endpoint bus{
-      logger{EAGINE_ID(ShutdownEx), ctx.log()}, ctx.config()};
+    msgbus::endpoint bus{EAGINE_ID(ShutdownEx), ctx};
     bus.add_ca_certificate_pem(ca_certificate_pem(ctx));
     bus.add_certificate_pem(msgbus_endpoint_certificate_pem(ctx));
 

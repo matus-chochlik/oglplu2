@@ -42,9 +42,9 @@ protected:
       typename Class,
       typename... MsgMaps,
       typename = std::enable_if_t<sizeof...(MsgMaps) == N>>
-    actor(logger log, Class* instance, MsgMaps... msg_maps)
+    actor(main_ctx_object obj, Class* instance, MsgMaps... msg_maps)
       : _endpoint{_make_endpoint(
-          std::move(log),
+          std::move(obj),
           {this, EAGINE_MEM_FUNC_C(actor, _process_message)})}
       , _subscriber{_endpoint, instance, msg_maps...} {
         _subscriber.announce_subscriptions();
@@ -78,10 +78,6 @@ public:
 
     auto bus() noexcept -> endpoint& {
         return _endpoint;
-    }
-
-    auto log() noexcept -> logger& {
-        return _endpoint.log();
     }
 
     auto add_connection(std::unique_ptr<connection> conn) -> bool final {

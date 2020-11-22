@@ -34,9 +34,9 @@ public:
     using base = actor<3>;
     using base::bus;
 
-    fibonacci_server(logger& parent, connection_setup& conn_setup)
+    fibonacci_server(main_ctx_parent parent, connection_setup& conn_setup)
       : base(
-          {EAGINE_ID(FibServer), parent},
+          main_ctx_object{EAGINE_ID(FibServer), parent},
           this,
           EAGINE_MSG_MAP(Fibonacci, FindServer, this_class, is_ready),
           EAGINE_MSG_MAP(Fibonacci, Calculate, this_class, calculate),
@@ -107,9 +107,9 @@ public:
     using base = actor<2>;
     using base::bus;
 
-    fibonacci_client(logger& parent, connection_setup& conn_setup)
+    fibonacci_client(main_ctx_parent parent, connection_setup& conn_setup)
       : base(
-          {EAGINE_ID(FibClient), parent},
+          main_ctx_object{EAGINE_ID(FibClient), parent},
           this,
           EAGINE_MSG_MAP(Fibonacci, IsReady, this_class, dispatch),
           EAGINE_MSG_MAP(Fibonacci, Result, this_class, print)) {
@@ -175,29 +175,28 @@ private:
 } // namespace msgbus
 
 auto main(main_ctx& ctx) -> int {
-    auto& log = ctx.log();
 
     const auto thread_count =
       extract_or(ctx.system().cpu_concurrent_threads(), 4);
 
-    msgbus::connection_setup conn_setup(log);
+    msgbus::connection_setup conn_setup(ctx);
     conn_setup.default_init();
 
-    msgbus::fibonacci_client client(log, conn_setup);
+    msgbus::fibonacci_client client(ctx, conn_setup);
 
     std::vector<std::thread> workers;
     workers.reserve(thread_count);
 
     for(span_size_t i = 0; i < thread_count; ++i) {
         workers.emplace_back(
-          [server{msgbus::fibonacci_server(log, conn_setup)}]() mutable {
+          [server{msgbus::fibonacci_server(ctx, conn_setup)}]() mutable {
               while(!server.is_done()) {
                   server.process_one();
               }
           });
     }
 
-    msgbus::router router(log);
+    msgbus::router router(ctx);
     conn_setup.setup_acceptors(router, msgbus::connection_kind::in_process);
 
     const std::int64_t n = running_on_valgrind() ? 34 : 46;

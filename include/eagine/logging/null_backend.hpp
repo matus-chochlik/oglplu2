@@ -33,6 +33,12 @@ struct null_log_backend : logger_backend {
 
     void leave_scope(identifier) noexcept final {}
 
+    void set_description(
+      identifier,
+      logger_instance_id,
+      string_view,
+      string_view) noexcept final{};
+
     auto begin_message(
       identifier,
       logger_instance_id,
@@ -70,6 +76,12 @@ struct null_log_backend : logger_backend {
     void finish_message() noexcept final {}
 
     void finish_log() noexcept final {}
+
+    void log_chart_sample(
+      identifier,
+      logger_instance_id,
+      identifier,
+      float) noexcept final {}
 };
 //------------------------------------------------------------------------------
 } // namespace eagine

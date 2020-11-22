@@ -205,7 +205,7 @@ void initialize(main_ctx& ctx, ecs::basic_manager<element_symbol>& elements) {
     const auto json_res{embed(EAGINE_ID(ElemJSON), "elements.json")};
 
     auto json_tree{
-      valtree::from_json_text(as_chars(json_res.unpack(ctx)), ctx.log())};
+      valtree::from_json_text(as_chars(json_res.unpack(ctx)), ctx)};
 
     do_initialize(elements, json_tree);
 }

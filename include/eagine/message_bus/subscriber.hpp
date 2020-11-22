@@ -46,10 +46,10 @@ public:
         return false;
     }
 
-    auto verify_bits(const stored_message& message) const noexcept
+    auto verify_bits(const stored_message& message) noexcept
       -> verification_bits {
         if(EAGINE_LIKELY(_endpoint)) {
-            return message.verify_bits(_endpoint->ctx(), _endpoint->log());
+            return message.verify_bits(_endpoint->ctx(), *_endpoint);
         }
         return {};
     }

@@ -94,17 +94,15 @@ auto config_git_version_commit() noexcept -> valid_if_nonnegative<int> {
 #endif
 }
 //------------------------------------------------------------------------------
-auto config_git_version_tuple() noexcept
-  -> optionally_valid<std::tuple<int, int, int, int>> {
+auto config_git_version_tuple() noexcept -> std::tuple<int, int, int, int> {
 #if defined(EAGINE_CONFIG_GIT_INFO_HPP)
     return {
-      {EAGINE_GIT_VERSION_MAJOR,
-       EAGINE_GIT_VERSION_MINOR,
-       EAGINE_GIT_VERSION_PATCH,
-       EAGINE_GIT_VERSION_COMMIT},
-      true};
+      EAGINE_GIT_VERSION_MAJOR,
+      EAGINE_GIT_VERSION_MINOR,
+      EAGINE_GIT_VERSION_PATCH,
+      EAGINE_GIT_VERSION_COMMIT};
 #else
-    return {};
+    return {-1, -1, -1, -1};
 #endif
 }
 //------------------------------------------------------------------------------

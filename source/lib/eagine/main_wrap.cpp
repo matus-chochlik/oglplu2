@@ -11,14 +11,17 @@
 #include "prologue.inl"
 #include <eagine/bindump.hpp>
 #include <eagine/compression.hpp>
+#include <eagine/file_contents.hpp>
 #include <eagine/from_string.hpp>
 #include <eagine/hexdump.hpp>
+#include <eagine/input_data.hpp>
 #include <eagine/type_name.hpp>
 #include <eagine/value_tree/filesystem.hpp>
+#include <eagine/value_tree/json.hpp>
+#include <eagine/value_tree/yaml.hpp>
 
 #include "implement.inl"
-#include <eagine/application_config.hpp>
-#include <eagine/main_ctx.hpp>
 #include <eagine/system_info.hpp>
+#include <eagine/main_ctx.hpp>
 #include "epilogue.inl"
 // clang-format on

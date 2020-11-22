@@ -1,5 +1,5 @@
 /**
- *  @file eagine/logging/program_args.hpp
+ *  @file eagine/logging/type/program_args.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,11 +7,11 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_LOGGING_PROGRAM_ARGS_HPP
-#define EAGINE_LOGGING_PROGRAM_ARGS_HPP
+#ifndef EAGINE_LOGGING_TYPE_PROGRAM_ARGS_HPP
+#define EAGINE_LOGGING_TYPE_PROGRAM_ARGS_HPP
 
-#include "../program_args.hpp"
-#include "entry.hpp"
+#include "../../program_args.hpp"
+#include "../entry.hpp"
 
 namespace eagine {
 //------------------------------------------------------------------------------
@@ -24,4 +24,4 @@ adapt_log_entry_arg(identifier name, const program_arg& value) {
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-#endif // EAGINE_LOGGING_PROGRAM_ARGS_HPP
+#endif // EAGINE_LOGGING_TYPE_PROGRAM_ARGS_HPP

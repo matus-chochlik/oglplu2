@@ -14,8 +14,8 @@
 #include "../branch_predict.hpp"
 #include "../config/platform.hpp"
 #include "../flat_map.hpp"
-#include "../logging/exception.hpp"
-#include "../logging/logger.hpp"
+#include "../logging/type/exception.hpp"
+#include "../main_ctx_object.hpp"
 #include "../maybe_unused.hpp"
 #include "../serialize/size_and_data.hpp"
 #include "../timeout.hpp"
@@ -182,10 +182,10 @@ struct asio_connection_group {
 //------------------------------------------------------------------------------
 template <connection_addr_kind Kind, connection_protocol Proto>
 struct asio_connection_state
-  : std::enable_shared_from_this<asio_connection_state<Kind, Proto>> {
+  : std::enable_shared_from_this<asio_connection_state<Kind, Proto>>
+  , main_ctx_object {
     using endpoint_type = asio_endpoint_type<Kind, Proto>;
 
-    logger _log{};
     std::shared_ptr<asio_common_state> common;
     asio_socket_type<Kind, Proto> socket;
     endpoint_type conn_endpoint{};
@@ -197,11 +197,11 @@ struct asio_connection_state
     bool is_recving{false};
 
     asio_connection_state(
-      logger& parent,
+      main_ctx_parent parent,
       std::shared_ptr<asio_common_state> asio_state,
       asio_socket_type<Kind, Proto> sock,
       span_size_t block_size)
-      : _log{EAGINE_ID(AsioConnSt), parent}
+      : main_ctx_object{EAGINE_ID(AsioConnSt), parent}
       , common{std::move(asio_state)}
       , socket{std::move(sock)} {
         EAGINE_ASSERT(common);
@@ -215,14 +215,14 @@ struct asio_connection_state
         write_buffer.resize(block_size);
         zero(cover(write_buffer));
 
-        _log.debug("allocating write buffer of ${size}")
+        log_debug("allocating write buffer of ${size}")
           .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), write_buffer.size());
-        _log.debug("allocating read buffer of ${size}")
+        log_debug("allocating read buffer of ${size}")
           .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), read_buffer.size());
     }
 
     asio_connection_state(
-      logger& parent,
+      main_ctx_parent parent,
       const std::shared_ptr<asio_common_state>& asio_state,
       span_size_t block_size) noexcept
       : asio_connection_state{
@@ -270,7 +270,7 @@ struct asio_connection_state
             is_sending = true;
             const auto blk = view(write_buffer);
 
-            _log.trace("sending data (size: ${size})")
+            log_trace("sending data (size: ${size})")
               .arg(EAGINE_ID(packed), EAGINE_ID(bits), packed_messages)
               .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), blk.size())
               .arg(EAGINE_ID(block), blk);
@@ -286,13 +286,13 @@ struct asio_connection_state
                selfref{weak_ref()}](std::error_code error, std::size_t length) {
                   if(const auto self{selfref.lock()}) {
                       if(!error) {
-                          _log.trace("sent data (size: ${size})")
+                          log_trace("sent data (size: ${size})")
                             .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), length);
 
                           this->handle_sent(
                             group, target_endpoint, packed_messages);
                       } else {
-                          _log.error("failed to send data: ${error}")
+                          log_error("failed to send data: ${error}")
                             .arg(EAGINE_ID(error), error);
                           this->is_sending = false;
                       }
@@ -334,7 +334,7 @@ struct asio_connection_state
     void do_start_receive(asio_connection_group<Kind, Proto>& group) {
         auto blk = cover(read_buffer);
 
-        _log.trace("receiving data (size: ${size})")
+        log_trace("receiving data (size: ${size})")
           .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), blk.size());
 
         is_recving = true;
@@ -346,19 +346,23 @@ struct asio_connection_state
               if(const auto self{selfref.lock()}) {
                   memory::const_block rcvd = head(blk, span_size(length));
                   if(!error) {
-                      _log.trace("received data (size: ${size})")
+                      log_trace("received data (size: ${size})")
                         .arg(EAGINE_ID(block), rcvd)
                         .arg(EAGINE_ID(size), EAGINE_ID(ByteSize), length);
 
                       this->handle_received(rcvd, group);
                   } else {
                       if(rcvd) {
-                          _log.warning("failed receiving data: ${error}")
+                          log_warning("failed receiving data: ${error}")
                             .arg(EAGINE_ID(error), error);
                           this->handle_received(rcvd, group);
                       } else {
-                          _log.error("failed to receive data: ${error}")
-                            .arg(EAGINE_ID(error), error);
+                          if(error == asio::error::eof) {
+                              log_debug("received end-of-file");
+                          } else {
+                              log_error("failed to receive data: ${error}")
+                                .arg(EAGINE_ID(error), error);
+                          }
                       }
                       this->is_recving = false;
                       this->socket.close();
@@ -384,7 +388,7 @@ struct asio_connection_state
     auto update() -> bool {
         some_true something_done{};
         if(const auto count{common->context.poll()}) {
-            _log.trace("called ready handlers (count: ${count})")
+            log_trace("called ready handlers (count: ${count})")
               .arg(EAGINE_ID(count), count);
             something_done();
         } else {
@@ -395,7 +399,7 @@ struct asio_connection_state
 
     void cleanup(asio_connection_group<Kind, Proto>& group) {
         while(start_send(group)) {
-            _log.debug("flushing connection outbox");
+            log_debug("flushing connection outbox");
             update();
         }
         common->adopt_flushing(socket);
@@ -405,9 +409,8 @@ struct asio_connection_state
 //------------------------------------------------------------------------------
 template <connection_addr_kind Kind, connection_protocol Proto>
 class asio_connection_base
-  : public asio_connection_info<connection, Kind, Proto> {
-
-    logger _log{};
+  : public asio_connection_info<connection, Kind, Proto>
+  , public main_ctx_object {
 
     using bit_set = typename connection_outgoing_messages::bit_set;
 
@@ -415,40 +418,36 @@ protected:
     std::shared_ptr<asio_connection_state<Kind, Proto>> _state;
 
     asio_connection_base(
-      logger& parent,
+      main_ctx_parent parent,
       std::shared_ptr<asio_connection_state<Kind, Proto>> state)
-      : _log{EAGINE_ID(AsioConnBs), parent}
+      : main_ctx_object{EAGINE_ID(AsioConnBs), parent}
       , _state{std::move(state)} {}
 
 public:
     asio_connection_base(
-      logger& parent,
+      main_ctx_parent parent,
       std::shared_ptr<asio_common_state> asio_state,
       span_size_t block_size)
-      : _log{EAGINE_ID(AsioConnBs), parent}
+      : main_ctx_object{EAGINE_ID(AsioConnBs), parent}
       , _state{std::make_shared<asio_connection_state<Kind, Proto>>(
-          _log,
+          *this,
           std::move(asio_state),
           block_size)} {
         EAGINE_ASSERT(_state);
     }
 
     asio_connection_base(
-      logger& parent,
+      main_ctx_parent parent,
       std::shared_ptr<asio_common_state> asio_state,
       asio_socket_type<Kind, Proto> socket,
       span_size_t block_size)
-      : _log{EAGINE_ID(AsioConnBs), parent}
+      : main_ctx_object{EAGINE_ID(AsioConnBs), parent}
       , _state{std::make_shared<asio_connection_state<Kind, Proto>>(
-          _log,
+          *this,
           std::move(asio_state),
           std::move(socket),
           block_size)} {
         EAGINE_ASSERT(_state);
-    }
-
-    auto log() noexcept -> auto& {
-        return _log;
     }
 
     inline auto conn_state() noexcept -> auto& {
@@ -476,7 +475,6 @@ class asio_connection
 public:
     using base::base;
     using base::conn_state;
-    using base::log;
 
     auto update() -> bool override {
         some_true something_done{};
@@ -485,6 +483,7 @@ public:
             something_done(conn_state().start_send(*this));
         }
         something_done(conn_state().update());
+        _log_message_counts();
         return something_done;
     }
 
@@ -508,20 +507,43 @@ public:
 
     auto send(message_id msg_id, const message_view& message) -> bool final {
         return _outgoing.enqueue(
-          log(), msg_id, message, cover(conn_state().push_buffer));
+          *this, msg_id, message, cover(conn_state().push_buffer));
     }
 
     auto fetch_messages(connection::fetch_handler handler) -> bool final {
-        return _incoming.fetch_messages(log(), handler);
+        return _incoming.fetch_messages(*this, handler);
     }
 
     void cleanup() final {
+        this->_log_message_counts();
         conn_state().cleanup(*this);
+    }
+
+protected:
+    void _log_message_counts() noexcept {
+        if constexpr(is_log_level_enabled_v<log_event_severity::stat>) {
+            const span_size_t mult{16};
+            const auto new_outgoing_count = _outgoing.size() / mult;
+            if(_outgoing_count != new_outgoing_count) {
+                _outgoing_count = new_outgoing_count;
+                this->log_chart_sample(
+                  EAGINE_ID(outMsgCnt), float((_outgoing_count + 1) * mult));
+            }
+
+            const auto new_incoming_count = _incoming.size() / 100;
+            if(_incoming_count != new_incoming_count) {
+                _incoming_count = new_incoming_count;
+                this->log_chart_sample(
+                  EAGINE_ID(incMsgCnt), float((_incoming_count + 1) * mult));
+            }
+        }
     }
 
 private:
     connection_outgoing_messages _outgoing{};
     connection_incoming_messages _incoming{};
+    span_size_t _outgoing_count{0};
+    span_size_t _incoming_count{0};
 };
 //------------------------------------------------------------------------------
 template <connection_addr_kind Kind>
@@ -532,10 +554,9 @@ class asio_datagram_client_connection
 
 public:
     using base::conn_state;
-    using base::log;
 
     asio_datagram_client_connection(
-      logger& parent,
+      main_ctx_parent parent,
       std::shared_ptr<asio_connection_state<Kind, connection_protocol::datagram>>
         state,
       std::shared_ptr<connection_outgoing_messages> outgoing,
@@ -564,12 +585,12 @@ public:
     auto send(message_id msg_id, const message_view& message) -> bool final {
         EAGINE_ASSERT(_outgoing);
         return _outgoing->enqueue(
-          log(), msg_id, message, cover(conn_state().push_buffer));
+          *this, msg_id, message, cover(conn_state().push_buffer));
     }
 
     auto fetch_messages(connection::fetch_handler handler) -> bool final {
         EAGINE_ASSERT(_incoming);
-        return _incoming->fetch_messages(log(), handler);
+        return _incoming->fetch_messages(*this, handler);
     }
 
     auto update() -> bool final {
@@ -595,7 +616,6 @@ class asio_datagram_server_connection
 public:
     using base::base;
     using base::conn_state;
-    using base::log;
 
     using bit_set = typename connection_outgoing_messages::bit_set;
 
@@ -656,7 +676,7 @@ public:
         some_true something_done;
         for(auto& p : _pending) {
             handler(std::make_unique<asio_datagram_client_connection<Kind>>(
-              log(),
+              *this,
               this->_state,
               std::get<0>(std::get<1>(p)),
               std::get<1>(std::get<1>(p))));
@@ -665,8 +685,7 @@ public:
         }
         _pending.clear();
         if(something_done) {
-            log()
-              .debug("accepted datagram endpoints")
+            this->log_debug("accepted datagram endpoints")
               .arg(EAGINE_ID(current), _current.size());
         }
         return something_done;
@@ -678,7 +697,7 @@ public:
             something_done(conn_state().start_receive(*this));
             something_done(conn_state().start_send(*this));
         } else {
-            log().warning("datagram socket is not open");
+            this->log_warning("datagram socket is not open");
         }
         something_done(conn_state().update());
         return something_done;
@@ -700,8 +719,7 @@ private:
                           std::make_shared<connection_outgoing_messages>(),
                           std::make_shared<connection_incoming_messages>())
                         .first;
-                log()
-                  .debug("added pending datagram endpoint")
+                this->log_debug("added pending datagram endpoint")
                   .arg(EAGINE_ID(pending), _pending.size())
                   .arg(EAGINE_ID(current), _current.size());
             }
@@ -765,7 +783,6 @@ class asio_connector<connection_addr_kind::ipv4, connection_protocol::stream>
     using base =
       asio_connection<connection_addr_kind::ipv4, connection_protocol::stream>;
     using base::conn_state;
-    using base::log;
 
     asio::ip::tcp::resolver _resolver;
     std::tuple<std::string, ipv4_port> _addr;
@@ -777,16 +794,14 @@ class asio_connector<connection_addr_kind::ipv4, connection_protocol::stream>
         auto& ep = conn_state().conn_endpoint = *resolved;
         ep.port(port);
 
-        log()
-          .debug("connecting to ${host}:${port}")
+        this->log_debug("connecting to ${host}:${port}")
           .arg(EAGINE_ID(host), EAGINE_ID(IpV4Host), std::get<0>(_addr))
           .arg(EAGINE_ID(port), EAGINE_ID(IpV4Port), std::get<1>(_addr));
 
         conn_state().socket.async_connect(
           ep, [this, resolved, port](std::error_code error) mutable {
               if(!error) {
-                  log()
-                    .debug("connected on address ${host}:${port}")
+                  this->log_debug("connected on address ${host}:${port}")
                     .arg(
                       EAGINE_ID(host), EAGINE_ID(IpV4Host), std::get<0>(_addr))
                     .arg(
@@ -796,8 +811,8 @@ class asio_connector<connection_addr_kind::ipv4, connection_protocol::stream>
                   if(++resolved != asio::ip::tcp::resolver::iterator{}) {
                       this->_start_connect(resolved, port);
                   } else {
-                      log()
-                        .error(
+                      this
+                        ->log_error(
                           "failed to connect on address "
                           "${address}:${port}: "
                           "${error}")
@@ -826,8 +841,7 @@ class asio_connector<connection_addr_kind::ipv4, connection_protocol::stream>
               if(!error) {
                   this->_start_connect(resolved, port);
               } else {
-                  log()
-                    .error("failed to resolve address: ${error}")
+                  this->log_error("failed to resolve address: ${error}")
                     .arg(EAGINE_ID(error), error);
                   this->_connecting = false;
               }
@@ -836,7 +850,7 @@ class asio_connector<connection_addr_kind::ipv4, connection_protocol::stream>
 
 public:
     asio_connector(
-      logger& parent,
+      main_ctx_parent parent,
       const std::shared_ptr<asio_common_state>& asio_state,
       string_view addr_str,
       span_size_t block_size)
@@ -857,15 +871,16 @@ public:
             }
         }
         something_done(conn_state().update());
+        this->_log_message_counts();
         return something_done;
     }
 };
 //------------------------------------------------------------------------------
 template <>
 class asio_acceptor<connection_addr_kind::ipv4, connection_protocol::stream>
-  : public acceptor {
+  : public acceptor
+  , public main_ctx_object {
 private:
-    logger _log{};
     std::shared_ptr<asio_common_state> _asio_state;
     std::tuple<std::string, ipv4_port> _addr;
     asio::ip::tcp::acceptor _acceptor;
@@ -875,24 +890,23 @@ private:
     std::vector<asio::ip::tcp::socket> _accepted;
 
     void _start_accept() {
-        _log.debug("accepting connection on address ${host}:${port}")
+        log_debug("accepting connection on address ${host}:${port}")
           .arg(EAGINE_ID(host), EAGINE_ID(IpV4Host), std::get<0>(_addr))
           .arg(EAGINE_ID(port), EAGINE_ID(IpV4Port), std::get<1>(_addr));
 
         _socket = asio::ip::tcp::socket(this->_asio_state->context);
         _acceptor.async_accept(_socket, [this](std::error_code error) {
             if(!error) {
-                _log.debug("accepted connection on address ${host}:${port}")
+                log_debug("accepted connection on address ${host}:${port}")
                   .arg(EAGINE_ID(host), EAGINE_ID(IpV4Host), std::get<0>(_addr))
                   .arg(
                     EAGINE_ID(port), EAGINE_ID(IpV4Port), std::get<1>(_addr));
                 this->_accepted.emplace_back(std::move(this->_socket));
             } else {
-                _log
-                  .error(
-                    "failed to accept connection on address "
-                    "${host}:${port}: "
-                    "${error}")
+                log_error(
+                  "failed to accept connection on address "
+                  "${host}:${port}: "
+                  "${error}")
                   .arg(EAGINE_ID(error), error)
                   .arg(EAGINE_ID(host), EAGINE_ID(IpV4Host), std::get<0>(_addr))
                   .arg(
@@ -904,11 +918,11 @@ private:
 
 public:
     asio_acceptor(
-      logger& parent,
+      main_ctx_parent parent,
       std::shared_ptr<asio_common_state> asio_state,
       string_view addr_str,
       span_size_t block_size) noexcept
-      : _log{EAGINE_ID(AsioAccptr), parent}
+      : main_ctx_object{EAGINE_ID(AsioAccptr), parent}
       , _asio_state{std::move(asio_state)}
       , _addr{parse_ipv4_addr(addr_str)}
       , _acceptor{_asio_state->context}
@@ -941,7 +955,7 @@ public:
             auto conn = std::make_unique<asio_connection<
               connection_addr_kind::ipv4,
               connection_protocol::stream>>(
-              _log, _asio_state, std::move(socket), _block_size);
+              *this, _asio_state, std::move(socket), _block_size);
             handler(std::move(conn));
             something_done();
         }
@@ -985,7 +999,6 @@ class asio_connector<connection_addr_kind::ipv4, connection_protocol::datagram>
     using base =
       asio_connection<connection_addr_kind::ipv4, connection_protocol::datagram>;
     using base::conn_state;
-    using base::log;
 
     asio::ip::udp::resolver _resolver;
     std::tuple<std::string, ipv4_port> _addr;
@@ -1000,8 +1013,7 @@ class asio_connector<connection_addr_kind::ipv4, connection_protocol::datagram>
         conn_state().socket.open(ep.protocol());
         this->_establishing = false;
 
-        log()
-          .debug("resolved address ${host}:${port}")
+        this->log_debug("resolved address ${host}:${port}")
           .arg(EAGINE_ID(host), EAGINE_ID(IpV4Host), std::get<0>(_addr))
           .arg(EAGINE_ID(port), EAGINE_ID(IpV4Port), std::get<1>(_addr));
     }
@@ -1014,8 +1026,7 @@ class asio_connector<connection_addr_kind::ipv4, connection_protocol::datagram>
               if(!error) {
                   this->_on_resolve(resolved, port);
               } else {
-                  log()
-                    .error("failed to resolve address: ${error}")
+                  this->log_error("failed to resolve address: ${error}")
                     .arg(EAGINE_ID(error), error);
                   this->_establishing = false;
               }
@@ -1024,7 +1035,7 @@ class asio_connector<connection_addr_kind::ipv4, connection_protocol::datagram>
 
 public:
     asio_connector(
-      logger& parent,
+      main_ctx_parent parent,
       const std::shared_ptr<asio_common_state>& asio_state,
       string_view addr_str,
       span_size_t block_size)
@@ -1045,15 +1056,16 @@ public:
             }
         }
         something_done(conn_state().update());
+        this->_log_message_counts();
         return something_done;
     }
 };
 //------------------------------------------------------------------------------
 template <>
 class asio_acceptor<connection_addr_kind::ipv4, connection_protocol::datagram>
-  : public acceptor {
+  : public acceptor
+  , public main_ctx_object {
 private:
-    logger _log{};
     std::shared_ptr<asio_common_state> _asio_state;
     std::tuple<std::string, ipv4_port> _addr;
 
@@ -1061,15 +1073,15 @@ private:
 
 public:
     asio_acceptor(
-      logger& parent,
+      main_ctx_parent parent,
       std::shared_ptr<asio_common_state> asio_state,
       string_view addr_str,
       span_size_t block_size) noexcept
-      : _log{EAGINE_ID(AsioAccptr), parent}
+      : main_ctx_object{EAGINE_ID(AsioAccptr), parent}
       , _asio_state{std::move(asio_state)}
       , _addr{parse_ipv4_addr(addr_str)}
       , _conn{
-          _log,
+          *this,
           _asio_state,
           asio::ip::udp::socket{
             _asio_state->context,
@@ -1127,20 +1139,17 @@ class asio_connector<connection_addr_kind::filepath, connection_protocol::stream
 
     void _start_connect() {
         _connecting = true;
-        log()
-          .debug("connecting to ${address}")
+        this->log_debug("connecting to ${address}")
           .arg(EAGINE_ID(address), EAGINE_ID(FsPath), this->_addr_str);
 
         conn_state().socket.async_connect(
           conn_state().conn_endpoint, [this](std::error_code error) mutable {
               if(!error) {
-                  log()
-                    .debug("connected on address ${address}")
+                  this->log_debug("connected on address ${address}")
                     .arg(EAGINE_ID(address), EAGINE_ID(FsPath), _addr_str);
                   _connecting = false;
               } else {
-                  log()
-                    .error("failed to connect: ${error}")
+                  this->log_error("failed to connect: ${error}")
                     .arg(EAGINE_ID(error), error);
                   _connecting = false;
               }
@@ -1153,7 +1162,7 @@ class asio_connector<connection_addr_kind::filepath, connection_protocol::stream
 
 public:
     asio_connector(
-      logger& parent,
+      main_ctx_parent parent,
       const std::shared_ptr<asio_common_state>& asio_state,
       string_view addr_str,
       span_size_t block_size)
@@ -1175,15 +1184,16 @@ public:
             }
         }
         something_done(conn_state().update());
+        this->_log_message_counts();
         return something_done;
     }
 };
 //------------------------------------------------------------------------------
 template <>
 class asio_acceptor<connection_addr_kind::filepath, connection_protocol::stream>
-  : public acceptor {
+  : public acceptor
+  , public main_ctx_object {
 private:
-    logger _log{};
     std::shared_ptr<asio_common_state> _asio_state;
     std::string _addr_str;
     asio::local::stream_protocol::acceptor _acceptor;
@@ -1193,7 +1203,7 @@ private:
     std::vector<asio::local::stream_protocol::socket> _accepted;
 
     void _start_accept() {
-        this->_log.debug("accepting connection on address ${address}")
+        log_debug("accepting connection on address ${address}")
           .arg(EAGINE_ID(address), EAGINE_ID(FsPath), _addr_str);
 
         _accepting = true;
@@ -1202,14 +1212,14 @@ private:
                                  asio::local::stream_protocol::socket socket) {
             if(error) {
                 this->_accepting = false;
-                this->_log
-                  .error(
+                this
+                  ->log_error(
                     "failed to accept connection on address ${address}: "
                     "${error}")
                   .arg(EAGINE_ID(error), error)
                   .arg(EAGINE_ID(address), EAGINE_ID(FsPath), _addr_str);
             } else {
-                this->_log.debug("accepted connection on address ${address}")
+                this->log_debug("accepted connection on address ${address}")
                   .arg(EAGINE_ID(address), EAGINE_ID(FsPath), _addr_str);
                 this->_accepted.emplace_back(std::move(socket));
             }
@@ -1230,10 +1240,10 @@ private:
 
 public:
     asio_acceptor(
-      logger& parent,
+      main_ctx_parent parent,
       std::shared_ptr<asio_common_state> asio_state,
       string_view addr_str, span_size_t block_size) noexcept
-      : _log{EAGINE_ID(AsioAccptr), parent}
+      : main_ctx_object{EAGINE_ID(AsioAccptr), parent}
       , _asio_state{_prepare(std::move(asio_state), _fix_addr(addr_str))}
       , _addr_str{to_string(_fix_addr(addr_str))}
       , _acceptor{
@@ -1281,7 +1291,7 @@ public:
             auto conn = std::make_unique<asio_connection<
               connection_addr_kind::filepath,
               connection_protocol::stream>>(
-              _log, _asio_state, std::move(socket), _block_size);
+              *this, _asio_state, std::move(socket), _block_size);
             handler(std::move(conn));
             something_done();
         }
@@ -1296,9 +1306,9 @@ public:
 //------------------------------------------------------------------------------
 template <connection_addr_kind Kind, connection_protocol Proto>
 class asio_connection_factory
-  : public asio_connection_info<connection_factory, Kind, Proto> {
+  : public asio_connection_info<connection_factory, Kind, Proto>
+  , public main_ctx_object {
 private:
-    logger _log{};
     std::shared_ptr<asio_common_state> _asio_state;
 
     template <connection_addr_kind K, connection_protocol P>
@@ -1327,32 +1337,32 @@ public:
     }
 
     asio_connection_factory(
-      logger& parent,
+      main_ctx_parent parent,
       std::shared_ptr<asio_common_state> asio_state,
       span_size_t block_size) noexcept
-      : _log{EAGINE_ID(AsioConnFc), parent}
+      : main_ctx_object{EAGINE_ID(AsioConnFc), parent}
       , _asio_state{std::move(asio_state)}
       , _block_size{block_size} {}
 
-    asio_connection_factory(logger& parent, span_size_t block_size)
+    asio_connection_factory(main_ctx_parent parent, span_size_t block_size)
       : asio_connection_factory{
           parent,
           std::make_shared<asio_common_state>(),
           block_size} {}
 
-    asio_connection_factory(logger& parent)
+    asio_connection_factory(main_ctx_parent parent)
       : asio_connection_factory{parent, default_block_size()} {}
 
     auto make_acceptor(string_view addr_str)
       -> std::unique_ptr<acceptor> final {
         return std::make_unique<asio_acceptor<Kind, Proto>>(
-          _log, _asio_state, addr_str, _block_size);
+          *this, _asio_state, addr_str, _block_size);
     }
 
     auto make_connector(string_view addr_str)
       -> std::unique_ptr<connection> final {
         return std::make_unique<asio_connector<Kind, Proto>>(
-          _log, _asio_state, addr_str, _block_size);
+          *this, _asio_state, addr_str, _block_size);
     }
 };
 //------------------------------------------------------------------------------

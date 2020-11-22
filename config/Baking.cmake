@@ -37,7 +37,7 @@ function(oglplus_do_add_baked_resource BAKE_COMMAND RES_NAME RES_KIND INPUT TRY_
 			OUTPUT "${RES_NAME}.oglp${RES_KIND}"
 			COMMAND "${OGLPLUS_TARGET_PREFIX}${BAKE_COMMAND}"
 			ARGS ${PARAMETERS}
-			DEPENDS ${INPUT}
+			DEPENDS ${INPUT} "${OGLPLUS_TARGET_PREFIX}${BAKE_COMMAND}"
 			COMMENT "Baking resource ${RES_NAME}.oglp${RES_KIND}"
 		)
 		set_source_files_properties(

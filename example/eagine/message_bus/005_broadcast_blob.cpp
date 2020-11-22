@@ -19,10 +19,10 @@ namespace eagine {
 
 auto main(main_ctx& ctx) -> int {
 
-    msgbus::router_address address{ctx.log(), ctx.config()};
-    msgbus::connection_setup conn_setup(ctx.log(), ctx.config());
+    msgbus::router_address address{ctx};
+    msgbus::connection_setup conn_setup(ctx);
 
-    msgbus::endpoint bus{logger{EAGINE_ID(Temporary), ctx.log()}};
+    msgbus::endpoint bus{EAGINE_ID(Temporary), ctx};
     conn_setup.setup_connectors(bus, address);
 
     if(ctx.args().none()) {

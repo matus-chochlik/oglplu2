@@ -67,7 +67,7 @@ struct options {
 };
 //------------------------------------------------------------------------------
 void write_output(std::ostream& output, const options& opts) {
-    oglp::image_data_header hdr(opts.width, opts.height, opts.depth);
+    oglp::image_data_header hdr(opts.width, opts.height, opts.depth, 3);
     hdr.format = GL_RGB;
 
     if(has_r3g3b2) {
