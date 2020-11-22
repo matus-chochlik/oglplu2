@@ -514,9 +514,9 @@ def export_single(options, bdata, name, obj, mesh):
                     colors["material.specular"] += [fixnum(x, cp) for x in sc]
                 if options.exp_wrap_coord:
                     for uvs in mesh.uv_layers:
-                        uv = uvs.data[meshvert.index].uv
+                        uv = uvs.data[loop_index].uv
                         try:
-                            coords[uvs.name] += [fixnum(x, p) for x in uv]
+                            coords[uvs.name] += [fixnum(c, p) for c in uv]
                         except KeyError:
                             pass
                 if options.exp_weight:
