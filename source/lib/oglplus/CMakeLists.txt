@@ -7,6 +7,7 @@ add_library(
 	oglplus
 	EXCLUDE_FROM_ALL
 	gl.cpp
+	camera.cpp
 )
 eagine_add_lib_analysis(oglplus)
 

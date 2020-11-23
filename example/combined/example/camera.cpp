@@ -10,38 +10,10 @@
 #include <oglplus/gl.hpp>
 // clang-format on
 #include "camera.hpp"
-#include <eagine/math/matrix_inverse.hpp>
 #include <eagine/math/intersection.hpp>
 #include <oglplus/math/coordinates.hpp>
 
 namespace eagine::oglp {
-//------------------------------------------------------------------------------
-auto example_orbiting_camera::target_to_camera_direction() const noexcept
-  -> vec3 {
-    return to_cartesian(unit_spherical_coordinates(azimuth(), elevation()));
-}
-//------------------------------------------------------------------------------
-auto example_orbiting_camera::camera_to_target_direction() const noexcept
-  -> vec3 {
-    return -target_to_camera_direction();
-}
-//------------------------------------------------------------------------------
-auto example_orbiting_camera::target_plane_point(
-  float ndcx,
-  float ndcy,
-  float aspect) const noexcept -> optionally_valid<vec3> {
-    using math::inverse_matrix;
-    using math::multiply;
-
-    const auto mat = matrix(aspect);
-
-    if(auto inv = inverse_matrix(mat)) {
-        auto ndct = multiply(mat, vec4(_target, 1.F));
-        auto ndc = vec4{ndcx * ndct.w(), ndcy * ndct.w(), ndct.z(), ndct.w()};
-        return {vec3(math::multiply(inv.value(), ndc)), true};
-    }
-    return {};
-}
 //------------------------------------------------------------------------------
 auto example_orbiting_camera::target_plane_pointer(
   const example_state_view& state,
@@ -55,19 +27,10 @@ auto example_orbiting_camera::target_plane_pointer(
 auto example_orbiting_camera::pointer_ray(
   const example_state_view& state,
   int pointer) const noexcept -> optionally_valid<line> {
-    if(const auto ptr = target_plane_pointer(state, pointer)) {
+    if(const auto ptr{target_plane_pointer(state, pointer)}) {
         return {line(position(), ptr.value_anyway() - position()), true};
     }
     return {};
-}
-//------------------------------------------------------------------------------
-auto example_orbiting_camera::grab_sphere_radius() const noexcept -> float {
-    const auto orb = orbit();
-    return math::minimum(orb * tan(_fov * 0.5F), orb * 0.75F);
-}
-//------------------------------------------------------------------------------
-auto example_orbiting_camera::grab_sphere() const noexcept -> sphere {
-    return sphere(target(), grab_sphere_radius());
 }
 //------------------------------------------------------------------------------
 auto example_orbiting_camera::apply_pointer_motion(
