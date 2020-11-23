@@ -19,6 +19,7 @@
 #include "../maybe_unused.hpp"
 #include "../serialize/size_and_data.hpp"
 #include "../timeout.hpp"
+#include "../value_tracker.hpp"
 #include "conn_factory.hpp"
 #include "network.hpp"
 #include "serialize.hpp"
@@ -522,19 +523,14 @@ public:
 protected:
     void _log_message_counts() noexcept {
         if constexpr(is_log_level_enabled_v<log_event_severity::stat>) {
-            const span_size_t mult{16};
-            const auto new_outgoing_count = _outgoing.size() / mult;
-            if(_outgoing_count != new_outgoing_count) {
-                _outgoing_count = new_outgoing_count;
+            if(_outgoing_count.has_changed(_outgoing.size())) {
                 this->log_chart_sample(
-                  EAGINE_ID(outMsgCnt), float((_outgoing_count + 1) * mult));
+                  EAGINE_ID(outMsgCnt), float(_outgoing_count.get()));
             }
 
-            const auto new_incoming_count = _incoming.size() / 100;
-            if(_incoming_count != new_incoming_count) {
-                _incoming_count = new_incoming_count;
+            if(_incoming_count.has_changed(_incoming.size())) {
                 this->log_chart_sample(
-                  EAGINE_ID(incMsgCnt), float((_incoming_count + 1) * mult));
+                  EAGINE_ID(incMsgCnt), float(_incoming_count.get()));
             }
         }
     }
@@ -542,8 +538,8 @@ protected:
 private:
     connection_outgoing_messages _outgoing{};
     connection_incoming_messages _incoming{};
-    span_size_t _outgoing_count{0};
-    span_size_t _incoming_count{0};
+    value_change_div_tracker<span_size_t, 16> _outgoing_count{0};
+    value_change_div_tracker<span_size_t, 16> _incoming_count{0};
 };
 //------------------------------------------------------------------------------
 template <connection_addr_kind Kind>
