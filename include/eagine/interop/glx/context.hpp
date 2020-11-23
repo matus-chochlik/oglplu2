@@ -5,8 +5,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef UTILS_OGLPLUS_GLX_CONTEXT_1107121519_HPP
-#define UTILS_OGLPLUS_GLX_CONTEXT_1107121519_HPP
+#ifndef EAGINE_INTEROP_GLX_CONTEXT_HPP
+#define EAGINE_INTEROP_GLX_CONTEXT_HPP
 
 #include "../x11/display.hpp"
 #include "../x11/window.hpp"
@@ -17,21 +17,19 @@
 #include <X11/Xlib.h>
 #include <stdexcept>
 
-namespace eagine {
-namespace oglp {
-namespace glx {
+namespace eagine::glx {
 
 class Context
   : public x11::DisplayObject<::GLXContext, void(::Display*, ::GLXContext)> {
 private:
-    static ::GLXContext make_context(
+    static auto make_context(
       const x11::Display& display,
       const FBConfig& fbc,
       int version_major,
       int version_minor,
       bool debugging,
       bool compatibility,
-      ::GLXContext share_context = ::GLXContext(nullptr)) {
+      ::GLXContext share_context = ::GLXContext(nullptr)) -> ::GLXContext {
         using glXCreateContextAttribsARBProc = GLXContext (*)(
           ::Display*, ::GLXFBConfig, ::GLXContext, Bool, const int*);
 
@@ -63,7 +61,11 @@ private:
                              : CONTEXT_CORE_PROFILE_BIT_ARB),
               None};
             res = glXCreateContextAttribsARB(
-              display, fbc.Handle(), share_context, True, context_attribs);
+              display,
+              fbc.Handle(),
+              share_context,
+              True,
+              static_cast<const int*>(context_attribs));
         } else {
             int context_attribs[] = {
               CONTEXT_MAJOR_VERSION_ARB,
@@ -74,7 +76,11 @@ private:
               (debugging ? CONTEXT_DEBUG_BIT_ARB : 0),
               None};
             res = glXCreateContextAttribsARB(
-              display, fbc.Handle(), share_context, True, context_attribs);
+              display,
+              fbc.Handle(),
+              share_context,
+              True,
+              static_cast<const int*>(context_attribs));
         }
         ::XSync(display, False);
         return res;
@@ -134,8 +140,6 @@ public:
     }
 };
 
-} // namespace glx
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::glx
 
-#endif // include guard
+#endif

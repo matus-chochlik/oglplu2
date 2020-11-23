@@ -16,14 +16,14 @@
 #include "state.hpp"
 #include "wrapper.hpp"
 
-#include <oglplus/glx/context.hpp>
-#include <oglplus/glx/fb_configs.hpp>
-#include <oglplus/glx/pixmap.hpp>
-#include <oglplus/glx/version.hpp>
-#include <oglplus/x11/color_map.hpp>
-#include <oglplus/x11/display.hpp>
-#include <oglplus/x11/visual_info.hpp>
-#include <oglplus/x11/window.hpp>
+#include <eagine/interop/glx/context.hpp>
+#include <eagine/interop/glx/fb_configs.hpp>
+#include <eagine/interop/glx/pixmap.hpp>
+#include <eagine/interop/glx/version.hpp>
+#include <eagine/interop/x11/color_map.hpp>
+#include <eagine/interop/x11/display.hpp>
+#include <eagine/interop/x11/visual_info.hpp>
+#include <eagine/interop/x11/window.hpp>
 
 #include <eagine/program_args.hpp>
 #include <eagine/scope_exit.hpp>
@@ -50,8 +50,7 @@ public:
 #if OGLPLUS_GLX_FOUND
         x11::Display display;
 
-        glx::Version version(display);
-        version.AssertAtLeast(1, 3);
+        glx::version(display).assert_at_least(1, 3);
 
         static int visual_attribs[] = {
           GLX_X_RENDERABLE,

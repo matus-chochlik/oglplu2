@@ -5,8 +5,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef UTILS_OGLPLUS_X11_COLOR_MAP_1107121519_HPP
-#define UTILS_OGLPLUS_X11_COLOR_MAP_1107121519_HPP
+#ifndef EAGINE_INTEROP_X11_COLOR_MAP_HPP
+#define EAGINE_INTEROP_X11_COLOR_MAP_HPP
 
 #include "display.hpp"
 #include "visual_info.hpp"
@@ -14,9 +14,7 @@
 #include <X11/Xlib.h>
 #include <stdexcept>
 
-namespace eagine {
-namespace oglp {
-namespace x11 {
+namespace eagine::x11 {
 
 class Colormap : public DisplayObject<::Colormap> {
 public:
@@ -32,8 +30,6 @@ public:
           "Error creating X Colormap") {}
 };
 
-} // namespace x11
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::x11
 
-#endif // include guard
+#endif

@@ -9,13 +9,13 @@
 #define UTILS_OGLPLUS_OS_CONTEXT_GLX_1107121519_HPP
 
 #include "os_context_common.hpp"
-#include <oglplus/glx/context.hpp>
-#include <oglplus/glx/fb_configs.hpp>
-#include <oglplus/glx/pbuffer.hpp>
-#include <oglplus/glx/version.hpp>
-#include <oglplus/x11/color_map.hpp>
-#include <oglplus/x11/display.hpp>
-#include <oglplus/x11/visual_info.hpp>
+#include <eagine/interop/glx/context.hpp>
+#include <eagine/interop/glx/fb_configs.hpp>
+#include <eagine/interop/glx/pbuffer.hpp>
+#include <eagine/interop/glx/version.hpp>
+#include <eagine/interop/x11/color_map.hpp>
+#include <eagine/interop/x11/display.hpp>
+#include <eagine/interop/x11/visual_info.hpp>
 
 namespace eagine {
 namespace oglp {

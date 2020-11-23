@@ -5,8 +5,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef UTILS_OGLPLUS_X11_VISUAL_INFO_1107121519_HPP
-#define UTILS_OGLPLUS_X11_VISUAL_INFO_1107121519_HPP
+#ifndef EAGINE_INTEROP_X11_VISUAL_INFO_HPP
+#define EAGINE_INTEROP_X11_VISUAL_INFO_HPP
 
 #include "../glx/fb_config.hpp"
 #include "display.hpp"
@@ -14,13 +14,11 @@
 #include <X11/Xlib.h>
 #include <stdexcept>
 
-namespace eagine {
-namespace oglp {
-namespace x11 {
+namespace eagine::x11 {
 
 class VisualInfo : public Object<::XVisualInfo, int(void*)> {
 private:
-    static ::XVisualInfo* _from_id(const Display& display, int id) {
+    static auto _from_id(const Display& display, int id) -> ::XVisualInfo* {
         ::XVisualInfo tpl;
         tpl.visualid = VisualID(id);
         int num_vis = 0;
@@ -42,8 +40,6 @@ public:
           "Error Getting X VisualInfo from visual ID") {}
 };
 
-} // namespace x11
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::x11
 
-#endif // include guard
+#endif

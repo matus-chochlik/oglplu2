@@ -5,30 +5,28 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef UTILS_OGLPLUS_GLX_FB_CONFIGS_1107121519_HPP
-#define UTILS_OGLPLUS_GLX_FB_CONFIGS_1107121519_HPP
+#ifndef EAGINE_INTEROP_GLX_FB_CONFIGS_HPP
+#define EAGINE_INTEROP_GLX_FB_CONFIGS_HPP
 
 #include "../x11/display.hpp"
 #include "../x11/visual_info.hpp"
 #include "fb_config.hpp"
+#include <eagine/assert.hpp>
 
 #include <GL/glx.h>
-#include <cassert>
 #include <stdexcept>
+#include <utility>
 
-namespace eagine {
-namespace oglp {
-namespace glx {
+namespace eagine::glx {
 
 class FBConfigs {
 private:
-    int _count;
-    GLXFBConfig* _handle;
+    int _count{0};
+    GLXFBConfig* _handle{nullptr};
 
 public:
     FBConfigs(const x11::Display& display, const int* visual_attribs)
-      : _count(0)
-      , _handle(::glXChooseFBConfig(
+      : _handle(::glXChooseFBConfig(
           display,
           DefaultScreen(display.Get()),
           visual_attribs,
@@ -39,23 +37,23 @@ public:
         }
     }
 
-    FBConfigs(const FBConfigs&) = delete;
+    FBConfigs(FBConfigs&& temp) noexcept
+      : _count(std::exchange(temp._count, 0))
+      , _handle(std::exchange(temp._handle, nullptr)) {}
 
-    FBConfigs(FBConfigs&& temp)
-      : _count(temp._count)
-      , _handle(temp._handle) {
-        temp._count = 0;
-        temp._handle = nullptr;
-    }
+    FBConfigs(const FBConfigs&) = delete;
+    auto operator=(FBConfigs&&) = delete;
+    auto operator=(const FBConfigs&) = delete;
 
     ~FBConfigs() {
-        if(_handle)
+        if(_handle) {
             ::XFree(_handle);
+        }
     }
 
-    FBConfig FindBest(const x11::Display& display) const {
+    auto FindBest(const x11::Display& display) const -> FBConfig {
         int best = -1, best_num = -1;
-        assert(_count > 0);
+        EAGINE_ASSERT(_count > 0);
         for(int i = 0; i != _count; ++i) {
             int sample_buf, samples;
 
@@ -67,14 +65,12 @@ public:
                 best_num = samples;
             }
         }
-        assert(best >= 0);
-        assert(best < _count);
+        EAGINE_ASSERT(best >= 0);
+        EAGINE_ASSERT(best < _count);
         return FBConfig(_handle[best]);
     }
 };
 
-} // namespace glx
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::glx
 
-#endif // include guard
+#endif

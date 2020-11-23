@@ -5,8 +5,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef UTILS_OGLPLUS_X11_WINDOW_1107121519_HPP
-#define UTILS_OGLPLUS_X11_WINDOW_1107121519_HPP
+#ifndef EAGINE_INTEROP_X11_WINDOW_HPP
+#define EAGINE_INTEROP_X11_WINDOW_HPP
 
 #include "color_map.hpp"
 #include "display.hpp"
@@ -16,26 +16,25 @@
 #include <cassert>
 #include <stdexcept>
 
-namespace eagine {
-namespace oglp {
-namespace x11 {
+namespace eagine::x11 {
 
 class Window : public DisplayObject<::Window> {
 private:
-    static ::Window make_window(
+    static auto make_window(
       const Display& display,
       const VisualInfo& vi,
       const Colormap& cmap,
       int pos_x,
       int pos_y,
       unsigned width,
-      unsigned height) {
+      unsigned height) -> ::Window {
         ::XSetWindowAttributes swa;
         swa.colormap = cmap.Handle();
         swa.background_pixmap = None;
         swa.border_pixel = 0;
+        // NOLINTNEXTLINE(hicpp-signed-bitwise)
         swa.event_mask = StructureNotifyMask;
-        //
+
         return ::XCreateWindow(
           display,
           RootWindow(display.Get(), vi->screen),
@@ -47,6 +46,7 @@ private:
           vi->depth,
           InputOutput,
           vi->visual,
+          // NOLINTNEXTLINE(hicpp-signed-bitwise)
           CWBorderPixel | CWColormap | CWEventMask,
           &swa);
     }
@@ -69,6 +69,7 @@ public:
         ::XSizeHints size_hints;
         size_hints.width = int(width);
         size_hints.height = int(height);
+        // NOLINTNEXTLINE(hicpp-signed-bitwise)
         size_hints.flags = USSize;
         ::XSetNormalHints(display, this->Handle(), &size_hints);
 
@@ -84,8 +85,6 @@ public:
     }
 };
 
-} // namespace x11
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::x11
 
-#endif // include guard
+#endif

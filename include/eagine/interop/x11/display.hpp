@@ -5,67 +5,69 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef UTILS_OGLPLUS_X11_DISPLAY_1107121519_HPP
-#define UTILS_OGLPLUS_X11_DISPLAY_1107121519_HPP
+#ifndef EAGINE_INTEROP_X11_DISPLAY_HPP
+#define EAGINE_INTEROP_X11_DISPLAY_HPP
 
+#include <eagine/array_size.hpp>
+#include <eagine/assert.hpp>
 #include <X11/Xlib.h>
 #include <cassert>
 #include <cstdio>
 #include <stdexcept>
 #include <string>
+#include <utility>
 #include <vector>
 
-namespace eagine {
-namespace oglp {
-namespace x11 {
+namespace eagine::x11 {
 
 template <typename ObjectType, typename Deleter = int(ObjectType*)>
 class Object {
 private:
-    ObjectType* _pimpl;
-
-    Deleter* _deleter;
+    ObjectType* _pimpl{nullptr};
+    Deleter* _deleter{nullptr};
 
 protected:
     Object(ObjectType* pimpl, Deleter* deleter, const char* error_message)
       : _pimpl(pimpl)
       , _deleter(deleter) {
-        assert(_deleter);
+        EAGINE_ASSERT(_deleter);
         if(!_pimpl) {
             throw std::runtime_error(error_message);
         }
     }
 
 public:
+    Object(Object&& temp) noexcept
+      : _pimpl(std::exchange(temp._pimpl, nullptr))
+      , _deleter(std::exchange(temp._deleter, nullptr)) {}
+
     Object(const Object&) = delete;
-    Object(Object&& temp)
-      : _pimpl(temp._pimpl)
-      , _deleter(temp._deleter) {
-        temp._pimpl = nullptr;
-    }
+    auto operator=(Object&&) = delete;
+    auto operator=(const Object&) = delete;
 
     ~Object() {
-        if(_pimpl)
+        if(_pimpl) {
             _deleter(_pimpl);
+        }
     }
 
-    ObjectType* Get() const {
-        assert(_pimpl);
+    auto Get() const noexcept -> ObjectType* {
+        EAGINE_ASSERT(_pimpl);
         return _pimpl;
     }
 
-    operator ObjectType*() const {
+    operator ObjectType*() const noexcept {
         return Get();
     }
 
-    ObjectType* operator->() const {
+    auto operator->() const noexcept -> ObjectType* {
         return Get();
     }
 };
 
 class Display : public Object<::Display> {
 private:
-    static Bool _any_event(::Display*, ::XEvent*, ::XPointer) {
+    static auto _any_event(::Display*, ::XEvent*, ::XPointer) -> Bool {
         return True;
     }
 
@@ -76,7 +78,7 @@ public:
           ::XCloseDisplay,
           "Error opening X Display") {}
 
-    bool NextEvent(XEvent& event) const {
+    auto NextEvent(XEvent& event) const -> bool {
         return ::XCheckIfEvent(
                  this->Get(), &event, &_any_event, ::XPointer()) == True;
     }
@@ -85,25 +87,27 @@ public:
 class ScreenNames : public std::vector<std::string> {
 public:
     ScreenNames() {
-        char name[16];
+        char namebuf[16];
+        auto name = static_cast<char*>(namebuf);
         int display = 0;
         while(true) {
             int screen = 0;
             while(true) {
-                std::snprintf(
+                std::snprintf( // NOLINT(hicpp-vararg)
                   name,
-                  sizeof(name) / sizeof(name[0]),
+                  array_size(namebuf),
                   ":%d.%d",
                   display,
                   screen);
-                ::Display* tmp = ::XOpenDisplay(name);
-                if(tmp) {
+
+                if(auto tmp{::XOpenDisplay(name)}) {
                     push_back(name);
                     ::XCloseDisplay(tmp);
-                } else if(screen != 0)
+                } else if(screen != 0) {
                     break;
-                else
+                } else {
                     return;
+                }
                 ++screen;
             }
             ++display;
@@ -117,10 +121,10 @@ private:
     const Display& _display;
     HandleType _handle;
 
-    Deleter* _deleter;
+    Deleter* _deleter{nullptr};
 
 protected:
-    const Display& DisplayRef() const {
+    auto DisplayRef() const -> auto& {
         return _display;
     }
 
@@ -132,21 +136,21 @@ protected:
       : _display(display)
       , _handle(handle)
       , _deleter(deleter) {
-        assert(_deleter);
+        EAGINE_ASSERT(_deleter);
         if(!_handle) {
             throw std::runtime_error(error_message);
         }
     }
 
 public:
-    DisplayObject(const DisplayObject&) = delete;
-
-    DisplayObject(DisplayObject&& temp)
+    DisplayObject(DisplayObject&& temp) noexcept
       : _display(temp._display)
-      , _handle(temp._handle)
-      , _deleter(temp._deleter) {
-        temp._handle = 0;
-    }
+      , _handle(std::exchange(temp._handle, 0))
+      , _deleter(std::exchange(temp._deleter, nullptr)) {}
+
+    DisplayObject(const DisplayObject&) = delete;
+    auto operator=(DisplayObject&&) = delete;
+    auto operator=(const DisplayObject&) = delete;
 
     ~DisplayObject() {
         if(_handle) {
@@ -154,7 +158,7 @@ public:
         }
     }
 
-    HandleType Handle() const {
+    auto Handle() const -> HandleType {
         return _handle;
     }
 
@@ -173,7 +177,7 @@ public:
     BaseDisplayObject(const DisplayObject<Derived, Deleter>& derived)
       : _handle(derived.Handle()) {}
 
-    HandleType Handle() const {
+    auto Handle() const -> HandleType {
         return _handle;
     }
 
@@ -182,8 +186,6 @@ public:
     }
 };
 
-} // namespace x11
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::x11
 
-#endif // include guard
+#endif

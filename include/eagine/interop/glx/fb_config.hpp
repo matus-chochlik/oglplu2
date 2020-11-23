@@ -5,15 +5,13 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef UTILS_OGLPLUS_GLX_FB_CONFIG_1107121519_HPP
-#define UTILS_OGLPLUS_GLX_FB_CONFIG_1107121519_HPP
+#ifndef EAGINE_INTEROP_GLX_FB_CONFIG_HPP
+#define EAGINE_INTEROP_GLX_FB_CONFIG_HPP
 
 #include <GL/glx.h>
 #include <stdexcept>
 
-namespace eagine {
-namespace oglp {
-namespace glx {
+namespace eagine::glx {
 
 class FBConfigs;
 
@@ -27,7 +25,7 @@ private:
     friend class FBConfigs;
 
 public:
-    ::GLXFBConfig Handle() const {
+    auto Handle() const -> ::GLXFBConfig {
         return _handle;
     }
 
@@ -36,8 +34,6 @@ public:
     }
 };
 
-} // namespace glx
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::glx
 
-#endif // include guard
+#endif

@@ -5,8 +5,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef UTILS_OGLPLUS_GLX_PIXMAP_1107121519_HPP
-#define UTILS_OGLPLUS_GLX_PIXMAP_1107121519_HPP
+#ifndef EAGINE_INTEROP_GLX_PIXMAP_HPP
+#define EAGINE_INTEROP_GLX_PIXMAP_HPP
 
 #include "../x11/display.hpp"
 #include "../x11/pixmap.hpp"
@@ -15,9 +15,7 @@
 #include <GL/glx.h>
 #include <stdexcept>
 
-namespace eagine {
-namespace oglp {
-namespace glx {
+namespace eagine::glx {
 
 class Pixmap
   : public x11::DisplayObject<::GLXPixmap, void(::Display*, ::GLXPixmap)> {
@@ -33,8 +31,6 @@ public:
           "Error creating glX Pixmap") {}
 };
 
-} // namespace glx
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::glx
 
-#endif // include guard
+#endif

@@ -5,22 +5,18 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef UTILS_OGLPLUS_GLX_DRAWABLE_1107121519_HPP
-#define UTILS_OGLPLUS_GLX_DRAWABLE_1107121519_HPP
+#ifndef EAGINE_INTEROP_GLX_DRAWABLE_HPP
+#define EAGINE_INTEROP_GLX_DRAWABLE_HPP
 
 #include "../x11/display.hpp"
 
 #include <GL/glx.h>
 #include <stdexcept>
 
-namespace eagine {
-namespace oglp {
-namespace glx {
+namespace eagine::glx {
 
 using Drawable = x11::BaseDisplayObject<::GLXDrawable>;
 
-} // namespace glx
-} // namespace oglp
-} // namespace eagine
+} // namespace eagine::glx
 
-#endif // include guard
+#endif
