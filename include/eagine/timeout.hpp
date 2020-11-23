@@ -78,6 +78,17 @@ private:
     _clock::duration _duration{};
     _clock::time_point _timeout{};
 };
+//------------------------------------------------------------------------------
+class resetting_timeout : public timeout {
+public:
+    using timeout::timeout;
+
+    explicit operator bool() noexcept {
+        const auto result = is_expired();
+        reset();
+        return result;
+    }
+};
 
 } // namespace eagine
 

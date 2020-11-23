@@ -193,7 +193,6 @@ public:
             if(EAGINE_UNLIKELY(_should_query_pingable)) {
                 log_info("searching for pingables");
                 query_subscribers_of(EAGINE_MSG_ID(eagiPing, ping));
-                _should_query_pingable.reset();
             }
         } else {
             for(auto& [pingable_id, entry] : _targets) {
@@ -268,7 +267,7 @@ public:
     }
 
 private:
-    timeout _should_query_pingable{std::chrono::seconds(2)};
+    resetting_timeout _should_query_pingable{std::chrono::seconds(2)};
     std::map<identifier_t, ping_stats> _targets{};
     std::intmax_t _mod{10000};
     std::intmax_t _max{100000};
@@ -295,7 +294,7 @@ auto main(main_ctx& ctx) -> int {
     msgbus::ping_example the_pinger{bus, ping_count};
     conn_setup.setup_connectors(the_pinger, address);
 
-    timeout do_chart_stats{std::chrono::seconds(15), nothing};
+    resetting_timeout do_chart_stats{std::chrono::seconds(15), nothing};
 
     while(!the_pinger.is_done()) {
         the_pinger.process_all();
@@ -311,7 +310,6 @@ auto main(main_ctx& ctx) -> int {
                       EAGINE_ID(cpuTempC),
                       extract(temp_k).to<units::degree_celsius>());
                 }
-                do_chart_stats.reset();
             }
         }
     }

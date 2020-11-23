@@ -65,7 +65,6 @@ public:
         if(_sent < 1) {
             if(_announce_timeout) {
                 this->announce_subscriptions();
-                _announce_timeout.reset();
                 something_done();
             }
         }
@@ -75,7 +74,7 @@ public:
 private:
     std::intmax_t _mod{10000};
     std::intmax_t _sent{0};
-    timeout _announce_timeout{std::chrono::seconds(5)};
+    resetting_timeout _announce_timeout{std::chrono::seconds(5)};
     bool _done{false};
 };
 //------------------------------------------------------------------------------

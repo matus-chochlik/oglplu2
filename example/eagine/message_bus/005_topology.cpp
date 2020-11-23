@@ -137,11 +137,10 @@ auto main(main_ctx& ctx) -> int {
 
     conn_setup.setup_connectors(topo_prn, address);
     timeout waited_enough{std::chrono::seconds(30)};
-    timeout resend_query{std::chrono::seconds(5), nothing};
+    resetting_timeout resend_query{std::chrono::seconds(5), nothing};
 
     while(!(interrupted || waited_enough)) {
         if(resend_query) {
-            resend_query.reset();
             topo_prn.discover_topology();
         }
         topo_prn.update();
