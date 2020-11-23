@@ -25,7 +25,7 @@ coproc ${OGLPLUS_PREFIX}/bin/eagine-message_bus-bridge \
 	"${log_args[@]}" "${cmn_args[@]}" \
 	&& pids+=(${COPROC_PID})
 
-ssh -T -e none ${ssh_host} .oglplus/ssh-bridge pong_local ${variant} \
+"$(dirname ${0})/ssh-bridge" "${ssh_host}" pong_local ${variant} \
 	<&${COPROC[0]} >&${COPROC[1]}
 
 for pid in ${pids[@]}

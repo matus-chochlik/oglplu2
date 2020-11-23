@@ -39,6 +39,7 @@ install(
 )
 install(
 	PROGRAMS
+		"${CMAKE_CURRENT_SOURCE_DIR}/config/home/bin/ssh-bridge"
 		"${CMAKE_CURRENT_SOURCE_DIR}/config/home/bin/echo_args"
 		"${CMAKE_CURRENT_SOURCE_DIR}/config/home/bin/ping_local"
 		"${CMAKE_CURRENT_SOURCE_DIR}/config/home/bin/ping_registry"
