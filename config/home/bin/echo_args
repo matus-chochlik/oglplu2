@@ -4,7 +4,8 @@
 #  See accompanying file LICENSE_1_0.txt or copy at
 #   http://www.boost.org/LICENSE_1_0.txt
 #
-let idx=1
-for arg
-do printf "%3d|%s|\n" ${idx} "${arg}" && let idx+=1
-done
+OGLPLUS_PREFIX="$(<$(dirname ${0})/../INSTALL_PREFIX)"
+ssh_host=${1:-oglplus-msgbus}
+shift
+ssh -T -e none ${ssh_host} .oglplus/ssh-bridge echo_args "${@}"
+
