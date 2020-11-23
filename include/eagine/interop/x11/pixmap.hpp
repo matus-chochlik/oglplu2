@@ -16,18 +16,18 @@
 
 namespace eagine::x11 {
 
-class Pixmap : public DisplayObject<::Pixmap> {
+class pixmap : public display_object<::Pixmap> {
 public:
-    Pixmap(
-      const Display& display,
-      const VisualInfo& vi,
+    pixmap(
+      const display& dpy,
+      const visual_info& vi,
       unsigned width,
       unsigned height)
-      : DisplayObject<::Pixmap>(
-          display,
+      : display_object<::Pixmap>(
+          dpy,
           ::XCreatePixmap(
-            display,
-            RootWindow(display.Get(), vi->screen),
+            dpy,
+            RootWindow(dpy.get(), vi->screen),
             width,
             height,
             unsigned(vi->depth)),

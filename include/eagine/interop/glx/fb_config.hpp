@@ -13,24 +13,24 @@
 
 namespace eagine::glx {
 
-class FBConfigs;
+class fb_configs;
 
-class FBConfig {
+class fb_config {
 private:
     ::GLXFBConfig _handle;
 
-    FBConfig(::GLXFBConfig handle)
+    fb_config(::GLXFBConfig handle)
       : _handle(handle) {}
 
-    friend class FBConfigs;
+    friend class fb_configs;
 
 public:
-    auto Handle() const -> ::GLXFBConfig {
+    auto handle() const -> ::GLXFBConfig {
         return _handle;
     }
 
     operator ::GLXFBConfig() const {
-        return Handle();
+        return handle();
     }
 };
 

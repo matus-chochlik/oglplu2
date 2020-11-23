@@ -21,8 +21,8 @@ private:
     int _minor{0};
 
 public:
-    version(const x11::Display& display) {
-        if(!::glXQueryVersion(display, &_major, &_minor)) {
+    version(const x11::display& dpy) {
+        if(!::glXQueryVersion(dpy, &_major, &_minor)) {
             throw std::runtime_error("Error querying GLX version");
         }
     }

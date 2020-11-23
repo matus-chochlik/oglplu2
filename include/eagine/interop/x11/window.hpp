@@ -18,26 +18,26 @@
 
 namespace eagine::x11 {
 
-class Window : public DisplayObject<::Window> {
+class window : public display_object<::Window> {
 private:
     static auto make_window(
-      const Display& display,
-      const VisualInfo& vi,
-      const Colormap& cmap,
+      const display& dpy,
+      const visual_info& vi,
+      const colormap& cmap,
       int pos_x,
       int pos_y,
       unsigned width,
       unsigned height) -> ::Window {
         ::XSetWindowAttributes swa;
-        swa.colormap = cmap.Handle();
+        swa.colormap = cmap.handle();
         swa.background_pixmap = None;
         swa.border_pixel = 0;
         // NOLINTNEXTLINE(hicpp-signed-bitwise)
         swa.event_mask = StructureNotifyMask;
 
         return ::XCreateWindow(
-          display,
-          RootWindow(display.Get(), vi->screen),
+          dpy,
+          RootWindow(dpy.get(), vi->screen),
           pos_x,
           pos_y,
           width,
@@ -52,18 +52,18 @@ private:
     }
 
 public:
-    Window(
-      const Display& display,
-      const VisualInfo& vi,
-      const Colormap& cmap,
+    window(
+      const display& dpy,
+      const visual_info& vi,
+      const colormap& cmap,
       const char* title,
       int pos_x,
       int pos_y,
       unsigned width,
       unsigned height)
-      : DisplayObject<::Window>(
-          display,
-          make_window(display, vi, cmap, pos_x, pos_y, width, height),
+      : display_object<::Window>(
+          dpy,
+          make_window(dpy, vi, cmap, pos_x, pos_y, width, height),
           ::XDestroyWindow,
           "Error creating X Window") {
         ::XSizeHints size_hints;
@@ -71,17 +71,17 @@ public:
         size_hints.height = int(height);
         // NOLINTNEXTLINE(hicpp-signed-bitwise)
         size_hints.flags = USSize;
-        ::XSetNormalHints(display, this->Handle(), &size_hints);
+        ::XSetNormalHints(dpy, this->handle(), &size_hints);
 
-        ::Atom wmDelete = ::XInternAtom(display, "WM_DELETE_WINDOW", True);
-        ::XSetWMProtocols(display, this->Handle(), &wmDelete, 1);
+        ::Atom wmDelete = ::XInternAtom(dpy, "WM_DELETE_WINDOW", True);
+        ::XSetWMProtocols(dpy, this->handle(), &wmDelete, 1);
 
-        ::XStoreName(display, this->Handle(), title);
-        ::XMapWindow(display, this->Handle());
+        ::XStoreName(dpy, this->handle(), title);
+        ::XMapWindow(dpy, this->handle());
     }
 
-    void SelectInput(long event_mask) const {
-        ::XSelectInput(this->DisplayRef(), this->Handle(), event_mask);
+    void select_input(long event_mask) const {
+        ::XSelectInput(this->display_ref(), this->handle(), event_mask);
     }
 };
 

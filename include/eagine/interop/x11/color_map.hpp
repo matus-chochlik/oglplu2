@@ -16,14 +16,14 @@
 
 namespace eagine::x11 {
 
-class Colormap : public DisplayObject<::Colormap> {
+class colormap : public display_object<::Colormap> {
 public:
-    Colormap(const Display& display, const VisualInfo& vi)
-      : DisplayObject<::Colormap>(
-          display,
+    colormap(const display& dpy, const visual_info& vi)
+      : display_object<::Colormap>(
+          dpy,
           ::XCreateColormap(
-            display,
-            RootWindow(display.Get(), vi->screen),
+            dpy,
+            RootWindow(dpy.get(), vi->screen),
             vi->visual,
             AllocNone),
           ::XFreeColormap,

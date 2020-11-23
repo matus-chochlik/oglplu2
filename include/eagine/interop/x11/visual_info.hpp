@@ -16,26 +16,26 @@
 
 namespace eagine::x11 {
 
-class VisualInfo : public Object<::XVisualInfo, int(void*)> {
+class visual_info : public object<::XVisualInfo, int(void*)> {
 private:
-    static auto _from_id(const Display& display, int id) -> ::XVisualInfo* {
+    static auto _from_id(const display& dpy, int id) -> ::XVisualInfo* {
         ::XVisualInfo tpl;
         tpl.visualid = VisualID(id);
         int num_vis = 0;
 
-        return ::XGetVisualInfo(display, VisualIDMask, &tpl, &num_vis);
+        return ::XGetVisualInfo(dpy, VisualIDMask, &tpl, &num_vis);
     }
 
 public:
-    VisualInfo(const Display& display, const glx::FBConfig& fbc)
-      : Object<::XVisualInfo, int(void*)>(
-          ::glXGetVisualFromFBConfig(display, fbc),
+    visual_info(const display& dpy, const glx::fb_config& fbc)
+      : object<::XVisualInfo, int(void*)>(
+          ::glXGetVisualFromFBConfig(dpy, fbc),
           ::XFree,
           "Error Getting X VisualInfo from GLX FB config") {}
 
-    VisualInfo(const Display& display, int visual_id)
-      : Object<::XVisualInfo, int(void*)>(
-          _from_id(display, visual_id),
+    visual_info(const display& dpy, int visual_id)
+      : object<::XVisualInfo, int(void*)>(
+          _from_id(dpy, visual_id),
           ::XFree,
           "Error Getting X VisualInfo from visual ID") {}
 };

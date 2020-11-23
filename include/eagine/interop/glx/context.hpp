@@ -19,12 +19,12 @@
 
 namespace eagine::glx {
 
-class Context
-  : public x11::DisplayObject<::GLXContext, void(::Display*, ::GLXContext)> {
+class context
+  : public x11::display_object<::GLXContext, void(::Display*, ::GLXContext)> {
 private:
     static auto make_context(
-      const x11::Display& display,
-      const FBConfig& fbc,
+      const x11::display& dpy,
+      const fb_config& fbc,
       int version_major,
       int version_minor,
       bool debugging,
@@ -61,8 +61,8 @@ private:
                              : CONTEXT_CORE_PROFILE_BIT_ARB),
               None};
             res = glXCreateContextAttribsARB(
-              display,
-              fbc.Handle(),
+              dpy,
+              fbc.handle(),
               share_context,
               True,
               static_cast<const int*>(context_attribs));
@@ -76,28 +76,28 @@ private:
               (debugging ? CONTEXT_DEBUG_BIT_ARB : 0),
               None};
             res = glXCreateContextAttribsARB(
-              display,
-              fbc.Handle(),
+              dpy,
+              fbc.handle(),
               share_context,
               True,
               static_cast<const int*>(context_attribs));
         }
-        ::XSync(display, False);
+        ::XSync(dpy, False);
         return res;
     }
 
 public:
-    Context(
-      const x11::Display& display,
-      const FBConfig& fbc,
+    context(
+      const x11::display& dpy,
+      const fb_config& fbc,
       int version_major,
       int version_minor,
       bool debugging = true,
       bool compatibility = false)
-      : x11::DisplayObject<::GLXContext, void(::Display*, ::GLXContext)>(
-          display,
+      : x11::display_object<::GLXContext, void(::Display*, ::GLXContext)>(
+          dpy,
           make_context(
-            display,
+            dpy,
             fbc,
             version_major,
             version_minor,
@@ -106,37 +106,37 @@ public:
           ::glXDestroyContext,
           "Error creating glX context") {}
 
-    Context(
-      const x11::Display& display,
-      const FBConfig& fbc,
-      const Context& share_context,
+    context(
+      const x11::display& dpy,
+      const fb_config& fbc,
+      const context& share_context,
       int version_major,
       int version_minor,
       bool debugging = true,
       bool compatibility = false)
-      : x11::DisplayObject<::GLXContext, void(::Display*, ::GLXContext)>(
-          display,
+      : x11::display_object<::GLXContext, void(::Display*, ::GLXContext)>(
+          dpy,
           make_context(
-            display,
+            dpy,
             fbc,
             version_major,
             version_minor,
             debugging,
             compatibility,
-            share_context.Handle()),
+            share_context.handle()),
           ::glXDestroyContext,
           "Error creating sharing glX context") {}
 
-    void MakeCurrent(const Drawable& drawable) const {
-        ::glXMakeCurrent(this->DisplayRef(), drawable, this->Handle());
+    void make_current(const drawable& surface) const {
+        ::glXMakeCurrent(this->display_ref(), surface, this->handle());
     }
 
-    static void Release(const x11::Display& display) {
-        ::glXMakeCurrent(display, 0, nullptr);
+    static void release(const x11::display& dpy) {
+        ::glXMakeCurrent(dpy, 0, nullptr);
     }
 
-    void SwapBuffers(const Drawable& drawable) const {
-        ::glXSwapBuffers(this->DisplayRef(), drawable);
+    void swap_buffers(const drawable& surface) const {
+        ::glXSwapBuffers(this->display_ref(), surface);
     }
 };
 

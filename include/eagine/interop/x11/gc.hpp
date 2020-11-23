@@ -16,12 +16,12 @@
 
 namespace eagine::x11 {
 
-class GC : public DisplayObject<::GC> {
+class gc : public display_object<::GC> {
 public:
-    GC(const Display& display, const Pixmap& pixmap)
-      : DisplayObject<::GC>(
-          display,
-          ::XCreateGC(display, pixmap, 0, nullptr),
+    gc(const display& dpy, const pixmap& pmp)
+      : display_object<::GC>(
+          dpy,
+          ::XCreateGC(dpy, pmp, 0, nullptr),
           ::XFreeGC,
           "Error creating X GC (graphics context)") {}
 };

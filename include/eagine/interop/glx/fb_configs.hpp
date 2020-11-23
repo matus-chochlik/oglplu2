@@ -19,16 +19,16 @@
 
 namespace eagine::glx {
 
-class FBConfigs {
+class fb_configs {
 private:
     int _count{0};
     GLXFBConfig* _handle{nullptr};
 
 public:
-    FBConfigs(const x11::Display& display, const int* visual_attribs)
+    fb_configs(const x11::display& dpy, const int* visual_attribs)
       : _handle(::glXChooseFBConfig(
-          display,
-          DefaultScreen(display.Get()),
+          dpy,
+          DefaultScreen(dpy.get()),
           visual_attribs,
           &_count)) {
         if(!_handle || (_count <= 0)) {
@@ -37,29 +37,29 @@ public:
         }
     }
 
-    FBConfigs(FBConfigs&& temp) noexcept
+    fb_configs(fb_configs&& temp) noexcept
       : _count(std::exchange(temp._count, 0))
       , _handle(std::exchange(temp._handle, nullptr)) {}
 
-    FBConfigs(const FBConfigs&) = delete;
-    auto operator=(FBConfigs&&) = delete;
-    auto operator=(const FBConfigs&) = delete;
+    fb_configs(const fb_configs&) = delete;
+    auto operator=(fb_configs&&) = delete;
+    auto operator=(const fb_configs&) = delete;
 
-    ~FBConfigs() {
+    ~fb_configs() {
         if(_handle) {
             ::XFree(_handle);
         }
     }
 
-    auto FindBest(const x11::Display& display) const -> FBConfig {
+    auto find_best(const x11::display& dpy) const -> fb_config {
         int best = -1, best_num = -1;
         EAGINE_ASSERT(_count > 0);
         for(int i = 0; i != _count; ++i) {
             int sample_buf, samples;
 
             ::glXGetFBConfigAttrib(
-              display, _handle[i], GLX_SAMPLE_BUFFERS, &sample_buf);
-            ::glXGetFBConfigAttrib(display, _handle[i], GLX_SAMPLES, &samples);
+              dpy, _handle[i], GLX_SAMPLE_BUFFERS, &sample_buf);
+            ::glXGetFBConfigAttrib(dpy, _handle[i], GLX_SAMPLES, &samples);
             if((best < 0) || (sample_buf && (samples > best_num))) {
                 best = i;
                 best_num = samples;
@@ -67,7 +67,7 @@ public:
         }
         EAGINE_ASSERT(best >= 0);
         EAGINE_ASSERT(best < _count);
-        return FBConfig(_handle[best]);
+        return fb_config(_handle[best]);
     }
 };
 

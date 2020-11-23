@@ -15,7 +15,7 @@
 
 namespace eagine::glx {
 
-using Drawable = x11::BaseDisplayObject<::GLXDrawable>;
+using drawable = x11::base_display_object<::GLXDrawable>;
 
 } // namespace eagine::glx
 

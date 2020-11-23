@@ -16,16 +16,16 @@
 
 namespace eagine::glx {
 
-class Pbuffer
-  : public x11::DisplayObject<::GLXPbuffer, void(::Display*, ::GLXPbuffer)> {
+class pbuffer
+  : public x11::display_object<::GLXPbuffer, void(::Display*, ::GLXPbuffer)> {
 public:
-    Pbuffer(
-      const x11::Display& display,
-      const glx::FBConfig& fbc,
+    pbuffer(
+      const x11::display& dpy,
+      const glx::fb_config& fbc,
       const int* attrib_list)
-      : x11::DisplayObject<::GLXPbuffer, void(::Display*, ::GLXPbuffer)>(
-          display,
-          ::glXCreatePbuffer(display, fbc, attrib_list),
+      : x11::display_object<::GLXPbuffer, void(::Display*, ::GLXPbuffer)>(
+          dpy,
+          ::glXCreatePbuffer(dpy, fbc, attrib_list),
           ::glXDestroyPbuffer,
           "Error creating glX Pbuffer") {}
 };

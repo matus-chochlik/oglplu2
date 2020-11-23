@@ -21,13 +21,13 @@
 namespace eagine::x11 {
 
 template <typename ObjectType, typename Deleter = int(ObjectType*)>
-class Object {
+class object {
 private:
     ObjectType* _pimpl{nullptr};
     Deleter* _deleter{nullptr};
 
 protected:
-    Object(ObjectType* pimpl, Deleter* deleter, const char* error_message)
+    object(ObjectType* pimpl, Deleter* deleter, const char* error_message)
       : _pimpl(pimpl)
       , _deleter(deleter) {
         EAGINE_ASSERT(_deleter);
@@ -37,56 +37,56 @@ protected:
     }
 
 public:
-    Object(Object&& temp) noexcept
+    object(object&& temp) noexcept
       : _pimpl(std::exchange(temp._pimpl, nullptr))
       , _deleter(std::exchange(temp._deleter, nullptr)) {}
 
-    Object(const Object&) = delete;
-    auto operator=(Object&&) = delete;
-    auto operator=(const Object&) = delete;
+    object(const object&) = delete;
+    auto operator=(object&&) = delete;
+    auto operator=(const object&) = delete;
 
-    ~Object() {
+    ~object() {
         if(_pimpl) {
             _deleter(_pimpl);
         }
     }
 
-    auto Get() const noexcept -> ObjectType* {
+    auto get() const noexcept -> ObjectType* {
         EAGINE_ASSERT(_pimpl);
         return _pimpl;
     }
 
     operator ObjectType*() const noexcept {
-        return Get();
+        return get();
     }
 
     auto operator->() const noexcept -> ObjectType* {
-        return Get();
+        return get();
     }
 };
 
-class Display : public Object<::Display> {
+class display : public object<::Display> {
 private:
     static auto _any_event(::Display*, ::XEvent*, ::XPointer) -> Bool {
         return True;
     }
 
 public:
-    Display(const char* name = nullptr)
-      : Object<::Display>(
+    display(const char* name = nullptr)
+      : object<::Display>(
           ::XOpenDisplay(name),
           ::XCloseDisplay,
           "Error opening X Display") {}
 
-    auto NextEvent(XEvent& event) const -> bool {
+    auto next_event(XEvent& event) const -> bool {
         return ::XCheckIfEvent(
-                 this->Get(), &event, &_any_event, ::XPointer()) == True;
+                 this->get(), &event, &_any_event, ::XPointer()) == True;
     }
 };
 
-class ScreenNames : public std::vector<std::string> {
+class screen_names : public std::vector<std::string> {
 public:
-    ScreenNames() {
+    screen_names() {
         char namebuf[16];
         auto name = static_cast<char*>(namebuf);
         int display = 0;
@@ -116,24 +116,24 @@ public:
 };
 
 template <typename HandleType, typename Deleter = int(::Display*, HandleType)>
-class DisplayObject {
+class display_object {
 private:
-    const Display& _display;
+    const display& _display;
     HandleType _handle;
 
     Deleter* _deleter{nullptr};
 
 protected:
-    auto DisplayRef() const -> auto& {
+    auto display_ref() const -> auto& {
         return _display;
     }
 
-    DisplayObject(
-      const Display& display,
+    display_object(
+      const display& dpy,
       HandleType handle,
       Deleter* deleter,
       const char* error_message)
-      : _display(display)
+      : _display(dpy)
       , _handle(handle)
       , _deleter(deleter) {
         EAGINE_ASSERT(_deleter);
@@ -143,46 +143,46 @@ protected:
     }
 
 public:
-    DisplayObject(DisplayObject&& temp) noexcept
+    display_object(display_object&& temp) noexcept
       : _display(temp._display)
       , _handle(std::exchange(temp._handle, 0))
       , _deleter(std::exchange(temp._deleter, nullptr)) {}
 
-    DisplayObject(const DisplayObject&) = delete;
-    auto operator=(DisplayObject&&) = delete;
-    auto operator=(const DisplayObject&) = delete;
+    display_object(const display_object&) = delete;
+    auto operator=(display_object&&) = delete;
+    auto operator=(const display_object&) = delete;
 
-    ~DisplayObject() {
+    ~display_object() {
         if(_handle) {
             _deleter(_display, _handle);
         }
     }
 
-    auto Handle() const -> HandleType {
+    auto handle() const -> HandleType {
         return _handle;
     }
 
     operator HandleType() const {
-        return Handle();
+        return handle();
     }
 };
 
 template <typename HandleType>
-class BaseDisplayObject {
+class base_display_object {
 private:
     HandleType _handle;
 
 public:
     template <typename Derived, typename Deleter>
-    BaseDisplayObject(const DisplayObject<Derived, Deleter>& derived)
-      : _handle(derived.Handle()) {}
+    base_display_object(const display_object<Derived, Deleter>& derived)
+      : _handle(derived.handle()) {}
 
-    auto Handle() const -> HandleType {
+    auto handle() const -> HandleType {
         return _handle;
     }
 
     operator HandleType() const {
-        return Handle();
+        return handle();
     }
 };
 
