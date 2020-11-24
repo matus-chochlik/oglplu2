@@ -3,18 +3,15 @@
 #  See accompanying file LICENSE_1_0.txt or copy at
 #   http://www.boost.org/LICENSE_1_0.txt
 #
-install(
-	PROGRAMS tools/embed_generator
-	RENAME eagine-embed_generator
-	DESTINATION bin
-)
 
+# generate the cmake config script to be installed
 include(CMakePackageConfigHelpers)
 
 set(INCLUDE_INSTALL_DIR include/)
 set(LIBRARY_INSTALL_DIR lib/)
 set(EXECUTABLE_INSTALL_DIR bin/)
 set(SYSCONFIG_INSTALL_DIR etc/oglplus/)
+set(USRCONFIG_INSTALL_DIR share/oglplus/user)
 
 configure_package_config_file(
 	"${CMAKE_CURRENT_SOURCE_DIR}/OGLplusConfig.cmake.in"
@@ -25,6 +22,7 @@ configure_package_config_file(
 		LIBRARY_INSTALL_DIR
 		EXECUTABLE_INSTALL_DIR
 		SYSCONFIG_INSTALL_DIR
+		USRCONFIG_INSTALL_DIR
 )
 write_basic_package_version_file(
 	"${CMAKE_CURRENT_BINARY_DIR}/OGLplusConfigVersion.cmake"
@@ -32,16 +30,17 @@ write_basic_package_version_file(
 	COMPATIBILITY SameMinorVersion
 )
 
+# install the cmake config scripts
 install(
 	FILES
-		"${CMAKE_CURRENT_SOURCE_DIR}/CommonLibs.cmake"
-		"${CMAKE_CURRENT_SOURCE_DIR}/FindThreads.cmake"
-		"${CMAKE_CURRENT_SOURCE_DIR}/FindStacktrace.cmake"
-		"${CMAKE_CURRENT_SOURCE_DIR}/FindBoostSpirit.cmake"
-		"${CMAKE_CURRENT_SOURCE_DIR}/FindSSL.cmake"
-		"${CMAKE_CURRENT_SOURCE_DIR}/FindZLIB.cmake"
-		"${CMAKE_CURRENT_SOURCE_DIR}/EmbedCommon.cmake"
-		"${CMAKE_CURRENT_SOURCE_DIR}/Baking.cmake"
+		"CommonLibs.cmake"
+		"FindThreads.cmake"
+		"FindStacktrace.cmake"
+		"FindBoostSpirit.cmake"
+		"FindSSL.cmake"
+		"FindZLIB.cmake"
+		"EmbedCommon.cmake"
+		"Baking.cmake"
 	DESTINATION lib/cmake/OGLplus
 )
 
@@ -51,3 +50,56 @@ install(
 		"${CMAKE_CURRENT_BINARY_DIR}/OGLplusConfigVersion.cmake"
 	DESTINATION lib/cmake
 )
+
+# install the embed generator tool
+install(
+	PROGRAMS tools/embed_generator
+	RENAME eagine-embed_generator
+	DESTINATION bin
+)
+
+
+# install the user user home config directory
+install(
+	PROGRAMS "user/ssh-bridge"
+	DESTINATION share/oglplus/user/.oglplus
+)
+
+install(
+	PROGRAMS
+		"user/ssh-bridge-cmd/kill_eagine"
+		"user/ssh-bridge-cmd/show_prefix"
+		"user/ssh-bridge-cmd/echo_args"
+		"user/ssh-bridge-cmd/pong_local"
+		"user/ssh-bridge-cmd/pong_registry"
+	DESTINATION share/oglplus/user/.oglplus/ssh-bridge-cmd
+)
+
+add_executable(echo_input "user/src/echo_input.c")
+install(
+	TARGETS
+		echo_input
+	DESTINATION share/oglplus/user/.oglplus/ssh-bridge-cmd
+)
+
+install(
+	PROGRAMS
+		"${CMAKE_CURRENT_SOURCE_DIR}/user/bin/ssh-bridge"
+		"${CMAKE_CURRENT_SOURCE_DIR}/user/bin/echo_args"
+		"${CMAKE_CURRENT_SOURCE_DIR}/user/bin/echo_input"
+		"${CMAKE_CURRENT_SOURCE_DIR}/user/bin/show_prefix"
+		"${CMAKE_CURRENT_SOURCE_DIR}/user/bin/ping_local"
+		"${CMAKE_CURRENT_SOURCE_DIR}/user/bin/ping_registry"
+	DESTINATION share/oglplus/user/.oglplus/bin
+)
+install(
+	PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/user/update-me.sh"
+	DESTINATION share/oglplus/user
+)
+install(
+	FILES
+		"${CMAKE_CURRENT_SOURCE_DIR}/user/config/eagine-application_config.yaml"
+		"${CMAKE_CURRENT_SOURCE_DIR}/user/config/_template.yaml"
+	DESTINATION share/oglplus/user/.oglplus/config
+)
+

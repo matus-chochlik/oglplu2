@@ -94,8 +94,6 @@ include(config/GitInfo.cmake)
 
 # re-create the site-configuration header
 include(config/SiteConfig.cmake)
-# installation
-include(config/Installation.cmake)
 
 # third party libraries
 add_subdirectory("third_party")
@@ -117,4 +115,20 @@ if(NOT ${NO_TESTS})
 endif()
 
 add_subdirectory("config")
+
+# install the headers
+install(
+	DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/
+	DESTINATION include
+)
+# install the implementation inline files
+install(
+	DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/implement/
+	DESTINATION include
+)
+# install the generated headers
+install(
+	DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include/
+	DESTINATION include
+)
 
