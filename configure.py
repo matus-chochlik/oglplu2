@@ -513,6 +513,16 @@ def get_argument_parser():
         """
     )
     argparser.add_argument(
+        "--update-me",
+        default=False,
+        action="store_true",
+        help="""
+            After successful installation calls the update-me script, that
+            copies OGLplus user configuration files and scripts into the user's
+            home directory.
+        """
+    )
+    argparser.add_argument(
         "--no-tests",
         default=False,
         action="store_true",
@@ -898,11 +908,27 @@ def main(argv):
 
 
         if build_cmd_line:
-            try: subprocess.call(
-                build_cmd_line,
-                cwd=options.build_dir,
-                env=cmake_env
-            )
+            try:
+                subprocess.call(
+                    build_cmd_line,
+                    cwd=options.build_dir,
+                    env=cmake_env
+                )
+                if options.update_me:
+                    if not options.install_prefix:
+                        options.install_prefix =\
+                            cmake_info.get("CMAKE_INSTALL_PREFIX")
+                    update_me_cmd_line = [
+                        os.path.join(
+                            options.install_prefix,
+                            "share",
+                            "oglplus",
+                            "user",
+                            "update-me"
+                        )
+                    ]
+                    subprocess.call(update_me_cmd_line)
+
             except OSError as os_error:
                 print( "# Build failed")
                 print("# Failed to execute '%(cmd)s': %(error)s" % {

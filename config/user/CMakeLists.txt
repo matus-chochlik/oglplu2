@@ -38,12 +38,13 @@ install(
 )
 
 install(
-	PROGRAMS "update-me.sh"
+	PROGRAMS "update-me"
 	DESTINATION share/oglplus/user
 )
 
 install(
 	FILES
+		"config/service.yaml"
 		"config/eagine-application_config.yaml"
 		"config/_template.yaml"
 	DESTINATION share/oglplus/user/.oglplus/config
