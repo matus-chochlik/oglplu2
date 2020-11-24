@@ -156,7 +156,7 @@ private:
     const std::chrono::seconds _pending_timeout{30};
     timeout _no_connection_timeout{std::chrono::seconds{30}};
     identifier_t _id_base{0};
-    identifier_t _id_sequence{0};
+    identifier_t _id_end{0};
     std::chrono::steady_clock::time_point _forwarded_since{
       std::chrono::steady_clock::now()};
     std::intmax_t _forwarded_messages{0};

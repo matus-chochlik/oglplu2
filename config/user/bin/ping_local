@@ -13,7 +13,7 @@ cmn_args=("--msg-bus-asio-local-stream" "--msg-bus-router-address" "/tmp/oglp-pi
 pids=()
 ${OGLPLUS_PREFIX}/bin/eagine-message_bus-router \
 	"${log_args[@]}" "${cmn_args[@]}" \
-	--msg-bus-router-id-base 1000 \
+	--msg-bus-router-id-minor 8192 \
 	& pids+=($!)
 sleep 1
 ${OGLPLUS_PREFIX}/share/oglplus/examples/eagine-${variant}_ping \

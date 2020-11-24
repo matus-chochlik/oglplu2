@@ -21,7 +21,8 @@ ${install_prefix}/bin/eagine-message_bus-router \
 	"${log_args[@]}" \
 	${conn_type} \
 	--msg-bus-router-address ${ping_addr} \
-	--msg-bus-router-id-base 1000 \
+	--msg-bus-router-id-major 1000 \
+	--msg-bus-router-id-count 1000 \
 	& pids+=($!)
 sleep 1
 ${install_prefix}/share/oglplus/examples/eagine-007_ping \
@@ -36,7 +37,8 @@ ${install_prefix}/share/oglplus/examples/eagine-${variant}_pong_registry \
 	${conn_type} \
 	--msg-bus-router-address ${ping_addr} \
 	--ponger-count ${3:-4} \
-	--msg-bus-router-id-base 2000 \
+	--msg-bus-router-id-major 2000 \
+	--msg-bus-router-id-count 1000 \
 	& pids+=($!)
 
 for pid in ${pids[@]}

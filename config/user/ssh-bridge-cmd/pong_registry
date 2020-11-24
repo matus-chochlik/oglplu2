@@ -12,7 +12,7 @@ cmn_args=("--msg-bus-asio-local-stream" "--msg-bus-router-address" "/tmp/oglp-po
 pids=()
 ${OGLPLUS_PREFIX}/bin/eagine-message_bus-router \
 	"${log_args[@]}" "${cmn_args[@]}" \
-	--msg-bus-router-id-base 2000 \
+	--msg-bus-router-id-minor 16384 \
 	& pids+=($!)
 sleep 1
 ${OGLPLUS_PREFIX}/bin/eagine-message_bus-bridge \
@@ -21,7 +21,7 @@ ${OGLPLUS_PREFIX}/bin/eagine-message_bus-bridge \
 sleep 1
 ${OGLPLUS_PREFIX}/share/oglplus/examples/eagine-007_pong_registry \
 	"${log_args[@]}" "${cmn_args[@]}" \
-	--msg-bus-router-id-base 3000 \
+	--msg-bus-router-id-minor 32768 \
 	& pids+=($!)
 
 for pid in ${pids[@]}

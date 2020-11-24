@@ -3,4 +3,3 @@ msg_bus:
     asio_local_stream: true
     router:
         address: /tmp/eagine-msgbus-service.socket
-        id_base: 1000

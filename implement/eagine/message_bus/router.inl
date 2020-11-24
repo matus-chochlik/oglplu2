@@ -7,6 +7,7 @@
 #include <eagine/application_config.hpp>
 #include <eagine/bool_aggregate.hpp>
 #include <eagine/branch_predict.hpp>
+#include <eagine/main_ctx.hpp>
 #include <eagine/message_bus/context.hpp>
 #include <eagine/message_bus/serialize.hpp>
 #include <thread>
@@ -186,11 +187,26 @@ auto router::add_connection(std::unique_ptr<connection> a_connection) -> bool {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void router::_setup_from_config() {
-    if(app_config().fetch("msg_bus.router.id_base", _id_base)) {
-        _id_sequence = _id_base;
-        log_debug("parsed router id base ${base}")
-          .arg(EAGINE_ID(base), _id_base);
-    }
+
+    const auto id_count = extract_or(
+      app_config().get<system_info::host_id_type>("msg_bus.router.id_count"),
+      1U << 12U);
+
+    const auto host_id =
+      identifier_t(extract_or(main_context().system().host_id(), 0U));
+
+    _id_base =
+      extract_or(
+        app_config().get<identifier_t>("msg_bus.router.id_major"),
+        host_id << 32U) +
+      extract_or(app_config().get<identifier_t>("msg_bus.router.id_minor"), 0U);
+
+    _id_end = _id_base + id_count;
+
+    log_info("using router id range ${base} - ${end} (${count})")
+      .arg(EAGINE_ID(count), id_count)
+      .arg(EAGINE_ID(base), _id_base)
+      .arg(EAGINE_ID(end), _id_end);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -331,18 +347,19 @@ EAGINE_LIB_FUNC
 void router::_assign_id(std::unique_ptr<connection>& conn) {
     EAGINE_ASSERT(conn);
     // find a currently unused endpoint id value
-    ++_id_sequence;
-    while(!_id_sequence ||
-          (_endpoints.find(_id_sequence) != _endpoints.end())) {
-        ++_id_sequence;
+    identifier_t id_sequence = _id_base + 1;
+    while(_endpoints.find(id_sequence) != _endpoints.end()) {
+        if(++id_sequence >= _id_end) {
+            return;
+        }
     }
     //
     log_debug("assigning id ${id} to accepted ${type} connection")
       .arg(EAGINE_ID(type), conn->type_id())
-      .arg(EAGINE_ID(id), _id_sequence);
+      .arg(EAGINE_ID(id), id_sequence);
     // send the special message assigning the endpoint id
     message_view msg{};
-    msg.set_target_id(_id_sequence);
+    msg.set_target_id(id_sequence);
     conn->send(EAGINE_MSGBUS_ID(assignId), msg);
 }
 //------------------------------------------------------------------------------
