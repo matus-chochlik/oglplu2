@@ -38,7 +38,7 @@ auto main(main_ctx& ctx) -> int {
     int idle_streak{0};
     int max_idle_streak{0};
 
-    while(EAGINE_LIKELY(!(interrupted || router.is_done()))) {
+    auto step = [&]() {
         if(EAGINE_LIKELY(router.update(8))) {
             ++cycles_work;
             idle_streak = 0;
@@ -47,6 +47,16 @@ auto main(main_ctx& ctx) -> int {
             max_idle_streak = math::maximum(max_idle_streak, ++idle_streak);
             std::this_thread::sleep_for(
               std::chrono::milliseconds(math::minimum(idle_streak / 8, 8)));
+        }
+    };
+
+    if(ctx.config().is_set("msg_bus.keep_running")) {
+        while(EAGINE_LIKELY(!interrupted)) {
+            step();
+        }
+    } else {
+        while(EAGINE_LIKELY(!(interrupted || router.is_done()))) {
+            step();
         }
     }
 
