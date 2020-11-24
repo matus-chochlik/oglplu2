@@ -19,6 +19,7 @@
 #include "valid_if/not_empty.hpp"
 #include "valid_if/positive.hpp"
 #include <chrono>
+#include <cstdint>
 #include <memory>
 #include <string>
 #include <thread>
@@ -33,6 +34,10 @@ public:
       : main_ctx_object{EAGINE_ID(SystemInfo), parent} {}
 
     auto preinitialize() noexcept -> system_info&;
+
+    using host_id_type = std::uint32_t;
+
+    auto host_id() noexcept -> valid_if_positive<host_id_type>;
 
     auto hostname() noexcept -> valid_if_not_empty<std::string>;
 

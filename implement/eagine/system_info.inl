@@ -208,6 +208,14 @@ auto system_info::preinitialize() noexcept -> system_info& {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto system_info::host_id() noexcept -> valid_if_positive<host_id_type> {
+#if EAGINE_POSIX
+    return {static_cast<host_id_type>(::gethostid())};
+#endif
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto system_info::hostname() noexcept -> valid_if_not_empty<std::string> {
 #if EAGINE_POSIX
     try {
