@@ -3,12 +3,25 @@ Description=OGLplus / EAGine message bus router service
 ConditionPathExists=%h/.oglplus/systemd/environment
 
 [Service]
+KeyringMode=private
+NoNewPrivileges=true
+PrivateDevices=false
+PrivateNetwork=false
+PrivateTmp=true
+ProtectClock=true
+ProtectControlGroups=true
+ProtectHome=read-only
+ProtectHostname=true
+ProtectKernelTunables=true
+ProtectSystem=full
+RemoveIPC=true
+UMask=077
 EnvironmentFile=%h/.oglplus/systemd/environment
 Type=simple
 WorkingDirectory=%h
 ExecStart=%h/.oglplus/execute eagine-message_bus-router $OGLPLUS_SERVICE_ARGS
 Restart=always
-RestartSec=3
+RestartSec=5
 
 [Install]
 WantedBy=default.target
