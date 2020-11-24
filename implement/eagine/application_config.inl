@@ -25,22 +25,19 @@ public:
     auto find_compound_attribute(string_view key) noexcept
       -> valtree::compound_attribute {
         try {
-            if(auto found{_find_in(
-                 _user_config_path(
-                   to_string(main_context().app_name()) + ".yaml"),
-                 key)}) {
+            if(auto found{_find_config_of(main_context().app_name(), key)}) {
                 return found;
             }
-            if(auto found{_find_in(
-                 _user_config_path(
-                   to_string(main_context().app_name()) + ".json"),
-                 key)}) {
-                return found;
+            for(auto arg : main_context().args()) {
+                if(arg.is_tag("--config-group")) {
+                    if(arg.next()) {
+                        if(auto found{_find_config_of(arg.next().get(), key)}) {
+                            return found;
+                        }
+                    }
+                }
             }
-            if(auto found{_find_in(_user_config_path("defaults.yaml"), key)}) {
-                return found;
-            }
-            if(auto found{_find_in(_user_config_path("defaults.json"), key)}) {
+            if(auto found{_find_config_of("defaults", key)}) {
                 return found;
             }
         } catch(...) {
@@ -51,6 +48,25 @@ public:
     }
 
 private:
+    auto _cat(string_view l, string_view r) noexcept -> std::string {
+        std::string result;
+        result.reserve(std_size(l.size() + r.size() + 1));
+        result.append(l.data(), std_size(l.size()));
+        result.append(r.data(), std_size(r.size()));
+        return result;
+    }
+
+    auto _find_config_of(string_view group, string_view key) noexcept
+      -> valtree::compound_attribute {
+        if(auto found{_find_in(_user_config_path(_cat(group, ".yaml")), key)}) {
+            return found;
+        }
+        if(auto found{_find_in(_user_config_path(_cat(group, ".json")), key)}) {
+            return found;
+        }
+        return {};
+    }
+
     auto _find_in(
       const valid_if_not_empty<std::filesystem::path>& cfg_path,
       string_view key) -> valtree::compound_attribute {
