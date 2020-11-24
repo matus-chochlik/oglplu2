@@ -5,7 +5,9 @@
 #
 
 install(
-	PROGRAMS "ssh-bridge"
+	PROGRAMS
+		"execute"
+		"ssh-bridge"
 	DESTINATION share/oglplus/user/.oglplus
 )
 
