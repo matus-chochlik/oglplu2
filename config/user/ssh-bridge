@@ -1,29 +1,40 @@
-#!/bin/bash
+#!/usr/bin/env python3
 #  Copyright Matus Chochlik.
 #  Distributed under the Boost Software License, Version 1.0.
 #  See accompanying file LICENSE_1_0.txt or copy at
 #   http://www.boost.org/LICENSE_1_0.txt
 #
-if [[ "${0}" =~ ^.*\.oglplus/ssh-bridge$ ]]
-then
-	if [[ "${SSH_ORIGINAL_COMMAND}" != "" ]]
-	then
-		set ${SSH_ORIGINAL_COMMAND}
-		if [[ "${1}" =~ ^.*\.oglplus/ssh-bridge$ ]]
-		then shift
-		else exit 2
-		fi
-	fi
-	cmd="$(realpath $(dirname ${0})/ssh-bridge-cmd/${1})"
-	if [[ -x "${cmd}" ]]
-	then
-		shift
-		if [[ -f "$(dirname ${0})/INSTALL_PREFIX" ]]
-		then export OGLPLUS_PREFIX="${OGLPLUS_PREFIX:-$(< $(dirname ${0})/INSTALL_PREFIX)}"
-		fi
-		"${cmd}" "${@}"
-	else exit 3
-	fi
-else exit 1
-fi
+import os
+import sys
+import subprocess
+
+if sys.argv[0].endswith(".oglplus/ssh-bridge"):
+    try:
+        prefix_src = os.path.join(os.path.dirname(sys.argv[0]), "INSTALL_PREFIX")
+        with open(prefix_src, "rt") as f:
+            prefix = os.environ.get("OGLPLUS_PREFIX",f.readline().strip())
+    except Exception:
+        prefix = os.environ.get("OGLPLUS_PREFIX", "/usr")
+
+    try:
+        orig_argv = os.environ["SSH_ORIGINAL_COMMAND"].split(' ')
+        if orig_argv[0].endswith(".oglplus/ssh-bridge"):
+            cmd_args = orig_argv[1:]
+        else:
+            sys.exit(2)
+    except:
+        cmd_args = sys.argv[1:]
+
+    cmd_dir = os.path.join(
+        os.path.realpath(os.path.expanduser("~")),
+        ".oglplus", "ssh-bridge-cmd"
+    )
+    cmd_env = dict(os.environ)
+    cmd_env["OGLPLUS_PREFIX"] = prefix
+    cmd = os.path.realpath(os.path.join(cmd_dir, cmd_args[0]))
+    cmd_args[0] = cmd
+    if os.path.isfile(cmd) and os.access(cmd, os.X_OK):
+        sys.exit(subprocess.call(cmd_args, env=cmd_env))
+else:
+    sys.exit(1)
 
