@@ -51,55 +51,7 @@ install(
 	DESTINATION lib/cmake
 )
 
-# install the embed generator tool
-install(
-	PROGRAMS tools/embed_generator
-	RENAME eagine-embed_generator
-	DESTINATION bin
-)
-
-
-# install the user user home config directory
-install(
-	PROGRAMS "user/ssh-bridge"
-	DESTINATION share/oglplus/user/.oglplus
-)
-
-install(
-	PROGRAMS
-		"user/ssh-bridge-cmd/kill_eagine"
-		"user/ssh-bridge-cmd/show_prefix"
-		"user/ssh-bridge-cmd/echo_args"
-		"user/ssh-bridge-cmd/pong_local"
-		"user/ssh-bridge-cmd/pong_registry"
-	DESTINATION share/oglplus/user/.oglplus/ssh-bridge-cmd
-)
-
-add_executable(echo_input "user/src/echo_input.c")
-install(
-	TARGETS
-		echo_input
-	DESTINATION share/oglplus/user/.oglplus/ssh-bridge-cmd
-)
-
-install(
-	PROGRAMS
-		"${CMAKE_CURRENT_SOURCE_DIR}/user/bin/ssh-bridge"
-		"${CMAKE_CURRENT_SOURCE_DIR}/user/bin/echo_args"
-		"${CMAKE_CURRENT_SOURCE_DIR}/user/bin/echo_input"
-		"${CMAKE_CURRENT_SOURCE_DIR}/user/bin/show_prefix"
-		"${CMAKE_CURRENT_SOURCE_DIR}/user/bin/ping_local"
-		"${CMAKE_CURRENT_SOURCE_DIR}/user/bin/ping_registry"
-	DESTINATION share/oglplus/user/.oglplus/bin
-)
-install(
-	PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/user/update-me.sh"
-	DESTINATION share/oglplus/user
-)
-install(
-	FILES
-		"${CMAKE_CURRENT_SOURCE_DIR}/user/config/eagine-application_config.yaml"
-		"${CMAKE_CURRENT_SOURCE_DIR}/user/config/_template.yaml"
-	DESTINATION share/oglplus/user/.oglplus/config
-)
+add_subdirectory(tools)
+add_subdirectory(user)
+add_subdirectory(systemd)
 
