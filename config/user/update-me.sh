@@ -5,5 +5,5 @@
 #   http://www.boost.org/LICENSE_1_0.txt
 #
 mkdir -p "${HOME}/.oglplus/" &&\
-cp -v -r "$(dirname ${0})/user/.oglplus" "${HOME}/" &&\
+cp -v -r "$(dirname ${0})/.oglplus" "${HOME}/" &&\
 echo "Success"
