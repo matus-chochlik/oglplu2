@@ -10,7 +10,7 @@ then
 		if [ -f "${cmd}" -a -x "${cmd}" ]
 		then
 			shift
-			"${cmd}" "${@}"
+			exec "${cmd}" "${@}"
 		else
 			echo "'${cmd}' is not an executable" >&2
 			exit 3

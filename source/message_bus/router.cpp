@@ -106,8 +106,8 @@ auto main(main_ctx& ctx) -> int {
         while(EAGINE_LIKELY(!(interrupted || inactive))) {
             if(update_round()) {
                 inactive.reset();
-                wd.notify_alive();
             }
+            wd.notify_alive();
         }
     }
 

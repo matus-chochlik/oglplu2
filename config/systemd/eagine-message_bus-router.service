@@ -8,10 +8,8 @@ NoNewPrivileges=true
 PrivateDevices=false
 PrivateNetwork=false
 PrivateTmp=true
-ProtectClock=true
 ProtectControlGroups=true
 ProtectHome=read-only
-ProtectHostname=true
 ProtectKernelTunables=true
 ProtectSystem=full
 RemoveIPC=true
@@ -22,6 +20,8 @@ WorkingDirectory=%h
 ExecStart=%h/.oglplus/execute eagine-message_bus-router $OGLPLUS_SERVICE_ARGS
 Restart=always
 RestartSec=5
+WatchdogSec=15
+NotifyAccess=all
 
 [Install]
 WantedBy=default.target
