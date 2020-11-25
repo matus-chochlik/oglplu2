@@ -199,12 +199,11 @@ public:
     auto update() -> bool {
         some_true something_done{};
         something_done(base::update());
-        if(EAGINE_UNLIKELY(_targets.empty())) {
-            if(EAGINE_UNLIKELY(_should_query_pingable)) {
-                log_info("searching for pingables");
-                query_subscribers_of(EAGINE_MSG_ID(eagiPing, ping));
-            }
-        } else {
+        if(EAGINE_UNLIKELY(_should_query_pingable)) {
+            log_info("searching for pingables");
+            query_pingables();
+        }
+        if(!_targets.empty()) {
             for(auto& [pingable_id, entry] : _targets) {
                 if(_rcvd < _max) {
                     if(_sent < (_rcvd + _tout + _mod)) {

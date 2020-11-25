@@ -14,13 +14,7 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
-struct acceptor {
-    virtual ~acceptor() noexcept = default;
-    acceptor() noexcept = default;
-    acceptor(acceptor&&) noexcept = default;
-    acceptor(const acceptor&) = delete;
-    auto operator=(acceptor&&) = delete;
-    auto operator=(const acceptor&) = delete;
+struct acceptor : connection_info {
 
     using accept_handler = callable_ref<void(std::unique_ptr<connection>)>;
 

@@ -195,7 +195,7 @@ public:
 };
 //------------------------------------------------------------------------------
 class direct_acceptor
-  : public acceptor
+  : public direct_connection_info<acceptor>
   , public main_ctx_object {
     using shared_state = std::shared_ptr<direct_connection_state>;
 

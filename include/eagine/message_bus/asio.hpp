@@ -874,7 +874,10 @@ public:
 //------------------------------------------------------------------------------
 template <>
 class asio_acceptor<connection_addr_kind::ipv4, connection_protocol::stream>
-  : public acceptor
+  : public asio_connection_info<
+      acceptor,
+      connection_addr_kind::ipv4,
+      connection_protocol::stream>
   , public main_ctx_object {
 private:
     std::shared_ptr<asio_common_state> _asio_state;
@@ -1059,7 +1062,10 @@ public:
 //------------------------------------------------------------------------------
 template <>
 class asio_acceptor<connection_addr_kind::ipv4, connection_protocol::datagram>
-  : public acceptor
+  : public asio_connection_info<
+      acceptor,
+      connection_addr_kind::ipv4,
+      connection_protocol::datagram>
   , public main_ctx_object {
 private:
     std::shared_ptr<asio_common_state> _asio_state;
@@ -1187,7 +1193,10 @@ public:
 //------------------------------------------------------------------------------
 template <>
 class asio_acceptor<connection_addr_kind::filepath, connection_protocol::stream>
-  : public acceptor
+  : public asio_connection_info<
+      acceptor,
+      connection_addr_kind::filepath,
+      connection_protocol::stream>
   , public main_ctx_object {
 private:
     std::shared_ptr<asio_common_state> _asio_state;
