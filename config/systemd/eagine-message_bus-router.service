@@ -21,7 +21,7 @@ ExecStart=%h/.oglplus/execute eagine-message_bus-router $OGLPLUS_SERVICE_ARGS
 Restart=always
 RestartSec=5
 WatchdogSec=15
-NotifyAccess=all
+NotifyAccess=main
 
 [Install]
 WantedBy=default.target

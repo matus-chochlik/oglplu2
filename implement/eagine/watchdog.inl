@@ -19,7 +19,8 @@ public:
     process_watchdog_impl() {
         std::uint64_t _interval_us{0};
         if(sd_watchdog_enabled(0, &_interval_us) > 0) {
-            _should_notify.reset(std::chrono::microseconds(_interval_us / 2));
+            _should_notify.reset(
+              std::chrono::microseconds(_interval_us / 2), nothing);
             _enabled = true;
         }
     }
