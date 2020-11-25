@@ -280,7 +280,7 @@ public:
     }
 
 private:
-    resetting_timeout _should_query_pingable{std::chrono::seconds(2)};
+    resetting_timeout _should_query_pingable{std::chrono::seconds(2), nothing};
     std::map<identifier_t, ping_stats> _targets{};
     std::intmax_t _mod{10000};
     std::intmax_t _max{100000};

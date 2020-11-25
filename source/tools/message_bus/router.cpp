@@ -10,53 +10,98 @@
 #include <eagine/main_ctx.hpp>
 #include <eagine/math/functions.hpp>
 #include <eagine/message_bus/conn_setup.hpp>
+#include <eagine/message_bus/direct.hpp>
+#include <eagine/message_bus/endpoint.hpp>
 #include <eagine/message_bus/router.hpp>
 #include <eagine/message_bus/router_address.hpp>
+#include <eagine/message_bus/service/build_info.hpp>
+#include <eagine/message_bus/service/ping_pong.hpp>
+#include <eagine/message_bus/service/system_info.hpp>
 #include <eagine/signal_switch.hpp>
 #include <cstdint>
 
 namespace eagine {
 //------------------------------------------------------------------------------
+namespace msgbus {
+using router_node_base =
+  service_composition<pingable<build_info_provider<system_info_provider<>>>>;
+//------------------------------------------------------------------------------
+class router_node
+  : public main_ctx_object
+  , public router_node_base {
+    using base = router_node_base;
+
+public:
+    router_node(endpoint& bus)
+      : main_ctx_object{EAGINE_ID(RouterNode), bus}
+      , base{bus} {}
+
+    auto update() -> bool {
+        some_true something_done{};
+        something_done(base::update_and_process_all());
+
+        return something_done;
+    }
+};
+} // namespace msgbus
+//------------------------------------------------------------------------------
 auto main(main_ctx& ctx) -> int {
     signal_switch interrupted;
 
     auto& log = ctx.log();
-
     log.info("message bus router starting up");
 
-    msgbus::router_address address(ctx);
+    ctx.system().preinitialize();
 
+    auto local_acceptor{std::make_unique<msgbus::direct_acceptor>(ctx)};
+    msgbus::endpoint node_endpoint{EAGINE_ID(RutrNodeEp), ctx};
+    node_endpoint.add_connection(local_acceptor->make_connection());
+    msgbus::router_node node{node_endpoint};
+
+    msgbus::router_address address(ctx);
     msgbus::connection_setup conn_setup(ctx);
 
     msgbus::router router(ctx);
     router.add_ca_certificate_pem(ca_certificate_pem(ctx));
     router.add_certificate_pem(msgbus_router_certificate_pem(ctx));
     conn_setup.setup_acceptors(router, address);
+    router.add_acceptor(std::move(local_acceptor));
 
     std::uintmax_t cycles_work{0};
     std::uintmax_t cycles_idle{0};
     int idle_streak{0};
     int max_idle_streak{0};
 
-    auto step = [&]() {
-        if(EAGINE_LIKELY(router.update(8))) {
+    auto update_round = [&]() -> bool {
+        some_true something_done{};
+        something_done(router.update(8));
+        something_done(node.update());
+
+        if(EAGINE_LIKELY(something_done)) {
             ++cycles_work;
             idle_streak = 0;
+            return true;
         } else {
             ++cycles_idle;
             max_idle_streak = math::maximum(max_idle_streak, ++idle_streak);
             std::this_thread::sleep_for(
               std::chrono::milliseconds(math::minimum(idle_streak / 8, 8)));
+            return false;
         }
     };
 
     if(ctx.config().is_set("msg_bus.keep_running")) {
         while(EAGINE_LIKELY(!interrupted)) {
-            step();
+            update_round();
         }
     } else {
-        while(EAGINE_LIKELY(!(interrupted || router.is_done()))) {
-            step();
+        std::chrono::duration<float> max_inactive{60};
+        ctx.config().fetch("msg_bus.router.max_inactive", max_inactive);
+        timeout inactive{max_inactive};
+        while(EAGINE_LIKELY(!(interrupted || inactive))) {
+            if(update_round()) {
+                inactive.reset();
+            }
         }
     }
 

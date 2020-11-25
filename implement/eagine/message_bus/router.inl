@@ -168,7 +168,9 @@ void router::add_ca_certificate_pem(memory::const_block blk) {
 EAGINE_LIB_FUNC
 auto router::add_acceptor(std::shared_ptr<acceptor> an_acceptor) -> bool {
     if(an_acceptor) {
-        log_info("adding connection acceptor");
+        log_info("adding connection acceptor")
+          .arg(EAGINE_ID(kind), an_acceptor->kind())
+          .arg(EAGINE_ID(type), an_acceptor->type_id());
         _acceptors.emplace_back(std::move(an_acceptor));
         return true;
     }
@@ -178,7 +180,9 @@ auto router::add_acceptor(std::shared_ptr<acceptor> an_acceptor) -> bool {
 EAGINE_LIB_FUNC
 auto router::add_connection(std::unique_ptr<connection> a_connection) -> bool {
     if(a_connection) {
-        log_info("assigning parent router connection");
+        log_info("assigning parent router connection")
+          .arg(EAGINE_ID(kind), a_connection->kind())
+          .arg(EAGINE_ID(type), a_connection->type_id());
         _parent_router.reset(std::move(a_connection));
         return true;
     }
@@ -269,11 +273,12 @@ auto router::_handle_pending() -> bool {
             if(~id == 0) {
                 _assign_id(pending.the_connection);
             } else if(id != 0) {
-                log_debug("adopting pending connection from ${kind} ${id}")
+                log_info("adopting pending connection from ${cnterpart} ${id}")
+                  .arg(EAGINE_ID(kind), pending.the_connection->kind())
                   .arg(EAGINE_ID(type), pending.the_connection->type_id())
                   .arg(EAGINE_ID(id), id)
                   .arg(
-                    EAGINE_ID(kind),
+                    EAGINE_ID(cnterpart),
                     maybe_router ? string_view("non-endpoint")
                                  : string_view("endpoint"));
 
@@ -364,9 +369,12 @@ void router::_assign_id(std::unique_ptr<connection>& conn) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void router::_handle_connection(std::unique_ptr<connection> conn) {
-    EAGINE_ASSERT(conn);
-    _pending.emplace_back(std::move(conn));
+void router::_handle_connection(std::unique_ptr<connection> a_connection) {
+    EAGINE_ASSERT(a_connection);
+    log_info("accepted pending connection")
+      .arg(EAGINE_ID(kind), a_connection->kind())
+      .arg(EAGINE_ID(type), a_connection->type_id());
+    _pending.emplace_back(std::move(a_connection));
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -576,6 +584,8 @@ auto router::_handle_special(
           msg_id.has_method(EAGINE_ID(topoEndpt))) {
             // this should be forwarded
             return false;
+        } else if(msg_id.has_method(EAGINE_ID(annEndptId))) {
+            return true;
         }
         log_warning("unhandled special message ${message} from ${source}")
           .arg(EAGINE_ID(message), msg_id)
