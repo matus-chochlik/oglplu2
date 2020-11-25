@@ -12,6 +12,9 @@
 #include <vector>
 
 #if EAGINE_LINUX
+#include <eagine/file_contents.hpp>
+#include <eagine/from_string.hpp>
+#include <eagine/memory/span_algo.hpp>
 #include <eagine/value_tree/filesystem.hpp>
 #include <eagine/value_tree/wrappers.hpp>
 #include <sys/sysinfo.h>
@@ -102,6 +105,22 @@ public:
             return false;
         };
         _sysfs.traverse(valtree::compound::visit_handler(sysfs_scanner));
+
+        if(file_contents machine_id{"/etc/machine-id"}) {
+            memory::for_each_chunk(
+              as_chars(machine_id.block()),
+              span_size_of<system_info::host_id_type>() * 2,
+              [this](auto hexstr) {
+                  if(const auto mi{from_string(
+                       hexstr, identity<system_info::host_id_type>(), 16)}) {
+                      _host_id ^= extract(mi);
+                  }
+              });
+        }
+    }
+
+    auto host_id() noexcept {
+        return _host_id;
     }
 
     auto tz_count() noexcept -> span_size_t {
@@ -174,6 +193,7 @@ public:
     }
 
 private:
+    system_info::host_id_type _host_id{0};
     valtree::compound _sysfs;
     std::vector<valtree::attribute> _tz_temp_a;
     valid_if_nonnegative<span_size_t> _cpu_temp_i{-1};
@@ -209,6 +229,11 @@ auto system_info::preinitialize() noexcept -> system_info& {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto system_info::host_id() noexcept -> valid_if_positive<host_id_type> {
+#if EAGINE_LINUX
+    if(auto impl{_impl()}) {
+        return {extract(impl).host_id()};
+    }
+#endif
 #if EAGINE_POSIX
     return {static_cast<host_id_type>(::gethostid())};
 #endif
