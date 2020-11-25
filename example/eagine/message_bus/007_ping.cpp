@@ -44,10 +44,9 @@ struct ping_stats {
       std::chrono::steady_clock::now()};
     std::chrono::steady_clock::time_point finish{
       std::chrono::steady_clock::now()};
-    std::chrono::steady_clock::time_point prev_log{
-      std::chrono::steady_clock::now()};
     std::intmax_t responded{0};
     std::intmax_t timeouted{0};
+    resetting_timeout should_check_info{std::chrono::seconds(5), nothing};
 
     auto avg_time() const noexcept {
         return sum_time / responded;
@@ -165,7 +164,7 @@ public:
         stats.finish = std::chrono::steady_clock::now();
         if(EAGINE_UNLIKELY((++_rcvd % _mod) == 0)) {
             const auto now{std::chrono::steady_clock::now()};
-            const std::chrono::duration<float> interval{now - stats.prev_log};
+            const std::chrono::duration<float> interval{now - prev_log};
 
             if(EAGINE_LIKELY(interval > decltype(interval)::zero())) {
                 const auto msgs_per_sec{float(_mod) / interval.count()};
@@ -177,7 +176,7 @@ public:
                   .arg(EAGINE_ID(msgsPerSec), msgs_per_sec)
                   .arg(EAGINE_ID(done), EAGINE_ID(Progress), 0, _rcvd, _max);
             }
-            stats.prev_log = now;
+            prev_log = now;
         }
     }
 
@@ -206,11 +205,19 @@ public:
         if(!_targets.empty()) {
             for(auto& [pingable_id, entry] : _targets) {
                 if(_rcvd < _max) {
-                    if(_sent < (_rcvd + _tout + _mod)) {
+                    const auto lim{
+                      _rcvd + _tout +
+                      static_cast<std::intmax_t>(
+                        _mod * (1 + std::log(float(1 + _targets.size()))))};
+
+                    if(_sent < lim) {
                         this->ping(pingable_id, std::chrono::seconds(5));
                         if(EAGINE_UNLIKELY((++_sent % _mod) == 0)) {
                             log_info("sent ${sent} pings")
                               .arg(EAGINE_ID(sent), _sent);
+                        }
+
+                        if(EAGINE_UNLIKELY(entry.should_check_info)) {
                             if(!entry.build.has_version()) {
                                 this->query_build_info(pingable_id);
                             }
@@ -281,6 +288,8 @@ public:
 
 private:
     resetting_timeout _should_query_pingable{std::chrono::seconds(2), nothing};
+    std::chrono::steady_clock::time_point prev_log{
+      std::chrono::steady_clock::now()};
     std::map<identifier_t, ping_stats> _targets{};
     std::intmax_t _mod{10000};
     std::intmax_t _max{100000};
