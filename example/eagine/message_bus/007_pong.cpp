@@ -84,6 +84,8 @@ private:
 
 auto main(main_ctx& ctx) -> int {
 
+    ctx.preinitialize();
+
     msgbus::router_address address{ctx};
     msgbus::connection_setup conn_setup(ctx);
 

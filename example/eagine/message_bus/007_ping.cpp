@@ -32,6 +32,7 @@ namespace msgbus {
 //------------------------------------------------------------------------------
 struct ping_stats {
     build_info build;
+    system_info::host_id_type host_id{0};
     std::string hostname;
     span_size_t num_cores{0};
     span_size_t ram_size{0};
@@ -104,6 +105,15 @@ public:
       build_info&& build) final {
         auto& stats = _targets[res_ctx.source_id()];
         stats.build = std::move(build);
+    }
+
+    void on_host_id_received(
+      const result_context& res_ctx,
+      valid_if_positive<system_info::host_id_type>&& host_id) final {
+        if(host_id) {
+            auto& stats = _targets[res_ctx.source_id()];
+            stats.host_id = extract(host_id);
+        }
     }
 
     void on_hostname_received(
@@ -205,6 +215,9 @@ public:
                             if(!entry.build.has_version()) {
                                 this->query_build_info(pingable_id);
                             }
+                            if(!entry.host_id) {
+                                this->query_host_id(pingable_id);
+                            }
                             if(entry.hostname.empty()) {
                                 this->query_hostname(pingable_id);
                             }
@@ -243,6 +256,7 @@ public:
             log_stat("pingable ${id} stats:")
               .arg(EAGINE_ID(id), id)
               .arg(EAGINE_ID(bldInfo), info.build)
+              .arg(EAGINE_ID(hostId), info.host_id)
               .arg(EAGINE_ID(hostname), info.hostname)
               .arg(EAGINE_ID(numCores), info.num_cores)
               .arg(EAGINE_ID(ramSize), EAGINE_ID(ByteSize), info.ram_size)

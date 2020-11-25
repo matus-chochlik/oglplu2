@@ -4,7 +4,8 @@ msg_bus:
     pkey_id: pkcs11:token=oglplus;object=oglplus-cert
     router:
         address: /tmp/eagine-msgbus.socket
-        id_base: 1000
+        id_major : 1000
+        id_count:  1000
         cert_path: /path/to/router/certificate.pem
     bridge:
         cert_path: /path/to/bridge/certificate.pem
