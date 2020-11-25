@@ -51,6 +51,10 @@ public:
     timeout(_clock::duration duration) noexcept
       : timeout{duration, duration} {}
 
+    template <typename R, typename P>
+    timeout(std::chrono::duration<R, P> duration) noexcept
+      : timeout{std::chrono::duration_cast<_clock::duration>(duration)} {}
+
     auto reset() noexcept -> auto& {
         _timeout = std::chrono::steady_clock::now() + _duration;
         return *this;
