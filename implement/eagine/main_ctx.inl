@@ -38,6 +38,7 @@ public:
       : _args{argc, argv}
       , _log_root{options.app_id, _args, options.logger_opts}
       , _bld_info{build_info::query()}
+      , _watchdog{*this}
       , _app_config{*this}
       , _sys_info{*this}
       , _usr_info{*this}

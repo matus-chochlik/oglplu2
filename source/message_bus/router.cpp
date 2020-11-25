@@ -18,6 +18,7 @@
 #include <eagine/message_bus/service/ping_pong.hpp>
 #include <eagine/message_bus/service/system_info.hpp>
 #include <eagine/signal_switch.hpp>
+#include <eagine/watchdog.hpp>
 #include <cstdint>
 
 namespace eagine {
@@ -90,9 +91,13 @@ auto main(main_ctx& ctx) -> int {
         }
     };
 
+    auto& wd = ctx.watchdog();
+    wd.declare_initialized();
+
     if(ctx.config().is_set("msg_bus.keep_running")) {
         while(EAGINE_LIKELY(!interrupted)) {
             update_round();
+            wd.notify_alive();
         }
     } else {
         std::chrono::duration<float> max_inactive{60};
@@ -101,9 +106,12 @@ auto main(main_ctx& ctx) -> int {
         while(EAGINE_LIKELY(!(interrupted || inactive))) {
             if(update_round()) {
                 inactive.reset();
+                wd.notify_alive();
             }
         }
     }
+
+    wd.announce_shutdown();
 
     log.stat("message bus router finishing")
       .arg(EAGINE_ID(working), cycles_work)
