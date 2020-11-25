@@ -45,6 +45,10 @@
 #define EAGINE_USE_BOOST_SPIRIT 1
 #endif
 
+#ifndef EAGINE_USE_SYSTEMD
+#define EAGINE_USE_SYSTEMD 0
+#endif
+
 #ifndef EAGINE_LINK_LIBRARY
 #define EAGINE_LINK_LIBRARY 0
 #endif

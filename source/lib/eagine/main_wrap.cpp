@@ -19,6 +19,7 @@
 #include <eagine/value_tree/filesystem.hpp>
 #include <eagine/value_tree/json.hpp>
 #include <eagine/value_tree/yaml.hpp>
+#include <eagine/watchdog.hpp>
 
 #include "implement.inl"
 #include <eagine/system_info.hpp>

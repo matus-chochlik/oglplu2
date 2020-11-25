@@ -53,6 +53,9 @@ include(config/FindQT5GL.cmake)
 
 include(config/FindGLM.cmake)
 
+# Systemd
+include(config/FindSystemd.cmake)
+
 # ZLIB
 include(config/FindZLIB.cmake)
 
