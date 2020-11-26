@@ -611,13 +611,13 @@ auto router::_do_route_message(
         const bool is_targeted = (message.target_id != broadcast_endpoint_id());
 
         const auto forward_to = [&](auto& endpoint_out) {
-            if(EAGINE_UNLIKELY(++_forwarded_messages % 100000 == 0)) {
+            if(EAGINE_UNLIKELY(++_forwarded_messages % 1000000 == 0)) {
                 const auto now{std::chrono::steady_clock::now()};
                 const std::chrono::duration<float> interval{
                   now - _forwarded_since};
 
                 if(EAGINE_LIKELY(interval > decltype(interval)::zero())) {
-                    const auto msgs_per_sec{100000.F / interval.count()};
+                    const auto msgs_per_sec{1000000.F / interval.count()};
 
                     log_chart_sample(EAGINE_ID(msgsPerSec), msgs_per_sec);
                     log_stat("forwarded ${count} messages")

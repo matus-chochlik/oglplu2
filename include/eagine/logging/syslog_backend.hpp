@@ -68,7 +68,8 @@ public:
         const auto idn{src.name()};
         ::syslog( // NOLINT(hicpp-vararg)
           _translate(log_event_severity::info),
-          "%16lx|%10.*s|name=%s, desc=%s",
+          sizeof(logger_instance_id) > 4 ? "%16lx|%10.*s|name=%s, desc=%s"
+                                         : "%8lx|%10.*s|name=%s, desc=%s",
           static_cast<unsigned long>(inst),
           int(idn.size()),
           idn.data(),
@@ -86,7 +87,8 @@ public:
         auto& msg = _new_message();
         msg.source = src;
         msg.instance = inst;
-        msg.format.assign("%16lx|%10.*s|");
+        msg.format.assign(
+          sizeof(logger_instance_id) > 4 ? "%16lx|%10.*s|" : "%8lx|%10.*s|");
         _translate(format, msg);
         return true;
     }
@@ -101,13 +103,14 @@ public:
                 break;
             }
         }
-        if(!found) {
+        if(found) {
+            msg.arg_map[aidv].assign(value);
+        } else {
             msg.format.append(", ");
             msg.format.append(arg.name().view());
-            msg.format.append("=%s");
-            msg.arg_idx[msg.arg_count++] = aidv;
+            msg.format.append("=");
+            msg.format.append(value);
         }
-        msg.arg_map[aidv].assign(value);
     }
 
     void add_nothing(identifier, identifier) noexcept final {}
@@ -208,6 +211,10 @@ private:
     auto _new_message() noexcept -> auto& {
         _lockable.lock();
         _the_message.arg_count = 0;
+        for(auto& [idx, idv] : _the_message.arg_idx) {
+            EAGINE_MAYBE_UNUSED(idx);
+            idv = 0;
+        }
         return _the_message;
     }
 
