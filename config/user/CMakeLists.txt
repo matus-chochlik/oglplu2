@@ -13,6 +13,7 @@ install(
 
 install(
 	PROGRAMS
+		"ssh-bridge-cmd/service_bridge"
 		"ssh-bridge-cmd/kill_eagine"
 		"ssh-bridge-cmd/show_prefix"
 		"ssh-bridge-cmd/pong_local"
@@ -30,6 +31,7 @@ install(
 install(
 	PROGRAMS
 		"bin/ssh-bridge"
+		"bin/service_bridges"
 		"bin/echo_input"
 		"bin/show_prefix"
 		"bin/ping_local"

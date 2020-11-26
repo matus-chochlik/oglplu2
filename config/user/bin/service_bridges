@@ -1,0 +1,26 @@
+#!/bin/bash
+#  Copyright Matus Chochlik.
+#  Distributed under the Boost Software License, Version 1.0.
+#  See accompanying file LICENSE_1_0.txt or copy at
+#   http://www.boost.org/LICENSE_1_0.txt
+#
+OGLPLUS_PREFIX="$(<$(dirname ${0})/../INSTALL_PREFIX)"
+
+pids=()
+for ssh_host
+do
+	coproc "${OGLPLUS_PREFIX}/bin/eagine-message_bus-bridge" \
+		--min-log-severity stat \
+		--msg-bus-asio-local-stream \
+	&& pids+=(${COPROC_PID})
+
+	exec 3<&${COPROC[0]}
+	exec 4<&${COPROC[1]}
+
+	"$(dirname ${0})/ssh-bridge" "${ssh_host}" service_bridge <&3 >&4 \
+	&  pids+=($!)
+done
+
+for pid in ${pids[@]}
+do wait ${pid}
+done
