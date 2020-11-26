@@ -7,7 +7,7 @@
 file(
 	WRITE "${CMAKE_CURRENT_BINARY_DIR}/environment"
 	"OGLPLUS_PREFIX=${CMAKE_INSTALL_PREFIX}\n"
-	"OGLPLUS_SERVICE_ARGS=--use-null-log --config-group service\n"
+	"OGLPLUS_SERVICE_ARGS=--use-syslog --config-group service\n"
 )
 
 install(

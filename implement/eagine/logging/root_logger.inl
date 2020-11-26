@@ -10,6 +10,7 @@
 #include <eagine/logging/asio_backend.hpp>
 #include <eagine/logging/null_backend.hpp>
 #include <eagine/logging/ostream_backend.hpp>
+#include <eagine/logging/syslog_backend.hpp>
 #include <eagine/logging/type/program_args.hpp>
 #include <cerrno>
 #include <iostream>
@@ -39,6 +40,8 @@ auto root_logger_choose_backend(
         } else if(arg.is_tag("--use-cout-log")) {
             return std::make_unique<ostream_log_backend<>>(
               std::cout, min_severity);
+        } else if(arg.is_tag("--use-syslog")) {
+            return std::make_unique<syslog_log_backend<>>(min_severity);
 #if EAGINE_HAS_ASIO_LOG_BACKEND
         } else if(arg.is_tag("--use-asio-log")) {
             return std::make_unique<asio_ostream_log_backend<>>(min_severity);

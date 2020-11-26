@@ -37,7 +37,7 @@ struct null_log_backend : logger_backend {
       identifier,
       logger_instance_id,
       string_view,
-      string_view) noexcept final{};
+      string_view) noexcept final {}
 
     auto begin_message(
       identifier,
