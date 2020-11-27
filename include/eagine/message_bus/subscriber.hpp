@@ -172,10 +172,11 @@ protected:
         if(EAGINE_LIKELY(_endpoint)) {
             for(auto& entry : msg_handlers) {
                 if(entry.msg_id == sub_msg) {
-                    _endpoint->say_subscribes_to(source_id, entry.msg_id);
-                    break;
+                    _endpoint->say_subscribes_to(source_id, sub_msg);
+                    return;
                 }
             }
+            _endpoint->say_not_subscribed_to(source_id, sub_msg);
         }
     }
 

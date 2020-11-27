@@ -110,6 +110,7 @@ auto endpoint::_handle_special(
         } else if(
           msg_id.has_method(EAGINE_ID(subscribTo)) ||
           msg_id.has_method(EAGINE_ID(unsubFrom)) ||
+          msg_id.has_method(EAGINE_ID(notSubTo)) ||
           msg_id.has_method(EAGINE_ID(qrySubscrb))) {
             return false;
         } else if(msg_id.has_method(EAGINE_ID(eptCertQry))) {
@@ -494,10 +495,11 @@ void endpoint::say_subscribes_to(identifier_t target_id, message_id msg_id) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void endpoint::query_subscribers_of(message_id msg_id) {
-    log_debug("querying subscribers of message ${message}")
+void endpoint::say_not_subscribed_to(identifier_t target_id, message_id msg_id) {
+    log_debug("denies subscription to message ${message}")
+      .arg(EAGINE_ID(target), target_id)
       .arg(EAGINE_ID(message), msg_id);
-    post_meta_message(EAGINE_MSGBUS_ID(qrySubscrb), msg_id);
+    post_meta_message_to(target_id, EAGINE_MSGBUS_ID(notSubTo), msg_id);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -505,6 +507,13 @@ void endpoint::say_unsubscribes_from(message_id msg_id) {
     log_debug("retracting subscription to message ${message}")
       .arg(EAGINE_ID(message), msg_id);
     post_meta_message(EAGINE_MSGBUS_ID(unsubFrom), msg_id);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void endpoint::query_subscribers_of(message_id msg_id) {
+    log_debug("querying subscribers of message ${message}")
+      .arg(EAGINE_ID(message), msg_id);
+    post_meta_message(EAGINE_MSGBUS_ID(qrySubscrb), msg_id);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
