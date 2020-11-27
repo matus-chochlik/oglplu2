@@ -73,8 +73,12 @@ protected:
     }
 
 public:
+    static constexpr auto ping_msg_id() noexcept {
+        return EAGINE_MSG_ID(eagiPing, ping);
+    }
+
     void query_pingables() {
-        this->bus().query_subscribers_of(EAGINE_MSG_ID(eagiPing, ping));
+        this->bus().query_subscribers_of(ping_msg_id());
     }
 
     void ping(identifier_t pingable_id, std::chrono::milliseconds max_time) {
