@@ -17,6 +17,7 @@
 #include "../valid_if/ge0_le1.hpp"
 #include "../valid_if/not_empty.hpp"
 #include "../valid_if/not_zero.hpp"
+#include "node_kind.hpp"
 #include <chrono>
 #include <memory>
 
@@ -33,7 +34,7 @@ public:
         return {_host_id};
     }
 
-    auto hostname() noexcept -> valid_if_not_empty<string_view>;
+    auto name() noexcept -> valid_if_not_empty<string_view>;
 
 private:
     identifier_t _host_id{0};
@@ -47,7 +48,7 @@ class remote_host_state : public remote_host {
 public:
     using remote_host::remote_host;
 
-    void set_hostname(std::string);
+    auto set_hostname(std::string) -> remote_host_state&;
 };
 //------------------------------------------------------------------------------
 class remote_node_impl;
@@ -62,6 +63,8 @@ public:
         return {_node_id};
     }
 
+    auto kind() noexcept -> node_kind;
+
     auto host_id() noexcept -> valid_if_not_zero<identifier_t>;
 
     auto host() noexcept -> remote_host;
@@ -70,6 +73,7 @@ public:
 
     void set_ping_interval(std::chrono::milliseconds) noexcept;
     auto ping_success_rate() noexcept -> valid_if_between_0_1<float>;
+    auto is_responsive() noexcept -> tribool;
 
 private:
     identifier_t _node_id{0U};
@@ -83,10 +87,11 @@ class remote_node_state : public remote_node {
 public:
     using remote_node::remote_node;
 
-    void assign(remote_host);
+    auto assign(node_kind) -> remote_node_state&;
+    auto assign(remote_host) -> remote_node_state&;
 
-    void add_subscription(message_id);
-    void remove_subscription(message_id);
+    auto add_subscription(message_id) -> remote_node_state&;
+    auto remove_subscription(message_id) -> remote_node_state&;
 
     auto should_ping() noexcept -> std::tuple<bool, std::chrono::milliseconds>;
     void pinged() noexcept;

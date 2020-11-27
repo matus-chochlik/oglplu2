@@ -23,7 +23,10 @@ public:
     span_size_t pings_sent{0};
     span_size_t pings_responded{0};
     span_size_t pings_timeouted{0};
-    std::chrono::microseconds last_ping_age{};
+    std::chrono::microseconds last_ping_time{};
+    std::chrono::microseconds last_ping_timeout{};
+    std::uint8_t ping_bits{0};
+    node_kind kind{node_kind::unknown};
 
     auto get_sub(message_id msg_id) -> tribool& {
         auto pos = _subscriptions.find(msg_id);
@@ -51,7 +54,7 @@ inline auto remote_host::_impl() noexcept -> remote_host_impl* {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto remote_host::hostname() noexcept -> valid_if_not_empty<string_view> {
+auto remote_host::name() noexcept -> valid_if_not_empty<string_view> {
     if(auto impl{_impl()}) {
         return {extract(impl).hostname};
     }
@@ -69,6 +72,14 @@ inline auto remote_node::_impl() noexcept -> remote_node_impl* {
     } catch(...) {
     }
     return _pimpl.get();
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node::kind() noexcept -> node_kind {
+    if(auto impl{_impl()}) {
+        return extract(impl).kind;
+    }
+    return node_kind::unknown;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -117,27 +128,48 @@ auto remote_node::ping_success_rate() noexcept -> valid_if_between_0_1<float> {
     return {-1.F};
 }
 //------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node::is_responsive() noexcept -> tribool {
+    if(auto impl{_impl()}) {
+        return bool(extract(impl).ping_bits);
+    }
+    return indeterminate;
+}
+//------------------------------------------------------------------------------
 // remote_node_state
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void remote_node_state::assign(remote_host host) {
+auto remote_node_state::assign(node_kind kind) -> remote_node_state& {
+    if(auto impl{_impl()}) {
+        extract(impl).kind = kind;
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node_state::assign(remote_host host) -> remote_node_state& {
     if(auto impl{_impl()}) {
         extract(impl).host = std::move(host);
     }
+    return *this;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void remote_node_state::add_subscription(message_id msg_id) {
+auto remote_node_state::add_subscription(message_id msg_id)
+  -> remote_node_state& {
     if(auto impl{_impl()}) {
         extract(impl).get_sub(msg_id) = true;
     }
+    return *this;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void remote_node_state::remove_subscription(message_id msg_id) {
+auto remote_node_state::remove_subscription(message_id msg_id)
+  -> remote_node_state& {
     if(auto impl{_impl()}) {
         extract(impl).get_sub(msg_id) = false;
     }
+    return *this;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -156,8 +188,10 @@ auto remote_node_state::should_ping() noexcept
 EAGINE_LIB_FUNC
 void remote_node_state::pinged() noexcept {
     if(auto impl{_impl()}) {
-        extract(impl).should_ping.reset();
-        ++extract(impl).pings_sent;
+        auto& i = extract(impl);
+        i.should_ping.reset();
+        i.ping_bits <<= 1U;
+        ++i.pings_sent;
     }
 }
 //------------------------------------------------------------------------------
@@ -166,30 +200,35 @@ void remote_node_state::ping_response(
   message_sequence_t,
   std::chrono::microseconds age) {
     if(auto impl{_impl()}) {
-        extract(impl).last_ping_age = age;
-        ++extract(impl).pings_responded;
+        auto& i = extract(impl);
+        i.last_ping_time = age;
+        i.ping_bits |= 1U;
+        ++i.pings_responded;
     }
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void remote_node_state::ping_timeout(
   message_sequence_t,
-  std::chrono::microseconds) {
+  std::chrono::microseconds age) {
     if(auto impl{_impl()}) {
-        ++extract(impl).pings_timeouted;
+        auto& i = extract(impl);
+        i.last_ping_timeout = age;
+        ++i.pings_timeouted;
     }
 }
 //------------------------------------------------------------------------------
 // remote_host_state
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void remote_host_state::set_hostname(std::string hn) {
+auto remote_host_state::set_hostname(std::string hn) -> remote_host_state& {
     try {
         if(auto impl{_impl()}) {
             extract(impl).hostname = std::move(hn);
         }
     } catch(...) {
     }
+    return *this;
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus
