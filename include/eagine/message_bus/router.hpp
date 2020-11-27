@@ -138,6 +138,16 @@ private:
     auto _do_allow_blob(message_id) -> bool;
     auto _handle_blob(message_id, message_age, const message_view&) -> bool;
 
+    auto _handle_special_common(
+      message_id msg_id,
+      identifier_t incoming_id,
+      const message_view&) -> bool;
+
+    auto _handle_special(
+      message_id msg_id,
+      identifier_t incoming_id,
+      const message_view&) -> bool;
+
     auto _handle_special(
       message_id msg_id,
       identifier_t incoming_id,

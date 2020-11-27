@@ -205,7 +205,12 @@ void router::_setup_from_config() {
         host_id << 32U) +
       extract_or(app_config().get<identifier_t>("msg_bus.router.id_minor"), 0U);
 
-    _id_end = _id_base + id_count;
+    if(_id_base) {
+        _id_end = _id_base + id_count;
+    } else {
+        _id_base = 1;
+        _id_end = id_count;
+    }
 
     log_info("using router id range ${base} - ${end} (${count})")
       .arg(EAGINE_ID(count), id_count)
@@ -456,13 +461,134 @@ auto router::_handle_blob(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto router::_handle_special_common(
+  message_id msg_id,
+  identifier_t incoming_id,
+  const message_view& message) -> bool {
+
+    if(msg_id.has_method(EAGINE_ID(subscribTo))) {
+        message_id sub_msg_id{};
+        if(default_deserialize_message_type(sub_msg_id, message.data)) {
+            log_debug("endpoint ${source} subscribes to ${message}")
+              .arg(EAGINE_ID(source), message.source_id)
+              .arg(EAGINE_ID(message), sub_msg_id);
+            // this should be routed
+            return false;
+        }
+    } else if(msg_id.has_method(EAGINE_ID(unsubFrom))) {
+        message_id sub_msg_id{};
+        if(default_deserialize_message_type(sub_msg_id, message.data)) {
+            log_debug("endpoint ${source} unsubscribes from ${message}")
+              .arg(EAGINE_ID(source), message.source_id)
+              .arg(EAGINE_ID(message), sub_msg_id);
+            // this should be routed
+            return false;
+        }
+    } else if(
+      msg_id.has_method(EAGINE_ID(qrySubscrp)) ||
+      msg_id.has_method(EAGINE_ID(qrySubscrb)) ||
+      msg_id.has_method(EAGINE_ID(notSubTo))) {
+        // this should be routed
+        return false;
+    } else if(msg_id.has_method(EAGINE_ID(blobFrgmnt))) {
+        if(_blobs.process_incoming(
+             blob_manipulator::filter_function(
+               this, EAGINE_MEM_FUNC_C(router, _do_allow_blob)),
+             message)) {
+            _blobs.fetch_all(blob_manipulator::fetch_handler(
+              this, EAGINE_MEM_FUNC_C(router, _handle_blob)));
+        }
+        // this should be routed
+        return false;
+    } else if(msg_id.has_method(EAGINE_ID(rtrCertQry))) {
+        post_blob(
+          EAGINE_MSGBUS_ID(rtrCertPem),
+          0U,
+          incoming_id,
+          _context->get_own_certificate_pem(),
+          std::chrono::seconds(30),
+          message_priority::high);
+        return true;
+    } else if(msg_id.has_method(EAGINE_ID(eptCertQry))) {
+        if(auto cert_pem{
+             _context->get_remote_certificate_pem(message.target_id)}) {
+            post_blob(
+              EAGINE_MSGBUS_ID(eptCertPem),
+              message.target_id,
+              incoming_id,
+              cert_pem,
+              std::chrono::seconds(30),
+              message_priority::high);
+            return true;
+        }
+        return false;
+    } else if(msg_id.has_method(EAGINE_ID(requestId))) {
+        return true;
+    } else if(msg_id.has_method(EAGINE_ID(topoQuery))) {
+        std::array<byte, 256> temp{};
+        router_topology_info info{};
+
+        auto respond = [&](identifier_t remote_id) {
+            info.router_id = _id_base;
+            info.remote_id = remote_id;
+            if(auto serialized{default_serialize(info, cover(temp))}) {
+                message_view response{extract(serialized)};
+                response.setup_response(message);
+                response.set_source_id(_id_base);
+                this->_do_route_message(
+                  EAGINE_MSGBUS_ID(topoRutrCn), _id_base, response);
+            }
+        };
+
+        for(auto& [ep_id, ep] : this->_endpoints) {
+            respond(ep_id);
+        }
+        if(_parent_router.confirmed_id) {
+            respond(_parent_router.confirmed_id);
+        }
+        return false;
+    } else if(
+      msg_id.has_method(EAGINE_ID(topoRutrCn)) ||
+      msg_id.has_method(EAGINE_ID(topoBrdgCn)) ||
+      msg_id.has_method(EAGINE_ID(topoEndpt))) {
+        // this should be forwarded
+        return false;
+    } else if(msg_id.has_method(EAGINE_ID(annEndptId))) {
+        return true;
+    } else {
+        log_warning("unhandled special message ${message} from ${source}")
+          .arg(EAGINE_ID(message), msg_id)
+          .arg(EAGINE_ID(source), message.source_id)
+          .arg(EAGINE_ID(data), message.data);
+    }
+    return false;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto router::_handle_special(
+  message_id msg_id,
+  identifier_t incoming_id,
+  const message_view& message) -> bool {
+    if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
+        log_debug("router handling special message ${message} from parent")
+          .arg(EAGINE_ID(router), _id_base)
+          .arg(EAGINE_ID(message), msg_id)
+          .arg(EAGINE_ID(target), message.target_id)
+          .arg(EAGINE_ID(source), message.source_id);
+
+        return _handle_special_common(msg_id, incoming_id, message);
+    }
+    return false;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto router::_handle_special(
   message_id msg_id,
   identifier_t incoming_id,
   routed_endpoint& endpoint,
   const message_view& message) -> bool {
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
-        log_debug("router handling special message ${message}")
+        log_debug("router handling special message ${message} from endpoint")
           .arg(EAGINE_ID(router), _id_base)
           .arg(EAGINE_ID(message), msg_id)
           .arg(EAGINE_ID(target), message.target_id)
@@ -508,92 +634,9 @@ auto router::_handle_special(
               .arg(EAGINE_ID(source), message.source_id);
             endpoint.do_disconnect = true;
             return true;
-        } else if(msg_id.has_method(EAGINE_ID(subscribTo))) {
-            message_id sub_msg_id{};
-            if(default_deserialize_message_type(sub_msg_id, message.data)) {
-                log_debug("endpoint ${source} subscribes to ${message}")
-                  .arg(EAGINE_ID(source), message.source_id)
-                  .arg(EAGINE_ID(message), sub_msg_id);
-                // this should be routed
-                return false;
-            }
-        } else if(msg_id.has_method(EAGINE_ID(unsubFrom))) {
-            message_id sub_msg_id{};
-            if(default_deserialize_message_type(sub_msg_id, message.data)) {
-                log_debug("endpoint ${source} unsubscribes from ${message}")
-                  .arg(EAGINE_ID(source), message.source_id)
-                  .arg(EAGINE_ID(message), sub_msg_id);
-                // this should be routed
-                return false;
-            }
-        } else if(
-          msg_id.has_method(EAGINE_ID(qrySubscrp)) ||
-          msg_id.has_method(EAGINE_ID(qrySubscrb)) ||
-          msg_id.has_method(EAGINE_ID(notSubTo))) {
-            // this should be routed
-            return false;
-        } else if(msg_id.has_method(EAGINE_ID(blobFrgmnt))) {
-            if(_blobs.process_incoming(
-                 blob_manipulator::filter_function(
-                   this, EAGINE_MEM_FUNC_C(router, _do_allow_blob)),
-                 message)) {
-                _blobs.fetch_all(blob_manipulator::fetch_handler(
-                  this, EAGINE_MEM_FUNC_C(router, _handle_blob)));
-            }
-            // this should be routed
-            return false;
-        } else if(msg_id.has_method(EAGINE_ID(rtrCertQry))) {
-            post_blob(
-              EAGINE_MSGBUS_ID(rtrCertPem),
-              0U,
-              incoming_id,
-              _context->get_own_certificate_pem(),
-              std::chrono::seconds(30),
-              message_priority::high);
-            return true;
-        } else if(msg_id.has_method(EAGINE_ID(eptCertQry))) {
-            if(auto cert_pem{
-                 _context->get_remote_certificate_pem(message.target_id)}) {
-                post_blob(
-                  EAGINE_MSGBUS_ID(eptCertPem),
-                  message.target_id,
-                  incoming_id,
-                  cert_pem,
-                  std::chrono::seconds(30),
-                  message_priority::high);
-                return true;
-            }
-            return false;
-        } else if(msg_id.has_method(EAGINE_ID(requestId))) {
-            return true;
-        } else if(msg_id.has_method(EAGINE_ID(topoQuery))) {
-            std::array<byte, 256> temp{};
-            router_topology_info info{};
-            for(auto& [ep_id, ep] : this->_endpoints) {
-                info.router_id = _id_base;
-                info.remote_id = ep_id;
-                if(auto serialized{default_serialize(info, cover(temp))}) {
-                    message_view response{extract(serialized)};
-                    response.setup_response(message);
-                    response.set_source_id(_id_base);
-                    this->_do_route_message(
-                      EAGINE_MSGBUS_ID(topoRutrCn), _id_base, response);
-                }
-            }
-            return false;
-        } else if(
-          msg_id.has_method(EAGINE_ID(topoRutrCn)) ||
-          msg_id.has_method(EAGINE_ID(topoBrdgCn)) ||
-          msg_id.has_method(EAGINE_ID(topoEndpt))) {
-            // this should be forwarded
-            return false;
-        } else if(msg_id.has_method(EAGINE_ID(annEndptId))) {
-            return true;
+        } else {
+            return _handle_special_common(msg_id, incoming_id, message);
         }
-        log_warning("unhandled special message ${message} from ${source}")
-          .arg(EAGINE_ID(message), msg_id)
-          .arg(EAGINE_ID(source), message.source_id)
-          .arg(EAGINE_ID(data), message.data);
     }
     return false;
 }
@@ -702,6 +745,10 @@ auto router::_route_messages() -> bool {
 
     auto handler =
       [&](message_id msg_id, message_age msg_age, const message_view& message) {
+          if(this->_handle_special(
+               msg_id, _parent_router.confirmed_id, message)) {
+              return true;
+          }
           if(EAGINE_LIKELY(msg_age < std::chrono::seconds(30))) {
               return this->_do_route_message(msg_id, _id_base, message);
           }

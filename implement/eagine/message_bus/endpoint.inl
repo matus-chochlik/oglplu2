@@ -182,8 +182,12 @@ auto endpoint::_handle_special(
             if(auto serialized{default_serialize(info, cover(temp))}) {
                 message_view response{extract(serialized)};
                 response.setup_response(message);
-                return send(EAGINE_MSGBUS_ID(topoEndpt), response);
+                if(post(EAGINE_MSGBUS_ID(topoEndpt), response)) {
+                    return true;
+                }
             }
+            log_warning("failed to respond to topology query from ${source}")
+              .arg(EAGINE_ID(source), message.source_id);
         }
         log_warning("unhandled special message ${message} from ${source}")
           .arg(EAGINE_ID(message), msg_id)
