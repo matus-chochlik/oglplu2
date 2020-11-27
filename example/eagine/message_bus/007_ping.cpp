@@ -15,6 +15,7 @@
 #include <eagine/message_bus/service.hpp>
 #include <eagine/message_bus/service/build_info.hpp>
 #include <eagine/message_bus/service/discovery.hpp>
+#include <eagine/message_bus/service/host_info.hpp>
 #include <eagine/message_bus/service/ping_pong.hpp>
 #include <eagine/message_bus/service/shutdown.hpp>
 #include <eagine/message_bus/service/system_info.hpp>
@@ -70,8 +71,9 @@ struct ping_stats {
     }
 };
 //------------------------------------------------------------------------------
-using ping_base = service_composition<pinger<build_info_consumer<
-  system_info_consumer<subscriber_discovery<shutdown_invoker<>>>>>>;
+using ping_base =
+  service_composition<pinger<build_info_consumer<system_info_consumer<
+    host_info_consumer<subscriber_discovery<shutdown_invoker<>>>>>>>;
 
 class ping_example
   : public main_ctx_object
@@ -88,8 +90,9 @@ public:
 
     void on_subscribed(identifier_t id, message_id sub_msg) final {
         if(sub_msg == EAGINE_MSG_ID(eagiPing, ping)) {
-            log_info("pingable ${id} appeared").arg(EAGINE_ID(id), id);
-            _targets.try_emplace(id, ping_stats{});
+            if(_targets.try_emplace(id, ping_stats{}).second) {
+                log_info("new pingable ${id} appeared").arg(EAGINE_ID(id), id);
+            }
         }
     }
 
