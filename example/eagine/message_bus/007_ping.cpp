@@ -102,6 +102,12 @@ public:
         }
     }
 
+    void not_subscribed(identifier_t id, message_id sub_msg) final {
+        if(sub_msg == EAGINE_MSG_ID(eagiPing, ping)) {
+            log_info("target ${id} is not pingable").arg(EAGINE_ID(id), id);
+        }
+    }
+
     void on_build_info_received(
       const result_context& res_ctx,
       build_info&& build) final {

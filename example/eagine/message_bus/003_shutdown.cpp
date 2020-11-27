@@ -48,6 +48,14 @@ public:
         }
     }
 
+    void not_subscribed(identifier_t id, message_id sub_msg) final {
+        if(sub_msg == EAGINE_MSG_ID(Shutdown, shutdown)) {
+            log_info("target ${id} does not support shutdown")
+              .arg(EAGINE_ID(id), id);
+            _targets.erase(id);
+        }
+    }
+
     void shutdown_all() {
         for(auto id : _targets) {
             this->shutdown_one(id);

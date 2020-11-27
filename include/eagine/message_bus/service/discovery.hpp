@@ -30,11 +30,15 @@ protected:
         Base::add_method(
           this,
           EAGINE_MSG_MAP(eagiMsgBus, unsubFrom, This, _handle_unsubscribed));
+        Base::add_method(
+          this,
+          EAGINE_MSG_MAP(eagiMsgBus, notSubTo, This, _handle_not_subscribed));
     }
 
 public:
     virtual void on_subscribed(identifier_t subscriber_id, message_id) = 0;
     virtual void on_unsubscribed(identifier_t subscriber_id, message_id) = 0;
+    virtual void not_subscribed(identifier_t subscriber_id, message_id) = 0;
 
 private:
     auto _handle_subscribed(const message_context&, stored_message& message)
@@ -51,6 +55,15 @@ private:
         message_id sub_msg_id{};
         if(default_deserialize_message_type(sub_msg_id, message.content())) {
             on_unsubscribed(message.source_id, sub_msg_id);
+        }
+        return true;
+    }
+
+    auto _handle_not_subscribed(const message_context&, stored_message& message)
+      -> bool {
+        message_id sub_msg_id{};
+        if(default_deserialize_message_type(sub_msg_id, message.content())) {
+            not_subscribed(message.source_id, sub_msg_id);
         }
         return true;
     }

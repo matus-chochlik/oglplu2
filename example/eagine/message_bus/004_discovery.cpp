@@ -45,6 +45,8 @@ public:
           .arg(EAGINE_ID(message), sub_msg);
     }
 
+    void not_subscribed(identifier_t, message_id) final {}
+
     void on_shutdown(
       std::chrono::milliseconds age,
       identifier_t subscriber_id,
