@@ -83,6 +83,10 @@ public:
         return _clock::now() >= _timeout;
     }
 
+    auto period() const noexcept -> auto& {
+        return _duration;
+    }
+
     explicit operator bool() const noexcept {
         return is_expired();
     }

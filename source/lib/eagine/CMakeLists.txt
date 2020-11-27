@@ -27,6 +27,7 @@ set(EAGINE_LIB_SOURCES
 	message_bus_setup.cpp
 	message_bus_blobs.cpp
 	message_bus_endpoint.cpp
+	message_bus_remote_node.cpp
 	message_bus_registry.cpp
 	message_bus_router.cpp
 	message_bus_bridge.cpp
