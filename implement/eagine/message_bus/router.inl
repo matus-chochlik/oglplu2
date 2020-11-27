@@ -527,6 +527,7 @@ auto router::_handle_special(
                 return false;
             }
         } else if(
+          msg_id.has_method(EAGINE_ID(qrySubscrp)) ||
           msg_id.has_method(EAGINE_ID(qrySubscrb)) ||
           msg_id.has_method(EAGINE_ID(notSubTo))) {
             // this should be routed

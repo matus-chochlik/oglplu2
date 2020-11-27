@@ -111,6 +111,7 @@ auto endpoint::_handle_special(
           msg_id.has_method(EAGINE_ID(subscribTo)) ||
           msg_id.has_method(EAGINE_ID(unsubFrom)) ||
           msg_id.has_method(EAGINE_ID(notSubTo)) ||
+          msg_id.has_method(EAGINE_ID(qrySubscrp)) ||
           msg_id.has_method(EAGINE_ID(qrySubscrb))) {
             return false;
         } else if(msg_id.has_method(EAGINE_ID(eptCertQry))) {
@@ -507,6 +508,13 @@ void endpoint::say_unsubscribes_from(message_id msg_id) {
     log_debug("retracting subscription to message ${message}")
       .arg(EAGINE_ID(message), msg_id);
     post_meta_message(EAGINE_MSGBUS_ID(unsubFrom), msg_id);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void endpoint::query_subscriptions_of(identifier_t target_id) {
+    log_debug("querying subscribed messages of endpoint ${target}")
+      .arg(EAGINE_ID(target), target_id);
+    post(EAGINE_MSGBUS_ID(qrySubscrp), {});
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

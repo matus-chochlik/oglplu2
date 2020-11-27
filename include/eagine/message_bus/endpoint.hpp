@@ -287,11 +287,11 @@ public:
       message_id meta_msg_id,
       message_id msg_id);
 
-    void send_subscription_count();
     void say_subscribes_to(message_id);
     void say_subscribes_to(identifier_t target_id, message_id);
     void say_unsubscribes_from(message_id);
     void say_not_subscribed_to(identifier_t target_id, message_id);
+    void query_subscriptions_of(identifier_t target_id);
     void query_subscribers_of(message_id);
 
     void clear_block_list();
