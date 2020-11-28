@@ -45,8 +45,12 @@ struct router_endpoint_info {
     std::vector<message_id> unsubscriptions{};
 
     void assign_instance_id(message_view msg) {
-        instance_id = msg.sequence_no;
         is_outdated.reset();
+        if(instance_id != msg.sequence_no) {
+            instance_id = msg.sequence_no;
+            subscriptions.clear();
+            unsubscriptions.clear();
+        }
     }
 };
 //------------------------------------------------------------------------------

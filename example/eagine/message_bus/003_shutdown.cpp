@@ -33,26 +33,30 @@ public:
       : main_ctx_object{EAGINE_ID(ShtdwnTrgr), bus}
       , base{bus} {}
 
-    void on_subscribed(identifier_t id, message_id sub_msg) final {
+    void is_alive(const subscriber_info&) final {}
+
+    void on_subscribed(const subscriber_info& info, message_id sub_msg) final {
         if(sub_msg == EAGINE_MSG_ID(Shutdown, shutdown)) {
-            log_info("target ${id} appeared").arg(EAGINE_ID(id), id);
-            _targets.insert(id);
-            this->bus().post_certificate(id);
+            log_info("target ${id} appeared")
+              .arg(EAGINE_ID(id), info.endpoint_id);
+            _targets.insert(info.endpoint_id);
+            this->bus().post_certificate(info.endpoint_id);
         }
     }
 
-    void on_unsubscribed(identifier_t id, message_id sub_msg) final {
+    void on_unsubscribed(const subscriber_info& info, message_id sub_msg) final {
         if(sub_msg == EAGINE_MSG_ID(Shutdown, shutdown)) {
-            log_info("target ${id} disappeared").arg(EAGINE_ID(id), id);
-            _targets.erase(id);
+            log_info("target ${id} disappeared")
+              .arg(EAGINE_ID(id), info.endpoint_id);
+            _targets.erase(info.endpoint_id);
         }
     }
 
-    void not_subscribed(identifier_t id, message_id sub_msg) final {
+    void not_subscribed(const subscriber_info& info, message_id sub_msg) final {
         if(sub_msg == EAGINE_MSG_ID(Shutdown, shutdown)) {
             log_info("target ${id} does not support shutdown")
-              .arg(EAGINE_ID(id), id);
-            _targets.erase(id);
+              .arg(EAGINE_ID(id), info.endpoint_id);
+            _targets.erase(info.endpoint_id);
         }
     }
 

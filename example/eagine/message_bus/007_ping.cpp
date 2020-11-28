@@ -88,23 +88,28 @@ public:
         object_description("Pinger", "Ping example");
     }
 
-    void on_subscribed(identifier_t id, message_id sub_msg) final {
+    void is_alive(const subscriber_info&) final {}
+
+    void on_subscribed(const subscriber_info& info, message_id sub_msg) final {
         if(sub_msg == EAGINE_MSG_ID(eagiPing, ping)) {
-            if(_targets.try_emplace(id, ping_stats{}).second) {
-                log_info("new pingable ${id} appeared").arg(EAGINE_ID(id), id);
+            if(_targets.try_emplace(info.endpoint_id, ping_stats{}).second) {
+                log_info("new pingable ${id} appeared")
+                  .arg(EAGINE_ID(id), info.endpoint_id);
             }
         }
     }
 
-    void on_unsubscribed(identifier_t id, message_id sub_msg) final {
+    void on_unsubscribed(const subscriber_info& info, message_id sub_msg) final {
         if(sub_msg == EAGINE_MSG_ID(eagiPing, ping)) {
-            log_info("pingable ${id} disappeared").arg(EAGINE_ID(id), id);
+            log_info("pingable ${id} disappeared")
+              .arg(EAGINE_ID(id), info.endpoint_id);
         }
     }
 
-    void not_subscribed(identifier_t id, message_id sub_msg) final {
+    void not_subscribed(const subscriber_info& info, message_id sub_msg) final {
         if(sub_msg == EAGINE_MSG_ID(eagiPing, ping)) {
-            log_info("target ${id} is not pingable").arg(EAGINE_ID(id), id);
+            log_info("target ${id} is not pingable")
+              .arg(EAGINE_ID(id), info.endpoint_id);
         }
     }
 

@@ -97,16 +97,20 @@ private:
         return pos->second;
     }
 
-    void on_subscribed(identifier_t node_id, message_id msg_id) final {
-        on_node_change(_get_node(node_id).add_subscription(msg_id));
+    void is_alive(const subscriber_info& info) final {
+        on_node_change(_get_node(info.endpoint_id));
     }
 
-    void on_unsubscribed(identifier_t node_id, message_id msg_id) final {
-        on_node_change(_get_node(node_id).remove_subscription(msg_id));
+    void on_subscribed(const subscriber_info& info, message_id msg_id) final {
+        on_node_change(_get_node(info.endpoint_id).add_subscription(msg_id));
     }
 
-    void not_subscribed(identifier_t node_id, message_id msg_id) final {
-        on_node_change(_get_node(node_id).remove_subscription(msg_id));
+    void on_unsubscribed(const subscriber_info& info, message_id msg_id) final {
+        on_node_change(_get_node(info.endpoint_id).remove_subscription(msg_id));
+    }
+
+    void not_subscribed(const subscriber_info& info, message_id msg_id) final {
+        on_node_change(_get_node(info.endpoint_id).remove_subscription(msg_id));
     }
 
     void router_appeared(const router_topology_info& info) final {
