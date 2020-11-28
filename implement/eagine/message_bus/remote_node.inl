@@ -195,7 +195,7 @@ auto remote_node_state::add_subscription(message_id msg_id)
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
         auto& s = i.get_sub(msg_id);
-        if(s != true) {
+        if(!s.is(true)) {
             s = true;
             i.something_changed = true;
         }
@@ -209,7 +209,7 @@ auto remote_node_state::remove_subscription(message_id msg_id)
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
         auto& s = i.get_sub(msg_id);
-        if(s != false) {
+        if(!s.is(false)) {
             s = false;
             i.something_changed = true;
         }

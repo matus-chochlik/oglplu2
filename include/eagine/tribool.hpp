@@ -83,6 +83,10 @@ public:
         return weakbool{_value};
     }
 
+    constexpr auto is(bool value) const noexcept -> bool {
+        return _value == (value ? _value_t::_true : _value_t::_false);
+    }
+
     constexpr auto is(indeterminate_t) const noexcept -> bool {
         return *(*this);
     }
