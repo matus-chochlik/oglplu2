@@ -12,6 +12,7 @@
 
 #include "../flat_map.hpp"
 #include "../main_ctx_object.hpp"
+#include "../process.hpp"
 #include "../timeout.hpp"
 #include "../valid_if/positive.hpp"
 #include "acceptor.hpp"
@@ -37,19 +38,31 @@ struct router_pending {
     }
 };
 //------------------------------------------------------------------------------
-struct routed_endpoint {
+struct router_endpoint_info {
+    process_instance_id_t instance_id{0};
+    timeout is_outdated{std::chrono::seconds(60)};
+    std::vector<message_id> subscriptions{};
+    std::vector<message_id> unsubscriptions{};
+
+    void assign_instance_id(message_view msg) {
+        instance_id = msg.sequence_no;
+        is_outdated.reset();
+    }
+};
+//------------------------------------------------------------------------------
+struct routed_node {
     std::unique_ptr<connection> the_connection{};
     std::vector<message_id> message_block_list{};
     std::vector<message_id> message_allow_list{};
     bool maybe_router{true};
     bool do_disconnect{false};
 
-    routed_endpoint();
-    routed_endpoint(routed_endpoint&&) noexcept = default;
-    routed_endpoint(const routed_endpoint&) = delete;
-    auto operator=(routed_endpoint&&) noexcept -> routed_endpoint& = default;
-    auto operator=(const routed_endpoint&) -> routed_endpoint& = delete;
-    ~routed_endpoint() noexcept = default;
+    routed_node();
+    routed_node(routed_node&&) noexcept = default;
+    routed_node(const routed_node&) = delete;
+    auto operator=(routed_node&&) noexcept -> routed_node& = default;
+    auto operator=(const routed_node&) -> routed_node& = delete;
+    ~routed_node() noexcept = default;
 
     void block_message(message_id);
     void allow_message(message_id);
@@ -138,6 +151,9 @@ private:
     auto _do_allow_blob(message_id) -> bool;
     auto _handle_blob(message_id, message_age, const message_view&) -> bool;
 
+    auto _update_endpoint_info(identifier_t incoming_id, const message_view&)
+      -> router_endpoint_info&;
+
     auto _handle_special_common(
       message_id msg_id,
       identifier_t incoming_id,
@@ -151,7 +167,7 @@ private:
     auto _handle_special(
       message_id msg_id,
       identifier_t incoming_id,
-      routed_endpoint&,
+      routed_node&,
       const message_view&) -> bool;
 
     auto _do_route_message(
@@ -173,7 +189,9 @@ private:
     parent_router _parent_router;
     std::vector<std::shared_ptr<acceptor>> _acceptors;
     std::vector<router_pending> _pending;
-    flat_map<identifier_t, routed_endpoint> _endpoints;
+    flat_map<identifier_t, routed_node> _nodes;
+    flat_map<identifier_t, identifier_t> _endpoint_idx;
+    flat_map<identifier_t, router_endpoint_info> _endpoint_infos;
     blob_manipulator _blobs{*this};
 };
 //------------------------------------------------------------------------------

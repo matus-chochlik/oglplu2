@@ -457,10 +457,8 @@ auto endpoint::say_not_a_router() -> bool {
 EAGINE_LIB_FUNC
 auto endpoint::say_still_alive() -> bool {
     log_trace("saying still alive");
-    std::array<byte, 64> temp{};
-    auto serialized{default_serialize(_instance_id, cover(temp))};
-    EAGINE_ASSERT(serialized);
-    message_view msg{extract(serialized)};
+    message_view msg{};
+    msg.set_sequence_no(_instance_id);
     return post(EAGINE_MSGBUS_ID(stillAlive), msg);
 }
 //------------------------------------------------------------------------------
@@ -474,7 +472,9 @@ EAGINE_LIB_FUNC
 void endpoint::post_meta_message(message_id meta_msg_id, message_id msg_id) {
     std::array<byte, 64> temp{};
     if(auto serialized = default_serialize_message_type(msg_id, cover(temp))) {
-        post(meta_msg_id, message_view(extract(serialized)));
+        message_view meta_msg{extract(serialized)};
+        meta_msg.set_sequence_no(_instance_id);
+        post(meta_msg_id, meta_msg);
     } else {
         log_debug("failed to serialize meta-message ${meta}")
           .arg(EAGINE_ID(meta), meta_msg_id)

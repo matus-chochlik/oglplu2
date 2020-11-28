@@ -14,58 +14,71 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
-// routed_endpoint
+// routed_node
 //------------------------------------------------------------------------------
-static inline auto routed_endpoint_list_contains(
+static inline auto message_id_list_contains(
   const std::vector<message_id>& list,
   const message_id& entry) noexcept -> bool {
     return std::find(list.begin(), list.end(), entry) != list.end();
 }
 //------------------------------------------------------------------------------
-routed_endpoint::routed_endpoint() {
+static inline void message_id_list_add(
+  std::vector<message_id>& list,
+  const message_id& entry) noexcept {
+    if(!message_id_list_contains(list, entry)) {
+        list.push_back(entry);
+    }
+}
+//------------------------------------------------------------------------------
+static inline void message_id_list_remove(
+  std::vector<message_id>& list,
+  const message_id& entry) noexcept {
+    const auto pos = std::find(list.begin(), list.end(), entry);
+    if(pos != list.end()) {
+        list.erase(pos);
+    }
+}
+//------------------------------------------------------------------------------
+routed_node::routed_node() {
     message_block_list.reserve(8);
     message_allow_list.reserve(8);
 }
 //------------------------------------------------------------------------------
-auto routed_endpoint::is_allowed(message_id msg_id) const noexcept -> bool {
+auto routed_node::is_allowed(message_id msg_id) const noexcept -> bool {
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
         return true;
     }
     if(!message_allow_list.empty()) {
-        return routed_endpoint_list_contains(message_allow_list, msg_id);
+        return message_id_list_contains(message_allow_list, msg_id);
     }
     if(!message_block_list.empty()) {
-        return !routed_endpoint_list_contains(message_block_list, msg_id);
+        return !message_id_list_contains(message_block_list, msg_id);
     }
     return true;
 }
 //------------------------------------------------------------------------------
-auto routed_endpoint::send(
+auto routed_node::send(
   main_ctx_object& user,
   message_id msg_id,
   message_view message) const -> bool {
     if(EAGINE_LIKELY(the_connection)) {
         if(EAGINE_UNLIKELY(!the_connection->send(msg_id, message))) {
-            user.log_debug("failed to send message to endpoint");
+            user.log_debug("failed to send message to connected node");
             return false;
         }
     } else {
-        user.log_debug("missing or unusable endpoint connection");
+        user.log_debug("missing or unusable node connection");
         return false;
     }
     return true;
 }
 //------------------------------------------------------------------------------
-void routed_endpoint::block_message(message_id msg_id) {
-    if(!routed_endpoint_list_contains(message_block_list, msg_id)) {
-        message_block_list.push_back(msg_id);
-    }
+void routed_node::block_message(message_id msg_id) {
+    message_id_list_add(message_block_list, msg_id);
 }
 //------------------------------------------------------------------------------
-void routed_endpoint::allow_message(message_id msg_id) {
-    if(!routed_endpoint_list_contains(message_allow_list, msg_id)) {
-        message_allow_list.push_back(msg_id);
-    }
+void routed_node::allow_message(message_id msg_id) {
+    message_id_list_add(message_allow_list, msg_id);
 }
 //------------------------------------------------------------------------------
 // parent_router
@@ -293,9 +306,9 @@ auto router::_handle_pending() -> bool {
                 pending.the_connection->send(
                   EAGINE_MSGBUS_ID(confirmId), confirmation);
 
-                auto pos = _endpoints.find(id);
-                if(pos == _endpoints.end()) {
-                    pos = _endpoints.try_emplace(id).first;
+                auto pos = _nodes.find(id);
+                if(pos == _nodes.end()) {
+                    pos = _nodes.try_emplace(id).first;
                 }
                 pos->second.the_connection = std::move(pending.the_connection);
                 pos->second.maybe_router = maybe_router;
@@ -328,6 +341,16 @@ auto router::_remove_timeouted() -> bool {
             return false;
         }),
       _pending.end());
+
+    _endpoint_infos.erase_if([this](auto& entry) {
+        auto& [endpoint_id, info] = entry;
+        if(info.is_outdated) {
+            _endpoint_idx.erase(endpoint_id);
+            return true;
+        }
+        return false;
+    });
+
     return something_done;
 }
 //------------------------------------------------------------------------------
@@ -335,7 +358,7 @@ EAGINE_LIB_FUNC
 auto router::_remove_disconnected() -> bool {
     some_true something_done{};
 
-    for(auto& p : _endpoints) {
+    for(auto& p : _nodes) {
         auto& rep = std::get<1>(p);
         auto& conn = rep.the_connection;
         if(EAGINE_UNLIKELY(rep.do_disconnect)) {
@@ -347,9 +370,8 @@ auto router::_remove_disconnected() -> bool {
             }
         }
     }
-    something_done(_endpoints.erase_if([](auto& p) {
-        return !p.second.the_connection;
-    }) > 0);
+    something_done(
+      _nodes.erase_if([](auto& p) { return !p.second.the_connection; }) > 0);
     return something_done;
 }
 //------------------------------------------------------------------------------
@@ -358,7 +380,7 @@ void router::_assign_id(std::unique_ptr<connection>& conn) {
     EAGINE_ASSERT(conn);
     // find a currently unused endpoint id value
     identifier_t id_sequence = _id_base + 1;
-    while(_endpoints.find(id_sequence) != _endpoints.end()) {
+    while(_nodes.find(id_sequence) != _nodes.end()) {
         if(++id_sequence >= _id_end) {
             return;
         }
@@ -392,15 +414,15 @@ auto router::_process_blobs() -> bool {
     some_true something_done{};
 
     if(_blobs.has_outgoing()) {
-        for(auto& ep : _endpoints) {
-            const auto endpoint_id = std::get<0>(ep);
-            const auto& conn = std::get<1>(ep).the_connection;
+        for(auto& nd : _nodes) {
+            const auto node_id = std::get<0>(nd);
+            const auto& conn = std::get<1>(nd).the_connection;
             if(EAGINE_LIKELY(conn && conn->is_usable())) {
                 if(auto opt_max_size{conn->max_data_size()}) {
-                    auto handle_send = [endpoint_id, &conn](
+                    auto handle_send = [node_id, &conn](
                                          message_id msg_id,
                                          const message_view& message) {
-                        if(endpoint_id == message.target_id) {
+                        if(node_id == message.target_id) {
                             return conn->send(msg_id, message);
                         }
                         return false;
@@ -438,8 +460,8 @@ auto router::_handle_blob(
             log_trace("received endpoint certificate")
               .arg(EAGINE_ID(source), message.source_id)
               .arg(EAGINE_ID(pem), message.data);
-            auto pos = _endpoints.find(message.source_id);
-            if(pos != _endpoints.end()) {
+            auto pos = _nodes.find(message.source_id);
+            if(pos != _nodes.end()) {
                 if(_context->add_remote_certificate_pem(
                      message.source_id, message.data)) {
                     log_debug("verified and stored endpoint certificate")
@@ -460,6 +482,16 @@ auto router::_handle_blob(
     return true;
 }
 //------------------------------------------------------------------------------
+auto router::_update_endpoint_info(
+  identifier_t incoming_id,
+  const message_view& message) -> router_endpoint_info& {
+    _endpoint_idx[incoming_id] = message.source_id;
+    auto& info = _endpoint_infos[message.source_id];
+    // sequence_no is the instance id in this message type
+    info.assign_instance_id(message);
+    return info;
+}
+//------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto router::_handle_special_common(
   message_id msg_id,
@@ -472,22 +504,55 @@ auto router::_handle_special_common(
             log_debug("endpoint ${source} subscribes to ${message}")
               .arg(EAGINE_ID(source), message.source_id)
               .arg(EAGINE_ID(message), sub_msg_id);
+
+            auto& info = _update_endpoint_info(incoming_id, message);
+            message_id_list_add(info.subscriptions, sub_msg_id);
+            message_id_list_remove(info.unsubscriptions, sub_msg_id);
             // this should be routed
             return false;
         }
-    } else if(msg_id.has_method(EAGINE_ID(unsubFrom))) {
+    } else if(
+      msg_id.has_method(EAGINE_ID(unsubFrom)) ||
+      msg_id.has_method(EAGINE_ID(notSubTo))) {
         message_id sub_msg_id{};
         if(default_deserialize_message_type(sub_msg_id, message.data)) {
             log_debug("endpoint ${source} unsubscribes from ${message}")
               .arg(EAGINE_ID(source), message.source_id)
               .arg(EAGINE_ID(message), sub_msg_id);
+
+            auto& info = _update_endpoint_info(incoming_id, message);
+            message_id_list_remove(info.subscriptions, sub_msg_id);
+            message_id_list_add(info.unsubscriptions, sub_msg_id);
             // this should be routed
             return false;
         }
-    } else if(
-      msg_id.has_method(EAGINE_ID(qrySubscrp)) ||
-      msg_id.has_method(EAGINE_ID(qrySubscrb)) ||
-      msg_id.has_method(EAGINE_ID(notSubTo))) {
+    } else if(msg_id.has_method(EAGINE_ID(qrySubscrb))) {
+        // if we have endpoint info
+        const auto pos = _endpoint_infos.find(message.target_id);
+        if(pos != _endpoint_infos.end()) {
+            message_id sub_msg_id{};
+            if(default_deserialize_message_type(sub_msg_id, message.data)) {
+                auto& info = pos->second;
+                // if we have the information cached, then respond
+                if(message_id_list_contains(info.subscriptions, sub_msg_id)) {
+                    message_view response{message.data};
+                    response.setup_response(message);
+                    response.set_source_id(_id_base);
+                    this->_do_route_message(
+                      EAGINE_MSGBUS_ID(subscribTo), _id_base, response);
+                }
+                if(message_id_list_contains(info.unsubscriptions, sub_msg_id)) {
+                    message_view response{message.data};
+                    response.setup_response(message);
+                    response.set_source_id(_id_base);
+                    this->_do_route_message(
+                      EAGINE_MSGBUS_ID(notSubTo), _id_base, response);
+                }
+            }
+        }
+        // this still should be routed
+        return false;
+    } else if(msg_id.has_method(EAGINE_ID(qrySubscrp))) {
         // this should be routed
         return false;
     } else if(msg_id.has_method(EAGINE_ID(blobFrgmnt))) {
@@ -540,8 +605,8 @@ auto router::_handle_special_common(
             }
         };
 
-        for(auto& [ep_id, ep] : this->_endpoints) {
-            respond(ep_id);
+        for(auto& [nd_id, nd] : this->_nodes) {
+            respond(nd_id);
         }
         if(_parent_router.confirmed_id) {
             respond(_parent_router.confirmed_id);
@@ -577,8 +642,7 @@ auto router::_handle_special(
           .arg(EAGINE_ID(source), message.source_id);
 
         if(msg_id.has_method(EAGINE_ID(stillAlive))) {
-            // TODO: use this information to keep track of remote endpoints
-            // connected to routers
+            _update_endpoint_info(incoming_id, message);
             // this should be forwarded
             return false;
         } else {
@@ -592,10 +656,10 @@ EAGINE_LIB_FUNC
 auto router::_handle_special(
   message_id msg_id,
   identifier_t incoming_id,
-  routed_endpoint& endpoint,
+  routed_node& node,
   const message_view& message) -> bool {
     if(EAGINE_UNLIKELY(is_special_message(msg_id))) {
-        log_debug("router handling special message ${message} from endpoint")
+        log_debug("router handling special message ${message} from node")
           .arg(EAGINE_ID(router), _id_base)
           .arg(EAGINE_ID(message), msg_id)
           .arg(EAGINE_ID(target), message.target_id)
@@ -603,48 +667,51 @@ auto router::_handle_special(
 
         if(msg_id.has_method(EAGINE_ID(notARouter))) {
             if(incoming_id == message.source_id) {
-                endpoint.maybe_router = false;
-                log_debug("endpoint ${source} is not a router")
+                node.maybe_router = false;
+                log_debug("node ${source} is not a router")
                   .arg(EAGINE_ID(source), message.source_id);
             }
             return true;
         } else if(msg_id.has_method(EAGINE_ID(clrBlkList))) {
             log_debug("clearing router block_list");
-            endpoint.message_block_list.clear();
+            node.message_block_list.clear();
             return true;
         } else if(msg_id.has_method(EAGINE_ID(clrAlwList))) {
             log_debug("clearing router allow_list");
-            endpoint.message_allow_list.clear();
+            node.message_allow_list.clear();
             return true;
         } else if(msg_id.has_method(EAGINE_ID(msgBlkList))) {
             message_id blk_msg_id{};
             if(default_deserialize_message_type(blk_msg_id, message.data)) {
                 if(!is_special_message(msg_id)) {
-                    log_debug("endpoint ${source} blocking message ${message}")
+                    log_debug("node ${source} blocking message ${message}")
                       .arg(EAGINE_ID(message), blk_msg_id)
                       .arg(EAGINE_ID(source), message.source_id);
-                    endpoint.block_message(blk_msg_id);
+                    node.block_message(blk_msg_id);
+                    _update_endpoint_info(incoming_id, message);
                     return true;
                 }
             }
         } else if(msg_id.has_method(EAGINE_ID(msgAlwList))) {
             message_id alw_msg_id{};
             if(default_deserialize_message_type(alw_msg_id, message.data)) {
-                log_debug("endpoint ${source} allowing message ${message}")
+                log_debug("node ${source} allowing message ${message}")
                   .arg(EAGINE_ID(message), alw_msg_id)
                   .arg(EAGINE_ID(source), message.source_id);
-                endpoint.allow_message(alw_msg_id);
+                node.allow_message(alw_msg_id);
+                _update_endpoint_info(incoming_id, message);
                 return true;
             }
         } else if(msg_id.has_method(EAGINE_ID(stillAlive))) {
-            // TODO: use this information to keep track of remote endpoints
-            // connected to routers
+            _update_endpoint_info(incoming_id, message);
             // this should be forwarded
             return false;
         } else if(msg_id.has_method(EAGINE_ID(byeBye))) {
-            log_debug("received bye-bye from endpoint ${source}")
+            log_debug("received bye-bye from node ${source}")
               .arg(EAGINE_ID(source), message.source_id);
-            endpoint.do_disconnect = true;
+            node.do_disconnect = true;
+            _endpoint_idx.erase(incoming_id);
+            _endpoint_infos.erase(message.source_id);
             // this should be forwarded
             return false;
         } else {
@@ -665,11 +732,11 @@ auto router::_do_route_message(
         log_warning("message ${message} discarded after too many hops")
           .arg(EAGINE_ID(message), msg_id);
     } else {
-        const auto& epts = this->_endpoints;
+        const auto& nodes = this->_nodes;
         message.add_hop();
         const bool is_targeted = (message.target_id != broadcast_endpoint_id());
 
-        const auto forward_to = [&](auto& endpoint_out) {
+        const auto forward_to = [&](auto& node_out) {
             if(EAGINE_UNLIKELY(++_forwarded_messages % 1000000 == 0)) {
                 const auto now{std::chrono::steady_clock::now()};
                 const std::chrono::duration<float> interval{
@@ -687,23 +754,41 @@ auto router::_do_route_message(
 
                 _forwarded_since = now;
             }
-            return endpoint_out.send(*this, msg_id, message);
+            return node_out.send(*this, msg_id, message);
         };
 
         if(is_targeted) {
             bool has_routed = false;
-            for(const auto& [outgoing_id, endpoint_out] : epts) {
-                if(outgoing_id == message.target_id) {
-                    if(endpoint_out.is_allowed(msg_id)) {
-                        has_routed = forward_to(endpoint_out);
+            auto pos = _endpoint_idx.find(message.target_id);
+            if(pos != _endpoint_idx.end()) {
+                // if the message should go through the parent router
+                if(pos->second == _id_base) {
+                    has_routed |= _parent_router.send(*this, msg_id, message);
+                } else {
+                    auto node_pos = nodes.find(pos->second);
+                    if(node_pos != nodes.end()) {
+                        auto& node_out = node_pos->second;
+                        if(node_out.is_allowed(msg_id)) {
+                            has_routed = forward_to(node_out);
+                        }
+                    }
+                }
+            }
+
+            if(!has_routed) {
+                for(const auto& [outgoing_id, node_out] : nodes) {
+                    if(outgoing_id == message.target_id) {
+                        if(node_out.is_allowed(msg_id)) {
+                            has_routed = forward_to(node_out);
+                        }
                     }
                 }
             }
             if(!has_routed) {
-                for(const auto& [outgoing_id, endpoint_out] : epts) {
-                    if(endpoint_out.maybe_router) {
+                for(const auto& [outgoing_id, node_out] : nodes) {
+                    if(node_out.maybe_router) {
                         if(incoming_id != outgoing_id) {
-                            has_routed |= forward_to(endpoint_out);
+                            has_routed |= forward_to(node_out);
                         }
                     }
                 }
@@ -714,10 +799,10 @@ auto router::_do_route_message(
             }
             result &= has_routed;
         } else {
-            for(const auto& [outgoing_id, endpoint_out] : epts) {
+            for(const auto& [outgoing_id, node_out] : nodes) {
                 if(incoming_id != outgoing_id) {
-                    if(endpoint_out.is_allowed(msg_id)) {
-                        result |= forward_to(endpoint_out);
+                    if(node_out.is_allowed(msg_id)) {
+                        result |= forward_to(node_out);
                     }
                 }
             }
@@ -733,14 +818,13 @@ EAGINE_LIB_FUNC
 auto router::_route_messages() -> bool {
     some_true something_done{};
 
-    for(auto& ep : _endpoints) {
-        auto handler = [this, &ep](
+    for(auto& nd : _nodes) {
+        auto handler = [this, &nd](
                          message_id msg_id,
                          message_age msg_age,
                          const message_view& message) {
-            auto& [incoming_id, endpoint_in] = ep;
-            if(this->_handle_special(
-                 msg_id, incoming_id, endpoint_in, message)) {
+            auto& [incoming_id, node_in] = nd;
+            if(this->_handle_special(msg_id, incoming_id, node_in, message)) {
                 return true;
             }
             if(EAGINE_LIKELY(msg_age < std::chrono::seconds(30))) {
@@ -749,7 +833,7 @@ auto router::_route_messages() -> bool {
             return true;
         };
 
-        const auto& conn_in = std::get<1>(ep).the_connection;
+        const auto& conn_in = std::get<1>(nd).the_connection;
         if(EAGINE_LIKELY(conn_in && conn_in->is_usable())) {
             something_done(
               conn_in->fetch_messages(connection::fetch_handler(handler)));
@@ -776,9 +860,9 @@ EAGINE_LIB_FUNC
 auto router::_update_connections() -> bool {
     some_true something_done{};
 
-    for(auto& [id, endpoint] : _endpoints) {
+    for(auto& [id, node] : _nodes) {
         EAGINE_MAYBE_UNUSED(id);
-        const auto& conn = endpoint.the_connection;
+        const auto& conn = node.the_connection;
         if(EAGINE_LIKELY(conn)) {
             something_done(conn->update());
         }
@@ -786,7 +870,7 @@ auto router::_update_connections() -> bool {
 
     something_done(_parent_router.update(*this, _id_base));
 
-    if(_endpoints.empty() && _pending.empty()) {
+    if(_nodes.empty() && _pending.empty()) {
         std::this_thread::yield();
     } else {
         _no_connection_timeout.reset();
