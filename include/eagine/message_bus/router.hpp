@@ -185,6 +185,7 @@ private:
     shared_context _context{};
     const std::chrono::seconds _pending_timeout{30};
     timeout _no_connection_timeout{std::chrono::seconds{30}};
+    const process_instance_id_t _instance_id{make_instance_id()};
     identifier_t _id_base{0};
     identifier_t _id_end{0};
     std::chrono::steady_clock::time_point _forwarded_since{

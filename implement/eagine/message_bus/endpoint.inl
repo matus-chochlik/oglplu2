@@ -181,6 +181,7 @@ auto endpoint::_handle_special(
             std::array<byte, 256> temp{};
             endpoint_topology_info info{};
             info.endpoint_id = _endpoint_id;
+            info.instance_id = _instance_id;
             if(auto serialized{default_serialize(info, cover(temp))}) {
                 message_view response{extract(serialized)};
                 response.setup_response(message);

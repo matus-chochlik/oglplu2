@@ -223,6 +223,7 @@ auto bridge::_handle_special(
             std::array<byte, 256> temp{};
             bridge_topology_info info{};
             info.bridge_id = _id;
+            info.instance_id = _instance_id;
             if(auto serialized{default_serialize(info, cover(temp))}) {
                 message_view response{extract(serialized)};
                 response.setup_response(message);

@@ -596,6 +596,7 @@ auto router::_handle_special_common(
         auto respond = [&](identifier_t remote_id) {
             info.router_id = _id_base;
             info.remote_id = remote_id;
+            info.instance_id = _instance_id;
             if(auto serialized{default_serialize(info, cover(temp))}) {
                 message_view response{extract(serialized)};
                 response.setup_response(message);

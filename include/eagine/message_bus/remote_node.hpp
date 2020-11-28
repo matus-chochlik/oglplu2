@@ -12,6 +12,7 @@
 
 #include "../identifier_t.hpp"
 #include "../message_id.hpp"
+#include "../process.hpp"
 #include "../tribool.hpp"
 #include "../types.hpp"
 #include "../valid_if/ge0_le1.hpp"
@@ -63,6 +64,8 @@ public:
         return {_node_id};
     }
 
+    auto instance_id() noexcept -> valid_if_not_zero<process_instance_id_t>;
+
     auto kind() noexcept -> node_kind;
 
     auto host_id() noexcept -> valid_if_not_zero<identifier_t>;
@@ -87,16 +90,24 @@ class remote_node_state : public remote_node {
 public:
     using remote_node::remote_node;
 
+    auto set_instance_id(process_instance_id_t) -> remote_node_state&;
+
     auto assign(node_kind) -> remote_node_state&;
     auto assign(remote_host) -> remote_node_state&;
 
     auto add_subscription(message_id) -> remote_node_state&;
     auto remove_subscription(message_id) -> remote_node_state&;
 
-    auto should_ping() noexcept -> std::tuple<bool, std::chrono::milliseconds>;
-    void pinged() noexcept;
-    void ping_response(message_sequence_t, std::chrono::microseconds age);
-    void ping_timeout(message_sequence_t, std::chrono::microseconds age);
+    auto instance_changed() -> bool;
+    auto something_changed() -> bool;
+
+    auto should_ping() -> std::tuple<bool, std::chrono::milliseconds>;
+    auto notified_alive() -> remote_node_state&;
+    auto pinged() -> remote_node_state&;
+    auto ping_response(message_sequence_t, std::chrono::microseconds age)
+      -> remote_node_state&;
+    auto ping_timeout(message_sequence_t, std::chrono::microseconds age)
+      -> remote_node_state&;
 };
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus
