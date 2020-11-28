@@ -10,6 +10,7 @@
 #ifndef EAGINE_MESSAGE_BUS_ENDPOINT_HPP
 #define EAGINE_MESSAGE_BUS_ENDPOINT_HPP
 
+#include "../application_config.hpp"
 #include "../flat_map.hpp"
 #include "../main_ctx_object.hpp"
 #include "../process.hpp"
