@@ -576,7 +576,14 @@ auto router::_handle_special(
           .arg(EAGINE_ID(target), message.target_id)
           .arg(EAGINE_ID(source), message.source_id);
 
-        return _handle_special_common(msg_id, incoming_id, message);
+        if(msg_id.has_method(EAGINE_ID(stillAlive))) {
+            // TODO: use this information to keep track of remote endpoints
+            // connected to routers
+            // this should be forwarded
+            return false;
+        } else {
+            return _handle_special_common(msg_id, incoming_id, message);
+        }
     }
     return false;
 }
@@ -629,11 +636,17 @@ auto router::_handle_special(
                 endpoint.allow_message(alw_msg_id);
                 return true;
             }
+        } else if(msg_id.has_method(EAGINE_ID(stillAlive))) {
+            // TODO: use this information to keep track of remote endpoints
+            // connected to routers
+            // this should be forwarded
+            return false;
         } else if(msg_id.has_method(EAGINE_ID(byeBye))) {
             log_debug("received bye-bye from endpoint ${source}")
               .arg(EAGINE_ID(source), message.source_id);
             endpoint.do_disconnect = true;
-            return true;
+            // this should be forwarded
+            return false;
         } else {
             return _handle_special_common(msg_id, incoming_id, message);
         }

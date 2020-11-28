@@ -63,13 +63,13 @@ public:
     }
 
     void shutdown() {
-        bus().send(EAGINE_MSG_ID(PingPong, Shutdown));
+        bus().broadcast(EAGINE_MSG_ID(PingPong, Shutdown));
         bus().log_info("sent shutdown message");
     }
 
     void update() {
         if(_ready && (_sent <= _max * 2) && (_sent < _rcvd + _lmod)) {
-            bus().send(EAGINE_MSG_ID(PingPong, Ping));
+            bus().broadcast(EAGINE_MSG_ID(PingPong, Ping));
             if(++_sent % _lmod == 0) {
                 bus()
                   .log_info("sent ${count} pings")

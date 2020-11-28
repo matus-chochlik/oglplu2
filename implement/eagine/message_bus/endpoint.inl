@@ -171,6 +171,8 @@ auto endpoint::_handle_special(
             }
             return true;
         } else if(
+          msg_id.has_method(EAGINE_ID(byeBye)) ||
+          msg_id.has_method(EAGINE_ID(stillAlive)) ||
           msg_id.has_method(EAGINE_ID(topoRutrCn)) ||
           msg_id.has_method(EAGINE_ID(topoBrdgCn)) ||
           msg_id.has_method(EAGINE_ID(topoEndpt))) {
@@ -224,7 +226,7 @@ auto endpoint::_store_message(
               .arg(EAGINE_ID(self), _endpoint_id)
               .arg(EAGINE_ID(target), message.target_id)
               .arg(EAGINE_ID(message), msg_id);
-            post(EAGINE_MSGBUS_ID(notARouter), {});
+            say_not_a_router();
         }
     }
     return true;
@@ -409,6 +411,10 @@ auto endpoint::update() -> bool {
         }
     }
 
+    if(_should_notify_alive) {
+        say_still_alive();
+    }
+
     // if we have a valid id and we have messages in outbox
     if(EAGINE_UNLIKELY(has_id() && !_outgoing.empty())) {
         log_debug("sending ${count} messages from outbox")
@@ -445,13 +451,23 @@ void endpoint::unsubscribe(message_id msg_id) {
 //------------------------------------------------------------------------------
 auto endpoint::say_not_a_router() -> bool {
     log_debug("saying not a router");
-    return send(EAGINE_MSGBUS_ID(notARouter));
+    return post(EAGINE_MSGBUS_ID(notARouter), {});
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto endpoint::say_still_alive() -> bool {
+    log_trace("saying still alive");
+    std::array<byte, 64> temp{};
+    auto serialized{default_serialize(_instance_id, cover(temp))};
+    EAGINE_ASSERT(serialized);
+    message_view msg{extract(serialized)};
+    return post(EAGINE_MSGBUS_ID(stillAlive), msg);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto endpoint::say_bye() -> bool {
     log_debug("saying bye-bye");
-    return send(EAGINE_MSGBUS_ID(byeBye));
+    return post(EAGINE_MSGBUS_ID(byeBye), {});
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

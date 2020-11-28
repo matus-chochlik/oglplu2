@@ -121,12 +121,12 @@ public:
     }
 
     void shutdown() {
-        bus().send(EAGINE_MSG_ID(Fibonacci, Shutdown));
+        bus().broadcast(EAGINE_MSG_ID(Fibonacci, Shutdown));
     }
 
     void update() {
         if(!_remaining.empty()) {
-            bus().send(EAGINE_MSG_ID(Fibonacci, FindServer));
+            bus().broadcast(EAGINE_MSG_ID(Fibonacci, FindServer));
         }
     }
 

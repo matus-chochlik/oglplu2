@@ -57,7 +57,7 @@ public:
 
     void update() {
         if(!_sent && _ready_timeout) {
-            bus().send(EAGINE_MSG_ID(PingPong, Ready));
+            bus().broadcast(EAGINE_MSG_ID(PingPong, Ready));
             _ready_timeout.reset();
         } else {
             std::this_thread::yield();
