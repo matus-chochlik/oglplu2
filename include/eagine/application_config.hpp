@@ -83,6 +83,12 @@ public:
         return {std::move(temp), fetched};
     }
 
+    template <typename T>
+    auto init(string_view key, T initial) -> T {
+        fetch(key, initial);
+        return initial;
+    }
+
 private:
     std::shared_ptr<application_config_impl> _pimpl;
     auto _impl() noexcept -> application_config_impl*;
@@ -93,6 +99,15 @@ private:
     auto _eval_env_var(string_view key) noexcept
       -> optionally_valid<string_view>;
 };
+//------------------------------------------------------------------------------
+template <typename T>
+inline auto application_config_initial(
+  application_config& config,
+  string_view key,
+  T initial) -> T {
+    config.init(key, initial);
+    return initial;
+}
 //------------------------------------------------------------------------------
 } // namespace eagine
 

@@ -25,9 +25,7 @@ struct main_ctx_options {
     root_logger_options logger_opts{};
 };
 
-class master_ctx;
 class data_compressor;
-class application_config;
 class process_watchdog;
 
 class main_ctx {
