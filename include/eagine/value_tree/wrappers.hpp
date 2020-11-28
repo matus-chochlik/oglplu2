@@ -100,6 +100,58 @@ private:
 //------------------------------------------------------------------------------
 class compound_attribute;
 //------------------------------------------------------------------------------
+template <typename T>
+struct not_converted_value {
+    constexpr not_converted_value(T& dest) noexcept
+      : _dest{dest} {}
+
+    constexpr auto dest() noexcept -> auto& {
+        return _dest;
+    }
+
+    constexpr auto apply() const noexcept {
+        return true;
+    }
+
+private:
+    T& _dest;
+};
+//------------------------------------------------------------------------------
+template <typename T>
+struct converted_value : not_converted_value<T> {
+    using base = not_converted_value<T>;
+    using base::base;
+};
+//------------------------------------------------------------------------------
+template <>
+struct converted_value<std::chrono::duration<float>>
+  : not_converted_value<std::chrono::duration<float>> {
+    using base = not_converted_value<std::chrono::duration<float>>;
+    using base::base;
+};
+//------------------------------------------------------------------------------
+template <typename R, typename P>
+class converted_value<std::chrono::duration<R, P>> {
+    using T = std::chrono::duration<R, P>;
+
+public:
+    constexpr converted_value(T& dest) noexcept
+      : _dest{dest} {}
+
+    constexpr auto dest() noexcept -> auto& {
+        return _temp;
+    }
+
+    auto apply() const {
+        _dest = std::chrono::duration_cast<T>(_temp);
+        return true;
+    }
+
+private:
+    std::chrono::duration<float> _temp{};
+    T& _dest;
+};
+//------------------------------------------------------------------------------
 class compound {
 public:
     compound() noexcept = default;
@@ -265,7 +317,11 @@ public:
     template <typename T>
     auto fetch_value(const attribute& attrib, span_size_t offset, T& dest) const
       -> bool {
-        return !fetch_values(attrib, offset, cover_one(dest)).empty();
+        converted_value<T> conv{dest};
+        if(!fetch_values(attrib, offset, cover_one(conv.dest())).empty()) {
+            return conv.apply();
+        }
+        return false;
     }
 
     template <typename T>
