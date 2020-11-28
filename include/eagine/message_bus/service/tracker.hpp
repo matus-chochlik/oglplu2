@@ -52,7 +52,7 @@ public:
                 const auto [should_ping, max_time] = node.should_ping();
                 if(should_ping) {
                     this->ping(node_id, max_time);
-                    _handle_node_change(node.pinged());
+                    _handle_node_change(node_id, node.pinged());
                     something_done();
                 }
             }
@@ -97,52 +97,72 @@ private:
         return pos->second;
     }
 
-    void _handle_node_change(remote_node_state& node) {
+    void _handle_node_change(identifier_t node_id, remote_node_state& node) {
         if(node.something_changed()) {
-            on_node_change(node, node.instance_changed());
+            const bool new_instance = node.instance_changed();
+            on_node_change(node, new_instance);
+            if(EAGINE_UNLIKELY(new_instance)) {
+                this->query_host_id(node_id);
+                this->query_hostname(node_id);
+                this->query_subscriptions_of(node_id);
+            }
         }
     }
 
     void is_alive(const subscriber_info& info) final {
-        _handle_node_change(_get_node(info.endpoint_id)
-                              .set_instance_id(info.instance_id)
-                              .notified_alive());
+        _handle_node_change(
+          info.endpoint_id,
+          _get_node(info.endpoint_id)
+            .set_instance_id(info.instance_id)
+            .notified_alive());
     }
 
     void on_subscribed(const subscriber_info& info, message_id msg_id) final {
-        _handle_node_change(_get_node(info.endpoint_id)
-                              .set_instance_id(info.instance_id)
-                              .add_subscription(msg_id));
+        _handle_node_change(
+          info.endpoint_id,
+          _get_node(info.endpoint_id)
+            .set_instance_id(info.instance_id)
+            .add_subscription(msg_id));
     }
 
     void on_unsubscribed(const subscriber_info& info, message_id msg_id) final {
-        _handle_node_change(_get_node(info.endpoint_id)
-                              .set_instance_id(info.instance_id)
-                              .remove_subscription(msg_id));
+        _handle_node_change(
+          info.endpoint_id,
+          _get_node(info.endpoint_id)
+            .set_instance_id(info.instance_id)
+            .remove_subscription(msg_id));
     }
 
     void not_subscribed(const subscriber_info& info, message_id msg_id) final {
-        _handle_node_change(_get_node(info.endpoint_id)
-                              .set_instance_id(info.instance_id)
-                              .remove_subscription(msg_id));
+        _handle_node_change(
+          info.endpoint_id,
+          _get_node(info.endpoint_id)
+            .set_instance_id(info.instance_id)
+            .remove_subscription(msg_id));
     }
 
     void router_appeared(const router_topology_info& info) final {
-        _handle_node_change(_get_node(info.router_id)
-                              .set_instance_id(info.instance_id)
-                              .assign(node_kind::router));
+        _handle_node_change(
+          info.router_id,
+          _get_node(info.router_id)
+            .set_instance_id(info.instance_id)
+            .assign(node_kind::router));
     }
 
     void bridge_appeared(const bridge_topology_info& info) final {
-        _handle_node_change(_get_node(info.bridge_id)
-                              .set_instance_id(info.instance_id)
-                              .assign(node_kind::bridge));
+        _handle_node_change(
+          info.bridge_id,
+          _get_node(info.bridge_id)
+            .set_instance_id(info.instance_id)
+            .assign(node_kind::bridge));
     }
 
     void endpoint_appeared(const endpoint_topology_info& info) final {
-        _handle_node_change(_get_node(info.endpoint_id)
-                              .set_instance_id(info.instance_id)
-                              .assign(node_kind::endpoint));
+        _handle_node_change(
+          info.endpoint_id,
+          _get_node(info.endpoint_id)
+            .set_instance_id(info.instance_id)
+            .assign(node_kind::endpoint));
     }
 
     void on_host_id_received(
@@ -150,6 +170,7 @@ private:
       valid_if_positive<system_info::host_id_type>&& host_id) final {
         if(host_id) {
             _handle_node_change(
+              ctx.source_id(),
               _get_node(ctx.source_id()).assign(_get_host(extract(host_id))));
         }
     }
@@ -176,14 +197,16 @@ private:
       message_sequence_t sequence_no,
       std::chrono::microseconds age,
       verification_bits) final {
-        _handle_node_change(_get_node(node_id).ping_response(sequence_no, age));
+        _handle_node_change(
+          node_id, _get_node(node_id).ping_response(sequence_no, age));
     }
 
     void on_ping_timeout(
       identifier_t node_id,
       message_sequence_t sequence_no,
       std::chrono::microseconds age) final {
-        _handle_node_change(_get_node(node_id).ping_timeout(sequence_no, age));
+        _handle_node_change(
+          node_id, _get_node(node_id).ping_timeout(sequence_no, age));
     }
 };
 //------------------------------------------------------------------------------

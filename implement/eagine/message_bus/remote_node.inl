@@ -181,7 +181,7 @@ EAGINE_LIB_FUNC
 auto remote_node_state::assign(remote_host host) -> remote_node_state& {
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
-        if(i.host.id() != host.id()) {
+        if(i.host != host) {
             i.host = std::move(host);
             i.something_changed = true;
         }

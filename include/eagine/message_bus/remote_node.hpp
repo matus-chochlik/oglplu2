@@ -37,8 +37,18 @@ public:
 
     auto name() noexcept -> valid_if_not_empty<string_view>;
 
+    friend auto operator==(const remote_host& l, const remote_host& r) noexcept
+      -> bool {
+        return l._host_id == r._host_id;
+    }
+
+    friend auto operator!=(const remote_host& l, const remote_host& r) noexcept
+      -> bool {
+        return l._host_id != r._host_id;
+    }
+
 private:
-    identifier_t _host_id{0};
+    identifier_t _host_id{0U};
     std::shared_ptr<remote_host_impl> _pimpl{};
 
 protected:

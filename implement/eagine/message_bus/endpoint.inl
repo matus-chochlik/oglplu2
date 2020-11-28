@@ -490,9 +490,10 @@ void endpoint::post_meta_message_to(
   message_id msg_id) {
     std::array<byte, 64> temp{};
     if(auto serialized = default_serialize_message_type(msg_id, cover(temp))) {
-        message_view msg{extract(serialized)};
-        msg.set_target_id(target_id);
-        post(meta_msg_id, msg);
+        message_view meta_msg{extract(serialized)};
+        meta_msg.set_target_id(target_id);
+        meta_msg.set_sequence_no(_instance_id);
+        post(meta_msg_id, meta_msg);
     } else {
         log_debug("failed to serialize meta-message ${meta}")
           .arg(EAGINE_ID(meta), meta_msg_id)
@@ -535,7 +536,9 @@ EAGINE_LIB_FUNC
 void endpoint::query_subscriptions_of(identifier_t target_id) {
     log_debug("querying subscribed messages of endpoint ${target}")
       .arg(EAGINE_ID(target), target_id);
-    post(EAGINE_MSGBUS_ID(qrySubscrp), {});
+    message_view msg{};
+    msg.set_target_id(target_id);
+    post(EAGINE_MSGBUS_ID(qrySubscrp), msg);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

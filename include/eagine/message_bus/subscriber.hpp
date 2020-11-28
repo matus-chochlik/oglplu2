@@ -54,8 +54,13 @@ public:
         return {};
     }
 
-    void query_subscribers_of(message_id sub_msg) {
+    void query_subscriptions_of(identifier_t target_id) {
+        if(EAGINE_LIKELY(_endpoint)) {
+            _endpoint->query_subscriptions_of(target_id);
+        }
+    }
 
+    void query_subscribers_of(message_id sub_msg) {
         if(EAGINE_LIKELY(_endpoint)) {
             _endpoint->query_subscribers_of(sub_msg);
         }
