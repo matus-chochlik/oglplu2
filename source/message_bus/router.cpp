@@ -74,7 +74,7 @@ private:
     }
 
     timeout _shutdown_timeout{
-      cfg_init("msg_bus.router.shutdown.delay", std::chrono::seconds(30))};
+      cfg_init("msg_bus.router.shutdown.delay", std::chrono::seconds(60))};
     const std::chrono::milliseconds _shutdown_max_age{cfg_init(
       "msg_bus.router.shutdown.max_age",
       std::chrono::milliseconds(2500))};
