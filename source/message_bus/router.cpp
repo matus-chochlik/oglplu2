@@ -17,6 +17,7 @@
 #include <eagine/message_bus/service/build_info.hpp>
 #include <eagine/message_bus/service/host_info.hpp>
 #include <eagine/message_bus/service/ping_pong.hpp>
+#include <eagine/message_bus/service/shutdown.hpp>
 #include <eagine/message_bus/service/system_info.hpp>
 #include <eagine/signal_switch.hpp>
 #include <eagine/watchdog.hpp>
@@ -25,8 +26,8 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 namespace msgbus {
-using router_node_base = service_composition<
-  pingable<build_info_provider<system_info_provider<host_info_provider<>>>>>;
+using router_node_base = service_composition<shutdown_target<
+  pingable<build_info_provider<system_info_provider<host_info_provider<>>>>>>;
 //------------------------------------------------------------------------------
 class router_node
   : public main_ctx_object
@@ -43,6 +44,51 @@ public:
         something_done(base::update_and_process_all());
 
         return something_done;
+    }
+
+    auto shut_down() const noexcept {
+        return _shut_down;
+    }
+
+private:
+    std::chrono::milliseconds _shutdown_max_age{cfg_init(
+      "msg_bus.router.shutdown.max_age",
+      std::chrono::milliseconds(2500))};
+    const bool _shutdown_ignore{cfg_init("msg_bus.keep_running", false)};
+    bool _shutdown_verify{cfg_init("msg_bus.router.shutdown.verify", true)};
+    bool _shut_down{false};
+
+    auto _shutdown_verified(verification_bits v) const noexcept -> bool {
+        return v.has_all(
+          verification_bit::source_id,
+          verification_bit::source_certificate,
+          verification_bit::source_private_key,
+          verification_bit::message_id);
+    }
+
+    void on_shutdown(
+      std::chrono::milliseconds age,
+      identifier_t source_id,
+      verification_bits verified) final {
+        log_info("received ${age} old shutdown request from ${source}")
+          .arg(EAGINE_ID(age), age)
+          .arg(EAGINE_ID(source), source_id)
+          .arg(EAGINE_ID(verified), verified);
+
+        if(!_shutdown_ignore) {
+            if(age <= _shutdown_max_age) {
+                if(!_shutdown_verify || _shutdown_verified(verified)) {
+                    log_info("request is valid shutting down");
+                    _shut_down = true;
+                } else {
+                    log_warning("shutdown verification failed");
+                }
+            } else {
+                log_warning("shutdown request is too old");
+            }
+        } else {
+            log_warning("ignoring shutdown request due to configuration");
+        }
     }
 };
 } // namespace msgbus
@@ -74,7 +120,10 @@ auto main(main_ctx& ctx) -> int {
     int idle_streak{0};
     int max_idle_streak{0};
 
-    auto update_round = [&]() -> bool {
+    auto& wd = ctx.watchdog();
+    wd.declare_initialized();
+
+    while(EAGINE_LIKELY(!interrupted)) {
         some_true something_done{};
         something_done(router.update(8));
         something_done(node.update());
@@ -82,34 +131,13 @@ auto main(main_ctx& ctx) -> int {
         if(EAGINE_LIKELY(something_done)) {
             ++cycles_work;
             idle_streak = 0;
-            return true;
         } else {
             ++cycles_idle;
             max_idle_streak = math::maximum(max_idle_streak, ++idle_streak);
             std::this_thread::sleep_for(
               std::chrono::milliseconds(math::minimum(idle_streak / 8, 8)));
-            return false;
         }
-    };
-
-    auto& wd = ctx.watchdog();
-    wd.declare_initialized();
-
-    if(ctx.config().is_set("msg_bus.keep_running")) {
-        while(EAGINE_LIKELY(!interrupted)) {
-            update_round();
-            wd.notify_alive();
-        }
-    } else {
-        std::chrono::duration<float> max_inactive{60};
-        ctx.config().fetch("msg_bus.router.max_inactive", max_inactive);
-        timeout inactive{max_inactive};
-        while(EAGINE_LIKELY(!(interrupted || inactive))) {
-            if(update_round()) {
-                inactive.reset();
-            }
-            wd.notify_alive();
-        }
+        wd.notify_alive();
     }
 
     wd.announce_shutdown();

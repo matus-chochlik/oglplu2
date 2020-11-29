@@ -39,8 +39,8 @@ protected:
 public:
     virtual void on_shutdown(
       std::chrono::milliseconds age,
-      identifier_t source,
-      verification_bits) = 0;
+      identifier_t source_id,
+      verification_bits verified) = 0;
 
 private:
     auto _handle_shutdown(const message_context&, stored_message& message)
