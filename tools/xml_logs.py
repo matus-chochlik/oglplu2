@@ -320,6 +320,13 @@ class XmlLogFormatter(object):
         return self._ttyBoldWhite() + formatRelTime(float(sec)) + self._ttyReset()
 
     # --------------------------------------------------------------------------
+    def _formatYesNoMaybe(self, v):
+        if v == "yes":
+            return self._ttyBoldGreen() + v + self._ttyReset()
+        if v == "no":
+            return self._ttyBoldRed() + v + self._ttyReset()
+        return self._ttyYellow() + "maybe" + self._ttyReset()
+    # --------------------------------------------------------------------------
     def _formatByteSize(self, n):
         result = None
         if n > 0:
@@ -420,6 +427,8 @@ class XmlLogFormatter(object):
             "uint32": self._formatInteger,
             "uint16": self._formatInteger,
             "real": self._formatReal,
+            "YesNo": self._formatYesNoMaybe,
+            "YesNoMaybe": self._formatYesNoMaybe,
             "ByteSize": lambda x: self._formatByteSize(int(x))
         }
         self._source_id = 0
