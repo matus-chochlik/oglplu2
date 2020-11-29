@@ -11,7 +11,7 @@
 #define EAGINE_LOGGING_TYPE_REMOTE_NODE_HPP
 
 #include "../../message_bus/remote_node.hpp"
-#include "../entry.hpp"
+#include "yes_no_maybe.hpp"
 
 namespace eagine {
 //------------------------------------------------------------------------------
@@ -24,29 +24,12 @@ adapt_log_entry_arg(identifier name, const msgbus::remote_node& value) {
         backend.add_string(
           EAGINE_ID(nodeKind), EAGINE_ID(enum), enumerator_name(value.kind()));
 
-        const auto is_router_endp{value.is_router_node()};
-        backend.add_string(
-          EAGINE_ID(isRutrNode),
-          EAGINE_ID(YesNoMaybe),
-          is_router_endp
-            ? string_view("yes")
-            : !is_router_endp ? string_view("no") : string_view("maybe"));
-
-        const auto is_bridge_endp{value.is_bridge_node()};
-        backend.add_string(
-          EAGINE_ID(isBrdgNode),
-          EAGINE_ID(YesNoMaybe),
-          is_bridge_endp
-            ? string_view("yes")
-            : !is_bridge_endp ? string_view("no") : string_view("maybe"));
-
-        const auto is_responsive{value.is_responsive()};
-        backend.add_string(
-          EAGINE_ID(isRespnsve),
-          EAGINE_ID(YesNoMaybe),
-          is_responsive
-            ? string_view("yes")
-            : !is_responsive ? string_view("no") : string_view("maybe"));
+        backend.add_adapted(
+          EAGINE_ID(isRutrNode), yes_no_maybe(value.is_router_node()));
+        backend.add_adapted(
+          EAGINE_ID(isBrdgNode), yes_no_maybe(value.is_bridge_node()));
+        backend.add_adapted(
+          EAGINE_ID(isRespnsve), yes_no_maybe(value.is_responsive()));
 
         if(const auto opt_name{value.display_name()}) {
             backend.add_string(
