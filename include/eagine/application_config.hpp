@@ -35,7 +35,7 @@ public:
         }
         if(const auto arg{_find_prog_arg(key)}) {
             bool result{true};
-            arg.next().parse(result, log_debug_stream());
+            arg.parse_next(result, log_debug_stream());
             return result;
         }
         if(const auto opt_val{_eval_env_var(key)}) {
@@ -86,7 +86,7 @@ public:
     }
 
     template <typename T>
-    auto init(string_view key, T initial) -> T {
+    auto init(string_view key, T& initial) -> T {
         fetch(key, initial);
         return initial;
     }

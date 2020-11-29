@@ -24,6 +24,7 @@ ${install_prefix}/bin/eagine-message_bus-router \
 	--msg-bus-router-address ${ping_addr} \
 	--msg-bus-router-id-major 1000 \
 	--msg-bus-router-id-count 1000 \
+	--msg-bus-router-shutdown-verify false \
 	& pids+=($!)
 sleep 1
 ${install_prefix}/bin/eagine-message_bus-router \
@@ -32,6 +33,7 @@ ${install_prefix}/bin/eagine-message_bus-router \
 	--msg-bus-router-address ${pong_addr} \
 	--msg-bus-router-id-major 2000 \
 	--msg-bus-router-id-count 1000 \
+	--msg-bus-router-shutdown-verify false \
 	& pids+=($!)
 sleep 1
 ${install_prefix}/bin/eagine-local-bridge \
