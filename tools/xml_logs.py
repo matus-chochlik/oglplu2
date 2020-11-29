@@ -901,7 +901,7 @@ class XmlLogClientHandler(xml.sax.ContentHandler):
         self._processor = processor
         self._connection = connection
         self._selector = selector 
-        self._buffer = str()
+        self._buffer = bytes()
 
     # --------------------------------------------------------------------------
     def __del__(self):
@@ -917,11 +917,18 @@ class XmlLogClientHandler(xml.sax.ContentHandler):
         try:
             data = self._connection.recv(4096)
             if data:
-                self._buffer += data.decode("utf-8")
-                lines = self._buffer.split('\n')
+                sep = bytes('\n','utf-8')
+                self._buffer += data
+                lines = self._buffer.split(sep)
+                done = 0
                 for line in lines[:-1]:
-                    self._processor.processLine(line)
-                self._buffer = lines[-1]
+                    try:
+                        self._processor.processLine(line.decode('utf-8'))
+                        done += 1
+                    except UnicodeDecodeError: 
+                        print(line)
+                        break
+                self._buffer = sep.join(lines[done:])
             else:
                 self.disconnect()
         except socket.error:
