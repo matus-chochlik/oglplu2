@@ -54,8 +54,13 @@ public:
         return {};
     }
 
-    void query_subscribers_of(message_id sub_msg) {
+    void query_subscriptions_of(identifier_t target_id) {
+        if(EAGINE_LIKELY(_endpoint)) {
+            _endpoint->query_subscriptions_of(target_id);
+        }
+    }
 
+    void query_subscribers_of(message_id sub_msg) {
         if(EAGINE_LIKELY(_endpoint)) {
             _endpoint->query_subscribers_of(sub_msg);
         }
@@ -167,15 +172,26 @@ protected:
 
     void _respond_to_subscription_query(
       identifier_t source_id,
+      span<const handler_entry> msg_handlers) const {
+        if(EAGINE_LIKELY(_endpoint)) {
+            for(auto& entry : msg_handlers) {
+                _endpoint->say_subscribes_to(source_id, entry.msg_id);
+            }
+        }
+    }
+
+    void _respond_to_subscription_query(
+      identifier_t source_id,
       message_id sub_msg,
       span<const handler_entry> msg_handlers) const {
         if(EAGINE_LIKELY(_endpoint)) {
             for(auto& entry : msg_handlers) {
                 if(entry.msg_id == sub_msg) {
-                    _endpoint->say_subscribes_to(source_id, entry.msg_id);
-                    break;
+                    _endpoint->say_subscribes_to(source_id, sub_msg);
+                    return;
                 }
             }
+            _endpoint->say_not_subscribed_to(source_id, sub_msg);
         }
     }
 
@@ -258,6 +274,10 @@ public:
 
     void retract_subscriptions() const noexcept {
         this->_retract_subscriptions(view(_msg_handlers));
+    }
+
+    void respond_to_subscription_query(identifier_t source_id) const noexcept {
+        this->_respond_to_subscription_query(source_id, view(_msg_handlers));
     }
 
     void respond_to_subscription_query(
@@ -356,6 +376,10 @@ public:
 
     void retract_subscriptions() const noexcept {
         this->_retract_subscriptions(view(_msg_handlers));
+    }
+
+    void respond_to_subscription_query(identifier_t source_id) const noexcept {
+        this->_respond_to_subscription_query(source_id, view(_msg_handlers));
     }
 
     void respond_to_subscription_query(

@@ -32,18 +32,25 @@ public:
       : main_ctx_object{EAGINE_ID(SubscrLog), bus}
       , base{bus} {}
 
-    void on_subscribed(identifier_t subscriber_id, message_id sub_msg) final {
-        log_info("endpoint ${subscrbr} subscribed to ${message}")
-          .arg(EAGINE_ID(subscrbr), subscriber_id)
-          .arg(EAGINE_ID(message), sub_msg);
-        this->bus().query_certificate_of(subscriber_id);
+    void is_alive(const subscriber_info& info) final {
+        log_info("endpoint ${subscrbr} is alive")
+          .arg(EAGINE_ID(subscrbr), info.endpoint_id);
     }
 
-    void on_unsubscribed(identifier_t subscriber_id, message_id sub_msg) final {
+    void on_subscribed(const subscriber_info& info, message_id sub_msg) final {
+        log_info("endpoint ${subscrbr} subscribed to ${message}")
+          .arg(EAGINE_ID(subscrbr), info.endpoint_id)
+          .arg(EAGINE_ID(message), sub_msg);
+        this->bus().query_certificate_of(info.endpoint_id);
+    }
+
+    void on_unsubscribed(const subscriber_info& info, message_id sub_msg) final {
         log_info("endpoint ${subscrbr} unsubscribed from ${message}")
-          .arg(EAGINE_ID(subscrbr), subscriber_id)
+          .arg(EAGINE_ID(subscrbr), info.endpoint_id)
           .arg(EAGINE_ID(message), sub_msg);
     }
+
+    void not_subscribed(const subscriber_info&, message_id) final {}
 
     void on_shutdown(
       std::chrono::milliseconds age,

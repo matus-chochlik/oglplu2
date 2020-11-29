@@ -312,7 +312,7 @@ def has_same_values(options, obj, mesh, lil, fl, ll, vl, lir, fr, lr, vr):
             return False
     if options.exp_wrap_coord:
         for uvs in mesh.uv_layers:
-            if uvs.data[vl.index].uv != uvs.data[vr.index].uv:
+            if uvs.data[lil].uv != uvs.data[lir].uv:
                 return False
     if options.exp_weight or options.exp_occlusion:
         for grp in obj.vertex_groups:

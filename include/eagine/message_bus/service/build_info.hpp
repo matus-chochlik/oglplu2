@@ -30,7 +30,7 @@ protected:
     void add_methods() {
         Base::add_methods();
 
-        Base::add_method(_build(
+        Base::add_method(_respond(
           EAGINE_MSG_ID(eagiBldInf, response),
           &main_ctx::get(),
           EAGINE_MEM_FUNC_C(
@@ -38,7 +38,7 @@ protected:
     }
 
 private:
-    default_function_skeleton<const build_info&() noexcept, 128> _build;
+    default_function_skeleton<const build_info&() noexcept, 256> _respond;
 };
 //------------------------------------------------------------------------------
 template <typename Base = subscriber>

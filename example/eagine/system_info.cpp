@@ -8,6 +8,7 @@
  */
 #include <eagine/main.hpp>
 #include <eagine/units/unit/si/temperature.hpp>
+#include <iomanip>
 #include <iostream>
 
 namespace eagine {
@@ -17,6 +18,8 @@ auto main(main_ctx& ctx) -> int {
 
     auto& sys = ctx.system();
 
+    std::cout << "host id: " << std::hex << extract_or(sys.host_id(), 0U)
+              << std::dec << std::endl;
     std::cout << "hostname: " << extract_or(sys.hostname(), na) << std::endl;
     std::cout << "number of CPU cores: "
               << extract_or(sys.cpu_concurrent_threads(), 0) << std::endl;

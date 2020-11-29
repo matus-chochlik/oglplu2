@@ -13,6 +13,7 @@
 
 namespace eagine {
 
+class application_config;
 class master_ctx;
 class main_ctx;
 class main_ctx_log_backend_getter;

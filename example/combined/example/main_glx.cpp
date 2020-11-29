@@ -16,14 +16,14 @@
 #include "state.hpp"
 #include "wrapper.hpp"
 
-#include <oglplus/glx/context.hpp>
-#include <oglplus/glx/fb_configs.hpp>
-#include <oglplus/glx/pixmap.hpp>
-#include <oglplus/glx/version.hpp>
-#include <oglplus/x11/color_map.hpp>
-#include <oglplus/x11/display.hpp>
-#include <oglplus/x11/visual_info.hpp>
-#include <oglplus/x11/window.hpp>
+#include <eagine/interop/glx/context.hpp>
+#include <eagine/interop/glx/fb_configs.hpp>
+#include <eagine/interop/glx/pixmap.hpp>
+#include <eagine/interop/glx/version.hpp>
+#include <eagine/interop/x11/color_map.hpp>
+#include <eagine/interop/x11/display.hpp>
+#include <eagine/interop/x11/visual_info.hpp>
+#include <eagine/interop/x11/window.hpp>
 
 #include <eagine/program_args.hpp>
 #include <eagine/scope_exit.hpp>
@@ -48,10 +48,9 @@ public:
 
     auto run(example_run_context& erc) -> int final {
 #if OGLPLUS_GLX_FOUND
-        x11::Display display;
+        x11::display dpy;
 
-        glx::Version version(display);
-        version.AssertAtLeast(1, 3);
+        glx::version(dpy).assert_at_least(1, 3);
 
         static int visual_attribs[] = {
           GLX_X_RENDERABLE,
@@ -81,31 +80,31 @@ public:
           GLX_SAMPLES,
           erc.params.samples() / 0,
           None};
-        glx::FBConfig fbc =
+        glx::fb_config fbc =
           // NOLINTNEXTLINE(hicpp-no-array-decay)
-          glx::FBConfigs(display, visual_attribs).FindBest(display);
+          glx::fb_configs(dpy, visual_attribs).find_best(dpy);
 
-        x11::VisualInfo vi(display, fbc);
+        x11::visual_info vi(dpy, fbc);
 
-        x11::Window win(
-          display,
+        x11::window win(
+          dpy,
           vi,
-          x11::Colormap(display, vi),
+          x11::colormap(dpy, vi),
           "OGLplus example (glX)",
           erc.params.window_x_pos(),
           erc.params.window_y_pos(),
           unsigned(erc.state.width()),
           unsigned(erc.state.height()));
 
-        win.SelectInput(
+        win.select_input(
           // NOLINTNEXTLINE(hicpp-signed-bitwise)
           StructureNotifyMask | PointerMotionMask | ButtonMotionMask |
           // NOLINTNEXTLINE(hicpp-signed-bitwise)
           ButtonPressMask | ButtonReleaseMask | KeyPressMask);
 
-        glx::Context ctx(display, fbc, 3, 3);
+        glx::context ctx(dpy, fbc, 3, 3);
 
-        ctx.MakeCurrent(win);
+        ctx.make_current(win);
 
         oglp::api_initializer gl_api_init;
 
@@ -117,7 +116,7 @@ public:
         if(!example.is_ready()) {
             return 2;
         }
-        _example_loop(display, win, ctx, erc, example);
+        _example_loop(dpy, win, ctx, erc, example);
         example.destroy();
         return 0;
 #else
@@ -129,9 +128,9 @@ public:
 private:
 #if OGLPLUS_GLX_FOUND
     void _example_loop(
-      const x11::Display& display,
-      const x11::Window& win,
-      const glx::Context& ctx,
+      const x11::display& dpy,
+      const x11::window& win,
+      const glx::context& ctx,
       example_run_context& erc,
       example_wrapper& example) {
         auto& state = erc.state;
@@ -143,7 +142,7 @@ private:
         int x, y, z = 0;
 
         while(true) {
-            while(display.NextEvent(event)) {
+            while(dpy.next_event(event)) {
                 switch(event.type) {
                     case ClientMessage:
                     case DestroyNotify: {
@@ -187,7 +186,7 @@ private:
 
             example.update();
             example.render();
-            ctx.SwapBuffers(win);
+            ctx.swap_buffers(win);
 
             if(!example.next_frame()) {
                 break;

@@ -27,6 +27,7 @@ set(EAGINE_LIB_SOURCES
 	message_bus_setup.cpp
 	message_bus_blobs.cpp
 	message_bus_endpoint.cpp
+	message_bus_remote_node.cpp
 	message_bus_registry.cpp
 	message_bus_router.cpp
 	message_bus_bridge.cpp
@@ -44,6 +45,7 @@ set(EAGINE_LIB_SOURCES
 	value_tree_yaml.cpp
 	value_tree_filesystem.cpp
 	value_tree_wrappers.cpp
+	watchdog.cpp
 )
 
 add_library(
@@ -75,10 +77,12 @@ target_link_libraries(
 	PUBLIC
 		EAGine::Required
 		EAGopt::OpenSSL
-		EAGopt::ZLIB
 		EAGopt::Stacktrace
-		EAGopt::BoostSpirit
 		Threads::Threads
+	PRIVATE
+		EAGopt::ZLIB
+		EAGopt::BoostSpirit
+		SYSTEMD::SYSTEMD
 )
 
 if(TARGET ryml)

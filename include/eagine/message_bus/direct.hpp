@@ -13,6 +13,7 @@
 #include "../bool_aggregate.hpp"
 #include "../branch_predict.hpp"
 #include "../main_ctx_object.hpp"
+#include "../value_tracker.hpp"
 #include "conn_factory.hpp"
 #include <map>
 #include <mutex>
@@ -24,8 +25,8 @@ private:
     std::mutex _mutex;
     message_storage _server_to_client;
     message_storage _client_to_server;
-    span_size_t _s2c_count{0};
-    span_size_t _c2s_count{0};
+    value_change_div_tracker<span_size_t, 16> _s2c_count{0};
+    value_change_div_tracker<span_size_t, 16> _c2s_count{0};
 
 public:
     direct_connection_state(main_ctx_parent parent)
@@ -53,19 +54,14 @@ public:
 
     void log_message_counts() noexcept {
         if constexpr(is_log_level_enabled_v<log_event_severity::stat>) {
-            const span_size_t mult{16};
-            const auto new_s2c_count = _server_to_client.size() / mult;
-            if(_s2c_count != new_s2c_count) {
-                _s2c_count = new_s2c_count;
+            if(_s2c_count.has_changed(_server_to_client.size())) {
                 this->log_chart_sample(
-                  EAGINE_ID(s2cMsgCnt), float((_s2c_count + 1) * mult));
+                  EAGINE_ID(s2cMsgCnt), float(_s2c_count.get()));
             }
 
-            const auto new_c2s_count = _client_to_server.size() / 100;
-            if(_c2s_count != new_c2s_count) {
-                _c2s_count = new_c2s_count;
+            if(_c2s_count.has_changed(_client_to_server.size())) {
                 this->log_chart_sample(
-                  EAGINE_ID(c2sMsgCnt), float((_c2s_count + 1) * mult));
+                  EAGINE_ID(c2sMsgCnt), float(_c2s_count.get()));
             }
         }
     }
@@ -199,7 +195,7 @@ public:
 };
 //------------------------------------------------------------------------------
 class direct_acceptor
-  : public acceptor
+  : public direct_connection_info<acceptor>
   , public main_ctx_object {
     using shared_state = std::shared_ptr<direct_connection_state>;
 

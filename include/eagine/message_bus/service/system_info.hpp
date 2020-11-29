@@ -29,12 +29,6 @@ protected:
     void add_methods() {
         Base::add_methods();
 
-        Base::add_method(_hostname(
-          EAGINE_MSG_ID(eagiSysInf, hostname),
-          &main_ctx::get().system(),
-          EAGINE_MEM_FUNC_C(
-            system_info, hostname))[EAGINE_MSG_ID(eagiSysInf, rqHostname)]);
-
         Base::add_method(_uptime(
           EAGINE_MSG_ID(eagiSysInf, uptime),
           &main_ctx::get().system(),
@@ -99,9 +93,6 @@ protected:
     }
 
 private:
-    default_function_skeleton<valid_if_not_empty<std::string>() noexcept, 1024>
-      _hostname;
-
     default_function_skeleton<std::chrono::duration<float>() noexcept, 32>
       _uptime;
 
@@ -140,11 +131,6 @@ protected:
 
     void add_methods() {
         Base::add_methods();
-
-        Base::add_method(_hostname(
-          this,
-          EAGINE_MEM_FUNC_C(
-            This, on_hostname_received))[EAGINE_MSG_ID(eagiSysInf, hostname)]);
 
         Base::add_method(_uptime(
           this,
@@ -194,15 +180,6 @@ protected:
     }
 
 public:
-    void query_hostname(identifier_t endpoint_id) {
-        _hostname.invoke_on(
-          this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqHostname));
-    }
-
-    virtual void on_hostname_received(
-      const result_context&,
-      valid_if_not_empty<std::string>&&) {}
-
     void query_uptime(identifier_t endpoint_id) {
         _uptime.invoke_on(
           this->bus(), endpoint_id, EAGINE_MSG_ID(eagiSysInf, rqUptime));
@@ -284,8 +261,6 @@ public:
       valid_if_positive<span_size_t>&&) {}
 
 private:
-    default_callback_invoker<valid_if_not_empty<std::string>(), 1024> _hostname;
-
     default_callback_invoker<std::chrono::duration<float>(), 32> _uptime;
 
     default_callback_invoker<valid_if_positive<span_size_t>(), 32>

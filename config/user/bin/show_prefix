@@ -1,0 +1,10 @@
+#!/bin/bash
+#  Copyright Matus Chochlik.
+#  Distributed under the Boost Software License, Version 1.0.
+#  See accompanying file LICENSE_1_0.txt or copy at
+#   http://www.boost.org/LICENSE_1_0.txt
+#
+ssh_host=${1:-oglplus-msgbus}
+shift
+"$(dirname ${0})/ssh-bridge" "${ssh_host}" show_prefix
+

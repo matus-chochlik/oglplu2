@@ -19,6 +19,8 @@ sleep 1
 ${install_prefix}/bin/eagine-message_bus-router \
 	"${log_args[@]}" \
 	${conn_type} \
+	--msg-bus-router-shutdown-verify false \
+	--msg-bus-router-shutdown-delay 15s \
 	& pids+=($!)
 sleep 1
 ${install_prefix}/share/oglplus/examples/eagine-${variant}_ping \

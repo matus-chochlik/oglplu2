@@ -4,6 +4,7 @@
 #  http://www.boost.org/LICENSE_1_0.txt
 
 add_subdirectory(lib)
+add_subdirectory(message_bus)
 add_subdirectory(tools)
 
 set(

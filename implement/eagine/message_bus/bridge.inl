@@ -223,6 +223,7 @@ auto bridge::_handle_special(
             std::array<byte, 256> temp{};
             bridge_topology_info info{};
             info.bridge_id = _id;
+            info.instance_id = _instance_id;
             if(auto serialized{default_serialize(info, cover(temp))}) {
                 message_view response{extract(serialized)};
                 response.setup_response(message);
@@ -278,13 +279,13 @@ auto bridge::_forward_messages() -> bool {
     auto forward_conn_to_output =
       [this](message_id msg_id, message_age, const message_view& message) {
           // TODO: use message age
-          if(EAGINE_UNLIKELY(++_forwarded_messages_c2o % 100000 == 0)) {
+          if(EAGINE_UNLIKELY(++_forwarded_messages_c2o % 1000000 == 0)) {
               const auto now{std::chrono::steady_clock::now()};
               const std::chrono::duration<float> interval{
                 now - _forwarded_since_c2o};
 
               if(EAGINE_LIKELY(interval > decltype(interval)::zero())) {
-                  const auto msgs_per_sec{100000.F / interval.count()};
+                  const auto msgs_per_sec{1000000.F / interval.count()};
 
                   log_chart_sample(EAGINE_ID(msgPerSecO), msgs_per_sec);
                   log_stat("forwarded ${count} messages to output")
@@ -310,13 +311,13 @@ auto bridge::_forward_messages() -> bool {
     auto forward_input_to_conn =
       [this](message_id msg_id, message_age, const message_view& message) {
           // TODO: use message age
-          if(EAGINE_UNLIKELY(++_forwarded_messages_i2c % 100000 == 0)) {
+          if(EAGINE_UNLIKELY(++_forwarded_messages_i2c % 1000000 == 0)) {
               const auto now{std::chrono::steady_clock::now()};
               const std::chrono::duration<float> interval{
                 now - _forwarded_since_i2c};
 
               if(EAGINE_LIKELY(interval > decltype(interval)::zero())) {
-                  const auto msgs_per_sec{100000.F / interval.count()};
+                  const auto msgs_per_sec{1000000.F / interval.count()};
 
                   log_chart_sample(EAGINE_ID(msgPerSecI), msgs_per_sec);
                   log_stat("forwarded ${count} messages from input")

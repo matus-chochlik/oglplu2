@@ -110,6 +110,8 @@ auto endpoint::_handle_special(
         } else if(
           msg_id.has_method(EAGINE_ID(subscribTo)) ||
           msg_id.has_method(EAGINE_ID(unsubFrom)) ||
+          msg_id.has_method(EAGINE_ID(notSubTo)) ||
+          msg_id.has_method(EAGINE_ID(qrySubscrp)) ||
           msg_id.has_method(EAGINE_ID(qrySubscrb))) {
             return false;
         } else if(msg_id.has_method(EAGINE_ID(eptCertQry))) {
@@ -169,6 +171,8 @@ auto endpoint::_handle_special(
             }
             return true;
         } else if(
+          msg_id.has_method(EAGINE_ID(byeBye)) ||
+          msg_id.has_method(EAGINE_ID(stillAlive)) ||
           msg_id.has_method(EAGINE_ID(topoRutrCn)) ||
           msg_id.has_method(EAGINE_ID(topoBrdgCn)) ||
           msg_id.has_method(EAGINE_ID(topoEndpt))) {
@@ -177,11 +181,16 @@ auto endpoint::_handle_special(
             std::array<byte, 256> temp{};
             endpoint_topology_info info{};
             info.endpoint_id = _endpoint_id;
+            info.instance_id = _instance_id;
             if(auto serialized{default_serialize(info, cover(temp))}) {
                 message_view response{extract(serialized)};
                 response.setup_response(message);
-                return send(EAGINE_MSGBUS_ID(topoEndpt), response);
+                if(post(EAGINE_MSGBUS_ID(topoEndpt), response)) {
+                    return true;
+                }
             }
+            log_warning("failed to respond to topology query from ${source}")
+              .arg(EAGINE_ID(source), message.source_id);
         }
         log_warning("unhandled special message ${message} from ${source}")
           .arg(EAGINE_ID(message), msg_id)
@@ -218,7 +227,7 @@ auto endpoint::_store_message(
               .arg(EAGINE_ID(self), _endpoint_id)
               .arg(EAGINE_ID(target), message.target_id)
               .arg(EAGINE_ID(message), msg_id);
-            post(EAGINE_MSGBUS_ID(notARouter), {});
+            say_not_a_router();
         }
     }
     return true;
@@ -403,6 +412,10 @@ auto endpoint::update() -> bool {
         }
     }
 
+    if(_should_notify_alive) {
+        say_still_alive();
+    }
+
     // if we have a valid id and we have messages in outbox
     if(EAGINE_UNLIKELY(has_id() && !_outgoing.empty())) {
         log_debug("sending ${count} messages from outbox")
@@ -439,20 +452,30 @@ void endpoint::unsubscribe(message_id msg_id) {
 //------------------------------------------------------------------------------
 auto endpoint::say_not_a_router() -> bool {
     log_debug("saying not a router");
-    return send(EAGINE_MSGBUS_ID(notARouter));
+    return post(EAGINE_MSGBUS_ID(notARouter), {});
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto endpoint::say_still_alive() -> bool {
+    log_trace("saying still alive");
+    message_view msg{};
+    msg.set_sequence_no(_instance_id);
+    return post(EAGINE_MSGBUS_ID(stillAlive), msg);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto endpoint::say_bye() -> bool {
     log_debug("saying bye-bye");
-    return send(EAGINE_MSGBUS_ID(byeBye));
+    return post(EAGINE_MSGBUS_ID(byeBye), {});
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void endpoint::post_meta_message(message_id meta_msg_id, message_id msg_id) {
     std::array<byte, 64> temp{};
     if(auto serialized = default_serialize_message_type(msg_id, cover(temp))) {
-        post(meta_msg_id, message_view(extract(serialized)));
+        message_view meta_msg{extract(serialized)};
+        meta_msg.set_sequence_no(_instance_id);
+        post(meta_msg_id, meta_msg);
     } else {
         log_debug("failed to serialize meta-message ${meta}")
           .arg(EAGINE_ID(meta), meta_msg_id)
@@ -467,9 +490,10 @@ void endpoint::post_meta_message_to(
   message_id msg_id) {
     std::array<byte, 64> temp{};
     if(auto serialized = default_serialize_message_type(msg_id, cover(temp))) {
-        message_view msg{extract(serialized)};
-        msg.set_target_id(target_id);
-        post(meta_msg_id, msg);
+        message_view meta_msg{extract(serialized)};
+        meta_msg.set_target_id(target_id);
+        meta_msg.set_sequence_no(_instance_id);
+        post(meta_msg_id, meta_msg);
     } else {
         log_debug("failed to serialize meta-message ${meta}")
           .arg(EAGINE_ID(meta), meta_msg_id)
@@ -494,10 +518,11 @@ void endpoint::say_subscribes_to(identifier_t target_id, message_id msg_id) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void endpoint::query_subscribers_of(message_id msg_id) {
-    log_debug("querying subscribers of message ${message}")
+void endpoint::say_not_subscribed_to(identifier_t target_id, message_id msg_id) {
+    log_debug("denies subscription to message ${message}")
+      .arg(EAGINE_ID(target), target_id)
       .arg(EAGINE_ID(message), msg_id);
-    post_meta_message(EAGINE_MSGBUS_ID(qrySubscrb), msg_id);
+    post_meta_message_to(target_id, EAGINE_MSGBUS_ID(notSubTo), msg_id);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -505,6 +530,22 @@ void endpoint::say_unsubscribes_from(message_id msg_id) {
     log_debug("retracting subscription to message ${message}")
       .arg(EAGINE_ID(message), msg_id);
     post_meta_message(EAGINE_MSGBUS_ID(unsubFrom), msg_id);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void endpoint::query_subscriptions_of(identifier_t target_id) {
+    log_debug("querying subscribed messages of endpoint ${target}")
+      .arg(EAGINE_ID(target), target_id);
+    message_view msg{};
+    msg.set_target_id(target_id);
+    post(EAGINE_MSGBUS_ID(qrySubscrp), msg);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void endpoint::query_subscribers_of(message_id msg_id) {
+    log_debug("querying subscribers of message ${message}")
+      .arg(EAGINE_ID(message), msg_id);
+    post_meta_message(EAGINE_MSGBUS_ID(qrySubscrb), msg_id);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

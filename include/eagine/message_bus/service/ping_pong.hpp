@@ -36,7 +36,10 @@ public:
     virtual auto respond_to_ping(
       identifier_t pinger_id,
       message_sequence_t,
-      verification_bits) -> bool = 0;
+      verification_bits) -> bool {
+        EAGINE_MAYBE_UNUSED(pinger_id);
+        return true;
+    }
 
 private:
     auto _handle_ping(const message_context&, stored_message& message) -> bool {
@@ -70,6 +73,14 @@ protected:
     }
 
 public:
+    static constexpr auto ping_msg_id() noexcept {
+        return EAGINE_MSG_ID(eagiPing, ping);
+    }
+
+    void query_pingables() {
+        this->bus().query_subscribers_of(ping_msg_id());
+    }
+
     void ping(identifier_t pingable_id, std::chrono::milliseconds max_time) {
         message_view message{};
         auto msg_id{EAGINE_MSG_ID(eagiPing, ping)};

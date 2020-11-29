@@ -10,7 +10,7 @@
 #ifndef EAGINE_BITFIELD_HPP
 #define EAGINE_BITFIELD_HPP
 
-#include <type_traits>
+#include "all_are_same.hpp"
 
 namespace eagine {
 
@@ -35,43 +35,65 @@ public:
     constexpr bitfield(Bit _bit_a, Bit _bit_b) noexcept
       : _bits(BF(_bit_a) | BF(_bit_b)) {}
 
-    explicit constexpr inline operator bool() const noexcept {
+    explicit constexpr operator bool() const noexcept {
         return _bits != BF(0);
     }
 
-    explicit constexpr inline operator value_type() const noexcept {
+    explicit constexpr operator value_type() const noexcept {
         return _bits;
     }
 
-    constexpr inline auto bits() const noexcept -> value_type {
+    constexpr auto bits() const noexcept -> value_type {
         return _bits;
     }
 
-    constexpr inline auto is_empty() const noexcept {
+    constexpr auto is_empty() const noexcept {
         return _bits == BF(0);
     }
 
-    constexpr inline auto has(Bit bit) const noexcept {
+    constexpr auto has(Bit bit) const noexcept {
         return (_bits & BF(bit)) == BF(bit);
     }
 
-    constexpr inline auto has_only(Bit bit) const noexcept {
+    constexpr auto has_not(Bit bit) const noexcept {
+        return (_bits & BF(bit)) != BF(bit);
+    }
+
+    template <typename... B>
+    constexpr auto has_all(Bit bit, B... bits) const noexcept
+      -> std::enable_if_t<all_are_same_v<Bit, B...>, bool> {
+        return (has(bit) && ... && has(bits));
+    }
+
+    template <typename... B>
+    constexpr auto has_any(Bit bit, B... bits) const noexcept
+      -> std::enable_if_t<all_are_same_v<Bit, B...>, bool> {
+        return (has(bit) || ... || has(bits));
+    }
+
+    template <typename... B>
+    constexpr auto has_none(Bit bit, B... bits) const noexcept
+      -> std::enable_if_t<all_are_same_v<Bit, B...>, bool> {
+        return (has_not(bit) && ... && has_not(bits));
+    }
+
+    constexpr auto has_only(Bit bit) const noexcept {
         return _bits == BF(bit);
     }
 
-    constexpr inline auto has_at_most(Bit bit) const noexcept {
+    constexpr auto has_at_most(Bit bit) const noexcept {
         return is_empty() || has_only(bit);
     }
 
-    friend constexpr inline auto operator==(bitfield a, bitfield b) noexcept {
+    friend constexpr auto operator==(bitfield a, bitfield b) noexcept {
         return a._bits == b._bits;
     }
 
-    friend constexpr inline auto operator!=(bitfield a, bitfield b) noexcept {
+    friend constexpr auto operator!=(bitfield a, bitfield b) noexcept {
         return a._bits != b._bits;
     }
 
-    friend constexpr inline auto operator|(bitfield a, bitfield b) noexcept
+    friend constexpr auto operator|(bitfield a, bitfield b) noexcept
       -> bitfield {
         return bitfield(a._bits | b._bits);
     }
@@ -81,7 +103,7 @@ public:
         return *this;
     }
 
-    friend constexpr inline auto operator&(bitfield a, bitfield b) noexcept
+    friend constexpr auto operator&(bitfield a, bitfield b) noexcept
       -> bitfield {
         return bitfield(a._bits & b._bits);
     }
@@ -91,12 +113,17 @@ public:
         return *this;
     }
 
-    friend constexpr inline auto operator~(bitfield b) noexcept -> bitfield {
+    friend constexpr auto operator~(bitfield b) noexcept -> bitfield {
         return bitfield{BF(~b._bits)};
     }
 
     auto clear(Bit b) noexcept -> bitfield& {
         _bits &= ~BF(b);
+        return *this;
+    }
+
+    auto clear() noexcept -> bitfield& {
+        _bits = BF(0);
         return *this;
     }
 };

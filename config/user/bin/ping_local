@@ -1,0 +1,34 @@
+#!/bin/bash
+#  Copyright Matus Chochlik.
+#  Distributed under the Boost Software License, Version 1.0.
+#  See accompanying file LICENSE_1_0.txt or copy at
+#   http://www.boost.org/LICENSE_1_0.txt
+#
+OGLPLUS_PREFIX="$(<$(dirname ${0})/../INSTALL_PREFIX)"
+ssh_host=${1:-oglplus-msgbus}
+variant=${2:-007}
+log_args=("--use-asio-log" "--min-log-severity" "stat")
+cmn_args=("--msg-bus-asio-local-stream" "--msg-bus-router-address" "/tmp/oglp-ping")
+#
+pids=()
+${OGLPLUS_PREFIX}/bin/eagine-message_bus-router \
+	"${log_args[@]}" "${cmn_args[@]}" \
+	--msg-bus-router-id-minor 8192 \
+	& pids+=($!)
+sleep 1
+${OGLPLUS_PREFIX}/share/oglplus/examples/eagine-${variant}_ping \
+	"${log_args[@]}" "${cmn_args[@]}" \
+	--ping-count ${3:-1M} \
+	& pids+=($!)
+
+coproc ${OGLPLUS_PREFIX}/bin/eagine-message_bus-bridge \
+	"${log_args[@]}" "${cmn_args[@]}" \
+	&& pids+=(${COPROC_PID})
+
+"$(dirname ${0})/ssh-bridge" "${ssh_host}" pong_local ${variant} \
+	<&${COPROC[0]} >&${COPROC[1]}
+
+for pid in ${pids[@]}
+do wait ${pid}
+done
+

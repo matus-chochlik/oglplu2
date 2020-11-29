@@ -10,6 +10,7 @@
 #include <eagine/message_bus/registry.hpp>
 #include <eagine/message_bus/service.hpp>
 #include <eagine/message_bus/service/build_info.hpp>
+#include <eagine/message_bus/service/host_info.hpp>
 #include <eagine/message_bus/service/ping_pong.hpp>
 #include <eagine/message_bus/service/shutdown.hpp>
 #include <eagine/message_bus/service/system_info.hpp>
@@ -23,8 +24,8 @@
 namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
-using pong_base = service_composition<
-  pingable<build_info_provider<system_info_provider<shutdown_target<>>>>>;
+using pong_base = service_composition<pingable<build_info_provider<
+  system_info_provider<host_info_provider<shutdown_target<>>>>>>;
 
 class pong_example
   : public main_ctx_object
@@ -66,7 +67,6 @@ public:
         if(_sent < 1) {
             if(_announce_timeout) {
                 this->announce_subscriptions();
-                _announce_timeout.reset();
                 something_done();
             }
         }
@@ -77,7 +77,7 @@ private:
     logger _log{};
     std::intmax_t _mod{10000};
     std::intmax_t _sent{0};
-    timeout _announce_timeout{std::chrono::seconds(5)};
+    resetting_timeout _announce_timeout{std::chrono::seconds(5)};
     bool _done{false};
 };
 //------------------------------------------------------------------------------

@@ -508,5 +508,17 @@ static inline void for_each_delimited(
     unary_op(tmp);
 }
 //------------------------------------------------------------------------------
+template <typename T, typename P, typename S, typename UnaryOperation>
+static inline void for_each_chunk(
+  basic_span<T, P, S> spn,
+  const span_size_t len,
+  UnaryOperation unary_op) {
+    span_size_t pos{0};
+    while(pos < spn.size()) {
+        unary_op(slice(spn, pos, len));
+        pos += len;
+    }
+}
+//------------------------------------------------------------------------------
 } // namespace eagine::memory
 #endif // EAGINE_MEMORY_SPAN_ALGO_HPP

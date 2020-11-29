@@ -15,6 +15,12 @@
 
 namespace eagine {
 
+template <typename T>
+auto application_config_initial(
+  application_config& config,
+  string_view key,
+  T initial) -> T;
+
 class main_ctx_log_backend_getter {
 public:
     main_ctx_log_backend_getter() noexcept;
@@ -68,6 +74,12 @@ public:
     auto main_context() const noexcept -> main_ctx&;
 
     auto app_config() const noexcept -> application_config&;
+
+    template <typename T>
+    auto cfg_init(string_view key, T initial) -> T {
+        return application_config_initial(
+          app_config(), key, std::move(initial));
+    }
 };
 
 } // namespace eagine

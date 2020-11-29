@@ -1,0 +1,25 @@
+#!/bin/sh
+prefix_file="$(realpath $(dirname ${0})/INSTALL_PREFIX)"
+
+if [ -r "${prefix_file}" ]
+then
+	prefix=$(cat "${prefix_file}")
+	if [ -d "${prefix}" ]
+	then
+		cmd="${prefix}/bin/${1}"
+		if [ -f "${cmd}" -a -x "${cmd}" ]
+		then
+			shift
+			exec "${cmd}" "${@}"
+		else
+			echo "'${cmd}' is not an executable" >&2
+			exit 3
+		fi
+	else
+		echo "'${prefix}' is not a directory" >&2
+		exit 2
+	fi
+else
+	echo "'${prefix_file}' is not a readable file" >&2
+	exit 1
+fi

@@ -10,8 +10,10 @@
 #ifndef EAGINE_MESSAGE_BUS_ENDPOINT_HPP
 #define EAGINE_MESSAGE_BUS_ENDPOINT_HPP
 
+#include "../application_config.hpp"
 #include "../flat_map.hpp"
 #include "../main_ctx_object.hpp"
+#include "../process.hpp"
 #include "../timeout.hpp"
 #include "blobs.hpp"
 #include "connection.hpp"
@@ -43,9 +45,15 @@ private:
 
     shared_context _context{make_context(*this)};
 
+    const process_instance_id_t _instance_id{make_instance_id()};
     identifier_t _preconfd_id{invalid_id()};
     identifier_t _endpoint_id{invalid_id()};
-    timeout _no_id_timeout{std::chrono::seconds{2}, nothing};
+    timeout _no_id_timeout{
+      cfg_init("msg_bus.endpoint.no_id_timeout", std::chrono::seconds{2}),
+      nothing};
+    resetting_timeout _should_notify_alive{
+      cfg_init("msg_bus.endpoint.alive_notify_period", std::chrono::seconds{30}),
+      nothing};
 
     std::unique_ptr<connection> _connection{};
 
@@ -274,11 +282,12 @@ public:
         return false;
     }
 
-    auto send(message_id msg_id) -> bool {
+    auto broadcast(message_id msg_id) -> bool {
         return send(msg_id, {});
     }
 
     auto say_not_a_router() -> bool;
+    auto say_still_alive() -> bool;
     auto say_bye() -> bool;
 
     void post_meta_message(message_id meta_msg_id, message_id msg_id);
@@ -290,6 +299,8 @@ public:
     void say_subscribes_to(message_id);
     void say_subscribes_to(identifier_t target_id, message_id);
     void say_unsubscribes_from(message_id);
+    void say_not_subscribed_to(identifier_t target_id, message_id);
+    void query_subscriptions_of(identifier_t target_id);
     void query_subscribers_of(message_id);
 
     void clear_block_list();

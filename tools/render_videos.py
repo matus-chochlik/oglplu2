@@ -15,7 +15,7 @@ import subprocess
 # The fallback console GUI
 class FallbackUI:
     def __init__(self, options):
-        self.title = options.sample_label
+        self.title = options.example_name
     def __enter__(self): return self
     def __exit__(self, type, value, traceback): pass
 
@@ -71,7 +71,7 @@ try:
                     None,
                     wx.ID_ANY,
                     "Rendering video of '%s'" %
-                    options.sample_label,
+                    options.example_name,
                     wx.DefaultPosition,
                     wx.Size(400, 170),
                     wx.CAPTION | wx.CLIP_CHILDREN
@@ -431,6 +431,14 @@ def parse_args(args):
     )
 
     argparser.add_argument(
+        "--sample-label",
+        help="""Example label string.""",
+        dest="sample_label",
+        action="store",
+        default=None
+    )
+
+    argparser.add_argument(
         "example_args",
         help="""
         List of example arguments to use to render.
@@ -623,9 +631,9 @@ def render_video(
         sys.exit(2)
 
     if options.gif_output:
-        shutil.move(prefix+'.gif', 'oglplus-'+options.sample_label+'.gif')
+        shutil.move(prefix+'.gif', 'oglplus-'+options.example_name+'.gif')
     else:
-        shutil.move(prefix+'.avi', 'oglplus-'+options.sample_label+'.avi')
+        shutil.move(prefix+'.avi', 'oglplus-'+options.example_name+'.avi')
 
 # ------------------------------------------------------------------------------
 # renders a video for a single example
@@ -635,7 +643,9 @@ def render_example(root_dir, example, example_args, options):
     options.root_dir = root_dir
     options.bin_dir = options.build_dir
     options.example = example
-    options.sample_label = os.path.basename(example)
+    options.example_name = os.path.basename(example)
+    if options.sample_label is None:
+        options.sample_label = options.example_name
 
     example_path = check_example(options.bin_dir, example)
 

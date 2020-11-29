@@ -39,17 +39,20 @@ public:
         !std::is_array_v<R> && std::is_convertible_v<R, P> &&
         std::is_same_v<std::remove_const_t<std::remove_pointer_t<R>>, char>>>
     constexpr explicit basic_string_span(R addr) noexcept
-      : base(addr, span_size(std::strlen(addr))) {}
+      : base(addr, -limit_cast<S>(std::strlen(addr))) {}
 
     template <std::size_t N>
     constexpr basic_string_span(C (&array)[N]) noexcept
       : base(
           static_cast<P>(array),
-          limit_cast<S>(array[N - 1] == C(0) ? N - 1 : N)) {}
+          array[N - 1] == C(0) ? 1 - limit_cast<S>(N) : limit_cast<S>(N)) {}
 
     template <std::size_t N>
     constexpr basic_string_span(C (&array)[N], span_size_t n) noexcept
       : base(static_cast<P>(array), limit_cast<S>(n)) {}
+
+    constexpr basic_string_span(const string_type& str) noexcept
+      : base(static_cast<P>(str.c_str()), -limit_cast<S>(str.size())) {}
 
     template <
       typename Str,
@@ -143,8 +146,8 @@ public:
     using string_type = std::basic_string<std::remove_const_t<C>>;
 
     constexpr basic_c_str(basic_string_span<C, P, S> s)
-      : _span{is_zero_terminated(s) ? s : basic_string_span<C, P, S>{}}
-      , _str{is_zero_terminated(s) ? string_type{} : s.to_string()} {}
+      : _span{s.is_zero_terminated() ? s : basic_string_span<C, P, S>{}}
+      , _str{s.is_zero_terminated() ? string_type{} : s.to_string()} {}
 
     constexpr auto c_str() const noexcept -> P {
         return _span.empty() ? _str.c_str() : _span.data();

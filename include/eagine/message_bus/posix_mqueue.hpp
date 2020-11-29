@@ -420,7 +420,7 @@ private:
 };
 //------------------------------------------------------------------------------
 class posix_mqueue_acceptor
-  : public acceptor
+  : public posix_mqueue_connection_info<acceptor>
   , public main_ctx_object {
     using this_class = posix_mqueue_acceptor;
 

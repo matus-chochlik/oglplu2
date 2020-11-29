@@ -25,14 +25,14 @@ struct main_ctx_options {
     root_logger_options logger_opts{};
 };
 
-class master_ctx;
 class data_compressor;
-class application_config;
+class process_watchdog;
 
 class main_ctx {
 private:
     program_args& _args;
     logger& _log;
+    process_watchdog& _watchdog;
     application_config& _app_config;
     build_info& _bld_info;
     system_info& _sys_info;
@@ -69,6 +69,10 @@ public:
 
     auto log() noexcept -> auto& {
         return _log;
+    }
+
+    auto watchdog() noexcept -> auto& {
+        return _watchdog;
     }
 
     auto config() noexcept -> auto& {

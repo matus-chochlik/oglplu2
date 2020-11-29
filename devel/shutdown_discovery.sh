@@ -24,6 +24,7 @@ sleep 1
 ${install_prefix}/bin/eagine-message_bus-router \
 	"${log_args[@]}" \
 	"${conn_args[@]}" \
+	--msg-bus-router-shutdown-verify false \
 	& pids+=($!)
 sleep 1
 ${install_prefix}/share/oglplus/examples/eagine-003_shutdown \

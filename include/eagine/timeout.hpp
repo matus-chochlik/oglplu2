@@ -51,15 +51,28 @@ public:
     timeout(_clock::duration duration) noexcept
       : timeout{duration, duration} {}
 
+    template <typename R, typename P>
+    timeout(std::chrono::duration<R, P> duration) noexcept
+      : timeout{std::chrono::duration_cast<_clock::duration>(duration)} {}
+
     auto reset() noexcept -> auto& {
         _timeout = std::chrono::steady_clock::now() + _duration;
         return *this;
     }
 
-    auto reset(_clock::duration duration) noexcept -> auto& {
+    auto reset(_clock::duration duration, _clock::duration initial) noexcept
+      -> auto& {
         _duration = duration;
-        _timeout = std::chrono::steady_clock::now() + _duration;
+        _timeout = std::chrono::steady_clock::now() + initial;
         return *this;
+    }
+
+    auto reset(_clock::duration duration, nothing_t) noexcept -> auto& {
+        return reset(duration, _clock::duration::zero());
+    }
+
+    auto reset(_clock::duration duration) noexcept -> auto& {
+        return reset(duration, duration);
     }
 
     auto elapsed_time() const noexcept {
@@ -70,6 +83,10 @@ public:
         return _clock::now() >= _timeout;
     }
 
+    auto period() const noexcept -> auto& {
+        return _duration;
+    }
+
     explicit operator bool() const noexcept {
         return is_expired();
     }
@@ -77,6 +94,19 @@ public:
 private:
     _clock::duration _duration{};
     _clock::time_point _timeout{};
+};
+//------------------------------------------------------------------------------
+class resetting_timeout : public timeout {
+public:
+    using timeout::timeout;
+
+    explicit operator bool() noexcept {
+        const auto result = is_expired();
+        if(result) {
+            reset();
+        }
+        return result;
+    }
 };
 
 } // namespace eagine

@@ -11,6 +11,7 @@
 #include <eagine/logging/root_logger.hpp>
 #include <eagine/logging/type/exception.hpp>
 #include <eagine/memory/buffer.hpp>
+#include <eagine/watchdog.hpp>
 #include <filesystem>
 
 namespace eagine {
@@ -20,6 +21,7 @@ private:
     program_args _args;
     root_logger _log_root;
     build_info _bld_info;
+    process_watchdog _watchdog;
     application_config _app_config;
     system_info _sys_info;
     user_info _usr_info;
@@ -36,6 +38,7 @@ public:
       : _args{argc, argv}
       , _log_root{options.app_id, _args, options.logger_opts}
       , _bld_info{build_info::query()}
+      , _watchdog{*this}
       , _app_config{*this}
       , _sys_info{*this}
       , _usr_info{*this}
@@ -57,6 +60,10 @@ public:
 
     auto log() noexcept -> auto& {
         return _log_root;
+    }
+
+    auto watchdog() noexcept -> auto& {
+        return _watchdog;
     }
 
     auto config() noexcept -> auto& {
@@ -102,6 +109,7 @@ EAGINE_LIB_FUNC
 main_ctx::main_ctx(master_ctx& master) noexcept
   : _args{master.args()}
   , _log{master.log()}
+  , _watchdog{master.watchdog()}
   , _app_config{master.config()}
   , _bld_info{master.build()}
   , _sys_info{master.system()}

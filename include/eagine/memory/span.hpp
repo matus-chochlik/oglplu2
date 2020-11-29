@@ -162,19 +162,23 @@ public:
     }
 
     explicit constexpr operator bool() const noexcept {
-        return _size != 0;
+        return size() != 0;
     }
 
     constexpr auto is_empty() const noexcept -> bool {
-        return _size == 0;
+        return size() == 0;
     }
 
     constexpr auto empty() const noexcept -> bool {
-        return _size == 0;
+        return size() == 0;
+    }
+
+    constexpr auto is_zero_terminated() const noexcept -> bool {
+        return size() < 0;
     }
 
     constexpr auto size() const noexcept -> size_type {
-        return _size;
+        return EAGINE_LIKELY(_size >= 0) ? _size : -_size;
     }
 
     constexpr auto data() const noexcept -> pointer {
@@ -280,13 +284,11 @@ public:
 
 private:
     pointer _addr{nullptr};
+    // if _size is negative it indicates that the span is terminated
+    // by a zero value. if such case the span length is calculated by
+    // getting the absolute value of _size.
     size_type _size{0};
 };
-//------------------------------------------------------------------------------
-template <typename T, typename P, typename S>
-constexpr auto is_zero_terminated(basic_span<T, P, S> spn) noexcept -> bool {
-    return spn.empty() ? false : *spn.end() == T(0);
-}
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S>
 static constexpr inline auto absolute(basic_span<T, P, S> spn) noexcept

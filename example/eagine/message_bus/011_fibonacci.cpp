@@ -89,7 +89,7 @@ struct fibonacci_client : static_subscriber<2> {
 
     void update() {
         if(!_remaining.empty()) {
-            bus().send(EAGINE_MSG_ID(Fibonacci, FindServer));
+            bus().broadcast(EAGINE_MSG_ID(Fibonacci, FindServer));
         }
     }
 
