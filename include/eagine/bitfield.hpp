@@ -121,6 +121,11 @@ public:
         _bits &= ~BF(b);
         return *this;
     }
+
+    auto clear() noexcept -> bitfield& {
+        _bits = BF(0);
+        return *this;
+    }
 };
 
 } // namespace eagine
