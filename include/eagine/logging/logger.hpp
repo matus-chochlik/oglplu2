@@ -302,6 +302,10 @@ public:
         return base::log_backtrace(_object_id, format);
     }
 
+    auto log_debug_stream() noexcept {
+        return make_log_stream(log_event_severity::debug);
+    }
+
     auto log_error_stream() noexcept {
         return make_log_stream(log_event_severity::error);
     }
@@ -366,6 +370,10 @@ public:
 
     auto log(log_event_severity severity, string_view format) noexcept {
         return make_log_entry(severity, format);
+    }
+
+    auto debug_stream() noexcept {
+        return log_debug_stream();
     }
 
     auto error_stream() noexcept {

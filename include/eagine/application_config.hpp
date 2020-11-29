@@ -34,7 +34,9 @@ public:
             }
         }
         if(const auto arg{_find_prog_arg(key)}) {
-            return true;
+            bool result{true};
+            arg.next().parse(result, log_debug_stream());
+            return result;
         }
         if(const auto opt_val{_eval_env_var(key)}) {
             if(auto converted{from_string<bool>(extract(opt_val))}) {
