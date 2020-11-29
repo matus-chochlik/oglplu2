@@ -18,6 +18,7 @@ public:
 class remote_node_impl {
 public:
     process_instance_id_t instance_id{0};
+    endpoint_info info;
     remote_host host;
 
     timeout should_ping{std::chrono::seconds{15}};
@@ -31,6 +32,14 @@ public:
 
     bool instance_changed{true};
     bool something_changed{false};
+
+    auto get_sub(message_id msg_id) const noexcept -> tribool {
+        auto pos = _subscriptions.find(msg_id);
+        if(pos != _subscriptions.end()) {
+            return pos->second;
+        }
+        return indeterminate;
+    }
 
     auto get_sub(message_id msg_id) -> tribool& {
         auto pos = _subscriptions.find(msg_id);
@@ -46,6 +55,10 @@ private:
 //------------------------------------------------------------------------------
 // remote_host
 //------------------------------------------------------------------------------
+inline auto remote_host::_impl() const noexcept -> const remote_host_impl* {
+    return _pimpl.get();
+}
+//------------------------------------------------------------------------------
 inline auto remote_host::_impl() noexcept -> remote_host_impl* {
     try {
         if(EAGINE_UNLIKELY(!_pimpl)) {
@@ -58,7 +71,7 @@ inline auto remote_host::_impl() noexcept -> remote_host_impl* {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto remote_host::name() noexcept -> valid_if_not_empty<string_view> {
+auto remote_host::name() const noexcept -> valid_if_not_empty<string_view> {
     if(auto impl{_impl()}) {
         return {extract(impl).hostname};
     }
@@ -66,6 +79,10 @@ auto remote_host::name() noexcept -> valid_if_not_empty<string_view> {
 }
 //------------------------------------------------------------------------------
 // remote_node
+//------------------------------------------------------------------------------
+inline auto remote_node::_impl() const noexcept -> const remote_node_impl* {
+    return _pimpl.get();
+}
 //------------------------------------------------------------------------------
 inline auto remote_node::_impl() noexcept -> remote_node_impl* {
     try {
@@ -79,7 +96,7 @@ inline auto remote_node::_impl() noexcept -> remote_node_impl* {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto remote_node::instance_id() noexcept
+auto remote_node::instance_id() const noexcept
   -> valid_if_not_zero<process_instance_id_t> {
     if(auto impl{_impl()}) {
         return {extract(impl).instance_id};
@@ -88,7 +105,7 @@ auto remote_node::instance_id() noexcept
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto remote_node::kind() noexcept -> node_kind {
+auto remote_node::kind() const noexcept -> node_kind {
     if(auto impl{_impl()}) {
         return extract(impl).kind;
     }
@@ -96,7 +113,41 @@ auto remote_node::kind() noexcept -> node_kind {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto remote_node::host_id() noexcept -> valid_if_not_zero<identifier_t> {
+auto remote_node::display_name() const noexcept
+  -> valid_if_not_empty<string_view> {
+    if(auto impl{_impl()}) {
+        return {extract(impl).info.display_name};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node::description() const noexcept
+  -> valid_if_not_empty<string_view> {
+    if(auto impl{_impl()}) {
+        return {extract(impl).info.description};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node::is_router_node() const noexcept -> tribool {
+    if(auto impl{_impl()}) {
+        return {extract(impl).info.is_router_node};
+    }
+    return indeterminate;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node::is_bridge_node() const noexcept -> tribool {
+    if(auto impl{_impl()}) {
+        return {extract(impl).info.is_bridge_node};
+    }
+    return indeterminate;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node::host_id() const noexcept -> valid_if_not_zero<identifier_t> {
     if(auto impl{_impl()}) {
         return extract(impl).host.id();
     }
@@ -104,7 +155,7 @@ auto remote_node::host_id() noexcept -> valid_if_not_zero<identifier_t> {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto remote_node::host() noexcept -> remote_host {
+auto remote_node::host() const noexcept -> remote_host {
     if(auto impl{_impl()}) {
         return extract(impl).host;
     }
@@ -112,12 +163,9 @@ auto remote_node::host() noexcept -> remote_host {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto remote_node::subscribes_to(message_id msg_id) noexcept -> tribool {
+auto remote_node::subscribes_to(message_id msg_id) const noexcept -> tribool {
     if(auto impl{_impl()}) {
-        try {
-            return extract(impl).get_sub(msg_id);
-        } catch(...) {
-        }
+        return extract(impl).get_sub(msg_id);
     }
     return indeterminate;
 }
@@ -130,7 +178,8 @@ void remote_node::set_ping_interval(std::chrono::milliseconds ms) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto remote_node::ping_success_rate() noexcept -> valid_if_between_0_1<float> {
+auto remote_node::ping_success_rate() const noexcept
+  -> valid_if_between_0_1<float> {
     if(auto impl{_impl()}) {
         if(extract(impl).pings_sent > 0) {
             return {
@@ -142,7 +191,7 @@ auto remote_node::ping_success_rate() noexcept -> valid_if_between_0_1<float> {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto remote_node::is_responsive() noexcept -> tribool {
+auto remote_node::is_responsive() const noexcept -> tribool {
     if(auto impl{_impl()}) {
         return bool(extract(impl).ping_bits);
     }
@@ -171,6 +220,18 @@ auto remote_node_state::assign(node_kind kind) -> remote_node_state& {
         auto& i = extract(impl);
         if(i.kind != kind) {
             i.kind = kind;
+            i.something_changed = true;
+        }
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node_state::assign(endpoint_info info) -> remote_node_state& {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        if(i.info != info) {
+            i.info = std::move(info);
             i.something_changed = true;
         }
     }
@@ -253,7 +314,7 @@ auto remote_node_state::should_ping()
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto remote_node_state::notified_alive() -> remote_node_state& {
+auto remote_node_state::is_alive() -> remote_node_state& {
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
         const auto was_responsive = is_responsive();

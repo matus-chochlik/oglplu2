@@ -73,6 +73,34 @@ data_member_mapping(identity<endpoint_topology_info>, Selector) noexcept {
       {"endpoint_id", &S::endpoint_id}, {"instance_id", &S::instance_id});
 }
 //------------------------------------------------------------------------------
+struct endpoint_info {
+    std::string display_name;
+    std::string description;
+    bool is_router_node{false};
+    bool is_bridge_node{false};
+
+    auto tie() const noexcept {
+        return std::tie(
+          display_name, description, is_router_node, is_bridge_node);
+    }
+
+    friend auto
+    operator!=(const endpoint_info& l, const endpoint_info& r) noexcept
+      -> bool {
+        return l.tie() != r.tie();
+    }
+};
+
+template <typename Selector>
+constexpr auto data_member_mapping(identity<endpoint_info>, Selector) noexcept {
+    using S = endpoint_info;
+    return make_data_member_mapping<S, std::string, std::string, bool, bool>(
+      {"display_name", &S::display_name},
+      {"description", &S::description},
+      {"is_router_node", &S::is_router_node},
+      {"is_bridge_node", &S::is_bridge_node});
+}
+//------------------------------------------------------------------------------
 } // namespace eagine::msgbus
 
 #endif // EAGINE_MESSAGE_BUS_TYPES_HPP

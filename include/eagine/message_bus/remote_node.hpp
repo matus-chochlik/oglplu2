@@ -19,6 +19,7 @@
 #include "../valid_if/not_empty.hpp"
 #include "../valid_if/not_zero.hpp"
 #include "node_kind.hpp"
+#include "types.hpp"
 #include <chrono>
 #include <memory>
 
@@ -35,7 +36,7 @@ public:
         return {_host_id};
     }
 
-    auto name() noexcept -> valid_if_not_empty<string_view>;
+    auto name() const noexcept -> valid_if_not_empty<string_view>;
 
     friend auto operator==(const remote_host& l, const remote_host& r) noexcept
       -> bool {
@@ -52,6 +53,7 @@ private:
     std::shared_ptr<remote_host_impl> _pimpl{};
 
 protected:
+    auto _impl() const noexcept -> const remote_host_impl*;
     auto _impl() noexcept -> remote_host_impl*;
 };
 //------------------------------------------------------------------------------
@@ -74,25 +76,32 @@ public:
         return {_node_id};
     }
 
-    auto instance_id() noexcept -> valid_if_not_zero<process_instance_id_t>;
+    auto instance_id() const noexcept
+      -> valid_if_not_zero<process_instance_id_t>;
 
-    auto kind() noexcept -> node_kind;
+    auto kind() const noexcept -> node_kind;
 
-    auto host_id() noexcept -> valid_if_not_zero<identifier_t>;
+    auto display_name() const noexcept -> valid_if_not_empty<string_view>;
+    auto description() const noexcept -> valid_if_not_empty<string_view>;
 
-    auto host() noexcept -> remote_host;
+    auto is_router_node() const noexcept -> tribool;
+    auto is_bridge_node() const noexcept -> tribool;
 
-    auto subscribes_to(message_id msg_id) noexcept -> tribool;
+    auto host_id() const noexcept -> valid_if_not_zero<identifier_t>;
+    auto host() const noexcept -> remote_host;
+
+    auto subscribes_to(message_id msg_id) const noexcept -> tribool;
 
     void set_ping_interval(std::chrono::milliseconds) noexcept;
-    auto ping_success_rate() noexcept -> valid_if_between_0_1<float>;
-    auto is_responsive() noexcept -> tribool;
+    auto ping_success_rate() const noexcept -> valid_if_between_0_1<float>;
+    auto is_responsive() const noexcept -> tribool;
 
 private:
     identifier_t _node_id{0U};
     std::shared_ptr<remote_node_impl> _pimpl{};
 
 protected:
+    auto _impl() const noexcept -> const remote_node_impl*;
     auto _impl() noexcept -> remote_node_impl*;
 };
 //------------------------------------------------------------------------------
@@ -103,6 +112,7 @@ public:
     auto set_instance_id(process_instance_id_t) -> remote_node_state&;
 
     auto assign(node_kind) -> remote_node_state&;
+    auto assign(endpoint_info) -> remote_node_state&;
     auto assign(remote_host) -> remote_node_state&;
 
     auto add_subscription(message_id) -> remote_node_state&;
@@ -112,7 +122,7 @@ public:
     auto something_changed() -> bool;
 
     auto should_ping() -> std::tuple<bool, std::chrono::milliseconds>;
-    auto notified_alive() -> remote_node_state&;
+    auto is_alive() -> remote_node_state&;
     auto pinged() -> remote_node_state&;
     auto ping_response(message_sequence_t, std::chrono::microseconds age)
       -> remote_node_state&;

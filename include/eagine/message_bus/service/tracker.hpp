@@ -14,20 +14,22 @@
 #include "../serialize.hpp"
 #include "../subscriber.hpp"
 #include "discovery.hpp"
+#include "endpoint_info.hpp"
 #include "host_info.hpp"
 #include "ping_pong.hpp"
 #include "topology.hpp"
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
+template <typename Base>
+using node_tracker_base = pinger<host_info_consumer<
+  endpoint_info_consumer<network_topology<subscriber_discovery<Base>>>>>;
+//------------------------------------------------------------------------------
 template <typename Base = subscriber>
-class node_tracker
-  : public pinger<
-      host_info_consumer<network_topology<subscriber_discovery<Base>>>> {
+class node_tracker : public node_tracker_base<Base> {
 
     using This = node_tracker;
-    using base =
-      pinger<host_info_consumer<network_topology<subscriber_discovery<Base>>>>;
+    using base = node_tracker_base<Base>;
 
 protected:
     using base::base;
@@ -103,7 +105,6 @@ private:
             on_node_change(node, new_instance);
             if(EAGINE_UNLIKELY(new_instance)) {
                 this->query_host_id(node_id);
-                this->query_hostname(node_id);
                 this->query_subscriptions_of(node_id);
             }
         }
@@ -114,7 +115,7 @@ private:
           info.endpoint_id,
           _get_node(info.endpoint_id)
             .set_instance_id(info.instance_id)
-            .notified_alive());
+            .is_alive());
     }
 
     void on_subscribed(const subscriber_info& info, message_id msg_id) final {
@@ -122,7 +123,8 @@ private:
           info.endpoint_id,
           _get_node(info.endpoint_id)
             .set_instance_id(info.instance_id)
-            .add_subscription(msg_id));
+            .add_subscription(msg_id)
+            .is_alive());
     }
 
     void on_unsubscribed(const subscriber_info& info, message_id msg_id) final {
@@ -130,7 +132,8 @@ private:
           info.endpoint_id,
           _get_node(info.endpoint_id)
             .set_instance_id(info.instance_id)
-            .remove_subscription(msg_id));
+            .remove_subscription(msg_id)
+            .is_alive());
     }
 
     void not_subscribed(const subscriber_info& info, message_id msg_id) final {
@@ -138,7 +141,8 @@ private:
           info.endpoint_id,
           _get_node(info.endpoint_id)
             .set_instance_id(info.instance_id)
-            .remove_subscription(msg_id));
+            .remove_subscription(msg_id)
+            .is_alive());
     }
 
     void router_appeared(const router_topology_info& info) final {
@@ -146,7 +150,8 @@ private:
           info.router_id,
           _get_node(info.router_id)
             .set_instance_id(info.instance_id)
-            .assign(node_kind::router));
+            .assign(node_kind::router)
+            .is_alive());
     }
 
     void bridge_appeared(const bridge_topology_info& info) final {
@@ -154,7 +159,8 @@ private:
           info.bridge_id,
           _get_node(info.bridge_id)
             .set_instance_id(info.instance_id)
-            .assign(node_kind::bridge));
+            .assign(node_kind::bridge)
+            .is_alive());
     }
 
     void endpoint_appeared(const endpoint_topology_info& info) final {
@@ -162,7 +168,16 @@ private:
           info.endpoint_id,
           _get_node(info.endpoint_id)
             .set_instance_id(info.instance_id)
-            .assign(node_kind::endpoint));
+            .assign(node_kind::endpoint)
+            .is_alive());
+    }
+
+    void on_endpoint_info_received(
+      const result_context& ctx,
+      endpoint_info&& info) final {
+        _handle_node_change(
+          ctx.source_id(),
+          _get_node(ctx.source_id()).assign(std::move(info)).is_alive());
     }
 
     void on_host_id_received(
@@ -171,7 +186,9 @@ private:
         if(host_id) {
             _handle_node_change(
               ctx.source_id(),
-              _get_node(ctx.source_id()).assign(_get_host(extract(host_id))));
+              _get_node(ctx.source_id())
+                .assign(_get_host(extract(host_id)))
+                .is_alive());
         }
     }
 

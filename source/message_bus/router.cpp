@@ -15,6 +15,7 @@
 #include <eagine/message_bus/router.hpp>
 #include <eagine/message_bus/router_address.hpp>
 #include <eagine/message_bus/service/build_info.hpp>
+#include <eagine/message_bus/service/endpoint_info.hpp>
 #include <eagine/message_bus/service/host_info.hpp>
 #include <eagine/message_bus/service/ping_pong.hpp>
 #include <eagine/message_bus/service/shutdown.hpp>
@@ -26,8 +27,9 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 namespace msgbus {
-using router_node_base = service_composition<shutdown_target<
-  pingable<build_info_provider<system_info_provider<host_info_provider<>>>>>>;
+using router_node_base =
+  service_composition<shutdown_target<pingable<build_info_provider<
+    system_info_provider<host_info_provider<endpoint_info_provider<>>>>>>>;
 //------------------------------------------------------------------------------
 class router_node
   : public main_ctx_object
@@ -51,6 +53,14 @@ public:
     }
 
 private:
+    auto provide_endpoint_info() -> endpoint_info final {
+        endpoint_info result;
+        result.display_name = "router control node";
+        result.description = "endpoint monitoring and controlling a router";
+        result.is_router_node = true;
+        return result;
+    }
+
     std::chrono::milliseconds _shutdown_max_age{cfg_init(
       "msg_bus.router.shutdown.max_age",
       std::chrono::milliseconds(2500))};
