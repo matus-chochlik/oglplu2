@@ -179,7 +179,8 @@ operator>=(const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) noexcept
 }
 //------------------------------------------------------------------------------
 template <typename T, typename P>
-static constexpr inline auto extract(const valid_if<T, P>& opt) noexcept -> T {
+static constexpr inline auto extract(const valid_if<T, P>& opt) noexcept
+  -> const T& {
     return EAGINE_CONSTEXPR_ASSERT(bool(opt), opt.value_anyway());
 }
 
