@@ -18,7 +18,7 @@ public:
 class remote_node_impl {
 public:
     process_instance_id_t instance_id{0};
-    endpoint_info info;
+    optionally_valid<endpoint_info> info;
     remote_host host;
 
     timeout should_ping{std::chrono::seconds{15}};
@@ -30,8 +30,7 @@ public:
     std::uint8_t ping_bits{0};
     node_kind kind{node_kind::unknown};
 
-    bool instance_changed{true};
-    bool something_changed{false};
+    remote_node_changes changes{};
 
     auto get_sub(message_id msg_id) const noexcept -> tribool {
         auto pos = _subscriptions.find(msg_id);
@@ -113,37 +112,14 @@ auto remote_node::kind() const noexcept -> node_kind {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto remote_node::display_name() const noexcept
-  -> valid_if_not_empty<string_view> {
+auto remote_node::info() const noexcept
+  -> optional_reference_wrapper<const endpoint_info> {
     if(auto impl{_impl()}) {
-        return {extract(impl).info.display_name};
+        if(const auto& inf{extract(impl).info}) {
+            return {extract(inf)};
+        }
     }
-    return {};
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-auto remote_node::description() const noexcept
-  -> valid_if_not_empty<string_view> {
-    if(auto impl{_impl()}) {
-        return {extract(impl).info.description};
-    }
-    return {};
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-auto remote_node::is_router_node() const noexcept -> tribool {
-    if(auto impl{_impl()}) {
-        return {extract(impl).info.is_router_node};
-    }
-    return indeterminate;
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-auto remote_node::is_bridge_node() const noexcept -> tribool {
-    if(auto impl{_impl()}) {
-        return {extract(impl).info.is_bridge_node};
-    }
-    return indeterminate;
+    return {nothing};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -201,14 +177,24 @@ auto remote_node::is_responsive() const noexcept -> tribool {
 // remote_node_state
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto remote_node_state::changes() -> remote_node_changes {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        const auto result = i.changes;
+        i.changes.clear();
+        return result;
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto remote_node_state::set_instance_id(process_instance_id_t instance_id)
   -> remote_node_state& {
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
         if(i.instance_id != instance_id) {
             i.instance_id = instance_id;
-            i.instance_changed = true;
-            i.something_changed = true;
+            i.changes |= remote_node_change::instance_id;
         }
     }
     return *this;
@@ -220,7 +206,7 @@ auto remote_node_state::assign(node_kind kind) -> remote_node_state& {
         auto& i = extract(impl);
         if(i.kind != kind) {
             i.kind = kind;
-            i.something_changed = true;
+            i.changes |= remote_node_change::kind;
         }
     }
     return *this;
@@ -230,9 +216,9 @@ EAGINE_LIB_FUNC
 auto remote_node_state::assign(endpoint_info info) -> remote_node_state& {
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
-        if(i.info != info) {
-            i.info = std::move(info);
-            i.something_changed = true;
+        if(!i.info || extract(i.info) != info) {
+            i.info = {std::move(info), true};
+            i.changes |= remote_node_change::endpoint_info;
         }
     }
     return *this;
@@ -244,7 +230,7 @@ auto remote_node_state::assign(remote_host host) -> remote_node_state& {
         auto& i = extract(impl);
         if(i.host != host) {
             i.host = std::move(host);
-            i.something_changed = true;
+            i.changes |= remote_node_change::host_info;
         }
     }
     return *this;
@@ -258,7 +244,7 @@ auto remote_node_state::add_subscription(message_id msg_id)
         auto& s = i.get_sub(msg_id);
         if(!s.is(true)) {
             s = true;
-            i.something_changed = true;
+            i.changes |= remote_node_change::methods_added;
         }
     }
     return *this;
@@ -272,32 +258,10 @@ auto remote_node_state::remove_subscription(message_id msg_id)
         auto& s = i.get_sub(msg_id);
         if(!s.is(false)) {
             s = false;
-            i.something_changed = true;
+            i.changes |= remote_node_change::methods_removed;
         }
     }
     return *this;
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-auto remote_node_state::instance_changed() -> bool {
-    if(auto impl{_impl()}) {
-        auto& i = extract(impl);
-        const auto result = i.instance_changed;
-        i.instance_changed = false;
-        return result;
-    }
-    return false;
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-auto remote_node_state::something_changed() -> bool {
-    if(auto impl{_impl()}) {
-        auto& i = extract(impl);
-        const auto result = i.something_changed;
-        i.something_changed = false;
-        return result;
-    }
-    return false;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -320,7 +284,9 @@ auto remote_node_state::is_alive() -> remote_node_state& {
         const auto was_responsive = is_responsive();
         i.ping_bits <<= 1U;
         i.ping_bits |= 1U;
-        i.something_changed |= bool(was_responsive != is_responsive());
+        if(was_responsive != is_responsive()) {
+            i.changes |= remote_node_change::started_responding;
+        }
     }
     return *this;
 }
@@ -333,7 +299,9 @@ auto remote_node_state::pinged() -> remote_node_state& {
         i.should_ping.reset();
         i.ping_bits <<= 1U;
         ++i.pings_sent;
-        i.something_changed |= bool(was_responsive != is_responsive());
+        if(was_responsive != is_responsive()) {
+            i.changes |= remote_node_change::stopped_responding;
+        }
     }
     return *this;
 }
@@ -348,7 +316,9 @@ auto remote_node_state::ping_response(
         i.last_ping_time = age;
         i.ping_bits |= 1U;
         ++i.pings_responded;
-        i.something_changed |= bool(was_responsive != is_responsive());
+        if(was_responsive != is_responsive()) {
+            i.changes |= remote_node_change::started_responding;
+        }
     }
     return *this;
 }

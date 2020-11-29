@@ -48,7 +48,20 @@ public:
             something_done();
         }
 
+        const bool should_query_info{_should_query_info};
+
         for(auto& [node_id, node] : _nodes) {
+            if(should_query_info) {
+                if(!node.host_id()) {
+                    this->query_host_id(node_id);
+                }
+                if(!node.host().name()) {
+                    this->query_hostname(node_id);
+                }
+                if(!node.info()) {
+                    this->query_endpoint_info(node_id);
+                }
+            }
 
             if(node.subscribes_to(this->ping_msg_id())) {
                 const auto [should_ping, max_time] = node.should_ping();
@@ -70,12 +83,13 @@ public:
         }
     }
 
-    virtual void on_node_change(remote_node& node, bool new_instance) = 0;
+    virtual void on_node_change(remote_node& node, remote_node_changes) = 0;
     virtual void on_node_host_change(remote_node& node, remote_host& host) = 0;
 
 private:
     // TODO: longer interval
     resetting_timeout _should_query_topology{std::chrono::seconds{5}, nothing};
+    resetting_timeout _should_query_info{std::chrono::seconds{5}};
 
     flat_map<identifier_t, remote_node_state> _nodes{};
 
@@ -100,11 +114,12 @@ private:
     }
 
     void _handle_node_change(identifier_t node_id, remote_node_state& node) {
-        if(node.something_changed()) {
-            const bool new_instance = node.instance_changed();
-            on_node_change(node, new_instance);
-            if(EAGINE_UNLIKELY(new_instance)) {
+        if(const auto changes{node.changes()}) {
+            on_node_change(node, changes);
+            if(EAGINE_UNLIKELY(changes.new_instance())) {
+                this->query_endpoint_info(node_id);
                 this->query_host_id(node_id);
+                this->query_hostname(node_id);
                 this->query_subscriptions_of(node_id);
             }
         }
