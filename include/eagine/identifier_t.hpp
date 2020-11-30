@@ -15,6 +15,7 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 using identifier_t = std::uint64_t;
+using process_instance_id_t = std::uint32_t;
 using host_id_t = std::uint32_t;
 //------------------------------------------------------------------------------
 #if __SIZEOF_INT128__

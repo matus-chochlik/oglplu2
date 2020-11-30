@@ -11,7 +11,6 @@
 #define EAGINE_MESSAGE_BUS_TYPES_HPP
 
 #include "../identifier_t.hpp"
-#include "../process.hpp"
 #include "../reflect/map_data_members.hpp"
 #include "../types.hpp"
 #include "connection_kind.hpp"

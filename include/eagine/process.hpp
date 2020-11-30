@@ -10,6 +10,7 @@
 #define EAGINE_PROCESS_HPP
 
 #include "config/platform.hpp"
+#include "identifier_t.hpp"
 #include "integer_hash.hpp"
 #include <chrono>
 #include <cstdint>
@@ -21,8 +22,7 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-using process_instance_id_t = std::uint32_t;
-static inline auto make_instance_id() -> process_instance_id_t {
+static inline auto make_process_instance_id() -> process_instance_id_t {
     return
 #if EAGINE_POSIX
       integer_hash<process_instance_id_t>(::getpid()) ^

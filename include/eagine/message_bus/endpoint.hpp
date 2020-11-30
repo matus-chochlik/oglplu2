@@ -13,7 +13,6 @@
 #include "../application_config.hpp"
 #include "../flat_map.hpp"
 #include "../main_ctx_object.hpp"
-#include "../process.hpp"
 #include "../timeout.hpp"
 #include "blobs.hpp"
 #include "connection.hpp"
@@ -45,7 +44,7 @@ private:
 
     shared_context _context{make_context(*this)};
 
-    const process_instance_id_t _instance_id{make_instance_id()};
+    const process_instance_id_t _instance_id{process_instance_id()};
     identifier_t _preconfd_id{invalid_id()};
     identifier_t _endpoint_id{invalid_id()};
     timeout _no_id_timeout{

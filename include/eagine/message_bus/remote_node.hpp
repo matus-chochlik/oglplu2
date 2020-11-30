@@ -15,7 +15,6 @@
 #include "../identifier_t.hpp"
 #include "../message_id.hpp"
 #include "../optional_ref.hpp"
-#include "../process.hpp"
 #include "../tribool.hpp"
 #include "../types.hpp"
 #include "../valid_if/ge0_le1.hpp"

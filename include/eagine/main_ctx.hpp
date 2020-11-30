@@ -10,6 +10,7 @@
 #define EAGINE_MAIN_CTX_HPP
 
 #include "build_info.hpp"
+#include "identifier_t.hpp"
 #include "logging/logger.hpp"
 #include "logging/root_logger_opts.hpp"
 #include "memory/buffer_fwd.hpp"
@@ -30,6 +31,7 @@ class process_watchdog;
 
 class main_ctx {
 private:
+    process_instance_id_t _instance_id;
     program_args& _args;
     logger& _log;
     process_watchdog& _watchdog;
@@ -55,6 +57,10 @@ public:
     static inline auto get() noexcept -> main_ctx& {
         EAGINE_ASSERT(_single_ptr());
         return *_single_ptr();
+    }
+
+    auto instance_id() const noexcept -> process_instance_id_t {
+        return _instance_id;
     }
 
     auto preinitialize() noexcept -> main_ctx&;
