@@ -9,6 +9,11 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
+class remote_instance_impl {
+public:
+    host_id_t host_id{0U};
+};
+//------------------------------------------------------------------------------
 class remote_host_impl {
 public:
     std::string hostname;
@@ -18,7 +23,7 @@ class remote_node_impl {
 public:
     process_instance_id_t instance_id{0U};
     optionally_valid<endpoint_info> info;
-    identifier_t host_id{0U};
+    host_id_t host_id{0U};
 
     timeout should_ping{std::chrono::seconds{15}};
     span_size_t pings_sent{0};
@@ -50,6 +55,49 @@ public:
 private:
     flat_map<message_id, tribool> _subscriptions;
 };
+//------------------------------------------------------------------------------
+// remote_instance
+//------------------------------------------------------------------------------
+inline auto remote_instance::_impl() const noexcept
+  -> const remote_instance_impl* {
+    return _pimpl.get();
+}
+//------------------------------------------------------------------------------
+inline auto remote_instance::_impl() noexcept -> remote_instance_impl* {
+    try {
+        if(EAGINE_UNLIKELY(!_pimpl)) {
+            _pimpl = std::make_shared<remote_instance_impl>();
+        }
+        return _pimpl.get();
+    } catch(...) {
+    }
+    return nullptr;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_instance::host() const noexcept -> remote_host {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        if(i.host_id) {
+            return _tracker.get_host(i.host_id);
+        }
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+// remote_instance_state
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_instance_state::set_host_id(host_id_t host_id)
+  -> remote_instance_state& {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        if(i.host_id != host_id) {
+            i.host_id = host_id;
+        }
+    }
+    return *this;
+}
 //------------------------------------------------------------------------------
 // remote_host
 //------------------------------------------------------------------------------
@@ -122,7 +170,7 @@ auto remote_node::info() const noexcept
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto remote_node::host_id() const noexcept -> valid_if_not_zero<identifier_t> {
+auto remote_node::host_id() const noexcept -> valid_if_not_zero<host_id_t> {
     if(auto impl{_impl()}) {
         return extract(impl).host_id;
     }
@@ -132,7 +180,21 @@ auto remote_node::host_id() const noexcept -> valid_if_not_zero<identifier_t> {
 EAGINE_LIB_FUNC
 auto remote_node::host() const noexcept -> remote_host {
     if(auto impl{_impl()}) {
-        return _tracker.get_host(extract(impl).host_id);
+        auto& i = extract(impl);
+        if(i.host_id) {
+            return _tracker.get_host(i.host_id);
+        }
+        if(auto inst{instance()}) {
+            return inst.host();
+        }
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node::instance() const noexcept -> remote_instance {
+    if(auto impl{_impl()}) {
+        return _tracker.get_instance(extract(impl).instance_id);
     }
     return {};
 }
@@ -212,13 +274,15 @@ auto remote_node_state::set_instance_id(process_instance_id_t instance_id)
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto remote_node_state::set_host_id(identifier_t host_id)
-  -> remote_node_state& {
+auto remote_node_state::set_host_id(host_id_t host_id) -> remote_node_state& {
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
         if(i.host_id != host_id) {
             i.host_id = host_id;
             i.changes |= remote_node_change::host_info;
+            if(i.instance_id) {
+                _tracker.get_instance(i.instance_id).set_host_id(host_id);
+            }
         }
     }
     return *this;
@@ -307,13 +371,8 @@ EAGINE_LIB_FUNC
 auto remote_node_state::pinged() -> remote_node_state& {
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
-        const auto was_responsive = is_responsive();
         i.should_ping.reset();
-        i.ping_bits <<= 1U;
         ++i.pings_sent;
-        if(was_responsive != is_responsive()) {
-            i.changes |= remote_node_change::stopped_responding;
-        }
     }
     return *this;
 }
@@ -326,6 +385,7 @@ auto remote_node_state::ping_response(
         auto& i = extract(impl);
         const auto was_responsive = is_responsive();
         i.last_ping_time = age;
+        i.ping_bits <<= 1U;
         i.ping_bits |= 1U;
         ++i.pings_responded;
         if(was_responsive != is_responsive()) {
@@ -341,8 +401,13 @@ auto remote_node_state::ping_timeout(
   std::chrono::microseconds age) -> remote_node_state& {
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
+        const auto was_responsive = is_responsive();
         i.last_ping_timeout = age;
+        i.ping_bits <<= 1U;
         ++i.pings_timeouted;
+        if(was_responsive != is_responsive()) {
+            i.changes |= remote_node_change::stopped_responding;
+        }
     }
     return *this;
 }
@@ -365,7 +430,8 @@ auto remote_host_state::set_hostname(std::string hn) -> remote_host_state& {
 class remote_node_tracker_impl {
 public:
     flat_map<identifier_t, remote_node_state> nodes;
-    flat_map<identifier_t, remote_host_state> hosts;
+    flat_map<process_instance_id_t, remote_instance_state> instances;
+    flat_map<host_id_t, remote_host_state> hosts;
 };
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -381,7 +447,7 @@ auto remote_node_tracker::get_nodes() noexcept
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto remote_node_tracker::get_hosts() noexcept
-  -> flat_map<identifier_t, remote_host_state>& {
+  -> flat_map<host_id_t, remote_host_state>& {
     EAGINE_ASSERT(_pimpl);
     return _pimpl->hosts;
 }
@@ -398,7 +464,7 @@ auto remote_node_tracker::get_node(identifier_t node_id) -> remote_node_state& {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto remote_node_tracker::get_host(identifier_t host_id) -> remote_host_state& {
+auto remote_node_tracker::get_host(host_id_t host_id) -> remote_host_state& {
     EAGINE_ASSERT(_pimpl);
     auto pos = _pimpl->hosts.find(host_id);
     if(pos == _pimpl->hosts.end()) {
@@ -409,11 +475,34 @@ auto remote_node_tracker::get_host(identifier_t host_id) -> remote_host_state& {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto remote_node_tracker::get_host(identifier_t host_id) const
+auto remote_node_tracker::get_host(host_id_t host_id) const
   -> remote_host_state {
     EAGINE_ASSERT(_pimpl);
     auto pos = _pimpl->hosts.find(host_id);
     if(pos != _pimpl->hosts.end()) {
+        return pos->second;
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node_tracker::get_instance(process_instance_id_t instance_id)
+  -> remote_instance_state& {
+    EAGINE_ASSERT(_pimpl);
+    auto pos = _pimpl->instances.find(instance_id);
+    if(pos == _pimpl->instances.end()) {
+        pos = _pimpl->instances.emplace(instance_id, instance_id, _pimpl).first;
+    }
+    EAGINE_ASSERT(pos->second.id() == instance_id);
+    return pos->second;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node_tracker::get_instance(process_instance_id_t instance_id) const
+  -> remote_instance_state {
+    EAGINE_ASSERT(_pimpl);
+    auto pos = _pimpl->instances.find(instance_id);
+    if(pos != _pimpl->instances.end()) {
         return pos->second;
     }
     return {};

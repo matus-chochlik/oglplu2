@@ -20,6 +20,10 @@ adapt_log_entry_arg(identifier name, const msgbus::remote_node& value) {
     return [name, value](logger_backend& backend) {
         backend.add_unsigned(
           name, EAGINE_ID(uint64), extract_or(value.id(), 0U));
+        backend.add_unsigned(
+          EAGINE_ID(instanceId),
+          EAGINE_ID(uint32),
+          extract_or(value.instance_id(), 0U));
 
         backend.add_string(
           EAGINE_ID(nodeKind), EAGINE_ID(enum), enumerator_name(value.kind()));
