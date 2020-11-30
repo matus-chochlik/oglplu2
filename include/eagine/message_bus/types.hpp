@@ -14,6 +14,7 @@
 #include "../process.hpp"
 #include "../reflect/map_data_members.hpp"
 #include "../types.hpp"
+#include "connection_kind.hpp"
 #include <tuple>
 
 namespace eagine::msgbus {
@@ -24,6 +25,7 @@ struct router_topology_info {
     identifier_t router_id{0};
     identifier_t remote_id{0};
     process_instance_id_t instance_id{0U};
+    connection_kind connect_kind{0U};
 };
 
 template <typename Selector>
@@ -34,10 +36,12 @@ data_member_mapping(identity<router_topology_info>, Selector) noexcept {
       S,
       identifier_t,
       identifier_t,
-      process_instance_id_t>(
+      process_instance_id_t,
+      connection_kind>(
       {"router_id", &S::router_id},
       {"remote_id", &S::remote_id},
-      {"instance_id", &S::instance_id});
+      {"instance_id", &S::instance_id},
+      {"connect_kind", &S::connect_kind});
 }
 //------------------------------------------------------------------------------
 struct bridge_topology_info {

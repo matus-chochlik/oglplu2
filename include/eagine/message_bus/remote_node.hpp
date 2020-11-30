@@ -38,21 +38,6 @@ enum class remote_node_change : std::uint16_t {
     stopped_responding,
     instance_id
 };
-
-struct remote_node_changes : bitfield<remote_node_change> {
-    using base = bitfield<remote_node_change>;
-    using base::base;
-
-    auto responsivity() const noexcept -> bool {
-        return has_any(
-          remote_node_change::started_responding,
-          remote_node_change::stopped_responding);
-    }
-
-    auto new_instance() const noexcept -> bool {
-        return has(remote_node_change::instance_id);
-    }
-};
 //------------------------------------------------------------------------------
 template <typename Selector>
 constexpr auto
@@ -67,6 +52,26 @@ enumerator_mapping(identity<remote_node_change>, Selector) noexcept {
        {"started_responding", remote_node_change::started_responding},
        {"stopped_responding", remote_node_change::stopped_responding},
        {"instance_id", remote_node_change::instance_id}}};
+}
+//------------------------------------------------------------------------------
+struct remote_node_changes : bitfield<remote_node_change> {
+    using base = bitfield<remote_node_change>;
+    using base::base;
+
+    auto responsivity() const noexcept -> bool {
+        return has_any(
+          remote_node_change::started_responding,
+          remote_node_change::stopped_responding);
+    }
+
+    auto new_instance() const noexcept -> bool {
+        return has(remote_node_change::instance_id);
+    }
+};
+
+static inline auto operator|(remote_node_change l, remote_node_change r) noexcept
+  -> remote_node_changes {
+    return {l, r};
 }
 //------------------------------------------------------------------------------
 class remote_host_impl;

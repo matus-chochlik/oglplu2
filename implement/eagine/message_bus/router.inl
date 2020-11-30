@@ -593,10 +593,11 @@ auto router::_handle_special_common(
         std::array<byte, 256> temp{};
         router_topology_info info{};
 
-        auto respond = [&](identifier_t remote_id) {
+        auto respond = [&](identifier_t remote_id, const auto& conn) {
             info.router_id = _id_base;
             info.remote_id = remote_id;
             info.instance_id = _instance_id;
+            info.connect_kind = conn->kind();
             if(auto serialized{default_serialize(info, cover(temp))}) {
                 message_view response{extract(serialized)};
                 response.setup_response(message);
@@ -607,10 +608,10 @@ auto router::_handle_special_common(
         };
 
         for(auto& [nd_id, nd] : this->_nodes) {
-            respond(nd_id);
+            respond(nd_id, nd.the_connection);
         }
         if(_parent_router.confirmed_id) {
-            respond(_parent_router.confirmed_id);
+            respond(_parent_router.confirmed_id, _parent_router.the_connection);
         }
         return false;
     } else if(
