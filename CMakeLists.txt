@@ -135,3 +135,4 @@ install(
 	DESTINATION include
 )
 
+add_subdirectory("doc")
