@@ -43,9 +43,7 @@ protected:
     }
 
 private:
-    default_function_skeleton<
-      valid_if_positive<system_info::host_id_type>() noexcept,
-      64>
+    default_function_skeleton<valid_if_positive<host_id_t>() noexcept, 64>
       _host_id;
 
     default_function_skeleton<valid_if_not_empty<std::string>() noexcept, 1024>
@@ -82,7 +80,7 @@ public:
 
     virtual void on_host_id_received(
       const result_context&,
-      valid_if_positive<system_info::host_id_type>&&) = 0;
+      valid_if_positive<host_id_t>&&) = 0;
 
     void query_hostname(identifier_t endpoint_id) {
         _hostname.invoke_on(
@@ -94,8 +92,7 @@ public:
       valid_if_not_empty<std::string>&&) {}
 
 private:
-    default_callback_invoker<valid_if_positive<system_info::host_id_type>(), 32>
-      _host_id;
+    default_callback_invoker<valid_if_positive<host_id_t>(), 32> _host_id;
 
     default_callback_invoker<valid_if_not_empty<std::string>(), 1024> _hostname;
 };

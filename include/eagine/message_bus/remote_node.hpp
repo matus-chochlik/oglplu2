@@ -11,6 +11,7 @@
 #define EAGINE_MESSAGE_BUS_REMOTE_NODE_HPP
 
 #include "../bitfield.hpp"
+#include "../flat_map.hpp"
 #include "../identifier_t.hpp"
 #include "../message_id.hpp"
 #include "../optional_ref.hpp"
@@ -74,7 +75,33 @@ static inline auto operator|(remote_node_change l, remote_node_change r) noexcep
     return {l, r};
 }
 //------------------------------------------------------------------------------
+class remote_node_tracker_impl;
 class remote_host_impl;
+class remote_host;
+class remote_host_state;
+class remote_node_impl;
+class remote_node;
+class remote_node_state;
+//------------------------------------------------------------------------------
+class remote_node_tracker {
+public:
+    remote_node_tracker();
+    remote_node_tracker(nothing_t) noexcept
+      : _pimpl{} {}
+    remote_node_tracker(std::shared_ptr<remote_node_tracker_impl> pimpl) noexcept
+      : _pimpl{std::move(pimpl)} {}
+
+    auto get_nodes() noexcept -> flat_map<identifier_t, remote_node_state>&;
+    auto get_hosts() noexcept -> flat_map<identifier_t, remote_host_state>&;
+
+    auto get_node(identifier_t node_id) -> remote_node_state&;
+    auto get_host(identifier_t host_id) -> remote_host_state&;
+    auto get_host(identifier_t host_id) const -> remote_host_state;
+
+private:
+    std::shared_ptr<remote_node_tracker_impl> _pimpl{};
+};
+//------------------------------------------------------------------------------
 class remote_host {
 public:
     remote_host() noexcept = default;
@@ -86,16 +113,6 @@ public:
     }
 
     auto name() const noexcept -> valid_if_not_empty<string_view>;
-
-    friend auto operator==(const remote_host& l, const remote_host& r) noexcept
-      -> bool {
-        return l._host_id == r._host_id;
-    }
-
-    friend auto operator!=(const remote_host& l, const remote_host& r) noexcept
-      -> bool {
-        return l._host_id != r._host_id;
-    }
 
 private:
     identifier_t _host_id{0U};
@@ -113,13 +130,12 @@ public:
     auto set_hostname(std::string) -> remote_host_state&;
 };
 //------------------------------------------------------------------------------
-class remote_node_impl;
 class remote_node {
 public:
     remote_node() noexcept = default;
-
-    remote_node(identifier_t node_id) noexcept
-      : _node_id{node_id} {}
+    remote_node(identifier_t node_id, remote_node_tracker tracker) noexcept
+      : _node_id{node_id}
+      , _tracker{std::move(tracker)} {}
 
     auto id() const noexcept -> valid_if_not_zero<identifier_t> {
         return {_node_id};
@@ -148,6 +164,10 @@ public:
     }
 
     auto is_router_node() const noexcept -> tribool {
+        const auto k = kind();
+        if((k == node_kind::router) || (k == node_kind::bridge)) {
+            return false;
+        }
         if(auto inf{info()}) {
             return {extract(inf).is_router_node};
         }
@@ -155,6 +175,10 @@ public:
     }
 
     auto is_bridge_node() const noexcept -> tribool {
+        const auto k = kind();
+        if((k == node_kind::router) || (k == node_kind::bridge)) {
+            return false;
+        }
         if(auto inf{info()}) {
             return {extract(inf).is_bridge_node};
         }
@@ -166,12 +190,14 @@ public:
 
     auto subscribes_to(message_id msg_id) const noexcept -> tribool;
 
+    auto is_pingable() const noexcept -> tribool;
     void set_ping_interval(std::chrono::milliseconds) noexcept;
     auto ping_success_rate() const noexcept -> valid_if_between_0_1<float>;
     auto is_responsive() const noexcept -> tribool;
 
 private:
     identifier_t _node_id{0U};
+    remote_node_tracker _tracker{nothing};
     std::shared_ptr<remote_node_impl> _pimpl{};
 
 protected:
@@ -186,10 +212,10 @@ public:
     auto changes() -> remote_node_changes;
 
     auto set_instance_id(process_instance_id_t) -> remote_node_state&;
+    auto set_host_id(identifier_t) -> remote_node_state&;
 
     auto assign(node_kind) -> remote_node_state&;
     auto assign(endpoint_info) -> remote_node_state&;
-    auto assign(remote_host) -> remote_node_state&;
 
     auto add_subscription(message_id) -> remote_node_state&;
     auto remove_subscription(message_id) -> remote_node_state&;

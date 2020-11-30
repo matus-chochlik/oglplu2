@@ -50,7 +50,7 @@ public:
 
         const bool should_query_info{_should_query_info};
 
-        for(auto& [node_id, node] : _nodes) {
+        for(auto& [node_id, node] : _tracker.get_nodes()) {
             if(should_query_info) {
                 if(!node.host_id()) {
                     this->query_host_id(node_id);
@@ -63,14 +63,15 @@ public:
                 }
             }
 
-            if(node.subscribes_to(this->ping_msg_id())) {
+            if(node.is_pingable()) {
                 const auto [should_ping, max_time] = node.should_ping();
                 if(should_ping) {
                     this->ping(node_id, max_time);
-                    _handle_node_change(node_id, node.pinged());
+                    node.pinged();
                     something_done();
                 }
             }
+            _handle_node_change(node_id, node);
         }
 
         return something_done;
@@ -78,7 +79,7 @@ public:
 
     template <typename Function>
     void for_each_node(Function function) {
-        for(auto& [node_id, node] : _nodes) {
+        for(auto& [node_id, node] : _tracker.get_nodes()) {
             function(node_id, node);
         }
     }
@@ -91,26 +92,14 @@ private:
     resetting_timeout _should_query_topology{std::chrono::seconds{5}, nothing};
     resetting_timeout _should_query_info{std::chrono::seconds{5}};
 
-    flat_map<identifier_t, remote_node_state> _nodes{};
+    remote_node_tracker _tracker{};
 
     auto _get_node(identifier_t id) -> remote_node_state& {
-        auto pos = _nodes.find(id);
-        if(pos == _nodes.end()) {
-            pos = _nodes.emplace(id, id).first;
-        }
-        EAGINE_ASSERT(pos->second.id() == id);
-        return pos->second;
+        return _tracker.get_node(id);
     }
 
-    flat_map<identifier_t, remote_host_state> _hosts{};
-
     auto _get_host(identifier_t id) -> remote_host_state& {
-        auto pos = _hosts.find(id);
-        if(pos == _hosts.end()) {
-            pos = _hosts.emplace(id, id).first;
-        }
-        EAGINE_ASSERT(pos->second.id() == id);
-        return pos->second;
+        return _tracker.get_host(id);
     }
 
     void _handle_node_change(identifier_t node_id, remote_node_state& node) {
@@ -126,84 +115,62 @@ private:
     }
 
     void is_alive(const subscriber_info& info) final {
-        _handle_node_change(
-          info.endpoint_id,
-          _get_node(info.endpoint_id)
-            .set_instance_id(info.instance_id)
-            .is_alive());
+        _get_node(info.endpoint_id).set_instance_id(info.instance_id).is_alive();
     }
 
     void on_subscribed(const subscriber_info& info, message_id msg_id) final {
-        _handle_node_change(
-          info.endpoint_id,
-          _get_node(info.endpoint_id)
-            .set_instance_id(info.instance_id)
-            .add_subscription(msg_id)
-            .is_alive());
+        _get_node(info.endpoint_id)
+          .set_instance_id(info.instance_id)
+          .add_subscription(msg_id)
+          .is_alive();
     }
 
     void on_unsubscribed(const subscriber_info& info, message_id msg_id) final {
-        _handle_node_change(
-          info.endpoint_id,
-          _get_node(info.endpoint_id)
-            .set_instance_id(info.instance_id)
-            .remove_subscription(msg_id)
-            .is_alive());
+        _get_node(info.endpoint_id)
+          .set_instance_id(info.instance_id)
+          .remove_subscription(msg_id)
+          .is_alive();
     }
 
     void not_subscribed(const subscriber_info& info, message_id msg_id) final {
-        _handle_node_change(
-          info.endpoint_id,
-          _get_node(info.endpoint_id)
-            .set_instance_id(info.instance_id)
-            .remove_subscription(msg_id)
-            .is_alive());
+        _get_node(info.endpoint_id)
+          .set_instance_id(info.instance_id)
+          .remove_subscription(msg_id)
+          .is_alive();
     }
 
     void router_appeared(const router_topology_info& info) final {
-        _handle_node_change(
-          info.router_id,
-          _get_node(info.router_id)
-            .set_instance_id(info.instance_id)
-            .assign(node_kind::router)
-            .is_alive());
+        _get_node(info.router_id)
+          .set_instance_id(info.instance_id)
+          .assign(node_kind::router)
+          .is_alive();
     }
 
     void bridge_appeared(const bridge_topology_info& info) final {
-        _handle_node_change(
-          info.bridge_id,
-          _get_node(info.bridge_id)
-            .set_instance_id(info.instance_id)
-            .assign(node_kind::bridge)
-            .is_alive());
+        _get_node(info.bridge_id)
+          .set_instance_id(info.instance_id)
+          .assign(node_kind::bridge)
+          .is_alive();
     }
 
     void endpoint_appeared(const endpoint_topology_info& info) final {
-        _handle_node_change(
-          info.endpoint_id,
-          _get_node(info.endpoint_id)
-            .set_instance_id(info.instance_id)
-            .assign(node_kind::endpoint)
-            .is_alive());
+        _get_node(info.endpoint_id)
+          .set_instance_id(info.instance_id)
+          .assign(node_kind::endpoint)
+          .is_alive();
     }
 
     void on_endpoint_info_received(
       const result_context& ctx,
       endpoint_info&& info) final {
-        _handle_node_change(
-          ctx.source_id(),
-          _get_node(ctx.source_id()).assign(std::move(info)).is_alive());
+        _get_node(ctx.source_id()).assign(std::move(info)).is_alive();
     }
 
     void on_host_id_received(
       const result_context& ctx,
-      valid_if_positive<system_info::host_id_type>&& host_id) final {
+      valid_if_positive<host_id_t>&& host_id) final {
         if(host_id) {
-            _handle_node_change(
-              ctx.source_id(),
-              _get_node(ctx.source_id())
-                .assign(_get_host(extract(host_id)))
-                .is_alive());
+            _get_node(ctx.source_id()).set_host_id(extract(host_id)).is_alive();
         }
     }
 
@@ -215,7 +182,7 @@ private:
             if(auto host_id{node.host_id()}) {
                 auto& host = _get_host(extract(host_id));
                 host.set_hostname(std::move(extract(hostname)));
-                for(auto& entry : _nodes) {
+                for(auto& entry : _tracker.get_nodes()) {
                     if(std::get<1>(entry).host_id() == extract(host_id)) {
                         on_node_host_change(node, host);
                     }
@@ -229,16 +196,14 @@ private:
       message_sequence_t sequence_no,
       std::chrono::microseconds age,
       verification_bits) final {
-        _handle_node_change(
-          node_id, _get_node(node_id).ping_response(sequence_no, age));
+        _get_node(node_id).ping_response(sequence_no, age);
     }
 
     void on_ping_timeout(
       identifier_t node_id,
       message_sequence_t sequence_no,
       std::chrono::microseconds age) final {
-        _handle_node_change(
-          node_id, _get_node(node_id).ping_timeout(sequence_no, age));
+        _get_node(node_id).ping_timeout(sequence_no, age);
     }
 };
 //------------------------------------------------------------------------------

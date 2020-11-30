@@ -5,7 +5,6 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/branch_predict.hpp>
-#include <eagine/flat_map.hpp>
 #include <eagine/timeout.hpp>
 
 namespace eagine::msgbus {
@@ -17,9 +16,9 @@ public:
 //------------------------------------------------------------------------------
 class remote_node_impl {
 public:
-    process_instance_id_t instance_id{0};
+    process_instance_id_t instance_id{0U};
     optionally_valid<endpoint_info> info;
-    remote_host host;
+    identifier_t host_id{0U};
 
     timeout should_ping{std::chrono::seconds{15}};
     span_size_t pings_sent{0};
@@ -125,7 +124,7 @@ auto remote_node::info() const noexcept
 EAGINE_LIB_FUNC
 auto remote_node::host_id() const noexcept -> valid_if_not_zero<identifier_t> {
     if(auto impl{_impl()}) {
-        return extract(impl).host.id();
+        return extract(impl).host_id;
     }
     return {0U};
 }
@@ -133,7 +132,7 @@ auto remote_node::host_id() const noexcept -> valid_if_not_zero<identifier_t> {
 EAGINE_LIB_FUNC
 auto remote_node::host() const noexcept -> remote_host {
     if(auto impl{_impl()}) {
-        return extract(impl).host;
+        return _tracker.get_host(extract(impl).host_id);
     }
     return {};
 }
@@ -142,6 +141,18 @@ EAGINE_LIB_FUNC
 auto remote_node::subscribes_to(message_id msg_id) const noexcept -> tribool {
     if(auto impl{_impl()}) {
         return extract(impl).get_sub(msg_id);
+    }
+    return indeterminate;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node::is_pingable() const noexcept -> tribool {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        if(i.kind == node_kind::router || i.kind == node_kind::bridge) {
+            return true;
+        }
+        return extract(impl).get_sub(EAGINE_MSGBUS_ID(ping));
     }
     return indeterminate;
 }
@@ -201,6 +212,19 @@ auto remote_node_state::set_instance_id(process_instance_id_t instance_id)
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto remote_node_state::set_host_id(identifier_t host_id)
+  -> remote_node_state& {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        if(i.host_id != host_id) {
+            i.host_id = host_id;
+            i.changes |= remote_node_change::host_info;
+        }
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto remote_node_state::assign(node_kind kind) -> remote_node_state& {
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
@@ -219,18 +243,6 @@ auto remote_node_state::assign(endpoint_info info) -> remote_node_state& {
         if(!i.info || extract(i.info) != info) {
             i.info = {std::move(info), true};
             i.changes |= remote_node_change::endpoint_info;
-        }
-    }
-    return *this;
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-auto remote_node_state::assign(remote_host host) -> remote_node_state& {
-    if(auto impl{_impl()}) {
-        auto& i = extract(impl);
-        if(i.host != host) {
-            i.host = std::move(host);
-            i.changes |= remote_node_change::host_info;
         }
     }
     return *this;
@@ -346,6 +358,65 @@ auto remote_host_state::set_hostname(std::string hn) -> remote_host_state& {
     } catch(...) {
     }
     return *this;
+}
+//------------------------------------------------------------------------------
+// remote_node_tracker
+//------------------------------------------------------------------------------
+class remote_node_tracker_impl {
+public:
+    flat_map<identifier_t, remote_node_state> nodes;
+    flat_map<identifier_t, remote_host_state> hosts;
+};
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+remote_node_tracker::remote_node_tracker()
+  : _pimpl{std::make_shared<remote_node_tracker_impl>()} {}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node_tracker::get_nodes() noexcept
+  -> flat_map<identifier_t, remote_node_state>& {
+    EAGINE_ASSERT(_pimpl);
+    return _pimpl->nodes;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node_tracker::get_hosts() noexcept
+  -> flat_map<identifier_t, remote_host_state>& {
+    EAGINE_ASSERT(_pimpl);
+    return _pimpl->hosts;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node_tracker::get_node(identifier_t node_id) -> remote_node_state& {
+    EAGINE_ASSERT(_pimpl);
+    auto pos = _pimpl->nodes.find(node_id);
+    if(pos == _pimpl->nodes.end()) {
+        pos = _pimpl->nodes.emplace(node_id, node_id, _pimpl).first;
+    }
+    EAGINE_ASSERT(pos->second.id() == node_id);
+    return pos->second;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node_tracker::get_host(identifier_t host_id) -> remote_host_state& {
+    EAGINE_ASSERT(_pimpl);
+    auto pos = _pimpl->hosts.find(host_id);
+    if(pos == _pimpl->hosts.end()) {
+        pos = _pimpl->hosts.emplace(host_id, host_id).first;
+    }
+    EAGINE_ASSERT(pos->second.id() == host_id);
+    return pos->second;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node_tracker::get_host(identifier_t host_id) const
+  -> remote_host_state {
+    EAGINE_ASSERT(_pimpl);
+    auto pos = _pimpl->hosts.find(host_id);
+    if(pos != _pimpl->hosts.end()) {
+        return pos->second;
+    }
+    return {};
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

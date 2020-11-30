@@ -206,8 +206,7 @@ EAGINE_LIB_FUNC
 void router::_setup_from_config() {
 
     const auto id_count = extract_or(
-      app_config().get<system_info::host_id_type>("msg_bus.router.id_count"),
-      1U << 12U);
+      app_config().get<host_id_t>("msg_bus.router.id_count"), 1U << 12U);
 
     const auto host_id =
       identifier_t(extract_or(main_context().system().host_id(), 0U));

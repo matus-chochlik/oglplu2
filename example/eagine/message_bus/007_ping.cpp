@@ -33,7 +33,7 @@ namespace msgbus {
 //------------------------------------------------------------------------------
 struct ping_stats {
     build_info build;
-    system_info::host_id_type host_id{0};
+    host_id_t host_id{0};
     std::string hostname;
     span_size_t num_cores{0};
     span_size_t ram_size{0};
@@ -122,7 +122,7 @@ public:
 
     void on_host_id_received(
       const result_context& res_ctx,
-      valid_if_positive<system_info::host_id_type>&& host_id) final {
+      valid_if_positive<host_id_t>&& host_id) final {
         if(host_id) {
             auto& stats = _targets[res_ctx.source_id()];
             stats.host_id = extract(host_id);

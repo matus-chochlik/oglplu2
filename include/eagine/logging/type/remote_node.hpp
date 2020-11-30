@@ -29,7 +29,14 @@ adapt_log_entry_arg(identifier name, const msgbus::remote_node& value) {
         backend.add_adapted(
           EAGINE_ID(isBrdgNode), yes_no_maybe(value.is_bridge_node()));
         backend.add_adapted(
+          EAGINE_ID(isPingable), yes_no_maybe(value.is_pingable()));
+        backend.add_adapted(
           EAGINE_ID(isRespnsve), yes_no_maybe(value.is_responsive()));
+
+        if(const auto opt_rate{value.ping_success_rate()}) {
+            backend.add_float(
+              EAGINE_ID(pingSucces), EAGINE_ID(Ratio), extract(opt_rate));
+        }
 
         if(const auto opt_name{value.display_name()}) {
             backend.add_string(
@@ -49,11 +56,6 @@ adapt_log_entry_arg(identifier name, const msgbus::remote_node& value) {
         if(const auto opt_name{value.host().name()}) {
             backend.add_string(
               EAGINE_ID(hostname), EAGINE_ID(string), extract(opt_name));
-        }
-
-        if(const auto opt_rate{value.ping_success_rate()}) {
-            backend.add_float(
-              EAGINE_ID(pingSucces), EAGINE_ID(Ratio), extract(opt_rate));
         }
     };
 }
