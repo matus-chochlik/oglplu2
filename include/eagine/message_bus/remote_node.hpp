@@ -11,6 +11,7 @@
 #define EAGINE_MESSAGE_BUS_REMOTE_NODE_HPP
 
 #include "../bitfield.hpp"
+#include "../build_info.hpp"
 #include "../flat_map.hpp"
 #include "../identifier_t.hpp"
 #include "../message_id.hpp"
@@ -28,24 +29,26 @@
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 enum class remote_node_change : std::uint16_t {
-    kind,
-    host_id,
-    host_info,
-    endpoint_info,
-    methods_added,
-    methods_removed,
-    started_responding,
-    stopped_responding,
-    instance_id
+    kind = 1U << 0U,
+    host_id = 1U << 1U,
+    host_info = 1U << 2U,
+    build_info = 1U << 3U,
+    endpoint_info = 1U << 4U,
+    methods_added = 1U << 5U,
+    methods_removed = 1U << 6U,
+    started_responding = 1U << 7U,
+    stopped_responding = 1U << 8U,
+    instance_id = 1U << 9U
 };
 //------------------------------------------------------------------------------
 template <typename Selector>
 constexpr auto
 enumerator_mapping(identity<remote_node_change>, Selector) noexcept {
-    return enumerator_map_type<remote_node_change, 9>{
+    return enumerator_map_type<remote_node_change, 10>{
       {{"kind", remote_node_change::kind},
        {"host_id", remote_node_change::host_id},
        {"host_info", remote_node_change::host_info},
+       {"build_info", remote_node_change::build_info},
        {"endpoint_info", remote_node_change::endpoint_info},
        {"methods_added", remote_node_change::methods_added},
        {"methods_removed", remote_node_change::methods_removed},
@@ -157,6 +160,8 @@ public:
 
     auto host() const noexcept -> remote_host;
 
+    auto build() const noexcept -> optional_reference_wrapper<const build_info>;
+
 private:
     process_instance_id_t _inst_id{0U};
     std::shared_ptr<remote_instance_impl> _pimpl{};
@@ -172,6 +177,7 @@ public:
     using remote_instance::remote_instance;
 
     auto set_host_id(host_id_t) -> remote_instance_state&;
+    auto assign(build_info) -> remote_instance_state&;
 };
 //------------------------------------------------------------------------------
 class remote_node {
@@ -260,6 +266,7 @@ public:
     using remote_node::remote_node;
 
     auto changes() -> remote_node_changes;
+    auto add_change(remote_node_change) -> remote_node_state&;
 
     auto set_instance_id(process_instance_id_t) -> remote_node_state&;
     auto set_host_id(host_id_t) -> remote_node_state&;

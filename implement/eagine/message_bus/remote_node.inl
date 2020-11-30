@@ -11,6 +11,7 @@ namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 class remote_instance_impl {
 public:
+    optionally_valid<build_info> bld_info;
     host_id_t host_id{0U};
 };
 //------------------------------------------------------------------------------
@@ -22,7 +23,7 @@ public:
 class remote_node_impl {
 public:
     process_instance_id_t instance_id{0U};
-    optionally_valid<endpoint_info> info;
+    optionally_valid<endpoint_info> ept_info;
     host_id_t host_id{0U};
 
     timeout should_ping{std::chrono::seconds{15}};
@@ -85,6 +86,18 @@ auto remote_instance::host() const noexcept -> remote_host {
     return {};
 }
 //------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_instance::build() const noexcept
+  -> optional_reference_wrapper<const build_info> {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        if(i.bld_info) {
+            return {extract(i.bld_info)};
+        }
+    }
+    return {nothing};
+}
+//------------------------------------------------------------------------------
 // remote_instance_state
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -94,6 +107,17 @@ auto remote_instance_state::set_host_id(host_id_t host_id)
         auto& i = extract(impl);
         if(i.host_id != host_id) {
             i.host_id = host_id;
+        }
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_instance_state::assign(build_info info) -> remote_instance_state& {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        if(!i.bld_info) {
+            i.bld_info = {std::move(info), true};
         }
     }
     return *this;
@@ -162,8 +186,9 @@ EAGINE_LIB_FUNC
 auto remote_node::info() const noexcept
   -> optional_reference_wrapper<const endpoint_info> {
     if(auto impl{_impl()}) {
-        if(const auto& inf{extract(impl).info}) {
-            return {extract(inf)};
+        auto& i = extract(impl);
+        if(i.ept_info) {
+            return {extract(i.ept_info)};
         }
     }
     return {nothing};
@@ -261,6 +286,15 @@ auto remote_node_state::changes() -> remote_node_changes {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto remote_node_state::add_change(remote_node_change change)
+  -> remote_node_state& {
+    if(auto impl{_impl()}) {
+        extract(impl).changes |= change;
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto remote_node_state::set_instance_id(process_instance_id_t instance_id)
   -> remote_node_state& {
     if(auto impl{_impl()}) {
@@ -304,8 +338,8 @@ EAGINE_LIB_FUNC
 auto remote_node_state::assign(endpoint_info info) -> remote_node_state& {
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
-        if(!i.info || extract(i.info) != info) {
-            i.info = {std::move(info), true};
+        if(!i.ept_info || extract(i.ept_info) != info) {
+            i.ept_info = {std::move(info), true};
             i.changes |= remote_node_change::endpoint_info;
         }
     }

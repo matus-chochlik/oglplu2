@@ -13,6 +13,7 @@
 #include "../remote_node.hpp"
 #include "../serialize.hpp"
 #include "../subscriber.hpp"
+#include "build_info.hpp"
 #include "discovery.hpp"
 #include "endpoint_info.hpp"
 #include "host_info.hpp"
@@ -22,8 +23,8 @@
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 template <typename Base>
-using node_tracker_base = pinger<host_info_consumer<
-  endpoint_info_consumer<network_topology<subscriber_discovery<Base>>>>>;
+using node_tracker_base = pinger<host_info_consumer<build_info_consumer<
+  endpoint_info_consumer<network_topology<subscriber_discovery<Base>>>>>>;
 //------------------------------------------------------------------------------
 template <typename Base = subscriber>
 class node_tracker : public node_tracker_base<Base> {
@@ -61,6 +62,9 @@ public:
                 if(!node.info()) {
                     this->query_endpoint_info(node_id);
                 }
+                if(!node.instance().build()) {
+                    this->query_build_info(node_id);
+                }
             }
 
             if(node.is_pingable()) {
@@ -85,7 +89,6 @@ public:
     }
 
     virtual void on_node_change(remote_node& node, remote_node_changes) = 0;
-    virtual void on_node_host_change(remote_node& node, remote_host& host) = 0;
 
 private:
     // TODO: longer interval
@@ -94,12 +97,16 @@ private:
 
     remote_node_tracker _tracker{};
 
-    auto _get_node(identifier_t id) -> remote_node_state& {
-        return _tracker.get_node(id);
-    }
-
     auto _get_host(identifier_t id) -> remote_host_state& {
         return _tracker.get_host(id);
+    }
+
+    auto _get_instance(identifier_t id) -> remote_instance_state& {
+        return _tracker.get_instance(id);
+    }
+
+    auto _get_node(identifier_t id) -> remote_node_state& {
+        return _tracker.get_node(id);
     }
 
     void _handle_node_change(identifier_t node_id, remote_node_state& node) {
@@ -183,9 +190,25 @@ private:
                 auto& host = _get_host(extract(host_id));
                 host.set_hostname(std::move(extract(hostname)));
                 for(auto& entry : _tracker.get_nodes()) {
-                    if(std::get<1>(entry).host_id() == extract(host_id)) {
-                        on_node_host_change(node, host);
+                    auto& host_node = std::get<1>(entry);
+                    if(host_node.host_id() == extract(host_id)) {
+                        host_node.add_change(remote_node_change::host_info);
                     }
+                }
+            }
+        }
+    }
+
+    void
+    on_build_info_received(const result_context& ctx, build_info&& info) final {
+        auto& node = _get_node(ctx.source_id());
+        if(auto inst_id{node.instance_id()}) {
+            auto& inst = _get_instance(extract(inst_id));
+            inst.assign(std::move(info));
+            for(auto& entry : _tracker.get_nodes()) {
+                auto& inst_node = std::get<1>(entry);
+                if(inst_node.instance_id() == extract(inst_id)) {
+                    inst_node.add_change(remote_node_change::build_info);
                 }
             }
         }

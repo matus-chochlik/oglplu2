@@ -11,6 +11,7 @@
 #define EAGINE_LOGGING_TYPE_REMOTE_NODE_HPP
 
 #include "../../message_bus/remote_node.hpp"
+#include "build_info.hpp"
 #include "yes_no_maybe.hpp"
 
 namespace eagine {
@@ -20,10 +21,11 @@ adapt_log_entry_arg(identifier name, const msgbus::remote_node& value) {
     return [name, value](logger_backend& backend) {
         backend.add_unsigned(
           name, EAGINE_ID(uint64), extract_or(value.id(), 0U));
-        backend.add_unsigned(
-          EAGINE_ID(instanceId),
-          EAGINE_ID(uint32),
-          extract_or(value.instance_id(), 0U));
+
+        if(auto opt_id{value.instance_id()}) {
+            backend.add_unsigned(
+              EAGINE_ID(instanceId), EAGINE_ID(uint32), extract(opt_id));
+        }
 
         backend.add_string(
           EAGINE_ID(nodeKind), EAGINE_ID(enum), enumerator_name(value.kind()));
@@ -40,6 +42,9 @@ adapt_log_entry_arg(identifier name, const msgbus::remote_node& value) {
         if(const auto opt_rate{value.ping_success_rate()}) {
             backend.add_float(
               EAGINE_ID(pingSucces), EAGINE_ID(Ratio), extract(opt_rate));
+        }
+        if(const auto opt_bld{value.instance().build()}) {
+            backend.add_adapted(EAGINE_ID(buildInfo), extract(opt_bld));
         }
 
         if(const auto opt_name{value.display_name()}) {
