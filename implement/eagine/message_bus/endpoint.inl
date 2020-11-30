@@ -108,6 +108,8 @@ auto endpoint::_handle_special(
             }
             return true;
         } else if(
+          msg_id.has_method(EAGINE_ID(ping)) ||
+          msg_id.has_method(EAGINE_ID(pong)) ||
           msg_id.has_method(EAGINE_ID(subscribTo)) ||
           msg_id.has_method(EAGINE_ID(unsubFrom)) ||
           msg_id.has_method(EAGINE_ID(notSubTo)) ||

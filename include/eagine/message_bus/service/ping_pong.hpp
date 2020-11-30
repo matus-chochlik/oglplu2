@@ -29,7 +29,7 @@ protected:
     void add_methods() {
         Base::add_methods();
         Base::add_method(
-          this, EAGINE_MSG_MAP(eagiPing, ping, This, _handle_ping));
+          this, EAGINE_MSG_MAP(eagiMsgBus, ping, This, _handle_ping));
     }
 
 public:
@@ -47,7 +47,7 @@ private:
              message.source_id,
              message.sequence_no,
              this->verify_bits(message))) {
-            this->bus().respond_to(message, EAGINE_MSG_ID(eagiPing, pong), {});
+            this->bus().respond_to(message, EAGINE_MSGBUS_ID(pong), {});
         }
         return true;
     }
@@ -69,12 +69,12 @@ protected:
     void add_methods() {
         Base::add_methods();
         Base::add_method(
-          this, EAGINE_MSG_MAP(eagiPing, pong, This, _handle_pong));
+          this, EAGINE_MSG_MAP(eagiMsgBus, pong, This, _handle_pong));
     }
 
 public:
     static constexpr auto ping_msg_id() noexcept {
-        return EAGINE_MSG_ID(eagiPing, ping);
+        return EAGINE_MSGBUS_ID(ping);
     }
 
     void query_pingables() {
@@ -83,7 +83,7 @@ public:
 
     void ping(identifier_t pingable_id, std::chrono::milliseconds max_time) {
         message_view message{};
-        auto msg_id{EAGINE_MSG_ID(eagiPing, ping)};
+        auto msg_id{EAGINE_MSGBUS_ID(ping)};
         message.set_target_id(pingable_id);
         this->bus().set_next_sequence_id(msg_id, message);
         this->bus().send(msg_id, message);

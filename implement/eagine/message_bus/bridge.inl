@@ -206,6 +206,18 @@ auto bridge::_handle_special(
                   .arg(EAGINE_ID(confirmed), message.target_id);
             }
             return true;
+        } else if(msg_id.has_method(EAGINE_ID(ping))) {
+            if(message.target_id == _id) {
+                message_view response{};
+                response.setup_response(message);
+                response.set_source_id(_id);
+                if(to_connection) {
+                    _do_push(EAGINE_MSGBUS_ID(pong), response);
+                } else {
+                    _send(EAGINE_MSGBUS_ID(pong), response);
+                }
+                return true;
+            }
         } else if(msg_id.has_method(EAGINE_ID(topoBrdgCn))) {
             if(to_connection) {
                 bridge_topology_info info{};

@@ -498,7 +498,18 @@ auto router::_handle_special_common(
   identifier_t incoming_id,
   const message_view& message) -> bool {
 
-    if(msg_id.has_method(EAGINE_ID(subscribTo))) {
+    if(msg_id.has_method(EAGINE_ID(ping))) {
+        if(message.target_id == _id_base) {
+            message_view response{};
+            response.setup_response(message);
+            response.set_source_id(_id_base);
+            this->_do_route_message(EAGINE_MSGBUS_ID(pong), _id_base, response);
+            return true;
+        }
+        return false;
+    } else if(msg_id.has_method(EAGINE_ID(pong))) {
+        return false;
+    } else if(msg_id.has_method(EAGINE_ID(subscribTo))) {
         message_id sub_msg_id{};
         if(default_deserialize_message_type(sub_msg_id, message.data)) {
             log_debug("endpoint ${source} subscribes to ${message}")

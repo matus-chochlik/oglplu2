@@ -91,7 +91,7 @@ public:
     void is_alive(const subscriber_info&) final {}
 
     void on_subscribed(const subscriber_info& info, message_id sub_msg) final {
-        if(sub_msg == EAGINE_MSG_ID(eagiPing, ping)) {
+        if(sub_msg == this->ping_msg_id()) {
             if(_targets.try_emplace(info.endpoint_id, ping_stats{}).second) {
                 log_info("new pingable ${id} appeared")
                   .arg(EAGINE_ID(id), info.endpoint_id);
@@ -100,14 +100,14 @@ public:
     }
 
     void on_unsubscribed(const subscriber_info& info, message_id sub_msg) final {
-        if(sub_msg == EAGINE_MSG_ID(eagiPing, ping)) {
+        if(sub_msg == this->ping_msg_id()) {
             log_info("pingable ${id} disappeared")
               .arg(EAGINE_ID(id), info.endpoint_id);
         }
     }
 
     void not_subscribed(const subscriber_info& info, message_id sub_msg) final {
-        if(sub_msg == EAGINE_MSG_ID(eagiPing, ping)) {
+        if(sub_msg == this->ping_msg_id()) {
             log_info("target ${id} is not pingable")
               .arg(EAGINE_ID(id), info.endpoint_id);
         }
