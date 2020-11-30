@@ -357,10 +357,10 @@ EAGINE_LIB_FUNC
 auto remote_node_state::is_alive() -> remote_node_state& {
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
-        const auto was_responsive = is_responsive();
+        const auto was_responsive = bool(i.ping_bits);
         i.ping_bits <<= 1U;
         i.ping_bits |= 1U;
-        if(was_responsive != is_responsive()) {
+        if(was_responsive != bool(i.ping_bits)) {
             i.changes |= remote_node_change::started_responding;
         }
     }
@@ -383,12 +383,12 @@ auto remote_node_state::ping_response(
   std::chrono::microseconds age) -> remote_node_state& {
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
-        const auto was_responsive = is_responsive();
+        const auto was_responsive = bool(i.ping_bits);
         i.last_ping_time = age;
         i.ping_bits <<= 1U;
         i.ping_bits |= 1U;
         ++i.pings_responded;
-        if(was_responsive != is_responsive()) {
+        if(was_responsive != bool(i.ping_bits)) {
             i.changes |= remote_node_change::started_responding;
         }
     }
@@ -401,11 +401,11 @@ auto remote_node_state::ping_timeout(
   std::chrono::microseconds age) -> remote_node_state& {
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
-        const auto was_responsive = is_responsive();
+        const auto was_responsive = bool(i.ping_bits);
         i.last_ping_timeout = age;
         i.ping_bits <<= 1U;
         ++i.pings_timeouted;
-        if(was_responsive != is_responsive()) {
+        if(was_responsive != bool(i.ping_bits)) {
             i.changes |= remote_node_change::stopped_responding;
         }
     }
