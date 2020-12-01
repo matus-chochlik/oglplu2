@@ -99,6 +99,8 @@ void maybe_start_coprocess(int& argc, const char**& argv) {
             const int pipe_res_b2c = ::pipe(static_cast<int*>(pipe_b2c));
             const int pipe_res_c2b = ::pipe(static_cast<int*>(pipe_c2b));
             EAGINE_ASSERT(pipe_res_b2c == 0 && pipe_res_c2b == 0);
+            EAGINE_MAYBE_UNUSED(pipe_res_b2c);
+            EAGINE_MAYBE_UNUSED(pipe_res_c2b);
 
             const int fork_res = ::fork();
             EAGINE_ASSERT(fork_res >= 0);
