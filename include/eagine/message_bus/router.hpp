@@ -187,6 +187,7 @@ private:
     const process_instance_id_t _instance_id{process_instance_id()};
     identifier_t _id_base{0};
     identifier_t _id_end{0};
+    identifier_t _id_sequence{0};
     std::chrono::steady_clock::time_point _forwarded_since{
       std::chrono::steady_clock::now()};
     std::intmax_t _forwarded_messages{0};

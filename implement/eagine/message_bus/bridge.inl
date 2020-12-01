@@ -191,7 +191,8 @@ auto bridge::_handle_special(
         if(msg_id.has_method(EAGINE_ID(assignId))) {
             if(!has_id()) {
                 _id = message.target_id;
-                log_debug("assigned id ${id}").arg(EAGINE_ID(id), _id);
+                log_debug("assigned bridge id ${id} by router")
+                  .arg(EAGINE_ID(id), _id);
             }
             return true;
         } else if(msg_id.has_method(EAGINE_ID(confirmId))) {

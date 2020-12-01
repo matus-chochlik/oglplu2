@@ -23,7 +23,6 @@
 #include <eagine/signal_switch.hpp>
 #include <eagine/watchdog.hpp>
 #include <cstdint>
-#include <thread>
 
 namespace eagine {
 //------------------------------------------------------------------------------
@@ -79,7 +78,7 @@ private:
     const std::chrono::milliseconds _shutdown_max_age{cfg_init(
       "msg_bus.router.shutdown.max_age",
       std::chrono::milliseconds(2500))};
-    const bool _shutdown_ignore{cfg_init("msg_bus.keep_running", false)};
+    const bool _shutdown_ignore{cfg_init("msg_bus.router.keep_running", false)};
     const bool _shutdown_verify{
       cfg_init("msg_bus.router.shutdown.verify", true)};
     bool _do_shutdown{false};
@@ -145,28 +144,18 @@ auto main(main_ctx& ctx) -> int {
     int idle_streak{0};
     int max_idle_streak{0};
 
+    msgbus::endpoint node_endpoint{EAGINE_ID(RutrNodeEp), ctx};
+    node_endpoint.add_certificate_pem(msgbus_router_certificate_pem(ctx));
+    node_endpoint.add_connection(std::move(node_connection));
+    msgbus::router_node node{node_endpoint};
+
     auto& wd = ctx.watchdog();
     wd.declare_initialized();
 
-    bool node_is_shut_down = false;
-    std::thread node_thread{[connection{std::move(node_connection)},
-                             &node_is_shut_down,
-                             &ctx]() mutable {
-        msgbus::endpoint node_endpoint{EAGINE_ID(RutrNodeEp), ctx};
-        node_endpoint.add_connection(std::move(connection));
-        msgbus::router_node node{node_endpoint};
-
-        while(!node.is_shut_down()) {
-            if(!node.update()) {
-                std::this_thread::sleep_for(std::chrono::milliseconds(2));
-            }
-        }
-        node_is_shut_down = true;
-    }};
-
-    while(EAGINE_LIKELY(!(interrupted || node_is_shut_down))) {
+    while(EAGINE_LIKELY(!(interrupted || node.is_shut_down()))) {
         some_true something_done{};
         something_done(router.update(8));
+        something_done(node.update());
 
         if(EAGINE_LIKELY(something_done)) {
             ++cycles_work;
@@ -194,8 +183,6 @@ auto main(main_ctx& ctx) -> int {
         EAGINE_ID(Ratio),
         float(cycles_idle) / (float(cycles_idle) + float(cycles_work)))
       .arg(EAGINE_ID(maxIdlStrk), max_idle_streak);
-
-    node_thread.join();
 
     return 0;
 }

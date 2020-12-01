@@ -35,10 +35,11 @@ ${install_prefix}/bin/eagine-message_bus-router \
 	--msg-bus-router-id-count 1000 \
 	--msg-bus-router-shutdown-verify false \
 	& pids+=($!)
-sleep 1
+sleep 5
 ${install_prefix}/bin/eagine-local-bridge \
 	"${log_args[@]}" \
 	${conn_type} \
+	-c --msg-bus-bridge-shutdown-verify false \
 	-l --msg-bus-router-address ${ping_addr} \
 	-r --msg-bus-router-address ${pong_addr} \
 	& pids+=($!)

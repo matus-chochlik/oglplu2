@@ -223,6 +223,7 @@ void router::_setup_from_config() {
         _id_base = 1;
         _id_end = id_count;
     }
+    _id_sequence = _id_base + 1;
 
     log_info("using router id range ${base} - ${end} (${count})")
       .arg(EAGINE_ID(count), id_count)
@@ -378,19 +379,24 @@ EAGINE_LIB_FUNC
 void router::_assign_id(std::unique_ptr<connection>& conn) {
     EAGINE_ASSERT(conn);
     // find a currently unused endpoint id value
-    identifier_t id_sequence = _id_base + 1;
-    while(_nodes.find(id_sequence) != _nodes.end()) {
-        if(++id_sequence >= _id_end) {
-            return;
+    bool looped_around = false;
+    while(_nodes.find(_id_sequence) != _nodes.end()) {
+        if(++_id_sequence >= _id_end) {
+            if(EAGINE_UNLIKELY(looped_around)) {
+                return;
+            } else {
+                _id_sequence = _id_base + 1;
+                looped_around = true;
+            }
         }
     }
     //
     log_debug("assigning id ${id} to accepted ${type} connection")
       .arg(EAGINE_ID(type), conn->type_id())
-      .arg(EAGINE_ID(id), id_sequence);
+      .arg(EAGINE_ID(id), _id_sequence);
     // send the special message assigning the endpoint id
     message_view msg{};
-    msg.set_target_id(id_sequence);
+    msg.set_target_id(_id_sequence++);
     conn->send(EAGINE_MSGBUS_ID(assignId), msg);
 }
 //------------------------------------------------------------------------------
