@@ -23,6 +23,7 @@
 #include <eagine/signal_switch.hpp>
 #include <eagine/watchdog.hpp>
 #include <cstdint>
+#include <thread>
 
 namespace eagine {
 //------------------------------------------------------------------------------
@@ -128,9 +129,7 @@ auto main(main_ctx& ctx) -> int {
     ctx.system().preinitialize();
 
     auto local_acceptor{std::make_unique<msgbus::direct_acceptor>(ctx)};
-    msgbus::endpoint node_endpoint{EAGINE_ID(RutrNodeEp), ctx};
-    node_endpoint.add_connection(local_acceptor->make_connection());
-    msgbus::router_node node{node_endpoint};
+    auto node_connection{local_acceptor->make_connection()};
 
     msgbus::router_address address(ctx);
     msgbus::connection_setup conn_setup(ctx);
@@ -149,10 +148,25 @@ auto main(main_ctx& ctx) -> int {
     auto& wd = ctx.watchdog();
     wd.declare_initialized();
 
-    while(EAGINE_LIKELY(!(interrupted || node.is_shut_down()))) {
+    bool node_is_shut_down = false;
+    std::thread node_thread{[connection{std::move(node_connection)},
+                             &node_is_shut_down,
+                             &ctx]() mutable {
+        msgbus::endpoint node_endpoint{EAGINE_ID(RutrNodeEp), ctx};
+        node_endpoint.add_connection(std::move(connection));
+        msgbus::router_node node{node_endpoint};
+
+        while(!node.is_shut_down()) {
+            if(!node.update()) {
+                std::this_thread::sleep_for(std::chrono::milliseconds(2));
+            }
+        }
+        node_is_shut_down = true;
+    }};
+
+    while(EAGINE_LIKELY(!(interrupted || node_is_shut_down))) {
         some_true something_done{};
         something_done(router.update(8));
-        something_done(node.update());
 
         if(EAGINE_LIKELY(something_done)) {
             ++cycles_work;
@@ -180,6 +194,8 @@ auto main(main_ctx& ctx) -> int {
         EAGINE_ID(Ratio),
         float(cycles_idle) / (float(cycles_idle) + float(cycles_work)))
       .arg(EAGINE_ID(maxIdlStrk), max_idle_streak);
+
+    node_thread.join();
 
     return 0;
 }
