@@ -87,7 +87,9 @@ auto main(int argc, const char** argv) -> int {
 
 namespace eagine {
 //------------------------------------------------------------------------------
+#if EAGINE_POSIX
 static ::pid_t ssh_coprocess_pid = -1;
+#endif
 //------------------------------------------------------------------------------
 void maybe_start_coprocess(int& argc, const char**& argv) {
 #if EAGINE_POSIX
@@ -151,6 +153,7 @@ void maybe_start_coprocess(int& argc, const char**& argv) {
 }
 //------------------------------------------------------------------------------
 auto maybe_cleanup(int result) -> int {
+#if EAGINE_POSIX
     if(ssh_coprocess_pid > 0) {
         int status = 0;
         ::waitpid(ssh_coprocess_pid, &status, 0);
@@ -159,6 +162,7 @@ auto maybe_cleanup(int result) -> int {
             return status;
         }
     }
+#endif
     return result;
 }
 //------------------------------------------------------------------------------
