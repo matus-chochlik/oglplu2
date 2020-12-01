@@ -215,11 +215,6 @@ private:
     int _argc{0};
     const char** _argv{nullptr};
 
-    program_arg(int argi, int argc, const char** argv) noexcept
-      : _argi(argi)
-      , _argc(argc)
-      , _argv(argv) {}
-
     friend class program_arg_iterator;
     friend class program_args;
 
@@ -271,6 +266,11 @@ private:
 
 public:
     program_arg() noexcept = default;
+
+    program_arg(int argi, int argc, const char** argv) noexcept
+      : _argi(argi)
+      , _argc(argc)
+      , _argv(argv) {}
 
     using value_type = string_view;
 
