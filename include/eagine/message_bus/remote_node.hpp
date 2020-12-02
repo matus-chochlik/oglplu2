@@ -205,6 +205,13 @@ public:
     auto info() const noexcept
       -> optional_reference_wrapper<const endpoint_info>;
 
+    auto app_name() const noexcept -> valid_if_not_empty<string_view> {
+        if(auto inf{info()}) {
+            return {extract(inf).app_name};
+        }
+        return {};
+    }
+
     auto display_name() const noexcept -> valid_if_not_empty<string_view> {
         if(auto inf{info()}) {
             return {extract(inf).display_name};

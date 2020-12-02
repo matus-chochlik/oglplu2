@@ -77,6 +77,7 @@ data_member_mapping(identity<endpoint_topology_info>, Selector) noexcept {
 }
 //------------------------------------------------------------------------------
 struct endpoint_info {
+    std::string app_name;
     std::string display_name;
     std::string description;
     bool is_router_node{false};
@@ -84,7 +85,7 @@ struct endpoint_info {
 
     auto tie() const noexcept {
         return std::tie(
-          display_name, description, is_router_node, is_bridge_node);
+          app_name, display_name, description, is_router_node, is_bridge_node);
     }
 
     friend auto
@@ -97,7 +98,14 @@ struct endpoint_info {
 template <typename Selector>
 constexpr auto data_member_mapping(identity<endpoint_info>, Selector) noexcept {
     using S = endpoint_info;
-    return make_data_member_mapping<S, std::string, std::string, bool, bool>(
+    return make_data_member_mapping<
+      S,
+      std::string,
+      std::string,
+      std::string,
+      bool,
+      bool>(
+      {"app_name", &S::app_name},
       {"display_name", &S::display_name},
       {"description", &S::description},
       {"is_router_node", &S::is_router_node},
