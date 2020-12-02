@@ -361,15 +361,13 @@ auto bridge::_check_state() -> bool {
     some_true something_done{};
 
     if(EAGINE_UNLIKELY(!(_state && _state->is_usable()))) {
-        span_size_t max_size{0};
-        if(EAGINE_LIKELY(_connection)) {
+        if(std::cin.good() && _connection) {
             if(auto max_data_size = _connection->max_data_size()) {
-                max_size = math::maximum(max_size, extract(max_data_size));
+                _state = std::make_shared<bridge_state>(extract(max_data_size));
+                _state->start();
+                something_done();
             }
         }
-        _state = std::make_shared<bridge_state>(max_size);
-        _state->start();
-        something_done();
     }
 
     return something_done;
@@ -411,6 +409,11 @@ auto bridge::update() -> bool {
     }
 
     return something_done;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto bridge::is_done() const noexcept -> bool {
+    return no_connection_timeout() || !std::cin.good();
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

@@ -48,13 +48,10 @@ public:
     }
 
     auto update() -> bool;
+    auto is_done() const noexcept -> bool;
 
     auto no_connection_timeout() const noexcept -> auto& {
         return _no_connection_timeout;
-    }
-
-    auto is_done() const noexcept -> bool {
-        return bool(no_connection_timeout());
     }
 
 private:

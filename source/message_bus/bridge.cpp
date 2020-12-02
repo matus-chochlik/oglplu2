@@ -152,12 +152,13 @@ auto main(main_ctx& ctx) -> int {
     auto& wd = ctx.watchdog();
     wd.declare_initialized();
 
-    while(EAGINE_LIKELY(!(interrupted || node.is_shut_down()))) {
+    while(EAGINE_LIKELY(
+      !(interrupted || node.is_shut_down() || bridge.is_done()))) {
         some_true something_done{};
         something_done(bridge.update());
         something_done(node.update());
 
-        if(EAGINE_LIKELY(something_done)) {
+        if(something_done) {
             ++cycles_work;
             idle_streak = 0;
         } else {

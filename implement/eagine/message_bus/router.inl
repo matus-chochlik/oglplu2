@@ -379,15 +379,12 @@ EAGINE_LIB_FUNC
 void router::_assign_id(std::unique_ptr<connection>& conn) {
     EAGINE_ASSERT(conn);
     // find a currently unused endpoint id value
-    bool looped_around = false;
+    const auto seq_orig = _id_sequence;
     while(_nodes.find(_id_sequence) != _nodes.end()) {
-        if(++_id_sequence >= _id_end) {
-            if(EAGINE_UNLIKELY(looped_around)) {
-                return;
-            } else {
-                _id_sequence = _id_base + 1;
-                looped_around = true;
-            }
+        if(EAGINE_UNLIKELY(++_id_sequence >= _id_end)) {
+            _id_sequence = _id_base + 1;
+        } else if(EAGINE_UNLIKELY(_id_sequence == seq_orig)) {
+            return;
         }
     }
     //

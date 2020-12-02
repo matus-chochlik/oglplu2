@@ -157,7 +157,7 @@ auto main(main_ctx& ctx) -> int {
         something_done(router.update(8));
         something_done(node.update());
 
-        if(EAGINE_LIKELY(something_done)) {
+        if(something_done) {
             ++cycles_work;
             idle_streak = 0;
         } else {
