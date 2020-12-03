@@ -7,4 +7,5 @@
 mkdir -p "${HOME}/.oglplus/" &&\
 cp -v -r "$(dirname ${0})/.oglplus" "${HOME}/" &&\
 cp -v -r "$(dirname ${0})/.config" "${HOME}/" &&\
+[[ -x $(which systemctl) ]] && systemctl --user daemon-reload &&\
 echo "Success"
