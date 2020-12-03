@@ -180,10 +180,10 @@ auto endpoint::_handle_special(
           msg_id.has_method(EAGINE_ID(topoEndpt))) {
             return false;
         } else if(msg_id.has_method(EAGINE_ID(topoQuery))) {
-            std::array<byte, 256> temp{};
             endpoint_topology_info info{};
             info.endpoint_id = _endpoint_id;
             info.instance_id = _instance_id;
+            auto temp{default_serialize_buffer_for(info)};
             if(auto serialized{default_serialize(info, cover(temp))}) {
                 message_view response{extract(serialized)};
                 response.setup_response(message);
@@ -473,7 +473,7 @@ auto endpoint::say_bye() -> bool {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void endpoint::post_meta_message(message_id meta_msg_id, message_id msg_id) {
-    default_serialize_buffer_t<message_id> temp{};
+    auto temp{default_serialize_buffer_for(msg_id)};
     if(auto serialized{default_serialize_message_type(msg_id, cover(temp))}) {
         message_view meta_msg{extract(serialized)};
         meta_msg.set_sequence_no(_instance_id);
@@ -490,7 +490,7 @@ void endpoint::post_meta_message_to(
   identifier_t target_id,
   message_id meta_msg_id,
   message_id msg_id) {
-    default_serialize_buffer_t<message_id> temp{};
+    auto temp{default_serialize_buffer_for(msg_id)};
     if(auto serialized{default_serialize_message_type(msg_id, cover(temp))}) {
         message_view meta_msg{extract(serialized)};
         meta_msg.set_target_id(target_id);

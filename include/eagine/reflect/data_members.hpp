@@ -23,6 +23,20 @@ data_member_mapping(identity<std::pair<F, S>>, selector<Id>) noexcept {
       {"first", &P::first}, {"second", &P::second});
 }
 //------------------------------------------------------------------------------
+template <typename C, typename... M>
+constexpr auto data_member_tuple_from_mapping(
+  const std::tuple<std::pair<string_view, M C::*>...>&) noexcept {
+    return std::tuple<std::remove_cv_t<std::remove_reference_t<M>>...>{};
+}
+
+template <
+  typename T,
+  typename Selector,
+  typename = std::enable_if_t<has_data_member_mapping_v<T, Selector>>>
+constexpr auto data_member_tuple(identity<T> tid, Selector sel) noexcept {
+    return data_member_tuple_from_mapping(data_member_mapping(tid, sel));
+}
+//------------------------------------------------------------------------------
 template <typename T, typename Selector>
 constexpr auto _do_map_single_data_member(
   string_view name,

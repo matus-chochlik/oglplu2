@@ -23,9 +23,9 @@
 
 namespace eagine {
 
-template <identifier_t Sid>
-struct get_serialize_buffer_size<message_id, Sid>
-  : get_serialize_buffer_size<message_id::base, Sid> {};
+template <identifier_t Sid, typename Selector>
+struct get_serialize_buffer_size<Sid, message_id, Selector>
+  : get_serialize_buffer_size<Sid, message_id::base, Selector> {};
 //------------------------------------------------------------------------------
 namespace msgbus {
 
@@ -33,8 +33,9 @@ using default_serializer_backend = string_serializer_backend;
 using default_deserializer_backend = string_deserializer_backend;
 
 template <typename T>
-using default_serialize_buffer_t =
-  serialize_buffer_t<T, default_serializer_backend::id_value>;
+inline auto default_serialize_buffer_for(const T& inst) {
+    return serialize_buffer_for<default_serializer_backend::id_value>(inst);
+}
 //------------------------------------------------------------------------------
 template <typename Backend>
 auto serialize_message(

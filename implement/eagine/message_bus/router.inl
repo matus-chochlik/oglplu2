@@ -576,8 +576,8 @@ auto router::_handle_special_common(
         if(pos != _endpoint_infos.end()) {
             auto& info = pos->second;
             if(info.instance_id) {
-                std::array<byte, 64> temp{};
                 for(auto& sub_msg_id : info.subscriptions) {
+                    auto temp{default_serialize_buffer_for(sub_msg_id)};
                     if(auto serialized{default_serialize_message_type(
                          sub_msg_id, cover(temp))}) {
                         message_view response{extract(serialized)};
@@ -627,9 +627,9 @@ auto router::_handle_special_common(
     } else if(msg_id.has_method(EAGINE_ID(requestId))) {
         return true;
     } else if(msg_id.has_method(EAGINE_ID(topoQuery))) {
-        std::array<byte, 256> temp{};
         router_topology_info info{};
 
+        auto temp{default_serialize_buffer_for(info)};
         auto respond = [&](identifier_t remote_id, const auto& conn) {
             info.router_id = _id_base;
             info.remote_id = remote_id;

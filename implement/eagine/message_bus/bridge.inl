@@ -224,7 +224,7 @@ auto bridge::_handle_special(
                 bridge_topology_info info{};
                 if(default_deserialize(info, message.data)) {
                     info.opposite_id = _id;
-                    std::array<byte, 256> temp{};
+                    auto temp{default_serialize_buffer_for(info)};
                     if(auto serialized{default_serialize(info, cover(temp))}) {
                         message_view response{message, extract(serialized)};
                         _send(EAGINE_MSGBUS_ID(topoBrdgCn), response);
@@ -233,10 +233,10 @@ auto bridge::_handle_special(
                 }
             }
         } else if(msg_id.has_method(EAGINE_ID(topoQuery))) {
-            std::array<byte, 256> temp{};
             bridge_topology_info info{};
             info.bridge_id = _id;
             info.instance_id = _instance_id;
+            auto temp{default_serialize_buffer_for(info)};
             if(auto serialized{default_serialize(info, cover(temp))}) {
                 message_view response{extract(serialized)};
                 response.setup_response(message);
