@@ -16,8 +16,12 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 class fast_serializer_backend
-  : public common_serializer_backend<fast_serializer_backend> {
-    using base = common_serializer_backend<fast_serializer_backend>;
+  : public serializer_backend_id<
+      common_serializer_backend<fast_serializer_backend>,
+      EAGINE_ID_V(FastLocal)> {
+    using base = serializer_backend_id<
+      common_serializer_backend<fast_serializer_backend>,
+      EAGINE_ID_V(FastLocal)>;
 
 public:
     using base::base;
@@ -25,10 +29,6 @@ public:
     using base::sink;
     using error_code = serialization_error_code;
     using result = serialization_errors;
-
-    auto type_id() -> identifier final {
-        return EAGINE_ID(FastLocal);
-    }
 
     template <typename T>
     auto do_write(span<const T> values, span_size_t& done) -> result {
@@ -82,8 +82,12 @@ public:
 };
 //------------------------------------------------------------------------------
 class fast_deserializer_backend
-  : public common_deserializer_backend<fast_deserializer_backend> {
-    using base = common_deserializer_backend<fast_deserializer_backend>;
+  : public serializer_backend_id<
+      common_deserializer_backend<fast_deserializer_backend>,
+      EAGINE_ID_V(FastLocal)> {
+    using base = serializer_backend_id<
+      common_deserializer_backend<fast_deserializer_backend>,
+      EAGINE_ID_V(FastLocal)>;
 
 public:
     using base::base;
@@ -91,10 +95,6 @@ public:
     using base::top;
     using error_code = deserialization_error_code;
     using result = deserialization_errors;
-
-    auto type_id() -> identifier final {
-        return EAGINE_ID(FastLocal);
-    }
 
     template <typename T>
     auto do_read(span<T> values, span_size_t& done) -> result {

@@ -473,7 +473,7 @@ auto endpoint::say_bye() -> bool {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void endpoint::post_meta_message(message_id meta_msg_id, message_id msg_id) {
-    std::array<byte, 64> temp{};
+    default_serialize_buffer_t<message_id> temp{};
     if(auto serialized{default_serialize_message_type(msg_id, cover(temp))}) {
         message_view meta_msg{extract(serialized)};
         meta_msg.set_sequence_no(_instance_id);
@@ -490,7 +490,7 @@ void endpoint::post_meta_message_to(
   identifier_t target_id,
   message_id meta_msg_id,
   message_id msg_id) {
-    std::array<byte, 64> temp{};
+    default_serialize_buffer_t<message_id> temp{};
     if(auto serialized{default_serialize_message_type(msg_id, cover(temp))}) {
         message_view meta_msg{extract(serialized)};
         meta_msg.set_target_id(target_id);
