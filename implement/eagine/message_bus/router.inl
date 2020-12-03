@@ -543,23 +543,29 @@ auto router::_handle_special_common(
         // if we have endpoint info
         const auto pos = _endpoint_infos.find(message.target_id);
         if(pos != _endpoint_infos.end()) {
-            message_id sub_msg_id{};
-            if(default_deserialize_message_type(sub_msg_id, message.data)) {
-                auto& info = pos->second;
-                // if we have the information cached, then respond
-                if(message_id_list_contains(info.subscriptions, sub_msg_id)) {
-                    message_view response{message.data};
-                    response.setup_response(message);
-                    response.set_source_id(message.target_id);
-                    this->_do_route_message(
-                      EAGINE_MSGBUS_ID(subscribTo), _id_base, response);
-                }
-                if(message_id_list_contains(info.unsubscriptions, sub_msg_id)) {
-                    message_view response{message.data};
-                    response.setup_response(message);
-                    response.set_source_id(_id_base);
-                    this->_do_route_message(
-                      EAGINE_MSGBUS_ID(notSubTo), _id_base, response);
+            auto& info = pos->second;
+            if(info.instance_id) {
+                message_id sub_msg_id{};
+                if(default_deserialize_message_type(sub_msg_id, message.data)) {
+                    // if we have the information cached, then respond
+                    if(message_id_list_contains(
+                         info.subscriptions, sub_msg_id)) {
+                        message_view response{message.data};
+                        response.setup_response(message);
+                        response.set_source_id(message.target_id);
+                        response.set_sequence_no(info.instance_id);
+                        this->_do_route_message(
+                          EAGINE_MSGBUS_ID(subscribTo), _id_base, response);
+                    }
+                    if(message_id_list_contains(
+                         info.unsubscriptions, sub_msg_id)) {
+                        message_view response{message.data};
+                        response.setup_response(message);
+                        response.set_source_id(message.target_id);
+                        response.set_sequence_no(info.instance_id);
+                        this->_do_route_message(
+                          EAGINE_MSGBUS_ID(notSubTo), _id_base, response);
+                    }
                 }
             }
         }
@@ -568,16 +574,19 @@ auto router::_handle_special_common(
     } else if(msg_id.has_method(EAGINE_ID(qrySubscrp))) {
         const auto pos = _endpoint_infos.find(message.target_id);
         if(pos != _endpoint_infos.end()) {
-            std::array<byte, 64> temp{};
             auto& info = pos->second;
-            for(auto& sub_msg_id : info.subscriptions) {
-                if(auto serialized{
-                     default_serialize_message_type(sub_msg_id, cover(temp))}) {
-                    message_view response{extract(serialized)};
-                    response.setup_response(message);
-                    response.set_source_id(message.target_id);
-                    this->_do_route_message(
-                      EAGINE_MSGBUS_ID(subscribTo), _id_base, response);
+            if(info.instance_id) {
+                std::array<byte, 64> temp{};
+                for(auto& sub_msg_id : info.subscriptions) {
+                    if(auto serialized{default_serialize_message_type(
+                         sub_msg_id, cover(temp))}) {
+                        message_view response{extract(serialized)};
+                        response.setup_response(message);
+                        response.set_source_id(message.target_id);
+                        response.set_sequence_no(info.instance_id);
+                        this->_do_route_message(
+                          EAGINE_MSGBUS_ID(subscribTo), _id_base, response);
+                    }
                 }
             }
         }
