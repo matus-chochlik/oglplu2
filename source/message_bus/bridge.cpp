@@ -22,12 +22,6 @@
 #include <eagine/signal_switch.hpp>
 #include <eagine/watchdog.hpp>
 
-#if EAGINE_POSIX
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <unistd.h>
-#endif
-
 namespace eagine {
 //------------------------------------------------------------------------------
 namespace msgbus {
@@ -199,6 +193,13 @@ auto main(int argc, const char** argv) -> int {
     return eagine::maybe_cleanup(eagine::main_impl(argc, argv, options));
 }
 
+#if EAGINE_POSIX
+#include <csignal>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#endif
+
 namespace eagine {
 //------------------------------------------------------------------------------
 #if EAGINE_POSIX
@@ -270,6 +271,7 @@ auto maybe_cleanup(int result) -> int {
 #if EAGINE_POSIX
     if(ssh_coprocess_pid > 0) {
         int status = 0;
+        ::kill(ssh_coprocess_pid, SIGTERM);
         ::waitpid(ssh_coprocess_pid, &status, 0);
         // NOLINTNEXTLINE(hicpp-signed-bitwise)
         if(!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
