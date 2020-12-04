@@ -5,8 +5,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/branch_predict.hpp>
+#include <eagine/flat_set.hpp>
 #include <eagine/timeout.hpp>
-#include <set>
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
@@ -552,8 +552,7 @@ public:
     }
 
 private:
-    // TODO: flat_set
-    std::set<std::string> _string_cache;
+    flat_set<std::string> _string_cache;
 };
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
