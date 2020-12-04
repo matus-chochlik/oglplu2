@@ -192,6 +192,7 @@ auto endpoint::_handle_special(
                 }
             }
             log_warning("failed to respond to topology query from ${source}")
+              .arg(EAGINE_ID(bufSize), temp.size())
               .arg(EAGINE_ID(source), message.source_id);
         }
         log_warning("unhandled special message ${message} from ${source}")

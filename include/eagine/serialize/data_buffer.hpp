@@ -111,7 +111,7 @@ struct get_serialize_buffer_size<Sid, std::string, Selector>
     static constexpr auto
     get(std::pair<string_view, const std::string&> mapped) noexcept {
         return std_size(
-          mapped.first.size() + 2 + span_size(mapped.second.size()));
+          12 + mapped.first.size() + 2 + span_size(mapped.second.size()));
     }
 };
 //------------------------------------------------------------------------------
@@ -123,7 +123,7 @@ struct get_serialize_buffer_size<Sid, std::array<T, N>, Selector>
 
     static constexpr auto
     get(std::pair<string_view, const std::array<T, N>&> mapped) noexcept {
-        auto result = std_size(mapped.first.size() + 4);
+        auto result = std_size(12 + mapped.first.size());
         for(auto& e : mapped.second) {
             result +=
               2 + get_serialize_buffer_size<Sid, T, Selector>::get({{}, e});
@@ -142,7 +142,7 @@ struct get_serialize_buffer_size<Sid, std::tuple<T...>, Selector>
     static constexpr auto
     get(std::pair<string_view, const Tup&> mapped) noexcept {
         return std_size(
-          mapped.first.size() + 2 +
+          12 + mapped.first.size() + 2 +
           _do_get(mapped.second, std::make_index_sequence<sizeof...(T)>()));
     }
 
@@ -151,22 +151,18 @@ private:
     static constexpr auto
     _do_get(const Tup& t, std::index_sequence<I...>) noexcept {
         return (
-          4 + ... +
+          0 + ... +
           (2 + get_serialize_buffer_size<Sid, T, Selector>::get(
                  {string_view(), std::get<I>(t)})));
     }
 };
 //------------------------------------------------------------------------------
 template <identifier_t Sid, typename T, typename Selector>
-struct get_struct_serialize_buffer_size
-  : get_serialize_buffer_size<
-      Sid,
-      decltype(data_member_tuple(identity<T>(), Selector())),
-      Selector> {
+struct get_struct_serialize_buffer_size : serialize_size_constant<0, false> {
 
     static constexpr auto get(std::pair<string_view, const T&> mapped) noexcept {
         return std_size(
-          mapped.first.size() + 2 + _get(map_data_members(mapped.second)));
+          12 + mapped.first.size() + 2 + _get(map_data_members(mapped.second)));
     }
 
 private:
@@ -181,7 +177,7 @@ private:
       const std::tuple<std::pair<string_view, const M&>...>& mapped,
       std::index_sequence<I...>) noexcept {
         return span_size(
-          (4 + ... +
+          (0 + ... +
            (2 + get_serialize_buffer_size<Sid, M, Selector>::get(
                   std::pair<string_view, const M&>{
                     std::get<I>(mapped).first, std::get<I>(mapped).second}))));
