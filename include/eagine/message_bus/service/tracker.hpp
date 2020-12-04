@@ -59,7 +59,7 @@ public:
                 if(!node.host().name()) {
                     this->query_hostname(node_id);
                 }
-                if(!node.info()) {
+                if(!node.has_endpoint_info()) {
                     this->query_endpoint_info(node_id);
                 }
                 if(!node.instance().build()) {

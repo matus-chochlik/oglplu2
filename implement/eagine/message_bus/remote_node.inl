@@ -6,6 +6,7 @@
  */
 #include <eagine/branch_predict.hpp>
 #include <eagine/timeout.hpp>
+#include <set>
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
@@ -23,7 +24,11 @@ public:
 class remote_node_impl {
 public:
     process_instance_id_t instance_id{0U};
-    optionally_valid<endpoint_info> ept_info;
+    string_view app_name;
+    string_view display_name;
+    string_view description;
+    tribool is_router_node{indeterminate};
+    tribool is_bridge_node{indeterminate};
     host_id_t host_id{0U};
 
     timeout should_ping{std::chrono::seconds{15}};
@@ -183,15 +188,66 @@ auto remote_node::kind() const noexcept -> node_kind {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto remote_node::info() const noexcept
-  -> optional_reference_wrapper<const endpoint_info> {
+auto remote_node::has_endpoint_info() const noexcept -> bool {
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
-        if(i.ept_info) {
-            return {extract(i.ept_info)};
-        }
+        return !i.app_name.empty() && !i.display_name.empty() &&
+               !i.is_router_node.is(indeterminate) &&
+               !i.is_bridge_node.is(indeterminate);
     }
-    return {nothing};
+    return false;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node::app_name() const noexcept -> valid_if_not_empty<string_view> {
+    if(auto impl{_impl()}) {
+        return extract(impl).app_name;
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node::display_name() const noexcept
+  -> valid_if_not_empty<string_view> {
+    if(auto impl{_impl()}) {
+        return extract(impl).display_name;
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node::description() const noexcept
+  -> valid_if_not_empty<string_view> {
+    if(auto impl{_impl()}) {
+        return extract(impl).description;
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node::is_router_node() const noexcept -> tribool {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        const auto k = i.kind;
+        if((k == node_kind::router) || (k == node_kind::bridge)) {
+            return false;
+        }
+        return i.is_router_node;
+    }
+    return indeterminate;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node::is_bridge_node() const noexcept -> tribool {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        const auto k = i.kind;
+        if((k == node_kind::router) || (k == node_kind::bridge)) {
+            return false;
+        }
+        return i.is_bridge_node;
+    }
+    return indeterminate;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -335,11 +391,31 @@ auto remote_node_state::assign(node_kind kind) -> remote_node_state& {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto remote_node_state::assign(endpoint_info info) -> remote_node_state& {
+auto remote_node_state::assign(const endpoint_info& info)
+  -> remote_node_state& {
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
-        if(!i.ept_info || extract(i.ept_info) != info) {
-            i.ept_info = {std::move(info), true};
+        auto app_name = _tracker.cached(info.app_name);
+        if(!are_equal(app_name, i.app_name)) {
+            i.app_name = app_name;
+            i.changes |= remote_node_change::endpoint_info;
+        }
+        auto display_name = _tracker.cached(info.display_name);
+        if(!are_equal(display_name, i.display_name)) {
+            i.display_name = display_name;
+            i.changes |= remote_node_change::endpoint_info;
+        }
+        auto description = _tracker.cached(info.description);
+        if(!are_equal(description, i.description)) {
+            i.description = description;
+            i.changes |= remote_node_change::endpoint_info;
+        }
+        if(i.is_router_node.is(indeterminate)) {
+            i.is_router_node = info.is_router_node;
+            i.changes |= remote_node_change::endpoint_info;
+        }
+        if(i.is_bridge_node.is(indeterminate)) {
+            i.is_bridge_node = info.is_bridge_node;
             i.changes |= remote_node_change::endpoint_info;
         }
     }
@@ -466,11 +542,29 @@ public:
     flat_map<identifier_t, remote_node_state> nodes;
     flat_map<process_instance_id_t, remote_instance_state> instances;
     flat_map<host_id_t, remote_host_state> hosts;
+
+    auto cached(const std::string& s) -> string_view {
+        auto pos = _string_cache.find(s);
+        if(pos == _string_cache.end()) {
+            pos = _string_cache.insert(s).first;
+        }
+        return {*pos};
+    }
+
+private:
+    // TODO: flat_set
+    std::set<std::string> _string_cache;
 };
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 remote_node_tracker::remote_node_tracker()
   : _pimpl{std::make_shared<remote_node_tracker_impl>()} {}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node_tracker::cached(const std::string& s) -> string_view {
+    EAGINE_ASSERT(_pimpl);
+    return _pimpl->cached(s);
+}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto remote_node_tracker::get_nodes() noexcept

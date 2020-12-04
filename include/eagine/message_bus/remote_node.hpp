@@ -96,6 +96,8 @@ public:
     remote_node_tracker(std::shared_ptr<remote_node_tracker_impl> pimpl) noexcept
       : _pimpl{std::move(pimpl)} {}
 
+    auto cached(const std::string&) -> string_view;
+
     auto get_nodes() noexcept -> flat_map<identifier_t, remote_node_state>&;
     auto get_hosts() noexcept -> flat_map<host_id_t, remote_host_state>&;
 
@@ -202,51 +204,12 @@ public:
 
     auto kind() const noexcept -> node_kind;
 
-    auto info() const noexcept
-      -> optional_reference_wrapper<const endpoint_info>;
-
-    auto app_name() const noexcept -> valid_if_not_empty<string_view> {
-        if(auto inf{info()}) {
-            return {extract(inf).app_name};
-        }
-        return {};
-    }
-
-    auto display_name() const noexcept -> valid_if_not_empty<string_view> {
-        if(auto inf{info()}) {
-            return {extract(inf).display_name};
-        }
-        return {};
-    }
-
-    auto description() const noexcept -> valid_if_not_empty<string_view> {
-        if(auto inf{info()}) {
-            return {extract(inf).description};
-        }
-        return {};
-    }
-
-    auto is_router_node() const noexcept -> tribool {
-        const auto k = kind();
-        if((k == node_kind::router) || (k == node_kind::bridge)) {
-            return false;
-        }
-        if(auto inf{info()}) {
-            return {extract(inf).is_router_node};
-        }
-        return indeterminate;
-    }
-
-    auto is_bridge_node() const noexcept -> tribool {
-        const auto k = kind();
-        if((k == node_kind::router) || (k == node_kind::bridge)) {
-            return false;
-        }
-        if(auto inf{info()}) {
-            return {extract(inf).is_bridge_node};
-        }
-        return indeterminate;
-    }
+    auto has_endpoint_info() const noexcept -> bool;
+    auto app_name() const noexcept -> valid_if_not_empty<string_view>;
+    auto display_name() const noexcept -> valid_if_not_empty<string_view>;
+    auto description() const noexcept -> valid_if_not_empty<string_view>;
+    auto is_router_node() const noexcept -> tribool;
+    auto is_bridge_node() const noexcept -> tribool;
 
     auto subscribes_to(message_id msg_id) const noexcept -> tribool;
 
@@ -279,7 +242,7 @@ public:
     auto set_host_id(host_id_t) -> remote_node_state&;
 
     auto assign(node_kind) -> remote_node_state&;
-    auto assign(endpoint_info) -> remote_node_state&;
+    auto assign(const endpoint_info&) -> remote_node_state&;
 
     auto add_subscription(message_id) -> remote_node_state&;
     auto remove_subscription(message_id) -> remote_node_state&;
