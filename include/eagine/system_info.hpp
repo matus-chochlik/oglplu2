@@ -57,8 +57,8 @@ public:
     auto free_ram_size() noexcept -> valid_if_positive<span_size_t>;
     auto total_ram_size() noexcept -> valid_if_positive<span_size_t>;
 
-    auto free_swap_size() noexcept -> valid_if_positive<span_size_t>;
-    auto total_swap_size() noexcept -> valid_if_positive<span_size_t>;
+    auto free_swap_size() noexcept -> valid_if_nonnegative<span_size_t>;
+    auto total_swap_size() noexcept -> valid_if_nonnegative<span_size_t>;
 
     auto thermal_sensor_count() noexcept -> span_size_t;
     auto sensor_temperature(span_size_t) noexcept

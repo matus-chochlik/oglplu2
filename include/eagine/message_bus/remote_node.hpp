@@ -20,6 +20,7 @@
 #include "../tribool.hpp"
 #include "../types.hpp"
 #include "../valid_if/ge0_le1.hpp"
+#include "../valid_if/nonnegative.hpp"
 #include "../valid_if/not_empty.hpp"
 #include "../valid_if/not_zero.hpp"
 #include "../valid_if/positive.hpp"
@@ -151,11 +152,14 @@ public:
 
     auto name() const noexcept -> valid_if_not_empty<string_view>;
 
-    auto cpu_concurrent_threads() noexcept -> valid_if_positive<span_size_t>;
-    auto total_ram_size() noexcept -> valid_if_positive<float>;
-    auto free_ram_size() noexcept -> valid_if_positive<float>;
-    auto total_swap_size() noexcept -> valid_if_positive<float>;
-    auto free_swap_size() noexcept -> valid_if_positive<float>;
+    auto cpu_concurrent_threads() const noexcept
+      -> valid_if_positive<span_size_t>;
+    auto short_average_load() const noexcept -> valid_if_nonnegative<float>;
+    auto long_average_load() const noexcept -> valid_if_nonnegative<float>;
+    auto total_ram_size() const noexcept -> valid_if_positive<span_size_t>;
+    auto free_ram_size() const noexcept -> valid_if_positive<span_size_t>;
+    auto total_swap_size() const noexcept -> valid_if_nonnegative<span_size_t>;
+    auto free_swap_size() const noexcept -> valid_if_nonnegative<span_size_t>;
 
 private:
     host_id_t _host_id{0U};
@@ -170,9 +174,13 @@ class remote_host_state : public remote_host {
 public:
     using remote_host::remote_host;
 
-    auto set_hostname(std::string) -> remote_host_state&;
+    auto should_query_sensors() -> bool;
+    auto sensors_queried() -> remote_host_state&;
 
+    auto set_hostname(std::string) -> remote_host_state&;
     auto set_cpu_concurrent_threads(span_size_t) -> remote_host_state&;
+    auto set_short_average_load(float) -> remote_host_state&;
+    auto set_long_average_load(float) -> remote_host_state&;
     auto set_total_ram_size(span_size_t) -> remote_host_state&;
     auto set_total_swap_size(span_size_t) -> remote_host_state&;
     auto set_free_ram_size(span_size_t) -> remote_host_state&;
@@ -270,6 +278,8 @@ protected:
 class remote_node_state : public remote_node {
 public:
     using remote_node::remote_node;
+
+    auto host_state() const noexcept -> remote_host_state;
 
     auto changes() -> remote_node_changes;
     auto add_change(remote_node_change) -> remote_node_state&;

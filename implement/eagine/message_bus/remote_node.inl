@@ -18,12 +18,15 @@ public:
 //------------------------------------------------------------------------------
 class remote_host_impl {
 public:
+    timeout should_query_sensors{std::chrono::seconds{15}};
     std::string hostname;
     span_size_t cpu_concurrent_threads{-1};
-    float total_ram_size{-1.F};
-    float free_ram_size{-1.F};
-    float total_swap_size{-1.F};
-    float free_swap_size{-1.F};
+    float short_average_load{-1.F};
+    float long_average_load{-1.F};
+    span_size_t total_ram_size{-1};
+    span_size_t free_ram_size{-1};
+    span_size_t total_swap_size{-1};
+    span_size_t free_swap_size{-1};
 };
 //------------------------------------------------------------------------------
 class remote_node_impl {
@@ -159,7 +162,7 @@ auto remote_host::name() const noexcept -> valid_if_not_empty<string_view> {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto remote_host::cpu_concurrent_threads() noexcept
+auto remote_host::cpu_concurrent_threads() const noexcept
   -> valid_if_positive<span_size_t> {
     if(auto impl{_impl()}) {
         return {extract(impl).cpu_concurrent_threads};
@@ -168,35 +171,57 @@ auto remote_host::cpu_concurrent_threads() noexcept
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto remote_host::total_ram_size() noexcept -> valid_if_positive<float> {
+auto remote_host::short_average_load() const noexcept
+  -> valid_if_nonnegative<float> {
+    if(auto impl{_impl()}) {
+        return {extract(impl).short_average_load};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host::long_average_load() const noexcept
+  -> valid_if_nonnegative<float> {
+    if(auto impl{_impl()}) {
+        return {extract(impl).long_average_load};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host::total_ram_size() const noexcept
+  -> valid_if_positive<span_size_t> {
     if(auto impl{_impl()}) {
         return {extract(impl).total_ram_size};
     }
-    return {};
+    return {-1};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto remote_host::free_ram_size() noexcept -> valid_if_positive<float> {
+auto remote_host::free_ram_size() const noexcept
+  -> valid_if_positive<span_size_t> {
     if(auto impl{_impl()}) {
         return {extract(impl).free_ram_size};
     }
-    return {};
+    return {-1};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto remote_host::total_swap_size() noexcept -> valid_if_positive<float> {
+auto remote_host::total_swap_size() const noexcept
+  -> valid_if_nonnegative<span_size_t> {
     if(auto impl{_impl()}) {
         return {extract(impl).total_swap_size};
     }
-    return {};
+    return {-1};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto remote_host::free_swap_size() noexcept -> valid_if_positive<float> {
+auto remote_host::free_swap_size() const noexcept
+  -> valid_if_nonnegative<span_size_t> {
     if(auto impl{_impl()}) {
         return {extract(impl).free_swap_size};
     }
-    return {};
+    return {-1};
 }
 //------------------------------------------------------------------------------
 // remote_node
@@ -375,6 +400,17 @@ auto remote_node::is_responsive() const noexcept -> tribool {
 }
 //------------------------------------------------------------------------------
 // remote_node_state
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node_state::host_state() const noexcept -> remote_host_state {
+    if(auto impl{_impl()}) {
+        auto& i = extract(impl);
+        if(i.host_id) {
+            return _tracker.get_host(i.host_id);
+        }
+    }
+    return {};
+}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto remote_node_state::changes() -> remote_node_changes {
@@ -571,6 +607,22 @@ auto remote_node_state::ping_timeout(
 // remote_host_state
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto remote_host_state::should_query_sensors() -> bool {
+    if(auto impl{_impl()}) {
+        return extract(impl).should_query_sensors.is_expired();
+    }
+    return false;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host_state::sensors_queried() -> remote_host_state& {
+    if(auto impl{_impl()}) {
+        extract(impl).should_query_sensors.reset();
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto remote_host_state::set_hostname(std::string hn) -> remote_host_state& {
     if(auto impl{_impl()}) {
         extract(impl).hostname = std::move(hn);
@@ -583,6 +635,24 @@ auto remote_host_state::set_cpu_concurrent_threads(span_size_t value)
   -> remote_host_state& {
     if(auto impl{_impl()}) {
         extract(impl).cpu_concurrent_threads = value;
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host_state::set_short_average_load(float value)
+  -> remote_host_state& {
+    if(auto impl{_impl()}) {
+        extract(impl).short_average_load = value;
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host_state::set_long_average_load(float value)
+  -> remote_host_state& {
+    if(auto impl{_impl()}) {
+        extract(impl).long_average_load = value;
     }
     return *this;
 }

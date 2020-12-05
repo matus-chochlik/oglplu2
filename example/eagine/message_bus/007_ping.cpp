@@ -158,7 +158,7 @@ public:
 
     void on_total_swap_size_received(
       const result_context& res_ctx,
-      valid_if_positive<span_size_t>&& swap_size) final {
+      valid_if_nonnegative<span_size_t>&& swap_size) final {
         if(swap_size) {
             auto& stats = _targets[res_ctx.source_id()];
             stats.swap_size = extract(swap_size);

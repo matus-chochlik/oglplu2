@@ -64,18 +64,29 @@ public:
                 if(!node.instance().build()) {
                     this->query_build_info(node_id);
                 }
-                if(auto host = node.host()) {
-                    if(!host.name()) {
-                        this->query_hostname(node_id);
-                    }
-                    if(!host.cpu_concurrent_threads()) {
-                        this->query_cpu_concurrent_threads(node_id);
-                    }
-                    if(!host.total_ram_size()) {
-                        this->query_total_ram_size(node_id);
-                    }
-                    if(!host.total_swap_size()) {
-                        this->query_total_swap_size(node_id);
+                if(node.is_responsive()) {
+                    if(auto host = node.host_state()) {
+                        if(!host.name()) {
+                            this->query_hostname(node_id);
+                        }
+                        if(!host.cpu_concurrent_threads()) {
+                            this->query_cpu_concurrent_threads(node_id);
+                        }
+                        if(!host.total_ram_size()) {
+                            this->query_total_ram_size(node_id);
+                        }
+                        if(!host.total_swap_size()) {
+                            this->query_total_swap_size(node_id);
+                        }
+                        const bool should_query_sensors =
+                          host.should_query_sensors();
+                        if(should_query_sensors) {
+                            this->query_short_average_load(node_id);
+                            this->query_long_average_load(node_id);
+                            this->query_free_ram_size(node_id);
+                            this->query_free_swap_size(node_id);
+                            host.sensors_queried();
+                        }
                     }
                 }
             }
@@ -229,6 +240,42 @@ private:
             if(auto host_id{node.host_id()}) {
                 auto& host = _get_host(extract(host_id));
                 host.set_cpu_concurrent_threads(extract(opt_value));
+                _tracker.for_each_host_node_state(
+                  extract(host_id), [&](auto, auto& host_node) {
+                      host_node.add_change(remote_node_change::hardware_config);
+                  });
+            }
+        }
+    }
+
+    void on_short_average_load_received(
+      const result_context& ctx,
+      valid_if_nonnegative<float>&& opt_value) final {
+        if(opt_value) {
+            auto& node = _get_node(ctx.source_id());
+            if(auto host_id{node.host_id()}) {
+                auto& host = _get_host(extract(host_id));
+                host.set_short_average_load(extract(opt_value));
+                _tracker.for_each_host_node_state(
+                  extract(host_id), [&](auto, auto& host_node) {
+                      host_node.add_change(remote_node_change::sensor_values);
+                  });
+            }
+        }
+    }
+
+    void on_long_average_load_received(
+      const result_context& ctx,
+      valid_if_nonnegative<float>&& opt_value) final {
+        if(opt_value) {
+            auto& node = _get_node(ctx.source_id());
+            if(auto host_id{node.host_id()}) {
+                auto& host = _get_host(extract(host_id));
+                host.set_long_average_load(extract(opt_value));
+                _tracker.for_each_host_node_state(
+                  extract(host_id), [&](auto, auto& host_node) {
+                      host_node.add_change(remote_node_change::sensor_values);
+                  });
             }
         }
     }
@@ -241,6 +288,10 @@ private:
             if(auto host_id{node.host_id()}) {
                 auto& host = _get_host(extract(host_id));
                 host.set_free_ram_size(extract(opt_value));
+                _tracker.for_each_host_node_state(
+                  extract(host_id), [&](auto, auto& host_node) {
+                      host_node.add_change(remote_node_change::sensor_values);
+                  });
             }
         }
     }
@@ -253,30 +304,42 @@ private:
             if(auto host_id{node.host_id()}) {
                 auto& host = _get_host(extract(host_id));
                 host.set_total_ram_size(extract(opt_value));
+                _tracker.for_each_host_node_state(
+                  extract(host_id), [&](auto, auto& host_node) {
+                      host_node.add_change(remote_node_change::hardware_config);
+                  });
             }
         }
     }
 
     void on_free_swap_size_received(
       const result_context& ctx,
-      valid_if_positive<span_size_t>&& opt_value) final {
+      valid_if_nonnegative<span_size_t>&& opt_value) final {
         if(opt_value) {
             auto& node = _get_node(ctx.source_id());
             if(auto host_id{node.host_id()}) {
                 auto& host = _get_host(extract(host_id));
                 host.set_free_swap_size(extract(opt_value));
+                _tracker.for_each_host_node_state(
+                  extract(host_id), [&](auto, auto& host_node) {
+                      host_node.add_change(remote_node_change::sensor_values);
+                  });
             }
         }
     }
 
     void on_total_swap_size_received(
       const result_context& ctx,
-      valid_if_positive<span_size_t>&& opt_value) final {
+      valid_if_nonnegative<span_size_t>&& opt_value) final {
         if(opt_value) {
             auto& node = _get_node(ctx.source_id());
             if(auto host_id{node.host_id()}) {
                 auto& host = _get_host(extract(host_id));
                 host.set_total_swap_size(extract(opt_value));
+                _tracker.for_each_host_node_state(
+                  extract(host_id), [&](auto, auto& host_node) {
+                      host_node.add_change(remote_node_change::hardware_config);
+                  });
             }
         }
     }

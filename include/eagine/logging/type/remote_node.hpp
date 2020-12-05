@@ -61,19 +61,47 @@ adapt_log_entry_arg(identifier name, const msgbus::remote_node& value) {
             backend.add_string(
               EAGINE_ID(descrption), EAGINE_ID(string), extract(opt_desc));
         }
+    };
+}
+//------------------------------------------------------------------------------
+static inline auto
+adapt_log_entry_arg(identifier name, const msgbus::remote_host& value) {
+    return [name, value](logger_backend& backend) {
+        backend.add_unsigned(
+          name, EAGINE_ID(uint64), extract_or(value.id(), 0U));
 
-        if(const auto opt_id{value.host_id()}) {
-            backend.add_unsigned(
-              EAGINE_ID(hostId), EAGINE_ID(uint64), extract(opt_id));
-        }
-
-        if(const auto opt_name{value.host().name()}) {
+        if(const auto opt_name{value.name()}) {
             backend.add_string(
               EAGINE_ID(hostname), EAGINE_ID(string), extract(opt_name));
         }
-        if(const auto opt_val{value.host().cpu_concurrent_threads()}) {
+
+        if(const auto opt_val{value.cpu_concurrent_threads()}) {
             backend.add_integer(
               EAGINE_ID(cpuThreads), EAGINE_ID(int64), extract(opt_val));
+        }
+        if(const auto opt_val{value.total_ram_size()}) {
+            backend.add_integer(
+              EAGINE_ID(totalRAM), EAGINE_ID(ByteSize), extract(opt_val));
+        }
+        if(const auto opt_val{value.free_ram_size()}) {
+            backend.add_integer(
+              EAGINE_ID(freeRAM), EAGINE_ID(ByteSize), extract(opt_val));
+        }
+        if(const auto opt_val{value.free_swap_size()}) {
+            backend.add_integer(
+              EAGINE_ID(freeSwap), EAGINE_ID(ByteSize), extract(opt_val));
+        }
+        if(const auto opt_val{value.total_swap_size()}) {
+            backend.add_integer(
+              EAGINE_ID(totalSwap), EAGINE_ID(ByteSize), extract(opt_val));
+        }
+        if(const auto opt_val{value.short_average_load()}) {
+            backend.add_float(
+              EAGINE_ID(shortLoad), EAGINE_ID(Ratio), extract(opt_val));
+        }
+        if(const auto opt_val{value.long_average_load()}) {
+            backend.add_float(
+              EAGINE_ID(longLoad), EAGINE_ID(Ratio), extract(opt_val));
         }
     };
 }
