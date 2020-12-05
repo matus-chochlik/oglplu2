@@ -208,16 +208,18 @@ auto bridge::_handle_special(
             }
             return true;
         } else if(msg_id.has_method(EAGINE_ID(ping))) {
-            if(message.target_id == _id) {
-                message_view response{};
-                response.setup_response(message);
-                response.set_source_id(_id);
-                if(to_connection) {
-                    _do_push(EAGINE_MSGBUS_ID(pong), response);
-                } else {
-                    _send(EAGINE_MSGBUS_ID(pong), response);
+            if(has_id()) {
+                if(_id == message.target_id) {
+                    message_view response{};
+                    response.setup_response(message);
+                    response.set_source_id(_id);
+                    if(to_connection) {
+                        _do_push(EAGINE_MSGBUS_ID(pong), response);
+                    } else {
+                        _send(EAGINE_MSGBUS_ID(pong), response);
+                    }
+                    return true;
                 }
-                return true;
             }
         } else if(msg_id.has_method(EAGINE_ID(topoBrdgCn))) {
             if(to_connection) {
