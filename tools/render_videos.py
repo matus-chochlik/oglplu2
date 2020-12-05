@@ -439,6 +439,14 @@ def parse_args(args):
     )
 
     argparser.add_argument(
+        "--version-label",
+        help="""Use version number as label string.""",
+        default=False,
+        action="store_true",
+        dest="version_label"
+    )
+
+    argparser.add_argument(
         "example_args",
         help="""
         List of example arguments to use to render.
@@ -645,7 +653,16 @@ def render_example(root_dir, example, example_args, options):
     options.example = example
     options.example_name = os.path.basename(example)
     if options.sample_label is None:
-        options.sample_label = options.example_name
+        if options.version_label:
+            version_path = os.path.join(
+                os.path.dirname(__file__),
+                os.path.pardir,
+                "VERSION"
+            )
+            with open(version_path, "rt") as vfd:
+                options.sample_label = vfd.readline()
+        else:
+            options.sample_label = options.example_name
 
     example_path = check_example(options.bin_dir, example)
 
