@@ -18,7 +18,7 @@ public:
 //------------------------------------------------------------------------------
 class remote_host_impl {
 public:
-    timeout should_query_sensors{std::chrono::seconds{15}};
+    timeout should_query_sensors{std::chrono::seconds{30}};
     std::string hostname;
     span_size_t cpu_concurrent_threads{-1};
     float short_average_load{-1.F};
@@ -539,8 +539,7 @@ auto remote_node_state::should_ping()
         auto& to = extract(impl).should_ping;
         return {
           to.is_expired(),
-          std::chrono::duration_cast<std::chrono::milliseconds>(
-            to.period() / 4)};
+          std::chrono::duration_cast<std::chrono::milliseconds>(to.period())};
     }
     return {false, {}};
 }

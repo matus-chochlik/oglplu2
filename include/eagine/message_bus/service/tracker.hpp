@@ -113,9 +113,8 @@ public:
     virtual void on_node_change(remote_node& node, remote_node_changes) = 0;
 
 private:
-    // TODO: longer interval
-    resetting_timeout _should_query_topology{std::chrono::seconds{5}, nothing};
-    resetting_timeout _should_query_info{std::chrono::seconds{5}};
+    resetting_timeout _should_query_topology{std::chrono::seconds{15}, nothing};
+    resetting_timeout _should_query_info{std::chrono::seconds{10}};
 
     remote_node_tracker _tracker{};
 
