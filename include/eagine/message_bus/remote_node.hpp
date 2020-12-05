@@ -12,6 +12,7 @@
 
 #include "../bitfield.hpp"
 #include "../build_info.hpp"
+#include "../callable_ref.hpp"
 #include "../flat_map.hpp"
 #include "../identifier_t.hpp"
 #include "../message_id.hpp"
@@ -21,6 +22,7 @@
 #include "../valid_if/ge0_le1.hpp"
 #include "../valid_if/not_empty.hpp"
 #include "../valid_if/not_zero.hpp"
+#include "../valid_if/positive.hpp"
 #include "node_kind.hpp"
 #include "types.hpp"
 #include <chrono>
@@ -38,13 +40,15 @@ enum class remote_node_change : std::uint16_t {
     methods_removed = 1U << 6U,
     started_responding = 1U << 7U,
     stopped_responding = 1U << 8U,
-    instance_id = 1U << 9U
+    hardware_config = 1U << 9U,
+    sensor_values = 1U << 10U,
+    instance_id = 1U << 11U
 };
 //------------------------------------------------------------------------------
 template <typename Selector>
 constexpr auto
 enumerator_mapping(identity<remote_node_change>, Selector) noexcept {
-    return enumerator_map_type<remote_node_change, 10>{
+    return enumerator_map_type<remote_node_change, 12>{
       {{"kind", remote_node_change::kind},
        {"host_id", remote_node_change::host_id},
        {"host_info", remote_node_change::host_info},
@@ -54,6 +58,8 @@ enumerator_mapping(identity<remote_node_change>, Selector) noexcept {
        {"methods_removed", remote_node_change::methods_removed},
        {"started_responding", remote_node_change::started_responding},
        {"stopped_responding", remote_node_change::stopped_responding},
+       {"hardware_config", remote_node_change::hardware_config},
+       {"sensor_values", remote_node_change::sensor_values},
        {"instance_id", remote_node_change::instance_id}}};
 }
 //------------------------------------------------------------------------------
@@ -98,16 +104,34 @@ public:
 
     auto cached(const std::string&) -> string_view;
 
-    auto get_nodes() noexcept -> flat_map<identifier_t, remote_node_state>&;
-    auto get_hosts() noexcept -> flat_map<host_id_t, remote_host_state>&;
-
     auto get_node(identifier_t node_id) -> remote_node_state&;
     auto get_host(host_id_t) -> remote_host_state&;
     auto get_host(host_id_t) const -> remote_host_state;
     auto get_instance(host_id_t) -> remote_instance_state&;
     auto get_instance(host_id_t) const -> remote_instance_state;
 
+    template <typename Function>
+    void for_each_host(Function func);
+
+    template <typename Function>
+    void for_each_host_state(Function func);
+
+    template <typename Function>
+    void for_each_node(Function func);
+
+    template <typename Function>
+    void for_each_node_state(Function func);
+
+    template <typename Function>
+    void
+    for_each_instance_node_state(process_instance_id_t inst_id, Function func);
+
+    template <typename Function>
+    void for_each_host_node_state(host_id_t host_id, Function func);
+
 private:
+    auto _get_nodes() noexcept -> flat_map<identifier_t, remote_node_state>&;
+    auto _get_hosts() noexcept -> flat_map<host_id_t, remote_host_state>&;
     std::shared_ptr<remote_node_tracker_impl> _pimpl{};
 };
 //------------------------------------------------------------------------------
@@ -127,6 +151,12 @@ public:
 
     auto name() const noexcept -> valid_if_not_empty<string_view>;
 
+    auto cpu_concurrent_threads() noexcept -> valid_if_positive<span_size_t>;
+    auto total_ram_size() noexcept -> valid_if_positive<float>;
+    auto free_ram_size() noexcept -> valid_if_positive<float>;
+    auto total_swap_size() noexcept -> valid_if_positive<float>;
+    auto free_swap_size() noexcept -> valid_if_positive<float>;
+
 private:
     host_id_t _host_id{0U};
     std::shared_ptr<remote_host_impl> _pimpl{};
@@ -141,6 +171,12 @@ public:
     using remote_host::remote_host;
 
     auto set_hostname(std::string) -> remote_host_state&;
+
+    auto set_cpu_concurrent_threads(span_size_t) -> remote_host_state&;
+    auto set_total_ram_size(span_size_t) -> remote_host_state&;
+    auto set_total_swap_size(span_size_t) -> remote_host_state&;
+    auto set_free_ram_size(span_size_t) -> remote_host_state&;
+    auto set_free_swap_size(span_size_t) -> remote_host_state&;
 };
 //------------------------------------------------------------------------------
 class remote_instance {
@@ -255,6 +291,56 @@ public:
     auto ping_timeout(message_sequence_t, std::chrono::microseconds age)
       -> remote_node_state&;
 };
+//------------------------------------------------------------------------------
+template <typename Function>
+void remote_node_tracker::for_each_host(Function func) {
+    for(auto& [host_id, host] : _get_hosts()) {
+        func(host_id, static_cast<remote_host&>(host));
+    }
+}
+//------------------------------------------------------------------------------
+template <typename Function>
+void remote_node_tracker::for_each_host_state(Function func) {
+    for(auto& [host_id, host] : _get_hosts()) {
+        func(host_id, host);
+    }
+}
+//------------------------------------------------------------------------------
+template <typename Function>
+void remote_node_tracker::for_each_node(Function func) {
+    for(auto& [node_id, node] : _get_nodes()) {
+        func(node_id, static_cast<remote_node&>(node));
+    }
+}
+//------------------------------------------------------------------------------
+template <typename Function>
+void remote_node_tracker::for_each_node_state(Function func) {
+    for(auto& [node_id, node] : _get_nodes()) {
+        func(node_id, node);
+    }
+}
+//------------------------------------------------------------------------------
+template <typename Function>
+void remote_node_tracker::for_each_instance_node_state(
+  process_instance_id_t inst_id,
+  Function func) {
+    for(auto& [node_id, node] : _get_nodes()) {
+        if(node.instance_id() == inst_id) {
+            func(node_id, node);
+        }
+    }
+}
+//------------------------------------------------------------------------------
+template <typename Function>
+void remote_node_tracker::for_each_host_node_state(
+  host_id_t host_id,
+  Function func) {
+    for(auto& [node_id, node] : _get_nodes()) {
+        if(node.host_id() == host_id) {
+            func(node_id, node);
+        }
+    }
+}
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus
 

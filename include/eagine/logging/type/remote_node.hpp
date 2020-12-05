@@ -71,6 +71,10 @@ adapt_log_entry_arg(identifier name, const msgbus::remote_node& value) {
             backend.add_string(
               EAGINE_ID(hostname), EAGINE_ID(string), extract(opt_name));
         }
+        if(const auto opt_val{value.host().cpu_concurrent_threads()}) {
+            backend.add_integer(
+              EAGINE_ID(cpuThreads), EAGINE_ID(int64), extract(opt_val));
+        }
     };
 }
 //------------------------------------------------------------------------------

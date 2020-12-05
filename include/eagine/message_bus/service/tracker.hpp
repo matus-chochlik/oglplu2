@@ -18,13 +18,15 @@
 #include "endpoint_info.hpp"
 #include "host_info.hpp"
 #include "ping_pong.hpp"
+#include "system_info.hpp"
 #include "topology.hpp"
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 template <typename Base>
-using node_tracker_base = pinger<host_info_consumer<build_info_consumer<
-  endpoint_info_consumer<network_topology<subscriber_discovery<Base>>>>>>;
+using node_tracker_base =
+  pinger<system_info_consumer<host_info_consumer<build_info_consumer<
+    endpoint_info_consumer<network_topology<subscriber_discovery<Base>>>>>>>;
 //------------------------------------------------------------------------------
 template <typename Base = subscriber>
 class node_tracker : public node_tracker_base<Base> {
@@ -51,19 +53,30 @@ public:
 
         const bool should_query_info{_should_query_info};
 
-        for(auto& [node_id, node] : _tracker.get_nodes()) {
+        _tracker.for_each_node_state([&](auto node_id, auto& node) {
             if(should_query_info) {
                 if(!node.host_id()) {
                     this->query_host_id(node_id);
-                }
-                if(!node.host().name()) {
-                    this->query_hostname(node_id);
                 }
                 if(!node.has_endpoint_info()) {
                     this->query_endpoint_info(node_id);
                 }
                 if(!node.instance().build()) {
                     this->query_build_info(node_id);
+                }
+                if(auto host = node.host()) {
+                    if(!host.name()) {
+                        this->query_hostname(node_id);
+                    }
+                    if(!host.cpu_concurrent_threads()) {
+                        this->query_cpu_concurrent_threads(node_id);
+                    }
+                    if(!host.total_ram_size()) {
+                        this->query_total_ram_size(node_id);
+                    }
+                    if(!host.total_swap_size()) {
+                        this->query_total_swap_size(node_id);
+                    }
                 }
             }
 
@@ -76,16 +89,14 @@ public:
                 }
             }
             _handle_node_change(node_id, node);
-        }
+        });
 
         return something_done;
     }
 
     template <typename Function>
     void for_each_node(Function function) {
-        for(auto& [node_id, node] : _tracker.get_nodes()) {
-            function(node_id, node);
-        }
+        _tracker.for_each_node(std::move(function));
     }
 
     virtual void on_node_change(remote_node& node, remote_node_changes) = 0;
@@ -189,12 +200,10 @@ private:
             if(auto host_id{node.host_id()}) {
                 auto& host = _get_host(extract(host_id));
                 host.set_hostname(std::move(extract(hostname)));
-                for(auto& entry : _tracker.get_nodes()) {
-                    auto& host_node = std::get<1>(entry);
-                    if(host_node.host_id() == extract(host_id)) {
-                        host_node.add_change(remote_node_change::host_info);
-                    }
-                }
+                _tracker.for_each_host_node_state(
+                  extract(host_id), [&](auto, auto& host_node) {
+                      host_node.add_change(remote_node_change::host_info);
+                  });
             }
         }
     }
@@ -205,11 +214,69 @@ private:
         if(auto inst_id{node.instance_id()}) {
             auto& inst = _get_instance(extract(inst_id));
             inst.assign(std::move(info));
-            for(auto& entry : _tracker.get_nodes()) {
-                auto& inst_node = std::get<1>(entry);
-                if(inst_node.instance_id() == extract(inst_id)) {
-                    inst_node.add_change(remote_node_change::build_info);
-                }
+            _tracker.for_each_host_node_state(
+              extract(inst_id), [&](auto, auto& inst_node) {
+                  inst_node.add_change(remote_node_change::build_info);
+              });
+        }
+    }
+
+    void on_cpu_concurrent_threads_received(
+      const result_context& ctx,
+      valid_if_positive<span_size_t>&& opt_value) final {
+        if(opt_value) {
+            auto& node = _get_node(ctx.source_id());
+            if(auto host_id{node.host_id()}) {
+                auto& host = _get_host(extract(host_id));
+                host.set_cpu_concurrent_threads(extract(opt_value));
+            }
+        }
+    }
+
+    void on_free_ram_size_received(
+      const result_context& ctx,
+      valid_if_positive<span_size_t>&& opt_value) final {
+        if(opt_value) {
+            auto& node = _get_node(ctx.source_id());
+            if(auto host_id{node.host_id()}) {
+                auto& host = _get_host(extract(host_id));
+                host.set_free_ram_size(extract(opt_value));
+            }
+        }
+    }
+
+    void on_total_ram_size_received(
+      const result_context& ctx,
+      valid_if_positive<span_size_t>&& opt_value) final {
+        if(opt_value) {
+            auto& node = _get_node(ctx.source_id());
+            if(auto host_id{node.host_id()}) {
+                auto& host = _get_host(extract(host_id));
+                host.set_total_ram_size(extract(opt_value));
+            }
+        }
+    }
+
+    void on_free_swap_size_received(
+      const result_context& ctx,
+      valid_if_positive<span_size_t>&& opt_value) final {
+        if(opt_value) {
+            auto& node = _get_node(ctx.source_id());
+            if(auto host_id{node.host_id()}) {
+                auto& host = _get_host(extract(host_id));
+                host.set_free_swap_size(extract(opt_value));
+            }
+        }
+    }
+
+    void on_total_swap_size_received(
+      const result_context& ctx,
+      valid_if_positive<span_size_t>&& opt_value) final {
+        if(opt_value) {
+            auto& node = _get_node(ctx.source_id());
+            if(auto host_id{node.host_id()}) {
+                auto& host = _get_host(extract(host_id));
+                host.set_total_swap_size(extract(opt_value));
             }
         }
     }

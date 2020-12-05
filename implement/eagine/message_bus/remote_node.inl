@@ -5,8 +5,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/branch_predict.hpp>
-#include <eagine/flat_set.hpp>
 #include <eagine/timeout.hpp>
+#include <set>
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
@@ -19,6 +19,11 @@ public:
 class remote_host_impl {
 public:
     std::string hostname;
+    span_size_t cpu_concurrent_threads{-1};
+    float total_ram_size{-1.F};
+    float free_ram_size{-1.F};
+    float total_swap_size{-1.F};
+    float free_swap_size{-1.F};
 };
 //------------------------------------------------------------------------------
 class remote_node_impl {
@@ -149,6 +154,47 @@ EAGINE_LIB_FUNC
 auto remote_host::name() const noexcept -> valid_if_not_empty<string_view> {
     if(auto impl{_impl()}) {
         return {extract(impl).hostname};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host::cpu_concurrent_threads() noexcept
+  -> valid_if_positive<span_size_t> {
+    if(auto impl{_impl()}) {
+        return {extract(impl).cpu_concurrent_threads};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host::total_ram_size() noexcept -> valid_if_positive<float> {
+    if(auto impl{_impl()}) {
+        return {extract(impl).total_ram_size};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host::free_ram_size() noexcept -> valid_if_positive<float> {
+    if(auto impl{_impl()}) {
+        return {extract(impl).free_ram_size};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host::total_swap_size() noexcept -> valid_if_positive<float> {
+    if(auto impl{_impl()}) {
+        return {extract(impl).total_swap_size};
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host::free_swap_size() noexcept -> valid_if_positive<float> {
+    if(auto impl{_impl()}) {
+        return {extract(impl).free_swap_size};
     }
     return {};
 }
@@ -526,11 +572,53 @@ auto remote_node_state::ping_timeout(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto remote_host_state::set_hostname(std::string hn) -> remote_host_state& {
-    try {
-        if(auto impl{_impl()}) {
-            extract(impl).hostname = std::move(hn);
-        }
-    } catch(...) {
+    if(auto impl{_impl()}) {
+        extract(impl).hostname = std::move(hn);
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host_state::set_cpu_concurrent_threads(span_size_t value)
+  -> remote_host_state& {
+    if(auto impl{_impl()}) {
+        extract(impl).cpu_concurrent_threads = value;
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host_state::set_total_ram_size(span_size_t value)
+  -> remote_host_state& {
+    if(auto impl{_impl()}) {
+        extract(impl).total_ram_size = value;
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host_state::set_total_swap_size(span_size_t value)
+  -> remote_host_state& {
+    if(auto impl{_impl()}) {
+        extract(impl).total_swap_size = value;
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host_state::set_free_ram_size(span_size_t value)
+  -> remote_host_state& {
+    if(auto impl{_impl()}) {
+        extract(impl).free_ram_size = value;
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host_state::set_free_swap_size(span_size_t value)
+  -> remote_host_state& {
+    if(auto impl{_impl()}) {
+        extract(impl).free_swap_size = value;
     }
     return *this;
 }
@@ -552,7 +640,7 @@ public:
     }
 
 private:
-    flat_set<std::string> _string_cache;
+    std::set<std::string> _string_cache;
 };
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -566,14 +654,14 @@ auto remote_node_tracker::cached(const std::string& s) -> string_view {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto remote_node_tracker::get_nodes() noexcept
+auto remote_node_tracker::_get_nodes() noexcept
   -> flat_map<identifier_t, remote_node_state>& {
     EAGINE_ASSERT(_pimpl);
     return _pimpl->nodes;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto remote_node_tracker::get_hosts() noexcept
+auto remote_node_tracker::_get_hosts() noexcept
   -> flat_map<host_id_t, remote_host_state>& {
     EAGINE_ASSERT(_pimpl);
     return _pimpl->hosts;
