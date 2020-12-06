@@ -34,13 +34,21 @@ protected:
           EAGINE_MSG_ID(eagiEptInf, response),
           this,
           EAGINE_MEM_FUNC_C(
-            This, provide_endpoint_info))[EAGINE_MSG_ID(eagiEptInf, request)]);
+            This, _get_endpoint_info))[EAGINE_MSG_ID(eagiEptInf, request)]);
     }
 
 public:
     virtual auto provide_endpoint_info() -> endpoint_info = 0;
 
 private:
+    auto _get_endpoint_info() -> endpoint_info {
+        auto result{provide_endpoint_info()};
+        if(result.app_name.empty()) {
+            result.app_name = main_ctx::get().app_name();
+        }
+        return result;
+    }
+
     default_function_skeleton<endpoint_info(), 1024> _respond;
 };
 //------------------------------------------------------------------------------

@@ -12,6 +12,7 @@ set(
 		eagine
 		eagine-message_bus-router
 		eagine-message_bus-bridge
+		eagine-message_bus-pingable
 		oglplus
 		oglplus-bake_program_source
 		oglplus-bake_png_image

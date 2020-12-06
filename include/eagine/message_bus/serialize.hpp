@@ -14,16 +14,28 @@
 #include "../message_id.hpp"
 #include "../serialize/block_sink.hpp"
 #include "../serialize/block_source.hpp"
+#include "../serialize/data_buffer.hpp"
 #include "../serialize/read.hpp"
 #include "../serialize/string_backend.hpp"
 #include "../serialize/write.hpp"
 #include "message.hpp"
 #include <array>
 
-namespace eagine::msgbus {
+namespace eagine {
+
+template <identifier_t Sid, typename Selector>
+struct get_serialize_buffer_size<Sid, message_id, Selector>
+  : get_serialize_buffer_size<Sid, message_id::base, Selector> {};
 //------------------------------------------------------------------------------
+namespace msgbus {
+
 using default_serializer_backend = string_serializer_backend;
 using default_deserializer_backend = string_deserializer_backend;
+
+template <typename T>
+inline auto default_serialize_buffer_for(const T& inst) {
+    return serialize_buffer_for<default_serializer_backend::id_value>(inst);
+}
 //------------------------------------------------------------------------------
 template <typename Backend>
 auto serialize_message(
@@ -182,6 +194,7 @@ inline auto stored_message::fetch_value(Value& value) -> bool {
     return do_fetch_value<default_deserializer_backend>(value);
 }
 //------------------------------------------------------------------------------
-} // namespace eagine::msgbus
+} // namespace msgbus
+} // namespace eagine
 
 #endif // EAGINE_MESSAGE_BUS_SERIALIZE_HPP

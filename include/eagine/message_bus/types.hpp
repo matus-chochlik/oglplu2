@@ -11,9 +11,9 @@
 #define EAGINE_MESSAGE_BUS_TYPES_HPP
 
 #include "../identifier_t.hpp"
-#include "../process.hpp"
 #include "../reflect/map_data_members.hpp"
 #include "../types.hpp"
+#include "connection_kind.hpp"
 #include <tuple>
 
 namespace eagine::msgbus {
@@ -24,6 +24,7 @@ struct router_topology_info {
     identifier_t router_id{0};
     identifier_t remote_id{0};
     process_instance_id_t instance_id{0U};
+    connection_kind connect_kind{0U};
 };
 
 template <typename Selector>
@@ -34,10 +35,12 @@ data_member_mapping(identity<router_topology_info>, Selector) noexcept {
       S,
       identifier_t,
       identifier_t,
-      process_instance_id_t>(
+      process_instance_id_t,
+      connection_kind>(
       {"router_id", &S::router_id},
       {"remote_id", &S::remote_id},
-      {"instance_id", &S::instance_id});
+      {"instance_id", &S::instance_id},
+      {"connect_kind", &S::connect_kind});
 }
 //------------------------------------------------------------------------------
 struct bridge_topology_info {
@@ -74,6 +77,7 @@ data_member_mapping(identity<endpoint_topology_info>, Selector) noexcept {
 }
 //------------------------------------------------------------------------------
 struct endpoint_info {
+    std::string app_name;
     std::string display_name;
     std::string description;
     bool is_router_node{false};
@@ -81,7 +85,7 @@ struct endpoint_info {
 
     auto tie() const noexcept {
         return std::tie(
-          display_name, description, is_router_node, is_bridge_node);
+          app_name, display_name, description, is_router_node, is_bridge_node);
     }
 
     friend auto
@@ -94,7 +98,14 @@ struct endpoint_info {
 template <typename Selector>
 constexpr auto data_member_mapping(identity<endpoint_info>, Selector) noexcept {
     using S = endpoint_info;
-    return make_data_member_mapping<S, std::string, std::string, bool, bool>(
+    return make_data_member_mapping<
+      S,
+      std::string,
+      std::string,
+      std::string,
+      bool,
+      bool>(
+      {"app_name", &S::app_name},
       {"display_name", &S::display_name},
       {"description", &S::description},
       {"is_router_node", &S::is_router_node},

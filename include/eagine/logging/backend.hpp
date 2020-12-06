@@ -20,6 +20,28 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
+template <typename T>
+struct does_have_log_entry_adapter {
+private:
+    template <
+      typename X,
+      typename = decltype(
+        adapt_log_entry_arg(std::declval<identifier>(), std::declval<X>()))>
+    static auto _test(X*) -> std::true_type;
+    static auto _test(...) -> std::false_type;
+
+public:
+    // NOLINTNEXTLINE(hicpp-vararg)
+    using type = decltype(_test(static_cast<T*>(nullptr)));
+};
+
+template <typename T>
+using has_log_entry_adapter_t = typename does_have_log_entry_adapter<T>::type;
+
+template <typename T>
+constexpr const bool has_log_entry_adapter_v =
+  has_log_entry_adapter_t<T>::value;
+//------------------------------------------------------------------------------
 using logger_instance_id = std::uintptr_t;
 
 struct logger_backend {
@@ -100,6 +122,12 @@ struct logger_backend {
       identifier arg,
       identifier tag,
       memory::const_block value) noexcept = 0;
+
+    template <typename T>
+    auto add_adapted(identifier arg, const T& value)
+      -> std::enable_if_t<has_log_entry_adapter_v<T>> {
+        adapt_log_entry_arg(arg, value)(*this);
+    }
 
     virtual void finish_message() noexcept = 0;
 

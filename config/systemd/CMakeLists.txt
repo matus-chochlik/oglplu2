@@ -18,6 +18,8 @@ install(
 install(
 	FILES
 		"eagine-message_bus-router.service"
+		"eagine-message_bus-ssh-bridge@.service"
+		"eagine-message_bus-pingable@.service"
 	DESTINATION share/oglplus/user/.config/systemd/user
 )
 

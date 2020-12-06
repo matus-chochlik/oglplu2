@@ -19,6 +19,14 @@ target_link_libraries(
 	PUBLIC eagine
 )
 
+# pingable
+add_executable(eagine-message_bus-pingable pingable.cpp)
+eagine_add_exe_analysis(eagine-message_bus-pingable)
+target_link_libraries(
+	eagine-message_bus-pingable
+	PUBLIC eagine
+)
+
 # scripts
 install(
 	PROGRAMS eagine-local-bridge.sh

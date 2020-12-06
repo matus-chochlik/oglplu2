@@ -1,5 +1,7 @@
 msg_bus:
-    keep_running: true
     asio_local_stream: true
     router:
+        keep_running: true
         address: /tmp/eagine-msgbus-service.socket
+    bridge:
+        keep_running: true

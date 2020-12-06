@@ -7,6 +7,7 @@
 
 // clang-format off
 #include "prologue.inl"
+#include <eagine/build_info.hpp>
 #include <eagine/message_bus/serialize.hpp>
 #include "implement.inl"
 #include <eagine/message_bus/remote_node.hpp>

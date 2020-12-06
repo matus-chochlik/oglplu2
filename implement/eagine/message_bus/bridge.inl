@@ -191,7 +191,8 @@ auto bridge::_handle_special(
         if(msg_id.has_method(EAGINE_ID(assignId))) {
             if(!has_id()) {
                 _id = message.target_id;
-                log_debug("assigned id ${id}").arg(EAGINE_ID(id), _id);
+                log_debug("assigned bridge id ${id} by router")
+                  .arg(EAGINE_ID(id), _id);
             }
             return true;
         } else if(msg_id.has_method(EAGINE_ID(confirmId))) {
@@ -206,12 +207,26 @@ auto bridge::_handle_special(
                   .arg(EAGINE_ID(confirmed), message.target_id);
             }
             return true;
+        } else if(msg_id.has_method(EAGINE_ID(ping))) {
+            if(has_id()) {
+                if(_id == message.target_id) {
+                    message_view response{};
+                    response.setup_response(message);
+                    response.set_source_id(_id);
+                    if(to_connection) {
+                        _do_push(EAGINE_MSGBUS_ID(pong), response);
+                    } else {
+                        _send(EAGINE_MSGBUS_ID(pong), response);
+                    }
+                    return true;
+                }
+            }
         } else if(msg_id.has_method(EAGINE_ID(topoBrdgCn))) {
             if(to_connection) {
                 bridge_topology_info info{};
                 if(default_deserialize(info, message.data)) {
                     info.opposite_id = _id;
-                    std::array<byte, 256> temp{};
+                    auto temp{default_serialize_buffer_for(info)};
                     if(auto serialized{default_serialize(info, cover(temp))}) {
                         message_view response{message, extract(serialized)};
                         _send(EAGINE_MSGBUS_ID(topoBrdgCn), response);
@@ -220,10 +235,10 @@ auto bridge::_handle_special(
                 }
             }
         } else if(msg_id.has_method(EAGINE_ID(topoQuery))) {
-            std::array<byte, 256> temp{};
             bridge_topology_info info{};
             info.bridge_id = _id;
             info.instance_id = _instance_id;
+            auto temp{default_serialize_buffer_for(info)};
             if(auto serialized{default_serialize(info, cover(temp))}) {
                 message_view response{extract(serialized)};
                 response.setup_response(message);
@@ -348,15 +363,13 @@ auto bridge::_check_state() -> bool {
     some_true something_done{};
 
     if(EAGINE_UNLIKELY(!(_state && _state->is_usable()))) {
-        span_size_t max_size{0};
-        if(EAGINE_LIKELY(_connection)) {
+        if(std::cin.good() && _connection) {
             if(auto max_data_size = _connection->max_data_size()) {
-                max_size = math::maximum(max_size, extract(max_data_size));
+                _state = std::make_shared<bridge_state>(extract(max_data_size));
+                _state->start();
+                something_done();
             }
         }
-        _state = std::make_shared<bridge_state>(max_size);
-        _state->start();
-        something_done();
     }
 
     return something_done;
@@ -398,6 +411,11 @@ auto bridge::update() -> bool {
     }
 
     return something_done;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto bridge::is_done() const noexcept -> bool {
+    return no_connection_timeout() || !std::cin.good();
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

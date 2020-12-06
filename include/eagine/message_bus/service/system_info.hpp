@@ -114,10 +114,10 @@ private:
     default_function_skeleton<valid_if_positive<span_size_t>() noexcept, 32>
       _total_ram_size;
 
-    default_function_skeleton<valid_if_positive<span_size_t>() noexcept, 32>
+    default_function_skeleton<valid_if_nonnegative<span_size_t>() noexcept, 32>
       _free_swap_size;
 
-    default_function_skeleton<valid_if_positive<span_size_t>() noexcept, 32>
+    default_function_skeleton<valid_if_nonnegative<span_size_t>() noexcept, 32>
       _total_swap_size;
 };
 //------------------------------------------------------------------------------
@@ -249,7 +249,7 @@ public:
 
     virtual void on_free_swap_size_received(
       const result_context&,
-      valid_if_positive<span_size_t>&&) {}
+      valid_if_nonnegative<span_size_t>&&) {}
 
     void query_total_swap_size(identifier_t endpoint_id) {
         _total_swap_size.invoke_on(
@@ -258,7 +258,7 @@ public:
 
     virtual void on_total_swap_size_received(
       const result_context&,
-      valid_if_positive<span_size_t>&&) {}
+      valid_if_nonnegative<span_size_t>&&) {}
 
 private:
     default_callback_invoker<std::chrono::duration<float>(), 32> _uptime;
@@ -281,10 +281,10 @@ private:
     default_callback_invoker<valid_if_positive<span_size_t>(), 32>
       _total_ram_size;
 
-    default_callback_invoker<valid_if_positive<span_size_t>(), 32>
+    default_callback_invoker<valid_if_nonnegative<span_size_t>(), 32>
       _free_swap_size;
 
-    default_callback_invoker<valid_if_positive<span_size_t>(), 32>
+    default_callback_invoker<valid_if_nonnegative<span_size_t>(), 32>
       _total_swap_size;
 };
 //------------------------------------------------------------------------------

@@ -78,7 +78,7 @@ private:
     const std::chrono::milliseconds _shutdown_max_age{cfg_init(
       "msg_bus.router.shutdown.max_age",
       std::chrono::milliseconds(2500))};
-    const bool _shutdown_ignore{cfg_init("msg_bus.keep_running", false)};
+    const bool _shutdown_ignore{cfg_init("msg_bus.router.keep_running", false)};
     const bool _shutdown_verify{
       cfg_init("msg_bus.router.shutdown.verify", true)};
     bool _do_shutdown{false};
@@ -128,9 +128,7 @@ auto main(main_ctx& ctx) -> int {
     ctx.system().preinitialize();
 
     auto local_acceptor{std::make_unique<msgbus::direct_acceptor>(ctx)};
-    msgbus::endpoint node_endpoint{EAGINE_ID(RutrNodeEp), ctx};
-    node_endpoint.add_connection(local_acceptor->make_connection());
-    msgbus::router_node node{node_endpoint};
+    auto node_connection{local_acceptor->make_connection()};
 
     msgbus::router_address address(ctx);
     msgbus::connection_setup conn_setup(ctx);
@@ -146,6 +144,11 @@ auto main(main_ctx& ctx) -> int {
     int idle_streak{0};
     int max_idle_streak{0};
 
+    msgbus::endpoint node_endpoint{EAGINE_ID(RutrNodeEp), ctx};
+    node_endpoint.add_certificate_pem(msgbus_router_certificate_pem(ctx));
+    node_endpoint.add_connection(std::move(node_connection));
+    msgbus::router_node node{node_endpoint};
+
     auto& wd = ctx.watchdog();
     wd.declare_initialized();
 
@@ -154,7 +157,7 @@ auto main(main_ctx& ctx) -> int {
         something_done(router.update(8));
         something_done(node.update());
 
-        if(EAGINE_LIKELY(something_done)) {
+        if(something_done) {
             ++cycles_work;
             idle_streak = 0;
         } else {

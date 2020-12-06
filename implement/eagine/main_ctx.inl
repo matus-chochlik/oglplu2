@@ -11,6 +11,7 @@
 #include <eagine/logging/root_logger.hpp>
 #include <eagine/logging/type/exception.hpp>
 #include <eagine/memory/buffer.hpp>
+#include <eagine/process.hpp>
 #include <eagine/watchdog.hpp>
 #include <filesystem>
 
@@ -18,6 +19,7 @@ namespace eagine {
 //------------------------------------------------------------------------------
 class master_ctx {
 private:
+    const process_instance_id_t _instance_id{make_process_instance_id()};
     program_args _args;
     root_logger _log_root;
     build_info _bld_info;
@@ -52,6 +54,10 @@ public:
         _log_root.info("application ${appName} starting")
           .arg(EAGINE_ID(appName), _app_name)
           .arg(EAGINE_ID(exePath), _exe_path);
+    }
+
+    auto instance_id() const noexcept {
+        return _instance_id;
     }
 
     auto args() noexcept -> auto& {
@@ -107,7 +113,8 @@ auto main_ctx::_single_ptr() noexcept -> main_ctx*& {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 main_ctx::main_ctx(master_ctx& master) noexcept
-  : _args{master.args()}
+  : _instance_id{master.instance_id()}
+  , _args{master.args()}
   , _log{master.log()}
   , _watchdog{master.watchdog()}
   , _app_config{master.config()}
@@ -147,6 +154,12 @@ main_ctx_log_backend_getter::main_ctx_log_backend_getter() noexcept
 EAGINE_LIB_FUNC
 auto main_ctx_object::main_context() const noexcept -> main_ctx& {
     return main_ctx::get();
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto main_ctx_object::process_instance_id() const noexcept
+  -> process_instance_id_t {
+    return main_context().instance_id();
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

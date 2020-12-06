@@ -109,10 +109,10 @@ public:
         if(file_contents machine_id{"/etc/machine-id"}) {
             memory::for_each_chunk(
               as_chars(machine_id.block()),
-              span_size_of<system_info::host_id_type>() * 2,
+              span_size_of<host_id_t>() * 2,
               [this](auto hexstr) {
-                  if(const auto mi{from_string(
-                       hexstr, identity<system_info::host_id_type>(), 16)}) {
+                  if(const auto mi{
+                       from_string(hexstr, identity<host_id_t>(), 16)}) {
                       _host_id ^= extract(mi);
                   }
               });
@@ -193,7 +193,7 @@ public:
     }
 
 private:
-    system_info::host_id_type _host_id{0};
+    host_id_t _host_id{0};
     valtree::compound _sysfs;
     std::vector<valtree::attribute> _tz_temp_a;
     valid_if_nonnegative<span_size_t> _cpu_temp_i{-1};
@@ -318,21 +318,23 @@ auto system_info::total_ram_size() noexcept -> valid_if_positive<span_size_t> {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto system_info::free_swap_size() noexcept -> valid_if_positive<span_size_t> {
+auto system_info::free_swap_size() noexcept
+  -> valid_if_nonnegative<span_size_t> {
 #if EAGINE_LINUX
     const auto& si = system_info_linux_sysinfo();
     return {span_size(si.freeswap * si.mem_unit)};
 #endif
-    return {0};
+    return {-1};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto system_info::total_swap_size() noexcept -> valid_if_positive<span_size_t> {
+auto system_info::total_swap_size() noexcept
+  -> valid_if_nonnegative<span_size_t> {
 #if EAGINE_LINUX
     const auto& si = system_info_linux_sysinfo();
     return {span_size(si.totalswap * si.mem_unit)};
 #endif
-    return {0};
+    return {-1};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

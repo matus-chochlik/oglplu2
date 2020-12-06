@@ -10,6 +10,7 @@
 #define EAGINE_MAIN_CTX_OBJECT_HPP
 
 #include "assert.hpp"
+#include "identifier_t.hpp"
 #include "logging/logger.hpp"
 #include "main_ctx_fwd.hpp"
 
@@ -70,6 +71,8 @@ class main_ctx_object
 public:
     main_ctx_object(identifier obj_id, main_ctx_parent parent) noexcept
       : base{_make_base(obj_id, parent)} {}
+
+    auto process_instance_id() const noexcept -> process_instance_id_t;
 
     auto main_context() const noexcept -> main_ctx&;
 

@@ -22,8 +22,12 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 class string_serializer_backend
-  : public common_serializer_backend<string_serializer_backend> {
-    using base = common_serializer_backend<string_serializer_backend>;
+  : public serializer_backend_id<
+      common_serializer_backend<string_serializer_backend>,
+      EAGINE_ID_V(String)> {
+    using base = serializer_backend_id<
+      common_serializer_backend<string_serializer_backend>,
+      EAGINE_ID_V(String)>;
 
 public:
     using base::base;
@@ -31,10 +35,6 @@ public:
     using base::sink;
     using error_code = serialization_error_code;
     using result = serialization_errors;
-
-    auto type_id() -> identifier final {
-        return EAGINE_ID(String);
-    }
 
 private:
     auto _write_one(bool value, identity<bool>) -> result {
@@ -197,8 +197,12 @@ public:
 };
 //------------------------------------------------------------------------------
 class string_deserializer_backend
-  : public common_deserializer_backend<string_deserializer_backend> {
-    using base = common_deserializer_backend<string_deserializer_backend>;
+  : public serializer_backend_id<
+      common_deserializer_backend<string_deserializer_backend>,
+      EAGINE_ID_V(String)> {
+    using base = serializer_backend_id<
+      common_deserializer_backend<string_deserializer_backend>,
+      EAGINE_ID_V(String)>;
 
 public:
     using base::base;
@@ -206,10 +210,6 @@ public:
     using base::require;
     using error_code = deserialization_error_code;
     using result = deserialization_errors;
-
-    auto type_id() -> identifier final {
-        return EAGINE_ID(String);
-    }
 
 private:
     auto _read_one(bool& value, char delimiter) -> result {

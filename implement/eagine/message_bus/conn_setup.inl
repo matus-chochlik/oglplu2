@@ -47,7 +47,7 @@ void connection_setup::_do_setup_connectors(
           .arg(EAGINE_ID(factory), factory)
           .arg(EAGINE_ID(address), EAGINE_ID(MsgBusAddr), address);
 
-        if(auto connector = factory->make_connector(address)) {
+        if(auto connector{factory->make_connector(address)}) {
             target.add_connection(std::move(connector));
         }
     }

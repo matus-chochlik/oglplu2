@@ -11,7 +11,6 @@
 #define EAGINE_MESSAGE_BUS_BRIDGE_HPP
 
 #include "../main_ctx_object.hpp"
-#include "../process.hpp"
 #include "../timeout.hpp"
 #include "connection.hpp"
 #include "context_fwd.hpp"
@@ -49,13 +48,10 @@ public:
     }
 
     auto update() -> bool;
+    auto is_done() const noexcept -> bool;
 
     auto no_connection_timeout() const noexcept -> auto& {
         return _no_connection_timeout;
-    }
-
-    auto is_done() const noexcept -> bool {
-        return bool(no_connection_timeout());
     }
 
 private:
@@ -72,7 +68,7 @@ private:
 
     shared_context _context{};
 
-    const process_instance_id_t _instance_id{make_instance_id()};
+    const process_instance_id_t _instance_id{process_instance_id()};
     identifier_t _id{invalid_id()};
     timeout _no_id_timeout{std::chrono::seconds{2}, nothing};
 
