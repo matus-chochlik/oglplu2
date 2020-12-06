@@ -7,18 +7,15 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/identifier_ctr.hpp>
-#include <eagine/logging/type/build_info.hpp>
 #include <eagine/main_ctx.hpp>
 #include <eagine/math/functions.hpp>
 #include <eagine/message_bus/conn_setup.hpp>
 #include <eagine/message_bus/router_address.hpp>
 #include <eagine/message_bus/service.hpp>
-#include <eagine/message_bus/service/build_info.hpp>
 #include <eagine/message_bus/service/discovery.hpp>
 #include <eagine/message_bus/service/host_info.hpp>
 #include <eagine/message_bus/service/ping_pong.hpp>
 #include <eagine/message_bus/service/shutdown.hpp>
-#include <eagine/message_bus/service/system_info.hpp>
 #include <eagine/timeout.hpp>
 #include <eagine/units/unit/si/temperature.hpp>
 #include <algorithm>
@@ -32,12 +29,8 @@ namespace eagine {
 namespace msgbus {
 //------------------------------------------------------------------------------
 struct ping_stats {
-    build_info build;
     host_id_t host_id{0};
     std::string hostname;
-    span_size_t num_cores{0};
-    span_size_t ram_size{0};
-    span_size_t swap_size{0};
     std::chrono::microseconds min_time{std::chrono::microseconds::max()};
     std::chrono::microseconds max_time{std::chrono::microseconds::zero()};
     std::chrono::microseconds sum_time{std::chrono::microseconds::zero()};
@@ -71,9 +64,8 @@ struct ping_stats {
     }
 };
 //------------------------------------------------------------------------------
-using ping_base =
-  service_composition<pinger<build_info_consumer<system_info_consumer<
-    host_info_consumer<subscriber_discovery<shutdown_invoker<>>>>>>>;
+using ping_base = service_composition<
+  pinger<host_info_consumer<subscriber_discovery<shutdown_invoker<>>>>>;
 
 class ping_example
   : public main_ctx_object
@@ -113,13 +105,6 @@ public:
         }
     }
 
-    void on_build_info_received(
-      const result_context& res_ctx,
-      build_info&& build) final {
-        auto& stats = _targets[res_ctx.source_id()];
-        stats.build = std::move(build);
-    }
-
     void on_host_id_received(
       const result_context& res_ctx,
       valid_if_positive<host_id_t>&& host_id) final {
@@ -135,33 +120,6 @@ public:
         if(hostname) {
             auto& stats = _targets[res_ctx.source_id()];
             stats.hostname = extract(std::move(hostname));
-        }
-    }
-
-    void on_cpu_concurrent_threads_received(
-      const result_context& res_ctx,
-      valid_if_positive<span_size_t>&& num_cores) final {
-        if(num_cores) {
-            auto& stats = _targets[res_ctx.source_id()];
-            stats.num_cores = extract(num_cores);
-        }
-    }
-
-    void on_total_ram_size_received(
-      const result_context& res_ctx,
-      valid_if_positive<span_size_t>&& ram_size) final {
-        if(ram_size) {
-            auto& stats = _targets[res_ctx.source_id()];
-            stats.ram_size = extract(ram_size);
-        }
-    }
-
-    void on_total_swap_size_received(
-      const result_context& res_ctx,
-      valid_if_nonnegative<span_size_t>&& swap_size) final {
-        if(swap_size) {
-            auto& stats = _targets[res_ctx.source_id()];
-            stats.swap_size = extract(swap_size);
         }
     }
 
@@ -232,23 +190,11 @@ public:
                         }
 
                         if(EAGINE_UNLIKELY(entry.should_check_info)) {
-                            if(!entry.build.has_version()) {
-                                this->query_build_info(pingable_id);
-                            }
                             if(!entry.host_id) {
                                 this->query_host_id(pingable_id);
                             }
                             if(entry.hostname.empty()) {
                                 this->query_hostname(pingable_id);
-                            }
-                            if(!entry.num_cores) {
-                                this->query_cpu_concurrent_threads(pingable_id);
-                            }
-                            if(!entry.ram_size) {
-                                this->query_total_ram_size(pingable_id);
-                            }
-                            if(!entry.swap_size) {
-                                this->query_total_swap_size(pingable_id);
                             }
                         }
                         something_done();
@@ -275,12 +221,8 @@ public:
 
             log_stat("pingable ${id} stats:")
               .arg(EAGINE_ID(id), id)
-              .arg(EAGINE_ID(bldInfo), info.build)
               .arg(EAGINE_ID(hostId), info.host_id)
               .arg(EAGINE_ID(hostname), info.hostname)
-              .arg(EAGINE_ID(numCores), info.num_cores)
-              .arg(EAGINE_ID(ramSize), EAGINE_ID(ByteSize), info.ram_size)
-              .arg(EAGINE_ID(swapSize), EAGINE_ID(ByteSize), info.swap_size)
               .arg(EAGINE_ID(minTime), info.min_time)
               .arg(EAGINE_ID(maxTime), info.max_time)
               .arg(EAGINE_ID(avgTime), info.avg_time())
