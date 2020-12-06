@@ -42,8 +42,11 @@ public:
       , _multi_glyphs{std::move(multi_glyphs)}
       , _empty_glyph{std::move(empty_glyph)} {}
 
-    auto make_diagonal() -> board_type;
-    auto make_generator() -> generator;
+    auto make_diagonal() const -> board_type;
+    auto make_generator() const -> generator;
+
+    auto print(std::ostream&, const basic_sudoku_glyph<S>& glyph) const
+      -> std::ostream&;
 
     auto print(std::ostream&, const basic_sudoku_board<S, false>& board) const
       -> std::ostream&;
@@ -323,6 +326,19 @@ public:
         }
     }
 
+    using block_type = std::array<cell_type, glyph_count>;
+
+    auto get_block(unsigned bx, unsigned by) const noexcept
+      -> const block_type& {
+        return _block(_blocks, bx, by);
+    }
+
+    auto set_block(unsigned bx, unsigned by, const block_type& block) noexcept
+      -> auto& {
+        _block(_blocks, bx, by) = block;
+        return *this;
+    }
+
     auto tight() const noexcept -> basic_sudoku_board<S, true> {
         return {*this};
     }
@@ -351,7 +367,7 @@ private:
     friend class basic_sudoku_board<S, !Tight>;
 
     std::reference_wrapper<const board_traits> _type;
-    std::array<std::array<cell_type, glyph_count>, glyph_count> _blocks{};
+    std::array<block_type, glyph_count> _blocks{};
 };
 //------------------------------------------------------------------------------
 template <unsigned S>
@@ -413,7 +429,7 @@ private:
 };
 //------------------------------------------------------------------------------
 template <unsigned S>
-auto basic_sudoku_board_traits<S>::make_diagonal() -> board_type {
+auto basic_sudoku_board_traits<S>::make_diagonal() const -> board_type {
     board_type result{*this};
     unsigned g = 0;
     for(unsigned b = 0; b < S; ++b) {
@@ -425,8 +441,22 @@ auto basic_sudoku_board_traits<S>::make_diagonal() -> board_type {
 }
 //------------------------------------------------------------------------------
 template <unsigned S>
-auto basic_sudoku_board_traits<S>::make_generator() -> generator {
+auto basic_sudoku_board_traits<S>::make_generator() const -> generator {
     return {*this};
+}
+//------------------------------------------------------------------------------
+template <unsigned S>
+auto basic_sudoku_board_traits<S>::print(
+  std::ostream& out,
+  const basic_sudoku_glyph<S>& glyph) const -> std::ostream& {
+    if(glyph.is_single()) {
+        out << _glyphs[glyph.get_index()];
+    } else if(glyph.is_empty()) {
+        out << _empty_glyph;
+    } else {
+        out << _multi_glyphs[0U];
+    }
+    return out;
 }
 //------------------------------------------------------------------------------
 template <unsigned S>
@@ -437,13 +467,14 @@ auto basic_sudoku_board_traits<S>::print(
         for(unsigned cy = 0; cy < S; ++cy) {
             for(unsigned bx = 0; bx < S; ++bx) {
                 for(unsigned cx = 0; cx < S; ++cx) {
-                    const auto v = board.get({{bx, by, cx, cy}});
-                    if(v.is_single()) {
-                        out << ' ' << _glyphs[v.get_index()];
-                    } else if(v.is_empty()) {
-                        out << ' ' << _empty_glyph;
+                    const auto glyph = board.get({{bx, by, cx, cy}});
+                    out << ' ';
+                    if(glyph.is_single()) {
+                        out << _glyphs[glyph.get_index()];
+                    } else if(glyph.is_empty()) {
+                        out << _empty_glyph;
                     } else {
-                        out << ' ' << _multi_glyphs[(cx + cy) % S];
+                        out << _multi_glyphs[(cx + cy) % S];
                     }
                 }
                 if(bx + 1 < S) {
@@ -479,10 +510,10 @@ auto basic_sudoku_board_traits<S>::print(
         for(unsigned cy = 0; cy < S; ++cy) {
             for(unsigned bx = 0; bx < S; ++bx) {
                 for(unsigned cx = 0; cx < S; ++cx) {
-                    const auto v = board.get({{bx, by, cx, cy}});
-                    if(v.is_single()) {
-                        out << _glyphs[v.get_index()];
-                    } else if(v.is_empty()) {
+                    const auto glyph = board.get({{bx, by, cx, cy}});
+                    if(glyph.is_single()) {
+                        out << _glyphs[glyph.get_index()];
+                    } else if(glyph.is_empty()) {
                         out << _empty_glyph;
                     } else {
                         out << _multi_glyphs[(cx + cy) % S];
