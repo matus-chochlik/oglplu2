@@ -32,16 +32,23 @@ void solve_sudoku(
         solutions.push(traits.make_diagonal());
     }
 
+    auto print = [&](const auto& b) {
+        (tight ? std::cout << b.tight() : std::cout << b) << std::endl;
+    };
     auto board = solutions.top();
-    (tight ? std::cout << board.tight() : std::cout << board) << std::endl;
+    print(board);
 
-    while(!solutions.empty()) {
-        (tight ? std::cout << board.tight() : std::cout << board) << std::endl;
+    bool done = false;
+    while(!solutions.empty() && !done) {
+        print(board);
         board = solutions.top();
         solutions.pop();
 
         board.for_each_alternative(board.find_unsolved(), [&](auto candidate) {
-            if(!candidate.is_solved()) {
+            if(candidate.is_solved()) {
+                print(board);
+                done = true;
+            } else {
                 solutions.push(candidate);
             }
         });
