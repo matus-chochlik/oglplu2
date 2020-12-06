@@ -133,6 +133,12 @@ public:
         }
     }
 
+    auto alternative_count() const noexcept -> unsigned {
+        unsigned count = 0U;
+        for_each_alternative([&](auto) { ++count; });
+        return count;
+    }
+
 private:
     friend class basic_sudoku_board<S, false>;
     friend class basic_sudoku_board<S, true>;
@@ -290,10 +296,13 @@ public:
 
     auto find_unsolved() const noexcept -> coord_type {
         auto result = invalid_coord();
+        auto min_alt = glyph_count + 1;
         for_each_coord([&](const auto& coord) {
-            if(!get(coord).is_single()) {
-                result = coord;
-                return false;
+            if(const auto num_alt{get(coord).alternative_count()}) {
+                if((num_alt > 1) && (min_alt > num_alt)) {
+                    min_alt = num_alt;
+                    result = coord;
+                }
             }
             return true;
         });
