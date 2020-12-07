@@ -10,11 +10,13 @@
 #define EAGINE_SUDOKU_HPP
 
 #include "assert.hpp"
+#include "flat_map.hpp"
 #include <array>
 #include <cstdint>
 #include <functional>
 #include <ostream>
 #include <random>
+#include <stack>
 
 namespace eagine {
 //------------------------------------------------------------------------------
@@ -467,15 +469,7 @@ auto basic_sudoku_board_traits<S>::print(
         for(unsigned cy = 0; cy < S; ++cy) {
             for(unsigned bx = 0; bx < S; ++bx) {
                 for(unsigned cx = 0; cx < S; ++cx) {
-                    const auto glyph = board.get({{bx, by, cx, cy}});
-                    out << ' ';
-                    if(glyph.is_single()) {
-                        out << _glyphs[glyph.get_index()];
-                    } else if(glyph.is_empty()) {
-                        out << _empty_glyph;
-                    } else {
-                        out << _multi_glyphs[(cx + cy) % S];
-                    }
+                    print(out << ' ', board.get({{bx, by, cx, cy}}));
                 }
                 if(bx + 1 < S) {
                     out << " |";
@@ -510,14 +504,7 @@ auto basic_sudoku_board_traits<S>::print(
         for(unsigned cy = 0; cy < S; ++cy) {
             for(unsigned bx = 0; bx < S; ++bx) {
                 for(unsigned cx = 0; cx < S; ++cx) {
-                    const auto glyph = board.get({{bx, by, cx, cy}});
-                    if(glyph.is_single()) {
-                        out << _glyphs[glyph.get_index()];
-                    } else if(glyph.is_empty()) {
-                        out << _empty_glyph;
-                    } else {
-                        out << _multi_glyphs[(cx + cy) % S];
-                    }
+                    print(out, board.get({{bx, by, cx, cy}}));
                 }
             }
             out << '\n';
@@ -525,6 +512,170 @@ auto basic_sudoku_board_traits<S>::print(
     }
     return out;
 }
+//------------------------------------------------------------------------------
+template <unsigned S>
+class basic_sudoku_solver {
+public:
+    using board_type = basic_sudoku_board<S>;
+
+    auto solve(board_type board) -> board_type {
+        std::stack<board_type> solutions;
+        solutions.push(board);
+
+        bool done = false;
+        while(!(solutions.empty() || done)) {
+            board = solutions.top();
+            solutions.pop();
+
+            board.for_each_alternative(
+              board.find_unsolved(), [&](auto candidate) {
+                  if(candidate.is_solved()) {
+                      board = candidate;
+                      done = true;
+                  } else {
+                      solutions.push(candidate);
+                  }
+              });
+        }
+        return board;
+    }
+};
+//------------------------------------------------------------------------------
+template <unsigned S>
+class basic_sudoku_tiling : basic_sudoku_solver<S> {
+public:
+    using board_traits = basic_sudoku_board_traits<S>;
+    using board_type = basic_sudoku_board<S>;
+
+    basic_sudoku_tiling(const board_traits& traits)
+      : _traits{traits} {
+        _boards.emplace(
+          std::make_tuple(0, 0), this->solve(traits.make_diagonal()));
+    }
+
+    basic_sudoku_tiling(const board_traits& traits, board_type board)
+      : _traits{traits} {
+        _boards.emplace(std::make_tuple(0, 0), this->solve(std::move(board)));
+    }
+
+    auto generate(int xmin, int ymin, int xmax, int ymax) {
+        for(int y = ymin; y <= ymax; ++y) {
+            for(int x = xmin; x <= xmax; ++x) {
+                _get(x, y);
+            }
+        }
+    }
+
+    auto print(std::ostream& out, int xmin, int ymin, int xmax, int ymax)
+      -> std::ostream& {
+        for(int y = ymax; y >= ymin; --y) {
+            for(unsigned by = 1; by < S - 1; ++by) {
+                for(unsigned cy = 0; cy < S; ++cy) {
+                    for(int x = xmin; x <= xmax; ++x) {
+                        auto& board = _get(x, y);
+                        for(unsigned bx = 1; bx < S - 1; ++bx) {
+                            for(unsigned cx = 0; cx < S; ++cx) {
+                                _traits.get().print(
+                                  out, board.get({bx, by, cx, cy}));
+                            }
+                        }
+                    }
+                    out << '\n';
+                }
+            }
+        }
+        return out;
+    }
+
+private:
+    auto _get(int x, int y) -> const board_type& {
+        auto pos = _boards.find({x, y});
+        if(pos == _boards.end()) {
+            board_type added{_traits};
+            if(y > 0) {
+                if(x > 0) {
+                    auto& left = _get(x - 1, y);
+                    for(unsigned by = 0; by < S - 1; ++by) {
+                        added.set_block(0U, by, left.get_block(S - 1, by));
+                    }
+                    auto& down = _get(x, y - 1);
+                    for(unsigned bx = 1; bx < S; ++bx) {
+                        added.set_block(bx, S - 1, down.get_block(bx, 0U));
+                    }
+                    pos = _emplace(x, y, added);
+                } else if(x < 0) {
+                    auto& right = _get(x + 1, y);
+                    for(unsigned by = 0; by < S - 1; ++by) {
+                        added.set_block(S - 1, by, right.get_block(0U, by));
+                    }
+                    auto& down = _get(x, y - 1);
+                    for(unsigned bx = 0; bx < S - 1; ++bx) {
+                        added.set_block(bx, S - 1, down.get_block(bx, 0U));
+                    }
+                    pos = _emplace(x, y, added);
+                } else {
+                    auto& down = _get(x, y - 1);
+                    for(unsigned bx = 0; bx < S; ++bx) {
+                        added.set_block(bx, S - 1, down.get_block(bx, 0U));
+                    }
+                    pos = _emplace(x, y, added);
+                }
+            } else if(y < 0) {
+                if(x > 0) {
+                    auto& left = _get(x - 1, y);
+                    for(unsigned by = 1; by < S; ++by) {
+                        added.set_block(0U, by, left.get_block(S - 1, by));
+                    }
+                    auto& up = _get(x, y + 1);
+                    for(unsigned bx = 1; bx < S; ++bx) {
+                        added.set_block(bx, 0U, up.get_block(bx, S - 1));
+                    }
+                    pos = _emplace(x, y, added);
+                } else if(x < 0) {
+                    auto& right = _get(x + 1, y);
+                    for(unsigned by = 1; by < S; ++by) {
+                        added.set_block(S - 1, by, right.get_block(0U, by));
+                    }
+                    auto& up = _get(x, y + 1);
+                    for(unsigned bx = 0; bx < S - 1; ++bx) {
+                        added.set_block(bx, 0U, up.get_block(bx, S - 1));
+                    }
+                    pos = _emplace(x, y, added);
+                } else {
+                    auto& up = _get(x, y + 1);
+                    for(unsigned bx = 0; bx < S; ++bx) {
+                        added.set_block(bx, 0U, up.get_block(bx, S - 1));
+                    }
+                    pos = _emplace(x, y, added);
+                }
+            } else {
+                if(x > 0) {
+                    auto& left = _get(x - 1, y);
+                    for(unsigned by = 0; by < S; ++by) {
+                        added.set_block(0U, by, left.get_block(S - 1, by));
+                    }
+                    pos = _emplace(x, y, added);
+                } else if(x < 0) {
+                    auto& right = _get(x + 1, y);
+                    for(unsigned by = 0; by < S; ++by) {
+                        added.set_block(S - 1, by, right.get_block(0U, by));
+                    }
+                    pos = _emplace(x, y, added);
+                }
+            }
+        }
+        return pos->second;
+    }
+    auto _emplace(int x, int y, board_type board) {
+        return _boards
+          .emplace(
+            std::make_tuple(x, y), this->solve(board.calculate_alternatives()))
+          .first;
+    }
+
+    std::reference_wrapper<const board_traits> _traits;
+    flat_map<std::tuple<int, int>, basic_sudoku_board<S>> _boards;
+};
 //------------------------------------------------------------------------------
 } // namespace eagine
 
