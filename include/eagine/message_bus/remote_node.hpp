@@ -158,8 +158,24 @@ public:
     auto long_average_load() const noexcept -> valid_if_nonnegative<float>;
     auto total_ram_size() const noexcept -> valid_if_positive<span_size_t>;
     auto free_ram_size() const noexcept -> valid_if_positive<span_size_t>;
-    auto total_swap_size() const noexcept -> valid_if_nonnegative<span_size_t>;
+    auto ram_usage() const noexcept -> valid_if_nonnegative<float> {
+        if(const auto total{total_ram_size()}) {
+            if(const auto free{free_ram_size()}) {
+                return 1.F - float(extract(free)) / float(extract(total));
+            }
+        }
+        return {-1.F};
+    }
+    auto total_swap_size() const noexcept -> valid_if_positive<span_size_t>;
     auto free_swap_size() const noexcept -> valid_if_nonnegative<span_size_t>;
+    auto swap_usage() const noexcept -> valid_if_nonnegative<float> {
+        if(const auto total{total_swap_size()}) {
+            if(const auto free{free_swap_size()}) {
+                return 1.F - float(extract(free)) / float(extract(total));
+            }
+        }
+        return {-1.F};
+    }
 
 private:
     host_id_t _host_id{0U};

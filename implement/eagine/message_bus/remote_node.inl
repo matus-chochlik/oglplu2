@@ -208,7 +208,7 @@ auto remote_host::free_ram_size() const noexcept
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto remote_host::total_swap_size() const noexcept
-  -> valid_if_nonnegative<span_size_t> {
+  -> valid_if_positive<span_size_t> {
     if(auto impl{_impl()}) {
         return {extract(impl).total_swap_size};
     }
