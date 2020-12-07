@@ -94,6 +94,9 @@ class remote_host_state;
 class remote_node_impl;
 class remote_node;
 class remote_node_state;
+class node_connection_impl;
+class node_connection;
+class node_connection_state;
 //------------------------------------------------------------------------------
 class remote_node_tracker {
 public:
@@ -110,6 +113,11 @@ public:
     auto get_host(host_id_t) const -> remote_host_state;
     auto get_instance(host_id_t) -> remote_instance_state&;
     auto get_instance(host_id_t) const -> remote_instance_state;
+
+    auto get_connection(identifier_t node_id1, identifier_t node_id2)
+      -> node_connection_state&;
+    auto get_connection(identifier_t node_id1, identifier_t node_id2) const
+      -> node_connection_state;
 
     template <typename Function>
     void for_each_host(Function func);
@@ -316,6 +324,41 @@ public:
       -> remote_node_state&;
     auto ping_timeout(message_sequence_t, std::chrono::microseconds age)
       -> remote_node_state&;
+};
+//------------------------------------------------------------------------------
+class node_connection {
+public:
+    node_connection() noexcept = default;
+    node_connection(identifier_t id1, identifier_t id2) noexcept
+      : _id1{id1}
+      , _id2{id2} {}
+
+    explicit operator bool() const noexcept {
+        return bool(_pimpl);
+    }
+
+    auto between(identifier_t id1, identifier_t id2) const noexcept {
+        return ((_id1 == id1) && (_id2 == id2)) ||
+               ((_id1 == id2) && (_id2 == id1));
+    }
+
+    auto kind() const noexcept -> connection_kind;
+
+private:
+    identifier_t _id1{0U};
+    identifier_t _id2{0U};
+    std::shared_ptr<node_connection_impl> _pimpl{};
+
+protected:
+    auto _impl() const noexcept -> const node_connection_impl*;
+    auto _impl() noexcept -> node_connection_impl*;
+};
+//------------------------------------------------------------------------------
+class node_connection_state : public node_connection {
+public:
+    using node_connection::node_connection;
+
+    auto set_kind(connection_kind) -> node_connection_state&;
 };
 //------------------------------------------------------------------------------
 template <typename Function>

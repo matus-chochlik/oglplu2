@@ -130,6 +130,11 @@ private:
         return _tracker.get_node(id);
     }
 
+    auto _get_connection(identifier_t id1, identifier_t id2)
+      -> node_connection_state& {
+        return _tracker.get_connection(id1, id2);
+    }
+
     void _handle_node_change(identifier_t node_id, remote_node_state& node) {
         if(const auto changes{node.changes()}) {
             on_node_change(node, changes);
@@ -172,6 +177,8 @@ private:
           .set_instance_id(info.instance_id)
           .assign(node_kind::router)
           .is_alive();
+        _get_connection(info.router_id, info.remote_id)
+          .set_kind(info.connect_kind);
     }
 
     void bridge_appeared(const bridge_topology_info& info) final {
@@ -179,6 +186,8 @@ private:
           .set_instance_id(info.instance_id)
           .assign(node_kind::bridge)
           .is_alive();
+        _get_connection(info.bridge_id, info.opposite_id)
+          .set_kind(connection_kind::remote_interprocess);
     }
 
     void endpoint_appeared(const endpoint_topology_info& info) final {

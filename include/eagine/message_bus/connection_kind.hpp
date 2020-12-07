@@ -17,6 +17,7 @@
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 enum class connection_kind : std::uint8_t {
+    unknown = 0U,
     in_process = 1U << 0U,
     local_interprocess = 1U << 1U,
     remote_interprocess = 1U << 2U
@@ -24,8 +25,9 @@ enum class connection_kind : std::uint8_t {
 //------------------------------------------------------------------------------
 template <typename Selector>
 constexpr auto enumerator_mapping(identity<connection_kind>, Selector) noexcept {
-    return enumerator_map_type<connection_kind, 3>{
-      {{"in_process", connection_kind::in_process},
+    return enumerator_map_type<connection_kind, 4>{
+      {{"unknown", connection_kind::unknown},
+       {"in_process", connection_kind::in_process},
        {"local_interprocess", connection_kind::local_interprocess},
        {"remote_interprocess", connection_kind::remote_interprocess}}};
 }

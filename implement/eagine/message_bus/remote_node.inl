@@ -70,6 +70,11 @@ private:
     flat_map<message_id, tribool> _subscriptions;
 };
 //------------------------------------------------------------------------------
+class node_connection_impl {
+public:
+    connection_kind kind{connection_kind::unknown};
+};
+//------------------------------------------------------------------------------
 // remote_instance
 //------------------------------------------------------------------------------
 inline auto remote_instance::_impl() const noexcept
@@ -692,6 +697,43 @@ auto remote_host_state::set_free_swap_size(span_size_t value)
     return *this;
 }
 //------------------------------------------------------------------------------
+// node_connection
+//------------------------------------------------------------------------------
+inline auto node_connection::_impl() const noexcept
+  -> const node_connection_impl* {
+    return _pimpl.get();
+}
+//------------------------------------------------------------------------------
+inline auto node_connection::_impl() noexcept -> node_connection_impl* {
+    try {
+        if(EAGINE_UNLIKELY(!_pimpl)) {
+            _pimpl = std::make_shared<node_connection_impl>();
+        }
+        return _pimpl.get();
+    } catch(...) {
+    }
+    return nullptr;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto node_connection::kind() const noexcept -> connection_kind {
+    if(auto impl{_impl()}) {
+        return extract(impl).kind;
+    }
+    return connection_kind::unknown;
+}
+//------------------------------------------------------------------------------
+// node_connection_state
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto node_connection_state::set_kind(connection_kind kind)
+  -> node_connection_state& {
+    if(auto impl{_impl()}) {
+        extract(impl).kind = kind;
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
 // remote_node_tracker
 //------------------------------------------------------------------------------
 class remote_node_tracker_impl {
@@ -699,6 +741,7 @@ public:
     flat_map<identifier_t, remote_node_state> nodes;
     flat_map<process_instance_id_t, remote_instance_state> instances;
     flat_map<host_id_t, remote_host_state> hosts;
+    std::vector<node_connection_state> connections;
 
     auto cached(const std::string& s) -> string_view {
         auto pos = _string_cache.find(s);
@@ -761,10 +804,11 @@ auto remote_node_tracker::get_host(host_id_t host_id) -> remote_host_state& {
 EAGINE_LIB_FUNC
 auto remote_node_tracker::get_host(host_id_t host_id) const
   -> remote_host_state {
-    EAGINE_ASSERT(_pimpl);
-    auto pos = _pimpl->hosts.find(host_id);
-    if(pos != _pimpl->hosts.end()) {
-        return pos->second;
+    if(_pimpl) {
+        auto pos = _pimpl->hosts.find(host_id);
+        if(pos != _pimpl->hosts.end()) {
+            return pos->second;
+        }
     }
     return {};
 }
@@ -784,10 +828,39 @@ auto remote_node_tracker::get_instance(process_instance_id_t instance_id)
 EAGINE_LIB_FUNC
 auto remote_node_tracker::get_instance(process_instance_id_t instance_id) const
   -> remote_instance_state {
+    if(_pimpl) {
+        auto pos = _pimpl->instances.find(instance_id);
+        if(pos != _pimpl->instances.end()) {
+            return pos->second;
+        }
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node_tracker::get_connection(
+  identifier_t node_id1,
+  identifier_t node_id2) -> node_connection_state& {
     EAGINE_ASSERT(_pimpl);
-    auto pos = _pimpl->instances.find(instance_id);
-    if(pos != _pimpl->instances.end()) {
-        return pos->second;
+    for(auto& conn : _pimpl->connections) {
+        if(conn.between(node_id1, node_id2)) {
+            return conn;
+        }
+    }
+    _pimpl->connections.emplace_back(node_id1, node_id2);
+    return _pimpl->connections.back();
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node_tracker::get_connection(
+  identifier_t node_id1,
+  identifier_t node_id2) const -> node_connection_state {
+    if(_pimpl) {
+        for(auto& conn : _pimpl->connections) {
+            if(conn.between(node_id1, node_id2)) {
+                return conn;
+            }
+        }
     }
     return {};
 }
