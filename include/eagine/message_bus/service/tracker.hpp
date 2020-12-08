@@ -148,32 +148,27 @@ private:
     }
 
     void is_alive(const subscriber_info& info) final {
-        _tracker.notice_instance(info.endpoint_id, info.instance_id)
-          .notice_alive();
+        _tracker.notice_instance(info.endpoint_id, info.instance_id);
     }
 
     void on_subscribed(const subscriber_info& info, message_id msg_id) final {
         _tracker.notice_instance(info.endpoint_id, info.instance_id)
-          .add_subscription(msg_id)
-          .notice_alive();
+          .add_subscription(msg_id);
     }
 
     void on_unsubscribed(const subscriber_info& info, message_id msg_id) final {
         _tracker.notice_instance(info.endpoint_id, info.instance_id)
-          .remove_subscription(msg_id)
-          .notice_alive();
+          .remove_subscription(msg_id);
     }
 
     void not_subscribed(const subscriber_info& info, message_id msg_id) final {
         _tracker.notice_instance(info.endpoint_id, info.instance_id)
-          .remove_subscription(msg_id)
-          .notice_alive();
+          .remove_subscription(msg_id);
     }
 
     void router_appeared(const router_topology_info& info) final {
         _tracker.notice_instance(info.router_id, info.instance_id)
-          .assign(node_kind::router)
-          .notice_alive();
+          .assign(node_kind::router);
         if(info.remote_id) {
             _get_connection(info.router_id, info.remote_id)
               .set_kind(info.connect_kind);
@@ -182,8 +177,7 @@ private:
 
     void bridge_appeared(const bridge_topology_info& info) final {
         _tracker.notice_instance(info.bridge_id, info.instance_id)
-          .assign(node_kind::bridge)
-          .notice_alive();
+          .assign(node_kind::bridge);
         if(info.opposite_id) {
             _get_connection(info.bridge_id, info.opposite_id)
               .set_kind(connection_kind::remote_interprocess);
@@ -192,8 +186,7 @@ private:
 
     void endpoint_appeared(const endpoint_topology_info& info) final {
         _tracker.notice_instance(info.endpoint_id, info.instance_id)
-          .assign(node_kind::endpoint)
-          .notice_alive();
+          .assign(node_kind::endpoint);
     }
 
     void on_endpoint_info_received(
@@ -230,7 +223,7 @@ private:
 
     void
     on_build_info_received(const result_context& ctx, build_info&& info) final {
-        auto& node = _get_node(ctx.source_id());
+        auto& node = _get_node(ctx.source_id()).notice_alive();
         if(auto inst_id{node.instance_id()}) {
             auto& inst = _get_instance(extract(inst_id));
             inst.assign(std::move(info));
@@ -245,7 +238,7 @@ private:
       const result_context& ctx,
       valid_if_positive<span_size_t>&& opt_value) final {
         if(opt_value) {
-            auto& node = _get_node(ctx.source_id());
+            auto& node = _get_node(ctx.source_id()).notice_alive();
             if(auto host_id{node.host_id()}) {
                 auto& host = _get_host(extract(host_id)).notice_alive();
                 host.set_cpu_concurrent_threads(extract(opt_value));
@@ -261,7 +254,7 @@ private:
       const result_context& ctx,
       valid_if_nonnegative<float>&& opt_value) final {
         if(opt_value) {
-            auto& node = _get_node(ctx.source_id());
+            auto& node = _get_node(ctx.source_id()).notice_alive();
             if(auto host_id{node.host_id()}) {
                 auto& host = _get_host(extract(host_id)).notice_alive();
                 host.set_short_average_load(extract(opt_value));
@@ -277,7 +270,7 @@ private:
       const result_context& ctx,
       valid_if_nonnegative<float>&& opt_value) final {
         if(opt_value) {
-            auto& node = _get_node(ctx.source_id());
+            auto& node = _get_node(ctx.source_id()).notice_alive();
             if(auto host_id{node.host_id()}) {
                 auto& host = _get_host(extract(host_id)).notice_alive();
                 host.set_long_average_load(extract(opt_value));
@@ -293,7 +286,7 @@ private:
       const result_context& ctx,
       valid_if_positive<span_size_t>&& opt_value) final {
         if(opt_value) {
-            auto& node = _get_node(ctx.source_id());
+            auto& node = _get_node(ctx.source_id()).notice_alive();
             if(auto host_id{node.host_id()}) {
                 auto& host = _get_host(extract(host_id)).notice_alive();
                 host.set_free_ram_size(extract(opt_value));
@@ -309,7 +302,7 @@ private:
       const result_context& ctx,
       valid_if_positive<span_size_t>&& opt_value) final {
         if(opt_value) {
-            auto& node = _get_node(ctx.source_id());
+            auto& node = _get_node(ctx.source_id()).notice_alive();
             if(auto host_id{node.host_id()}) {
                 auto& host = _get_host(extract(host_id)).notice_alive();
                 host.set_total_ram_size(extract(opt_value));
@@ -325,7 +318,7 @@ private:
       const result_context& ctx,
       valid_if_nonnegative<span_size_t>&& opt_value) final {
         if(opt_value) {
-            auto& node = _get_node(ctx.source_id());
+            auto& node = _get_node(ctx.source_id()).notice_alive();
             if(auto host_id{node.host_id()}) {
                 auto& host = _get_host(extract(host_id)).notice_alive();
                 host.set_free_swap_size(extract(opt_value));
@@ -341,7 +334,7 @@ private:
       const result_context& ctx,
       valid_if_nonnegative<span_size_t>&& opt_value) final {
         if(opt_value) {
-            auto& node = _get_node(ctx.source_id());
+            auto& node = _get_node(ctx.source_id()).notice_alive();
             if(auto host_id{node.host_id()}) {
                 auto& host = _get_host(extract(host_id)).notice_alive();
                 host.set_total_swap_size(extract(opt_value));

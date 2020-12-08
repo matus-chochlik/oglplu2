@@ -249,6 +249,8 @@ public:
         return {_inst_id};
     }
 
+    auto is_alive() const noexcept -> bool;
+
     auto host() const noexcept -> remote_host;
 
     auto build() const noexcept -> optional_reference_wrapper<const build_info>;
@@ -267,6 +269,7 @@ class remote_instance_state : public remote_instance {
 public:
     using remote_instance::remote_instance;
 
+    auto notice_alive() -> remote_instance_state&;
     auto set_host_id(host_id_t) -> remote_instance_state&;
     auto assign(build_info) -> remote_instance_state&;
 };

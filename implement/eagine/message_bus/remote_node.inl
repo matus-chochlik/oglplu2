@@ -12,13 +12,14 @@ namespace eagine::msgbus {
 //------------------------------------------------------------------------------
 class remote_instance_impl {
 public:
+    timeout is_alive{std::chrono::seconds{180}};
     optionally_valid<build_info> bld_info;
     host_id_t host_id{0U};
 };
 //------------------------------------------------------------------------------
 class remote_host_impl {
 public:
-    timeout is_alive{std::chrono::seconds{60}};
+    timeout is_alive{std::chrono::seconds{300}};
     timeout should_query_sensors{std::chrono::seconds{30}};
     std::string hostname;
     span_size_t cpu_concurrent_threads{-1};
@@ -99,6 +100,14 @@ inline auto remote_instance::_impl() noexcept -> remote_instance_impl* {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto remote_instance::is_alive() const noexcept -> bool {
+    if(auto impl{_impl()}) {
+        return !extract(impl).is_alive.is_expired();
+    }
+    return false;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto remote_instance::host() const noexcept -> remote_host {
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
@@ -122,6 +131,14 @@ auto remote_instance::build() const noexcept
 }
 //------------------------------------------------------------------------------
 // remote_instance_state
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_instance_state::notice_alive() -> remote_instance_state& {
+    if(auto impl{_impl()}) {
+        extract(impl).is_alive.reset();
+    }
+    return *this;
+}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto remote_instance_state::set_host_id(host_id_t host_id)
@@ -949,11 +966,13 @@ auto remote_node_tracker::notice_instance(
                 connections.end(),
                 [=](const auto& conn) { return conn.connects(node_id); }),
               connections.end());
+        } else {
+            get_instance(instance_id).notice_alive();
         }
     } else {
         node.set_instance_id(instance_id);
     }
-    return node;
+    return node.notice_alive();
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus
