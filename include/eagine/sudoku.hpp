@@ -14,6 +14,7 @@
 #include <array>
 #include <cstdint>
 #include <functional>
+#include <iomanip>
 #include <ostream>
 #include <random>
 #include <stack>
@@ -36,6 +37,8 @@ public:
     using generator = basic_sudoku_board_generator<S>;
     using board_type = basic_sudoku_board<S>;
 
+    basic_sudoku_board_traits() noexcept = default;
+
     basic_sudoku_board_traits(
       std::array<std::string, glyph_count> glyphs,
       std::array<std::string, S> multi_glyphs,
@@ -57,9 +60,9 @@ public:
       -> std::ostream&;
 
 private:
-    std::array<std::string, glyph_count> _glyphs;
-    std::array<std::string, S> _multi_glyphs;
-    std::string _empty_glyph;
+    std::array<std::string, glyph_count> _glyphs{};
+    std::array<std::string, S> _multi_glyphs{};
+    std::string _empty_glyph{};
 };
 //------------------------------------------------------------------------------
 template <unsigned S>
@@ -542,7 +545,62 @@ public:
 };
 //------------------------------------------------------------------------------
 template <unsigned S>
+class basic_sudoku_tiling;
+//------------------------------------------------------------------------------
+template <unsigned S>
+class basic_sudoku_tile_patch {
+    static_assert(S > 2U);
+    static constexpr const span_size_t M = S * (S - 2);
+
+public:
+    basic_sudoku_tile_patch(span_size_t w, span_size_t h)
+      : _width{w % M ? (1 + w / M) * M : w}
+      , _height{h % M ? (1 + w / M) * M : h} {
+        EAGINE_ASSERT(_width > 0);
+        EAGINE_ASSERT(_height > 0);
+        _cells.resize(std_size(_width * _height));
+    }
+
+    auto width() const noexcept -> span_size_t {
+        return _width;
+    }
+
+    auto height() const noexcept -> span_size_t {
+        return _height;
+    }
+
+    auto get(span_size_t x, span_size_t y) const noexcept -> unsigned {
+        EAGINE_ASSERT((x >= 0) && (x < width()));
+        EAGINE_ASSERT((y >= 0) && (y < height()));
+        return _cells[std_size(y * _width + x)];
+    }
+
+    friend auto
+    operator<<(std::ostream& out, const basic_sudoku_tile_patch& that)
+      -> std::ostream& {
+        std::size_t k = 0;
+        for(span_size_t y = 0; y < that._height; ++y) {
+            for(span_size_t x = 0; x < that._width; ++x) {
+                EAGINE_ASSERT(k < that._cells.size());
+                out << std::setw(3) << unsigned(that._cells[k++]);
+            }
+            out << '\n';
+        }
+        return out;
+    }
+
+private:
+    friend class basic_sudoku_tiling<S>;
+
+    span_size_t _width{0};
+    span_size_t _height{0};
+    std::vector<std::uint8_t> _cells;
+};
+//------------------------------------------------------------------------------
+template <unsigned S>
 class basic_sudoku_tiling : basic_sudoku_solver<S> {
+    static_assert(S > 2U);
+
 public:
     using board_traits = basic_sudoku_board_traits<S>;
     using board_type = basic_sudoku_board<S>;
@@ -558,12 +616,37 @@ public:
         _boards.emplace(std::make_tuple(0, 0), this->solve(std::move(board)));
     }
 
-    auto generate(int xmin, int ymin, int xmax, int ymax) {
+    auto generate(int xmin, int ymin, int xmax, int ymax) -> auto& {
         for(int y = ymin; y <= ymax; ++y) {
             for(int x = xmin; x <= xmax; ++x) {
                 _get(x, y);
             }
         }
+        return *this;
+    }
+
+    auto fill(int xmin, int ymin, basic_sudoku_tile_patch<S>& patch)
+      -> basic_sudoku_tile_patch<S>& {
+        const auto ymax = ymin + patch.height() / (S * (S - 2));
+        const auto xmax = xmin + patch.width() / (S * (S - 2));
+        std::size_t k = 0;
+        for(int y = ymax - 1; y >= ymin; --y) {
+            for(unsigned by = 1; by < S - 1; ++by) {
+                for(unsigned cy = 0; cy < S; ++cy) {
+                    for(int x = xmin; x < xmax; ++x) {
+                        auto& board = _get(x, y);
+                        for(unsigned bx = 1; bx < S - 1; ++bx) {
+                            for(unsigned cx = 0; cx < S; ++cx) {
+                                EAGINE_ASSERT(k < patch._cells.size());
+                                patch._cells[k++] =
+                                  board.get({bx, by, cx, cy}).get_index();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return patch;
     }
 
     auto print(std::ostream& out, int xmin, int ymin, int xmax, int ymax)
