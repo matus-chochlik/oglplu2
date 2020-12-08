@@ -601,7 +601,6 @@ auto remote_node_state::pinged() -> remote_node_state& {
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
         i.should_ping.reset();
-        ++i.pings_sent;
     }
     return *this;
 }
@@ -616,6 +615,7 @@ auto remote_node_state::ping_response(
         i.last_ping_time = age;
         i.ping_bits <<= 1U;
         i.ping_bits |= 1U;
+        ++i.pings_sent;
         ++i.pings_responded;
         if(was_responsive != bool(i.ping_bits)) {
             i.changes |= remote_node_change::started_responding;
@@ -633,6 +633,7 @@ auto remote_node_state::ping_timeout(
         const auto was_responsive = bool(i.ping_bits);
         i.last_ping_timeout = age;
         i.ping_bits <<= 1U;
+        ++i.pings_sent;
         ++i.pings_timeouted;
         if(was_responsive != bool(i.ping_bits)) {
             i.changes |= remote_node_change::stopped_responding;
