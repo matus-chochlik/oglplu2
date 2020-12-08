@@ -18,6 +18,7 @@ public:
 //------------------------------------------------------------------------------
 class remote_host_impl {
 public:
+    timeout is_alive{std::chrono::seconds{60}};
     timeout should_query_sensors{std::chrono::seconds{30}};
     std::string hostname;
     span_size_t cpu_concurrent_threads{-1};
@@ -64,6 +65,10 @@ public:
             pos = _subscriptions.emplace(msg_id, indeterminate).first;
         }
         return pos->second;
+    }
+
+    void clear() noexcept {
+        *this = remote_node_impl();
     }
 
 private:
@@ -156,6 +161,14 @@ inline auto remote_host::_impl() noexcept -> remote_host_impl* {
     } catch(...) {
     }
     return nullptr;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host::is_alive() const noexcept -> bool {
+    if(auto impl{_impl()}) {
+        return !extract(impl).is_alive.is_expired();
+    }
+    return false;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -407,6 +420,14 @@ auto remote_node::is_responsive() const noexcept -> tribool {
 // remote_node_state
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto remote_node_state::clear() noexcept -> remote_node_state& {
+    if(auto impl{_impl()}) {
+        extract(impl).clear();
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto remote_node_state::host_state() const noexcept -> remote_host_state {
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
@@ -544,13 +565,14 @@ auto remote_node_state::should_ping()
         auto& to = extract(impl).should_ping;
         return {
           to.is_expired(),
-          std::chrono::duration_cast<std::chrono::milliseconds>(to.period())};
+          std::chrono::duration_cast<std::chrono::milliseconds>(
+            to.period() * 2)};
     }
     return {false, {}};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto remote_node_state::is_alive() -> remote_node_state& {
+auto remote_node_state::notice_alive() -> remote_node_state& {
     if(auto impl{_impl()}) {
         auto& i = extract(impl);
         const auto was_responsive = bool(i.ping_bits);
@@ -622,6 +644,14 @@ EAGINE_LIB_FUNC
 auto remote_host_state::sensors_queried() -> remote_host_state& {
     if(auto impl{_impl()}) {
         extract(impl).should_query_sensors.reset();
+    }
+    return *this;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_host_state::notice_alive() -> remote_host_state& {
+    if(auto impl{_impl()}) {
+        extract(impl).is_alive.reset();
     }
     return *this;
 }
@@ -729,7 +759,14 @@ EAGINE_LIB_FUNC
 auto node_connection_state::set_kind(connection_kind kind)
   -> node_connection_state& {
     if(auto impl{_impl()}) {
-        extract(impl).kind = kind;
+        auto& i = extract(impl);
+        if(i.kind != kind) {
+            i.kind = kind;
+            _tracker.get_node(_id1).add_change(
+              remote_node_change::connection_info);
+            _tracker.get_node(_id2).add_change(
+              remote_node_change::connection_info);
+        }
     }
     return *this;
 }
@@ -780,8 +817,16 @@ auto remote_node_tracker::_get_hosts() noexcept
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto remote_node_tracker::_get_connections() noexcept
+  -> std::vector<node_connection_state>& {
+    EAGINE_ASSERT(_pimpl);
+    return _pimpl->connections;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto remote_node_tracker::get_node(identifier_t node_id) -> remote_node_state& {
     EAGINE_ASSERT(_pimpl);
+    EAGINE_ASSERT(node_id != 0U);
     auto pos = _pimpl->nodes.find(node_id);
     if(pos == _pimpl->nodes.end()) {
         pos = _pimpl->nodes.emplace(node_id, node_id, _pimpl).first;
@@ -843,11 +888,13 @@ auto remote_node_tracker::get_connection(
   identifier_t node_id2) -> node_connection_state& {
     EAGINE_ASSERT(_pimpl);
     for(auto& conn : _pimpl->connections) {
-        if(conn.between(node_id1, node_id2)) {
+        if(conn.is_between(node_id1, node_id2)) {
             return conn;
         }
     }
-    _pimpl->connections.emplace_back(node_id1, node_id2);
+    _pimpl->connections.emplace_back(node_id1, node_id2, _pimpl);
+    get_node(node_id1).add_change(remote_node_change::connection_info);
+    get_node(node_id2).add_change(remote_node_change::connection_info);
     return _pimpl->connections.back();
 }
 //------------------------------------------------------------------------------
@@ -857,12 +904,37 @@ auto remote_node_tracker::get_connection(
   identifier_t node_id2) const -> node_connection_state {
     if(_pimpl) {
         for(auto& conn : _pimpl->connections) {
-            if(conn.between(node_id1, node_id2)) {
+            if(conn.is_between(node_id1, node_id2)) {
                 return conn;
             }
         }
     }
     return {};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto remote_node_tracker::notice_instance(
+  identifier_t node_id,
+  process_instance_id_t instance_id) -> remote_node_state& {
+    auto& node = get_node(node_id);
+    if(const auto node_inst{node.instance_id()}) {
+        // if node instance changed
+        if(extract(node_inst) != instance_id) {
+            // clear the node state
+            node.clear();
+            // remove connection info
+            auto& connections = _get_connections();
+            connections.erase(
+              std::remove_if(
+                connections.begin(),
+                connections.end(),
+                [=](const auto& conn) { return conn.connects(node_id); }),
+              connections.end());
+        }
+    } else {
+        node.set_instance_id(instance_id);
+    }
+    return node;
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::msgbus

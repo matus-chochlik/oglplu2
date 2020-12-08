@@ -43,13 +43,14 @@ enum class remote_node_change : std::uint16_t {
     stopped_responding = 1U << 8U,
     hardware_config = 1U << 9U,
     sensor_values = 1U << 10U,
-    instance_id = 1U << 11U
+    connection_info = 1U << 11U,
+    instance_id = 1U << 12U
 };
 //------------------------------------------------------------------------------
 template <typename Selector>
 constexpr auto
 enumerator_mapping(identity<remote_node_change>, Selector) noexcept {
-    return enumerator_map_type<remote_node_change, 12>{
+    return enumerator_map_type<remote_node_change, 13>{
       {{"kind", remote_node_change::kind},
        {"host_id", remote_node_change::host_id},
        {"host_info", remote_node_change::host_info},
@@ -61,6 +62,7 @@ enumerator_mapping(identity<remote_node_change>, Selector) noexcept {
        {"stopped_responding", remote_node_change::stopped_responding},
        {"hardware_config", remote_node_change::hardware_config},
        {"sensor_values", remote_node_change::sensor_values},
+       {"connection_info", remote_node_change::connection_info},
        {"instance_id", remote_node_change::instance_id}}};
 }
 //------------------------------------------------------------------------------
@@ -119,6 +121,9 @@ public:
     auto get_connection(identifier_t node_id1, identifier_t node_id2) const
       -> node_connection_state;
 
+    auto notice_instance(identifier_t node_id, process_instance_id_t)
+      -> remote_node_state&;
+
     template <typename Function>
     void for_each_host(Function func);
 
@@ -141,6 +146,7 @@ public:
 private:
     auto _get_nodes() noexcept -> flat_map<identifier_t, remote_node_state>&;
     auto _get_hosts() noexcept -> flat_map<host_id_t, remote_host_state>&;
+    auto _get_connections() noexcept -> std::vector<node_connection_state>&;
     std::shared_ptr<remote_node_tracker_impl> _pimpl{};
 };
 //------------------------------------------------------------------------------
@@ -157,6 +163,8 @@ public:
     auto id() const noexcept -> valid_if_not_zero<host_id_t> {
         return {_host_id};
     }
+
+    auto is_alive() const noexcept -> bool;
 
     auto name() const noexcept -> valid_if_not_empty<string_view>;
 
@@ -201,6 +209,7 @@ public:
     auto should_query_sensors() -> bool;
     auto sensors_queried() -> remote_host_state&;
 
+    auto notice_alive() -> remote_host_state&;
     auto set_hostname(std::string) -> remote_host_state&;
     auto set_cpu_concurrent_threads(span_size_t) -> remote_host_state&;
     auto set_short_average_load(float) -> remote_host_state&;
@@ -303,6 +312,8 @@ class remote_node_state : public remote_node {
 public:
     using remote_node::remote_node;
 
+    auto clear() noexcept -> remote_node_state&;
+
     auto host_state() const noexcept -> remote_host_state;
 
     auto changes() -> remote_node_changes;
@@ -318,7 +329,7 @@ public:
     auto remove_subscription(message_id) -> remote_node_state&;
 
     auto should_ping() -> std::tuple<bool, std::chrono::milliseconds>;
-    auto is_alive() -> remote_node_state&;
+    auto notice_alive() -> remote_node_state&;
     auto pinged() -> remote_node_state&;
     auto ping_response(message_sequence_t, std::chrono::microseconds age)
       -> remote_node_state&;
@@ -329,15 +340,23 @@ public:
 class node_connection {
 public:
     node_connection() noexcept = default;
-    node_connection(identifier_t id1, identifier_t id2) noexcept
+    node_connection(
+      identifier_t id1,
+      identifier_t id2,
+      remote_node_tracker tracker) noexcept
       : _id1{id1}
-      , _id2{id2} {}
+      , _id2{id2}
+      , _tracker{std::move(tracker)} {}
 
     explicit operator bool() const noexcept {
         return bool(_pimpl);
     }
 
-    auto between(identifier_t id1, identifier_t id2) const noexcept {
+    auto connects(identifier_t id) const noexcept {
+        return (_id1 == id) || (_id2 == id);
+    }
+
+    auto is_between(identifier_t id1, identifier_t id2) const noexcept {
         return ((_id1 == id1) && (_id2 == id2)) ||
                ((_id1 == id2) && (_id2 == id1));
     }
@@ -345,11 +364,12 @@ public:
     auto kind() const noexcept -> connection_kind;
 
 private:
-    identifier_t _id1{0U};
-    identifier_t _id2{0U};
     std::shared_ptr<node_connection_impl> _pimpl{};
 
 protected:
+    identifier_t _id1{0U};
+    identifier_t _id2{0U};
+    remote_node_tracker _tracker{nothing};
     auto _impl() const noexcept -> const node_connection_impl*;
     auto _impl() noexcept -> node_connection_impl*;
 };

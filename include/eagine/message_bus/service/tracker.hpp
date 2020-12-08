@@ -148,66 +148,67 @@ private:
     }
 
     void is_alive(const subscriber_info& info) final {
-        _get_node(info.endpoint_id).set_instance_id(info.instance_id).is_alive();
+        _tracker.notice_instance(info.endpoint_id, info.instance_id)
+          .notice_alive();
     }
 
     void on_subscribed(const subscriber_info& info, message_id msg_id) final {
-        _get_node(info.endpoint_id)
-          .set_instance_id(info.instance_id)
+        _tracker.notice_instance(info.endpoint_id, info.instance_id)
           .add_subscription(msg_id)
-          .is_alive();
+          .notice_alive();
     }
 
     void on_unsubscribed(const subscriber_info& info, message_id msg_id) final {
-        _get_node(info.endpoint_id)
-          .set_instance_id(info.instance_id)
+        _tracker.notice_instance(info.endpoint_id, info.instance_id)
           .remove_subscription(msg_id)
-          .is_alive();
+          .notice_alive();
     }
 
     void not_subscribed(const subscriber_info& info, message_id msg_id) final {
-        _get_node(info.endpoint_id)
-          .set_instance_id(info.instance_id)
+        _tracker.notice_instance(info.endpoint_id, info.instance_id)
           .remove_subscription(msg_id)
-          .is_alive();
+          .notice_alive();
     }
 
     void router_appeared(const router_topology_info& info) final {
-        _get_node(info.router_id)
-          .set_instance_id(info.instance_id)
+        _tracker.notice_instance(info.router_id, info.instance_id)
           .assign(node_kind::router)
-          .is_alive();
-        _get_connection(info.router_id, info.remote_id)
-          .set_kind(info.connect_kind);
+          .notice_alive();
+        if(info.remote_id) {
+            _get_connection(info.router_id, info.remote_id)
+              .set_kind(info.connect_kind);
+        }
     }
 
     void bridge_appeared(const bridge_topology_info& info) final {
-        _get_node(info.bridge_id)
-          .set_instance_id(info.instance_id)
+        _tracker.notice_instance(info.bridge_id, info.instance_id)
           .assign(node_kind::bridge)
-          .is_alive();
-        _get_connection(info.bridge_id, info.opposite_id)
-          .set_kind(connection_kind::remote_interprocess);
+          .notice_alive();
+        if(info.opposite_id) {
+            _get_connection(info.bridge_id, info.opposite_id)
+              .set_kind(connection_kind::remote_interprocess);
+        }
     }
 
     void endpoint_appeared(const endpoint_topology_info& info) final {
-        _get_node(info.endpoint_id)
-          .set_instance_id(info.instance_id)
+        _tracker.notice_instance(info.endpoint_id, info.instance_id)
           .assign(node_kind::endpoint)
-          .is_alive();
+          .notice_alive();
     }
 
     void on_endpoint_info_received(
       const result_context& ctx,
       endpoint_info&& info) final {
-        _get_node(ctx.source_id()).assign(std::move(info)).is_alive();
+        _get_node(ctx.source_id()).assign(std::move(info)).notice_alive();
     }
 
     void on_host_id_received(
       const result_context& ctx,
       valid_if_positive<host_id_t>&& host_id) final {
         if(host_id) {
-            _get_node(ctx.source_id()).set_host_id(extract(host_id)).is_alive();
+            _get_node(ctx.source_id())
+              .set_host_id(extract(host_id))
+              .notice_alive();
         }
     }
 
@@ -218,7 +219,7 @@ private:
             auto& node = _get_node(ctx.source_id());
             if(auto host_id{node.host_id()}) {
                 auto& host = _get_host(extract(host_id));
-                host.set_hostname(std::move(extract(hostname)));
+                host.set_hostname(std::move(extract(hostname))).notice_alive();
                 _tracker.for_each_host_node_state(
                   extract(host_id), [&](auto, auto& host_node) {
                       host_node.add_change(remote_node_change::host_info);
@@ -246,7 +247,7 @@ private:
         if(opt_value) {
             auto& node = _get_node(ctx.source_id());
             if(auto host_id{node.host_id()}) {
-                auto& host = _get_host(extract(host_id));
+                auto& host = _get_host(extract(host_id)).notice_alive();
                 host.set_cpu_concurrent_threads(extract(opt_value));
                 _tracker.for_each_host_node_state(
                   extract(host_id), [&](auto, auto& host_node) {
@@ -262,7 +263,7 @@ private:
         if(opt_value) {
             auto& node = _get_node(ctx.source_id());
             if(auto host_id{node.host_id()}) {
-                auto& host = _get_host(extract(host_id));
+                auto& host = _get_host(extract(host_id)).notice_alive();
                 host.set_short_average_load(extract(opt_value));
                 _tracker.for_each_host_node_state(
                   extract(host_id), [&](auto, auto& host_node) {
@@ -278,7 +279,7 @@ private:
         if(opt_value) {
             auto& node = _get_node(ctx.source_id());
             if(auto host_id{node.host_id()}) {
-                auto& host = _get_host(extract(host_id));
+                auto& host = _get_host(extract(host_id)).notice_alive();
                 host.set_long_average_load(extract(opt_value));
                 _tracker.for_each_host_node_state(
                   extract(host_id), [&](auto, auto& host_node) {
@@ -294,7 +295,7 @@ private:
         if(opt_value) {
             auto& node = _get_node(ctx.source_id());
             if(auto host_id{node.host_id()}) {
-                auto& host = _get_host(extract(host_id));
+                auto& host = _get_host(extract(host_id)).notice_alive();
                 host.set_free_ram_size(extract(opt_value));
                 _tracker.for_each_host_node_state(
                   extract(host_id), [&](auto, auto& host_node) {
@@ -310,7 +311,7 @@ private:
         if(opt_value) {
             auto& node = _get_node(ctx.source_id());
             if(auto host_id{node.host_id()}) {
-                auto& host = _get_host(extract(host_id));
+                auto& host = _get_host(extract(host_id)).notice_alive();
                 host.set_total_ram_size(extract(opt_value));
                 _tracker.for_each_host_node_state(
                   extract(host_id), [&](auto, auto& host_node) {
@@ -326,7 +327,7 @@ private:
         if(opt_value) {
             auto& node = _get_node(ctx.source_id());
             if(auto host_id{node.host_id()}) {
-                auto& host = _get_host(extract(host_id));
+                auto& host = _get_host(extract(host_id)).notice_alive();
                 host.set_free_swap_size(extract(opt_value));
                 _tracker.for_each_host_node_state(
                   extract(host_id), [&](auto, auto& host_node) {
@@ -342,7 +343,7 @@ private:
         if(opt_value) {
             auto& node = _get_node(ctx.source_id());
             if(auto host_id{node.host_id()}) {
-                auto& host = _get_host(extract(host_id));
+                auto& host = _get_host(extract(host_id)).notice_alive();
                 host.set_total_swap_size(extract(opt_value));
                 _tracker.for_each_host_node_state(
                   extract(host_id), [&](auto, auto& host_node) {
