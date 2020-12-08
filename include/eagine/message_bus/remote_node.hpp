@@ -99,6 +99,7 @@ class remote_node_state;
 class node_connection_impl;
 class node_connection;
 class node_connection_state;
+class node_connections;
 //------------------------------------------------------------------------------
 class remote_node_tracker {
 public:
@@ -143,10 +144,21 @@ public:
     template <typename Function>
     void for_each_host_node_state(host_id_t host_id, Function func);
 
+    template <typename Function>
+    void for_each_connection(Function func);
+
+    template <typename Function>
+    void for_each_connection(Function func) const;
+
 private:
+    friend class node_connections;
+
     auto _get_nodes() noexcept -> flat_map<identifier_t, remote_node_state>&;
     auto _get_hosts() noexcept -> flat_map<host_id_t, remote_host_state>&;
     auto _get_connections() noexcept -> std::vector<node_connection_state>&;
+    auto _get_connections() const noexcept
+      -> const std::vector<node_connection_state>&;
+
     std::shared_ptr<remote_node_tracker_impl> _pimpl{};
 };
 //------------------------------------------------------------------------------
@@ -295,8 +307,9 @@ public:
     auto ping_success_rate() const noexcept -> valid_if_between_0_1<float>;
     auto is_responsive() const noexcept -> tribool;
 
-    auto instance() const noexcept -> remote_instance;
     auto host() const noexcept -> remote_host;
+    auto instance() const noexcept -> remote_instance;
+    auto connections() const noexcept -> node_connections;
 
 private:
     identifier_t _node_id{0U};
@@ -356,9 +369,20 @@ public:
         return (_id1 == id) || (_id2 == id);
     }
 
-    auto is_between(identifier_t id1, identifier_t id2) const noexcept {
+    auto connects(identifier_t id1, identifier_t id2) const noexcept {
         return ((_id1 == id1) && (_id2 == id2)) ||
                ((_id1 == id2) && (_id2 == id1));
+    }
+
+    auto opposite_id(identifier_t id) const noexcept
+      -> valid_if_not_zero<identifier_t> {
+        if(_id1 == id) {
+            return {_id2};
+        }
+        if(_id2 == id) {
+            return {_id1};
+        }
+        return {0U};
     }
 
     auto kind() const noexcept -> connection_kind;
@@ -381,31 +405,74 @@ public:
     auto set_kind(connection_kind) -> node_connection_state&;
 };
 //------------------------------------------------------------------------------
+class node_connections {
+public:
+    node_connections(
+      identifier_t origin_id,
+      std::vector<identifier_t> remote_ids,
+      remote_node_tracker tracker) noexcept
+      : _origin_id{origin_id}
+      , _remote_ids{std::move(remote_ids)}
+      , _tracker{std::move(tracker)} {}
+
+    auto origin() -> remote_node {
+        return _tracker.get_node(_origin_id);
+    }
+
+    auto count() const noexcept -> span_size_t {
+        return span_size(_remote_ids.size());
+    }
+
+    auto get(span_size_t index) -> node_connection {
+        EAGINE_ASSERT((index >= 0) && (index < count()));
+        return _tracker.get_connection(
+          _origin_id, _remote_ids[std_size(index)]);
+    }
+
+    auto remote(span_size_t index) -> remote_node {
+        EAGINE_ASSERT((index >= 0) && (index < count()));
+        return _tracker.get_node(_remote_ids[std_size(index)]);
+    }
+
+private:
+    identifier_t _origin_id{0U};
+    std::vector<identifier_t> _remote_ids{};
+    remote_node_tracker _tracker{nothing};
+};
+//------------------------------------------------------------------------------
 template <typename Function>
 void remote_node_tracker::for_each_host(Function func) {
-    for(auto& [host_id, host] : _get_hosts()) {
-        func(host_id, static_cast<remote_host&>(host));
+    if(EAGINE_LIKELY(_pimpl)) {
+        for(auto& [host_id, host] : _get_hosts()) {
+            func(host_id, static_cast<remote_host&>(host));
+        }
     }
 }
 //------------------------------------------------------------------------------
 template <typename Function>
 void remote_node_tracker::for_each_host_state(Function func) {
-    for(auto& [host_id, host] : _get_hosts()) {
-        func(host_id, host);
+    if(EAGINE_LIKELY(_pimpl)) {
+        for(auto& [host_id, host] : _get_hosts()) {
+            func(host_id, host);
+        }
     }
 }
 //------------------------------------------------------------------------------
 template <typename Function>
 void remote_node_tracker::for_each_node(Function func) {
-    for(auto& [node_id, node] : _get_nodes()) {
-        func(node_id, static_cast<remote_node&>(node));
+    if(EAGINE_LIKELY(_pimpl)) {
+        for(auto& [node_id, node] : _get_nodes()) {
+            func(node_id, static_cast<remote_node&>(node));
+        }
     }
 }
 //------------------------------------------------------------------------------
 template <typename Function>
 void remote_node_tracker::for_each_node_state(Function func) {
-    for(auto& [node_id, node] : _get_nodes()) {
-        func(node_id, node);
+    if(EAGINE_LIKELY(_pimpl)) {
+        for(auto& [node_id, node] : _get_nodes()) {
+            func(node_id, node);
+        }
     }
 }
 //------------------------------------------------------------------------------
@@ -413,9 +480,11 @@ template <typename Function>
 void remote_node_tracker::for_each_instance_node_state(
   process_instance_id_t inst_id,
   Function func) {
-    for(auto& [node_id, node] : _get_nodes()) {
-        if(node.instance_id() == inst_id) {
-            func(node_id, node);
+    if(EAGINE_LIKELY(_pimpl)) {
+        for(auto& [node_id, node] : _get_nodes()) {
+            if(node.instance_id() == inst_id) {
+                func(node_id, node);
+            }
         }
     }
 }
@@ -424,9 +493,29 @@ template <typename Function>
 void remote_node_tracker::for_each_host_node_state(
   host_id_t host_id,
   Function func) {
-    for(auto& [node_id, node] : _get_nodes()) {
-        if(node.host_id() == host_id) {
-            func(node_id, node);
+    if(EAGINE_LIKELY(_pimpl)) {
+        for(auto& [node_id, node] : _get_nodes()) {
+            if(node.host_id() == host_id) {
+                func(node_id, node);
+            }
+        }
+    }
+}
+//------------------------------------------------------------------------------
+template <typename Function>
+void remote_node_tracker::for_each_connection(Function func) {
+    if(EAGINE_LIKELY(_pimpl)) {
+        for(auto& conn : _get_connections()) {
+            func(conn);
+        }
+    }
+}
+//------------------------------------------------------------------------------
+template <typename Function>
+void remote_node_tracker::for_each_connection(Function func) const {
+    if(EAGINE_LIKELY(_pimpl)) {
+        for(const auto& conn : _get_connections()) {
+            func(conn);
         }
     }
 }

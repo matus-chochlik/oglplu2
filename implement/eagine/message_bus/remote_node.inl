@@ -370,6 +370,17 @@ auto remote_node::instance() const noexcept -> remote_instance {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto remote_node::connections() const noexcept -> node_connections {
+    std::vector<identifier_t> remote_ids;
+    _tracker.for_each_connection([&](const auto& conn) {
+        if(auto remote_id{conn.opposite_id(_node_id)}) {
+            remote_ids.push_back(extract(remote_id));
+        }
+    });
+    return {_node_id, std::move(remote_ids), _tracker};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto remote_node::subscribes_to(message_id msg_id) const noexcept -> tribool {
     if(auto impl{_impl()}) {
         return extract(impl).get_sub(msg_id);
@@ -824,6 +835,13 @@ auto remote_node_tracker::_get_connections() noexcept
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto remote_node_tracker::_get_connections() const noexcept
+  -> const std::vector<node_connection_state>& {
+    EAGINE_ASSERT(_pimpl);
+    return _pimpl->connections;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto remote_node_tracker::get_node(identifier_t node_id) -> remote_node_state& {
     EAGINE_ASSERT(_pimpl);
     EAGINE_ASSERT(node_id != 0U);
@@ -888,7 +906,7 @@ auto remote_node_tracker::get_connection(
   identifier_t node_id2) -> node_connection_state& {
     EAGINE_ASSERT(_pimpl);
     for(auto& conn : _pimpl->connections) {
-        if(conn.is_between(node_id1, node_id2)) {
+        if(conn.connects(node_id1, node_id2)) {
             return conn;
         }
     }
@@ -904,7 +922,7 @@ auto remote_node_tracker::get_connection(
   identifier_t node_id2) const -> node_connection_state {
     if(_pimpl) {
         for(auto& conn : _pimpl->connections) {
-            if(conn.is_between(node_id1, node_id2)) {
+            if(conn.connects(node_id1, node_id2)) {
                 return conn;
             }
         }
