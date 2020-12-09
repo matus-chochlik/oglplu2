@@ -46,6 +46,7 @@ set(EAGINE_LIB_SOURCES
 	value_tree_filesystem.cpp
 	value_tree_wrappers.cpp
 	watchdog.cpp
+	application_context.cpp
 )
 
 add_library(
