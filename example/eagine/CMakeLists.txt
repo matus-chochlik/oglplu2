@@ -31,6 +31,12 @@ function(eagine_example_common EXAMPLE_NAME)
 	eagine_install_example(eagine-${EXAMPLE_NAME})
 endfunction()
 
+file(GLOB DEVEL_EXAMPLES "devel-*.cpp")
+foreach(DEVEL_EXAMPLE ${DEVEL_EXAMPLES})
+	get_filename_component(EXAMPLE_NAME ${DEVEL_EXAMPLE} NAME_WE)
+	eagine_example_common(${EXAMPLE_NAME})
+endforeach()
+
 eagine_example_common(valgrind)
 eagine_example_common(array_size)
 eagine_example_common(integer_hash)
