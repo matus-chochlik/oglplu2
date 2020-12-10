@@ -21,8 +21,13 @@ auto establish(main_ctx&) -> std::unique_ptr<launchpad>;
 
 class execution_context : public main_ctx_object {
 public:
-    execution_context(main_ctx_parent parent)
-      : main_ctx_object(EAGINE_ID(appExecCtx), parent) {}
+    execution_context(main_ctx_parent parent) noexcept
+      : main_ctx_object(EAGINE_ID(AppExecCtx), parent)
+      , _options{*this} {}
+
+    auto options() const noexcept -> const launch_options& {
+        return _options;
+    }
 
     auto prepare(std::unique_ptr<launchpad> pad) -> execution_context&;
     auto keep_running() noexcept -> bool;
