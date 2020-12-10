@@ -20,7 +20,7 @@ function(eagine_example_common EXAMPLE_NAME)
 	add_dependencies(eagine-examples eagine-${EXAMPLE_NAME})
 	target_link_libraries(
 		eagine-${EXAMPLE_NAME}
-		PUBLIC eagine
+		PUBLIC eagine eagine-application
 		PRIVATE ${ARGN}
 	)
 
