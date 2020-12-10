@@ -13,5 +13,6 @@
 
 #include "implement.inl"
 #include <eagine/application/context.hpp>
+#include <eagine/application/opengl_glfw3.hpp>
 #include "epilogue.inl"
 // clang-format on

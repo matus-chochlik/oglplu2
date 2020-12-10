@@ -11,6 +11,7 @@
 #define EAGINE_APPLICATION_OPTIONS_HPP
 
 #include "../main_ctx_object.hpp"
+#include "../string_span.hpp"
 #include "../valid_if/between.hpp"
 #include "../valid_if/nonnegative.hpp"
 #include "../valid_if/one_of.hpp"
@@ -22,6 +23,31 @@ class launch_options : public main_ctx_object {
 public:
     launch_options(main_ctx_parent parent) noexcept
       : main_ctx_object(EAGINE_ID(LaunchOpts), parent) {}
+
+    auto application_title() const noexcept -> string_view {
+        if(_app_title.empty()) {
+            return main_context().app_name();
+        }
+        return {_app_title};
+    }
+
+    using valid_surface_size = valid_if_positive<int>;
+
+    auto surface_size(
+      const valid_surface_size& width,
+      const valid_surface_size& height) noexcept -> auto& {
+        _surface_width = extract(width);
+        _surface_height = extract(height);
+        return *this;
+    }
+
+    auto surface_width() const noexcept {
+        return _surface_width;
+    }
+
+    auto surface_height() const noexcept {
+        return _surface_height;
+    }
 
     using valid_samples = valid_if_nonnegative<int>;
     auto samples(const valid_samples& value) noexcept -> auto& {
@@ -94,6 +120,14 @@ public:
     }
 
 private:
+    std::string _app_title;
+
+    int _surface_width{
+      cfg_extr<valid_surface_size>("application.visual.surface.width", 1280)};
+
+    int _surface_height{
+      cfg_extr<valid_surface_size>("application.visual.surface.height", 800)};
+
     int _samples{cfg_extr<valid_samples>("application.visual.samples", 0)};
 
     int _color_bits{
