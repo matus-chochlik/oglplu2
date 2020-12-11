@@ -14,6 +14,7 @@
 #include "../main_ctx_object.hpp"
 #include "interface.hpp"
 #include "options.hpp"
+#include "state_view.hpp"
 
 namespace eagine::application {
 //------------------------------------------------------------------------------

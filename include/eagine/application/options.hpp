@@ -141,6 +141,13 @@ private:
 
     int _stencil_bits{
       cfg_extr<valid_stencil_bits>("application.video.stencil_bits", 0)};
+
+    bool _requires_input{cfg_init("application.input.required", false)};
+    bool _requires_video{cfg_init("application.video.required", true)};
+    bool _requires_audio{cfg_init("application.audio.required", false)};
+    bool _gl_debug_context{cfg_init("application.video.opengl.debug", false)};
+    bool _gl_compat_context{
+      cfg_init("application.video.opengl.compatibility", false)};
 };
 
 } // namespace eagine::application

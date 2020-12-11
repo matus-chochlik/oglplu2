@@ -6,7 +6,9 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+
 #include <eagine/application/opengl_glfw3.hpp>
+#include <eagine/application/state.hpp>
 #include <eagine/branch_predict.hpp>
 
 namespace eagine::application {
@@ -31,10 +33,13 @@ auto execution_context::prepare(std::unique_ptr<launchpad> pad)
                       .arg(EAGINE_ID(name), hmi_ctx->implementation_name());
                 }
             }
+
             if(_hmi_contexts.empty()) {
                 log_error("there are no available HMI contexts");
+                _exec_result = 4;
             } else if(!(_app = pad->launch(*this, _options))) {
                 log_error("failed to launch application");
+                _exec_result = 3;
             }
         } else {
             log_error("failed to setup application launchpad");
