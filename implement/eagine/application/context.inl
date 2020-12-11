@@ -6,16 +6,34 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/application/opengl_glfw3.hpp>
 #include <eagine/branch_predict.hpp>
 
 namespace eagine::application {
+//------------------------------------------------------------------------------
+auto make_all_hmi_contexts() -> std::array<std::shared_ptr<hmi_context>, 1> {
+    return {{make_glfw3_context()}};
+}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto execution_context::prepare(std::unique_ptr<launchpad> pad)
   -> execution_context& {
     if(pad) {
         if(pad->setup(main_context(), _options)) {
-            if(!(_app = pad->launch(*this, _options))) {
+
+            for(auto& hmi_ctx : make_all_hmi_contexts()) {
+                if(hmi_ctx->is_implemented()) {
+                    log_debug("using ${name} HMI context")
+                      .arg(EAGINE_ID(name), hmi_ctx->implementation_name());
+                    _hmi_contexts.emplace_back(std::move(hmi_ctx));
+                } else {
+                    log_debug("${name} HMI context is not implemented")
+                      .arg(EAGINE_ID(name), hmi_ctx->implementation_name());
+                }
+            }
+            if(_hmi_contexts.empty()) {
+                log_error("there are no available HMI contexts");
+            } else if(!(_app = pad->launch(*this, _options))) {
                 log_error("failed to launch application");
             }
         } else {

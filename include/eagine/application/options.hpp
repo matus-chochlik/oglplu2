@@ -123,24 +123,24 @@ private:
     std::string _app_title;
 
     int _surface_width{
-      cfg_extr<valid_surface_size>("application.visual.surface.width", 1280)};
+      cfg_extr<valid_surface_size>("application.video.surface.width", 1280)};
 
     int _surface_height{
-      cfg_extr<valid_surface_size>("application.visual.surface.height", 800)};
+      cfg_extr<valid_surface_size>("application.video.surface.height", 800)};
 
-    int _samples{cfg_extr<valid_samples>("application.visual.samples", 0)};
+    int _samples{cfg_extr<valid_samples>("application.video.samples", 0)};
 
     int _color_bits{
-      cfg_extr<valid_color_bits>("application.visual.color_bits", 8)};
+      cfg_extr<valid_color_bits>("application.video.color_bits", 8)};
 
     int _alpha_bits{
-      cfg_extr<valid_alpha_bits>("application.visual.alpha_bits", 0)};
+      cfg_extr<valid_alpha_bits>("application.video.alpha_bits", 0)};
 
     int _depth_bits{
-      cfg_extr<valid_depth_bits>("application.visual.depth_bits", 24)};
+      cfg_extr<valid_depth_bits>("application.video.depth_bits", 24)};
 
     int _stencil_bits{
-      cfg_extr<valid_stencil_bits>("application.visual.stencil_bits", 0)};
+      cfg_extr<valid_stencil_bits>("application.video.stencil_bits", 0)};
 };
 
 } // namespace eagine::application
