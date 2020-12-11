@@ -15,7 +15,7 @@ auto execution_context::prepare(std::unique_ptr<launchpad> pad)
   -> execution_context& {
     if(pad) {
         if(pad->setup(main_context(), _options)) {
-            if(!(_app = pad->launch(main_context(), _options))) {
+            if(!(_app = pad->launch(*this, _options))) {
                 log_error("failed to launch application");
             }
         } else {
@@ -30,7 +30,7 @@ auto execution_context::prepare(std::unique_ptr<launchpad> pad)
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto execution_context::keep_running() noexcept -> bool {
+auto execution_context::is_running() noexcept -> bool {
     if(EAGINE_LIKELY(_app)) {
         return !_app->is_done();
     }
@@ -38,8 +38,27 @@ auto execution_context::keep_running() noexcept -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto execution_context::update() noexcept -> bool {
-    return true;
+void execution_context::stop_running() noexcept {
+    EAGINE_ASSERT(_app);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void execution_context::update() noexcept {
+    EAGINE_ASSERT(_app);
+    _app->update(*this);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void execution_context::surface_size(int width, int height) {
+    EAGINE_MAYBE_UNUSED(width);
+    EAGINE_MAYBE_UNUSED(height);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void execution_context::pointer_position(float x, float y, int index) {
+    EAGINE_MAYBE_UNUSED(x);
+    EAGINE_MAYBE_UNUSED(y);
+    EAGINE_MAYBE_UNUSED(index);
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::application

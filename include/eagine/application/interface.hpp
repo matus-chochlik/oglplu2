@@ -16,22 +16,51 @@
 
 namespace eagine::application {
 class execution_context;
+//------------------------------------------------------------------------------
+enum class video_context_kind { opengl, opengl_es3, vulkan };
+//------------------------------------------------------------------------------
+struct video_context {
+    video_context() noexcept = default;
+    video_context(video_context&&) = delete;
+    video_context(const video_context&) = delete;
+    auto operator=(video_context&&) = delete;
+    auto operator=(const video_context&) = delete;
+    virtual ~video_context() noexcept = default;
 
-struct opengl_context {
-    opengl_context() noexcept = default;
-    opengl_context(opengl_context&&) = delete;
-    opengl_context(const opengl_context&) = delete;
-    auto operator=(opengl_context&&) = delete;
-    auto operator=(const opengl_context&) = delete;
-    virtual ~opengl_context() noexcept = default;
+    virtual auto video_kind() const noexcept -> video_context_kind = 0;
+
+    virtual void begin_frame(execution_context&) = 0;
+    virtual void commit_frame(execution_context&) = 0;
+};
+//------------------------------------------------------------------------------
+struct input_context {
+    input_context() noexcept = default;
+    input_context(input_context&&) = delete;
+    input_context(const input_context&) = delete;
+    auto operator=(input_context&&) = delete;
+    auto operator=(const input_context&) = delete;
+    virtual ~input_context() noexcept = default;
+};
+//------------------------------------------------------------------------------
+struct hmi_context {
+    hmi_context() noexcept = default;
+    hmi_context(hmi_context&&) = delete;
+    hmi_context(const hmi_context&) = delete;
+    auto operator=(hmi_context&&) = delete;
+    auto operator=(const hmi_context&) = delete;
+    virtual ~hmi_context() noexcept = default;
 
     virtual auto is_implemented() const noexcept -> bool = 0;
     virtual auto implementation_name() const noexcept -> string_view = 0;
 
     virtual auto initialize(execution_context&) -> bool = 0;
+    virtual void update(execution_context&) = 0;
     virtual void cleanup(execution_context&) = 0;
-};
 
+    virtual auto video() -> std::shared_ptr<video_context> = 0;
+    virtual auto input() -> std::shared_ptr<input_context> = 0;
+};
+//------------------------------------------------------------------------------
 struct application {
     application() noexcept = default;
     application(application&&) = delete;
@@ -41,8 +70,9 @@ struct application {
     virtual ~application() noexcept = default;
 
     virtual auto is_done() noexcept -> bool = 0;
+    virtual void update(execution_context&) noexcept = 0;
 };
-
+//------------------------------------------------------------------------------
 struct launchpad {
     launchpad() noexcept = default;
     launchpad(launchpad&&) = delete;
@@ -55,10 +85,10 @@ struct launchpad {
         return true;
     }
 
-    virtual auto launch(main_ctx&, const launch_options&)
+    virtual auto launch(execution_context&, const launch_options&)
       -> std::unique_ptr<application> = 0;
 };
-
+//------------------------------------------------------------------------------
 } // namespace eagine::application
 
 #endif

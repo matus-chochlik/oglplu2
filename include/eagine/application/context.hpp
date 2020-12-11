@@ -16,9 +16,8 @@
 #include "options.hpp"
 
 namespace eagine::application {
-
-auto establish(main_ctx&) -> std::unique_ptr<launchpad>;
-
+//------------------------------------------------------------------------------
+class execution_context_impl;
 class execution_context : public main_ctx_object {
 public:
     execution_context(main_ctx_parent parent) noexcept
@@ -29,27 +28,32 @@ public:
         return _options;
     }
 
+    auto result() const noexcept {
+        return _exec_result;
+    }
+
     auto prepare(std::unique_ptr<launchpad> pad) -> execution_context&;
-    auto keep_running() noexcept -> bool;
-    auto update() noexcept -> bool;
+    auto is_running() noexcept -> bool;
+    void stop_running() noexcept;
+    void update() noexcept;
 
     auto run() noexcept -> execution_context& {
-        while(keep_running()) {
+        while(is_running()) {
             update();
         }
         return *this;
     }
 
-    auto result() const noexcept {
-        return _exec_result;
-    }
+    void surface_size(int width, int height);
+    void pointer_position(float x, float y, int index);
 
 private:
     int _exec_result{0};
     launch_options _options;
     std::unique_ptr<application> _app;
 };
-
+//------------------------------------------------------------------------------
+auto establish(main_ctx&) -> std::unique_ptr<launchpad>;
 } // namespace eagine::application
 
 #if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
