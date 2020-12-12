@@ -48,6 +48,8 @@ struct audio_context {
     auto operator=(audio_context&&) = delete;
     auto operator=(const audio_context&) = delete;
     virtual ~audio_context() noexcept = default;
+
+    virtual auto audio_kind() const noexcept -> audio_context_kind = 0;
 };
 //------------------------------------------------------------------------------
 struct hmi_context {
@@ -66,8 +68,9 @@ struct hmi_context {
     virtual void update(execution_context&) = 0;
     virtual void cleanup(execution_context&) = 0;
 
-    virtual auto video() -> std::shared_ptr<video_context> = 0;
     virtual auto input() -> std::shared_ptr<input_context> = 0;
+    virtual auto video() -> std::shared_ptr<video_context> = 0;
+    virtual auto audio() -> std::shared_ptr<audio_context> = 0;
 };
 //------------------------------------------------------------------------------
 struct application {
@@ -80,6 +83,7 @@ struct application {
 
     virtual auto is_done() noexcept -> bool = 0;
     virtual void update(execution_context&) noexcept = 0;
+    virtual void cleanup(execution_context&) noexcept = 0;
 };
 //------------------------------------------------------------------------------
 struct launchpad {

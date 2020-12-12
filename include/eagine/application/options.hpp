@@ -32,9 +32,52 @@ public:
         return {_app_title};
     }
 
+    auto no_video() noexcept -> auto& {
+        _requires_video = false;
+        return *this;
+    }
+
+    auto require_video(
+      video_context_kind kind = video_context_kind::opengl) noexcept -> auto& {
+        _video_kind = kind;
+        _requires_video = true;
+        return *this;
+    }
+
     auto required_video_kind() const noexcept
       -> optionally_valid<video_context_kind> {
         return {_video_kind, _requires_video};
+    }
+
+    auto no_audio() noexcept -> auto& {
+        _requires_audio = false;
+        return *this;
+    }
+
+    auto require_audio(
+      audio_context_kind kind = audio_context_kind::openal) noexcept -> auto& {
+        _audio_kind = kind;
+        _requires_audio = true;
+        return *this;
+    }
+
+    auto required_audio_kind() const noexcept
+      -> optionally_valid<audio_context_kind> {
+        return {_audio_kind, _requires_audio};
+    }
+
+    auto no_input() noexcept -> auto& {
+        _requires_input = false;
+        return *this;
+    }
+
+    auto require_input() noexcept -> auto& {
+        _requires_input = true;
+        return *this;
+    }
+
+    auto required_input() const noexcept {
+        return _requires_input;
     }
 
     using valid_surface_size = valid_if_positive<int>;
@@ -128,6 +171,7 @@ private:
     std::string _app_title;
 
     video_context_kind _video_kind{video_context_kind::opengl};
+    audio_context_kind _audio_kind{audio_context_kind::openal};
 
     int _surface_width{
       cfg_extr<valid_surface_size>("application.video.surface.width", 1280)};

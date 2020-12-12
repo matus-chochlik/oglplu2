@@ -45,6 +45,10 @@ public:
         return *this;
     }
 
+    void video_begin(span_size_t ctx_index = 0);
+    void video_end(span_size_t ctx_index = 0);
+    void video_commit(span_size_t ctx_index = 0);
+
     void surface_size(int width, int height);
     void pointer_position(float x, float y, int index);
 
@@ -56,8 +60,10 @@ private:
     std::vector<std::shared_ptr<hmi_context>> _hmi_contexts;
     std::vector<std::shared_ptr<input_context>> _input_contexts;
     std::vector<std::shared_ptr<video_context>> _video_contexts;
+    std::vector<std::shared_ptr<audio_context>> _audio_contexts;
 
     auto _setup_contexts() -> bool;
+    auto _get_video(span_size_t) noexcept -> video_context&;
 };
 //------------------------------------------------------------------------------
 auto establish(main_ctx&) -> std::unique_ptr<launchpad>;

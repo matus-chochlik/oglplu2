@@ -45,8 +45,9 @@ public:
     void video_end(execution_context&) final;
     void video_commit(execution_context&) final;
 
-    auto video() -> std::shared_ptr<video_context> final;
     auto input() -> std::shared_ptr<input_context> final;
+    auto video() -> std::shared_ptr<video_context> final;
+    auto audio() -> std::shared_ptr<audio_context> final;
 
 private:
     GLFWwindow* _window{nullptr};
@@ -175,13 +176,18 @@ void glfw3_opengl_context::cleanup(execution_context&) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto glfw3_opengl_context::input() -> std::shared_ptr<input_context> {
+    return {shared_from_this()};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto glfw3_opengl_context::video() -> std::shared_ptr<video_context> {
     return {shared_from_this()};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto glfw3_opengl_context::input() -> std::shared_ptr<input_context> {
-    return {shared_from_this()};
+auto glfw3_opengl_context::audio() -> std::shared_ptr<audio_context> {
+    return {};
 }
 //------------------------------------------------------------------------------
 auto make_glfw3_context() -> std::shared_ptr<hmi_context> {

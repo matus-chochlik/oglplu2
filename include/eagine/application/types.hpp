@@ -13,6 +13,7 @@
 namespace eagine::application {
 
 enum class video_context_kind { opengl, opengl_es3, vulkan };
+enum class audio_context_kind { openal };
 
 } // namespace eagine::application
 #endif
