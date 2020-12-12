@@ -16,6 +16,7 @@
 #include "../valid_if/nonnegative.hpp"
 #include "../valid_if/one_of.hpp"
 #include "../valid_if/positive.hpp"
+#include "types.hpp"
 
 namespace eagine::application {
 
@@ -31,8 +32,12 @@ public:
         return {_app_title};
     }
 
-    using valid_surface_size = valid_if_positive<int>;
+    auto required_video_kind() const noexcept
+      -> optionally_valid<video_context_kind> {
+        return {_video_kind, _requires_video};
+    }
 
+    using valid_surface_size = valid_if_positive<int>;
     auto surface_size(
       const valid_surface_size& width,
       const valid_surface_size& height) noexcept -> auto& {
@@ -121,6 +126,8 @@ public:
 
 private:
     std::string _app_title;
+
+    video_context_kind _video_kind{video_context_kind::opengl};
 
     int _surface_width{
       cfg_extr<valid_surface_size>("application.video.surface.width", 1280)};

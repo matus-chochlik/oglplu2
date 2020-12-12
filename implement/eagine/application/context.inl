@@ -17,6 +17,33 @@ auto make_all_hmi_contexts() -> std::array<std::shared_ptr<hmi_context>, 1> {
     return {{make_glfw3_context()}};
 }
 //------------------------------------------------------------------------------
+inline auto execution_context::_setup_contexts() -> bool {
+    if(auto video_kind{_options.required_video_kind()}) {
+        for(auto& hmi_ctx : _hmi_contexts) {
+            if(auto video_ctx{hmi_ctx->video()}) {
+                if(extract(video_ctx).video_kind() == extract(video_kind)) {
+                    if(hmi_ctx->is_initialized()) {
+                        _video_contexts.emplace_back(std::move(video_ctx));
+                    } else {
+                        if(hmi_ctx->initialize(*this)) {
+                            _video_contexts.emplace_back(std::move(video_ctx));
+                        } else {
+                            log_error(
+                              "failed to initialize HMI "
+                              "context ${name}")
+                              .arg(
+                                EAGINE_ID(name),
+                                hmi_ctx->implementation_name());
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return true;
+}
+//------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto execution_context::prepare(std::unique_ptr<launchpad> pad)
   -> execution_context& {
@@ -36,10 +63,17 @@ auto execution_context::prepare(std::unique_ptr<launchpad> pad)
 
             if(_hmi_contexts.empty()) {
                 log_error("there are no available HMI contexts");
-                _exec_result = 4;
-            } else if(!(_app = pad->launch(*this, _options))) {
-                log_error("failed to launch application");
-                _exec_result = 3;
+                _exec_result = 5;
+            } else {
+                if(_setup_contexts()) {
+                    if(!(_app = pad->launch(*this, _options))) {
+                        log_error("failed to launch application");
+                        _exec_result = 3;
+                    }
+                } else {
+                    log_error("failed to setup contexts");
+                    _exec_result = 4;
+                }
             }
         } else {
             log_error("failed to setup application launchpad");

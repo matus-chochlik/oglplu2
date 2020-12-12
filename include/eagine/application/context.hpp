@@ -56,6 +56,8 @@ private:
     std::vector<std::shared_ptr<hmi_context>> _hmi_contexts;
     std::vector<std::shared_ptr<input_context>> _input_contexts;
     std::vector<std::shared_ptr<video_context>> _video_contexts;
+
+    auto _setup_contexts() -> bool;
 };
 //------------------------------------------------------------------------------
 auto establish(main_ctx&) -> std::unique_ptr<launchpad>;

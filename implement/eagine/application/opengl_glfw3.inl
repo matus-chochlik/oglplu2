@@ -34,13 +34,16 @@ public:
     auto is_implemented() const noexcept -> bool final;
     auto implementation_name() const noexcept -> string_view final;
 
+    auto is_initialized() -> bool final;
     auto initialize(execution_context&) -> bool final;
     void update(execution_context&) final;
     void cleanup(execution_context&) final;
 
     auto video_kind() const noexcept -> video_context_kind final;
-    void begin_frame(execution_context&) final;
-    void commit_frame(execution_context&) final;
+
+    void video_begin(execution_context&) final;
+    void video_end(execution_context&) final;
+    void video_commit(execution_context&) final;
 
     auto video() -> std::shared_ptr<video_context> final;
     auto input() -> std::shared_ptr<input_context> final;
@@ -61,6 +64,14 @@ auto glfw3_opengl_context::is_implemented() const noexcept -> bool {
 EAGINE_LIB_FUNC
 auto glfw3_opengl_context::implementation_name() const noexcept -> string_view {
     return {"GLFW3"};
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto glfw3_opengl_context::is_initialized() -> bool {
+#if OGLPLUS_GLFW3_FOUND
+    return _window != nullptr;
+#endif
+    return false;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -132,7 +143,7 @@ auto glfw3_opengl_context::video_kind() const noexcept -> video_context_kind {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void glfw3_opengl_context::begin_frame(execution_context&) {
+void glfw3_opengl_context::video_begin(execution_context&) {
 #if OGLPLUS_GLFW3_FOUND
 
     EAGINE_ASSERT(_window);
@@ -141,8 +152,17 @@ void glfw3_opengl_context::begin_frame(execution_context&) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void glfw3_opengl_context::commit_frame(execution_context&) {
+void glfw3_opengl_context::video_end(execution_context&) {
 #if OGLPLUS_GLFW3_FOUND
+
+    glfwMakeContextCurrent(nullptr);
+#endif // OGLPLUS_GLFW3_FOUND
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void glfw3_opengl_context::video_commit(execution_context&) {
+#if OGLPLUS_GLFW3_FOUND
+    EAGINE_ASSERT(_window);
     glfwSwapBuffers(_window);
 #endif // OGLPLUS_GLFW3_FOUND
 }
