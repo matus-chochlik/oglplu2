@@ -6,8 +6,10 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/config/basic.hpp>
 #include <eagine/environment.hpp>
 #include <eagine/file_contents.hpp>
+#include <eagine/interop/valgrind.hpp>
 #include <eagine/valid_if/not_empty.hpp>
 #include <eagine/value_tree/json.hpp>
 #include <eagine/value_tree/yaml.hpp>
@@ -25,19 +27,25 @@ public:
     auto find_compound_attribute(string_view key) noexcept
       -> valtree::compound_attribute {
         try {
-            if(auto found{_find_config_of(main_context().app_name(), key)}) {
+            string_view instance_name;
+            if(auto inst_arg{main_context().args().find("--instance")}) {
+                if(inst_arg.next()) {
+                    instance_name = inst_arg.next().get();
+                }
+            }
+            if(auto found{_find_config_of(
+                 main_context().app_name(), key, instance_name)}) {
                 return found;
             }
-            for(auto arg : main_context().args()) {
-                if(arg.is_tag("--config-group")) {
-                    if(arg.next()) {
-                        if(auto found{_find_config_of(arg.next().get(), key)}) {
-                            return found;
-                        }
+            if(auto group_arg{main_context().args().find("--config-group")}) {
+                if(group_arg.next()) {
+                    if(auto found{_find_config_of(
+                         group_arg.next().get(), key, instance_name)}) {
+                        return found;
                     }
                 }
             }
-            if(auto found{_find_config_of("defaults", key)}) {
+            if(auto found{_find_config_of("defaults", key, instance_name)}) {
                 return found;
             }
         } catch(...) {
@@ -56,12 +64,16 @@ private:
         return result;
     }
 
-    auto _find_config_of(string_view group, string_view key) noexcept
-      -> valtree::compound_attribute {
-        if(auto found{_find_in(_user_config_path(_cat(group, ".yaml")), key)}) {
+    auto _find_config_of(
+      string_view group,
+      string_view key,
+      string_view instance) noexcept -> valtree::compound_attribute {
+        if(auto found{_find_in(
+             _user_config_path(_cat(group, ".yaml")), key, instance)}) {
             return found;
         }
-        if(auto found{_find_in(_user_config_path(_cat(group, ".json")), key)}) {
+        if(auto found{_find_in(
+             _user_config_path(_cat(group, ".json")), key, instance)}) {
             return found;
         }
         return {};
@@ -69,14 +81,26 @@ private:
 
     auto _find_in(
       const valid_if_not_empty<std::filesystem::path>& cfg_path,
-      string_view key) -> valtree::compound_attribute {
+      string_view key,
+      string_view instance) -> valtree::compound_attribute {
         if(cfg_path) {
             const bool can_open =
               is_regular_file(extract(cfg_path)) || is_fifo(extract(cfg_path));
             if(can_open) {
                 if(auto comp{_get_config(extract(cfg_path))}) {
+                    std::vector<string_view> tags;
+                    if(instance) {
+                        tags.push_back(instance);
+                    }
+                    if constexpr(EAGINE_DEBUG) {
+                        tags.emplace_back("debug");
+                        if(running_on_valgrind()) {
+                            tags.emplace_back("slowexec");
+                        }
+                    }
                     if(auto attr{comp.find(
-                         basic_string_path(key, EAGINE_TAG(split_by), "."))}) {
+                         basic_string_path(key, EAGINE_TAG(split_by), "."),
+                         view(tags))}) {
                         return {comp, attr};
                     }
                 }
