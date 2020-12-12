@@ -131,6 +131,15 @@ public:
         return nullptr;
     }
 
+    auto find(
+      filesystem_compound& owner,
+      const basic_string_path& path,
+      span<const string_view> tags) -> attribute_interface* {
+        // TODO: search with tags
+        EAGINE_MAYBE_UNUSED(tags);
+        return find(owner, path);
+    }
+
     auto value_count() -> span_size_t {
         if(is_regular_file(_real_path)) {
             return file_size(_real_path);
@@ -258,6 +267,13 @@ public:
     auto find(attribute_interface& attrib, const basic_string_path& path)
       -> attribute_interface* final {
         return _unwrap(attrib).find(*this, path);
+    }
+
+    auto find(
+      attribute_interface& attrib,
+      const basic_string_path& path,
+      span<const string_view> tags) -> attribute_interface* final {
+        return _unwrap(attrib).find(*this, path, tags);
     }
 
     auto value_count(attribute_interface& attrib) -> span_size_t final {

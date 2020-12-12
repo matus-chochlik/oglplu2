@@ -181,6 +181,15 @@ public:
         return nullptr;
     }
 
+    auto find(
+      rapidyaml_tree_compound& owner,
+      const basic_string_path& path,
+      span<const string_view> tags) -> attribute_interface* {
+        // TODO: search with tags
+        EAGINE_MAYBE_UNUSED(tags);
+        return find(owner, path);
+    }
+
     auto fetch_values(span_size_t offset, span<char> dest) -> span_size_t {
         if(_usable(_node)) {
             if(!_node.is_seq()) {
@@ -313,6 +322,13 @@ public:
     auto find(attribute_interface& attrib, const basic_string_path& path)
       -> attribute_interface* final {
         return _unwrap(attrib).find(*this, path);
+    }
+
+    auto find(
+      attribute_interface& attrib,
+      const basic_string_path& path,
+      span<const string_view> tags) -> attribute_interface* final {
+        return _unwrap(attrib).find(*this, path, tags);
     }
 
     auto value_count(attribute_interface& attrib) -> span_size_t final {

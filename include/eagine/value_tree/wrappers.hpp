@@ -240,8 +240,23 @@ public:
         return {};
     }
 
+    auto find(
+      const attribute& attrib,
+      const basic_string_path& path,
+      span<const string_view> tags) const -> attribute {
+        if(_pimpl && attrib._pimpl) {
+            return {_pimpl, _pimpl->find(*attrib._pimpl, path, tags)};
+        }
+        return {};
+    }
+
     auto find(const basic_string_path& path) const -> attribute {
         return find(structure(), path);
+    }
+
+    auto find(const basic_string_path& path, span<const string_view> tags) const
+      -> attribute {
+        return find(structure(), path, tags);
     }
 
     auto value_count(const attribute& attrib) const -> span_size_t {

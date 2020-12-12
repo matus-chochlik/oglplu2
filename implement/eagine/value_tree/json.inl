@@ -209,7 +209,16 @@ public:
             return rapidjson_make_value_node(owner, *result, name);
         }
 
-        return {};
+        return nullptr;
+    }
+
+    auto find(
+      _comp_t& owner,
+      const basic_string_path& path,
+      span<const string_view> tags) -> attribute_interface* {
+        // TODO: search with tags
+        EAGINE_MAYBE_UNUSED(tags);
+        return find(owner, path);
     }
 
     auto value_count() -> span_size_t {
@@ -567,6 +576,13 @@ public:
     auto find(attribute_interface& attrib, const basic_string_path& path)
       -> attribute_interface* final {
         return _unwrap(attrib).find(*this, path);
+    }
+
+    auto find(
+      attribute_interface& attrib,
+      const basic_string_path& path,
+      span<const string_view> tags) -> attribute_interface* final {
+        return _unwrap(attrib).find(*this, path, tags);
     }
 
     auto value_count(attribute_interface& attrib) -> span_size_t final {

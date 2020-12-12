@@ -92,6 +92,11 @@ struct compound_interface {
     virtual auto find(attribute_interface&, const basic_string_path&)
       -> attribute_interface* = 0;
 
+    virtual auto find(
+      attribute_interface&,
+      const basic_string_path&,
+      span<const string_view> tags) -> attribute_interface* = 0;
+
     virtual auto value_count(attribute_interface&) -> span_size_t = 0;
 
     virtual auto
