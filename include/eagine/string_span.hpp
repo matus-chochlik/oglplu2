@@ -103,6 +103,14 @@ static constexpr inline auto to_string(memory::basic_span<C, P, S> spn)
 }
 //------------------------------------------------------------------------------
 template <typename C, typename T, typename A, typename P, typename S>
+static constexpr inline auto assign_to(
+  std::basic_string<C, T, A>& str,
+  memory::basic_span<const C, P, S> spn) -> auto& {
+    str.assign(spn.data(), std_size(spn.size()));
+    return str;
+}
+//------------------------------------------------------------------------------
+template <typename C, typename T, typename A, typename P, typename S>
 static constexpr inline auto append_to(
   std::basic_string<C, T, A>& str,
   memory::basic_span<const C, P, S> spn) -> auto& {

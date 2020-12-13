@@ -352,7 +352,7 @@ private:
                 if(str.size() < len) {
                     errors |= error_code::not_enough_data;
                 } else {
-                    value.assign(str.data(), std_size(str.size()));
+                    assign_to(value, str);
                     pop(str.size());
                     errors |= require('"');
                     errors |= require(delimiter);

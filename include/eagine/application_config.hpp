@@ -71,7 +71,23 @@ public:
             if(attr.fetch_value(dest)) {
                 return true;
             } else {
-                log_error("could not fetch configuration value '${value}'")
+                log_error("could not fetch configuration value '${key}'")
+                  .arg(EAGINE_ID(key), key);
+            }
+        }
+        return false;
+    }
+
+    template <typename T, typename P>
+    auto fetch(string_view key, valid_if<T, P>& dest) noexcept -> bool {
+        T temp{};
+        if(fetch(key, temp)) {
+            if(dest.is_valid(temp)) {
+                dest = std::move(temp);
+                return true;
+            } else {
+                log_error("value '${value}' is not valid for '${key}'")
+                  .arg(EAGINE_ID(value), temp)
                   .arg(EAGINE_ID(key), key);
             }
         }
@@ -106,7 +122,7 @@ template <typename T>
 inline auto application_config_initial(
   application_config& config,
   string_view key,
-  T initial) -> T {
+  T& initial) -> T& {
     config.init(key, initial);
     return initial;
 }

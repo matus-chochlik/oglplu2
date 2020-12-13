@@ -290,14 +290,14 @@ static inline auto join(string_view list, string_view sep, bool trail_sep)
 
     auto fill = [&res, sep](const element& elem, bool first) {
         if(!first) {
-            res.append(sep.data(), std_size(sep.size()));
+            append_to(res, sep);
         }
         res.append(elem.value_data(), std_size(elem.value_size()));
     };
     for_each_elem(list, fill);
 
     if(trail_sep) {
-        res.append(sep.data(), std_size(sep.size()));
+        append_to(res, sep);
     }
     EAGINE_ASSERT(res.size() == std_size(len));
 

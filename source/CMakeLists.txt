@@ -10,6 +10,7 @@ add_subdirectory(tools)
 set(
 	OGLPLUS_EXPORT_TARGETS
 		eagine
+		eagine-application
 		eagine-message_bus-router
 		eagine-message_bus-bridge
 		eagine-message_bus-pingable

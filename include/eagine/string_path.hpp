@@ -194,7 +194,7 @@ public:
     }
 
     void push_back_elem(const string_list::element& elem) {
-        _str.append(elem.data(), std_size(elem.size()));
+        append_to(_str, elem);
         ++_size;
     }
 

@@ -20,7 +20,7 @@ function(eagine_example_common EXAMPLE_NAME)
 	add_dependencies(eagine-examples eagine-${EXAMPLE_NAME})
 	target_link_libraries(
 		eagine-${EXAMPLE_NAME}
-		PUBLIC eagine
+		PUBLIC eagine eagine-application
 		PRIVATE ${ARGN}
 	)
 
@@ -30,6 +30,12 @@ function(eagine_example_common EXAMPLE_NAME)
 	)
 	eagine_install_example(eagine-${EXAMPLE_NAME})
 endfunction()
+
+file(GLOB DEVEL_EXAMPLES "devel-*.cpp")
+foreach(DEVEL_EXAMPLE ${DEVEL_EXAMPLES})
+	get_filename_component(EXAMPLE_NAME ${DEVEL_EXAMPLE} NAME_WE)
+	eagine_example_common(${EXAMPLE_NAME})
+endforeach()
 
 eagine_example_common(valgrind)
 eagine_example_common(array_size)
@@ -72,6 +78,8 @@ eagine_example_common(value_tree)
 eagine_example_common(memoized)
 eagine_example_common(c_api_wrap)
 eagine_example_common(sudoku_solver)
+eagine_example_common(sudoku_tiling)
+eagine_example_common(sudoku_noise)
 #
 eagine_example_common(embed_self)
 eagine_embed_target_resources(eagine-embed_self)

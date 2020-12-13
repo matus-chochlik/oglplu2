@@ -131,6 +131,38 @@ public:
         return nullptr;
     }
 
+    auto find(
+      filesystem_compound& owner,
+      const basic_string_path& path,
+      span<const string_view> tags) -> attribute_interface* {
+        std::string temp_str;
+        auto _cat = [&](
+          string_view a, string_view b, string_view c) mutable -> auto& {
+            return append_to(append_to(assign_to(temp_str, a), b), c);
+        };
+
+        auto spath{_node_path};
+        for(auto ent : path) {
+            bool found = false;
+            for(auto tag : tags) {
+                auto tpath{spath};
+                tpath.append(_cat(ent, "@", tag));
+                if(exists(tpath)) {
+                    spath = std::move(tpath);
+                    found = true;
+                    break;
+                }
+            }
+            if(!found) {
+                spath.append(std::string_view(ent));
+            }
+        }
+        if(exists(spath)) {
+            return filesystem_make_node(owner, spath);
+        }
+        return nullptr;
+    }
+
     auto value_count() -> span_size_t {
         if(is_regular_file(_real_path)) {
             return file_size(_real_path);
@@ -258,6 +290,13 @@ public:
     auto find(attribute_interface& attrib, const basic_string_path& path)
       -> attribute_interface* final {
         return _unwrap(attrib).find(*this, path);
+    }
+
+    auto find(
+      attribute_interface& attrib,
+      const basic_string_path& path,
+      span<const string_view> tags) -> attribute_interface* final {
+        return _unwrap(attrib).find(*this, path, tags);
     }
 
     auto value_count(attribute_interface& attrib) -> span_size_t final {

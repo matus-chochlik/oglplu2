@@ -95,6 +95,14 @@ adapt_log_entry_arg(identifier name, const msgbus::remote_host& value) {
             backend.add_integer(
               EAGINE_ID(totalSwap), EAGINE_ID(ByteSize), extract(opt_val));
         }
+        if(const auto opt_val{value.ram_usage()}) {
+            backend.add_float(
+              EAGINE_ID(ramUsage), EAGINE_ID(Ratio), extract(opt_val));
+        }
+        if(const auto opt_val{value.swap_usage()}) {
+            backend.add_float(
+              EAGINE_ID(swapUsage), EAGINE_ID(Ratio), extract(opt_val));
+        }
         if(const auto opt_val{value.short_average_load()}) {
             backend.add_float(
               EAGINE_ID(shortLoad), EAGINE_ID(Ratio), extract(opt_val));
