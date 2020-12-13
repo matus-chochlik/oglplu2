@@ -66,21 +66,14 @@ public:
 
 private:
     auto _cat(string_view l, string_view r) noexcept -> const std::string& {
-        _config_name.clear();
-        _config_name.append(l.data(), std_size(l.size()));
-        _config_name.append(r.data(), std_size(r.size()));
-        return _config_name;
+        return append_to(assign_to(_config_name, l), r);
     }
 
     auto
     _cat(string_view a, string_view b, string_view c, string_view d) noexcept
       -> const std::string& {
-        _config_name.clear();
-        _config_name.append(a.data(), std_size(a.size()));
-        _config_name.append(b.data(), std_size(b.size()));
-        _config_name.append(c.data(), std_size(c.size()));
-        _config_name.append(d.data(), std_size(d.size()));
-        return _config_name;
+        return append_to(
+          append_to(append_to(assign_to(_config_name, a), b), c), d);
     }
 
     auto _find_config_of(

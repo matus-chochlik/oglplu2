@@ -152,7 +152,7 @@ public:
             if(src.size() < size) {
                 return {error_code::not_enough_data};
             }
-            str.assign(src.data(), std_size(src.size()));
+            assign_to(str, src);
             pop(src.size());
             ++done;
         }
