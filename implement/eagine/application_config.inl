@@ -22,30 +22,39 @@ namespace eagine {
 class application_config_impl : public main_ctx_object {
 public:
     application_config_impl(main_ctx_parent parent)
-      : main_ctx_object{EAGINE_ID(AppCfgImpl), parent} {}
+      : main_ctx_object{EAGINE_ID(AppCfgImpl), parent} {
+        if(auto inst_arg{main_context().args().find("--instance")}) {
+            if(inst_arg.next()) {
+                _tag_list.push_back(inst_arg.next().get());
+            }
+        }
+        if constexpr(EAGINE_DEBUG) {
+            _tag_list.emplace_back("debug");
+            if(running_on_valgrind()) {
+                _tag_list.emplace_back("slowexec");
+            }
+        }
+        _config_name.reserve(128);
+    }
 
     auto find_compound_attribute(string_view key) noexcept
       -> valtree::compound_attribute {
         try {
-            string_view instance_name;
-            if(auto inst_arg{main_context().args().find("--instance")}) {
-                if(inst_arg.next()) {
-                    instance_name = inst_arg.next().get();
-                }
-            }
-            if(auto found{_find_config_of(
-                 main_context().app_name(), key, instance_name)}) {
+            const auto tags{view(_tag_list)};
+
+            if(auto found{
+                 _find_config_of(main_context().app_name(), key, tags)}) {
                 return found;
             }
             if(auto group_arg{main_context().args().find("--config-group")}) {
                 if(group_arg.next()) {
-                    if(auto found{_find_config_of(
-                         group_arg.next().get(), key, instance_name)}) {
+                    if(auto found{
+                         _find_config_of(group_arg.next().get(), key, tags)}) {
                         return found;
                     }
                 }
             }
-            if(auto found{_find_config_of("defaults", key, instance_name)}) {
+            if(auto found{_find_config_of("defaults", key, tags)}) {
                 return found;
             }
         } catch(...) {
@@ -56,51 +65,63 @@ public:
     }
 
 private:
-    auto _cat(string_view l, string_view r) noexcept -> std::string {
-        std::string result;
-        result.reserve(std_size(l.size() + r.size() + 1));
-        result.append(l.data(), std_size(l.size()));
-        result.append(r.data(), std_size(r.size()));
-        return result;
+    auto _cat(string_view l, string_view r) noexcept -> const std::string& {
+        _config_name.clear();
+        _config_name.append(l.data(), std_size(l.size()));
+        _config_name.append(r.data(), std_size(r.size()));
+        return _config_name;
+    }
+
+    auto
+    _cat(string_view a, string_view b, string_view c, string_view d) noexcept
+      -> const std::string& {
+        _config_name.clear();
+        _config_name.append(a.data(), std_size(a.size()));
+        _config_name.append(b.data(), std_size(b.size()));
+        _config_name.append(c.data(), std_size(c.size()));
+        _config_name.append(d.data(), std_size(d.size()));
+        return _config_name;
     }
 
     auto _find_config_of(
       string_view group,
       string_view key,
-      string_view instance) noexcept -> valtree::compound_attribute {
-        if(auto found{_find_in(
-             _user_config_path(_cat(group, ".yaml")), key, instance)}) {
+      span<const string_view> tags) noexcept -> valtree::compound_attribute {
+        for(auto tag : tags) {
+            if(auto found{_find_in(
+                 _user_config_path(_cat(group, "@", tag, ".yaml")),
+                 key,
+                 tags)}) {
+                return found;
+            }
+            if(auto found{_find_in(
+                 _user_config_path(_cat(group, "@", tag, ".json")),
+                 key,
+                 tags)}) {
+                return found;
+            }
+        }
+        if(auto found{
+             _find_in(_user_config_path(_cat(group, ".yaml")), key, tags)}) {
             return found;
         }
-        if(auto found{_find_in(
-             _user_config_path(_cat(group, ".json")), key, instance)}) {
+        if(auto found{
+             _find_in(_user_config_path(_cat(group, ".json")), key, tags)}) {
             return found;
         }
         return {};
     }
 
     auto _find_in(
-      const valid_if_not_empty<std::filesystem::path>& cfg_path,
+      const std::filesystem::path& cfg_path,
       string_view key,
-      string_view instance) -> valtree::compound_attribute {
-        if(cfg_path) {
-            const bool can_open =
-              is_regular_file(extract(cfg_path)) || is_fifo(extract(cfg_path));
-            if(can_open) {
-                if(auto comp{_get_config(extract(cfg_path))}) {
-                    std::vector<string_view> tags;
-                    if(instance) {
-                        tags.push_back(instance);
-                    }
-                    if constexpr(EAGINE_DEBUG) {
-                        tags.emplace_back("debug");
-                        if(running_on_valgrind()) {
-                            tags.emplace_back("slowexec");
-                        }
-                    }
+      span<const string_view> tags) -> valtree::compound_attribute {
+        if(!cfg_path.empty()) {
+            if(is_regular_file(cfg_path) || is_fifo(cfg_path)) {
+                if(auto comp{_get_config(cfg_path)}) {
                     if(auto attr{comp.find(
                          basic_string_path(key, EAGINE_TAG(split_by), "."),
-                         view(tags))}) {
+                         tags)}) {
                         return {comp, attr};
                     }
                 }
@@ -109,17 +130,15 @@ private:
         return {};
     }
 
-    auto _user_config_path(string_view name)
-      -> valid_if_not_empty<std::filesystem::path> {
+    auto _user_config_path(string_view name) -> const std::filesystem::path& {
+        _config_path.clear();
         if(auto home_dir{main_context().user().home_dir_path()}) {
-            std::filesystem::path result{std::string_view{extract(home_dir)}};
-            result.append(".oglplus");
-            result.append("config");
-            result.append(std::string_view{name});
-
-            return result;
+            _config_path.append(std::string_view{extract(home_dir)});
+            _config_path.append(".oglplus");
+            _config_path.append("config");
+            _config_path.append(std::string_view{name});
         }
-        return {};
+        return _config_path;
     }
 
     auto _open_config(const std::filesystem::path& cfg_path)
@@ -149,6 +168,9 @@ private:
     }
 
     std::map<std::string, valtree::compound> _open_configs;
+    std::vector<string_view> _tag_list;
+    std::string _config_name;
+    std::filesystem::path _config_path;
 };
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
