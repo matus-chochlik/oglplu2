@@ -23,9 +23,16 @@ class application_config_impl : public main_ctx_object {
 public:
     application_config_impl(main_ctx_parent parent)
       : main_ctx_object{EAGINE_ID(AppCfgImpl), parent} {
-        if(auto inst_arg{main_context().args().find("--instance")}) {
-            if(inst_arg.next()) {
-                _tag_list.push_back(inst_arg.next().get());
+        if(auto arg{main_context().args().find("--instance")}) {
+            if(auto inst_arg{arg.next()}) {
+                _tag_list.push_back(inst_arg.get());
+            }
+        }
+        for(auto arg : main_context().args()) {
+            if(arg.is_tag("--config-tag")) {
+                if(auto tag_arg{arg.next()}) {
+                    _tag_list.push_back(tag_arg.get());
+                }
             }
         }
         if constexpr(EAGINE_DEBUG) {
@@ -46,10 +53,10 @@ public:
                  _find_config_of(main_context().app_name(), key, tags)}) {
                 return found;
             }
-            if(auto group_arg{main_context().args().find("--config-group")}) {
-                if(group_arg.next()) {
+            if(auto arg{main_context().args().find("--config-group")}) {
+                if(auto group_arg{arg.next()}) {
                     if(auto found{
-                         _find_config_of(group_arg.next().get(), key, tags)}) {
+                         _find_config_of(group_arg.get(), key, tags)}) {
                         return found;
                     }
                 }

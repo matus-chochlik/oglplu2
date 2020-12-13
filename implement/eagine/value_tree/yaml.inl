@@ -156,11 +156,6 @@ public:
         return nullptr;
     }
 
-    auto find(rapidyaml_tree_compound& owner, const basic_string_path& path)
-      const noexcept -> attribute_interface* {
-        return find(owner, path, {});
-    }
-
     auto find(
       rapidyaml_tree_compound& owner,
       const basic_string_path& path,
@@ -335,11 +330,6 @@ public:
     auto nested(attribute_interface& attrib, string_view name)
       -> attribute_interface* final {
         return _unwrap(attrib).nested(*this, name);
-    }
-
-    auto find(attribute_interface& attrib, const basic_string_path& path)
-      -> attribute_interface* final {
-        return _unwrap(attrib).find(*this, path);
     }
 
     auto find(

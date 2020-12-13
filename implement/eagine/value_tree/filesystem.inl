@@ -135,9 +135,32 @@ public:
       filesystem_compound& owner,
       const basic_string_path& path,
       span<const string_view> tags) -> attribute_interface* {
-        // TODO: search with tags
-        EAGINE_MAYBE_UNUSED(tags);
-        return find(owner, path);
+        std::string temp_str;
+        auto _cat = [&](
+          string_view a, string_view b, string_view c) mutable -> auto& {
+            return append_to(append_to(assign_to(temp_str, a), b), c);
+        };
+
+        auto spath{_node_path};
+        for(auto ent : path) {
+            bool found = false;
+            for(auto tag : tags) {
+                auto tpath{spath};
+                tpath.append(_cat(ent, "@", tag));
+                if(exists(tpath)) {
+                    spath = std::move(tpath);
+                    found = true;
+                    break;
+                }
+            }
+            if(!found) {
+                spath.append(std::string_view(ent));
+            }
+        }
+        if(exists(spath)) {
+            return filesystem_make_node(owner, spath);
+        }
+        return nullptr;
     }
 
     auto value_count() -> span_size_t {

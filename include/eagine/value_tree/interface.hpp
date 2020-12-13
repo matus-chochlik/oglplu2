@@ -89,8 +89,10 @@ struct compound_interface {
     virtual auto nested(attribute_interface&, string_view name)
       -> attribute_interface* = 0;
 
-    virtual auto find(attribute_interface&, const basic_string_path&)
-      -> attribute_interface* = 0;
+    virtual auto find(attribute_interface& attr, const basic_string_path& path)
+      -> attribute_interface* {
+        return find(attr, path, {});
+    }
 
     virtual auto find(
       attribute_interface&,
