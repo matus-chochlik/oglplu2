@@ -179,30 +179,66 @@ public:
 
     auto find(_comp_t& owner, const basic_string_path& path)
       -> attribute_interface* {
+        return find(owner, path, {});
+    }
+
+    auto find(
+      _comp_t& owner,
+      const basic_string_path& path,
+      span<const string_view> tags) -> attribute_interface* {
         _val_t* result = _rj_val;
         _val_t* name = nullptr;
+        std::string temp_str;
+        auto _cat = [&](
+          string_view a, string_view b, string_view c) mutable -> auto& {
+            return append_to(append_to(assign_to(temp_str, a), b), c);
+        };
+
         for(auto& entry : path) {
             if(result) {
                 if(result->IsObject()) {
-                    auto found = result->FindMember(c_str(entry));
-                    if(found != result->MemberEnd()) {
-                        result = &found->value;
-                        name = &found->name;
-                        continue;
+                    bool found = false;
+                    auto member = result->MemberEnd();
+                    for(auto tag : tags) {
+                        member =
+                          result->FindMember(_cat(entry, "@", tag).c_str());
+                        if(member != result->MemberEnd()) {
+                            result = &member->value;
+                            name = &member->name;
+                            found = true;
+                            break;
+                        }
                     }
-                }
-                if(result->IsArray()) {
+                    if(!found) {
+                        if(member == result->MemberEnd()) {
+                            member = result->FindMember(c_str(entry));
+                            if(member != result->MemberEnd()) {
+                                result = &member->value;
+                                name = &member->name;
+                                found = true;
+                            }
+                        }
+                    }
+                    if(!found) {
+                        result = nullptr;
+                    }
+                } else if(result->IsArray()) {
                     if(auto opt_idx{from_string<span_size_t>(entry)}) {
                         const auto index{extract(opt_idx)};
                         if(index < span_size(result->Size())) {
                             result = &(*result)[rapidjson_size(index)];
-                            continue;
+                        } else {
+                            result = nullptr;
                         }
+                    } else {
+                        result = nullptr;
                     }
+                } else {
+                    result = nullptr;
                 }
+            } else {
+                break;
             }
-            result = nullptr;
-            break;
         }
 
         if(result) {
@@ -210,15 +246,6 @@ public:
         }
 
         return nullptr;
-    }
-
-    auto find(
-      _comp_t& owner,
-      const basic_string_path& path,
-      span<const string_view> tags) -> attribute_interface* {
-        // TODO: search with tags
-        EAGINE_MAYBE_UNUSED(tags);
-        return find(owner, path);
     }
 
     auto value_count() -> span_size_t {
