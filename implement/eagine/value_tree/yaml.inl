@@ -158,20 +158,47 @@ public:
 
     auto find(rapidyaml_tree_compound& owner, const basic_string_path& path)
       const noexcept -> attribute_interface* {
+        return find(owner, path, {});
+    }
+
+    auto find(
+      rapidyaml_tree_compound& owner,
+      const basic_string_path& path,
+      span<const string_view> tags) const noexcept -> attribute_interface* {
+        std::string temp_str;
+        auto _cat = [&](
+          string_view a, string_view b, string_view c) mutable -> auto& {
+            return append_to(append_to(assign_to(temp_str, a), b), c);
+        };
+
         auto result{_node};
         for(auto& entry : path) {
             if(_usable(result)) {
                 if(result.is_map()) {
-                    result = result.find_child(rapidyaml_cstrref(entry));
-                    continue;
-                }
-                if(result.is_seq()) {
+                    bool found = false;
+                    for(auto tag : tags) {
+                        auto temp_node{result.find_child(
+                          rapidyaml_cstrref(_cat(entry, "@", tag)))};
+                        if(_usable(temp_node)) {
+                            result = temp_node;
+                            found = true;
+                            break;
+                        }
+                    }
+                    if(!found) {
+                        result = result.find_child(rapidyaml_cstrref(entry));
+                    }
+                } else if(result.is_seq()) {
                     if(auto opt_idx{from_string<span_size_t>(entry)}) {
                         result = result[extract(opt_idx)];
-                        continue;
+                    } else {
+                        result = {};
                     }
+                } else {
+                    result = {};
                 }
-                result = {};
+            } else {
+                break;
             }
         }
 
@@ -179,15 +206,6 @@ public:
             return rapidyaml_make_new_node(owner, result);
         }
         return nullptr;
-    }
-
-    auto find(
-      rapidyaml_tree_compound& owner,
-      const basic_string_path& path,
-      span<const string_view> tags) -> attribute_interface* {
-        // TODO: search with tags
-        EAGINE_MAYBE_UNUSED(tags);
-        return find(owner, path);
     }
 
     auto fetch_values(span_size_t offset, span<char> dest) -> span_size_t {
