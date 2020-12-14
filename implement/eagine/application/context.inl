@@ -7,15 +7,35 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+#include <oglplus/gl.hpp>
+//
+#include <oglplus/gl_api.hpp>
+//
 #include <eagine/application/opengl_glfw3.hpp>
 #include <eagine/application/state.hpp>
 #include <eagine/branch_predict.hpp>
 
 namespace eagine::application {
 //------------------------------------------------------------------------------
-auto make_all_hmi_providers() -> std::array<std::shared_ptr<hmi_provider>, 1> {
+// video_context
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto video_context::init_gl_api() noexcept -> bool {
+    try {
+        _gl_api = std::make_shared<oglp::gl_api>();
+    } catch(...) {
+    }
+    return bool(_gl_api);
+}
+//------------------------------------------------------------------------------
+// providers
+//------------------------------------------------------------------------------
+inline auto make_all_hmi_providers()
+  -> std::array<std::shared_ptr<hmi_provider>, 1> {
     return {{make_glfw3_opengl_provider()}};
 }
+//------------------------------------------------------------------------------
+// execution_context
 //------------------------------------------------------------------------------
 inline auto execution_context::_setup_providers() -> bool {
     auto try_init = [&](auto provider) -> bool {

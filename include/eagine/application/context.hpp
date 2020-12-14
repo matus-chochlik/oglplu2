@@ -31,20 +31,35 @@ public:
       , _provider{std::move(provider)} {}
 
     void begin() {
+        EAGINE_ASSERT(_provider);
         _provider->video_begin(_parent);
     }
 
     void end() {
+        EAGINE_ASSERT(_provider);
         _provider->video_end(_parent);
     }
 
     void commit() {
+        EAGINE_ASSERT(_provider);
         _provider->video_commit(_parent);
+    }
+
+    auto init_gl_api() noexcept -> bool;
+
+    auto has_gl_api() const noexcept {
+        return bool(_gl_api);
+    }
+
+    auto gl_api() const noexcept -> auto& {
+        EAGINE_ASSERT(has_gl_api());
+        return *_gl_api;
     }
 
 private:
     execution_context& _parent;
     std::shared_ptr<video_provider> _provider{};
+    std::shared_ptr<oglp::gl_api> _gl_api{};
 };
 //------------------------------------------------------------------------------
 class audio_context {
