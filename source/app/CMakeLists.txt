@@ -4,18 +4,18 @@
 #  http://www.boost.org/LICENSE_1_0.txt
 
 foreach(LIB GLFW3)
-	add_library(EAGopt::${LIB} INTERFACE IMPORTED)
+	add_library(EAGapp::${LIB} INTERFACE IMPORTED)
 	if(${LIB}_FOUND)
 
 		target_link_libraries(
-			EAGopt::${LIB} 
+			EAGapp::${LIB} 
 			INTERFACE ${LIB}::${LIB}
 		)
 	endif()
 endforeach()
 
 add_library(
-	eagine-application EXCLUDE_FROM_ALL
+	eagine-application
 	application_context.cpp
 )
 eagine_add_lib_analysis(eagine-application)
@@ -41,7 +41,7 @@ target_link_libraries(
 		eagine
 		oglplus
 	PRIVATE
-		EAGopt::GLFW3
+		EAGapp::GLFW3
 )
 if(GLX_FOUND)
 	target_link_libraries(
@@ -56,3 +56,4 @@ set_target_properties(
 	FOLDER "Library/EAGine"
 )
 
+add_subdirectory(clear)

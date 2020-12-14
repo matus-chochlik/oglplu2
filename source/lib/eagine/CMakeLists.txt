@@ -49,7 +49,7 @@ set(EAGINE_LIB_SOURCES
 )
 
 add_library(
-	eagine EXCLUDE_FROM_ALL
+	eagine
 	${EAGINE_LIB_SOURCES}
 )
 eagine_add_lib_analysis(eagine)
