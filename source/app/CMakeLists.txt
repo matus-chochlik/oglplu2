@@ -1,0 +1,58 @@
+# Copyright Matus Chochlik.
+# Distributed under the Boost Software License, Version 1.0.
+# See accompanying file LICENSE_1_0.txt or copy at
+#  http://www.boost.org/LICENSE_1_0.txt
+
+foreach(LIB GLFW3)
+	add_library(EAGopt::${LIB} INTERFACE IMPORTED)
+	if(${LIB}_FOUND)
+
+		target_link_libraries(
+			EAGopt::${LIB} 
+			INTERFACE ${LIB}::${LIB}
+		)
+	endif()
+endforeach()
+
+add_library(
+	eagine-application EXCLUDE_FROM_ALL
+	application_context.cpp
+)
+eagine_add_lib_analysis(eagine-application)
+
+target_compile_definitions(
+	eagine-application
+	PUBLIC EAGINE_LINK_LIBRARY=1
+)
+
+target_include_directories(
+	eagine-application PUBLIC
+	"$<INSTALL_INTERFACE:include>"
+	"$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>"
+	"$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
+	"$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/implement>"
+	"$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/third_party/include>"
+	"$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>"
+)
+
+target_link_libraries(
+	eagine-application
+	PUBLIC
+		eagine
+		oglplus
+	PRIVATE
+		EAGopt::GLFW3
+)
+if(GLX_FOUND)
+	target_link_libraries(
+		eagine-application
+		PRIVATE GLX::GLX
+	)
+endif()
+
+set_target_properties(
+	eagine-application PROPERTIES
+	VERSION ${OGLPLUS_VERSION}
+	FOLDER "Library/EAGine"
+)
+

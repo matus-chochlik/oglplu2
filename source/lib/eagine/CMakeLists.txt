@@ -3,7 +3,6 @@
 # See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
 
-# -- Maim library --------------------------------------------------------------
 # generated files
 configure_file(resources.cpp.in resources.cpp @ONLY)
 set_source_files_properties(
@@ -95,53 +94,6 @@ endif()
 
 set_target_properties(
 	eagine PROPERTIES
-	VERSION ${OGLPLUS_VERSION}
-	FOLDER "Library/EAGine"
-)
-
-# -- Application library -------------------------------------------------------
-
-foreach(LIB GLFW3)
-	add_library(EAGopt::${LIB} INTERFACE IMPORTED)
-	if(${LIB}_FOUND)
-		set_target_properties(
-			EAGopt::${LIB} PROPERTIES
-			INTERFACE_LINK_LIBRARIES ${LIB}::${LIB}
-		)
-	endif()
-endforeach()
-
-add_library(
-	eagine-application EXCLUDE_FROM_ALL
-	application_context.cpp
-)
-eagine_add_lib_analysis(eagine-application)
-
-target_compile_definitions(
-	eagine-application
-	PUBLIC EAGINE_LINK_LIBRARY=1
-)
-
-target_include_directories(
-	eagine-application PUBLIC
-	"$<INSTALL_INTERFACE:include>"
-	"$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>"
-	"$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
-	"$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/implement>"
-	"$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/third_party/include>"
-	"$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>"
-)
-
-target_link_libraries(
-	eagine-application
-	PUBLIC
-		eagine
-	PRIVATE
-		EAGopt::GLFW3
-)
-
-set_target_properties(
-	eagine-application PROPERTIES
 	VERSION ${OGLPLUS_VERSION}
 	FOLDER "Library/EAGine"
 )
