@@ -15,7 +15,7 @@
 
 namespace eagine::application {
 
-auto make_glfw3_context() -> std::shared_ptr<hmi_context>;
+auto make_glfw3_opengl_provider() -> std::shared_ptr<hmi_provider>;
 
 } // namespace eagine::application
 

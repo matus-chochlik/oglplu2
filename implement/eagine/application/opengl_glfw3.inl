@@ -25,11 +25,11 @@ namespace eagine::application {
 
 #endif // OGLPLUS_GLFW3_FOUND
 //------------------------------------------------------------------------------
-class glfw3_opengl_context
-  : public std::enable_shared_from_this<glfw3_opengl_context>
-  , public hmi_context
-  , public video_context
-  , public input_context {
+class glfw3_opengl_provider
+  : public std::enable_shared_from_this<glfw3_opengl_provider>
+  , public hmi_provider
+  , public video_provider
+  , public input_provider {
 public:
     auto is_implemented() const noexcept -> bool final;
     auto implementation_name() const noexcept -> string_view final;
@@ -45,9 +45,9 @@ public:
     void video_end(execution_context&) final;
     void video_commit(execution_context&) final;
 
-    auto input() -> std::shared_ptr<input_context> final;
-    auto video() -> std::shared_ptr<video_context> final;
-    auto audio() -> std::shared_ptr<audio_context> final;
+    auto input() -> std::shared_ptr<input_provider> final;
+    auto video() -> std::shared_ptr<video_provider> final;
+    auto audio() -> std::shared_ptr<audio_provider> final;
 
 private:
     GLFWwindow* _window{nullptr};
@@ -58,17 +58,18 @@ private:
 };
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto glfw3_opengl_context::is_implemented() const noexcept -> bool {
+auto glfw3_opengl_provider::is_implemented() const noexcept -> bool {
     return OGLPLUS_GLFW3_FOUND != 0;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto glfw3_opengl_context::implementation_name() const noexcept -> string_view {
+auto glfw3_opengl_provider::implementation_name() const noexcept
+  -> string_view {
     return {"GLFW3"};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto glfw3_opengl_context::is_initialized() -> bool {
+auto glfw3_opengl_provider::is_initialized() -> bool {
 #if OGLPLUS_GLFW3_FOUND
     return _window != nullptr;
 #endif
@@ -76,7 +77,7 @@ auto glfw3_opengl_context::is_initialized() -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto glfw3_opengl_context::initialize(execution_context& exec_ctx) -> bool {
+auto glfw3_opengl_provider::initialize(execution_context& exec_ctx) -> bool {
 #if OGLPLUS_GLFW3_FOUND
     if(glfwInit()) {
         auto& options = exec_ctx.options();
@@ -122,7 +123,7 @@ auto glfw3_opengl_context::initialize(execution_context& exec_ctx) -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void glfw3_opengl_context::update(execution_context& exec_ctx) {
+void glfw3_opengl_provider::update(execution_context& exec_ctx) {
 #if OGLPLUS_GLFW3_FOUND
     glfwPollEvents();
 
@@ -139,12 +140,12 @@ void glfw3_opengl_context::update(execution_context& exec_ctx) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto glfw3_opengl_context::video_kind() const noexcept -> video_context_kind {
+auto glfw3_opengl_provider::video_kind() const noexcept -> video_context_kind {
     return video_context_kind::opengl;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void glfw3_opengl_context::video_begin(execution_context&) {
+void glfw3_opengl_provider::video_begin(execution_context&) {
 #if OGLPLUS_GLFW3_FOUND
 
     EAGINE_ASSERT(_window);
@@ -153,7 +154,7 @@ void glfw3_opengl_context::video_begin(execution_context&) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void glfw3_opengl_context::video_end(execution_context&) {
+void glfw3_opengl_provider::video_end(execution_context&) {
 #if OGLPLUS_GLFW3_FOUND
 
     glfwMakeContextCurrent(nullptr);
@@ -161,7 +162,7 @@ void glfw3_opengl_context::video_end(execution_context&) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void glfw3_opengl_context::video_commit(execution_context&) {
+void glfw3_opengl_provider::video_commit(execution_context&) {
 #if OGLPLUS_GLFW3_FOUND
     EAGINE_ASSERT(_window);
     glfwSwapBuffers(_window);
@@ -169,29 +170,29 @@ void glfw3_opengl_context::video_commit(execution_context&) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void glfw3_opengl_context::cleanup(execution_context&) {
+void glfw3_opengl_provider::cleanup(execution_context&) {
 #if OGLPLUS_GLFW3_FOUND
     glfwTerminate();
 #endif // OGLPLUS_GLFW3_FOUND
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto glfw3_opengl_context::input() -> std::shared_ptr<input_context> {
+auto glfw3_opengl_provider::input() -> std::shared_ptr<input_provider> {
     return {shared_from_this()};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto glfw3_opengl_context::video() -> std::shared_ptr<video_context> {
+auto glfw3_opengl_provider::video() -> std::shared_ptr<video_provider> {
     return {shared_from_this()};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto glfw3_opengl_context::audio() -> std::shared_ptr<audio_context> {
+auto glfw3_opengl_provider::audio() -> std::shared_ptr<audio_provider> {
     return {};
 }
 //------------------------------------------------------------------------------
-auto make_glfw3_context() -> std::shared_ptr<hmi_context> {
-    return {std::make_shared<glfw3_opengl_context>()};
+auto make_glfw3_opengl_provider() -> std::shared_ptr<hmi_provider> {
+    return {std::make_shared<glfw3_opengl_provider>()};
 }
 //------------------------------------------------------------------------------
 } // namespace eagine::application
