@@ -8,14 +8,16 @@
 #include <eagine/application_config.hpp>
 #include <eagine/timeout.hpp>
 
+#include <oglplus/gl.hpp>
+#include <oglplus/gl_api.hpp>
+
 namespace eagine::application {
 //------------------------------------------------------------------------------
 class ogl_clear : public application {
 public:
-    ogl_clear(execution_context& ec, video_context& vc)
-      : _ec{ec}
-      , _video{vc} {
-        EAGINE_MAYBE_UNUSED(_ec);
+    ogl_clear(video_context& vc)
+      : _video{vc} {
+        _video.gl_api().clear_color(1.F, 0.F, 0.F, 0.F);
     }
 
     auto is_done() noexcept -> bool final {
@@ -23,7 +25,8 @@ public:
     }
 
     void update() noexcept final {
-        // TODO
+        auto& [gl, GL] = _video.gl_api();
+        gl.clear(GL.color_buffer_bit);
         _video.commit();
     }
 
@@ -32,7 +35,6 @@ public:
     }
 
 private:
-    execution_context& _ec;
     video_context& _video;
     timeout _is_done{std::chrono::seconds(10)};
 };
@@ -50,7 +52,7 @@ public:
             auto& vc = extract(opt_vc);
             vc.begin();
             if(vc.init_gl_api()) {
-                return {std::make_unique<ogl_clear>(ec, vc)};
+                return {std::make_unique<ogl_clear>(vc)};
             }
         }
         return {};
