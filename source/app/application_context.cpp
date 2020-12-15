@@ -12,6 +12,7 @@
 #include <eagine/main_ctx.hpp>
 #include <eagine/input_data.hpp>
 #include <eagine/file_contents.hpp>
+#include <eagine/application_config.hpp>
 
 #include "implement.inl"
 #include <eagine/application/context.hpp>

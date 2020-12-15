@@ -112,7 +112,7 @@ auto execution_context::prepare(std::unique_ptr<launchpad> pad)
                 _exec_result = 5;
             } else {
                 if(_setup_providers()) {
-                    _state = std::make_unique<context_state>(*this);
+                    _state = std::make_shared<context_state>(*this);
                     EAGINE_ASSERT(_state);
                     if(!(_app = pad->launch(*this, _options))) {
                         log_error("failed to launch application");

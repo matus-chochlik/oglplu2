@@ -12,6 +12,7 @@
 
 #include "../../oalplus/al_api_fwd.hpp"
 #include "../../oglplus/gl_api_fwd.hpp"
+#include "../application_config.hpp"
 #include "../assert.hpp"
 #include "../main_ctx_object.hpp"
 #include "interface.hpp"
@@ -137,7 +138,7 @@ public:
 private:
     int _exec_result{0};
     launch_options _options;
-    std::unique_ptr<context_state> _state;
+    std::shared_ptr<context_state> _state;
     std::unique_ptr<application> _app;
     bool _keep_running{true};
 
