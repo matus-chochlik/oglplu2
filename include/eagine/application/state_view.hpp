@@ -21,7 +21,7 @@ using state_value = value_with_history<T, 3>;
 template <typename T>
 using state_variable = variable_with_history<T, 3>;
 //------------------------------------------------------------------------------
-class state_view {
+class context_state_view {
 public:
     auto frame_number() const noexcept -> int {
         return _frame_no;

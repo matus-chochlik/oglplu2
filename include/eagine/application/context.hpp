@@ -78,20 +78,22 @@ private:
     std::shared_ptr<audio_provider> _provider{};
 };
 //------------------------------------------------------------------------------
-class execution_context_impl;
+class context_state;
 class execution_context : public main_ctx_object {
 public:
     execution_context(main_ctx_parent parent) noexcept
       : main_ctx_object(EAGINE_ID(AppExecCtx), parent)
       , _options{*this} {}
 
+    auto result() const noexcept {
+        return _exec_result;
+    }
+
     auto options() const noexcept -> const launch_options& {
         return _options;
     }
 
-    auto result() const noexcept {
-        return _exec_result;
-    }
+    auto state() const noexcept -> const context_state_view&;
 
     auto prepare(std::unique_ptr<launchpad> pad) -> execution_context&;
     auto is_running() noexcept -> bool;
@@ -135,6 +137,7 @@ public:
 private:
     int _exec_result{0};
     launch_options _options;
+    std::unique_ptr<context_state> _state;
     std::unique_ptr<application> _app;
     bool _keep_running{true};
 

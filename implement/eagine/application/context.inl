@@ -85,6 +85,12 @@ inline auto execution_context::_setup_providers() -> bool {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+auto execution_context::state() const noexcept -> const context_state_view& {
+    EAGINE_ASSERT(_state);
+    return *_state;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 auto execution_context::prepare(std::unique_ptr<launchpad> pad)
   -> execution_context& {
     if(pad) {
@@ -106,6 +112,8 @@ auto execution_context::prepare(std::unique_ptr<launchpad> pad)
                 _exec_result = 5;
             } else {
                 if(_setup_providers()) {
+                    _state = std::make_unique<context_state>(*this);
+                    EAGINE_ASSERT(_state);
                     if(!(_app = pad->launch(*this, _options))) {
                         log_error("failed to launch application");
                         _exec_result = 3;
@@ -148,6 +156,8 @@ void execution_context::cleanup() noexcept {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void execution_context::update() noexcept {
+    EAGINE_ASSERT(_state);
+    _state->advance_frame().advance_time();
     EAGINE_ASSERT(_app);
     _app->update();
 }
