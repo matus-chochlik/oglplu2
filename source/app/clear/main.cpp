@@ -15,10 +15,9 @@ namespace eagine::application {
 //------------------------------------------------------------------------------
 class ogl_clear : public application {
 public:
-    ogl_clear(video_context& vc)
-      : _video{vc} {
-        _video.gl_api().clear_color(1.F, 0.F, 0.F, 0.F);
-    }
+    ogl_clear(execution_context& ec, video_context& vc)
+      : _ec{ec}
+      , _video{vc} {}
 
     auto is_done() noexcept -> bool final {
         return _is_done.is_expired();
@@ -26,7 +25,17 @@ public:
 
     void update() noexcept final {
         auto& [gl, GL] = _video.gl_api();
+
+        const auto sec = int(_ec.state().frame_time());
+
+        gl.clear_color(
+          (sec % 3 == 0) ? 1.F : 0.F,
+          (sec % 3 == 1) ? 1.F : 0.F,
+          (sec % 3 == 2) ? 1.F : 0.F,
+          0.0F);
+
         gl.clear(GL.color_buffer_bit);
+
         _video.commit();
     }
 
@@ -35,6 +44,7 @@ public:
     }
 
 private:
+    execution_context& _ec;
     video_context& _video;
     timeout _is_done{std::chrono::seconds(10)};
 };
@@ -52,7 +62,7 @@ public:
             auto& vc = extract(opt_vc);
             vc.begin();
             if(vc.init_gl_api()) {
-                return {std::make_unique<ogl_clear>(vc)};
+                return {std::make_unique<ogl_clear>(ec, vc)};
             }
         }
         return {};
