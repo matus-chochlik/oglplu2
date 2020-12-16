@@ -645,6 +645,91 @@ BOOST_AUTO_TEST_CASE(span_algo_find_1) {
 }
 
 template <typename T>
+void test_range_find_if(T min, T max) {
+    using sz_t = typename std::vector<T>::size_type;
+
+    std::vector<T> v;
+    for(T cur = min; cur <= max; ++cur) {
+        v.push_back(cur);
+    }
+
+    for(int i = 0; i < 50; ++i) {
+        auto what = rg.get<T>(min, max);
+        auto pos = find_element_if(
+          eagine::view(v), [what](auto elem) { return elem == what; });
+        EAGINE_ASSERT(pos);
+        BOOST_CHECK_EQUAL(extract(pos), what - min);
+    }
+}
+
+BOOST_AUTO_TEST_CASE(span_algo_find_if) {
+    test_range_find_if<char>('A', 'Z');
+    test_range_find_if<int>(-1000, 1000);
+}
+
+template <typename T>
+void test_range_take_until(T min, T max) {
+    using sz_t = typename std::vector<T>::size_type;
+
+    std::vector<T> v;
+    for(T cur = min; cur <= max; ++cur) {
+        v.push_back(cur);
+    }
+
+    BOOST_CHECK_EQUAL(
+      take_until(eagine::view(v), [min](auto elem) { return elem == min; })
+        .size(),
+      0);
+    BOOST_CHECK_EQUAL(
+      take_until(eagine::view(v), [max](auto elem) { return elem == max; })
+        .size(),
+      max - min);
+
+    for(int i = 0; i < 50; ++i) {
+        auto what = rg.get<T>(min, max);
+        auto spn = take_until(
+          eagine::view(v), [what](auto elem) { return elem == what; });
+        BOOST_CHECK_EQUAL(spn.size(), what - min);
+    }
+}
+
+BOOST_AUTO_TEST_CASE(span_algo_take_until) {
+    test_range_take_until<char>('A', 'Z');
+    test_range_take_until<int>(-1000, 1000);
+}
+
+template <typename T>
+void test_range_skip_until(T min, T max) {
+    using sz_t = typename std::vector<T>::size_type;
+
+    std::vector<T> v;
+    for(T cur = min; cur <= max; ++cur) {
+        v.push_back(cur);
+    }
+
+    BOOST_CHECK_EQUAL(
+      skip_until(eagine::view(v), [min](auto elem) { return elem == min; })
+        .size(),
+      max - min + 1);
+    BOOST_CHECK_EQUAL(
+      skip_until(eagine::view(v), [max](auto elem) { return elem == max; })
+        .size(),
+      1);
+
+    for(int i = 0; i < 50; ++i) {
+        auto what = rg.get<T>(min, max);
+        auto spn = skip_until(
+          eagine::view(v), [what](auto elem) { return elem == what; });
+        BOOST_CHECK_EQUAL(spn.size(), max - what + 1);
+    }
+}
+
+BOOST_AUTO_TEST_CASE(span_algo_skip_until) {
+    test_range_skip_until<char>('A', 'Z');
+    test_range_skip_until<int>(-1000, 1000);
+}
+
+template <typename T>
 void test_range_strip_prefix_1(eagine::span<T> rng1, eagine::span<T> rng2) {
     using namespace eagine;
 
