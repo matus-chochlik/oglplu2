@@ -3,6 +3,13 @@
    Memcheck:Leak
    fun:*
    ...
-   obj:/usr/*lib*libLLVM*
+   obj:/usr/*lib*/libLLVM*
    ...
 }
+{
+   oglplus/llvm_Cond
+   Memcheck:Cond
+   obj:/usr/*lib*/libLLVM*
+   ...
+}
+
