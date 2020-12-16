@@ -23,6 +23,9 @@ class application_config_impl : public main_ctx_object {
 public:
     application_config_impl(main_ctx_parent parent)
       : main_ctx_object{EAGINE_ID(AppCfgImpl), parent} {
+        // front is empty and is filled out later
+        _tag_list.emplace_back();
+
         if(auto arg{main_context().args().find("--instance")}) {
             if(auto inst_arg{arg.next()}) {
                 _tag_list.push_back(inst_arg.get());
@@ -44,10 +47,12 @@ public:
         _config_name.reserve(128);
     }
 
-    auto find_compound_attribute(string_view key) noexcept
+    auto find_compound_attribute(string_view key, string_view tag) noexcept
       -> valtree::compound_attribute {
         try {
-            const auto tags{view(_tag_list)};
+            _tag_list[0] = tag;
+            const auto tags{skip_until(
+              view(_tag_list), [](auto t) { return !t.is_empty(); })};
 
             if(auto found{
                  _find_config_of(main_context().app_name(), key, tags)}) {
@@ -185,10 +190,11 @@ auto application_config::_impl() noexcept -> application_config_impl* {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-auto application_config::_find_comp_attr(string_view key) noexcept
-  -> valtree::compound_attribute {
+auto application_config::_find_comp_attr(
+  string_view key,
+  string_view tag) noexcept -> valtree::compound_attribute {
     if(auto impl{_impl()}) {
-        return extract(impl).find_compound_attribute(key);
+        return extract(impl).find_compound_attribute(key, tag);
     }
     return {};
 }
