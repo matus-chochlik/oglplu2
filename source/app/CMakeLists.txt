@@ -3,6 +3,11 @@
 # See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
 
+add_custom_target(applications ALL)
+set_target_properties(
+	applications
+	PROPERTIES FOLDER "Application"
+)
 foreach(LIB GLFW3)
 	add_library(EAGapp::${LIB} INTERFACE IMPORTED)
 	if(${LIB}_FOUND)
@@ -17,6 +22,7 @@ endforeach()
 add_library(
 	eagine-application
 	application_context.cpp
+	application_glfw3.cpp
 )
 eagine_add_lib_analysis(eagine-application)
 

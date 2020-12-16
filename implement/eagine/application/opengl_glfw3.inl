@@ -9,6 +9,7 @@
 
 namespace eagine::application {
 
+#include <eagine/application/context.hpp>
 #include <eagine/maybe_unused.hpp>
 #include <oglplus/config/basic.hpp>
 

@@ -10,11 +10,10 @@
 // clang-format off
 #include "prologue.inl"
 #include <eagine/main_ctx.hpp>
-#include <eagine/input_data.hpp>
-#include <eagine/file_contents.hpp>
 #include <eagine/application_config.hpp>
+#include <eagine/application/context.hpp>
 
 #include "implement.inl"
-#include <eagine/application/context.hpp>
+#include <eagine/application/opengl_glfw3.hpp>
 #include "epilogue.inl"
 // clang-format on

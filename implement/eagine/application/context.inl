@@ -11,6 +11,7 @@
 //
 #include <oglplus/gl_api.hpp>
 //
+#include <eagine/application/input.hpp>
 #include <eagine/application/opengl_glfw3.hpp>
 #include <eagine/application/state.hpp>
 #include <eagine/branch_predict.hpp>
@@ -156,6 +157,10 @@ void execution_context::cleanup() noexcept {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void execution_context::update() noexcept {
+    for(auto& provider : _hmi_providers) {
+        EAGINE_ASSERT(provider);
+        provider->update(*this);
+    }
     EAGINE_ASSERT(_state);
     _state->advance_frame().advance_time();
     EAGINE_ASSERT(_app);

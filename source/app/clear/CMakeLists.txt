@@ -10,6 +10,7 @@ add_executable(
 	main.cpp
 )
 eagine_add_exe_analysis(oglplus-ogl-clear)
+add_dependencies(oglplus-ogl-clear applications)
 target_link_libraries(
 	oglplus-ogl-clear
 	PUBLIC eagine eagine-application oglplus
