@@ -13,6 +13,7 @@
 #include <eagine/input_data.hpp>
 #include <eagine/file_contents.hpp>
 #include <eagine/application_config.hpp>
+#include <eagine/application/options.hpp>
 
 #include "implement.inl"
 #include <eagine/application/context.hpp>

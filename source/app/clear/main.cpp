@@ -52,7 +52,7 @@ private:
 class my_app_launchpad : public launchpad {
 public:
     auto setup(main_ctx&, launch_options& opts) -> bool final {
-        opts.require_video().no_audio().no_input();
+        opts.no_audio().no_input().require_video();
         return true;
     }
 

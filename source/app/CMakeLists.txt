@@ -21,6 +21,7 @@ endforeach()
 
 add_library(
 	eagine-application
+	application_options.cpp
 	application_context.cpp
 	application_glfw3.cpp
 )

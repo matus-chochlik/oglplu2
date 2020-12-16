@@ -31,9 +31,9 @@ auto video_context::init_gl_api() noexcept -> bool {
 //------------------------------------------------------------------------------
 // providers
 //------------------------------------------------------------------------------
-inline auto make_all_hmi_providers()
+inline auto make_all_hmi_providers(main_ctx_parent parent)
   -> std::array<std::shared_ptr<hmi_provider>, 1> {
-    return {{make_glfw3_opengl_provider()}};
+    return {{make_glfw3_opengl_provider(parent)}};
 }
 //------------------------------------------------------------------------------
 // execution_context
@@ -43,45 +43,37 @@ inline auto execution_context::_setup_providers() -> bool {
         if(provider->is_initialized()) {
             return true;
         }
-        if(provider->initialize(*this)) {
-            return true;
+        if(provider->should_initialize(*this)) {
+            if(provider->initialize(*this)) {
+                return true;
+            }
+            log_error("failed to initialize HMI provider ${name}")
+              .arg(EAGINE_ID(name), provider->implementation_name());
+        } else {
+            log_debug("skipping initialization of HMI provider ${name}")
+              .arg(EAGINE_ID(name), provider->implementation_name());
         }
-        log_error("failed to initialize HMI provider ${name}")
-          .arg(EAGINE_ID(name), provider->implementation_name());
         return false;
     };
 
-    if(auto video_kind{_options.required_video_kind()}) {
-        for(auto& provider : _hmi_providers) {
-            if(auto video_ctx{provider->video()}) {
-                if(extract(video_ctx).video_kind() == extract(video_kind)) {
-                    if(try_init(provider)) {
-                        _video_contexts.emplace_back(
-                          std::make_unique<video_context>(
-                            *this, std::move(video_ctx)));
-                    } else {
-                        return false;
-                    }
-                }
-            }
+    for(auto& provider : _hmi_providers) {
+        if(try_init(provider)) {
+            _video_contexts.emplace_back(std::make_unique<video_context>(
+              *this, extract(provider).video()));
+        } else {
+            return false;
         }
     }
 
-    if(auto audio_kind{_options.required_audio_kind()}) {
-        for(auto& provider : _hmi_providers) {
-            if(auto audio_ctx{provider->audio()}) {
-                if(extract(audio_ctx).audio_kind() == extract(audio_kind)) {
-                    if(try_init(provider)) {
-                        _audio_contexts.emplace_back(
-                          std::make_unique<audio_context>(
-                            *this, std::move(audio_ctx)));
-                    } else {
-                        return false;
-                    }
-                }
-            }
+    for(auto& provider : _hmi_providers) {
+        if(try_init(provider)) {
+            _audio_contexts.emplace_back(std::make_unique<audio_context>(
+              *this, extract(provider).audio()));
+        } else {
+            return false;
         }
     }
+
     return true;
 }
 //------------------------------------------------------------------------------
@@ -97,7 +89,7 @@ auto execution_context::prepare(std::unique_ptr<launchpad> pad)
     if(pad) {
         if(pad->setup(main_context(), _options)) {
 
-            for(auto& provider : make_all_hmi_providers()) {
+            for(auto& provider : make_all_hmi_providers(*this)) {
                 if(provider->is_implemented()) {
                     log_debug("using ${name} HMI provider")
                       .arg(EAGINE_ID(name), provider->implementation_name());
@@ -151,8 +143,9 @@ void execution_context::stop_running() noexcept {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void execution_context::cleanup() noexcept {
-    EAGINE_ASSERT(_app);
-    _app->cleanup();
+    if(_app) {
+        _app->cleanup();
+    }
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

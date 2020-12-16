@@ -11,10 +11,8 @@
 #include "prologue.inl"
 #include <eagine/main_ctx.hpp>
 #include <eagine/application_config.hpp>
-#include <eagine/application/context.hpp>
-#include <eagine/application/options.hpp>
 
 #include "implement.inl"
-#include <eagine/application/opengl_glfw3.hpp>
+#include <eagine/application/options.hpp>
 #include "epilogue.inl"
 // clang-format on
