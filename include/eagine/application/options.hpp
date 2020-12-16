@@ -45,12 +45,12 @@ public:
         return *this;
     }
 
-    auto surface_width() const noexcept {
-        return _surface_width;
+    auto surface_width() const noexcept -> valid_surface_size {
+        return {_surface_width};
     }
 
-    auto surface_height() const noexcept {
-        return _surface_height;
+    auto surface_height() const noexcept -> valid_surface_size {
+        return {_surface_height};
     }
 
     using valid_samples = valid_if_nonnegative<int>;
@@ -121,6 +121,14 @@ public:
 
     auto stencil_bits() const noexcept -> int {
         return _stencil_bits;
+    }
+
+    auto fullscreen(bool value) noexcept -> auto& {
+        if((_fullscreen = value)) {
+            _surface_width = 0;
+            _surface_height = 0;
+        }
+        return *this;
     }
 
     auto fullscreen() const noexcept -> bool {

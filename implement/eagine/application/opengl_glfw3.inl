@@ -131,6 +131,7 @@ auto glfw3_opengl_provider::initialize(execution_context& exec_ctx) -> bool {
                   GLFW_SAMPLES, video_opts.samples() / GLFW_DONT_CARE);
 
                 GLFWmonitor* window_monitor = nullptr;
+                int fallback_width = 1280, fallback_height = 800;
                 if(video_opts.fullscreen()) {
                     window_monitor = glfwGetPrimaryMonitor();
                     if(auto opt_mon_name{video_opts.monitor_name()}) {
@@ -142,13 +143,19 @@ auto glfw3_opengl_provider::initialize(execution_context& exec_ctx) -> bool {
                         }
                     }
                 }
+                if(auto mode{glfwGetVideoMode(
+                     window_monitor ? window_monitor
+                                    : glfwGetPrimaryMonitor())}) {
+                    fallback_width = extract(mode).width;
+                    fallback_height = extract(mode).height;
+                }
 
                 // TODO: multi context handling
                 EAGINE_ASSERT(!_window);
 
                 _window = glfwCreateWindow(
-                  video_opts.surface_width(),
-                  video_opts.surface_height(),
+                  video_opts.surface_width() / fallback_width,
+                  video_opts.surface_height() / fallback_height,
                   c_str(options.application_title()),
                   window_monitor,
                   nullptr);
@@ -222,6 +229,9 @@ void glfw3_opengl_provider::video_commit(execution_context&) {
 EAGINE_LIB_FUNC
 void glfw3_opengl_provider::cleanup(execution_context&) {
 #if OGLPLUS_GLFW3_FOUND
+    if(_window) {
+        glfwDestroyWindow(_window);
+    }
     glfwTerminate();
 #endif // OGLPLUS_GLFW3_FOUND
 }
