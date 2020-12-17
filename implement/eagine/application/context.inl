@@ -56,13 +56,22 @@ inline auto execution_context::_setup_providers() -> bool {
         return false;
     };
 
+    for(auto& video_opts : _options._video_opts) {
+        // TODO: proper provider selection
+        if(video_opts.second._provider_name.empty()) {
+            video_opts.second._provider_name = "GLFW3";
+        }
+    }
+
     for(auto& provider : _hmi_providers) {
         if(try_init(provider)) {
-            _video_contexts.emplace_back(std::make_unique<video_context>(
-              *this, extract(provider).video()));
-        } else {
-            return false;
+            if(auto video{extract(provider).video()}) {
+                _video_contexts.emplace_back(
+                  std::make_unique<video_context>(*this, std::move(video)));
+                continue;
+            }
         }
+        return false;
     }
 
     for(auto& provider : _hmi_providers) {

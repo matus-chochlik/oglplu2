@@ -14,8 +14,8 @@ namespace eagine::application {
 EAGINE_LIB_FUNC
 video_options::video_options(
   main_ctx_object& o,
-  string_view instance,
-  video_context_kind kind)
+  video_context_kind kind,
+  string_view instance)
   : _video_kind{kind} {
 
     _surface_width = o.cfg_extr<valid_surface_size>(
@@ -40,6 +40,15 @@ video_options::video_options(
       "application.video.opengl.compatibility", _gl_compat_context, instance);
 }
 //------------------------------------------------------------------------------
+// video_options
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+audio_options::audio_options(
+  main_ctx_object&,
+  audio_context_kind kind,
+  string_view)
+  : _audio_kind{kind} {}
+//------------------------------------------------------------------------------
 // launch_options
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -53,7 +62,20 @@ auto launch_options::require_video(video_context_kind kind, string_view instance
     if(pos == _video_opts.end()) {
         pos = _video_opts
                 .try_emplace(
-                  to_string(instance), video_options(*this, instance, kind))
+                  to_string(instance), video_options(*this, kind, instance))
+                .first;
+    }
+    return pos->second;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto launch_options::require_audio(audio_context_kind kind, string_view instance)
+  -> audio_options& {
+    auto pos = _audio_opts.find(instance);
+    if(pos == _audio_opts.end()) {
+        pos = _audio_opts
+                .try_emplace(
+                  to_string(instance), audio_options(*this, kind, instance))
                 .first;
     }
     return pos->second;

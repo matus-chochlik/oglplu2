@@ -70,8 +70,8 @@ struct hmi_provider {
     virtual void cleanup(execution_context&) = 0;
 
     virtual auto input() -> std::shared_ptr<input_provider> = 0;
-    virtual auto video() -> std::shared_ptr<video_provider> = 0;
-    virtual auto audio() -> std::shared_ptr<audio_provider> = 0;
+    virtual auto video(string_view = {}) -> std::shared_ptr<video_provider> = 0;
+    virtual auto audio(string_view = {}) -> std::shared_ptr<audio_provider> = 0;
 };
 //------------------------------------------------------------------------------
 struct application {

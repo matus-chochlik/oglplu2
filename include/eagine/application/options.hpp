@@ -21,16 +21,21 @@
 #include <map>
 
 namespace eagine::application {
+class execution_context;
 
 class video_options {
 public:
     video_options(
       main_ctx_object&,
-      string_view instance,
-      video_context_kind kind);
+      video_context_kind kind,
+      string_view instance);
 
     auto video_kind() const noexcept {
         return _video_kind;
+    }
+
+    auto has_provider(string_view name) const noexcept -> bool {
+        return are_equal(string_view(_provider_name), name);
     }
 
     auto monitor_name() const noexcept -> valid_if_not_empty<string_view> {
@@ -123,6 +128,18 @@ public:
         return _stencil_bits;
     }
 
+    auto offscreen(bool value) noexcept -> auto& {
+        if((_offscreen = value)) {
+            _surface_width = 0;
+            _surface_height = 0;
+        }
+        return *this;
+    }
+
+    auto offscreen() const noexcept -> bool {
+        return _offscreen;
+    }
+
     auto fullscreen(bool value) noexcept -> auto& {
         if((_fullscreen = value)) {
             _surface_width = 0;
@@ -136,7 +153,10 @@ public:
     }
 
 private:
+    friend class execution_context;
+
     video_context_kind _video_kind;
+    std::string _provider_name;
     std::string _monitor_name;
 
     int _surface_width{1280};
@@ -152,6 +172,23 @@ private:
     bool _fullscreen{false};
     bool _gl_debug_context{false};
     bool _gl_compat_context{false};
+};
+
+class audio_options {
+public:
+    audio_options(
+      main_ctx_object&,
+      audio_context_kind kind,
+      string_view instance);
+
+    auto audio_kind() const noexcept {
+        return _audio_kind;
+    }
+
+private:
+    friend class execution_context;
+
+    audio_context_kind _audio_kind;
 };
 
 class launch_options : public main_ctx_object {
@@ -179,20 +216,16 @@ public:
     }
 
     auto no_audio() noexcept -> auto& {
-        _requires_audio = false;
+        _audio_opts.clear();
         return *this;
     }
 
     auto require_audio(
-      audio_context_kind kind = audio_context_kind::openal) noexcept -> auto& {
-        _audio_kind = kind;
-        _requires_audio = true;
-        return *this;
-    }
+      audio_context_kind kind = audio_context_kind::openal,
+      string_view name = {}) -> audio_options&;
 
-    auto required_audio_kind() const noexcept
-      -> optionally_valid<audio_context_kind> {
-        return {_audio_kind, _requires_audio};
+    auto audio_requirements() const noexcept -> auto& {
+        return _audio_opts;
     }
 
     auto no_input() noexcept -> auto& {
@@ -210,9 +243,9 @@ public:
     }
 
 private:
-    std::string _app_title;
+    friend class execution_context;
 
-    audio_context_kind _audio_kind{audio_context_kind::openal};
+    std::string _app_title;
 
     std::map<
       std::string,
@@ -220,8 +253,13 @@ private:
       basic_str_view_less<std::string, string_view>>
       _video_opts;
 
+    std::map<
+      std::string,
+      audio_options,
+      basic_str_view_less<std::string, string_view>>
+      _audio_opts;
+
     bool _requires_input{cfg_init("application.input.required", false)};
-    bool _requires_audio{cfg_init("application.audio.required", false)};
 };
 
 } // namespace eagine::application
