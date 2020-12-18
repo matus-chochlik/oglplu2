@@ -9,27 +9,28 @@
 #define BOOST_TEST_MODULE EAGINE_vect_data
 #include "../unit_test_begin.inl"
 
-#include <eagine/identity.hpp>
+#include <eagine/type_identity.hpp>
 
 BOOST_AUTO_TEST_SUITE(vect_data_tests)
 
 static eagine::test_random_generator rg;
 
-static inline void _check_close(int a, int b, eagine::identity<int>) {
+static inline void _check_close(int a, int b, eagine::type_identity<int>) {
     BOOST_CHECK_EQUAL(a, b);
 }
 
-static inline void _check_close(float a, float b, eagine::identity<float>) {
+static inline void _check_close(float a, float b, eagine::type_identity<float>) {
     BOOST_CHECK_CLOSE(a, b, 0.1f);
 }
 
-static inline void _check_close(double a, double b, eagine::identity<double>) {
+static inline void
+_check_close(double a, double b, eagine::type_identity<double>) {
     BOOST_CHECK_CLOSE(a, b, 0.001);
 }
 
 template <typename T>
 static inline void _check_close(T a, T b) {
-    _check_close(a, b, eagine::identity<T>());
+    _check_close(a, b, eagine::type_identity<T>());
 }
 
 template <typename T, bool V>

@@ -13,8 +13,8 @@
 #include "../assert.hpp"
 #include "../compare.hpp"
 #include "../extract.hpp"
-#include "../identity.hpp"
 #include "../int_constant.hpp"
+#include "../type_identity.hpp"
 #include "../types.hpp"
 #include "address.hpp"
 #include <cstring>
@@ -34,7 +34,7 @@ template <typename Ptr, typename U>
 using rebind_pointer_t = typename rebind_pointer<Ptr, U>::type;
 //------------------------------------------------------------------------------
 template <typename T, typename U>
-struct rebind_pointer<T*, U> : identity<U*> {};
+struct rebind_pointer<T*, U> : type_identity<U*> {};
 //------------------------------------------------------------------------------
 // has_span_size_member
 //------------------------------------------------------------------------------
@@ -399,7 +399,7 @@ template <typename T, typename B, typename P, typename S>
 static constexpr inline auto can_accomodate(
   basic_span<B, P, S> blk,
   span_size_t count,
-  identity<T> tid = {}) noexcept {
+  type_identity<T> tid = {}) noexcept {
     return can_accomodate_between(
       align_up(blk.begin_addr(), span_align_of(tid), span_align_of(tid)),
       align_down(blk.end_addr(), span_align_of(tid), span_align_of(tid)),
@@ -408,13 +408,13 @@ static constexpr inline auto can_accomodate(
 //------------------------------------------------------------------------------
 template <typename T, typename B, typename P, typename S>
 static constexpr inline auto
-can_accomodate(basic_span<B, P, S> blk, identity<T> tid = {}) noexcept {
+can_accomodate(basic_span<B, P, S> blk, type_identity<T> tid = {}) noexcept {
     return can_accomodate(blk, 1, tid);
 }
 //------------------------------------------------------------------------------
 template <typename T, typename B, typename P, typename S>
 static constexpr inline auto
-accomodate(basic_span<B, P, S> blk, identity<T> tid = {}) noexcept
+accomodate(basic_span<B, P, S> blk, type_identity<T> tid = {}) noexcept
   -> basic_span<std::add_const_t<T>, rebind_pointer_t<P, T>, S> {
     return {
       align_up_to(blk.begin_addr(), tid), align_down_to(blk.end_addr(), tid)};

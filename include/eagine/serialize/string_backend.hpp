@@ -37,14 +37,14 @@ public:
     using result = serialization_errors;
 
 private:
-    auto _write_one(bool value, identity<bool>) -> result {
+    auto _write_one(bool value, type_identity<bool>) -> result {
         if(value) {
             return sink("true");
         }
         return sink("false");
     }
 
-    auto _write_one(char value, identity<char>) {
+    auto _write_one(char value, type_identity<char>) {
         result errors = sink('\'');
         errors |= sink(value);
         errors |= sink('\'');
@@ -61,65 +61,66 @@ private:
         return sink(string_view(temp.data()));
     }
 
-    auto _write_one(byte value, identity<byte>) {
+    auto _write_one(byte value, type_identity<byte>) {
         return _sprintf_one(value, "%02hhx");
     }
 
-    auto _write_one(signed char value, identity<signed char>) {
+    auto _write_one(signed char value, type_identity<signed char>) {
         return _sprintf_one(value, "%hhd");
     }
 
-    auto _write_one(short value, identity<short>) {
+    auto _write_one(short value, type_identity<short>) {
         return _sprintf_one(value, "%hd");
     }
 
-    auto _write_one(unsigned short value, identity<unsigned short>) {
+    auto _write_one(unsigned short value, type_identity<unsigned short>) {
         return _sprintf_one(value, "%hu");
     }
 
-    auto _write_one(int value, identity<int>) {
+    auto _write_one(int value, type_identity<int>) {
         return _sprintf_one(value, "%d");
     }
 
-    auto _write_one(unsigned value, identity<unsigned>) {
+    auto _write_one(unsigned value, type_identity<unsigned>) {
         return _sprintf_one(value, "%u");
     }
 
-    auto _write_one(long value, identity<long>) {
+    auto _write_one(long value, type_identity<long>) {
         return _sprintf_one(value, "%ld");
     }
 
-    auto _write_one(unsigned long value, identity<unsigned long>) {
+    auto _write_one(unsigned long value, type_identity<unsigned long>) {
         return _sprintf_one(value, "%lu");
     }
 
-    auto _write_one(long long value, identity<long long>) {
+    auto _write_one(long long value, type_identity<long long>) {
         return _sprintf_one(value, "%lld");
     }
 
-    auto _write_one(unsigned long long value, identity<unsigned long long>) {
+    auto
+    _write_one(unsigned long long value, type_identity<unsigned long long>) {
         return _sprintf_one(value, "%llu");
     }
 
-    auto _write_one(float value, identity<float>) {
+    auto _write_one(float value, type_identity<float>) {
         return _sprintf_one(value, "%f");
     }
 
-    auto _write_one(double value, identity<double>) {
+    auto _write_one(double value, type_identity<double>) {
         return _sprintf_one(value, "%lf");
     }
 
-    auto _write_one(identifier id, identity<identifier>) {
+    auto _write_one(identifier id, type_identity<identifier>) {
         return sink(id.name().view());
     }
 
-    auto _write_one(decl_name name, identity<decl_name>) {
+    auto _write_one(decl_name name, type_identity<decl_name>) {
         return sink(name);
     }
 
-    auto _write_one(string_view str, identity<string_view>) {
+    auto _write_one(string_view str, type_identity<string_view>) {
         result errors = sink('"');
-        errors |= _write_one(str.size(), identity<span_size_t>{});
+        errors |= _write_one(str.size(), type_identity<span_size_t>{});
         errors |= sink('|');
         errors |= sink(str);
         errors |= sink('"');
@@ -132,7 +133,7 @@ public:
         done = 0;
         result errors{};
         for(auto& val : values) {
-            errors |= _write_one(val, identity<T>{});
+            errors |= _write_one(val, type_identity<T>{});
             errors |= sink(';');
             if(errors) {
                 break;
@@ -153,7 +154,7 @@ public:
 
     auto begin_struct(span_size_t count) -> result final {
         result errors = sink('{');
-        errors |= _write_one(count, identity<span_size_t>{});
+        errors |= _write_one(count, type_identity<span_size_t>{});
         errors |= sink('|');
         return errors;
     }
@@ -174,7 +175,7 @@ public:
 
     auto begin_list(span_size_t count) -> result final {
         result errors = sink('[');
-        errors |= _write_one(count, identity<span_size_t>{});
+        errors |= _write_one(count, type_identity<span_size_t>{});
         errors |= sink('|');
         return errors;
     }

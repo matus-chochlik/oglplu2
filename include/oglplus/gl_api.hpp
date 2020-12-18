@@ -157,7 +157,7 @@ public:
       program_name prog,
       uniform_location loc,
       span<const int_type> value,
-      identity<int_type[1]>) const -> combined_result<void> {
+      type_identity<int_type[1]>) const -> combined_result<void> {
         return _set_uniform(
           this->program_uniform1iv, this->uniform1iv, prog, loc, value);
     }
@@ -166,7 +166,7 @@ public:
       program_name prog,
       uniform_location loc,
       span<const int_type> value,
-      identity<int_type[2]>) const -> combined_result<void> {
+      type_identity<int_type[2]>) const -> combined_result<void> {
         return _set_uniform(
           this->program_uniform2iv, this->uniform2iv, prog, loc, value);
     }
@@ -175,7 +175,7 @@ public:
       program_name prog,
       uniform_location loc,
       span<const int_type> value,
-      identity<int_type[3]>) const -> combined_result<void> {
+      type_identity<int_type[3]>) const -> combined_result<void> {
         return _set_uniform(
           this->program_uniform3iv, this->uniform3iv, prog, loc, value);
     }
@@ -184,7 +184,7 @@ public:
       program_name prog,
       uniform_location loc,
       span<const int_type> value,
-      identity<int_type[4]>) const -> combined_result<void> {
+      type_identity<int_type[4]>) const -> combined_result<void> {
         return _set_uniform(
           this->program_uniform4iv, this->uniform4iv, prog, loc, value);
     }
@@ -201,7 +201,7 @@ public:
       program_name prog,
       uniform_location loc,
       span<const float_type> value,
-      identity<float_type[1]>) const -> combined_result<void> {
+      type_identity<float_type[1]>) const -> combined_result<void> {
         return _set_uniform(
           this->program_uniform1fv, this->uniform1fv, prog, loc, value);
     }
@@ -210,7 +210,7 @@ public:
       program_name prog,
       uniform_location loc,
       span<const float_type> value,
-      identity<float_type[2]>) const -> combined_result<void> {
+      type_identity<float_type[2]>) const -> combined_result<void> {
         return _set_uniform(
           this->program_uniform2fv, this->uniform2fv, prog, loc, value);
     }
@@ -219,7 +219,7 @@ public:
       program_name prog,
       uniform_location loc,
       span<const float_type> value,
-      identity<float_type[3]>) const -> combined_result<void> {
+      type_identity<float_type[3]>) const -> combined_result<void> {
         return _set_uniform(
           this->program_uniform3fv, this->uniform3fv, prog, loc, value);
     }
@@ -228,7 +228,7 @@ public:
       program_name prog,
       uniform_location loc,
       span<const float_type> value,
-      identity<float_type[4]>) const -> combined_result<void> {
+      type_identity<float_type[4]>) const -> combined_result<void> {
         return _set_uniform(
           this->program_uniform4fv, this->uniform4fv, prog, loc, value);
     }
@@ -247,7 +247,7 @@ public:
       uniform_location loc,
       span<const float_type> value,
       true_false transpose,
-      identity<float_type[2][2]>) const -> combined_result<void> {
+      type_identity<float_type[2][2]>) const -> combined_result<void> {
         return _set_uniform_matrix(
           this->program_uniform_matrix2fv,
           this->uniform_matrix2fv,
@@ -262,7 +262,7 @@ public:
       uniform_location loc,
       span<const float_type> value,
       true_false transpose,
-      identity<float_type[2][3]>) const -> combined_result<void> {
+      type_identity<float_type[2][3]>) const -> combined_result<void> {
         return _set_uniform_matrix(
           this->program_uniform_matrix2x3fv,
           this->uniform_matrix2x3fv,
@@ -277,7 +277,7 @@ public:
       uniform_location loc,
       span<const float_type> value,
       true_false transpose,
-      identity<float_type[2][4]>) const -> combined_result<void> {
+      type_identity<float_type[2][4]>) const -> combined_result<void> {
         return _set_uniform_matrix(
           this->program_uniform_matrix2x4fv,
           this->uniform_matrix2x4fv,
@@ -292,7 +292,7 @@ public:
       uniform_location loc,
       span<const float_type> value,
       true_false transpose,
-      identity<float_type[3][2]>) const -> combined_result<void> {
+      type_identity<float_type[3][2]>) const -> combined_result<void> {
         return _set_uniform_matrix(
           this->program_uniform_matrix3x2fv,
           this->uniform_matrix3x2fv,
@@ -307,7 +307,7 @@ public:
       uniform_location loc,
       span<const float_type> value,
       true_false transpose,
-      identity<float_type[3][3]>) const -> combined_result<void> {
+      type_identity<float_type[3][3]>) const -> combined_result<void> {
         return _set_uniform_matrix(
           this->program_uniform_matrix3fv,
           this->uniform_matrix3fv,
@@ -322,7 +322,7 @@ public:
       uniform_location loc,
       span<const float_type> value,
       true_false transpose,
-      identity<float_type[3][4]>) const -> combined_result<void> {
+      type_identity<float_type[3][4]>) const -> combined_result<void> {
         return _set_uniform_matrix(
           this->program_uniform_matrix3x4fv,
           this->uniform_matrix3x4fv,
@@ -337,7 +337,7 @@ public:
       uniform_location loc,
       span<const float_type> value,
       true_false transpose,
-      identity<float_type[4][2]>) const -> combined_result<void> {
+      type_identity<float_type[4][2]>) const -> combined_result<void> {
         return _set_uniform_matrix(
           this->program_uniform_matrix4x2fv,
           this->uniform_matrix4x2fv,
@@ -352,7 +352,7 @@ public:
       uniform_location loc,
       span<const float_type> value,
       true_false transpose,
-      identity<float_type[4][3]>) const -> combined_result<void> {
+      type_identity<float_type[4][3]>) const -> combined_result<void> {
         return _set_uniform_matrix(
           this->program_uniform_matrix4x3fv,
           this->uniform_matrix4x3fv,
@@ -367,7 +367,7 @@ public:
       uniform_location loc,
       span<const float_type> value,
       true_false transpose,
-      identity<float_type[4][4]>) const -> combined_result<void> {
+      type_identity<float_type[4][4]>) const -> combined_result<void> {
         return _set_uniform_matrix(
           this->program_uniform_matrix4fv,
           this->uniform_matrix4fv,

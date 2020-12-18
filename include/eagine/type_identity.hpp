@@ -1,5 +1,5 @@
 /**
- *  @file eagine/identity.hpp
+ *  @file eagine/type_identity.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,15 +7,15 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_IDENTITY_HPP
-#define EAGINE_IDENTITY_HPP
+#ifndef EAGINE_TYPE_IDENTITY_HPP
+#define EAGINE_TYPE_IDENTITY_HPP
 
 #include <type_traits>
 
 namespace eagine {
 
 template <typename T>
-struct identity {
+struct type_identity {
     using type = T;
 
     template <
@@ -41,10 +41,11 @@ template <typename T, typename F = void>
 using type_t = typename get_type<T, F>::type;
 
 template <typename T>
-static constexpr inline auto make_identity(const T&) noexcept -> identity<T> {
+static constexpr inline auto make_identity(const T&) noexcept
+  -> type_identity<T> {
     return {};
 }
 
 } // namespace eagine
 
-#endif // EAGINE_IDENTITY_HPP
+#endif // EAGINE_TYPE_IDENTITY_HPP

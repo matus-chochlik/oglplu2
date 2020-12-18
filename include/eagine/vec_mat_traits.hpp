@@ -10,9 +10,9 @@
 #ifndef EAGINE_VEC_MAT_TRAITS_HPP
 #define EAGINE_VEC_MAT_TRAITS_HPP
 
-#include "identity.hpp"
 #include "nothing.hpp"
 #include "span.hpp"
+#include "type_identity.hpp"
 #include <type_traits>
 
 namespace eagine {
@@ -45,20 +45,20 @@ template <typename C, typename CT>
 struct has_canonical_type : std::is_same<canonical_compound_type_t<C>, CT> {};
 
 template <typename T, span_size_t N>
-struct canonical_compound_type<T[N]> : identity<std::remove_cv_t<T[N]>> {};
+struct canonical_compound_type<T[N]> : type_identity<std::remove_cv_t<T[N]>> {};
 
 template <typename T, span_size_t C, span_size_t R>
 struct canonical_compound_type<T[C][R]>
-  : identity<std::remove_cv_t<T[C][R]>> {};
+  : type_identity<std::remove_cv_t<T[C][R]>> {};
 
 template <typename T>
-struct compound_element_type : identity<std::remove_cv_t<T>> {};
+struct compound_element_type : type_identity<std::remove_cv_t<T>> {};
 
 template <typename T, span_size_t N>
-struct compound_element_type<T[N]> : identity<std::remove_cv_t<T>> {};
+struct compound_element_type<T[N]> : type_identity<std::remove_cv_t<T>> {};
 
 template <typename T, span_size_t C, span_size_t R>
-struct compound_element_type<T[C][R]> : identity<std::remove_cv_t<T>> {};
+struct compound_element_type<T[C][R]> : type_identity<std::remove_cv_t<T>> {};
 
 template <typename T>
 struct canonical_element_type

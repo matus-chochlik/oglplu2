@@ -29,7 +29,7 @@ struct does_have_data_member_mapping {
 private:
     template <
       typename X,
-      typename = decltype(data_member_mapping(identity<X>(), Selector()))>
+      typename = decltype(data_member_mapping(type_identity<X>(), Selector()))>
     static auto _test(X*) -> std::true_type;
     static auto _test(...) -> std::false_type;
 

@@ -122,7 +122,7 @@ static constexpr inline auto append_to(
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S>
 struct cmp_decay_to<basic_string_span<T, P, S>>
-  : identity<memory::basic_span<T, P, S>> {};
+  : type_identity<memory::basic_span<T, P, S>> {};
 //------------------------------------------------------------------------------
 // less
 //------------------------------------------------------------------------------

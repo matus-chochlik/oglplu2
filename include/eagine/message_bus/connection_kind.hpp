@@ -24,7 +24,8 @@ enum class connection_kind : std::uint8_t {
 };
 //------------------------------------------------------------------------------
 template <typename Selector>
-constexpr auto enumerator_mapping(identity<connection_kind>, Selector) noexcept {
+constexpr auto
+enumerator_mapping(type_identity<connection_kind>, Selector) noexcept {
     return enumerator_map_type<connection_kind, 4>{
       {{"unknown", connection_kind::unknown},
        {"in_process", connection_kind::in_process},

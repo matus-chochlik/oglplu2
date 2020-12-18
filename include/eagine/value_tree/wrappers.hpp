@@ -12,8 +12,8 @@
 
 #include "../assert.hpp"
 #include "../callable_ref.hpp"
-#include "../identity.hpp"
 #include "../memory/span_algo.hpp"
+#include "../type_identity.hpp"
 #include "../valid_if/decl.hpp"
 #include "interface.hpp"
 #include <utility>
@@ -377,8 +377,8 @@ public:
     }
 
     template <typename T>
-    auto get(const attribute& attrib, span_size_t offset, identity<T> = {}) const
-      -> optionally_valid<T> {
+    auto get(const attribute& attrib, span_size_t offset, type_identity<T> = {})
+      const -> optionally_valid<T> {
         T temp{};
         if(fetch_value(attrib, offset, temp)) {
             return {std::move(temp), true};
@@ -390,7 +390,7 @@ public:
     auto get(
       const basic_string_path& path,
       span_size_t offset,
-      identity<T> = {}) const -> optionally_valid<T> {
+      type_identity<T> = {}) const -> optionally_valid<T> {
         T temp{};
         if(fetch_value(path, offset, temp)) {
             return {std::move(temp), true};
@@ -399,7 +399,7 @@ public:
     }
 
     template <typename T>
-    auto get(string_view name, span_size_t offset, identity<T> = {}) const
+    auto get(string_view name, span_size_t offset, type_identity<T> = {}) const
       -> optionally_valid<T> {
         T temp{};
         if(fetch_value(name, offset, temp)) {
@@ -409,19 +409,19 @@ public:
     }
 
     template <typename T>
-    auto get(const attribute& attrib, identity<T> tid = {}) const
+    auto get(const attribute& attrib, type_identity<T> tid = {}) const
       -> optionally_valid<T> {
         return get<T>(attrib, 0, tid);
     }
 
     template <typename T>
-    auto get(const basic_string_path& path, identity<T> tid = {}) const
+    auto get(const basic_string_path& path, type_identity<T> tid = {}) const
       -> optionally_valid<T> {
         return get<T>(path, 0, tid);
     }
 
     template <typename T>
-    auto get(string_view name, identity<T> tid = {}) const
+    auto get(string_view name, type_identity<T> tid = {}) const
       -> optionally_valid<T> {
         return get<T>(name, 0, tid);
     }
@@ -525,12 +525,12 @@ public:
     }
 
     template <typename T>
-    auto get(span_size_t offset, identity<T> tid = {}) const {
+    auto get(span_size_t offset, type_identity<T> tid = {}) const {
         return _c.get(_a, offset, tid);
     }
 
     template <typename T>
-    auto get(identity<T> tid = {}) const {
+    auto get(type_identity<T> tid = {}) const {
         return _c.get(_a, tid);
     }
 

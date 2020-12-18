@@ -89,7 +89,7 @@ public:
       string_view key,
       T initial,
       string_view tag = {},
-      identity<Extractable> = {}) -> T {
+      type_identity<Extractable> = {}) -> T {
         Extractable value(initial);
         return extract_or(
           application_config_initial(app_config(), key, value, tag), initial);

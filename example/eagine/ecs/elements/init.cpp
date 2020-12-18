@@ -39,22 +39,23 @@ static void populate(
             elements.add(elem, element_name(latin, english));
         }
         if(auto protons_a{source.nested(elem_attr, "protons")}) {
-            if(auto number{source.get(protons_a, identity<short>())}) {
+            if(auto number{source.get(protons_a, type_identity<short>())}) {
                 elements.add(elem, element_protons(extract(number)));
             }
         }
         if(auto period_a{source.nested(elem_attr, "period")}) {
-            if(auto number{source.get(period_a, identity<short>())}) {
+            if(auto number{source.get(period_a, type_identity<short>())}) {
                 elements.add(elem, element_period(extract(number)));
             }
         }
         if(auto group_a{source.nested(elem_attr, "group")}) {
-            if(auto number{source.get(group_a, identity<short>())}) {
+            if(auto number{source.get(group_a, type_identity<short>())}) {
                 elements.add(elem, element_group(extract(number)));
             }
         }
         if(auto atomic_weight_a{source.nested(elem_attr, "atomic_weight")}) {
-            if(auto number{source.get(atomic_weight_a, identity<float>())}) {
+            if(auto number{
+                 source.get(atomic_weight_a, type_identity<float>())}) {
                 elements.add(elem, atomic_weight(extract(number)));
             }
         }
@@ -84,14 +85,16 @@ static void populate(
                     elements.add(isot, element_name(latin, english));
                 }
                 if(auto neutrons_a{source.nested(isot_attr, "neutrons")}) {
-                    if(auto number{source.get(neutrons_a, identity<short>())}) {
+                    if(auto number{
+                         source.get(neutrons_a, type_identity<short>())}) {
                         elements.add(isot, isotope_neutrons(extract(number)));
                     }
                 }
 
                 if(auto half_life_a{source.nested(isot_attr, "half_life")}) {
                     using hl_t = std::chrono::duration<float>;
-                    if(auto hl{source.get(half_life_a, identity<hl_t>())}) {
+                    if(auto hl{
+                         source.get(half_life_a, type_identity<hl_t>())}) {
                         elements.add(isot, half_life(extract(hl)));
                     }
                 }

@@ -17,7 +17,7 @@ namespace eagine::msgbus {
 enum class node_kind : std::uint8_t { unknown, endpoint, bridge, router };
 //------------------------------------------------------------------------------
 template <typename Selector>
-constexpr auto enumerator_mapping(identity<node_kind>, Selector) noexcept {
+constexpr auto enumerator_mapping(type_identity<node_kind>, Selector) noexcept {
     return enumerator_map_type<node_kind, 4>{
       {{"unknown", node_kind::unknown},
        {"endpoint", node_kind::endpoint},

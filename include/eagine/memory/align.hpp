@@ -10,7 +10,7 @@
 #ifndef EAGINE_MEMORY_ALIGN_HPP
 #define EAGINE_MEMORY_ALIGN_HPP
 
-#include "../identity.hpp"
+#include "../type_identity.hpp"
 #include "../types.hpp"
 
 namespace eagine::memory {
@@ -37,7 +37,7 @@ is_aligned_to(std::nullptr_t, span_size_t) noexcept {
 //------------------------------------------------------------------------------
 template <typename T>
 static constexpr inline auto
-is_aligned_as(span_size_t addr, identity<T> = {}) noexcept {
+is_aligned_as(span_size_t addr, type_identity<T> = {}) noexcept {
     return is_aligned_to(addr, span_align_of<T>());
 }
 //------------------------------------------------------------------------------

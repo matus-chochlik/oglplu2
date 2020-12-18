@@ -42,31 +42,31 @@ BOOST_AUTO_TEST_CASE(buffer_size_2) {
     span_size_t n;
     {
         n = get_n();
-        buffer_size<int> st(identity<char>(), n);
+        buffer_size<int> st(type_identity<char>(), n);
         BOOST_CHECK_EQUAL(st.get(), int(sz<char>() * n));
         BOOST_CHECK_EQUAL(int(st), int(sz<char>() * n));
     }
     {
         n = get_n();
-        buffer_size<int> st(identity<short>(), n);
+        buffer_size<int> st(type_identity<short>(), n);
         BOOST_CHECK_EQUAL(st.get(), int(sz<short>() * n));
         BOOST_CHECK_EQUAL(int(st), int(sz<short>() * n));
     }
     {
         n = get_n();
-        buffer_size<int> st(identity<unsigned>(), n);
+        buffer_size<int> st(type_identity<unsigned>(), n);
         BOOST_CHECK_EQUAL(st.get(), int(sz<unsigned>() * n));
         BOOST_CHECK_EQUAL(int(st), int(sz<unsigned>() * n));
     }
     {
         n = get_n();
-        buffer_size<int> st(identity<long>(), n);
+        buffer_size<int> st(type_identity<long>(), n);
         BOOST_CHECK_EQUAL(st.get(), int(sz<long>() * n));
         BOOST_CHECK_EQUAL(int(st), int(sz<long>() * n));
     }
     {
         n = get_n();
-        buffer_size<int> st(identity<float>(), n);
+        buffer_size<int> st(type_identity<float>(), n);
         BOOST_CHECK_EQUAL(st.get(), int(sz<float>() * n));
         BOOST_CHECK_EQUAL(int(st), int(sz<float>() * n));
     }
@@ -77,27 +77,27 @@ BOOST_AUTO_TEST_CASE(buffer_size_3) {
     span_size_t n;
     {
         n = get_n();
-        buffer_size<unsigned> st(identity<char>(), n);
+        buffer_size<unsigned> st(type_identity<char>(), n);
         BOOST_CHECK_EQUAL(unsigned(st), unsigned(sz<char>() * n));
     }
     {
         n = get_n();
-        buffer_size<unsigned> st(identity<short>(), n);
+        buffer_size<unsigned> st(type_identity<short>(), n);
         BOOST_CHECK_EQUAL(unsigned(st), unsigned(sz<short>() * n));
     }
     {
         n = get_n();
-        buffer_size<unsigned> st(identity<int>(), n);
+        buffer_size<unsigned> st(type_identity<int>(), n);
         BOOST_CHECK_EQUAL(unsigned(st), unsigned(sz<int>() * n));
     }
     {
         n = get_n();
-        buffer_size<unsigned> st(identity<long>(), n);
+        buffer_size<unsigned> st(type_identity<long>(), n);
         BOOST_CHECK_EQUAL(unsigned(st), unsigned(sz<long>() * n));
     }
     {
         n = get_n();
-        buffer_size<unsigned> st(identity<float>(), n);
+        buffer_size<unsigned> st(type_identity<float>(), n);
         BOOST_CHECK_EQUAL(unsigned(st), unsigned(sz<float>() * n));
     }
 }

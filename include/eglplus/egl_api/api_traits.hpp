@@ -23,7 +23,7 @@ public:
     using opt_result = egl_opt_result<R>;
 
     template <typename Api, typename Tag, typename Signature>
-    auto link_function(Api& api, Tag, string_view name, identity<Signature>)
+    auto link_function(Api& api, Tag, string_view name, type_identity<Signature>)
       -> std::add_pointer_t<Signature> {
         if(api.GetProcAddress && api.GetError) {
             _full_name.clear();

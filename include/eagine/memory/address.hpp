@@ -100,7 +100,7 @@ public:
     }
 
     template <typename T>
-    constexpr auto is_aligned_as(identity<T> tid = {}) const noexcept {
+    constexpr auto is_aligned_as(type_identity<T> tid = {}) const noexcept {
         return memory::is_aligned_as<T>(value(), tid);
     }
 
@@ -180,7 +180,7 @@ is_aligned_to(const void* ptr, span_size_t alignment) noexcept {
 //------------------------------------------------------------------------------
 template <typename T>
 static constexpr inline auto
-is_aligned_as(const_address addr, identity<T> tid = {}) noexcept {
+is_aligned_as(const_address addr, type_identity<T> tid = {}) noexcept {
     return addr.is_aligned_as(tid);
 }
 //------------------------------------------------------------------------------
@@ -245,7 +245,7 @@ static inline auto align_down(const byte* ptr, span_size_t align)
 template <typename T>
 static constexpr auto align_up_to(
   basic_address<std::is_const_v<T>> addr,
-  identity<T> = {},
+  type_identity<T> = {},
   span_size_t align = span_align_of<T>(),
   span_size_t max = span_size_of<T>()) noexcept {
 
@@ -259,7 +259,7 @@ static constexpr auto align_up_to(
 template <typename T>
 static constexpr inline auto align_down_to(
   basic_address<std::is_const_v<T>> addr,
-  identity<T> = {},
+  type_identity<T> = {},
   span_size_t align = span_align_of<T>(),
   span_size_t max = span_size_of<T>()) noexcept {
     if(align < span_align_of<T>()) {

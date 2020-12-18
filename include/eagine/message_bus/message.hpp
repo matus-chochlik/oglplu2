@@ -52,7 +52,7 @@ enum class message_priority : std::uint8_t {
 //------------------------------------------------------------------------------
 template <typename Selector>
 constexpr auto
-enumerator_mapping(identity<message_priority>, Selector) noexcept {
+enumerator_mapping(type_identity<message_priority>, Selector) noexcept {
     return enumerator_map_type<message_priority, 5>{
       {{"critical", message_priority::critical},
        {"high", message_priority::high},
@@ -70,7 +70,7 @@ using message_crypto_flags = bitfield<message_crypto_flag>;
 //------------------------------------------------------------------------------
 template <typename Selector>
 constexpr auto
-enumerator_mapping(identity<message_crypto_flag>, Selector) noexcept {
+enumerator_mapping(type_identity<message_crypto_flag>, Selector) noexcept {
     return enumerator_map_type<message_crypto_flag, 3>{
       {{"asymmetric", message_crypto_flag::asymmetric},
        {"signed_header", message_crypto_flag::signed_header},

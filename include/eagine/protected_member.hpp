@@ -10,12 +10,12 @@
 #ifndef EAGINE_PROTECTED_MEMBER_HPP
 #define EAGINE_PROTECTED_MEMBER_HPP
 
-#include "identity.hpp"
+#include "type_identity.hpp"
 #include <utility>
 
 namespace eagine {
 
-template <typename T, typename Selector = identity<T>>
+template <typename T, typename Selector = type_identity<T>>
 class protected_member {
 private:
     T _member;

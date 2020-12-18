@@ -35,7 +35,7 @@ private:
 public:
     static auto is_valid_block(memory::const_block blk) noexcept -> bool {
         return !blk.empty() && (blk.is_aligned_as<T>()) &&
-               (can_accomodate(blk, identity<T>()));
+               (can_accomodate(blk, type_identity<T>()));
     }
 
     structured_memory_block(memory::basic_block<std::is_const_v<T>> blk) noexcept

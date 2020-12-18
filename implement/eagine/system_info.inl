@@ -112,7 +112,7 @@ public:
               span_size_of<host_id_t>() * 2,
               [this](auto hexstr) {
                   if(const auto mi{
-                       from_string(hexstr, identity<host_id_t>(), 16)}) {
+                       from_string(hexstr, type_identity<host_id_t>(), 16)}) {
                       _host_id ^= extract(mi);
                   }
               });

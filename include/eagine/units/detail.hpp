@@ -10,8 +10,8 @@
 #ifndef EAGINE_UNITS_DETAIL_HPP
 #define EAGINE_UNITS_DETAIL_HPP
 
-#include "../identity.hpp"
 #include "../mp_arithmetic.hpp"
+#include "../type_identity.hpp"
 #include "base_dim.hpp"
 #include "fwd.hpp"
 #include "scales.hpp"
@@ -20,7 +20,7 @@ namespace eagine::units::bits {
 
 // collapse_tail
 template <typename X>
-struct collapse_tail : identity<X> {};
+struct collapse_tail : type_identity<X> {};
 
 template <typename X>
 using collapse_tail_t = typename collapse_tail<X>::type;

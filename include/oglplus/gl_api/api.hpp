@@ -175,14 +175,15 @@ public:
 
         template <typename... Args>
         constexpr auto _cnvchkcall(Args&&... args) const noexcept {
-            return this->_chkcall(_conv(args)...).cast_to(identity<RVC>{});
+            return this->_chkcall(_conv(args)...).cast_to(type_identity<RVC>{});
         }
 
     public:
         using base::base;
 
         constexpr auto operator()(Params... params) const noexcept {
-            return this->_chkcall(_conv(params)...).cast_to(identity<RVC>{});
+            return this->_chkcall(_conv(params)...)
+              .cast_to(type_identity<RVC>{});
         }
 
         auto bind(Params... params) const noexcept {
@@ -233,7 +234,7 @@ public:
               ->_cnvchkcall(
                 pre_params..., enum_type(query), post_params..., &result)
               .replaced_with(result)
-              .cast_to(identity<RV>{});
+              .cast_to(type_identity<RV>{});
         }
 
         template <
@@ -282,7 +283,7 @@ public:
         constexpr auto operator()() const noexcept {
             name_type n{};
             return this->_chkcall(1, &n).replaced_with(n).cast_to(
-              identity<gl_owned_object_name<ObjTag>>{});
+              type_identity<gl_owned_object_name<ObjTag>>{});
         }
     };
 
@@ -291,7 +292,7 @@ public:
 
         constexpr auto operator()(shader_type type) const noexcept {
             return this->_cnvchkcall(type).cast_to(
-              identity<owned_shader_name>{});
+              type_identity<owned_shader_name>{});
         }
     } create_shader;
 
@@ -299,7 +300,8 @@ public:
         using func<OGLPAFP(CreateProgram)>::func;
 
         constexpr auto operator()() const noexcept {
-            return this->_chkcall().cast_to(identity<owned_program_name>{});
+            return this->_chkcall().cast_to(
+              type_identity<owned_program_name>{});
         }
     } create_program;
 
@@ -352,7 +354,8 @@ public:
         using func<OGLPAFP(GenPathsNV)>::func;
 
         constexpr auto operator()() const noexcept {
-            return this->_chkcall(1).cast_to(identity<owned_path_nv_name>{});
+            return this->_chkcall(1).cast_to(
+              type_identity<owned_path_nv_name>{});
         }
     } create_paths_nv;
 

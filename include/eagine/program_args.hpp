@@ -11,13 +11,13 @@
 
 #include "assert.hpp"
 #include "from_string.hpp"
-#include "identity.hpp"
 #include "memory/block.hpp"
 #include "memory/span_algo.hpp"
 #include "program_args.hpp"
 #include "range_types.hpp"
 #include "span.hpp"
 #include "string_span.hpp"
+#include "type_identity.hpp"
 #include "type_name.hpp"
 #include "valid_if/in_list.hpp"
 #include <memory>
@@ -773,7 +773,7 @@ private:
         }
 
         template <typename X>
-        static auto _plchldr_name(identity<X>) noexcept -> string_view {
+        static auto _plchldr_name(type_identity<X>) noexcept -> string_view {
             if(std::is_same_v<X, bool>) {
                 return {"BOOLEAN"};
             }
@@ -791,18 +791,18 @@ private:
         }
 
         template <typename X, typename P, typename L>
-        static auto _plchldr_name(identity<valid_if<X, P, L>>) noexcept {
-            return _plchldr_name(identity<X>());
+        static auto _plchldr_name(type_identity<valid_if<X, P, L>>) noexcept {
+            return _plchldr_name(type_identity<X>());
         }
 
         template <typename X, typename A>
-        static auto _plchldr_name(identity<std::vector<X, A>>) noexcept {
-            return _plchldr_name(identity<X>());
+        static auto _plchldr_name(type_identity<std::vector<X, A>>) noexcept {
+            return _plchldr_name(type_identity<X>());
         }
 
         _impl(program_parameter<T>& param) noexcept
           : _pparam{&param}
-          , _plchldr{_plchldr_name(identity<T>())} {}
+          , _plchldr{_plchldr_name(type_identity<T>())} {}
 
         auto parse(program_arg& arg, std::ostream& log) -> bool override {
             return arg.parse_param(_param(), log);

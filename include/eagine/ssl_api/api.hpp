@@ -95,14 +95,15 @@ public:
 
         template <typename... Args>
         constexpr auto _cnvchkcall(Args&&... args) const noexcept {
-            return this->_chkcall(_conv(args)...).cast_to(identity<RVC>{});
+            return this->_chkcall(_conv(args)...).cast_to(type_identity<RVC>{});
         }
 
     public:
         using base::base;
 
         constexpr auto operator()(Params... params) const noexcept {
-            return this->_chkcall(_conv(params)...).cast_to(identity<RVC>{});
+            return this->_chkcall(_conv(params)...)
+              .cast_to(type_identity<RVC>{});
         }
 
         constexpr auto fake() const noexcept {
@@ -117,7 +118,7 @@ public:
         using func<SSLPAFP(ui_null)>::func;
 
         constexpr auto operator()() const noexcept {
-            return this->_chkcall().cast_to(identity<ui_method>{});
+            return this->_chkcall().cast_to(type_identity<ui_method>{});
         }
     } null_ui;
 
@@ -126,7 +127,7 @@ public:
         using func<SSLPAFP(ui_openssl)>::func;
 
         constexpr auto operator()() const noexcept {
-            return this->_chkcall().cast_to(identity<ui_method>{});
+            return this->_chkcall().cast_to(type_identity<ui_method>{});
         }
     } openssl_ui;
 
@@ -144,7 +145,7 @@ public:
         using func<SSLPAFP(engine_get_first)>::func;
 
         constexpr auto operator()() const noexcept {
-            return this->_chkcall().cast_to(identity<owned_engine>{});
+            return this->_chkcall().cast_to(type_identity<owned_engine>{});
         }
     } get_first_engine;
 
@@ -153,7 +154,7 @@ public:
         using func<SSLPAFP(engine_get_last)>::func;
 
         constexpr auto operator()() const noexcept {
-            return this->_chkcall().cast_to(identity<owned_engine>{});
+            return this->_chkcall().cast_to(type_identity<owned_engine>{});
         }
     } get_last_engine;
 
@@ -163,7 +164,7 @@ public:
 
         constexpr auto operator()(owned_engine& eng) const noexcept {
             return this->_cnvchkcall(eng.release())
-              .cast_to(identity<owned_engine>{});
+              .cast_to(type_identity<owned_engine>{});
         }
     } get_next_engine;
 
@@ -173,7 +174,7 @@ public:
 
         constexpr auto operator()(owned_engine& eng) const noexcept {
             return this->_cnvchkcall(eng.release())
-              .cast_to(identity<owned_engine>{});
+              .cast_to(type_identity<owned_engine>{});
         }
     } get_prev_engine;
 
@@ -182,7 +183,7 @@ public:
         using func<SSLPAFP(engine_new)>::func;
 
         constexpr auto operator()() const noexcept {
-            return this->_chkcall().cast_to(identity<owned_engine>{});
+            return this->_chkcall().cast_to(type_identity<owned_engine>{});
         }
     } new_engine;
 
@@ -191,7 +192,7 @@ public:
         using func<SSLPAFP(engine_by_id)>::func;
 
         constexpr auto operator()(string_view id) const noexcept {
-            return this->_cnvchkcall(id).cast_to(identity<owned_engine>{});
+            return this->_cnvchkcall(id).cast_to(type_identity<owned_engine>{});
         }
     } open_engine;
 
@@ -245,7 +246,7 @@ public:
         using func<SSLPAFP(engine_get_id)>::func;
 
         constexpr auto operator()(engine eng) const noexcept {
-            return this->_cnvchkcall(eng).cast_to(identity<string_view>{});
+            return this->_cnvchkcall(eng).cast_to(type_identity<string_view>{});
         }
     } get_engine_id;
 
@@ -254,7 +255,7 @@ public:
         using func<SSLPAFP(engine_get_name)>::func;
 
         constexpr auto operator()(engine eng) const noexcept {
-            return this->_cnvchkcall(eng).cast_to(identity<string_view>{});
+            return this->_cnvchkcall(eng).cast_to(type_identity<string_view>{});
         }
     } get_engine_name;
 
@@ -319,7 +320,7 @@ public:
         constexpr auto operator()(engine eng, string_view key_id, ui_method uim)
           const noexcept {
             return this->_cnvchkcall(eng, key_id, uim, nullptr)
-              .cast_to(identity<owned_pkey>{});
+              .cast_to(type_identity<owned_pkey>{});
         }
     } load_engine_private_key;
 
@@ -330,7 +331,7 @@ public:
         constexpr auto
         operator()(engine eng, string_view key_id) const noexcept {
             return this->_cnvchkcall(eng, key_id, this->ui_openssl())
-              .cast_to(identity<owned_pkey>{});
+              .cast_to(type_identity<owned_pkey>{});
         }
     } load_engine_public_key;
 
@@ -339,7 +340,8 @@ public:
         using func<SSLPAFP(bio_new)>::func;
 
         constexpr auto operator()(basic_io_method method) const noexcept {
-            return this->_chkcall(method).cast_to(identity<owned_basic_io>{});
+            return this->_chkcall(method).cast_to(
+              type_identity<owned_basic_io>{});
         }
     } new_basic_io;
 
@@ -349,7 +351,7 @@ public:
 
         constexpr auto operator()(memory::const_block blk) const noexcept {
             return this->_chkcall(blk.data(), limit_cast<int>(blk.size()))
-              .cast_to(identity<owned_basic_io>{});
+              .cast_to(type_identity<owned_basic_io>{});
         }
 
     } new_block_basic_io;
@@ -420,7 +422,7 @@ public:
         using func<SSLPAFP(evp_aes_128_ctr)>::func;
 
         constexpr auto operator()() const noexcept {
-            return this->_chkcall().cast_to(identity<cipher_type>{});
+            return this->_chkcall().cast_to(type_identity<cipher_type>{});
         }
     } cipher_aes_128_ctr;
 
@@ -428,7 +430,7 @@ public:
         using func<SSLPAFP(evp_aes_128_ccm)>::func;
 
         constexpr auto operator()() const noexcept {
-            return this->_chkcall().cast_to(identity<cipher_type>{});
+            return this->_chkcall().cast_to(type_identity<cipher_type>{});
         }
     } cipher_aes_128_ccm;
 
@@ -436,7 +438,7 @@ public:
         using func<SSLPAFP(evp_aes_128_gcm)>::func;
 
         constexpr auto operator()() const noexcept {
-            return this->_chkcall().cast_to(identity<cipher_type>{});
+            return this->_chkcall().cast_to(type_identity<cipher_type>{});
         }
     } cipher_aes_128_gcm;
 
@@ -444,7 +446,7 @@ public:
         using func<SSLPAFP(evp_aes_128_xts)>::func;
 
         constexpr auto operator()() const noexcept {
-            return this->_chkcall().cast_to(identity<cipher_type>{});
+            return this->_chkcall().cast_to(type_identity<cipher_type>{});
         }
     } cipher_aes_128_xts;
 
@@ -452,7 +454,7 @@ public:
         using func<SSLPAFP(evp_aes_192_ecb)>::func;
 
         constexpr auto operator()() const noexcept {
-            return this->_chkcall().cast_to(identity<cipher_type>{});
+            return this->_chkcall().cast_to(type_identity<cipher_type>{});
         }
     } cipher_aes_192_ecb;
 
@@ -460,7 +462,7 @@ public:
         using func<SSLPAFP(evp_aes_192_cbc)>::func;
 
         constexpr auto operator()() const noexcept {
-            return this->_chkcall().cast_to(identity<cipher_type>{});
+            return this->_chkcall().cast_to(type_identity<cipher_type>{});
         }
     } cipher_aes_192_cbc;
 
@@ -469,7 +471,7 @@ public:
         using func<SSLPAFP(evp_cipher_ctx_new)>::func;
 
         constexpr auto operator()() const noexcept {
-            return this->_chkcall().cast_to(identity<owned_cipher>{});
+            return this->_chkcall().cast_to(type_identity<owned_cipher>{});
         }
     } new_cipher;
 
@@ -730,7 +732,8 @@ public:
         using func<SSLPAFP(evp_md_null)>::func;
 
         constexpr auto operator()() const noexcept {
-            return this->_chkcall().cast_to(identity<message_digest_type>{});
+            return this->_chkcall().cast_to(
+              type_identity<message_digest_type>{});
         }
     } message_digest_noop;
 
@@ -738,7 +741,8 @@ public:
         using func<SSLPAFP(evp_md5)>::func;
 
         constexpr auto operator()() const noexcept {
-            return this->_chkcall().cast_to(identity<message_digest_type>{});
+            return this->_chkcall().cast_to(
+              type_identity<message_digest_type>{});
         }
     } message_digest_md5;
 
@@ -746,7 +750,8 @@ public:
         using func<SSLPAFP(evp_sha1)>::func;
 
         constexpr auto operator()() const noexcept {
-            return this->_chkcall().cast_to(identity<message_digest_type>{});
+            return this->_chkcall().cast_to(
+              type_identity<message_digest_type>{});
         }
     } message_digest_sha1;
 
@@ -754,7 +759,8 @@ public:
         using func<SSLPAFP(evp_sha224)>::func;
 
         constexpr auto operator()() const noexcept {
-            return this->_chkcall().cast_to(identity<message_digest_type>{});
+            return this->_chkcall().cast_to(
+              type_identity<message_digest_type>{});
         }
     } message_digest_sha224;
 
@@ -762,7 +768,8 @@ public:
         using func<SSLPAFP(evp_sha256)>::func;
 
         constexpr auto operator()() const noexcept {
-            return this->_chkcall().cast_to(identity<message_digest_type>{});
+            return this->_chkcall().cast_to(
+              type_identity<message_digest_type>{});
         }
     } message_digest_sha256;
 
@@ -770,7 +777,8 @@ public:
         using func<SSLPAFP(evp_sha384)>::func;
 
         constexpr auto operator()() const noexcept {
-            return this->_chkcall().cast_to(identity<message_digest_type>{});
+            return this->_chkcall().cast_to(
+              type_identity<message_digest_type>{});
         }
     } message_digest_sha384;
 
@@ -778,7 +786,8 @@ public:
         using func<SSLPAFP(evp_sha512)>::func;
 
         constexpr auto operator()() const noexcept {
-            return this->_chkcall().cast_to(identity<message_digest_type>{});
+            return this->_chkcall().cast_to(
+              type_identity<message_digest_type>{});
         }
     } message_digest_sha512;
 
@@ -795,7 +804,8 @@ public:
         using func<SSLPAFP(evp_md_ctx_new)>::func;
 
         constexpr auto operator()() const noexcept {
-            return this->_chkcall().cast_to(identity<owned_message_digest>{});
+            return this->_chkcall().cast_to(
+              type_identity<owned_message_digest>{});
         }
     } new_message_digest;
 
@@ -976,7 +986,8 @@ public:
         using func<SSLPAFP(x509_store_ctx_new)>::func;
 
         constexpr auto operator()() const noexcept {
-            return this->_chkcall().cast_to(identity<owned_x509_store_ctx>{});
+            return this->_chkcall().cast_to(
+              type_identity<owned_x509_store_ctx>{});
         }
     } new_x509_store_ctx;
 
@@ -1078,7 +1089,7 @@ public:
         using func<SSLPAFP(x509_store_new)>::func;
 
         constexpr auto operator()() const noexcept {
-            return this->_chkcall().cast_to(identity<owned_x509_store>{});
+            return this->_chkcall().cast_to(type_identity<owned_x509_store>{});
         }
     } new_x509_store;
 
@@ -1141,7 +1152,7 @@ public:
         using func<SSLPAFP(x509_crl_new)>::func;
 
         constexpr auto operator()() const noexcept {
-            return this->_chkcall().cast_to(identity<owned_x509_crl>{});
+            return this->_chkcall().cast_to(type_identity<owned_x509_crl>{});
         }
     } new_x509_crl;
 
@@ -1164,7 +1175,7 @@ public:
         using func<SSLPAFP(x509_new)>::func;
 
         constexpr auto operator()() const noexcept {
-            return this->_chkcall().cast_to(identity<owned_x509>{});
+            return this->_chkcall().cast_to(type_identity<owned_x509>{});
         }
     } new_x509;
 
@@ -1173,7 +1184,7 @@ public:
         using func<SSLPAFP(x509_get_pubkey)>::func;
 
         constexpr auto operator()(x509 crt) const noexcept {
-            return this->_cnvchkcall(crt).cast_to(identity<owned_pkey>{});
+            return this->_cnvchkcall(crt).cast_to(type_identity<owned_pkey>{});
         }
     } get_x509_pubkey;
 
@@ -1197,7 +1208,7 @@ public:
 
         constexpr auto operator()(basic_io bio) const noexcept {
             return this->_cnvchkcall(bio, nullptr, nullptr, nullptr)
-              .cast_to(identity<owned_pkey>{});
+              .cast_to(type_identity<owned_pkey>{});
         }
 
         constexpr auto
@@ -1205,7 +1216,7 @@ public:
             return this
               ->_cnvchkcall(
                 bio, nullptr, get_passwd.native_func(), get_passwd.native_data())
-              .cast_to(identity<owned_pkey>{});
+              .cast_to(type_identity<owned_pkey>{});
         }
 
     } read_bio_private_key;
@@ -1216,7 +1227,7 @@ public:
 
         constexpr auto operator()(basic_io bio) const noexcept {
             return this->_cnvchkcall(bio, nullptr, nullptr, nullptr)
-              .cast_to(identity<owned_pkey>{});
+              .cast_to(type_identity<owned_pkey>{});
         }
 
         constexpr auto
@@ -1224,7 +1235,7 @@ public:
             return this
               ->_cnvchkcall(
                 bio, nullptr, get_passwd.native_func(), get_passwd.native_data())
-              .cast_to(identity<owned_pkey>{});
+              .cast_to(type_identity<owned_pkey>{});
         }
 
     } read_bio_public_key;
@@ -1235,7 +1246,7 @@ public:
 
         constexpr auto operator()(basic_io bio) const noexcept {
             return this->_cnvchkcall(bio, nullptr, nullptr, nullptr)
-              .cast_to(identity<owned_x509_crl>{});
+              .cast_to(type_identity<owned_x509_crl>{});
         }
 
         constexpr auto
@@ -1243,7 +1254,7 @@ public:
             return this
               ->_cnvchkcall(
                 bio, nullptr, get_passwd.native_func(), get_passwd.native_data())
-              .cast_to(identity<owned_x509_crl>{});
+              .cast_to(type_identity<owned_x509_crl>{});
         }
 
     } read_bio_x509_crl;
@@ -1254,7 +1265,7 @@ public:
 
         constexpr auto operator()(basic_io bio) const noexcept {
             return this->_cnvchkcall(bio, nullptr, nullptr, nullptr)
-              .cast_to(identity<owned_x509>{});
+              .cast_to(type_identity<owned_x509>{});
         }
 
         constexpr auto
@@ -1262,7 +1273,7 @@ public:
             return this
               ->_cnvchkcall(
                 bio, nullptr, get_passwd.native_func(), get_passwd.native_data())
-              .cast_to(identity<owned_x509>{});
+              .cast_to(type_identity<owned_x509>{});
         }
 
     } read_bio_x509;

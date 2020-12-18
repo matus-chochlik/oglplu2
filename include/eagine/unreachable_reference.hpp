@@ -11,7 +11,7 @@
 #define EAGINE_UNREACHABLE_REFERENCE_HPP
 
 #include "assert.hpp"
-#include "identity.hpp"
+#include "type_identity.hpp"
 #include <type_traits>
 
 namespace eagine {
@@ -23,7 +23,7 @@ static inline auto unreachable_storage() noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static inline auto unreachable_reference(identity<T>) noexcept -> T& {
+static inline auto unreachable_reference(type_identity<T>) noexcept -> T& {
     EAGINE_UNREACHABLE();
     return *static_cast<T*>(unreachable_storage<sizeof(T)>());
 }

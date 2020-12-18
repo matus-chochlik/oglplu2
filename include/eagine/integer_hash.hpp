@@ -9,15 +9,15 @@
 #ifndef EAGINE_INTEGER_HASH_HPP
 #define EAGINE_INTEGER_HASH_HPP
 
-#include "identity.hpp"
 #include "int_constant.hpp"
+#include "type_identity.hpp"
 #include <cstdint>
 
 namespace eagine {
 //------------------------------------------------------------------------------
 template <std::size_t N, typename I>
 constexpr inline auto
-integer_rotate_right(I x, identity<I> = {}, size_constant<N> = {}) noexcept
+integer_rotate_right(I x, type_identity<I> = {}, size_constant<N> = {}) noexcept
   -> I {
     static_assert(N < sizeof(I) * 8);
     return I(x << N) | I(x >> (-N & (sizeof(I) * 8U - 1U)));
@@ -25,13 +25,16 @@ integer_rotate_right(I x, identity<I> = {}, size_constant<N> = {}) noexcept
 //------------------------------------------------------------------------------
 template <typename H>
 constexpr inline auto
-integer_hash_init(H x, identity<H> = {}, identity<H> = {}) noexcept -> H {
+integer_hash_init(H x, type_identity<H> = {}, type_identity<H> = {}) noexcept
+  -> H {
     return x;
 }
 //------------------------------------------------------------------------------
 template <typename H, typename I>
-constexpr inline auto
-integer_hash_init(I x, identity<H> hid = {}, identity<I> = {}) noexcept -> H {
+constexpr inline auto integer_hash_init(
+  I x,
+  type_identity<H> hid = {},
+  type_identity<I> = {}) noexcept -> H {
     using std::is_same_v;
 
     if constexpr(is_same_v<I, std::uint16_t>) {
@@ -60,11 +63,12 @@ integer_hash_init(I x, identity<H> hid = {}, identity<I> = {}) noexcept -> H {
     }
 
     using UI = std::make_unsigned_t<I>;
-    return integer_hash_init(UI(x), hid, identity<UI>());
+    return integer_hash_init(UI(x), hid, type_identity<UI>());
 }
 //------------------------------------------------------------------------------
 template <typename H, typename I>
-inline auto integer_hash(I x, identity<H> hid = {}, identity<I> iid = {}) -> H {
+inline auto
+integer_hash(I x, type_identity<H> hid = {}, type_identity<I> iid = {}) -> H {
     using std::is_same_v;
     if constexpr(std::is_unsigned_v<H>) {
         auto h = integer_hash_init(x, hid, iid);

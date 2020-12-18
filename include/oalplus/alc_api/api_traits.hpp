@@ -24,7 +24,7 @@ public:
     using opt_result = alc_opt_result<R>;
 
     template <typename Api, typename Type>
-    auto load_constant(Api& api, string_view name, identity<Type>)
+    auto load_constant(Api& api, string_view name, type_identity<Type>)
       -> std::tuple<Type, bool> {
         if(api.GetEnumValue) {
             _full_name.clear();
@@ -39,7 +39,7 @@ public:
     }
 
     template <typename Api, typename Tag, typename Signature>
-    auto link_function(Api& api, Tag, string_view name, identity<Signature>)
+    auto link_function(Api& api, Tag, string_view name, type_identity<Signature>)
       -> std::add_pointer_t<Signature> {
         if(api.GetProcAddress && api.GetError) {
             _full_name.clear();

@@ -97,7 +97,7 @@ public:
     }
 
     template <typename T>
-    auto get(string_view key, identity<T> = {}) -> optionally_valid<T> {
+    auto get(string_view key, type_identity<T> = {}) -> optionally_valid<T> {
         T temp{};
         const auto fetched = fetch(key, temp);
         return {std::move(temp), fetched};

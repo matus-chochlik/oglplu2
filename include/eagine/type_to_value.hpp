@@ -11,9 +11,9 @@
 #define EAGINE_TYPE_TO_VALUE_HPP
 
 #include "assert.hpp"
-#include "identity.hpp"
 #include "instead_of.hpp"
 #include "iterator.hpp"
+#include "type_identity.hpp"
 #include "types.hpp"
 #include <type_traits>
 #include <utility>
@@ -62,7 +62,7 @@ struct type_to_value : type_to_value_unit<Value, Keys>... {
       typename Transform,
       typename = std::enable_if_t<!std::is_same_v<Value, Transform>>>
     type_to_value(const Transform& transform)
-      : type_to_value_unit<Value, Keys>(transform(identity<Keys>()))... {}
+      : type_to_value_unit<Value, Keys>(transform(type_identity<Keys>()))... {}
 
     static constexpr inline size_type size() noexcept {
         return sizeof...(Keys);

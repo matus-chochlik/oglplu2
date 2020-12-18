@@ -24,7 +24,8 @@ enum class storage_cap_bit : unsigned short {
 };
 //------------------------------------------------------------------------------
 template <typename Selector>
-constexpr auto enumerator_mapping(identity<storage_cap_bit>, Selector) noexcept {
+constexpr auto
+enumerator_mapping(type_identity<storage_cap_bit>, Selector) noexcept {
     return enumerator_map_type<storage_cap_bit, 6>{
       {{"hide", storage_cap_bit::hide},
        {"copy", storage_cap_bit::copy},

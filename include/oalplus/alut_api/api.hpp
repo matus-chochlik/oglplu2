@@ -67,7 +67,8 @@ public:
         using base::base;
 
         constexpr auto operator()(Params... params) const noexcept {
-            return this->_chkcall(_conv(params)...).cast_to(identity<RVC>{});
+            return this->_chkcall(_conv(params)...)
+              .cast_to(type_identity<RVC>{});
         }
     };
 
