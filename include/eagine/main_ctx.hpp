@@ -110,7 +110,9 @@ public:
     }
 };
 
-auto main_impl(int, const char**, const main_ctx_options&) -> int;
+#if !EAGINE_IMPLEMENTING_LIBRARY
+extern auto main_impl(int, const char**, const main_ctx_options&) -> int;
+#endif
 
 } // namespace eagine
 

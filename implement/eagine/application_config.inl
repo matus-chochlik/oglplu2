@@ -10,6 +10,7 @@
 #include <eagine/environment.hpp>
 #include <eagine/file_contents.hpp>
 #include <eagine/interop/valgrind.hpp>
+#include <eagine/main_ctx.hpp>
 #include <eagine/valid_if/not_empty.hpp>
 #include <eagine/value_tree/json.hpp>
 #include <eagine/value_tree/yaml.hpp>
