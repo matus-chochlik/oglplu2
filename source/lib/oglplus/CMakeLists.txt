@@ -5,7 +5,6 @@
 
 add_library(
 	oglplus
-	EXCLUDE_FROM_ALL
 	gl.cpp
 	camera.cpp
 )

@@ -29,7 +29,7 @@ struct router_topology_info {
 
 template <typename Selector>
 constexpr auto
-data_member_mapping(identity<router_topology_info>, Selector) noexcept {
+data_member_mapping(type_identity<router_topology_info>, Selector) noexcept {
     using S = router_topology_info;
     return make_data_member_mapping<
       S,
@@ -51,7 +51,7 @@ struct bridge_topology_info {
 
 template <typename Selector>
 constexpr auto
-data_member_mapping(identity<bridge_topology_info>, Selector) noexcept {
+data_member_mapping(type_identity<bridge_topology_info>, Selector) noexcept {
     using S = bridge_topology_info;
     return make_data_member_mapping<
       S,
@@ -70,7 +70,7 @@ struct endpoint_topology_info {
 
 template <typename Selector>
 constexpr auto
-data_member_mapping(identity<endpoint_topology_info>, Selector) noexcept {
+data_member_mapping(type_identity<endpoint_topology_info>, Selector) noexcept {
     using S = endpoint_topology_info;
     return make_data_member_mapping<S, identifier_t, process_instance_id_t>(
       {"endpoint_id", &S::endpoint_id}, {"instance_id", &S::instance_id});
@@ -96,7 +96,8 @@ struct endpoint_info {
 };
 
 template <typename Selector>
-constexpr auto data_member_mapping(identity<endpoint_info>, Selector) noexcept {
+constexpr auto
+data_member_mapping(type_identity<endpoint_info>, Selector) noexcept {
     using S = endpoint_info;
     return make_data_member_mapping<
       S,

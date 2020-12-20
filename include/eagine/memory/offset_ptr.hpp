@@ -12,7 +12,7 @@
 
 #include "../assert.hpp"
 #include "../extract.hpp"
-#include "../identity.hpp"
+#include "../type_identity.hpp"
 #include "address.hpp"
 
 namespace eagine::memory {
@@ -228,7 +228,7 @@ struct rebind_pointer;
 //------------------------------------------------------------------------------
 template <typename T, typename O, typename U>
 struct rebind_pointer<basic_offset_ptr<T, O>, U>
-  : identity<basic_offset_ptr<U, O>> {};
+  : type_identity<basic_offset_ptr<U, O>> {};
 //------------------------------------------------------------------------------
 template <typename P, typename O>
 static constexpr inline auto as_address(basic_offset_ptr<P, O> op) noexcept

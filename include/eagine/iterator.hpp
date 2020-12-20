@@ -236,7 +236,7 @@ private:
       Derived>;
 
     static auto
-    _cast(typename std::iterator_traits<Iterator>::reference r) noexcept {
+    _cast(typename std::iterator_traits<Iterator>::reference r) noexcept -> S {
         return static_cast<S>(r);
     }
 

@@ -330,7 +330,7 @@ struct is_known_vector_type<math::vector<T, N, V>> : std::is_scalar<T> {};
 
 template <typename T, int N, bool V>
 struct canonical_compound_type<math::vector<T, N, V>>
-  : identity<std::remove_cv_t<T[N]>> {};
+  : type_identity<std::remove_cv_t<T[N]>> {};
 
 template <typename T, int N, bool V>
 struct compound_view_maker<math::vector<T, N, V>> {

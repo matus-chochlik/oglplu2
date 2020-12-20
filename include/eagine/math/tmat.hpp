@@ -78,7 +78,7 @@ struct is_known_matrix_type<math::tmat<T, C, R, RM, V>> : std::is_scalar<T> {};
 
 template <typename T, int C, int R, bool RM, bool V>
 struct canonical_compound_type<math::tmat<T, C, R, RM, V>>
-  : identity<std::remove_cv_t<T[C][R]>> {};
+  : type_identity<std::remove_cv_t<T[C][R]>> {};
 
 template <typename T, int C, int R, bool RM, bool V>
 struct compound_view_maker<math::tmat<T, C, R, RM, V>> {

@@ -10,12 +10,14 @@
 #ifndef EAGINE_APPLICATION_OPENGL_GLFW3_HPP
 #define EAGINE_APPLICATION_OPENGL_GLFW3_HPP
 
+#include "../main_ctx_fwd.hpp"
 #include "interface.hpp"
 #include <memory>
 
 namespace eagine::application {
 
-auto make_glfw3_context() -> std::shared_ptr<hmi_context>;
+auto make_glfw3_opengl_provider(main_ctx_parent)
+  -> std::shared_ptr<hmi_provider>;
 
 } // namespace eagine::application
 

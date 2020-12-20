@@ -11,10 +11,13 @@ function(do_add_boost_test LIBRARY TEST_NAME)
 		EXCLUDE_FROM_ALL
 		${TEST_NAME}.cpp
 	)
+	target_compile_definitions(
+		test-boost-${LIBRARY}-${TEST_NAME}
+		PRIVATE EAGINE_IMPLEMENTING_LIBRARY=1
+	)
 	target_link_libraries(
 		test-boost-${LIBRARY}-${TEST_NAME}
-		eagine
-		Boost::unit_test_framework
+		PRIVATE eagine Boost::unit_test_framework
 	)
 	add_test(
 		NAME test-boost-${LIBRARY}-${TEST_NAME}-build

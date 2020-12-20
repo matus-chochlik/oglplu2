@@ -11,8 +11,8 @@
 #define EAGINE_MESSAGE_BUS_CONNECTION_HPP
 
 #include "../callable_ref.hpp"
-#include "../identity.hpp"
 #include "../message_id.hpp"
+#include "../type_identity.hpp"
 #include "../valid_if/positive.hpp"
 #include "connection_kind.hpp"
 #include "message.hpp"
@@ -26,7 +26,7 @@ enum class connection_addr_kind { none, filepath, ipv4 };
 
 template <typename Selector>
 constexpr auto
-enumerator_mapping(identity<connection_addr_kind>, Selector) noexcept {
+enumerator_mapping(type_identity<connection_addr_kind>, Selector) noexcept {
     return enumerator_map_type<connection_addr_kind, 3>{
       {{"none", connection_addr_kind::none},
        {"filepath", connection_addr_kind::filepath},
@@ -41,7 +41,7 @@ enum class connection_protocol { stream, datagram, message };
 
 template <typename Selector>
 constexpr auto
-enumerator_mapping(identity<connection_protocol>, Selector) noexcept {
+enumerator_mapping(type_identity<connection_protocol>, Selector) noexcept {
     return enumerator_map_type<connection_protocol, 3>{
       {{"stream", connection_protocol::stream},
        {"datagram", connection_protocol::datagram},

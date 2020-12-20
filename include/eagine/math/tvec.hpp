@@ -77,11 +77,11 @@ struct is_known_vector_type<math::tvec<T, N, V>> : std::is_scalar<T> {};
 
 template <typename T, int N, bool V>
 struct canonical_compound_type<math::tvec<T, N, V>>
-  : identity<std::remove_cv_t<T[N]>> {};
+  : type_identity<std::remove_cv_t<T[N]>> {};
 
 template <typename T, int N, bool V>
 struct compound_view_maker<math::tvec<T, N, V>> {
-    inline auto operator()(const math::vector<T, N, V>& v) const noexcept {
+    auto operator()(const math::vector<T, N, V>& v) const noexcept {
         return vect::view<T, N, V>::apply(v._v);
     }
 };

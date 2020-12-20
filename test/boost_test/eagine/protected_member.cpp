@@ -19,7 +19,7 @@ template <typename T1, typename T2>
 class eagine_protected_member_cls_1
   : eagine::protected_member<std::pair<T1, T2>> {
 private:
-    using selector = eagine::identity<std::pair<T1, T2>>;
+    using selector = eagine::type_identity<std::pair<T1, T2>>;
 
 public:
     eagine_protected_member_cls_1(T1 v1, T2 v2) {

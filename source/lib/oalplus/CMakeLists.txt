@@ -5,7 +5,7 @@
 
 if(OPENAL_FOUND)
 	add_library(
-		oalplus EXCLUDE_FROM_ALL
+		oalplus
 		_dummy.cpp
 	)
 	eagine_add_lib_analysis(oalplus)

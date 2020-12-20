@@ -16,11 +16,11 @@
 #include "enum_class.hpp"
 #include "extract.hpp"
 #include "handle.hpp"
-#include "identity.hpp"
 #include "int_constant.hpp"
 #include "is_within_limits.hpp"
 #include "nothing.hpp"
 #include "string_span.hpp"
+#include "type_identity.hpp"
 #include "unreachable_reference.hpp"
 #include "valid_if/always.hpp"
 #include "valid_if/never.hpp"
@@ -103,7 +103,7 @@ public:
       Api& api) noexcept
       : c_api_constant_base{name}
       , opt_enum_value<T, ClassList, Tag>{
-          traits.load_constant(api, name, identity<T>())} {}
+          traits.load_constant(api, name, type_identity<T>())} {}
 
     template <typename I>
     constexpr auto operator+(I index) const noexcept -> std::enable_if_t<
@@ -126,11 +126,12 @@ struct get_opt_c_api_constant<
   std::integral_constant<T, value>,
   Tag,
   is_indexed>
-  : identity<static_c_api_constant<ClassList, T, value, Tag, is_indexed>> {};
+  : type_identity<static_c_api_constant<ClassList, T, value, Tag, is_indexed>> {
+};
 
 template <typename ClassList, typename T, typename Tag, bool is_indexed>
-struct get_opt_c_api_constant<ClassList, identity<T>, Tag, is_indexed>
-  : identity<dynamic_c_api_constant<ClassList, T, Tag, is_indexed>> {};
+struct get_opt_c_api_constant<ClassList, type_identity<T>, Tag, is_indexed>
+  : type_identity<dynamic_c_api_constant<ClassList, T, Tag, is_indexed>> {};
 
 template <
   typename ClassList,
@@ -178,7 +179,7 @@ protected:
     template <typename Info, typename T>
     auto _cast_to(
       const api_result<Result, Info, api_result_validity::never>& src,
-      identity<T>) const {
+      type_identity<T>) const {
         api_result<T, Info, api_result_validity::never> result{};
         static_cast<Info&>(result) = static_cast<const Info&>(src);
         return result;
@@ -209,14 +210,14 @@ template <typename Result>
 static constexpr inline auto
 extract(api_result_value<Result, api_result_validity::never>&) noexcept
   -> Result& {
-    return unreachable_reference(identity<Result>{});
+    return unreachable_reference(type_identity<Result>{});
 }
 
 template <typename Result>
 static constexpr inline auto
 extract(const api_result_value<Result, api_result_validity::never>&) noexcept
   -> const Result& {
-    return unreachable_reference(identity<Result>{});
+    return unreachable_reference(type_identity<Result>{});
 }
 
 template <typename Result, typename Info>
@@ -234,7 +235,7 @@ protected:
     template <typename Info, typename T>
     auto _cast_to(
       const api_result<void, Info, api_result_validity::never>& src,
-      identity<T>) const {
+      type_identity<T>) const {
         api_result<T, Info, api_result_validity::never> result{};
         static_cast<Info&>(result) = static_cast<const Info&>(src);
         return result;
@@ -280,15 +281,15 @@ public:
     }
 
     template <typename T>
-    auto cast_to(identity<T> tid) const {
+    auto cast_to(type_identity<T> tid) const {
         return this->_cast_to(*this, tid);
     }
 
-    auto cast_to(identity<void>) const noexcept -> auto& {
+    auto cast_to(type_identity<void>) const noexcept -> auto& {
         return *this;
     }
 
-    auto cast_to(identity<nothing_t>) const noexcept -> auto& {
+    auto cast_to(type_identity<nothing_t>) const noexcept -> auto& {
         return *this;
     }
 
@@ -343,7 +344,7 @@ protected:
     template <typename Info, typename T>
     auto _cast_to(
       const api_result<Result, Info, api_result_validity::always>& src,
-      identity<T>) const {
+      type_identity<T>) const {
         api_result<T, Info, api_result_validity::always> result{T(_value)};
         static_cast<Info&>(result) = static_cast<const Info&>(src);
         return result;
@@ -416,7 +417,7 @@ protected:
     template <typename Info, typename T>
     auto _cast_to(
       const api_result<void, Info, api_result_validity::always>& src,
-      identity<T>) const {
+      type_identity<T>) const {
         api_result<T, Info, api_result_validity::always> result{};
         static_cast<Info&>(result) = static_cast<const Info&>(src);
         return result;
@@ -463,15 +464,15 @@ public:
     }
 
     template <typename T>
-    auto cast_to(identity<T> tid) const {
+    auto cast_to(type_identity<T> tid) const {
         return this->_cast_to(*this, tid);
     }
 
-    auto cast_to(identity<void>) const noexcept -> auto& {
+    auto cast_to(type_identity<void>) const noexcept -> auto& {
         return *this;
     }
 
-    auto cast_to(identity<nothing_t>) const noexcept -> auto& {
+    auto cast_to(type_identity<nothing_t>) const noexcept -> auto& {
         return *this;
     }
 
@@ -530,7 +531,7 @@ protected:
     template <typename Info, typename T>
     auto _cast_to(
       const api_result<Result, Info, api_result_validity::maybe>& src,
-      identity<T>) const {
+      type_identity<T>) const {
         api_result<T, Info, api_result_validity::maybe> result{
           T(_value), src.is_valid()};
         static_cast<Info&>(result) = static_cast<const Info&>(src);
@@ -613,7 +614,7 @@ protected:
     template <typename Info, typename T>
     auto _cast_to(
       const api_result<void, Info, api_result_validity::maybe>& src,
-      identity<T>) const {
+      type_identity<T>) const {
         api_result<T, Info, api_result_validity::maybe> result{
           T{}, src.is_valid()};
         static_cast<Info&>(result) = static_cast<const Info&>(src);
@@ -665,15 +666,15 @@ public:
     }
 
     template <typename T>
-    auto cast_to(identity<T> tid) const {
+    auto cast_to(type_identity<T> tid) const {
         return this->_cast_to(*this, tid);
     }
 
-    auto cast_to(identity<void>) const noexcept -> auto& {
+    auto cast_to(type_identity<void>) const noexcept -> auto& {
         return *this;
     }
 
-    auto cast_to(identity<nothing_t>) const noexcept -> auto& {
+    auto cast_to(type_identity<nothing_t>) const noexcept -> auto& {
         return *this;
     }
 
@@ -799,24 +800,24 @@ struct default_c_api_traits {
     using function_pointer = std::add_pointer<Signature>;
 
     template <typename Api, typename Type>
-    auto load_constant(Api&, string_view, identity<Type>)
+    auto load_constant(Api&, string_view, type_identity<Type>)
       -> std::tuple<Type, bool> {
         return {{}, false};
     }
 
     template <typename Api, typename Tag, typename Signature>
-    auto link_function(Api&, Tag, string_view, identity<Signature>)
+    auto link_function(Api&, Tag, string_view, type_identity<Signature>)
       -> std::add_pointer_t<Signature> {
         return nullptr;
     }
 
     template <typename Tag, typename RV>
-    static constexpr auto fallback(Tag, identity<RV>) -> RV {
+    static constexpr auto fallback(Tag, type_identity<RV>) -> RV {
         return {};
     }
 
     template <typename Tag>
-    static constexpr void fallback(Tag, identity<void>) {}
+    static constexpr void fallback(Tag, type_identity<void>) {}
 
     template <typename RV, typename Tag, typename... Params, typename... Args>
     static constexpr auto
@@ -825,7 +826,7 @@ struct default_c_api_traits {
             return function(
               std::forward<Args>(args)...); // NOLINT(hicpp-no-array-decay)
         }
-        return fallback(tag, identity<RV>());
+        return fallback(tag, type_identity<RV>());
     }
 
     template <typename RV, typename Tag, typename... Params, typename... Args>
@@ -835,7 +836,7 @@ struct default_c_api_traits {
             return function(
               std::forward<Args>(args)...); // NOLINT(hicpp-no-array-decay)
         }
-        return fallback(tag, identity<RV>());
+        return fallback(tag, type_identity<RV>());
     }
 
     template <typename RV>
@@ -884,7 +885,7 @@ public:
     template <typename... Args>
     constexpr auto operator()(Args&&...) const noexcept
       -> std::enable_if_t<sizeof...(Params) == sizeof...(Args), RV> {
-        return ApiTraits::fallback(Tag(), identity<RV>());
+        return ApiTraits::fallback(Tag(), type_identity<RV>());
     }
 };
 //------------------------------------------------------------------------------
@@ -929,8 +930,11 @@ public:
       ApiTraits& traits,
       Api& api)
       : base(name)
-      , _function{
-          traits.link_function(api, Tag(), name, identity<RV(Params...)>())} {}
+      , _function{traits.link_function(
+          api,
+          Tag(),
+          name,
+          type_identity<RV(Params...)>())} {}
 
     constexpr explicit operator bool() const noexcept {
         return bool(_function);

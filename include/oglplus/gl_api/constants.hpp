@@ -75,22 +75,22 @@ private:
 
 public:
     using enum_type = typename gl_types::enum_type;
-    using enum_type_i = identity<enum_type>;
+    using enum_type_i = type_identity<enum_type>;
     template <enum_type value>
     using enum_type_c = std::integral_constant<enum_type, value>;
 
     using bitfield_type = typename gl_types::bitfield_type;
-    using bitfield_type_i = identity<bitfield_type>;
+    using bitfield_type_i = type_identity<bitfield_type>;
     template <bitfield_type value>
     using bitfield_type_c = std::integral_constant<bitfield_type, value>;
 
     using ubyte_type = typename gl_types::ubyte_type;
-    using ubyte_type_i = identity<ubyte_type>;
+    using ubyte_type_i = type_identity<ubyte_type>;
     template <ubyte_type value>
     using ubyte_type_c = std::integral_constant<ubyte_type, value>;
 
     using bool_type = typename gl_types::bool_type;
-    using bool_type_i = identity<bool_type>;
+    using bool_type_i = type_identity<bool_type>;
     template <bool_type value>
     using bool_type_c = std::integral_constant<bool_type, value>;
 

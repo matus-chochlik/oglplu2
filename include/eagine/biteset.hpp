@@ -47,34 +47,20 @@ public:
     using self = biteset_value_proxy_base;
     using derived = biteset_value_proxy<BiS>;
 
-    ~biteset_value_proxy_base() noexcept = default;
+    constexpr biteset_value_proxy_base(BiS& bs, size_type pos) noexcept
+      : _ptr{&bs}
+      , _pos{pos} {}
 
-    biteset_value_proxy_base(BiS& bs, size_type pos) noexcept
-      : _ptr(&bs)
-      , _pos(pos) {}
-
-    biteset_value_proxy_base(const self&) = delete;
-    auto operator=(const self&) = delete;
-    auto operator=(self&&) = delete;
-
-    biteset_value_proxy_base(self&& temp) noexcept
-      : _ptr(temp._ptr)
-      , _pos(temp._pos) {
-        temp._ptr = nullptr;
-    }
-
-    auto is_valid() const noexcept -> bool {
+    constexpr auto is_valid() const noexcept -> bool {
         return (_ptr != nullptr) && (_pos < _ptr->size());
     }
 
-    auto get() const noexcept -> value_type {
-        EAGINE_ASSERT(is_valid());
-        return _ptr->get(_pos);
+    constexpr auto get() const noexcept -> value_type {
+        return EAGINE_CONSTEXPR_ASSERT(is_valid(), _ptr->get(_pos));
     }
 
     void set(value_type val) noexcept {
-        EAGINE_ASSERT(is_valid());
-        return _ptr->set(_pos, val);
+        EAGINE_CONSTEXPR_ASSERT(is_valid(), _ptr->set(_pos, val));
     }
 
     void swap(self& other) noexcept {
@@ -88,37 +74,37 @@ public:
         other.set(b);
     }
 
-    operator value_type() const noexcept {
+    constexpr operator value_type() const noexcept {
         return get();
     }
 
-    friend auto operator==(const self& a, const self& b) noexcept {
+    friend constexpr auto operator==(const self& a, const self& b) noexcept {
         return a.get() == b.get();
     }
 
-    friend auto operator!=(const self& a, const self& b) noexcept {
+    friend constexpr auto operator!=(const self& a, const self& b) noexcept {
         return a.get() != b.get();
     }
 
-    friend auto operator<(const self& a, const self& b) noexcept {
+    friend constexpr auto operator<(const self& a, const self& b) noexcept {
         return a.get() < b.get();
     }
 
-    friend auto operator<=(const self& a, const self& b) noexcept {
+    friend constexpr auto operator<=(const self& a, const self& b) noexcept {
         return a.get() <= b.get();
     }
 
-    friend auto operator>(const self& a, const self& b) noexcept {
+    friend constexpr auto operator>(const self& a, const self& b) noexcept {
         return a.get() > b.get();
     }
 
-    friend auto operator>=(const self& a, const self& b) noexcept {
+    friend constexpr auto operator>=(const self& a, const self& b) noexcept {
         return a.get() >= b.get();
     }
 
 protected:
-    BiS* _ptr;
-    size_type _pos;
+    BiS* _ptr{nullptr};
+    size_type _pos{0};
 };
 
 template <std::size_t N, std::size_t B, typename T>
@@ -130,15 +116,10 @@ public:
     using size_type = typename _base::size_type;
     using self = biteset_value_proxy;
 
-    ~biteset_value_proxy() noexcept = default;
-
-    biteset_value_proxy(const biteset<N, B, T>& bs, size_type pos) noexcept
-      : _base(bs, pos) {}
-
-    biteset_value_proxy(biteset_value_proxy&&) noexcept = default;
-    biteset_value_proxy(const biteset_value_proxy&) = delete;
-    auto operator=(biteset_value_proxy&&) = delete;
-    auto operator=(const biteset_value_proxy&) = delete;
+    constexpr biteset_value_proxy(
+      const biteset<N, B, T>& bs,
+      size_type pos) noexcept
+      : _base{bs, pos} {}
 };
 
 template <std::size_t N, std::size_t B, typename T>
@@ -153,18 +134,21 @@ public:
     using value_type = typename _base::value_type;
     using self = biteset_value_proxy;
 
-    biteset_value_proxy(biteset<N, B, T>& bs, size_type pos) noexcept
-      : _base(bs, pos) {}
+    constexpr biteset_value_proxy(biteset<N, B, T>& bs, size_type pos) noexcept
+      : _base{bs, pos} {}
 
-    biteset_value_proxy(biteset_value_proxy&& temp) noexcept = default;
+    constexpr biteset_value_proxy(biteset_value_proxy&& temp) noexcept(
+      std::is_nothrow_move_constructible_v<_base>) = default;
+    constexpr biteset_value_proxy(const biteset_value_proxy&) noexcept(
+      std::is_nothrow_copy_constructible_v<_base>) = delete;
+
     auto operator=(biteset_value_proxy&& temp) noexcept
       -> biteset_value_proxy& {
         this->set(temp.get());
         return *this;
     }
-
-    biteset_value_proxy(const biteset_value_proxy&) = delete;
-    auto operator=(const biteset_value_proxy&) = delete;
+    auto operator=(const biteset_value_proxy&) noexcept(
+      std::is_nothrow_copy_assignable_v<_base>) = delete;
 
     ~biteset_value_proxy() noexcept = default;
 
@@ -246,52 +230,49 @@ public:
         return a._pos - b._pos;
     }
 
-    friend auto operator==(const self& a, const self& b) noexcept {
+    friend constexpr auto operator==(const self& a, const self& b) noexcept {
         return _cmp(a, b) == 0;
     }
 
-    friend auto operator!=(const self& a, const self& b) noexcept {
+    friend constexpr auto operator!=(const self& a, const self& b) noexcept {
         return _cmp(a, b) != 0;
     }
 
-    friend auto operator<(const self& a, const self& b) noexcept {
+    friend constexpr auto operator<(const self& a, const self& b) noexcept {
         return _cmp(a, b) < 0;
     }
 
-    friend auto operator<=(const self& a, const self& b) noexcept {
+    friend constexpr auto operator<=(const self& a, const self& b) noexcept {
         return _cmp(a, b) <= 0;
     }
 
-    friend auto operator>(const self& a, const self& b) noexcept {
+    friend constexpr auto operator>(const self& a, const self& b) noexcept {
         return _cmp(a, b) > 0;
     }
 
-    friend auto operator>=(const self& a, const self& b) noexcept {
+    friend constexpr auto operator>=(const self& a, const self& b) noexcept {
         return _cmp(a, b) >= 0;
     }
 
 protected:
-    biteset_iterator_base(BiS& bs, size_type pos) noexcept
-      : _ptr(&bs)
-      , _pos(pos) {}
+    constexpr biteset_iterator_base(BiS& bs, size_type pos) noexcept
+      : _ptr{&bs}
+      , _pos{pos} {}
 
-    biteset_iterator_base() noexcept
-      : _ptr(nullptr)
-      , _pos(0) {}
+    constexpr biteset_iterator_base() noexcept = default;
 
-    auto is_valid() const noexcept {
+    constexpr auto is_valid() const noexcept {
         return (_ptr != nullptr) && (_pos < _ptr->size());
     }
 
-    static inline auto _cmp(const self& a, const self& b) noexcept
+    static constexpr auto _cmp(const self& a, const self& b) noexcept
       -> difference_type {
-        EAGINE_ASSERT(a._ptr != nullptr);
-        EAGINE_ASSERT(a._ptr == b._ptr);
-        return a._pos - b._pos;
+        return EAGINE_CONSTEXPR_ASSERT(
+          (a._ptr != nullptr) && (a._ptr == b._ptr), a._pos - b._pos);
     }
 
-    BiS* _ptr;
-    size_type _pos;
+    BiS* _ptr{nullptr};
+    size_type _pos{0};
 };
 
 template <typename BiS>
@@ -320,14 +301,15 @@ public:
     using iterator_category = std::random_access_iterator_tag;
     using self = biteset_iterator;
 
-    biteset_iterator(const biteset<N, B, T>& bs, size_type pos) noexcept
-      : _base(bs, pos) {}
+    constexpr biteset_iterator(
+      const biteset<N, B, T>& bs,
+      size_type pos) noexcept
+      : _base{bs, pos} {}
 
-    biteset_iterator() = default;
+    constexpr biteset_iterator() = default;
 
-    auto operator*() const noexcept -> const_proxy {
-        EAGINE_ASSERT(is_valid());
-        return {*_ptr, _pos};
+    constexpr auto operator*() const noexcept -> const_proxy {
+        return EAGINE_CONSTEXPR_ASSERT(is_valid(), const_proxy(*_ptr, _pos));
     }
 };
 
@@ -353,37 +335,25 @@ public:
     using iterator_category = std::random_access_iterator_tag;
     using self = biteset_iterator;
 
-    biteset_iterator(biteset<N, B, T>& bs, size_type pos) noexcept
-      : _base(bs, pos) {}
+    constexpr biteset_iterator(biteset<N, B, T>& bs, size_type pos) noexcept
+      : _base{bs, pos} {}
 
-    biteset_iterator() noexcept
-      : _base() {}
+    constexpr biteset_iterator() noexcept = default;
 
-    biteset_iterator(biteset_iterator&&) noexcept = default;
-    biteset_iterator(const biteset_iterator&) = default;
-    auto operator=(biteset_iterator&&) noexcept = default;
-    auto operator=(const biteset_iterator&) = default;
-
-    ~biteset_iterator() noexcept = default;
-
-    auto operator*() noexcept -> proxy {
-        EAGINE_ASSERT(is_valid());
-        return {*_ptr, _pos};
+    constexpr auto operator*() noexcept -> proxy {
+        return EAGINE_CONSTEXPR_ASSERT(is_valid(), proxy(*_ptr, _pos));
     }
 
-    auto operator*() const noexcept -> const_proxy {
-        EAGINE_ASSERT(is_valid());
-        return {*_ptr, _pos};
+    constexpr auto operator*() const noexcept -> const_proxy {
+        return EAGINE_CONSTEXPR_ASSERT(is_valid(), const_proxy(*_ptr, _pos));
     }
 
-    auto operator->() noexcept -> proxy {
-        EAGINE_ASSERT(is_valid());
-        return {*_ptr, &_pos};
+    constexpr auto operator->() noexcept -> proxy {
+        return EAGINE_CONSTEXPR_ASSERT(is_valid(), proxy(*_ptr, _pos));
     }
 
     auto operator->() const noexcept -> const_proxy {
-        EAGINE_ASSERT(is_valid());
-        return {*_ptr, &_pos};
+        return EAGINE_CONSTEXPR_ASSERT(is_valid(), const_proxy(*_ptr, _pos));
     }
 };
 
@@ -424,26 +394,26 @@ public:
       typename = std::enable_if_t<
         (sizeof...(P) == N) &&
         std::conjunction_v<std::true_type, std::is_convertible<P, T>...>>>
-    explicit constexpr inline biteset(P... p) noexcept
+    explicit constexpr biteset(P... p) noexcept
       : _bytes{_make_bytes(T(p)...)} {}
 
-    explicit constexpr inline biteset(_bytes_t init) noexcept
+    explicit constexpr biteset(_bytes_t init) noexcept
       : _bytes{init} {}
 
     template <typename UIntT>
-    static constexpr inline auto from_value(UIntT init) noexcept {
+    static constexpr auto from_value(UIntT init) noexcept {
         return biteset{_bytes_t{init}};
     }
 
-    constexpr inline auto size() const noexcept -> size_type {
+    constexpr auto size() const noexcept -> size_type {
         return N;
     }
 
-    constexpr inline auto get(size_type i) const noexcept {
+    constexpr auto get(size_type i) const noexcept {
         return _get_cell(std::size_t(i));
     }
 
-    inline void set(size_type i, T value) noexcept {
+    void set(size_type i, T value) noexcept {
         _set_cell(std::size_t(i), value);
     }
 
@@ -692,7 +662,7 @@ private:
           T(state << bl), bb + bl, be, cb + 1, ce, size_constant<L + 1>{});
     }
 
-    static constexpr inline void _set_cell_bits(
+    static constexpr void _set_cell_bits(
       T,
       std::size_t,
       std::size_t,

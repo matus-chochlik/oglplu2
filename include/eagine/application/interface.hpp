@@ -17,22 +17,22 @@
 namespace eagine::application {
 class execution_context;
 //------------------------------------------------------------------------------
-struct input_context {
-    input_context() noexcept = default;
-    input_context(input_context&&) = delete;
-    input_context(const input_context&) = delete;
-    auto operator=(input_context&&) = delete;
-    auto operator=(const input_context&) = delete;
-    virtual ~input_context() noexcept = default;
+struct input_provider {
+    input_provider() noexcept = default;
+    input_provider(input_provider&&) = delete;
+    input_provider(const input_provider&) = delete;
+    auto operator=(input_provider&&) = delete;
+    auto operator=(const input_provider&) = delete;
+    virtual ~input_provider() noexcept = default;
 };
 //------------------------------------------------------------------------------
-struct video_context {
-    video_context() noexcept = default;
-    video_context(video_context&&) = delete;
-    video_context(const video_context&) = delete;
-    auto operator=(video_context&&) = delete;
-    auto operator=(const video_context&) = delete;
-    virtual ~video_context() noexcept = default;
+struct video_provider {
+    video_provider() noexcept = default;
+    video_provider(video_provider&&) = delete;
+    video_provider(const video_provider&) = delete;
+    auto operator=(video_provider&&) = delete;
+    auto operator=(const video_provider&) = delete;
+    virtual ~video_provider() noexcept = default;
 
     virtual auto video_kind() const noexcept -> video_context_kind = 0;
 
@@ -41,36 +41,37 @@ struct video_context {
     virtual void video_commit(execution_context&) = 0;
 };
 //------------------------------------------------------------------------------
-struct audio_context {
-    audio_context() noexcept = default;
-    audio_context(audio_context&&) = delete;
-    audio_context(const audio_context&) = delete;
-    auto operator=(audio_context&&) = delete;
-    auto operator=(const audio_context&) = delete;
-    virtual ~audio_context() noexcept = default;
+struct audio_provider {
+    audio_provider() noexcept = default;
+    audio_provider(audio_provider&&) = delete;
+    audio_provider(const audio_provider&) = delete;
+    auto operator=(audio_provider&&) = delete;
+    auto operator=(const audio_provider&) = delete;
+    virtual ~audio_provider() noexcept = default;
 
     virtual auto audio_kind() const noexcept -> audio_context_kind = 0;
 };
 //------------------------------------------------------------------------------
-struct hmi_context {
-    hmi_context() noexcept = default;
-    hmi_context(hmi_context&&) = delete;
-    hmi_context(const hmi_context&) = delete;
-    auto operator=(hmi_context&&) = delete;
-    auto operator=(const hmi_context&) = delete;
-    virtual ~hmi_context() noexcept = default;
+struct hmi_provider {
+    hmi_provider() noexcept = default;
+    hmi_provider(hmi_provider&&) = delete;
+    hmi_provider(const hmi_provider&) = delete;
+    auto operator=(hmi_provider&&) = delete;
+    auto operator=(const hmi_provider&) = delete;
+    virtual ~hmi_provider() noexcept = default;
 
     virtual auto is_implemented() const noexcept -> bool = 0;
     virtual auto implementation_name() const noexcept -> string_view = 0;
 
     virtual auto is_initialized() -> bool = 0;
+    virtual auto should_initialize(execution_context&) -> bool = 0;
     virtual auto initialize(execution_context&) -> bool = 0;
     virtual void update(execution_context&) = 0;
     virtual void cleanup(execution_context&) = 0;
 
-    virtual auto input() -> std::shared_ptr<input_context> = 0;
-    virtual auto video() -> std::shared_ptr<video_context> = 0;
-    virtual auto audio() -> std::shared_ptr<audio_context> = 0;
+    virtual auto input() -> std::shared_ptr<input_provider> = 0;
+    virtual auto video(string_view = {}) -> std::shared_ptr<video_provider> = 0;
+    virtual auto audio(string_view = {}) -> std::shared_ptr<audio_provider> = 0;
 };
 //------------------------------------------------------------------------------
 struct application {
@@ -82,8 +83,8 @@ struct application {
     virtual ~application() noexcept = default;
 
     virtual auto is_done() noexcept -> bool = 0;
-    virtual void update(execution_context&) noexcept = 0;
-    virtual void cleanup(execution_context&) noexcept = 0;
+    virtual void update() noexcept = 0;
+    virtual void cleanup() noexcept = 0;
 };
 //------------------------------------------------------------------------------
 struct launchpad {

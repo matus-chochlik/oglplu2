@@ -10,7 +10,7 @@
 #ifndef EAGINE_UNITS_DEFAULT_HPP
 #define EAGINE_UNITS_DEFAULT_HPP
 
-#include "../identity.hpp"
+#include "../type_identity.hpp"
 #include "fwd.hpp"
 
 namespace eagine::units {
@@ -19,10 +19,10 @@ template <typename X, typename Y>
 struct same_dimension : std::false_type {};
 
 template <typename U>
-struct add_result<U, U> : identity<U> {};
+struct add_result<U, U> : type_identity<U> {};
 
 template <typename U>
-struct sub_result<U, U> : identity<U> {};
+struct sub_result<U, U> : type_identity<U> {};
 
 template <typename T1, typename T2>
 struct is_convertible : std::false_type {};

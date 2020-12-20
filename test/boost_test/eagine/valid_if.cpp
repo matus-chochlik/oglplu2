@@ -8,7 +8,7 @@
 #define BOOST_TEST_MODULE EAGINE_valid_if
 #include "../unit_test_begin.inl"
 
-#include <eagine/identity.hpp>
+#include <eagine/type_identity.hpp>
 
 BOOST_AUTO_TEST_SUITE(valid_if_tests)
 
@@ -17,7 +17,7 @@ static eagine::test_random_generator rg;
 BOOST_AUTO_TEST_CASE(valid_if_not_zero_test) {
     using namespace eagine;
 
-    identity<float> id;
+    type_identity<float> id;
     auto tw = [](float x) {
         return x * 2;
     };

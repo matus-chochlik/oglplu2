@@ -9,8 +9,8 @@
 #ifndef EAGINE_BUFFER_SIZE_HPP
 #define EAGINE_BUFFER_SIZE_HPP
 
-#include "identity.hpp"
 #include "span.hpp"
+#include "type_identity.hpp"
 #include <type_traits>
 
 namespace eagine {
@@ -28,7 +28,7 @@ public:
       : _v(v) {}
 
     template <typename T>
-    constexpr buffer_size(identity<T>, span_size_t count) noexcept
+    constexpr buffer_size(type_identity<T>, span_size_t count) noexcept
       : _v(S(span_size_of<T>() * count)) {}
 
     template <typename T, typename P, typename Z>

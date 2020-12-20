@@ -26,8 +26,8 @@ public:
     application_config(main_ctx_parent parent) noexcept
       : main_ctx_object{EAGINE_ID(AppConfig), parent} {}
 
-    auto is_set(string_view key) noexcept -> bool {
-        if(const auto attr{_find_comp_attr(key)}) {
+    auto is_set(string_view key, string_view tag = {}) noexcept -> bool {
+        if(const auto attr{_find_comp_attr(key, tag)}) {
             bool flag{false};
             if(attr.fetch_value(flag)) {
                 return flag;
@@ -47,7 +47,8 @@ public:
     }
 
     template <typename T>
-    auto fetch(string_view key, T& dest) noexcept -> bool {
+    auto fetch(string_view key, T& dest, string_view tag = {}) noexcept
+      -> bool {
         if(const auto arg{_find_prog_arg(key)}) {
             if(arg.parse_next(dest, log_error_stream())) {
                 return true;
@@ -67,7 +68,7 @@ public:
                   .arg(EAGINE_ID(value), extract(opt_val));
             }
         }
-        if(const auto attr{_find_comp_attr(key)}) {
+        if(const auto attr{_find_comp_attr(key, tag)}) {
             if(attr.fetch_value(dest)) {
                 return true;
             } else {
@@ -79,9 +80,10 @@ public:
     }
 
     template <typename T, typename P>
-    auto fetch(string_view key, valid_if<T, P>& dest) noexcept -> bool {
+    auto fetch(string_view key, valid_if<T, P>& dest, string_view tag) noexcept
+      -> bool {
         T temp{};
-        if(fetch(key, temp)) {
+        if(fetch(key, temp, tag)) {
             if(dest.is_valid(temp)) {
                 dest = std::move(temp);
                 return true;
@@ -95,15 +97,15 @@ public:
     }
 
     template <typename T>
-    auto get(string_view key, identity<T> = {}) -> optionally_valid<T> {
+    auto get(string_view key, type_identity<T> = {}) -> optionally_valid<T> {
         T temp{};
         const auto fetched = fetch(key, temp);
         return {std::move(temp), fetched};
     }
 
     template <typename T>
-    auto init(string_view key, T& initial) -> T {
-        fetch(key, initial);
+    auto init(string_view key, T& initial, string_view tag = {}) -> T {
+        fetch(key, initial, tag);
         return initial;
     }
 
@@ -111,7 +113,7 @@ private:
     std::shared_ptr<application_config_impl> _pimpl;
     auto _impl() noexcept -> application_config_impl*;
 
-    auto _find_comp_attr(string_view key) noexcept
+    auto _find_comp_attr(string_view key, string_view tag) noexcept
       -> valtree::compound_attribute;
     auto _find_prog_arg(string_view key) noexcept -> program_arg;
     auto _eval_env_var(string_view key) noexcept
@@ -122,8 +124,9 @@ template <typename T>
 inline auto application_config_initial(
   application_config& config,
   string_view key,
-  T& initial) -> T& {
-    config.init(key, initial);
+  T& initial,
+  string_view tag) -> T& {
+    config.init(key, initial, tag);
     return initial;
 }
 //------------------------------------------------------------------------------

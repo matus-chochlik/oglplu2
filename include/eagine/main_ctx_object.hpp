@@ -20,7 +20,8 @@ template <typename T>
 auto application_config_initial(
   application_config& config,
   string_view key,
-  T& initial) -> T&;
+  T& initial,
+  string_view tag) -> T&;
 
 class main_ctx_log_backend_getter {
 public:
@@ -79,15 +80,19 @@ public:
     auto app_config() const noexcept -> application_config&;
 
     template <typename T>
-    auto cfg_init(string_view key, T initial) -> T {
-        return application_config_initial(app_config(), key, initial);
+    auto cfg_init(string_view key, T initial, string_view tag = {}) -> T {
+        return application_config_initial(app_config(), key, initial, tag);
     }
 
     template <typename Extractable, typename T>
-    auto cfg_extr(string_view key, T initial, identity<Extractable> = {}) -> T {
+    auto cfg_extr(
+      string_view key,
+      T initial,
+      string_view tag = {},
+      type_identity<Extractable> = {}) -> T {
         Extractable value(initial);
         return extract_or(
-          application_config_initial(app_config(), key, value), initial);
+          application_config_initial(app_config(), key, value, tag), initial);
     }
 };
 

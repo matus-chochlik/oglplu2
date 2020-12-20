@@ -20,7 +20,7 @@ function(eagine_example_common EXAMPLE_NAME)
 	add_dependencies(eagine-examples eagine-${EXAMPLE_NAME})
 	target_link_libraries(
 		eagine-${EXAMPLE_NAME}
-		PUBLIC eagine eagine-application
+		PUBLIC eagine
 		PRIVATE ${ARGN}
 	)
 
@@ -30,12 +30,6 @@ function(eagine_example_common EXAMPLE_NAME)
 	)
 	eagine_install_example(eagine-${EXAMPLE_NAME})
 endfunction()
-
-file(GLOB DEVEL_EXAMPLES "devel-*.cpp")
-foreach(DEVEL_EXAMPLE ${DEVEL_EXAMPLES})
-	get_filename_component(EXAMPLE_NAME ${DEVEL_EXAMPLE} NAME_WE)
-	eagine_example_common(${EXAMPLE_NAME})
-endforeach()
 
 eagine_example_common(valgrind)
 eagine_example_common(array_size)
@@ -55,7 +49,7 @@ eagine_example_common(progress_bar)
 eagine_example_common(from_string)
 eagine_example_common(string_path)
 eagine_example_common(identifier)
-eagine_example_common(identity)
+eagine_example_common(type_identity)
 eagine_example_common(id_tag)
 eagine_example_common(interleaved_call)
 eagine_example_common(callable_composer)

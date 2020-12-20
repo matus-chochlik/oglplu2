@@ -35,7 +35,7 @@ struct does_have_enumerator_mapping {
 private:
     template <
       typename X,
-      typename = decltype(enumerator_mapping(identity<X>(), Selector()))>
+      typename = decltype(enumerator_mapping(type_identity<X>(), Selector()))>
     static auto _test(X*) -> std::true_type;
     static auto _test(...) -> std::false_type;
 

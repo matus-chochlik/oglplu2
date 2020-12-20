@@ -26,7 +26,7 @@ enum class verification_bit : std::uint8_t {
 //------------------------------------------------------------------------------
 template <typename Selector>
 constexpr auto
-enumerator_mapping(identity<verification_bit>, Selector) noexcept {
+enumerator_mapping(type_identity<verification_bit>, Selector) noexcept {
     return enumerator_map_type<verification_bit, 5>{
       {{"source_id", verification_bit::source_id},
        {"source_certificate", verification_bit::source_certificate},

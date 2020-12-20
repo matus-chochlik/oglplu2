@@ -13,27 +13,28 @@ namespace shapes {
 //------------------------------------------------------------------------------
 static inline auto vertex_attrib_name(vertex_attrib_kind attrib) noexcept {
     return enumerator_name(
-      attrib, identity<vertex_attrib_kind>{}, value_tree_tag{});
+      attrib, type_identity<vertex_attrib_kind>{}, value_tree_tag{});
 }
 //------------------------------------------------------------------------------
 static inline auto primitive_type_from(string_view str) noexcept {
-    return from_string(str, identity<primitive_type>{}, value_tree_tag{});
+    return from_string(str, type_identity<primitive_type>{}, value_tree_tag{});
 }
 //------------------------------------------------------------------------------
 static inline auto attrib_data_type_from(string_view str) noexcept {
-    return from_string(str, identity<attrib_data_type>{}, value_tree_tag{});
+    return from_string(
+      str, type_identity<attrib_data_type>{}, value_tree_tag{});
 }
 //------------------------------------------------------------------------------
 static inline auto index_data_type_from(string_view str) noexcept {
-    return from_string(str, identity<index_data_type>{}, value_tree_tag{});
+    return from_string(str, type_identity<index_data_type>{}, value_tree_tag{});
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto value_tree_loader::_attr_mask(const valtree::compound& source) noexcept
   -> vertex_attrib_bits {
     vertex_attrib_bits result;
-    for(auto& info :
-        enumerator_mapping(identity<vertex_attrib_kind>{}, value_tree_tag{})) {
+    for(auto& info : enumerator_mapping(
+          type_identity<vertex_attrib_kind>{}, value_tree_tag{})) {
         if(source.nested(info.name)) {
             result |= info.enumerator;
         }

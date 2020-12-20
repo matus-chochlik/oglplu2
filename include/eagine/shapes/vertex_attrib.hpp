@@ -43,7 +43,7 @@ enum class vertex_attrib_kind : std::uint16_t {
 //------------------------------------------------------------------------------
 template <typename Selector>
 constexpr auto
-enumerator_mapping(identity<vertex_attrib_kind>, Selector) noexcept {
+enumerator_mapping(type_identity<vertex_attrib_kind>, Selector) noexcept {
     return enumerator_map_type<vertex_attrib_kind, 16>{
       {{"object_id", vertex_attrib_kind::object_id},
        {"position", vertex_attrib_kind::position},

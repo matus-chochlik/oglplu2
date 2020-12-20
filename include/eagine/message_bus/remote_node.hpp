@@ -49,7 +49,7 @@ enum class remote_node_change : std::uint16_t {
 //------------------------------------------------------------------------------
 template <typename Selector>
 constexpr auto
-enumerator_mapping(identity<remote_node_change>, Selector) noexcept {
+enumerator_mapping(type_identity<remote_node_change>, Selector) noexcept {
     return enumerator_map_type<remote_node_change, 13>{
       {{"kind", remote_node_change::kind},
        {"host_id", remote_node_change::host_id},

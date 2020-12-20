@@ -27,7 +27,7 @@ enum class log_event_severity {
 
 template <typename Selector>
 constexpr auto
-enumerator_mapping(identity<log_event_severity>, Selector) noexcept {
+enumerator_mapping(type_identity<log_event_severity>, Selector) noexcept {
     return enumerator_map_type<log_event_severity, 8>{
       {{"backtrace", log_event_severity::backtrace},
        {"trace", log_event_severity::trace},

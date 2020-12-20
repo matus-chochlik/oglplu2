@@ -14,14 +14,14 @@ BOOST_AUTO_TEST_SUITE(type_to_value_tests)
 
 struct test_sizeof_getter {
     template <typename T>
-    std::size_t operator()(eagine::identity<T>) const {
+    std::size_t operator()(eagine::type_identity<T>) const {
         return sizeof(T);
     }
 };
 
 struct test_zero_getter {
     template <typename T>
-    std::size_t operator()(eagine::identity<T>) const {
+    std::size_t operator()(eagine::type_identity<T>) const {
         return 0;
     }
 };

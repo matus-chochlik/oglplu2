@@ -89,14 +89,12 @@ struct enum_bitfield {
         return a._value != b._value;
     }
 
-    friend constexpr auto operator|(enum_bitfield a, enum_bitfield b) noexcept
-      -> enum_bitfield {
-        return {a._value | b._value};
+    friend constexpr auto operator|(enum_bitfield a, enum_bitfield b) noexcept {
+        return enum_bitfield{value_type(a._value) | value_type(b._value)};
     }
 
-    friend constexpr auto operator&(enum_bitfield a, enum_bitfield b) noexcept
-      -> enum_bitfield {
-        return {a._value & b._value};
+    friend constexpr auto operator&(enum_bitfield a, enum_bitfield b) noexcept {
+        return enum_bitfield{value_type(a._value) & value_type(b._value)};
     }
 };
 

@@ -47,7 +47,7 @@ adapt_log_entry_arg(identifier name, bitfield<T> bf) {
                 backend.add_string(name, EAGINE_ID(bitfield), info.name);
             }
         };
-        for_each_enumerator(func, identity<T>{});
+        for_each_enumerator(func, type_identity<T>{});
     };
 }
 //------------------------------------------------------------------------------

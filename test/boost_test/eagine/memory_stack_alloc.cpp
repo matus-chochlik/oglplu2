@@ -8,7 +8,7 @@
 #define BOOST_TEST_MODULE EAGINE_memory_stack_alloc
 #include "../unit_test_begin.inl"
 
-#include <eagine/identity.hpp>
+#include <eagine/type_identity.hpp>
 #include <deque>
 
 BOOST_AUTO_TEST_SUITE(memory_stack_alloc_tests)
@@ -61,7 +61,7 @@ template <typename T>
 void eagine_test_memory_stack_alloc_TA(
   eagine::memory::block& b,
   std::size_t n,
-  eagine::identity<eagine::memory::stack_byte_allocator<>>) {
+  eagine::type_identity<eagine::memory::stack_byte_allocator<>>) {
     using namespace eagine;
 
     memory::stack_byte_allocator<> a(b);
@@ -73,7 +73,7 @@ void eagine_test_memory_stack_alloc_TA(
 
 template <typename Alloc>
 void eagine_test_memory_stack_alloc_A() {
-    eagine::identity<Alloc> ai;
+    eagine::type_identity<Alloc> ai;
 
     static char buf[1024 * 1024];
 

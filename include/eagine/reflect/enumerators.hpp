@@ -18,23 +18,25 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 template <typename T, typename Selector>
-constexpr inline auto enumerator_count(identity<T> id, Selector sel) noexcept
+constexpr inline auto
+enumerator_count(type_identity<T> id, Selector sel) noexcept
   -> std::enable_if_t<has_enumerator_mapping_v<T, Selector>, span_size_t> {
     return span_size_t(enumerator_mapping(id, sel).size());
 }
 //------------------------------------------------------------------------------
 template <typename T>
-constexpr inline auto enumerator_count(identity<T> id) noexcept {
+constexpr inline auto enumerator_count(type_identity<T> id) noexcept {
     return enumerator_count(id, selector<0>());
 }
 //------------------------------------------------------------------------------
 template <typename T>
-constexpr auto enumerator_name(T value, identity<T> id = {}) noexcept {
+constexpr auto enumerator_name(T value, type_identity<T> id = {}) noexcept {
     return enumerator_name(value, id, selector<0>());
 }
 //------------------------------------------------------------------------------
 template <typename T, typename Selector>
-inline auto enumerator_name(T enumerator, identity<T> id, Selector sel) noexcept
+inline auto
+enumerator_name(T enumerator, type_identity<T> id, Selector sel) noexcept
   -> std::enable_if_t<has_enumerator_mapping_v<T, Selector>, decl_name> {
     for(const auto& info : enumerator_mapping(id, sel)) {
         if(info.enumerator == enumerator) {
@@ -45,7 +47,7 @@ inline auto enumerator_name(T enumerator, identity<T> id, Selector sel) noexcept
 }
 //------------------------------------------------------------------------------
 template <typename T>
-constexpr inline auto enumerator_value(T value, identity<T> = {}) noexcept {
+constexpr inline auto enumerator_value(T value, type_identity<T> = {}) noexcept {
     return static_cast<std::underlying_type_t<T>>(value);
 }
 //------------------------------------------------------------------------------
@@ -73,7 +75,8 @@ using enum_value_and_name =
   enum_int_value_and_name<std::is_signed_v<std::underlying_type_t<T>>>;
 //------------------------------------------------------------------------------
 template <typename T, typename Selector>
-inline auto enumerator_info(T enumerator, identity<T> id, Selector sel) noexcept
+inline auto
+enumerator_info(T enumerator, type_identity<T> id, Selector sel) noexcept
   -> std::enable_if_t<
     has_enumerator_mapping_v<T, Selector>,
     optionally_valid<enum_value_and_name<T>>> {
@@ -86,14 +89,14 @@ inline auto enumerator_info(T enumerator, identity<T> id, Selector sel) noexcept
 }
 //------------------------------------------------------------------------------
 template <typename T>
-auto enumerator_info(T enumerator, identity<T> id = {}) noexcept {
+auto enumerator_info(T enumerator, type_identity<T> id = {}) noexcept {
     return enumerator_info(enumerator, id, selector<0>{});
 }
 //------------------------------------------------------------------------------
 template <typename T, typename Selector>
 inline auto from_value(
   std::underlying_type_t<T> value,
-  identity<T> id,
+  type_identity<T> id,
   Selector sel) noexcept
   -> std::enable_if_t<has_enumerator_mapping_v<T, Selector>, optionally_valid<T>> {
     for(const auto& info : enumerator_mapping(id, sel)) {
@@ -106,12 +109,13 @@ inline auto from_value(
 //------------------------------------------------------------------------------
 template <typename T>
 constexpr inline auto
-from_value(std::underlying_type_t<T> value, identity<T> id = {}) noexcept {
+from_value(std::underlying_type_t<T> value, type_identity<T> id = {}) noexcept {
     return from_value(value, id, selector<0>());
 }
 //------------------------------------------------------------------------------
 template <typename T, typename Selector>
-inline auto from_string(string_view name, identity<T> id, Selector sel) noexcept
+inline auto
+from_string(string_view name, type_identity<T> id, Selector sel) noexcept
   -> std::enable_if_t<has_enumerator_mapping_v<T, Selector>, optionally_valid<T>> {
     for(const auto& info : enumerator_mapping(id, sel)) {
         if(are_equal(string_view(info.name), name)) {
@@ -122,14 +126,16 @@ inline auto from_string(string_view name, identity<T> id, Selector sel) noexcept
 }
 //------------------------------------------------------------------------------
 template <typename T>
-inline auto from_string(string_view name, identity<T> id) noexcept -> std::
+inline auto from_string(string_view name, type_identity<T> id) noexcept -> std::
   enable_if_t<has_enumerator_mapping_v<T, selector<0>>, optionally_valid<T>> {
     return from_string(name, id, selector<0>());
 }
 //------------------------------------------------------------------------------
 template <typename Function, typename T, typename Selector>
-inline auto
-for_each_enumerator(Function& function, identity<T> id, Selector sel) noexcept
+inline auto for_each_enumerator(
+  Function& function,
+  type_identity<T> id,
+  Selector sel) noexcept
   -> std::enable_if_t<has_enumerator_mapping_v<T, Selector>> {
     for(const auto& info : enumerator_mapping(id, sel)) {
         function(enum_value_and_name<T>{info});
@@ -137,7 +143,7 @@ for_each_enumerator(Function& function, identity<T> id, Selector sel) noexcept
 }
 //------------------------------------------------------------------------------
 template <typename Function, typename T>
-inline auto for_each_enumerator(Function& function, identity<T> id) noexcept
+inline auto for_each_enumerator(Function& function, type_identity<T> id) noexcept
   -> std::enable_if_t<has_enumerator_mapping_v<T, selector<0>>> {
     for_each_enumerator(function, id, selector<0>{});
 }

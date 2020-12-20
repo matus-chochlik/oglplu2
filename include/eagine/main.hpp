@@ -9,6 +9,7 @@
 #ifndef EAGINE_MAIN_HPP
 #define EAGINE_MAIN_HPP
 
+#include "config/basic.hpp"
 #include "main_ctx.hpp"
 
 // NOLINTNEXTLINE(misc-definitions-in-headers)

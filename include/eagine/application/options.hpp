@@ -14,87 +14,48 @@
 #include "../string_span.hpp"
 #include "../valid_if/between.hpp"
 #include "../valid_if/nonnegative.hpp"
+#include "../valid_if/not_empty.hpp"
 #include "../valid_if/one_of.hpp"
 #include "../valid_if/positive.hpp"
 #include "types.hpp"
+#include <map>
 
 namespace eagine::application {
+class execution_context;
 
-class launch_options : public main_ctx_object {
+class video_options {
 public:
-    launch_options(main_ctx_parent parent) noexcept
-      : main_ctx_object(EAGINE_ID(LaunchOpts), parent) {}
+    video_options(
+      main_ctx_object&,
+      video_context_kind kind,
+      string_view instance);
 
-    auto application_title() const noexcept -> string_view {
-        if(_app_title.empty()) {
-            return main_context().app_name();
-        }
-        return {_app_title};
+    auto video_kind() const noexcept {
+        return _video_kind;
     }
 
-    auto no_video() noexcept -> auto& {
-        _requires_video = false;
-        return *this;
+    auto has_provider(string_view name) const noexcept -> bool {
+        return are_equal(string_view(_provider_name), name);
     }
 
-    auto require_video(
-      video_context_kind kind = video_context_kind::opengl) noexcept -> auto& {
-        _video_kind = kind;
-        _requires_video = true;
-        return *this;
-    }
-
-    auto required_video_kind() const noexcept
-      -> optionally_valid<video_context_kind> {
-        return {_video_kind, _requires_video};
-    }
-
-    auto no_audio() noexcept -> auto& {
-        _requires_audio = false;
-        return *this;
-    }
-
-    auto require_audio(
-      audio_context_kind kind = audio_context_kind::openal) noexcept -> auto& {
-        _audio_kind = kind;
-        _requires_audio = true;
-        return *this;
-    }
-
-    auto required_audio_kind() const noexcept
-      -> optionally_valid<audio_context_kind> {
-        return {_audio_kind, _requires_audio};
-    }
-
-    auto no_input() noexcept -> auto& {
-        _requires_input = false;
-        return *this;
-    }
-
-    auto require_input() noexcept -> auto& {
-        _requires_input = true;
-        return *this;
-    }
-
-    auto required_input() const noexcept {
-        return _requires_input;
+    auto monitor_name() const noexcept -> valid_if_not_empty<string_view> {
+        return {_monitor_name};
     }
 
     using valid_surface_size = valid_if_positive<int>;
-    auto surface_size(
-      const valid_surface_size& width,
-      const valid_surface_size& height) noexcept -> auto& {
+    auto surface_size(valid_surface_size width, valid_surface_size height)
+      -> auto& {
         _surface_width = extract(width);
         _surface_height = extract(height);
         return *this;
     }
 
-    auto surface_width() const noexcept {
-        return _surface_width;
+    auto surface_width() const noexcept -> valid_surface_size {
+        return {_surface_width};
     }
 
-    auto surface_height() const noexcept {
-        return _surface_height;
+    auto surface_height() const noexcept -> valid_surface_size {
+        return {_surface_height};
     }
 
     using valid_samples = valid_if_nonnegative<int>;
@@ -167,40 +128,144 @@ public:
         return _stencil_bits;
     }
 
+    auto offscreen(bool value) noexcept -> auto& {
+        if((_offscreen = value)) {
+            _surface_width = 0;
+            _surface_height = 0;
+        }
+        return *this;
+    }
+
+    auto offscreen() const noexcept -> bool {
+        return _offscreen;
+    }
+
+    auto fullscreen(bool value) noexcept -> auto& {
+        if((_fullscreen = value)) {
+            _surface_width = 0;
+            _surface_height = 0;
+        }
+        return *this;
+    }
+
+    auto fullscreen() const noexcept -> bool {
+        return _fullscreen;
+    }
+
 private:
+    friend class execution_context;
+
+    video_context_kind _video_kind;
+    std::string _provider_name;
+    std::string _monitor_name;
+
+    int _surface_width{1280};
+    int _surface_height{800};
+
+    int _samples{0};
+    int _color_bits{8};
+    int _alpha_bits{0};
+    int _depth_bits{24};
+    int _stencil_bits{0};
+
+    bool _offscreen{false};
+    bool _fullscreen{false};
+    bool _gl_debug_context{false};
+    bool _gl_compat_context{false};
+};
+
+class audio_options {
+public:
+    audio_options(
+      main_ctx_object&,
+      audio_context_kind kind,
+      string_view instance);
+
+    auto audio_kind() const noexcept {
+        return _audio_kind;
+    }
+
+private:
+    friend class execution_context;
+
+    audio_context_kind _audio_kind;
+};
+
+class launch_options : public main_ctx_object {
+public:
+    launch_options(main_ctx_parent parent) noexcept;
+
+    auto application_title() const noexcept -> string_view {
+        if(_app_title.empty()) {
+            return main_context().app_name();
+        }
+        return {_app_title};
+    }
+
+    auto no_video() noexcept -> auto& {
+        _video_opts.clear();
+        return *this;
+    }
+
+    auto require_video(
+      video_context_kind kind = video_context_kind::opengl,
+      string_view name = {}) -> video_options&;
+
+    auto video_requirements() const noexcept -> auto& {
+        return _video_opts;
+    }
+
+    auto no_audio() noexcept -> auto& {
+        _audio_opts.clear();
+        return *this;
+    }
+
+    auto require_audio(
+      audio_context_kind kind = audio_context_kind::openal,
+      string_view name = {}) -> audio_options&;
+
+    auto audio_requirements() const noexcept -> auto& {
+        return _audio_opts;
+    }
+
+    auto no_input() noexcept -> auto& {
+        _requires_input = false;
+        return *this;
+    }
+
+    auto require_input() noexcept -> auto& {
+        _requires_input = true;
+        return *this;
+    }
+
+    auto required_input() const noexcept {
+        return _requires_input;
+    }
+
+private:
+    friend class execution_context;
+
     std::string _app_title;
 
-    video_context_kind _video_kind{video_context_kind::opengl};
-    audio_context_kind _audio_kind{audio_context_kind::openal};
+    std::map<
+      std::string,
+      video_options,
+      basic_str_view_less<std::string, string_view>>
+      _video_opts;
 
-    int _surface_width{
-      cfg_extr<valid_surface_size>("application.video.surface.width", 1280)};
-
-    int _surface_height{
-      cfg_extr<valid_surface_size>("application.video.surface.height", 800)};
-
-    int _samples{cfg_extr<valid_samples>("application.video.samples", 0)};
-
-    int _color_bits{
-      cfg_extr<valid_color_bits>("application.video.color_bits", 8)};
-
-    int _alpha_bits{
-      cfg_extr<valid_alpha_bits>("application.video.alpha_bits", 0)};
-
-    int _depth_bits{
-      cfg_extr<valid_depth_bits>("application.video.depth_bits", 24)};
-
-    int _stencil_bits{
-      cfg_extr<valid_stencil_bits>("application.video.stencil_bits", 0)};
+    std::map<
+      std::string,
+      audio_options,
+      basic_str_view_less<std::string, string_view>>
+      _audio_opts;
 
     bool _requires_input{cfg_init("application.input.required", false)};
-    bool _requires_video{cfg_init("application.video.required", true)};
-    bool _requires_audio{cfg_init("application.audio.required", false)};
-    bool _gl_debug_context{cfg_init("application.video.opengl.debug", false)};
-    bool _gl_compat_context{
-      cfg_init("application.video.opengl.compatibility", false)};
 };
 
 } // namespace eagine::application
+
+#if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
+#include <eagine/application/options.inl>
+#endif
 
 #endif

@@ -529,7 +529,7 @@ struct is_known_matrix_type<math::matrix<T, C, R, RM, V>>
 //------------------------------------------------------------------------------
 template <typename T, int C, int R, bool RM, bool V>
 struct canonical_compound_type<math::matrix<T, C, R, RM, V>>
-  : identity<std::remove_cv_t<T[C][R]>> {};
+  : type_identity<std::remove_cv_t<T[C][R]>> {};
 //------------------------------------------------------------------------------
 template <typename T, int C, int R, bool RM, bool V>
 struct compound_view_maker<math::matrix<T, C, R, RM, V>> {

@@ -30,12 +30,12 @@ public:
 
     template <typename T, span_size_t N>
     buffer_data_spec(const T (&data)[N]) noexcept
-      : _size(identity<T>(), N)
+      : _size(type_identity<T>(), N)
       , _data(static_cast<const void*>(data)) {}
 
     template <typename T>
     buffer_data_spec(const T* data, span_size_t n) noexcept
-      : _size(identity<T>(), n)
+      : _size(type_identity<T>(), n)
       , _data(data) {}
 
     template <typename T>
