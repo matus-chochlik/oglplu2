@@ -8,8 +8,10 @@
  */
 
 #include <oglplus/gl.hpp>
+#include <oalplus/al.hpp>
 //
 #include <oglplus/gl_api.hpp>
+#include <oalplus/al_api.hpp>
 //
 #include <eagine/application/input.hpp>
 #include <eagine/application/opengl_glfw3.hpp>
@@ -27,6 +29,17 @@ auto video_context::init_gl_api() noexcept -> bool {
     } catch(...) {
     }
     return bool(_gl_api);
+}
+//------------------------------------------------------------------------------
+// audio_context
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto audio_context::init_al_api() noexcept -> bool {
+    try {
+        _al_api = std::make_shared<oalp::al_api>();
+    } catch(...) {
+    }
+    return bool(_al_api);
 }
 //------------------------------------------------------------------------------
 // providers

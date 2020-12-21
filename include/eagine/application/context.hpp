@@ -74,9 +74,21 @@ public:
         EAGINE_MAYBE_UNUSED(_parent);
     }
 
+    auto init_al_api() noexcept -> bool;
+
+    auto has_al_api() const noexcept {
+        return bool(_al_api);
+    }
+
+    auto al_api() const noexcept -> auto& {
+        EAGINE_ASSERT(has_al_api());
+        return *_al_api;
+    }
+
 private:
     execution_context& _parent;
     std::shared_ptr<audio_provider> _provider{};
+    std::shared_ptr<oalp::al_api> _al_api{};
 };
 //------------------------------------------------------------------------------
 class context_state;

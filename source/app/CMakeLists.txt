@@ -11,13 +11,20 @@ set_target_properties(
 foreach(LIB GLFW3)
 	add_library(EAGapp::${LIB} INTERFACE IMPORTED)
 	if(${LIB}_FOUND)
-
 		target_link_libraries(
 			EAGapp::${LIB} 
 			INTERFACE ${LIB}::${LIB}
 		)
 	endif()
 endforeach()
+
+add_library(EAGapp::OpenAL INTERFACE IMPORTED)
+if(OPENAL_FOUND)
+	target_link_libraries(
+		EAGapp::OpenAL
+		INTERFACE OpenAL::OpenAL
+	)
+endif()
 
 add_library(
 	eagine-application
@@ -49,6 +56,7 @@ target_link_libraries(
 		oglplus
 	PRIVATE
 		EAGapp::GLFW3
+		EAGapp::OpenAL
 )
 if(GLX_FOUND)
 	target_link_libraries(
