@@ -580,8 +580,10 @@ public:
     operator<<(std::ostream& out, const basic_sudoku_tile_patch& that)
       -> std::ostream& {
         std::size_t k = 0;
-        for(span_size_t y = 0; y < that._height; ++y) {
-            for(span_size_t x = 0; x < that._width; ++x) {
+        for(auto y : integer_range(that._height)) {
+            for(auto x : integer_range(that._width)) {
+                EAGINE_MAYBE_UNUSED(x);
+                EAGINE_MAYBE_UNUSED(y);
                 EAGINE_ASSERT(k < that._cells.size());
                 out << std::setw(3) << unsigned(that._cells[k++]);
             }
