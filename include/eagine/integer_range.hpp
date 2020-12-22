@@ -50,6 +50,9 @@ private:
     T _end{0};
 };
 
+template <typename B, typename E>
+integer_range(B, E) -> integer_range<std::common_type_t<B, E>>;
+
 } // namespace eagine
 
 #endif // EAGINE_INTEGER_RANGE_HPP

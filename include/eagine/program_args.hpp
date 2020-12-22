@@ -11,9 +11,9 @@
 
 #include "assert.hpp"
 #include "from_string.hpp"
+#include "integer_range.hpp"
 #include "memory/block.hpp"
 #include "memory/span_algo.hpp"
-#include "program_args.hpp"
 #include "range_types.hpp"
 #include "span.hpp"
 #include "string_span.hpp"
@@ -508,7 +508,7 @@ public:
 
         string_view parsed;
         if(do_consume_next(parsed, symbols, handle_missing, handle_invalid)) {
-            for(span_size_t i = 0, n = symbols.size(); i < n; ++i) {
+            for(auto i : integer_range(symbols.size())) {
                 if(are_equal(parsed, symbols[i])) {
                     dest = translations[i];
                     return true;

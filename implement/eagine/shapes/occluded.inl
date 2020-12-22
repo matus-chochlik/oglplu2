@@ -43,7 +43,7 @@ void occluded_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
             std::vector<math::line<float, true>> rays(std_size(vc * ns));
             std::vector<float> weights(rays.size());
 
-            for(span_size_t v = 0; v < vc; ++v) {
+            for(auto v : integer_range(vc)) {
                 const auto k = std_size(v * 3);
                 const math::tvec<float, 3, true> pos{
                   positions[k + 0], positions[k + 1], positions[k + 2]};
@@ -53,7 +53,7 @@ void occluded_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
                 rays[std_size(v * ns)] = math::line<float, true>{pos, nml};
                 weights[std_size(v * ns)] = 1.F;
 
-                for(span_size_t s = 1; s < ns; ++s) {
+                for(auto s : integer_range(1, ns)) {
                     using std::acos;
 
                     const math::unit_spherical_coordinates<float, true> usc{
@@ -78,10 +78,10 @@ void occluded_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
 
             delegated_gen::ray_intersections(view(rays), cover(params));
 
-            for(span_size_t v = 0; v < vc; ++v) {
+            for(auto v : integer_range(vc)) {
                 float occl = 0.F;
                 float wght = 0.F;
-                for(span_size_t s = 0; s < ns; ++s) {
+                for(auto s : integer_range(ns)) {
                     const auto l = std_size(v * ns + s);
                     if(params[l] > 0.0F) {
                         using std::exp;

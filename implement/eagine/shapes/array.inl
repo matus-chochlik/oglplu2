@@ -28,9 +28,9 @@ void array_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
                                       vav == vertex_attrib_kind::vertex_pivot;
 
     if(is_translated_attrib) {
-        for(span_size_t i = 1; i < _copies; ++i) {
-            for(span_size_t v = 0; v < n; ++v) {
-                for(span_size_t c = 0; c < m; ++c) {
+        for(auto i : integer_range(1, _copies)) {
+            for(auto v : integer_range(n)) {
+                for(auto c : integer_range(m)) {
 
                     const auto k = v * m + c;
                     dest[(i * n * m) + k] =
@@ -40,7 +40,7 @@ void array_gen::attrib_values(vertex_attrib_variant vav, span<float> dest) {
         }
     } else {
         const auto l = n * m;
-        for(span_size_t i = 1; i < _copies; ++i) {
+        for(auto i : integer_range(1, _copies)) {
             copy(head(dest, l), slice(dest, i * l, l));
         }
     }
@@ -74,10 +74,10 @@ void array_gen::_indices(drawing_variant var, span<T> dest) noexcept {
 
     delegated_gen::indices(var, head(dest, ic));
 
-    for(span_size_t i = 1; i < _copies; ++i) {
+    for(auto i : integer_range(1, _copies)) {
         const auto k = i * ic;
         const auto o = i * vc;
-        for(span_size_t j = 0; j < ic; ++j) {
+        for(auto j : integer_range(ic)) {
             auto idx = dest[j];
             if(idx >= opri) {
                 idx = npri;
@@ -139,17 +139,17 @@ void array_gen::instructions(drawing_variant var, span<draw_operation> ops) {
 
         if(it != index_data_type::none) {
 
-            for(span_size_t o = 0; o < oc; ++o) {
+            for(auto o : integer_range(oc)) {
                 if(ops[o].primitive_restart_index == opri) {
                     ops[o].primitive_restart_index = npri;
                 }
                 ops[o].idx_type = it;
             }
 
-            for(span_size_t i = 1; i < _copies; ++i) {
+            for(auto i : integer_range(1, _copies)) {
                 const auto k = i * oc;
                 const auto a = i * ic;
-                for(span_size_t o = 0; o < oc; ++o) {
+                for(auto o : integer_range(oc)) {
                     const auto l = k + o;
                     ops[l] = ops[o];
                     ops[l].first = ops[o].first + a;
@@ -157,10 +157,10 @@ void array_gen::instructions(drawing_variant var, span<draw_operation> ops) {
             }
         } else {
 
-            for(span_size_t i = 1; i < _copies; ++i) {
+            for(auto i : integer_range(1, _copies)) {
                 const auto k = i * oc;
                 const auto a = i * vc;
-                for(span_size_t o = 0; o < oc; ++o) {
+                for(auto o : integer_range(oc)) {
                     const auto l = k + o;
                     ops[l] = ops[o];
                     ops[l].first = ops[o].first + a;

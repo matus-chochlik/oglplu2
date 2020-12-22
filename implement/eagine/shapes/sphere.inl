@@ -49,8 +49,8 @@ void unit_sphere_gen::positions(span<float> dest) noexcept {
     const auto s_step = 2 * math::pi / _sections;
     const auto r_step = 1 * math::pi / _rings;
 
-    for(span_size_t s = 0; s < (_sections + 1); ++s) {
-        for(span_size_t r = 0; r < (_rings + 1); ++r) {
+    for(auto s : integer_range(_sections + 1)) {
+        for(auto r : integer_range(_rings + 1)) {
             const auto r_lat = std::cos(r * r_step);
             const auto r_rad = std::sin(r * r_step);
 
@@ -71,8 +71,8 @@ void unit_sphere_gen::normals(span<float> dest) noexcept {
     const auto s_step = 2 * math::pi / _sections;
     const auto r_step = 1 * math::pi / _rings;
 
-    for(span_size_t s = 0; s < (_sections + 1); ++s) {
-        for(span_size_t r = 0; r < (_rings + 1); ++r) {
+    for(auto s : integer_range(_sections + 1)) {
+        for(auto r : integer_range(_rings + 1)) {
             const auto r_lat = std::cos(r * r_step);
             const auto r_rad = std::sin(r * r_step);
 
@@ -92,11 +92,12 @@ void unit_sphere_gen::tangentials(span<float> dest) noexcept {
 
     const auto s_step = 2 * math::pi / _sections;
 
-    for(span_size_t s = 0; s < (_sections + 1); ++s) {
+    for(auto s : integer_range(_sections + 1)) {
         auto x = -std::sin(s * s_step);
         auto z = -std::cos(s * s_step);
 
-        for(span_size_t r = 0; r < (_rings + 1); ++r) {
+        for(auto r : integer_range(_rings + 1)) {
+            EAGINE_MAYBE_UNUSED(r);
             dest[k++] = float(x);
             dest[k++] = float(0);
             dest[k++] = float(z);
@@ -115,8 +116,8 @@ void unit_sphere_gen::bitangentials(span<float> dest) noexcept {
     const auto r_step = 1 * math::pi / _rings;
     const auto ty = 0;
 
-    for(span_size_t s = 0; s < (_sections + 1); ++s) {
-        for(span_size_t r = 0; r < (_rings + 1); ++r) {
+    for(auto s : integer_range(_sections + 1)) {
+        for(auto r : integer_range(_rings + 1)) {
             const auto r_rad = std::sin(r * r_step);
             const auto tx = -std::sin(s * s_step);
             const auto tz = -std::cos(s * s_step);
@@ -141,8 +142,8 @@ void unit_sphere_gen::wrap_coords(span<float> dest) noexcept {
     const auto s_step = 1.F / _sections;
     const auto r_step = 1.F / _rings;
 
-    for(span_size_t s = 0; s < (_sections + 1); ++s) {
-        for(span_size_t r = 0; r < (_rings + 1); ++r) {
+    for(auto s : integer_range(_sections + 1)) {
+        for(auto r : integer_range(_rings + 1)) {
             dest[k++] = s * s_step;
             dest[k++] = r * r_step;
         }
@@ -210,8 +211,8 @@ void unit_sphere_gen::_indices(drawing_variant var, span<T> dest) noexcept {
     span_size_t k = 0;
     span_size_t step = _rings + 1;
 
-    for(span_size_t s = 0; s < _sections; ++s) {
-        for(span_size_t r = 0; r < step; ++r) {
+    for(auto s : integer_range(_sections + 1)) {
+        for(auto r : integer_range(step)) {
             dest[k++] = limit_cast<T>((s + 0) * step + r);
             dest[k++] = limit_cast<T>((s + 1) * step + r);
         }
@@ -263,7 +264,7 @@ void unit_sphere_gen::instructions(
         op.cw_face_winding = true;
     } else {
         span_size_t step = 2 * (_rings + 1);
-        for(span_size_t s = 0; s < _sections; ++s) {
+        for(auto s : integer_range(_sections)) {
             draw_operation& op = ops[s];
             op.mode = primitive_type::triangle_strip;
             op.idx_type = index_type(var);
@@ -290,7 +291,7 @@ void unit_sphere_gen::ray_intersections(
 
     const auto bs = bounding_sphere();
 
-    for(span_size_t i = 0; i < intersections.size(); ++i) {
+    for(auto i : integer_range(intersections.size())) {
         const auto& ray = rays[i];
         const auto nparam = math::nearest_ray_param(
           math::line_sphere_intersection_params(ray, bs));
