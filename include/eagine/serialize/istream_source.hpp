@@ -28,9 +28,9 @@ public:
             while(_storage.size() < _cur_size + req_size) {
                 _storage.resize(_storage.size() + _chunk_size());
             }
-            _in.read(
-              reinterpret_cast<char*>(_storage.data()) + _cur_size,
-              static_cast<std::streamsize>(req_size - _cur_size));
+            read_from_stream(
+              _in,
+              head(skip(cover(_storage), _cur_size), req_size - _cur_size));
             _cur_size += span_size(_in.gcount());
         }
         return head(head(view(_storage), _cur_size), req_size);
