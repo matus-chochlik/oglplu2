@@ -1102,6 +1102,10 @@ protected:
         return c_str(str);
     }
 
+    static constexpr inline auto _conv(memory::block blk) noexcept {
+        return blk.data();
+    }
+
     static constexpr inline auto _conv(memory::const_block blk) noexcept {
         return blk.data();
     }
