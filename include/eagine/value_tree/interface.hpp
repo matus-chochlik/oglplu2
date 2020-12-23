@@ -14,12 +14,15 @@
 #include "../reflect/map_enumerators.hpp"
 #include "../string_path.hpp"
 #include "../string_span.hpp"
+#include "types.hpp"
 #include <chrono>
 #include <cstdint>
 #include <memory>
 #include <string>
 
 namespace eagine::valtree {
+//------------------------------------------------------------------------------
+using value_tree_tag = EAGINE_TAG_TYPE(ValueTree);
 //------------------------------------------------------------------------------
 enum class value_type {
     unknown,

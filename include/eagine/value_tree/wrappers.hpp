@@ -13,6 +13,7 @@
 #include "../assert.hpp"
 #include "../callable_ref.hpp"
 #include "../memory/span_algo.hpp"
+#include "../reflect/enumerators.hpp"
 #include "../type_identity.hpp"
 #include "../valid_if/decl.hpp"
 #include "interface.hpp"
@@ -118,8 +119,43 @@ private:
 };
 //------------------------------------------------------------------------------
 template <typename T>
-struct converted_value : not_converted_value<T> {
-    using base = not_converted_value<T>;
+struct converted_enum_value {
+    static_assert(has_enumerator_mapping_v<T>);
+
+public:
+    constexpr converted_enum_value(T& dest) noexcept
+      : _dest{dest} {}
+
+    constexpr auto dest() noexcept -> auto& {
+        return _temp;
+    }
+
+    auto apply() const {
+        if(auto converted{
+             from_string(_temp, type_identity<T>(), value_tree_tag())}) {
+            _dest = extract(converted);
+            return true;
+        }
+        return false;
+    }
+
+private:
+    std::string _temp;
+    T& _dest;
+};
+//------------------------------------------------------------------------------
+template <typename T>
+struct converted_value
+  : std::conditional_t<
+      has_enumerator_mapping_v<T>,
+      converted_enum_value<T>,
+      not_converted_value<T>> {
+
+    using base = std::conditional_t<
+      has_enumerator_mapping_v<T>,
+      converted_enum_value<T>,
+      not_converted_value<T>>;
+
     using base::base;
 };
 //------------------------------------------------------------------------------
