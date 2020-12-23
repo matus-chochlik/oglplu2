@@ -17,18 +17,115 @@
 #include <eagine/application/opengl_glfw3.hpp>
 #include <eagine/application/state.hpp>
 #include <eagine/branch_predict.hpp>
+#include <eagine/memory/buffer.hpp>
 
 namespace eagine::application {
 //------------------------------------------------------------------------------
 // video_context
 //------------------------------------------------------------------------------
+class video_context_state {
+    static auto _get_options(
+      const execution_context& ctx,
+      string_view instance_name) noexcept -> const video_options& {
+        auto& opts = ctx.options();
+        auto pos = opts.video_requirements().find(instance_name);
+        EAGINE_ASSERT(pos != opts.video_requirements().end());
+        return pos->second;
+    }
+
+public:
+    video_context_state(
+      const execution_context& ctx,
+      string_view instance_name) noexcept
+      : _options{_get_options(ctx, instance_name)} {}
+
+    auto init_framebuffer(execution_context&, oglp::gl_api&) noexcept -> bool {
+        if(_options.needs_offscreen_framebuffer()) {
+            // TODO: check options and make RBOs and FBO
+        }
+        return true;
+    }
+
+    void commit(oglp::gl_api&) noexcept {
+        if(_options.framedump_color()) {
+        }
+    }
+
+    void cleanup(oglp::gl_api& api) noexcept {
+        if(_offscreen_fbo) {
+            api.delete_framebuffers(std::move(_offscreen_fbo));
+        }
+        if(_stencil_rbo) {
+            api.delete_renderbuffers(std::move(_stencil_rbo));
+        }
+        if(_depth_rbo) {
+            api.delete_renderbuffers(std::move(_depth_rbo));
+        }
+        if(_color_rbo) {
+            api.delete_renderbuffers(std::move(_color_rbo));
+        }
+    }
+
+private:
+    const video_options& _options;
+    oglp::owned_renderbuffer_name _color_rbo;
+    oglp::owned_renderbuffer_name _depth_rbo;
+    oglp::owned_renderbuffer_name _stencil_rbo;
+    oglp::owned_framebuffer_name _offscreen_fbo;
+};
+//------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto video_context::init_gl_api() noexcept -> bool {
     try {
+        EAGINE_ASSERT(_provider);
         _gl_api = std::make_shared<oglp::gl_api>();
+        _state = std::make_shared<video_context_state>(
+          _parent, extract(_provider).instance_name());
+
+        if(!extract(_provider).has_framebuffer()) {
+            if(!extract(_state).init_framebuffer(_parent, extract(_gl_api))) {
+                _parent.log_error("failed to create offscreen framebuffer");
+                return false;
+            }
+        }
     } catch(...) {
+        return false;
     }
     return bool(_gl_api);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void video_context::begin() {
+    EAGINE_ASSERT(_provider);
+    _provider->video_begin(_parent);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void video_context::end() {
+    EAGINE_ASSERT(_provider);
+    _provider->video_end(_parent);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void video_context::commit() {
+    EAGINE_ASSERT(_provider);
+    if(EAGINE_LIKELY(_gl_api)) {
+        EAGINE_ASSERT(_state);
+        _state->commit(extract(_gl_api));
+    }
+    _provider->video_commit(_parent);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void video_context::cleanup() noexcept {
+    try {
+        if(_state) {
+            EAGINE_ASSERT(_gl_api);
+            extract(_state).cleanup(extract(_gl_api));
+            _state.reset();
+        }
+    } catch(...) {
+    }
 }
 //------------------------------------------------------------------------------
 // audio_context
@@ -167,6 +264,10 @@ EAGINE_LIB_FUNC
 void execution_context::cleanup() noexcept {
     if(_app) {
         _app->cleanup();
+    }
+    for(auto& video : _video_contexts) {
+        EAGINE_ASSERT(video);
+        video->cleanup();
     }
 }
 //------------------------------------------------------------------------------

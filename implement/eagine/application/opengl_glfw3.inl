@@ -44,12 +44,17 @@ public:
     void cleanup();
 
     auto video_kind() const noexcept -> video_context_kind final;
+    auto instance_name() const noexcept -> string_view final;
+
+    auto is_offscreen() noexcept -> tribool final;
+    auto has_framebuffer() noexcept -> tribool final;
 
     void video_begin(execution_context&) final;
     void video_end(execution_context&) final;
     void video_commit(execution_context&) final;
 
 private:
+    string_view _instance_name;
     GLFWwindow* _window{nullptr};
     double _mouse_x{0};
     double _mouse_y{0};
@@ -63,6 +68,7 @@ auto glfw3_opengl_window::initialize(
   const launch_options& options,
   const video_options& video_opts,
   span<GLFWmonitor* const> monitors) -> bool {
+    _instance_name = name;
 
     glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
     glfwWindowHint(GLFW_RED_BITS, video_opts.color_bits());
@@ -93,6 +99,10 @@ auto glfw3_opengl_window::initialize(
         fallback_height = extract(mode).height;
     }
 
+    if(video_opts.offscreen()) {
+        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+    }
+
     _window = glfwCreateWindow(
       video_opts.surface_width() / fallback_width,
       video_opts.surface_height() / fallback_height,
@@ -112,6 +122,27 @@ auto glfw3_opengl_window::initialize(
 EAGINE_LIB_FUNC
 auto glfw3_opengl_window::video_kind() const noexcept -> video_context_kind {
     return video_context_kind::opengl;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto glfw3_opengl_window::instance_name() const noexcept -> string_view {
+    return _instance_name;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto glfw3_opengl_window::is_offscreen() noexcept -> tribool {
+    if(_window) {
+        return glfwGetWindowAttrib(_window, GLFW_VISIBLE) == 0;
+    }
+    return indeterminate;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto glfw3_opengl_window::has_framebuffer() noexcept -> tribool {
+    if(_window) {
+        return glfwGetWindowAttrib(_window, GLFW_VISIBLE) != 0;
+    }
+    return indeterminate;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

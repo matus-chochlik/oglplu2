@@ -11,6 +11,7 @@
 #define EAGINE_APPLICATION_INTERFACE_HPP
 
 #include "../main_ctx_fwd.hpp"
+#include "../tribool.hpp"
 #include "options.hpp"
 #include <memory>
 
@@ -35,6 +36,10 @@ struct video_provider {
     virtual ~video_provider() noexcept = default;
 
     virtual auto video_kind() const noexcept -> video_context_kind = 0;
+    virtual auto instance_name() const noexcept -> string_view = 0;
+
+    virtual auto is_offscreen() noexcept -> tribool = 0;
+    virtual auto has_framebuffer() noexcept -> tribool = 0;
 
     virtual void video_begin(execution_context&) = 0;
     virtual void video_end(execution_context&) = 0;

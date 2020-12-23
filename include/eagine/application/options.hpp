@@ -140,6 +140,10 @@ public:
         return _offscreen;
     }
 
+    auto needs_offscreen_framebuffer() const noexcept -> bool {
+        return _offscreen_framebuffer;
+    }
+
     auto fullscreen(bool value) noexcept -> auto& {
         if((_fullscreen = value)) {
             _surface_width = 0;
@@ -152,12 +156,29 @@ public:
         return _fullscreen;
     }
 
+    auto framedump_prefix() const noexcept -> string_view {
+        return {_framedump_prefix};
+    }
+
+    auto framedump_color() const noexcept -> bool {
+        return _framedump_color;
+    }
+
+    auto framedump_depth() const noexcept -> bool {
+        return _framedump_depth;
+    }
+
+    auto framedump_stencil() const noexcept -> bool {
+        return _framedump_stencil;
+    }
+
 private:
     friend class execution_context;
 
     video_context_kind _video_kind;
     std::string _provider_name;
     std::string _monitor_name;
+    std::string _framedump_prefix;
 
     int _surface_width{1280};
     int _surface_height{800};
@@ -168,10 +189,14 @@ private:
     int _depth_bits{24};
     int _stencil_bits{0};
 
-    bool _offscreen{false};
-    bool _fullscreen{false};
     bool _gl_debug_context{false};
     bool _gl_compat_context{false};
+    bool _fullscreen{false};
+    bool _offscreen{false};
+    bool _offscreen_framebuffer{false};
+    bool _framedump_color{false};
+    bool _framedump_depth{false};
+    bool _framedump_stencil{false};
 };
 
 class audio_options {

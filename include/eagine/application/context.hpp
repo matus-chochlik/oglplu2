@@ -23,6 +23,7 @@ namespace eagine::application {
 //------------------------------------------------------------------------------
 class execution_context;
 //------------------------------------------------------------------------------
+class video_context_state;
 class video_context {
 public:
     video_context(
@@ -31,20 +32,9 @@ public:
       : _parent{parent}
       , _provider{std::move(provider)} {}
 
-    void begin() {
-        EAGINE_ASSERT(_provider);
-        _provider->video_begin(_parent);
-    }
-
-    void end() {
-        EAGINE_ASSERT(_provider);
-        _provider->video_end(_parent);
-    }
-
-    void commit() {
-        EAGINE_ASSERT(_provider);
-        _provider->video_commit(_parent);
-    }
+    void begin();
+    void end();
+    void commit();
 
     auto init_gl_api() noexcept -> bool;
 
@@ -57,10 +47,13 @@ public:
         return *_gl_api;
     }
 
+    void cleanup() noexcept;
+
 private:
     execution_context& _parent;
     std::shared_ptr<video_provider> _provider{};
     std::shared_ptr<oglp::gl_api> _gl_api{};
+    std::shared_ptr<video_context_state> _state{};
 };
 //------------------------------------------------------------------------------
 class audio_context {
