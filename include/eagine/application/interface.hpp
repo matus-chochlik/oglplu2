@@ -40,6 +40,7 @@ struct video_provider {
 
     virtual auto is_offscreen() noexcept -> tribool = 0;
     virtual auto has_framebuffer() noexcept -> tribool = 0;
+    virtual auto surface_size() noexcept -> std::tuple<int, int> = 0;
 
     virtual void video_begin(execution_context&) = 0;
     virtual void video_end(execution_context&) = 0;

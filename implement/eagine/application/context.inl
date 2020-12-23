@@ -18,6 +18,10 @@
 #include <eagine/application/state.hpp>
 #include <eagine/branch_predict.hpp>
 #include <eagine/memory/buffer.hpp>
+#include <eagine/span.hpp>
+#include <fstream>
+#include <iomanip>
+#include <sstream>
 
 namespace eagine::application {
 //------------------------------------------------------------------------------
@@ -46,8 +50,65 @@ public:
         return true;
     }
 
-    void commit(oglp::gl_api&) noexcept {
-        if(_options.framedump_color()) {
+    void commit(
+      execution_context& parent,
+      video_provider& provider,
+      oglp::gl_api& api) noexcept {
+        if(EAGINE_UNLIKELY(_options.doing_framedump())) {
+            auto& [gl, GL] = api;
+
+            if(EAGINE_LIKELY(gl.read_pixels)) {
+
+                auto dump_frame = [&](
+                                    string_view suffix,
+                                    auto format,
+                                    auto type,
+                                    span_size_t size_mult) {
+                    const auto [width, height] = provider.surface_size();
+                    const auto size = width * height * size_mult;
+
+                    api.operations().read_pixels(
+                      0,
+                      0,
+                      oglp::gl_types::sizei_type(width),
+                      oglp::gl_types::sizei_type(height),
+                      format,
+                      type,
+                      cover(_pixel_buffer.ensure(size)));
+
+                    _framedump_path.str({});
+                    _framedump_path << _options.framedump_prefix()
+                                    << std::setfill('0') << std::setw(6)
+                                    << parent.state().frame_number() << suffix;
+
+                    {
+                        std::ofstream file(_framedump_path.str());
+                        write_to_stream(file, head(view(_pixel_buffer), size));
+                    }
+
+                    _options.framedump_out()
+                      << _framedump_path.str() << std::endl;
+                };
+
+                switch(_options.framedump_color()) {
+                    case framedump_data_type::none:
+                        break;
+                    case framedump_data_type::float_type:
+                        dump_frame(
+                          ".float.rgba",
+                          GL.rgba,
+                          GL.float_,
+                          span_size(4 * sizeof(oglp::gl_types::float_type)));
+                        break;
+                    case framedump_data_type::byte_type:
+                        dump_frame(
+                          ".byte.rgba",
+                          GL.rgba,
+                          GL.unsigned_byte_,
+                          span_size(4 * sizeof(oglp::gl_types::ubyte_type)));
+                        break;
+                }
+            }
         }
     }
 
@@ -72,12 +133,13 @@ private:
     oglp::owned_renderbuffer_name _depth_rbo;
     oglp::owned_renderbuffer_name _stencil_rbo;
     oglp::owned_framebuffer_name _offscreen_fbo;
+    memory::buffer _pixel_buffer;
+    std::stringstream _framedump_path;
 };
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto video_context::init_gl_api() noexcept -> bool {
     try {
-        EAGINE_ASSERT(_provider);
         _gl_api = std::make_shared<oglp::gl_api>();
         _state = std::make_shared<video_context_state>(
           _parent, extract(_provider).instance_name());
@@ -96,31 +158,26 @@ auto video_context::init_gl_api() noexcept -> bool {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void video_context::begin() {
-    EAGINE_ASSERT(_provider);
-    _provider->video_begin(_parent);
+    extract(_provider).video_begin(_parent);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void video_context::end() {
-    EAGINE_ASSERT(_provider);
-    _provider->video_end(_parent);
+    extract(_provider).video_end(_parent);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void video_context::commit() {
-    EAGINE_ASSERT(_provider);
     if(EAGINE_LIKELY(_gl_api)) {
-        EAGINE_ASSERT(_state);
-        _state->commit(extract(_gl_api));
+        extract(_state).commit(_parent, extract(_provider), extract(_gl_api));
     }
-    _provider->video_commit(_parent);
+    extract(_provider).video_commit(_parent);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void video_context::cleanup() noexcept {
     try {
         if(_state) {
-            EAGINE_ASSERT(_gl_api);
             extract(_state).cleanup(extract(_gl_api));
             _state.reset();
         }
@@ -198,8 +255,7 @@ inline auto execution_context::_setup_providers() -> bool {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto execution_context::state() const noexcept -> const context_state_view& {
-    EAGINE_ASSERT(_state);
-    return *_state;
+    return extract(_state);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -263,24 +319,20 @@ void execution_context::stop_running() noexcept {
 EAGINE_LIB_FUNC
 void execution_context::cleanup() noexcept {
     if(_app) {
-        _app->cleanup();
+        extract(_app).cleanup();
     }
     for(auto& video : _video_contexts) {
-        EAGINE_ASSERT(video);
-        video->cleanup();
+        extract(video).cleanup();
     }
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void execution_context::update() noexcept {
     for(auto& provider : _hmi_providers) {
-        EAGINE_ASSERT(provider);
-        provider->update(*this);
+        extract(provider).update(*this);
     }
-    EAGINE_ASSERT(_state);
-    _state->advance_frame().advance_time();
-    EAGINE_ASSERT(_app);
-    _app->update();
+    extract(_state).advance_frame().advance_time();
+    extract(_app).update();
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

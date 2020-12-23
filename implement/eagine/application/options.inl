@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <iostream>
 
 namespace eagine::application {
 //------------------------------------------------------------------------------
@@ -54,7 +55,17 @@ video_options::video_options(
       "application.video.framedump.stencil", _framedump_stencil, instance);
 }
 //------------------------------------------------------------------------------
-// video_options
+EAGINE_LIB_FUNC
+auto video_options::framedump_in() const noexcept -> std::istream& {
+    return std::cin;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto video_options::framedump_out() const noexcept -> std::ostream& {
+    return std::cout;
+}
+//------------------------------------------------------------------------------
+// audio_options
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 audio_options::audio_options(

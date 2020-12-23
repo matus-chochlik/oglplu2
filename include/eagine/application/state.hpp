@@ -27,10 +27,10 @@ public:
       : main_ctx_object(EAGINE_ID(AppliState), parent) {}
 
     auto advance_time() noexcept -> auto& {
-        const clock_type::time_point now{clock_type::now()};
         if(_fixed_fps) {
             _frame_time.advance(extract(_fixed_fps));
         } else {
+            const clock_type::time_point now{clock_type::now()};
             _frame_time.assign(
               std::chrono::duration<float>(now - _start_time).count());
         }

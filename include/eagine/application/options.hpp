@@ -18,11 +18,12 @@
 #include "../valid_if/one_of.hpp"
 #include "../valid_if/positive.hpp"
 #include "types.hpp"
+#include <iosfwd>
 #include <map>
 
 namespace eagine::application {
 class execution_context;
-
+//------------------------------------------------------------------------------
 class video_options {
 public:
     video_options(
@@ -156,20 +157,29 @@ public:
         return _fullscreen;
     }
 
+    auto framedump_in() const noexcept -> std::istream&;
+    auto framedump_out() const noexcept -> std::ostream&;
+
     auto framedump_prefix() const noexcept -> string_view {
         return {_framedump_prefix};
     }
 
-    auto framedump_color() const noexcept -> bool {
+    auto framedump_color() const noexcept -> framedump_data_type {
         return _framedump_color;
     }
 
-    auto framedump_depth() const noexcept -> bool {
+    auto framedump_depth() const noexcept -> framedump_data_type {
         return _framedump_depth;
     }
 
-    auto framedump_stencil() const noexcept -> bool {
+    auto framedump_stencil() const noexcept -> framedump_data_type {
         return _framedump_stencil;
+    }
+
+    auto doing_framedump() const noexcept -> bool {
+        return (_framedump_color != framedump_data_type::none) ||
+               (_framedump_depth != framedump_data_type::none) ||
+               (_framedump_stencil != framedump_data_type::none);
     }
 
 private:
@@ -194,11 +204,11 @@ private:
     bool _fullscreen{false};
     bool _offscreen{false};
     bool _offscreen_framebuffer{false};
-    bool _framedump_color{false};
-    bool _framedump_depth{false};
-    bool _framedump_stencil{false};
+    framedump_data_type _framedump_color{framedump_data_type::none};
+    framedump_data_type _framedump_depth{framedump_data_type::none};
+    framedump_data_type _framedump_stencil{framedump_data_type::none};
 };
-
+//------------------------------------------------------------------------------
 class audio_options {
 public:
     audio_options(
@@ -215,7 +225,7 @@ private:
 
     audio_context_kind _audio_kind;
 };
-
+//------------------------------------------------------------------------------
 class launch_options : public main_ctx_object {
 public:
     launch_options(main_ctx_parent parent) noexcept;
@@ -286,7 +296,7 @@ private:
 
     bool _requires_input{cfg_init("application.input.required", false)};
 };
-
+//------------------------------------------------------------------------------
 } // namespace eagine::application
 
 #if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)

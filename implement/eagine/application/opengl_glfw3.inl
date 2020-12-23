@@ -48,6 +48,7 @@ public:
 
     auto is_offscreen() noexcept -> tribool final;
     auto has_framebuffer() noexcept -> tribool final;
+    auto surface_size() noexcept -> std::tuple<int, int> final;
 
     void video_begin(execution_context&) final;
     void video_end(execution_context&) final;
@@ -143,6 +144,11 @@ auto glfw3_opengl_window::has_framebuffer() noexcept -> tribool {
         return glfwGetWindowAttrib(_window, GLFW_VISIBLE) != 0;
     }
     return indeterminate;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+auto glfw3_opengl_window::surface_size() noexcept -> std::tuple<int, int> {
+    return {_window_width, _window_height};
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
