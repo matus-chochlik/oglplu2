@@ -29,7 +29,7 @@ public:
     auto is_set(string_view key, string_view tag = {}) noexcept -> bool {
         if(const auto attr{_find_comp_attr(key, tag)}) {
             bool flag{false};
-            if(attr.fetch_value(flag, application_config_tag())) {
+            if(attr.select_value(flag, application_config_tag())) {
                 return flag;
             }
         }
@@ -71,7 +71,7 @@ public:
             }
         }
         if(const auto attr{_find_comp_attr(key, tag)}) {
-            if(attr.fetch_value(dest, application_config_tag())) {
+            if(attr.select_value(dest, application_config_tag())) {
                 return true;
             } else {
                 log_error("could not fetch configuration value '${key}'")

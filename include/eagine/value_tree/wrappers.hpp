@@ -368,7 +368,7 @@ public:
     }
 
     template <typename T, identifier_t V>
-    auto fetch_value(
+    auto select_value(
       const attribute& attrib,
       span_size_t offset,
       T& dest,
@@ -383,68 +383,69 @@ public:
     template <typename T>
     auto fetch_value(const attribute& attrib, span_size_t offset, T& dest) const
       -> bool {
-        return fetch_value(attrib, offset, dest, default_selector);
+        return select_value(attrib, offset, dest, default_selector);
     }
 
     template <typename T, identifier_t V>
     auto
-    fetch_value(string_view name, span_size_t offset, T& dest, selector<V> sel)
+    select_value(string_view name, span_size_t offset, T& dest, selector<V> sel)
       const -> bool {
-        return fetch_value(nested(name), offset, dest, sel);
+        return select_value(nested(name), offset, dest, sel);
     }
 
     template <typename T>
     auto fetch_value(string_view name, span_size_t offset, T& dest) const
       -> bool {
-        return fetch_value(name, offset, dest, default_selector);
+        return select_value(name, offset, dest, default_selector);
     }
 
     template <typename T, identifier_t V>
-    auto fetch_value(
+    auto select_value(
       const basic_string_path& path,
       span_size_t offset,
       T& dest,
       selector<V> sel) const -> bool {
-        return fetch_value(find(path), offset, dest, sel);
+        return select_value(find(path), offset, dest, sel);
     }
 
     template <typename T>
     auto fetch_value(const basic_string_path& path, span_size_t offset, T& dest)
       const -> bool {
-        return fetch_value(path, offset, dest, default_selector);
+        return select_value(path, offset, dest, default_selector);
     }
 
     template <typename T, identifier_t V>
-    auto fetch_value(string_view name, T& dest, selector<V> sel) const -> bool {
-        return fetch_value(name, 0, dest, sel);
+    auto select_value(string_view name, T& dest, selector<V> sel) const
+      -> bool {
+        return select_value(name, 0, dest, sel);
     }
 
     template <typename T>
     auto fetch_value(string_view name, T& dest) const -> bool {
-        return fetch_value(name, 0, dest, default_selector);
+        return selecto_value(name, 0, dest, default_selector);
     }
 
     template <typename T, identifier_t V>
-    auto fetch_value(const attribute& attrib, T& dest, selector<V> sel) const
+    auto select_value(const attribute& attrib, T& dest, selector<V> sel) const
       -> bool {
-        return fetch_value(attrib, 0, dest, sel);
+        return select_value(attrib, 0, dest, sel);
     }
 
     template <typename T>
     auto fetch_value(const attribute& attrib, T& dest) const -> bool {
-        return fetch_value(attrib, 0, dest, default_selector);
+        return select_value(attrib, 0, dest, default_selector);
     }
 
     template <typename T, identifier_t V>
     auto
-    fetch_value(const basic_string_path& path, T& dest, selector<V> sel) const
+    select_value(const basic_string_path& path, T& dest, selector<V> sel) const
       -> bool {
-        return fetch_value(path, 0, dest, sel);
+        return select_value(path, 0, dest, sel);
     }
 
     template <typename T>
     auto fetch_value(const basic_string_path& path, T& dest) const -> bool {
-        return fetch_value(path, 0, dest, default_selector);
+        return selector_value(path, 0, dest, default_selector);
     }
 
     template <std::size_t L>
@@ -464,7 +465,7 @@ public:
       type_identity<T>,
       selector<V> sel) const -> optionally_valid<T> {
         T temp{};
-        if(fetch_value(attrib, offset, temp, sel)) {
+        if(select_value(attrib, offset, temp, sel)) {
             return {std::move(temp), true};
         }
         return {};
@@ -485,7 +486,7 @@ public:
       type_identity<T>,
       selector<V> sel) const -> optionally_valid<T> {
         T temp{};
-        if(fetch_value(path, offset, temp, sel)) {
+        if(select_value(path, offset, temp, sel)) {
             return {std::move(temp), true};
         }
         return {};
@@ -504,7 +505,7 @@ public:
     get(string_view name, span_size_t offset, type_identity<T>, selector<V> sel)
       const -> optionally_valid<T> {
         T temp{};
-        if(fetch_value(name, offset, temp, sel)) {
+        if(select_value(name, offset, temp, sel)) {
             return {std::move(temp), true};
         }
         return {};
@@ -649,17 +650,17 @@ public:
       span_size_t offset,
       T& dest,
       selector<V> sel = default_selector) const -> bool {
-        return _c.fetch_value(_a, offset, dest, sel);
+        return _c.select_value(_a, offset, dest, sel);
     }
 
     template <typename T, identifier_t V>
-    auto fetch_value(T& dest, selector<V> sel) const -> bool {
-        return _c.fetch_value(_a, dest, sel);
+    auto select_value(T& dest, selector<V> sel) const -> bool {
+        return _c.select_value(_a, dest, sel);
     }
 
     template <typename T>
     auto fetch_value(T& dest) const -> bool {
-        return _c.fetch_value(_a, dest, default_selector);
+        return _c.select_value(_a, dest, default_selector);
     }
 
     template <typename T>
