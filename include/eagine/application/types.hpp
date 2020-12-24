@@ -11,7 +11,7 @@
 #define EAGINE_APPLICATION_TYPES_HPP
 
 #include "../reflect/map_enumerators.hpp"
-#include "../value_tree/types.hpp"
+#include "../tags.hpp"
 #include <cstdint>
 
 namespace eagine::application {
@@ -32,7 +32,7 @@ enumerator_mapping(type_identity<framedump_data_type>, Selector) noexcept {
 
 constexpr auto enumerator_mapping(
   type_identity<framedump_data_type>,
-  value_tree_tag) noexcept {
+  application_config_tag) noexcept {
     return enumerator_map_type<framedump_data_type, 3>{
       {{"none", framedump_data_type::none},
        {"float", framedump_data_type::float_type},

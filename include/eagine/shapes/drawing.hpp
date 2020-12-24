@@ -12,8 +12,8 @@
 
 #include "../identifier.hpp"
 #include "../reflect/map_enumerators.hpp"
+#include "../tags.hpp"
 #include "../types.hpp"
-#include "../value_tree/types.hpp"
 
 namespace eagine {
 namespace shapes {

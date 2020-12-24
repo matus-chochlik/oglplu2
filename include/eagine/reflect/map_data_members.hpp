@@ -38,11 +38,11 @@ public:
     using type = decltype(_test(static_cast<std::remove_cv_t<T>*>(nullptr)));
 };
 //------------------------------------------------------------------------------
-template <typename T, typename Selector = selector<0>>
+template <typename T, typename Selector = default_selector_t>
 using has_data_member_mapping_t =
   typename does_have_data_member_mapping<T, Selector>::type;
 
-template <typename T, typename Selector = selector<0>>
+template <typename T, typename Selector = default_selector_t>
 constexpr const bool has_data_member_mapping_v =
   has_data_member_mapping_t<T, Selector>::value;
 //------------------------------------------------------------------------------

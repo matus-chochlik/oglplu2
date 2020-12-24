@@ -20,6 +20,9 @@ struct selector {
     using type = selector;
 };
 
+using default_selector_t = selector<0>;
+constexpr const default_selector_t default_selector = {};
+
 } // namespace eagine
 
 #endif // EAGINE_SELECTOR_HPP

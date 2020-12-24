@@ -13,6 +13,7 @@
 #include "is_within_limits.hpp"
 #include "memory/span_algo.hpp"
 #include "mp_string.hpp"
+#include "selector.hpp"
 #include "string_span.hpp"
 #include "type_identity.hpp"
 #include "valid_if/always.hpp"
@@ -46,7 +47,9 @@ static inline auto parse_from_string(string_view src, type_identity<T>) noexcept
     return {};
 }
 //------------------------------------------------------------------------------
-static inline auto from_string(string_view src, type_identity<bool>) noexcept
+template <identifier_t V>
+static inline auto
+from_string(string_view src, type_identity<bool>, selector<V>) noexcept
   -> optionally_valid<bool> {
 
     const string_view true_strs[] = {{"true"}, {"True"}, {"1"}, {"t"}, {"T"}};
@@ -63,7 +66,9 @@ static inline auto from_string(string_view src, type_identity<bool>) noexcept
     return {};
 }
 
-static inline auto from_string(string_view src, type_identity<char>) noexcept
+template <identifier_t V>
+static inline auto
+from_string(string_view src, type_identity<char>, selector<V>) noexcept
   -> optionally_valid<char> {
     if(src.size() == 1) {
         return {extract(src), true};
@@ -124,123 +129,153 @@ auto convert_from_string_with(
     return parse_from_string(src, tid);
 }
 //------------------------------------------------------------------------------
-static inline auto
-from_string(string_view src, type_identity<short> id, int base = 10) noexcept
-  -> optionally_valid<short> {
+template <identifier_t V>
+static inline auto from_string(
+  string_view src,
+  type_identity<short> id,
+  selector<V>,
+  int base = 10) noexcept -> optionally_valid<short> {
     return convert_from_string_with(&std::strtol, base, src, id);
 }
 
-static inline auto
-from_string(string_view src, type_identity<int> id, int base = 10) noexcept
-  -> optionally_valid<int> {
+template <identifier_t V>
+static inline auto from_string(
+  string_view src,
+  type_identity<int> id,
+  selector<V>,
+  int base = 10) noexcept -> optionally_valid<int> {
     return convert_from_string_with(&std::strtol, base, src, id);
 }
 
-static inline auto
-from_string(string_view src, type_identity<long> id, int base = 10) noexcept
-  -> optionally_valid<long> {
+template <identifier_t V>
+static inline auto from_string(
+  string_view src,
+  type_identity<long> id,
+  selector<V>,
+  int base = 10) noexcept -> optionally_valid<long> {
     return convert_from_string_with(&std::strtol, base, src, id);
 }
 
+template <identifier_t V>
 static inline auto from_string(
   string_view src,
   type_identity<long long> id,
+  selector<V>,
   int base = 10) noexcept -> optionally_valid<long long> {
     return convert_from_string_with(&std::strtoll, base, src, id);
 }
 
+template <identifier_t V>
 static inline auto from_string(
   string_view src,
   type_identity<unsigned short> id,
+  selector<V>,
   int base = 10) noexcept -> optionally_valid<unsigned short> {
     return convert_from_string_with(&std::strtoul, base, src, id);
 }
 
+template <identifier_t V>
 static inline auto from_string(
   string_view src,
   type_identity<unsigned int> id,
+  selector<V>,
   int base = 10) noexcept -> optionally_valid<unsigned int> {
     return convert_from_string_with(&std::strtoul, base, src, id);
 }
 
+template <identifier_t V>
 static inline auto from_string(
   string_view src,
   type_identity<unsigned long> id,
+  selector<V>,
   int base = 10) noexcept -> optionally_valid<unsigned long> {
     return convert_from_string_with(&std::strtoul, base, src, id);
 }
 
+template <identifier_t V>
 static inline auto from_string(
   string_view src,
   type_identity<unsigned long long> id,
+  selector<V>,
   int base = 10) noexcept -> optionally_valid<unsigned long long> {
     return convert_from_string_with(&std::strtoull, base, src, id);
 }
 //------------------------------------------------------------------------------
-static inline auto from_string(string_view src, type_identity<byte>) noexcept
+template <identifier_t V>
+static inline auto
+from_string(string_view src, type_identity<byte>, selector<V> sel) noexcept
   -> optionally_valid<byte> {
     if(starts_with(src, string_view("0x"))) {
         if(const auto opt_val{
-             from_string(skip(src, 2), type_identity<unsigned>(), 16)}) {
+             from_string(skip(src, 2), type_identity<unsigned>(), sel, 16)}) {
             return {static_cast<byte>(extract(opt_val)), bool(opt_val <= 255U)};
         }
     }
     if(starts_with(src, string_view("0"))) {
         if(const auto opt_val{
-             from_string(skip(src, 1), type_identity<unsigned>(), 8)}) {
+             from_string(skip(src, 1), type_identity<unsigned>(), sel, 8)}) {
             return {static_cast<byte>(extract(opt_val)), bool(opt_val <= 255U)};
         }
     }
-    if(const auto opt_val{from_string(src, type_identity<unsigned>(), 10)}) {
+    if(const auto opt_val{
+         from_string(src, type_identity<unsigned>(), sel, 10)}) {
         return {static_cast<byte>(extract(opt_val)), bool(opt_val <= 255U)};
     }
     return {};
 }
 //------------------------------------------------------------------------------
-static inline auto from_string(string_view src, type_identity<float> id) noexcept
+template <identifier_t V>
+static inline auto
+from_string(string_view src, type_identity<float> id, selector<V>) noexcept
   -> optionally_valid<float> {
     return convert_from_string_with(&std::strtof, src, id);
 }
 
+template <identifier_t V>
 static inline auto
-from_string(string_view src, type_identity<double> id) noexcept
+from_string(string_view src, type_identity<double> id, selector<V>) noexcept
   -> optionally_valid<double> {
     return convert_from_string_with(&std::strtod, src, id);
 }
 
-static inline auto
-from_string(string_view src, type_identity<long double> id) noexcept
-  -> optionally_valid<long double> {
+template <identifier_t V>
+static inline auto from_string(
+  string_view src,
+  type_identity<long double> id,
+  selector<V>) noexcept -> optionally_valid<long double> {
     return convert_from_string_with(&std::strtold, src, id);
 }
 
+template <identifier_t V>
 static inline auto
-from_string(string_view src, type_identity<std::string>) noexcept
+from_string(string_view src, type_identity<std::string>, selector<V>) noexcept
   -> always_valid<std::string> {
     return to_string(src);
 }
 //------------------------------------------------------------------------------
-template <typename Rep, typename Period, typename Symbol>
+template <typename Rep, typename Period, identifier_t V, typename Symbol>
 static inline auto convert_from_string(
   string_view src,
   type_identity<std::chrono::duration<Rep, Period>>,
+  selector<V> sel,
   Symbol sym_const) noexcept
   -> optionally_valid<std::chrono::duration<Rep, Period>> {
     const string_view symbol{sym_const};
     if(memory::ends_with(src, symbol)) {
         if(
           auto opt_val =
-            from_string(snip(src, symbol.size()), type_identity<Rep>())) {
+            from_string(snip(src, symbol.size()), type_identity<Rep>(), sel)) {
             return {std::chrono::duration<Rep, Period>(extract(opt_val)), true};
         }
     }
     return {};
 }
 //------------------------------------------------------------------------------
-template <typename Rep, typename Period>
+template <typename Rep, typename Period, identifier_t V>
 static inline auto from_string(
   string_view str,
-  type_identity<std::chrono::duration<Rep, Period>>) noexcept
+  type_identity<std::chrono::duration<Rep, Period>>,
+  selector<V> sel) noexcept
   -> optionally_valid<std::chrono::duration<Rep, Period>> {
     using dur_t = std::chrono::duration<Rep, Period>;
 
@@ -248,6 +283,7 @@ static inline auto from_string(
       auto d = convert_from_string(
         str,
         type_identity<std::chrono::duration<Rep, std::ratio<1>>>(),
+        sel,
         mp_string<'s'>())) {
         return {std::chrono::duration_cast<dur_t>(extract(d)), true};
     }
@@ -255,6 +291,7 @@ static inline auto from_string(
       auto d = convert_from_string(
         str,
         type_identity<std::chrono::duration<Rep, std::milli>>(),
+        sel,
         mp_string<'m', 's'>())) {
         return {std::chrono::duration_cast<dur_t>(extract(d)), true};
     }
@@ -262,6 +299,7 @@ static inline auto from_string(
       auto d = convert_from_string(
         str,
         type_identity<std::chrono::duration<Rep, std::micro>>(),
+        sel,
         mp_string<char(0xc2), char(0xb5), 's'>())) {
         return {std::chrono::duration_cast<dur_t>(extract(d)), true};
     }
@@ -269,6 +307,7 @@ static inline auto from_string(
       auto d = convert_from_string(
         str,
         type_identity<std::chrono::duration<Rep, std::nano>>(),
+        sel,
         mp_string<'n', 's'>())) {
         return {std::chrono::duration_cast<dur_t>(extract(d)), true};
     }
@@ -276,6 +315,7 @@ static inline auto from_string(
       auto d = convert_from_string(
         str,
         type_identity<std::chrono::duration<Rep, std::ratio<60>>>(),
+        sel,
         mp_string<'m', 'i', 'n'>())) {
         return {std::chrono::duration_cast<dur_t>(extract(d)), true};
     }
@@ -283,6 +323,7 @@ static inline auto from_string(
       auto d = convert_from_string(
         str,
         type_identity<std::chrono::duration<Rep, std::ratio<3600>>>(),
+        sel,
         mp_string<'h', 'r'>())) {
         return {std::chrono::duration_cast<dur_t>(extract(d)), true};
     }
@@ -290,6 +331,7 @@ static inline auto from_string(
       auto d = convert_from_string(
         str,
         type_identity<std::chrono::duration<Rep, std::ratio<86400LL>>>(),
+        sel,
         mp_string<'d', 'y'>())) {
         return {std::chrono::duration_cast<dur_t>(extract(d)), true};
     }
@@ -297,6 +339,7 @@ static inline auto from_string(
       auto d = convert_from_string(
         str,
         type_identity<std::chrono::duration<Rep, std::ratio<31556952LL>>>(),
+        sel,
         mp_string<'y', 'r'>())) {
         return {std::chrono::duration_cast<dur_t>(extract(d)), true};
     }
@@ -304,6 +347,7 @@ static inline auto from_string(
       auto d = convert_from_string(
         str,
         type_identity<std::chrono::duration<Rep, std::ratio<31556952LL>>>(),
+        sel,
         mp_string<'a'>())) {
         return {std::chrono::duration_cast<dur_t>(extract(d)), true};
     }
@@ -312,7 +356,12 @@ static inline auto from_string(
 //------------------------------------------------------------------------------
 template <typename T>
 auto from_string(string_view src) noexcept {
-    return from_string(src, type_identity<T>());
+    return from_string(src, type_identity<T>(), default_selector);
+}
+//------------------------------------------------------------------------------
+template <typename T, identifier_t V>
+auto from_string(string_view src, selector<V> sel) noexcept {
+    return from_string(src, type_identity<T>(), sel);
 }
 //------------------------------------------------------------------------------
 } // namespace eagine

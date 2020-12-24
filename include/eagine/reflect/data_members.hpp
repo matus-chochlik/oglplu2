@@ -141,12 +141,12 @@ constexpr auto map_data_members(T& instance, selector<Id> select) noexcept {
 //------------------------------------------------------------------------------
 template <typename T>
 constexpr auto map_data_members(const T& instance) noexcept {
-    return map_data_members(instance, selector<0>{});
+    return map_data_members(instance, default_selector);
 }
 //------------------------------------------------------------------------------
 template <typename T>
 constexpr auto map_data_members(T& instance) noexcept {
-    return map_data_members(instance, selector<0>{});
+    return map_data_members(instance, default_selector);
 }
 //------------------------------------------------------------------------------
 } // namespace eagine

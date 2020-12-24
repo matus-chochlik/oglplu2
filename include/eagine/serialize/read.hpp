@@ -411,7 +411,8 @@ struct enum_deserializer {
             decl_name_storage temp_name{};
             errors |= _name_deserializer.read(temp_name, backend);
             if(EAGINE_LIKELY(!errors)) {
-                if(auto found = from_string(temp_name.get(), type_identity<T>{})) {
+                if(auto found{from_string(
+                     temp_name.get(), type_identity<T>{}, default_selector)}) {
                     enumerator = extract(found);
                 } else {
                     errors |= deserialization_error_code::unexpected_data;

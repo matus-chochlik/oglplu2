@@ -15,6 +15,7 @@
 #include "memory/block.hpp"
 #include "memory/span_algo.hpp"
 #include "range_types.hpp"
+#include "selector.hpp"
 #include "span.hpp"
 #include "string_span.hpp"
 #include "type_identity.hpp"
@@ -218,29 +219,36 @@ private:
     friend class program_arg_iterator;
     friend class program_args;
 
-    template <typename T>
-    auto _do_parse(T& dest, const std::ostream&) const noexcept {
-        if(auto opt_val{from_string<T>(get())}) {
+    template <typename T, identifier_t V>
+    auto
+    _do_parse(T& dest, selector<V> sel, const std::ostream&) const noexcept {
+        if(auto opt_val{from_string<T>(get(), sel)}) {
             dest = std::move(extract(opt_val));
             return true;
         }
         return false;
     }
 
-    auto _do_parse(string_view& dest, const std::ostream&) const noexcept {
+    template <identifier_t V>
+    auto _do_parse(string_view& dest, selector<V>, const std::ostream&)
+      const noexcept {
         dest = get();
         return true;
     }
 
-    auto _do_parse(std::string& dest, const std::ostream&) const {
+    template <identifier_t V>
+    auto _do_parse(std::string& dest, selector<V>, const std::ostream&) const {
         dest = get_string();
         return true;
     }
 
-    template <typename T, typename P, typename L>
-    auto _do_parse(valid_if<T, P, L>& dest, std::ostream& parse_log) const {
+    template <typename T, typename P, typename L, identifier_t V>
+    auto _do_parse(
+      valid_if<T, P, L>& dest,
+      selector<V> sel,
+      std::ostream& parse_log) const {
         T value{};
-        if(parse(value, parse_log)) {
+        if(parse(value, sel, parse_log)) {
             if(dest.is_valid(value)) {
                 dest = std::move(value);
                 return true;
@@ -254,10 +262,13 @@ private:
         return false;
     }
 
-    template <typename T, typename A>
-    auto _do_parse(std::vector<T, A>& dest, std::ostream& parse_log) const {
+    template <typename T, typename A, identifier_t V>
+    auto _do_parse(
+      std::vector<T, A>& dest,
+      selector<V> sel,
+      std::ostream& parse_log) const {
         T value{};
-        if(parse(value, parse_log)) {
+        if(parse(value, sel, parse_log)) {
             dest.push_back(std::move(value));
             return true;
         }
@@ -346,11 +357,11 @@ public:
         return program_arg(_argi - 1, _argc, _argv);
     }
 
-    template <typename T>
-    auto parse(T& dest, std::ostream& parse_log) const {
+    template <typename T, identifier_t V>
+    auto parse(T& dest, selector<V> sel, std::ostream& parse_log) const {
         if(is_valid()) {
             T temp = dest;
-            if(_do_parse(temp, parse_log)) {
+            if(_do_parse(temp, sel, parse_log)) {
                 dest = std::move(temp);
                 return true;
             }
@@ -359,8 +370,18 @@ public:
     }
 
     template <typename T>
+    auto parse(T& dest, std::ostream& parse_log) const {
+        return parse(dest, default_selector, parse_log);
+    }
+
+    template <typename T, identifier_t V>
+    auto parse_next(T& dest, selector<V> sel, std::ostream& parse_log) const {
+        return next().parse(dest, sel, parse_log);
+    }
+
+    template <typename T>
     auto parse_next(T& dest, std::ostream& parse_log) const {
-        return next().parse(dest, parse_log);
+        return parse_next(dest, default_selector, parse_log);
     }
 
     auto missing_handler(std::ostream& errorlog) {
