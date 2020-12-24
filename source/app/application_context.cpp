@@ -1,5 +1,5 @@
 /**
- *  .file lib/eagine/application.cpp
+ *  .file app/application_context.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -14,6 +14,7 @@
 #include <eagine/file_contents.hpp>
 #include <eagine/application_config.hpp>
 #include <eagine/application/options.hpp>
+#include <eagine/application/framedump_raw.hpp>
 
 #include "implement.inl"
 #include <eagine/application/context.hpp>

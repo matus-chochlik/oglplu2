@@ -30,6 +30,7 @@ add_library(
 	eagine-application
 	application_options.cpp
 	application_context.cpp
+	application_framedump.cpp
 	application_glfw3.cpp
 )
 eagine_add_lib_analysis(eagine-application)

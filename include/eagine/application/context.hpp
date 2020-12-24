@@ -32,6 +32,10 @@ public:
       : _parent{parent}
       , _provider{std::move(provider)} {}
 
+    auto frame_number() const noexcept {
+        return _frame_no;
+    }
+
     void begin();
     void end();
     void commit();
@@ -51,6 +55,7 @@ public:
 
 private:
     execution_context& _parent;
+    long _frame_no{0};
     std::shared_ptr<video_provider> _provider{};
     std::shared_ptr<oglp::gl_api> _gl_api{};
     std::shared_ptr<video_context_state> _state{};

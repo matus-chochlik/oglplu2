@@ -1,5 +1,5 @@
 /**
- *  .file app/application_options.cpp
+ *  .file app/application_framedump.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -11,8 +11,9 @@
 #include "prologue.inl"
 #include <eagine/main_ctx.hpp>
 #include <eagine/application_config.hpp>
+#include <eagine/application/options.hpp>
 
 #include "implement.inl"
-#include <eagine/application/options.hpp>
+#include <eagine/application/framedump_raw.hpp>
 #include "epilogue.inl"
 // clang-format on

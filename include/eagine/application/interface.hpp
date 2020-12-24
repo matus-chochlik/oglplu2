@@ -81,20 +81,21 @@ struct hmi_provider {
     virtual auto audio(string_view = {}) -> std::shared_ptr<audio_provider> = 0;
 };
 //------------------------------------------------------------------------------
-struct frame_dump {
-    frame_dump() noexcept = default;
-    frame_dump(frame_dump&&) = delete;
-    frame_dump(const frame_dump&) = delete;
-    auto operator=(frame_dump&&) = delete;
-    auto operator=(const frame_dump&) = delete;
-    virtual ~frame_dump() noexcept = default;
+struct framedump {
+    framedump() noexcept = default;
+    framedump(framedump&&) = delete;
+    framedump(const framedump&) = delete;
+    auto operator=(framedump&&) = delete;
+    auto operator=(const framedump&) = delete;
+    virtual ~framedump() noexcept = default;
 
-    virtual auto initialize(execution_context&, framedump_data_type type)
+    virtual auto initialize(execution_context&, const video_options&)
       -> bool = 0;
 
     virtual auto get_buffer(span_size_t size) -> memory::block = 0;
 
     virtual void dump_frame(
+      long frame_number,
       int width,
       int height,
       int elements,

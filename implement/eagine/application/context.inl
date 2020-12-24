@@ -47,7 +47,7 @@ public:
 
     auto doing_framedump() const noexcept;
 
-    void commit(video_provider& provider, oglp::gl_api& api);
+    void commit(long frame_number, video_provider& provider, oglp::gl_api& api);
 
     void cleanup(oglp::gl_api& api) noexcept;
 
@@ -57,9 +57,9 @@ private:
     oglp::owned_renderbuffer_name _depth_rbo;
     oglp::owned_renderbuffer_name _stencil_rbo;
     oglp::owned_framebuffer_name _offscreen_fbo;
-    std::shared_ptr<frame_dump> _color_frame_dump{};
-    std::shared_ptr<frame_dump> _depth_frame_dump{};
-    std::shared_ptr<frame_dump> _stencil_frame_dump{};
+    std::shared_ptr<framedump> _color_framedump{};
+    std::shared_ptr<framedump> _depth_framedump{};
+    std::shared_ptr<framedump> _stencil_framedump{};
 };
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -78,15 +78,17 @@ inline auto video_context_state::doing_framedump() const noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-inline void
-video_context_state::commit(video_provider& provider, oglp::gl_api& api) {
+inline void video_context_state::commit(
+  long frame_number,
+  video_provider& provider,
+  oglp::gl_api& api) {
     if(EAGINE_UNLIKELY(doing_framedump())) {
         auto& [gl, GL] = api;
 
         if(EAGINE_LIKELY(gl.read_pixels)) {
 
             auto dump_frame = [&](
-                                frame_dump& target,
+                                framedump& target,
                                 auto gl_format,
                                 auto gl_type,
                                 framedump_pixel_format format,
@@ -108,16 +110,23 @@ video_context_state::commit(video_provider& provider, oglp::gl_api& api) {
                   buffer);
 
                 target.dump_frame(
-                  width, height, element_size, elements, format, type, buffer);
+                  frame_number,
+                  width,
+                  height,
+                  element_size,
+                  elements,
+                  format,
+                  type,
+                  buffer);
             };
 
-            if(_color_frame_dump) {
+            if(_color_framedump) {
                 switch(_options.framedump_color()) {
                     case framedump_data_type::none:
                         break;
                     case framedump_data_type::float_type:
                         dump_frame(
-                          extract(_color_frame_dump),
+                          extract(_color_framedump),
                           GL.rgba,
                           GL.float_,
                           framedump_pixel_format::rgba,
@@ -127,7 +136,7 @@ video_context_state::commit(video_provider& provider, oglp::gl_api& api) {
                         break;
                     case framedump_data_type::byte_type:
                         dump_frame(
-                          extract(_color_frame_dump),
+                          extract(_color_framedump),
                           GL.rgba,
                           GL.unsigned_byte_,
                           framedump_pixel_format::rgba,
@@ -138,14 +147,14 @@ video_context_state::commit(video_provider& provider, oglp::gl_api& api) {
                 }
             }
 
-            if(_depth_frame_dump) {
+            if(_depth_framedump) {
                 switch(_options.framedump_depth()) {
                     case framedump_data_type::none:
                     case framedump_data_type::byte_type:
                         break;
                     case framedump_data_type::float_type:
                         dump_frame(
-                          extract(_depth_frame_dump),
+                          extract(_depth_framedump),
                           GL.depth_component,
                           GL.float_,
                           framedump_pixel_format::depth,
@@ -156,14 +165,14 @@ video_context_state::commit(video_provider& provider, oglp::gl_api& api) {
                 }
             }
 
-            if(_stencil_frame_dump) {
+            if(_stencil_framedump) {
                 switch(_options.framedump_stencil()) {
                     case framedump_data_type::none:
                     case framedump_data_type::float_type:
                         break;
                     case framedump_data_type::byte_type:
                         dump_frame(
-                          extract(_stencil_frame_dump),
+                          extract(_stencil_framedump),
                           GL.stencil_index,
                           GL.unsigned_byte_,
                           framedump_pixel_format::stencil,
@@ -225,9 +234,10 @@ void video_context::end() {
 EAGINE_LIB_FUNC
 void video_context::commit() {
     if(EAGINE_LIKELY(_gl_api)) {
-        extract(_state).commit(extract(_provider), extract(_gl_api));
+        extract(_state).commit(_frame_no, extract(_provider), extract(_gl_api));
     }
     extract(_provider).video_commit(_parent);
+    ++_frame_no;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -387,7 +397,7 @@ void execution_context::update() noexcept {
     for(auto& provider : _hmi_providers) {
         extract(provider).update(*this);
     }
-    extract(_state).advance_frame().advance_time();
+    extract(_state).advance_time();
     extract(_app).update();
 }
 //------------------------------------------------------------------------------

@@ -34,11 +34,6 @@ public:
             _frame_time.assign(
               std::chrono::duration<float>(now - _start_time).count());
         }
-        return *this;
-    }
-
-    auto advance_frame() noexcept -> auto& {
-        ++_frame_no;
         _old_user_idle = _new_user_idle;
         _new_user_idle = true;
         return *this;
