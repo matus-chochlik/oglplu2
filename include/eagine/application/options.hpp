@@ -18,7 +18,6 @@
 #include "../valid_if/one_of.hpp"
 #include "../valid_if/positive.hpp"
 #include "types.hpp"
-#include <iosfwd>
 #include <map>
 
 namespace eagine::application {
@@ -156,9 +155,6 @@ public:
     auto fullscreen() const noexcept -> bool {
         return _fullscreen;
     }
-
-    auto framedump_in() const noexcept -> std::istream&;
-    auto framedump_out() const noexcept -> std::ostream&;
 
     auto framedump_prefix() const noexcept -> string_view {
         return {_framedump_prefix};

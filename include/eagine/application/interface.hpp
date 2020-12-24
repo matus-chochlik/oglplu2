@@ -11,6 +11,7 @@
 #define EAGINE_APPLICATION_INTERFACE_HPP
 
 #include "../main_ctx_fwd.hpp"
+#include "../memory/block.hpp"
 #include "../tribool.hpp"
 #include "options.hpp"
 #include <memory>
@@ -78,6 +79,29 @@ struct hmi_provider {
     virtual auto input() -> std::shared_ptr<input_provider> = 0;
     virtual auto video(string_view = {}) -> std::shared_ptr<video_provider> = 0;
     virtual auto audio(string_view = {}) -> std::shared_ptr<audio_provider> = 0;
+};
+//------------------------------------------------------------------------------
+struct frame_dump {
+    frame_dump() noexcept = default;
+    frame_dump(frame_dump&&) = delete;
+    frame_dump(const frame_dump&) = delete;
+    auto operator=(frame_dump&&) = delete;
+    auto operator=(const frame_dump&) = delete;
+    virtual ~frame_dump() noexcept = default;
+
+    virtual auto initialize(execution_context&, framedump_data_type type)
+      -> bool = 0;
+
+    virtual auto get_buffer(span_size_t size) -> memory::block = 0;
+
+    virtual void dump_frame(
+      int width,
+      int height,
+      int elements,
+      span_size_t element_size,
+      framedump_pixel_format,
+      framedump_data_type,
+      memory::block data) = 0;
 };
 //------------------------------------------------------------------------------
 struct application {

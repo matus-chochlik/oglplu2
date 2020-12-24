@@ -43,89 +43,13 @@ public:
       string_view instance_name) noexcept
       : _options{_get_options(ctx, instance_name)} {}
 
-    auto init_framebuffer(execution_context&, oglp::gl_api&) noexcept -> bool {
-        if(_options.needs_offscreen_framebuffer()) {
-            // TODO: check options and make RBOs and FBO
-        }
-        return true;
-    }
+    auto init_framebuffer(execution_context&, oglp::gl_api&) noexcept -> bool;
 
-    void commit(
-      execution_context& parent,
-      video_provider& provider,
-      oglp::gl_api& api) noexcept {
-        if(EAGINE_UNLIKELY(_options.doing_framedump())) {
-            auto& [gl, GL] = api;
+    auto doing_framedump() const noexcept;
 
-            if(EAGINE_LIKELY(gl.read_pixels)) {
+    void commit(video_provider& provider, oglp::gl_api& api);
 
-                auto dump_frame = [&](
-                                    string_view suffix,
-                                    auto format,
-                                    auto type,
-                                    span_size_t size_mult) {
-                    const auto [width, height] = provider.surface_size();
-                    const auto size = width * height * size_mult;
-
-                    api.operations().read_pixels(
-                      0,
-                      0,
-                      oglp::gl_types::sizei_type(width),
-                      oglp::gl_types::sizei_type(height),
-                      format,
-                      type,
-                      cover(_pixel_buffer.ensure(size)));
-
-                    _framedump_path.str({});
-                    _framedump_path << _options.framedump_prefix()
-                                    << std::setfill('0') << std::setw(6)
-                                    << parent.state().frame_number() << suffix;
-
-                    {
-                        std::ofstream file(_framedump_path.str());
-                        write_to_stream(file, head(view(_pixel_buffer), size));
-                    }
-
-                    _options.framedump_out()
-                      << _framedump_path.str() << std::endl;
-                };
-
-                switch(_options.framedump_color()) {
-                    case framedump_data_type::none:
-                        break;
-                    case framedump_data_type::float_type:
-                        dump_frame(
-                          ".float.rgba",
-                          GL.rgba,
-                          GL.float_,
-                          span_size(4 * sizeof(oglp::gl_types::float_type)));
-                        break;
-                    case framedump_data_type::byte_type:
-                        dump_frame(
-                          ".byte.rgba",
-                          GL.rgba,
-                          GL.unsigned_byte_,
-                          span_size(4 * sizeof(oglp::gl_types::ubyte_type)));
-                        break;
-                }
-            }
-        }
-    }
-
-    void cleanup(oglp::gl_api& api) noexcept {
-        if(_offscreen_fbo) {
-            api.delete_framebuffers(std::move(_offscreen_fbo));
-        }
-        if(_stencil_rbo) {
-            api.delete_renderbuffers(std::move(_stencil_rbo));
-        }
-        if(_depth_rbo) {
-            api.delete_renderbuffers(std::move(_depth_rbo));
-        }
-        if(_color_rbo) {
-            api.delete_renderbuffers(std::move(_color_rbo));
-        }
-    }
+    void cleanup(oglp::gl_api& api) noexcept;
 
 private:
     const video_options& _options;
@@ -133,9 +57,141 @@ private:
     oglp::owned_renderbuffer_name _depth_rbo;
     oglp::owned_renderbuffer_name _stencil_rbo;
     oglp::owned_framebuffer_name _offscreen_fbo;
-    memory::buffer _pixel_buffer;
-    std::stringstream _framedump_path;
+    std::shared_ptr<frame_dump> _color_frame_dump{};
+    std::shared_ptr<frame_dump> _depth_frame_dump{};
+    std::shared_ptr<frame_dump> _stencil_frame_dump{};
 };
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+inline auto video_context_state::init_framebuffer(
+  execution_context&,
+  oglp::gl_api&) noexcept -> bool {
+    if(_options.needs_offscreen_framebuffer()) {
+        // TODO: check options and make RBOs and FBO
+    }
+    return true;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+inline auto video_context_state::doing_framedump() const noexcept {
+    return _options.doing_framedump();
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+inline void
+video_context_state::commit(video_provider& provider, oglp::gl_api& api) {
+    if(EAGINE_UNLIKELY(doing_framedump())) {
+        auto& [gl, GL] = api;
+
+        if(EAGINE_LIKELY(gl.read_pixels)) {
+
+            auto dump_frame = [&](
+                                frame_dump& target,
+                                auto gl_format,
+                                auto gl_type,
+                                framedump_pixel_format format,
+                                framedump_data_type type,
+                                int elements,
+                                span_size_t element_size) {
+                const auto [width, height] = provider.surface_size();
+                const auto size =
+                  span_size(width * height * elements * element_size);
+                auto buffer{target.get_buffer(size)};
+
+                api.operations().read_pixels(
+                  0,
+                  0,
+                  oglp::gl_types::sizei_type(width),
+                  oglp::gl_types::sizei_type(height),
+                  gl_format,
+                  gl_type,
+                  buffer);
+
+                target.dump_frame(
+                  width, height, element_size, elements, format, type, buffer);
+            };
+
+            if(_color_frame_dump) {
+                switch(_options.framedump_color()) {
+                    case framedump_data_type::none:
+                        break;
+                    case framedump_data_type::float_type:
+                        dump_frame(
+                          extract(_color_frame_dump),
+                          GL.rgba,
+                          GL.float_,
+                          framedump_pixel_format::rgba,
+                          framedump_data_type::float_type,
+                          4,
+                          span_size_of<oglp::gl_types::float_type>());
+                        break;
+                    case framedump_data_type::byte_type:
+                        dump_frame(
+                          extract(_color_frame_dump),
+                          GL.rgba,
+                          GL.unsigned_byte_,
+                          framedump_pixel_format::rgba,
+                          framedump_data_type::byte_type,
+                          4,
+                          span_size_of<oglp::gl_types::ubyte_type>());
+                        break;
+                }
+            }
+
+            if(_depth_frame_dump) {
+                switch(_options.framedump_depth()) {
+                    case framedump_data_type::none:
+                    case framedump_data_type::byte_type:
+                        break;
+                    case framedump_data_type::float_type:
+                        dump_frame(
+                          extract(_depth_frame_dump),
+                          GL.depth_component,
+                          GL.float_,
+                          framedump_pixel_format::depth,
+                          framedump_data_type::float_type,
+                          1,
+                          span_size_of<oglp::gl_types::float_type>());
+                        break;
+                }
+            }
+
+            if(_stencil_frame_dump) {
+                switch(_options.framedump_stencil()) {
+                    case framedump_data_type::none:
+                    case framedump_data_type::float_type:
+                        break;
+                    case framedump_data_type::byte_type:
+                        dump_frame(
+                          extract(_stencil_frame_dump),
+                          GL.stencil_index,
+                          GL.unsigned_byte_,
+                          framedump_pixel_format::stencil,
+                          framedump_data_type::byte_type,
+                          1,
+                          span_size_of<oglp::gl_types::ubyte_type>());
+                        break;
+                }
+            }
+        }
+    }
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+inline void video_context_state::cleanup(oglp::gl_api& api) noexcept {
+    if(_offscreen_fbo) {
+        api.delete_framebuffers(std::move(_offscreen_fbo));
+    }
+    if(_stencil_rbo) {
+        api.delete_renderbuffers(std::move(_stencil_rbo));
+    }
+    if(_depth_rbo) {
+        api.delete_renderbuffers(std::move(_depth_rbo));
+    }
+    if(_color_rbo) {
+        api.delete_renderbuffers(std::move(_color_rbo));
+    }
+}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 auto video_context::init_gl_api() noexcept -> bool {
@@ -169,7 +225,7 @@ void video_context::end() {
 EAGINE_LIB_FUNC
 void video_context::commit() {
     if(EAGINE_LIKELY(_gl_api)) {
-        extract(_state).commit(_parent, extract(_provider), extract(_gl_api));
+        extract(_state).commit(extract(_provider), extract(_gl_api));
     }
     extract(_provider).video_commit(_parent);
 }

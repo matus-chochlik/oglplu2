@@ -39,5 +39,17 @@ constexpr auto enumerator_mapping(
        {"byte", framedump_data_type::byte_type}}};
 }
 //------------------------------------------------------------------------------
+enum class framedump_pixel_format : std::uint8_t { none, rgba, depth, stencil };
+
+template <typename Selector>
+constexpr auto
+enumerator_mapping(type_identity<framedump_pixel_format>, Selector) noexcept {
+    return enumerator_map_type<framedump_pixel_format, 4>{
+      {{"none", framedump_pixel_format::none},
+       {"rgba", framedump_pixel_format::rgba},
+       {"depth", framedump_pixel_format::depth},
+       {"stencil", framedump_pixel_format::stencil}}};
+}
+//------------------------------------------------------------------------------
 } // namespace eagine::application
 #endif
