@@ -8,6 +8,10 @@
  */
 #include <eagine/main_ctx_object.hpp>
 #include <eagine/memory/buffer.hpp>
+#include <fstream>
+#include <iomanip>
+#include <iostream>
+#include <sstream>
 
 namespace eagine::application {
 //------------------------------------------------------------------------------
@@ -34,6 +38,7 @@ public:
 
 private:
     string_view _prefix;
+    std::stringstream _path;
     memory::buffer _buffer;
 };
 //------------------------------------------------------------------------------
@@ -59,14 +64,22 @@ void raw_framedump::dump_frame(
   framedump_pixel_format format,
   framedump_data_type type,
   memory::block data) {
-    EAGINE_MAYBE_UNUSED(frame_number);
-    EAGINE_MAYBE_UNUSED(width);
-    EAGINE_MAYBE_UNUSED(height);
     EAGINE_MAYBE_UNUSED(elements);
     EAGINE_MAYBE_UNUSED(element_size);
-    EAGINE_MAYBE_UNUSED(format);
-    EAGINE_MAYBE_UNUSED(type);
     EAGINE_MAYBE_UNUSED(data);
+
+    _path.str({});
+    _path << _prefix << '-' << width << 'x' << height << '-'
+          << enumerator_name(
+               format,
+               type_identity<framedump_pixel_format>(),
+               value_tree_tag())
+          << '-'
+          << enumerator_name(
+               type, type_identity<framedump_data_type>(), value_tree_tag())
+          << '-' << std::setfill('0') << std::setw(6) << frame_number;
+
+    std::cout << _path.str() << std::endl;
 }
 //------------------------------------------------------------------------------
 auto make_raw_framedump(main_ctx_parent parent) -> std::shared_ptr<framedump> {

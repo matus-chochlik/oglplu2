@@ -13,35 +13,21 @@
 #include <oglplus/gl_api.hpp>
 #include <oalplus/al_api.hpp>
 //
+#include <eagine/application/framedump_raw.hpp>
 #include <eagine/application/input.hpp>
 #include <eagine/application/opengl_glfw3.hpp>
 #include <eagine/application/state.hpp>
 #include <eagine/branch_predict.hpp>
 #include <eagine/memory/buffer.hpp>
 #include <eagine/span.hpp>
-#include <fstream>
-#include <iomanip>
-#include <sstream>
 
 namespace eagine::application {
 //------------------------------------------------------------------------------
 // video_context
 //------------------------------------------------------------------------------
 class video_context_state {
-    static auto _get_options(
-      const execution_context& ctx,
-      string_view instance_name) noexcept -> const video_options& {
-        auto& opts = ctx.options();
-        auto pos = opts.video_requirements().find(instance_name);
-        EAGINE_ASSERT(pos != opts.video_requirements().end());
-        return pos->second;
-    }
-
 public:
-    video_context_state(
-      const execution_context& ctx,
-      string_view instance_name) noexcept
-      : _options{_get_options(ctx, instance_name)} {}
+    video_context_state(execution_context&, const video_options&) noexcept;
 
     auto init_framebuffer(execution_context&, oglp::gl_api&) noexcept -> bool;
 
@@ -57,10 +43,32 @@ private:
     oglp::owned_renderbuffer_name _depth_rbo;
     oglp::owned_renderbuffer_name _stencil_rbo;
     oglp::owned_framebuffer_name _offscreen_fbo;
-    std::shared_ptr<framedump> _color_framedump{};
-    std::shared_ptr<framedump> _depth_framedump{};
-    std::shared_ptr<framedump> _stencil_framedump{};
+    std::shared_ptr<framedump> _framedump_color{};
+    std::shared_ptr<framedump> _framedump_depth{};
+    std::shared_ptr<framedump> _framedump_stencil{};
 };
+//------------------------------------------------------------------------------
+inline video_context_state::video_context_state(
+  execution_context& ctx,
+  const video_options& opts) noexcept
+  : _options{opts} {
+    if(_options.doing_framedump()) {
+        ctx.log_error("BAGER").arg(EAGINE_ID(bla), _options.framedump_prefix());
+
+        auto raw_framedump = make_raw_framedump(ctx);
+        if(raw_framedump->initialize(ctx, opts)) {
+            if(_options.framedump_color() != framedump_data_type::none) {
+                _framedump_color = raw_framedump;
+            }
+            if(_options.framedump_depth() != framedump_data_type::none) {
+                _framedump_depth = raw_framedump;
+            }
+            if(_options.framedump_stencil() != framedump_data_type::none) {
+                _framedump_stencil = raw_framedump;
+            }
+        }
+    }
+}
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 inline auto video_context_state::init_framebuffer(
@@ -120,13 +128,13 @@ inline void video_context_state::commit(
                   buffer);
             };
 
-            if(_color_framedump) {
+            if(_framedump_color) {
                 switch(_options.framedump_color()) {
                     case framedump_data_type::none:
                         break;
                     case framedump_data_type::float_type:
                         dump_frame(
-                          extract(_color_framedump),
+                          extract(_framedump_color),
                           GL.rgba,
                           GL.float_,
                           framedump_pixel_format::rgba,
@@ -136,7 +144,7 @@ inline void video_context_state::commit(
                         break;
                     case framedump_data_type::byte_type:
                         dump_frame(
-                          extract(_color_framedump),
+                          extract(_framedump_color),
                           GL.rgba,
                           GL.unsigned_byte_,
                           framedump_pixel_format::rgba,
@@ -147,14 +155,14 @@ inline void video_context_state::commit(
                 }
             }
 
-            if(_depth_framedump) {
+            if(_framedump_depth) {
                 switch(_options.framedump_depth()) {
                     case framedump_data_type::none:
                     case framedump_data_type::byte_type:
                         break;
                     case framedump_data_type::float_type:
                         dump_frame(
-                          extract(_depth_framedump),
+                          extract(_framedump_depth),
                           GL.depth_component,
                           GL.float_,
                           framedump_pixel_format::depth,
@@ -165,14 +173,14 @@ inline void video_context_state::commit(
                 }
             }
 
-            if(_stencil_framedump) {
+            if(_framedump_stencil) {
                 switch(_options.framedump_stencil()) {
                     case framedump_data_type::none:
                     case framedump_data_type::float_type:
                         break;
                     case framedump_data_type::byte_type:
                         dump_frame(
-                          extract(_stencil_framedump),
+                          extract(_framedump_stencil),
                           GL.stencil_index,
                           GL.unsigned_byte_,
                           framedump_pixel_format::stencil,
@@ -206,8 +214,11 @@ EAGINE_LIB_FUNC
 auto video_context::init_gl_api() noexcept -> bool {
     try {
         _gl_api = std::make_shared<oglp::gl_api>();
-        _state = std::make_shared<video_context_state>(
-          _parent, extract(_provider).instance_name());
+
+        const auto pos = _parent.options().video_requirements().find(
+          extract(_provider).instance_name());
+        EAGINE_ASSERT(pos != _parent.options().video_requirements().end());
+        _state = std::make_shared<video_context_state>(_parent, pos->second);
 
         if(!extract(_provider).has_framebuffer()) {
             if(!extract(_state).init_framebuffer(_parent, extract(_gl_api))) {
