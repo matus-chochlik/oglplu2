@@ -11,10 +11,18 @@
 #define EAGINE_SERIALIZE_TYPE_SUDOKU_HPP
 
 #include "../../sudoku.hpp"
+#include "../data_buffer.hpp"
 #include "../read.hpp"
 #include "../write.hpp"
 
 namespace eagine {
+//------------------------------------------------------------------------------
+template <identifier_t Sid, unsigned S, bool T, typename Selector>
+struct get_serialize_buffer_size<Sid, basic_sudoku_board<S, T>, Selector>
+  : get_serialize_buffer_size<
+      Sid,
+      typename basic_sudoku_board<S, T>::blocks_type,
+      Selector> {};
 //------------------------------------------------------------------------------
 template <unsigned S, bool T>
 struct serializer<basic_sudoku_board<S, T>>
