@@ -10,7 +10,6 @@
 #define EAGINE_BUILD_INFO_HPP
 
 #include "serialize/fwd.hpp"
-#include "serialize/result.hpp"
 #include "tribool.hpp"
 #include "valid_if/nonnegative.hpp"
 #include <tuple>

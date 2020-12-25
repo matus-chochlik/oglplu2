@@ -118,7 +118,7 @@ public:
     }
 
     auto clear(Bit b) noexcept -> bitfield& {
-        _bits &= ~BF(b);
+        _bits &= ~BF(b); // NOLINT(hicpp-signed-bitwise)
         return *this;
     }
 

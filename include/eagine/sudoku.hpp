@@ -12,6 +12,7 @@
 #include "assert.hpp"
 #include "flat_map.hpp"
 #include "integer_range.hpp"
+#include "serialize/fwd.hpp"
 #include <array>
 #include <cstdint>
 #include <functional>
@@ -333,6 +334,7 @@ public:
     }
 
     using block_type = std::array<cell_type, glyph_count>;
+    using blocks_type = std::array<block_type, glyph_count>;
 
     auto get_block(unsigned bx, unsigned by) const noexcept
       -> const block_type& {
@@ -371,9 +373,11 @@ private:
     }
 
     friend class basic_sudoku_board<S, !Tight>;
+    friend struct serializer<basic_sudoku_board<S, Tight>>;
+    friend struct deserializer<basic_sudoku_board<S, Tight>>;
 
     std::reference_wrapper<const board_traits> _type;
-    std::array<block_type, glyph_count> _blocks{};
+    blocks_type _blocks{};
 };
 //------------------------------------------------------------------------------
 template <unsigned S>

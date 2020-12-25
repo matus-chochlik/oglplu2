@@ -181,6 +181,8 @@ private:
 template <typename... T>
 struct deserializer<std::tuple<T...>> : common_deserializer<std::tuple<T...>> {
 
+    using common_deserializer<std::tuple<T...>>::read;
+
     template <typename Backend>
     auto read(std::tuple<T...>& values, Backend& backend) const {
         deserialization_errors errors{};
@@ -238,6 +240,8 @@ private:
 template <typename... T>
 struct deserializer<std::tuple<std::pair<string_view, T>...>>
   : common_deserializer<std::tuple<std::pair<string_view, T>...>> {
+
+    using common_deserializer<std::tuple<std::pair<string_view, T>...>>::read;
 
     template <typename Backend>
     auto
@@ -298,6 +302,8 @@ template <typename T>
 struct deserializer<fragment_deserialize_wrapper<span<T>>>
   : common_deserializer<fragment_deserialize_wrapper<span<T>>> {
 
+    using common_deserializer<fragment_deserialize_wrapper<span<T>>>::read;
+
     template <typename Backend>
     auto
     read(fragment_deserialize_wrapper<span<T>>& frag, Backend& backend) const {
@@ -321,6 +327,8 @@ struct deserializer<fragment_deserialize_wrapper<span<T>>>
 //------------------------------------------------------------------------------
 template <typename T, std::size_t N>
 struct deserializer<std::array<T, N>> : common_deserializer<std::array<T, N>> {
+
+    using common_deserializer<std::array<T, N>>::read;
 
     template <typename Backend>
     auto read(std::array<T, N>& values, Backend& backend) const {
