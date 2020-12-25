@@ -134,7 +134,7 @@ public:
     using board_traits = basic_sudoku_board_traits<S>;
     using cell_type = std::conditional_t<
       (board_traits::glyph_count > 32U),
-      std::int64_t,
+      std::uint64_t,
       std::conditional_t<
         (board_traits::glyph_count > 16),
         std::uint32_t,
@@ -146,6 +146,7 @@ public:
     static constexpr const unsigned glyph_count = board_traits::glyph_count;
 
     static constexpr auto to_cell_type(unsigned index) noexcept {
+        // NOLINTNEXTLINE(bugprone-misplaced-widening-cast)
         return cell_type(1U << index);
     }
 

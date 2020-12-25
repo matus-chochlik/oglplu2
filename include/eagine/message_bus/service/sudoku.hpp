@@ -13,6 +13,7 @@
 #include "../../bool_aggregate.hpp"
 #include "../../int_constant.hpp"
 #include "../../maybe_unused.hpp"
+#include "../../serialize/type/sudoku.hpp"
 #include "../../sudoku.hpp"
 #include "../serialize.hpp"
 #include "../subscriber.hpp"
@@ -23,11 +24,10 @@
 
 namespace eagine::msgbus {
 //------------------------------------------------------------------------------
-template <template <unsigned> class Unit>
+template <template <unsigned> class U>
 struct sudoku_rank_tuple
-  : std::tuple<nothing_t, nothing_t, Unit<2>, Unit<3>, Unit<4>, Unit<5>, Unit<6>> {
-    using base = std::
-      tuple<nothing_t, nothing_t, Unit<2>, Unit<3>, Unit<4>, Unit<5>, Unit<6>>;
+  : std::tuple<nothing_t, nothing_t, U<2>, U<3>, U<4>, U<5>, U<6>> {
+    using base = std::tuple<nothing_t, nothing_t, U<2>, U<3>, U<4>, U<5>, U<6>>;
 
     sudoku_rank_tuple() = default;
 
@@ -42,9 +42,9 @@ struct sudoku_rank_tuple
           {args...},
           {args...}} {}
 
-    template <unsigned U>
-    auto get(unsigned_constant<U>) noexcept {
-        return std::get<U>(*this);
+    template <unsigned S>
+    auto get(unsigned_constant<S>) noexcept -> auto& {
+        return std::get<S>(*this);
     }
 };
 //------------------------------------------------------------------------------
@@ -190,10 +190,13 @@ protected:
 
     void add_methods() {
         Base::add_methods();
-        Base::add_method(
-          this, EAGINE_MSG_MAP(eagiSudoku, search3, This, _handle_search<3>));
-        Base::add_method(
-          this, EAGINE_MSG_MAP(eagiSudoku, query3, This, _handle_board<3>));
+
+        for_each_sudoku_rank_unit(
+          [&](auto rank) {
+              Base::add_method(this, _bind_handle_search(rank));
+              Base::add_method(this, _bind_handle_board(rank));
+          },
+          _ranks);
     }
 
 private:
@@ -206,6 +209,14 @@ private:
     }
 
     template <unsigned S>
+    static constexpr auto
+    _bind_handle_search(unsigned_constant<S> rank) noexcept {
+        return message_handler_map<member_function_constant<
+          bool (This::*)(const message_context&, stored_message&),
+          &This::_handle_search<S>>>{sudoku_search_msg(rank)};
+    }
+
+    template <unsigned S>
     auto _handle_board(const message_context& msg_ctx, stored_message& message)
       -> bool {
         const unsigned_constant<S> rank{};
@@ -213,7 +224,7 @@ private:
 
         if(default_deserialize(board, message.content())) {
             board.for_each_alternative(
-              board.find_unsolved(), [&](const auto& candidate) {
+              board.find_unsolved(), [&](auto& candidate) {
                   auto temp{default_serialize_buffer_for(candidate)};
                   auto serialized{default_serialize(candidate, cover(temp))};
                   EAGINE_ASSERT(serialized);
@@ -229,13 +240,20 @@ private:
         return true;
     }
 
+    template <unsigned S>
+    static constexpr auto
+    _bind_handle_board(unsigned_constant<S> rank) noexcept {
+        return message_handler_map<member_function_constant<
+          bool (This::*)(const message_context&, stored_message&),
+          &This::_handle_board<S>>>{sudoku_query_msg(rank)};
+    }
+
     sudoku_rank_tuple<unsigned_constant> _ranks;
     sudoku_rank_tuple<default_sudoku_board_traits> _traits;
 };
 //------------------------------------------------------------------------------
-template <typename Key, typename Base = subscriber>
+template <typename Base = subscriber, typename Key = int>
 class sudoku_solver : public Base {
-
     using This = sudoku_solver;
 
 protected:
@@ -243,21 +261,22 @@ protected:
 
     void add_methods() {
         Base::add_methods();
-        Base::add_method(
-          this, EAGINE_MSG_MAP(eagiSudoku, ready3, This, _handle_ready<3>));
-        Base::add_method(
-          this, EAGINE_MSG_MAP(eagiSudoku, solved3, This, _handle_board<3>));
-        Base::add_method(
-          this, EAGINE_MSG_MAP(eagiSudoku, candidate3, This, _handle_board<3>));
-        Base::add_method(
-          this, EAGINE_MSG_MAP(eagiSudoku, done3, This, _handle_done<3>));
+
+        for_each_sudoku_rank_unit(
+          [&](auto rank) {
+              Base::add_method(this, _bind_handle_ready(rank));
+              Base::add_method(this, _bind_handle_candidate(rank));
+              Base::add_method(this, _bind_handle_solved(rank));
+              Base::add_method(this, _bind_handle_done(rank));
+          },
+          _ranks);
     }
 
 public:
     template <unsigned S>
     auto enqueue(Key key, basic_sudoku_board<S> board) -> auto& {
         const unsigned_constant<S> rank{};
-        _boards.get(rank).push({std::move(key), std::move(board)});
+        _boards.get(rank).emplace_back(std::move(key), std::move(board));
         return *this;
     }
 
@@ -269,6 +288,7 @@ public:
           },
           _pending,
           _boards);
+
         return !has_work;
     }
 
@@ -288,7 +308,7 @@ public:
                       EAGINE_MAYBE_UNUSED(seq_no);
 
                       if(too_late) {
-                          boards.push({std::move(key), std::move(board)});
+                          boards.emplace_back(std::move(key), std::move(board));
                           something_done();
                           return true;
                       }
@@ -301,32 +321,34 @@ public:
 
         // search for ready helpers
         for_each_sudoku_rank_unit(
-          [&](auto rank, auto& search_timeout, auto& boards, auto& pending) {
+          [&](auto rank, auto& search_timeout, auto& boards) {
               if(!boards.empty()) {
-                  if(pending.size() < 10) {
-                      if(search_timeout) {
-                          this->bus().broadcast(sudoku_ready_msg(rank));
-                          search_timeout.reset();
-                      }
+                  if(search_timeout) {
+                      this->bus().broadcast(sudoku_search_msg(rank));
+                      search_timeout.reset();
+                      something_done();
                   }
               }
           },
           _ranks,
           _search_timeouts,
-          _boards,
-          _pending);
+          _boards);
 
         return something_done;
     }
 
+    virtual void on_solved(const Key&, basic_sudoku_board<2>&) {}
     virtual void on_solved(const Key&, basic_sudoku_board<3>&) {}
+    virtual void on_solved(const Key&, basic_sudoku_board<4>&) {}
+    virtual void on_solved(const Key&, basic_sudoku_board<5>&) {}
+    virtual void on_solved(const Key&, basic_sudoku_board<6>&) {}
 
 private:
     sudoku_rank_tuple<unsigned_constant> _ranks;
     sudoku_rank_tuple<default_sudoku_board_traits> _traits;
 
     template <unsigned S>
-    using _board_stack = std::stack<std::tuple<Key, basic_sudoku_board<S>>>;
+    using _board_stack = std::vector<std::tuple<Key, basic_sudoku_board<S>>>;
     sudoku_rank_tuple<_board_stack> _boards;
 
     template <unsigned S>
@@ -352,26 +374,35 @@ private:
         auto& pending = _pending.get(rank);
 
         if(!boards.empty()) {
-            auto& [key, board] = boards.top();
+            _search_timeouts.get(rank).reset();
+
+            auto& [key, board] = boards.back();
             auto temp{default_serialize_buffer_for(board)};
             auto serialized{default_serialize(board, cover(temp))};
             EAGINE_ASSERT(serialized);
 
             const auto query_seq_no = _query_sequences.get(rank)++;
-            message_view response{};
+            message_view response{extract(serialized)};
             response.setup_response(message);
             response.set_sequence_no(query_seq_no);
-            msg_ctx.bus().send(
-              sudoku_check_message(rank), {extract(serialized)});
+            msg_ctx.bus().send(sudoku_query_msg(rank), response);
 
             pending.emplace_back(
               query_seq_no,
               std::move(key),
               std::move(board),
-              std::chrono::seconds(1));
-            boards.pop();
+              std::chrono::seconds(S));
+            boards.pop_back();
         }
         return true;
+    }
+
+    template <unsigned S>
+    static constexpr auto
+    _bind_handle_ready(unsigned_constant<S> rank) noexcept {
+        return message_handler_map<member_function_constant<
+          bool (This::*)(const message_context&, stored_message&),
+          &This::_handle_ready<S>>>{sudoku_ready_msg(rank)};
     }
 
     template <unsigned S>
@@ -382,16 +413,29 @@ private:
 
         if(default_deserialize(board, message.content())) {
             auto& pending = _pending.get(rank);
-            auto pos = pending.find_if([&](const auto& entry) {
-                return std::get<0>(entry) == message.sequence_no;
-            });
+            const auto pos = std::find_if(
+              pending.begin(), pending.end(), [&](const auto& entry) {
+                  return std::get<0>(entry) == message.sequence_no;
+              });
 
             if(pos != pending.end()) {
+                auto& boards = _boards.get(rank);
                 auto& key = std::get<1>(*pos);
+
                 if(msg_ctx.msg_id() == sudoku_solved_msg(rank)) {
+                    EAGINE_ASSERT(board.is_solved());
+                    boards.erase(
+                      std::remove_if(
+                        boards.begin(),
+                        boards.end(),
+                        [&](const auto& entry) {
+                            return key == std::get<0>(entry);
+                        }),
+                      boards.end());
                     on_solved(key, board);
                 } else {
-                    _boards.get(rank).push({key, std::move(board)});
+                    std::get<3>(*pos).reset();
+                    boards.emplace_back(key, std::move(board));
                 }
             }
         }
@@ -399,16 +443,40 @@ private:
     }
 
     template <unsigned S>
+    static constexpr auto
+    _bind_handle_candidate(unsigned_constant<S> rank) noexcept {
+        return message_handler_map<member_function_constant<
+          bool (This::*)(const message_context&, stored_message&),
+          &This::_handle_board<S>>>{sudoku_candidate_msg(rank)};
+    }
+
+    template <unsigned S>
+    static constexpr auto
+    _bind_handle_solved(unsigned_constant<S> rank) noexcept {
+        return message_handler_map<member_function_constant<
+          bool (This::*)(const message_context&, stored_message&),
+          &This::_handle_board<S>>>{sudoku_solved_msg(rank)};
+    }
+
+    template <unsigned S>
     auto _handle_done(const message_context&, stored_message& message) -> bool {
         const unsigned_constant<S> rank{};
         auto& pending = _pending.get(rank);
-        auto pos = pending.find_if([&](const auto& entry) {
-            return std::get<0>(entry) == message.sequence_no;
-        });
+        const auto pos =
+          std::find_if(pending.begin(), pending.end(), [&](const auto& entry) {
+              return std::get<0>(entry) == message.sequence_no;
+          });
         if(pos != pending.end()) {
             pending.erase(pos);
         }
         return true;
+    }
+
+    template <unsigned S>
+    static constexpr auto _bind_handle_done(unsigned_constant<S> rank) noexcept {
+        return message_handler_map<member_function_constant<
+          bool (This::*)(const message_context&, stored_message&),
+          &This::_handle_done<S>>>{sudoku_done_msg(rank)};
     }
 };
 //------------------------------------------------------------------------------
