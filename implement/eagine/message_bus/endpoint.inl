@@ -53,7 +53,9 @@ auto endpoint::_do_send(message_id msg_id, message_view message) -> bool {
     if(EAGINE_LIKELY(_connection)) {
         if(_connection->send(msg_id, message)) {
             log_trace("sending message ${message}")
-              .arg(EAGINE_ID(message), msg_id);
+              .arg(EAGINE_ID(message), msg_id)
+              .arg(EAGINE_ID(target), message.target_id)
+              .arg(EAGINE_ID(source), message.source_id);
             return true;
         }
     }
