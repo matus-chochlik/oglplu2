@@ -224,15 +224,19 @@ private:
 
         if(default_deserialize(board, message.content())) {
             board.for_each_alternative(
-              board.find_unsolved(), [&](auto& candidate) {
-                  auto temp{default_serialize_buffer_for(candidate)};
-                  auto serialized{default_serialize(candidate, cover(temp))};
-                  EAGINE_ASSERT(serialized);
+              board.find_unsolved(), [&](auto& intermediate) {
+                  intermediate.for_each_alternative(
+                    intermediate.find_unsolved(), [&](auto& candidate) {
+                        auto temp{default_serialize_buffer_for(candidate)};
+                        auto serialized{
+                          default_serialize(candidate, cover(temp))};
+                        EAGINE_ASSERT(serialized);
 
-                  msg_ctx.bus().respond_to(
-                    message,
-                    sudoku_response_msg(rank, candidate.is_solved()),
-                    {extract(serialized)});
+                        msg_ctx.bus().respond_to(
+                          message,
+                          sudoku_response_msg(rank, candidate.is_solved()),
+                          {extract(serialized)});
+                    });
               });
             msg_ctx.bus().respond_to(message, sudoku_done_msg(rank));
             msg_ctx.bus().respond_to(message, sudoku_ready_msg(rank));
