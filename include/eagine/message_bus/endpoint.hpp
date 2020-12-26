@@ -272,17 +272,8 @@ public:
     auto post_certificate(identifier_t target_id) -> bool;
     auto broadcast_certificate() -> bool;
 
-    auto send(message_id msg_id, message_view message) -> bool {
-        if(has_id()) {
-            return _do_send(msg_id, message);
-        } else {
-            post(msg_id, message);
-        }
-        return false;
-    }
-
     auto broadcast(message_id msg_id) -> bool {
-        return send(msg_id, {});
+        return post(msg_id, {});
     }
 
     auto say_not_a_router() -> bool;
@@ -315,7 +306,7 @@ public:
       message_id msg_id,
       message_view message) -> bool {
         message.setup_response(info);
-        return send(msg_id, message);
+        return post(msg_id, message);
     }
 
     auto respond_to(const message_info& info, message_id msg_id) -> bool {

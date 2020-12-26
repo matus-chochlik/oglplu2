@@ -236,7 +236,7 @@ public:
                 msg_out.set_serializer_id(write_backend.type_id());
                 msg_out.set_target_id(call.invoker_id);
                 msg_out.set_sequence_no(invocation_id);
-                bus.send(call.response_id, msg_out);
+                bus.post(call.response_id, msg_out);
                 break;
             }
         }
@@ -333,7 +333,7 @@ public:
                     msg_out.set_serializer_id(write_backend.type_id());
                     msg_out.set_target_id(call.invoker_id);
                     msg_out.set_sequence_no(invocation_id);
-                    bus.send(call.response_id, msg_out);
+                    bus.post(call.response_id, msg_out);
                 }
                 _pending.erase(pos);
                 return true;

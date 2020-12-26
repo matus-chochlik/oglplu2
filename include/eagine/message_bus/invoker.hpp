@@ -161,7 +161,7 @@ public:
             message_view message{sink.done()};
             message.set_serializer_id(write_backend.type_id());
             message.set_target_id(target_id);
-            bus.send(msg_id, message);
+            bus.post(msg_id, message);
 
             return true;
         }
@@ -272,7 +272,7 @@ public:
             message.set_serializer_id(write_backend.type_id());
             message.set_target_id(target_id);
             message.set_sequence_no(invocation_id);
-            bus.send(msg_id, message);
+            bus.post(msg_id, message);
 
             return result;
         }
@@ -316,7 +316,7 @@ public:
         message_view message{};
         message.set_target_id(target_id);
         message.set_sequence_no(invocation_id);
-        bus.send(msg_id, message);
+        bus.post(msg_id, message);
 
         return result;
     }

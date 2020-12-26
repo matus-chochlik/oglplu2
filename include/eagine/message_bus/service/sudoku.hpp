@@ -385,13 +385,13 @@ private:
             message_view response{extract(serialized)};
             response.setup_response(message);
             response.set_sequence_no(query_seq_no);
-            msg_ctx.bus().send(sudoku_query_msg(rank), response);
+            msg_ctx.bus().post(sudoku_query_msg(rank), response);
 
             pending.emplace_back(
               query_seq_no,
               std::move(key),
               std::move(board),
-              std::chrono::seconds(S));
+              std::chrono::seconds(S * S));
             boards.pop_back();
         }
         return true;
