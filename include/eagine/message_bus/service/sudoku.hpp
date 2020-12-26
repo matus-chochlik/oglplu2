@@ -11,6 +11,7 @@
 #define EAGINE_MESSAGE_BUS_SERVICE_SUDOKU_HPP
 
 #include "../../bool_aggregate.hpp"
+#include "../../flat_set.hpp"
 #include "../../int_constant.hpp"
 #include "../../maybe_unused.hpp"
 #include "../../serialize/type/sudoku.hpp"
@@ -279,19 +280,15 @@ protected:
 public:
     template <unsigned S>
     auto enqueue(Key key, basic_sudoku_board<S> board) -> auto& {
-        const unsigned_constant<S> rank{};
-        _boards.get(rank).emplace_back(std::move(key), std::move(board));
+        _infos.get(unsigned_constant<S>{})
+          .boards.emplace_back(std::move(key), std::move(board));
         return *this;
     }
 
     auto is_done() -> bool {
         bool has_work = false;
         for_each_sudoku_rank_unit(
-          [&](const auto& pending, const auto& boards) {
-              has_work |= !pending.empty() || !boards.empty();
-          },
-          _pending,
-          _boards);
+          [&](const auto& info) { has_work |= info.has_work(); }, _infos);
 
         return !has_work;
     }
@@ -300,43 +297,13 @@ public:
         some_true something_done{};
         something_done(Base::update());
 
-        // move timeouted pending boards back to board stack
         for_each_sudoku_rank_unit(
-          [&](auto& pending, auto& boards) {
-              pending.erase(
-                std::remove_if(
-                  pending.begin(),
-                  pending.end(),
-                  [&](auto& entry) {
-                      auto& [seq_no, key, board, too_late] = entry;
-                      EAGINE_MAYBE_UNUSED(seq_no);
-
-                      if(too_late) {
-                          boards.emplace_back(std::move(key), std::move(board));
-                          something_done();
-                          return true;
-                      }
-                      return false;
-                  }),
-                pending.end());
+          [&](auto& info) {
+              something_done(info.handle_timeouted());
+              something_done(info.send_boards(this->bus()));
+              something_done(info.search_helpers(this->bus()));
           },
-          _pending,
-          _boards);
-
-        // search for ready helpers
-        for_each_sudoku_rank_unit(
-          [&](auto rank, auto& search_timeout, auto& boards) {
-              if(!boards.empty()) {
-                  if(search_timeout) {
-                      this->bus().broadcast(sudoku_search_msg(rank));
-                      search_timeout.reset();
-                      something_done();
-                  }
-              }
-          },
-          _ranks,
-          _search_timeouts,
-          _boards);
+          _infos);
 
         return something_done;
     }
@@ -349,55 +316,155 @@ public:
 
 private:
     sudoku_rank_tuple<unsigned_constant> _ranks;
-    sudoku_rank_tuple<default_sudoku_board_traits> _traits;
 
     template <unsigned S>
-    using _board_stack = std::vector<std::tuple<Key, basic_sudoku_board<S>>>;
-    sudoku_rank_tuple<_board_stack> _boards;
+    struct rank_info {
+        message_sequence_t query_sequence{0};
+        default_sudoku_board_traits<S> traits;
+        timeout search_timeout{std::chrono::seconds(2)};
 
-    template <unsigned S>
-    using _query_seq = message_sequence_t;
-    sudoku_rank_tuple<_query_seq> _query_sequences{0U};
+        std::vector<std::tuple<Key, basic_sudoku_board<S>>> boards;
 
-    template <unsigned S>
-    using _pending_list = std::vector<
-      std::tuple<message_sequence_t, Key, basic_sudoku_board<S>, timeout>>;
-    sudoku_rank_tuple<_pending_list> _pending;
+        struct pending_info {
+            pending_info(basic_sudoku_board<S> b)
+              : board{std::move(b)} {}
 
-    template <unsigned S>
-    using _search_timeout = timeout;
-    sudoku_rank_tuple<_search_timeout> _search_timeouts{
-      std::chrono::milliseconds(250),
-      nothing};
+            basic_sudoku_board<S> board;
+            identifier_t used_helper{0U};
+            message_sequence_t sequence_no{0U};
+            Key key{};
+            timeout too_late{};
+        };
+        std::vector<pending_info> pending;
 
-    template <unsigned S>
-    auto _handle_ready(const message_context& msg_ctx, stored_message& message)
-      -> bool {
-        const unsigned_constant<S> rank{};
-        auto& boards = _boards.get(rank);
-        auto& pending = _pending.get(rank);
+        flat_set<identifier_t> ready_helpers;
+        flat_set<identifier_t> used_helpers;
 
-        if(!boards.empty()) {
-            _search_timeouts.get(rank).reset();
-
-            auto& [key, board] = boards.back();
-            auto temp{default_serialize_buffer_for(board)};
-            auto serialized{default_serialize(board, cover(temp))};
-            EAGINE_ASSERT(serialized);
-
-            const auto query_seq_no = _query_sequences.get(rank)++;
-            message_view response{extract(serialized)};
-            response.setup_response(message);
-            response.set_sequence_no(query_seq_no);
-            msg_ctx.bus().post(sudoku_query_msg(rank), response);
-
-            pending.emplace_back(
-              query_seq_no,
-              std::move(key),
-              std::move(board),
-              std::chrono::seconds(S * S));
-            boards.pop_back();
+        auto has_work() const noexcept {
+            return !boards.empty() || !pending.empty();
         }
+
+        auto search_helpers(endpoint& bus) -> bool {
+            some_true something_done;
+            if(ready_helpers.empty() || search_timeout) {
+                bus.broadcast(sudoku_search_msg(unsigned_constant<S>{}));
+                search_timeout.reset();
+                something_done();
+            }
+            return something_done;
+        }
+
+        auto handle_timeouted() -> bool {
+            some_true something_done;
+            pending.erase(
+              std::remove_if(
+                pending.begin(),
+                pending.end(),
+                [&](auto& entry) {
+                    if(entry.too_late) {
+                        used_helpers.erase(entry.used_helper);
+                        boards.emplace_back(
+                          std::move(entry.key), std::move(entry.board));
+                        something_done();
+                        return true;
+                    }
+                    return false;
+                }),
+              pending.end());
+            return something_done;
+        }
+
+        void handle_response(
+          This& parent,
+          message_id msg_id,
+          stored_message& message) {
+            const unsigned_constant<S> rank{};
+            basic_sudoku_board<S> board{traits};
+
+            if(default_deserialize(board, message.content())) {
+                const auto pos = std::find_if(
+                  pending.begin(), pending.end(), [&](const auto& entry) {
+                      return entry.sequence_no == message.sequence_no;
+                  });
+
+                if(pos != pending.end()) {
+
+                    if(msg_id == sudoku_solved_msg(rank)) {
+                        EAGINE_ASSERT(board.is_solved());
+                        boards.erase(
+                          std::remove_if(
+                            boards.begin(),
+                            boards.end(),
+                            [&](const auto& entry) {
+                                return pos->key == std::get<0>(entry);
+                            }),
+                          boards.end());
+                        parent.on_solved(pos->key, board);
+                    } else {
+                        boards.emplace_back(pos->key, std::move(board));
+                    }
+                    pos->too_late.reset();
+                }
+            }
+        }
+
+        auto send_boards(endpoint& bus) -> bool {
+            const unsigned_constant<S> rank{};
+            some_true something_done;
+
+            while(!boards.empty() && !ready_helpers.empty()) {
+                const auto pos = ready_helpers.begin();
+
+                auto& [key, board] = boards.back();
+                auto temp{default_serialize_buffer_for(board)};
+                auto serialized{default_serialize(board, cover(temp))};
+                EAGINE_ASSERT(serialized);
+
+                const auto sequence_no = query_sequence++;
+                message_view response{extract(serialized)};
+                response.set_target_id(*pos);
+                response.set_sequence_no(sequence_no);
+                bus.post(sudoku_query_msg(rank), response);
+
+                auto& query = pending.emplace_back(std::move(board));
+                query.used_helper = *pos;
+                query.sequence_no = sequence_no;
+                query.key = std::move(key);
+                query.too_late.reset(std::chrono::seconds(S * S));
+                boards.pop_back();
+
+                used_helpers.insert(*pos);
+                ready_helpers.erase(pos);
+                something_done();
+            }
+            return something_done;
+        }
+
+        void pending_done(message_sequence_t sequence_no) {
+            const auto pos = std::find_if(
+              pending.begin(), pending.end(), [&](const auto& entry) {
+                  return entry.sequence_no == sequence_no;
+              });
+            if(pos != pending.end()) {
+                used_helpers.erase(pos->used_helper);
+                ready_helpers.insert(pos->used_helper);
+                pending.erase(pos);
+            }
+        }
+
+        void ready_helper(identifier_t id) {
+            if(used_helpers.find(id) == used_helpers.end()) {
+                ready_helpers.insert(id);
+            }
+        }
+    };
+
+    sudoku_rank_tuple<rank_info> _infos;
+
+    template <unsigned S>
+    auto _handle_ready(const message_context&, stored_message& message)
+      -> bool {
+        _infos.get(unsigned_constant<S>{}).ready_helper(message.source_id);
         return true;
     }
 
@@ -412,37 +479,9 @@ private:
     template <unsigned S>
     auto _handle_board(const message_context& msg_ctx, stored_message& message)
       -> bool {
-        const unsigned_constant<S> rank{};
-        basic_sudoku_board<S> board{_traits.get(rank)};
 
-        if(default_deserialize(board, message.content())) {
-            auto& pending = _pending.get(rank);
-            const auto pos = std::find_if(
-              pending.begin(), pending.end(), [&](const auto& entry) {
-                  return std::get<0>(entry) == message.sequence_no;
-              });
-
-            if(pos != pending.end()) {
-                auto& boards = _boards.get(rank);
-                auto& key = std::get<1>(*pos);
-
-                if(msg_ctx.msg_id() == sudoku_solved_msg(rank)) {
-                    EAGINE_ASSERT(board.is_solved());
-                    boards.erase(
-                      std::remove_if(
-                        boards.begin(),
-                        boards.end(),
-                        [&](const auto& entry) {
-                            return key == std::get<0>(entry);
-                        }),
-                      boards.end());
-                    on_solved(key, board);
-                } else {
-                    std::get<3>(*pos).reset();
-                    boards.emplace_back(key, std::move(board));
-                }
-            }
-        }
+        _infos.get(unsigned_constant<S>{})
+          .handle_response(*this, msg_ctx.msg_id(), message);
         return true;
     }
 
@@ -464,15 +503,7 @@ private:
 
     template <unsigned S>
     auto _handle_done(const message_context&, stored_message& message) -> bool {
-        const unsigned_constant<S> rank{};
-        auto& pending = _pending.get(rank);
-        const auto pos =
-          std::find_if(pending.begin(), pending.end(), [&](const auto& entry) {
-              return std::get<0>(entry) == message.sequence_no;
-          });
-        if(pos != pending.end()) {
-            pending.erase(pos);
-        }
+        _infos.get(unsigned_constant<S>{}).pending_done(message.sequence_no);
         return true;
     }
 
