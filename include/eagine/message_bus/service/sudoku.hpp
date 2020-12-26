@@ -97,6 +97,25 @@ static inline auto sudoku_ready_msg(unsigned_constant<S>) noexcept {
 }
 //------------------------------------------------------------------------------
 template <unsigned S>
+static inline auto sudoku_steal_msg(unsigned_constant<S>) noexcept {
+    if constexpr(S == 2) {
+        return EAGINE_MSG_ID(eagiSudoku, steal2);
+    }
+    if constexpr(S == 3) {
+        return EAGINE_MSG_ID(eagiSudoku, steal3);
+    }
+    if constexpr(S == 4) {
+        return EAGINE_MSG_ID(eagiSudoku, steal4);
+    }
+    if constexpr(S == 5) {
+        return EAGINE_MSG_ID(eagiSudoku, steal5);
+    }
+    if constexpr(S == 6) {
+        return EAGINE_MSG_ID(eagiSudoku, steal6);
+    }
+}
+//------------------------------------------------------------------------------
+template <unsigned S>
 static inline auto sudoku_query_msg(unsigned_constant<S>) noexcept {
     if constexpr(S == 2) {
         return EAGINE_MSG_ID(eagiSudoku, query2);
@@ -223,7 +242,9 @@ private:
         const unsigned_constant<S> rank{};
         basic_sudoku_board<S> board{_traits.get(rank)};
 
-        if(default_deserialize(board, message.content())) {
+        msg_ctx.bus().respond_to(message, sudoku_steal_msg(rank));
+
+        if(EAGINE_LIKELY(default_deserialize(board, message.content()))) {
             board.for_each_alternative(
               board.find_unsolved(), [&](auto& intermediate) {
                   intermediate.for_each_alternative(
@@ -240,7 +261,6 @@ private:
                     });
               });
             msg_ctx.bus().respond_to(message, sudoku_done_msg(rank));
-            msg_ctx.bus().respond_to(message, sudoku_ready_msg(rank));
         }
         return true;
     }
@@ -270,6 +290,7 @@ protected:
         for_each_sudoku_rank_unit(
           [&](auto rank) {
               Base::add_method(this, _bind_handle_ready(rank));
+              Base::add_method(this, _bind_handle_steal(rank));
               Base::add_method(this, _bind_handle_candidate(rank));
               Base::add_method(this, _bind_handle_solved(rank));
               Base::add_method(this, _bind_handle_done(rank));
@@ -321,7 +342,7 @@ private:
     struct rank_info {
         message_sequence_t query_sequence{0};
         default_sudoku_board_traits<S> traits;
-        timeout search_timeout{std::chrono::seconds(2)};
+        timeout search_timeout{std::chrono::seconds(5)};
 
         std::vector<std::tuple<Key, basic_sudoku_board<S>>> boards;
 
@@ -408,13 +429,9 @@ private:
             }
         }
 
-        auto send_boards(endpoint& bus) -> bool {
-            const unsigned_constant<S> rank{};
-            some_true something_done;
-
-            while(!boards.empty() && !ready_helpers.empty()) {
-                const auto pos = ready_helpers.begin();
-
+        auto send_board_to(endpoint& bus, identifier_t helper_id) -> bool {
+            if(!boards.empty()) {
+                const unsigned_constant<S> rank{};
                 auto& [key, board] = boards.back();
                 auto temp{default_serialize_buffer_for(board)};
                 auto serialized{default_serialize(board, cover(temp))};
@@ -422,19 +439,33 @@ private:
 
                 const auto sequence_no = query_sequence++;
                 message_view response{extract(serialized)};
-                response.set_target_id(*pos);
+                response.set_target_id(helper_id);
                 response.set_sequence_no(sequence_no);
                 bus.post(sudoku_query_msg(rank), response);
 
                 auto& query = pending.emplace_back(std::move(board));
-                query.used_helper = *pos;
+                query.used_helper = helper_id;
                 query.sequence_no = sequence_no;
                 query.key = std::move(key);
                 query.too_late.reset(std::chrono::seconds(S * S));
                 boards.pop_back();
 
-                used_helpers.insert(*pos);
-                ready_helpers.erase(pos);
+                used_helpers.insert(helper_id);
+                ready_helpers.erase(helper_id);
+                return true;
+            }
+            return false;
+        }
+
+        auto send_boards(endpoint& bus) -> bool {
+            some_true something_done;
+
+            while(!ready_helpers.empty()) {
+                const auto pos = ready_helpers.begin();
+
+                if(!send_board_to(bus, *pos)) {
+                    break;
+                }
                 something_done();
             }
             return something_done;
@@ -474,6 +505,22 @@ private:
         return message_handler_map<member_function_constant<
           bool (This::*)(const message_context&, stored_message&),
           &This::_handle_ready<S>>>{sudoku_ready_msg(rank)};
+    }
+
+    template <unsigned S>
+    auto _handle_steal(const message_context&, stored_message& message)
+      -> bool {
+        _infos.get(unsigned_constant<S>{})
+          .send_board_to(this->bus(), message.source_id);
+        return true;
+    }
+
+    template <unsigned S>
+    static constexpr auto
+    _bind_handle_steal(unsigned_constant<S> rank) noexcept {
+        return message_handler_map<member_function_constant<
+          bool (This::*)(const message_context&, stored_message&),
+          &This::_handle_steal<S>>>{sudoku_ready_msg(rank)};
     }
 
     template <unsigned S>
