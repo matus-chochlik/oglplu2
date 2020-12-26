@@ -216,6 +216,9 @@ public:
     auto set_next_sequence_id(message_id, message_info&) -> bool;
 
     auto post(message_id msg_id, message_view message) -> bool {
+        if(EAGINE_LIKELY(has_id())) {
+            return _do_send(msg_id, message);
+        }
         _outgoing.push(msg_id, message);
         return true;
     }
