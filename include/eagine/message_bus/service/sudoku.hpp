@@ -20,6 +20,7 @@
 #include "../subscriber.hpp"
 #include <algorithm>
 #include <chrono>
+#include <random>
 #include <tuple>
 #include <vector>
 
@@ -361,6 +362,8 @@ private:
         flat_set<identifier_t> ready_helpers;
         flat_set<identifier_t> used_helpers;
 
+        std::default_random_engine randeng{std::random_device{}()};
+
         auto has_work() const noexcept {
             return !boards.empty() || !pending.empty();
         }
@@ -431,8 +434,9 @@ private:
 
         auto send_board_to(endpoint& bus, identifier_t helper_id) -> bool {
             if(!boards.empty()) {
-                const unsigned_constant<S> rank{};
-                auto& [key, board] = boards.back();
+                std::binomial_distribution dist(boards.size() - 1U, 0.95);
+                auto pos = std::next(boards.begin(), dist(randeng));
+                auto& [key, board] = *pos;
                 auto temp{default_serialize_buffer_for(board)};
                 auto serialized{default_serialize(board, cover(temp))};
                 EAGINE_ASSERT(serialized);
@@ -441,14 +445,14 @@ private:
                 message_view response{extract(serialized)};
                 response.set_target_id(helper_id);
                 response.set_sequence_no(sequence_no);
-                bus.post(sudoku_query_msg(rank), response);
+                bus.post(sudoku_query_msg(unsigned_constant<S>{}), response);
 
                 auto& query = pending.emplace_back(std::move(board));
                 query.used_helper = helper_id;
                 query.sequence_no = sequence_no;
                 query.key = std::move(key);
                 query.too_late.reset(std::chrono::seconds(S * S));
-                boards.pop_back();
+                boards.erase(pos);
 
                 used_helpers.insert(helper_id);
                 ready_helpers.erase(helper_id);
